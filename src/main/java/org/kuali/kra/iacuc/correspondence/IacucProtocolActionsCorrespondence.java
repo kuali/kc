@@ -44,8 +44,7 @@ public class IacucProtocolActionsCorrespondence extends ProtocolActionsCorrespon
 
     @Override
     protected IacucProtocolActionTypeToCorrespondenceTemplateService getProtocolActionTypeToCorrespondenceTemplateService() {
-        IacucProtocolActionTypeToCorrespondenceTemplateService debug = KraServiceLocator.getService(IacucProtocolActionTypeToCorrespondenceTemplateService.class);
-        return debug;
+        return KraServiceLocator.getService(IacucProtocolActionTypeToCorrespondenceTemplateService.class);
     }
     
     @Override
