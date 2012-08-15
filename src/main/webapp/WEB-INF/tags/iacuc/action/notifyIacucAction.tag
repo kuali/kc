@@ -59,20 +59,16 @@
                 </tr>
                 <tr>
                     <th width="15%"> 
-                        <c:if test="${KualiForm.actionHelper.showCommittee}">
-	                        <div align="right">
-	                            <nobr>
-	                            <kul:htmlAttributeLabel attributeEntry="${attributes.committeeId}" />
-	                            </nobr>
-	                        </div>
-                        </c:if>
+                        <div align="right">
+                            <nobr>
+                            <kul:htmlAttributeLabel attributeEntry="${attributes.committeeId}" />
+                            </nobr>
+                        </div>
                     </th>
                     <td>
-                        <c:if test="${KualiForm.actionHelper.showCommittee}">
-	                        <nobr>
-	                        <kul:htmlControlAttribute property="actionHelper.iacucProtocolNotifyIacucBean.committeeId" attributeEntry="${attributes.committeeId}" />
-	                        </nobr>
-                        </c:if>
+                        <nobr>
+                        <kul:htmlControlAttribute property="actionHelper.iacucProtocolNotifyIacucBean.committeeId" attributeEntry="${attributes.committeeId}" readOnly="true"/>
+                        </nobr>
                     </td>
                     <th width="15%"> 
                         <div align="right">
