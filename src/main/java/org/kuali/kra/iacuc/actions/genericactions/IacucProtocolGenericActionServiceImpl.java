@@ -21,10 +21,12 @@ import org.kuali.kra.iacuc.actions.IacucProtocolAction;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
 import org.kuali.kra.iacuc.actions.IacucProtocolStatus;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
+import org.kuali.kra.iacuc.correspondence.IacucProtocolActionsCorrespondence;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.ProtocolDocument;
 import org.kuali.kra.protocol.actions.ProtocolAction;
+import org.kuali.kra.protocol.actions.correspondence.ProtocolActionsCorrespondence;
 import org.kuali.kra.protocol.actions.genericactions.ProtocolGenericActionBean;
 import org.kuali.kra.protocol.actions.genericactions.ProtocolGenericActionServiceImpl;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
@@ -108,6 +110,11 @@ public class IacucProtocolGenericActionServiceImpl extends ProtocolGenericAction
     @Override
     protected ProtocolAction getNewProtocolActionInstanceHook(Protocol protocol, ProtocolSubmission submission, String protocolActionType) {
         return new IacucProtocolAction( (IacucProtocol) protocol, (IacucProtocolSubmission) submission, protocolActionType);
+    }
+
+    @Override
+    protected ProtocolActionsCorrespondence getNewProtocolActionsCorrespondenceHook(String protocolActionType) {
+        return new IacucProtocolActionsCorrespondence(protocolActionType);
     }
     
 }
