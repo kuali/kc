@@ -635,11 +635,11 @@
         <property name="protocolVersionService" ref="iacucProtocolVersionService" />
 <!-- IACUC
         <property name="protocolAssignToAgendaService" ref="iacucAssignToAgendaService" />
-        <property name="protocolActionCorrespondenceGenerationService" ref="protocolActionCorrespondenceGenerationService" />
         <property name="identityManagementService" ref="identityService"/> 
         <property name="kcNotificationService" ref="kcNotificationService" />
 -->
-		<property name="protocolOnlineReviewService" ref="iacucProtocolOnlineReviewService"/> 
+		<property name="protocolOnlineReviewService" ref="iacucProtocolOnlineReviewService"/>
+		<property name="protocolActionCorrespondenceGenerationService" ref="iacucProtocolActionCorrespondenceGenerationService" />		 
 		
     </bean>
     
@@ -664,8 +664,7 @@
     
      <bean id="iacucProtocolAbandonService" class="org.kuali.kra.iacuc.actions.abandon.IacucProtocolAbandonServiceImpl">
         <property name="protocolActionService" ref="iacucProtocolActionService" />
-        <!-- Need to add this in when protocol corresspondences is done. -->
-       <!-- <property name="protocolActionCorrespondenceGenerationService" ref="protocolActionCorrespondenceGenerationService" />-->
+        <property name="protocolActionCorrespondenceGenerationService" ref="iacucProtocolActionCorrespondenceGenerationService" />
         <property name="kcNotificationService" ref="kcNotificationService" />
        <property name="documentService" ref="documentService" />
     </bean>
@@ -957,7 +956,7 @@
     <bean id="iacucProtocolApproveService" class="org.kuali.kra.iacuc.actions.approve.IacucProtocolApproveServiceImpl">
         <property name="documentService" ref="documentService" />
         <property name="protocolActionService" ref="iacucProtocolActionService" />
-<!--         <property name="protocolActionCorrespondenceGenerationService" ref="protocolActionCorrespondenceGenerationService" /> -->
+	    <property name="protocolActionCorrespondenceGenerationService" ref="iacucProtocolActionCorrespondenceGenerationService" />
         <property name="protocolOnlineReviewService" ref="iacucProtocolOnlineReviewService"/>
 <!--         <property name="parameterService" ref="parameterService"/> -->
     </bean>
@@ -1007,7 +1006,7 @@
     <bean id="iacucProtocolGenericActionService" class="org.kuali.kra.iacuc.actions.genericactions.IacucProtocolGenericActionServiceImpl">
         <property name="protocolActionService" ref="iacucProtocolActionService" />
         <property name="documentService" ref="documentService" />
-<!--         <property name="protocolActionCorrespondenceGenerationService" ref="protocolActionCorrespondenceGenerationService" /> -->
+	    <property name="protocolActionCorrespondenceGenerationService" ref="iacucProtocolActionCorrespondenceGenerationService" />
         <property name="protocolOnlineReviewService" ref="iacucProtocolOnlineReviewService"/>
         <property name="protocolVersionService" ref="iacucProtocolVersionService" />
         <property name="protocolAssignToAgendaService" ref="iacucProtocolAssignToAgendaService" />

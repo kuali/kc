@@ -18,8 +18,11 @@ package org.kuali.kra.protocol.actions.abandon;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.common.notification.service.KcNotificationService;
+import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.actions.ProtocolAction;
+import org.kuali.kra.protocol.actions.correspondence.ProtocolActionsCorrespondence;
+import org.kuali.kra.protocol.actions.correspondence.ProtocolActionCorrespondenceGenerationService;
 import org.kuali.kra.protocol.actions.genericactions.ProtocolGenericActionBean;
 import org.kuali.kra.protocol.actions.submit.ProtocolActionService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -30,7 +33,7 @@ public abstract class ProtocolAbandonServiceImpl implements ProtocolAbandonServi
     private static final Log LOG = LogFactory.getLog(ProtocolAbandonServiceImpl.class);
     private DocumentService documentService;
     private ProtocolActionService protocolActionService;
-    //private ProtocolActionCorrespondenceGenerationService protocolActionCorrespondenceGenerationService;
+    private ProtocolActionCorrespondenceGenerationService protocolActionCorrespondenceGenerationService;
     private KcNotificationService kcNotificationService;
 
     /**
@@ -52,22 +55,25 @@ public abstract class ProtocolAbandonServiceImpl implements ProtocolAbandonServi
 //            if (!isPromptUserForNotification) {
 //                kcNotificationService.sendNotification(context);
 //            }
-           // createCorrespondenceAndAttach(protocol, ProtocolActionType.ABANDON_PROTOCOL);
+        createCorrespondenceAndAttach(protocol, getActionType());
         } catch (Exception e) {
-            LOG.info("Abandon Protocol Notification exception " + e.getStackTrace());
+            LOG.info("Abandon Protocol Notification exception ", e);
         }
         
     }
 
+    protected abstract String getActionType();
+    
     public abstract ProtocolAction getNewActionHook(Protocol protocol);
     
-    // cannot do now because of missing correspondences
-//    private void createCorrespondenceAndAttach(Protocol protocol, String protocolActionType) throws PrintingException {
-//        ProtocolGenericCorrespondence correspondence = new ProtocolGenericCorrespondence(protocolActionType);
-//        correspondence.setPrintableBusinessObject(protocol);
-//        correspondence.setProtocol(protocol);
-//        protocolActionCorrespondenceGenerationService.generateCorrespondenceDocumentAndAttach(correspondence);
-//    }
+    protected abstract ProtocolActionsCorrespondence getNewProtocolCorrespondenceHook(String actionType);
+    
+    private void createCorrespondenceAndAttach(Protocol protocol, String protocolActionType) throws PrintingException {
+        ProtocolActionsCorrespondence correspondence = getNewProtocolCorrespondenceHook(protocolActionType);
+        correspondence.setPrintableBusinessObject(protocol);
+        correspondence.setProtocol(protocol);
+        protocolActionCorrespondenceGenerationService.generateCorrespondenceDocumentAndAttach(correspondence);
+    }
 
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
@@ -77,10 +83,10 @@ public abstract class ProtocolAbandonServiceImpl implements ProtocolAbandonServi
         this.protocolActionService = protocolActionService;
     }
 
-//    public void setProtocolActionCorrespondenceGenerationService(
-//            ProtocolActionCorrespondenceGenerationService protocolActionCorrespondenceGenerationService) {
-//        this.protocolActionCorrespondenceGenerationService = protocolActionCorrespondenceGenerationService;
-//    }
+    public void setProtocolActionCorrespondenceGenerationService(
+            ProtocolActionCorrespondenceGenerationService protocolActionCorrespondenceGenerationService) {
+        this.protocolActionCorrespondenceGenerationService = protocolActionCorrespondenceGenerationService;
+    }
     
     public void setKcNotificationService(KcNotificationService kcNotificationService) {
         this.kcNotificationService = kcNotificationService;

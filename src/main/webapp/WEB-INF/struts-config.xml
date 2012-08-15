@@ -472,6 +472,7 @@
       <action path="/iacucProtocolActions" name="IacucProtocolForm" input="/WEB-INF/jsp/iacuc/ProtocolProtocolActions.jsp" type="org.kuali.kra.iacuc.actions.IacucProtocolActionsAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
         <forward name="basic" path="/WEB-INF/jsp/iacuc/ProtocolProtocolActions.jsp" />
         &iacuc_forwards;
+        <forward name="correspondence" path="/WEB-INF/jsp/iacuc/ProtocolCorrespondenceAction.jsp" />
       </action>
       
       <action path="/iacucProtocolOnlineReview" name="IacucProtocolForm" input="/WEB-INF/jsp/iacuc/ProtocolOnlineReview.jsp" type="org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReviewAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">

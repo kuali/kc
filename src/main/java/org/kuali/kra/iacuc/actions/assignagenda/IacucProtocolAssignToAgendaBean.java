@@ -16,7 +16,9 @@
 package org.kuali.kra.iacuc.actions.assignagenda;
 
 import org.kuali.kra.iacuc.actions.IacucActionHelper;
+import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
 import org.kuali.kra.iacuc.actions.genericactions.IacucProtocolGenericActionBean;
+import org.kuali.kra.iacuc.correspondence.IacucProtocolActionsCorrespondence;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.printing.Printable;
@@ -123,7 +125,7 @@ public class IacucProtocolAssignToAgendaBean extends IacucProtocolGenericActionB
      * @return a Printable
      */
     public Printable getCorrespondence() {
-        IacucAssignToAgendaCorrespondence correspondence = new IacucAssignToAgendaCorrespondence();
+        IacucProtocolActionsCorrespondence correspondence = new IacucProtocolActionsCorrespondence(IacucProtocolActionType.ASSIGNED_TO_AGENDA);
         return correspondence;
     }
 }

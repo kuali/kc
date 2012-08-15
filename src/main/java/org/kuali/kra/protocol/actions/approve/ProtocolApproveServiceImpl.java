@@ -19,6 +19,8 @@ import java.sql.Timestamp;
 
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.actions.ProtocolAction;
+import org.kuali.kra.protocol.actions.correspondence.ProtocolActionsCorrespondence;
+import org.kuali.kra.protocol.actions.correspondence.ProtocolActionCorrespondenceGenerationService;
 import org.kuali.kra.protocol.actions.submit.ProtocolActionService;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -37,9 +39,8 @@ public abstract class ProtocolApproveServiceImpl implements ProtocolApproveServi
     
     private DocumentService documentService;
     private ProtocolActionService protocolActionService;
-    
-// TODO *********commented the code below during IACUC refactoring*********     
-//    private ProtocolActionCorrespondenceGenerationService protocolActionCorrespondenceGenerationService;
+         
+    private ProtocolActionCorrespondenceGenerationService protocolActionCorrespondenceGenerationService;
     
     protected ProtocolOnlineReviewService protocolOnlineReviewService;
 
@@ -159,6 +160,8 @@ public abstract class ProtocolApproveServiceImpl implements ProtocolApproveServi
     
     
     protected abstract ProtocolAction getNewProtocolActionInstanceHook(Protocol protocol, Object object, String protocolActionTypeCode);
+    
+    protected abstract ProtocolActionsCorrespondence getNewProtocolActionsCorrespondence(String protocolActionTypeCode);
 
 
     protected void finalizeReviewsAndSave(Protocol protocol, String protocolActionTypeCode, String reviewAnnotation) throws Exception {
@@ -167,12 +170,11 @@ public abstract class ProtocolApproveServiceImpl implements ProtocolApproveServi
         protocolOnlineReviewService.finalizeOnlineReviews(protocol.getProtocolSubmission(), reviewAnnotation);
         
         documentService.saveDocument(protocol.getProtocolDocument());
-
-// TODO *********commented the code below during IACUC refactoring*********         
-//        ProtocolGenericCorrespondence correspondence = new ProtocolGenericCorrespondence(protocolActionTypeCode);
-//        correspondence.setPrintableBusinessObject(protocol);
-//        correspondence.setProtocol(protocol);
-//        protocolActionCorrespondenceGenerationService.generateCorrespondenceDocumentAndAttach(correspondence);
+         
+        ProtocolActionsCorrespondence correspondence = getNewProtocolActionsCorrespondence(protocolActionTypeCode);
+        correspondence.setPrintableBusinessObject(protocol);
+        correspondence.setProtocol(protocol);
+        protocolActionCorrespondenceGenerationService.generateCorrespondenceDocumentAndAttach(correspondence);
     }
     
     
@@ -185,12 +187,10 @@ public abstract class ProtocolApproveServiceImpl implements ProtocolApproveServi
         this.protocolActionService = protocolActionService;
     }
 
-    
-    
-// TODO *********commented the code below during IACUC refactoring*********     
-//    public void setProtocolActionCorrespondenceGenerationService(ProtocolActionCorrespondenceGenerationService protocolActionCorrespondenceGenerationService) {
-//        this.protocolActionCorrespondenceGenerationService = protocolActionCorrespondenceGenerationService;
-//    }
+         
+    public void setProtocolActionCorrespondenceGenerationService(ProtocolActionCorrespondenceGenerationService protocolActionCorrespondenceGenerationService) {
+        this.protocolActionCorrespondenceGenerationService = protocolActionCorrespondenceGenerationService;
+    }
 
     
     
@@ -200,6 +200,24 @@ public abstract class ProtocolApproveServiceImpl implements ProtocolApproveServi
 
     public void setProtocolOnlineReviewService(ProtocolOnlineReviewService protocolOnlineReviewService) {
         this.protocolOnlineReviewService = protocolOnlineReviewService;
+    }
+
+
+
+    protected DocumentService getDocumentService() {
+        return documentService;
+    }
+
+
+
+    protected ProtocolActionService getProtocolActionService() {
+        return protocolActionService;
+    }
+
+
+
+    protected ProtocolActionCorrespondenceGenerationService getProtocolActionCorrespondenceGenerationService() {
+        return protocolActionCorrespondenceGenerationService;
     } 
 
     
