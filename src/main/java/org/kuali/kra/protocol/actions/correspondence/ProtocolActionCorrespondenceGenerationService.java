@@ -33,10 +33,10 @@ public interface ProtocolActionCorrespondenceGenerationService {
      * @param printableCorrespondence an implementation of AbstractProtocolActionsCorrespondence.
      * @throws PrintingException
      */
-    void generateCorrespondenceDocumentAndAttach(AbstractProtocolActionsCorrespondence printableCorrespondence) throws PrintingException;
+    void generateCorrespondenceDocumentAndAttach(ProtocolActionsCorrespondence printableCorrespondence) throws PrintingException;
     
     List<ProtocolCorrespondenceTemplate> getCorrespondenceTemplates(String actionType);
     
-    AttachmentDataSource reGenerateCorrespondenceDocument(AbstractProtocolActionsCorrespondence printableCorrespondence) throws PrintingException ; 
+    AttachmentDataSource reGenerateCorrespondenceDocument(ProtocolActionsCorrespondence printableCorrespondence) throws PrintingException ; 
 
 }

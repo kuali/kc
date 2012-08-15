@@ -40,17 +40,13 @@ public abstract class ProtocolActionTypeToCorrespondenceTemplateServiceImpl impl
      * @see org.kuali.kra.irb.actions.correspondence.ProtocolActionTypeToCorrespondenceTemplateService#getTemplatesByProtocolAction(java.lang.String)
      */
     public List<ProtocolCorrespondenceTemplate> getTemplatesByProtocolAction(String protocolActionType) {
+        List<ProtocolCorrespondenceTemplate> templates = new ArrayList<ProtocolCorrespondenceTemplate>();
         if (getActionTypesToCorrespondenceTypeMap().containsKey(protocolActionType)) {
-            List<ProtocolCorrespondenceTemplate> templates = new ArrayList<ProtocolCorrespondenceTemplate>();
             for (String correspondenceTypeId : getActionTypesToCorrespondenceTypeMap().get(protocolActionType)) {
                 templates.addAll(getCorrespondenceTemplatesForTypeId(correspondenceTypeId));
             }
-            
-            return templates;
-            
-        } else {
-            throw new IllegalArgumentException("An illegal protocol action type was provided");
         }
+        return templates;
     }
     
     public void setBusinessObjectService(BusinessObjectService businessObjectService){

@@ -17,23 +17,18 @@ package org.kuali.kra.iacuc.actions.withdraw;
 
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
 import org.kuali.kra.iacuc.actions.print.IacucProtocolPrintWatermark;
-import org.kuali.kra.protocol.actions.correspondence.AbstractProtocolActionsCorrespondence;
+import org.kuali.kra.iacuc.correspondence.IacucProtocolActionsCorrespondence;
+import org.kuali.kra.protocol.actions.correspondence.ProtocolActionsCorrespondence;
 import org.kuali.kra.protocol.actions.print.ProtocolPrintWatermark;
 
 /**
  * 
  * This class deals with the template and the printing for the withdrawl protocol action.
  */
-public class IacucWithdrawCorrespondence extends AbstractProtocolActionsCorrespondence {
+public abstract class IacucWithdrawCorrespondence extends IacucProtocolActionsCorrespondence {
     
     public static final long serialVersionUID = 1234567890;
-    @Override
-    public String getProtocolActionType() {
-        return IacucProtocolActionType.IACUC_WITHDRAWN;
+    public IacucWithdrawCorrespondence(String protocolActionType) {
+        super(protocolActionType);
     }
-    @Override
-    protected ProtocolPrintWatermark getNewProtocolPrintWatermarkInstanceHook() {
-        return new IacucProtocolPrintWatermark();
-    }
-
 }

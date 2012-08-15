@@ -61,11 +61,11 @@ public abstract class ProtocolActionCorrespondenceGenerationServiceImpl implemen
         this.protocolActionTypeToCorrespondenceTemplateService = protocolActionTypeToCorrespondenceTemplateService;
     }
     
-    protected abstract ProtocolCorrespondence getProtocolCorrespondenceHook();
+    protected abstract ProtocolCorrespondence getNewProtocolCorrespondenceHook();
     
     protected void buildAndAttachProtocolCorrespondence(Protocol protocol, byte[] data, String correspTypeCode) {
         
-        ProtocolCorrespondence protocolCorrespondence = new ProtocolCorrespondence();
+        ProtocolCorrespondence protocolCorrespondence = getNewProtocolCorrespondenceHook();
         protocolCorrespondence.setProtocol(protocol);
         protocolCorrespondence.setProtocolId(protocol.getProtocolId());
         protocolCorrespondence.setProtocolNumber(protocol.getProtocolNumber());
@@ -99,7 +99,7 @@ public abstract class ProtocolActionCorrespondenceGenerationServiceImpl implemen
     }
     
     /**{@inheritDoc}**/
-    public void generateCorrespondenceDocumentAndAttach(AbstractProtocolActionsCorrespondence printableCorrespondence) 
+    public void generateCorrespondenceDocumentAndAttach(ProtocolActionsCorrespondence printableCorrespondence) 
             throws PrintingException {
             if (printableCorrespondence.getXSLTemplates().size() > 0) {
                 //there are templates in play, lets do some printing and attaching            
@@ -113,7 +113,7 @@ public abstract class ProtocolActionCorrespondenceGenerationServiceImpl implemen
             }
         }
         
-    public AttachmentDataSource reGenerateCorrespondenceDocument(AbstractProtocolActionsCorrespondence printableCorrespondence) 
+    public AttachmentDataSource reGenerateCorrespondenceDocument(ProtocolActionsCorrespondence printableCorrespondence) 
             throws PrintingException {
             if (printableCorrespondence.getXSLTemplates().size() > 0) {
                 //there are templates in play, lets do some printing and attaching            

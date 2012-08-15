@@ -21,7 +21,8 @@ import org.kuali.kra.protocol.ProtocolVersionService;
 import org.kuali.kra.protocol.actions.withdraw.ProtocolWithdrawBean;
 import org.kuali.kra.protocol.actions.withdraw.ProtocolWithdrawServiceImpl;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewService;
-import org.kuali.kra.protocol.actions.correspondence.AbstractProtocolActionsCorrespondence;
+import org.kuali.kra.protocol.actions.correspondence.ProtocolActionCorrespondenceGenerationService;
+import org.kuali.kra.protocol.actions.correspondence.ProtocolActionsCorrespondence;
 import org.kuali.kra.protocol.actions.submit.ProtocolActionService;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
 import org.kuali.kra.printing.PrintingException;
@@ -44,7 +45,7 @@ public abstract class ProtocolWithdrawServiceImpl implements ProtocolWithdrawSer
     
 // TODO *********commented the code below during IACUC refactoring*********     
 //    protected ProtocolAssignToAgendaService protocolAssignToAgendaService;
-//    protected ProtocolActionCorrespondenceGenerationService protocolActionCorrespondenceGenerationService;
+    protected ProtocolActionCorrespondenceGenerationService protocolActionCorrespondenceGenerationService;
     
     protected ProtocolOnlineReviewService protocolOnlineReviewService;
  
@@ -72,9 +73,9 @@ public abstract class ProtocolWithdrawServiceImpl implements ProtocolWithdrawSer
 //        this.protocolAssignToAgendaService = protocolAssignToAgendaService;
 //    }
 //    
-//    public void setProtocolActionCorrespondenceGenerationService(ProtocolActionCorrespondenceGenerationService protocolActionCorrespondenceGenerationService) {
-//        this.protocolActionCorrespondenceGenerationService = protocolActionCorrespondenceGenerationService;
-//    }
+    public void setProtocolActionCorrespondenceGenerationService(ProtocolActionCorrespondenceGenerationService protocolActionCorrespondenceGenerationService) {
+        this.protocolActionCorrespondenceGenerationService = protocolActionCorrespondenceGenerationService;
+    }
     
     /**
      * Set the Protocol Action Service.
@@ -185,10 +186,9 @@ public abstract class ProtocolWithdrawServiceImpl implements ProtocolWithdrawSer
      * @param protocol a Protocol object.
      */
     protected void generateCorrespondenceDocumentAndAttach(Protocol protocol, ProtocolWithdrawBean withdrawBean) throws PrintingException {
-        AbstractProtocolActionsCorrespondence correspondence = withdrawBean.getCorrespondence();
-// TODO *********commented the code below during IACUC refactoring*********         
-//        correspondence.setProtocol(protocol);
-//        protocolActionCorrespondenceGenerationService.generateCorrespondenceDocumentAndAttach(correspondence);
+        ProtocolActionsCorrespondence correspondence = withdrawBean.getCorrespondence();         
+        correspondence.setProtocol(protocol);
+        protocolActionCorrespondenceGenerationService.generateCorrespondenceDocumentAndAttach(correspondence);
     } 
 
     /**

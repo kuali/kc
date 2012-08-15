@@ -100,6 +100,8 @@ import org.kuali.kra.iacuc.actions.undo.IacucProtocolUndoLastActionService;
 import org.kuali.kra.iacuc.actions.withdraw.IacucProtocolWithdrawService;
 import org.kuali.kra.iacuc.auth.IacucGenericProtocolAuthorizer;
 import org.kuali.kra.iacuc.auth.IacucProtocolTask;
+import org.kuali.kra.iacuc.correspondence.IacucProtocolActionCorrespondenceGenerationService;
+import org.kuali.kra.iacuc.correspondence.IacucProtocolActionsCorrespondence;
 import org.kuali.kra.iacuc.correspondence.IacucProtocolCorrespondence;
 import org.kuali.kra.iacuc.correspondence.IacucProtocolCorrespondenceType;
 import org.kuali.kra.iacuc.noteattachment.IacucProtocolAttachmentPersonnel;
@@ -122,6 +124,7 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.actions.history.ProtocolHistoryFilterDatesEvent;
 import org.kuali.kra.printing.Printable;
+import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.service.WatermarkService;
 import org.kuali.kra.printing.util.PrintingUtils;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
@@ -132,12 +135,14 @@ import org.kuali.kra.protocol.actions.ProtocolAction;
 import org.kuali.kra.protocol.actions.ProtocolActionBean;
 import org.kuali.kra.protocol.actions.ProtocolActionType;
 import org.kuali.kra.protocol.actions.ProtocolOnlineReviewCommentable;
+import org.kuali.kra.protocol.actions.ProtocolSubmissionDoc;
 import org.kuali.kra.protocol.actions.notify.ProtocolActionAttachment;
 import org.kuali.kra.protocol.actions.print.ProtocolActionPrintEvent;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewerBean;
 import org.kuali.kra.protocol.actions.undo.UndoLastActionBean;
 import org.kuali.kra.protocol.auth.ProtocolTask;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondence;
+import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceType;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentBase;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentProtocol;
 import org.kuali.kra.protocol.notification.ProtocolNotificationRequestBean;
@@ -149,6 +154,7 @@ import org.kuali.kra.util.watermark.WatermarkConstants;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.Person;
@@ -3465,80 +3471,80 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
     }
     
     
-//
-//    /**
-//     * 
-//     * This method is to view the submission doc displayed in history panel
-//     * @param mapping
-//     * @param form
-//     * @param request
-//     * @param response
-//     * @return
-//     * @throws Exception
-//     */
-//    public ActionForward viewSubmissionDoc(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-//            HttpServletResponse response) throws Exception {
-//        ProtocolForm protocolForm = (ProtocolForm) form;
-//        int actionIndex = getSelectedLine(request);
-//        int attachmentIndex = getSelectedAttachment(request);
-//        org.kuali.kra.irb.actions.ProtocolAction protocolAction = protocolForm.getActionHelper().getProtocol().getProtocolActions().get(actionIndex);
-//        ProtocolSubmissionDoc attachment = protocolAction.getProtocolSubmissionDocs().get(attachmentIndex);
-//
-//        if (attachment == null) {
-//            LOG.info(NOT_FOUND_SELECTION + "protocolAction: " + actionIndex + ", protocolSubmissionDoc: " + attachmentIndex);
-//            // may want to tell the user the selection was invalid.
-//            return mapping.findForward(Constants.MAPPING_BASIC);
-//        }
-//
-//        this.streamToResponse(attachment.getDocument(), getValidHeaderString(attachment.getFileName()), getValidHeaderString(attachment.getContentType()), response);
-//
-//        return RESPONSE_ALREADY_HANDLED;
-//    }
-//    
-//    /**
-//     * 
-//     * This method is to view correspondences in history panel.
-//     * @param mapping
-//     * @param form
-//     * @param request
-//     * @param response
-//     * @return
-//     * @throws Exception
-//     */
-//    public ActionForward viewActionCorrespondence(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
-//            HttpServletResponse response) throws Exception {
-//        
-//        ProtocolForm protocolForm = (ProtocolForm) form;
-//        int actionIndex = getSelectedLine(request);
-//        int attachmentIndex = getSelectedAttachment(request);
-//        org.kuali.kra.irb.actions.ProtocolAction protocolAction = protocolForm.getActionHelper().getProtocol().getProtocolActions().get(actionIndex);
-//        ProtocolCorrespondence attachment = protocolAction.getProtocolCorrespondences().get(attachmentIndex);
-//
-//        if (attachment == null) {
-//            LOG.info(NOT_FOUND_SELECTION + "protocolAction: " + actionIndex + ", protocolCorrespondence: " + attachmentIndex);
-//            // may want to tell the user the selection was invalid.
-//            return mapping.findForward(Constants.MAPPING_BASIC);
-//        }
-//
-//        this.streamToResponse(attachment.getCorrespondence(), StringUtils.replace(attachment.getProtocolCorrespondenceType().getDescription(), " ", "") + ".pdf", 
-//                Constants.PDF_REPORT_CONTENT_TYPE, response);
-//
-//        return RESPONSE_ALREADY_HANDLED;
-//    }
-//    
-//    /*
-//     * utility to get "actionidx;atachmentidx"
-//     */
-//    private int getSelectedAttachment(HttpServletRequest request) {
-//        int selectedAttachment = -1;
-//        String parameterName = (String) request.getAttribute(KRADConstants.METHOD_TO_CALL_ATTRIBUTE);
-//        if (StringUtils.isNotBlank(parameterName)) {
-//            String attachmentNumber = StringUtils.substringBetween(parameterName, ".attachment", ".");
-//            selectedAttachment = Integer.parseInt(attachmentNumber);
-//        }
-//
-//        return selectedAttachment;
-//    }
+
+    /**
+     * 
+     * This method is to view the submission doc displayed in history panel
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward viewSubmissionDoc(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        int actionIndex = getSelectedLine(request);
+        int attachmentIndex = getSelectedAttachment(request);
+        ProtocolAction protocolAction = protocolForm.getActionHelper().getProtocol().getProtocolActions().get(actionIndex);
+        ProtocolSubmissionDoc attachment = protocolAction.getProtocolSubmissionDocs().get(attachmentIndex);
+
+        if (attachment == null) {
+            LOG.info(NOT_FOUND_SELECTION + "protocolAction: " + actionIndex + ", protocolSubmissionDoc: " + attachmentIndex);
+            // may want to tell the user the selection was invalid.
+            return mapping.findForward(Constants.MAPPING_BASIC);
+        }
+
+        this.streamToResponse(attachment.getDocument(), getValidHeaderString(attachment.getFileName()), getValidHeaderString(attachment.getContentType()), response);
+
+        return RESPONSE_ALREADY_HANDLED;
+    }
+    
+    /**
+     * 
+     * This method is to view correspondences in history panel.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward viewActionCorrespondence(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
+        
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        int actionIndex = getSelectedLine(request);
+        int attachmentIndex = getSelectedAttachment(request);
+        ProtocolAction protocolAction = protocolForm.getActionHelper().getProtocol().getProtocolActions().get(actionIndex);
+        ProtocolCorrespondence attachment = protocolAction.getProtocolCorrespondences().get(attachmentIndex);
+
+        if (attachment == null) {
+            LOG.info(NOT_FOUND_SELECTION + "protocolAction: " + actionIndex + ", protocolCorrespondence: " + attachmentIndex);
+            // may want to tell the user the selection was invalid.
+            return mapping.findForward(Constants.MAPPING_BASIC);
+        }
+
+        this.streamToResponse(attachment.getCorrespondence(), StringUtils.replace(attachment.getProtocolCorrespondenceType().getDescription(), " ", "") + ".pdf", 
+                Constants.PDF_REPORT_CONTENT_TYPE, response);
+
+        return RESPONSE_ALREADY_HANDLED;
+    }
+    
+    /*
+     * utility to get "actionidx;atachmentidx"
+     */
+    private int getSelectedAttachment(HttpServletRequest request) {
+        int selectedAttachment = -1;
+        String parameterName = (String) request.getAttribute(KRADConstants.METHOD_TO_CALL_ATTRIBUTE);
+        if (StringUtils.isNotBlank(parameterName)) {
+            String attachmentNumber = StringUtils.substringBetween(parameterName, ".attachment", ".");
+            selectedAttachment = Integer.parseInt(attachmentNumber);
+        }
+
+        return selectedAttachment;
+    }
 //    
 //    /**
 //     * 
@@ -4237,171 +4243,147 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
     protected KcNotificationService getNotificationService() {
         return KraServiceLocator.getService(KcNotificationService.class);
     }
+         
+    public ActionForward viewCorrespondence(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        
+        IacucActionHelper actionHelper = (IacucActionHelper) ((ProtocolForm) form).getActionHelper();
+        PrintableAttachment source = new PrintableAttachment();
+        ProtocolCorrespondence correspondence = actionHelper.getProtocolCorrespondence();
+            
+        source.setContent(correspondence.getCorrespondence());
+        source.setContentType(Constants.PDF_REPORT_CONTENT_TYPE);
+        source.setFileName("Correspondence-" + correspondence.getProtocolCorrespondenceType().getDescription() + Constants.PDF_FILE_EXTENSION);
+        PrintingUtils.streamToResponse(source, response);
+        
+        return null;
+    }
     
+    /*
+     * concrete class for AttachmentDataSource.
+     * This is a similar class from printingserviceimpl
+     * TODO : maybe should create a public class for this ?
+     */
+    private class PrintableAttachment extends AttachmentDataSource {
+        private byte[] streamData;
+
+        public byte[] getContent() {
+            return streamData;
+        }
+
+        public void setContent(byte[] streamData) {
+            this.streamData = streamData;
+        }
+    }
+
+    public ActionForward saveCorrespondence(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        return correspondenceAction(mapping, form, true);
+    }
+
+    public ActionForward closeCorrespondence(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+
+        return correspondenceAction(mapping, form, false);
+    }
+
+    private ActionForward correspondenceAction(ActionMapping mapping, ActionForm form, boolean saveAction) {
+        // final int selection = this.getSelectedLine(request);
+        IacucProtocolForm protocolForm = ((IacucProtocolForm) form);
+        IacucActionHelper actionHelper = (IacucActionHelper) protocolForm.getActionHelper();
+        ProtocolCorrespondence correspondence = actionHelper.getProtocolCorrespondence();
+
+        if (saveAction) {
+            if (correspondence.getFinalFlag()) {
+                correspondence.setFinalFlagTimestamp(KraServiceLocator.getService(DateTimeService.class).getCurrentTimestamp());
+                           
+            }
+            getBusinessObjectService().save(correspondence);
+        }
+        // TODO : this is a hack for fullapprove to restore key
+        if (GlobalVariables.getUserSession().retrieveObject("approvalComplCorrespondence") != null) {
+               GlobalVariables.getUserSession().addObject(DocumentAuthorizerBase.USER_SESSION_METHOD_TO_CALL_COMPLETE_OBJECT_KEY, GlobalVariables.getUserSession().retrieveObject("approvalComplCorrespondence"));
+               GlobalVariables.getUserSession().removeObject("approvalComplCorrespondence");
+        }
+
+        // TODO : forward will be based different action correspondence. this is a test for withdraw
+        if (correspondence.getNotificationRequestBean() != null) {
+            return checkToSendNotification(mapping, mapping.findForward(correspondence.getForwardName()), protocolForm,
+                    (IacucProtocolNotificationRequestBean) correspondence.getNotificationRequestBean());
+        } else {
+            if (correspondence.isHoldingPage()) {
+                return routeProtocolToHoldingPage(mapping, protocolForm);
+            } else {
+                return mapping.findForward(correspondence.getForwardName());
+            }
+        }
+   
+    }
     
-// TODO *********commented the code below during IACUC refactoring*********     
-//    public ActionForward viewCorrespondence(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-//            HttpServletResponse response) throws Exception {
-//        
-////        final int selection = this.getSelectedLine(request);
-//        ActionHelper actionHelper = ((ProtocolForm) form).getActionHelper();
-//        PrintableAttachment source = new PrintableAttachment();
-//        ProtocolCorrespondence correspondence = actionHelper.getProtocolCorrespondence();
-////        if (correspondence == null || correspondence.getId() == null) {
-////            ProtocolForm protocolForm = (ProtocolForm)GlobalVariables.getUserSession().retrieveObject("approvalCorrespondence");
-////            correspondence = protocolForm.getActionHelper().getProtocolCorrespondence();
-////        }
-//            
-//        source.setContent(correspondence.getCorrespondence());
-//        source.setContentType(Constants.PDF_REPORT_CONTENT_TYPE);
-//        source.setFileName("Correspondence-" + correspondence.getProtocolCorrespondenceType().getDescription() + Constants.PDF_FILE_EXTENSION);
-//        PrintingUtils.streamToResponse(source, response);
-//        
-//        return null;
-//    }
-//    /*
-//     * concrete class for AttachmentDataSource.
-//     * This is a similar class from printingserviceimpl
-//     * TODO : maybe should create a public class for this ?
-//     */
-//    private class PrintableAttachment extends AttachmentDataSource {
-//        private byte[] streamData;
-//
-//        public byte[] getContent() {
-//            return streamData;
-//        }
-//
-//        public void setContent(byte[] streamData) {
-//            this.streamData = streamData;
-//        }
-//    }
-//
-//    public ActionForward saveCorrespondence(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-//            HttpServletResponse response) throws Exception {
-//        return correspondenceAction(mapping, form, true);
-//    }
-//
-//    public ActionForward closeCorrespondence(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-//            HttpServletResponse response) throws Exception {
-//
-//        return correspondenceAction(mapping, form, false);
-//    }
-//
-//    private ActionForward correspondenceAction(ActionMapping mapping, ActionForm form, boolean saveAction) {
-//        // final int selection = this.getSelectedLine(request);
-//        ProtocolForm protocolForm = ((ProtocolForm) form);
-//        ActionHelper actionHelper = protocolForm.getActionHelper();
-//        ProtocolCorrespondence correspondence = actionHelper.getProtocolCorrespondence();
-////        if (correspondence == null || correspondence.getId() == null) {
-////            protocolForm = (ProtocolForm)GlobalVariables.getUserSession().retrieveObject("approvalCorrespondence");
-////            correspondence = protocolForm.getActionHelper().getProtocolCorrespondence();
-////            if (StringUtils.isNotBlank(protocolForm.getFormKey())) {
-////                GlobalVariables.getUserSession().addObject(protocolForm.getFormKey(), protocolForm);
-////            }
-////        }
-//        if (saveAction) {
-//            if (correspondence.getFinalFlag()) {
-//                correspondence.setFinalFlagTimestamp(KraServiceLocator.getService(DateTimeService.class).getCurrentTimestamp());
-//                           
-//            }
-//            getBusinessObjectService().save(correspondence);
-//        }
-//        // TODO : this is a hack for fullapprove to restore key
-//        if (GlobalVariables.getUserSession().retrieveObject("approvalComplpondence") != null) {
-//               GlobalVariables.getUserSession().addObject(DocumentAuthorizerBase.USER_SESSION_METHOD_TO_CALL_COMPLETE_OBJECT_KEY, GlobalVariables.getUserSession().retrieveObject("approvalComplCorrespondence"));
-//               GlobalVariables.getUserSession().removeObject("approvalComplCorrespondence");
-//        }
-//
-//        // TODO : forward will be based different action correspondence. this is a test for withdraw
-//        if (correspondence.getNotificationRequestBean() != null) {
-//            return checkToSendNotification(mapping, mapping.findForward(correspondence.getForwardName()), protocolForm,
-//                    correspondence.getNotificationRequestBean());
-//        } else {
-//            if (correspondence.isHoldingPage()) {
-//                return routeProtocolToHoldingPage(mapping, protocolForm);
-//            } else {
-//                return mapping.findForward(correspondence.getForwardName());
-//            }
-//        }
-//   
-//    }
-//    
-//    public ActionForward regenerateCorrespondence(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
-//            HttpServletResponse response) throws Exception {
-//        
-//        ProtocolForm protocolForm = (ProtocolForm) form;
-//        int actionIndex = getSelectedLine(request);
-//        int attachmentIndex = getSelectedAttachment(request);
-//        org.kuali.kra.irb.actions.ProtocolAction protocolAction = protocolForm.getActionHelper().getProtocol().getProtocolActions().get(actionIndex);
-//        ProtocolCorrespondence protocolCorrespondence = protocolAction.getProtocolCorrespondences().get(attachmentIndex);
-//
-//        if (protocolCorrespondence == null) {
-//            LOG.info(NOT_FOUND_SELECTION + "protocolAction: " + actionIndex + ", protocolCorrespondence: " + attachmentIndex);
-//            // may want to tell the user the selection was invalid.
-//            return mapping.findForward(Constants.MAPPING_BASIC);
-//        }
-//
-//        Protocol protocol = protocolCorrespondence.getProtocol();
-//        AttachmentDataSource dataSource = generateCorrespondenceDocument(protocol, protocolCorrespondence.getProtoCorrespTypeCode());
-//        PrintableAttachment source = new PrintableAttachment();
-////        ProtocolCorrespondence correspondence = getProtocolCorrespondence(protocol);
-//        if (dataSource != null) {
-//            protocolCorrespondence.setCorrespondence(dataSource.getContent());
-//            protocolCorrespondence.setFinalFlag(false);
-//            protocolCorrespondence.setCreateUser(GlobalVariables.getUserSession().getPrincipalName());
-//            protocolCorrespondence.setCreateTimestamp(KraServiceLocator.getService(DateTimeService.class).getCurrentTimestamp());
-//            protocolCorrespondence.setForwardName(PROTOCOL_ACTIONS_TAB);
-//            protocolForm.getActionHelper().setProtocolCorrespondence(protocolCorrespondence);
-//            getBusinessObjectService().save(protocolCorrespondence);
-//            return mapping.findForward(CORRESPONDENCE);
-//        }
-//        return mapping.findForward(Constants.MAPPING_BASIC);
-//
-//    }
-//    
-//    protected AttachmentDataSource generateCorrespondenceDocument(Protocol protocol, String correspondenceType) throws PrintingException {
-//        AbstractProtocolActionsCorrespondence correspondence = null;
-//        if (StringUtils.equals(ProtocolCorrespondenceType.WITHDRAWAL_NOTICE, correspondenceType)) {
-//            correspondence = new WithdrawCorrespondence();
-//        } else if (GENERIC_TYPE_PONDENCE.contains(correspondenceType)) {
-//            correspondence = new ProtocolGenericCorrespondence(CORR_TYPE_TO_ACTION_TYPE_MAP.get(correspondenceType));
-//        } else if (StringUtils.equals(ProtocolCorrespondenceType.GRANT_EXEMPTION_NOTICE, correspondenceType)) {
-//            correspondence = new GrantExemptionCorrespondence();
-//        }
-//        correspondence.setProtocol(protocol);
-//        // TODO : set up actiontype 920 as "regenerate correspondence"
-////        ProtocolAction protocolAction = new ProtocolAction(protocol, null, "920");
-////        protocolAction.setComments("Regenerate Correspondence");
-////        protocol.getProtocolActions().add(protocolAction);
-////        getBusinessObjectService().save(protocol);
-//        return getProtocolActionCorrespondenceGenerationService().reGenerateCorrespondenceDocument(correspondence);
-//    } 
-//
-//    private ProtocolActionCorrespondenceGenerationService getProtocolActionCorrespondenceGenerationService() {
-//        return KraServiceLocator.getService(ProtocolActionCorrespondenceGenerationService.class);
-//    }
-//
-//    public ActionForward updateCorrespondence(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
-//            HttpServletResponse response) throws Exception {
-//        
-//        ProtocolForm protocolForm = (ProtocolForm) form;
-//        int actionIndex = getSelectedLine(request);
-//        int attachmentIndex = getSelectedAttachment(request);
-//        org.kuali.kra.irb.actions.ProtocolAction protocolAction = protocolForm.getActionHelper().getProtocol().getProtocolActions().get(actionIndex);
-//        protocolAction.refreshReferenceObject("protocolCorrespondences");
-//        ProtocolCorrespondence protocolCorrespondence = protocolAction.getProtocolCorrespondences().get(attachmentIndex);
-//
-//        if (protocolCorrespondence == null) {
-//            LOG.info(NOT_FOUND_SELECTION + "protocolAction: " + actionIndex + ", protocolCorrespondence: " + attachmentIndex);
-//            // may want to tell the user the selection was invalid.
-//            return mapping.findForward(Constants.MAPPING_BASIC);
-//        }
-//        protocolCorrespondence.setForwardName(PROTOCOL_ACTIONS_TAB);
-//        protocolForm.getActionHelper().setProtocolCorrespondence(protocolCorrespondence);
-//
-//        return mapping.findForward(CORRESPONDENCE);
-//
-//    }
+    public ActionForward regenerateCorrespondence(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
+        
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        int actionIndex = getSelectedLine(request);
+        int attachmentIndex = getSelectedAttachment(request);
+        ProtocolAction protocolAction = protocolForm.getActionHelper().getProtocol().getProtocolActions().get(actionIndex);
+        ProtocolCorrespondence protocolCorrespondence = protocolAction.getProtocolCorrespondences().get(attachmentIndex);
+
+        if (protocolCorrespondence == null) {
+            LOG.info(NOT_FOUND_SELECTION + "protocolAction: " + actionIndex + ", protocolCorrespondence: " + attachmentIndex);
+            // may want to tell the user the selection was invalid.
+            return mapping.findForward(Constants.MAPPING_BASIC);
+        }
+
+        Protocol protocol = protocolCorrespondence.getProtocol();
+        AttachmentDataSource dataSource = generateCorrespondenceDocument(protocol, protocolCorrespondence);
+        PrintableAttachment source = new PrintableAttachment();
+//        ProtocolCorrespondence correspondence = getProtocolCorrespondence(protocol);
+        if (dataSource != null) {
+            protocolCorrespondence.setCorrespondence(dataSource.getContent());
+            protocolCorrespondence.setFinalFlag(false);
+            protocolCorrespondence.setCreateUser(GlobalVariables.getUserSession().getPrincipalName());
+            protocolCorrespondence.setCreateTimestamp(KraServiceLocator.getService(DateTimeService.class).getCurrentTimestamp());
+            protocolCorrespondence.setForwardName(PROTOCOL_ACTIONS_TAB);
+            protocolForm.getActionHelper().setProtocolCorrespondence(protocolCorrespondence);
+            getBusinessObjectService().save(protocolCorrespondence);
+            return mapping.findForward(CORRESPONDENCE);
+        }
+        return mapping.findForward(Constants.MAPPING_BASIC);
+
+    }
+    
+    protected AttachmentDataSource generateCorrespondenceDocument(Protocol protocol, ProtocolCorrespondence oldCorrespondence) throws PrintingException {
+        IacucProtocolActionsCorrespondence correspondence = new IacucProtocolActionsCorrespondence(oldCorrespondence.getProtocolAction().getProtocolActionTypeCode());
+        correspondence.setProtocol(protocol);
+        return getProtocolActionCorrespondenceGenerationService().reGenerateCorrespondenceDocument(correspondence);
+    } 
+
+    private IacucProtocolActionCorrespondenceGenerationService getProtocolActionCorrespondenceGenerationService() {
+        return KraServiceLocator.getService(IacucProtocolActionCorrespondenceGenerationService.class);
+    }
+
+    public ActionForward updateCorrespondence(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
+        
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        int actionIndex = getSelectedLine(request);
+        int attachmentIndex = getSelectedAttachment(request);
+        ProtocolAction protocolAction = protocolForm.getActionHelper().getProtocol().getProtocolActions().get(actionIndex);
+        protocolAction.refreshReferenceObject("protocolCorrespondences");
+        ProtocolCorrespondence protocolCorrespondence = protocolAction.getProtocolCorrespondences().get(attachmentIndex);
+
+        if (protocolCorrespondence == null) {
+            LOG.info(NOT_FOUND_SELECTION + "protocolAction: " + actionIndex + ", protocolCorrespondence: " + attachmentIndex);
+            // may want to tell the user the selection was invalid.
+            return mapping.findForward(Constants.MAPPING_BASIC);
+        }
+        protocolCorrespondence.setForwardName(PROTOCOL_ACTIONS_TAB);
+        protocolForm.getActionHelper().setProtocolCorrespondence(protocolCorrespondence);
+
+        return mapping.findForward(CORRESPONDENCE);
+
+    }
 
     
     
