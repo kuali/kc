@@ -20,9 +20,12 @@ import java.util.List;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.Unit;
+import org.kuali.kra.common.permissions.bo.PermissionsUser;
+import org.kuali.kra.common.permissions.web.bean.User;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.noteattachment.SubmitProtocolAttachmentProtocolRuleImpl;
+import org.kuali.kra.protocol.permission.ProtocolPermissionsRule;
 import org.kuali.kra.protocol.personnel.AddProtocolAttachmentPersonnelEvent;
 import org.kuali.kra.protocol.personnel.AddProtocolAttachmentPersonnelRule;
 import org.kuali.kra.protocol.personnel.AddProtocolUnitEvent;
@@ -286,7 +289,9 @@ public abstract class ProtocolDocumentRule<CD extends CommitteeDecision<? extend
 
     protected abstract ProtocolFundingSourceRule getNewProtocolFundingSourceRuleInstanceHook();
 
-    
+    public boolean processAddPermissionsUserBusinessRules(Document document, List<User> users, PermissionsUser newUser) {
+      return new ProtocolPermissionsRule().processAddPermissionsUserBusinessRules(document, users, newUser);
+  }  
     
 // TODO *********commented the code below during IACUC refactoring*********    
 //    /**
