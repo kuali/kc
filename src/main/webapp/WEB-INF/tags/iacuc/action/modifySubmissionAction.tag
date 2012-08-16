@@ -21,6 +21,7 @@
 <c:set var="cmtAttributes" value="${DataDictionary.IacucProtocolAssignCmtBean.attributes}" />
 <jsp:useBean id="paramMap" class="java.util.HashMap"/>
 <script language="javascript" src="dwr/interface/ProtocolActionAjaxService.js"></script>
+<script language="javascript" src="dwr/interface/IacucProtocolActionAjaxService.js"></script>
 <c:set var="docNumber" value="${KualiForm.document.protocol.protocolNumber}" />
 
 
@@ -43,7 +44,8 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.iacucProtocolModifySub
                         <c:set target="${paramMap}" property="committeeId" value="${KualiForm.actionHelper.iacucProtocolModifySubmissionBean.committeeId}" />
                         <c:set target="${paramMap}" property="docRouteStatus" value="${KualiForm.document.documentHeader.workflowDocument.status.code}" />	                
                         <c:set target="${paramMap}" property="protocolLeadUnit" value="${KualiForm.document.protocol.leadUnitNumber}" />	                
-                       	<html:select styleId="actionHelper.iacucProtocolModifySubmissionBean.committeeId" property="actionHelper.iacucProtocolModifySubmissionBean.committeeId" onchange="loadScheduleDates('actionHelper.iacucProtocolModifySubmissionBean.committeeId', '${docNumber}', 'actionHelper.iacucProtocolModifySubmissionBean.scheduleId');" >                               
+                       	<html:select styleId="actionHelper.iacucProtocolModifySubmissionBean.committeeId" property="actionHelper.iacucProtocolModifySubmissionBean.committeeId" 
+                       	onchange="loadScheduleDates('actionHelper.iacucProtocolModifySubmissionBean.committeeId', '${docNumber}', 'actionHelper.iacucProtocolModifySubmissionBean.scheduleId');" >                               
                             <c:forEach items="${krafn:getOptionList('org.kuali.kra.committee.lookup.keyvalue.IacucCommitteeIdByUnitValuesFinder', paramMap)}" var="option" >
                                 <c:choose>                      
                                     <c:when test="${KualiForm.actionHelper.iacucProtocolModifySubmissionBean.committeeId == option.key}">
@@ -55,8 +57,8 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.iacucProtocolModifySub
                                 </c:choose>                                                
                             </c:forEach>
                         </html:select>
-                        </td>
-                        <th style="width: 150px"> 
+                    </td>
+                    <th style="width: 150px"> 
 	                    <div align="right">
 	                        <kul:htmlAttributeLabel attributeEntry="${attributes.scheduleId}" />
 	                    </div>
@@ -65,9 +67,61 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.iacucProtocolModifySub
 		                	<nobr>
 		                    	<kul:htmlControlAttribute property="actionHelper.iacucProtocolModifySubmissionBean.scheduleId" 
 				                                	      attributeEntry="${attributes.scheduleId}"
-				                                    	  onchange="protocolDisplayReviewers('getProtocolReviewers', 'actionHelper.iacucProtocolModifySubmissionBean.committeeId', 'actionHelper.iacucProtocolModifySubmissionBean.scheduleId', ${KualiForm.document.protocol.protocolId}, '${docNumber}')" />
+				                                    	  onchange="protocolDisplayReviewers('getProtocolReviewers', 'actionHelper.iacucProtocolModifySubmissionBean.committeeId', 'actionHelper.iacucProtocolModifySubmissionBean.scheduleId', ${KualiForm.document.protocol.protocolId}, '${docNumber}'); setDefaultReviewerTypeCode('getProtocolReviewers', 'actionHelper.iacucProtocolModifySubmissionBean.committeeId', 'actionHelper.iacucProtocolModifySubmissionBean.scheduleId', ${KualiForm.document.protocol.protocolId}, '${docNumber}')" />
 		                    </nobr>
 		               </td>
+		               <script language="javascript">
+		               		function setDefaultReviewerTypeCode(methodToCall, committeeId, scheduleId, protocolId) {		               			
+		               			var cmtId = $j(jq_escape(committeeId)).attr("value");
+		               			var schedId = $j(jq_escape(scheduleId)).attr("value");
+		               			var queryString = "&committeeId="+cmtId+"&scheduleId=" + schedId+"&protocolId="+protocolId;
+		               	    	callAjaxByPath('jqueryAjax.do', methodToCall, queryString,
+		               	    			function(jQueyrData) {
+		               	    				reviewersReturned = $j(jQueyrData).find('#ret_value').html();
+		               						getProtocolReviewerTypes(reviewersReturned);
+		               						
+		               						var reviewersArr = reviewersReturned.split(";");
+		               						
+		               						var defaultReviewTyper;
+		               						//just to note, this will probably be higher than the actual number of reviewers, but is a good number to loop through.
+		    		               			var numberOfRevierwers = reviewersArr.length;
+		    		               			var dwrReply = {
+		    		               					callback:function(data) {
+		    		               						if ( data != null ) {	
+		    		               							defaultReviewTyper = data;
+		    		               						} else {
+		    		               							defaultReviewTyper = '';
+		    		               						}
+		    		               						
+		    		               						for (i=0; i<numberOfRevierwers; i++) {
+		    		    							  		var selectField = document.getElementsByName('actionHelper.iacucProtocolModifySubmissionBean.reviewer[' + i + '].reviewerTypeCode')[0];
+		    		    							  		if (selectField != null) {
+			    		    							  		for (j=0; j<selectField.length; j++) {
+			    		    							  			if (selectField.options[j].value == defaultReviewTyper) {
+			    		    							  				selectField.options[j].setAttribute("selected", "selected");
+			    		    							  				selectField.selectedIndex = j;
+			    		    							  			}
+			    		    							  		}
+		    		    							  		}
+		    		    							  		
+		    		    							  	}
+		    		               					},
+		    		               					errorHandler:function( errorMessage ) {	
+		    		               						window.status = errorMessage;
+		    		               						window.alert('C data: unknown, there is an error: ' + errorMessage);
+		    		               						defaultReviewTyper = '';
+		    		               					}
+		    		               			};
+		    		               			IacucProtocolActionAjaxService.getDefaultCommitteeReviewTypeCode(dwrReply);
+		    		               			return defaultReviewTyper;
+		               	    				
+		               	    			},
+		               	    			function(error) {
+		               	    				alert("error is" + error);
+		               	    			}
+		               	    	);
+		               		}
+		               </script>
                 </tr>
                 <tr>
                     <th width="15%"> 
