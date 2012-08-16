@@ -1,4 +1,10 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
+
+<%@ attribute name="attachmentViewAction" required="false" %>
+<c:if test="${attachmentViewAction == null}">
+	<c:set var="attachmentViewAction" value="meetingManagement" />
+</c:if>
+
 <%@ attribute name="htmlFormAction" required="false" %>
 <%@ attribute name="renderMultipart" required="false" %>
 <c:set var="commScheduleAttachmentAttributes" value="${DataDictionary.CommitteeScheduleAttachments.attributes}" />
@@ -106,7 +112,7 @@
 					property="methodToCall.downloadCommitteScheduleAttachmentsAttachment.line${status.index}.anchor${currentTabIndex}"
 					src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif'
 					styleClass="tinybutton"
-					onclick="javascript: openNewWindow('meetingManagement','downloadCommitteScheduleAttachmentsAttachment','${status.index}',0,'true'); return false" />
+					onclick="javascript: openNewWindow('${attachmentViewAction}','downloadCommitteScheduleAttachmentsAttachment','${status.index}',0,'true'); return false" />
 					</c:if>
 						<c:if test="${!readOnly}">	
 						<html:image
