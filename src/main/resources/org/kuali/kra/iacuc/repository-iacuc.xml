@@ -1562,7 +1562,7 @@
             <foreignkey field-ref="protoCorrespTypeCode"/>
         </reference-descriptor>
         <reference-descriptor name="protocolAction" class-ref="org.kuali.kra.iacuc.actions.IacucProtocolAction" auto-retrieve="true" auto-update="none" auto-delete="none"> 
-            <foreignkey field-ref="actionId"/>
+            <foreignkey field-ref="actionIdFk"/>
         </reference-descriptor>
     </class-descriptor>
     
