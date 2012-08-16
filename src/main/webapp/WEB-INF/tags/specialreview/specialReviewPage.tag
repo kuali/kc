@@ -29,28 +29,25 @@
 
 <c:set var="canModify" value="${KualiForm.specialReviewHelper.canModifySpecialReview}"/>
 <c:set var="enableIrbProtocolLinking" value="${KualiForm.specialReviewHelper.isIrbProtocolLinkingEnabled}" />
+<c:set var="enableIacucProtocolLinking" value="${KualiForm.specialReviewHelper.isIacucProtocolLinkingEnabled}" />
 <c:set var="commentDisplayLength" value="<%=org.kuali.kra.infrastructure.Constants.SPECIAL_REVIEW_COMMENT_LENGTH%>" />
+<c:set var="canCreateIrbProtocol" value="false" />
+<c:set var="canCreateIacucProtocol" value="false" />
 <c:if test="${enableIrbProtocolLinking}">
 	<c:set var="canCreateIrbProtocol" value="${KualiForm.specialReviewHelper.canCreateIrbProtocol}" />
+</c:if>
+<c:if test="${enableIacucProtocolLinking}">
 	<c:set var="canCreateIacucProtocol" value="${KualiForm.specialReviewHelper.canCreateIacucProtocol}" />
 </c:if>
-<c:if test="!${enableIrbProtocolLinking}">
-	<c:set var="canCreateIrbProtocol" value="false" />
-	<c:set var="canCreateIacucProtocol" value="false" />
+
+<c:set var="buttonStyle" value="display:none"/>
+<c:if test="${canCreateIrbProtocol && KualiForm.specialReviewHelper.newSpecialReview.specialReviewTypeCode == '1'}">
+	<c:set var="buttonStyle" value="display:inline"/>
 </c:if>
-<c:if test="${canCreateIrbProtocol || canCreateIacucProtocol}">
-     <c:choose>
-         <c:when test="${KualiForm.specialReviewHelper.newSpecialReview.specialReviewTypeCode == '1'}">
-             <c:set var="buttonStyle" value="display:inline"/>
-         </c:when>
-         <c:when test="${KualiForm.specialReviewHelper.newSpecialReview.specialReviewTypeCode == '2'}">
-             <c:set var="buttonStyle" value="display:inline"/>
-		 </c:when>
-         <c:otherwise>
-             <c:set var="buttonStyle" value="display:none"/>
-         </c:otherwise>
-     </c:choose>
+<c:if test="${canCreateIacucProtocol && KualiForm.specialReviewHelper.newSpecialReview.specialReviewTypeCode == '2'}">
+	<c:set var="buttonStyle" value="display:inline"/>
 </c:if>
+
 <kul:tab tabTitle="Special Review" defaultOpen="true" alwaysOpen="true" transparentBackground="true" tabErrorKey="specialReviewHelper.newSpecialReview*,${collectionProperty}*">
     <div class="tab-container" align="center">
     	<h3>

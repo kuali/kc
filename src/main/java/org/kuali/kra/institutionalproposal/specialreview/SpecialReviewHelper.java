@@ -21,6 +21,7 @@ import java.util.List;
 import org.apache.commons.lang.BooleanUtils;
 import org.kuali.kra.bo.FundingSourceType;
 import org.kuali.kra.common.specialreview.web.struts.form.SpecialReviewHelperBase;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.institutionalproposal.web.struts.form.InstitutionalProposalForm;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
 
@@ -32,6 +33,7 @@ public class SpecialReviewHelper extends SpecialReviewHelperBase<InstitutionalPr
     private static final long serialVersionUID = 6509860722698432447L;
 
     private static final String PROTOCOL_INSTITUTIONAL_PROPOSAL_LINKING_ENABLED_PARAMETER = "irb.protocol.institute.proposal.linking.enabled";
+    private static final String IACUC_PROTOCOL_INSTITUTIONAL_PROPOSAL_LINKING_ENABLED_PARAMETER = "iacuc.protocol.institute.proposal.linking.enabled";
     
     private InstitutionalProposalForm form;
     
@@ -64,6 +66,11 @@ public class SpecialReviewHelper extends SpecialReviewHelperBase<InstitutionalPr
     @Override
     protected boolean isIrbProtocolLinkingEnabledForModule() {
         return getParameterService().getParameterValueAsBoolean(NAMESPACE_CODE, PARAMETER_CODE, PROTOCOL_INSTITUTIONAL_PROPOSAL_LINKING_ENABLED_PARAMETER);
+    }
+
+    @Override
+    protected boolean isIacucProtocolLinkingEnabledForModule() {
+        return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_IACUC, PARAMETER_CODE, IACUC_PROTOCOL_INSTITUTIONAL_PROPOSAL_LINKING_ENABLED_PARAMETER);
     }
 
     @Override
