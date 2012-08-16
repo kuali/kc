@@ -52,7 +52,6 @@ import org.kuali.kra.irb.protocol.funding.ProtocolFundingSourceService;
 import org.kuali.kra.irb.protocol.funding.ProtocolFundingSourceServiceImpl;
 import org.kuali.kra.irb.protocol.funding.ProtocolProposalDevelopmentDocumentService;
 import org.kuali.kra.irb.protocol.funding.SaveProtocolFundingSourceLinkEvent;
-import org.kuali.kra.irb.protocol.funding.impl.ProtocolProposalDevelopmentDocumentServiceImpl;
 import org.kuali.kra.irb.protocol.location.AddProtocolLocationEvent;
 import org.kuali.kra.irb.protocol.location.ProtocolLocation;
 import org.kuali.kra.irb.protocol.location.ProtocolLocationService;
@@ -71,7 +70,6 @@ import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
-import org.kuali.rice.krad.service.KualiRuleService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 
@@ -573,22 +571,25 @@ public class ProtocolProtocolAction extends ProtocolAction {
         ProtocolForm protocolForm = (ProtocolForm) form;
         ProtocolDocument protocolDocument = protocolForm.getProtocolDocument();
         
-        ProtocolProposalDevelopmentDocumentService service = getProtocolProposalDevelopmentDocumentService(); 
-        ProposalDevelopmentDocument proposalDevelopmentDocument = service.createProposalDevelopmentDocument(protocolForm);
-        if (proposalDevelopmentDocument != null )
+        if ( protocolForm.getProtocolHelper().isProtocolProposalDevelopmentLinkingEnabled())
         {
-            DevelopmentProposal developmentProposal = proposalDevelopmentDocument.getDevelopmentProposal();
-    
-            ProtocolFundingSourceServiceImpl protocolFundingSourceServiceImpl = (ProtocolFundingSourceServiceImpl) getProtocolFundingSourceService(); 
-            ProtocolFundingSource proposalProtocolFundingSource = protocolFundingSourceServiceImpl.updateProtocolFundingSource(FundingSourceType.PROPOSAL_DEVELOPMENT, developmentProposal.getProposalNumber(), developmentProposal.getSponsorName());
-            proposalProtocolFundingSource.setProtocol(protocolDocument.getProtocol());
-           
-            List<ProtocolFundingSource> protocolFundingSources = protocolDocument.getProtocol().getProtocolFundingSources();
-            AddProtocolFundingSourceEvent event = new AddProtocolFundingSourceEvent(Constants.EMPTY_STRING, protocolDocument,
-                    proposalProtocolFundingSource, protocolFundingSources);
-            
-            if (applyRules(event)) {
-                protocolDocument.getProtocol().getProtocolFundingSources().add(proposalProtocolFundingSource);
+            ProtocolProposalDevelopmentDocumentService service = getProtocolProposalDevelopmentDocumentService(); 
+            ProposalDevelopmentDocument proposalDevelopmentDocument = service.createProposalDevelopmentDocument(protocolForm);
+            if (proposalDevelopmentDocument != null )
+            {
+                DevelopmentProposal developmentProposal = proposalDevelopmentDocument.getDevelopmentProposal();
+        
+                ProtocolFundingSourceServiceImpl protocolFundingSourceServiceImpl = (ProtocolFundingSourceServiceImpl) getProtocolFundingSourceService(); 
+                ProtocolFundingSource proposalProtocolFundingSource = protocolFundingSourceServiceImpl.updateProtocolFundingSource(FundingSourceType.PROPOSAL_DEVELOPMENT, developmentProposal.getProposalNumber(), developmentProposal.getSponsorName());
+                proposalProtocolFundingSource.setProtocol(protocolDocument.getProtocol());
+               
+                List<ProtocolFundingSource> protocolFundingSources = protocolDocument.getProtocol().getProtocolFundingSources();
+                AddProtocolFundingSourceEvent event = new AddProtocolFundingSourceEvent(Constants.EMPTY_STRING, protocolDocument,
+                        proposalProtocolFundingSource, protocolFundingSources);
+                
+                if (applyRules(event)) {
+                    protocolDocument.getProtocol().getProtocolFundingSources().add(proposalProtocolFundingSource);
+                }
             }
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
