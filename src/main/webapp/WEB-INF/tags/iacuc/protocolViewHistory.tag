@@ -145,13 +145,13 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.selectedHistoryItem")}
                     </td>
 		           		 					                <td align="center" valign="middle">
                                                                 <div align="center">
-                                                                  <c:if test="${irbAdmin or correspondence.finalFlag}">
+                                                                  <c:if test="${iacucAdmin or correspondence.finalFlag}">
                                                                     <html:image property="methodToCall.viewActionCorrespondence.line${status.index}.attachment${attachmentStatus.index}.anchor${currentTabIndex}"
 										                                        src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' 
 										                                        alt="View Correspondence" onclick="excludeSubmitRestriction = true;"
 										                                        styleClass="tinybutton"/>
 										                          </c:if>              
-                                                                  <c:if test="${irbAdmin}">
+                                                                  <c:if test="${iacucAdmin}">
                                                                       <html:image property="methodToCall.regenerateCorrespondence.line${status.index}.attachment${attachmentStatus.index}.anchor${currentTabIndex}"
                                                                           src='${ConfigProperties.kra.externalizable.images.url}tinybutton-regenerate.gif' styleClass="tinybutton"
                                                                           alt="Regenerate Correspondence" title="Regenerate Correspondence" onclick="excludeSubmitRestriction = true;"/>
