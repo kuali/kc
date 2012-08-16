@@ -21,11 +21,16 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.common.permissions.bo.PermissionsUser;
 import org.kuali.kra.common.permissions.web.struts.action.PermissionsAction;
+import org.kuali.kra.common.permissions.web.struts.form.PermissionsForm;
 import org.kuali.kra.iacuc.IacucProtocolAction;
+import org.kuali.kra.iacuc.IacucProtocolDocumentRule;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.protocol.ProtocolForm;
 import org.kuali.kra.protocol.permission.ProtocolPermissionsActionHelper;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
+import org.kuali.rice.krad.document.Document;
 
 
 public class IacucProtocolPermissionsAction extends IacucProtocolAction implements PermissionsAction {
@@ -79,7 +84,16 @@ public class IacucProtocolPermissionsAction extends IacucProtocolAction implemen
      */
     public ActionForward addUser(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        return permissionsActionHelper.addUser(mapping, form, request, response);
+        PermissionsForm permissionsForm = (PermissionsForm) form;
+        Document doc = permissionsForm.getDocument();
+        PermissionsUser newUser = permissionsForm.getPermissionsHelper().getNewUser();            
+        boolean rulePassed = (new IacucProtocolDocumentRule()).processAddPermissionsUserBusinessRules(doc, 
+                permissionsForm.getPermissionsHelper().getUsers(), newUser);
+        if (rulePassed) {
+            return permissionsActionHelper.addUser(mapping, form, request, response);
+        } else {
+            return mapping.findForward(Constants.MAPPING_BASIC);
+        }
     }
     
     /**
