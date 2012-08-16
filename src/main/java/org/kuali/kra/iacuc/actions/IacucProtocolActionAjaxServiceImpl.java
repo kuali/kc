@@ -20,8 +20,13 @@ import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewerType;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.actions.ProtocolActionAjaxServiceImpl;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 public class IacucProtocolActionAjaxServiceImpl extends ProtocolActionAjaxServiceImpl implements IacucProtocolActionAjaxService {
+    
+    private ParameterService parameterService;
+    
+    public static final String DEFAULT_REVIEW_TYPE_PARAMETER_NAME = "IACUC_ALL_COMM_REVIEWERS_DEFAULT_ASSIGNED";
 
     public Class<? extends Protocol> getProtocolClassHook() {
         return IacucProtocol.class;
@@ -30,6 +35,20 @@ public class IacucProtocolActionAjaxServiceImpl extends ProtocolActionAjaxServic
     @Override
     public Class getProtocolReviewerTypeClassHook() {
         return IacucProtocolReviewerType.class;
+    }
+    
+    @Override
+    public String getDefaultCommitteeReviewTypeCode() {
+        String paramVal = this.getParameterService().getParameterValueAsString("KC-IACUC", "Document", DEFAULT_REVIEW_TYPE_PARAMETER_NAME);
+        return paramVal;
+    }
+
+    public ParameterService getParameterService() {
+        return parameterService;
+    }
+
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
     }
 
 
