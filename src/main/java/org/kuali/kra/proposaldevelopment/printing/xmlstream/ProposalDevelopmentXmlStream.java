@@ -39,10 +39,12 @@ import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.document.ResearchDocumentBase;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
+import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
 import org.kuali.kra.proposaldevelopment.bo.ProposalYnq;
 import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
 import org.kuali.kra.s2s.service.S2SUtilService;
@@ -51,6 +53,7 @@ import edu.mit.coeus.utils.xml.v2.budget.BUDGETDocument.BUDGET;
 import edu.mit.coeus.utils.xml.v2.budget.BUDGETDocument.BUDGET.BudgetMaster;
 import edu.mit.coeus.utils.xml.v2.budget.BUDGETPERIODDocument.BUDGETPERIOD;
 import edu.mit.coeus.utils.xml.v2.lookuptypes.ACTIVITYTYPEDocument.ACTIVITYTYPE;
+import edu.mit.coeus.utils.xml.v2.lookuptypes.ANTICIPATEDAWARDTYPEDocument.ANTICIPATEDAWARDTYPE;
 import edu.mit.coeus.utils.xml.v2.lookuptypes.APPLICABLEREVIEWTYPEDocument.APPLICABLEREVIEWTYPE;
 import edu.mit.coeus.utils.xml.v2.lookuptypes.NOTICEOFOPPORTUNITYDocument.NOTICEOFOPPORTUNITY;
 import edu.mit.coeus.utils.xml.v2.lookuptypes.PROPOSALSTATUSDocument.PROPOSALSTATUS;
@@ -175,6 +178,22 @@ public class ProposalDevelopmentXmlStream extends ProposalBaseStream {
         propUnitList.add(propUnits);
         return propUnitList.toArray(new PROPUNITS[0]);
     }
+    
+    private PROPUNITS[] getPROPUNITSArray(ProposalPerson person) {
+        List<PROPUNITS> propUnitList = new ArrayList<PROPUNITS>();
+        ProposalPersonUnit proposalPUnit = person.getUnits().get(0);
+        Unit proposalUnit = proposalPUnit.getUnit();
+        PROPUNITS propUnits = PROPUNITS.Factory.newInstance();
+        propUnits.setPROPOSALNUMBER(developmentProposal.getProposalNumber());
+        PROPPERSON propPerson = PROPPERSON.Factory.newInstance();
+        propUnits.setPROPPERSON(propPerson);
+        UNIT unit = UNIT.Factory.newInstance();
+        unit.setUNITNUMBER(proposalUnit.getUnitNumber());
+        unit.setUNITNAME(proposalUnit.getUnitName());
+        propUnits.setUNIT(unit);
+        propUnitList.add(propUnits);
+        return propUnitList.toArray(new PROPUNITS[0]);
+    }
 
     private BUDGET getBUDGET() {
         BUDGET proposalBudget = BUDGET.Factory.newInstance();
@@ -210,8 +229,12 @@ public class ProposalDevelopmentXmlStream extends ProposalBaseStream {
         budgetMaster.setTOTALINDIRECTCOST(budget.getTotalIndirectCost().bigDecimalValue());
         budgetMaster.setUNDERRECOVERYAMOUNT(budget.getUnderrecoveryAmount().bigDecimalValue());
         budgetMaster.setTOTALDIRECTCOSTLIMIT(budget.getTotalDirectCostLimit().bigDecimalValue());
-        budgetMaster.setURRATETYPEDESCRIPTION(budget.getUrRateClass().getDescription());
-        budgetMaster.setOHRATETYPEDESCRIPTION(budget.getOhRateTypeCode());
+        if (budget.getUrRateClass() != null) {
+        	budgetMaster.setURRATETYPEDESCRIPTION(budget.getUrRateClass().getDescription());
+        }
+        if (budget.getRateClass() != null) {
+        	budgetMaster.setOHRATETYPEDESCRIPTION(budget.getRateClass().getDescription());
+        }
         budgetMaster.setSUBMITCOSTSHARINGFLAG(getFlag(budget.getSubmitCostSharingFlag()));
         budgetMaster.setONOFFCAMPUSFLAG(budget.getOnOffCampusFlagDescription());
         budgetMaster.setBUDGETPERIODArray(getBUDGETPERIODArray());
@@ -345,16 +368,25 @@ public class ProposalDevelopmentXmlStream extends ProposalBaseStream {
         PROPOSALMASTER proposalmaster = PROPOSALMASTER.Factory.newInstance();
         proposalmaster.setPROPOSALNUMBER(developmentProposal.getProposalNumber());
         PROPOSALTYPE proposaltype = PROPOSALTYPE.Factory.newInstance();
-        proposaltype.setPROPOSALTYPECODE(getCode(developmentProposal.getProposalType().getProposalTypeCode()));
+        if (developmentProposal.getProposalType() != null) {
+            proposaltype.setPROPOSALTYPECODE(getCode(developmentProposal.getProposalType().getProposalTypeCode()));
+        }
         proposaltype.setDESCRIPTION(developmentProposal.getProposalType().getDescription());
         ACTIVITYTYPE activityType = ACTIVITYTYPE.Factory.newInstance();
-        activityType.setACTIVITYTYPECODE(getCode(developmentProposal.getActivityType().getActivityTypeCode()));
-        activityType.setDESCRIPTION(developmentProposal.getActivityType().getDescription());
+        if (developmentProposal.getActivityType() != null) {
+            activityType.setACTIVITYTYPECODE(getCode(developmentProposal.getActivityType().getActivityTypeCode()));
+            activityType.setDESCRIPTION(developmentProposal.getActivityType().getDescription());
+        }
         proposalmaster.setPROPOSALTYPE(proposaltype);
         proposalmaster.setACTIVITYTYPE(activityType);
         PROPOSALSTATUS proposalstatus = PROPOSALSTATUS.Factory.newInstance();
         proposalstatus.setPROPOSALSTATUSCODE(getCode(developmentProposal.getProposalStateTypeCode()));
         proposalmaster.setPROPOSALSTATUS(proposalstatus);
+        ANTICIPATEDAWARDTYPE anticipatedAwaraType = ANTICIPATEDAWARDTYPE.Factory.newInstance();
+        if (developmentProposal.getAnticipatedAwardType() != null) {
+            anticipatedAwaraType.setDESCRIPTION(developmentProposal.getAnticipatedAwardType().getDescription());
+        }
+        proposalmaster.setANTICIPATEDAWARDTYPE(anticipatedAwaraType);
         calendar = Calendar.getInstance();
         calendar.setTime(developmentProposal.getRequestedStartDateInitial());
         proposalmaster.setREQUESTEDSTARTDATEINITIAL(calendar);
@@ -364,7 +396,9 @@ public class ProposalDevelopmentXmlStream extends ProposalBaseStream {
         proposalmaster.setREQUESTEDENDDATEINITIAL(calendar);
 
         calendar = Calendar.getInstance();
-        calendar.setTime(developmentProposal.getRequestedEndDateInitial());
+        if (developmentProposal.getDeadlineDate() != null) {
+            calendar.setTime(developmentProposal.getDeadlineDate());
+        }
         proposalmaster.setDEADLINEDATE(calendar);
         PRIMESPONSOR primeSponsor = PRIMESPONSOR.Factory.newInstance();
         SPONSOR sponsor = SPONSOR.Factory.newInstance();
@@ -502,9 +536,11 @@ public class ProposalDevelopmentXmlStream extends ProposalBaseStream {
             propInvestigator.setPERSONID(proposalPerson.getPersonId());
             propInvestigator.setPERSONNAME(proposalPerson.getPerson().getFullName());
             propInvestigator.setPERSONNAME(proposalPerson.getFullName());
-            propInvestigator.setPRINCIPALINVESTIGATORFLAG(getFlag(proposalPerson.isInvestigator()));
+            if (Constants.PRINCIPAL_INVESTIGATOR_ROLE.equals(proposalPerson.getProposalPersonRoleId())) {
+                propInvestigator.setPRINCIPALINVESTIGATORFLAG(getFlag(proposalPerson.isInvestigator()));
+            }
             
-            propInvestigator.setPROPUNITSArray(getPROPUNITSArray());
+            propInvestigator.setPROPUNITSArray(getPROPUNITSArray(proposalPerson));
             propInvestigator.setFACULTYFLAG(getFlag(proposalPerson.getFacultyFlag()));
 //          propInvestigator.setMULTIPI(getFlag(proposalPerson.isMultiplePi()));
             if(proposalPerson.getPercentageEffort()!=null){
