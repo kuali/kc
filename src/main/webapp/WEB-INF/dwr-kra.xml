@@ -148,6 +148,11 @@
 			<include method="getReviewerTypes" />
 		</create>
 		
+		<create creator="spring" javascript="IacucProtocolActionAjaxService">
+		    <param name="beanName" value="iacucProtocolActionAjaxService" />
+			<include method="getDefaultCommitteeReviewTypeCode" />
+		</create>
+		
 		<create creator="spring" javascript="BudgetService">
 			<param name="beanName" value="budgetService" />
 			<include method="getApplicableCostElementsForAjaxCall" />
