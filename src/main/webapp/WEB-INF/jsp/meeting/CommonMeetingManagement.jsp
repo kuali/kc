@@ -198,7 +198,8 @@ jQuery(function(){
                                    protocolValuesFinderClassName="org.kuali.kra.common.committee.meeting.ProtocolValuesFinder" />
             
             <!-- Tabbed Panel Head: Attachments -->
-                                <kra-meeting:meetingAttachments />  
+                                <kra-meeting:meetingAttachments 
+                                	attachmentViewAction="commonMeetingManagement" />  
                   
             <!-- Tabbed Panel Footer -->    
                                 <div class="tab-container" align="center" id="G125" style="display: none;"></div>
