@@ -150,6 +150,7 @@ import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.kra.service.TaskAuthorizationService;
+import org.kuali.kra.util.CollectionUtil;
 import org.kuali.kra.util.watermark.WatermarkConstants;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
@@ -1418,38 +1419,42 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
-
-//    /**
-//     * View an attachment via the Summary sub-panel.
-//     * 
-//     * @param mapping
-//     * @param form
-//     * @param request
-//     * @param response
-//     * @return
-//     * @throws Exception
-//     */
-//    public ActionForward viewAttachmentProtocol(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-//            HttpServletResponse response) throws Exception {
-//
-//        ProtocolForm protocolForm = (ProtocolForm) form;
-//        ProtocolSummary protocolSummary = protocolForm.getActionHelper().getProtocolSummary();
-//        if (((String)request.getAttribute(KRADConstants.METHOD_TO_CALL_ATTRIBUTE)).contains(".prev.")) {
-//            protocolSummary = protocolForm.getActionHelper().getPrevProtocolSummary();
-//        }
-//        int selectedIndex = getSelectedLine(request);
-//        AttachmentSummary attachmentSummary = protocolSummary.getAttachments().get(selectedIndex);
-//        
-//        
-//        if (attachmentSummary.getAttachmentType().startsWith("Protocol: ")) {
-//            ProtocolAttachmentProtocol attachment = getProtocolAttachmentService().getAttachment(ProtocolAttachmentProtocol.class, attachmentSummary.getAttachmentId());
-//            return printAttachmentProtocol(mapping, response, attachment, protocolForm);
-//        } 
-//        else {
-//            ProtocolAttachmentBase personnelAttachment = getProtocolAttachmentService().getAttachment(ProtocolAttachmentPersonnel.class, attachmentSummary.getAttachmentId());
-//            return printPersonnelAttachmentProtocol(mapping, response, personnelAttachment, protocolForm);
-//        }
-//    }
+    
+    public ActionForward viewAttachmentProtocol(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        return this.viewAttachment(mapping, (ProtocolForm) form, request, response);
+    }
+    
+    private ActionForward viewAttachment(ActionMapping mapping, ProtocolForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        
+        final int selection = this.getSelectedLine(request);
+        ProtocolAttachmentProtocol attachment = (ProtocolAttachmentProtocol)CollectionUtil.getFromList(selection, form.getProtocolDocument().getProtocol().getAttachmentProtocols());
+               
+        if (attachment == null) {
+            LOG.info(NOT_FOUND_SELECTION + selection);
+            //may want to tell the user the selection was invalid.
+            return mapping.findForward(Constants.MAPPING_BASIC);
+        }
+        
+        final AttachmentFile file = attachment.getFile();
+        byte[] attachmentFile =null;
+        String attachmentFileType=file.getType().replace("\"", "");
+        attachmentFileType=attachmentFileType.replace("\\", "");
+        if(attachmentFileType.equalsIgnoreCase(WatermarkConstants.ATTACHMENT_TYPE_PDF)){
+            attachmentFile=getProtocolAttachmentFile(form,attachment);
+            if(attachmentFile!=null) {
+                this.streamToResponse(attachmentFile, getValidHeaderString(file.getName()),  getValidHeaderString(file.getType()), response);
+            }
+            else {
+                this.streamToResponse(file.getData(), getValidHeaderString(file.getName()), getValidHeaderString(file.getType()), response);    
+            }
+            return RESPONSE_ALREADY_HANDLED;
+        }        
+        this.streamToResponse(file.getData(), getValidHeaderString(file.getName()),  getValidHeaderString(file.getType()), response);
+        
+        return RESPONSE_ALREADY_HANDLED;
+    }  
        
 
     /**
