@@ -4331,6 +4331,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         ProtocolForm protocolForm = (ProtocolForm) form;
         int actionIndex = getSelectedLine(request);
         int attachmentIndex = getSelectedAttachment(request);
+        Protocol protocol = protocolForm.getActionHelper().getProtocol();
         ProtocolAction protocolAction = protocolForm.getActionHelper().getProtocol().getProtocolActions().get(actionIndex);
         ProtocolCorrespondence protocolCorrespondence = protocolAction.getProtocolCorrespondences().get(attachmentIndex);
 
@@ -4340,10 +4341,8 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
             return mapping.findForward(Constants.MAPPING_BASIC);
         }
 
-        Protocol protocol = protocolCorrespondence.getProtocol();
         AttachmentDataSource dataSource = generateCorrespondenceDocument(protocol, protocolCorrespondence);
         PrintableAttachment source = new PrintableAttachment();
-//        ProtocolCorrespondence correspondence = getProtocolCorrespondence(protocol);
         if (dataSource != null) {
             protocolCorrespondence.setCorrespondence(dataSource.getContent());
             protocolCorrespondence.setFinalFlag(false);
