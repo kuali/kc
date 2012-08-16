@@ -103,7 +103,8 @@ public class ProtocolHelper implements Serializable {
     private boolean modifyOrganizations = false;
     private boolean modifySubjects = false;
     private boolean modifyAreasOfResearch = false;
-    private boolean createProposalDevelopment = false;    
+    private boolean canCreateProposalDevelopment = false;   
+    private boolean protocolProposalDevelopmentLinkingEnabled = false;
     // TODO *********code has been moved to base class, should ultimately be removed**********
     private boolean leadUnitAutoPopulated = false;
     // TODO **********************end************************
@@ -232,6 +233,7 @@ public class ProtocolHelper implements Serializable {
         initializeModifyOrganizationsPermission(protocol);
         initializeModifySubjectsPermission(protocol);
         initializeModifyAreasOfResearchPermission(protocol);
+        initializeProtocolProposalDevelopmentLinking();
         initializeCreateProposalDevelopmentPermission(protocol);
     }
 
@@ -275,9 +277,14 @@ public class ProtocolHelper implements Serializable {
         modifyAreasOfResearch = getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
 
+    private void initializeProtocolProposalDevelopmentLinking()
+    {
+        protocolProposalDevelopmentLinkingEnabled = getProtocolProposalDevelopmentLinking();
+    }
+    
     private void initializeCreateProposalDevelopmentPermission(Protocol protocol) {
         ProtocolTask task = new ProtocolTask(ProtocolTask.CREATE_PROPOSAL_FOR_IRB_PROTOCOL, protocol);
-        createProposalDevelopment = getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
+        canCreateProposalDevelopment = getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
 
 
@@ -731,9 +738,9 @@ public class ProtocolHelper implements Serializable {
         return modifyAreasOfResearch;
     }
 
-    public boolean isCreateProposalDevelopment()    
+    public boolean isCanCreateProposalDevelopment()    
     {
-        return createProposalDevelopment;
+        return canCreateProposalDevelopment;
     }
 
     public boolean isFundingNumberLookupable() {
@@ -787,6 +794,15 @@ public class ProtocolHelper implements Serializable {
             
         }
         return fundingSources;
+    }
+
+    private boolean getProtocolProposalDevelopmentLinking() {
+        return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROTOCOL, Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.PROTOCOL_DEVELOPMENT_PROPOSAL_LINKING_ENABLED_PARAMETER);
+    }
+
+    public boolean isProtocolProposalDevelopmentLinkingEnabled()
+    {
+        return protocolProposalDevelopmentLinkingEnabled;
     }
 
 }

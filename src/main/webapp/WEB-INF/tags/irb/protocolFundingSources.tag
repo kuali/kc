@@ -4,9 +4,12 @@
 <c:set var="fundingSourceTypeAttributes" value="${DataDictionary.FundingSourceType.attributes}" />
 <c:set var="readOnly" value="${!KualiForm.protocolHelper.modifyFundingSource}" />
 <c:set var="allowEditName" value="${KualiForm.protocolHelper.editProtocolFundingSourceName}" />
-<c:set var="allowCreateProposal" value="${KualiForm.protocolHelper.createProposalDevelopment}" />
+<c:set var="enableProtocolProposalDevelopmentLinking" value="${KualiForm.protocolHelper.protocolProposalDevelopmentLinkingEnabled}" />
 <c:set var="viewStyle" value="display: block;"/>
-
+<c:set var="canCreateProposal" value="false" />
+<c:if test="${enableProtocolProposalDevelopmentLinking}">
+	<c:set var="canCreateProposal" value="${KualiForm.protocolHelper.canCreateProposalDevelopment}" />
+</c:if>
 <c:choose>
     <c:when test="${KualiForm.protocolHelper.fundingNumberLookupable}">
         <c:set var="lookupStyle" value="display: inline" />
@@ -115,7 +118,7 @@
 	                            title="Add protocol funding source"
 	                            styleClass="tinybutton"/>
 					
-					            <c:if test="${allowCreateProposal}">
+					            <c:if test="${canCreateProposal}">
        								<div id="protocolHelper.newFundingSource.fundingSourceTypeCode.startproposal.image.div" style="${sourceNameDisplayStyle}">
 		                            <html:image property="methodToCall.createProposalDevelopment.anchor${tabKey}"
 		                            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-startproposal.gif' 
