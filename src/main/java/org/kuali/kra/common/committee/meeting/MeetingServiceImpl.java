@@ -31,6 +31,7 @@ import org.kuali.kra.common.committee.bo.CommitteeMembership;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipRole;
 import org.kuali.kra.common.committee.bo.CommonCommitteeSchedule;
 import org.kuali.kra.common.committee.web.struts.form.schedule.Time12HrFmt;
+import org.kuali.kra.iacuc.correspondence.IacucProtocolCorrespondence;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondence;
 import org.kuali.kra.protocol.personnel.ProtocolPerson;
@@ -106,8 +107,8 @@ public class MeetingServiceImpl implements CommonMeetingService {
             if (!protocolIds.contains(submission.getProtocolId())) {
                 protocolIds.add(submission.getProtocolId());
                 fieldValues.put("protocolId", submission.getProtocolId());
-                correspondences.addAll((List<ProtocolCorrespondence>) businessObjectService.findMatching(
-                        ProtocolCorrespondence.class, fieldValues));
+                correspondences.addAll((List<IacucProtocolCorrespondence>) businessObjectService.findMatching(
+                        IacucProtocolCorrespondence.class, fieldValues));
             }
         }
         return correspondences;
@@ -655,11 +656,8 @@ public class MeetingServiceImpl implements CommonMeetingService {
         meetingHelper.setCommitteeSchedule(commSchedule);
         meetingHelper.setTabLabel(getMeetingTabTitle(meetingHelper.getCommitteeSchedule(), lineNumber));
         meetingHelper.setScheduleAgendas(getAgenda(commSchedule.getId()));
-        meetingHelper.setMinuteDocs(getMinuteDoc(commSchedule.getId()));
-        
-// TODO *********commented the code below during IACUC refactoring*********      
-// uncomment this when correspondences for IACUC committees are set up        
-//        meetingHelper.setCorrespondences(getCorrespondences(commSchedule));
+        meetingHelper.setMinuteDocs(getMinuteDoc(commSchedule.getId()));     
+        meetingHelper.setCorrespondences(getCorrespondences(commSchedule));
     }
     
     

@@ -35,6 +35,9 @@ import org.kuali.kra.common.committee.print.CommitteeReportType;
 import org.kuali.kra.common.committee.rule.event.CommitteeActionPrintCommitteeDocumentEvent;
 import org.kuali.kra.common.committee.service.CommonCommitteeNotificationService;
 import org.kuali.kra.common.committee.service.CommitteePrintingService;
+import org.kuali.kra.iacuc.correspondence.IacucProtocolActionCorrespondenceGenerationService;
+import org.kuali.kra.iacuc.correspondence.IacucProtocolActionsCorrespondence;
+import org.kuali.kra.iacuc.correspondence.IacucProtocolCorrespondence;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -46,6 +49,7 @@ import org.kuali.kra.printing.print.AbstractPrint;
 import org.kuali.kra.printing.util.PrintingUtils;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.protocol.Protocol;
+import org.kuali.kra.protocol.actions.correspondence.ProtocolActionsCorrespondence;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondence;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceType;
 import org.kuali.rice.core.api.datetime.DateTimeService;
@@ -400,77 +404,29 @@ public class MeetingActionsAction extends MeetingAction {
         for (ProtocolCorrespondence protocolCorrespondence : meetingHelper.getCorrespondences()) {
             if (protocolCorrespondence.isRegenerateFlag()) {
                 Protocol protocol = protocolCorrespondence.getProtocol();
-                AttachmentDataSource dataSource = generateCorrespondenceDocumentAndAttach(protocol, protocolCorrespondence.getProtoCorrespTypeCode());
+                AttachmentDataSource dataSource = generateCorrespondenceDocumentAndAttach(protocol, protocolCorrespondence);
                 PrintableAttachment source = new PrintableAttachment();
-//                ProtocolCorrespondence correspondence = getProtocolCorrespondence(protocol);
                 if (dataSource != null) {
                     protocolCorrespondence.setCorrespondence(dataSource.getContent());
                     protocolCorrespondence.setFinalFlag(false);
                     protocolCorrespondence.setCreateUser(GlobalVariables.getUserSession().getPrincipalName());
                     protocolCorrespondence.setCreateTimestamp(KraServiceLocator.getService(DateTimeService.class).getCurrentTimestamp());
                 }
-//                meetingHelper.setProtocolCorrespondence(protocolCorrespondence);
                 meetingHelper.getRegeneratedCorrespondences().add(protocolCorrespondence);
-                // source.setContent(correspondence.getCorrespondence());
-                // source.setContentType(Constants.PDF_REPORT_CONTENT_TYPE);
-                // source.setFileName("Correspondence-" + correspondence.getProtocolCorrespondenceType().getDescription() +
-                // Constants.PDF_FILE_EXTENSION);
-                // PrintingUtils.streamToResponse(source, response);
             }
         }
         getBusinessObjectService().save(meetingHelper.getRegeneratedCorrespondences());
         return mapping.findForward("correspondence");
     }
 
-    protected AttachmentDataSource generateCorrespondenceDocumentAndAttach(Protocol protocol, String correspondenceType) throws PrintingException {
-        AbstractProtocolActionsCorrespondence correspondence = null;
-        
-        // TODO IRB specific should go in subclassed IRB - commented as part of code lifted for base
-        /*
-        if (StringUtils.equals(ProtocolCorrespondenceType.WITHDRAWAL_NOTICE, correspondenceType)) {
-            correspondence = new WithdrawCorrespondence();
-        } else if (GENERIC_TYPE_CORRESPONDENCE.contains(correspondenceType)) {
-            correspondence = new ProtocolGenericCorrespondence(CORR_TYPE_TO_ACTION_TYPE_MAP.get(correspondenceType));
-        } else if (StringUtils.equals(ProtocolCorrespondenceType.GRANT_EXEMPTION_NOTICE, correspondenceType)) {
-            correspondence = new GrantExemptionCorrespondence();
-        }
+    protected AttachmentDataSource generateCorrespondenceDocumentAndAttach(Protocol protocol, ProtocolCorrespondence oldCorrespondence) throws PrintingException {
+        IacucProtocolActionsCorrespondence correspondence = new IacucProtocolActionsCorrespondence(oldCorrespondence.getProtocolAction().getProtocolActionTypeCode());
         correspondence.setProtocol(protocol);
-        */
-        
-        
-        
-        
-        
-        
-        
-        // TODO : set up actiontype 920 as "regenerate correspondence"
-//        ProtocolAction protocolAction = new ProtocolAction(protocol, null, "920");
-//        protocolAction.setComments("Regenerate Correspondence");
-//        protocol.getProtocolActions().add(protocolAction);
-//        getBusinessObjectService().save(protocol);
         return getProtocolActionCorrespondenceGenerationService().reGenerateCorrespondenceDocument(correspondence);
     } 
 
-    
-    private ProtocolCorrespondence getProtocolCorrespondence (Protocol protocol) {
-        boolean result = false;
-        
-        Map<String,Object> keyValues = new HashMap<String, Object>();
-        keyValues.put("protocolId", protocol.getProtocolId());
-        // actionid <-> action.actionid  actionidfk<->action.protocolactionid
-        keyValues.put("actionId", protocol.getLastProtocolAction().getActionId());
-        List<ProtocolCorrespondence> correspondences = (List<ProtocolCorrespondence>)getBusinessObjectService().findMatching(ProtocolCorrespondence.class, keyValues);
-        if (correspondences.isEmpty()) {
-            return null;
-        } else {
-            ProtocolCorrespondence correspondence = correspondences.get(0);
-            return correspondence;
-            
-        }
-    }
-
-    private ProtocolActionCorrespondenceGenerationService getProtocolActionCorrespondenceGenerationService() {
-        return KraServiceLocator.getService(ProtocolActionCorrespondenceGenerationService.class);
+    private IacucProtocolActionCorrespondenceGenerationService getProtocolActionCorrespondenceGenerationService() {
+        return KraServiceLocator.getService(IacucProtocolActionCorrespondenceGenerationService.class);
     }
    
     public ActionForward viewGeneratedCorrespondence(ActionMapping mapping, ActionForm form, HttpServletRequest request,
@@ -480,10 +436,6 @@ public class MeetingActionsAction extends MeetingAction {
         MeetingHelper meetingHelper = ((MeetingForm) form).getMeetingHelper();
         PrintableAttachment source = new PrintableAttachment();
         ProtocolCorrespondence correspondence = meetingHelper.getRegeneratedCorrespondences().get(selection);
-//        if (correspondence == null || correspondence.getId() == null) {
-//            ProtocolForm protocolForm = (ProtocolForm)GlobalVariables.getUserSession().retrieveObject("approvalCorrespondence");
-//            correspondence = protocolForm.getActionHelper().getProtocolCorrespondence();
-//        }
             
         source.setContent(correspondence.getCorrespondence());
         source.setContentType(Constants.PDF_REPORT_CONTENT_TYPE);
@@ -504,17 +456,9 @@ public class MeetingActionsAction extends MeetingAction {
     }
 
     private ActionForward correspondenceAction(ActionMapping mapping, ActionForm form, boolean saveAction) {
-        // final int selection = this.getSelectedLine(request);
         MeetingForm meetingForm = ((MeetingForm) form);
         MeetingHelper meetingHelper = meetingForm.getMeetingHelper();
         List<ProtocolCorrespondence> correspondences = meetingHelper.getRegeneratedCorrespondences();
-//        if (correspondence == null || correspondence.getId() == null) {
-//            protocolForm = (ProtocolForm)GlobalVariables.getUserSession().retrieveObject("approvalCorrespondence");
-//            correspondence = protocolForm.getActionHelper().getProtocolCorrespondence();
-//            if (StringUtils.isNotBlank(protocolForm.getFormKey())) {
-//                GlobalVariables.getUserSession().addObject(protocolForm.getFormKey(), protocolForm);
-//            }
-//        }
         if (saveAction) {
             for (ProtocolCorrespondence correspondence : correspondences) {
                 if (correspondence.getFinalFlag()) {
