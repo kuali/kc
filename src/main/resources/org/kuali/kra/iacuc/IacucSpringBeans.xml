@@ -603,6 +603,7 @@
  	<bean id="iacucProtocolActionAjaxService" class="org.kuali.kra.iacuc.actions.IacucProtocolActionAjaxServiceImpl">
         <property name="committeeService" ref="commonCommitteeService" />
         <property name="businessObjectService" ref="businessObjectService" />
+        <property name="parameterService" ref="parameterService" />
     </bean>
     
     <bean id="iacucProtocolFinderDao" class="org.kuali.kra.iacuc.IacucProtocolFinderDaoOjb" parent="platformAwareDao" />
