@@ -22,6 +22,7 @@ import org.apache.commons.lang.BooleanUtils;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.bo.FundingSourceType;
 import org.kuali.kra.common.specialreview.web.struts.form.SpecialReviewHelperBase;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
 
 /**
@@ -32,7 +33,7 @@ public class SpecialReviewHelper extends SpecialReviewHelperBase<AwardSpecialRev
     private static final long serialVersionUID = 6164616866447994314L;
 
     private static final String PROTOCOL_AWARD_LINKING_ENABLED_PARAMETER = "irb.protocol.award.linking.enabled";
-    
+    private static final String IACUC_PROTOCOL_AWARD_LINKING_ENABLED_PARAMETER = "iacuc.protocol.award.linking.enabled";
     private AwardForm form;
     
     /**
@@ -64,6 +65,11 @@ public class SpecialReviewHelper extends SpecialReviewHelperBase<AwardSpecialRev
     @Override
     protected boolean isIrbProtocolLinkingEnabledForModule() {
         return getParameterService().getParameterValueAsBoolean(NAMESPACE_CODE, PARAMETER_CODE, PROTOCOL_AWARD_LINKING_ENABLED_PARAMETER);
+    }
+
+    @Override
+    protected boolean isIacucProtocolLinkingEnabledForModule() {
+        return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_IACUC, PARAMETER_CODE, IACUC_PROTOCOL_AWARD_LINKING_ENABLED_PARAMETER);
     }
 
     @Override

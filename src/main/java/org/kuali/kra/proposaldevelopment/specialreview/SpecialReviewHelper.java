@@ -41,7 +41,7 @@ public class SpecialReviewHelper extends SpecialReviewHelperBase<ProposalSpecial
     private static final long serialVersionUID = 8832539481443727887L;
 
     private static final String PROTOCOL_DEVELOPMENT_PROPOSAL_LINKING_ENABLED_PARAMETER = "irb.protocol.development.proposal.linking.enabled";
-    private static final String IACUC_PROTOCOL_DEVELOPMENT_PROPOSAL_LINKING_ENABLED_PARAMETER = "iacuc.protocol.development.proposal.linking.enabled";
+    private static final String IACUC_PROTOCOL_PROPOSAL_DEVELOPMENT_LINKING_ENABLED_PARAMETER = "iacuc.protocol.proposal.development.linking.enabled";
     private ProposalDevelopmentForm form;
     
     /**
@@ -64,8 +64,9 @@ public class SpecialReviewHelper extends SpecialReviewHelperBase<ProposalSpecial
         return getParameterService().getParameterValueAsBoolean(NAMESPACE_CODE, PARAMETER_CODE, PROTOCOL_DEVELOPMENT_PROPOSAL_LINKING_ENABLED_PARAMETER);
     }
 
+    @Override
     protected boolean isIacucProtocolLinkingEnabledForModule() {
-        return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_IACUC, PARAMETER_CODE, IACUC_PROTOCOL_DEVELOPMENT_PROPOSAL_LINKING_ENABLED_PARAMETER);
+        return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_IACUC, PARAMETER_CODE, IACUC_PROTOCOL_PROPOSAL_DEVELOPMENT_LINKING_ENABLED_PARAMETER);
     }
 
     @Override

@@ -55,6 +55,11 @@ public abstract class ProtocolSpecialReviewHelper extends SpecialReviewHelperBas
     
     @Override
     protected boolean isIrbProtocolLinkingEnabledForModule() {
+        return true;
+    }
+
+    @Override
+    public boolean isCanCreateIrbProtocol() {
         return false;
     }
 
