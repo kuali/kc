@@ -52,12 +52,12 @@ public class IacucProtocolSpecialReviewHelper extends ProtocolSpecialReviewHelpe
     }
 
     @Override
-    protected boolean isCanCreateIrbProtocol() {
+    public boolean isCanCreateIacucProtocol() {
         return false;
+    }
+    @Override
+    protected boolean isIacucProtocolLinkingEnabledForModule() {
+        return true;
     }
 
-    @Override
-    protected boolean isCanCreateIacucProtocol() {
-        return false;
-    }
 }

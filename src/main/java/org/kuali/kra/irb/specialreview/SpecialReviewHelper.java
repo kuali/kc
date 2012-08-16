@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kra.common.specialreview.web.struts.form.SpecialReviewHelperBase;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.ProtocolForm;
@@ -54,6 +55,11 @@ public class SpecialReviewHelper extends SpecialReviewHelperBase<ProtocolSpecial
     
     @Override
     protected boolean isIrbProtocolLinkingEnabledForModule() {
+        return false;
+    }
+
+    @Override
+    protected boolean isIacucProtocolLinkingEnabledForModule() {
         return false;
     }
 

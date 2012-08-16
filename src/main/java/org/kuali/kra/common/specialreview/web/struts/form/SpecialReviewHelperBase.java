@@ -62,7 +62,7 @@ public abstract class SpecialReviewHelperBase<T extends SpecialReview<? extends 
     private static final String RENEWAL_KEY = "R";
 
     private static final long serialVersionUID = 4726816248612555502L;
-
+    
     private T newSpecialReview;
     
     private List<String> linkedProtocolNumbers;
@@ -192,6 +192,13 @@ public abstract class SpecialReviewHelperBase<T extends SpecialReview<? extends 
     protected abstract boolean isIrbProtocolLinkingEnabledForModule();
 
     /**
+     * Is the Iacuc Protocol linking parameter enabled for this module?
+     * @return true if Protocol liking is enabled for this module, false otherwise
+     */
+
+    protected abstract boolean isIacucProtocolLinkingEnabledForModule();
+
+    /**
      * Gets the last approved Protocol, ignoring any amendments or renewals.
      * @param protocolNumber the number of the Protocol
      * @return the last approved Protocol
@@ -261,7 +268,7 @@ public abstract class SpecialReviewHelperBase<T extends SpecialReview<? extends 
     private void initializePermissions() {
         canModifySpecialReview = hasModifySpecialReviewPermission(getUserIdentifier());
         isIrbProtocolLinkingEnabled = isIrbProtocolLinkingEnabledForModule();
-       // isIacucProtocolLinkingEnabled = isIacucProtocolLinkingEnabledForModule();
+        isIacucProtocolLinkingEnabled = isIacucProtocolLinkingEnabledForModule();
     }
     
     private String getUserIdentifier() {
