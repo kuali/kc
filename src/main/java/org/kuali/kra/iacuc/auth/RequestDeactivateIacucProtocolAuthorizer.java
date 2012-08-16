@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.iacuc.auth;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
 import org.kuali.kra.infrastructure.PermissionConstants;
 
@@ -29,7 +30,9 @@ public class RequestDeactivateIacucProtocolAuthorizer extends IacucProtocolAutho
      */
     public boolean isAuthorized(String userId, IacucProtocolTask task) {        
         return canExecuteAction(task.getProtocol(), IacucProtocolActionType.REQUEST_DEACTIVATE) &&
-               hasPermission(userId, task.getProtocol(), PermissionConstants.PERFORM_IACUC_ACTIONS_ON_PROTO);
+        (hasPermission(userId, task.getProtocol(), PermissionConstants.SUBMIT_IACUC_PROTOCOL)
+                || hasPermission(userId, task.getProtocol(), PermissionConstants.SUBMIT_ANY_IACUC_PROTOCOL)
+                || StringUtils.equals(task.getProtocol().getPrincipalInvestigatorId(), userId));
     }
     
 }
