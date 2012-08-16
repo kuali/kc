@@ -439,7 +439,6 @@ public class ProtocolXmlStream extends PrintBaseXmlStream {
         ProtocolMasterDataType protocolMaster = protocolType.addNewProtocolMasterData();
         if (protocol == null)
             return;
-        protocol.refreshNonUpdateableReferences();
         protocolMaster.setProtocolNumber(protocol.getProtocolNumber());
         protocolMaster.setSequenceNumber(BigInteger.valueOf(protocol.getSequenceNumber()));
         protocolMaster.setProtocolTitle(protocol.getTitle());
