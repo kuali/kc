@@ -47,7 +47,7 @@ function void setNewProtocolSubmission(IacucProtocolActionUpdateMapping protocol
 	protocolAction.getProtocolAction().setSubmissionTypeCode(submissionTypeCode);
 	//TODO should it be set to one to many or one to one mount
 	protocolAction.getProtocol().setProtocolSubmission(protocolSubmission);
-	protocolAction.setCreatedSubmission(true);
+	protocolAction.getIacucProtocolAction().setCreatedSubmission(true);
 }
 
 function void setProtocolStatusCode(IacucProtocolActionUpdateMapping protocolAction, String newProtocolStatusCode) {
@@ -253,6 +253,14 @@ end
 //then	
 	//setNewProtocolSubmission(protocolAction, "109", "1", "102");
 //end
+
+rule "fn_request_to_deactivate: submissionTypeCode = 102, reviewCode = 1, submissionStatusCode = 101" 
+salience 100
+when
+	protocolAction : IacucProtocolActionUpdateMapping( actionTypeCode == "107")
+then	
+	setNewProtocolSubmission(protocolAction, "102", "1", "101");
+end
 
 rule "fn_assign_to_schedule: Updates all the Submission with the given Committee Id & Schedule Id" 
 salience 100
