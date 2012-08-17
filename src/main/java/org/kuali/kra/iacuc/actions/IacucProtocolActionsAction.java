@@ -233,24 +233,6 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         }
     };
 
-    private static final List<String> GENERIC_TYPE_PONDENCE;
-    static {
-        final List<String> correspondenceTypes = new ArrayList<String>();
-        correspondenceTypes.add(IacucProtocolCorrespondenceType.APPROVAL_LETTER);                     
-        correspondenceTypes.add(IacucProtocolCorrespondenceType.DEACTIVATED_LETTER);                     
-        correspondenceTypes.add(IacucProtocolCorrespondenceType.EXPIRED_LETTER);                      
-        correspondenceTypes.add(IacucProtocolCorrespondenceType.HOLD_LETTER);                         
-        correspondenceTypes.add(IacucProtocolCorrespondenceType.LIFT_HOLD_LETTER);                    
-        GENERIC_TYPE_PONDENCE = correspondenceTypes;
-    }
-
-    private static final Map<String, String> CORR_TYPE_TO_ACTION_TYPE_MAP;
-
-    static {
-        CORR_TYPE_TO_ACTION_TYPE_MAP = new HashMap<String, String>();
-        CORR_TYPE_TO_ACTION_TYPE_MAP.put(IacucProtocolCorrespondenceType.APPROVAL_LETTER, IacucProtocolActionType.IACUC_APPROVED);
-        CORR_TYPE_TO_ACTION_TYPE_MAP.put(IacucProtocolCorrespondenceType.DEACTIVATED_LETTER, IacucProtocolActionType.DEACTIVATED);
-    }
 
  
     /** {@inheritDoc} */
@@ -1499,47 +1481,47 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
-//    /**
-//     * 
-//     * This method to load previous submission for display
-//     * @param mapping
-//     * @param form
-//     * @param request
-//     * @param response
-//     * @return
-//     * @throws Exception
-//     */
-//    public ActionForward viewPreviousSubmission (ActionMapping mapping, ActionForm form, HttpServletRequest request,
-//            HttpServletResponse response) throws Exception {
-//
-//        ProtocolForm protocolForm = (ProtocolForm) form;
-//        ActionHelper actionHelper = protocolForm.getActionHelper();
-//        actionHelper.setCurrentSubmissionNumber(actionHelper.getPrevSubmissionNumber());
-//        actionHelper.setAmendmentDetails();
-//        protocolForm.getActionHelper().initSubmissionDetails();
-//        return mapping.findForward(Constants.MAPPING_BASIC);
-//    }
-//    
-//    /**
-//     * 
-//     * This method is to load next submission for display
-//     * @param mapping
-//     * @param form
-//     * @param request
-//     * @param response
-//     * @return
-//     * @throws Exception
-//     */
-//    public ActionForward viewNextSubmission(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-//            HttpServletResponse response) throws Exception {
-//
-//        ProtocolForm protocolForm = (ProtocolForm) form;
-//        ActionHelper actionHelper = protocolForm.getActionHelper();
-//        actionHelper.setCurrentSubmissionNumber(actionHelper.getNextSubmissionNumber());
-//        actionHelper.setAmendmentDetails();
-//        protocolForm.getActionHelper().initSubmissionDetails();
-//        return mapping.findForward(Constants.MAPPING_BASIC);
-//    }
+    /**
+     * 
+     * This method to load previous submission for display
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward viewPreviousSubmission (ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        IacucActionHelper actionHelper = (IacucActionHelper) protocolForm.getActionHelper();
+        actionHelper.setCurrentSubmissionNumber(actionHelper.getPrevSubmissionNumber());
+        actionHelper.setAmendmentDetails();
+        protocolForm.getActionHelper().initSubmissionDetails();
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    /**
+     * 
+     * This method is to load next submission for display
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward viewNextSubmission(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        IacucActionHelper actionHelper = (IacucActionHelper) protocolForm.getActionHelper();
+        actionHelper.setCurrentSubmissionNumber(actionHelper.getNextSubmissionNumber());
+        actionHelper.setAmendmentDetails();
+        protocolForm.getActionHelper().initSubmissionDetails();
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
 
     /**
      * 

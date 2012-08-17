@@ -96,20 +96,4 @@ public class IacucProtocolActionType extends ProtocolActionType {
     public static final String REVIEW_DELETED = "905";
     public static final String RENEWAL_WITH_AMENDMENT_CREATED = "909";
 
-    public static List<String>getActionTypeSubmissionDocs() {
-        return ACTION_TYPE_SUBMISSION_DOC;
-    }
-    protected static final List<String> ACTION_TYPE_SUBMISSION_DOC;
-
-    
-    static {
-      final List<String> codes = new ArrayList<String>();     
-      codes.add(IACUC_PROTOCOL_CREATED);
-      codes.add(IACUC_APPROVED);
-      codes.add(IACUC_DISAPPROVED);
-      codes.add(IACUC_MAJOR_REVISIONS_REQUIRED);
-      codes.add(IACUC_MINOR_REVISIONS_REQUIRED);
-      ACTION_TYPE_SUBMISSION_DOC = codes;
-  }
-
 }

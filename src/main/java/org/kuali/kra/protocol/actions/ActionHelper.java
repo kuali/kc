@@ -2501,11 +2501,10 @@ public abstract class ActionHelper implements Serializable {
      */
     public List<ProtocolAction> getSortedProtocolActions() {
         List<ProtocolAction> protocolActions = new ArrayList<ProtocolAction>();
-        for (ProtocolAction protocolAction : form.getProtocolDocument().getProtocol().getProtocolActions()) {
-// TODO *********commented the code below during IACUC refactoring*********             
-//           if (protocolAction.getSubmissionNumber() != null && getActionTypeSubmissionDocListHook().contains(protocolAction.getProtocolActionTypeCode())) {
-//               protocolAction.setProtocolSubmissionDocs(new ArrayList<ProtocolSubmissionDoc>(getSubmissionDocs(protocolAction)));
-//           }
+        for (ProtocolAction protocolAction : form.getProtocolDocument().getProtocol().getProtocolActions()) {       
+           if (protocolAction.getSubmissionNumber() != null) {
+               protocolAction.setProtocolSubmissionDocs(new ArrayList<ProtocolSubmissionDoc>(getSubmissionDocs(protocolAction)));
+           }
             protocolActions.add(protocolAction);
         }
         
@@ -2517,9 +2516,6 @@ public abstract class ActionHelper implements Serializable {
      
         return protocolActions;
     }
-    
-    protected abstract List<String> getActionTypeSubmissionDocListHook();
-    
 
     private Collection<? extends ProtocolSubmissionDoc> getSubmissionDocs(ProtocolAction protocolAction) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
@@ -2867,49 +2863,70 @@ public abstract class ActionHelper implements Serializable {
         return KraServiceLocator.getService(QuestionnaireAnswerService.class);
     }
 
-//    /**
-//     * 
-//     * This method is to get previous submission number.  Current implementation is based on submission number in sequence.
-//     * If multiple amendment/renewal are submitted, but approved not according to submission order.  Then we may have gaping submission number.
-//     * @return
-//     */
-//    public int getPrevSubmissionNumber() {
-//        List<Integer> submissionNumbers = getAvailableSubmissionNumbers();
-//        Integer submissionNumber = currentSubmissionNumber - 1;
-//        if (!submissionNumbers.contains(submissionNumber)) {
-//            for (int i = currentSubmissionNumber - 1; i > 0; i--) {
-//                if (submissionNumbers.contains(i)) {
-//                    submissionNumber = i;
-//                    break;
-//                }
-//            }
-//        }
-//        return submissionNumber;
-//
-//    }
-//    
-//    /**
-//     * 
-//     * This method is to get next submissionnumber
-//     * @return
-//     */
-//    public int getNextSubmissionNumber() {
-//        List<Integer> submissionNumbers = getAvailableSubmissionNumbers();
-//        int maxSubmissionNumber = getMaxSubmissionNumber();
-//
-//        Integer submissionNumber = currentSubmissionNumber + 1;
-//        if (!submissionNumbers.contains(submissionNumber)) {
-//            for (int i = currentSubmissionNumber + 1; i <= maxSubmissionNumber; i++) {
-//                if (submissionNumbers.contains(i)) {
-//                    submissionNumber = i;
-//                    break;
-//                }
-//            }
-//        }
-//        return submissionNumber;
-//
-//    }
-//
+    /**
+     * 
+     * This method is to get previous submission number.  Current implementation is based on submission number in sequence.
+     * If multiple amendment/renewal are submitted, but approved not according to submission order.  Then we may have gaping submission number.
+     * @return
+     */
+    public int getPrevSubmissionNumber() {
+        List<Integer> submissionNumbers = getAvailableSubmissionNumbers();
+        Integer submissionNumber = currentSubmissionNumber - 1;
+        if (!submissionNumbers.contains(submissionNumber)) {
+            for (int i = currentSubmissionNumber - 1; i > 0; i--) {
+                if (submissionNumbers.contains(i)) {
+                    submissionNumber = i;
+                    break;
+                }
+            }
+        }
+        return submissionNumber;
+
+    }
+    
+    /**
+     * 
+     * This method is to get next submissionnumber
+     * @return
+     */
+    public int getNextSubmissionNumber() {
+        List<Integer> submissionNumbers = getAvailableSubmissionNumbers();
+        int maxSubmissionNumber = getMaxSubmissionNumber();
+
+        Integer submissionNumber = currentSubmissionNumber + 1;
+        if (!submissionNumbers.contains(submissionNumber)) {
+            for (int i = currentSubmissionNumber + 1; i <= maxSubmissionNumber; i++) {
+                if (submissionNumbers.contains(i)) {
+                    submissionNumber = i;
+                    break;
+                }
+            }
+        }
+        return submissionNumber;
+
+    }
+    
+    /*
+     * this returns a list of submission numbers for a protocol.
+     */
+    protected List<Integer> getAvailableSubmissionNumbers() {
+        List<Integer> submissionNumbers = new ArrayList<Integer>();
+        for (ProtocolSubmission submission : getProtocol().getProtocolSubmissions()) {
+            submissionNumbers.add(submission.getSubmissionNumber());
+        }
+        return submissionNumbers;
+    }    
+
+    protected int getMaxSubmissionNumber() {
+        int maxSubmissionNumber = 0;
+
+        for (Integer submissionNumber : getAvailableSubmissionNumbers()) {
+            if (submissionNumber > maxSubmissionNumber) {
+                maxSubmissionNumber = submissionNumber;
+            }
+        }
+        return maxSubmissionNumber;
+    }
 
   
 
