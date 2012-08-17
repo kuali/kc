@@ -233,6 +233,7 @@ public class IacucProtocolSubmitActionServiceImpl implements IacucProtocolSubmit
         protocolAction.setPrevProtocolStatusCode(protocol.getProtocolStatusCode());
         protocolAction.setPrevSubmissionStatusCode(prevSubmissionStatus);
         protocolAction.setSubmissionTypeCode(submissionTypeCode);
+        protocolAction.setCreatedSubmission(true);
         protocol.getProtocolActions().add(protocolAction);
         
         IacucProtocolStatus protocolStatus = new IacucProtocolStatus();
