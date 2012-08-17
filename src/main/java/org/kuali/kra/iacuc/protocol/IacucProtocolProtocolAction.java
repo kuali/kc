@@ -495,23 +495,25 @@ public class IacucProtocolProtocolAction extends IacucProtocolAction {
             HttpServletResponse response) throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
         ProtocolDocument protocolDocument = protocolForm.getProtocolDocument();
-        
-        ProtocolProposalDevelopmentDocumentService service = getProtocolProposalDevelopmentDocumentService(); 
-        ProposalDevelopmentDocument proposalDevelopmentDocument = service.createProposalDevelopmentDocument(protocolForm);
-        if (proposalDevelopmentDocument != null )
+        if ( protocolForm.getProtocolHelper().isProtocolProposalDevelopmentLinkingEnabled())
         {
-            DevelopmentProposal developmentProposal = proposalDevelopmentDocument.getDevelopmentProposal();
-    
-            IacucProtocolFundingSourceServiceImpl protocolFundingSourceServiceImpl = (IacucProtocolFundingSourceServiceImpl) getProtocolFundingSourceService();
-            IacucProtocolFundingSource proposalProtocolFundingSource = (IacucProtocolFundingSource) protocolFundingSourceServiceImpl.updateProtocolFundingSource(FundingSourceType.PROPOSAL_DEVELOPMENT, developmentProposal.getProposalNumber(), developmentProposal.getSponsorName());
-            proposalProtocolFundingSource.setProtocol(protocolDocument.getProtocol());
-           
-            List<ProtocolFundingSource> protocolFundingSources = protocolDocument.getProtocol().getProtocolFundingSources();
-            AddIacucProtocolFundingSourceEvent event = 
-                    new AddIacucProtocolFundingSourceEvent(Constants.EMPTY_STRING, protocolDocument, proposalProtocolFundingSource, protocolFundingSources);
-            
-            if (applyRules(event)) {
-                protocolDocument.getProtocol().getProtocolFundingSources().add(proposalProtocolFundingSource);
+            ProtocolProposalDevelopmentDocumentService service = getProtocolProposalDevelopmentDocumentService(); 
+            ProposalDevelopmentDocument proposalDevelopmentDocument = service.createProposalDevelopmentDocument(protocolForm);
+            if (proposalDevelopmentDocument != null )
+            {
+                DevelopmentProposal developmentProposal = proposalDevelopmentDocument.getDevelopmentProposal();
+        
+                IacucProtocolFundingSourceServiceImpl protocolFundingSourceServiceImpl = (IacucProtocolFundingSourceServiceImpl) getProtocolFundingSourceService();
+                IacucProtocolFundingSource proposalProtocolFundingSource = (IacucProtocolFundingSource) protocolFundingSourceServiceImpl.updateProtocolFundingSource(FundingSourceType.PROPOSAL_DEVELOPMENT, developmentProposal.getProposalNumber(), developmentProposal.getSponsorName());
+                proposalProtocolFundingSource.setProtocol(protocolDocument.getProtocol());
+               
+                List<ProtocolFundingSource> protocolFundingSources = protocolDocument.getProtocol().getProtocolFundingSources();
+                AddIacucProtocolFundingSourceEvent event = 
+                        new AddIacucProtocolFundingSourceEvent(Constants.EMPTY_STRING, protocolDocument, proposalProtocolFundingSource, protocolFundingSources);
+                
+                if (applyRules(event)) {
+                    protocolDocument.getProtocol().getProtocolFundingSources().add(proposalProtocolFundingSource);
+                }
             }
         }
         return mapping.findForward(Constants.MAPPING_BASIC);

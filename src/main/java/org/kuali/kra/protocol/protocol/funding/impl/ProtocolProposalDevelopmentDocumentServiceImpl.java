@@ -189,7 +189,7 @@ public abstract class ProtocolProposalDevelopmentDocumentServiceImpl implements 
     @Override
     public boolean isAuthorizedCreateProposal(ProtocolHelper protocolHelper) {
         // TODO Auto-generated method stub
-        boolean canCreateProposal = protocolHelper.isCreateProposalDevelopment();
+        boolean canCreateProposal = protocolHelper.isCanCreateProposalDevelopment();
         return canCreateProposal;
     }
 
