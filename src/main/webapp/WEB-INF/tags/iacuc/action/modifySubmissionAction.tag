@@ -256,7 +256,7 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.iacucProtocolModifySub
                 <th rowspan="2">
                 	<div align="right">
                             	<nobr>
-                				Review Type Recommendation:
+                				Review Type Determination:
                 				</nobr>
                 	</div>
                 </th>
