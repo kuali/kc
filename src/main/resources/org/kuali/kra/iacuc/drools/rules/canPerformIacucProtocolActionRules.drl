@@ -62,7 +62,7 @@ end
 rule "Deactivate Protocol"
 salience 100
 when
-	protocolAction : IacucProtocolActionMapping(actionTypeCode == "303", submissionStatusCode in ("200","201", "213"))
+	protocolAction : IacucProtocolActionMapping(actionTypeCode == "303", protocolStatusCode in ("200", "201", "202"), submissionStatusCode in ("101","102"), submissionTypeCode == "102")
 then	
 	setAction(protocolAction, true);
 end
@@ -135,7 +135,7 @@ end
 rule "Request to Deactivate"
 salience 100
 when
-    protocolAction : IacucProtocolActionMapping(actionTypeCode == "107", protocolStatusCode in ("200", "201", "202"))
+    protocolAction : IacucProtocolActionMapping(actionTypeCode == "107", protocolStatusCode in ("200", "201", "202"), submissionTypeCode != "102")
 then    
     setAction(protocolAction, true);
 end

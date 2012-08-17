@@ -404,7 +404,7 @@
         	                                                 		 Protocol submission status must be Submitted to Committee." />
         	                                                 
 		            <kra-iacuc-action:genericUnavailableAction tabTitle="Deactivate"
-					                                         canPerformAction="${KualiForm.actionHelper.canIacucRequestDeactivateUnavailable}"
+					                                         canPerformAction="${KualiForm.actionHelper.canIacucDeactivateUnavailable}"
         	                                                 reason="Protocol status must be Active, Administratively Approved, or Active - Hold.
 				        	                                         <p>
 				            	                                     Protocol submission status must be Submitted to Committee or Pending." />
@@ -446,12 +446,12 @@
 					                                                 Protocol status must be Active - Open to Enrollment, Active - Closed to Enrollment, Active - Data Analysis Only, Exempt, Suspended by Investigator, or Suspended by IACUC.
 				    	                                             <p>
 				        	                                         Submission Type is Request to Close, Request for Suspension, Request to Close Enrollment, Request for Termination, Request for Data Analysis Only, or Request for Re-open Enrollment." />
+--%>
 		            <kra-iacuc-action:genericUnavailableAction tabTitle="Request To Deactivate"
 		                                                     canPerformAction="${KualiForm.actionHelper.canIacucRequestDeactivateUnavailable}"
-					                                         reason="Not sure yet what goes here...
-					                                                 <p>
-					                                                 Or here." />
---%>
+					                                         reason="Protocol status must be Active, Active - On Hold.
+					                                         		<p/>
+					                                         		Submission Type must not be Request To Deactivate" />
 	            	<kra-iacuc-action:genericUnavailableAction tabTitle="Request for Termination"
 	                	                                     canPerformAction="${KualiForm.actionHelper.canRequestTerminateUnavailable}"
 				        	                                 reason="Protocol can not be an amendment or renewal.
