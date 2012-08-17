@@ -77,10 +77,10 @@ public class IacucProtocolCorrespondenceTemplateServiceImpl implements IacucProt
         fieldValues.put("committeeId", committeeId);
         fieldValues.put("protoCorrespTypeCode", protoCorrespTypeCode);
         ProtocolCorrespondenceTemplate protocolCorrespondenceTemplate = null;
-        List<ProtocolCorrespondenceTemplate> templates = (List<ProtocolCorrespondenceTemplate>)businessObjectService.findMatching(ProtocolCorrespondenceTemplate.class, fieldValues);
+        List<IacucProtocolCorrespondenceTemplate> templates = (List<IacucProtocolCorrespondenceTemplate>)businessObjectService.findMatching(IacucProtocolCorrespondenceTemplate.class, fieldValues);
         if (templates.isEmpty()) {
             fieldValues.put("committeeId", "DEFAULT");
-            templates = (List<ProtocolCorrespondenceTemplate>)businessObjectService.findMatching(ProtocolCorrespondenceTemplate.class, fieldValues);
+            templates = (List<IacucProtocolCorrespondenceTemplate>)businessObjectService.findMatching(IacucProtocolCorrespondenceTemplate.class, fieldValues);
             if (!templates.isEmpty()) {
                 protocolCorrespondenceTemplate = templates.get(0);
             }
