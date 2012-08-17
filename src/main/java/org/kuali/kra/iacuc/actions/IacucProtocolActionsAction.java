@@ -112,6 +112,7 @@ import org.kuali.kra.iacuc.notification.IacucProtocolNotificationContext;
 import org.kuali.kra.iacuc.notification.IacucProtocolNotificationRenderer;
 import org.kuali.kra.iacuc.notification.IacucProtocolNotificationRequestBean;
 import org.kuali.kra.iacuc.notification.IacucProtocolRequestActionNotificationRenderer;
+import org.kuali.kra.iacuc.notification.IacucProtocolReviewDeterminationNotificationRenderer;
 import org.kuali.kra.iacuc.notification.IacucProtocolWithReasonNotificationRenderer;
 import org.kuali.kra.iacuc.notification.IacucRequestActionNotificationBean;
 import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReview;
@@ -4454,19 +4455,14 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         IacucProtocol protocol = (IacucProtocol) protocolForm.getProtocolDocument().getProtocol();
         IacucProtocolModifySubmissionBean bean = actionHelper.getIacucProtocolModifySubmissionBean();
         Date dueDate = bean.getDueDate();
-        setReviewers(form, request);
-        List<ProtocolReviewerBean> recipientBeans = bean.getReviewers();
-        List<String> recipients = new ArrayList<String>();
-        for (ProtocolReviewerBean reviewerBean : recipientBeans) {
-            Principal principal = getIdentityService().getPrincipal(reviewerBean.getPersonId());
-            recipients.add(principal.getPrincipalName());
-        }
-        String message = (ObjectUtils.isNotNull(dueDate)) ? "Review type recommendation required for protocol " + protocol.getProtocolNumber() + " before " + dueDate + "." :
-                                                            "Review type recommendation required for protocol ";
-        String CONTEXT_NAME= "Recommend Review Type";
-        String SUBJECT = "Recommend review type for IACUC protocol";
-        if (!recipients.isEmpty()) {
-            getKcNotificationService().sendNotification(CONTEXT_NAME, SUBJECT, message, recipients);
+        IacucProtocolReviewDeterminationNotificationRenderer renderer = new IacucProtocolReviewDeterminationNotificationRenderer(protocol, dueDate);
+        IacucProtocolNotificationContext context = new IacucProtocolNotificationContext(protocol, IacucProtocolActionType.REVIEW_TYPE_DETERMINATION, "Review Type Determination", renderer);
+        
+        if (protocolForm.getNotificationHelper().getPromptUserForNotificationEditor(context)) {
+            protocolForm.getNotificationHelper().initializeDefaultValues(context);
+            forward = mapping.findForward("iacucProtocolNotificationEditor");
+        } else {
+            getNotificationService().sendNotification(context);
         }
         recordProtocolActionSuccess("Send Review Type Determination Notification");
 
@@ -4509,7 +4505,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
                     recordProtocolActionSuccess("Modify Submission");
     
                     /*
-                     * remove this when autopop list works,the method needs to be refactores so wait till this functionality works
+                     * remove this when autopop list works,the method needs to be refactored so wait till this functionality works
                      */
                     forward = performNotificationRendering(mapping, protocolForm, beans);
     
@@ -4549,8 +4545,11 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
             String nonEmployeeFlag = request.getParameter("actionHelper.iacucProtocolModifySubmissionBean.reviewer["+i+"].nonEmployeeFlag");
             if (ObjectUtils.isNotNull(personId)) {
                 IacucProtocolReviewerBean bean = new IacucProtocolReviewerBean();
-                bean.setFullName(fullName); //bean.setNonEmployeeFlag(nonEmployeeFlag); 
-                bean.setPersonId(personId); bean.setReviewerTypeCode(reviewerTypeCode);
+                bean.setFullName(fullName); 
+                //bean.setNonEmployeeFlag(nonEmployeeFlag); 
+                bean.setPersonId(personId); 
+                bean.setReviewerTypeCode(reviewerTypeCode);
+                bean.setActionFlag(IacucProtocolReviewerBean.CREATE);
                 beans.add(bean);
             }
         }
@@ -4585,8 +4584,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         }
         else {
             if (!CollectionUtils.isEmpty(removeReviewerNotificationBeans)) {
-                renderer = new IacucProtocolAssignReviewerNotificationRenderer(protocol,
-                    "removed");
+                renderer = new IacucProtocolAssignReviewerNotificationRenderer(protocol, "removed");
                 ProtocolNotificationRequestBean notificationBean = removeReviewerNotificationBeans.get(0);
                 IacucProtocolNotificationContext context = new IacucProtocolNotificationContext(protocol,
                     (IacucProtocolOnlineReview)notificationBean.getProtocolOnlineReview(), notificationBean.getActionType(),

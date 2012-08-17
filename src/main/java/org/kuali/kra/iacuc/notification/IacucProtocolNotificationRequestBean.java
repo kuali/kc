@@ -26,6 +26,13 @@ public class IacucProtocolNotificationRequestBean extends ProtocolNotificationRe
      */
     private static final long serialVersionUID = 539022630037045456L;
 
+    public IacucProtocol getIacucProtocol() {
+        return (IacucProtocol)getProtocol();
+    }
+
+    public IacucProtocolOnlineReview getIacucProtocolOnlineReview() {
+        return (IacucProtocolOnlineReview)getProtocolOnlineReview();
+    }
 
     public IacucProtocolNotificationRequestBean(IacucProtocol protocol, String actionType, String description) {
         super(protocol, actionType, description);

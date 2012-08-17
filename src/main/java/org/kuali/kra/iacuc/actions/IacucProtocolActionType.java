@@ -94,6 +94,7 @@ public class IacucProtocolActionType extends ProtocolActionType {
     public static final String REVIEW_REJECTED = "903";
     public static final String FUNDING_SOURCE = "904";
     public static final String REVIEW_DELETED = "905";
+    public static final String REVIEW_TYPE_DETERMINATION = "908";
     public static final String RENEWAL_WITH_AMENDMENT_CREATED = "909";
 
 }
