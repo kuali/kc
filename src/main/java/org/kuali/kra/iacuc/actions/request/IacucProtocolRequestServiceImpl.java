@@ -99,6 +99,7 @@ public class IacucProtocolRequestServiceImpl implements IacucProtocolRequestServ
         protocolAction.setPrevProtocolStatusCode(protocol.getProtocolStatusCode());
         protocolAction.setPrevSubmissionStatusCode(prevSubmissionStatusCode);
         protocolAction.setSubmissionTypeCode(submissionTypeCode);
+        protocolAction.setCreatedSubmission(true);
         
         protocol.getProtocolActions().add(protocolAction);
         
