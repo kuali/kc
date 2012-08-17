@@ -405,3 +405,13 @@ then
 	setProtocolSubmissionStatusCode(protocolAction, "208");
 	setProtocolStatusCode(protocolAction, "200");
 end
+
+rule "fn_deactivate: Submission Status = 207 (Deactivated); Protocol Status = 305 (Deactivated)  " 
+salience 100
+when
+	protocolAction : IacucProtocolActionUpdateMapping( actionTypeCode == "303")
+then	
+	createAuditTrail(protocolAction);
+	setProtocolSubmissionStatusCode(protocolAction, "207");
+	setProtocolStatusCode(protocolAction, "305");
+end

@@ -14,7 +14,7 @@
  limitations under the License.
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
-<c:set var="protocolSubmissionAttributes" value="${DataDictionary.ProtocolSubmission.attributes}" />
+<c:set var="protocolSubmissionAttributes" value="${DataDictionary.IacucProtocolSubmission.attributes}" />
 <c:set var="committeeAttributes" value="${DataDictionary.Committee.attributes}" />
 <c:set var="committeeScheduleAttributes" value="${DataDictionary.CommitteeSchedule.attributes}" />
     <tr>
