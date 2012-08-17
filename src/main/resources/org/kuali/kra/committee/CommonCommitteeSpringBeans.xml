@@ -141,19 +141,21 @@
 	<bean id="commonCommitteeTemplatePrint" class="org.kuali.kra.common.committee.print.CommitteeTemplatePrint"
 		scope="prototype" parent="templatePrint">
 		<property name="xmlStream" ref="commonCommitteeXmlStream" />
+		<property name="protocolCorrespondenceTemplateService" ref="iacucProtocolCorrespondenceTemplateService" />
 	</bean>
 	<bean id="commonScheduleTemplatePrint" class="org.kuali.kra.common.committee.print.ScheduleTemplatePrint"
 		scope="prototype" parent="templatePrint">
 		<property name="xmlStream" ref="commonScheduleXmlStream" />
+		<property name="protocolCorrespondenceTemplateService" ref="iacucProtocolCorrespondenceTemplateService" />
 	</bean>
-	<bean id="commonProtocolCorrespondenceTemplatePrint"
-		class="org.kuali.kra.common.committee.print.ProtocolCorrespondenceTemplatePrint"
-		scope="prototype" parent="templatePrint">
+	<bean id="commonProtocolCorrespondenceTemplatePrint" class="org.kuali.kra.common.committee.print.ProtocolCorrespondenceTemplatePrint" scope="prototype" parent="templatePrint">
 		<property name="xmlStream" ref="commonCommitteeXmlStream" />
+		<property name="protocolCorrespondenceTemplateService" ref="iacucProtocolCorrespondenceTemplateService" />
 	</bean>
 	<bean id="commonCommitteeRosterPrint" class="org.kuali.kra.common.committee.print.CommitteeRosterPrint"
 		scope="prototype" parent="templatePrint">
 		<property name="xmlStream" ref="commonCommitteeXmlStream" />
+		<property name="protocolCorrespondenceTemplateService" ref="iacucProtocolCorrespondenceTemplateService" />
 	</bean>
 	<bean id="commonCommitteeFutureScheduledMeetingsPrint"
 		class="org.kuali.kra.common.committee.print.CommitteeFutureScheduledMeetingsPrint"
@@ -164,36 +166,23 @@
 		class="org.kuali.kra.common.committee.print.ProtocolBatchCorrespondencePrint"
 		scope="prototype" parent="templatePrint">
 		<property name="xmlStream" ref="renewalReminderStream" />
+		<property name="protocolCorrespondenceTemplateService" ref="iacucProtocolCorrespondenceTemplateService" />
 	</bean>
 	
 	<bean id="commonCommitteeXmlStream" class="org.kuali.kra.common.committee.print.CommitteeXmlStream" parent="printBaseXmlStream">
-		<!-- 
-		<property name="scheduleXmlStream">
-			<ref bean="commonScheduleXmlStream" />
-		</property>
-		<property name="printXmlUtilService">
-			<ref bean="commonPrintXmlUtilService" />
-		</property>
-		 -->
+		<property name="printXmlUtilService" ref="commonPrintXmlUtilService" />
+		<property name="scheduleXmlStream" ref="commonScheduleXmlStream" />
 	</bean>
 	
-	<bean id="commonScheduleXmlStream" class="org.kuali.kra.common.committee.print.ScheduleXmlStream"
-		parent="printBaseXmlStream">
-		<!-- 
-		<property name="printXmlUtilService">
-			<ref bean="commonPrintXmlUtilService" />
-		</property>
-		<property name="commonCommitteeMembershipService">
-			<ref bean="committeeMembershipService" />
-		</property>
-		<property name="kcPersonService">
-			<ref bean="kcPersonService" />
-		</property>
-		 -->
+	<bean id="commonScheduleXmlStream" class="org.kuali.kra.common.committee.print.ScheduleXmlStream" parent="printBaseXmlStream">
+		<property name="printXmlUtilService" ref="commonPrintXmlUtilService" />
+		<property name="committeeMembershipService" ref="commonCommitteeMembershipService" />
+		<property name="kcPersonService" ref="kcPersonService" />
 	</bean>
 	
-	<bean id="commonPrintXmlUtilService" class="org.kuali.kra.common.committee.print.PrintXmlUtilServiceImpl" scope="prototype" parent="templatePrint">
+	<bean id="commonPrintXmlUtilService" class="org.kuali.kra.common.committee.print.PrintXmlUtilServiceImpl">
 		<property name="businessObjectService" ref="businessObjectService" />
+		<property name="dateTimeService" ref="dateTimeService" />
 	</bean>
 	 
 <!-- republishing the committee authorizers -->    
