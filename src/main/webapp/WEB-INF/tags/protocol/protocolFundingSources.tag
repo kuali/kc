@@ -7,7 +7,11 @@
 <c:set var="readOnly" value="${!KualiForm.protocolHelper.modifyFundingSource}" />
 <c:set var="allowEditName" value="${KualiForm.protocolHelper.editProtocolFundingSourceName}" />
 <c:set var="viewStyle" value="display: block;"/>
-<c:set var="allowCreateProposal" value="${KualiForm.protocolHelper.createProposalDevelopment}" />
+<c:set var="enableProtocolProposalDevelopmentLinking" value="${KualiForm.protocolHelper.protocolProposalDevelopmentLinkingEnabled}" />
+<c:set var="canCreateProposal" value="false" />
+<c:if test="${enableProtocolProposalDevelopmentLinking}">
+	<c:set var="canCreateProposal" value="${KualiForm.protocolHelper.canCreateProposalDevelopment}" />
+</c:if>
 
 <c:choose>
     <c:when test="${KualiForm.protocolHelper.fundingNumberLookupable}">
@@ -28,6 +32,10 @@
         <c:set var="sourceNameDisplayStyle" value="display: inline" />
     </c:otherwise>
 </c:choose>
+<c:set var="buttonStyle" value="display:none"/>
+<c:if test="${canCreateProposal && KualiForm.protocolHelper.newFundingSource.fundingSourceTypeCode == '4'}">
+	<c:set var="buttonStyle" value="display:inline"/>
+</c:if>
 
 <kul:tab tabTitle="Funding Sources" defaultOpen="false" tabErrorKey="document.protocol.protocolFundingSource*,protocolHelper.newFundingSource*,protocolHelper.newFundingSource.fundingSourceTypeCode*" auditCluster="requiredFieldsAuditErrors" tabAuditKey="document.title" useRiceAuditMode="true">
 	<div class="tab-container" align="center">
@@ -118,8 +126,8 @@
 	                            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' 
 	                            title="Add protocol funding source"
 	                            styleClass="tinybutton"/>
-					            <c:if test="${allowCreateProposal}">
-       								<div id="protocolHelper.newFundingSource.fundingSourceTypeCode.startproposal.image.div" style="${sourceNameDisplayStyle}">
+					            <c:if test="${canCreateProposal}">
+       								<div id="protocolHelper.newFundingSource.fundingSourceTypeCode.startproposal.image.div" style="${buttonStyle}">
 			                            <html:image property="methodToCall.createProposalDevelopment.anchor${tabKey}"
 			                            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-startproposal.gif' 
 		    	                        title="Create Proposal Development"
