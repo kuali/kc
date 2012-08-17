@@ -475,11 +475,6 @@ public class IacucActionHelper extends ActionHelper {
                getIsReturnForSMROpenForFollowup() || getIsReturnForSRROpenForFollowup();
     }
 
-    @Override
-    protected List<String> getActionTypeSubmissionDocListHook() {
-        return IacucProtocolActionType.getActionTypeSubmissionDocs();
-    }
-
     public boolean isCanDesignatedMemberApproval() {
         return canDesignatedMemberApproval;
     }
