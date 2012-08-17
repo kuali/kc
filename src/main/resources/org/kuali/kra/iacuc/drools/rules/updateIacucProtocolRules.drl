@@ -143,47 +143,35 @@ end
 //	setProtocolStatusCode(protocolAction, "300");
 //end
 
-//???? Not sure what to do about this one...
-//rule "fn_terminate: Submission Status = 1202 (Terminated); Protocol Status = 303 (Terminated by investigator)" 
-//salience 100
-//when
-//	protocolAction : IacucProtocolActionUpdateMapping( actionTypeCode == "1306", submissionTypeCode == "108")
-//then	
-//	createAuditTrail(protocolAction);
-//	setProtocolSubmissionStatusCode(protocolAction, "1202");
-//	setProtocolStatusCode(protocolAction, "303");
-//end
+rule "fn_terminate: Submission Status = 202 (Terminated); Protocol Status = 303 (Terminated)" 
+salience 100
+when
+	protocolAction : IacucProtocolActionUpdateMapping( actionTypeCode == "306" )
+then	
+	createAuditTrail(protocolAction);
+	setProtocolSubmissionStatusCode(protocolAction, "202");
+	setProtocolStatusCode(protocolAction, "307");
+end
 
-//TODO: What is IACUC equiv for Terminated by IRB Administrator?
-//rule "fn_terminate: Protocol Status = 307 (Terminated by IRB Administrator)" 
-//salience 100
-//when
-//	protocolAction : IacucProtocolActionUpdateMapping( actionTypeCode == "1306", submissionTypeCode != "108")
-//then	
-//	createAuditTrail(protocolAction);
-//	setProtocolStatusCode(protocolAction, "307");
-//end
+rule "fn_suspend by investigator: Submission Status = 203 (Suspended); Protocol Status =  304 (Suspended)" 
+salience 100
+when
+	protocolAction : IacucProtocolActionUpdateMapping( actionTypeCode == "307", submissionTypeCode == "111")
+then	
+	createAuditTrail(protocolAction);
+	setProtocolSubmissionStatusCode(protocolAction, "203");
+	setProtocolStatusCode(protocolAction, "304");
+end
 
-// What to do about this in IACUC?
-//rule "fn_suspend: Submission Status = 1203 (Suspended); Protocol Status =  302 (Suspended by investigator)" 
-//salience 100
-//when
-//	protocolAction : IacucProtocolActionUpdateMapping( actionTypeCode == "1307", submissionTypeCode == "110")
-//then	
-//	createAuditTrail(protocolAction);
-//	setProtocolSubmissionStatusCode(protocolAction, "1203");
-//	setProtocolStatusCode(protocolAction, "302");
-//end
-
-//TODO: What is IACUC equiv for Suspended by IRB Administrator?
-//rule "fn_suspend: Protocol Status =  308 (Suspended by IRB Administrator)" 
-//salience 100
-//when
-//	protocolAction : IacucProtocolActionUpdateMapping( actionTypeCode == "1307", submissionTypeCode != "110")
-//then	
-//	createAuditTrail(protocolAction);
-//	setProtocolStatusCode(protocolAction, "308");
-//end
+rule "fn_suspend: Submission Status = 203 (Suspended); Protocol Status =  304 (Suspended)" 
+salience 100
+when
+	protocolAction : IacucProtocolActionUpdateMapping( actionTypeCode == "307", submissionTypeCode != "111")
+then	
+	createAuditTrail(protocolAction);
+	setProtocolSubmissionStatusCode(protocolAction, "203");
+	setProtocolStatusCode(protocolAction, "304");
+end
 
 rule "fn_expire: Protocol Status =  1308 (Expire)" 
 salience 100
