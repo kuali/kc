@@ -105,7 +105,8 @@ public abstract class ProtocolHelper implements Serializable {
     private boolean modifyOrganizations = false;
     private boolean modifySubjects = false;
     private boolean modifyAreasOfResearch = false;
-    private boolean createProposalDevelopment = false;
+    private boolean canCreateProposalDevelopment = false;
+    private boolean protocolProposalDevelopmentLinkingEnabled = false;
     
     private boolean leadUnitAutoPopulated = false;
     
@@ -248,7 +249,7 @@ public abstract class ProtocolHelper implements Serializable {
 //        initializeModifySubjectsPermission(protocol);
         
         initializeModifyAreasOfResearchPermission(protocol);
-        
+        initializeProtocolProposalDevelopmentLinking();
         initializeCreateProposalDevelopmentPermission(protocol);
     }
 
@@ -320,10 +321,22 @@ public abstract class ProtocolHelper implements Serializable {
     
     private void initializeCreateProposalDevelopmentPermission(Protocol protocol) {
         ProtocolTask task = getNewInstanceCreateProposalDevelopmentTaskHook(protocol);
-        createProposalDevelopment = getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
+        canCreateProposalDevelopment = getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
     
     protected abstract ProtocolTask getNewInstanceCreateProposalDevelopmentTaskHook(Protocol protocol);
+
+    private void initializeProtocolProposalDevelopmentLinking()
+    {
+        protocolProposalDevelopmentLinkingEnabled = getProtocolProposalDevelopmentLinkingHook();
+    }
+
+    protected abstract boolean getProtocolProposalDevelopmentLinkingHook();
+    
+    public boolean isProtocolProposalDevelopmentLinkingEnabled()
+    {
+        return protocolProposalDevelopmentLinkingEnabled;
+    }
 
     /**
      * This method is to get parameter value
@@ -767,9 +780,9 @@ public abstract class ProtocolHelper implements Serializable {
         return modifyAreasOfResearch;
     }
 
-    public boolean isCreateProposalDevelopment()    
+    public boolean isCanCreateProposalDevelopment()    
     {
-        return createProposalDevelopment;
+        return canCreateProposalDevelopment;
     }
     
     public boolean isFundingNumberLookupable() {
