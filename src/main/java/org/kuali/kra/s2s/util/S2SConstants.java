@@ -29,6 +29,7 @@ public interface S2SConstants {
     public static final String FORMVERSION_1_1 = "1.1";
     public static final String FORMVERSION_1_2 = "1.2";
     public static final String FORMVERSION_2_0 = "2.0";
+    public static final String FORMVERSION_2_1 = "2.1";
     public static final String SPONSOR = "S2S";
     public static final String TASK_INFO = "taskInfo";
     public static final String VALUE_UNKNOWN = "Unknown";
