@@ -29,6 +29,10 @@
         <c:set var="sourceNameDisplayStyle" value="display: inline" />
     </c:otherwise>
 </c:choose>
+<c:set var="buttonStyle" value="display:none"/>
+<c:if test="${canCreateProposal && KualiForm.protocolHelper.newFundingSource.fundingSourceTypeCode == '4'}">
+	<c:set var="buttonStyle" value="display:inline"/>
+</c:if>
 
 <kul:tab tabTitle="Funding Sources" defaultOpen="false" tabErrorKey="document.protocol.protocolFundingSource*,protocolHelper.newFundingSource*,protocolHelper.newFundingSource.fundingSourceTypeCode*" auditCluster="requiredFieldsAuditErrors" tabAuditKey="document.title" useRiceAuditMode="true">
 	<div class="tab-container" align="center">
@@ -119,7 +123,7 @@
 	                            styleClass="tinybutton"/>
 					
 					            <c:if test="${canCreateProposal}">
-       								<div id="protocolHelper.newFundingSource.fundingSourceTypeCode.startproposal.image.div" style="${sourceNameDisplayStyle}">
+       								<div id="protocolHelper.newFundingSource.fundingSourceTypeCode.startproposal.image.div" style="${buttonStyle}">
 		                            <html:image property="methodToCall.createProposalDevelopment.anchor${tabKey}"
 		                            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-startproposal.gif' 
 	    	                        title="Create Proposal Development"

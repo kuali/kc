@@ -120,6 +120,13 @@ public class IacucProtocolHelper extends ProtocolHelper {
     {
         return new IacucProtocolTask(IacucProtocolTask.CREATE_PROPOSAL_FOR_IACUC_PROTOCOL, (IacucProtocol) protocol);
     }
+
+    @Override
+    protected boolean getProtocolProposalDevelopmentLinkingHook()
+    {
+        return getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_IACUC, 
+                Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.IACUC_PROTOCOL_PROPOSAL_DEVELOPMENT_LINKING_ENABLED_PARAMETER);
+    }
     
     protected ProtocolAction createProtocolCreatedTypeProtocolActionInstanceHook(Protocol protocol) {
         return new IacucProtocolAction((IacucProtocol) protocol, null, IacucProtocolActionType.IACUC_PROTOCOL_CREATED);
