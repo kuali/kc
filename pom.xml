@@ -940,7 +940,7 @@
 		<dependency>
 			<groupId>org.kuali.kra.s2s</groupId>
 			<artifactId>gg-forms8</artifactId>
-			<version>1.0</version>
+			<version>1.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.kra.s2s</groupId>
@@ -949,8 +949,13 @@
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.kra.s2s</groupId>
+			<artifactId>sf424-2.1-gg</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.kuali.kra.s2s</groupId>
 			<artifactId>s2sform</artifactId>
-			<version>1.0.1</version>
+			<version>1.0.2</version>
 		</dependency>		
 		<dependency>
 			<groupId>org.kuali.rice</groupId>
