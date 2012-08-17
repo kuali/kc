@@ -32,14 +32,24 @@ import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.common.committee.bo.CommitteeMembership;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.common.committee.meeting.MinuteEntryType;
+import org.kuali.kra.common.notification.service.KcNotificationService;
+import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.IacucProtocolAction;
+import org.kuali.kra.iacuc.IacucProtocolForm;
+import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
 import org.kuali.kra.iacuc.actions.reviewcomments.IacucReviewAttachmentsBean;
 import org.kuali.kra.iacuc.actions.reviewcomments.IacucReviewCommentsService;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewerBean;
+import org.kuali.kra.iacuc.notification.IacucProtocolNotificationContext;
+import org.kuali.kra.iacuc.notification.IacucProtocolNotificationRenderer;
+import org.kuali.kra.iacuc.notification.IacucProtocolNotificationRequestBean;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
+import org.kuali.kra.irb.actions.notification.ProtocolNotificationRequestBean;
+import org.kuali.kra.irb.notification.IRBNotificationContext;
+import org.kuali.kra.irb.notification.IRBNotificationRenderer;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.ProtocolForm;
 import org.kuali.kra.protocol.ProtocolOnlineReviewDocument;
@@ -76,7 +86,7 @@ public class IacucProtocolOnlineReviewAction extends IacucProtocolAction {
 
     private static final String NOT_FOUND_SELECTION = "the attachment was not found for selection ";
     private static final ActionForward RESPONSE_ALREADY_HANDLED = null;
-    private static final String PROTOCOL_OLR_TAB = "onlineReview";
+    private static final String PROTOCOL_OLR_TAB = "iacucProtocolOnlineReview";
     private static final String DOCUMENT_REJECT_QUESTION="DocReject";
     private static final String DOCUMENT_DELETE_QUESTION="ProtocolDocDelete";
     private static final String UPDATE_REVIEW_STATUS_TO_FINAL="statusToFinal";
@@ -444,7 +454,7 @@ public class IacucProtocolOnlineReviewAction extends IacucProtocolAction {
         String onlineReviewDocumentNumber = getOnlineReviewActionDocumentNumber(
                 (String) request.getAttribute(KRADConstants.METHOD_TO_CALL_ATTRIBUTE),
                 "approveOnlineReview");
-        ProtocolForm protocolForm = (ProtocolForm) form;
+        IacucProtocolForm protocolForm = (IacucProtocolForm) form;
         ProtocolOnlineReviewDocument prDoc = protocolForm.getOnlineReviewsActionHelper().getDocumentFromHelperMap(onlineReviewDocumentNumber);
         ReviewCommentsBean reviewCommentsBean = protocolForm.getOnlineReviewsActionHelper().getReviewCommentsBeanFromHelperMap(onlineReviewDocumentNumber);
         ReviewAttachmentsBean reviewAttachmentsBean = protocolForm.getOnlineReviewsActionHelper().getReviewAttachmentsBeanFromHelperMap(onlineReviewDocumentNumber);
@@ -479,29 +489,60 @@ public class IacucProtocolOnlineReviewAction extends IacucProtocolAction {
             protocolForm.getOnlineReviewsActionHelper().init(true);
             recordOnlineReviewActionSuccess("approved", prDoc);
             
-            Protocol protocol = protocolForm.getProtocolDocument().getProtocol();
-            // TODO : IACUC notification need it here
-//            ProtocolOnlineReview protocolOnlineReview = prDoc.getProtocolOnlineReview();
-//            IRBNotificationRenderer renderer = new IRBNotificationRenderer(protocol);
-////            IRBNotificationContext context = new IRBNotificationContext(protocol, protocolOnlineReview, ProtocolActionType.REVIEW_COMPLETE, "Review Complete", renderer);
-////            getKcNotificationService().sendNotification(context);
-//            ActionForward forward = null;
-//            if (!protocolForm.getEditingMode().containsKey("maintainProtocolOnlineReviews")) {
-//                forward = mapping.findForward(PROTOCOL_OLR_TAB);
-//            }
-//            return checkToSendNotificationWithHoldingPage(mapping, forward, protocolForm, renderer, new ProtocolNotificationRequestBean(protocol, protocolOnlineReview, ProtocolActionType.REVIEW_COMPLETE, "Review Complete", prDoc.getDocumentNumber(), "Approve"));
-//            if (!protocolForm.getEditingMode().containsKey("maintainProtocolOnlineReviews")) {
-//                // reviewer approve will return here
-//                return mapping.findForward(KNSConstants.MAPPING_PORTAL);
-//            } else if (isApproveReview) {
-//                // admin approve review will return here
-//                return routeProtocolOLRToHoldingPage(mapping, protocolForm, prDoc.getDocumentNumber(), "Approve");
-//            }
+            IacucProtocol protocol = (IacucProtocol)protocolForm.getProtocolDocument().getProtocol();
+            IacucProtocolOnlineReview protocolOnlineReview = (IacucProtocolOnlineReview)prDoc.getProtocolOnlineReview();
+            IacucProtocolNotificationRenderer renderer = new IacucProtocolNotificationRenderer(protocol);
+            IacucProtocolNotificationRequestBean notificationBean = 
+                new IacucProtocolNotificationRequestBean(protocol, protocolOnlineReview, IacucProtocolActionType.REVIEW_COMPLETE, "Review Complete",  prDoc.getDocumentNumber(), "Approve");
+            ActionForward forward = null;
+            if (!protocolForm.getEditingMode().containsKey("maintainProtocolOnlineReviews")) {
+                forward = mapping.findForward(PROTOCOL_OLR_TAB);
+            }
+            return checkToSendNotificationWithHoldingPage(mapping, forward, protocolForm, renderer, notificationBean);
         }                
        
         return mapping.findForward(Constants.MAPPING_BASIC);
         
     }
+    
+    private ActionForward checkToSendNotificationWithHoldingPage(ActionMapping mapping, ActionForward forward, IacucProtocolForm protocolForm, IacucProtocolNotificationRenderer renderer, IacucProtocolNotificationRequestBean notificationRequestBean) {
+
+        IacucProtocolNotificationContext context = new IacucProtocolNotificationContext(notificationRequestBean.getIacucProtocol(), notificationRequestBean.getIacucProtocolOnlineReview(), notificationRequestBean.getActionType(), notificationRequestBean.getDescription(), renderer);
+
+        if (protocolForm.getNotificationHelper().getPromptUserForNotificationEditor(context)) {
+            if (forward == null) {
+                context.setForwardName("holdingPage:" + notificationRequestBean.getDocNumber() + ":" + notificationRequestBean.getOlrEvent());
+            } else {
+                context.setForwardName(forward.getName());
+            }
+            protocolForm.getNotificationHelper().initializeDefaultValues(context);
+            return mapping.findForward("iacucProtocolNotificationEditor");
+        } else {
+            getNotificationService().sendNotification(context);
+            if (forward == null) {
+                return routeProtocolOLRToHoldingPage(mapping, protocolForm, notificationRequestBean.getDocNumber(), notificationRequestBean.getOlrEvent());
+            } else {
+                return forward;
+            }
+        }
+    }
+
+    private ActionForward routeProtocolOLRToHoldingPage(ActionMapping mapping, ProtocolForm protocolForm, String olrDocId, String olrEvent) {
+        String routeHeaderId = protocolForm.getDocument().getDocumentNumber();
+        String returnLocation = buildActionUrl(routeHeaderId, Constants.MAPPING_PROTOCOL_ONLINE_REVIEW , "IacucProtocolDocument");
+        // use this doc id for holding action to check if online review document is complete and return to online review tab
+        returnLocation += "&" + "olrDocId=" + olrDocId + "&" + "olrEvent=" + olrEvent;
+        ActionForward basicForward = mapping.findForward(KRADConstants.MAPPING_PORTAL);
+        //ActionForward holdingPageForward = mapping.findForward(Constants.MAPPING_HOLDING_PAGE);
+        ActionForward holdingPageForward = mapping.findForward(Constants.MAPPING_HOLDING_PAGE);
+        GlobalVariables.getUserSession().addObject(Constants.HOLDING_PAGE_DOCUMENT_ID, (Object)olrDocId);
+        // add that alternate session key to the session (for double indirection later in the holding page action)
+        GlobalVariables.getUserSession().addObject(Constants.ALTERNATE_DOC_ID_SESSION_KEY, (Object)Constants.HOLDING_PAGE_DOCUMENT_ID);
+        
+        return routeToHoldingPage(basicForward, basicForward, holdingPageForward, returnLocation);
+
+    }
+
 
     private KraWorkflowService getKraWorkflowService() {
         return KraServiceLocator.getService(KraWorkflowService.class);
@@ -661,5 +702,8 @@ public class IacucProtocolOnlineReviewAction extends IacucProtocolAction {
         return mapping.findForward(Constants.MAPPING_BASIC);
     }  
         
+    private KcNotificationService getNotificationService() {
+        return KraServiceLocator.getService(KcNotificationService.class);
+    }
         
 }
