@@ -4508,8 +4508,6 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
                      * remove this when autopop list works,the method needs to be refactored so wait till this functionality works
                      */
                     forward = performNotificationRendering(mapping, protocolForm, beans);
-    
-                    recordProtocolActionSuccess("Modify Submission Request");
                     IacucProtocolNotificationRenderer assignRenderer = new IacucProtocolNotificationRenderer(protocol);
                     IacucProtocolNotificationContext assignContext = new IacucProtocolNotificationContext(protocol, null, 
                             IacucProtocolActionType.MODIFY_PROTOCOL_SUBMISSION, "Modified", assignRenderer);
