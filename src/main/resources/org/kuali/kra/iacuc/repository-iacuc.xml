@@ -824,15 +824,9 @@
             <inverse-foreignkey field-ref="personId" />
         </collection-descriptor>        
         
-        <!-- 
-        <reference-descriptor name="rolodex" class-ref="org.kuali.kra.iacuc.personnel.ProtocolPersonRolodex" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+        <reference-descriptor name="rolodex" class-ref="org.kuali.kra.iacuc.personnel.IacucProtocolPersonRolodex" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="rolodexId"/>
         </reference-descriptor>
-         -->
-         <reference-descriptor name="rolodex" class-ref="org.kuali.kra.bo.Rolodex" auto-retrieve="true" auto-update="none" auto-delete="none">
-            <foreignkey field-ref="rolodexId"/>
-        </reference-descriptor>
-        
     </class-descriptor>
     
     
@@ -859,6 +853,44 @@
 <!--        <reference-descriptor name="protocol" class-ref="org.kuali.kra.iacuc.Protocol" auto-retrieve="true" auto-update="none" auto-delete="none"> -->
 <!--            <foreignkey field-ref="protocolId"/>-->
 <!--        </reference-descriptor>-->
+    </class-descriptor>
+    
+    <class-descriptor class="org.kuali.kra.iacuc.personnel.IacucProtocolPersonRolodex" table="ROLODEX">
+        <field-descriptor name="rolodexId" column="ROLODEX_ID" jdbc-type="INTEGER" primarykey="true"/>
+        <field-descriptor name="addressLine1" column="ADDRESS_LINE_1" jdbc-type="VARCHAR"/>
+        <field-descriptor name="addressLine2" column="ADDRESS_LINE_2" jdbc-type="VARCHAR"/>
+        <field-descriptor name="addressLine3" column="ADDRESS_LINE_3" jdbc-type="VARCHAR"/>
+        <field-descriptor name="city" column="CITY" jdbc-type="VARCHAR"/>
+        <field-descriptor name="comments" column="COMMENTS" jdbc-type="VARCHAR"/>
+        <field-descriptor name="countryCode" column="COUNTRY_CODE" jdbc-type="CHAR"/>
+        <field-descriptor name="county" column="COUNTY" jdbc-type="VARCHAR"/>
+        <field-descriptor name="createUser" column="CREATE_USER" jdbc-type="VARCHAR"/>
+        <field-descriptor name="deleteFlag" column="DELETE_FLAG" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="emailAddress" column="EMAIL_ADDRESS" jdbc-type="VARCHAR"/>
+        <field-descriptor name="faxNumber" column="FAX_NUMBER" jdbc-type="VARCHAR"/>
+        <field-descriptor name="firstName" column="FIRST_NAME" jdbc-type="VARCHAR"/>
+        <field-descriptor name="lastName" column="LAST_NAME" jdbc-type="VARCHAR"/>
+        <field-descriptor name="middleName" column="MIDDLE_NAME" jdbc-type="VARCHAR"/>
+        <field-descriptor name="organization" column="ORGANIZATION" jdbc-type="VARCHAR"/>
+        <field-descriptor name="ownedByUnit" column="OWNED_BY_UNIT" jdbc-type="VARCHAR"/>
+        <field-descriptor name="phoneNumber" column="PHONE_NUMBER" jdbc-type="VARCHAR"/>
+        <field-descriptor name="postalCode" column="POSTAL_CODE" jdbc-type="VARCHAR"/>
+        <field-descriptor name="prefix" column="PREFIX" jdbc-type="VARCHAR"/>
+        <field-descriptor name="sponsorAddressFlag" column="SPONSOR_ADDRESS_FLAG" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="sponsorCode" column="SPONSOR_CODE" jdbc-type="CHAR"/>
+        <field-descriptor name="state" column="STATE" jdbc-type="VARCHAR"/>
+        <field-descriptor name="suffix" column="SUFFIX" jdbc-type="VARCHAR"/>
+        <field-descriptor name="title" column="TITLE" jdbc-type="VARCHAR"/>
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP"/>
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+        <reference-descriptor name="unit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="true" auto-update="none" auto-delete="none">
+            <foreignkey field-ref="ownedByUnit" />
+        </reference-descriptor>
+        <reference-descriptor name="sponsor" class-ref="org.kuali.kra.bo.Sponsor" auto-retrieve="true" auto-update="none" auto-delete="none">
+            <foreignkey field-ref="sponsorCode" />
+        </reference-descriptor>
     </class-descriptor>
 
     <class-descriptor class="org.kuali.kra.iacuc.noteattachment.IacucProtocolAttachmentType" table="IACUC_PROTOCOL_ATTACHMENT_TYPE">
