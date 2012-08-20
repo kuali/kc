@@ -347,7 +347,8 @@ public class CommitteeActionsAction extends CommitteeAction {
     }
     
     private CommitteePrintingService getCommitteePrintingService() {
-        return KraServiceLocator.getService(CommitteePrintingService.class);
+        //return KraServiceLocator.getService(CommitteePrintingService.class);
+        return KraServiceLocator.getService(CommitteePrintingService.COMMON_COMMITTEE_PRINTINT_SERVICE_SPRING_NAME);
     }
 
     private CommitteeBatchCorrespondenceDao getCommitteeBatchCorrespondenceDao() {

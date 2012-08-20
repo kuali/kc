@@ -106,7 +106,7 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
         
         //For some reason Spring isn't always populating this service.  SIGH!
         if (getPrintXmlUtilService() == null) {
-            printXmlUtilService = KraServiceLocator.getService("commonPrintXmlUtilService");
+            printXmlUtilService = KraServiceLocator.getService(PrintXmlUtilService.COMMON_PRINT_XML_UTIL_SERVICE_SPRING_NAME);
         }
         
         getPrintXmlUtilService().setMinutes(committeeSchedule, schedule);
