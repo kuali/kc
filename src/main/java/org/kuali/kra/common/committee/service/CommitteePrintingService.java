@@ -30,6 +30,8 @@ import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
  */
 public interface CommitteePrintingService {
     
+    public static final String COMMON_COMMITTEE_PRINTINT_SERVICE_SPRING_NAME = "commonCommitteePrintingService";
+    
     /**
      * 
      * This method gets the specific implementation for printing a committee report based

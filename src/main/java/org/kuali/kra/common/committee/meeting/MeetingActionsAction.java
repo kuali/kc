@@ -209,7 +209,7 @@ public class MeetingActionsAction extends MeetingAction {
     
     private CommitteePrintingService getCommitteePrintingService() {
         //return KraServiceLocator.getService(CommitteePrintingService.class);
-        return KraServiceLocator.getService("commonCommitteePrintingService");
+        return KraServiceLocator.getService(CommitteePrintingService.COMMON_COMMITTEE_PRINTINT_SERVICE_SPRING_NAME);
     }
 
 
