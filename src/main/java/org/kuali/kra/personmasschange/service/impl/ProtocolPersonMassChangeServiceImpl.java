@@ -41,6 +41,8 @@ import org.kuali.kra.rules.ErrorReporter;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.PersonEditableService;
 import org.kuali.kra.service.RolodexService;
+import org.kuali.kra.service.Sponsorable;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
@@ -48,23 +50,16 @@ import org.kuali.rice.krad.service.BusinessObjectService;
  * 
  * Person roles that might be replaced are: Investigator, Key Study Person, Correspondents, Reviewer.
  */
-public class ProtocolPersonMassChangeServiceImpl implements ProtocolPersonMassChangeService {
-
-    private static final String PMC_LOCKED_FIELD = "personMassChangeDocumentLocked";
+public class ProtocolPersonMassChangeServiceImpl extends MassPersonChangeServiceBase implements ProtocolPersonMassChangeService {
 
     private static final String PROTOCOL_NUMBER = "protocolNumber";
     private static final String SEQUENCE_NUMBER = "sequenceNumber";
     
     private static final String PROTOCOL = "protocol";
+    private static final String IRB_WARNINGS = "irbWarnings";
     
-    private final ErrorReporter errorReporter = new ErrorReporter();
-    
-    private BusinessObjectService businessObjectService;
     private PersonEditableService personEditableService;
-    private ProtocolPersonTrainingService protocolPersonTrainingService;
-    private KcPersonService kcPersonService;
-    private RolodexService rolodexService;
-    
+    private ProtocolPersonTrainingService protocolPersonTrainingService;    
     @Override
     public List<Protocol> getProtocolChangeCandidates(PersonMassChange personMassChange) {
         List<Protocol> protocolChangeCandidates = new ArrayList<Protocol>();
@@ -130,6 +125,7 @@ public class ProtocolPersonMassChangeServiceImpl implements ProtocolPersonMassCh
     
     private boolean isProtocolChangeCandidate(PersonMassChange personMassChange, Protocol protocol) {
         boolean isProtocolChangeCandidate = false;
+        boolean hasErrors = false;
         
         List<ProtocolPerson> persons = protocol.getProtocolPersons();
         List<ProtocolOnlineReview> onlineReviews = protocol.getProtocolOnlineReviews();
@@ -147,39 +143,16 @@ public class ProtocolPersonMassChangeServiceImpl implements ProtocolPersonMassCh
         if (personMassChange.getProtocolPersonMassChange().isCorrespondents()) {
             isProtocolChangeCandidate |= isPersonChangeCandidate(personMassChange, persons, correspondentsRoles);
         }
+        //if the protocol is a change candidate based on the investigators and key persons,
+        //then make sure the replacer user doesn't already exist.
+        if (isProtocolChangeCandidate) {
+            hasErrors |= !isReplacerValidPersonChangeCandidate(personMassChange, persons);
+        }        
         if (personMassChange.getProtocolPersonMassChange().isReviewer()) {
             isProtocolChangeCandidate |= isReviewerChangeCandidate(personMassChange, onlineReviews);
         }
         
-        return isProtocolChangeCandidate;
-    }
-    
-    private boolean isPersonChangeCandidate(PersonMassChange personMassChange, List<ProtocolPerson> persons, String... personRoles) {
-        boolean isPersonChangeCandidate = false;
-        
-        for (ProtocolPerson person : persons) {
-            if (isPersonInRole(person, personRoles)) {
-                if (isPersonIdMassChange(personMassChange, person.getPersonId()) || isRolodexIdMassChange(personMassChange, person.getRolodexId())) {
-                    isPersonChangeCandidate = true;
-                    break;
-                }
-            }
-        }
-        
-        return isPersonChangeCandidate;
-    }
-    
-    private boolean isPersonInRole(ProtocolPerson protocolPerson, String... personRoles) {
-        boolean isPersonInRole = false;
-        
-        for (String personRole : personRoles) {
-            if (StringUtils.equals(protocolPerson.getProtocolPersonRoleId(), personRole)) {
-                isPersonInRole = true;
-                break;
-            }
-        }
-        
-        return isPersonInRole;
+        return isProtocolChangeCandidate && !hasErrors;
     }
     
     private boolean isReviewerChangeCandidate(PersonMassChange personMassChange, List<ProtocolOnlineReview> onlineReviews) {
@@ -286,27 +259,9 @@ public class ProtocolPersonMassChangeServiceImpl implements ProtocolPersonMassCh
         }
     }
     
-    private boolean isPersonIdMassChange(PersonMassChange personMassChange, String personId) {
-        String replaceePersonId = personMassChange.getReplaceePersonId();
-        return replaceePersonId != null && replaceePersonId.equals(personId);
-    }
-    
-    private boolean isRolodexIdMassChange(PersonMassChange personMassChange, Integer rolodexId) {
-        Integer replaceeRolodexId = personMassChange.getReplaceeRolodexId();
-        return replaceeRolodexId != null && replaceeRolodexId.equals(rolodexId);
-    }
-    
     private void reportSoftError(Protocol protocol) {
         String protocolNumber = protocol.getProtocolNumber();
         errorReporter.reportSoftError(PMC_LOCKED_FIELD, KeyConstants.ERROR_PERSON_MASS_CHANGE_DOCUMENT_LOCKED, PROTOCOL, protocolNumber);
-    }
-    
-    public BusinessObjectService getBusinessObjectService() {
-        return businessObjectService;
-    }
-    
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
     }
     
     public PersonEditableService getPersonEditableService() {
@@ -324,21 +279,20 @@ public class ProtocolPersonMassChangeServiceImpl implements ProtocolPersonMassCh
     public void setProtocolPersonTrainingService(ProtocolPersonTrainingService protocolPersonTrainingService) {
         this.protocolPersonTrainingService = protocolPersonTrainingService;
     }
+    
+    @Override
+    protected String getDocumentId(PersistableBusinessObject parent) {
+        return ((Protocol) parent).getProtocolNumber();
+    }
 
-    public KcPersonService getKcPersonService() {
-        return kcPersonService;
+    @Override
+    protected String getDocumentName() {
+        return PROTOCOL;
     }
-    
-    public void setKcPersonService(KcPersonService kcPersonService) {
-        this.kcPersonService = kcPersonService;
-    }
-    
-    public RolodexService getRolodexService() {
-        return rolodexService;
-    }
-    
-    public void setRolodexService(RolodexService rolodexService) {
-        this.rolodexService = rolodexService;
+
+    @Override
+    protected String getWarningKey() {
+        return IRB_WARNINGS;
     }
 
 }

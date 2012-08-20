@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.bo.AbstractProjectPerson;
 import org.kuali.kra.bo.AffiliationType;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.PersonEditableInterface;
@@ -29,7 +30,7 @@ import org.kuali.kra.protocol.ProtocolAssociate;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentPersonnel;
 import org.kuali.kra.service.KcPersonService;
 
-public abstract class ProtocolPerson extends ProtocolAssociate implements PersonEditableInterface {
+public abstract class ProtocolPerson extends ProtocolAssociate implements PersonEditableInterface, AbstractProjectPerson {
 
     private static final long serialVersionUID = -1140730616386093202L;
 
@@ -1036,5 +1037,13 @@ public abstract class ProtocolPerson extends ProtocolAssociate implements Person
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+    
+    public Protocol getParent() {
+        return this.getProtocol();
+    }
+    
+    public String getRoleCode() {
+        return getProtocolPersonRoleId();
     }
 }

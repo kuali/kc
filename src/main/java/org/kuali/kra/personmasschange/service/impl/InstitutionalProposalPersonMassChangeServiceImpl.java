@@ -38,6 +38,8 @@ import org.kuali.kra.personmasschange.service.InstitutionalProposalPersonMassCha
 import org.kuali.kra.rules.ErrorReporter;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.RolodexService;
+import org.kuali.kra.service.Sponsorable;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
@@ -45,20 +47,14 @@ import org.kuali.rice.krad.service.BusinessObjectService;
  * 
  * Person roles that might be replaced are: Investigator, Unit Contact, Mailing Information, IP Reviewer.
  */
-public class InstitutionalProposalPersonMassChangeServiceImpl implements InstitutionalProposalPersonMassChangeService {
-    
-    private static final String PMC_LOCKED_FIELD = "personMassChangeDocumentLocked";
+public class InstitutionalProposalPersonMassChangeServiceImpl extends MassPersonChangeServiceBase implements InstitutionalProposalPersonMassChangeService {
     
     private static final String PROPOSAL_NUMBER = "proposalNumber";
     private static final String SEQUENCE_NUMBER = "sequenceNumber";
 
     private static final String INSTITUTIONAL_PROPOSAL = "institutional proposal";
+    private static final String INSTPROP_WARNINGS = "instPropWarnings";
     
-    private final ErrorReporter errorReporter = new ErrorReporter();
-    
-    private BusinessObjectService businessObjectService;
-    private KcPersonService kcPersonService;
-    private RolodexService rolodexService;
 
     @Override
     public List<InstitutionalProposal> getInstitutionalProposalChangeCandidates(PersonMassChange personMassChange) {
@@ -126,6 +122,7 @@ public class InstitutionalProposalPersonMassChangeServiceImpl implements Institu
     
     private boolean isInstitutionalProposalChangeCandidate(PersonMassChange personMassChange, InstitutionalProposal institutionalProposal) {
         boolean isInstitutionalProposalChangeCandidate = false;
+        boolean hasErrors = false;
         
         List<InstitutionalProposalPerson> persons = institutionalProposal.getProjectPersons();
         Integer mailingInformationId = institutionalProposal.getRolodexId();
@@ -141,6 +138,11 @@ public class InstitutionalProposalPersonMassChangeServiceImpl implements Institu
         if (personMassChange.getInstitutionalProposalPersonMassChange().isKeyStudyPerson()) {
             isInstitutionalProposalChangeCandidate |= isPersonChangeCandidate(personMassChange, persons, keyStudyPersonRoles);
         }
+        //if the award is a change candidate based on the investigators and key persons,
+        //then make sure the replacer user doesn't already exist.
+        if (isInstitutionalProposalChangeCandidate) {
+            hasErrors |= !isReplacerValidPersonChangeCandidate(personMassChange, persons);
+        }        
         if (personMassChange.getInstitutionalProposalPersonMassChange().isMailingInformation()) {
             isInstitutionalProposalChangeCandidate |= isMailingInformationChangeCandidate(personMassChange, mailingInformationId);
         }
@@ -151,37 +153,9 @@ public class InstitutionalProposalPersonMassChangeServiceImpl implements Institu
             isInstitutionalProposalChangeCandidate |= isIpReviewerChangeCandidate(personMassChange, intellectualPropertyReview);
         }
 
-        return isInstitutionalProposalChangeCandidate;
+        return isInstitutionalProposalChangeCandidate && !hasErrors;
     }
-    
-    private boolean isPersonChangeCandidate(PersonMassChange personMassChange, List<InstitutionalProposalPerson> persons, String... personRoles) {
-        boolean isPersonChangeCandidate = false;
         
-        for (InstitutionalProposalPerson person : persons) {
-            if (isPersonInRole(person, personRoles)) {
-                if (isPersonIdMassChange(personMassChange, person.getPersonId()) || isRolodexIdMassChange(personMassChange, person.getRolodexId())) {
-                    isPersonChangeCandidate = true;
-                    break;
-                }
-            }
-        }
-        
-        return isPersonChangeCandidate;
-    }
-    
-    private boolean isPersonInRole(InstitutionalProposalPerson person, String... personRoles) {
-        boolean isPersonInRole = false;
-        
-        for (String personRole : personRoles) {
-            if (StringUtils.equals(person.getRoleCode(), personRole)) {
-                isPersonInRole = true;
-                break;
-            }
-        }
-        
-        return isPersonInRole;
-    }
-    
     private boolean isMailingInformationChangeCandidate(PersonMassChange personMassChange, Integer mailingInformation) {
         return isRolodexIdMassChange(personMassChange, mailingInformation);
     }
@@ -285,43 +259,24 @@ public class InstitutionalProposalPersonMassChangeServiceImpl implements Institu
         }
     }
     
-    private boolean isPersonIdMassChange(PersonMassChange personMassChange, String personId) {
-        String replaceePersonId = personMassChange.getReplaceePersonId();
-        return replaceePersonId != null && replaceePersonId.equals(personId);
-    }
-    
-    private boolean isRolodexIdMassChange(PersonMassChange personMassChange, Integer rolodexId) {
-        Integer replaceeRolodexId = personMassChange.getReplaceeRolodexId();
-        return replaceeRolodexId != null && replaceeRolodexId.equals(rolodexId);
-    }
-    
     private void reportSoftError(InstitutionalProposal institutionalProposal) {
         String proposalNumber = institutionalProposal.getProposalNumber();
         errorReporter.reportSoftError(PMC_LOCKED_FIELD, KeyConstants.ERROR_PERSON_MASS_CHANGE_DOCUMENT_LOCKED, INSTITUTIONAL_PROPOSAL, proposalNumber);
     }
-    
-    public BusinessObjectService getBusinessObjectService() {
-        return businessObjectService;
+
+    @Override
+    protected String getDocumentId(PersistableBusinessObject parent) {
+        return ((InstitutionalProposal) parent).getProposalNumber();
     }
-    
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
+
+    @Override
+    protected String getDocumentName() {
+        return INSTITUTIONAL_PROPOSAL;
     }
-    
-    public KcPersonService getKcPersonService() {
-        return kcPersonService;
-    }
-    
-    public void setKcPersonService(KcPersonService kcPersonService) {
-        this.kcPersonService = kcPersonService;
-    }
-    
-    public RolodexService getRolodexService() {
-        return rolodexService;
-    }
-    
-    public void setRolodexService(RolodexService rolodexService) {
-        this.rolodexService = rolodexService;
+
+    @Override
+    protected String getWarningKey() {
+        return INSTPROP_WARNINGS;
     }
     
 }

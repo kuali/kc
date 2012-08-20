@@ -1073,6 +1073,7 @@ public final class KeyConstants {
     public static final String ERROR_PERSON_MASS_CHANGE_REPLACER_SELECTION = "error.personMassChange.replacer.selection";
     public static final String ERROR_PERSON_MASS_CHANGE_DOCUMENT_LOCKED = "error.personMassChange.document.locked";
     public static final String ERROR_PERSON_MASS_CHANGE_SAME_PERSONS = "error.personMassChange.person.same";
+    public static final String ERROR_PERSON_MASS_CHANGE_REPLACER_EXISTS = "error.personMassChange.replacer.exists";
     
     // IACUC protocol species
     public static final String QUESTION_PROTOCOL_SPECIES_DELETE_CONFIRMATION = "question.iacuc.protocol.species.delete.confirmation";
