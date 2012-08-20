@@ -45,7 +45,7 @@ public abstract class MassPersonChangeServiceBase {
             if ((personMassChange.getReplacerPersonId() != null 
                         && StringUtils.equals(personMassChange.getReplacerPersonId(), person.getPersonId()))
                     || (personMassChange.getReplacerRolodexId() != null 
-                        && ObjectUtils.equals(personMassChange.getReplaceeRolodexId(), person.getRolodexId()))) {
+                        && ObjectUtils.equals(personMassChange.getReplacerRolodexId(), person.getRolodexId()))) {
                 reportReplacerExists(person);
                 isValid = false;
             }
