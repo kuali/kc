@@ -57,6 +57,9 @@
         <collection-descriptor name="awardPersonMassChangeList" proxy="true" element-class-ref="org.kuali.kra.personmasschange.bo.AwardPersonMassChange" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="personMassChangeId"/>
         </collection-descriptor>
+        <collection-descriptor name="iacucProtocolPersonMassChangeList" proxy="true" element-class-ref="org.kuali.kra.personmasschange.bo.IacucProtocolPersonMassChange" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+            <inverse-foreignkey field-ref="personMassChangeId"/>
+        </collection-descriptor>        
         <collection-descriptor name="institutionalProposalPersonMassChangeList" proxy="true" element-class-ref="org.kuali.kra.personmasschange.bo.InstitutionalProposalPersonMassChange" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="personMassChangeId"/>
         </collection-descriptor>
