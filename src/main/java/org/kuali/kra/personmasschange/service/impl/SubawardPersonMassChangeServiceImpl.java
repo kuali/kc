@@ -28,8 +28,10 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.personmasschange.bo.PersonMassChange;
 import org.kuali.kra.personmasschange.service.SubawardPersonMassChangeService;
 import org.kuali.kra.rules.ErrorReporter;
+import org.kuali.kra.service.Sponsorable;
 import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.kra.subaward.bo.SubAwardContact;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
@@ -37,18 +39,13 @@ import org.kuali.rice.krad.service.BusinessObjectService;
  * 
  * Person roles that might be replaced are: Requisitioner, Contact.
  */
-public class SubawardPersonMassChangeServiceImpl implements SubawardPersonMassChangeService {
-    
-    private static final String PMC_LOCKED_FIELD = "personMassChangeDocumentLocked";
+public class SubawardPersonMassChangeServiceImpl extends MassPersonChangeServiceBase implements SubawardPersonMassChangeService {
     
     private static final String SUBAWARD_CODE = "subAwardCode";
     private static final String SEQUENCE_NUMBER = "sequenceNumber";
     
     private static final String SUBAWARD = "subaward";
-    
-    private final ErrorReporter errorReporter = new ErrorReporter();
-    
-    private BusinessObjectService businessObjectService;
+    private static final String SUBAWARD_WARNINGS = "subawardWarnings";
 
     @Override
     public List<SubAward> getSubawardChangeCandidates(PersonMassChange personMassChange) {
@@ -176,27 +173,24 @@ public class SubawardPersonMassChangeServiceImpl implements SubawardPersonMassCh
         }
     }
     
-    private boolean isPersonIdMassChange(PersonMassChange personMassChange, String rolodexId) {
-        String replaceePersonId = personMassChange.getReplaceePersonId();
-        return replaceePersonId != null && replaceePersonId.equals(rolodexId);
-    }
-    
-    private boolean isRolodexIdMassChange(PersonMassChange personMassChange, Integer rolodexId) {
-        Integer replaceeRolodexId = personMassChange.getReplaceeRolodexId();
-        return replaceeRolodexId != null && replaceeRolodexId.equals(rolodexId);
-    }
-    
     private void reportSoftError(SubAward subaward) {
         String subawardCode = subaward.getSubAwardCode();
         errorReporter.reportSoftError(PMC_LOCKED_FIELD, KeyConstants.ERROR_PERSON_MASS_CHANGE_DOCUMENT_LOCKED, SUBAWARD, subawardCode);
     }
-    
-    public BusinessObjectService getBusinessObjectService() {
-        return businessObjectService;
+
+    @Override
+    protected String getDocumentId(PersistableBusinessObject parent) {
+        return ((SubAward) parent).getSubAwardCode();
     }
-    
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
+
+    @Override
+    protected String getDocumentName() {
+        return SUBAWARD;
+    }
+
+    @Override
+    protected String getWarningKey() {
+        return SUBAWARD_WARNINGS;
     }
 
 }

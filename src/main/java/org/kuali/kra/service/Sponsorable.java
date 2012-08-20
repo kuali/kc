@@ -1,7 +1,9 @@
 package org.kuali.kra.service;
 
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
-public interface Sponsorable {
+
+public interface Sponsorable extends PersistableBusinessObject {
     /**
      * 
      * @return

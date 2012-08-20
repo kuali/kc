@@ -26,6 +26,8 @@ import org.kuali.kra.personmasschange.bo.PersonMassChange;
 import org.kuali.kra.personmasschange.service.NegotiationPersonMassChangeService;
 import org.kuali.kra.rules.ErrorReporter;
 import org.kuali.kra.service.KcPersonService;
+import org.kuali.kra.service.Sponsorable;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
@@ -33,16 +35,10 @@ import org.kuali.rice.krad.service.BusinessObjectService;
  * 
  * Person roles that might be replaced are: Negotiator.
  */
-public class NegotiationPersonMassChangeServiceImpl implements NegotiationPersonMassChangeService {
-    
-    private static final String PMC_LOCKED_FIELD = "personMassChangeDocumentLocked";
+public class NegotiationPersonMassChangeServiceImpl extends MassPersonChangeServiceBase implements NegotiationPersonMassChangeService {
     
     private static final String NEGOTIATION = "negotiation";
-    
-    private final ErrorReporter errorReporter = new ErrorReporter();
-    
-    private BusinessObjectService businessObjectService;
-    private KcPersonService kcPersonService;
+    private static final String NEGOTIATION_WARNINGS = "negotiationWarnings";
 
     @Override
     public List<Negotiation> getNegotiationChangeCandidates(PersonMassChange personMassChange) {
@@ -104,31 +100,25 @@ public class NegotiationPersonMassChangeServiceImpl implements NegotiationPerson
             getBusinessObjectService().save(negotiation);
         }
     }
-    
-    private boolean isPersonIdMassChange(PersonMassChange personMassChange, String personId) {
-        String replaceePersonId = personMassChange.getReplaceePersonId();
-        return replaceePersonId != null && StringUtils.equals(replaceePersonId, personId);
-    }
-    
+        
     private void reportSoftError(Negotiation negotiation) {
         Long negotiationId = negotiation.getNegotiationId();
         errorReporter.reportSoftError(PMC_LOCKED_FIELD, KeyConstants.ERROR_PERSON_MASS_CHANGE_DOCUMENT_LOCKED, NEGOTIATION, String.valueOf(negotiationId));
     }
-    
-    public BusinessObjectService getBusinessObjectService() {
-        return businessObjectService;
+
+    @Override
+    protected String getDocumentId(PersistableBusinessObject parent) {
+        return ((Negotiation) parent).getNegotiationId().toString();
     }
-    
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
+
+    @Override
+    protected String getDocumentName() {
+        return NEGOTIATION;
     }
-    
-    public KcPersonService getKcPersonService() {
-        return kcPersonService;
-    }
-    
-    public void setKcPersonService(KcPersonService kcPersonService) {
-        this.kcPersonService = kcPersonService;
+
+    @Override
+    protected String getWarningKey() {
+        return NEGOTIATION_WARNINGS;
     }
 
 }

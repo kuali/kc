@@ -41,27 +41,23 @@ import org.kuali.kra.rules.ErrorReporter;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.PersonEditableService;
 import org.kuali.kra.service.RolodexService;
+import org.kuali.kra.service.Sponsorable;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * Defines the service for performing a Person Mass Change on IACUC Protocols.
  */
-public class IacucProtocolPersonMassChangeServiceImpl implements IacucProtocolPersonMassChangeService {
+public class IacucProtocolPersonMassChangeServiceImpl extends MassPersonChangeServiceBase implements IacucProtocolPersonMassChangeService {
     
-    private static final String PMC_LOCKED_FIELD = "personMassChangeDocumentLocked";
-
     private static final String PROTOCOL_NUMBER = "protocolNumber";
     private static final String SEQUENCE_NUMBER = "sequenceNumber";
     
     private static final String PROTOCOL = "protocol";
+    private static final String IACUC_WARNINGS = "iacucWarnings";
     
-    private final ErrorReporter errorReporter = new ErrorReporter();
-    
-    private BusinessObjectService businessObjectService;
     private PersonEditableService personEditableService;
     private ProtocolPersonTrainingService protocolPersonTrainingService;
-    private KcPersonService kcPersonService;
-    private RolodexService rolodexService;
     
     @Override
     public List<IacucProtocol> getIacucProtocolChangeCandidates(PersonMassChange personMassChange) {
@@ -128,6 +124,7 @@ public class IacucProtocolPersonMassChangeServiceImpl implements IacucProtocolPe
     
     private boolean isProtocolChangeCandidate(PersonMassChange personMassChange, IacucProtocol protocol) {
         boolean isProtocolChangeCandidate = false;
+        boolean hasErrors = false;
         
         List<ProtocolPerson> persons = protocol.getProtocolPersons();
         List<ProtocolOnlineReview> onlineReviews = protocol.getProtocolOnlineReviews();
@@ -145,39 +142,16 @@ public class IacucProtocolPersonMassChangeServiceImpl implements IacucProtocolPe
         if (personMassChange.getIacucProtocolPersonMassChange().isCorrespondents()) {
             isProtocolChangeCandidate |= isPersonChangeCandidate(personMassChange, persons, correspondentsRoles);
         }
+        //if the protocol is a change candidate based on the investigators and key persons,
+        //then make sure the replacer user doesn't already exist.
+        if (isProtocolChangeCandidate) {
+            hasErrors |= !isReplacerValidPersonChangeCandidate(personMassChange, persons);
+        }          
         if (personMassChange.getIacucProtocolPersonMassChange().isReviewer()) {
             isProtocolChangeCandidate |= isReviewerChangeCandidate(personMassChange, onlineReviews);
         }
         
-        return isProtocolChangeCandidate;
-    }
-    
-    private boolean isPersonChangeCandidate(PersonMassChange personMassChange, List<ProtocolPerson> persons, String... personRoles) {
-        boolean isPersonChangeCandidate = false;
-        
-        for (ProtocolPerson person : persons) {
-            if (isPersonInRole(person, personRoles)) {
-                if (isPersonIdMassChange(personMassChange, person.getPersonId()) || isRolodexIdMassChange(personMassChange, person.getRolodexId())) {
-                    isPersonChangeCandidate = true;
-                    break;
-                }
-            }
-        }
-        
-        return isPersonChangeCandidate;
-    }
-    
-    private boolean isPersonInRole(ProtocolPerson protocolPerson, String... personRoles) {
-        boolean isPersonInRole = false;
-        
-        for (String personRole : personRoles) {
-            if (StringUtils.equals(protocolPerson.getProtocolPersonRoleId(), personRole)) {
-                isPersonInRole = true;
-                break;
-            }
-        }
-        
-        return isPersonInRole;
+        return isProtocolChangeCandidate && !hasErrors;
     }
     
     private boolean isReviewerChangeCandidate(PersonMassChange personMassChange, List<ProtocolOnlineReview> onlineReviews) {
@@ -284,27 +258,9 @@ public class IacucProtocolPersonMassChangeServiceImpl implements IacucProtocolPe
         }
     }
     
-    private boolean isPersonIdMassChange(PersonMassChange personMassChange, String personId) {
-        String replaceePersonId = personMassChange.getReplaceePersonId();
-        return replaceePersonId != null && replaceePersonId.equals(personId);
-    }
-    
-    private boolean isRolodexIdMassChange(PersonMassChange personMassChange, Integer rolodexId) {
-        Integer replaceeRolodexId = personMassChange.getReplaceeRolodexId();
-        return replaceeRolodexId != null && replaceeRolodexId.equals(rolodexId);
-    }
-    
     private void reportSoftError(IacucProtocol protocol) {
         String protocolNumber = protocol.getProtocolNumber();
         errorReporter.reportSoftError(PMC_LOCKED_FIELD, KeyConstants.ERROR_PERSON_MASS_CHANGE_DOCUMENT_LOCKED, PROTOCOL, protocolNumber);
-    }
-    
-    public BusinessObjectService getBusinessObjectService() {
-        return businessObjectService;
-    }
-    
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
     }
     
     public PersonEditableService getPersonEditableService() {
@@ -323,20 +279,19 @@ public class IacucProtocolPersonMassChangeServiceImpl implements IacucProtocolPe
         this.protocolPersonTrainingService = protocolPersonTrainingService;
     }
 
-    public KcPersonService getKcPersonService() {
-        return kcPersonService;
+    @Override
+    protected String getDocumentId(PersistableBusinessObject parent) {
+        return ((IacucProtocol) parent).getProtocolNumber();
     }
-    
-    public void setKcPersonService(KcPersonService kcPersonService) {
-        this.kcPersonService = kcPersonService;
+
+    @Override
+    protected String getDocumentName() {
+        return PROTOCOL;
     }
-    
-    public RolodexService getRolodexService() {
-        return rolodexService;
-    }
-    
-    public void setRolodexService(RolodexService rolodexService) {
-        this.rolodexService = rolodexService;
+
+    @Override
+    protected String getWarningKey() {
+        return IACUC_WARNINGS;
     }
     
 }
