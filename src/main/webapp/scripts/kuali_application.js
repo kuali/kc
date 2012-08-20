@@ -3279,13 +3279,8 @@ function ajaxLoad(methodToCall, codeField, fieldToUpdate) {
  * Display the Protocol link and make the fields read-only if the special review type is Human Subjects
  */
 
-function showHideSpecialReviewProtocolLink(specialReviewTypeCode, idPrefix, canCreateIrbProtocol, canCreateIacucProtocol) {
+function showHideSpecialReviewProtocolLink(specialReviewTypeCode, idPrefix, canCreateIrbProtocol, canCreateIacucProtocol, enableIrbProtocolLinking, enableIacucProtocolLinking) {
 	var readOnly = specialReviewTypeCode.value == '1';
-	if (readOnly) {
-		changeObjectVisibility(idPrefix + ".protocolNumber.link.div", "inline");
-	} else {
-		changeObjectVisibility(idPrefix + ".protocolNumber.link.div", "none"); 
-	}
 	if (specialReviewTypeCode.value == '1' &&  canCreateIrbProtocol == 'true' ) {
 		changeObjectVisibility(idPrefix + ".startprotocol.image.div", "inline");
 	}
@@ -3295,6 +3290,19 @@ function showHideSpecialReviewProtocolLink(specialReviewTypeCode, idPrefix, canC
 	else
 	{
 		changeObjectVisibility(idPrefix + ".startprotocol.image.div", "none"); 	
+	}
+	if (specialReviewTypeCode.value == '1' &&  enableIrbProtocolLinking == 'true' ) {
+		changeObjectVisibility(idPrefix + ".protocolNumber.irb.link.div", "inline");
+		changeObjectVisibility(idPrefix + ".protocolNumber.iacuc.link.div", "none");
+	}
+	else if (specialReviewTypeCode.value == '2' && enableIacucProtocolLinking == 'true' ) {
+		changeObjectVisibility(idPrefix + ".protocolNumber.irb.link.div", "none"); 
+		changeObjectVisibility(idPrefix + ".protocolNumber.iacuc.link.div", "inline");
+	}
+	else
+	{
+		changeObjectVisibility(idPrefix + ".protocolNumber.irb.link.div", "none"); 
+		changeObjectVisibility(idPrefix + ".protocolNumber.iacuc.link.div", "none");
 	}
 	
 	enableDisableReadOnlyDynamicHtmlControl(readOnly, new Array(idPrefix + ".approvalTypeCode", idPrefix + ".applicationDate", idPrefix + ".approvalDate", idPrefix + ".expirationDate", idPrefix + ".exemptionTypeCodes"));
