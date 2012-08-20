@@ -366,12 +366,13 @@ public class ProposalDevelopmentXmlStream extends ProposalBaseStream {
 
     private PROPOSALMASTER getPROPOSALMASTER() {
         PROPOSALMASTER proposalmaster = PROPOSALMASTER.Factory.newInstance();
+        developmentProposal.refresh();
         proposalmaster.setPROPOSALNUMBER(developmentProposal.getProposalNumber());
         PROPOSALTYPE proposaltype = PROPOSALTYPE.Factory.newInstance();
         if (developmentProposal.getProposalType() != null) {
             proposaltype.setPROPOSALTYPECODE(getCode(developmentProposal.getProposalType().getProposalTypeCode()));
-        }
-        proposaltype.setDESCRIPTION(developmentProposal.getProposalType().getDescription());
+            proposaltype.setDESCRIPTION(developmentProposal.getProposalType().getDescription());
+        }        
         ACTIVITYTYPE activityType = ACTIVITYTYPE.Factory.newInstance();
         if (developmentProposal.getActivityType() != null) {
             activityType.setACTIVITYTYPECODE(getCode(developmentProposal.getActivityType().getActivityTypeCode()));
@@ -499,22 +500,25 @@ public class ProposalDevelopmentXmlStream extends ProposalBaseStream {
 
         CREDITSPLITCOLUMNS proposalCreditSplitColumns = CREDITSPLITCOLUMNS.Factory.newInstance();
         Collection<InvestigatorCreditType> investigatorCreditTypes;
-        investigatorCreditTypes = developmentProposal.getInvestigatorCreditTypes();
-        for (InvestigatorCreditType investigatorCreditType : investigatorCreditTypes) {
-            String invCreditTypeCode = investigatorCreditType.getInvCreditTypeCode();
-            String invCreditDescription = investigatorCreditType.getDescription();
-            if (invCreditTypeCode.equals("0")) {
-                proposalCreditSplitColumns.setColumnName1(invCreditDescription);
-            } else if (invCreditTypeCode.equals("1")) {
-                proposalCreditSplitColumns.setColumnName2(invCreditDescription);
-            } else if (invCreditTypeCode.equals("2")) {
-                proposalCreditSplitColumns.setColumnName3(invCreditDescription);
-            } else if (invCreditTypeCode.equals("3")) {
-                proposalCreditSplitColumns.setColumnName4(invCreditDescription);
-            } else if (invCreditTypeCode.equals("4")) {
-                proposalCreditSplitColumns.setColumnName5(invCreditDescription);
-            } else if (invCreditTypeCode.equals("5")) {
-                proposalCreditSplitColumns.setColumnName6(invCreditDescription);
+        developmentProposal.refresh();
+        if (developmentProposal.getInvestigatorCreditTypes() != null) {
+            investigatorCreditTypes = developmentProposal.getInvestigatorCreditTypes();
+            for (InvestigatorCreditType investigatorCreditType : investigatorCreditTypes) {
+                String invCreditTypeCode = investigatorCreditType.getInvCreditTypeCode();
+                String invCreditDescription = investigatorCreditType.getDescription();
+                if (invCreditTypeCode.equals("0")) {
+                    proposalCreditSplitColumns.setColumnName1(invCreditDescription);
+                } else if (invCreditTypeCode.equals("1")) {
+                    proposalCreditSplitColumns.setColumnName2(invCreditDescription);
+                } else if (invCreditTypeCode.equals("2")) {
+                    proposalCreditSplitColumns.setColumnName3(invCreditDescription);
+                } else if (invCreditTypeCode.equals("3")) {
+                    proposalCreditSplitColumns.setColumnName4(invCreditDescription);
+                } else if (invCreditTypeCode.equals("4")) {
+                    proposalCreditSplitColumns.setColumnName5(invCreditDescription);
+                } else if (invCreditTypeCode.equals("5")) {
+                    proposalCreditSplitColumns.setColumnName6(invCreditDescription);
+                }
             }
         }
         return proposalCreditSplitColumns;
