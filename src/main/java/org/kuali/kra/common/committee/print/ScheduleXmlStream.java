@@ -35,6 +35,7 @@ import org.kuali.kra.common.committee.bo.CommonCommitteeSchedule;
 import org.kuali.kra.common.committee.meeting.CommScheduleActItem;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleAttendance;
 import org.kuali.kra.common.committee.service.CommonCommitteeMembershipService;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.printing.xmlstream.PrintBaseXmlStream;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.actions.ProtocolAction;
@@ -102,7 +103,12 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
         setPreviousSchedule(committeeSchedule,prevSchedule.addNewScheduleMasterData());
         ScheduleSummaryType nextScheduleType = schedule.addNewNextSchedule();
         setNextSchedule(committeeSchedule,nextScheduleType.addNewScheduleMasterData());
-         
+        
+        //For some reason Spring isn't always populating this service.  SIGH!
+        if (getPrintXmlUtilService() == null) {
+            printXmlUtilService = KraServiceLocator.getService("commonPrintXmlUtilService");
+        }
+        
         getPrintXmlUtilService().setMinutes(committeeSchedule, schedule);
         setAttendance(committeeSchedule, schedule);
         committeeSchedule.refreshReferenceObject("protocolSubmissions");
@@ -606,14 +612,8 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
         this.kcPersonService = kcPersonService;
     }
 
-
-    /**
-     * Gets the irbPrintXmlUtilService attribute.
-     * 
-     * @return Returns the irbPrintXmlUtilService.
-     */
     public PrintXmlUtilService getPrintXmlUtilService() {
-        return printXmlUtilService;
+        return this.printXmlUtilService;
     }
 
 
