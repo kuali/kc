@@ -72,15 +72,24 @@
 
             <c:if test="${canModify}"> 
                 <tr>
-                    <c:set var="protocolLinkingReadOnly" value="${KualiForm.specialReviewHelper.newSpecialReview.specialReviewTypeCode == '1'}" />
+                    <c:set var="protocolLinkingReadOnly" value="${KualiForm.specialReviewHelper.newSpecialReview.specialReviewTypeCode == '1' || KualiForm.specialReviewHelper.newSpecialReview.specialReviewTypeCode == '2'}" />
                     <c:choose>
-                       <c:when test="${protocolLinkingReadOnly}">
-                           <c:set var="initialStyle" value="display:inline"/>
+                       <c:when test="${enableIrbProtocolLinking && KualiForm.specialReviewHelper.newSpecialReview.specialReviewTypeCode == '1'}">
+                           <c:set var="initialStyleIrb" value="display:inline"/>
                        </c:when>
                        <c:otherwise>
-                          <c:set var="initialStyle" value="display:none"/>
+                          <c:set var="initialStyleIrb" value="display:none"/>
                        </c:otherwise>
                     </c:choose>
+                    <c:choose>
+                       <c:when test="${enableIacucProtocolLinking && KualiForm.specialReviewHelper.newSpecialReview.specialReviewTypeCode == '2'}">
+                           <c:set var="initialStyleIacuc" value="display:inline"/>
+                       </c:when>
+                       <c:otherwise>
+                          <c:set var="initialStyleIacuc" value="display:none"/>
+                       </c:otherwise>
+                    </c:choose>
+                    
 	                <c:set var="textAreaFieldName" value="specialReviewHelper.newSpecialReview.comments" />
 					<th class="infoline" rowspan="2">
 						Add:
@@ -89,7 +98,7 @@
 	                   <kul:htmlControlAttribute property="specialReviewHelper.newSpecialReview.specialReviewTypeCode" 
 		                                         attributeEntry="${attributes.specialReviewTypeCode}"
 		                                         styleClass="fixed-size-200-select"
-		                                         onchange="showHideSpecialReviewProtocolLink(this, 'specialReviewHelper.newSpecialReview', '${canCreateIrbProtocol}', '${canCreateIacucProtocol}');return false"/>
+		                                         onchange="showHideSpecialReviewProtocolLink(this, 'specialReviewHelper.newSpecialReview', '${canCreateIrbProtocol}', '${canCreateIacucProtocol}','${enableIrbProtocolLinking}','${enableIacucProtocolLinking}');return false"/>
 					</div></td>
 	                <td class="infoline"><div align="center">
 	                   <kra:dynamicHtmlControlAttribute property="specialReviewHelper.newSpecialReview.approvalTypeCode" 
@@ -103,12 +112,14 @@
 	                <td class="infoline"><div align="center">
                         <kul:htmlControlAttribute property="specialReviewHelper.newSpecialReview.protocolNumber" 
 		                                          attributeEntry="${attributes.protocolNumber}" />
-                        <c:if test="${enableIrbProtocolLinking}">
-                            <span id="specialReviewHelper.newSpecialReview.protocolNumber.link.div" style="${initialStyle}">
+                            <span id="specialReviewHelper.newSpecialReview.protocolNumber.irb.link.div" style="${initialStyleIrb}">
                                 <kul:lookup boClassName="org.kuali.kra.irb.Protocol" 
                                             fieldConversions="protocolNumber:specialReviewHelper.newSpecialReview.protocolNumber" />
                             </span>
-                        </c:if>
+                            <span id="specialReviewHelper.newSpecialReview.protocolNumber.iacuc.link.div" style="${initialStyleIacuc}">
+                                <kul:lookup boClassName="org.kuali.kra.iacuc.IacucProtocol" 
+                                            fieldConversions="protocolNumber:specialReviewHelper.newSpecialReview.protocolNumber" />
+                            </span>
 					</div></td>
 	                <td align="left" valign="middle" class="infoline"><div align="center">
                         <kra:dynamicHtmlControlAttribute property="specialReviewHelper.newSpecialReview.applicationDate" 
@@ -162,15 +173,24 @@
             
         	<c:forEach var="specialReview" items="${collectionReference}" varStatus="status">
                 <tr>
-                    <c:set var="protocolLinkingReadOnly" value="${enableIrbProtocolLinking and collectionReference[status.index].specialReviewTypeCode == '1'}" />
-	                <c:choose>
-	                    <c:when test="${collectionReference[status.index].specialReviewTypeCode == '1'}">
-	                        <c:set var="initialStyle" value="display:inline"/>
-	                    </c:when>
-	                    <c:otherwise>
-	                        <c:set var="initialStyle" value="display:none"/>
-	                    </c:otherwise>
-	                </c:choose>
+                    <c:set var="protocolLinkingReadOnly" value="${((enableIrbProtocolLinking and collectionReference[status.index].specialReviewTypeCode == '1' ) || (enableIacucProtocolLinking and collectionReference[status.index].specialReviewTypeCode == '2' )) }" />
+                    <c:choose>
+                       <c:when test="${enableIrbProtocolLinking && collectionReference[status.index].specialReviewTypeCode == '1'}">
+                           <c:set var="initialStyleIrb" value="display:inline"/>
+                       </c:when>
+                       <c:otherwise>
+                          <c:set var="initialStyleIrb" value="display:none"/>
+                       </c:otherwise>
+                    </c:choose>
+                    <c:choose>
+                       <c:when test="${enableIacucProtocolLinking && collectionReference[status.index].specialReviewTypeCode == '2'}">
+                           <c:set var="initialStyleIacuc" value="display:inline"/>
+                       </c:when>
+                       <c:otherwise>
+                          <c:set var="initialStyleIacuc" value="display:none"/>
+                       </c:otherwise>
+                    </c:choose>
+
 	                <c:set var="textAreaFieldName" value="${collectionProperty}[${status.index}].comments" />
 					<th class="infoline" rowspan="2">
 					   <c:out value="${status.index+1}" />
@@ -181,7 +201,7 @@
 	                                              readOnly="${not canModify}"
 	                                              styleClass="fixed-size-200-select"
 	                                              readOnlyAlternateDisplay="${specialReview.specialReviewType.description}" 
-	                                              onchange="showHideSpecialReviewProtocolLink(this, '${collectionProperty}[${status.index}]');return false" />
+	                                              onchange="showHideSpecialReviewProtocolLink(this, '${collectionProperty}[${status.index}]', '${canCreateIrbProtocol}', '${canCreateIacucProtocol}','${enableIrbProtocolLinking}','${enableIacucProtocolLinking}');return false" />
 					</div></td>
                     <td><div align="center">
                         <kra:dynamicHtmlControlAttribute property="${collectionProperty}[${status.index}].approvalTypeCode" 
@@ -204,12 +224,14 @@
                         <kul:htmlControlAttribute property="${collectionProperty}[${status.index}].protocolNumber" 
                                                   attributeEntry="${attributes.protocolNumber}" 
                                                   readOnly="${not canModify}" />
-                        <c:if test="${enableIrbProtocolLinking}">
-                            <span id="${collectionProperty}[${status.index}].protocolNumber.link.div" style="${initialStyle}">
+                            <span id="${collectionProperty}[${status.index}].protocolNumber.irb.link.div" style="${initialStyleIrb}">
 	                            <kul:lookup boClassName="org.kuali.kra.irb.Protocol" 
 		                                    fieldConversions="protocolNumber:${collectionProperty}[${status.index}].protocolNumber" />
                             </span>
-                        </c:if>
+                            <span id="${collectionProperty}[${status.index}].protocolNumber.iacuc.link.div" style="${initialStyleIacuc}">
+	                            <kul:lookup boClassName="org.kuali.kra.iacuc.IacucProtocol" 
+		                                    fieldConversions="protocolNumber:${collectionProperty}[${status.index}].protocolNumber" />
+                            </span>
 					</div></td>
                     <td align="left" valign="middle"><div align="center">
                         <kra:dynamicHtmlControlAttribute property="${collectionProperty}[${status.index}].applicationDate" 
