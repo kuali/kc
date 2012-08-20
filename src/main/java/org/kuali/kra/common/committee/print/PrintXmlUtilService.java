@@ -32,6 +32,8 @@ import edu.mit.coeus.xml.iacuc.SubmissionDetailsType;
  */
 public interface PrintXmlUtilService {
     
+    public static final String COMMON_PRINT_XML_UTIL_SERVICE_SPRING_NAME = "commonPrintXmlUtilService";
+    
     public void setPersonXml(KcPerson person, PersonType personType);
     public void setPersonXml(ProtocolPersonRolodex rolodex, PersonType personType);
     public void setPersonRolodexType(ProtocolPerson protocolPerson, PersonType personType);   
