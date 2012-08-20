@@ -29,6 +29,8 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
 import org.kuali.kra.rules.ErrorReporter;
 import org.kuali.kra.service.PersonEditableService;
+import org.kuali.kra.service.Sponsorable;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
@@ -36,15 +38,11 @@ import org.kuali.rice.krad.service.BusinessObjectService;
  * 
  * Person roles that might be replaced are: Investigator, Mailing Information, Key Study Person.
  */
-public class ProposalDevelopmentPersonMassChangeServiceImpl implements ProposalDevelopmentPersonMassChangeService {
+public class ProposalDevelopmentPersonMassChangeServiceImpl extends MassPersonChangeServiceBase implements ProposalDevelopmentPersonMassChangeService {
 
-    private static final String PMC_LOCKED_FIELD = "personMassChangeDocumentLocked";
-    
     private static final String DEVELOPMENT_PROPOSAL = "development proposal";
+    private static final String DEVPROP_WARNINGS = "devPropWarnings";
     
-    private final ErrorReporter errorReporter = new ErrorReporter();
-    
-    private BusinessObjectService businessObjectService;
     private PersonEditableService personEditableService;
     
     @Override
@@ -77,6 +75,7 @@ public class ProposalDevelopmentPersonMassChangeServiceImpl implements ProposalD
     
     private boolean isProposalDevelopmentChangeCandidate(PersonMassChange personMassChange, DevelopmentProposal developmentProposal) {
         boolean isProposalDevelopmentChangeCandidate = false;
+        boolean hasErrors = false;
         
         List<ProposalPerson> persons = developmentProposal.getProposalPersons();
         Integer mailingInformationId = developmentProposal.getMailingAddressId();
@@ -87,42 +86,19 @@ public class ProposalDevelopmentPersonMassChangeServiceImpl implements ProposalD
         if (personMassChange.getProposalDevelopmentPersonMassChange().isInvestigator()) {
             isProposalDevelopmentChangeCandidate |= isPersonChangeCandidate(personMassChange, persons, investigatorRoles);
         }
-        if (personMassChange.getProposalDevelopmentPersonMassChange().isMailingInformation()) {
-            isProposalDevelopmentChangeCandidate |= isMailingInformationChangeCandidate(personMassChange, mailingInformationId);
-        }
         if (personMassChange.getProposalDevelopmentPersonMassChange().isKeyStudyPerson()) {
             isProposalDevelopmentChangeCandidate |= isPersonChangeCandidate(personMassChange, persons, keyStudyPersonRoles);
         }
-        
-        return isProposalDevelopmentChangeCandidate;
-    }
-    
-    private boolean isPersonChangeCandidate(PersonMassChange personMassChange, List<ProposalPerson> persons, String... personRoles) {
-        boolean isPersonChangeCandidate = false;
-        
-        for (ProposalPerson person : persons) {
-            if (isPersonInRole(person, personRoles)) {
-                if (isPersonIdMassChange(personMassChange, person.getPersonId()) || isRolodexIdMassChange(personMassChange, person.getRolodexId())) {
-                    isPersonChangeCandidate = true;
-                    break;
-                }
-            }
+        //if the award is a change candidate based on the investigators and key persons,
+        //then make sure the replacer user doesn't already exist.
+        if (isProposalDevelopmentChangeCandidate) {
+            hasErrors |= !isReplacerValidPersonChangeCandidate(personMassChange, persons);
         }
+        if (personMassChange.getProposalDevelopmentPersonMassChange().isMailingInformation()) {
+            isProposalDevelopmentChangeCandidate |= isMailingInformationChangeCandidate(personMassChange, mailingInformationId);
+        }        
         
-        return isPersonChangeCandidate;
-    }
-    
-    private boolean isPersonInRole(ProposalPerson proposalPerson, String... personRoles) {
-        boolean isPersonInRole = false;
-        
-        for (String personRole : personRoles) {
-            if (StringUtils.equals(proposalPerson.getProposalPersonRoleId(), personRole)) {
-                isPersonInRole = true;
-                break;
-            }
-        }
-        
-        return isPersonInRole;
+        return isProposalDevelopmentChangeCandidate && !hasErrors;
     }
     
     private boolean isMailingInformationChangeCandidate(PersonMassChange personMassChange, Integer mailingInformationId) {
@@ -200,27 +176,9 @@ public class ProposalDevelopmentPersonMassChangeServiceImpl implements ProposalD
         }
     }
     
-    private boolean isPersonIdMassChange(PersonMassChange personMassChange, String personId) {
-        String replaceePersonId = personMassChange.getReplaceePersonId();
-        return replaceePersonId != null && replaceePersonId.equals(personId);
-    }
-    
-    private boolean isRolodexIdMassChange(PersonMassChange personMassChange, Integer rolodexId) {
-        Integer replaceeRolodexId = personMassChange.getReplaceeRolodexId();
-        return replaceeRolodexId != null && replaceeRolodexId.equals(rolodexId);
-    }
-    
     private void reportSoftError(DevelopmentProposal developmentProposalChangeCandidate) {
         String proposalNumber = developmentProposalChangeCandidate.getProposalNumber();
         errorReporter.reportSoftError(PMC_LOCKED_FIELD, KeyConstants.ERROR_PERSON_MASS_CHANGE_DOCUMENT_LOCKED, DEVELOPMENT_PROPOSAL, proposalNumber);
-    }
-    
-    public BusinessObjectService getBusinessObjectService() {
-        return businessObjectService;
-    }
-    
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
     }
     
     public PersonEditableService getPersonEditableService() {
@@ -229,6 +187,21 @@ public class ProposalDevelopmentPersonMassChangeServiceImpl implements ProposalD
 
     public void setPersonEditableService(PersonEditableService personEditableService) {
         this.personEditableService = personEditableService;
+    }
+
+    @Override
+    protected String getDocumentId(PersistableBusinessObject parent) {
+        return ((DevelopmentProposal) parent).getProposalNumber();
+    }
+
+    @Override
+    protected String getDocumentName() {
+        return DEVELOPMENT_PROPOSAL;
+    }
+
+    @Override
+    protected String getWarningKey() {
+        return DEVPROP_WARNINGS;
     }
 
 }

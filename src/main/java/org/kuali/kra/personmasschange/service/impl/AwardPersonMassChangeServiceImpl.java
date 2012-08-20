@@ -24,6 +24,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.contacts.AwardPerson;
 import org.kuali.kra.award.contacts.AwardSponsorContact;
@@ -31,14 +32,18 @@ import org.kuali.kra.award.contacts.AwardUnitContact;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.award.paymentreports.specialapproval.foreigntravel.AwardApprovedForeignTravel;
+import org.kuali.kra.bo.Contactable;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.Rolodex;
+import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.personmasschange.bo.PersonMassChange;
 import org.kuali.kra.personmasschange.service.AwardPersonMassChangeService;
 import org.kuali.kra.rules.ErrorReporter;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.RolodexService;
+import org.kuali.kra.service.Sponsorable;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
@@ -46,20 +51,14 @@ import org.kuali.rice.krad.service.BusinessObjectService;
  * 
  * Person roles that might be replaced are: Investigator, Unit Contact, Sponsor Contact, Approved Foreign Travel.
  */
-public class AwardPersonMassChangeServiceImpl implements AwardPersonMassChangeService {
+public class AwardPersonMassChangeServiceImpl extends MassPersonChangeServiceBase implements AwardPersonMassChangeService {
     
-    private static final String PMC_LOCKED_FIELD = "personMassChangeDocumentLocked";
+    public static final String AWARD_WARNINGS = "awardWarnings";
     
     private static final String AWARD_NUMBER = "awardNumber";
     private static final String SEQUENCE_NUMBER = "sequenceNumber";
     
     private static final String AWARD = "award";
-    
-    private final ErrorReporter errorReporter = new ErrorReporter();
-
-    private BusinessObjectService businessObjectService;
-    private KcPersonService kcPersonService;
-    private RolodexService rolodexService;
     
     @Override
     public List<Award> getAwardChangeCandidates(PersonMassChange personMassChange) {
@@ -80,6 +79,7 @@ public class AwardPersonMassChangeServiceImpl implements AwardPersonMassChangeSe
             if (!awardChangeCandidate.getAwardDocument().getPessimisticLocks().isEmpty()) {
                 reportSoftError(awardChangeCandidate);
             }
+            
         }
         
         return awardChangeCandidates;
@@ -126,6 +126,7 @@ public class AwardPersonMassChangeServiceImpl implements AwardPersonMassChangeSe
     
     private boolean isAwardChangeCandidate(PersonMassChange personMassChange, Award award) {
         boolean isAwardChangeCandidate = false;
+        boolean hasErrors = false;
         
         List<AwardPerson> persons = award.getProjectPersons();
         List<AwardSponsorContact> sponsorContacts = award.getSponsorContacts();
@@ -141,6 +142,11 @@ public class AwardPersonMassChangeServiceImpl implements AwardPersonMassChangeSe
         if (personMassChange.getAwardPersonMassChange().isKeyStudyPerson()) {
             isAwardChangeCandidate |= isPersonChangeCandidate(personMassChange, persons, keyStudyPersonRoles);
         }
+        //if the award is a change candidate based on the investigators and key persons,
+        //then make sure the replacer user doesn't already exist.
+        if (isAwardChangeCandidate) {
+            hasErrors |= !isReplacerValidPersonChangeCandidate(personMassChange, persons);
+        }
         if (personMassChange.getAwardPersonMassChange().isUnitContact()) {
             isAwardChangeCandidate |= isUnitContactChangeCandidate(personMassChange, unitContacts);
         }
@@ -151,36 +157,10 @@ public class AwardPersonMassChangeServiceImpl implements AwardPersonMassChangeSe
             isAwardChangeCandidate |= isApprovedForeignTravelChangeCandidate(personMassChange, approvedForeignTravels);
         }
 
-        return isAwardChangeCandidate;
+        return isAwardChangeCandidate && !hasErrors;
     }
     
-    private boolean isPersonChangeCandidate(PersonMassChange personMassChange, List<AwardPerson> persons, String... personRoles) {
-        boolean isPersonChangeCandidate = false;
-        
-        for (AwardPerson person : persons) {
-            if (isPersonInRole(person, personRoles)) {
-                if (isPersonIdMassChange(personMassChange, person.getPersonId()) || isRolodexIdMassChange(personMassChange, person.getRolodexId())) {
-                    isPersonChangeCandidate = true;
-                    break;
-                }
-            }
-        }
-        
-        return isPersonChangeCandidate;
-    }
-    
-    private boolean isPersonInRole(AwardPerson person, String... personRoles) {
-        boolean isPersonInRole = false;
-        
-        for (String personRole : personRoles) {
-            if (StringUtils.equals(person.getRoleCode(), personRole)) {
-                isPersonInRole = true;
-                break;
-            }
-        }
-        
-        return isPersonInRole;
-    }
+
 
     private boolean isUnitContactChangeCandidate(PersonMassChange personMassChange, List<AwardUnitContact> unitContacts) {
         boolean isUnitContactChangeCandidate = false;
@@ -264,6 +244,7 @@ public class AwardPersonMassChangeServiceImpl implements AwardPersonMassChangeSe
                         person.setRolodexId(rolodex.getRolodexId());
                         person.setFullName(rolodex.getFullName());
                     }
+                    
     
                     getBusinessObjectService().save(person);
                 }
@@ -320,43 +301,24 @@ public class AwardPersonMassChangeServiceImpl implements AwardPersonMassChangeSe
         }
     }
     
-    private boolean isPersonIdMassChange(PersonMassChange personMassChange, String personId) {
-        String replaceePersonId = personMassChange.getReplaceePersonId();
-        return replaceePersonId != null && replaceePersonId.equals(personId);
-    }
-    
-    private boolean isRolodexIdMassChange(PersonMassChange personMassChange, Integer rolodexId) {
-        Integer replaceeRolodexId = personMassChange.getReplaceeRolodexId();
-        return replaceeRolodexId != null && replaceeRolodexId.equals(rolodexId);
-    }
-    
     private void reportSoftError(Award award) {
         String awardNumber = award.getAwardNumber();
         errorReporter.reportSoftError(PMC_LOCKED_FIELD, KeyConstants.ERROR_PERSON_MASS_CHANGE_DOCUMENT_LOCKED, AWARD, awardNumber);
     }
-    
-    public BusinessObjectService getBusinessObjectService() {
-        return businessObjectService;
+
+    @Override
+    protected String getDocumentId(PersistableBusinessObject parent) {
+        return ((Award) parent).getAwardNumber();
     }
-    
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
+
+    @Override
+    protected String getDocumentName() {
+        return AWARD;
     }
-    
-    public KcPersonService getKcPersonService() {
-        return kcPersonService;
-    }
-    
-    public void setKcPersonService(KcPersonService kcPersonService) {
-        this.kcPersonService = kcPersonService;
-    }
-    
-    public RolodexService getRolodexService() {
-        return rolodexService;
-    }
-    
-    public void setRolodexService(RolodexService rolodexService) {
-        this.rolodexService = rolodexService;
+
+    @Override
+    protected String getWarningKey() {
+        return AWARD_WARNINGS;
     }
 
 }

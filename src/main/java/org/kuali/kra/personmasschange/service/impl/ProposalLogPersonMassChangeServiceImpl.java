@@ -27,6 +27,8 @@ import org.kuali.kra.personmasschange.bo.PersonMassChange;
 import org.kuali.kra.personmasschange.service.ProposalLogPersonMassChangeService;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.RolodexService;
+import org.kuali.kra.service.Sponsorable;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
@@ -34,12 +36,11 @@ import org.kuali.rice.krad.service.BusinessObjectService;
  * 
  * Person roles that might be replaced are: Principal Investigator.
  */
-public class ProposalLogPersonMassChangeServiceImpl implements ProposalLogPersonMassChangeService {
-    
-    private BusinessObjectService businessObjectService;
-    private KcPersonService kcPersonService;
-    private RolodexService rolodexService;
+public class ProposalLogPersonMassChangeServiceImpl extends MassPersonChangeServiceBase implements ProposalLogPersonMassChangeService {
 
+    private static final String PROPOSAL_LOG = "proposal log";
+    private static final String PROPOSAL_LOG_WARNINGS = "propLogWarnings";
+    
     @Override
     public List<ProposalLog> getProposalLogChangeCandidates(PersonMassChange personMassChange) {
         Set<ProposalLog> proposalLogChangeCandidates = new HashSet<ProposalLog>();
@@ -80,39 +81,20 @@ public class ProposalLogPersonMassChangeServiceImpl implements ProposalLogPerson
             getBusinessObjectService().save(proposalLogChangeCandidate);
         }
     }
-    
-    private boolean isPersonIdMassChange(PersonMassChange personMassChange, String personId) {
-        String replaceePersonId = personMassChange.getReplaceePersonId();
-        return replaceePersonId != null && replaceePersonId.equals(personId);
+
+    @Override
+    protected String getDocumentId(PersistableBusinessObject parent) {
+        return ((ProposalLog) parent).getProposalNumber();
     }
-    
-    private boolean isRolodexIdMassChange(PersonMassChange personMassChange, Integer rolodexId) {
-        Integer replaceeRolodexId = personMassChange.getReplaceeRolodexId();
-        return replaceeRolodexId != null && replaceeRolodexId.equals(rolodexId);
+
+    @Override
+    protected String getDocumentName() {
+        return PROPOSAL_LOG;
     }
-    
-    public BusinessObjectService getBusinessObjectService() {
-        return businessObjectService;
-    }
-    
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
-    }
-    
-    public KcPersonService getKcPersonService() {
-        return kcPersonService;
-    }
-    
-    public void setKcPersonService(KcPersonService kcPersonService) {
-        this.kcPersonService = kcPersonService;
-    }
-    
-    public RolodexService getRolodexService() {
-        return rolodexService;
-    }
-    
-    public void setRolodexService(RolodexService rolodexService) {
-        this.rolodexService = rolodexService;
+
+    @Override
+    protected String getWarningKey() {
+        return PROPOSAL_LOG_WARNINGS;
     }
 
 }

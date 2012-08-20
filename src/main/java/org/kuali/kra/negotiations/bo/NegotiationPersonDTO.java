@@ -19,6 +19,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.AbstractProjectPerson;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
 public class NegotiationPersonDTO implements AbstractProjectPerson {
     
@@ -48,6 +49,26 @@ public class NegotiationPersonDTO implements AbstractProjectPerson {
     
     public boolean isPrincipalInvestigator() {
         return StringUtils.equals(roleCode, Constants.PRINCIPAL_INVESTIGATOR_ROLE);
+    }
+
+    @Override
+    public String getFullName() {
+        return getPerson().getFullName();
+    }
+
+    @Override
+    public PersistableBusinessObject getParent() {
+        return null;
+    }
+
+    @Override
+    public String getPersonId() {
+        return getPerson().getPersonId();
+    }
+
+    @Override
+    public Integer getRolodexId() {
+        return null;
     }
 
 }

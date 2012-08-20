@@ -15,8 +15,14 @@
  */
 package org.kuali.kra.bo;
 
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+
 public interface AbstractProjectPerson {
 
     String getRoleCode();
     KcPerson getPerson();
+    String getPersonId();
+    Integer getRolodexId();
+    String getFullName();
+    PersistableBusinessObject getParent();
 }
