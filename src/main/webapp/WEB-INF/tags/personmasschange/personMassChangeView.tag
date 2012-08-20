@@ -17,7 +17,7 @@
 <kul:tabTop tabTitle="Replacing ${KualiForm.document.personMassChange.replaceeFullName} with ${KualiForm.document.personMassChange.replacerFullName}" defaultOpen="true">
     <div class="tab-container" align="center">
         <kra:softError softErrorKey="personMassChangeDocumentLocked" />
-	    <kul:innerTab parentTab="${parentTab}" tabTitle="Award ${tabTitle}" defaultOpen="false" >
+	    <kul:innerTab parentTab="${parentTab}" tabTitle="Award ${tabTitle}" defaultOpen="false" tabErrorKey="awardWarnings">
 	        <div class="tab-container" align="center">
 	            <table cellpadding="4" cellspacing="0" summary="">
 	                <tr>
@@ -41,7 +41,7 @@
 	        </div>
 	    </kul:innerTab>
 	    
-	    <kul:innerTab parentTab="${parentTab}" tabTitle="IACUC ${tabTitle}" defaultOpen="false" >
+	    <kul:innerTab parentTab="${parentTab}" tabTitle="IACUC ${tabTitle}" defaultOpen="false" tabErrorKey="iacucWarnings">
             <div class="tab-container" align="center">
                 <table cellpadding="4" cellspacing="0" summary="">
                     <tr>
@@ -65,7 +65,7 @@
             </div>
         </kul:innerTab>
 	    
-	    <kul:innerTab parentTab="${parentTab}" tabTitle="Institutional Proposal ${tabTitle}" defaultOpen="false" >
+	    <kul:innerTab parentTab="${parentTab}" tabTitle="Institutional Proposal ${tabTitle}" defaultOpen="false" tabErrorKey="instPropWarnings">
 	        <div class="tab-container" align="center">
 	            <table cellpadding="4" cellspacing="0" summary="">
 	                <tr>
@@ -89,7 +89,7 @@
 	        </div>
 	    </kul:innerTab>
 	    
-	    <kul:innerTab parentTab="${parentTab}" tabTitle="Proposal Development ${tabTitle}" defaultOpen="false" >
+	    <kul:innerTab parentTab="${parentTab}" tabTitle="Proposal Development ${tabTitle}" defaultOpen="false" tabErrorKey="devPropWarnings">
 	        <div class="tab-container" align="center">
 	            <table cellpadding="4" cellspacing="0" summary="">
 	                <tr>
@@ -113,7 +113,7 @@
 	        </div>
 	    </kul:innerTab>
 	    
-	    <kul:innerTab parentTab="${parentTab}" tabTitle="Proposal Log ${tabTitle}" defaultOpen="false" >
+	    <kul:innerTab parentTab="${parentTab}" tabTitle="Proposal Log ${tabTitle}" defaultOpen="false" tabErrorKey="propLogWarnings">
 	        <div class="tab-container" align="center">
 	            <table cellpadding="4" cellspacing="0" summary="">
 	                <tr>
@@ -137,7 +137,7 @@
 	        </div>
 	    </kul:innerTab>
 	    
-	    <kul:innerTab parentTab="${parentTab}" tabTitle="Subaward ${tabTitle}" defaultOpen="false" >
+	    <kul:innerTab parentTab="${parentTab}" tabTitle="Subaward ${tabTitle}" defaultOpen="false" tabErrorKey="subAwardWarnings" >
 	        <div class="tab-container" align="center">
 	            <table cellpadding="4" cellspacing="0" summary="">
 	                <tr>
@@ -161,7 +161,7 @@
 	        </div>
 	    </kul:innerTab>
 	    
-	    <kul:innerTab parentTab="${parentTab}" tabTitle="Negotiation ${tabTitle}" defaultOpen="false" >
+	    <kul:innerTab parentTab="${parentTab}" tabTitle="Negotiation ${tabTitle}" defaultOpen="false" tabErrorKey="negotiationWarnings">
 	        <div class="tab-container" align="center">
 	            <table cellpadding="4" cellspacing="0" summary="">
 	                <tr>
@@ -185,7 +185,7 @@
 	        </div>
 	    </kul:innerTab>
 	    
-	    <kul:innerTab parentTab="${parentTab}" tabTitle="Protocol ${tabTitle}" defaultOpen="false" >
+	    <kul:innerTab parentTab="${parentTab}" tabTitle="Protocol ${tabTitle}" defaultOpen="false" tabErrorKey="irbWarnings">
 	        <div class="tab-container" align="center">
 	            <table cellpadding="4" cellspacing="0" summary="">
 	                <tr>

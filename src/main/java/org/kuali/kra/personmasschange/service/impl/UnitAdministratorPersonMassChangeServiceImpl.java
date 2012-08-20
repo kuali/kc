@@ -25,6 +25,8 @@ import org.kuali.kra.bo.UnitAdministrator;
 import org.kuali.kra.bo.UnitAdministratorType;
 import org.kuali.kra.personmasschange.bo.PersonMassChange;
 import org.kuali.kra.personmasschange.service.UnitAdministratorPersonMassChangeService;
+import org.kuali.kra.service.Sponsorable;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
@@ -33,9 +35,7 @@ import org.kuali.rice.krad.service.BusinessObjectService;
  * Person roles that might be replaced are: Administrative Officer, OSP Administrator, Unit Head, Dean VP, Other Individual to Notify, Administrative Contact, 
  * Financial Contact.
  */
-public class UnitAdministratorPersonMassChangeServiceImpl implements UnitAdministratorPersonMassChangeService {
-
-    private BusinessObjectService businessObjectService;
+public class UnitAdministratorPersonMassChangeServiceImpl extends MassPersonChangeServiceBase implements UnitAdministratorPersonMassChangeService {
 
     @Override
     public List<UnitAdministrator> getUnitAdministratorChangeCandidates(PersonMassChange personMassChange) {
@@ -119,18 +119,20 @@ public class UnitAdministratorPersonMassChangeServiceImpl implements UnitAdminis
             getBusinessObjectService().save(newUnitAdministrator);
         }
     }
-    
-    private boolean isPersonIdMassChange(PersonMassChange personMassChange, String personId) {
-        String replaceePersonId = personMassChange.getReplaceePersonId();
-        return replaceePersonId != null && StringUtils.equals(replaceePersonId, personId);
+
+    @Override
+    protected String getDocumentId(PersistableBusinessObject parent) {
+        throw new RuntimeException("unimplemented");
     }
-    
-    public BusinessObjectService getBusinessObjectService() {
-        return businessObjectService;
+
+    @Override
+    protected String getDocumentName() {
+        throw new RuntimeException("unimplemented");
     }
-    
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
+
+    @Override
+    protected String getWarningKey() {
+        throw new RuntimeException("unimplemented");
     }
 
 }
