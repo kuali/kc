@@ -84,6 +84,13 @@
         </bean>
         <bean parent="HeaderNavigation">
           <property name="helpDefinition">
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-PD" p:parameterName="proposalDevelopmentProposalHelp" p:parameterDetailType="D"/>
+          </property>
+          <property name="headerTabDisplayName" value="Proposal Summary"/>
+          <property name="headerTabNavigateTo" value="approverView"/>
+        </bean>
+        <bean parent="HeaderNavigation">
+          <property name="helpDefinition">
             <bean parent="HelpDefinition" p:parameterNamespace="KC-PD" p:parameterName="proposalDevelopmentHierarchyHelp" p:parameterDetailType="Document"/>
           </property>
           <property name="headerTabDisplayName" value="Proposal Hierarchy"/>
@@ -102,13 +109,6 @@
           </property>
           <property name="headerTabDisplayName" value="Medusa"/>
           <property name="headerTabNavigateTo" value="medusa"/>
-        </bean>
-        <bean parent="HeaderNavigation">
-          <property name="helpDefinition">
-            <bean parent="HelpDefinition" p:parameterNamespace="KC-PD" p:parameterName="proposalDevelopmentProposalHelp" p:parameterDetailType="D"/>
-          </property>
-          <property name="headerTabDisplayName" value="Proposal Summary"/>
-          <property name="headerTabNavigateTo" value="approverView"/>
         </bean>
       </list>
     </property>
