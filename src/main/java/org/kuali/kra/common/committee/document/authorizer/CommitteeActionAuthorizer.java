@@ -37,7 +37,7 @@ public class CommitteeActionAuthorizer extends CommitteeAuthorizer {
         return StringUtils.equals(committee.getCommitteeDocument().getDocumentHeader().getWorkflowDocument().getStatus().getLabel(), "FINAL")
                 && committee.getCommitteeId() != null
                 && committeeService.getCommitteeById(committee.getCommitteeId()).getId().equals(committee.getId())
-                && hasPermission(userId, committee, PermissionConstants.PERFORM_COMMITTEE_ACTIONS);
+                && hasPermission(userId, committee, PermissionConstants.PERFORM_IACUC_COMMITTEE_ACTIONS);
     }
     
     /**
