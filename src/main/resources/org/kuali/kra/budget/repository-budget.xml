@@ -309,7 +309,7 @@
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     	<field-descriptor name="submitCostSharingFlag" column="SUBMIT_COST_SHARING" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
-		
+    	<field-descriptor name="formulatedCostElementFlag" column="IS_FORMULATED_COST_ELELMENT" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
 		<collection-descriptor name="budgetLineItemCalculatedAmounts" proxy="true" element-class-ref="org.kuali.kra.budget.nonpersonnel.BudgetLineItemCalculatedAmount" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
 			<inverse-foreignkey field-ref="budgetLineItemId"/>
 		</collection-descriptor>
@@ -317,6 +317,9 @@
 			<inverse-foreignkey field-ref="budgetLineItemId"/>
 		</collection-descriptor>
 		<collection-descriptor name="budgetRateAndBaseList" proxy="true" element-class-ref="org.kuali.kra.budget.nonpersonnel.BudgetRateAndBase" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none"> 
+			<inverse-foreignkey field-ref="budgetLineItemId"/>
+		</collection-descriptor>
+		<collection-descriptor name="budgetFormulatedCosts" proxy="true" element-class-ref="org.kuali.kra.budget.nonpersonnel.BudgetFormulatedCostDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
 			<inverse-foreignkey field-ref="budgetLineItemId"/>
 		</collection-descriptor>
 		<reference-descriptor name="budgetCategory" class-ref="org.kuali.kra.budget.core.BudgetCategory" auto-retrieve="true" auto-update="none" auto-delete="none"> 
@@ -1359,4 +1362,42 @@
 			<foreignkey field-ref="rateTypeCodeIncl"/>
 		</reference-descriptor>
 	</class-descriptor>
+	<class-descriptor class="org.kuali.kra.budget.rates.FormulatedType" table="FORMULATED_TYPE">
+		<field-descriptor name="formulatedTypeCode" column="FORMULATED_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true" />
+		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+	</class-descriptor>	
+	<class-descriptor class="org.kuali.kra.budget.rates.UnitFormulatedCost" table="UNIT_FORMULATED_COST">
+		<field-descriptor name="unitFormulatedCostId" column="UNIT_FORMULATED_COST_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_UNIT_FORMULATED_COST_ID"/>
+		<field-descriptor name="formulatedTypeCode" column="FORMULATED_TYPE_CODE" jdbc-type="VARCHAR" />
+		<field-descriptor name="unitNumber" column="UNIT_NUMBER" jdbc-type="VARCHAR" />
+		<field-descriptor name="unitCost" column="UNIT_COST" jdbc-type="DECIMAL" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		<reference-descriptor name="unit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="unitNumber"/>
+		</reference-descriptor>
+		<reference-descriptor name="formulatedType" class-ref="org.kuali.kra.budget.rates.FormulatedType" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="formulatedTypeCode"/>
+		</reference-descriptor>
+	</class-descriptor>	
+	<class-descriptor class="org.kuali.kra.budget.nonpersonnel.BudgetFormulatedCostDetail" table="BUD_FORMULATED_COST_DETAIL">
+		<field-descriptor name="budgetFormulatedCostDetailId" column="BUD_FORMULATED_COST_DETAIL_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_BUD_FRMLTD_COST_DETAIL_ID"/>
+		<field-descriptor name="budgetLineItemId" column="BUDGET_DETAILS_ID" jdbc-type="BIGINT" />
+		<field-descriptor name="formulatedNumber" column="FORMULATED_NUMBER" jdbc-type="INTEGER" />
+		<field-descriptor name="formulatedTypeCode" column="FORMULATED_TYPE_CODE" jdbc-type="VARCHAR" />
+		<field-descriptor name="unitCost" column="UNIT_COST" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
+		<field-descriptor name="count" column="COUNT" jdbc-type="INTEGER" />
+		<field-descriptor name="frequency" column="FREQUENCY" jdbc-type="INTEGER" />
+		<field-descriptor name="calculatedExpenses" column="CALCULATED_EXPENSES" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+	</class-descriptor>	
 </descriptor-repository>
