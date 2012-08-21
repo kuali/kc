@@ -24,8 +24,8 @@
 			<tbody>
 <tr>
 		<td class="tabtable1-left">
-		    <img height="29" width="12" align="middle" alt="" src="/kc-dev/kr/static/images/tab-topleft.gif">
-            
+		    <img height="29" width="12" align="middle" alt="" src="${ConfigProperties.kr.externalizable.images.url}tab-topleft.gif">
+              
               
               
                 <h2>Questionnaire</h2>
@@ -34,12 +34,12 @@
 		</td>
 		<td class="tabtable1-mid">
             
-			    <%-- <input type="image" alt="close Questionnaire" title="close Questionnaire" class="tinybutton" id="tab-Questionnaire-imageToggle" onclick="javascript: return toggleTab(document, 'Questionnaire'); " src="/kc-dev/kr/static/images/tinybutton-hide.gif" name="methodToCall.toggleTab.tabRoles">
+			    <%-- <input type="image" alt="close Questionnaire" title="close Questionnaire" class="tinybutton" id="tab-Questionnaire-imageToggle" onclick="javascript: return toggleTab(document, 'Questionnaire'); " src="${ConfigProperties.kr.externalizable.images.url}tinybutton-hide.gif" name="methodToCall.toggleTab.tabRoles">
 		    --%>
 		    
 		</td>
 		<td class="tabtable1-right">
-		    <img height="29" width="12" align="middle" alt="" src="/kc-dev/kr/static/images/tab-topright.gif">
+		    <img height="29" width="12" align="middle" alt="" src="${ConfigProperties.kr.externalizable.images.url}tab-topright.gif">
 		</td>
 	</tr>
   </tbody>
