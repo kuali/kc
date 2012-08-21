@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.budget.web.struts.action;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,11 +29,13 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetCategory;
 import org.kuali.kra.budget.core.BudgetService;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.nonpersonnel.BudgetExpenseRule;
+import org.kuali.kra.budget.nonpersonnel.BudgetFormulatedCostDetail;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.budget.printing.BudgetPrintType;
@@ -150,7 +153,10 @@ public class BudgetExpensesAction extends BudgetAction {
             }
             newBudgetLineItem.setBudgetCategoryCode(newBudgetLineItem.getCostElementBO().getBudgetCategoryCode());
             newBudgetLineItem.setLineItemSequence(newBudgetLineItem.getLineItemNumber());
-            
+            List<String> formulatedCostElements = getFormulatedCostElements();
+            if(formulatedCostElements.contains(newBudgetLineItem.getCostElement())){
+                newBudgetLineItem.setFormulatedCostElementFlag(true);
+            }
             budget.getBudgetPeriod(budgetPeriod.getBudgetPeriod() - 1).getBudgetLineItems().add(newBudgetLineItem);            
             
             getCalculationService().populateCalculatedAmount(budget, newBudgetLineItem);
@@ -165,6 +171,96 @@ public class BudgetExpensesAction extends BudgetAction {
     }
 
 
+    private List<String> getFormulatedCostElements() {
+        String formulatedCEsValue = getParameterService().getParameterValueAsString(BudgetDocument.class, Constants.FORMULATED_COST_ELEMENTS);
+        String[] formulatedCEs = formulatedCEsValue==null?new String[0]:formulatedCEsValue.split(",");
+        return Arrays.asList(formulatedCEs);
+    }
+    
+    /**
+     * This method is used to add a new Budget Line Item
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return mapping forward
+     * @throws Exception
+     */
+    public ActionForward addBudgetFormulatedCost(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        BudgetForm budgetForm = (BudgetForm) form;
+        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
+        Budget budget = budgetDocument.getBudget();
+        BudgetFormulatedCostDetail newBudgetFormulatedCost = budgetForm.getNewBudgetFormulatedCost();
+        int lineItemNumber = getImagePropertyValue(request, ".budgetLineItemNumber",".");
+        int budgetPeriod = getImagePropertyValue(request, ".budgetPeriod",".budgetLineItemNumber");
+        BudgetPeriod budgetPeriodBO = budget.getBudgetPeriod(budgetPeriod-1);
+        BudgetLineItem budgetLineItem = budgetPeriodBO.getBudgetLineItem(lineItemNumber);
+        newBudgetFormulatedCost.setFormulatedNumber(budgetDocument.getHackedDocumentNextValue(Constants.BUDGET_FORMULATED_NUMBER));
+        newBudgetFormulatedCost.setBudgetLineItemId(budgetLineItem.getBudgetLineItemId());
+        calculateBudgetFormulatedCost(newBudgetFormulatedCost);
+        budgetLineItem.getBudgetFormulatedCosts().add(newBudgetFormulatedCost);
+        budgetForm.setNewBudgetFormulatedCost(new BudgetFormulatedCostDetail());
+        budgetLineItem.setLineItemCost(getFormulatedCostsTotal(budgetLineItem));
+        recalculateBudgetPeriod(budgetForm, budget, budgetPeriodBO);
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+
+    private BudgetDecimal getFormulatedCostsTotal(BudgetLineItem budgetLineItem) {
+        List<BudgetFormulatedCostDetail> budgetFormulatedCosts = budgetLineItem.getBudgetFormulatedCosts();
+        BudgetDecimal formulatedExpenses = BudgetDecimal.ZERO;
+        for (BudgetFormulatedCostDetail budgetFormulatedCostDetail : budgetFormulatedCosts) {
+            formulatedExpenses = formulatedExpenses.add(budgetFormulatedCostDetail.getCalculatedExpenses());
+        }
+        return formulatedExpenses;
+    }
+
+    private int getImagePropertyValue(HttpServletRequest request, String open,String close) {
+        int selectedLine = -1;
+        String parameterName = (String) request.getAttribute(KRADConstants.METHOD_TO_CALL_ATTRIBUTE);
+        if (StringUtils.isNotBlank(parameterName)) {
+            String lineNumber = StringUtils.substringBetween(parameterName, open, close);
+            if (StringUtils.isEmpty(lineNumber)) {
+                return selectedLine;
+            }
+            selectedLine = Integer.parseInt(lineNumber);
+        }
+        return selectedLine;
+    }
+
+
+    private void calculateBudgetFormulatedCost( BudgetFormulatedCostDetail budgetFormulatedCost) {
+        BudgetDecimal unitCost = budgetFormulatedCost.getUnitCost();
+        BudgetDecimal count = new BudgetDecimal(budgetFormulatedCost.getCount());
+        BudgetDecimal frequency = new BudgetDecimal(budgetFormulatedCost.getFrequency());
+        BudgetDecimal calculatedExpense = unitCost.multiply(count).multiply(frequency);
+        budgetFormulatedCost.setCalculatedExpenses(calculatedExpense);
+    }
+
+
+    /**
+     * This method is used to add a new Budget Line Item
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return mapping forward
+     * @throws Exception
+     */
+    public ActionForward deleteBudgetFormulatedCost(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        BudgetForm budgetForm = (BudgetForm) form;
+        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
+        Budget budget = budgetDocument.getBudget();
+        int selectedLine = getSelectedLine(request);
+        int lineItemNumber = getImagePropertyValue(request, ".budgetLineItemNumber",".");
+        int budgetPeriod = getImagePropertyValue(request, ".budgetPeriod",".budgetLineItemNumber");
+        BudgetPeriod budgetPeriodBO = budget.getBudgetPeriod(budgetPeriod-1);
+        BudgetLineItem budgetLineItem = budgetPeriodBO.getBudgetLineItem(lineItemNumber);
+        budgetLineItem.getBudgetFormulatedCosts().remove(selectedLine);
+        budgetLineItem.setLineItemCost(getFormulatedCostsTotal(budgetLineItem));
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
     /**
      * 
      * This method is used to delete a line item
@@ -271,9 +367,13 @@ public class BudgetExpensesAction extends BudgetAction {
             throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
         Budget budget = budgetForm.getBudgetDocument().getBudget();
+        List<String> formulatedCostElements = getFormulatedCostElements();
         for(BudgetPeriod budgetPeriod:budget.getBudgetPeriods()){
             for(BudgetLineItem budgetLineItem:budgetPeriod.getBudgetLineItems()){                
                 if(!StringUtils.equalsIgnoreCase(budgetLineItem.getCostElement(), budgetLineItem.getCostElementBO().getCostElement())){
+                    if(formulatedCostElements.contains(budgetLineItem.getCostElement())){
+                        budgetLineItem.setFormulatedCostElementFlag(true);
+                    }
                     budgetLineItem.refreshReferenceObject("costElementBO");
                     budgetLineItem.setBudgetCategoryCode(budgetLineItem.getCostElementBO().getBudgetCategoryCode());
                 }

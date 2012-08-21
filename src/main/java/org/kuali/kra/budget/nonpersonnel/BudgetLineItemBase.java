@@ -16,6 +16,7 @@
 package org.kuali.kra.budget.nonpersonnel;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kra.budget.BudgetDecimal;
@@ -88,6 +89,10 @@ public abstract class BudgetLineItemBase extends BudgetAssociate {
     private boolean validToApplyInRate;
 
     private String groupName;
+    
+    private Boolean formulatedCostElementFlag;
+    
+    private List<BudgetFormulatedCostDetail> budgetFormulatedCosts;
 
     //ignore the budget period bo during deep copy as any link up the budget object graph
     //will cause generateAllPeriods to consume large amounts of memory
@@ -111,6 +116,7 @@ public abstract class BudgetLineItemBase extends BudgetAssociate {
     }
 
     public BudgetLineItemBase() {
+        budgetFormulatedCosts = new ArrayList<BudgetFormulatedCostDetail>();
     }
 
     public abstract List getBudgetCalculatedAmounts();
@@ -364,5 +370,21 @@ public abstract class BudgetLineItemBase extends BudgetAssociate {
      */
     public void setBudgetPeriodBO(BudgetPeriod budgetPeriodBO) {
         this.budgetPeriodBO = budgetPeriodBO;
+    }
+
+    public Boolean getFormulatedCostElementFlag() {
+        return formulatedCostElementFlag==null?Boolean.FALSE:formulatedCostElementFlag;
+    }
+
+    public void setFormulatedCostElementFlag(Boolean formulatedCostElementFlag) {
+        this.formulatedCostElementFlag = formulatedCostElementFlag;
+    }
+
+    public List<BudgetFormulatedCostDetail> getBudgetFormulatedCosts() {
+        return budgetFormulatedCosts;
+    }
+
+    public void setBudgetFormulatedCosts(List<BudgetFormulatedCostDetail> budgetFormulatedCosts) {
+        this.budgetFormulatedCosts = budgetFormulatedCosts;
     }
 }

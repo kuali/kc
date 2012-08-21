@@ -934,5 +934,8 @@ public interface Constants {
     public static final String IACUC_PROTOCOL_PANEL_NAME = "The Three R\'s";
     public static final String IACUC_PROTOCOL_ALTERNATE_SEARCH = "Alternate Search";
 
+    public static final String FORMULATED_COST_ELEMENTS = "formulatedCostElements";
+    public static final String BUDGET_FORMULATED_NUMBER = "BUDGET_FORMULATED_NUMBER";
+
 }
 
