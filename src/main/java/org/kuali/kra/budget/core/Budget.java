@@ -45,6 +45,7 @@ import org.kuali.kra.budget.distributionincome.BudgetProjectIncome;
 import org.kuali.kra.budget.distributionincome.BudgetUnrecoveredFandA;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.BudgetParentDocument;
+import org.kuali.kra.budget.nonpersonnel.BudgetFormulatedCostDetail;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItemCalculatedAmount;
 import org.kuali.kra.budget.nonpersonnel.BudgetRateAndBase;
@@ -449,6 +450,7 @@ public class Budget extends BudgetVersionOverview {
         managedLists.add(getBudgetUnrecoveredFandAs());
         List<BudgetLineItem> budgetLineItems = new ArrayList<BudgetLineItem>();
         List<BudgetLineItemCalculatedAmount> budgetLineItemCalculatedAmounts = new ArrayList<BudgetLineItemCalculatedAmount>();
+        List<BudgetFormulatedCostDetail> budgetFormulatedCosts = new ArrayList<BudgetFormulatedCostDetail>();
         List<BudgetRateAndBase> budgetRateAndBaseList = new ArrayList<BudgetRateAndBase>();
         List<BudgetPersonnelDetails> bPersonnelDetailsList = new ArrayList<BudgetPersonnelDetails>();
         List<BudgetPersonnelCalculatedAmount> budgetPersonnelCalculatedAmounts = new ArrayList<BudgetPersonnelCalculatedAmount>();
@@ -463,6 +465,7 @@ public class Budget extends BudgetVersionOverview {
             List<BudgetLineItem> tempLIs = budgetPeriod.getBudgetLineItems();
             budgetLineItems.addAll(tempLIs);
             for (BudgetLineItem budgetLineItem : tempLIs) {
+                budgetFormulatedCosts.addAll(budgetLineItem.getBudgetFormulatedCosts());
                 budgetLineItemCalculatedAmounts.addAll(budgetLineItem.getBudgetLineItemCalculatedAmounts());
                 budgetRateAndBaseList.addAll(budgetLineItem.getBudgetRateAndBaseList());
                 List<BudgetPersonnelDetails> tempPerList = budgetLineItem.getBudgetPersonnelDetailsList();
@@ -491,6 +494,7 @@ public class Budget extends BudgetVersionOverview {
         managedLists.add(bPersonnelDetailsList);
         managedLists.add(budgetRateAndBaseList);
         managedLists.add(budgetLineItemCalculatedAmounts);
+        managedLists.add(budgetFormulatedCosts);
         managedLists.add(budgetLineItems);
         managedLists.add(getBudgetPersons());
         managedLists.add(getBudgetPeriods());

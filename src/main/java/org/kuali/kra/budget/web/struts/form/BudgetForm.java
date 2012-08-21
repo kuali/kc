@@ -33,6 +33,7 @@ import org.kuali.kra.budget.distributionincome.BudgetProjectIncome;
 import org.kuali.kra.budget.distributionincome.BudgetUnrecoveredFandA;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.BudgetParentDocument;
+import org.kuali.kra.budget.nonpersonnel.BudgetFormulatedCostDetail;
 import org.kuali.kra.budget.nonpersonnel.BudgetJustificationWrapper;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
@@ -132,6 +133,8 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
     private transient Integer personIndex = 0;
     
     private transient String enableBudgetSalaryByPeriod;
+    
+    private BudgetFormulatedCostDetail newBudgetFormulatedCost;
     
     /**
      * Gets the selectedToPrintComment attribute. 
@@ -244,6 +247,7 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
         budgetJustificationWrapper = new BudgetJustificationWrapper(getBudgetDocument().getBudget().getBudgetJustification());
         newSubAward = new BudgetSubAwards();
         newBudgetModularIdc = new BudgetModularIdc();
+        newBudgetFormulatedCost = new BudgetFormulatedCostDetail();
         this.getDocInfo().add(new HeaderField(BUDGET_NAME_KEY, Constants.EMPTY_STRING));
         this.getDocInfo().add(new HeaderField(VERSION_NUMBER_KEY, Constants.EMPTY_STRING));
 
@@ -981,5 +985,13 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
     
     public java.util.Date getBudgetEndDate() {
         return this.getBudgetDocument().getBudgetEndDate();
+    }
+
+    public BudgetFormulatedCostDetail getNewBudgetFormulatedCost() {
+        return newBudgetFormulatedCost;
+    }
+
+    public void setNewBudgetFormulatedCost(BudgetFormulatedCostDetail newBudgetFormulatedCost) {
+        this.newBudgetFormulatedCost = newBudgetFormulatedCost;
     }
 }

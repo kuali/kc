@@ -94,7 +94,6 @@
 		        			</td>
 				        </tr>
 			       	</table>
-					
 			        
 			        <kul:innerTab parentTab="${innerTabParent}" defaultOpen="false" tabTitle="Rate Classes" useCurrentTabIndexAsKey="true">
 	     				
@@ -182,5 +181,5 @@
 						</td>								
 					</tr>
 				</table>
-		</div>
-</kul:innerTab>
+	       	</div>
+		</kul:innerTab>
