@@ -138,6 +138,9 @@ public abstract class ProtocolSubmission extends ProtocolAssociate {
     }
 
     public List<ProtocolVoteAbstainee> getAbstainers() {
+        if (abstainers == null || abstainers.size() == 0) {
+            refreshReferenceObject("abstainers");
+        }
         return abstainers;
     }
 
@@ -146,6 +149,9 @@ public abstract class ProtocolSubmission extends ProtocolAssociate {
     }
 
     public List<ProtocolVoteRecused> getRecusers() {
+        if (recusers == null || recusers.size() == 0) {
+            refreshReferenceObject("recusers");
+        }
         return recusers;
     }
 

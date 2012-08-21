@@ -49,21 +49,27 @@
                                                     </div>
                                                 </td>
 
-                                                <c:if test="${fn:length(KualiForm.actionHelper.protocolReviewers) >  status.index+1}">       
-                                                    <td align="left" valign="middle">
-                                                        <div align="left">
-                                                            <kul:htmlControlAttribute property="actionHelper.protocolReviewers[${status.index+1}].fullName" attributeEntry="${protocolReviewerAttributes.reviewerTypeCode}" readOnly="true"/>
-                                                        </div>
-                                                    </td>
+                                                <c:choose>
+                                                    <c:when test="${fn:length(KualiForm.actionHelper.protocolReviewers) >  status.index+1}">       
+                                                        <td align="left" valign="middle">
+                                                            <div align="left">
+                                                                <kul:htmlControlAttribute property="actionHelper.protocolReviewers[${status.index+1}].fullName" attributeEntry="${protocolReviewerAttributes.reviewerTypeCode}" readOnly="true"/>
+                                                            </div>
+                                                        </td>
 
-                                                    <td align="left" valign="middle">
-                                                        <div align="left">
-                                                            <kul:htmlControlAttribute property="actionHelper.protocolReviewers[${status.index+1}].reviewerTypeCode" attributeEntry="${protocolReviewerAttributes.reviewerTypeCode}"
-                                                            readOnlyAlternateDisplay="${KualiForm.actionHelper.protocolReviewers[status.index+1].protocolReviewerType.description}" readOnly="true"/>
-                                                        </div>
-                                                    </td>
-
-                                                </c:if>       
+                                                        <td align="left" valign="middle">
+                                                            <div align="left">
+                                                                <kul:htmlControlAttribute property="actionHelper.protocolReviewers[${status.index+1}].reviewerTypeCode" attributeEntry="${protocolReviewerAttributes.reviewerTypeCode}"
+                                                                readOnlyAlternateDisplay="${KualiForm.actionHelper.protocolReviewers[status.index+1].protocolReviewerType.description}" readOnly="true"/>
+                                                            </div>
+                                                        </td>
+                                                
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <td>&nbsp;</td>
+                                                        <td>&nbsp;</td>
+                                                    </c:otherwise>
+                                                </c:choose>       
                                             </tr>
                                         </c:if>                    
                                     </c:forEach>    
