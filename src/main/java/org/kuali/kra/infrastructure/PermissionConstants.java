@@ -100,6 +100,15 @@ public interface PermissionConstants {
     public static final String PERFORM_COMMITTEE_ACTIONS = "Perform Committee Actions";
 
     
+    public static final String ADD_IACUC_COMMITTEE = "Create IACUCCommitteeDocument";
+    public static final String VIEW_IACUC_COMMITTEE = "View IACUCCommittee";
+    public static final String MODIFY_IACUC_COMMITTEE = "Modify IACUCCommittee";
+    public static final String MODIFY_IACUC_SCHEDULE = "Modify IACUC Schedule";
+    public static final String VIEW_IACUC_SCHEDULE = "View IACUC Schedule";
+    public static final String PERFORM_IACUC_COMMITTEE_ACTIONS = "Perform IACUCCommittee Actions";
+    
+    
+    
     /*
      * Questionnaire Permissions
      */

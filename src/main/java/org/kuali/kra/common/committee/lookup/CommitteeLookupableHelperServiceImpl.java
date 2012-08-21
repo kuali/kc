@@ -146,7 +146,7 @@ public class CommitteeLookupableHelperServiceImpl extends KraLookupableHelperSer
             editCommitteeDocId = ((CommonCommittee) businessObject).getCommitteeDocument().getDocumentNumber();
         }
         if (getKraAuthorizationService().hasPermission(getUserIdentifier(), (CommonCommittee) businessObject,
-                PermissionConstants.MODIFY_COMMITTEE)) {
+                PermissionConstants.MODIFY_IACUC_COMMITTEE)) {
             htmlDataList = super.getCustomActionUrls(businessObject, pkNames);
             if (StringUtils.isNotBlank(editCommitteeDocId)) {
                 AnchorHtmlData htmlData = (AnchorHtmlData) htmlDataList.get(0);
@@ -157,7 +157,7 @@ public class CommitteeLookupableHelperServiceImpl extends KraLookupableHelperSer
             }
         }
         if (!isUnappprovedCommittee && getKraAuthorizationService().hasPermission(getUserIdentifier(), (CommonCommittee) businessObject,
-                PermissionConstants.VIEW_COMMITTEE)) {
+                PermissionConstants.VIEW_IACUC_COMMITTEE)) {
             AnchorHtmlData htmlData = getViewLink(((CommonCommittee) businessObject).getCommitteeDocument());
             htmlData.setDisplayText("view active");
             htmlDataList.add(htmlData);

@@ -387,15 +387,14 @@ public class CommonCommittee extends KraPersistableBusinessObjectBase implements
     public List<String> getRoleNames() {
         List<String> roleNames = new ArrayList<String>();
 
-        roleNames.add(RoleConstants.IRB_ADMINISTRATOR);
-        roleNames.add(RoleConstants.IRB_REVIEWER);
+        roleNames.add(RoleConstants.IACUC_ADMINISTRATOR);
+        roleNames.add(RoleConstants.IACUC_PROTOCOL_REVIEWER);
 
         return roleNames;
     }
 
     public String getNamespace() {
-        //FIXME: Insert new Namespace after verification
-        return Constants.MODULE_NAMESPACE_PROTOCOL;
+        return Constants.MODULE_NAMESPACE_IACUC;
     }
 
     public String getLeadUnitNumber() {

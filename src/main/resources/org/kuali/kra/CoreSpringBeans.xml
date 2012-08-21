@@ -803,6 +803,9 @@
                 <bean class="org.kuali.kra.authorizer.CreateCommitteeAuthorizer" parent="parentAuthorizer">
                     <property name="taskName" value="addCommittee" />
                 </bean>
+                <bean class="org.kuali.kra.authorizer.CreateIacucCommitteeAuthorizer" parent="parentAuthorizer">
+                    <property name="taskName" value="addIacucCommittee" />
+                </bean>
                 <bean class="org.kuali.kra.authorizer.CreateAwardAuthorizer" parent="parentAuthorizer">
                     <property name="taskName" value="createAward" />
                 </bean>
