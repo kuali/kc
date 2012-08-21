@@ -181,17 +181,22 @@ public class ProposalDevelopmentXmlStream extends ProposalBaseStream {
     
     private PROPUNITS[] getPROPUNITSArray(ProposalPerson person) {
         List<PROPUNITS> propUnitList = new ArrayList<PROPUNITS>();
-        ProposalPersonUnit proposalPUnit = person.getUnits().get(0);
-        Unit proposalUnit = proposalPUnit.getUnit();
-        PROPUNITS propUnits = PROPUNITS.Factory.newInstance();
-        propUnits.setPROPOSALNUMBER(developmentProposal.getProposalNumber());
+        developmentProposal.refresh();
+        Unit proposalUnit;
         PROPPERSON propPerson = PROPPERSON.Factory.newInstance();
-        propUnits.setPROPPERSON(propPerson);
-        UNIT unit = UNIT.Factory.newInstance();
-        unit.setUNITNUMBER(proposalUnit.getUnitNumber());
-        unit.setUNITNAME(proposalUnit.getUnitName());
-        propUnits.setUNIT(unit);
-        propUnitList.add(propUnits);
+        for (ProposalPersonUnit proposalPUnit : person.getUnits()) {
+            proposalUnit = proposalPUnit.getUnit();
+            PROPUNITS propUnits = PROPUNITS.Factory.newInstance();
+            propUnits.setPROPOSALNUMBER(developmentProposal.getProposalNumber());            
+            propUnits.setPROPPERSON(propPerson);
+            propUnits.setLEADUNITFLAG(getFlag(proposalPUnit.isLeadUnit()));
+            UNIT unit = UNIT.Factory.newInstance();
+            unit.setUNITNUMBER(proposalUnit.getUnitNumber());
+            unit.setUNITNAME(proposalUnit.getUnitName());
+            
+            propUnits.setUNIT(unit);
+            propUnitList.add(propUnits);
+        }
         return propUnitList.toArray(new PROPUNITS[0]);
     }
 
