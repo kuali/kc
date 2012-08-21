@@ -28,6 +28,6 @@ public class ViewCommitteeAuthorizer extends CommitteeAuthorizer {
      * @see org.kuali.kra.protocol.document.authorizer.CommitteeAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.protocol.document.authorization.CommitteeTask)
      */
     public boolean isAuthorized(String userId, CommitteeTask task) {
-        return hasPermission(userId, task.getCommittee(), PermissionConstants.VIEW_COMMITTEE);
+        return hasPermission(userId, task.getCommittee(), PermissionConstants.VIEW_IACUC_COMMITTEE);
     }
 }

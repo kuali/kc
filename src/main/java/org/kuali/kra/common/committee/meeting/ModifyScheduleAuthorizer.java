@@ -28,7 +28,7 @@ public class ModifyScheduleAuthorizer extends CommitteeAuthorizer {
     public boolean isAuthorized(String username, CommitteeTask task) {
         boolean hasPermission = true;
         CommonCommittee committee = task.getCommittee();
-        hasPermission = hasPermission(username, committee, PermissionConstants.MODIFY_SCHEDULE);
+        hasPermission = hasPermission(username, committee, PermissionConstants.MODIFY_IACUC_SCHEDULE);
         return hasPermission;
     }
 

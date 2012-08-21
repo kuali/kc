@@ -192,6 +192,7 @@ public interface TaskName {
      * Committee Tasks.
      */
     public static final String ADD_COMMITTEE = "addCommittee";
+    public static final String ADD_IACUC_COMMITTEE = "addIacucCommittee";
     public static final String MODIFY_COMMITTEE = "modifyCommittee";
     public static final String VIEW_COMMITTEE = "viewCommittee";
     public static final String MODIFY_SCHEDULE = "modifySchedule";

@@ -31,11 +31,11 @@ public class ViewScheduleAuthorizer extends CommitteeAuthorizer {
         boolean hasPermission = true;
         CommonCommittee committee = task.getCommittee();
         if (task instanceof CommitteeScheduleTask) {
-            hasPermission = hasPermission(username,((CommitteeScheduleTask)task).getCommitteeSchedule(),PermissionConstants.VIEW_SCHEDULE);
+            hasPermission = hasPermission(username,((CommitteeScheduleTask)task).getCommitteeSchedule(),PermissionConstants.VIEW_IACUC_SCHEDULE);
             // now check if this schedule is flagged as available by admin
             hasPermission = hasPermission && ((CommitteeScheduleTask)task).getCommitteeSchedule().isAvailableToReviewers();
         } else {
-            hasPermission = hasPermission(username, committee, PermissionConstants.VIEW_SCHEDULE);
+            hasPermission = hasPermission(username, committee, PermissionConstants.VIEW_IACUC_SCHEDULE);
         }        
         return hasPermission;
     }

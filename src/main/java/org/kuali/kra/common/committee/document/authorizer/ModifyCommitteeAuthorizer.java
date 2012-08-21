@@ -43,7 +43,7 @@ public class ModifyCommitteeAuthorizer extends CommitteeAuthorizer {
             
             // We have to consider the case when we are saving the committee for the first time.
             
-            hasPermission = hasUnitPermission(userId, Constants.MODULE_NAMESPACE_PROTOCOL, PermissionConstants.ADD_COMMITTEE);
+            hasPermission = hasUnitPermission(userId, Constants.MODULE_NAMESPACE_IACUC, PermissionConstants.ADD_IACUC_COMMITTEE);
         } 
         else {
             /*
@@ -51,7 +51,7 @@ public class ModifyCommitteeAuthorizer extends CommitteeAuthorizer {
              */
             hasPermission = !committee.getCommitteeDocument().isViewOnly() &&
                             !isPessimisticLocked(committee.getCommitteeDocument()) &&
-                            hasPermission(userId, committee, PermissionConstants.MODIFY_COMMITTEE);
+                            hasPermission(userId, committee, PermissionConstants.MODIFY_IACUC_COMMITTEE);
         }
 
         // Verify that document is not locked
