@@ -17,7 +17,7 @@ package org.kuali.kra.protocol.correspondence;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
-public class BatchCorrespondenceDetail extends KraPersistableBusinessObjectBase implements Comparable<BatchCorrespondenceDetail> {
+public abstract class BatchCorrespondenceDetail extends KraPersistableBusinessObjectBase implements Comparable<BatchCorrespondenceDetail> {
 
     private static final long serialVersionUID = 1L;
 
@@ -75,6 +75,9 @@ public class BatchCorrespondenceDetail extends KraPersistableBusinessObjectBase 
     }
 
     public int compareTo(BatchCorrespondenceDetail arg) {
+        if(!this.getClass().isAssignableFrom(arg.getClass())) {
+           throw new ClassCastException("Type mismatch while comparing two objects of type BatchCprrespondenceDetail"); 
+        }
         int result = this.batchCorrespondenceTypeCode.compareTo(arg.batchCorrespondenceTypeCode);
         if (result == 0) {
             result = this.daysToEvent.compareTo(arg.daysToEvent);
@@ -84,4 +87,5 @@ public class BatchCorrespondenceDetail extends KraPersistableBusinessObjectBase 
         }
         return result;
     }
+    
 }

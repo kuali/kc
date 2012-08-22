@@ -20,7 +20,7 @@ import java.util.List;
 
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 
-public class BatchCorrespondenceDetailForm extends KualiForm {
+public abstract class BatchCorrespondenceDetailForm extends KualiForm {
 
     private static final long serialVersionUID = 8987463989398244188L;
 
@@ -34,11 +34,16 @@ public class BatchCorrespondenceDetailForm extends KualiForm {
     public BatchCorrespondenceDetailForm() {
         super();
         // if set to null in rice20, it can't be populated for batch correspondence
-        this.setBatchCorrespondence(new BatchCorrespondence());
+        this.setBatchCorrespondence(getNewBatchCorrespondenceInstanceHook());
         this.setBatchCorrespondenceTypeCode(null);
-        this.setNewBatchCorrespondenceDetail(new BatchCorrespondenceDetail());
+        this.setNewBatchCorrespondenceDetail(getNewBatchCorrespondenceDetailInstanceHook());
         this.setDeletedBatchCorrespondenceDetail(new ArrayList<BatchCorrespondenceDetail>());
     }
+    
+    protected abstract BatchCorrespondence getNewBatchCorrespondenceInstanceHook();
+    
+    protected abstract BatchCorrespondenceDetail getNewBatchCorrespondenceDetailInstanceHook();
+    
 
     public BatchCorrespondence getBatchCorrespondence() {
         return batchCorrespondence;

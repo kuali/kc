@@ -23,8 +23,10 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 
-public class BatchCorrespondence extends KraPersistableBusinessObjectBase {
+public abstract class BatchCorrespondence extends KraPersistableBusinessObjectBase {
 
+    // TODO normally these kind of public static vars would be pushed down to the IACUC/IRB subclasses, 
+    // but it seems that they are going to have the same value in both IRB and IACUC so letting them stay here in the superclass. 
     public static final String SEND_CORRESPONDENCE_BEFORE_EVENT = "BEFORE";
 
     public static final String SEND_CORRESPONDENCE_AFTER_EVENT = "AFTER";

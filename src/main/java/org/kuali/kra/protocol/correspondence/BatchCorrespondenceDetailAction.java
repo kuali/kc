@@ -41,7 +41,7 @@ import org.kuali.rice.krad.util.KRADConstants;
 /**
  * Actions of the batch correspondence details.
  */
-public class BatchCorrespondenceDetailAction extends KualiDocumentActionBase {
+public abstract class BatchCorrespondenceDetailAction extends KualiDocumentActionBase {
     private static final String BATCH_CORRESPONDENCE_TYPE_CODE = "batchCorrespondenceTypeCode";
 
     @Override
@@ -61,7 +61,7 @@ public class BatchCorrespondenceDetailAction extends KualiDocumentActionBase {
         // initialize form on initial page load and on page reload to erase any old user data
         if (StringUtils.equals(request.getParameter("init"), "true")
                 || StringUtils.equals((String) request.getAttribute("methodToCallAttribute"), "methodToCall.reload.y")) {
-            BatchCorrespondenceDetailForm batchCorrespondenceDetailForm = new BatchCorrespondenceDetailForm();
+            BatchCorrespondenceDetailForm batchCorrespondenceDetailForm = getNewBatchCorrespondenceDetailFormInstanceHook();
             ((BatchCorrespondenceDetailForm) form).setBatchCorrespondence(batchCorrespondenceDetailForm.getBatchCorrespondence());
             ((BatchCorrespondenceDetailForm) form).setNewBatchCorrespondenceDetail(batchCorrespondenceDetailForm.getNewBatchCorrespondenceDetail());
             ((BatchCorrespondenceDetailForm) form).setDeletedBatchCorrespondenceDetail(batchCorrespondenceDetailForm.getDeletedBatchCorrespondenceDetail());
@@ -70,6 +70,12 @@ public class BatchCorrespondenceDetailAction extends KualiDocumentActionBase {
         
         return super.execute(mapping, form, request, response);
     }
+    
+    
+    
+    protected abstract BatchCorrespondenceDetailForm getNewBatchCorrespondenceDetailFormInstanceHook();
+
+    
     
     /**
      * 
@@ -119,11 +125,14 @@ public class BatchCorrespondenceDetailAction extends KualiDocumentActionBase {
                 newBatchCorrespondenceDetail);
         if (rulePassed) {
             getBatchCorrespondenceDetailService().addBatchCorrespondenceDetail(batchCorrespondence, newBatchCorrespondenceDetail);
-            batchCorrespondenceDetailForm.setNewBatchCorrespondenceDetail(new BatchCorrespondenceDetail());
+            batchCorrespondenceDetailForm.setNewBatchCorrespondenceDetail(getNewBatchCorrespondenceDetailInstanceHook());
         }
         
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
+    
+    protected abstract BatchCorrespondenceDetail getNewBatchCorrespondenceDetailInstanceHook();
+    
     
     /** 
      * 
@@ -146,7 +155,7 @@ public class BatchCorrespondenceDetailAction extends KualiDocumentActionBase {
         batchCorrespondenceDetailForm.getDeletedBatchCorrespondenceDetail().add(batchCorrespondenceDetail);
         
         batchCorrespondence.getBatchCorrespondenceDetails().remove(batchCorrespondenceDetail);
-        batchCorrespondenceDetailForm.setNewBatchCorrespondenceDetail(new BatchCorrespondenceDetail());
+        batchCorrespondenceDetailForm.setNewBatchCorrespondenceDetail(getNewBatchCorrespondenceDetailInstanceHook());
 
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
@@ -217,13 +226,14 @@ public class BatchCorrespondenceDetailAction extends KualiDocumentActionBase {
         fieldValues.put(BATCH_CORRESPONDENCE_TYPE_CODE, batchCorrespondenceDetailForm.getBatchCorrespondenceTypeCode());
         BatchCorrespondence batchCorrespondence = (BatchCorrespondence) getBusinessObjectService().findByPrimaryKey(BatchCorrespondence.class, fieldValues);
         batchCorrespondenceDetailForm.setBatchCorrespondence(batchCorrespondence);
-        batchCorrespondenceDetailForm.setNewBatchCorrespondenceDetail(new BatchCorrespondenceDetail());
+        batchCorrespondenceDetailForm.setNewBatchCorrespondenceDetail(getNewBatchCorrespondenceDetailInstanceHook());
         batchCorrespondenceDetailForm.setDeletedBatchCorrespondenceDetail(new ArrayList<BatchCorrespondenceDetail>());
         batchCorrespondenceDetailForm.setTabStates(new HashMap<String, String>());
         
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
+
     /**
      * 
      * This method is called when closing the correspondence templates.
