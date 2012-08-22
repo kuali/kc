@@ -26,6 +26,7 @@ public class CommitteeNotificationRoleQualifierServiceImpl implements CommitteeN
 
     private CommonCommittee committee;
     private CommonCommitteeSchedule committeeSchedule;
+    public static final String COMMON_COMMITTEE_NOTIFICATION_ROLE_QUALIFER_SERVICE_SPRING_NAME = "commonCommitteeNotificationRoleQualifierService";
     
     /**
      * 

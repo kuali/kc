@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.common.committee.meeting;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.sql.Date;
@@ -23,6 +25,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.mail.internet.HeaderTokenizer;
+import javax.mail.internet.MimeUtility;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -35,6 +39,7 @@ import org.kuali.kra.common.committee.print.CommitteeReportType;
 import org.kuali.kra.common.committee.rule.event.CommitteeActionPrintCommitteeDocumentEvent;
 import org.kuali.kra.common.committee.service.CommonCommitteeNotificationService;
 import org.kuali.kra.common.committee.service.CommitteePrintingService;
+import org.kuali.kra.common.committee.service.impl.CommitteeNotificationServiceImpl;
 import org.kuali.kra.iacuc.correspondence.IacucProtocolActionCorrespondenceGenerationService;
 import org.kuali.kra.iacuc.correspondence.IacucProtocolActionsCorrespondence;
 import org.kuali.kra.iacuc.correspondence.IacucProtocolCorrespondence;
@@ -53,6 +58,8 @@ import org.kuali.kra.protocol.actions.correspondence.ProtocolActionsCorresponden
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondence;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceType;
 import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
@@ -226,16 +233,18 @@ public class MeetingActionsAction extends MeetingAction {
     public ActionForward viewAgenda(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         
-       // final int selection = this.getSelectedLine(request);
-        final int selection =  Integer.parseInt(request.getParameter("line"));
+        final int selection = this.getSelectedLine(request);
+        //final int selection =  Integer.parseInt(request.getParameter("line"));
         MeetingHelper meetingHelper = ((MeetingForm) form).getMeetingHelper();
         PrintableAttachment source = new PrintableAttachment();
         source.setContent(meetingHelper.getScheduleAgendas().get(selection).getPdfStore());
         source.setContentType(Constants.PDF_REPORT_CONTENT_TYPE);
         source.setFileName("ScheduleAgenda" + Constants.PDF_FILE_EXTENSION);
-        PrintingUtils.streamToResponse(source, response);
-        
-        return null;
+        if (source.getContent() != null) {
+            PrintingUtils.streamToResponse(source, response);
+            return null;
+        }
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
     /**
@@ -390,6 +399,7 @@ public class MeetingActionsAction extends MeetingAction {
 
     private CommonCommitteeNotificationService getCommitteeNotificationService() {
         return KraServiceLocator.getService(CommonCommitteeNotificationService.class);
+        //return KraServiceLocator.getService(CommitteeNotificationServiceImpl.COMMON_COMITTEE_NOTIFICATION_SERVICE_SPRING_NAME);
     }
 
     private DocumentService getDocumentService() {

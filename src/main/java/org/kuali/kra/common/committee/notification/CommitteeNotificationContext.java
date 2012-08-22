@@ -43,7 +43,6 @@ public class CommitteeNotificationContext extends NotificationContextBase {
     private CommonCommitteeSchedule committeeSchedule;
     private String actionTypeCode;
     private String contextName;
-    private CommitteeNotificationRoleQualifierService committeeNotificationRoleQualifierService;
     
     /**
      * Constructs a Committee notification context and sets the necessary services.
@@ -61,9 +60,10 @@ public class CommitteeNotificationContext extends NotificationContextBase {
         
         setNotificationService(KraServiceLocator.getService(KcNotificationService.class));
         setNotificationModuleRoleService(KraServiceLocator.getService(KcNotificationModuleRoleService.class));
-        setNotificationRoleQualifierService(KraServiceLocator.getService(CommitteeNotificationRoleQualifierService.class));
-        ((CommitteeNotificationRoleQualifierService) getNotificationRoleQualifierService()).setCommitteeSchedule(this.committeeSchedule);
-        ((CommitteeNotificationRoleQualifierService) getNotificationRoleQualifierService()).setCommittee(this.committee);
+        CommitteeNotificationRoleQualifierService committeeNotificationRoleQualifierService = getCommitteeNotificationRoleQualifierService();
+        setNotificationRoleQualifierService(committeeNotificationRoleQualifierService);
+        committeeNotificationRoleQualifierService.setCommitteeSchedule(this.committeeSchedule);
+        committeeNotificationRoleQualifierService.setCommittee(this.committee);
     }
     
     /**
@@ -124,10 +124,7 @@ public class CommitteeNotificationContext extends NotificationContextBase {
     }
  
     public CommitteeNotificationRoleQualifierService getCommitteeNotificationRoleQualifierService() {
-        return committeeNotificationRoleQualifierService;
-    }
-    
-    public void setCommitteeNotificationRoleQualifierService(CommitteeNotificationRoleQualifierService committeeNotificationRoleQualifierService) {
-        this.committeeNotificationRoleQualifierService= committeeNotificationRoleQualifierService;
+        //return committeeNotificationRoleQualifierService;
+        return KraServiceLocator.getService(CommitteeNotificationRoleQualifierServiceImpl.COMMON_COMMITTEE_NOTIFICATION_ROLE_QUALIFER_SERVICE_SPRING_NAME);
     }
 }
