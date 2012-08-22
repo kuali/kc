@@ -52,7 +52,8 @@
 				                <input type="image" alt="Send Minutes" class="tinybutton" onclick="alert('${notificationSentMessage}');return true;" id="sendMinute${status.index+1}"
 				                    src="${ConfigProperties.kra.externalizable.images.url}tinybutton-sendminutes.gif" name="methodToCall.sendMinutesNotification.line${status.index}.anchor${currentTabIndex}">
 								&nbsp;
-				                <input type="image" alt="View Minutes" class="tinybutton" onclick="openNewWindow('meetingActions','viewMinute','${status.index}',0,'false'); return false;" id="viewMinute${status.index+1}"
+								<input type="image" alt="View Minutes" class="tinybutton" 
+				                	onclick="excludeSubmitRestriction = true;"
 				                    src="${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif" name="methodToCall.viewMinute.line${status.index}.anchor${currentTabIndex}">
 				             </div>
 		                </td>

@@ -58,11 +58,6 @@
 								<input type="image" alt="View Agenda" class="tinybutton"
 									onclick="excludeSubmitRestriction = true;"
 				                	src="${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif" name="methodToCall.viewAgenda.line${status.index}.anchor${currentTabIndex}">
-								<%--
-				                <input type="image" alt="View Agenda" class="tinybutton" 
-				                	onclick="openNewWindow('meetingActions','viewAgenda','${status.index}',0,'false'); return false;" id="viewAgenda${status.index+1}" 
-				                	src="${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif" name="methodToCall.viewAgenda.line${status.index}.anchor${currentTabIndex}">
-				                	 --%>
 							</div>
 		                </td>
 	            </tr>
