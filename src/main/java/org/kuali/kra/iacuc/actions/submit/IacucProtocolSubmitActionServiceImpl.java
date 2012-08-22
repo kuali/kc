@@ -389,7 +389,11 @@ public class IacucProtocolSubmitActionServiceImpl implements IacucProtocolSubmit
 //            }
 //        }
 //    }
-
+    
+    /**
+     * @TODO when this gets implemented, see IacucProtocolSubmissionLookupableHelperServiceImpl.getSearchResults ..... that function orginally called this function, but now that it returns null, it had broken the search, so that call is commented out.
+     * @see org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmitActionService#getProtocolSubmissionsLookupData(java.util.List)
+     */
     public List<IacucProtocolSubmission> getProtocolSubmissionsLookupData(List<IacucProtocolSubmission> protocolSubmissionList) throws Exception {
         // TODO
         return null;

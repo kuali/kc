@@ -25,10 +25,7 @@ import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmitActionService;
 import org.kuali.kra.protocol.ProtocolSubmissionLookupableHelperServiceImpl;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
-import org.kuali.rice.kns.web.ui.Field;
-import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.rice.krad.bo.BusinessObject;
-
 
 /**
  * 
@@ -41,6 +38,9 @@ public class IacucProtocolSubmissionLookupableHelperServiceImpl extends Protocol
  
     public void setProtocolSubmitActionService(IacucProtocolSubmitActionService protocolSubmitActionService) {
         this.protocolSubmitActionService = protocolSubmitActionService;
+    }
+    public IacucProtocolSubmitActionService getIacucProtocolSubmitActionService() {
+        return this.protocolSubmitActionService;
     }
     
     /**
@@ -69,16 +69,21 @@ public class IacucProtocolSubmissionLookupableHelperServiceImpl extends Protocol
     }
   
     @Override
-    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
+    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {        
         super.setBackLocationDocFormKey(fieldValues);
         List<IacucProtocolSubmission> submissionLookupData=(List<IacucProtocolSubmission>)super.getSearchResults(fieldValues);
         try{
-            if((submissionLookupData!=null)&& (submissionLookupData.size()>0)){                            
-                 submissionLookupData=protocolSubmitActionService.getProtocolSubmissionsLookupData(submissionLookupData);   
+            if((submissionLookupData!=null)&& (submissionLookupData.size()>0)){   
+                /**
+                 * The function call below simply returns NULL at this time, which breaks this search functionality, so commenting out.
+                 * I left a note on the function to see this code when the function is implemented.
+                 */
+                 //submissionLookupData=getIacucProtocolSubmitActionService().getProtocolSubmissionsLookupData(submissionLookupData);   
             }             
         }catch (Exception e) {
+            e.printStackTrace();
            LOG.info("submissionLookupData Lookup : " + submissionLookupData.size() + " parsing error");
-        }            
+        }
         return submissionLookupData;
     }   
     
@@ -90,6 +95,11 @@ public class IacucProtocolSubmissionLookupableHelperServiceImpl extends Protocol
     @Override
     protected String getDocumentTypeName() {
         return "IacucProtocolDocument";
+    }
+    
+    @Override
+    public Class getBusinessObjectClass() {
+        return IacucProtocolSubmission.class;
     }
 
 }
