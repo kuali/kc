@@ -266,8 +266,7 @@ public class MeetingActionsAction extends MeetingAction {
     public ActionForward viewMinute(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         
-      //  final int selection = this.getSelectedLine(request);
-        final int selection =  Integer.parseInt(request.getParameter("line"));
+        final int selection = this.getSelectedLine(request);
         MeetingHelper meetingHelper = ((MeetingForm) form).getMeetingHelper();
         PrintableAttachment source = new PrintableAttachment();
         source.setContent(meetingHelper.getMinuteDocs().get(selection).getPdfStore());
