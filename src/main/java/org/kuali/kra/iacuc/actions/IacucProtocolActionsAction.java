@@ -4487,7 +4487,11 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
     public ActionForward printProtocolSelectedItems(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
-        IacucProtocol protocol = protocolForm.getIacucProtocolDocument().getIacucProtocol();
+        /**
+         * resetting the form's document because it does not have a valid Workflow document unless this is done. KCIAC-389
+         */
+        IacucProtocolDocument ipd = (IacucProtocolDocument)this.getDocumentService().getByDocumentHeaderId(protocolForm.getDocId());
+        //IacucProtocol protocol = protocolForm.getIacucProtocolDocument().getIacucProtocol();
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         //String fileName = "Protocol_Summary_Report.pdf";
         //ProtocolPrintType printType = ProtocolPrintType.PROTOCOL_FULL_PROTOCOL_REPORT;
