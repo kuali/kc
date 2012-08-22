@@ -41,6 +41,7 @@
         <form-bean name="ProposalLogPrintForm" type="org.kuali.kra.institutionalproposal.proposallog.ProposalLogPrintForm" />
         <form-bean name="ProtocolCorrespondenceTemplateForm" type="org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplateForm" />
         <form-bean name="BatchCorrespondenceDetailForm" type="org.kuali.kra.irb.correspondence.BatchCorrespondenceDetailForm" />
+        <form-bean name="IacucBatchCorrespondenceDetailForm" type="org.kuali.kra.iacuc.correspondence.IacucBatchCorrespondenceDetailForm" />
         <form-bean name="MedusaForm" type="org.kuali.kra.medusa.web.MedusaForm"/>
         <form-bean name="ProtocolOnlineReviewForm" type="org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewForm"/> 
         <form-bean name="ProtocolNotificationTemplateForm" type="org.kuali.kra.irb.actions.notification.ProtocolNotificationTemplateForm" />
@@ -506,6 +507,10 @@
       <action path="/iacucProtocolMedusa" name="IacucProtocolForm" input="/WEB-INF/jsp/iacuc/ProtocolMedusa.jsp" type="org.kuali.kra.iacuc.IacucProtocolMedusaAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
         <forward name="basic" path="/WEB-INF/jsp/iacuc/ProtocolMedusa.jsp" />
         &iacuc_forwards;
+      </action>      
+      
+      <action path="/iacucBatchCorrespondenceDetail" name="IacucBatchCorrespondenceDetailForm" input="/WEB-INF/jsp/iacuc/BatchCorrespondenceDetail.jsp" type="org.kuali.kra.iacuc.correspondence.IacucBatchCorrespondenceDetailAction" parameter="methodToCall" validate="true" attribute="KualiForm">
+        <forward name="basic" path="/WEB-INF/jsp/iacuc/BatchCorrespondenceDetail.jsp" />
       </action>      
       
       <!--  KRA Committee Mapping -->
