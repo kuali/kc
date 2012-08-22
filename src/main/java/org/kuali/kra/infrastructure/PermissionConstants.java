@@ -228,6 +228,9 @@ public interface PermissionConstants {
      public static final String ADD_IACUC_PROTOCOL_ONLINE_REVIEW_COMMENT = "Add Protocol Online Review Comment";
      public static final String VIEW_IACUC_CORRESPONDENCE_TEMPLATE = "View IACUC Correspondence Template";
      public static final String MODIFY_IACUC_CORRESPONDENCE_TEMPLATE = "Modify IACUC Correspondence Template";
+     
+     public static final String VIEW_IACUC_BATCH_CORRESPONDENCE_DETAIL = "View IACUC Batch Correspondence Detail";
+     public static final String MODIFY_IACUC_BATCH_CORRESPONDENCE_DETAIL = "Modify IACUC Batch Correspondence Detail";
 
      /*
       * Unit Permissions 
@@ -241,5 +244,6 @@ public interface PermissionConstants {
      public static final String SPONSOR_HIERARCHY_ADD = "Add Sponsor Hierarchy";
      public static final String SPONSOR_HIERARCHY_MODIFY = "Modify Sponsor Hierarchy";
      public static final String SPONSOR_HIERARCHY_DELETE = "Delete Sponsor Hierarchy";
+     
      
 }
