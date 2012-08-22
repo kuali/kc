@@ -27,14 +27,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.xmlbeans.XmlObject;
+import org.kuali.kra.bo.CoeusModule;
+import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.common.specialreview.bo.SpecialReviewExemption;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
-import org.kuali.kra.proposaldevelopment.bo.ProposalYnq;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
+import org.kuali.kra.questionnaire.answer.Answer;
+import org.kuali.kra.questionnaire.answer.AnswerHeader;
+import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
+import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.kra.s2s.service.S2SUtilService;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -81,26 +86,35 @@ public class EDSF424SupplementV1_1Generator extends
 		edsf424Supplement.setProjectDirector(globLibV20Generator
 				.getContactPersonDataType(pi));
 		String answer = null;
-		for (ProposalYnq proposalYnq : pdDoc.getDevelopmentProposal()
-				.getProposalYnqs()) {
-			if (proposalYnq.getQuestionId() != null
-					&& proposalYnq.getQuestionId().equals(
-							PROPOSAL_YNQ_NOVICE_APPLICANT)) {
-				if (proposalYnq.getAnswer() != null) {
-					answer = proposalYnq.getAnswer();
-				}
-				if (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(answer)) {
-					edsf424Supplement
-							.setIsNoviceApplicant(YesNoNotApplicableDataType.Y_YES);
-				} else if (S2SConstants.PROPOSAL_YNQ_ANSWER_N.equals(answer)) {
-					edsf424Supplement
-							.setIsNoviceApplicant(YesNoNotApplicableDataType.N_NO);
-				} else if (S2SConstants.PROPOSAL_YNQ_ANSWER_NA.equals(answer)) {
-					edsf424Supplement
-							.setIsNoviceApplicant(YesNoNotApplicableDataType.NA_NOT_APPLICABLE);
-				}
-			}
-		}
+		ModuleQuestionnaireBean moduleQuestionnaireBean = new ModuleQuestionnaireBean(
+                CoeusModule.PROPOSAL_DEVELOPMENT_MODULE_CODE, pdDoc.getDevelopmentProposal().getProposalNumber(), CoeusSubModule.ZERO_SUBMODULE ,
+                    CoeusSubModule.ZERO_SUBMODULE, true);
+        QuestionnaireAnswerService questionnaireAnswerService = KraServiceLocator.getService(QuestionnaireAnswerService.class);
+        List<AnswerHeader> answerHeaders = questionnaireAnswerService.getQuestionnaireAnswer(moduleQuestionnaireBean);        
+        if (answerHeaders != null && !answerHeaders.isEmpty()) {
+            for (AnswerHeader answerHeader : answerHeaders) {
+                List<Answer> answerDetails = answerHeader.getAnswers();
+                for (Answer answers : answerDetails) {                   
+                    if (answers.getQuestion().getQuestionId() != null
+                            && answers.getQuestion().getQuestionId().equals(
+                                    PROPOSAL_YNQ_NOVICE_APPLICANT)) {
+                        if (answers.getAnswer() != null) {
+                            answer = answers.getAnswer();
+                        }
+                        if (S2SConstants.PROPOSAL_YNQ_ANSWER_Y.equals(answer)) {
+                            edsf424Supplement
+                                    .setIsNoviceApplicant(YesNoNotApplicableDataType.Y_YES);
+                        } else if (S2SConstants.PROPOSAL_YNQ_ANSWER_N.equals(answer)) {
+                            edsf424Supplement
+                                    .setIsNoviceApplicant(YesNoNotApplicableDataType.N_NO);
+                        } else if (S2SConstants.PROPOSAL_YNQ_ANSWER_NA.equals(answer)) {
+                            edsf424Supplement
+                                    .setIsNoviceApplicant(YesNoNotApplicableDataType.NA_NOT_APPLICABLE);
+                        }
+                    }
+                }
+            }
+        }
 
 		edsf424Supplement.setIsHumanResearch(YesNoDataType.N_NO);
 		Organization organization = pdDoc.getDevelopmentProposal()
