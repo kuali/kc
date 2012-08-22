@@ -631,6 +631,9 @@ public interface Constants {
     public static final String PROTOCOL_MODIFY_AMENDMENT_KEY = "actionHelper.protocolModifyAmendment";
     public static final String PROTOCOL_CREATE_RENEWAL_WITH_AMENDMENT_KEY = "actionHelper.protocolCreateRenewalWithAmendment";
     public static final String PROTOCOL_CREATE_RENEWAL_SUMMARY_KEY = "actionHelper.renewalSummary";
+
+    public static final String PROTOCOL_CREATE_CONTINUATION_SUMMARY_KEY = "actionHelper.continuationSummary";
+    public static final String PROTOCOL_CREATE_CONTINUATION_WITH_AMENDMENT_KEY = "actionHelper.protocolCreateContinuationWithAmendment";
     
     // Protocol edit modes
     public static final String CAN_VIEW_REVIEW_COMMENTS = "viewReviewComments";

@@ -31,7 +31,6 @@ import org.kuali.kra.iacuc.protocol.research.IacucProtocolResearchAreaService;
 import org.kuali.kra.iacuc.rules.IacucProtocolFactBuilderService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.kra.krms.KcKrmsConstants;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.ProtocolDocument;
@@ -70,6 +69,7 @@ public class IacucProtocolDocument extends ProtocolDocument {
     private static final Log LOG = LogFactory.getLog(IacucProtocolDocument.class);
     public static final String DOCUMENT_TYPE_CODE = "ICPR";
     
+    private static final String CONTINUATION_KEY = "C";
 	
     /**
      * Constructs a ProtocolDocument object.
@@ -120,7 +120,7 @@ public class IacucProtocolDocument extends ProtocolDocument {
             
             
             String status = getProtocol().getProtocolSubmission().getSubmissionStatusCode();
-            if (isAmendment() || isRenewal()) {
+            if (isAmendment() || isRenewal() || isContinuation()) {
                 if (status.equals(IacucProtocolSubmissionStatus.APPROVED) 
                         && getWorkflowDocumentService().getCurrentRouteNodeNames(getDocumentHeader().getWorkflowDocument()).equalsIgnoreCase(Constants.PROTOCOL_IACUCREVIEW_ROUTE_NODE_NAME)) {
                     isComplete = false;
@@ -133,7 +133,8 @@ public class IacucProtocolDocument extends ProtocolDocument {
              * Wait for the new active protocol to be created before redirecting to it.
              */
             if (getProtocol().getProtocolStatusCode().equals(IacucProtocolStatus.AMENDMENT_MERGED) || 
-                    getProtocol().getProtocolStatusCode().equals(IacucProtocolStatus.RENEWAL_MERGED)) {
+                    getProtocol().getProtocolStatusCode().equals(IacucProtocolStatus.RENEWAL_MERGED) ||
+                    getProtocol().getProtocolStatusCode().equals(IacucProtocolStatus.CONTINUATION_MERGED)) {
                 String protocolId = getNewProtocolDocId();               
                 if (ObjectUtils.isNull(protocolId)) {
                     isComplete = false;
@@ -185,7 +186,13 @@ public class IacucProtocolDocument extends ProtocolDocument {
     }
 
     @Override
-    protected ProtocolAction getNewProtocolActionInstanceHook(Protocol protocol, ProtocolSubmission protocolSubmission, String protocolActionTypeCode) {
+    protected ProtocolAction getNewProtocolActionInstanceHook(Protocol protocol, ProtocolSubmission protocolSubmission, String protocolStatusCode) {
+        String protocolActionTypeCode = IacucProtocolActionType.RENEWAL_CREATED; 
+        if(protocolStatusCode.equals(IacucProtocolStatus.AMENDMENT_MERGED)) {
+            protocolActionTypeCode = IacucProtocolActionType.AMENDMENT_CREATED;
+        }else if(protocolStatusCode.equals(IacucProtocolStatus.CONTINUATION_MERGED)) {
+            protocolActionTypeCode = IacucProtocolActionType.CONTINUATION;
+        }
         return new IacucProtocolAction((IacucProtocol) protocol, (IacucProtocolSubmission) protocolSubmission, protocolActionTypeCode);
     }
 
@@ -200,16 +207,6 @@ public class IacucProtocolDocument extends ProtocolDocument {
     }
 
     @Override
-    protected String getProtocolAmendmentMergedStatusHook() {
-        return IacucProtocolStatus.AMENDMENT_MERGED;
-    }
-
-    @Override
-    protected String getProtocolRenewalMergedStatusHook() {
-        return IacucProtocolStatus.RENEWAL_MERGED;
-    }
-
-    @Override
     protected ProtocolFinderDao getProtocolFinderDaoHook() {
         return KraServiceLocator.getService(IacucProtocolFinderDao.class);
     }
@@ -217,16 +214,6 @@ public class IacucProtocolDocument extends ProtocolDocument {
     @Override
     protected ProtocolVersionService getProtocolVersionServiceHook() {
         return KraServiceLocator.getService(IacucProtocolVersionService.class);
-    }
-
-    @Override
-    protected String getProtocolActionTypeAmendmentCreatedHook() {
-        return IacucProtocolActionType.AMENDMENT_CREATED;
-    }
-
-    @Override
-    protected String getProtocolActionTypeRenewalCreatedHook() {
-        return IacucProtocolActionType.RENEWAL_CREATED;
     }
 
     @Override
@@ -259,12 +246,46 @@ public class IacucProtocolDocument extends ProtocolDocument {
       listOfStatusEligibleForMerging.append(" ");
       listOfStatusEligibleForMerging.append(IacucProtocolStatus.RENEWAL_IN_PROGRESS);
       listOfStatusEligibleForMerging.append(" ");
+      listOfStatusEligibleForMerging.append(IacucProtocolStatus.CONTINUATION_IN_PROGRESS);
+      listOfStatusEligibleForMerging.append(" ");
       listOfStatusEligibleForMerging.append(IacucProtocolStatus.SUSPENDED);
       listOfStatusEligibleForMerging.append(" ");
       listOfStatusEligibleForMerging.append(IacucProtocolStatus.DELETED);
       listOfStatusEligibleForMerging.append(" ");
       listOfStatusEligibleForMerging.append(IacucProtocolStatus.WITHDRAWN);
         return listOfStatusEligibleForMerging.toString();
+    }
+
+    public boolean isContinuation() {
+        return getProtocol().getProtocolNumber().contains(CONTINUATION_KEY);
+    }
+
+    protected String getProtocolMergedStatus() {
+        String mergedStatus = IacucProtocolStatus.AMENDMENT_MERGED;
+        if (isRenewal()) {
+            mergedStatus = IacucProtocolStatus.RENEWAL_MERGED;
+        }else if(isContinuation()) {
+            mergedStatus = IacucProtocolStatus.CONTINUATION_MERGED;
+        }
+        return mergedStatus;
+    }
+
+    @Override
+    public boolean isNormal() {
+        return !isAmendment() && !isRenewal() && !isContinuation();
+    }
+
+    @Override
+    protected void mergeProtocolAmendment() {
+        if (isAmendment()) {
+            mergeAmendment(getProtocolMergedStatus(), "Amendment");
+        }
+        else if (isRenewal()) {
+            mergeAmendment(getProtocolMergedStatus(), "Renewal");
+        }
+        else if (isContinuation()) {
+            mergeAmendment(getProtocolMergedStatus(), "Continuation");
+        }
     }
 
 }

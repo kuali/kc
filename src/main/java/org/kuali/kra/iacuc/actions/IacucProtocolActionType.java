@@ -78,6 +78,7 @@ public class IacucProtocolActionType extends ProtocolActionType {
 
     public static final String AMENDMENT_CREATED_NOTIFICATION = "323";
     public static final String RENEWAL_CREATED_NOTIFICATION = "322";
+    public static final String CONTINUATION_CREATED_NOTIFICATION = "322";
     
     public static final String ASSIGN_REVIEWER = "901";
 
@@ -96,5 +97,6 @@ public class IacucProtocolActionType extends ProtocolActionType {
     public static final String REVIEW_DELETED = "905";
     public static final String REVIEW_TYPE_DETERMINATION = "908";
     public static final String RENEWAL_WITH_AMENDMENT_CREATED = "909";
+    //public static final String CONTINUATION_WITH_AMENDMENT_CREATED = "910";
 
 }
