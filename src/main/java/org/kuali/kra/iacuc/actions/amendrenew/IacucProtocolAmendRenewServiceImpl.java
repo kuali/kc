@@ -16,25 +16,32 @@
 package org.kuali.kra.iacuc.actions.amendrenew;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.kuali.kra.iacuc.IacucProtocol;
+import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.actions.IacucProtocolAction;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
 import org.kuali.kra.iacuc.actions.IacucProtocolStatus;
 import org.kuali.kra.iacuc.questionnaire.IacucProtocolModuleQuestionnaireBean;
 import org.kuali.kra.protocol.Protocol;
+import org.kuali.kra.protocol.ProtocolDocument;
 import org.kuali.kra.protocol.actions.ProtocolAction;
 import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewModule;
 import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewServiceImpl;
 import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewal;
 import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendmentBean;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * The Protocol Amendment/Renewal Service Implementation.
  */
 public class IacucProtocolAmendRenewServiceImpl extends ProtocolAmendRenewServiceImpl implements IacucProtocolAmendRenewService {
+    protected static final String CONTINUATION_ID = "C";
+    protected static final String CONTINUATION_NEXT_VALUE = "nextContinuationValue";
+    protected static final String CONTINUATION = "Continuation";
     
 
     @Override
@@ -213,4 +220,104 @@ public class IacucProtocolAmendRenewServiceImpl extends ProtocolAmendRenewServic
         return new IacucProtocolAmendRenewModule();
     }
 
+    public String createContinuation (IacucProtocolDocument protocolDocument, String continuationSummary) throws Exception {
+        IacucProtocolDocument continuationProtocolDocument = null;
+        try {
+            //since the user probably doesn't have permission to create the document, we are going to add session variable so the document
+            //authorizer knows to approve the user for initiating the document
+            GlobalVariables.getUserSession().addObject(AMEND_RENEW_CONTINUATION_ALLOW_NEW_PROTOCOL_DOCUMENT, Boolean.TRUE);
+            continuationProtocolDocument = (IacucProtocolDocument)getProtocolCopyService().copyProtocol(protocolDocument, generateProtocolContinuationNumber(protocolDocument), true);
+        } finally {
+            GlobalVariables.getUserSession().removeObject(AMEND_RENEW_CONTINUATION_ALLOW_NEW_PROTOCOL_DOCUMENT);
+        }
+        continuationProtocolDocument.getProtocol().setInitialSubmissionDate(protocolDocument.getProtocol().getInitialSubmissionDate());
+        continuationProtocolDocument.getProtocol().setApprovalDate(protocolDocument.getProtocol().getApprovalDate());
+        continuationProtocolDocument.getProtocol().setExpirationDate(protocolDocument.getProtocol().getExpirationDate());
+        continuationProtocolDocument.getProtocol().setLastApprovalDate(protocolDocument.getProtocol().getLastApprovalDate());
+        continuationProtocolDocument.getProtocol().setProtocolStatusCode(IacucProtocolStatus.CONTINUATION_IN_PROGRESS);
+        continuationProtocolDocument.getProtocol().refreshReferenceObject(PROTOCOL_STATUS);
+        
+        markProtocolAttachmentsAsFinalized(continuationProtocolDocument.getProtocol().getAttachmentProtocols());
+
+        IacucProtocolAction protocolAction = createCreateContinuationProtocolAction(protocolDocument.getIacucProtocol(),
+                continuationProtocolDocument.getIacucProtocol().getProtocolNumber());
+        protocolDocument.getProtocol().getProtocolActions().add(protocolAction);
+        
+        // attributes are same for continuation. Let us use the same amendrenewal object here.
+        ProtocolAmendRenewal protocolAmendRenewal = createAmendmentRenewal(protocolDocument, continuationProtocolDocument, continuationSummary);
+        continuationProtocolDocument.getProtocol().setProtocolAmendRenewal(protocolAmendRenewal);
+        documentService.saveDocument(protocolDocument);
+        documentService.saveDocument(continuationProtocolDocument);
+        
+        return continuationProtocolDocument.getDocumentNumber();
+    }
+
+    public String createContinuationWithAmendment(IacucProtocolDocument protocolDocument, ProtocolAmendmentBean amendmentBean) throws Exception {
+        IacucProtocolDocument continuationProtocolDocument = null;
+        try {
+            //since the user probably doesn't have permission to create the document, we are going to add session variable so the document
+            //authorizer knows to approve the user for initiating the document
+            GlobalVariables.getUserSession().addObject(AMEND_RENEW_CONTINUATION_ALLOW_NEW_PROTOCOL_DOCUMENT, Boolean.TRUE);
+            continuationProtocolDocument = (IacucProtocolDocument)getProtocolCopyService().copyProtocol(protocolDocument, generateProtocolContinuationNumber(protocolDocument), true);
+        } finally {
+            GlobalVariables.getUserSession().removeObject(AMEND_RENEW_CONTINUATION_ALLOW_NEW_PROTOCOL_DOCUMENT);
+        }
+        continuationProtocolDocument.getProtocol().setInitialSubmissionDate(protocolDocument.getProtocol().getInitialSubmissionDate());
+        continuationProtocolDocument.getProtocol().setApprovalDate(protocolDocument.getProtocol().getApprovalDate());
+        continuationProtocolDocument.getProtocol().setExpirationDate(protocolDocument.getProtocol().getExpirationDate());
+        continuationProtocolDocument.getProtocol().setLastApprovalDate(protocolDocument.getProtocol().getLastApprovalDate());
+        continuationProtocolDocument.getProtocol().setProtocolStatusCode(IacucProtocolStatus.CONTINUATION_IN_PROGRESS);
+        continuationProtocolDocument.getProtocol().refreshReferenceObject(PROTOCOL_STATUS);
+        
+        markProtocolAttachmentsAsFinalized(continuationProtocolDocument.getProtocol().getAttachmentProtocols());
+
+        IacucProtocolAction protocolAction = createCreateContinuationProtocolAction(protocolDocument.getIacucProtocol(),
+                continuationProtocolDocument.getProtocol().getProtocolNumber());
+        protocolDocument.getProtocol().getProtocolActions().add(protocolAction);
+        
+        return createAmendment(protocolDocument, continuationProtocolDocument, amendmentBean);
+    }
+    
+    /**
+     * Generate the protocol number for an continuation.  The protocol number for
+     * continuation is the original protocol's number appended with "Cxxx" where
+     * "xxx" is the next sequence number.
+     * @param protocolDocument
+     * @return
+     */
+    protected String generateProtocolContinuationNumber(IacucProtocolDocument protocolDocument) {
+        return generateProtocolNumber(protocolDocument, CONTINUATION_ID, CONTINUATION_NEXT_VALUE);
+    }
+
+    /**
+     * Create a Protocol Action indicating that a renewal has been created.
+     * @param protocol
+     * @param protocolNumber protocol number of the renewal
+     * @return a protocol action
+     */
+    protected IacucProtocolAction createCreateContinuationProtocolAction(IacucProtocol protocol, String protocolNumber) {
+        IacucProtocolAction protocolAction = new IacucProtocolAction(protocol, IacucProtocolActionType.CONTINUATION); 
+        protocolAction.setComments(CONTINUATION + "-" + protocolNumber.substring(11) + ": " + CREATED);
+        return protocolAction;
+    }
+    
+    @SuppressWarnings("unchecked")
+    public Collection<IacucProtocol> getContinuations(String protocolNumber) throws Exception {
+        List<IacucProtocol> continuations = new ArrayList<IacucProtocol>();
+        Collection<IacucProtocol> protocols = (Collection<IacucProtocol>) kraLookupDao.findCollectionUsingWildCard(IacucProtocol.class, PROTOCOL_NUMBER, protocolNumber + CONTINUATION_ID + "%", true);
+        for (Protocol protocol : protocols) {
+            IacucProtocolDocument protocolDocument = (IacucProtocolDocument) documentService.getByDocumentHeaderId(protocol.getProtocolDocument().getDocumentNumber());
+            continuations.add(protocolDocument.getIacucProtocol());
+        }
+        return continuations;
+    }
+
+    @Override
+    public List<Protocol> getAmendmentAndRenewals(String protocolNumber) throws Exception {
+        List<Protocol> protocols = super.getAmendmentAndRenewals(protocolNumber);
+        // let us add continuations (continuation is same as renewal)
+        protocols.addAll(getContinuations(protocolNumber));
+        return protocols;
+    }
+    
 }

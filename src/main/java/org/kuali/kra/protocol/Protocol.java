@@ -37,7 +37,6 @@ import org.kuali.kra.common.committee.bo.CommitteeMembership;
 import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.protocol.ProtocolDocument;
 import org.kuali.kra.protocol.actions.ProtocolAction;
 import org.kuali.kra.protocol.actions.ProtocolStatus;
 import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewModule;
@@ -90,8 +89,8 @@ public abstract class Protocol extends KraPersistableBusinessObjectBase implemen
     private static final long serialVersionUID = -5556152547067349988L;
       
     
-    private static final CharSequence AMENDMENT_LETTER = "A";
-    private static final CharSequence RENEWAL_LETTER = "R";
+    protected static final CharSequence AMENDMENT_LETTER = "A";
+    protected static final CharSequence RENEWAL_LETTER = "R";
     
 // TODO *********commented the code below during IACUC refactoring*********     
 //    private static final String DEFAULT_PROTOCOL_TYPE_CODE = "1";
@@ -1395,10 +1394,13 @@ public abstract class Protocol extends KraPersistableBusinessObjectBase implemen
             protocolAction.setProtocolId(this.getProtocolId());
             String index = amendment.getProtocolNumber().substring(11);
             protocolAction.setActionId(getNextValue(NEXT_ACTION_ID_KEY));
+            String type = getProtocolMergeType(amendment);
+            /*
             String type = "Amendment";
             if (amendment.isRenewal()) {
                 type = "Renewal";
             }
+            */
             if (StringUtils.isNotBlank(protocolAction.getComments())) {
                 protocolAction.setComments(type + "-" + index + ": " + protocolAction.getComments());
             } else {
@@ -1407,6 +1409,8 @@ public abstract class Protocol extends KraPersistableBusinessObjectBase implemen
             this.getProtocolActions().add(protocolAction);
         }
     }
+    
+    protected abstract String getProtocolMergeType(Protocol amendment);
     
     
     protected void mergeGeneralInfo(Protocol amendment) {

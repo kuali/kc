@@ -172,6 +172,14 @@
                     <property name="taskName" value="createIacucRenewalUnavailable" />
                 </bean>                          
 
+                <bean class="org.kuali.kra.iacuc.auth.CreateIacucContinuationAuthorizer" parent="parentIacucProtocolAuthorizer">
+                    <property name="taskName" value="createIacucContinuation" />
+                </bean>                          
+
+                <bean class="org.kuali.kra.iacuc.auth.CreateIacucContinuationUnavailableAuthorizer" parent="parentIacucProtocolAuthorizer">
+                    <property name="taskName" value="createIacucContinuationUnavailable" />
+                </bean>                          
+
                 <bean class="org.kuali.kra.iacuc.auth.WithdrawIacucProtocolUnavailableAuthorizer" parent="parentIacucProtocolAuthorizer">
                     <property name="taskName" value="protocolWithdrawUnavailable" />
                 </bean>                          

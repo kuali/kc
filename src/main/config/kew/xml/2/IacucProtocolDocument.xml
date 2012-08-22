@@ -66,7 +66,7 @@
 		xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
 		<ruleAttribute>
 			<name>IACUC ProtocolApprover-XPathQualifierResolver</name>
-			<className>org.kuali.rice.kew.role.XPathQualifierResolver</className>
+			<className>org.kuali.kra.iacuc.IacucProtocolQualifierResolver</className>
 			<label>IACUC ProtocolApprover-XPathQualifierResolver</label>
 			<description>To limit the Approval Request to be routed to IACUC ProtocolApprovers for this protocol only</description>
 			<type>QualifierResolver</type>

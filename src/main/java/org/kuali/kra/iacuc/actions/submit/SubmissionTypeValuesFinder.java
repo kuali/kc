@@ -126,13 +126,15 @@ public class SubmissionTypeValuesFinder extends IacucActionsKeyValuesBase {
     }
     
     private boolean displayContinuation(String currentStatus, Protocol protocol) {
-        String validStatuses[] = { IacucProtocolStatus.WITHDRAWN, IacucProtocolStatus.RENEWAL_IN_PROGRESS, IacucProtocolStatus.SUBMITTED_TO_IACUC };
-        return validateCurrentStatus(currentStatus, validStatuses)  && hasRenewalProtocolNumber(protocol.getProtocolNumber());
+        String validStatuses[] = { IacucProtocolStatus.WITHDRAWN, IacucProtocolStatus.RENEWAL_IN_PROGRESS, IacucProtocolStatus.CONTINUATION_IN_PROGRESS, IacucProtocolStatus.SUBMITTED_TO_IACUC };
+        return validateCurrentStatus(currentStatus, validStatuses)  && (hasRenewalProtocolNumber(protocol.getProtocolNumber()) || 
+                hasContinuationProtocolNumber(protocol.getProtocolNumber()));
     }
     
     private boolean displayContinuationWithAmendment(String currentStatus, Protocol protocol) {
-        String validStatuses[] = { IacucProtocolStatus.WITHDRAWN, IacucProtocolStatus.RENEWAL_IN_PROGRESS, IacucProtocolStatus.SUBMITTED_TO_IACUC };
-        return validateCurrentStatus(currentStatus, validStatuses)  && hasRenewalProtocolNumber(protocol.getProtocolNumber());
+        String validStatuses[] = { IacucProtocolStatus.WITHDRAWN, IacucProtocolStatus.RENEWAL_IN_PROGRESS, IacucProtocolStatus.CONTINUATION_IN_PROGRESS, IacucProtocolStatus.SUBMITTED_TO_IACUC };
+        return validateCurrentStatus(currentStatus, validStatuses)  && (hasRenewalProtocolNumber(protocol.getProtocolNumber()) || 
+                hasContinuationProtocolNumber(protocol.getProtocolNumber()));
     }
     
     private boolean hasAmmendmentProtocolNumber(String protocolNumber) {
@@ -141,6 +143,10 @@ public class SubmissionTypeValuesFinder extends IacucActionsKeyValuesBase {
     
     private boolean hasRenewalProtocolNumber(String protocolNumber) {
         return protocolNumber.contains("R");
+    }
+
+    private boolean hasContinuationProtocolNumber(String protocolNumber) {
+        return protocolNumber.contains("C");
     }
     
     private boolean displayResubmission(String currentStatus) {

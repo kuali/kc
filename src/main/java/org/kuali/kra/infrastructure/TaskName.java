@@ -81,6 +81,8 @@ public interface TaskName {
     public static final String MODIFY_PROTOCOL_AMMENDMENT_SECTIONS_UNAVAILABLE = "modifyAmendmentSectionsUnavailable";
     public static final String CREATE_PROTOCOL_RENEWAL = "createRenewal";
     public static final String CREATE_PROTOCOL_RENEWAL_UNAVAILABLE = "createRenewalUnavailable";
+    public static final String CREATE_PROTOCOL_CONTINUATION = "createContinuation";
+    public static final String CREATE_PROTOCOL_CONTINUATION_UNAVAILABLE = "createContinuationUnavailable";
     public static final String MODIFY_PROTOCOL_BILLABLE = "modifyBillable";
     public static final String SUBMIT_PROTOCOL = "submitProtocol";
     public static final String SUBMIT_PROTOCOL_UNAVAILABLE = "submitProtocolUnavailable";
@@ -280,6 +282,8 @@ public interface TaskName {
     public static final String MODIFY_IACUC_PROTOCOL_AMENDMENT_SECTIONS_UNAVAILABLE = "modifyIacucAmendmentSectionsUnavailable"; 
     public static final String CREATE_IACUC_PROTOCOL_RENEWAL = "createIacucRenewal"; 
     public static final String CREATE_IACUC_PROTOCOL_RENEWAL_UNAVAILABLE = "createIacucRenewalUnavailable"; 
+    public static final String CREATE_IACUC_PROTOCOL_CONTINUATION = "createIacucContinuation"; 
+    public static final String CREATE_IACUC_PROTOCOL_CONTINUATION_UNAVAILABLE = "createIacucContinuationUnavailable"; 
     public static final String MODIFY_IACUC_PROTOCOL_BILLABLE = "modifyIacucBillable"; //?
     public static final String MODIFY_IACUC_PROTOCOL_FUNDING_SOURCE = "modifyIacucProtocolFundingSource"; 
     public static final String MODIFY_IACUC_PROTOCOL_REFERENCES = "modifyIacucProtocolReferences";
