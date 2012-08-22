@@ -15,8 +15,21 @@
  */
 package org.kuali.kra.iacuc.actions.amendrenew;
 
+import java.util.Collection;
+
+import org.kuali.kra.iacuc.IacucProtocol;
+import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewService;
+import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendmentBean;
 
 public interface IacucProtocolAmendRenewService extends ProtocolAmendRenewService {
+
+    public static final String AMEND_RENEW_CONTINUATION_ALLOW_NEW_PROTOCOL_DOCUMENT = "onAmendAndRenewAllowNewProtocolDocument";
+    
+    public Collection<IacucProtocol> getContinuations(String protocolNumber) throws Exception;
+    
+    public String createContinuation (IacucProtocolDocument protocolDocument, String continuationSummary) throws Exception;
+    
+    public String createContinuationWithAmendment(IacucProtocolDocument protocolDocument, ProtocolAmendmentBean amendmentBean) throws Exception;
 
 }

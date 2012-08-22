@@ -19,6 +19,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.iacuc.actions.IacucProtocolStatus;
@@ -105,6 +106,7 @@ public class IacucProtocol extends Protocol {
     // lookup field
     private Integer speciesCode; 
     private Integer exceptionCategoryCode; 
+    private static final CharSequence CONTINUATION_LETTER = "C";
 
     public IacucProtocol() {         
         setCreateTimestamp(new Timestamp(new java.util.Date().getTime()));
@@ -646,4 +648,44 @@ public class IacucProtocol extends Protocol {
         return (IacucProtocolCopyService)KraServiceLocator.getService("iacucProtocolCopyService");
     }
 
+    public boolean isContinuation() {
+        return getProtocolNumber().contains(CONTINUATION_LETTER);
+    }
+
+    @Override
+    protected String getProtocolMergeType(Protocol amendment) {
+        IacucProtocol protocolAmend = (IacucProtocol)amendment;
+        String type = "Amendment";
+        if (protocolAmend.isRenewal()) {
+            type = "Renewal";
+        }else if(protocolAmend.isContinuation()) {
+            type = "Continuation";
+        }
+        return type;
+    }
+
+    @Override
+    public boolean isNew() {
+        return !isAmendment() && !isRenewal() && !isContinuation();
+    }
+    
+    public boolean isContinuationWithoutAmendment() {
+        return isContinuation() && CollectionUtils.isEmpty(this.getProtocolAmendRenewal().getModules());
+    }
+
+    @Override
+    public String getAmendedProtocolNumber() {
+        if (isAmendment()) {
+            return StringUtils.substringBefore(getProtocolNumber(), AMENDMENT_LETTER.toString());
+            
+        } else if (isRenewal()) {
+            return StringUtils.substringBefore(getProtocolNumber(), RENEWAL_LETTER.toString());
+        
+        } else if (isContinuation()) {
+            return StringUtils.substringBefore(getProtocolNumber(), CONTINUATION_LETTER.toString());
+                
+        } else {
+            return null;
+        }
+    }
 }
