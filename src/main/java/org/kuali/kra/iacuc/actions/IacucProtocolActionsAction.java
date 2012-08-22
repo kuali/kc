@@ -4491,6 +4491,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
          * resetting the form's document because it does not have a valid Workflow document unless this is done. KCIAC-389
          */
         IacucProtocolDocument ipd = (IacucProtocolDocument)this.getDocumentService().getByDocumentHeaderId(protocolForm.getDocId());
+        protocolForm.setDocument(ipd);
         //IacucProtocol protocol = protocolForm.getIacucProtocolDocument().getIacucProtocol();
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         //String fileName = "Protocol_Summary_Report.pdf";
