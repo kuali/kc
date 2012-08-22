@@ -12,7 +12,7 @@ function void setAction(IacucProtocolActionMapping protocolAction, boolean flag)
 rule "Submit for Review"
 salience 100
 when
-    protocolAction : IacucProtocolActionMapping(actionTypeCode == "101", protocolStatusCode in ("100", "102", "104", "105", "107", "205", "206", "302", "203", "303"))
+    protocolAction : IacucProtocolActionMapping(actionTypeCode == "101", protocolStatusCode in ("100", "102", "104", "105", "107", "205", "206", "207", "302", "203", "303"))
 then    
     setAction(protocolAction, true);
 end
@@ -268,6 +268,22 @@ rule "Create new Renewal with amendment"
 salience 100
 when
     protocolAction : IacucProtocolActionMapping(actionTypeCode == "106", protocolStatusCode in ("200", "201", "202", "304", "305", "306", "308"))
+then    
+    setAction(protocolAction, true);
+end
+
+rule "Create new Continuation without amendment"
+salience 100
+when
+    protocolAction : IacucProtocolActionMapping(actionTypeCode == "103", protocolStatusCode in ("200", "201", "202", "304", "305", "306", "308"))
+then    
+    setAction(protocolAction, true);
+end
+
+rule "Create new Continutaion with amendment"
+salience 100
+when
+    protocolAction : IacucProtocolActionMapping(actionTypeCode == "105", protocolStatusCode in ("200", "201", "202", "304", "305", "306", "308"))
 then    
     setAction(protocolAction, true);
 end

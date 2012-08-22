@@ -180,6 +180,12 @@ public class IacucActionHelper extends ActionHelper {
     protected IacucProtocolRequestBean iacucProtocolLiftHoldRequestBean;
     protected IacucProtocolRequestBean iacucProtocolSuspendRequestBean;
     
+    protected boolean canCreateContinuation = false;
+    protected boolean canCreateContinuationUnavailable = false;
+    protected boolean hasContinuations;
+    protected String continuationSummary;
+    protected ProtocolAmendmentBean protocolContinuationAmendmentBean;
+    
 
     /**
      * Constructs an ActionHelper.
@@ -226,6 +232,7 @@ public class IacucActionHelper extends ActionHelper {
         actionBeanTaskMap.put(TaskName.IACUC_PROTOCOL_HOLD, iacucProtocolHoldBean);
         actionBeanTaskMap.put(TaskName.IACUC_PROTOCOL_LIFT_HOLD, iacucProtocolLiftHoldBean);
         actionBeanTaskMap.put(TaskName.REMOVE_FROM_AGENDA, iacucProtocolRemoveFromAgendaBean);
+        actionBeanTaskMap.put(TaskName.CREATE_PROTOCOL_CONTINUATION, protocolContinuationAmendmentBean);
 }
 
         
@@ -263,10 +270,11 @@ public class IacucActionHelper extends ActionHelper {
      * @param protocol
      * @return a non-null approval date
      */
-    private Date buildApprovalDate(Protocol protocol) {
+    @Override
+    protected Date buildApprovalDate(Protocol protocol) {
         Date approvalDate = protocol.getApprovalDate();
         
-        if (approvalDate == null || protocol.isNew() || protocol.isRenewal()) {
+        if (approvalDate == null || protocol.isNew() || protocol.isRenewal() || ((IacucProtocol)protocol).isContinuation()) {
             CommonCommitteeSchedule committeeSchedule = protocol.getProtocolSubmission().getCommitteeSchedule();
             if (committeeSchedule != null) {
                 approvalDate = committeeSchedule.getScheduledDate();
@@ -288,10 +296,11 @@ public class IacucActionHelper extends ActionHelper {
      * @param approvalDate
      * @return a non-null expiration date
      */
-    private Date buildExpirationDate(Protocol protocol, Date approvalDate) {
+    @Override
+    protected Date buildExpirationDate(Protocol protocol, Date approvalDate) {
         Date expirationDate = protocol.getExpirationDate();
         
-        if (expirationDate == null || protocol.isNew() || protocol.isRenewal()) {
+        if (expirationDate == null || protocol.isNew() || protocol.isRenewal() || ((IacucProtocol)protocol).isContinuation()) {
             java.util.Date newExpirationDate = DateUtils.addYears(approvalDate, 1);
             newExpirationDate = DateUtils.addDays(newExpirationDate, -1);
             expirationDate = DateUtils.convertToSqlDate(newExpirationDate);
@@ -359,6 +368,10 @@ public class IacucActionHelper extends ActionHelper {
         canAddDeactivateReviewerComments = hasDeactivateRequestLastAction();
         
         canRemoveFromAgenda = hasPermission(TaskName.REMOVE_FROM_AGENDA);
+        
+        canCreateContinuation = hasCreateContinuationPermission();
+        canCreateContinuationUnavailable = hasCreateContinuationUnavailablePermission();
+        
 
         initSummaryDetails();
 
@@ -795,7 +808,7 @@ public class IacucActionHelper extends ActionHelper {
             prevProtocolSummary.compare(protocolSummary);
         }
 
-        setSummaryQuestionnaireExist(hasAnsweredQuestionnaire((protocol.isAmendment() || protocol.isRenewal()) ? CoeusSubModule.AMENDMENT_RENEWAL : CoeusSubModule.ZERO_SUBMODULE, protocol.getSequenceNumber().toString()));
+        setSummaryQuestionnaireExist(hasAnsweredQuestionnaire((protocol.isAmendment() || protocol.isRenewal() || protocol.isContinuation()) ? CoeusSubModule.AMENDMENT_RENEWAL : CoeusSubModule.ZERO_SUBMODULE, protocol.getSequenceNumber().toString()));
     }
 
     public boolean isIacucAdmin() {
@@ -1378,6 +1391,102 @@ public class IacucActionHelper extends ActionHelper {
     @Override
     protected ProtocolTask getNewRenewalProtocolUnavailableTaskInstanceHook(Protocol protocol) {
         return new IacucProtocolTask(TaskName.CREATE_IACUC_PROTOCOL_RENEWAL_UNAVAILABLE, (IacucProtocol) protocol);
+    }
+
+    @Override
+    public void initAmendmentBeans(boolean forceReset) throws Exception {
+        super.initAmendmentBeans(forceReset);
+        if (protocolContinuationAmendmentBean == null || forceReset) {
+            protocolContinuationAmendmentBean = createAmendmentBean();
+        }
+    }
+    
+    @Override
+    protected ProtocolAmendmentBean createAmendmentBean() throws Exception {
+        protocolAmendmentBean = super.createAmendmentBean();
+        protocolContinuationAmendmentBean = getNewProtocolAmendmentBeanInstanceHook(this);
+        configureAmendmentBean(protocolContinuationAmendmentBean);
+        return protocolAmendmentBean;
+    }
+
+    @Override
+    protected ProtocolAmendmentBean configureAmendmentBean(ProtocolAmendmentBean amendmentBean) throws Exception {
+        List<String> moduleTypeCodes;
+
+        if (StringUtils.isNotEmpty(getProtocol().getProtocolNumber()) && (getProtocol().isAmendment() || getProtocol().isRenewal() || 
+                getProtocol().isContinuation())) {
+            moduleTypeCodes = getProtocolAmendRenewServiceHook().getAvailableModules(getProtocol().getAmendedProtocolNumber());
+            populateExistingAmendmentBean(amendmentBean, moduleTypeCodes);
+        } else {
+            moduleTypeCodes = getProtocolAmendRenewServiceHook().getAvailableModules(getProtocol().getProtocolNumber());
+        }
+        
+        for (String moduleTypeCode : moduleTypeCodes) {
+            enableModuleOption(moduleTypeCode, amendmentBean);
+        }
+        
+        return amendmentBean;
+    }
+
+    @Override
+    protected boolean hasModifyAmendmentSectionsPermission() {
+        ProtocolTask task = getModifyAmendmentSectionsProtocolTaskInstanceHook(getProtocol());
+        return ((!getProtocol().isRenewalWithoutAmendment() && !getProtocol().isContinuationWithoutAmendment())&&(getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task)));
+    }
+
+    protected boolean hasCreateContinuationPermission() {
+        ProtocolTask task = getNewContinuationProtocolTaskInstance(getProtocol());
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
+    }
+    
+    protected boolean hasCreateContinuationUnavailablePermission() {
+        ProtocolTask task = getNewContinuationProtocolUnavailableTaskInstance(getProtocol());
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
+    }
+
+    protected ProtocolTask getNewContinuationProtocolTaskInstance(Protocol protocol) {
+        return new IacucProtocolTask(TaskName.CREATE_IACUC_PROTOCOL_CONTINUATION, (IacucProtocol) protocol);
+    }
+
+    protected ProtocolTask getNewContinuationProtocolUnavailableTaskInstance(Protocol protocol) {
+        return new IacucProtocolTask(TaskName.CREATE_IACUC_PROTOCOL_CONTINUATION_UNAVAILABLE, (IacucProtocol) protocol);
+    }
+
+    public boolean getCanCreateContinuation() {
+        return canCreateContinuation;
+    }
+
+    public boolean getCanCreateContinuationUnavailable() {
+        return canCreateContinuationUnavailable;
+    }
+
+    public boolean getHasContinuations() throws Exception {
+        if (getProtocol().isContinuation()) {
+            hasContinuations = true;
+        } else {
+            List<IacucProtocol> protocols = (List<IacucProtocol>) ((IacucProtocolAmendRenewService)getProtocolAmendRenewServiceHook()).getContinuations(getProtocol().getProtocolNumber());
+            hasContinuations = protocols.isEmpty() ? false : true;
+        }
+        return hasContinuations;
+    }
+
+    public String getContinuationSummary() {
+        return continuationSummary;
+    }
+
+
+    public void setContinuationSummary(String continuationSummary) {
+        this.continuationSummary = continuationSummary;
+    }
+
+
+    public ProtocolAmendmentBean getProtocolContinuationAmendmentBean() {
+        return protocolContinuationAmendmentBean;
+    }
+
+
+    public void setProtocolContinuationAmendmentBean(ProtocolAmendmentBean protocolContinuationAmendmentBean) {
+        this.protocolContinuationAmendmentBean = protocolContinuationAmendmentBean;
     }
 
 }

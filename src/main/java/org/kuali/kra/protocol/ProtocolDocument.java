@@ -214,12 +214,8 @@ public abstract class ProtocolDocument extends ResearchDocumentBase implements C
                     KcPerson person = KraServiceLocator.getService(KcPersonService.class).getKcPersonByPersonId(principalId);
                     GlobalVariables.setUserSession(new UserSession(person.getUserName()));                    
                 }
-                if (isAmendment()) {
-                    mergeAmendment(getProtocolAmendmentMergedStatusHook(), "Amendment");
-                }
-                else if (isRenewal()) {
-                    mergeAmendment(getProtocolRenewalMergedStatusHook(), "Renewal");
-                }
+                
+                mergeProtocolAmendment();
                 
                 if (!principalId.equals(asyncPrincipalId)) {
                     GlobalVariables.setUserSession(new UserSession(asyncPrincipalName));                    
@@ -237,8 +233,7 @@ public abstract class ProtocolDocument extends ResearchDocumentBase implements C
         }
     }
     
-    protected abstract String getProtocolAmendmentMergedStatusHook();
-    protected abstract String getProtocolRenewalMergedStatusHook();
+    protected abstract void mergeProtocolAmendment();
     
     /**
      * Add a new protocol action to the protocol and update the status.
@@ -252,7 +247,7 @@ public abstract class ProtocolDocument extends ResearchDocumentBase implements C
         getProtocolActionService().updateProtocolStatus(protocolAction, getProtocol());
     }
     
-    protected abstract ProtocolAction getNewProtocolActionInstanceHook(Protocol protocol, ProtocolSubmission protocolSubmission, String protocolActionTypeCode);
+    protected abstract ProtocolAction getNewProtocolActionInstanceHook(Protocol protocol, ProtocolSubmission protocolSubmission, String protocolStatusCode);
 
     
     protected ProtocolActionService getProtocolActionService() {
@@ -269,7 +264,7 @@ public abstract class ProtocolDocument extends ResearchDocumentBase implements C
      * @param protocolStatusCode
      * @throws Exception
      */
-    private void mergeAmendment(String protocolStatusCode, String type) {
+    protected void mergeAmendment(String protocolStatusCode, String type) {
         Protocol currentProtocol = getProtocolFinderDaoHook().findCurrentProtocolByNumber(getOriginalProtocolNumber());
         final ProtocolDocument newProtocolDocument;
         try {
@@ -309,9 +304,7 @@ public abstract class ProtocolDocument extends ResearchDocumentBase implements C
                 // then this protocol version is being amended so push changes to it
                 //LOG.info("Merging amendment " + this.getProtocol().getProtocolNumber() + " into editable protocol " + otherProtocol.getProtocolNumber());
                 otherProtocol.merge(getProtocol(), false);
-                String protocolType = protocolStatusCode.equals(getProtocolAmendmentMergedStatusHook()) ? getProtocolActionTypeAmendmentCreatedHook() 
-                                                                                                 : getProtocolActionTypeRenewalCreatedHook();
-                action = getNewProtocolActionInstanceHook(otherProtocol, null, protocolType);//new ProtocolAction(otherProtocol, null, protocolType);
+                action = getNewProtocolActionInstanceHook(otherProtocol, null, protocolStatusCode);
                 action.setComments(type + "-" + getProtocolNumberIndex() + ": Merged");
                 otherProtocol.getProtocolActions().add(action);
                 getBusinessObjectService().save(otherProtocol);
@@ -322,14 +315,14 @@ public abstract class ProtocolDocument extends ResearchDocumentBase implements C
         getBusinessObjectService().save(this);
     }
     
-    private boolean isEligibleForMerging(String status, Protocol otherProtocol) {
+    protected boolean isEligibleForMerging(String status, Protocol otherProtocol) {
         return getListOfStatusEligibleForMergingHook().contains(status) && !StringUtils.equals(this.getProtocol().getProtocolNumber(), otherProtocol.getProtocolNumber());
     }
 
     /*
      * This method is to make the document status of the attachment protocol to "finalized" 
      */
-    private void finalizeAttachmentProtocol(Protocol protocol) {
+    protected void finalizeAttachmentProtocol(Protocol protocol) {
         for (ProtocolAttachmentProtocol attachment : protocol.getAttachmentProtocols()) {
             attachment.setProtocol(protocol);
             if (attachment.isDraft()) {
@@ -343,7 +336,7 @@ public abstract class ProtocolDocument extends ResearchDocumentBase implements C
 //        return KraServiceLocator.getService(ProtocolVersionService.class);
 //    }
 //
-    private String getProtocolNumberIndex() {
+    protected String getProtocolNumberIndex() {
         return this.getProtocol().getProtocolNumber().substring(11);
     }
 //
@@ -353,19 +346,17 @@ public abstract class ProtocolDocument extends ResearchDocumentBase implements C
     
     protected abstract ProtocolFinderDao getProtocolFinderDaoHook();
     protected abstract ProtocolVersionService getProtocolVersionServiceHook();
-    protected abstract String getProtocolActionTypeAmendmentCreatedHook();
-    protected abstract String getProtocolActionTypeRenewalCreatedHook();
     protected abstract String getProtocolActionTypeApprovedHook();
     protected abstract String getProtocolStatusExemptHook();
     protected abstract String getProtocolStatusActiveOpenToEnrollmentHook();
     protected abstract String getListOfStatusEligibleForMergingHook();
 
     
-    private DocumentService getDocumentService() {
+    protected DocumentService getDocumentService() {
         return KraServiceLocator.getService(DocumentService.class);
     }
     
-    private BusinessObjectService getBusinessObjectService() {
+    protected BusinessObjectService getBusinessObjectService() {
         return KraServiceLocator.getService(BusinessObjectService.class);
     }
 
@@ -375,7 +366,7 @@ public abstract class ProtocolDocument extends ResearchDocumentBase implements C
      * The first 10 characters is the protocol number of the original protocol.
      * @return
      */
-    private String getOriginalProtocolNumber() {
+    protected String getOriginalProtocolNumber() {
         return getProtocol().getProtocolNumber().substring(0, 10);
     }
 

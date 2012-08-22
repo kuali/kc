@@ -151,6 +151,8 @@
             <kra-iacuc-action:makeAdminCorrectionAction />
             <kra-iacuc-action:createRenewalWithAmendmentAction />
             <kra-iacuc-action:createRenewalAction />
+            <kra-iacuc-action:createContinuationWithAmendmentAction />
+            <kra-iacuc-action:createContinuationAction />
                                           
 <%--                                           
             <kra-iacuc-action:notifyCommitteeAction />--%>
@@ -438,6 +440,17 @@
 				        	                                 reason="Protocol can not be an amendment or renewal.
 				            	                                     <p>
 				                	                                 Protocol status must be Active - Open to Enrollment, Active - Closed to Enrollment, Active - Data Analysis Only, Exempt, Closed Administratively for lack of response, Closed by Investigator, Suspended by Investigator, Suspended by IACUC, or Expired." />
+		            <kra-iacuc-action:genericUnavailableAction tabTitle="Create Continuation with Amendment"
+					                                         canPerformAction="${KualiForm.actionHelper.canCreateContinuationUnavailable && KualiForm.actionHelper.canCreateAmendmentUnavailable}"
+					                                         reason="Protocol can not be an amendment or renewal or continuation.
+					                                                 <p>
+					                                                 Protocol status must be Active - Open to Enrollment, Active - Closed to Enrollment, Active - Data Analysis Only, Exempt, Closed Administratively for lack of response, Closed by Investigator, Suspended by Investigator, or Suspended by IACUC." />
+	            	<kra-iacuc-action:genericUnavailableAction tabTitle="Create Continuation without Amendment"
+				    	                                     canPerformAction="${KualiForm.actionHelper.canCreateContinuationUnavailable}"
+				        	                                 reason="Protocol can not be an amendment or renewal or continuation.
+				            	                                     <p>
+				                	                                 Protocol status must be Active - Open to Enrollment, Active - Closed to Enrollment, Active - Data Analysis Only, Exempt, Closed Administratively for lack of response, Closed by Investigator, Suspended by Investigator, Suspended by IACUC, or Expired." />
+
 <%--
 		            <kra-iacuc-action:genericUnavailableAction tabTitle="Request To Close"
 		                                                     canPerformAction="${KualiForm.actionHelper.canRequestCloseUnavailable}"

@@ -523,7 +523,7 @@ public abstract class ActionHelper implements Serializable {
      * Initializes the mapping between the task names and the beans.  This is used to get the bean associated to the task name passed in from the tag file.
      * The reason TaskName (a text code) is used and ProtocolActionType (a number code) is not is because not every task is mapped to a ProtocolActionType.
      */
-    private void initActionBeanTaskMap() {
+    protected void initActionBeanTaskMap() {
         
         actionBeanTaskMap.put(TaskName.PROTOCOL_ADMIN_CORRECTION, protocolAdminCorrectionBean);
         actionBeanTaskMap.put(TaskName.CREATE_PROTOCOL_AMMENDMENT, protocolAmendmentBean);
@@ -671,7 +671,7 @@ public abstract class ActionHelper implements Serializable {
      * @param protocol
      * @return a non-null approval date
      */
-    private Date buildApprovalDate(Protocol protocol) {
+    protected Date buildApprovalDate(Protocol protocol) {
         Date approvalDate = protocol.getApprovalDate();
         
         if (approvalDate == null || protocol.isNew() || protocol.isRenewal()) {
@@ -696,7 +696,7 @@ public abstract class ActionHelper implements Serializable {
      * @param approvalDate
      * @return a non-null expiration date
      */
-    private Date buildExpirationDate(Protocol protocol, Date approvalDate) {
+    protected Date buildExpirationDate(Protocol protocol, Date approvalDate) {
         Date expirationDate = protocol.getExpirationDate();
         
         if (expirationDate == null || protocol.isNew() || protocol.isRenewal()) {
@@ -733,7 +733,7 @@ public abstract class ActionHelper implements Serializable {
         }
     }
     
-    private ProtocolAmendmentBean createAmendmentBean() throws Exception {
+    protected ProtocolAmendmentBean createAmendmentBean() throws Exception {
         protocolAmendmentBean = getNewProtocolAmendmentBeanInstanceHook(this);
         protocolRenewAmendmentBean = getNewProtocolAmendmentBeanInstanceHook(this);
         configureAmendmentBean(protocolAmendmentBean);
@@ -751,7 +751,7 @@ public abstract class ActionHelper implements Serializable {
      * @return
      * @throws Exception 
      */
-    private ProtocolAmendmentBean configureAmendmentBean(ProtocolAmendmentBean amendmentBean) throws Exception {
+    protected ProtocolAmendmentBean configureAmendmentBean(ProtocolAmendmentBean amendmentBean) throws Exception {
         //ProtocolAmendmentBean amendmentBean = new ProtocolAmendmentBean(this);
         List<String> moduleTypeCodes;
 

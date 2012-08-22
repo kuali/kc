@@ -80,6 +80,7 @@ public abstract class ProtocolAmendRenewServiceImpl implements ProtocolAmendRene
     public void setProtocolCopyService(ProtocolCopyService<ProtocolDocument> protocolCopyService) {
         this.protocolCopyService = protocolCopyService;
     }
+
     
     /**
      * Set the Sequence Accessor Service.
@@ -138,7 +139,7 @@ public abstract class ProtocolAmendRenewServiceImpl implements ProtocolAmendRene
      * This method marks all protocol attachment as finalized.
      * @param attachmentProtocols
      */
-    private void markProtocolAttachmentsAsFinalized(List<ProtocolAttachmentProtocol> attachmentProtocols) {
+    protected void markProtocolAttachmentsAsFinalized(List<ProtocolAttachmentProtocol> attachmentProtocols) {
         for (ProtocolAttachmentProtocol protocolAttachment : attachmentProtocols) {
             if ("1".equals(protocolAttachment.getDocumentStatusCode())) {
                 protocolAttachment.setDocumentStatusCode("2");
@@ -476,4 +477,8 @@ public abstract class ProtocolAmendRenewServiceImpl implements ProtocolAmendRene
     protected abstract ProtocolAmendRenewal getNewProtocolAmendRenewalInstanceHook();
     
     protected abstract ProtocolAmendRenewModule getNewProtocolAmendRenewModuleInstanceHook();
+
+    public ProtocolCopyService<ProtocolDocument> getProtocolCopyService() {
+        return protocolCopyService;
+    }
 }

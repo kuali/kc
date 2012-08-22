@@ -45,6 +45,7 @@ import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.IacucProtocolForm;
 import org.kuali.kra.iacuc.actions.abandon.IacucProtocolAbandonService;
 import org.kuali.kra.iacuc.actions.amendrenew.CreateIacucAmendmentEvent;
+import org.kuali.kra.iacuc.actions.amendrenew.CreateIacucContinuationEvent;
 import org.kuali.kra.iacuc.actions.amendrenew.CreateIacucRenewalEvent;
 import org.kuali.kra.iacuc.actions.amendrenew.IacucProtocolAmendRenewService;
 import org.kuali.kra.iacuc.actions.amendrenew.ModifyIacucAmendmentSectionsEvent;
@@ -103,7 +104,6 @@ import org.kuali.kra.iacuc.auth.IacucProtocolTask;
 import org.kuali.kra.iacuc.correspondence.IacucProtocolActionCorrespondenceGenerationService;
 import org.kuali.kra.iacuc.correspondence.IacucProtocolActionsCorrespondence;
 import org.kuali.kra.iacuc.correspondence.IacucProtocolCorrespondence;
-import org.kuali.kra.iacuc.correspondence.IacucProtocolCorrespondenceType;
 import org.kuali.kra.iacuc.noteattachment.IacucProtocolAttachmentPersonnel;
 import org.kuali.kra.iacuc.noteattachment.IacucProtocolAttachmentProtocol;
 import org.kuali.kra.iacuc.noteattachment.IacucProtocolAttachmentService;
@@ -143,7 +143,6 @@ import org.kuali.kra.protocol.actions.submit.ProtocolReviewerBean;
 import org.kuali.kra.protocol.actions.undo.UndoLastActionBean;
 import org.kuali.kra.protocol.auth.ProtocolTask;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondence;
-import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceType;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentBase;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentProtocol;
 import org.kuali.kra.protocol.notification.ProtocolNotificationRequestBean;
@@ -161,7 +160,6 @@ import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
-import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kns.document.authorization.DocumentAuthorizerBase;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.util.WebUtils;
@@ -949,6 +947,107 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
             protocolForm.getActionHelper().setProtocolAmendmentBean(protocolForm.getActionHelper().getProtocolRenewAmendmentBean());
 
             IacucProtocolNotificationRequestBean notificationBean = new IacucProtocolNotificationRequestBean(protocol, IacucProtocolActionType.RENEWAL_WITH_AMENDMENT_CREATED, "Renewal With Amendment Created");
+            protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, PROTOCOL_TAB, notificationBean, false));
+            if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
+                return mapping.findForward(CORRESPONDENCE);
+            } else {
+                return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_TAB), protocolForm, notificationBean);
+            }
+        }
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    /**
+     * Create a Continuation without an Amendment.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward createContinuation(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+
+        IacucProtocolForm protocolForm = (IacucProtocolForm) form;
+        IacucProtocolDocument protocolDocument = protocolForm.getIacucProtocolDocument();
+        IacucProtocol protocol = protocolForm.getIacucProtocolDocument().getIacucProtocol();
+        IacucProtocolTask task = new IacucProtocolTask(TaskName.CREATE_IACUC_PROTOCOL_CONTINUATION, protocol);
+        IacucActionHelper actionHelper = (IacucActionHelper)protocolForm.getActionHelper();
+        if (isAuthorized(task)) {
+            if (!applyRules(new CreateIacucContinuationEvent(protocolDocument,
+                    Constants.PROTOCOL_CREATE_CONTINUATION_SUMMARY_KEY, actionHelper.getContinuationSummary()))) {
+                    return mapping.findForward(Constants.MAPPING_BASIC);
+                }
+            String newDocId = getProtocolAmendRenewService().createContinuation(protocolDocument, actionHelper.getContinuationSummary());
+            // Switch over to the new protocol document and
+            // go to the Protocol tab web page.
+
+            protocolForm.setDocId(newDocId);
+            loadDocument(protocolForm);
+
+            protocolForm.getActionHelper().setCurrentSubmissionNumber(-1);
+            protocolForm.getProtocolHelper().prepareView();
+            
+            recordProtocolActionSuccess("Create Continuation without Amendment");
+            
+            // Form fields copy needed to support modifyAmendmentSections
+            protocolForm.getActionHelper().getProtocolAmendmentBean().setSummary(actionHelper.getContinuationSummary());
+
+            IacucProtocolNotificationRequestBean notificationBean = new IacucProtocolNotificationRequestBean(protocol, IacucProtocolActionType.CONTINUATION_CREATED_NOTIFICATION, "Continuation Created");
+            protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, PROTOCOL_TAB, notificationBean, false));
+            if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
+                return mapping.findForward(CORRESPONDENCE);
+            } else {
+                return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_TAB), protocolForm, notificationBean);
+            }
+        }
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    /**
+     * Create a Continuation with an Amendment.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    @SuppressWarnings("unchecked")
+    public ActionForward createContinuationWithAmendment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+
+        IacucProtocolForm protocolForm = (IacucProtocolForm) form;
+        IacucProtocolDocument protocolDocument = protocolForm.getIacucProtocolDocument();
+        IacucProtocol protocol = protocolForm.getIacucProtocolDocument().getIacucProtocol();
+        IacucActionHelper actionHelper = (IacucActionHelper)protocolForm.getActionHelper();
+        IacucProtocolTask task = new IacucProtocolTask(TaskName.CREATE_IACUC_PROTOCOL_CONTINUATION, protocol);
+        if (isAuthorized(task)) {
+            if (!applyRules(new CreateIacucAmendmentEvent(protocolDocument,
+                Constants.PROTOCOL_CREATE_CONTINUATION_WITH_AMENDMENT_KEY, actionHelper.getProtocolContinuationAmendmentBean()))) {
+                return mapping.findForward(Constants.MAPPING_BASIC);
+            }
+
+            String newDocId = getProtocolAmendRenewService().createContinuationWithAmendment(protocolDocument,
+                    actionHelper.getProtocolContinuationAmendmentBean());
+            // Switch over to the new protocol document and
+            // go to the Protocol tab web page.
+
+            protocolForm.setDocId(newDocId);
+            loadDocument(protocolForm);
+
+            protocolForm.getActionHelper().setCurrentSubmissionNumber(-1);
+            protocolForm.getProtocolHelper().prepareView();
+            
+            recordProtocolActionSuccess("Create Continuation with Amendment");
+            
+            // Form fields copy needed to support modifyAmendmentSections
+            protocolForm.getActionHelper().setProtocolAmendmentBean(actionHelper.getProtocolContinuationAmendmentBean());
+
+            IacucProtocolNotificationRequestBean notificationBean = new IacucProtocolNotificationRequestBean(protocol, IacucProtocolActionType.CONTINUATION_AMENDMENT, "Continuation With Amendment Created");
             protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, PROTOCOL_TAB, notificationBean, false));
             if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
                 return mapping.findForward(CORRESPONDENCE);
