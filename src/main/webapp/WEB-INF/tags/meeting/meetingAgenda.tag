@@ -50,9 +50,19 @@
 					</td>
 						<td>
 							<div align="center">&nbsp;					
-								<input type="image" alt="Send Agenda" class="tinybutton" onclick="alert('${notificationSentMessage}');return true;" src="${ConfigProperties.kra.externalizable.images.url}tinybutton-sendagenda.gif" name="methodToCall.sendAgendaNotification.line${status.index}.anchor${currentTabIndex}">
+								<input type="image" alt="Send Agenda" class="tinybutton" 
+									onclick="alert('${notificationSentMessage}');return true;" 
+									src="${ConfigProperties.kra.externalizable.images.url}tinybutton-sendagenda.gif" 
+									name="methodToCall.sendAgendaNotification.line${status.index}.anchor${currentTabIndex}">
 								&nbsp;
-				                <input type="image" alt="View Agenda" class="tinybutton" onclick="openNewWindow('meetingActions','viewAgenda','${status.index}',0,'false'); return false;" id="viewAgenda${status.index+1}" src="${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif" name="methodToCall.viewAgenda.line${status.index}.anchor${currentTabIndex}">
+								<input type="image" alt="View Agenda" class="tinybutton"
+									onclick="excludeSubmitRestriction = true;"
+				                	src="${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif" name="methodToCall.viewAgenda.line${status.index}.anchor${currentTabIndex}">
+								<%--
+				                <input type="image" alt="View Agenda" class="tinybutton" 
+				                	onclick="openNewWindow('meetingActions','viewAgenda','${status.index}',0,'false'); return false;" id="viewAgenda${status.index+1}" 
+				                	src="${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif" name="methodToCall.viewAgenda.line${status.index}.anchor${currentTabIndex}">
+				                	 --%>
 							</div>
 		                </td>
 	            </tr>

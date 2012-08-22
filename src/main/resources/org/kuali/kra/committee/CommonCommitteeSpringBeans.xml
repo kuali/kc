@@ -184,6 +184,10 @@
 		<property name="businessObjectService" ref="businessObjectService" />
 		<property name="dateTimeService" ref="dateTimeService" />
 	</bean>
+	
+	<bean id="commonCommitteeNotificationRoleQualifierService" class="org.kuali.kra.common.committee.notification.CommitteeNotificationRoleQualifierServiceImpl"
+          scope="prototype">
+    </bean>
 	 
 <!-- republishing the committee authorizers -->    
    
