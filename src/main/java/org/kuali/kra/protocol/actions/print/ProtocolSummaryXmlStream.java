@@ -671,7 +671,7 @@ public abstract class ProtocolSummaryXmlStream extends PrintBaseXmlStream {
      * @param protocolType
      * @return
      */
-    private void setProtocolMasterData(org.kuali.kra.protocol.Protocol protocol, ProtocolType protocolType) {
+    private void setProtocolMasterData(IacucProtocol protocol, ProtocolType protocolType) {
         ProtocolMasterDataType protocolMaster = protocolType.addNewProtocolMasterData();
         if (protocol == null) {
             return;
@@ -719,6 +719,10 @@ public abstract class ProtocolSummaryXmlStream extends PrintBaseXmlStream {
         if (protocol.getInvestigator() != null) {
             protocolMaster.setPrincipleInvestigatorName(protocol.getInvestigator());
         }
+        
+        if (protocol.getOverviewTimeline() != null) {
+            protocolMaster.setOverviewTimeline(protocol.getOverviewTimeline());
+        }
     }
     
     /**
@@ -735,6 +739,7 @@ public abstract class ProtocolSummaryXmlStream extends PrintBaseXmlStream {
             speciesType.setSpeciesGroup(iacucProtocolSpecies.getSpeciesGroup());
             speciesType.setSpeciesDesc(iacucProtocolSpecies.getSpeciesName());
             speciesType.setStrain(iacucProtocolSpecies.getStrain());
+            speciesType.setPainCategoryDesc(iacucProtocolSpecies.getPainCategoryName());
             speciesType.setPainCategoryCode(iacucProtocolSpecies.getPainCategoryCode());
             if (iacucProtocolSpecies.getUsdaCovered()) {
                 speciesType.setIsUsdaCovered(FLAG_YES);
@@ -798,7 +803,8 @@ public abstract class ProtocolSummaryXmlStream extends PrintBaseXmlStream {
      * @param protocolType
      * @return     
      */
-    private void setProcedures(IacucProtocol protocol, ProtocolType protocolType) {   
+    private void setProcedures(IacucProtocol protocol, ProtocolType protocolType) {  
+
         
     }    
 
