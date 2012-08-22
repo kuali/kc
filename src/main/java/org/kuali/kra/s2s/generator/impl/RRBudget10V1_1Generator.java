@@ -815,14 +815,14 @@ public class RRBudget10V1_1Generator extends RRBudgetBaseGenerator {
                             }
                             else {
                                 if (keyPerson.getBaseSalary() != null) {
-                                    keyPersonDataType.setBaseSalary(keyPerson.getRequestedSalary().bigDecimalValue());
+                                    keyPersonDataType.setBaseSalary(keyPerson.getBaseSalary().bigDecimalValue());
                                 }
                             }
 
                         }
                         else {
                             if (keyPerson.getBaseSalary() != null) {
-                                keyPersonDataType.setBaseSalary(keyPerson.getRequestedSalary().bigDecimalValue());
+                                keyPersonDataType.setBaseSalary(keyPerson.getBaseSalary().bigDecimalValue());
                             }
                         }
                     keyPersonDataType.setRequestedSalary(keyPerson.getRequestedSalary().bigDecimalValue());
