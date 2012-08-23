@@ -211,6 +211,7 @@ public class BudgetExpensesAction extends BudgetAction {
         List<BudgetFormulatedCostDetail> budgetFormulatedCosts = budgetLineItem.getBudgetFormulatedCosts();
         BudgetDecimal formulatedExpenses = BudgetDecimal.ZERO;
         for (BudgetFormulatedCostDetail budgetFormulatedCostDetail : budgetFormulatedCosts) {
+            calculateBudgetFormulatedCost(budgetFormulatedCostDetail);
             formulatedExpenses = formulatedExpenses.add(budgetFormulatedCostDetail.getCalculatedExpenses());
         }
         return formulatedExpenses;
@@ -369,7 +370,7 @@ public class BudgetExpensesAction extends BudgetAction {
         Budget budget = budgetForm.getBudgetDocument().getBudget();
         List<String> formulatedCostElements = getFormulatedCostElements();
         for(BudgetPeriod budgetPeriod:budget.getBudgetPeriods()){
-            for(BudgetLineItem budgetLineItem:budgetPeriod.getBudgetLineItems()){                
+            for(BudgetLineItem budgetLineItem:budgetPeriod.getBudgetLineItems()){
                 if(!StringUtils.equalsIgnoreCase(budgetLineItem.getCostElement(), budgetLineItem.getCostElementBO().getCostElement())){
                     if(formulatedCostElements.contains(budgetLineItem.getCostElement())){
                         budgetLineItem.setFormulatedCostElementFlag(true);
@@ -377,6 +378,7 @@ public class BudgetExpensesAction extends BudgetAction {
                     budgetLineItem.refreshReferenceObject("costElementBO");
                     budgetLineItem.setBudgetCategoryCode(budgetLineItem.getCostElementBO().getBudgetCategoryCode());
                 }
+                calculateAndUpdateFormulatedCost(budgetLineItem);
                 getCalculationService().updatePersonnelBudgetRate(budgetLineItem);
             }
         }
@@ -387,6 +389,14 @@ public class BudgetExpensesAction extends BudgetAction {
             return actionForward;
         } else {
             return mapping.findForward(Constants.MAPPING_BASIC);
+        }
+    }
+
+
+    private void calculateAndUpdateFormulatedCost(BudgetLineItem budgetLineItem) {
+        BudgetDecimal formulatedCostTotal = getFormulatedCostsTotal(budgetLineItem);
+        if(!formulatedCostTotal.equals(BudgetDecimal.ZERO)){
+            budgetLineItem.setLineItemCost(formulatedCostTotal);
         }
     }
     
