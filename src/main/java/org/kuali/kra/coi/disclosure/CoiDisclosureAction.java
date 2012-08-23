@@ -283,8 +283,9 @@ public class CoiDisclosureAction extends CoiAction {
             
             // check to see if there's an existing update master that is not approved/disapproved
             CoiDisclosure coiDisclosure = null;
-            if (StringUtils.equals(eventTypeCode, CoiDisclosureEventType.UPDATE)) {
-                coiDisclosure = getExistingUpdateMasterDisclosure();
+            if (StringUtils.equals(eventTypeCode, CoiDisclosureEventType.UPDATE) 
+                    || StringUtils.equals(eventTypeCode, CoiDisclosureEventType.ANNUAL)) {
+                coiDisclosure = getExistingDisclosure(eventTypeCode);
             }
             
             // if an existing update master exists, let's load it, otherwise initiate
@@ -1147,11 +1148,11 @@ public class CoiDisclosureAction extends CoiAction {
 
     }
     
-    private CoiDisclosure getExistingUpdateMasterDisclosure() {
+    private CoiDisclosure getExistingDisclosure(String eventTypeCode) {
         CoiDisclosure updateMaster = null;
         Map fieldValues = new HashMap();
         fieldValues.put("personId", GlobalVariables.getUserSession().getPrincipalId());
-        fieldValues.put("eventTypeCode", CoiDisclosureEventType.UPDATE);
+        fieldValues.put("eventTypeCode", eventTypeCode);
 
         List<CoiDisclosure> disclosures = (List<CoiDisclosure>) getBusinessObjectService().findMatchingOrderBy(CoiDisclosure.class,
                 fieldValues, "sequenceNumber", false);
@@ -1167,7 +1168,7 @@ public class CoiDisclosureAction extends CoiAction {
         }
         
         return updateMaster;
-    }
+    }    
     
     private void updateCorrespondingCoiDisclProject(CoiDisclosure coiDisclosure, String dispositionStatus, String disclosureStatus) {
         List<CoiDisclProject> disclProjects = coiDisclosure.getCoiDisclProjects();
