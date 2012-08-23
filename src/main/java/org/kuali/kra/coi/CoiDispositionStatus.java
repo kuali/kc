@@ -37,7 +37,7 @@ public class CoiDispositionStatus extends KraPersistableBusinessObjectBase {
     public static final String NO_CONFLICT_EXISTS = "305";
     public static final String EXEMPT = "306";
     public static final String DISCLOSED_INTERESTS_UNMANAGEABLE = "400";
-    private Integer coiDispositionCode; 
+    private String coiDispositionCode; 
     private String description; 
     
     private CoiDisclosure coiDisclosure; 
@@ -48,11 +48,11 @@ public class CoiDispositionStatus extends KraPersistableBusinessObjectBase {
 
     } 
     
-    public Integer getCoiDispositionCode() {
+    public String getCoiDispositionCode() {
         return coiDispositionCode;
     }
 
-    public void setCoiDispositionCode(Integer coiDispositionCode) {
+    public void setCoiDispositionCode(String coiDispositionCode) {
         this.coiDispositionCode = coiDispositionCode;
     }
 

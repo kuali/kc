@@ -15,62 +15,32 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <%@ attribute name="disclProject" required="true" type="org.kuali.kra.coi.CoiDisclProject" %>
-<%@ attribute name="style" required="false" description="style for current project" %>
 
-<c:set var="coiDisclProjectAttributes" value="${DataDictionary.CoiDisclProject.attributes}" />
-<c:set var="coiDiscDetailAttributes" value="${DataDictionary.CoiDiscDetail.attributes}" />
-<c:set var="readOnly" value="${!KualiForm.disclosureHelper.canEditDisclosureFinancialEntity}" />
-                <div>
-    	<h3>
-            <span class="subhead-left" style="${style}"> 
-               Protocol Number: ${disclProject.protocol.protocolNumber}</span>
-    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.coi.CoiDiscDetail" altText="help"/></span>
-            <span style="text-align: right; float: right; padding-left: 20px;">Disposition:&nbsp;${disclProject.coiDispositionStatus.description}&nbsp;&nbsp;&nbsp;</span>    		
-        </h3>
-                  
-                    <table class=tab cellpadding="0" cellspacing="0" summary="">
-                        <tbody>
-                        <%-- Header --%>
-                                 <tr>
-                                    <th><div align="right">IRB Protocol Name:</div></th> 
-                  <td align="left" valign="middle" colspan="3">
-					<div align="left">
-					${disclProject.protocol.title}
-					</div>
-				  </td>
-                                    <th><div align="right">IRB Protocol Type:</div></th> 
-                  <td align="left" valign="middle">
-					<div align="left">
-					${disclProject.protocol.protocolType.description}
-					</div>
-				  </td>
-                                </tr>
-                        <%-- Header --%>
-                        
-                         <%-- New data --%>
-                        <%-- kra:permission value="${KualiForm.disclosureHelper.modifyPersonnel}" --%>
-                <tr>
-                                    <th><div align="right">Application Date:</div></th> 
-                  <td align="left" valign="middle">
-					<div align="left">
-					${disclProject.protocol.applicationDate}
-					    <%-- kc removed applicationdate from protocol.  not sure what to replace --%>
-					</div>
-				  </td>
-                                    <th><div align="right">Expiration Date:</div></th> 
-                  <td align="left" valign="middle">
-					<div align="left">
-					${disclProject.protocol.expirationDate}
-					</div>
-				  </td>
-                                    <th><div align="right">PI Name:</div></th> 
-                  <td align="left" valign="middle">
-					<div align="left">
-					${disclProject.protocol.principalInvestigatorName} 
-					</div>
-				  </td>
-	            </tr>
-
-               </table>
-              
-        </div>
+<table class=tab cellpadding="0" cellspacing="0" summary="">
+	<tbody>
+		<tr>
+			<th><div align="right">IRB Protocol Name:</div></th> 
+			<td align="left" valign="middle" colspan="3"><div align="left">
+				${disclProject.protocol.title}
+			</div></td>
+			<th><div align="right">IRB Protocol Type:</div></th> 
+			<td align="left" valign="middle"><div align="left">
+				${disclProject.protocol.protocolType.description}
+			</div></td>
+		</tr>
+		<tr>
+			<th><div align="right">Application Date:</div></th> 
+			<td align="left" valign="middle"><div align="left">
+				${disclProject.protocol.applicationDate}
+			</div></td>
+			<th><div align="right">Expiration Date:</div></th> 
+			<td align="left" valign="middle"><div align="left">
+				${disclProject.protocol.expirationDate}
+			</div></td>
+			<th><div align="right">PI Name:</div></th> 
+			<td align="left" valign="middle"><div align="left">
+				${disclProject.protocol.principalInvestigatorName} 
+			</div></td>
+		</tr>
+	</tbody>
+</table>
