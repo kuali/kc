@@ -7,29 +7,56 @@
               
 
     <c:if test="${fn:length(masterDisclosure.manualAwardProjects) > 0}" >
-        <kra-coi:masterManualProject masterDisclosureProjects="${masterDisclosure.manualAwardProjects}" projectDivNamePrefix="masterManualAwardFE" projectListName="manualAwardProjects"/>
+        <kra-coi:disclosureProjects masterDisclosureProjects="${masterDisclosure.manualAwardProjects}" 
+        projectDivNamePrefix="masterManualAwardFE" projectListName="manualAwardProjects" 
+        boLocation="disclosureHelper.masterDisclosureBean.manualAwardProjects"
+        parentTab="Manual Projects"/>
     </c:if>
     <c:if test="${fn:length(masterDisclosure.manualProposalProjects) > 0}" >
-        <kra-coi:masterManualProject masterDisclosureProjects="${masterDisclosure.manualProposalProjects}" projectDivNamePrefix="masterManualProposalFE" projectListName="manualProposalProjects"/>
+        <kra-coi:disclosureProjects masterDisclosureProjects="${masterDisclosure.manualProposalProjects}" 
+        projectDivNamePrefix="masterManualProposalFE" projectListName="manualProposalProjects" 
+        boLocation="disclosureHelper.masterDisclosureBean.manualProposalProjects"
+        parentTab="Manual Projects"/>
     </c:if>
     <c:if test="${fn:length(masterDisclosure.manualProtocolProjects) > 0}" >
-        <kra-coi:masterManualProject masterDisclosureProjects="${masterDisclosure.manualProtocolProjects}" projectDivNamePrefix="masterManualProtocolFE" projectListName="manualProtocolProjects"/>
+        <kra-coi:disclosureProjects masterDisclosureProjects="${masterDisclosure.manualProtocolProjects}" 
+        projectDivNamePrefix="masterManualProtocolFE" projectListName="manualProtocolProjects" 
+        boLocation="disclosureHelper.masterDisclosureBean.manualProtocolProjects"
+        parentTab="Manual Projects"/>
     </c:if>
     <c:if test="${fn:length(masterDisclosure.manualTravelProjects) > 0}" >
-        <kra-coi:masterManualProject masterDisclosureProjects="${masterDisclosure.manualTravelProjects}" projectDivNamePrefix="masterManualTravelFE" projectListName="manualTravelProjects"/>
+        <kra-coi:disclosureProjects masterDisclosureProjects="${masterDisclosure.manualTravelProjects}" 
+        projectDivNamePrefix="masterManualTravelFE" projectListName="manualTravelProjects" 
+        boLocation="disclosureHelper.masterDisclosureBean.manualTravelProjects"
+        parentTab="Manual Projects"/>
     </c:if>
        </div>
 </kul:tab>
 </c:if>    
 <c:if test="${fn:length(masterDisclosure.awardProjects) > 0}" >
-    <%-- <kra-coi:proposalProjects /> --%>
-    <kra-coi:masterAward masterDisclosureProjects="${masterDisclosure.awardProjects}"/>
+    <kul:tab defaultOpen="false" tabTitle="Awards" auditCluster="financialEntityDiscAuditErrors" tabAuditKey="disclosureHelper.masterDisclosureBean.awardProjects[*" useRiceAuditMode="true"
+    	tabErrorKey="disclosureHelper.newCoiDisclProject.*" hidden="${hidden}"><div class="tab-container" align="center">
+	    <kra-coi:disclosureProjects masterDisclosureProjects="${masterDisclosure.awardProjects}" 
+	    projectDivNamePrefix="masterAwardFE" projectListName="awardProjects" 
+	    boLocation="disclosureHelper.masterDisclosureBean.awardProjects"
+	    parentTab="Awards"/>
+	</div></kul:tab> 
 </c:if>
-<c:if test="${fn:length(masterDisclosure.proposalProjects) > 0}" >
-    <%-- <kra-coi:proposalProjects /> --%>
-    <kra-coi:masterProposal masterDisclosureProjects="${masterDisclosure.proposalProjects}"/>
+<c:if test="${fn:length(masterDisclosure.proposalProjects) > 0}" > 
+    <kul:tab defaultOpen="false" tabTitle="Proposals" auditCluster="financialEntityDiscAuditErrors" tabAuditKey="disclosureHelper.masterDisclosureBean.proposalProjects[*" useRiceAuditMode="true"
+    	tabErrorKey="disclosureHelper.newCoiDisclProject.*" hidden="${hidden}"><div class="tab-container" align="center">
+	    <kra-coi:disclosureProjects masterDisclosureProjects="${masterDisclosure.proposalProjects}" 
+	    projectDivNamePrefix="masterProposalFE" projectListName="proposalProjects" 
+	    boLocation="disclosureHelper.masterDisclosureBean.proposalProjects"
+	    parentTab="Proposals"/>
+	</div></kul:tab> 
 </c:if>
 <c:if test="${fn:length(masterDisclosure.protocolProjects) > 0}" >
-    <%-- <kra-coi:proposalProjects /> --%>
-    <kra-coi:masterProtocol masterDisclosureProjects="${masterDisclosure.protocolProjects}"/>
+    <kul:tab defaultOpen="false" tabTitle="Protocols" auditCluster="financialEntityDiscAuditErrors" tabAuditKey="disclosureHelper.masterDisclosureBean.protocolProjects[*" useRiceAuditMode="true"
+    	tabErrorKey="disclosureHelper.newCoiDisclProject.*" hidden="${hidden}"><div class="tab-container" align="center">
+	    <kra-coi:disclosureProjects masterDisclosureProjects="${masterDisclosure.protocolProjects}" 
+	    projectDivNamePrefix="masterProtocolFE" projectListName="protocolProjects" 
+	    boLocation="disclosureHelper.masterDisclosureBean.protocolProjects"
+	    parentTab="Protocols"/>
+	</div></kul:tab> 
 </c:if>

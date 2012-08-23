@@ -273,22 +273,16 @@
  <!--   </c:if> -->
 </c:if> 
  
-<c:if test="${KualiForm.document.coiDisclosureList[0].awardEvent}" >
-    <%-- <kra-coi:awardProjects /> --%>
-    <kra-coi:newAwardFinancialEntities />
+<c:if test="${KualiForm.document.coiDisclosureList[0].awardEvent || KualiForm.document.coiDisclosureList[0].proposalEvent || KualiForm.document.coiDisclosureList[0].institutionalProposalEvent || KualiForm.document.coiDisclosureList[0].protocolEvent}" >
+	<kul:tab defaultOpen="false" tabTitle="Project & Financial Entity Relationships" auditCluster="financialEntityDiscAuditErrors" tabAuditKey="document.coiDisclosureList[0].coiDisclEventProjects*" useRiceAuditMode="true"
+	       tabErrorKey="document.coiDisclosureList[0].coiDisclEventProjects*" >
+		<div class="tab-container" align="center">
+    		<kra-coi:genericFinancialEntity idx="0" disclProject="${KualiForm.document.coiDisclosureList[0].coiDisclProjects[0]}" 
+    			boLocation="document.coiDisclosureList[0].coiDisclProjects[0]"/>
+    	</div>
+    </kul:tab>
 </c:if>
-<c:if test="${KualiForm.document.coiDisclosureList[0].proposalEvent}" >
-    <%-- <kra-coi:proposalProjects /> --%>
-    <kra-coi:newProposalFinancialEntities />
-</c:if>
-<c:if test="${KualiForm.document.coiDisclosureList[0].institutionalProposalEvent}" >
-    <%-- <kra-coi:proposalProjects /> --%>
-    <kra-coi:newInstitutionalProposalFinancialEntities />
-</c:if>
-<c:if test="${KualiForm.document.coiDisclosureList[0].protocolEvent}" >
-   <%-- <kra-coi:protocolProjects /> --%>
-    <kra-coi:newProtocolFinancialEntities />
-</c:if>
+
 <c:if test="${KualiForm.document.coiDisclosureList[0].annualEvent and not KualiForm.document.coiDisclosureList[0].annualUpdate}" >
 <kra-coi:disclosureFinancialEntities />
 </c:if>
