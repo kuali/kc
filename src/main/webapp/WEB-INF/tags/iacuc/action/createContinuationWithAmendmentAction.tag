@@ -120,38 +120,38 @@
 	            				</tr>
 	            				<tr>
 	            					<td width="50%" style="border-left: 0 none; border-bottom: 0 none;">
-	            					    <kul:htmlControlAttribute property="actionHelper.protocolAmendmentBean.questionnaire" 
+	            					    <kul:htmlControlAttribute property="actionHelper.protocolContinuationAmendmentBean.questionnaire" 
 	            					                              attributeEntry="${attributes.questionnaire}" 
-	            					                              disabled="${!KualiForm.actionHelper.protocolAmendmentBean.questionnaireEnabled}" />
+	            					                              disabled="${!KualiForm.actionHelper.protocolContinuationAmendmentBean.questionnaireEnabled}" />
 	            					    Questionnaire
 	            					</td>
 	            					<td width="50%" style="border-left: 0 none; border-bottom: 0 none;">
-	            					    <kul:htmlControlAttribute property="actionHelper.protocolAmendmentBean.threers" 
+	            					    <kul:htmlControlAttribute property="actionHelper.protocolContinuationAmendmentBean.threers" 
 	            					                              attributeEntry="${attributes.threers}" 
-	            					                              disabled="${!KualiForm.actionHelper.protocolAmendmentBean.threersEnabled}" />
+	            					                              disabled="${!KualiForm.actionHelper.protocolContinuationAmendmentBean.threersEnabled}" />
 	            					    Three R's
 	            					</td>
 	            				</tr>
 
 	            				<tr>
 	            					<td width="50%" style="border-left: 0 none; border-bottom: 0 none;">
-	            					    <kul:htmlControlAttribute property="actionHelper.protocolAmendmentBean.speciesAndGroups" 
+	            					    <kul:htmlControlAttribute property="actionHelper.protocolContinuationAmendmentBean.speciesAndGroups" 
 	            					                              attributeEntry="${attributes.speciesAndGroups}"
-	            					                              disabled="${!KualiForm.actionHelper.protocolAmendmentBean.speciesAndGroupsEnabled}" />
+	            					                              disabled="${!KualiForm.actionHelper.protocolContinuationAmendmentBean.speciesAndGroupsEnabled}" />
 	            					    Species/Groups
 	            					</td>
 	            					<td width="50%" style="border-left: 0 none; border-bottom: 0 none;">
-	            					    <kul:htmlControlAttribute property="actionHelper.protocolAmendmentBean.procedures" 
+	            					    <kul:htmlControlAttribute property="actionHelper.protocolContinuationAmendmentBean.procedures" 
 	            					                              attributeEntry="${attributes.procedures}" 
-	            					                              disabled="${!KualiForm.actionHelper.protocolAmendmentBean.proceduresEnabled}" />
+	            					                              disabled="${!KualiForm.actionHelper.protocolContinuationAmendmentBean.proceduresEnabled}" />
 	            					    Procedures
 	            					</td>
 	            				</tr>
 	            				<tr>
 	            					<td width="50%" style="border-left: 0 none; border-bottom: 0 none;">
-	            					    <kul:htmlControlAttribute property="actionHelper.protocolAmendmentBean.protocolExceptions" 
+	            					    <kul:htmlControlAttribute property="actionHelper.protocolContinuationAmendmentBean.protocolExceptions" 
 	            					                              attributeEntry="${attributes.protocolExceptions}" 
-	            					                              disabled="${!KualiForm.actionHelper.protocolAmendmentBean.protocolExceptionsEnabled}" />
+	            					                              disabled="${!KualiForm.actionHelper.protocolContinuationAmendmentBean.protocolExceptionsEnabled}" />
 	            					    Protocol Exception
 	            					</td>
 	            					<td width="50%" style="border-left: 0 none; border-bottom: 0 none;">

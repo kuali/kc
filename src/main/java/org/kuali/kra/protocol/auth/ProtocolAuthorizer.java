@@ -87,14 +87,16 @@ public abstract class ProtocolAuthorizer extends TaskAuthorizerImpl {
     }
 
     /**
-     * Is the protocol an amendment or renewal protocol? 
+     * Is the protocol an amendment or renewal protocol?
+     * Including continuation here - since continuation is similar to renewal 
      * @param protocol the protocol
      * @return true if the protocol is an amendment or renewal; otherwise false
      */
     protected final boolean isAmendmentOrRenewal(Protocol protocol) {
         return protocol.getProtocolNumber() != null &&
                (protocol.getProtocolNumber().contains("A") ||
-                protocol.getProtocolNumber().contains("R"));
+                protocol.getProtocolNumber().contains("R") ||
+                protocol.getProtocolNumber().contains("C"));
     }
     
     protected final boolean isAdminCorrection(ProtocolTask task) {

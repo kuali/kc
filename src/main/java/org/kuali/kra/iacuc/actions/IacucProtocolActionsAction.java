@@ -48,6 +48,7 @@ import org.kuali.kra.iacuc.actions.amendrenew.CreateIacucAmendmentEvent;
 import org.kuali.kra.iacuc.actions.amendrenew.CreateIacucContinuationEvent;
 import org.kuali.kra.iacuc.actions.amendrenew.CreateIacucRenewalEvent;
 import org.kuali.kra.iacuc.actions.amendrenew.IacucProtocolAmendRenewService;
+import org.kuali.kra.iacuc.actions.amendrenew.IacucProtocolAmendmentBean;
 import org.kuali.kra.iacuc.actions.amendrenew.ModifyIacucAmendmentSectionsEvent;
 import org.kuali.kra.iacuc.actions.approve.IacucProtocolApproveBean;
 import org.kuali.kra.iacuc.actions.approve.IacucProtocolApproveEvent;
@@ -923,15 +924,16 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         IacucProtocolDocument protocolDocument = protocolForm.getIacucProtocolDocument();
         IacucProtocol protocol = protocolForm.getIacucProtocolDocument().getIacucProtocol();
         IacucProtocolTask task = new IacucProtocolTask(TaskName.CREATE_IACUC_PROTOCOL_RENEWAL, protocol);
+        IacucActionHelper actionHelper = (IacucActionHelper) protocolForm.getActionHelper();
+        IacucProtocolAmendmentBean renewAmendmentBean = (IacucProtocolAmendmentBean)actionHelper.getProtocolRenewAmendmentBean();
         if (isAuthorized(task)) {
-            if (!applyRules(new CreateIacucAmendmentEvent(protocolDocument,
-                Constants.PROTOCOL_CREATE_RENEWAL_WITH_AMENDMENT_KEY, protocolForm.getActionHelper()
-                        .getProtocolRenewAmendmentBean()))) {
+            if (!applyRules(new CreateIacucAmendmentEvent(protocolDocument, Constants.PROTOCOL_CREATE_RENEWAL_WITH_AMENDMENT_KEY,
+                    renewAmendmentBean))) {
                 return mapping.findForward(Constants.MAPPING_BASIC);
             }
 
-            String newDocId = getProtocolAmendRenewService().createRenewalWithAmendment(protocolForm.getProtocolDocument(),
-                    protocolForm.getActionHelper().getProtocolRenewAmendmentBean());
+            String newDocId = getProtocolAmendRenewService().createRenewalWithAmendment(protocolDocument,
+                    renewAmendmentBean);
             // Switch over to the new protocol document and
             // go to the Protocol tab web page.
 
@@ -944,7 +946,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
             recordProtocolActionSuccess("Create Renewal with Amendment");
             
             // Form fields copy needed to support modifyAmendmentSections
-            protocolForm.getActionHelper().setProtocolAmendmentBean(protocolForm.getActionHelper().getProtocolRenewAmendmentBean());
+            protocolForm.getActionHelper().setProtocolAmendmentBean(renewAmendmentBean);
 
             IacucProtocolNotificationRequestBean notificationBean = new IacucProtocolNotificationRequestBean(protocol, IacucProtocolActionType.RENEWAL_WITH_AMENDMENT_CREATED, "Renewal With Amendment Created");
             protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, PROTOCOL_TAB, notificationBean, false));
@@ -1025,14 +1027,15 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         IacucProtocol protocol = protocolForm.getIacucProtocolDocument().getIacucProtocol();
         IacucActionHelper actionHelper = (IacucActionHelper)protocolForm.getActionHelper();
         IacucProtocolTask task = new IacucProtocolTask(TaskName.CREATE_IACUC_PROTOCOL_CONTINUATION, protocol);
+        IacucProtocolAmendmentBean continuationAmendmentBean = (IacucProtocolAmendmentBean)actionHelper.getProtocolContinuationAmendmentBean();
         if (isAuthorized(task)) {
             if (!applyRules(new CreateIacucAmendmentEvent(protocolDocument,
-                Constants.PROTOCOL_CREATE_CONTINUATION_WITH_AMENDMENT_KEY, actionHelper.getProtocolContinuationAmendmentBean()))) {
+                Constants.PROTOCOL_CREATE_CONTINUATION_WITH_AMENDMENT_KEY, continuationAmendmentBean))) {
                 return mapping.findForward(Constants.MAPPING_BASIC);
             }
 
             String newDocId = getProtocolAmendRenewService().createContinuationWithAmendment(protocolDocument,
-                    actionHelper.getProtocolContinuationAmendmentBean());
+                    continuationAmendmentBean);
             // Switch over to the new protocol document and
             // go to the Protocol tab web page.
 
@@ -1045,7 +1048,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
             recordProtocolActionSuccess("Create Continuation with Amendment");
             
             // Form fields copy needed to support modifyAmendmentSections
-            protocolForm.getActionHelper().setProtocolAmendmentBean(actionHelper.getProtocolContinuationAmendmentBean());
+            protocolForm.getActionHelper().setProtocolAmendmentBean(continuationAmendmentBean);
 
             IacucProtocolNotificationRequestBean notificationBean = new IacucProtocolNotificationRequestBean(protocol, IacucProtocolActionType.CONTINUATION_AMENDMENT, "Continuation With Amendment Created");
             protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, PROTOCOL_TAB, notificationBean, false));
