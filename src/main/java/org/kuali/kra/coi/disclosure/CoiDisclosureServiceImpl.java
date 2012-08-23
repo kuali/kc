@@ -770,6 +770,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
     private CoiDisclProject createNewCoiDisclProject(CoiDisclosure coiDisclosure, String disclosureEventType) {
         CoiDisclProject coiDisclProject = new CoiDisclProject();
         coiDisclProject.setDisclosureEventType(disclosureEventType);
+        coiDisclProject.refreshReferenceObject("coiDisclosureEventType");
         coiDisclProject.setCoiDisclosure(coiDisclosure);
         coiDisclProject.setCoiDisclosureId(coiDisclosure.getCoiDisclosureId());
         coiDisclProject.setCoiDisclosureNumber(coiDisclosure.getCoiDisclosureNumber());
@@ -777,6 +778,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         coiDisclProject.setCoiDiscDetails(new ArrayList<CoiDiscDetail>());
         coiDisclProject.setDisclosureStatusCode(CoiDisclosureStatus.IN_PROGRESS);
         coiDisclProject.setDisclosureDispositionCode(CoiDispositionStatus.IN_PROGRESS);
+        coiDisclProject.refreshReferenceObject("coiDispositionStatus");
         
         return coiDisclProject;
     }
@@ -1639,6 +1641,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         CoiDisclProject newProject = new CoiDisclProject();
         newProject.setCoiDisclosureId(coiDisclosure.getCoiDisclosureId());
         newProject.setDisclosureEventType(coiDisclosure.getEventTypeCode());
+        newProject.refreshReferenceObject("coiDisclosureEventType");
         newProject.setCoiDisclosure(coiDisclosure);
         newProject.setCoiDisclosureNumber(coiDisclosure.getCoiDisclosureNumber());
         newProject.setSequenceNumber(coiDisclosure.getSequenceNumber());
@@ -1646,6 +1649,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         newProject.setModuleItemKey(moduleItemKey);
         newProject.setCoiProjectTitle(projectTitle);
         newProject.setDisclosureDispositionCode(CoiDispositionStatus.IN_PROGRESS);
+        newProject.refreshReferenceObject("coiDispositionStatus");
         newProject.setDisclosureStatusCode(CoiDisclosureStatus.IN_PROGRESS);
         
         this.initializeDisclosureDetails(newProject);

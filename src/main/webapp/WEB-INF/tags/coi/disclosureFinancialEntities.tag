@@ -58,12 +58,33 @@
                 
     </c:choose>
 </c:forEach>
-<c:if test="${not empty awardDisplayValue}">             
-    <kra-coi:awardProjects auditErrorKey="${awardDisplayValue}" />	
+<c:if test="${not empty awardDisplayValue}">      
+	<kul:tab defaultOpen="false" tabTitle="Awards" auditCluster="financialEntityDiscAuditErrors" tabAuditKey="${awardDisplayValue}" useRiceAuditMode="true"
+	    tabErrorKey="disclosureHelper.newCoiDisclProject.*" >
+		<c:forEach var="disclProject" items="${KualiForm.document.coiDisclosureList[0].coiDisclProjects}" varStatus="status">
+			<c:if test="${disclProject.awardEvent}">
+				<kra-coi:genericFinancialEntity disclProject="${disclProject}"  idx="${status.index}" boLocation="document.coiDisclosureList[0].coiDisclProjects[${status.index}]"/>	            
+			</c:if>
+		</c:forEach>
+	</kul:tab>        	
 </c:if>                
 <c:if test="${not empty proposalDisplayValue}">             
-    <kra-coi:proposalProjects auditErrorKey="${proposalDisplayValue}" />	            
+	<kul:tab defaultOpen="false" tabTitle="Proposals" auditCluster="financialEntityDiscAuditErrors" tabAuditKey="${proposalDisplayValue}" useRiceAuditMode="true"
+	    tabErrorKey="disclosureHelper.newCoiDisclProject.*" >
+		<c:forEach var="disclProject" items="${KualiForm.document.coiDisclosureList[0].coiDisclProjects}" varStatus="status">
+			<c:if test="${disclProject.proposalEvent}">
+				<kra-coi:genericFinancialEntity disclProject="${disclProject}"  idx="${status.index}" boLocation="document.coiDisclosureList[0].coiDisclProjects[${status.index}]"/>	            
+			</c:if>
+		</c:forEach>
+	</kul:tab>        	
 </c:if>                
-<c:if test="${not empty protocolDisplayValue}">             
-    <kra-coi:protocolProjects auditErrorKey="${protocolDisplayValue}" />	            
+<c:if test="${not empty protocolDisplayValue}">   
+    <kul:tab defaultOpen="false" tabTitle="Protocols" auditCluster="financialEntityDiscAuditErrors" tabAuditKey="${protocolDisplayValue}" useRiceAuditMode="true"
+	    tabErrorKey="disclosureHelper.newCoiDisclProject.*" >
+		<c:forEach var="disclProject" items="${KualiForm.document.coiDisclosureList[0].coiDisclProjects}" varStatus="status">
+			<c:if test="${disclProject.protocolEvent}">
+				<kra-coi:genericFinancialEntity disclProject="${disclProject}"  idx="${status.index}" boLocation="document.coiDisclosureList[0].coiDisclProjects[${status.index}]"/>	            
+			</c:if>
+		</c:forEach>
+	</kul:tab>           
 </c:if>                

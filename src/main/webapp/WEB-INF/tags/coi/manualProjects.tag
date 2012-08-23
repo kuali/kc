@@ -180,21 +180,14 @@
 
  
        <div class="div_manualproject">
-              
-                                  
-            <%-- New data --%>
-            
-            <%-- Existing data --%>
-
         	<c:forEach var="disclProject" items="${KualiForm.document.coiDisclosureList[0].coiDisclProjects}" varStatus="status">
-                 <kra-coi:manualFinancialEntity disclProject="${disclProject}"  idx="${status.index}"/>	            
+                 <kra-coi:genericFinancialEntity disclProject="${disclProject}"  idx="${status.index}" boLocation="document.coiDisclosureList[0].coiDisclProjects[${status.index}]" />	            
         	</c:forEach> 
-            <%-- Existing data --%>
-     </div> <%-- proposal list div --%>
+        </div> 
 
 	</c:otherwise>
    </c:choose> 
 
-    </div>
+	</div>
 </kul:tab>
 
