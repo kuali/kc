@@ -281,7 +281,7 @@ public class CoiDisclosureAction extends CoiAction {
                 eventTypeCode = CoiDisclosureEventType.UPDATE;
             }
             
-            // check to see if there's an existing update master that is not approved/disapproved
+            // check to see if there's an existing update master or annual that is not approved/disapproved
             CoiDisclosure coiDisclosure = null;
             if (StringUtils.equals(eventTypeCode, CoiDisclosureEventType.UPDATE) 
                     || StringUtils.equals(eventTypeCode, CoiDisclosureEventType.ANNUAL)) {
