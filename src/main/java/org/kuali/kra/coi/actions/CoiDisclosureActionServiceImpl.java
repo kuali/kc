@@ -92,15 +92,12 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
         disclosures.add(coiDisclosure);
      
         if (masterCoiDisclosure != null) {
-            if (!coiDisclosure.isUpdateEvent()) {
-                if (!(coiDisclosure.isAnnualEvent() && coiDisclosure.isAnnualUpdate())) {
-                     copyCollections(masterCoiDisclosure, coiDisclosure);
-                }
-            } else {
+            if (coiDisclosure.isUpdateEvent() || (coiDisclosure.isAnnualEvent() && coiDisclosure.isAnnualUpdate())) {
                 syncCollections(masterCoiDisclosure, coiDisclosure);
+            } else {
+                copyCollections(masterCoiDisclosure, coiDisclosure);
             }
             masterCoiDisclosure.setCurrentDisclosure(false);
-//            coiDisclosure.setCurrentDisclosure(true);
             disclosures.add(masterCoiDisclosure);
 
         } 
