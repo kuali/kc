@@ -127,13 +127,13 @@ public class MeetingActionsAction extends MeetingAction {
             if (dataStream.getContent() != null && dataStream.getContent().length > 0) {
                 setFileDataProperties(dataStream, meetingHelper.getCommitteeSchedule().getId(), "Agenda");
                 ScheduleAgenda agenda = new ScheduleAgenda();
-                agenda.setAgendaName("Agenda For Schedule #  " + (meetingHelper.getCommitteeSchedule().getId()) + " Version "
-                        + (meetingHelper.getScheduleAgendas().size() + 1));
-                agenda.setAgendaNumber(meetingHelper.getScheduleAgendas().size() + 1);
+                int agendaNumber = meetingHelper.getScheduleAgendas().size() + 1;
+                agenda.setAgendaName("Agenda For Schedule #  " + (meetingHelper.getCommitteeSchedule().getId()) + " Version " + agendaNumber);
+                agenda.setAgendaNumber(agendaNumber);
                 saveGeneratedDoc(meetingHelper.getCommitteeSchedule().getId(), agenda, dataStream.getContent());
                 meetingHelper.setAgendaGenerationDate(new Date(agenda.getCreateTimestamp().getTime()));
                 meetingHelper.getScheduleAgendas().add(agenda);
-                meetingHelper.setViewId("viewAgenda" + meetingHelper.getScheduleAgendas().size());
+                //meetingHelper.setViewId("viewAgenda" + meetingHelper.getScheduleAgendas().size());
             }
         }
         return actionForward;
@@ -200,7 +200,7 @@ public class MeetingActionsAction extends MeetingAction {
                 minuteDoc.setMinuteNumber(meetingHelper.getMinuteDocs().size() + 1);
                 saveGeneratedDoc(meetingHelper.getCommitteeSchedule().getId(), minuteDoc, dataStream.getContent());
                 meetingHelper.getMinuteDocs().add(minuteDoc);
-                meetingHelper.setViewId("viewMinute" + meetingHelper.getMinuteDocs().size());
+                //meetingHelper.setViewId("viewMinute" + meetingHelper.getMinuteDocs().size());
             }
         }
         return actionForward;
@@ -232,7 +232,8 @@ public class MeetingActionsAction extends MeetingAction {
      */
     public ActionForward viewAgenda(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        
+        Exception e = new Exception("Not an error!");
+        e.printStackTrace();
         final int selection = this.getSelectedLine(request);
         //final int selection =  Integer.parseInt(request.getParameter("line"));
         MeetingHelper meetingHelper = ((MeetingForm) form).getMeetingHelper();
