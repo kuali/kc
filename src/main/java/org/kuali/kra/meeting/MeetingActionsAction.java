@@ -124,7 +124,7 @@ public class MeetingActionsAction extends MeetingAction {
                 saveGeneratedDoc(meetingHelper.getCommitteeSchedule().getId(), agenda, dataStream.getContent());
                 meetingHelper.setAgendaGenerationDate(new Date(agenda.getCreateTimestamp().getTime()));
                 meetingHelper.getScheduleAgendas().add(agenda);
-                meetingHelper.setViewId("viewAgenda" + meetingHelper.getScheduleAgendas().size());
+                //meetingHelper.setViewId("viewAgenda" + meetingHelper.getScheduleAgendas().size());
             }
         }
         return actionForward;
@@ -191,7 +191,7 @@ public class MeetingActionsAction extends MeetingAction {
                 minuteDoc.setMinuteNumber(meetingHelper.getMinuteDocs().size() + 1);
                 saveGeneratedDoc(meetingHelper.getCommitteeSchedule().getId(), minuteDoc, dataStream.getContent());
                 meetingHelper.getMinuteDocs().add(minuteDoc);
-                meetingHelper.setViewId("viewMinute" + meetingHelper.getMinuteDocs().size());
+                //meetingHelper.setViewId("viewMinute" + meetingHelper.getMinuteDocs().size());
             }
         }
         return actionForward;
