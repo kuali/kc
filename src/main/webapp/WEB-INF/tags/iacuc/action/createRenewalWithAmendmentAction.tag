@@ -104,6 +104,7 @@
 	            					    Protocol Personnel
 	            					</td>
 	            				</tr>
+	            				<%-- 
 	            				<tr>
 	            					<td width="50%" style="border-left: 0 none; border-bottom: 0 none;">
 	            					    <kul:htmlControlAttribute property="actionHelper.protocolRenewAmendmentBean.subjects" 
@@ -118,6 +119,8 @@
 	            					    Others
 	            					</td>
 	            				</tr>
+	            				--%>
+	            				
 	            				<tr>
 	            					<td width="50%" style="border-left: 0 none; border-bottom: 0 none;">
 	            					    <kul:htmlControlAttribute property="actionHelper.protocolRenewAmendmentBean.questionnaire" 
@@ -155,7 +158,10 @@
 	            					    Protocol Exception
 	            					</td>
 	            					<td width="50%" style="border-left: 0 none; border-bottom: 0 none;">
-	            					    &nbsp;
+	            					    <kul:htmlControlAttribute property="actionHelper.protocolRenewAmendmentBean.others" 
+	            					                              attributeEntry="${attributes.others}" 
+	            					                              disabled="${!KualiForm.actionHelper.protocolRenewAmendmentBean.othersEnabled}" />
+	            					    Others
 	            					</td>
 	            				</tr>
 	            			</tbody>
