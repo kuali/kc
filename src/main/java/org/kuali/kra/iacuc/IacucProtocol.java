@@ -133,11 +133,9 @@ public class IacucProtocol extends Protocol {
     @Override
     public List buildListOfDeletionAwareLists() {
         List managedLists = super.buildListOfDeletionAwareLists();
-        managedLists.add(getIacucProtocolSpeciesList());
         managedLists.add(getIacucProtocolCustomDataList());
         managedLists.add(getIacucPrinciples());
         managedLists.add(getIacucAlternateSearches());
-        managedLists.add(getIacucProtocolExceptions());
 
         List<IacucProtocolStudyGroupDetailBean> studyGroupDetails = new ArrayList<IacucProtocolStudyGroupDetailBean>();
         List<IacucProtocolStudyGroupLocation> studyGroupLocations = new ArrayList<IacucProtocolStudyGroupLocation>();
@@ -154,8 +152,9 @@ public class IacucProtocol extends Protocol {
         managedLists.add(studyGroupLocations);
         managedLists.add(personsResponsible);
         managedLists.add(studyGroupDetails);
-
         managedLists.add(getIacucProtocolStudyGroups());
+        managedLists.add(getIacucProtocolExceptions());
+        managedLists.add(getIacucProtocolSpeciesList());
         
         return managedLists;
     }
