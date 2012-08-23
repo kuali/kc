@@ -87,7 +87,7 @@ public class CoiDisclProject extends KraPersistableBusinessObjectBase implements
     private transient List<LabelValuePair> headerItems; 
     
     @SkipVersioning
-    private transient CoiDispositionStatus coiDispositionStatus;
+    private CoiDispositionStatus coiDispositionStatus;
 
     public CoiDisclProject(String coiDisclosureNumber, Integer sequenceNumber) { 
         this.coiDisclosureNumber = coiDisclosureNumber;
@@ -259,6 +259,8 @@ public class CoiDisclProject extends KraPersistableBusinessObjectBase implements
             label = "Award Number";
         } else if (isProtocolEvent()) {
             label = "Protocol Number";
+        } else if (this.isProposalEvent()) {
+            label = "Proposal Number";
         }
         return label;
     }

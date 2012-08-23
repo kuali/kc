@@ -493,6 +493,7 @@ public class CoiDisclosureAction extends CoiAction {
         disclosureHelper.getNewCoiDisclProject().setModuleItemKey(disclosureHelper.getNewCoiDisclProject().getCoiProjectId());
         disclosureHelper.getNewCoiDisclProject().setDisclosureStatusCode(CoiDisclosureStatus.IN_PROGRESS);
         disclosureHelper.getNewCoiDisclProject().setDisclosureDispositionCode(CoiDispositionStatus.IN_PROGRESS);
+        disclosureHelper.getNewCoiDisclProject().refreshReferenceObject("coiDispositionStatus");
         if (checkRule(new AddManualProjectEvent("disclosureHelper.newCoiDisclProject", disclosureHelper.getNewCoiDisclProject()))) {
             getCoiDisclosureService().initializeDisclosureDetails(disclosureHelper.getNewCoiDisclProject());
             disclosureHelper.getNewCoiDisclProject().setSequenceNumber(coiDisclosure.getSequenceNumber());

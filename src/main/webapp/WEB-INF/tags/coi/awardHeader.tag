@@ -15,42 +15,18 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <%@ attribute name="disclProject" required="true" type="org.kuali.kra.coi.CoiDisclProject" %>
-<%@ attribute name="style" required="false" description="style for current project" %>
 
-<c:set var="coiDisclProjectAttributes" value="${DataDictionary.CoiDisclProject.attributes}" />
-<c:set var="coiDiscDetailAttributes" value="${DataDictionary.CoiDiscDetail.attributes}" />
-<c:set var="readOnly" value="${!KualiForm.disclosureHelper.canEditDisclosureFinancialEntity}" />
-                <div>
-    	<h3>
-            <span class="subhead-left"  style="${style}"> 
-                Award Number: ${disclProject.award.awardNumber} </span>
-    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.coi.CoiDiscDetail" altText="help"/></span>
-            <span style="text-align: right; float: right; padding-left: 20px;">Disposition:&nbsp;${disclProject.coiDispositionStatus.description}&nbsp;&nbsp;&nbsp;</span>    		
-        </h3>
-                  
-                    <table class=tab cellpadding="0" cellspacing="0" summary="">
-                        <tbody>
-                        <%-- Header --%>
-                                 <tr>
-                   <th><div align="right">Title:</div></th> 
-                  <td align="left" valign="middle">
-					<div align="left">
-					${disclProject.award.title}
-					</div>
-				  </td>
-                                    <th><div align="right">Award Date:</div></th> 
-                  <td align="left" valign="middle">
-					<div align="left">
-					${disclProject.award.awardEffectiveDate}
-					    <%-- TODO : not sure what award date is; so use award effectivedate for now --%>
-					</div>
-				  </td>
-                                </tr>
-                        <%-- Header --%>
-                        
-                         <%-- New data --%>
-                        <%-- kra:permission value="${KualiForm.disclosureHelper.modifyPersonnel}" --%>
-
-               </table>
-              
-        </div>
+<table class=tab cellpadding="0" cellspacing="0" summary="">
+    <tbody>
+     <tr>
+      <th><div align="right">Title:</div></th> 
+      <td align="left" valign="middle"><div align="left">
+		${disclProject.award.title}
+	  </div></td>
+      <th><div align="right">Award Date:</div></th> 
+      <td align="left" valign="middle"><div align="left">
+		${disclProject.award.awardEffectiveDate}
+	  </div></td>
+	 </tr>
+	</tbody>
+</table>

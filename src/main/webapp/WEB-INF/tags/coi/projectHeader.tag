@@ -1,0 +1,84 @@
+<%--
+ Copyright 2005-2010 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.osedu.org/licenses/ECL-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+--%>
+<%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
+<%@ attribute name="boLocation" required="true" description="Location of the BO on the form such that it can be referenced by htmlControlAttribute tags" %>
+<%@ attribute name="style" required="false" description="style for current project" %>
+<%@ attribute name="disclProject" required="true" type="org.kuali.kra.coi.CoiDisclProject" %>
+
+<style>
+.dispositionSelect {
+	font-size: 90%;
+}
+</style>
+<c:set var="coiDisclProjectAttributes" value="${DataDictionary.CoiDisclProject.attributes}" />
+<c:set var="coiDiscDetailAttributes" value="${DataDictionary.CoiDiscDetail.attributes}" />
+<div>
+	<h3>
+		<span class="subhead-left" style="${style}">${disclProject.coiDisclosureEventType.projectIdLabel}: ${disclProject.coiProjectId}</span>
+		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.coi.CoiDiscDetail" altText="help"/></span>
+		<span style="text-align: right; float: right; padding-left: 20px; padding-right: 5px;">
+			<c:if test="${not empty disclProject.coiDispositionStatus.description}">
+			Disposition: 
+			<c:choose><c:when test="${not KualiForm.editingMode['approveCoiDisclosure'] || !KualiForm.document.coiDisclosure.updateEvent}">
+				<%-- the readOnlyAlternateDisplay isn't working properly with valuesfinder fields right now so using this instead. --%>
+				<c:out value="${disclProject.coiDispositionStatus.description}"/>
+			</c:when><c:otherwise>
+				<kul:htmlControlAttribute property="${boLocation}.disclosureDispositionCode" 
+				readOnly="false" 
+				attributeEntry="${coiDisclProjectAttributes.disclosureDispositionCode}"
+				styleClass="dispositionSelect"/>
+			</c:otherwise></c:choose>
+			</c:if>
+		</span>                    
+	</h3>
+	<c:choose>
+		<c:when test="${dislProject.awardEvent}">
+			<kra-coi:awardHeader disclProject="${disclProject}" />
+		</c:when>
+		<c:when test="${disclProject.proposalEvent}">
+			<kra-coi:proposalHeader disclProject="${disclProject}" />
+		</c:when>
+		<c:when test="${disclProject.institutionalProposalEvent}">
+			<kra-coi:institutionalProposalHeader disclProject="${disclProject}"/>
+		</c:when>
+		<c:otherwise>
+	    <table class=tab cellpadding="0" cellspacing="0" summary="">
+	        <tbody>
+	        <%-- Header --%>
+	    <c:forEach var="labelValue" items="${disclProject.headerItems}" varStatus="status">
+	        <c:if test="${(status.index mod 2) == 0}">
+	        <tr>
+	        </c:if>
+	           <th><div align="right">${labelValue.label}:</div></th> 
+	           <td align="left" valign="middle">
+	               <div align="left">
+	                  ${labelValue.value}
+	               </div>
+	         <c:if test="${(status.index mod 2) != 0}">
+	        </tr>
+	        </c:if>
+	    </c:forEach>
+	        <c:if test="${fn:length(disclProject.headerItems) mod 2 != 0}">
+	        <td/>
+	        <td/>
+	        </tr>
+	        </c:if>
+	
+	
+	</table>
+	</c:otherwise>
+	</c:choose>
+</div>
