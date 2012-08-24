@@ -238,7 +238,13 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
     /** {@inheritDoc} */
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-        ProtocolForm protocolForm = (ProtocolForm) form;
+        IacucProtocolForm protocolForm = (IacucProtocolForm) form;
+        if (request.getParameterMap().containsKey("doCopy")) {
+            String docId  = request.getParameter("docId");
+            IacucProtocolDocument ipd = (IacucProtocolDocument) this.getDocumentService().getByDocumentHeaderId(docId);
+            protocolForm.setDocument(ipd);
+            protocolForm.setDefaultOpenCopyTab(true);
+        }
 //        if (StringUtils.isNotBlank(((ProtocolForm) form).getQuestionnaireHelper().getSubmissionActionTypeCode())) {
 //            //    && StringUtils.isBlank(getSubmitActionType(request))) {
 //            // questionnaire is already loaded for this action.
