@@ -17,6 +17,8 @@ package org.kuali.kra.questionnaire;
 
 import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -33,8 +35,10 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.apache.struts.upload.FormFile;
 import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.printing.util.PrintingUtils;
@@ -80,21 +84,50 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
         QuestionnaireMaintenanceForm qnForm = (QuestionnaireMaintenanceForm) form;
         Questionnaire newQuestionnaire = (Questionnaire) ((MaintenanceDocumentBase) qnForm.getDocument())
                 .getNewMaintainableObject().getDataObject();
-        if (newQuestionnaire.getSequenceNumber() == null) {
-            newQuestionnaire.setSequenceNumber(1);
-        }
-        setupQuestionAndUsage(form);
-        if (qnForm.getTemplateFile() != null && StringUtils.isNotBlank(qnForm.getTemplateFile().getFileName())) {
-            newQuestionnaire.setFileName(qnForm.getTemplateFile().getFileName());
-            newQuestionnaire.setTemplate(qnForm.getTemplateFile().getFileData());
-        }
-        qnForm.setNewQuestionnaireUsage(new QuestionnaireUsage());
-        newQuestionnaire.setDocumentNumber(((MaintenanceDocumentBase) qnForm.getDocument()).getDocumentNumber());
-        ActionForward forward = super.save(mapping, form, request, response);
         
-        checkAndSetAllQuestionsAreUpToDate(qnForm);
-        return forward; 
+        if (validateTemplateField(qnForm)) {
+            if (newQuestionnaire.getSequenceNumber() == null) {
+                newQuestionnaire.setSequenceNumber(1);
+            }
+            setupQuestionAndUsage(form);
+            if (qnForm.getTemplateFile() != null && StringUtils.isNotBlank(qnForm.getTemplateFile().getFileName())) {
+                newQuestionnaire.setFileName(qnForm.getTemplateFile().getFileName());
+                newQuestionnaire.setTemplate(qnForm.getTemplateFile().getFileData());
+            }
+            qnForm.setNewQuestionnaireUsage(new QuestionnaireUsage());
+            newQuestionnaire.setDocumentNumber(((MaintenanceDocumentBase) qnForm.getDocument()).getDocumentNumber());
+            ActionForward forward = super.save(mapping, form, request, response);
+            
+            checkAndSetAllQuestionsAreUpToDate(qnForm);
+            return forward; 
+        }
+        return mapping.findForward(Constants.MAPPING_BASIC);
 
+    }
+    
+    private boolean validateTemplateField(QuestionnaireMaintenanceForm qnForm) {
+        System.err.println("validateTemplateField");
+        boolean retVal = true;
+        final String fieldName = "document.newMaintainableObject.businessObject.fileName";
+        try {
+            if (!StringUtils.isBlank(qnForm.getTemplateFile().getFileName()) && (qnForm.getTemplateFile().getFileData() == null || qnForm.getTemplateFile().getFileData().length <= 0)) {
+                GlobalVariables.getMessageMap().putError(fieldName, KeyConstants.ERROR_QUESTIONNAIRE_FILENAME_INVALID);
+                retVal = false;
+            }
+        }
+        catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            GlobalVariables.getMessageMap().putError(fieldName, KeyConstants.ERROR_QUESTIONNAIRE_FILENAME_INVALID);
+            retVal = false;
+        }
+        catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            GlobalVariables.getMessageMap().putError(fieldName, KeyConstants.ERROR_QUESTIONNAIRE_FILENAME_INVALID);
+            retVal = false;
+        }
+        return retVal;
     }
 
 
