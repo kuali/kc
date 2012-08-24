@@ -113,4 +113,14 @@ public class ActiveCommitteeMemberOnProtocolDerivedRoleTypeServiceImpl extends D
         return (Protocol)getBusinessObjectService().findByPrimaryKey(Protocol.class, keymap );    
     }
 
+    /*
+     * Should override if derivedRoles should not to be cached.  Currently defaults to system-wide default.
+     */
+    @Override
+    public boolean dynamicRoleMembership(String namespaceCode, String roleName) {
+        super.dynamicRoleMembership(namespaceCode, roleName);
+        return true;
+    }
+
+
 }

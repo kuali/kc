@@ -144,5 +144,15 @@ public class ActiveCommitteeMemberDerivedRoleTypeServiceImpl extends DerivedRole
     public void setQualifyingCommitteeMembershipTypeCodes(Set<String> qualifyingCommitteeMembershipTypeCodes) {
         this.qualifyingCommitteeMembershipTypeCodes = qualifyingCommitteeMembershipTypeCodes;
     }
-    
+
+    /*
+     * Should override if derivedRoles should not to be cached.  Currently defaults to system-wide default.
+     */
+    @Override
+    public boolean dynamicRoleMembership(String namespaceCode, String roleName) {
+        super.dynamicRoleMembership(namespaceCode, roleName);
+        return true;
+    }
+
+
 }
