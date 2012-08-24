@@ -409,25 +409,9 @@ public class AwardAction extends BudgetParentActionBase {
         checkAwardNumber(award);
         String userId = GlobalVariables.getUserSession().getPrincipalName();
 
-        boolean savingNewAward = award.getAwardId() == null;
-
         forward = super.save(mapping, form, request, response);
         if (awardForm.getMethodToCall().equals("save") && awardForm.isAuditActivated()) {
             forward = mapping.findForward(Constants.MAPPING_AWARD_ACTIONS_PAGE);
-        }
-
-        boolean newAwardSaved = savingNewAward && award.getAwardId() != null;
-        if (newAwardSaved) {
-            getAwardService().updateAwardSequenceStatus(award, VersionStatus.PENDING);
-            getVersionHistoryService().createVersionHistory(award, VersionStatus.PENDING, userId);
-            
-            // set awardDirectFandADistributions on award
-            if(isNewAward(awardForm) && !(award.getAwardEffectiveDate() == null)){
-                AwardDirectFandADistributionService awardDirectFandADistributionService = getAwardDirectFandADistributionService();
-                awardForm.getAwardDocument().getAward().setAwardDirectFandADistributions
-                                    (awardDirectFandADistributionService.
-                                            generateDefaultAwardDirectFandADistributionPeriods(awardForm.getAwardDocument().getAward()));
-            }
         }
 
         AwardHierarchyBean bean = awardForm.getAwardHierarchyBean();
@@ -546,9 +530,23 @@ public class AwardAction extends BudgetParentActionBase {
         AwardDocument awardDocument = (AwardDocument) awardForm.getDocument();
         createInitialAwardUsers(awardForm.getAwardDocument().getAward());
         populateStaticCloseoutReports(awardForm);
-        //populateDefaultUnitContactsFromLeadUnit(awardForm);
+        
+        String userId = GlobalVariables.getUserSession().getPrincipalName();
+        Award award = awardDocument.getAward();
+        getAwardService().updateAwardSequenceStatus(award, VersionStatus.PENDING);
+        getVersionHistoryService().createVersionHistory(award, VersionStatus.PENDING, userId);
+        
+        // set awardDirectFandADistributions on award
+        if(isNewAward(awardForm) && !(award.getAwardEffectiveDate() == null)){
+            AwardDirectFandADistributionService awardDirectFandADistributionService = getAwardDirectFandADistributionService();
+            awardForm.getAwardDocument().getAward().setAwardDirectFandADistributions
+                                (awardDirectFandADistributionService.
+                                        generateDefaultAwardDirectFandADistributionPeriods(awardForm.getAwardDocument().getAward()));
+        }
+        
         if(!awardForm.getAwardDocument().isDocumentSaveAfterVersioning()) {
-            createDefaultAwardHierarchy(awardForm);            
+            createDefaultAwardHierarchy(awardForm);
+            awardForm.getAwardHierarchyBean().saveHierarchyChanges();            
         }
     }
 
@@ -560,6 +558,7 @@ public class AwardAction extends BudgetParentActionBase {
         newNode.setParentAwardNumber(determineParentAwardNumber(awardForm));
         newNode.setRootAwardNumber(determineRootAwardNumber(awardForm));
         newNode.setOriginatingAwardNumber(awardNumber);
+        newNode.setAward(awardForm.getAwardDocument().getAward());        
         if(newNode.isRootNode()) {
             awardForm.getAwardHierarchyBean().setRootNode(newNode);
         }
