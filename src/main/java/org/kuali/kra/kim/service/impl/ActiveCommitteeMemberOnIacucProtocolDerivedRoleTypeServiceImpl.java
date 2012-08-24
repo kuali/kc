@@ -26,6 +26,7 @@ import org.kuali.kra.common.committee.bo.CommitteeMembership;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.kra.protocol.Protocol;
+import org.kuali.rice.core.api.exception.RiceIllegalArgumentException;
 import org.kuali.rice.core.api.membership.MemberType;
 import org.kuali.rice.kim.api.role.RoleMembership;
 import org.kuali.rice.kns.kim.role.DerivedRoleTypeServiceBase;
@@ -108,5 +109,13 @@ public class ActiveCommitteeMemberOnIacucProtocolDerivedRoleTypeServiceImpl exte
         return (Protocol)getBusinessObjectService().findByPrimaryKey(IacucProtocol.class, keymap );    
     }
 
+    /*
+     * Should override if derivedRoles should not to be cached.  Currently defaults to system-wide default.
+     */
+    @Override
+    public boolean dynamicRoleMembership(String namespaceCode, String roleName) {
+        super.dynamicRoleMembership(namespaceCode, roleName);
+        return true;
+    }
 
 }
