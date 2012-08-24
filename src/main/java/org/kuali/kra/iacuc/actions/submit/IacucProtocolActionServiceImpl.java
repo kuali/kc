@@ -79,7 +79,7 @@ public class IacucProtocolActionServiceImpl extends ProtocolActionServiceImpl im
             IacucProtocolActionType.IACUC_WITHDRAWN,
             IacucProtocolActionType.IACUC_ABANDON,
             IacucProtocolActionType.ASSIGNED_TO_AGENDA,
-            IacucProtocolActionType.REMOVED_FROM_AGENDA,
+            IacucProtocolActionType.REMOVE_FROM_AGENDA,
             IacucProtocolActionType.RESCHEDULED,
             IacucProtocolActionType.TABLED,
             IacucProtocolActionType.IACUC_APPROVED,

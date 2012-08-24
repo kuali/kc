@@ -76,6 +76,9 @@ import org.kuali.kra.iacuc.actions.genericactions.IacucProtocolGenericActionServ
 import org.kuali.kra.iacuc.actions.modifysubmission.IacucProtocolModifySubmissionBean;
 import org.kuali.kra.iacuc.actions.modifysubmission.IacucProtocolModifySubmissionEvent;
 import org.kuali.kra.iacuc.actions.modifysubmission.IacucProtocolModifySubmissionService;
+import org.kuali.kra.iacuc.actions.noreview.IacucProtocolReviewNotRequiredBean;
+import org.kuali.kra.iacuc.actions.noreview.IacucProtocolReviewNotRequiredEvent;
+import org.kuali.kra.iacuc.actions.noreview.IacucProtocolReviewNotRequiredService;
 import org.kuali.kra.iacuc.actions.notifycommittee.IacucProtocolNotifyCommitteeService;
 import org.kuali.kra.iacuc.actions.notifyiacuc.IacucProtocolNotifyIacucService;
 import org.kuali.kra.iacuc.actions.notifyiacuc.NotifyIacucNotificationRenderer;
@@ -109,6 +112,7 @@ import org.kuali.kra.iacuc.noteattachment.IacucProtocolAttachmentPersonnel;
 import org.kuali.kra.iacuc.noteattachment.IacucProtocolAttachmentProtocol;
 import org.kuali.kra.iacuc.noteattachment.IacucProtocolAttachmentService;
 import org.kuali.kra.iacuc.notification.IacucProtocolAssignReviewerNotificationRenderer;
+import org.kuali.kra.iacuc.notification.IacucProtocolGenericActionNotificationRenderer;
 import org.kuali.kra.iacuc.notification.IacucProtocolNotificationContext;
 import org.kuali.kra.iacuc.notification.IacucProtocolNotificationRenderer;
 import org.kuali.kra.iacuc.notification.IacucProtocolNotificationRequestBean;
@@ -1722,6 +1726,15 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
                 saveReviewComments(protocolForm, (IacucReviewCommentsBean) actionBean.getReviewCommentsBean());
                 recordProtocolActionSuccess("Removed Agenda");
                 //actionHelper.setIacucProtocolRemoveFromAgendaBean(new IacucProtocolGenericActionBean(actionHelper, "actionHelper.iacucProtocolRemoveFromAgendaBean"));
+            
+                IacucProtocolGenericActionNotificationRenderer renderer = new IacucProtocolGenericActionNotificationRenderer(protocol,actionBean.getActionDate());
+                IacucProtocolNotificationContext context = new IacucProtocolNotificationContext(protocol, IacucProtocolActionType.REMOVE_FROM_AGENDA, actionBean.getComments(), renderer);
+                if (protocolForm.getNotificationHelper().getPromptUserForNotificationEditor(context)) {
+                    protocolForm.getNotificationHelper().initializeDefaultValues(context);
+                    forward = mapping.findForward("iacucProtocolNotificationEditor");
+                } else {
+                    getNotificationService().sendNotification(context);
+                }
             }
         } else {
             GlobalVariables.getMessageMap().clearErrorMessages();
@@ -1733,31 +1746,32 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
 
     
     
-//    public ActionForward protocolReviewNotRequired(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-//            HttpServletResponse response) throws Exception {
-//        ProtocolForm protocolForm = (ProtocolForm) form;
-//        ProtocolDocument document = protocolForm.getProtocolDocument();
-//        Protocol protocol = document.getProtocol();
-//        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_REVIEW_NOT_REQUIRED, protocol);
-//        if (isAuthorized(task)) {
-//            ProtocolReviewNotRequiredBean actionBean = protocolForm.getActionHelper().getProtocolReviewNotRequiredBean();
-//            if (applyRules(new ProtocolReviewNotRequiredEvent(document, actionBean))) {
-//                KraServiceLocator.getService(ProtocolReviewNotRequiredService.class).reviewNotRequired(document, actionBean);
-//            
-//                recordProtocolActionSuccess("Review Not Required");
-//                ProtocolNotificationRequestBean notificationBean = new ProtocolNotificationRequestBean(document.getProtocol(), ProtocolActionType.IACUC_REVIEW_NOT_REQUIRED, "Review Not Required");
-//                protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, PROTOCOL_TAB, notificationBean, false));
-//                if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
-//                    return mapping.findForward(CORRESPONDENCE);
-//                } else {
-//                    return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_TAB), protocolForm, notificationBean);
-//                }
-//            }
-//        }
-//        
-//        return mapping.findForward(Constants.MAPPING_BASIC);
-//    }
-//    
+    public ActionForward protocolReviewNotRequired(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        IacucProtocolForm protocolForm = (IacucProtocolForm) form;
+        IacucProtocolDocument document = protocolForm.getIacucProtocolDocument();
+        IacucProtocol protocol = document.getIacucProtocol();
+        IacucProtocolTask task = new IacucProtocolTask(TaskName.REVIEW_NOT_REQUIRED_IACUC_PROTOCOL, protocol);
+        if (isAuthorized(task)) {
+            IacucActionHelper actionHelper = (IacucActionHelper)protocolForm.getActionHelper();
+            IacucProtocolReviewNotRequiredBean actionBean = (IacucProtocolReviewNotRequiredBean) actionHelper.getProtocolReviewNotRequiredBean();
+            if (applyRules(new IacucProtocolReviewNotRequiredEvent(document, actionBean))) {
+                KraServiceLocator.getService(IacucProtocolReviewNotRequiredService.class).reviewNotRequired(document, actionBean);
+            
+                recordProtocolActionSuccess("Review Not Required");
+                IacucProtocolNotificationRequestBean notificationBean = new IacucProtocolNotificationRequestBean(document.getIacucProtocol(), IacucProtocolActionType.IACUC_REVIEW_NOT_REQUIRED, "Review Not Required");
+                protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, PROTOCOL_TAB, notificationBean, false));
+                if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
+                    return mapping.findForward(CORRESPONDENCE);
+                } else {
+                    return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_TAB), protocolForm, notificationBean);
+                }
+            }
+        }
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
 //    /**
 //     * Assign a protocol to a committee/schedule.
 //     * @param mapping
