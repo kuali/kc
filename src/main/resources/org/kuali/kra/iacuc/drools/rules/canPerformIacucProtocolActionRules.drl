@@ -220,7 +220,7 @@ end
 rule "Expire Protocol"
 salience 100
 when
-    protocolAction : IacucProtocolActionMapping(actionTypeCode == "302", protocolStatusCode in ("200", "201", "202", "304", "305", "306", "307", "303", "300"))
+    protocolAction : IacucProtocolActionMapping(actionTypeCode == "302", protocolStatusCode in ("200", "201", "202", "303", "304", "305", "306", "307", "303", "300"))
 then    
     setAction(protocolAction, true);
 end
