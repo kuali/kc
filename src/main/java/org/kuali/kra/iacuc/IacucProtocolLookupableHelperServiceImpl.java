@@ -113,11 +113,11 @@ public class IacucProtocolLookupableHelperServiceImpl extends ProtocolLookupable
             editHtmlData.setHref(href);
             editHtmlData.setDisplayText("edit");
             htmlDataList.add(editHtmlData);
-            AnchorHtmlData htmlData = getUrlData(businessObject, KRADConstants.MAINTENANCE_COPY_METHOD_TO_CALL, pkNames);
+            
+            AnchorHtmlData copyHtmlData = getUrlData(businessObject, KRADConstants.MAINTENANCE_COPY_METHOD_TO_CALL, pkNames);
             IacucProtocolDocument document = ((IacucProtocol) businessObject).getIacucProtocolDocument();
-            htmlData.setHref("../DocCopyHandler.do?docId=" + document.getDocumentNumber()
-                    + "&command=displayDocSearchView&documentTypeName=" + getDocumentTypeName());
-            htmlDataList.add(htmlData);
+            copyHtmlData.setHref("../iacucProtocolActions.do?docId=" + document.getDocumentNumber() +"&doCopy=True");
+            htmlDataList.add(copyHtmlData);
         }
         if (kraAuthorizationService.hasPermission(getUserIdentifier(), (IacucProtocol) businessObject, PermissionConstants.VIEW_IACUC_PROTOCOL)) {
             htmlDataList.add(getViewLink(((Protocol) businessObject).getProtocolDocument()));

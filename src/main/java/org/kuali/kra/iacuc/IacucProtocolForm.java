@@ -69,6 +69,7 @@ public class IacucProtocolForm extends ProtocolForm {
     private IacucAlternateSearchHelper iacucAlternateSearchHelper;
     private IacucProtocolExceptionHelper iacucProtocolExceptionHelper;
     private IacucProtocolProceduresHelper iacucProtocolProceduresHelper;
+    private boolean defaultOpenCopyTab = false;
     
     private boolean reinitializeModifySubmissionFields = true;
     
@@ -360,6 +361,14 @@ public class IacucProtocolForm extends ProtocolForm {
 
     public void setReinitializeModifySubmissionFields(boolean reinitializeModifySubmissionFields) {
         this.reinitializeModifySubmissionFields = reinitializeModifySubmissionFields;
+    }
+
+    public boolean isDefaultOpenCopyTab() {
+        return defaultOpenCopyTab;
+    }
+
+    public void setDefaultOpenCopyTab(boolean defaultOpenCopyTab) {
+        this.defaultOpenCopyTab = defaultOpenCopyTab;
     }
    
 }
