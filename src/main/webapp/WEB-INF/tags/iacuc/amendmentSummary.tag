@@ -15,7 +15,7 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<c:set var="attributes" value="${DataDictionary.ProtocolAmendmentBean.attributes}" />
+<c:set var="attributes" value="${DataDictionary.IacucProtocolAmendmentBean.attributes}" />
 <c:choose>
     <c:when test="${KualiForm.protocolDocument.renewal}">
         <c:set var="tabTitle" value="Renewal Details"/>
@@ -140,6 +140,34 @@
 		                                                                  attributeEntry="${attributes.questionnaire}" 
 		                                                                  disabled="true" />
 		                                        Questionnaire 
+		                                    </td>
+		                                    <td width="50%" style="border-left: 0 none; border-bottom: 0 none;">
+		                                        <kul:htmlControlAttribute property="actionHelper.protocolAmendmentBean.threers" 
+		                                                                  attributeEntry="${attributes.threers}" 
+		                                                                  disabled="true" />
+		                                        Three R's
+		                                    </td>
+		                                </tr>
+		                                <tr>
+		                                    <td width="50%" style="border-left: 0 none; border-bottom: 0 none;">
+		                                        <kul:htmlControlAttribute property="actionHelper.protocolAmendmentBean.speciesAndGroups" 
+		                                                                  attributeEntry="${attributes.speciesAndGroups}" 
+		                                                                  disabled="true" />
+		                                        Species and Groups
+		                                    </td>
+		                                    <td width="50%" style="border-left: 0 none; border-bottom: 0 none;">
+		                                        <kul:htmlControlAttribute property="actionHelper.protocolAmendmentBean.procedures" 
+		                                                                  attributeEntry="${attributes.procedures}" 
+		                                                                  disabled="true" />
+		                                        Procedures
+		                                    </td>
+		                                </tr>
+		                                <tr>
+		                                    <td width="50%" style="border-left: 0 none; border-bottom: 0 none;">
+		                                        <kul:htmlControlAttribute property="actionHelper.protocolAmendmentBean.protocolExceptions" 
+		                                                                  attributeEntry="${attributes.protocolExceptions}" 
+		                                                                  disabled="true" />
+		                                        Protocol Exceptions
 		                                    </td>
 		                                    <td width="50%" style="border-left: 0 none; border-bottom: 0 none;">
 		                                        &nbsp;
