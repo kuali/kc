@@ -121,7 +121,7 @@ public class ActiveCommitteeMemberOnScheduledDateDerivedRoleTypeServiceImpl exte
 	public boolean hasDerivedRole(
 	        String principalId, List<String> groupIds, String namespaceCode, String roleName, Map<String,String> qualification){
 
-   validateRequiredAttributesAgainstReceived(qualification);
+	    validateRequiredAttributesAgainstReceived(qualification);
         
         String committeeId = qualification.get(KcKimAttributes.COMMITTEE);
         String scheduleId = qualification.get(KcKimAttributes.COMMITTEESCHEDULE);
@@ -171,5 +171,15 @@ public class ActiveCommitteeMemberOnScheduledDateDerivedRoleTypeServiceImpl exte
     public void setCommitteeScheduleService(CommitteeScheduleService committeeScheduleService) {
         this.committeeScheduleService = committeeScheduleService;
     }
-    
+
+    /*
+     * Should override if derivedRoles should not to be cached.  Currently defaults to system-wide default.
+     */
+    @Override
+    public boolean dynamicRoleMembership(String namespaceCode, String roleName) {
+        super.dynamicRoleMembership(namespaceCode, roleName);
+        return true;
+    }
+
+
 }
