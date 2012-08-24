@@ -16,7 +16,8 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <kra:permission value="${KualiForm.actionHelper.canAdministrativelyWithdraw or 
-						 KualiForm.actionHelper.canAdministrativelyApprove or 
+						 KualiForm.actionHelper.canAdministrativelyApprove or
+						 KualiForm.actionHelper.canReviewNotRequired or 
 						 KualiForm.actionHelper.canAdministrativelyMarkIncomplete}">
 
 	<kul:innerTab tabTitle="Administrative Determination" parentTab="" defaultOpen="false" >
@@ -27,6 +28,7 @@
 		 			 <kra-iacuc-action:adminWithdrawAction />
 				     <kra-iacuc-action:adminApproveAction />
 		    		 <kra-iacuc-action:adminMarkIncompleteAction />
+		    		 <kra-iacuc-action:adminReviewNotRequiredAction />
 	            </tbody>
 	        </table>
 	    </div>
