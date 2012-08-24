@@ -1,6 +1,6 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<c:set var="openFlag" value="false" />
+<c:set var="openFlag" value="${KualiForm.defaultOpenCopyTab }" />
 <c:forEach items="${param}" var="par">
     <c:if test="${fn:startsWith(par.key, 'command')==true and fn:startsWith(par.value, 'displayDocSearchView')==true}">
         <c:set var="openFlag" value="true" />
