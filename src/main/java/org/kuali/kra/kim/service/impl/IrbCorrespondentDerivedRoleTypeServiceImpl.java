@@ -174,6 +174,7 @@ public class IrbCorrespondentDerivedRoleTypeServiceImpl extends DerivedRoleTypeS
      */
     @Override
     public boolean dynamicRoleMembership(String namespaceCode, String roleName) {
-        return super.dynamicRoleMembership(namespaceCode, roleName);
+        super.dynamicRoleMembership(namespaceCode, roleName);
+        return true;
     }
 }
