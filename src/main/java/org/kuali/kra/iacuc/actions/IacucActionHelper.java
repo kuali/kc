@@ -69,6 +69,7 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.infrastructure.TaskName;
+import org.kuali.kra.protocol.actions.noreview.ProtocolReviewNotRequiredBean;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.ProtocolForm;
 import org.kuali.kra.protocol.ProtocolOnlineReviewDocument;
@@ -158,7 +159,7 @@ public class IacucActionHelper extends ActionHelper {
 
     private boolean canAssignCmt = false;
     private boolean canAssignCmtUnavailable = false;
-    
+
     // indicator for whether there is submission questionnaire answer exist.
     // ie, questionnaire has been saved for a request/notify irb action
     private boolean submissionQuestionnaireExist;
@@ -175,6 +176,7 @@ public class IacucActionHelper extends ActionHelper {
     protected IacucProtocolGenericActionBean iacucProtocolHoldBean;
     protected IacucProtocolGenericActionBean iacucProtocolLiftHoldBean;
     protected IacucProtocolGenericActionBean iacucProtocolRemoveFromAgendaBean;
+    protected ProtocolReviewNotRequiredBean iacucProtocolReviewNotRequiredBean;
     
     protected IacucProtocolRequestBean iacucProtocolDeactivateRequestBean;
     protected IacucProtocolRequestBean iacucProtocolLiftHoldRequestBean;
@@ -210,6 +212,7 @@ public class IacucActionHelper extends ActionHelper {
         iacucProtocolSuspendRequestBean = new IacucProtocolRequestBean(this, IacucProtocolActionType.IACUC_REQUEST_SUSPEND,
                 IacucProtocolSubmissionType.REQUEST_SUSPEND, "iacucProtocolSuspendRequestBean");
         iacucProtocolRemoveFromAgendaBean = new IacucProtocolGenericActionBean(this, "actionHelper.iacucProtocolRemoveFromAgendaBean");
+        iacucProtocolReviewNotRequiredBean = new ProtocolReviewNotRequiredBean(this);
         initIacucSpecificActionBeanTaskMap();
    }
     
@@ -1379,6 +1382,15 @@ public class IacucActionHelper extends ActionHelper {
 
     public void setIacucProtocolRemoveFromAgendaBean(IacucProtocolGenericActionBean iacucProtocolRemoveFromAgendaBean) {
         this.iacucProtocolRemoveFromAgendaBean = iacucProtocolRemoveFromAgendaBean;
+    }
+
+    public ProtocolReviewNotRequiredBean getProtocolReviewNotRequiredBean() {
+        return iacucProtocolReviewNotRequiredBean;
+    }
+
+
+    public void setProtocolReviewNotRequiredBean(ProtocolReviewNotRequiredBean iacucProtocolReviewNotRequiredBean) {
+        this.iacucProtocolReviewNotRequiredBean = iacucProtocolReviewNotRequiredBean;
     }
 
 
