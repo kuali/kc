@@ -31,6 +31,8 @@ import org.kuali.kra.common.specialreview.bo.SpecialReviewExemption;
 import org.kuali.kra.common.specialreview.rule.event.AddSpecialReviewEvent;
 import org.kuali.kra.common.specialreview.rule.event.SaveSpecialReviewEvent;
 import org.kuali.kra.common.specialreview.rule.event.SaveSpecialReviewLinkEvent;
+import org.kuali.kra.iacuc.IacucProtocol;
+import org.kuali.kra.iacuc.IacucProtocolFinderDao;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -61,8 +63,10 @@ public class SpecialReviewRuleBase<T extends SpecialReview<? extends SpecialRevi
     private static final String EXEMPTION_TYPE_CODE_TITLE = "Exemption #";
     
     private static final String HUMAN_SUBJECTS_LINK_TO_IRB_ERROR_STRING = "Human Subjects/Link to IRB";
+    private static final String ANIMAL_USAGE_LINK_TO_IACUC_ERROR_STRING = "Animal Usage/Link to IACUC";
     
     private ProtocolFinderDao protocolFinderDao;
+    private IacucProtocolFinderDao iacucProtocolFinderDao;
     
     /**
      * Runs the rules for adding a specialReview.
@@ -81,6 +85,9 @@ public class SpecialReviewRuleBase<T extends SpecialReview<? extends SpecialRevi
         rulePassed &= GlobalVariables.getMessageMap().hasNoErrors();
         if (validateProtocol && SpecialReviewType.HUMAN_SUBJECTS.equals(specialReview.getSpecialReviewTypeCode())) {
             rulePassed &= validateProtocolNumber(specialReview, specialReviews, HUMAN_SUBJECTS_LINK_TO_IRB_ERROR_STRING);
+        }
+        else   if (validateProtocol && SpecialReviewType.ANIMAL_USAGE.equals(specialReview.getSpecialReviewTypeCode()) ) {
+                rulePassed &= validateProtocolNumber(specialReview, specialReviews, ANIMAL_USAGE_LINK_TO_IACUC_ERROR_STRING);               
         } else {
             rulePassed &= validateSpecialReviewApprovalFields(specialReview);
             rulePassed &= validateDateFields(specialReview);
@@ -176,18 +183,38 @@ public class SpecialReviewRuleBase<T extends SpecialReview<? extends SpecialRevi
             isValid = false;
             reportError(PROTOCOL_NUMBER_FIELD, KeyConstants.ERROR_SPECIAL_REVIEW_REQUIRED_FOR_VALID, PROTOCOL_NUMBER_TITLE, errorString);
         } else {
-            Protocol protocol = getProtocolFinderDao().findCurrentProtocolByNumber(specialReview.getProtocolNumber());
-            if (protocol == null) {
-                isValid = false;
-                reportError(PROTOCOL_NUMBER_FIELD, KeyConstants.ERROR_SPECIAL_REVIEW_PROTOCOL_NUMBER_INVALID);
-            } else {
-                List<T> existingSpecialReviews = ListUtils.subtract(specialReviews, Collections.singletonList(specialReview));
-                for (T existingSpecialReview : existingSpecialReviews) {
-                    if (StringUtils.equals(specialReview.getProtocolNumber(), existingSpecialReview.getProtocolNumber())) {
-                        isValid = false;
-                        reportError(PROTOCOL_NUMBER_FIELD, KeyConstants.ERROR_SPECIAL_REVIEW_PROTOCOL_NUMBER_DUPLICATE);
+            if ( SpecialReviewType.HUMAN_SUBJECTS.equals(specialReview.getSpecialReviewTypeCode()))
+            {
+                Protocol protocol = getProtocolFinderDao().findCurrentProtocolByNumber(specialReview.getProtocolNumber());
+                if (protocol == null) {
+                    isValid = false;
+                    reportError(PROTOCOL_NUMBER_FIELD, KeyConstants.ERROR_SPECIAL_REVIEW_PROTOCOL_NUMBER_INVALID);
+                } else {
+                    List<T> existingSpecialReviews = ListUtils.subtract(specialReviews, Collections.singletonList(specialReview));
+                    for (T existingSpecialReview : existingSpecialReviews) {
+                        if (StringUtils.equals(specialReview.getProtocolNumber(), existingSpecialReview.getProtocolNumber())) {
+                            isValid = false;
+                            reportError(PROTOCOL_NUMBER_FIELD, KeyConstants.ERROR_SPECIAL_REVIEW_PROTOCOL_NUMBER_DUPLICATE);
+                        }
                     }
                 }
+            }
+            else if ( SpecialReviewType.ANIMAL_USAGE.equals(specialReview.getSpecialReviewTypeCode()))
+            {
+                IacucProtocol iacucProtocol = (IacucProtocol)getIacucProtocolFinderDao().findCurrentProtocolByNumber(specialReview.getProtocolNumber());
+                if (iacucProtocol == null) {
+                    isValid = false;
+                    reportError(PROTOCOL_NUMBER_FIELD, KeyConstants.ERROR_SPECIAL_REVIEW_PROTOCOL_NUMBER_INVALID);
+                } else {
+                    List<T> existingSpecialReviews = ListUtils.subtract(specialReviews, Collections.singletonList(specialReview));
+                    for (T existingSpecialReview : existingSpecialReviews) {
+                        if (StringUtils.equals(specialReview.getProtocolNumber(), existingSpecialReview.getProtocolNumber())) {
+                            isValid = false;
+                            reportError(PROTOCOL_NUMBER_FIELD, KeyConstants.ERROR_SPECIAL_REVIEW_PROTOCOL_NUMBER_DUPLICATE);
+                        }
+                    }
+                }
+                
             }
         }
         
@@ -320,5 +347,16 @@ public class SpecialReviewRuleBase<T extends SpecialReview<? extends SpecialRevi
     public void setProtocolFinderDao(ProtocolFinderDao protocolFinderDao) {
         this.protocolFinderDao = protocolFinderDao;
     }
-    
+
+    public IacucProtocolFinderDao getIacucProtocolFinderDao() {
+        if (iacucProtocolFinderDao == null) {
+            iacucProtocolFinderDao = KraServiceLocator.getService(IacucProtocolFinderDao.class);
+        }
+        return iacucProtocolFinderDao;
+    }
+
+    public void setIacucProtocolFinderDao(IacucProtocolFinderDao iacucProtocolFinderDao) {
+        this.iacucProtocolFinderDao = iacucProtocolFinderDao;
+    }
+
 }

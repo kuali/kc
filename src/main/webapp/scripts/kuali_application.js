@@ -3280,7 +3280,7 @@ function ajaxLoad(methodToCall, codeField, fieldToUpdate) {
  */
 
 function showHideSpecialReviewProtocolLink(specialReviewTypeCode, idPrefix, canCreateIrbProtocol, canCreateIacucProtocol, enableIrbProtocolLinking, enableIacucProtocolLinking) {
-	var readOnly = specialReviewTypeCode.value == '1';
+	var readOnly = ( specialReviewTypeCode.value == '1' || specialReviewTypeCode.value == '2');
 	if (specialReviewTypeCode.value == '1' &&  canCreateIrbProtocol == 'true' ) {
 		changeObjectVisibility(idPrefix + ".startprotocol.image.div", "inline");
 	}
