@@ -28,7 +28,6 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.rice.core.api.util.RiceConstants;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
@@ -41,6 +40,7 @@ import org.kuali.rice.krad.util.KRADConstants;
 /**
  * Actions of the batch correspondence details.
  */
+@SuppressWarnings("deprecation")
 public abstract class BatchCorrespondenceDetailAction extends KualiDocumentActionBase {
     private static final String BATCH_CORRESPONDENCE_TYPE_CODE = "batchCorrespondenceTypeCode";
 
@@ -49,9 +49,9 @@ public abstract class BatchCorrespondenceDetailAction extends KualiDocumentActio
             HttpServletResponse response) throws Exception {
 
         // Check and initialize permissions
-        if (getBatchCorrespondenceDetailAuthorizationService().hasPermission(PermissionConstants.MODIFY_BATCH_CORRESPONDENCE_DETAIL)) {
+        if (getBatchCorrespondenceDetailAuthorizationService().hasPermission(getModifyBatchCorrespondenceDetailPermissionNameHook())) {
             ((BatchCorrespondenceDetailForm) form).setReadOnly(false);
-        } else if (getBatchCorrespondenceDetailAuthorizationService().hasPermission(PermissionConstants.VIEW_BATCH_CORRESPONDENCE_DETAIL)) {
+        } else if (getBatchCorrespondenceDetailAuthorizationService().hasPermission(getViewBatchCorrespondenceDetailPermissionNameHook())) {
             ((BatchCorrespondenceDetailForm) form).setReadOnly(true);
         } else {
             throw new AuthorizationException(GlobalVariables.getUserSession().getPerson().getPrincipalName(), 
@@ -69,10 +69,12 @@ public abstract class BatchCorrespondenceDetailAction extends KualiDocumentActio
         }
         
         return super.execute(mapping, form, request, response);
-    }
+    }   
     
-    
-    
+    protected abstract String getViewBatchCorrespondenceDetailPermissionNameHook();
+
+    protected abstract String getModifyBatchCorrespondenceDetailPermissionNameHook();
+
     protected abstract BatchCorrespondenceDetailForm getNewBatchCorrespondenceDetailFormInstanceHook();
 
     
@@ -95,7 +97,7 @@ public abstract class BatchCorrespondenceDetailAction extends KualiDocumentActio
         BatchCorrespondenceDetailForm batchCorrespondenceDetailForm = (BatchCorrespondenceDetailForm) form;
         BatchCorrespondence batchCorrespondence = batchCorrespondenceDetailForm.getBatchCorrespondence();
         fieldValues.put(BATCH_CORRESPONDENCE_TYPE_CODE, batchCorrespondence.getBatchCorrespondenceTypeCode());
-        batchCorrespondence = (BatchCorrespondence) getBusinessObjectService().findByPrimaryKey(BatchCorrespondence.class, fieldValues);
+        batchCorrespondence = getBusinessObjectService().findByPrimaryKey(getBatchCorrespondenceClassHook(), fieldValues);
         batchCorrespondenceDetailForm.setBatchCorrespondence(batchCorrespondence);
         if (batchCorrespondence != null) {
             batchCorrespondenceDetailForm.setBatchCorrespondenceTypeCode(batchCorrespondence.getBatchCorrespondenceTypeCode());
@@ -104,6 +106,10 @@ public abstract class BatchCorrespondenceDetailAction extends KualiDocumentActio
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
+    protected abstract Class<? extends BatchCorrespondence> getBatchCorrespondenceClassHook();
+
+    
+    
     /** 
      * 
      * This method adds a batch correspondence detail entry.
@@ -121,7 +127,7 @@ public abstract class BatchCorrespondenceDetailAction extends KualiDocumentActio
         BatchCorrespondenceDetail newBatchCorrespondenceDetail = batchCorrespondenceDetailForm.getNewBatchCorrespondenceDetail();
 
         // check any business rules
-        boolean rulePassed = new BatchCorrespondenceDetailRule().processAddBatchCorrespondenceDetailRules(batchCorrespondence, 
+        boolean rulePassed = getNewInstanceOfBatchCorrespondenceDetailRuleHook().processAddBatchCorrespondenceDetailRules(batchCorrespondence, 
                 newBatchCorrespondenceDetail);
         if (rulePassed) {
             getBatchCorrespondenceDetailService().addBatchCorrespondenceDetail(batchCorrespondence, newBatchCorrespondenceDetail);
@@ -131,6 +137,8 @@ public abstract class BatchCorrespondenceDetailAction extends KualiDocumentActio
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
+    protected abstract BatchCorrespondenceDetailRule getNewInstanceOfBatchCorrespondenceDetailRuleHook();
+
     protected abstract BatchCorrespondenceDetail getNewBatchCorrespondenceDetailInstanceHook();
     
     
@@ -188,13 +196,13 @@ public abstract class BatchCorrespondenceDetailAction extends KualiDocumentActio
             HttpServletResponse response) throws Exception {
 
         // Check modify permission
-        if (!getBatchCorrespondenceDetailAuthorizationService().hasPermission(PermissionConstants.MODIFY_BATCH_CORRESPONDENCE_DETAIL)) {
+        if (!getBatchCorrespondenceDetailAuthorizationService().hasPermission(getModifyBatchCorrespondenceDetailPermissionNameHook())) {
             throw new AuthorizationException(GlobalVariables.getUserSession().getPerson().getPrincipalName(), 
                     findMethodToCall(form, request), this.getClass().getSimpleName());
         }
         
         BatchCorrespondenceDetailForm batchCorrespondenceDetailForm = (BatchCorrespondenceDetailForm) form;
-        boolean rulePassed = new BatchCorrespondenceDetailRule()
+        boolean rulePassed = getNewInstanceOfBatchCorrespondenceDetailRuleHook()
               .processSaveBatchCorrespondenceDetailRules(batchCorrespondenceDetailForm.getBatchCorrespondence());
         if (rulePassed) {
             getBatchCorrespondenceDetailService().saveBatchCorrespondenceDetails(batchCorrespondenceDetailForm.getBatchCorrespondence(), 
@@ -224,7 +232,7 @@ public abstract class BatchCorrespondenceDetailAction extends KualiDocumentActio
         Map<String, String> fieldValues = new HashMap<String, String>();
         BatchCorrespondenceDetailForm batchCorrespondenceDetailForm = (BatchCorrespondenceDetailForm) form;
         fieldValues.put(BATCH_CORRESPONDENCE_TYPE_CODE, batchCorrespondenceDetailForm.getBatchCorrespondenceTypeCode());
-        BatchCorrespondence batchCorrespondence = (BatchCorrespondence) getBusinessObjectService().findByPrimaryKey(BatchCorrespondence.class, fieldValues);
+        BatchCorrespondence batchCorrespondence = getBusinessObjectService().findByPrimaryKey(getBatchCorrespondenceClassHook(), fieldValues);
         batchCorrespondenceDetailForm.setBatchCorrespondence(batchCorrespondence);
         batchCorrespondenceDetailForm.setNewBatchCorrespondenceDetail(getNewBatchCorrespondenceDetailInstanceHook());
         batchCorrespondenceDetailForm.setDeletedBatchCorrespondenceDetail(new ArrayList<BatchCorrespondenceDetail>());
@@ -249,7 +257,7 @@ public abstract class BatchCorrespondenceDetailAction extends KualiDocumentActio
             HttpServletResponse response) throws Exception {
         ActionForward actionForward = mapping.findForward(KRADConstants.MAPPING_PORTAL);
         
-        if (getBatchCorrespondenceDetailAuthorizationService().hasPermission(PermissionConstants.MODIFY_BATCH_CORRESPONDENCE_DETAIL)) {
+        if (getBatchCorrespondenceDetailAuthorizationService().hasPermission(getModifyBatchCorrespondenceDetailPermissionNameHook())) {
             if (!StringUtils.equals(request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME), KRADConstants.DOCUMENT_SAVE_BEFORE_CLOSE_QUESTION)) {
                 // Ask question whether to save before close
                 actionForward = this.performQuestionWithoutInput(mapping, form, request, response, KRADConstants.DOCUMENT_SAVE_BEFORE_CLOSE_QUESTION, 
@@ -259,7 +267,7 @@ public abstract class BatchCorrespondenceDetailAction extends KualiDocumentActio
                 // Validate document
                 BatchCorrespondenceDetailForm batchCorrespondenceDetailForm = (BatchCorrespondenceDetailForm) form;
                 BatchCorrespondence batchCorrespondence = batchCorrespondenceDetailForm.getBatchCorrespondence();
-                boolean rulePassed = new BatchCorrespondenceDetailRule().processSaveBatchCorrespondenceDetailRules(batchCorrespondence);
+                boolean rulePassed = getNewInstanceOfBatchCorrespondenceDetailRuleHook().processSaveBatchCorrespondenceDetailRules(batchCorrespondence);
                 if (!rulePassed) {
                     // Reload document if errors exist 
                     actionForward = mapping.findForward(RiceConstants.MAPPING_BASIC);                    
@@ -310,11 +318,15 @@ public abstract class BatchCorrespondenceDetailAction extends KualiDocumentActio
     }
     
     private BatchCorrespondenceDetailService getBatchCorrespondenceDetailService() {
-        return (BatchCorrespondenceDetailService) KraServiceLocator.getService(BatchCorrespondenceDetailService.class);
+        return KraServiceLocator.getService(getBatchCorrespondenceDetailServiceClassHook());
     }
 
+    protected abstract Class<? extends BatchCorrespondenceDetailService> getBatchCorrespondenceDetailServiceClassHook();
+
     private BatchCorrespondenceDetailAuthorizationService getBatchCorrespondenceDetailAuthorizationService() {
-        return KraServiceLocator.getService(BatchCorrespondenceDetailAuthorizationService.class);
+        return KraServiceLocator.getService(getBatchCorrespondenceDetailAuthorizationServiceClassHook());
     }
+
+    protected abstract Class<? extends BatchCorrespondenceDetailAuthorizationService> getBatchCorrespondenceDetailAuthorizationServiceClassHook();
 
 }

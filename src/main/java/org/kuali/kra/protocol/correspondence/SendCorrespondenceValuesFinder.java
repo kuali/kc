@@ -22,7 +22,12 @@ import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
-public class SendCorrespondenceValuesFinder extends KeyValuesBase {
+public abstract class SendCorrespondenceValuesFinder extends KeyValuesBase {
+
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = -9029045379411708867L;
 
     public List<KeyValue> getKeyValues() {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();

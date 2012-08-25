@@ -1092,5 +1092,14 @@
     <bean id="iacucProtocolSpecialReviewService" class="org.kuali.kra.iacuc.specialreview.IacucProtocolSpecialReviewServiceImpl">
    		<property name="protocolFinderDao" ref="iacucProtocolFinderDao" />    
  	</bean> 
+ 	
+ 	<bean id="iacucBatchCorrespondenceDetailAuthorizationService" class="org.kuali.kra.iacuc.correspondence.IacucBatchCorrespondenceDetailAuthorizationServiceImpl">
+        <property name="unitAuthorizationService" ref="unitAuthorizationService" />
+        <property name="kcPersonService" ref="kcPersonService" />
+    </bean>
+	
+	<bean id="iacucBatchCorrespondenceDetailService" class="org.kuali.kra.iacuc.correspondence.IacucBatchCorrespondenceDetailServiceImpl">
+        <property name="businessObjectService" ref="businessObjectService" />
+    </bean>
 
 </beans>
