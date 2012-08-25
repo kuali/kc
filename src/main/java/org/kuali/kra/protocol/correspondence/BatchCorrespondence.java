@@ -21,7 +21,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.irb.actions.ProtocolActionType;
+import org.kuali.kra.protocol.actions.ProtocolActionType;
 
 public abstract class BatchCorrespondence extends KraPersistableBusinessObjectBase {
 
