@@ -46,6 +46,9 @@ public abstract class BatchCorrespondenceDetailForm extends KualiForm {
     
 
     public BatchCorrespondence getBatchCorrespondence() {
+        if(null == batchCorrespondence) {
+            this.setBatchCorrespondence(getNewBatchCorrespondenceInstanceHook());
+        }
         return batchCorrespondence;
     }
 
