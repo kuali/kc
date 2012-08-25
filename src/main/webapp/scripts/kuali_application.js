@@ -3580,3 +3580,15 @@ function showBudgetPersonSalaryDetails_Callback( data ) {
 	
 	
 }
+
+
+function submitFormToMethod(formId, methodName) {
+	var hidden = document.createElement('input');
+	hidden.setAttribute("id", "start");
+	hidden.setAttribute("type", "hidden");
+	hidden.setAttribute("name", "methodToCall." + methodName);
+	
+	var formIdEscaped = jq_escape(formId);
+	jQuery(formIdEscaped).append(hidden);
+	jQuery(formIdEscaped).submit();
+}

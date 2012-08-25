@@ -18,16 +18,15 @@
 
 <c:set var="readOnly" value="${KualiForm.readOnly}"  scope="request" />
 
+
 <kul:page lookup="false" 
           docTitle="Batch Correspondence" 
           transactionalDocument="false"
           renderMultipart="true" 
-          htmlFormAction="batchCorrespondenceDetail">
+          htmlFormAction="iacucBatchCorrespondenceDetail">
 
 	<div align="left"><kul:help parameterNamespace="KC-M" parameterDetailType="Document" parameterName="batchCorrespondenceHelp" altText="help"/>
 	<br />
-          
-    <script language="javascript" src="scripts/kuali_application.js"></script>
     
     <div id="workarea">
 
