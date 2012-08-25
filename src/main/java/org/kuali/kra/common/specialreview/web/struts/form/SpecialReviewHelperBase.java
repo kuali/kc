@@ -27,10 +27,13 @@ import org.kuali.kra.bo.SpecialReviewType;
 import org.kuali.kra.common.specialreview.bo.SpecialReview;
 import org.kuali.kra.common.specialreview.bo.SpecialReviewExemption;
 import org.kuali.kra.common.specialreview.service.SpecialReviewService;
+import org.kuali.kra.iacuc.specialreview.IacucProtocolSpecialReviewService;
+import org.kuali.kra.iacuc.specialreview.IacucProtocolSpecialReviewServiceImpl;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolFinderDao;
 import org.kuali.kra.irb.actions.submit.ProtocolExemptStudiesCheckListItem;
+import org.kuali.kra.irb.specialreview.ProtocolSpecialReviewService;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalState;
 import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
@@ -74,7 +77,8 @@ public abstract class SpecialReviewHelperBase<T extends SpecialReview<? extends 
     private transient ParameterService parameterService;
     private transient ProtocolFinderDao protocolFinderDao;
     private transient SpecialReviewService specialReviewService;
-    
+    private transient ProtocolSpecialReviewService protocolSpecialReviewService;   
+    private transient IacucProtocolSpecialReviewService iacucProtocolSpecialReviewService;
     public T getNewSpecialReview() {
         return newSpecialReview;
     }
@@ -118,39 +122,14 @@ public abstract class SpecialReviewHelperBase<T extends SpecialReview<? extends 
     public void prepareProtocolLinkViewFields(T specialReview) {
         if (getIsIrbProtocolLinkingEnabled()) {
             if (specialReview != null && SpecialReviewType.HUMAN_SUBJECTS.equals(specialReview.getSpecialReviewTypeCode())) {
-                Protocol protocol = getLastApprovedProtocol(specialReview.getProtocolNumber());
-                if (protocol != null) {
-                    specialReview.setApprovalTypeCode(SpecialReviewApprovalType.LINK_TO_IRB);
-                    
-                    if (specialReview.getClass().equals(ProposalSpecialReview.class)) {
-                        ProposalSpecialReview psr = (ProposalSpecialReview) specialReview;
-                        DevelopmentProposal dp = getPropososalDevelopment(psr.getProposalNumber());
-                        if (dp != null 
-                                && (StringUtils.equals(dp.getProposalStateTypeCode(), ProposalState.APPROVED_AND_SUBMITTED)
-                                        || StringUtils.equals(dp.getProposalStateTypeCode(), ProposalState.DISAPPROVED)
-                                        || StringUtils.equals(dp.getProposalStateTypeCode(), ProposalState.APPROVED_POST_SUBMISSION)
-                                        || StringUtils.equals(dp.getProposalStateTypeCode(), ProposalState.DISAPPROVED_POST_SUBMISSION)
-                                        || StringUtils.equals(dp.getProposalStateTypeCode(), ProposalState.APPROVAL_PENDING_SUBMITTED))
-                                && specialReview.getProtocolStatus() != null) {
-                            // if the proposal is complete, do not get the fresh copy of the IRB status
-                        } else {
-                            specialReview.setProtocolStatus(protocol.getProtocolStatus().getDescription());
-                        }
-                    } else {
-                        specialReview.setProtocolStatus(protocol.getProtocolStatus().getDescription());
-                    }
-                    
-                    specialReview.setProtocolNumber(protocol.getProtocolNumber());
-                    specialReview.setApplicationDate(protocol.getProtocolSubmission().getSubmissionDate());
-                    specialReview.setApprovalDate(protocol.getLastApprovalDate() == null ? protocol.getApprovalDate() : protocol.getLastApprovalDate());
-                    specialReview.setExpirationDate(protocol.getExpirationDate());
-                    List<String> exemptionTypeCodes = new ArrayList<String>();
-                    for (ProtocolExemptStudiesCheckListItem checkListItem : protocol.getProtocolSubmission().getExemptStudiesCheckList()) {
-                        exemptionTypeCodes.add(checkListItem.getExemptStudiesCheckListCode());
-                    }
-                    specialReview.setExemptionTypeCodes(exemptionTypeCodes);
-                }
+                ProtocolSpecialReviewService protocolSpecialReviewService = getProtocolSpecialReviewService();
+                protocolSpecialReviewService.populateSpecialReview(specialReview);
             }
+            else if (specialReview != null && SpecialReviewType.ANIMAL_USAGE.equals(specialReview.getSpecialReviewTypeCode())) {
+                IacucProtocolSpecialReviewService iacucProtocolSpecialReviewService = getIacucProtocolSpecialReviewService();
+                iacucProtocolSpecialReviewService.populateSpecialReview(specialReview);
+            }
+
         }
     }
     
@@ -324,8 +303,29 @@ public abstract class SpecialReviewHelperBase<T extends SpecialReview<? extends 
     public void setSpecialReviewService(SpecialReviewService specialReviewService) {
         this.specialReviewService = specialReviewService;
     }
+    
+    public ProtocolSpecialReviewService getProtocolSpecialReviewService() {
+        if (protocolSpecialReviewService == null) {
+            protocolSpecialReviewService = KraServiceLocator.getService(ProtocolSpecialReviewService.class);
+        }
+        return protocolSpecialReviewService;
+    }
+   
+    public void setProtocolSpecialReviewService(ProtocolSpecialReviewService protocolSpecialReviewService) {
+        this.protocolSpecialReviewService = protocolSpecialReviewService;
+    }
 
-    // method to check if IRB protocol can be created from Special review page for non-Protocol modules such as proposal, award and so on
+    public IacucProtocolSpecialReviewService getIacucProtocolSpecialReviewService() {
+        if (iacucProtocolSpecialReviewService == null) {
+            iacucProtocolSpecialReviewService = KraServiceLocator.getService(IacucProtocolSpecialReviewService.class);
+        }
+        return iacucProtocolSpecialReviewService;
+    }
+   
+    public void setIacucProtocolSpecialReviewService(IacucProtocolSpecialReviewService iacucProtocolSpecialReviewService) {
+        this.iacucProtocolSpecialReviewService = iacucProtocolSpecialReviewService;
+    }
+   // method to check if IRB protocol can be created from Special review page for non-Protocol modules such as proposal, award and so on
     protected abstract boolean isCanCreateIrbProtocol();
     // method to check if IACUC protocol can be created from Special review page for non-Protocol modules such as proposal, award and so on
     protected abstract boolean isCanCreateIacucProtocol();

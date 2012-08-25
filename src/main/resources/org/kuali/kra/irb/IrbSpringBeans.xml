@@ -1025,12 +1025,9 @@
         <property name="sequenceAccessorService" ref="sequenceAccessorService" />
     </bean> 
 
-    <bean id="iacucProtocolProposalDevelopmentProtocolDocumentService" class="org.kuali.kra.iacuc.protocol.funding.IacucProtocolProposalDevelopmentProtocolDocumentServiceImpl">
-        <property name="systemAuthorizationService" ref="systemAuthorizationService" />
-        <property name="kraAuthorizationService" ref="kraAuthorizationService" />
-        <property name="sequenceAccessorService" ref="sequenceAccessorService" />
-    </bean> 
-
+    <bean id="protocolSpecialReviewService" class="org.kuali.kra.irb.specialreview.ProtocolSpecialReviewServiceImpl">
+   		<property name="protocolFinderDao" ref="protocolFinderDao" />    
+ 	</bean> 
 </beans>
 
 

@@ -211,7 +211,7 @@
                                                          readOnlyBody="true" 
                                                          staticOnly="${!enableIrbProtocolLinking}">
                             <c:choose>
-	                            <c:when test="${collectionReference[status.index].specialReviewTypeCode == '1' && enableIrbProtocolLinking}">
+	                            <c:when test="${protocolLinkingReadOnly}">
 	                                ${collectionReference[status.index].protocolStatus}
 	                            </c:when>
 	                            <c:otherwise>

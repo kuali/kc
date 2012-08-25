@@ -32,6 +32,10 @@ public class SpecialReviewApprovalType extends KraPersistableBusinessObjectBase 
      * The type code for Approval Type 'Link to IRB'.
      */
     public static final String LINK_TO_IRB = "5";
+    /**
+     * The type code for Approval Type 'Link to IACUC'.
+     */
+    public static final String LINK_TO_IACUC = "6";
 
     private static final long serialVersionUID = -3695729124365459765L;
 
