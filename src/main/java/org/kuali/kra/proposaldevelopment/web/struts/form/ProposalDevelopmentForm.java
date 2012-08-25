@@ -1988,6 +1988,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
                  }
 
                 headerNavigation.setHeaderTabDisplayName(approverViewTabTitle);
+                break;
             }
         }
 

@@ -1083,5 +1083,14 @@
 		<property name="dateTimeService" ref="dateTimeService" />
 	</bean>
 
+    <bean id="iacucProtocolProposalDevelopmentProtocolDocumentService" class="org.kuali.kra.iacuc.protocol.funding.IacucProtocolProposalDevelopmentProtocolDocumentServiceImpl">
+        <property name="systemAuthorizationService" ref="systemAuthorizationService" />
+        <property name="kraAuthorizationService" ref="kraAuthorizationService" />
+        <property name="sequenceAccessorService" ref="sequenceAccessorService" />
+    </bean> 
+
+    <bean id="iacucProtocolSpecialReviewService" class="org.kuali.kra.iacuc.specialreview.IacucProtocolSpecialReviewServiceImpl">
+   		<property name="protocolFinderDao" ref="iacucProtocolFinderDao" />    
+ 	</bean> 
 
 </beans>
