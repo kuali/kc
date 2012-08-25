@@ -23,22 +23,25 @@
                 <div align="left" style="font-weight:bold;">
                    Correspondence Type:
                 </div>
-                <kul:htmlControlAttribute property="batchCorrespondence.batchCorrespondenceTypeCode"
+                <kul:htmlControlAttribute property="batchCorrespondence.batchCorrespondenceTypeCode" onchange="submitFormToMethod('kualiForm', 'start');" 
                                           attributeEntry="${DataDictionary.IacucBatchCorrespondenceDetail.attributes.batchCorrespondenceTypeCode}" 
                                           readOnly="false" />          
         </td>
     </tr>
-    <tr>
-        <td colspan="2" class="infoline nobord" style="padding:4px">
-            <div align="center">
-            <html:image property="methodToCall.start" 
-                 src="${ConfigProperties.kra.externalizable.images.url}tinybutton-refresh.gif" 
-                 title="refresh" 
-                 alt="refresh" 
-                 styleClass="tinybutton"/>
-            </div>
-        </td>
-    </tr>
+    <noscript>
+	    <tr>
+	        <td colspan="2" class="infoline nobord" style="padding:4px">
+	            <div align="center">
+	            <html:image property="methodToCall.start" 
+	                 src="${ConfigProperties.kra.externalizable.images.url}tinybutton-refresh.gif" 
+	                 title="refresh" 
+	                 alt="refresh" 
+	                 styleId="refreshButton"
+	                 styleClass="tinybutton"/>
+	            </div>
+	        </td>
+	    </tr>
+    </noscript>
 </table>
 </div>
 </td></tr>
