@@ -15,9 +15,14 @@
  */
 package org.kuali.kra.iacuc.correspondence;
 
+import org.kuali.kra.infrastructure.PermissionConstants;
+import org.kuali.kra.protocol.correspondence.BatchCorrespondence;
 import org.kuali.kra.protocol.correspondence.BatchCorrespondenceDetail;
 import org.kuali.kra.protocol.correspondence.BatchCorrespondenceDetailAction;
+import org.kuali.kra.protocol.correspondence.BatchCorrespondenceDetailAuthorizationService;
 import org.kuali.kra.protocol.correspondence.BatchCorrespondenceDetailForm;
+import org.kuali.kra.protocol.correspondence.BatchCorrespondenceDetailRule;
+import org.kuali.kra.protocol.correspondence.BatchCorrespondenceDetailService;
 
 public class IacucBatchCorrespondenceDetailAction extends BatchCorrespondenceDetailAction {
 
@@ -29,6 +34,36 @@ public class IacucBatchCorrespondenceDetailAction extends BatchCorrespondenceDet
     @Override
     protected BatchCorrespondenceDetail getNewBatchCorrespondenceDetailInstanceHook() {
         return new IacucBatchCorrespondenceDetail();
+    }
+
+    @Override
+    protected String getViewBatchCorrespondenceDetailPermissionNameHook() {
+        return PermissionConstants.VIEW_IACUC_BATCH_CORRESPONDENCE_DETAIL;
+    }
+
+    @Override
+    protected String getModifyBatchCorrespondenceDetailPermissionNameHook() {
+        return PermissionConstants.MODIFY_IACUC_BATCH_CORRESPONDENCE_DETAIL;
+    }
+
+    @Override
+    protected Class<? extends BatchCorrespondence> getBatchCorrespondenceClassHook() {
+        return IacucBatchCorrespondence.class;
+    }
+
+    @Override
+    protected BatchCorrespondenceDetailRule getNewInstanceOfBatchCorrespondenceDetailRuleHook() {
+        return new IacucBatchCorrespondenceDetailRule();
+    }
+
+    @Override
+    protected Class<? extends BatchCorrespondenceDetailService> getBatchCorrespondenceDetailServiceClassHook() {
+        return IacucBatchCorrespondenceDetailService.class; 
+    }
+
+    @Override
+    protected Class<? extends BatchCorrespondenceDetailAuthorizationService> getBatchCorrespondenceDetailAuthorizationServiceClassHook() {
+        return IacucBatchCorrespondenceDetailAuthorizationService.class;
     }
 
 }

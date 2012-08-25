@@ -19,7 +19,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.krad.util.GlobalVariables;
 
-public class BatchCorrespondenceDetailRule {
+public abstract class BatchCorrespondenceDetailRule {
     
     private static final String SEND_CORRESPONDENCE_AFTER_EVENT ="AFTER";
 

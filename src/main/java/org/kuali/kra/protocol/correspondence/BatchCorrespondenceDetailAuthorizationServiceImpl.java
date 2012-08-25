@@ -24,7 +24,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
  * 
  * This class provides a call to validate whether user has certain permission.
  */
-public class BatchCorrespondenceDetailAuthorizationServiceImpl implements BatchCorrespondenceDetailAuthorizationService {
+public abstract class BatchCorrespondenceDetailAuthorizationServiceImpl implements BatchCorrespondenceDetailAuthorizationService {
 
     private UnitAuthorizationService unitAuthorizationService;
     private KcPersonService kcPersonService;
@@ -35,9 +35,13 @@ public class BatchCorrespondenceDetailAuthorizationServiceImpl implements BatchC
      */
     public boolean hasPermission(String permissionName){
         KcPerson person = kcPersonService.getKcPersonByUserName(getUserName());       
-        return unitAuthorizationService.hasPermission(person.getPersonId(), "KC-PROTOCOL", permissionName);
+        return unitAuthorizationService.hasPermission(person.getPersonId(), getNameSpaceHook(), permissionName);
 
     }
+    
+    protected abstract String getNameSpaceHook();
+    
+    
     protected String getUserName() {
         return GlobalVariables.getUserSession().getPerson().getPrincipalName();
     }
