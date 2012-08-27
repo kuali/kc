@@ -418,7 +418,13 @@ public abstract class ReviewCommentsServiceImpl<PRA extends ProtocolReviewAttach
             if (reviewComment.getCommScheduleMinutesId() != null) {
                 CommitteeScheduleMinute existing = committeeScheduleService.getCommitteeScheduleMinute(reviewComment
                         .getCommScheduleMinutesId());
-                doUpdate = !reviewComment.equals(existing);
+                //doUpdate = !reviewComment.equals(existing);
+                if (!StringUtils.equals(reviewComment.getMinuteEntry(), existing.getMinuteEntry())) {
+                   doUpdate = true; 
+                   reviewComment.setUpdateUserFullName(GlobalVariables.getUserSession().getPerson().getName());
+                } else {
+                   doUpdate = false;
+                }
             }
             if (doUpdate) {
                 businessObjectService.save(reviewComment);
