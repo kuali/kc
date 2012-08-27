@@ -157,7 +157,7 @@
 			<param name="beanName" value="budgetService" />
 			<include method="getApplicableCostElementsForAjaxCall" />
 			<include method="populateBudgetPersonSalaryDetailsInPeriods" />		
-						
+			<include method="getUnitFormulatedCost" />		
 		</create>
 		
 		<create creator="spring" javascript="ArgValueLookupService">
@@ -204,6 +204,10 @@
             <include method="findAllStatesInCountryByAltCode" />
             <include method="findAllStatesInCountry" />
         </create>
+		<create creator="spring" javascript="BudgetRatesService">
+			<param name="beanName" value="budgetRatesService" />
+			<include method="getUnitFormulatedCost" />		
+		</create>
         <convert converter="bean" match="org.kuali.rice.location.framework.state.StateEbo">
             <param name="include" value="code,name,countryCode" />
         </convert>
