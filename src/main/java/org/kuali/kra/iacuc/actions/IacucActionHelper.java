@@ -64,6 +64,7 @@ import org.kuali.kra.iacuc.auth.IacucProtocolTask;
 import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReview;
 import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReviewService;
 import org.kuali.kra.iacuc.questionnaire.IacucProtocolModuleQuestionnaireBean;
+import org.kuali.kra.iacuc.summary.IacucProtocolSummary;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -791,25 +792,27 @@ public class IacucActionHelper extends ActionHelper {
             currentSequenceNumber = getProtocol().getSequenceNumber();
         }
         
-        protocolSummary =  null;
+        IacucProtocolSummary iacucProtocolSummary =  null;
         String protocolNumber = getProtocol().getProtocolNumber();
         IacucProtocol protocol = (IacucProtocol)getProtocolVersionService().getProtocolVersion(protocolNumber, currentSequenceNumber);
         if (protocol != null) {
-            protocolSummary = protocol.getProtocolSummary();
+            iacucProtocolSummary = (IacucProtocolSummary)protocol.getProtocolSummary();
         }
         
-        prevProtocolSummary = null;
+        IacucProtocolSummary iacucPrevProtocolSummary = null;
         if (currentSequenceNumber > 0) {
             protocol = (IacucProtocol) getProtocolVersionService().getProtocolVersion(protocolNumber, currentSequenceNumber - 1);
             if (protocol != null) {
-                prevProtocolSummary = protocol.getProtocolSummary();
+                iacucPrevProtocolSummary = (IacucProtocolSummary)protocol.getProtocolSummary();
             }
         }
         
-        if (protocolSummary != null && prevProtocolSummary != null) {
-            protocolSummary.compare(prevProtocolSummary);
-            prevProtocolSummary.compare(protocolSummary);
+        if (iacucProtocolSummary != null && iacucPrevProtocolSummary != null) {
+            iacucProtocolSummary.compare(iacucPrevProtocolSummary);
+            iacucPrevProtocolSummary.compare(iacucProtocolSummary);
         }
+        protocolSummary = iacucProtocolSummary;
+        prevProtocolSummary = iacucPrevProtocolSummary;
 
         setSummaryQuestionnaireExist(hasAnsweredQuestionnaire((protocol.isAmendment() || protocol.isRenewal() || protocol.isContinuation()) ? CoeusSubModule.AMENDMENT_RENEWAL : CoeusSubModule.ZERO_SUBMODULE, protocol.getSequenceNumber().toString()));
     }

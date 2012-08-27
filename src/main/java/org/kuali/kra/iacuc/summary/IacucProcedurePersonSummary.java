@@ -88,7 +88,7 @@ public class IacucProcedurePersonSummary implements Serializable {
     }    
     
     public void compare(IacucProcedureSummary other) {
-        IacucProcedurePersonSummary otherSummary = other.findProcedurePersonSummary(personId);
+        IacucProcedurePersonSummary otherSummary = (other == null) ? null : other.findProcedurePersonSummary(personId);
         if (otherSummary == null) {
             personNameChanged = true;
             personTrainingChanged = true;
