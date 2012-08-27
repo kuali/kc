@@ -22,6 +22,7 @@ package org.kuali.kra.common.committee.print;
 public class ScheduleTemplatePrint extends TemplatePrint {
 
     private static final long serialVersionUID = -1565960151556324475L;
+    public static final String COMMON_SCHEDULE_TEMPLATE_PRINT_SPRING_NAME = "commonScheduleTemplatePrint";
 
     @Override
     public String getProtoCorrespTypeCode() {
