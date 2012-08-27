@@ -334,16 +334,19 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
 
         finalizeAttachmentProtocol(this.getProtocol());
         getBusinessObjectService().save(this);
-
-        
+        mergeProtocolCorrespondence(newProtocolDocument, this.getProtocol().getLastProtocolAction().getProtocolActionTypeCode());
+           
+    }
+    
+    protected void mergeProtocolCorrespondence(ProtocolDocument newProtocolDocument, String protocolActionType) {
         /**
-         * This is a hack, but is there another way to do it?  Not that I can find.
+         * This is a hack, but if there another way to do it?  Not that I can find.
          * We need to find the last instance of a Protocol Action of type ProtocolActionType.APPROVED and copy that action's correspondence, and put it in the
-         * coresponding action on .  Per KCIRB-1830
-         */ 
+         * corresponding action on .  Per KCIRB-1830
+        */  
         ProtocolAction getProtocolPaToUse = null;
         for (ProtocolAction pa : getProtocol().getProtocolActions()) {
-            if (StringUtils.equals(ProtocolActionType.APPROVED, pa.getProtocolActionTypeCode())) {
+            if (StringUtils.equals(protocolActionType, pa.getProtocolActionTypeCode())) {
                 if (getProtocolPaToUse == null || getProtocolPaToUse.getUpdateTimestamp().before(pa.getUpdateTimestamp())) {
                     getProtocolPaToUse = pa;
                 }
@@ -387,7 +390,8 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
                 getBusinessObjectService().save(newPc);
             }
             getBusinessObjectService().save(newDocPaToUser);
-        }        
+        }   
+        
     }
     
     private boolean isEligibleForMerging(String status, Protocol otherProtocol) {
