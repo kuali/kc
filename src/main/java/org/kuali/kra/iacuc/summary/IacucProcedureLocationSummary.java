@@ -106,7 +106,7 @@ public class IacucProcedureLocationSummary implements Serializable {
     }
 
     public void compare(IacucProcedureSummary other) {
-        IacucProcedureLocationSummary otherSummary = other.findProcedureLocationSummary(id);
+        IacucProcedureLocationSummary otherSummary = (other == null) ? null : other.findProcedureLocationSummary(id);
         if (otherSummary == null) {
             nameChanged = true;
             roomChanged = true;

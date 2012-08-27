@@ -157,7 +157,7 @@ public class IacucProtocolSpeciesSummary implements Serializable {
     }
    
     public void compare(IacucProtocolSummary other) {
-        IacucProtocolSpeciesSummary otherSummary = other.findSpeciesSummary(speciesId);
+        IacucProtocolSpeciesSummary otherSummary = (other == null) ? null : other.findSpeciesSummary(speciesId);
         if (otherSummary == null) {
             speciesChanged = true;
             speciesGroupChanged = true;

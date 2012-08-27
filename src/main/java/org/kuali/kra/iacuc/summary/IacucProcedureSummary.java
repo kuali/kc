@@ -212,7 +212,7 @@ public class IacucProcedureSummary implements Serializable {
     }
 
     public void compare(IacucProtocolSummary other) {
-        IacucProcedureSummary otherSummary = other.findProcedureSummary(procedureCode);
+        IacucProcedureSummary otherSummary = (other == null) ? null : other.findProcedureSummary(procedureCode);
         if (otherSummary == null) {
             procedureCategoryChanged = true;
             speciesChanged = true;

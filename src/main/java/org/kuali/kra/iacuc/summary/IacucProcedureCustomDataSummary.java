@@ -79,7 +79,7 @@ public class IacucProcedureCustomDataSummary implements Serializable {
     } 
 
     public void compare(IacucProcedureSummary other) {
-        IacucProcedureCustomDataSummary otherSummary = other.findProcedureCustomDataSummary(id);
+        IacucProcedureCustomDataSummary otherSummary = (other == null) ? null : other.findProcedureCustomDataSummary(id);
         if (otherSummary == null) {
             customDataTagChanged = true;
             customDataValChanged = true;
