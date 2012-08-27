@@ -34,7 +34,7 @@
             </list>
         </property>
         <property name="allowsRecordDeletion" value="true" />
-        <property name="documentTypeName" value="Unit Formulated Cost Maintenance Document" />
+        <property name="documentTypeName" value="UnitFormulatedCostMaintenanceDocument" />
         <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase" />
     </bean>
 
@@ -47,9 +47,6 @@
         <property name="maintainableItems" >
             <list>
                 <bean parent="MaintainableFieldDefinition"
-                    p:name="unitFormulatedCostId"
-                    p:required="true" />
-                <bean parent="MaintainableFieldDefinition"
                     p:name="formulatedTypeCode"
                     p:required="true" />
                 <bean parent="MaintainableFieldDefinition"
@@ -58,8 +55,6 @@
                 <bean parent="MaintainableFieldDefinition"
                     p:name="unitCost"
                     p:required="true" />
-                <bean parent="MaintainableFieldDefinition"
-                    p:name="versionNumber" />
             </list>
         </property>
     </bean>

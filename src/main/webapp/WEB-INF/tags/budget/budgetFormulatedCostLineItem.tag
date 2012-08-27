@@ -54,7 +54,7 @@
         		<td width="25%"><div align="left"><kul:htmlControlAttribute property="document.budget.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${budgetLineItemNumber}].costSharingAmount" attributeEntry="${budgetLineItemAttributes.costSharingAmount}" styleClass="amount" readOnly="${budgetExpensePanelReadOnly}"/></div></td>
         	</tr>
        	</table>
-        <kul:innerTab parentTab="${innerTabParent}" defaultOpen="false" tabTitle="Bud Formulated Cost Detail" useCurrentTabIndexAsKey="true">
+        <kul:innerTab parentTab="${innerTabParent}" defaultOpen="false" tabTitle="Budget Formulated Cost Detail" useCurrentTabIndexAsKey="true">
 		        <table cellpadding=0 cellspacing=0 summary="" >
 		        	<tr>
 		        		<th>&nbsp;</th>
@@ -70,7 +70,7 @@
 		        			<div align="center">Add:</div>
 		        		</th>
 		                <td>
-		                      <div align="center"><kul:htmlControlAttribute property="newBudgetFormulatedCost.formulatedTypeCode" readOnly="${readOnly}" attributeEntry="${budFormulatedCostDetailAttributes.formulatedTypeCode}" /></div>
+		                      <div align="center"><kul:htmlControlAttribute onchange="javascript:loadUnitFormulatedCost('${KualiForm.document.parentDocument.budgetParent.unitNumber}','newBudgetFormulatedCost')" property="newBudgetFormulatedCost.formulatedTypeCode" readOnly="${readOnly}" attributeEntry="${budFormulatedCostDetailAttributes.formulatedTypeCode}" /></div>
 		                </td>
 		                <td>
 		                      <div align="center"><kul:htmlControlAttribute property="newBudgetFormulatedCost.unitCost" readOnly="${readOnly}" attributeEntry="${budFormulatedCostDetailAttributes.unitCost}" /></div>
@@ -82,7 +82,7 @@
 		                      <div align="center"><kul:htmlControlAttribute property="newBudgetFormulatedCost.frequency" readOnly="${readOnly}" attributeEntry="${budFormulatedCostDetailAttributes.frequency}" /></div>
 		                </td>
 		                <td>
-		                      <div align="center"><kul:htmlControlAttribute property="newBudgetFormulatedCost.calculatedExpenses" readOnly="${readOnly}" attributeEntry="${budFormulatedCostDetailAttributes.calculatedExpenses}" /></div>
+		                      <div align="center"><kul:htmlControlAttribute property="newBudgetFormulatedCost.calculatedExpenses" readOnly="true" attributeEntry="${budFormulatedCostDetailAttributes.calculatedExpenses}" /></div>
 		                </td>
 		                <td class="darkInfoline">
 							<c:if test="${!readOnly}" >
@@ -96,7 +96,7 @@
 		        	<tr>
 		        		<td><div align="center">${budgetFormulatedCost.index+1}</div></td>
 		                <td>
-		                      <div align="center"><kul:htmlControlAttribute property="document.budget.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${budgetLineItemNumber}].budgetFormulatedCosts[${budgetFormulatedCost.index}].formulatedTypeCode" readOnly="${readOnly}" attributeEntry="${budFormulatedCostDetailAttributes.formulatedTypeCode}" /></div>
+		                      <div align="center"><kul:htmlControlAttribute  onchange="javascript:loadUnitFormulatedCost('${KualiForm.document.parentDocument.budgetParent.unitNumber}','document.budget.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${budgetLineItemNumber}].budgetFormulatedCosts[${budgetFormulatedCost.index}]')" property="document.budget.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${budgetLineItemNumber}].budgetFormulatedCosts[${budgetFormulatedCost.index}].formulatedTypeCode" readOnly="${readOnly}" attributeEntry="${budFormulatedCostDetailAttributes.formulatedTypeCode}" /></div>
 		                </td>
 		                <td>
 		                      <div align="center"><kul:htmlControlAttribute property="document.budget.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${budgetLineItemNumber}].budgetFormulatedCosts[${budgetFormulatedCost.index}].unitCost" readOnly="${readOnly}" attributeEntry="${budFormulatedCostDetailAttributes.unitCost}" /></div>
@@ -108,7 +108,7 @@
 		                      <div align="center"><kul:htmlControlAttribute property="document.budget.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${budgetLineItemNumber}].budgetFormulatedCosts[${budgetFormulatedCost.index}].frequency" readOnly="${readOnly}" attributeEntry="${budFormulatedCostDetailAttributes.frequency}" /></div>
 		                </td>
 		                <td>
-		                      <div align="center"><kul:htmlControlAttribute property="document.budget.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${budgetLineItemNumber}].budgetFormulatedCosts[${budgetFormulatedCost.index}].calculatedExpenses" readOnly="${readOnly}" attributeEntry="${budFormulatedCostDetailAttributes.calculatedExpenses}" /></div>
+		                      <div align="center"><kul:htmlControlAttribute property="document.budget.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${budgetLineItemNumber}].budgetFormulatedCosts[${budgetFormulatedCost.index}].calculatedExpenses" readOnly="true" attributeEntry="${budFormulatedCostDetailAttributes.calculatedExpenses}" /></div>
 		                </td>
 		                <td class="darkInfoline">
 							<c:if test="${!readOnly}" >
