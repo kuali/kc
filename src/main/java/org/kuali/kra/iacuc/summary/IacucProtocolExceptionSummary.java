@@ -116,7 +116,7 @@ public class IacucProtocolExceptionSummary implements Serializable {
     }
     
     public void compare(IacucProtocolSummary other) {
-        IacucProtocolExceptionSummary otherSummary = other.findExceptionSummary(iacucProtocolExceptionId);
+        IacucProtocolExceptionSummary otherSummary = (other == null) ? null : other.findExceptionSummary(iacucProtocolExceptionId);
         if (otherSummary == null) {
             speciesNameChanged = true; 
             exceptionCategoryChanged = true; 
