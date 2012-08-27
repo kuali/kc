@@ -28,6 +28,7 @@ import org.kuali.kra.common.committee.print.ProtocolCorrespondenceTemplatePrint;
 import org.kuali.kra.common.committee.print.ScheduleTemplatePrint;
 import org.kuali.kra.common.committee.service.CommitteePrintingService;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.printing.Printable;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.print.AbstractPrint;
@@ -54,7 +55,6 @@ public class CommitteePrintingServiceImpl extends PrintingServiceImpl implements
      */
     public AbstractPrint getCommitteePrintable(CommitteeReportType reportType) {
         AbstractPrint printable = null;
-        
         switch(reportType) {
             case COMMITTEE_TEMPLATE :
                 printable = getCommitteeTemplatePrint();
@@ -118,6 +118,12 @@ public class CommitteePrintingServiceImpl extends PrintingServiceImpl implements
     }
 
     public ScheduleTemplatePrint getScheduleTemplatePrint() {
+        /**
+         * For some reason, spring doesn't always properly set scheduleTemplatePrint, so this correct that condition.
+         */
+        if (scheduleTemplatePrint == null) {
+            scheduleTemplatePrint = KraServiceLocator.getService(org.kuali.kra.common.committee.print.ScheduleTemplatePrint.COMMON_SCHEDULE_TEMPLATE_PRINT_SPRING_NAME);
+        }
         return scheduleTemplatePrint;
     }
 
