@@ -503,6 +503,7 @@ public class BudgetExpensesAction extends BudgetAction {
         budgetPeriod.setBudget(budget);
         for(BudgetLineItem budgetLineItem:budgetPeriod.getBudgetLineItems()){
             getCalculationService().updatePersonnelBudgetRate(budgetLineItem);
+            calculateAndUpdateFormulatedCost(budgetLineItem);
         }
         if (new BudgetExpenseRule().processCheckLineItemDates(budgetForm.getBudgetDocument())) {
             if(forceCalculation){

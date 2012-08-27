@@ -62,18 +62,24 @@
     <bean id="UnitFormulatedCost-formulatedTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="formulatedTypeCode" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="Formulated Code" />
-        <property name="shortLabel" value="Formulated Code" />
-        <property name="maxLength" value="22" />
+        <property name="label" value="Formulated Type" />
+        <property name="shortLabel" value="Formulated Type" />
+        <property name="maxLength" value="50" />
+        <property name="required" value="true" />
         <property name="validationPattern" >
-            <bean parent="NumericValidationPattern" />
+            <bean parent="AlphaNumericValidationPattern" />
         </property>
         <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
+      		<bean parent="SelectControlDefinition"
+            	p:businessObjectClass="org.kuali.kra.budget.rates.FormulatedType"
+            	p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+           	 	p:includeKeyInLabel="false"
+           	 	p:includeBlankRow="true"
+            	p:keyAttribute="formulatedTypeCode"
+            	p:labelAttribute="description" />
         </property>
-        <property name="summary" value="Formulated Code" />
-        <property name="description" value="Formulated Code" />
+        <property name="summary" value="Formulated Type" />
+        <property name="description" value="Formulated Type" />
     </bean>
 
     <bean id="UnitFormulatedCost-unitNumber" parent="UnitFormulatedCost-unitNumber-parentBean" />
@@ -95,19 +101,12 @@
     </bean>
 
     <bean id="UnitFormulatedCost-unitCost" parent="UnitFormulatedCost-unitCost-parentBean" />
-    <bean id="UnitFormulatedCost-unitCost-parentBean" abstract="true" parent="AttributeDefinition" >
+    <bean id="UnitFormulatedCost-unitCost-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericAmount" >
         <property name="name" value="unitCost" />
         <property name="forceUppercase" value="false" />
         <property name="label" value="Unit Cost" />
         <property name="shortLabel" value="Unit Cost" />
         <property name="maxLength" value="22" />
-        <property name="validationPattern" >
-            <bean parent="NumericValidationPattern" />
-        </property>
-        <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
-        </property>
         <property name="summary" value="Unit Cost" />
         <property name="description" value="Unit Cost" />
     </bean>

@@ -3592,3 +3592,25 @@ function submitFormToMethod(formId, methodName) {
 	jQuery(formIdEscaped).append(hidden);
 	jQuery(formIdEscaped).submit();
 }
+
+function loadUnitFormulatedCost(unitNumber, propertyFieldName ) {
+	var formulatesTypeCode = dwr.util.getValue(propertyFieldName+".formulatedTypeCode");
+	var unitCostFieldName = propertyFieldName+".unitCost";
+	if (formulatesTypeCode=='') {
+		clearRecipients( unitCostFieldName, "" );
+	} else {
+		var dwrReply = {
+			callback:function(data) {
+				if ( data != null ) {
+					if ( unitCostFieldName != null && unitCostFieldName != "" ) {
+						setRecipientValue( unitCostFieldName, data );
+					}
+				}
+			},
+			errorHandler:function( errorMessage ) {
+			}
+		};
+
+		BudgetRatesService.getUnitFormulatedCost(unitNumber, formulatesTypeCode ,dwrReply);
+	}
+}

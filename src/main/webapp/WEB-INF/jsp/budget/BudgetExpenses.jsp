@@ -57,5 +57,6 @@ var kualiElements = kualiForm.elements;
 </SCRIPT>
 <script language="javascript" src="scripts/kuali_application.js"></script>
 <script language="javascript" src="dwr/interface/ObjectCodeToBudgetCategoryCodeService.js"></script>
+<script language="javascript" src="dwr/interface/BudgetRatesService.js"></script>
 
 </kul:documentPage>

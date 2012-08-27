@@ -51,6 +51,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.ActivityType;
+import org.kuali.kra.service.UnitService;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
@@ -63,7 +64,9 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
     public static final String ACTIVITY_TYPE_CODE_KEY = "activityTypeCode";
     public static final String BUDGET_ID_KEY = "budgetId";
     
-    private BusinessObjectService _businessObjectService;
+    private BusinessObjectService businessObjectService;
+    private UnitService unitService;
+
     private static final String PERIOD_SEARCH_SEPARATOR = "|";
     private static final String PERIOD_DISPLAY_SEPARATOR = ",";
     private static final Log LOG = LogFactory.getLog(BudgetRatesServiceImpl.class);
@@ -254,7 +257,7 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
      * @param businessObjectService The businessObjectService to set.
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this._businessObjectService = businessObjectService;
+        this.businessObjectService = businessObjectService;
     }
  
     /**
@@ -722,7 +725,7 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
     }
     
     public BusinessObjectService getBusinessObjectService() {
-        return _businessObjectService;
+        return businessObjectService;
     }
     
     @SuppressWarnings("unchecked")
@@ -1064,6 +1067,30 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
      */
     public boolean performSyncFlag(BudgetDocument<T> budgetDocument) {
         return false;
+    }
+
+    @Override
+    public double getUnitFormulatedCost(String unitNumber,String formulatedTypeCode) {
+        Map<String, String> param = new HashMap<String, String>();
+        param.put("formulatedTypeCode", formulatedTypeCode);
+        List<UnitFormulatedCost> unitFormulatedCosts = (List<UnitFormulatedCost>) getBusinessObjectService().findMatchingOrderBy(UnitFormulatedCost.class, param, "unitNumber", true);
+        List<Unit> unitHierarchy = unitService.getUnitHierarchyForUnit(unitNumber);
+        for (Unit unit : unitHierarchy) {
+            for (UnitFormulatedCost unitFormulatedCost : unitFormulatedCosts) {
+                if(unit.getUnitNumber().equals(unitFormulatedCost.getUnitNumber())){
+                    return unitFormulatedCost.getUnitCost().doubleValue();
+                }
+            }
+        }
+        return 0;
+    }
+
+    public UnitService getUnitService() {
+        return unitService;
+    }
+
+    public void setUnitService(UnitService unitService) {
+        this.unitService = unitService;
     }
 
 
