@@ -129,6 +129,8 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.actions.history.ProtocolHistoryFilterDatesEvent;
+import org.kuali.kra.protocol.summary.AttachmentSummary;
+import org.kuali.kra.protocol.summary.ProtocolSummary;
 import org.kuali.kra.printing.Printable;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.service.WatermarkService;
@@ -155,7 +157,6 @@ import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.kra.service.TaskAuthorizationService;
-import org.kuali.kra.util.CollectionUtil;
 import org.kuali.kra.util.watermark.WatermarkConstants;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
@@ -1386,18 +1387,18 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
             return mapping.findForward(Constants.MAPPING_BASIC);
         }
         final AttachmentFile file = attachment.getFile();
-           byte[] attachmentFile =null;
-           String attachmentFileType=file.getType().replace("\"", "");
-           attachmentFileType=attachmentFileType.replace("\\", "");           
-           if(attachmentFileType.equalsIgnoreCase(WatermarkConstants.ATTACHMENT_TYPE_PDF)){
-               attachmentFile=getProtocolAttachmentFile(form,attachment);
-               if(attachmentFile!=null) {          
-                   this.streamToResponse(attachmentFile, getValidHeaderString(file.getName()), getValidHeaderString(file.getType()), response);    
-               } else {
-                   this.streamToResponse(file.getData(), getValidHeaderString(file.getName()), getValidHeaderString(file.getType()), response);    
-               }
-               return RESPONSE_ALREADY_HANDLED;
-           }
+        byte[] attachmentFile =null;
+        String attachmentFileType=file.getType().replace("\"", "");
+        attachmentFileType=attachmentFileType.replace("\\", "");           
+        if(attachmentFileType.equalsIgnoreCase(WatermarkConstants.ATTACHMENT_TYPE_PDF)){
+            attachmentFile=getProtocolAttachmentFile(form,attachment);
+            if(attachmentFile!=null) {          
+                this.streamToResponse(attachmentFile, getValidHeaderString(file.getName()), getValidHeaderString(file.getType()), response);    
+            } else {
+                this.streamToResponse(file.getData(), getValidHeaderString(file.getName()), getValidHeaderString(file.getType()), response);    
+            }
+            return RESPONSE_ALREADY_HANDLED;
+        }
         this.streamToResponse(file.getData(), getValidHeaderString(file.getName()), getValidHeaderString(file.getType()), response);
 //        byte[] watermarkedFile = KraServiceLocator.getService(WatermarkService.class).applyWatermark( file.getData(),getProtocolWatermarkBeanObject("199"));
 //        this.streamToResponse(watermarkedFile, getValidHeaderString(file.getName()), getValidHeaderString(file.getType()), response);
@@ -1420,7 +1421,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
     
     /**
      * 
-     * This method for set the attachment with the watermark which selected  by the client .
+     * This method for applying the selected watermark to the attachment 
      * @param protocolForm form
      * @param protocolAttachmentBase attachment
      * @return attachment file
@@ -1524,31 +1525,21 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
             HttpServletResponse response) throws Exception {
         
         final int selection = this.getSelectedLine(request);
-        ProtocolAttachmentProtocol attachment = (ProtocolAttachmentProtocol)CollectionUtil.getFromList(selection, form.getProtocolDocument().getProtocol().getAttachmentProtocols());
-               
-        if (attachment == null) {
-            LOG.info(NOT_FOUND_SELECTION + selection);
-            //may want to tell the user the selection was invalid.
-            return mapping.findForward(Constants.MAPPING_BASIC);
+        
+        ProtocolSummary protocolSummary = form.getActionHelper().getProtocolSummary();
+        
+        int selectedIndex = getSelectedLine(request);
+        AttachmentSummary attachmentSummary = protocolSummary.getAttachments().get(selectedIndex);
+        
+        if (attachmentSummary.getAttachmentType().startsWith("Protocol: ")) {
+            IacucProtocolAttachmentProtocol attachment = getProtocolAttachmentService().getAttachment(IacucProtocolAttachmentProtocol.class, attachmentSummary.getAttachmentId());
+            return printAttachmentProtocol(mapping, response, attachment, form);
+        } 
+        else {
+            IacucProtocolAttachmentPersonnel personnelAttachment = getProtocolAttachmentService().getAttachment(IacucProtocolAttachmentPersonnel.class, attachmentSummary.getAttachmentId());
+            return printPersonnelAttachmentProtocol(mapping, response, personnelAttachment, (IacucProtocolForm)form);
         }
-        
-        final AttachmentFile file = attachment.getFile();
-        byte[] attachmentFile =null;
-        String attachmentFileType=file.getType().replace("\"", "");
-        attachmentFileType=attachmentFileType.replace("\\", "");
-        if(attachmentFileType.equalsIgnoreCase(WatermarkConstants.ATTACHMENT_TYPE_PDF)){
-            attachmentFile=getProtocolAttachmentFile(form,attachment);
-            if(attachmentFile!=null) {
-                this.streamToResponse(attachmentFile, getValidHeaderString(file.getName()),  getValidHeaderString(file.getType()), response);
-            }
-            else {
-                this.streamToResponse(file.getData(), getValidHeaderString(file.getName()), getValidHeaderString(file.getType()), response);    
-            }
-            return RESPONSE_ALREADY_HANDLED;
-        }        
-        this.streamToResponse(file.getData(), getValidHeaderString(file.getName()),  getValidHeaderString(file.getType()), response);
-        
-        return RESPONSE_ALREADY_HANDLED;
+
     }  
        
 
