@@ -98,14 +98,7 @@ public class IacucProtocolPersonnelDerivedRoleTypeServiceImpl extends DerivedRol
      */
     @Override
     public boolean dynamicRoleMembership(String namespaceCode, String roleName) {
-        if (StringUtils.isBlank(namespaceCode)) {
-            throw new RiceIllegalArgumentException("namespaceCode was null or blank");
-        }
-
-        if (StringUtils.isBlank(roleName)) {
-            throw new RiceIllegalArgumentException("roleName was null or blank");
-        }
-
+        super.dynamicRoleMembership(namespaceCode, roleName);
         return true;
     }
 }
