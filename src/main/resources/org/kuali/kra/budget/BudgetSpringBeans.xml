@@ -65,12 +65,18 @@
 		</property>
 	</bean>
 
-	<bean id="budgetRatesService" class="org.kuali.kra.budget.rates.BudgetRateServiceDecorator">
-		<property name="parameterService">
-			<ref bean="parameterService"/>
-		</property>
+	<bean id="budgetRatesServiceImpl" class="org.kuali.kra.budget.rates.BudgetRateServiceImpl" abstract="true">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
+		</property>
+		<property name="unitService">
+			<ref bean="unitService" />
+		</property>
+	</bean>
+	
+	<bean id="budgetRatesService" class="org.kuali.kra.budget.rates.BudgetRateServiceDecorator" parent="budgetRatesServiceImpl">
+		<property name="parameterService">
+			<ref bean="parameterService"/>
 		</property>
 		<property name="budgetCalculationService">
 			<ref bean="budgetCalculationService" />

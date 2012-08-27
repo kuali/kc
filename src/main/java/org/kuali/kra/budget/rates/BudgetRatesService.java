@@ -61,5 +61,7 @@ public interface BudgetRatesService <T extends BudgetParent>{
     public void populateBudgetRatesForNewVersion(BudgetDocument<T> budgetDocument);
     public boolean performSyncFlag(BudgetDocument<T> budgetDocument);
     public void syncParentDocumentRates(BudgetDocument<T> budgetDocument);
+    
+    public double getUnitFormulatedCost(String unitNumber,String formulatedType);
 
 }
