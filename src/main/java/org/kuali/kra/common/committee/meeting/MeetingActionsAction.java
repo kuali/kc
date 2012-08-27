@@ -232,8 +232,6 @@ public class MeetingActionsAction extends MeetingAction {
      */
     public ActionForward viewAgenda(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        Exception e = new Exception("Not an error!");
-        e.printStackTrace();
         final int selection = this.getSelectedLine(request);
         //final int selection =  Integer.parseInt(request.getParameter("line"));
         MeetingHelper meetingHelper = ((MeetingForm) form).getMeetingHelper();
