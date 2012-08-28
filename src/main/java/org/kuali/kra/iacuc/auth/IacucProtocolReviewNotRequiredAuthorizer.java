@@ -17,19 +17,20 @@ package org.kuali.kra.iacuc.auth;
 
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
 import org.kuali.kra.infrastructure.PermissionConstants;
+import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.protocol.Protocol;
 
 public class IacucProtocolReviewNotRequiredAuthorizer extends IacucProtocolAuthorizer {
+
+    private static final String NAMESPACE = "KC-UNT";
 
     /**
      * @see org.kuali.kra.irb.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.irb.auth.ProtocolTask)
      */
     @Override
     public boolean isAuthorized(String userId, IacucProtocolTask task) {
-        Protocol protocol = task.getProtocol();
-        boolean hasPermission = hasPermission(userId, protocol, PermissionConstants.REVIEW_NOT_REQUIRED);
-        boolean canExecuteAction = canExecuteAction(task.getProtocol(), IacucProtocolActionType.IACUC_REVIEW_NOT_REQUIRED);
-        return hasPermission && canExecuteAction;
-    }
+        return kraAuthorizationService.hasRole(userId, NAMESPACE, RoleConstants.IACUC_ADMINISTRATOR) &&
+               canExecuteAction(task.getProtocol(), IacucProtocolActionType.IACUC_REVIEW_NOT_REQUIRED); 
+        }
 
 }
