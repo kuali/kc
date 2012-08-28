@@ -143,10 +143,9 @@
 		<property name="xmlStream" ref="commonCommitteeXmlStream" />
 		<property name="protocolCorrespondenceTemplateService" ref="iacucProtocolCorrespondenceTemplateService" />
 	</bean>
-	<bean id="commonScheduleTemplatePrint" class="org.kuali.kra.common.committee.print.ScheduleTemplatePrint"
-		scope="prototype" parent="templatePrint">
+	<bean id="commonScheduleTemplatePrint" class="org.kuali.kra.common.committee.print.ScheduleTemplatePrint" scope="prototype">
 		<property name="xmlStream" ref="commonScheduleXmlStream" />
-		<property name="protocolCorrespondenceTemplateService" ref="iacucProtocolCorrespondenceTemplateService" />
+		<property name="iacucProtocolCorrespondenceTemplateService" ref="iacucProtocolCorrespondenceTemplateService" />
 	</bean>
 	<bean id="commonProtocolCorrespondenceTemplatePrint" class="org.kuali.kra.common.committee.print.ProtocolCorrespondenceTemplatePrint" scope="prototype" parent="templatePrint">
 		<property name="xmlStream" ref="commonCommitteeXmlStream" />

@@ -24,7 +24,6 @@ import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
 
 import org.kuali.kra.iacuc.correspondence.IacucProtocolCorrespondenceTemplateService;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceTemplate;
 
 /**
@@ -60,10 +59,6 @@ public class ScheduleTemplatePrint extends TemplatePrint {
     }
     
     public IacucProtocolCorrespondenceTemplateService getIacucProtocolCorrespondenceTemplateService() {
-        if (this.iacucProtocolCorrespondenceTemplateService == null) {
-            //this.iacucProtocolCorrespondenceTemplateService = KraServiceLocator.getService(IacucProtocolCorrespondenceTemplateService.class);
-            this.iacucProtocolCorrespondenceTemplateService = KraServiceLocator.getService("iacucProtocolCorrespondenceTemplateService");
-        }
         return this.iacucProtocolCorrespondenceTemplateService;
     }
 
