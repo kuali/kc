@@ -28,6 +28,7 @@ import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.service.KeyValuesService;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class IacucProtocolPersonsResponsibleValuesFinder extends KeyValuesBase {
 
@@ -44,7 +45,8 @@ public class IacucProtocolPersonsResponsibleValuesFinder extends KeyValuesBase {
         List<IacucProtocolPerson> protocolPersons = (List<IacucProtocolPerson>)getKeyValuesService().findMatching(IacucProtocolPerson.class, keyMap);
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         for (IacucProtocolPerson protocolPerson : protocolPersons) {
-            String keyPersonIdAndName = protocolPerson.getPersonId().toString().concat("|").concat(protocolPerson.getPersonName());
+            String protocolPersonId = ObjectUtils.isNull(protocolPerson.getPersonId()) ? protocolPerson.getRolodexId().toString() : protocolPerson.getPersonId();
+            String keyPersonIdAndName = protocolPersonId.concat("|").concat(protocolPerson.getPersonName());
             keyValues.add(new ConcreteKeyValue(keyPersonIdAndName, protocolPerson.getPersonName()));
         }
         return keyValues;
