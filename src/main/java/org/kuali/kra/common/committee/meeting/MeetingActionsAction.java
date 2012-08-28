@@ -36,6 +36,7 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.common.committee.bo.CommonCommittee;
 import org.kuali.kra.common.committee.document.CommonCommitteeDocument;
 import org.kuali.kra.common.committee.print.CommitteeReportType;
+import org.kuali.kra.common.committee.print.ScheduleTemplatePrint;
 import org.kuali.kra.common.committee.rule.event.CommitteeActionPrintCommitteeDocumentEvent;
 import org.kuali.kra.common.committee.service.CommonCommitteeNotificationService;
 import org.kuali.kra.common.committee.service.CommitteePrintingService;
@@ -43,6 +44,7 @@ import org.kuali.kra.common.committee.service.impl.CommitteeNotificationServiceI
 import org.kuali.kra.iacuc.correspondence.IacucProtocolActionCorrespondenceGenerationService;
 import org.kuali.kra.iacuc.correspondence.IacucProtocolActionsCorrespondence;
 import org.kuali.kra.iacuc.correspondence.IacucProtocolCorrespondence;
+import org.kuali.kra.iacuc.correspondence.IacucProtocolCorrespondenceType;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -118,7 +120,7 @@ public class MeetingActionsAction extends MeetingAction {
         ActionForward actionForward = mapping.findForward(Constants.MAPPING_BASIC);
         MeetingHelper meetingHelper = ((MeetingForm) form).getMeetingHelper();
 
-        List<Printable> printableArtifactList = getPrintableArtifacts(meetingHelper, AGENDA_TYPE);
+        List<Printable> printableArtifactList = getPrintableArtifacts(meetingHelper, AGENDA_TYPE, IacucProtocolCorrespondenceType.AGENDA);
         if (printableArtifactList.get(0).getXSLTemplates().isEmpty()) {
             GlobalVariables.getMessageMap().putError("meetingHelper.scheduleAgenda",
                     KeyConstants.ERROR_PROTO_CORRESPONDENCE_TEMPL_NOT_SET);
@@ -142,16 +144,15 @@ public class MeetingActionsAction extends MeetingAction {
     /*
      * get the printable and add to printable list. 
      */
-    private List<Printable> getPrintableArtifacts(MeetingHelper meetingHelper, String protoCorrespTypeCode) {
-//        meetingHelper.getCommitteeSchedule().getCommittee().getCommitteeDocument()
-        AbstractPrint printable = (AbstractPrint)getCommitteePrintingService().getCommitteePrintable(CommitteeReportType.SCHEDULE_TEMPLATE);
+    private List<Printable> getPrintableArtifacts(MeetingHelper meetingHelper, String protoCorrespTypeCode, String iacucProtocolCorrespondenceTypeCode) {
+        AbstractPrint printable = (AbstractPrint)getCommitteePrintingService().getCommitteePrintable(CommitteeReportType.SCHEDULE_TEMPLATE);    
         CommonCommittee committee = meetingHelper.getCommitteeSchedule().getCommittee();
-        printable.setPrintableBusinessObject(committee);
-        
+        printable.setPrintableBusinessObject(committee);        
         Map<String, Object> reportParameters = new HashMap<String, Object>();
         reportParameters.put("committeeId", committee.getCommitteeId());
         reportParameters.put("scheduleId", meetingHelper.getCommitteeSchedule().getScheduleId());
-        reportParameters.put("protoCorrespTypeCode", protoCorrespTypeCode);
+        //reportParameters.put("protoCorrespTypeCode", protoCorrespTypeCode);
+        reportParameters.put(ScheduleTemplatePrint.REPORT_PARAMETER_KEY, iacucProtocolCorrespondenceTypeCode);
         ((AbstractPrint) printable).setReportParameters(reportParameters);
         List<Printable> printableArtifactList = new ArrayList<Printable>();
         printableArtifactList.add(printable);
@@ -186,7 +187,7 @@ public class MeetingActionsAction extends MeetingAction {
             HttpServletResponse response) throws Exception {
         ActionForward actionForward = mapping.findForward(Constants.MAPPING_BASIC);
         MeetingHelper meetingHelper = ((MeetingForm) form).getMeetingHelper();
-        List<Printable> printableArtifactList = getPrintableArtifacts(meetingHelper, MEETING_MINUTE_TYPE);
+        List<Printable> printableArtifactList = getPrintableArtifacts(meetingHelper, MEETING_MINUTE_TYPE, IacucProtocolCorrespondenceType.MINUTES);
         if (printableArtifactList.get(0).getXSLTemplates().isEmpty()) {
             GlobalVariables.getMessageMap().putError("meetingHelper.meetingMinute",
                     KeyConstants.ERROR_PROTO_CORRESPONDENCE_TEMPL_NOT_SET);
