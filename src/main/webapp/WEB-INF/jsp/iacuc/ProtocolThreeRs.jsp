@@ -42,10 +42,17 @@
    }
 
    function addOtherDatabase() {
-	   var inputVal = $j("#otherAltSearchDatabase").val().trim();
+	   var inputField = $j("#otherAltSearchDatabase");
+	   var inputVal = inputField.val().trim();
 	   
-	   if (inputVal) {
-		   $j("#new-databases-select").append(new Option(inputVal,inputVal));	   
+	   if (inputVal != '') {
+		   var newDatabaseField = document.getElementsByName('iacucAlternateSearchHelper.newDatabases')[0];
+		   var opt = new Option(inputVal, inputVal);
+		   opt.selected = true;
+		   newDatabaseField.options[newDatabaseField.length] = opt;
+		   inputField.val('');
+	   } else {
+		   window.alert('Please enter a valid other database name.');
 	   }
    }
    
