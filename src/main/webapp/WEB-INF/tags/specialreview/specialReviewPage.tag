@@ -105,7 +105,7 @@
 		                                                attributeEntry="${attributes.approvalTypeCode}" 
 		                                                initialReadOnly="${protocolLinkingReadOnly}"
 		                                                readOnlyBody="true"
-		                                                staticOnly="${!enableIrbProtocolLinking}">
+		                                                staticOnly="${!protocolLinkingReadOnly}">
                            ${KualiForm.specialReviewHelper.newSpecialReview.protocolStatus}
 		               </kra:dynamicHtmlControlAttribute>
 	                </div></td>
@@ -125,25 +125,25 @@
                         <kra:dynamicHtmlControlAttribute property="specialReviewHelper.newSpecialReview.applicationDate" 
                                                          attributeEntry="${attributes.applicationDate}" 
                                                          initialReadOnly="${protocolLinkingReadOnly}"
-                                                         staticOnly="${!enableIrbProtocolLinking}" />
+                                                         staticOnly="${!protocolLinkingReadOnly}" />
 	                </div></td>
                     <td align="left" valign="middle" class="infoline"><div align="center">
                         <kra:dynamicHtmlControlAttribute property="specialReviewHelper.newSpecialReview.approvalDate" 
                                                          attributeEntry="${attributes.approvalDate}" 
                                                          initialReadOnly="${protocolLinkingReadOnly}"
-                                                         staticOnly="${!enableIrbProtocolLinking}" />
+                                                         staticOnly="${!protocolLinkingReadOnly}" />
 	                </div></td>
 	                <td align="left" valign="middle" class="infoline"><div align="center">
 	                	<kra:dynamicHtmlControlAttribute property="specialReviewHelper.newSpecialReview.expirationDate" 
 	                	                                 attributeEntry="${attributes.expirationDate}" 
 	                	                                 initialReadOnly="${protocolLinkingReadOnly}"
-	                	                                 staticOnly="${!enableIrbProtocolLinking}" />
+	                	                                 staticOnly="${!protocolLinkingReadOnly}" />
 	                </div></td>
 	                <td align="left" valign="middle" class="infoline"><div align="center">
                         <kra:dynamicHtmlControlAttribute property="specialReviewHelper.newSpecialReview.exemptionTypeCodes" 
                                                          attributeEntry="${exemptionAttributes.exemptionTypeCode}" 
                                                          initialReadOnly="${protocolLinkingReadOnly}" 
-                                                         staticOnly="${!enableIrbProtocolLinking}" />  			
+                                                         staticOnly="${!protocolLinkingReadOnly}" />  			
 	                </div></td>
 					<td class="infoline" rowspan="1"><div align="center">
 						<html:image property="methodToCall.addSpecialReview.anchor${tabKey}" 
@@ -209,7 +209,7 @@
 	                                                     initialReadOnly="${protocolLinkingReadOnly}"
                                                          readOnly="${not canModify}"
                                                          readOnlyBody="true" 
-                                                         staticOnly="${!enableIrbProtocolLinking}">
+                                                         staticOnly="${!protocolLinkingReadOnly}">
                             <c:choose>
 	                            <c:when test="${protocolLinkingReadOnly}">
 	                                ${collectionReference[status.index].protocolStatus}
@@ -238,28 +238,28 @@
                                                          attributeEntry="${attributes.applicationDate}" 
                                                          initialReadOnly="${protocolLinkingReadOnly}"
                                                          readOnly="${not canModify}"
-                                                         staticOnly="${!enableIrbProtocolLinking}" />
+                                                         staticOnly="${!protocolLinkingReadOnly}" />
 	                </div></td>
 	                <td align="left" valign="middle"><div align="center">
                         <kra:dynamicHtmlControlAttribute property="${collectionProperty}[${status.index}].approvalDate" 
                                                          attributeEntry="${attributes.approvalDate}" 
                                                          initialReadOnly="${protocolLinkingReadOnly}"
                                                          readOnly="${not canModify}"
-                                                         staticOnly="${!enableIrbProtocolLinking}" />
+                                                         staticOnly="${!protocolLinkingReadOnly}" />
 	                </div></td>
 	                <td align="left" valign="middle"><div align="center">
                         <kra:dynamicHtmlControlAttribute property="${collectionProperty}[${status.index}].expirationDate" 
                                                          attributeEntry="${attributes.expirationDate}" 
                                                          initialReadOnly="${protocolLinkingReadOnly}"
                                                          readOnly="${not canModify}"
-                                                         staticOnly="${!enableIrbProtocolLinking}"/>
+                                                         staticOnly="${!protocolLinkingReadOnly}"/>
 	                </div></td>
 	                <td align="left" valign="middle"><div align="center">
                         <kra:dynamicHtmlControlAttribute property="${collectionProperty}[${status.index}].exemptionTypeCodes" 
                                                          attributeEntry="${exemptionAttributes.exemptionTypeCode}" 
                                                          initialReadOnly="${protocolLinkingReadOnly}"
                                                          readOnly="${not canModify}"
-                                                         staticOnly="${!enableIrbProtocolLinking}"/>
+                                                         staticOnly="${!protocolLinkingReadOnly}"/>
 	                </div></td>
 					<td rowspan="1"><div align=center>
                         <c:if test="${canModify}">
