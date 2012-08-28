@@ -1896,6 +1896,10 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
         return this.proposalPersonQuestionnaireHelpers;
     }
     
+    public void setProposalPersonQuestionnaireHelpers(List<ProposalPersonQuestionnaireHelper> proposalPersonQuestionnaireHelpers) {
+        this.proposalPersonQuestionnaireHelpers = proposalPersonQuestionnaireHelpers;
+    }
+
     public List<AnswerHeader> getAnswerHeadersToDelete() {
         return this.answerHeadersToDelete;
     }
