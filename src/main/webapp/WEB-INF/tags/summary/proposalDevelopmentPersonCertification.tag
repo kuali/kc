@@ -29,7 +29,6 @@
 						value="${KualiForm.proposalPersonQuestionnaireHelpers[personIndex]}" />
 					<c:set var="completed"
 						value="${KualiForm.proposalPersonQuestionnaireHelpers[personIndex].answerHeaders[0].allQuestionsAnswered}" />
-
 					<c:if
 						test="${not bean.answerHeaders[answerHeaderIndex].activeQuestionnaire}">
 						<c:set var="inactivate"
