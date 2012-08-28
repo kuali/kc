@@ -3294,18 +3294,20 @@ function showHideSpecialReviewProtocolLink(specialReviewTypeCode, idPrefix, canC
 	if (specialReviewTypeCode.value == '1' &&  enableIrbProtocolLinking == 'true' ) {
 		changeObjectVisibility(idPrefix + ".protocolNumber.irb.link.div", "inline");
 		changeObjectVisibility(idPrefix + ".protocolNumber.iacuc.link.div", "none");
+		enableDisableReadOnlyDynamicHtmlControl(true, new Array(idPrefix + ".approvalTypeCode", idPrefix + ".applicationDate", idPrefix + ".approvalDate", idPrefix + ".expirationDate", idPrefix + ".exemptionTypeCodes"));
 	}
 	else if (specialReviewTypeCode.value == '2' && enableIacucProtocolLinking == 'true' ) {
 		changeObjectVisibility(idPrefix + ".protocolNumber.irb.link.div", "none"); 
 		changeObjectVisibility(idPrefix + ".protocolNumber.iacuc.link.div", "inline");
+		enableDisableReadOnlyDynamicHtmlControl(true, new Array(idPrefix + ".approvalTypeCode", idPrefix + ".applicationDate", idPrefix + ".approvalDate", idPrefix + ".expirationDate", idPrefix + ".exemptionTypeCodes"));
 	}
 	else
 	{
 		changeObjectVisibility(idPrefix + ".protocolNumber.irb.link.div", "none"); 
 		changeObjectVisibility(idPrefix + ".protocolNumber.iacuc.link.div", "none");
+		enableDisableReadOnlyDynamicHtmlControl(false, new Array(idPrefix + ".approvalTypeCode", idPrefix + ".applicationDate", idPrefix + ".approvalDate", idPrefix + ".expirationDate", idPrefix + ".exemptionTypeCodes"));
+
 	}
-	
-	enableDisableReadOnlyDynamicHtmlControl(readOnly, new Array(idPrefix + ".approvalTypeCode", idPrefix + ".applicationDate", idPrefix + ".approvalDate", idPrefix + ".expirationDate", idPrefix + ".exemptionTypeCodes"));
 }
 
 function enableDisableReadOnlyDynamicHtmlControl(readOnly, ids) {
