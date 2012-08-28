@@ -248,7 +248,7 @@ public class IacucProtocolForm extends ProtocolForm {
         
         String protocolSubmissionStatusStr = null;
         if(pd != null && pd.getIacucProtocol() != null && pd.getIacucProtocol().getProtocolSubmission() != null) {
-            pd.getIacucProtocol().getProtocolSubmission().refreshReferenceObject("submissionStatusCode");
+            pd.getIacucProtocol().getProtocolSubmission().refreshReferenceObject("submissionStatus");
             protocolSubmissionStatusStr = pd.getIacucProtocol().getProtocolSubmission().getSubmissionStatus().getDescription();
         }
         HeaderField protocolSubmissionStatus = new HeaderField("DataDictionary.IacucProtocol.attributes.protocolSubmissionStatus", protocolSubmissionStatusStr);
