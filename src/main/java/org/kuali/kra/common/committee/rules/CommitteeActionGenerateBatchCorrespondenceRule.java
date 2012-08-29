@@ -22,12 +22,14 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.common.committee.rule.event.CommitteeActionGenerateBatchCorrespondenceEvent;
+import org.kuali.kra.iacuc.correspondence.IacucBatchCorrespondence;
+import org.kuali.kra.iacuc.correspondence.IacucProtocolCorrespondenceTemplateService;
+import org.kuali.kra.iacuc.correspondence.IacucProtocolCorrespondenceType;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.correspondence.BatchCorrespondence;
 import org.kuali.kra.protocol.correspondence.BatchCorrespondenceDetail;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceTemplateService;
-import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceType;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 
@@ -124,13 +126,13 @@ public class CommitteeActionGenerateBatchCorrespondenceRule extends ResearchDocu
     private BatchCorrespondence lookupBatchCorrespondence(String batchCorrespondenceTypeCode) {
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put(BATCH_CORRESPONDENCE_TYPE_CODE, batchCorrespondenceTypeCode);
-        return (BatchCorrespondence) getBusinessObjectService().findByPrimaryKey(BatchCorrespondence.class, fieldValues);
+        return getBusinessObjectService().findByPrimaryKey(IacucBatchCorrespondence.class, fieldValues);
     }
 
     
     private ProtocolCorrespondenceTemplateService getProtocolCorrespondenceTemplateService() {
         if (protocolCorrespondenceTemplateService == null) {
-            protocolCorrespondenceTemplateService = KraServiceLocator.getService(ProtocolCorrespondenceTemplateService.class);
+            protocolCorrespondenceTemplateService = KraServiceLocator.getService(IacucProtocolCorrespondenceTemplateService.class);
         }
         return protocolCorrespondenceTemplateService;
     }
@@ -144,8 +146,7 @@ public class CommitteeActionGenerateBatchCorrespondenceRule extends ResearchDocu
     private String getProtocolCorrespondenceDescription(String protocolCorrespondenceTypeCode) {
         Map<String, String> primaryKeys = new HashMap<String, String>();
         primaryKeys.put(PROTO_CORRESP_TYPE_CODE, protocolCorrespondenceTypeCode);
-        return ((ProtocolCorrespondenceType) getBusinessObjectService()
-                    .findByPrimaryKey(ProtocolCorrespondenceType.class, primaryKeys)).getDescription();    
+        return getBusinessObjectService().findByPrimaryKey(IacucProtocolCorrespondenceType.class, primaryKeys).getDescription();    
 
 }
 }
