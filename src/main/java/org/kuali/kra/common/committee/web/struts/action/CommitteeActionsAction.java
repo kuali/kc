@@ -30,7 +30,7 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.common.committee.bo.CommonCommittee;
 import org.kuali.kra.common.committee.bo.CommitteeBatchCorrespondence;
 import org.kuali.kra.common.committee.bo.CommitteeBatchCorrespondenceDetail;
-import org.kuali.kra.common.committee.dao.CommitteeBatchCorrespondenceDao;
+import org.kuali.kra.common.committee.dao.CommonCommitteeBatchCorrespondenceDao;
 import org.kuali.kra.common.committee.document.CommonCommitteeDocument;
 import org.kuali.kra.common.committee.document.authorization.CommitteeTask;
 import org.kuali.kra.common.committee.print.CommitteeReportType;
@@ -38,8 +38,8 @@ import org.kuali.kra.common.committee.rule.event.CommitteeActionFilterBatchCorre
 import org.kuali.kra.common.committee.rule.event.CommitteeActionGenerateBatchCorrespondenceEvent;
 import org.kuali.kra.common.committee.rule.event.CommitteeActionPrintCommitteeDocumentEvent;
 import org.kuali.kra.common.committee.rule.event.CommitteeActionViewBatchCorrespondenceEvent;
-import org.kuali.kra.common.committee.service.CommitteeBatchCorrespondenceService;
-import org.kuali.kra.common.committee.service.CommitteePrintingService;
+import org.kuali.kra.common.committee.service.CommonCommitteeBatchCorrespondenceService;
+import org.kuali.kra.common.committee.service.CommonCommitteePrintingService;
 import org.kuali.kra.common.committee.web.struts.form.CommonCommitteeForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -342,17 +342,16 @@ public class CommitteeActionsAction extends CommitteeAction {
         return actionForward;
     }
     
-    private CommitteeBatchCorrespondenceService getCommitteeBatchCorrespondenceService() {
-        return KraServiceLocator.getService(CommitteeBatchCorrespondenceService.class);
+    private CommonCommitteeBatchCorrespondenceService getCommitteeBatchCorrespondenceService() {
+        return KraServiceLocator.getService(CommonCommitteeBatchCorrespondenceService.class);
     }
     
-    private CommitteePrintingService getCommitteePrintingService() {
-        //return KraServiceLocator.getService(CommitteePrintingService.class);
-        return KraServiceLocator.getService(CommitteePrintingService.COMMON_COMMITTEE_PRINTINT_SERVICE_SPRING_NAME);
+    private CommonCommitteePrintingService getCommitteePrintingService() {
+        return KraServiceLocator.getService(CommonCommitteePrintingService.class);
     }
 
-    private CommitteeBatchCorrespondenceDao getCommitteeBatchCorrespondenceDao() {
-        return KraServiceLocator.getService(CommitteeBatchCorrespondenceDao.class);
+    private CommonCommitteeBatchCorrespondenceDao getCommitteeBatchCorrespondenceDao() {
+        return KraServiceLocator.getService(CommonCommitteeBatchCorrespondenceDao.class);
     }
     
 }

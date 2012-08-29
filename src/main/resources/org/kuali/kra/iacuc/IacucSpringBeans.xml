@@ -1103,5 +1103,18 @@
 	<bean id="iacucBatchCorrespondenceDetailService" class="org.kuali.kra.iacuc.correspondence.IacucBatchCorrespondenceDetailServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
     </bean>
+    
+        
+    <bean id="commonCommitteeBatchCorrespondenceService" class="org.kuali.kra.common.committee.service.impl.CommitteeBatchCorrespondenceServiceImpl">
+        <property name="businessObjectService" ref="businessObjectService" />
+        <property name="protocolDao" ref="iacucProtocolDao" />
+        <property name="protocolGenericActionService" ref="iacucProtocolGenericActionService" />
+        <property name="protocolCorrespondenceTemplateService" ref="iacucProtocolCorrespondenceTemplateService" />
+        <property name="documentService" ref="documentService" />
+        <property name="kcPersonService" ref="kcPersonService" />
+        <property name="kcNotificationService" ref="kcNotificationService" />
+        <property name="dateTimeService" ref="dateTimeService" />
+    </bean>
+    
 
 </beans>

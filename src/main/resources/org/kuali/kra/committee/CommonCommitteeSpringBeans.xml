@@ -224,6 +224,9 @@
 		</property>
 	</bean>
     
+    <bean id="commonCommitteeBatchCorrespondenceDao" parent="platformAwareDao"
+		class="org.kuali.kra.common.committee.dao.ojb.CommitteeBatchCorrespondenceDaoOjb" />
+    
     
 </beans>
 

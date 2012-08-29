@@ -741,9 +741,11 @@ public interface Constants {
     public static final String CORRESPONDENCE_TEMPLATE_CONTENT_TYPE_2 = "application/xml";
     public static final String PROTOCOL_RENEWAL_REMINDERS = "1";
     public static final String REMINDER_TO_IRB_NOTIFICATIONS = "2";
+    public static final String REMINDER_TO_IACUC_NOTIFICATIONS = "2";
     public static final String PROTOCOL_ACTION_TYPE_CODE_RENEWAL_REMINDER_GENERATED = "111";
     public static final String PROTOCOL_ACTION_TYPE_CODE_IRB_NOTIFICATION_GENERATED = "112";
-    
+    public static final String IACUC_PROTOCOL_ACTION_TYPE_CODE_RENEWAL_REMINDER_GENERATED = "111";
+    public static final String IACUC_PROTOCOL_ACTION_TYPE_CODE_IACUC_REMINDER_GENERATED = "112";
 
     // Protocol Linking  System Parameters 
     public static final String ENABLE_PROTOCOL_TO_AWARD_LINK  = "irb.protocol.award.linking.enabled";
@@ -939,6 +941,9 @@ public interface Constants {
 
     public static final String FORMULATED_COST_ELEMENTS = "formulatedCostElements";
     public static final String BUDGET_FORMULATED_NUMBER = "BUDGET_FORMULATED_NUMBER";
+    
+    
+    
 
 }
 
