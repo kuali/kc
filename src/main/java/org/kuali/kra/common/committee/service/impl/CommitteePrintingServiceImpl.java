@@ -26,7 +26,7 @@ import org.kuali.kra.common.committee.print.CommitteeTemplatePrint;
 import org.kuali.kra.common.committee.print.ProtocolBatchCorrespondencePrint;
 import org.kuali.kra.common.committee.print.ProtocolCorrespondenceTemplatePrint;
 import org.kuali.kra.common.committee.print.ScheduleTemplatePrint;
-import org.kuali.kra.common.committee.service.CommitteePrintingService;
+import org.kuali.kra.common.committee.service.CommonCommitteePrintingService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.printing.Printable;
@@ -39,7 +39,7 @@ import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
  * 
  * This class implements the CommitteePrintService.
  */
-public class CommitteePrintingServiceImpl extends PrintingServiceImpl implements CommitteePrintingService {
+public class CommitteePrintingServiceImpl extends PrintingServiceImpl implements CommonCommitteePrintingService {
 
     private static final String ERROR_MESSAGE = "Unknown report type specified";
     
