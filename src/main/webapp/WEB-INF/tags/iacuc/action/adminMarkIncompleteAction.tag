@@ -40,6 +40,21 @@
 			                    </td>
 			                </tr>
 			                <tr>
+			                    <th width="15%"> 
+			                        <div align="right">
+			                            <nobr>
+			                                <kul:htmlAttributeLabel attributeEntry="${attributes.actionDate}" />
+			                            </nobr>
+			                        </div>
+			                    </th>
+			                    <td>
+			                        <nobr>
+			                            <kul:htmlControlAttribute property="actionHelper.protocolAdminIncompleteBean.actionDate" 
+			                                                      attributeEntry="${attributes.actionDate}"  />
+			                        </nobr>
+			                    </td>
+			                </tr>
+			                <tr>
 								<td align="center" colspan="2">
 									<div align="center">
 										<html:image property="methodToCall.administrativelyMarkIncompleteProtocol.anchor${tabKey}"

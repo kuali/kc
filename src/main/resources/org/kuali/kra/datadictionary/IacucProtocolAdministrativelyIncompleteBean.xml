@@ -27,6 +27,7 @@
 		<property name="attributes" >
 			<list>
 				<ref bean="IacucProtocolAdministrativelyIncompleteBean-reason" />
+				<ref bean="IacucProtocolAdministrativelyIncompleteBean-actionDate" />
 			</list>
 		</property>
 	</bean>
@@ -48,5 +49,15 @@
 		<property name="summary" value="Administrative Incompleteness Mark Reason" />
 		<property name="description" value="Administrative Incompleteness Mark Reason" />
 	</bean>	
+
+    <bean id="IacucProtocolAdministrativelyIncompleteBean-actionDate" parent="IacucProtocolAdministrativelyIncompleteBean-actionDate-parentBean"/>
+    <bean id="IacucProtocolAdministrativelyIncompleteBean-actionDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate">
+        <property name="name" value="actionDate"/>
+        <property name="label" value="Action Date"/>
+        <property name="shortLabel" value="Action Date"/>
+        <property name="required" value="true"/>
+        <property name="summary" value="Action Date"/>
+        <property name="description" value="Action Date"/>
+    </bean>
 
 </beans>

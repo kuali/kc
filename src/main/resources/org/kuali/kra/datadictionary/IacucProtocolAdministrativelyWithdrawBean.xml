@@ -27,6 +27,7 @@
 		<property name="attributes" >
 			<list>
 				<ref bean="IacucProtocolAdministrativelyWithdrawBean-reason" />
+				<ref bean="IacucProtocolAdministrativelyWithdrawBean-actionDate" />
 			</list>
 		</property>
 	</bean>
@@ -48,5 +49,15 @@
 		<property name="summary" value="Administrative Withdrawal Reason" />
 		<property name="description" value="Administrative Withdrawal Reason" />
 	</bean>	
+
+    <bean id="IacucProtocolAdministrativelyWithdrawBean-actionDate" parent="IacucProtocolAdministrativelyWithdrawBean-actionDate-parentBean"/>
+    <bean id="IacucProtocolAdministrativelyWithdrawBean-actionDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate">
+        <property name="name" value="actionDate"/>
+        <property name="label" value="Action Date"/>
+        <property name="shortLabel" value="Action Date"/>
+        <property name="required" value="true"/>
+        <property name="summary" value="Action Date"/>
+        <property name="description" value="Action Date"/>
+    </bean>
 
 </beans>

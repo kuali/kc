@@ -16,6 +16,7 @@
 package org.kuali.kra.protocol.actions.withdraw;
 
 import java.io.Serializable;
+import java.sql.Date;
 
 import org.kuali.kra.protocol.actions.correspondence.ProtocolActionsCorrespondence;
 import org.kuali.kra.protocol.actions.ProtocolActionBean;
@@ -29,6 +30,10 @@ public interface ProtocolWithdrawBean extends ProtocolActionBean, Serializable {
     public void setReason(String reason);
 
     public String getReason();
+
+    public Date getActionDate();
+    
+    public void setActionDate(Date actionDate);
     
     /**
      * 
