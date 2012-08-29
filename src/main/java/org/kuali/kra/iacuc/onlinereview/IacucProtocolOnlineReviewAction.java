@@ -170,6 +170,7 @@ public class IacucProtocolOnlineReviewAction extends IacucProtocolAction {
                 newReviewComment.setFinalFlag(false);
             }
             newReviewComment.setMinuteEntryTypeCode(MinuteEntryType.PROTOCOL_REVIEWER_COMMENT);
+            newReviewComment.setReadOnly(false);
             getReviewCommentsService().addReviewComment(newReviewComment, reviewComments, document.getProtocolOnlineReview());
             getReviewCommentsService().saveReviewComments(reviewComments, deletedReviewComments);
             getDocumentService().saveDocument(document);
