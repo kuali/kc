@@ -18,9 +18,14 @@ package org.kuali.kra.iacuc.onlinereview.authorization;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.ApplicationTask;
 import org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase;
+import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinute;
+import org.kuali.kra.common.committee.service.CommonCommitteeScheduleService;
+import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.IacucProtocolOnlineReviewDocument;
+import org.kuali.kra.iacuc.auth.IacucProtocolTask;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.protocol.ProtocolOnlineReviewDocument;
@@ -38,6 +43,7 @@ public class IacucProtocolOnlineReviewDocumentAuthorizer extends KcTransactional
     public static final String CAN_SAVE = "canSave";
 
     private transient KraWorkflowService kraWorkflowService;
+    private transient CommonCommitteeScheduleService commonCommitteeScheduleService;
     
     public Set<String> getEditModes(Document document, Person user, Set<String> currentEditModes) {
         Set<String> editModes = new HashSet<String>();
@@ -65,8 +71,39 @@ public class IacucProtocolOnlineReviewDocumentAuthorizer extends KcTransactional
             editModes.add(AuthorizationConstants.EditMode.UNVIEWABLE);
         }
         
+        IacucProtocolDocument iacucProtocolDocument = (IacucProtocolDocument) protocolOnlineReviewDocument.getProtocolOnlineReview().getProtocol().getProtocolDocument();
+        boolean canAdministerCommitteeScheduleMinutes = canExecuteIacucProtocolTask(userId,iacucProtocolDocument,TaskName.MAINTAIN_IACUC_PROTOCOL_ONLINEREVIEWS);
+        boolean canEdit = editModes.contains(CAN_SAVE);
+        /**
+         * The service returns all the minutes for the assoicated Iacuc protocol, however, the permissions described above are only for the specific review being iterated 
+         * at this time.  So, we set the minute's read only for the minutes associated with this online review.
+         */
+        for (CommitteeScheduleMinute minute : this.getCommonCommitteeScheduleService().getMinutesByProtocol(protocolOnlineReviewDocument.getProtocolOnlineReview().getProtocolId())) {
+            Long minuteOnlineReviewId =  minute.getProtocolOnlineReviewIdFk();
+            Long onlineReviewId = protocolOnlineReviewDocument.getProtocolOnlineReview().getProtocolOnlineReviewId();
+            if (minuteOnlineReviewId.equals(onlineReviewId)) {
+                boolean isCreator = StringUtils.equalsIgnoreCase(minute.getCreateUser(), GlobalVariables.getUserSession().getPrincipalName());
+                minute.setReadOnly(!(canEdit && (canAdministerCommitteeScheduleMinutes || isCreator)));
+            }
+            
+        }
+        
             
         return editModes;
+    }
+    
+    /**
+     * Does the user have permission to execute the given task for a Iacuc Protocol?
+     * @param username the user's username
+     * @param doc the Iacuc Protocol document
+     * @param taskName the name of the task
+     * @return true if has permission; otherwise false
+     */
+    private boolean canExecuteIacucProtocolTask(String userId, IacucProtocolDocument doc, String taskName) {
+        // TODO : to be implemented later
+        IacucProtocolTask task = new IacucProtocolTask(taskName, doc.getIacucProtocol());       
+        TaskAuthorizationService taskAuthenticationService = KraServiceLocator.getService(TaskAuthorizationService.class);
+        return taskAuthenticationService.isAuthorized(userId, task);
     }
 
     public boolean canInitiate(String documentTypeName, Person user) {
@@ -183,6 +220,17 @@ public class IacucProtocolOnlineReviewDocumentAuthorizer extends KcTransactional
     @Override
     public boolean canFyi(Document document, Person user) {
         return false;
+    }
+
+    public CommonCommitteeScheduleService getCommonCommitteeScheduleService() {
+        if (commonCommitteeScheduleService == null) {
+            commonCommitteeScheduleService = KraServiceLocator.getService(CommonCommitteeScheduleService.class);
+        }
+        return commonCommitteeScheduleService;
+    }
+
+    public void setCommonCommitteeScheduleService(CommonCommitteeScheduleService commonCommitteeScheduleService) {
+        this.commonCommitteeScheduleService = commonCommitteeScheduleService;
     }
 
     
