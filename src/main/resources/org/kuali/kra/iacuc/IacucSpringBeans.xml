@@ -694,6 +694,7 @@
         </property>
         <property name="sessionDocumentService" ref="knsSessionDocumentService" />
         <property name="workflowDocumentService" ref="kradWorkflowDocumentService" />
+        <property name="iacucProtocolProcedureService" ref="iacucProtocolProcedureService" />
     </bean>
 
     <bean id="iacucProtocolFundingSourceService" class="org.kuali.kra.iacuc.protocol.funding.IacucProtocolFundingSourceServiceImpl" lazy-init="true">
@@ -959,6 +960,7 @@
     <bean id="iacucProtocolProcedureService"
         class="org.kuali.kra.iacuc.procedures.IacucProtocolProcedureServiceImpl" scope="prototype">
         <property name="businessObjectService" ref="businessObjectService" />
+        <property name="iacucProtocolSpeciesService" ref="iacucProtocolSpeciesService" />
         <property name="iacucProtocolPersonTrainingService">
             <ref bean="iacucProtocolPersonTrainingService" />
         </property>         

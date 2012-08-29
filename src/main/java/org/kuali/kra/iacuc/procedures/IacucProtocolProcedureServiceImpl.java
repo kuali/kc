@@ -34,6 +34,7 @@ import org.kuali.kra.iacuc.IacucProtocolForm;
 import org.kuali.kra.iacuc.IacucSpecies;
 import org.kuali.kra.iacuc.personnel.IacucProtocolPersonTrainingService;
 import org.kuali.kra.iacuc.species.IacucProtocolSpecies;
+import org.kuali.kra.iacuc.species.IacucProtocolSpeciesService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -60,6 +61,7 @@ public class IacucProtocolProcedureServiceImpl implements IacucProtocolProcedure
     private static final String PROTOCOL_STUDY_GROUP_HEADER_SEQUENCE_ID = "SEQ_IACUC_PROT_STUD_GRP_HDR_ID";
     private static final String PROTOCOL_STUDY_GROUP_DETAIL_SEQUENCE_ID = "SEQ_IACUC_PROT_STUD_GRP_DTL_ID";
      
+    private IacucProtocolSpeciesService iacucProtocolSpeciesService;
     
     private SequenceAccessorService sequenceAccessorService;
 
@@ -221,6 +223,80 @@ public class IacucProtocolProcedureServiceImpl implements IacucProtocolProcedure
             newStudyGroupLocation.setLocationGroupIndex(locationGroupIndex);
             updateAttributesForNewProcedureLocation(newStudyGroupLocation, protocolStudyGroup, protocol);
             protocolStudyGroup.getIacucProtocolStudyGroupLocations().add(newStudyGroupLocation);
+        }
+    }
+
+    /**
+     * @see org.kuali.kra.iacuc.procedures.IacucProtocolProcedureService#resetProcedurePanel(org.kuali.kra.iacuc.IacucProtocol)
+     */
+    public void resetProcedurePanel(IacucProtocol protocol) {
+        List<IacucProtocolStudyGroupBean> iacucProtocolStudyGroupBeans = protocol.getIacucProtocolStudyGroups();
+        for(IacucProtocolStudyGroupBean iacucProtocolStudyGroupBean : iacucProtocolStudyGroupBeans) {
+            for(IacucProtocolStudyGroupDetailBean iacucProtocolStudyGroupDetailBean : iacucProtocolStudyGroupBean.getIacucProtocolStudyGroupDetailBeans()) {
+                iacucProtocolStudyGroupDetailBean.resetPersistenceState();
+                for(IacucProtocolStudyGroup iacucProtocolStudyGroup : iacucProtocolStudyGroupDetailBean.getIacucProtocolStudyGroups()) {
+                    iacucProtocolStudyGroup.resetPersistenceState();
+                    for(IacucProcedurePersonResponsible protocolPersonResponsible : iacucProtocolStudyGroup.getIacucProcedurePersonsResponsible()) {
+                        protocolPersonResponsible.resetPersistenceState();
+                    }
+                    for(IacucProtocolStudyGroupLocation protocolLocation : iacucProtocolStudyGroup.getIacucProtocolStudyGroupLocations()) {
+                        protocolLocation.resetPersistenceState();
+                    }
+                    for(IacucProtocolStudyCustomData protocolCustomData : iacucProtocolStudyGroup.getIacucProtocolStudyCustomDataList()) {
+                        protocolCustomData.resetPersistenceState();
+                    }
+                }
+            }
+        }
+    }
+    
+    /**
+     * @see org.kuali.kra.iacuc.procedures.IacucProtocolProcedureService#setIacucProtocolStudyGroupReferences(org.kuali.kra.iacuc.IacucProtocol)
+     */
+    public void setIacucProtocolStudyGroupReferences(IacucProtocol protocol) {
+        List<IacucProtocolStudyGroupBean> iacucProtocolStudyGroupBeans = protocol.getIacucProtocolStudyGroupBeans();
+        HashMap<Integer, Integer> newSpeciesIdMapping = new HashMap<Integer, Integer>();
+        if(isSpeciesAndProcedureExists(protocol)) {
+            newSpeciesIdMapping = getIacucProtocolSpeciesService().getNewProtocolSpeciesMap(protocol);
+        }
+        for(IacucProtocolStudyGroupBean iacucProtocolStudyGroupBean : iacucProtocolStudyGroupBeans) {
+            for(IacucProtocolStudyGroupDetailBean iacucProtocolStudyGroupDetailBean : iacucProtocolStudyGroupBean.getIacucProtocolStudyGroupDetailBeans()) {
+                for(IacucProtocolStudyGroup iacucProtocolStudyGroup : iacucProtocolStudyGroupDetailBean.getIacucProtocolStudyGroups()) {
+                    Integer newProtocolSpeciesId = newSpeciesIdMapping.get(iacucProtocolStudyGroup.getIacucProtocolSpeciesId());
+                    iacucProtocolStudyGroup.setIacucProtocolSpeciesId(newProtocolSpeciesId);
+                    setStudyGoupPersonResponsibleReferences(iacucProtocolStudyGroup.getIacucProcedurePersonsResponsible(), protocol);
+                    setStudyGoupCustomDataReferences(iacucProtocolStudyGroup.getIacucProtocolStudyCustomDataList(), protocol);
+                    setStudyGoupLocationReferences(iacucProtocolStudyGroup.getIacucProtocolStudyGroupLocations(), protocol);
+                }
+            }
+        }
+    }
+    
+    private boolean isSpeciesAndProcedureExists(IacucProtocol protocol) {
+        return protocol.getIacucProtocolSpeciesList().size() > 0 && protocol.getIacucProtocolStudyGroups().size() > 0;
+    }
+    
+    private void setStudyGoupPersonResponsibleReferences(List<IacucProcedurePersonResponsible> personsResponsible, IacucProtocol protocol) {
+        for(IacucProcedurePersonResponsible protocolPersonResponsible : personsResponsible) {
+            protocolPersonResponsible.setProtocolId(protocol.getProtocolId());
+            protocolPersonResponsible.setProtocolNumber(protocol.getProtocolNumber());
+            protocolPersonResponsible.setSequenceNumber(protocol.getSequenceNumber());
+        }
+    }
+    
+    private void setStudyGoupCustomDataReferences(List<IacucProtocolStudyCustomData> beanCustomDataList, IacucProtocol protocol) {
+        for(IacucProtocolStudyCustomData protocolCustomData : beanCustomDataList) {
+            protocolCustomData.setProtocolId(protocol.getProtocolId());
+            protocolCustomData.setProtocolNumber(protocol.getProtocolNumber());
+            protocolCustomData.setSequenceNumber(protocol.getSequenceNumber());
+        }
+    }
+    
+    private void setStudyGoupLocationReferences(List<IacucProtocolStudyGroupLocation> beanLocations, IacucProtocol protocol) {
+        for(IacucProtocolStudyGroupLocation protocolLocation : beanLocations) {
+            protocolLocation.setProtocolId(protocol.getProtocolId());
+            protocolLocation.setProtocolNumber(protocol.getProtocolNumber());
+            protocolLocation.setSequenceNumber(protocol.getSequenceNumber());
         }
     }
     
@@ -1031,6 +1107,14 @@ public class IacucProtocolProcedureServiceImpl implements IacucProtocolProcedure
 
     public void setIacucProtocolPersonTrainingService(IacucProtocolPersonTrainingService iacucProtocolPersonTrainingService) {
         this.iacucProtocolPersonTrainingService = iacucProtocolPersonTrainingService;
+    }
+
+    public IacucProtocolSpeciesService getIacucProtocolSpeciesService() {
+        return iacucProtocolSpeciesService;
+    }
+
+    public void setIacucProtocolSpeciesService(IacucProtocolSpeciesService iacucProtocolSpeciesService) {
+        this.iacucProtocolSpeciesService = iacucProtocolSpeciesService;
     }
 
 }
