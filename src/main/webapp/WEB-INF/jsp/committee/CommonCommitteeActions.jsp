@@ -34,7 +34,7 @@
             No Actions Available
         </c:when>
         <c:otherwise>
-            <kra-committee:committeeActionBatchCorrespondence />
+            <kra-committee:commonCommitteeActionBatchCorrespondence />
             <kra-committee:committeeActionPrint />
         </c:otherwise>
     </c:choose>
