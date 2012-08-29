@@ -16,6 +16,8 @@
 package org.kuali.kra.iacuc;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
@@ -27,6 +29,7 @@ import org.kuali.kra.iacuc.species.IacucProtocolSpecies;
 import org.kuali.kra.iacuc.species.exception.IacucProtocolException;
 import org.kuali.kra.protocol.CriteriaFieldHelper;
 import org.kuali.kra.protocol.Protocol;
+import org.kuali.kra.protocol.ProtocolAction;
 import org.kuali.kra.protocol.ProtocolDaoOjb;
 import org.kuali.kra.protocol.ProtocolLookupConstants;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
@@ -87,6 +90,44 @@ public class IacucProtocolDaoOjb extends ProtocolDaoOjb<IacucProtocol> implement
                 ProtocolLookupConstants.Property.EXCEPTION_CATEGORY_CODE, 
                 IacucProtocolException.class));
         return criteriaFields;
+    }
+
+    @Override
+    protected Collection<String> getApprovedSubmissionStatusCodesHook() {
+        return Arrays.asList(new String[] {"200", "213"});
+    }
+
+    @Override
+    protected Collection<String> getActiveProtocolStatusCodesHook() {
+        return Arrays.asList(new String[] {"200", "201"});
+    }
+
+    @Override
+    protected Collection<String> getRevisionRequestedProtocolActionTypeCodesHook() {
+        return Arrays.asList(new String[] {"209", "211", "213"});
+    }
+
+    @Override
+    protected Collection<String> getRevisionRequestedProtocolStatusCodesHook() {
+        return Arrays.asList(new String[] {"104", "107"});
+    }
+
+    @Override
+    protected Class<? extends ProtocolAction> getProtocolActionBOClassHoook() {
+        return IacucProtocolAction.class;
+    }
+
+    @Override
+    protected void initRoleListsHook(List<String> investigatorRoles, List<String> personRoles) {
+        investigatorRoles.add("PI");
+        investigatorRoles.add("COI");
+        personRoles.add("SP");
+        personRoles.add("CRC");    
+    }
+
+    @Override
+    protected Collection<String> getPendingAmendmentRenewalsProtocolStatusCodesHook() {
+        return Arrays.asList(new String[] {"100", "101", "103", "104", "107", "108", "205", "206", "207"});
     }
     
     
