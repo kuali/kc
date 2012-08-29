@@ -138,6 +138,7 @@ public class IacucProtocolSpecies extends ProtocolAssociate {
 
     @Override
     public void resetPersistenceState() {
+        setOldProtocolSpeciesId(getIacucProtocolSpeciesId());
         setIacucProtocolSpeciesId(null);
     }
 

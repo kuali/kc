@@ -18,7 +18,9 @@ package org.kuali.kra.iacuc.species;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.irb.actions.ProtocolAction;
@@ -33,17 +35,6 @@ public class IacucProtocolSpeciesServiceImpl implements IacucProtocolSpeciesServ
     private static final String REFERENCE_SPECIES_PAIN_CATEGORY = "iacucPainCategory";
 
     public void addProtocolSpecies(IacucProtocol protocol, IacucProtocolSpecies protocolSpecies) {
-        
-        /*
-        protocolSpecies.setIacucProtocolSpeciesId(getNextProtocolSpeciesSequence());
-        protocolSpecies.setSpeciesId(getNextProtocolSpeciesId(protocol));
-        //TODO - How to handle protocol number and sequence number
-        protocolSpecies.setProtocolNumber(protocol.getProtocolNumber());
-        protocolSpecies.setSequenceNumber(protocol.getSequenceNumber());
-        
-        refreshSpeciesReferenceObjects(protocolSpecies);
-        */
-        
         protocol.getIacucProtocolSpeciesList().add(getNewProtocolSpecies(protocol, protocolSpecies));
     }
     
@@ -56,6 +47,19 @@ public class IacucProtocolSpeciesServiceImpl implements IacucProtocolSpeciesServ
         
         refreshSpeciesReferenceObjects(protocolSpecies);
         return protocolSpecies;
+    }
+    
+    public HashMap<Integer, Integer> getNewProtocolSpeciesMap(IacucProtocol protocol) {
+        List<IacucProtocolSpecies> protocolSpeciesList = protocol.getIacucProtocolSpeciesList();
+        HashMap<Integer, Integer> speciesIdMapping = new HashMap<Integer,Integer>();
+        for(IacucProtocolSpecies protocolSpecies : protocolSpeciesList) {
+            if(ObjectUtils.isNull(protocolSpecies.getIacucProtocolSpeciesId())) {
+                protocolSpecies.setIacucProtocolSpeciesId(getNextProtocolSpeciesSequence());
+            }
+            Integer oldProtocolSpeciesId = protocolSpecies.getOldProtocolSpeciesId() == null ? protocolSpecies.getIacucProtocolSpeciesId() : protocolSpecies.getOldProtocolSpeciesId();  
+            speciesIdMapping.put(oldProtocolSpeciesId, protocolSpecies.getIacucProtocolSpeciesId());
+        }
+        return speciesIdMapping;
     }
     
     /**

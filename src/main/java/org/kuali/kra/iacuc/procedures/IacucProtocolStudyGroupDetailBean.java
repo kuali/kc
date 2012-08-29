@@ -22,6 +22,7 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.iacuc.IacucPainCategory;
 import org.kuali.kra.iacuc.IacucSpecies;
 import org.kuali.kra.iacuc.species.IacucProtocolSpecies;
+import org.kuali.kra.protocol.ProtocolAssociate;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 public class IacucProtocolStudyGroupDetailBean extends KraPersistableBusinessObjectBase {
@@ -240,6 +241,10 @@ public class IacucProtocolStudyGroupDetailBean extends KraPersistableBusinessObj
             return false;
         }
         return true;
+    }
+
+    public void resetPersistenceState() {
+        setIacucProtocolStudyGroupDetailId(null);
     }
 
 }
