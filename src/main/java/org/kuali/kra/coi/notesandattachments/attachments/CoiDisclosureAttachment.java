@@ -64,6 +64,7 @@ public class CoiDisclosureAttachment extends CoiDisclosureAssociate implements C
     @SkipVersioning
     private PersonFinIntDisclosure financialEntity;
     private static String updatedByString;
+    private transient Long attachmentIdForPermission;
 
     public CoiDisclosureAttachment() {
         super();
@@ -147,7 +148,20 @@ public class CoiDisclosureAttachment extends CoiDisclosureAssociate implements C
     }
     public void setAttachmentId(Long attachmentId) {
         this.attachmentId = attachmentId;
+        if (attachmentId != null) {
+            this.attachmentIdForPermission = attachmentId;
+        }
     }
+    public Long getAttachmentIdForPermission() {
+        if (attachmentIdForPermission == null) {
+            attachmentIdForPermission = getAttachmentId();
+        }
+        return attachmentIdForPermission;
+    }
+    public void setAttachmentIdForPermission(Long attachmentId) {
+        this.attachmentIdForPermission = attachmentId;
+    }
+    
     public Long getFileId() {
         return fileId;
     }
