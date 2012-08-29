@@ -80,5 +80,18 @@ public interface ProtocolDao<GenericProtocol extends Protocol> {
      * If this is specific to IRB, it has to be moved to IRB protocol Dao     
     List<Protocol> getIrbNotifiedProtocols(String committeeId, Date startDate, Date endDate);
     */
+    
+    /**
+     * This method returns all Protocols that were given a decision status of "Specify Minor Revision" (SMR)
+     * or "Substantive Revision Required" (SRR) by the specified committee in the specified date range.
+     * 
+     * @param committeeId of the 
+     * @param startDate
+     * @param endDate of the date range for the 
+     * @return List of the requested Protocols
+     */
+    // TODO (backfitting note) this method is a general-purpose abstraction of the IRB-specific method above
+    // and should be eventually be used for IRB as well (with appropriate IRB hook implementations) 
+    List<Protocol> getNotifiedProtocols(String committeeId, Date startDate, Date endDate);
 
 }
