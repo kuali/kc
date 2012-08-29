@@ -25,8 +25,12 @@ import org.kuali.kra.iacuc.actions.IacucProtocolAction;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
 import org.kuali.kra.iacuc.customdata.IacucProtocolCustomData;
+import org.kuali.kra.iacuc.procedures.IacucProcedurePersonResponsible;
 import org.kuali.kra.iacuc.procedures.IacucProtocolProcedureService;
+import org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroup;
 import org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroupBean;
+import org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroupDetailBean;
+import org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroupLocation;
 import org.kuali.kra.iacuc.protocol.IacucProtocolNumberService;
 import org.kuali.kra.iacuc.species.IacucProtocolSpecies;
 import org.kuali.kra.iacuc.species.IacucProtocolSpeciesService;
@@ -150,13 +154,7 @@ public class IacucProtocolCopyServiceImpl extends ProtocolCopyServiceImpl<IacucP
     }
     
     protected HashMap<Integer, Integer> getNewProtocolSpeciesMap(IacucProtocol protocol) {
-        List<IacucProtocolSpecies> protocolSpeciesList = protocol.getIacucProtocolSpeciesList();
-        HashMap<Integer, Integer> speciesIdMapping = new HashMap<Integer,Integer>();
-        for(IacucProtocolSpecies protocolSpecies : protocolSpeciesList) {
-            Integer oldProtocolSpeciesId = protocolSpecies.getOldProtocolSpeciesId() == null ? protocolSpecies.getIacucProtocolSpeciesId() : protocolSpecies.getOldProtocolSpeciesId();  
-            speciesIdMapping.put(oldProtocolSpeciesId, protocolSpecies.getIacucProtocolSpeciesId());
-        }
-        return speciesIdMapping;
+        return getIacucProtocolSpeciesService().getNewProtocolSpeciesMap(protocol);
     }
     
     /**
