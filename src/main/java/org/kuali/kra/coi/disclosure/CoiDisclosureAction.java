@@ -260,25 +260,11 @@ public class CoiDisclosureAction extends CoiAction {
         CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) form;
         String command = coiDisclosureForm.getCommand();
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
-        String eventTypeCode = CoiDisclosureEventType.ANNUAL; 
+        String eventTypeCode = CoiDisclosureEventType.ANNUAL;
         if (command.startsWith(KewApiConstants.INITIATE_COMMAND)) {
-            if (command.endsWith(CoiDisclosure.PROPOSAL_DISCL_MODULE_CODE)) {
-                eventTypeCode = CoiDisclosureEventType.DEVELOPMENT_PROPOSAL;
-            }
-            else if (command.endsWith(CoiDisclosure.PROTOCOL_DISCL_MODULE_CODE)) {
-                eventTypeCode = CoiDisclosureEventType.IRB_PROTOCOL;
-            }
-            else if (command.endsWith(CoiDisclosure.AWARD_DISCL_MODULE_CODE)) {
-                eventTypeCode = CoiDisclosureEventType.AWARD;
-            }
-            else if (command.endsWith(CoiDisclosure.MANUAL_DISCL_MODULE_CODE)) {
-                // this will be reset when 'addmanualproject', and the event type will be selected at that time
-                eventTypeCode = CoiDisclosureEventType.MANUAL_DEVELOPMENT_PROPOSAL;
-            }
-            else if (command.endsWith("_6")) {
-                // this is to update master disclosure. 
-                // also treated annual event when master disclosure exist
-                eventTypeCode = CoiDisclosureEventType.UPDATE;
+            String[] parts = command.split("_");
+            if (parts.length > 1) {
+                eventTypeCode = parts[1];
             }
             
             // check to see if there's an existing update master or annual that is not approved/disapproved
@@ -525,7 +511,7 @@ public class CoiDisclosureAction extends CoiAction {
     public ActionForward newProjectDisclosure(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) form;
-        coiDisclosureForm.setCommand(KewApiConstants.INITIATE_COMMAND);
+        coiDisclosureForm.setCommand(KewApiConstants.INITIATE_COMMAND + "_" + coiDisclosureForm.getDisclosureHelper().getEventTypeCode());
         ActionForward forward = docHandler(mapping, form, request, response);
         // Currently the way docHandler() is implemented in this class guarantees that setting the form command to 'initiate' will
         // result in a disclosure
