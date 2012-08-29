@@ -65,31 +65,32 @@ public abstract class ProtocolDaoOjb<GenericProtocol extends Protocol> extends P
     private static final String PROTOCOL_SUBMISSIONS_SUBMISSION_NUMBER = "protocolSubmissions.submissionNumber";
     private static final String ACTUAL_ACTION_DATE = "actualActionDate";
     private static final String PROTOCOL_ACTION_TYPE_CODE = "protocolActionTypeCode";
-    
-    /**
-     * The ACTIVE_PROTOCOL_STATUS_CODES contains the various active status codes for a protocol.
-     *   <li> 200 - Active, open to enrollment
-     *   <li> 201 - Active, closed to enrollment
-     *   <li> 202 - Active, data analysis only 
-     */
-    private static final Collection<String> ACTIVE_PROTOCOL_STATUS_CODES = Arrays.asList(new String[] {"200", "201", "202"});
-    /**
-     * The REVISION_REQUESTED_PROTOCOL_STATUS_CODES contains the various status codes for protocol revision requests.
-     *   <li> 102 - Specific Minor Revision
-     *   <li> 104 - Substantive Revision Requested
-     */
-    private static final Collection<String> REVISION_REQUESTED_PROTOCOL_STATUS_CODES = Arrays.asList(new String[] {"102", "104"});
-    /**
-     * The APPROVED_SUBMISSION_STATUS_CODE contains the status code of approved protocol submissions (i.e. 203).
-     */
-    private static final String APPROVED_SUBMISSION_STATUS_CODE = "203";
-    /**
-     * The REVISION_REQUESTED_PROTOCOL_ACTION_TYPE_CODES contains the protocol action codes for the protocol revision requests.
-     *   <li> 202 - Specific Minor Revision
-     *   <li> 203 - Substantive Revision Requested 
-     */
-    private static final Collection<String> REVISION_REQUESTED_PROTOCOL_ACTION_TYPE_CODES = Arrays.asList(new String[] {"202", "203"});
-    
+ 
+// TODO *********commented the code below during IACUC refactoring*********     
+//    /**
+//     * The ACTIVE_PROTOCOL_STATUS_CODES contains the various active status codes for a protocol.
+//     *   <li> 200 - Active, open to enrollment
+//     *   <li> 201 - Active, closed to enrollment
+//     *   <li> 202 - Active, data analysis only 
+//     */
+//    private static final Collection<String> ACTIVE_PROTOCOL_STATUS_CODES = Arrays.asList(new String[] {"200", "201", "202"});
+//    /**
+//     * The REVISION_REQUESTED_PROTOCOL_STATUS_CODES contains the various status codes for protocol revision requests.
+//     *   <li> 102 - Specific Minor Revision
+//     *   <li> 104 - Substantive Revision Requested
+//     */
+//    private static final Collection<String> REVISION_REQUESTED_PROTOCOL_STATUS_CODES = Arrays.asList(new String[] {"102", "104"});
+//    /**
+//     * The APPROVED_SUBMISSION_STATUS_CODE contains the status code of approved protocol submissions (i.e. 203).
+//     */
+//    private static final String APPROVED_SUBMISSION_STATUS_CODE = "203";
+//    /**
+//     * The REVISION_REQUESTED_PROTOCOL_ACTION_TYPE_CODES contains the protocol action codes for the protocol revision requests.
+//     *   <li> 202 - Specific Minor Revision
+//     *   <li> 203 - Substantive Revision Requested 
+//     */
+//    private static final Collection<String> REVISION_REQUESTED_PROTOCOL_ACTION_TYPE_CODES = Arrays.asList(new String[] {"202", "203"});
+//    
     private LookupDao lookupDao;
     private DataDictionaryService dataDictionaryService;
     private Map<String, String> searchMap = new HashMap<String, String>();
@@ -182,16 +183,21 @@ public abstract class ProtocolDaoOjb<GenericProtocol extends Protocol> extends P
         if (endDate != null) {
             crit.addLessOrEqualThan(EXPIRATION_DATE, nextDay(endDate));
         }
-        crit.addIn(PROTOCOL_STATUS_CODE, ACTIVE_PROTOCOL_STATUS_CODES);
-        crit.addEqualTo(SUBMISSION_STATUS_CODE, APPROVED_SUBMISSION_STATUS_CODE);
+        crit.addIn(PROTOCOL_STATUS_CODE, getActiveProtocolStatusCodesHook());
+        crit.addIn(SUBMISSION_STATUS_CODE, getApprovedSubmissionStatusCodesHook());
         crit.addEqualTo(SEQUENCE_NUMBER, getSubQueryMaxSequenceNumber());
         crit.addEqualTo(PROTOCOL_SUBMISSIONS_SUBMISSION_NUMBER, getsubQueryMaxProtocolSubmission());
         Query q = QueryFactory.newQuery(getProtocolBOClassHook(), crit, true);
         logQuery(q);
         return (List<GenericProtocol>) getPersistenceBrokerTemplate().getCollectionByQuery(q);
     }
+    
 
     
+    protected abstract Collection<String> getApprovedSubmissionStatusCodesHook();
+
+    protected abstract Collection<String> getActiveProtocolStatusCodesHook();
+
     /**
      * {@inheritDoc} 
      */
@@ -227,7 +233,43 @@ public abstract class ProtocolDaoOjb<GenericProtocol extends Protocol> extends P
     }
     
     */
+    
+    // TODO (backfitting note) this method is a general-purpose abstraction of the IRB-specific method above
+    // and should be eventually be used for IRB as well (with hook implementations)
+    @SuppressWarnings("unchecked")
+    public List<Protocol> getNotifiedProtocols(String committeeId, Date startDate, Date endDate) {
+        Criteria subCritProtocolAction = new Criteria();
+        subCritProtocolAction.addEqualToField("protocolId", Criteria.PARENT_QUERY_PREFIX + "protocolId");
+       // subCritProtocolAction.addEqualToField(SEQUENCE_NUMBER, Criteria.PARENT_QUERY_PREFIX + SEQUENCE_NUMBER);
+       // subCritProtocolAction.addEqualToField(SUBMISSION_NUMBER, Criteria.PARENT_QUERY_PREFIX + SUBMISSION_NUMBER);
+        subCritProtocolAction.addIn(PROTOCOL_ACTION_TYPE_CODE, getRevisionRequestedProtocolActionTypeCodesHook());
+        if (startDate != null) {
+            subCritProtocolAction.addGreaterOrEqualThan(ACTUAL_ACTION_DATE, startDate);
+        }
+        if (endDate != null) {
+            subCritProtocolAction.addLessThan(ACTUAL_ACTION_DATE, nextDay(endDate));
+        }
+        ReportQueryByCriteria subQueryProtocolAction = QueryFactory.newReportQuery(getProtocolActionBOClassHoook(), subCritProtocolAction);
+        
+        Criteria crit = new Criteria();
+        crit.addIn(PROTOCOL_STATUS_CODE, getRevisionRequestedProtocolStatusCodesHook());
+        crit.addEqualTo(PROTOCOL_SUBMISSIONS_COMMITTEE_ID, committeeId);
+        crit.addEqualTo(SEQUENCE_NUMBER, getSubQueryMaxSequenceNumber());
+        crit.addEqualTo(PROTOCOL_SUBMISSIONS_SUBMISSION_NUMBER, getsubQueryMaxProtocolSubmission());
+        crit.addExists(subQueryProtocolAction);
+        Query q = QueryFactory.newQuery(getProtocolBOClassHook(), crit, true);
+        logQuery(q);
+        return (List<Protocol>) getPersistenceBrokerTemplate().getCollectionByQuery(q);
+    }
+    
+    
+    protected abstract Collection<String> getRevisionRequestedProtocolActionTypeCodesHook();
 
+    protected abstract Collection<String> getRevisionRequestedProtocolStatusCodesHook();
+
+    protected abstract Class<? extends ProtocolAction> getProtocolActionBOClassHoook();
+    
+    
     private ReportQueryByCriteria getSubQueryMaxSequenceNumber() {
         Criteria subCritMaxSequenceNumber = new Criteria();
         subCritMaxSequenceNumber.addEqualToField(PROTOCOL_NUMBER, Criteria.PARENT_QUERY_PREFIX + PROTOCOL_NUMBER);
@@ -309,12 +351,16 @@ public abstract class ProtocolDaoOjb<GenericProtocol extends Protocol> extends P
      * investigator include PI & COI roles, key person includes SP/CA/CRC
      */
     private void initRoleLists() {
-        investigatorRole.add("PI");
-        investigatorRole.add("COI");
-        personRole.add("SP");
-        personRole.add("CA");
-        personRole.add("CRC");        
+        initRoleListsHook(investigatorRole, personRole);
+// TODO *********commented the code below during IACUC refactoring********* 
+//        investigatorRole.add("PI");
+//        investigatorRole.add("COI");
+//        personRole.add("SP");
+//        personRole.add("CA");
+//        personRole.add("CRC");        
     }
+
+    protected abstract void initRoleListsHook(List<String> investigatorRoles, List<String> personRoles);
 
     /*
      * this is to set up criteria that will check existence in collection tables.
@@ -487,7 +533,7 @@ public abstract class ProtocolDaoOjb<GenericProtocol extends Protocol> extends P
         
         crit.addLike(PROTOCOL_NUMBER, protocolNumber + "%");
         crit.addEqualTo(SEQUENCE_NUMBER, getMaxSequenceNumberQuery());
-        crit.addIn(PROTOCOL_STATUS_CODE, Arrays.asList(new String[]{"100", "101", "102", "103", "104", "105", "106"}));
+        crit.addIn(PROTOCOL_STATUS_CODE, getPendingAmendmentRenewalsProtocolStatusCodesHook());
         
         ReportQueryByCriteria query = QueryFactory.newReportQuery(getProtocolBOClassHook(), crit);
         
@@ -495,7 +541,10 @@ public abstract class ProtocolDaoOjb<GenericProtocol extends Protocol> extends P
         
         return getPersistenceBrokerTemplate().getCollectionByQuery(query).isEmpty();
         
-    }
+    }    
+    
+    protected abstract Collection<String> getPendingAmendmentRenewalsProtocolStatusCodesHook();
+    
     
     private ReportQueryByCriteria getMaxSequenceNumberQuery() {
         ReportQueryByCriteria subQuery;
