@@ -32,6 +32,7 @@ import org.kuali.rice.krms.framework.engine.Agenda;
 import org.kuali.rice.krms.framework.engine.AgendaTree;
 import org.kuali.rice.krms.framework.engine.BasicAgenda;
 import org.kuali.rice.krms.impl.provider.repository.LazyAgendaTree;
+import org.kuali.rice.krms.impl.provider.repository.RepositoryToEngineTranslator;
 import org.kuali.rice.krms.impl.provider.repository.RepositoryToEngineTranslatorImpl;
 import org.kuali.rice.krms.impl.type.AgendaTypeServiceBase;
 import org.kuali.rice.krms.impl.util.KRMSServiceLocatorInternal;
@@ -122,8 +123,7 @@ public class UnitAgendaTypeService extends AgendaTypeServiceBase  {
     public Agenda loadAgenda(AgendaDefinition agendaDefinition) {
 
         if (agendaDefinition == null) { throw new RiceIllegalArgumentException("agendaDefinition must not be null"); }
-        RepositoryToEngineTranslatorImpl repositoryToEngineTranslator = KRMSServiceLocatorInternal.getService(
-                "repositoryToEngineTranslator");
+        RepositoryToEngineTranslator repositoryToEngineTranslator = KRMSServiceLocatorInternal.getRepositoryToEngineTranslator();
         if (repositoryToEngineTranslator == null) {
             return null;
         }
