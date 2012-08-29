@@ -32,6 +32,7 @@ import org.kuali.kra.iacuc.customdata.IacucProtocolCustomData;
 import org.kuali.kra.iacuc.noteattachment.IacucProtocolAttachmentFilter;
 import org.kuali.kra.iacuc.personnel.IacucProtocolPersonnelService;
 import org.kuali.kra.iacuc.procedures.IacucProcedurePersonResponsible;
+import org.kuali.kra.iacuc.procedures.IacucProtocolProcedureService;
 import org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroup;
 import org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroupBean;
 import org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroupDetailBean;
@@ -63,6 +64,7 @@ import org.kuali.kra.protocol.summary.ProtocolSummary;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * 
@@ -687,4 +689,15 @@ public class IacucProtocol extends Protocol {
             return null;
         }
     }
+
+    @Override
+    protected void prePersist() {
+        super.prePersist();
+        getProtocolProcedureService().setIacucProtocolStudyGroupReferences(this);
+    }
+
+    protected IacucProtocolProcedureService getProtocolProcedureService() {
+        return (IacucProtocolProcedureService)KraServiceLocator.getService("iacucProtocolProcedureService");
+    }
+
 }

@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.iacuc.species;
 
+import java.util.HashMap;
+
 import org.kuali.kra.iacuc.IacucProtocol;
 
 public interface IacucProtocolSpeciesService {
@@ -33,5 +35,14 @@ public interface IacucProtocolSpeciesService {
      * @return
      */
     public IacucProtocolSpecies getNewProtocolSpecies(IacucProtocol protocol, IacucProtocolSpecies protocolSpecies);
+    
+    
+    /**
+     * This method is to get a map of old and new protocol species id
+     * @param protocol
+     * @return
+     */
+    public HashMap<Integer, Integer> getNewProtocolSpeciesMap(IacucProtocol protocol);
+    
     
 }

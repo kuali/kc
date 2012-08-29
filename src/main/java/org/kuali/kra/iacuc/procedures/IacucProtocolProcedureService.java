@@ -107,6 +107,13 @@ public interface IacucProtocolProcedureService {
     public void updateIacucProtocolStudyGroup(IacucProtocol protocol);
     
     /**
+     * This method is to set references for protocol study group
+     * @param protocol
+     */
+    public void setIacucProtocolStudyGroupReferences(IacucProtocol protocol);
+    
+    
+    /**
      * This method is to add location to study group
      * Since it is grouped, we have to add the same location to list of locations
      * under each study group linked to the study group detail bean (this is where it is grouped)
@@ -127,4 +134,15 @@ public interface IacucProtocolProcedureService {
      */
     public void createNewStudyGroups(IacucProtocol iacucProtocol, List<IacucProtocolStudyGroupBean> sourceStudyGroupBeans, 
             HashMap<Integer, Integer> protocolSpeciesIdMapping);
+
+    
+    /**
+     * This method is to reset the persistent state in procedure panel.
+     * There are issues when extended from protocol associate since there is no relation with protocol for
+     * some of the sub panels used in procedure. Since these sub panels are extended from persistable business object
+     * we are forcing the reset here.
+     * @param protocol
+     */
+    public void resetProcedurePanel(IacucProtocol protocol);
+    
 }

@@ -15,10 +15,7 @@
  */
 package org.kuali.kra.iacuc;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-
+import org.kuali.kra.iacuc.procedures.IacucProtocolProcedureService;
 import org.kuali.kra.iacuc.questionnaire.IacucProtocolModuleQuestionnaireBean;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.ProtocolDocument;
@@ -30,6 +27,7 @@ import org.kuali.kra.protocol.questionnaire.ProtocolModuleQuestionnaireBean;
  * Protocol Version Service Implementation.
  */
 public class IacucProtocolVersionServiceImpl extends ProtocolVersionServiceImpl implements IacucProtocolVersionService{
+    private IacucProtocolProcedureService iacucProtocolProcedureService;
     
     protected String getProtocolDocumentTypeHook() {
         return "IacucProtocolDocument";
@@ -37,7 +35,9 @@ public class IacucProtocolVersionServiceImpl extends ProtocolVersionServiceImpl 
     
     protected Protocol createProtocolNewVersionHook(Protocol protocol) throws Exception {
         IacucProtocol iacucProtocol = (IacucProtocol)protocol;
-        return versioningService.createNewVersion(iacucProtocol);
+        iacucProtocol = versioningService.createNewVersion(iacucProtocol);
+        getIacucProtocolProcedureService().resetProcedurePanel(iacucProtocol);
+        return iacucProtocol;
     }
 
     protected ProtocolModuleQuestionnaireBean getNewInstanceProtocolModuleQuestionnaireBeanHook(Protocol protocol) {
@@ -57,6 +57,14 @@ public class IacucProtocolVersionServiceImpl extends ProtocolVersionServiceImpl 
     @Override
     protected String getProtocolSequenceIdHook() {
         return "SEQ_IACUC_PROTOCOL_ID";
+    }
+
+    public IacucProtocolProcedureService getIacucProtocolProcedureService() {
+        return iacucProtocolProcedureService;
+    }
+
+    public void setIacucProtocolProcedureService(IacucProtocolProcedureService iacucProtocolProcedureService) {
+        this.iacucProtocolProcedureService = iacucProtocolProcedureService;
     }
 
 }
