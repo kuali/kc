@@ -17,6 +17,7 @@ package org.kuali.kra.iacuc.summary;
 
 import java.io.Serializable;
 
+import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.iacuc.species.exception.IacucProtocolException;
 
@@ -126,7 +127,8 @@ public class IacucProtocolExceptionSummary implements Serializable {
             speciesNameChanged = !StringUtils.equals(speciesName, otherSummary.speciesName); 
             exceptionCategoryChanged = !StringUtils.equals(exceptionCategory, otherSummary.exceptionCategory); 
             exceptionDescriptionChanged = !StringUtils.equals(exceptionDescription, otherSummary.exceptionDescription); 
-            exceptionCountChanged = !exceptionCount.equals(otherSummary.exceptionCount);
+            //exceptionCountChanged = !exceptionCount.equals(otherSummary.exceptionCount);
+            exceptionCountChanged = !ObjectUtils.equals(exceptionCount, otherSummary.exceptionCount);
         }
     }
 

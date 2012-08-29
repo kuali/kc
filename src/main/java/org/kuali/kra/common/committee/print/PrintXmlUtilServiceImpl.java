@@ -26,6 +26,7 @@ import org.kuali.kra.common.committee.meeting.CommScheduleActItem;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.iacuc.actions.IacucProtocolAction;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
+import org.kuali.kra.iacuc.personnel.IacucProtocolPersonRolodex;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.actions.ProtocolAction;
 import org.kuali.kra.protocol.personnel.ProtocolPerson;
@@ -81,7 +82,7 @@ public class PrintXmlUtilServiceImpl implements PrintXmlUtilService {
 
     public void setPersonRolodexType(ProtocolPerson protocolPerson, PersonType personType) {
         if (protocolPerson.getPerson() == null) {
-            ProtocolPersonRolodex rolodex = getBusinessObjectService().findBySinglePrimaryKey(ProtocolPersonRolodex.class,
+            IacucProtocolPersonRolodex rolodex = getBusinessObjectService().findBySinglePrimaryKey(IacucProtocolPersonRolodex.class,
                     protocolPerson.getRolodexId());
             setPersonXml(rolodex, personType);
         }
