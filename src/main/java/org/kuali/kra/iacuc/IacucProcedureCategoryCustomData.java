@@ -30,6 +30,14 @@ public class IacucProcedureCategoryCustomData extends CustomAttribute {
 
     } 
     
+    @Override
+    protected void prePersist() {
+        super.prePersist();
+        if (sortId == null) {
+            sortId = this.getId();
+        }
+    }
+
     public Integer getProcedureCategoryCode() {
         return procedureCategoryCode;
     }
