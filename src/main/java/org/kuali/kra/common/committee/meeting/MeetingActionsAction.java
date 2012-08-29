@@ -39,7 +39,7 @@ import org.kuali.kra.common.committee.print.CommitteeReportType;
 import org.kuali.kra.common.committee.print.ScheduleTemplatePrint;
 import org.kuali.kra.common.committee.rule.event.CommitteeActionPrintCommitteeDocumentEvent;
 import org.kuali.kra.common.committee.service.CommonCommitteeNotificationService;
-import org.kuali.kra.common.committee.service.CommitteePrintingService;
+import org.kuali.kra.common.committee.service.CommonCommitteePrintingService;
 import org.kuali.kra.common.committee.service.impl.CommitteeNotificationServiceImpl;
 import org.kuali.kra.iacuc.correspondence.IacucProtocolActionCorrespondenceGenerationService;
 import org.kuali.kra.iacuc.correspondence.IacucProtocolActionsCorrespondence;
@@ -215,9 +215,8 @@ public class MeetingActionsAction extends MeetingAction {
         getBusinessObjectService().save(generatedMeetingDoc);
     }
     
-    private CommitteePrintingService getCommitteePrintingService() {
-        //return KraServiceLocator.getService(CommitteePrintingService.class);
-        return KraServiceLocator.getService(CommitteePrintingService.COMMON_COMMITTEE_PRINTINT_SERVICE_SPRING_NAME);
+    private CommonCommitteePrintingService getCommitteePrintingService() {
+        return KraServiceLocator.getService(CommonCommitteePrintingService.class);
     }
 
 

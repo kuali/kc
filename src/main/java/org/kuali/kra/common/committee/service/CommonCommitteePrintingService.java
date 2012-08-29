@@ -28,9 +28,7 @@ import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
  * capability to provide a PDF document of various reports related to Committee like 
  * Roster and Future Scheduled Meetings.
  */
-public interface CommitteePrintingService {
-    
-    public static final String COMMON_COMMITTEE_PRINTINT_SERVICE_SPRING_NAME = "commonCommitteePrintingService";
+public interface CommonCommitteePrintingService {
     
     /**
      * 

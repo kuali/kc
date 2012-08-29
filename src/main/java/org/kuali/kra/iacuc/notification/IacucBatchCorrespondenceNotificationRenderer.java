@@ -13,16 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.protocol.notification;
+package org.kuali.kra.iacuc.notification;
 
 import java.util.Map;
 
-import org.kuali.kra.protocol.Protocol;
+import org.kuali.kra.iacuc.IacucProtocol;
 
 /**
  * Renders additional fields for the Batch Correspondence notification.
  */
-public class BatchCorrespondenceNotificationRenderer extends ProtocolNotificationRenderer {
+public class IacucBatchCorrespondenceNotificationRenderer extends IacucProtocolNotificationRenderer {
 
     private static final long serialVersionUID = -3536458485352249776L;
 
@@ -38,7 +38,7 @@ public class BatchCorrespondenceNotificationRenderer extends ProtocolNotificatio
      * @param protocolCorrespondenceType
      * @param userFullName
      */
-    public BatchCorrespondenceNotificationRenderer(Protocol protocol, Long detailId, String protocolCorrespondenceType, String userFullName) {
+    public IacucBatchCorrespondenceNotificationRenderer(IacucProtocol protocol, Long detailId, String protocolCorrespondenceType, String userFullName) {
         super(protocol);
         
         this.detailId = detailId;

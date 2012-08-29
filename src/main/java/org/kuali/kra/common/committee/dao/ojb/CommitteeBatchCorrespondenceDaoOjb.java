@@ -24,7 +24,7 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.kra.common.committee.bo.CommitteeBatchCorrespondence;
-import org.kuali.kra.common.committee.dao.CommitteeBatchCorrespondenceDao;
+import org.kuali.kra.common.committee.dao.CommonCommitteeBatchCorrespondenceDao;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 import org.kuali.rice.krad.util.OjbCollectionAware;
 
@@ -33,7 +33,7 @@ import org.kuali.rice.krad.util.OjbCollectionAware;
  * This class is the OJB implementation of CommitteeBatchCorrespondenceDao 
  * which provides enhanced database access functionality.
  */
-public class CommitteeBatchCorrespondenceDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAware, CommitteeBatchCorrespondenceDao {
+public class CommitteeBatchCorrespondenceDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAware, CommonCommitteeBatchCorrespondenceDao {
 
     private static final Log LOG = LogFactory.getLog(CommitteeBatchCorrespondenceDaoOjb.class);
 
