@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.iacuc.actions.withdraw;
 
+import java.sql.Date;
+
 import org.kuali.kra.iacuc.actions.IacucActionHelper;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionBean;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
@@ -34,6 +36,8 @@ public class IacucProtocolWithdrawBean extends IacucProtocolActionBean implement
     
     private String reason = "";
     
+    private Date actionDate = new Date(System.currentTimeMillis());
+    
     /**
      * Constructs a ProtocolWithdrawBean.java.
      * @param actionHelper Reference back to the action helper for this bean
@@ -49,7 +53,15 @@ public class IacucProtocolWithdrawBean extends IacucProtocolActionBean implement
     public String getReason() {
         return reason;
     }
+
+    public Date getActionDate() {
+        return actionDate;
+    }
     
+    public void setActionDate(Date actionDate) {
+        this.actionDate = actionDate;
+    }
+
     /**
      * 
      * This method returns the correct correspondence for this object
