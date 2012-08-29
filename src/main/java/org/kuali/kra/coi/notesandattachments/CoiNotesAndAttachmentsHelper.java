@@ -140,8 +140,7 @@ public class CoiNotesAndAttachmentsHelper {
         List<CoiDisclosureAttachment> attachments = getCoiDisclosure().getCoiDisclosureAttachments();
         for (int i=0; i < attachments.size(); i++) {
             CoiDisclosureTask task = new CoiDisclosureDeleteUpdateAttachmentTask(TaskName.DELETE_UPDATE_ATTACHMENT, getCoiDisclosure(), attachments.get(i));
-            
-            canDeleteUpdateAttachment.put(attachments.get(i).getAttachmentId(), getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task));
+            canDeleteUpdateAttachment.put(attachments.get(i).getAttachmentIdForPermission(), getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task));
         }
     }
 
@@ -150,7 +149,7 @@ public class CoiNotesAndAttachmentsHelper {
         getCoiDisclosure().refreshReferenceObject("coiDisclosureAttachments");
         List<CoiDisclosureAttachment> attachments = getCoiDisclosure().getCoiDisclosureAttachments();
         for (CoiDisclosureAttachment attachment : attachments) {
-            if (StringUtils.equalsIgnoreCase(attachment.getAttachmentId().toString(), id)) {
+            if (StringUtils.equalsIgnoreCase(attachment.getAttachmentIdForPermission().toString(), id)) {
                 CoiDisclosureTask task = new CoiDisclosureDeleteUpdateAttachmentTask(TaskName.DELETE_UPDATE_ATTACHMENT, getCoiDisclosure(), attachment);
                 return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
 
