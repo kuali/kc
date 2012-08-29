@@ -1816,6 +1816,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         CoiDisclosureAttachment attachCopy = new CoiDisclosureAttachment();
         
         attachCopy.setAttachmentId(attachment.getAttachmentId());
+        attachCopy.setAttachmentIdForPermission(attachment.getAttachmentIdForPermission());
         attachCopy.setCoiAttachmentType(attachment.getCoiAttachmentType());
         attachCopy.setCoiDisclosure(attachment.getCoiDisclosure());
         attachCopy.setCoiDisclosureId(attachment.getCoiDisclosureId());
