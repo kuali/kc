@@ -106,6 +106,8 @@ public class CommitteeScheduleMinute extends ProtocolReviewable implements Clone
     private transient String updateUserFullName;
 
     private transient boolean displayReviewerName;
+    
+    private transient boolean readOnly = true;
 
     /*
      * This comparator orders CommitteeScheduleMinute by entry type first and then by entry type detail (if available)
@@ -583,5 +585,13 @@ public class CommitteeScheduleMinute extends ProtocolReviewable implements Clone
     @Override
     public boolean isPrivate() {
         return getPrivateCommentFlag();
+    }
+
+    public boolean getReadOnly() {
+        return readOnly;
+    }
+
+    public void setReadOnly(boolean readOnly) {
+        this.readOnly = readOnly;
     }
 }

@@ -133,16 +133,16 @@
 	                                </td>
 	                                <td>
 	                                    <kul:htmlControlAttribute property="${property}.reviewComments[${status.index}].minuteEntry"
-	                                                              attributeEntry="${minutesAttributes.minuteEntry}" readOnly="${readOnly}" />
+	                                                              attributeEntry="${minutesAttributes.minuteEntry}" readOnly="${reviewComment.readOnly}" />
 	                                </td>
 	                            </c:when>
 	                            <c:otherwise>
 	                                <td style="text-align:center;">
 	                                   	<kul:htmlControlAttribute property="${property}.reviewComments[${status.index}].protocolContingencyCode" 
-	                                                  attributeEntry="${minutesAttributes.protocolContingencyCode}" readOnly="${readOnly}" />
+	                                                  attributeEntry="${minutesAttributes.protocolContingencyCode}" readOnly="${reviewComment.readOnly}" />
 	                               
 	                                    <c:choose>
-		                            		<c:when test="${!readOnly}">
+		                            		<c:when test="${!reviewComment.readOnly}">
 	                                    		<kul:lookup boClassName="org.kuali.kra.meeting.ProtocolContingency"
 	                                                fieldConversions="protocolContingencyCode:${property}.reviewComments[${status.index}].protocolContingencyCode" />
 	                                        </c:when>
@@ -150,27 +150,27 @@
 	                                </td>
 	                                <td>
 	                                    <kul:htmlControlAttribute property="${property}.reviewComments[${status.index}].minuteEntry"
-	                                                              attributeEntry="${minutesAttributes.minuteEntry}" readOnly="${readOnly}" />
+	                                                              attributeEntry="${minutesAttributes.minuteEntry}" readOnly="${reviewComment.readOnly}" />
 	                                </td>
 	                            </c:otherwise>
 	                        </c:choose>
 	                        <c:if test = "${KualiForm.editingMode['maintainProtocolOnlineReviews'] or readOnly}">                    
 	                                                
-			                <td style="text-align:center; vertical-align:middle">
-	                            
-	                            	<kul:htmlControlAttribute property="${property}.reviewComments[${status.index}].privateCommentFlag" 
-	                                                      attributeEntry="${minutesAttributes.privateCommentFlag}"
-	                                                      readOnly="${readOnly}" />
-	                            
-	                        </td>
-	                                                
-	                        <td style="text-align:center; vertical-align:middle">
-	                            
-	                            	<kul:htmlControlAttribute property="${property}.reviewComments[${status.index}].finalFlag" 
-	                                                      attributeEntry="${minutesAttributes.finalFlag}"
-	                                                      readOnly="${readOnly}" />
-	                            
-	                        </td>
+				                <td style="text-align:center; vertical-align:middle">
+		                            
+		                            	<kul:htmlControlAttribute property="${property}.reviewComments[${status.index}].privateCommentFlag" 
+		                                                      attributeEntry="${minutesAttributes.privateCommentFlag}"
+		                                                      readOnly="${reviewComment.readOnly}" />
+		                            
+		                        </td>
+		                                                
+		                        <td style="text-align:center; vertical-align:middle">
+		                            
+		                            	<kul:htmlControlAttribute property="${property}.reviewComments[${status.index}].finalFlag" 
+		                                                      attributeEntry="${minutesAttributes.finalFlag}"
+		                                                      readOnly="${reviewComment.readOnly}" />
+		                            
+		                        </td>
 	                        </c:if>
                     <c:if test="${not KualiForm.onlineReviewsActionHelper.reviewCommentsBeans[reviewIndex].hideReviewerName}">
                        <c:choose>
@@ -201,7 +201,7 @@
 	                        <td>
 	                            <div align="center">&nbsp;
 	                            	<nobr>
-	                            		<c:if test = "${!readOnly}">
+	                            		<c:if test = "${!reviewComment.readOnly}">
 	                            	 		<html:image property="methodToCall.moveUpOnlineReviewComment.${documentNumber}.line.${status.index}.anchor${tabKey}"
 	                                        	    src='${ConfigProperties.kra.externalizable.images.url}tinybutton-moveup.gif' styleClass="tinybutton"/>
 	                                		<html:image property="methodToCall.moveDownOnlineReviewComment.${documentNumber}.line.${status.index}.anchor${tabKey}"
