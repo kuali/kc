@@ -265,7 +265,7 @@ public class IacucProcedureSummary implements Serializable {
         }
     }
     
-    public IacucProcedurePersonSummary findProcedurePersonSummary(Integer id) {
+    public IacucProcedurePersonSummary findProcedurePersonSummary(String id) {
         for (IacucProcedurePersonSummary personSummary : personSummaries) {
             if (personSummary.getPersonId().equals(id)) {
                 return personSummary;
