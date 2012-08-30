@@ -423,3 +423,13 @@ then
 	setProtocolSubmissionStatusCode(protocolAction, "207");
 	setProtocolStatusCode(protocolAction, "305");
 end
+
+rule "fn_review_not_required: Submission Status = 102 (Submitted to Committee); Protocol Status = 101 (Submitted to IACUC)  " 
+salience 100
+when
+	protocolAction : IacucProtocolActionUpdateMapping( actionTypeCode == "207")
+then	
+	createAuditTrail(protocolAction);
+	setProtocolSubmissionStatusCode(protocolAction, "104");
+	setProtocolStatusCode(protocolAction, "300");
+end
