@@ -101,7 +101,7 @@ public class NASAOtherProjectInformationV1_0GeneratorTest extends S2STestBase<NA
         document.getDevelopmentProposal().setNarratives(naList);
         
         List<AnswerHeader> answerHeaders;
-        ModuleQuestionnaireBean moduleQuestionnaireBean = new ModuleQuestionnaireBean(CoeusModule.PROPOSAL_DEVELOPMENT_MODULE_CODE, document.getDevelopmentProposal().getProposalNumber(), CoeusSubModule.ZERO_SUBMODULE ,CoeusSubModule.ZERO_SUBMODULE, true);
+        ModuleQuestionnaireBean moduleQuestionnaireBean = new ModuleQuestionnaireBean(CoeusModule.PROPOSAL_DEVELOPMENT_MODULE_CODE, document.getDevelopmentProposal().getProposalNumber(), CoeusSubModule.ZERO_SUBMODULE ,CoeusSubModule.ZERO_SUBMODULE, false);
         answerHeaders =KraServiceLocator.getService(QuestionnaireAnswerService.class).getQuestionnaireAnswer(moduleQuestionnaireBean);
        
         for(AnswerHeader answerHeader:answerHeaders){
