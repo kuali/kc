@@ -17,7 +17,7 @@
             <c:forEach var="disclProjectBean" items="${masterDisclosureProjects}" varStatus="status">
                      <kra-coi:projectStyle disclProjectBean="${disclProjectBean}"/>                    
                      <kra-coi:projectHeader disclProject="${disclProjectBean.coiDisclProject}" boLocation="${boLocation}[${status.index}].coiDisclProject"/>                    
-                     <kra-coi:masterProjectQuestionnaires disclProjectBean="${disclProjectBean}" parentTab="${parentTab}" />                    
+                     <kra-coi:masterProjectQuestionnaires disclProjectBean="${disclProjectBean}" parentTab="${parentTab}" boLocation="${boLocation}[${status.index}]"/>                    
                      <kra-coi:masterProjectFE disclProjectBean="${disclProjectBean}" projectDivNamePrefix="${projectDivNamePrefix}"  idx="${status.index}" projectListName="${projectListName}"/>                    
             </c:forEach> 
  </div>         

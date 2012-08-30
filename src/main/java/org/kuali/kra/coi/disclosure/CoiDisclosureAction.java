@@ -27,6 +27,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import noNamespace.ApprovedDisclosureDocument.ApprovedDisclosure.DisclosureStatus;
 
+import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.beanutils.BeanUtilsBean;
+import org.apache.commons.beanutils.PropertyUtilsBean;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -48,6 +51,7 @@ import org.kuali.kra.coi.certification.SubmitDisclosureAction;
 import org.kuali.kra.coi.notesandattachments.CoiNotesAndAttachmentsHelper;
 import org.kuali.kra.coi.notesandattachments.attachments.CoiDisclosureAttachment;
 import org.kuali.kra.coi.print.CoiReportType;
+import org.kuali.kra.coi.questionnaire.DisclosureQuestionnaireHelper;
 import org.kuali.kra.coi.service.CoiPrintingService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -142,6 +146,14 @@ public class CoiDisclosureAction extends CoiAction {
         // First validate the questionnaire data
         // TODO maybe add a COI questionnaire specific rule event to the condition below
         List<AnswerHeader> answerHeaders = coiDisclosureForm.getDisclosureQuestionnaireHelper().getAnswerHeaders();
+        if (coiDisclosureForm.getDisclosureHelper().getMasterDisclosureBean() != null) {
+            List<List<CoiDisclosureProjectBean>> allProjects = coiDisclosureForm.getDisclosureHelper().getMasterDisclosureBean().getProjectLists();
+            for (List<CoiDisclosureProjectBean> projectList : allProjects) {
+                for (CoiDisclosureProjectBean bean : projectList) {
+                    answerHeaders.addAll(bean.getAnswerHeaders());
+                }
+            }
+        }
         if ( applyRules(new SaveQuestionnaireAnswerEvent(coiDisclosureDocument, answerHeaders))) {
             // since Questionnaire data is OK we try to save doc
             actionForward = super.save(mapping, form, request, response);
@@ -151,6 +163,14 @@ public class CoiDisclosureAction extends CoiAction {
             if(GlobalVariables.getMessageMap().hasNoErrors()) {
                 // now save questionnaire data for the disclosure
                 coiDisclosureForm.getDisclosureQuestionnaireHelper().preSave();
+                if (coiDisclosureForm.getDisclosureHelper().getMasterDisclosureBean() != null) {
+                    List<List<CoiDisclosureProjectBean>> allProjects = coiDisclosureForm.getDisclosureHelper().getMasterDisclosureBean().getProjectLists();                
+                    for (List<CoiDisclosureProjectBean> projectList : allProjects) {
+                        for (CoiDisclosureProjectBean bean : projectList) {
+                            bean.getProjectQuestionnaireHelper().preSave(coiDisclosure);
+                        }
+                    }
+                }
                 getBusinessObjectService().save(answerHeaders);
             }
         }
@@ -197,7 +217,7 @@ public class CoiDisclosureAction extends CoiAction {
 
         // specify conditions to narrow down the range of the execution paths in which questionnaire data is populated
         if ((coiDisclosureDocument.getDocumentHeader().hasWorkflowDocument())
-                && ((!coiDisclosure.isManualEvent()) || (!CollectionUtils.isEmpty(coiDisclosure.getCoiDisclProjects())))) {
+                && !(coiDisclosure.isManualEvent() && CollectionUtils.isEmpty(coiDisclosure.getCoiDisclProjects()))) {
             boolean forceQnnrReload = false;
             // TODO : this is pretty hacky to refresh qn
             if ((StringUtils.equals("reload", coiDisclosureForm.getMethodToCall()) && !coiDisclosure.isApprovedDisclosure() && !coiDisclosure.isAnnualUpdate() && !coiDisclosure.isUpdateEvent())
@@ -304,7 +324,10 @@ public class CoiDisclosureAction extends CoiAction {
                         ((CoiDisclosureForm) form).getDisclosureHelper().setMasterDisclosureBean(
                                 getCoiDisclosureService().getMasterDisclosureDetail(coiDisclosure));  
                         
-                        // this coiDisclosure is not in coidisclosureform yet
+                        if (coiDisclosure != null) {
+                            coiDisclosureForm.getCoiDisclosureDocument().setCoiDisclosure(coiDisclosure);
+                            coiDisclosure.setCoiDisclosureDocument(coiDisclosureForm.getCoiDisclosureDocument());
+                        }
                         setQuestionnaireStatuses(coiDisclosureForm, coiDisclosure);
                     }
                     ((CoiDisclosureForm) form).getDisclosureHelper().setMasterDisclosureBean(
@@ -362,34 +385,29 @@ public class CoiDisclosureAction extends CoiAction {
     private void setQuestionnaireStatuses(CoiDisclosureForm coiDisclosureForm, CoiDisclosure coiDisclosure) {
         coiDisclosureForm.getDisclosureQuestionnaireHelper().setAnswerHeaders(
                 coiDisclosureForm.getDisclosureHelper().getMasterDisclosureBean().getAnswerHeaders());
-        List<String> questionnaireIds = getExistingQnaire(coiDisclosureForm.getDisclosureQuestionnaireHelper().getAnswerHeaders());
-        if (coiDisclosure.isAnnualUpdate()) {
-            List<AnswerHeader> answerHeaders = getQuestionnaireAnswerService().getQuestionnaireAnswer(
-                    new ModuleQuestionnaireBean (CoeusModule.COI_DISCLOSURE_MODULE_CODE, coiDisclosure.getCoiDisclosureNumber(), coiDisclosure.getEventTypeCode(), coiDisclosure.getSequenceNumber().toString(), 
-                            false));
-            if (CollectionUtils.isEmpty(questionnaireIds)) {
-                coiDisclosureForm.getDisclosureHelper().getMasterDisclosureBean().getAnswerHeaders().addAll(answerHeaders);
-            } else {
-                for (AnswerHeader answerHeader : answerHeaders) {
-                    if (!questionnaireIds.contains(answerHeader.getQuestionnaire().getQuestionnaireId())) {
-                        coiDisclosureForm.getDisclosureHelper().getMasterDisclosureBean().getAnswerHeaders().add(answerHeader);         }
+        List<AnswerHeader> answerHeaders = getQuestionnaireAnswerService().getQuestionnaireAnswer(
+                new ModuleQuestionnaireBean (CoeusModule.COI_DISCLOSURE_MODULE_CODE, coiDisclosure.getCoiDisclosureId() != null ? coiDisclosure.getCoiDisclosureId().toString() : "", coiDisclosure.getEventTypeCode(), "-1", 
+                        false));
+        if (CollectionUtils.isEmpty(coiDisclosureForm.getDisclosureQuestionnaireHelper().getAnswerHeaders())) {
+            coiDisclosureForm.getDisclosureHelper().getMasterDisclosureBean().getAnswerHeaders().addAll(answerHeaders);
+        } else {
+            for (AnswerHeader answerHeader : answerHeaders) {
+                boolean exists = false;
+                for (AnswerHeader existingHeader : coiDisclosureForm.getDisclosureQuestionnaireHelper().getAnswerHeaders()) {
+                    if (StringUtils.equals(existingHeader.getModuleSubItemCode(), answerHeader.getModuleSubItemCode())
+                            && StringUtils.equals(existingHeader.getQuestionnaireRefIdFk(), answerHeader.getQuestionnaireRefIdFk())) {
+                        exists = true;
+                        break;
+                    }
+                }
+                if (!exists) {
+                    coiDisclosureForm.getDisclosureHelper().getMasterDisclosureBean().getAnswerHeaders().add(answerHeader);
                 }
             }
         }
         coiDisclosureForm.getDisclosureQuestionnaireHelper().resetHeaderLabels();
         coiDisclosureForm.getDisclosureQuestionnaireHelper().setAnswerQuestionnaire(false);
         coiDisclosureForm.getDisclosureQuestionnaireHelper().setQuestionnaireActiveStatuses();
-    }
-    
-    private List<String> getExistingQnaire(List<AnswerHeader> answerHeaders) {
-        List<String> questionnaireIds  = new ArrayList<String>();
-        for (AnswerHeader answerHeader : answerHeaders) {
-            if (answerHeader.getModuleSubItemCode().equals("14")) {
-                // only the annual one
-                questionnaireIds.add(answerHeader.getQuestionnaire().getQuestionnaireId());
-            }
-        }
-        return questionnaireIds;
     }
     
     private QuestionnaireAnswerService getQuestionnaireAnswerService() {
@@ -1049,25 +1067,19 @@ public class CoiDisclosureAction extends CoiAction {
         CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) form;
         CoiDisclosure disclosure = coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure();
         final int answerHeaderIndex = this.getSelectedLine(request);
+        String methodToCall = (String) request.getAttribute(KRADConstants.METHOD_TO_CALL_ATTRIBUTE);
+        String formProperty = StringUtils.substringBetween(methodToCall, ".printQuestionnaireAnswer.", ".line");
+        DisclosureQuestionnaireHelper helper = (DisclosureQuestionnaireHelper) BeanUtilsBean.getInstance().getPropertyUtils().getProperty(form, formProperty);
+        AnswerHeader answerHeader = helper.getAnswerHeaders().get(answerHeaderIndex);
         // TODO : a flag to check whether to print answer or not
         // for release 3 : if questionnaire questions has answer, then print answer. 
         reportParameters.put("questionnaireId",
-                coiDisclosureForm.getDisclosureQuestionnaireHelper().getAnswerHeaders().get(answerHeaderIndex).getQuestionnaire()
+                answerHeader.getQuestionnaire()
                         .getQuestionnaireIdAsInteger());
         reportParameters.put("template",
-                coiDisclosureForm.getDisclosureQuestionnaireHelper().getAnswerHeaders().get(answerHeaderIndex).getQuestionnaire()
+                answerHeader.getQuestionnaire()
                         .getTemplate());
-        // get the submodule item code from the module questionnaire bean and put it in the report params
-        // set up sequencenumber for masterdisclosure qn.  so, it can be pulled from original disclosure
-        //  String moduleSubItemCode = (new DisclosureModuleQuestionnaireBean(disclosure)).getModuleSubItemCode();
-        AnswerHeader answerHeader = coiDisclosureForm.getDisclosureQuestionnaireHelper().getAnswerHeaders().get(answerHeaderIndex);
-        String moduleSubItemCode = answerHeader.getModuleSubItemCode();
-        if (answerHeader.getOriginalCoiDisclosureId() != null) {
-            answerHeader.refreshReferenceObject("originalCoiDisclosure");
-            reportParameters.put("sequenceNumber", answerHeader.getOriginalCoiDisclosure().getSequenceNumber().toString());
-        }
-        
-        reportParameters.put("coeusModuleSubItemCode", moduleSubItemCode);
+        reportParameters.put("coeusModuleSubItemCode", answerHeader.getModuleSubItemCode());
         
         AttachmentDataSource dataStream = getQuestionnairePrintingService().printQuestionnaireAnswer(disclosure, reportParameters);
         if (dataStream.getContent() != null) {

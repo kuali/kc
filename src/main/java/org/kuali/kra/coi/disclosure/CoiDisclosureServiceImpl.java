@@ -1115,16 +1115,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
      * @return
      */
     private boolean isAwardDisclosurable(Award award) {
-        Collection<String> params = new ArrayList<String>();
-        try {
-            params = parameterService.getParameterValuesAsString(AwardDocument.class, AWARD_DISCLOSE_STATUS_CODES);
-        } catch (Exception e) {
-            
-        }
-        if (params.isEmpty()) {
-            // TODO : what if param is not set or not set properly ?
-            params.add("1");
-        }
+         Collection<String> params = parameterService.getParameterValuesAsString(AwardDocument.class, AWARD_DISCLOSE_STATUS_CODES);
         return params.contains(award.getStatusCode().toString()) && isSponsorForDisclosure(ProposalDevelopmentDocument.class, award.getSponsorCode(), SPONSORS_FOR_PROPOSAL_AWD_DISCLOSE, ALL_SPONSORS_FOR_PROPOSAL_AWD_DISCLOSE);
    
     }
@@ -1133,16 +1124,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
      * check if PD is active for disclosure
      */
     private boolean isProposalDisclosurable(DevelopmentProposal proposal) {
-        Collection<String> params = new ArrayList<String>();
-        try {
-            params = parameterService.getParameterValuesAsString(ProposalDevelopmentDocument.class, PROPOSAL_DISCLOSE_STATUS_CODES);
-        } catch (Exception e) {
-            
-        }
-        if (params.isEmpty()) {
-            // TODO : what if param is not set or not set properly ?
-            params.add("1");
-        }
+        Collection<String> params = parameterService.getParameterValuesAsString(ProposalDevelopmentDocument.class, PROPOSAL_DISCLOSE_STATUS_CODES);
         return params.contains(proposal.getProposalStateTypeCode()) && isSponsorForDisclosure(ProposalDevelopmentDocument.class, proposal.getSponsorCode(), SPONSORS_FOR_PROPOSAL_AWD_DISCLOSE, ALL_SPONSORS_FOR_PROPOSAL_AWD_DISCLOSE);
    
     }
@@ -1151,16 +1133,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
      * check if institutional proposal is active for disclosure
      */
     private boolean isInstitutionalProposalDisclosurable(InstitutionalProposal proposal) {
-        Collection<String> params = new ArrayList<String>();
-        try {
-            params = parameterService.getParameterValuesAsString(InstitutionalProposalDocument.class, INSTITUTIONAL_PROPOSAL_DISCLOSE_STATUS_CODES);
-        } catch (Exception e) {
-            
-        }
-        if (params.isEmpty()) {
-            // TODO : what if param is not set or not set properly ?
-            params.add("1");
-        }
+        Collection<String> params = parameterService.getParameterValuesAsString(InstitutionalProposalDocument.class, INSTITUTIONAL_PROPOSAL_DISCLOSE_STATUS_CODES);
         return params.contains(proposal.getStatusCode().toString()) && isSponsorForDisclosure(ProposalDevelopmentDocument.class, proposal.getSponsorCode(), SPONSORS_FOR_PROPOSAL_AWD_DISCLOSE, ALL_SPONSORS_FOR_PROPOSAL_AWD_DISCLOSE);
    
     }
@@ -1169,16 +1142,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
      * check if protocol is active for disclosure
      */
     private boolean isProtocolDisclosurable(Protocol protocol) {
-        Collection<String> params = new ArrayList<String>();
-        try {
-            params = parameterService.getParameterValuesAsString(ProtocolDocument.class, PROTOCOL_DISCLOSE_STATUS_CODES);
-        } catch (Exception e) {
-            
-        }
-        if (params.isEmpty()) {
-            // TODO : what if param is not set or not set properly ?
-            params.add("100");
-        }
+        Collection<String> params = parameterService.getParameterValuesAsString(ProtocolDocument.class, PROTOCOL_DISCLOSE_STATUS_CODES);
         return params.contains(protocol.getProtocolStatusCode()) && isProtocolFundedByActiveSponsor(protocol);
    
     }
@@ -1187,16 +1151,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
      * check if protocol is active for disclosure
      */
     private boolean isIacucProtocolDisclosurable(IacucProtocol protocol) {
-        Collection<String> params = new ArrayList<String>();
-        try {
-            params = parameterService.getParameterValuesAsString(IacucProtocolDocument.class, IACUC_DISCLOSE_STATUS_CODES);
-        } catch (Exception e) {
-            
-        }
-        if (params.isEmpty()) {
-            // TODO : what if param is not set or not set properly ?
-            params.add("100");
-        }
+        Collection<String> params = parameterService.getParameterValuesAsString(IacucProtocolDocument.class, IACUC_DISCLOSE_STATUS_CODES);
         return params.contains(protocol.getProtocolStatusCode()) && isProtocolFundedByActiveSponsor(protocol);
    
     }
@@ -1335,9 +1290,11 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
 
         //Collections.sort(coiDisclosure.getCoiDiscDetails());
         List<AnswerHeader> answerHeaders = new ArrayList<AnswerHeader>();
-        if (coiDisclosure.getCoiDisclosureId() == null) {
+        Long currentDisclosureId = coiDisclosure.getCoiDisclosureId();
+        if (currentDisclosureId == null) {
             // if this is click update discl link
             CoiDisclosure masterDisclosure = getCurrentDisclosure();
+            currentDisclosureId = masterDisclosure.getCoiDisclosureId();
             answerHeaders = copyDisclosureQuestionnaire(masterDisclosure, coiDisclosure);
         } else {
             answerHeaders = retrieveAnswerHeaders(coiDisclosure);
@@ -1357,7 +1314,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
                     moduleItemKey = coiDiscDetail.getModuleItemKey();
                     addProjectDisclAttachments(disclosureProjectBean, coiDisclosure, coiDiscDetail.getOriginalCoiDisclosureId());
                     addProjectDisclNotepads(disclosureProjectBean, coiDisclosure, coiDiscDetail.getOriginalCoiDisclosureId());
-                    addProjectDisclQuestionnaires(disclosureProjectBean, answerHeaders, coiDiscDetail.getOriginalCoiDisclosureId());
+                    addProjectDisclQuestionnaires(disclosureProjectBean, answerHeaders, currentDisclosureId);
                 }
       //          disclosureProjectBean.getCoiDisclProject().getCoiDiscDetails().add(coiDiscDetail);            
             }
@@ -1368,7 +1325,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
                 moduleItemKey = coiDisclProject1.getModuleItemKey();
 //                addProjectDisclAttachments(disclosureProjectBean, coiDisclosure, coiDiscDetail.getOriginalCoiDisclosureId());
 //                addProjectDisclNotepads(disclosureProjectBean, coiDisclosure, coiDiscDetail.getOriginalCoiDisclosureId());
-                addProjectDisclQuestionnaires(disclosureProjectBean, answerHeaders, coiDisclProject1.getOriginalCoiDisclosureId());
+                addProjectDisclQuestionnaires(disclosureProjectBean, answerHeaders, currentDisclosureId);
                
             }
         }
@@ -1383,18 +1340,13 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
     private List<AnswerHeader> retrieveAnswerHeaders(CoiDisclosure coiDisclosure) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put(MODULE_ITEM_CODE, CoeusModule.COI_DISCLOSURE_MODULE_CODE);
-        fieldValues.put(MODULE_ITEM_KEY, coiDisclosure.getCoiDisclosureNumber());
-        fieldValues.put(MODULE_SUB_ITEM_KEY, coiDisclosure.getSequenceNumber());
+        fieldValues.put(MODULE_ITEM_KEY, coiDisclosure.getCoiDisclosureId());
+        fieldValues.put(MODULE_SUB_ITEM_KEY, "-1");
         return (List<AnswerHeader>) businessObjectService.findMatching(AnswerHeader.class, fieldValues);
     }
     
     private void addProjectDisclQuestionnaires(CoiDisclosureProjectBean disclosureProjectBean, List<AnswerHeader> answerHeaders, Long originalDisclosureId) {
-        for (AnswerHeader answerHeader : answerHeaders) {
-            if ((answerHeader.getOriginalCoiDisclosureId() == null && originalDisclosureId == null) || 
-                    (answerHeader.getOriginalCoiDisclosureId() != null && originalDisclosureId != null && answerHeader.getOriginalCoiDisclosureId().equals(originalDisclosureId))) {
-                disclosureProjectBean.getAnswerHeaders().add(answerHeader);
-            }
-        }        
+        disclosureProjectBean.populateAnswers(originalDisclosureId.toString());
     }
     
     private void addProjectDisclAttachments(CoiDisclosureProjectBean disclosureProjectBean, CoiDisclosure coiDisclosure, Long originalDisclosureId) {
@@ -1596,13 +1548,10 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         List<AnswerHeader> newAnswerHeaders = versioningQuestionnaireAnswer(masterCoiDisclosure);
          if (!newAnswerHeaders.isEmpty()) {
              for (AnswerHeader answerHeader : newAnswerHeaders) {
-                 if (answerHeader.getOriginalCoiDisclosureId() == null) {
-                     answerHeader.setOriginalCoiDisclosureId(masterCoiDisclosure.getCoiDisclosureId());
+                 if (coiDisclosure.getCoiDisclosureId() != null) {
+                     answerHeader.setModuleItemKey(coiDisclosure.getCoiDisclosureId().toString());
                  }                 
-                 answerHeader.setModuleSubItemKey(coiDisclosure.getSequenceNumber().toString());
              }
-          // for update disc, this should not be saved until click 'save'   
-          //  businessObjectService.save(newAnswerHeaders);
         }
         return newAnswerHeaders;
     }
