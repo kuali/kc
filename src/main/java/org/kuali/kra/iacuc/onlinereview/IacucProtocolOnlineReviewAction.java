@@ -438,9 +438,10 @@ public class IacucProtocolOnlineReviewAction extends IacucProtocolAction {
             //nothing to do, we failed validation return them to the screen.
         } else {
             ProtocolReviewer reviewer = prDoc.getProtocolOnlineReview().getProtocolReviewer();
-            getBusinessObjectService().save(reviewer);
+            
             getReviewCommentsService().saveReviewComments(reviewCommentsBean.getReviewComments(), reviewCommentsBean.getDeletedReviewComments());
-            getReviewCommentsService().saveReviewAttachments(reviewAttachmentsBean.getReviewAttachments(), reviewAttachmentsBean.getDeletedReviewAttachments());           
+            getReviewCommentsService().saveReviewAttachments(reviewAttachmentsBean.getReviewAttachments(), reviewAttachmentsBean.getDeletedReviewAttachments());
+            getBusinessObjectService().save(reviewer);
             documentService.saveDocument(prDoc);
             recordOnlineReviewActionSuccess("saved", prDoc);
             protocolForm.getOnlineReviewsActionHelper().init(true);
