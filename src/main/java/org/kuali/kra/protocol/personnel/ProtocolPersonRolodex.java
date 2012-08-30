@@ -17,6 +17,11 @@ package org.kuali.kra.protocol.personnel;
 
 import org.kuali.kra.bo.Rolodex;
 
-public class ProtocolPersonRolodex extends Rolodex {
+public abstract class ProtocolPersonRolodex extends Rolodex {
+
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = 3995059787549106317L;
 
 }
