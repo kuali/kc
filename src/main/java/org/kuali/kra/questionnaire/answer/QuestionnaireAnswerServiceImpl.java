@@ -130,7 +130,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
                 }
             }
             else {
-                if ((!finalDoc || isCurrentQuestionnaire(questionnaireUsage.getQuestionnaire()))
+                if ((!finalDoc && isCurrentQuestionnaire(questionnaireUsage.getQuestionnaire()))
                         && questionnaireUsage.getQuestionnaire().isActive()) {
                     // filter out an not saved and usage is not include in current qn
                     answerHeaders.add(setupAnswerForQuestionnaire(questionnaireUsage.getQuestionnaire(), moduleQuestionnaireBean));

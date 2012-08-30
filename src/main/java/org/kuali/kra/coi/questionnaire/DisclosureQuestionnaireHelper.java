@@ -34,13 +34,12 @@ public class DisclosureQuestionnaireHelper extends QuestionnaireHelperBase {
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = -8685872555239368202L;
-
     
-    private CoiDisclosureForm form;
+    private CoiDisclosure coiDisclosure;
     
-    public DisclosureQuestionnaireHelper(CoiDisclosureForm coiDisclosureForm) {
+    public DisclosureQuestionnaireHelper(CoiDisclosure coiDisclosure) {
         this.setAnswerHeaders(new ArrayList<AnswerHeader>());
-        this.form = coiDisclosureForm;
+        this.coiDisclosure = coiDisclosure;
     }
 
     @Override
@@ -62,13 +61,13 @@ public class DisclosureQuestionnaireHelper extends QuestionnaireHelperBase {
     /*
      * authorization check.
      */
-    private void initializePermissions(CoiDisclosure CoiDisclosure) {
+    protected void initializePermissions(CoiDisclosure CoiDisclosure) {
         CoiDisclosureTask task = new CoiDisclosureTask(TaskName.ANSWER_COI_DISCLOSURE_QUESTIONNAIRE, CoiDisclosure);
         setAnswerQuestionnaire(getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task));
     }
     
     
-    private void populateQuestionnaires(boolean reload) {
+    protected void populateQuestionnaires(boolean reload) {
         boolean refreshed = false;
         if(CollectionUtils.isEmpty(this.getAnswerHeaders()) || reload) {
             super.populateAnswers();
@@ -83,13 +82,19 @@ public class DisclosureQuestionnaireHelper extends QuestionnaireHelperBase {
         }
     }
     
-    private CoiDisclosure getCoiDisclosure() {
-        CoiDisclosureDocument document = form.getCoiDisclosureDocument();
-        if (document == null || document.getCoiDisclosure() == null) {
-            throw new IllegalArgumentException("invalid (null) CoiDisclosureDocument in CoiDisclosureForm");
-        }
-        return document.getCoiDisclosure();
+    public CoiDisclosure getCoiDisclosure() {
+        return coiDisclosure;
     }
-
-
+    
+    public void setCoiDisclosure(CoiDisclosure coiDisclosure) {
+        this.coiDisclosure = coiDisclosure;
+    }
+    
+    @Override
+    public void preSave() {
+        for (AnswerHeader answerHeader : this.getAnswerHeaders()) {
+            answerHeader.setModuleItemKey(getCoiDisclosure().getCoiDisclosureId().toString());
+        }
+        super.preSave();
+    }
 }

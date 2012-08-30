@@ -36,23 +36,15 @@
     $j(".questionpanel").toggle(
             function() 
             {
-            	var headerDetails = $j(this).attr("id").split(":");
-            	var headerIdx = headerDetails[2];
-            	var formProperty = headerDetails[1];
-                var panelcontentid = "questionpanelcontent\\:"+formProperty+"\\:"+headerIdx;
-                $j("#"+panelcontentid).slideUp(500);
+                $j(this).parent().parent().next().slideUp(500);
                 $j(this).html("<img src='kr/images/tinybutton-show.gif' alt='Show panel' width='45' height='15' border='0' align='absmiddle'>");
-                $j("#"+formProperty+"\\.answerHeaders\\["+headerIdx+"\\]\\.showQuestions").attr("value","N")
+                $j(this).parent().parent().parent().prev().attr("value","N");
             },
             function()
             {
-            	var headerDetails = $j(this).attr("id").split(":");
-            	var headerIdx = headerDetails[2];
-            	var formProperty = headerDetails[1];
-                var panelcontentid = "questionpanelcontent\\:"+formProperty+"\\:"+headerIdx;
-                $j("#"+panelcontentid).slideDown(500);
+                $j(this).parent().parent().next().slideDown(500);
                 $j(this).html("<img src='kr/images/tinybutton-hide.gif' alt='Hide panel' width='45' height='15' border='0' align='absmiddle'>");
-                $j("#"+formProperty+"\\.answerHeaders\\["+headerIdx+"\\]\\.showQuestions").attr("value","Y")
+                $j(this).parent().parent().parent().prev().attr("value","Y");
             }
         );
 

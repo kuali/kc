@@ -90,7 +90,13 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
         updateCorrespondingCoiDisclProject(coiDisclosure, coiDispositionCode, CoiDisclosureStatus.APPROVED);
         
         disclosures.add(coiDisclosure);
-     
+        
+        //if this isn't an update master or annual update, then move the answer headers
+        //to the appropriate project before making this disclosure the master.
+        if (!coiDisclosure.isUpdateEvent() && !coiDisclosure.isAnnualEvent()) {
+            fixAnswerHeader(coiDisclosure);
+        }
+        
         if (masterCoiDisclosure != null) {
             if (coiDisclosure.isUpdateEvent() || (coiDisclosure.isAnnualEvent() && coiDisclosure.isAnnualUpdate())) {
                 syncCollections(masterCoiDisclosure, coiDisclosure);
@@ -187,6 +193,15 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
         copyDisclosureQuestionnaire(masterCoiDisclosure, coiDisclosure);
     }
     
+    protected void fixAnswerHeader(CoiDisclosure coiDisclosure) {
+        String moduleSubKey = coiDisclosure.getCoiDisclProjects().get(0).getCoiProjectId();
+        for (AnswerHeader answerHeader : retrieveAnswerHeaders(coiDisclosure)) {
+            answerHeader.setModuleSubItemKey(moduleSubKey);
+            businessObjectService.save(answerHeader);
+        }
+        
+    }
+    
     private void copyDisclosureQuestionnaire(CoiDisclosure masterCoiDisclosure, CoiDisclosure coiDisclosure) {
         // versioning questionnaire answer
 //        if (masterCoiDisclosure.getCoiDisclosureDocument().getDocumentHeader().getWorkflowDocument() == null) {
@@ -205,10 +220,7 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
             List<AnswerHeader> newAnswerHeaders = versioningQuestionnaireAnswer(masterCoiDisclosure);
          if (!newAnswerHeaders.isEmpty()) {
              for (AnswerHeader answerHeader : newAnswerHeaders) {
-                 if (answerHeader.getOriginalCoiDisclosureId() == null) {
-                     answerHeader.setOriginalCoiDisclosureId(masterCoiDisclosure.getCoiDisclosureId());
-                 }                 
-                 answerHeader.setModuleSubItemKey(coiDisclosure.getSequenceNumber().toString());
+                 answerHeader.setModuleItemKey(coiDisclosure.getCoiDisclosureId().toString());
              }
             businessObjectService.save(newAnswerHeaders);
         }
@@ -232,8 +244,7 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
     private List<AnswerHeader> retrieveAnswerHeaders(CoiDisclosure coiDisclosure) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put(MODULE_ITEM_CODE, CoeusModule.COI_DISCLOSURE_MODULE_CODE);
-        fieldValues.put(MODULE_ITEM_KEY, coiDisclosure.getCoiDisclosureNumber());
-        fieldValues.put(MODULE_SUB_ITEM_KEY, coiDisclosure.getSequenceNumber());
+        fieldValues.put(MODULE_ITEM_KEY, coiDisclosure.getCoiDisclosureId().toString());
         return (List<AnswerHeader>) businessObjectService.findMatching(AnswerHeader.class, fieldValues);
     }
     
@@ -562,26 +573,22 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
         List<AnswerHeader> updateAnswerHeaders = retrieveAnswerHeaders(updateDisclosure);
         List<AnswerHeader> masterAnswerHeaders = retrieveAnswerHeaders(masterCoiDisclosure);
         
-        Set<Long> origDisclIds = new HashSet<Long>();
-        for (AnswerHeader updateHeader : updateAnswerHeaders) {
-            if (updateHeader.getOriginalCoiDisclosureId() != null) {
-                origDisclIds.add(updateHeader.getOriginalCoiDisclosureId());
-            }
-        }
-        
         for (AnswerHeader masterHeader : masterAnswerHeaders) {
-            if (masterHeader.getOriginalCoiDisclosureId() == null ||
-                    !origDisclIds.contains(masterHeader.getOriginalCoiDisclosureId())) {
+            boolean existsAlready = false;
+            for (AnswerHeader updateHeader : updateAnswerHeaders) {
+                if (StringUtils.equals(updateHeader.getModuleSubItemCode(), masterHeader.getModuleSubItemCode())
+                        && StringUtils.equals(updateHeader.getModuleSubItemKey(), masterHeader.getModuleSubItemKey())
+                        && StringUtils.equals(updateHeader.getQuestionnaireRefIdFk(), masterHeader.getQuestionnaireRefIdFk())) {
+                    existsAlready = true;
+                }
+            }
+            if (!existsAlready) {
                 AnswerHeader copiedAnswerHeader = (AnswerHeader) ObjectUtils.deepCopy(masterHeader);
                 copiedAnswerHeader.setAnswerHeaderId(null);
+                copiedAnswerHeader.setModuleItemCode(updateDisclosure.getCoiDisclosureId().toString());
                 for (Answer answer : copiedAnswerHeader.getAnswers()) {
                     answer.setId(null);
-                }                
-                copiedAnswerHeader.setModuleSubItemKey(updateDisclosure.getSequenceNumber().toString());
-                if (copiedAnswerHeader.getOriginalCoiDisclosureId() == null) {
-                    copiedAnswerHeader.setOriginalCoiDisclosureId(masterCoiDisclosure.getCoiDisclosureId());
                 }
-                
                 updateAnswerHeaders.add(copiedAnswerHeader);
             }
         }

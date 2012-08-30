@@ -26,9 +26,11 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.coi.CoiDiscDetail;
 import org.kuali.kra.coi.CoiDisclProject;
 import org.kuali.kra.coi.CoiDisclosure;
+import org.kuali.kra.coi.CoiDisclosureForm;
 import org.kuali.kra.coi.Disclosurable;
 import org.kuali.kra.coi.notesandattachments.attachments.CoiDisclosureAttachment;
 import org.kuali.kra.coi.notesandattachments.notes.CoiDisclosureNotepad;
+import org.kuali.kra.coi.questionnaire.DisclProjectQuestionnaireHelper;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -48,7 +50,8 @@ public class CoiDisclosureProjectBean implements Serializable {
     private Date approvalDate; 
     private List<CoiDisclosureAttachment> projectDiscAttachments;
     private List<CoiDisclosureNotepad> projectDiscNotepads;
-    private List<AnswerHeader> answerHeaders;
+    //private List<AnswerHeader> answerHeaders;
+    private DisclProjectQuestionnaireHelper projectQuestionnaireHelper;
     private boolean excludeFE; 
 
     public CoiDisclosureProjectBean() {
@@ -56,26 +59,8 @@ public class CoiDisclosureProjectBean implements Serializable {
         //projectDiscDetails = new ArrayList<CoiDiscDetail> ();
         projectDiscAttachments = new ArrayList<CoiDisclosureAttachment> ();
         projectDiscNotepads = new ArrayList<CoiDisclosureNotepad> ();
-        answerHeaders = new ArrayList<AnswerHeader> ();
+        //answerHeaders = new ArrayList<AnswerHeader> ();
     }
-    
-/*
-    public KraPersistableBusinessObjectBase getDisclosureProject() {
-        return disclosureProject;
-    }
-
-    public void setDisclosureProject(KraPersistableBusinessObjectBase disclosureProject) {
-        this.disclosureProject = disclosureProject;
-    }
-
-    public List<CoiDiscDetail> getProjectDiscDetails() {
-        return projectDiscDetails;
-    }
-
-    public void setProjectDiscDetails(List<CoiDiscDetail> projectDiscDetails) {
-        this.projectDiscDetails = projectDiscDetails;
-    }
-*/
     
     public CoiDisclProject getCoiDisclProject() {
         return coiDisclProject;
@@ -179,14 +164,14 @@ public class CoiDisclosureProjectBean implements Serializable {
     }
 
 
-    public List<AnswerHeader> getAnswerHeaders() {
-        return answerHeaders;
-    }
-
-
-    public void setAnswerHeaders(List<AnswerHeader> answerHeaders) {
-        this.answerHeaders = answerHeaders;
-    }
+//    public List<AnswerHeader> getAnswerHeaders() {
+//        return answerHeaders;
+//    }
+//
+//
+//    public void setAnswerHeaders(List<AnswerHeader> answerHeaders) {
+//        this.answerHeaders = answerHeaders;
+//    }
 
     public boolean isExcludeFE() {
         return excludeFE;
@@ -195,6 +180,23 @@ public class CoiDisclosureProjectBean implements Serializable {
 
     public void setExcludeFE(boolean excludeFE) {
         this.excludeFE = excludeFE;
+    }
+
+    public DisclProjectQuestionnaireHelper getProjectQuestionnaireHelper() {
+        return projectQuestionnaireHelper;
+    }  
+
+    public void setProjectQuestionnaireHelper(DisclProjectQuestionnaireHelper projectQuestionnaireHelper) {
+        this.projectQuestionnaireHelper = projectQuestionnaireHelper;
+    }
+    
+    public void populateAnswers(String originalDisclosureId) {
+        projectQuestionnaireHelper = new DisclProjectQuestionnaireHelper(coiDisclProject, coiDisclProject.getCoiDisclosure(), originalDisclosureId);
+        projectQuestionnaireHelper.populateAnswers();
+    }
+    
+    public List<AnswerHeader> getAnswerHeaders() {
+        return this.getProjectQuestionnaireHelper().getAnswerHeaders();
     }
 
 }
