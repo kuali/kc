@@ -503,6 +503,7 @@ public class CoiDisclosureAction extends CoiAction {
         disclosureHelper.setNewInstitutionalProposals(getCoiDisclosureService().getInstitutionalProposals(userId));
         disclosureHelper.setNewAwards(getCoiDisclosureService().getAwards(userId));
         disclosureHelper.setNewProtocols(getCoiDisclosureService().getProtocols(userId));
+        disclosureHelper.setNewIacucProtocols(getCoiDisclosureService().getIacucProtocols(userId));
 
         return mapping.findForward(Constants.MAPPING_BASIC);
 

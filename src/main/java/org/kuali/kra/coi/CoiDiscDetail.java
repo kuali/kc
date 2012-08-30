@@ -252,6 +252,10 @@ public class CoiDiscDetail extends KraPersistableBusinessObjectBase implements C
         return StringUtils.equals(CoiDisclosureEventType.IRB_PROTOCOL, this.projectType);
     }
 
+    public boolean isIacucProtocolEvent() {
+        return StringUtils.equals(CoiDisclosureEventType.IACUC_PROTOCOL, this.projectType);
+    }
+
     public boolean isManualAwardEvent() {
         return StringUtils.equals(CoiDisclosureEventType.MANUAL_AWARD, this.projectType);
     }

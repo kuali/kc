@@ -273,7 +273,7 @@
  <!--   </c:if> -->
 </c:if> 
  
-<c:if test="${KualiForm.document.coiDisclosureList[0].awardEvent || KualiForm.document.coiDisclosureList[0].proposalEvent || KualiForm.document.coiDisclosureList[0].institutionalProposalEvent || KualiForm.document.coiDisclosureList[0].protocolEvent}" >
+<c:if test="${KualiForm.document.coiDisclosureList[0].awardEvent || KualiForm.document.coiDisclosureList[0].proposalEvent || KualiForm.document.coiDisclosureList[0].institutionalProposalEvent || KualiForm.document.coiDisclosureList[0].protocolEvent || KualiForm.document.coiDisclosureList[0].iacucProtocolEvent}" >
 	<kul:tab defaultOpen="false" tabTitle="Project & Financial Entity Relationships" auditCluster="financialEntityDiscAuditErrors" tabAuditKey="document.coiDisclosureList[0].coiDisclEventProjects*" useRiceAuditMode="true"
 	       tabErrorKey="document.coiDisclosureList[0].coiDisclEventProjects*" >
 		<div class="tab-container" align="center">

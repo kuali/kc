@@ -26,6 +26,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.iacuc.protocol.IacucProtocolType;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.irb.Protocol;
@@ -72,6 +73,7 @@ public class CoiDisclProject extends KraPersistableBusinessObjectBase implements
     private String disclosureStatusCode;  
     private ProposalType proposalType;
     private ProtocolType protocolType;
+    private IacucProtocolType iacucProtocolType;
     private Protocol protocol;
     private DevelopmentProposal proposal;
     private InstitutionalProposal institutionalProposal;
@@ -310,6 +312,17 @@ public class CoiDisclProject extends KraPersistableBusinessObjectBase implements
     
     public void setProtocolType(ProtocolType protocolType) {
         this.protocolType = protocolType;
+    }
+    
+    public IacucProtocolType getIacucProtocolType() {
+        if (StringUtils.isNotBlank(selectBox1) && protocolType == null) {
+            this.refreshReferenceObject("iacucProtocolType");
+        }
+        return iacucProtocolType;
+    }
+    
+    public void setIacucProtocolType(IacucProtocolType iacucProtocolType) {
+        this.iacucProtocolType = iacucProtocolType;
     }
     
     public String getCompleteMessage() {
