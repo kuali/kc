@@ -395,7 +395,7 @@ public class BudgetExpensesAction extends BudgetAction {
 
     private void calculateAndUpdateFormulatedCost(BudgetLineItem budgetLineItem) {
         BudgetDecimal formulatedCostTotal = getFormulatedCostsTotal(budgetLineItem);
-        if(!formulatedCostTotal.equals(BudgetDecimal.ZERO)){
+        if(formulatedCostTotal!=null){
             budgetLineItem.setLineItemCost(formulatedCostTotal);
         }
     }
