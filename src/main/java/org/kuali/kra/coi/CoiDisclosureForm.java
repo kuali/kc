@@ -44,6 +44,7 @@ import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kns.datadictionary.HeaderNavigation;
 import org.kuali.rice.kns.web.ui.HeaderField;
+import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -83,9 +84,8 @@ public class CoiDisclosureForm extends KraTransactionalDocumentFormBase implemen
        setDisclosureActionHelper(new DisclosureActionHelper(this));
        disclosureActionHelper.prepareView();
        setNotificationHelper(new NotificationHelper<CoiNotificationContext>());
-       setDisclosureQuestionnaireHelper(new DisclosureQuestionnaireHelper(this));
     }
-    
+
    public void setCoiNotesAndAttachmentsHelper(CoiNotesAndAttachmentsHelper coiNotesAndAttachmentsHelper) {
         this.coiNotesAndAttachmentsHelper = coiNotesAndAttachmentsHelper;
         
@@ -96,6 +96,10 @@ public class CoiDisclosureForm extends KraTransactionalDocumentFormBase implemen
     }
    
    public DisclosureQuestionnaireHelper getDisclosureQuestionnaireHelper() {
+       //lazy init questionnaire helper to make sure the document and dislosure are current
+       if (disclosureQuestionnaireHelper == null) {
+           disclosureQuestionnaireHelper = new DisclosureQuestionnaireHelper(this.getCoiDisclosureDocument().getCoiDisclosure());
+       }
        return disclosureQuestionnaireHelper;
    }
 
