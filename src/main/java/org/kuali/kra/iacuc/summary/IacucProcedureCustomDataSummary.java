@@ -31,7 +31,7 @@ public class IacucProcedureCustomDataSummary implements Serializable {
     private boolean customDataValChanged; 
 
     public IacucProcedureCustomDataSummary(IacucProtocolStudyCustomData customData) {
-        id = customData.getIacucProtocolStudyCustomDataId();
+        id = customData.getProcedureCustomAttributeId();
         customDataTag = customData.getIacucProcedureCategoryCustomData().getLabel();
         customDataVal = customData.getValue();
         customDataTagChanged = false;
@@ -81,10 +81,10 @@ public class IacucProcedureCustomDataSummary implements Serializable {
     public void compare(IacucProcedureSummary other) {
         IacucProcedureCustomDataSummary otherSummary = (other == null) ? null : other.findProcedureCustomDataSummary(id);
         if (otherSummary == null) {
-            customDataTagChanged = true;
+            customDataTagChanged = false;  // doesn't do any good to highlight the label
             customDataValChanged = true;
         } else {
-            customDataTagChanged = !StringUtils.equals(customDataTag, otherSummary.customDataTag);
+            customDataTagChanged = false;
             customDataValChanged = !StringUtils.equals(customDataVal, otherSummary.customDataVal);
         }
     }

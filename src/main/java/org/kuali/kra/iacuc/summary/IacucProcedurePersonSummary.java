@@ -22,7 +22,7 @@ import org.kuali.kra.iacuc.procedures.IacucProcedurePersonResponsible;
 
 public class IacucProcedurePersonSummary implements Serializable {
 
-    private Integer personId;
+    private String personId;
     private String personName;
     private String personTraining;
     private String description;
@@ -32,7 +32,7 @@ public class IacucProcedurePersonSummary implements Serializable {
     private boolean descriptionChanged;
     
     public IacucProcedurePersonSummary(IacucProcedurePersonResponsible personResponsible) {
-        this.personId = personResponsible.getIacucProcedurePersonResponsibleId();
+        this.personId = personResponsible.getPersonId();
         this.personName = personResponsible.getPersonName();
         this.personTraining = personResponsible.getTrainingDetailsString();
         this.description = personResponsible.getPersonResponsibleDescription();
@@ -41,11 +41,11 @@ public class IacucProcedurePersonSummary implements Serializable {
         this.descriptionChanged = false;
     }
         
-    public Integer getPersonId() {
+    public String getPersonId() {
         return personId;
     }
 
-    public void setPersonId(Integer personId) {
+    public void setPersonId(String personId) {
         this.personId = personId;
     }
 
