@@ -402,7 +402,7 @@ public class QuestionnaireAnswerServiceTest {
             one(businessObjectService).findMatching(QuestionnaireUsage.class, fieldValues1); will(returnValue(usages));
             one(businessObjectService).findMatchingOrderBy(Questionnaire.class,
                     fieldValues2, "sequenceNumber", false); will(returnValue(questionnaires));
-            one(businessObjectService).findMatchingOrderBy(Questionnaire.class,
+            exactly(2).of(businessObjectService).findMatchingOrderBy(Questionnaire.class,
                             fieldValues3, "sequenceNumber", false); will(returnValue(questionnaires1));
        }});
 

@@ -16,14 +16,19 @@
 package org.kuali.kra.coi.questionnaire;
 
 import org.kuali.kra.bo.CoeusModule;
+import org.kuali.kra.coi.CoiDisclProject;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 
 public class DisclosureModuleQuestionnaireBean extends ModuleQuestionnaireBean {
     
-    public  DisclosureModuleQuestionnaireBean(CoiDisclosure coiDisclosure) {
-        super(CoeusModule.COI_DISCLOSURE_MODULE_CODE, coiDisclosure.getCoiDisclosureNumber(), coiDisclosure.getEventTypeCode(), coiDisclosure.getSequenceNumber().toString(), 
-                coiDisclosure.getCoiDisclosureDocument().getDocumentHeader().getWorkflowDocument().isApproved());
+    public DisclosureModuleQuestionnaireBean(CoiDisclosure coiDisclosure) {
+        super(CoeusModule.COI_DISCLOSURE_MODULE_CODE, coiDisclosure.getCoiDisclosureId() == null ? "" : coiDisclosure.getCoiDisclosureId().toString(), coiDisclosure.getEventTypeCode(), "-1", 
+                coiDisclosure.getCoiDisclosureDocument().getDocumentHeader().hasWorkflowDocument() ? coiDisclosure.getCoiDisclosureDocument().getDocumentHeader().getWorkflowDocument().isApproved() : false);
+    }
+    
+    public DisclosureModuleQuestionnaireBean(String disclosureId, CoiDisclProject coiDisclProject, boolean finalDoc) {
+        super(CoeusModule.COI_DISCLOSURE_MODULE_CODE, disclosureId, coiDisclProject.getDisclosureEventType(), coiDisclProject.getCoiProjectId(), finalDoc);
     }
 
 }
