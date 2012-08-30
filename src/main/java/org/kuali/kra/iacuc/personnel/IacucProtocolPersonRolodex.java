@@ -19,9 +19,136 @@ import org.kuali.kra.protocol.personnel.ProtocolPersonRolodex;
 
 public class IacucProtocolPersonRolodex extends ProtocolPersonRolodex {
 
+    // TODO: none of this data is being mapped to any columns in any table, so its not being saved, nor being read from anywhere. 
+    // it seems all of these fields, or rather all these getter/setters serve only to provide compatibility with kcperson getters/setters
+    // when displaying read-only contact information for non-employee memberships.
+    
     /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 7383899899322228494L;
+    
+    private String userName;
+
+    private String officeLocation;
+
+    private String officePhone;
+
+    private String secondaryOfficeLocation;
+
+    private String school;
+
+    private String primaryTitle;
+
+    private String directoryTitle;
+
+    private String homeUnit;
+
+    private String pagerNumber;
+
+    private String mobilePhoneNumber;
+
+    private String eraCommonsUserName;
+
+    private String fullName;
+
+    public IacucProtocolPersonRolodex() {
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getOfficeLocation() {
+        return officeLocation;
+    }
+
+    public void setOfficeLocation(String officeLocation) {
+        this.officeLocation = officeLocation;
+    }
+
+    public String getOfficePhone() {
+        return super.getPhoneNumber();
+    }
+
+    public void setOfficePhone(String officePhone) {
+        this.officePhone = officePhone;
+    }
+
+    public String getSecondaryOfficeLocation() {
+        return secondaryOfficeLocation;
+    }
+
+    public void setSecondaryOfficeLocation(String secondaryOfficeLocation) {
+        this.secondaryOfficeLocation = secondaryOfficeLocation;
+    }
+
+    public String getSchool() {
+        return school;
+    }
+
+    public void setSchool(String school) {
+        this.school = school;
+    }
+
+    public String getPrimaryTitle() {
+        return primaryTitle;
+    }
+
+    public void setPrimaryTitle(String primaryTitle) {
+        this.primaryTitle = primaryTitle;
+    }
+
+    public String getDirectoryTitle() {
+        return directoryTitle;
+    }
+
+    public void setDirectoryTitle(String directoryTitle) {
+        this.directoryTitle = directoryTitle;
+    }
+
+    public String getHomeUnit() {
+        return homeUnit;
+    }
+
+    public void setHomeUnit(String homeUnit) {
+        this.homeUnit = homeUnit;
+    }
+
+    public String getPagerNumber() {
+        return pagerNumber;
+    }
+
+    public void setPagerNumber(String pagerNumber) {
+        this.pagerNumber = pagerNumber;
+    }
+
+    public String getMobilePhoneNumber() {
+        return mobilePhoneNumber;
+    }
+
+    public void setMobilePhoneNumber(String mobilePhoneNumber) {
+        this.mobilePhoneNumber = mobilePhoneNumber;
+    }
+
+    public String getEraCommonsUserName() {
+        return eraCommonsUserName;
+    }
+
+    public void setEraCommonsUserName(String eraCommonsUserName) {
+        this.eraCommonsUserName = eraCommonsUserName;
+    }
+
+    public String getFullName() {
+        return super.getFullName();
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
 
 }
