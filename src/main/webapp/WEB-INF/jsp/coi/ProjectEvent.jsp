@@ -31,6 +31,7 @@
 <kra-coi:institutionalProposalEventListing />
 <kra-coi:awardEventListing />
 <kra-coi:protocolEventListing />
+<kra-coi:iacucEventListing />
 
 <kul:panelFooter />
 
