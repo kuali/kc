@@ -21,6 +21,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
+import org.kuali.kra.iacuc.actions.IacucProtocolAction;
 import org.kuali.kra.iacuc.personnel.IacucProtocolPerson;
 import org.kuali.kra.iacuc.personnel.IacucProtocolUnit;
 import org.kuali.kra.iacuc.protocol.location.IacucProtocolLocation;
@@ -29,9 +30,9 @@ import org.kuali.kra.iacuc.species.IacucProtocolSpecies;
 import org.kuali.kra.iacuc.species.exception.IacucProtocolException;
 import org.kuali.kra.protocol.CriteriaFieldHelper;
 import org.kuali.kra.protocol.Protocol;
-import org.kuali.kra.protocol.ProtocolAction;
 import org.kuali.kra.protocol.ProtocolDaoOjb;
 import org.kuali.kra.protocol.ProtocolLookupConstants;
+import org.kuali.kra.protocol.actions.ProtocolAction;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
 import org.kuali.kra.protocol.personnel.ProtocolPerson;
 import org.kuali.kra.protocol.personnel.ProtocolUnit;
@@ -44,6 +45,31 @@ import org.kuali.rice.krad.util.OjbCollectionAware;
  * This class is the implementation for IacucProtocolDao interface.
  */
 public class IacucProtocolDaoOjb extends ProtocolDaoOjb<IacucProtocol> implements OjbCollectionAware, IacucProtocolDao {
+    
+    /**
+     * The ACTIVE_PROTOCOL_STATUS_CODES contains the various active status codes for a protocol. 
+     */
+    private static final Collection<String> ACTIVE_PROTOCOL_STATUS_CODES = Arrays.asList(new String[] {"200", "201"});
+    
+    /**
+     * The REVISION_REQUESTED_PROTOCOL_STATUS_CODES contains the various status codes for protocol revision requests.
+     */
+    private static final Collection<String> REVISION_REQUESTED_PROTOCOL_STATUS_CODES = Arrays.asList(new String[] {"104", "107"});
+    
+    /**
+     * The APPROVED_SUBMISSION_STATUS_CODE contains the status code of approved protocol submissions.
+     */
+    private static final Collection<String> APPROVED_SUBMISSION_STATUS_CODES = Arrays.asList(new String[] {"200", "213"});
+    
+    /**
+     * The REVISION_REQUESTED_PROTOCOL_ACTION_TYPE_CODES contains the protocol action codes for the protocol revision requests. 
+     */
+    private static final Collection<String> REVISION_REQUESTED_PROTOCOL_ACTION_TYPE_CODES = Arrays.asList(new String[] {"209", "211", "213"});
+    
+   
+    private static final Collection<String> PENDING_AMENDMENT_RENEWALS_STATUS_CODES = Arrays.asList(new String[] {"100", "101", "103", "104", "107", "108", "205", "206", "207"});
+    
+    
     
     @Override
     protected Class<? extends Protocol> getProtocolBOClassHook() {
@@ -94,22 +120,22 @@ public class IacucProtocolDaoOjb extends ProtocolDaoOjb<IacucProtocol> implement
 
     @Override
     protected Collection<String> getApprovedSubmissionStatusCodesHook() {
-        return Arrays.asList(new String[] {"200", "213"});
+        return APPROVED_SUBMISSION_STATUS_CODES;
     }
 
     @Override
     protected Collection<String> getActiveProtocolStatusCodesHook() {
-        return Arrays.asList(new String[] {"200", "201"});
+        return ACTIVE_PROTOCOL_STATUS_CODES;
     }
 
     @Override
     protected Collection<String> getRevisionRequestedProtocolActionTypeCodesHook() {
-        return Arrays.asList(new String[] {"209", "211", "213"});
+        return REVISION_REQUESTED_PROTOCOL_ACTION_TYPE_CODES;
     }
 
     @Override
     protected Collection<String> getRevisionRequestedProtocolStatusCodesHook() {
-        return Arrays.asList(new String[] {"104", "107"});
+        return REVISION_REQUESTED_PROTOCOL_STATUS_CODES;
     }
 
     @Override
@@ -127,7 +153,7 @@ public class IacucProtocolDaoOjb extends ProtocolDaoOjb<IacucProtocol> implement
 
     @Override
     protected Collection<String> getPendingAmendmentRenewalsProtocolStatusCodesHook() {
-        return Arrays.asList(new String[] {"100", "101", "103", "104", "107", "108", "205", "206", "207"});
+        return PENDING_AMENDMENT_RENEWALS_STATUS_CODES;
     }
     
     
