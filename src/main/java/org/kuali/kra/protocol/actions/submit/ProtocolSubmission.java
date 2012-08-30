@@ -411,8 +411,13 @@ public abstract class ProtocolSubmission extends ProtocolAssociate {
     }
 
     public ProtocolSubmissionQualifierType getProtocolSubmissionQualifierType() {
+        if(null == protocolSubmissionQualifierType) {
+            protocolSubmissionQualifierType = getNewInstanceProtocolSubmissionQualifierTypeHook();
+        }
         return protocolSubmissionQualifierType;
     }
+
+    protected abstract ProtocolSubmissionQualifierType getNewInstanceProtocolSubmissionQualifierTypeHook();
 
     public void setCommitteeDecisionMotionType(CommitteeDecisionMotionType committeeDecisionMotionType) {
         this.committeeDecisionMotionType = committeeDecisionMotionType;
