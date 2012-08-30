@@ -153,7 +153,7 @@ public class CommitteeMembershipServiceImpl implements CommonCommitteeMembership
         for (ProtocolSubmission submission : getProtocolSubmissionsForCommittee(committeeId)) {
             for (ProtocolReviewer reviewer : submission.getProtocolReviewers()) {
                 if ((member.getPersonId()!=null && StringUtils.equals(reviewer.getPersonId(), member.getPersonId()))
-                        || (member.getRolodexId() != null && reviewer.getRolodexId().equals(member.getRolodexId()))) {
+                        || (member.getRolodexId() != null && member.getRolodexId().equals(reviewer.getRolodexId()))) {
                     isReviewer = true;
                 }
             }
