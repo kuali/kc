@@ -46,6 +46,10 @@ import org.kuali.rice.krad.util.GlobalVariables;
 public class IacucProtocolModifySubmissionRuleImpl extends ResearchDocumentRuleBase implements IacucProtocolModifySubmissionRule {
   
     private IacucProtocolOnlineReviewService protocolOnlineReviewService;
+    
+    private static final String PRIMARY_REVIEWER_TYPE = "1";
+    private static final String SECONDARY_REVIEWER_TYPE = "2";
+    
 
     public boolean processModifySubmissionRule(ProtocolDocument document, IacucProtocolModifySubmissionBean actionBean) {
         boolean valid = true;
@@ -75,10 +79,15 @@ public class IacucProtocolModifySubmissionRuleImpl extends ResearchDocumentRuleB
     
     public boolean validAssignReviewers(ProtocolDocument document, IacucProtocolModifySubmissionBean actionBean) {
         boolean isValid = true;
+        int totalValidReviewers = 0;
+        
         List<ProtocolReviewerBean> reviewers = actionBean.getReviewers();
         List<ProtocolOnlineReviewDocument> protocolOnlineReviewDocuments = getProtocolOnlineReviewService().getProtocolReviewDocumentsForCurrentSubmission(document.getProtocol()); 
         for (int i = 0; i < reviewers.size(); i++) {
             ProtocolReviewerBean reviewer = reviewers.get(i);
+            if(reviewer.getReviewerTypeCode().equals(PRIMARY_REVIEWER_TYPE) || reviewer.getReviewerTypeCode().equals(SECONDARY_REVIEWER_TYPE)) {
+                totalValidReviewers++;
+            }
             if (!isReviewerValid(reviewer, i)) {
                 isValid = false;
             } else if (StringUtils.isBlank(reviewer.getReviewerTypeCode())) {
@@ -93,6 +102,13 @@ public class IacucProtocolModifySubmissionRuleImpl extends ResearchDocumentRuleB
             }
         }
         
+        if(actionBean.getProtocolReviewTypeCode().equals(IacucProtocolReviewType.DESIGNATED_MEMBER_REVIEW) &&
+                totalValidReviewers == 0) {
+            IacucProtocolReviewType protocolReviewType = (IacucProtocolReviewType)getBo(IacucProtocolReviewType.class, "reviewTypeCode", actionBean.getProtocolReviewTypeCode());
+            GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(Constants.IACUC_PROTOCOL_MODIFY_SUBMISSION_KEY + ".protocolReviewTypeCode", 
+                    KeyConstants.ERROR_PROTOCOL_REVIEW_TYPE_REVIEWER_MISMATCH, protocolReviewType.getDescription());
+            isValid = false;
+        }
         return isValid;
     }
     
