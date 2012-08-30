@@ -44,6 +44,7 @@ import org.kuali.kra.iacuc.actions.delete.IacucProtocolDeleteBean;
 import org.kuali.kra.iacuc.actions.followup.IacucFollowupActionService;
 import org.kuali.kra.iacuc.actions.genericactions.IacucProtocolGenericActionBean;
 import org.kuali.kra.iacuc.actions.modifysubmission.IacucProtocolModifySubmissionBean;
+import org.kuali.kra.iacuc.actions.noreview.IacucProtocolReviewNotRequiredBean;
 import org.kuali.kra.iacuc.actions.notifycommittee.IacucProtocolNotifyCommitteeBean;
 import org.kuali.kra.iacuc.actions.notifyiacuc.IacucProtocolNotifyIacucBean;
 import org.kuali.kra.iacuc.actions.print.IacucProtocolQuestionnairePrintingService;
@@ -213,7 +214,7 @@ public class IacucActionHelper extends ActionHelper {
         iacucProtocolSuspendRequestBean = new IacucProtocolRequestBean(this, IacucProtocolActionType.IACUC_REQUEST_SUSPEND,
                 IacucProtocolSubmissionType.REQUEST_SUSPEND, "iacucProtocolSuspendRequestBean");
         iacucProtocolRemoveFromAgendaBean = new IacucProtocolGenericActionBean(this, "actionHelper.iacucProtocolRemoveFromAgendaBean");
-        iacucProtocolReviewNotRequiredBean = new ProtocolReviewNotRequiredBean(this);
+        iacucProtocolReviewNotRequiredBean = new IacucProtocolReviewNotRequiredBean(this);
         initIacucSpecificActionBeanTaskMap();
    }
     
