@@ -51,6 +51,7 @@ import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReview;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.kra.protocol.personnel.ProtocolPerson;
+import org.kuali.kra.util.DateUtils;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.bo.AdHocRouteRecipient;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -244,8 +245,16 @@ public class IacucProtocolModifySubmissionServiceImpl extends IacucProtocolProce
     protected void updateReviewer(ProtocolSubmission protocolSubmission, ProtocolReviewerBean protocolReviewerBean, IacucProtocolModifySubmissionBean protocolModifySubmissionBean) {
         ProtocolReviewer reviewer = protocolOnlineReviewService.getProtocolReviewer(protocolReviewerBean.getPersonId(), protocolReviewerBean.getNonEmployeeFlag(), protocolSubmission);
         reviewer.setReviewerTypeCode(protocolReviewerBean.getReviewerTypeCode());
-        ProtocolOnlineReviewDocument document = protocolOnlineReviewService.getProtocolOnlineReviewDocument(reviewer.getPersonId(), reviewer.getNonEmployeeFlag(), protocolSubmission);
-        ((IacucProtocolOnlineReview) document.getProtocolOnlineReview()).setDeterminationReviewDateDue(protocolModifySubmissionBean.getDueDate());
+        IacucProtocolOnlineReview iacucProtocolOnlineReview = null;
+        for (ProtocolOnlineReview onlineReview : reviewer.getProtocolOnlineReviews()) {
+            if (onlineReview.getSubmissionIdFk().equals(protocolSubmission.getSubmissionId())) {
+                iacucProtocolOnlineReview = (IacucProtocolOnlineReview)onlineReview;
+            }
+        }
+        if ((iacucProtocolOnlineReview != null) && !DateUtils.isSameDay(iacucProtocolOnlineReview.getDeterminationReviewDateDue(), protocolModifySubmissionBean.getDueDate())) {
+            iacucProtocolOnlineReview.setDeterminationReviewDateDue(protocolModifySubmissionBean.getDueDate());
+            businessObjectService.save(iacucProtocolOnlineReview);
+        }
         businessObjectService.save(reviewer);
     }
     
