@@ -25,9 +25,26 @@
 </style>
 <c:set var="coiDisclProjectAttributes" value="${DataDictionary.CoiDisclProject.attributes}" />
 <c:set var="coiDiscDetailAttributes" value="${DataDictionary.CoiDiscDetail.attributes}" />
+<c:choose>
+	<c:when test="${disclProject.awardEvent}">
+		<c:set var="projectId" value="${disclProject.award.awardNumber}"/>
+	</c:when>
+	<c:when test="${disclProject.proposalEvent}">
+		<c:set var="projectId" value="${disclProject.proposal.proposalNumber}"/>
+	</c:when>
+	<c:when test="${disclProject.institutionalProposalEvent}">
+		<c:set var="projectId" value="${disclProject.institutionalProposal.proposalNumber}"/>
+	</c:when>
+	<c:when test="${disclProject.protocolEvent}">
+		<c:set var="projectId" value="${disclProject.protocol.protocolNumber}"/>
+	</c:when>		
+	<c:otherwise>
+		<c:set var="projectId" value="${disclProject.projectId}"/>
+	</c:otherwise>
+</c:choose>
 <div>
 	<h3>
-		<span class="subhead-left" style="${style}">${disclProject.coiDisclosureEventType.projectIdLabel}: ${disclProject.coiProjectId}</span>
+		<span class="subhead-left" style="${style}">${disclProject.coiDisclosureEventType.projectIdLabel}: ${projectId}</span>
 		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.coi.CoiDiscDetail" altText="help"/></span>
 		<span style="text-align: right; float: right; padding-left: 20px; padding-right: 5px;">
 			<c:if test="${not empty disclProject.coiDispositionStatus.description}">
@@ -44,8 +61,9 @@
 			</c:if>
 		</span>                    
 	</h3>
+	
 	<c:choose>
-		<c:when test="${dislProject.awardEvent}">
+		<c:when test="${disclProject.awardEvent}">
 			<kra-coi:awardHeader disclProject="${disclProject}" />
 		</c:when>
 		<c:when test="${disclProject.proposalEvent}">
@@ -54,6 +72,9 @@
 		<c:when test="${disclProject.institutionalProposalEvent}">
 			<kra-coi:institutionalProposalHeader disclProject="${disclProject}"/>
 		</c:when>
+		<c:when test="${disclProject.protocolEvent}">
+			<kra-coi:protocolHeader disclProject="${disclProject}"/>
+		</c:when>		
 		<c:otherwise>
 	    <table class=tab cellpadding="0" cellspacing="0" summary="">
 	        <tbody>
