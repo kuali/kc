@@ -29,6 +29,7 @@ import org.kuali.kra.coi.CoiDisclosureForm;
 import org.kuali.kra.coi.auth.CoiDisclosureTask;
 import org.kuali.kra.coi.personfinancialentity.FinEntityDataMatrixBean;
 import org.kuali.kra.coi.personfinancialentity.FinancialEntityService;
+import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
@@ -62,7 +63,9 @@ public class DisclosureHelper implements Serializable {
     private String protocolType;
     // new protocols for disclosure
     private List<Protocol> newProtocols;
+    private List<IacucProtocol> newIacucProtocols;
     private Long newProtocolId;
+    private Long newIacucProtocolId;
     private String newProposalNumber;
     private Long newAwardId;
     private List<DevelopmentProposal> newProposals;
@@ -86,7 +89,8 @@ public class DisclosureHelper implements Serializable {
         CoiDisclosure coiDisclosure = form.getCoiDisclosureDocument().getCoiDisclosure();
       //  coiDisclosure.initCoiDisclosureNumber();
         newCoiDisclProject = new CoiDisclProject(coiDisclosure.getCoiDisclosureNumber(), coiDisclosure.getSequenceNumber());
-        newProtocols = new ArrayList<Protocol>(); 
+        newProtocols = new ArrayList<Protocol>();
+        newIacucProtocols = new ArrayList<IacucProtocol>();
         initConflictHeaderLabel();
    }
 
@@ -276,6 +280,22 @@ public class DisclosureHelper implements Serializable {
 
     public void setNewProtocolId(Long newProtocolId) {
         this.newProtocolId = newProtocolId;
+    }
+
+    public List<IacucProtocol> getNewIacucProtocols() {
+        return newIacucProtocols;
+    }
+
+    public void setNewIacucProtocols(List<IacucProtocol> newIacucProtocols) {
+        this.newIacucProtocols = newIacucProtocols;
+    }
+
+    public Long getNewIacucProtocolId() {
+        return newIacucProtocolId;
+    }
+
+    public void setNewIacucProtocolId(Long newIacucProtocolId) {
+        this.newIacucProtocolId = newIacucProtocolId;
     }
 
     public String getNewProposalNumber() {

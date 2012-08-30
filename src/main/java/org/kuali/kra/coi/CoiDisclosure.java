@@ -469,6 +469,10 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
         return StringUtils.equals(CoiDisclosureEventType.IRB_PROTOCOL, this.getEventTypeCode());
     }
 
+    public boolean isIacucProtocolEvent() {
+        return StringUtils.equals(CoiDisclosureEventType.IACUC_PROTOCOL, this.getEventTypeCode());
+    }
+
     public boolean isAwardEvent() {
         return StringUtils.equals(CoiDisclosureEventType.AWARD, this.getEventTypeCode());
     }

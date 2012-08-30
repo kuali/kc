@@ -24,6 +24,7 @@ import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.CoiDispositionStatus;
 import org.kuali.kra.coi.DisclosureReporter;
 import org.kuali.kra.coi.DisclosureReporterUnit;
+import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
@@ -108,6 +109,14 @@ public interface CoiDisclosureService {
      * @return
      */
     List<Protocol> getProtocols(String personId);
+    
+    /**
+     * 
+     * This method is to get a list of protocols that need coi disclosure
+     * @param personId
+     * @return
+     */
+    List<IacucProtocol> getIacucProtocols(String personId);
     
     /**
      * 

@@ -53,6 +53,11 @@ import org.kuali.kra.coi.notesandattachments.attachments.CoiDisclosureAttachment
 import org.kuali.kra.coi.notesandattachments.notes.CoiDisclosureNotepad;
 import org.kuali.kra.coi.personfinancialentity.FinancialEntityService;
 import org.kuali.kra.coi.personfinancialentity.PersonFinIntDisclosure;
+import org.kuali.kra.iacuc.IacucProtocol;
+import org.kuali.kra.iacuc.IacucProtocolDocument;
+import org.kuali.kra.iacuc.personnel.IacucProtocolPerson;
+import org.kuali.kra.iacuc.protocol.IacucProtocolType;
+import org.kuali.kra.iacuc.protocol.funding.IacucProtocolFundingSource;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPerson;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
@@ -89,6 +94,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
     private CoiDisclosureDao coiDisclosureDao;
 
     private static final String PROTOCOL_DISCLOSE_STATUS_CODES = "PROTOCOL_DISCLOSE_STATUS_CODES";
+    private static final String IACUC_DISCLOSE_STATUS_CODES = "IACUC_DISCLOSE_STATUS_CODES";
     private static final String PROPOSAL_DISCLOSE_STATUS_CODES = "PROPOSAL_DISCLOSE_STATUS_CODES";
     private static final String INSTITUTIONAL_PROPOSAL_DISCLOSE_STATUS_CODES = "INSTITUTIONAL_PROPOSAL_DISCLOSE_STATUS_CODES";
     private static final String AWARD_DISCLOSE_STATUS_CODES = "AWARD_DISCLOSE_STATUS_CODES";
@@ -96,11 +102,13 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
     private static final String SPONSORS_FOR_PROTOCOL_DISCLOSE = "SPONSORS_FOR_PROTOCOL_DISCLOSE";
     private static final String ALL_SPONSORS_FOR_PROPOSAL_AWD_DISCLOSE = "ALL_SPONSORS_FOR_PROPOSAL_AWD_DISCLOSE";
     private static final String ALL_SPONSORS_FOR_PROTOCOL_DISCLOSE = "ALL_SPONSORS_FOR_PROTOCOL_DISCLOSE";
+    private static final String ALL_SPONSORS_FOR_IACUC_PROTOCOL_DISCLOSE = "ALL_SPONSORS_FOR_IACUC_PROTOCOL_DISCLOSE";
     private static Map<String, String> eventModuleMap = new HashMap<String, String>();
     static {
         eventModuleMap.put(CoiDisclosureEventType.AWARD, CoeusModule.AWARD_MODULE_CODE);
         eventModuleMap.put(CoiDisclosureEventType.DEVELOPMENT_PROPOSAL, CoeusModule.PROPOSAL_DEVELOPMENT_MODULE_CODE);
         eventModuleMap.put(CoiDisclosureEventType.IRB_PROTOCOL, CoeusModule.IRB_MODULE_CODE);
+        eventModuleMap.put(CoiDisclosureEventType.IACUC_PROTOCOL, CoeusModule.IACUC_PROTOCOL_MODULE_CODE);
         eventModuleMap.put(CoiDisclosureEventType.INSTITUTIONAL_PROPOSAL, CoeusModule.INSTITUTIONAL_PROPOSAL_MODULE_CODE);
         eventModuleMap.put(CoiDisclosureEventType.MANUAL_AWARD, CoiDisclosure.MANUAL_DISCL_MODULE_CODE);
         eventModuleMap.put(CoiDisclosureEventType.MANUAL_DEVELOPMENT_PROPOSAL, CoiDisclosure.MANUAL_DISCL_MODULE_CODE);
@@ -269,6 +277,9 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         if (coiDisclosure.isProtocolEvent() || coiDisclosure.isAnnualEvent()) {
             initProtocols(coiDisclProjects, financialEntities, coiDisclosure);
         }
+        if (coiDisclosure.isIacucProtocolEvent() || coiDisclosure.isAnnualEvent()) {
+            initIacucProtocols(coiDisclProjects, financialEntities, coiDisclosure);
+        } 
         if (coiDisclosure.isProposalEvent() || coiDisclosure.isAnnualEvent()) {
             initProposals(coiDisclProjects, financialEntities, coiDisclosure);
         } 
@@ -295,6 +306,26 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
             for (PersonFinIntDisclosure personFinIntDisclosure : financialEntities) {
                 CoiDiscDetail disclosureDetail = createNewCoiDiscDetail(coiDisclosure, personFinIntDisclosure,
                         protocol.getProtocolNumber(), protocol.getProtocolId().toString(), CoiDisclosureEventType.IRB_PROTOCOL);
+                coiDisclProject.getCoiDiscDetails().add(disclosureDetail);
+            }
+            coiDisclProjects.add(coiDisclProject);
+        }     
+    }
+    
+    /*
+     * set up IACUC protocols, that need disclosure, with FE relationship
+     */
+    private void initIacucProtocols(List<CoiDisclProject> coiDisclProjects, List<PersonFinIntDisclosure> financialEntities, CoiDisclosure coiDisclosure) {      
+        List<IacucProtocol> protocols = getIacucProtocols(GlobalVariables.getUserSession().getPrincipalId());
+        for (IacucProtocol protocol : protocols) {
+            CoiDisclProject coiDisclProject = createNewCoiDisclProject(coiDisclosure, CoiDisclosureEventType.IRB_PROTOCOL);
+            coiDisclProject.setIacucProtocolType((IacucProtocolType)protocol.getProtocolType());
+            coiDisclProject.setCoiProjectId(protocol.getProtocolId().toString()); //Project Id
+            coiDisclProject.setModuleItemKey(protocol.getProtocolNumber()); //Module Item Key
+            coiDisclProject.setCoiProjectTitle(protocol.getTitle()); //Project Title
+            for (PersonFinIntDisclosure personFinIntDisclosure : financialEntities) {
+                CoiDiscDetail disclosureDetail = createNewCoiDiscDetail(coiDisclosure, personFinIntDisclosure,
+                        protocol.getProtocolNumber(), protocol.getProtocolId().toString(), CoiDisclosureEventType.IACUC_PROTOCOL);
                 coiDisclProject.getCoiDiscDetails().add(disclosureDetail);
             }
             coiDisclProjects.add(coiDisclProject);
@@ -424,14 +455,18 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
      * get moduleitemkey from different project bo
      */
     private String getModuleItemKey(CoiDisclosure coiDisclosure, KraPersistableBusinessObjectBase eventBo) {
-    // TODO : this is a temp method, should add interface and 'getmoduleitemkey' in the disclosurable bos    
+        // TODO : this is a temp method, should add interface and 'getmoduleitemkey' in the disclosurable bos    
         String moduleItemKey = null;
         if (coiDisclosure.isProtocolEvent()) {
             moduleItemKey = ((Protocol)eventBo).getProtocolNumber();
         }
+        else if (coiDisclosure.isIacucProtocolEvent()) {
+            moduleItemKey = ((IacucProtocol)eventBo).getProtocolNumber();
+        }
         else if (coiDisclosure.isProposalEvent()) {
             moduleItemKey = ((DevelopmentProposal)eventBo).getProposalNumber();
-        } else if (coiDisclosure.isInstitutionalProposalEvent()) {
+        } 
+        else if (coiDisclosure.isInstitutionalProposalEvent()) {
             moduleItemKey = ((InstitutionalProposal)eventBo).getProposalNumber();
         } 
         else if (coiDisclosure.isAwardEvent()) {
@@ -446,14 +481,18 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         if (coiDisclosure.isProtocolEvent()) {
             projectIdFk = ((Protocol)eventBo).getProtocolId().toString();
         }
+        else if (coiDisclosure.isIacucProtocolEvent()) {
+            projectIdFk = ((IacucProtocol)eventBo).getProtocolId().toString();
+        }
         else if (coiDisclosure.isProposalEvent()) {
             projectIdFk = ((DevelopmentProposal)eventBo).getProposalNumber();
-        } else if (coiDisclosure.isInstitutionalProposalEvent()) {
+        } 
+        else if (coiDisclosure.isInstitutionalProposalEvent()) {
             projectIdFk = ((InstitutionalProposal)eventBo).getProposalId().toString();
         } 
         else if (coiDisclosure.isAwardEvent()) {
             projectIdFk = ((Award)eventBo).getAwardId().toString();
-       }
+        }
         return projectIdFk;
     }
 
@@ -464,6 +503,9 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         String projectTitle = null;
         if (coiDisclosure.isProtocolEvent()) {
             projectTitle = ((Protocol)eventBo).getTitle();
+        }
+        else if (coiDisclosure.isIacucProtocolEvent()) {
+            projectTitle = ((IacucProtocol)eventBo).getTitle();
         }
         else if (coiDisclosure.isProposalEvent()) {
             projectTitle = ((DevelopmentProposal)eventBo).getTitle();
@@ -484,6 +526,9 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         if (coiDisclosure.isProtocolEvent()) {
             eventBo = getProtocol(Long.valueOf(projectId));
         }
+        else if (coiDisclosure.isIacucProtocolEvent()) {
+            eventBo = getIacucProtocol(Long.valueOf(projectId));
+        }
         else if (coiDisclosure.isProposalEvent()) {
             eventBo = getDevelopmentProposal(projectId);
         } else if (coiDisclosure.isInstitutionalProposalEvent()) {
@@ -493,7 +538,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
             // TODO : for award
             eventBo = getAwardById(projectId);
        }
-        return eventBo;
+       return eventBo;
 
     }
 
@@ -505,6 +550,9 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         KraPersistableBusinessObjectBase eventBo = null;
         if (coiDiscdetail.isProtocolEvent()) {
             eventBo = getProtocol(Long.valueOf(projectId));
+        }
+        else if (coiDiscdetail.isIacucProtocolEvent()) {
+            eventBo = getIacucProtocol(Long.valueOf(projectId));
         }
         else if (coiDiscdetail.isProposalEvent()) {
             eventBo = getDevelopmentProposal(projectId);
@@ -526,6 +574,16 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         HashMap<String, Object> pkMap = new HashMap<String, Object>();
         pkMap.put("protocolId", protocolId);
         return (Protocol) this.businessObjectService.findByPrimaryKey(Protocol.class, pkMap);
+    
+    }
+    
+    /*
+     * get protocol by using protocolid
+     */
+    private IacucProtocol getIacucProtocol(Long protocolId) {
+        HashMap<String, Object> pkMap = new HashMap<String, Object>();
+        pkMap.put("protocolId", protocolId);
+        return (IacucProtocol) this.businessObjectService.findByPrimaryKey(IacucProtocol.class, pkMap);
     
     }
     
@@ -830,6 +888,28 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
     
     /**
      * 
+     * @see org.kuali.kra.coi.disclosure.CoiDisclosureService#getProtocols(java.lang.String)
+     */
+    public List<IacucProtocol> getIacucProtocols(String personId) {
+        
+        List<IacucProtocol> protocols = new ArrayList<IacucProtocol>();
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put("personId", personId);
+        List<IacucProtocolPerson> protocolPersons = (List<IacucProtocolPerson>) businessObjectService.findMatching(IacucProtocolPerson.class,
+                        fieldValues);
+        for (IacucProtocolPerson protocolPerson : protocolPersons) {
+            if (protocolPerson.getProtocol().isActive()
+                    && isIacucProtocolDisclosurable(protocolPerson.getIacucProtocol())
+                    && !isProjectReported(protocolPerson.getProtocol().getProtocolNumber(),
+                                    CoiDisclosureEventType.IACUC_PROTOCOL, protocolPerson.getPersonId())) {
+                protocols.add(protocolPerson.getIacucProtocol());
+            }
+        }
+        return protocols;
+    }
+    
+    /**
+     * 
      * @see org.kuali.kra.coi.disclosure.CoiDisclosureService#getProposals(java.lang.String)
      */
     public List<DevelopmentProposal> getProposals(String personId) {
@@ -1104,6 +1184,24 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
     }
 
     /*
+     * check if protocol is active for disclosure
+     */
+    private boolean isIacucProtocolDisclosurable(IacucProtocol protocol) {
+        Collection<String> params = new ArrayList<String>();
+        try {
+            params = parameterService.getParameterValuesAsString(IacucProtocolDocument.class, IACUC_DISCLOSE_STATUS_CODES);
+        } catch (Exception e) {
+            
+        }
+        if (params.isEmpty()) {
+            // TODO : what if param is not set or not set properly ?
+            params.add("100");
+        }
+        return params.contains(protocol.getProtocolStatusCode()) && isProtocolFundedByActiveSponsor(protocol);
+   
+    }
+
+    /*
      * check if protocol funding source sponsor is in disclose list
      */
     private boolean isProtocolFundedByActiveSponsor(Protocol protocol) {
@@ -1120,6 +1218,24 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
          }
          return isActive;
          
+    }
+    
+    /*
+     * check if protocol funding source sponsor is in disclose list
+     */
+    private boolean isProtocolFundedByActiveSponsor(IacucProtocol protocol) {
+         boolean isActive = false;
+         for (org.kuali.kra.protocol.protocol.funding.ProtocolFundingSource fundingSource : protocol.getProtocolFundingSources()) {
+             if (fundingSource.isSponsorFunding() && isSponsorForDisclosure(ProtocolDocument.class, fundingSource.getFundingSourceNumber(), SPONSORS_FOR_PROTOCOL_DISCLOSE, ALL_SPONSORS_FOR_PROTOCOL_DISCLOSE)) {
+                 isActive = true;
+                 break;
+             }
+         } 
+         // it is ok if there is no sponsor set up for protocol
+         if (CollectionUtils.isEmpty(protocol.getProtocolFundingSources())) {
+             isActive = isAllSponsorActiveForDisclose(ProtocolDocument.class, ALL_SPONSORS_FOR_IACUC_PROTOCOL_DISCLOSE);
+         }
+         return isActive;
     }
     
     public void setParameterService(ParameterService parameterService) {
