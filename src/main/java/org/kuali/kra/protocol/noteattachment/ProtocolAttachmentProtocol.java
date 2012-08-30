@@ -36,8 +36,8 @@ public abstract class ProtocolAttachmentProtocol extends ProtocolAttachmentBase 
 // TODO *********commented the code below during IACUC refactoring*********
 //    private static final String GROUP_CODE = "1";
 
-    public static final String INCOMPLETE_STATUS_CODE = "1";
-    public static final String COMPLETE_STATUS_CODE = "2";
+    public static final String INCOMPLETE_STATUS_CODE = "2";
+    public static final String COMPLETE_STATUS_CODE = "1";
     
     // 1-Complete, 2-Incomplete.  an attachment status must be 'complete' before this protocol can be submitted.  
     protected String statusCode;
