@@ -76,7 +76,7 @@ public class BudgetFormulatedCostDetail extends KraPersistableBusinessObjectBase
     }
 
     public BudgetDecimal getUnitCost() {
-        return unitCost;
+        return unitCost==null?BudgetDecimal.ZERO:unitCost;
     }
 
     public void setUnitCost(BudgetDecimal unitCost) {
@@ -84,7 +84,7 @@ public class BudgetFormulatedCostDetail extends KraPersistableBusinessObjectBase
     }
 
     public Integer getCount() {
-        return count;
+        return count==null?0:count;
     }
 
     public void setCount(Integer count) {
@@ -92,7 +92,7 @@ public class BudgetFormulatedCostDetail extends KraPersistableBusinessObjectBase
     }
 
     public Integer getFrequency() {
-        return frequency;
+        return frequency==null?0:frequency;
     }
 
     public void setFrequency(Integer frequency) {
