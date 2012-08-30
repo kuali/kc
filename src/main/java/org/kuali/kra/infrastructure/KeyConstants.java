@@ -663,6 +663,8 @@ public final class KeyConstants {
     public static final String ERROR_PROTOCOL_DOCUMENT_STATE_CHANGED = "error.protocol.document.state.changed";
     public static final String ERROR_COMMITTEE_TYPE_NOT_EXIST = "error.committeeType.not.exist";
 
+    public static final String ERROR_PROTOCOL_REVIEW_TYPE_REVIEWER_MISMATCH = "error.protocol.reviewTypeCode.reviewer.mismatch";
+    
     public static final String MESSAGE_PROTOCOL_ACTION_SUCCESSFULLY_COMPLETED = "message.protocol.action.successfully.completed";
     public static final String MESSAGE_ONLINE_REVIEW_ACTION_SUCCESSFULLY_COMPLETED = "message.protocol.onlinereview.document.action.successfully.completed";
     
