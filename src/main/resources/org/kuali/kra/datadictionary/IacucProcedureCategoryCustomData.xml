@@ -205,13 +205,13 @@
        <property name="forceUppercase" value="false" />
        <property name="label" value="Sort Id" />
        <property name="shortLabel" value="Sort Id" />
-       <property name="maxLength" value="3" />
+       <property name="maxLength" value="22" />
        <property name="validationPattern" >
            <bean parent="NumericValidationPattern" />
        </property>
        <property name="control" >
            <bean parent="TextControlDefinition"
-               p:size="3" />
+               p:size="22" />
        </property>
        <property name="summary" value="Sort Id" />
        <property name="description" value="Sort Id" />
