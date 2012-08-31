@@ -201,6 +201,7 @@ public abstract class AwardBaseStream implements XmlStream {
 	protected static final double OBLIGATED_DISTRIBUTABLE_AMT_0_0 = 0.0;
 	protected static final String COST_SHARING_COMMENT = "9";
 	protected static final String IDC_COMMENT = "8";
+	protected static final String CURRENT_ACTION_COMMENT = "21";
 	protected static final String COMMA_STRING = ", ";
 	protected static final String EMPTY_SPACE = " ";
 	protected static final String DOCUMENT_NUMBER = "documentNumber";
@@ -990,25 +991,21 @@ public abstract class AwardBaseStream implements XmlStream {
 			awardTransactionType.setAmountSequenceNumber(awardAmountInfo
 					.getSequenceNumber());
 		}
-		if (awardAmountTransaction !=null
-		        && awardAmountTransaction.getTransactionTypeCode() != null) {
-            awardTransactionType.setTransactionTypeCode(awardAmountTransaction
-                    .getTransactionTypeCode());
-        }
-        if (awardAmountTransaction !=null
-                && awardAmountTransaction.getAwardTransactionType() != null) {
-            awardTransactionType.setTransactionTypeDesc(awardAmountTransaction
-                    .getAwardTransactionType().getDescription());
-        }
-        if (awardAmountTransaction !=null
-                && awardAmountTransaction.getComments() != null) {
-            awardTransactionType.setComments(awardAmountTransaction
-                    .getComments());
-        }
-        if (awardAmountTransaction !=null
-                && awardAmountTransaction.getNoticeDate() != null) {
+        if (award.getNoticeDate() != null) {
             awardTransactionType.setNoticeDate(dateTimeService
-                    .getCalendar(awardAmountTransaction.getNoticeDate()));
+                                 .getCalendar(award.getNoticeDate()));
+        }
+        for (AwardComment awardComments : award.getAwardComments()) {
+            if (awardComments.getCommentTypeCode().equals(CURRENT_ACTION_COMMENT)) {
+                awardTransactionType.setComments(awardComments.getComments());
+            }
+        }
+        if (award.getAwardTransactionTypeCode() != null) {
+            award.refresh();
+            awardTransactionType.setTransactionTypeCode(award.getAwardTransactionTypeCode());
+            if (award.getAwardTransactionType() != null) {
+                awardTransactionType.setTransactionTypeDesc(award.getAwardTransactionType().getDescription());
+            }
         }
 		return awardTransactionInfo;
 	}
@@ -2701,7 +2698,7 @@ public abstract class AwardBaseStream implements XmlStream {
 							.setAccountTypeDesc(accountTypeDescription);
 				}
 			}
-		String rootAccountNumber = getRootAccountNumber();
+		String rootAccountNumber = award.getAccountNumber();
 		if(rootAccountNumber!=null){
 		    otherHeaderDetails.setRootAccountNumber(rootAccountNumber);
 		}
