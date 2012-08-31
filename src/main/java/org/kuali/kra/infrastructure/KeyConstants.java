@@ -1111,6 +1111,9 @@ public final class KeyConstants {
     public static final String ERROR_DISCLOSURE_SEARCH_INVALID_DATE = "error.search.invalid.date";
     public static final String MESSAGE_CANCEL_FE = "message.cancel.fe";
     
+    public static final String ERROR_FORMULATED_UNIT_COST = "error.invalid.budget.formulated.unit.cost";
+    public static final String ERROR_FORMULATED_CALCULATED_EXPENSES = "error.invalid.budget.formulated.calculated.expense";
+    
     /**
      * private utility class ctor.
      * @throws UnsupportedOperationException if called.

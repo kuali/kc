@@ -193,16 +193,17 @@ public class BudgetExpensesAction extends BudgetAction {
         BudgetFormulatedCostDetail newBudgetFormulatedCost = budgetForm.getNewBudgetFormulatedCost();
         int lineItemNumber = getImagePropertyValue(request, ".budgetLineItemNumber",".");
         int budgetPeriod = getImagePropertyValue(request, ".budgetPeriod",".budgetLineItemNumber");
-        BudgetPeriod budgetPeriodBO = budget.getBudgetPeriod(budgetPeriod-1);
-        BudgetLineItem budgetLineItem = budgetPeriodBO.getBudgetLineItem(lineItemNumber);
-        newBudgetFormulatedCost.setFormulatedNumber(budgetDocument.getHackedDocumentNextValue(Constants.BUDGET_FORMULATED_NUMBER));
-        newBudgetFormulatedCost.setBudgetLineItemId(budgetLineItem.getBudgetLineItemId());
-        calculateBudgetFormulatedCost(newBudgetFormulatedCost);
-        budgetLineItem.getBudgetFormulatedCosts().add(newBudgetFormulatedCost);
-        budgetForm.setNewBudgetFormulatedCost(new BudgetFormulatedCostDetail());
-        budgetLineItem.setLineItemCost(getFormulatedCostsTotal(budgetLineItem));
-        recalculateBudgetPeriod(budgetForm, budget, budgetPeriodBO);
-        
+        if(new BudgetExpenseRule().processBudgetFormulatedCostValidations(newBudgetFormulatedCost,budgetPeriod,lineItemNumber,"newBudgetFormulatedCost")){
+            BudgetPeriod budgetPeriodBO = budget.getBudgetPeriod(budgetPeriod-1);
+            BudgetLineItem budgetLineItem = budgetPeriodBO.getBudgetLineItem(lineItemNumber);
+            newBudgetFormulatedCost.setFormulatedNumber(budgetDocument.getHackedDocumentNextValue(Constants.BUDGET_FORMULATED_NUMBER));
+            newBudgetFormulatedCost.setBudgetLineItemId(budgetLineItem.getBudgetLineItemId());
+            calculateBudgetFormulatedCost(newBudgetFormulatedCost);
+            budgetLineItem.getBudgetFormulatedCosts().add(newBudgetFormulatedCost);
+            budgetForm.setNewBudgetFormulatedCost(new BudgetFormulatedCostDetail());
+            budgetLineItem.setLineItemCost(getFormulatedCostsTotal(budgetLineItem));
+            recalculateBudgetPeriod(budgetForm, budget, budgetPeriodBO);
+        }
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
@@ -369,8 +370,12 @@ public class BudgetExpensesAction extends BudgetAction {
         BudgetForm budgetForm = (BudgetForm) form;
         Budget budget = budgetForm.getBudgetDocument().getBudget();
         List<String> formulatedCostElements = getFormulatedCostElements();
+        int budgetPeriodIndex = -1;
         for(BudgetPeriod budgetPeriod:budget.getBudgetPeriods()){
+            ++budgetPeriodIndex;
+            int lineItemNumber = -1;
             for(BudgetLineItem budgetLineItem:budgetPeriod.getBudgetLineItems()){
+                ++lineItemNumber;
                 if(!StringUtils.equalsIgnoreCase(budgetLineItem.getCostElement(), budgetLineItem.getCostElementBO().getCostElement())){
                     if(formulatedCostElements.contains(budgetLineItem.getCostElement())){
                         budgetLineItem.setFormulatedCostElementFlag(true);
@@ -378,7 +383,11 @@ public class BudgetExpensesAction extends BudgetAction {
                     budgetLineItem.refreshReferenceObject("costElementBO");
                     budgetLineItem.setBudgetCategoryCode(budgetLineItem.getCostElementBO().getBudgetCategoryCode());
                 }
-                calculateAndUpdateFormulatedCost(budgetLineItem);
+                if(processBudgetFormulatedCostValidations(budgetLineItem,budgetPeriodIndex,lineItemNumber)){
+                    calculateAndUpdateFormulatedCost(budgetLineItem);
+                }else{
+                    return mapping.findForward(Constants.MAPPING_BASIC);
+                }
                 getCalculationService().updatePersonnelBudgetRate(budgetLineItem);
             }
         }
@@ -390,6 +399,21 @@ public class BudgetExpensesAction extends BudgetAction {
         } else {
             return mapping.findForward(Constants.MAPPING_BASIC);
         }
+    }
+
+
+    private boolean processBudgetFormulatedCostValidations(BudgetLineItem budgetLineItem, int budgetPeriodIndex,
+            int lineItemNumber) {
+        List<BudgetFormulatedCostDetail> budgetFormulatedCosts = budgetLineItem.getBudgetFormulatedCosts();
+        boolean valid = true;
+        int index = -1;
+        String errorKey = "document.budget.budgetPeriod[" + budgetPeriodIndex + "].budgetLineItem["+ lineItemNumber + "].";
+        for (BudgetFormulatedCostDetail budgetFormulatedCostDetail : budgetFormulatedCosts) {
+            
+            valid = valid&new BudgetExpenseRule().processBudgetFormulatedCostValidations(
+                    budgetFormulatedCostDetail,budgetPeriodIndex,lineItemNumber,errorKey+"budgetFormulatedCosts["+(++index)+"]");
+        }
+        return valid;
     }
 
 

@@ -54,7 +54,7 @@
         		<td width="25%"><div align="left"><kul:htmlControlAttribute property="document.budget.budgetPeriod[${budgetPeriod - 1}].budgetLineItem[${budgetLineItemNumber}].costSharingAmount" attributeEntry="${budgetLineItemAttributes.costSharingAmount}" styleClass="amount" readOnly="${budgetExpensePanelReadOnly}"/></div></td>
         	</tr>
        	</table>
-        <kul:innerTab parentTab="${innerTabParent}" defaultOpen="false" tabTitle="Budget Formulated Cost Detail" useCurrentTabIndexAsKey="true">
+        <kul:innerTab parentTab="${innerTabParent}" defaultOpen="false" tabTitle="Budget Formulated Cost Detail" useCurrentTabIndexAsKey="true" tabErrorKey="newBudgetFormulatedCost.*,document.budget.budgetPeriod[${budgetPeriod-1}].budgetLineItem[${budgetLineItemNumber}].budgetFormulatedCosts[*">
 		        <table cellpadding=0 cellspacing=0 summary="" >
 		        	<tr>
 		        		<th>&nbsp;</th>
