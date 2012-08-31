@@ -93,6 +93,7 @@ import org.kuali.kra.iacuc.actions.reviewcomments.IacucProtocolManageReviewAttac
 import org.kuali.kra.iacuc.actions.reviewcomments.IacucReviewAttachmentsBean;
 import org.kuali.kra.iacuc.actions.reviewcomments.IacucReviewCommentsBean;
 import org.kuali.kra.iacuc.actions.reviewcomments.IacucReviewCommentsService;
+import org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewType;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewerBean;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmitAction;
@@ -2013,24 +2014,41 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
         IacucProtocolDocument document = (IacucProtocolDocument) protocolForm.getProtocolDocument();
+        IacucProtocol protocol = document.getIacucProtocol();
         IacucProtocolApproveBean actionBean = (IacucProtocolApproveBean) protocolForm.getActionHelper().getProtocolFullApprovalBean();
         
         if (hasPermission(TaskName.APPROVE_PROTOCOL, (IacucProtocol) document.getProtocol())) {
             if (applyRules(new IacucProtocolApproveEvent(document, actionBean))) {
                 forward = super.approve(mapping, protocolForm, request, response);
-                getProtocolApproveService().grantFullApproval(document.getProtocol(), actionBean);
+                getProtocolApproveService().grantFullApproval(protocol, actionBean);
                 saveReviewComments(protocolForm, (IacucReviewCommentsBean) actionBean.getReviewCommentsBean());
 //                if (document.getProtocol().isAmendment() || document.getProtocol().isRenewal()) {
 //                    forward = mapping.findForward(KRADConstants.MAPPING_PORTAL);
 //                }
-//                forward = routeProtocolToHoldingPage(mapping, protocolForm);                                    
-                recordProtocolActionSuccess("Full Approval");
+//                forward = routeProtocolToHoldingPage(mapping, protocolForm);
+                IacucProtocolSubmission submission = (IacucProtocolSubmission)protocol.getProtocolSubmission();
+
+                IacucProtocolNotificationRequestBean notificationBean;
+                String actionType;
+                String actionDescription;
+                String actionDescription2;
+                if (StringUtils.equals(submission.getProtocolReviewTypeCode(),IacucProtocolReviewType.DESIGNATED_MEMBER_REVIEW)) {
+                    actionType = IacucProtocolActionType.DESIGNATED_REVIEW_APPROVAL;
+                    actionDescription = "Designated Member Approval";
+                    actionDescription2 = "Designated Member Approved";
+                }
+                else {
+                    actionType = IacucProtocolActionType.IACUC_APPROVED;
+                    actionDescription = "Full Approval";
+                    actionDescription2 = "Approved";
+                }
+                recordProtocolActionSuccess(actionDescription);
+                notificationBean = new IacucProtocolNotificationRequestBean((IacucProtocol) protocolForm.getProtocolDocument().getProtocol(), actionType, actionDescription);
                 // issue : protocolcorrespondence is reset after loading correspondence ? more work
                 // somehow docforkey is not in session for this case ?
                 // hack this for now
                 protocolForm.getProtocolHelper().prepareView();
-                IacucProtocolNotificationRequestBean notificationBean = new IacucProtocolNotificationRequestBean((IacucProtocol) protocolForm.getProtocolDocument().getProtocol(), IacucProtocolActionType.IACUC_APPROVED, "Approved");
-                protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, PROTOCOL_TAB, notificationBean, false));
+//                protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, PROTOCOL_TAB, notificationBean, false));
 //                GlobalVariables.getUserSession().addObject("approvalCorrespondence", protocolForm);
                 if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
                     // TODO : this is hack
@@ -2043,7 +2061,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
                     return mapping.findForward(CORRESPONDENCE);
                 } else {
                     IacucProtocolNotificationRenderer renderer = new IacucProtocolNotificationRenderer((IacucProtocol) document.getProtocol());
-                    IacucProtocolNotificationContext context = new IacucProtocolNotificationContext((IacucProtocol) document.getProtocol(), IacucProtocolActionType.IACUC_APPROVED, "Approved", renderer);
+                    IacucProtocolNotificationContext context = new IacucProtocolNotificationContext((IacucProtocol) document.getProtocol(), actionType, actionDescription2, renderer);
                     getNotificationService().sendNotification(context);
                     forward = routeProtocolToHoldingPage(mapping, protocolForm);                                    
                 }
