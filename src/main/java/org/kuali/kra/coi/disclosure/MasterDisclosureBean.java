@@ -40,6 +40,7 @@ public class MasterDisclosureBean implements Serializable {
     private List<CoiDisclosureProjectBean> manualAwardProjects;
     private List<CoiDisclosureProjectBean> manualProposalProjects;
     private List<CoiDisclosureProjectBean> manualProtocolProjects;
+    private List<CoiDisclosureProjectBean> manualIacucProtocolProjects;
     private List<CoiDisclosureProjectBean> manualTravelProjects;
     private List<CoiDisclosureProjectBean> allProjects;
     private List<CoiDisclosureProjectBean> otherManualProjects;
@@ -53,6 +54,7 @@ public class MasterDisclosureBean implements Serializable {
         manualAwardProjects = new ArrayList<CoiDisclosureProjectBean>();
         manualProposalProjects = new ArrayList<CoiDisclosureProjectBean>();
         manualProtocolProjects = new ArrayList<CoiDisclosureProjectBean>();
+        manualIacucProtocolProjects = new ArrayList<CoiDisclosureProjectBean>();
         manualTravelProjects = new ArrayList<CoiDisclosureProjectBean>();
         otherManualProjects = new ArrayList<CoiDisclosureProjectBean>();
         allProjects = new ArrayList<CoiDisclosureProjectBean>();
@@ -114,6 +116,14 @@ public class MasterDisclosureBean implements Serializable {
         this.manualProtocolProjects = manualProtocolProjects;
     }
 
+    public List<CoiDisclosureProjectBean> getManualIacucProtocolProjects() {
+        return manualIacucProtocolProjects;
+    }
+
+    public void setManualIacucProtocolProjects(List<CoiDisclosureProjectBean> manualIacucProtocolProjects) {
+        this.manualIacucProtocolProjects = manualIacucProtocolProjects;
+    }
+
     /*
      * Cannot use CoiDisclosureEventType.AWARD directly in switch because it is a string. 
      * Could use a enum with Strings but that would have to match the description field in the CoiDisclosureEventType
@@ -155,6 +165,10 @@ public class MasterDisclosureBean implements Serializable {
                 getManualTravelProjects().add(coiDisclosureProjectBean);
                 coiDisclosureProjectBean.setExcludeFE(isEventExcludFE(CoiDisclosureEventType.MANUAL_TRAVEL));
                 break;
+            case 16 :
+                getManualIacucProtocolProjects().add(coiDisclosureProjectBean);
+                coiDisclosureProjectBean.setExcludeFE(isEventExcludFE(CoiDisclosureEventType.MANUAL_IACUC_PROTOCOL));
+                break;
             default:
                 getOtherManualProjects().add(coiDisclosureProjectBean);
                 coiDisclosureProjectBean.setExcludeFE(isEventExcludFE(CoiDisclosureEventType.OTHER));
@@ -188,6 +202,7 @@ public class MasterDisclosureBean implements Serializable {
         projects.add(manualAwardProjects);
         projects.add(manualProposalProjects);
         projects.add(manualProtocolProjects);
+        projects.add(manualIacucProtocolProjects);
         projects.add(manualTravelProjects);
         projects.add(otherManualProjects);
         return projects;
