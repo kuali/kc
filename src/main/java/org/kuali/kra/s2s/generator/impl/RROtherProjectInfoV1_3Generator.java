@@ -40,6 +40,7 @@ import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.common.specialreview.bo.SpecialReviewExemption;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
@@ -394,6 +395,14 @@ public class RROtherProjectInfoV1_3Generator extends
 								.convertDateToCalendar(proposalSpecialReview
 										.getApprovalDate()));
 			}
+		}
+		if (KraServiceLocator.getService(ParameterService.class).getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_IACUC, 
+		        Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.IACUC_PROTOCOL_PROPOSAL_DEVELOPMENT_LINKING_ENABLED_PARAMETER)) {
+		    if (proposalSpecialReview.getApprovalDate() != null) {
+		        vertebrateAnimalsSupplement.setVertebrateAnimalsIACUCReviewIndicator(YesNoDataType.Y_YES);
+		    } else {
+		        vertebrateAnimalsSupplement.setVertebrateAnimalsIACUCReviewIndicator(YesNoDataType.N_NO);
+		    }
 		}
 	}
 
