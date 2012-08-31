@@ -113,6 +113,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         eventModuleMap.put(CoiDisclosureEventType.MANUAL_AWARD, CoiDisclosure.MANUAL_DISCL_MODULE_CODE);
         eventModuleMap.put(CoiDisclosureEventType.MANUAL_DEVELOPMENT_PROPOSAL, CoiDisclosure.MANUAL_DISCL_MODULE_CODE);
         eventModuleMap.put(CoiDisclosureEventType.MANUAL_IRB_PROTOCOL, CoiDisclosure.MANUAL_DISCL_MODULE_CODE);
+        eventModuleMap.put(CoiDisclosureEventType.MANUAL_IACUC_PROTOCOL, CoiDisclosure.MANUAL_DISCL_MODULE_CODE);
         eventModuleMap.put(CoiDisclosureEventType.TRAVEL, CoiDisclosure.MANUAL_DISCL_MODULE_CODE);
     }
     private static final String MODULE_ITEM_CODE = "moduleItemCode";
