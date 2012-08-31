@@ -941,9 +941,7 @@ public interface Constants {
 
     public static final String FORMULATED_COST_ELEMENTS = "formulatedCostElements";
     public static final String BUDGET_FORMULATED_NUMBER = "BUDGET_FORMULATED_NUMBER";
-    
-    
-    
+    public static final String FORMULATED_COST_ENABLED = "enableFormulatedCostCalculation";
 
 }
 

@@ -153,9 +153,11 @@ public class BudgetExpensesAction extends BudgetAction {
             }
             newBudgetLineItem.setBudgetCategoryCode(newBudgetLineItem.getCostElementBO().getBudgetCategoryCode());
             newBudgetLineItem.setLineItemSequence(newBudgetLineItem.getLineItemNumber());
-            List<String> formulatedCostElements = getFormulatedCostElements();
-            if(formulatedCostElements.contains(newBudgetLineItem.getCostElement())){
-                newBudgetLineItem.setFormulatedCostElementFlag(true);
+            if(isBudgetFormulatedCostEnabled()){
+                List<String> formulatedCostElements = getFormulatedCostElements();
+                if(formulatedCostElements.contains(newBudgetLineItem.getCostElement())){
+                    newBudgetLineItem.setFormulatedCostElementFlag(true);
+                }
             }
             budget.getBudgetPeriod(budgetPeriod.getBudgetPeriod() - 1).getBudgetLineItems().add(newBudgetLineItem);            
             
@@ -171,6 +173,10 @@ public class BudgetExpensesAction extends BudgetAction {
     }
 
 
+    private boolean isBudgetFormulatedCostEnabled() {
+        String formulatedCostEnabled = getParameterService().getParameterValueAsString(BudgetDocument.class, Constants.FORMULATED_COST_ENABLED);
+        return (formulatedCostEnabled!=null && formulatedCostEnabled.equalsIgnoreCase("Y"))?true:false;
+    }
     private List<String> getFormulatedCostElements() {
         String formulatedCEsValue = getParameterService().getParameterValueAsString(BudgetDocument.class, Constants.FORMULATED_COST_ELEMENTS);
         String[] formulatedCEs = formulatedCEsValue==null?new String[0]:formulatedCEsValue.split(",");
