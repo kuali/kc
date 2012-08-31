@@ -259,7 +259,7 @@ public class CoiDisclProject extends KraPersistableBusinessObjectBase implements
         String label = "Project Id";
         if (isAwardEvent()) {
             label = "Award Number";
-        } else if (isProtocolEvent()) {
+        } else if (isProtocolEvent() || isIacucProtocolEvent()) {
             label = "Protocol Number";
         } else if (this.isProposalEvent()) {
             label = "Proposal Number";
@@ -271,7 +271,7 @@ public class CoiDisclProject extends KraPersistableBusinessObjectBase implements
         String label = "Project Title";
         if (isAwardEvent()) {
             label = "Award Title";
-        } else if (isProtocolEvent()) {
+        } else if (isProtocolEvent() || isIacucProtocolEvent()) {
             label = "Protocol Name";
         }
         return label;
@@ -279,7 +279,7 @@ public class CoiDisclProject extends KraPersistableBusinessObjectBase implements
     
     public String getProjectTypeLabel() {
         String label = "Project Type";
-        if (isProtocolEvent()) {
+        if (isProtocolEvent() || isIacucProtocolEvent()) {
             label = "Protocol type";
         }
         return label;
@@ -299,6 +299,8 @@ public class CoiDisclProject extends KraPersistableBusinessObjectBase implements
             description = "Award";
         } else if (isProtocolEvent() || isManualProtocolEvent()) {
             description = "Protocol";
+        } else if (isIacucProtocolEvent() || isManualIacucProtocolEvent()) {
+            description = "IACUC Protocol";
         }
         return description;
 
@@ -381,6 +383,10 @@ public class CoiDisclProject extends KraPersistableBusinessObjectBase implements
         return StringUtils.equals(CoiDisclosureEventType.IRB_PROTOCOL, this.disclosureEventType);
     }
 
+    public boolean isIacucProtocolEvent() {
+        return StringUtils.equals(CoiDisclosureEventType.IACUC_PROTOCOL, this.disclosureEventType);
+    }
+
     public boolean isManualProposalEvent() {
         return StringUtils.equals(CoiDisclosureEventType.MANUAL_DEVELOPMENT_PROPOSAL, this.disclosureEventType);
     }
@@ -393,12 +399,16 @@ public class CoiDisclProject extends KraPersistableBusinessObjectBase implements
         return StringUtils.equals(CoiDisclosureEventType.MANUAL_IRB_PROTOCOL, this.disclosureEventType);
     }
 
+    public boolean isManualIacucProtocolEvent() {
+        return StringUtils.equals(CoiDisclosureEventType.MANUAL_IACUC_PROTOCOL, this.disclosureEventType);
+    }
+
     public boolean isManualTravelEvent() {
         return StringUtils.equals(CoiDisclosureEventType.MANUAL_TRAVEL, this.disclosureEventType);
     }
 
     public boolean isManualEvent() {
-        return isManualAwardEvent() || isManualProposalEvent() || isManualProtocolEvent() || isManualTravelEvent();
+        return isManualAwardEvent() || isManualProposalEvent() || isManualProtocolEvent() || isManualIacucProtocolEvent() || isManualTravelEvent();
     }
 
 
@@ -483,7 +493,7 @@ public class CoiDisclProject extends KraPersistableBusinessObjectBase implements
         }
         headerItems.add(new LabelValuePair(coiDisclosureEventType.getProjectTitleLabel(), coiProjectTitle));
         if (coiDisclosureEventType.isUseSelectBox1()) {            
-           headerItems.add(new LabelValuePair(coiDisclosureEventType.getSelectBox1Label(), getSelectDesc()));
+            headerItems.add(new LabelValuePair(coiDisclosureEventType.getSelectBox1Label(), getSelectDesc()));
         }
         if (coiDisclosureEventType.isUseLongTextField1()) {            
             headerItems.add(new LabelValuePair(coiDisclosureEventType.getLongTextField1Label(), longTextField1));

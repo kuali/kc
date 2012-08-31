@@ -49,7 +49,8 @@ public class CoiEventDisclosureLookupableHelper extends CoiDisclosureLookupableH
     protected boolean isManualProjectEvent(CoiDisclosure disclosure) {
         if (StringUtils.equalsIgnoreCase(CoiDisclosureEventType.MANUAL_AWARD, disclosure.getEventTypeCode()) ||
            StringUtils.equalsIgnoreCase(CoiDisclosureEventType.MANUAL_DEVELOPMENT_PROPOSAL, disclosure.getEventTypeCode()) ||
-           StringUtils.equalsIgnoreCase(CoiDisclosureEventType.MANUAL_IRB_PROTOCOL, disclosure.getEventTypeCode())) {
+           StringUtils.equalsIgnoreCase(CoiDisclosureEventType.MANUAL_IRB_PROTOCOL, disclosure.getEventTypeCode()) ||
+           StringUtils.equalsIgnoreCase(CoiDisclosureEventType.MANUAL_IACUC_PROTOCOL, disclosure.getEventTypeCode())) {
             return true;
         }
         return false;
