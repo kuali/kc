@@ -131,7 +131,7 @@
         <property name="forceUppercase" value="false" />
         <property name="label" value="Unit Cost" />
         <property name="shortLabel" value="Unit Cost" />
-        <property name="maxLength" value="22" />
+        <property name="maxLength" value="15" />
         <property name="required" value="true" />
         <property name="summary" value="Unit Cost" />
         <property name="description" value="Unit Cost" />
@@ -143,7 +143,7 @@
         <property name="forceUppercase" value="false" />
         <property name="label" value="Count" />
         <property name="shortLabel" value="Count" />
-        <property name="maxLength" value="22" />
+        <property name="maxLength" value="5" />
         <property name="required" value="true" />
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
@@ -162,7 +162,7 @@
         <property name="forceUppercase" value="false" />
         <property name="label" value="Frequency" />
         <property name="shortLabel" value="Frequency" />
-        <property name="maxLength" value="22" />
+        <property name="maxLength" value="5" />
         <property name="required" value="true" />
         <property name="validationPattern" >
             <bean parent="NumericValidationPattern" />
@@ -181,7 +181,7 @@
         <property name="forceUppercase" value="false" />
         <property name="label" value="Calculated Expenses" />
         <property name="shortLabel" value="Calculated Expenses" />
-        <property name="maxLength" value="22" />
+        <property name="maxLength" value="15" />
         <property name="summary" value="Calculated Expenses" />
         <property name="description" value="Calculated Expenses" />
     </bean>
