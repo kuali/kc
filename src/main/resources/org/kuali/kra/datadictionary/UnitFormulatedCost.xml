@@ -67,7 +67,7 @@
         <property name="maxLength" value="50" />
         <property name="required" value="true" />
         <property name="validationPattern" >
-            <bean parent="AlphaNumericValidationPattern" />
+            <bean parent="AnyCharacterValidationPattern" />
         </property>
         <property name="control" >
       		<bean parent="SelectControlDefinition"
@@ -90,7 +90,7 @@
         <property name="shortLabel" value="Unit Number" />
         <property name="maxLength" value="8" />
         <property name="validationPattern" >
-            <bean parent="AlphaNumericValidationPattern" />
+            <bean parent="AnyCharacterValidationPattern" />
         </property>
         <property name="control" >
             <bean parent="TextControlDefinition"
