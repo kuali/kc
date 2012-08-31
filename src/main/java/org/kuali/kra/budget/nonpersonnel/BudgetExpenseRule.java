@@ -19,6 +19,7 @@ import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.calculator.QueryList;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
@@ -27,6 +28,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
 
 public class BudgetExpenseRule {
+    private static final double MAX_BUDGET_DECIMAL_VALUE = 999999999999.99;
     private static final String PERSONNEL_CATEGORY = "P";
 
     public BudgetExpenseRule() {
@@ -171,6 +173,27 @@ public class BudgetExpenseRule {
             valid = false;
         }
 
+        return valid;
+    }
+
+    public boolean processBudgetFormulatedCostValidations(BudgetFormulatedCostDetail budgetFormulatedCost,int budgetPeriod,int lineItemNumber,String errorKey) {
+        boolean valid = true;
+        MessageMap errorMap = GlobalVariables.getMessageMap();
+
+        BudgetDecimal unitCost = budgetFormulatedCost.getUnitCost();
+        BudgetDecimal count = new BudgetDecimal(budgetFormulatedCost.getCount());
+        BudgetDecimal frequency = new BudgetDecimal(budgetFormulatedCost.getFrequency());
+        BudgetDecimal calculatedExpense = unitCost.multiply(count).multiply(frequency);
+        if(unitCost.isGreaterThan(new BudgetDecimal(MAX_BUDGET_DECIMAL_VALUE))){
+            valid = false;
+            errorMap.putError(errorKey+".unitCost", KeyConstants.ERROR_FORMULATED_UNIT_COST);
+            
+        }
+        if(calculatedExpense.isGreaterThan(new BudgetDecimal(MAX_BUDGET_DECIMAL_VALUE))){
+            valid = false;
+            errorMap.putError(errorKey+".calculatedExpenses", KeyConstants.ERROR_FORMULATED_CALCULATED_EXPENSES);
+            
+        }
         return valid;
     }
 }
