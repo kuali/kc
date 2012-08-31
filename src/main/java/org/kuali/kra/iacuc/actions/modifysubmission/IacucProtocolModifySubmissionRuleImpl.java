@@ -42,6 +42,7 @@ import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class IacucProtocolModifySubmissionRuleImpl extends ResearchDocumentRuleBase implements IacucProtocolModifySubmissionRule {
   
@@ -85,8 +86,10 @@ public class IacucProtocolModifySubmissionRuleImpl extends ResearchDocumentRuleB
         List<ProtocolOnlineReviewDocument> protocolOnlineReviewDocuments = getProtocolOnlineReviewService().getProtocolReviewDocumentsForCurrentSubmission(document.getProtocol()); 
         for (int i = 0; i < reviewers.size(); i++) {
             ProtocolReviewerBean reviewer = reviewers.get(i);
-            if(reviewer.getReviewerTypeCode().equals(PRIMARY_REVIEWER_TYPE) || reviewer.getReviewerTypeCode().equals(SECONDARY_REVIEWER_TYPE)) {
-                totalValidReviewers++;
+            if (ObjectUtils.isNotNull(reviewer.getReviewerTypeCode())) {
+                if(reviewer.getReviewerTypeCode().equals(PRIMARY_REVIEWER_TYPE) || reviewer.getReviewerTypeCode().equals(SECONDARY_REVIEWER_TYPE)) {
+                    totalValidReviewers++;
+                }
             }
             if (!isReviewerValid(reviewer, i)) {
                 isValid = false;
