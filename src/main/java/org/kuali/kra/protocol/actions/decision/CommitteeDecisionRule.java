@@ -112,7 +112,7 @@ public class CommitteeDecisionRule<CD extends CommitteeDecision<?>> extends Rese
         return filteredComments;
     }
     
-    private boolean processCounts(ProtocolSubmission submission, CD committeeDecision) {
+    protected boolean processCounts(ProtocolSubmission submission, CD committeeDecision) {
         boolean retVal = true;
         
         String committeeId = submission.getCommittee() != null ? submission.getCommittee().getCommitteeId() : null;
