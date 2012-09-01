@@ -1332,7 +1332,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         }
         
         // unless we are doing an update
-        if (coiDisclosure.isApprovedDisclosure() || coiDisclosure.isDisapprovedDisclosure() || (!coiDisclosure.isUpdateEvent() && !(coiDisclosure.isAnnualEvent() && coiDisclosure.isAnnualUpdate()))) {
+        if (coiDisclosure.isApprovedDisclosure() || coiDisclosure.isDisapprovedDisclosure() || (!coiDisclosure.isUpdateEvent() && !coiDisclosure.isAnnualEvent())) {
             setupDisclosures(masterDisclosureBean, coiDisclosure);
         }
         return masterDisclosureBean;
