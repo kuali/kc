@@ -97,7 +97,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
         for (QuestionnaireUsage questionnaireUsage : questionnaireUsages) {
             if (!questionnaireIds.contains(questionnaireUsage.getQuestionnaire().getQuestionnaireId())) {
                 questionnaireIds.add(questionnaireUsage.getQuestionnaire().getQuestionnaireId());
-                if (finalDoc || isCurrentQuestionnaire(questionnaireUsage.getQuestionnaire())) {
+                if (finalDoc || (isCurrentQuestionnaire(questionnaireUsage.getQuestionnaire()) && questionnaireUsage.getQuestionnaire().isActive())) {
                     // TODO : if usage is not in current qn, also, this qn is not saved
                     // this will cause problem because it should not be included. so, may have to
                     // filter out in initanswerheaders
@@ -194,7 +194,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
             ModuleQuestionnaireBean destModuleQuestionnaireBean) {
 
         List<AnswerHeader> newAnswerHeaders = new ArrayList<AnswerHeader>();
-        List<String> questionnaireIds = getAssociateedQuestionnaireIds(srcModuleQuestionnaireBean);
+        List<String> questionnaireIds = getAssociateedQuestionnaireIds(destModuleQuestionnaireBean);
         for (AnswerHeader answerHeader : retrieveAnswerHeaders(srcModuleQuestionnaireBean)) {
             if (questionnaireIds.contains(answerHeader.getQuestionnaire().getQuestionnaireId())) {
                 AnswerHeader copiedAnswerHeader = (AnswerHeader) ObjectUtils.deepCopy(answerHeader);
