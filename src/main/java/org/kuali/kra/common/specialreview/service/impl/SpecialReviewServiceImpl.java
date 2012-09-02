@@ -100,7 +100,6 @@ public class SpecialReviewServiceImpl implements SpecialReviewService {
      * {@inheritDoc}
      * @see org.kuali.kra.common.specialreview.service.SpecialReviewService#getViewSpecialReviewProtocolRouteHeaderId(java.lang.String)
      */
-/*
     public String getViewSpecialReviewProtocolRouteHeaderId(String protocolNumber) throws Exception {
         String routeHeaderId = null;
         
@@ -114,7 +113,11 @@ public class SpecialReviewServiceImpl implements SpecialReviewService {
         
         return routeHeaderId;
     }
-*/    
+
+    /**
+     * {@inheritDoc}
+     * @see org.kuali.kra.common.specialreview.service.SpecialReviewService#getViewSpecialReviewProtocolRouteHeaderId(java.lang.String, java.lang.String)
+     */
     public String getViewSpecialReviewProtocolRouteHeaderId(String protocolNumber, String specialReviewTypeCode) throws Exception {
         String routeHeaderId = null;
         

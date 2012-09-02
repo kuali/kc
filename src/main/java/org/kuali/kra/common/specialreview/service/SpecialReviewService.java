@@ -53,8 +53,18 @@ public interface SpecialReviewService {
      * @return the route header id of the protocol document, or 0L if the protocolNumber is invalid
      * @throws Exception
      */
-    public String getViewSpecialReviewProtocolRouteHeaderId(String protocolNumber, String specialReviewTypeCode) throws Exception;
+    public String getViewSpecialReviewProtocolRouteHeaderId(String protocolNumber) throws Exception;
     
+    /**
+     * Gets the route header id of the document represented by the given protocolNumber.
+     * 
+     * @param protocolNumber The number of the protocol
+     * @param specialReviewTypeCode for the protocol
+     * @return the route header id of the protocol document, or 0L if the protocolNumber is invalid
+     * @throws Exception
+     */
+    public String getViewSpecialReviewProtocolRouteHeaderId(String protocolNumber, String specialReviewTypeCode) throws Exception;
+
     /**
      * Determines whether the given Protocol contains a Funding Source linking to the Institutional Proposal or Award corresponding to the given number.
      * 
