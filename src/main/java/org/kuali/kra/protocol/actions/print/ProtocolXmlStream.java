@@ -225,8 +225,10 @@ public class ProtocolXmlStream extends PrintBaseXmlStream {
             submissionDetail.setSubmissionTypeDesc(submissionInfoBean.getProtocolSubmissionType().getDescription());
         }
         if (submissionInfoBean.getProtocolSubmissionQualifierType() != null) {
-            submissionDetail.setSubmissionTypeQualifierCode(new BigInteger(String.valueOf(submissionInfoBean
-                    .getSubmissionTypeQualifierCode())));
+            // hack, this shouldn't be necessary, but BigIntegers can't be constructed from nulls.
+            BigInteger typeQual = submissionInfoBean.getSubmissionTypeQualifierCode() == null ? new BigInteger("0") :
+                    new BigInteger(String.valueOf(submissionInfoBean.getSubmissionTypeQualifierCode()));
+            submissionDetail.setSubmissionTypeQualifierCode(typeQual);
             submissionDetail.setSubmissionTypeQualifierDesc(submissionInfoBean.getProtocolSubmissionQualifierType()
                     .getDescription());
         }
