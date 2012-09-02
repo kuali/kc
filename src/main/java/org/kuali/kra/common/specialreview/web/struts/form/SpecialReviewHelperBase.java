@@ -120,7 +120,7 @@ public abstract class SpecialReviewHelperBase<T extends SpecialReview<? extends 
      * @param specialReview the Special Review to update
      */
     public void prepareProtocolLinkViewFields(T specialReview) {
-        if (getIsIrbProtocolLinkingEnabled()) {
+        if (getIsIrbProtocolLinkingEnabled() || getIsIacucProtocolLinkingEnabled()) {
             if (specialReview != null && SpecialReviewType.HUMAN_SUBJECTS.equals(specialReview.getSpecialReviewTypeCode())) {
                 ProtocolSpecialReviewService protocolSpecialReviewService = getProtocolSpecialReviewService();
                 protocolSpecialReviewService.populateSpecialReview(specialReview);
@@ -255,9 +255,10 @@ public abstract class SpecialReviewHelperBase<T extends SpecialReview<? extends 
     }
     
     private void initializeLinkedProtocolNumbers() {
-        if (getIsIrbProtocolLinkingEnabled()) {
+        if (getIsIrbProtocolLinkingEnabled() || getIsIacucProtocolLinkingEnabled()) {
             for (T specialReview : getSpecialReviews()) {
-                if (SpecialReviewType.HUMAN_SUBJECTS.equals(specialReview.getSpecialReviewTypeCode())) {
+                if (( SpecialReviewType.HUMAN_SUBJECTS.equals(specialReview.getSpecialReviewTypeCode()) && getIsIrbProtocolLinkingEnabled() )
+                        || ( SpecialReviewType.ANIMAL_USAGE.equals(specialReview.getSpecialReviewTypeCode()) && getIsIacucProtocolLinkingEnabled() ) ) {
                     linkedProtocolNumbers.add(specialReview.getProtocolNumber());
                 }
             }

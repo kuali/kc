@@ -757,6 +757,7 @@
         <property name="protocolFinderDao" ref="protocolFinderDao" />
         <property name="documentService" ref="documentService" />
         <property name="businessObjectService" ref="businessObjectService" />
+        <property name="iacucProtocolFinderDao" ref="iacucProtocolFinderDao" />
     </bean>
 
     <!-- Authorization Services -->
