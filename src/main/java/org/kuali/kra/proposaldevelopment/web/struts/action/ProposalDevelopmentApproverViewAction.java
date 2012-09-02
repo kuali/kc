@@ -224,7 +224,7 @@ public class ProposalDevelopmentApproverViewAction extends ProposalDevelopmentAc
         String viewProtocolUrl = Constants.EMPTY_STRING;
 
         String protocolNumber = specialReview.getProtocolNumber();
-        String routeHeaderId = getSpecialReviewService().getViewSpecialReviewProtocolRouteHeaderId(protocolNumber);
+        String routeHeaderId = getSpecialReviewService().getViewSpecialReviewProtocolRouteHeaderId(protocolNumber, specialReview.getSpecialReviewTypeCode());
         if (StringUtils.isNotEmpty(routeHeaderId)) { 
             viewProtocolUrl = buildForwardUrl(routeHeaderId) + "&viewDocument=true";
         }
