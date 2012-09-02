@@ -31,6 +31,8 @@ import org.kuali.kra.bo.SpecialReviewApprovalType;
 import org.kuali.kra.bo.SpecialReviewType;
 import org.kuali.kra.common.specialreview.bo.SpecialReview;
 import org.kuali.kra.common.specialreview.service.SpecialReviewService;
+import org.kuali.kra.iacuc.IacucProtocol;
+import org.kuali.kra.iacuc.IacucProtocolFinderDao;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
@@ -54,6 +56,7 @@ public class SpecialReviewServiceImpl implements SpecialReviewService {
     private AwardService awardService;
     private InstitutionalProposalService institutionalProposalService;
     private ProtocolFinderDao protocolFinderDao;
+    private IacucProtocolFinderDao iacucProtocolFinderDao;
     private DocumentService documentService;
     private BusinessObjectService businessObjectService;
     
@@ -97,6 +100,7 @@ public class SpecialReviewServiceImpl implements SpecialReviewService {
      * {@inheritDoc}
      * @see org.kuali.kra.common.specialreview.service.SpecialReviewService#getViewSpecialReviewProtocolRouteHeaderId(java.lang.String)
      */
+/*
     public String getViewSpecialReviewProtocolRouteHeaderId(String protocolNumber) throws Exception {
         String routeHeaderId = null;
         
@@ -110,6 +114,33 @@ public class SpecialReviewServiceImpl implements SpecialReviewService {
         
         return routeHeaderId;
     }
+*/    
+    public String getViewSpecialReviewProtocolRouteHeaderId(String protocolNumber, String specialReviewTypeCode) throws Exception {
+        String routeHeaderId = null;
+        
+        if (StringUtils.isNotBlank(protocolNumber)) {
+            if (SpecialReviewType.HUMAN_SUBJECTS.equals(specialReviewTypeCode) )
+            {
+                Protocol protocol = getProtocolFinderDao().findCurrentProtocolByNumber(protocolNumber);
+                if (protocol != null) {
+                Document document = getDocumentService().getByDocumentHeaderId(protocol.getProtocolDocument().getDocumentNumber());
+                routeHeaderId = document.getDocumentHeader().getWorkflowDocument().getDocumentId();
+                }
+            }
+            else if (SpecialReviewType.ANIMAL_USAGE.equals(specialReviewTypeCode) )
+            {
+                org.kuali.kra.protocol.Protocol protocol = getIacucProtocolFinderDao().findCurrentProtocolByNumber(protocolNumber);
+                if (protocol != null) {
+                Document document = getDocumentService().getByDocumentHeaderId(protocol.getProtocolDocument().getDocumentNumber());
+                routeHeaderId = document.getDocumentHeader().getWorkflowDocument().getDocumentId();
+                }
+            }
+
+        }
+        
+        return routeHeaderId;
+    }
+
     
     /**
      * {@inheritDoc}
@@ -366,6 +397,14 @@ public class SpecialReviewServiceImpl implements SpecialReviewService {
         this.institutionalProposalService = institutionalProposalService;
     }
     
+    public IacucProtocolFinderDao getIacucProtocolFinderDao() {
+        return iacucProtocolFinderDao;
+    }
+
+    public void setIacucProtocolFinderDao(IacucProtocolFinderDao iacucProtocolFinderDao) {
+        this.iacucProtocolFinderDao = iacucProtocolFinderDao;
+    }
+
     public ProtocolFinderDao getProtocolFinderDao() {
         return protocolFinderDao;
     }

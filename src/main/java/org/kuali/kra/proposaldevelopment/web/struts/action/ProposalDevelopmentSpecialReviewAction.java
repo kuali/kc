@@ -107,13 +107,13 @@ public class ProposalDevelopmentSpecialReviewAction extends ProposalDevelopmentA
         ProposalDevelopmentDocument document = proposalDevelopmentForm.getProposalDevelopmentDocument();
         ProposalSpecialReview specialReview = proposalDevelopmentForm.getSpecialReviewHelper().getNewSpecialReview();
         List<ProposalSpecialReview> specialReviews = document.getDevelopmentProposal().getPropSpecialReviews();
-        boolean isProtocolLinkingEnabled = proposalDevelopmentForm.getSpecialReviewHelper().getIsIrbProtocolLinkingEnabled();
-        boolean isIacucProtocolLinkingEnabled = proposalDevelopmentForm.getSpecialReviewHelper().getIsIacucProtocolLinkingEnabled();
+        boolean isProtocolLinkingEnabled =  ( proposalDevelopmentForm.getSpecialReviewHelper().getIsIrbProtocolLinkingEnabled() ||
+                                                   proposalDevelopmentForm.getSpecialReviewHelper().getIsIacucProtocolLinkingEnabled() );
         
         proposalDevelopmentForm.getSpecialReviewHelper().prepareProtocolLinkViewFields(specialReview);
         
         KualiRuleService ruleService = KraServiceLocator.getService(KualiRuleService.class);
-        if (ruleService.applyRules(new AddSpecialReviewEvent<ProposalSpecialReview>(document, specialReview, specialReviews, isProtocolLinkingEnabled || isIacucProtocolLinkingEnabled))) {
+        if (ruleService.applyRules(new AddSpecialReviewEvent<ProposalSpecialReview>(document, specialReview, specialReviews, isProtocolLinkingEnabled ))) {
             specialReview.setSpecialReviewNumber(document.getDocumentNextValue(Constants.PROPOSAL_SPECIALREVIEW_NUMBER));
             document.getDevelopmentProposal().getPropSpecialReviews().add(specialReview);
             proposalDevelopmentForm.getSpecialReviewHelper().setNewSpecialReview(new ProposalSpecialReview());
@@ -176,7 +176,8 @@ public class ProposalDevelopmentSpecialReviewAction extends ProposalDevelopmentA
         ProposalDevelopmentDocument document = proposalDevelopmentForm.getProposalDevelopmentDocument();
         ProposalSpecialReview specialReview = proposalDevelopmentForm.getSpecialReviewHelper().getNewSpecialReview();
         List<ProposalSpecialReview> specialReviews = document.getDevelopmentProposal().getPropSpecialReviews();
-        boolean isPDProtocolLinkingEnabled = proposalDevelopmentForm.getSpecialReviewHelper().getIsIrbProtocolLinkingEnabled();
+        boolean isPDProtocolLinkingEnabled = ( proposalDevelopmentForm.getSpecialReviewHelper().getIsIrbProtocolLinkingEnabled() ||
+                                                    proposalDevelopmentForm.getSpecialReviewHelper().getIsIacucProtocolLinkingEnabled() );
         
         proposalDevelopmentForm.getSpecialReviewHelper().prepareProtocolLinkViewFields(specialReview);
         
@@ -240,7 +241,7 @@ public class ProposalDevelopmentSpecialReviewAction extends ProposalDevelopmentA
         String viewProtocolUrl = Constants.EMPTY_STRING;
 
         String protocolNumber = specialReview.getProtocolNumber();
-        String routeHeaderId = getSpecialReviewService().getViewSpecialReviewProtocolRouteHeaderId(protocolNumber);
+        String routeHeaderId = getSpecialReviewService().getViewSpecialReviewProtocolRouteHeaderId(protocolNumber, specialReview.getSpecialReviewTypeCode());
         if (StringUtils.isNotEmpty(routeHeaderId)) { 
             viewProtocolUrl = buildForwardUrl(routeHeaderId) + "&viewDocument=true";
         }

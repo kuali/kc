@@ -99,12 +99,13 @@ public class AwardSpecialReviewAction extends AwardAction {
         AwardDocument document = awardForm.getAwardDocument();
         AwardSpecialReview specialReview = awardForm.getSpecialReviewHelper().getNewSpecialReview();
         List<AwardSpecialReview> specialReviews = document.getAward().getSpecialReviews();
-        boolean isProtocolLinkingEnabled = awardForm.getSpecialReviewHelper().getIsIrbProtocolLinkingEnabled();
+        boolean isProtocolLinkingEnabled = ( awardForm.getSpecialReviewHelper().getIsIrbProtocolLinkingEnabled() || 
+                    awardForm.getSpecialReviewHelper().getIsIacucProtocolLinkingEnabled() );
         
         awardForm.getSpecialReviewHelper().prepareProtocolLinkViewFields(specialReview);
         
         ActionForward forward = mapping.findForward(Constants.MAPPING_AWARD_BASIC);
-        if (applyRules(new AddSpecialReviewEvent<AwardSpecialReview>(document, specialReview, specialReviews, isProtocolLinkingEnabled))) {
+        if (applyRules(new AddSpecialReviewEvent<AwardSpecialReview>(document, specialReview, specialReviews, isProtocolLinkingEnabled ))) {
             specialReview.setSpecialReviewNumber(document.getDocumentNextValue(Constants.SPECIAL_REVIEW_NUMBER));
             document.getAward().getSpecialReviews().add(specialReview);
             awardForm.getSpecialReviewHelper().setNewSpecialReview(new AwardSpecialReview());
@@ -195,7 +196,7 @@ public class AwardSpecialReviewAction extends AwardAction {
         AwardDocument document = awardForm.getAwardDocument();
         List<AwardSpecialReview> specialReviews = document.getAward().getSpecialReviews();
         List<String> linkedProtocolNumbers = awardForm.getSpecialReviewHelper().getLinkedProtocolNumbers();
-        boolean isAwardProtocolLinkingEnabled = awardForm.getSpecialReviewHelper().getIsIrbProtocolLinkingEnabled();
+        boolean isAwardProtocolLinkingEnabled = (awardForm.getSpecialReviewHelper().getIsIrbProtocolLinkingEnabled() || awardForm.getSpecialReviewHelper().getIsIacucProtocolLinkingEnabled());
 
         if (isAwardProtocolLinkingEnabled) {
             if (applyRules(new SaveSpecialReviewLinkEvent<AwardSpecialReview>(document, specialReviews, linkedProtocolNumbers))) {
@@ -263,7 +264,7 @@ public class AwardSpecialReviewAction extends AwardAction {
         String viewProtocolUrl = Constants.EMPTY_STRING;
 
         String protocolNumber = specialReview.getProtocolNumber();
-        String routeHeaderId = getSpecialReviewService().getViewSpecialReviewProtocolRouteHeaderId(protocolNumber);
+        String routeHeaderId = getSpecialReviewService().getViewSpecialReviewProtocolRouteHeaderId(protocolNumber, specialReview.getSpecialReviewTypeCode());
         if (StringUtils.isNotEmpty(routeHeaderId)) { 
             viewProtocolUrl = buildForwardUrl(routeHeaderId) + "&viewDocument=true";
         }
