@@ -99,13 +99,13 @@ public class InstitutionalProposalSpecialReviewAction extends InstitutionalPropo
         InstitutionalProposalDocument document = institutionalProposalForm.getInstitutionalProposalDocument();
         InstitutionalProposalSpecialReview specialReview = institutionalProposalForm.getSpecialReviewHelper().getNewSpecialReview();
         List<InstitutionalProposalSpecialReview> specialReviews = document.getInstitutionalProposal().getSpecialReviews();
-        boolean isProtocolLinkingEnabled = institutionalProposalForm.getSpecialReviewHelper().getIsIrbProtocolLinkingEnabled();
-        boolean isIacucProtocolLinkingEnabled = institutionalProposalForm.getSpecialReviewHelper().getIsIacucProtocolLinkingEnabled();
+        boolean isProtocolLinkingEnabled = ( institutionalProposalForm.getSpecialReviewHelper().getIsIrbProtocolLinkingEnabled() ||
+                institutionalProposalForm.getSpecialReviewHelper().getIsIacucProtocolLinkingEnabled() );
         
         institutionalProposalForm.getSpecialReviewHelper().prepareProtocolLinkViewFields(specialReview);
         
         ActionForward forward = mapping.findForward(Constants.MAPPING_AWARD_BASIC);
-        if (applyRules(new AddSpecialReviewEvent<InstitutionalProposalSpecialReview>(document, specialReview, specialReviews, isProtocolLinkingEnabled || isIacucProtocolLinkingEnabled))) {
+        if (applyRules(new AddSpecialReviewEvent<InstitutionalProposalSpecialReview>(document, specialReview, specialReviews, isProtocolLinkingEnabled ))) {
             specialReview.setSpecialReviewNumber(document.getDocumentNextValue(Constants.SPECIAL_REVIEW_NUMBER));
             document.getInstitutionalProposal().getSpecialReviews().add(specialReview);
             institutionalProposalForm.getSpecialReviewHelper().setNewSpecialReview(new InstitutionalProposalSpecialReview());
@@ -194,7 +194,8 @@ public class InstitutionalProposalSpecialReviewAction extends InstitutionalPropo
         InstitutionalProposalDocument document = institutionalProposalForm.getInstitutionalProposalDocument();
         List<InstitutionalProposalSpecialReview> specialReviews = document.getInstitutionalProposal().getSpecialReviews();
         List<String> linkedProtocolNumbers = institutionalProposalForm.getSpecialReviewHelper().getLinkedProtocolNumbers();
-        boolean isIPProtocolLinkingEnabled = institutionalProposalForm.getSpecialReviewHelper().getIsIrbProtocolLinkingEnabled();
+        boolean isIPProtocolLinkingEnabled = (institutionalProposalForm.getSpecialReviewHelper().getIsIrbProtocolLinkingEnabled() ||
+                                                    institutionalProposalForm.getSpecialReviewHelper().getIsIacucProtocolLinkingEnabled() );
         
         if (isIPProtocolLinkingEnabled) {
             if (applyRules(new SaveSpecialReviewLinkEvent<InstitutionalProposalSpecialReview>(document, specialReviews, linkedProtocolNumbers))) {
@@ -275,7 +276,7 @@ public class InstitutionalProposalSpecialReviewAction extends InstitutionalPropo
         String viewProtocolUrl = Constants.EMPTY_STRING;
 
         String protocolNumber = specialReview.getProtocolNumber();
-        String routeHeaderId = getSpecialReviewService().getViewSpecialReviewProtocolRouteHeaderId(protocolNumber);
+        String routeHeaderId = getSpecialReviewService().getViewSpecialReviewProtocolRouteHeaderId(protocolNumber, specialReview.getSpecialReviewTypeCode());
         if (StringUtils.isNotEmpty(routeHeaderId)) {
             viewProtocolUrl = buildForwardUrl(routeHeaderId) + "&viewDocument=true";
         }
