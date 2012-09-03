@@ -114,6 +114,10 @@
     </property>
     <property name="allowsNoteAttachments" value="false"/>
     
+    <property name="workflowProperties">
+    	<ref bean="ProposalDevelopmentDocument-workflowProperties"/>
+    </property>
+    
     <property name="attributes">
       <list>
         <ref bean="ProposalDevelopmentDocument-versionNumber"/>
@@ -127,4 +131,25 @@
 
   <bean id="ProposalDevelopmentDocument-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
   </bean>
+  
+  <bean id="ProposalDevelopmentDocument-workflowProperties" parent="ProposalDevelopmentDocument-workflowProperties-parentBean"/>
+  <bean id="ProposalDevelopmentDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties" >
+    <property name="workflowPropertyGroups">
+      <list>
+        <bean parent="WorkflowPropertyGroup">
+          <property name="workflowProperties">
+            <list>
+              <bean parent="WorkflowProperty" p:path="documentHeader"/>
+              <bean parent="WorkflowProperty" p:path="developmentProposalList.proposalNumber"/>
+              <bean parent="WorkflowProperty" p:path="developmentProposalList.ownedByUnitNumber"/>
+              <bean parent="WorkflowProperty" p:path="budgetDocumentVersions.budgetVersionOverview.totalCost"/>
+              <bean parent="WorkflowProperty" p:path="developmentProposalList.principalInvestigatorName"/>
+              <bean parent="WorkflowProperty" p:path="developmentProposalList.title"/>
+              <bean parent="WorkflowProperty" p:path="developmentProposalList.sponsor.sponsorCode"/>
+			 </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>    
 </beans>
