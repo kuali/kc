@@ -96,15 +96,15 @@
       </list>
     </property>
     
-<!--     <property name="workflowAttributes"> -->
-<!--     	<ref bean="BudgetDocument-workflowAttributes"/> -->
-<!--     </property> -->
+	<property name="workflowProperties"> 
+		<ref bean="BudgetDocument-workflowProperties"/> 
+	</property> 
     
   </bean>
 
   <bean id="BudgetDocument-versionNumber" parent="BudgetDocument-versionNumber-parentBean"/>
   <bean id="BudgetDocument-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber"/>
 
-  <bean id="BudgetDocument-workflowAttributes" parent="BudgetDocument-workflowAttributes-parentBean"/>
-  <bean id="BudgetDocument-workflowAttributes-parentBean" abstract="true" parent="WorkflowAttributes"/>
+  <bean id="BudgetDocument-workflowProperties" parent="BudgetDocument-workflowProperties-parentBean"/>
+  <bean id="BudgetDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties"/>
 </beans>
