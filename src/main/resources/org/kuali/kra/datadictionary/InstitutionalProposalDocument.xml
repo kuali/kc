@@ -93,6 +93,10 @@
       </list>
     </property>
     
+    <property name="workflowProperties">
+    	<ref bean="InstitutionalProposalDocument-workflowProperties"/>
+    </property>
+    
     <property name="attributes">
       <list>      	
         <ref bean="InstitutionalProposalDocument-versionNumber"/>        
@@ -106,4 +110,26 @@
 
   <bean id="InstitutionalProposalDocument-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
   </bean>
+  
+  <bean id="InstitutionalProposalDocument-workflowProperties" parent="InstitutionalProposalDocument-workflowProperties-parentBean"/>
+  <bean id="InstitutionalProposalDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties" >
+    <property name="workflowPropertyGroups">
+      <list>
+        <bean parent="WorkflowPropertyGroup">
+          <property name="workflowProperties">
+            <list>
+              <bean parent="WorkflowProperty" p:path="documentHeader"/>
+              <bean parent="WorkflowProperty" p:path="institutionalProposal.proposalId"/>
+              <bean parent="WorkflowProperty" p:path="institutionalProposal.proposalNumber"/>
+              <bean parent="WorkflowProperty" p:path="institutionalProposal.currentAccountNumber"/>
+              <bean parent="WorkflowProperty" p:path="institutionalProposal.principalInvestigator.contact.fullName"/>
+              <bean parent="WorkflowProperty" p:path="institutionalProposal.title"/>
+              <bean parent="WorkflowProperty" p:path="institutionalProposal.sponsor.sponsorCode"/>
+			  <bean parent="WorkflowProperty" p:path="institutionalProposal.leadUnit.unitNumber"/>
+			 </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>  
 </beans>
