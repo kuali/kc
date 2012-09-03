@@ -23,6 +23,7 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.logging.Log;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.budget.document.BudgetDocument;
@@ -58,16 +59,19 @@ public abstract class ProtocolOnlineReviewForm extends KraTransactionalDocumentF
     private static final long serialVersionUID = -7633960906991275328L;
     
     ProtocolOnlineReviewDocument document;
-    private static org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProtocolOnlineReviewForm.class);
     
-    private static final Map<String,String> ONLINE_REVIEW_APPROVE_BUTTON_MAP;
-    
-    static {
-        ONLINE_REVIEW_APPROVE_BUTTON_MAP = new HashMap<String,String>();
-        ONLINE_REVIEW_APPROVE_BUTTON_MAP.put(Constants.ONLINE_REVIEW_ROUTE_NODE_ADMIN_INITIAL_REVIEW, "buttonsmall_send_review_request.gif");
-        ONLINE_REVIEW_APPROVE_BUTTON_MAP.put(Constants.ONLINE_REVIEW_ROUTE_NODE_ADMIN_REVIEW,"buttonsmall_accept_review_comments.gif");
-        ONLINE_REVIEW_APPROVE_BUTTON_MAP.put(Constants.ONLINE_REVIEW_ROUTE_NODE_ONLINE_REVIEWER, "buttonsmall_approve_this_review.gif");
-    }
+// TODO *********commented the code below during IACUC refactoring*********     
+//    private static org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProtocolOnlineReviewForm.class);
+
+//    private static final Map<String,String> ONLINE_REVIEW_APPROVE_BUTTON_MAP;
+
+// TODO *********commented the code below during IACUC refactoring*********     
+//    static {
+//        ONLINE_REVIEW_APPROVE_BUTTON_MAP = new HashMap<String,String>();
+//        ONLINE_REVIEW_APPROVE_BUTTON_MAP.put(Constants.ONLINE_REVIEW_ROUTE_NODE_ADMIN_INITIAL_REVIEW, "buttonsmall_send_review_request.gif");
+//        ONLINE_REVIEW_APPROVE_BUTTON_MAP.put(Constants.ONLINE_REVIEW_ROUTE_NODE_ADMIN_REVIEW,"buttonsmall_accept_review_comments.gif");
+//        ONLINE_REVIEW_APPROVE_BUTTON_MAP.put(Constants.ONLINE_REVIEW_ROUTE_NODE_ONLINE_REVIEWER, "buttonsmall_approve_this_review.gif");
+//    }
     
     private static final String DEFAULT_APPROVE_BUTTON = "buttonsmall_approve_this_review.gif";
     
@@ -85,11 +89,17 @@ public abstract class ProtocolOnlineReviewForm extends KraTransactionalDocumentF
         return (ProtocolOnlineReviewDocument) super.getDocument();
     }
 
-    /** {@inheritDoc} */
-    @Override
-    protected String getDefaultDocumentTypeName() {
-        return "ProtocolOnlineReviewDocument";
-    }
+    
+    protected abstract String getDefaultDocumentTypeName();
+ 
+// TODO *********commented the code below during IACUC refactoring*********     
+//    /** {@inheritDoc} */
+//    @Override
+//    protected String getDefaultDocumentTypeName() {
+//        return "ProtocolOnlineReviewDocument";
+//    }
+    
+    
     
     /*
      * Override of the set document so we can populate this form
@@ -135,10 +145,14 @@ public abstract class ProtocolOnlineReviewForm extends KraTransactionalDocumentF
       
     }
     
-    @Override
-    protected String getLockRegion() {
-        return KraAuthorizationConstants.LOCK_DESCRIPTOR_PROTOCOL;
-    }
+    
+    protected abstract String getLockRegion();
+    
+// TODO *********commented the code below during IACUC refactoring*********     
+//    @Override
+//    protected String getLockRegion() {
+//        return KraAuthorizationConstants.LOCK_DESCRIPTOR_PROTOCOL;
+//    }
     
     @Override
     public String getActionName() {
@@ -172,13 +186,16 @@ public abstract class ProtocolOnlineReviewForm extends KraTransactionalDocumentF
         
     }
 
-    public List<ExtraButton> getExtraActionsButtons() {
-        // clear out the extra buttons array
-        extraButtons.clear();
-        ProtocolOnlineReviewDocument doc = this.getProtocolOnlineReviewDocument();
-        String externalImageURL = Constants.KRA_EXTERNALIZABLE_IMAGES_URI_KEY;
 
-   // TODO : IACUC needs to implement here     
+    public abstract List<ExtraButton> getExtraActionsButtons();
+    
+// TODO *********commented the code below during IACUC refactoring*********     
+//    public List<ExtraButton> getExtraActionsButtons() {
+//        // clear out the extra buttons array
+//        extraButtons.clear();
+//        ProtocolOnlineReviewDocument doc = this.getProtocolOnlineReviewDocument();
+//        String externalImageURL = Constants.KRA_EXTERNALIZABLE_IMAGES_URI_KEY;
+//    
 //        TaskAuthorizationService tas = KraServiceLocator.getService(TaskAuthorizationService.class);
 //               
 //        if( tas.isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), new ProtocolOnlineReviewTask("rejectProtocolOnlineReview",doc))
@@ -187,9 +204,9 @@ public abstract class ProtocolOnlineReviewForm extends KraTransactionalDocumentF
 //            String resubmissionImage = KRADServiceLocator.getKualiConfigurationService().getPropertyValueAsString(externalImageURL) + "buttonsmall_return_to_reviewer.gif";
 //            addExtraButton("methodToCall.rejectOnlineReview", resubmissionImage, "Return to reviewer");
 //        }
-        
-        return extraButtons;
-    }
+//        
+//        return extraButtons;
+//    }
     
 
     /**
@@ -200,6 +217,7 @@ public abstract class ProtocolOnlineReviewForm extends KraTransactionalDocumentF
      * @param source
      * @param altText
      */ 
+    @SuppressWarnings("deprecation")
     protected void addExtraButton(String property, String source, String altText){
         
         ExtraButton newButton = new ExtraButton();
@@ -216,31 +234,39 @@ public abstract class ProtocolOnlineReviewForm extends KraTransactionalDocumentF
         return getExtraActionsButtons();
     }
     
-    public boolean getAdminFieldsEditable() {
-        return KraServiceLocator.getService(KraAuthorizationService.class).hasPermission(GlobalVariables.getUserSession().getPrincipalId(), getProtocolOnlineReviewDocument().getProtocolOnlineReview().getProtocol(),PermissionConstants.MAINTAIN_IACUC_ONLINE_REVIEWS);
-    }
+    
+    public abstract boolean getAdminFieldsEditable();
+
+// TODO *********commented the code below during IACUC refactoring*********     
+//    public boolean getAdminFieldsEditable() {
+//        return KraServiceLocator.getService(KraAuthorizationService.class).hasPermission(GlobalVariables.getUserSession().getPrincipalId(), getProtocolOnlineReviewDocument().getProtocolOnlineReview().getProtocol(),PermissionConstants.MAINTAIN_IACUC_ONLINE_REVIEWS);
+//    }
     
     public Set<String> getCurrentRouteNodes() {
         Set<String> nodes;
         try {
             nodes = getDocument().getDocumentHeader().getWorkflowDocument().getNodeNames();
         } catch (Exception e) {
-            LOG.warn(String.format("Workflow exception thrown while trying to get list of current route nodes. Message:%s",e.getMessage()));
+            getLogHook().warn(String.format("Workflow exception thrown while trying to get list of current route nodes. Message:%s",e.getMessage()));
             nodes = new HashSet<String>();
         }
         return nodes;
     }
+
+    protected abstract Log getLogHook();
 
     public String getApproveImageName() {
         //we take the first route node the document is on.
         Set<String> routeNodes = getCurrentRouteNodes();
         String routeNodeName = routeNodes.size() == 0? null : routeNodes.iterator().next();
         if (routeNodeName!=null) {
-            return ONLINE_REVIEW_APPROVE_BUTTON_MAP.get(routeNodeName)!=null?ONLINE_REVIEW_APPROVE_BUTTON_MAP.get(routeNodeName):DEFAULT_APPROVE_BUTTON;
+            return getOnlineReviewApproveButtonMapHook().get(routeNodeName)!=null? getOnlineReviewApproveButtonMapHook().get(routeNodeName):DEFAULT_APPROVE_BUTTON;
         } else {
             return DEFAULT_APPROVE_BUTTON;
         }
     }
+
+    protected abstract Map<String, String> getOnlineReviewApproveButtonMapHook();
     
     
 }

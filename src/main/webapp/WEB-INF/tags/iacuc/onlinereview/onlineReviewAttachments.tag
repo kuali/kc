@@ -38,7 +38,7 @@
                     <th><div align="left">&nbsp;</div></th> 
                     <kul:htmlAttributeHeaderCell attributeEntry="${onlineReviewAttachmentAttributes.description}" scope="col" />
                     <kul:htmlAttributeHeaderCell attributeEntry="${attachmentFileAttributes['name']}" scope="col"/>
-                    <c:if test = "${KualiForm.editingMode['maintainProtocolOnlineReviews'] or readOnly}">                    
+                    <c:if test = "${KualiForm.editingMode['maintainIacucProtocolOnlineReviews'] or readOnly}">                    
                         <kul:htmlAttributeHeaderCell attributeEntry="${onlineReviewAttachmentAttributes.privateFlag}" scope="col" />
                     </c:if>
                     <c:if test="${not KualiForm.onlineReviewsActionHelper.reviewAttachmentsBeans[reviewIndex].hideReviewerName}">
@@ -67,7 +67,7 @@
                             </c:if>
                         </td>
                     
-                        <c:if test = "${KualiForm.editingMode['maintainProtocolOnlineReviews'] or readOnly}">                      
+                        <c:if test = "${KualiForm.editingMode['maintainIacucProtocolOnlineReviews'] or readOnly}">                      
                     <%--                 
                     <td valign="middle" style="text-align:center">
                         <c:choose>
@@ -134,7 +134,7 @@
                                 ${KualiForm.onlineReviewsActionHelper.reviewAttachmentsBeans[reviewIndex].reviewAttachments[status.index].file.name}
                             
                             </td>
-                            <c:if test = "${KualiForm.editingMode['maintainProtocolOnlineReviews'] or readOnly}">                    
+                            <c:if test = "${KualiForm.editingMode['maintainIacucProtocolOnlineReviews'] or readOnly}">                    
                                 <%--
                                 <td style="text-align:center; vertical-align:middle">
                                 
