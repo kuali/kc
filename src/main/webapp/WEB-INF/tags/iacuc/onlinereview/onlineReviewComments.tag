@@ -39,7 +39,7 @@
                     <th><div align="left">&nbsp;</div></th> 
                     <kul:htmlAttributeHeaderCell literalLabel="Standard Comment" scope="col" />
                     <kul:htmlAttributeHeaderCell literalLabel="Comment" scope="col" />
-                    <c:if test = "${KualiForm.editingMode['maintainProtocolOnlineReviews'] or readOnly}">                    
+                    <c:if test = "${KualiForm.editingMode['maintainIacucProtocolOnlineReviews'] or readOnly}">                    
                         <kul:htmlAttributeHeaderCell literalLabel="Private" scope="col" />
                         <kul:htmlAttributeHeaderCell literalLabel="Final" scope="col" />
                     </c:if>
@@ -77,7 +77,7 @@
                        
                     </td>
                     
-                    <c:if test = "${KualiForm.editingMode['maintainProtocolOnlineReviews'] or readOnly}">                    
+                    <c:if test = "${KualiForm.editingMode['maintainIacucProtocolOnlineReviews'] or readOnly}">                    
                                      
                     <td valign="middle" style="text-align:center">
                         <c:choose>
@@ -154,7 +154,7 @@
 	                                </td>
 	                            </c:otherwise>
 	                        </c:choose>
-	                        <c:if test = "${KualiForm.editingMode['maintainProtocolOnlineReviews'] or readOnly}">                    
+	                        <c:if test = "${KualiForm.editingMode['maintainIacucProtocolOnlineReviews'] or readOnly}">                    
 	                                                
 				                <td style="text-align:center; vertical-align:middle">
 		                            
