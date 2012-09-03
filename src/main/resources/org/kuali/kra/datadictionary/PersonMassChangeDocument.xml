@@ -50,6 +50,9 @@
                 <ref bean="PersonMassChangeDocument-documentNumber"/>
             </list>
         </property>
+	    <property name="workflowProperties">
+	    	<ref bean="PersonMassChangeDocument-workflowProperties"/>
+	    </property>        
     </bean>
 
     <!-- Attribute Definitions -->
@@ -62,5 +65,20 @@
     <bean id="PersonMassChangeDocument-documentNumber-parentBean" abstract="true" parent="DocumentHeader-documentNumber">
         <property name="shortLabel" value="Document Id"/>
     </bean>
+    
+  <bean id="PersonMassChangeDocument-workflowProperties" parent="PersonMassChangeDocument-workflowProperties-parentBean"/>
+  <bean id="PersonMassChangeDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties" >
+    <property name="workflowPropertyGroups">
+      <list>
+        <bean parent="WorkflowPropertyGroup">
+          <property name="workflowProperties">
+            <list>
+              <bean parent="WorkflowProperty" p:path="documentHeader"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>    
 
 </beans>

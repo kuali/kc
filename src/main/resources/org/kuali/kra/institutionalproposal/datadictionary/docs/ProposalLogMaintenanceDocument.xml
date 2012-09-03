@@ -20,7 +20,7 @@
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
     <bean id="ProposalLogMaintenanceDocument" parent="ProposalLogMaintenanceDocument-parentBean" />
-    <bean id="ProposalLogMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <bean id="ProposalLogMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
         <property name="businessObjectClass" value="org.kuali.kra.institutionalproposal.proposallog.ProposalLog" />
         <property name="promptBeforeValidationClass" value="org.kuali.kra.institutionalproposal.proposallog.ProposalLogPromptBeforeValidation" />
         <property name="maintainableClass" value="org.kuali.kra.institutionalproposal.proposallog.ProposalLogMaintainableImpl" />

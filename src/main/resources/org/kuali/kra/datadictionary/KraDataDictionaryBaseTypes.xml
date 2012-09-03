@@ -5,5 +5,6 @@
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd"
 >
 
-    <bean id="KraMaintenanceDocumentEntry" class="org.kuali.kra.maintenance.KraMaintenanceDocumentEntry" abstract="true"/>
+    <bean id="KraMaintenanceDocumentEntry" class="org.kuali.kra.maintenance.KraMaintenanceDocumentEntry" 
+    	parent="KcMaintenanceDocumentEntry" abstract="true"/>
 </beans>
