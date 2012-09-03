@@ -470,7 +470,7 @@ public class IacucProtocolOnlineReviewAction extends IacucProtocolAction {
             //then the status must be final.
                 prDoc.getProtocolOnlineReview().setProtocolOnlineReviewStatusCode(ProtocolOnlineReviewStatus.FINAL_STATUS_CD);
                 prDoc.getProtocolOnlineReview().setReviewerApproved(true);
-                if (getKraWorkflowService().isDocumentOnNode(prDoc, Constants.ONLINE_REVIEW_ROUTE_NODE_ADMIN_REVIEW)) {
+                if (getKraWorkflowService().isDocumentOnNode(prDoc, Constants.IACUC_ONLINE_REVIEW_ROUTE_NODE_ADMIN_REVIEW)) {
                     prDoc.getProtocolOnlineReview().setAdminAccepted(true);
                     setOnlineReviewCommentFinalFlags(prDoc.getProtocolOnlineReview(), true);
                 }
