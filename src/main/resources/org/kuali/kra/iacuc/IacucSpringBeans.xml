@@ -548,6 +548,15 @@
         </property>
     </bean>
     
+    <bean id="iacucProtocolOnlineReviewLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+        <property name="lookupableHelperService">
+            <ref bean="iacucProtocolOnlineReviewLookupableHelperService" />
+        </property>         
+    </bean> 
+	
+	<bean id="iacucProtocolOnlineReviewLookupableHelperService" class="org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReviewLookupableHelperServiceImpl" 
+        scope="prototype" parent="parentLookupableHelperService">
+    </bean>
     
     <bean id="iacucProtocolPersonTrainingService" class="org.kuali.kra.iacuc.personnel.IacucProtocolPersonTrainingServiceImpl">
         <property name="businessObjectService">
