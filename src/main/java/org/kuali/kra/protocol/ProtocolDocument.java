@@ -106,13 +106,14 @@ public abstract class ProtocolDocument extends ResearchDocumentBase implements C
         super.initialize();
         Map<String, String> primaryKeys = new HashMap<String, String>();
         primaryKeys.put("RESEARCH_AREA_CODE", "000001");
-        ResearchArea ra = (ResearchArea) this.getBusinessObjectService().findByPrimaryKey(ResearchArea.class, primaryKeys);
+        ResearchArea ra = (ResearchArea) this.getBusinessObjectService().findByPrimaryKey(getResearchAreaBoClassHook(), primaryKeys);
         Collection<ResearchArea> selectedBOs = new ArrayList<ResearchArea>();
         selectedBOs.add(ra);
         KraServiceLocator.getService(getProtocolResearchAreaServiceClassHook()).addProtocolResearchArea(this.getProtocol(), selectedBOs);
     }
 
     protected abstract Class<? extends ProtocolResearchAreaService> getProtocolResearchAreaServiceClassHook();
+    protected abstract Class<? extends ResearchArea> getResearchAreaBoClassHook();
 
     /**
      * 
