@@ -242,7 +242,7 @@ public class BudgetExpensesAction extends BudgetAction {
         BudgetDecimal unitCost = budgetFormulatedCost.getUnitCost();
         BudgetDecimal count = new BudgetDecimal(budgetFormulatedCost.getCount());
         BudgetDecimal frequency = new BudgetDecimal(budgetFormulatedCost.getFrequency());
-        BudgetDecimal calculatedExpense = unitCost.multiply(count).multiply(frequency);
+        BudgetDecimal calculatedExpense = unitCost.multiply(count).multiply(frequency).setScale();
         budgetFormulatedCost.setCalculatedExpenses(calculatedExpense);
     }
 
