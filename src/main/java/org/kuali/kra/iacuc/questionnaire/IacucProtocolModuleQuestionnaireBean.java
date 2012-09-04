@@ -16,7 +16,9 @@
 package org.kuali.kra.iacuc.questionnaire;
 
 import org.kuali.kra.bo.CoeusModule;
+import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.iacuc.IacucProtocol;
+import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.questionnaire.ProtocolModuleQuestionnaireBean;
 
 public class IacucProtocolModuleQuestionnaireBean extends ProtocolModuleQuestionnaireBean {
@@ -30,5 +32,12 @@ public class IacucProtocolModuleQuestionnaireBean extends ProtocolModuleQuestion
     public IacucProtocolModuleQuestionnaireBean(String moduleItemCode, String moduleItemKey, String moduleSubItemCode, String moduleSubItemKey, boolean finalDoc) {
         super(moduleItemCode, moduleItemKey, moduleSubItemCode, moduleSubItemKey, finalDoc);
     }
-   
+    
+    protected void setProtocolSubItemCode(IacucProtocol protocol) {
+        if (protocol.isContinuation()) {
+            setModuleSubItemCode(CoeusSubModule.CONTINUATION);
+        } else {
+            super.setProtocolSubItemCode(protocol);
+        }
+    }
 }
