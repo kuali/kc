@@ -107,9 +107,15 @@ public class ProposalDevelopmentSpecialReviewAction extends ProposalDevelopmentA
         ProposalDevelopmentDocument document = proposalDevelopmentForm.getProposalDevelopmentDocument();
         ProposalSpecialReview specialReview = proposalDevelopmentForm.getSpecialReviewHelper().getNewSpecialReview();
         List<ProposalSpecialReview> specialReviews = document.getDevelopmentProposal().getPropSpecialReviews();
-        boolean isProtocolLinkingEnabled =  ( proposalDevelopmentForm.getSpecialReviewHelper().getIsIrbProtocolLinkingEnabled() ||
-                                                   proposalDevelopmentForm.getSpecialReviewHelper().getIsIacucProtocolLinkingEnabled() );
-        
+        boolean isProtocolLinkingEnabled = false;
+        if ( SpecialReviewType.HUMAN_SUBJECTS.equals(specialReview.getSpecialReviewTypeCode()) )
+        {
+            isProtocolLinkingEnabled =  proposalDevelopmentForm.getSpecialReviewHelper().getIsIrbProtocolLinkingEnabled() ;
+        }
+        else if ( SpecialReviewType.ANIMAL_USAGE.equals(specialReview.getSpecialReviewTypeCode()) )
+        {
+            isProtocolLinkingEnabled =  proposalDevelopmentForm.getSpecialReviewHelper().getIsIacucProtocolLinkingEnabled();
+        }
         proposalDevelopmentForm.getSpecialReviewHelper().prepareProtocolLinkViewFields(specialReview);
         
         KualiRuleService ruleService = KraServiceLocator.getService(KualiRuleService.class);
@@ -176,12 +182,12 @@ public class ProposalDevelopmentSpecialReviewAction extends ProposalDevelopmentA
         ProposalDevelopmentDocument document = proposalDevelopmentForm.getProposalDevelopmentDocument();
         ProposalSpecialReview specialReview = proposalDevelopmentForm.getSpecialReviewHelper().getNewSpecialReview();
         List<ProposalSpecialReview> specialReviews = document.getDevelopmentProposal().getPropSpecialReviews();
-        boolean isPDProtocolLinkingEnabled = ( proposalDevelopmentForm.getSpecialReviewHelper().getIsIrbProtocolLinkingEnabled() ||
-                                                    proposalDevelopmentForm.getSpecialReviewHelper().getIsIacucProtocolLinkingEnabled() );
-        
+        boolean isPDIrbProtocolLinkingEnabled = proposalDevelopmentForm.getSpecialReviewHelper().getIsIrbProtocolLinkingEnabled() ;;
+        boolean isPDIacucProtocolLinkingEnabled = proposalDevelopmentForm.getSpecialReviewHelper().getIsIacucProtocolLinkingEnabled();
+       
         proposalDevelopmentForm.getSpecialReviewHelper().prepareProtocolLinkViewFields(specialReview);
         
-        if (applyRules(new SaveSpecialReviewEvent<ProposalSpecialReview>(SAVE_SPECIAL_REVIEW_FIELD, document, specialReviews, isPDProtocolLinkingEnabled))) {
+        if (applyRules(new SaveSpecialReviewEvent<ProposalSpecialReview>(SAVE_SPECIAL_REVIEW_FIELD, document, specialReviews, isPDIrbProtocolLinkingEnabled, isPDIacucProtocolLinkingEnabled))) {
             forward = super.save(mapping, form, request, response);
         }
         

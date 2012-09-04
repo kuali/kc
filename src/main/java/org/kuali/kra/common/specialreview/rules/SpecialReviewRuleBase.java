@@ -128,16 +128,21 @@ public class SpecialReviewRuleBase<T extends SpecialReview<? extends SpecialRevi
         boolean rulePassed = true;
         
         List<T> specialReviews = saveSpecialReviewEvent.getSpecialReviews();
-        boolean validateProtocol = saveSpecialReviewEvent.getValidateProtocol();
+        boolean validateIrbProtocol = saveSpecialReviewEvent.getValidateIrbProtocol();
+        boolean validateIacucProtocol = saveSpecialReviewEvent.getValidateIacucProtocol();
         
         int i = 0;
         for (T specialReview : specialReviews) {
             String errorPath = saveSpecialReviewEvent.getArrayErrorPathPrefix() + Constants.LEFT_SQUARE_BRACKET + i++ + Constants.RIGHT_SQUARE_BRACKET;
             
             GlobalVariables.getMessageMap().addToErrorPath(errorPath);
-            if (validateProtocol && SpecialReviewType.HUMAN_SUBJECTS.equals(specialReview.getSpecialReviewTypeCode())) {
+            if (validateIrbProtocol && SpecialReviewType.HUMAN_SUBJECTS.equals(specialReview.getSpecialReviewTypeCode())) {
                 rulePassed &= validateProtocolNumber(specialReview, specialReviews, HUMAN_SUBJECTS_LINK_TO_IRB_ERROR_STRING);
-            } else {
+            } 
+            else if (validateIacucProtocol && SpecialReviewType.ANIMAL_USAGE.equals(specialReview.getSpecialReviewTypeCode())) {
+                rulePassed &= validateProtocolNumber(specialReview, specialReviews, ANIMAL_USAGE_LINK_TO_IACUC_ERROR_STRING);
+            } 
+            else {
                 rulePassed &= validateSpecialReviewApprovalFields(specialReview);
                 rulePassed &= validateDateFields(specialReview);
             }
