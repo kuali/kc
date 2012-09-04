@@ -99,8 +99,15 @@ public class InstitutionalProposalSpecialReviewAction extends InstitutionalPropo
         InstitutionalProposalDocument document = institutionalProposalForm.getInstitutionalProposalDocument();
         InstitutionalProposalSpecialReview specialReview = institutionalProposalForm.getSpecialReviewHelper().getNewSpecialReview();
         List<InstitutionalProposalSpecialReview> specialReviews = document.getInstitutionalProposal().getSpecialReviews();
-        boolean isProtocolLinkingEnabled = ( institutionalProposalForm.getSpecialReviewHelper().getIsIrbProtocolLinkingEnabled() ||
-                institutionalProposalForm.getSpecialReviewHelper().getIsIacucProtocolLinkingEnabled() );
+        boolean isProtocolLinkingEnabled = false;
+        if ( SpecialReviewType.HUMAN_SUBJECTS.equals(specialReview.getSpecialReviewTypeCode()) )
+        {
+            isProtocolLinkingEnabled =  institutionalProposalForm.getSpecialReviewHelper().getIsIrbProtocolLinkingEnabled() ;
+        }
+        else if ( SpecialReviewType.ANIMAL_USAGE.equals(specialReview.getSpecialReviewTypeCode()) )
+        {
+            isProtocolLinkingEnabled =  institutionalProposalForm.getSpecialReviewHelper().getIsIacucProtocolLinkingEnabled();
+        }
         
         institutionalProposalForm.getSpecialReviewHelper().prepareProtocolLinkViewFields(specialReview);
         
@@ -194,17 +201,17 @@ public class InstitutionalProposalSpecialReviewAction extends InstitutionalPropo
         InstitutionalProposalDocument document = institutionalProposalForm.getInstitutionalProposalDocument();
         List<InstitutionalProposalSpecialReview> specialReviews = document.getInstitutionalProposal().getSpecialReviews();
         List<String> linkedProtocolNumbers = institutionalProposalForm.getSpecialReviewHelper().getLinkedProtocolNumbers();
-        boolean isIPProtocolLinkingEnabled = (institutionalProposalForm.getSpecialReviewHelper().getIsIrbProtocolLinkingEnabled() ||
-                                                    institutionalProposalForm.getSpecialReviewHelper().getIsIacucProtocolLinkingEnabled() );
-        
-        if (isIPProtocolLinkingEnabled) {
+        boolean isIPIrbProtocolLinkingEnabled = institutionalProposalForm.getSpecialReviewHelper().getIsIrbProtocolLinkingEnabled();
+        boolean isIPIacucProtocolLinkingEnabled = institutionalProposalForm.getSpecialReviewHelper().getIsIacucProtocolLinkingEnabled();
+
+        if (isIPIrbProtocolLinkingEnabled || isIPIacucProtocolLinkingEnabled) {
             if (applyRules(new SaveSpecialReviewLinkEvent<InstitutionalProposalSpecialReview>(document, specialReviews, linkedProtocolNumbers))) {
                 institutionalProposalForm.getSpecialReviewHelper().syncProtocolFundingSourcesWithSpecialReviews();
             }
         }
         
         if (applyRules(new SaveSpecialReviewEvent<InstitutionalProposalSpecialReview>(
-            SAVE_SPECIAL_REVIEW_FIELD, document, specialReviews, isIPProtocolLinkingEnabled))) {
+            SAVE_SPECIAL_REVIEW_FIELD, document, specialReviews, isIPIrbProtocolLinkingEnabled, isIPIacucProtocolLinkingEnabled))) {
             // For reasons unknown to me, to enforce saving special review records in order between successive saves, we must save the document before saving 
             // anything else (like the special review indicator) on the document.  This statement can be safely removed if the special review indicator is no 
             // longer being set at this point...

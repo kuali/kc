@@ -36,7 +36,8 @@ public class SaveSpecialReviewEvent<T extends SpecialReview<? extends SpecialRev
     
     private List<T> specialReviews;
     
-    private boolean validateProtocol;
+    private boolean validateIrbProtocol;
+    private boolean validateIacucProtocol;
     
     /**
      * Constructs a SaveSpecialReviewEvent.
@@ -45,11 +46,12 @@ public class SaveSpecialReviewEvent<T extends SpecialReview<? extends SpecialRev
      * @param document
      * @param specialReview
      */
-    public SaveSpecialReviewEvent(String arrayErrorPathPrefix, Document document, List<T> specialReviews, boolean validateProtocol) {
+    public SaveSpecialReviewEvent(String arrayErrorPathPrefix, Document document, List<T> specialReviews, boolean validateIrbProtocol, boolean validateIacucProtocol) {
         super("saving special review to document " + getDocumentId(document), Constants.EMPTY_STRING, document);
         this.arrayErrorPathPrefix = arrayErrorPathPrefix;
         this.specialReviews = specialReviews;
-        this.validateProtocol = validateProtocol;
+        this.validateIrbProtocol = validateIrbProtocol;
+        this.validateIacucProtocol = validateIacucProtocol;
     }
 
     public String getArrayErrorPathPrefix() {
@@ -68,12 +70,19 @@ public class SaveSpecialReviewEvent<T extends SpecialReview<? extends SpecialRev
         this.specialReviews = specialReviews;
     }
 
-    public boolean getValidateProtocol() {
-        return validateProtocol;
+    public boolean getValidateIrbProtocol() {
+        return validateIrbProtocol;
     }
 
-    public void setValidateProtocol(boolean validateProtocol) {
-        this.validateProtocol = validateProtocol;
+    public void setValidateIrbProtocol(boolean validateIrbProtocol) {
+        this.validateIrbProtocol = validateIrbProtocol;
+    }
+    public boolean getValidateIacucProtocol() {
+        return validateIacucProtocol;
+    }
+
+    public void setValidateIacucProtocol(boolean validateIacucProtocol) {
+        this.validateIacucProtocol = validateIacucProtocol;
     }
 
     @Override
