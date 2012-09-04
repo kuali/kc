@@ -16,11 +16,11 @@ var groupid = 0;
 var curgroup = 0;
 var cutNodeParentCode = 0;
 var newqn= new Array();
-jq(document).ready(function() {
-	jq.ajaxSettings.cache = false;
-	jq("#example").treeview( {
+jQuery(document).ready(function() {
+	jQuery.ajaxSettings.cache = false;
+	jQuery("#example").treeview( {
 		toggle : function() {
-			// alert ("toggle "+jq(this).attr("id"));
+			// alert ("toggle "+jQuery(this).attr("id"));
 	},
 	animated : "fast",
 	collapsed : true,
@@ -50,40 +50,40 @@ function getQuestionNew(description, qtypeid, vers, dispans, ansmax, maxlength, 
 
 	//alert (" set up "+description+"-"+qtypeid+"-"+vers+"-"+dispans+"-"+ansmax+"-"+maxlength);
 	var qnaireid = "qnaireid" + curi;
-	var question = jq('<li class="closed expandable"></li>').attr("id", qnaireid);
+	var question = jQuery('<li class="closed expandable"></li>').attr("id", qnaireid);
 	var divId = "listcontent" + curi;
 
-	var div62 = jq('<div/>');
-	var linktmp = jq('<a style="margin-left:2px;"></a>').attr("id",
+	var div62 = jQuery('<div/>');
+	var linktmp = jQuery('<a style="margin-left:2px;"></a>').attr("id",
 			"listcontrol" + curi).attr("name","listcontrol" + curi).html(description);
 	linktmp.click(function() {
-		var idx = jq(this).attr("id").substring(11);
-		jq(".hierarchydetail:not(#listcontent" + idx + ")").slideUp(300);
-		if (jq(this).parents('div:eq(0)').children('div:eq(0)').size() == 0) {
+		var idx = jQuery(this).attr("id").substring(11);
+		jQuery(".hierarchydetail:not(#listcontent" + idx + ")").slideUp(300);
+		if (jQuery(this).parents('div:eq(0)').children('div:eq(0)').size() == 0) {
 			//var vers = "1.00";
 			var divtmp = getMaintTable(description, qtypeid, vers, idx, childNode);
-			divtmp.appendTo(jq(this).parents('div:eq(0)'));
+			divtmp.appendTo(jQuery(this).parents('div:eq(0)'));
 			toggleHSControl(idx);
-			jq("#listcontent" + idx).slideToggle(300);
+			jQuery("#listcontent" + idx).slideToggle(300);
 		}
-		jq("#listcontent" + idx).slideToggle(300);
+		jQuery("#listcontent" + idx).slideToggle(300);
 	});	
 	linktmp.appendTo(div62);
 	
 	// new version question message & link
-	if (jq("#readOnly").attr("value") != 'true' && newqn[curi] && !isNaN(newqn[curi])) {
-		var outerLinkSpan = jq('<span style="margin-left: 10px; font-style: italic;">A new question </span>');
-	    var linkNewQ = jq('<a style="margin-left:2px;"></a>').attr("id",
+	if (jQuery("#readOnly").attr("value") != 'true' && newqn[curi] && !isNaN(newqn[curi])) {
+		var outerLinkSpan = jQuery('<span style="margin-left: 10px; font-style: italic;">A new question </span>');
+	    var linkNewQ = jQuery('<a style="margin-left:2px;"></a>').attr("id",
 			"newqn" + curi).attr("name","newqn" + curi).html("<font color=red><u>version</u></font>");
 	    linkNewQ.click(function() {
-		    var idx = jq(this).attr("id").substring(5);
+		    var idx = jQuery(this).attr("id").substring(5);
 	        newQuestionWindow = window.open(extractUrlBase() +
 	    	                               "/kr/directInquiry.do?businessObjectClassName=org.kuali.kra.questionnaire.question.Question&methodToCall=start" +
 	    	                               "&questionRefId=" + newqn[idx] , 
 	    	                               "_blank", "width=640, height=600, scrollbars=yes");
 	    });
 	    linkNewQ.appendTo(outerLinkSpan);
-	    var innerLinkSpan = jq('<span style="margin-left:2px;"> exists. Open question to update.</span>');
+	    var innerLinkSpan = jQuery('<span style="margin-left:2px;"> exists. Open question to update.</span>');
 	    innerLinkSpan.appendTo(outerLinkSpan);
 	    outerLinkSpan.appendTo(div62);
 	    
@@ -95,7 +95,7 @@ function getQuestionNew(description, qtypeid, vers, dispans, ansmax, maxlength, 
 
 	sethiddenfields();
 
-    jq("#question"+ curi).attr("value",description+"#f#" +qtypeid+"#f#"+vers+"#f#" +dispans+"#f#"+ansmax+"#f#" +maxlength);
+    jQuery("#question"+ curi).attr("value",description+"#f#" +qtypeid+"#f#"+vers+"#f#" +dispans+"#f#"+ansmax+"#f#" +maxlength);
 
 	return question;
 
@@ -105,25 +105,25 @@ function getQuestionNew(description, qtypeid, vers, dispans, ansmax, maxlength, 
  * hidden fields : some for js function to use and others are used when post to server
  */
 function sethiddenfields() {
-	var hidtr = jq('<tr/>');
-	var hidtd = jq('<td colspan="2"/>');
+	var hidtr = jQuery('<tr/>');
+	var hidtd = jQuery('<td colspan="2"/>');
 	// question id for this node
-	qntag = jq('<input type="hidden" id = "qid" name = "qid" />').attr("id",
+	qntag = jQuery('<input type="hidden" id = "qid" name = "qid" />').attr("id",
 			"qid" + curi).attr("name", "qid" + curi);
 	qntag.appendTo(hidtd);
-	qntag = jq('<input type="hidden" id = "qseq" name = "qseq" />').attr("id",
+	qntag = jQuery('<input type="hidden" id = "qseq" name = "qseq" />').attr("id",
 			"qseq" + curi).attr("name", "qseq" + curi);
 	qntag.appendTo(hidtd);
 
-	qntag = jq('<input type="hidden" id = "qnum" name = "qnum" />').attr("id",
+	qntag = jQuery('<input type="hidden" id = "qnum" name = "qnum" />').attr("id",
 			"qnum" + curi).attr("name", "qnum" + curi);
 	qntag.appendTo(hidtd);
 		
-	qntag = jq('<input type="hidden" id = "question" name = "question" />')
+	qntag = jQuery('<input type="hidden" id = "question" name = "question" />')
 	.attr("id", "question" + curi).attr("name", "question" + curi);
     qntag.appendTo(hidtd);
     
-	qntag = jq('<input type="hidden" id = "question" name = "question" />')
+	qntag = jQuery('<input type="hidden" id = "question" name = "question" />')
 	.attr("id", "qnaireQuestions[" + curi+"]").attr("name", "qnaireQuestions[" + curi+"]");
     qntag.appendTo(hidtd);
 	
@@ -132,7 +132,7 @@ function sethiddenfields() {
 	// drawn at the bottom of the table for each Q hidden row
 	hidtr.hide(); 
 	
-	hidtr.appendTo(jq("#question-table"));
+	hidtr.appendTo(jQuery("#question-table"));
 
 }
 
@@ -146,7 +146,7 @@ function sethiddenfields() {
 function getMaintTable(description, qtypeid, vers, idx, childNode) {
 	var qnaireid = "qnaireid" + idx;
 	var divId = "listcontent" + idx;
-	var div64 = jq(' <div class="hierarchydetail" style="margin-top:2px;">')
+	var div64 = jQuery(' <div class="hierarchydetail" style="margin-top:2px;">')
 			.attr("id", divId);
 	var text = '';
 	var response = '';
@@ -154,20 +154,20 @@ function getMaintTable(description, qtypeid, vers, idx, childNode) {
 	var ruleId = '';
 	// the requirement response is also including root node, so comment out this childnode check.
 //	if (childNode == 'true') {
-		var splitq = jq("#qnaireQuestions\\["+ idx+"\\]").attr("value").split("#f#");
+		var splitq = jQuery("#qnaireQuestions\\["+ idx+"\\]").attr("value").split("#f#");
 		response = responseArray[splitq[6]];
 		value = splitq[7];
 		ruleId = splitq[11];
 		
 //	}
 
-	jq.ajax( {
+	jQuery.ajax( {
 		url : 'maintenanceQn.do',
 		type : 'POST',
 		dataType : 'html',
-		data : 'methodToCall=getQuestionMaintainTable&qidx=' + idx +'&questionId='+jq('#qid'+idx).attr('value')
-		       + '&moveup=' + jq("#qnaireid" + idx).prev().size()+ '&movedn=' + jq("#qnaireid" + idx).next().size()
-		       + '&childNode=' + childNode + '&response=' + response+ '&value=' + value + '&ruleId=' + ruleId + '&readOnly=' + jq("#readOnly").attr("value"),
+		data : 'methodToCall=getQuestionMaintainTable&qidx=' + idx +'&questionId='+jQuery('#qid'+idx).attr('value')
+		       + '&moveup=' + jQuery("#qnaireid" + idx).prev().size()+ '&movedn=' + jQuery("#qnaireid" + idx).next().size()
+		       + '&childNode=' + childNode + '&response=' + response+ '&value=' + value + '&ruleId=' + ruleId + '&readOnly=' + jQuery("#readOnly").attr("value"),
 		cache : false,
 		async : false,
 		timeout : 1000,
@@ -175,15 +175,15 @@ function getMaintTable(description, qtypeid, vers, idx, childNode) {
 			alert('Error loading XML document');
 		},
 		success : function(xml) {
-			jq(xml).find('h3').each(function() {
-				text = jq(this).html();
-				//jq('#submodulediv').html(jq(this).html());
+			jQuery(xml).find('h3').each(function() {
+				text = jQuery(this).html();
+				//jQuery('#submodulediv').html(jQuery(this).html());
 
 				});
 		}
 	}); // end ajax
 	//alert(text)
-	jq(div64).html(text);	
+	jQuery(div64).html(text);	
     return div64;
 }
 
@@ -197,41 +197,41 @@ function clickAdd(curidx) {
 //	alert("add question "+curidx);
 	var idx = curidx;
 	var addQn = "#addQn"+curidx
-	 //alert(jq("#newqdesc"+idx).attr("value")+"-"+jq("#newqdispans"+idx).attr("value"))
-		if (jq("#newqdesc" + idx).attr("value") == ''
-				|| jq("#newqtypeid" + idx).attr("value") == '') {
+	 //alert(jQuery("#newqdesc"+idx).attr("value")+"-"+jQuery("#newqdispans"+idx).attr("value"))
+		if (jQuery("#newqdesc" + idx).attr("value") == ''
+				|| jQuery("#newqtypeid" + idx).attr("value") == '') {
 			alert("Please select a question to add");
 		} else {
 			curi++;
 
-			var radioVal = jq(
-					".radioQn" + jq(addQn).attr("id").substring(5)
+			var radioVal = jQuery(
+					".radioQn" + jQuery(addQn).attr("id").substring(5)
 							+ ":checked").val();
 			var childNode = 'true';
 			if (radioVal == 'sibling'
-					&& jq(addQn).parents('li:eq(0)').parents(
+					&& jQuery(addQn).parents('li:eq(0)').parents(
 							'ul:eq(0)').attr("id") == 'example') {
 				childNode = 'false';
 			}
-			var listitem = getQuestionNew(jq(
-					"#newqdesc" + jq(addQn).attr("id").substring(5))
+			var listitem = getQuestionNew(jQuery(
+					"#newqdesc" + jQuery(addQn).attr("id").substring(5))
 					.attr("value"),
-					jq("#newqtypeid"+ jq(addQn).attr("id").substring(5)).attr("value"),
-					jq("#newqvers"+ jq(addQn).attr("id").substring(5)).attr("value"),
-					jq("#newqdispans"+ jq(addQn).attr("id").substring(5)).attr("value"),
-					jq("#newqmaxans"+ jq(addQn).attr("id").substring(5)).attr("value"),
-					jq("#newqmaxlength"+ jq(addQn).attr("id").substring(5)).attr("value"),
+					jQuery("#newqtypeid"+ jQuery(addQn).attr("id").substring(5)).attr("value"),
+					jQuery("#newqvers"+ jQuery(addQn).attr("id").substring(5)).attr("value"),
+					jQuery("#newqdispans"+ jQuery(addQn).attr("id").substring(5)).attr("value"),
+					jQuery("#newqmaxans"+ jQuery(addQn).attr("id").substring(5)).attr("value"),
+					jQuery("#newqmaxlength"+ jQuery(addQn).attr("id").substring(5)).attr("value"),
 					childNode);
-			var ultag = jq('<ul></ul>');
+			var ultag = jQuery('<ul></ul>');
 			ultag.appendTo(listitem);
 			var idx = listitem.attr("id").substring(8);
 			if (radioVal == 'sibling') {
 				// alert('sibling');
-				var parentUl = jq(addQn).parents('li:eq(0)').parents(
+				var parentUl = jQuery(addQn).parents('li:eq(0)').parents(
 						'ul:eq(0)');
-				listitem.insertAfter(jq(addQn).parents('li:eq(0)'));
-				jq("#movedn" + idx).hide();
-				jq(
+				listitem.insertAfter(jQuery(addQn).parents('li:eq(0)'));
+				jQuery("#movedn" + idx).hide();
+				jQuery(
 						"#movedn"
 								+ listitem.prev().attr("id")
 										.substring(8)).show();
@@ -240,21 +240,21 @@ function clickAdd(curidx) {
 				if (parentUl.attr("id") == 'example') {
 					// insert after, so assume current group 
 					// TODO : need to adjust group to 20/page ?
-					jq(listitem).attr("class", "group" + curgroup);
-					if (jq(".group"+curgroup).size() > 20) {
+					jQuery(listitem).attr("class", "group" + curgroup);
+					if (jQuery(".group"+curgroup).size() > 20) {
 						adjustGroupDown(); 
 					}	
 					//addToGroup(listitem);
 					if (curgroup == groupid) {
-						jq("#nextGroup").hide();
+						jQuery("#nextGroup").hide();
 					} else if (curgroup > 0) {
-						jq("#prevGroup").show();
+						jQuery("#prevGroup").show();
 					} else if (groupid > 0) {
-						jq("#nextGroup").show();
+						jQuery("#nextGroup").show();
 					}
 				}
 			} else {
-				var parentUl = jq(addQn).parents('li:eq(0)')
+				var parentUl = jQuery(addQn).parents('li:eq(0)')
 						.children('ul:eq(0)');
 				listitem.appendTo(parentUl);
 
@@ -262,15 +262,15 @@ function clickAdd(curidx) {
 				// 1st
 				// item. maybe use hide/show instead of 'remove'
 				// "==1" is the one just added
-				if (jq(addQn).parents('li:eq(0)')
+				if (jQuery(addQn).parents('li:eq(0)')
 						.children('ul:eq(0)').children('li').size() == 1) {
-					jq("#moveup" + idx).hide();
-					jq("#movedn" + idx).hide();
+					jQuery("#moveup" + idx).hide();
+					jQuery("#movedn" + idx).hide();
 				} else {
 					// alert("prev
 					// "+listitem.prev().attr("id"));
-					jq("#movedn" + idx).hide();
-					jq(
+					jQuery("#movedn" + idx).hide();
+					jQuery(
 							"#movedn"
 									+ listitem.prev().attr("id")
 											.substring(8)).show();
@@ -278,81 +278,81 @@ function clickAdd(curidx) {
 			}
 
 			// also need this to show 'folder' icon
-			jq('#example').treeview( {
+			jQuery('#example').treeview( {
 				add : listitem
 			});
 
 			//alert(childNode)
 			if (childNode == 'true') {
-				if (jq(addQn).parents('li:eq(0)').children('div:eq(0)').attr("class").indexOf("expandable") > 0) {
+				if (jQuery(addQn).parents('li:eq(0)').children('div:eq(0)').attr("class").indexOf("expandable") > 0) {
                       /* to force it to show the child node just added.
                        * the div 'class' is changing based on whether the node is expand or collapsed
                        */
-					jq(addQn).parents('li:eq(0)').children('div:eq(0)').click();
-						//jq("#listcontrol"+listitem.attr("id").substring(8)).click();
+					jQuery(addQn).parents('li:eq(0)').children('div:eq(0)').click();
+						//jQuery("#listcontrol"+listitem.attr("id").substring(8)).click();
 					}
 			}
 			// TODO : set up for insert
 			/*
 			 * questionnairenumber from #questionnairenumber
 			 * questionId from #qid sequenceNumber from
-			 * jq(this).parents('li:eq(0)').siblings().size() ?
+			 * jQuery(this).parents('li:eq(0)').siblings().size() ?
 			 */
-			// jq(listitem).parents('ul:eq(0)').parents('li:eq(0)').size()
+			// jQuery(listitem).parents('ul:eq(0)').parents('li:eq(0)').size()
 			// == 0 : check whetehr it is at the top level
 			var parentNum;
-			if (jq(listitem).parents('ul:eq(0)').parents('li:eq(0)')
+			if (jQuery(listitem).parents('ul:eq(0)').parents('li:eq(0)')
 					.size() == 0) {
 				parentNum = 0;
 			} else {
 				// alert("parents li
-				// "+jq(listitem).parents('ul:eq(0)').parents('li:eq(0)').attr("id"));
-				parentNum = jq(
+				// "+jQuery(listitem).parents('ul:eq(0)').parents('li:eq(0)').attr("id"));
+				parentNum = jQuery(
 						"#qnum"
-								+ jq(listitem).parents('ul:eq(0)')
+								+ jQuery(listitem).parents('ul:eq(0)')
 										.parents('li:eq(0)').attr(
 												"id").substring(8))
 						.attr("value");
 			}
-			jq("#qnum" + jq(listitem).attr("id").substring(8)).attr(
-					"value", jq("#questionNumber").attr("value"));
-			var qid = jq("#newqid" + jq(addQn).attr("id").substring(5))
+			jQuery("#qnum" + jQuery(listitem).attr("id").substring(8)).attr(
+					"value", jQuery("#questionNumber").attr("value"));
+			var qid = jQuery("#newqid" + jQuery(addQn).attr("id").substring(5))
 					.attr("value");
-			jq("#qid" + jq(listitem).attr("id").substring(8)).attr(
+			jQuery("#qid" + jQuery(listitem).attr("id").substring(8)).attr(
 					"value", qid);
 
-			var seqnum = Number(jq(listitem).siblings().size()) + 1;
+			var seqnum = Number(jQuery(listitem).siblings().size()) + 1;
 			if (radioVal == 'sibling') {
-				//var num = Number(jq("#qseq"+jq(this).attr("id").substring(5)).attr("value"))+1;
+				//var num = Number(jQuery("#qseq"+jQuery(this).attr("id").substring(5)).attr("value"))+1;
 				
-			    seqnum = Number(jq("#qseq"+jq(addQn).attr("id").substring(5)).attr("value"))+1;
+			    seqnum = Number(jQuery("#qseq"+jQuery(addQn).attr("id").substring(5)).attr("value"))+1;
 			   // seqnum = num;
-				//alert(seqnum+"-"+jq(this).attr("id"));
+				//alert(seqnum+"-"+jQuery(this).attr("id"));
 			    var nextseq = seqnum +1;
-			    var nextitem = jq(listitem).next();
+			    var nextitem = jQuery(listitem).next();
 			    // update seq for the siblings after the new node
 			    while (nextitem.size() > 0) {
-					var splitq = jq("#qnaireQuestions\\["+ nextitem.attr("id").substring(8)+"\\]").attr("value").split("#f#");
+					var splitq = jQuery("#qnaireQuestions\\["+ nextitem.attr("id").substring(8)+"\\]").attr("value").split("#f#");
 				    var tmpstr = splitq[0] +"#f#" +splitq[1] 
 			        +"#f#" +splitq[2] +"#f#" +splitq[3] +"#f#" +splitq[4] +"#f#" +splitq[5] +"#f#" +splitq[6] +"#f#" +
 			        splitq[7] +"#f#" +nextseq +"#f#" +splitq[9] +"#f#" +splitq[10] +"#f#" +splitq[11] ;
-				jq("#qnaireQuestions\\["+ nextitem.attr("id").substring(8)+"\\]").attr("value",tmpstr);
-//				    jq("#"+jqprefix + nextitem.attr("id").substring(8) + "\\]\\.questionSeqNumber").attr("value",nextseq);
-			    	jq("#qseq" + nextitem.attr("id").substring(8)).attr("value", nextseq++);	
+				jQuery("#qnaireQuestions\\["+ nextitem.attr("id").substring(8)+"\\]").attr("value",tmpstr);
+//				    jQuery("#"+jqprefix + nextitem.attr("id").substring(8) + "\\]\\.questionSeqNumber").attr("value",nextseq);
+			    	jQuery("#qseq" + nextitem.attr("id").substring(8)).attr("value", nextseq++);	
 			    	nextitem = nextitem.next();
 			    }	
 			}    
 			
-			var qnum = jq("#questionNumber").attr("value");
-			jq("#qseq" + jq(listitem).attr("id").substring(8)).attr("value", seqnum);
-			jq("#questionNumber").attr("value",
-					Number(jq("#questionNumber").attr("value")) + 1);
+			var qnum = jQuery("#questionNumber").attr("value");
+			jQuery("#qseq" + jQuery(listitem).attr("id").substring(8)).attr("value", seqnum);
+			jQuery("#questionNumber").attr("value",
+					Number(jQuery("#questionNumber").attr("value")) + 1);
 
-			idx = jq(listitem).attr("id").substring(8);		
-            var tmpstr = "" +"#f#" +jq('#document\\.newMaintainableObject\\.businessObject\\.questionnaireRefId').attr("value") 
+			idx = jQuery(listitem).attr("id").substring(8);		
+            var tmpstr = "" +"#f#" +jQuery('#document\\.newMaintainableObject\\.businessObject\\.questionnaireRefId').attr("value") 
                +"#f#" +qid +"#f#" +qnum +"#f#" +parentNum +"#f#" +"N" +"#f#" +"" +"#f#" +
                "" +"#f#" +seqnum +"#f#" +"1" +"#f#" +"N"+"#f#" +null ;
-            jq("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
+            jQuery("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
 
 					
 		}
@@ -362,10 +362,10 @@ function clickAdd(curidx) {
 
 function addrequirement(curidx) {
 	var idx = curidx;
-	var response = jq("#addrequirement"+curidx).parents('tr:eq(0)').children(
+	var response = jQuery("#addrequirement"+curidx).parents('tr:eq(0)').children(
 			'td:eq(0)').children('select:eq(0)').attr(
 			"value");
-	var value = jq("#addrequirement"+curidx).parents('tr:eq(0)').children(
+	var value = jQuery("#addrequirement"+curidx).parents('tr:eq(0)').children(
 			'td:eq(1)').children('input:eq(0)').attr(
 			"value");
 	if (okToAddRequirement(response, value, idx)) {
@@ -376,16 +376,16 @@ function addrequirement(curidx) {
 		 */
 		var newResponse = getRequirementDeleteRow(
 				responseArray[response], value, idx);
-		newResponse.prependTo(jq("#addrequirement"+curidx).parents('div:eq(0)')
+		newResponse.prependTo(jQuery("#addrequirement"+curidx).parents('div:eq(0)')
 				.children('table:eq(0)').children('tbody'));
-		var idx = jq("#addrequirement"+curidx).parents('li:eq(0)').attr("id")
+		var idx = jQuery("#addrequirement"+curidx).parents('li:eq(0)').attr("id")
 				.substring(8);
-		var splitq = jq("#qnaireQuestions\\["+ idx+"\\]").attr("value").split("#f#");
+		var splitq = jQuery("#qnaireQuestions\\["+ idx+"\\]").attr("value").split("#f#");
 	    var tmpstr = splitq[0] +"#f#" +splitq[1] 
         +"#f#" +splitq[2] +"#f#" +splitq[3] +"#f#" +splitq[4] +"#f#" +"Y" +"#f#" +response +"#f#" +
         value +"#f#" +splitq[8] +"#f#" +splitq[9] +"#f#" +splitq[10] +"#f#" +splitq[11] ;
-	jq("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
-		jq("#addrequirement"+curidx).parents('tr:eq(0)').remove();
+	jQuery("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
+		jQuery("#addrequirement"+curidx).parents('tr:eq(0)').remove();
 	}
 	// }
 	return false;
@@ -393,10 +393,10 @@ function addrequirement(curidx) {
 }
 function addRuleRequirement(curidx) {
 	var idx = curidx;
-	var response = jq("#addRuleRequirement"+curidx).parents('tr:eq(1)').children(
+	var response = jQuery("#addRuleRequirement"+curidx).parents('tr:eq(1)').children(
 			'td:eq(0)').children('select:eq(0)').attr(
 			"value");
-	var value = jq("#addRuleRequirement"+curidx).parents('tr:eq(0)').children(
+	var value = jQuery("#addRuleRequirement"+curidx).parents('tr:eq(0)').children(
 			'td:eq(0)').children('input:eq(0)').attr(
 			"value");
 	if (value == '') {
@@ -409,16 +409,16 @@ function addRuleRequirement(curidx) {
 		 * opArray[operator]; }
 		 */
 		var newResponse = getRuleEvaluationDeleteRow(value, idx);
-		newResponse.appendTo(jq("#addRuleRequirement"+curidx).parents('div:eq(0)')
+		newResponse.appendTo(jQuery("#addRuleRequirement"+curidx).parents('div:eq(0)')
 				.children('table:eq(0)').children('tbody'));
-		var idx = jq("#addRuleRequirement"+curidx).parents('li:eq(0)').attr("id")
+		var idx = jQuery("#addRuleRequirement"+curidx).parents('li:eq(0)').attr("id")
 				.substring(8);
-		var splitq = jq("#qnaireQuestions\\["+ idx+"\\]").attr("value").split("#f#");
+		var splitq = jQuery("#qnaireQuestions\\["+ idx+"\\]").attr("value").split("#f#");
 	    var tmpstr = splitq[0] +"#f#" +splitq[1] 
         +"#f#" +splitq[2] +"#f#" +splitq[3] +"#f#" +splitq[4] +"#f#" +splitq[5] +"#f#" +splitq[6] +"#f#" +
         splitq[7] +"#f#" +splitq[8] +"#f#" +splitq[9] +"#f#" +splitq[10] +"#f#" +value ;
-	    jq("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
-		jq("#addRuleRequirement"+curidx).parents('tr:eq(0)').remove();
+	    jQuery("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
+		jQuery("#addRuleRequirement"+curidx).parents('tr:eq(0)').remove();
 	}
 	// }
 	return false;
@@ -427,38 +427,38 @@ function addRuleRequirement(curidx) {
 
 function clickDeleteResponse(idx) {
 	// alert("This would delete this requirement."
-	// + jq(this).parents('tr:eq(0)').next().size());
-	//var idx = jq(this).parents('li:eq(0)').attr("id")
+	// + jQuery(this).parents('tr:eq(0)').next().size());
+	//var idx = jQuery(this).parents('li:eq(0)').attr("id")
 	//		.substring(8);
-	var splitq = jq("#qnaireQuestions\\["+ idx+"\\]").attr("value").split("#f#");
+	var splitq = jQuery("#qnaireQuestions\\["+ idx+"\\]").attr("value").split("#f#");
     var tmpstr = splitq[0] +"#f#" +splitq[1] 
     +"#f#" +splitq[2] +"#f#" +splitq[3] +"#f#" +splitq[4] +"#f#" +"N" +"#f#" +"" +"#f#" +
     "" +"#f#" +splitq[8] +"#f#" +splitq[9] +"#f#" +splitq[10] +"#f#" +splitq[11] ;
-jq("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
+jQuery("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
 	
 	getAddRequirementRow(idx).prependTo(
-			jq("#deletereq" + idx).parents('tr:eq(0)').parents(
+			jQuery("#deletereq" + idx).parents('tr:eq(0)').parents(
 					'tbody:eq(0)'));
-	jq("#deletereq" + idx).parents('tr:eq(0)').remove();
+	jQuery("#deletereq" + idx).parents('tr:eq(0)').remove();
 	return false;
 
 }
 function clickDeleteRule(idx) {
 	
 	// alert("This would delete this rule requirement."
-	// + jq(this).parents('tr:eq(0)').next().size());
-	//var idx = jq(this).parents('li:eq(0)').attr("id")
+	// + jQuery(this).parents('tr:eq(0)').next().size());
+	//var idx = jQuery(this).parents('li:eq(0)').attr("id")
 	//		.substring(8);
-	var splitq = jq("#qnaireQuestions\\["+ idx+"\\]").attr("value").split("#f#");
+	var splitq = jQuery("#qnaireQuestions\\["+ idx+"\\]").attr("value").split("#f#");
     var tmpstr = splitq[0] +"#f#" +splitq[1] 
     +"#f#" +splitq[2] +"#f#" +splitq[3] +"#f#" +splitq[4] +"#f#" +"N" +"#f#" +"" +"#f#" +
     "" +"#f#" +splitq[8] +"#f#" +splitq[9] +"#f#" +splitq[10] +"#f#" +splitq[11] ;
-    jq("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
+    jQuery("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
 	
     getAddRuleRequirementRow(idx).appendTo(
-			jq("#deleteRule" + idx).parents('tr:eq(0)').parents(
+			jQuery("#deleteRule" + idx).parents('tr:eq(0)').parents(
 					'tbody:eq(0)'));
-	jq("#deleteRule" + idx).parents('tr:eq(0)').remove();
+	jQuery("#deleteRule" + idx).parents('tr:eq(0)').remove();
 	return false;
 
 }
@@ -466,7 +466,7 @@ function clickDeleteRule(idx) {
 function clickCopy(curidx) {
 //	alert("Copy node" +curidx);
 	var liId = "li#qnaireid" + curidx;
-	copyNode = jq(liId);
+	copyNode = jQuery(liId);
 	//removedNode = null; // remove & cutNode should not co-exist
 	cutNode = null;
 	cutNodeParentCode = null;
@@ -478,7 +478,7 @@ function clickCopy(curidx) {
 function clickCut(curidx) {
 	//alert("Cut node" +curidx);
 	var liId = "li#qnaireid" + curidx;
-	cutNode = jq(liId);
+	cutNode = jQuery(liId);
 	//removedNode = null; // remove & cutNode should not co-exist
 	copyNode = null;
 	cutNodeParentCode = null;
@@ -489,25 +489,25 @@ function clickCut(curidx) {
 
 function clickMoveup(curidx) {
 //	alert("move node" +curidx);
-	var curNode = jq("#moveup"+curidx).parents('li:eq(0)');
+	var curNode = jQuery("#moveup"+curidx).parents('li:eq(0)');
 
-	var nextNode = jq("#moveup"+curidx).parents('li:eq(0)').prev();
-	if (jq(nextNode).children('div:eq(1)').children('div:eq(0)')
+	var nextNode = jQuery("#moveup"+curidx).parents('li:eq(0)').prev();
+	if (jQuery(nextNode).children('div:eq(1)').children('div:eq(0)')
 			.size() == 0) {
-		var nextidx = jq(nextNode).attr("id").substring(8);
+		var nextidx = jQuery(nextNode).attr("id").substring(8);
 		var childNode = 'true';
-		if (jq(nextNode).parents('ul:eq(0)').attr("id") == 'example') {
+		if (jQuery(nextNode).parents('ul:eq(0)').attr("id") == 'example') {
 			childNode = 'false';
 		}
-		var splitq = jq("#question"+nextidx).attr("value").split("#f#");
+		var splitq = jQuery("#question"+nextidx).attr("value").split("#f#");
 
 		var divtmp = getMaintTable(splitq[0], splitq[1],splitq[2], nextidx, childNode);
-		divtmp.appendTo(jq(nextNode).children('div:eq(1)'));
+		divtmp.appendTo(jQuery(nextNode).children('div:eq(1)'));
 		toggleHSControl(nextidx);
 	}
 
 	
-	// jq(this).parents('li:eq(0)').remove();
+	// jQuery(this).parents('li:eq(0)').remove();
 	
 	/*
 	 * TODO : Following clone code is just a hack
@@ -520,8 +520,8 @@ function clickMoveup(curidx) {
 	if (curNode.next().size() == 0) {
 		//alert("clone ")
 	     var cloneNode = curNode.clone(true);
-	     cloneNode.appendTo(jq(nextNode).parents('ul:eq(0)'));
-	     jq('#example').treeview( {
+	     cloneNode.appendTo(jQuery(nextNode).parents('ul:eq(0)'));
+	     jQuery('#example').treeview( {
 		    add : cloneNode
 	     });
 	}
@@ -529,37 +529,37 @@ function clickMoveup(curidx) {
 
 
 	curNode.insertBefore(nextNode);
-	var idx = jq(curNode).attr("id").substring(8);
-	var seq = Number(jq("#qseq" + idx).attr("value")) - 1;
-	jq("#qseq" + idx).attr("value", seq);
-	var splitq = jq("#qnaireQuestions\\["+ idx+"\\]").attr("value").split("#f#");
+	var idx = jQuery(curNode).attr("id").substring(8);
+	var seq = Number(jQuery("#qseq" + idx).attr("value")) - 1;
+	jQuery("#qseq" + idx).attr("value", seq);
+	var splitq = jQuery("#qnaireQuestions\\["+ idx+"\\]").attr("value").split("#f#");
     var tmpstr = splitq[0] +"#f#" +splitq[1] 
     +"#f#" +splitq[2] +"#f#" +splitq[3] +"#f#" +splitq[4] +"#f#" +splitq[5] +"#f#" +splitq[6] +"#f#" +
     splitq[7] +"#f#" +seq +"#f#" +splitq[9] +"#f#" +splitq[10] +"#f#" +splitq[11] ;
-    jq("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
-//    jq("#"+jqprefix + idx + "\\]\\.questionSeqNumber").attr("value",seq);
+    jQuery("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
+//    jQuery("#"+jqprefix + idx + "\\]\\.questionSeqNumber").attr("value",seq);
 
-    jq("#movedn" + curNode.attr("id").substring(8)).show();
-    jq("#moveup" + nextNode.attr("id").substring(8)).show();
+    jQuery("#movedn" + curNode.attr("id").substring(8)).show();
+    jQuery("#moveup" + nextNode.attr("id").substring(8)).show();
 //alert ("cp nn size "+curNode.next().attr("id")+"-"+nextNode.prev().size())
     if (curNode.prev().size() == 0) {
-	    jq("#moveup" + curNode.attr("id").substring(8)).hide();
+	    jQuery("#moveup" + curNode.attr("id").substring(8)).hide();
     }
     if (nextNode.next().size() == 0 || nextNode.next().attr("id") == curNode.attr("id")) {
 	// not sure why this one is = 1 if it is moved to the last one, still has curnode as 'next'
 	// so, move this manipulation before insert
 	// this is probably caused by the clonenode added after the last node, then removed it.
 	// FF's inspect element did not see it, not sure why jquery still thinks it exists.
-	    jq("#movedn" + nextNode.attr("id").substring(8)).hide();
+	    jQuery("#movedn" + nextNode.attr("id").substring(8)).hide();
     }
-	idx = jq(nextNode).attr("id").substring(8);
-	seq = Number(jq("#qseq" + idx).attr("value")) + 1;
-	jq("#qseq" + idx).attr("value", seq);
-	var splitq = jq("#qnaireQuestions\\["+ idx+"\\]").attr("value").split("#f#");
+	idx = jQuery(nextNode).attr("id").substring(8);
+	seq = Number(jQuery("#qseq" + idx).attr("value")) + 1;
+	jQuery("#qseq" + idx).attr("value", seq);
+	var splitq = jQuery("#qnaireQuestions\\["+ idx+"\\]").attr("value").split("#f#");
     var tmpstr = splitq[0] +"#f#" +splitq[1] 
     +"#f#" +splitq[2] +"#f#" +splitq[3] +"#f#" +splitq[4] +"#f#" +splitq[5] +"#f#" +splitq[6] +"#f#" +
     splitq[7] +"#f#" +seq +"#f#" +splitq[9] +"#f#" +splitq[10] +"#f#" +splitq[11] ;
-    jq("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
+    jQuery("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
 	swapGroupId(curNode, nextNode);
 	
     if (cloneNode) {
@@ -572,26 +572,26 @@ function clickMoveup(curidx) {
 
 function clickMovedn(curidx) {
 //	alert("Movedn node" +curidx);
-	var curNode = jq("#movedn"+curidx).parents('li:eq(0)');
-	var nextNode = jq("#movedn"+curidx).parents('li:eq(0)').next();
+	var curNode = jQuery("#movedn"+curidx).parents('li:eq(0)');
+	var nextNode = jQuery("#movedn"+curidx).parents('li:eq(0)').next();
 	/*
 	 * question html is looks like <li> <div> for class
 	 * <div> for listcontrol, it has children div of
 	 * listcontent <ul> for children questions </li>
 	 */
-	if (jq(nextNode).children('div:eq(1)').children(
+	if (jQuery(nextNode).children('div:eq(1)').children(
 			'div:eq(0)').size() == 0) {
-		var nextidx = jq(nextNode).attr("id").substring(8);
+		var nextidx = jQuery(nextNode).attr("id").substring(8);
 		var vers = "1.00";
 		// alert("set up table
-		// "+nextidx+"-"+jq(nextNode).children('div:eq(1)').children('a:eq(0)').attr("id"));
+		// "+nextidx+"-"+jQuery(nextNode).children('div:eq(1)').children('a:eq(0)').attr("id"));
 		var childNode = 'true';
-		if (jq(nextNode).parents('ul:eq(0)').attr("id") == 'example') {
+		if (jQuery(nextNode).parents('ul:eq(0)').attr("id") == 'example') {
 			childNode = 'false';
 		}
-		var splitq = jq("#question"+nextidx).attr("value").split("#f#");
+		var splitq = jQuery("#question"+nextidx).attr("value").split("#f#");
 		var divtmp = getMaintTable(splitq[0], splitq[1], splitq[2],nextidx, childNode);
-		divtmp.appendTo(jq(nextNode).children('div:eq(1)'));
+		divtmp.appendTo(jQuery(nextNode).children('div:eq(1)'));
 		toggleHSControl(nextidx);
 	}
 
@@ -599,48 +599,48 @@ function clickMovedn(curidx) {
 	if (nextNode.next().size() == 0) {
 		//alert("clone ")
 	    var cloneNode = nextNode.clone(true);
-	    cloneNode.appendTo(jq(nextNode).parents('ul:eq(0)'));
-	    jq('#example').treeview( {
+	    cloneNode.appendTo(jQuery(nextNode).parents('ul:eq(0)'));
+	    jQuery('#example').treeview( {
 		    add : cloneNode
 	    });
 	}
 
 	curNode.insertAfter(nextNode);
-	var idx = jq(curNode).attr("id").substring(8);
-	var seq = Number(jq("#qseq" + idx).attr("value")) + 1;
-	jq("#qseq" + idx).attr("value", seq);
+	var idx = jQuery(curNode).attr("id").substring(8);
+	var seq = Number(jQuery("#qseq" + idx).attr("value")) + 1;
+	jQuery("#qseq" + idx).attr("value", seq);
 
-	var splitq = jq("#qnaireQuestions\\["+ idx+"\\]").attr("value").split("#f#");
+	var splitq = jQuery("#qnaireQuestions\\["+ idx+"\\]").attr("value").split("#f#");
     var tmpstr = splitq[0] +"#f#" +splitq[1] 
     +"#f#" +splitq[2] +"#f#" +splitq[3] +"#f#" +splitq[4] +"#f#" +splitq[5] +"#f#" +splitq[6] +"#f#" +
     splitq[7] +"#f#" +seq +"#f#" +splitq[9] +"#f#" +splitq[10] +"#f#" +splitq[11] ;
-    jq("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
+    jQuery("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
 	
-	//jq("#"+jqprefix + idx + "\\]\\.questionSeqNumber").attr("value",seq);
+	//jQuery("#"+jqprefix + idx + "\\]\\.questionSeqNumber").attr("value",seq);
 
 	//alert(idx)
-	jq("#moveup" + curNode.attr("id").substring(8)).show();
-	jq("#movedn" + nextNode.attr("id").substring(8)).show();
+	jQuery("#moveup" + curNode.attr("id").substring(8)).show();
+	jQuery("#movedn" + nextNode.attr("id").substring(8)).show();
 	if (nextNode.prev().size() == 0) {
 		// alert("move up next node");
-		jq("#moveup" + nextNode.attr("id").substring(8))
+		jQuery("#moveup" + nextNode.attr("id").substring(8))
 				.hide();
 	}
 	if (curNode.next().size() == 0 || curNode.next().attr("id") == nextNode.attr("id")) {
 		// see note from getmoveuplink for this weird condition check
 		// alert ("move dn no next node ");
-		jq("#movedn" + curNode.attr("id").substring(8))
+		jQuery("#movedn" + curNode.attr("id").substring(8))
 				.hide();
 	}
-	var idx = jq(nextNode).attr("id").substring(8);
-	seq = Number(jq("#qseq" + idx).attr("value")) - 1;
-	jq("#qseq" + idx).attr("value", seq);
-	var splitq = jq("#qnaireQuestions\\["+ idx+"\\]").attr("value").split("#f#");
+	var idx = jQuery(nextNode).attr("id").substring(8);
+	seq = Number(jQuery("#qseq" + idx).attr("value")) - 1;
+	jQuery("#qseq" + idx).attr("value", seq);
+	var splitq = jQuery("#qnaireQuestions\\["+ idx+"\\]").attr("value").split("#f#");
     var tmpstr = splitq[0] +"#f#" +splitq[1] 
     +"#f#" +splitq[2] +"#f#" +splitq[3] +"#f#" +splitq[4] +"#f#" +splitq[5] +"#f#" +splitq[6] +"#f#" +
     splitq[7] +"#f#" +seq +"#f#" +splitq[9] +"#f#" +splitq[10] +"#f#" +splitq[11] ;
-    jq("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
-//    jq("#"+jqprefix + idx + "\\]\\.questionSeqNumber").attr("value",seq);
+    jQuery("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
+//    jQuery("#"+jqprefix + idx + "\\]\\.questionSeqNumber").attr("value",seq);
 	// TODO : trying to group
 	swapGroupId(curNode, nextNode);
     if (cloneNode) {
@@ -663,47 +663,47 @@ function clickRemove(curidx) {
 		return false;
 	}
 	// TODO : IE problem , clone does not clone child node
-		// removedNode = jq(liId).clone(true);
-		// removedNode = jq(liId);
-		if (jq(liId).prev().size() == 0 && jq(liId).next().size() > 0) {
-			jq("#moveup" + jq(liId).next().attr("id").substring(8))
+		// removedNode = jQuery(liId).clone(true);
+		// removedNode = jQuery(liId);
+		if (jQuery(liId).prev().size() == 0 && jQuery(liId).next().size() > 0) {
+			jQuery("#moveup" + jQuery(liId).next().attr("id").substring(8))
 					.hide();
 		}
-		if (jq(liId).next().size() == 0 && jq(liId).prev().size() > 0) {
-			jq("#movedn" + jq(liId).prev().attr("id").substring(8))
+		if (jQuery(liId).next().size() == 0 && jQuery(liId).prev().size() > 0) {
+			jQuery("#movedn" + jQuery(liId).prev().attr("id").substring(8))
 					.hide();
 		}
-		var idx = jq(liId).attr("id").substring(8);
+		var idx = jQuery(liId).attr("id").substring(8);
 		var parentNum;
-		if (jq(liId).parents('ul:eq(0)').parents('li:eq(0)').size() == 0) {
+		if (jQuery(liId).parents('ul:eq(0)').parents('li:eq(0)').size() == 0) {
 			parentNum = 0;
-			var idx1 = jq(liId).attr("class").indexOf(" ");
+			var idx1 = jQuery(liId).attr("class").indexOf(" ");
 			if (idx1 < 0) {
 				// TODO weird problem, initial from return list, class is in 'li'
 				// when it is loaded , then class is included in 'div' ?
-				idx1 = jq(liId).attr("class").length;
+				idx1 = jQuery(liId).attr("class").length;
 			}	
-			adjustGroup(jq(liId).attr("class").substring(5, idx1)); 
+			adjustGroup(jQuery(liId).attr("class").substring(5, idx1)); 
 			// class is  "group0 expandable"
 		} else {
-			parentNum = jq(
+			parentNum = jQuery(
 					"#qnum"
-							+ jq(liId).parents('ul:eq(0)').parents(
+							+ jQuery(liId).parents('ul:eq(0)').parents(
 									'li:eq(0)').attr("id")
 									.substring(8)).attr("value");
 		}
 
-		deleteChild(parentNum, jq(liId).attr("id"));
-		var nextseq = Number(jq("#qseq"+jq(liId).attr("id").substring(8)).attr("value"));
-	    var nextitem = jq(liId).next();
+		deleteChild(parentNum, jQuery(liId).attr("id"));
+		var nextseq = Number(jQuery("#qseq"+jQuery(liId).attr("id").substring(8)).attr("value"));
+	    var nextitem = jQuery(liId).next();
 	    // update hidden seq# for the items follow the deleted item
 	    while (nextitem.size() > 0) {
-	    	jq("#qseq" + nextitem.attr("id").substring(8)).attr("value", nextseq++);	
+	    	jQuery("#qseq" + nextitem.attr("id").substring(8)).attr("value", nextseq++);	
 	    	nextitem = nextitem.next();
 	    }	
 
 		// TODO : update seqnum of the sibling nodes following it
-		jq(liId).remove();
+		jQuery(liId).remove();
 		return false;  // so when clicked, the page will not jump
 
 }
@@ -713,26 +713,26 @@ function clickPaste(curidx) {
 	var qnaireid = "qnaireid" + curidx;
 	if (cutNode) {
 		var idx;
-		var parentNode = jq("#" + qnaireid);
+		var parentNode = jQuery("#" + qnaireid);
 		var ulTag = parentNode.children('ul');
 		if (ulTag.size() > 0) {
 			// alert(ulTag.attr("id"));
 		} else {
 			// alert("not found")
 			curi++;
-			ulTag = jq('<ul class="filetree"></ul>').attr("id",
+			ulTag = jQuery('<ul class="filetree"></ul>').attr("id",
 					"ul" + curidx);
 		}
 
-		  if (qnaireid.substring(8) == jq(cutNode).attr("id").substring(8)) {
+		  if (qnaireid.substring(8) == jQuery(cutNode).attr("id").substring(8)) {
 			  alert ("Can Not cut/paste on the same node");
 		  } else {	  
-			// alert(jq(cutNode).children('li').size());
+			// alert(jQuery(cutNode).children('li').size());
 			
 			var found = false;
-			var pastenode = jq("#"+qnaireid);
+			var pastenode = jQuery("#"+qnaireid);
 			while (!found && pastenode.parents('ul:eq(0)').parents('li:eq(0)').size() > 0 ) {
-			  if (pastenode.parents('ul:eq(0)').parents('li:eq(0)').attr("id") == jq(cutNode).attr("id")) {
+			  if (pastenode.parents('ul:eq(0)').parents('li:eq(0)').attr("id") == jQuery(cutNode).attr("id")) {
 				  found = true;
 			  } else {
 				  pastenode = pastenode.parents('ul:eq(0)').parents('li:eq(0)');
@@ -746,27 +746,27 @@ function clickPaste(curidx) {
 				parentNum = cutNodeParentCode;
 			} else {
 				// paste cutnode for the 1st time
-			    if (jq(cutNode).parents('ul:eq(0)').parents(
+			    if (jQuery(cutNode).parents('ul:eq(0)').parents(
 					'li:eq(0)').size() == 0) {
 				    parentNum = 0;
-				    var idx1 = jq(cutNode).attr("class").indexOf(" ");
+				    var idx1 = jQuery(cutNode).attr("class").indexOf(" ");
 					if (idx1 < 0) {
-						idx1 = jq(cutNode).attr("class").length;
+						idx1 = jQuery(cutNode).attr("class").length;
 					}	
-				    adjustGroup(jq(cutNode).attr("class").substring(5, idx1)); 
+				    adjustGroup(jQuery(cutNode).attr("class").substring(5, idx1)); 
 				    // class is "group0 expandable"
 			    } else {
-				    parentNum = jq(
+				    parentNum = jQuery(
 						"#qnum"
-								+ jq(cutNode).parents('ul:eq(0)').parents('li:eq(0)')
+								+ jQuery(cutNode).parents('ul:eq(0)').parents('li:eq(0)')
 										.attr("id").substring(8)).attr("value");
 			    }
-				deleteChild(parentNum, jq(cutNode).attr("id"));
-				var nextseq = Number(jq("#qseq"+jq(cutNode).attr("id").substring(8)).attr("value"));
-			    var nextitem = jq(cutNode).next();
+				deleteChild(parentNum, jQuery(cutNode).attr("id"));
+				var nextseq = Number(jQuery("#qseq"+jQuery(cutNode).attr("id").substring(8)).attr("value"));
+			    var nextitem = jQuery(cutNode).next();
 			    // update hidden seq# for the items follow the deleted item
 			    while (nextitem.size() > 0) {
-			    	jq("#qseq" + nextitem.attr("id").substring(8)).attr("value", nextseq++);	
+			    	jQuery("#qseq" + nextitem.attr("id").substring(8)).attr("value", nextseq++);	
 			    	nextitem = nextitem.next();
 			    }	
 				cutNodeParentCode = parentNum;
@@ -775,28 +775,28 @@ function clickPaste(curidx) {
 
 			var liId = cutNode.attr("id");
 			var parentRACode;
-			if (jq("li#" + liId).parents('ul:eq(0)').size() > 0) {
+			if (jQuery("li#" + liId).parents('ul:eq(0)').size() > 0) {
 				// only remove the first time
-			    jq("li#" + liId).remove();
+			    jQuery("li#" + liId).remove();
 			   // alert(cutNode.attr("id"));
 			}    
-			if (jq("#"+qnaireid).prev().size() == 0) {
-				jq("#moveup" + qnaireid.substring(8)).hide();
+			if (jQuery("#"+qnaireid).prev().size() == 0) {
+				jQuery("#moveup" + qnaireid.substring(8)).hide();
 			}
-			if (jq("#"+qnaireid).next().size() == 0) {
-				jq("#movedn" + qnaireid.substring(8)).hide();
+			if (jQuery("#"+qnaireid).next().size() == 0) {
+				jQuery("#movedn" + qnaireid.substring(8)).hide();
 			}
 
 			//cutNode = null;
 		   } // not paste to itself or its children
 		  }							
 		//}// cutnode
-			if (jq(parentNode).children('div:eq(0)').attr("class").indexOf("expandable") > 0) {
+			if (jQuery(parentNode).children('div:eq(0)').attr("class").indexOf("expandable") > 0) {
                    /* to force it to show the child node just added.
                     * the div 'class' is changing based on whether the node is expand or collapsed
                     */
-				jq(parentNode).children('div:eq(0)').click();
-					//jq("#listcontrol"+listitem.attr("id").substring(8)).click();
+				jQuery(parentNode).children('div:eq(0)').click();
+					//jQuery("#listcontrol"+listitem.attr("id").substring(8)).click();
 				}
 
 		
@@ -811,12 +811,12 @@ function clickPaste(curidx) {
 		pasteChild(qnaireid, copyNode);
 		//maxCopyNodeIdx = 0;
 		isCopy = "false";
-		if (jq("#"+qnaireid).children('div:eq(0)').attr("class").indexOf("expandable") > 0) {
+		if (jQuery("#"+qnaireid).children('div:eq(0)').attr("class").indexOf("expandable") > 0) {
             /* to force it to show the child node just added.
              * the div 'class' is changing based on whether the node is expand or collapsed
              */
-			jq("#"+qnaireid).children('div:eq(0)').click();
-				//jq("#listcontrol"+listitem.attr("id").substring(8)).click();
+			jQuery("#"+qnaireid).children('div:eq(0)').click();
+				//jQuery("#listcontrol"+listitem.attr("id").substring(8)).click();
 			}
 
 	}
@@ -829,14 +829,14 @@ function clickPaste(curidx) {
  * set up questionaire question panel's tab header
  */
 function getMaintTableHeader(description, vers) {
-	var thead = jq('<thead/>');
-	var trtmp = jq('<tr/>');
+	var thead = jQuery('<thead/>');
+	var trtmp = jQuery('<tr/>');
 	// TODO not sure why 'subelementheader class is not picked up from
 	// new_kuali.css
 	// it is working fine in researchareahierarchy ???
-	// var thtmp = jq('<th class="subelementheader" align="left" >');
-	var thtmp = jq('<th style="background:#939393;height:18px;color:#FFFFFF;text-align:left;padding-left:4px;" align="left" >');
-	var imgtmp = jq(
+	// var thtmp = jQuery('<th class="subelementheader" align="left" >');
+	var thtmp = jQuery('<th style="background:#939393;height:18px;color:#FFFFFF;text-align:left;padding-left:4px;" align="left" >');
+	var imgtmp = jQuery(
 			'<a href="#" class="hidedetail"><img src="kr/static/images/tinybutton-hide.gif" title="Hide detail" align="absmiddle" border="0" width="45" height="15"></a>')
 			.toggle(
 			// TODO : really need this toggle. Mock's toggle did not show up
@@ -856,72 +856,72 @@ function getQuestionActionSubTable(qnaireid) {
 	// table for Qn actions : move/remove/cut/past/lookup
 
 	var curidx = qnaireid.substring(8);
-	var tbl80 = jq(
+	var tbl80 = jQuery(
 			'<table cellpadding="0" cellspacing="0" class="elementtable" width="100%">')
 			.attr("id", "tbl80" + curidx);
-	var trtmp = jq('<tr></tr>');
-	var tmp = jq('<th style="text-align:right; width:120px;">Node:</th>');
+	var trtmp = jQuery('<tr></tr>');
+	var tmp = jQuery('<th style="text-align:right; width:120px;">Node:</th>');
 	trtmp.html(tmp);
-	var thtmp = jq('<td/>');
+	var thtmp = jQuery('<td/>');
 	getMoveUpLink(curidx).appendTo(thtmp);
 	getMoveDownLink(curidx).appendTo(thtmp);
 
-	var image = jq(
+	var image = jQuery(
 			'<a href="#"><img src="static/images/tinybutton-removenode.gif" width="79" height="15" border="0" alt="Remove Node" title="Remove this node and its child groups/sponsors"></a>&nbsp')
 			.attr("id", "remove" + curidx)
 			.click(function() {
 				var liId = "li#" + qnaireid;
 				// TODO : IE problem , clone does not clone child node
-					// removedNode = jq(liId).clone(true);
-					// removedNode = jq(liId);
-					if (jq(liId).prev().size() == 0 && jq(liId).next().size() > 0) {
-						jq("#moveup" + jq(liId).next().attr("id").substring(8))
+					// removedNode = jQuery(liId).clone(true);
+					// removedNode = jQuery(liId);
+					if (jQuery(liId).prev().size() == 0 && jQuery(liId).next().size() > 0) {
+						jQuery("#moveup" + jQuery(liId).next().attr("id").substring(8))
 								.hide();
 					}
-					if (jq(liId).next().size() == 0 && jq(liId).prev().size() > 0) {
-						jq("#movedn" + jq(liId).prev().attr("id").substring(8))
+					if (jQuery(liId).next().size() == 0 && jQuery(liId).prev().size() > 0) {
+						jQuery("#movedn" + jQuery(liId).prev().attr("id").substring(8))
 								.hide();
 					}
-					var idx = jq(liId).attr("id").substring(8);
+					var idx = jQuery(liId).attr("id").substring(8);
 					var parentNum;
-					if (jq(liId).parents('ul:eq(0)').parents('li:eq(0)').size() == 0) {
+					if (jQuery(liId).parents('ul:eq(0)').parents('li:eq(0)').size() == 0) {
 						parentNum = 0;
-						var idx1 = jq(liId).attr("class").indexOf(" ");
+						var idx1 = jQuery(liId).attr("class").indexOf(" ");
 						if (idx1 < 0) {
 							// TODO weird problem, initial from return list, class is in 'li'
 							// when it is loaded , then class is included in 'div' ?
-							idx1 = jq(liId).attr("class").length;
+							idx1 = jQuery(liId).attr("class").length;
 						}	
-						adjustGroup(jq(liId).attr("class").substring(5, idx1)); 
+						adjustGroup(jQuery(liId).attr("class").substring(5, idx1)); 
 						// class is  "group0 expandable"
 					} else {
-						parentNum = jq(
+						parentNum = jQuery(
 								"#qnum"
-										+ jq(liId).parents('ul:eq(0)').parents(
+										+ jQuery(liId).parents('ul:eq(0)').parents(
 												'li:eq(0)').attr("id")
 												.substring(8)).attr("value");
 					}
 
-					deleteChild(parentNum, jq(liId).attr("id"));
-					var nextseq = Number(jq("#qseq"+jq(liId).attr("id").substring(8)).attr("value"));
-				    var nextitem = jq(liId).next();
+					deleteChild(parentNum, jQuery(liId).attr("id"));
+					var nextseq = Number(jQuery("#qseq"+jQuery(liId).attr("id").substring(8)).attr("value"));
+				    var nextitem = jQuery(liId).next();
 				    // update hidden seq# for the items follow the deleted item
 				    while (nextitem.size() > 0) {
-				    	jq("#qseq" + nextitem.attr("id").substring(8)).attr("value", nextseq++);	
+				    	jQuery("#qseq" + nextitem.attr("id").substring(8)).attr("value", nextseq++);	
 				    	nextitem = nextitem.next();
 				    }	
 
 					// TODO : update seqnum of the sibling nodes following it
-					jq(liId).remove();
+					jQuery(liId).remove();
 					return false;  // so when clicked, the page will not jump
 				});
 	image.appendTo(thtmp);
-	image = jq(
+	image = jQuery(
 			'<a href="#"><img src="static/images/tinybutton-cutnode.gif" width="79" height="15" border="0" alt="Cut Node" title="Cut this node and its child roups/sponsors.  (Node will not be removed until you paste it.)"></a>&nbsp')
 			.attr("id", "cut" + curidx).click(function() {
 				// alert("Cut node");
 				var liId = "li#" + qnaireid;
-				cutNode = jq(liId);
+				cutNode = jQuery(liId);
 				//removedNode = null; // remove & cutNode should not co-exist
 				copyNode = null;
 				cutNodeParentCode = null;
@@ -929,12 +929,12 @@ function getQuestionActionSubTable(qnaireid) {
 				return false;  // so when clicked, the page will not jump
 			});
 	image.appendTo(thtmp);
-	image = jq(
+	image = jQuery(
 			'<a href="#"><img src="static/images/jquery/tinybutton-copynode.gif" width="79" height="15" border="0" alt="Copy Node" title="Copy this node and its child.)"></a>&nbsp')
 			.attr("id", "copy" + curidx).click(function() {
 				// alert("Copy node");
 				var liId = "li#" + qnaireid;
-				copyNode = jq(liId);
+				copyNode = jQuery(liId);
 				//removedNode = null; // remove & cutNode should not co-exist
 				cutNode = null;
 				cutNodeParentCode = null;
@@ -942,7 +942,7 @@ function getQuestionActionSubTable(qnaireid) {
 				return false;  // so when clicked, the page will not jump
 			});
 	image.appendTo(thtmp);
-	image = jq(
+	image = jQuery(
 			'<a href="#"><img src="static/images/tinybutton-pastenode.gif" width="79" height="15" border="0" alt="Paste Node" title="Paste your previously cut node structure under this node"></a>')
 			.attr("id", "paste" + curidx).click(function() {
 
@@ -951,26 +951,26 @@ function getQuestionActionSubTable(qnaireid) {
 
 					if (cutNode) {
 						var idx;
-						var parentNode = jq("#" + qnaireid);
+						var parentNode = jQuery("#" + qnaireid);
 						var ulTag = parentNode.children('ul');
 						if (ulTag.size() > 0) {
 							// alert(ulTag.attr("id"));
 						} else {
 							// alert("not found")
 							curi++;
-							ulTag = jq('<ul class="filetree"></ul>').attr("id",
+							ulTag = jQuery('<ul class="filetree"></ul>').attr("id",
 									"ul" + curidx);
 						}
 	
-						  if (qnaireid.substring(8) == jq(cutNode).attr("id").substring(8)) {
+						  if (qnaireid.substring(8) == jQuery(cutNode).attr("id").substring(8)) {
 							  alert ("Can Not cut/paste on the same node");
 						  } else {	  
-							// alert(jq(cutNode).children('li').size());
+							// alert(jQuery(cutNode).children('li').size());
 							
 							var found = false;
-							var pastenode = jq("#"+qnaireid);
+							var pastenode = jQuery("#"+qnaireid);
 							while (!found && pastenode.parents('ul:eq(0)').parents('li:eq(0)').size() > 0 ) {
-							  if (pastenode.parents('ul:eq(0)').parents('li:eq(0)').attr("id") == jq(cutNode).attr("id")) {
+							  if (pastenode.parents('ul:eq(0)').parents('li:eq(0)').attr("id") == jQuery(cutNode).attr("id")) {
 								  found = true;
 							  } else {
 								  pastenode = pastenode.parents('ul:eq(0)').parents('li:eq(0)');
@@ -984,27 +984,27 @@ function getQuestionActionSubTable(qnaireid) {
 								parentNum = cutNodeParentCode;
 							} else {
 								// paste cutnode for the 1st time
-							    if (jq(cutNode).parents('ul:eq(0)').parents(
+							    if (jQuery(cutNode).parents('ul:eq(0)').parents(
 									'li:eq(0)').size() == 0) {
 								    parentNum = 0;
-								    var idx1 = jq(cutNode).attr("class").indexOf(" ");
+								    var idx1 = jQuery(cutNode).attr("class").indexOf(" ");
 									if (idx1 < 0) {
-										idx1 = jq(cutNode).attr("class").length;
+										idx1 = jQuery(cutNode).attr("class").length;
 									}	
-								    adjustGroup(jq(cutNode).attr("class").substring(5, idx1)); 
+								    adjustGroup(jQuery(cutNode).attr("class").substring(5, idx1)); 
 								    // class is "group0 expandable"
 							    } else {
-								    parentNum = jq(
+								    parentNum = jQuery(
 										"#qnum"
-												+ jq(cutNode).parents('ul:eq(0)').parents('li:eq(0)')
+												+ jQuery(cutNode).parents('ul:eq(0)').parents('li:eq(0)')
 														.attr("id").substring(8)).attr("value");
 							    }
-								deleteChild(parentNum, jq(cutNode).attr("id"));
-								var nextseq = Number(jq("#qseq"+jq(cutNode).attr("id").substring(8)).attr("value"));
-							    var nextitem = jq(cutNode).next();
+								deleteChild(parentNum, jQuery(cutNode).attr("id"));
+								var nextseq = Number(jQuery("#qseq"+jQuery(cutNode).attr("id").substring(8)).attr("value"));
+							    var nextitem = jQuery(cutNode).next();
 							    // update hidden seq# for the items follow the deleted item
 							    while (nextitem.size() > 0) {
-							    	jq("#qseq" + nextitem.attr("id").substring(8)).attr("value", nextseq++);	
+							    	jQuery("#qseq" + nextitem.attr("id").substring(8)).attr("value", nextseq++);	
 							    	nextitem = nextitem.next();
 							    }	
 								cutNodeParentCode = parentNum;
@@ -1013,28 +1013,28 @@ function getQuestionActionSubTable(qnaireid) {
 
 							var liId = cutNode.attr("id");
 							var parentRACode;
-							if (jq("li#" + liId).parents('ul:eq(0)').size() > 0) {
+							if (jQuery("li#" + liId).parents('ul:eq(0)').size() > 0) {
 								// only remove the first time
-							    jq("li#" + liId).remove();
+							    jQuery("li#" + liId).remove();
 							   // alert(cutNode.attr("id"));
 							}    
-							if (jq("#"+qnaireid).prev().size() == 0) {
-								jq("#moveup" + qnaireid.substring(8)).hide();
+							if (jQuery("#"+qnaireid).prev().size() == 0) {
+								jQuery("#moveup" + qnaireid.substring(8)).hide();
 							}
-							if (jq("#"+qnaireid).next().size() == 0) {
-								jq("#movedn" + qnaireid.substring(8)).hide();
+							if (jQuery("#"+qnaireid).next().size() == 0) {
+								jQuery("#movedn" + qnaireid.substring(8)).hide();
 							}
 
 							//cutNode = null;
 						   } // not paste to itself or its children
 						  }							
 						//}// cutnode
-							if (jq(parentNode).children('div:eq(0)').attr("class").indexOf("expandable") > 0) {
+							if (jQuery(parentNode).children('div:eq(0)').attr("class").indexOf("expandable") > 0) {
 	                               /* to force it to show the child node just added.
 	                                * the div 'class' is changing based on whether the node is expand or collapsed
 	                                */
-								jq(parentNode).children('div:eq(0)').click();
-									//jq("#listcontrol"+listitem.attr("id").substring(8)).click();
+								jQuery(parentNode).children('div:eq(0)').click();
+									//jQuery("#listcontrol"+listitem.attr("id").substring(8)).click();
 								}
 
 						
@@ -1049,12 +1049,12 @@ function getQuestionActionSubTable(qnaireid) {
 						pasteChild(qnaireid, copyNode);
 						//maxCopyNodeIdx = 0;
 						isCopy = "false";
-						if (jq("#"+qnaireid).children('div:eq(0)').attr("class").indexOf("expandable") > 0) {
+						if (jQuery("#"+qnaireid).children('div:eq(0)').attr("class").indexOf("expandable") > 0) {
                             /* to force it to show the child node just added.
                              * the div 'class' is changing based on whether the node is expand or collapsed
                              */
-							jq("#"+qnaireid).children('div:eq(0)').click();
-								//jq("#listcontrol"+listitem.attr("id").substring(8)).click();
+							jQuery("#"+qnaireid).children('div:eq(0)').click();
+								//jQuery("#listcontrol"+listitem.attr("id").substring(8)).click();
 							}
 
 					}
@@ -1062,7 +1062,7 @@ function getQuestionActionSubTable(qnaireid) {
 
 				});
 	image.appendTo(thtmp);
-	image = jq(
+	image = jQuery(
 	'<a href="#"><img src="static/images/jquery/tinybutton-pastenode.gif" width="79" height="15" border="0" alt="Modify Node" title="Modify the question in this node.)"></a>&nbsp')
 	.attr("id", "modify" + curidx).click(function() {
 		 alert("Modify node");
@@ -1071,7 +1071,7 @@ function getQuestionActionSubTable(qnaireid) {
 	image.appendTo(thtmp);
 	
 	thtmp.appendTo(trtmp);
-	jq('<th style="text-align:right;">Add Question:</th>').appendTo(trtmp);
+	jQuery('<th style="text-align:right;">Add Question:</th>').appendTo(trtmp);
 
 	getAddQuestionRow(curidx).appendTo(trtmp); // row2
 	trtmp.appendTo(tbl80); // row1
@@ -1086,13 +1086,13 @@ function getQuestionActionSubTable(qnaireid) {
  * otherwise if paste to its own children, then this will become infinite loop,
  */
 function pasteChild(parentid, startnode) {
-	var parentNode = jq("#" + parentid);
+	var parentNode = jQuery("#" + parentid);
 	var ulTag = parentNode.children('ul');
 
-	// startnode = jq("#"+childid);
-	// alert("copy node "+jq(startnode).attr("id").substring(8));
-	var stidx = jq(startnode).attr("id").substring(8);
-	var splitq = jq("#question"+stidx).attr("value").split("#f#");
+	// startnode = jQuery("#"+childid);
+	// alert("copy node "+jQuery(startnode).attr("id").substring(8));
+	var stidx = jQuery(startnode).attr("id").substring(8);
+	var splitq = jQuery("#question"+stidx).attr("value").split("#f#");
 	var qdesc = splitq[0];
 	var qtypeid = splitq[1];
     var qvers= splitq[2];
@@ -1104,88 +1104,88 @@ function pasteChild(parentid, startnode) {
 	// set new version question if any
 	newqn[curi] = newqn[stidx];
 	var listitem = getQuestionNew(qdesc, qtypeid, qvers,qdispans,qansmax,qmaxlength, "true");
-	var ultag = jq('<ul></ul>');
+	var ultag = jQuery('<ul></ul>');
 	ultag.appendTo(listitem);
 	var idx = listitem.attr("id").substring(8);
 	listitem.appendTo(ulTag);
-	if (jq(listitem).parents('ul:eq(0)').children('li').size() == 1) {
-		jq("#moveup" + idx).hide();
-		jq("#movedn" + idx).hide();
+	if (jQuery(listitem).parents('ul:eq(0)').children('li').size() == 1) {
+		jQuery("#moveup" + idx).hide();
+		jQuery("#movedn" + idx).hide();
 	} else {
-		jq("#movedn" + idx).hide();
+		jQuery("#movedn" + idx).hide();
 		if (listitem.prev().size() > 0) {
-			jq("#movedn" + listitem.prev().attr("id").substring(8)).show();
+			jQuery("#movedn" + listitem.prev().attr("id").substring(8)).show();
 		}
 	}
 
 	// also need this to show 'folder' icon
-	jq('#example').treeview( {
+	jQuery('#example').treeview( {
 		add : listitem
 	});
 
-	jq("#qnum" + idx).attr("value", jq("#questionNumber").attr("value"));
-	var qid = jq("#qid" + jq(startnode).attr("id").substring(8)).attr("value");
-	jq("#qid" + idx).attr("value", qid);
-	var seqnum = Number(jq(listitem).siblings().size()) + 1;
-	jq("#qseq" + idx).attr("value", seqnum);
+	jQuery("#qnum" + idx).attr("value", jQuery("#questionNumber").attr("value"));
+	var qid = jQuery("#qid" + jQuery(startnode).attr("id").substring(8)).attr("value");
+	jQuery("#qid" + idx).attr("value", qid);
+	var seqnum = Number(jQuery(listitem).siblings().size()) + 1;
+	jQuery("#qseq" + idx).attr("value", seqnum);
 
 	var liId = "li#" + parentid;
-	var qid = jq("#qid" + idx).attr("value");
-	var qnum = jq("#questionNumber").attr("value");
-	var parentNum = jq("#qnum" + jq(liId).attr("id").substring(8)).attr("value");
-	jq("#questionNumber").attr("value",
-			Number(jq("#questionNumber").attr("value")) + 1)
+	var qid = jQuery("#qid" + idx).attr("value");
+	var qnum = jQuery("#questionNumber").attr("value");
+	var parentNum = jQuery("#qnum" + jQuery(liId).attr("id").substring(8)).attr("value");
+	jQuery("#questionNumber").attr("value",
+			Number(jQuery("#questionNumber").attr("value")) + 1)
 
 	// questionnaireQuestionsId/questionnaireRefIdFk/questionRefIdFk/questionNumber/parentQuestionNumber		
     //conditionFlag/condition/conditionValue/questionSeqNumber/versionNumber/deleted
-	var tmpstr = "" +"#f#" +jq('#document\\.newMaintainableObject\\.businessObject\\.questionnaireRefId').attr("value") 
+	var tmpstr = "" +"#f#" +jQuery('#document\\.newMaintainableObject\\.businessObject\\.questionnaireRefId').attr("value") 
           +"#f#" +qid +"#f#" +qnum +"#f#" +parentNum +"#f#" +"N" +"#f#" +"" +"#f#" +
           "" +"#f#" +seqnum +"#f#" +"1" +"#f#" +"N" +"#f#" +null ;
-	jq("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
+	jQuery("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
     	
 			
 	// alert("child copy node"
-	// + jq("#cond" + jq(startnode).attr("id").substring(8)).attr("value"));
-	cidx = jq(startnode).attr("id").substring(8);
+	// + jQuery("#cond" + jQuery(startnode).attr("id").substring(8)).attr("value"));
+	cidx = jQuery(startnode).attr("id").substring(8);
 
-	var splitq = jq("#qnaireQuestions\\["+ cidx+"\\]").attr("value").split("#f#");
+	var splitq = jQuery("#qnaireQuestions\\["+ cidx+"\\]").attr("value").split("#f#");
 	cond = splitq[6];
 	value = splitq[7];
 	ruleId = splitq[11];
 	if (cond != '') {
 		var newResponse = getRequirementDeleteRow(responseArray[cond], value,
 				idx);
-		newResponse.prependTo(jq("#addrequirement" + idx).parents('div:eq(0)')
+		newResponse.prependTo(jQuery("#addrequirement" + idx).parents('div:eq(0)')
 				.children('table:eq(0)').children('tbody'));
-		jq("#addrequirement" + idx).parents('tr:eq(0)').remove();
+		jQuery("#addrequirement" + idx).parents('tr:eq(0)').remove();
 		
-		splitq = jq("#qnaireQuestions\\["+ idx+"\\]").attr("value").split("#f#");
+		splitq = jQuery("#qnaireQuestions\\["+ idx+"\\]").attr("value").split("#f#");
 	    var tmpstr = splitq[0] +"#f#" +splitq[1] 
         +"#f#" +splitq[2] +"#f#" +splitq[3] +"#f#" +splitq[4] +"#f#" +"Y" +"#f#" +cond +"#f#" +
         value +"#f#" +splitq[8] +"#f#" +splitq[9] +"#f#" +splitq[10] +"#f#" +splitq[11] ;
-	jq("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
+	jQuery("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
 	}
 	if (ruleId != '') {
 		var newResponse = getRuleEvaluationDeleteRow(ruleId, idx);
-		newResponse.appendTo(jq("#addRuleRequirement"+curidx).parents('div:eq(0)')
+		newResponse.appendTo(jQuery("#addRuleRequirement"+curidx).parents('div:eq(0)')
 				.children('table:eq(0)').children('tbody'));
-		var idx = jq("#addRuleRequirement"+curidx).parents('li:eq(0)').attr("id")
+		var idx = jQuery("#addRuleRequirement"+curidx).parents('li:eq(0)').attr("id")
 				.substring(8);
-		var splitq = jq("#qnaireQuestions\\["+ idx+"\\]").attr("value").split("#f#");
+		var splitq = jQuery("#qnaireQuestions\\["+ idx+"\\]").attr("value").split("#f#");
 	    var tmpstr = splitq[0] +"#f#" +splitq[1] 
         +"#f#" +splitq[2] +"#f#" +splitq[3] +"#f#" +splitq[4] +"#f#" +splitq[5] +"#f#" +splitq[6] +"#f#" +
         splitq[7] +"#f#" +splitq[8] +"#f#" +splitq[9] +"#f#" +splitq[10] +"#f#" +ruleId ;
-	    jq("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
+	    jQuery("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
 	}
 
-	if (jq(startnode).children('ul').children('li').size() > 0) {
+	if (jQuery(startnode).children('ul').children('li').size() > 0) {
 
-		jq(startnode).children('ul').children('li').each(
+		jQuery(startnode).children('ul').children('li').each(
 				function() {
 					if (isCopy == 'false'
-							|| (isCopy == 'true' && jq(this).attr("id")
+							|| (isCopy == 'true' && jQuery(this).attr("id")
 									.substring(8) <= maxCopyNodeIdx)) {
-						pasteChild(jq(listitem).attr("id"), jq(this));
+						pasteChild(jQuery(listitem).attr("id"), jQuery(this));
 					}
 				});
 	}
@@ -1198,25 +1198,25 @@ function pasteChild(parentid, startnode) {
  */
 function deleteChild(parentNum, childid) {
 
-	var idx = jq("#" + childid).attr("id").substring(8);
-	var qnum = jq("#qnum" + idx).attr("value");
-	var childrenli = jq("#" + childid).children('ul').children('li');
-	var splitq = jq("#qnaireQuestions\\["+ idx+"\\]").attr("value").split("#f#");
+	var idx = jQuery("#" + childid).attr("id").substring(8);
+	var qnum = jQuery("#qnum" + idx).attr("value");
+	var childrenli = jQuery("#" + childid).children('ul').children('li');
+	var splitq = jQuery("#qnaireQuestions\\["+ idx+"\\]").attr("value").split("#f#");
     var tmpstr = splitq[0] +"#f#" +splitq[1] 
     +"#f#" +splitq[2] +"#f#" +splitq[3] +"#f#" +splitq[4] +"#f#" +splitq[5] +"#f#" +splitq[6] +"#f#" +
     splitq[7] +"#f#" +splitq[8]  +"#f#" +splitq[9] +"#f#" +"Y" +"#f#" +splitq[11] ;
-jq("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
+jQuery("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
 
 var nextseq = splitq[8];
 
-var nextitem = jq("#" + childid).next();
+var nextitem = jQuery("#" + childid).next();
 // update seq for the siblings after the new node
 while (nextitem.size() > 0) {
-	var splitq = jq("#qnaireQuestions\\["+ nextitem.attr("id").substring(8)+"\\]").attr("value").split("#f#");
+	var splitq = jQuery("#qnaireQuestions\\["+ nextitem.attr("id").substring(8)+"\\]").attr("value").split("#f#");
     var tmpstr = splitq[0] +"#f#" +splitq[1] 
     +"#f#" +splitq[2] +"#f#" +splitq[3] +"#f#" +splitq[4] +"#f#" +splitq[5] +"#f#" +splitq[6] +"#f#" +
     splitq[7] +"#f#" +(nextseq++) +"#f#" +splitq[9] +"#f#" +splitq[10] +"#f#" +splitq[11] ;
-jq("#qnaireQuestions\\["+ nextitem.attr("id").substring(8)+"\\]").attr("value",tmpstr);
+jQuery("#qnaireQuestions\\["+ nextitem.attr("id").substring(8)+"\\]").attr("value",tmpstr);
 	nextitem = nextitem.next();
 }	
 
@@ -1224,7 +1224,7 @@ jq("#qnaireQuestions\\["+ nextitem.attr("id").substring(8)+"\\]").attr("value",t
 	if (childrenli.size() > 0) {
 
 		childrenli.each(function() {
-			deleteChild(qnum, jq(this).attr("id"));
+			deleteChild(qnum, jQuery(this).attr("id"));
 		});
 	}
 
@@ -1237,16 +1237,16 @@ jq("#qnaireQuestions\\["+ nextitem.attr("id").substring(8)+"\\]").attr("value",t
  */
 function getMaxCopyNodeIdx(startnode) {
 
-	var idx = jq(startnode).attr("id").substring(8);
-	var childrenli = jq(startnode).children('ul').children('li');
+	var idx = jQuery(startnode).attr("id").substring(8);
+	var childrenli = jQuery(startnode).children('ul').children('li');
 	if (idx > maxCopyNodeIdx) {
 		maxCopyNodeIdx = idx;
 	}
 
-	if (jq(childrenli).size() > 0) {
+	if (jQuery(childrenli).size() > 0) {
 
-		jq(childrenli).each(function() {
-			getMaxCopyNodeIdx(jq(this));
+		jQuery(childrenli).each(function() {
+			getMaxCopyNodeIdx(jQuery(this));
 		});
 	}
 
@@ -1256,31 +1256,31 @@ function getMaxCopyNodeIdx(startnode) {
  * set up movedown link
  */
 function getMoveDownLink(curidx) {
-	var image = jq('<img style="border:none;" alt="move down" title="Move Down" type="image" >');
-	var atag = jq('<a href="#"></a>')
+	var image = jQuery('<img style="border:none;" alt="move down" title="Move Down" type="image" >');
+	var atag = jQuery('<a href="#"></a>')
 			.attr("id", "movedn" + curidx)
 			.click(
 					function() {
-						var curNode = jq(this).parents('li:eq(0)');
-						var nextNode = jq(this).parents('li:eq(0)').next();
+						var curNode = jQuery(this).parents('li:eq(0)');
+						var nextNode = jQuery(this).parents('li:eq(0)').next();
 						/*
 						 * question html is looks like <li> <div> for class
 						 * <div> for listcontrol, it has children div of
 						 * listcontent <ul> for children questions </li>
 						 */
-						if (jq(nextNode).children('div:eq(1)').children(
+						if (jQuery(nextNode).children('div:eq(1)').children(
 								'div:eq(0)').size() == 0) {
-							var nextidx = jq(nextNode).attr("id").substring(8);
+							var nextidx = jQuery(nextNode).attr("id").substring(8);
 							var vers = "1.00";
 							// alert("set up table
-							// "+nextidx+"-"+jq(nextNode).children('div:eq(1)').children('a:eq(0)').attr("id"));
+							// "+nextidx+"-"+jQuery(nextNode).children('div:eq(1)').children('a:eq(0)').attr("id"));
 							var childNode = 'true';
-							if (jq(nextNode).parents('ul:eq(0)').attr("id") == 'example') {
+							if (jQuery(nextNode).parents('ul:eq(0)').attr("id") == 'example') {
 								childNode = 'false';
 							}
-							var splitq = jq("#question"+nextidx).attr("value").split("#f#");
+							var splitq = jQuery("#question"+nextidx).attr("value").split("#f#");
 							var divtmp = getMaintTable(splitq[0], splitq[1], splitq[2],nextidx, childNode);
-							divtmp.appendTo(jq(nextNode).children('div:eq(1)'));
+							divtmp.appendTo(jQuery(nextNode).children('div:eq(1)'));
 							toggleHSControl(nextidx);
 						}
 
@@ -1288,48 +1288,48 @@ function getMoveDownLink(curidx) {
 						if (nextNode.next().size() == 0) {
 							//alert("clone ")
 						var cloneNode = nextNode.clone(true);
-						cloneNode.appendTo(jq(nextNode).parents('ul:eq(0)'));
-						jq('#example').treeview( {
+						cloneNode.appendTo(jQuery(nextNode).parents('ul:eq(0)'));
+						jQuery('#example').treeview( {
 							add : cloneNode
 						});
 						}
 
 						curNode.insertAfter(nextNode);
-						var idx = jq(curNode).attr("id").substring(8);
-						var seq = Number(jq("#qseq" + idx).attr("value")) + 1;
-						jq("#qseq" + idx).attr("value", seq);
+						var idx = jQuery(curNode).attr("id").substring(8);
+						var seq = Number(jQuery("#qseq" + idx).attr("value")) + 1;
+						jQuery("#qseq" + idx).attr("value", seq);
 
-						var splitq = jq("#qnaireQuestions\\["+ idx+"\\]").attr("value").split("#f#");
+						var splitq = jQuery("#qnaireQuestions\\["+ idx+"\\]").attr("value").split("#f#");
 					    var tmpstr = splitq[0] +"#f#" +splitq[1] 
 				        +"#f#" +splitq[2] +"#f#" +splitq[3] +"#f#" +splitq[4] +"#f#" +splitq[5] +"#f#" +splitq[6] +"#f#" +
 				        splitq[7] +"#f#" +seq +"#f#" +splitq[9] +"#f#" +splitq[10] +"#f#" +splitq[11] ;
-					jq("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
+					jQuery("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
 						
-						//jq("#"+jqprefix + idx + "\\]\\.questionSeqNumber").attr("value",seq);
+						//jQuery("#"+jqprefix + idx + "\\]\\.questionSeqNumber").attr("value",seq);
 
 						//alert(idx)
-						jq("#moveup" + curNode.attr("id").substring(8)).show();
-						jq("#movedn" + nextNode.attr("id").substring(8)).show();
+						jQuery("#moveup" + curNode.attr("id").substring(8)).show();
+						jQuery("#movedn" + nextNode.attr("id").substring(8)).show();
 						if (nextNode.prev().size() == 0) {
 							// alert("move up next node");
-							jq("#moveup" + nextNode.attr("id").substring(8))
+							jQuery("#moveup" + nextNode.attr("id").substring(8))
 									.hide();
 						}
 						if (curNode.next().size() == 0 || curNode.next().attr("id") == nextNode.attr("id")) {
 							// see note from getmoveuplink for this weird condition check
 							// alert ("move dn no next node ");
-							jq("#movedn" + curNode.attr("id").substring(8))
+							jQuery("#movedn" + curNode.attr("id").substring(8))
 									.hide();
 						}
-						var idx = jq(nextNode).attr("id").substring(8);
-						seq = Number(jq("#qseq" + idx).attr("value")) - 1;
-						jq("#qseq" + idx).attr("value", seq);
-						var splitq = jq("#qnaireQuestions\\["+ idx+"\\]").attr("value").split("#f#");
+						var idx = jQuery(nextNode).attr("id").substring(8);
+						seq = Number(jQuery("#qseq" + idx).attr("value")) - 1;
+						jQuery("#qseq" + idx).attr("value", seq);
+						var splitq = jQuery("#qnaireQuestions\\["+ idx+"\\]").attr("value").split("#f#");
 					    var tmpstr = splitq[0] +"#f#" +splitq[1] 
 				        +"#f#" +splitq[2] +"#f#" +splitq[3] +"#f#" +splitq[4] +"#f#" +splitq[5] +"#f#" +splitq[6] +"#f#" +
 				        splitq[7] +"#f#" +seq +"#f#" +splitq[9] +"#f#" +splitq[10] +"#f#" +splitq[11] ;
-					jq("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
-//					    jq("#"+jqprefix + idx + "\\]\\.questionSeqNumber").attr("value",seq);
+					jQuery("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
+//					    jQuery("#"+jqprefix + idx + "\\]\\.questionSeqNumber").attr("value",seq);
 						// TODO : trying to group
 						swapGroupId(curNode, nextNode);
 	                    if (cloneNode) {
@@ -1341,9 +1341,9 @@ function getMoveDownLink(curidx) {
 					});
 	image.attr("src", "static/images/jquery/arrow-down.gif");
 	atag.html(image);
-	if (jq("#qnaireid" + curidx).next().size() == 0) {
-		// alert("movedn "+curidx+"-"+jq("#qnaireid" + curidx).attr("id"));
-		jq(atag).hide();
+	if (jQuery("#qnaireid" + curidx).next().size() == 0) {
+		// alert("movedn "+curidx+"-"+jQuery("#qnaireid" + curidx).attr("id"));
+		jQuery(atag).hide();
 	}
 	return atag;
 }
@@ -1352,29 +1352,29 @@ function getMoveDownLink(curidx) {
  * set up move up link
  */
 function getMoveUpLink(curidx) {
-	var image = jq('<img style="border:none;" alt="move up" title="Move up" type="image" >');
-	var atag = jq('<a href="#"></a>')
+	var image = jQuery('<img style="border:none;" alt="move up" title="Move up" type="image" >');
+	var atag = jQuery('<a href="#"></a>')
 			.attr("id", "moveup" + curidx)
 			.click(function() {
-				var curNode = jq(this).parents('li:eq(0)');
+				var curNode = jQuery(this).parents('li:eq(0)');
 
-					var nextNode = jq(this).parents('li:eq(0)').prev();
-					if (jq(nextNode).children('div:eq(1)').children('div:eq(0)')
+					var nextNode = jQuery(this).parents('li:eq(0)').prev();
+					if (jQuery(nextNode).children('div:eq(1)').children('div:eq(0)')
 							.size() == 0) {
-						var nextidx = jq(nextNode).attr("id").substring(8);
+						var nextidx = jQuery(nextNode).attr("id").substring(8);
 						var childNode = 'true';
-						if (jq(nextNode).parents('ul:eq(0)').attr("id") == 'example') {
+						if (jQuery(nextNode).parents('ul:eq(0)').attr("id") == 'example') {
 							childNode = 'false';
 						}
-						var splitq = jq("#question"+nextidx).attr("value").split("#f#");
+						var splitq = jQuery("#question"+nextidx).attr("value").split("#f#");
 
 						var divtmp = getMaintTable(splitq[0], splitq[1],splitq[2], nextidx, childNode);
-						divtmp.appendTo(jq(nextNode).children('div:eq(1)'));
+						divtmp.appendTo(jQuery(nextNode).children('div:eq(1)'));
 						toggleHSControl(nextidx);
 					}
 
 					
-					// jq(this).parents('li:eq(0)').remove();
+					// jQuery(this).parents('li:eq(0)').remove();
 					
 					/*
 					 * TODO : Following clone code is just a hack
@@ -1387,8 +1387,8 @@ function getMoveUpLink(curidx) {
 					if (curNode.next().size() == 0) {
 						//alert("clone ")
 					var cloneNode = curNode.clone(true);
-					cloneNode.appendTo(jq(nextNode).parents('ul:eq(0)'));
-					jq('#example').treeview( {
+					cloneNode.appendTo(jQuery(nextNode).parents('ul:eq(0)'));
+					jQuery('#example').treeview( {
 						add : cloneNode
 					});
 					}
@@ -1396,37 +1396,37 @@ function getMoveUpLink(curidx) {
 
 
 					curNode.insertBefore(nextNode);
-					var idx = jq(curNode).attr("id").substring(8);
-					var seq = Number(jq("#qseq" + idx).attr("value")) - 1;
-					jq("#qseq" + idx).attr("value", seq);
-					var splitq = jq("#qnaireQuestions\\["+ idx+"\\]").attr("value").split("#f#");
+					var idx = jQuery(curNode).attr("id").substring(8);
+					var seq = Number(jQuery("#qseq" + idx).attr("value")) - 1;
+					jQuery("#qseq" + idx).attr("value", seq);
+					var splitq = jQuery("#qnaireQuestions\\["+ idx+"\\]").attr("value").split("#f#");
 				    var tmpstr = splitq[0] +"#f#" +splitq[1] 
 			        +"#f#" +splitq[2] +"#f#" +splitq[3] +"#f#" +splitq[4] +"#f#" +splitq[5] +"#f#" +splitq[6] +"#f#" +
 			        splitq[7] +"#f#" +seq +"#f#" +splitq[9] +"#f#" +splitq[10] +"#f#" +splitq[11] ;
-				jq("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
-//				    jq("#"+jqprefix + idx + "\\]\\.questionSeqNumber").attr("value",seq);
+				jQuery("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
+//				    jQuery("#"+jqprefix + idx + "\\]\\.questionSeqNumber").attr("value",seq);
 
-				jq("#movedn" + curNode.attr("id").substring(8)).show();
-				jq("#moveup" + nextNode.attr("id").substring(8)).show();
+				jQuery("#movedn" + curNode.attr("id").substring(8)).show();
+				jQuery("#moveup" + nextNode.attr("id").substring(8)).show();
 				//alert ("cp nn size "+curNode.next().attr("id")+"-"+nextNode.prev().size())
 				if (curNode.prev().size() == 0) {
-					jq("#moveup" + curNode.attr("id").substring(8)).hide();
+					jQuery("#moveup" + curNode.attr("id").substring(8)).hide();
 				}
 				if (nextNode.next().size() == 0 || nextNode.next().attr("id") == curNode.attr("id")) {
 					// not sure why this one is = 1 if it is moved to the last one, still has curnode as 'next'
 					// so, move this manipulation before insert
 					// this is probably caused by the clonenode added after the last node, then removed it.
 					// FF's inspect element did not see it, not sure why jquery still thinks it exists.
-					jq("#movedn" + nextNode.attr("id").substring(8)).hide();
+					jQuery("#movedn" + nextNode.attr("id").substring(8)).hide();
 				}
-					idx = jq(nextNode).attr("id").substring(8);
-					seq = Number(jq("#qseq" + idx).attr("value")) + 1;
-					jq("#qseq" + idx).attr("value", seq);
-					var splitq = jq("#qnaireQuestions\\["+ idx+"\\]").attr("value").split("#f#");
+					idx = jQuery(nextNode).attr("id").substring(8);
+					seq = Number(jQuery("#qseq" + idx).attr("value")) + 1;
+					jQuery("#qseq" + idx).attr("value", seq);
+					var splitq = jQuery("#qnaireQuestions\\["+ idx+"\\]").attr("value").split("#f#");
 				    var tmpstr = splitq[0] +"#f#" +splitq[1] 
 			        +"#f#" +splitq[2] +"#f#" +splitq[3] +"#f#" +splitq[4] +"#f#" +splitq[5] +"#f#" +splitq[6] +"#f#" +
 			        splitq[7] +"#f#" +seq +"#f#" +splitq[9] +"#f#" +splitq[10] +"#f#" +splitq[11] ;
-				jq("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
+				jQuery("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
 					swapGroupId(curNode, nextNode);
 					
                     if (cloneNode) {
@@ -1437,8 +1437,8 @@ function getMoveUpLink(curidx) {
 				});
 	image.attr("src", "static/images/jquery/arrow-up.gif");
 	atag.html(image);
-	if (jq("#qnaireid" + curidx).prev().size() == 0) {
-		jq(atag).hide();
+	if (jQuery("#qnaireid" + curidx).prev().size() == 0) {
+		jQuery(atag).hide();
 	}
 	return atag;
 }
@@ -1447,65 +1447,65 @@ function getMoveUpLink(curidx) {
  * set up the 'add' question row
  */
 function getAddQuestionRow(curidx) {
-	var tbl95 = jq(
+	var tbl95 = jQuery(
 			'<table style="border:none; width:100%;" cellpadding="0" cellspacing="0"></table>')
 			.attr("id", "tbl95" + curidx);
-	var trtmp = jq('<tr></tr>');
-	var tdtmp = jq('<td style="border:none; width:170px;"></td>');
+	var trtmp = jQuery('<tr></tr>');
+	var tdtmp = jQuery('<td style="border:none; width:170px;"></td>');
 	
-	var newqtbl = jq(
+	var newqtbl = jQuery(
 	'<table style="border:none; width:100%;" cellpadding="0" cellspacing="0"></table>');
-	var newqtr = jq('<tr></tr>');
-	var newqtd = jq('<td style="border:none;"></td>');
+	var newqtr = jQuery('<tr></tr>');
+	var newqtd = jQuery('<td style="border:none;"></td>');
 
-	jq('<input type="radio" name = "radio" checked="checked" value="sibling" />')
+	jQuery('<input type="radio" name = "radio" checked="checked" value="sibling" />')
 			.attr("class", "radioQn" + curidx).attr("name", "radioQn" + curidx)
 			.appendTo(newqtd);
-	jq('<span>as sibling&nbsp;&nbsp;&nbsp</span>').appendTo(newqtd);
+	jQuery('<span>as sibling&nbsp;&nbsp;&nbsp</span>').appendTo(newqtd);
 	newqtd.appendTo(newqtr);
 	
-	newqtd = jq('<td style="border:none;"></td>');
-	jq('<input type="radio" name = "radio" value="child" />').attr("class",
+	newqtd = jQuery('<td style="border:none;"></td>');
+	jQuery('<input type="radio" name = "radio" value="child" />').attr("class",
 			"radioQn" + curidx).attr("name", "radioQn" + curidx)
 			.appendTo(newqtd);
-	jq('<span>as child</span>').appendTo(newqtd);
+	jQuery('<span>as child</span>').appendTo(newqtd);
 	newqtd.appendTo(newqtr);
 	newqtr.appendTo(newqtbl);
 	newqtbl.appendTo(tdtmp);
 	
 	tdtmp.appendTo(trtmp);
 
-	tdtmp = jq('<td style="border:none;"></td>')
+	tdtmp = jQuery('<td style="border:none;"></td>')
 			.html(
-					jq(
+					jQuery(
 							'<input type="text" id = "newqdesc" name = "newqdesc" size="50" value="" readonly = "true"/>')
 							.attr("id", "newqdesc" + curidx));
 	tdtmp.appendTo(trtmp);
-	tdtmp = jq('<td style="border:none; width:30px; text-align:center;"></td>');
+	tdtmp = jQuery('<td style="border:none; width:30px; text-align:center;"></td>');
 
-	var atag = jq('<a href="#"></a>');
+	var atag = jQuery('<a href="#"></a>');
 
 	// question id from lookup - to be added as sibling or child of this node
-	var qntag = jq('<input type="hidden" id = "newqid" name = "newqid" />')
+	var qntag = jQuery('<input type="hidden" id = "newqid" name = "newqid" />')
 			.attr("id", "newqid" + curidx).attr("name", "newqid" + curidx);
 	qntag.appendTo(tdtmp);
-	qntag = jq('<input type="hidden" id = "newqtypeid" name = "newqtypeid" />')
+	qntag = jQuery('<input type="hidden" id = "newqtypeid" name = "newqtypeid" />')
 			.attr("id", "newqtypeid" + curidx).attr("name","newqtypeid" + curidx);
 	qntag.appendTo(tdtmp);
-	qntag = jq('<input type="hidden" id = "newqvers" name = "newqvers" />')
+	qntag = jQuery('<input type="hidden" id = "newqvers" name = "newqvers" />')
 	    .attr("id", "newqvers" + curidx).attr("name","newqvers" + curidx);
     qntag.appendTo(tdtmp);
-    qntag = jq('<input type="hidden" id = "newqdispans" name = "newqdispans" />')
+    qntag = jQuery('<input type="hidden" id = "newqdispans" name = "newqdispans" />')
         .attr("id", "newqdispans" + curidx).attr("name","newqdispans" + curidx);
     qntag.appendTo(tdtmp);
-    qntag = jq('<input type="hidden" id = "newqmaxans" name = "newqmaxans" />')
+    qntag = jQuery('<input type="hidden" id = "newqmaxans" name = "newqmaxans" />')
        .attr("id", "newqmaxans" + curidx).attr("name","newqmaxans" + curidx);
     qntag.appendTo(tdtmp);
-    qntag = jq('<input type="hidden" id = "newqmaxlength" name = "newqmaxlength" />')
+    qntag = jQuery('<input type="hidden" id = "newqmaxlength" name = "newqmaxlength" />')
        .attr("id", "newqmaxlength" + curidx).attr("name","newqmaxlength" + curidx);
     qntag.appendTo(tdtmp);
 
-	var image = jq(
+	var image = jQuery(
 			'<img src="static/images/searchicon.gif" id="searchQ" name="searchQ" border="0" class="tinybutton"  alt="Search Question" title="Search Question">')
 			.attr("id", "search" + curidx).attr("name", "search" + curidx);
 	image.click(function() {
@@ -1514,10 +1514,10 @@ function getAddQuestionRow(curidx) {
 			// so, before figuring a solution, use this alternative to fin
 			// parents id.
 			var idx;
-			if (jq(this).attr("id") != '') {
-				idx = jq(this).attr("id").substring(6);
+			if (jQuery(this).attr("id") != '') {
+				idx = jQuery(this).attr("id").substring(6);
 			} else {
-				idx = jq(this).parents('li:eq(0)').attr("id").substring(8);
+				idx = jQuery(this).parents('li:eq(0)').attr("id").substring(8);
 			}
 			// alert (idx)
 			checkToAddQn(idx);
@@ -1527,46 +1527,46 @@ function getAddQuestionRow(curidx) {
 	atag.appendTo(tdtmp);
 	tdtmp.appendTo(trtmp);
 
-	image = jq(
+	image = jQuery(
 			'<input name="addquestionnaire" src="kr/static/images/tinybutton-add1.gif" style="border:none;" alt="add" title="Add questionnaire" type="image" />')
 			.attr("id", "addQn" + curidx)
 			.click(function() {
-				var idx = jq(this).attr("id").substring(5);
-				 //alert(jq("#newqdesc"+idx).attr("value")+"-"+jq("#newqdispans"+idx).attr("value"))
-					if (jq("#newqdesc" + idx).attr("value") == ''
-							|| jq("#newqtypeid" + idx).attr("value") == '') {
+				var idx = jQuery(this).attr("id").substring(5);
+				 //alert(jQuery("#newqdesc"+idx).attr("value")+"-"+jQuery("#newqdispans"+idx).attr("value"))
+					if (jQuery("#newqdesc" + idx).attr("value") == ''
+							|| jQuery("#newqtypeid" + idx).attr("value") == '') {
 						alert("Please select a question to add");
 					} else {
 						curi++;
 
-						var radioVal = jq(
-								".radioQn" + jq(this).attr("id").substring(5)
+						var radioVal = jQuery(
+								".radioQn" + jQuery(this).attr("id").substring(5)
 										+ ":checked").val();
 						var childNode = 'true';
 						if (radioVal == 'sibling'
-								&& jq(this).parents('li:eq(0)').parents(
+								&& jQuery(this).parents('li:eq(0)').parents(
 										'ul:eq(0)').attr("id") == 'example') {
 							childNode = 'false';
 						}
-						var listitem = getQuestionNew(jq(
-								"#newqdesc" + jq(this).attr("id").substring(5))
+						var listitem = getQuestionNew(jQuery(
+								"#newqdesc" + jQuery(this).attr("id").substring(5))
 								.attr("value"),
-								jq("#newqtypeid"+ jq(this).attr("id").substring(5)).attr("value"),
-								jq("#newqvers"+ jq(this).attr("id").substring(5)).attr("value"),
-								jq("#newqdispans"+ jq(this).attr("id").substring(5)).attr("value"),
-								jq("#newqmaxans"+ jq(this).attr("id").substring(5)).attr("value"),
-								jq("#newqmaxlength"+ jq(this).attr("id").substring(5)).attr("value"),
+								jQuery("#newqtypeid"+ jQuery(this).attr("id").substring(5)).attr("value"),
+								jQuery("#newqvers"+ jQuery(this).attr("id").substring(5)).attr("value"),
+								jQuery("#newqdispans"+ jQuery(this).attr("id").substring(5)).attr("value"),
+								jQuery("#newqmaxans"+ jQuery(this).attr("id").substring(5)).attr("value"),
+								jQuery("#newqmaxlength"+ jQuery(this).attr("id").substring(5)).attr("value"),
 								childNode);
-						var ultag = jq('<ul></ul>');
+						var ultag = jQuery('<ul></ul>');
 						ultag.appendTo(listitem);
 						var idx = listitem.attr("id").substring(8);
 						if (radioVal == 'sibling') {
 							// alert('sibling');
-							var parentUl = jq(this).parents('li:eq(0)').parents(
+							var parentUl = jQuery(this).parents('li:eq(0)').parents(
 									'ul:eq(0)');
-							listitem.insertAfter(jq(this).parents('li:eq(0)'));
-							jq("#movedn" + idx).hide();
-							jq(
+							listitem.insertAfter(jQuery(this).parents('li:eq(0)'));
+							jQuery("#movedn" + idx).hide();
+							jQuery(
 									"#movedn"
 											+ listitem.prev().attr("id")
 													.substring(8)).show();
@@ -1575,21 +1575,21 @@ function getAddQuestionRow(curidx) {
 							if (parentUl.attr("id") == 'example') {
 								// insert after, so assume current group 
 								// TODO : need to adjust group to 20/page ?
-								jq(listitem).attr("class", "group" + curgroup);
-								if (jq(".group"+curgroup).size() > 20) {
+								jQuery(listitem).attr("class", "group" + curgroup);
+								if (jQuery(".group"+curgroup).size() > 20) {
 									adjustGroupDown(); 
 								}	
 								//addToGroup(listitem);
 								if (curgroup == groupid) {
-									jq("#nextGroup").hide();
+									jQuery("#nextGroup").hide();
 								} else if (curgroup > 0) {
-									jq("#prevGroup").show();
+									jQuery("#prevGroup").show();
 								} else if (groupid > 0) {
-									jq("#nextGroup").show();
+									jQuery("#nextGroup").show();
 								}
 							}
 						} else {
-							var parentUl = jq(this).parents('li:eq(0)')
+							var parentUl = jQuery(this).parents('li:eq(0)')
 									.children('ul:eq(0)');
 							listitem.appendTo(parentUl);
 
@@ -1597,15 +1597,15 @@ function getAddQuestionRow(curidx) {
 							// 1st
 							// item. maybe use hide/show instead of 'remove'
 							// "==1" is the one just added
-							if (jq(this).parents('li:eq(0)')
+							if (jQuery(this).parents('li:eq(0)')
 									.children('ul:eq(0)').children('li').size() == 1) {
-								jq("#moveup" + idx).hide();
-								jq("#movedn" + idx).hide();
+								jQuery("#moveup" + idx).hide();
+								jQuery("#movedn" + idx).hide();
 							} else {
 								// alert("prev
 								// "+listitem.prev().attr("id"));
-								jq("#movedn" + idx).hide();
-								jq(
+								jQuery("#movedn" + idx).hide();
+								jQuery(
 										"#movedn"
 												+ listitem.prev().attr("id")
 														.substring(8)).show();
@@ -1613,93 +1613,93 @@ function getAddQuestionRow(curidx) {
 						}
 
 						// also need this to show 'folder' icon
-						jq('#example').treeview( {
+						jQuery('#example').treeview( {
 							add : listitem
 						});
 
 						//alert(childNode)
 						if (childNode == 'true') {
-							if (jq(this).parents('li:eq(0)').children('div:eq(0)').attr("class").indexOf("expandable") > 0) {
+							if (jQuery(this).parents('li:eq(0)').children('div:eq(0)').attr("class").indexOf("expandable") > 0) {
 	                               /* to force it to show the child node just added.
 	                                * the div 'class' is changing based on whether the node is expand or collapsed
 	                                */
-								jq(this).parents('li:eq(0)').children('div:eq(0)').click();
-									//jq("#listcontrol"+listitem.attr("id").substring(8)).click();
+								jQuery(this).parents('li:eq(0)').children('div:eq(0)').click();
+									//jQuery("#listcontrol"+listitem.attr("id").substring(8)).click();
 								}
 						}
 						// TODO : set up for insert
 						/*
 						 * questionnairenumber from #questionnairenumber
 						 * questionId from #qid sequenceNumber from
-						 * jq(this).parents('li:eq(0)').siblings().size() ?
+						 * jQuery(this).parents('li:eq(0)').siblings().size() ?
 						 */
-						// jq(listitem).parents('ul:eq(0)').parents('li:eq(0)').size()
+						// jQuery(listitem).parents('ul:eq(0)').parents('li:eq(0)').size()
 						// == 0 : check whetehr it is at the top level
 						var parentNum;
-						if (jq(listitem).parents('ul:eq(0)').parents('li:eq(0)')
+						if (jQuery(listitem).parents('ul:eq(0)').parents('li:eq(0)')
 								.size() == 0) {
 							parentNum = 0;
 						} else {
 							// alert("parents li
-							// "+jq(listitem).parents('ul:eq(0)').parents('li:eq(0)').attr("id"));
-							parentNum = jq(
+							// "+jQuery(listitem).parents('ul:eq(0)').parents('li:eq(0)').attr("id"));
+							parentNum = jQuery(
 									"#qnum"
-											+ jq(listitem).parents('ul:eq(0)')
+											+ jQuery(listitem).parents('ul:eq(0)')
 													.parents('li:eq(0)').attr(
 															"id").substring(8))
 									.attr("value");
 						}
-						jq("#qnum" + jq(listitem).attr("id").substring(8)).attr(
-								"value", jq("#questionNumber").attr("value"));
-						var qid = jq("#newqid" + jq(this).attr("id").substring(5))
+						jQuery("#qnum" + jQuery(listitem).attr("id").substring(8)).attr(
+								"value", jQuery("#questionNumber").attr("value"));
+						var qid = jQuery("#newqid" + jQuery(this).attr("id").substring(5))
 								.attr("value");
-						jq("#qid" + jq(listitem).attr("id").substring(8)).attr(
+						jQuery("#qid" + jQuery(listitem).attr("id").substring(8)).attr(
 								"value", qid);
 
-						var seqnum = Number(jq(listitem).siblings().size()) + 1;
+						var seqnum = Number(jQuery(listitem).siblings().size()) + 1;
 						if (radioVal == 'sibling') {
-							//var num = Number(jq("#qseq"+jq(this).attr("id").substring(5)).attr("value"))+1;
+							//var num = Number(jQuery("#qseq"+jQuery(this).attr("id").substring(5)).attr("value"))+1;
 							
-						    seqnum = Number(jq("#qseq"+jq(this).attr("id").substring(5)).attr("value"))+1;
+						    seqnum = Number(jQuery("#qseq"+jQuery(this).attr("id").substring(5)).attr("value"))+1;
 						   // seqnum = num;
-							//alert(seqnum+"-"+jq(this).attr("id"));
+							//alert(seqnum+"-"+jQuery(this).attr("id"));
 						    var nextseq = seqnum +1;
-						    var nextitem = jq(listitem).next();
+						    var nextitem = jQuery(listitem).next();
 						    // update seq for the siblings after the new node
 						    while (nextitem.size() > 0) {
-								var splitq = jq("#qnaireQuestions\\["+ nextitem.attr("id").substring(8)+"\\]").attr("value").split("#f#");
+								var splitq = jQuery("#qnaireQuestions\\["+ nextitem.attr("id").substring(8)+"\\]").attr("value").split("#f#");
 							    var tmpstr = splitq[0] +"#f#" +splitq[1] 
 						        +"#f#" +splitq[2] +"#f#" +splitq[3] +"#f#" +splitq[4] +"#f#" +splitq[5] +"#f#" +splitq[6] +"#f#" +
 						        splitq[7] +"#f#" +nextseq +"#f#" +splitq[9] +"#f#" +splitq[10] +"#f#" +splitq[11] ;
-							jq("#qnaireQuestions\\["+ nextitem.attr("id").substring(8)+"\\]").attr("value",tmpstr);
-//							    jq("#"+jqprefix + nextitem.attr("id").substring(8) + "\\]\\.questionSeqNumber").attr("value",nextseq);
-						    	jq("#qseq" + nextitem.attr("id").substring(8)).attr("value", nextseq++);	
+							jQuery("#qnaireQuestions\\["+ nextitem.attr("id").substring(8)+"\\]").attr("value",tmpstr);
+//							    jQuery("#"+jqprefix + nextitem.attr("id").substring(8) + "\\]\\.questionSeqNumber").attr("value",nextseq);
+						    	jQuery("#qseq" + nextitem.attr("id").substring(8)).attr("value", nextseq++);	
 						    	nextitem = nextitem.next();
 						    }	
 						}    
 						
-						var qnum = jq("#questionNumber").attr("value");
-						jq("#qseq" + jq(listitem).attr("id").substring(8)).attr("value", seqnum);
-						jq("#questionNumber").attr("value",
-								Number(jq("#questionNumber").attr("value")) + 1)
+						var qnum = jQuery("#questionNumber").attr("value");
+						jQuery("#qseq" + jQuery(listitem).attr("id").substring(8)).attr("value", seqnum);
+						jQuery("#questionNumber").attr("value",
+								Number(jQuery("#questionNumber").attr("value")) + 1)
 
-								idx = jq(listitem).attr("id").substring(8);		
-    var tmpstr = "" +"#f#" +jq('#document\\.newMaintainableObject\\.businessObject\\.questionnaireRefId').attr("value") 
+								idx = jQuery(listitem).attr("id").substring(8);		
+    var tmpstr = "" +"#f#" +jQuery('#document\\.newMaintainableObject\\.businessObject\\.questionnaireRefId').attr("value") 
           +"#f#" +qid +"#f#" +qnum +"#f#" +parentNum +"#f#" +"N" +"#f#" +"" +"#f#" +
           "" +"#f#" +seqnum +"#f#" +"1" +"#f#" +"N" +"#f#" +null ;
-	jq("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
+	jQuery("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
 
 								
 					}
 					return false;
 				});
 
-	tdtmp = jq('<td style="border:none; width:30px; text-align:center;"></td>');
+	tdtmp = jQuery('<td style="border:none; width:30px; text-align:center;"></td>');
 	image.appendTo(tdtmp);
 
 	tdtmp.appendTo(trtmp);
 	trtmp.appendTo(tbl95);
-	tdtmp = jq('<td/>');
+	tdtmp = jQuery('<td/>');
 	tbl95.appendTo(tdtmp);
 	return tdtmp;
 
@@ -1709,22 +1709,22 @@ function getAddQuestionRow(curidx) {
  * set up child to parent requirement table
  */
 function getRequirementDisplayTable(curidx) {
-	var tbl154 = jq('<table width="100%" cellpadding="0" cellspacing="0" style="border-top:#E4E3E4 solid 1px;">');
-	var trtmp = jq('<tr></tr>');
-	var thtmp = jq('<th style="background:#939393;height:18px;color:#FFFFFF;text-align:left;padding-left:4px;" colspan="3">');
+	var tbl154 = jQuery('<table width="100%" cellpadding="0" cellspacing="0" style="border-top:#E4E3E4 solid 1px;">');
+	var trtmp = jQuery('<tr></tr>');
+	var thtmp = jQuery('<th style="background:#939393;height:18px;color:#FFFFFF;text-align:left;padding-left:4px;" colspan="3">');
 	
 	thtmp.html("Requirements for Display");
 	var hsdiv = "#HSReqdiv" + curidx;
-	var image = jq(
+	var image = jQuery(
 			'<img src="kr/images/tinybutton-hide.gif" alt="show/hide this panel" title="show/hide this panel"  style="width:45px; height:15px; border:none; cursor:pointer; padding:2px; vertical-align:middle;" />')
 			.attr("id", "HSReqcontrol" + curidx).toggle(function() {
-				jq(hsdiv).slideDown(400);
-				jq(this).attr("src", "kr/static/images/tinybutton-hide.gif");
+				jQuery(hsdiv).slideDown(400);
+				jQuery(this).attr("src", "kr/static/images/tinybutton-hide.gif");
 			}, function() {
-				jq(hsdiv).slideUp(200);
-				jq(this).attr("src", "kr/static/images/tinybutton-show.gif");
+				jQuery(hsdiv).slideUp(200);
+				jQuery(this).attr("src", "kr/static/images/tinybutton-show.gif");
 			});
-	jq(image).click(); // if don't do this, then it needs to be clicked twice
+	jQuery(image).click(); // if don't do this, then it needs to be clicked twice
 	// for first time.
 	image.prependTo(thtmp);
 	thtmp.appendTo(trtmp);
@@ -1738,28 +1738,28 @@ function getRequirementDisplayTable(curidx) {
  */
 function getAddRequirementRow(curidx) {
 
-	var trtmp = jq('<tr></tr>');
-	var thtmp = jq('<th style="text-align:center; width:150px;"></th>').html(
+	var trtmp = jQuery('<tr></tr>');
+	var thtmp = jQuery('<th style="text-align:center; width:150px;"></th>').html(
 			"Add");
 	thtmp.appendTo(trtmp);
-	tdtmp = jq('<td class="content_info" style="text-align:center;"></td>')
+	tdtmp = jQuery('<td class="content_info" style="text-align:center;"></td>')
 			.html("Parent Response ");
 	// alert("response options "+responseOptions.html()+"-"+i);
 	var respclone = responseOptions.clone(true);
 	// if it is rootnode
-	if (jq("#qnaireid"+curidx).parents('ul:eq(0)').attr("id") == 'example') {
+	if (jQuery("#qnaireid"+curidx).parents('ul:eq(0)').attr("id") == 'example') {
 	    respclone = rootNodeResponseOptions.clone(true);
 	}
 	
 	respclone.attr("id", "parentResponse" + curidx).appendTo(tdtmp);
 	tdtmp.appendTo(trtmp);
-	tdtmp = jq('<td class="content_info" style="text-align:center;"></td>')
+	tdtmp = jQuery('<td class="content_info" style="text-align:center;"></td>')
 			.html("Value:");
-	jq('<input type="text" size="25" />').attr("id", "reqVal" + curidx).attr("name", "reqVal" + curidx).appendTo(tdtmp);
-//    var atag = jq('<a href="#"></a>');
-//    var image = jq('<img border="0" title="Search Rule" alt="Search Rule" class="tinybutton" src="static/images/searchicon.gif" />')
+	jQuery('<input type="text" size="25" />').attr("id", "reqVal" + curidx).attr("name", "reqVal" + curidx).appendTo(tdtmp);
+//    var atag = jQuery('<a href="#"></a>');
+//    var image = jQuery('<img border="0" title="Search Rule" alt="Search Rule" class="tinybutton" src="static/images/searchicon.gif" />')
 //            .attr("id", "search" + curidx).attr("name", "search" + curidx).click(function() {
-//         var nodeIndex = jq(this).attr("id").substring(6);
+//         var nodeIndex = jQuery(this).attr("id").substring(6);
 //         var url = window.location.href
 //         var pathname = window.location.pathname
 //         var idx1 = url.indexOf(pathname);
@@ -1773,21 +1773,21 @@ function getAddRequirementRow(curidx) {
 //            });
 //    image.appendTo(atag);
 //    atag.appendTo(tdtmp);        
-//    jq('<a href="#"><img border="0" title="Search Rule"
+//    jQuery('<a href="#"><img border="0" title="Search Rule"
 //                                            alt="Search Rule" class="tinybutton" 
 //                                             src="static/images/searchicon.gif"  onClick="clickSearchRule(${qidx})"></a>').appendTo(tdtmp);
 	tdtmp.appendTo(trtmp);
-	tdtmp = jq('<td class="content_info" class="content_white" style="width:65px; text-align:center;"></td>');
-	var image = jq(
+	tdtmp = jQuery('<td class="content_info" class="content_white" style="width:65px; text-align:center;"></td>');
+	var image = jQuery(
 			'<input name="addrequirement" src="kr/static/images/tinybutton-add1.gif" style="border:none;" alt="add" type="image" />')
 			.attr("id", "addrequirement" + curidx)
 			.click(
 					function() {
-						var idx = jq(this).attr("id").substring(14);
-						var response = jq(this).parents('tr:eq(0)').children(
+						var idx = jQuery(this).attr("id").substring(14);
+						var response = jQuery(this).parents('tr:eq(0)').children(
 								'td:eq(0)').children('select:eq(0)').attr(
 								"value");
-						var value = jq(this).parents('tr:eq(0)').children(
+						var value = jQuery(this).parents('tr:eq(0)').children(
 								'td:eq(1)').children('input:eq(0)').attr(
 								"value");
 						if (okToAddRequirement(response, value, idx)) {
@@ -1798,16 +1798,16 @@ function getAddRequirementRow(curidx) {
 							 */
 							var newResponse = getRequirementDeleteRow(
 									responseArray[response], value, idx);
-							newResponse.prependTo(jq(this).parents('div:eq(0)')
+							newResponse.prependTo(jQuery(this).parents('div:eq(0)')
 									.children('table:eq(0)').children('tbody'));
-							var idx = jq(this).parents('li:eq(0)').attr("id")
+							var idx = jQuery(this).parents('li:eq(0)').attr("id")
 									.substring(8);
-							var splitq = jq("#qnaireQuestions\\["+ idx+"\\]").attr("value").split("#f#");
+							var splitq = jQuery("#qnaireQuestions\\["+ idx+"\\]").attr("value").split("#f#");
 						    var tmpstr = splitq[0] +"#f#" +splitq[1] 
 					        +"#f#" +splitq[2] +"#f#" +splitq[3] +"#f#" +splitq[4] +"#f#" +"Y" +"#f#" +response +"#f#" +
 					        value +"#f#" +splitq[8] +"#f#" +splitq[9] +"#f#" +splitq[10] +"#f#" +splitq[11] ;
-						    jq("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
-							jq(this).parents('tr:eq(0)').remove();
+						    jQuery("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
+							jQuery(this).parents('tr:eq(0)').remove();
 						}
 						// }
 						return false;
@@ -1822,17 +1822,17 @@ function getAddRequirementRow(curidx) {
  * set up add requirement row
  */
 function getAddRuleRequirementRow(curidx) {
-	var trtmp = jq('<tr></tr>');
-	var thtmp = jq('<th style="text-align:left; width:150px;"></th>').html(
+	var trtmp = jQuery('<tr></tr>');
+	var thtmp = jQuery('<th style="text-align:left; width:150px;"></th>').html(
 			"Add Rule");
 	thtmp.appendTo(trtmp);
-	tdtmp = jq('<td colspan="2" align="left" class="content_info" style="text-align:left;"/>');
-	jq('<input type="text" size="25" />').attr("id", "ruleId" + curidx).attr("name", "ruleId" + curidx).appendTo(tdtmp);
-    var atag = jq('<a href="#"></a>');
-    var image = jq('<img border="0" title="Search Rule" alt="Search Rule" class="tinybutton" src="static/images/searchicon.gif" />')
+	tdtmp = jQuery('<td colspan="2" align="left" class="content_info" style="text-align:left;"/>');
+	jQuery('<input type="text" size="25" />').attr("id", "ruleId" + curidx).attr("name", "ruleId" + curidx).appendTo(tdtmp);
+    var atag = jQuery('<a href="#"></a>');
+    var image = jQuery('<img border="0" title="Search Rule" alt="Search Rule" class="tinybutton" src="static/images/searchicon.gif" />')
             .attr("id", "searchRule" + curidx).attr("name", "searchRule" + curidx).click(
        function() {
-         var nodeIndex = jq(this).attr("id").substring(10);
+         var nodeIndex = jQuery(this).attr("id").substring(10);
          var url = window.location.href
          var pathname = window.location.pathname
          var idx1 = url.indexOf(pathname);
@@ -1846,18 +1846,18 @@ function getAddRuleRequirementRow(curidx) {
             });
     image.appendTo(atag);
     atag.appendTo(tdtmp);        
-//    jq('<a href="#"><img border="0" title="Search Rule"
+//    jQuery('<a href="#"><img border="0" title="Search Rule"
 //                                            alt="Search Rule" class="tinybutton" 
 //                                             src="static/images/searchicon.gif"  onClick="clickSearchRule(${qidx})"></a>').appendTo(tdtmp);
 	tdtmp.appendTo(trtmp);
-	tdtmp = jq('<td class="content_info" class="content_white" style="width:65px; text-align:center;"></td>');
-	var image = jq(
+	tdtmp = jQuery('<td class="content_info" class="content_white" style="width:65px; text-align:center;"></td>');
+	var image = jQuery(
 			'<input name="addRuleRequirement" src="kr/static/images/tinybutton-add1.gif" style="border:none;" alt="add" type="image" />')
 			.attr("id", "addRuleRequirement" + curidx)
 			.click(
 					function() {
-						var idx = jq(this).attr("id").substring(18);
-						var value = jq(this).parents('tr:eq(0)').children(
+						var idx = jQuery(this).attr("id").substring(18);
+						var value = jQuery(this).parents('tr:eq(0)').children(
 								'td:eq(0)').children('input:eq(0)').attr(
 								"value");
 						if (value == '') {
@@ -1870,17 +1870,17 @@ function getAddRuleRequirementRow(curidx) {
 							 * opArray[operator]; }
 							 */
 							var newResponse = getRuleEvaluationDeleteRow(value, idx);
-							newResponse.appendTo(jq(this).parents('div:eq(0)')
+							newResponse.appendTo(jQuery(this).parents('div:eq(0)')
 									.children('table:eq(0)').children('tbody'));
-							var idx = jq(this).parents('li:eq(0)').attr("id")
+							var idx = jQuery(this).parents('li:eq(0)').attr("id")
 									.substring(8);
-							jq('<input type="hidden" size="25" />').attr("id", "ruleId" + curidx).attr("value", value);
-							var splitq = jq("#qnaireQuestions\\["+ idx+"\\]").attr("value").split("#f#");
+							jQuery('<input type="hidden" size="25" />').attr("id", "ruleId" + curidx).attr("value", value);
+							var splitq = jQuery("#qnaireQuestions\\["+ idx+"\\]").attr("value").split("#f#");
 						    var tmpstr = splitq[0] +"#f#" +splitq[1] 
 					        				+"#f#" +splitq[2] +"#f#" +splitq[3] +"#f#" +splitq[4] +"#f#" +splitq[5] +"#f#" +splitq[6] +"#f#" +
 					        				splitq[7] +"#f#" +splitq[8] +"#f#" +splitq[9] +"#f#" +splitq[10] +"#f#" +value ;
-						    jq("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
-							jq(this).parents('tr:eq(0)').remove();
+						    jQuery("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
+							jQuery(this).parents('tr:eq(0)').remove();
 						}
 						// }
 						return false;
@@ -1895,16 +1895,16 @@ function getAddRuleRequirementRow(curidx) {
  * validation of number and date
  */
 function okToAddRequirement(response, value, idx) {
-	jq("#qnaireid"+curi)
+	jQuery("#qnaireid"+curi)
 	if (value == '') {
         alert("Please enter a value");
         return false;
 	}
 // root node may have rule evaluation as response
-	if (jq("#qnaireid"+idx).parents('ul:eq(0)').parents('li:eq(0)').length > 0) {
+	if (jQuery("#qnaireid"+idx).parents('ul:eq(0)').parents('li:eq(0)').length > 0) {
 	// this is a child node, then check
-    	var stidx = jq("#qnaireid"+idx).parents('ul:eq(0)').parents('li:eq(0)').attr("id").substring(8);
-    	var splitq = jq("#question"+stidx).attr("value").split("#f#");
+    	var stidx = jQuery("#qnaireid"+idx).parents('ul:eq(0)').parents('li:eq(0)').attr("id").substring(8);
+    	var splitq = jQuery("#question"+stidx).attr("value").split("#f#");
 	var qtypeid = splitq[1];
 	//lookup 
 	if (qtypeid == 6 && splitq[5] > 0) {
@@ -1958,35 +1958,35 @@ function isValidBranchingCondition(parentQntypeId, response) {
  * set the newly added requirement row with 'delete' button
  */
 function getRequirementDeleteRow(response, value, curidx) {
-	var trtmp = jq('<tr></tr>');
-	var thtmp = jq('<th style="text-align:left; border-top:none; width:150px;">')
+	var trtmp = jQuery('<tr></tr>');
+	var thtmp = jQuery('<th style="text-align:left; border-top:none; width:150px;">')
 			.html("Current Requirements:");
 	thtmp.appendTo(trtmp);
-	var tdtmp = jq('<td colspan="2" style="text-align:left; border-top:none;">').html(
+	var tdtmp = jQuery('<td colspan="2" style="text-align:left; border-top:none;">').html(
 			response + " : " + value);
 	tdtmp.appendTo(trtmp);
-	tdtmp = jq('<td class="content_white" style="text-align:center; border-top:none; width:65px;">');
-	var image = jq(
+	tdtmp = jQuery('<td class="content_white" style="text-align:center; border-top:none; width:65px;">');
+	var image = jQuery(
 			'<input src="kr/static/images/tinybutton-delete1.gif"  style="border:none;" alt="delete" type="image" />')
 			.attr("id", "deletereq" + curidx).click(
 					function() {
 						// alert("This would delete this requirement."
-						// + jq(this).parents('tr:eq(0)').next().size());
-						var idx = jq(this).parents('li:eq(0)').attr("id")
+						// + jQuery(this).parents('tr:eq(0)').next().size());
+						var idx = jQuery(this).parents('li:eq(0)').attr("id")
 								.substring(8);
-						var splitq = jq("#qnaireQuestions\\["+ idx+"\\]").attr("value").split("#f#");
+						var splitq = jQuery("#qnaireQuestions\\["+ idx+"\\]").attr("value").split("#f#");
 					    var tmpstr = splitq[0] +"#f#" +splitq[1] 
 				        +"#f#" +splitq[2] +"#f#" +splitq[3] +"#f#" +splitq[4] +"#f#" +"N" +"#f#" +"" +"#f#" +
 				        "" +"#f#" +splitq[8] +"#f#" +splitq[9] +"#f#" +splitq[10] +"#f#" +splitq[11] ;
-					jq("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
+					jQuery("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
 						
 						getAddRequirementRow(idx).prependTo(
-								jq(this).parents('tr:eq(0)').parents(
+								jQuery(this).parents('tr:eq(0)').parents(
 										'tbody:eq(0)'));
-						jq(this).parents('tr:eq(0)').remove();
+						jQuery(this).parents('tr:eq(0)').remove();
 						return false;
 					});
-	if (jq("#readOnly").attr("value") != 'true') {
+	if (jQuery("#readOnly").attr("value") != 'true') {
 	image.appendTo(tdtmp);
 	}
 	tdtmp.appendTo(trtmp);
@@ -1994,34 +1994,34 @@ function getRequirementDeleteRow(response, value, curidx) {
 
 }
 function getRuleEvaluationDeleteRow(value, curidx) {
-	var trtmp = jq('<tr></tr>');
-	var thtmp = jq('<th style="text-align:left; border-top:none; width:150px;">')
+	var trtmp = jQuery('<tr></tr>');
+	var thtmp = jQuery('<th style="text-align:left; border-top:none; width:150px;">')
 			.html("Rule Id:");
 	thtmp.appendTo(trtmp);
-	var tdtmp = jq('<td colspan="2" align="left" style="text-align:left; border-top:none;">').html(value);
+	var tdtmp = jQuery('<td colspan="2" align="left" style="text-align:left; border-top:none;">').html(value);
 	tdtmp.appendTo(trtmp);
-	tdtmp = jq('<input type="hidden"/>').attr("id","ruleId"+curidx).attr("name","ruleId"+curidx).attr("value",value);
+	tdtmp = jQuery('<input type="hidden"/>').attr("id","ruleId"+curidx).attr("name","ruleId"+curidx).attr("value",value);
 	tdtmp.appendTo(trtmp);
-	tdtmp = jq('<td class="content_white" style="text-align:center; border-top:none; width:65px;">');
-	var image = jq(
+	tdtmp = jQuery('<td class="content_white" style="text-align:center; border-top:none; width:65px;">');
+	var image = jQuery(
 			'<input src="kr/static/images/tinybutton-delete1.gif"  style="border:none;" alt="delete" type="image" />')
 			.attr("id", "deleterulereq" + curidx).click(
 					function() {
 						// alert("This would delete this requirement."
-						// + jq(this).parents('tr:eq(0)').next().size());
-						var idx = jq(this).parents('li:eq(0)').attr("id").substring(8);
-						var splitq = jq("#qnaireQuestions\\["+ idx+"\\]").attr("value").split("#f#");
+						// + jQuery(this).parents('tr:eq(0)').next().size());
+						var idx = jQuery(this).parents('li:eq(0)').attr("id").substring(8);
+						var splitq = jQuery("#qnaireQuestions\\["+ idx+"\\]").attr("value").split("#f#");
 					    var tmpstr = splitq[0] +"#f#" +splitq[1] 
 				        				+"#f#" +splitq[2] +"#f#" +splitq[3] +"#f#" +splitq[4] +"#f#" +splitq[5] +"#f#" +splitq[6] +"#f#" +
 				        				splitq[7] +"#f#" +splitq[8] +"#f#" +splitq[9] +"#f#" +splitq[10] +"#f#" +null ;
-					    jq("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
+					    jQuery("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
 						getAddRuleRequirementRow(idx).appendTo(
-								jq(this).parents('tr:eq(0)').parents(
+								jQuery(this).parents('tr:eq(0)').parents(
 										'tbody:eq(0)'));
-						jq(this).parents('tr:eq(0)').remove();
+						jQuery(this).parents('tr:eq(0)').remove();
 						return false;
 					});
-	if (jq("#readOnly").attr("value") != 'true') {
+	if (jQuery("#readOnly").attr("value") != 'true') {
 		image.appendTo(tdtmp);
 	}
 	tdtmp.appendTo(trtmp);
@@ -2065,14 +2065,14 @@ function returnQuestion(newQuestionId, newQuestion, newQuestionTypeId,newQuestio
 	// will not stuck.
 	// questionid, description, and typeid returned from question lookup.
 	// alert("qid "+ nodeIndex+"-"+newQuestionId);
-	jq("#newqid" + nodeIndex).attr("value", newQuestionId);
-	jq("#newqdesc" + nodeIndex).attr("value", newQuestion);
-	jq("#newqtypeid" + nodeIndex).attr("value", newQuestionTypeId);
-	jq("#newqvers" + nodeIndex).attr("value", newQuestionSequence);
-	jq("#newqdispans" + nodeIndex).attr("value", displayedAnswers);
-	jq("#newqmaxans" + nodeIndex).attr("value", maxAnswers);
-	jq("#newqmaxlength" + nodeIndex).attr("value", answerMaxLength);
-	 //alert("qid "+ nodeIndex+"-"+jq("#newqdesc" + nodeIndex).attr("value")+"-"+newQuestion);
+	jQuery("#newqid" + nodeIndex).attr("value", newQuestionId);
+	jQuery("#newqdesc" + nodeIndex).attr("value", newQuestion);
+	jQuery("#newqtypeid" + nodeIndex).attr("value", newQuestionTypeId);
+	jQuery("#newqvers" + nodeIndex).attr("value", newQuestionSequence);
+	jQuery("#newqdispans" + nodeIndex).attr("value", displayedAnswers);
+	jQuery("#newqmaxans" + nodeIndex).attr("value", maxAnswers);
+	jQuery("#newqmaxlength" + nodeIndex).attr("value", answerMaxLength);
+	 //alert("qid "+ nodeIndex+"-"+jQuery("#newqdesc" + nodeIndex).attr("value")+"-"+newQuestion);
 }
 
 /*
@@ -2090,16 +2090,16 @@ function returnQuestionList(questionList) {
 	var parentidx = 0;
 	var firstidx = -1;
 	var initgroup = groupid;
-	if (jq(".group" + groupid).size() >= 20) {
+	if (jQuery(".group" + groupid).size() >= 20) {
 		initgroup++;
 	}
 	for ( var k = 0; k < questions.length; k++) {
 		var field = questions[k].split("#f#");
 		curi++;
-		var parenturl = jq('#example');
+		var parenturl = jQuery('#example');
 		// alert(questions[k]);
 		var listitem = getQuestionNew(field[1], field[2], field[3], field[4], field[5], field[6],'false');
-		var ultag = jq('<ul></ul>');
+		var ultag = jQuery('<ul></ul>');
 		ultag.appendTo(listitem);
 		var idx = listitem.attr("id").substring(8);
 		// listitem.appendTo('ul#example');
@@ -2108,45 +2108,45 @@ function returnQuestionList(questionList) {
 			firstidx = idx;
 		}
 
-		listitem.appendTo(jq(parenturl));
+		listitem.appendTo(jQuery(parenturl));
 		// also need this to show 'folder' icon
-		jq('#example').treeview( {
+		jQuery('#example').treeview( {
 			add : listitem
 		});
 		// TODO : try grouping
 		addToGroup(listitem);
 
-		// alert(jq(listitem).parents('ul:eq(0)').size());
-		if (jq(listitem).parents('ul:eq(0)').children('li').size() == 1) {
-			jq("#moveup" + idx).hide();
-			jq("#movedn" + idx).hide();
+		// alert(jQuery(listitem).parents('ul:eq(0)').size());
+		if (jQuery(listitem).parents('ul:eq(0)').children('li').size() == 1) {
+			jQuery("#moveup" + idx).hide();
+			jQuery("#movedn" + idx).hide();
 		} else {
 			// alert("prev "+listitem.prev().attr("id"));
-			jq("#movedn" + idx).hide();
+			jQuery("#movedn" + idx).hide();
 			if (listitem.prev().size() > 0) {
-				jq("#movedn" + listitem.prev().attr("id").substring(8)).show();
+				jQuery("#movedn" + listitem.prev().attr("id").substring(8)).show();
 			}
 		}
 
 		// TODO : set up for insert
 		/*
 		 * questionnairenumber from #questionnairenumber questionId from #qid
-		 * sequenceNumber from jq(this).parents('li:eq(0)').siblings().size() ?
+		 * sequenceNumber from jQuery(this).parents('li:eq(0)').siblings().size() ?
 		 */
 
-		jq("#qid" + jq(listitem).attr("id").substring(8)).attr("value", field[0]);
+		jQuery("#qid" + jQuery(listitem).attr("id").substring(8)).attr("value", field[0]);
 
-		var seqnum = Number(jq(listitem).siblings().size()) + 1;
-		jq("#qseq" + jq(listitem).attr("id").substring(8)).attr("value", seqnum);
-		var qnum = jq("#questionNumber").attr("value");
-		jq("#qnum" + jq(listitem).attr("id").substring(8)).attr("value", qnum);
-		jq("#questionNumber").attr("value",
-				Number(jq("#questionNumber").attr("value")) + 1)
+		var seqnum = Number(jQuery(listitem).siblings().size()) + 1;
+		jQuery("#qseq" + jQuery(listitem).attr("id").substring(8)).attr("value", seqnum);
+		var qnum = jQuery("#questionNumber").attr("value");
+		jQuery("#qnum" + jQuery(listitem).attr("id").substring(8)).attr("value", qnum);
+		jQuery("#questionNumber").attr("value",
+				Number(jQuery("#questionNumber").attr("value")) + 1)
 
-    var tmpstr = "" +"#f#" +jq('#document\\.newMaintainableObject\\.businessObject\\.questionnaireRefId').attr("value") 
+    var tmpstr = "" +"#f#" +jQuery('#document\\.newMaintainableObject\\.businessObject\\.questionnaireRefId').attr("value") 
           +"#f#" +field[0]+"#f#" +qnum +"#f#" +parentnum +"#f#" +"N" +"#f#" +"" +"#f#" +
           "" +"#f#" +seqnum +"#f#" +"1" +"#f#" +"N" +"#f#" +null ;
-	jq("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
+	jQuery("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
 				
 				
 
@@ -2157,36 +2157,36 @@ function returnQuestionList(questionList) {
 	 * to add the last one twice, then remove the clone one.  so, the last one looks like OK.
 	 * Should look into 'class' property to fix this hack
 	 */
-	var cloneNode = jq("#qnaireid"+curi).clone(true);
-	cloneNode.appendTo(jq('#example'));
-	jq('#example').treeview( {
+	var cloneNode = jQuery("#qnaireid"+curi).clone(true);
+	cloneNode.appendTo(jQuery('#example'));
+	jQuery('#example').treeview( {
 		add : cloneNode
 	});
 	cloneNode.remove();
 	
 	// alert(curgroup + "-" + initgroup + "-" + firstidx + "-" + groupid)
-	jq(".group" + curgroup).hide();
+	jQuery(".group" + curgroup).hide();
 	curgroup = initgroup;
-	jq(".group" + curgroup).show();
+	jQuery(".group" + curgroup).show();
 	while (initgroup++ < groupid) {
-		jq(".group" + initgroup).hide();
+		jQuery(".group" + initgroup).hide();
 	}
 
-	jq("#listcontrol" + firstidx).click();
+	jQuery("#listcontrol" + firstidx).click();
 	
 	if (groupid > 0) {
 		if (curgroup == groupid) {
-		    jq("#nextGroup").hide();
+		    jQuery("#nextGroup").hide();
 		} 
 		if (curgroup < groupid) {
-		    jq("#nextGroup").show();
+		    jQuery("#nextGroup").show();
 		} 
 		if (curgroup == 0) {
-		    jq("#nextGroup").show();
-		    jq("#prevGroup").hide();
+		    jQuery("#nextGroup").show();
+		    jQuery("#prevGroup").hide();
 		}
 		if (curgroup > 0) {
-		    jq("#prevGroup").show();
+		    jQuery("#prevGroup").show();
 		}
 	}	
 
@@ -2197,7 +2197,7 @@ function returnQuestionList(questionList) {
  */
 function getQnTypeDesc(qtypeid, idx) {
 	 //alert("gettypedesc "+qtypeid);
-	var splitq = jq("#question"+ idx).attr("value").split("#f#");
+	var splitq = jQuery("#question"+ idx).attr("value").split("#f#");
     var qdispans= splitq[3];
     var qansmax= splitq[4];
     var qmaxlength= splitq[5];
@@ -2206,50 +2206,50 @@ function getQnTypeDesc(qtypeid, idx) {
 	switch (Number(qtypeid)) {
 	// has to use Number(qtypeid)
 	case 1:
-		divtmp = jq('<div id="responsetypeYesNo1b" class="responsetypediv1b">')
+		divtmp = jQuery('<div id="responsetypeYesNo1b" class="responsetypediv1b">')
 				.html(
-						jq('<p>The user will be presented with the following radio buttons: Yes, No.<br />Only one selection is possible.<br />A selection is required.</p>'));
+						jQuery('<p>The user will be presented with the following radio buttons: Yes, No.<br />Only one selection is possible.<br />A selection is required.</p>'));
 		break;
 	case 2:
-		divtmp = jq('<div id="responsetypeYesNoNA1b" class="responsetypediv1b">')
+		divtmp = jQuery('<div id="responsetypeYesNoNA1b" class="responsetypediv1b">')
 				.html(
-						jq('<p>The user will be presented with the following pulldown: Yes, No, Not Applicable.<br />Only one selection is possible.<br />A selection is required.</p>'));
+						jQuery('<p>The user will be presented with the following pulldown: Yes, No, Not Applicable.<br />Only one selection is possible.<br />A selection is required.</p>'));
 		break;
 	case 3:
-		divtmp = jq('<div id="responsetypeNumber1b" class="responsetypediv1b">')
+		divtmp = jQuery('<div id="responsetypeNumber1b" class="responsetypediv1b">')
 				.html(
-						jq('<p>The user will be presented with '+qdispans+' text box.<br />The entered value will be validated requiring a number only.<br />The maximum length of the number in characters is '+qmaxlength+'.<br />The number of possible answers is '+qansmax+'. </p>'));
+						jQuery('<p>The user will be presented with '+qdispans+' text box.<br />The entered value will be validated requiring a number only.<br />The maximum length of the number in characters is '+qmaxlength+'.<br />The number of possible answers is '+qansmax+'. </p>'));
 		break;
 	case 4:
-		divtmp = jq('<div id="responsetypeDate1b" class="responsetypediv1b">')
+		divtmp = jQuery('<div id="responsetypeDate1b" class="responsetypediv1b">')
 				.html(
-						jq('<p>The user will be presented with '+qdispans+' text boxes.<br />The entered value will be validated for a date in MM/DD/YYYY format.<br />A response is required for each text box.</p>'));
+						jQuery('<p>The user will be presented with '+qdispans+' text boxes.<br />The entered value will be validated for a date in MM/DD/YYYY format.<br />A response is required for each text box.</p>'));
 		break;
 	case 5:
-		divtmp = jq('<div id="responsetypeText1b" class="responsetypediv1b">')
+		divtmp = jQuery('<div id="responsetypeText1b" class="responsetypediv1b">')
 				.html(
-						jq('<p>The user will be presented with '+qdispans+' text areas.<br />The number of possible answers is '+qansmax+'.<br />Maximum length of each response in characters: '+qmaxlength+'.</p>'));
+						jQuery('<p>The user will be presented with '+qdispans+' text areas.<br />The number of possible answers is '+qansmax+'.<br />Maximum length of each response in characters: '+qmaxlength+'.</p>'));
 		break;
 //	case 6:
-//		divtmp = jq(
+//		divtmp = jQuery(
 //				'<div id="responsetypeDropdown1b" class="responsetypediv1b">')
 //				.html(
-//						jq('<p>The user will be presented with a dropdown of options.<br />Only one selection is possible.<br />A selection is required.</p> Possible answers are:<br />1. One Fish<br />2. Two Fish<br />3. Red Fish<br />4. Blue Fish'));
+//						jQuery('<p>The user will be presented with a dropdown of options.<br />Only one selection is possible.<br />A selection is required.</p> Possible answers are:<br />1. One Fish<br />2. Two Fish<br />3. Red Fish<br />4. Blue Fish'));
 //		break;
 //	case 7:
-//		divtmp = jq(
+//		divtmp = jQuery(
 //				'<div id="responsetypeCheckbox1b" class="responsetypediv1b">')
 //				.html(
-//						jq('<p>The user will be presented with 4 checkboxes.<br />At least one selection is required.<br />Up to 4 selections are allowed.</p>Possible answers are:<br />1. One Byte<br />2. Two Bites<br />3. Red Light<br />4. Green lights'));
+//						jQuery('<p>The user will be presented with 4 checkboxes.<br />At least one selection is required.<br />Up to 4 selections are allowed.</p>Possible answers are:<br />1. One Byte<br />2. Two Bites<br />3. Red Light<br />4. Green lights'));
 //		break;
 	case 6:
-		divtmp = jq('<div id="responsetypeSearch1b" class="responsetypediv1b">')
+		divtmp = jQuery('<div id="responsetypeSearch1b" class="responsetypediv1b">')
 				.html(
-						jq('<p>The user will be presented with the ability to search for: '+qdispans+'.<br />The field to return is: '+qmaxlength+'.<br />The number of possible returns is '+qansmax+'.</p>'));
+						jQuery('<p>The user will be presented with the ability to search for: '+qdispans+'.<br />The field to return is: '+qmaxlength+'.<br />The number of possible returns is '+qansmax+'.</p>'));
 		break;
 	default:
-		divtmp = jq('<div id="responsetypeSearch1b" class="responsetypediv1b">')
-				.html(jq('<p>Unknown</p>'));
+		divtmp = jQuery('<div id="responsetypeSearch1b" class="responsetypediv1b">')
+				.html(jQuery('<p>Unknown</p>'));
 	}
 	return divtmp;
 }
@@ -2261,14 +2261,14 @@ function getQnTypeDesc(qtypeid, idx) {
  */
 function addToGroup(listitem) {
 	// TODO : try grouping
-	if (jq(".group" + groupid).size() >= 20) {
+	if (jQuery(".group" + groupid).size() >= 20) {
 		groupid++;
 	}
-	var currentClass = jq(listitem).attr("class");
-	jq(listitem).attr("class", "group" + groupid +" " + currentClass);
-	// jq(listitem).addClass("group" + groupid);
+	var currentClass = jQuery(listitem).attr("class");
+	jQuery(listitem).attr("class", "group" + groupid +" " + currentClass);
+	// jQuery(listitem).addClass("group" + groupid);
 	if (curgroup != groupid) {
-		jq(listitem).hide();
+		jQuery(listitem).hide();
 	}
 
 }
@@ -2278,18 +2278,18 @@ function addToGroup(listitem) {
  */
 function swapGroupId(curNode, nextNode) {
 	// class may like "group0 expandable ..", the last item has one more item
-	var curclass = jq(curNode).attr("class");
-	var nextclass = jq(nextNode).attr("class");
-	jq(curNode).attr("class", nextclass);
-	jq(nextNode).attr("class", curclass);
+	var curclass = jQuery(curNode).attr("class");
+	var nextclass = jQuery(nextNode).attr("class");
+	jQuery(curNode).attr("class", nextclass);
+	jQuery(nextNode).attr("class", curclass);
 	// alert(curclass+"-"+nextclass);
 	if (curclass.substring(0, 7).trim() != nextclass.substring(0, 7).trim()) {
-		jq(curNode).hide();
-		jq(nextNode).show();
+		jQuery(curNode).hide();
+		jQuery(nextNode).show();
 	}
 //	if (curclass != nextclass) {
-//		jq(curNode).attr("class", nextclass);
-//		jq(nextNode).attr("class", curclass);
+//		jQuery(curNode).attr("class", nextclass);
+//		jQuery(nextNode).attr("class", curclass);
 //	}
 }
 
@@ -2300,21 +2300,21 @@ function adjustGroup(idx) {
 	//alert(idx + "-" + groupid + "-" + curgroup )
 	while (idx < groupid) {
 		idx1 = Number(idx) + 1;
-		node = jq(".group" + idx1 + ":eq(0)");
-		nodeclass = jq(node).attr("class"); // may have multiple classes
+		node = jQuery(".group" + idx1 + ":eq(0)");
+		nodeclass = jQuery(node).attr("class"); // may have multiple classes
 		// specified
 		nodeclass = nodeclass.replace("group" + idx1, "group" + idx);
 		// alert(idx + "-" + groupid + "-" + curgroup + "-"
-		// + jq(".group" + idx1).size() + nodeclass);
-		jq(node).attr("class", nodeclass);
+		// + jQuery(".group" + idx1).size() + nodeclass);
+		jQuery(node).attr("class", nodeclass);
 		if (curgroup == idx) {
 			// alert("show");
-			jq(node).show();
+			jQuery(node).show();
 		}
 		idx++;
 		if (idx == groupid) {
 			// Note : size =1 because node is not removed yet
-			if (jq(".group" + idx).size() == 1) {
+			if (jQuery(".group" + idx).size() == 1) {
 				groupid--;
 			}
 		}
@@ -2322,34 +2322,34 @@ function adjustGroup(idx) {
 	}
 	//alert(idx +"-"+groupid+"-"+curgroup)
 	if (idx == groupid) {
-		if (jq(".group" + idx).size() == 1) {
+		if (jQuery(".group" + idx).size() == 1) {
 			groupid--;
 		}
 	}
 	
 	if (curgroup > groupid) {
-		jq(".group" + groupid).show();
+		jQuery(".group" + groupid).show();
 		curgroup = groupid;
-		jq("#nextGroup").hide();
+		jQuery("#nextGroup").hide();
 	}	
 
 	if (groupid > 0) {
 		if (curgroup == groupid) {
-		    jq("#nextGroup").hide();
+		    jQuery("#nextGroup").hide();
 		} 
 		if (curgroup < groupid) {
-		    jq("#nextGroup").show();
+		    jQuery("#nextGroup").show();
 		} 
 		if (curgroup == 0) {
-		    jq("#nextGroup").show();
-		    jq("#prevGroup").hide();
+		    jQuery("#nextGroup").show();
+		    jQuery("#prevGroup").hide();
 		}
 		if (curgroup > 0) {
-		    jq("#prevGroup").show();
+		    jQuery("#prevGroup").show();
 		}
 	} else {
-	    jq("#nextGroup").hide();
-	    jq("#prevGroup").hide();
+	    jQuery("#nextGroup").hide();
+	    jQuery("#prevGroup").hide();
 	}
 }
 
@@ -2360,35 +2360,35 @@ function adjustGroupDown() {
 	
 	var idx = curgroup;
 	
-	while (idx < groupid  && jq(".group"+idx).size() > 20) {
+	while (idx < groupid  && jQuery(".group"+idx).size() > 20) {
 		var idx1 = Number(idx) + 1;
-		node = jq(".group" + idx + ":eq(20)");
-		nodeclass = jq(node).attr("class"); // may have multiple classes
+		node = jQuery(".group" + idx + ":eq(20)");
+		nodeclass = jQuery(node).attr("class"); // may have multiple classes
 		// specified
 		nodeclass = nodeclass.replace("group" + idx, "group" + idx1);
-		jq(node).attr("class", nodeclass);
+		jQuery(node).attr("class", nodeclass);
 		if (curgroup == idx) {
 			// alert("show");
-			jq(node).hide();
+			jQuery(node).hide();
 		}
 		idx++;
 		// alert("loop back " + idx + "<" + groupid);
 	}
 
 	if (idx == groupid) {
-		if (jq(".group" + idx).size()> 20) {
+		if (jQuery(".group" + idx).size()> 20) {
 			groupid++;
-			var node = jq(".group" + idx + ":eq(20)");
-			var nodeclass = jq(node).attr("class"); // may have multiple classes
+			var node = jQuery(".group" + idx + ":eq(20)");
+			var nodeclass = jQuery(node).attr("class"); // may have multiple classes
 			// specified
 			nodeclass = nodeclass.replace("group" + idx, "group" + groupid);
-			jq(node).attr("class", nodeclass);
+			jQuery(node).attr("class", nodeclass);
 			if (curgroup == idx) {
 				// alert("show");
-				jq(node).hide();
+				jQuery(node).hide();
 			}
 			if (curgroup == (groupid-1)) {
-				jq("#nextGroup").show();
+				jQuery("#nextGroup").show();
 			}	
 
 		}
@@ -2409,87 +2409,87 @@ var responseArray = [ 'select', 'Contains text value', 'Begins with text', 'Ends
 var questionType = [ 'select', 'Yes/No', 'Yes/No/NA', 'Number', 'Date', 'Text',
 		'Lookup' ];
 
-var responseOptions = jq('<select name="CustomData"></select>');
-jq('<option value="0" selected="selected">select</option>').appendTo(
+var responseOptions = jQuery('<select name="CustomData"></select>');
+jQuery('<option value="0" selected="selected">select</option>').appendTo(
 		responseOptions);
-jq('<option value="1">Contains text value</option>').appendTo(responseOptions);
-jq('<option value="2">Begins with text</option>').appendTo(responseOptions);
-jq('<option value="3">Ends with text</option>').appendTo(responseOptions);
-jq('<option value="4">Matches text</option>').appendTo(responseOptions);
-jq('<option value="5">Less than number</option>').appendTo(responseOptions);
-jq('<option value="6">Less than or equals number</option>').appendTo(
+jQuery('<option value="1">Contains text value</option>').appendTo(responseOptions);
+jQuery('<option value="2">Begins with text</option>').appendTo(responseOptions);
+jQuery('<option value="3">Ends with text</option>').appendTo(responseOptions);
+jQuery('<option value="4">Matches text</option>').appendTo(responseOptions);
+jQuery('<option value="5">Less than number</option>').appendTo(responseOptions);
+jQuery('<option value="6">Less than or equals number</option>').appendTo(
 		responseOptions);
-jq('<option value="7">Equals number</option>').appendTo(responseOptions);
-jq('<option value="8">Not Equal to number</option>').appendTo(responseOptions);
-jq('<option value="9">Greater than or equals number</option>').appendTo(
+jQuery('<option value="7">Equals number</option>').appendTo(responseOptions);
+jQuery('<option value="8">Not Equal to number</option>').appendTo(responseOptions);
+jQuery('<option value="9">Greater than or equals number</option>').appendTo(
 		responseOptions);
-jq('<option value="10">Greater than number</option>').appendTo(responseOptions);
-jq('<option value="11">Before date</option>').appendTo(responseOptions);
-jq('<option value="12">After date</option>').appendTo(responseOptions);
-jq('<option value="13">Rule Evaluation</option>').appendTo(responseOptions);
+jQuery('<option value="10">Greater than number</option>').appendTo(responseOptions);
+jQuery('<option value="11">Before date</option>').appendTo(responseOptions);
+jQuery('<option value="12">After date</option>').appendTo(responseOptions);
+jQuery('<option value="13">Rule Evaluation</option>').appendTo(responseOptions);
 
 // root node only has rule evaluation
-var rootNodeResponseOptions = jq('<select name="CustomData"></select>');
-jq('<option value="0" selected="selected">select</option>').appendTo(
+var rootNodeResponseOptions = jQuery('<select name="CustomData"></select>');
+jQuery('<option value="0" selected="selected">select</option>').appendTo(
         rootNodeResponseOptions);
-jq('<option value="13">Rule Evaluation</option>').appendTo(rootNodeResponseOptions);
+jQuery('<option value="13">Rule Evaluation</option>').appendTo(rootNodeResponseOptions);
 
 // TODO : currently this one is not working copied to questionnairequestion.jsp
-jq("#addUsage")
+jQuery("#addUsage")
 		.click(function() {
 			// TODO : 1 header and one 'add' row, so has 2 more
-			if (jq("#newQuestionnaireUsage\\.moduleItemCode").attr("value") == '') {
+			if (jQuery("#newQuestionnaireUsage\\.moduleItemCode").attr("value") == '') {
 				alert("Please select a module");
-			} else if (jq("#newQuestionnaireUsage\\.questionnaireLabel").attr("value") == '') {
+			} else if (jQuery("#newQuestionnaireUsage\\.questionnaireLabel").attr("value") == '') {
 				alert("Please enter Label");
-			} else  if (isDuplicateUsage(jq("#newQuestionnaireUsage\\.moduleItemCode").attr("value"),jq("#newQuestionnaireUsage\\.moduleSubItemCode").attr("value"), qnversion)) {
+			} else  if (isDuplicateUsage(jQuery("#newQuestionnaireUsage\\.moduleItemCode").attr("value"),jQuery("#newQuestionnaireUsage\\.moduleSubItemCode").attr("value"), qnversion)) {
 				alert("Module is already added");
 			} else {	
-				trtmp = jq('<tr/>').attr("id", "usage" + ucount);
-				thtmp = jq('<th class="infoline"/>').html(ucount);
+				trtmp = jQuery('<tr/>').attr("id", "usage" + ucount);
+				thtmp = jQuery('<th class="infoline"/>').html(ucount);
 				thtmp.appendTo(trtmp);
-				tdtmp = jq('<td align="left" valign="middle">')
-						.html(jq("#newQuestionnaireUsage\\.moduleItemCode option:selected").text());
+				tdtmp = jQuery('<td align="left" valign="middle">')
+						.html(jQuery("#newQuestionnaireUsage\\.moduleItemCode option:selected").text());
 				
-				modulecode = jq('<input type="hidden"/>').attr(
+				modulecode = jQuery('<input type="hidden"/>').attr(
 						"value",
-						jq("#newQuestionnaireUsage\\.moduleItemCode").attr(
+						jQuery("#newQuestionnaireUsage\\.moduleItemCode").attr(
 								"value"));
 				modulecode.prependTo(tdtmp);
 				tdtmp.appendTo(trtmp);
-				tdtmp = jq('<td align="left" valign="middle">')
-				.html(jq("#newQuestionnaireUsage\\.moduleSubItemCode option:selected").text());
+				tdtmp = jQuery('<td align="left" valign="middle">')
+				.html(jQuery("#newQuestionnaireUsage\\.moduleSubItemCode option:selected").text());
 				
-				subModulecode = jq('<input type="hidden"/>').attr(
+				subModulecode = jQuery('<input type="hidden"/>').attr(
 						"value",
-						jq("#newQuestionnaireUsage\\.moduleSubItemCode").attr(
+						jQuery("#newQuestionnaireUsage\\.moduleSubItemCode").attr(
 								"value"));
 				subModulecode.prependTo(tdtmp);
 
 				tdtmp.appendTo(trtmp);
-				var radioChecked = jq("#newQuestionnaireUsage\\.mandatory").attr('checked');
+				var radioChecked = jQuery("#newQuestionnaireUsage\\.mandatory").attr('checked');
                 var mandatoryValue = "No";
 				if (radioChecked) {
 	                mandatoryValue = "Yes";
 				}
-				tdtmp = jq('<td align="left" valign="middle">').html(mandatoryValue);
+				tdtmp = jQuery('<td align="left" valign="middle">').html(mandatoryValue);
 				tdtmp.appendTo(trtmp);
 
-				tdtmp = jq('<td align="left" valign="middle">').html(
-						jq("#newQuestionnaireUsage\\.questionnaireLabel").attr(
+				tdtmp = jQuery('<td align="left" valign="middle">').html(
+						jQuery("#newQuestionnaireUsage\\.questionnaireLabel").attr(
 								"value"));
 				tdtmp.appendTo(trtmp);
-				tdtmp = jq('<td align="left" valign="middle">').html(qnversion);
+				tdtmp = jQuery('<td align="left" valign="middle">').html(qnversion);
 				tdtmp.appendTo(trtmp);
-				inputtmp = jq(
+				inputtmp = jQuery(
 						'<input type="image" id="deleteUsage" name="deleteUsage" title="Delete Usage" src="static/images/tinybutton-delete1.gif" class="tinybutton">')
 						.attr("id", "deleteUsage" + ucount).click(function() {
-								shiftUsage(jq(this).attr("id").substring(11));
+								shiftUsage(jQuery(this).attr("id").substring(11));
 								ucount--;
-								jq("#utr"+ucount).remove();
+								jQuery("#utr"+ucount).remove();
 								// TODO : delete usage also need to update 'item
 								// number' in the first column
-								curnode = jq(this).parents('tr:eq(0)');
+								curnode = jQuery(this).parents('tr:eq(0)');
 								while (curnode.next().size() > 0) {
 									curnode = curnode.next();
 									// alert(Number(curnode.children('th:eq(0)').html())-1);
@@ -2497,34 +2497,34 @@ jq("#addUsage")
 											Number(curnode.children('th:eq(0)')
 													.html()) - 1)
 								}
-								jq(this).parents('tr:eq(0)').remove();
+								jQuery(this).parents('tr:eq(0)').remove();
 								return false;
 							});
-				tdtmp = jq('<td align="left" valign="middle">');
-				jq('<div align="center">').html(inputtmp).appendTo(tdtmp);
+				tdtmp = jQuery('<td align="left" valign="middle">');
+				jQuery('<div align="center">').html(inputtmp).appendTo(tdtmp);
 				tdtmp.appendTo(trtmp);
-				trtmp.appendTo(jq("#usage-table"));
+				trtmp.appendTo(jQuery("#usage-table"));
 		        // usage hidden fields
-		        var hidtr = jq('<tr id = "utr" name = "utr"/>').attr("id","utr"+ucount).attr("name", "utr"+ucount);
-		        var hidtd = jq('<td colspan="2"/>');
+		        var hidtr = jQuery('<tr id = "utr" name = "utr"/>').attr("id","utr"+ucount).attr("name", "utr"+ucount);
+		        var hidtd = jQuery('<td colspan="2"/>');
 		        // question id for this node
 		        
 		        getUsageHidden("questionnaireUsageId", "").appendTo(hidtd);
-		        getUsageHidden("moduleItemCode", jq("#newQuestionnaireUsage\\.moduleItemCode").attr("value")).appendTo(hidtd);
-		        getUsageHidden("moduleSubItemCode", jq("#newQuestionnaireUsage\\.moduleSubItemCode").attr("value")).appendTo(hidtd);
+		        getUsageHidden("moduleItemCode", jQuery("#newQuestionnaireUsage\\.moduleItemCode").attr("value")).appendTo(hidtd);
+		        getUsageHidden("moduleSubItemCode", jQuery("#newQuestionnaireUsage\\.moduleSubItemCode").attr("value")).appendTo(hidtd);
                 
-		        getUsageMandatoryHiddenTag(jq("#newQuestionnaireUsage\\.mandatory").attr("checked")).appendTo(hidtd);
-		        //getUsageHidden("mandatory", jq("#newQuestionnaireUsage\\.mandatory").attr("value")).appendTo(hidtd);
-		        getUsageHidden("questionnaireLabel", jq("#newQuestionnaireUsage\\.questionnaireLabel").attr("value")).appendTo(hidtd);
+		        getUsageMandatoryHiddenTag(jQuery("#newQuestionnaireUsage\\.mandatory").attr("checked")).appendTo(hidtd);
+		        //getUsageHidden("mandatory", jQuery("#newQuestionnaireUsage\\.mandatory").attr("value")).appendTo(hidtd);
+		        getUsageHidden("questionnaireLabel", jQuery("#newQuestionnaireUsage\\.questionnaireLabel").attr("value")).appendTo(hidtd);
 		        getUsageHidden("questionnaireSequenceNumber", qnversion).appendTo(hidtd);
 		        getUsageHidden("ruleId", "0").appendTo(hidtd);
 		        getUsageHidden("versionNumber", "1").appendTo(hidtd);
-		        getUsageHidden("questionnaireRefIdFk", jq('#document\\.newMaintainableObject\\.businessObject\\.questionnaireRefId').attr("value")).appendTo(hidtd);
+		        getUsageHidden("questionnaireRefIdFk", jQuery('#document\\.newMaintainableObject\\.businessObject\\.questionnaireRefId').attr("value")).appendTo(hidtd);
 		        
 		        hidtd.appendTo(hidtr);
 		        hidtr.hide(); // FF rendering issue. If not hided, then 'line' will be
 		        // drawn at the bottom of the table for each Q hidden row
-		        hidtr.appendTo(jq("#usage-table"));
+		        hidtr.appendTo(jQuery("#usage-table"));
 				ucount++;
 
 			   }// end if-then-else
@@ -2534,8 +2534,8 @@ jq("#addUsage")
 /*
  * search icon click function at the root level.  This will result in multi-value lookup.
  */
-jq("#rootSearch").click(function() {
-	// alert(jq(this).parents('li:eq(0)').attr("id"));
+jQuery("#rootSearch").click(function() {
+	// alert(jQuery(this).parents('li:eq(0)').attr("id"));
 		// TODO : IE problem. after the node is moved up or down, then the "id"
 		// of the image got lost.
 		// so, before figuring a solution, use this alternative to fin parents
@@ -2548,15 +2548,15 @@ function shiftUsage(uidx) {
 	var k = uidx;
 	while (k < (ucount -1)) {
 		//alert(ucount+"-"+(k-1))
-		jq("#"+juprefix+ (k-1)+"\\]\\.questionnaireUsageId").attr("value",jq("#"+juprefix+k+"\\]\\.questionnaireUsageId").attr("value"));
-		jq("#"+juprefix+ (k-1)+"\\]\\.moduleItemCode").attr("value",jq("#"+juprefix+k+"\\]\\.moduleItemCode").attr("value"));
-		jq("#"+juprefix+ (k-1)+"\\]\\.moduleSubItemCode").attr("value",jq("#"+juprefix+k+"\\]\\.moduleSubItemCode").attr("value"));
-		jq("#"+juprefix+ (k-1)+"\\]\\.mandatory").attr("checked",jq("#"+juprefix+k+"\\]\\.mandatory").attr("checked"));
-		jq("#"+juprefix+ (k-1)+"\\]\\.questionnaireLabel").attr("value",jq("#"+juprefix+k+"\\]\\.questionnaireLabel").attr("value"));
-		jq("#"+juprefix+ (k-1)+"\\]\\.questionnaireSequenceNumber").attr("value",jq("#"+juprefix+k+"\\]\\.questionnaireSequenceNumber").attr("value"));
-		jq("#"+juprefix+ (k-1)+"\\]\\.ruleId").attr("value",jq("#"+juprefix+k+"\\]\\.ruleId").attr("value"));
-		jq("#"+juprefix+ (k-1)+"\\]\\.versionNumber").attr("value",jq("#"+juprefix+k+"\\]\\.versionNumber").attr("value"));
-		jq("#"+juprefix+ (k-1)+"\\]\\.questionnaireRefIdFk").attr("value",jq("#"+juprefix+k+"\\]\\.questionnaireRefIdFk").attr("value"));
+		jQuery("#"+juprefix+ (k-1)+"\\]\\.questionnaireUsageId").attr("value",jQuery("#"+juprefix+k+"\\]\\.questionnaireUsageId").attr("value"));
+		jQuery("#"+juprefix+ (k-1)+"\\]\\.moduleItemCode").attr("value",jQuery("#"+juprefix+k+"\\]\\.moduleItemCode").attr("value"));
+		jQuery("#"+juprefix+ (k-1)+"\\]\\.moduleSubItemCode").attr("value",jQuery("#"+juprefix+k+"\\]\\.moduleSubItemCode").attr("value"));
+		jQuery("#"+juprefix+ (k-1)+"\\]\\.mandatory").attr("checked",jQuery("#"+juprefix+k+"\\]\\.mandatory").attr("checked"));
+		jQuery("#"+juprefix+ (k-1)+"\\]\\.questionnaireLabel").attr("value",jQuery("#"+juprefix+k+"\\]\\.questionnaireLabel").attr("value"));
+		jQuery("#"+juprefix+ (k-1)+"\\]\\.questionnaireSequenceNumber").attr("value",jQuery("#"+juprefix+k+"\\]\\.questionnaireSequenceNumber").attr("value"));
+		jQuery("#"+juprefix+ (k-1)+"\\]\\.ruleId").attr("value",jQuery("#"+juprefix+k+"\\]\\.ruleId").attr("value"));
+		jQuery("#"+juprefix+ (k-1)+"\\]\\.versionNumber").attr("value",jQuery("#"+juprefix+k+"\\]\\.versionNumber").attr("value"));
+		jQuery("#"+juprefix+ (k-1)+"\\]\\.questionnaireRefIdFk").attr("value",jQuery("#"+juprefix+k+"\\]\\.questionnaireRefIdFk").attr("value"));
 		k++;
 	}	
 }
@@ -2565,20 +2565,20 @@ function shiftUsage(uidx) {
 /*
  * function when 'next' button is clicked. Move to next page of 20 questions
  */
-jq("#nextGroup").click(function() {
+jQuery("#nextGroup").click(function() {
 	if (groupid != curgroup) {
-		jq(".group" + curgroup).hide();
+		jQuery(".group" + curgroup).hide();
 		if (++curgroup == groupid) {
-			jq("#nextGroup").hide();
+			jQuery("#nextGroup").hide();
 		}
 		if (curgroup  == 1) {
-			jq("#prevGroup").show();
+			jQuery("#prevGroup").show();
 		} 
-		jq(".group" + curgroup).show();
-		// alert(jq(".group"+curgroup+":eq(0)").attr("id"));
-		jq(
+		jQuery(".group" + curgroup).show();
+		// alert(jQuery(".group"+curgroup+":eq(0)").attr("id"));
+		jQuery(
 				"#listcontrol"
-						+ jq(".group" + curgroup + ":eq(0)").attr("id")
+						+ jQuery(".group" + curgroup + ":eq(0)").attr("id")
 								.substring(8)).click();
 //		jumpToAnchor('topOfForm');
 	}
@@ -2589,35 +2589,35 @@ jq("#nextGroup").click(function() {
 /*
  * function when 'back' button is clicked. Move to previous page of 20 questions
  */
-jq("#prevGroup").click(function() {
+jQuery("#prevGroup").click(function() {
 	// alert ("prevgroup");
 	if (groupid > 0) {
-		jq(".group" + curgroup).hide();
+		jQuery(".group" + curgroup).hide();
 		if (--curgroup == 0) {
-			jq("#prevGroup").hide();
+			jQuery("#prevGroup").hide();
 		} 
 		if (curgroup == (groupid-1)) {
-			jq("#nextGroup").show();
+			jQuery("#nextGroup").show();
 		}	
-		jq(".group" + curgroup).show();
-		// alert(jq(".group"+curgroup+":eq(0)").attr("id"));
-		jq(
+		jQuery(".group" + curgroup).show();
+		// alert(jQuery(".group"+curgroup+":eq(0)").attr("id"));
+		jQuery(
 				"#listcontrol"
-						+ jq(".group" + curgroup + ":eq(0)").attr("id")
+						+ jQuery(".group" + curgroup + ":eq(0)").attr("id")
 								.substring(8)).click();
 	}
 	return false;
 
 });
 
-jq("#backToTop").click(function() {
-	jq(".group" + curgroup).hide();
+jQuery("#backToTop").click(function() {
+	jQuery(".group" + curgroup).hide();
 	curgroup = 0;
-	jq(".group" + curgroup).show();
-	// alert(jq(".group"+curgroup+":eq(0)").attr("id"));
-		jq(
+	jQuery(".group" + curgroup).show();
+	// alert(jQuery(".group"+curgroup+":eq(0)").attr("id"));
+		jQuery(
 				"#listcontrol"
-						+ jq(".group" + curgroup + ":eq(0)").attr("id")
+						+ jQuery(".group" + curgroup + ":eq(0)").attr("id")
 								.substring(8)).click();
 		jumpToAnchor('topOfForm');
 		return false;
@@ -2628,58 +2628,58 @@ jq("#backToTop").click(function() {
 // questionnaire.
 // First save questionnaire bo because 'description'
 
-jq(document).ready(function() {
+jQuery(document).ready(function() {
 
-    if (jq("#maintAction").attr("value") != 'Copy') {
-        jq("#globalbuttons").find('input').each(function() {
-              //alert(jq(this).attr("name"));
-              if (jq(this).attr("name") == 'methodToCall.route') {
-                  jq(this).attr("id","route");
-              } else if (jq(this).attr("name") == 'methodToCall.save') {
-                  jq(this).attr("id","save");
-              } else if (jq(this).attr("name") == 'methodToCall.blanketApprove') {
-                  jq(this).attr("id","blanketApprove");
-              } else if (jq(this).attr("name") == 'methodToCall.close') {
-                  jq(this).attr("id","close");
+    if (jQuery("#maintAction").attr("value") != 'Copy') {
+        jQuery("#globalbuttons").find('input').each(function() {
+              //alert(jQuery(this).attr("name"));
+              if (jQuery(this).attr("name") == 'methodToCall.route') {
+                  jQuery(this).attr("id","route");
+              } else if (jQuery(this).attr("name") == 'methodToCall.save') {
+                  jQuery(this).attr("id","save");
+              } else if (jQuery(this).attr("name") == 'methodToCall.blanketApprove') {
+                  jQuery(this).attr("id","blanketApprove");
+              } else if (jQuery(this).attr("name") == 'methodToCall.close') {
+                  jQuery(this).attr("id","close");
               }
           });
-        jq("#addTemplate").find('input').each(function() {
-            //alert(jq(this).attr("name"));
-            if (jq(this).attr("name") == 'methodToCall.addTemplate') {
-                jq(this).attr("id","add");
+        jQuery("#addTemplate").find('input').each(function() {
+            //alert(jQuery(this).attr("name"));
+            if (jQuery(this).attr("name") == 'methodToCall.addTemplate') {
+                jQuery(this).attr("id","add");
             }  
         });
 
     }
-    if (jq("#maintAction").attr("value") == 'Edit') {
-        qnversion = jq("#document\\.newMaintainableObject\\.businessObject\\.sequenceNumber").attr("value");
-    } else if (jq("#maintAction").attr("value") == 'New') {
-  	    qnversion = jq("#document\\.newMaintainableObject\\.businessObject\\.sequenceNumber").attr("value");
+    if (jQuery("#maintAction").attr("value") == 'Edit') {
+        qnversion = jQuery("#document\\.newMaintainableObject\\.businessObject\\.sequenceNumber").attr("value");
+    } else if (jQuery("#maintAction").attr("value") == 'New') {
+  	    qnversion = jQuery("#document\\.newMaintainableObject\\.businessObject\\.sequenceNumber").attr("value");
     }
 	
 	/*
 	 * The above code and the following has to be in the document.ready block.
 	 */
     
-	jq("#save").click(function() {
+	jQuery("#save").click(function() {
 	  //alert("save");
 		return checkBeforeSubmit();
 	}); // #save
   
-  jq("#route").click(function() {
+  jQuery("#route").click(function() {
 		return checkBeforeSubmit();
 	}); // #route
 
-  jq("#blanketApprove").click(function() {
+  jQuery("#blanketApprove").click(function() {
 		return checkBeforeSubmit();
   }); // #route
-  jq("#close").click(function() {
+  jQuery("#close").click(function() {
 		return checkBeforeSubmit();
   }); // #close
   
-  jq("#add").click(function() {
+  jQuery("#add").click(function() {
 		var retval = false;
-	  if (jq('input[type=file]').val() == '') {
+	  if (jQuery('input[type=file]').val() == '') {
 			alert("Please select a file name");
 	  } else {
 		    retval = true;
@@ -2687,34 +2687,34 @@ jq(document).ready(function() {
 		return retval;  
     }); // #add template
     // hide routelog for view because it is using edit to create new doc for view
-   // alert(jq("#readOnly").attr("value") +  jq("#docStatus").attr("value") )
-   if (jq("#readOnly").attr("value") == 'true' && jq("#docStatus").attr("value") == 'I') {    
+   // alert(jQuery("#readOnly").attr("value") +  jQuery("#docStatus").attr("value") )
+   if (jQuery("#readOnly").attr("value") == 'true' && jQuery("#docStatus").attr("value") == 'I') {    
        // option 1 : simply hide it
-        jq("#tab-RouteLog-div").hide();
-        jq("#tab-RouteLog-div").prev().hide();
+        jQuery("#tab-RouteLog-div").hide();
+        jQuery("#tab-RouteLog-div").prev().hide();
        
        // option 2 : display message on route log tab
        /*
-        var routemsg = jq('<div class="tab-container">')
+        var routemsg = jQuery('<div class="tab-container">')
             .attr("id", "noroutelog");
         
-        var tbltmp = jq('<table width="100%" width="100%" cellpadding="0" cellspacing="0" class="datatable" />');
+        var tbltmp = jQuery('<table width="100%" width="100%" cellpadding="0" cellspacing="0" class="datatable" />');
  
-        var tbodytmp = jq('<tbody/>');
-        var tr1 = jq('<tr></tr>');
-        var td1 = jq('<td class="subelementcontent"></td>');
+        var tbodytmp = jQuery('<tbody/>');
+        var tr1 = jQuery('<tr></tr>');
+        var td1 = jQuery('<td class="subelementcontent"></td>');
         td1.html("Route log is not available for Bootstrap data");
         tr1.html(td1);
         tbodytmp.html(tr1);
         tbltmp.html(tbodytmp);
         routemsg.html(tbltmp);
-        routemsg.insertAfter(jq("#tab-RouteLog-div").children('div:eq(0)'));
+        routemsg.insertAfter(jQuery("#tab-RouteLog-div").children('div:eq(0)'));
         
-        jq("#tab-RouteLog-div").children('div:eq(0)').hide();
+        jQuery("#tab-RouteLog-div").children('div:eq(0)').hide();
        */ 
-     //   jq("#tab-RouteLog-div").find('[class^=tab-container]').each(
+     //   jQuery("#tab-RouteLog-div").find('[class^=tab-container]').each(
      //   function() {       
-     //        jq(this).hide(); 
+     //        jQuery(this).hide(); 
      //           });
    }
    
@@ -2722,13 +2722,13 @@ jq(document).ready(function() {
   // the show/hide for question and usage panels are not from kuali framework
   // so to override the onclick here to also expand question and usage panels
   // first remove the 'onclick' attribute, then add 'click' function
-  jq('input[name=methodToCall\\.showAllTabs]').attr('onclick', '').click(function() {
+  jQuery('input[name=methodToCall\\.showAllTabs]').attr('onclick', '').click(function() {
 		expandAllTab();
-		if (jq("a.questionpanelcontrol").html().indexOf("show.gif") > -1) {
-            jq("a.questionpanelcontrol").click();
+		if (jQuery("a.questionpanelcontrol").html().indexOf("show.gif") > -1) {
+            jQuery("a.questionpanelcontrol").click();
         }
-		if (jq("a.usagepanelcontrol").html().indexOf("show.gif") > -1) {
-            jq("a.usagepanelcontrol").click();
+		if (jQuery("a.usagepanelcontrol").html().indexOf("show.gif") > -1) {
+            jQuery("a.usagepanelcontrol").click();
         }
         return false;
 	});	
@@ -2741,26 +2741,26 @@ jq(document).ready(function() {
  */
 function checkBeforeSubmit() {
 	//alert("in checkbeforesubmit")
-	//var numOfQuestions =  jq('#numOfQuestions').attr("value",i);
-	var qname = jq('#document\\.newMaintainableObject\\.businessObject\\.name').attr("value");
-	var qnaireid = jq('#document\\.newMaintainableObject\\.businessObject\\.questionnaireRefId').attr("value");
-	var qid = jq('#document\\.newMaintainableObject\\.businessObject\\.questionnaireId').attr("value");
-	var docstatus = jq('#docStatus').attr("value");
-	var qdescription = jq('#document\\.newMaintainableObject\\.businessObject\\.description').attr("value");
-	var qisfinal = jq('#document\\.newMaintainableObject\\.businessObject\\.isFinal').attr("checked");
-	var qtemplate = jq('#templateFileNameHidden').val();
+	//var numOfQuestions =  jQuery('#numOfQuestions').attr("value",i);
+	var qname = jQuery('#document\\.newMaintainableObject\\.businessObject\\.name').attr("value");
+	var qnaireid = jQuery('#document\\.newMaintainableObject\\.businessObject\\.questionnaireRefId').attr("value");
+	var qid = jQuery('#document\\.newMaintainableObject\\.businessObject\\.questionnaireId').attr("value");
+	var docstatus = jQuery('#docStatus').attr("value");
+	var qdescription = jQuery('#document\\.newMaintainableObject\\.businessObject\\.description').attr("value");
+	var qisfinal = jQuery('#document\\.newMaintainableObject\\.businessObject\\.isFinal').attr("checked");
+	var qtemplate = jQuery('#templateFileNameHidden').val();
 
 	var retval = false;
-	//if (jq('#newQuestionnaire\\.questionnaireId').attr("value") == '0') {
+	//if (jQuery('#newQuestionnaire\\.questionnaireId').attr("value") == '0') {
 	//	// TODO : temp hack for 'edit', the first time to save,it will based on this to version
 	//}	qnaireid=":"+qnaireid;
 	// alert
-		// ("save"+qname+qdescription+jq('#newQuestionnaire\\.isFinal').attr("checked"));
+		// ("save"+qname+qdescription+jQuery('#newQuestionnaire\\.isFinal').attr("checked"));
 		if (qname == '') {
 			alert("Questionnaire Name is required");
 		} else if (qdescription == '') {
 			alert("Questionnaire description is required");
-		} else if (jq("#example").children('li').size() == 0) {
+		} else if (jQuery("#example").children('li').size() == 0) {
 			alert("No question is added");	
 		} else if ((qtemplate != '') && (!qtemplate.match(/\.xsl$/))) {
 			alert("Template files must be of type: text/xsl");
@@ -2779,9 +2779,9 @@ function checkBeforeSubmit() {
 function isDuplicateUsage(moduleitemcode, modulesubitemcode, vers) {
 	var isduplicate = false;
 	var k =0;
-	jq("#usage-table").children('tbody:eq(0)').children('tr').each(
+	jQuery("#usage-table").children('tbody:eq(0)').children('tr').each(
 	  function() {
-        if (k++ > 0 && jq(this).children('td:eq(0)').children('input:eq(0)').attr("value") == moduleitemcode && jq(this).children('td:eq(1)').children('input:eq(0)').attr("value") == modulesubitemcode && jq(this).children('td:eq(4)').html() == vers) {
+        if (k++ > 0 && jQuery(this).children('td:eq(0)').children('input:eq(0)').attr("value") == moduleitemcode && jQuery(this).children('td:eq(1)').children('input:eq(0)').attr("value") == modulesubitemcode && jQuery(this).children('td:eq(4)').html() == vers) {
         	isduplicate = true;
         }   
 	});
@@ -2798,7 +2798,7 @@ function loadQuestion() {
     var rootidx;
     var pnum0 = 0;
     var nodecount = 0;
-    var refid = jq('#document\\.newMaintainableObject\\.businessObject\\.questionnaireRefId').attr("value");
+    var refid = jQuery('#document\\.newMaintainableObject\\.businessObject\\.questionnaireRefId').attr("value");
     for ( var k = 0; k < qlen; k++) {
         var curq = questions[k];
         // alert("parent 0 "+k+"-"+curq+pnum0+"-"+nodecount+"-"+qlen);
@@ -2811,7 +2811,7 @@ function loadQuestion() {
             var parenturl;
             var ischild = 'false';
             if (parentnum == 0) {
-                parenturl = jq('#example');
+                parenturl = jQuery('#example');
                 pnum0++;
                 rootidx = curi;
 
@@ -2820,20 +2820,20 @@ function loadQuestion() {
                     parentidx = curi - 1;
                 } else {
                     for ( var l = rootidx; l <= curi - 1; l++) {
-                        if (jq("#qnum" + l).attr("value")) {
-                            if (jq("#qnum" + l).attr("value") == parentnum) {
+                        if (jQuery("#qnum" + l).attr("value")) {
+                            if (jQuery("#qnum" + l).attr("value") == parentnum) {
                                 parentidx = l;
                             }
                         }
                     }
                 }
-                parenturl = jq("#qnaireid" + parentidx).children('ul:eq(0)');
+                parenturl = jQuery("#qnaireid" + parentidx).children('ul:eq(0)');
                 ischild = 'true';
             }
             nodecount++;
             newqn[curi] = field[15];
             var listitem = getQuestionNew(field[3], field[4], field[9], field[10], field[11], field[12], ischild);
-            var ultag = jq('<ul></ul>');
+            var ultag = jQuery('<ul></ul>');
             ultag.appendTo(listitem);
             var idx = listitem.attr("id").substring(8);
             // listitem.appendTo('ul#example');
@@ -2842,9 +2842,9 @@ function loadQuestion() {
                 firstidx = idx;
             }
 
-            listitem.appendTo(jq(parenturl));
+            listitem.appendTo(jQuery(parenturl));
             // also need this to show 'folder' icon
-            jq('#example').treeview( {
+            jQuery('#example').treeview( {
                 add : listitem
             });
 
@@ -2852,17 +2852,17 @@ function loadQuestion() {
             if (parentnum == 0) {
                 addToGroup(listitem);
                 if (groupid > 0) {
-                    jq(listitem).hide();
+                    jQuery(listitem).hide();
                 }
             }
 
-            if (jq(listitem).parents('ul:eq(0)').children('li').size() == 1) {
-                jq("#moveup" + idx).hide();
-                jq("#movedn" + idx).hide();
+            if (jQuery(listitem).parents('ul:eq(0)').children('li').size() == 1) {
+                jQuery("#moveup" + idx).hide();
+                jQuery("#movedn" + idx).hide();
             } else {
-                jq("#movedn" + idx).hide();
+                jQuery("#movedn" + idx).hide();
                 if (listitem.prev().size() > 0) {
-                    jq("#movedn" + listitem.prev().attr("id").substring(8))
+                    jQuery("#movedn" + listitem.prev().attr("id").substring(8))
                             .show();
                 }
             }
@@ -2870,17 +2870,17 @@ function loadQuestion() {
            // alert ("parent "+parentnum+"-"+field[1]+"-"+field[6]);
             if (parentnum > 0 && field[6] != 'null') {
                 // alert ("add req for parent
-                // "+jq("#addrequirement"+i).parents('tr:eq(0)').size());
+                // "+jQuery("#addrequirement"+i).parents('tr:eq(0)').size());
                 var newResponse = getRequirementDeleteRow(
                         responseArray[field[6]], field[7]);
-                newResponse.prependTo(jq("#addrequirement" + curi).parents(
+                newResponse.prependTo(jQuery("#addrequirement" + curi).parents(
                         'div:eq(0)').children('table:eq(0)').children('tbody'));
-                jq("#addrequirement" + curi).parents('tr:eq(0)').remove();
+                jQuery("#addrequirement" + curi).parents('tr:eq(0)').remove();
             }
 
-            jq("#qnum" + idx).attr("value", field[5]);
-            jq("#qid" + idx).attr("value", field[1]);
-            jq("#qseq" + idx).attr("value", field[2]);
+            jQuery("#qnum" + idx).attr("value", field[5]);
+            jQuery("#qid" + idx).attr("value", field[1]);
+            jQuery("#qseq" + idx).attr("value", field[2]);
             // set up qdesc & qtypeid
 
             if (field[6] == 'null') {
@@ -2895,21 +2895,21 @@ function loadQuestion() {
             var tmpstr = field[0] +"#f#" +refid
             +"#f#" +field[1] +"#f#" +field[5] +"#f#" +field[8] +"#f#" +field[14] +"#f#" +field[6] +"#f#" +
             field[7] +"#f#" +field[2] +"#f#" +field[13] +"#f#" +"N" +"#f#" +field[16];
-    jq("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
+    jQuery("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
             
         } // end if-then-else
     } // end for to set up questions
 
     //alert(groupid+"-grp "+curgroup);
     if (groupid == 0) {
-        jq("#nextGroup").hide();
-        jq("#prevGroup").hide();
+        jQuery("#nextGroup").hide();
+        jQuery("#prevGroup").hide();
     }   
     if (curgroup == 0) {
-        jq("#prevGroup").hide();
+        jQuery("#prevGroup").hide();
     }   
     if (groupid > curgroup ) {
-        jq("#nextGroup").show();
+        jQuery("#nextGroup").show();
     }   
 
     loadcount= curi-2;  // will be used to add qq to questionnairequestions list
@@ -2918,15 +2918,15 @@ function loadQuestion() {
 
 
 // ok now the load questions & usages if this is editing
-if (jq("#maintAction").attr("value") != 'Copy') {
-jq("#nextGroup").hide();
-jq("#prevGroup").hide();
+if (jQuery("#maintAction").attr("value") != 'Copy') {
+jQuery("#nextGroup").hide();
+jQuery("#prevGroup").hide();
 }
 
 
 var editdata = document.getElementById("editData").value;
 // new/edit or when 'copy' is approved, then questions/usage should be displayed
-if ((jq("#maintAction").attr("value") != 'Copy' || jq("#docStatus").attr("value") == 'F') && editdata.indexOf("#;#") > -1 ) {    
+if ((jQuery("#maintAction").attr("value") != 'Copy' || jQuery("#docStatus").attr("value") == 'F') && editdata.indexOf("#;#") > -1 ) {    
     var dataarray = editdata.split("#;#");
     var idxArray = new Array(dataarray.length);
     var questions = dataarray[0].split("#q#");
@@ -2937,11 +2937,11 @@ if ((jq("#maintAction").attr("value") != 'Copy' || jq("#docStatus").attr("value"
     loadQuestion();
 
 // TODO : only the first question is expanded
-    jq("#listcontrol" + firstidx).click();
-// jq("#listcontrol"+firstidx).click();
+    jQuery("#listcontrol" + firstidx).click();
+// jQuery("#listcontrol"+firstidx).click();
 
-    jq(".group1").hide();
-    jq(".group2").hide();
+    jQuery(".group1").hide();
+    jQuery(".group2").hide();
     jumpToAnchor('topOfForm');
 
     if (dataarray.length > 1) {
@@ -2953,40 +2953,40 @@ if ((jq("#maintAction").attr("value") != 'Copy' || jq("#docStatus").attr("value"
 function loadUsages(usages) {
     for ( var k = 0; k < usages.length; k++) {
         field = usages[k].split("#f#");
-        var trtmp = jq('<tr/>').attr("id", "usage" + ucount);
-        var thtmp = jq('<th class="infoline"/>').html(ucount);
+        var trtmp = jQuery('<tr/>').attr("id", "usage" + ucount);
+        var thtmp = jQuery('<th class="infoline"/>').html(ucount);
         thtmp.appendTo(trtmp);
-        // tdtmp = jq('<td align="left" valign="middle">').html(field[1]);
-        var tdtmp = jq('<td align="left" valign="middle">').html(field[8]);
-        var modulecode = jq('<input type="hidden"/>').attr("value", field[1]);
+        // tdtmp = jQuery('<td align="left" valign="middle">').html(field[1]);
+        var tdtmp = jQuery('<td align="left" valign="middle">').html(field[8]);
+        var modulecode = jQuery('<input type="hidden"/>').attr("value", field[1]);
         modulecode.appendTo(tdtmp);
         tdtmp.appendTo(trtmp);
-        var subModulecode = jq('<input type="hidden"/>').attr("value", field[4]);
+        var subModulecode = jQuery('<input type="hidden"/>').attr("value", field[4]);
         //TODO : fix here
-        tdtmp = jq('<td align="left" valign="middle">').html(field[9]);
+        tdtmp = jQuery('<td align="left" valign="middle">').html(field[9]);
         subModulecode.appendTo(tdtmp);
         tdtmp.appendTo(trtmp);
         var mandatoryValue = "No";
         if (field[7] == 'Y') {
             mandatoryValue = "Yes";
         }
-        tdtmp = jq('<td align="left" valign="middle">').html(mandatoryValue);
+        tdtmp = jQuery('<td align="left" valign="middle">').html(mandatoryValue);
         tdtmp.appendTo(trtmp);
-        tdtmp = jq('<td align="left" valign="middle">').html(field[2]);
+        tdtmp = jQuery('<td align="left" valign="middle">').html(field[2]);
         tdtmp.appendTo(trtmp);
         // TODO : questionnaire version# will be loaded later
-        //tdtmp = jq('<td align="left" valign="middle">').html(field[2]);  
-        tdtmp = jq('<td align="left" valign="middle">').html(field[3]);  
+        //tdtmp = jQuery('<td align="left" valign="middle">').html(field[2]);  
+        tdtmp = jQuery('<td align="left" valign="middle">').html(field[3]);  
         tdtmp.appendTo(trtmp);
-        var inputtmp = jq(
+        var inputtmp = jQuery(
                 '<input type="image" id="deleteUsage" name="deleteUsage" title="Delete Usage" src="static/images/tinybutton-delete1.gif" class="tinybutton">')
                 .attr("id", "deleteUsage" + ucount).click(
                         function() {
                                                         // alert(sqlScripts);
-							    shiftUsage(jq(this).attr("id").substring(11));
+							    shiftUsage(jQuery(this).attr("id").substring(11));
 								ucount--;
-								jq("#utr"+ucount).remove();
-                            curnode = jq(this).parents('tr:eq(0)');
+								jQuery("#utr"+ucount).remove();
+                            curnode = jQuery(this).parents('tr:eq(0)');
                             while (curnode.next().size() > 0) {
                                 curnode = curnode.next();
                                 curnode.children('th:eq(0)').html(
@@ -2994,21 +2994,21 @@ function loadUsages(usages) {
                                                 .html()) - 1)
                             }
 
-                            jq(this).parents('tr:eq(0)').remove();
+                            jQuery(this).parents('tr:eq(0)').remove();
                             return false;
                         });
-        tdtmp = jq('<td align="left" valign="middle">');
-        if (jq("#readOnly").attr("value") != 'true') {
-        jq('<div align="center">').html(inputtmp).appendTo(tdtmp);
+        tdtmp = jQuery('<td align="left" valign="middle">');
+        if (jQuery("#readOnly").attr("value") != 'true') {
+        jQuery('<div align="center">').html(inputtmp).appendTo(tdtmp);
         } else {
-            jq('<div align="center">').appendTo(tdtmp);
+            jQuery('<div align="center">').appendTo(tdtmp);
         }    
         tdtmp.appendTo(trtmp);
-        trtmp.appendTo(jq("#usage-table"));
+        trtmp.appendTo(jQuery("#usage-table"));
 
         // usage hidden fields
-		var hidtr = jq('<tr id = "utr" name = "utr"/>').attr("id","utr"+ucount).attr("name", "utr"+ucount);
-        var hidtd = jq('<td colspan="2"/>');
+		var hidtr = jQuery('<tr id = "utr" name = "utr"/>').attr("id","utr"+ucount).attr("name", "utr"+ucount);
+        var hidtd = jQuery('<td colspan="2"/>');
         // question id for this node
         if (field[0] == 'null') {
         	field[0]="";
@@ -3026,12 +3026,12 @@ function loadUsages(usages) {
         getUsageHidden("questionnaireSequenceNumber", field[3]).appendTo(hidtd);
         getUsageHidden("ruleId", field[5]).appendTo(hidtd);
         getUsageHidden("versionNumber", field[6]).appendTo(hidtd);
-        getUsageHidden("questionnaireRefIdFk", jq('#document\\.newMaintainableObject\\.businessObject\\.questionnaireRefId').attr("value")).appendTo(hidtd);
+        getUsageHidden("questionnaireRefIdFk", jQuery('#document\\.newMaintainableObject\\.businessObject\\.questionnaireRefId').attr("value")).appendTo(hidtd);
         
         hidtd.appendTo(hidtr);
         hidtr.hide(); // FF rendering issue. If not hided, then 'line' will be
         // drawn at the bottom of the table for each Q hidden row
-        hidtr.appendTo(jq("#usage-table"));
+        hidtr.appendTo(jQuery("#usage-table"));
         ucount++;
     }
     initucount = ucount-1 ;
@@ -3040,20 +3040,20 @@ function loadUsages(usages) {
 } // end loadusages
 
 function getUsageMandatoryHiddenTag(isChecked) {
-    var mandatorytag = jq('<input type="checkbox" title="Mandatory" class="" style="" onblur="" onchange="" onclick="" >');
-    jq(mandatorytag).attr("id",uprefix + (ucount-1) +"].mandatory");
-    jq(mandatorytag).attr("name",uprefix + (ucount-1) +"].mandatory");
+    var mandatorytag = jQuery('<input type="checkbox" title="Mandatory" class="" style="" onblur="" onchange="" onclick="" >');
+    jQuery(mandatorytag).attr("id",uprefix + (ucount-1) +"].mandatory");
+    jQuery(mandatorytag).attr("name",uprefix + (ucount-1) +"].mandatory");
     if (isChecked) {
-    	jq(mandatorytag).attr("checked", true);
+    	jQuery(mandatorytag).attr("checked", true);
     } else {
-    	jq(mandatorytag).attr("checked", false);
+    	jQuery(mandatorytag).attr("checked", false);
     }
-    jq("#document\\.newMaintainableObject\\.businessObject\\.questionnaireUsages["+ (ucount-1) +"]\\.mandatory").hide();
+    jQuery("#document\\.newMaintainableObject\\.businessObject\\.questionnaireUsages["+ (ucount-1) +"]\\.mandatory").hide();
     return mandatorytag;
 }
 
 function getUsageHidden(name, value) {
-	return jq('<input type="hidden" id = "usage" name = "usage" />').attr("id",
+	return jQuery('<input type="hidden" id = "usage" name = "usage" />').attr("id",
     		uprefix + (ucount-1)+"]."+name).attr("name", uprefix + (ucount-1)+"]."+name)
             .attr("value",value);	
 }
@@ -3067,28 +3067,28 @@ function newVersionQuestionPop(questionRefId) {
 }
 
 function showViewFile(template) {
-	if (jq("#viewTemplate[style*='none']")) {
-       jq('#viewTemplate').show();
-       jq('#fileNameDiv').show();
+	if (jQuery("#viewTemplate[style*='none']")) {
+       jQuery('#viewTemplate').show();
+       jQuery('#fileNameDiv').show();
 	}
-	jq('#templateFileNameHidden').val(jq(template).val());
-	jq('#fileNameDiv').html(jq(template).val());
-    jq('#fileNameDiv').hide();
+	jQuery('#templateFileNameHidden').val(jQuery(template).val());
+	jQuery('#fileNameDiv').html(jQuery(template).val());
+    jQuery('#fileNameDiv').hide();
 }
 function replaceTemplate(image) {
-   jq(image).hide();
-   jq('#templateFileDiv').show();
-   jq('#fileNameDiv').hide();
-   jq('#viewTemplate').hide();
+   jQuery(image).hide();
+   jQuery('#templateFileDiv').show();
+   jQuery('#fileNameDiv').hide();
+   jQuery('#viewTemplate').hide();
    
 }
 
 function moduleCodeChange(moduleCode) {
-	jq.ajax( {
+	jQuery.ajax( {
 		url : 'maintenanceQn.do',
 		type : 'POST',
 		dataType : 'html',
-		data : 'methodToCall=getSubModuleCodeList&moduleCode=' + jq(moduleCode).val(),
+		data : 'methodToCall=getSubModuleCodeList&moduleCode=' + jQuery(moduleCode).val(),
 		cache : false,
 		async : false,
 		timeout : 1000,
@@ -3096,9 +3096,9 @@ function moduleCodeChange(moduleCode) {
 			alert('Error loading XML document');
 		},
 		success : function(xml) {
-			jq(xml).find('h3').each(function() {
-				var text = jq(this).html();
-				jq('#submodulediv').html(jq(this).html());
+			jQuery(xml).find('h3').each(function() {
+				var text = jQuery(this).html();
+				jQuery('#submodulediv').html(jQuery(this).html());
 
 				});
 		}
@@ -3111,34 +3111,34 @@ function moduleCodeChange(moduleCode) {
  * This is done when the question is clicked for the first time and the maint table is retrieved by ajax call
  */
 	function toggleHSControl(idx) {
-		jq("#HScontrol" + idx).toggle(function() {
-			       var curidx = jq(this).attr("id").substring(9);
-					jq("#HSdiv"+curidx).slideDown(400);
-					jq(this).attr("src", "kr/static/images/tinybutton-hide.gif");
+		jQuery("#HScontrol" + idx).toggle(function() {
+			       var curidx = jQuery(this).attr("id").substring(9);
+					jQuery("#HSdiv"+curidx).slideDown(400);
+					jQuery(this).attr("src", "kr/static/images/tinybutton-hide.gif");
 				}, function() {
-					var curidx = jq(this).attr("id").substring(9);
-					jq("#HSdiv"+curidx).slideUp(200);
-					jq(this).attr("src", "kr/static/images/tinybutton-show.gif");
+					var curidx = jQuery(this).attr("id").substring(9);
+					jQuery("#HSdiv"+curidx).slideUp(200);
+					jQuery(this).attr("src", "kr/static/images/tinybutton-show.gif");
 				});
-		jq("#HScontrol" + idx).click();
+		jQuery("#HScontrol" + idx).click();
 		
-		jq("#HSReqcontrol" + idx).toggle(function() {
-		       var curidx = jq(this).attr("id").substring(12);
-				jq("#HSReqdiv"+curidx).slideDown(400);
-				jq(this).attr("src", "kr/static/images/tinybutton-hide.gif");
+		jQuery("#HSReqcontrol" + idx).toggle(function() {
+		       var curidx = jQuery(this).attr("id").substring(12);
+				jQuery("#HSReqdiv"+curidx).slideDown(400);
+				jQuery(this).attr("src", "kr/static/images/tinybutton-hide.gif");
 			}, function() {
-				var curidx = jq(this).attr("id").substring(12);
-				jq("#HSReqdiv"+curidx).slideUp(200);
-				jq(this).attr("src", "kr/static/images/tinybutton-show.gif");
+				var curidx = jQuery(this).attr("id").substring(12);
+				jQuery("#HSReqdiv"+curidx).slideUp(200);
+				jQuery(this).attr("src", "kr/static/images/tinybutton-show.gif");
 			});
-	    jq("#HSReqcontrol" + idx).click();
+	    jQuery("#HSReqcontrol" + idx).click();
 
 }
 	
 function hasChildren(element) {
 	var $childrenCount = 0;
-	jq(element).children("ul").each(function() {
-		$childrenCount += jq(this).children().size();		
+	jQuery(element).children("ul").each(function() {
+		$childrenCount += jQuery(this).children().size();		
 	});
 	
 	if ($childrenCount > 0) {
@@ -3158,13 +3158,13 @@ function clickModify(curidx) {
 function replaceQuestion(newQuestionId, newQuestion, newQuestionTypeId,newQuestionSequence,displayedAnswers,maxAnswers,answerMaxLength
 		,nodeIndex) {
 
-	jq("#repqid").attr("value", newQuestionId);
-	jq("#repqdesc").attr("value", newQuestion);
-	jq("#repqtypeid").attr("value", newQuestionTypeId);
-	jq("#repqvers").attr("value", newQuestionSequence);
-	jq("#repqdispans").attr("value", displayedAnswers);
-	jq("#repqmaxans").attr("value", maxAnswers);
-	jq("#repqmaxlength").attr("value", answerMaxLength);
+	jQuery("#repqid").attr("value", newQuestionId);
+	jQuery("#repqdesc").attr("value", newQuestion);
+	jQuery("#repqtypeid").attr("value", newQuestionTypeId);
+	jQuery("#repqvers").attr("value", newQuestionSequence);
+	jQuery("#repqdispans").attr("value", displayedAnswers);
+	jQuery("#repqmaxans").attr("value", maxAnswers);
+	jQuery("#repqmaxlength").attr("value", answerMaxLength);
 	
 	addForReplace(replaceNode);
 }
@@ -3174,9 +3174,9 @@ function addForReplace(curidx) {
 	//alert("replace question "+curidx);
 	var idx = curidx;
 	var addQn = "#addQn"+curidx
-	//alert(jq("#repqdesc").attr("value")+"-"+jq("#repqdispans").attr("value"))
-		if (jq("#repqdesc").attr("value") == ''
-				|| jq("#repqtypeid").attr("value") == '') {
+	//alert(jQuery("#repqdesc").attr("value")+"-"+jQuery("#repqdispans").attr("value"))
+		if (jQuery("#repqdesc").attr("value") == ''
+				|| jQuery("#repqtypeid").attr("value") == '') {
 			alert("Please select a question to add");
 		} else {
 			curi++;
@@ -3184,49 +3184,49 @@ function addForReplace(curidx) {
 			var radioVal = 'sibling';
 			var childNode = 'false';
 
-			//alert(jq("#repqdesc").attr("value"));
+			//alert(jQuery("#repqdesc").attr("value"));
 			var listitem = getQuestionNew(
-					jq("#repqdesc").attr("value"),
-					jq("#repqtypeid").attr("value"),
-					jq("#repqvers").attr("value"),
-					jq("#repqdispans").attr("value"),
-					jq("#repqmaxans").attr("value"),
-					jq("#repqmaxlength").attr("value"),
+					jQuery("#repqdesc").attr("value"),
+					jQuery("#repqtypeid").attr("value"),
+					jQuery("#repqvers").attr("value"),
+					jQuery("#repqdispans").attr("value"),
+					jQuery("#repqmaxans").attr("value"),
+					jQuery("#repqmaxlength").attr("value"),
 					childNode);
-			var ultag = jq('<ul></ul>');
+			var ultag = jQuery('<ul></ul>');
 			ultag.appendTo(listitem);
 			var idx = listitem.attr("id").substring(8);
 			//alert(idx);
 			if (radioVal == 'sibling') {
 				// alert('sibling');
-				var parentUl = jq(addQn).parents('li:eq(0)').parents(
+				var parentUl = jQuery(addQn).parents('li:eq(0)').parents(
 						'ul:eq(0)');
-				listitem.insertAfter(jq(addQn).parents('li:eq(0)'));
-				jq("#movedn" + idx).hide();
-				jq("#movedn" + listitem.prev().attr("id")
+				listitem.insertAfter(jQuery(addQn).parents('li:eq(0)'));
+				jQuery("#movedn" + idx).hide();
+				jQuery("#movedn" + listitem.prev().attr("id")
 									  .substring(8)).show();
 				// TODO trying to group
 				//alert("parent u"+parentUl.attr("id"));
 				if (parentUl.attr("id") == 'example') {
 					// insert after, so assume current group 
 					// TODO : need to adjust group to 20/page ?
-					jq(listitem).attr("class", "group" + curgroup);
-					if (jq(".group"+curgroup).size() > 20) {
+					jQuery(listitem).attr("class", "group" + curgroup);
+					if (jQuery(".group"+curgroup).size() > 20) {
 						adjustGroupDown(); 
 					}	
 					//addToGroup(listitem);
 					if (curgroup == groupid) {
-						jq("#nextGroup").hide();
+						jQuery("#nextGroup").hide();
 					} else if (curgroup > 0) {
-						jq("#prevGroup").show();
+						jQuery("#prevGroup").show();
 					} else if (groupid > 0) {
-						jq("#nextGroup").show();
+						jQuery("#nextGroup").show();
 					}
 				}
 			}
 
 			// also need this to show 'folder' icon
-			jq('#example').treeview( {
+			jQuery('#example').treeview( {
 				add : listitem
 			});
 
@@ -3235,72 +3235,72 @@ function addForReplace(curidx) {
 			/*
 			 * questionnairenumber from #questionnairenumber
 			 * questionId from #qid sequenceNumber from
-			 * jq(this).parents('li:eq(0)').siblings().size() ?
+			 * jQuery(this).parents('li:eq(0)').siblings().size() ?
 			 */
-			// jq(listitem).parents('ul:eq(0)').parents('li:eq(0)').size()
+			// jQuery(listitem).parents('ul:eq(0)').parents('li:eq(0)').size()
 			// == 0 : check whetehr it is at the top level
 			var parentNum;
-			if (jq(listitem).parents('ul:eq(0)').parents('li:eq(0)')
+			if (jQuery(listitem).parents('ul:eq(0)').parents('li:eq(0)')
 					.size() == 0) {
 				parentNum = 0;
 			} else {
 				// alert("parents li
-				// "+jq(listitem).parents('ul:eq(0)').parents('li:eq(0)').attr("id"));
-				parentNum = jq(
+				// "+jQuery(listitem).parents('ul:eq(0)').parents('li:eq(0)').attr("id"));
+				parentNum = jQuery(
 						"#qnum"
-								+ jq(listitem).parents('ul:eq(0)')
+								+ jQuery(listitem).parents('ul:eq(0)')
 										.parents('li:eq(0)').attr(
 												"id").substring(8))
 						.attr("value");
 			}
 			//alert(parentNum);
-			//alert(jq("#questionNumber").attr("value"));
-			jq("#qnum" + jq(listitem).attr("id").substring(8)).attr(
-					"value", jq("#questionNumber").attr("value"));
-			var qid = jq("#repqid").attr("value");
-			jq("#qid" + jq(listitem).attr("id").substring(8)).attr(
+			//alert(jQuery("#questionNumber").attr("value"));
+			jQuery("#qnum" + jQuery(listitem).attr("id").substring(8)).attr(
+					"value", jQuery("#questionNumber").attr("value"));
+			var qid = jQuery("#repqid").attr("value");
+			jQuery("#qid" + jQuery(listitem).attr("id").substring(8)).attr(
 					"value", qid);
 
-			var seqnum = Number(jq(listitem).siblings().size()) + 1;
+			var seqnum = Number(jQuery(listitem).siblings().size()) + 1;
 			if (radioVal == 'sibling') {
-				//var num = Number(jq("#qseq"+jq(this).attr("id").substring(5)).attr("value"))+1;
+				//var num = Number(jQuery("#qseq"+jQuery(this).attr("id").substring(5)).attr("value"))+1;
 				
-			    seqnum = Number(jq("#qseq"+jq(addQn).attr("id").substring(5)).attr("value"))+1;
+			    seqnum = Number(jQuery("#qseq"+jQuery(addQn).attr("id").substring(5)).attr("value"))+1;
 			   // seqnum = num;
-				//alert(seqnum+"-"+jq(this).attr("id"));
+				//alert(seqnum+"-"+jQuery(this).attr("id"));
 			    var nextseq = seqnum +1;
-			    var nextitem = jq(listitem).next();
+			    var nextitem = jQuery(listitem).next();
 			    // update seq for the siblings after the new node
 			    while (nextitem.size() > 0) {
-					var splitq = jq("#qnaireQuestions\\["+ nextitem.attr("id").substring(8)+"\\]").attr("value").split("#f#");
+					var splitq = jQuery("#qnaireQuestions\\["+ nextitem.attr("id").substring(8)+"\\]").attr("value").split("#f#");
 				    var tmpstr = splitq[0] +"#f#" +splitq[1] 
 			        +"#f#" +splitq[2] +"#f#" +splitq[3] +"#f#" +splitq[4] +"#f#" +splitq[5] +"#f#" +splitq[6] +"#f#" +
 			        splitq[7] +"#f#" +nextseq +"#f#" +splitq[9] +"#f#" +splitq[10] + "#f#" +splitq[11];
-				jq("#qnaireQuestions\\["+ nextitem.attr("id").substring(8)+"\\]").attr("value",tmpstr);
-//				    jq("#"+jqprefix + nextitem.attr("id").substring(8) + "\\]\\.questionSeqNumber").attr("value",nextseq);
-			    	jq("#qseq" + nextitem.attr("id").substring(8)).attr("value", nextseq++);	
+				jQuery("#qnaireQuestions\\["+ nextitem.attr("id").substring(8)+"\\]").attr("value",tmpstr);
+//				    jQuery("#"+jqprefix + nextitem.attr("id").substring(8) + "\\]\\.questionSeqNumber").attr("value",nextseq);
+			    	jQuery("#qseq" + nextitem.attr("id").substring(8)).attr("value", nextseq++);	
 			    	nextitem = nextitem.next();
 			    }	
 			}    
 			
-			var qnum = jq("#questionNumber").attr("value");
-			jq("#qseq" + jq(listitem).attr("id").substring(8)).attr("value", seqnum);
-			jq("#questionNumber").attr("value",
-					Number(jq("#questionNumber").attr("value")) + 1);
+			var qnum = jQuery("#questionNumber").attr("value");
+			jQuery("#qseq" + jQuery(listitem).attr("id").substring(8)).attr("value", seqnum);
+			jQuery("#questionNumber").attr("value",
+					Number(jQuery("#questionNumber").attr("value")) + 1);
 
-			idx = jq(listitem).attr("id").substring(8);		
-            var tmpstr = "" +"#f#" +jq('#document\\.newMaintainableObject\\.businessObject\\.questionnaireRefId').attr("value") 
+			idx = jQuery(listitem).attr("id").substring(8);		
+            var tmpstr = "" +"#f#" +jQuery('#document\\.newMaintainableObject\\.businessObject\\.questionnaireRefId').attr("value") 
                +"#f#" +qid +"#f#" +qnum +"#f#" +parentNum +"#f#" +"N" +"#f#" +"" +"#f#" +
                "" +"#f#" +seqnum +"#f#" +"1" +"#f#" +"N" +"#f#" +null;
-            jq("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
+            jQuery("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
 
 					
 		}
 	
 	    //Let's move any children to this node now
 	    var liId = "li#qnaireid" + curidx;
-		jq(liId).children("ul").children("li").each(function() {
-			var tmpIdx = jq(this).attr("id").substring(8);
+		jQuery(liId).children("ul").children("li").each(function() {
+			var tmpIdx = jQuery(this).attr("id").substring(8);
 			//alert(tmpIdx);
 			clickCut(tmpIdx);
 			clickPaste(idx);
@@ -3315,13 +3315,13 @@ function addForReplace(curidx) {
 
 
 function clickUpdateQuestionVersion(curidx) {
-   //jq("#listcontrol"+curidx).click()
+   //jQuery("#listcontrol"+curidx).click()
 	//alert(curidx);
-	jq.ajax( {
+	jQuery.ajax( {
 		url : 'maintenanceQn.do',
 		type : 'POST',
 		dataType : 'html',
-		data : 'methodToCall=getQuestionCurrentVersion&qidx=' + curidx +'&questionId='+jq('#qid'+curidx).attr('value'),
+		data : 'methodToCall=getQuestionCurrentVersion&qidx=' + curidx +'&questionId='+jQuery('#qid'+curidx).attr('value'),
 		cache : false,
 		async : false,
 		timeout : 1000,
@@ -3329,22 +3329,22 @@ function clickUpdateQuestionVersion(curidx) {
 			alert('Error loading XML document');
 		},
 		success : function(xml) {
-			jq(xml).find('input').each(function() {
-			    //alert(jq(this).attr('id') +":" + jq(this).attr('value'));
-			    if (jq(this).attr('id') == 'questionId') {
-					jq("#repqid").attr("value", jq(this).attr('value'));
-			    } else if (jq(this).attr('id') == 'question') {
-					jq("#repqdesc").attr("value", jq(this).attr('value'));
-			    } else if (jq(this).attr('id') == 'questionTypeId') {
-					jq("#repqtypeid").attr("value", jq(this).attr('value'));
-			    } else if (jq(this).attr('id') == 'questionSequence') {
-					jq("#repqvers").attr("value", jq(this).attr('value'));
-			    } else if (jq(this).attr('id') == 'displayedAnswers') {
-					jq("#repqdispans").attr("value", jq(this).attr('value'));
-			    } else if (jq(this).attr('id') == 'maxAnswers') {
-					jq("#repqmaxans").attr("value", jq(this).attr('value'));
-			    } else if (jq(this).attr('id') == 'answerMaxLength') {
-					jq("#repqmaxlength").attr("value", jq(this).attr('value'));
+			jQuery(xml).find('input').each(function() {
+			    //alert(jQuery(this).attr('id') +":" + jQuery(this).attr('value'));
+			    if (jQuery(this).attr('id') == 'questionId') {
+					jQuery("#repqid").attr("value", jQuery(this).attr('value'));
+			    } else if (jQuery(this).attr('id') == 'question') {
+					jQuery("#repqdesc").attr("value", jQuery(this).attr('value'));
+			    } else if (jQuery(this).attr('id') == 'questionTypeId') {
+					jQuery("#repqtypeid").attr("value", jQuery(this).attr('value'));
+			    } else if (jQuery(this).attr('id') == 'questionSequence') {
+					jQuery("#repqvers").attr("value", jQuery(this).attr('value'));
+			    } else if (jQuery(this).attr('id') == 'displayedAnswers') {
+					jQuery("#repqdispans").attr("value", jQuery(this).attr('value'));
+			    } else if (jQuery(this).attr('id') == 'maxAnswers') {
+					jQuery("#repqmaxans").attr("value", jQuery(this).attr('value'));
+			    } else if (jQuery(this).attr('id') == 'answerMaxLength') {
+					jQuery("#repqmaxlength").attr("value", jQuery(this).attr('value'));
 			    }
 			});
 			replaceNode = curidx;
@@ -3378,6 +3378,6 @@ function clickSearchRule(nodeIndex) {
 
 function returnRule(ruleId, nodeIndex) {
 //   alert("return rule "+ruleId+" for "+nodeIndex);
-   jq("#ruleId"+nodeIndex).attr("value",ruleId);
+   jQuery("#ruleId"+nodeIndex).attr("value",ruleId);
 }
 
