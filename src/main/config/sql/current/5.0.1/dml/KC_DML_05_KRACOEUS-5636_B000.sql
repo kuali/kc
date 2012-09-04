@@ -1,2 +1,2 @@
-update questionnaire_usage set QUESTIONNAIRE_LABEL='Grants.gov S2S Questionnaire' where questionnaire_ref_id_fk in (select questionnaire_ref_id from questionnaire where questionnaire_id=5)
+UPDATE QUESTIONNAIRE_USAGE SET QUESTIONNAIRE_LABEL='Grants.gov S2S Questionnaire' WHERE QUESTIONNAIRE_REF_ID_FK IN (SELECT QUESTIONNAIRE_REF_ID FROM QUESTIONNAIRE WHERE QUESTIONNAIRE_ID=5)
 /
