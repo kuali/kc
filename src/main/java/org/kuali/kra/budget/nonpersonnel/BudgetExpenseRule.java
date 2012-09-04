@@ -28,7 +28,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
 
 public class BudgetExpenseRule {
-    private static final double MAX_BUDGET_DECIMAL_VALUE = 999999999999.99;
+    private static final double MAX_BUDGET_DECIMAL_VALUE = 9999999999.00;
     private static final String PERSONNEL_CATEGORY = "P";
 
     public BudgetExpenseRule() {
