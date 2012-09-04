@@ -23,6 +23,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.irb.actions.IrbActionsKeyValuesBase;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewStatus;
 
 /**
  * Assembles the Protocol Review Types to display in the drop-down menu when

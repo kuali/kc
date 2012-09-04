@@ -31,28 +31,28 @@
                 <ref bean="IacucProtocolOnlineReview-submissionIdFk"/>
                 <ref bean="IacucProtocolOnlineReview-protocolReviewerId"/>
                 <ref bean="IacucProtocolOnlineReview-protocolOnlineReviewStatusCode"/>
-                <!--  ref bean="IacucProtocolOnlineReview-protocolOnlineReviewStatus.description"/-->
+                <ref bean="IacucProtocolOnlineReview-protocolOnlineReviewStatus.description"/>
                 <ref bean="IacucProtocolOnlineReview-dateDue"/>
                 <ref bean="IacucProtocolOnlineReview-dateRequested"/>
                 <ref bean="IacucProtocolOnlineReview-determinationRecommendationCode"/>
                 <!--  ref bean="IacucProtocolOnlineReview-determinationRecommendation.description"/-->
                 <!--  Lookup fields -->
-                <!-- ref bean="IacucProtocolOnlineReview-lookupProtocol.protocolNumber"/-->
+                <ref bean="IacucProtocolOnlineReview-lookupProtocol.protocolNumber"/>
                 <!--  ref bean="IacucProtocolOnlineReview-lookupReviewerRolodexId"/-->
                 <!-- ref bean="IacucProtocolOnlineReview-lookupReviwerRolodex.lastName"/-->
-                <!--  <ref bean="IacucProtocolOnlineReview-lookupReviewerRolodex"/> >
+                <!--  <ref bean="IacucProtocolOnlineReview-lookupReviewerRolodex"/> -->
                 <ref bean="IacucProtocolOnlineReview-lookupReviewerPersonId"/>
-                <ref bean="IacucProtocolOnlineReview-lookupReviwerPerson.lastName"/>
-                <ref bean="IacucProtocolOnlineReview-lookupReviewerFullName"/-->
+                <ref bean="IacucProtocolOnlineReview-lookupReviwerPerson.lastName"/> 
+                <ref bean="IacucProtocolOnlineReview-lookupReviewerFullName"/>
                 <ref bean="IacucProtocolOnlineReview-protocolSubmission.submissionNumber"/>
                 <ref bean="IacucProtocolOnlineReview-protocolSubmission.submissionTypeCode"/>
                 <ref bean="IacucProtocolOnlineReview-protocol.principalInvestigator.personName"/>
-                <!--  ref bean="IacucProtocolOnlineReview-protocolSubmission.protocolSubmissionType.description"/>
-                <ref bean="IacucProtocolOnlineReview-protocolSubmission.submissionStatus.description"/-->
-                <!--  ref bean="IacucProtocolOnlineReview-lookupIacucProtocolOnlineReviewStatusCode"/-->
+                <ref bean="IacucProtocolOnlineReview-protocolSubmission.protocolSubmissionType.description"/>
+                <ref bean="IacucProtocolOnlineReview-protocolSubmission.submissionStatus.description"/>
+                <ref bean="IacucProtocolOnlineReview-lookupProtocolOnlineReviewStatusCode"/>
                 <ref bean="IacucProtocolOnlineReview-reviewerTypeCode"/>
                 <ref bean="IacucProtocolOnlineReview-protocol.protocolNumber"/>
-                <!-- ref bean="IacucProtocolOnlineReview-protocol.protocolStatus.description"/-->
+                <ref bean="IacucProtocolOnlineReview-protocol.protocolStatus.description"/>
                 <!--  Result fields -->
                 <ref bean="IacucProtocolOnlineReview-resultDueDate"/>
                 <ref bean="IacucProtocolOnlineReview-determinationReviewTypeCode"/>
@@ -208,7 +208,7 @@
         <property name="control">
             <!--  TODO : may need a different values finder -->
             <bean parent="SelectControlDefinition"
-                p:valuesFinderClass="org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewStatusValuesFinder"
+                p:valuesFinderClass="org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewStatusValuesFinder"
                 p:includeKeyInLabel="false" />
         </property>
         <property name="summary" value="Protocol Review Status Code" />
@@ -246,7 +246,6 @@
         <property name="description" value="Determination Due Date" />
     </bean>
     
- <!--   
     <bean id="IacucProtocolOnlineReview-protocolOnlineReviewStatus.description" parent="IacucProtocolOnlineReview-protocolOnlineReviewStatus.description-parentBean" />
     <bean id="IacucProtocolOnlineReview-protocolOnlineReviewStatus.description-parentBean"
         abstract="true" parent="AttributeDefinition">
@@ -264,7 +263,6 @@
         <property name="summary" value="Protocol Review Status Code" />
         <property name="description" value="The status of the protocol review." />
     </bean>
-     -->
         
     <bean id="IacucProtocolOnlineReview-determinationRecommendationCode" parent="IacucProtocolOnlineReview-determinationRecommendationCode-parentBean" />
     <bean id="IacucProtocolOnlineReview-determinationRecommendationCode-parentBean"
@@ -280,7 +278,7 @@
         <property name="control">
             
             <bean parent="SelectControlDefinition"
-                p:valuesFinderClass="org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewDeterminationRecommendationValuesFinder"
+                p:valuesFinderClass="org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewDeterminationRecommendationValuesFinder"
                 p:includeKeyInLabel="false" />
         </property>
         <property name="summary" value="Determination Recommendation" />
@@ -313,11 +311,10 @@
 
 
     <!-- Lookup fields -->
-   <!-- 
-    <bean id="IacucProtocolOnlineReview-lookupIacucProtocolOnlineReviewStatusCode" parent="IacucProtocolOnlineReview-lookupIacucProtocolOnlineReviewStatusCode-parentBean" />
-    <bean id="IacucProtocolOnlineReview-lookupIacucProtocolOnlineReviewStatusCode-parentBean"
+    <bean id="IacucProtocolOnlineReview-lookupProtocolOnlineReviewStatusCode" parent="IacucProtocolOnlineReview-lookupProtocolOnlineReviewStatusCode-parentBean" />
+    <bean id="IacucProtocolOnlineReview-lookupProtocolOnlineReviewStatusCode-parentBean"
         abstract="true" parent="AttributeDefinition">
-        <property name="name" value="lookupIacucProtocolOnlineReviewStatusCode" />
+        <property name="name" value="lookupProtocolOnlineReviewStatusCode" />
         <property name="forceUppercase" value="false" />
         <property name="label" value="Online Review Status" />
         <property name="shortLabel" value="Status" />
@@ -328,7 +325,7 @@
         <property name="control">
              <bean parent="SelectControlDefinition"
                 p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
-                p:businessObjectClass="org.kuali.kra.irb.onlinereview.IacucProtocolOnlineReviewStatus"
+                p:businessObjectClass="org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewStatus"
                 p:includeKeyInLabel="false" p:keyAttribute="statusCode"
                 p:labelAttribute="description" />
         </property>
@@ -337,7 +334,7 @@
     </bean>
     
     
-    
+<!--    
     <bean id="IacucProtocolOnlineReview-lookupReviewerRolodexId" parent="IacucProtocolOnlineReview-lookupReviewerRolodexId-parentBean" />
     <bean id="IacucProtocolOnlineReview-lookupReviewerRolodexId-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="lookupReviewerRolodexId" />
@@ -362,9 +359,7 @@
         <property name="label" value="Rolodex Last Name"/>
         <property name="shortLabel" value="Rolodex Last Name"/>
     </bean>
-    
-       
-    
+-->    
     
     <bean id="IacucProtocolOnlineReview-lookupReviewerPersonId" parent="IacucProtocolOnlineReview-lookupReviewerPersonId-parentBean" />
     <bean id="IacucProtocolOnlineReview-lookupReviewerPersonId-parentBean" abstract="true" parent="AttributeDefinition" >
@@ -385,14 +380,12 @@
         <property name="description" value="Reviewer Person Id" />
     </bean>
     
-    
     <bean id="IacucProtocolOnlineReview-lookupReviwerPerson.lastName" parent="IacucProtocolOnlineReview-lookupReviwerPerson.lastName-parentBean"/>
     <bean abstract="true" id="IacucProtocolOnlineReview-lookupReviwerPerson.lastName-parentBean" parent="KcPerson-lastName">
         <property name="name" value="lookupReviewerPerson.lastName"/>
         <property name="label" value="Kc Person Last Name"/>
         <property name="shortLabel" value="Kc Person Last Name"/>
     </bean>
-    
         
     <bean id="IacucProtocolOnlineReview-lookupProtocol.protocolNumber" parent="IacucProtocolOnlineReview-lookupProtocol.protocolNumber-parentBean" />
     <bean id="IacucProtocolOnlineReview-lookupProtocol.protocolNumber-parentBean" abstract="true" parent="AttributeDefinition" >
@@ -412,7 +405,7 @@
         <property name="summary" value="Protocol Number" />
         <property name="description" value="Protocol Number" />
     </bean>
-   -->
+
     <bean id="IacucProtocolOnlineReview-protocolSubmission.submissionNumber" parent="IacucProtocolOnlineReview-protocolSubmission.submissionNumber-parentBean" />
     <bean id="IacucProtocolOnlineReview-protocolSubmission.submissionNumber-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="protocolSubmission.submissionNumber" />
@@ -431,7 +424,7 @@
         <property name="summary" value="Protocol Submission Number" />
         <property name="description" value="Protocol Submission Number" />
     </bean>
-<!--  
+  
     <bean id="IacucProtocolOnlineReview-protocolSubmission.submissionStatus.description" parent="IacucProtocolOnlineReview-protocolSubmission.submissionStatus.description-parentBean" />
     <bean id="IacucProtocolOnlineReview-protocolSubmission.submissionStatus.description-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="protocolSubmission.submissionStatus.description" />
@@ -469,7 +462,6 @@
         <property name="summary" value="Protocol Submission Type" />
         <property name="description" value="Protocol Submission Type" />
     </bean>
- -->   
 
     <bean id="IacucProtocolOnlineReview-protocolSubmission.submissionTypeCode" parent="IacucProtocolOnlineReview-protocolSubmission.submissionTypeCode-parentBean" />
     <bean id="IacucProtocolOnlineReview-protocolSubmission.submissionTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
@@ -489,7 +481,7 @@
         <property name="summary" value="Protocol Submission Type Code" />
         <property name="description" value="Protocol Submission Type Code" />
     </bean>
-<!-- 
+ 
     <bean id="IacucProtocolOnlineReview-lookupReviewerFullName" parent="IacucProtocolOnlineReview-lookupReviewerFullName-parentBean" />
     <bean id="IacucProtocolOnlineReview-lookupReviewerFullName-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="lookupReviewerFullName" />
@@ -503,12 +495,12 @@
         </property>
         <property name="control" >
             <bean parent="TextControlDefinition"
-                p:size="20" />
+                p:size="40" />
         </property>
         <property name="summary" value="Reviewer Name" />
         <property name="description" value="Reviewer Name" />
     </bean>
- -->
+
     <bean id="IacucProtocolOnlineReview-protocol.principalInvestigator.personName" parent="IacucProtocolOnlineReview-protocol.principalInvestigator.personName-parentBean" />
     <bean id="IacucProtocolOnlineReview-protocol.principalInvestigator.personName-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="protocol.principalInvestigator.personName" />
@@ -547,7 +539,7 @@
         <!-- 
         <property name="control" >
           <bean parent="SelectControlDefinition"
-                p:businessObjectClass="org.kuali.kra.irb.actions.submit.ProtocolReviewerType"
+                p:businessObjectClass="org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewerType"
                 p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
                 p:includeKeyInLabel="false"
                 p:includeBlankRow="false"
@@ -568,14 +560,13 @@
         <property name="description" value="Reviewer Type" />
     </bean>
  
-<!-- 
     <bean id="IacucProtocolOnlineReview-protocol.protocolStatus.description" parent="IacucProtocolOnlineReview-protocol.protocolStatus.description-parentBean" />
     <bean id="IacucProtocolOnlineReview-protocol.protocolStatus.description-parentBean" abstract="true" parent="ProtocolStatus-description" >
         <property name="name" value="protocol.protocolStatus.description" />
         <property name="label" value="Protocol Status" />
         <property name="shortLabel" value="Protocol Status" />
     </bean>
-   -->  
+  
     <bean id="IacucProtocolOnlineReview-resultDueDate" parent="IacucProtocolOnlineReview-resultDueDate-parentBean" />
     <bean id="IacucProtocolOnlineReview-resultDueDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
         <property name="name" value="resultDueDate" />
@@ -613,7 +604,7 @@
     <bean abstract="true" id="IacucProtocolOnlineReview-lookupDefinition-parentBean" parent="LookupDefinition">
         <property name="title" value="Protocol Review Lookup"/>
         <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;"/>
-        <property name="lookupableID" value="protocolOnlineReviewLookupable" />
+        <property name="lookupableID" value="iacucProtocolOnlineReviewLookupable" />
         <property name="defaultSort">
             <bean parent="SortDefinition">
         </bean>
@@ -621,10 +612,10 @@
         <property name="lookupFields">
             <list>
                 <bean p:attributeName="protocolOnlineReviewId" parent = "FieldDefinition"/>
-                <!-- bean p:attributeName="lookupProtocol.protocolNumber" parent="FieldDefinition"/>
-                <bean p:attributeName="lookupIacucProtocolOnlineReviewStatusCode" parent="FieldDefinition" p:defaultValue="S"/>
-                <bean p:attributeName="lookupReviewerRolodexId" parent="FieldDefinition" p:hidden = "true" />
-                <bean p:attributeName="lookupReviewerPersonId" parent="FieldDefinition" p:hidden = "true" /-->
+                <bean p:attributeName="lookupProtocol.protocolNumber" parent="FieldDefinition"/>
+                <bean p:attributeName="lookupProtocolOnlineReviewStatusCode" parent="FieldDefinition" p:defaultValue="S"/>
+                <!--bean p:attributeName="lookupReviewerRolodexId" parent="FieldDefinition" p:hidden = "true" /-->
+                <bean p:attributeName="lookupReviewerPersonId" parent="FieldDefinition" p:hidden = "true" />
                 <bean p:attributeName="dateRequested" parent="FieldDefinition"/>
                 <bean p:attributeName="dateDue" parent="FieldDefinition"/>
             </list>
@@ -632,12 +623,12 @@
         <property name="resultFields">
             <list>
                 <bean p:attributeName="protocol.principalInvestigator.personName" parent = "FieldDefinition"/>
-                <!--  bean p:attributeName="protocol.protocolNumber" parent = "FieldDefinition"/-->
-                <!--  bean p:attributeName="protocol.protocolStatus.description" parent = "FieldDefinition"/>
+                <bean p:attributeName="protocol.protocolNumber" parent = "FieldDefinition"/>
+                <bean p:attributeName="protocol.protocolStatus.description" parent = "FieldDefinition"/> 
                 <bean p:attributeName="protocolSubmission.submissionNumber" parent = "FieldDefinition"/>
                 <bean p:attributeName="protocolSubmission.protocolSubmissionType.description" parent = "FieldDefinition"/>
                 <bean p:attributeName="protocolSubmission.submissionStatus.description" parent = "FieldDefinition"/>
-                <bean p:attributeName="lookupReviewerFullName" parent = "FieldDefinition"/-->
+                <bean p:attributeName="lookupReviewerFullName" parent = "FieldDefinition"/>
                 <bean p:attributeName="resultDueDate" parent="FieldDefinition"/>
                 <!--  bean p:attributeName="protocolOnlineReviewStatus.description" parent="FieldDefinition"/-->
             </list>

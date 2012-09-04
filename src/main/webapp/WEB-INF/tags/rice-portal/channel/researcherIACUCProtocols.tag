@@ -21,21 +21,21 @@
 
       <ul class="chan">
         <li><portal:portalLink displayTitle="false" title="Create IACUC Protocol" url="${ConfigProperties.application.url}/iacucProtocolProtocol.do?methodToCall=docHandler&command=initiate&docTypeName=IacucProtocolDocument">Create IACUC Protocol</portal:portalLink></li>
-        <li>Amend or Renew IACUC Protocol</li>
-        <li>Notify IACUC on a Protocol</li>
-        <li>Request a Status Change on a IACUC Protocol</li>
+<%--    <li>Amend or Renew IACUC Protocol</li>               --%>
+<%--    <li>Notify IACUC on a Protocol</li>                  --%>
+<%--    <li>Request a Status Change on a IACUC Protocol</li> --%>
   </ul>
 
   <strong>Lists</strong>
        <ul class="chan">
-            <li>Pending Protocols</li>
-            <li>Protocols Pending PI Action</li>
-            <li>Protocols Pending Committee Action</li>
-            <li>Protocols Under Development</li>
+<%--        <li>Pending Protocols</li>                  --%>
+<%--        <li>Protocols Pending PI Action</li>        --%>
+<%--        <li>Protocols Pending Committee Action</li> --%>
+<%--        <li>Protocols Under Development</li>        --%>
             <li><portal:portalLink displayTitle="true" title="All My Protocols" url="${ConfigProperties.application.url}/kr/lookup.do?methodToCall=search&businessObjectClassName=org.kuali.kra.iacuc.IacucProtocol&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&lookupProtocolPersonId=${UserSession.principalId}" /></li>
             <li><portal:portalLink displayTitle="true" title="Search Protocols" url="${ConfigProperties.application.url}/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.iacuc.IacucProtocol&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
-            <li>All My Reviews</li>
-            <li>All My Schedules</li>
+            <li><portal:portalLink displayTitle="true" title="All My Reviews" url="${ConfigProperties.application.url}/kr/lookup.do?methodToCall=search&businessObjectClassName=org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReview&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&lookupReviewerPersonId=${UserSession.principalId}" /></li>
+<%--        <li>All My Schedules</li>                   --%>
         </ul>  
 
 </div>
