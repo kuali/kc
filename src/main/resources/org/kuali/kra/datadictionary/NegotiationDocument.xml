@@ -35,6 +35,10 @@
                 <ref bean="NegotiationDocument-updateTimestamp"/>
             </list>
         </property>
+        
+       	<property name="workflowProperties"> 
+			<ref bean="NegotiationDocument-workflowProperties"/> 
+		</property>
     </bean>
 
     <!-- Attribute Definitions -->
@@ -54,4 +58,24 @@
 		<property name="shortLabel" value="Last Updated" />
         <property name="description" value="The timestamp when the Negotiation Document was last modified." />
     </bean>
+    
+  <bean id="NegotiationDocument-workflowProperties" parent="NegotiationDocument-workflowProperties-parentBean"/>
+  <bean id="NegotiationDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties" >
+    <property name="workflowPropertyGroups">
+      <list>
+        <bean parent="WorkflowPropertyGroup">
+          <property name="workflowProperties">
+            <list>
+              <bean parent="WorkflowProperty" p:path="documentHeader"/>
+ 			  <bean parent="WorkflowProperty" p:path="negotiation.negotiationId"/>
+ 			  <bean parent="WorkflowProperty" p:path="negotiation.negotiatorPersonId"/>
+              <bean parent="WorkflowProperty" p:path="negotiation.negotiatorName"/>
+              <bean parent="WorkflowProperty" p:path="negotiation.negotiationStartDate"/>
+              <bean parent="WorkflowProperty" p:path="negotiation.negotiationEndDate"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>    
 </beans>
