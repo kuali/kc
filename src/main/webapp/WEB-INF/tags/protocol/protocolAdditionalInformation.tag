@@ -9,6 +9,7 @@
 <%@ attribute name="researchAreasAttributes" required="true" type="java.util.Map" %>
 <%@ attribute name="action" required="true" %>
 <%@ attribute name="className" required="true" %>
+<%@ attribute name="researchAreaLookupBoClassName" required="true" %>
 <%@ attribute name="suppressFDAAppNumber" required="false" type="java.lang.Boolean" %>
  
  
@@ -42,7 +43,7 @@
 	            <tr>
 	              <th width="10%" class="infoline">add:</th>
 	              <td width="70%" class="infoline">${KualiForm.document.protocolList[0].newDescription}
-	              		<kul:multipleValueLookup boClassName="org.kuali.kra.iacuc.IacucResearchArea" 
+	              		<kul:multipleValueLookup boClassName="${researchAreaLookupBoClassName}" 
 	              		lookedUpCollectionName="protocolResearchAreas"
 	              		anchor="${tabKey}"/>
 				  </td>
