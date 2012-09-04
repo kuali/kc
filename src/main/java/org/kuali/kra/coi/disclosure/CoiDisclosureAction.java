@@ -129,6 +129,8 @@ public class CoiDisclosureAction extends CoiAction {
         helper.fixReloadedAttachments(request.getParameterMap());
         
         CoiDisclosure coiDisclosure = coiDisclosureDocument.getCoiDisclosure();
+        helper.setOriginalDisclosureIdsIfNecessary(coiDisclosure);
+        
         if (coiDisclosure.getCoiDisclosureId() == null) {
             coiDisclosure.initRequiredFields();            
         }
