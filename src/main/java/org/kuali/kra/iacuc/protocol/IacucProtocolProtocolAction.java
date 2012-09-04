@@ -37,6 +37,7 @@ import org.kuali.kra.iacuc.IacucProtocolAction;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.IacucProtocolDocumentRule;
 import org.kuali.kra.iacuc.IacucProtocolForm;
+import org.kuali.kra.iacuc.IacucResearchArea;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
 import org.kuali.kra.iacuc.notification.IacucProtocolFundingSourceNotificationRenderer;
 import org.kuali.kra.iacuc.notification.IacucProtocolNotificationContext;
@@ -45,7 +46,6 @@ import org.kuali.kra.iacuc.protocol.funding.IacucProtocolFundingSource;
 import org.kuali.kra.iacuc.protocol.funding.IacucProtocolFundingSourceService;
 import org.kuali.kra.iacuc.protocol.funding.IacucProtocolFundingSourceServiceImpl;
 import org.kuali.kra.iacuc.protocol.funding.IacucProtocolProposalDevelopmentDocumentService;
-import org.kuali.kra.iacuc.protocol.funding.IacucProtocolProposalDevelopmentDocumentServiceImpl;
 import org.kuali.kra.iacuc.protocol.funding.LookupIacucProtocolFundingSourceEvent;
 import org.kuali.kra.iacuc.protocol.funding.SaveIacucProtocolFundingSourceLinkEvent;
 import org.kuali.kra.iacuc.protocol.location.AddIacucProtocolLocationEvent;
@@ -60,15 +60,13 @@ import org.kuali.kra.iacuc.protocol.research.IacucProtocolResearchAreaService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.irb.protocol.funding.AddProtocolFundingSourceEvent;
-import org.kuali.kra.irb.protocol.funding.ProtocolFundingSourceServiceImpl;
-import org.kuali.kra.protocol.protocol.funding.ProtocolProposalDevelopmentDocumentService;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.protocol.ProtocolDocument;
 import org.kuali.kra.protocol.ProtocolEventBase;
 import org.kuali.kra.protocol.ProtocolForm;
 import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSource;
+import org.kuali.kra.protocol.protocol.funding.ProtocolProposalDevelopmentDocumentService;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
@@ -140,7 +138,7 @@ public class IacucProtocolProtocolAction extends IacucProtocolAction {
     @Override
     protected <T extends BusinessObject> void processMultipleLookupResults(ProtocolDocument protocolDocument,
             Class<T> lookupResultsBOClass, Collection<T> selectedBOs) {
-        if (lookupResultsBOClass.isAssignableFrom(ResearchArea.class)) {
+        if (lookupResultsBOClass.isAssignableFrom(IacucResearchArea.class)) {
             IacucProtocolResearchAreaService service = KraServiceLocator.getService("iacucProtocolResearchAreaService");
             service.addProtocolResearchArea(protocolDocument.getProtocol(), (Collection<ResearchArea>) selectedBOs);
             // finally do validation and error reporting for inactive research areas
