@@ -42,6 +42,7 @@
 <c:set var="iacucProtocolLocation" value="iacucProtocolLocation" />
 <%-- <c:set var="iacucProtocolParticipant" value="iacucProtocolParticipant" /> --%>
 
+<c:set var="researchAreaLookupBoClassName" value="org.kuali.kra.iacuc.IacucResearchArea" />
 
 <kul:documentPage
 	showDocumentInfo="true"
@@ -82,6 +83,7 @@
      researchAreasAttributes="${researchAreasAttributes}"
      action="${iacucProtocolProtocol}"
      className="${className}"
+     researchAreaLookupBoClassName="${researchAreaLookupBoClassName}"
      suppressFDAAppNumber = "true"/>
 
      
