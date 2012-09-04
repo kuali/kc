@@ -526,7 +526,7 @@
         <reference-descriptor name="protocol" class-ref="org.kuali.kra.iacuc.IacucProtocol" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="protocolId"/>
         </reference-descriptor>
-        <reference-descriptor name="researchAreas" class-ref="org.kuali.kra.bo.ResearchArea" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+        <reference-descriptor name="researchAreas" class-ref="org.kuali.kra.iacuc.IacucResearchArea" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="researchAreaCode"/>
         </reference-descriptor>
     </class-descriptor>
@@ -1686,5 +1686,18 @@
             <foreignkey field-ref="protoCorrespTypeCode"/>
         </reference-descriptor>
     </class-descriptor>
+
+
+	<class-descriptor class="org.kuali.kra.iacuc.IacucResearchArea" table="IACUC_RESEARCH_AREAS">
+		<field-descriptor name="researchAreaCode" column="RESEARCH_AREA_CODE" jdbc-type="VARCHAR" primarykey="true"/>
+		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR"/>
+		<field-descriptor name="hasChildrenFlag" column="HAS_CHILDREN_FLAG" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+		<field-descriptor name="parentResearchAreaCode" column="PARENT_RESEARCH_AREA_CODE" jdbc-type="VARCHAR"/>
+		<field-descriptor name="active" column="ACTIVE_FLAG" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" locking="false"/>
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR"/>
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+    	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+	</class-descriptor>
     
 </descriptor-repository>
