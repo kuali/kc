@@ -41,6 +41,8 @@ public class CoeusSubModule extends KraPersistableBusinessObjectBase {
     public static final String AMENDMENT = "4";
 
     public static final String RENEWAL = "3";
+    
+    public static final String CONTINUATION = "5";
 
     private Integer coeusSubModuleId;
 
