@@ -53,8 +53,32 @@
         </bean>
       </list>  
     </property>
+  
+	<property name="workflowProperties"> 
+		<ref bean="SubAwardDocument-workflowProperties"/> 
+	</property>    
     
   </bean>
 
-  
+  <bean id="SubAwardDocument-workflowProperties" parent="SubAwardDocument-workflowProperties-parentBean"/>
+  <bean id="SubAwardDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties" >
+    <property name="workflowPropertyGroups">
+      <list>
+        <bean parent="WorkflowPropertyGroup">
+          <property name="workflowProperties">
+            <list>
+              <bean parent="WorkflowProperty" p:path="documentHeader"/>
+ 			  <bean parent="WorkflowProperty" p:path="subAward.subAwardId"/>
+ 			  <bean parent="WorkflowProperty" p:path="subAward.subAwardCode"/>
+              <bean parent="WorkflowProperty" p:path="subAward.organizationId"/>
+              <bean parent="WorkflowProperty" p:path="subAward.title"/>
+              <bean parent="WorkflowProperty" p:path="subAward.requisitionerName"/>
+              <bean parent="WorkflowProperty" p:path="subAward.requisitionerId"/>
+              <bean parent="WorkflowProperty" p:path="subAward.requisitionerUnit"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>   
 </beans>

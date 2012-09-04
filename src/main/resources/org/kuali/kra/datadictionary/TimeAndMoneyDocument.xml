@@ -50,6 +50,8 @@
           <property name="workflowProperties">
             <list>
               <bean parent="WorkflowProperty" p:path="documentHeader"/>
+              <bean parent="WorkflowProperty" p:path="awardNumber"/>
+              <bean parent="WorkflowProperty" p:path="rootAwardNumber"/>
               <bean parent="WorkflowProperty" p:path="award.awardId"/>
               <bean parent="WorkflowProperty" p:path="award.awardNumber"/>
               <bean parent="WorkflowProperty" p:path="award.accountNumber"/>
