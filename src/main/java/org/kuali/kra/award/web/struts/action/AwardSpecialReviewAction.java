@@ -99,8 +99,15 @@ public class AwardSpecialReviewAction extends AwardAction {
         AwardDocument document = awardForm.getAwardDocument();
         AwardSpecialReview specialReview = awardForm.getSpecialReviewHelper().getNewSpecialReview();
         List<AwardSpecialReview> specialReviews = document.getAward().getSpecialReviews();
-        boolean isProtocolLinkingEnabled = ( awardForm.getSpecialReviewHelper().getIsIrbProtocolLinkingEnabled() || 
-                    awardForm.getSpecialReviewHelper().getIsIacucProtocolLinkingEnabled() );
+        boolean isProtocolLinkingEnabled = false;
+        if ( SpecialReviewType.HUMAN_SUBJECTS.equals(specialReview.getSpecialReviewTypeCode()) )
+        {
+            isProtocolLinkingEnabled =  awardForm.getSpecialReviewHelper().getIsIrbProtocolLinkingEnabled() ;
+        }
+        else if ( SpecialReviewType.ANIMAL_USAGE.equals(specialReview.getSpecialReviewTypeCode()) )
+        {
+            isProtocolLinkingEnabled =  awardForm.getSpecialReviewHelper().getIsIacucProtocolLinkingEnabled();
+        }
         
         awardForm.getSpecialReviewHelper().prepareProtocolLinkViewFields(specialReview);
         
@@ -196,15 +203,15 @@ public class AwardSpecialReviewAction extends AwardAction {
         AwardDocument document = awardForm.getAwardDocument();
         List<AwardSpecialReview> specialReviews = document.getAward().getSpecialReviews();
         List<String> linkedProtocolNumbers = awardForm.getSpecialReviewHelper().getLinkedProtocolNumbers();
-        boolean isAwardProtocolLinkingEnabled = (awardForm.getSpecialReviewHelper().getIsIrbProtocolLinkingEnabled() || awardForm.getSpecialReviewHelper().getIsIacucProtocolLinkingEnabled());
-
-        if (isAwardProtocolLinkingEnabled) {
+        boolean isAwardIrbProtocolLinkingEnabled = awardForm.getSpecialReviewHelper().getIsIrbProtocolLinkingEnabled();
+        boolean isAwardIacucProtocolLinkingEnabled = awardForm.getSpecialReviewHelper().getIsIacucProtocolLinkingEnabled();
+        if (isAwardIrbProtocolLinkingEnabled || isAwardIacucProtocolLinkingEnabled) {
             if (applyRules(new SaveSpecialReviewLinkEvent<AwardSpecialReview>(document, specialReviews, linkedProtocolNumbers))) {
                 awardForm.getSpecialReviewHelper().syncProtocolFundingSourcesWithSpecialReviews();
             }
         }
 
-        if (applyRules(new SaveSpecialReviewEvent<AwardSpecialReview>(SAVE_SPECIAL_REVIEW_FIELD, document, specialReviews, isAwardProtocolLinkingEnabled))) {
+        if (applyRules(new SaveSpecialReviewEvent<AwardSpecialReview>(SAVE_SPECIAL_REVIEW_FIELD, document, specialReviews, isAwardIrbProtocolLinkingEnabled, isAwardIacucProtocolLinkingEnabled))) {
             forward = super.save(mapping, form, request, response);
         }
 
