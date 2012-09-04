@@ -459,6 +459,14 @@ public class CoiNotesAndAttachmentsHelper {
 
     }
 
+    public void setOriginalDisclosureIdsIfNecessary(CoiDisclosure disclosure) {
+        for (CoiDisclosureAttachment attachment : disclosure.getCoiDisclosureAttachments()) {
+            if (attachment.getOriginalCoiDisclosureId() == null) {
+                attachment.setOriginalCoiDisclosureId(disclosure.getCoiDisclosureId());
+            }
+        }
+    }
+        
     public boolean deleteExistingAttachmentByType(final int attachmentNumber) {
         final boolean deleted;
         deleted = deleteExistingAttachment(attachmentNumber, getCoiDisclosure().getCoiDisclosureAttachments());
