@@ -72,13 +72,12 @@ public class AddManualProjectRule extends ResearchDocumentRuleBase implements Bu
         Map<String, String> criteria = new HashMap<String, String>();
         criteria.put("coiProjectId", coiDisclProject.getCoiProjectId());
         criteria.put("disclosureEventType", eventType);
+        criteria.put("coiDisclosureNumber", eventDisclosureNumber);
         List<CoiDisclProject> projects = (List<CoiDisclProject>) getBusinessObjectService().findMatching(CoiDisclProject.class, criteria);
         
         for (CoiDisclProject project : projects) {
-            if (StringUtils.equalsIgnoreCase(project.getCoiDisclosureNumber(), eventDisclosureNumber)) {
-                GlobalVariables.getMessageMap().putError("coiProjectId", KeyConstants.ERROR_COI_DUPLICATE_PROJECT_ID, "(" + coiDisclProject.getCoiProjectId() + ")"); 
-                isValid = false;
-            }
+            GlobalVariables.getMessageMap().putError("coiProjectId", KeyConstants.ERROR_COI_DUPLICATE_PROJECT_ID, "(" + coiDisclProject.getCoiProjectId() + ")"); 
+            isValid = false;
         }
         return isValid;
     }
