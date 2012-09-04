@@ -20,6 +20,7 @@ import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.kra.bo.ResearchArea;
 import org.kuali.kra.iacuc.actions.IacucProtocolAction;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
 import org.kuali.kra.iacuc.actions.IacucProtocolStatus;
@@ -286,6 +287,11 @@ public class IacucProtocolDocument extends ProtocolDocument {
         else if (isContinuation()) {
             mergeAmendment(getProtocolMergedStatus(), "Continuation");
         }
+    }
+
+    @Override
+    protected Class<? extends ResearchArea> getResearchAreaBoClassHook() {
+        return IacucResearchArea.class;
     }
 
 }
