@@ -236,7 +236,7 @@ public class ProtocolDocumentRule extends ResearchDocumentRuleBase  implements A
     
     private boolean processProtocolSpecialReviewBusinessRules(ProtocolDocument document) {
         List<ProtocolSpecialReview> specialReviews = document.getProtocol().getSpecialReviews();
-        return processRules(new SaveSpecialReviewEvent<ProtocolSpecialReview>(SAVE_SPECIAL_REVIEW_FIELD, document, specialReviews, false));
+        return processRules(new SaveSpecialReviewEvent<ProtocolSpecialReview>(SAVE_SPECIAL_REVIEW_FIELD, document, specialReviews, false, false));
     }
 
     public boolean processAddProtocolReferenceBusinessRules(AddProtocolReferenceEvent addProtocolReferenceEvent) {
