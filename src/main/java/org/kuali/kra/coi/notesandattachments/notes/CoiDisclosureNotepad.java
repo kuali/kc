@@ -44,6 +44,7 @@ public class CoiDisclosureNotepad extends CoiDisclosureAssociate implements Comp
     private transient String updateUserFullName;
     private String projectId;
     private Long originalCoiDisclosureId; 
+    @SkipVersioning
     private CoiDisclosure originalCoiDisclosure; 
     private Long financialEntityId;
     @SkipVersioning
