@@ -119,7 +119,7 @@
                 <c:if test="${viewRestrictedNotes || !coiDisclosureNotepad.restrictedView}">
 	         	
 	         	<c:set var="noteId" value="${coiDisclosureNotepad.id}" />
-	         	<c:set var="permission" value="${canDeleteUpdateNotes[noteId] or (empty noteId and (currentUser == coiDisclosureNotepad.updateUser))}" />
+	         	<c:set var="permission" value="${canDeleteUpdateNotes[status.index]}" />
 	         	<%--This noteReadOnly just makes the note readonly. Editing and Deleting permissions is controlled by another authorizer. --%>
 					<c:set var="noteReadOnly" value="${!modifyPermission || !coiDisclosureNotepad.editable}" />
 					<c:set var="disclosureEditable" value="${coiDisclosureNotepad.editable}" />

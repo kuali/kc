@@ -421,7 +421,7 @@
 			         		<td colspan="6" class="infoline">
 								<div align="center">
 									<c:set var="id" value="${attachment.attachmentIdForPermission}" />
-	         						<c:set var="permission" value="${canDeleteUpdateAttachments[id]}" />
+	         						<c:set var="permission" value="${canDeleteUpdateAttachments[itrStatus.index]}" />
 	         						
 									<input type="hidden" id="coiDisclosureRefreshButtonClicked${itrStatus.index}" name="coiDisclosureRefreshButtonClicked${itrStatus.index}" value="F"/>
 									<html:image property="methodToCall.viewAttachmentCoi.line${itrStatus.index}.anchor${currentTabIndex}"
