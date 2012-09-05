@@ -40,7 +40,7 @@
 			</td>
 		</tr>
 		<tr>
-            <td colspan="2" align="center">
+            <td style="text-align: center;" colspan="2">
             	<html:image property="methodToCall.rejectYes" src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_Yes.gif" title="Do Reject" alt="Do Reject" styleClass="tinybutton"/>
             	<html:image property="methodToCall.rejectNo" src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_No.gif" title="Dont Reject" alt="Don't Reject" styleClass="tinybutton"/>	                
             </td>
@@ -48,3 +48,4 @@
 	</table>
 	</div>
 </kul:tabTop>
+<kul:panelFooter />

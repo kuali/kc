@@ -93,6 +93,7 @@ public interface Constants {
     public static final String INVALID_FILE_NAME_ERROR_CODE = "2";
     public static final String INVALID_FILE_NAME_CHECK_PARAMETER = "INVALID_FILE_NAME_CHECK";
     public static final String INVALID_FILE_NAME_ERROR_TAB = "institutionalProposalNotepadBean.newInstitutionalProposalNotepad.invalidFileName";
+    public static final String REJECT_NARRATIVE_TYPE_CODE_PARAM = "rejectNarrativeTypeCode";
 
     public static final String PERSON_ROLE_PARAMETER_PREFIX = "personrole.";
     public static final String NIH_SPONSOR_ACRONYM = "NIH";
