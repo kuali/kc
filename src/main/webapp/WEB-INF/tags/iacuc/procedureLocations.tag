@@ -107,6 +107,7 @@
             
         	<c:forEach var="protocolLocation" items="${collectionReference}" varStatus="status">
                	<c:set var="locationName" value="${protocolLocation.iacucLocationName.locationName}" />
+               	<c:set var="locationId" value="${protocolLocation.locationId}" />
                 <tr>
 					<th class="infoline">
 					   <c:out value="${status.index+1}" />
@@ -136,7 +137,7 @@
 							</c:when>
 							<c:otherwise>
 			                    <html:select property="${collectionProperty}[${status.index}].locationId" styleId="${collectionProperty}[${status.index}].locationId">                                              	                
-									<option value="">select</option> 
+                                 	<option value="${locationId}">${locationName}</option>
 								</html:select>                         
 							</c:otherwise>
 						</c:choose>	
