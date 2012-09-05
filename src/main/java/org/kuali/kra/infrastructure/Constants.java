@@ -740,6 +740,7 @@ public interface Constants {
     public static final String DEFAULT_CORRESPONDENCE_TEMPLATE = "DEFAULT";
     public static final String CORRESPONDENCE_TEMPLATE_CONTENT_TYPE_1 = "text/xml";
     public static final String CORRESPONDENCE_TEMPLATE_CONTENT_TYPE_2 = "application/xml";
+    public static final String CORRESPONDENCE_TEMPLATE_CONTENT_TYPE_3 = "application/xslt+xml";
     public static final String PROTOCOL_RENEWAL_REMINDERS = "1";
     public static final String REMINDER_TO_IRB_NOTIFICATIONS = "2";
     public static final String REMINDER_TO_IACUC_NOTIFICATIONS = "2";
