@@ -441,6 +441,8 @@ function loadSponsorName(sponsorCodeFieldName, sponsorNameFieldName ) {
   */
 function populateSelect(methodToCall, firstSelectId, secondSelectId) {
 	var valueSelected = $j(jq_escape(firstSelectId)).attr("value");
+	var valueSelectedSec = $j(jq_escape(secondSelectId)).attr("value");
+	
 	var secondSelectIdEscaped = jq_escape(secondSelectId);
 	callAjaxByPath('jqueryAjax.do', methodToCall, valueSelected,
 			function(data) {
@@ -457,6 +459,7 @@ function populateSelect(methodToCall, firstSelectId, secondSelectId) {
 					
 					$j(secondSelectIdEscaped).html(options);
 					$j(secondSelectIdEscaped).removeAttr('disabled');
+					$j(secondSelectIdEscaped).val(valueSelectedSec);
 				}
 			},
 			function(error) {
