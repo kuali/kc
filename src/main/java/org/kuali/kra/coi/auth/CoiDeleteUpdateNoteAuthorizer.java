@@ -32,7 +32,7 @@ public class CoiDeleteUpdateNoteAuthorizer extends CoiDeleteUpdateNotesAttachmen
         CoiDisclosureNotepad note = deleteUpdateTask.getNote();
         String noteCreator = note.getUpdateUser();
         if (note.getOriginalCoiDisclosureId() != null 
-                && !ObjectUtils.equals(note.getOriginalCoiDisclosureId(), note.getCoiDisclosureId())) {
+                && !ObjectUtils.equals(note.getOriginalCoiDisclosureId(), task.getCoiDisclosure().getCoiDisclosureId())) {
             return false;
         } else {
             return isAuthorized(userId, task, noteCreator);
