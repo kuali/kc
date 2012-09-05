@@ -32,7 +32,7 @@ public class CoiDeleteUpdateAttachmentAuthorizer extends CoiDeleteUpdateNotesAtt
         CoiDisclosureAttachment attachment = deleteUpdateTask.getAttachment();      
         String attachmentCreator = attachment.getUpdateUser();
         if (attachment.getOriginalCoiDisclosureId() != null 
-                && !ObjectUtils.equals(attachment.getOriginalCoiDisclosureId(), attachment.getCoiDisclosureId())) {
+                && !ObjectUtils.equals(attachment.getOriginalCoiDisclosureId(), task.getCoiDisclosure().getCoiDisclosureId())) {
             return false;
         } else {
             return isAuthorized(userId, task, attachmentCreator);
