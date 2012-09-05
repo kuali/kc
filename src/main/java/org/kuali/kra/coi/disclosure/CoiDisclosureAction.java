@@ -729,7 +729,6 @@ public class CoiDisclosureAction extends CoiAction {
         if (!helper.deleteExistingAttachmentByType(selection)) {
             //may want to tell the user the selection was invalid.
         }
-        save(mapping, form, request, response);
 
         return mapping.findForward(Constants.MAPPING_BASIC);
     }

@@ -81,6 +81,7 @@ public class CoiDisclProject extends KraPersistableBusinessObjectBase implements
     private CoiDisclosureEventType coiDisclosureEventType;
     private Long originalCoiDisclosureId; 
 
+    @SkipVersioning
     private CoiDisclosure coiDisclosure; 
     @SkipVersioning
     private List<CoiDiscDetail> coiDiscDetails; 
