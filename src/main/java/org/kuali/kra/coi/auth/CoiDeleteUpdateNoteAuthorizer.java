@@ -16,6 +16,7 @@
 package org.kuali.kra.coi.auth;
 
 
+import org.apache.commons.lang.ObjectUtils;
 import org.kuali.kra.coi.notesandattachments.notes.CoiDisclosureNotepad;
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.role.RoleService;
@@ -28,11 +29,14 @@ public class CoiDeleteUpdateNoteAuthorizer extends CoiDeleteUpdateNotesAttachmen
     @Override
     public boolean isAuthorized(String userId, CoiDisclosureTask task) {
         CoiDisclosureDeleteUpdateNoteTask deleteUpdateTask = (CoiDisclosureDeleteUpdateNoteTask) task;
-        CoiDisclosureNotepad note = deleteUpdateTask.getNote();       
+        CoiDisclosureNotepad note = deleteUpdateTask.getNote();
         String noteCreator = note.getUpdateUser();
-       
-        return isAuthorized(userId, task, noteCreator);
-       
+        if (note.getOriginalCoiDisclosureId() != null 
+                && !ObjectUtils.equals(note.getOriginalCoiDisclosureId(), note.getCoiDisclosureId())) {
+            return false;
+        } else {
+            return isAuthorized(userId, task, noteCreator);
+        }
     }
   
     public void setRoleService(RoleService roleService) {

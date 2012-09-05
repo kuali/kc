@@ -16,6 +16,7 @@
 package org.kuali.kra.coi;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.coi.personfinancialentity.PersonFinIntDisclosure;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -46,7 +47,8 @@ public class CoiDiscDetail extends KraPersistableBusinessObjectBase implements C
     private CoiEntityStatusCode coiEntityStatusCode; 
     private CoiDisclosure coiDisclosure; 
     // originalxxxx is for master disclosure ui bean
-    private Long originalCoiDisclosureId; 
+    private Long originalCoiDisclosureId;
+    @SkipVersioning
     private CoiDisclosure originalCoiDisclosure; 
     private CoiDisclProject coiDisclProject;
     // TODO : in general this projectType is same as disclosure eventtypecode. Can this be replaced by modulecode ?

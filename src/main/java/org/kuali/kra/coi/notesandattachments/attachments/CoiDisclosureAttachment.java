@@ -17,7 +17,9 @@ package org.kuali.kra.coi.notesandattachments.attachments;
 
 
 import java.sql.Timestamp;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.upload.FormFile;
@@ -28,6 +30,8 @@ import org.kuali.kra.coi.CoiDisclProject;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.CoiDisclosureAssociate;
 import org.kuali.kra.coi.personfinancialentity.PersonFinIntDisclosure;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -55,6 +59,7 @@ public class CoiDisclosureAttachment extends CoiDisclosureAssociate implements C
     private String projectId;
     private String eventTypeCode;
     private Long originalCoiDisclosureId; 
+    @SkipVersioning
     private CoiDisclosure originalCoiDisclosure; 
     private String projectName;
     private Long financialEntityId;
@@ -344,6 +349,16 @@ public class CoiDisclosureAttachment extends CoiDisclosureAssociate implements C
             updatedByString = KRADServiceLocator.getKualiConfigurationService().getPropertyValueAsString(MESSAGE_UPDATED_BY);
         }
         return updatedByString;
+    }
+    
+    protected void postRemove() {
+        //if there aren't another other attachments to the actual file, then delete.
+        Map<String, Object> values = new HashMap<String, Object>();
+        values.put("fileId", getFileId());
+        BusinessObjectService boService = KraServiceLocator.getService(BusinessObjectService.class);
+        if (boService.countMatching(CoiDisclosureAttachment.class, values) == 1) {
+            boService.delete(getFile());
+        } 
     }
 
 }
