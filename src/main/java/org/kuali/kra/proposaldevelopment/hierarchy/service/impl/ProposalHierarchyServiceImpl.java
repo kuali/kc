@@ -1566,7 +1566,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
             narrative.setFileName(rejectFile.getFileName());
             narrative.setComments(reason);
             narrative.setNarrativeFile(rejectFile);
-            narrative.setNarrativeTypeCode("18");
+            narrative.setNarrativeTypeCode(getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, Constants.REJECT_NARRATIVE_TYPE_CODE_PARAM));
             Map keys = new HashMap();
             keys.put("NARRATIVE_STATUS_CODE", "C");
             NarrativeStatus status = (NarrativeStatus) this.businessObjectService.findByPrimaryKey(NarrativeStatus.class, keys);
@@ -1844,6 +1844,45 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
     }
     public void setWorkflowDocumentService(WorkflowDocumentService workflowDocumentService) {
         this.workflowDocumentService = workflowDocumentService;
+    }
+    protected BusinessObjectService getBusinessObjectService() {
+        return businessObjectService;
+    }
+    protected DocumentService getDocumentService() {
+        return documentService;
+    }
+    protected KraAuthorizationService getKraAuthorizationService() {
+        return kraAuthorizationService;
+    }
+    protected ProposalHierarchyDao getProposalHierarchyDao() {
+        return proposalHierarchyDao;
+    }
+    protected NarrativeService getNarrativeService() {
+        return narrativeService;
+    }
+    protected BudgetService getBudgetService() {
+        return budgetService;
+    }
+    protected ProposalPersonBiographyService getPropPersonBioService() {
+        return propPersonBioService;
+    }
+    protected ParameterService getParameterService() {
+        return parameterService;
+    }
+    protected IdentityService getIdentityManagementService() {
+        return identityManagementService;
+    }
+    protected ConfigurationService getConfigurationService() {
+        return configurationService;
+    }
+    protected List<ProposalPersonExtendedAttributes> getProposalPersonExtendedAttributesToDelete() {
+        return proposalPersonExtendedAttributesToDelete;
+    }
+    protected SessionDocumentService getSessionDocumentService() {
+        return sessionDocumentService;
+    }
+    protected WorkflowDocumentService getWorkflowDocumentService() {
+        return workflowDocumentService;
     }
     
     
