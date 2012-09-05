@@ -864,10 +864,8 @@
 	<bean id="printXmlUtilService"
 		class="org.kuali.kra.common.committee.print.PrintXmlUtilServiceImpl">
 		<property name="businessObjectService" ref="businessObjectService" />
-		<property name="dateTimeService" ref="dateTimeService" />
-		<!--  
-		<property name="reviewCommentsService" ref="reviewCommentsService" />
-		-->
+		<property name="dateTimeService" ref="dateTimeService" />  
+		<property name="reviewCommentsService" ref="iacucReviewCommentsService" />
 		
 	</bean>
 
