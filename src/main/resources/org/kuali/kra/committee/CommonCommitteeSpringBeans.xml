@@ -182,6 +182,7 @@
 	<bean id="commonPrintXmlUtilService" class="org.kuali.kra.common.committee.print.PrintXmlUtilServiceImpl">
 		<property name="businessObjectService" ref="businessObjectService" />
 		<property name="dateTimeService" ref="dateTimeService" />
+		<property name="reviewCommentsService" ref="iacucReviewCommentsService" />
 	</bean>
 	
 	<bean id="commonCommitteeNotificationRoleQualifierService" class="org.kuali.kra.common.committee.notification.CommitteeNotificationRoleQualifierServiceImpl"

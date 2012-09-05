@@ -15058,7 +15058,171 @@ buffer := 'emplates/>
 								<fo:block/>
 								<fo:block>
 									<fo:leader leader-pattern="space"/>
+								</fo:block>';
+DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
+END;
+/
+DECLARE data CLOB; buffer VARCHAR2(30000);
+BEGIN
+SELECT CORRESPONDENCE_TEMPLATE INTO data FROM IACUC_PROTO_CORRESP_TEMPL
+WHERE
+PROTO_CORRESP_TYPE_CODE=(SELECT PROTO_CORRESP_TYPE_CODE FROM IACUC_PROTOCOL_CORRESP_TYPE WHERE DESCRIPTION = 'Minutes')  AND  COMMITTEE_ID =  'DEFAULT' FOR UPDATE;
+buffer := '								<fo:block>
+									<fo:leader leader-pattern="space"/>
 								</fo:block>
+								<fo:inline font-weight="bold" text-decoration="underline">
+									<xsl:text>Other Minutes</xsl:text>
+								</fo:inline>
+								<fo:inline-container>
+									<fo:block>
+										<xsl:text>&#x200B;</xsl:text>
+									</fo:block>
+								</fo:inline-container>
+								<xsl:if test="n1:Minutes">
+									<fo:table table-layout="fixed" width="100%" border="solid 1pt gray" border-spacing="-1pt">
+										<fo:table-column column-width="proportional-column-width(1)"/>
+										<fo:table-column column-width="proportional-column-width(1)"/>
+										<fo:table-column column-width="proportional-column-width(1)"/>
+										<fo:table-column column-width="proportional-column-width(1)"/>
+										<xsl:variable name="altova:CurrContextGrid_11F1A108" select="."/>
+										<fo:table-header start-indent="0pt">
+											<fo:table-row>
+												<fo:table-cell border="solid 1pt gray" padding="0" display-align="center">
+													<fo:block text-align="left">
+														<fo:inline>
+															<xsl:text>Entry Number</xsl:text>
+														</fo:inline>
+													</fo:block>
+												</fo:table-cell>
+												<fo:table-cell border="solid 1pt gray" padding="0" display-align="center">
+													<fo:block text-align="left">
+														<fo:inline>
+															<xsl:text>Minute Entry</xsl:text>
+														</fo:inline>
+													</fo:block>
+												</fo:table-cell>
+												<fo:table-cell border="solid 1pt gray" padding="0" display-align="center">
+													<fo:block text-align="left">
+														<fo:inline>
+															<xsl:text>Update User</xsl:text>
+														</fo:inline>
+													</fo:block>
+												</fo:table-cell>
+												<fo:table-cell border="solid 1pt gray" padding="0" display-align="center">
+													<fo:block text-align="left">
+														<fo:inline>
+															<xsl:text>Update Timestamp</xsl:text>
+														</fo:inline>
+													</fo:block>
+												</fo:table-cell>
+											</fo:table-row>
+										</fo:table-header>
+										<fo:table-body start-indent="0pt">
+											<xsl:variable name="altova:tablerows">
+												<xsl:for-each select="n1:Minutes">
+													<fo:table-row>
+														<fo:table-cell border="solid 1pt gray" padding="0" display-align="center">
+															<fo:block text-align="left">
+																<xsl:for-each select="n1:EntryNumber">
+																	<xsl:variable name="value-of-template_11F32988">
+																		<xsl:apply-templates/>
+																	</xsl:variable>
+																	<xsl:choose>
+																		<xsl:when test="contains(string($value-of-template_11F32988),''&#x200B;'')">
+																			<fo:block>
+																				<xsl:copy-of select="$value-of-template_11F32988"/>
+																			</fo:block>
+																		</xsl:when>
+																		<xsl:otherwise>
+																			<fo:inline>
+																				<xsl:copy-of select="$value-of-template_11F32988"/>
+																			</fo:inline>
+																		</xsl:otherwise>
+																	</xsl:choose>
+																</xsl:for-each>
+															</fo:block>
+														</fo:table-cell>
+														<fo:table-cell border="solid 1pt gray" padding="0" display-align="center">
+															<fo:block text-align="left">
+																<xsl:for-each select="n1:MinuteEntry">
+																	<xsl:variable name="value-of-template_11F328A8">
+																		<xsl:apply-templates/>
+																	</xsl:variable>
+																	<xsl:choose>
+																		<xsl:when test="contains(string($value-of-template_11F328A8),''&#x200B;'')">
+																			<fo:block>
+																				<xsl:copy-of select="$value-of-template_11F328A8"/>
+																			</fo:block>
+																		</xsl:when>
+																		<xsl:otherwise>
+																			<fo:inline>
+																				<xsl:copy-of select="$value-of-template_11F328A8"/>
+																			</fo:inline>
+																		</xsl:otherwise>
+																	</xsl:choose>
+																</xsl:for-each>
+															</fo:block>
+														</fo:table-cell>
+														<fo:table-cell border="solid 1pt gray" padding="0" display-align="center">
+															<fo:block text-align="left">
+																<xsl:for-each select="n1:UpdateUser">
+																	<xsl:variable name="value-of-template_11F327C8">
+																		<xsl:apply-templates/>
+																	</xsl:variable>
+																	<xsl:choose>
+																		<xsl:when test="contains(string($value-of-template_11F327C8),''&#x200B;'')">
+																			<fo:block>
+																				<xsl:copy-of select="$value-of-template_11F327C8"/>
+																			</fo:block>
+																		</xsl:when>
+																		<xsl:otherwise>
+																			<fo:inline>
+																				<xsl:copy-of select="$value-of-template_11F327C8"/>
+																			</fo:inline>
+																		</xsl:otherwise>
+																	</xsl:choose>
+																</xsl:for-each>
+															</fo:block>
+														</fo:table-cell>
+														<fo:table-cell border="solid 1pt gray" padding="0" display-align="center">
+															<fo:block text-align="left">
+																<xsl:for-each select="n1:UpdateTimestamp">
+																	<xsl:variable name="value-of-template_11F326E8">
+																		<xsl:apply-templates/>
+																	</xsl:variable>
+																	<xsl:choose>
+																		<xsl:when test="contains(string($value-of-template_11F326E8),''&#x200B;'')">
+																			<fo:block>
+																				<xsl:copy-of select="$value-of-template_11F326E8"/>
+																			</fo:block>
+																		</xsl:when>
+																		<xsl:otherwise>
+																			<fo:inline>
+																				<xsl:copy-of select="$value-of-template_11F326E8"/>
+																			</fo:inline>
+																		</xsl:otherwise>
+																	</xsl:choose>
+																</xsl:for-each>
+															</fo:block>
+														</fo:table-cell>
+													</fo:table-row>
+												</xsl:for-each>
+											</xsl:variable>
+											<xsl:choose>
+												<xsl:when test="string($altova:tablerows)">
+													<xsl:copy-of select="$altova:tablerows"/>
+												</xsl:when>
+												<xsl:otherwise>
+													<fo:table-row>
+														<fo:table-cell>
+															<fo:block/>
+														</fo:table-cell>
+													</fo:table-row>
+												</xsl:otherwise>
+											</xsl:choose>
+										</fo:table-body>
+									</fo:table>
+								</xsl:if>
 							</xsl:for-each>
 						</xsl:for-each>
 					</fo:block>
