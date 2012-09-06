@@ -18,6 +18,7 @@ package org.kuali.kra.iacuc.onlinereview.authorization;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.ApplicationTask;
 import org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase;
@@ -81,7 +82,7 @@ public class IacucProtocolOnlineReviewDocumentAuthorizer extends KcTransactional
         for (CommitteeScheduleMinute minute : this.getCommonCommitteeScheduleService().getMinutesByProtocol(protocolOnlineReviewDocument.getProtocolOnlineReview().getProtocolId())) {
             Long minuteOnlineReviewId =  minute.getProtocolOnlineReviewIdFk();
             Long onlineReviewId = protocolOnlineReviewDocument.getProtocolOnlineReview().getProtocolOnlineReviewId();
-            if (minuteOnlineReviewId.equals(onlineReviewId)) {
+            if (ObjectUtils.equals(minuteOnlineReviewId, onlineReviewId)) {
                 boolean isCreator = StringUtils.equalsIgnoreCase(minute.getCreateUser(), GlobalVariables.getUserSession().getPrincipalName());
                 minute.setReadOnly(!(canEdit && (canAdministerCommitteeScheduleMinutes || isCreator)));
             }
