@@ -427,7 +427,6 @@ public abstract class ReviewCommentsServiceImpl<PRA extends ProtocolReviewAttach
             }
             if (doUpdate) {
                 businessObjectService.save(reviewComment);
-                reviewComment.getProtocol().refresh();
             }
         }
 
