@@ -4628,10 +4628,11 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
                 /*
                  * TODO: Fix rules for assign reviewers and add committee + schedule and take the valid protocol sub tables into account
                  */
-                // hack. you should not have to do this, the bean should automatically set.
-                setReviewers(form, request);
+
                 if (applyRules(new IacucProtocolModifySubmissionEvent(protocolForm.getProtocolDocument(), bean))) {                    
-                    
+
+                    // hack. you should not have to do this, the bean should automatically set. Note - reverting change
+                    setReviewers(form, request);                    
                     List<ProtocolReviewerBean> beans = bean.getReviewers();
     
                     //clear the warnings before rendering the page.
