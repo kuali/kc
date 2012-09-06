@@ -81,8 +81,14 @@ public class IacucProtocolModifySubmissionRuleImpl extends ResearchDocumentRuleB
     public boolean validAssignReviewers(ProtocolDocument document, IacucProtocolModifySubmissionBean actionBean) {
         boolean isValid = true;
         int totalValidReviewers = 0;
-        
+                
         List<ProtocolReviewerBean> reviewers = actionBean.getReviewers();
+        
+        // Cannot have assigned reviewers with no schedule
+        if (StringUtils.isBlank(actionBean.getScheduleId()) &&  reviewers != null && reviewers.size() > 0) {
+            isValid=false;
+        }
+
         List<ProtocolOnlineReviewDocument> protocolOnlineReviewDocuments = getProtocolOnlineReviewService().getProtocolReviewDocumentsForCurrentSubmission(document.getProtocol()); 
         for (int i = 0; i < reviewers.size(); i++) {
             ProtocolReviewerBean reviewer = reviewers.get(i);
