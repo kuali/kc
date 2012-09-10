@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.budget.web.struts.action;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -375,7 +376,12 @@ public class BudgetExpensesAction extends BudgetAction {
             throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
         Budget budget = budgetForm.getBudgetDocument().getBudget();
-        List<String> formulatedCostElements = getFormulatedCostElements();
+        List<String> formulatedCostElements = null;
+        if (isBudgetFormulatedCostEnabled()) {
+            formulatedCostElements = getFormulatedCostElements();
+        } else {
+            formulatedCostElements = new ArrayList<String>();
+        }
         int budgetPeriodIndex = -1;
         for(BudgetPeriod budgetPeriod:budget.getBudgetPeriods()){
             ++budgetPeriodIndex;
