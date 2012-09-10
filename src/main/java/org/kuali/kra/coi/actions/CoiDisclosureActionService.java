@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.coi.actions;
 
+import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.coi.CoiDisclosure;
@@ -41,17 +42,21 @@ public interface CoiDisclosureActionService {
     
     /**
      * This method adds a coi reviewer to the disclosure
+     * @param mapping
+     * @param form
      * @param coiDisclosure
      * @param coiUserRole
      */
-    void addCoiUserRole(CoiDisclosure coiDisclosure, CoiUserRole coiUserRole);
+    ActionForward addCoiUserRole(ActionMapping mapping, ActionForm form, CoiDisclosure coiDisclosure, CoiUserRole coiUserRole);
     
     /**
      * This method removes a coi reviewer from the disclosure
+     * @param mapping
+     * @param form
      * @param coiDisclosure
      * @param index
      */
-    void deleteCoiUserRole(CoiDisclosure coiDisclosure, int index);
+    ActionForward deleteCoiUserRole(ActionMapping mapping, ActionForm form, CoiDisclosure coiDisclosure, int index);
 
     /**
      * This method submits a disclosure to workflow
