@@ -95,11 +95,11 @@
 	<!-- Business Object Inquiry Definition -->
 	<bean id="IacucExceptionCategory-inquiryDefinition" parent="IacucExceptionCategory-inquiryDefinition-parentBean" />
 	<bean id="IacucExceptionCategory-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-		<property name="title" value="Exception Category" />
+		<property name="title" value="IACUC Exception Category" />
 		<property name="inquirySections" >
 			<list>
 				<bean parent="InquirySectionDefinition">
-					<property name="title" value="Exception Category" />
+					<property name="title" value="IACUC Exception Category" />
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields" >
 						<list>
@@ -119,7 +119,7 @@
 	<!-- Business Object Lookup Definition -->
 	<bean id="IacucExceptionCategory-lookupDefinition" parent="IacucExceptionCategory-lookupDefinition-parentBean" />
 	<bean id="IacucExceptionCategory-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-		<property name="title" value="Exception Category Lookup" />
+		<property name="title" value="IACUC Exception Category Lookup" />
 		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
 
 		<property name="defaultSort" >
@@ -133,6 +133,7 @@
 					p:forceInquiry="true" />
 				<bean parent="FieldDefinition"
 					p:attributeName="exceptionCategoryDesc" />
+				<bean parent="FieldDefinition" p:attributeName="active" />
 			</list>
 		</property>
 		<property name="resultFields" >
