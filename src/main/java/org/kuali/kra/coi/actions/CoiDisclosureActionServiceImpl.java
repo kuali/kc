@@ -22,14 +22,19 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.coi.CoiActionType;
 import org.kuali.kra.coi.CoiDiscDetail;
 import org.kuali.kra.coi.CoiDisclProject;
 import org.kuali.kra.coi.CoiDisclosure;
@@ -39,13 +44,16 @@ import org.kuali.kra.coi.CoiDisclosureHistory;
 import org.kuali.kra.coi.CoiDisclosureStatus;
 import org.kuali.kra.coi.CoiUserRole;
 import org.kuali.kra.coi.certification.SubmitDisclosureAction;
-import org.kuali.kra.coi.disclosure.MasterDisclosureBean;
 import org.kuali.kra.coi.notesandattachments.attachments.CoiDisclosureAttachment;
 import org.kuali.kra.coi.notesandattachments.notes.CoiDisclosureNotepad;
+import org.kuali.kra.coi.notification.AssignReviewerNotificationRenderer;
 import org.kuali.kra.coi.notification.CoiNotificationContext;
 import org.kuali.kra.coi.notification.DisclosureCertifiedNotificationRenderer;
 import org.kuali.kra.coi.notification.DisclosureCertifiedNotificationRequestBean;
+import org.kuali.kra.common.notification.bo.NotificationTypeRecipient;
 import org.kuali.kra.common.notification.service.KcNotificationService;
+import org.kuali.kra.common.notification.web.struts.form.NotificationHelper;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.questionnaire.answer.Answer;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
@@ -72,7 +80,8 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
     private static final String MODULE_ITEM_CODE = "moduleItemCode";
     private static final String MODULE_ITEM_KEY = "moduleItemKey";
     private static final String MODULE_SUB_ITEM_KEY = "moduleSubItemKey";
-
+    private static final String MODULE_NAMESPACE = "KC-COIDISCLOSURE";
+    
     /**
      * copy disc details from previous master disclosure if it exists.
      * create a disclosure history methods.
@@ -155,17 +164,23 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
         this.kcNotificationService = kcNotificationService;
     }
 
-    public void addCoiUserRole(CoiDisclosure coiDisclosure, CoiUserRole coiUserRole) {
+    public ActionForward addCoiUserRole(ActionMapping mapping, ActionForm form, CoiDisclosure coiDisclosure, CoiUserRole coiUserRole) {
+        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
+
         coiDisclosure.getCoiUserRoles().add(coiUserRole);
         businessObjectService.save(coiDisclosure);
+        return sendNotification(mapping, form, forward, coiUserRole, "Assigned");
     }
     
-    public void deleteCoiUserRole(CoiDisclosure coiDisclosure, int index) {
+    public ActionForward deleteCoiUserRole(ActionMapping mapping, ActionForm form, CoiDisclosure coiDisclosure, int index) {
+        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
+
         if (index >= 0 && index < coiDisclosure.getCoiUserRoles().size()) {
-            coiDisclosure.getCoiUserRoles().remove(index);
-            
+            CoiUserRole coiUserRole = coiDisclosure.getCoiUserRoles().remove(index);
             businessObjectService.save(coiDisclosure);
+            return sendNotification(mapping, form, forward, coiUserRole, "Removed");
         }
+        return forward;
     }
 
     /*
@@ -595,4 +610,31 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
         
         businessObjectService.save(updateAnswerHeaders);       
     }
+
+    public ActionForward sendNotification(ActionMapping mapping, ActionForm form, ActionForward forward, 
+            CoiUserRole coiUserRole, String actionTaken) {
+        CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm)form;
+        CoiDisclosureDocument coiDisclosureDocument = coiDisclosureForm.getCoiDisclosureDocument();
+        CoiNotificationContext context = new CoiNotificationContext(coiDisclosureDocument.getCoiDisclosure(), 
+            CoiActionType.ASSIGN_REVIEWER, "Assign Reviewer", new AssignReviewerNotificationRenderer(coiDisclosureDocument.getCoiDisclosure(), actionTaken));
+
+        NotificationHelper<CoiNotificationContext> coiNotificationHelper = coiDisclosureForm.getNotificationHelper();
+        coiNotificationHelper.initializeDefaultValues(context);
+        NotificationTypeRecipient notificationRecipient = new NotificationTypeRecipient();
+        notificationRecipient.setPersonId(coiUserRole.getPerson().getPersonId());
+        
+        coiNotificationHelper.getNotificationRecipients().add(notificationRecipient);
+
+        if (coiNotificationHelper.getPromptUserForNotificationEditor(context)) {
+            forward = mapping.findForward("coiDisclosureNotificationEditor");
+        } else {
+            coiDisclosureForm.getNotificationHelper().sendNotification();
+        }
+        return forward;
+    }
+
+    protected KcNotificationService getNotificationService() {
+        return KraServiceLocator.getService(KcNotificationService.class);
+    }
+
 }

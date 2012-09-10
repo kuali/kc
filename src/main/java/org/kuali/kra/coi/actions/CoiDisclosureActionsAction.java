@@ -95,13 +95,13 @@ public class CoiDisclosureActionsAction extends CoiAction {
         if (checkRule(new AddCoiReviewerEvent("", coiDisclosureDocument.getCoiDisclosure(), coiUserRole))) {
             coiUserRole.setCoiReviewer(coiDisclosureForm.getDisclosureActionHelper().getCoiReviewer(reviewerCode));
             coiUserRole.setPerson(coiDisclosureForm.getDisclosureActionHelper().getKcPerson(userName));
-            getCoiDisclosureActionService().addCoiUserRole(coiDisclosureDocument.getCoiDisclosure(), coiUserRole);
+            forward = getCoiDisclosureActionService().addCoiUserRole(mapping, form, coiDisclosureDocument.getCoiDisclosure(), coiUserRole);
             coiDisclosureForm.getDisclosureActionHelper().setNewCoiUserRole(new CoiUserRole());
-            
-            CoiNotificationContext context = new CoiNotificationContext(coiDisclosureDocument.getCoiDisclosure(), 
-                    CoiActionType.ASSIGN_REVIEWER, "Assign Reviewer", 
-                    new AssignReviewerNotificationRenderer(coiDisclosureDocument.getCoiDisclosure(), "Assigned"));
-            forward = this.sendNotification(mapping, forward, coiDisclosureForm, context);
+// moved to action service            
+//            CoiNotificationContext context = new CoiNotificationContext(coiDisclosureDocument.getCoiDisclosure(), 
+//                    CoiActionType.ASSIGN_REVIEWER, "Assign Reviewer", 
+//                    new AssignReviewerNotificationRenderer(coiDisclosureDocument.getCoiDisclosure(), "Assigned"));
+//            forward = this.sendNotification(mapping, forward, coiDisclosureForm, context);
         }
         
         return forward;
@@ -113,12 +113,12 @@ public class CoiDisclosureActionsAction extends CoiAction {
         CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) form;
         CoiDisclosureDocument coiDisclosureDocument = coiDisclosureForm.getCoiDisclosureDocument();
         int index = getSelectedLine(request);
-        getCoiDisclosureActionService().deleteCoiUserRole(coiDisclosureDocument.getCoiDisclosure(), index);
-        
-        CoiNotificationContext context = new CoiNotificationContext(coiDisclosureDocument.getCoiDisclosure(), 
-                CoiActionType.ASSIGN_REVIEWER, "Assign Reviewer", 
-                new AssignReviewerNotificationRenderer(coiDisclosureDocument.getCoiDisclosure(), "Removed"));
-        forward = this.sendNotification(mapping, forward, coiDisclosureForm, context);
+        forward = getCoiDisclosureActionService().deleteCoiUserRole(mapping, form, coiDisclosureDocument.getCoiDisclosure(), index);
+// moved to action service        
+//        CoiNotificationContext context = new CoiNotificationContext(coiDisclosureDocument.getCoiDisclosure(), 
+//                CoiActionType.ASSIGN_REVIEWER, "Assign Reviewer", 
+//                new AssignReviewerNotificationRenderer(coiDisclosureDocument.getCoiDisclosure(), "Removed"));
+//        forward = this.sendNotification(mapping, forward, coiDisclosureForm, context);
         
         return forward;
     }
