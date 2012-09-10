@@ -30,11 +30,13 @@
         </property>
         <property name="lockingKeys" >
             <list>
-            	<value>unitFormulatedCostId</value>
+            	<value>formulatedTypeCode</value>
+            	<value>unitNumber</value>
             </list>
         </property>
         <property name="allowsRecordDeletion" value="true" />
         <property name="documentTypeName" value="UnitFormulatedCostMaintenanceDocument" />
+        <property name="businessRulesClass" value="org.kuali.kra.budget.rates.UnitFormulatedCostRule"/>
         <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase" />
     </bean>
 
