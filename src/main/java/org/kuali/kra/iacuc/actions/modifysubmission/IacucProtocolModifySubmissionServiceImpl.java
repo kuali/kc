@@ -108,13 +108,14 @@ public class IacucProtocolModifySubmissionServiceImpl extends IacucProtocolProce
         newAction.setActionId(protocol.getNextValue(NEXT_ACTION_ID_KEY));
         newAction.setActualActionDate(new Timestamp(System.currentTimeMillis()));
         newAction.setActionDate(new Timestamp(System.currentTimeMillis()));
-        newAction.setProtocolActionTypeCode(IacucProtocolActionType.NOTIFIED_COMMITTEE);
+        newAction.setProtocolActionTypeCode(IacucProtocolActionType.MODIFY_PROTOCOL_SUBMISSION);
         newAction.setSubmissionIdFk(lastAction.getSubmissionIdFk());
         newAction.setSubmissionNumber(lastAction.getSubmissionNumber());
         newAction.setProtocolNumber(protocol.getProtocolNumber());
         newAction.setProtocolId(protocol.getProtocolId());
         newAction.setSequenceNumber(protocol.getSequenceNumber());
         newAction.setPrevSubmissionStatusCode(prevSubmissionStatusCode);
+        newAction.setComments("ModifyProtocolSubmission");
         protocol.getProtocolActions().add(newAction);
 
     }

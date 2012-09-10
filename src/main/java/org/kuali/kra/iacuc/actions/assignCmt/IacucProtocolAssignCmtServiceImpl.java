@@ -76,7 +76,7 @@ public class IacucProtocolAssignCmtServiceImpl implements IacucProtocolAssignCmt
         newAction.setActionId(protocol.getNextValue(NEXT_ACTION_ID_KEY));
         newAction.setActualActionDate(new Timestamp(System.currentTimeMillis()));
         newAction.setActionDate(new Timestamp(System.currentTimeMillis()));
-        newAction.setProtocolActionTypeCode(IacucProtocolActionType.NOTIFIED_COMMITTEE);
+        newAction.setProtocolActionTypeCode(IacucProtocolActionType.ASSIGNED_TO_COMMITTEE);
         newAction.setSubmissionIdFk(lastAction.getSubmissionIdFk());
         newAction.setSubmissionNumber(lastAction.getSubmissionNumber());
         newAction.setProtocolNumber(protocol.getProtocolNumber());
