@@ -20,6 +20,7 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.common.committee.bo.CommonCommittee;
 import org.kuali.kra.common.committee.bo.CommitteeMembership;
+import org.kuali.kra.common.committee.bo.CommonCommitteeSchedule;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.ProtocolForm;
 import org.kuali.kra.iacuc.actions.IacucActionsKeyValuesBase;
@@ -88,10 +89,13 @@ public class IacucCommitteeMemberValuesFinder extends IacucActionsKeyValuesBase 
         Protocol prot = getProtocol();
         boolean retVal = false;
         if (prot != null) {
-            List<CommitteeScheduleAttendance> attendees = prot.getProtocolSubmission().getCommitteeSchedule().getCommitteeScheduleAttendances();
-            for (CommitteeScheduleAttendance attendee : attendees) {
-                if (attendee.isCommitteeMember(member)) {
-                    return true;
+            CommonCommitteeSchedule schedule = prot.getProtocolSubmission().getCommitteeSchedule();
+            if(schedule != null) {
+                List<CommitteeScheduleAttendance> attendees = schedule.getCommitteeScheduleAttendances();
+                for (CommitteeScheduleAttendance attendee : attendees) {
+                    if (attendee.isCommitteeMember(member)) {
+                        return true;
+                    }
                 }
             }
         }

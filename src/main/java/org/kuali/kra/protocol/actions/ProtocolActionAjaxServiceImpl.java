@@ -30,26 +30,29 @@ public abstract class ProtocolActionAjaxServiceImpl implements ProtocolActionAja
 
     private BusinessObjectService businessObjectService;
     private CommonCommitteeService committeeService;
+    
 
-    public String getReviewers(String protocolId, String committeeId, String scheduleId) {
-        StringBuffer ajaxList = new StringBuffer();
+    public abstract String getReviewers(String protocolId, String committeeId, String scheduleId);
 
-        HashMap<String, String> criteria = new HashMap<String, String>();
-        criteria.put("protocolId", protocolId);
-        Protocol protocol = (Protocol) (businessObjectService.findMatching(getProtocolClassHook(), criteria).toArray())[0];
-        // filter out the protocol personnel; they cannot be reviewers on their own protocol
-        List<CommitteeMembership> filteredMembers = protocol.filterOutProtocolPersonnel(committeeService.getAvailableMembers(
-                committeeId, scheduleId));
-        
-        for (CommitteeMembership filteredMember : filteredMembers) {
-            if (StringUtils.isNotBlank(filteredMember.getPersonId())) {
-                ajaxList.append(filteredMember.getPersonId() + ";" + filteredMember.getPersonName() + ";N;");
-            } else {
-                ajaxList.append(filteredMember.getRolodexId() + ";" + filteredMember.getPersonName() + ";Y;");
-            }
-        }
-        return clipLastChar(ajaxList);
-    }
+//    public String getReviewers(String protocolId, String committeeId, String scheduleId) {
+//        StringBuffer ajaxList = new StringBuffer();
+//
+//        HashMap<String, String> criteria = new HashMap<String, String>();
+//        criteria.put("protocolId", protocolId);
+//        Protocol protocol = (Protocol) (businessObjectService.findMatching(getProtocolClassHook(), criteria).toArray())[0];
+//        // filter out the protocol personnel; they cannot be reviewers on their own protocol
+//        List<CommitteeMembership> filteredMembers = protocol.filterOutProtocolPersonnel(committeeService.getAvailableMembers(
+//                committeeId, scheduleId));
+//        
+//        for (CommitteeMembership filteredMember : filteredMembers) {
+//            if (StringUtils.isNotBlank(filteredMember.getPersonId())) {
+//                ajaxList.append(filteredMember.getPersonId() + ";" + filteredMember.getPersonName() + ";N;");
+//            } else {
+//                ajaxList.append(filteredMember.getRolodexId() + ";" + filteredMember.getPersonName() + ";Y;");
+//            }
+//        }
+//        return clipLastChar(ajaxList);
+//    }
     
     public String getReviewerTypes() {
         StringBuffer ajaxList = new StringBuffer();

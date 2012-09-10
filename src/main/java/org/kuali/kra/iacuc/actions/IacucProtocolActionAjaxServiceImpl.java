@@ -16,6 +16,11 @@
 package org.kuali.kra.iacuc.actions;
 
 
+import java.util.HashMap;
+import java.util.List;
+
+import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.common.committee.bo.CommitteeMembership;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewerType;
 import org.kuali.kra.protocol.Protocol;
@@ -49,6 +54,32 @@ public class IacucProtocolActionAjaxServiceImpl extends ProtocolActionAjaxServic
 
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
+    }
+    
+    public String getReviewers(String protocolId, String committeeId, String scheduleId) {
+        StringBuffer ajaxList = new StringBuffer();
+
+        HashMap<String, String> criteria = new HashMap<String, String>();
+        criteria.put("protocolId", protocolId);
+        Protocol protocol = (Protocol) (getBusinessObjectService().findMatching(IacucProtocol.class, criteria).toArray())[0];
+        
+        /*
+         * no reviewers should be assigned if schedule not chosen.
+         */
+        if (!StringUtils.isBlank(scheduleId)) {
+            // filter out the protocol personnel; they cannot be reviewers on their own protocol
+            List<CommitteeMembership> filteredMembers = protocol.filterOutProtocolPersonnel(getCommitteeService().getAvailableMembers(
+                    committeeId, scheduleId));
+            
+            for (CommitteeMembership filteredMember : filteredMembers) {
+                if (StringUtils.isNotBlank(filteredMember.getPersonId())) {
+                    ajaxList.append(filteredMember.getPersonId() + ";" + filteredMember.getPersonName() + ";N;");
+                } else {
+                    ajaxList.append(filteredMember.getRolodexId() + ";" + filteredMember.getPersonName() + ";Y;");
+                }
+            }
+        }
+        return clipLastChar(ajaxList);
     }
 
 

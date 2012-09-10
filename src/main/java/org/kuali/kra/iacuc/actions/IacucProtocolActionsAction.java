@@ -4629,20 +4629,16 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
                  * TODO: Fix rules for assign reviewers and add committee + schedule and take the valid protocol sub tables into account
                  */
 
-                if (applyRules(new IacucProtocolModifySubmissionEvent(protocolForm.getProtocolDocument(), bean))) {                    
-
-                    // hack. you should not have to do this, the bean should automatically set. Note - reverting change
-                    setReviewers(form, request);                    
+                // for some reason auto-populating list is not working properly, so setting the reviewers on the bean explicitly
+                setReviewers(form, request, bean);
+                if (applyRules(new IacucProtocolModifySubmissionEvent(protocolForm.getProtocolDocument(), bean))) {                                        
                     List<ProtocolReviewerBean> beans = bean.getReviewers();
-    
+                    
                     //clear the warnings before rendering the page.
                     getModifySubmissionService().modifySubmission(protocolForm.getProtocolDocument(), bean, beans);
                     GlobalVariables.getMessageMap().getWarningMessages().clear();
                     recordProtocolActionSuccess("Modify Submission");
     
-                    /*
-                     * remove this when autopop list works,the method needs to be refactored so wait till this functionality works
-                     */
                     forward = performNotificationRendering(mapping, protocolForm, beans);
                     IacucProtocolNotificationRenderer assignRenderer = new IacucProtocolNotificationRenderer(protocol);
                     IacucProtocolNotificationContext assignContext = new IacucProtocolNotificationContext(protocol, null, 
@@ -4660,16 +4656,12 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
 
     
    /**
-    * Gross hack to get reviewers
+    * 
     * This method...
     * @param request
     */
   
-    protected void setReviewers(ActionForm form, HttpServletRequest request) {
-        IacucProtocolForm protocolForm = (IacucProtocolForm) form;
-
-        IacucActionHelper actionHelper = (IacucActionHelper) protocolForm.getActionHelper();
-
+    protected void setReviewers(ActionForm form, HttpServletRequest request, IacucProtocolModifySubmissionBean submissionBean) {
         int number = Integer.parseInt(request.getParameter("actionHelper.iacucProtocolModifySubmissionBean.numberOfReviewers"));
         List<ProtocolReviewerBean> beans = new ArrayList<ProtocolReviewerBean>();
         for (int i= 0; i < number; i++) {
@@ -4687,8 +4679,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
                 beans.add(bean);
             }
         }
-        actionHelper.getIacucProtocolModifySubmissionBean().setReviewers(beans);
-
+        submissionBean.setReviewers(beans);
     }
     
     protected IacucProtocolModifySubmissionService getModifySubmissionService() {

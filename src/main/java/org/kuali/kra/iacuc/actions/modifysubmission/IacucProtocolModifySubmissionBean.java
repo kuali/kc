@@ -108,22 +108,27 @@ public class IacucProtocolModifySubmissionBean extends IacucProtocolActionBean i
              */
             if (!StringUtils.isBlank(committeeId) && reviewers.isEmpty()) {
                 /*
-                 * just getAvailable members here by sending blank schedule id if schedule not chosen.
+                 * no reviewers should be assigned if schedule not chosen.
                  */
-                List<CommitteeMembership> members = getProtocol().filterOutProtocolPersonnel(getCommitteeService().getAvailableMembers(committeeId, scheduleId));
-                for (CommitteeMembership member : members) {
-                    reviewers.add(new IacucProtocolReviewerBean(member));
-                }
-
-                for (ProtocolOnlineReview review : submission.getProtocolOnlineReviews()) {
-                    if (review.isActive()) {
-                        for (ProtocolReviewerBean reviewerBean : reviewers) {
-                            if (reviewerBean.isProtocolReviewerBeanForReviewer(review.getProtocolReviewer())) {
-                                reviewerBean.setReviewerTypeCode(review.getProtocolReviewer().getReviewerTypeCode());
-                                break;
+                if (!StringUtils.isBlank(scheduleId)) {
+                    List<CommitteeMembership> members = getProtocol().filterOutProtocolPersonnel(getCommitteeService().getAvailableMembers(committeeId, scheduleId));
+                    for (CommitteeMembership member : members) {
+                        reviewers.add(new IacucProtocolReviewerBean(member));
+                    }
+    
+                    for (ProtocolOnlineReview review : submission.getProtocolOnlineReviews()) {
+                        if (review.isActive()) {
+                            for (ProtocolReviewerBean reviewerBean : reviewers) {
+                                if (reviewerBean.isProtocolReviewerBeanForReviewer(review.getProtocolReviewer())) {
+                                    reviewerBean.setReviewerTypeCode(review.getProtocolReviewer().getReviewerTypeCode());
+                                    break;
+                                }
                             }
                         }
                     }
+                }
+                else {
+                    reviewers.clear();
                 }
             }
         }
