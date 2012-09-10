@@ -31,6 +31,7 @@ import org.kuali.kra.award.home.Award;
 import org.kuali.kra.infrastructure.AwardTaskNames;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.timeandmoney.AwardHierarchyNode;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
@@ -65,7 +66,7 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
         if (awardDocument.getAward().getAwardId() == null) {
             if (canCreateAward(user.getPrincipalId())) {
                 editModes.add(AuthorizationConstants.EditMode.FULL_ENTRY);         
-                if (canViewChartOfAccountsElement()) {
+                if (canViewChartOfAccountsElement(awardDocument)) {
                     editModes.add("viewChartOfAccountsElement");
                 }
             }
@@ -106,7 +107,7 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
             if (awardHasHierarchyChildren(document)) {
                 editModes.add("awardSync");
             }   
-            if (canViewChartOfAccountsElement()) {
+            if (canViewChartOfAccountsElement(awardDocument)) {
                 editModes.add("viewChartOfAccountsElement");
             }
         }
@@ -138,7 +139,7 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
             
             // if the integration parameter is ON
             if (isFinancialSystemIntegrationParameterOn()) {
-                hasPermission = hasCreateAccountPermission();
+                hasPermission = hasCreateAccountPermission(awardDocument);
                 // only the OSP admin can create a financial account
                 // if account has already been created, anyone can see it
                 if (award.getFinancialAccountDocumentNumber() != null) {
@@ -158,22 +159,15 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
         return awardAccountParameter.equalsIgnoreCase(Constants.FIN_SYSTEM_INTEGRATION_ON) ? true : false;
     }
     
-    public boolean hasCreateAccountPermission() {
-        boolean hasPermission = false;
-        Map<String,String> set =new HashMap<String,String>();
-        set.put("documentTypeName", "AwardDocument");
-        set.put("documentAction", "Create award account");
-        // if the user has permission.
-        hasPermission = getPermissionService().hasPermission(GlobalVariables.getUserSession().getPrincipalId(), 
-                                                                "KC-AWARD", "Create Award Account");
-        return hasPermission;    
+    public boolean hasCreateAccountPermission(AwardDocument document) {  
+        return canExecuteAwardTask(GlobalVariables.getUserSession().getPrincipalId(), document, AwardTaskNames.CREATE_AWARD_ACCOUNT.getAwardTaskName());
     }
     
     /*
      * Same permissions for creating and linking accounts
      */
-    public boolean canViewChartOfAccountsElement() {
-        if (hasCreateAccountPermission() && isFinancialSystemIntegrationParameterOn()) {
+    public boolean canViewChartOfAccountsElement(AwardDocument document) {
+        if (hasCreateAccountPermission(document) && isFinancialSystemIntegrationParameterOn()) {
             return true;
         }
         return false;
