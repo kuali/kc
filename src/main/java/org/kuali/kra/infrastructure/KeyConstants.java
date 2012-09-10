@@ -1113,6 +1113,7 @@ public final class KeyConstants {
     
     public static final String ERROR_FORMULATED_UNIT_COST = "error.invalid.budget.formulated.unit.cost";
     public static final String ERROR_FORMULATED_CALCULATED_EXPENSES = "error.invalid.budget.formulated.calculated.expense";
+    public static final String ERROR_FORUMLATED_COST_DUPLICATE = "error.invalid.budget.formulated.duplicate";
     
     /**
      * private utility class ctor.
