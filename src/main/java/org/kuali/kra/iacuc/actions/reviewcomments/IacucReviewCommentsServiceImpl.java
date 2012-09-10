@@ -35,7 +35,8 @@ public class IacucReviewCommentsServiceImpl extends ReviewCommentsServiceImpl<Ia
   private static final String[] PROTOCOL_SUBMISSION_COMPLETE_STATUSES = { IacucProtocolSubmissionStatus.APPROVED,                                                                           
                                                                           IacucProtocolSubmissionStatus.MINOR_REVISIONS_REQUIRED,
                                                                           IacucProtocolSubmissionStatus.MAJOR_REVISIONS_REQUIRED,
-                                                                          IacucProtocolSubmissionStatus.DISAPPROVED };
+                                                                          IacucProtocolSubmissionStatus.DISAPPROVED,
+                                                                          IacucProtocolSubmissionStatus.RETURNED_TO_PI};
 
     public void saveReviewAttachments(List<IacucProtocolReviewAttachment> reviewAttachments, List<IacucProtocolReviewAttachment> deletedReviewAttachments) {
         for (ProtocolReviewAttachment reviewAttachment : reviewAttachments) {
