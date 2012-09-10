@@ -162,7 +162,7 @@ public class AwardDetailsAndDatesRuleImpl extends ResearchDocumentRuleBase imple
             if (ObjectUtils.isNotNull(accountNumber) || ObjectUtils.isNotNull(chartOfAccountsCode)) {
                 // check is user is authorized to link accounts
                 AwardDocumentAuthorizer authorizer = new AwardDocumentAuthorizer();
-                if (!authorizer.hasCreateAccountPermission()) {
+                if (!authorizer.hasCreateAccountPermission(award.getAwardDocument())) {
                     reportError(AWARD_ACCOUNT_NUMBER_PROPERTY_NAME, KeyConstants.NO_PERMISSION_TO_LINK_ACCOUNT);
                     return false;
                 }
