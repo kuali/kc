@@ -386,4 +386,7 @@ public class DisclosureHelper implements Serializable {
         this.masterDisclosureBean = masterDisclosureBean;
     }
 
+    public boolean isIsMasterDisclosure() {
+        return getMasterDisclosureBean() != null;
+    }
 }
