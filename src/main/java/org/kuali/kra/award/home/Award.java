@@ -3053,7 +3053,11 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     }
 
     public void populateAdditionalQualifiedRoleAttributes(Map<String, String> qualifiedRoleAttributes) {
-        qualifiedRoleAttributes.put("documentNumber", getAwardDocument().getDocumentNumber());
+        /**
+         * when we check to see if the logged in user can create an award account, this function is called, but awardDocument is null at that time.
+         */
+        String documentNumber = getAwardDocument() != null ? getAwardDocument().getDocumentNumber() : "";
+        qualifiedRoleAttributes.put("documentNumber", documentNumber);
     }
 
     protected BusinessObjectService getBusinessObjectService() {
