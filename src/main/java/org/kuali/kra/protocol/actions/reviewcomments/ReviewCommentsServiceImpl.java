@@ -132,7 +132,8 @@ public abstract class ReviewCommentsServiceImpl<PRA extends ProtocolReviewAttach
     }
 
     private boolean hasSubmissionCompleteStatus(ProtocolSubmission submission) {
-        return Arrays.asList(getProtocolSubmissionCompleteStatusCodeArrayHook()).contains(submission.getSubmissionStatusCode());
+        boolean validSubmissionStatus= Arrays.asList(getProtocolSubmissionCompleteStatusCodeArrayHook()).contains(submission.getSubmissionStatusCode());
+        return validSubmissionStatus;
     }
 
     protected abstract String[] getProtocolSubmissionCompleteStatusCodeArrayHook();
@@ -146,7 +147,14 @@ public abstract class ReviewCommentsServiceImpl<PRA extends ProtocolReviewAttach
 
         for (ProtocolSubmission protocolSubmission : protocolSubmissions) {
             if (protocolSubmission.getCommitteeScheduleMinutes() != null) {
-                for (CommitteeScheduleMinute minute : protocolSubmission.getCommitteeScheduleMinutes()) {
+                // search table directly as Protocol Submission is not refreshed as commit happens later
+                Map fieldValues = new HashMap();
+                fieldValues.put("protocolIdFk", protocolSubmission.getProtocolId());
+                fieldValues.put("submissionIdFk", protocolSubmission.getSubmissionId());
+                List<CommitteeScheduleMinute> reviewComments1 = (List<CommitteeScheduleMinute>) businessObjectService
+                        .findMatchingOrderBy(CommitteeScheduleMinute.class, fieldValues, "commScheduleMinutesId", false);
+
+                for (CommitteeScheduleMinute minute : reviewComments1) {
                     String minuteEntryTypeCode = minute.getMinuteEntryTypeCode();
                     // need to check current minute entry; otherwise may have minutes from previous version comittee
                     if ((MinuteEntryType.PROTOCOL.equals(minuteEntryTypeCode) || MinuteEntryType.PROTOCOL_REVIEWER_COMMENT
@@ -169,12 +177,21 @@ public abstract class ReviewCommentsServiceImpl<PRA extends ProtocolReviewAttach
         List<ProtocolSubmission> protocolSubmissions = protocolFinderDao.findProtocolSubmissions(protocolNumber, submissionNumber);
         // protocol versioning does not version review attachments/comments
         for (ProtocolSubmission protocolSubmission : protocolSubmissions) {
-            if (CollectionUtils.isNotEmpty(protocolSubmission.getReviewAttachments())) {
-                for (ProtocolReviewAttachment reviewAttachment : protocolSubmission.getReviewAttachments()) {
+            if (CollectionUtils.isNotEmpty(protocolSubmission.getReviewAttachments()) || 
+                        protocolSubmissions.size() == 1) 
+            {
+                // search table directly as Protocol Submission is not refreshed as commit happens later
+                Map fieldValues = new HashMap();
+                fieldValues.put("protocolIdFk", protocolSubmission.getProtocolId());
+                fieldValues.put("submissionIdFk", protocolSubmission.getSubmissionId());
+                List<PRA> reviewAttachments1 = (List<PRA>) businessObjectService
+                        .findMatchingOrderBy(getProtocolReviewAttachmentClassHook(), fieldValues, "attachmentId", false);
+
+                for (ProtocolReviewAttachment reviewAttachment : reviewAttachments1) {
                     if (getReviewerCommentsView(reviewAttachment)) {
                         reviewAttachments.add((PRA) reviewAttachment);
                     }
-                }
+                }               
             }
         }
         return reviewAttachments;
