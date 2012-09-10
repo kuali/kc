@@ -75,6 +75,7 @@ public class IacucProtocolActionType extends ProtocolActionType {
     public static final String MANAGE_REVIEW_COMMENTS = "310";
     public static final String IACUC_REQUEST_SUSPEND = "311";
     public static final String REMOVE_FROM_AGENDA = "312";
+    public static final String ASSIGNED_TO_COMMITTEE = "313";
 
     public static final String AMENDMENT_CREATED_NOTIFICATION = "323";
     public static final String RENEWAL_CREATED_NOTIFICATION = "322";
