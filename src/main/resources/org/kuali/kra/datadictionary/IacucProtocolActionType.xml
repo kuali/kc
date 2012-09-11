@@ -37,6 +37,7 @@
                 <ref bean="IacucProtocolActionType-triggerSubmission" />
                 <ref bean="IacucProtocolActionType-triggerCorrespondence" />
                 <ref bean="IacucProtocolActionType-versionNumber" />
+                <ref bean="IacucProtocolActionType-finalActionForBatchCorrespondence" />
             </list>
         </property>
     </bean>
@@ -62,22 +63,7 @@
     </bean>
 
     <bean id="IacucProtocolActionType-description" parent="IacucProtocolActionType-description-parentBean" />
-    <bean id="IacucProtocolActionType-description-parentBean" abstract="true" parent="AttributeDefinition" >
-        <property name="name" value="description" />
-        <property name="forceUppercase" value="false" />
-        <property name="label" value="Description" />
-        <property name="shortLabel" value="Description" />
-        <property name="maxLength" value="200" />
-        <property name="validationPattern" >
-            <bean parent="AlphaNumericValidationPattern" />
-        </property>
-        <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="10" />
-        </property>
-        <property name="summary" value="Description" />
-        <property name="description" value="Description" />
-    </bean>
+    <bean id="IacucProtocolActionType-description-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description" />
 
     <bean id="IacucProtocolActionType-triggerSubmission" parent="IacucProtocolActionType-triggerSubmission-parentBean" />
     <bean id="IacucProtocolActionType-triggerSubmission-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean" >
@@ -101,6 +87,20 @@
     <bean id="IacucProtocolActionType-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
     </bean>
 
+	<bean id="IacucProtocolActionType-finalActionForBatchCorrespondence" parent="IacucProtocolActionType-finalActionForBatchCorrespondence-parentBean" />
+	<bean id="IacucProtocolActionType-finalActionForBatchCorrespondence-parentBean" abstract="true" parent="AttributeDefinition">
+	    <property name="name" value="finalActionForBatchCorrespondence" />
+	    <property name="forceUppercase" value="false" />
+	    <property name="label" value="Final Action for Batch Correspondence" />
+	    <property name="shortLabel" value="Final Action for Batch Correspondence" />
+	    <property name="maxLength" value="1" />
+	    <property name="control" >
+	      <bean parent="CheckboxControlDefinition" />
+	    </property>
+	    <property name="summary" value="Final Action for Batch Correspondence" />
+	    <property name="description" value="Final Action for Batch Correspondence" />
+	</bean>
+
     <!-- Business Object Inquiry Definition -->
     <bean id="IacucProtocolActionType-inquiryDefinition" parent="IacucProtocolActionType-inquiryDefinition-parentBean" />
     <bean id="IacucProtocolActionType-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
@@ -121,6 +121,8 @@
                                 p:attributeName="triggerSubmission" />
                             <bean parent="FieldDefinition"
                                 p:attributeName="triggerCorrespondence" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="finalActionForBatchCorrespondence" />
                         </list>
                     </property>
                 </bean>
@@ -131,7 +133,7 @@
     <!-- Business Object Lookup Definition -->
     <bean id="IacucProtocolActionType-lookupDefinition" parent="IacucProtocolActionType-lookupDefinition-parentBean" />
     <bean id="IacucProtocolActionType-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-        <property name="title" value="Ac Protocol Action Type Lookup" />
+        <property name="title" value="IACUC Protocol Action Type Lookup" />
         <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
         <property name="defaultSort" >
             <bean parent="SortDefinition" >
@@ -148,6 +150,8 @@
                     p:attributeName="triggerSubmission" />
                 <bean parent="FieldDefinition"
                     p:attributeName="triggerCorrespondence" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="finalActionForBatchCorrespondence" />
             </list>
         </property>
         <property name="resultFields" >
@@ -161,6 +165,8 @@
                     p:attributeName="triggerSubmission" />
                 <bean parent="FieldDefinition"
                     p:attributeName="triggerCorrespondence" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="finalActionForBatchCorrespondence" />
             </list>
         </property>
     </bean>
