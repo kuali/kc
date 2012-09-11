@@ -18,9 +18,8 @@ package org.kuali.kra.questionnaire.answer;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.drools.core.util.StringUtils;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.questionnaire.Questionnaire;
 
 /**
@@ -56,6 +55,8 @@ public class AnswerHeader extends KraPersistableBusinessObjectBase {
     private String updateOption;
 
     private String showQuestions;
+    
+    private boolean hasVisibleQuestion = true;
 
     private boolean notUpdated = false;
 
@@ -289,5 +290,13 @@ public class AnswerHeader extends KraPersistableBusinessObjectBase {
             }
         }
         return true;
+    }
+
+    public boolean isHasVisibleQuestion() {
+        return hasVisibleQuestion;
+    }
+
+    public void setHasVisibleQuestion(boolean hasVisibleQuestion) {
+        this.hasVisibleQuestion = hasVisibleQuestion;
     }
 }

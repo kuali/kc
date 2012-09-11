@@ -37,11 +37,14 @@
         </c:if>
     
     <c:choose>
-    <c:when test="${bean.answerHeaders[answerHeaderIndex].completed}">
+    <c:when test="${bean.answerHeaders[answerHeaderIndex].completed && bean.answerHeaders[answerHeaderIndex].hasVisibleQuestion}}">
      	<c:set var="tabTitle" value="${bean.headerLabels[answerHeaderIndex]} (Complete) ${inactivate}" />
     </c:when>
-    <c:otherwise>
+    <c:when test="${bean.answerHeaders[answerHeaderIndex].hasVisibleQuestion}">
      	<c:set var="tabTitle" value="${bean.headerLabels[answerHeaderIndex]} (Incomplete) ${inactivate}" />
+    </c:when>
+    <c:otherwise>
+		<c:set var="tabTitle" value="${bean.headerLabels[answerHeaderIndex]} ${inactivate}" />    
     </c:otherwise> 
     </c:choose>
     <c:set var="showQuestions" value="false" />
@@ -57,7 +60,7 @@
 					 tabAuditKey="${property}.answerHeaders[${answerHeaderIndex}]*" 
 					 useRiceAuditMode="true"
 			         tabDescription=""
-			         defaultOpen="${showQuestions}" 
+			         defaultOpen="${showQuestions || !bean.answerHeaders[answerHeaderIndex].hasVisibleQuestion}" 
 					 useCurrentTabIndexAsKey="true"
 			         transparentBackground="${transparent}">
 			         
@@ -66,6 +69,9 @@
             <kra-questionnaire:updateQuestionnaireAnswer  answerHeaderIndex="${answerHeaderIndex}" bean = "${bean}" property = "${property}"/>        
         </c:if>
 	
+		<c:if test="${!bean.answerHeaders[answerHeaderIndex].hasVisibleQuestion}">
+			<h2>No conditions were met for questions in this questionnaire.</h2>
+		</c:if>
         <h3>
             <span class="subhead-left">
                 <a href="#" id ="questionpanelcontrol:${property}:${answerHeaderIndex}" class="questionpanel">
