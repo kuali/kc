@@ -27,6 +27,8 @@ import org.kuali.kra.questionnaire.QuestionnaireUsage;
  */
 public interface QuestionnaireAnswerService {
 
+    public static final String YES = "Y";
+    public static final String NO = "N";
 
     /**
      * 
