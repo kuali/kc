@@ -36,7 +36,7 @@
     </c:if>
 	<c:if test="${fn:length(masterDisclosure.otherManualProjects) > 0}">
         <kra-coi:disclosureProjects masterDisclosureProjects="${masterDisclosure.otherManualProjects}" 
-        projectDivNamePrefix="masterManualOtherFE" projectListName="manualOtherProjects" 
+        projectDivNamePrefix="masterManualOtherFE" projectListName="otherManualProjects" 
         boLocation="disclosureHelper.masterDisclosureBean.otherManualProjects"
         parentTab="Manual Projects"/>	
 	</c:if>    
