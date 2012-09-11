@@ -68,8 +68,6 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
     private static final String MODULE_SUB_ITEM_CODE = "moduleSubItemCode";
     private static final String MODULE_ITEM_KEY = "moduleItemKey";
     private static final String MODULE_SUB_ITEM_KEY = "moduleSubItemKey";
-    private static final String YES = "Y";
-    private static final String NO = "N";
     private static final String QUESTIONNAIRE_AGENDA_NAME = "QUESTIONNAIRE_AGENDA_NAME";
     private BusinessObjectService businessObjectService;
     private ProtocolFinderDao protocolFinderDao;
@@ -247,7 +245,10 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
         for (AnswerHeader answerHeader : answerHeaders) {
             Collections.sort(answerHeader.getAnswers(), new AnswerComparator());
             answerHeader.setCompleted(isQuestionnaireAnswerComplete(answerHeader.getAnswers()));
+            answerHeader.setHasVisibleQuestion(hasVisibleQuestion(answerHeader.getAnswers()));
         }
+
+        
 //        moduleQuestionnaireBean.setRuleResults((Map<String, Boolean>)GlobalVariables.getUserSession().retrieveObject(namespace + "-" + contextKey + "-rulereferenced"));
         return answerHeaders;
     }
@@ -598,11 +599,6 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
         }
 
     }
-
-    private boolean ruleMatched(String ruleId) {
-        // TODO : implement detail here
-        return false; 
-    }
     
     /*
      * check if all the required answers are entered.
@@ -618,6 +614,24 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
         }
         return isComplete;
     }
+    
+    /**
+     * 
+     * Checks to see that at least one answer was matched by the rule and is visible.
+     * @param answers
+     * @return
+     */
+    public boolean hasVisibleQuestion(List<Answer> answers) {
+
+        boolean isVisible = false;
+        for (Answer answer : answers) {
+            if (StringUtils.equals(YES, answer.getMatchedChild())) {
+                isVisible = true;
+                break;
+            }
+        }
+        return isVisible;
+    }    
 
     /*
      * Check if parent answer : if it is not matched to be displayed or answer(s) is entered.
