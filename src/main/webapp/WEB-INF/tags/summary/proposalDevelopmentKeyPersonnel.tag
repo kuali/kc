@@ -31,7 +31,7 @@
 <c:set var="proposalPersonAttributes"
 	value="${DataDictionary.ProposalPerson.attributes}" />
 <c:set var="rowIndex" value="1" />
-
+<c:set var="keypersonrole" value="<%=org.kuali.kra.infrastructure.Constants.KEY_PERSON_ROLE%>" />
 <kul:tab
 	tabTitle="Key Personnel (${fn:length(KualiForm.document.developmentProposalList[0].proposalPersons)})"
 	defaultOpen="false" tabErrorKey="">
@@ -75,7 +75,10 @@
 							<div align=center>${KualiForm.document.developmentProposalList[0].proposalPersons[status.index].fullName}&nbsp;</div>
 						</td>
 						<td>
-							<div align=center>${KualiForm.document.developmentProposalList[0].proposalPersons[status.index].proposalPersonRoleId}
+							<div align=center>${KualiForm.document.developmentProposalList[0].proposalPersons[status.index].role.description}
+							<c:if test="${KualiForm.document.developmentProposalList[0].proposalPersons[status.index].role.proposalPersonRoleId == keypersonrole }">
+							(${KualiForm.document.developmentProposalList[0].proposalPersons[status.index].projectRole})
+							</c:if>
 								&nbsp;</div>
 						</td>
 						<td>
