@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
+	<documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+		<documentType>
+			<name>IacucProtocolActionTypeMaintenanceDocument</name>
+			<description>Create/Edit a IACUC Protocol Action Type</description>
+			<label>IACUC Protocol Action Type</label>
+			<parent>KcComplianceMaintenanceDocument</parent>
+			<helpDefinitionURL>default.htm?turl=Documents/iacucprotocolactiontype.htm</helpDefinitionURL>
+		</documentType>
+	</documentTypes>	
+</data>
