@@ -28,7 +28,7 @@ import org.kuali.rice.krad.service.KeyValuesService;
  * This class should be extended by protocol values finder classes.  It creates a single function to get a 
  * BusinessObjectService, so each class need not do that it self.
  */
-public abstract class ActionsKeyValuesBase extends KeyValuesBase {
+public abstract class ProtocolActionsKeyValuesBase extends KeyValuesBase {
     /**
      * Comment for <code>serialVersionUID</code>
      */

@@ -278,7 +278,7 @@
         <property name="control">
             
             <bean parent="SelectControlDefinition"
-                p:valuesFinderClass="org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewDeterminationRecommendationValuesFinder"
+                p:valuesFinderClass="org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReviewDeterminationRecommendationValuesFinder"
                 p:includeKeyInLabel="false" />
         </property>
         <property name="summary" value="Determination Recommendation" />
