@@ -15,23 +15,37 @@
  */
 package org.kuali.kra.institutionalproposal.proposallog;
 
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
+import noNamespace.ProposalLogDocument;
+
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.kim.bo.KcKimAttributes;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizer;
 import org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.service.DocumentService;
 
 public class ProposalLogDocumentAuthorizer extends MaintenanceDocumentAuthorizerBase implements MaintenanceDocumentAuthorizer {
     
     @Override
-    protected void addRoleQualification(
-            Object primaryBusinessObjectOrDocument,
-            Map<String, String> attributes) {
+    protected void addRoleQualification(Object primaryBusinessObjectOrDocument, Map<String, String> attributes) {
         super.addRoleQualification(primaryBusinessObjectOrDocument, attributes);
-        MaintenanceDocument maintenanceDocument = (MaintenanceDocument) primaryBusinessObjectOrDocument;
-        ProposalLog proposalLog = (ProposalLog) maintenanceDocument.getDocumentBusinessObject();
+        ProposalLog proposalLog;
+        if (primaryBusinessObjectOrDocument instanceof MaintenanceDocument) {
+            MaintenanceDocument maintenanceDocument = (MaintenanceDocument) primaryBusinessObjectOrDocument;
+            proposalLog = (ProposalLog) maintenanceDocument.getDocumentBusinessObject();
+        } else {
+            proposalLog = (ProposalLog) primaryBusinessObjectOrDocument;
+        }
+        
         if (!StringUtils.isBlank(proposalLog.getLeadUnit()) && proposalLog.isPersisted()) {
             attributes.put(KcKimAttributes.UNIT_NUMBER, proposalLog.getLeadUnit());
         } else {
@@ -40,4 +54,9 @@ public class ProposalLogDocumentAuthorizer extends MaintenanceDocumentAuthorizer
         attributes.put("piId", proposalLog.getPiId());
     }
     
+    @Override
+    public boolean canInitiate(String documentTypeName, Person user) {
+        boolean retVal = this.isAuthorized(new ProposalLog(), "KC-IP",  "Create Proposal Log", user.getPrincipalId());        
+        return retVal;
+    }   
 }
