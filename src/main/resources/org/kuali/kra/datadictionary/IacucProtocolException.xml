@@ -145,8 +145,8 @@
 		</property>
 		<property name="control" >
       		<bean parent="TextareaControlDefinition"
-            	p:rows="1"
-            	p:cols="100" />
+            	p:rows="2"
+            	p:cols="60" />
 		</property>
 		<property name="summary" value="Exception Justification and Description" />
 		<property name="description" value="Exception Justification and Description" />

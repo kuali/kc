@@ -280,8 +280,8 @@
     	<property name="required" value="false" />
 		<property name="control" >
       		<bean parent="TextareaControlDefinition"
-            	p:rows="1"
-            	p:cols="200" />
+            	p:rows="2"
+            	p:cols="170" />
 		</property>
 		<property name="summary" value="Procedure Summary" />
 		<property name="description" value="Procedure Summary" />
