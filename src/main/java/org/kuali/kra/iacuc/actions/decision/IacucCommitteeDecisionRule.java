@@ -15,26 +15,14 @@
  */
 package org.kuali.kra.iacuc.actions.decision;
 
-import org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewType;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.protocol.actions.decision.CommitteeDecisionRule;
-import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
 
 public class IacucCommitteeDecisionRule extends CommitteeDecisionRule<IacucCommitteeDecision> {
 
     @Override
     protected String getNoCommentsForRevisionsErrorMessageHook() {
         return KeyConstants.ERROR_PROTOCOL_RECORD_COMMITEE_NO_MINOR_MAJOR_DISAPPROVE_REVIEWER_COMMENTS;
-    }
-    
-
-    @Override
-    protected boolean processCounts(ProtocolSubmission submission, IacucCommitteeDecision committeeDecision) {
-        boolean retVal = true;
-        if(!submission.getProtocolReviewTypeCode().equals(IacucProtocolReviewType.DESIGNATED_MEMBER_REVIEW)) {
-            retVal = super.processCounts(submission, committeeDecision);
-        }
-        return retVal;
     }
     
 }

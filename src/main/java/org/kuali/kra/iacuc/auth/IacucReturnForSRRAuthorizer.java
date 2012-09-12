@@ -15,12 +15,9 @@
  */
 package org.kuali.kra.iacuc.auth;
 
-import org.kuali.kra.committee.bo.CommitteeDecisionMotionType;
-import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
-import org.kuali.kra.iacuc.auth.IacucProtocolTask;
+import org.kuali.kra.iacuc.actions.IacucProtocolAction;
+import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
 import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.kra.protocol.actions.ProtocolAction;
-import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
 
 
 /**
@@ -33,21 +30,14 @@ public class IacucReturnForSRRAuthorizer extends IacucProtocolAuthorizer {
      * @see org.kuali.kra.protocol.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.protocol.auth.ProtocolTask)
      */
     public boolean isAuthorized(String userId, IacucProtocolTask task) {        
-        ProtocolAction lastAction = task.getProtocol().getLastProtocolAction();
-        ProtocolSubmission lastSubmission = task.getProtocol().getProtocolSubmission();
+        IacucProtocolAction lastAction = (IacucProtocolAction) task.getProtocol().getLastProtocolAction();
+        IacucProtocolSubmission lastSubmission = (IacucProtocolSubmission) task.getProtocol().getProtocolSubmission();
         
         return canPerform(lastAction, lastSubmission) && hasPermission(userId, task.getProtocol(), PermissionConstants.PERFORM_IACUC_ACTIONS_ON_PROTO);
     }
     
-    private boolean canPerform(ProtocolAction lastAction, ProtocolSubmission lastSubmission) {
-        boolean canPerform = false;
-        
-        if (lastAction != null && lastSubmission != null) {
-            canPerform = IacucProtocolActionType.RECORD_COMMITTEE_DECISION.equals(lastAction.getProtocolActionTypeCode())
-                      && CommitteeDecisionMotionType.SUBSTANTIVE_REVISIONS_REQUIRED.equals(lastSubmission.getCommitteeDecisionMotionTypeCode());
-        }
-        
-        return canPerform;
+    private boolean canPerform(IacucProtocolAction lastAction, IacucProtocolSubmission lastSubmission) {
+        return canPerformSRR(lastAction, lastSubmission);
     }
     
 }
