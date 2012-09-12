@@ -22,7 +22,6 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.iacuc.actions.IacucActionsKeyValuesBase;
 import org.kuali.kra.iacuc.actions.IacucProtocolStatus;
-import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.ProtocolForm;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
@@ -49,57 +48,34 @@ public class SubmissionTypeValuesFinder extends IacucActionsKeyValuesBase {
        
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         keyValues.add(new ConcreteKeyValue("", "select"));
-        
-        Collection<IacucProtocolSubmissionType> submissionTypes = this.getKeyValuesService().findAll(IacucProtocolSubmissionType.class);
-        for (IacucProtocolSubmissionType submissionType : submissionTypes) {
-            if (isSubmitForReviewType(submissionType)) {
-                keyValues.add(new ConcreteKeyValue(submissionType.getSubmissionTypeCode(), submissionType.getDescription()));
+        ProtocolForm pf = (ProtocolForm) KNSGlobalVariables.getKualiForm();
+        if (pf != null) {
+            Protocol protocol = pf.getProtocolDocument().getProtocol();
+            Collection<IacucProtocolSubmissionType> submissionTypes = this.getKeyValuesService().findAll(IacucProtocolSubmissionType.class);
+            String currentStatus  = pf.getProtocolDocument().getProtocol().getProtocolStatusCode();
+            for (IacucProtocolSubmissionType submissionType : submissionTypes) {
+                if (validStatusSubmissionTypePair(submissionType, currentStatus, protocol)) {
+                    keyValues.add(new ConcreteKeyValue(submissionType.getSubmissionTypeCode(), submissionType.getDescription()));
+                }
             }
         }
         
         return keyValues;
     }
-
-    /**
-     * There are many submission types but only a few are available
-     * for a submission for a protocol that will be reviewed.
-     * @param submissionType the submission type
-     * @return true if applicable for a review submission; otherwise false
-     */
-    private boolean isSubmitForReviewType(IacucProtocolSubmissionType submissionType) {
-        
-        Collection<String> typeCodes = getValidSubmissionTypes();
-
-        for (String typeCode : typeCodes) {
-            if (StringUtils.equals(typeCode, submissionType.getSubmissionTypeCode())) {
-                return true;
-            }
-        }
-        return false;
-    }
     
-    private Collection<String> getValidSubmissionTypes() {
-        Collection<String> types = new ArrayList<String>();
-        ProtocolForm pf = (ProtocolForm) KNSGlobalVariables.getKualiForm();
-        if (pf != null) {
-            String currentStatus  = pf.getProtocolDocument().getProtocol().getProtocolStatusCode();
-            if (displayInitialSubmission(currentStatus)) {
-                types.add(IacucProtocolSubmissionType.INITIAL_SUBMISSION);
-            }
-            if (displayAmendment(currentStatus, pf.getProtocolDocument().getProtocol())) {
-                types.add(IacucProtocolSubmissionType.AMENDMENT);
-            }
-            if (displayContinuation(currentStatus, pf.getProtocolDocument().getProtocol())) {
-                types.add(IacucProtocolSubmissionType.CONTINUATION);
-            }
-            if (displayContinuationWithAmendment(currentStatus, pf.getProtocolDocument().getProtocol())) {
-                types.add(IacucProtocolSubmissionType.CONTINUATION_WITH_AMENDMENT);
-            }
-            if (displayResponseToPrevIACUCNotification(currentStatus)) {
-                types.add(IacucProtocolSubmissionType.RESPONSE_TO_PREV_IACUC_NOTIFICATION);
-            }
+    protected boolean validStatusSubmissionTypePair(IacucProtocolSubmissionType submissionType, String currentStatus, Protocol protocol) {
+        if (StringUtils.equalsIgnoreCase(submissionType.getSubmissionTypeCode(), IacucProtocolSubmissionType.INITIAL_SUBMISSION)) {
+            return displayResubmission(currentStatus) || displayInitialSubmission(currentStatus);
+        } else if (StringUtils.equalsIgnoreCase(submissionType.getSubmissionTypeCode(), IacucProtocolSubmissionType.AMENDMENT)) {
+            return displayResubmission(currentStatus) || displayAmendment(currentStatus, protocol);
+        } else if (StringUtils.equalsIgnoreCase(submissionType.getSubmissionTypeCode(), IacucProtocolSubmissionType.CONTINUATION)) {
+            return displayResubmission(currentStatus) || displayContinuation(currentStatus, protocol);
+        } else if (StringUtils.equalsIgnoreCase(submissionType.getSubmissionTypeCode(), IacucProtocolSubmissionType.CONTINUATION_WITH_AMENDMENT)) {
+            return displayResubmission(currentStatus) || displayContinuationWithAmendment(currentStatus, protocol);
+        } else if (StringUtils.equalsIgnoreCase(submissionType.getSubmissionTypeCode(), IacucProtocolSubmissionType.RESPONSE_TO_PREV_IACUC_NOTIFICATION)) {
+            return displayResubmission(currentStatus) || displayResponseToPrevIACUCNotification(currentStatus);
         }
-        return types;
+        return false; 
     }
     
     private boolean displayInitialSubmission(String currentStatus) {
