@@ -13,21 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.iacuc.actions;
+package org.kuali.kra.iacuc.onlinereview;
 
-import org.kuali.kra.protocol.actions.ProtocolActionsKeyValuesBase;
+import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewDeterminationRecommendation;
 
-
-/**
- * 
- * This class should be extended by IACUC values finder classes.
- */
-public abstract class IacucActionsKeyValuesBase extends ProtocolActionsKeyValuesBase {
+public class IacucProtocolOnlineReviewDeterminationRecommendation extends ProtocolOnlineReviewDeterminationRecommendation {
 
     /**
      * Comment for <code>serialVersionUID</code>
      */
-    private static final long serialVersionUID = 5653084925713964704L;
- 
-    
+    private static final long serialVersionUID = -1768290517796704487L;
+
 }
