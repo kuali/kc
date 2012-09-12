@@ -13,32 +13,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.protocol.onlinereview;
+package org.kuali.kra.iacuc.onlinereview;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.irb.actions.IrbActionsKeyValuesBase;
+import org.kuali.kra.iacuc.actions.IacucActionsKeyValuesBase;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewStatus;
 
 /**
  * Assembles the Protocol Review Types to display in the drop-down menu when
  * submitting a protocol to the IRB office for review.
  */
-public class ProtocolOnlineReviewStatusValuesFinder extends IrbActionsKeyValuesBase {
+public class IacucProtocolOnlineReviewStatusValuesFinder extends IacucActionsKeyValuesBase {
     
-    @SuppressWarnings("unchecked")
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = -5957014216543794243L;
+
     public List<KeyValue> getKeyValues() {
-        Collection<ProtocolOnlineReviewStatus> reviewStatusCodes = this.getKeyValuesService().findAll(ProtocolOnlineReviewStatus.class);
+        Collection<IacucProtocolOnlineReviewStatus> reviewStatusCodes = this.getKeyValuesService().findAll(IacucProtocolOnlineReviewStatus.class);
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         keyValues.add(new ConcreteKeyValue("", "select"));
-        for (ProtocolOnlineReviewStatus status : reviewStatusCodes) {
+        for (IacucProtocolOnlineReviewStatus status : reviewStatusCodes) {
             //we do not want users to assign the cancelled code.
-            if (!StringUtils.equals(ProtocolOnlineReviewStatus.REMOVED_CANCELLED_STATUS_CD, status.getStatusCode())) {
+            if (!StringUtils.equals(IacucProtocolOnlineReviewStatus.REMOVED_CANCELLED_STATUS_CD, status.getStatusCode())) {
                 keyValues.add(new ConcreteKeyValue(status.getStatusCode(), status.getDescription()));
             }
         }

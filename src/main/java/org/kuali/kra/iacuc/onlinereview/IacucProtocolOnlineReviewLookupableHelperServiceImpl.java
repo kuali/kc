@@ -177,7 +177,7 @@ public class IacucProtocolOnlineReviewLookupableHelperServiceImpl extends KraLoo
     protected void addEditHtmlData(List<HtmlData> htmlDataList, BusinessObject businessObject) {
         IacucProtocolOnlineReview protocolOnlineReview = (IacucProtocolOnlineReview) businessObject;
         
-        if (ProtocolOnlineReviewStatus.SAVED_STATUS_CD.equals(protocolOnlineReview.getProtocolOnlineReviewStatusCode())) {
+        if (IacucProtocolOnlineReviewStatus.SAVED_STATUS_CD.equals(protocolOnlineReview.getProtocolOnlineReviewStatusCode())) {
             htmlDataList.add(getEditLink(protocolOnlineReview.getProtocolOnlineReviewDocument()));
         } else {
             htmlDataList.add(getViewLink(protocolOnlineReview.getProtocolOnlineReviewDocument()));

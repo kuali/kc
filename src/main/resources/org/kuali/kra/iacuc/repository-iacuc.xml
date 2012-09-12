@@ -1271,9 +1271,9 @@
             <orderby name="attachmentId" sort="ASC" />
         </collection-descriptor>
 
-<!--         <reference-descriptor name="protocolOnlineReviewStatus" class-ref="org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewStatus" auto-retrieve="true" auto-update="none" auto-delete="none"> -->
-<!--             <foreignkey field-ref="protocolOnlineReviewStatusCode"/> -->
-<!--         </reference-descriptor> -->
+        <reference-descriptor name="protocolOnlineReviewStatus" class-ref="org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReviewStatus" auto-retrieve="true" auto-update="none" auto-delete="none">
+            <foreignkey field-ref="protocolOnlineReviewStatusCode"/>
+        </reference-descriptor>
         
         <reference-descriptor name="protocolOnlineReviewDeterminationRecommendation" class-ref="org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReviewDeterminationRecommendation" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="protocolOnlineReviewDeterminationRecommendationCode"/>
@@ -1284,6 +1284,15 @@
     
     <class-descriptor class = "org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReviewDeterminationRecommendation" table = "IACUC_PROTO_OLR_DT_REC_TYPE">
 		<field-descriptor name="protocolOnlineReviewDeterminationRecommendationCode" column="REVIEW_DETERM_RECOM_CD" jdbc-type="BIGINT" primarykey="true"/>
+		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR"/>
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+	</class-descriptor> 
+
+	<class-descriptor class = "org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReviewStatus" table = "IACUC_PROTOCOL_OLR_STATUS">
+		<field-descriptor name="statusCode" column="STATUS_CODE" jdbc-type="VARCHAR" primarykey="true"/>
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
         <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
