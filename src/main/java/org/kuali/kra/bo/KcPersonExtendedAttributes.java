@@ -598,6 +598,15 @@ public class KcPersonExtendedAttributes extends KraPersistableBusinessObjectBase
         this.salaryAnniversaryDate = salaryAnniversaryDate;
     }
     
+    /**
+     * Gets the eraCommonsUserName attribute. 
+     * @return Returns the eraCommonsUserName.
+     */
+    public String getEraCommonsUserName() {
+        KcPerson person = getKcPersonService().getKcPersonByPersonId(personId);       
+        return person.getEraCommonsUserName();        
+    }
+
     @Override
     @SuppressWarnings({ "rawtypes", "unchecked" })
     public List<Collection<PersistableBusinessObject>> buildListOfDeletionAwareLists() {
