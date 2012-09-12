@@ -398,7 +398,7 @@ public class RROtherProjectInfoV1_3Generator extends
 		}
 		if (KraServiceLocator.getService(ParameterService.class).getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_IACUC, 
 		        Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.IACUC_PROTOCOL_PROPOSAL_DEVELOPMENT_LINKING_ENABLED_PARAMETER)) {
-		    if (proposalSpecialReview.getApprovalDate() != null) {
+		    if (proposalSpecialReview.getApprovalDate() == null) {
 		        vertebrateAnimalsSupplement.setVertebrateAnimalsIACUCReviewIndicator(YesNoDataType.Y_YES);
 		    } else {
 		        vertebrateAnimalsSupplement.setVertebrateAnimalsIACUCReviewIndicator(YesNoDataType.N_NO);
