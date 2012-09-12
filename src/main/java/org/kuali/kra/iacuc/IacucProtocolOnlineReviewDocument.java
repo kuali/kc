@@ -21,13 +21,13 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.RolePersons;
 import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReview;
+import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReviewStatus;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.ProtocolOnlineReviewDocument;
 import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsService;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReview;
-import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewStatus;
 import org.kuali.kra.protocol.onlinereview.ProtocolReviewAttachment;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
@@ -178,7 +178,7 @@ public class IacucProtocolOnlineReviewDocument  extends ProtocolOnlineReviewDocu
 //            getReviewerCommentsService().deleteAllReviewAttachments(reviewAttachments, deletedReviewAttachments);
 //            getReviewerCommentsService().saveReviewAttachments(reviewAttachments, deletedReviewAttachments);
 
-            getProtocolOnlineReview().setProtocolOnlineReviewStatusCode(ProtocolOnlineReviewStatus.REMOVED_CANCELLED_STATUS_CD);
+            getProtocolOnlineReview().setProtocolOnlineReviewStatusCode(IacucProtocolOnlineReviewStatus.REMOVED_CANCELLED_STATUS_CD);
             getBusinessObjectService().save(getProtocolOnlineReview());
         }
     }

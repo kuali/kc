@@ -49,5 +49,15 @@ public class IacucProtocolOnlineReview extends ProtocolOnlineReview {
         this.determinationReviewDateDue = determinationReviewDateDue;
     }
 
+    @Override
+    protected String getProtocolOLRRemovedCancelledStatusCodeHook() {
+        return IacucProtocolOnlineReviewStatus.REMOVED_CANCELLED_STATUS_CD;
+    }
+
+    @Override
+    protected String getProtocolOLRFinalStatusCodeHook() {
+        return IacucProtocolOnlineReviewStatus.FINAL_STATUS_CD;
+    }
+
 
 }

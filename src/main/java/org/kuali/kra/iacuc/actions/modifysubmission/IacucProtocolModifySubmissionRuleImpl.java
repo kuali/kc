@@ -21,20 +21,18 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.iacuc.IacucProtocolOnlineReviewDocument;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewType;
-import org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewerBean;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewerType;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionQualifierType;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionType;
 import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReviewService;
+import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReviewStatus;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.ProtocolDocument;
 import org.kuali.kra.protocol.ProtocolOnlineReviewDocument;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewerBean;
-import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewStatus;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 
 import org.kuali.rice.kew.api.KewApiConstants;
@@ -137,7 +135,7 @@ public class IacucProtocolModifySubmissionRuleImpl extends ResearchDocumentRuleB
             reportWarning(propertyName,KeyConstants.ERROR_PROTOCOL_REVIEWER_CANNOT_REMOVE_REVIEW_EXISTING_COMMENTS,reviewer.getFullName(),""+document.getProtocolOnlineReview().getCommitteeScheduleMinutes().size());
         }
         
-        if (StringUtils.equals(document.getProtocolOnlineReview().getProtocolOnlineReviewStatusCode(), ProtocolOnlineReviewStatus.FINAL_STATUS_CD)) {
+        if (StringUtils.equals(document.getProtocolOnlineReview().getProtocolOnlineReviewStatusCode(), IacucProtocolOnlineReviewStatus.FINAL_STATUS_CD)) {
             reportWarning(propertyName, KeyConstants.ERROR_PROTOCOL_REVIEWER_CANNOT_REMOVE_FINAL_REVIEW, reviewer.getFullName());
         }
         

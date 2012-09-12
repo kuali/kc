@@ -166,7 +166,7 @@ public abstract class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineR
         
         protocolReviewDocument.getProtocolOnlineReview().setProtocolSubmission(protocolSubmission);
         protocolReviewDocument.getProtocolOnlineReview().setSubmissionIdFk(protocolSubmission.getSubmissionId());
-        protocolReviewDocument.getProtocolOnlineReview().setProtocolOnlineReviewStatusCode(ProtocolOnlineReviewStatus.SAVED_STATUS_CD);
+        protocolReviewDocument.getProtocolOnlineReview().setProtocolOnlineReviewStatusCode(getProtocolOLRSavedStatusCodeHook());
         protocolReviewDocument.getProtocolOnlineReview().setDateRequested(dateRequested == null ? new Date((new java.util.Date()).getTime()) : dateRequested);
         protocolReviewDocument.getProtocolOnlineReview().setDateDue(dateDue);
         
@@ -181,6 +181,8 @@ public abstract class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineR
         return protocolReviewDocument;
     }
     
+    protected abstract String getProtocolOLRSavedStatusCodeHook();
+
     /**
      * {@inheritDoc}
      * @see org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewService#createProtocolReviewer(java.lang.String, boolean, java.lang.String, 
@@ -532,7 +534,7 @@ public abstract class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineR
                 LOG.debug(String.format("Found protocolOnlineReviewDocument %s, removing it.",protocolOnlineReviewDocument.getDocumentNumber()));
             }
             cancelOnlineReviewDocument(protocolOnlineReviewDocument, submission, annotation);
-            submissionsProtocolOnlineReview.setProtocolOnlineReviewStatusCode(ProtocolOnlineReviewStatus.REMOVED_CANCELLED_STATUS_CD);
+            submissionsProtocolOnlineReview.setProtocolOnlineReviewStatusCode(getProtocolOLRRemovedCancelledStatusCodeHook());
             
             List<CommitteeScheduleMinute> reviewComments = protocolOnlineReviewDocument.getProtocolOnlineReview().getCommitteeScheduleMinutes();
             List<CommitteeScheduleMinute> deletedReviewComments = new ArrayList<CommitteeScheduleMinute>();
@@ -553,6 +555,8 @@ public abstract class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineR
             LOG.warn(String.format("Protocol Online Review document could not be found for (personId=%s,nonEmployeeFlag=%s) from (protocol=%s,submission=%s)",personId,nonEmployeeFlag,submission.getProtocol().getProtocolNumber(),submission.getSubmissionNumber()));
         }
     }
+
+    protected abstract String getProtocolOLRRemovedCancelledStatusCodeHook();
 
     /**
      * {@inheritDoc}

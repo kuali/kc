@@ -41,7 +41,12 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.UrlFactory;
 
-public class ProtocolOnlineReviewLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {
+public abstract class ProtocolOnlineReviewLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {
+
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = 7269604308213091097L;
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProtocolOnlineReviewLookupableHelperServiceImpl.class);
     
@@ -201,13 +206,15 @@ public class ProtocolOnlineReviewLookupableHelperServiceImpl extends KraLookupab
     protected void addEditHtmlData(List<HtmlData> htmlDataList, BusinessObject businessObject) {
         ProtocolOnlineReview protocolOnlineReview = (ProtocolOnlineReview) businessObject;
         
-        if (ProtocolOnlineReviewStatus.SAVED_STATUS_CD.equals(protocolOnlineReview.getProtocolOnlineReviewStatusCode())) {
+        if (getProtocolOLRSavedStatusCodeHook().equals(protocolOnlineReview.getProtocolOnlineReviewStatusCode())) {
             htmlDataList.add(getEditLink(protocolOnlineReview.getProtocolOnlineReviewDocument()));
         } else {
             htmlDataList.add(getViewLink(protocolOnlineReview.getProtocolOnlineReviewDocument()));
         }
     }
     
+    protected abstract String getProtocolOLRSavedStatusCodeHook();
+
     @Override
     protected AnchorHtmlData getViewLink(Document document) {
         Properties parameters = getLinkProperties(document);
