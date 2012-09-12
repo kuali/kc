@@ -15,9 +15,7 @@
  */
 package org.kuali.kra.iacuc.auth;
 
-import org.kuali.kra.common.committee.bo.CommitteeDecisionMotionType;
 import org.kuali.kra.iacuc.actions.IacucProtocolAction;
-import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
 import org.kuali.kra.infrastructure.PermissionConstants;
 
@@ -37,16 +35,8 @@ public class ApproveIacucProtocolUnavailableAuthorizer extends IacucProtocolAuth
         return (!canPerform(lastAction, lastSubmission)) && hasPermission(userId, task.getProtocol(), PermissionConstants.PERFORM_IACUC_ACTIONS_ON_PROTO);
     }
     
-    
     private boolean canPerform(IacucProtocolAction lastAction, IacucProtocolSubmission lastSubmission) {
-        boolean canPerform = false;
-        
-        if (lastAction != null && lastSubmission != null) {
-            canPerform = IacucProtocolActionType.RECORD_COMMITTEE_DECISION.equals(lastAction.getProtocolActionTypeCode()) 
-                      && CommitteeDecisionMotionType.APPROVE.equals(lastSubmission.getCommitteeDecisionMotionTypeCode());
-        }
-        
-        return canPerform;
+        return canPerformApproval(lastAction, lastSubmission);
     }
-    
+
 }
