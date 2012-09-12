@@ -330,8 +330,7 @@ public class IacucProtocolOnlineReviewServiceImpl extends ProtocolOnlineReviewSe
 
         protocolReviewDocument.getProtocolOnlineReview().setProtocolSubmission(protocolSubmission);
         protocolReviewDocument.getProtocolOnlineReview().setSubmissionIdFk(protocolSubmission.getSubmissionId());
-        protocolReviewDocument.getProtocolOnlineReview().setProtocolOnlineReviewStatusCode(
-                ProtocolOnlineReviewStatus.SAVED_STATUS_CD);
+        protocolReviewDocument.getProtocolOnlineReview().setProtocolOnlineReviewStatusCode(IacucProtocolOnlineReviewStatus.SAVED_STATUS_CD);
         protocolReviewDocument.getProtocolOnlineReview().setDateRequested(
                 dateRequested == null ? new Date((new java.util.Date()).getTime()) : dateRequested);
         protocolReviewDocument.getProtocolOnlineReview().setDateDue(dateDue);
@@ -425,7 +424,7 @@ public class IacucProtocolOnlineReviewServiceImpl extends ProtocolOnlineReviewSe
                 LOG.debug(String.format("Found protocolOnlineReviewDocument %s, removing it.",protocolOnlineReviewDocument.getDocumentNumber()));
             }
             cancelOnlineReviewDocument(protocolOnlineReviewDocument, submission, annotation);
-            submissionsProtocolOnlineReview.setProtocolOnlineReviewStatusCode(ProtocolOnlineReviewStatus.REMOVED_CANCELLED_STATUS_CD);
+            submissionsProtocolOnlineReview.setProtocolOnlineReviewStatusCode(IacucProtocolOnlineReviewStatus.REMOVED_CANCELLED_STATUS_CD);
             
             List<CommitteeScheduleMinute> reviewComments = protocolOnlineReviewDocument.getProtocolOnlineReview().getCommitteeScheduleMinutes();
             List<CommitteeScheduleMinute> deletedReviewComments = new ArrayList<CommitteeScheduleMinute>();
@@ -525,6 +524,16 @@ public class IacucProtocolOnlineReviewServiceImpl extends ProtocolOnlineReviewSe
 
     public void setIacucAdminApproveNodeName(String iacucAdminApproveNodeName) {
         this.iacucAdminApproveNodeName = iacucAdminApproveNodeName;
+    }
+
+    @Override
+    protected String getProtocolOLRSavedStatusCodeHook() {
+        return IacucProtocolOnlineReviewStatus.SAVED_STATUS_CD;
+    }
+
+    @Override
+    protected String getProtocolOLRRemovedCancelledStatusCodeHook() {
+        return IacucProtocolOnlineReviewStatus.REMOVED_CANCELLED_STATUS_CD;
     }
     
 }

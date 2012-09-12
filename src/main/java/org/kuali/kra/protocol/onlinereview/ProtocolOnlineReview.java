@@ -40,7 +40,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
  * a join between protocol, submission, and a reviewer.  The ProtocolReview
  * is created by the IRB Admin as request.
  */
-public class ProtocolOnlineReview extends KraPersistableBusinessObjectBase implements Permissionable, UnitAclLoadable {
+public abstract class ProtocolOnlineReview extends KraPersistableBusinessObjectBase implements Permissionable, UnitAclLoadable {
 
     private static final long serialVersionUID = 531397319695764847L;
 
@@ -490,8 +490,10 @@ public class ProtocolOnlineReview extends KraPersistableBusinessObjectBase imple
      * If the review has a status code of 'X' we return false;
      */
     public boolean isActive() {
-        return !StringUtils.equals(ProtocolOnlineReviewStatus.REMOVED_CANCELLED_STATUS_CD, getProtocolOnlineReviewStatusCode());
+        return !StringUtils.equals(getProtocolOLRRemovedCancelledStatusCodeHook(), getProtocolOnlineReviewStatusCode());
     }
+
+    protected abstract String getProtocolOLRRemovedCancelledStatusCodeHook();
 
     public Protocol getLookupProtocol() {
         return lookupProtocol;
@@ -580,12 +582,14 @@ public class ProtocolOnlineReview extends KraPersistableBusinessObjectBase imple
             String[] actions = actionsPerformed.split(Constants.SEMI_COLON);
             String[] finalizeAction = actions[actions.length - 1].split(Constants.COLON);
             if (finalizeAction.length == 4) {
-                isMatched = StringUtils.equals(finalizeAction[1], docStatus) && StringUtils.equals(finalizeAction[2], ProtocolOnlineReviewStatus.FINAL_STATUS_CD);
+                isMatched = StringUtils.equals(finalizeAction[1], docStatus) && StringUtils.equals(finalizeAction[2], getProtocolOLRFinalStatusCodeHook());
             }
         }
         return isMatched;
     }
 
+    protected abstract String getProtocolOLRFinalStatusCodeHook();
+    
     /*
      * get the reviewer user name of the last action performed if last action is reviewer approve OLR doc.
      */
