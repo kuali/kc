@@ -47,9 +47,6 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
-import org.kuali.kra.irb.actions.notification.ProtocolNotificationRequestBean;
-import org.kuali.kra.irb.notification.IRBNotificationContext;
-import org.kuali.kra.irb.notification.IRBNotificationRenderer;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.ProtocolForm;
 import org.kuali.kra.protocol.ProtocolOnlineReviewDocument;
@@ -61,7 +58,6 @@ import org.kuali.kra.protocol.actions.submit.ProtocolReviewerBean;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
 import org.kuali.kra.protocol.onlinereview.OnlineReviewsActionHelper;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReview;
-import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewStatus;
 import org.kuali.kra.protocol.onlinereview.ProtocolReviewAttachment;
 import org.kuali.kra.protocol.onlinereview.event.AddProtocolOnlineReviewAttachmentEvent;
 import org.kuali.kra.protocol.onlinereview.event.AddProtocolOnlineReviewCommentEvent;
@@ -460,7 +456,7 @@ public class IacucProtocolOnlineReviewAction extends IacucProtocolAction {
         ProtocolOnlineReviewDocument prDoc = protocolForm.getOnlineReviewsActionHelper().getDocumentFromHelperMap(onlineReviewDocumentNumber);
         ReviewCommentsBean reviewCommentsBean = protocolForm.getOnlineReviewsActionHelper().getReviewCommentsBeanFromHelperMap(onlineReviewDocumentNumber);
         ReviewAttachmentsBean reviewAttachmentsBean = protocolForm.getOnlineReviewsActionHelper().getReviewAttachmentsBeanFromHelperMap(onlineReviewDocumentNumber);
-        boolean isApproveReview = StringUtils.equals(ProtocolOnlineReviewStatus.SAVED_STATUS_CD, prDoc.getProtocolOnlineReview().getProtocolOnlineReviewStatusCode());
+        boolean isApproveReview = StringUtils.equals(IacucProtocolOnlineReviewStatus.SAVED_STATUS_CD, prDoc.getProtocolOnlineReview().getProtocolOnlineReviewStatusCode());
         //check to see if we are the reviewer and this is an approval to the irb admin.
         
         boolean validComments = applyRules(new RouteProtocolOnlineReviewEvent(prDoc, reviewCommentsBean.getReviewComments(), protocolForm.getOnlineReviewsActionHelper().getIndexByDocumentNumber(onlineReviewDocumentNumber)));
@@ -468,7 +464,7 @@ public class IacucProtocolOnlineReviewAction extends IacucProtocolAction {
         
         if( validComments && getKraWorkflowService().isUserApprovalRequested(prDoc, GlobalVariables.getUserSession().getPrincipalId())) {
             //then the status must be final.
-                prDoc.getProtocolOnlineReview().setProtocolOnlineReviewStatusCode(ProtocolOnlineReviewStatus.FINAL_STATUS_CD);
+                prDoc.getProtocolOnlineReview().setProtocolOnlineReviewStatusCode(IacucProtocolOnlineReviewStatus.FINAL_STATUS_CD);
                 prDoc.getProtocolOnlineReview().setReviewerApproved(true);
                 if (getKraWorkflowService().isDocumentOnNode(prDoc, Constants.IACUC_ONLINE_REVIEW_ROUTE_NODE_ADMIN_REVIEW)) {
                     prDoc.getProtocolOnlineReview().setAdminAccepted(true);
@@ -626,7 +622,7 @@ public class IacucProtocolOnlineReviewAction extends IacucProtocolAction {
                 KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase)protocolForm.getOnlineReviewsActionHelper().getDocumentHelperMap().get(onlineReviewDocumentNumber).get(OnlineReviewsActionHelper.FORM_MAP_KEY);
                 doProcessingAfterPost( kualiDocumentFormBase, request );
                 ProtocolOnlineReviewDocument document = (ProtocolOnlineReviewDocument) kualiDocumentFormBase.getDocument();
-                document.getProtocolOnlineReview().setProtocolOnlineReviewStatusCode(ProtocolOnlineReviewStatus.REMOVED_CANCELLED_STATUS_CD);
+                document.getProtocolOnlineReview().setProtocolOnlineReviewStatusCode(IacucProtocolOnlineReviewStatus.REMOVED_CANCELLED_STATUS_CD);
                 document.getProtocolOnlineReview().setReviewerApproved(false);
                 document.getProtocolOnlineReview().setAdminAccepted(false);
                 getBusinessObjectService().save(document.getProtocolOnlineReview());
@@ -679,7 +675,7 @@ public class IacucProtocolOnlineReviewAction extends IacucProtocolAction {
                         KRADConstants.CONFIRMATION_QUESTION, callerString, "", reason, RiceKeyConstants.ERROR_DOCUMENT_FIELD_CONTAINS_POSSIBLE_SENSITIVE_DATA,
                         KRADConstants.QUESTION_REASON_ATTRIBUTE_NAME, "reason");
             } else {
-                prDoc.getProtocolOnlineReview().setProtocolOnlineReviewStatusCode(ProtocolOnlineReviewStatus.SAVED_STATUS_CD);
+                prDoc.getProtocolOnlineReview().setProtocolOnlineReviewStatusCode(IacucProtocolOnlineReviewStatus.SAVED_STATUS_CD);
                 prDoc.getProtocolOnlineReview().addActionPerformed("Reject");
                 prDoc.getProtocolOnlineReview().setReviewerApproved(false);
                 prDoc.getProtocolOnlineReview().setAdminAccepted(false);

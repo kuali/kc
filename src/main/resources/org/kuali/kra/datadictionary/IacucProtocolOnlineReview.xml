@@ -206,9 +206,8 @@
             <bean parent="AlphaNumericValidationPattern" />
         </property>
         <property name="control">
-            <!--  TODO : may need a different values finder -->
             <bean parent="SelectControlDefinition"
-                p:valuesFinderClass="org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewStatusValuesFinder"
+                p:valuesFinderClass="org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReviewStatusValuesFinder"
                 p:includeKeyInLabel="false" />
         </property>
         <property name="summary" value="Protocol Review Status Code" />
@@ -284,7 +283,7 @@
         <property name="summary" value="Determination Recommendation" />
         <property name="description" value="Determination Recommendation" />
     </bean>
- <!--        
+        
     <bean id="IacucProtocolOnlineReview-determinationRecommendation.description" parent="IacucProtocolOnlineReview-determinationRecommendation.description-parentBean" />
     <bean id="IacucProtocolOnlineReview-determinationRecommendation.description-parentBean"
         abstract="true" parent="AttributeDefinition">
@@ -302,7 +301,6 @@
         <property name="summary" value="Determination Recommendation" />
         <property name="description" value="Determination Recommendation" />
     </bean>
--->
 
 
     <bean id="IacucProtocolOnlineReview-versionNumber" parent="IacucProtocolOnlineReview-versionNumber-parentBean"/>
@@ -325,7 +323,7 @@
         <property name="control">
              <bean parent="SelectControlDefinition"
                 p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
-                p:businessObjectClass="org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewStatus"
+                p:businessObjectClass="org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReviewStatus"
                 p:includeKeyInLabel="false" p:keyAttribute="statusCode"
                 p:labelAttribute="description" />
         </property>
@@ -630,7 +628,7 @@
                 <bean p:attributeName="protocolSubmission.submissionStatus.description" parent = "FieldDefinition"/>
                 <bean p:attributeName="lookupReviewerFullName" parent = "FieldDefinition"/>
                 <bean p:attributeName="resultDueDate" parent="FieldDefinition"/>
-                <!--  bean p:attributeName="protocolOnlineReviewStatus.description" parent="FieldDefinition"/-->
+                <bean p:attributeName="protocolOnlineReviewStatus.description" parent="FieldDefinition"/>
             </list>
         </property>
     </bean>
