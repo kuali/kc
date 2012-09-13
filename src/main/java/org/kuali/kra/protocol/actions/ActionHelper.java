@@ -3339,4 +3339,11 @@ public abstract class ActionHelper implements Serializable {
     public boolean isCanReturnToPIUnavailable() {
         return canReturnToPIUnavailable;
     }
+    
+    /**
+     * 
+     * This method returns the number of years to add for the default expiration date.
+     * @return
+     */
+    public abstract int getDefaultExpirationDateDifference();
 }
