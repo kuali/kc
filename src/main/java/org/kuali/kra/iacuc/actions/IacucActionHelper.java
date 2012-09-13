@@ -306,7 +306,7 @@ public class IacucActionHelper extends ActionHelper {
         Date expirationDate = protocol.getExpirationDate();
         
         if (expirationDate == null || protocol.isNew() || protocol.isRenewal() || ((IacucProtocol)protocol).isContinuation()) {
-            java.util.Date newExpirationDate = DateUtils.addYears(approvalDate, 1);
+            java.util.Date newExpirationDate = DateUtils.addYears(approvalDate, getDefaultExpirationDateDifference());
             newExpirationDate = DateUtils.addDays(newExpirationDate, -1);
             expirationDate = DateUtils.convertToSqlDate(newExpirationDate);
         }
@@ -1503,6 +1503,18 @@ public class IacucActionHelper extends ActionHelper {
 
     public void setProtocolContinuationAmendmentBean(ProtocolAmendmentBean protocolContinuationAmendmentBean) {
         this.protocolContinuationAmendmentBean = protocolContinuationAmendmentBean;
+    }
+    
+    @Override
+    public int getDefaultExpirationDateDifference() {
+        try {
+            int retVal = Integer.parseInt(this.getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_IACUC, Constants.PARAMETER_COMPONENT_DOCUMENT, 
+                    Constants.IACUC_PROTOCOL_DEFAULT_EXIPIRATION_TIME_DIFFERNECE_PARAMTETER));
+            return retVal;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 1;
+        }
     }
 
 }
