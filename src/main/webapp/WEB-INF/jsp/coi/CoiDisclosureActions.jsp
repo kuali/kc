@@ -38,8 +38,8 @@
   	<%-- TODO : 'data validation' is not in mock.  however, for audit rule consistency, we should
   	             consider to add it. If we don't need it, then remove this. --%>
 	<div id="workarea">
-    <%--<kra:dataValidation auditActivated="${KualiForm.auditActivated}" topTab="true"/>--%>
-    <kra-coi:disclosureReviewerActions/>
+<%--     <kra:dataValidation auditActivated="${KualiForm.auditActivated}" topTab="true"/> --%>
+    <kra-coi:disclosureReviewerActions  topTab="true"/>
     <%--add document authorizer here --%>
     <kra:section permission="approveCoiDisclosure">
     <kra-coi:coiAdministratorActions />
