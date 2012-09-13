@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="rice-overlay" default="update-database" basedir=".">
 	
-	<property name="krns.changelog.file" value="01_bootstrap_krns_data.xml"/>
+	<property name="krcr.changelog.file" value="01_bootstrap_krcr_data.xml"/>
 	<property name="krim.entity.changelog.file" value="02_bootstrap_krim_entity_data.xml"/>
 	<property name="krim.role.changelog.file" value="03_bootstrap_krim_role_perm_data.xml"/>
 	<property name="kren.changelog.file" value="04_bootstrap_kren_data.xml"/>
@@ -20,28 +20,29 @@
 		
 		  <taskdef resource="liquibasetasks.properties">
 		      <classpath refid="liquibase-classpath"/>
-		  </taskdef>
-		
+		  </taskdef>		
 	</target>
 	
 	<target name="update-database" depends="update-prepare">
 		<antcall target="update-rice-tables" inheritRefs="true">
-			<param name="db.changelog.file" value="${krns.changelog.file}"/>
+			<param name="db.changelog.file" value="${krcr.changelog.file}"/>
 		</antcall>
+
 		<antcall target="update-rice-tables" inheritRefs="true">
 			<param name="db.changelog.file" value="${krim.entity.changelog.file}"/> 
 		</antcall>
+
 		<antcall target="update-rice-tables" inheritRefs="true">
 			<param name="db.changelog.file" value="${krim.role.changelog.file}"/>
 		</antcall>
 		<antcall target="update-rice-tables" inheritRefs="true">
 			<param name="db.changelog.file" value="${kren.changelog.file}"/>
 		</antcall>
+
  	</target>
 	
 	<target name="update-rice-tables" > 
-		<fail unless="db.changelog.file">db.changelog.file not passed in</fail>
-		
+		<fail unless="db.changelog.file">db.changelog.file not passed in</fail>		
 	    <updateDatabase
 	            changeLogFile="${db.changelog.file}"
 	            driver="${driver}"
