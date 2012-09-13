@@ -1088,6 +1088,8 @@ public class S2SBudgetCalculatorServiceImpl implements
                                 calculatedCostSharing = indirectCostDetails.getCostSharing().add(
                                         rateBase.getCalculatedCostSharing() == null ? BudgetDecimal.ZERO : rateBase
                                                 .getCalculatedCostSharing());
+                            } else if (!lineItem.getSubmitCostSharingFlag()&& budget.getSubmitCostSharingFlag()) {
+                                calculatedCostSharing = indirectCostDetails.getCostSharing();
                             }
                             indirectCostDetails.setBase(baseCost);
                             indirectCostDetails.setBaseCostSharing(baseCostSharing);
