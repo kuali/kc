@@ -14,12 +14,15 @@
  limitations under the License.
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
-
+<%@ attribute name="topTab" required="true" type="java.lang.Boolean" description="is this the top tab on the page" %>
 <c:set var="permissionsUserAttributes" value="${DataDictionary.PermissionsUser.attributes}" />
 <c:set var="modifyPermissions" value="${KualiForm.disclosureActionHelper.maintainReviewers}" />
+<c:if test="${topTab == true}">
+	<%--instead of using kul:tabTop tag just define the workarea div - this gets around an unbalanced tag problem when using conditional tags --%>
+	<div id="workarea">
+</c:if>
 
-
-<kul:tab tabTitle="Reviewer Actions" defaultOpen="false" tabErrorKey="disclosureActionHelper.newCoiUserRole.*">
+<kul:tabTop tabTitle="Reviewer Actions" defaultOpen="false" tabErrorKey="disclosureActionHelper.newCoiUserRole.*">
     <div class="tab-container"  align="center">
         <h3> 
             <span class="subhead-left">Reviewer Actions</span>
@@ -110,4 +113,4 @@
         </table>        
         
     </div>
-</kul:tab>
+</kul:tabTop>
