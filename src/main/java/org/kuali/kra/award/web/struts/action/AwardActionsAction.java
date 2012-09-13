@@ -87,7 +87,7 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
     private static final String NO_PERMISSION_TO_CREATE_ACCOUNT = "error.award.createAccount.noPermission";
     public static final String NEW_CHILD_NEW_OPTION = "a";
     public static final String AWARD_COPY_NEW_OPTION = "a";
-    public static final String AWARD_COPY_CHILD_OF_OPTION = "b";
+    public static final String AWARD_COPY_CHILD_OF_OPTION = "d";
     
     @Override
     public ActionForward docHandler(ActionMapping mapping, ActionForm form
@@ -228,13 +228,13 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
                 }
             } else if(StringUtils.equalsIgnoreCase(radio, AWARD_COPY_CHILD_OF_OPTION)) {
                 String awardNumberOfNodeToBeParent = awardForm.getAwardHierarchyTempObjects().get(index).getCopyAwardPanelTargetAward();
-                if (!StringUtils.isEmpty(awardNumberOfNodeToBeParent)) {
+                if (!StringUtils.isEmpty(awardNumberOfNodeToBeParent) && !StringUtils.equalsIgnoreCase(awardNumberOfNodeToBeParent, ZERO)) {
                     if (copyDescendants!=null && copyDescendants){    
                         if(!StringUtils.isEmpty(awardNumberOfNodeToBeParent)) {
                             newRootNode = awardForm.getAwardHierarchyBean().copyAwardAndDescendantsAsChildOfAnotherAward(targetNode.getAwardNumber(), awardNumberOfNodeToBeParent);
                             forward = prepareToForwardToNewFinalChildAward(mapping, awardForm, request, response, targetNode, newRootNode);
                         }
-                    }else{
+                    } else {
                         newRootNode = awardForm.getAwardHierarchyBean().copyAwardAsChildOfAnotherAward(targetNode.getAwardNumber(), awardNumberOfNodeToBeParent);
                         forward = prepareToForwardToNewChildAward(mapping, awardForm, targetNode, newRootNode);
                     } 
@@ -281,7 +281,7 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
                 forward = prepareToForwardToNewChildAward(mapping, awardForm, targetNode, newChildNode);
             }else if(StringUtils.equalsIgnoreCase(radio, NEW_CHILD_SELECTED_AWARD_OPTION)){
                 String awardNumberOfNodeToCopyFrom = awardForm.getAwardHierarchyTempObjects().get(index).getNewChildPanelTargetAward();
-                if(StringUtils.isEmpty(awardNumberOfNodeToCopyFrom)) {
+                if (StringUtils.isEmpty(awardNumberOfNodeToCopyFrom) || StringUtils.equalsIgnoreCase(awardNumberOfNodeToCopyFrom, ZERO)) {
                     GlobalVariables.getMessageMap().putError("awardHierarchyTempObject[" + index + "].newChildPanelTargetAward", KeyConstants.ERROR_CREATE_NEW_CHILD_OTHER_AWARD_NOT_SELECTED, awardNumber);
                     forward = mapping.findForward(Constants.MAPPING_AWARD_BASIC);
                 }else{
