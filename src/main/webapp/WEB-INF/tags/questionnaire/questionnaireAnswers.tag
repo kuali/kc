@@ -37,14 +37,14 @@
         </c:if>
     
     <c:choose>
-    <c:when test="${bean.answerHeaders[answerHeaderIndex].completed && bean.answerHeaders[answerHeaderIndex].hasVisibleQuestion}}">
+    <c:when test="${bean.answerHeaders[answerHeaderIndex].completed && bean.answerHeaders[answerHeaderIndex].hasVisibleQuestion}">
      	<c:set var="tabTitle" value="${bean.headerLabels[answerHeaderIndex]} (Complete) ${inactivate}" />
     </c:when>
     <c:when test="${bean.answerHeaders[answerHeaderIndex].hasVisibleQuestion}">
      	<c:set var="tabTitle" value="${bean.headerLabels[answerHeaderIndex]} (Incomplete) ${inactivate}" />
     </c:when>
     <c:otherwise>
-		<c:set var="tabTitle" value="${bean.headerLabels[answerHeaderIndex]} ${inactivate}" />    
+			<c:set var="tabTitle" value="${bean.headerLabels[answerHeaderIndex]} ${inactivate}" />    
     </c:otherwise> 
     </c:choose>
     <c:set var="showQuestions" value="false" />
