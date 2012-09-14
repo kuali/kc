@@ -21,7 +21,7 @@ echo Invalid Database Type <%dbtype%>
 goto dbtype
 
 :Version
-set /p Version="Enter Currently Installed Version (NEW, 3.0, 3.0.1, 3.1, 3.1.1, 3.2, 4.0) <%Version%>: "
+set /p Version="Enter Currently Installed Version (NEW, 3.0, 3.0.1, 3.1, 3.1.1, 3.2, 4.0, 5.0) <%Version%>: "
 if /i "%Version%" == "NEW" goto User
 if /i "%Version%" == "3.0" goto User
 if /i "%Version%" == "3.0.1" goto User

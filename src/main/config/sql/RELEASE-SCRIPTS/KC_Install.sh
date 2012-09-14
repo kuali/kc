@@ -46,7 +46,7 @@ fi
 
 dbtype=`getChoice 'Enter Database Type' ORACLE MYSQL`
 
-version=`getChoice 'Enter Currently Installed Version' NEW 3.0 3.0.1 3.1 3.1.1 3.2 4.0`
+version=`getChoice 'Enter Currently Installed Version' NEW 3.0 3.0.1 3.1 3.1.1 3.2 4.0 5.0`
 
 un=`getAnswer 'Enter KC Database Username'`
 
