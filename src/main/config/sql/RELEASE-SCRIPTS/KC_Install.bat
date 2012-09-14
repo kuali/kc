@@ -29,6 +29,7 @@ if /i "%Version%" == "3.1" goto User
 if /i "%Version%" == "3.1.1" goto User
 if /i "%Version%" == "3.2" goto User
 if /i "%Version%" == "4.0" goto User
+if /i "%Version%" == "5.0" goto User
 echo Invalid Version <%Version%>
 goto Version
 
@@ -223,6 +224,15 @@ sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < KR-RELEASE-5_0-Upgrade-ORACLE.sq
 move *.log ../LOGS/
 cd .. 
 
+:5.0ORACLE
+cd KC-RELEASE-5_0_1-SCRIPT
+
+:5.0ORACLENORICE
+sqlplus "%un%"/"%pw%"@"%DBSvrNm%" < KC-RELEASE-5_0_1-Upgrade-ORACLE.sql
+sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < KR-RELEASE-5_0_1-Upgrade-ORACLE.sql
+move *.log ../LOGS/
+cd .. 
+
 cd KC-RELEASE-3_0-CLEAN/oracle
 sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < krrelease/datasql/KR_00_CLEAN_SEQ_BS.sql
 move *.log ../../LOGS/
@@ -354,6 +364,15 @@ mysql -u %Riceun% -p%Ricepw% -D %Riceun% -s -f < KR_RICE-RELEASE-5_0-Upgrade-MYS
 :4.0MYSQLNORICE
 mysql -u %un% -p%pw% -D %un% -s -f < KC-RELEASE-5_0-Upgrade-MYSQL.sql > KC-RELEASE-5_0-Upgrade-MYSQL-Install.log 2>&1
 mysql -u %Riceun% -p%Ricepw% -D %Riceun% -s -f < KR-RELEASE-5_0-Upgrade-MYSQL.sql > KR-RELEASE-5_0-Upgrade-MYSQL-Install.log 2>&1
+move *.log ../LOGS/
+cd ..
+
+:5.0MYSQL
+cd KC-RELEASE-5_0_1-SCRIPT
+
+:5.0MYSQLNORICE
+mysql -u %un% -p%pw% -D %un% -s -f < KC-RELEASE-5_0_1-Upgrade-MYSQL.sql > KC-RELEASE-5_0_1-Upgrade-MYSQL-Install.log 2>&1
+mysql -u %Riceun% -p%Ricepw% -D %Riceun% -s -f < KR-RELEASE-5_0_1-Upgrade-MYSQL.sql > KR-RELEASE-5_0_1-Upgrade-MYSQL-Install.log 2>&1
 move *.log ../LOGS/
 cd ..
 
