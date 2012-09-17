@@ -212,8 +212,10 @@ public class SubAwardLookupableHelperServiceImpl extends KraLookupableHelperServ
           for (SubAward subAward : activeSubAwards) {
               if (subrecipientName != null
                       && !subrecipientName.equals("")
-                      && subAward.getOrganizationName() != null) {
-                  if (subAward.getOrganizationName().equals(subrecipientName)) {
+                      && subAward.getOrganization().getOrganizationName() != null) {
+                  String subRecName = subrecipientName.replace("*", ".*").replace("?",".");
+                  subRecName = subRecName.toLowerCase();                                  
+                  if (subAward.getOrganization().getOrganizationName().toLowerCase().matches(subRecName)) {
                       filteredSubAwards.add(subAward);
                   }
               } else {
