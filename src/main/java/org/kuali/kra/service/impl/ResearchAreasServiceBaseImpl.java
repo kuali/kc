@@ -27,17 +27,17 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.bo.ComplianceResearchArea;
-import org.kuali.kra.committee.bo.Committee;
-import org.kuali.kra.committee.bo.CommitteeMembership;
-import org.kuali.kra.committee.bo.CommitteeMembershipExpertise;
-import org.kuali.kra.committee.bo.CommitteeResearchArea;
+import org.kuali.kra.bo.ResearchAreaBase;
+import org.kuali.kra.common.committee.bo.CommitteeMembership;
+import org.kuali.kra.common.committee.bo.CommitteeMembershipExpertise;
+import org.kuali.kra.common.committee.bo.CommitteeResearchArea;
+import org.kuali.kra.common.committee.bo.CommonCommittee;
 import org.kuali.kra.dao.ResearchAreaReferencesDao;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.protocol.research.ProtocolResearchArea;
-import org.kuali.kra.service.ComplianceResearchAreaCurrentReferencerHolder;
-import org.kuali.kra.service.ComplianceResearchAreasService;
+import org.kuali.kra.service.ResearchAreaCurrentReferencerHolderBase;
+import org.kuali.kra.service.ResearchAreasServiceBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.w3c.dom.Document;
@@ -50,7 +50,7 @@ import org.xml.sax.SAXException;
 /**
  * This class...
  */
-public abstract class ComplianceResearchAreasServiceImpl implements ComplianceResearchAreasService {
+public abstract class ResearchAreasServiceBaseImpl implements ResearchAreasServiceBase {
 
     private static final String COLUMN_CODE_1 = "%3A";
     private static final String COLUMN_CODE_2 = "%4A";
@@ -78,7 +78,7 @@ public abstract class ComplianceResearchAreasServiceImpl implements ComplianceRe
      */
     public String getSubResearchAreasForTreeView(String researchAreaCode, boolean activeOnly) {
         String researchAreas = "<h3>";
-        for (ComplianceResearchArea researchArea : getSubResearchAreas(researchAreaCode, activeOnly)) {
+        for (ResearchAreaBase researchArea : getSubResearchAreas(researchAreaCode, activeOnly)) {
             researchAreas = researchAreas + researchArea.getResearchAreaCode() +KRADConstants.BLANK_SPACE+COLUMN_CODE_1+KRADConstants.BLANK_SPACE+ researchArea.getDescription() +KRADConstants.BLANK_SPACE+COLUMN_CODE_2+KRADConstants.BLANK_SPACE+ researchArea.isActive()+"</h3><h3>";
         }
         researchAreas = researchAreas.substring(0, researchAreas.length() - 4);        
@@ -90,8 +90,8 @@ public abstract class ComplianceResearchAreasServiceImpl implements ComplianceRe
      * call businessobjectservice to get a list of sub research areas of 'researchareacode'
      */
     @SuppressWarnings("unchecked")
-    protected List<ComplianceResearchArea> getSubResearchAreas(String researchAreaCode, boolean activeOnly) {
-        List<ComplianceResearchArea> researchAreasList = new ArrayList<ComplianceResearchArea>();
+    protected List<ResearchAreaBase> getSubResearchAreas(String researchAreaCode, boolean activeOnly) {
+        List<ResearchAreaBase> researchAreasList = new ArrayList<ResearchAreaBase>();
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put(PARENT_RESEARCH_AREA_CODE, researchAreaCode);
         if (activeOnly) {
@@ -133,7 +133,7 @@ public abstract class ComplianceResearchAreasServiceImpl implements ComplianceRe
      */  
     public boolean checkResearchAreaAndDescendantsNotReferenced(String researchAreaCode) {
         boolean retValue = true;
-        ComplianceResearchArea researchArea = getBusinessObjectService().findBySinglePrimaryKey(getResearchAreaBOClassHook(), researchAreaCode);
+        ResearchAreaBase researchArea = getBusinessObjectService().findBySinglePrimaryKey(getResearchAreaBOClassHook(), researchAreaCode);
         if ( (researchArea != null)) {
             retValue = checkResearchAreaTree(researchArea);
         }
@@ -147,7 +147,7 @@ public abstract class ComplianceResearchAreasServiceImpl implements ComplianceRe
     
     // recursive method to check the tree in depth-first fashion
     @SuppressWarnings("unchecked")
-    private boolean checkResearchAreaTree(ComplianceResearchArea researchArea) {
+    private boolean checkResearchAreaTree(ResearchAreaBase researchArea) {
         boolean retValue = true;
         String researchAreaCode = researchArea.getResearchAreaCode();
         if(  (this.getResearchAreaReferencesDao().isResearchAreaReferencedByAnyCommittee(researchAreaCode)) || 
@@ -159,8 +159,8 @@ public abstract class ComplianceResearchAreasServiceImpl implements ComplianceRe
             // get the children of this research area
             Map<String, String> fieldValues = new HashMap<String, String>();
             fieldValues.put(PARENT_RESEARCH_AREA_CODE, researchAreaCode);
-            List<ComplianceResearchArea> subResearchAreas = (List<ComplianceResearchArea>) getBusinessObjectService().findMatching(getResearchAreaBOClassHook(), fieldValues);
-            for (ComplianceResearchArea subResearchArea: subResearchAreas) {
+            List<ResearchAreaBase> subResearchAreas = (List<ResearchAreaBase>) getBusinessObjectService().findMatching(getResearchAreaBOClassHook(), fieldValues);
+            for (ResearchAreaBase subResearchArea: subResearchAreas) {
                 // recursive call
                 if(false == checkResearchAreaTree(subResearchArea)) {
                     // no need to check remaining children
@@ -179,7 +179,7 @@ public abstract class ComplianceResearchAreasServiceImpl implements ComplianceRe
      * @see org.kuali.kra.service.ResearchAreasService#deleteResearchAreaAndDescendants(java.lang.String)
      */
     public void deleteResearchAreaAndDescendants(String researchAreaCode) {
-        ComplianceResearchArea researchArea = getBusinessObjectService().findBySinglePrimaryKey(getResearchAreaBOClassHook(), researchAreaCode);
+        ResearchAreaBase researchArea = getBusinessObjectService().findBySinglePrimaryKey(getResearchAreaBOClassHook(), researchAreaCode);
         if (researchArea != null) {
             getBusinessObjectService().delete(researchArea);
             deleteChildrenResearchAreas(researchAreaCode);
@@ -195,8 +195,8 @@ public abstract class ComplianceResearchAreasServiceImpl implements ComplianceRe
     private void deleteChildrenResearchAreas(String parentResearchAreaCode) {
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put(PARENT_RESEARCH_AREA_CODE, parentResearchAreaCode);
-        List<ComplianceResearchArea> researchAreas = (List<ComplianceResearchArea>) businessObjectService.findMatching(getResearchAreaBOClassHook(), fieldValues);
-        for (ComplianceResearchArea researchArea: researchAreas) {
+        List<ResearchAreaBase> researchAreas = (List<ResearchAreaBase>) businessObjectService.findMatching(getResearchAreaBOClassHook(), fieldValues);
+        for (ResearchAreaBase researchArea: researchAreas) {
             deleteChildrenResearchAreas(researchArea.getResearchAreaCode());
             businessObjectService.delete(researchArea);
         }
@@ -222,7 +222,7 @@ public abstract class ComplianceResearchAreasServiceImpl implements ComplianceRe
      * @param hasChildrenFlag
      */
     private void setHasChildrenFlag(String researchAreaCode, boolean hasChildrenFlag) {
-        ComplianceResearchArea researchArea = businessObjectService.findBySinglePrimaryKey(getResearchAreaBOClassHook(), researchAreaCode);
+        ResearchAreaBase researchArea = businessObjectService.findBySinglePrimaryKey(getResearchAreaBOClassHook(), researchAreaCode);
         if (researchArea.getHasChildrenFlag() != hasChildrenFlag) {
             researchArea.setHasChildrenFlag(hasChildrenFlag);
             businessObjectService.save(researchArea);
@@ -238,7 +238,7 @@ public abstract class ComplianceResearchAreasServiceImpl implements ComplianceRe
      */
     protected boolean isExistInDeletedChildren(String researchAreaCode, String raCode) {
         boolean isExist = false;
-        for (ComplianceResearchArea researchArea : getSubResearchAreas(raCode, false)) {
+        for (ResearchAreaBase researchArea : getSubResearchAreas(raCode, false)) {
             if (researchAreaCode.equals(researchArea.getResearchAreaCode())) {
                 isExist = true;
                 break;
@@ -305,7 +305,7 @@ public abstract class ComplianceResearchAreasServiceImpl implements ComplianceRe
                         .get(PARENT_CODE), details.get(CREATE_RESEARCH_AREA).get(DESCRIPTION), active);
                         */
 
-                ComplianceResearchArea researchArea = getNewResearchAreaInstanceHook(details.get(CREATE_RESEARCH_AREA).get(CODE), details.get(CREATE_RESEARCH_AREA)
+                ResearchAreaBase researchArea = getNewResearchAreaInstanceHook(details.get(CREATE_RESEARCH_AREA).get(CODE), details.get(CREATE_RESEARCH_AREA)
                         .get(PARENT_CODE), details.get(CREATE_RESEARCH_AREA).get(DESCRIPTION), active);
                 
                 businessObjectService.save(researchArea);
@@ -313,20 +313,20 @@ public abstract class ComplianceResearchAreasServiceImpl implements ComplianceRe
 
             }
             if (details.containsKey(UPDATE_RESEARCH_AREA_DESCRIPTION)) {
-                ComplianceResearchArea researchArea = businessObjectService.findBySinglePrimaryKey(getResearchAreaBOClassHook(), details.get(UPDATE_RESEARCH_AREA_DESCRIPTION).get(CODE));
+                ResearchAreaBase researchArea = businessObjectService.findBySinglePrimaryKey(getResearchAreaBOClassHook(), details.get(UPDATE_RESEARCH_AREA_DESCRIPTION).get(CODE));
                 researchArea.setDescription(details.get(UPDATE_RESEARCH_AREA_DESCRIPTION).get(DESCRIPTION));
                 businessObjectService.save(researchArea);
             }
             if (details.containsKey(UPDATE_RESEARCH_AREA_ACTIVE_FLAG)) {
                 // with kcirb-1424's changes, the 'update' will now always be an activation (deactivations are carried out seperately).
                 // boolean active = StringUtils.equalsIgnoreCase(details.get(UPDATE_RESEARCH_AREA_ACTIVE_FLAG).get(ACTIVE), TRUE) ? true : false;
-                ComplianceResearchArea researchArea = businessObjectService.findBySinglePrimaryKey(getResearchAreaBOClassHook(), details.get(UPDATE_RESEARCH_AREA_ACTIVE_FLAG).get(CODE));
+                ResearchAreaBase researchArea = businessObjectService.findBySinglePrimaryKey(getResearchAreaBOClassHook(), details.get(UPDATE_RESEARCH_AREA_ACTIVE_FLAG).get(CODE));
                 researchArea.setActive(true);
                 businessObjectService.save(researchArea);
                 // inactivateChildrenResearchAreas(details.get(UPDATE_RESEARCH_AREA_ACTIVE_FLAG).get(CODE));
             }
             if (details.containsKey(UPDATE_PARENT_RESEARCH_AREA)) {
-                ComplianceResearchArea researchArea = businessObjectService.findBySinglePrimaryKey(getResearchAreaBOClassHook(), details.get(UPDATE_PARENT_RESEARCH_AREA).get(CODE));
+                ResearchAreaBase researchArea = businessObjectService.findBySinglePrimaryKey(getResearchAreaBOClassHook(), details.get(UPDATE_PARENT_RESEARCH_AREA).get(CODE));
                 researchArea.setParentResearchAreaCode(details.get(UPDATE_PARENT_RESEARCH_AREA).get(NEW_PARENT));
                 businessObjectService.save(researchArea);
                 setHasChildrenFlag(details.get(UPDATE_PARENT_RESEARCH_AREA).get(NEW_PARENT), true);
@@ -413,14 +413,14 @@ public abstract class ComplianceResearchAreasServiceImpl implements ComplianceRe
     // helper method that checks that the given committee instance has the highest sequence number of all other 
     // committee instances in the database with the same committee id.
     // note: See replacement for this method in ResearchAreaReferencesDaoOjb if efficiency becomes a concern
-    private boolean isCurrentVersion(Committee committee) {
+    private boolean isCurrentVersion(CommonCommittee committee) {
         boolean retValue = false;
         // get the list of all Committee instances that have the same id as the argument instance, 
         // sorted in descending order of their sequence numbers
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put(COMMITTEE_ID, committee.getCommitteeId());
         @SuppressWarnings("unchecked")
-        List<Committee> committees = (List<Committee>) this.getBusinessObjectService().findMatchingOrderBy(Committee.class, fieldValues, SEQUENCE_NUMBER, false);
+        List<CommonCommittee> committees = (List<CommonCommittee>) this.getBusinessObjectService().findMatchingOrderBy(CommonCommittee.class, fieldValues, SEQUENCE_NUMBER, false);
         // check the first element's sequence number with the argument's sequence number
         if( (committees != null) && (!committees.isEmpty()) && (committees.get(0).getSequenceNumber().equals(committee.getSequenceNumber())) ) {
             retValue = true;
@@ -431,8 +431,8 @@ public abstract class ComplianceResearchAreasServiceImpl implements ComplianceRe
     /**
      * @see org.kuali.kra.service.ResearchAreasService#getCurrentCommitteeReferencingResearchArea(java.lang.String)
      */
-    public Committee getCurrentCommitteeReferencingResearchArea(String researchAreaCode) {
-        Committee retValue = null;
+    public CommonCommittee getCurrentCommitteeReferencingResearchArea(String researchAreaCode) {
+        CommonCommittee retValue = null;
         // get the collection of all CommitteeResearchArea instances that have the given research area code
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put(RESEARCH_AREA_CODE, researchAreaCode);
@@ -441,7 +441,7 @@ public abstract class ComplianceResearchAreasServiceImpl implements ComplianceRe
         // loop through the collection checking the parent committee of each instance for currentness
         for(CommitteeResearchArea cra:cras) {
             // get the parent committee using the FK (auto-retrieve is false in the repository)
-            Committee parentCommittee = this.getBusinessObjectService().findBySinglePrimaryKey(Committee.class, cra.getCommitteeIdFk());
+            CommonCommittee parentCommittee = this.getBusinessObjectService().findBySinglePrimaryKey(CommonCommittee.class, cra.getCommitteeIdFk());
             // check if the committee is the current version
             if( (null != parentCommittee) && this.isCurrentVersion(parentCommittee) ) {
                 retValue = parentCommittee;
@@ -468,7 +468,7 @@ public abstract class ComplianceResearchAreasServiceImpl implements ComplianceRe
             // check if the parent committee membership's term is still open
             if(null != parentCommitteeMembership && (!parentCommitteeMembership.hasTermEnded()) ) {
                 // then get the parent committee using the FK
-                Committee parentCommittee = this.getBusinessObjectService().findBySinglePrimaryKey(Committee.class, parentCommitteeMembership.getCommitteeIdFk());
+                CommonCommittee parentCommittee = this.getBusinessObjectService().findBySinglePrimaryKey(CommonCommittee.class, parentCommitteeMembership.getCommitteeIdFk());
                 // check if the committee is the current version
                 if( (null != parentCommittee) && this.isCurrentVersion(parentCommittee) ) {
                     retValue = parentCommitteeMembership;
@@ -488,8 +488,8 @@ public abstract class ComplianceResearchAreasServiceImpl implements ComplianceRe
     private void inactivateChildrenResearchAreas(String parentResearchAreaCode) {
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put(PARENT_RESEARCH_AREA_CODE, parentResearchAreaCode);
-        List<ComplianceResearchArea> researchAreas = (List<ComplianceResearchArea>) businessObjectService.findMatching(getResearchAreaBOClassHook(), fieldValues);
-        for (ComplianceResearchArea researchArea: researchAreas) {
+        List<ResearchAreaBase> researchAreas = (List<ResearchAreaBase>) businessObjectService.findMatching(getResearchAreaBOClassHook(), fieldValues);
+        for (ResearchAreaBase researchArea: researchAreas) {
             inactivateChildrenResearchAreas(researchArea.getResearchAreaCode());
             researchArea.setActive(false);
             businessObjectService.save(researchArea);
@@ -500,7 +500,7 @@ public abstract class ComplianceResearchAreasServiceImpl implements ComplianceRe
      * @see org.kuali.kra.service.ResearchAreasService#deactivateResearchAreaAndDescendants(java.lang.String)
      */
     public void deactivateResearchAreaAndDescendants(String researchAreaCode) throws Exception {
-        ComplianceResearchArea researchArea = businessObjectService.findBySinglePrimaryKey(getResearchAreaBOClassHook(), researchAreaCode);
+        ResearchAreaBase researchArea = businessObjectService.findBySinglePrimaryKey(getResearchAreaBOClassHook(), researchAreaCode);
         if (researchArea != null) {
             researchArea.setActive(false);
             businessObjectService.save(researchArea);
@@ -512,34 +512,34 @@ public abstract class ComplianceResearchAreasServiceImpl implements ComplianceRe
      * @see org.kuali.kra.service.ResearchAreasService#getAnyCurrentReferencerForResearchAreaOrDescendant(java.lang.String)
      */
     @SuppressWarnings("unchecked")
-    public ComplianceResearchAreaCurrentReferencerHolder getAnyCurrentReferencerForResearchAreaOrDescendant(String researchAreaCode) {
-        ComplianceResearchAreaCurrentReferencerHolder retValue = ComplianceResearchAreaCurrentReferencerHolder.NO_REFERENCER;
+    public ResearchAreaCurrentReferencerHolderBase getAnyCurrentReferencerForResearchAreaOrDescendant(String researchAreaCode) {
+        ResearchAreaCurrentReferencerHolderBase retValue = ResearchAreaCurrentReferencerHolderBase.NO_REFERENCER;
         Protocol referencingProtocol = this.getCurrentProtocolReferencingResearchArea(researchAreaCode);
         if(null != referencingProtocol) {
-            retValue = new ComplianceResearchAreaCurrentReferencerHolder(researchAreaCode, referencingProtocol, null, null);
+            retValue = new ResearchAreaCurrentReferencerHolderBase(researchAreaCode, referencingProtocol, null, null);
         }
         else {
-            Committee referencingCommittee = this.getCurrentCommitteeReferencingResearchArea(researchAreaCode);
+            CommonCommittee referencingCommittee = this.getCurrentCommitteeReferencingResearchArea(researchAreaCode);
             if(null != referencingCommittee) {
-                retValue = new ComplianceResearchAreaCurrentReferencerHolder(researchAreaCode, null, referencingCommittee, null);
+                retValue = new ResearchAreaCurrentReferencerHolderBase(researchAreaCode, null, referencingCommittee, null);
             }
             else {
                 CommitteeMembership referencingCommitteeMembership = this.getCurrentCommitteeMembershipReferencingResearchArea(researchAreaCode);
                 if(null != referencingCommitteeMembership) {
-                    Committee parentCommittee = this.getBusinessObjectService().findBySinglePrimaryKey(Committee.class, referencingCommitteeMembership.getCommitteeIdFk());
-                    retValue = new ComplianceResearchAreaCurrentReferencerHolder(researchAreaCode, null, parentCommittee, referencingCommitteeMembership);
+                    CommonCommittee parentCommittee = this.getBusinessObjectService().findBySinglePrimaryKey(CommonCommittee.class, referencingCommitteeMembership.getCommitteeIdFk());
+                    retValue = new ResearchAreaCurrentReferencerHolderBase(researchAreaCode, null, parentCommittee, referencingCommitteeMembership);
                 }              
                 else {
                     // if we came here, then this RA is not referenced, so check its active descendants recursively
                     Map<String, Object> fieldValues = new HashMap<String, Object>();
                     fieldValues.put(PARENT_RESEARCH_AREA_CODE, researchAreaCode);
                     fieldValues.put("active", true);
-                    List<ComplianceResearchArea> subResearchAreas = (List<ComplianceResearchArea>) getBusinessObjectService().findMatching(getResearchAreaBOClassHook(), fieldValues);
+                    List<ResearchAreaBase> subResearchAreas = (List<ResearchAreaBase>) getBusinessObjectService().findMatching(getResearchAreaBOClassHook(), fieldValues);
                     
-                    for (ComplianceResearchArea subResearchArea: subResearchAreas) {
+                    for (ResearchAreaBase subResearchArea: subResearchAreas) {
                         // recursive call
                         retValue = getAnyCurrentReferencerForResearchAreaOrDescendant(subResearchArea.getResearchAreaCode());
-                        if(retValue != ComplianceResearchAreaCurrentReferencerHolder.NO_REFERENCER) {
+                        if(retValue != ResearchAreaCurrentReferencerHolderBase.NO_REFERENCER) {
                             // no need to check remaining children
                             break;
                         }
@@ -572,7 +572,7 @@ public abstract class ComplianceResearchAreasServiceImpl implements ComplianceRe
     }
 
     protected abstract Class<? extends ProtocolResearchArea> getProtocolResearchAreaBOClassHook();
-    protected abstract Class<? extends ComplianceResearchArea> getResearchAreaBOClassHook();
-    protected abstract ComplianceResearchArea getNewResearchAreaInstanceHook(String researchAreaCode, String parentResearchAreaCode, String description, boolean active);
+    protected abstract Class<? extends ResearchAreaBase> getResearchAreaBOClassHook();
+    protected abstract ResearchAreaBase getNewResearchAreaInstanceHook(String researchAreaCode, String parentResearchAreaCode, String description, boolean active);
 
 }

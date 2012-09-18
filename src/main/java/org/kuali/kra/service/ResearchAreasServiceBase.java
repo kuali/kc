@@ -19,13 +19,13 @@ import java.io.IOException;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.kuali.kra.committee.bo.Committee;
-import org.kuali.kra.committee.bo.CommitteeMembership;
+import org.kuali.kra.common.committee.bo.CommitteeMembership;
+import org.kuali.kra.common.committee.bo.CommonCommittee;
 import org.kuali.kra.protocol.Protocol;
 import org.xml.sax.SAXException;
 
 
-public interface ComplianceResearchAreasService {
+public interface ResearchAreasServiceBase {
     /**
      * 
      * This method to get children research area codes of 'researchAreaCode'.
@@ -65,7 +65,7 @@ public interface ComplianceResearchAreasService {
      * @param researchAreaCode
      * @return
      */
-    ComplianceResearchAreaCurrentReferencerHolder getAnyCurrentReferencerForResearchAreaOrDescendant(String researchAreaCode);
+    ResearchAreaCurrentReferencerHolderBase getAnyCurrentReferencerForResearchAreaOrDescendant(String researchAreaCode);
     
     
     /**
@@ -82,7 +82,7 @@ public interface ComplianceResearchAreasService {
      * @param researchAreaCode
      * @return
      */
-    Committee getCurrentCommitteeReferencingResearchArea(String researchAreaCode);
+    CommonCommittee getCurrentCommitteeReferencingResearchArea(String researchAreaCode);
     
     /**
      * This method will return the instance of a current CommitteeMembership BO, saved in the db, that references the research area with the given code.

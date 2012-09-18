@@ -30,7 +30,7 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.bo.FundingSourceType;
-import org.kuali.kra.bo.ResearchArea;
+import org.kuali.kra.bo.ResearchAreaBase;
 import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.IacucProtocolAction;
@@ -140,7 +140,7 @@ public class IacucProtocolProtocolAction extends IacucProtocolAction {
             Class<T> lookupResultsBOClass, Collection<T> selectedBOs) {
         if (lookupResultsBOClass.isAssignableFrom(IacucResearchArea.class)) {
             IacucProtocolResearchAreaService service = KraServiceLocator.getService("iacucProtocolResearchAreaService");
-            service.addProtocolResearchArea(protocolDocument.getProtocol(), (Collection<ResearchArea>) selectedBOs);
+            service.addProtocolResearchArea(protocolDocument.getProtocol(), (Collection<ResearchAreaBase>) selectedBOs);
             // finally do validation and error reporting for inactive research areas
             (new IacucProtocolDocumentRule()).processProtocolResearchAreaBusinessRules(protocolDocument);
         }

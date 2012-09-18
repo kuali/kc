@@ -19,7 +19,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.kuali.kra.bo.ResearchArea;
+import org.kuali.kra.bo.ResearchAreaBase;
 import org.kuali.kra.protocol.Protocol;
 
 
@@ -29,8 +29,8 @@ public abstract class ProtocolResearchAreaServiceImpl implements ProtocolResearc
     /**
      * @see org.kuali.kra.protocol.protocol.research.ProtocolResearchAreaService#addProtocolResearchArea(org.kuali.kra.protocol.Protocol, org.kuali.kra.bo.ResearchArea)
      */
-    public void addProtocolResearchArea(Protocol protocol, Collection<ResearchArea> selectedBOs) {
-        for (ResearchArea newResearchAreas : selectedBOs) {
+    public void addProtocolResearchArea(Protocol protocol, Collection<ResearchAreaBase> selectedBOs) {
+        for (ResearchAreaBase newResearchAreas : selectedBOs) {
             //New ResearchAreas added by user selection
             // ignore / drop duplicates
             if (!isDuplicateResearchAreas(newResearchAreas, protocol.getProtocolResearchAreas())) {
@@ -53,7 +53,7 @@ public abstract class ProtocolResearchAreaServiceImpl implements ProtocolResearc
      * @param researchAreas
      * @return
      */
-    protected ProtocolResearchArea createInstanceOfProtocolResearchAreas(Protocol protocol, ResearchArea researchAreas) {
+    protected ProtocolResearchArea createInstanceOfProtocolResearchAreas(Protocol protocol, ResearchAreaBase researchAreas) {
         ProtocolResearchArea protocolResearchAreas = getNewProtocolResearchAreaInstanceHook();
         protocolResearchAreas.setProtocol(protocol);                            
         
@@ -81,7 +81,7 @@ public abstract class ProtocolResearchAreaServiceImpl implements ProtocolResearc
      * @param protocolResearchAreas
      * @return
      */
-    protected boolean isDuplicateResearchAreas(ResearchArea newResearchAreas, List<ProtocolResearchArea> protocolResearchAreas) {
+    protected boolean isDuplicateResearchAreas(ResearchAreaBase newResearchAreas, List<ProtocolResearchArea> protocolResearchAreas) {
         for (ProtocolResearchArea pra  : protocolResearchAreas) {    
             if (pra.getResearchAreas().equals(newResearchAreas)) {
                 return true;
