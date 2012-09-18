@@ -446,6 +446,7 @@ public interface Constants {
     //public static final String SUBAWARD_ORG_NAME = "newSubAward.organizationName";
     public static final String SUBAWARD_ORG_NAME_REQUIERED = "newSubAward.organizationName.required";
     public static final String SUBAWARD_ORG_NAME_INVALID = "newSubAward.organizationName.invalid";
+    public static final String SUBAWARD_FILE_SPECIAL_CHARECTOR = "newSubAward.subAwardFile.special.character";
     
     // sponsor hierarchy
     public static final String HIERARCHY_NAME = "hierarchyName";
