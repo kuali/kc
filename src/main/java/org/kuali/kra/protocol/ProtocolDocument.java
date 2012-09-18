@@ -25,6 +25,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.ResearchArea;
+import org.kuali.kra.bo.ResearchAreaBase;
 import org.kuali.kra.bo.RolePersons;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -106,14 +107,14 @@ public abstract class ProtocolDocument extends ResearchDocumentBase implements C
         super.initialize();
         Map<String, String> primaryKeys = new HashMap<String, String>();
         primaryKeys.put("RESEARCH_AREA_CODE", "000001");
-        ResearchArea ra = (ResearchArea) this.getBusinessObjectService().findByPrimaryKey(getResearchAreaBoClassHook(), primaryKeys);
-        Collection<ResearchArea> selectedBOs = new ArrayList<ResearchArea>();
+        ResearchAreaBase ra = (ResearchAreaBase) this.getBusinessObjectService().findByPrimaryKey(getResearchAreaBoClassHook(), primaryKeys);
+        Collection<ResearchAreaBase> selectedBOs = new ArrayList<ResearchAreaBase>();
         selectedBOs.add(ra);
         KraServiceLocator.getService(getProtocolResearchAreaServiceClassHook()).addProtocolResearchArea(this.getProtocol(), selectedBOs);
     }
 
     protected abstract Class<? extends ProtocolResearchAreaService> getProtocolResearchAreaServiceClassHook();
-    protected abstract Class<? extends ResearchArea> getResearchAreaBoClassHook();
+    protected abstract Class<? extends ResearchAreaBase> getResearchAreaBoClassHook();
 
     /**
      * 
