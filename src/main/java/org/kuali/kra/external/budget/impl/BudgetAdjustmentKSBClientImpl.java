@@ -18,7 +18,7 @@ package org.kuali.kra.external.budget.impl;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.kfs.integration.cg.budgetService.BudgetAdjustmentService;
+import org.kuali.kfs.module.external.kc.service.BudgetAdjustmentService;
 import org.kuali.kra.external.budget.BudgetAdjustmentClient;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 
