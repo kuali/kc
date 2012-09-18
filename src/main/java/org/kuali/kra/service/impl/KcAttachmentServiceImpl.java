@@ -34,6 +34,7 @@ public class KcAttachmentServiceImpl implements KcAttachmentService {
     private static final String REPLACEMENT_CHARACTER = "_";
     //Exclude everything but numbers, alphabets, dots, hyphens and underscores
     private static final String REGEX_TITLE_FILENAME_PATTERN = "([^0-9a-zA-Z\\.\\-_])";
+    private static final String REGEX_TITLE_SPECIAL_CHARACTER_PATTERN = "([^\\x00-\\x7F])";
     
     /**
      * Currently determining the icon based only on the mime type and using the default icon
@@ -91,6 +92,27 @@ public class KcAttachmentServiceImpl implements KcAttachmentService {
         String cleanText = text;
         if (ObjectUtils.isNotNull(text)) {
             Pattern pattern = Pattern.compile(REGEX_TITLE_FILENAME_PATTERN);
+            Matcher matcher = pattern.matcher(text);
+            cleanText = matcher.replaceAll(REPLACEMENT_CHARACTER);
+        }
+        return cleanText;
+    }
+    
+    public boolean getSpecialCharacter(String text) {
+        if (ObjectUtils.isNotNull(text)) {
+            Pattern pattern = Pattern.compile(REGEX_TITLE_SPECIAL_CHARACTER_PATTERN);
+            Matcher matcher = pattern.matcher(text);            
+            if (matcher.find()) {                
+                return true;
+            }
+        }        
+        return false;    
+    }   
+    
+    public String checkAndReplaceSpecialCharacters(String text) {     
+        String cleanText = text;
+        if (ObjectUtils.isNotNull(text)) {
+            Pattern pattern = Pattern.compile(REGEX_TITLE_SPECIAL_CHARACTER_PATTERN);
             Matcher matcher = pattern.matcher(text);
             cleanText = matcher.replaceAll(REPLACEMENT_CHARACTER);
         }

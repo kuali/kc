@@ -61,6 +61,7 @@ import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwards;
 import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwardsRule;
 import org.kuali.kra.proposaldevelopment.budget.service.BudgetPrintService;
 import org.kuali.kra.proposaldevelopment.budget.service.BudgetSubAwardService;
+import org.kuali.kra.service.KcAttachmentService;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.AuditActionHelper.ValidationState;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
@@ -254,6 +255,10 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
         BudgetSubAwardsRule rule = new BudgetSubAwardsRule(newBudgetSubAward, "newSubAward");
         boolean success = rule.processXFDAttachment();
         if(success){
+            if(rule.checkSpecialCharacters(newBudgetsubAwardFiles.getSubAwardXmlFileData().toString())){
+                newBudgetsubAwardFiles.setSubAwardXmlFileData(KraServiceLocator.getService(KcAttachmentService.class).
+                        checkAndReplaceSpecialCharacters(newBudgetsubAwardFiles.getSubAwardXmlFileData().toString()));
+            }
             newBudgetsubAwardFiles.setSubAwardXfdFileName(subAwardFileName);
             newBudgetSubAward.setSubAwardXfdFileName(subAwardFileName);
     //        new BudgetSubAwardReader().populateSubAward(budgetSubAwardBean)
