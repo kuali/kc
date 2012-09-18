@@ -26,6 +26,7 @@ import org.apache.struts.upload.FormFile;
 import org.kuali.kra.bo.Organization;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.service.KcAttachmentService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
@@ -59,6 +60,14 @@ public class BudgetSubAwardsRule {
         boolean xfd = verifyXFDAttachment();
         budgetSubAwards.setNewSubAwardFileError(!xfd);
         return verifyOrganizationName() && xfd;
+    }
+    
+    public boolean checkSpecialCharacters(String text){
+        if(getKcAttachmentService().getSpecialCharacter(text)) {
+            GlobalVariables.getMessageMap().putError(fieldStarter + SUBAWARD_FILE_FIELD_NAME, Constants.SUBAWARD_FILE_SPECIAL_CHARECTOR);
+            return true;
+        }
+        return false;
     }
     
     protected boolean verifyOrganizationName(){
@@ -136,4 +145,8 @@ public class BudgetSubAwardsRule {
         }
         return businessObjectService;
     }
+
+    public KcAttachmentService getKcAttachmentService() {
+        return KraServiceLocator.getService(KcAttachmentService.class);
+    } 
 }
