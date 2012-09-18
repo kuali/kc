@@ -22,15 +22,15 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kra.service.ComplianceResearchAreaCurrentReferencerHolder;
-import org.kuali.kra.service.ComplianceResearchAreasService;
+import org.kuali.kra.service.ResearchAreaCurrentReferencerHolderBase;
+import org.kuali.kra.service.ResearchAreasServiceBase;
 import org.kuali.kra.service.ResearchAreaCurrentReferencerHolder;
-import org.kuali.kra.web.struts.form.ComplianceResearchAreasForm;
+import org.kuali.kra.web.struts.form.ResearchAreasFormBase;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 
-public abstract class ComplianceResearchAreasAction extends KualiAction {
+public abstract class ResearchAreasActionBase extends KualiAction {
 
 
     /**
@@ -81,8 +81,8 @@ public abstract class ComplianceResearchAreasAction extends KualiAction {
     }
 
     private void setResearchAreas(ActionForm form) {
-        ComplianceResearchAreasForm researchAreaForm = getResearchAreasForm(form);
-        ComplianceResearchAreasService researchAreaService = getResearchAreasService();
+        ResearchAreasFormBase researchAreaForm = getResearchAreasForm(form);
+        ResearchAreasServiceBase researchAreaService = getResearchAreasService();
         if (StringUtils.isNotBlank(researchAreaForm.getAddRA()) && researchAreaForm.getAddRA().equals("Y")) {
             if (researchAreaService.isResearchAreaExist(researchAreaForm.getResearchAreaCode(), researchAreaForm.getDeletedRas())) {
                 researchAreaForm.setResearchAreas("<h3>true</h3>");
@@ -116,8 +116,8 @@ public abstract class ComplianceResearchAreasAction extends KualiAction {
                 // check if RA is being referenced by any current protocol or committee or cmt membership
                 //ComplianceResearchAreasService researchAreaService = getResearchAreasService();
                 String researchAreaCode = researchAreaForm.getResearchAreaCode();
-                ComplianceResearchAreaCurrentReferencerHolder referenceHolder = researchAreaService.getAnyCurrentReferencerForResearchAreaOrDescendant(researchAreaCode);
-                if(referenceHolder != ComplianceResearchAreaCurrentReferencerHolder.NO_REFERENCER) {
+                ResearchAreaCurrentReferencerHolderBase referenceHolder = researchAreaService.getAnyCurrentReferencerForResearchAreaOrDescendant(researchAreaCode);
+                if(referenceHolder != ResearchAreaCurrentReferencerHolderBase.NO_REFERENCER) {
                     // let user know about that the research area could not be deactivated because it was being referenced
                     researchAreaForm.setResearchAreas("<h3>" + referenceHolder.getMessage() + "</h3>");
                     GlobalVariables.getUserSession().addObject("raError", (Object) null);
@@ -180,7 +180,7 @@ public abstract class ComplianceResearchAreasAction extends KualiAction {
         return forward;
     }
     
-    protected abstract ComplianceResearchAreasForm getResearchAreasForm(ActionForm form);
-    protected abstract ComplianceResearchAreasService getResearchAreasService();
+    protected abstract ResearchAreasFormBase getResearchAreasForm(ActionForm form);
+    protected abstract ResearchAreasServiceBase getResearchAreasService();
 
 }

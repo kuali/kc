@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 
-public abstract class ComplianceResearchAreasForm extends KualiForm {
+public abstract class ResearchAreasFormBase extends KualiForm {
 
     private static final long serialVersionUID = 5924974293486200804L;
     private String researchAreas;
@@ -35,7 +35,7 @@ public abstract class ComplianceResearchAreasForm extends KualiForm {
     /**
      * Constructs a ResearchAreasForm.
      */
-    public ComplianceResearchAreasForm() {
+    public ResearchAreasFormBase() {
         super();
     }
 

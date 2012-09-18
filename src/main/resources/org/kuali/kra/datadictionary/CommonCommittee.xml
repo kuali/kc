@@ -57,6 +57,16 @@
 	</bean>
 	
 		<!-- Attribute Definitions -->
+		
+  <bean id="CommitteeAttribute-committeeResearchAreas.researchAreaCode" parent="CommitteeAttribute-committeeResearchAreas.researchAreaCode-parentBean" />
+  <bean id="CommitteeAttribute-committeeResearchAreas.researchAreaCode-parentBean" abstract="true" parent="IacucResearchArea-researchAreaCode">
+    <property name="name" value="committeeResearchAreas.researchAreaCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Research Area" />
+    <property name="shortLabel" value="Research Area" />
+	<property name="required" value="false" />
+  </bean>
+		
 	
 	<bean id="CommonCommitteeAttribute-ReviewTypeCode" parent="CommonCommitteeAttribute-ReviewTypeCode-parentBean" />
 	<bean id="CommonCommitteeAttribute-ReviewTypeCode-parentBean" abstract="true" parent="AttributeDefinition">

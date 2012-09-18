@@ -20,7 +20,7 @@ import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.kra.bo.ResearchArea;
+import org.kuali.kra.bo.ResearchAreaBase;
 import org.kuali.kra.iacuc.actions.IacucProtocolAction;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
 import org.kuali.kra.iacuc.actions.IacucProtocolStatus;
@@ -290,7 +290,7 @@ public class IacucProtocolDocument extends ProtocolDocument {
     }
 
     @Override
-    protected Class<? extends ResearchArea> getResearchAreaBoClassHook() {
+    protected Class<? extends ResearchAreaBase> getResearchAreaBoClassHook() {
         return IacucResearchArea.class;
     }
 

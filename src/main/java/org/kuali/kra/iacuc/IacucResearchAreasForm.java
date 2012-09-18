@@ -15,21 +15,13 @@
  */
 package org.kuali.kra.iacuc;
 
-import org.kuali.kra.bo.ResearchAreaBase;
+import org.kuali.kra.web.struts.form.ResearchAreasFormBase;
 
-public class IacucResearchArea extends ResearchAreaBase {
+public class IacucResearchAreasForm extends ResearchAreasFormBase {
 
     /**
      * Comment for <code>serialVersionUID</code>
      */
-    private static final long serialVersionUID = -570251855552419477L;
-
-    public IacucResearchArea() {
-        super();
-    }
-
-    public IacucResearchArea(String researchAreaCode, String parentResearchAreaCode, String description, boolean active) {
-        super(researchAreaCode, parentResearchAreaCode, description, active);
-    }
+    private static final long serialVersionUID = -4979500725468930607L;
 
 }

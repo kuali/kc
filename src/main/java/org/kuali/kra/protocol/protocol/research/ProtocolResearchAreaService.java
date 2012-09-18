@@ -17,7 +17,7 @@ package org.kuali.kra.protocol.protocol.research;
 
 import java.util.Collection;
 
-import org.kuali.kra.bo.ResearchArea;
+import org.kuali.kra.bo.ResearchAreaBase;
 import org.kuali.kra.protocol.Protocol;
 
 
@@ -30,7 +30,7 @@ public interface ProtocolResearchAreaService {
      * @param protocolDocument the Protocol Document
      * @param selectedBOs the selected BOs (Research Areas)
      */
-    public abstract void addProtocolResearchArea(Protocol protocol, Collection<ResearchArea> selectedBOs);
+    public abstract void addProtocolResearchArea(Protocol protocol, Collection<ResearchAreaBase> selectedBOs);
     
     /**
      * Checks to see if the list of research areas in the given protocol is empty.

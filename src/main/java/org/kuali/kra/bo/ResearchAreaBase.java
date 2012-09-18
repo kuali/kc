@@ -16,7 +16,7 @@
 package org.kuali.kra.bo;
 
 
-public abstract class ComplianceResearchArea extends KraPersistableBusinessObjectBase {
+public abstract class ResearchAreaBase extends KraPersistableBusinessObjectBase {
 
     private String researchAreaCode;
 
@@ -33,11 +33,11 @@ public abstract class ComplianceResearchArea extends KraPersistableBusinessObjec
     private CommMemberExpertise commMemberExpertise
     private ProtocolResearchAreas protocolResearchAreas
     */
-    public ComplianceResearchArea() {
+    public ResearchAreaBase() {
         super();
     }
 
-    public ComplianceResearchArea(String researchAreaCode, String parentResearchAreaCode, String description, boolean active) {
+    public ResearchAreaBase(String researchAreaCode, String parentResearchAreaCode, String description, boolean active) {
         super();
         this.researchAreaCode = researchAreaCode;
         this.parentResearchAreaCode = parentResearchAreaCode;
@@ -99,7 +99,7 @@ public abstract class ComplianceResearchArea extends KraPersistableBusinessObjec
         if (this == obj) return true;
         if (obj == null) return false;
         if (getClass() != obj.getClass()) return false;
-        ComplianceResearchArea other = (ComplianceResearchArea) obj;
+        ResearchAreaBase other = (ResearchAreaBase) obj;
         if (researchAreaCode == null) {
             if (other.researchAreaCode != null) return false;
         } else if (!researchAreaCode.equalsIgnoreCase(other.researchAreaCode)) return false;

@@ -16,6 +16,7 @@
 package org.kuali.kra.protocol.protocol.research;
 
 import org.kuali.kra.bo.ResearchArea;
+import org.kuali.kra.bo.ResearchAreaBase;
 import org.kuali.kra.protocol.ProtocolAssociate;
 
 public abstract class ProtocolResearchArea extends ProtocolAssociate {
@@ -26,7 +27,7 @@ public abstract class ProtocolResearchArea extends ProtocolAssociate {
 
     private String researchAreaCode;
 
-    private ResearchArea researchAreas;
+    private ResearchAreaBase researchAreas;
 
     public ProtocolResearchArea() {
     }
@@ -47,11 +48,11 @@ public abstract class ProtocolResearchArea extends ProtocolAssociate {
         this.researchAreaCode = researchAreaCode;
     }
 
-    public ResearchArea getResearchAreas() {
+    public ResearchAreaBase getResearchAreas() {
         return researchAreas;
     }
 
-    public void setResearchAreas(ResearchArea researchAreas) {
+    public void setResearchAreas(ResearchAreaBase researchAreas) {
         this.researchAreas = researchAreas;
     }
 
