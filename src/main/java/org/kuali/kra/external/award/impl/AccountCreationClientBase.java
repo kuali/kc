@@ -33,7 +33,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kfs.integration.cg.dto.AccountCreationStatusDTO;
 import org.kuali.kfs.integration.cg.dto.AccountParametersDTO;
-import org.kuali.kfs.integration.cg.service.AccountCreationService;
+import org.kuali.kfs.module.external.kc.service.AccountCreationService;
 import org.kuali.kra.award.commitments.AwardFandaRate;
 import org.kuali.kra.award.contacts.AwardUnitContact;
 import org.kuali.kra.award.document.AwardDocument;
@@ -65,8 +65,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 public abstract class AccountCreationClientBase implements AccountCreationClient {
     
 	protected static final String SOAP_SERVICE_NAME = "accountCreationServiceSOAP";
-    protected static final QName SERVICE_NAME = new QName("KFS", "accountCreationServiceSOAP");
-    
+	protected static final QName SERVICE_NAME = new QName("KFS", "accountCreationServiceSOAP");
     private static final String ERROR_MESSAGE = "Cannot connect to the service. The service may be down, please try again later.";
 
     private static final Log LOG = LogFactory.getLog(AccountCreationClientBase.class);

@@ -30,10 +30,10 @@ import javax.xml.ws.WebServiceException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.kfs.integration.cg.budgetDto.BudgetAdjustmentCreationStatusDTO;
-import org.kuali.kfs.integration.cg.budgetDto.BudgetAdjustmentParametersDTO;
-import org.kuali.kfs.integration.cg.budgetDto.Details;
-import org.kuali.kfs.integration.cg.budgetService.BudgetAdjustmentService;
+import org.kuali.kfs.integration.cg.dto.BudgetAdjustmentCreationStatusDTO;
+import org.kuali.kfs.integration.cg.dto.BudgetAdjustmentParametersDTO;
+import org.kuali.kfs.integration.cg.dto.Details;
+import org.kuali.kfs.module.external.kc.service.BudgetAdjustmentService;
 import org.kuali.kra.award.budget.AwardBudgetExt;
 import org.kuali.kra.award.budget.AwardBudgetVersionOverviewExt;
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
