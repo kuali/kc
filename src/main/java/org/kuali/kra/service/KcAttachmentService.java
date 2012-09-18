@@ -35,6 +35,12 @@ public interface KcAttachmentService {
      * @return
      */
     String getInvalidCharacters(String text);
+    
+    /**
+     * This method check the Special characters in the string.
+     * @return
+     */
+    boolean getSpecialCharacter(String text);
    
         
     /**
@@ -44,4 +50,12 @@ public interface KcAttachmentService {
      * @return
      */
     String checkAndReplaceInvalidCharacters(String text);
+    
+    /**
+     * This method checks for special characters in strings and replaces
+     * them with underscores.
+     * @param text
+     * @return
+     */
+    String checkAndReplaceSpecialCharacters(String text);
 }
