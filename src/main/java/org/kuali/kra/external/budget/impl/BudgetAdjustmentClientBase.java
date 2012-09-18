@@ -124,7 +124,7 @@ public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClie
                             completeErrorMessage += errorMessage;
                         }
                         GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, 
-                                                                 KeyConstants.DOCUMENT_SAVED_WITH_ERRORS,
+                                                                 KeyConstants.BUDGET_DOCUMENT_SAVED_WITH_ERRORS,
                                                                  completeErrorMessage);
                     }
                 } else {
