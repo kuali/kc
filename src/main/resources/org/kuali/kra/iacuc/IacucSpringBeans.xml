@@ -1128,5 +1128,8 @@
         <property name="dateTimeService" ref="dateTimeService" />
     </bean>
     
+    <bean id="iacucResearchAreasService" class="org.kuali.kra.iacuc.service.impl.IacucResearchAreasServiceImpl">
+        <property name="businessObjectService" ref="businessObjectService" />
+    </bean>
 
 </beans>

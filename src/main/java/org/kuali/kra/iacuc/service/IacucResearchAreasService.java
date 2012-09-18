@@ -13,23 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.iacuc;
+package org.kuali.kra.iacuc.service;
 
-import org.kuali.kra.bo.ResearchAreaBase;
+import org.kuali.kra.service.ResearchAreasServiceBase;
 
-public class IacucResearchArea extends ResearchAreaBase {
-
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
-    private static final long serialVersionUID = -570251855552419477L;
-
-    public IacucResearchArea() {
-        super();
-    }
-
-    public IacucResearchArea(String researchAreaCode, String parentResearchAreaCode, String description, boolean active) {
-        super(researchAreaCode, parentResearchAreaCode, description, active);
-    }
+public interface IacucResearchAreasService extends ResearchAreasServiceBase {
 
 }

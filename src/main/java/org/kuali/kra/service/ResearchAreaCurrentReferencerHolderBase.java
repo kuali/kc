@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.service;
 
-import org.kuali.kra.committee.bo.Committee;
-import org.kuali.kra.committee.bo.CommitteeMembership;
+import org.kuali.kra.common.committee.bo.CommitteeMembership;
+import org.kuali.kra.common.committee.bo.CommonCommittee;
 import org.kuali.kra.protocol.Protocol;
 
 /**
@@ -24,20 +24,20 @@ import org.kuali.kra.protocol.Protocol;
  * This class is used as a return value from the methods of Research Area service.
  * 
  */
-public class ComplianceResearchAreaCurrentReferencerHolder {
+public class ResearchAreaCurrentReferencerHolderBase {
     
     private String researchAreaCode;
     private Protocol currentReferencingProtocol;
-    private Committee currentReferencingCommittee;
+    private CommonCommittee currentReferencingCommittee;
     private CommitteeMembership currentReferencingCommitteeMembership;
-    public static final ComplianceResearchAreaCurrentReferencerHolder NO_REFERENCER = new ComplianceResearchAreaCurrentReferencerHolder();
+    public static final ResearchAreaCurrentReferencerHolderBase NO_REFERENCER = new ResearchAreaCurrentReferencerHolderBase();
     
-    private ComplianceResearchAreaCurrentReferencerHolder() {
+    private ResearchAreaCurrentReferencerHolderBase() {
         // does nothing, all instance variables will be initialized to null
     }
     
     
-    public ComplianceResearchAreaCurrentReferencerHolder(String researchAreaCode, Protocol currentReferencingProtocol, Committee currentReferencingCommittee, CommitteeMembership currentReferencingCommitteeMembership) {
+    public ResearchAreaCurrentReferencerHolderBase(String researchAreaCode, Protocol currentReferencingProtocol, CommonCommittee currentReferencingCommittee, CommitteeMembership currentReferencingCommitteeMembership) {
         this.researchAreaCode = researchAreaCode;
         this.currentReferencingProtocol = currentReferencingProtocol;
         this.currentReferencingCommittee = currentReferencingCommittee;
@@ -47,7 +47,7 @@ public class ComplianceResearchAreaCurrentReferencerHolder {
     public Protocol getCurrentReferencingProtocol() {
         return currentReferencingProtocol;
     }
-    public Committee getCurrentReferencingCommittee() {
+    public CommonCommittee getCurrentReferencingCommittee() {
         return currentReferencingCommittee;
     }
     public CommitteeMembership getCurrentReferencingCommitteeMembership() {
@@ -69,7 +69,7 @@ public class ComplianceResearchAreaCurrentReferencerHolder {
     
     public String getMessage() {
         String retValue = "";
-        if(this == ComplianceResearchAreaCurrentReferencerHolder.NO_REFERENCER) {
+        if(this == ResearchAreaCurrentReferencerHolderBase.NO_REFERENCER) {
             retValue = "No referencers";
         }
         else if(null == this.researchAreaCode) {

@@ -56,6 +56,7 @@
         <form-bean name="IacucProtocolForm" type="org.kuali.kra.iacuc.IacucProtocolForm" />
         <form-bean name="IacucProtocolOnlineReviewForm" type="org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReviewForm"/> 
         <form-bean name="IacucProtocolCorrespondenceTemplateForm" type="org.kuali.kra.iacuc.correspondence.IacucProtocolCorrespondenceTemplateForm" />
+		<form-bean name="IacucResearchAreasForm" type="org.kuali.kra.iacuc.IacucResearchAreasForm" />
     </form-beans>
 
 <!-- Rice content Start -->
@@ -425,6 +426,16 @@
       
       
       <!-- IACUC Mapping -->
+      
+      
+ 		<action path="/iacucResearchAreas" name="IacucResearchAreasForm" type="org.kuali.kra.iacuc.IacucResearchAreasAction">
+            <forward name="basic" path="/WEB-INF/jsp/iacuc/IacucResearchAreaHierarchy.jsp" />
+        </action>
+      
+ 		<action path="/iacucResearchAreaAjax" name="IacucResearchAreasForm" type="org.kuali.kra.iacuc.IacucResearchAreasAction">
+            <forward name="basic" path="/WEB-INF/jsp/iacuc/IacucResearchAreaAjax.jsp" />
+        </action>
+      
       <action path="/iacucProtocolProtocol" name="IacucProtocolForm" input="/WEB-INF/jsp/iacuc/ProtocolProtocol.jsp" type="org.kuali.kra.iacuc.protocol.IacucProtocolProtocolAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
         <forward name="basic" path="/WEB-INF/jsp/iacuc/ProtocolProtocol.jsp" />
         &iacuc_forwards;
