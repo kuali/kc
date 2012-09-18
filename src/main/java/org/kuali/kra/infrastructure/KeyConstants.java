@@ -569,6 +569,8 @@ public final class KeyConstants {
     public static final String FINANCIAL_OBJECT_CODE_MAPPING_NOT_FOUND = "error.award.budget.adjustment.financial.objectCode.mapping.not.found";
     public static final String FINANCIAL_OBJECT_CODE_MAPPING_EXISTS = "error.award.budget.financial.objectCode.mapping.exists";
     public static final String ICR_TYPE_CODE_MAPPING_EXISTS = "error.award.budget.icr.type.code.mapping.exists";
+    public static final String BUDGET_DOCUMENT_SAVED_WITH_ERRORS = "error.budget.adjustment.saved.with.errors";
+
     
     //Award template validation errors
     public static final String ERROR_NO_TEMPLATE_CODE = "error.award.templateCode.notFound";
