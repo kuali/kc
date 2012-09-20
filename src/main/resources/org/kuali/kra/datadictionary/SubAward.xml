@@ -132,40 +132,24 @@
   
   <bean id="SubAward-startDate" parent="SubAward-startDate-parentBean" />
   
-  <bean id="SubAward-startDate-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="SubAward-startDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate">
     <property name="name" value="startDate" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="Start Date" />
     <property name="shortLabel" value="Start Date" />
-    <property name="maxLength" value="10" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" />
-    </property>
     <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="10" />
-    </property>
     <property name="summary" value="Start Date" />
     <property name="description" value="Start Date" />    
   </bean>
     
   <bean id="SubAward-endDate" parent="SubAward-endDate-parentBean" />
   
-  <bean id="SubAward-endDate-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="SubAward-endDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate">
     <property name="name" value="endDate" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="End Date" />
     <property name="shortLabel" value="End Date" />
-    <property name="maxLength" value="10" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" />
-    </property>
     <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="10" />
-    </property>
     <property name="summary" value="End Date" />
     <property name="description" value="End Date" />    
   </bean>
@@ -470,20 +454,12 @@
   
   <bean id="SubAward-closeoutDate" parent="SubAward-closeoutDate-parentBean" />
   
-  <bean id="SubAward-closeoutDate-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="SubAward-closeoutDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate">
     <property name="name" value="closeoutDate" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="Closeout Date" />
     <property name="shortLabel" value="Closeout Date" />
-    <property name="maxLength" value="10" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" />
-    </property>
     <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="10" />
-    </property>
     <property name="summary" value="Closeout Date" />
     <property name="description" value="Closeout Date" />    
   </bean>
