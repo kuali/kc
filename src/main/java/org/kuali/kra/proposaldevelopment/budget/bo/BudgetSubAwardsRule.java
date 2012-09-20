@@ -64,7 +64,7 @@ public class BudgetSubAwardsRule {
     
     public boolean checkSpecialCharacters(String text){
         if(getKcAttachmentService().getSpecialCharacter(text)) {
-            GlobalVariables.getMessageMap().putError(fieldStarter + SUBAWARD_FILE_FIELD_NAME, Constants.SUBAWARD_FILE_SPECIAL_CHARECTOR);
+            GlobalVariables.getMessageMap().putWarning(fieldStarter + SUBAWARD_FILE_FIELD_NAME, Constants.SUBAWARD_FILE_SPECIAL_CHARECTOR);
             return true;
         }
         return false;
