@@ -123,6 +123,7 @@ public class CoiDisclosureAction extends CoiAction {
         
         CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) form;
         CoiDisclosureDocument coiDisclosureDocument = (CoiDisclosureDocument)coiDisclosureForm.getDocument();
+        boolean isValid = true;
         ActionForward actionForward = mapping.findForward(Constants.MAPPING_BASIC);
         // notes and attachments
         CoiNotesAndAttachmentsHelper helper = ((CoiDisclosureForm) form).getCoiNotesAndAttachmentsHelper();        
@@ -142,12 +143,13 @@ public class CoiDisclosureAction extends CoiAction {
         } else {
             //getCoiDisclosureService().setDisclProjectForSave(coiDisclosure);
         }
+        
         /************ Begin --- Save (if valid) document and questionnaire data ************/
         // TODO factor out the different versions of this doc and questionnaire data save block from various actions in this class
         // and centralize it in a helper method
         // First validate the questionnaire data
         // TODO maybe add a COI questionnaire specific rule event to the condition below
-        List<AnswerHeader> answerHeaders = coiDisclosureForm.getDisclosureQuestionnaireHelper().getAnswerHeaders();
+        List<AnswerHeader> answerHeaders = coiDisclosureForm.getDisclosureQuestionnaireHelper().getAnswerHeaders();        
         if (coiDisclosureForm.getDisclosureHelper().getMasterDisclosureBean() != null) {
             List<List<CoiDisclosureProjectBean>> allProjects = coiDisclosureForm.getDisclosureHelper().getMasterDisclosureBean().getProjectLists();
             for (List<CoiDisclosureProjectBean> projectList : allProjects) {
@@ -156,9 +158,20 @@ public class CoiDisclosureAction extends CoiAction {
                 }
             }
         }
+        if (coiDisclosure.getCoiDisclProjects() != null || !coiDisclosure.getCoiDisclProjects().isEmpty()) {
+            for (CoiDisclProject coiDisclProject : coiDisclosure.getCoiDisclProjects()) {
+                if (!new CoiDisclosureAdministratorActionRule().isValidStatus(
+                        coiDisclosure.getCoiDisclosureStatus().getCoiDisclosureStatusCode(), coiDisclProject.getDisclosureDispositionCode())) {
+                    isValid = false;
+                }
+            }
+        }
         if ( applyRules(new SaveQuestionnaireAnswerEvent(coiDisclosureDocument, answerHeaders))) {
             // since Questionnaire data is OK we try to save doc
-            actionForward = super.save(mapping, form, request, response);
+            if (isValid) {
+                actionForward = super.save(mapping, form, request, response);
+            }
+            
             // check if doc save went OK
             // TODO Any validation errors during the doc save will cause an exception to be thrown, so perhaps the checking of
             // message map below is redundant
@@ -1030,7 +1043,16 @@ public class CoiDisclosureAction extends CoiAction {
         
         CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) form;
         Document document = coiDisclosureForm.getDocument();
-        
+        CoiDisclosure coiDisclosure = ((CoiDisclosureDocument) document).getCoiDisclosure();
+        boolean isValid = true;
+        if (coiDisclosure.getCoiDisclProjects() != null || !coiDisclosure.getCoiDisclProjects().isEmpty()) {
+            for (CoiDisclProject coiDisclProject : coiDisclosure.getCoiDisclProjects()) {
+                if (!new CoiDisclosureAdministratorActionRule().isValidStatus(
+                        coiDisclosure.getCoiDisclosureStatus().getCoiDisclosureStatusCode(), coiDisclProject.getDisclosureDispositionCode())) {
+                    isValid = false;
+                }
+            }
+        }
         /************ Begin --- Save (if valid) document and questionnaire data ************/
         // TODO factor out the different versions of this doc and questionnaire data save block from various actions in this class
         // and centralize it in a helper method
@@ -1039,8 +1061,10 @@ public class CoiDisclosureAction extends CoiAction {
         List<AnswerHeader> answerHeaders = coiDisclosureForm.getDisclosureQuestionnaireHelper().getAnswerHeaders();
         if ( applyRules(new SaveQuestionnaireAnswerEvent(document, answerHeaders))) {
             // since Questionnaire data is OK we try to save doc
-            actionForward = super.saveOnClose(mapping, form, request, response);
-            // check if doc save went OK
+        	if (isValid) {
+        	    actionForward = super.saveOnClose(mapping, form, request, response);
+        	}
+        	// check if doc save went OK
             // TODO Any validation errors during the doc save will cause an exception to be thrown, so perhaps the checking of
             // message map below is redundant
             if(GlobalVariables.getMessageMap().hasNoErrors()) {
