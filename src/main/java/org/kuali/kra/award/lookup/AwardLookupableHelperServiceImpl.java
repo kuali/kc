@@ -100,7 +100,7 @@ class AwardLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {
        
         List<Award> returnResults = new ArrayList<Award>();
         try {
-            returnResults = filterForActiveAwardsAndAwardWithActiveTimeAndMoney(unboundedResults);
+            returnResults = filterForActiveAwardsAndAwardWithActiveTimeAndMoney(unboundedResults, fieldValues.get("statusCode"));
         }
         catch (WorkflowException e) {
             // TODO Auto-generated catch block
@@ -109,6 +109,20 @@ class AwardLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {
         List<Award> filteredResults = new ArrayList<Award>();
         
         filteredResults = (List<Award>) filterForPermissions(returnResults);
+        
+        //the filterForActiveAwardsAndAwardWithActiveTimeAndMoney may have circumvented the award status restriction, so if the status was selected, re-apply that restriction
+        /*
+        if (!StringUtils.isEmpty(fieldValues.get("statusCode"))) {
+            String statusCode = fieldValues.get("statusCode");
+            List<Award> statusFilteredResults = new ArrayList<Award>();
+            for (Award award : filteredResults) {
+                if (StringUtils.equalsIgnoreCase(statusCode, award.getStatusCode().toString())) {
+                    statusFilteredResults.add(award);
+                }
+            }
+            return statusFilteredResults;
+        }
+        */
 
         return filteredResults;
     }
@@ -326,7 +340,7 @@ class AwardLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {
     }   
     
     @SuppressWarnings("unchecked")
-    protected List<Award> filterForActiveAwardsAndAwardWithActiveTimeAndMoney(Collection<Award> collectionByQuery) throws WorkflowException {
+    protected List<Award> filterForActiveAwardsAndAwardWithActiveTimeAndMoney(Collection<Award> collectionByQuery, String statusCode) throws WorkflowException {
         BusinessObjectService businessObjectService =  KraServiceLocator.getService(BusinessObjectService.class);
         DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
         Set<String> awardNumbers = new TreeSet<String>();
@@ -340,7 +354,7 @@ class AwardLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {
             VersionHistory versionHistory = versionHistoryService.findActiveVersion(Award.class, versionName);
             if(versionHistory != null) {
                 Award activeAward = (Award) versionHistory.getSequenceOwner();
-                if(activeAward != null) {
+                if(activeAward != null && (StringUtils.isEmpty(statusCode) || StringUtils.equalsIgnoreCase(statusCode, activeAward.getStatusCode().toString()))) {
                     activeAwards.add(activeAward);
                 }
             }
@@ -348,22 +362,24 @@ class AwardLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {
         // get awards that have associated final T&M doc.
         
         for(Award award : collectionByQuery) {
-            Map<String, Object> fieldValues = new HashMap<String, Object>();
-            String[] splitAwardNumber = award.getAwardNumber().split("-");
-            StringBuilder rootAwardNumberBuilder = new StringBuilder(12);
-            rootAwardNumberBuilder.append(splitAwardNumber[0]);
-            rootAwardNumberBuilder.append("-00001");
-            String rootAwardNumber = rootAwardNumberBuilder.toString();
-            fieldValues.put("rootAwardNumber", rootAwardNumber);
-            
-            List<TimeAndMoneyDocument> timeAndMoneyDocuments = 
-                (List<TimeAndMoneyDocument>)businessObjectService.findMatchingOrderBy(TimeAndMoneyDocument.class, fieldValues, "documentNumber", true);
-            if(!(timeAndMoneyDocuments.size() == 0)) {
-                TimeAndMoneyDocument t = timeAndMoneyDocuments.get(0);
-                TimeAndMoneyDocument timeAndMoneyDocument = (TimeAndMoneyDocument) documentService.getByDocumentHeaderId(t.getDocumentNumber());
-                if(timeAndMoneyDocument.getDocumentHeader().getWorkflowDocument().isFinal() && 
-                        !(isAwardInAwardList(award.getAwardNumber(), activeAwards))) {
-                    activeAwards.add(award);
+            if (StringUtils.isEmpty(statusCode) || StringUtils.equalsIgnoreCase(statusCode, award.getStatusCode().toString())) {
+                Map<String, Object> fieldValues = new HashMap<String, Object>();
+                String[] splitAwardNumber = award.getAwardNumber().split("-");
+                StringBuilder rootAwardNumberBuilder = new StringBuilder(12);
+                rootAwardNumberBuilder.append(splitAwardNumber[0]);
+                rootAwardNumberBuilder.append("-00001");
+                String rootAwardNumber = rootAwardNumberBuilder.toString();
+                fieldValues.put("rootAwardNumber", rootAwardNumber);
+                
+                List<TimeAndMoneyDocument> timeAndMoneyDocuments = 
+                    (List<TimeAndMoneyDocument>)businessObjectService.findMatchingOrderBy(TimeAndMoneyDocument.class, fieldValues, "documentNumber", true);
+                if(!(timeAndMoneyDocuments.size() == 0)) {
+                    TimeAndMoneyDocument t = timeAndMoneyDocuments.get(0);
+                    TimeAndMoneyDocument timeAndMoneyDocument = (TimeAndMoneyDocument) documentService.getByDocumentHeaderId(t.getDocumentNumber());
+                    if(timeAndMoneyDocument.getDocumentHeader().getWorkflowDocument().isFinal() && 
+                            !(isAwardInAwardList(award.getAwardNumber(), activeAwards))) {
+                        activeAwards.add(award);
+                    }
                 }
             }
         
