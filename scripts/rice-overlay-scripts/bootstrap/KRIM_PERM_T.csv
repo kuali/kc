@@ -38,76 +38,76 @@
 "KC1041","KC-UNT","Modify Organization","Modify Organization","16","Y","C041EF5968946B48E040DC0A1F8A15A8",1
 "KC1042","KC-UNT","Add Organization","Add Organization","10","Y","C041EF5968976B48E040DC0A1F8A15A8",1
 "KC1043","KC-UNT","Delete Organization","Delete Organization","1","Y","C041EF59689A6B48E040DC0A1F8A15A8",1
-"KC1046","KC-IACUC","View IACUCCommittee","View all IACUC committees in a unit","KC59","Y","C8FDC8A060B39F7DE040DC0A1F8A4532",1
-"KC1047","KC-IACUC","Modify IACUCCommittee","Modify existing committees in a unit","KC60","Y","C8FDC8A060B69F7DE040DC0A1F8A4532",1
-"KC1048","KC-IACUC","Perform IACUCCommittee Actions","Perform IACUC committee actions","KC58","Y","C8FDC8A060B99F7DE040DC0A1F8A4532",1
-"KC1049","KC-IACUC","Create Any IACUC Amendment","Create Amendments on any IACUC Protocol","KC58","Y","C8FDC8A060C59F7DE040DC0A1F8A4532",1
-"KC1050","KC-IACUC","Create Any IACUC Renewal","Create renewals for any IACUC Protocol","KC58","Y","C8FDC8A060C79F7DE040DC0A1F8A4532",1
-"KC1051","KC-IACUC","Create Any IACUC Renewal with Amendment","Create Renewal with Amendment for any IACUC Protocol","KC58","Y","C8FDC8A060C99F7DE040DC0A1F8A4532",1
-"KC1052","KC-IACUC","Submit Any IACUC Protocol","Submit Any IACUC Protocol","KC58","Y","C8FDC8A060CB9F7DE040DC0A1F8A4532",1
-"KC1053","KC-IACUC","Review IACUC Protocol","Review IACUC Protocol","KC58","Y","C8FDC8A060CD9F7DE040DC0A1F8A4532",1
-"KC1054","KC-IACUC","IACUC Administrative Corrections","Perform Administrative Corrections on IACUC Protocols","KC58","Y","C8FDC8A060CF9F7DE040DC0A1F8A4532",1
-"KC1055","KC-IACUC","Maintain IACUC Protocol Review Comments","Maintain IACUC Protocol Review Comments","KC60","Y","C8FDC8A060D19F7DE040DC0A1F8A4532",1
-"KC1056","KC-IACUC","Maintain IACUC Protocol Related Proj","Maintain IACUC Protocols link to award and proposal","KC60","Y","C8FDC8A060D39F7DE040DC0A1F8A4532",1
-"KC1057","KC-IACUC","Maintain Any IACUC Protocol Access","Maintain Any IACUC Protocol Access","KC60","Y","C8FDC8A060D59F7DE040DC0A1F8A4532",1
-"KC1058","KC-IACUC","Add Any IACUC Protocol Notes","Add Any IACUC Protocol Notes","KC60","Y","C8FDC8A060D79F7DE040DC0A1F8A4532",1
-"KC1059","KC-IACUC","Maintain IACUC Research Areas","Maintain IACUC Research Areas","KC60","Y","C8FDC8A060D99F7DE040DC0A1F8A4532",1
-"KC1060","KC-IACUC","Perform IACUC Actions on Protocol","Perform any IRB action on a protocol submitted to a committee","KC55","Y","C8FDC8A060DB9F7DE040DC0A1F8A4532",1
-"KC1061","KC-IACUC","View Any IACUC Protocol","View Any IACUC Protocol","KC58","Y","C8FDC8A060E09F7DE040DC0A1F8A4532",1
-"KC1062","KC-IACUC","Delete Any IACUC Protocol","Delete Any IACUC Protocol","KC58","Y","C8FDC8A060E29F7DE040DC0A1F8A4532",1
-"KC1063","KC-IACUC","Delete IACUC Protocol","Delete IACUC Protocol","KC60","Y","C8FDC8A060E39F7DE040DC0A1F8A4532",1
-"KC1064","KC-IACUC","Modify IACUC Correspondence Template",NULL,"16","Y","C8FDC8A060EA9F7DE040DC0A1F8A4532",1
-"KC1065","KC-IACUC","View IACUC Correspondence Template",NULL,"40","Y","C8FDC8A060EC9F7DE040DC0A1F8A4532",1
-"KC1066","KC-PD","Maintain KRMS Agenda","Maintain Proposal Development KRMS Agenda","61","Y","C8FDC8A060F39F7DE040DC0A1F8A4532",1
-"KC1067","KC-PROTOCOL","Maintain KRMS Agenda","Maintain Protocol KRMS Agenda","61","Y","C8FDC8A060F59F7DE040DC0A1F8A4532",1
-"KC1069","KC-IACUC","Maintain KRMS Agenda","Maintain IACUC KRMS Agenda","61","Y","C8FDC8A060F79F7DE040DC0A1F8A4532",1
-"KC1071","KC-SYS","Create DocumentTypeDocument","Authorizes the initiation of Document Type Documents","10","Y","C8FDC8A060FA9F7DE040DC0A1F8A4532",1
-"KC1072","KC-SYS","Create RoutingRuleDocument","Authorizes the initiation of Routing Rule Documents","10","Y","C8FDC8A060FC9F7DE040DC0A1F8A4532",1
-"KC1073","KC-SYS","Create NamespaceMaintenanceDocument","Authorizes the initiation of Namespace Maintenance Documents","10","Y","C8FDC8A060FE9F7DE040DC0A1F8A4532",1
-"KC1074","KC-SYS","Create ParameterTypeMaintenanceDocument","Authorizes the initiation of Parameter Type Maintenance Documents","10","Y","C8FDC8A061009F7DE040DC0A1F8A4532",1
-"KC1075","KC-SYS","Create ParameterDetailTypeMaintenanceDocument","Authorizes the initiation of Parameter Detail Type Maintenance Documents","10","Y","C8FDC8A061029F7DE040DC0A1F8A4532",1
-"KC1076","KC-SYS","Create ParameterMaintenanceDocument","Authorizes the initiation of Parameter Maintenance Documents","10","Y","C8FDC8A061049F7DE040DC0A1F8A4532",1
-"KC1077","KC-SYS","Create RoutingRuleDelegationMaintenanceDocument","Authorizes the initiation of Routing Rule Delegation Maintenance Documents","10","Y","C8FDC8A061069F7DE040DC0A1F8A4532",1
-"KC1078","KC-SYS","Create CampusMaintenanceDocument","Authorizes the initiation of Campus Maintenance Documents","10","Y","C8FDC8A061089F7DE040DC0A1F8A4532",1
-"KC1079","KC-SYS","Create CampusTypeMaintenanceDocument","Authorizes the initiation of Campus Type Maintenance Documents","10","Y","C8FDC8A0610A9F7DE040DC0A1F8A4532",1
-"KC1080","KC-SYS","Create CountryMaintenanceDocument","Authorizes the initiation of Country Maintenance Documents","10","Y","C8FDC8A0610C9F7DE040DC0A1F8A4532",1
-"KC1081","KC-SYS","Create CountyMaintenanceDocument","Authorizes the initiation of County Maintenance Documents","10","Y","C8FDC8A0610E9F7DE040DC0A1F8A4532",1
-"KC1082","KC-SYS","Create PostalCodeMaintenanceDocument","Authorizes the initiation of Postal Code Maintenance Documents","10","Y","C8FDC8A061109F7DE040DC0A1F8A4532",1
-"KC1083","KC-SYS","Create StateMaintenanceDocument","Authorizes the initiation of State Maintenance Documents","10","Y","C8FDC8A061129F7DE040DC0A1F8A4532",1
-"KC1084","KC-SYS","Create IdentityManagementDocument","Authorizes the initiation of Identity Management Documents","10","Y","C8FDC8A061149F7DE040DC0A1F8A4532",1
-"KC1085","KC-SYS","Create AgendaMaintenanceDocument","Authorizes the initiation of Agenda Maintenance Documents","10","Y","C8FDC8A061169F7DE040DC0A1F8A4532",1
-"KC1086","KC-SYS","Create ContextMaintenanceDocument","Authorizes the initiation of Context Maintenance Documents","10","Y","C8FDC8A061189F7DE040DC0A1F8A4532",1
-"KC1087","KC-SYS","Create RuleMaintenanceDocument","Authorizes the initiation of Rule Maintenance Documents","10","Y","C8FDC8A0611A9F7DE040DC0A1F8A4532",1
-"KC1088","KC-SYS","Create TermMaintenanceDocument","Authorizes the initiation of Term Maintenance Documents","10","Y","C8FDC8A0611C9F7DE040DC0A1F8A4532",1
-"KC1089","KC-SYS","Create TermSpecificationMaintenanceDocument","Authorizes the initiation of Term Specification Maintenance Documents","10","Y","C8FDC8A0611E9F7DE040DC0A1F8A4532",1
-"KC1090","KC-SYS","Create PeopleFlowMaintenanceDocument","Authorizes the initiation of People Flow Maintenance Documents","10","Y","C8FDC8A061209F7DE040DC0A1F8A4532",1
-"KC1091","KC-SYS","Create AgendaEditorMaintenanceDocument","Authorizes the initiation of Agenda Editor Maintenance Documents","10","Y","C8FDC8A061229F7DE040DC0A1F8A4532",1
-"KC1092","KC-SYS","Create PersonMassChangeDocument","Authorizes the initiation of Person Mass Change Documents","10","Y","C8FDC8A0617D9F7DE040DC0A1F8A4532",1
-"KC1093","KC-SYS","View Active Protocol Types","Can view all active protocol types","27","Y","C8FDC8A061819F7DE040DC0A1F8A4532",1
-"KC1094","KC-SUBAWARD","Create Subaward Invoice","Create Subaward Invoice","10","Y","C8FDC8A0618E9F7DE040DC0A1F8A4532",1
-"KC1095","KC-SUBAWARD","Modify Subaward Invoice","Modify Subaward Invoice","16","Y","C8FDC8A061919F7DE040DC0A1F8A4532",1
-"KC1096","KC-SUBAWARD","View Subaward Invoice","View Subaward Invoice","40","Y","C8FDC8A061949F7DE040DC0A1F8A4532",1
-"KC1097","KC-UNT","View Address Book","View Address Book","40","Y","C8FDC8A061A39F7DE040DC0A1F8A4532",1
-"KC1098","KC-UNT","View Organization","View Organization","40","Y","C8FDC8A061A69F7DE040DC0A1F8A4532",1
-"KC1099","KC-UNT","View Sponsor","View Sponsor","40","Y","C8FDC8A061AA9F7DE040DC0A1F8A4532",1
-"KC1100","KC-COIDISCLOSURE","Maintain Questionnaire Usage","Add/Edit Questionnaire Usages for COI","KC53","Y","C8FDC8A061C19F7DE040DC0A1F8A4532",1
-"KC1101","KC-IACUC","View IACUC Protocol Online Review Comments","View IACUC Protocol Online Review Comments","KC59","Y","C8FDC8A061CB9F7DE040DC0A1F8A4532",1
-"KC1102","KC-IACUC","Maintain IACUC Protocol Online Review Comments","Maintain IACUC Protocol Online Review Comments","KC60","Y","C8FDC8A061CD9F7DE040DC0A1F8A4532",1
-"KC1103","KC-IACUC","Maintain IACUC Protocol Online Reviews","Maintain IACUC Protocol Online Reviews","KC60","Y","C8FDC8A061CF9F7DE040DC0A1F8A4532",1
-"KC1104","KC-IACUC","Modify IACUC Protocol Submission","modify an existing iacuc protocol submission","KC58","Y","C8FDC8A061D19F7DE040DC0A1F8A4532",1
-"KC1105","KC-IACUC","Maintain Questionnaire Usage","Add/Edit Questionnaire Usages for IACUC Protocol","KC53","Y","C8FDC8A061D59F7DE040DC0A1F8A4532",1
-"KC1106","KC-AWARD","Maintain KRMS Agenda","Maintain Award KRMS Agenda","61","Y","C8FDC8A062099F7DE040DC0A1F8A4532",1
-"KC1107","KC-COIDISCLOSURE","Maintain KRMS Agenda","Maintain Award KRMS Agenda","61","Y","C8FDC8A0620B9F7DE040DC0A1F8A4532",1
-"KC1108","KC-IACUC","Maintain IACUC Protocol Submissions","maintain iacuc protocol submission","KC58","Y","C8FDC8A062599F7DE040DC0A1F8A4532",1
-"KC1109","KC-IACUC","Edit Iacuc Protocol Billable","can check the billable check box or not","KC58","Y","C8FDC8A0625C9F7DE040DC0A1F8A4532",1
-"KC1110","KC-IACUC","View IACUC Restricted Notes","View Restricted Notes in IACUC Protocols","KC58","Y","C8FDC8A062609F7DE040DC0A1F8A4532",1
-"KC1111","KC-IACUC","Create IACUC Protocol Continuation Review","Create a new continuation for an IACUC protocol","KC58","Y","C8FDC8A0626A9F7DE040DC0A1F8A4532",1
-"KC1112","KC-IACUC","Create IACUCCommitteeDocument","Add new IACUC committees in a unit","10","Y","C8FDC8A062739F7DE040DC0A1F8A4532",1
-"KC1113","KC-IACUC","View IACUC Schedule","View schedule details of IACUC committees in a unit","KC59","Y","C8FDC8A062789F7DE040DC0A1F8A4532",1
-"KC1114","KC-IACUC","Modify IACUC Schedule","Modify schedule details for IACUC committees in a unit","KC60","Y","C8FDC8A0627E9F7DE040DC0A1F8A4532",1
-"KC1115","KC-IACUC","Modify IACUC Batch Correspondence Detail","Modify Iacuc Batch Correspondence Detail","16","Y","C8FDC8A062829F7DE040DC0A1F8A4532",1
-"KC1116","KC-IACUC","View IACUC Batch Correspondence Detail","View Iacuc Batch Correspondence Detail","40","Y","C8FDC8A062849F7DE040DC0A1F8A4532",1
-"KC1117","KC-B","View Personnel Salaries","View Personnel Salaries","KC59","Y","C8FDC8A062919F7DE040DC0A1F8A4532",1
+"KC1046","KC-IACUC","View IACUCCommittee","View all IACUC committees in a unit","KC59","Y","C98A132676A06FE9E040DC0A1F8A5FA2",1
+"KC1047","KC-IACUC","Modify IACUCCommittee","Modify existing committees in a unit","KC60","Y","C98A132676A36FE9E040DC0A1F8A5FA2",1
+"KC1048","KC-IACUC","Perform IACUCCommittee Actions","Perform IACUC committee actions","KC58","Y","C98A132676A66FE9E040DC0A1F8A5FA2",1
+"KC1049","KC-IACUC","Create Any IACUC Amendment","Create Amendments on any IACUC Protocol","KC58","Y","C98A132676B26FE9E040DC0A1F8A5FA2",1
+"KC1050","KC-IACUC","Create Any IACUC Renewal","Create renewals for any IACUC Protocol","KC58","Y","C98A132676B46FE9E040DC0A1F8A5FA2",1
+"KC1051","KC-IACUC","Create Any IACUC Renewal with Amendment","Create Renewal with Amendment for any IACUC Protocol","KC58","Y","C98A132676B66FE9E040DC0A1F8A5FA2",1
+"KC1052","KC-IACUC","Submit Any IACUC Protocol","Submit Any IACUC Protocol","KC58","Y","C98A132676B86FE9E040DC0A1F8A5FA2",1
+"KC1053","KC-IACUC","Review IACUC Protocol","Review IACUC Protocol","KC58","Y","C98A132676BA6FE9E040DC0A1F8A5FA2",1
+"KC1054","KC-IACUC","IACUC Administrative Corrections","Perform Administrative Corrections on IACUC Protocols","KC58","Y","C98A132676BC6FE9E040DC0A1F8A5FA2",1
+"KC1055","KC-IACUC","Maintain IACUC Protocol Review Comments","Maintain IACUC Protocol Review Comments","KC60","Y","C98A132676BE6FE9E040DC0A1F8A5FA2",1
+"KC1056","KC-IACUC","Maintain IACUC Protocol Related Proj","Maintain IACUC Protocols link to award and proposal","KC60","Y","C98A132676C06FE9E040DC0A1F8A5FA2",1
+"KC1057","KC-IACUC","Maintain Any IACUC Protocol Access","Maintain Any IACUC Protocol Access","KC60","Y","C98A132676C26FE9E040DC0A1F8A5FA2",1
+"KC1058","KC-IACUC","Add Any IACUC Protocol Notes","Add Any IACUC Protocol Notes","KC60","Y","C98A132676C46FE9E040DC0A1F8A5FA2",1
+"KC1059","KC-IACUC","Maintain IACUC Research Areas","Maintain IACUC Research Areas","KC60","Y","C98A132676C66FE9E040DC0A1F8A5FA2",1
+"KC1060","KC-IACUC","Perform IACUC Actions on Protocol","Perform any IRB action on a protocol submitted to a committee","KC55","Y","C98A132676C86FE9E040DC0A1F8A5FA2",1
+"KC1061","KC-IACUC","View Any IACUC Protocol","View Any IACUC Protocol","KC58","Y","C98A132676CD6FE9E040DC0A1F8A5FA2",1
+"KC1062","KC-IACUC","Delete Any IACUC Protocol","Delete Any IACUC Protocol","KC58","Y","C98A132676CF6FE9E040DC0A1F8A5FA2",1
+"KC1063","KC-IACUC","Delete IACUC Protocol","Delete IACUC Protocol","KC60","Y","C98A132676D06FE9E040DC0A1F8A5FA2",1
+"KC1064","KC-IACUC","Modify IACUC Correspondence Template",NULL,"16","Y","C98A132676D76FE9E040DC0A1F8A5FA2",1
+"KC1065","KC-IACUC","View IACUC Correspondence Template",NULL,"40","Y","C98A132676D96FE9E040DC0A1F8A5FA2",1
+"KC1066","KC-PD","Maintain KRMS Agenda","Maintain Proposal Development KRMS Agenda","61","Y","C98A132676E06FE9E040DC0A1F8A5FA2",1
+"KC1067","KC-PROTOCOL","Maintain KRMS Agenda","Maintain Protocol KRMS Agenda","61","Y","C98A132676E26FE9E040DC0A1F8A5FA2",1
+"KC1069","KC-IACUC","Maintain KRMS Agenda","Maintain IACUC KRMS Agenda","61","Y","C98A132676E46FE9E040DC0A1F8A5FA2",1
+"KC1071","KC-SYS","Create DocumentTypeDocument","Authorizes the initiation of Document Type Documents","10","Y","C98A132676E76FE9E040DC0A1F8A5FA2",1
+"KC1072","KC-SYS","Create RoutingRuleDocument","Authorizes the initiation of Routing Rule Documents","10","Y","C98A132676E96FE9E040DC0A1F8A5FA2",1
+"KC1073","KC-SYS","Create NamespaceMaintenanceDocument","Authorizes the initiation of Namespace Maintenance Documents","10","Y","C98A132676EB6FE9E040DC0A1F8A5FA2",1
+"KC1074","KC-SYS","Create ParameterTypeMaintenanceDocument","Authorizes the initiation of Parameter Type Maintenance Documents","10","Y","C98A132676ED6FE9E040DC0A1F8A5FA2",1
+"KC1075","KC-SYS","Create ParameterDetailTypeMaintenanceDocument","Authorizes the initiation of Parameter Detail Type Maintenance Documents","10","Y","C98A132676EF6FE9E040DC0A1F8A5FA2",1
+"KC1076","KC-SYS","Create ParameterMaintenanceDocument","Authorizes the initiation of Parameter Maintenance Documents","10","Y","C98A132676F16FE9E040DC0A1F8A5FA2",1
+"KC1077","KC-SYS","Create RoutingRuleDelegationMaintenanceDocument","Authorizes the initiation of Routing Rule Delegation Maintenance Documents","10","Y","C98A132676F36FE9E040DC0A1F8A5FA2",1
+"KC1078","KC-SYS","Create CampusMaintenanceDocument","Authorizes the initiation of Campus Maintenance Documents","10","Y","C98A132676F56FE9E040DC0A1F8A5FA2",1
+"KC1079","KC-SYS","Create CampusTypeMaintenanceDocument","Authorizes the initiation of Campus Type Maintenance Documents","10","Y","C98A132676F76FE9E040DC0A1F8A5FA2",1
+"KC1080","KC-SYS","Create CountryMaintenanceDocument","Authorizes the initiation of Country Maintenance Documents","10","Y","C98A132676F96FE9E040DC0A1F8A5FA2",1
+"KC1081","KC-SYS","Create CountyMaintenanceDocument","Authorizes the initiation of County Maintenance Documents","10","Y","C98A132676FB6FE9E040DC0A1F8A5FA2",1
+"KC1082","KC-SYS","Create PostalCodeMaintenanceDocument","Authorizes the initiation of Postal Code Maintenance Documents","10","Y","C98A132676FD6FE9E040DC0A1F8A5FA2",1
+"KC1083","KC-SYS","Create StateMaintenanceDocument","Authorizes the initiation of State Maintenance Documents","10","Y","C98A132676FF6FE9E040DC0A1F8A5FA2",1
+"KC1084","KC-SYS","Create IdentityManagementDocument","Authorizes the initiation of Identity Management Documents","10","Y","C98A132677016FE9E040DC0A1F8A5FA2",1
+"KC1085","KC-SYS","Create AgendaMaintenanceDocument","Authorizes the initiation of Agenda Maintenance Documents","10","Y","C98A132677036FE9E040DC0A1F8A5FA2",1
+"KC1086","KC-SYS","Create ContextMaintenanceDocument","Authorizes the initiation of Context Maintenance Documents","10","Y","C98A132677056FE9E040DC0A1F8A5FA2",1
+"KC1087","KC-SYS","Create RuleMaintenanceDocument","Authorizes the initiation of Rule Maintenance Documents","10","Y","C98A132677076FE9E040DC0A1F8A5FA2",1
+"KC1088","KC-SYS","Create TermMaintenanceDocument","Authorizes the initiation of Term Maintenance Documents","10","Y","C98A132677096FE9E040DC0A1F8A5FA2",1
+"KC1089","KC-SYS","Create TermSpecificationMaintenanceDocument","Authorizes the initiation of Term Specification Maintenance Documents","10","Y","C98A1326770B6FE9E040DC0A1F8A5FA2",1
+"KC1090","KC-SYS","Create PeopleFlowMaintenanceDocument","Authorizes the initiation of People Flow Maintenance Documents","10","Y","C98A1326770D6FE9E040DC0A1F8A5FA2",1
+"KC1091","KC-SYS","Create AgendaEditorMaintenanceDocument","Authorizes the initiation of Agenda Editor Maintenance Documents","10","Y","C98A1326770F6FE9E040DC0A1F8A5FA2",1
+"KC1092","KC-SYS","Create PersonMassChangeDocument","Authorizes the initiation of Person Mass Change Documents","10","Y","C98A1326776A6FE9E040DC0A1F8A5FA2",1
+"KC1093","KC-SYS","View Active Protocol Types","Can view all active protocol types","27","Y","C98A1326776E6FE9E040DC0A1F8A5FA2",1
+"KC1094","KC-SUBAWARD","Create Subaward Invoice","Create Subaward Invoice","10","Y","C98A1326777B6FE9E040DC0A1F8A5FA2",1
+"KC1095","KC-SUBAWARD","Modify Subaward Invoice","Modify Subaward Invoice","16","Y","C98A1326777E6FE9E040DC0A1F8A5FA2",1
+"KC1096","KC-SUBAWARD","View Subaward Invoice","View Subaward Invoice","40","Y","C98A132677816FE9E040DC0A1F8A5FA2",1
+"KC1097","KC-UNT","View Address Book","View Address Book","40","Y","C98A132677906FE9E040DC0A1F8A5FA2",1
+"KC1098","KC-UNT","View Organization","View Organization","40","Y","C98A132677936FE9E040DC0A1F8A5FA2",1
+"KC1099","KC-UNT","View Sponsor","View Sponsor","40","Y","C98A132677976FE9E040DC0A1F8A5FA2",1
+"KC1100","KC-COIDISCLOSURE","Maintain Questionnaire Usage","Add/Edit Questionnaire Usages for COI","KC53","Y","C98A132677AE6FE9E040DC0A1F8A5FA2",1
+"KC1101","KC-IACUC","View IACUC Protocol Online Review Comments","View IACUC Protocol Online Review Comments","KC59","Y","C98A132677B86FE9E040DC0A1F8A5FA2",1
+"KC1102","KC-IACUC","Maintain IACUC Protocol Online Review Comments","Maintain IACUC Protocol Online Review Comments","KC60","Y","C98A132677BA6FE9E040DC0A1F8A5FA2",1
+"KC1103","KC-IACUC","Maintain IACUC Protocol Online Reviews","Maintain IACUC Protocol Online Reviews","KC60","Y","C98A132677BC6FE9E040DC0A1F8A5FA2",1
+"KC1104","KC-IACUC","Modify IACUC Protocol Submission","modify an existing iacuc protocol submission","KC58","Y","C98A132677BE6FE9E040DC0A1F8A5FA2",1
+"KC1105","KC-IACUC","Maintain Questionnaire Usage","Add/Edit Questionnaire Usages for IACUC Protocol","KC53","Y","C98A132677C26FE9E040DC0A1F8A5FA2",1
+"KC1106","KC-AWARD","Maintain KRMS Agenda","Maintain Award KRMS Agenda","61","Y","C98A132677F66FE9E040DC0A1F8A5FA2",1
+"KC1107","KC-COIDISCLOSURE","Maintain KRMS Agenda","Maintain Award KRMS Agenda","61","Y","C98A132677F86FE9E040DC0A1F8A5FA2",1
+"KC1108","KC-IACUC","Maintain IACUC Protocol Submissions","maintain iacuc protocol submission","KC58","Y","C98A132678466FE9E040DC0A1F8A5FA2",1
+"KC1109","KC-IACUC","Edit Iacuc Protocol Billable","can check the billable check box or not","KC58","Y","C98A132678496FE9E040DC0A1F8A5FA2",1
+"KC1110","KC-IACUC","View IACUC Restricted Notes","View Restricted Notes in IACUC Protocols","KC58","Y","C98A1326784D6FE9E040DC0A1F8A5FA2",1
+"KC1111","KC-IACUC","Create IACUC Protocol Continuation Review","Create a new continuation for an IACUC protocol","KC58","Y","C98A132678576FE9E040DC0A1F8A5FA2",1
+"KC1112","KC-IACUC","Create IACUCCommitteeDocument","Add new IACUC committees in a unit","10","Y","C98A132678606FE9E040DC0A1F8A5FA2",1
+"KC1113","KC-IACUC","View IACUC Schedule","View schedule details of IACUC committees in a unit","KC59","Y","C98A132678656FE9E040DC0A1F8A5FA2",1
+"KC1114","KC-IACUC","Modify IACUC Schedule","Modify schedule details for IACUC committees in a unit","KC60","Y","C98A1326786B6FE9E040DC0A1F8A5FA2",1
+"KC1115","KC-IACUC","Modify IACUC Batch Correspondence Detail","Modify Iacuc Batch Correspondence Detail","16","Y","C98A1326786F6FE9E040DC0A1F8A5FA2",1
+"KC1116","KC-IACUC","View IACUC Batch Correspondence Detail","View Iacuc Batch Correspondence Detail","40","Y","C98A132678716FE9E040DC0A1F8A5FA2",1
+"KC1117","KC-B","View Personnel Salaries","View Personnel Salaries","KC59","Y","C98A1326787E6FE9E040DC0A1F8A5FA2",1
 "KC842","KC-PD","Create ProposalDevelopmentDocument","Create Proposal Development Document","10","Y","B6A90093AC3B8D60E040DC0A1F8A1D16",1
 "KC843","KC-PROTOCOL","Create ProtocolDocument","Create Protocol Document","10","Y","B6A90093AC3D8D60E040DC0A1F8A1D16",1
 "KC844","KC-PROTOCOL","Create CommitteeDocument","Add new committees in a unit","10","Y","B6A90093AC3F8D60E040DC0A1F8A1D16",1
