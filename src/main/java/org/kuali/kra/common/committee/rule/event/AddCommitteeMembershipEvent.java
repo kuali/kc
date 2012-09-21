@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.common.committee.rule.event;
 
-import org.kuali.kra.common.committee.bo.CommonCommittee;
+import org.kuali.kra.common.committee.bo.Committee;
 import org.kuali.kra.common.committee.bo.CommitteeMembership;
 import org.kuali.kra.common.committee.document.CommonCommitteeDocument;
 import org.kuali.kra.common.committee.rule.AddCommitteeMembershipRule;
@@ -25,7 +25,7 @@ import org.kuali.rice.krad.rules.rule.BusinessRule;
 /**
  * 
  * This class represents the event when a <code>{@link CommitteeMembership}</code> is added to a 
- * <code>{@link CommonCommittee}</code>.
+ * <code>{@link Committee}</code>.
  * 
  * @author Kuali Research Administration Team (kc.dev@kuali.org)
  */

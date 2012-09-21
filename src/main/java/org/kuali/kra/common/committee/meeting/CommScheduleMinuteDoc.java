@@ -20,7 +20,7 @@ package org.kuali.kra.common.committee.meeting;
  * 
  * This class is for meeting generated minute doc.
  */
-public class CommScheduleMinuteDoc extends GeneratedMeetingDoc {
+public abstract class CommScheduleMinuteDoc extends GeneratedMeetingDoc {
 
     private static final long serialVersionUID = 2574809115702106379L;
 

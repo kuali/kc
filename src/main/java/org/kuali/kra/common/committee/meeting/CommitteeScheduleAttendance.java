@@ -24,7 +24,7 @@ import org.kuali.kra.common.committee.bo.CommonCommitteeSchedule;
  * 
  * This is a Bo class for committee schedule attendance.
  */
-public class CommitteeScheduleAttendance extends KraPersistableBusinessObjectBase {
+public abstract class CommitteeScheduleAttendance extends KraPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = -6010677692125364332L;
 

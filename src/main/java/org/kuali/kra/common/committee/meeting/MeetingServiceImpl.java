@@ -29,9 +29,9 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.kuali.kra.common.committee.bo.CommitteeMembership;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipRole;
+import org.kuali.kra.common.committee.bo.Committee;
 import org.kuali.kra.common.committee.bo.CommonCommitteeSchedule;
 import org.kuali.kra.common.committee.web.struts.form.schedule.Time12HrFmt;
-import org.kuali.kra.iacuc.correspondence.IacucProtocolCorrespondence;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondence;
 import org.kuali.kra.protocol.personnel.ProtocolPerson;
@@ -44,8 +44,13 @@ import org.kuali.rice.krad.service.SequenceAccessorService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.springframework.transaction.annotation.Transactional;
 
+@SuppressWarnings("deprecation")
 @Transactional
-public class MeetingServiceImpl implements CommonMeetingService {
+public abstract class MeetingServiceImpl<CS extends CommonCommitteeSchedule<CS, CMT, ?, CSM>,
+                                         CSM extends CommitteeScheduleMinute<CSM,CS>, 
+                                         CMT extends Committee<CMT, ?, CS>>
+
+                                         implements CommonMeetingService<CS, CSM> {
 
     BusinessObjectService businessObjectService;
     
@@ -74,15 +79,25 @@ public class MeetingServiceImpl implements CommonMeetingService {
         }
     }
 
+    
+    
     /*
      * This method is to get the generated agenda for this committee schedule.
      */
     protected List<ScheduleAgenda> getAgenda(Long scheduleId) {
         Map<String, Long> fieldValues = new HashMap<String, Long>();
         fieldValues.put("scheduleIdFk", scheduleId);
-        return (List<ScheduleAgenda>) businessObjectService.findMatchingOrderBy(
-                ScheduleAgenda.class, fieldValues, "createTimestamp", true);
+        
+// TODO *********commented the code below during IACUC refactoring*********         
+//        return (List<ScheduleAgenda>) businessObjectService.findMatchingOrderBy(ScheduleAgenda.class, fieldValues, "createTimestamp", true);
+        
+        return (List<ScheduleAgenda>) businessObjectService.findMatchingOrderBy(getScheduleAgendaBOClassHook(), fieldValues, "createTimestamp", true);
     }
+
+    protected abstract Class<? extends ScheduleAgenda> getScheduleAgendaBOClassHook();
+    
+    
+    
 
     /*
      * This method is get the meeting minute documents of the selected committee schedule
@@ -90,15 +105,22 @@ public class MeetingServiceImpl implements CommonMeetingService {
     protected List<CommScheduleMinuteDoc> getMinuteDoc(Long scheduleId) {
         Map<String, Long> fieldValues = new HashMap<String, Long>();
         fieldValues.put("scheduleIdFk", scheduleId);
-        return (List<CommScheduleMinuteDoc>) businessObjectService.findMatchingOrderBy(
-                CommScheduleMinuteDoc.class, fieldValues, "createTimestamp", true);
+        
+// TODO *********commented the code below during IACUC refactoring********* 
+//        return (List<CommScheduleMinuteDoc>) businessObjectService.findMatchingOrderBy(CommScheduleMinuteDoc.class, fieldValues, "createTimestamp", true);
+        
+        return (List<CommScheduleMinuteDoc>) businessObjectService.findMatchingOrderBy(getCommScheduleMinuteDocBOClassHook(), fieldValues, "createTimestamp", true);
     }
+    
+    protected abstract Class<? extends CommScheduleMinuteDoc> getCommScheduleMinuteDocBOClassHook();
+
+    
     
     /*
      * This method is to get all protocol correspondences of the protocols that are related
      * to this committee schedule. ie, protocols that have been submitted to this committee schedule.
      */
-    protected List<ProtocolCorrespondence> getCorrespondences(CommonCommitteeSchedule committeeSchedule) {
+    protected List<ProtocolCorrespondence> getCorrespondences(CS committeeSchedule) {
         Map<String, Long> fieldValues = new HashMap<String, Long>();
         List<Long> protocolIds = new ArrayList<Long>();
         List<ProtocolCorrespondence> correspondences = new ArrayList<ProtocolCorrespondence>();
@@ -107,18 +129,25 @@ public class MeetingServiceImpl implements CommonMeetingService {
             if (!protocolIds.contains(submission.getProtocolId())) {
                 protocolIds.add(submission.getProtocolId());
                 fieldValues.put("protocolId", submission.getProtocolId());
-                correspondences.addAll((List<IacucProtocolCorrespondence>) businessObjectService.findMatching(
-                        IacucProtocolCorrespondence.class, fieldValues));
+
+// TODO *********commented the code below during IACUC refactoring*********                 
+//                correspondences.addAll((List<IacucProtocolCorrespondence>) businessObjectService.findMatching(IacucProtocolCorrespondence.class, fieldValues));
+                
+                correspondences.addAll((List<? extends ProtocolCorrespondence>) businessObjectService.findMatching(getProtocolCorrespondenceBOClassHook(), fieldValues));
             }
         }
         return correspondences;
     }
 
+    protected abstract Class<? extends ProtocolCorrespondence> getProtocolCorrespondenceBOClassHook();
+
+    
+    
     /**
      * 
      * @see org.kuali.kra.common.committee.meeting.CommonMeetingService#SaveMeetingDetails(org.kuali.kra.common.committee.bo.CommonCommitteeSchedule, java.util.List)
      */
-    public void saveMeetingDetails(CommonCommitteeSchedule committeeSchedule, List<? extends PersistableBusinessObject> deletedBos) {
+    public void saveMeetingDetails(CS committeeSchedule, List<? extends PersistableBusinessObject> deletedBos) {
         committeeSchedule.setStartTime(addHrMinToDate(committeeSchedule.getStartTime(), committeeSchedule.getViewStartTime()));
         committeeSchedule.setEndTime(addHrMinToDate(committeeSchedule.getEndTime(), committeeSchedule.getViewEndTime()));
         committeeSchedule.setTime(addHrMinToDate(committeeSchedule.getTime(), committeeSchedule.getViewTime()));
@@ -142,13 +171,14 @@ public class MeetingServiceImpl implements CommonMeetingService {
         String description = null;
         Map<String, String> queryMap = new HashMap<String, String>();
         queryMap.put("protocolContingencyCode", protocolContingencyCode);
-        ProtocolContingency protocolContingency = (ProtocolContingency) businessObjectService.findByPrimaryKey(
-                ProtocolContingency.class, queryMap);
+        ProtocolContingency protocolContingency = businessObjectService.findByPrimaryKey(getProtocolContingencyBOClassHook(), queryMap);
         if (protocolContingency != null) {
             description = protocolContingency.getDescription();
         }
         return description;
     }
+    
+    protected abstract Class<? extends ProtocolContingency> getProtocolContingencyBOClassHook();
 
     /*
      * utility methods by adding minutes to date
@@ -186,7 +216,7 @@ public class MeetingServiceImpl implements CommonMeetingService {
      * @see org.kuali.kra.common.committee.meeting.CommonMeetingService#addOtherAction(org.kuali.kra.common.committee.meeting.CommScheduleActItem,
      *      org.kuali.kra.common.committee.bo.CommonCommitteeSchedule)
      */
-    public void addOtherAction(CommScheduleActItem newOtherAction, CommonCommitteeSchedule committeeSchedule) {
+    public void addOtherAction(CommScheduleActItem newOtherAction, CS committeeSchedule) {
         newOtherAction.refreshReferenceObject("scheduleActItemType");
         newOtherAction.setCommScheduleActItemsId(getNextCommScheduleActItemId());
         newOtherAction.setScheduleIdFk(committeeSchedule.getId());
@@ -202,7 +232,7 @@ public class MeetingServiceImpl implements CommonMeetingService {
     /*
      * find the max action number and increase by one.
      */
-    protected Integer getNextActionItemNumber(CommonCommitteeSchedule committeeSchedule) {
+    protected Integer getNextActionItemNumber(CS committeeSchedule) {
         Integer nextActionItemNumber = committeeSchedule.getCommScheduleActItems().size();
         for (CommScheduleActItem commScheduleActItem : committeeSchedule.getCommScheduleActItems()) {
             if (commScheduleActItem.getActionItemNumber() > nextActionItemNumber) {
@@ -218,7 +248,7 @@ public class MeetingServiceImpl implements CommonMeetingService {
      * @see org.kuali.kra.common.committee.meeting.CommonMeetingService#deleteOtherAction(org.kuali.kra.common.committee.bo.CommonCommitteeSchedule, int,
      *      java.util.List)
      */
-    public void deleteOtherAction(CommonCommitteeSchedule committeeSchedule, int itemNumber, List<CommScheduleActItem> deletedOtherActions) {
+    public void deleteOtherAction(CS committeeSchedule, int itemNumber, List<CommScheduleActItem> deletedOtherActions) {
         CommScheduleActItem commScheduleActItem = committeeSchedule.getCommScheduleActItems().get(itemNumber);
         if (commScheduleActItem.getCommScheduleActItemsId() != null) {
             deletedOtherActions.add(commScheduleActItem);
@@ -250,8 +280,7 @@ public class MeetingServiceImpl implements CommonMeetingService {
         MemberPresentBean memberPresentBean = new MemberPresentBean();
         memberPresentBean.setAttendance(memberAbsentBean.getAttendance());
         memberPresentBean.getAttendance().setAlternateFlag(
-                isAlternateForMember(meetingHelper.getCommitteeSchedule(), memberPresentBean.getAttendance(), meetingHelper
-                        .getCommitteeSchedule().getScheduledDate()));
+                isAlternateForMember((CS) meetingHelper.getCommitteeSchedule(), memberPresentBean.getAttendance(), meetingHelper.getCommitteeSchedule().getScheduledDate()));
         meetingHelper.getMemberPresentBeans().add(memberPresentBean);
         meetingHelper.getMemberAbsentBeans().remove(itemNumber);
     }
@@ -259,10 +288,9 @@ public class MeetingServiceImpl implements CommonMeetingService {
     /*
      * This is a utility method to reset alternate flag before 'present voting'
      */
-    protected boolean isAlternateForMember(CommonCommitteeSchedule committeeSchedule,
-            CommitteeScheduleAttendance committeeScheduleAttendance, Date scheduledDate) {
+    protected boolean isAlternateForMember(CS commonCommitteeSchedule, CommitteeScheduleAttendance committeeScheduleAttendance, Date scheduledDate) {
         boolean isAlternate = false;
-        for (CommitteeMembership committeeMembership : committeeSchedule.getCommittee().getCommitteeMemberships()) {
+        for (CommitteeMembership committeeMembership : commonCommitteeSchedule.getCommittee().getCommitteeMemberships()) {
             if ((committeeScheduleAttendance.getNonEmployeeFlag() && committeeMembership.getRolodexId() != null && committeeScheduleAttendance
                     .getPersonId().equals(committeeMembership.getRolodexId().toString()))
                     || (!committeeScheduleAttendance.getNonEmployeeFlag() && committeeScheduleAttendance.getPersonId().equals(
@@ -377,25 +405,27 @@ public class MeetingServiceImpl implements CommonMeetingService {
      */
     public void presentOther(MeetingHelper meetingHelper, int itemNumber) {
         MemberAbsentBean memberAbsentBean = meetingHelper.getMemberAbsentBeans().get(itemNumber);
-        OtherPresentBean otherPresentBean = new OtherPresentBean();
+        OtherPresentBean otherPresentBean = getNewOtherPresentBeanInstanceHook();
         otherPresentBean.setAttendance(memberAbsentBean.getAttendance());
         otherPresentBean.setMember(true);
         meetingHelper.getOtherPresentBeans().add(otherPresentBean);
         meetingHelper.getMemberAbsentBeans().remove(itemNumber);
     }
+    
+    protected abstract OtherPresentBean getNewOtherPresentBeanInstanceHook();
 
     /**
      * 
      * @see org.kuali.kra.common.committee.meeting.CommonMeetingService#addOtherPresent(org.kuali.kra.common.committee.meeting.MeetingHelper)
      */
     public void addOtherPresent(MeetingHelper meetingHelper) {
-        OtherPresentBean otherPresentBean = new OtherPresentBean();
+        OtherPresentBean otherPresentBean = getNewOtherPresentBeanInstanceHook();
         otherPresentBean.setMember(false);
         meetingHelper.getNewOtherPresentBean().getAttendance().setRoleName("Guest");
         otherPresentBean.setAttendance(meetingHelper.getNewOtherPresentBean().getAttendance());
         memberHandling(meetingHelper, otherPresentBean);
         meetingHelper.getOtherPresentBeans().add(otherPresentBean);
-        meetingHelper.setNewOtherPresentBean(new OtherPresentBean());
+        meetingHelper.setNewOtherPresentBean(getNewOtherPresentBeanInstanceHook());
     }
 
     /**
@@ -469,7 +499,7 @@ public class MeetingServiceImpl implements CommonMeetingService {
             submissionId = meetingHelper.getNewCommitteeScheduleMinute().getProtocol().getProtocolSubmission().getSubmissionId();
         }
         Long scheduleId = meetingHelper.getCommitteeSchedule().getId();
-        Integer entryNumber = getNextMinuteEntryNumber(meetingHelper.getCommitteeSchedule());
+        Integer entryNumber = getNextMinuteEntryNumber((CS) meetingHelper.getCommitteeSchedule());
         String principalName = GlobalVariables.getUserSession().getPrincipalName();
         String minuteEntryTypeCode = meetingHelper.getNewCommitteeScheduleMinute().getMinuteEntryTypeCode();
         Timestamp createTimestamp = dateTimeService.getCurrentTimestamp();
@@ -494,16 +524,18 @@ public class MeetingServiceImpl implements CommonMeetingService {
             resetActionItemFields(meetingHelper);
         }
         
-        meetingHelper.getCommitteeSchedule().getCommitteeScheduleMinutes().add(meetingHelper.getNewCommitteeScheduleMinute());
-        meetingHelper.setNewCommitteeScheduleMinute(new CommitteeScheduleMinute());
+        ((List<CSM>)(meetingHelper.getCommitteeSchedule().getCommitteeScheduleMinutes())).add((CSM) meetingHelper.getNewCommitteeScheduleMinute());
+        meetingHelper.setNewCommitteeScheduleMinute(getNewCommitteeScheduleMinuteInstanceHook());
     }
+    
+    protected abstract CSM getNewCommitteeScheduleMinuteInstanceHook();
     
     /*
      * Utility method to figure out next entry number for this schedule.
      */
-    protected Integer getNextMinuteEntryNumber(CommonCommitteeSchedule committeeSchedule) {
-        Integer nextMinuteEntryNumber = committeeSchedule.getCommitteeScheduleMinutes().size();
-        for (CommitteeScheduleMinute committeeScheduleMinute : committeeSchedule.getCommitteeScheduleMinutes()) {
+    protected Integer getNextMinuteEntryNumber(CS commonCommitteeSchedule) {
+        Integer nextMinuteEntryNumber = commonCommitteeSchedule.getCommitteeScheduleMinutes().size();
+        for (CSM committeeScheduleMinute : commonCommitteeSchedule.getCommitteeScheduleMinutes()) {
             if (committeeScheduleMinute.getEntryNumber() > nextMinuteEntryNumber) {
                 nextMinuteEntryNumber = committeeScheduleMinute.getEntryNumber();
             }
@@ -519,7 +551,7 @@ public class MeetingServiceImpl implements CommonMeetingService {
             // in case JS is disabled
             meetingHelper.getNewCommitteeScheduleMinute().setMinuteEntry(
                     generateAttendanceComment(meetingHelper.getMemberPresentBeans(), meetingHelper.getOtherPresentBeans(),
-                            meetingHelper.getCommitteeSchedule()));
+                            (CS) meetingHelper.getCommitteeSchedule()));
         }
         resetProtocolFields(meetingHelper);
         resetActionItemFields(meetingHelper);
@@ -528,8 +560,7 @@ public class MeetingServiceImpl implements CommonMeetingService {
     /*
      * This is to generate comment for minute entry Type of 'Attendance' and 'generate attendance is checked
      */
-    protected String generateAttendanceComment(List<MemberPresentBean> memberPresentBeans, List<OtherPresentBean> otherPresentBeans,
-            CommonCommitteeSchedule committeeSchedule) {
+    protected String generateAttendanceComment(List<MemberPresentBean> memberPresentBeans, List<OtherPresentBean> otherPresentBeans, CS commonCommitteeSchedule) {
         String comment = "";
         String eol = System.getProperty("line.separator");
         for (MemberPresentBean memberPresentBean : memberPresentBeans) {
@@ -539,7 +570,7 @@ public class MeetingServiceImpl implements CommonMeetingService {
             comment = comment + memberPresentBean.getAttendance().getPersonName();
             if (StringUtils.isNotBlank(memberPresentBean.getAttendance().getAlternateFor())) {
                 comment = comment + " Alternate For: "
-                        + getAlternateForName(committeeSchedule, memberPresentBean.getAttendance().getAlternateFor());
+                        + getAlternateForName(commonCommitteeSchedule, memberPresentBean.getAttendance().getAlternateFor());
             }
         }
         for (OtherPresentBean otherPresentBean : otherPresentBeans) {
@@ -554,10 +585,10 @@ public class MeetingServiceImpl implements CommonMeetingService {
     /*
      * Utility to get person name for 'alternate for'. This name is used when 'generate attendance' is checked.
      */
-    protected String getAlternateForName(CommonCommitteeSchedule committeeSchedule, String alternateFor) {
+    protected String getAlternateForName(CS commonCommitteeSchedule, String alternateFor) {
 
         String personName = "";
-        for (CommitteeMembership committeeMembership : committeeSchedule.getCommittee().getCommitteeMemberships()) {
+        for (CommitteeMembership committeeMembership : commonCommitteeSchedule.getCommittee().getCommitteeMemberships()) {
             if ((StringUtils.isNotBlank(committeeMembership.getPersonId()) && committeeMembership.getPersonId()
                     .equals(alternateFor))
                     || (StringUtils.isBlank(committeeMembership.getPersonId()) && committeeMembership.getRolodexId().equals(
@@ -620,9 +651,8 @@ public class MeetingServiceImpl implements CommonMeetingService {
      * @see org.kuali.kra.common.committee.meeting.CommonMeetingService#deleteCommitteeScheduleMinute(org.kuali.kra.common.committee.bo.CommonCommitteeSchedule,
      *      java.util.List, int)
      */
-    public void deleteCommitteeScheduleMinute(CommonCommitteeSchedule committeeSchedule,
-            List<CommitteeScheduleMinute> deletedCommitteeScheduleMinutes, int itemNumber) {
-        CommitteeScheduleMinute committeeScheduleMinute = committeeSchedule.getCommitteeScheduleMinutes().get(itemNumber);
+    public void deleteCommitteeScheduleMinute(CS committeeSchedule, List<CSM> deletedCommitteeScheduleMinutes, int itemNumber) {
+        CSM committeeScheduleMinute = committeeSchedule.getCommitteeScheduleMinutes().get(itemNumber);
         if (committeeScheduleMinute.getCommScheduleMinutesId() != null) {
             deletedCommitteeScheduleMinutes.add(committeeScheduleMinute);
         }
@@ -635,7 +665,7 @@ public class MeetingServiceImpl implements CommonMeetingService {
      * @see org.kuali.kra.common.committee.meeting.CommonMeetingService#populateFormHelper(org.kuali.kra.common.committee.meeting.MeetingHelper,
      *      org.kuali.kra.common.committee.bo.CommonCommitteeSchedule, int)
      */
-    public void populateFormHelper(MeetingHelper meetingHelper, CommonCommitteeSchedule commSchedule, int lineNumber) {
+    public void populateFormHelper(MeetingHelper meetingHelper, CS commSchedule, int lineNumber) {
         for (ProtocolSubmission protocolSubmission : commSchedule.getLatestProtocolSubmissions()) {
             ProtocolSubmittedBean protocolSubmittedBean = new ProtocolSubmittedBean();
             ProtocolPerson pi = protocolSubmission.getProtocol().getPrincipalInvestigator();
@@ -654,7 +684,7 @@ public class MeetingServiceImpl implements CommonMeetingService {
 
         meetingHelper.setAgendaGenerationDate(getAgendaGenerationDate(commSchedule.getId()));
         meetingHelper.setCommitteeSchedule(commSchedule);
-        meetingHelper.setTabLabel(getMeetingTabTitle(meetingHelper.getCommitteeSchedule(), lineNumber));
+        meetingHelper.setTabLabel(getMeetingTabTitle((CS) meetingHelper.getCommitteeSchedule(), lineNumber));
         meetingHelper.setScheduleAgendas(getAgenda(commSchedule.getId()));
         meetingHelper.setMinuteDocs(getMinuteDoc(commSchedule.getId()));     
         meetingHelper.setCorrespondences(getCorrespondences(commSchedule));
@@ -666,19 +696,18 @@ public class MeetingServiceImpl implements CommonMeetingService {
      * set up title of the first header tab in meeting page. lineNumber is this selected schedule's item number in committee
      * schedule list
      */
-    protected String getMeetingTabTitle(CommonCommitteeSchedule committeeSchedule, int lineNumber) {
+    protected String getMeetingTabTitle(CS commonCommitteeSchedule, int lineNumber) {
         DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
 
-        return committeeSchedule.getCommittee().getCommitteeName() + " #" + lineNumber + " Meeting "
-                + dateFormat.format(committeeSchedule.getScheduledDate());
+        return commonCommitteeSchedule.getCommittee().getCommitteeName() + " #" + lineNumber + " Meeting "
+                + dateFormat.format(commonCommitteeSchedule.getScheduledDate());
 
     }
 
     /*
      * populate 3 attendance form beans
      */
-    protected void populateAttendanceToForm(MeetingHelper meetingHelper, List<CommitteeMembership> committeeMemberships,
-            CommonCommitteeSchedule commSchedule) {
+    protected void populateAttendanceToForm(MeetingHelper meetingHelper, List<CommitteeMembership> committeeMemberships, CS commSchedule) {
         populatePresentBean(meetingHelper, committeeMemberships, commSchedule);
         populateMemberAbsentBean(meetingHelper, committeeMemberships, commSchedule);
 
@@ -688,13 +717,13 @@ public class MeetingServiceImpl implements CommonMeetingService {
      * populate memberpresentbean & otherpresentbean
      */
     protected void populatePresentBean(MeetingHelper meetingHelper, List<CommitteeMembership> committeeMemberships,
-            CommonCommitteeSchedule commSchedule) {
+            CS commSchedule) {
         meetingHelper.setOtherPresentBeans(new ArrayList<OtherPresentBean>());
         meetingHelper.setMemberPresentBeans(new ArrayList<MemberPresentBean>());
         for (CommitteeScheduleAttendance committeeScheduleAttendance : commSchedule.getCommitteeScheduleAttendances()) {
             getRoleName(committeeScheduleAttendance, committeeMemberships, commSchedule.getScheduledDate());
             if (committeeScheduleAttendance.getGuestFlag()) {
-                OtherPresentBean otherPresentBean = new OtherPresentBean();
+                OtherPresentBean otherPresentBean = getNewOtherPresentBeanInstanceHook();
                 otherPresentBean.setAttendance(committeeScheduleAttendance);
                 otherPresentBean.setMember(isActiveMember(committeeScheduleAttendance, committeeMemberships, commSchedule
                         .getScheduledDate()));
@@ -716,13 +745,17 @@ public class MeetingServiceImpl implements CommonMeetingService {
      * populate memberabsentbean
      */
     protected void populateMemberAbsentBean(MeetingHelper meetingHelper, List<CommitteeMembership> committeeMemberships,
-            CommonCommitteeSchedule commSchedule) {
+            CS commSchedule) {
         meetingHelper.setMemberAbsentBeans(new ArrayList<MemberAbsentBean>());
         for (CommitteeMembership committeeMembership : committeeMemberships) {
             if (!isInMemberPresent(meetingHelper.getMemberPresentBeans(), committeeMembership)
                     && !isInOtherPresent(meetingHelper.getOtherPresentBeans(), committeeMembership)) {
                 MemberAbsentBean memberAbsentBean = new MemberAbsentBean();
-                CommitteeScheduleAttendance attendance = new CommitteeScheduleAttendance();
+                
+// TODO *********commented the code below during IACUC refactoring********* 
+//                CommitteeScheduleAttendance attendance = new CommitteeScheduleAttendance();
+                                
+                CommitteeScheduleAttendance attendance = getNewCommitteeScheduleAttendanceInstanceHook();
                 attendance.setRoleName(getRoleNameForMembership(committeeMembership, commSchedule.getScheduledDate()));
                 if (StringUtils.isBlank(committeeMembership.getPersonId())) {
                     attendance.setPersonId(committeeMembership.getRolodexId().toString());
@@ -740,14 +773,22 @@ public class MeetingServiceImpl implements CommonMeetingService {
 
     }
 
+    protected abstract CommitteeScheduleAttendance getNewCommitteeScheduleAttendanceInstanceHook();
+    
+    
+
     /*
      * Init attendance if this meeting schedule is maintained for the first time.
      */
-    protected void initAttendance(List<MemberAbsentBean> memberAbsentBeans, CommonCommitteeSchedule commSchedule) {
+    protected void initAttendance(List<MemberAbsentBean> memberAbsentBeans, CS commSchedule) {
         List<CommitteeMembership> committeeMemberships = commSchedule.getCommittee().getCommitteeMemberships();
         for (CommitteeMembership committeeMembership : committeeMemberships) {
             if (isActiveMembership(committeeMembership, commSchedule.getScheduledDate())) {
-                CommitteeScheduleAttendance committeeScheduleAttendance = new CommitteeScheduleAttendance();
+                
+// TODO *********commented the code below during IACUC refactoring*********                 
+//                CommitteeScheduleAttendance committeeScheduleAttendance = new CommitteeScheduleAttendance();
+                
+                CommitteeScheduleAttendance committeeScheduleAttendance = getNewCommitteeScheduleAttendanceInstanceHook();
                 if (StringUtils.isBlank(committeeMembership.getPersonId())) {
                     committeeScheduleAttendance.setPersonId(committeeMembership.getRolodexId().toString());
                     committeeScheduleAttendance.setNonEmployeeFlag(true);
@@ -813,18 +854,18 @@ public class MeetingServiceImpl implements CommonMeetingService {
 
     // this method will refresh the set of protocol submissions and review comments before saving because 
     // they could have been changed asynchronously in a different concurrent user session.
-    private void refreshAndSaveSchedule(CommonCommitteeSchedule committeeSchedule) {
+    private void refreshAndSaveSchedule(CS committeeSchedule) {
         // Since a refresh will wipe out all the newly added (unsaved) minutes from the schedule, we will
         // collect all newly added minutes in a separate collection and add them back after the refresh        
-        List<CommitteeScheduleMinute> preRefreshMinutes = committeeSchedule.getCommitteeScheduleMinutes();
-        List<CommitteeScheduleMinute> newlyAddedMinutes = new ArrayList<CommitteeScheduleMinute>();  
-        for(CommitteeScheduleMinute minute:preRefreshMinutes) {
+        List<CSM> preRefreshMinutes = committeeSchedule.getCommitteeScheduleMinutes();
+        List<CSM> newlyAddedMinutes = new ArrayList<CSM>();  
+        for(CSM minute:preRefreshMinutes) {
             if(null == minute.getCommScheduleMinutesId()) {
                 newlyAddedMinutes.add(minute);
             }
         }
         committeeSchedule.refreshReferenceObject(COMMITTEE_SCHEDULE_MINUTES_REF_ID);
-        List<CommitteeScheduleMinute> postRefreshMinutes = committeeSchedule.getCommitteeScheduleMinutes();
+        List<CSM> postRefreshMinutes = committeeSchedule.getCommitteeScheduleMinutes();
         postRefreshMinutes.addAll(newlyAddedMinutes);
         committeeSchedule.refreshReferenceObject(PROTOCOL_SUBMISSIONS_REF_ID);
         

@@ -20,7 +20,7 @@ import org.kuali.kra.bo.ResearchArea;
 /**
  * This class implements the committee research area business object.
  */
-public class CommitteeResearchArea extends CommitteeAssociate {
+public abstract class CommitteeResearchArea extends CommitteeAssociate {
 
     private static final long serialVersionUID = 6586026093806484327L;
 
@@ -28,7 +28,7 @@ public class CommitteeResearchArea extends CommitteeAssociate {
 
     private String researchAreaCode;
 
-    private CommonCommittee committee;
+    private Committee committee;
 
     private ResearchArea researchArea;
 
@@ -59,11 +59,11 @@ public class CommitteeResearchArea extends CommitteeAssociate {
         this.researchArea = researchArea;
     }
 
-    public CommonCommittee getCommittee() {
+    public Committee getCommittee() {
         return committee;
     }
 
-    public void setCommittee(CommonCommittee committee) {
+    public void setCommittee(Committee committee) {
         this.committee = committee;
     }
 

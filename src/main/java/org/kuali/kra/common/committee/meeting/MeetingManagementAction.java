@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.common.committee.meeting;
 
-import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -42,7 +40,7 @@ import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 
-public class MeetingManagementAction extends MeetingAction {
+public abstract class MeetingManagementAction extends MeetingAction {
     private static final String NEW_OTHER_ACTION_ERROR_PATH = "meetingHelper.newOtherAction";
     
     private static final String DELETE_COMMITTEE_SCHEDULE_MINUTE_QUESTION="deleteCommitteeScheduleMinute";
@@ -170,12 +168,14 @@ public class MeetingManagementAction extends MeetingAction {
         MeetingHelper meetingHelper = meetingForm.getMeetingHelper();
         CommonCommitteeDocument document 
             = getCommitteeDocument(meetingHelper.getCommitteeSchedule().getCommittee().getCommitteeDocument().getDocumentHeader().getDocumentNumber());
-        if (applyRules(new MeetingAddMinuteEvent(Constants.EMPTY_STRING, document, meetingHelper, ErrorType.HARDERROR))) {
+        if (applyRules(getNewMeetingAddMinuteEventInstanceHook(Constants.EMPTY_STRING, document, meetingHelper, ErrorType.HARDERROR))) {
             getMeetingService().addCommitteeScheduleMinute(meetingHelper);
         }
     
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
+
+    protected abstract MeetingAddMinuteEvent getNewMeetingAddMinuteEventInstanceHook(String errorPathPrefix, CommonCommitteeDocument document, MeetingHelper meetingHelper, ErrorType type);
 
     /**
      * 
@@ -236,11 +236,17 @@ public class MeetingManagementAction extends MeetingAction {
         if (GlobalVariables.getMessageMap().hasNoErrors()) {
             getMeetingService().addOtherAction(meetingForm.getMeetingHelper().getNewOtherAction(),
                     meetingForm.getMeetingHelper().getCommitteeSchedule());
-            meetingForm.getMeetingHelper().setNewOtherAction(new CommScheduleActItem());
+            
+// TODO *********commented the code below during IACUC refactoring*********             
+//            meetingForm.getMeetingHelper().setNewOtherAction(new CommScheduleActItem());
+            
+            meetingForm.getMeetingHelper().setNewOtherAction(getNewCommScheduleActItemInstanceHook());
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
+
+    protected abstract CommScheduleActItem getNewCommScheduleActItemInstanceHook();
 
     /**
      * 
@@ -350,11 +356,14 @@ public class MeetingManagementAction extends MeetingAction {
         addScheduleAttachmentsToCommitteSchedule( meetingForm.getMeetingHelper().getCommitteeSchedule(),committeScheduleAttachment);
         meetingForm.getMeetingHelper().setCommitteeSchedule(committeSchedule);
         meetingHelper.getNewCommitteeScheduleAttachments().getAttachmentsTypeCode();
-        meetingForm.getMeetingHelper().setNewCommitteeScheduleAttachments(new CommitteeScheduleAttachments());
+        meetingForm.getMeetingHelper().setNewCommitteeScheduleAttachments(getNewCommitteeScheduleAttachmentsInstanceHook());
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
         
     }
+    
+    protected abstract CommitteeScheduleAttachments getNewCommitteeScheduleAttachmentsInstanceHook();
+    
     
     public void addScheduleAttachmentsToCommitteSchedule(CommonCommitteeSchedule committeSchedule,CommitteeScheduleAttachments  committeScheduleAttachment)
     {
@@ -381,11 +390,13 @@ public class MeetingManagementAction extends MeetingAction {
         int lineNumber = line == null ? 0 : Integer.parseInt(line);
         CommitteeScheduleAttachments  committeScheduleAttachment= meetingHelper.getCommitteeSchedule().getCommitteeScheduleAttachments().get(lineNumber);
         if(committeScheduleAttachment.getDocument()!=null){
-            KraServiceLocator.getService(CommonCommitteeScheduleService.class).downloadAttachment(committeScheduleAttachment,response);
+            KraServiceLocator.getService(getCommitteeScheduleServiceClassHook()).downloadAttachment(committeScheduleAttachment,response);
         }
         return null;
     }
     
+    protected abstract Class<? extends CommonCommitteeScheduleService> getCommitteeScheduleServiceClassHook();
+
     /**
      * 
      * This method is to delete committee schedule attachments.
@@ -431,5 +442,6 @@ public class MeetingManagementAction extends MeetingAction {
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
+
     
 }

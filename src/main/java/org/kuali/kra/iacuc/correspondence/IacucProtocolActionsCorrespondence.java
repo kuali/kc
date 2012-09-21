@@ -20,7 +20,6 @@ import org.kuali.kra.iacuc.actions.print.IacucCorrespondenceXmlStream;
 import org.kuali.kra.iacuc.actions.print.IacucProtocolPrintWatermark;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.actions.correspondence.ProtocolActionsCorrespondence;
-import org.kuali.kra.protocol.actions.correspondence.ProtocolActionTypeToCorrespondenceTemplateService;
 import org.kuali.kra.protocol.actions.print.CorrespondenceXmlStream;
 import org.kuali.kra.protocol.actions.print.ProtocolPrintWatermark;
 

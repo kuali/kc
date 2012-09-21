@@ -19,12 +19,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.common.committee.meeting.ProtocolVoteAbstainee;
+import org.kuali.kra.common.committee.meeting.ProtocolVoteRecused;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.actions.IacucProtocolAction;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
-import org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewType;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionStatus;
+import org.kuali.kra.iacuc.committee.meeting.IacucProtocolVoteAbstainee;
+import org.kuali.kra.iacuc.committee.meeting.IacucProtocolVoteRecused;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.actions.ProtocolAction;
 import org.kuali.kra.protocol.actions.decision.CommitteeDecisionServiceImpl;
@@ -70,6 +73,26 @@ public class IacucCommitteeDecisionServiceImpl extends CommitteeDecisionServiceI
       fieldValues.put("submissionIdFk", submissionIdFk.toString());
       return fieldValues;
   }
+
+    @Override
+    protected Class<? extends ProtocolVoteAbstainee> getProtocolVoteAbstaineeBOClassHook() {
+        return IacucProtocolVoteAbstainee.class;
+    }
+
+    @Override
+    protected ProtocolVoteAbstainee getNewProtocolVoteAbstaineeInstanceHook() {
+        return new IacucProtocolVoteAbstainee();
+    }
+
+    @Override
+    protected Class<? extends ProtocolVoteRecused> getProtocolVoteRecusedBOClassHook() {
+        return IacucProtocolVoteRecused.class;
+    }
+
+    @Override
+    protected ProtocolVoteRecused getNewProtocolVoteRecusedInstanceHook() {
+        return new IacucProtocolVoteRecused();
+    }
 
 
 }

@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.kuali.kra.common.committee.bo.Committee;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.actions.IacucProtocolAction;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
@@ -27,6 +28,7 @@ import org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewType;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionQualifierType;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionType;
+import org.kuali.kra.iacuc.committee.bo.IacucCommittee;
 import org.kuali.kra.protocol.notification.ProtocolNotificationRenderer;
 import org.kuali.kra.protocol.notification.ProtocolReplacementParameters;
 
@@ -113,6 +115,11 @@ public class IacucProtocolNotificationRenderer extends ProtocolNotificationRende
             result = protocolReviewTypes.get(0).getDescription();
         }        
         return result;
+    }
+
+    @Override
+    protected Class<? extends Committee> getCommonCommitteeBOClassHook() {
+        return IacucCommittee.class;
     }
     
 }

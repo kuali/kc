@@ -23,7 +23,7 @@ import java.util.Map;
 
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.common.committee.bo.CommonCommittee;
+import org.kuali.kra.common.committee.bo.Committee;
 import org.kuali.kra.common.committee.print.CommitteeXmlStream;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.printing.xmlstream.PrintBaseXmlStream;
@@ -37,7 +37,7 @@ import edu.mit.coeus.xml.iacuc.RenewalReminderType;
 /**
  * This class...
  */
-public class RenewalReminderStream extends PrintBaseXmlStream {
+public abstract class RenewalReminderStream extends PrintBaseXmlStream {
     private ProtocolXmlStream protocolXmlStream;
     private CommitteeXmlStream committeeXmlStream;
 
@@ -50,16 +50,16 @@ public class RenewalReminderStream extends PrintBaseXmlStream {
         RenewalReminderType renewalReminder = RenewalReminderType.Factory.newInstance() ;
         renewalReminder.setCurrentDate(getDateTimeService().getCurrentCalendar()) ;
         String committeeId = (String)reportParameters.get("committeeId");
-        CommonCommittee committee = null;
+        Committee committee = null;
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put("committeeId", committeeId);
-        Collection<CommonCommittee> committees = getBusinessObjectService().findMatching(CommonCommittee.class, fieldValues);
+        Collection<Committee> committees = getBusinessObjectService().findMatching(Committee.class, fieldValues);
         if (committees.size() > 0) {
             /*
              * Return the most recent approved committee (i.e. the committee version with the highest 
              * sequence number that is approved/in the database).
              */
-            committee = (CommonCommittee) Collections.max(committees);
+            committee = (Committee) Collections.max(committees);
         }
         CommitteeMasterDataType committeeMasterData = CommitteeMasterDataType.Factory.newInstance();
         committeeXmlStream.setCommitteeMasterData(committee,committeeMasterData) ;

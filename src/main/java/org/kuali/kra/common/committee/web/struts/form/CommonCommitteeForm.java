@@ -52,7 +52,7 @@ import org.springframework.util.CollectionUtils;
  * they are associated with.
  */
 @SuppressWarnings("serial")
-public class CommonCommitteeForm extends KraTransactionalDocumentFormBase {
+public abstract class CommonCommitteeForm extends KraTransactionalDocumentFormBase {
 
     private CommitteeHelper committeeHelper;
     
@@ -73,18 +73,23 @@ public class CommonCommitteeForm extends KraTransactionalDocumentFormBase {
     }
     
     /** {@inheritDoc} */
-    @Override
-    protected String getDefaultDocumentTypeName() {
-        return "CommonCommitteeDocument";
-    }
+    // we mark an inherited non-abstract method as abstract to indicate that the subclasses will need to provide an implementation, 
+    protected abstract String getDefaultDocumentTypeName();
 
     /**
      * This method initialize all form variables
      */
     public void initialize() {
-        setCommitteeHelper(new CommitteeHelper(this));
+        
+// TODO *********commented the code below during IACUC refactoring*********         
+//        setCommitteeHelper(new CommitteeHelper(this));
+        
+        setCommitteeHelper(getNewCommitteeHelperInstanceHook(this));
     }
 
+    protected abstract CommitteeHelper getNewCommitteeHelperInstanceHook(CommonCommitteeForm commonCommitteeForm);
+    
+    
     /**
      * Get the Committee Document.
      * @return the committee document

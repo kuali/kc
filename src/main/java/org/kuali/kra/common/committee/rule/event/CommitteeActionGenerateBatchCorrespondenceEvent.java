@@ -21,7 +21,7 @@ import org.kuali.kra.common.committee.rules.CommitteeActionGenerateBatchCorrespo
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.rice.krad.document.Document;
 
-public class CommitteeActionGenerateBatchCorrespondenceEvent extends CommitteeActionsEventBase<CommitteeActionGenerateBatchCorrespondenceRule> {
+public abstract class CommitteeActionGenerateBatchCorrespondenceEvent extends CommitteeActionsEventBase<CommitteeActionGenerateBatchCorrespondenceRule> {
 
     private static final String MSG = "generate batch correspondence";
     
@@ -42,8 +42,15 @@ public class CommitteeActionGenerateBatchCorrespondenceEvent extends CommitteeAc
     @SuppressWarnings("unchecked")
     @Override
     public BusinessRuleInterface getRule() {
-        return new CommitteeActionGenerateBatchCorrespondenceRule();
+        
+// TODO *********commented the code below during IACUC refactoring*********         
+//        return new CommitteeActionGenerateBatchCorrespondenceRule();
+        
+        return getNewCommitteeActionGenerateBatchCorrespondenceRuleInstanceHook();
     }
+
+    protected abstract CommitteeActionGenerateBatchCorrespondenceRule getNewCommitteeActionGenerateBatchCorrespondenceRuleInstanceHook();
+    
 
     public String getBatchCorrespondenceTypeCode() {
         return batchCorrespondenceTypeCode;

@@ -16,7 +16,7 @@
 package org.kuali.kra.service;
 
 import org.kuali.kra.common.committee.bo.CommitteeMembership;
-import org.kuali.kra.common.committee.bo.CommonCommittee;
+import org.kuali.kra.common.committee.bo.Committee;
 import org.kuali.kra.protocol.Protocol;
 
 /**
@@ -28,7 +28,7 @@ public class ResearchAreaCurrentReferencerHolderBase {
     
     private String researchAreaCode;
     private Protocol currentReferencingProtocol;
-    private CommonCommittee currentReferencingCommittee;
+    private Committee currentReferencingCommittee;
     private CommitteeMembership currentReferencingCommitteeMembership;
     public static final ResearchAreaCurrentReferencerHolderBase NO_REFERENCER = new ResearchAreaCurrentReferencerHolderBase();
     
@@ -37,7 +37,7 @@ public class ResearchAreaCurrentReferencerHolderBase {
     }
     
     
-    public ResearchAreaCurrentReferencerHolderBase(String researchAreaCode, Protocol currentReferencingProtocol, CommonCommittee currentReferencingCommittee, CommitteeMembership currentReferencingCommitteeMembership) {
+    public ResearchAreaCurrentReferencerHolderBase(String researchAreaCode, Protocol currentReferencingProtocol, Committee currentReferencingCommittee, CommitteeMembership currentReferencingCommitteeMembership) {
         this.researchAreaCode = researchAreaCode;
         this.currentReferencingProtocol = currentReferencingProtocol;
         this.currentReferencingCommittee = currentReferencingCommittee;
@@ -47,7 +47,7 @@ public class ResearchAreaCurrentReferencerHolderBase {
     public Protocol getCurrentReferencingProtocol() {
         return currentReferencingProtocol;
     }
-    public CommonCommittee getCurrentReferencingCommittee() {
+    public Committee getCurrentReferencingCommittee() {
         return currentReferencingCommittee;
     }
     public CommitteeMembership getCurrentReferencingCommitteeMembership() {

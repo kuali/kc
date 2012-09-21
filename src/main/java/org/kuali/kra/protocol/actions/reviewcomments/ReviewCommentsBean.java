@@ -44,11 +44,13 @@ public abstract class ReviewCommentsBean  implements Serializable {
     public ReviewCommentsBean(String errorPropertyKey) {
         this.errorPropertyKey = errorPropertyKey + ".reviewCommentsBean";
         
-        this.newReviewComment = new CommitteeScheduleMinute();
+        this.newReviewComment = getNewCommitteeScheduleMinuteInstanceHook();
         this.newReviewComment.setMinuteEntryTypeCode(MinuteEntryType.PROTOCOL);
         this.reviewComments = new ArrayList<CommitteeScheduleMinute>();
         this.deletedReviewComments = new ArrayList<CommitteeScheduleMinute>();
     }
+
+    protected abstract CommitteeScheduleMinute getNewCommitteeScheduleMinuteInstanceHook();
 
     public String getErrorPropertyName() {
         return errorPropertyKey;

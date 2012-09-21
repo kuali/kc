@@ -33,7 +33,7 @@ import org.kuali.rice.krad.util.OjbCollectionAware;
  * This class is the OJB implementation of CommitteeBatchCorrespondenceDao 
  * which provides enhanced database access functionality.
  */
-public class CommitteeBatchCorrespondenceDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAware, CommonCommitteeBatchCorrespondenceDao {
+public abstract class CommitteeBatchCorrespondenceDaoOjb<CBC extends CommitteeBatchCorrespondence> extends PlatformAwareDaoBaseOjb implements OjbCollectionAware, CommonCommitteeBatchCorrespondenceDao<CBC> {
 
     private static final Log LOG = LogFactory.getLog(CommitteeBatchCorrespondenceDaoOjb.class);
 
@@ -44,7 +44,7 @@ public class CommitteeBatchCorrespondenceDaoOjb extends PlatformAwareDaoBaseOjb 
      * {@inheritDoc} 
      */
     @SuppressWarnings("unchecked")
-    public List<CommitteeBatchCorrespondence> getCommitteeBatchCorrespondence(String batchCorrespondenceTypeCode, Date startDate, Date endDate) {
+    public List<CBC> getCommitteeBatchCorrespondence(String batchCorrespondenceTypeCode, Date startDate, Date endDate) {
         Criteria crit = new Criteria();
         crit.addEqualTo(BATCH_CORRESPONDENCE_TYPE_CODE, batchCorrespondenceTypeCode);
         if (startDate != null) {
@@ -53,11 +53,18 @@ public class CommitteeBatchCorrespondenceDaoOjb extends PlatformAwareDaoBaseOjb 
         if (endDate != null) {
             crit.addLessOrEqualThan(BATCH_RUN_DATE, endDate);
         }
-        Query q = QueryFactory.newQuery(CommitteeBatchCorrespondence.class, crit, true);
+        
+// TODO *********commented the code below during IACUC refactoring********* 
+//        Query q = QueryFactory.newQuery(CommitteeBatchCorrespondence.class, crit, true);
+        
+        Query q = QueryFactory.newQuery(getCommitteeBatchCorrespondenceBOClassHook(), crit, true);
         logQuery(q);
-        return (List<CommitteeBatchCorrespondence>) getPersistenceBrokerTemplate().getCollectionByQuery(q);
+        return (List<CBC>) getPersistenceBrokerTemplate().getCollectionByQuery(q);
     }
 
+    protected abstract Class<CBC> getCommitteeBatchCorrespondenceBOClassHook();
+    
+    
     /**
      * Logs the Query
      * @param q the query

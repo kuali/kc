@@ -22,7 +22,7 @@ import org.kuali.kra.common.committee.bo.CommonCommitteeSchedule;
  * 
  * This class is for schedule meeting other action.
  */
-public class CommScheduleActItem extends KraPersistableBusinessObjectBase {
+public abstract class CommScheduleActItem extends KraPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = 5688256868516863628L;
 

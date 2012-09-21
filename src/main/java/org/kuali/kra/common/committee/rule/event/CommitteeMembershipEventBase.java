@@ -18,7 +18,7 @@ package org.kuali.kra.common.committee.rule.event;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.kra.common.committee.bo.CommonCommittee;
+import org.kuali.kra.common.committee.bo.Committee;
 import org.kuali.kra.common.committee.bo.CommitteeMembership;
 import org.kuali.kra.common.committee.document.CommonCommitteeDocument;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
@@ -26,7 +26,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * 
- * This abstract class is used for specific <code>{@link CommonCommittee}</code> events.
+ * This abstract class is used for specific <code>{@link Committee}</code> events.
  * 
  * @author Kuali Research Administration Team (kc.dev@kuali.org)
  */

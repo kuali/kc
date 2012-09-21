@@ -32,7 +32,7 @@ import org.kuali.rice.krad.service.SequenceAccessorService;
  * 
  * This class implements the CommitteeBatchCorrespondence business object.
  */
-public class CommitteeBatchCorrespondence extends KraPersistableBusinessObjectBase implements Comparable<CommitteeBatchCorrespondence> {
+public abstract class CommitteeBatchCorrespondence extends KraPersistableBusinessObjectBase implements Comparable<CommitteeBatchCorrespondence> {
 
     private static final long serialVersionUID = 1L;
 
@@ -52,7 +52,7 @@ public class CommitteeBatchCorrespondence extends KraPersistableBusinessObjectBa
 
     private BatchCorrespondence batchCorrespondence;
 
-    private CommonCommittee committee;
+    private Committee committee;
 
     private transient int finalActionCounter;
 
@@ -165,11 +165,11 @@ public class CommitteeBatchCorrespondence extends KraPersistableBusinessObjectBa
         this.batchCorrespondence = batchCorrespondence;
     }
 
-    public CommonCommittee getCommittee() {
+    public Committee getCommittee() {
         return committee;
     }
 
-    public void setCommittee(CommonCommittee committee) {
+    public void setCommittee(Committee committee) {
         this.committee = committee;
     }
 

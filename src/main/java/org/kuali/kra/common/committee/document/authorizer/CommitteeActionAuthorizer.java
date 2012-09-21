@@ -16,16 +16,15 @@
 package org.kuali.kra.common.committee.document.authorizer;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.common.committee.bo.CommonCommittee;
+import org.kuali.kra.common.committee.bo.Committee;
 import org.kuali.kra.common.committee.document.authorization.CommitteeTask;
 import org.kuali.kra.common.committee.service.CommonCommitteeService;
-import org.kuali.kra.infrastructure.PermissionConstants;
 
 /**
  * The Committee Action Authorizer checks to see if the user has 
  * permission to perform committee actions. 
  */
-public class CommitteeActionAuthorizer extends CommitteeAuthorizer {
+public abstract class CommitteeActionAuthorizer extends CommitteeAuthorizer {
     
     private CommonCommitteeService committeeService;
 
@@ -33,12 +32,18 @@ public class CommitteeActionAuthorizer extends CommitteeAuthorizer {
      * @see org.kuali.kra.protocol.document.authorizer.CommitteeAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.protocol.document.authorization.CommitteeTask)
      */
     public boolean isAuthorized(String userId, CommitteeTask task) {
-        CommonCommittee committee = task.getCommittee();
+        Committee committee = task.getCommittee();
         return StringUtils.equals(committee.getCommitteeDocument().getDocumentHeader().getWorkflowDocument().getStatus().getLabel(), "FINAL")
                 && committee.getCommitteeId() != null
                 && committeeService.getCommitteeById(committee.getCommitteeId()).getId().equals(committee.getId())
-                && hasPermission(userId, committee, PermissionConstants.PERFORM_IACUC_COMMITTEE_ACTIONS);
+                
+// TODO *********commented the code below during IACUC refactoring*********                 
+//                && hasPermission(userId, committee, PermissionConstants.PERFORM_IACUC_COMMITTEE_ACTIONS);
+                
+                && hasPermission(userId, committee, getPermissionNameForPerformCommitteeActionsCodeHook());
     }
+    
+    protected abstract String getPermissionNameForPerformCommitteeActionsCodeHook();
     
     /**
      * Set the Committee Service.  Usually injected by the Spring Framework.

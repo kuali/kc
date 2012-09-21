@@ -19,7 +19,7 @@ import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.common.committee.bo.CommonCommittee;
+import org.kuali.kra.common.committee.bo.Committee;
 import org.kuali.kra.common.committee.bo.CommonCommitteeSchedule;
 import org.kuali.kra.common.committee.document.CommonCommitteeDocument;
 import org.kuali.kra.common.committee.rule.event.DeleteCommitteeScheduleEvent;
@@ -45,7 +45,7 @@ public class DeleteCommitteeScheduleRule  extends ResearchDocumentRuleBase imple
 
         boolean rulePassed = true;
         List<CommonCommitteeSchedule> schedules = deleteCommitteeScheduleEvent.getCommitteeSchedules();
-        CommonCommittee activeCommittee = getCommitteeService().getCommitteeById(
+        Committee activeCommittee = getCommitteeService().getCommitteeById(
                 ((CommonCommitteeDocument) deleteCommitteeScheduleEvent.getDocument()).getCommittee().getCommitteeId());
         if (activeCommittee != null) {
             int i = 0;

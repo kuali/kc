@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.common.committee.document.authorization;
 
-import org.kuali.kra.common.committee.bo.CommonCommittee;
+import org.kuali.kra.common.committee.bo.Committee;
 import org.kuali.kra.common.committee.bo.CommonCommitteeSchedule;
 
 /**
@@ -26,16 +26,19 @@ import org.kuali.kra.common.committee.bo.CommonCommitteeSchedule;
  * both the committee and schedule are needed to do this.
  * 
  */
-public class CommitteeScheduleTask extends CommitteeTask {
-
-    protected CommonCommitteeSchedule schedule;
+public abstract class CommitteeScheduleTask<CMT extends Committee<CMT, ?, CS>, 
+                                            CS extends CommonCommitteeSchedule<CS, CMT, ?, ?>> 
     
-    public CommitteeScheduleTask(String taskName, CommonCommittee committee, CommonCommitteeSchedule schedule) {
-        super(taskName, committee);
+                                            extends CommitteeTask<CMT> {
+
+    protected CS schedule;
+    
+    public CommitteeScheduleTask(String taskGroupName, String taskName, CMT committee, CS schedule) {
+        super(taskGroupName, taskName, committee);
         this.schedule = schedule;
     }
 
-    public CommonCommitteeSchedule getCommitteeSchedule() {
+    public CS getCommitteeSchedule() {
         return schedule;
     }
     

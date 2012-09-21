@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.kuali.kra.common.committee.bo.CommonCommittee;
+import org.kuali.kra.common.committee.bo.Committee;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -32,7 +32,7 @@ import org.kuali.rice.krad.service.BusinessObjectService;
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
-public class CommitteeValuesFinder extends KeyValuesBase {
+public abstract class CommitteeValuesFinder extends KeyValuesBase {
     
     /**
      * This value finder gets all committees.  To skip the old versioned committees and get only the 
@@ -44,18 +44,23 @@ public class CommitteeValuesFinder extends KeyValuesBase {
      */
     public List<KeyValue> getKeyValues() {
        
-        Collection<CommonCommittee> committees = getCommittees();
+        Collection<? extends Committee> committees = getCommittees();
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         keyValues.add(new ConcreteKeyValue("", "select"));
-        for (CommonCommittee committee : committees) {
+        for (Committee committee : committees) {
             keyValues.add(new ConcreteKeyValue(committee.getCommitteeId(), committee.getCommitteeName()));
         }
         return keyValues;
     }
 
-    @SuppressWarnings("unchecked")
-    private Collection<CommonCommittee> getCommittees() {
+    private Collection<? extends Committee> getCommittees() {
         BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
-        return businessObjectService.findAll(CommonCommittee.class);
+        
+// TODO *********commented the code below during IACUC refactoring*********         
+//        return businessObjectService.findAll(CommonCommittee.class);
+        
+        return businessObjectService.findAll(getCommonCommitteeBOClassHook());
     }
+    
+    protected abstract Class<? extends Committee> getCommonCommitteeBOClassHook();
 }
