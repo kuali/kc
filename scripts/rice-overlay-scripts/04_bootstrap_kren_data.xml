@@ -2,7 +2,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">	
 	<changeSet context="bootstrap,demo" author="kc" id="KC_LOAD_KREN_CHNL_T">
-		<loadData tableName="KREN_CHNL_T" file="bootstrap/kren_chnl_t.csv">
+		<loadData tableName="KREN_CHNL_T" file="bootstrap/KREN_CHNL_T.csv">
 		</loadData>
 		<rollback>
 			<delete tableName="KREN_CHNL_T">
@@ -11,7 +11,7 @@
 		</rollback>
     </changeSet>
 	<changeSet context="bootstrap,demo" author="kc" id="KC_LOAD_KREN_PRODCR_T">
-		<loadData tableName="KREN_PRODCR_T" file="bootstrap/kren_prodcr_t.csv">
+		<loadData tableName="KREN_PRODCR_T" file="bootstrap/KREN_PRODCR_T.csv">
 		</loadData>
 		<rollback>
 			<delete tableName="KREN_PRODCR_T">
@@ -20,7 +20,7 @@
 		</rollback>
     </changeSet>
 	<changeSet context="bootstrap,demo" author="kc" id="KC_LOAD_KREN_CHNL_PRODCR_T">
-		<loadData tableName="KREN_CHNL_PRODCR_T" file="bootstrap/kren_chnl_prodcr_t.csv">
+		<loadData tableName="KREN_CHNL_PRODCR_T" file="bootstrap/KREN_CHNL_PRODCR_T.csv">
 		</loadData>
 		<rollback>
 			<delete tableName="KREN_CHNL_PRODCR_T">
