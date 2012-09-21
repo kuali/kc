@@ -18,7 +18,7 @@ package org.kuali.kra.common.committee.bo;
 import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
-public abstract class CommitteeSequenceAssociate extends KraPersistableBusinessObjectBase implements SequenceAssociate<Committee> {
+public abstract class CommitteeSequenceAssociate extends KraPersistableBusinessObjectBase implements SequenceAssociate<Committee<?, ?, ?>> {
 
     private static final long serialVersionUID = -9040705064557493297L;
 
