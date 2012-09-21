@@ -519,7 +519,7 @@
 "KC-PD","Document","proposaldevelopment.proposaltype.revision","B6A90093ABC28D60E040DC0A1F8A1D16",1,"CONFG","5","ProposalTypeCode of REVISION","A","KC"
 "KC-PD","Document","rejectNarrativeTypeCode","C98A132678936FE9E040DC0A1F8A5FA2",1,"CONFG","60","The narrative type code that will be used when attaching an attachment during document rejection. The narrative type code specified here must allow multiple attachments.","A","KC"
 "KC-PD","Document","requiredFieldForSavingDocumentHelpUrl","C041EF5965A26B48E040DC0A1F8A15A8",1,"HELP","default.htm?turl=Documents/requiredfieldsforsavingdocument.htm","This is the required Fields for Saving Document","A","KC"
-"KC-PD","Document","s2s.polling.scheduler.enabled","C041EF5965926B48E040DC0A1F8A15A8",1,"CONFG","false","Enable S2S Polling Scheduler cron job".","A","KC"
+"KC-PD","Document","s2s.polling.scheduler.enabled","C041EF5965926B48E040DC0A1F8A15A8",1,"CONFG","false","Enable S2S Polling Scheduler cron job.","A","KC"
 "KC-PD","Document","s2s.revisiontype.other","B6A90093ABC38D60E040DC0A1F8A1D16",1,"CONFG","E","RevisionType of Other","A","KC"
 "KC-PD","Document","s2s.submissiontype.application","B6A90093ABC48D60E040DC0A1F8A1D16",1,"CONFG","2","Submission Type of Application","A","KC"
 "KC-PD","Document","s2s.submissiontype.changedCorrected","B6A90093ABC58D60E040DC0A1F8A1D16",1,"CONFG","3","SubmissionType of Changed/Corrected","A","KC"
