@@ -22,11 +22,12 @@ import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.common.committee.bo.CommonCommittee;
+import org.kuali.kra.common.committee.bo.Committee;
 import org.kuali.kra.common.notification.NotificationRendererBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.service.KcPersonService;
+import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -34,7 +35,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 /**
  * Renders fields for the commin protocol notifications.
  */
-public class ProtocolNotificationRenderer extends NotificationRendererBase {
+public abstract class ProtocolNotificationRenderer extends NotificationRendererBase {
 
     private static final long serialVersionUID = 7966684994606021231L;
 
@@ -169,10 +170,18 @@ public class ProtocolNotificationRenderer extends NotificationRendererBase {
         String result = null;
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put("committeeId", committeeId);
-        List<CommonCommittee> committees = (List<CommonCommittee>) getBusinessObjectService().findMatching(CommonCommittee.class, fieldValues);
+        
+// TODO *********commented the code below during IACUC refactoring*********         
+//        List<CommonCommittee> committees = (List<CommonCommittee>) getBusinessObjectService().findMatching(CommonCommittee.class, fieldValues);
+        
+        List<Committee> committees = (List<Committee>) getBusinessObjectService().findMatching(getCommonCommitteeBOClassHook(), fieldValues);
         if (CollectionUtils.isNotEmpty(committees)) {
             result = committees.get(0).getCommitteeName();
         }        
         return result;        
     }
+
+    protected abstract Class<? extends Committee> getCommonCommitteeBOClassHook();
+    
+    
 }

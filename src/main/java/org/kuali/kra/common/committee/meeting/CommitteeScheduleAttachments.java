@@ -21,27 +21,26 @@ package org.kuali.kra.common.committee.meeting;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.apache.struts.upload.FormFile;
 import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.bo.KcAttachment;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.coi.CoiDisclosureEventType;
 import org.kuali.kra.common.committee.bo.CommonCommitteeSchedule;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.protocol.Protocol;
-import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentType;
-import org.kuali.kra.protocol.onlinereview.ProtocolReviewable;
 import org.kuali.kra.service.KcAttachmentService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
-public class CommitteeScheduleAttachments extends KraPersistableBusinessObjectBase  implements KcAttachment  {
+public abstract class CommitteeScheduleAttachments extends KraPersistableBusinessObjectBase  implements KcAttachment  {
 
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = -5308464510751671978L;
+    
     private Long scheduleIdFk;
     private Integer attachmentId;
     private String attachmentsTypeCode;

@@ -26,6 +26,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.common.committee.bo.Committee;
 import org.kuali.kra.common.committee.document.CommonCommitteeDocument;
 import org.kuali.kra.common.committee.document.authorization.CommitteeTask;
 import org.kuali.kra.common.committee.web.struts.form.CommonCommitteeForm;
@@ -74,7 +75,10 @@ public abstract class CommitteeAction extends KraTransactionalDocumentActionBase
         CommonCommitteeForm committeeForm = (CommonCommitteeForm) form;
         CommonCommitteeDocument doc = committeeForm.getCommitteeDocument();
         
-        CommitteeTask task = new CommitteeTask(TaskName.MODIFY_COMMITTEE, doc.getCommittee());
+// TODO *********commented the code below during IACUC refactoring*********         
+//        CommitteeTask task = new CommitteeTask(TaskName.MODIFY_COMMITTEE, doc.getCommittee());
+        
+        CommitteeTask task = getNewCommitteeTaskInstanceHook(TaskName.MODIFY_COMMITTEE, doc.getCommittee());
         if (isAuthorized(task)) {
             if (isValidSave(committeeForm)) {
                 actionForward = super.save(mapping, form, request, response);
@@ -83,6 +87,9 @@ public abstract class CommitteeAction extends KraTransactionalDocumentActionBase
 
         return actionForward;
     }
+    
+    protected abstract CommitteeTask getNewCommitteeTaskInstanceHook(String taskName, Committee committee);
+
     
     /**
      * Can the committee be saved?  This method is normally overridden by

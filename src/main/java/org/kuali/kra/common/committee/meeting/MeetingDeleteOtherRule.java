@@ -38,7 +38,7 @@ public class MeetingDeleteOtherRule extends ResearchDocumentRuleBase implements 
         
         int itemNumber = event.getOtherNumber();
         CommScheduleActItem deletedCommScheduleActItem = event.getMeetingHelper().getCommitteeSchedule().getCommScheduleActItems().get(itemNumber);
-        List<CommitteeScheduleMinute> committeeScheduleMinutes = event.getMeetingHelper().getCommitteeSchedule().getCommitteeScheduleMinutes();
+        List<? extends CommitteeScheduleMinute> committeeScheduleMinutes = event.getMeetingHelper().getCommitteeSchedule().getCommitteeScheduleMinutes();
         for (CommitteeScheduleMinute committeeScheduleMinute : committeeScheduleMinutes) {
             if (deletedCommScheduleActItem.equals(committeeScheduleMinute.getCommScheduleActItem())) {
                 errorReporter.reportError("meetingHelper.newOtherAction.", KeyConstants.ERROR_CANNOT_DELETE_ACTION_ITEM_IN_USE);

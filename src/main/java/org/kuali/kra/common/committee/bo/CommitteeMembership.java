@@ -22,8 +22,8 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KcPerson;
-import org.kuali.kra.iacuc.personnel.IacucProtocolPersonRolodex;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.protocol.personnel.ProtocolPersonRolodex;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.util.DateUtils;
 
@@ -32,7 +32,7 @@ import org.kuali.kra.util.DateUtils;
  * This class implements the committee membership business object.
  * 
  */
-public class CommitteeMembership extends CommitteeAssociate {
+public abstract class CommitteeMembership extends CommitteeAssociate {
 
     private static final long serialVersionUID = 3036751811459612428L;
 
@@ -68,7 +68,7 @@ public class CommitteeMembership extends CommitteeAssociate {
 
     private CommitteeMembershipType membershipType;
 
-    private IacucProtocolPersonRolodex rolodex;
+    private ProtocolPersonRolodex rolodex;
 
     private boolean delete;
 
@@ -241,11 +241,11 @@ public class CommitteeMembership extends CommitteeAssociate {
         return this.kcPersonService;
     }
 
-    public IacucProtocolPersonRolodex getRolodex() {
+    public ProtocolPersonRolodex getRolodex() {
         return rolodex;
     }
 
-    public void setRolodex(IacucProtocolPersonRolodex rolodex) {
+    public void setRolodex(ProtocolPersonRolodex rolodex) {
         this.rolodex = rolodex;
     }
 

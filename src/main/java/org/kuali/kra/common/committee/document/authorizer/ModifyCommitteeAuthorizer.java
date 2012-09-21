@@ -15,10 +15,8 @@
  */
 package org.kuali.kra.common.committee.document.authorizer;
 
-import org.kuali.kra.common.committee.bo.CommonCommittee;
+import org.kuali.kra.common.committee.bo.Committee;
 import org.kuali.kra.common.committee.document.authorization.CommitteeTask;
-import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.document.authorization.PessimisticLock;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -31,19 +29,22 @@ import org.kuali.rice.krad.util.GlobalVariables;
  * modified, the user only needs to have the MODIFY_COMMITTEE permission 
  * for that committee.
  */
-public class ModifyCommitteeAuthorizer extends CommitteeAuthorizer {
+public abstract class ModifyCommitteeAuthorizer extends CommitteeAuthorizer {
 
     /**
      * @see org.kuali.kra.protocol.document.authorizer.CommitteeAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.protocol.document.authorization.CommitteeTask)
      */
     public boolean isAuthorized(String userId, CommitteeTask task) {
         boolean hasPermission = true;
-        CommonCommittee committee = task.getCommittee();
+        Committee committee = task.getCommittee();
         if (committee.getId() == null) {
             
             // We have to consider the case when we are saving the committee for the first time.
             
-            hasPermission = hasUnitPermission(userId, Constants.MODULE_NAMESPACE_IACUC, PermissionConstants.ADD_IACUC_COMMITTEE);
+// TODO *********commented the code below during IACUC refactoring*********             
+//            hasPermission = hasUnitPermission(userId, Constants.MODULE_NAMESPACE_IACUC, PermissionConstants.ADD_IACUC_COMMITTEE);
+            
+            hasPermission = hasUnitPermission(userId, getModuleNamespaceCodeHook(), getPermissionNameForAddCommiteeHook());
         } 
         else {
             /*
@@ -51,7 +52,11 @@ public class ModifyCommitteeAuthorizer extends CommitteeAuthorizer {
              */
             hasPermission = !committee.getCommitteeDocument().isViewOnly() &&
                             !isPessimisticLocked(committee.getCommitteeDocument()) &&
-                            hasPermission(userId, committee, PermissionConstants.MODIFY_IACUC_COMMITTEE);
+
+// TODO *********commented the code below during IACUC refactoring*********                             
+//                            hasPermission(userId, committee, PermissionConstants.MODIFY_IACUC_COMMITTEE);
+                            
+                            hasPermission(userId, committee, getPermissionNameForModifyCommitteeHook());
         }
 
         // Verify that document is not locked
@@ -61,6 +66,14 @@ public class ModifyCommitteeAuthorizer extends CommitteeAuthorizer {
 
         return hasPermission;
     }
+
+    protected abstract String getPermissionNameForModifyCommitteeHook();
+
+    protected abstract String getModuleNamespaceCodeHook();
+
+    protected abstract String getPermissionNameForAddCommiteeHook();
+    
+    
 
     private boolean isPessimisticLocked(Document document) {
         boolean isLocked = false;

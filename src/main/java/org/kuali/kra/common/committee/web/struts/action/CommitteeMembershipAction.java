@@ -32,7 +32,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.bo.ResearchArea;
-import org.kuali.kra.common.committee.bo.CommonCommittee;
+import org.kuali.kra.common.committee.bo.Committee;
 import org.kuali.kra.common.committee.bo.CommitteeMembership;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipRole;
 import org.kuali.kra.common.committee.document.CommonCommitteeDocument;
@@ -53,7 +53,7 @@ import org.kuali.rice.krad.util.KRADConstants;
  * The CommitteeMembershipAction corresponds to the Members tab (web page).  It is
  * responsible for handling all user requests from that tab (web page).
  */
-public class CommitteeMembershipAction extends CommitteeAction {
+public abstract class CommitteeMembershipAction extends CommitteeAction {
     
     @SuppressWarnings("unused")
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(CommitteeMembershipAction.class);
@@ -96,11 +96,17 @@ public class CommitteeMembershipAction extends CommitteeAction {
         boolean rulePassed = applyRules(new AddCommitteeMembershipEvent(Constants.EMPTY_STRING, committeeForm.getCommitteeDocument(), newCommitteeMembership));
         if (rulePassed) {
             getCommitteeMembershipService().addCommitteeMembership(committeeForm.getCommitteeDocument().getCommittee(), newCommitteeMembership);
-            committeeForm.getCommitteeHelper().setNewCommitteeMembership(new CommitteeMembership());
+            
+// TODO *********commented the code below during IACUC refactoring*********             
+//            committeeForm.getCommitteeHelper().setNewCommitteeMembership(new CommitteeMembership());
+            
+            committeeForm.getCommitteeHelper().setNewCommitteeMembership(getNewCommitteeMembershipInstanceHook());
         }
         
         return mapping.findForward(Constants.MAPPING_BASIC );
     }
+    
+    protected abstract CommitteeMembership getNewCommitteeMembershipInstanceHook();
 
     /**
      * This method is perform the action - Delete Committee Membership.
@@ -138,7 +144,11 @@ public class CommitteeMembershipAction extends CommitteeAction {
             HttpServletResponse response) throws Exception {
         CommonCommitteeForm committeeForm = (CommonCommitteeForm) form;
         CommitteeHelper committeeHelper = committeeForm.getCommitteeHelper();
-        committeeHelper.setNewCommitteeMembership(new CommitteeMembership());
+        
+// TODO *********commented the code below during IACUC refactoring*********         
+//        committeeHelper.setNewCommitteeMembership(new CommitteeMembership());
+        
+        committeeHelper.setNewCommitteeMembership(getNewCommitteeMembershipInstanceHook());
         return mapping.findForward(MAPPING_BASIC);
     }
     
@@ -156,7 +166,7 @@ public class CommitteeMembershipAction extends CommitteeAction {
     public ActionForward addCommitteeMembershipRole(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
             HttpServletResponse response) throws Exception {
         CommonCommitteeForm committeeForm = (CommonCommitteeForm) form;
-        CommonCommittee committee = committeeForm.getCommitteeDocument().getCommittee();
+        Committee committee = committeeForm.getCommitteeDocument().getCommittee();
         int selectedMembershipIndex = getSelectedMembershipIndex(request);
         CommitteeMembershipRole newCommitteeMembershipRole 
             = committeeForm.getCommitteeHelper().getNewCommitteeMembershipRoles().get(selectedMembershipIndex);
@@ -187,7 +197,7 @@ public class CommitteeMembershipAction extends CommitteeAction {
     public ActionForward deleteCommitteeMembershipRole(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
             HttpServletResponse response) throws Exception {
         CommonCommitteeForm committeeForm = (CommonCommitteeForm) form;
-        CommonCommittee committee = committeeForm.getCommitteeDocument().getCommittee();
+        Committee committee = committeeForm.getCommitteeDocument().getCommittee();
         
         getCommitteeMembershipService().deleteCommitteeMembershipRole(committee, getSelectedMembershipIndex(request), getSelectedLine(request));
 
@@ -223,14 +233,19 @@ public class CommitteeMembershipAction extends CommitteeAction {
     protected void processMultipleLookupResults(CommonCommitteeForm committeeForm,
             Class lookupResultsBOClass, Collection<PersistableBusinessObject> selectedBOs) {
         int membershipIndex = committeeForm.getCommitteeHelper().getMemberIndex();
-        CommitteeMembership committeeMembership = committeeForm.getCommitteeDocument().getCommittee().getCommitteeMemberships().get(membershipIndex);
+        CommitteeMembership committeeMembership = ((Committee<?, ?, ?>)(committeeForm.getCommitteeDocument().getCommittee())).getCommitteeMemberships().get(membershipIndex);
         if (lookupResultsBOClass.isAssignableFrom(ResearchArea.class)) {
             getCommitteeMembershipService().addCommitteeMembershipExpertise(committeeMembership, (Collection) selectedBOs);
             // finally do validation and error reporting for inactive research areas
-            (new CommitteeDocumentRule()).checkResearchAreasForCommitteeMember(committeeMembership, membershipIndex);
+            (getNewCommitteeDocumentRuleInstanceHook()).checkResearchAreasForCommitteeMember(committeeMembership, membershipIndex);
+            
+// TODO *********commented the code below during IACUC refactoring*********             
+//            (new CommitteeDocumentRule()).checkResearchAreasForCommitteeMember(committeeMembership, membershipIndex);
         }
     }
     
+    protected abstract CommitteeDocumentRule getNewCommitteeDocumentRuleInstanceHook();
+
     /**
      * This method is linked to CommitteeMembershipService to perform the action.
      * Delete a CommitteeMembershipExpertise from a CommitteeMembership.
@@ -245,11 +260,15 @@ public class CommitteeMembershipAction extends CommitteeAction {
     public ActionForward deleteCommitteeMembershipExpertise(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
             HttpServletResponse response) throws Exception {
         CommonCommitteeForm committeeForm = (CommonCommitteeForm) form;
-        CommonCommittee committee = committeeForm.getCommitteeDocument().getCommittee();
+        Committee<?, ?, ?> committee = committeeForm.getCommitteeDocument().getCommittee();
         int membershipIndex = getSelectedMembershipIndex(request);
         getCommitteeMembershipService().deleteCommitteeMembershipExpertise(committee, membershipIndex, getSelectedLine(request));
         // finally do validation and error reporting for inactive research areas
-        (new CommitteeDocumentRule()).checkResearchAreasForCommitteeMember(committee.getCommitteeMemberships().get(membershipIndex), membershipIndex);
+        (getNewCommitteeDocumentRuleInstanceHook()).checkResearchAreasForCommitteeMember(committee.getCommitteeMemberships().get(membershipIndex), membershipIndex);
+
+// TODO *********commented the code below during IACUC refactoring*********         
+//        (new CommitteeDocumentRule()).checkResearchAreasForCommitteeMember(committee.getCommitteeMemberships().get(membershipIndex), membershipIndex);
+        
         return mapping.findForward(MAPPING_BASIC);
     }
     
@@ -258,8 +277,16 @@ public class CommitteeMembershipAction extends CommitteeAction {
      * @return CommitteeMembershipService
      */
     private CommonCommitteeMembershipService getCommitteeMembershipService() {
-        return KraServiceLocator.getService(CommonCommitteeMembershipService.class);
+        
+// TODO *********commented the code below during IACUC refactoring*********         
+//        return KraServiceLocator.getService(CommonCommitteeMembershipService.class);
+        
+        return KraServiceLocator.getService(getCommitteeMembershipServiceClassHook());
     }
+
+    protected abstract Class<? extends CommonCommitteeMembershipService> getCommitteeMembershipServiceClassHook();
+    
+    
 
     /**
      * This method is to get selected membership index.

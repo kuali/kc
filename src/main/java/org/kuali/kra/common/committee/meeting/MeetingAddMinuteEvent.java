@@ -23,7 +23,8 @@ import org.kuali.rice.krad.document.Document;
  * 
  * This class for the event to add committee schedule minute
  */
-public class MeetingAddMinuteEvent  extends MeetingEventBase<MeetingAddMinuteRule> {
+public abstract class MeetingAddMinuteEvent  extends MeetingEventBase<MeetingAddMinuteRule> {
+    
     private static final String MSG = "Add meeting minute ";
     
     public MeetingAddMinuteEvent(String errorPathPrefix, CommonCommitteeDocument document, MeetingHelper meetingHelper, ErrorType type) {
@@ -37,8 +38,10 @@ public class MeetingAddMinuteEvent  extends MeetingEventBase<MeetingAddMinuteRul
     @SuppressWarnings("unchecked")
     @Override
     public BusinessRuleInterface getRule() {
-        return new MeetingAddMinuteRule();
+        return getMeetingAddMinuteRuleInstanceHook();
     }
+
+    protected abstract MeetingAddMinuteRule getMeetingAddMinuteRuleInstanceHook();
 
 
 }

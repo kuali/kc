@@ -24,7 +24,7 @@ import org.kuali.kra.common.committee.bo.CommitteeBatchCorrespondence;
  * 
  * This class provides enhanced database access functionality.
  */
-public interface CommonCommitteeBatchCorrespondenceDao {
+public interface CommonCommitteeBatchCorrespondenceDao<CBC extends CommitteeBatchCorrespondence> {
     
     /**
      * This method returns all CommitteeBatchCorrespondence of the specified type.  Optionally a date range may be specified to further
@@ -34,6 +34,6 @@ public interface CommonCommitteeBatchCorrespondenceDao {
      * @param endDate - optional, if specified the CommitteeBatchCorrespondence must be created on or before this date.
      * @return List of the requested CommitteeBatchCorrespondence
      */
-    List<CommitteeBatchCorrespondence> getCommitteeBatchCorrespondence(String batchCorrespondenceTypeCode, Date startDate, Date endDate);
+    List<CBC> getCommitteeBatchCorrespondence(String batchCorrespondenceTypeCode, Date startDate, Date endDate);
 
 }

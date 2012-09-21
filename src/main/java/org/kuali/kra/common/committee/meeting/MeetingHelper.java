@@ -22,13 +22,13 @@ import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.common.committee.bo.Committee;
 import org.kuali.kra.common.committee.bo.CommonCommitteeSchedule;
 import org.kuali.kra.common.committee.document.authorization.CommitteeScheduleTask;
 import org.kuali.kra.common.committee.document.authorization.CommitteeTask;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.infrastructure.TaskName;
-import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsService;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondence;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.TaskAuthorizationService;
@@ -36,15 +36,15 @@ import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
 
-public class MeetingHelper implements Serializable {
+public abstract class MeetingHelper implements Serializable {
 
     private static final long serialVersionUID = 2363534404324211441L;
     private static final String FIELD_SEPARAATOR = "#f#";
     private static final String NAMESPACE = "KC-UNT";
     private MeetingForm form;
     private Date agendaGenerationDate;
-    private CommonCommitteeSchedule committeeSchedule;
-    private List<CommonCommitteeSchedule> committeeScheduleList;
+    private CommonCommitteeSchedule<?, ?, ?, ?> committeeSchedule;
+    private List<CommonCommitteeSchedule<?, ?, ?, ?>> committeeScheduleList;
     private List<ProtocolSubmittedBean> protocolSubmittedBeans;
     private CommScheduleActItem newOtherAction;
     private List<CommScheduleActItem> deletedOtherActions;
@@ -56,8 +56,8 @@ public class MeetingHelper implements Serializable {
     private List<OtherPresentBean> otherPresentBeans;
     private OtherPresentBean newOtherPresentBean;
     private String absenteeList;
-    private CommitteeScheduleMinute newCommitteeScheduleMinute;
-    private List<CommitteeScheduleMinute> deletedCommitteeScheduleMinutes;
+    private CommitteeScheduleMinute<?, ?> newCommitteeScheduleMinute;
+    private List<CommitteeScheduleMinute<?, ?>> deletedCommitteeScheduleMinutes;
     // It is for minute entry/attendance, and generate attendance comment by server if js is disabled.
     private boolean jsDisabled = false;
     private boolean modifySchedule = false;
@@ -85,15 +85,27 @@ public class MeetingHelper implements Serializable {
 
     public MeetingHelper(MeetingForm form) {
         this.form = form;
-        committeeSchedule = new CommonCommitteeSchedule();
+        committeeSchedule = getNewCommonCommitteeScheduleInstanceHook();
         protocolSubmittedBeans = new ArrayList<ProtocolSubmittedBean>();
         memberPresentBeans = new ArrayList<MemberPresentBean>();
         memberAbsentBeans = new ArrayList<MemberAbsentBean>();
         otherPresentBeans = new ArrayList<OtherPresentBean>();
-        newOtherAction = new CommScheduleActItem();
-        newCommitteeScheduleMinute = new CommitteeScheduleMinute();
-        newCommitteeScheduleAttachments=new CommitteeScheduleAttachments();
-        newOtherPresentBean = new OtherPresentBean();
+        
+// TODO *********commented the code below during IACUC refactoring*********         
+//        newOtherAction = new CommScheduleActItem();
+        
+        newOtherAction = getNewCommScheduleActItemInstanceHook();
+        newCommitteeScheduleMinute = getNewCommitteeScheduleMinuteInstanceHook();
+        
+// TODO *********commented the code below during IACUC refactoring*********         
+//        newCommitteeScheduleAttachments=new CommitteeScheduleAttachments();
+        
+        newCommitteeScheduleAttachments= getNewCommitteeScheduleAttachmentsInstanceHook();
+        
+// TODO *********commented the code below during IACUC refactoring********* 
+//        newOtherPresentBean = new OtherPresentBean();
+        
+        newOtherPresentBean = getNewOtherPresentBeanInstanceHook();
         scheduleAgendas = new ArrayList<ScheduleAgenda>();
         minuteDocs = new ArrayList<CommScheduleMinuteDoc>();
         correspondences = new ArrayList<ProtocolCorrespondence>() ;
@@ -103,6 +115,16 @@ public class MeetingHelper implements Serializable {
         initDeletedList();
     }
 
+    protected abstract CommitteeScheduleAttachments getNewCommitteeScheduleAttachmentsInstanceHook();
+    
+    protected abstract OtherPresentBean getNewOtherPresentBeanInstanceHook();
+    
+    protected abstract CommScheduleActItem getNewCommScheduleActItemInstanceHook();
+
+    protected abstract CommitteeScheduleMinute<?, ?> getNewCommitteeScheduleMinuteInstanceHook();
+
+
+    protected abstract CommonCommitteeSchedule<?, ?, ?, ?> getNewCommonCommitteeScheduleInstanceHook();
 
     public MeetingForm getForm() {
         return form;
@@ -129,11 +151,11 @@ public class MeetingHelper implements Serializable {
         this.tabLabel = tabLabel;
     }
 
-    public CommonCommitteeSchedule getCommitteeSchedule() {
+    public CommonCommitteeSchedule<?, ?, ?, ?> getCommitteeSchedule() {
         return committeeSchedule;
     }
 
-    public void setCommitteeSchedule(CommonCommitteeSchedule committeeSchedule) {
+    public void setCommitteeSchedule(CommonCommitteeSchedule<?, ?, ?, ?> committeeSchedule) {
         this.committeeSchedule = committeeSchedule;
     }
 
@@ -239,11 +261,11 @@ public class MeetingHelper implements Serializable {
         return newCommitteeScheduleMinute;
     }
 
-    public void setNewCommitteeScheduleMinute(CommitteeScheduleMinute newCommitteeScheduleMinute) {
+    public void setNewCommitteeScheduleMinute(CommitteeScheduleMinute<?, ?> newCommitteeScheduleMinute) {
         this.newCommitteeScheduleMinute = newCommitteeScheduleMinute;
     }
 
-    public List<CommitteeScheduleMinute> getDeletedCommitteeScheduleMinutes() {
+    public List<CommitteeScheduleMinute<?, ?>> getDeletedCommitteeScheduleMinutes() {
         return deletedCommitteeScheduleMinutes;
     }
     
@@ -256,7 +278,7 @@ public class MeetingHelper implements Serializable {
         this.newCommitteeScheduleAttachments = newCommitteeScheduleAttachments;
     }
 
-    public void setDeletedCommitteeScheduleMinutes(List<CommitteeScheduleMinute> deletedCommitteeScheduleMinutes) {
+    public void setDeletedCommitteeScheduleMinutes(List<CommitteeScheduleMinute<?, ?>> deletedCommitteeScheduleMinutes) {
         this.deletedCommitteeScheduleMinutes = deletedCommitteeScheduleMinutes;
     }
     
@@ -266,7 +288,7 @@ public class MeetingHelper implements Serializable {
      */
     protected void initDeletedList() {
         setDeletedOtherActions(new ArrayList<CommScheduleActItem>());
-        setDeletedCommitteeScheduleMinutes(new ArrayList<CommitteeScheduleMinute>());
+        setDeletedCommitteeScheduleMinutes(new ArrayList<CommitteeScheduleMinute<?, ?>>());
         setDeletedAttendances(new ArrayList<CommitteeScheduleAttendance>());
 
     }
@@ -340,19 +362,33 @@ public class MeetingHelper implements Serializable {
     }
     
     public boolean canModifySchedule() {
-        CommitteeTask task = new CommitteeTask(TaskName.MODIFY_SCHEDULE, committeeSchedule.getCommittee());
+        
+// TODO *********commented the code below during IACUC refactoring*********         
+//        CommitteeTask task = new CommitteeTask(TaskName.MODIFY_SCHEDULE, committeeSchedule.getCommittee());
+        
+        CommitteeTask task = getNewCommitteeTaskInstanceHook(TaskName.MODIFY_SCHEDULE, committeeSchedule.getCommittee());
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
     
+    protected abstract CommitteeTask getNewCommitteeTaskInstanceHook(String taskName, Committee committee);
+    
+
     public boolean getCanModifySchedule() {
         return  canModifySchedule();
     }
 
     public boolean canViewSchedule() {
-        CommitteeTask task = new CommitteeScheduleTask(TaskName.VIEW_SCHEDULE, committeeSchedule.getCommittee(), committeeSchedule);
+        
+// TODO *********commented the code below during IACUC refactoring*********         
+//        CommitteeTask task = new CommitteeScheduleTask(TaskName.VIEW_SCHEDULE, committeeSchedule.getCommittee(), committeeSchedule);
+        
+        CommitteeTask task = getNewCommitteeScheduleTaskInstanceHook(TaskName.VIEW_SCHEDULE, committeeSchedule.getCommittee(), committeeSchedule);
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
     
+    protected abstract CommitteeScheduleTask getNewCommitteeScheduleTaskInstanceHook(String taskName, Committee committee, CommonCommitteeSchedule committeeSchedule);
+
+
     public boolean getCanViewSchedule() {
         return canViewSchedule();
     }
@@ -453,10 +489,6 @@ public class MeetingHelper implements Serializable {
 
     public void setPrintFutureScheduledMeeting(Boolean printFutureScheduledMeeting) {
         this.printFutureScheduledMeeting = printFutureScheduledMeeting;
-    }
-
-    private ReviewCommentsService getReviewerCommentsService() {
-        return KraServiceLocator.getService(ReviewCommentsService.class);
     }
 
     public boolean isHideReviewerName() {

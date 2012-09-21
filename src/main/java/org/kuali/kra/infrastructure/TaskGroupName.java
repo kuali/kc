@@ -39,6 +39,6 @@ public interface TaskGroupName {
     public static final String COIDISCLOSURE = "coiDisclosure";
     public static final String SUBAWARD = "subAward";
     public static final String IACUC_PROTOCOL_ONLINEREVIEW = "iacucProtocolOnlineReview";
-    public static final String COMMON_COMMITTEE = "commonCommittee";
+    public static final String IACUC_COMMITTEE = "iacucCommittee";
 
 }

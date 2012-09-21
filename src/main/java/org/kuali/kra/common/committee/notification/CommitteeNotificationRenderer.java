@@ -17,29 +17,36 @@ package org.kuali.kra.common.committee.notification;
 
 import java.util.Map;
 
-import org.kuali.kra.common.committee.bo.CommonCommittee;
+import org.kuali.kra.common.committee.bo.Committee;
 import org.kuali.kra.common.notification.NotificationRendererBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.apache.commons.lang.StringUtils;
+
 
 /**
  * Renders fields for the IRB notifications.
  */
 public class CommitteeNotificationRenderer extends NotificationRendererBase {
 
-    private CommonCommittee committee;
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = 6334584979829689495L;
+
+    private Committee committee;
     
     private transient BusinessObjectService businessObjectService;
     private transient KcPersonService kcPersonService;
     
     /**
      * Constructs an IRB notification renderer.
-     * @param CommonCommittee
+     * @param Committee
      */
-    public CommitteeNotificationRenderer(CommonCommittee committee) {
+    public CommitteeNotificationRenderer(Committee committee) {
         this.committee = committee;
     }
 
@@ -56,26 +63,24 @@ public class CommitteeNotificationRenderer extends NotificationRendererBase {
         for (int i = 0; i < replacementParameters.length; i++) {
             key = replacementParameters[i];
             
-            // TODO IRB specific should go in subclassed IRB - commented as part of code lifted for base
-            /*
-            if (StringUtils.equals(key, IRBReplacementParameters.DOCUMENT_NUMBER)) {
+            if (StringUtils.equals(key, CommitteeReplacementParameters.DOCUMENT_NUMBER)) {
                 params.put(key, committee.getCommitteeDocument().getDocumentNumber());
             } else if (StringUtils.equals(key, CommitteeReplacementParameters.SEQUENCE_NUMBER)) {
                 params.put(key, committee.getSequenceNumber().toString());
             } else if (StringUtils.equals(key, CommitteeReplacementParameters.COMMITTEE_NAME)) {
                 params.put(key, committee.getCommitteeName().toString());
             }
-            */
+           
             
         }
         return params;
     }
 
-    public CommonCommittee getCommittee() {
+    public Committee getCommittee() {
         return committee;
     }
 
-    public void setCommittee(CommonCommittee committee) {
+    public void setCommittee(Committee committee) {
         this.committee = committee;
     }
     

@@ -30,7 +30,7 @@ import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.bo.KcPerson;
-import org.kuali.kra.common.committee.bo.CommonCommittee;
+import org.kuali.kra.common.committee.bo.Committee;
 import org.kuali.kra.common.committee.bo.CommitteeMembership;
 import org.kuali.kra.common.committee.service.CommonCommitteeScheduleService;
 import org.kuali.kra.common.committee.service.CommonCommitteeService;
@@ -54,6 +54,7 @@ import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.role.RoleService;
+import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
@@ -151,9 +152,14 @@ public abstract class ReviewCommentsServiceImpl<PRA extends ProtocolReviewAttach
                 Map fieldValues = new HashMap();
                 fieldValues.put("protocolIdFk", protocolSubmission.getProtocolId());
                 fieldValues.put("submissionIdFk", protocolSubmission.getSubmissionId());
-                List<CommitteeScheduleMinute> reviewComments1 = (List<CommitteeScheduleMinute>) businessObjectService
-                        .findMatchingOrderBy(CommitteeScheduleMinute.class, fieldValues, "commScheduleMinutesId", false);
+                
+// TODO *********commented the code below during IACUC refactoring********* 
+//                List<CommitteeScheduleMinute> reviewComments1 = (List<CommitteeScheduleMinute>) businessObjectService
+//                .findMatchingOrderBy(CommitteeScheduleMinute.class, fieldValues, "commScheduleMinutesId", false);
+                
 
+                List<CommitteeScheduleMinute> reviewComments1 = (List<CommitteeScheduleMinute>) businessObjectService
+                        .findMatchingOrderBy(getCommitteeScheduleMinuteBOClassHook(), fieldValues, "commScheduleMinutesId", false);
                 for (CommitteeScheduleMinute minute : reviewComments1) {
                     String minuteEntryTypeCode = minute.getMinuteEntryTypeCode();
                     // need to check current minute entry; otherwise may have minutes from previous version comittee
@@ -170,6 +176,8 @@ public abstract class ReviewCommentsServiceImpl<PRA extends ProtocolReviewAttach
         return reviewComments;
     }
 
+    protected abstract Class<? extends CommitteeScheduleMinute> getCommitteeScheduleMinuteBOClassHook();
+    
     @Override
     public List<PRA> getReviewerAttachments(String protocolNumber, int submissionNumber) {
 
@@ -220,7 +228,7 @@ public abstract class ReviewCommentsServiceImpl<PRA extends ProtocolReviewAttach
     protected boolean isCurrentMinuteEntry(CommitteeScheduleMinute minute) {
         minute.refreshReferenceObject("committeeSchedule");
         if (minute.getCommitteeSchedule() != null) {
-            CommonCommittee committee = committeeService.getCommitteeById(minute.getCommitteeSchedule().getCommittee().getCommitteeId());
+            Committee committee = committeeService.getCommitteeById(minute.getCommitteeSchedule().getCommittee().getCommitteeId());
             return committee.getId().equals(minute.getCommitteeSchedule().getCommittee().getId());
         }
         else {

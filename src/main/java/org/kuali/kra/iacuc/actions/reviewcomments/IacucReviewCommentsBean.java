@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.iacuc.actions.reviewcomments;
 
+import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinute;
+import org.kuali.kra.iacuc.committee.meeting.IacucCommitteeScheduleMinute;
 import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsBean;
 import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsService;
 
@@ -34,6 +36,12 @@ public class IacucReviewCommentsBean extends ReviewCommentsBean {
     @Override
     protected Class<? extends ReviewCommentsService> getReviewCommentsServiceClassHook() {
         return IacucReviewCommentsService.class;
+    }
+
+
+    @Override
+    protected CommitteeScheduleMinute getNewCommitteeScheduleMinuteInstanceHook() {
+        return new IacucCommitteeScheduleMinute();
     }
 
 }

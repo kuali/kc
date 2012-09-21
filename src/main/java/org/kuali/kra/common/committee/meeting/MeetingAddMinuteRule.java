@@ -29,11 +29,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
  * 
  * This class implements the business when adding committee schedule minute.
  */
-public class MeetingAddMinuteRule extends ResearchDocumentRuleBase implements BusinessRuleInterface<MeetingAddMinuteEvent> {
-
-    private static final String ATTENDANCE_ENTRY_TYPE = "2";
-    private static final String PROTOCOL_ENTRY_TYPE = "3";
-    private static final String COMM_SCHEDULE_ACT_ITEM_ENTRY_TYPE = "4";
+public abstract class MeetingAddMinuteRule extends ResearchDocumentRuleBase implements BusinessRuleInterface<MeetingAddMinuteEvent> {
 
     private static final String NEW_COMM_SCHD_MINUTE = "meetingHelper.newCommitteeScheduleMinute";
     private static final String DOT = ".";
@@ -54,12 +50,12 @@ public class MeetingAddMinuteRule extends ResearchDocumentRuleBase implements Bu
         
         isValid &= validateFields(minute);
 
-        if (ATTENDANCE_ENTRY_TYPE.equals(minute.getMinuteEntryTypeCode())) {
+        if (MinuteEntryType.ATTENDANCE.equals(minute.getMinuteEntryTypeCode())) {
             List<CommitteeScheduleAttendance> attendances = event.getMeetingHelper().getCommitteeSchedule().getCommitteeScheduleAttendances();
             isValid &= validateAttendance(minute, attendances);
-        } else if (PROTOCOL_ENTRY_TYPE.equals(minute.getMinuteEntryTypeCode())) {
+        } else if (MinuteEntryType.PROTOCOL.equals(minute.getMinuteEntryTypeCode())) {
             isValid &= validateProtocol(minute);
-        } else if (COMM_SCHEDULE_ACT_ITEM_ENTRY_TYPE.equals(minute.getMinuteEntryTypeCode())) {
+        } else if (MinuteEntryType.ACTION_ITEM.equals(minute.getMinuteEntryTypeCode())) {
             List<CommScheduleActItem> items = event.getMeetingHelper().getCommitteeSchedule().getCommScheduleActItems();
             isValid &= validateActionItem(minute, items);
         }
@@ -110,7 +106,7 @@ public class MeetingAddMinuteRule extends ResearchDocumentRuleBase implements Bu
         if (StringUtils.isNotBlank(committeeScheduleMinute.getProtocolContingencyCode())) {
             Map<String, String> fieldValues = new HashMap<String, String>();
             fieldValues.put(PROTOCOL_CONTINGENCY_CODE_FIELD, committeeScheduleMinute.getProtocolContingencyCode());
-            if (getBusinessObjectService().findByPrimaryKey(ProtocolContingency.class, fieldValues) == null) {
+            if (getBusinessObjectService().findByPrimaryKey(getProtocolContingencyBOClassHook(), fieldValues) == null) {
                 reportError(NEW_COMM_SCHD_MINUTE + DOT + PROTOCOL_CONTINGENCY_CODE_FIELD, KeyConstants.ERROR_EMPTY_PROTOCOL_CONTINGENCY);
                 isValid = false;
             }
@@ -119,6 +115,8 @@ public class MeetingAddMinuteRule extends ResearchDocumentRuleBase implements Bu
         return isValid;
     }
     
+   protected abstract Class<? extends ProtocolContingency> getProtocolContingencyBOClassHook();
+
     /**
      * Runs the validation rules a minute of type Action Item (Other Business)
      * @param committeeScheduleMinute

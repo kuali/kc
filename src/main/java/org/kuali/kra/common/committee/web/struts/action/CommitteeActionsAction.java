@@ -27,9 +27,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kra.common.committee.bo.CommonCommittee;
 import org.kuali.kra.common.committee.bo.CommitteeBatchCorrespondence;
 import org.kuali.kra.common.committee.bo.CommitteeBatchCorrespondenceDetail;
+import org.kuali.kra.common.committee.bo.Committee;
 import org.kuali.kra.common.committee.dao.CommonCommitteeBatchCorrespondenceDao;
 import org.kuali.kra.common.committee.document.CommonCommitteeDocument;
 import org.kuali.kra.common.committee.document.authorization.CommitteeTask;
@@ -39,15 +39,15 @@ import org.kuali.kra.common.committee.rule.event.CommitteeActionGenerateBatchCor
 import org.kuali.kra.common.committee.rule.event.CommitteeActionPrintCommitteeDocumentEvent;
 import org.kuali.kra.common.committee.rule.event.CommitteeActionViewBatchCorrespondenceEvent;
 import org.kuali.kra.common.committee.service.CommonCommitteeBatchCorrespondenceService;
-import org.kuali.kra.common.committee.service.CommonCommitteePrintingService;
+import org.kuali.kra.common.committee.print.service.CommonCommitteePrintingService;
 import org.kuali.kra.common.committee.web.struts.form.CommonCommitteeForm;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.printing.Printable;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.print.AbstractPrint;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
+import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
 
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
@@ -64,7 +64,7 @@ import com.lowagie.text.pdf.PdfWriter;
  * The CommitteeActionsAction corresponds to the Actions tab (web page).  It is
  * responsible for handling all user requests from that tab (web page).
  */
-public class CommitteeActionsAction extends CommitteeAction {
+public abstract class CommitteeActionsAction extends CommitteeAction {
 
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(CommitteeActionsAction.class);
 
@@ -91,9 +91,17 @@ public class CommitteeActionsAction extends CommitteeAction {
         Date startDate = committeeForm.getCommitteeHelper().getGenerateStartDate();
         Date endDate = committeeForm.getCommitteeHelper().getGenerateEndDate();
         
-        CommitteeTask task = new CommitteeTask(TaskName.PERFORM_COMMITTEE_ACTIONS, committeeDocument.getCommittee());
+// TODO *********commented the code below during IACUC refactoring*********         
+//        CommitteeTask task = new CommitteeTask(TaskName.PERFORM_COMMITTEE_ACTIONS, committeeDocument.getCommittee());
+        
+        CommitteeTask task = getNewCommitteeTaskInstanceHook(TaskName.PERFORM_COMMITTEE_ACTIONS, committeeDocument.getCommittee());
         if (isAuthorized(task)) {
-            if (applyRules(new CommitteeActionGenerateBatchCorrespondenceEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), 
+            
+// TODO *********commented the code below during IACUC refactoring*********             
+//            if (applyRules(new CommitteeActionGenerateBatchCorrespondenceEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), 
+//                    batchCorrespondenceTypeCode, startDate, endDate, committeeId))) {
+            
+            if (applyRules(getNewCommitteeActionGenerateBatchCorrespondenceEventInstanceHook(Constants.EMPTY_STRING, committeeForm.getDocument(), 
                     batchCorrespondenceTypeCode, startDate, endDate, committeeId))) {
                 committeeForm.getCommitteeHelper().getGenerateBatchCorrespondence().clear();
                 committeeForm.getCommitteeHelper().getGenerateBatchCorrespondence().add(
@@ -104,6 +112,13 @@ public class CommitteeActionsAction extends CommitteeAction {
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
+    protected abstract CommitteeTask getNewCommitteeTaskInstanceHook(String taskName, Committee committee);
+    
+    
+    protected abstract CommitteeActionGenerateBatchCorrespondenceEvent getNewCommitteeActionGenerateBatchCorrespondenceEventInstanceHook(String errorPathPrefix,
+            org.kuali.rice.krad.document.Document document, String batchCorrespondenceTypeCode, Date startDate, Date endDate,
+            String committeeId);
+
     /**
      * This method is perform the action - Filter Batch Correspondence History.
      * Method is called in CommitteeActions.jsp
@@ -313,7 +328,7 @@ public class CommitteeActionsAction extends CommitteeAction {
         Boolean printRooster = committeeForm.getCommitteeHelper().getPrintRooster();
         Boolean printFutureScheduledMeeting = committeeForm.getCommitteeHelper().getPrintFutureScheduledMeeting();
         
-        CommitteeTask task = new CommitteeTask(TaskName.PERFORM_COMMITTEE_ACTIONS, committeeDocument.getCommittee());
+        CommitteeTask task = getNewCommitteeTaskInstanceHook(TaskName.PERFORM_COMMITTEE_ACTIONS, committeeDocument.getCommittee());
         if (isAuthorized(task)) {
             if (applyRules(new CommitteeActionPrintCommitteeDocumentEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), 
                     printRooster, printFutureScheduledMeeting))) {
@@ -341,17 +356,26 @@ public class CommitteeActionsAction extends CommitteeAction {
 
         return actionForward;
     }
-    
-    private CommonCommitteeBatchCorrespondenceService getCommitteeBatchCorrespondenceService() {
-        return KraServiceLocator.getService(CommonCommitteeBatchCorrespondenceService.class);
-    }
-    
-    private CommonCommitteePrintingService getCommitteePrintingService() {
-        return KraServiceLocator.getService(CommonCommitteePrintingService.class);
-    }
 
-    private CommonCommitteeBatchCorrespondenceDao getCommitteeBatchCorrespondenceDao() {
-        return KraServiceLocator.getService(CommonCommitteeBatchCorrespondenceDao.class);
-    }
+    
+// TODO *********commented the code below during IACUC refactoring*********     
+//    private CommonCommitteeBatchCorrespondenceService getCommitteeBatchCorrespondenceService() {
+//        return KraServiceLocator.getService(CommonCommitteeBatchCorrespondenceService.class);
+//    }
+//    
+//    private CommonCommitteePrintingService getCommitteePrintingService() {
+//        return KraServiceLocator.getService(CommonCommitteePrintingService.class);
+//    }
+//
+//    private CommonCommitteeBatchCorrespondenceDao getCommitteeBatchCorrespondenceDao() {
+//        return KraServiceLocator.getService(CommonCommitteeBatchCorrespondenceDao.class);
+//    }
+    
+    protected abstract CommonCommitteeBatchCorrespondenceService getCommitteeBatchCorrespondenceService();
+    
+    protected abstract CommonCommitteePrintingService getCommitteePrintingService();
+
+    protected abstract CommonCommitteeBatchCorrespondenceDao getCommitteeBatchCorrespondenceDao();
+
     
 }

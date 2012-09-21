@@ -20,36 +20,30 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.common.committee.bo.CommitteeType;
 import org.kuali.kra.common.committee.bo.MembershipRole;
-import org.kuali.kra.common.committee.web.struts.form.CommonCommitteeForm;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
-public class MembershipRoleValuesFinder extends KeyValuesBase {
+public abstract class MembershipRoleValuesFinder extends KeyValuesBase {
+
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = -7492852270320003877L;
 
     @Override
     public List<KeyValue> getKeyValues() {
         List<KeyValue> keyLabels = new ArrayList<KeyValue>();
         keyLabels.add(new ConcreteKeyValue("", "select"));
 
-        CommonCommitteeForm committeeForm = (CommonCommitteeForm) KNSGlobalVariables.getKualiForm();
-        String committeeTypeCode = committeeForm.getCommitteeDocument().getCommittee().getCommitteeTypeCode();
         List<? extends MembershipRole> roles = new ArrayList<MembershipRole>();
         Map<String, String> criteria = new HashMap<String, String>();
-        if (StringUtils.equalsIgnoreCase(committeeTypeCode, CommitteeType.IRB_TYPE_CODE)) {
-            criteria.put("committeeTypeCode", CommitteeType.IRB_TYPE_CODE);
-            
-        } else {
-            //IACUC
-            criteria.put("committeeTypeCode", CommitteeType.IACUC_TYPE_CODE);
-
-        }
+        
+        criteria.put("committeeTypeCode", getCommitteeTypeCodeHook());
+        
         roles = (List<? extends MembershipRole>) getBusinessObjectService().findMatching(MembershipRole.class, criteria);
 
         for(MembershipRole role : roles) {
@@ -58,6 +52,8 @@ public class MembershipRoleValuesFinder extends KeyValuesBase {
         return keyLabels;
     }
     
+    protected abstract String getCommitteeTypeCodeHook();
+
     protected BusinessObjectService getBusinessObjectService() {
         return KraServiceLocator.getService(BusinessObjectService.class);
     }

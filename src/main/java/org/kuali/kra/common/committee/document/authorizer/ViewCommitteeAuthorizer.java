@@ -16,18 +16,24 @@
 package org.kuali.kra.common.committee.document.authorizer;
 
 import org.kuali.kra.common.committee.document.authorization.CommitteeTask;
-import org.kuali.kra.infrastructure.PermissionConstants;
 
 /**
  * The View Committee Authorizer determines if a user has the right
  * to view a specific committee.
  */
-public class ViewCommitteeAuthorizer extends CommitteeAuthorizer {
+public abstract class ViewCommitteeAuthorizer extends CommitteeAuthorizer {
 
     /**
      * @see org.kuali.kra.protocol.document.authorizer.CommitteeAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.protocol.document.authorization.CommitteeTask)
      */
     public boolean isAuthorized(String userId, CommitteeTask task) {
-        return hasPermission(userId, task.getCommittee(), PermissionConstants.VIEW_IACUC_COMMITTEE);
+        
+// TODO *********commented the code below during IACUC refactoring********* 
+//        return hasPermission(userId, task.getCommittee(), PermissionConstants.VIEW__COMMITTEE);
+        
+        return hasPermission(userId, task.getCommittee(), getPermissionNameForViewCommitteeHook());
     }
+
+    protected abstract String getPermissionNameForViewCommitteeHook();
+    
 }

@@ -18,17 +18,17 @@ package org.kuali.kra.common.committee.bo;
 import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
-public abstract class CommitteeSequenceAssociate extends KraPersistableBusinessObjectBase implements SequenceAssociate<CommonCommittee> {
+public abstract class CommitteeSequenceAssociate extends KraPersistableBusinessObjectBase implements SequenceAssociate<Committee> {
 
     private static final long serialVersionUID = -9040705064557493297L;
 
-    private CommonCommittee sequenceOwner;
+    private Committee sequenceOwner;
 
-    public CommonCommittee getSequenceOwner() {
+    public Committee getSequenceOwner() {
         return this.sequenceOwner;
     }
 
-    public void setSequenceOwner(CommonCommittee newOwner) {
+    public void setSequenceOwner(Committee newOwner) {
         this.sequenceOwner = newOwner;
     }
 

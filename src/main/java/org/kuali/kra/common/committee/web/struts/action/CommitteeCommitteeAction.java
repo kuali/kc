@@ -25,11 +25,10 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.bo.ResearchArea;
-import org.kuali.kra.common.committee.bo.CommonCommittee;
-import org.kuali.kra.common.committee.bo.businessLogic.CommonCommitteeBusinessLogic;
-import org.kuali.kra.common.committee.bo.businessLogic.CommonCommitteeCollaboratorBusinessLogicFactoryGroup;
+import org.kuali.kra.common.committee.bo.Committee;
 import org.kuali.kra.common.committee.document.CommonCommitteeDocument;
 import org.kuali.kra.common.committee.document.authorization.CommitteeTask;
+import org.kuali.kra.common.committee.rules.CommitteeDocumentRule;
 import org.kuali.kra.common.committee.service.CommonCommitteeService;
 import org.kuali.kra.common.committee.web.struts.form.CommonCommitteeForm;
 import org.kuali.kra.infrastructure.Constants;
@@ -44,7 +43,7 @@ import org.kuali.rice.krad.util.KRADConstants;
  * The CommitteeCommitteeAction corresponds to the Committee tab (web page).  It is
  * responsible for handling all user requests from that tab (web page).
  */
-public class CommitteeCommitteeAction extends CommitteeAction {
+public abstract class CommitteeCommitteeAction extends CommitteeAction {
     
     private static final String COMMITTEE_ID = "committeeId";
 
@@ -59,12 +58,12 @@ public class CommitteeCommitteeAction extends CommitteeAction {
         CommonCommitteeForm committeeForm = ((CommonCommitteeForm)form);
         String commandParam = request.getParameter(KRADConstants.PARAMETER_COMMAND);
         if (StringUtils.isNotBlank(commandParam) && commandParam.equals("initiate") && StringUtils.isNotBlank(request.getParameter(COMMITTEE_ID))) {
-            CommonCommittee committee = getCommitteeService().getCommitteeById(request.getParameter(COMMITTEE_ID));
+            Committee committee = getCommitteeService().getCommitteeById(request.getParameter(COMMITTEE_ID));
             /* don't need the original committeeDocument saved in xml content */
             committee.setCommitteeDocument(null);
             committeeForm.getCommitteeDocument().setCommittee(committee);
             VersioningService versionService = new VersioningServiceImpl();
-            committeeForm.getCommitteeDocument().setCommittee((CommonCommittee) versionService.createNewVersion(committee));
+            committeeForm.getCommitteeDocument().setCommittee((Committee) versionService.createNewVersion(committee));
             committeeForm.getCommitteeDocument().getCommittee().setCommitteeDocument(committeeForm.getCommitteeDocument());
         }
        
@@ -80,13 +79,16 @@ public class CommitteeCommitteeAction extends CommitteeAction {
     protected void processMultipleLookupResults(CommonCommitteeForm committeeForm,
             Class lookupResultsBOClass, Collection<PersistableBusinessObject> selectedBOs) {
         if (lookupResultsBOClass.isAssignableFrom(ResearchArea.class)) {
-            CommonCommittee committee = committeeForm.getCommitteeDocument().getCommittee();
+            Committee committee = committeeForm.getCommitteeDocument().getCommittee();
             getCommitteeService().addResearchAreas(committee, (Collection) selectedBOs);
             // finally do validation and error reporting for inactive research areas
-            getCommitteeBusinessLogic(committee).validateCommitteeResearchAreas();
+            getNewCommitteeDocumentRuleInstanceHook().validateCommitteeResearchAreas(committee);
         }
     }
     
+    protected abstract CommitteeDocumentRule getNewCommitteeDocumentRuleInstanceHook();
+    
+
     /**
      * Delete a Research Area from a Committee.
      * @param mapping
@@ -101,26 +103,33 @@ public class CommitteeCommitteeAction extends CommitteeAction {
         
         CommonCommitteeForm committeeForm = (CommonCommitteeForm) form;
         CommonCommitteeDocument committeeDocument = committeeForm.getCommitteeDocument();
-        CommonCommittee committee = committeeDocument.getCommittee();
+        Committee committee = committeeDocument.getCommittee();
         
-        CommitteeTask task = new CommitteeTask(TaskName.MODIFY_COMMITTEE, committee);
+// TODO *********commented the code below during IACUC refactoring*********         
+//        CommitteeTask task = new CommitteeTask(TaskName.MODIFY_COMMITTEE, committee);
+        
+        CommitteeTask task = getNewCommitteeTaskInstanceHook(TaskName.MODIFY_COMMITTEE, committee);
         if (isAuthorized(task)) {   
             committee.getCommitteeResearchAreas().remove(getLineToDelete(request));
         }
         // finally do validation and error reporting for inactive research areas
-        getCommitteeBusinessLogic(committee).validateCommitteeResearchAreas();
+        getNewCommitteeDocumentRuleInstanceHook().validateCommitteeResearchAreas(committee);
         
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
-    public CommonCommitteeBusinessLogic getCommitteeBusinessLogic(CommonCommittee committee) {
-        CommonCommitteeCollaboratorBusinessLogicFactoryGroup cmtGrp = KraServiceLocator.getService(CommonCommitteeCollaboratorBusinessLogicFactoryGroup.class);
-        CommonCommitteeBusinessLogic committeeBusinessLogic = cmtGrp.getCommitteeBusinessLogicFor(committee);
-        return committeeBusinessLogic;
-    }
-
+    protected abstract CommitteeTask getNewCommitteeTaskInstanceHook(String taskName, Committee committee);
+    
+    
+    
     private CommonCommitteeService getCommitteeService() {
-        return (CommonCommitteeService) KraServiceLocator.getService(CommonCommitteeService.class);
+        
+// TODO *********commented the code below during IACUC refactoring********* 
+//        return (CommonCommitteeService) KraServiceLocator.getService(CommonCommitteeService.class);
+        
+        return (CommonCommitteeService) KraServiceLocator.getService(getCommonCommitteeServiceBOClassHook());
     }
 
+    protected abstract Class<? extends CommonCommitteeService> getCommonCommitteeServiceBOClassHook();
+    
 }

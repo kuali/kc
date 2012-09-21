@@ -24,7 +24,8 @@ import org.kuali.rice.krad.bo.PersistableBusinessObject;
  * 
  * This class is to provide service for meeting management
  */
-public interface CommonMeetingService {
+public interface CommonMeetingService<CS extends CommonCommitteeSchedule<CS, ?, ?, CSM>,
+                                      CSM extends CommitteeScheduleMinute<CSM, CS>> {
     
     /**
      * 
@@ -32,7 +33,7 @@ public interface CommonMeetingService {
      * @param committeeSchedule
      * @param deletedBos
      */
-    public void saveMeetingDetails(CommonCommitteeSchedule committeeSchedule, List<? extends PersistableBusinessObject> deletedBos);
+    public void saveMeetingDetails(CS committeeSchedule, List<? extends PersistableBusinessObject> deletedBos);
     
     
     /**
@@ -50,7 +51,7 @@ public interface CommonMeetingService {
      * @param committeeSchedule
      * @param newOtherAction
      */
-    public void addOtherAction(CommScheduleActItem newOtherAction, CommonCommitteeSchedule committeeSchedule);    
+    public void addOtherAction(CommScheduleActItem newOtherAction, CS committeeSchedule);    
    
     /**
      * 
@@ -60,7 +61,7 @@ public interface CommonMeetingService {
      * @param itemNumber
      * @param deletedOtherActions
      */
-    public void deleteOtherAction(CommonCommitteeSchedule committeeSchedule, int itemNumber, List<CommScheduleActItem> deletedOtherActions);
+    public void deleteOtherAction(CS committeeSchedule, int itemNumber, List<CommScheduleActItem> deletedOtherActions);
 
     /**
      * 
@@ -86,7 +87,7 @@ public interface CommonMeetingService {
      * @param deletedCommitteeScheduleMinutes
      * @param itemNumber
      */
-    public void deleteCommitteeScheduleMinute(CommonCommitteeSchedule committeeSchedule, List<CommitteeScheduleMinute> deletedCommitteeScheduleMinutes, int itemNumber);
+    public void deleteCommitteeScheduleMinute(CS committeeSchedule, List<CSM> deletedCommitteeScheduleMinutes, int itemNumber);
     
     /**
      * 
@@ -95,7 +96,7 @@ public interface CommonMeetingService {
      * @param commSchedule
      * @param lineNumber
      */
-    public void populateFormHelper(MeetingHelper meetingHelper, CommonCommitteeSchedule commSchedule, int lineNumber);
+    public void populateFormHelper(MeetingHelper meetingHelper, CS commSchedule, int lineNumber);
     
     /**
      * 

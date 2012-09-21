@@ -126,9 +126,14 @@ public abstract class ProtocolActionMapping implements FactBean {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put(PROTOCOL_NUMBER, protocol.getProtocolNumber());
         fieldValues.put(SUBMISSION_NUMBER, protocol.getProtocolSubmission().getSubmissionNumber());
-        return businessObjectService.countMatching(CommitteeScheduleMinute.class, fieldValues) > 0;
+        
+// TODO *********commented the code below during IACUC refactoring********* 
+//        return businessObjectService.countMatching(CommitteeScheduleMinute.class, fieldValues) > 0;
+        
+        return businessObjectService.countMatching(getCommitteeScheduleMinuteBOClassHook(), fieldValues) > 0;
     }
     
+    protected abstract Class<? extends CommitteeScheduleMinute> getCommitteeScheduleMinuteBOClassHook();
     
     public abstract boolean getSubmissionCount();
 

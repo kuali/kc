@@ -80,7 +80,7 @@ public class CommitteeMembershipRule extends ResearchDocumentRuleBase
 
         int membershipIndex = addCommitteeMembershipRoleEvent.getMembershipIndex();
         
-        CommonCommitteeDocument committeeDocument = (CommonCommitteeDocument) addCommitteeMembershipRoleEvent.getDocument();
+        CommonCommitteeDocument<?, ?, ?> committeeDocument = (CommonCommitteeDocument) addCommitteeMembershipRoleEvent.getDocument();
         CommitteeMembership committeeMembership = committeeDocument.getCommittee().getCommitteeMemberships().get(membershipIndex);
         List<CommitteeMembershipRole> membershipRoles = committeeMembership.getMembershipRoles();
 

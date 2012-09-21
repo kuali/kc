@@ -21,7 +21,7 @@ import java.io.Serializable;
  * 
  * This class is form data for other present.
  */
-public class OtherPresentBean implements Serializable, Comparable<OtherPresentBean> {
+public abstract class OtherPresentBean implements Serializable, Comparable<OtherPresentBean> {
 
     private static final long serialVersionUID = 4831035284455868528L;
     private CommitteeScheduleAttendance attendance;
@@ -29,10 +29,18 @@ public class OtherPresentBean implements Serializable, Comparable<OtherPresentBe
 
     public CommitteeScheduleAttendance getAttendance() {
         if(attendance == null) {
-            attendance = new CommitteeScheduleAttendance();
+
+// TODO *********commented the code below during IACUC refactoring*********             
+//            attendance = new CommitteeScheduleAttendance();
+            
+            attendance = getNewCommitteeScheduleAttendanceInstanceHook();
         }
         return attendance;
     }
+    
+    protected abstract CommitteeScheduleAttendance getNewCommitteeScheduleAttendanceInstanceHook();
+    
+    
 
     public void setAttendance(CommitteeScheduleAttendance attendance) {
         this.attendance = attendance;

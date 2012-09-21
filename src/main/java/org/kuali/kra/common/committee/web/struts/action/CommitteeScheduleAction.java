@@ -45,7 +45,7 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.krad.util.KRADConstants;
 
-public class CommitteeScheduleAction extends CommitteeAction {
+public abstract class CommitteeScheduleAction extends CommitteeAction {
     
     @SuppressWarnings("unused")
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(CommitteeScheduleAction.class);
@@ -219,13 +219,17 @@ public class CommitteeScheduleAction extends CommitteeAction {
      * @return
      */
     private CommonCommitteeScheduleService getCommitteeScheduleService(){
-        return KraServiceLocator.getService(CommonCommitteeScheduleService.class);
+        return KraServiceLocator.getService(getCommitteeScheduleServiceClassHook());
     }
         
+    protected abstract Class<? extends CommonCommitteeScheduleService> getCommitteeScheduleServiceClassHook();
+    
+
+    
     public ActionForward maintainSchedule(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         
         CommonCommitteeForm committeeForm = (CommonCommitteeForm) form;     
-        CommonCommitteeSchedule commSchedule = ((CommonCommitteeDocument)committeeForm.getDocument()).getCommittee().getCommitteeSchedules().get(getLineToDelete(request));
+        CommonCommitteeSchedule commSchedule = ((CommonCommitteeDocument<?, ?, ?>)committeeForm.getDocument()).getCommittee().getCommitteeSchedules().get(getLineToDelete(request));
         response.sendRedirect("commonMeetingManagement.do?methodToCall=start&scheduleId="+commSchedule.getId()
                 +"&lineNum="+(getLineToDelete(request)+1)+"&readOnly=" +(!committeeForm.getCommitteeHelper().canModifySchedule()));
         return null;
