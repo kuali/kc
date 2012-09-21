@@ -22,7 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.apache.commons.lang.time.DateUtils;
-import org.kuali.kra.common.committee.bo.CommonCommittee;
+import org.kuali.kra.common.committee.bo.Committee;
 import org.kuali.kra.common.committee.bo.CommitteeBatchCorrespondence;
 import org.kuali.kra.common.committee.bo.CommitteeMembership;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipExpertise;
@@ -42,7 +42,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 /**
  * The CommitteeHelper corresponds to the Committee tab web page.
  */
-public class CommitteeHelper implements Serializable {
+public abstract class CommitteeHelper implements Serializable {
     
     private static final long serialVersionUID = 1744329032797755384L;
 
@@ -76,7 +76,11 @@ public class CommitteeHelper implements Serializable {
 
     public CommitteeHelper(CommonCommitteeForm committeeForm) {
         this.committeeForm = committeeForm;
-        this.newCommitteeMembership = new CommitteeMembership();
+        
+// TODO *********commented the code below during IACUC refactoring*********         
+//        this.newCommitteeMembership = new CommitteeMembership();
+        
+        this.newCommitteeMembership = getNewCommitteeMembershipInstanceHook();
         this.newCommitteeMembershipRoles = new ArrayList<CommitteeMembershipRole>();
         this.setScheduleData(new ScheduleData());
         this.setGenerateBatchCorrespondence(new ArrayList<CommitteeBatchCorrespondence>());
@@ -84,7 +88,10 @@ public class CommitteeHelper implements Serializable {
         this.memberIndex = -1;
     }
     
-    public CommonCommittee getCommittee() {
+    protected abstract CommitteeMembership getNewCommitteeMembershipInstanceHook();
+    
+
+    public Committee<?, ?, ?> getCommittee() {
         return committeeForm.getCommitteeDocument().getCommittee();
     }
     
@@ -94,7 +101,7 @@ public class CommitteeHelper implements Serializable {
     public void prepareView() {
         if (committeeForm.getCommitteeDocument().getDocumentHeader().getWorkflowDocument().isFinal() || committeeForm.getCommitteeDocument().getDocumentHeader().getWorkflowDocument().isEnroute() || committeeForm.getCommitteeDocument().getDocumentHeader().getWorkflowDocument().isCanceled()) {
             modifyCommittee = false;
-            CommonCommittee activeCommittee = getCommitteeService().getCommitteeById(
+            Committee activeCommittee = getCommitteeService().getCommitteeById(
                     getCommittee().getCommitteeId());
             if (activeCommittee != null && activeCommittee.getId().equals(getCommittee().getId())) {
                 modifySchedule = canModifySchedule();
@@ -134,11 +141,19 @@ public class CommitteeHelper implements Serializable {
      * @return
      */
     private CommonCommitteeScheduleService getCommitteeScheduleService() {
-        return KraServiceLocator.getService(CommonCommitteeScheduleService.class);
+        
+// TODO *********commented the code below during IACUC refactoring*********         
+//        return KraServiceLocator.getService(CommonCommitteeScheduleService.class);
+        
+        return KraServiceLocator.getService(getCommitteeScheduleServiceClassHook());
     }
 
+    protected abstract Class<? extends CommonCommitteeScheduleService> getCommitteeScheduleServiceClassHook();
+    
+    
+
     public boolean canModifyCommittee() {
-        CommitteeTask task = new CommitteeTask(TaskName.MODIFY_COMMITTEE, getCommittee());
+        CommitteeTask task = getNewCommitteeTaskInstanceHook(TaskName.MODIFY_COMMITTEE, getCommittee());
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
 
@@ -147,8 +162,15 @@ public class CommitteeHelper implements Serializable {
     }
     
     private CommonCommitteeService getCommitteeService() {
-        return KraServiceLocator.getService(CommonCommitteeService.class);
+        
+// TODO *********commented the code below during IACUC refactoring*********         
+//        return KraServiceLocator.getService(CommonCommitteeService.class);
+        
+        return KraServiceLocator.getService(getCommitteeServiceClassHook());
     }
+
+    protected abstract Class<? extends CommonCommitteeService> getCommitteeServiceClassHook();
+    
 
     /**
      * Get the userName of the user for the current session.
@@ -338,24 +360,26 @@ public class CommitteeHelper implements Serializable {
     }
     
     public boolean canModifySchedule() {
-        CommitteeTask task = new CommitteeTask(TaskName.MODIFY_SCHEDULE, getCommittee());
+        CommitteeTask task = getNewCommitteeTaskInstanceHook(TaskName.MODIFY_SCHEDULE, getCommittee());
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
 
     public boolean canViewSchedule() {
-        CommitteeTask task = new CommitteeTask(TaskName.VIEW_SCHEDULE, getCommittee());
+        CommitteeTask task = getNewCommitteeTaskInstanceHook(TaskName.VIEW_SCHEDULE, getCommittee());
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
     
     public List<Boolean> canViewSpecificSchedule() {
         List<Boolean> canViewSchedule = new ArrayList<Boolean>();
         for (CommonCommitteeSchedule committeeSchedule : getCommittee().getCommitteeSchedules()) {
-            CommitteeTask task = new CommitteeScheduleTask(TaskName.VIEW_SCHEDULE, committeeSchedule.getCommittee(), committeeSchedule);
+            CommitteeTask task = getNewCommitteeScheduleTaskInstanceHook(TaskName.VIEW_SCHEDULE, committeeSchedule.getCommittee(), committeeSchedule);
             canViewSchedule.add(getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task));
         }
         return canViewSchedule; 
     }
     
+    protected abstract CommitteeScheduleTask getNewCommitteeScheduleTaskInstanceHook(String taskName, Committee committee, CommonCommitteeSchedule committeeSchedule);
+
     @SuppressWarnings("unused") 
     public List<Boolean> canNotViewSpecificSchedule() {
         List<Boolean> canNotViewSchedule = new ArrayList<Boolean>();
@@ -366,9 +390,11 @@ public class CommitteeHelper implements Serializable {
     }
     
     public boolean canPerformAction() {
-        CommitteeTask task = new CommitteeTask(TaskName.PERFORM_COMMITTEE_ACTIONS, getCommittee());
+        CommitteeTask task = getNewCommitteeTaskInstanceHook(TaskName.PERFORM_COMMITTEE_ACTIONS, getCommittee());
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
+
+    protected abstract CommitteeTask getNewCommitteeTaskInstanceHook(String taskName, Committee committee);
 
     public boolean isModifySchedule() {
         return modifySchedule;
@@ -403,7 +429,7 @@ public class CommitteeHelper implements Serializable {
     }
     
     public void flagInactiveMembers() {
-        for (CommitteeMembership committeeMembership : committeeForm.getCommitteeDocument().getCommittee().getCommitteeMemberships()) {
+        for (CommitteeMembership committeeMembership : ((Committee<?, ?, ?>)committeeForm.getCommitteeDocument().getCommittee()).getCommitteeMemberships()) {
             if (!committeeMembership.isActive()) {
                 committeeMembership.setWasInactiveAtLastSave(true);
             } else {

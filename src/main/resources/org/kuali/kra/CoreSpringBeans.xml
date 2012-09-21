@@ -856,7 +856,7 @@
                 <value>iacucProtocolOnlineReviewTaskAuthorizers</value>
                 <value>coiDisclosureTaskAuthorizers</value>
                 <value>committeeTaskAuthorizers</value>
-                <value>commonCommitteeTaskAuthorizers</value>
+                <value>iacucCommitteeTaskAuthorizers</value>
             </set>
         </property>
     </bean>

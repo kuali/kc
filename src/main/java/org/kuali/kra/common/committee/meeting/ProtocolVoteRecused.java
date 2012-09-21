@@ -20,7 +20,7 @@ package org.kuali.kra.common.committee.meeting;
  * 
  * This class is for member recused from vote.
  */
-public class ProtocolVoteRecused extends ProtocolMeetingVoter {
+public abstract class ProtocolVoteRecused extends ProtocolMeetingVoter {
 
     private static final long serialVersionUID = 6207540592702779518L;
 

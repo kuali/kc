@@ -28,6 +28,7 @@ import org.kuali.kra.iacuc.IacucProtocolFinderDao;
 import org.kuali.kra.iacuc.actions.IacucProtocolAction;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
 import org.kuali.kra.iacuc.actions.IacucProtocolStatus;
+import org.kuali.kra.iacuc.committee.meeting.IacucCommitteeScheduleMinute;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.actions.submit.ProtocolActionService;
@@ -259,7 +260,7 @@ public class IacucProtocolSubmitActionServiceImpl implements IacucProtocolSubmit
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put("protocolIdFk", submission.getProtocolId().toString());
         fieldValues.put("scheduleIdFk", CommonCommitteeSchedule.DEFAULT_SCHEDULE_ID.toString());
-        List<CommitteeScheduleMinute> minutes = (List<CommitteeScheduleMinute>) businessObjectService.findMatching(CommitteeScheduleMinute.class, fieldValues);
+        List<IacucCommitteeScheduleMinute> minutes = (List<IacucCommitteeScheduleMinute>) businessObjectService.findMatching(IacucCommitteeScheduleMinute.class, fieldValues);
         if (!minutes.isEmpty()) {
             for (CommitteeScheduleMinute minute : minutes) {
                 minute.setScheduleIdFk(submission.getScheduleIdFk());

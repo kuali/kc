@@ -22,22 +22,21 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.common.committee.rule.event.CommitteeActionGenerateBatchCorrespondenceEvent;
-import org.kuali.kra.iacuc.correspondence.IacucBatchCorrespondence;
-import org.kuali.kra.iacuc.correspondence.IacucProtocolCorrespondenceTemplateService;
-import org.kuali.kra.iacuc.correspondence.IacucProtocolCorrespondenceType;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.correspondence.BatchCorrespondence;
 import org.kuali.kra.protocol.correspondence.BatchCorrespondenceDetail;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceTemplateService;
+import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceType;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.rice.krad.bo.BusinessObject;
 
 /**
  * 
  * This class implements the business rules for submitting a generate batch correspondence request.
  */
-public class CommitteeActionGenerateBatchCorrespondenceRule extends ResearchDocumentRuleBase 
+public abstract class CommitteeActionGenerateBatchCorrespondenceRule extends ResearchDocumentRuleBase 
                                                             implements  BusinessRuleInterface<CommitteeActionGenerateBatchCorrespondenceEvent> {
 
     private static final String BATCH_CORRESPONDENCE_TYPE_FIELD = "committeeHelper.generateBatchCorrespondenceTypeCode";
@@ -126,16 +125,28 @@ public class CommitteeActionGenerateBatchCorrespondenceRule extends ResearchDocu
     private BatchCorrespondence lookupBatchCorrespondence(String batchCorrespondenceTypeCode) {
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put(BATCH_CORRESPONDENCE_TYPE_CODE, batchCorrespondenceTypeCode);
-        return getBusinessObjectService().findByPrimaryKey(IacucBatchCorrespondence.class, fieldValues);
+        
+// TODO *********commented the code below during IACUC refactoring*********         
+//        return getBusinessObjectService().findByPrimaryKey(IacucBatchCorrespondence.class, fieldValues);
+        
+        return getBusinessObjectService().findByPrimaryKey(getBatchCorrespondenceBOClassHook(), fieldValues);
     }
 
+    protected abstract  Class<? extends BatchCorrespondence> getBatchCorrespondenceBOClassHook();
+    
+    
     
     private ProtocolCorrespondenceTemplateService getProtocolCorrespondenceTemplateService() {
         if (protocolCorrespondenceTemplateService == null) {
-            protocolCorrespondenceTemplateService = KraServiceLocator.getService(IacucProtocolCorrespondenceTemplateService.class);
+            
+            protocolCorrespondenceTemplateService = KraServiceLocator.getService(getProtocolCorrespondenceTemplateServiceClassHook());
         }
         return protocolCorrespondenceTemplateService;
     }
+    
+    protected abstract Class<? extends ProtocolCorrespondenceTemplateService> getProtocolCorrespondenceTemplateServiceClassHook();
+    
+
     
     /**
      * 
@@ -146,7 +157,14 @@ public class CommitteeActionGenerateBatchCorrespondenceRule extends ResearchDocu
     private String getProtocolCorrespondenceDescription(String protocolCorrespondenceTypeCode) {
         Map<String, String> primaryKeys = new HashMap<String, String>();
         primaryKeys.put(PROTO_CORRESP_TYPE_CODE, protocolCorrespondenceTypeCode);
-        return getBusinessObjectService().findByPrimaryKey(IacucProtocolCorrespondenceType.class, primaryKeys).getDescription();    
+        
+// TODO *********commented the code below during IACUC refactoring*********         
+//        return getBusinessObjectService().findByPrimaryKey(IacucProtocolCorrespondenceType.class, primaryKeys).getDescription();    
+        
+        return getBusinessObjectService().findByPrimaryKey(getProtocolCorrespondenceTypeBOClassHook(), primaryKeys).getDescription();  
+    }
 
-}
+    protected abstract Class<? extends ProtocolCorrespondenceType> getProtocolCorrespondenceTypeBOClassHook();
+    
+    
 }

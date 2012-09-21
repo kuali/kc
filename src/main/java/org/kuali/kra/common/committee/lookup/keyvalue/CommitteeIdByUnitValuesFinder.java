@@ -27,7 +27,7 @@ import java.util.Set;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.Unit;
-import org.kuali.kra.common.committee.bo.CommonCommittee;
+import org.kuali.kra.common.committee.bo.Committee;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.kim.bo.KcKimAttributes;
@@ -69,7 +69,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
  * unit is at or below their qualified node in the Org tree.
  * 
  */
-public class CommitteeIdByUnitValuesFinder extends KeyValuesBase {
+public abstract class CommitteeIdByUnitValuesFinder extends KeyValuesBase {
 
     private String protocolLeadUnit;
     private String docRouteStatus;
@@ -83,14 +83,14 @@ public class CommitteeIdByUnitValuesFinder extends KeyValuesBase {
      */
     @SuppressWarnings("unchecked" )
     public List getKeyValues() {
-        Collection<CommonCommittee> committees = getValidCommittees();
+        Collection<Committee> committees = getValidCommittees();
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         
         if (CollectionUtils.isNotEmpty(committees)) {    
             if (isSaved()) {
                 //Use the lead unit of the protocol to determine committees
                 getProtocolUnitIds();
-                for (CommonCommittee committee : committees) {
+                for (Committee committee : committees) {
                     if (StringUtils.equalsIgnoreCase(committee.getCommitteeDocument().getDocStatusCode(), "F") 
                             && unitIds.contains(committee.getHomeUnit().getUnitNumber())) {
                         keyValues.add(new ConcreteKeyValue(committee.getCommitteeId(), committee.getCommitteeName()));
@@ -99,7 +99,7 @@ public class CommitteeIdByUnitValuesFinder extends KeyValuesBase {
             } else {
                 //Use the lead unit of the irb admin
                 getIRBAdminUnitIds();
-                for (CommonCommittee committee : committees) {
+                for (Committee committee : committees) {
                     if (unitIds.contains(committee.getHomeUnit().getUnitNumber()) ||
                             committee.getCommitteeId().equals(getCurrentCommitteeId())) {
                         keyValues.add(new ConcreteKeyValue(committee.getCommitteeId(), committee.getCommitteeName()));
@@ -171,12 +171,16 @@ public class CommitteeIdByUnitValuesFinder extends KeyValuesBase {
      * @return a collection of unique committees based on committee id and sequence number.
      */
     @SuppressWarnings("unchecked")
-    private Collection<CommonCommittee> getValidCommittees() {
-        Collection<CommonCommittee> allCommittees = KraServiceLocator.getService(BusinessObjectService.class).findAll(CommonCommittee.class);
-        HashMap<String, CommonCommittee> committeeMap = new HashMap<String, CommonCommittee>();
+    private Collection<Committee> getValidCommittees() {
         
-        CommonCommittee tmpComm = null;
-        for (CommonCommittee comm : allCommittees) {
+// TODO *********commented the code below during IACUC refactoring********* 
+//        Collection<CommonCommittee> allCommittees = KraServiceLocator.getService(BusinessObjectService.class).findAll(CommonCommittee.class);
+        
+        Collection<? extends Committee> allCommittees = KraServiceLocator.getService(BusinessObjectService.class).findAll(getCommonCommitteeBOClassHook());
+        HashMap<String, Committee> committeeMap = new HashMap<String, Committee>();
+        
+        Committee tmpComm = null;
+        for (Committee comm : allCommittees) {
             if (committeeMap.containsKey(comm.getCommitteeId())) {
                 tmpComm = committeeMap.get(comm.getCommitteeId());
                 if (comm.getSequenceNumber().intValue() > tmpComm.getSequenceNumber().intValue()) {
@@ -190,6 +194,9 @@ public class CommitteeIdByUnitValuesFinder extends KeyValuesBase {
         return committeeMap.values();
     }
     
+    protected abstract Class<? extends Committee> getCommonCommitteeBOClassHook();
+    
+
     /**
      * 
      * This method returns a set of unit ids that match the lead unit

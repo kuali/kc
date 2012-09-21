@@ -20,7 +20,7 @@ import java.io.IOException;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.kuali.kra.common.committee.bo.CommitteeMembership;
-import org.kuali.kra.common.committee.bo.CommonCommittee;
+import org.kuali.kra.common.committee.bo.Committee;
 import org.kuali.kra.protocol.Protocol;
 import org.xml.sax.SAXException;
 
@@ -82,7 +82,7 @@ public interface ResearchAreasServiceBase {
      * @param researchAreaCode
      * @return
      */
-    CommonCommittee getCurrentCommitteeReferencingResearchArea(String researchAreaCode);
+    Committee getCurrentCommitteeReferencingResearchArea(String researchAreaCode);
     
     /**
      * This method will return the instance of a current CommitteeMembership BO, saved in the db, that references the research area with the given code.

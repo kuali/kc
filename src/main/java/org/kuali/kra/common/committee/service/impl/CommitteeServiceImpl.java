@@ -28,7 +28,7 @@ import java.util.Map;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.ResearchArea;
-import org.kuali.kra.common.committee.bo.CommonCommittee;
+import org.kuali.kra.common.committee.bo.Committee;
 import org.kuali.kra.common.committee.bo.CommitteeMembership;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipRole;
 import org.kuali.kra.common.committee.bo.CommitteeResearchArea;
@@ -39,6 +39,7 @@ import org.kuali.kra.common.committee.meeting.CommitteeScheduleAttendance;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.common.committee.meeting.ScheduleAgenda;
 import org.kuali.kra.common.committee.service.CommonCommitteeService;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -48,7 +49,12 @@ import org.kuali.rice.krad.util.ObjectUtils;
 /**
  * The Committee Service implementation.
  */
-public class CommitteeServiceImpl implements CommonCommitteeService {
+public abstract class CommitteeServiceImpl<CMT extends Committee<CMT, ?, CS>, 
+                                           CS extends CommonCommitteeSchedule<CS, CMT, PS, CSM>,
+                                           PS extends ProtocolSubmission,
+                                           CSM extends CommitteeScheduleMinute<CSM, CS>> 
+
+                                           implements CommonCommitteeService<CMT, CS> {
 
     private static final String COMMITTEE_ID = "committeeId";
     private static final String NO_PLACE = "[no location]";
@@ -69,28 +75,30 @@ public class CommitteeServiceImpl implements CommonCommitteeService {
      * @see org.kuali.kra.common.committee.service.CommonCommitteeService#getCommitteeById(java.lang.String)
      */
     @SuppressWarnings("unchecked")
-    public CommonCommittee getCommitteeById(String committeeId) {
-        CommonCommittee committee = null;
+    public CMT getCommitteeById(String committeeId) {
+        CMT committee = null;
         if (!StringUtils.isBlank(committeeId)) {
             Map<String, Object> fieldValues = new HashMap<String, Object>();
             fieldValues.put(COMMITTEE_ID, committeeId);
-            Collection<CommonCommittee> committees = businessObjectService.findMatching(CommonCommittee.class, fieldValues);
+            Collection<CMT> committees = businessObjectService.findMatching(getCommitteeBOClassHook(), fieldValues);
             if (committees.size() > 0) {
                 /*
                  * Return the most recent approved committee (i.e. the committee version with the highest 
                  * sequence number that is approved/in the database).
                  */
-                committee = (CommonCommittee) Collections.max(committees);
+                committee = (CMT) Collections.max(committees);
             }
         }
         return committee;
     }
 
+    protected abstract Class<CMT> getCommitteeBOClassHook();
+
     /**
-     * @see org.kuali.kra.common.committee.service.CommonCommitteeService#addResearchAreas(org.kuali.kra.common.committee.bo.CommonCommittee,
+     * @see org.kuali.kra.common.committee.service.CommonCommitteeService#addResearchAreas(org.kuali.kra.common.committee.bo.CMT,
      *      java.util.Collection)
      */
-    public void addResearchAreas(CommonCommittee committee, Collection<ResearchArea> researchAreas) {
+    public void addResearchAreas(CMT committee, Collection<ResearchArea> researchAreas) {
         for (ResearchArea researchArea : researchAreas) {
             if (!hasResearchArea(committee, researchArea)) {
                 addCommitteeResearchArea(committee, researchArea);
@@ -105,7 +113,7 @@ public class CommitteeServiceImpl implements CommonCommitteeService {
      * @param researchArea
      * @return true if the committee has the research area; otherwise false
      */
-    protected boolean hasResearchArea(CommonCommittee committee, ResearchArea researchArea) {
+    protected boolean hasResearchArea(CMT committee, ResearchArea researchArea) {
         for (CommitteeResearchArea committeeResearchArea : committee.getCommitteeResearchAreas()) {
             if (StringUtils.equals(committeeResearchArea.getResearchAreaCode(), researchArea.getResearchAreaCode())) {
                 return true;
@@ -120,8 +128,12 @@ public class CommitteeServiceImpl implements CommonCommitteeService {
      * @param committee
      * @param researchArea
      */
-    protected void addCommitteeResearchArea(CommonCommittee committee, ResearchArea researchArea) {
-        CommitteeResearchArea committeeResearchArea = new CommitteeResearchArea();
+    protected void addCommitteeResearchArea(CMT committee, ResearchArea researchArea) {
+        
+// TODO *********commented the code below during IACUC refactoring*********         
+//        CommitteeResearchArea committeeResearchArea = new CommitteeResearchArea();
+        
+        CommitteeResearchArea committeeResearchArea = getNewCommitteeResearchAreaInstanceHook();
         committeeResearchArea.setCommittee(committee);
         committeeResearchArea.setCommitteeIdFk(committee.getId());
         committeeResearchArea.setResearchArea(researchArea);
@@ -129,17 +141,19 @@ public class CommitteeServiceImpl implements CommonCommitteeService {
         committee.getCommitteeResearchAreas().add(committeeResearchArea);
     }
 
+    protected abstract CommitteeResearchArea getNewCommitteeResearchAreaInstanceHook();
+
     /**
      * @see org.kuali.kra.common.committee.service.CommonCommitteeService#getAvailableCommitteeDates(java.lang.String)
      */
     public List<KeyValue> getAvailableCommitteeDates(String committeeId) {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         keyValues.add(new ConcreteKeyValue("", "select"));
-        CommonCommittee committee = getCommitteeById(committeeId);
+        CMT committee = getCommitteeById(committeeId);
         if (committee != null) {
-            List<CommonCommitteeSchedule> schedules = committee.getCommitteeSchedules();
+            List<CS> schedules = committee.getCommitteeSchedules();
             Collections.sort(schedules);
-            for (CommonCommitteeSchedule schedule : schedules) {
+            for (CS schedule : schedules) {
                 if (isOkayToScheduleReview(committee, schedule)) {
                     keyValues.add(new ConcreteKeyValue(schedule.getScheduleId(), getDescription(schedule)));
                 }
@@ -154,7 +168,7 @@ public class CommitteeServiceImpl implements CommonCommitteeService {
      * @param schedule
      * @return
      */
-    protected boolean isOkayToScheduleReview(CommonCommittee committee, CommonCommitteeSchedule schedule) {
+    protected boolean isOkayToScheduleReview(CMT committee, CS schedule) {
         Calendar now = getCalendar(new Date());
         Calendar scheduleCalendar = getCalendar(schedule.getScheduledDate());
        // now.add(Calendar.DAY_OF_MONTH, committee.getAdvancedSubmissionDaysRequired());
@@ -182,7 +196,7 @@ public class CommitteeServiceImpl implements CommonCommitteeService {
      * @param schedule
      * @return
      */
-    protected String getDescription(CommonCommitteeSchedule schedule) {
+    protected String getDescription(CS schedule) {
         Date date = schedule.getScheduledDate();
         final SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
         final SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm a");
@@ -205,9 +219,9 @@ public class CommitteeServiceImpl implements CommonCommitteeService {
             return getAvailableMembersNow(committeeId);
         }
         List<CommitteeMembership> availableMembers = new ArrayList<CommitteeMembership>();
-        CommonCommittee committee = getCommitteeById(committeeId);
+        CMT committee = getCommitteeById(committeeId);
         if (committee != null) {
-            CommonCommitteeSchedule schedule = getCommitteeSchedule(committee, scheduleId);
+            CS schedule = getCommitteeSchedule(committee, scheduleId);
             if (schedule != null) {
                 List<CommitteeMembership> members = committee.getCommitteeMemberships();
                 for (CommitteeMembership member : members) {
@@ -225,7 +239,7 @@ public class CommitteeServiceImpl implements CommonCommitteeService {
      */
     public List<CommitteeMembership> getAvailableMembersNow(String committeeId) {
         List<CommitteeMembership> availableMembers = new ArrayList<CommitteeMembership>();
-        CommonCommittee committee = getCommitteeById(committeeId);
+        CMT committee = getCommitteeById(committeeId);
         if (committee != null) {
             List<CommitteeMembership> members = committee.getCommitteeMemberships();
             Date currentDate = new Date(); 
@@ -267,12 +281,12 @@ public class CommitteeServiceImpl implements CommonCommitteeService {
     }
 
     /**
-     * @see org.kuali.kra.common.committee.service.CommonCommitteeService#getCommitteeSchedule(org.kuali.kra.common.committee.bo.CommonCommittee, java.lang.String)
+     * @see org.kuali.kra.common.committee.service.CommonCommitteeService#getCommitteeSchedule(org.kuali.kra.common.committee.bo.Committee, java.lang.String)
      */
-    public CommonCommitteeSchedule getCommitteeSchedule(CommonCommittee committee, String scheduleId) {
+    public CS getCommitteeSchedule(CMT committee, String scheduleId) {
         //TODO the code belongs in and should be moved to Committee BO?
-        List<CommonCommitteeSchedule> schedules = committee.getCommitteeSchedules();
-        for (CommonCommitteeSchedule schedule : schedules) {
+        List<CS> schedules = committee.getCommitteeSchedules();
+        for (CS schedule : schedules) {
             if (StringUtils.equals(schedule.getScheduleId(), scheduleId)) {
                 return schedule;
             }
@@ -284,14 +298,14 @@ public class CommitteeServiceImpl implements CommonCommitteeService {
      * 
      * @see org.kuali.kra.common.committee.service.CommonCommitteeService#mergeCommitteeSchedule(java.lang.String)
      */
-    public List<CommonCommitteeSchedule> mergeCommitteeSchedule(String committeeId) {
+    public List<CS> mergeCommitteeSchedule(String committeeId) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put(COMMITTEE_ID, committeeId);
-        List<CommonCommittee> committees = (List<CommonCommittee>) businessObjectService.findMatching(CommonCommittee.class, fieldValues);
+        List<CMT> committees = (List<CMT>) businessObjectService.findMatching(getCommitteeBOClassHook(), fieldValues);
         Collections.sort(committees);
-        CommonCommittee newCommittee = committees.get(committees.size() - 1);
-        CommonCommittee oldCommittee = committees.get(committees.size() - 2);
-        List<CommonCommitteeSchedule> copiedSchedules = new ArrayList<CommonCommitteeSchedule>();
+        CMT newCommittee = committees.get(committees.size() - 1);
+        CMT oldCommittee = committees.get(committees.size() - 2);
+        List<CS> copiedSchedules = new ArrayList<CS>();
         if (CollectionUtils.isNotEmpty(newCommittee.getCommitteeSchedules())
                 || CollectionUtils.isNotEmpty(oldCommittee.getCommitteeSchedules())) {
             copiedSchedules = copySchedules(newCommittee.getCommitteeSchedules(), oldCommittee.getCommitteeSchedules());
@@ -304,13 +318,13 @@ public class CommitteeServiceImpl implements CommonCommitteeService {
      * copy schedules from old committee to new committee if the old schedule has meeting data.
      * All newly added schedules, i.e. those that are present only in the new schedule listing, will be automatically included in the return list.
      */
-    protected List<CommonCommitteeSchedule> copySchedules(List<CommonCommitteeSchedule> newSchedules, List<CommonCommitteeSchedule> oldSchedules) {
-        List<CommonCommitteeSchedule> copiedSchedules = new ArrayList<CommonCommitteeSchedule>();
-        for (CommonCommitteeSchedule schedule : oldSchedules) {
+    protected List<CS> copySchedules(List<CS> newSchedules, List<CS> oldSchedules) {
+        List<CS> copiedSchedules = new ArrayList<CS>();
+        for (CS schedule : oldSchedules) {
             if (isNotEmptyData(schedule) || isInNewCommittee(schedule, newSchedules)) {
-                CommonCommitteeSchedule copiedSchedule = getCopiedSchedule(schedule);
+                CS copiedSchedule = getCopiedSchedule(schedule);
                 if (isInNewCommittee(schedule, newSchedules)) {
-                    CommonCommitteeSchedule newSchedule = getNewCommitteeSchedule(schedule, newSchedules);
+                    CS newSchedule = getNewCommitteeSchedule(schedule, newSchedules);
                     copiedSchedule.setScheduleStatusCode(newSchedule.getScheduleStatusCode());
                     copiedSchedule.setPlace(newSchedule.getPlace());
                     copiedSchedule.setTime(newSchedule.getTime());
@@ -320,7 +334,7 @@ public class CommitteeServiceImpl implements CommonCommitteeService {
                 copiedSchedules.add(copiedSchedule);
             } 
         }
-        for (CommonCommitteeSchedule schedule : newSchedules) {
+        for (CS schedule : newSchedules) {
             if (!isScheduleDateMatched(schedule, copiedSchedules)) {
                 copiedSchedules.add(schedule);
             }
@@ -332,7 +346,7 @@ public class CommitteeServiceImpl implements CommonCommitteeService {
     /*
      * check if schedule contain meeting which also include whether protocol submitted.
      */
-    protected boolean isNotEmptyData(CommonCommitteeSchedule schedule) {
+    protected boolean isNotEmptyData(CS schedule) {
         return CollectionUtils.isNotEmpty(schedule.getCommitteeScheduleAttendances())
         || CollectionUtils.isNotEmpty(schedule.getCommitteeScheduleMinutes())
         || CollectionUtils.isNotEmpty(schedule.getCommScheduleActItems())
@@ -345,8 +359,8 @@ public class CommitteeServiceImpl implements CommonCommitteeService {
     /*
      * get schedule that will copy all meeting data from old schedule
      */
-    protected CommonCommitteeSchedule getCopiedSchedule(CommonCommitteeSchedule schedule) {
-        CommonCommitteeSchedule copiedSchedule = (CommonCommitteeSchedule) ObjectUtils.deepCopy(schedule);
+    protected CS getCopiedSchedule(CS schedule) {
+        CS copiedSchedule = (CS) ObjectUtils.deepCopy(schedule);
         copiedSchedule.setId(null);
         schedule.getCommScheduleActItems().size();
         // all the collection are set up as transient because the complexity
@@ -360,7 +374,7 @@ public class CommitteeServiceImpl implements CommonCommitteeService {
         for (CommitteeScheduleAttendance attendance : copiedSchedule.getCommitteeScheduleAttendances()) {
             attendance.setCommScheduleAttendanceId(null);
         }
-        for (CommitteeScheduleMinute minute : copiedSchedule.getCommitteeScheduleMinutes()) {
+        for (CommitteeScheduleMinute<?, CS> minute : copiedSchedule.getCommitteeScheduleMinutes()) {
             minute.setCommScheduleMinutesId(null);
         }
         for (CommScheduleActItem actItem : copiedSchedule.getCommScheduleActItems()) {
@@ -380,9 +394,9 @@ public class CommitteeServiceImpl implements CommonCommitteeService {
      * Since actitemid is reset, and if the act item is referenced in minute;
      * then this relationship need to be set up properly.
      */
-    protected void setActItemId(CommScheduleActItem actItem, List<CommitteeScheduleMinute> minutes) {
+    protected void setActItemId(CommScheduleActItem actItem, List<CSM> minutes) {
         Long nextCommScheduleActItemId = sequenceAccessorService.getNextAvailableSequenceNumber("SEQ_MEETING_ID");
-        for (CommitteeScheduleMinute minute : minutes) {
+        for (CSM minute : minutes) {
             if (minute.getCommScheduleActItemsIdFk() != null && actItem.getCommScheduleActItemsId().equals(minute.getCommScheduleActItemsIdFk())) {
                 minute.setCommScheduleActItemsIdFk(nextCommScheduleActItemId);
             }            
@@ -393,8 +407,8 @@ public class CommitteeServiceImpl implements CommonCommitteeService {
     /*
      * check if new schedule is already exist in the new copied schedule list.
      */
-    protected boolean isScheduleDateMatched(CommonCommitteeSchedule schedule, List<CommonCommitteeSchedule> schedules) {
-        for (CommonCommitteeSchedule copiedSchedule : schedules) {
+    protected boolean isScheduleDateMatched(CS schedule, List<CS> schedules) {
+        for (CS copiedSchedule : schedules) {
             if (schedule.getScheduledDate().equals(copiedSchedule.getScheduledDate())) {
                 return true;
             }
@@ -405,8 +419,8 @@ public class CommitteeServiceImpl implements CommonCommitteeService {
     /*
      * check if old schedule still exist in new committee
      */
-    protected boolean isInNewCommittee(CommonCommitteeSchedule schedule, List<CommonCommitteeSchedule> schedules) {
-        for (CommonCommitteeSchedule newSchedule : schedules) {
+    protected boolean isInNewCommittee(CS schedule, List<CS> schedules) {
+        for (CS newSchedule : schedules) {
             if (StringUtils.equals(newSchedule.getScheduleId(), schedule.getScheduleId())) {
                 return true;
             }
@@ -417,8 +431,8 @@ public class CommitteeServiceImpl implements CommonCommitteeService {
     /*
      * get the matched schedule from new committee.
      */
-    protected CommonCommitteeSchedule getNewCommitteeSchedule(CommonCommitteeSchedule schedule, List<CommonCommitteeSchedule> schedules) {
-        for (CommonCommitteeSchedule newSchedule : schedules) {
+    protected CS getNewCommitteeSchedule(CS schedule, List<CS> schedules) {
+        for (CS newSchedule : schedules) {
             if (StringUtils.equals(newSchedule.getScheduleId(), schedule.getScheduleId())) {
                 return newSchedule;
             }

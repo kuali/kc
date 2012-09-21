@@ -23,7 +23,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.ResearchArea;
-import org.kuali.kra.common.committee.bo.CommonCommittee;
+import org.kuali.kra.common.committee.bo.Committee;
 import org.kuali.kra.common.committee.bo.CommitteeMembership;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipExpertise;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipRole;
@@ -31,7 +31,6 @@ import org.kuali.kra.common.committee.bo.CommonCommitteeSchedule;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleAttendance;
 import org.kuali.kra.common.committee.service.CommonCommitteeMembershipService;
 import org.kuali.kra.common.committee.service.CommonCommitteeService;
-import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewer;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -39,7 +38,10 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 /**
  * This class...
  */
-public class CommitteeMembershipServiceImpl implements CommonCommitteeMembershipService {
+public abstract class CommitteeMembershipServiceImpl<CMT extends Committee<CMT, ?, ?>, 
+                                                     CSRV extends CommonCommitteeService<CMT, ?>> 
+        
+                                                     implements CommonCommitteeMembershipService<CMT> {
 
     @SuppressWarnings("unused")
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(CommitteeScheduleServiceImpl.class);
@@ -49,12 +51,12 @@ public class CommitteeMembershipServiceImpl implements CommonCommitteeMembership
     private static final String REFERENCE_MEMBERSHIP_ROLE = "membershipRole";
     private static final String REFERENCE_RESEARCH_AREA = "researchArea";
     private BusinessObjectService businessObjectService;
-    private CommonCommitteeService committeeService;
+    private CSRV committeeService;
 
     /**
-     * @see org.kuali.kra.common.committee.service.CommonCommitteeMembershipService#addCommitteeMembership(org.kuali.kra.common.committee.bo.CommonCommittee, org.kuali.kra.common.committee.bo.CommitteeMembership)
+     * @see org.kuali.kra.common.committee.service.CommonCommitteeMembershipService#addCommitteeMembership(org.kuali.kra.common.committee.bo.Committee, org.kuali.kra.common.committee.bo.CommitteeMembership)
      */
-    public void addCommitteeMembership(CommonCommittee committee, CommitteeMembership committeeMembership) {
+    public void addCommitteeMembership(CMT committee, CommitteeMembership committeeMembership) {
         
         committeeMembership.setCommitteeIdFk(committee.getId());
         committeeMembership.setMembershipId("0");
@@ -69,9 +71,9 @@ public class CommitteeMembershipServiceImpl implements CommonCommitteeMembership
     }
 
     /**
-     * @see org.kuali.kra.common.committee.service.CommonCommitteeMembershipService#deleteCommitteeMembership(org.kuali.kra.common.committee.bo.CommonCommittee)
+     * @see org.kuali.kra.common.committee.service.CommonCommitteeMembershipService#deleteCommitteeMembership(org.kuali.kra.common.committee.bo.Committee)
      */
-    public void deleteCommitteeMembership(CommonCommittee committee) {
+    public void deleteCommitteeMembership(CMT committee) {
         List<CommitteeMembership> deletedCommitteememberships = new ArrayList<CommitteeMembership>();
         for(CommitteeMembership committeeMembership : committee.getCommitteeMemberships()) {
             if(committeeMembership.isDelete()) {
@@ -84,7 +86,7 @@ public class CommitteeMembershipServiceImpl implements CommonCommitteeMembership
     /**
      * @see org.kuali.kra.common.committee.service.CommonCommitteeMembershipService#addCommitteeMembershipRole(org.kuali.kra.common.committee.bo.CommitteeMembership, org.kuali.kra.common.committee.bo.CommitteeMembershipRole)
      */
-    public void addCommitteeMembershipRole(CommonCommittee committee, int selectedMembershipIndex, CommitteeMembershipRole committeeMembershipRole) {
+    public void addCommitteeMembershipRole(CMT committee, int selectedMembershipIndex, CommitteeMembershipRole committeeMembershipRole) {
         CommitteeMembership committeeMembership = committee.getCommitteeMemberships().get(selectedMembershipIndex);
         
         committeeMembershipRole.setCommitteeMembershipIdFk(committeeMembership.getCommitteeMembershipId());
@@ -95,9 +97,9 @@ public class CommitteeMembershipServiceImpl implements CommonCommitteeMembership
     }
    
     /**
-     * @see org.kuali.kra.common.committee.service.CommonCommitteeMembershipService#deleteCommitteeMembershipRole(org.kuali.kra.common.committee.bo.CommonCommittee, int, int)
+     * @see org.kuali.kra.common.committee.service.CommonCommitteeMembershipService#deleteCommitteeMembershipRole(org.kuali.kra.common.committee.bo.Committee, int, int)
      */
-    public void deleteCommitteeMembershipRole(CommonCommittee committee, int selectedMembershipIndex, int lineNumber) {
+    public void deleteCommitteeMembershipRole(CMT committee, int selectedMembershipIndex, int lineNumber) {
         CommitteeMembership committeeMembership = committee.getCommitteeMemberships().get(selectedMembershipIndex);
         CommitteeMembershipRole membershipRole = committeeMembership.getMembershipRoles().get(lineNumber);
         committeeMembership.getMembershipRoles().remove(membershipRole);
@@ -136,9 +138,9 @@ public class CommitteeMembershipServiceImpl implements CommonCommitteeMembership
     }
    
     /**
-     * @see org.kuali.kra.common.committee.service.CommonCommitteeMembershipService#deleteCommitteeMembershipExpertise(org.kuali.kra.common.committee.bo.CommonCommittee, int, int)
+     * @see org.kuali.kra.common.committee.service.CommonCommitteeMembershipService#deleteCommitteeMembershipExpertise(org.kuali.kra.common.committee.bo.Committee, int, int)
      */
-    public void deleteCommitteeMembershipExpertise(CommonCommittee committee, int selectedMembershipIndex, int lineNumber) {
+    public void deleteCommitteeMembershipExpertise(CMT committee, int selectedMembershipIndex, int lineNumber) {
         CommitteeMembership committeeMembership = committee.getCommitteeMemberships().get(selectedMembershipIndex);
         CommitteeMembershipExpertise committeeMembershipExpertise = committeeMembership.getMembershipExpertise().get(lineNumber);
         committeeMembership.getMembershipExpertise().remove(committeeMembershipExpertise);
@@ -168,9 +170,9 @@ public class CommitteeMembershipServiceImpl implements CommonCommitteeMembership
      */
     public boolean isMemberAttendedMeeting(CommitteeMembership member, String committeeId) {
         boolean isAttendance = false;
-        CommonCommittee committee = committeeService.getCommitteeById(committeeId);
+        CMT committee = committeeService.getCommitteeById(committeeId);
         if (committee != null) {
-            for (CommonCommitteeSchedule committeeSchedule : committee.getCommitteeSchedules()) {
+            for (CommonCommitteeSchedule<?, CMT, ?, ?> committeeSchedule : committee.getCommitteeSchedules()) {
                 for (CommitteeScheduleAttendance attendance : committeeSchedule.getCommitteeScheduleAttendances()) {
                     if (StringUtils.equals(attendance.getPersonId(), member.getPersonId()) 
                             || (member.getRolodexId() != null && StringUtils.equals(attendance.getPersonId(), member.getRolodexId().toString()))) {
@@ -187,17 +189,19 @@ public class CommitteeMembershipServiceImpl implements CommonCommitteeMembership
      */
     @SuppressWarnings("unchecked")
     protected List<ProtocolSubmission> getProtocolSubmissionsForCommittee(String committeeId) {
-        Map fieldMap = new HashMap();
+        Map<String, String> fieldMap = new HashMap<String, String>();
         fieldMap.put("committeeId",committeeId);
-        return (List<ProtocolSubmission>) businessObjectService.findMatching(IacucProtocolSubmission.class, fieldMap);
+        return (List<ProtocolSubmission>) businessObjectService.findMatching(getProtocolSubmissionBOClassHook(), fieldMap);
     }
     
     
+    protected abstract Class<? extends ProtocolSubmission> getProtocolSubmissionBOClassHook();
+
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
 
-    public void setCommitteeService(CommonCommitteeService committeeService) {
+    public void setCommitteeService(CSRV committeeService) {
         this.committeeService = committeeService;
     }
 

@@ -32,7 +32,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.common.committee.bo.CommonCommittee;
+import org.kuali.kra.common.committee.bo.Committee;
 import org.kuali.kra.common.committee.bo.CommonCommitteeSchedule;
 import org.kuali.kra.common.committee.bo.ScheduleStatus;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleAttachments;
@@ -61,7 +61,11 @@ import org.springframework.transaction.annotation.Transactional;
  * The Committee Service implementation.
  */
 @Transactional
-public class CommitteeScheduleServiceImpl implements CommonCommitteeScheduleService {
+public abstract class CommitteeScheduleServiceImpl<CS extends CommonCommitteeSchedule<CS, CMT, ?, CSM>, 
+                                                   CMT extends Committee<CMT,?,CS>,
+                                                   CSM extends CommitteeScheduleMinute<CSM, CS>>
+
+                                                   implements CommonCommitteeScheduleService<CS, CMT, CSM> {
     
     @SuppressWarnings("unused")
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(CommitteeScheduleServiceImpl.class);
@@ -109,14 +113,14 @@ public class CommitteeScheduleServiceImpl implements CommonCommitteeScheduleServ
      * @param reviewCommentsService
      */
    
-    public void setReviewCommentsService(ReviewCommentsService reviewCommentsService) {
+    public void setReviewCommentsService(ReviewCommentsService<?> reviewCommentsService) {
         this.reviewCommentsService = reviewCommentsService;
     }
     
     /**
      * @see org.kuali.kra.common.committee.service.CommonCommitteeScheduleService#isCommitteeScheduleDeletable(org.kuali.kra.common.committee.bo.CommonCommitteeSchedule)
      */
-    public Boolean isCommitteeScheduleDeletable(CommonCommitteeSchedule committeeSchedule){
+    public Boolean isCommitteeScheduleDeletable(CS committeeSchedule){
         
         boolean retVal = false;
         
@@ -130,7 +134,7 @@ public class CommitteeScheduleServiceImpl implements CommonCommitteeScheduleServ
      * @param committeeSchedule
      * @return
      */
-    protected Boolean isProtocolAssignedToScheduleDate(CommonCommitteeSchedule committeeSchedule){
+    protected Boolean isProtocolAssignedToScheduleDate(CS committeeSchedule){
         boolean retVal = true;
         List<Protocol> list = committeeSchedule.getProtocols();
         if(null == list || list.size() == 0)
@@ -139,9 +143,9 @@ public class CommitteeScheduleServiceImpl implements CommonCommitteeScheduleServ
     }
 
     /**
-     * @see org.kuali.kra.common.committee.service.CommonCommitteeScheduleService#addSchedule(org.kuali.kra.common.committee.web.struts.form.schedule.ScheduleData, org.kuali.kra.common.committee.bo.CommonCommittee)
+     * @see org.kuali.kra.common.committee.service.CommonCommitteeScheduleService#addSchedule(org.kuali.kra.common.committee.web.struts.form.schedule.ScheduleData, org.kuali.kra.common.committee.bo.Committee)
      */
-    public void addSchedule(ScheduleData scheduleData, CommonCommittee committee) throws ParseException {
+    public void addSchedule(ScheduleData scheduleData, CMT committee) throws ParseException {
         
         List<Date> dates = null;
         Date dtEnd = null;
@@ -254,7 +258,7 @@ public class CommitteeScheduleServiceImpl implements CommonCommitteeScheduleServ
      * @param location
      * @param skippedDates
      */
-    protected void addScheduleDatesToCommittee(List<Date> dates, CommonCommittee committee, String location, List<java.sql.Date> skippedDates){
+    protected void addScheduleDatesToCommittee(List<Date> dates, CMT committee, String location, List<java.sql.Date> skippedDates){
         for(Date date: dates) {
             java.sql.Date sqldate = new java.sql.Date(date.getTime());
             
@@ -263,7 +267,10 @@ public class CommitteeScheduleServiceImpl implements CommonCommitteeScheduleServ
                 continue;
             }
           
-            CommonCommitteeSchedule committeeSchedule = new CommonCommitteeSchedule();
+// TODO *********commented the code below during IACUC refactoring*********             
+//            CommonCommitteeSchedule committeeSchedule = new CommonCommitteeSchedule();
+            
+            CS committeeSchedule = getNewCommiteeScheduleInstanceHook();
             committeeSchedule.setScheduledDate(sqldate);
             committeeSchedule.setPlace(location);
             committeeSchedule.setTime(new Timestamp(date.getTime()));
@@ -282,15 +289,17 @@ public class CommitteeScheduleServiceImpl implements CommonCommitteeScheduleServ
         }
     }
     
+    protected abstract CS getNewCommiteeScheduleInstanceHook();
+    
     /**
      * Helper method to test if date is available (non conflicting).
      * @param committeeSchedules
      * @param date
      * @return
      */
-    protected Boolean isDateAvailable(List<CommonCommitteeSchedule> committeeSchedules, java.sql.Date date) {
+    protected Boolean isDateAvailable(List<CS> committeeSchedules, java.sql.Date date) {
         boolean retVal = true;
-        for (CommonCommitteeSchedule committeeSchedule : committeeSchedules) {
+        for (CS committeeSchedule : committeeSchedules) {
             Date scheduledDate = committeeSchedule.getScheduledDate();
             if ((scheduledDate != null) && DateUtils.isSameDay(scheduledDate, date)) {
                 retVal = false;
@@ -315,7 +324,6 @@ public class CommitteeScheduleServiceImpl implements CommonCommitteeScheduleServ
      * Helper method to retrieve default ScheduleStatus object.
      * @return
      */
-    @SuppressWarnings("unchecked")
     protected ScheduleStatus getDefaultScheduleStatus(){
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put(DESCRIPTION, SCHEDULED);
@@ -327,24 +335,25 @@ public class CommitteeScheduleServiceImpl implements CommonCommitteeScheduleServ
      * 
      * @see org.kuali.kra.common.committee.service.CommonCommitteeScheduleService#getMinutesByProtocol(java.lang.Long)
      */
-    public List<CommitteeScheduleMinute> getMinutesByProtocol(Long protocolId){
+    public List<CSM> getMinutesByProtocol(Long protocolId){
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put(PROTOCOL_ID_FIELD, protocolId);
-        List<CommitteeScheduleMinute> minutes = (List<CommitteeScheduleMinute>)businessObjectService.findMatchingOrderBy(CommitteeScheduleMinute.class, fieldValues, ENTRY_NUMBER_FIELD, true);
+        List<CSM> minutes = (List<CSM>) businessObjectService.findMatchingOrderBy(getCommitteeScheduleMinuteBOClassHook(), fieldValues, ENTRY_NUMBER_FIELD, true);
         return minutes;
     }
     
+    protected abstract Class<CSM> getCommitteeScheduleMinuteBOClassHook();
+
     /**
      * 
      * @see org.kuali.kra.common.committee.service.CommonCommitteeScheduleService#getMinutesBySchedule(java.lang.Long)
      */
-    @SuppressWarnings("unchecked")
-    public List<CommitteeScheduleMinute> getMinutesBySchedule(Long scheduleId){
+    public List<CSM> getMinutesBySchedule(Long scheduleId){
         Map<String, Object> fieldValues = new HashMap<String, Object>();
-        List<CommitteeScheduleMinute> permittedMinutes = new ArrayList<CommitteeScheduleMinute>();
+        List<CSM> permittedMinutes = new ArrayList<CSM>();
         fieldValues.put(SCHEDULE_ID_FIELD, scheduleId);
-        List<CommitteeScheduleMinute> minutes = (List<CommitteeScheduleMinute>)businessObjectService.findMatchingOrderBy(CommitteeScheduleMinute.class, fieldValues, ENTRY_NUMBER_FIELD, true);
-        for (CommitteeScheduleMinute minute : minutes) {
+        List<CSM> minutes = (List<CSM>)businessObjectService.findMatchingOrderBy(getCommitteeScheduleMinuteBOClassHook(), fieldValues, ENTRY_NUMBER_FIELD, true);
+        for (CSM minute : minutes) {
             if(reviewCommentsService.getReviewerCommentsView(minute)){
                 permittedMinutes.add(minute);
             }
@@ -357,10 +366,10 @@ public class CommitteeScheduleServiceImpl implements CommonCommitteeScheduleServ
      * 
      * @see org.kuali.kra.common.committee.service.CommonCommitteeScheduleService#getCommitteeScheduleMinute(java.lang.Long)
      */
-    public CommitteeScheduleMinute getCommitteeScheduleMinute(Long committeeScheduleId){
+    public CSM getCommitteeScheduleMinute(Long committeeScheduleId){
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put(COMM_SCHEDULE_MINUTES_ID_PROPERTY, committeeScheduleId);
-        List<CommitteeScheduleMinute> minutes = (List<CommitteeScheduleMinute>)businessObjectService.findMatching(CommitteeScheduleMinute.class, fieldValues);
+        List<CSM> minutes = (List<CSM>)businessObjectService.findMatching(getCommitteeScheduleMinuteBOClassHook(), fieldValues);
         if(minutes.size() == 1){
             return minutes.get(0);
         }else{
@@ -372,12 +381,12 @@ public class CommitteeScheduleServiceImpl implements CommonCommitteeScheduleServ
      * 
      * @see org.kuali.kra.common.committee.service.CommonCommitteeScheduleService#getMinutesByProtocolSubmission(java.lang.Long)
      */
-    public List<CommitteeScheduleMinute> getMinutesByProtocolSubmission(Long submissionID){
+    public List<CSM> getMinutesByProtocolSubmission(Long submissionID){
         Map<String, Object> fieldValues = new HashMap<String, Object>();
-        List<CommitteeScheduleMinute> permittedMinutes = new ArrayList<CommitteeScheduleMinute>();
+        List<CSM> permittedMinutes = new ArrayList<CSM>();
         fieldValues.put(SUBMISSION_ID_FIELD, submissionID);
-        List<CommitteeScheduleMinute> minutes = (List<CommitteeScheduleMinute>)businessObjectService.findMatchingOrderBy(CommitteeScheduleMinute.class, fieldValues, ENTRY_NUMBER_FIELD, true);
-        for (CommitteeScheduleMinute minute : minutes) {
+        List<CSM> minutes = (List<CSM>)businessObjectService.findMatchingOrderBy(getCommitteeScheduleMinuteBOClassHook(), fieldValues, ENTRY_NUMBER_FIELD, true);
+        for (CSM minute : minutes) {
             if(reviewCommentsService.getReviewerCommentsView(minute)){
                 permittedMinutes.add(minute);
             }
@@ -391,7 +400,11 @@ public class CommitteeScheduleServiceImpl implements CommonCommitteeScheduleServ
      */
     @Override
     public void downloadAttachment(KraPersistableBusinessObjectBase attachmentDataSource, HttpServletResponse response) throws Exception {
-    	CommitteeScheduleAttachments committeScheduleAttachments = new CommitteeScheduleAttachments();
+
+// TODO *********commented the code below during IACUC refactoring*********         
+//        CommitteeScheduleAttachments committeScheduleAttachments = new CommitteeScheduleAttachments();
+        
+    	CommitteeScheduleAttachments committeScheduleAttachments = getNewCommitteeScheduleAttachmentsInstanceHook();
         byte[] data = null;
         String contentType = null;
         String fileName = null;
@@ -416,5 +429,7 @@ public class CommitteeScheduleServiceImpl implements CommonCommitteeScheduleServ
                
             }
         }
-    }	
+    }
+
+    protected abstract CommitteeScheduleAttachments getNewCommitteeScheduleAttachmentsInstanceHook();
 }

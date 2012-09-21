@@ -16,7 +16,6 @@
 package org.kuali.kra.common.committee.meeting;
 
 import java.sql.Timestamp;
-import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -26,12 +25,10 @@ import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.common.committee.bo.CommonCommitteeSchedule;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewer;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReview;
 import org.kuali.kra.protocol.onlinereview.ProtocolReviewable;
-import org.kuali.rice.kim.api.role.RoleService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
@@ -39,7 +36,10 @@ import org.kuali.rice.krad.util.GlobalVariables;
  * 
  * This is BO class for committee schedule minute. 
  */
-public class CommitteeScheduleMinute extends ProtocolReviewable implements Cloneable {
+public abstract class CommitteeScheduleMinute<CSM extends CommitteeScheduleMinute<CSM, CS>,
+                                              CS extends CommonCommitteeSchedule<CS, ?, ?, CSM>> 
+
+                                              extends ProtocolReviewable<CS> implements Cloneable {
 
     private static final long serialVersionUID = -2294619582524055884L;
 
@@ -77,7 +77,7 @@ public class CommitteeScheduleMinute extends ProtocolReviewable implements Clone
 
     private CommScheduleActItem commScheduleActItem;
 
-    private CommonCommitteeSchedule committeeSchedule;
+    private CS committeeSchedule;
 
     private ProtocolReviewer protocolReviewer;
 
@@ -112,6 +112,7 @@ public class CommitteeScheduleMinute extends ProtocolReviewable implements Clone
     /*
      * This comparator orders CommitteeScheduleMinute by entry type first and then by entry type detail (if available)
      */
+    @SuppressWarnings("rawtypes")
     public static final Comparator<CommitteeScheduleMinute> entryTypeComparator = new Comparator<CommitteeScheduleMinute>() {
 
         public int compare(CommitteeScheduleMinute csm1, CommitteeScheduleMinute csm2) {
@@ -368,8 +369,8 @@ public class CommitteeScheduleMinute extends ProtocolReviewable implements Clone
      */
     @Override
     public boolean equals(Object o) {
-        if (o != null && o instanceof CommitteeScheduleMinute) {
-            CommitteeScheduleMinute csm = (CommitteeScheduleMinute) o;
+        if (o != null && (o.getClass() == this.getClass())) {
+            CSM csm = (CSM) o;
             return this.getCommScheduleMinutesId().equals(csm.getCommScheduleMinutesId()) && StringUtils.equals(this.getMinuteEntry(), csm.getMinuteEntry()) && this.getEntryNumber().equals(csm.getEntryNumber()) && this.getPrivateCommentFlag() == csm.getPrivateCommentFlag() && this.isFinalFlag() == csm.isFinalFlag();
         } else {
             return false;
@@ -392,7 +393,7 @@ public class CommitteeScheduleMinute extends ProtocolReviewable implements Clone
         if (getCommScheduleMinutesId() != null) {
             HashMap<String, String> pkMap = new HashMap<String, String>();
             pkMap.put("commScheduleMinutesId", getCommScheduleMinutesId().toString());
-            CommitteeScheduleMinute committeeScheduleMinute = (CommitteeScheduleMinute) KraServiceLocator.getService(BusinessObjectService.class).findByPrimaryKey(this.getClass(), pkMap);
+            CSM committeeScheduleMinute = (CSM) KraServiceLocator.getService(BusinessObjectService.class).findByPrimaryKey(this.getClass(), pkMap);
             //            if (!updateUser.equals(committeeScheduleMinute.getUpdateUser())) {  
             if (!StringUtils.equals(getMinuteEntry(), committeeScheduleMinute.getMinuteEntry()) || privateCommentFlag != committeeScheduleMinute.getPrivateCommentFlag() || finalFlag != committeeScheduleMinute.isFinalFlag() || isProtocolFieldChanged(committeeScheduleMinute)) {
                 this.setUpdateUser(updateUser);
@@ -406,7 +407,7 @@ public class CommitteeScheduleMinute extends ProtocolReviewable implements Clone
         return result;
     }
 
-    private boolean isProtocolFieldChanged(CommitteeScheduleMinute committeeScheduleMinute) {
+    private boolean isProtocolFieldChanged(CSM committeeScheduleMinute) {
         boolean isChanged = false;
         // check for identical objects or both being null  
         if (protocolIdFk != committeeScheduleMinute.getProtocolIdFk()) {
@@ -491,11 +492,11 @@ public class CommitteeScheduleMinute extends ProtocolReviewable implements Clone
         this.updateUserFullName = updateUserFullName;
     }
 
-    public CommonCommitteeSchedule getCommitteeSchedule() {
+    public CS getCommitteeSchedule() {
         return committeeSchedule;
     }
 
-    public void setCommitteeSchedule(CommonCommitteeSchedule committeeSchedule) {
+    public void setCommitteeSchedule(CS committeeSchedule) {
         this.committeeSchedule = committeeSchedule;
     }
 
@@ -514,26 +515,22 @@ public class CommitteeScheduleMinute extends ProtocolReviewable implements Clone
         return isAdministrator(principalId) || StringUtils.equals(principalName, createUser) || (!getPrivateCommentFlag() && isFinalFlag());
     }
 
-    // TODO this is a temporary solution until we decide on a uniform strategy to handle references into IRB from committee classes.
-    // this method will now return true if principal is either IRB admin or IACUC admin
-    private boolean isAdministrator(String principalId) {
-        boolean retVal = false;
-        RoleService roleService = KraServiceLocator.getService(RoleService.class);
-        Collection<String> ids = roleService.getRoleMemberPrincipalIds(RoleConstants.DEPARTMENT_ROLE_TYPE, RoleConstants.IRB_ADMINISTRATOR, null);
-        if(ids.contains(principalId)) {
-            retVal = true;
-        }
-        else {
-            ids = roleService.getRoleMemberPrincipalIds(RoleConstants.DEPARTMENT_ROLE_TYPE, RoleConstants.IACUC_ADMINISTRATOR, null);
-            retVal = ids.contains(principalId); 
-        }
-        return retVal;
-    }
+    
+    protected abstract boolean isAdministrator(String principalId);
+    
+// TODO *********commented the code below during IACUC refactoring*********     
+//    private boolean isAdministrator(String principalId) {
+//        RoleService roleService = KraServiceLocator.getService(RoleService.class);
+//        Collection<String> ids = roleService.getRoleMemberPrincipalIds(RoleConstants.DEPARTMENT_ROLE_TYPE, RoleConstants.IRB_ADMINISTRATOR, null);
+//        return ids.contains(principalId);
+//    }
+    
+    
 
-    public CommitteeScheduleMinute getCopy() {
-        CommitteeScheduleMinute copy = null;
+    public CSM getCopy() {
+        CSM copy = null;
         try {
-            copy = (CommitteeScheduleMinute) this.clone();
+            copy = (CSM) this.clone();
         } catch (CloneNotSupportedException e) {
             throw new RuntimeException(e);
         }

@@ -26,7 +26,7 @@ import org.kuali.rice.krad.service.BusinessObjectService;
  * 
  * This class is for review comments and attachments
  */
-public abstract class ProtocolReviewable extends KraPersistableBusinessObjectBase {
+public abstract class ProtocolReviewable<CS extends CommonCommitteeSchedule<CS, ?, ?, ?>> extends KraPersistableBusinessObjectBase {
     /**
      * Comment for <code>serialVersionUID</code>
      */
@@ -38,7 +38,7 @@ public abstract class ProtocolReviewable extends KraPersistableBusinessObjectBas
     public abstract Protocol getProtocol();
     public abstract void setDisplayReviewerName(boolean displayReviewerName);
     
-    public abstract CommonCommitteeSchedule getCommitteeSchedule();
+    public abstract CS getCommitteeSchedule();
     /**
      * 
      * This method is to show whether comment or attachment is private or not

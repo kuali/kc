@@ -17,7 +17,6 @@ package org.kuali.kra.web.struts.action;
 
 import static org.apache.commons.lang.StringUtils.isNotBlank;
 import static org.apache.commons.lang.StringUtils.replace;
-import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 import static org.kuali.kra.logging.BufferedLogger.debug;
 import static org.kuali.kra.logging.BufferedLogger.error;
 import static org.kuali.rice.krad.util.KRADConstants.CONFIRMATION_QUESTION;
@@ -60,11 +59,11 @@ import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.committee.web.struts.form.CommitteeForm;
-import org.kuali.kra.common.committee.bo.CommonCommittee;
-import org.kuali.kra.common.committee.document.CommonCommitteeDocument;
-import org.kuali.kra.common.committee.web.struts.form.CommonCommitteeForm;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.iacuc.IacucProtocolForm;
+import org.kuali.kra.iacuc.committee.bo.IacucCommittee;
+import org.kuali.kra.iacuc.committee.document.IacucCommitteeDocument;
+import org.kuali.kra.iacuc.committee.web.struts.form.IacucCommitteeForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -107,7 +106,6 @@ import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.service.PessimisticLockService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.rice.krad.util.KRADPropertyConstants;
 import org.kuali.rice.krad.util.MessageMap;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -530,7 +528,7 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
         preDocumentSave(docForm);
         String originalStatus = getDocumentStatus(docForm.getDocument());
         ActionForward actionForward;
-        if ((form instanceof CommitteeForm) || (form instanceof CommonCommitteeForm)) {
+        if ((form instanceof CommitteeForm) || (form instanceof IacucCommitteeForm)) {
             actionForward = saveCommitteeDocument(mapping, form, request, response);
         } else {
             actionForward = super.save(mapping, form, request, response);            
@@ -731,8 +729,8 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
         if (kualiDocumentFormBase instanceof CommitteeForm) {
             loadCommitteeDocument(kualiDocumentFormBase);
         }
-        else if(kualiDocumentFormBase instanceof CommonCommitteeForm) {
-            loadCommonCommitteeDocument(kualiDocumentFormBase);
+        else if(kualiDocumentFormBase instanceof IacucCommitteeForm) {
+            loadIacucCommitteeDocument(kualiDocumentFormBase);
         }
         else {
             super.loadDocument(kualiDocumentFormBase);
@@ -775,7 +773,7 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
      * This method is specifically to load committee BOs from wkflw doc content.
      */
     // TODO delete this method after committee backfitting 
-    private void loadCommonCommitteeDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
+    private void loadIacucCommitteeDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
         String docId = kualiDocumentFormBase.getDocId();
         Document doc = null;
         doc = getDocumentService().getByDocumentHeaderId(docId);
@@ -792,10 +790,10 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
         WorkflowDocument workflowDoc = doc.getDocumentHeader().getWorkflowDocument();
         kualiDocumentFormBase.setDocTypeName(workflowDoc.getDocumentTypeName());
         String content = KraServiceLocator.getService(RouteHeaderService.class).getContent(workflowDoc.getDocumentId()).getDocumentContent();
-        if (doc instanceof CommonCommitteeDocument && !workflowDoc.getStatus().getCode().equals(KewApiConstants.ROUTE_HEADER_FINAL_CD)) {
-            CommonCommittee committee = (CommonCommittee)populateCommonCommitteeFromXmlDocumentContents(content);
-            ((CommonCommitteeDocument)doc).getCommitteeList().add(committee);
-            committee.setCommitteeDocument((CommonCommitteeDocument) doc);
+        if (doc instanceof IacucCommitteeDocument && !workflowDoc.getStatus().getCode().equals(KewApiConstants.ROUTE_HEADER_FINAL_CD)) {
+            IacucCommittee committee = (IacucCommittee)populateIacucCommitteeFromXmlDocumentContents(content);
+            ((IacucCommitteeDocument)doc).getCommitteeList().add(committee);
+            committee.setCommitteeDocument((IacucCommitteeDocument) doc);
         }
         if (!getDocumentHelperService().getDocumentAuthorizer(doc).canOpen(doc, GlobalVariables.getUserSession().getPerson())) {
             throw buildAuthorizationException("open", doc);
@@ -815,8 +813,8 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
         if (form instanceof CommitteeForm) {
             forward = routeCommittee(mapping, form, request, response);
         }
-        else if(form instanceof CommonCommitteeForm) {
-            forward = routeCommonCommittee(mapping, form, request, response);
+        else if(form instanceof IacucCommitteeForm) {
+            forward = routeIacucCommittee(mapping, form, request, response);
         }
         else {
             forward = super.route(mapping, form, request, response);            
@@ -824,7 +822,7 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
         
         // Only forward to Portal if it will eventually go to the holding page
         if (form instanceof ProposalDevelopmentForm || form instanceof InstitutionalProposalForm || form instanceof AwardForm || form instanceof IacucProtocolForm 
-            || form instanceof ProtocolForm || form instanceof CommitteeForm || form instanceof CommonCommitteeForm || form instanceof TimeAndMoneyForm || form instanceof SubAwardForm) {
+            || form instanceof ProtocolForm || form instanceof CommitteeForm || form instanceof IacucCommitteeForm || form instanceof TimeAndMoneyForm || form instanceof SubAwardForm) {
             ActionForward basicForward = mapping.findForward(Constants.MAPPING_BASIC);
             if (StringUtils.equals(forward.getPath(), basicForward.getPath())) {
                 forward = mapping.findForward(KRADConstants.MAPPING_PORTAL);
@@ -861,8 +859,8 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
      * This method is specifically to route committee because committee's BOs will be persisted at route.
      */
     // TODO delete this method after committee backfitting 
-    private ActionForward routeCommonCommittee(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        CommonCommitteeForm committeeForm = (CommonCommitteeForm) form;
+    private ActionForward routeIacucCommittee(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        IacucCommitteeForm committeeForm = (IacucCommitteeForm) form;
 
         committeeForm.setDerivedValuesOnForm(request);
         ActionForward preRulesForward = promptBeforeValidation(mapping, form, request, response);
@@ -870,13 +868,13 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
             return preRulesForward;
         }
 
-        CommonCommitteeDocument committeeDocument = committeeForm.getCommitteeDocument();
+        IacucCommitteeDocument committeeDocument = (IacucCommitteeDocument) committeeForm.getCommitteeDocument();
 
         getKraDocumentService().routeDocument(committeeDocument, committeeForm.getAnnotation(), combineAdHocRecipients(committeeForm));
         KNSGlobalVariables.getMessageList().add(RiceKeyConstants.MESSAGE_ROUTE_SUCCESSFUL);
         committeeForm.setAnnotation("");
 
-        return createSuccessfulSubmitRedirect("CommonCommittee", committeeDocument.getCommittee().getCommitteeId(), request, mapping, committeeForm);
+        return createSuccessfulSubmitRedirect("IacucCommittee", committeeDocument.getCommittee().getCommitteeId(), request, mapping, committeeForm);
     }
     
     
@@ -948,7 +946,7 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
      * Committee and its collection from xmldoccontent
      */
     // TODO delete this method after committee backfitting 
-    private PersistableBusinessObject populateCommonCommitteeFromXmlDocumentContents(String xmlDocumentContents) {
+    private PersistableBusinessObject populateIacucCommitteeFromXmlDocumentContents(String xmlDocumentContents) {
         PersistableBusinessObject bo = null;
         if (!StringUtils.isEmpty(xmlDocumentContents)) {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -956,7 +954,7 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
             try {
                 DocumentBuilder builder = factory.newDocumentBuilder();
                 org.w3c.dom.Document xmlDocument = builder.parse(new InputSource(new StringReader(xmlDocumentContents)));
-                bo = getBusinessObjectFromXML(xmlDocumentContents, CommonCommittee.class.getName());
+                bo = getBusinessObjectFromXML(xmlDocumentContents, IacucCommittee.class.getName());
 
             }
             catch (ParserConfigurationException e) {

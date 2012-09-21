@@ -15,21 +15,26 @@
  */
 package org.kuali.kra.common.committee.meeting;
 
-import org.kuali.kra.common.committee.bo.CommonCommittee;
+import org.kuali.kra.common.committee.bo.Committee;
 import org.kuali.kra.common.committee.document.authorization.CommitteeTask;
 import org.kuali.kra.common.committee.document.authorizer.CommitteeAuthorizer;
-import org.kuali.kra.infrastructure.PermissionConstants;
 
-public class ModifyScheduleAuthorizer extends CommitteeAuthorizer {
+public abstract class ModifyScheduleAuthorizer extends CommitteeAuthorizer {
 
     /**
      * @see org.kuali.kra.protocol.document.authorizer.CommitteeAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.protocol.document.authorization.CommitteeTask)
      */
     public boolean isAuthorized(String username, CommitteeTask task) {
         boolean hasPermission = true;
-        CommonCommittee committee = task.getCommittee();
-        hasPermission = hasPermission(username, committee, PermissionConstants.MODIFY_IACUC_SCHEDULE);
+        Committee committee = task.getCommittee();
+        
+// TODO *********commented the code below during IACUC refactoring*********         
+//        hasPermission = hasPermission(username, committee, PermissionConstants.MODIFY_IACUC_SCHEDULE);
+        
+        hasPermission = hasPermission(username, committee, getModfifySchedulePermissionNameHook());
         return hasPermission;
     }
+
+    protected abstract String getModfifySchedulePermissionNameHook();
 
 }

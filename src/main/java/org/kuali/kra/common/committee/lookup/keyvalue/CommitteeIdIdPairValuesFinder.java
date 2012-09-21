@@ -19,11 +19,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.kuali.kra.common.committee.bo.CommonCommittee;
+import org.kuali.kra.common.committee.bo.Committee;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 
-public class CommitteeIdIdPairValuesFinder extends CommitteeIdValuesFinder {
+public abstract class CommitteeIdIdPairValuesFinder extends CommitteeIdValuesFinder {
+
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = -2540953152401775929L;
 
     /**
      * This override will return the active committee <id, id> pairs list as key-labels. 
@@ -35,9 +40,9 @@ public class CommitteeIdIdPairValuesFinder extends CommitteeIdValuesFinder {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         keyValues.add(new ConcreteKeyValue("", "select"));
         
-        List<CommonCommittee> committees = this.getActiveCommittees();
+        List<Committee> committees = this.getActiveCommittees();
         if (CollectionUtils.isNotEmpty(committees)) {
-            for (CommonCommittee committee : committees) {
+            for (Committee committee : committees) {
                 keyValues.add(new ConcreteKeyValue(committee.getCommitteeId(), committee.getCommitteeId()));
             }
         }

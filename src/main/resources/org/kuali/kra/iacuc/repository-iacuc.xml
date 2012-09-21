@@ -671,13 +671,14 @@
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="billable" column="IS_BILLABLE" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        
         <reference-descriptor name="protocolSubmissionType" class-ref="org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="submissionTypeCode"/>
         </reference-descriptor>
         <reference-descriptor name="protocolSubmissionQualifierType" class-ref="org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionQualifierType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="submissionTypeQualifierCode"/>
         </reference-descriptor>
-        <reference-descriptor name="committeeSchedule" class-ref="org.kuali.kra.common.committee.bo.CommonCommitteeSchedule" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+        <reference-descriptor name="committeeSchedule" class-ref="org.kuali.kra.iacuc.committee.bo.IacucCommitteeSchedule" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="scheduleIdFk"/>
         </reference-descriptor>
         <reference-descriptor name="protocol" class-ref="org.kuali.kra.iacuc.IacucProtocol" auto-retrieve="true" auto-update="none" auto-delete="none"> 
@@ -686,7 +687,7 @@
         <reference-descriptor name="protocolReviewType" class-ref="org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="protocolReviewTypeCode"/>
         </reference-descriptor>
-        <reference-descriptor name="committee" class-ref="org.kuali.kra.common.committee.bo.CommonCommittee" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+        <reference-descriptor name="committee" class-ref="org.kuali.kra.iacuc.committee.bo.IacucCommittee" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="committeeIdFk"/>
         </reference-descriptor>
         <reference-descriptor name="submissionStatus" class-ref="org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionStatus" auto-retrieve="true" auto-update="none" auto-delete="none"> 
@@ -704,7 +705,7 @@
         <collection-descriptor name="recusers" element-class-ref="org.kuali.kra.common.committee.meeting.ProtocolVoteRecused" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"  auto-retrieve="true" auto-update="link" auto-delete="object">
             <inverse-foreignkey field-ref="submissionIdFk" />
         </collection-descriptor>
-        <collection-descriptor name="committeeScheduleMinutes" element-class-ref="org.kuali.kra.common.committee.meeting.CommitteeScheduleMinute" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+        <collection-descriptor name="committeeScheduleMinutes" element-class-ref="org.kuali.kra.iacuc.committee.meeting.IacucCommitteeScheduleMinute" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <inverse-foreignkey field-ref="submissionIdFk"/>
         </collection-descriptor>
 	    <collection-descriptor name="reviewAttachments" element-class-ref="org.kuali.kra.iacuc.onlinereview.IacucProtocolReviewAttachment" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none"> 
@@ -1261,7 +1262,7 @@
         <reference-descriptor name="protocolOnlineReviewDocument" class-ref="org.kuali.kra.iacuc.IacucProtocolOnlineReviewDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
             <foreignkey field-ref="documentNumber" />
         </reference-descriptor>
-        <collection-descriptor name="committeeScheduleMinutes" proxy="true" element-class-ref="org.kuali.kra.common.committee.meeting.CommitteeScheduleMinute" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <collection-descriptor name="committeeScheduleMinutes" proxy="true" element-class-ref="org.kuali.kra.iacuc.committee.meeting.IacucCommitteeScheduleMinute" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="protocolOnlineReviewIdFk" />
             <orderby name="entryNumber" sort="ASC" />
         </collection-descriptor>

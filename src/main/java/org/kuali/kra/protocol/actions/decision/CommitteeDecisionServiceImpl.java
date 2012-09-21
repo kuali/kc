@@ -34,8 +34,10 @@ import org.kuali.kra.common.committee.meeting.MinuteEntryType;
 import org.kuali.kra.common.committee.meeting.ProtocolMeetingVoter;
 import org.kuali.kra.common.committee.meeting.ProtocolVoteAbstainee;
 import org.kuali.kra.common.committee.meeting.ProtocolVoteRecused;
+import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
+import org.mvel2.ast.Proto;
 
 /**
  * The CommitteeDecisionService implementation.
@@ -113,9 +115,17 @@ public abstract class CommitteeDecisionServiceImpl<CD extends CommitteeDecision<
                     if (membership.getCommitteeMembershipId().equals(person.getMembershipId())) {
                         //check to see if it is already been persisted
                         Map fieldValues = getFieldValuesMap(protocol.getProtocolId(), scheduleIdFk, membership.getPersonId(), membership.getRolodexId(), submissionIdFk);
-                        if (businessObjectService.findMatching(ProtocolVoteAbstainee.class, fieldValues).size() == 0) {
+                        
+// TODO *********commented the code below during IACUC refactoring********* 
+//                        if (businessObjectService.findMatching(ProtocolVoteAbstainee.class, fieldValues).size() == 0) {                            
+  
+                        if (businessObjectService.findMatching(getProtocolVoteAbstaineeBOClassHook(), fieldValues).size() == 0) {
                             //we found a match, and has not been saved, lets make a ProtocolVoteAbstainee and save it
-                            saveProtocolMeetingVoter(new ProtocolVoteAbstainee(), protocol, scheduleIdFk, membership.getPersonId(), membership.getRolodexId(), submissionIdFk);
+                            saveProtocolMeetingVoter(getNewProtocolVoteAbstaineeInstanceHook(), protocol, scheduleIdFk, membership.getPersonId(), membership.getRolodexId(), submissionIdFk);
+                            
+// TODO *********commented the code below during IACUC refactoring*********                       
+//                            saveProtocolMeetingVoter(new ProtocolVoteAbstainee(), protocol, scheduleIdFk, membership.getPersonId(), membership.getRolodexId(), submissionIdFk);
+                            
                         }
                         break;
                     }
@@ -127,7 +137,11 @@ public abstract class CommitteeDecisionServiceImpl<CD extends CommitteeDecision<
                 for (CommitteeMembership membership : committeeMemberships) {
                     if (membership.getCommitteeMembershipId().equals(person.getMembershipId())) {
                         Map fieldValues = getFieldValuesMap(protocol.getProtocolId(), scheduleIdFk, membership.getPersonId(), membership.getRolodexId(), submissionIdFk);
-                        businessObjectService.deleteMatching(ProtocolVoteAbstainee.class, fieldValues);
+                        
+// TODO *********commented the code below during IACUC refactoring*********                         
+//                        businessObjectService.deleteMatching(ProtocolVoteAbstainee.class, fieldValues);
+                        
+                        businessObjectService.deleteMatching(getProtocolVoteAbstaineeBOClassHook(), fieldValues);
                     }
                 }
             }
@@ -135,6 +149,12 @@ public abstract class CommitteeDecisionServiceImpl<CD extends CommitteeDecision<
         }
         
     }
+    
+    protected abstract Class<? extends ProtocolVoteAbstainee> getProtocolVoteAbstaineeBOClassHook();
+
+    protected abstract ProtocolVoteAbstainee getNewProtocolVoteAbstaineeInstanceHook();
+
+    
     
     protected void proccessRecusers(CD committeeDecision, List<CommitteeMembership> committeeMemberships, 
             Protocol protocol, Long scheduleIdFk, Long submissionIdFk) {     
@@ -146,9 +166,16 @@ public abstract class CommitteeDecisionServiceImpl<CD extends CommitteeDecision<
                     if (membership.getCommitteeMembershipId().equals(person.getMembershipId())) {
                         //check to see if it is already been persisted
                         Map fieldValues = getFieldValuesMap(protocol.getProtocolId(), scheduleIdFk, membership.getPersonId(), membership.getRolodexId(), submissionIdFk);
-                        if (businessObjectService.findMatching(ProtocolVoteRecused.class, fieldValues).size() == 0) {
+                        
+// TODO *********commented the code below during IACUC refactoring********* 
+//                        if (businessObjectService.findMatching(ProtocolVoteRecused.class, fieldValues).size() == 0) {
+                        
+                        if (businessObjectService.findMatching(getProtocolVoteRecusedBOClassHook(), fieldValues).size() == 0) {
                             //we found a match, and has not been saved, lets make a ProtocolVoteAbstainee and save it
-                            saveProtocolMeetingVoter(new ProtocolVoteRecused(), protocol, scheduleIdFk, membership.getPersonId(), membership.getRolodexId(), submissionIdFk);
+                            saveProtocolMeetingVoter(getNewProtocolVoteRecusedInstanceHook(), protocol, scheduleIdFk, membership.getPersonId(), membership.getRolodexId(), submissionIdFk);
+                            
+// TODO *********commented the code below during IACUC refactoring********* 
+//                            saveProtocolMeetingVoter(new ProtocolVoteRecused(), protocol, scheduleIdFk, membership.getPersonId(), membership.getRolodexId(), submissionIdFk);
                         }
                         break;
                     }
@@ -161,7 +188,11 @@ public abstract class CommitteeDecisionServiceImpl<CD extends CommitteeDecision<
                 for (CommitteeMembership membership : committeeMemberships) {
                     if (membership.getCommitteeMembershipId().equals(person.getMembershipId())) {
                         Map fieldValues = getFieldValuesMap(protocol.getProtocolId(), scheduleIdFk, membership.getPersonId(), membership.getRolodexId(),submissionIdFk);
-                        businessObjectService.deleteMatching(ProtocolVoteRecused.class, fieldValues);
+                        
+// TODO *********commented the code below during IACUC refactoring*********                         
+//                        businessObjectService.deleteMatching(ProtocolVoteRecused.class, fieldValues);
+                        
+                        businessObjectService.deleteMatching(getProtocolVoteRecusedBOClassHook(), fieldValues);
                     }
                 }
             }
@@ -169,6 +200,13 @@ public abstract class CommitteeDecisionServiceImpl<CD extends CommitteeDecision<
         }
     }
     
+    protected abstract ProtocolVoteRecused getNewProtocolVoteRecusedInstanceHook();
+    
+    
+
+    protected abstract Class<? extends ProtocolVoteRecused> getProtocolVoteRecusedBOClassHook();
+    
+
     protected void saveProtocolMeetingVoter(ProtocolMeetingVoter voter, Protocol protocol, Long scheduleIdFk, String personId, Integer rolodexId, Long submissionIdFk) {
         voter.setProtocol(protocol);
         voter.setProtocolIdFk(protocol.getProtocolId());

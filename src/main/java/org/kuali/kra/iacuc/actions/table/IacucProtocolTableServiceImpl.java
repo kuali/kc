@@ -22,13 +22,14 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.common.committee.bo.CommonCommittee;
+import org.kuali.kra.common.committee.bo.Committee;
 import org.kuali.kra.common.committee.bo.CommonCommitteeSchedule;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.actions.IacucProtocolAction;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
+import org.kuali.kra.iacuc.committee.meeting.IacucCommitteeScheduleMinute;
 import org.kuali.kra.protocol.actions.submit.ProtocolActionService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
@@ -75,7 +76,7 @@ public class IacucProtocolTableServiceImpl implements IacucProtocolTableService 
         CommonCommitteeSchedule retVal = null;
         if( (null != currentSchedule) && (null != currentSchedule.getCommitteeIdFk()) ) {
             currentSchedule.refreshReferenceObject("committee");
-            CommonCommittee committee = currentSchedule.getCommittee();
+            Committee committee = currentSchedule.getCommittee();
             if((null != committee)) {
                 List<CommonCommitteeSchedule> schedules = committee.getCommitteeSchedules();
                 if(null != schedules) {
@@ -113,7 +114,7 @@ public class IacucProtocolTableServiceImpl implements IacucProtocolTableService 
             Map<String, String> fieldValues = new HashMap<String, String>();
             fieldValues.put("protocolIdFk", submission.getProtocolId().toString());
             fieldValues.put("scheduleIdFk", originalSchedule.getId().toString());
-            List<CommitteeScheduleMinute> minutes = (List<CommitteeScheduleMinute>) businessObjectService.findMatching(CommitteeScheduleMinute.class, fieldValues);
+            List<IacucCommitteeScheduleMinute> minutes = (List<IacucCommitteeScheduleMinute>) businessObjectService.findMatching(IacucCommitteeScheduleMinute.class, fieldValues);
             if (!minutes.isEmpty()) {
                 // move the minutes to the next schedule and save it so as update the inverse FK links from the minutes
                 nextSchedule.getCommitteeScheduleMinutes().addAll(minutes);
