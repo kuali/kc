@@ -104,6 +104,8 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     private String currentAwardNumber;
 
     private Date deadlineDate;
+    
+    private String deadlineTime;
 
     private String noticeOfOpportunityCode;
 
@@ -647,6 +649,14 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
      */
     public void setDeadlineDate(Date deadlineDate) {
         this.deadlineDate = deadlineDate;
+    }
+
+    public String getDeadlineTime() {
+        return deadlineTime;
+    }
+
+    public void setDeadlineTime(String deadlineTime) {
+        this.deadlineTime = deadlineTime;
     }
 
     /**

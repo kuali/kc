@@ -37,9 +37,9 @@
                 <td align="left" valign="middle">
                 	<kul:htmlControlAttribute property="document.developmentProposalList[0].deadlineDate" attributeEntry="${proposalDevelopmentAttributes.deadlineDate}"  />
                 </td>
-				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.noticeOfOpportunityCode}" /></div></th>
+				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.deadlineTime}" /></div></th>
                 <td>
-                	<kul:htmlControlAttribute property="document.developmentProposalList[0].noticeOfOpportunityCode" readOnly="${readOnly}" attributeEntry="${proposalDevelopmentAttributes.noticeOfOpportunityCode}"  styleClass="fixed-size-200-select" />
+                	<kul:htmlControlAttribute property="document.developmentProposalList[0].deadlineTime" attributeEntry="${proposalDevelopmentAttributes.deadlineTime}"  />
                 </td>
             </tr>
         	<tr>
@@ -47,10 +47,10 @@
                 <td>
                 	<kul:htmlControlAttribute property="document.developmentProposalList[0].deadlineType" readOnly="${readOnly}" attributeEntry="${proposalDevelopmentAttributes.deadlineType}"  styleClass="fixed-size-200-select"/>
                 </td>
-           		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.cfdaNumber}" /></div></th>
-           		<td>
-           			<kul:htmlControlAttribute property="document.developmentProposalList[0].cfdaNumber" attributeEntry="${proposalDevelopmentAttributes.cfdaNumber}" />
-           		</td>
+           		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.noticeOfOpportunityCode}" /></div></th>
+                <td>
+                	<kul:htmlControlAttribute property="document.developmentProposalList[0].noticeOfOpportunityCode" readOnly="${readOnly}" attributeEntry="${proposalDevelopmentAttributes.noticeOfOpportunityCode}"  styleClass="fixed-size-200-select" />
+                </td>
         	</tr>
         	<tr>
 				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${DataDictionary.Sponsor.attributes.sponsorName}" /></div></th>
@@ -59,9 +59,9 @@
                 		${KualiForm.document.developmentProposalList[0].sponsor.sponsorName}&nbsp;
 					</div>
            		</td>
-           		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.programAnnouncementNumber}" /></div></th>
+           		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.cfdaNumber}" /></div></th>
            		<td>
-           			<kul:htmlControlAttribute property="document.developmentProposalList[0].programAnnouncementNumber" attributeEntry="${proposalDevelopmentAttributes.programAnnouncementNumber}" />
+           			<kul:htmlControlAttribute property="document.developmentProposalList[0].cfdaNumber" attributeEntry="${proposalDevelopmentAttributes.cfdaNumber}" />
            		</td>
         	</tr>
      		<tr>
@@ -75,9 +75,9 @@
                 		${KualiForm.primeSponsorName}&nbsp;
 					</div>
                 </td>
-           		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.sponsorProposalNumber}" /></div></th>
+           		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.programAnnouncementNumber}" /></div></th>
            		<td>
-           			<kul:htmlControlAttribute property="document.developmentProposalList[0].sponsorProposalNumber" attributeEntry="${proposalDevelopmentAttributes.sponsorProposalNumber}" />
+           			<kul:htmlControlAttribute property="document.developmentProposalList[0].programAnnouncementNumber" attributeEntry="${proposalDevelopmentAttributes.programAnnouncementNumber}" />
            		</td>
      		</tr>
         	<tr>
@@ -85,18 +85,19 @@
                 <td>
                 	<kul:htmlControlAttribute property="document.developmentProposalList[0].nsfCode" readOnly="${readOnly}" attributeEntry="${proposalDevelopmentAttributes.nsfCode}" styleClass="fixed-size-200-select"/>
                 </td>
-           		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.subcontracts}" /></div></th>
+                <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.sponsorProposalNumber}" /></div></th>
            		<td>
-           			<kul:htmlControlAttribute property="document.developmentProposalList[0].subcontracts" attributeEntry="${proposalDevelopmentAttributes.subcontracts}" />
+           			<kul:htmlControlAttribute property="document.developmentProposalList[0].sponsorProposalNumber" attributeEntry="${proposalDevelopmentAttributes.sponsorProposalNumber}" />
            		</td>
+           		
      		</tr>`
         	<tr>				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.agencyDivisionCode}" /></div></th>
                 <td>
                 	<kul:htmlControlAttribute property="document.developmentProposalList[0].agencyDivisionCode" attributeEntry="${proposalDevelopmentAttributes.agencyDivisionCode}" />
                 </td>
-           		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.agencyProgramCode}" /></div></th>
+           		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.subcontracts}" /></div></th>
            		<td>
-           			<kul:htmlControlAttribute property="document.developmentProposalList[0].agencyProgramCode" attributeEntry="${proposalDevelopmentAttributes.agencyProgramCode}" />
+           			<kul:htmlControlAttribute property="document.developmentProposalList[0].subcontracts" attributeEntry="${proposalDevelopmentAttributes.subcontracts}" />
            		</td>
      		</tr>
 
@@ -105,6 +106,10 @@
                 <td>
                 	<kul:htmlControlAttribute property="document.developmentProposalList[0].anticipatedAwardTypeCode" readOnly="${readOnly}" attributeEntry="${proposalDevelopmentAttributes.anticipatedAwardTypeCode}" styleClass="fixed-size-200-select"/>
                 </td>
+                <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalDevelopmentAttributes.agencyProgramCode}" /></div></th>
+           		<td>
+           			<kul:htmlControlAttribute property="document.developmentProposalList[0].agencyProgramCode" attributeEntry="${proposalDevelopmentAttributes.agencyProgramCode}" />
+           		</td>
      		</tr>
      		</tr>
 
