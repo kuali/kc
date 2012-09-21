@@ -24,6 +24,7 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.TreeSet;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
@@ -74,8 +75,7 @@ public class SubAwardLookupableHelperServiceImpl extends KraLookupableHelperServ
         (List<SubAward>) super.getSearchResultsUnbounded(fieldValues);
         List<SubAward> returnResults = new ArrayList<SubAward>();
         try {
-            returnResults = filterForActiveSubAwards(
-            unboundedResults, awardNumber, subrecipientName, requisitionerUserName);
+            returnResults = filterForActiveSubAwards(unboundedResults, awardNumber, subrecipientName, requisitionerUserName, fieldValues.get("statusCode"));
         } catch (WorkflowException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -181,7 +181,7 @@ public class SubAwardLookupableHelperServiceImpl extends KraLookupableHelperServ
 
       protected List<SubAward> filterForActiveSubAwards(
               Collection<SubAward> collectionByQuery, String awardNumber,
-              String subrecipientName, String requisitionerUserName) throws WorkflowException {
+              String subrecipientName, String requisitionerUserName, String statusCode) throws WorkflowException {
           Set<String> subAwardCodes = new TreeSet<String>();
           List<Integer> subAwardCodeList = new ArrayList<Integer>();
           List<String> subAwardCodeSortedList = new ArrayList<String>();
@@ -265,14 +265,17 @@ public class SubAwardLookupableHelperServiceImpl extends KraLookupableHelperServ
         List<SubAward> filteredSubAwardListSubAwards = new ArrayList<SubAward>();
         if (requisitionerUserName != null && !requisitionerUserName.equalsIgnoreCase("")) {
             for (SubAward subAward : filteredSubAwardList) {
-                if (subAward.getRequisitionerUserName().equalsIgnoreCase(requisitionerUserName)) {
+                if (subAward.getRequisitionerUserName().equalsIgnoreCase(requisitionerUserName)
+                        && (StringUtils.isEmpty(statusCode) || StringUtils.equalsIgnoreCase(statusCode, subAward.getStatusCode().toString()))) {
                     filteredSubAwardListSubAwards.add(subAward);
                 }
             }
         }
         else {
             for (SubAward subAward : filteredSubAwardList) {
-                filteredSubAwardListSubAwards.add(subAward);
+                if (StringUtils.isEmpty(statusCode) || StringUtils.equalsIgnoreCase(statusCode, subAward.getStatusCode().toString())) {
+                    filteredSubAwardListSubAwards.add(subAward);
+                }
             }
 
 
