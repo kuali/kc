@@ -63,6 +63,7 @@
         <field-descriptor name="title" column="TITLE" jdbc-type="VARCHAR" />
         <field-descriptor name="currentAwardNumber" column="CURRENT_AWARD_NUMBER" jdbc-type="VARCHAR" />
         <field-descriptor name="deadlineDate" column="DEADLINE_DATE" jdbc-type="DATE" />
+        <field-descriptor name="deadlineTime" column="DEADLINE_TIME" jdbc-type="VARCHAR" />
         <field-descriptor name="noticeOfOpportunityCode" column="NOTICE_OF_OPPORTUNITY_CODE" jdbc-type="VARCHAR" />
         <field-descriptor name="deadlineType" column="DEADLINE_TYPE" jdbc-type="VARCHAR" />
         <field-descriptor name="cfdaNumber" column="CFDA_NUMBER" jdbc-type="VARCHAR" />
