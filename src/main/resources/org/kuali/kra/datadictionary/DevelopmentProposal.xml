@@ -389,9 +389,6 @@
 		<property name="shortLabel" value="Sponsor Deadline Time" />
 		<property name="required" value="false" />
 		<property name="maxLength" value="15" />
-		<property name="validationPattern">
-			<bean parent="AnyCharacterValidationPattern" />
-		</property>
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="15" />
 		</property>

@@ -69,29 +69,29 @@
                 <td align="left" valign="middle">
                 	<kul:htmlControlAttribute property="document.institutionalProposal.deadlineDate" attributeEntry="${institutionalProposalAttributes.deadlineDate}"  />
                 </td>
-                <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${institutionalProposalAttributes.deadlineType}" /></div></th>
+                <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${institutionalProposalAttributes.deadlineTime}" /></div></th>
                 <td>
-                	<kul:htmlControlAttribute property="document.institutionalProposal.deadlineType" readOnly="${readOnly}" attributeEntry="${institutionalProposalAttributes.deadlineType}"  styleClass="fixed-size-200-select"/>
+                	<kul:htmlControlAttribute property="document.institutionalProposal.deadlineTime" attributeEntry="${institutionalProposalAttributes.deadlineTime}"  />
                 </td>
             </tr>
         	<tr>
+        		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${institutionalProposalAttributes.deadlineType}" /></div></th>
+                <td>
+                	<kul:htmlControlAttribute property="document.institutionalProposal.deadlineType" readOnly="${readOnly}" attributeEntry="${institutionalProposalAttributes.deadlineType}"  styleClass="fixed-size-200-select"/>
+                </td>
 				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${institutionalProposalAttributes.noticeOfOpportunityCode}" /></div></th>
                 <td>
                 	<kul:htmlControlAttribute property="document.institutionalProposal.noticeOfOpportunityCode" readOnly="${readOnly}" attributeEntry="${institutionalProposalAttributes.noticeOfOpportunityCode}"  styleClass="fixed-size-200-select" />
                 </td>
-           		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${institutionalProposalAttributes.awardTypeCode}" /></div></th>
-           		<td>
-           			<kul:htmlControlAttribute property="document.institutionalProposal.awardTypeCode" attributeEntry="${institutionalProposalAttributes.awardTypeCode}" />
-           		</td>
         	</tr>
      		<tr>
      		    <th><div align="right"><kul:htmlAttributeLabel attributeEntry="${institutionalProposalAttributes.subcontractFlag}" /></div></th>
                 <td align="left" valign="middle">
                 	<kul:htmlControlAttribute property="document.institutionalProposal.subcontractFlag" attributeEntry="${institutionalProposalAttributes.subcontractFlag}" readOnly="${readOnly}" />
                 </td>
-           		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${institutionalProposalAttributes.opportunity}" /></div></th>
+           		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${institutionalProposalAttributes.awardTypeCode}" /></div></th>
            		<td>
-           			<kul:htmlControlAttribute property="document.institutionalProposalList[0].opportunity" attributeEntry="${institutionalProposalAttributes.opportunity}" />
+           			<kul:htmlControlAttribute property="document.institutionalProposal.awardTypeCode" attributeEntry="${institutionalProposalAttributes.awardTypeCode}" />
            		</td>
      		</tr>
         	<tr>
@@ -107,9 +107,9 @@
     				</c:if>
     			</c:if>
                 </td>
-           		<th><div align="right">&nbsp;</div></th>
+           		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${institutionalProposalAttributes.opportunity}" /></div></th>
            		<td>
-           			&nbsp;
+           			<kul:htmlControlAttribute property="document.institutionalProposalList[0].opportunity" attributeEntry="${institutionalProposalAttributes.opportunity}" />
            		</td>
      		</tr>
         </table>
