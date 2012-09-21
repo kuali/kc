@@ -29,6 +29,8 @@
 			<list>
 				<ref bean="PersonTraining-personTrainingId"/>
 				<ref bean="PersonTraining-personId"/>
+        		<ref bean="PersonTraining-person.userName" />
+				<ref bean="PersonTraining-person.fullName" />
 				<ref bean="PersonTraining-trainingNumber"/>
 				<ref bean="PersonTraining-trainingCode"/>
 				<ref bean="PersonTraining-training.description"/>
@@ -97,6 +99,30 @@
 		<property name="summary" value="Person Id"/>
 		<property name="description" value="Person Id"/>
 	</bean>
+
+	<bean id="PersonTraining-person.userName" parent="PersonTraining-person.userName-parentBean" />
+    <bean id="PersonTraining-person.userName-parentBean" abstract="true" parent="PersonImpl-principalName">
+        <property name="name" value="person.userName" />
+        <property name="label" value="KC Person" />
+        <property name="shortLabel" value="Name" />
+        <property name="required" value="false" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="KualiUserControlDefinition"
+                p:personNameAttributeName="person.fullName"
+                p:universalIdAttributeName="personId"
+                p:userIdAttributeName="person.userName" />
+        </property>
+    </bean>
+
+	<bean id="PersonTraining-person.fullName" parent="PersonTraining-person.fullName-parentBean" />
+    <bean id="PersonTraining-person.fullName-parentBean" abstract="true" parent="KcPerson-fullName">
+        <property name="name" value="person.fullName" />
+        <property name="label" value="Full Name" />
+        <property name="shortLabel" value="Full Name" />
+    </bean>
 
 	<bean id="PersonTraining-trainingNumber" parent="PersonTraining-trainingNumber-parentBean"/>
 	<bean abstract="true" id="PersonTraining-trainingNumber-parentBean" parent="AttributeDefinition">
@@ -253,6 +279,7 @@
 	<bean id="PersonTraining-lookupDefinition" parent="PersonTraining-lookupDefinition-parentBean"/>
 	<bean abstract="true" id="PersonTraining-lookupDefinition-parentBean" parent="LookupDefinition">
 		<property name="title" value="Person Training Lookup"/>
+	    <property name="lookupableID" value="personTrainingLookupable" />
 		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;"/>
 
 		<property name="defaultSort">
@@ -261,7 +288,7 @@
 		</property>
 		<property name="lookupFields">
 			<list>
-				<bean p:attributeName="personId" parent="FieldDefinition"/>
+				<bean p:attributeName="person.userName" parent="FieldDefinition"/>
 				<bean p:attributeName="trainingCode" parent="FieldDefinition"/>
 				<bean p:attributeName="dateRequested" parent="FieldDefinition"/>
 				<bean p:attributeName="dateSubmitted" parent="FieldDefinition"/>
@@ -275,7 +302,8 @@
 		<property name="resultFields">
 			<list>
 				<bean p:attributeName="personTrainingId" p:forceInquiry="true" parent="FieldDefinition"/>
-				<bean p:attributeName="personId" parent="FieldDefinition"/>
+				<bean p:attributeName="person.userName" parent="FieldDefinition"/>
+				<bean p:attributeName="person.fullName" parent="FieldDefinition"/>
 				<bean p:attributeName="trainingNumber" parent="FieldDefinition"/>
 				<bean p:attributeName="training.description" parent="FieldDefinition"/>
 				<bean p:attributeName="dateRequested" parent="FieldDefinition"/>
