@@ -47,6 +47,7 @@ public class ProtocolReplacementParameters {
     public static final String PROTOCOL_LAST_APPROVAL_DATE = "{PROTOCOL_LAST_APPROVAL_DATE}";
     public static final String PROTOCOL_EXPIRATION_DATE = "{PROTOCOL_EXPIRATION_DATE}";
     public static final String REASON = "{REASON}";
+    public static final String DATE= "{DATE}";
     
     public static final String[] REPLACEMENT_PARAMETERS = new String[] { DOCUMENT_NUMBER,
                                                                          PROTOCOL_NUMBER, 
