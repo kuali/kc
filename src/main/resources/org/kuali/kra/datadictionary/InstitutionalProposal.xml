@@ -64,6 +64,7 @@
                 <ref bean="InstitutionalProposal-totalIndirectCostTotal" />
                 <ref bean="InstitutionalProposal-numberOfCopies" />
                 <ref bean="InstitutionalProposal-deadlineDate" />
+                <ref bean="InstitutionalProposal-deadlineTime" />
                 <ref bean="InstitutionalProposal-deadlineType" />
                 <ref bean="InstitutionalProposal-mailBy" />
                 <ref bean="InstitutionalProposal-mailType" />
@@ -268,6 +269,22 @@
     	<property name="summary" value="The Deadline Date of the Proposal"/>
     	<property name="description" value="The date in which the proposal is due to the sponsoring agency.  Additional deadlines may be set by the office authorized to submit proposals on behalf of the institution (e.g. sponsored programs, etc.)."/>
   	</bean>
+  	
+  	<bean id="InstitutionalProposal-deadlineTime" parent="InstitutionalProposal-deadlineTime-parentBean" />
+	<bean id="InstitutionalProposal-deadlineTime-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="deadlineTime" />
+		<property name="label" value="Sponsor Deadline Time" />
+		<property name="shortLabel" value="Sponsor Deadline Time" />
+		<property name="required" value="false" />
+		<property name="maxLength" value="15" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="15" />
+		</property>
+		<property name="summary" value="The Deadline Time of the Proposal" />
+		<property name="description"
+			value="The time in which the proposal is due to the sponsoring agency.  Additional deadlines may be set by the office authorized to submit proposals on behalf of the institution (e.g. sponsored programs, etc.)." />
+	</bean>
+  	
   	<bean id="InstitutionalProposal-deadlineType" parent="InstitutionalProposal-deadlineType-parentBean"/>
 
   	<bean id="InstitutionalProposal-deadlineType-parentBean" abstract="true" parent="AttributeDefinition">

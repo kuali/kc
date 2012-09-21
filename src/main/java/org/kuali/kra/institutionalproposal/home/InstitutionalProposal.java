@@ -108,6 +108,7 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     private KualiDecimal totalIndirectCostTotal;
     private String numberOfCopies;
     private Date deadlineDate;
+    private String deadlineTime;
     private Date createTimeStamp;
     private String deadlineType;
     private String mailBy;
@@ -752,6 +753,14 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
 
     public void setDeadlineDate(Date deadlineDate) {
         this.deadlineDate = deadlineDate;
+    }
+
+    public String getDeadlineTime() {
+        return deadlineTime;
+    }
+
+    public void setDeadlineTime(String deadlineTime) {
+        this.deadlineTime = deadlineTime;
     }
 
     public String getDeadlineType() {
