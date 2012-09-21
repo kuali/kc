@@ -44,7 +44,12 @@ import org.kuali.kra.util.DateUtils;
 /**
  * This is BO class to support CommitteeScheulde. It has three transient field to support UI.
  */
-public class CommonCommitteeSchedule extends CommitteeAssociate implements Comparable<CommonCommitteeSchedule>, Permissionable{ 
+public abstract class CommonCommitteeSchedule<CS extends CommonCommitteeSchedule<CS, CMT, PS, CSM>,
+                                              CMT extends Committee<CMT, ?, CS>, 
+                                              PS extends ProtocolSubmission,
+                                              CSM extends CommitteeScheduleMinute<CSM, CS>>
+
+                                              extends CommitteeAssociate implements Comparable<CS>, Permissionable{ 
     
     private static final long serialVersionUID = -360139608123017188L;
     public static final Long DEFAULT_SCHEDULE_ID = 9999999999L;
@@ -71,7 +76,7 @@ public class CommonCommitteeSchedule extends CommitteeAssociate implements Compa
     private boolean availableToReviewers;
 	
 // TODO : recursive reference    
-	private CommonCommittee committee; 
+	private CMT committee; 
     private ScheduleStatus scheduleStatus;
     
     //TODO revisit required during meeting management to map Protocol
@@ -84,10 +89,10 @@ public class CommonCommitteeSchedule extends CommitteeAssociate implements Compa
     // So, keep the "transient". Also, they are not versioned with version service.   
     // Merging these data from old version committee to the new version committee at the time of "approval" of new version committee.
     private transient List<CommitteeScheduleAttendance> committeeScheduleAttendances;        
-    private transient List<CommitteeScheduleMinute> committeeScheduleMinutes;  
+    private transient List<CSM> committeeScheduleMinutes;  
     private transient List<CommitteeScheduleAttachments> committeeScheduleAttachments;
     @SkipVersioning
-    private transient List<ProtocolSubmission> protocolSubmissions;        
+    private transient List<PS> protocolSubmissions;        
     private transient List<CommScheduleActItem>  commScheduleActItems;
     private transient List<CommScheduleMinuteDoc> minuteDocs;        
     private transient List<ScheduleAgenda> scheduleAgendas;        
@@ -96,8 +101,8 @@ public class CommonCommitteeSchedule extends CommitteeAssociate implements Compa
     public CommonCommitteeSchedule() { 
         setCommitteeScheduleAttendances(new ArrayList<CommitteeScheduleAttendance>()); 
         setCommScheduleActItems(new ArrayList<CommScheduleActItem>()); 
-        setProtocolSubmissions(new ArrayList<ProtocolSubmission>()); 
-        setCommitteeScheduleMinutes(new ArrayList<CommitteeScheduleMinute>()); 
+        setProtocolSubmissions(new ArrayList<PS>()); 
+        setCommitteeScheduleMinutes(new ArrayList<CSM>()); 
         setMinuteDocs(new ArrayList<CommScheduleMinuteDoc>()); 
         setScheduleAgendas(new ArrayList<ScheduleAgenda>()); 
         setCommitteeScheduleAttachments(new ArrayList<CommitteeScheduleAttachments>());
@@ -259,14 +264,16 @@ public class CommonCommitteeSchedule extends CommitteeAssociate implements Compa
         this.availableToReviewers = availableToReviewers;
     }
 
-    public CommonCommittee getCommittee() {
+    public CMT getCommittee() {
         if (committee == null && getCommitteeIdFk() == null) {
-            committee = new CommonCommittee();
+            committee = getNewCommitteeInstanceHook();
         }
         return committee;
 	}
 
-	public void setCommittee(CommonCommittee committee) {
+	protected abstract CMT getNewCommitteeInstanceHook();
+
+    public void setCommittee(CMT committee) {
 		this.committee = committee;
 	}
 
@@ -377,7 +384,7 @@ public class CommonCommitteeSchedule extends CommitteeAssociate implements Compa
         if (obj.getClass() != this.getClass()) {
             return false;
         }
-        CommonCommitteeSchedule committeeSchedule = (CommonCommitteeSchedule) obj;
+        CS committeeSchedule = (CS) obj;
         if (this.getId() != null && this.getId().equals(committeeSchedule.getId())) {
             return true;
         } else {
@@ -400,7 +407,7 @@ public class CommonCommitteeSchedule extends CommitteeAssociate implements Compa
      * @param other The CommitteeSchedule to be compared.
      * @return the result of comparing this <code>scheduledDate</code> to the other <code>scheduledDate</code>
      */
-    public int compareTo(CommonCommitteeSchedule other) {
+    public int compareTo(CS other) {
         int compareResult;
         
         if (getScheduledDate() == null) {
@@ -423,14 +430,14 @@ public class CommonCommitteeSchedule extends CommitteeAssociate implements Compa
         setId(null);
     }
 
-    public List<ProtocolSubmission> getProtocolSubmissions() {
+    public List<PS> getProtocolSubmissions() {
         return protocolSubmissions;
     }
 
-    public List<ProtocolSubmission> getLatestProtocolSubmissions() {
-        TreeMap<String, ProtocolSubmission> latestSubmissions = new TreeMap<String, ProtocolSubmission>();
-        List<ProtocolSubmission> returnList = new ArrayList<ProtocolSubmission>();
-        for (ProtocolSubmission submission : protocolSubmissions) {
+    public List<PS> getLatestProtocolSubmissions() {
+        TreeMap<String, PS> latestSubmissions = new TreeMap<String, PS>();
+        List<PS> returnList = new ArrayList<PS>();
+        for (PS submission : protocolSubmissions) {
             // gonna do something a little hacktacular here... in some cases, protocol and/or protocol number might not be set.
             // in that case, go ahead and pass submissions on to caller
             if (submission.getProtocol() == null || StringUtils.isEmpty(submission.getProtocol().getProtocolNumber())) {
@@ -438,7 +445,7 @@ public class CommonCommitteeSchedule extends CommitteeAssociate implements Compa
             } else {
                 String key = submission.getProtocol().getProtocolNumber();
                 if (submission.getProtocol().isActive()) {
-                    ProtocolSubmission existingSubmission = latestSubmissions.get(key);
+                    PS existingSubmission = latestSubmissions.get(key);
                     if (existingSubmission == null) {
                         latestSubmissions.put(key, submission);
                     } else {
@@ -457,7 +464,7 @@ public class CommonCommitteeSchedule extends CommitteeAssociate implements Compa
         return returnList;
     }
 
-    public void setProtocolSubmissions(List<ProtocolSubmission> protocolSubmissions) {
+    public void setProtocolSubmissions(List<PS> protocolSubmissions) {
         this.protocolSubmissions = protocolSubmissions;
     }
     public Time12HrFmt getViewStartTime() {
@@ -490,11 +497,11 @@ public class CommonCommitteeSchedule extends CommitteeAssociate implements Compa
         this.commScheduleActItems = commScheduleActItems;
     }
 
-    public List<CommitteeScheduleMinute> getCommitteeScheduleMinutes() {
+    public List<CSM> getCommitteeScheduleMinutes() {
         return committeeScheduleMinutes;
     }
 
-    public void setCommitteeScheduleMinutes(List<CommitteeScheduleMinute> committeeScheduleMinutes) {
+    public void setCommitteeScheduleMinutes(List<CSM> committeeScheduleMinutes) {
         this.committeeScheduleMinutes = committeeScheduleMinutes;
     }
 
@@ -566,7 +573,7 @@ public class CommonCommitteeSchedule extends CommitteeAssociate implements Compa
      */
     public boolean isActiveFor(String personId) {
         boolean retVal = false;
-        CommonCommittee parentCommittee = this.getCommittee();
+        CMT parentCommittee = this.getCommittee();
         if(parentCommittee != null){
             CommitteeMembership member = parentCommittee.getCommitteeMembershipFor(personId);
             if(member != null) {

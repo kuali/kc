@@ -21,13 +21,15 @@ import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.common.committee.bo.CommonCommittee;
+import org.kuali.kra.common.committee.bo.Committee;
 import org.kuali.kra.common.committee.bo.CommonCommitteeSchedule;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.common.committee.web.struts.form.schedule.ScheduleData;
 
 
-public interface CommonCommitteeScheduleService {
+public interface CommonCommitteeScheduleService<CS extends CommonCommitteeSchedule<CS, CMT, ?, CSM>, 
+                                                CMT extends Committee<CMT,?,CS>,
+                                                CSM extends CommitteeScheduleMinute<CSM, CS>> {
     
     /**
      * This method implementer must check if passed CommitteeSchedule is deleteable.
@@ -40,7 +42,7 @@ public interface CommonCommitteeScheduleService {
      * @param committeeSchedule
      * @return
      */
-    public Boolean isCommitteeScheduleDeletable(CommonCommitteeSchedule committeeSchedule);
+    public Boolean isCommitteeScheduleDeletable(CS committeeSchedule);
     
     /**
      * This method implementer must add new non conflicting, non-repeating schedule dates to existing Committee.CommitteeSchedule list.
@@ -48,7 +50,7 @@ public interface CommonCommitteeScheduleService {
      * @param committee
      * @throws ParseException
      */
-    public void addSchedule(ScheduleData scheduleData, CommonCommittee committee) throws ParseException;
+    public void addSchedule(ScheduleData scheduleData, CMT committee) throws ParseException;
     
     /**
      * 
@@ -56,7 +58,7 @@ public interface CommonCommitteeScheduleService {
      * @param protocolId
      * @return
      */
-    public List<CommitteeScheduleMinute> getMinutesByProtocol(Long protocolId);
+    public List<CSM> getMinutesByProtocol(Long protocolId);
     
     /**
      * 
@@ -64,7 +66,7 @@ public interface CommonCommitteeScheduleService {
      * @param submissionID
      * @return
      */
-    public List<CommitteeScheduleMinute> getMinutesByProtocolSubmission(Long submissionID);
+    public List<CSM> getMinutesByProtocolSubmission(Long submissionID);
     
     /**
      * 
@@ -72,7 +74,7 @@ public interface CommonCommitteeScheduleService {
      * @param scheduleId
      * @return
      */
-    public List<CommitteeScheduleMinute> getMinutesBySchedule(Long scheduleId);
+    public List<CSM> getMinutesBySchedule(Long scheduleId);
     
     /**
      * 
@@ -81,7 +83,7 @@ public interface CommonCommitteeScheduleService {
      * @param committeeId
      * @return
      */
-    public CommitteeScheduleMinute getCommitteeScheduleMinute(Long committeeScheduleId);
+    public CSM getCommitteeScheduleMinute(Long committeeScheduleId);
     
     /**
      * This method will downloadAttachment  to CommitteeScheduleAttachments.

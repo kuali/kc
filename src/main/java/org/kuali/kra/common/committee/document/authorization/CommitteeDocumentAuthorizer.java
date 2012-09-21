@@ -20,6 +20,7 @@ import java.util.Set;
 
 import org.kuali.kra.authorization.ApplicationTask;
 import org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase;
+import org.kuali.kra.common.committee.bo.Committee;
 import org.kuali.kra.common.committee.document.CommonCommitteeDocument;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.rice.kim.api.identity.Person;
@@ -30,7 +31,7 @@ import org.kuali.rice.krad.document.Document;
  * This class is the Committee Document Authorizer.  It determines the edit modes and
  * document actions for all committee documents.
  */
-public class CommitteeDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBase {
+public abstract class CommitteeDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBase {
        
     /**
      * @see org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizer#getEditModes(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person, java.util.Set)
@@ -168,10 +169,16 @@ public class CommitteeDocumentAuthorizer extends KcTransactionalDocumentAuthoriz
      * @return true if the user can create a committee; otherwise false
      */
     private boolean canCreateCommittee(Person user) {
-        ApplicationTask task = new ApplicationTask(TaskName.ADD_IACUC_COMMITTEE);       
+        
+// TODO *********commented the code below during IACUC refactoring*********         
+//        ApplicationTask task = new ApplicationTask(TaskName.ADD_IACUC_COMMITTEE);
+        
+        ApplicationTask task = new ApplicationTask(getAddCommitteeTaskNameHook());
         return getTaskAuthorizationService().isAuthorized(user.getPrincipalId(), task);
     }
     
+    protected abstract String getAddCommitteeTaskNameHook();
+
     /**
      * Does the user have permission to execute the given task for a committee?
      * @param username the user's username
@@ -180,9 +187,11 @@ public class CommitteeDocumentAuthorizer extends KcTransactionalDocumentAuthoriz
      * @return true if has permission; otherwise false
      */
     private boolean canExecuteCommitteeTask(String userId, CommonCommitteeDocument doc, String taskName) {
-        CommitteeTask task = new CommitteeTask(taskName, doc.getCommittee());       
+        CommitteeTask task = getNewCommitteeTaskInstanceHook(taskName, doc.getCommittee());       
         return getTaskAuthorizationService().isAuthorized(userId, task);
     }
+
+    protected abstract CommitteeTask getNewCommitteeTaskInstanceHook(String taskName, Committee committee);
 
     /*
     @Override

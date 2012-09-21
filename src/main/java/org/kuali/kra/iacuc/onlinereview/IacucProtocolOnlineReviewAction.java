@@ -40,6 +40,8 @@ import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
 import org.kuali.kra.iacuc.actions.reviewcomments.IacucReviewAttachmentsBean;
 import org.kuali.kra.iacuc.actions.reviewcomments.IacucReviewCommentsService;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewerBean;
+import org.kuali.kra.iacuc.committee.bo.IacucCommitteeMembership;
+import org.kuali.kra.iacuc.committee.meeting.IacucCommitteeScheduleMinute;
 import org.kuali.kra.iacuc.notification.IacucProtocolNotificationContext;
 import org.kuali.kra.iacuc.notification.IacucProtocolNotificationRenderer;
 import org.kuali.kra.iacuc.notification.IacucProtocolNotificationRequestBean;
@@ -97,7 +99,7 @@ public class IacucProtocolOnlineReviewAction extends IacucProtocolAction {
 
         if (validateCreateNewProtocolOnlineReview(protocolForm)) {
             CommitteeMembership membership
-                = getBusinessObjectService().findBySinglePrimaryKey(CommitteeMembership.class, onlineReviewHelper.getNewProtocolReviewCommitteeMembershipId());
+                = getBusinessObjectService().findBySinglePrimaryKey(IacucCommitteeMembership.class, onlineReviewHelper.getNewProtocolReviewCommitteeMembershipId());
             ProtocolReviewerBean bean = new IacucProtocolReviewerBean(membership);
             
             String principalId = bean.getPersonId();
@@ -172,7 +174,7 @@ public class IacucProtocolOnlineReviewAction extends IacucProtocolAction {
             getDocumentService().saveDocument(document);
             
             // TODO : is there an IACUC protocol review comment ?
-            reviewCommentsBean.setNewReviewComment(new CommitteeScheduleMinute(MinuteEntryType.PROTOCOL_REVIEWER_COMMENT));
+            reviewCommentsBean.setNewReviewComment(new IacucCommitteeScheduleMinute(MinuteEntryType.PROTOCOL_REVIEWER_COMMENT));
         }
         
         //protocolForm.getOnlineReviewsActionHelper().init(true);

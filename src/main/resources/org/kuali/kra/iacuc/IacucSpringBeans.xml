@@ -469,7 +469,7 @@
             <ref bean="businessObjectService" />
         </property>
         <property name="committeeService">
-        	<ref bean="commonCommitteeService" />
+        	<ref bean="iacucCommitteeService" />
         </property>
     </bean>
     
@@ -629,7 +629,7 @@
     </bean>
 
  	<bean id="iacucProtocolActionAjaxService" class="org.kuali.kra.iacuc.actions.IacucProtocolActionAjaxServiceImpl">
-        <property name="committeeService" ref="commonCommitteeService" />
+        <property name="committeeService" ref="iacucCommitteeService" />
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="parameterService" ref="parameterService" />
     </bean>
@@ -646,12 +646,12 @@
         --> 
     </bean>
     
-    <bean id="commonCommitteeService" class="org.kuali.kra.common.committee.service.impl.CommitteeServiceImpl">
+    <bean id="iacucCommitteeService" class="org.kuali.kra.iacuc.committee.service.impl.IacucCommitteeServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
 	<property name="sequenceAccessorService" ref="sequenceAccessorService" />
     </bean>   
     
-    <bean id="baseCommitteeScheduleService" class="org.kuali.kra.common.committee.service.impl.CommitteeScheduleServiceImpl">
+    <bean id="baseCommitteeScheduleService" class="org.kuali.kra.iacuc.committee.service.impl.IacucCommitteeScheduleServiceImpl">
 		<property name="businessObjectService" ref="businessObjectService" />
 		<property name="scheduleService" ref="scheduleService" />
 		<property name="reviewCommentsService" ref="iacucReviewCommentsService" />
@@ -677,7 +677,7 @@
         <property name = "businessObjectService" ref = "businessObjectService"/>
         <property name = "documentService" ref = "documentService"/>
         <property name = "identityManagementService" ref = "identityService"/>
-        <property name = "committeeService" ref = "commonCommitteeService"/>
+        <property name = "committeeService" ref = "iacucCommitteeService"/>
         <property name = "kraWorkflowService" ref = "kraWorkflowService"/>
         <property name = "personService" ref = "personService"/>
         <property name="workflowDocumentService" ref="kradWorkflowDocumentService" />
@@ -759,8 +759,8 @@
 
     <bean id="iacucReviewCommentsService" class="org.kuali.kra.iacuc.actions.reviewcomments.IacucReviewCommentsServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
-        <property name="committeeScheduleService" ref="commonCommitteeScheduleService" />
-        <property name="committeeService" ref="commonCommitteeService" />
+        <property name="committeeScheduleService" ref="iacucCommitteeScheduleService" />
+        <property name="committeeService" ref="iacucCommitteeService" />
         <property name="roleService" ref="roleService" />
         <property name="dateTimeService" ref="dateTimeService" />
         <property name="parameterService" ref="parameterService" />
@@ -852,7 +852,7 @@
 		<property name="protocolOnlineReviewService" ref="iacucProtocolOnlineReviewService" />		
 		<property name="businessObjectService" ref="businessObjectService"/>		
         <property name="kcNotificationService" ref="kcNotificationService" />
-        <property name="committeeService" ref="commonCommitteeService" />
+        <property name="committeeService" ref="iacucCommitteeService" />
         
     </bean>
   
@@ -868,12 +868,6 @@
 		<property name="reviewCommentsService" ref="iacucReviewCommentsService" />
 		
 	</bean>
-
-	<bean id="commonCommitteeMembershipService"
-		class="org.kuali.kra.common.committee.service.impl.CommitteeMembershipServiceImpl">
-		<property name="businessObjectService" ref="businessObjectService" />
-		<property name="committeeService" ref="commonCommitteeService" />
-	</bean>
 	
     
 	<bean id="commonScheduleXmlStream" class="org.kuali.kra.common.committee.print.ScheduleXmlStream"
@@ -882,7 +876,7 @@
 			<ref bean="printXmlUtilService" />
 		</property>
 		<property name="committeeMembershipService">
-			<ref bean="commonCommitteeMembershipService" />
+			<ref bean="iacucCommitteeMembershipService" />
 		</property>
 		<property name="kcPersonService">
 			<ref bean="kcPersonService" />
@@ -995,7 +989,7 @@
         <property name="documentService" ref="documentService" />
         <property name="protocolActionService" ref="iacucProtocolActionService" />
         <property name="protocolAssignCmtService" ref="iacucProtocolAssignCmtService" />
-        <property name="committeeService" ref="commonCommitteeService" />
+        <property name="committeeService" ref="iacucCommitteeService" />
     </bean>
     
     
@@ -1009,7 +1003,7 @@
 	<bean id="iacucCommitteeDecisionService" class="org.kuali.kra.iacuc.actions.decision.IacucCommitteeDecisionServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="protocolActionService" ref="iacucProtocolActionService" />
-        <property name="committeeService" ref="commonCommitteeService" />
+        <property name="committeeService" ref="iacucCommitteeService" />
         <property name="documentService" ref="documentService" />
    		<property name="protocolFinderDao" ref="iacucProtocolFinderDao" />
     </bean>
@@ -1117,7 +1111,7 @@
     </bean>
     
         
-    <bean id="commonCommitteeBatchCorrespondenceService" class="org.kuali.kra.common.committee.service.impl.CommitteeBatchCorrespondenceServiceImpl">
+    <bean id="iacucCommitteeBatchCorrespondenceService" class="org.kuali.kra.iacuc.committee.service.impl.IacucCommitteeBatchCorrespondenceServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="protocolDao" ref="iacucProtocolDao" />
         <property name="protocolGenericActionService" ref="iacucProtocolGenericActionService" />

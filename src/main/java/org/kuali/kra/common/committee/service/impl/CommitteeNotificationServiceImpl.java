@@ -72,7 +72,7 @@ public class CommitteeNotificationServiceImpl implements CommonCommitteeNotifica
             CommonCommitteeSchedule committeeSchedule = minuteDoc.getCommitteeSchedule();
             MinutesCreatedNotificationRenderer renderer = new MinutesCreatedNotificationRenderer(minuteDoc, "action taken");
             CommitteeNotificationContext context = new CommitteeNotificationContext(committeeSchedule, 
-                                                    notificationType, "Agenda Generated Notification", renderer);
+                                                    notificationType, "Minutes Generated Notification", renderer);
             kcNotificationService.sendNotification(context);
         } else {
             throw new IllegalArgumentException(committeeNotificationType);

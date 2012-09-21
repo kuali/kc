@@ -21,7 +21,7 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
  * 
  * This class is standard protocol review comment.
  */
-public class ProtocolContingency extends KraPersistableBusinessObjectBase {
+public abstract class ProtocolContingency extends KraPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = 9043529163603762324L;
 

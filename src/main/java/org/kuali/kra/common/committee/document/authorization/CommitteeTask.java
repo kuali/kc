@@ -16,32 +16,45 @@
 package org.kuali.kra.common.committee.document.authorization;
 
 import org.kuali.kra.authorization.Task;
-import org.kuali.kra.common.committee.bo.CommonCommittee;
-import org.kuali.kra.infrastructure.TaskGroupName;
+import org.kuali.kra.common.committee.bo.Committee;
 
 /**
  * A Committee Task is a task that performs an action against a
  * Committee.  To assist authorization, the Committee is available.
  */
-public class CommitteeTask extends Task {
+public abstract class CommitteeTask<CMT extends Committee<CMT, ?, ?>> extends Task {
     
-    private CommonCommittee committee;
+    private CMT committee;
+    
+// TODO *********commented the code below during IACUC refactoring*********     
+//    /**
+//     * Constructs a CommitteeTask.
+//     * @param taskName the name of the task
+//     * @param committee the Committee
+//     */
+//    public CommitteeTask(String taskName, CommonCommittee committee) {
+//        super(TaskGroupName.IACUC_COMMITTEE, taskName);
+//        this.committee = committee;
+//    }
+
     
     /**
      * Constructs a CommitteeTask.
+     * @param taskGroupName the name of the task group
      * @param taskName the name of the task
      * @param committee the Committee
      */
-    public CommitteeTask(String taskName, CommonCommittee committee) {
-        super(TaskGroupName.COMMON_COMMITTEE, taskName);
+    public CommitteeTask(String taskGroupName, String taskName, CMT committee) {
+        super(taskGroupName, taskName);
         this.committee = committee;
     }
 
+    
     /**
      * Get the Committee.
      * @return the Committee
      */
-    public CommonCommittee getCommittee() {
+    public CMT getCommittee() {
         return committee;
     }
 }

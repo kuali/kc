@@ -25,6 +25,11 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
  */
 public class CommitteeMembershipType extends KraPersistableBusinessObjectBase {
 
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = 3650247534542592108L;
+
     private String membershipTypeCode;
 
     private String description;

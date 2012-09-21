@@ -23,7 +23,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.kuali.kra.common.committee.bo.CommonCommittee;
+import org.kuali.kra.common.committee.bo.Committee;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceTemplate;
 import org.kuali.kra.lookup.keyvalue.KeyValueComparator;
@@ -36,7 +36,12 @@ import org.kuali.rice.krad.service.BusinessObjectService;
  * 
  * This class is to create key/values pair of active committees.
  */
-public class CommitteeIdValuesFinder extends KeyValuesBase {
+public abstract class CommitteeIdValuesFinder extends KeyValuesBase {
+    
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = -2721177236491755020L;
     
     private List<ProtocolCorrespondenceTemplate> correspondenceTemplates;
     private BusinessObjectService businessObjectService;
@@ -57,16 +62,19 @@ public class CommitteeIdValuesFinder extends KeyValuesBase {
      * This method will return the list of all highest-sequence number committee instances.
      * Will always return non-null (but possibly empty) collection.
      */
-    protected List<CommonCommittee> getActiveCommittees() {
-        ArrayList<CommonCommittee> returnCommitteeList = new ArrayList<CommonCommittee>();
+    protected List<Committee> getActiveCommittees() {
+        ArrayList<Committee> returnCommitteeList = new ArrayList<Committee>();
         
-        Collection<CommonCommittee> committees = this.getBusinessObjectService().findAll(CommonCommittee.class);
+// TODO *********commented the code below during IACUC refactoring*********         
+//        Collection<CommonCommittee> committees = this.getBusinessObjectService().findAll(CommonCommittee.class);
+        
+        Collection<? extends Committee> committees = this.getBusinessObjectService().findAll(getCommonCommitteeBOClassHook());
         // sort and iterate through to get only the latest instances
         if (CollectionUtils.isNotEmpty(committees)) {
             List<String> committeeIds = new ArrayList<String>();
             // only the active ones
-            Collections.sort((List<CommonCommittee>) committees, Collections.reverseOrder());
-            for (CommonCommittee committee : committees) {
+            Collections.sort((List<Committee>) committees, Collections.reverseOrder());
+            for (Committee committee : committees) {
                 if (!committeeIds.contains(committee.getCommitteeId())) {
                     returnCommitteeList.add(committee); 
                     committeeIds.add(committee.getCommitteeId());
@@ -76,6 +84,8 @@ public class CommitteeIdValuesFinder extends KeyValuesBase {
         
         return returnCommitteeList;
     }
+    
+    protected abstract Class<? extends Committee> getCommonCommitteeBOClassHook();
 
     /**
      * @return the list of &lt;key, value&gt; pairs of committees. The first entry is always &lt;"", "select:"&gt;.
@@ -86,11 +96,11 @@ public class CommitteeIdValuesFinder extends KeyValuesBase {
 
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         // only the active ones
-        Collection<CommonCommittee> committees = this.getActiveCommittees();
+        Collection<Committee> committees = this.getActiveCommittees();
         if (CollectionUtils.isNotEmpty(committees)) {
             // get the exclusion list
             List<String> excludedCommitteeIds = getExcludedCommitteeIds();
-            for (CommonCommittee committee : committees) {
+            for (Committee committee : committees) {
                 if (!excludedCommitteeIds.contains(committee.getCommitteeId())) {
                     keyValues.add(new ConcreteKeyValue(committee.getCommitteeId(), committee.getCommitteeName()));
                 }

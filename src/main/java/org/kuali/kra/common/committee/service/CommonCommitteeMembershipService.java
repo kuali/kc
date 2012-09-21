@@ -18,23 +18,23 @@ package org.kuali.kra.common.committee.service;
 import java.util.Collection;
 
 import org.kuali.kra.bo.ResearchArea;
-import org.kuali.kra.common.committee.bo.CommonCommittee;
+import org.kuali.kra.common.committee.bo.Committee;
 import org.kuali.kra.common.committee.bo.CommitteeMembership;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipRole;
 
-public interface CommonCommitteeMembershipService {
+public interface CommonCommitteeMembershipService<CMT extends Committee<CMT, ?, ?>> {
     /**
      * This method adds a CommitteeMembership to the List of CommitteeMemberships.
      * @param committee which contains list of CommitteeeMembership.
      * @param committeeMembership object is added to CommitteeMemberhip list.
      */
-    void addCommitteeMembership(CommonCommittee committee, CommitteeMembership committeeMembership);
+    void addCommitteeMembership(CMT committee, CommitteeMembership committeeMembership);
     
     /**
      * This method deletes CommitteeMembership(s) - those marked as delete
      * @param committee which contains list of CommitteeMemberhips
      */
-    void deleteCommitteeMembership(CommonCommittee committee);
+    void deleteCommitteeMembership(CMT committee);
     
     /**
      * This method adds a CommitteeMembershipRole to the list of CommitteeMembershipRoles of a 
@@ -43,7 +43,7 @@ public interface CommonCommitteeMembershipService {
      * @param selectedmembershipIndex - the index position of the CommitteeMembership to which the role is to be added. 
      * @param committeeMembershipRole - the role that is to be added
      */
-    void addCommitteeMembershipRole(CommonCommittee committee, int selectedMembershipIndex, CommitteeMembershipRole committeeMembershipRole);
+    void addCommitteeMembershipRole(CMT committee, int selectedMembershipIndex, CommitteeMembershipRole committeeMembershipRole);
 
     /**
      * This method deletes a CommitteeMembershipRole from the list of CommitteeMembershipRoles
@@ -51,7 +51,7 @@ public interface CommonCommitteeMembershipService {
      * @param selectedMembershipIndex - the index position of the CommitteeMembership from which the role is to be deleted.
      * @param lineNumber - the position of the ComitteeMembershipRole to be deleted
      */
-    void deleteCommitteeMembershipRole(CommonCommittee committee, int selectedMembershipIndex, int lineNumber);
+    void deleteCommitteeMembershipRole(CMT committee, int selectedMembershipIndex, int lineNumber);
 
     /**
      * This method adds CommitteeMembershipExpertise to a committeeMembership
@@ -66,7 +66,7 @@ public interface CommonCommitteeMembershipService {
      * @param selectedMembershipIndex - the index position of the CommitteeMembership from which the role is to be deleted.
      * @param lineNumber - the position of the CommitteeMembershipExpertise to be deleted
      */
-    void deleteCommitteeMembershipExpertise(CommonCommittee committee, int selectedMembershipIndex, int lineNumber);
+    void deleteCommitteeMembershipExpertise(CMT committee, int selectedMembershipIndex, int lineNumber);
 
     /**
      * 

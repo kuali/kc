@@ -23,8 +23,7 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.common.committee.bo.CommitteeType;
-import org.kuali.kra.common.committee.bo.CommonCommittee;
+import org.kuali.kra.common.committee.bo.Committee;
 import org.kuali.kra.common.committee.bo.CommonCommitteeSchedule;
 import org.kuali.kra.common.committee.document.authorization.CommitteeScheduleTask;
 import org.kuali.kra.common.committee.document.authorization.CommitteeTask;
@@ -47,8 +46,13 @@ import org.kuali.rice.krad.util.UrlFactory;
  * 
  * This class is to create action links and inquiry url for committeeschedule lookup.
  */
-@SuppressWarnings("serial")
-public class CommitteeScheduleLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
+@SuppressWarnings({ "serial", "deprecation" })
+public abstract class CommitteeScheduleLookupableHelperServiceImpl<CS extends CommonCommitteeSchedule<CS, CMT, ?, ?>,
+                                                                   CMT extends Committee<CMT, ? , CS>,
+                                                                   CMTTSK extends CommitteeTask<CMT>,
+                                                                   CSTSK extends CommitteeScheduleTask<CMT, CS>>
+
+                                                                   extends KualiLookupableHelperServiceImpl {
     private static final String READ_ONLY = "readOnly";
     private static final String COMMITTEE_COMMITTEE_NAME = "committee.committeeName";
     private static final String COMMITTEE_COMMITTEE_TYPE_CODE = "committee.committeeTypeCode";
@@ -68,7 +72,7 @@ public class CommitteeScheduleLookupableHelperServiceImpl extends KualiLookupabl
     // committee PK list before querying the database via BOService.
     // (See replacement for this method in ResearchAreaReferencesDaoOjb if efficiency becomes a concern)
     // NOTE: this method modifies the state of this object by updating two instance fields.
-    private boolean isCurrentVersion(CommonCommittee committee) {
+    private boolean isCurrentVersion(CMT committee) {
         boolean retValue = false;
         if (this.activeCommitteePKs.contains(committee.getId())) {
             retValue = true;
@@ -80,8 +84,11 @@ public class CommitteeScheduleLookupableHelperServiceImpl extends KualiLookupabl
                 // sorted in descending order of their sequence numbers
                 Map<String, String> fieldValues = new HashMap<String, String>();
                 fieldValues.put(COMMITTEE_ID, committee.getCommitteeId());
-                @SuppressWarnings("unchecked")
-                List<CommonCommittee> committees = (List<CommonCommittee>) this.getBusinessObjectService().findMatchingOrderBy(CommonCommittee.class, fieldValues, SEQUENCE_NUMBER, false);
+                
+// TODO *********commented the code below during IACUC refactoring*********                 
+//                    List<CommonCommittee> committees = (List<CommonCommittee>) this.getBusinessObjectService().findMatchingOrderBy(CommonCommittee.class, fieldValues, SEQUENCE_NUMBER, false);
+                
+                List<CMT> committees = (List<CMT>) this.getBusinessObjectService().findMatchingOrderBy(getCommonCommitteeBOClassHook(), fieldValues, SEQUENCE_NUMBER, false);
                 if ( (committees != null) && (!committees.isEmpty()) ) {
                     // check the first element with the argument
                     if(committees.get(0).equals(committee)) {
@@ -91,7 +98,7 @@ public class CommitteeScheduleLookupableHelperServiceImpl extends KualiLookupabl
                     this.activeCommitteePKs.add(committees.get(0).getId());
                     // update the inactive list, add the remaining elements PK
                     committees.remove(0);
-                    for(CommonCommittee cmt: committees) {                    
+                    for(CMT cmt: committees) {                    
                         this.inActiveCommitteePKs.add(cmt.getId());
                     }
                 }                
@@ -101,17 +108,23 @@ public class CommitteeScheduleLookupableHelperServiceImpl extends KualiLookupabl
     }
 
 
+    protected abstract Class<CMT> getCommonCommitteeBOClassHook();
+
+
     @SuppressWarnings("unchecked")
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         
         // we set the lookup to only list schedule for committees of type IACUC TODO will need a hook here for backfitting
-        fieldValues.put(COMMITTEE_COMMITTEE_TYPE_CODE, CommitteeType.IACUC_TYPE_CODE);
+        fieldValues.put(COMMITTEE_COMMITTEE_TYPE_CODE, getCommitteeTypeCodeHook());
         
-        List<CommonCommitteeSchedule> rawCommitteeSchedules = (List<CommonCommitteeSchedule>) super.getSearchResultsUnbounded(fieldValues);
-        List<CommonCommitteeSchedule> finalCommitteeSchedules = new ArrayList<CommonCommitteeSchedule>();
+// TODO *********commented the code below during IACUC refactoring*********         
+//        fieldValues.put(COMMITTEE_COMMITTEE_TYPE_CODE, CommitteeType.IACUC_TYPE_CODE);
+        
+        List<CS> rawCommitteeSchedules = (List<CS>) super.getSearchResultsUnbounded(fieldValues);
+        List<CS> finalCommitteeSchedules = new ArrayList<CS>();
         // go through each of the raw schedules and decide if it should be included in the final listing
-        for (CommonCommitteeSchedule schedule : rawCommitteeSchedules) {
+        for (CS schedule : rawCommitteeSchedules) {
             // check if the schedule's committee is the most current version
             if ((schedule.getCommittee() != null) && (isCurrentVersion(schedule.getCommittee()))) {
                 // are we looking for all schedules or for a specific user?
@@ -132,8 +145,8 @@ public class CommitteeScheduleLookupableHelperServiceImpl extends KualiLookupabl
         // if we are looking for schedules for a specific user then 
         // sort the schedules based on schedule date and move the entire block of past schedules to the end
         if (StringUtils.isNotBlank(fieldValues.get(SCHEDULE_PERSON_ID_LOOKUP))) {
-            List<CommonCommitteeSchedule> pastCommitteeSchedules = new ArrayList<CommonCommitteeSchedule>();
-            for (CommonCommitteeSchedule schedule : finalCommitteeSchedules) {
+            List<CS> pastCommitteeSchedules = new ArrayList<CS>();
+            for (CS schedule : finalCommitteeSchedules) {
                 if(schedule.isScheduleDateInPast()) {
                     pastCommitteeSchedules.add(schedule);
                 }
@@ -150,15 +163,25 @@ public class CommitteeScheduleLookupableHelperServiceImpl extends KualiLookupabl
         
         // processing return collection based on final result count
         Long matchingResultsCount = new Long(finalCommitteeSchedules.size());
-        Integer searchResultsLimit = LookupUtils.getSearchResultsLimit(CommonCommitteeSchedule.class);
+        
+// TODO *********commented the code below during IACUC refactoring*********         
+//        Integer searchResultsLimit = LookupUtils.getSearchResultsLimit(CommonCommitteeSchedule.class);
+        
+        Integer searchResultsLimit = LookupUtils.getSearchResultsLimit(getCommonCommitteeScheduleBOClassHook());
         if ((matchingResultsCount == null) || (matchingResultsCount.intValue() <= searchResultsLimit.intValue())) {
-            return new CollectionIncomplete<CommonCommitteeSchedule>(finalCommitteeSchedules, new Long(0));
+            return new CollectionIncomplete<CS>(finalCommitteeSchedules, new Long(0));
         }
         else {
-            return new CollectionIncomplete<CommonCommitteeSchedule>(trimResult(finalCommitteeSchedules, searchResultsLimit),
+            return new CollectionIncomplete<CS>(trimResult(finalCommitteeSchedules, searchResultsLimit),
                 matchingResultsCount);
         }
     }
+
+
+    protected abstract Class<CS> getCommonCommitteeScheduleBOClassHook();
+
+
+    protected abstract String getCommitteeTypeCodeHook();
 
 
     /**
@@ -168,9 +191,9 @@ public class CommitteeScheduleLookupableHelperServiceImpl extends KualiLookupabl
      * @param trimSize, the maximum size of the trimmed result set
      * @return the trimmed result set
      */
-    protected List<CommonCommitteeSchedule> trimResult(List<CommonCommitteeSchedule> result, Integer trimSize) {
-        List<CommonCommitteeSchedule> trimmedResult = new ArrayList<CommonCommitteeSchedule>();
-        for (CommonCommitteeSchedule committeeSchedule : result) {
+    protected List<CS> trimResult(List<CS> result, Integer trimSize) {
+        List<CS> trimmedResult = new ArrayList<CS>();
+        for (CS committeeSchedule : result) {
             if (trimmedResult.size() < trimSize) {
                 trimmedResult.add(committeeSchedule);
             }
@@ -188,17 +211,17 @@ public class CommitteeScheduleLookupableHelperServiceImpl extends KualiLookupabl
     @Override
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
         List<HtmlData> htmlDataList = new ArrayList<HtmlData>();
-        if (canModifySchedule((CommonCommitteeSchedule) businessObject)) {
-            htmlDataList.add(getLink((CommonCommitteeSchedule) businessObject, true));
-            htmlDataList.add(getLink((CommonCommitteeSchedule) businessObject, false));
+        if (canModifySchedule((CS) businessObject)) {
+            htmlDataList.add(getLink((CS) businessObject, true));
+            htmlDataList.add(getLink((CS) businessObject, false));
         }
-        else if (canViewSchedule((CommonCommitteeSchedule) businessObject)) {
-            htmlDataList.add(getLink((CommonCommitteeSchedule) businessObject, false));
+        else if (canViewSchedule((CS) businessObject)) {
+            htmlDataList.add(getLink((CS) businessObject, false));
         }
         
         // append past message to action URL list if the schedule date has passed
         
-        if( ((CommonCommitteeSchedule) businessObject).isScheduleDateInPast()) {
+        if( ((CS) businessObject).isScheduleDateInPast()) {
             AnchorHtmlData htmlData = new AnchorHtmlData();
             htmlData.setDisplayText("(past)");
             htmlDataList.add(htmlData);
@@ -214,7 +237,7 @@ public class CommitteeScheduleLookupableHelperServiceImpl extends KualiLookupabl
     /*
      * This is a utility method to set up url to edit or view meeting schedule
      */
-    protected AnchorHtmlData getLink(CommonCommitteeSchedule committeeSchedule, boolean isEdit) {
+    protected AnchorHtmlData getLink(CS committeeSchedule, boolean isEdit) {
         AnchorHtmlData htmlData = new AnchorHtmlData();
         Properties parameters = new Properties();
         parameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "start");
@@ -255,16 +278,30 @@ public class CommitteeScheduleLookupableHelperServiceImpl extends KualiLookupabl
         }
     }
 
-    protected boolean canModifySchedule(CommonCommitteeSchedule committeeSchedule) {
-        CommitteeTask task = new CommitteeTask(TaskName.MODIFY_SCHEDULE, committeeSchedule.getCommittee());
+    protected boolean canModifySchedule(CS committeeSchedule) {
+        
+// TODO *********commented the code below during IACUC refactoring*********         
+//        CommitteeTask task = new CommitteeTask(TaskName.MODIFY_SCHEDULE, committeeSchedule.getCommittee());
+        
+        CMTTSK task = getNewCommitteeTaskInstanceHook(TaskName.MODIFY_SCHEDULE, committeeSchedule.getCommittee());
         return taskAuthorizationService.isAuthorized(getUserIdentifier(), task);
     }
+    
+    protected abstract CMTTSK getNewCommitteeTaskInstanceHook(String taskName, CMT committee);
 
-    protected boolean canViewSchedule(CommonCommitteeSchedule committeeSchedule) {
-        CommitteeTask task = new CommitteeScheduleTask(TaskName.VIEW_SCHEDULE, committeeSchedule.getCommittee(), committeeSchedule);
+    
+    
+    protected boolean canViewSchedule(CS committeeSchedule) {
+        
+// TODO *********commented the code below during IACUC refactoring*********         
+//        CommitteeTask task = new CommitteeScheduleTask(TaskName.VIEW_SCHEDULE, committeeSchedule.getCommittee(), committeeSchedule);
+        
+        CSTSK task =  getNewCommitteeScheduleTaskInstanceHook(TaskName.VIEW_SCHEDULE, committeeSchedule.getCommittee(), committeeSchedule);
         boolean result = taskAuthorizationService.isAuthorized(getUserIdentifier(), task);
         return result;
     }
+    
+    protected abstract CSTSK getNewCommitteeScheduleTaskInstanceHook(String taskName, CMT committee, CS committeeSchedule);
 
     public void setTaskAuthorizationService(TaskAuthorizationService taskAuthorizationService) {
         this.taskAuthorizationService = taskAuthorizationService;

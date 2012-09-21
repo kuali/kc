@@ -30,7 +30,6 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.common.committee.bo.CommonCommitteeSchedule;
 import org.kuali.kra.common.committee.document.CommonCommitteeDocument;
-import org.kuali.kra.iacuc.actions.reviewcomments.IacucReviewCommentsService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsService;
@@ -39,6 +38,7 @@ import org.kuali.kra.common.committee.meeting.MeetingEventBase.ErrorType;
 import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
+import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.exception.AuthorizationException;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
@@ -53,7 +53,7 @@ import org.kuali.rice.krad.util.KRADConstants;
  * This class is for all meeting actions. A couple of methods, which are for text area update, are copied from
  * KraTransactionalDocumentActionBase.
  */
-public class MeetingAction extends KualiAction {
+public abstract class MeetingAction extends KualiAction {
     private static final String CLOSE_QUESTION = "Would you like to save meeting data before close it ?";
 
     private static final String CLOSE_QUESTION_ID = "meeting.close.question";
@@ -77,9 +77,8 @@ public class MeetingAction extends KualiAction {
 
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put("id", request.getParameter("scheduleId"));
-        List<CommitteeScheduleMinute> permittedMinutes = new ArrayList<CommitteeScheduleMinute>();
-        CommonCommitteeSchedule commSchedule = (CommonCommitteeSchedule) getBusinessObjectService().findByPrimaryKey(CommonCommitteeSchedule.class,
-                fieldValues);
+        List<CommitteeScheduleMinute<?,?>> permittedMinutes = new ArrayList<CommitteeScheduleMinute<?,?>>();
+        CommonCommitteeSchedule commSchedule = (CommonCommitteeSchedule) getBusinessObjectService().findByPrimaryKey(getCommitteeScheduleBOClass(), fieldValues);
         List<CommitteeScheduleMinute> minutes = commSchedule.getCommitteeScheduleMinutes();
         
         // use the entry type comparator to sort the minutes 
@@ -105,17 +104,20 @@ public class MeetingAction extends KualiAction {
     }
 
 
+    protected abstract Class<? extends CommonCommitteeSchedule> getCommitteeScheduleBOClass();
+
+
     /*
      * This is a utility method to figure out the order of the selected schedule in schedule collections. This is primarily for
      * creating meeting tab title.
      */
-    private int getScheduleLineNumber(HttpServletRequest request, CommonCommitteeSchedule commSchedule) {
+    private int getScheduleLineNumber(HttpServletRequest request, CommonCommitteeSchedule<?, ?, ?, ?> commSchedule) {
         int lineNumber = 0;
         if (StringUtils.isNotBlank(request.getParameter(LINE_NUMBER))) {
             lineNumber = Integer.parseInt(request.getParameter(LINE_NUMBER));
         }
         else {
-            for (CommonCommitteeSchedule schedule : commSchedule.getCommittee().getCommitteeSchedules()) {
+            for (CommonCommitteeSchedule<?, ?, ?, ?> schedule : commSchedule.getCommittee().getCommitteeSchedules()) {
                 lineNumber++;
                 if (schedule.getId().equals(commSchedule.getId())) {
                     break;
@@ -227,9 +229,15 @@ public class MeetingAction extends KualiAction {
             HttpServletResponse response) throws Exception {
         ProtocolSubmission protocolSubmission = ((MeetingForm) form).getMeetingHelper().getCommitteeSchedule()
                 .getLatestProtocolSubmissions().get(Integer.parseInt(request.getParameter("line")));
-        response.sendRedirect("iacucProtocolActions.do?methodToCall=start&submissionId=" + protocolSubmission.getSubmissionId());
+        
+// TODO *********commented the code below during IACUC refactoring*********         
+//        response.sendRedirect("iacucProtocolActions.do?methodToCall=start&submissionId=" + protocolSubmission.getSubmissionId());
+        
+        response.sendRedirect(getActionIdHook() + ".do?methodToCall=start&submissionId=" + protocolSubmission.getSubmissionId());
         return null;
     }
+
+    protected abstract String getActionIdHook();
 
 
     protected BusinessObjectService getBusinessObjectService() {
@@ -364,14 +372,20 @@ public class MeetingAction extends KualiAction {
     protected boolean applyRules(KualiDocumentEvent event) {
         return KraServiceLocator.getService(KualiRuleService.class).applyRules(event);
     }
+    
+    protected abstract CommonMeetingService getMeetingService();
 
-    protected CommonMeetingService getMeetingService() {
-        return KraServiceLocator.getService(CommonMeetingService.class);
-    }
+// TODO *********commented the code below during IACUC refactoring*********     
+//    protected CommonMeetingService getMeetingService() {
+//        return KraServiceLocator.getService(CommonMeetingService.class);
+//    }
 
 
-    private ReviewCommentsService getReviewerCommentsService() {
-        return KraServiceLocator.getService(IacucReviewCommentsService.class);
-    }
+    protected abstract ReviewCommentsService<?> getReviewerCommentsService();
+    
+// TODO *********commented the code below during IACUC refactoring*********     
+//    private ReviewCommentsService getReviewerCommentsService() {
+//        return KraServiceLocator.getService(IacucReviewCommentsService.class);
+//    }
 
 }

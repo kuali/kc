@@ -16,13 +16,20 @@
 package org.kuali.kra.iacuc.actions.print;
 
 import org.kuali.kra.bo.CoeusModule;
+import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
 import org.kuali.kra.protocol.actions.print.ProtocolQuestionnairePrintingServiceImpl;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
 
 public class IacucProtocolQuestionnairePrintingServiceImpl extends ProtocolQuestionnairePrintingServiceImpl implements IacucProtocolQuestionnairePrintingService{
 
     @Override
     protected String getCoeusModuleCode() {
         return CoeusModule.IACUC_PROTOCOL_MODULE_CODE;
+    }
+
+    @Override
+    protected Class<? extends ProtocolSubmission> getProtocolSubmissionBOClassHook() {
+        return IacucProtocolSubmission.class;
     }
 
 }

@@ -30,6 +30,7 @@ import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
 import org.kuali.kra.questionnaire.QuestionnaireUsage;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
+import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 public abstract class ProtocolQuestionnairePrintingServiceImpl implements ProtocolQuestionnairePrintingService {
@@ -122,7 +123,12 @@ public abstract class ProtocolQuestionnairePrintingServiceImpl implements Protoc
                     Map keyValues = new HashMap();
                     keyValues.put("protocolNumber", answerHeader.getModuleItemKey());
                     keyValues.put("submissionNumber", answerHeader.getModuleSubItemKey());
-                    List<ProtocolSubmission> submissions = ((List<ProtocolSubmission>) getBusinessObjectService().findMatchingOrderBy(ProtocolSubmission.class, keyValues,
+                    
+// TODO *********commented the code below during IACUC refactoring*********                     
+//                    List<ProtocolSubmission> submissions = ((List<ProtocolSubmission>) getBusinessObjectService().findMatchingOrderBy(ProtocolSubmission.class, keyValues,
+//                            "submissionId", false));
+                    
+                    List<ProtocolSubmission> submissions = ((List<ProtocolSubmission>) getBusinessObjectService().findMatchingOrderBy(getProtocolSubmissionBOClassHook(), keyValues,
                             "submissionId", false));
                     if (submissions.isEmpty()) {
                         // this may happen if it is undo last action
@@ -149,6 +155,8 @@ public abstract class ProtocolQuestionnairePrintingServiceImpl implements Protoc
         return label;
     }
 
+    protected abstract Class<? extends ProtocolSubmission> getProtocolSubmissionBOClassHook();
+    
     /*
      * This is Questionnaire answer is with submodulecode of "0".
      * Then if this protocol is A/R, then it has to check whether this is the first version

@@ -23,7 +23,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
+import org.kuali.kra.iacuc.committee.meeting.IacucCommitteeScheduleMinute;
 import org.kuali.kra.protocol.actions.submit.ProtocolActionMapping;
 
 /*
@@ -183,6 +185,12 @@ public class IacucProtocolActionMapping extends ProtocolActionMapping {
         }
         
         return retVal;
+    }
+
+
+    @Override
+    protected Class<? extends CommitteeScheduleMinute> getCommitteeScheduleMinuteBOClassHook() {
+        return IacucCommitteeScheduleMinute.class;
     }
     
     

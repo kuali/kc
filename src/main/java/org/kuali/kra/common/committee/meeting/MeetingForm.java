@@ -29,7 +29,8 @@ import org.kuali.rice.krad.document.Document;
  * 
  * This class is a form for Meeting management,
  */
-public class MeetingForm extends KualiForm {
+@SuppressWarnings("deprecation")
+public abstract class MeetingForm extends KualiForm {
     private static final long serialVersionUID = -7825455832928793712L;
     private MeetingHelper meetingHelper;
     // textarea needs formKey & document.  
@@ -46,8 +47,10 @@ public class MeetingForm extends KualiForm {
      * This method initialize all form variables
      */
     public void initialize() {
-       setMeetingHelper(new MeetingHelper(this));
+       setMeetingHelper(getNewMeetingHelperInstanceHook(this));
     }
+    
+    protected abstract MeetingHelper getNewMeetingHelperInstanceHook(MeetingForm meetingForm);
 
     public MeetingHelper getMeetingHelper() {
         return meetingHelper;

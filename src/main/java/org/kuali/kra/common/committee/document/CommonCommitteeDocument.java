@@ -21,7 +21,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.RolePersons;
-import org.kuali.kra.common.committee.bo.CommonCommittee;
+import org.kuali.kra.common.committee.bo.Committee;
 import org.kuali.kra.common.committee.bo.CommonCommitteeSchedule;
 import org.kuali.kra.common.committee.service.CommonCommitteeService;
 import org.kuali.kra.document.ResearchDocumentBase;
@@ -38,9 +38,18 @@ import org.kuali.rice.krad.util.ObjectUtils;
  * The document is necessary for workflow.
  */
 @SuppressWarnings("serial")
-public class CommonCommitteeDocument extends ResearchDocumentBase implements Copyable, SessionDocument { 
+public abstract class CommonCommitteeDocument<CD extends CommonCommitteeDocument<CD, CMT, CS>, 
+                                              CMT extends Committee<CMT, CD, CS>, 
+                                              CS extends CommonCommitteeSchedule<CS, CMT, ?, ?>> 
+                        
+                                              extends ResearchDocumentBase implements Copyable, SessionDocument { 
 
-	private static final String DOCUMENT_TYPE_CODE = "COMT";
+	/**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = 1L;
+
+    private static final String DOCUMENT_TYPE_CODE = "COMT";
 
 	// These 2 properties are for performance purpose.  Especially, for those 1st version committee doc.
     private String committeeId;
@@ -52,16 +61,21 @@ public class CommonCommitteeDocument extends ResearchDocumentBase implements Cop
      * relationships within OJB in regards to anonymous keys.  We are
      * forced to use a one-to-many relationship.
      */
-    private List<CommonCommittee> committeeList = new ArrayList<CommonCommittee>();
+    private List<CMT> committeeList = new ArrayList<CMT>();
     
     /**
      * Constructs a CommitteeDocument object
      */
     public CommonCommitteeDocument() {
-        CommonCommittee committee = new CommonCommittee();
+        CMT committee = getNewCommitteeInstanceHook();
         committeeList.add(committee);
-        committee.setCommitteeDocument(this);
+        committee.setCommitteeDocument(getThisHook());
     }
+
+    protected abstract CD getThisHook();
+
+    protected abstract CMT getNewCommitteeInstanceHook();
+    
 
     /**
      * @see org.kuali.kra.document.ResearchDocumentBase#initialize()
@@ -74,7 +88,7 @@ public class CommonCommitteeDocument extends ResearchDocumentBase implements Cop
      * obtaining the single Committee BO in the list.
      * @return the Committee BO
      */
-    public CommonCommittee getCommittee() {
+    public CMT getCommittee() {
         return committeeList.get(0);
     }
 
@@ -83,7 +97,7 @@ public class CommonCommitteeDocument extends ResearchDocumentBase implements Cop
      * insert the committee into the list.
      * @param committee the Committee BO
      */
-    public void setCommittee(CommonCommittee committee) {
+    public void setCommittee(CMT committee) {
         committeeList.set(0, committee);
     }
 
@@ -93,7 +107,7 @@ public class CommonCommitteeDocument extends ResearchDocumentBase implements Cop
      *          This method is for OJB use only.
      * @return the list with the single committee
      */
-    public List<CommonCommittee> getCommitteeList() {
+    public List<CMT> getCommitteeList() {
         return committeeList;
     }
 
@@ -103,7 +117,7 @@ public class CommonCommitteeDocument extends ResearchDocumentBase implements Cop
      *          This method is for OJB use only.
      * @param committeeList the list containing the single committee
      */
-    public void setCommitteeList(List<CommonCommittee> committeeList) {
+    public void setCommitteeList(List<CMT> committeeList) {
         this.committeeList = committeeList;
     }
 
@@ -164,16 +178,20 @@ public class CommonCommitteeDocument extends ResearchDocumentBase implements Cop
         super.doRouteStatusChange(statusChangeEvent);
         this.setDocStatusCode(statusChangeEvent.getNewRouteStatus());
         if (isFinal(statusChangeEvent) && this.getCommittee().getSequenceNumber() > 1) {
-            List<CommonCommitteeSchedule> schedules = this.getCommittee().getCommitteeSchedules();
+            List<CS> schedules = this.getCommittee().getCommitteeSchedules();
             this.getCommittee().setCommitteeSchedules(getCommitteeService().mergeCommitteeSchedule(this.getCommittee().getCommitteeId()));
             getBusinessObjectService().delete(schedules);
             getBusinessObjectService().save(this);
         }
     }
     
-    private CommonCommitteeService getCommitteeService() {
-        return KraServiceLocator.getService(CommonCommitteeService.class);
-    }
+    protected abstract CommonCommitteeService<CMT, CS> getCommitteeService();
+    
+// TODO *********commented the code below during IACUC refactoring*********     
+//    private CommonCommitteeService getCommitteeService() {
+//        return KraServiceLocator.getService(CommonCommitteeService.class);
+//    }
+    
     private BusinessObjectService getBusinessObjectService() {
         return KraServiceLocator.getService(BusinessObjectService.class);
     }

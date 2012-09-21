@@ -20,7 +20,7 @@ package org.kuali.kra.common.committee.meeting;
  * 
  * This class is meeting generated agenda doc.
  */
-public class ScheduleAgenda extends GeneratedMeetingDoc {
+public abstract class ScheduleAgenda extends GeneratedMeetingDoc {
 
     private static final long serialVersionUID = -3448403457020324952L;
 

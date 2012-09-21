@@ -23,7 +23,7 @@ import org.kuali.kra.protocol.correspondence.ProtocolCorrespondence;
  * 
  * This class implements the CommitteeBatchCorrespondenceDetail business object.
  */
-public class CommitteeBatchCorrespondenceDetail extends KraPersistableBusinessObjectBase {
+public abstract class CommitteeBatchCorrespondenceDetail extends KraPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = 1L;
 

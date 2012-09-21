@@ -30,9 +30,9 @@
    <tr> 
     <td nowrap class="">IACUC Committee</td>
     <td>  
-      <portal:portalLink displayTitle="false" title="Create Committee" url="${ConfigProperties.application.url}/commonCommitteeCommittee.do?methodToCall=docHandler&command=initiate&docTypeName=CommonCommitteeDocument">
+      <portal:portalLink displayTitle="false" title="Create Committee" url="${ConfigProperties.application.url}/iacucCommitteeCommittee.do?methodToCall=docHandler&command=initiate&docTypeName=IacucCommitteeDocument">
           <img src="static/images/add.png" alt="add" width="16" height="16" border="0" align="absmiddle"></portal:portalLink>          
-      <portal:portalLink displayTitle="false" title="Committee Lookup" url="${ConfigProperties.application.url}/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.common.committee.bo.CommonCommittee&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true">
+      <portal:portalLink displayTitle="false" title="Committee Lookup" url="${ConfigProperties.application.url}/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.iacuc.committee.bo.IacucCommittee&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true">
           <img src="static/images/searchicon.gif" alt="lookup" width="16" height="16" border="0" align="absmiddle"></portal:portalLink>
     </td>
   </tr>
@@ -66,7 +66,7 @@
     <td nowrap class="disabled-text">IACUC Schedules</td>
     <td>
       <img src="static/images/pixel_clear.gif" alt="add" width="16" height="16" border="0" align="absmiddle">
-      <portal:portalLink displayTitle="false" title="Schedule Lookup" url="${ConfigProperties.application.url}/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.common.committee.bo.CommonCommitteeSchedule&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true">
+      <portal:portalLink displayTitle="false" title="Schedule Lookup" url="${ConfigProperties.application.url}/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.iacuc.committee.bo.IacucCommitteeSchedule&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true">
           <img src="static/images/searchicon.gif" alt="lookup" width="16" height="16" border="0" align="absmiddle"></portal:portalLink>
     </td>  		     		
   </tr>

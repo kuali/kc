@@ -19,7 +19,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.kuali.kra.bo.ResearchArea;
-import org.kuali.kra.common.committee.bo.CommonCommittee;
+import org.kuali.kra.common.committee.bo.Committee;
 import org.kuali.kra.common.committee.bo.CommitteeMembership;
 import org.kuali.kra.common.committee.bo.CommonCommitteeSchedule;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -28,21 +28,22 @@ import org.kuali.rice.core.api.util.KeyValue;
  * The Committee Service provides a set of methods for
  * working with committees.
  */
-public interface CommonCommitteeService {
+public interface CommonCommitteeService<CMT extends Committee<CMT, ?, CS>, 
+                                        CS extends CommonCommitteeSchedule<CS, CMT, ?, ?>> {
 
     /**
      * Retrieve a committee from the database based upon its Committee ID.
      * @param committeeId the committee ID
      * @return the committee or null if not found
      */
-    public CommonCommittee getCommitteeById(String committeeId);
+    public CMT getCommitteeById(String committeeId);
    
     /**
      * Add the research areas to the committee.  Duplicates are not added.
      * @param committee the committee to add to
      * @param researchAreas the research areas to add
      */
-    public void addResearchAreas(CommonCommittee committee, Collection<ResearchArea> researchAreas);
+    public void addResearchAreas(CMT committee, Collection<ResearchArea> researchAreas);
 
     /**
      * Get the valid upcoming committee dates for scheduling a protocol.
@@ -73,7 +74,7 @@ public interface CommonCommitteeService {
      * @param scheduleId the id of the schedule to find
      * @return the schedule or null if not found
      */
-    public CommonCommitteeSchedule getCommitteeSchedule(CommonCommittee committee, String scheduleId);
+    public CS getCommitteeSchedule(CMT committee, String scheduleId);
     
     /**
      * 
@@ -81,5 +82,5 @@ public interface CommonCommitteeService {
      * @param committeeId
      * @return
      */
-    List<CommonCommitteeSchedule>  mergeCommitteeSchedule(String committeeId);
+    List<CS>  mergeCommitteeSchedule(String committeeId);
 }

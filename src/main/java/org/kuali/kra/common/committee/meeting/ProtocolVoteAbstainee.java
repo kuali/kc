@@ -20,7 +20,7 @@ package org.kuali.kra.common.committee.meeting;
  * 
  * This class is for member abstained from vote.
  */
-public class ProtocolVoteAbstainee extends ProtocolMeetingVoter {
+public abstract class ProtocolVoteAbstainee extends ProtocolMeetingVoter {
 
     private static final long serialVersionUID = 6207540592702779528L;
 
