@@ -53,6 +53,7 @@
                 <ref bean="ProposalLog-logStatus" />
                 <ref bean="ProposalLog-comments" />
                 <ref bean="ProposalLog-deadlineDate" />
+                <ref bean="ProposalLog-deadlineTime" />
                 <ref bean="ProposalLog-updateUser" />
                 <ref bean="ProposalLog-updateTimestamp" />
                 <ref bean="ProposalLog-createUser" />
@@ -344,6 +345,21 @@
         <property name="summary" value="Deadline Date" />
         <property name="description" value="Deadline Date" />
     </bean>
+    
+    <bean id="ProposalLog-deadlineTime" parent="ProposalLog-deadlineTime-parentBean" />
+	<bean id="ProposalLog-deadlineTime-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="deadlineTime" />
+		<property name="label" value="Deadline Time" />
+		<property name="shortLabel" value="Deadline Time" />
+		<property name="required" value="false" />
+		<property name="maxLength" value="15" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="15" />
+		</property>
+		<property name="summary" value="The Deadline Time of the Proposal" />
+		<property name="description"
+			value="The time in which the proposal is due to the sponsoring agency.  Additional deadlines may be set by the office authorized to submit proposals on behalf of the institution (e.g. sponsored programs, etc.)." />
+	</bean>
 
     <bean id="ProposalLog-mergedWith" parent="ProposalLog-mergedWith-parentBean" />
     <bean id="ProposalLog-mergedWith-parentBean" abstract="true" parent="AttributeDefinition" >
