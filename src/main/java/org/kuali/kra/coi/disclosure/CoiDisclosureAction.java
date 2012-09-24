@@ -212,7 +212,8 @@ public class CoiDisclosureAction extends CoiAction {
         // We reset the "audit activated" flag because the current semantics of <<renderMultipart="true">> 
         // cause the action form to be simply picked up from the user session (and not recreated) for each new request. 
         // Thus any flags set on the form during the processing of one request are persistent and visible in any subsequent request.
-        coiDisclosureForm.setAuditActivated(false);
+        
+        //coiDisclosureForm.setAuditActivated(false);
         
         ActionForward actionForward = super.execute(mapping, form, request, response);
         
