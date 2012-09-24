@@ -26,11 +26,11 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.bo.ResearchArea;
 import org.kuali.kra.common.committee.bo.Committee;
-import org.kuali.kra.common.committee.document.CommonCommitteeDocument;
+import org.kuali.kra.common.committee.document.CommitteeDocumentBase;
 import org.kuali.kra.common.committee.document.authorization.CommitteeTask;
 import org.kuali.kra.common.committee.rules.CommitteeDocumentRule;
-import org.kuali.kra.common.committee.service.CommonCommitteeService;
-import org.kuali.kra.common.committee.web.struts.form.CommonCommitteeForm;
+import org.kuali.kra.common.committee.service.CommitteeServiceBase;
+import org.kuali.kra.common.committee.web.struts.form.CommitteeForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
@@ -55,7 +55,7 @@ public abstract class CommitteeCommitteeAction extends CommitteeAction {
             throws Exception {
         ActionForward actionForward = super.execute(mapping, form, request, response);
         // Following is for committee lookup - edit committee 
-        CommonCommitteeForm committeeForm = ((CommonCommitteeForm)form);
+        CommitteeForm committeeForm = ((CommitteeForm)form);
         String commandParam = request.getParameter(KRADConstants.PARAMETER_COMMAND);
         if (StringUtils.isNotBlank(commandParam) && commandParam.equals("initiate") && StringUtils.isNotBlank(request.getParameter(COMMITTEE_ID))) {
             Committee committee = getCommitteeService().getCommitteeById(request.getParameter(COMMITTEE_ID));
@@ -73,10 +73,10 @@ public abstract class CommitteeCommitteeAction extends CommitteeAction {
     }
     
     /**
-     * @see org.kuali.kra.common.committee.web.struts.action.CommitteeAction#processMultipleLookupResults(org.kuali.kra.common.committee.document.CommonCommitteeDocument, java.lang.Class, java.util.Collection)
+     * @see org.kuali.kra.common.committee.web.struts.action.CommitteeAction#processMultipleLookupResults(org.kuali.kra.common.committee.document.CommitteeDocumentBase, java.lang.Class, java.util.Collection)
      */
     @Override
-    protected void processMultipleLookupResults(CommonCommitteeForm committeeForm,
+    protected void processMultipleLookupResults(CommitteeForm committeeForm,
             Class lookupResultsBOClass, Collection<PersistableBusinessObject> selectedBOs) {
         if (lookupResultsBOClass.isAssignableFrom(ResearchArea.class)) {
             Committee committee = committeeForm.getCommitteeDocument().getCommittee();
@@ -101,8 +101,8 @@ public abstract class CommitteeCommitteeAction extends CommitteeAction {
     public ActionForward deleteResearchArea(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
     throws Exception {
         
-        CommonCommitteeForm committeeForm = (CommonCommitteeForm) form;
-        CommonCommitteeDocument committeeDocument = committeeForm.getCommitteeDocument();
+        CommitteeForm committeeForm = (CommitteeForm) form;
+        CommitteeDocumentBase committeeDocument = committeeForm.getCommitteeDocument();
         Committee committee = committeeDocument.getCommittee();
         
 // TODO *********commented the code below during IACUC refactoring*********         
@@ -122,14 +122,14 @@ public abstract class CommitteeCommitteeAction extends CommitteeAction {
     
     
     
-    private CommonCommitteeService getCommitteeService() {
+    private CommitteeServiceBase getCommitteeService() {
         
 // TODO *********commented the code below during IACUC refactoring********* 
 //        return (CommonCommitteeService) KraServiceLocator.getService(CommonCommitteeService.class);
         
-        return (CommonCommitteeService) KraServiceLocator.getService(getCommonCommitteeServiceBOClassHook());
+        return (CommitteeServiceBase) KraServiceLocator.getService(getCommitteeServiceBOClassHook());
     }
 
-    protected abstract Class<? extends CommonCommitteeService> getCommonCommitteeServiceBOClassHook();
+    protected abstract Class<? extends CommitteeServiceBase> getCommitteeServiceBOClassHook();
     
 }

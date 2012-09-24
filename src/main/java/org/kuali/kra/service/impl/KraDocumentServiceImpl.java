@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.iacuc.committee.bo.IacucCommittee;
-import org.kuali.kra.iacuc.committee.document.IacucCommitteeDocument;
+import org.kuali.kra.iacuc.committee.document.CommonCommitteeDocument;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.exception.ValidationException;
 import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
@@ -64,11 +64,11 @@ public class KraDocumentServiceImpl extends DocumentServiceImpl {
                 }
             }
             // TODO remove this else if block after committee backfitting
-            else if (document instanceof IacucCommitteeDocument) {
-                IacucCommittee committee = ((IacucCommitteeDocument) document).getCommittee();
-                ((IacucCommitteeDocument) document).setCommitteeList(new ArrayList());
+            else if (document instanceof CommonCommitteeDocument) {
+                IacucCommittee committee = ((CommonCommitteeDocument) document).getCommittee();
+                ((CommonCommitteeDocument) document).setCommitteeList(new ArrayList());
                 getDocumentDao().save(document);
-                ((IacucCommitteeDocument) document).getCommitteeList().add(committee);
+                ((CommonCommitteeDocument) document).getCommitteeList().add(committee);
                 if (event instanceof RouteDocumentEvent) {
                     getDocumentDao().save(document);
                 }

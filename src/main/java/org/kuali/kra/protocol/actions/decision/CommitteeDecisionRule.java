@@ -21,7 +21,7 @@ import java.util.List;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.common.committee.bo.CommitteeDecisionMotionType;
-import org.kuali.kra.common.committee.service.CommonCommitteeScheduleAttendanceService;
+import org.kuali.kra.common.committee.service.CommitteeScheduleAttendanceServiceBase;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -36,27 +36,30 @@ import org.kuali.kra.rules.ResearchDocumentRuleBase;
  * 
  * This class runs the rules needed for committee decision recording.
  */
-public class CommitteeDecisionRule<CD extends CommitteeDecision<?>> extends ResearchDocumentRuleBase implements ExecuteCommitteeDecisionRule<CD> {
+public abstract class CommitteeDecisionRule<CD extends CommitteeDecision<?>> extends ResearchDocumentRuleBase implements ExecuteCommitteeDecisionRule<CD> {
     
     private static final String DOT = ".";
     private static final String MOTION_FIELD = "motionTypeCode";
     private static final String YES_COUNT_FIELD = "yesCount";
     private static final String NO_COUNT_FIELD = "noCount";
     
-    private CommonCommitteeScheduleAttendanceService attendanceService;
+    private CommitteeScheduleAttendanceServiceBase attendanceService;
     
-    protected final CommonCommitteeScheduleAttendanceService getAttendanceService() {
+    protected final CommitteeScheduleAttendanceServiceBase getAttendanceService() {
         if (attendanceService == null) {
-            attendanceService = KraServiceLocator.getService(CommonCommitteeScheduleAttendanceService.class);
+            attendanceService = KraServiceLocator.getService(getCommitteeScheduleAttendanceServiceClassHook());
         }
         return attendanceService;
     }
     
+    protected abstract Class<? extends CommitteeScheduleAttendanceServiceBase> getCommitteeScheduleAttendanceServiceClassHook();
+    
+
     /**
      * This is a convenience method to use jmock to set the businessObjectService for unit testing.
      * @param businessObjectService
      */
-    public void setAttendanceService(CommonCommitteeScheduleAttendanceService attendanceService){
+    public void setAttendanceService(CommitteeScheduleAttendanceServiceBase attendanceService){
         this.attendanceService = attendanceService;
     }
 

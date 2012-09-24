@@ -24,9 +24,9 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.common.committee.bo.Committee;
-import org.kuali.kra.common.committee.bo.CommonCommitteeSchedule;
+import org.kuali.kra.common.committee.bo.CommitteeSchedule;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinute;
-import org.kuali.kra.common.committee.service.CommonCommitteeService;
+import org.kuali.kra.common.committee.service.CommitteeServiceBase;
 import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.actions.IacucProtocolAction;
@@ -66,7 +66,7 @@ public class IacucProtocolModifySubmissionServiceImpl extends IacucProtocolProce
     private BusinessObjectService businessObjectService;
     private IacucProtocolOnlineReviewService protocolOnlineReviewService;
     private KcNotificationService kcNotificationService;
-    private CommonCommitteeService committeeService;
+    private CommitteeServiceBase committeeService;
     private static final String NEXT_ACTION_ID_KEY = "actionId";
 
 
@@ -121,7 +121,7 @@ public class IacucProtocolModifySubmissionServiceImpl extends IacucProtocolProce
 
     }
     
-    public void setCommitteeService(CommonCommitteeService committeeService) {
+    public void setCommitteeService(CommitteeServiceBase committeeService) {
         this.committeeService = committeeService;
     }
     
@@ -132,7 +132,7 @@ public class IacucProtocolModifySubmissionServiceImpl extends IacucProtocolProce
             submission.setCommitteeSchedule(null);
         }
         else {
-            CommonCommitteeSchedule schedule = committeeService.getCommitteeSchedule(submission.getCommittee(), scheduleId);
+            CommitteeSchedule schedule = committeeService.getCommitteeSchedule(submission.getCommittee(), scheduleId);
             if (schedule == null) {
                 submission.setScheduleId(null);
                 submission.setScheduleIdFk(null);
@@ -156,7 +156,7 @@ public class IacucProtocolModifySubmissionServiceImpl extends IacucProtocolProce
         if (!minutes.isEmpty()) {
             for (CommitteeScheduleMinute minute : minutes) {
                 if (submission.getScheduleIdFk() == null) {
-                    minute.setScheduleIdFk(CommonCommitteeSchedule.DEFAULT_SCHEDULE_ID);
+                    minute.setScheduleIdFk(CommitteeSchedule.DEFAULT_SCHEDULE_ID);
                 } else {
                     minute.setScheduleIdFk(submission.getScheduleIdFk());
                 }

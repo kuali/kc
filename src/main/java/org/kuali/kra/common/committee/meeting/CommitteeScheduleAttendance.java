@@ -18,7 +18,7 @@ package org.kuali.kra.common.committee.meeting;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.common.committee.bo.CommitteeMembership;
-import org.kuali.kra.common.committee.bo.CommonCommitteeSchedule;
+import org.kuali.kra.common.committee.bo.CommitteeSchedule;
 
 /**
  * 
@@ -48,7 +48,7 @@ public abstract class CommitteeScheduleAttendance extends KraPersistableBusiness
 
     private String roleName;
 
-    private CommonCommitteeSchedule committeeSchedule;
+    private CommitteeSchedule committeeSchedule;
 
     public CommitteeScheduleAttendance() {
     }
@@ -113,11 +113,11 @@ public abstract class CommitteeScheduleAttendance extends KraPersistableBusiness
         this.commScheduleAttendanceId = commScheduleAttendanceId;
     }
 
-    public CommonCommitteeSchedule getCommitteeSchedule() {
+    public CommitteeSchedule getCommitteeSchedule() {
         return committeeSchedule;
     }
 
-    public void setCommitteeSchedule(CommonCommitteeSchedule committeeSchedule) {
+    public void setCommitteeSchedule(CommitteeSchedule committeeSchedule) {
         this.committeeSchedule = committeeSchedule;
     }
 

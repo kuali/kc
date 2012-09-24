@@ -26,7 +26,7 @@ import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.coi.CoiReviewType;
-import org.kuali.kra.common.committee.document.CommonCommitteeDocument;
+import org.kuali.kra.common.committee.document.CommitteeDocumentBase;
 import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewType;
 import org.kuali.kra.kim.bo.KcKimAttributes;
@@ -37,8 +37,8 @@ import org.kuali.kra.util.DateUtils;
  */
 @SuppressWarnings("serial")
 public abstract class Committee<CMT extends Committee<CMT, CD, CS>,
-                                      CD extends CommonCommitteeDocument<CD, CMT, CS>, 
-                                      CS extends CommonCommitteeSchedule<CS, CMT, ?, ?>> 
+                                      CD extends CommitteeDocumentBase<CD, CMT, CS>, 
+                                      CS extends CommitteeSchedule<CS, CMT, ?, ?>> 
     
                                       extends KraPersistableBusinessObjectBase  
                                       

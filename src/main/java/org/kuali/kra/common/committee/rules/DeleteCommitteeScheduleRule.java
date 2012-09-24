@@ -20,10 +20,10 @@ import java.util.List;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.common.committee.bo.Committee;
-import org.kuali.kra.common.committee.bo.CommonCommitteeSchedule;
-import org.kuali.kra.common.committee.document.CommonCommitteeDocument;
+import org.kuali.kra.common.committee.bo.CommitteeSchedule;
+import org.kuali.kra.common.committee.document.CommitteeDocumentBase;
 import org.kuali.kra.common.committee.rule.event.DeleteCommitteeScheduleEvent;
-import org.kuali.kra.common.committee.service.CommonCommitteeService;
+import org.kuali.kra.common.committee.service.CommitteeServiceBase;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.rule.BusinessRuleInterface;
@@ -33,7 +33,7 @@ import org.kuali.kra.rules.ResearchDocumentRuleBase;
  * 
  * This class implements rule for deleting committee schedule.
  */
-public class DeleteCommitteeScheduleRule  extends ResearchDocumentRuleBase implements  BusinessRuleInterface<DeleteCommitteeScheduleEvent> {
+public abstract class DeleteCommitteeScheduleRule  extends ResearchDocumentRuleBase implements  BusinessRuleInterface<DeleteCommitteeScheduleEvent> {
     
     private static final String ID = "document.committeeList[0].committeeSchedules[";
    
@@ -44,12 +44,12 @@ public class DeleteCommitteeScheduleRule  extends ResearchDocumentRuleBase imple
     public boolean processRules(DeleteCommitteeScheduleEvent deleteCommitteeScheduleEvent) {
 
         boolean rulePassed = true;
-        List<CommonCommitteeSchedule> schedules = deleteCommitteeScheduleEvent.getCommitteeSchedules();
+        List<CommitteeSchedule> schedules = deleteCommitteeScheduleEvent.getCommitteeSchedules();
         Committee activeCommittee = getCommitteeService().getCommitteeById(
-                ((CommonCommitteeDocument) deleteCommitteeScheduleEvent.getDocument()).getCommittee().getCommitteeId());
+                ((CommitteeDocumentBase) deleteCommitteeScheduleEvent.getDocument()).getCommittee().getCommitteeId());
         if (activeCommittee != null) {
             int i = 0;
-            for (CommonCommitteeSchedule schedule : schedules) {
+            for (CommitteeSchedule schedule : schedules) {
                 if (schedule.isSelected() && canNotDelete(activeCommittee.getCommitteeSchedules(), schedule.getScheduleId())) {
                     reportError(ID + i + "].selected", KeyConstants.ERROR_COMMITTEESCHEDULE_DELETE);
                     rulePassed = false;
@@ -63,8 +63,8 @@ public class DeleteCommitteeScheduleRule  extends ResearchDocumentRuleBase imple
     /*
      * check if the matching schedule contain meeting data which also include whether protocol submitted to this schedule.
      */
-    private boolean canNotDelete(List<CommonCommitteeSchedule> schedules, String scheduleId) {
-        for (CommonCommitteeSchedule committeeSchedule : schedules) {
+    private boolean canNotDelete(List<CommitteeSchedule> schedules, String scheduleId) {
+        for (CommitteeSchedule committeeSchedule : schedules) {
             if (StringUtils.equals(committeeSchedule.getScheduleId(), scheduleId)) {
                 return isNotEmptyData(committeeSchedule);
             }
@@ -72,14 +72,16 @@ public class DeleteCommitteeScheduleRule  extends ResearchDocumentRuleBase imple
         return false;
     }
 
-    private CommonCommitteeService getCommitteeService() {
-        return KraServiceLocator.getService(CommonCommitteeService.class);
+    private CommitteeServiceBase getCommitteeService() {
+        return KraServiceLocator.getService(getCommitteeServiceClassHook());
     }
+    
+    protected abstract Class<? extends CommitteeServiceBase> getCommitteeServiceClassHook();
 
     /*
      * check if there is any meeting data in this schedule.
      */
-    private boolean isNotEmptyData(CommonCommitteeSchedule schedule) {
+    private boolean isNotEmptyData(CommitteeSchedule schedule) {
         return CollectionUtils.isNotEmpty(schedule.getCommitteeScheduleAttendances())
                 || CollectionUtils.isNotEmpty(schedule.getCommitteeScheduleMinutes())
                 || CollectionUtils.isNotEmpty(schedule.getCommScheduleActItems())

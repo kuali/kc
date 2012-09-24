@@ -27,11 +27,11 @@ import org.kuali.kra.common.committee.bo.CommitteeBatchCorrespondence;
 import org.kuali.kra.common.committee.bo.CommitteeMembership;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipExpertise;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipRole;
-import org.kuali.kra.common.committee.bo.CommonCommitteeSchedule;
+import org.kuali.kra.common.committee.bo.CommitteeSchedule;
 import org.kuali.kra.common.committee.document.authorization.CommitteeScheduleTask;
 import org.kuali.kra.common.committee.document.authorization.CommitteeTask;
-import org.kuali.kra.common.committee.service.CommonCommitteeScheduleService;
-import org.kuali.kra.common.committee.service.CommonCommitteeService;
+import org.kuali.kra.common.committee.service.CommitteeScheduleServiceBase;
+import org.kuali.kra.common.committee.service.CommitteeServiceBase;
 import org.kuali.kra.common.committee.web.struts.form.schedule.ScheduleData;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
@@ -48,7 +48,7 @@ public abstract class CommitteeHelper implements Serializable {
 
     private static final String BATCH_CORRESPONDENCE_PANEL_TITLE = "Batch Correspondence";
     
-    private CommonCommitteeForm committeeForm;
+    private CommitteeForm committeeForm;
     private boolean modifyCommittee = false;
     private CommitteeMembership newCommitteeMembership;
     private List<CommitteeMembershipRole> newCommitteeMembershipRoles;
@@ -74,7 +74,7 @@ public abstract class CommitteeHelper implements Serializable {
     // so it know which CommitteeMembership should get them.
     private int memberIndex;
 
-    public CommitteeHelper(CommonCommitteeForm committeeForm) {
+    public CommitteeHelper(CommitteeForm committeeForm) {
         this.committeeForm = committeeForm;
         
 // TODO *********commented the code below during IACUC refactoring*********         
@@ -129,8 +129,8 @@ public abstract class CommitteeHelper implements Serializable {
      */
     private void prepareCommitteeScheduleDeleteView() {
         boolean flag = false;
-        CommonCommitteeScheduleService service = getCommitteeScheduleService();
-        for (CommonCommitteeSchedule committeeSchedule : getSortedCommitteeScheduleList()) {            
+        CommitteeScheduleServiceBase service = getCommitteeScheduleService();
+        for (CommitteeSchedule committeeSchedule : getSortedCommitteeScheduleList()) {            
             flag = service.isCommitteeScheduleDeletable(committeeSchedule);
             committeeSchedule.setDelete(flag);
         }    
@@ -140,7 +140,7 @@ public abstract class CommitteeHelper implements Serializable {
      * This method returns CommitteeScheduleService.
      * @return
      */
-    private CommonCommitteeScheduleService getCommitteeScheduleService() {
+    private CommitteeScheduleServiceBase getCommitteeScheduleService() {
         
 // TODO *********commented the code below during IACUC refactoring*********         
 //        return KraServiceLocator.getService(CommonCommitteeScheduleService.class);
@@ -148,7 +148,7 @@ public abstract class CommitteeHelper implements Serializable {
         return KraServiceLocator.getService(getCommitteeScheduleServiceClassHook());
     }
 
-    protected abstract Class<? extends CommonCommitteeScheduleService> getCommitteeScheduleServiceClassHook();
+    protected abstract Class<? extends CommitteeScheduleServiceBase> getCommitteeScheduleServiceClassHook();
     
     
 
@@ -161,7 +161,7 @@ public abstract class CommitteeHelper implements Serializable {
         return KraServiceLocator.getService(TaskAuthorizationService.class);
     }
     
-    private CommonCommitteeService getCommitteeService() {
+    private CommitteeServiceBase getCommitteeService() {
         
 // TODO *********commented the code below during IACUC refactoring*********         
 //        return KraServiceLocator.getService(CommonCommitteeService.class);
@@ -169,7 +169,7 @@ public abstract class CommitteeHelper implements Serializable {
         return KraServiceLocator.getService(getCommitteeServiceClassHook());
     }
 
-    protected abstract Class<? extends CommonCommitteeService> getCommitteeServiceClassHook();
+    protected abstract Class<? extends CommitteeServiceBase> getCommitteeServiceClassHook();
     
 
     /**
@@ -315,7 +315,7 @@ public abstract class CommitteeHelper implements Serializable {
      * 
      * @param committeeForm the CommitteeForm
      */
-    public void resetBatchCorrespondenceHistory(CommonCommitteeForm committeeForm) {
+    public void resetBatchCorrespondenceHistory(CommitteeForm committeeForm) {
         setBatchCorrespondenceHistory(null);
         committeeForm.setTabStates(new HashMap<String, String>());
         committeeForm.getTabStates().put(WebUtils.generateTabKey(BATCH_CORRESPONDENCE_PANEL_TITLE), "OPEN");
@@ -338,7 +338,7 @@ public abstract class CommitteeHelper implements Serializable {
         startDate = DateUtils.addDays(startDate, -1);
         endDate = DateUtils.addDays(endDate, 1);
         java.util.Date scheduleDate = null;
-        for (CommonCommitteeSchedule committeeSchedule : getSortedCommitteeScheduleList()) {            
+        for (CommitteeSchedule committeeSchedule : getSortedCommitteeScheduleList()) {            
             scheduleDate = committeeSchedule.getScheduledDate();
             if ((scheduleDate != null) && scheduleDate.after(startDate) && scheduleDate.before(endDate)) {
                 committeeSchedule.setFilter(true);            
@@ -352,7 +352,7 @@ public abstract class CommitteeHelper implements Serializable {
      * This method prepares view to reset filtered dates and sorts them by the scheduled date.
      */
     public void resetFilterDatesView() {
-        for (CommonCommitteeSchedule committeeSchedule : getSortedCommitteeScheduleList()) {
+        for (CommitteeSchedule committeeSchedule : getSortedCommitteeScheduleList()) {
             committeeSchedule.setFilter(true);            
         }
         getScheduleData().setFilterStartDate(null);
@@ -371,19 +371,19 @@ public abstract class CommitteeHelper implements Serializable {
     
     public List<Boolean> canViewSpecificSchedule() {
         List<Boolean> canViewSchedule = new ArrayList<Boolean>();
-        for (CommonCommitteeSchedule committeeSchedule : getCommittee().getCommitteeSchedules()) {
+        for (CommitteeSchedule committeeSchedule : getCommittee().getCommitteeSchedules()) {
             CommitteeTask task = getNewCommitteeScheduleTaskInstanceHook(TaskName.VIEW_SCHEDULE, committeeSchedule.getCommittee(), committeeSchedule);
             canViewSchedule.add(getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task));
         }
         return canViewSchedule; 
     }
     
-    protected abstract CommitteeScheduleTask getNewCommitteeScheduleTaskInstanceHook(String taskName, Committee committee, CommonCommitteeSchedule committeeSchedule);
+    protected abstract CommitteeScheduleTask getNewCommitteeScheduleTaskInstanceHook(String taskName, Committee committee, CommitteeSchedule committeeSchedule);
 
     @SuppressWarnings("unused") 
     public List<Boolean> canNotViewSpecificSchedule() {
         List<Boolean> canNotViewSchedule = new ArrayList<Boolean>();
-        for (CommonCommitteeSchedule committeeSchedule : getCommittee().getCommitteeSchedules()) {
+        for (CommitteeSchedule committeeSchedule : getCommittee().getCommitteeSchedules()) {
             canNotViewSchedule.add(false);
         }
         return canNotViewSchedule; 
@@ -438,8 +438,8 @@ public abstract class CommitteeHelper implements Serializable {
         }
     }
 
-    private List<CommonCommitteeSchedule> getSortedCommitteeScheduleList() {
-        List<CommonCommitteeSchedule> committeeSchedules = committeeForm.getCommitteeDocument().getCommittee().getCommitteeSchedules();
+    private List<CommitteeSchedule> getSortedCommitteeScheduleList() {
+        List<CommitteeSchedule> committeeSchedules = committeeForm.getCommitteeDocument().getCommittee().getCommitteeSchedules();
         Collections.sort(committeeSchedules);
         return committeeSchedules;
     }

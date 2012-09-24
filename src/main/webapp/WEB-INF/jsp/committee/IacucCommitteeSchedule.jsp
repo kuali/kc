@@ -19,14 +19,14 @@
 <kul:documentPage
 	showDocumentInfo="true"
 	htmlFormAction="iacucCommitteeSchedule"
-	documentTypeName="IacucCommitteeDocument"
+	documentTypeName="CommonCommitteeDocument"
 	renderMultipart="false"
 	showTabButtons="true"
 	auditCount="0"
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="committeeSchedule">
 
-<div align="right"><kul:help documentTypeName="IacucCommitteeDocument" pageName="Schedule" /></div>
+<div align="right"><kul:help documentTypeName="CommonCommitteeDocument" pageName="Schedule" /></div>
   	 	
 <kra-committee:committeeSchedule />
 

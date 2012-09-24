@@ -17,7 +17,7 @@ package org.kuali.kra.common.committee.lookup.keyvalue;
 
 import java.util.List;
 
-import org.kuali.kra.common.committee.service.CommonCommitteeService;
+import org.kuali.kra.common.committee.service.CommitteeServiceBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.ProtocolForm;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -48,8 +48,8 @@ public class CommitteeScheduleValuesFinder2 extends KeyValuesBase {
      * Get the Committee Service.
      * @return the Committee Service
      */
-    private CommonCommitteeService getCommitteeService() {
-        return KraServiceLocator.getService(CommonCommitteeService.class);
+    private CommitteeServiceBase getCommitteeService() {
+        return KraServiceLocator.getService(CommitteeServiceBase.class);
     }
 
     /**

@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.iacuc.committee.meeting;
 
-import org.kuali.kra.common.committee.bo.CommonCommitteeSchedule;
+import org.kuali.kra.common.committee.bo.CommitteeSchedule;
 import org.kuali.kra.common.committee.meeting.CommScheduleMinuteDoc;
 import org.kuali.kra.common.committee.meeting.CommonMeetingService;
 import org.kuali.kra.common.committee.meeting.MeetingActionsAction;
@@ -64,7 +64,7 @@ public class IacucMeetingActionsAction extends MeetingActionsAction {
     }
 
     @Override
-    protected Class<? extends CommonCommitteeSchedule> getCommitteeScheduleBOClass() {
+    protected Class<? extends CommitteeSchedule> getCommitteeScheduleBOClass() {
         return IacucCommitteeSchedule.class;
     }
 

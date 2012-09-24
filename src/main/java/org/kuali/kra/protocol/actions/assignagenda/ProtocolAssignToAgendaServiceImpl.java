@@ -19,7 +19,7 @@ import java.sql.Timestamp;
 import java.util.Iterator;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.common.committee.bo.Committee;
-import org.kuali.kra.common.committee.service.CommonCommitteeService;
+import org.kuali.kra.common.committee.service.CommitteeServiceBase;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.actions.ProtocolAction;
 import org.kuali.kra.protocol.actions.submit.ProtocolActionService;
@@ -44,9 +44,9 @@ public abstract class ProtocolAssignToAgendaServiceImpl implements ProtocolAssig
     
     
     
-    private CommonCommitteeService committeeService;
+    private CommitteeServiceBase committeeService;
 
-    public CommonCommitteeService getCommitteeService() {
+    public CommitteeServiceBase getCommitteeService() {
         return committeeService;
     }
 
@@ -75,7 +75,7 @@ public abstract class ProtocolAssignToAgendaServiceImpl implements ProtocolAssig
     
     
     
-    public void setCommitteeService(CommonCommitteeService committeeService) {
+    public void setCommitteeService(CommitteeServiceBase committeeService) {
         this.committeeService = committeeService;        
     }
 

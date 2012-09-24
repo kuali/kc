@@ -16,7 +16,7 @@
 package org.kuali.kra.common.committee.document.authorization;
 
 import org.kuali.kra.common.committee.bo.Committee;
-import org.kuali.kra.common.committee.bo.CommonCommitteeSchedule;
+import org.kuali.kra.common.committee.bo.CommitteeSchedule;
 
 /**
  * A Committee Task is a task that performs an action against a
@@ -27,7 +27,7 @@ import org.kuali.kra.common.committee.bo.CommonCommitteeSchedule;
  * 
  */
 public abstract class CommitteeScheduleTask<CMT extends Committee<CMT, ?, CS>, 
-                                            CS extends CommonCommitteeSchedule<CS, CMT, ?, ?>> 
+                                            CS extends CommitteeSchedule<CS, CMT, ?, ?>> 
     
                                             extends CommitteeTask<CMT> {
 

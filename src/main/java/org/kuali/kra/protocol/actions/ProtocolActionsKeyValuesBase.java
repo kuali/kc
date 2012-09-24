@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.protocol.actions;
 
-import org.kuali.kra.common.committee.service.CommonCommitteeService;
+import org.kuali.kra.common.committee.service.CommitteeServiceBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.RolodexService;
@@ -37,7 +37,7 @@ public abstract class ProtocolActionsKeyValuesBase extends KeyValuesBase {
     private BusinessObjectService businessObjectService;
     private KcPersonService kcPersonService;
     private RolodexService rolodexService;
-    private CommonCommitteeService committeeService;
+    private CommitteeServiceBase committeeService;
     private KeyValuesService keyValuesService;
     
     /**
@@ -80,12 +80,15 @@ public abstract class ProtocolActionsKeyValuesBase extends KeyValuesBase {
      * This method returns an instance of CommitteeService.
      * @return CommitteeService
      */
-    public CommonCommitteeService getCommitteeService() {
+    public CommitteeServiceBase getCommitteeService() {
         if (this.committeeService == null) {
-            this.committeeService = KraServiceLocator.getService(CommonCommitteeService.class);
+            this.committeeService = KraServiceLocator.getService(getCommitteeServiceClassHook());
         }
         return this.committeeService;
     }
+    
+    protected abstract Class<? extends CommitteeServiceBase> getCommitteeServiceClassHook();
+    
     
     /**
      * 

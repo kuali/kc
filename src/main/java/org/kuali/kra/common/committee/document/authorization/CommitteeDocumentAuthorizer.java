@@ -21,7 +21,7 @@ import java.util.Set;
 import org.kuali.kra.authorization.ApplicationTask;
 import org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase;
 import org.kuali.kra.common.committee.bo.Committee;
-import org.kuali.kra.common.committee.document.CommonCommitteeDocument;
+import org.kuali.kra.common.committee.document.CommitteeDocumentBase;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
@@ -39,7 +39,7 @@ public abstract class CommitteeDocumentAuthorizer extends KcTransactionalDocumen
     public Set<String> getEditModes(Document document, Person user, Set<String> currentEditModes) {
         Set<String> editModes = new HashSet<String>();
         String userId = user.getPrincipalId();
-        CommonCommitteeDocument committeeDocument = (CommonCommitteeDocument) document;
+        CommitteeDocumentBase committeeDocument = (CommitteeDocumentBase) document;
         if (committeeDocument.getCommittee().getCommitteeId() == null) {
             if (canCreateCommittee(user)) {
                 editModes.add(AuthorizationConstants.EditMode.FULL_ENTRY);
@@ -74,11 +74,11 @@ public abstract class CommitteeDocumentAuthorizer extends KcTransactionalDocumen
      * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#canOpen(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
      */
     public boolean canOpen(Document document, Person user) {
-        CommonCommitteeDocument committeeDocument = (CommonCommitteeDocument) document;
+        CommitteeDocumentBase committeeDocument = (CommitteeDocumentBase) document;
         if (committeeDocument.getCommittee().getCommitteeId() == null) {
             return canCreateCommittee(user);
         }
-        return canExecuteCommitteeTask(user.getPrincipalId(), (CommonCommitteeDocument) document, TaskName.VIEW_COMMITTEE);
+        return canExecuteCommitteeTask(user.getPrincipalId(), (CommitteeDocumentBase) document, TaskName.VIEW_COMMITTEE);
     }
     
     /**
@@ -87,7 +87,7 @@ public abstract class CommitteeDocumentAuthorizer extends KcTransactionalDocumen
     @Override
     public boolean canEdit(Document document, Person user) {
         return !isFinal(document) &&
-               canExecuteCommitteeTask(user.getPrincipalId(), (CommonCommitteeDocument) document, TaskName.MODIFY_COMMITTEE);
+               canExecuteCommitteeTask(user.getPrincipalId(), (CommitteeDocumentBase) document, TaskName.MODIFY_COMMITTEE);
     }
     
     /**
@@ -186,7 +186,7 @@ public abstract class CommitteeDocumentAuthorizer extends KcTransactionalDocumen
      * @param taskName the name of the task
      * @return true if has permission; otherwise false
      */
-    private boolean canExecuteCommitteeTask(String userId, CommonCommitteeDocument doc, String taskName) {
+    private boolean canExecuteCommitteeTask(String userId, CommitteeDocumentBase doc, String taskName) {
         CommitteeTask task = getNewCommitteeTaskInstanceHook(taskName, doc.getCommittee());       
         return getTaskAuthorizationService().isAuthorized(userId, task);
     }

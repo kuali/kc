@@ -23,7 +23,7 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.bo.KcPerson;
-import org.kuali.kra.common.committee.bo.CommonCommitteeSchedule;
+import org.kuali.kra.common.committee.bo.CommitteeSchedule;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewer;
@@ -37,7 +37,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
  * This is BO class for committee schedule minute. 
  */
 public abstract class CommitteeScheduleMinute<CSM extends CommitteeScheduleMinute<CSM, CS>,
-                                              CS extends CommonCommitteeSchedule<CS, ?, ?, CSM>> 
+                                              CS extends CommitteeSchedule<CS, ?, ?, CSM>> 
 
                                               extends ProtocolReviewable<CS> implements Cloneable {
 

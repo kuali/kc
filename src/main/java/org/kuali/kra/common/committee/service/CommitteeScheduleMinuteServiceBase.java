@@ -15,13 +15,17 @@
  */
 package org.kuali.kra.common.committee.service;
 
-import java.util.Set;
+import java.util.List;
 
-public interface CommonCommitteeScheduleAttendanceService {
+import org.kuali.kra.meeting.CommitteeScheduleMinute;
+
+public interface CommitteeScheduleMinuteServiceBase {
+
     
-    Set<String> getVotingMembersPresent (String committeeId, String scheduleId);
+    /**
+    * Populate the createUserFullName and updateUserFullName fields on each of the CommitteeScheduleMinute objects in the provided list.
+    * @param protocolAttachmentBases 
+    */
+   void setMinuteFullUserNames(List<CommitteeScheduleMinute> committeeScheduleMinutes);
     
-    Set<String> getActualVotingMembersPresent (String committeeId, String scheduleId);
-    
-    int getActualVotingMembersCount (String committeeId, String scheduleId);
 }

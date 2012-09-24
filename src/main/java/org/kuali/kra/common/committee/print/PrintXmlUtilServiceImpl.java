@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kra.bo.KcPerson;
-import org.kuali.kra.common.committee.bo.CommonCommitteeSchedule;
+import org.kuali.kra.common.committee.bo.CommitteeSchedule;
 import org.kuali.kra.common.committee.meeting.CommScheduleActItem;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.iacuc.actions.IacucProtocolAction;
@@ -182,7 +182,7 @@ public class PrintXmlUtilServiceImpl implements PrintXmlUtilService {
 //        }
     }
 
-    public void setMinutes(CommonCommitteeSchedule scheduleDetailsBean, ScheduleType schedule) {
+    public void setMinutes(CommitteeSchedule scheduleDetailsBean, ScheduleType schedule) {
 // TODO verify refactor code        
         List<CommitteeScheduleMinute> vecMinutes = scheduleDetailsBean.getCommitteeScheduleMinutes();
         if (!vecMinutes.isEmpty()) {
@@ -201,7 +201,7 @@ public class PrintXmlUtilServiceImpl implements PrintXmlUtilService {
         }
     }
 
-    protected void addMinute(CommonCommitteeSchedule committeeSchedule, CommitteeScheduleMinute committeeScheduleMinute, MinuteType minutesType) {
+    protected void addMinute(CommitteeSchedule committeeSchedule, CommitteeScheduleMinute committeeScheduleMinute, MinuteType minutesType) {
         committeeScheduleMinute.refreshNonUpdateableReferences();
         minutesType.setScheduleId(committeeScheduleMinute.getScheduleIdFk().toString());
         minutesType.setEntryNumber(new BigInteger(String.valueOf(committeeScheduleMinute.getEntryNumber())));
@@ -230,7 +230,7 @@ public class PrintXmlUtilServiceImpl implements PrintXmlUtilService {
 
     }
 
-    protected String getOtherItemDescription(CommonCommitteeSchedule committeeSchedule, CommitteeScheduleMinute committeeScheduleMinute) {
+    protected String getOtherItemDescription(CommitteeSchedule committeeSchedule, CommitteeScheduleMinute committeeScheduleMinute) {
         List<CommScheduleActItem> actionItems = committeeSchedule.getCommScheduleActItems();
         for (CommScheduleActItem commScheduleActItem : actionItems) {
             if (committeeScheduleMinute.getMinuteEntryTypeCode().equals("4")
@@ -241,7 +241,7 @@ public class PrintXmlUtilServiceImpl implements PrintXmlUtilService {
         return committeeScheduleMinute.getProtocol().getProtocolNumber();
     }
 
-    public void setProcotolMinutes(CommonCommitteeSchedule committeeSchedule,
+    public void setProcotolMinutes(CommitteeSchedule committeeSchedule,
             org.kuali.kra.protocol.actions.submit.ProtocolSubmission protocolSubmission, ProtocolSubmissionType protocolSubmissionType) {       
         List<CommitteeScheduleMinute> minutes = committeeSchedule.getCommitteeScheduleMinutes();
         for (CommitteeScheduleMinute minuteEntryInfoBean : minutes) {
@@ -261,7 +261,7 @@ public class PrintXmlUtilServiceImpl implements PrintXmlUtilService {
         }
     }
 
-    public void setProcotolSubmissionMinutes(CommonCommitteeSchedule committeeSchedule,
+    public void setProcotolSubmissionMinutes(CommitteeSchedule committeeSchedule,
             ProtocolSubmission protocolSubmission, Submissions submissionsType) {      
         List<CommitteeScheduleMinute> minutes = committeeSchedule.getCommitteeScheduleMinutes();
         for (CommitteeScheduleMinute minuteEntryInfoBean : minutes) {
@@ -285,7 +285,7 @@ public class PrintXmlUtilServiceImpl implements PrintXmlUtilService {
      * @param protocolSubmission
      * @param submissionsType
      */
-    public void setProtocolReviewMinutes(CommonCommitteeSchedule committeeSchedule,
+    public void setProtocolReviewMinutes(CommitteeSchedule committeeSchedule,
             org.kuali.kra.protocol.actions.submit.ProtocolSubmission protocolSubmission, Submissions submissionsType) {      
         List<CommitteeScheduleMinute> minutes = committeeSchedule.getCommitteeScheduleMinutes();
         for (CommitteeScheduleMinute minuteEntryInfoBean : minutes) {

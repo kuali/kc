@@ -27,7 +27,7 @@ public class IacucCommitteeIdIdPairValuesFinder extends CommitteeIdIdPairValuesF
     private static final long serialVersionUID = -1856217969303750675L;
 
     @Override
-    protected Class<? extends Committee> getCommonCommitteeBOClassHook() {
+    protected Class<? extends Committee> getCommitteeBOClassHook() {
         return IacucCommittee.class;
     }
 

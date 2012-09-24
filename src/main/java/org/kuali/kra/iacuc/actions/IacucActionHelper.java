@@ -25,7 +25,9 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.CoeusSubModule;
-import org.kuali.kra.common.committee.bo.CommonCommitteeSchedule;
+import org.kuali.kra.common.committee.bo.CommitteeSchedule;
+import org.kuali.kra.common.committee.service.CommitteeScheduleServiceBase;
+import org.kuali.kra.common.committee.service.CommitteeServiceBase;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.IacucProtocolForm;
@@ -62,6 +64,8 @@ import org.kuali.kra.iacuc.actions.withdraw.IacucProtocolAdministrativelyWithdra
 import org.kuali.kra.iacuc.actions.withdraw.IacucProtocolWithdrawBean;
 import org.kuali.kra.iacuc.auth.IacucGenericProtocolAuthorizer;
 import org.kuali.kra.iacuc.auth.IacucProtocolTask;
+import org.kuali.kra.iacuc.committee.service.IacucCommitteeScheduleService;
+import org.kuali.kra.iacuc.committee.service.IacucCommitteeService;
 import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReview;
 import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReviewService;
 import org.kuali.kra.iacuc.questionnaire.IacucProtocolModuleQuestionnaireBean;
@@ -280,7 +284,7 @@ public class IacucActionHelper extends ActionHelper {
         Date approvalDate = protocol.getApprovalDate();
         
         if (approvalDate == null || protocol.isNew() || protocol.isRenewal() || ((IacucProtocol)protocol).isContinuation()) {
-            CommonCommitteeSchedule committeeSchedule = protocol.getProtocolSubmission().getCommitteeSchedule();
+            CommitteeSchedule committeeSchedule = protocol.getProtocolSubmission().getCommitteeSchedule();
             if (committeeSchedule != null) {
                 approvalDate = committeeSchedule.getScheduledDate();
             } else {
@@ -1515,6 +1519,18 @@ public class IacucActionHelper extends ActionHelper {
             e.printStackTrace();
             return 1;
         }
+    }
+
+
+    @Override
+    protected Class<? extends CommitteeServiceBase> getCommitteeServiceClassHook() {
+        return IacucCommitteeService.class;
+    }
+
+
+    @Override
+    protected Class<? extends CommitteeScheduleServiceBase> getCommitteeScheduleServiceClassHook() {
+        return IacucCommitteeScheduleService.class;
     }
 
 }

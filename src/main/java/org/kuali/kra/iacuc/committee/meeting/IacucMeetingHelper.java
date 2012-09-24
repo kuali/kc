@@ -16,7 +16,7 @@
 package org.kuali.kra.iacuc.committee.meeting;
 
 import org.kuali.kra.common.committee.bo.Committee;
-import org.kuali.kra.common.committee.bo.CommonCommitteeSchedule;
+import org.kuali.kra.common.committee.bo.CommitteeSchedule;
 import org.kuali.kra.common.committee.document.authorization.CommitteeScheduleTask;
 import org.kuali.kra.common.committee.document.authorization.CommitteeTask;
 import org.kuali.kra.common.committee.meeting.CommScheduleActItem;
@@ -62,7 +62,7 @@ public class IacucMeetingHelper extends MeetingHelper {
     }
 
     @Override
-    protected CommonCommitteeSchedule<?, ?, ?, ?> getNewCommonCommitteeScheduleInstanceHook() {
+    protected CommitteeSchedule<?, ?, ?, ?> getNewCommitteeScheduleInstanceHook() {
         return new IacucCommitteeSchedule();
     }
 
@@ -73,7 +73,7 @@ public class IacucMeetingHelper extends MeetingHelper {
     }
 
     @Override
-    protected CommitteeScheduleTask getNewCommitteeScheduleTaskInstanceHook(String taskName, Committee committee, CommonCommitteeSchedule committeeSchedule) {
+    protected CommitteeScheduleTask getNewCommitteeScheduleTaskInstanceHook(String taskName, Committee committee, CommitteeSchedule committeeSchedule) {
         return new IacucCommitteeScheduleTask(taskName, (IacucCommittee) committee, (IacucCommitteeSchedule) committeeSchedule);
     }
 

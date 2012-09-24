@@ -27,10 +27,10 @@ import org.kuali.kra.common.committee.bo.Committee;
 import org.kuali.kra.common.committee.bo.CommitteeMembership;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipExpertise;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipRole;
-import org.kuali.kra.common.committee.bo.CommonCommitteeSchedule;
+import org.kuali.kra.common.committee.bo.CommitteeSchedule;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleAttendance;
-import org.kuali.kra.common.committee.service.CommonCommitteeMembershipService;
-import org.kuali.kra.common.committee.service.CommonCommitteeService;
+import org.kuali.kra.common.committee.service.CommitteeMembershipServiceBase;
+import org.kuali.kra.common.committee.service.CommitteeServiceBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewer;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -39,9 +39,9 @@ import org.kuali.rice.krad.service.BusinessObjectService;
  * This class...
  */
 public abstract class CommitteeMembershipServiceImpl<CMT extends Committee<CMT, ?, ?>, 
-                                                     CSRV extends CommonCommitteeService<CMT, ?>> 
+                                                     CSRV extends CommitteeServiceBase<CMT, ?>> 
         
-                                                     implements CommonCommitteeMembershipService<CMT> {
+                                                     implements CommitteeMembershipServiceBase<CMT> {
 
     @SuppressWarnings("unused")
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(CommitteeScheduleServiceImpl.class);
@@ -54,7 +54,7 @@ public abstract class CommitteeMembershipServiceImpl<CMT extends Committee<CMT, 
     private CSRV committeeService;
 
     /**
-     * @see org.kuali.kra.common.committee.service.CommonCommitteeMembershipService#addCommitteeMembership(org.kuali.kra.common.committee.bo.Committee, org.kuali.kra.common.committee.bo.CommitteeMembership)
+     * @see org.kuali.kra.common.committee.service.CommitteeMembershipServiceBase#addCommitteeMembership(org.kuali.kra.common.committee.bo.Committee, org.kuali.kra.common.committee.bo.CommitteeMembership)
      */
     public void addCommitteeMembership(CMT committee, CommitteeMembership committeeMembership) {
         
@@ -71,7 +71,7 @@ public abstract class CommitteeMembershipServiceImpl<CMT extends Committee<CMT, 
     }
 
     /**
-     * @see org.kuali.kra.common.committee.service.CommonCommitteeMembershipService#deleteCommitteeMembership(org.kuali.kra.common.committee.bo.Committee)
+     * @see org.kuali.kra.common.committee.service.CommitteeMembershipServiceBase#deleteCommitteeMembership(org.kuali.kra.common.committee.bo.Committee)
      */
     public void deleteCommitteeMembership(CMT committee) {
         List<CommitteeMembership> deletedCommitteememberships = new ArrayList<CommitteeMembership>();
@@ -84,7 +84,7 @@ public abstract class CommitteeMembershipServiceImpl<CMT extends Committee<CMT, 
     }
 
     /**
-     * @see org.kuali.kra.common.committee.service.CommonCommitteeMembershipService#addCommitteeMembershipRole(org.kuali.kra.common.committee.bo.CommitteeMembership, org.kuali.kra.common.committee.bo.CommitteeMembershipRole)
+     * @see org.kuali.kra.common.committee.service.CommitteeMembershipServiceBase#addCommitteeMembershipRole(org.kuali.kra.common.committee.bo.CommitteeMembership, org.kuali.kra.common.committee.bo.CommitteeMembershipRole)
      */
     public void addCommitteeMembershipRole(CMT committee, int selectedMembershipIndex, CommitteeMembershipRole committeeMembershipRole) {
         CommitteeMembership committeeMembership = committee.getCommitteeMemberships().get(selectedMembershipIndex);
@@ -97,7 +97,7 @@ public abstract class CommitteeMembershipServiceImpl<CMT extends Committee<CMT, 
     }
    
     /**
-     * @see org.kuali.kra.common.committee.service.CommonCommitteeMembershipService#deleteCommitteeMembershipRole(org.kuali.kra.common.committee.bo.Committee, int, int)
+     * @see org.kuali.kra.common.committee.service.CommitteeMembershipServiceBase#deleteCommitteeMembershipRole(org.kuali.kra.common.committee.bo.Committee, int, int)
      */
     public void deleteCommitteeMembershipRole(CMT committee, int selectedMembershipIndex, int lineNumber) {
         CommitteeMembership committeeMembership = committee.getCommitteeMemberships().get(selectedMembershipIndex);
@@ -106,7 +106,7 @@ public abstract class CommitteeMembershipServiceImpl<CMT extends Committee<CMT, 
     }
     
     /**
-     * @see org.kuali.kra.common.committee.service.CommonCommitteeMembershipService#addCommitteeMembershipExpertise(org.kuali.kra.common.committee.bo.CommitteeMembership, java.util.Collection)
+     * @see org.kuali.kra.common.committee.service.CommitteeMembershipServiceBase#addCommitteeMembershipExpertise(org.kuali.kra.common.committee.bo.CommitteeMembership, java.util.Collection)
      */
     public void addCommitteeMembershipExpertise(CommitteeMembership committeeMembership, Collection<ResearchArea> researchAreas) {
         for (ResearchArea researchArea: researchAreas) {
@@ -138,7 +138,7 @@ public abstract class CommitteeMembershipServiceImpl<CMT extends Committee<CMT, 
     }
    
     /**
-     * @see org.kuali.kra.common.committee.service.CommonCommitteeMembershipService#deleteCommitteeMembershipExpertise(org.kuali.kra.common.committee.bo.Committee, int, int)
+     * @see org.kuali.kra.common.committee.service.CommitteeMembershipServiceBase#deleteCommitteeMembershipExpertise(org.kuali.kra.common.committee.bo.Committee, int, int)
      */
     public void deleteCommitteeMembershipExpertise(CMT committee, int selectedMembershipIndex, int lineNumber) {
         CommitteeMembership committeeMembership = committee.getCommitteeMemberships().get(selectedMembershipIndex);
@@ -148,7 +148,7 @@ public abstract class CommitteeMembershipServiceImpl<CMT extends Committee<CMT, 
 
     /**
      * 
-     * @see org.kuali.kra.common.committee.service.CommonCommitteeMembershipService#isMemberAssignedToReviewer(org.kuali.kra.common.committee.bo.CommitteeMembership, java.lang.String)
+     * @see org.kuali.kra.common.committee.service.CommitteeMembershipServiceBase#isMemberAssignedToReviewer(org.kuali.kra.common.committee.bo.CommitteeMembership, java.lang.String)
      */
     public boolean isMemberAssignedToReviewer(CommitteeMembership member, String committeeId) {
         boolean isReviewer = false;
@@ -166,13 +166,13 @@ public abstract class CommitteeMembershipServiceImpl<CMT extends Committee<CMT, 
     
     /**
      * 
-     * @see org.kuali.kra.common.committee.service.CommonCommitteeMembershipService#isMemberAttendedMeeting(org.kuali.kra.common.committee.bo.CommitteeMembership, java.lang.String)
+     * @see org.kuali.kra.common.committee.service.CommitteeMembershipServiceBase#isMemberAttendedMeeting(org.kuali.kra.common.committee.bo.CommitteeMembership, java.lang.String)
      */
     public boolean isMemberAttendedMeeting(CommitteeMembership member, String committeeId) {
         boolean isAttendance = false;
         CMT committee = committeeService.getCommitteeById(committeeId);
         if (committee != null) {
-            for (CommonCommitteeSchedule<?, CMT, ?, ?> committeeSchedule : committee.getCommitteeSchedules()) {
+            for (CommitteeSchedule<?, CMT, ?, ?> committeeSchedule : committee.getCommitteeSchedules()) {
                 for (CommitteeScheduleAttendance attendance : committeeSchedule.getCommitteeScheduleAttendances()) {
                     if (StringUtils.equals(attendance.getPersonId(), member.getPersonId()) 
                             || (member.getRolodexId() != null && StringUtils.equals(attendance.getPersonId(), member.getRolodexId().toString()))) {

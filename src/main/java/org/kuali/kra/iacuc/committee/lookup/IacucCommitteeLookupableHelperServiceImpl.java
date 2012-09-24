@@ -18,10 +18,10 @@ package org.kuali.kra.iacuc.committee.lookup;
 import org.kuali.kra.common.committee.bo.CommitteeType;
 import org.kuali.kra.common.committee.lookup.CommitteeLookupableHelperServiceImpl;
 import org.kuali.kra.iacuc.committee.bo.IacucCommittee;
-import org.kuali.kra.iacuc.committee.document.IacucCommitteeDocument;
+import org.kuali.kra.iacuc.committee.document.CommonCommitteeDocument;
 import org.kuali.kra.infrastructure.PermissionConstants;
 
-public class IacucCommitteeLookupableHelperServiceImpl extends CommitteeLookupableHelperServiceImpl<IacucCommittee, IacucCommitteeDocument> {
+public class IacucCommitteeLookupableHelperServiceImpl extends CommitteeLookupableHelperServiceImpl<IacucCommittee, CommonCommitteeDocument> {
 
     /**
      * Comment for <code>serialVersionUID</code>
@@ -45,7 +45,7 @@ public class IacucCommitteeLookupableHelperServiceImpl extends CommitteeLookupab
 
     @Override
     protected String getDocumentTypeName() {
-        return "IacucCommitteeDocument";
+        return "CommonCommitteeDocument";
     }
 
     @Override
@@ -59,8 +59,8 @@ public class IacucCommitteeLookupableHelperServiceImpl extends CommitteeLookupab
     }
 
     @Override
-    protected Class<IacucCommitteeDocument> getCommitteeDocumentBOClassHook() {
-        return IacucCommitteeDocument.class;
+    protected Class<CommonCommitteeDocument> getCommitteeDocumentBOClassHook() {
+        return CommonCommitteeDocument.class;
     }
 
     @Override
