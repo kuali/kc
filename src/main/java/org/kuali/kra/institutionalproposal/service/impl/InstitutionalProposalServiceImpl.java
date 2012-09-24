@@ -425,6 +425,7 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
         institutionalProposal.setRequestedStartDateTotal(developmentProposal.getRequestedStartDateInitial());
         institutionalProposal.setRequestedEndDateTotal(developmentProposal.getRequestedEndDateInitial());
         institutionalProposal.setDeadlineDate(developmentProposal.getDeadlineDate());
+        institutionalProposal.setDeadlineTime(developmentProposal.getDeadlineTime());
         institutionalProposal.setNoticeOfOpportunityCode(developmentProposal.getNoticeOfOpportunityCode());
         institutionalProposal.setNumberOfCopies(developmentProposal.getNumberOfCopies());
         institutionalProposal.setDeadlineType(developmentProposal.getDeadlineType());

@@ -1547,6 +1547,7 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     public void doProposalLogDataFeed(ProposalLog proposalLog) {
         this.setProposalNumber(proposalLog.getProposalNumber());
         this.setDeadlineDate(proposalLog.getDeadlineDate());
+        this.setDeadlineTime(proposalLog.getDeadlineTime());
         /**
          * per KRACOEUS-4647 we don't want to pull the log's month/year, we want to calculate it fresh.
          */

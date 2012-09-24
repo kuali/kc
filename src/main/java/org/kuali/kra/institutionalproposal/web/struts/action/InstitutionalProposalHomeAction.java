@@ -366,6 +366,7 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
         ct.setTemplateFlag(false);
         ct.setAwardCommentScreenFlag(false);
         ipForm.getInstitutionalProposalDocument().getInstitutionalProposal().setDeadlineDate(proposalLog.getDeadlineDate());
+        ipForm.getInstitutionalProposalDocument().getInstitutionalProposal().setDeadlineTime(proposalLog.getDeadlineTime());
         InstitutionalProposalComment ipCmt = new InstitutionalProposalComment(Constants.PROPOSAL_SUMMARY_COMMENT_TYPE_CODE);
         ipCmt.setCommentType(ct);
         ipCmt.setComments(proposalLog.getComments());

@@ -19,6 +19,7 @@ import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.common.notification.NotificationRendererBase;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 
@@ -64,6 +65,7 @@ public class InstitutionalProposalNotificationRenderer extends NotificationRende
         } else {
             result.put("{DEADLINE_DATE}", "");
         }
+        result.put("{DEADLINE_TIME}", institutionalProposal.getDeadlineTime());
         result.put("{CFDA_NUMBER}", institutionalProposal.getCfdaNumber());
         result.put("{OPPORTUNITY}", institutionalProposal.getOpportunity());
         return result;
