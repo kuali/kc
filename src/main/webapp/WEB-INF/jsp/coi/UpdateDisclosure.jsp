@@ -88,6 +88,10 @@
 </c:if> 
 <kra-coi:updateDisclosureProjects/>
 <kra-coi:coiNoteAndAttachment/>
+<c:set var="masterDisclosure" value="${KualiForm.disclosureHelper.masterDisclosureBean}" />
+<c:if test="${fn:length(masterDisclosure.allProjects) > 0}" >
+    <kra-coi:masterDisclosures />
+</c:if>
 <kra-coi:coiCertification topTab="false" />
 <kra:dataValidation auditActivated="${KualiForm.auditActivated}" topTab="false"/>
 
