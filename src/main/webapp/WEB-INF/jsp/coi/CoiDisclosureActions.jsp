@@ -44,6 +44,9 @@
     <kra:section permission="approveCoiDisclosure">
     <kra-coi:coiAdministratorActions />
     </kra:section>
+    
+<kra:dataValidation auditActivated="${KualiForm.auditActivated}" topTab="false"/>
+    
 <kul:panelFooter />
 	<kul:documentControls 
 		transactionalDocument="false"
