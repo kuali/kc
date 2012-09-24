@@ -57,71 +57,28 @@
         <property name="title" value="Edit Proposal Log" />
         <property name="maintainableItems" >
             <list>
-                <bean parent="MaintainableFieldDefinition"
-                    p:unconditionallyReadOnly="true"
-                    p:name="proposalNumber"
-                    p:required="false" />
-                <bean parent="MaintainableFieldDefinition"
-                    p:unconditionallyReadOnly="true"
-                    p:name="fiscalMonthYear"
-                    p:required="false" />
-                <bean parent="MaintainableFieldDefinition"
-                    p:name="fiscalMonth"
-                    p:required="false" />
-                <bean parent="MaintainableFieldDefinition"
-                    p:name="fiscalYear"
-                    p:required="false" />
-                <bean parent="MaintainableFieldDefinition"
-                    p:name="proposalLogTypeCode"
-                    p:required="true" />
-                <bean parent="MaintainableFieldDefinition"
-                    p:name="logStatus"
-                    p:required="true" />
-                <bean parent="MaintainableFieldDefinition"
-                    p:name="proposalTypeCode"
-                    p:required="true" />
-                <bean parent="MaintainableFieldDefinition"
-                    p:name="title"
-                    p:required="true" />
-                <bean parent="MaintainableFieldDefinition"
-                    p:name="piId"
-                    p:required="false" />
-                <bean parent="MaintainableFieldDefinition"
-                    p:name="person.userName"
-                    p:required="false" />
-                <bean parent="MaintainableFieldDefinition"
-                    p:name="rolodexId"
-                    p:required="false" 
-                    p:webUILeaveFieldFunction="loadRolodexInfoById"/>
-                <bean parent="MaintainableFieldDefinition"
-                    p:name="leadUnit"
-                    p:required="true" />
-                <bean parent="MaintainableFieldDefinition"
-                    p:name="sponsorCode" />
-                <bean parent="MaintainableFieldDefinition"
-                    p:name="sponsorName" />
-                <bean parent="MaintainableFieldDefinition"
-                    p:name="comments" />
-                <bean parent="MaintainableFieldDefinition"
-                    p:name="deadlineDate" />
-                <bean parent="MaintainableFieldDefinition"
-                    p:unconditionallyReadOnly="true"
-                    p:name="createUser"
-                    p:required="false" />
-                <bean parent="MaintainableFieldDefinition"
-                    p:unconditionallyReadOnly="true"
-                    p:name="createTimestamp" 
-                    p:required="false" />
-                <bean parent="MaintainableFieldDefinition"
-                    p:unconditionallyReadOnly="true"
-                    p:name="updateUser"
-                    p:required="false" />
-                <bean parent="MaintainableFieldDefinition"
-                    p:unconditionallyReadOnly="true"
-                    p:name="updateTimestamp" 
-                    p:required="false" />
-                <bean parent="MaintainableFieldDefinition"
-                    p:name="versionNumber" />
+                <bean parent="MaintainableFieldDefinition" p:unconditionallyReadOnly="true" p:name="proposalNumber" p:required="false" />
+                <bean parent="MaintainableFieldDefinition" p:unconditionallyReadOnly="true" p:name="fiscalMonthYear" p:required="false" />
+                <bean parent="MaintainableFieldDefinition" p:name="fiscalMonth" p:required="false" />
+                <bean parent="MaintainableFieldDefinition" p:name="fiscalYear" p:required="false" />
+                <bean parent="MaintainableFieldDefinition" p:name="proposalLogTypeCode" p:required="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="logStatus" p:required="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="proposalTypeCode" p:required="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="title" p:required="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="piId" p:required="false" />
+                <bean parent="MaintainableFieldDefinition" p:name="person.userName" p:required="false" />
+                <bean parent="MaintainableFieldDefinition" p:name="rolodexId" p:required="false"  p:webUILeaveFieldFunction="loadRolodexInfoById"/>
+                <bean parent="MaintainableFieldDefinition" p:name="leadUnit" p:required="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="sponsorCode" />
+                <bean parent="MaintainableFieldDefinition" p:name="sponsorName" />
+                <bean parent="MaintainableFieldDefinition" p:name="comments" />
+                <bean parent="MaintainableFieldDefinition" p:name="deadlineDate" />
+                <bean parent="MaintainableFieldDefinition" p:name="deadlineTime" />
+                <bean parent="MaintainableFieldDefinition" p:unconditionallyReadOnly="true" p:name="createUser" p:required="false" />
+                <bean parent="MaintainableFieldDefinition" p:unconditionallyReadOnly="true" p:name="createTimestamp" p:required="false" />
+                <bean parent="MaintainableFieldDefinition" p:unconditionallyReadOnly="true" p:name="updateUser" p:required="false" />
+                <bean parent="MaintainableFieldDefinition" p:unconditionallyReadOnly="true" p:name="updateTimestamp"  p:required="false" />
+                <bean parent="MaintainableFieldDefinition" p:name="versionNumber" />
             </list>
         </property>
     </bean>
