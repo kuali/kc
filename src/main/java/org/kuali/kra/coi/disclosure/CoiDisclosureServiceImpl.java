@@ -1520,7 +1520,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
     /*
      * Return current disclosure, ie, the master disclosure
      */
-    private CoiDisclosure getCurrentDisclosure() {
+    public CoiDisclosure getCurrentDisclosure() {
         Map fieldValues = new HashMap();
         fieldValues.put("personId", GlobalVariables.getUserSession().getPrincipalId());
         fieldValues.put("currentDisclosure", "Y");
