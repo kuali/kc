@@ -179,4 +179,6 @@ public interface CoiDisclosureService {
      */
     public void setDisclProjectForSave(CoiDisclosure coiDisclosure, MasterDisclosureBean masterDisclosureBean);
     
+    public CoiDisclosure getCurrentDisclosure();
+    
 }
