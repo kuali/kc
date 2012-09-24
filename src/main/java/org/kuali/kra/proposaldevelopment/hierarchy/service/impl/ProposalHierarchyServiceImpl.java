@@ -393,6 +393,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
 
         // Sponsor & program information
         hierarchyProposal.setDeadlineDate(srcProposal.getDeadlineDate());
+        hierarchyProposal.setDeadlineTime(srcProposal.getDeadlineTime());
         hierarchyProposal.setDeadlineType(srcProposal.getDeadlineType());
         hierarchyProposal.setAnticipatedAwardTypeCode(srcProposal.getAnticipatedAwardTypeCode());
         hierarchyProposal.setNoticeOfOpportunityCode(srcProposal.getNoticeOfOpportunityCode());

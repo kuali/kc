@@ -69,6 +69,7 @@ public class ProposalDevelopmentNotificationRenderer extends NotificationRendere
         } else {
             result.put("{DEADLINE_DATE}", "");
         }
+        result.put("{DEADLINE_DATE}", developmentProposal.getDeadlineTime());
         result.put("{PI_NAME}", developmentProposal.getPrincipalInvestigatorName());
         result.put("{LEAD_UNIT}", developmentProposal.getUnitNumber());
         result.put("{LEAD_UNIT_NAME}", developmentProposal.getUnit().getUnitName());
