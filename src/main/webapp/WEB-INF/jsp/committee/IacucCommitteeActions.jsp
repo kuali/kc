@@ -20,14 +20,14 @@
 <kul:documentPage 
     showDocumentInfo="true"
     htmlFormAction="iacucCommitteeActions" 
-    documentTypeName="IacucCommitteeDocument"
+    documentTypeName="CommonCommitteeDocument"
     renderMultipart="false" 
     showTabButtons="true" 
     auditCount="0"
     headerDispatch="${KualiForm.headerDispatch}"
     headerTabActive="committeeActions">
 
-    <div align="right"><kul:help documentTypeName="IacucCommitteeDocument" pageName="Actions" /></div>
+    <div align="right"><kul:help documentTypeName="CommonCommitteeDocument" pageName="Actions" /></div>
     
     <c:choose>
         <c:when test="${readOnly}">

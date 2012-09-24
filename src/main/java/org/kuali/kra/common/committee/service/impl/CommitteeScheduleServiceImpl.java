@@ -33,11 +33,11 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.common.committee.bo.Committee;
-import org.kuali.kra.common.committee.bo.CommonCommitteeSchedule;
+import org.kuali.kra.common.committee.bo.CommitteeSchedule;
 import org.kuali.kra.common.committee.bo.ScheduleStatus;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleAttachments;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinute;
-import org.kuali.kra.common.committee.service.CommonCommitteeScheduleService;
+import org.kuali.kra.common.committee.service.CommitteeScheduleServiceBase;
 import org.kuali.kra.common.committee.web.struts.form.schedule.DailyScheduleDetails;
 import org.kuali.kra.common.committee.web.struts.form.schedule.MonthlyScheduleDetails;
 import org.kuali.kra.common.committee.web.struts.form.schedule.ScheduleData;
@@ -61,11 +61,11 @@ import org.springframework.transaction.annotation.Transactional;
  * The Committee Service implementation.
  */
 @Transactional
-public abstract class CommitteeScheduleServiceImpl<CS extends CommonCommitteeSchedule<CS, CMT, ?, CSM>, 
+public abstract class CommitteeScheduleServiceImpl<CS extends CommitteeSchedule<CS, CMT, ?, CSM>, 
                                                    CMT extends Committee<CMT,?,CS>,
                                                    CSM extends CommitteeScheduleMinute<CSM, CS>>
 
-                                                   implements CommonCommitteeScheduleService<CS, CMT, CSM> {
+                                                   implements CommitteeScheduleServiceBase<CS, CMT, CSM> {
     
     @SuppressWarnings("unused")
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(CommitteeScheduleServiceImpl.class);
@@ -118,7 +118,7 @@ public abstract class CommitteeScheduleServiceImpl<CS extends CommonCommitteeSch
     }
     
     /**
-     * @see org.kuali.kra.common.committee.service.CommonCommitteeScheduleService#isCommitteeScheduleDeletable(org.kuali.kra.common.committee.bo.CommonCommitteeSchedule)
+     * @see org.kuali.kra.common.committee.service.CommitteeScheduleServiceBase#isCommitteeScheduleDeletable(org.kuali.kra.common.committee.bo.CommitteeSchedule)
      */
     public Boolean isCommitteeScheduleDeletable(CS committeeSchedule){
         
@@ -143,7 +143,7 @@ public abstract class CommitteeScheduleServiceImpl<CS extends CommonCommitteeSch
     }
 
     /**
-     * @see org.kuali.kra.common.committee.service.CommonCommitteeScheduleService#addSchedule(org.kuali.kra.common.committee.web.struts.form.schedule.ScheduleData, org.kuali.kra.common.committee.bo.Committee)
+     * @see org.kuali.kra.common.committee.service.CommitteeScheduleServiceBase#addSchedule(org.kuali.kra.common.committee.web.struts.form.schedule.ScheduleData, org.kuali.kra.common.committee.bo.Committee)
      */
     public void addSchedule(ScheduleData scheduleData, CMT committee) throws ParseException {
         
@@ -333,7 +333,7 @@ public abstract class CommitteeScheduleServiceImpl<CS extends CommonCommitteeSch
     
     /**
      * 
-     * @see org.kuali.kra.common.committee.service.CommonCommitteeScheduleService#getMinutesByProtocol(java.lang.Long)
+     * @see org.kuali.kra.common.committee.service.CommitteeScheduleServiceBase#getMinutesByProtocol(java.lang.Long)
      */
     public List<CSM> getMinutesByProtocol(Long protocolId){
         Map<String, Object> fieldValues = new HashMap<String, Object>();
@@ -346,7 +346,7 @@ public abstract class CommitteeScheduleServiceImpl<CS extends CommonCommitteeSch
 
     /**
      * 
-     * @see org.kuali.kra.common.committee.service.CommonCommitteeScheduleService#getMinutesBySchedule(java.lang.Long)
+     * @see org.kuali.kra.common.committee.service.CommitteeScheduleServiceBase#getMinutesBySchedule(java.lang.Long)
      */
     public List<CSM> getMinutesBySchedule(Long scheduleId){
         Map<String, Object> fieldValues = new HashMap<String, Object>();
@@ -364,7 +364,7 @@ public abstract class CommitteeScheduleServiceImpl<CS extends CommonCommitteeSch
       
     /**
      * 
-     * @see org.kuali.kra.common.committee.service.CommonCommitteeScheduleService#getCommitteeScheduleMinute(java.lang.Long)
+     * @see org.kuali.kra.common.committee.service.CommitteeScheduleServiceBase#getCommitteeScheduleMinute(java.lang.Long)
      */
     public CSM getCommitteeScheduleMinute(Long committeeScheduleId){
         Map<String, Object> fieldValues = new HashMap<String, Object>();
@@ -379,7 +379,7 @@ public abstract class CommitteeScheduleServiceImpl<CS extends CommonCommitteeSch
     
     /**
      * 
-     * @see org.kuali.kra.common.committee.service.CommonCommitteeScheduleService#getMinutesByProtocolSubmission(java.lang.Long)
+     * @see org.kuali.kra.common.committee.service.CommitteeScheduleServiceBase#getMinutesByProtocolSubmission(java.lang.Long)
      */
     public List<CSM> getMinutesByProtocolSubmission(Long submissionID){
         Map<String, Object> fieldValues = new HashMap<String, Object>();

@@ -22,12 +22,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.common.committee.bo.Committee;
-import org.kuali.kra.common.committee.bo.CommonCommitteeSchedule;
+import org.kuali.kra.common.committee.bo.CommitteeSchedule;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.common.committee.web.struts.form.schedule.ScheduleData;
 
 
-public interface CommonCommitteeScheduleService<CS extends CommonCommitteeSchedule<CS, CMT, ?, CSM>, 
+public interface CommitteeScheduleServiceBase<CS extends CommitteeSchedule<CS, CMT, ?, CSM>, 
                                                 CMT extends Committee<CMT,?,CS>,
                                                 CSM extends CommitteeScheduleMinute<CSM, CS>> {
     

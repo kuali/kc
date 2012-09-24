@@ -18,7 +18,7 @@ package org.kuali.kra.iacuc.committee.web.struts.action;
 import org.kuali.kra.common.committee.bo.Committee;
 import org.kuali.kra.common.committee.document.authorization.CommitteeTask;
 import org.kuali.kra.common.committee.rules.CommitteeDocumentRule;
-import org.kuali.kra.common.committee.service.CommonCommitteeService;
+import org.kuali.kra.common.committee.service.CommitteeServiceBase;
 import org.kuali.kra.common.committee.web.struts.action.CommitteeCommitteeAction;
 import org.kuali.kra.iacuc.committee.bo.IacucCommittee;
 import org.kuali.kra.iacuc.committee.rules.IacucCommitteeDocumentRule;
@@ -39,8 +39,13 @@ public class IacucCommitteeCommitteeAction extends CommitteeCommitteeAction {
     }
 
     @Override
-    protected Class<? extends CommonCommitteeService> getCommonCommitteeServiceBOClassHook() {
+    protected Class<? extends CommitteeServiceBase> getCommitteeServiceBOClassHook() {
         return IacucCommitteeService.class;
+    }
+
+    @Override
+    protected String getCommitteeDocumentTypeSimpleNameHook() {
+        return "CommonCommitteeDocument";
     }
 
 }

@@ -22,7 +22,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.common.committee.bo.CommitteeMembership;
-import org.kuali.kra.common.committee.service.CommonCommitteeService;
+import org.kuali.kra.common.committee.service.CommitteeServiceBase;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.ProtocolFinderDao;
 import org.kuali.kra.protocol.actions.ProtocolAction;
@@ -46,7 +46,7 @@ public abstract class CommitteeDecisionServiceImpl<CD extends CommitteeDecision<
 
     private BusinessObjectService businessObjectService;
     private ProtocolActionService protocolActionService;
-    private CommonCommitteeService committeeService;
+    private CommitteeServiceBase committeeService;
     private DocumentService documentService;
     private ProtocolFinderDao protocolFinderDao;
 
@@ -58,7 +58,7 @@ public abstract class CommitteeDecisionServiceImpl<CD extends CommitteeDecision<
         this.protocolActionService = protocolActionService;
     }
     
-    public void setCommitteeService(CommonCommitteeService committeeService) {
+    public void setCommitteeService(CommitteeServiceBase committeeService) {
         this.committeeService = committeeService;
     }
 

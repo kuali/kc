@@ -17,7 +17,7 @@ package org.kuali.kra.common.committee.lookup.keyvalue;
 
 import java.util.List;
 
-import org.kuali.kra.common.committee.service.CommonCommitteeService;
+import org.kuali.kra.common.committee.service.CommitteeServiceBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.ProtocolForm;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -31,8 +31,13 @@ import org.kuali.rice.krad.keyvalues.KeyValuesBase;
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
-public class CommitteeScheduleValuesFinder extends KeyValuesBase {
+public abstract class CommitteeScheduleValuesFinder extends KeyValuesBase {
     
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = 1914558119859827942L;
+
     /**
      * @return the list of &lt;key, value&gt; pairs of committees.  The first entry
      * is always &lt;"", "select:"&gt;.
@@ -46,9 +51,11 @@ public class CommitteeScheduleValuesFinder extends KeyValuesBase {
      * Get the Committee Service.
      * @return the Committee Service
      */
-    private CommonCommitteeService getCommitteeService() {
-        return KraServiceLocator.getService(CommonCommitteeService.class);
+    private CommitteeServiceBase getCommitteeService() {
+        return KraServiceLocator.getService(getCommitteeServiceClassHook());
     }
+
+    protected abstract Class<? extends CommitteeServiceBase> getCommitteeServiceClassHook();
 
     /**
      * Get the committee id.  Currently we are only concerned with

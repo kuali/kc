@@ -124,7 +124,7 @@
 		<property name="required" value="false" />
 		<property name="control" >
       		<bean parent="SelectControlDefinition"
-            	p:valuesFinderClass="org.kuali.kra.committee.lookup.keyvalue.CommitteeScheduleValuesFinder"
+            	p:valuesFinderClass="org.kuali.kra.iacuc.committee.lookup.keyvalue.IacucCommitteeScheduleValuesFinder"
                 p:includeKeyInLabel="false" />
 		</property>
 		<property name="summary" value="Schedule Date" />

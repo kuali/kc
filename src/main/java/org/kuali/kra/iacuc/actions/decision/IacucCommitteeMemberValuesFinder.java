@@ -20,13 +20,15 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.common.committee.bo.Committee;
 import org.kuali.kra.common.committee.bo.CommitteeMembership;
-import org.kuali.kra.common.committee.bo.CommonCommitteeSchedule;
+import org.kuali.kra.common.committee.bo.CommitteeSchedule;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.ProtocolForm;
 import org.kuali.kra.iacuc.actions.IacucActionsKeyValuesBase;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionStatus;
+import org.kuali.kra.iacuc.committee.service.IacucCommitteeService;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleAttendance;
+import org.kuali.kra.common.committee.service.CommitteeServiceBase;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
@@ -89,7 +91,7 @@ public class IacucCommitteeMemberValuesFinder extends IacucActionsKeyValuesBase 
         Protocol prot = getProtocol();
         boolean retVal = false;
         if (prot != null) {
-            CommonCommitteeSchedule schedule = prot.getProtocolSubmission().getCommitteeSchedule();
+            CommitteeSchedule schedule = prot.getProtocolSubmission().getCommitteeSchedule();
             if(schedule != null) {
                 List<CommitteeScheduleAttendance> attendees = schedule.getCommitteeScheduleAttendances();
                 for (CommitteeScheduleAttendance attendee : attendees) {
@@ -101,5 +103,11 @@ public class IacucCommitteeMemberValuesFinder extends IacucActionsKeyValuesBase 
         }
         return retVal;
         
+    }
+    
+    
+    @Override
+    protected Class<? extends CommitteeServiceBase> getCommitteeServiceClassHook() {
+        return IacucCommitteeService.class;
     }
 }

@@ -18,17 +18,17 @@ package org.kuali.kra.iacuc.committee.service.impl;
 import org.kuali.kra.common.committee.service.impl.CommitteeScheduleAttendanceServiceImpl;
 import org.kuali.kra.iacuc.committee.bo.IacucCommittee;
 import org.kuali.kra.iacuc.committee.bo.IacucCommitteeSchedule;
-import org.kuali.kra.iacuc.committee.document.IacucCommitteeDocument;
+import org.kuali.kra.iacuc.committee.document.CommonCommitteeDocument;
 import org.kuali.kra.iacuc.committee.service.IacucCommitteeScheduleAttendanceService;
 import org.kuali.kra.iacuc.committee.service.IacucCommitteeService;
 
 public class IacucCommitteeScheduleAttendanceServiceImpl extends 
-                                                            CommitteeScheduleAttendanceServiceImpl<IacucCommitteeService, IacucCommittee, IacucCommitteeDocument, IacucCommitteeSchedule> 
+                                                            CommitteeScheduleAttendanceServiceImpl<IacucCommitteeService, IacucCommittee, CommonCommitteeDocument, IacucCommitteeSchedule> 
                                                          implements IacucCommitteeScheduleAttendanceService {
 
     @Override
-    protected Class<IacucCommitteeDocument> getCommonCommitteeDocumentClassBOHook() {
-        return IacucCommitteeDocument.class;
+    protected Class<CommonCommitteeDocument> getCommitteeDocumentClassBOHook() {
+        return CommonCommitteeDocument.class;
     }
 
 }

@@ -16,16 +16,16 @@
 package org.kuali.kra.iacuc.committee.rules;
 
 import org.kuali.kra.common.committee.bo.Committee;
-import org.kuali.kra.common.committee.document.CommonCommitteeDocument;
+import org.kuali.kra.common.committee.document.CommitteeDocumentBase;
 import org.kuali.kra.common.committee.lookup.keyvalue.CommitteeIdValuesFinder;
 import org.kuali.kra.common.committee.rules.CommitteeDocumentRule;
 import org.kuali.kra.iacuc.committee.bo.IacucCommittee;
-import org.kuali.kra.iacuc.committee.document.IacucCommitteeDocument;
+import org.kuali.kra.iacuc.committee.document.CommonCommitteeDocument;
 
 public class IacucCommitteeDocumentRule extends CommitteeDocumentRule {
 
     @Override
-    protected Class<? extends Committee> getCommonCommitteeBOClassHook() {
+    protected Class<? extends Committee> getCommitteeBOClassHook() {
         return IacucCommittee.class;
     }
 
@@ -40,7 +40,7 @@ public class IacucCommitteeDocumentRule extends CommitteeDocumentRule {
             private static final long serialVersionUID = 7790195024569716075L;
 
             @Override
-            protected Class<? extends Committee> getCommonCommitteeBOClassHook() {
+            protected Class<? extends Committee> getCommitteeBOClassHook() {
                 return IacucCommittee.class;
             }
             
@@ -49,8 +49,8 @@ public class IacucCommitteeDocumentRule extends CommitteeDocumentRule {
     }
 
     @Override
-    protected Class<? extends CommonCommitteeDocument> getCommonCommitteeDocumentBOClassHook() {
-        return IacucCommitteeDocument.class;
+    protected Class<? extends CommitteeDocumentBase> getCommitteeDocumentBOClassHook() {
+        return CommonCommitteeDocument.class;
     }
 
 }

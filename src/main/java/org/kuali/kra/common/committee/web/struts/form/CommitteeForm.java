@@ -25,7 +25,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
-import org.kuali.kra.common.committee.document.CommonCommitteeDocument;
+import org.kuali.kra.common.committee.document.CommitteeDocumentBase;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.kew.api.KewApiConstants;
@@ -52,12 +52,12 @@ import org.springframework.util.CollectionUtils;
  * they are associated with.
  */
 @SuppressWarnings("serial")
-public abstract class CommonCommitteeForm extends KraTransactionalDocumentFormBase {
+public abstract class CommitteeForm extends KraTransactionalDocumentFormBase {
 
     private CommitteeHelper committeeHelper;
     
     @SuppressWarnings("unused")
-    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(CommonCommitteeForm.class);
+    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(CommitteeForm.class);
     
     // KNS Lookup hooks
     private String lookupResultsSequenceNumber;
@@ -66,7 +66,7 @@ public abstract class CommonCommitteeForm extends KraTransactionalDocumentFormBa
     /**
      * Constructs a CommitteeForm.
      */
-    public CommonCommitteeForm() {
+    public CommitteeForm() {
         super();
         //this.setScheduleData(new ScheduleData());
         initialize();
@@ -87,15 +87,15 @@ public abstract class CommonCommitteeForm extends KraTransactionalDocumentFormBa
         setCommitteeHelper(getNewCommitteeHelperInstanceHook(this));
     }
 
-    protected abstract CommitteeHelper getNewCommitteeHelperInstanceHook(CommonCommitteeForm commonCommitteeForm);
+    protected abstract CommitteeHelper getNewCommitteeHelperInstanceHook(CommitteeForm commonCommitteeForm);
     
     
     /**
      * Get the Committee Document.
      * @return the committee document
      */
-    public CommonCommitteeDocument getCommitteeDocument() {
-        return (CommonCommitteeDocument) this.getDocument();
+    public CommitteeDocumentBase getCommitteeDocument() {
+        return (CommitteeDocumentBase) this.getDocument();
     }
 
     /**o
@@ -106,7 +106,7 @@ public abstract class CommonCommitteeForm extends KraTransactionalDocumentFormBa
         super.populate(request);
     }
     
-    private String getCommitteeNameForHeaderDisplay(CommonCommitteeDocument committeeDoc) {
+    private String getCommitteeNameForHeaderDisplay(CommitteeDocumentBase committeeDoc) {
         String trimmedCommitteeName = null;
         if(committeeDoc != null && !CollectionUtils.isEmpty(committeeDoc.getCommitteeList())) {  
             trimmedCommitteeName = committeeDoc.getCommittee().getCommitteeName();
@@ -125,7 +125,7 @@ public abstract class CommonCommitteeForm extends KraTransactionalDocumentFormBa
     @Override
     public void populateHeaderFields(WorkflowDocument workflowDocument) {
         super.populateHeaderFields(workflowDocument);
-        CommonCommitteeDocument committeeDoc = getCommitteeDocument();
+        CommitteeDocumentBase committeeDoc = getCommitteeDocument();
         
         HeaderField documentNumber = getDocInfo().get(0);
         documentNumber.setDdAttributeEntryName("DataDictionary.CommitteeDocument.attributes.documentNumber");

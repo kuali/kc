@@ -13,26 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.iacuc.committee.web.struts.form;
+package org.kuali.kra.iacuc.committee.lookup.keyvalue;
 
-import org.kuali.kra.common.committee.web.struts.form.CommitteeHelper;
-import org.kuali.kra.common.committee.web.struts.form.CommitteeForm;
+import org.kuali.kra.common.committee.lookup.keyvalue.CommitteeScheduleValuesFinder;
+import org.kuali.kra.common.committee.service.CommitteeServiceBase;
+import org.kuali.kra.iacuc.committee.service.IacucCommitteeService;
 
-public class IacucCommitteeForm extends CommitteeForm {
+public class IacucCommitteeScheduleValuesFinder extends CommitteeScheduleValuesFinder {
 
     /**
      * Comment for <code>serialVersionUID</code>
      */
-    private static final long serialVersionUID = 5623611578157741521L;
+    private static final long serialVersionUID = 6980759040568533402L;
 
     @Override
-    protected CommitteeHelper getNewCommitteeHelperInstanceHook(CommitteeForm committeeForm) {
-        return new IacucCommitteeHelper((IacucCommitteeForm)committeeForm);
-    }
-
-    @Override
-    protected String getDefaultDocumentTypeName() {
-        return "CommonCommitteeDocument";
+    protected Class<? extends CommitteeServiceBase> getCommitteeServiceClassHook() {
+        return IacucCommitteeService.class;
     }
 
 }

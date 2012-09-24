@@ -3,10 +3,10 @@
 	<documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
 		<documentType>
 			<name>CommonCommitteeDocument</name>
-			<description>Create a Common Committee</description>
-			<label>Common Committee Document</label>
+			<description>Create a Iacuc Committee</description>
+			<label>Iacuc Committee Document</label>
 			<parent>KC</parent>
-			<docHandler>${kuali.docHandler.url.prefix}/commonCommitteeCommittee.do?methodToCall=docHandler</docHandler>
+			<docHandler>${kuali.docHandler.url.prefix}/iacucCommitteeCommittee.do?methodToCall=docHandler</docHandler>
             <helpDefinitionURL>default.htm?turl=Documents/committee.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	

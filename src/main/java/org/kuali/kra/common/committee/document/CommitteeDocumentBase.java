@@ -22,8 +22,8 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.RolePersons;
 import org.kuali.kra.common.committee.bo.Committee;
-import org.kuali.kra.common.committee.bo.CommonCommitteeSchedule;
-import org.kuali.kra.common.committee.service.CommonCommitteeService;
+import org.kuali.kra.common.committee.bo.CommitteeSchedule;
+import org.kuali.kra.common.committee.service.CommitteeServiceBase;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kew.api.KewApiConstants;
@@ -38,11 +38,11 @@ import org.kuali.rice.krad.util.ObjectUtils;
  * The document is necessary for workflow.
  */
 @SuppressWarnings("serial")
-public abstract class CommonCommitteeDocument<CD extends CommonCommitteeDocument<CD, CMT, CS>, 
-                                              CMT extends Committee<CMT, CD, CS>, 
-                                              CS extends CommonCommitteeSchedule<CS, CMT, ?, ?>> 
+public abstract class CommitteeDocumentBase<CD extends CommitteeDocumentBase<CD, CMT, CS>, 
+                                            CMT extends Committee<CMT, CD, CS>, 
+                                            CS extends CommitteeSchedule<CS, CMT, ?, ?>> 
                         
-                                              extends ResearchDocumentBase implements Copyable, SessionDocument { 
+                                            extends ResearchDocumentBase implements Copyable, SessionDocument { 
 
 	/**
      * Comment for <code>serialVersionUID</code>
@@ -66,7 +66,7 @@ public abstract class CommonCommitteeDocument<CD extends CommonCommitteeDocument
     /**
      * Constructs a CommitteeDocument object
      */
-    public CommonCommitteeDocument() {
+    public CommitteeDocumentBase() {
         CMT committee = getNewCommitteeInstanceHook();
         committeeList.add(committee);
         committee.setCommitteeDocument(getThisHook());
@@ -185,7 +185,7 @@ public abstract class CommonCommitteeDocument<CD extends CommonCommitteeDocument
         }
     }
     
-    protected abstract CommonCommitteeService<CMT, CS> getCommitteeService();
+    protected abstract CommitteeServiceBase<CMT, CS> getCommitteeService();
     
 // TODO *********commented the code below during IACUC refactoring*********     
 //    private CommonCommitteeService getCommitteeService() {

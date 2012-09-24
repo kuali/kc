@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.iacuc.committee.meeting;
 
-import org.kuali.kra.common.committee.bo.CommonCommitteeSchedule;
-import org.kuali.kra.common.committee.document.CommonCommitteeDocument;
+import org.kuali.kra.common.committee.bo.CommitteeSchedule;
+import org.kuali.kra.common.committee.document.CommitteeDocumentBase;
 import org.kuali.kra.common.committee.meeting.CommScheduleActItem;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleAttachments;
 import org.kuali.kra.common.committee.meeting.CommonMeetingService;
@@ -24,10 +24,10 @@ import org.kuali.kra.common.committee.meeting.MeetingAddMinuteEvent;
 import org.kuali.kra.common.committee.meeting.MeetingHelper;
 import org.kuali.kra.common.committee.meeting.MeetingManagementAction;
 import org.kuali.kra.common.committee.meeting.MeetingEventBase.ErrorType;
-import org.kuali.kra.common.committee.service.CommonCommitteeScheduleService;
+import org.kuali.kra.common.committee.service.CommitteeScheduleServiceBase;
 import org.kuali.kra.iacuc.actions.reviewcomments.IacucReviewCommentsService;
 import org.kuali.kra.iacuc.committee.bo.IacucCommitteeSchedule;
-import org.kuali.kra.iacuc.committee.document.IacucCommitteeDocument;
+import org.kuali.kra.iacuc.committee.document.CommonCommitteeDocument;
 import org.kuali.kra.iacuc.committee.service.IacucCommitteeScheduleService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsService;
@@ -35,8 +35,8 @@ import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsService;
 public class IacucMeetingManagementAction extends MeetingManagementAction {
 
     @Override
-    protected MeetingAddMinuteEvent getNewMeetingAddMinuteEventInstanceHook(String  errorPathPrefix, CommonCommitteeDocument document, MeetingHelper meetingHelper, ErrorType type) {
-        return new IacucMeetingAddMinuteEvent(errorPathPrefix, (IacucCommitteeDocument) document, (IacucMeetingHelper) meetingHelper, type);
+    protected MeetingAddMinuteEvent getNewMeetingAddMinuteEventInstanceHook(String  errorPathPrefix, CommitteeDocumentBase document, MeetingHelper meetingHelper, ErrorType type) {
+        return new IacucMeetingAddMinuteEvent(errorPathPrefix, (CommonCommitteeDocument) document, (IacucMeetingHelper) meetingHelper, type);
     }
 
     @Override
@@ -50,7 +50,7 @@ public class IacucMeetingManagementAction extends MeetingManagementAction {
     }
 
     @Override
-    protected Class<? extends CommonCommitteeSchedule> getCommitteeScheduleBOClass() {
+    protected Class<? extends CommitteeSchedule> getCommitteeScheduleBOClass() {
         return IacucCommitteeSchedule.class;
     }
 
@@ -70,7 +70,7 @@ public class IacucMeetingManagementAction extends MeetingManagementAction {
     }
 
     @Override
-    protected Class<? extends CommonCommitteeScheduleService> getCommitteeScheduleServiceClassHook() {
+    protected Class<? extends CommitteeScheduleServiceBase> getCommitteeScheduleServiceClassHook() {
         return IacucCommitteeScheduleService.class;
     }
 

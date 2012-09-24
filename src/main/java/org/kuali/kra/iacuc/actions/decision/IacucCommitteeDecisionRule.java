@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.iacuc.actions.decision;
 
+import org.kuali.kra.common.committee.service.CommitteeScheduleAttendanceServiceBase;
+import org.kuali.kra.iacuc.committee.service.IacucCommitteeScheduleAttendanceService;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.protocol.actions.decision.CommitteeDecisionRule;
 
@@ -23,6 +25,11 @@ public class IacucCommitteeDecisionRule extends CommitteeDecisionRule<IacucCommi
     @Override
     protected String getNoCommentsForRevisionsErrorMessageHook() {
         return KeyConstants.ERROR_PROTOCOL_RECORD_COMMITEE_NO_MINOR_MAJOR_DISAPPROVE_REVIEWER_COMMENTS;
+    }
+
+    @Override
+    protected Class<? extends CommitteeScheduleAttendanceServiceBase> getCommitteeScheduleAttendanceServiceClassHook() {
+        return IacucCommitteeScheduleAttendanceService.class;
     }
     
 }

@@ -18,7 +18,7 @@ package org.kuali.kra.common.committee.meeting;
 import java.sql.Timestamp;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.common.committee.bo.CommonCommitteeSchedule;
+import org.kuali.kra.common.committee.bo.CommitteeSchedule;
 
 /**
  * 
@@ -35,7 +35,7 @@ public abstract class GeneratedMeetingDoc extends KraPersistableBusinessObjectBa
     private Timestamp createTimestamp;
 
     private String createUser;
-    private CommonCommitteeSchedule committeeSchedule;
+    private CommitteeSchedule committeeSchedule;
 
 
     public byte[] getPdfStore() {
@@ -54,14 +54,14 @@ public abstract class GeneratedMeetingDoc extends KraPersistableBusinessObjectBa
         this.scheduleIdFk = scheduleIdFk;
     }
 
-    public CommonCommitteeSchedule getCommitteeSchedule() {
+    public CommitteeSchedule getCommitteeSchedule() {
         if (committeeSchedule == null) {
             refreshReferenceObject("committeeSchedule");
         }
         return committeeSchedule;
     }
 
-    public void setCommitteeSchedule(CommonCommitteeSchedule committeeSchedule) {
+    public void setCommitteeSchedule(CommitteeSchedule committeeSchedule) {
         this.committeeSchedule = committeeSchedule;
     }
 

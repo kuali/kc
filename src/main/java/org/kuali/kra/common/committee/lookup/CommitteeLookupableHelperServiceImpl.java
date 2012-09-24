@@ -29,7 +29,7 @@ import org.kuali.kra.common.committee.bo.Committee;
 import org.kuali.kra.common.committee.bo.CommitteeMembership;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipRole;
 import org.kuali.kra.common.committee.bo.CommitteeResearchArea;
-import org.kuali.kra.common.committee.document.CommonCommitteeDocument;
+import org.kuali.kra.common.committee.document.CommitteeDocumentBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
 import org.kuali.kra.questionnaire.question.Question;
@@ -55,7 +55,7 @@ import org.kuali.rice.krad.util.KRADConstants;
  */
 @SuppressWarnings({ "serial", "deprecation" })
 public abstract class CommitteeLookupableHelperServiceImpl<CMT extends Committee<CMT, CD, ?>,
-                                                           CD extends CommonCommitteeDocument<CD, CMT, ?>> 
+                                                           CD extends CommitteeDocumentBase<CD, CMT, ?>> 
 
                                                            extends KraLookupableHelperServiceImpl {
 
