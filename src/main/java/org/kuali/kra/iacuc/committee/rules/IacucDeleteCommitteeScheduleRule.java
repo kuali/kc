@@ -13,10 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.iacuc.committee.service;
+package org.kuali.kra.iacuc.committee.rules;
 
-import org.kuali.kra.common.committee.service.CommitteeScheduleAttendanceServiceBase;
+import org.kuali.kra.common.committee.rules.DeleteCommitteeScheduleRule;
+import org.kuali.kra.common.committee.service.CommitteeServiceBase;
+import org.kuali.kra.iacuc.committee.service.IacucCommitteeService;
 
-public interface IacucCommitteeScheduleAttendanceService extends CommitteeScheduleAttendanceServiceBase {
+public class IacucDeleteCommitteeScheduleRule extends DeleteCommitteeScheduleRule {
+
+    @Override
+    protected Class<? extends CommitteeServiceBase> getCommitteeServiceClassHook() {
+        return IacucCommitteeService.class;
+    }
 
 }

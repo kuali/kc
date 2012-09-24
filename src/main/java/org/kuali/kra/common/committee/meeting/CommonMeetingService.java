@@ -17,14 +17,14 @@ package org.kuali.kra.common.committee.meeting;
 
 import java.util.List;
 
-import org.kuali.kra.common.committee.bo.CommonCommitteeSchedule;
+import org.kuali.kra.common.committee.bo.CommitteeSchedule;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
 /**
  * 
  * This class is to provide service for meeting management
  */
-public interface CommonMeetingService<CS extends CommonCommitteeSchedule<CS, ?, ?, CSM>,
+public interface CommonMeetingService<CS extends CommitteeSchedule<CS, ?, ?, CSM>,
                                       CSM extends CommitteeScheduleMinute<CSM, CS>> {
     
     /**

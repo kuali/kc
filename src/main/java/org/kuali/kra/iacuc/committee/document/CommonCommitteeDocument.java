@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.iacuc.committee.document;
 
-import org.kuali.kra.common.committee.document.CommonCommitteeDocument;
+import org.kuali.kra.common.committee.document.CommitteeDocumentBase;
 import org.kuali.kra.iacuc.committee.bo.IacucCommittee;
 import org.kuali.kra.iacuc.committee.bo.IacucCommitteeSchedule;
 import org.kuali.kra.iacuc.committee.service.IacucCommitteeService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 
-public class IacucCommitteeDocument extends CommonCommitteeDocument<IacucCommitteeDocument, IacucCommittee, IacucCommitteeSchedule> {
+public class CommonCommitteeDocument extends CommitteeDocumentBase<CommonCommitteeDocument, IacucCommittee, IacucCommitteeSchedule> {
 
     /**
      * Comment for <code>serialVersionUID</code>
@@ -29,7 +29,7 @@ public class IacucCommitteeDocument extends CommonCommitteeDocument<IacucCommitt
     private static final long serialVersionUID = 7253898081493879835L;
 
     @Override
-    protected IacucCommitteeDocument getThisHook() {
+    protected CommonCommitteeDocument getThisHook() {
         return this;
     }
 

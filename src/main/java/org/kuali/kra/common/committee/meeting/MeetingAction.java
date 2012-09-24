@@ -28,8 +28,8 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kra.common.committee.bo.CommonCommitteeSchedule;
-import org.kuali.kra.common.committee.document.CommonCommitteeDocument;
+import org.kuali.kra.common.committee.bo.CommitteeSchedule;
+import org.kuali.kra.common.committee.document.CommitteeDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsService;
@@ -78,7 +78,7 @@ public abstract class MeetingAction extends KualiAction {
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put("id", request.getParameter("scheduleId"));
         List<CommitteeScheduleMinute<?,?>> permittedMinutes = new ArrayList<CommitteeScheduleMinute<?,?>>();
-        CommonCommitteeSchedule commSchedule = (CommonCommitteeSchedule) getBusinessObjectService().findByPrimaryKey(getCommitteeScheduleBOClass(), fieldValues);
+        CommitteeSchedule commSchedule = (CommitteeSchedule) getBusinessObjectService().findByPrimaryKey(getCommitteeScheduleBOClass(), fieldValues);
         List<CommitteeScheduleMinute> minutes = commSchedule.getCommitteeScheduleMinutes();
         
         // use the entry type comparator to sort the minutes 
@@ -104,20 +104,20 @@ public abstract class MeetingAction extends KualiAction {
     }
 
 
-    protected abstract Class<? extends CommonCommitteeSchedule> getCommitteeScheduleBOClass();
+    protected abstract Class<? extends CommitteeSchedule> getCommitteeScheduleBOClass();
 
 
     /*
      * This is a utility method to figure out the order of the selected schedule in schedule collections. This is primarily for
      * creating meeting tab title.
      */
-    private int getScheduleLineNumber(HttpServletRequest request, CommonCommitteeSchedule<?, ?, ?, ?> commSchedule) {
+    private int getScheduleLineNumber(HttpServletRequest request, CommitteeSchedule<?, ?, ?, ?> commSchedule) {
         int lineNumber = 0;
         if (StringUtils.isNotBlank(request.getParameter(LINE_NUMBER))) {
             lineNumber = Integer.parseInt(request.getParameter(LINE_NUMBER));
         }
         else {
-            for (CommonCommitteeSchedule<?, ?, ?, ?> schedule : commSchedule.getCommittee().getCommitteeSchedules()) {
+            for (CommitteeSchedule<?, ?, ?, ?> schedule : commSchedule.getCommittee().getCommitteeSchedules()) {
                 lineNumber++;
                 if (schedule.getId().equals(commSchedule.getId())) {
                     break;
@@ -160,7 +160,7 @@ public abstract class MeetingAction extends KualiAction {
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
 
-        CommonCommitteeSchedule committeeSchedule = ((MeetingForm) form).getMeetingHelper().getCommitteeSchedule();
+        CommitteeSchedule committeeSchedule = ((MeetingForm) form).getMeetingHelper().getCommitteeSchedule();
         if (isValidToSave(((MeetingForm) form).getMeetingHelper())) {
             ((MeetingForm) form).getMeetingHelper().populateAttendancePreSave();
             getMeetingService().saveMeetingDetails(committeeSchedule, ((MeetingForm) form).getMeetingHelper().getDeletedBos());
@@ -189,9 +189,9 @@ public abstract class MeetingAction extends KualiAction {
      * This method is to get committeedocument to apply tule. The committeedocument from committeeschedule is null for
      * 'documentheader.workflowdocument' it caused problem.
      */
-    protected CommonCommitteeDocument getCommitteeDocument(String documentNumber) {
+    protected CommitteeDocumentBase getCommitteeDocument(String documentNumber) {
         try {
-            return (CommonCommitteeDocument) KraServiceLocator.getService(DocumentService.class).getByDocumentHeaderId(documentNumber);
+            return (CommitteeDocumentBase) KraServiceLocator.getService(DocumentService.class).getByDocumentHeaderId(documentNumber);
         }
         catch (Exception e) {
             return null;
@@ -267,7 +267,7 @@ public abstract class MeetingAction extends KualiAction {
         else if (meetingForm.getMeetingHelper().canModifySchedule()) {
             Object buttonClicked = request.getParameter(KRADConstants.QUESTION_CLICKED_BUTTON);
             if ((CLOSE_QUESTION_ID.equals(question)) && ConfirmationQuestion.YES.equals(buttonClicked)) {
-                CommonCommitteeSchedule committeeSchedule = meetingForm.getMeetingHelper().getCommitteeSchedule();
+                CommitteeSchedule committeeSchedule = meetingForm.getMeetingHelper().getCommitteeSchedule();
                 if (isValidToSave(((MeetingForm) form).getMeetingHelper())) {
                     ((MeetingForm) form).getMeetingHelper().populateAttendancePreSave();
                     getMeetingService().saveMeetingDetails(committeeSchedule,

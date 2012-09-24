@@ -30,7 +30,7 @@ import org.apache.commons.lang.time.DateUtils;
 import org.kuali.kra.common.committee.bo.CommitteeMembership;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipRole;
 import org.kuali.kra.common.committee.bo.Committee;
-import org.kuali.kra.common.committee.bo.CommonCommitteeSchedule;
+import org.kuali.kra.common.committee.bo.CommitteeSchedule;
 import org.kuali.kra.common.committee.web.struts.form.schedule.Time12HrFmt;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondence;
@@ -46,7 +46,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @SuppressWarnings("deprecation")
 @Transactional
-public abstract class MeetingServiceImpl<CS extends CommonCommitteeSchedule<CS, CMT, ?, CSM>,
+public abstract class MeetingServiceImpl<CS extends CommitteeSchedule<CS, CMT, ?, CSM>,
                                          CSM extends CommitteeScheduleMinute<CSM,CS>, 
                                          CMT extends Committee<CMT, ?, CS>>
 
@@ -145,7 +145,7 @@ public abstract class MeetingServiceImpl<CS extends CommonCommitteeSchedule<CS, 
     
     /**
      * 
-     * @see org.kuali.kra.common.committee.meeting.CommonMeetingService#SaveMeetingDetails(org.kuali.kra.common.committee.bo.CommonCommitteeSchedule, java.util.List)
+     * @see org.kuali.kra.common.committee.meeting.CommonMeetingService#SaveMeetingDetails(org.kuali.kra.common.committee.bo.CommitteeSchedule, java.util.List)
      */
     public void saveMeetingDetails(CS committeeSchedule, List<? extends PersistableBusinessObject> deletedBos) {
         committeeSchedule.setStartTime(addHrMinToDate(committeeSchedule.getStartTime(), committeeSchedule.getViewStartTime()));
@@ -214,7 +214,7 @@ public abstract class MeetingServiceImpl<CS extends CommonCommitteeSchedule<CS, 
     /**
      * 
      * @see org.kuali.kra.common.committee.meeting.CommonMeetingService#addOtherAction(org.kuali.kra.common.committee.meeting.CommScheduleActItem,
-     *      org.kuali.kra.common.committee.bo.CommonCommitteeSchedule)
+     *      org.kuali.kra.common.committee.bo.CommitteeSchedule)
      */
     public void addOtherAction(CommScheduleActItem newOtherAction, CS committeeSchedule) {
         newOtherAction.refreshReferenceObject("scheduleActItemType");
@@ -245,7 +245,7 @@ public abstract class MeetingServiceImpl<CS extends CommonCommitteeSchedule<CS, 
 
     /**
      * 
-     * @see org.kuali.kra.common.committee.meeting.CommonMeetingService#deleteOtherAction(org.kuali.kra.common.committee.bo.CommonCommitteeSchedule, int,
+     * @see org.kuali.kra.common.committee.meeting.CommonMeetingService#deleteOtherAction(org.kuali.kra.common.committee.bo.CommitteeSchedule, int,
      *      java.util.List)
      */
     public void deleteOtherAction(CS committeeSchedule, int itemNumber, List<CommScheduleActItem> deletedOtherActions) {
@@ -648,7 +648,7 @@ public abstract class MeetingServiceImpl<CS extends CommonCommitteeSchedule<CS, 
 
     /**
      * 
-     * @see org.kuali.kra.common.committee.meeting.CommonMeetingService#deleteCommitteeScheduleMinute(org.kuali.kra.common.committee.bo.CommonCommitteeSchedule,
+     * @see org.kuali.kra.common.committee.meeting.CommonMeetingService#deleteCommitteeScheduleMinute(org.kuali.kra.common.committee.bo.CommitteeSchedule,
      *      java.util.List, int)
      */
     public void deleteCommitteeScheduleMinute(CS committeeSchedule, List<CSM> deletedCommitteeScheduleMinutes, int itemNumber) {
@@ -663,7 +663,7 @@ public abstract class MeetingServiceImpl<CS extends CommonCommitteeSchedule<CS, 
     /**
      * 
      * @see org.kuali.kra.common.committee.meeting.CommonMeetingService#populateFormHelper(org.kuali.kra.common.committee.meeting.MeetingHelper,
-     *      org.kuali.kra.common.committee.bo.CommonCommitteeSchedule, int)
+     *      org.kuali.kra.common.committee.bo.CommitteeSchedule, int)
      */
     public void populateFormHelper(MeetingHelper meetingHelper, CS commSchedule, int lineNumber) {
         for (ProtocolSubmission protocolSubmission : commSchedule.getLatestProtocolSubmissions()) {

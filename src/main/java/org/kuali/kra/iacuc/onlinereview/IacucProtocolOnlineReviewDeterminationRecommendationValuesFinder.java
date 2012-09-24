@@ -19,7 +19,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.kuali.kra.common.committee.service.CommitteeServiceBase;
 import org.kuali.kra.iacuc.actions.IacucActionsKeyValuesBase;
+import org.kuali.kra.iacuc.committee.service.IacucCommitteeService;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 
@@ -43,4 +45,10 @@ public class IacucProtocolOnlineReviewDeterminationRecommendationValuesFinder ex
         }
         return keyValues;
     }
+    
+    @Override
+    protected Class<? extends CommitteeServiceBase> getCommitteeServiceClassHook() {
+        return IacucCommitteeService.class;
+    }
+    
 }

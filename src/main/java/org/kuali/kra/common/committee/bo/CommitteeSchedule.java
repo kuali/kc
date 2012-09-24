@@ -44,7 +44,7 @@ import org.kuali.kra.util.DateUtils;
 /**
  * This is BO class to support CommitteeScheulde. It has three transient field to support UI.
  */
-public abstract class CommonCommitteeSchedule<CS extends CommonCommitteeSchedule<CS, CMT, PS, CSM>,
+public abstract class CommitteeSchedule<CS extends CommitteeSchedule<CS, CMT, PS, CSM>,
                                               CMT extends Committee<CMT, ?, CS>, 
                                               PS extends ProtocolSubmission,
                                               CSM extends CommitteeScheduleMinute<CSM, CS>>
@@ -98,7 +98,7 @@ public abstract class CommonCommitteeSchedule<CS extends CommonCommitteeSchedule
     private transient List<ScheduleAgenda> scheduleAgendas;        
 
     
-    public CommonCommitteeSchedule() { 
+    public CommitteeSchedule() { 
         setCommitteeScheduleAttendances(new ArrayList<CommitteeScheduleAttendance>()); 
         setCommScheduleActItems(new ArrayList<CommScheduleActItem>()); 
         setProtocolSubmissions(new ArrayList<PS>()); 

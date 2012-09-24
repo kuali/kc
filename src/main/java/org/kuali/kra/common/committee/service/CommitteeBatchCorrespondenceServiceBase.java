@@ -23,7 +23,7 @@ import org.kuali.kra.common.committee.bo.CommitteeBatchCorrespondence;
  * 
  * This class generates the batch correspondence of committees.
  */
-public interface CommonCommitteeBatchCorrespondenceService {
+public interface CommitteeBatchCorrespondenceServiceBase {
     
     /**
      * 

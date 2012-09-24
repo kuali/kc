@@ -21,14 +21,14 @@
 <kul:documentPage 
     showDocumentInfo="true"
 	htmlFormAction="iacucCommitteeMembership" 
-	documentTypeName="IacucCommitteeDocument"
+	documentTypeName="CommonCommitteeDocument"
 	renderMultipart="false" 
 	showTabButtons="true" 
 	auditCount="0"
 	headerDispatch="${KualiForm.headerDispatch}"
 	headerTabActive="committeeMembership">
 
-	<div align="right"><kul:help documentTypeName="IacucCommitteeDocument" pageName="Members" /></div>
+	<div align="right"><kul:help documentTypeName="CommonCommitteeDocument" pageName="Members" /></div>
  
     <kra-committee:committeeAddMembershipSection readOnly="${readOnly}" />
     

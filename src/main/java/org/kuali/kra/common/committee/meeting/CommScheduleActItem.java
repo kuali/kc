@@ -16,7 +16,7 @@
 package org.kuali.kra.common.committee.meeting;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.common.committee.bo.CommonCommitteeSchedule;
+import org.kuali.kra.common.committee.bo.CommitteeSchedule;
 
 /**
  * 
@@ -36,7 +36,7 @@ public abstract class CommScheduleActItem extends KraPersistableBusinessObjectBa
 
     private String itemDescription;
 
-    private CommonCommitteeSchedule committeeSchedule;
+    private CommitteeSchedule committeeSchedule;
 
     private ScheduleActItemType scheduleActItemType;
 
@@ -83,11 +83,11 @@ public abstract class CommScheduleActItem extends KraPersistableBusinessObjectBa
         this.scheduleActItemType = scheduleActItemType;
     }
 
-    public CommonCommitteeSchedule getCommitteeSchedule() {
+    public CommitteeSchedule getCommitteeSchedule() {
         return committeeSchedule;
     }
 
-    public void setCommitteeSchedule(CommonCommitteeSchedule committeeSchedule) {
+    public void setCommitteeSchedule(CommitteeSchedule committeeSchedule) {
         this.committeeSchedule = committeeSchedule;
     }
 

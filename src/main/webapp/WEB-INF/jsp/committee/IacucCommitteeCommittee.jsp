@@ -16,19 +16,19 @@
 <%@ page import="org.kuali.kra.infrastructure.Constants"%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<c:set var="committeeAttributes" value="${DataDictionary.IacucCommitteeDocument.attributes}" />
+<c:set var="committeeAttributes" value="${DataDictionary.CommonCommitteeDocument.attributes}" />
 
 <kul:documentPage
 	showDocumentInfo="true"
 	htmlFormAction="iacucCommitteeCommittee"
-	documentTypeName="IacucCommitteeDocument"
+	documentTypeName="CommonCommitteeDocument"
 	renderMultipart="false"
 	showTabButtons="true"
 	auditCount="0"
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="committee">
 
-<div align="right"><kul:help documentTypeName="IacucCommitteeDocument" pageName="Committee" /></div>
+<div align="right"><kul:help documentTypeName="CommonCommitteeDocument" pageName="Committee" /></div>
 <kul:documentOverview editingMode="${KualiForm.editingMode}" />
 
 <kra-committee:committee cmtAttributes="${DataDictionary.IacucCommittee.attributes}" />

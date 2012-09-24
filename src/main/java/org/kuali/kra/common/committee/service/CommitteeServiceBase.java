@@ -21,15 +21,15 @@ import java.util.List;
 import org.kuali.kra.bo.ResearchArea;
 import org.kuali.kra.common.committee.bo.Committee;
 import org.kuali.kra.common.committee.bo.CommitteeMembership;
-import org.kuali.kra.common.committee.bo.CommonCommitteeSchedule;
+import org.kuali.kra.common.committee.bo.CommitteeSchedule;
 import org.kuali.rice.core.api.util.KeyValue;
 
 /**
  * The Committee Service provides a set of methods for
  * working with committees.
  */
-public interface CommonCommitteeService<CMT extends Committee<CMT, ?, CS>, 
-                                        CS extends CommonCommitteeSchedule<CS, CMT, ?, ?>> {
+public interface CommitteeServiceBase<CMT extends Committee<CMT, ?, CS>, 
+                                        CS extends CommitteeSchedule<CS, CMT, ?, ?>> {
 
     /**
      * Retrieve a committee from the database based upon its Committee ID.

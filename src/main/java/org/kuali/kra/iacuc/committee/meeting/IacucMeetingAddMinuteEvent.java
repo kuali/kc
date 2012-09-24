@@ -17,19 +17,19 @@ package org.kuali.kra.iacuc.committee.meeting;
 
 import org.kuali.kra.common.committee.meeting.MeetingAddMinuteEvent;
 import org.kuali.kra.common.committee.meeting.MeetingAddMinuteRule;
-import org.kuali.kra.iacuc.committee.document.IacucCommitteeDocument;
+import org.kuali.kra.iacuc.committee.document.CommonCommitteeDocument;
 import org.kuali.rice.krad.document.Document;
 
 public class IacucMeetingAddMinuteEvent extends MeetingAddMinuteEvent {
 
-    public IacucMeetingAddMinuteEvent(String errorPathPrefix, IacucCommitteeDocument document, IacucMeetingHelper meetingHelper,
+    public IacucMeetingAddMinuteEvent(String errorPathPrefix, CommonCommitteeDocument document, IacucMeetingHelper meetingHelper,
             org.kuali.kra.common.committee.meeting.MeetingEventBase.ErrorType type) {
         super(errorPathPrefix, document, meetingHelper, type);
     }
     
     public IacucMeetingAddMinuteEvent(String errorPathPrefix, Document document, IacucMeetingHelper meetingHelper,
             org.kuali.kra.common.committee.meeting.MeetingEventBase.ErrorType type) {
-        this(errorPathPrefix, (IacucCommitteeDocument) document, meetingHelper, type);
+        this(errorPathPrefix, (CommonCommitteeDocument) document, meetingHelper, type);
     }
 
     @Override

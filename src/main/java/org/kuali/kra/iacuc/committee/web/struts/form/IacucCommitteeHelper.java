@@ -17,11 +17,11 @@ package org.kuali.kra.iacuc.committee.web.struts.form;
 
 import org.kuali.kra.common.committee.bo.CommitteeMembership;
 import org.kuali.kra.common.committee.bo.Committee;
-import org.kuali.kra.common.committee.bo.CommonCommitteeSchedule;
+import org.kuali.kra.common.committee.bo.CommitteeSchedule;
 import org.kuali.kra.common.committee.document.authorization.CommitteeScheduleTask;
 import org.kuali.kra.common.committee.document.authorization.CommitteeTask;
-import org.kuali.kra.common.committee.service.CommonCommitteeScheduleService;
-import org.kuali.kra.common.committee.service.CommonCommitteeService;
+import org.kuali.kra.common.committee.service.CommitteeScheduleServiceBase;
+import org.kuali.kra.common.committee.service.CommitteeServiceBase;
 import org.kuali.kra.common.committee.web.struts.form.CommitteeHelper;
 import org.kuali.kra.iacuc.committee.bo.IacucCommittee;
 import org.kuali.kra.iacuc.committee.bo.IacucCommitteeMembership;
@@ -44,7 +44,7 @@ public class IacucCommitteeHelper extends CommitteeHelper {
 
     @SuppressWarnings("rawtypes")
     @Override
-    protected CommitteeScheduleTask getNewCommitteeScheduleTaskInstanceHook(String taskName, Committee committee, CommonCommitteeSchedule committeeSchedule) {
+    protected CommitteeScheduleTask getNewCommitteeScheduleTaskInstanceHook(String taskName, Committee committee, CommitteeSchedule committeeSchedule) {
         return new IacucCommitteeScheduleTask(taskName, (IacucCommittee) committee, (IacucCommitteeSchedule) committeeSchedule);
     }
 
@@ -61,12 +61,12 @@ public class IacucCommitteeHelper extends CommitteeHelper {
     }
 
     @Override
-    protected Class<? extends CommonCommitteeScheduleService> getCommitteeScheduleServiceClassHook() {
+    protected Class<? extends CommitteeScheduleServiceBase> getCommitteeScheduleServiceClassHook() {
         return IacucCommitteeScheduleService.class;
     }
 
     @Override
-    protected Class<? extends CommonCommitteeService> getCommitteeServiceClassHook() {
+    protected Class<? extends CommitteeServiceBase> getCommitteeServiceClassHook() {
         return IacucCommitteeService.class;
     }
 

@@ -22,7 +22,7 @@ import org.kuali.kra.common.committee.bo.Committee;
 import org.kuali.kra.common.committee.bo.CommitteeMembership;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipRole;
 
-public interface CommonCommitteeMembershipService<CMT extends Committee<CMT, ?, ?>> {
+public interface CommitteeMembershipServiceBase<CMT extends Committee<CMT, ?, ?>> {
     /**
      * This method adds a CommitteeMembership to the List of CommitteeMemberships.
      * @param committee which contains list of CommitteeeMembership.

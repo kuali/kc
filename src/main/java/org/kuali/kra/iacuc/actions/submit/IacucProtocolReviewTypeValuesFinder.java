@@ -21,7 +21,9 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.kuali.kra.authorization.KraAuthorizationConstants;
+import org.kuali.kra.common.committee.service.CommitteeServiceBase;
 import org.kuali.kra.iacuc.actions.IacucActionsKeyValuesBase;
+import org.kuali.kra.iacuc.committee.service.IacucCommitteeService;
 import org.kuali.kra.lookup.keyvalue.PrefixValuesFinder;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -84,5 +86,9 @@ public class IacucProtocolReviewTypeValuesFinder extends IacucActionsKeyValuesBa
         return permissionService;
     }
     
+    @Override
+    protected Class<? extends CommitteeServiceBase> getCommitteeServiceClassHook() {
+        return IacucCommitteeService.class;
+    }
 
 }

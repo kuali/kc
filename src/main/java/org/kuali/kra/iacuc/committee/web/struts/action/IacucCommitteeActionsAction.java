@@ -18,11 +18,11 @@ package org.kuali.kra.iacuc.committee.web.struts.action;
 import java.sql.Date;
 
 import org.kuali.kra.common.committee.bo.Committee;
-import org.kuali.kra.common.committee.dao.CommonCommitteeBatchCorrespondenceDao;
+import org.kuali.kra.common.committee.dao.CommitteeBatchCorrespondenceDao;
 import org.kuali.kra.common.committee.document.authorization.CommitteeTask;
 import org.kuali.kra.common.committee.print.service.CommonCommitteePrintingService;
 import org.kuali.kra.common.committee.rule.event.CommitteeActionGenerateBatchCorrespondenceEvent;
-import org.kuali.kra.common.committee.service.CommonCommitteeBatchCorrespondenceService;
+import org.kuali.kra.common.committee.service.CommitteeBatchCorrespondenceServiceBase;
 import org.kuali.kra.common.committee.web.struts.action.CommitteeActionsAction;
 import org.kuali.kra.iacuc.committee.bo.IacucCommittee;
 import org.kuali.kra.iacuc.committee.dao.IacucCommitteeBatchCorrespondenceDao;
@@ -47,7 +47,7 @@ public class IacucCommitteeActionsAction extends CommitteeActionsAction {
     }
 
     @Override
-    protected CommonCommitteeBatchCorrespondenceService getCommitteeBatchCorrespondenceService() {
+    protected CommitteeBatchCorrespondenceServiceBase getCommitteeBatchCorrespondenceService() {
         return KraServiceLocator.getService(IacucCommitteeBatchCorrespondenceService.class);
     }
 
@@ -57,8 +57,13 @@ public class IacucCommitteeActionsAction extends CommitteeActionsAction {
     }
 
     @Override
-    protected CommonCommitteeBatchCorrespondenceDao getCommitteeBatchCorrespondenceDao() {
+    protected CommitteeBatchCorrespondenceDao getCommitteeBatchCorrespondenceDao() {
         return KraServiceLocator.getService(IacucCommitteeBatchCorrespondenceDao.class);
+    }
+
+    @Override
+    protected String getCommitteeDocumentTypeSimpleNameHook() {
+        return "CommonCommitteeDocument";
     }
 
 }

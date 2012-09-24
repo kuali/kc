@@ -15,17 +15,23 @@
  */
 package org.kuali.kra.iacuc.committee.web.struts.action;
 
+import java.util.List;
+
 import org.kuali.kra.common.committee.bo.CommitteeMembership;
 import org.kuali.kra.common.committee.bo.Committee;
 import org.kuali.kra.common.committee.document.authorization.CommitteeTask;
+import org.kuali.kra.common.committee.rule.event.CommitteeMemberEventBase.ErrorType;
+import org.kuali.kra.common.committee.rule.event.DeleteCommitteeMemberEvent;
 import org.kuali.kra.common.committee.rules.CommitteeDocumentRule;
-import org.kuali.kra.common.committee.service.CommonCommitteeMembershipService;
+import org.kuali.kra.common.committee.service.CommitteeMembershipServiceBase;
 import org.kuali.kra.common.committee.web.struts.action.CommitteeMembershipAction;
 import org.kuali.kra.iacuc.committee.bo.IacucCommittee;
 import org.kuali.kra.iacuc.committee.bo.IacucCommitteeMembership;
+import org.kuali.kra.iacuc.committee.rule.event.IacucDeleteCommitteeMemberEvent;
 import org.kuali.kra.iacuc.committee.rules.IacucCommitteeDocumentRule;
 import org.kuali.kra.iacuc.committee.service.IacucCommitteeMembershipService;
 import org.kuali.kra.infrastructure.TaskGroupName;
+import org.kuali.rice.krad.document.Document;
 
 public class IacucCommitteeMembershipAction extends CommitteeMembershipAction {
 
@@ -46,8 +52,20 @@ public class IacucCommitteeMembershipAction extends CommitteeMembershipAction {
     }
 
     @Override
-    protected Class<? extends CommonCommitteeMembershipService> getCommitteeMembershipServiceClassHook() {
+    protected Class<? extends CommitteeMembershipServiceBase> getCommitteeMembershipServiceClassHook() {
         return IacucCommitteeMembershipService.class;
+    }
+    
+    @Override
+    protected String getCommitteeDocumentTypeSimpleNameHook() {
+        return "CommonCommitteeDocument";
+    }
+
+    @Override
+    protected DeleteCommitteeMemberEvent getNewDeleteCommitteeMemberEventInstanceHook(String errorPathPrefix, Document document,
+            List<CommitteeMembership> committeeMemberships, ErrorType type) {
+        
+        return new IacucDeleteCommitteeMemberEvent(errorPathPrefix, document, committeeMemberships,type);
     }
 
 }

@@ -19,7 +19,7 @@ import java.sql.Timestamp;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.common.committee.bo.Committee;
-import org.kuali.kra.common.committee.service.CommonCommitteeService;
+import org.kuali.kra.common.committee.service.CommitteeServiceBase;
 import org.kuali.kra.iacuc.actions.IacucProtocolAction;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
 import org.kuali.kra.iacuc.actions.IacucProtocolStatus;
@@ -32,7 +32,7 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 public class IacucProtocolAssignCmtServiceImpl implements IacucProtocolAssignCmtService {
 
     private BusinessObjectService businessObjectService;
-    private CommonCommitteeService committeeService;
+    private CommitteeServiceBase committeeService;
     private static final String NEXT_ACTION_ID_KEY = "actionId";
 
 
@@ -112,11 +112,11 @@ public class IacucProtocolAssignCmtServiceImpl implements IacucProtocolAssignCmt
         return retVal;
     }
     
-    public void setCommitteeService(CommonCommitteeService committeeService) {
+    public void setCommitteeService(CommitteeServiceBase committeeService) {
         this.committeeService = committeeService;
     }
     
-    public CommonCommitteeService getCommitteeService() {
+    public CommitteeServiceBase getCommitteeService() {
         return committeeService;
     }
     
