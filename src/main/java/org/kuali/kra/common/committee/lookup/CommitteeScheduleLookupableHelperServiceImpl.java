@@ -24,7 +24,7 @@ import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.common.committee.bo.Committee;
-import org.kuali.kra.common.committee.bo.CommonCommitteeSchedule;
+import org.kuali.kra.common.committee.bo.CommitteeSchedule;
 import org.kuali.kra.common.committee.document.authorization.CommitteeScheduleTask;
 import org.kuali.kra.common.committee.document.authorization.CommitteeTask;
 import org.kuali.kra.infrastructure.TaskName;
@@ -47,7 +47,7 @@ import org.kuali.rice.krad.util.UrlFactory;
  * This class is to create action links and inquiry url for committeeschedule lookup.
  */
 @SuppressWarnings({ "serial", "deprecation" })
-public abstract class CommitteeScheduleLookupableHelperServiceImpl<CS extends CommonCommitteeSchedule<CS, CMT, ?, ?>,
+public abstract class CommitteeScheduleLookupableHelperServiceImpl<CS extends CommitteeSchedule<CS, CMT, ?, ?>,
                                                                    CMT extends Committee<CMT, ? , CS>,
                                                                    CMTTSK extends CommitteeTask<CMT>,
                                                                    CSTSK extends CommitteeScheduleTask<CMT, CS>>
@@ -167,7 +167,7 @@ public abstract class CommitteeScheduleLookupableHelperServiceImpl<CS extends Co
 // TODO *********commented the code below during IACUC refactoring*********         
 //        Integer searchResultsLimit = LookupUtils.getSearchResultsLimit(CommonCommitteeSchedule.class);
         
-        Integer searchResultsLimit = LookupUtils.getSearchResultsLimit(getCommonCommitteeScheduleBOClassHook());
+        Integer searchResultsLimit = LookupUtils.getSearchResultsLimit(getCommitteeScheduleBOClassHook());
         if ((matchingResultsCount == null) || (matchingResultsCount.intValue() <= searchResultsLimit.intValue())) {
             return new CollectionIncomplete<CS>(finalCommitteeSchedules, new Long(0));
         }
@@ -178,7 +178,7 @@ public abstract class CommitteeScheduleLookupableHelperServiceImpl<CS extends Co
     }
 
 
-    protected abstract Class<CS> getCommonCommitteeScheduleBOClassHook();
+    protected abstract Class<CS> getCommitteeScheduleBOClassHook();
 
 
     protected abstract String getCommitteeTypeCodeHook();

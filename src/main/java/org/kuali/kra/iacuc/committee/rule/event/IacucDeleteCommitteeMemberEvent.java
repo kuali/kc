@@ -13,23 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.common.committee.rule.event;
+package org.kuali.kra.iacuc.committee.rule.event;
 
 import java.util.List;
 
 import org.kuali.kra.common.committee.bo.CommitteeMembership;
 import org.kuali.kra.common.committee.document.CommitteeDocumentBase;
+import org.kuali.kra.common.committee.rule.event.DeleteCommitteeMemberEvent;
 import org.kuali.kra.common.committee.rules.DeleteCommitteeMemberRule;
-import org.kuali.kra.rule.BusinessRuleInterface;
+import org.kuali.kra.iacuc.committee.rules.IacucDeleteCommitteeMemberRule;
 import org.kuali.rice.krad.document.Document;
 
-/**
- * 
- * This class is the rule event for deleting committee member.
- */
-public abstract class DeleteCommitteeMemberEvent extends CommitteeMemberEventBase<DeleteCommitteeMemberRule> {
-
-    private static final String MSG = "delete committee member ";
+public class IacucDeleteCommitteeMemberEvent extends DeleteCommitteeMemberEvent {
 
     /**
      * 
@@ -40,9 +35,8 @@ public abstract class DeleteCommitteeMemberEvent extends CommitteeMemberEventBas
      * @param committeeMemberships
      * @param type
      */
-    public DeleteCommitteeMemberEvent(String errorPathPrefix, CommitteeDocumentBase document,
-            List<CommitteeMembership> committeeMemberships, ErrorType type) {
-        super(MSG + getDocumentId(document), errorPathPrefix, document, committeeMemberships, type);
+    public IacucDeleteCommitteeMemberEvent(String errorPathPrefix, CommitteeDocumentBase document, List<CommitteeMembership> committeeMemberships, ErrorType type) {
+        super(errorPathPrefix, document, committeeMemberships, type);
     }
 
     /**
@@ -54,16 +48,13 @@ public abstract class DeleteCommitteeMemberEvent extends CommitteeMemberEventBas
      * @param committeeMemberships
      * @param type
      */
-    public DeleteCommitteeMemberEvent(String errorPathPrefix, Document document, List<CommitteeMembership> committeeMemberships,
-            ErrorType type) {
+    public IacucDeleteCommitteeMemberEvent(String errorPathPrefix, Document document, List<CommitteeMembership> committeeMemberships, ErrorType type) {
         this(errorPathPrefix, (CommitteeDocumentBase) document, committeeMemberships, type);
     }
 
-    @SuppressWarnings("unchecked")
     @Override
-    public BusinessRuleInterface getRule() {
-        return getNewDeleteCommitteeMemberRuleInstanceHook();
+    protected DeleteCommitteeMemberRule getNewDeleteCommitteeMemberRuleInstanceHook() {
+        return new IacucDeleteCommitteeMemberRule();
     }
 
-    protected abstract DeleteCommitteeMemberRule getNewDeleteCommitteeMemberRuleInstanceHook();
 }

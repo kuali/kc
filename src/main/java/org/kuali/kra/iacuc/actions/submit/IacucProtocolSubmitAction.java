@@ -19,9 +19,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.common.committee.service.CommonCommitteeService;
+import org.kuali.kra.common.committee.service.CommitteeServiceBase;
 import org.kuali.kra.iacuc.actions.IacucActionHelper;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionBean;
+import org.kuali.kra.iacuc.committee.service.IacucCommitteeService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.actions.ActionHelper;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewerBean;
@@ -111,8 +112,8 @@ public class IacucProtocolSubmitAction extends IacucProtocolActionBean implement
     }
 
 
-    public CommonCommitteeService getCommitteeService() {
-        return KraServiceLocator.getService(CommonCommitteeService.class);
+    public CommitteeServiceBase getCommitteeService() {
+        return KraServiceLocator.getService(IacucCommitteeService.class);
     }
 
     public String getSubmissionTypeCode() {

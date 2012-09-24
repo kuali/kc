@@ -17,9 +17,10 @@ package org.kuali.kra.iacuc.actions.modifysubmission;
 
 import java.util.List;
 
-import org.kuali.kra.common.committee.service.CommonCommitteeService;
+import org.kuali.kra.common.committee.service.CommitteeServiceBase;
 import org.kuali.kra.iacuc.IacucProtocolForm;
 import org.kuali.kra.iacuc.actions.IacucActionHelper;
+import org.kuali.kra.iacuc.committee.service.IacucCommitteeService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
@@ -53,8 +54,8 @@ public class IacucProtocolModifySubmissionScheduleValuesFinder extends KeyValues
      * Get the Committee Service.
      * @return the Committee Service
      */
-    private CommonCommitteeService getCommitteeService() {
-        return KraServiceLocator.getService(CommonCommitteeService.class);
+    private CommitteeServiceBase getCommitteeService() {
+        return KraServiceLocator.getService(IacucCommitteeService.class);
     }
 
     /**

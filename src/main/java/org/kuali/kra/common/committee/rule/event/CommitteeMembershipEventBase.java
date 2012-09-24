@@ -20,7 +20,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.common.committee.bo.Committee;
 import org.kuali.kra.common.committee.bo.CommitteeMembership;
-import org.kuali.kra.common.committee.document.CommonCommitteeDocument;
+import org.kuali.kra.common.committee.document.CommitteeDocumentBase;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -47,7 +47,7 @@ public abstract class CommitteeMembershipEventBase extends KraDocumentEventBase
      * @param committeeMembership
      */
     protected CommitteeMembershipEventBase(String description, String errorPathPrefix, 
-            CommonCommitteeDocument comitteeDocument, CommitteeMembership committeeMembership) {
+            CommitteeDocumentBase comitteeDocument, CommitteeMembership committeeMembership) {
         super(description, errorPathPrefix, comitteeDocument);
 
         // by doing a deep copy, we are ensuring that the business rule class can't update
@@ -67,7 +67,7 @@ public abstract class CommitteeMembershipEventBase extends KraDocumentEventBase
      * @param document
      */
     protected CommitteeMembershipEventBase(String description, String errorPathPrefix, 
-            CommonCommitteeDocument comitteeDocument) {
+            CommitteeDocumentBase comitteeDocument) {
         super(description, errorPathPrefix, comitteeDocument);
         logEvent();
     }

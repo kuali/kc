@@ -16,7 +16,7 @@
 package org.kuali.kra.common.committee.print;
 
 import org.kuali.kra.bo.KcPerson;
-import org.kuali.kra.common.committee.bo.CommonCommitteeSchedule;
+import org.kuali.kra.common.committee.bo.CommitteeSchedule;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
 import org.kuali.kra.protocol.personnel.ProtocolPerson;
@@ -43,13 +43,13 @@ public interface PrintXmlUtilService {
             SubmissionDetailsType protocolSubmissionDetail);
     public void setSubmissionCheckListinfo(org.kuali.kra.protocol.actions.submit.ProtocolSubmission protocolSubmission,
             SubmissionDetailsType protocolSubmissionDetail);
-    public void setMinutes(CommonCommitteeSchedule scheduleDetailsBean, ScheduleType schedule);
-    public void setProcotolMinutes(CommonCommitteeSchedule committeeSchedule, 
+    public void setMinutes(CommitteeSchedule scheduleDetailsBean, ScheduleType schedule);
+    public void setProcotolMinutes(CommitteeSchedule committeeSchedule, 
             org.kuali.kra.protocol.actions.submit.ProtocolSubmission protocolSubmission, ProtocolSubmissionType protocolSubmissionType);
-    public void setProcotolSubmissionMinutes(CommonCommitteeSchedule committeeSchedule,
+    public void setProcotolSubmissionMinutes(CommitteeSchedule committeeSchedule,
             ProtocolSubmission protocolSubmission, Submissions submissionsType);
     
-    public void setProtocolReviewMinutes(CommonCommitteeSchedule committeeSchedule,
+    public void setProtocolReviewMinutes(CommitteeSchedule committeeSchedule,
             org.kuali.kra.protocol.actions.submit.ProtocolSubmission protocolSubmission, Submissions submissionsType);
     
 }

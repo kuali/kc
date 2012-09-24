@@ -26,7 +26,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.common.committee.bo.CommitteeMembership;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinute;
-import org.kuali.kra.common.committee.service.CommonCommitteeService;
+import org.kuali.kra.common.committee.service.CommitteeServiceBase;
 import org.kuali.kra.iacuc.IacucProtocolOnlineReviewDocument;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewer;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
@@ -161,7 +161,7 @@ public class IacucProtocolOnlineReviewServiceImpl extends ProtocolOnlineReviewSe
         this.identityManagementService = identityManagementService;
     }
 
-    public void setCommitteeService(CommonCommitteeService committeeService) {
+    public void setCommitteeService(CommitteeServiceBase committeeService) {
         this.committeeService = committeeService;
     }
 

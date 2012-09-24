@@ -62,7 +62,7 @@ import org.kuali.kra.committee.web.struts.form.CommitteeForm;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.iacuc.IacucProtocolForm;
 import org.kuali.kra.iacuc.committee.bo.IacucCommittee;
-import org.kuali.kra.iacuc.committee.document.IacucCommitteeDocument;
+import org.kuali.kra.iacuc.committee.document.CommonCommitteeDocument;
 import org.kuali.kra.iacuc.committee.web.struts.form.IacucCommitteeForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -790,10 +790,10 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
         WorkflowDocument workflowDoc = doc.getDocumentHeader().getWorkflowDocument();
         kualiDocumentFormBase.setDocTypeName(workflowDoc.getDocumentTypeName());
         String content = KraServiceLocator.getService(RouteHeaderService.class).getContent(workflowDoc.getDocumentId()).getDocumentContent();
-        if (doc instanceof IacucCommitteeDocument && !workflowDoc.getStatus().getCode().equals(KewApiConstants.ROUTE_HEADER_FINAL_CD)) {
+        if (doc instanceof CommonCommitteeDocument && !workflowDoc.getStatus().getCode().equals(KewApiConstants.ROUTE_HEADER_FINAL_CD)) {
             IacucCommittee committee = (IacucCommittee)populateIacucCommitteeFromXmlDocumentContents(content);
-            ((IacucCommitteeDocument)doc).getCommitteeList().add(committee);
-            committee.setCommitteeDocument((IacucCommitteeDocument) doc);
+            ((CommonCommitteeDocument)doc).getCommitteeList().add(committee);
+            committee.setCommitteeDocument((CommonCommitteeDocument) doc);
         }
         if (!getDocumentHelperService().getDocumentAuthorizer(doc).canOpen(doc, GlobalVariables.getUserSession().getPerson())) {
             throw buildAuthorizationException("open", doc);
@@ -868,7 +868,7 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
             return preRulesForward;
         }
 
-        IacucCommitteeDocument committeeDocument = (IacucCommitteeDocument) committeeForm.getCommitteeDocument();
+        CommonCommitteeDocument committeeDocument = (CommonCommitteeDocument) committeeForm.getCommitteeDocument();
 
         getKraDocumentService().routeDocument(committeeDocument, committeeForm.getAnnotation(), combineAdHocRecipients(committeeForm));
         KNSGlobalVariables.getMessageList().add(RiceKeyConstants.MESSAGE_ROUTE_SUCCESSFUL);

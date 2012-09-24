@@ -28,7 +28,7 @@ import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.common.committee.bo.CommitteeBatchCorrespondence;
 import org.kuali.kra.common.committee.bo.CommitteeBatchCorrespondenceDetail;
 import org.kuali.kra.common.committee.print.CommitteeReportType;
-import org.kuali.kra.common.committee.service.CommonCommitteeBatchCorrespondenceService;
+import org.kuali.kra.common.committee.service.CommitteeBatchCorrespondenceServiceBase;
 import org.kuali.kra.common.committee.print.service.CommonCommitteePrintingService;
 import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.infrastructure.Constants;
@@ -60,7 +60,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
  * 
  * This class generates the batch correspondence of committees.
  */
-public abstract class CommitteeBatchCorrespondenceServiceImpl implements CommonCommitteeBatchCorrespondenceService {
+public abstract class CommitteeBatchCorrespondenceServiceImpl implements CommitteeBatchCorrespondenceServiceBase {
 
     protected static final Log LOG = LogFactory.getLog(CommitteeBatchCorrespondenceServiceImpl.class);
     private static final String COMMITTEE_ID = "committeeId";

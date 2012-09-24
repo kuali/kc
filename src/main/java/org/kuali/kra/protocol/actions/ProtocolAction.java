@@ -25,7 +25,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.common.committee.bo.CommitteeMembership;
-import org.kuali.kra.common.committee.service.CommonCommitteeService;
+import org.kuali.kra.common.committee.service.CommitteeServiceBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.ProtocolAssociate;
@@ -90,7 +90,7 @@ public abstract class ProtocolAction extends ProtocolAssociate {
 // TODO *********commented the code below during IACUC refactoring*********     
 //    private transient QuestionnairePrintOption questionnairePrintOption;
     
-    private transient CommonCommitteeService committeeService;
+    private transient CommitteeServiceBase committeeService;
 
     public ProtocolAction() {
     }
@@ -551,14 +551,17 @@ public abstract class ProtocolAction extends ProtocolAssociate {
         
     }
     
-    public CommonCommitteeService getCommitteeService() {
+    public CommitteeServiceBase getCommitteeService() {
         if (committeeService == null) {
-            committeeService = KraServiceLocator.getService(CommonCommitteeService.class);
+            committeeService = KraServiceLocator.getService(getCommitteeServiceClassHook());
         }
         return committeeService;
     }
+    
+    protected abstract Class<? extends CommitteeServiceBase> getCommitteeServiceClassHook();
 
-    public void setCommitteeService(CommonCommitteeService committeeService) {
+    
+    public void setCommitteeService(CommitteeServiceBase committeeService) {
         this.committeeService = committeeService;
     }   
     

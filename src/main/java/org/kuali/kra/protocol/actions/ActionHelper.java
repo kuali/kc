@@ -29,12 +29,12 @@ import java.util.Map;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.CoeusSubModule;
-import org.kuali.kra.common.committee.bo.CommonCommitteeSchedule;
+import org.kuali.kra.common.committee.bo.CommitteeSchedule;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.common.committee.meeting.ProtocolVoteAbstainee;
 import org.kuali.kra.common.committee.meeting.ProtocolVoteRecused;
-import org.kuali.kra.common.committee.service.CommonCommitteeScheduleService;
-import org.kuali.kra.common.committee.service.CommonCommitteeService;
+import org.kuali.kra.common.committee.service.CommitteeScheduleServiceBase;
+import org.kuali.kra.common.committee.service.CommitteeServiceBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
@@ -333,7 +333,7 @@ public abstract class ActionHelper implements Serializable {
     // check if there is submission questionnaire to answer
     protected boolean toAnswerSubmissionQuestionnaire;
 
-    protected transient CommonCommitteeScheduleService committeeScheduleService;
+    protected transient CommitteeScheduleServiceBase committeeScheduleService;
     protected transient KcPersonService kcPersonService;
     protected transient KraAuthorizationService kraAuthorizationService;
     protected transient BusinessObjectService businessObjectService;
@@ -675,7 +675,7 @@ public abstract class ActionHelper implements Serializable {
         Date approvalDate = protocol.getApprovalDate();
         
         if (approvalDate == null || protocol.isNew() || protocol.isRenewal()) {
-            CommonCommitteeSchedule committeeSchedule = protocol.getProtocolSubmission().getCommitteeSchedule();
+            CommitteeSchedule committeeSchedule = protocol.getProtocolSubmission().getCommitteeSchedule();
             if (committeeSchedule != null) {
                 approvalDate = committeeSchedule.getScheduledDate();
             } else {
@@ -1072,20 +1072,26 @@ public abstract class ActionHelper implements Serializable {
         return clonedMinutes;
     }
        
-    private CommonCommitteeScheduleService getCommitteeScheduleService() {
+    private CommitteeScheduleServiceBase getCommitteeScheduleService() {
         if (committeeScheduleService == null) {
-            committeeScheduleService = KraServiceLocator.getService(CommonCommitteeScheduleService.class);        
+            committeeScheduleService = KraServiceLocator.getService(getCommitteeScheduleServiceClassHook());        
         }
         return committeeScheduleService;
     }
     
-    protected ProtocolVersionService getProtocolVersionService() {
-        if (this.protocolVersionService == null) {
-            this.protocolVersionService = KraServiceLocator.getService(ProtocolVersionService.class);        
-        }
-        return this.protocolVersionService;
-    }
     
+    protected abstract Class<? extends CommitteeScheduleServiceBase> getCommitteeScheduleServiceClassHook();
+
+
+    protected abstract ProtocolVersionService getProtocolVersionService();
+    
+//    protected ProtocolVersionService getProtocolVersionService() {
+//        if (this.protocolVersionService == null) {
+//            this.protocolVersionService = KraServiceLocator.getService(ProtocolVersionService.class);        
+//        }
+//        return this.protocolVersionService;
+//    }
+//    
 //    private ProtocolSubmitActionService getProtocolSubmitActionService() {
 //        if (protocolSubmitActionService == null) {
 //            protocolSubmitActionService = KraServiceLocator.getService(ProtocolSubmitActionService.class);
@@ -2593,9 +2599,11 @@ public abstract class ActionHelper implements Serializable {
         return protocolSubmission;
     }
   
-    private CommonCommitteeService getCommitteeService() {
-        return KraServiceLocator.getService(CommonCommitteeService.class);
+    private CommitteeServiceBase getCommitteeService() {
+        return KraServiceLocator.getService(getCommitteeServiceClassHook());
     }
+
+    protected abstract Class<? extends CommitteeServiceBase> getCommitteeServiceClassHook();
 
 
     public List<CommitteeScheduleMinute> getReviewComments() {

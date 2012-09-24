@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.iacuc.committee.service;
 
-import org.kuali.kra.common.committee.service.CommonCommitteeService;
+import org.kuali.kra.common.committee.service.CommitteeServiceBase;
 import org.kuali.kra.iacuc.committee.bo.IacucCommittee;
 import org.kuali.kra.iacuc.committee.bo.IacucCommitteeSchedule;
 
-public interface IacucCommitteeService extends CommonCommitteeService<IacucCommittee, IacucCommitteeSchedule> {
+public interface IacucCommitteeService extends CommitteeServiceBase<IacucCommittee, IacucCommitteeSchedule> {
 
 }

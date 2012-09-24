@@ -68,7 +68,7 @@ public abstract class CommitteeIdValuesFinder extends KeyValuesBase {
 // TODO *********commented the code below during IACUC refactoring*********         
 //        Collection<CommonCommittee> committees = this.getBusinessObjectService().findAll(CommonCommittee.class);
         
-        Collection<? extends Committee> committees = this.getBusinessObjectService().findAll(getCommonCommitteeBOClassHook());
+        Collection<? extends Committee> committees = this.getBusinessObjectService().findAll(getCommitteeBOClassHook());
         // sort and iterate through to get only the latest instances
         if (CollectionUtils.isNotEmpty(committees)) {
             List<String> committeeIds = new ArrayList<String>();
@@ -85,7 +85,7 @@ public abstract class CommitteeIdValuesFinder extends KeyValuesBase {
         return returnCommitteeList;
     }
     
-    protected abstract Class<? extends Committee> getCommonCommitteeBOClassHook();
+    protected abstract Class<? extends Committee> getCommitteeBOClassHook();
 
     /**
      * @return the list of &lt;key, value&gt; pairs of committees. The first entry is always &lt;"", "select:"&gt;.

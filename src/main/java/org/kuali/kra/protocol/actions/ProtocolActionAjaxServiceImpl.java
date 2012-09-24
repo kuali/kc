@@ -21,7 +21,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.common.committee.bo.CommitteeMembership;
-import org.kuali.kra.common.committee.service.CommonCommitteeService;
+import org.kuali.kra.common.committee.service.CommitteeServiceBase;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewerType;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -29,7 +29,7 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 public abstract class ProtocolActionAjaxServiceImpl implements ProtocolActionAjaxService {
 
     private BusinessObjectService businessObjectService;
-    private CommonCommitteeService committeeService;
+    private CommitteeServiceBase committeeService;
     
 
     public abstract String getReviewers(String protocolId, String committeeId, String scheduleId);
@@ -79,11 +79,11 @@ public abstract class ProtocolActionAjaxServiceImpl implements ProtocolActionAja
         this.businessObjectService = businessObjectService;
     }
     
-    public CommonCommitteeService getCommitteeService() {
+    public CommitteeServiceBase getCommitteeService() {
         return committeeService;
     }
     
-    public void setCommitteeService(CommonCommitteeService committeeService) {
+    public void setCommitteeService(CommitteeServiceBase committeeService) {
         this.committeeService = committeeService;
     }
 

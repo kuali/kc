@@ -16,9 +16,9 @@
 package org.kuali.kra.common.committee.rules;
 
 import org.kuali.kra.common.committee.bo.CommitteeMembership;
-import org.kuali.kra.common.committee.document.CommonCommitteeDocument;
+import org.kuali.kra.common.committee.document.CommitteeDocumentBase;
 import org.kuali.kra.common.committee.rule.event.DeleteCommitteeMemberEvent;
-import org.kuali.kra.common.committee.service.CommonCommitteeMembershipService;
+import org.kuali.kra.common.committee.service.CommitteeMembershipServiceBase;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.rule.BusinessRuleInterface;
@@ -28,12 +28,12 @@ import org.kuali.kra.rules.ResearchDocumentRuleBase;
  * 
  * This class is to implement business rule for deleting committee member.
  */
-public class DeleteCommitteeMemberRule extends ResearchDocumentRuleBase implements  BusinessRuleInterface<DeleteCommitteeMemberEvent> {
+public abstract class DeleteCommitteeMemberRule extends ResearchDocumentRuleBase implements  BusinessRuleInterface<DeleteCommitteeMemberEvent> {
     
     private static final String ID = "document.committeeList[0].committeeMemberships[";
     private static final String AS_REVIEWER = "as the person is a reviewer of the protocol";
     private static final String AS_ATTENDANCE = "as the person has attended a schedule meeting";
-    private CommonCommitteeMembershipService committeeMembershipService;
+    private CommitteeMembershipServiceBase committeeMembershipService;
     /**
      * If member is assigned as a reviewer or as attendance of a meeting, then member can not be deleted.
      * @see org.kuali.kra.rule.BusinessRuleInterface#processRules(org.kuali.kra.rule.event.KraDocumentEventBaseExtension)
@@ -44,12 +44,12 @@ public class DeleteCommitteeMemberRule extends ResearchDocumentRuleBase implemen
         int i = 0;
         for (CommitteeMembership member : event.getCommitteeMemberships()) {
             if (member.isDelete() && getCommitteeMembershipService().isMemberAssignedToReviewer(member,
-                    ((CommonCommitteeDocument) event.getDocument()).getCommittee().getCommitteeId())) {
+                    ((CommitteeDocumentBase) event.getDocument()).getCommittee().getCommitteeId())) {
                 reportError(ID + i + "].delete", KeyConstants.ERROR_COMMITTEEMEMBER_DELETE, AS_REVIEWER);
                 rulePassed = false;
             }
             if (member.isDelete() && getCommitteeMembershipService().isMemberAttendedMeeting(member,
-                    ((CommonCommitteeDocument) event.getDocument()).getCommittee().getCommitteeId())) {
+                    ((CommitteeDocumentBase) event.getDocument()).getCommittee().getCommitteeId())) {
                 reportError(ID + i + "].delete", KeyConstants.ERROR_COMMITTEEMEMBER_DELETE, AS_ATTENDANCE);
                 rulePassed = false;
             }
@@ -58,11 +58,14 @@ public class DeleteCommitteeMemberRule extends ResearchDocumentRuleBase implemen
         return rulePassed;
     }
 
-    private CommonCommitteeMembershipService getCommitteeMembershipService() {
+    private CommitteeMembershipServiceBase getCommitteeMembershipService() {
         if (committeeMembershipService == null) {
-            committeeMembershipService = KraServiceLocator.getService(CommonCommitteeMembershipService.class);
+            committeeMembershipService = KraServiceLocator.getService(getCommitteeMembershipServiceClassHook());
         }
         return committeeMembershipService;
     }
+
+    protected abstract Class<? extends CommitteeMembershipServiceBase> getCommitteeMembershipServiceClassHook();
+    
 
 }

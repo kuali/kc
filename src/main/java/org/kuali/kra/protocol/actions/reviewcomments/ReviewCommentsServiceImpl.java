@@ -32,9 +32,9 @@ import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.common.committee.bo.Committee;
 import org.kuali.kra.common.committee.bo.CommitteeMembership;
-import org.kuali.kra.common.committee.service.CommonCommitteeScheduleService;
-import org.kuali.kra.common.committee.service.CommonCommitteeService;
-import org.kuali.kra.common.committee.bo.CommonCommitteeSchedule;
+import org.kuali.kra.common.committee.service.CommitteeScheduleServiceBase;
+import org.kuali.kra.common.committee.service.CommitteeServiceBase;
+import org.kuali.kra.common.committee.bo.CommitteeSchedule;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.common.committee.meeting.MinuteEntryType;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -72,8 +72,8 @@ public abstract class ReviewCommentsServiceImpl<PRA extends ProtocolReviewAttach
     private static final String HIDE = "0";  
     private static final String DISPLAY = "1";
     protected BusinessObjectService businessObjectService;
-    private CommonCommitteeScheduleService committeeScheduleService;
-    private CommonCommitteeService committeeService;
+    private CommitteeScheduleServiceBase committeeScheduleService;
+    private CommitteeServiceBase committeeService;
     private ProtocolFinderDao protocolFinderDao;
     private RoleService roleService;
     private DateTimeService dateTimeService;
@@ -244,7 +244,7 @@ public abstract class ReviewCommentsServiceImpl<PRA extends ProtocolReviewAttach
             newReviewComment.setScheduleIdFk(protocolSubmission.getScheduleIdFk());
         }
         else {
-            newReviewComment.setScheduleIdFk(CommonCommitteeSchedule.DEFAULT_SCHEDULE_ID);
+            newReviewComment.setScheduleIdFk(CommitteeSchedule.DEFAULT_SCHEDULE_ID);
         }
         newReviewComment.setEntryNumber(reviewComments.size());
         newReviewComment.setProtocolIdFk(protocol.getProtocolId());
@@ -485,12 +485,12 @@ public abstract class ReviewCommentsServiceImpl<PRA extends ProtocolReviewAttach
         this.businessObjectService = businessObjectService;
     }
 
-    public void setCommitteeScheduleService(CommonCommitteeScheduleService committeeScheduleService) {
+    public void setCommitteeScheduleService(CommitteeScheduleServiceBase committeeScheduleService) {
         this.committeeScheduleService = committeeScheduleService;
     }
     
 
-    public void setCommitteeService(CommonCommitteeService committeeService) {
+    public void setCommitteeService(CommitteeServiceBase committeeService) {
         this.committeeService = committeeService;
     }
 

@@ -16,8 +16,10 @@
 package org.kuali.kra.iacuc.actions;
 
 import org.kuali.kra.bo.CoeusModule;
+import org.kuali.kra.common.committee.service.CommitteeServiceBase;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
+import org.kuali.kra.iacuc.committee.service.IacucCommitteeService;
 import org.kuali.kra.protocol.actions.ProtocolAction;
 
 /**
@@ -53,5 +55,9 @@ public class IacucProtocolAction extends ProtocolAction {
         this.createdSubmission = createdSubmission;
     }
     
+    @Override
+    protected Class<? extends CommitteeServiceBase> getCommitteeServiceClassHook() {
+        return IacucCommitteeService.class;
+    }
     
 }

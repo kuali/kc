@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.iacuc.committee.dao;
 
-import org.kuali.kra.common.committee.dao.CommonCommitteeBatchCorrespondenceDao;
+import org.kuali.kra.common.committee.dao.CommitteeBatchCorrespondenceDao;
 import org.kuali.kra.iacuc.committee.bo.IacucCommitteeBatchCorrespondence;
 
-public interface IacucCommitteeBatchCorrespondenceDao extends CommonCommitteeBatchCorrespondenceDao<IacucCommitteeBatchCorrespondence> {
+public interface IacucCommitteeBatchCorrespondenceDao extends CommitteeBatchCorrespondenceDao<IacucCommitteeBatchCorrespondence> {
 
 }

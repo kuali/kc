@@ -36,7 +36,7 @@ public class IacucCommitteeScheduleLookupableHelperServiceImpl extends Committee
     }
 
     @Override
-    protected Class<IacucCommitteeSchedule> getCommonCommitteeScheduleBOClassHook() {
+    protected Class<IacucCommitteeSchedule> getCommitteeScheduleBOClassHook() {
         return IacucCommitteeSchedule.class;
     }
 

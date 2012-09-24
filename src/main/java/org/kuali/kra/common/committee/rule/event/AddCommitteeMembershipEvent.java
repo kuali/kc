@@ -17,7 +17,7 @@ package org.kuali.kra.common.committee.rule.event;
 
 import org.kuali.kra.common.committee.bo.Committee;
 import org.kuali.kra.common.committee.bo.CommitteeMembership;
-import org.kuali.kra.common.committee.document.CommonCommitteeDocument;
+import org.kuali.kra.common.committee.document.CommitteeDocumentBase;
 import org.kuali.kra.common.committee.rule.AddCommitteeMembershipRule;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
@@ -39,7 +39,7 @@ public class AddCommitteeMembershipEvent extends CommitteeMembershipEventBase {
      * @param committeeDocument
      * @param committeeMembership
      */
-   public AddCommitteeMembershipEvent(String errorPathPrefix, CommonCommitteeDocument comitteeDocument, 
+   public AddCommitteeMembershipEvent(String errorPathPrefix, CommitteeDocumentBase comitteeDocument, 
            CommitteeMembership committeeMembership) {
         super("adding CommitteeMembership to document " + getDocumentId(comitteeDocument),
                 errorPathPrefix, comitteeDocument, committeeMembership);
@@ -55,7 +55,7 @@ public class AddCommitteeMembershipEvent extends CommitteeMembershipEventBase {
     */
   public AddCommitteeMembershipEvent(String errorPathPrefix, Document document, 
           CommitteeMembership committeeMembership) {
-       this(errorPathPrefix, (CommonCommitteeDocument) document, committeeMembership);
+       this(errorPathPrefix, (CommitteeDocumentBase) document, committeeMembership);
    }
 
     /**

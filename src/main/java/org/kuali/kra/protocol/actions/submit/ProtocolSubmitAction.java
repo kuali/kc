@@ -18,7 +18,7 @@ package org.kuali.kra.protocol.actions.submit;
 import java.io.Serializable;
 import java.util.List;
 
-import org.kuali.kra.common.committee.service.CommonCommitteeService;
+import org.kuali.kra.common.committee.service.CommitteeServiceBase;
 import org.kuali.kra.protocol.actions.ProtocolActionBean;
 
 /**
@@ -30,7 +30,7 @@ public interface ProtocolSubmitAction extends ProtocolActionBean, Serializable {
 
     public void setNumberOfReviewers(int numberOfReviewers);
 
-    public CommonCommitteeService getCommitteeService();
+    public CommitteeServiceBase getCommitteeService();
 
     public String getSubmissionTypeCode();
 

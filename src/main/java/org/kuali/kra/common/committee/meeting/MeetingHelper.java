@@ -23,7 +23,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.common.committee.bo.Committee;
-import org.kuali.kra.common.committee.bo.CommonCommitteeSchedule;
+import org.kuali.kra.common.committee.bo.CommitteeSchedule;
 import org.kuali.kra.common.committee.document.authorization.CommitteeScheduleTask;
 import org.kuali.kra.common.committee.document.authorization.CommitteeTask;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -43,8 +43,8 @@ public abstract class MeetingHelper implements Serializable {
     private static final String NAMESPACE = "KC-UNT";
     private MeetingForm form;
     private Date agendaGenerationDate;
-    private CommonCommitteeSchedule<?, ?, ?, ?> committeeSchedule;
-    private List<CommonCommitteeSchedule<?, ?, ?, ?>> committeeScheduleList;
+    private CommitteeSchedule<?, ?, ?, ?> committeeSchedule;
+    private List<CommitteeSchedule<?, ?, ?, ?>> committeeScheduleList;
     private List<ProtocolSubmittedBean> protocolSubmittedBeans;
     private CommScheduleActItem newOtherAction;
     private List<CommScheduleActItem> deletedOtherActions;
@@ -85,7 +85,7 @@ public abstract class MeetingHelper implements Serializable {
 
     public MeetingHelper(MeetingForm form) {
         this.form = form;
-        committeeSchedule = getNewCommonCommitteeScheduleInstanceHook();
+        committeeSchedule = getNewCommitteeScheduleInstanceHook();
         protocolSubmittedBeans = new ArrayList<ProtocolSubmittedBean>();
         memberPresentBeans = new ArrayList<MemberPresentBean>();
         memberAbsentBeans = new ArrayList<MemberAbsentBean>();
@@ -124,7 +124,7 @@ public abstract class MeetingHelper implements Serializable {
     protected abstract CommitteeScheduleMinute<?, ?> getNewCommitteeScheduleMinuteInstanceHook();
 
 
-    protected abstract CommonCommitteeSchedule<?, ?, ?, ?> getNewCommonCommitteeScheduleInstanceHook();
+    protected abstract CommitteeSchedule<?, ?, ?, ?> getNewCommitteeScheduleInstanceHook();
 
     public MeetingForm getForm() {
         return form;
@@ -151,11 +151,11 @@ public abstract class MeetingHelper implements Serializable {
         this.tabLabel = tabLabel;
     }
 
-    public CommonCommitteeSchedule<?, ?, ?, ?> getCommitteeSchedule() {
+    public CommitteeSchedule<?, ?, ?, ?> getCommitteeSchedule() {
         return committeeSchedule;
     }
 
-    public void setCommitteeSchedule(CommonCommitteeSchedule<?, ?, ?, ?> committeeSchedule) {
+    public void setCommitteeSchedule(CommitteeSchedule<?, ?, ?, ?> committeeSchedule) {
         this.committeeSchedule = committeeSchedule;
     }
 
@@ -386,7 +386,7 @@ public abstract class MeetingHelper implements Serializable {
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
     
-    protected abstract CommitteeScheduleTask getNewCommitteeScheduleTaskInstanceHook(String taskName, Committee committee, CommonCommitteeSchedule committeeSchedule);
+    protected abstract CommitteeScheduleTask getNewCommitteeScheduleTaskInstanceHook(String taskName, Committee committee, CommitteeSchedule committeeSchedule);
 
 
     public boolean getCanViewSchedule() {

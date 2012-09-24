@@ -30,17 +30,17 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.common.committee.bo.CommitteeBatchCorrespondence;
 import org.kuali.kra.common.committee.bo.CommitteeBatchCorrespondenceDetail;
 import org.kuali.kra.common.committee.bo.Committee;
-import org.kuali.kra.common.committee.dao.CommonCommitteeBatchCorrespondenceDao;
-import org.kuali.kra.common.committee.document.CommonCommitteeDocument;
+import org.kuali.kra.common.committee.dao.CommitteeBatchCorrespondenceDao;
+import org.kuali.kra.common.committee.document.CommitteeDocumentBase;
 import org.kuali.kra.common.committee.document.authorization.CommitteeTask;
 import org.kuali.kra.common.committee.print.CommitteeReportType;
 import org.kuali.kra.common.committee.rule.event.CommitteeActionFilterBatchCorrespondenceHistoryEvent;
 import org.kuali.kra.common.committee.rule.event.CommitteeActionGenerateBatchCorrespondenceEvent;
 import org.kuali.kra.common.committee.rule.event.CommitteeActionPrintCommitteeDocumentEvent;
 import org.kuali.kra.common.committee.rule.event.CommitteeActionViewBatchCorrespondenceEvent;
-import org.kuali.kra.common.committee.service.CommonCommitteeBatchCorrespondenceService;
+import org.kuali.kra.common.committee.service.CommitteeBatchCorrespondenceServiceBase;
 import org.kuali.kra.common.committee.print.service.CommonCommitteePrintingService;
-import org.kuali.kra.common.committee.web.struts.form.CommonCommitteeForm;
+import org.kuali.kra.common.committee.web.struts.form.CommitteeForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.printing.Printable;
@@ -84,8 +84,8 @@ public abstract class CommitteeActionsAction extends CommitteeAction {
     public ActionForward generateBatchCorrespondence(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
             HttpServletResponse response) throws Exception {
         
-        CommonCommitteeForm committeeForm = (CommonCommitteeForm) form;
-        CommonCommitteeDocument committeeDocument = committeeForm.getCommitteeDocument();
+        CommitteeForm committeeForm = (CommitteeForm) form;
+        CommitteeDocumentBase committeeDocument = committeeForm.getCommitteeDocument();
         String committeeId = committeeDocument.getCommittee().getCommitteeId();
         String batchCorrespondenceTypeCode = committeeForm.getCommitteeHelper().getGenerateBatchCorrespondenceTypeCode();
         Date startDate = committeeForm.getCommitteeHelper().getGenerateStartDate();
@@ -132,7 +132,7 @@ public abstract class CommitteeActionsAction extends CommitteeAction {
     public ActionForward filterBatchCorrespondenceHistory(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
             HttpServletResponse response) throws Exception {
 
-        CommonCommitteeForm committeeForm = (CommonCommitteeForm) form;
+        CommitteeForm committeeForm = (CommitteeForm) form;
         String batchCorrespondenceTypeCode = committeeForm.getCommitteeHelper().getHistoryBatchCorrespondenceTypeCode();
         Date startDate = committeeForm.getCommitteeHelper().getHistoryStartDate();
         Date endDate = committeeForm.getCommitteeHelper().getHistoryEndDate();
@@ -160,7 +160,7 @@ public abstract class CommitteeActionsAction extends CommitteeAction {
     public ActionForward viewBatchCorrespondenceGenerated(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
             HttpServletResponse response) throws Exception {
         
-        CommonCommitteeForm committeeForm = (CommonCommitteeForm) form;
+        CommitteeForm committeeForm = (CommitteeForm) form;
         List<CommitteeBatchCorrespondence> committeeBatchCorrespondences = committeeForm.getCommitteeHelper()
                 .getGenerateBatchCorrespondence();
         
@@ -180,7 +180,7 @@ public abstract class CommitteeActionsAction extends CommitteeAction {
     public ActionForward viewBatchCorrespondenceHistory(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
             HttpServletResponse response) throws Exception {
         
-        CommonCommitteeForm committeeForm = (CommonCommitteeForm) form;
+        CommitteeForm committeeForm = (CommitteeForm) form;
         List<CommitteeBatchCorrespondence> committeeBatchCorrespondences = committeeForm.getCommitteeHelper()
                 .getBatchCorrespondenceHistory();
         
@@ -197,7 +197,7 @@ public abstract class CommitteeActionsAction extends CommitteeAction {
      * @return
      * @throws Exception 
      */
-    private ActionForward viewBatchCorrespondence(ActionMapping mapping, CommonCommitteeForm committeeForm, 
+    private ActionForward viewBatchCorrespondence(ActionMapping mapping, CommitteeForm committeeForm, 
             List<CommitteeBatchCorrespondence> committeeBatchCorrespondences, boolean viewBatch, HttpServletResponse response) throws Exception {
         ActionForward actionForward = mapping.findForward(Constants.MAPPING_BASIC);
         
@@ -236,7 +236,7 @@ public abstract class CommitteeActionsAction extends CommitteeAction {
     public ActionForward reload(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
             HttpServletResponse response) throws Exception {
         ActionForward actionForward = super.reload(mapping, form, request, response);
-        ((CommonCommitteeForm)form).getCommitteeHelper().prepareView();
+        ((CommitteeForm)form).getCommitteeHelper().prepareView();
         return actionForward;
     }
 
@@ -323,8 +323,8 @@ public abstract class CommitteeActionsAction extends CommitteeAction {
             HttpServletResponse response) throws Exception {
         ActionForward actionForward = mapping.findForward(Constants.MAPPING_BASIC);
         
-        CommonCommitteeForm committeeForm = (CommonCommitteeForm) form;
-        CommonCommitteeDocument committeeDocument = committeeForm.getCommitteeDocument();
+        CommitteeForm committeeForm = (CommitteeForm) form;
+        CommitteeDocumentBase committeeDocument = committeeForm.getCommitteeDocument();
         Boolean printRooster = committeeForm.getCommitteeHelper().getPrintRooster();
         Boolean printFutureScheduledMeeting = committeeForm.getCommitteeHelper().getPrintFutureScheduledMeeting();
         
@@ -371,11 +371,11 @@ public abstract class CommitteeActionsAction extends CommitteeAction {
 //        return KraServiceLocator.getService(CommonCommitteeBatchCorrespondenceDao.class);
 //    }
     
-    protected abstract CommonCommitteeBatchCorrespondenceService getCommitteeBatchCorrespondenceService();
+    protected abstract CommitteeBatchCorrespondenceServiceBase getCommitteeBatchCorrespondenceService();
     
     protected abstract CommonCommitteePrintingService getCommitteePrintingService();
 
-    protected abstract CommonCommitteeBatchCorrespondenceDao getCommitteeBatchCorrespondenceDao();
+    protected abstract CommitteeBatchCorrespondenceDao getCommitteeBatchCorrespondenceDao();
 
     
 }

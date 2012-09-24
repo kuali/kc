@@ -22,21 +22,21 @@ import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.common.committee.bo.Committee;
 import org.kuali.kra.common.committee.bo.CommitteeMembership;
-import org.kuali.kra.common.committee.bo.CommonCommitteeSchedule;
-import org.kuali.kra.common.committee.document.CommonCommitteeDocument;
+import org.kuali.kra.common.committee.bo.CommitteeSchedule;
+import org.kuali.kra.common.committee.document.CommitteeDocumentBase;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleAttendance;
-import org.kuali.kra.common.committee.service.CommonCommitteeScheduleAttendanceService;
-import org.kuali.kra.common.committee.service.CommonCommitteeService;
+import org.kuali.kra.common.committee.service.CommitteeScheduleAttendanceServiceBase;
+import org.kuali.kra.common.committee.service.CommitteeServiceBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 
-public abstract class CommitteeScheduleAttendanceServiceImpl<CSRV extends CommonCommitteeService<CMT, CS>,
+public abstract class CommitteeScheduleAttendanceServiceImpl<CSRV extends CommitteeServiceBase<CMT, CS>,
                                                              CMT extends Committee<CMT, CD, CS>, 
-                                                             CD extends CommonCommitteeDocument<CD, CMT, CS>,
-                                                             CS extends CommonCommitteeSchedule<CS, CMT, ?, ?>>
+                                                             CD extends CommitteeDocumentBase<CD, CMT, CS>,
+                                                             CS extends CommitteeSchedule<CS, CMT, ?, ?>>
                                                                 
-                                                             implements CommonCommitteeScheduleAttendanceService {
+                                                             implements CommitteeScheduleAttendanceServiceBase {
     
     private CSRV committeeService;
     private ParameterService parameterService;
@@ -58,7 +58,7 @@ public abstract class CommitteeScheduleAttendanceServiceImpl<CSRV extends Common
              attendedMembers.add(attendance.getPersonId());
         }
         String memberId = null;
-        String votingMemberType = parameterService.getParameterValueAsString(getCommonCommitteeDocumentClassBOHook(), Constants.COMMITTEE_VOTING_MEMBERSHIP_TYPE_CODE);
+        String votingMemberType = parameterService.getParameterValueAsString(getCommitteeDocumentClassBOHook(), Constants.COMMITTEE_VOTING_MEMBERSHIP_TYPE_CODE);
         
         for(CommitteeMembership member : committee.getCommitteeMemberships()) {
             memberId = member.getRolodexId() != null ? member.getRolodexId().toString() : member.getPersonId();
@@ -70,7 +70,7 @@ public abstract class CommitteeScheduleAttendanceServiceImpl<CSRV extends Common
         return attendedMembers;
     }
   
-    protected abstract Class<CD> getCommonCommitteeDocumentClassBOHook();
+    protected abstract Class<CD> getCommitteeDocumentClassBOHook();
     
 
     public Set<String> getActualVotingMembersPresent(String committeeId, String scheduleId) {

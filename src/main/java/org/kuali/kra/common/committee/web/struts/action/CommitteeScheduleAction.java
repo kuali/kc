@@ -26,8 +26,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kra.common.committee.bo.CommonCommitteeSchedule;
-import org.kuali.kra.common.committee.document.CommonCommitteeDocument;
+import org.kuali.kra.common.committee.bo.CommitteeSchedule;
+import org.kuali.kra.common.committee.document.CommitteeDocumentBase;
 import org.kuali.kra.common.committee.rule.event.CommitteeScheduleDateConflictEvent;
 import org.kuali.kra.common.committee.rule.event.CommitteeScheduleDayEvent;
 import org.kuali.kra.common.committee.rule.event.CommitteeScheduleFilterEvent;
@@ -37,12 +37,14 @@ import org.kuali.kra.common.committee.rule.event.CommitteeScheduleWeekDayEvent;
 import org.kuali.kra.common.committee.rule.event.DeleteCommitteeScheduleEvent;
 import org.kuali.kra.common.committee.rule.event.CommitteeScheduleEventBase.ErrorType;
 import org.kuali.kra.common.committee.rules.CommitteeScheduleDataDictionaryValidationRule;
-import org.kuali.kra.common.committee.service.CommonCommitteeScheduleService;
-import org.kuali.kra.common.committee.web.struts.form.CommonCommitteeForm;
+import org.kuali.kra.common.committee.service.CommitteeScheduleServiceBase;
+import org.kuali.kra.common.committee.web.struts.form.CommitteeForm;
 import org.kuali.kra.common.committee.web.struts.form.schedule.ScheduleData;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
 import org.kuali.rice.krad.util.KRADConstants;
 
 public abstract class CommitteeScheduleAction extends CommitteeAction {
@@ -64,7 +66,7 @@ public abstract class CommitteeScheduleAction extends CommitteeAction {
             throws Exception {
 
         ActionForward actionForward = super.execute(mapping, form, request, response);
-        ((CommonCommitteeForm)form).getCommitteeHelper().prepareView();
+        ((CommitteeForm)form).getCommitteeHelper().prepareView();
         
         return actionForward;
     }    
@@ -75,7 +77,7 @@ public abstract class CommitteeScheduleAction extends CommitteeAction {
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {    
                 
-        CommonCommitteeForm committeeForm = (CommonCommitteeForm) form;
+        CommitteeForm committeeForm = (CommitteeForm) form;
         ScheduleData scheduleData = committeeForm.getCommitteeHelper().getScheduleData();
       
         ActionForward actionForward = super.save(mapping, form, request, response);
@@ -96,7 +98,7 @@ public abstract class CommitteeScheduleAction extends CommitteeAction {
     public ActionForward addEvent(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
  
-        CommonCommitteeForm committeeForm = (CommonCommitteeForm) form;
+        CommitteeForm committeeForm = (CommitteeForm) form;
         ScheduleData scheduleData = committeeForm.getCommitteeHelper().getScheduleData();
         boolean flag = false;
         
@@ -111,7 +113,7 @@ public abstract class CommitteeScheduleAction extends CommitteeAction {
         flag &= applyRules(new CommitteeScheduleStartAndEndDateEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), scheduleData, null, ErrorType.HARDERROR));
         
         if(flag) {
-            CommonCommitteeScheduleService service  = getCommitteeScheduleService();
+            CommitteeScheduleServiceBase service  = getCommitteeScheduleService();
             service.addSchedule(scheduleData, committeeForm.getCommitteeDocument().getCommittee());            
             applyRules(new CommitteeScheduleDateConflictEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), scheduleData, null, ErrorType.SOFTERROR));
             committeeForm.getCommitteeHelper().prepareView();
@@ -133,11 +135,11 @@ public abstract class CommitteeScheduleAction extends CommitteeAction {
     public ActionForward deleteCommitteeSchedule(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
 
-        CommonCommitteeForm committeeForm = (CommonCommitteeForm) form;
+        CommitteeForm committeeForm = (CommitteeForm) form;
         Object question = request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME);
         String methodToCall = committeeForm.getMethodToCall();
         if (question == null) {
-            if (applyRules(new DeleteCommitteeScheduleEvent(Constants.EMPTY_STRING, committeeForm.getDocument(), null, committeeForm.getCommitteeDocument().getCommittee().getCommitteeSchedules(),
+            if (applyRules(getNewDeleteCommitteeScheduleEventInstanceHook(Constants.EMPTY_STRING, committeeForm.getDocument(), null, committeeForm.getCommitteeDocument().getCommittee().getCommitteeSchedules(),
                 ErrorType.HARDERROR))) {
                 return performQuestionWithoutInput(mapping, form, request, response, DELETE_QUESTION_ID, DELETE_QUESTION,
                         KRADConstants.CONFIRMATION_QUESTION, methodToCall, "");
@@ -146,10 +148,10 @@ public abstract class CommitteeScheduleAction extends CommitteeAction {
             Object buttonClicked = request.getParameter(KRADConstants.QUESTION_CLICKED_BUTTON);
             if ((DELETE_QUESTION_ID.equals(question)) && ConfirmationQuestion.YES.equals(buttonClicked)) {
 
-                List<CommonCommitteeSchedule> list = committeeForm.getCommitteeDocument().getCommittee().getCommitteeSchedules();
-                List<CommonCommitteeSchedule> updatedlist = new ArrayList<CommonCommitteeSchedule>(list);
+                List<CommitteeSchedule> list = committeeForm.getCommitteeDocument().getCommittee().getCommitteeSchedules();
+                List<CommitteeSchedule> updatedlist = new ArrayList<CommitteeSchedule>(list);
                 Collections.copy(updatedlist, list);
-                for (CommonCommitteeSchedule schedule : list) {
+                for (CommitteeSchedule schedule : list) {
                     if (schedule.isSelected())
                         updatedlist.remove(schedule);
                 }
@@ -159,6 +161,8 @@ public abstract class CommitteeScheduleAction extends CommitteeAction {
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
+    protected abstract DeleteCommitteeScheduleEvent getNewDeleteCommitteeScheduleEventInstanceHook(String errorPathPrefix, Document document, ScheduleData scheduleData, List<CommitteeSchedule> committeeSchedules, ErrorType type);
+
     /**
      * This method is UI hook to filter dates in between start and end date.
      * @param mapping
@@ -170,7 +174,7 @@ public abstract class CommitteeScheduleAction extends CommitteeAction {
      */
     public ActionForward filterCommitteeScheduleDates(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         
-        CommonCommitteeForm committeeForm = (CommonCommitteeForm) form;  
+        CommitteeForm committeeForm = (CommitteeForm) form;  
         
         
         ScheduleData scheduleData = committeeForm.getCommitteeHelper().getScheduleData();
@@ -193,7 +197,7 @@ public abstract class CommitteeScheduleAction extends CommitteeAction {
      */
     public ActionForward resetCommitteeScheduleDates(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         
-        CommonCommitteeForm committeeForm = (CommonCommitteeForm) form;        
+        CommitteeForm committeeForm = (CommitteeForm) form;        
         committeeForm.getCommitteeHelper().resetFilterDatesView();
         return mapping.findForward(Constants.MAPPING_BASIC );
     } 
@@ -209,7 +213,7 @@ public abstract class CommitteeScheduleAction extends CommitteeAction {
      */
     public ActionForward loadRecurrence(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
-        CommonCommitteeForm committeeForm = (CommonCommitteeForm) form;
+        CommitteeForm committeeForm = (CommitteeForm) form;
         committeeForm.getCommitteeHelper().getScheduleData().populateStyleClass();
         return mapping.findForward(Constants.MAPPING_BASIC );
     }  
@@ -218,18 +222,18 @@ public abstract class CommitteeScheduleAction extends CommitteeAction {
      * This method retrieve CommitteeScheduleService.
      * @return
      */
-    private CommonCommitteeScheduleService getCommitteeScheduleService(){
+    private CommitteeScheduleServiceBase getCommitteeScheduleService(){
         return KraServiceLocator.getService(getCommitteeScheduleServiceClassHook());
     }
         
-    protected abstract Class<? extends CommonCommitteeScheduleService> getCommitteeScheduleServiceClassHook();
+    protected abstract Class<? extends CommitteeScheduleServiceBase> getCommitteeScheduleServiceClassHook();
     
 
     
     public ActionForward maintainSchedule(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         
-        CommonCommitteeForm committeeForm = (CommonCommitteeForm) form;     
-        CommonCommitteeSchedule commSchedule = ((CommonCommitteeDocument<?, ?, ?>)committeeForm.getDocument()).getCommittee().getCommitteeSchedules().get(getLineToDelete(request));
+        CommitteeForm committeeForm = (CommitteeForm) form;     
+        CommitteeSchedule commSchedule = ((CommitteeDocumentBase<?, ?, ?>)committeeForm.getDocument()).getCommittee().getCommitteeSchedules().get(getLineToDelete(request));
         response.sendRedirect("commonMeetingManagement.do?methodToCall=start&scheduleId="+commSchedule.getId()
                 +"&lineNum="+(getLineToDelete(request)+1)+"&readOnly=" +(!committeeForm.getCommitteeHelper().canModifySchedule()));
         return null;
