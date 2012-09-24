@@ -58,6 +58,7 @@ public class ProposalLog extends KraPersistableBusinessObjectBase implements Neg
     private String logStatus; 
     private String comments; 
     private Date deadlineDate; 
+    private String deadlineTime;
     private String proposalLogTypeCode;
     private Integer fiscalMonth;
     private Integer fiscalYear;
@@ -227,6 +228,14 @@ public class ProposalLog extends KraPersistableBusinessObjectBase implements Neg
         this.deadlineDate = deadlineDate;
     }
     
+    public String getDeadlineTime() {
+        return deadlineTime;
+    }
+
+    public void setDeadlineTime(String deadlineTime) {
+        this.deadlineTime = deadlineTime;
+    }
+
     public String getProposalLogTypeCode() {
         return proposalLogTypeCode;
     }
