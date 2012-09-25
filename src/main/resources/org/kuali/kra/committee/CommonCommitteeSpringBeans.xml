@@ -75,10 +75,9 @@
 		scope="prototype">
 		<property name="xmlStream" ref="commonCommitteeXmlStream" />
 	</bean>
-	<bean id="commonProtocolBatchCorrespondencePrint"
-		class="org.kuali.kra.common.committee.print.ProtocolBatchCorrespondencePrint"
-		scope="prototype" parent="templatePrint">
-		<property name="xmlStream" ref="renewalReminderStream" />
+	
+	<bean id="commonProtocolBatchCorrespondencePrint" class="org.kuali.kra.common.committee.print.ProtocolBatchCorrespondencePrint" scope="prototype" parent="templatePrint">
+		<property name="xmlStream" ref="iacucRenewalReminderStream" />
 		<property name="protocolCorrespondenceTemplateService" ref="iacucProtocolCorrespondenceTemplateService" />
 	</bean>
 	

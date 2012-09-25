@@ -16,14 +16,14 @@
 package org.kuali.kra.protocol.actions.noreview;
 
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.irb.ProtocolDocument;
+import org.kuali.kra.protocol.ProtocolDocument;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * This class managed the business rules of marking a protocol as not required.
  */
-public class ProtocolReviewNotRequiredRule extends ResearchDocumentRuleBase implements ExecuteProtocolReviewNotRequiredRule {
+public abstract class ProtocolReviewNotRequiredRule extends ResearchDocumentRuleBase implements ExecuteProtocolReviewNotRequiredRule {
 
     /**
      * @see org.kuali.kra.irb.actions.noreview.ExecuteProtocolReviewNotRequiredRule#processReviewNotRequiredRule(org.kuali.kra.irb.ProtocolDocument, org.kuali.kra.irb.actions.noreview.ProtocolReviewNotRequiredBean)
@@ -44,11 +44,5 @@ public class ProtocolReviewNotRequiredRule extends ResearchDocumentRuleBase impl
         return valid;
     }
 
-    @Override
-    public boolean processReviewNotRequiredRule(org.kuali.kra.protocol.ProtocolDocument document,
-            ProtocolReviewNotRequiredBean actionBean) {
-        // TODO Auto-generated method stub
-        return false;
-    }
 
 }
