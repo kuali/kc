@@ -60,46 +60,50 @@ import org.kuali.rice.krad.util.GlobalVariables;
  * Indianapolis branch of the org tree (IN-IN, IN-MED, INMDEP, IN-CARD, IN-CARR, IN-PED or INC-PERS). 
  *
  * Post-submittal:
- * The rules for an IRB administrator are slightly different for selecting/changing 
+ * The rules for an administrator are slightly different for selecting/changing 
  * a committee assignment and is based on the Role Qualifier on their 
- * IRB Administrator (1119) role. If the Descends flag is checked (which in the real 
+ * Administrator (1119) role. If the Descends flag is checked (which in the real 
  * world I think it always should be) then they should be able to change a committee 
  * assignment for any protocol where the Lead Unit is at or below their qualified 
  * node in the Org tree. They can select a new committee to any committee whose home 
  * unit is at or below their qualified node in the Org tree.
  * 
  */
-public abstract class CommitteeIdByUnitValuesFinder extends KeyValuesBase {
+public abstract class CommitteeIdByUnitValuesFinder<CMT extends Committee<CMT, ?, ?> > extends KeyValuesBase {
 
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = -3005003472800028011L;
+    
     private String protocolLeadUnit;
     private String docRouteStatus;
     private String currentCommitteeId;
-    
+    public static final String FINAL_STATUS_CD = "F";
     private Set<String> unitIds = new HashSet<String>(); 
     
     /**
      * Returns the committees that the user is eligible to choose from.
      * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
      */
-    @SuppressWarnings("unchecked" )
-    public List getKeyValues() {
-        Collection<Committee> committees = getValidCommittees();
+    public List<KeyValue> getKeyValues() {
+        Collection<CMT> committees = getValidCommittees();
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         
         if (CollectionUtils.isNotEmpty(committees)) {    
             if (isSaved()) {
                 //Use the lead unit of the protocol to determine committees
                 getProtocolUnitIds();
-                for (Committee committee : committees) {
+                for (CMT committee : committees) {
                     if (StringUtils.equalsIgnoreCase(committee.getCommitteeDocument().getDocStatusCode(), "F") 
                             && unitIds.contains(committee.getHomeUnit().getUnitNumber())) {
                         keyValues.add(new ConcreteKeyValue(committee.getCommitteeId(), committee.getCommitteeName()));
                     }
                 }
             } else {
-                //Use the lead unit of the irb admin
-                getIRBAdminUnitIds();
-                for (Committee committee : committees) {
+                //Use the lead unit of the admin
+                getAdminUnitIds();
+                for (CMT committee : committees) {
                     if (unitIds.contains(committee.getHomeUnit().getUnitNumber()) ||
                             committee.getCommitteeId().equals(getCurrentCommitteeId())) {
                         keyValues.add(new ConcreteKeyValue(committee.getCommitteeId(), committee.getCommitteeName()));
@@ -113,6 +117,8 @@ public abstract class CommitteeIdByUnitValuesFinder extends KeyValuesBase {
                 
         return keyValues;
     }
+    
+    protected abstract String getCommitteeTypeCodeHook();
     
     /**
      * 
@@ -128,74 +134,79 @@ public abstract class CommitteeIdByUnitValuesFinder extends KeyValuesBase {
         }
     }
     
+    protected abstract String getRoleNameHook();
+    
     /**
      * This method returns a set of unit ids that represent all the units
-     * at or below the irb admin's lead unit.  The lead unit is determined
-     * by his role (irb admin) and the role qualifier associated with it.
+     * at or below the admin's lead unit.  The lead unit is determined
+     * by his role (admin) and the role qualifier associated with it.
      * @return
      */
-    private void getIRBAdminUnitIds() {        
+    private void getAdminUnitIds() {        
         String principalId = GlobalVariables.getUserSession().getPerson().getPrincipalId();
-        Role roleInfo = getRoleService().getRoleByNamespaceCodeAndName(RoleConstants.DEPARTMENT_ROLE_TYPE, RoleConstants.IRB_ADMINISTRATOR);
+        Role roleInfo = getRoleService().getRoleByNamespaceCodeAndName(RoleConstants.DEPARTMENT_ROLE_TYPE, getRoleNameHook());
         List<String> roleIds = new ArrayList<String>();
         roleIds.add(roleInfo.getId());
         Map<String, String> qualifiedRoleAttributes = new HashMap<String, String>();
         qualifiedRoleAttributes.put(KcKimAttributes.UNIT_NUMBER, "*");
-        Map<String,String> qualifications =new HashMap<String,String>(qualifiedRoleAttributes);
+        Map<String,String> qualifications = new HashMap<String,String>(qualifiedRoleAttributes);
         boolean valid = getRoleService().principalHasRole(principalId, roleIds, qualifications);
         
-        //User has the irb admin role, now check to see if he has the necessary role qualifier.
+        // User has the admin role, now check to see if he has the necessary role qualifier.
         if (valid) {
-            List<Map<String,String>> principalQualifications = getRoleService().getNestedRoleQualifiersForPrincipalByRoleIds(principalId, roleIds, qualifications);
-            for (Map<String,String> attrSet : principalQualifications) {            
+            List<Map<String, String>> principalQualifications = getRoleService().getNestedRoleQualifiersForPrincipalByRoleIds(
+                    principalId, roleIds, qualifications);
+            for (Map<String, String> attrSet : principalQualifications) {
                 Unit unit = getUnitService().getUnit(attrSet.get(KcKimAttributes.UNIT_NUMBER));
-                if(unit != null) {
+                if (unit != null) {
                     unitIds.add(unit.getUnitNumber());
-                    //If descends heirarchy is yes, add all the sub units as well
-                    if(attrSet.containsKey(KcKimAttributes.SUBUNITS) && 
-                       StringUtils.equalsIgnoreCase("Y", attrSet.get(KcKimAttributes.SUBUNITS))) {
-                       List<Unit> subUnits = getUnitService().getAllSubUnits(attrSet.get(KcKimAttributes.UNIT_NUMBER));
-                       for (Unit u : subUnits) {
-                           unitIds.add(u.getUnitNumber());
-                       }
+                    // If descends heirarchy is yes, add all the sub units as well
+                    if (attrSet.containsKey(KcKimAttributes.SUBUNITS)
+                            && StringUtils.equalsIgnoreCase("Y", attrSet.get(KcKimAttributes.SUBUNITS))) {
+                        List<Unit> subUnits = getUnitService().getAllSubUnits(attrSet.get(KcKimAttributes.UNIT_NUMBER));
+                        for (Unit u : subUnits) {
+                            unitIds.add(u.getUnitNumber());
+                        }
                     }
                 }
             }
         }
     }
-    
+
     /**
      * This method returns the set of unique committees, by filtering
      * out the committees with the same committee id.  It takes the
      * committee id with the highest sequence number
      * @return a collection of unique committees based on committee id and sequence number.
      */
-    @SuppressWarnings("unchecked")
-    private Collection<Committee> getValidCommittees() {
+    private Collection<CMT> getValidCommittees() {
+        Map<String, String> criteria = new HashMap<String, String>();
+        criteria.put("committeeTypeCode", getCommitteeTypeCodeHook());
         
-// TODO *********commented the code below during IACUC refactoring********* 
-//        Collection<CommonCommittee> allCommittees = KraServiceLocator.getService(BusinessObjectService.class).findAll(CommonCommittee.class);
+// TODO *********commented the code below during IACUC refactoring*********         
+//        Collection<Committee> allCommittees = KraServiceLocator.getService(BusinessObjectService.class).findMatching(Committee.class, criteria);
         
-        Collection<? extends Committee> allCommittees = KraServiceLocator.getService(BusinessObjectService.class).findAll(getCommonCommitteeBOClassHook());
-        HashMap<String, Committee> committeeMap = new HashMap<String, Committee>();
+        Collection<CMT> allCommittees = KraServiceLocator.getService(BusinessObjectService.class).findMatching(getCommitteeBOClassHook(), criteria);
+        HashMap<String, CMT> committeeMap = new HashMap<String, CMT>();
         
-        Committee tmpComm = null;
-        for (Committee comm : allCommittees) {
-            if (committeeMap.containsKey(comm.getCommitteeId())) {
-                tmpComm = committeeMap.get(comm.getCommitteeId());
-                if (comm.getSequenceNumber().intValue() > tmpComm.getSequenceNumber().intValue()) {
+        CMT tmpComm = null;
+        for (CMT comm : allCommittees) {
+            if (FINAL_STATUS_CD.equalsIgnoreCase(comm.getCommitteeDocument().getDocStatusCode())) {
+                if (committeeMap.containsKey(comm.getCommitteeId())) {
+                    tmpComm = committeeMap.get(comm.getCommitteeId());
+                    if (comm.getSequenceNumber().intValue() > tmpComm.getSequenceNumber().intValue()) {
+                        committeeMap.put(comm.getCommitteeId(), comm);
+                    }
+                } else {
                     committeeMap.put(comm.getCommitteeId(), comm);
                 }
-            } else {
-                committeeMap.put(comm.getCommitteeId(), comm);
             }
         }
         
         return committeeMap.values();
     }
     
-    protected abstract Class<? extends Committee> getCommonCommitteeBOClassHook();
-    
+    protected abstract Class<CMT> getCommitteeBOClassHook();
 
     /**
      * 
