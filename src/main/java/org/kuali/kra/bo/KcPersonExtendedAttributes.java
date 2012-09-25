@@ -87,6 +87,7 @@ public class KcPersonExtendedAttributes extends KraPersistableBusinessObjectBase
     private String multiCampusPrincipalId;
 
     private String multiCampusPrincipalName;
+    private String eraCommonUserName;
     private Date salaryAnniversaryDate;
     
     private List<PersonBiosketch> attachments = new AutoPopulatingList<PersonBiosketch>(PersonBiosketch.class);
@@ -599,12 +600,22 @@ public class KcPersonExtendedAttributes extends KraPersistableBusinessObjectBase
     }
     
     /**
-     * Gets the eraCommonsUserName attribute. 
-     * @return Returns the eraCommonsUserName.
+     * Gets the eraCommonUserName attribute. 
+     * @return Returns the eraCommonUserName.
      */
-    public String getEraCommonsUserName() {
-        KcPerson person = getKcPersonService().getKcPersonByPersonId(personId);       
-        return person.getEraCommonsUserName();        
+    public String getEraCommonUserName() {  
+        if (personId != null && eraCommonUserName == null) {
+            this.eraCommonUserName = getKcPersonService().getKcPersonByPersonId(personId).getExtendedAttributes().getEraCommonUserName();
+        }
+        return this.eraCommonUserName;
+    }
+    
+    /**
+     * Sets the eraCommonUserName attribute value.
+     * @param eraCommonUserName The eraCommonUserName to set.
+     */
+    public void setEraCommonUserName(String eraCommonUserName) {
+        this.eraCommonUserName = eraCommonUserName;
     }
 
     @Override

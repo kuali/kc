@@ -67,6 +67,7 @@
         <bean parent="MaintainableFieldDefinition" p:name="multiCampusPrincipalName"/> 
         <bean parent="MaintainableFieldDefinition" p:name="salaryAnniversaryDate"/>
         <bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
+        <bean parent="MaintainableFieldDefinition" p:name="eraCommonUserName"/>
       </list>
     </property>
   </bean>
