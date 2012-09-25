@@ -1,5 +1,5 @@
 "GRP_ID","GRP_NM","NMSPC_CD","GRP_DESC","KIM_TYP_ID","ACTV_IND","OBJ_ID","VER_NBR"
-"10010000","IACUCAdmin","KC-WKFLW","IACUC Administrator","1","Y","43bdcc61-0f24-4be6-afd8-ac378edcaa1e",4
+"10010000","IACUCAdmin","KC-WKFLW","IACUC Administrator","1","Y","43bdcc61-0f24-4be6-afd8-ac378edcaa1e",3
 "1002001","KcAdmin","KC-WKFLW","Kuali Coeus Administrator","1","Y","B6A90093ABEE8D60E040DC0A1F8A1D16",1
 "1002002","OSP Superuser","KC-WKFLW","Kuali Coeus Administrator","1","Y","B6A90093ABEF8D60E040DC0A1F8A1D16",1
 "1002003","ProposalAdmin","KC-WKFLW","Proposal Workflow Administrator","1","Y","B6A90093ABF08D60E040DC0A1F8A1D16",1
