@@ -74,4 +74,14 @@ public class IacucMeetingManagementAction extends MeetingManagementAction {
         return IacucCommitteeScheduleService.class;
     }
 
+    @Override
+    protected String getCommitteeScheduleActionIdHook() {
+        return "iacucCommitteeCommittee";
+    }
+
+    @Override
+    protected String getCommitteeCommitteeActionIdHook() {
+        return "iacucCommitteeSchedule";
+    }
+
 }
