@@ -15,41 +15,12 @@
  */
 package org.kuali.kra.iacuc.actions.noreview;
 
-import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.irb.ProtocolDocument;
-import org.kuali.kra.protocol.actions.noreview.ProtocolReviewNotRequiredBean;
 import org.kuali.kra.protocol.actions.noreview.ProtocolReviewNotRequiredRule;
-import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * This class managed the business rules of marking a protocol as not required.
  */
 public class IacucProtocolReviewNotRequiredRule extends ProtocolReviewNotRequiredRule {
 
-    /**
-     * @see org.kuali.kra.irb.actions.noreview.ExecuteProtocolReviewNotRequiredRule#processReviewNotRequiredRule(org.kuali.kra.irb.ProtocolDocument, org.kuali.kra.irb.actions.noreview.ProtocolReviewNotRequiredBean)
-     */
-    public boolean processReviewNotRequiredRule(ProtocolDocument document, IacucProtocolReviewNotRequiredBean actionBean) {
-        boolean valid = true;
-        String fieldNameStarter = "actionHelper.protocolReviewNotRequiredBean.";
-        if (actionBean.getActionDate() == null) {
-            valid = false;
-            GlobalVariables.getMessageMap().putError(fieldNameStarter + "actionDate", KeyConstants.ERROR_PROTOCOL_APPROVAL_DATE_REQUIRED);
-        }
-        
-        if (actionBean.getDecisionDate() == null) {
-            valid = false;
-            GlobalVariables.getMessageMap().putError(fieldNameStarter + "decisionDate", KeyConstants.ERROR_PROTOCOL_APPROVAL_DATE_REQUIRED);
-        }
-        
-        return valid;
-    }
-
-    @Override
-    public boolean processReviewNotRequiredRule(org.kuali.kra.protocol.ProtocolDocument document,
-            ProtocolReviewNotRequiredBean actionBean) {
-        // TODO Auto-generated method stub
-        return false;
-    }
 
 }
