@@ -1125,5 +1125,11 @@
     <bean id="iacucResearchAreasService" class="org.kuali.kra.iacuc.service.impl.IacucResearchAreasServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
     </bean>
+    
+    
+    <bean id="iacucRenewalReminderStream" class="org.kuali.kra.iacuc.actions.print.IacucRenewalReminderStream" parent="printBaseXmlStream">
+         <property name="protocolXmlStream" ref="iacucProtocolXmlStream" />
+         <property name="committeeXmlStream" ref="commonCommitteeXmlStream" />
+    </bean>
 
 </beans>
