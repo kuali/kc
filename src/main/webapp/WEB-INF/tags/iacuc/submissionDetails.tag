@@ -15,8 +15,8 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <c:set var="protocolSubmissionAttributes" value="${DataDictionary.IacucProtocolSubmission.attributes}" />
-<c:set var="committeeAttributes" value="${DataDictionary.Committee.attributes}" />
-<c:set var="committeeScheduleAttributes" value="${DataDictionary.CommitteeSchedule.attributes}" />
+<c:set var="committeeAttributes" value="${DataDictionary.IacucCommittee.attributes}" />
+<c:set var="committeeScheduleAttributes" value="${DataDictionary.IacucCommitteeSchedule.attributes}" />
     <tr>
     	<td class="tab-subhead" colspan="2" scope="row">
             <input type="hidden" name="actionHelper.currentSubmissionNumber" value="${KualiForm.actionHelper.currentSubmissionNumber}"/>
@@ -44,7 +44,7 @@
 
                                 <td align="left" valign="middle" width="80%">
                                     <div align="left">
-                                        <kul:htmlControlAttribute property="actionHelper.selectedSubmission.committee.committeeName" attributeEntry="${committeeAttributes.committeeName}" readOnly="true"/>
+                                        <kul:htmlControlAttribute property="actionHelper.selectedSubmission.iacucCommittee.committeeName" attributeEntry="${committeeAttributes.committeeName}" readOnly="true"/>
                                     </div>
                                 </td>
                             </tr>
@@ -55,7 +55,7 @@
 
                                 <td align="left" valign="middle" width="80%">
                                     <div align="left">
-                                        <kul:htmlControlAttribute property="actionHelper.selectedSubmission.committeeSchedule.scheduledDate" attributeEntry="${committeeScheduleAttributes.scheduledDate}" readOnly="true"/>
+                                        <kul:htmlControlAttribute property="actionHelper.selectedSubmission.iacucCommitteeSchedule.scheduledDate" attributeEntry="${committeeScheduleAttributes.scheduledDate}" readOnly="true"/>
                                     </div>
                                 </td>
                             </tr>
