@@ -304,10 +304,19 @@ public abstract class MeetingManagementAction extends MeetingAction {
         
         final CommitteeDocumentBase pdDoc = (CommitteeDocumentBase) docService.getByDocumentHeaderId(docNumber);
         String forwardUrl = buildForwardUrl(pdDoc.getDocumentHeader().getWorkflowDocument().getDocumentId());
-        forwardUrl = forwardUrl.replaceFirst("commonCommitteeCommittee.do", "commonCommitteeSchedule.do");
+        
+// TODO *********commented the code below during IACUC refactoring*********         
+//        forwardUrl = forwardUrl.replaceFirst("iacucCommitteeCommittee.do", "iacucCommitteeSchedule.do");
+        
+        forwardUrl = forwardUrl.replaceFirst( getCommitteeCommitteeActionIdHook() + ".do", getCommitteeScheduleActionIdHook() + ".do");
         forwardUrl += "&methodToCallAttribute=methodToCall.reload";
         return new ActionForward(forwardUrl, true);
     }
+
+    protected abstract String getCommitteeScheduleActionIdHook();
+
+    protected abstract String getCommitteeCommitteeActionIdHook();
+    
 
     protected String buildForwardUrl(String routeHeaderId) {
         ResearchDocumentService researchDocumentService = KraServiceLocator.getService(ResearchDocumentService.class);

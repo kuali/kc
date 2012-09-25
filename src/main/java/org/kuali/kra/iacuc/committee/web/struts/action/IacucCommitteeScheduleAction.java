@@ -56,4 +56,9 @@ public class IacucCommitteeScheduleAction extends CommitteeScheduleAction {
                 
     }
 
+    @Override
+    protected String getMeetingManagementActionIdHook() {
+        return "iacucMeetingManagement";
+    }
+
 }

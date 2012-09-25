@@ -35,7 +35,7 @@
         <form-bean name="QuestionLookupForm" type="org.kuali.kra.questionnaire.QuestionLookupForm" />
         <form-bean name="KrmsRuleLookupForm" type="org.kuali.kra.questionnaire.KrmsRuleLookupForm" />
         <form-bean name="MeetingForm" type="org.kuali.kra.meeting.MeetingForm" />
-        <form-bean name="IacucMeetingForm" type="org.kuali.kra.iacuc.committee.meeting.MeetingForm" />
+        <form-bean name="IacucMeetingForm" type="org.kuali.kra.iacuc.committee.meeting.IacucMeetingForm" />
         <form-bean name="QuestionnaireMaintenanceForm" type="org.kuali.kra.questionnaire.QuestionnaireMaintenanceForm" />
         <form-bean name="ProposalLogMergeForm" type="org.kuali.kra.institutionalproposal.proposallog.ProposalLogMergeForm" />
         <form-bean name="ProposalLogPrintForm" type="org.kuali.kra.institutionalproposal.proposallog.ProposalLogPrintForm" />
@@ -577,7 +577,7 @@
      </action>
 
 	
-     <action path="/iacucMeeting*" name="IacucMeetingForm" type="org.kuali.kra.iacuc.committee.meeting.Meeting{1}Action" input="/WEB-INF/jsp/meeting/IacucMeeting{1}.jsp" attribute="KualiForm">
+     <action path="/iacucMeeting*" name="IacucMeetingForm" type="org.kuali.kra.iacuc.committee.meeting.IacucMeeting{1}Action" input="/WEB-INF/jsp/meeting/IacucMeeting{1}.jsp" attribute="KualiForm">
             <forward name="basic" path="/WEB-INF/jsp/meeting/IacucMeeting{1}.jsp" />
             <forward name="management" path="/WEB-INF/jsp/meeting/IacucMeetingManagement.jsp" />
             <forward name="actions" path="/WEB-INF/jsp/meeting/IacucMeetingActions.jsp" />
