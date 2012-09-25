@@ -617,7 +617,7 @@
                 <bean parent="FieldDefinition"
                     p:attributeName="protocol.title" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="committeeSchedule.scheduledDate" />
+                    p:attributeName="iacucCommitteeSchedule.scheduledDate" />
                 <bean parent="FieldDefinition"
                     p:attributeName="protocolReviewTypeCode" />
                 <bean parent="FieldDefinition"
@@ -643,7 +643,7 @@
                 <bean parent="FieldDefinition"
                     p:attributeName="committeeId" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="committeeSchedule.scheduledDate" />
+                    p:attributeName="iacucCommitteeSchedule.scheduledDate" />
                 <bean parent="FieldDefinition"
                     p:attributeName="protocol.title" />
                 <bean parent="FieldDefinition"
