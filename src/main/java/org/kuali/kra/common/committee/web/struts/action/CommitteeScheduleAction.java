@@ -234,9 +234,14 @@ public abstract class CommitteeScheduleAction extends CommitteeAction {
         
         CommitteeForm committeeForm = (CommitteeForm) form;     
         CommitteeSchedule commSchedule = ((CommitteeDocumentBase<?, ?, ?>)committeeForm.getDocument()).getCommittee().getCommitteeSchedules().get(getLineToDelete(request));
-        response.sendRedirect("commonMeetingManagement.do?methodToCall=start&scheduleId="+commSchedule.getId()
-                +"&lineNum="+(getLineToDelete(request)+1)+"&readOnly=" +(!committeeForm.getCommitteeHelper().canModifySchedule()));
+        
+// TODO *********commented the code below during IACUC refactoring*********         
+//        response.sendRedirect("iacucMeetingManagement.do?methodToCall=start&scheduleId="+commSchedule.getId()+"&lineNum="+(getLineToDelete(request)+1)+"&readOnly=" +(!committeeForm.getCommitteeHelper().canModifySchedule()));
+        
+        response.sendRedirect(getMeetingManagementActionIdHook() + ".do?methodToCall=start&scheduleId="+commSchedule.getId()+"&lineNum="+(getLineToDelete(request)+1)+"&readOnly=" +(!committeeForm.getCommitteeHelper().canModifySchedule()));
         return null;
-    }    
+    }
+
+    protected abstract String getMeetingManagementActionIdHook();
 
 }
