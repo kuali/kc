@@ -251,12 +251,16 @@ public abstract class CommitteeScheduleLookupableHelperServiceImpl<CS extends Co
             parameters.put(READ_ONLY, "true");
         }
        
-        String href = UrlFactory.parameterizeUrl("../commonMeetingManagement.do", parameters);
+// TODO *********commented the code below during IACUC refactoring*********         
+//        String href = UrlFactory.parameterizeUrl("../iacucMeetingManagement.do", parameters);
 
+        String href = UrlFactory.parameterizeUrl("../" + getMeetingManagementActionIdHook()+ ".do", parameters);
         htmlData.setHref(href);
         return htmlData;
 
     }
+    
+    protected abstract String getMeetingManagementActionIdHook();
 
     /**
      * This method is for committeeId that does not have inquiry created by lookup frame work. Also, disable inquiry link for

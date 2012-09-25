@@ -56,4 +56,9 @@ public class IacucCommitteeScheduleLookupableHelperServiceImpl extends Committee
         return new IacucCommitteeScheduleTask(taskName, committee, committeeSchedule);
     }
 
+    @Override
+    protected String getMeetingManagementActionIdHook() {
+        return "iacucMeetingManagement";
+    }
+
 }
