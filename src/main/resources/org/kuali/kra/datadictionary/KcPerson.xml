@@ -79,6 +79,7 @@
         <ref bean="KcPerson-pagerNumber" />
         <ref bean="KcPerson-mobilePhoneNumber" />
         <ref bean="KcPerson-eraCommonsUserName" />
+        <ref bean="KcPerson-extendedAttributes.eraCommonUserName" />
         <ref bean="KcPerson-active" />
       </list>
     </property>
@@ -739,6 +740,11 @@
   <bean id="KcPerson-extendedAttributes.county-parentBean" abstract="true" parent="KcPersonExtendedAttributes-county">
   	<property name="name" value="extendedAttributes.county" />
   </bean>
+  <bean id="KcPerson-extendedAttributes.eraCommonUserName" parent="KcPerson-extendedAttributes.eraCommonUserName-parentBean" />
+
+  <bean id="KcPerson-extendedAttributes.eraCommonUserName-parentBean" abstract="true" parent="KcPersonExtendedAttributes-eraCommonUserName">
+  	<property name="name" value="extendedAttributes.eraCommonUserName" />
+  </bean>
   <bean id="KcPerson-state" parent="KcPerson-state-parentBean" />
 
   <bean id="KcPerson-state-parentBean" abstract="true" parent="KraAttributeReferenceDummy-state">
@@ -969,7 +975,7 @@
               <bean parent="FieldDefinition"
                     p:attributeName="mobilePhoneNumber" />
               <bean parent="FieldDefinition"
-                    p:attributeName="eraCommonsUserName" />
+                    p:attributeName="extendedAttributes.eraCommonUserName" />
               <bean parent="FieldDefinition"
                     p:attributeName="active" />
             </list>
