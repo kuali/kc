@@ -48,7 +48,7 @@
         <ref bean="KcPersonExtendedAttributes-multiCampusPrincipalId"/>
         <ref bean="KcPersonExtendedAttributes-multiCampusPrincipalName"/>     
         <ref bean="KcPersonExtendedAttributes-salaryAnniversaryDate"/>
-        <ref bean="KcPersonExtendedAttributes-eraCommonsUserName"/>
+        <ref bean="KcPersonExtendedAttributes-eraCommonUserName"/>
       </list>
     </property>
   </bean>
@@ -457,10 +457,10 @@
     <property name="description" value="Salary Anniversary Date"/>
   </bean>
   
-  <bean id="KcPersonExtendedAttributes-eraCommonsUserName" parent="KcPersonExtendedAttributes-eraCommonsUserName-parentBean" />
+  <bean id="KcPersonExtendedAttributes-eraCommonUserName" parent="KcPersonExtendedAttributes-eraCommonUserName-parentBean" />
 
-  <bean id="KcPersonExtendedAttributes-eraCommonsUserName-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="eraCommonsUserName" />
+  <bean abstract="true" id="KcPersonExtendedAttributes-eraCommonUserName-parentBean"  parent="AttributeDefinition">
+    <property name="name" value="eraCommonUserName" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="eRA Commons User Name" />
     <property name="shortLabel" value="Era Commons User Name" />
@@ -517,7 +517,7 @@
               <bean p:attributeName="multiCampusPrincipalId" parent="FieldDefinition"/>
               <bean p:attributeName="multiCampusPrincipalName" parent="FieldDefinition"/>               
               <bean p:attributeName="salaryAnniversaryDate" parent="FieldDefinition"/>               
-              <bean parent="FieldDefinition" p:attributeName="eraCommonsUserName" />
+              <bean p:attributeName="eraCommonUserName" parent="FieldDefinition"/>
             </list>
           </property>
         </bean>
