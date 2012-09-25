@@ -13,12 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.committee.lookup.keyvalue;
+package org.kuali.kra.iacuc.committee.lookup.keyvalue;
 
-import org.kuali.kra.committee.bo.CommitteeType;
+import org.kuali.kra.common.committee.bo.CommitteeType;
+import org.kuali.kra.common.committee.lookup.keyvalue.CommitteeIdByUnitValuesFinder;
+import org.kuali.kra.iacuc.committee.bo.IacucCommittee;
 import org.kuali.kra.infrastructure.RoleConstants;
 
-public class IacucCommitteeIdByUnitValuesFinder extends CommitteeIdByUnitValuesFinder {
+public class IacucCommitteeIdByUnitValuesFinder extends CommitteeIdByUnitValuesFinder<IacucCommittee> {
 
     /**
      * Comment for <code>serialVersionUID</code>
@@ -33,5 +35,10 @@ public class IacucCommitteeIdByUnitValuesFinder extends CommitteeIdByUnitValuesF
     @Override
     protected String getRoleNameHook() {
         return RoleConstants.IACUC_ADMINISTRATOR;
+    }
+
+    @Override
+    protected Class<IacucCommittee> getCommitteeBOClassHook() {
+        return IacucCommittee.class;
     }
 }

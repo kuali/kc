@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.iacuc.actions.submit;
 
+import org.kuali.kra.iacuc.committee.bo.IacucCommittee;
+import org.kuali.kra.iacuc.committee.bo.IacucCommitteeSchedule;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionQualifierType;
 
@@ -34,5 +36,13 @@ public class IacucProtocolSubmission extends ProtocolSubmission {
         return new IacucProtocolSubmissionQualifierType();
     }
     
+    
+    public IacucCommittee getIacucCommittee() {
+        return (IacucCommittee) super.getCommittee();
+    }
 
+    
+    public IacucCommitteeSchedule getIacucCommitteeSchedule() {
+        return (IacucCommitteeSchedule) super.getCommitteeSchedule();
+    }
 }

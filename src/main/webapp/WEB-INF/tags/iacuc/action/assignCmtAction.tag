@@ -38,7 +38,7 @@
                         <c:set target="${paramMap}" property="protocolLeadUnit" value="${KualiForm.document.protocol.leadUnitNumber}" />	                
 	                    <c:set var="docNumber" value="${KualiForm.document.protocol.protocolNumber}" />
                         <html:select property="actionHelper.protocolAssignCmtBean.committeeId" >                               
-                            <c:forEach items="${krafn:getOptionList('org.kuali.kra.committee.lookup.keyvalue.IacucCommitteeIdByUnitValuesFinder', paramMap)}" var="option" >
+                            <c:forEach items="${krafn:getOptionList('org.kuali.kra.iacuc.committee.lookup.keyvalue.IacucCommitteeIdByUnitValuesFinder', paramMap)}" var="option" >
                                 <c:choose>                      
                                     <c:when test="${KualiForm.actionHelper.protocolAssignCmtBean.committeeId == option.key}">
                                         <option value="${option.key}" selected="selected">${option.value}</option>

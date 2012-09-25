@@ -54,6 +54,7 @@
                 <ref bean="IacucProtocolSubmission-votingComments" />
                 <ref bean="IacucProtocolSubmission-versionNumber" />
                 <ref bean="IacucProtocolSubmission-committeeSchedule.scheduledDate" />
+                <ref bean="IacucProtocolSubmission-committee.committeeName" />
                 <ref bean="IacucProtocolSubmission-protocol.title" />
                 <ref bean="IacucProtocolSubmission-piName" />
                 <ref bean="IacucProtocolSubmission-submissionStatus.description" />
@@ -361,10 +362,17 @@
     </bean>
     
     <bean id="IacucProtocolSubmission-committeeSchedule.scheduledDate" parent="IacucProtocolSubmission-committeeSchedule.scheduledDate-parentBean" />
-    <bean id="IacucProtocolSubmission-committeeSchedule.scheduledDate-parentBean" abstract="true" parent="CommSchedule-scheduledDate" >
+    <bean id="IacucProtocolSubmission-committeeSchedule.scheduledDate-parentBean" abstract="true" parent="IacucCommSchedule-scheduledDate" >
 		<property name="name" value="committeeSchedule.scheduledDate" />
 		<property name="required" value="false" />
     </bean>
+    
+    
+    <bean id="IacucProtocolSubmission-committee.committeeName" parent="IacucProtocolSubmission-committee.committeeName-parentBean" />
+	<bean id="IacucProtocolSubmission-committee.committeeName-parentBean" abstract="true" parent="IacucCommitteeAttribute-CommitteeName">
+		<property name="name" value="iacucCommittee.committeeName" />
+		<property name="required" value="false" />
+	</bean>
     
     <bean id="IacucProtocolSubmission-comments" parent="IacucProtocolSubmission-comments-parentBean" />
     <bean id="IacucProtocolSubmission-comments-parentBean" abstract="true" parent="AttributeDefinition" >
