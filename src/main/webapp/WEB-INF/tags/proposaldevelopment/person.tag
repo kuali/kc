@@ -126,12 +126,17 @@
                                                                readOnly="${!personEditableFields['division'] }" />
                   </tr>
                   <tr>
-                    <th align="left" width="15%"> <div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalPersonAttributes.eraCommonsUserName}"  /> </div></th>
+                  <c:choose>
+				  	<c:when test="${KualiForm.document.developmentProposalList[0].proposalPersons[personIndex].proposalPersonExtendedAttributes != null}">
+				  		<c:set var="personEA" value="document.developmentProposalList[0].proposalPersons[${personIndex}].proposalPersonExtendedAttributes" />
+                  			<th align="left" width="15%"> <div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalPersonAttributes.eraCommonsUserName}"/> </div></th>
 
-                    <td align="left" width="30%"><kul:htmlControlAttribute property="${proposalPerson}.eraCommonsUserName" 
-                                                                     attributeEntry="${proposalPersonAttributes.eraCommonsUserName}" 
-                                                                           readOnly="${!personEditableFields['eraCommonsUserName'] }"/>
-                    </td>
+                    		<td align="left" width="30%"><kul:htmlControlAttribute property="${personEA}.eraCommonUserName" 
+                                          attributeEntry="${proposalPersonExtendedAttributes.eraCommonUserName}" 
+                                                readOnly="true"/>
+                    		</td>
+                 	</c:when>
+                 </c:choose>
                     <th align="left" nowrap="nowrap" width="15%"> <div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalPersonAttributes.faxNumber}"  /></div></th>
                     <td align="left" width="30%"><kul:htmlControlAttribute property="${proposalPerson}.faxNumber" 
                                                                      attributeEntry="${proposalPersonAttributes.faxNumber}" 

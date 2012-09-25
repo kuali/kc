@@ -49,6 +49,7 @@
         <ref bean="ProposalPersonExtendedAttributes-idVerified"/>
         <ref bean="ProposalPersonExtendedAttributes-versionNumber"/>
         <ref bean="ProposalPersonExtendedAttributes-citizenshipTypeCode"/>
+        <ref bean="ProposalPersonExtendedAttributes-eraCommonUserName"/>
       </list>
     </property>
   </bean>
@@ -205,6 +206,10 @@
   
   <bean id="ProposalPersonExtendedAttributes-citizenshipTypeCode" parent="ProposalPersonExtendedAttributes-citizenshipTypeCode-parentBean" />
   <bean id="ProposalPersonExtendedAttributes-citizenshipTypeCode-parentBean" abstract="true" parent="KcPersonExtendedAttributes-citizenshipTypeCode" >
+  </bean>
+  
+  <bean id="ProposalPersonExtendedAttributes-eraCommonUserName" parent="ProposalPersonExtendedAttributes-eraCommonUserName-parentBean" />
+  <bean id="ProposalPersonExtendedAttributes-eraCommonUserName-parentBean" abstract="true" parent="KcPersonExtendedAttributes-eraCommonUserName" >
   </bean>
   
 </beans>
