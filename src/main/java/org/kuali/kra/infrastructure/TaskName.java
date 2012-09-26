@@ -248,7 +248,7 @@ public interface TaskName {
     public static final String CREATE_SUBAWARD = "createSubaward";
     public static final String MODIFY_SUBAWARD = "modifySubaward";
     public static final String VIEW_SUBAWARD = "viewSubaward";
-    
+    public static final String ADD_INVOICE_SUBAWARD = "addInvoiceSubAward";
     
     /*
      * Iacuc Tasks

@@ -30,6 +30,7 @@ import org.kuali.kra.common.permissions.web.struts.form.PermissionsForm;
 import org.kuali.kra.common.permissions.web.struts.form.PermissionsHelperBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.medusa.MedusaBean;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
@@ -381,7 +382,8 @@ implements PermissionsForm, CustomDataForm, Auditable {
 
         TaskAuthorizationService tas = KraServiceLocator.getService(TaskAuthorizationService.class);
         ConfigurationService configurationService = KRADServiceLocator.getKualiConfigurationService();
-        if(tas.isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), new SubAwardTask("modifySubaward", doc))) {       
+        SubAwardTask task = new SubAwardTask(TaskName.ADD_INVOICE_SUBAWARD, doc);
+        if(tas.isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), task)) {       
             String submitToGrantsGovImage = KRADServiceLocator.getKualiConfigurationService().getPropertyValueAsString(externalImageURL) + "buttonsmall_addinvoice.gif";
             addExtraButton("methodToCall.addAmountReleased", submitToGrantsGovImage, "Add Invoice");
         }
