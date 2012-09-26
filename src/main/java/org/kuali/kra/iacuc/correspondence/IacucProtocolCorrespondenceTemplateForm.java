@@ -15,7 +15,9 @@
  */
 package org.kuali.kra.iacuc.correspondence;
 
+import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceTemplate;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceTemplateForm;
+import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceType;
 
 public class IacucProtocolCorrespondenceTemplateForm extends ProtocolCorrespondenceTemplateForm {
 
@@ -23,5 +25,15 @@ public class IacucProtocolCorrespondenceTemplateForm extends ProtocolCorresponde
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = -5542637095869525642L;
+
+    @Override
+    protected Class<? extends ProtocolCorrespondenceType> getProtocolCorrespondenceTypeBOClassHook() {
+        return IacucProtocolCorrespondenceType.class;
+    }
+
+    @Override
+    protected ProtocolCorrespondenceTemplate getNewProtocolCorrespondenceTemplateInstanceHook() {
+        return new IacucProtocolCorrespondenceTemplate();
+    }
 
 }

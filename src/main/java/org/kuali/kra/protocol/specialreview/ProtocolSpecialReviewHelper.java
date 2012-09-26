@@ -15,15 +15,8 @@
  */
 package org.kuali.kra.protocol.specialreview;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.kuali.kra.common.specialreview.web.struts.form.SpecialReviewHelperBase;
-import org.kuali.kra.iacuc.specialreview.IacucProtocolSpecialReview;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.infrastructure.TaskName;
-import org.kuali.kra.protocol.ProtocolForm;
-import org.kuali.kra.protocol.auth.ProtocolTask;
 import org.kuali.kra.service.TaskAuthorizationService;
 
 /**
@@ -32,41 +25,9 @@ import org.kuali.kra.service.TaskAuthorizationService;
 public abstract class ProtocolSpecialReviewHelper extends SpecialReviewHelperBase<ProtocolSpecialReview> {
 
     private static final long serialVersionUID = -6004130465079070854L;
-
-    protected ProtocolForm form;
     
     private transient TaskAuthorizationService taskAuthorizationService;
     
-    /**
-     * Constructs a SpecialReviewHelper.
-     * @param form the container form
-     */
-    public ProtocolSpecialReviewHelper(ProtocolForm form) {
-        this.form = form;
-        setLinkedProtocolNumbers(new ArrayList<String>());    
-    }
-
-// Demoted to IACUC classes    
-//    @Override
-//    protected boolean hasModifySpecialReviewPermission(String principalId) {
-//        ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_SPECIAL_REVIEW, form.getProtocolDocument().getProtocol());
-//        return getTaskAuthorizationService().isAuthorized(principalId, task);
-//    }
-    
-    @Override
-    protected boolean isIrbProtocolLinkingEnabledForModule() {
-        return true;
-    }
-
-    @Override
-    public boolean isCanCreateIrbProtocol() {
-        return false;
-    }
-
-    @Override
-    protected List<ProtocolSpecialReview> getSpecialReviews() {
-        return form.getProtocolDocument().getProtocol().getSpecialReviews();
-    }
     
     public TaskAuthorizationService getTaskAuthorizationService() {
         if (taskAuthorizationService == null) {
@@ -78,7 +39,5 @@ public abstract class ProtocolSpecialReviewHelper extends SpecialReviewHelperBas
     public void setTaskAuthorizationService(TaskAuthorizationService taskAuthorizationService) {
         this.taskAuthorizationService = taskAuthorizationService;
     }
-    
-    protected abstract void setNewSpecialReview();
 
 }

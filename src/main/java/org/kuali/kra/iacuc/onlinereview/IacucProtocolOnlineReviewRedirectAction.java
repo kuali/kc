@@ -28,8 +28,11 @@ public class IacucProtocolOnlineReviewRedirectAction extends ProtocolOnlineRevie
     protected String getAdminRoleName() {
         return "IACUC Administrator";
     }
-    protected Class<IacucProtocolOnlineReviewService> getOlrClass() {
+
+    @Override
+    protected Class<? extends ProtocolOnlineReviewService> getProtocolOnlineReviewServiceClassHook() {
         return IacucProtocolOnlineReviewService.class;
     }
+  
 
 }

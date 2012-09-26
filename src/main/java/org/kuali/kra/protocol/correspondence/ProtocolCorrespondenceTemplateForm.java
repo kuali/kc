@@ -21,8 +21,6 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.kuali.kra.iacuc.correspondence.IacucProtocolCorrespondenceTemplate;
-import org.kuali.kra.iacuc.correspondence.IacucProtocolCorrespondenceType;
 import org.kuali.rice.kns.util.ActionFormUtilMap;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
@@ -32,7 +30,7 @@ import org.kuali.rice.krad.service.LookupService;
  * 
  * Form of the ProtocolCorrespondenceTemplate.
  */
-public class ProtocolCorrespondenceTemplateForm extends KualiForm {
+public abstract class ProtocolCorrespondenceTemplateForm extends KualiForm {
 
     private static final long serialVersionUID = 6043169784839779473L;
     
@@ -109,9 +107,11 @@ public class ProtocolCorrespondenceTemplateForm extends KualiForm {
     @SuppressWarnings("unchecked")
     private List<ProtocolCorrespondenceType> initCorrespondenceTypes() {
         LookupService lookupService = KRADServiceLocatorWeb.getLookupService();
-        return (List<ProtocolCorrespondenceType>) lookupService.findCollectionBySearchUnbounded(IacucProtocolCorrespondenceType.class, new HashMap());
+        return (List<ProtocolCorrespondenceType>) lookupService.findCollectionBySearchUnbounded(getProtocolCorrespondenceTypeBOClassHook(), new HashMap());
     }
 
+    protected abstract Class<? extends ProtocolCorrespondenceType> getProtocolCorrespondenceTypeBOClassHook();
+    
     /**
      * 
      * This method resets the input fields for the default correspondence templates and the new committee correspondence templates.
@@ -122,15 +122,19 @@ public class ProtocolCorrespondenceTemplateForm extends KualiForm {
         this.newCorrespondenceTemplates = new ArrayList<ProtocolCorrespondenceTemplate>();
         this.replaceCorrespondenceTemplates = new ArrayList<ProtocolCorrespondenceTemplateList>();
         for (ProtocolCorrespondenceType correspondenceType : this.getCorrespondenceTypes()) {
-            this.newDefaultCorrespondenceTemplates.add(new IacucProtocolCorrespondenceTemplate());
-            this.newCorrespondenceTemplates.add(new IacucProtocolCorrespondenceTemplate());
+            this.newDefaultCorrespondenceTemplates.add(getNewProtocolCorrespondenceTemplateInstanceHook());
+            this.newCorrespondenceTemplates.add(getNewProtocolCorrespondenceTemplateInstanceHook());
             this.replaceCorrespondenceTemplates.add(new ProtocolCorrespondenceTemplateList());
             int typeIndex = correspondenceTypes.indexOf(correspondenceType);
             for (ProtocolCorrespondenceTemplate correspondenceTemplate : correspondenceType.getProtocolCorrespondenceTemplates()) {
-            	this.replaceCorrespondenceTemplates.get(typeIndex).getList().add(new IacucProtocolCorrespondenceTemplate());
+            	this.replaceCorrespondenceTemplates.get(typeIndex).getList().add(getNewProtocolCorrespondenceTemplateInstanceHook());
             }
         }
     }
+
+    protected abstract ProtocolCorrespondenceTemplate getNewProtocolCorrespondenceTemplateInstanceHook();
+    
+    
 
     @Override
     public void populate(HttpServletRequest request) {
