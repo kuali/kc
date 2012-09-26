@@ -18,23 +18,20 @@ package org.kuali.kra.common.committee.print;
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
 
-import org.kuali.kra.iacuc.correspondence.IacucProtocolCorrespondenceTemplateService;
+import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceTemplateService;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceTemplate;
 
 /**
  * 
  * This class identifies the template print functionality for committee schedule reports.
  */
-public class ScheduleTemplatePrint extends TemplatePrint {
+public abstract class ScheduleTemplatePrint extends TemplatePrint {
     
-    private IacucProtocolCorrespondenceTemplateService iacucProtocolCorrespondenceTemplateService;
+    
     private static final long serialVersionUID = -1565960151556324475L;
-    public static final String COMMON_SCHEDULE_TEMPLATE_PRINT_SPRING_NAME = "commonScheduleTemplatePrint";
     public static final String REPORT_PARAMETER_KEY = "protoCorrespTypeCode";
 
     @Override
@@ -46,20 +43,15 @@ public class ScheduleTemplatePrint extends TemplatePrint {
     public List<Source> getXSLTemplates() {
         Source src = new StreamSource();
         ArrayList<Source> sourceList = new ArrayList<Source>();
-        ProtocolCorrespondenceTemplate template = getIacucProtocolCorrespondenceTemplateService().getProtocolCorrespondenceTemplate(getCommitteeId() , getProtoCorrespTypeCode());
+        ProtocolCorrespondenceTemplate template = getProtocolCorrespondenceTemplateService().getProtocolCorrespondenceTemplate(getCommitteeId() , getProtoCorrespTypeCode());
         if (template != null) {
             src = new StreamSource(new ByteArrayInputStream(template.getCorrespondenceTemplate()));
             sourceList.add(src);
         }
         return sourceList;
     }
-    
-    public void setIacucProtocolCorrespondenceTemplateService(IacucProtocolCorrespondenceTemplateService iacucProtocolCorrespondenceTemplateService) {
-        this.iacucProtocolCorrespondenceTemplateService = iacucProtocolCorrespondenceTemplateService;
-    }
-    
-    public IacucProtocolCorrespondenceTemplateService getIacucProtocolCorrespondenceTemplateService() {
-        return this.iacucProtocolCorrespondenceTemplateService;
-    }
 
+    protected abstract ProtocolCorrespondenceTemplateService getProtocolCorrespondenceTemplateService();
+    
+   
 }

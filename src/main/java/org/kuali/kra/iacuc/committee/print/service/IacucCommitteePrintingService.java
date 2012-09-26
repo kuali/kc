@@ -13,19 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.common.committee.print;
+package org.kuali.kra.iacuc.committee.print.service;
 
-/**
- * 
- * This class identifies the template print functionality for committee reports.
- */
-public class CommitteeTemplatePrint extends TemplatePrint {
+import org.kuali.kra.common.committee.print.service.CommitteePrintingServiceBase;
 
-    private static final long serialVersionUID = 8819040007652342082L;
-
-    @Override
-    public String getProtoCorrespTypeCode() {
-        return  (String) getReportParameters().get("protoCorrespTypeCode");
-    }
+public interface IacucCommitteePrintingService extends CommitteePrintingServiceBase {
 
 }
