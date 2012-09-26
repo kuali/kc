@@ -13,13 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.common.committee.print;
+package org.kuali.kra.iacuc.committee.print;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.transform.Source;
 
+import org.kuali.kra.common.committee.print.CommitteeReportType;
 import org.kuali.kra.printing.print.AbstractPrint;
 import org.kuali.kra.printing.util.PrintingUtils;
 
@@ -31,7 +32,7 @@ import org.kuali.kra.printing.util.PrintingUtils;
  * streaming etc.
  * 
  */
-public class CommitteeFutureScheduledMeetingsPrint extends AbstractPrint {
+public class IacucCommitteeFutureScheduledMeetingsPrint extends AbstractPrint {
 
     private static final long serialVersionUID = 8304676699437574667L;
 

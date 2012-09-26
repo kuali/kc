@@ -21,7 +21,7 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.common.committee.bo.CommitteeBatchCorrespondence;
 import org.kuali.kra.common.committee.bo.CommitteeBatchCorrespondenceDetail;
-import org.kuali.kra.common.committee.print.service.CommonCommitteePrintingService;
+import org.kuali.kra.common.committee.print.service.CommitteePrintingServiceBase;
 import org.kuali.kra.common.committee.service.impl.CommitteeBatchCorrespondenceServiceImpl;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
@@ -30,6 +30,7 @@ import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
 import org.kuali.kra.iacuc.actions.genericactions.IacucProtocolGenericActionBean;
 import org.kuali.kra.iacuc.committee.bo.IacucCommitteeBatchCorrespondence;
 import org.kuali.kra.iacuc.committee.bo.IacucCommitteeBatchCorrespondenceDetail;
+import org.kuali.kra.iacuc.committee.print.service.IacucCommitteePrintingService;
 import org.kuali.kra.iacuc.committee.service.IacucCommitteeBatchCorrespondenceService;
 import org.kuali.kra.iacuc.correspondence.IacucBatchCorrespondence;
 import org.kuali.kra.iacuc.correspondence.IacucProtocolCorrespondence;
@@ -178,8 +179,8 @@ public class IacucCommitteeBatchCorrespondenceServiceImpl extends CommitteeBatch
     }
 
     @Override
-    protected CommonCommitteePrintingService getCommitteePrintingService() {
-        return KraServiceLocator.getService(CommonCommitteePrintingService.class);
+    protected CommitteePrintingServiceBase getCommitteePrintingService() {
+        return KraServiceLocator.getService(IacucCommitteePrintingService.class);
     }
 
 }

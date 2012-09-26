@@ -27,11 +27,11 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.common.committee.bo.CommitteeSchedule;
-import org.kuali.kra.common.committee.print.CommitteeXmlStream;
-import org.kuali.kra.common.committee.print.PrintXmlUtilService;
-import org.kuali.kra.common.committee.print.ScheduleXmlStream;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
+import org.kuali.kra.iacuc.committee.print.IacucCommitteeXmlStream;
+import org.kuali.kra.iacuc.committee.print.IacucScheduleXmlStream;
+import org.kuali.kra.iacuc.committee.print.service.IacucPrintXmlUtilService;
 import org.kuali.kra.iacuc.personnel.IacucProtocolPersonRole;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.actions.print.ProtocolXmlStream;
@@ -63,10 +63,10 @@ import edu.mit.coeus.xml.iacuc.ProtocolType.Submissions;
 
 public class IacucProtocolXmlStream extends ProtocolXmlStream {
     
-    private PrintXmlUtilService printXmlUtilService;
+    private IacucPrintXmlUtilService printXmlUtilService;
     private KcPersonService kcPersonService;
-    private ScheduleXmlStream scheduleXmlStream;
-    private CommitteeXmlStream committeeXmlStream;
+    private IacucScheduleXmlStream scheduleXmlStream;
+    private IacucCommitteeXmlStream committeeXmlStream;
     
     protected static final String FLAG_YES = "Yes";
     protected static final String FLAG_NO = "No";
@@ -199,11 +199,11 @@ public class IacucProtocolXmlStream extends ProtocolXmlStream {
             if (isNonEmployee) {
                 ProtocolPersonRolodex rolodex = getBusinessObjectService().findBySinglePrimaryKey(ProtocolPersonRolodex.class,
                         protocolReviewer.getRolodexId());
-                KraServiceLocator.getService(PrintXmlUtilService.class).setPersonXml(rolodex, personType);
+                KraServiceLocator.getService(IacucPrintXmlUtilService.class).setPersonXml(rolodex, personType);
 
             } else {
                 KcPerson kcPerson = getKcPersonService().getKcPersonByPersonId(protocolReviewer.getPersonId()); 
-                KraServiceLocator.getService(PrintXmlUtilService.class).setPersonXml(kcPerson, personType);
+                KraServiceLocator.getService(IacucPrintXmlUtilService.class).setPersonXml(kcPerson, personType);
             }
         }
         submissionDetail.setSubmissionComments(submissionInfoBean.getComments());
@@ -233,8 +233,8 @@ public class IacucProtocolXmlStream extends ProtocolXmlStream {
         if (submissionInfoBean.getYesVoteCount() != null) {
             submissionDetail.setYesVote(BigInteger.valueOf(submissionInfoBean.getYesVoteCount()));
         }
-        KraServiceLocator.getService(PrintXmlUtilService.class).setProtocolSubmissionAction(submissionInfoBean, submissionDetail);
-        KraServiceLocator.getService(PrintXmlUtilService.class).setSubmissionCheckListinfo(submissionInfoBean, submissionDetail);
+        KraServiceLocator.getService(IacucPrintXmlUtilService.class).setProtocolSubmissionAction(submissionInfoBean, submissionDetail);
+        KraServiceLocator.getService(IacucPrintXmlUtilService.class).setSubmissionCheckListinfo(submissionInfoBean, submissionDetail);
         submission.setCurrentSubmissionFlag(currentFlag);
         setMinutes(submissionInfoBean, submission);
         /*if (submissionInfoBean.getCommitteeId() != null) {
@@ -399,7 +399,7 @@ public class IacucProtocolXmlStream extends ProtocolXmlStream {
                             toArray(new edu.mit.coeus.xml.iacuc.InvestigatorType.Unit[0]));
                      
                 }
-                KraServiceLocator.getService(PrintXmlUtilService.class).setPersonRolodexType(protocolPerson, investigator.addNewPerson());
+                KraServiceLocator.getService(IacucPrintXmlUtilService.class).setPersonRolodexType(protocolPerson, investigator.addNewPerson());
             } else if (protocolPerson.getProtocolPersonRoleId().equals(ProtocolPersonRole.ROLE_STUDY_PERSONNEL)) {
                 KeyStudyPersonType keyStudyPerson = protocolType.addNewKeyStudyPerson();
                 if (protocolPerson.getAffiliationType() != null) {
@@ -411,13 +411,13 @@ public class IacucProtocolXmlStream extends ProtocolXmlStream {
                 } else if (protocolPerson.getPerson() != null) {
                     keyStudyPerson.setRole(protocolPerson.getPerson().getDirectoryTitle());
                 }
-                KraServiceLocator.getService(PrintXmlUtilService.class).setPersonRolodexType(protocolPerson, keyStudyPerson.addNewPerson());
+                KraServiceLocator.getService(IacucPrintXmlUtilService.class).setPersonRolodexType(protocolPerson, keyStudyPerson.addNewPerson());
             } else if (protocolPerson.getProtocolPersonRoleId().equals(IacucProtocolPersonRole.ROLE_CORRESPONDENTS)
                   || (protocolPerson.getProtocolPersonRoleId().equals(ProtocolPersonRole.ROLE_CORRESPONDENT_ADMINISTRATOR))) {
                 CorrespondentType correspondent = protocolType.addNewCorrespondent();
                 correspondent.setTypeOfCorrespondent(protocolPerson.getProtocolPersonRole().getDescription());
                 correspondent.setCorrespondentTypeDesc(protocolPerson.getProtocolPersonRole().getDescription());
-                KraServiceLocator.getService(PrintXmlUtilService.class).setPersonRolodexType(protocolPerson, correspondent.addNewPerson());
+                KraServiceLocator.getService(IacucPrintXmlUtilService.class).setPersonRolodexType(protocolPerson, correspondent.addNewPerson());
             }
 
             // TODO : verify code - Code refactor
@@ -488,7 +488,7 @@ public class IacucProtocolXmlStream extends ProtocolXmlStream {
      * 
      * @param irbPrintXmlUtilService The irbPrintXmlUtilService to set.
      */
-    public void setPrintXmlUtilService(PrintXmlUtilService printXmlUtilService) {
+    public void setPrintXmlUtilService(IacucPrintXmlUtilService printXmlUtilService) {
         this.printXmlUtilService = printXmlUtilService;
     }
 
@@ -497,7 +497,7 @@ public class IacucProtocolXmlStream extends ProtocolXmlStream {
      * 
      * @return Returns the irbPrintXmlUtilService.
      */
-    public PrintXmlUtilService getPrintXmlUtilService() {
+    public IacucPrintXmlUtilService getPrintXmlUtilService() {
         return printXmlUtilService;
     }
 
@@ -523,7 +523,7 @@ public class IacucProtocolXmlStream extends ProtocolXmlStream {
      * Sets the scheduleXmlStream attribute value.
      * @param scheduleXmlStream The scheduleXmlStream to set.
      */
-    public void setScheduleXmlStream(ScheduleXmlStream scheduleXmlStream) {
+    public void setScheduleXmlStream(IacucScheduleXmlStream scheduleXmlStream) {
         this.scheduleXmlStream = scheduleXmlStream;
     }
 
@@ -531,7 +531,7 @@ public class IacucProtocolXmlStream extends ProtocolXmlStream {
      * Gets the scheduleXmlStream attribute. 
      * @return Returns the scheduleXmlStream.
      */
-    public ScheduleXmlStream getScheduleXmlStream() {
+    public IacucScheduleXmlStream getScheduleXmlStream() {
         return scheduleXmlStream;
     }
 
@@ -539,7 +539,7 @@ public class IacucProtocolXmlStream extends ProtocolXmlStream {
      * Sets the committeeXmlStream attribute value.
      * @param committeeXmlStream The committeeXmlStream to set.
      */
-    public void setCommitteeXmlStream(CommitteeXmlStream comitteeXmlStream) {
+    public void setCommitteeXmlStream(IacucCommitteeXmlStream comitteeXmlStream) {
         this.committeeXmlStream = comitteeXmlStream;
     }
 
@@ -547,7 +547,7 @@ public class IacucProtocolXmlStream extends ProtocolXmlStream {
      * Gets the committeeXmlStream attribute. 
      * @return Returns the committeeXmlStream.
      */
-    public CommitteeXmlStream getCommitteeXmlStream() {
+    public IacucCommitteeXmlStream getCommitteeXmlStream() {
         return committeeXmlStream;
     }
 

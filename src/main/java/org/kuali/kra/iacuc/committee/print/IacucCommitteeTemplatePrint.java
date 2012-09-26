@@ -13,23 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.common.committee.print;
+package org.kuali.kra.iacuc.committee.print;
+
+import org.kuali.kra.common.committee.print.TemplatePrint;
 
 /**
- * This class provides the implementation for printing Committee Roster.
- * It generates XML that conforms with Certification Report XSD, fetches
- * XSL style-sheets applicable to this XML, returns XML and XSL for any consumer
- * that would use this XML and XSls for any purpose like report generation, PDF
- * streaming etc.
  * 
+ * This class identifies the template print functionality for committee reports.
  */
-public class CommitteeRosterPrint extends TemplatePrint {
+public class IacucCommitteeTemplatePrint extends TemplatePrint {
 
-    private static final long serialVersionUID = -4077775486854400861L;
+    private static final long serialVersionUID = 8819040007652342082L;
 
     @Override
     public String getProtoCorrespTypeCode() {
-        return "15";
+        return  (String) getReportParameters().get("protoCorrespTypeCode");
     }
 
 }

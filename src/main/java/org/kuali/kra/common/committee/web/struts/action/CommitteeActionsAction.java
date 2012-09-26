@@ -39,7 +39,7 @@ import org.kuali.kra.common.committee.rule.event.CommitteeActionGenerateBatchCor
 import org.kuali.kra.common.committee.rule.event.CommitteeActionPrintCommitteeDocumentEvent;
 import org.kuali.kra.common.committee.rule.event.CommitteeActionViewBatchCorrespondenceEvent;
 import org.kuali.kra.common.committee.service.CommitteeBatchCorrespondenceServiceBase;
-import org.kuali.kra.common.committee.print.service.CommonCommitteePrintingService;
+import org.kuali.kra.common.committee.print.service.CommitteePrintingServiceBase;
 import org.kuali.kra.common.committee.web.struts.form.CommitteeForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.TaskName;
@@ -373,7 +373,7 @@ public abstract class CommitteeActionsAction extends CommitteeAction {
     
     protected abstract CommitteeBatchCorrespondenceServiceBase getCommitteeBatchCorrespondenceService();
     
-    protected abstract CommonCommitteePrintingService getCommitteePrintingService();
+    protected abstract CommitteePrintingServiceBase getCommitteePrintingService();
 
     protected abstract CommitteeBatchCorrespondenceDao getCommitteeBatchCorrespondenceDao();
 

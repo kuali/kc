@@ -861,60 +861,59 @@
 		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService" p:serviceNameSpaceURI="" />
     
     <!-- Protocol Print -->
-	<bean id="printXmlUtilService"
-		class="org.kuali.kra.common.committee.print.PrintXmlUtilServiceImpl">
-		<property name="businessObjectService" ref="businessObjectService" />
-		<property name="dateTimeService" ref="dateTimeService" />  
-		<property name="reviewCommentsService" ref="iacucReviewCommentsService" />
+<!-- 	<bean id="iacucPrintXmlUtilService" -->
+<!-- 		class="org.kuali.kra.iacuc.committee.print.service.impl.IacucPrintXmlUtilServiceImpl"> -->
+<!-- 		<property name="businessObjectService" ref="businessObjectService" /> -->
+<!-- 		<property name="dateTimeService" ref="dateTimeService" />   -->
+<!-- 		<property name="reviewCommentsService" ref="iacucReviewCommentsService" /> -->
 		
-	</bean>
+<!-- 	</bean> -->
 	
     
-	<bean id="commonScheduleXmlStream" class="org.kuali.kra.common.committee.print.ScheduleXmlStream"
-		parent="printBaseXmlStream">
-		<property name="printXmlUtilService">
-			<ref bean="printXmlUtilService" />
-		</property>
-		<property name="committeeMembershipService">
-			<ref bean="iacucCommitteeMembershipService" />
-		</property>
-		<property name="kcPersonService">
-			<ref bean="kcPersonService" />
-		</property>
-	</bean>
+<!-- 	<bean id="iacucScheduleXmlStream" class="org.kuali.kra.iacuc.committee.print.IacucScheduleXmlStream" -->
+<!-- 		parent="printBaseXmlStream"> -->
+<!-- 		<property name="printXmlUtilService"> -->
+<!-- 			<ref bean="iacucPrintXmlUtilService" /> -->
+<!-- 		</property> -->
+<!-- 		<property name="committeeMembershipService"> -->
+<!-- 			<ref bean="iacucCommitteeMembershipService" /> -->
+<!-- 		</property> -->
+<!-- 		<property name="kcPersonService"> -->
+<!-- 			<ref bean="kcPersonService" /> -->
+<!-- 		</property> -->
+<!-- 	</bean> -->
     
-	<bean id="commonCommitteeXmlStream" class="org.kuali.kra.common.committee.print.CommitteeXmlStream"
-		parent="printBaseXmlStream">
-		<property name="scheduleXmlStream">
-			<ref bean="commonScheduleXmlStream" />
-		</property>
-		<property name="printXmlUtilService">
-			<ref bean="printXmlUtilService" />
-		</property>
-	</bean>
+<!-- 	<bean id="iacucCommitteeXmlStream" class="org.kuali.kra.iacuc.committee.print.IacucCommitteeXmlStream" parent="printBaseXmlStream"> -->
+<!-- 		<property name="scheduleXmlStream"> -->
+<!-- 			<ref bean="iacucScheduleXmlStream" /> -->
+<!-- 		</property> -->
+<!-- 		<property name="printXmlUtilService"> -->
+<!-- 			<ref bean="iacucPrintXmlUtilService" /> -->
+<!-- 		</property> -->
+<!-- 	</bean> -->
     
     <bean id="iacucProtocolXmlStream"
         class="org.kuali.kra.iacuc.actions.print.IacucProtocolXmlStream" parent="printBaseXmlStream">
         <property name="printXmlUtilService">
-            <ref bean="printXmlUtilService" />
+            <ref bean="iacucPrintXmlUtilService" />
         </property>
         <property name="kcPersonService">
             <ref bean="kcPersonService" />
         </property>
         <property name="scheduleXmlStream">
-            <ref bean="commonScheduleXmlStream" />
+            <ref bean="iacucScheduleXmlStream" />
         </property>
         <property name="committeeXmlStream">
-            <ref bean="commonCommitteeXmlStream" />
+            <ref bean="iacucCommitteeXmlStream" />
         </property>
     </bean>
     
     <bean id="iacucProtocolSummaryXmlStream"
         class="org.kuali.kra.iacuc.actions.print.IacucProtocolSummaryXmlStream" parent="printBaseXmlStream">
         <property name="iacucProtocolActionService" ref="iacucProtocolActionService" />
-        <property name="printXmlUtilService" ref="printXmlUtilService" />
-        <property name="scheduleXmlStream" ref="commonScheduleXmlStream" />
-        <property name="committeeXmlStream" ref="commonCommitteeXmlStream" />
+        <property name="printXmlUtilService" ref="iacucPrintXmlUtilService" />
+        <property name="scheduleXmlStream" ref="iacucScheduleXmlStream" />
+        <property name="committeeXmlStream" ref="iacucCommitteeXmlStream" />
     </bean>
     <bean id="iacucCorrespondenceXmlStream"
             class="org.kuali.kra.iacuc.actions.print.IacucCorrespondenceXmlStream" parent="printBaseXmlStream">
@@ -1111,16 +1110,16 @@
     </bean>
     
         
-    <bean id="iacucCommitteeBatchCorrespondenceService" class="org.kuali.kra.iacuc.committee.service.impl.IacucCommitteeBatchCorrespondenceServiceImpl">
-        <property name="businessObjectService" ref="businessObjectService" />
-        <property name="protocolDao" ref="iacucProtocolDao" />
-        <property name="protocolGenericActionService" ref="iacucProtocolGenericActionService" />
-        <property name="protocolCorrespondenceTemplateService" ref="iacucProtocolCorrespondenceTemplateService" />
-        <property name="documentService" ref="documentService" />
-        <property name="kcPersonService" ref="kcPersonService" />
-        <property name="kcNotificationService" ref="kcNotificationService" />
-        <property name="dateTimeService" ref="dateTimeService" />
-    </bean>
+<!--     <bean id="iacucCommitteeBatchCorrespondenceService" class="org.kuali.kra.iacuc.committee.service.impl.IacucCommitteeBatchCorrespondenceServiceImpl"> -->
+<!--         <property name="businessObjectService" ref="businessObjectService" /> -->
+<!--         <property name="protocolDao" ref="iacucProtocolDao" /> -->
+<!--         <property name="protocolGenericActionService" ref="iacucProtocolGenericActionService" /> -->
+<!--         <property name="protocolCorrespondenceTemplateService" ref="iacucProtocolCorrespondenceTemplateService" /> -->
+<!--         <property name="documentService" ref="documentService" /> -->
+<!--         <property name="kcPersonService" ref="kcPersonService" /> -->
+<!--         <property name="kcNotificationService" ref="kcNotificationService" /> -->
+<!--         <property name="dateTimeService" ref="dateTimeService" /> -->
+<!--     </bean> -->
     
     <bean id="iacucResearchAreasService" class="org.kuali.kra.iacuc.service.impl.IacucResearchAreasServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
@@ -1129,7 +1128,7 @@
     
     <bean id="iacucRenewalReminderStream" class="org.kuali.kra.iacuc.actions.print.IacucRenewalReminderStream" parent="printBaseXmlStream">
          <property name="protocolXmlStream" ref="iacucProtocolXmlStream" />
-         <property name="committeeXmlStream" ref="commonCommitteeXmlStream" />
+         <property name="committeeXmlStream" ref="iacucCommitteeXmlStream" />
     </bean>
 
 </beans>

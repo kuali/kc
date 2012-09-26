@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.common.committee.print;
+package org.kuali.kra.iacuc.committee.print.service;
 
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.common.committee.bo.CommitteeSchedule;
@@ -31,9 +31,7 @@ import edu.mit.coeus.xml.iacuc.SubmissionDetailsType;
 /**
  * This class has different helper methods to populate data for Person XML data.
  */
-public interface PrintXmlUtilService {
-    
-    public static final String COMMON_PRINT_XML_UTIL_SERVICE_SPRING_NAME = "commonPrintXmlUtilService";
+public interface IacucPrintXmlUtilService {
     
     public void setPersonXml(KcPerson person, PersonType personType);
     public void setPersonXml(ProtocolPersonRolodex rolodex, PersonType personType);
