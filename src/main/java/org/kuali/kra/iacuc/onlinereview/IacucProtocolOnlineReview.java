@@ -24,6 +24,13 @@ import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReview;
  * is created by the IRB Admin as request.
  */
 public class IacucProtocolOnlineReview extends ProtocolOnlineReview {
+    
+    
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = -3526853926706200095L;
+
     private String determinationReviewTypeCode;
 
     private Date determinationReviewDateDue;

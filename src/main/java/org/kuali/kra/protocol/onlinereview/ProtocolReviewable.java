@@ -17,7 +17,6 @@ package org.kuali.kra.protocol.onlinereview;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.common.committee.bo.CommitteeSchedule;
-import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReview;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -71,7 +70,7 @@ public abstract class ProtocolReviewable<CS extends CommitteeSchedule<CS, ?, ?, 
     public boolean isAccepted() {
         boolean accepted = false;
         if (getProtocolOnlineReviewIdFk() != null) {
-            IacucProtocolOnlineReview protocolOnlineReview = getBusinessObjectService().findBySinglePrimaryKey(IacucProtocolOnlineReview.class, getProtocolOnlineReviewIdFk());
+            ProtocolOnlineReview protocolOnlineReview = getBusinessObjectService().findBySinglePrimaryKey(getProtocolOnlineReviewBOClassHook(), getProtocolOnlineReviewIdFk());
             if (protocolOnlineReview.isAdminAccepted()) {
                 accepted = true;
             }
@@ -82,6 +81,9 @@ public abstract class ProtocolReviewable<CS extends CommitteeSchedule<CS, ?, ?, 
         return accepted;
     }
 
+    protected abstract Class<? extends ProtocolOnlineReview> getProtocolOnlineReviewBOClassHook();
+    
+    
     private BusinessObjectService getBusinessObjectService() {
         return KraServiceLocator.getService(BusinessObjectService.class);
     }

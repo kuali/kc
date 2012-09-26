@@ -26,7 +26,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kra.iacuc.correspondence.IacucProtocolCorrespondenceTemplateAuthorizationService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
@@ -43,7 +42,7 @@ import org.kuali.rice.krad.util.KRADConstants;
  * 
  * Action class for ProtocolCorrespondenceTemplate.
  */
-public class ProtocolCorrespondenceTemplateAction extends KualiDocumentActionBase {
+public abstract class ProtocolCorrespondenceTemplateAction extends KualiDocumentActionBase {
 
     // signifies that a response has already be handled therefore forwarding to obtain a response is not needed. 
     private static final ActionForward RESPONSE_ALREADY_HANDLED = null;
@@ -65,7 +64,7 @@ public class ProtocolCorrespondenceTemplateAction extends KualiDocumentActionBas
         // initialize form on initial page load and on page reload to erase any old user data
         if (StringUtils.equals(request.getParameter("init"), "true")
                 || StringUtils.equals((String) request.getAttribute("methodToCallAttribute"), "methodToCall.reload.y")) {
-            ProtocolCorrespondenceTemplateForm templateForm = new ProtocolCorrespondenceTemplateForm();
+            ProtocolCorrespondenceTemplateForm templateForm = getNewProtocolCorrespondenceTemplateFormInstanceHook();
             ((ProtocolCorrespondenceTemplateForm) form).setCorrespondenceTypes(templateForm.getCorrespondenceTypes());
             ((ProtocolCorrespondenceTemplateForm) form).setNewDefaultCorrespondenceTemplates(templateForm.getNewDefaultCorrespondenceTemplates());
             ((ProtocolCorrespondenceTemplateForm) form).setNewCorrespondenceTemplates(templateForm.getNewCorrespondenceTemplates());
@@ -75,6 +74,9 @@ public class ProtocolCorrespondenceTemplateAction extends KualiDocumentActionBas
         
         return super.execute(mapping, form, request, response);
     }
+    
+    protected abstract ProtocolCorrespondenceTemplateForm getNewProtocolCorrespondenceTemplateFormInstanceHook();
+    
     
     /**
      * 
@@ -463,7 +465,10 @@ public class ProtocolCorrespondenceTemplateAction extends KualiDocumentActionBas
     }
     
     private ProtocolCorrespondenceTemplateAuthorizationService getProtocolCorrespondenceTemplateAuthorizationService() {
-        return KraServiceLocator.getService(IacucProtocolCorrespondenceTemplateAuthorizationService.class);
+        return KraServiceLocator.getService(getProtocolCorrespondenceTemplateAuthorizationServiceClassHook());
     }
+
+    protected abstract Class<? extends ProtocolCorrespondenceTemplateAuthorizationService> getProtocolCorrespondenceTemplateAuthorizationServiceClassHook();
+    
 
 }
