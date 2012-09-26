@@ -30,12 +30,12 @@ import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.common.committee.bo.Committee;
 import org.kuali.kra.common.committee.bo.CommitteeSchedule;
-import org.kuali.kra.common.committee.print.CommitteeXmlStream;
-import org.kuali.kra.common.committee.print.PrintXmlUtilService;
-import org.kuali.kra.common.committee.print.ScheduleXmlStream;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolActionService;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
+import org.kuali.kra.iacuc.committee.print.IacucCommitteeXmlStream;
+import org.kuali.kra.iacuc.committee.print.IacucScheduleXmlStream;
+import org.kuali.kra.iacuc.committee.print.service.IacucPrintXmlUtilService;
 import org.kuali.kra.iacuc.customdata.IacucProtocolCustomData;
 import org.kuali.kra.iacuc.personnel.IacucProtocolPersonRole;
 import org.kuali.kra.iacuc.species.IacucProtocolSpecies;
@@ -98,9 +98,9 @@ public class IacucProtocolSummaryXmlStream extends ProtocolSummaryXmlStream {
     private IacucProtocolActionService iacucProtocolActionService;
     
     private BusinessObjectService businessObjectService;
-    private PrintXmlUtilService printXmlUtilService;
-    private ScheduleXmlStream scheduleXmlStream;
-    private CommitteeXmlStream committeeXmlStream;
+    private IacucPrintXmlUtilService printXmlUtilService;
+    private IacucScheduleXmlStream scheduleXmlStream;
+    private IacucCommitteeXmlStream committeeXmlStream;
     
     
     protected static final String FLAG_YES = "Yes";
@@ -830,7 +830,7 @@ public class IacucProtocolSummaryXmlStream extends ProtocolSummaryXmlStream {
      * Sets the scheduleXmlStream attribute value.
      * @param scheduleXmlStream The scheduleXmlStream to set.
      */
-    public void setScheduleXmlStream(ScheduleXmlStream scheduleXmlStream) {
+    public void setScheduleXmlStream(IacucScheduleXmlStream scheduleXmlStream) {
         this.scheduleXmlStream = scheduleXmlStream;
     }
 
@@ -838,7 +838,7 @@ public class IacucProtocolSummaryXmlStream extends ProtocolSummaryXmlStream {
      * Gets the scheduleXmlStream attribute. 
      * @return Returns the scheduleXmlStream.
      */
-    public ScheduleXmlStream getScheduleXmlStream() {
+    public IacucScheduleXmlStream getScheduleXmlStream() {
         return scheduleXmlStream;
     }
 
@@ -846,7 +846,7 @@ public class IacucProtocolSummaryXmlStream extends ProtocolSummaryXmlStream {
      * Sets the committeeXmlStream attribute value.
      * @param committeeXmlStream The committeeXmlStream to set.
      */
-    public void setCommitteeXmlStream(CommitteeXmlStream comitteeXmlStream) {
+    public void setCommitteeXmlStream(IacucCommitteeXmlStream comitteeXmlStream) {
         this.committeeXmlStream = comitteeXmlStream;
     }
 
@@ -854,7 +854,7 @@ public class IacucProtocolSummaryXmlStream extends ProtocolSummaryXmlStream {
      * Gets the committeeXmlStream attribute. 
      * @return Returns the committeeXmlStream.
      */
-    public CommitteeXmlStream getCommitteeXmlStream() {
+    public IacucCommitteeXmlStream getCommitteeXmlStream() {
         return committeeXmlStream;
     }    
        
@@ -863,7 +863,7 @@ public class IacucProtocolSummaryXmlStream extends ProtocolSummaryXmlStream {
      * 
      * @param printXmlUtilService The printXmlUtilService to set.
      */
-    public void setPrintXmlUtilService(PrintXmlUtilService printXmlUtilService) {
+    public void setPrintXmlUtilService(IacucPrintXmlUtilService printXmlUtilService) {
         this.printXmlUtilService = printXmlUtilService;
     }
 
@@ -872,7 +872,7 @@ public class IacucProtocolSummaryXmlStream extends ProtocolSummaryXmlStream {
      * 
      * @return Returns the printXmlUtilService.
      */
-    public PrintXmlUtilService getPrintXmlUtilService() {
+    public IacucPrintXmlUtilService getPrintXmlUtilService() {
         return printXmlUtilService;
     }
     

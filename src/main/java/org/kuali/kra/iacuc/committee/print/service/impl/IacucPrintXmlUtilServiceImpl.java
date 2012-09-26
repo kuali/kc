@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.common.committee.print;
+package org.kuali.kra.iacuc.committee.print.service.impl;
 
 import java.math.BigInteger;
 import java.util.Calendar;
@@ -27,6 +27,7 @@ import org.kuali.kra.common.committee.meeting.CommScheduleActItem;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.iacuc.actions.IacucProtocolAction;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
+import org.kuali.kra.iacuc.committee.print.service.IacucPrintXmlUtilService;
 import org.kuali.kra.iacuc.personnel.IacucProtocolPersonRolodex;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.Protocol;
@@ -48,7 +49,7 @@ import edu.mit.coeus.xml.iacuc.SubmissionDetailsType;
 /**
  * This class...
  */
-public class PrintXmlUtilServiceImpl implements PrintXmlUtilService {
+public class IacucPrintXmlUtilServiceImpl implements IacucPrintXmlUtilService {
 
     private BusinessObjectService businessObjectService;
     private DateTimeService dateTimeService;

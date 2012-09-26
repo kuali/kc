@@ -20,12 +20,13 @@ import java.sql.Date;
 import org.kuali.kra.common.committee.bo.Committee;
 import org.kuali.kra.common.committee.dao.CommitteeBatchCorrespondenceDao;
 import org.kuali.kra.common.committee.document.authorization.CommitteeTask;
-import org.kuali.kra.common.committee.print.service.CommonCommitteePrintingService;
+import org.kuali.kra.common.committee.print.service.CommitteePrintingServiceBase;
 import org.kuali.kra.common.committee.rule.event.CommitteeActionGenerateBatchCorrespondenceEvent;
 import org.kuali.kra.common.committee.service.CommitteeBatchCorrespondenceServiceBase;
 import org.kuali.kra.common.committee.web.struts.action.CommitteeActionsAction;
 import org.kuali.kra.iacuc.committee.bo.IacucCommittee;
 import org.kuali.kra.iacuc.committee.dao.IacucCommitteeBatchCorrespondenceDao;
+import org.kuali.kra.iacuc.committee.print.service.IacucCommitteePrintingService;
 import org.kuali.kra.iacuc.committee.rule.event.IacucCommitteeActionGenerateBatchCorrespondenceEvent;
 import org.kuali.kra.iacuc.committee.service.IacucCommitteeBatchCorrespondenceService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -52,8 +53,8 @@ public class IacucCommitteeActionsAction extends CommitteeActionsAction {
     }
 
     @Override
-    protected CommonCommitteePrintingService getCommitteePrintingService() {
-        return KraServiceLocator.getService(CommonCommitteePrintingService.class);
+    protected CommitteePrintingServiceBase getCommitteePrintingService() {
+        return KraServiceLocator.getService(IacucCommitteePrintingService.class);
     }
 
     @Override

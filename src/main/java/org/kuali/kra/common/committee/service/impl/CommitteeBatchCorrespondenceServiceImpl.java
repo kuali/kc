@@ -29,7 +29,7 @@ import org.kuali.kra.common.committee.bo.CommitteeBatchCorrespondence;
 import org.kuali.kra.common.committee.bo.CommitteeBatchCorrespondenceDetail;
 import org.kuali.kra.common.committee.print.CommitteeReportType;
 import org.kuali.kra.common.committee.service.CommitteeBatchCorrespondenceServiceBase;
-import org.kuali.kra.common.committee.print.service.CommonCommitteePrintingService;
+import org.kuali.kra.common.committee.print.service.CommitteePrintingServiceBase;
 import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -457,7 +457,7 @@ public abstract class CommitteeBatchCorrespondenceServiceImpl implements Committ
     protected abstract Class<? extends BatchCorrespondence> getBatchCorrespondenceBOClassHook();
 
     
-    protected abstract CommonCommitteePrintingService getCommitteePrintingService();
+    protected abstract CommitteePrintingServiceBase getCommitteePrintingService();
     
 // TODO *********commented the code below during IACUC refactoring*********     
 //    protected CommonCommitteePrintingService getCommitteePrintingService() {

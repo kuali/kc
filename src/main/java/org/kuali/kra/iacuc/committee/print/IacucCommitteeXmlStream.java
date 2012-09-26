@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.common.committee.print;
+package org.kuali.kra.iacuc.committee.print;
 
 import java.math.BigInteger;
 import java.util.Calendar;
@@ -32,6 +32,7 @@ import org.kuali.kra.common.committee.bo.CommitteeMembershipRole;
 import org.kuali.kra.common.committee.bo.CommitteeResearchArea;
 import org.kuali.kra.common.committee.bo.CommitteeSchedule;
 import org.kuali.kra.document.ResearchDocumentBase;
+import org.kuali.kra.iacuc.committee.print.service.IacucPrintXmlUtilService;
 import org.kuali.kra.protocol.personnel.ProtocolPersonRolodex;
 import org.kuali.kra.printing.xmlstream.PrintBaseXmlStream;
 
@@ -51,10 +52,10 @@ import edu.mit.coeus.xml.iacuc.ScheduleType;
  * committee reports. The data for XML is derived from
  * {@link ResearchDocumentBase} and {@link Map} of details passed to the class.
  */
-public class CommitteeXmlStream extends PrintBaseXmlStream {
+public class IacucCommitteeXmlStream extends PrintBaseXmlStream {
 
-    private ScheduleXmlStream scheduleXmlStream;
-    private PrintXmlUtilService printXmlUtilService;
+    private IacucScheduleXmlStream scheduleXmlStream;
+    private IacucPrintXmlUtilService printXmlUtilService;
     /**
      * This method generates XML committee report. It uses data passed in
      * {@link ResearchDocumentBase} for populating the XML nodes. The XMl once
@@ -219,28 +220,28 @@ public class CommitteeXmlStream extends PrintBaseXmlStream {
      * Sets the scheduleXmlStream attribute value.
      * @param scheduleXmlStream The scheduleXmlStream to set.
      */
-    public void setScheduleXmlStream(ScheduleXmlStream scheduleXmlStream) {
+    public void setScheduleXmlStream(IacucScheduleXmlStream scheduleXmlStream) {
         this.scheduleXmlStream = scheduleXmlStream;
     }
     /**
      * Gets the scheduleXmlStream attribute. 
      * @return Returns the scheduleXmlStream.
      */
-    public ScheduleXmlStream getScheduleXmlStream() {
+    public IacucScheduleXmlStream getScheduleXmlStream() {
         return scheduleXmlStream;
     }
     /**
      * Sets the irbPrintXmlUtilService attribute value.
      * @param irbPrintXmlUtilService The irbPrintXmlUtilService to set.
      */
-    public void setPrintXmlUtilService(PrintXmlUtilService printXmlUtilService) {
+    public void setPrintXmlUtilService(IacucPrintXmlUtilService printXmlUtilService) {
         this.printXmlUtilService = printXmlUtilService;
     }
     /**
      * Gets the irbPrintXmlUtilService attribute. 
      * @return Returns the irbPrintXmlUtilService.
      */
-    public PrintXmlUtilService getPrintXmlUtilService() {
+    public IacucPrintXmlUtilService getPrintXmlUtilService() {
         return printXmlUtilService;
     } 
 

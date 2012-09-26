@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.common.committee.print;
+package org.kuali.kra.iacuc.committee.print;
 
 import java.math.BigInteger;
 import java.text.ParseException;
@@ -36,6 +36,7 @@ import org.kuali.kra.common.committee.meeting.CommScheduleActItem;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleAttendance;
 import org.kuali.kra.common.committee.service.CommitteeMembershipServiceBase;
 import org.kuali.kra.iacuc.committee.bo.IacucCommitteeSchedule;
+import org.kuali.kra.iacuc.committee.print.service.IacucPrintXmlUtilService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.printing.xmlstream.PrintBaseXmlStream;
 import org.kuali.kra.protocol.Protocol;
@@ -63,10 +64,11 @@ import edu.mit.coeus.xml.iacuc.SubmissionDetailsType;
 import edu.mit.coeus.xml.iacuc.SubmissionDetailsType.SubmissionChecklistInfo;
 import edu.mit.coeus.xml.iacuc.ScheduleType;
 
-public class ScheduleXmlStream extends PrintBaseXmlStream {
+public class IacucScheduleXmlStream extends PrintBaseXmlStream {
+    
     private CommitteeMembershipServiceBase committeeMembershipService;
     private KcPersonService kcPersonService;
-    private PrintXmlUtilService printXmlUtilService;
+    private IacucPrintXmlUtilService printXmlUtilService;
     private String EXPEDIT_ACTION_TYPE_CODE = "205";
     private String EXEMPT_ACTION_TYPE_CODE = "206";
     private String FOLLOW_UP_ACTION_CODE = "109";
@@ -107,7 +109,7 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
         
         //For some reason Spring isn't always populating this service.  SIGH!
         if (getPrintXmlUtilService() == null) {
-            printXmlUtilService = KraServiceLocator.getService(PrintXmlUtilService.COMMON_PRINT_XML_UTIL_SERVICE_SPRING_NAME);
+            printXmlUtilService = KraServiceLocator.getService(IacucPrintXmlUtilService.class);
         }
         
         getPrintXmlUtilService().setMinutes(committeeSchedule, schedule);
@@ -613,7 +615,7 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
         this.kcPersonService = kcPersonService;
     }
 
-    public PrintXmlUtilService getPrintXmlUtilService() {
+    public IacucPrintXmlUtilService getPrintXmlUtilService() {
         return this.printXmlUtilService;
     }
 
@@ -623,7 +625,7 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
      * 
      * @param irbPrintXmlUtilService The irbPrintXmlUtilService to set.
      */
-    public void setPrintXmlUtilService(PrintXmlUtilService PrintXmlUtilService) {
+    public void setPrintXmlUtilService(IacucPrintXmlUtilService PrintXmlUtilService) {
         this.printXmlUtilService = printXmlUtilService;
     }
 

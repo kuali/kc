@@ -35,7 +35,7 @@ import org.kuali.kra.common.committee.print.CommitteeReportType;
 import org.kuali.kra.common.committee.print.ScheduleTemplatePrint;
 import org.kuali.kra.common.committee.rule.event.CommitteeActionPrintCommitteeDocumentEvent;
 import org.kuali.kra.common.committee.service.CommonCommitteeNotificationService;
-import org.kuali.kra.common.committee.print.service.CommonCommitteePrintingService;
+import org.kuali.kra.common.committee.print.service.CommitteePrintingServiceBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -229,7 +229,7 @@ public abstract class MeetingActionsAction extends MeetingAction {
     }
     
     
-    protected abstract CommonCommitteePrintingService getCommitteePrintingService();
+    protected abstract CommitteePrintingServiceBase getCommitteePrintingService();
     
 // TODO *********commented the code below during IACUC refactoring*********     
 //    private CommonCommitteePrintingService getCommitteePrintingService() {

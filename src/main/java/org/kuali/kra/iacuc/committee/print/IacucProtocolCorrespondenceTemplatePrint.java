@@ -13,15 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.common.committee.print;
+package org.kuali.kra.iacuc.committee.print;
 
+import org.kuali.kra.common.committee.print.TemplatePrint;
+import org.kuali.kra.iacuc.actions.print.IacucProtocolPrintWatermark;
+import org.kuali.kra.protocol.actions.print.ProtocolPrintWatermark;
 import org.kuali.kra.util.watermark.Watermarkable;
 
 /**
  * 
  * This class identifies the template print functionality for committee reports.
  */
-public class ProtocolBatchCorrespondencePrint extends TemplatePrint {
+public class IacucProtocolCorrespondenceTemplatePrint extends TemplatePrint {
 
     private static final long serialVersionUID = 8304381236192765809L;
 
@@ -46,13 +49,9 @@ public class ProtocolBatchCorrespondencePrint extends TemplatePrint {
      */
     @Override
     public Watermarkable getWatermarkable() {
-        // TODO IRB specific should go in subclassed IRB - commented as part of code lifted for base
-        /*
-        ProtocolPrintWatermark prtocolPrintWatermark = new ProtocolPrintWatermark();
+        ProtocolPrintWatermark prtocolPrintWatermark = new IacucProtocolPrintWatermark();
         prtocolPrintWatermark.setPersistableBusinessObject(getPrintableBusinessObject());
         return prtocolPrintWatermark;
-        */
-        return null;
     }
 
 }
