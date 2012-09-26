@@ -18,9 +18,13 @@ package org.kuali.kra.iacuc.onlinereview;
 import org.kuali.kra.iacuc.IacucProtocolForm;
 import org.kuali.kra.iacuc.actions.reviewcomments.IacucReviewAttachmentsBean;
 import org.kuali.kra.iacuc.actions.reviewcomments.IacucReviewCommentsBean;
+import org.kuali.kra.iacuc.actions.reviewcomments.IacucReviewCommentsService;
 import org.kuali.kra.protocol.actions.reviewcomments.ReviewAttachmentsBean;
 import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsBean;
+import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsService;
 import org.kuali.kra.protocol.onlinereview.OnlineReviewsActionHelper;
+import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewForm;
+import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewService;
 
 public class IacucOnlineReviewsActionHelper  extends  OnlineReviewsActionHelper {
    
@@ -44,6 +48,24 @@ public class IacucOnlineReviewsActionHelper  extends  OnlineReviewsActionHelper 
     @Override
     protected ReviewCommentsBean getNewReviewCommentsBeanInstanceHook(String errorPropertyKey) {
         return new IacucReviewCommentsBean(errorPropertyKey);
+    }
+
+
+    @Override
+    protected ProtocolOnlineReviewForm getNewProtocolOnlineReviewFormInstanceHook() throws Exception {
+        return new IacucProtocolOnlineReviewForm();
+    }
+
+
+    @Override
+    protected Class<? extends ProtocolOnlineReviewService> getProtocolOnlineReviewServiceClassHook() {
+        return IacucProtocolOnlineReviewService.class;
+    }
+
+
+    @Override
+    protected Class<? extends ReviewCommentsService> getReviewCommentsServiceClassHook() {
+        return IacucReviewCommentsService.class;
     }
 
 

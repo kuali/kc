@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.iacuc.onlinereview;
 
+import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReview;
 import org.kuali.kra.protocol.onlinereview.ProtocolReviewAttachment;
 
 public class IacucProtocolReviewAttachment extends ProtocolReviewAttachment {
@@ -23,5 +24,10 @@ public class IacucProtocolReviewAttachment extends ProtocolReviewAttachment {
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = -770060655670345723L;
+    
+    @Override
+    protected Class<? extends ProtocolOnlineReview> getProtocolOnlineReviewBOClassHook() {
+        return IacucProtocolOnlineReview.class;
+    }
 
 }

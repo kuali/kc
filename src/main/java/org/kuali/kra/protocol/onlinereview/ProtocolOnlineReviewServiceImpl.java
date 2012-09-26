@@ -27,19 +27,15 @@ import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.common.committee.bo.CommitteeMembership;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.common.committee.service.CommitteeServiceBase;
-import org.kuali.kra.iacuc.IacucProtocolOnlineReviewDocument;
-import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.kew.KraDocumentRejectionService;
 import org.kuali.kra.protocol.Protocol;
-import org.kuali.kra.protocol.ProtocolDocument;
 import org.kuali.kra.protocol.ProtocolFinderDao;
 import org.kuali.kra.protocol.ProtocolOnlineReviewDocument;
 import org.kuali.kra.protocol.actions.assignreviewers.ProtocolAssignReviewersService;
 import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsService;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewer;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
-import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionStatus;
 import org.kuali.kra.protocol.personnel.ProtocolPerson;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.KraWorkflowService;
@@ -154,7 +150,7 @@ public abstract class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineR
         DocumentHeader docHeader = new DocumentHeader();
         docHeader.setWorkflowDocument(workflowDocument);
         docHeader.setDocumentNumber(workflowDocument.getDocumentId().toString());
-        protocolReviewDocument = new IacucProtocolOnlineReviewDocument();
+        protocolReviewDocument = getNewProtocolOnlineReviewDocumentInstanceHook();
         protocolReviewDocument.setDocumentNumber(docHeader.getDocumentNumber());
         protocolReviewDocument.setDocumentHeader(docHeader);
         
@@ -181,6 +177,9 @@ public abstract class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineR
         return protocolReviewDocument;
     }
     
+    protected abstract ProtocolOnlineReviewDocument getNewProtocolOnlineReviewDocumentInstanceHook();
+    
+
     protected abstract String getProtocolOLRSavedStatusCodeHook();
 
     /**
