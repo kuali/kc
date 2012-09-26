@@ -13,20 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.common.committee.print.service.impl;
+package org.kuali.kra.iacuc.committee.print.service.impl;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.List;
 
-import org.kuali.kra.common.committee.print.CommitteeFutureScheduledMeetingsPrint;
 import org.kuali.kra.common.committee.print.CommitteeReportType;
-import org.kuali.kra.common.committee.print.CommitteeRosterPrint;
-import org.kuali.kra.common.committee.print.CommitteeTemplatePrint;
-import org.kuali.kra.common.committee.print.ProtocolBatchCorrespondencePrint;
-import org.kuali.kra.common.committee.print.ProtocolCorrespondenceTemplatePrint;
 import org.kuali.kra.common.committee.print.ScheduleTemplatePrint;
-import org.kuali.kra.common.committee.print.service.CommonCommitteePrintingService;
+import org.kuali.kra.iacuc.committee.print.IacucCommitteeFutureScheduledMeetingsPrint;
+import org.kuali.kra.iacuc.committee.print.IacucCommitteeRosterPrint;
+import org.kuali.kra.iacuc.committee.print.IacucCommitteeTemplatePrint;
+import org.kuali.kra.iacuc.committee.print.IacucScheduleTemplatePrint;
+import org.kuali.kra.iacuc.committee.print.IacucProtocolBatchCorrespondencePrint;
+import org.kuali.kra.iacuc.committee.print.IacucProtocolCorrespondenceTemplatePrint;
+import org.kuali.kra.iacuc.committee.print.service.IacucCommitteePrintingService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.printing.Printable;
@@ -39,16 +40,16 @@ import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
  * 
  * This class implements the CommitteePrintService.
  */
-public class CommitteePrintingServiceImpl extends PrintingServiceImpl implements CommonCommitteePrintingService {
+public class IacucCommitteePrintingServiceImpl extends PrintingServiceImpl implements IacucCommitteePrintingService {
 
     private static final String ERROR_MESSAGE = "Unknown report type specified";
     
-    private CommitteeTemplatePrint committeeTemplatePrint;
+    private IacucCommitteeTemplatePrint committeeTemplatePrint;
     private ScheduleTemplatePrint scheduleTemplatePrint;
-    private ProtocolCorrespondenceTemplatePrint protocolCorrespondenceTemplatePrint;
-    private ProtocolBatchCorrespondencePrint protocolBatchCorrespondencePrint;
-    private CommitteeRosterPrint committeeRosterPrint;
-    private CommitteeFutureScheduledMeetingsPrint committeeFutureScheduledMeetingsPrint;
+    private IacucProtocolCorrespondenceTemplatePrint protocolCorrespondenceTemplatePrint;
+    private IacucProtocolBatchCorrespondencePrint protocolBatchCorrespondencePrint;
+    private IacucCommitteeRosterPrint committeeRosterPrint;
+    private IacucCommitteeFutureScheduledMeetingsPrint committeeFutureScheduledMeetingsPrint;
 
     /**
      * {@inheritDoc}
@@ -109,11 +110,11 @@ public class CommitteePrintingServiceImpl extends PrintingServiceImpl implements
         return attachmentDataSource;
     }
 
-    public CommitteeTemplatePrint getCommitteeTemplatePrint() {
+    public IacucCommitteeTemplatePrint getCommitteeTemplatePrint() {
         return committeeTemplatePrint;
     }
 
-    public void setCommitteeTemplatePrint(CommitteeTemplatePrint committeeTemplatePrint) {
+    public void setCommitteeTemplatePrint(IacucCommitteeTemplatePrint committeeTemplatePrint) {
         this.committeeTemplatePrint = committeeTemplatePrint;
     }
 
@@ -122,7 +123,7 @@ public class CommitteePrintingServiceImpl extends PrintingServiceImpl implements
          * For some reason, spring doesn't always properly set scheduleTemplatePrint, so this correct that condition.
          */
         if (scheduleTemplatePrint == null) {
-            scheduleTemplatePrint = KraServiceLocator.getService(org.kuali.kra.common.committee.print.ScheduleTemplatePrint.COMMON_SCHEDULE_TEMPLATE_PRINT_SPRING_NAME);
+            scheduleTemplatePrint = KraServiceLocator.getService(IacucScheduleTemplatePrint.class);
         }
         return scheduleTemplatePrint;
     }
@@ -131,27 +132,27 @@ public class CommitteePrintingServiceImpl extends PrintingServiceImpl implements
         this.scheduleTemplatePrint = scheduleTemplatePrint;
     }
 
-    public ProtocolCorrespondenceTemplatePrint getProtocolCorrespondenceTemplatePrint() {
+    public IacucProtocolCorrespondenceTemplatePrint getProtocolCorrespondenceTemplatePrint() {
         return protocolCorrespondenceTemplatePrint;
     }
 
-    public void setProtocolCorrespondenceTemplatePrint(ProtocolCorrespondenceTemplatePrint protocolCorrespondenceTemplatePrint) {
+    public void setProtocolCorrespondenceTemplatePrint(IacucProtocolCorrespondenceTemplatePrint protocolCorrespondenceTemplatePrint) {
         this.protocolCorrespondenceTemplatePrint = protocolCorrespondenceTemplatePrint;
     }
 
-    public CommitteeRosterPrint getCommitteeRosterPrint() {
+    public IacucCommitteeRosterPrint getCommitteeRosterPrint() {
         return committeeRosterPrint;
     }
 
-    public void setCommitteeRosterPrint(CommitteeRosterPrint committeeRosterPrint) {
+    public void setCommitteeRosterPrint(IacucCommitteeRosterPrint committeeRosterPrint) {
         this.committeeRosterPrint = committeeRosterPrint;
     }
 
-    public CommitteeFutureScheduledMeetingsPrint getCommitteeFutureScheduledMeetingsPrint() {
+    public IacucCommitteeFutureScheduledMeetingsPrint getCommitteeFutureScheduledMeetingsPrint() {
         return committeeFutureScheduledMeetingsPrint;
     }
 
-    public void setCommitteeFutureScheduledMeetingsPrint(CommitteeFutureScheduledMeetingsPrint committeeFutureScheduledMeetingsPrint) {
+    public void setCommitteeFutureScheduledMeetingsPrint(IacucCommitteeFutureScheduledMeetingsPrint committeeFutureScheduledMeetingsPrint) {
         this.committeeFutureScheduledMeetingsPrint = committeeFutureScheduledMeetingsPrint;
     }
 
@@ -159,7 +160,7 @@ public class CommitteePrintingServiceImpl extends PrintingServiceImpl implements
      * Sets the protocolBatchCorrespondencePrint attribute value.
      * @param protocolBatchCorrespondencePrint The protocolBatchCorrespondencePrint to set.
      */
-    public void setProtocolBatchCorrespondencePrint(ProtocolBatchCorrespondencePrint protocolBatchCorrespondencePrint) {
+    public void setProtocolBatchCorrespondencePrint(IacucProtocolBatchCorrespondencePrint protocolBatchCorrespondencePrint) {
         this.protocolBatchCorrespondencePrint = protocolBatchCorrespondencePrint;
     }
 
@@ -167,7 +168,7 @@ public class CommitteePrintingServiceImpl extends PrintingServiceImpl implements
      * Gets the protocolBatchCorrespondencePrint attribute. 
      * @return Returns the protocolBatchCorrespondencePrint.
      */
-    public ProtocolBatchCorrespondencePrint getProtocolBatchCorrespondencePrint() {
+    public IacucProtocolBatchCorrespondencePrint getProtocolBatchCorrespondencePrint() {
         return protocolBatchCorrespondencePrint;
     }
 

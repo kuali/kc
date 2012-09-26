@@ -24,8 +24,8 @@ import java.util.Map;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.common.committee.bo.Committee;
-import org.kuali.kra.common.committee.print.CommitteeXmlStream;
 import org.kuali.kra.iacuc.IacucProtocol;
+import org.kuali.kra.iacuc.committee.print.IacucCommitteeXmlStream;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.actions.print.ProtocolXmlStream;
 import org.kuali.kra.protocol.actions.print.RenewalReminderStream;
@@ -38,7 +38,7 @@ import edu.mit.coeus.xml.iacuc.RenewalReminderType;
 public class IacucRenewalReminderStream extends RenewalReminderStream {
 
     private ProtocolXmlStream protocolXmlStream;
-    private CommitteeXmlStream committeeXmlStream;
+    private IacucCommitteeXmlStream committeeXmlStream;
 
     /**
      * @see org.kuali.kra.printing.xmlstream.XmlStream#generateXmlStream(KraPersistableBusinessObjectBase, java.util.Map)
@@ -108,7 +108,7 @@ public class IacucRenewalReminderStream extends RenewalReminderStream {
         this.protocolXmlStream = protocolXmlStream;
     }
 
-    public void setCommitteeXmlStream(CommitteeXmlStream committeeXmlStream) {
+    public void setCommitteeXmlStream(IacucCommitteeXmlStream committeeXmlStream) {
         this.committeeXmlStream = committeeXmlStream;
     }
 }
