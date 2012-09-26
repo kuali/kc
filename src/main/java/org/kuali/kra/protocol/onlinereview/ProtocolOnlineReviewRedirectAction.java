@@ -24,7 +24,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReviewService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.Protocol;
@@ -34,7 +33,7 @@ import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 
-public class ProtocolOnlineReviewRedirectAction extends KraTransactionalDocumentActionBase  {
+public abstract class ProtocolOnlineReviewRedirectAction extends KraTransactionalDocumentActionBase  {
 
     private static final String PROTOCOL_DOCUMENT_NUMBER="protocolDocumentNumber";
     private static final String PROTOCOL_ONLINE_REVIEW_DOCUMENT_NUMBER="protocolOnlineReviewDocumentNumber";
@@ -86,14 +85,12 @@ public class ProtocolOnlineReviewRedirectAction extends KraTransactionalDocument
     }
 
     private ProtocolOnlineReviewService getProtocolOnlineReviewService() {
-        return KraServiceLocator.getService(IacucProtocolOnlineReviewService.class);
-      // causing CI compilation error with following hook.
-      //  return KraServiceLocator.getService(getOlrClass());
+        return KraServiceLocator.getService(getProtocolOnlineReviewServiceClassHook());
     }
+    
+    protected abstract Class<? extends ProtocolOnlineReviewService> getProtocolOnlineReviewServiceClassHook();
 
-    protected Class getOlrClass() {
-        return ProtocolOnlineReviewService.class;
-    }
+    
     
     public ActionForward startProtocolOnlineReview(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
         throws Exception {

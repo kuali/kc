@@ -30,9 +30,6 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.common.committee.bo.CommitteeMembership;
-import org.kuali.kra.iacuc.actions.reviewcomments.IacucReviewCommentsService;
-import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReviewForm;
-import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReviewService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.ProtocolDocument;
@@ -128,7 +125,7 @@ public abstract class OnlineReviewsActionHelper implements Serializable {
                     pDocMap.put(DOCUMENT_MAP_KEY, pDoc);
                     ProtocolOnlineReviewForm poForm;
                     try {
-                        poForm = new IacucProtocolOnlineReviewForm();
+                        poForm = getNewProtocolOnlineReviewFormInstanceHook();
                         poForm.setDocument(pDoc);
                         populateAuthorizationFields(poForm,pDoc);
                         pDocMap.put(FORM_MAP_KEY, poForm);
@@ -164,6 +161,9 @@ public abstract class OnlineReviewsActionHelper implements Serializable {
  
     }
     
+    protected abstract ProtocolOnlineReviewForm getNewProtocolOnlineReviewFormInstanceHook() throws Exception;
+    
+
     protected abstract ReviewAttachmentsBean getNewReviewAttachmentsBeanHook(String errorPropertyKey);
 
     protected abstract ReviewCommentsBean getNewReviewCommentsBeanInstanceHook(String errorPropertyKey);
@@ -328,9 +328,11 @@ public abstract class OnlineReviewsActionHelper implements Serializable {
         this.protocolOnlineReviewDocuments = protocolOnlineReviewDocuments;
     }
 
-    private static ProtocolOnlineReviewService getProtocolOnlineReviewService() {
-        return KraServiceLocator.getService(IacucProtocolOnlineReviewService.class);
+    private ProtocolOnlineReviewService getProtocolOnlineReviewService() {
+        return KraServiceLocator.getService(getProtocolOnlineReviewServiceClassHook());
     }
+    
+    protected abstract Class<? extends ProtocolOnlineReviewService> getProtocolOnlineReviewServiceClassHook();
 
     /**
      * Gets the newProtocolReviewPersonId attribute. 
@@ -552,8 +554,11 @@ public abstract class OnlineReviewsActionHelper implements Serializable {
     }
 
     private ReviewCommentsService getReviewerCommentsService() {
-        return KraServiceLocator.getService(IacucReviewCommentsService.class);
+        return KraServiceLocator.getService(getReviewCommentsServiceClassHook());
     }
+
+    protected abstract Class<? extends ReviewCommentsService> getReviewCommentsServiceClassHook();
+    
 
     public boolean isHideReviewerName() {
         return hideReviewerName;

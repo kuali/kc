@@ -16,18 +16,22 @@
 package org.kuali.kra.iacuc.specialreview;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.IacucProtocolForm;
 import org.kuali.kra.iacuc.auth.IacucProtocolTask;
 import org.kuali.kra.protocol.auth.ProtocolTask;
+import org.kuali.kra.protocol.specialreview.ProtocolSpecialReview;
 import org.kuali.kra.protocol.specialreview.ProtocolSpecialReviewHelper;
 
 /**
  * Defines the Special Review Helper for Protocol.
  */
 public class IacucProtocolSpecialReviewHelper extends ProtocolSpecialReviewHelper {
+    
+    private IacucProtocolForm form;
 
     private static final long serialVersionUID = 1485258866764215682L;
 
@@ -36,9 +40,9 @@ public class IacucProtocolSpecialReviewHelper extends ProtocolSpecialReviewHelpe
      * @param form the container form
      */
     public IacucProtocolSpecialReviewHelper(IacucProtocolForm form) {
-        super(form);
-        setLinkedProtocolNumbers(new ArrayList<String>());    
-        setNewSpecialReview();
+        this.form = form;
+        setNewSpecialReview(new IacucProtocolSpecialReview());
+        setLinkedProtocolNumbers(new ArrayList<String>());
     }
 
     @Override
@@ -47,8 +51,9 @@ public class IacucProtocolSpecialReviewHelper extends ProtocolSpecialReviewHelpe
         return getTaskAuthorizationService().isAuthorized(principalId, task);
     }
     
-    protected void setNewSpecialReview() {
-        setNewSpecialReview(new IacucProtocolSpecialReview());
+    @Override
+    protected List<ProtocolSpecialReview> getSpecialReviews() {
+        return form.getProtocolDocument().getProtocol().getSpecialReviews();
     }
 
     @Override
@@ -58,6 +63,16 @@ public class IacucProtocolSpecialReviewHelper extends ProtocolSpecialReviewHelpe
     @Override
     protected boolean isIacucProtocolLinkingEnabledForModule() {
         return true;
+    }
+
+    @Override
+    protected boolean isIrbProtocolLinkingEnabledForModule() {
+        return true;
+    }
+
+    @Override
+    protected boolean isCanCreateIrbProtocol() {
+        return false;
     }
 
 }

@@ -24,7 +24,9 @@ import java.util.Map;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.common.committee.bo.Committee;
+import org.kuali.kra.common.committee.bo.CommitteeSchedule;
 import org.kuali.kra.iacuc.IacucProtocol;
+import org.kuali.kra.iacuc.committee.bo.IacucCommittee;
 import org.kuali.kra.iacuc.committee.print.IacucCommitteeXmlStream;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.actions.print.ProtocolXmlStream;
@@ -52,7 +54,7 @@ public class IacucRenewalReminderStream extends RenewalReminderStream {
         Committee committee = null;
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put("committeeId", committeeId);
-        Collection<Committee> committees = getBusinessObjectService().findMatching(Committee.class, fieldValues);
+        Collection<IacucCommittee> committees = getBusinessObjectService().findMatching(IacucCommittee.class, fieldValues);
         if (committees.size() > 0) {
             /*
              * Return the most recent approved committee (i.e. the committee version with the highest 
@@ -63,9 +65,9 @@ public class IacucRenewalReminderStream extends RenewalReminderStream {
         CommitteeMasterDataType committeeMasterData = CommitteeMasterDataType.Factory.newInstance();
         committeeXmlStream.setCommitteeMasterData(committee,committeeMasterData) ;
         renewalReminder.setCommitteeMasterData(committeeMasterData) ;
-        List<org.kuali.kra.common.committee.bo.CommitteeSchedule> committeSchedules = committee.getCommitteeSchedules();
+        List<CommitteeSchedule> committeSchedules = committee.getCommitteeSchedules();
         int rowNumber = 0;
-        for (org.kuali.kra.common.committee.bo.CommitteeSchedule committeeSchedule : committeSchedules) {
+        for (CommitteeSchedule committeeSchedule : committeSchedules) {
             if(rowNumber<5 ) break;
             if(committeeSchedule.getScheduledDate().after(getDateTimeService().getCurrentDate()) ||
                     committeeSchedule.getScheduledDate().equals(getDateTimeService().getCurrentDate())){

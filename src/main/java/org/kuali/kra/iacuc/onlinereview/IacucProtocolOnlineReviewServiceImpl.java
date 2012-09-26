@@ -61,6 +61,7 @@ import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
 
 public class IacucProtocolOnlineReviewServiceImpl extends ProtocolOnlineReviewServiceImpl implements IacucProtocolOnlineReviewService {
+    
     private static final Log LOG = LogFactory.getLog(IacucProtocolOnlineReviewServiceImpl.class);
     private KraWorkflowService kraWorkflowService;
     private String iacucAdminApproveNodeName;
@@ -534,6 +535,11 @@ public class IacucProtocolOnlineReviewServiceImpl extends ProtocolOnlineReviewSe
     @Override
     protected String getProtocolOLRRemovedCancelledStatusCodeHook() {
         return IacucProtocolOnlineReviewStatus.REMOVED_CANCELLED_STATUS_CD;
+    }
+
+    @Override
+    protected ProtocolOnlineReviewDocument getNewProtocolOnlineReviewDocumentInstanceHook() {
+        return new IacucProtocolOnlineReviewDocument();
     }
     
 }

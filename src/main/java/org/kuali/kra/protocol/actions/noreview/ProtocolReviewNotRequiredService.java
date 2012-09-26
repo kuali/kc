@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.protocol.actions.noreview;
 
-import org.kuali.kra.irb.ProtocolDocument;
+import org.kuali.kra.protocol.ProtocolDocument;
 
 /**
  * 
