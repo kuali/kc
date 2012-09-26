@@ -87,7 +87,9 @@ public class KcPersonExtendedAttributes extends KraPersistableBusinessObjectBase
     private String multiCampusPrincipalId;
 
     private String multiCampusPrincipalName;
+    
     private String eraCommonUserName;
+    
     private Date salaryAnniversaryDate;
     
     private List<PersonBiosketch> attachments = new AutoPopulatingList<PersonBiosketch>(PersonBiosketch.class);
@@ -603,10 +605,7 @@ public class KcPersonExtendedAttributes extends KraPersistableBusinessObjectBase
      * Gets the eraCommonUserName attribute. 
      * @return Returns the eraCommonUserName.
      */
-    public String getEraCommonUserName() {  
-        if (personId != null && eraCommonUserName == null) {
-            this.eraCommonUserName = getKcPersonService().getKcPersonByPersonId(personId).getExtendedAttributes().getEraCommonUserName();
-        }
+    public String getEraCommonUserName() {
         return this.eraCommonUserName;
     }
     
