@@ -254,8 +254,8 @@ public abstract class ActionHelper implements Serializable {
     protected ProtocolAmendmentBean protocolAmendmentBean;
     protected ProtocolAmendmentBean protocolRenewAmendmentBean;
     protected ProtocolDeleteBean protocolDeleteBean;
-    protected ProtocolAssignToAgendaBean assignToAgendaBean;
-    protected ProtocolAssignReviewersBean protocolAssignReviewersBean;
+    protected ProtocolAssignToAgendaBean assignToAgendaBean;   
+//    protected ProtocolAssignReviewersBean protocolAssignReviewersBean;
 //    protected ProtocolGrantExemptionBean protocolGrantExemptionBean;
     private ProtocolApproveBean protocolFullApprovalBean;
     protected ProtocolApproveBean protocolExpeditedApprovalBean;
@@ -1718,11 +1718,12 @@ public abstract class ActionHelper implements Serializable {
         return this.assignToAgendaBean;
     }
     
-    public ProtocolAssignReviewersBean getProtocolAssignReviewersBean() {
-        return protocolAssignReviewersBean;
-    }
-    
-// TODO *********commented the code below during IACUC refactoring*********                            
+ // TODO *********commented the code below during IACUC refactoring*********         
+//    public ProtocolAssignReviewersBean getProtocolAssignReviewersBean() {
+//        return protocolAssignReviewersBean;
+//    }
+//    
+//                       
 //    public ProtocolGrantExemptionBean getProtocolGrantExemptionBean() {
 //        return protocolGrantExemptionBean;
 //    }
