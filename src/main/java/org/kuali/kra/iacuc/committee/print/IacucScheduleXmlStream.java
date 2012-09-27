@@ -265,16 +265,7 @@ public class IacucScheduleXmlStream extends PrintBaseXmlStream {
                 }
             }
             
-            // TODO IRB specific should go in subclassed IRB - commented as part of code lifted for base
-            /*
-            List<ProtocolRiskLevel> cvRiskLevels = protocol.getProtocolRiskLevels();
-            for(ProtocolRiskLevel protocolRiskLevelBean:cvRiskLevels){
-           	 edu.mit.irb.irbnamespace.ProtocolSummaryDocument.ProtocolSummary.RiskLevels riskLevelType =  protocolSummary.addNewRiskLevels();
-           	 riskLevelType.setRiskLevelDescription(protocolRiskLevelBean.getRiskLevel().getDescription());
-           	 riskLevelType.setComments(protocolRiskLevelBean.getComments());
-           	}
-           	*/
-            
+                       
              
             List<ProtocolFundingSource> vecFundingSource = protocol.getProtocolFundingSources();
             int fundingSourceTypeCode;
