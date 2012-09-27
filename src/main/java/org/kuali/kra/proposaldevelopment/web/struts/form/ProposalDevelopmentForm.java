@@ -87,6 +87,7 @@ import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.proposaldevelopment.specialreview.SpecialReviewHelper;
 import org.kuali.kra.proposaldevelopment.web.bean.ProposalDevelopmentRejectionBean;
 import org.kuali.kra.proposaldevelopment.web.bean.ProposalUserRoles;
+import org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentAction;
 import org.kuali.kra.questionnaire.MultiQuestionableFormInterface;
 import org.kuali.kra.questionnaire.QuestionableFormInterface;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
@@ -105,6 +106,7 @@ import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.api.parameter.Parameter;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.WorkflowDocument;
@@ -228,7 +230,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     private BudgetChangedData newBudgetChangedData;
    
     private String[] selectedBudgetPrint;
-   
+    private static final String PROPOSAL_SUMMARY_INDICATOR = "enableProposalSummaryPanel";   
 
     public ProposalDevelopmentForm() {
         super();
@@ -1583,6 +1585,13 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
         DevelopmentProposal devProposal = getProposalDevelopmentDocument().getDevelopmentProposal();
         boolean showHierarchy = devProposal.isInHierarchy();
         boolean disableGrantsGov = !isGrantsGovEnabled();
+
+        boolean showProposalSummary = true;        
+        Parameter proposalSummaryIndicatorParam = this.getParameterService().getParameter(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, ParameterConstants.DOCUMENT_COMPONENT, PROPOSAL_SUMMARY_INDICATOR);
+        if ( proposalSummaryIndicatorParam != null && "N".equalsIgnoreCase(proposalSummaryIndicatorParam.getValue()) )
+        {
+            showProposalSummary = false;
+        }
         
         
         for (HeaderNavigation tab : tabs) {
@@ -1598,10 +1607,14 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
 //                    newTabs.add(tab);
 //                }
 //            }
-            if((showHierarchy || !tab.getHeaderTabNavigateTo().equals("hierarchy"))) {
-                        newTabs.add(tab);
+            if((showHierarchy || !tab.getHeaderTabNavigateTo().equals("hierarchy"))) 
+            {
+                if ( !tab.getHeaderTabNavigateTo().equals("approverView") || showProposalSummary )
+                {
+                    newTabs.add(tab);
                 }
             }
+        }
         tabs = newTabs.toArray(new HeaderNavigation[newTabs.size()]);
         return tabs;
     }
