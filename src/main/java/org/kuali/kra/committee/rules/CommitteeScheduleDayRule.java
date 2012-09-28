@@ -17,10 +17,10 @@ package org.kuali.kra.committee.rules;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.committee.rule.event.CommitteeScheduleDayEvent;
-import org.kuali.kra.committee.web.struts.form.schedule.MonthlyScheduleDetails;
-import org.kuali.kra.committee.web.struts.form.schedule.ScheduleData;
-import org.kuali.kra.committee.web.struts.form.schedule.StyleKey;
-import org.kuali.kra.committee.web.struts.form.schedule.YearlyScheduleDetails;
+import org.kuali.kra.common.committee.web.struts.form.schedule.MonthlyScheduleDetails;
+import org.kuali.kra.common.committee.web.struts.form.schedule.ScheduleData;
+import org.kuali.kra.common.committee.web.struts.form.schedule.StyleKey;
+import org.kuali.kra.common.committee.web.struts.form.schedule.YearlyScheduleDetails;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;

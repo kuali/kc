@@ -43,7 +43,7 @@ import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.bo.CommitteeMembershipRole;
 import org.kuali.kra.committee.bo.CommitteeResearchArea;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
-import org.kuali.kra.committee.bo.ScheduleStatus;
+import org.kuali.kra.common.committee.bo.ScheduleStatus;
 import org.kuali.kra.committee.service.impl.CommitteeServiceImpl;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.meeting.ScheduleAgenda;

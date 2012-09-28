@@ -20,7 +20,7 @@ import java.net.URLEncoder;
 import java.util.List;
 
 import org.kuali.kra.committee.print.CommitteeFutureScheduledMeetingsPrint;
-import org.kuali.kra.committee.print.CommitteeReportType;
+import org.kuali.kra.common.committee.print.CommitteeReportType;
 import org.kuali.kra.committee.print.CommitteeRosterPrint;
 import org.kuali.kra.committee.print.CommitteeTemplatePrint;
 import org.kuali.kra.committee.print.ProtocolBatchCorrespondencePrint;

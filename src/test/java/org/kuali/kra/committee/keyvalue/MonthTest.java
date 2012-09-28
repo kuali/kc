@@ -19,6 +19,7 @@ import java.util.Map;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.kuali.kra.common.committee.keyvalue.Month;
 
 public class MonthTest extends Assert{
     

@@ -21,8 +21,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.committee.bo.CommitteeType;
-import org.kuali.kra.committee.bo.MembershipRole;
+import org.kuali.kra.common.committee.bo.CommitteeType;
+import org.kuali.kra.common.committee.bo.MembershipRole;
 import org.kuali.kra.committee.web.struts.form.CommitteeForm;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;

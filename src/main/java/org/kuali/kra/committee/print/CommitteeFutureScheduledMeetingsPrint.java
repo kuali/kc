@@ -20,6 +20,7 @@ import java.util.List;
 
 import javax.xml.transform.Source;
 
+import org.kuali.kra.common.committee.print.CommitteeReportType;
 import org.kuali.kra.printing.print.AbstractPrint;
 import org.kuali.kra.printing.util.PrintingUtils;
 

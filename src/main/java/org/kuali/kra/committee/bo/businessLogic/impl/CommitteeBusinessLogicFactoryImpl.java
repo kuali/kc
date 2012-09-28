@@ -17,8 +17,7 @@ package org.kuali.kra.committee.bo.businessLogic.impl;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.committee.bo.Committee;
-import org.kuali.kra.committee.bo.CommitteeResearchArea;
-import org.kuali.kra.committee.bo.CommitteeType;
+import org.kuali.kra.common.committee.bo.CommitteeType;
 import org.kuali.kra.committee.bo.businessLogic.CommitteeBusinessLogic;
 import org.kuali.kra.committee.bo.businessLogic.CommitteeCollaboratorBusinessLogicFactory;
 import org.kuali.kra.committee.bo.businessLogic.CommitteeCollaboratorBusinessLogicFactoryGroup;
