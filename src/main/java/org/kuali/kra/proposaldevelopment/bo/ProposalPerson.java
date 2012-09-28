@@ -1949,6 +1949,10 @@ public class ProposalPerson extends KraPersistableBusinessObjectBase implements 
      * @return the value of eraCommonsUserName
      */
     public String getEraCommonsUserName() {
+        if (StringUtils.isBlank(eraCommonsUserName) && personId != null) {
+            this.eraCommonsUserName = getKcPersonService().getKcPersonByPersonId(personId).
+                                        getExtendedAttributes().getEraCommonUserName();
+        }
         return this.eraCommonsUserName;
     }
 
