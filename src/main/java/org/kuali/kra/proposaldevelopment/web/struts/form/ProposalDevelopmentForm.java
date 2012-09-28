@@ -1609,7 +1609,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
 //            }
             if((showHierarchy || !tab.getHeaderTabNavigateTo().equals("hierarchy"))) 
             {
-                if ( !tab.getHeaderTabNavigateTo().equals("approverView") || showProposalSummary )
+                if (!tab.getHeaderTabNavigateTo().toUpperCase().equals("APPROVERVIEW") || showProposalSummary || canPerformWorkflowAction()) 
                 {
                     newTabs.add(tab);
                 }
