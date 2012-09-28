@@ -168,7 +168,10 @@ public class QuestionnaireXmlStream implements XmlStream {
         
         Boolean questionnaireCompletionFlag = (Boolean)params.get("QUESTIONNAIRE_COMPLETION_FLAG");
         questionnaireCompletionFlag = questionnaireCompletionFlag==null?Boolean.FALSE:questionnaireCompletionFlag;
-        ModuleQuestionnaireBean moduleQuestionnaireBean = getQuestionnaireAnswerHeaderBean(printableBusinessObject, params);
+        ModuleQuestionnaireBean moduleQuestionnaireBean = null;
+        if (printableBusinessObject != null) {
+            moduleQuestionnaireBean = getQuestionnaireAnswerHeaderBean(printableBusinessObject, params);
+        }
         if(questionnaire != null) {
             Integer questId = questionnaire.getQuestionnaireIdAsInteger();
             if(questId!=null){
@@ -185,9 +188,9 @@ public class QuestionnaireXmlStream implements XmlStream {
             else{
                 setModuleUsageList(questionnaire,questionnaireType);
             }
-            String moduleCode = moduleQuestionnaireBean.getModuleItemCode();
-            String moduleSubcode = moduleQuestionnaireBean.getModuleSubItemCode();
-            if (moduleCode != null) {
+            if (moduleQuestionnaireBean != null && moduleQuestionnaireBean.getModuleItemCode() != null) {
+                String moduleCode = moduleQuestionnaireBean.getModuleItemCode();
+                String moduleSubcode = moduleQuestionnaireBean.getModuleSubItemCode();
                 if (moduleCode.equals(CoeusModule.PROPOSAL_DEVELOPMENT_MODULE_CODE)  && "0".equals(moduleSubcode)) {
                     setDevProposalInfo((DevelopmentProposal) printableBusinessObject,questionnaireType);
                 } else if (moduleCode.equals(CoeusModule.PROPOSAL_DEVELOPMENT_MODULE_CODE)  
@@ -269,9 +272,17 @@ public class QuestionnaireXmlStream implements XmlStream {
             ProposalPerson person = (ProposalPerson) printableBusinessObject;
             answerHeader.setModuleKey(person.getDevelopmentProposal().getProposalNumber());
         } else {
-            answerHeader.setModuleKey(moduleQuestionnaireBean.getModuleItemKey());
+            if (moduleQuestionnaireBean != null) {
+                answerHeader.setModuleKey(moduleQuestionnaireBean.getModuleItemKey());
+            } else {
+                answerHeader.setModuleKey(null);
+            }
         }
-        answerHeader.setSubModuleKey(moduleQuestionnaireBean.getModuleSubItemKey());
+        if (moduleQuestionnaireBean != null) {
+            answerHeader.setSubModuleKey(moduleQuestionnaireBean.getModuleSubItemKey());
+        } else {
+            answerHeader.setSubModuleKey("0");
+        }
     }
 
     /**
