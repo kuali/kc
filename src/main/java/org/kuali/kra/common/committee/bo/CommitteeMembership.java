@@ -23,7 +23,7 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.protocol.personnel.ProtocolPersonRolodex;
+import org.kuali.kra.protocol.personnel.ProtocolPersonRolodexBase;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.util.DateUtils;
 
@@ -68,7 +68,7 @@ public abstract class CommitteeMembership extends CommitteeAssociate {
 
     private CommitteeMembershipType membershipType;
 
-    private ProtocolPersonRolodex rolodex;
+    private ProtocolPersonRolodexBase rolodex;
 
     private boolean delete;
 
@@ -241,11 +241,11 @@ public abstract class CommitteeMembership extends CommitteeAssociate {
         return this.kcPersonService;
     }
 
-    public ProtocolPersonRolodex getRolodex() {
+    public ProtocolPersonRolodexBase getRolodex() {
         return rolodex;
     }
 
-    public void setRolodex(ProtocolPersonRolodex rolodex) {
+    public void setRolodex(ProtocolPersonRolodexBase rolodex) {
         this.rolodex = rolodex;
     }
 

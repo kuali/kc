@@ -308,8 +308,8 @@ public abstract class ProtocolPersonnelServiceImpl implements ProtocolPersonnelS
      * @param sourceRoleId
      * @return Collection<PersonTraining>
      */
-    public List<ProtocolPersonRoleMapping> getPersonRoleMapping(String sourceRoleId) {
-        List<ProtocolPersonRoleMapping> personRoleMappings = new ArrayList<ProtocolPersonRoleMapping>();
+    public List<ProtocolPersonRoleMappingBase> getPersonRoleMapping(String sourceRoleId) {
+        List<ProtocolPersonRoleMappingBase> personRoleMappings = new ArrayList<ProtocolPersonRoleMappingBase>();
         Map<String, Object> matchingKeys = new HashMap<String, Object>();
         matchingKeys.put("sourceRoleId", sourceRoleId);
         personRoleMappings.addAll(getBusinessObjectService().findMatching(getProtocolPersonRoleMappingClassHook(), matchingKeys));
@@ -321,12 +321,12 @@ public abstract class ProtocolPersonnelServiceImpl implements ProtocolPersonnelS
      * This method allows for the correct version fo the protocol person role mapping class to be returned (IRB or IACUC)
      * @return the class
      */
-    public abstract Class<? extends ProtocolPersonRoleMapping> getProtocolPersonRoleMappingClassHook();
+    public abstract Class<? extends ProtocolPersonRoleMappingBase> getProtocolPersonRoleMappingClassHook();
     
     /**
      * @see org.kuali.kra.protocol.personnel.ProtocolPersonnelService#getProtocolPersonRole(java.lang.String)
      */
-    public ProtocolPersonRole getProtocolPersonRole(String sourceRoleId) {
+    public ProtocolPersonRoleBase getProtocolPersonRole(String sourceRoleId) {
         return getBusinessObjectService().findBySinglePrimaryKey(getProtocolPersonRoleClassHook(), sourceRoleId);
     }
     
@@ -335,7 +335,7 @@ public abstract class ProtocolPersonnelServiceImpl implements ProtocolPersonnelS
      * This method returns the proper protocol person role class for the instance (IRB or IACUC)
      * @return the protocol person role class
      */
-    public abstract Class<? extends ProtocolPersonRole> getProtocolPersonRoleClassHook();
+    public abstract Class<? extends ProtocolPersonRoleBase> getProtocolPersonRoleClassHook();
 
     /**
      * @see org.kuali.kra.protocol.personnel.ProtocolPersonnelService#syncProtocolPersonRoleChanges(java.util.List)

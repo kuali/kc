@@ -15,12 +15,17 @@
  */
 package org.kuali.kra.iacuc.personnel;
 
-import org.kuali.kra.protocol.personnel.ProtocolPersonRoleMapping;
+import org.kuali.kra.protocol.personnel.ProtocolPersonRoleMappingBase;
 
 /**
  * 
  * This class exists to allow for IACUC to have a protocol person role mapping bo
  */
-public class IacucProtocolPersonRoleMapping extends ProtocolPersonRoleMapping {
+public class IacucProtocolPersonRoleMapping extends ProtocolPersonRoleMappingBase {
+
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = 3798220401186193298L;
 
 }

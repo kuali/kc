@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.iacuc.noteattachment;
 
-import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentType;
+import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentTypeBase;
 
 /**
  * This class represents the Protocol Attachment Type.
  */
-public class IacucProtocolAttachmentType extends ProtocolAttachmentType {
+public class IacucProtocolAttachmentType extends ProtocolAttachmentTypeBase {
 
     private static final long serialVersionUID = 2053606476193782286L;
 

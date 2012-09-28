@@ -25,8 +25,8 @@ import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.protocol.ProtocolDocument;
-import org.kuali.kra.protocol.actions.submit.ProtocolReviewType;
-import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionType;
+import org.kuali.kra.protocol.actions.submit.ProtocolReviewTypeBase;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionTypeBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmitAction;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmitActionRule;
 import org.kuali.rice.kns.util.AuditCluster;
@@ -83,12 +83,12 @@ public class IacucProtocolSubmitActionRule extends ProtocolSubmitActionRule {
     }
 
     @Override
-    protected Class<? extends ProtocolSubmissionType> getProtocolSubmissionTypeClassHook() {
+    protected Class<? extends ProtocolSubmissionTypeBase> getProtocolSubmissionTypeClassHook() {
         return IacucProtocolSubmissionType.class;
     }
 
     @Override
-    protected Class<? extends ProtocolReviewType> getProtocolReviewTypeClassHook() {
+    protected Class<? extends ProtocolReviewTypeBase> getProtocolReviewTypeClassHook() {
         return IacucProtocolReviewType.class;
     }
 

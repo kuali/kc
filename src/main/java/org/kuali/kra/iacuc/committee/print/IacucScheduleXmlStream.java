@@ -44,8 +44,8 @@ import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.actions.ProtocolAction;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewer;
 import org.kuali.kra.protocol.personnel.ProtocolPerson;
-import org.kuali.kra.protocol.personnel.ProtocolPersonRole;
-import org.kuali.kra.protocol.personnel.ProtocolPersonRolodex;
+import org.kuali.kra.protocol.personnel.ProtocolPersonRoleBase;
+import org.kuali.kra.protocol.personnel.ProtocolPersonRolodexBase;
 import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSource;
 import org.kuali.kra.service.KcPersonService;
 
@@ -255,11 +255,11 @@ public class IacucScheduleXmlStream extends PrintBaseXmlStream {
             setProtocolSubmissionReviewers(protocolSubmission, protocolSubmissionDetail);
 			List<ProtocolPerson> protocolPersons = protocolSubmission.getProtocol().getProtocolPersons();
             for (ProtocolPerson protocolPerson : protocolPersons) {
-                if (protocolPerson.getProtocolPersonRoleId().equals(ProtocolPersonRole.ROLE_PRINCIPAL_INVESTIGATOR)
-                        || protocolPerson.getProtocolPersonRoleId().equals(ProtocolPersonRole.ROLE_CO_INVESTIGATOR)) {
+                if (protocolPerson.getProtocolPersonRoleId().equals(ProtocolPersonRoleBase.ROLE_PRINCIPAL_INVESTIGATOR)
+                        || protocolPerson.getProtocolPersonRoleId().equals(ProtocolPersonRoleBase.ROLE_CO_INVESTIGATOR)) {
                     InvestigatorType investigator = protocolSummary.addNewInvestigator();
                     getPrintXmlUtilService().setPersonRolodexType(protocolPerson, investigator.addNewPerson());
-                    if(protocolPerson.getProtocolPersonRoleId().equals(ProtocolPersonRole.ROLE_PRINCIPAL_INVESTIGATOR)){
+                    if(protocolPerson.getProtocolPersonRoleId().equals(ProtocolPersonRoleBase.ROLE_PRINCIPAL_INVESTIGATOR)){
                         investigator.setPIFlag(true);
                     }
                 }
@@ -378,7 +378,7 @@ public class IacucScheduleXmlStream extends PrintBaseXmlStream {
 
         }else {
             Rolodex rolodex = protocolReviewer.getRolodex();
-            ProtocolPersonRolodex protocolRolodex = getBusinessObjectService()
+            ProtocolPersonRolodexBase protocolRolodex = getBusinessObjectService()
                     .findBySinglePrimaryKey(IacucProtocolPersonRolodex.class, rolodex.getRolodexId());
             getPrintXmlUtilService().setPersonXml(protocolRolodex, personType);
         }

@@ -30,9 +30,9 @@ public class ValidProtoSubTypeQual extends KraPersistableBusinessObjectBase {
 
     private String submissionTypeQualCode;
 
-    private ProtocolSubmissionType submissionType;
+    private ProtocolSubmissionTypeBase submissionType;
 
-    private ProtocolSubmissionQualifierType submissionTypeQualifier;
+    private ProtocolSubmissionQualifierTypeBase submissionTypeQualifier;
 
     public ValidProtoSubTypeQual() {
     }
@@ -61,19 +61,19 @@ public class ValidProtoSubTypeQual extends KraPersistableBusinessObjectBase {
         this.submissionTypeQualCode = submissionTypeQualCode;
     }
 
-    public ProtocolSubmissionType getSubmissionType() {
+    public ProtocolSubmissionTypeBase getSubmissionType() {
         return submissionType;
     }
 
-    public void setSubmissionType(ProtocolSubmissionType submissionType) {
+    public void setSubmissionType(ProtocolSubmissionTypeBase submissionType) {
         this.submissionType = submissionType;
     }
 
-    public ProtocolSubmissionQualifierType getSubmissionTypeQualifier() {
+    public ProtocolSubmissionQualifierTypeBase getSubmissionTypeQualifier() {
         return submissionTypeQualifier;
     }
 
-    public void setSubmissionTypeQualifier(ProtocolSubmissionQualifierType submissionTypeQualifier) {
+    public void setSubmissionTypeQualifier(ProtocolSubmissionQualifierTypeBase submissionTypeQualifier) {
         this.submissionTypeQualifier = submissionTypeQualifier;
     }
 }

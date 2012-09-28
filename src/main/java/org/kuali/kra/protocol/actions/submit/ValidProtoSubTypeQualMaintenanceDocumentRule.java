@@ -70,8 +70,8 @@ public class ValidProtoSubTypeQualMaintenanceDocumentRule extends KraMaintenance
         if (StringUtils.isNotBlank(validProtoSubTypeQual.getSubmissionTypeCode())) {
             Map<String, String> fieldValues = new HashMap<String, String>();
             fieldValues.put("submissionTypeCode", validProtoSubTypeQual.getSubmissionTypeCode());
-            List<ProtocolSubmissionType> submissionTypes = (List<ProtocolSubmissionType>) boService.findMatching(
-                    ProtocolSubmissionType.class, fieldValues);
+            List<ProtocolSubmissionTypeBase> submissionTypes = (List<ProtocolSubmissionTypeBase>) boService.findMatching(
+                    ProtocolSubmissionTypeBase.class, fieldValues);
             if (submissionTypes.isEmpty()) {
                 GlobalVariables.getMessageMap().putError("document.newMaintainableObject.submissionTypeCode",
                         KeyConstants.ERROR_SUBMISSION_TYPE_NOT_EXISTS,
@@ -87,7 +87,7 @@ public class ValidProtoSubTypeQualMaintenanceDocumentRule extends KraMaintenance
         if (StringUtils.isNotBlank(validProtoSubTypeQual.getSubmissionTypeQualCode())) {
             Map<String, String> fieldValues = new HashMap<String, String>();
             fieldValues.put("submissionQualifierTypeCode", validProtoSubTypeQual.getSubmissionTypeQualCode());
-            List<ProtocolSubmissionQualifierType> typeQualifiers = (List<ProtocolSubmissionQualifierType>) boService.findMatching(ProtocolSubmissionQualifierType.class,
+            List<ProtocolSubmissionQualifierTypeBase> typeQualifiers = (List<ProtocolSubmissionQualifierTypeBase>) boService.findMatching(ProtocolSubmissionQualifierTypeBase.class,
                     fieldValues);
             if (typeQualifiers.isEmpty()) {
                 GlobalVariables.getMessageMap().putError("document.newMaintainableObject.submissionTypeQualCode",

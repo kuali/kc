@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.iacuc.protocol;
 
-import org.kuali.kra.protocol.protocol.ProtocolType;
+import org.kuali.kra.protocol.protocol.ProtocolTypeBase;
 
-public class IacucProtocolType extends ProtocolType{
+public class IacucProtocolType extends ProtocolTypeBase{
 
     /**
      * Comment for <code>serialVersionUID</code>

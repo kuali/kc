@@ -18,9 +18,9 @@ package org.kuali.kra.iacuc.actions;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kra.protocol.actions.ProtocolActionType;
+import org.kuali.kra.protocol.actions.ProtocolActionTypeBase;
 
-public class IacucProtocolActionType extends ProtocolActionType { 
+public class IacucProtocolActionType extends ProtocolActionTypeBase { 
     /**
      * Comment for <code>serialVersionUID</code>
      */

@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.iacuc.actions.amendrenew;
 
-import org.kuali.kra.protocol.actions.amendrenew.ProtocolModule;
+import org.kuali.kra.protocol.actions.amendrenew.ProtocolModuleBase;
 
 @SuppressWarnings("serial")
-public class IacucProtocolModule extends ProtocolModule {
+public class IacucProtocolModule extends ProtocolModuleBase {
 
     public static final String THREE_RS = "036";
     public static final String SPECIES_GROUPS = "032";

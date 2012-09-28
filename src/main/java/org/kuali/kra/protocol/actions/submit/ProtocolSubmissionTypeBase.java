@@ -17,7 +17,7 @@ package org.kuali.kra.protocol.actions.submit;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
-public abstract class ProtocolSubmissionType extends KraPersistableBusinessObjectBase {
+public abstract class ProtocolSubmissionTypeBase extends KraPersistableBusinessObjectBase {
 
 // TODO *********commented the code below during IACUC refactoring*********     
 //    public static final String INITIAL_SUBMISSION = "100";
@@ -56,7 +56,7 @@ public abstract class ProtocolSubmissionType extends KraPersistableBusinessObjec
 
     private String description;
 
-    public ProtocolSubmissionType() {
+    public ProtocolSubmissionTypeBase() {
     }
 
     public String getSubmissionTypeCode() {

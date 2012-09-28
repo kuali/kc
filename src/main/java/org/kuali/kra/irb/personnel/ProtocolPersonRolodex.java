@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.irb.personnel;
 
-import org.kuali.kra.bo.Rolodex;
+import org.kuali.kra.protocol.personnel.ProtocolPersonRolodexBase;
 
 /**
  * This class represents Rolodex contact details
@@ -24,7 +24,7 @@ import org.kuali.kra.bo.Rolodex;
  * in protocol personnel tab.
  * Details not found when compared to Person object are listed here.
  */
-public class ProtocolPersonRolodex extends Rolodex {
+public class ProtocolPersonRolodex extends ProtocolPersonRolodexBase {
 
     /**
      * Comment for <code>serialVersionUID</code>
@@ -35,6 +35,7 @@ public class ProtocolPersonRolodex extends Rolodex {
 
     private String officeLocation;
 
+    @SuppressWarnings("unused")
     private String officePhone;
 
     private String secondaryOfficeLocation;
@@ -53,6 +54,7 @@ public class ProtocolPersonRolodex extends Rolodex {
 
     private String eraCommonsUserName;
 
+    @SuppressWarnings("unused")
     private String fullName;
 
     public ProtocolPersonRolodex() {

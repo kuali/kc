@@ -1,4 +1,3 @@
-// TODO *********code has been moved to base class, should ultimately be removed**********
 /*
  * Copyright 2005-2010 The Kuali Foundation
  *
@@ -16,10 +15,9 @@
  */
 package org.kuali.kra.irb.personnel;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+import org.kuali.kra.protocol.personnel.ProtocolPersonRoleBase;
 
-public class ProtocolPersonRole extends KraPersistableBusinessObjectBase implements Comparable<ProtocolPersonRole>, MutableInactivatable {
+public class ProtocolPersonRole extends ProtocolPersonRoleBase {
 
     /**
      * Comment for <code>serialVersionUID</code>
@@ -125,4 +123,3 @@ public class ProtocolPersonRole extends KraPersistableBusinessObjectBase impleme
         return result;
     }
 }
-// TODO **********************end************************
