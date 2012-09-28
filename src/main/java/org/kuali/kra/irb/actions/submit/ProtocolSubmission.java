@@ -22,7 +22,7 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.committee.bo.Committee;
-import org.kuali.kra.committee.bo.CommitteeDecisionMotionType;
+import org.kuali.kra.common.committee.bo.CommitteeDecisionMotionType;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.irb.ProtocolAssociate;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;

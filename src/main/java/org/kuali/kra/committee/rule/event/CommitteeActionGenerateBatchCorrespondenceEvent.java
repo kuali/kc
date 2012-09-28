@@ -18,6 +18,7 @@ package org.kuali.kra.committee.rule.event;
 import java.sql.Date;
 
 import org.kuali.kra.committee.rules.CommitteeActionGenerateBatchCorrespondenceRule;
+import org.kuali.kra.common.committee.rule.event.CommitteeActionsEventBase;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.rice.krad.document.Document;
 

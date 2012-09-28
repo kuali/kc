@@ -31,6 +31,11 @@ import org.kuali.rice.krad.service.KeyValuesService;
  */
 public class CommitteeDecisionMotionValuesFinder extends KeyValuesBase {
     
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = 3729912964388818340L;
+    
     private KeyValuesService keyValuesService;
     
     /**

@@ -27,6 +27,7 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.coi.CoiReviewType;
 import org.kuali.kra.committee.document.CommitteeDocument;
+import org.kuali.kra.common.committee.bo.CommitteeType;
 import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.RoleConstants;

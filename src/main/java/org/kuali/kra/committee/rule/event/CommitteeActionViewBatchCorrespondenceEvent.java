@@ -20,6 +20,7 @@ import java.util.List;
 import org.kuali.kra.committee.bo.CommitteeBatchCorrespondence;
 import org.kuali.kra.committee.rules.CommitteeActionPrintCommitteeDocumentRule;
 import org.kuali.kra.committee.rules.CommitteeActionViewBatchCorrespondenceRule;
+import org.kuali.kra.common.committee.rule.event.CommitteeActionsEventBase;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.rice.krad.document.Document;
 

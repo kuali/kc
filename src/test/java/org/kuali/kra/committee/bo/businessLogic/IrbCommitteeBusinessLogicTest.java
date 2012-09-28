@@ -24,7 +24,7 @@ import org.junit.Test;
 import org.kuali.kra.bo.ResearchArea;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeResearchArea;
-import org.kuali.kra.committee.bo.CommitteeType;
+import org.kuali.kra.common.committee.bo.CommitteeType;
 import org.kuali.kra.committee.bo.businessLogic.impl.CommitteeResearchAreaBusinessLogicImpl;
 import org.kuali.kra.committee.bo.businessLogic.impl.IrbCommitteeBusinessLogicImpl;
 import org.kuali.kra.infrastructure.KeyConstants;
