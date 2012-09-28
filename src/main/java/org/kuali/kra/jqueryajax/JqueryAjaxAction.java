@@ -32,7 +32,7 @@ import org.kuali.kra.award.home.AwardTemplate;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.coi.CoiDispositionStatus;
 import org.kuali.kra.coi.disclosure.CoiDisclosureService;
-import org.kuali.kra.committee.bo.CommitteeType;
+import org.kuali.kra.common.committee.bo.CommitteeType;
 import org.kuali.kra.common.notification.service.NotificationRoleSubQualifierFinders;
 import org.kuali.kra.iacuc.IacucLocationName;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionAjaxService;

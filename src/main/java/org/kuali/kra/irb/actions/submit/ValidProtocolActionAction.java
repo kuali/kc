@@ -16,7 +16,7 @@
 package org.kuali.kra.irb.actions.submit;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.committee.bo.CommitteeDecisionMotionType;
+import org.kuali.kra.common.committee.bo.CommitteeDecisionMotionType;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 
 /**

@@ -31,7 +31,7 @@ import org.kuali.kra.award.printing.AwardPrintType;
 import org.kuali.kra.bo.CommentType;
 import org.kuali.kra.budget.printing.BudgetPrintType;
 import org.kuali.kra.coi.print.CoiDisclosureType;
-import org.kuali.kra.committee.print.CommitteeReportType;
+import org.kuali.kra.common.committee.print.CommitteeReportType;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.printing.InstitutionalProposalPrintType;
 import org.kuali.kra.institutionalproposal.proposallog.service.ProposalLogPrintingService;

@@ -27,8 +27,9 @@ import java.util.TreeMap;
 
 import org.drools.core.util.StringUtils;
 import org.kuali.kra.SkipVersioning;
-import org.kuali.kra.committee.web.struts.form.schedule.DayOfWeek;
-import org.kuali.kra.committee.web.struts.form.schedule.Time12HrFmt;
+import org.kuali.kra.common.committee.bo.ScheduleStatus;
+import org.kuali.kra.common.committee.web.struts.form.schedule.DayOfWeek;
+import org.kuali.kra.common.committee.web.struts.form.schedule.Time12HrFmt;
 import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.irb.Protocol;

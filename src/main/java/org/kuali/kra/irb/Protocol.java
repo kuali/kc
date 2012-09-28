@@ -35,7 +35,7 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.coi.Disclosurable;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeMembership;
-import org.kuali.kra.committee.bo.CommitteeMembershipType;
+import org.kuali.kra.common.committee.bo.CommitteeMembershipType;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.infrastructure.Constants;

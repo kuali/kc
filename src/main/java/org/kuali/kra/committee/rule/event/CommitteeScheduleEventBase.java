@@ -18,7 +18,7 @@ package org.kuali.kra.committee.rule.event;
 import java.util.List;
 
 import org.kuali.kra.committee.bo.CommitteeSchedule;
-import org.kuali.kra.committee.web.struts.form.schedule.ScheduleData;
+import org.kuali.kra.common.committee.web.struts.form.schedule.ScheduleData;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 import org.kuali.rice.krad.document.Document;
