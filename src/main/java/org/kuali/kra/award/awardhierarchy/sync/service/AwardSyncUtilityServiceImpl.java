@@ -32,6 +32,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncLog;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncStatus;
 import org.kuali.kra.award.document.AwardDocument;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kew.actionrequest.ActionRequestValue;
 import org.kuali.rice.kew.api.WorkflowDocument;
@@ -88,9 +89,10 @@ public class AwardSyncUtilityServiceImpl implements AwardSyncUtilityService {
         List<AwardSyncLog> result = new ArrayList<AwardSyncLog>();
         for (Object object : KNSGlobalVariables.getAuditErrorMap().values()) {
             AuditCluster cluster = (AuditCluster) object;
+            boolean logSuccess = StringUtils.equals(cluster.getCategory(), Constants.AUDIT_WARNINGS);
             for (AuditError error : (List<AuditError>) cluster.getAuditErrorList()) {
                 awardStatus.addValidationLog(expandErrorString(error.getMessageKey(), error.getParams()), 
-                        false, error.getMessageKey());
+                        logSuccess, error.getMessageKey());
             }
         }
         KNSGlobalVariables.getAuditErrorMap().clear();

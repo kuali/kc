@@ -533,7 +533,8 @@ public class AwardSyncServiceImpl implements AwardSyncService {
         }
         String[] ignoredErrors = IGNORED_MESSAGE_KEYS.split(",");
         for (AwardSyncLog log : awardStatus.getValidationLogs()) {
-            if (!StringUtils.startsWithAny(log.getMessageKey(), ignoredErrors)) {
+            if (!StringUtils.startsWithAny(log.getMessageKey(), ignoredErrors)
+                    && !log.isSuccess()) {
                 result = false;
             } else {
                 log.setSuccess(true);
