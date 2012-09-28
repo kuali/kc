@@ -940,7 +940,7 @@
 		<dependency>
 			<groupId>org.kuali.kra.s2s</groupId>
 			<artifactId>gg-forms8</artifactId>
-			<version>1.1</version>
+			<version>1.2</version>
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.kra.s2s</groupId>
@@ -954,8 +954,13 @@
 		</dependency>
 		<dependency>
 			<groupId>org.kuali.kra.s2s</groupId>
+			<artifactId>keycontacts-1.0-gg</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.kuali.kra.s2s</groupId>
 			<artifactId>s2sform</artifactId>
-			<version>1.0.2</version>
+			<version>1.0.3</version>
 		</dependency>		
 		<dependency>
 			<groupId>org.kuali.rice</groupId>
