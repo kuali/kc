@@ -117,7 +117,7 @@ public class QuestionnaireMaintenanceForm extends KualiMaintenanceForm {
             Questionnaire qn = (Questionnaire) ((MaintenanceDocumentBase) this.getDocument()).getNewMaintainableObject()
                     .getBusinessObject();
             qn.setActive(false);
-            qn.setQuestionnaireUsages(new AutoPopulatingList<QuestionnaireUsage>(QuestionnaireUsage.class));
+            qn.setQuestionnaireUsages(new AutoPopulatingList<QuestionnaireUsage>(qn.getQuestionnaireUsages(), QuestionnaireUsage.class));
         }
         questionNumber = 1;
     }

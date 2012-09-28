@@ -53,7 +53,7 @@ public class ProposalDevelopmentQuestionnaireAuditRule extends ResearchDocumentR
         boolean valid = true;
         ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument)document;
         List<AnswerHeader> headers = getQuestionnaireAnswerService().getQuestionnaireAnswer(new ProposalDevelopmentModuleQuestionnaireBean(proposalDevelopmentDocument.getDevelopmentProposal()));  
-        List<QuestionnaireUsage> usages = getQuestionnaireAnswerService().getPublishedQuestionnaire(CoeusModule.PROPOSAL_DEVELOPMENT_MODULE_CODE, CoeusSubModule.ZERO_SUBMODULE, true);
+        List<QuestionnaireUsage> usages = getQuestionnaireAnswerService().getPublishedQuestionnaire(new ProposalDevelopmentModuleQuestionnaireBean(proposalDevelopmentDocument.getDevelopmentProposal()));
         int i = 0;
         for (AnswerHeader answerHeader : headers) {
             if (!answerHeader.getCompleted()) {

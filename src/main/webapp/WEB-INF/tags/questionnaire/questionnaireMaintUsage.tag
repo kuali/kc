@@ -12,10 +12,12 @@
         
       <div id="usagepanelcontent">
         <table id = "usage-table" cellpadding="0" cellspacing="0" summary="">
+        	<thead>
             <tr>
                 <th><div align="left">&nbsp;</div></th> 
                 <th><div align="center"><kul:htmlAttributeLabel attributeEntry="${questionnaireUsageAttributes.moduleItemCode}" noColon="true" /></div></th>
                 <th><div align="center"><kul:htmlAttributeLabel attributeEntry="${questionnaireUsageAttributes.moduleSubItemCode}" noColon="true" /></div></th>
+                <th><div align="center"><kul:htmlAttributeLabel attributeEntry="${questionnaireUsageAttributes.ruleId}" noColon="true" /></div></th>
                 <th><div align="center"><kul:htmlAttributeLabel attributeEntry="${questionnaireUsageAttributes.mandatory}" noColon="true" /></div></th>
                 <th><div align="center"><kul:htmlAttributeLabel attributeEntry="${questionnaireUsageAttributes.questionnaireLabel}" noColon="true" /></div></th>
                 <kul:htmlAttributeHeaderCell literalLabel="Version" scope="col"/>
@@ -51,6 +53,11 @@
 							                </html:select> --%>
                 </div>
                 </td>
+                <td style="text-align: center;" class="infoline">
+               		<kul:htmlControlAttribute property="newQuestionnaireUsage.ruleId" attributeEntry="${questionnaireUsageAttributes.ruleId}"/>
+									<a href="#"><img border="0" title="Search Rule"
+                            alt="Search Rule" class="tinybutton"
+                            src="static/images/searchicon.gif"  onClick="clickSearchRule('newQuestionnaireUsage.ruleId')"></a>               		
                 <td align="left" valign="middle" class="infoline">
                 <div align="center">
                     <kul:htmlControlAttribute property="newQuestionnaireUsage.mandatory" attributeEntry="${questionnaireUsageAttributes.mandatory}"/>
@@ -75,8 +82,45 @@
                     </div>
                 </td>
             </tr>
-          </c:if>
-            
+            </c:if>
+            </thead>
+            <tbody>
+            <tr class="usageTemplate" style="display: none;">
+          		<th class="infoline">%COUNT%</th>
+          		<td>%COEUS_MODULE_DESC%
+          			<input type="hidden" name="document.newMaintainableObject.businessObject.questionnaireUsages[%INDEX%].moduleItemCode" value="%COEUS_MODULE_CODE%"/></td>
+          		<td>%COEUS_SUBMODULE_DESC%
+          			<input type="hidden" name="document.newMaintainableObject.businessObject.questionnaireUsages[%INDEX%].moduleSubItemCode" value="%COEUS_SUB_MODULE_CODE%"/></td>
+          		<td>%RULE_ID%<input type="hidden" name="document.newMaintainableObject.businessObject.questionnaireUsages[%INDEX%].ruleId" value="%RULE_ID%"/></td>
+          		<td>%MANDATORY%<input type="hidden" name="document.newMaintainableObject.businessObject.questionnaireUsages[%INDEX%].mandatory" value="%MANDATORY%"/></td>
+          		<td>%LABEL%<input type="hidden" name="document.newMaintainableObject.businessObject.questionnaireUsages[%INDEX%].questionnaireLabel" value="%LABEL%"/></td>
+          		<td>%SEQUENCE%<input type="hidden" name="document.newMaintainableObject.businessObject.questionnaireUsages[%INDEX%].questionnaireSequenceNumber" value="%SEQUENCE%"/></td>
+          		<td style="text-align: center;"><c:if test="${!KualiForm.readOnly}">
+          			<input type="image" id="deleteUsage%COUNT%" 
+          				name="deleteUsage" class="deleteUsage" title="Delete Usage" src="static/images/tinybutton-delete1.gif" class="tinybutton">
+          			<input type="hidden" name="document.newMaintainableObject.businessObject.questionnaireUsages[%INDEX%].delete" value="No" />
+          		</c:if></td>
+          	</tr>
+          <c:forEach items="${KualiForm.document.newMaintainableObject.dataObject.questionnaireUsages}" var="usage" varStatus="status">
+          	<tr id="usage${status.count}">
+          		<th class="infoline"><c:out value="${status.count}"/></th>
+          		<td><c:out value="${usage.coeusModule.description}"/>
+          				<input type="hidden" name="document.newMaintainableObject.businessObject.questionnaireUsages[${status.index}].moduleItemCode" value="${usage.moduleItemCode}"/></td>
+          		<td><c:out value="${usage.coeusSubModule.description == null ? '' : usage.coeusSubModule.description}"/>
+          				<input type="hidden" name="document.newMaintainableObject.businessObject.questionnaireUsages[${status.index}].moduleSubItemCode" value="${usage.moduleSubItemCode}"/></td>
+          		<td><c:out value="${usage.ruleId == null ? '' : usage.ruleId}"/>
+          				<input type="hidden" name="document.newMaintainableObject.businessObject.questionnaireUsages[${status.index}].ruleId" value="${usage.ruleId}"/></td>
+          		<td><c:out value="${usage.mandatory ? 'Yes' : 'No'}"/></td>
+          		<td><c:out value="${usage.questionnaireLabel}"/></td>
+          		<td><c:out value="${usage.questionnaireSequenceNumber}"/></td>
+          		<td style="text-align: center;"><c:if test="${!KualiForm.readOnly}">
+          			<input type="image" id="deleteUsage${status.count}" 
+          				name="deleteUsage" class="deleteUsage" title="Delete Usage" src="static/images/tinybutton-delete1.gif" class="tinybutton">
+          			<kul:htmlControlAttribute property="document.newMaintainableObject.businessObject.questionnaireUsages[${status.index}].delete" attributeEntry="${questionnaireUsageAttributes.delete}" />
+          		</c:if></td>
+          	</tr>
+          </c:forEach>
+          </tbody>
         </table>
     </div>
 </div>

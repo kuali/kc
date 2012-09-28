@@ -448,10 +448,8 @@ public class RRSF424V1_2Generator extends RRSF424BaseGenerator {
      */
 	private String getAnswer(String questionId) {
 	    List<AnswerHeader> answerHeaders = new ArrayList<AnswerHeader>();
-        ModuleQuestionnaireBean moduleQuestionnaireBean = new ModuleQuestionnaireBean(CoeusModule.PROPOSAL_DEVELOPMENT_MODULE_CODE, pdDoc.getDevelopmentProposal().getProposalNumber(), CoeusSubModule.ZERO_SUBMODULE, CoeusSubModule.ZERO_SUBMODULE, true);
-        QuestionnaireAnswerService questionnaireAnswerService = KraServiceLocator.getService(QuestionnaireAnswerService.class);
-        answerHeaders = questionnaireAnswerService.getQuestionnaireAnswer(moduleQuestionnaireBean);
-        String answer = null;
+	    answerHeaders = getQuestionnaireAnswers(pdDoc.getDevelopmentProposal(), true);
+	    String answer = null;
         if (answerHeaders != null && !answerHeaders.isEmpty()) {
             for (AnswerHeader answerHeader : answerHeaders) {
                 List<QuestionnaireQuestion> questionnaireQuestions = answerHeader.getQuestionnaire().getQuestionnaireQuestions();

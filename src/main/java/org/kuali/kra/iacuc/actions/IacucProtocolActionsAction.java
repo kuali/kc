@@ -125,6 +125,7 @@ import org.kuali.kra.iacuc.notification.IacucProtocolWithReasonNotificationRende
 import org.kuali.kra.iacuc.notification.IacucRequestActionNotificationBean;
 import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReview;
 import org.kuali.kra.iacuc.onlinereview.IacucProtocolReviewAttachment;
+import org.kuali.kra.iacuc.questionnaire.IacucProtocolModuleQuestionnaireBean;
 import org.kuali.kra.iacuc.questionnaire.IacucProtocolQuestionnaireAuditRule;
 import org.kuali.kra.iacuc.questionnaire.print.IacucQuestionnairePrintingService;
 import org.kuali.kra.infrastructure.Constants;
@@ -765,7 +766,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
      */
     private List<AnswerHeader> getAnswerHeaders(ActionForm form, String actionTypeCode) {
         ProtocolForm protocolForm = (ProtocolForm) form;
-        ModuleQuestionnaireBean moduleQuestionnaireBean = new ModuleQuestionnaireBean(CoeusModule.IACUC_PROTOCOL_MODULE_CODE, protocolForm.getProtocolDocument().getProtocol().getProtocolNumber() + "T", CoeusSubModule.PROTOCOL_SUBMISSION, actionTypeCode, false);
+        ModuleQuestionnaireBean moduleQuestionnaireBean = new IacucProtocolModuleQuestionnaireBean(CoeusModule.IACUC_PROTOCOL_MODULE_CODE, protocolForm.getProtocolDocument().getProtocol().getProtocolNumber() + "T", CoeusSubModule.PROTOCOL_SUBMISSION, actionTypeCode, false);
         return getQuestionnaireAnswerService().getQuestionnaireAnswer(moduleQuestionnaireBean);
 
     }

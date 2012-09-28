@@ -29,6 +29,7 @@ import org.kuali.kra.bo.ResearchAreaBase;
 import org.kuali.kra.bo.RolePersons;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.krms.KcKrmsConstants;
 import org.kuali.kra.krms.KrmsRulesContext;
 import org.kuali.kra.protocol.actions.ProtocolAction;
 import org.kuali.kra.protocol.actions.submit.ProtocolActionService;
@@ -611,6 +612,9 @@ public abstract class ProtocolDocument extends ResearchDocumentBase implements C
 
     protected abstract Class<? extends Protocol> getProtocolBOClassHook();
 
-    
+    @Override
+    public void populateAgendaQualifiers(Map<String, String> qualifiers) {
+        qualifiers.put(KcKrmsConstants.UNIT_NUMBER, getProtocol().getLeadUnitNumber());
+    }
     
 }

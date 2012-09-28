@@ -57,6 +57,7 @@ import org.kuali.kra.iacuc.protocol.reference.IacucProtocolReferenceBean;
 import org.kuali.kra.iacuc.protocol.reference.IacucProtocolReferenceService;
 import org.kuali.kra.iacuc.protocol.reference.IacucProtocolReferenceType;
 import org.kuali.kra.iacuc.protocol.research.IacucProtocolResearchAreaService;
+import org.kuali.kra.iacuc.questionnaire.IacucProtocolModuleQuestionnaireBean;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -656,7 +657,7 @@ public class IacucProtocolProtocolAction extends IacucProtocolAction {
      */
     private List<AnswerHeader> getAnswerHeaders(ActionForm form, String actionTypeCode) {
         ProtocolForm protocolForm = (ProtocolForm) form;
-        ModuleQuestionnaireBean moduleQuestionnaireBean = new ModuleQuestionnaireBean(CoeusModule.IACUC_PROTOCOL_MODULE_CODE, protocolForm.getProtocolDocument().getProtocol().getProtocolNumber() + "T", CoeusSubModule.PROTOCOL_SUBMISSION, actionTypeCode, false);
+        ModuleQuestionnaireBean moduleQuestionnaireBean = new IacucProtocolModuleQuestionnaireBean(CoeusModule.IACUC_PROTOCOL_MODULE_CODE, protocolForm.getProtocolDocument().getProtocol().getProtocolNumber() + "T", CoeusSubModule.PROTOCOL_SUBMISSION, actionTypeCode, false);
         return getQuestionnaireAnswerService().getQuestionnaireAnswer(moduleQuestionnaireBean);
     }
     

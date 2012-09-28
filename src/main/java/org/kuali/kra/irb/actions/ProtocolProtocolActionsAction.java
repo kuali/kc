@@ -152,6 +152,7 @@ import org.kuali.kra.irb.noteattachment.ProtocolNotepad;
 import org.kuali.kra.irb.notification.IRBNotificationContext;
 import org.kuali.kra.irb.notification.IRBNotificationRenderer;
 import org.kuali.kra.irb.onlinereview.ProtocolReviewAttachment;
+import org.kuali.kra.irb.questionnaire.ProtocolModuleQuestionnaireBean;
 import org.kuali.kra.irb.questionnaire.ProtocolQuestionnaireAuditRule;
 import org.kuali.kra.irb.summary.AttachmentSummary;
 import org.kuali.kra.irb.summary.ProtocolSummary;
@@ -633,7 +634,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
      */
     private List<AnswerHeader> getAnswerHeaders(ActionForm form, String actionTypeCode) {
         ProtocolForm protocolForm = (ProtocolForm) form;
-        ModuleQuestionnaireBean moduleQuestionnaireBean = new ModuleQuestionnaireBean(CoeusModule.IRB_MODULE_CODE, protocolForm.getProtocolDocument().getProtocol().getProtocolNumber() + "T", CoeusSubModule.PROTOCOL_SUBMISSION, actionTypeCode, false);
+        ModuleQuestionnaireBean moduleQuestionnaireBean = new ProtocolModuleQuestionnaireBean(CoeusModule.IRB_MODULE_CODE, protocolForm.getProtocolDocument().getProtocol().getProtocolNumber() + "T", CoeusSubModule.PROTOCOL_SUBMISSION, actionTypeCode, false);
         return getQuestionnaireAnswerService().getQuestionnaireAnswer(moduleQuestionnaireBean);
 
     }

@@ -37,6 +37,7 @@ import org.kuali.kra.common.committee.bo.CommitteeMembership;
 import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.krms.KcKrmsContextBo;
 import org.kuali.kra.protocol.actions.ProtocolAction;
 import org.kuali.kra.protocol.actions.ProtocolStatus;
 import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewModule;
@@ -84,7 +85,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 
-public abstract class Protocol extends KraPersistableBusinessObjectBase implements SequenceOwner<Protocol>, Permissionable, UnitAclLoadable, Disclosurable {
+public abstract class Protocol extends KraPersistableBusinessObjectBase implements SequenceOwner<Protocol>, Permissionable, UnitAclLoadable, Disclosurable, KcKrmsContextBo {
    
     private static final long serialVersionUID = -5556152547067349988L;
       

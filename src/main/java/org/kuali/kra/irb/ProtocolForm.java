@@ -44,6 +44,7 @@ import org.kuali.kra.irb.personnel.PersonnelHelper;
 import org.kuali.kra.irb.protocol.ProtocolHelper;
 import org.kuali.kra.irb.protocol.funding.ProtocolFundingSource;
 import org.kuali.kra.irb.protocol.reference.ProtocolReferenceBean;
+import org.kuali.kra.irb.questionnaire.ProtocolModuleQuestionnaireBean;
 import org.kuali.kra.irb.questionnaire.QuestionnaireHelper;
 import org.kuali.kra.irb.specialreview.SpecialReviewHelper;
 import org.kuali.kra.medusa.MedusaBean;
@@ -246,7 +247,7 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
         String protocolNumber = request.getParameter("questionnaireHelper.protocolNumber");
         String submissionNumber = request.getParameter("questionnaireHelper.submissionNumber");
         if (StringUtils.isNotBlank(protocolNumber) && protocolNumber.endsWith("T")) {
-            ModuleQuestionnaireBean moduleQuestionnaireBean = new ModuleQuestionnaireBean(CoeusModule.IRB_MODULE_CODE, protocolNumber, CoeusSubModule.PROTOCOL_SUBMISSION, submissionNumber, false);
+            ModuleQuestionnaireBean moduleQuestionnaireBean = new ProtocolModuleQuestionnaireBean(CoeusModule.IRB_MODULE_CODE, protocolNumber, CoeusSubModule.PROTOCOL_SUBMISSION, submissionNumber, false);
             this.getQuestionnaireHelper().setAnswerHeaders(
                     getQuestionnaireAnswerService().getQuestionnaireAnswer(moduleQuestionnaireBean));
         }
