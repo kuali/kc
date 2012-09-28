@@ -417,7 +417,7 @@ public class QuestionnaireXmlStream implements XmlStream {
             moduleItemKey = disclosure.getCoiDisclosureNumber();
             moduleSubItemCode = (String) params.get("coeusModuleSubItemCode");
         }
-        return new ModuleQuestionnaireBean(moduleItemCode,moduleItemKey,moduleSubItemCode,moduleSubItemKey, false);
+        return getQuestionnaireAnswerService().getModuleSpecificBean(moduleItemCode,moduleItemKey,moduleSubItemCode,moduleSubItemKey, false);
                 
     }
 

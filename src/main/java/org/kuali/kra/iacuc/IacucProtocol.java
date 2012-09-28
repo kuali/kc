@@ -53,6 +53,7 @@ import org.kuali.kra.iacuc.threers.IacucPrinciples;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
+import org.kuali.kra.krms.KrmsRulesContext;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.actions.ProtocolStatus;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
@@ -698,6 +699,11 @@ public class IacucProtocol extends Protocol {
 
     protected IacucProtocolProcedureService getProtocolProcedureService() {
         return (IacucProtocolProcedureService)KraServiceLocator.getService("iacucProtocolProcedureService");
+    }
+
+    @Override
+    public KrmsRulesContext getKrmsRulesContext() {
+        return getIacucProtocolDocument();
     }
 
 }

@@ -41,7 +41,7 @@ public interface ProposalDevelopmentS2sQuestionnaireService {
      * @param formName the name of the form
      * @return
      */
-    List<QuestionnaireUsage> getQuestionnaireUsages(String oppNameSpace, String formName);
+    List<QuestionnaireUsage> getQuestionnaireUsages(String oppNameSpace, String formName, DevelopmentProposal proposal);
     
     /**
      * Get the AnswerHeaders for a specific proposal's form. 

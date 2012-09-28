@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -79,12 +80,28 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
     private static final String DOCUMENT_NUMBER = "documentNumber";
 
     @Override
+    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        QuestionnaireMaintenanceForm qnForm = (QuestionnaireMaintenanceForm) form;
+        ActionForward forward = super.execute(mapping, qnForm, request, response);
+        //check for deleted usages after the execute as execute is what populates the form inputs. Should be fine here as page is not
+        //rendered until later. Check for same in save as should happen before save though.
+        if (qnForm.getDocument() != null && ((MaintenanceDocumentBase) qnForm.getDocument()).getNewMaintainableObject() != null) {
+            Questionnaire newQuestionnaire = (Questionnaire) ((MaintenanceDocumentBase) qnForm.getDocument())
+                    .getNewMaintainableObject().getDataObject();
+            checkForDeletedUsages(newQuestionnaire);
+        }
+        return forward;
+    }
+    
+    
+    @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         QuestionnaireMaintenanceForm qnForm = (QuestionnaireMaintenanceForm) form;
         Questionnaire newQuestionnaire = (Questionnaire) ((MaintenanceDocumentBase) qnForm.getDocument())
                 .getNewMaintainableObject().getDataObject();
-        
+        checkForDeletedUsages(newQuestionnaire);
         if (validateTemplateField(qnForm)) {
             if (newQuestionnaire.getSequenceNumber() == null) {
                 newQuestionnaire.setSequenceNumber(1);
@@ -344,7 +361,6 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
         String result = "";
         for (QuestionnaireUsage questionnaireUsage : questionnaire.getQuestionnaireUsages()) {
             // get the module description
-            questionnaireUsage.refresh();
             String moduleDescription = questionnaireUsage.getCoeusModule() != null ? questionnaireUsage.getCoeusModule().getDescription() : "";
             // get the sub module description
             CoeusSubModule subModule = getSubModule(questionnaireUsage.getModuleItemCode(), questionnaireUsage.getModuleSubItemCode());
@@ -686,6 +702,18 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
             documentActions.put(KRADConstants.KUALI_ACTION_CAN_CLOSE, "TRUE");
             qnForm.setDocumentActions(documentActions);
             
+        }
+    }
+    
+    protected void checkForDeletedUsages(Questionnaire questionnaire) {
+        if (questionnaire != null && questionnaire.getQuestionnaireUsages() != null) {
+            Iterator<QuestionnaireUsage> iter = questionnaire.getQuestionnaireUsages().iterator();
+            while (iter.hasNext()) {
+                QuestionnaireUsage usage = iter.next();
+                if (usage.isDelete()) {
+                    iter.remove();
+                }
+            }
         }
     }
 

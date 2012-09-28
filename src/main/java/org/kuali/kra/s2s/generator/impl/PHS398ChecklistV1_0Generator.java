@@ -33,8 +33,6 @@ import java.util.TreeMap;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
-import org.kuali.kra.bo.CoeusModule;
-import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.distributionincome.BudgetProjectIncome;
@@ -42,6 +40,7 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.ProposalYnq;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.questionnaire.ProposalDevelopmentModuleQuestionnaireBean;
 import org.kuali.kra.questionnaire.QuestionnaireQuestion;
 import org.kuali.kra.questionnaire.answer.Answer;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
@@ -83,11 +82,7 @@ public class PHS398ChecklistV1_0Generator extends PHS398ChecklistBaseGenerator {
 		PHS398Checklist phsChecklist = PHS398Checklist.Factory.newInstance();
 		phsChecklist.setFormVersion(S2SConstants.FORMVERSION_1_0);
 		ApplicationType.Enum appEnum = null;
-		ModuleQuestionnaireBean moduleQuestionnaireBean = new ModuleQuestionnaireBean(
-                CoeusModule.PROPOSAL_DEVELOPMENT_MODULE_CODE, pdDoc.getDevelopmentProposal().getProposalNumber(), CoeusSubModule.ZERO_SUBMODULE ,
-                    CoeusSubModule.ZERO_SUBMODULE, true);
-        QuestionnaireAnswerService questionnaireAnswerService = KraServiceLocator.getService(QuestionnaireAnswerService.class);
-        answerHeaders = questionnaireAnswerService.getQuestionnaireAnswer(moduleQuestionnaireBean);
+		answerHeaders = getQuestionnaireAnswers(pdDoc.getDevelopmentProposal(), true);
 		if (pdDoc.getDevelopmentProposal().getProposalTypeCode() != null
 				&& Integer.parseInt(pdDoc.getDevelopmentProposal()
 						.getProposalTypeCode()) < PROPOSAL_TYPE_CODE_6) {

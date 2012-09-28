@@ -85,7 +85,7 @@ public interface QuestionnaireAnswerService {
      * 
      * @param answers
      */
-    void setupChildAnswerIndicator(List<Answer> answers);
+    void setupChildAnswerIndicator(AnswerHeader answerHeader);
     
     /**
      * check if the questionnaire is complete.
@@ -133,7 +133,7 @@ public interface QuestionnaireAnswerService {
      * @param finalDoc
      * @return
      */
-    public List<QuestionnaireUsage> getPublishedQuestionnaire(String coeusModule, String coeusSubModule, boolean finalDoc);
+    public List<QuestionnaireUsage> getPublishedQuestionnaire(ModuleQuestionnaireBean moduleQuestionnaireBean);
     
     
     
@@ -147,4 +147,23 @@ public interface QuestionnaireAnswerService {
      * @return
      */
     public boolean checkIfQuestionnaireIsActiveForModule(Integer questionnaireId, String coeusModuleCode, String coeusSubModuleCode);
+    
+    /**
+     * Based on the data in the answer header, rebuild the module specific ModuleQuestionnaireBean. Assumes the document is in a final state.
+     * @param answerHeader
+     * @return
+     */
+    ModuleQuestionnaireBean getModuleSpecificBean(AnswerHeader answerHeader);
+    
+    /**
+     * Based on the moduleItemCode and moduleSubItemCode rebuilds the module specific ModuleQuestionnaireBean.
+     * @param moduleItemCode
+     * @param moduleItemKey
+     * @param moduleSubItemCode
+     * @param moduleSubItemKey
+     * @param finalDoc
+     * @return
+     */
+    ModuleQuestionnaireBean getModuleSpecificBean(String moduleItemCode, String moduleItemKey, String moduleSubItemCode, String moduleSubItemKey, boolean finalDoc);
+    
 }

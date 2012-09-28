@@ -190,8 +190,8 @@ public class CoiDisclosureProjectBean implements Serializable {
         this.projectQuestionnaireHelper = projectQuestionnaireHelper;
     }
     
-    public void populateAnswers(String originalDisclosureId) {
-        projectQuestionnaireHelper = new DisclProjectQuestionnaireHelper(coiDisclProject, coiDisclProject.getCoiDisclosure(), originalDisclosureId);
+    public void populateAnswers(CoiDisclosure originalDisclosure) {
+        projectQuestionnaireHelper = new DisclProjectQuestionnaireHelper(coiDisclProject, coiDisclProject.getCoiDisclosure(), originalDisclosure);
         projectQuestionnaireHelper.populateAnswers();
     }
     

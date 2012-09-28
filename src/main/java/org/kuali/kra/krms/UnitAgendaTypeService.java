@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.krms;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.kuali.kra.bo.Unit;
@@ -39,6 +40,9 @@ import org.kuali.rice.krms.impl.util.KRMSServiceLocatorInternal;
 
 public class UnitAgendaTypeService extends AgendaTypeServiceBase  {
 
+    public static final String UNIT_AGENDA_TYPE_ID = "KC1000";
+    public static final String QUESTIONNAIRE_AGENDA_TYPE_ID = "KC1004";
+    
     @Override
     public RemotableAttributeField translateTypeAttribute(KrmsTypeAttribute inputAttribute,
             KrmsAttributeDefinition attributeDefinition) {
@@ -128,16 +132,17 @@ public class UnitAgendaTypeService extends AgendaTypeServiceBase  {
             return null;
         }
         
-        return new UnitAgenda(agendaDefinition.getAttributes(), new LazyAgendaTree(agendaDefinition, repositoryToEngineTranslator));
+        return new UnitAgenda(agendaDefinition.getAttributes(), new LazyAgendaTree(agendaDefinition, repositoryToEngineTranslator), agendaDefinition.getTypeId());
     }
     
     private static class UnitAgenda extends BasicAgenda {
         
         private Map<String, String> qualifiers;
     
-        public UnitAgenda(Map<String, String> qualifiers, AgendaTree agendaTree) {
+        public UnitAgenda(Map<String, String> qualifiers, AgendaTree agendaTree, String agendaTypeId) {
             super(qualifiers, agendaTree);
-            this.qualifiers = qualifiers;
+            this.qualifiers = new HashMap<String, String>(qualifiers);
+            this.qualifiers.put("typeId", agendaTypeId);
         }
         
         @Override
@@ -164,5 +169,4 @@ public class UnitAgendaTypeService extends AgendaTypeServiceBase  {
         }
 
     }
-
 }

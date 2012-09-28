@@ -53,7 +53,7 @@ public class ProposalDevelopmentS2sQuestionnaireAuditRule extends ResearchDocume
         
         if (opp!=null && opp.getS2sOppForms()!=null) {
             for (S2sOppForms oppforms : opp.getS2sOppForms()) {
-                List<QuestionnaireUsage> usages = getProposalDevelopmentS2sQuestionnaireService().getQuestionnaireUsages(oppforms.getOppNameSpace(), oppforms.getFormName());
+                List<QuestionnaireUsage> usages = getProposalDevelopmentS2sQuestionnaireService().getQuestionnaireUsages(oppforms.getOppNameSpace(), oppforms.getFormName(), developmentProposal);
                 // if the returned usages list is empty, there are no Questionnaires for that opp form.
                 if (usages.size()>0) {
                     List<AnswerHeader> headers = proposalDevelopmentS2sQuestionnaireService.getProposalAnswerHeaderForForm(developmentProposal,oppforms.getOppNameSpace(),oppforms.getFormName());
