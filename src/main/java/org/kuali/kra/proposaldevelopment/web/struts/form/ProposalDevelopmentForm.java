@@ -230,7 +230,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     private BudgetChangedData newBudgetChangedData;
    
     private String[] selectedBudgetPrint;
-    private static final String PROPOSAL_SUMMARY_INDICATOR = "enableProposalSummaryPanel";   
+    private static final String PROPOSAL_SUMMARY_TAB_INDICATOR = "enableProposalSummaryTab";   
 
     public ProposalDevelopmentForm() {
         super();
@@ -1587,7 +1587,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
         boolean disableGrantsGov = !isGrantsGovEnabled();
 
         boolean showProposalSummary = true;        
-        Parameter proposalSummaryIndicatorParam = this.getParameterService().getParameter(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, ParameterConstants.DOCUMENT_COMPONENT, PROPOSAL_SUMMARY_INDICATOR);
+        Parameter proposalSummaryIndicatorParam = this.getParameterService().getParameter(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, ParameterConstants.DOCUMENT_COMPONENT, PROPOSAL_SUMMARY_TAB_INDICATOR);
         if ( proposalSummaryIndicatorParam != null && "N".equalsIgnoreCase(proposalSummaryIndicatorParam.getValue()) )
         {
             showProposalSummary = false;
