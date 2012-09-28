@@ -22,6 +22,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KcPerson;
+import org.kuali.kra.common.committee.bo.CommitteeMembershipType;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.personnel.ProtocolPersonRolodex;
 import org.kuali.kra.service.KcPersonService;

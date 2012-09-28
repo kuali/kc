@@ -24,8 +24,8 @@ import java.util.Map;
 
 import org.apache.commons.lang.time.DateUtils;
 import org.junit.Test;
-import org.kuali.kra.committee.web.struts.form.schedule.Time12HrFmt;
-import org.kuali.kra.committee.web.struts.form.schedule.Time12HrFmt.MERIDIEM;
+import org.kuali.kra.common.committee.web.struts.form.schedule.Time12HrFmt;
+import org.kuali.kra.common.committee.web.struts.form.schedule.Time12HrFmt.MERIDIEM;
 
 /**
  * This class is Template implementation of BoAttributeTestBase<T> class, to test CommitteeSchedule BO for toStringMapper.

@@ -17,7 +17,7 @@ package org.kuali.kra.committee.service;
 
 import java.util.List;
 
-import org.kuali.kra.committee.print.CommitteeReportType;
+import org.kuali.kra.common.committee.print.CommitteeReportType;
 import org.kuali.kra.printing.Printable;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.print.AbstractPrint;

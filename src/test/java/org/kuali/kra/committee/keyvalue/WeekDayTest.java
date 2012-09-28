@@ -19,6 +19,7 @@ import java.util.Map;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.kuali.kra.common.committee.keyvalue.WeekDay;
 
 public class WeekDayTest extends Assert{
     

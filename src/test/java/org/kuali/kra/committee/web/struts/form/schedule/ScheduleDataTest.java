@@ -20,6 +20,7 @@ import java.util.Map;
 import junit.framework.TestCase;
 
 import org.junit.Test;
+import org.kuali.kra.common.committee.web.struts.form.schedule.ScheduleData;
 
 public class ScheduleDataTest extends TestCase {
     

@@ -18,6 +18,7 @@ package org.kuali.kra.committee.bo;
 import java.sql.Date;
 
 import org.apache.commons.lang.ObjectUtils;
+import org.kuali.kra.common.committee.bo.MembershipRole;
 
 /**
  * 

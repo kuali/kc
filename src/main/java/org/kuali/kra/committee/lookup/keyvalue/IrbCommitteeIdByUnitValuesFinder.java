@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.committee.lookup.keyvalue;
 
-import org.kuali.kra.committee.bo.CommitteeType;
+import org.kuali.kra.common.committee.bo.CommitteeType;
 import org.kuali.kra.infrastructure.RoleConstants;
 
 public class IrbCommitteeIdByUnitValuesFinder extends CommitteeIdByUnitValuesFinder {

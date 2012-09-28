@@ -27,7 +27,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.committee.bo.CommitteeBatchCorrespondence;
 import org.kuali.kra.committee.bo.CommitteeBatchCorrespondenceDetail;
-import org.kuali.kra.committee.print.CommitteeReportType;
+import org.kuali.kra.common.committee.print.CommitteeReportType;
 import org.kuali.kra.committee.service.CommitteeBatchCorrespondenceService;
 import org.kuali.kra.committee.service.CommitteePrintingService;
 import org.kuali.kra.common.notification.service.KcNotificationService;

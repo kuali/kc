@@ -32,7 +32,7 @@ import org.kuali.kra.committee.document.authorization.CommitteeScheduleTask;
 import org.kuali.kra.committee.document.authorization.CommitteeTask;
 import org.kuali.kra.committee.service.CommitteeScheduleService;
 import org.kuali.kra.committee.service.CommitteeService;
-import org.kuali.kra.committee.web.struts.form.schedule.ScheduleData;
+import org.kuali.kra.common.committee.web.struts.form.schedule.ScheduleData;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.service.TaskAuthorizationService;

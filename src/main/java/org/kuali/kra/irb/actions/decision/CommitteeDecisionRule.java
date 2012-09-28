@@ -20,7 +20,7 @@ import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.committee.bo.CommitteeDecisionMotionType;
+import org.kuali.kra.common.committee.bo.CommitteeDecisionMotionType;
 import org.kuali.kra.committee.service.CommitteeScheduleAttendanceService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
