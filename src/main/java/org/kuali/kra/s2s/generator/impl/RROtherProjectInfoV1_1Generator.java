@@ -78,11 +78,7 @@ public class RROtherProjectInfoV1_1Generator extends RROtherProjectInfoBaseGener
         RROtherProjectInfoDocument.RROtherProjectInfo rrOtherProjectInfo = RROtherProjectInfoDocument.RROtherProjectInfo.Factory
                 .newInstance();
         rrOtherProjectInfo.setFormVersion(S2SConstants.FORMVERSION_1_1);
-        ModuleQuestionnaireBean moduleQuestionnaireBean = new ModuleQuestionnaireBean(
-                CoeusModule.PROPOSAL_DEVELOPMENT_MODULE_CODE, pdDoc.getDevelopmentProposal().getProposalNumber(), CoeusSubModule.ZERO_SUBMODULE ,
-                    CoeusSubModule.ZERO_SUBMODULE, true);
-        QuestionnaireAnswerService questionnaireAnswerService = KraServiceLocator.getService(QuestionnaireAnswerService.class);
-        answerHeaders = questionnaireAnswerService.getQuestionnaireAnswer(moduleQuestionnaireBean);
+        answerHeaders = getQuestionnaireAnswers(pdDoc.getDevelopmentProposal(), true);
         setHumanSubjAndVertebrateAnimals(rrOtherProjectInfo);
         Enum answer = YesNoDataType.N_NO;
         String answerExplanation = " ";

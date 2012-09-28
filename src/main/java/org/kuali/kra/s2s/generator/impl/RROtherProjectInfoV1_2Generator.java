@@ -77,11 +77,7 @@ public class RROtherProjectInfoV1_2Generator extends
 		rrOtherProjectInfo.setFormVersion(S2SConstants.FORMVERSION_1_2);
 		rrOtherProjectInfo.setHumanSubjectsIndicator(YesNoDataType.N_NO);
 		rrOtherProjectInfo.setVertebrateAnimalsIndicator(YesNoDataType.N_NO);
-		ModuleQuestionnaireBean moduleQuestionnaireBean = new ModuleQuestionnaireBean(
-                CoeusModule.PROPOSAL_DEVELOPMENT_MODULE_CODE, pdDoc.getDevelopmentProposal().getProposalNumber(), CoeusSubModule.ZERO_SUBMODULE ,
-                    CoeusSubModule.ZERO_SUBMODULE, true);
-        QuestionnaireAnswerService questionnaireAnswerService = KraServiceLocator.getService(QuestionnaireAnswerService.class);
-        answerHeaders = questionnaireAnswerService.getQuestionnaireAnswer(moduleQuestionnaireBean);
+		answerHeaders = getQuestionnaireAnswers(pdDoc.getDevelopmentProposal(), true);
 		Organization organization = pdDoc.getDevelopmentProposal()
 				.getApplicantOrganization().getOrganization();
 		setHumanSubjAndVertebrateAnimals(rrOtherProjectInfo, organization);

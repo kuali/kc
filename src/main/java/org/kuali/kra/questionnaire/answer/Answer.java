@@ -50,6 +50,8 @@ public class Answer extends KraPersistableBusinessObjectBase {
 
     // transient field : indicate whether a child should be displayed  
     private String matchedChild = "N";
+    
+    private boolean ruleMatched = false;
 
     private List<Answer> parentAnswer;
 
@@ -225,5 +227,13 @@ public class Answer extends KraPersistableBusinessObjectBase {
 
     public void setParentAnswer(List<Answer> parentAnswer) {
         this.parentAnswer = parentAnswer;
+    }
+
+    public boolean isRuleMatched() {
+        return ruleMatched;
+    }
+
+    public void setRuleMatched(boolean ruleMatched) {
+        this.ruleMatched = ruleMatched;
     }
 }

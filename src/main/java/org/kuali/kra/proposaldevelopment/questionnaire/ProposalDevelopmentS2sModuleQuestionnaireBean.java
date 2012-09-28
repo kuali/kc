@@ -20,10 +20,15 @@ import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 
-public class ProposalDevelopmentS2sModuleQuestionnaireBean extends ModuleQuestionnaireBean {
+public class ProposalDevelopmentS2sModuleQuestionnaireBean extends ProposalDevelopmentModuleQuestionnaireBean {
     
     public ProposalDevelopmentS2sModuleQuestionnaireBean(DevelopmentProposal developmentProposal) {
-        super(CoeusModule.PROPOSAL_DEVELOPMENT_MODULE_CODE, developmentProposal.getProposalNumber(), CoeusSubModule.PROPOSAL_S2S_SUBMODULE, "0", developmentProposal.getProposalDocument().getDocumentHeader().getWorkflowDocument().isApproved());      
+        super(developmentProposal);
+        this.setModuleSubItemCode(CoeusSubModule.PROPOSAL_S2S_SUBMODULE);
+        this.setModuleSubItemKey("0");      
     }
     
+    public ProposalDevelopmentS2sModuleQuestionnaireBean(String moduleItemCode, String moduleItemKey, String moduleSubItemCode, String moduleSubItemKey, boolean finalDoc) {
+        super(moduleItemCode, moduleItemKey, moduleSubItemCode, moduleSubItemKey, finalDoc);
+    }
 }

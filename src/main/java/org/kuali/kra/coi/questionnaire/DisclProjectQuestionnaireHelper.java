@@ -22,18 +22,18 @@ import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 
 public class DisclProjectQuestionnaireHelper extends DisclosureQuestionnaireHelper {
 
-    private String originalDisclosureId;
+    private CoiDisclosure originalDisclosure;
     private CoiDisclProject coiDisclProject;
     
-    public DisclProjectQuestionnaireHelper(CoiDisclProject coiDisclProject, CoiDisclosure coiDisclosure, String originalDisclosureId) {
+    public DisclProjectQuestionnaireHelper(CoiDisclProject coiDisclProject, CoiDisclosure coiDisclosure, CoiDisclosure originalDisclosure) {
         super(coiDisclosure);
         this.coiDisclProject = coiDisclProject;
-        this.originalDisclosureId = originalDisclosureId;  
+        this.originalDisclosure = originalDisclosure;
     }
 
     @Override
     public ModuleQuestionnaireBean getModuleQnBean() {
-        return new DisclosureModuleQuestionnaireBean(originalDisclosureId, getCoiDisclProject(), 
+        return new DisclosureModuleQuestionnaireBean(originalDisclosure, getCoiDisclProject(), 
                 getCoiDisclosure().getCoiDisclosureDocument().getDocumentHeader().hasWorkflowDocument() ? getCoiDisclosure().getCoiDisclosureDocument().getDocumentHeader().getWorkflowDocument().isApproved() : false);
     }
 
@@ -46,17 +46,17 @@ public class DisclProjectQuestionnaireHelper extends DisclosureQuestionnaireHelp
         setCoiDisclosure(coiDisclProject.getCoiDisclosure());
     }
 
-    public String getOriginalDisclosureId() {
-        return originalDisclosureId;
-    }
-
-    public void setOriginalDisclosureId(String originalDisclosureId) {
-        this.originalDisclosureId = originalDisclosureId;
-    }
-    
     public void preSave(CoiDisclosure coiDisclosure) {
         setCoiDisclosure(coiDisclosure);
         super.preSave();
+    }
+
+    public CoiDisclosure getOriginalDisclosure() {
+        return originalDisclosure;
+    }
+
+    public void setOriginalDisclosure(CoiDisclosure originalDisclosure) {
+        this.originalDisclosure = originalDisclosure;
     }    
 
 }

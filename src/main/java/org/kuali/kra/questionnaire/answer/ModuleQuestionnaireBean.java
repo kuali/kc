@@ -19,25 +19,29 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.CoeusModule;
+import org.kuali.kra.bo.CoeusSubModule;
+import org.kuali.kra.coi.questionnaire.DisclosureModuleQuestionnaireBean;
+import org.kuali.kra.iacuc.questionnaire.IacucProtocolModuleQuestionnaireBean;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.irb.questionnaire.ProtocolModuleQuestionnaireBean;
+import org.kuali.kra.krms.KrmsRulesContext;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.questionnaire.ProposalDevelopmentModuleQuestionnaireBean;
+import org.kuali.kra.proposaldevelopment.questionnaire.ProposalDevelopmentS2sModuleQuestionnaireBean;
+import org.kuali.kra.proposaldevelopment.questionnaire.ProposalPersonModuleQuestionnaireBean;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 
 /**
  * This class is intend as a link between modules & questionnaire answer So, Questionnaire answer service can be shared.
  **/
-public class ModuleQuestionnaireBean {
+public abstract class ModuleQuestionnaireBean {
     private String moduleItemCode;
     private String moduleSubItemCode;
     private String moduleItemKey;
 
     private String moduleSubItemKey;
     private boolean finalDoc;
-
-    public ModuleQuestionnaireBean() {
-        super();
-    }
 
     public ModuleQuestionnaireBean(String moduleItemCode, String moduleItemKey, String moduleSubItemCode, String moduleSubItemKey, boolean finalDoc) {
         this.moduleItemCode = moduleItemCode;
@@ -46,7 +50,6 @@ public class ModuleQuestionnaireBean {
         this.moduleSubItemKey = moduleSubItemKey;
         this.finalDoc = finalDoc;
     }
-
     
     public String getModuleItemCode() {
         return moduleItemCode;
@@ -87,7 +90,7 @@ public class ModuleQuestionnaireBean {
     public void setModuleSubItemCode(String moduleSubItemCode) {
         this.moduleSubItemCode = moduleSubItemCode;
     }
-
+    
     /**
      * 
      * This method is to concate the rule evaluation results (which are referenced by the questionnaire/question
@@ -97,25 +100,10 @@ public class ModuleQuestionnaireBean {
      * @return
      */
     public String getRuleResults() {
-        String namespace = null;
-        String contextKey = null;
-        if (CoeusModule.PROPOSAL_DEVELOPMENT_MODULE_CODE.equals(getModuleItemCode())) {
-            namespace = Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT;
-            String itemKey = Constants.EMPTY_STRING;
-            if (getModuleItemKey().indexOf("|") > 0) {
-                itemKey = getModuleItemKey().substring(0, getModuleItemKey().indexOf("|"));
-            }
-            contextKey = itemKey + "-" + getModuleSubItemKey();
-        }
-        else {
-            namespace = Constants.MODULE_NAMESPACE_PROTOCOL;
-            contextKey = getModuleItemKey() + "-" + getModuleSubItemKey();
-        }
-
         StringBuffer sb = new StringBuffer();
-        if (GlobalVariables.getUserSession().retrieveObject(namespace + "-" + contextKey + "-rulereferenced") != null) {
+        if (GlobalVariables.getUserSession().retrieveObject(getSessionContextKey() + "-rulereferenced") != null) {
             Map<String, Boolean> ruleResults = (Map<String, Boolean>) GlobalVariables.getUserSession().retrieveObject(
-                    namespace + "-" + contextKey + "-rulereferenced");
+                    getSessionContextKey() + "-rulereferenced");
 
 
             for (String key : ruleResults.keySet()) {
@@ -125,9 +113,65 @@ public class ModuleQuestionnaireBean {
                 sb.append(key).append(":").append(ruleResults.get(key) ? "Y" : "N");
             }
         }
-        return sb.toString();
-
+        return sb.toString(); 
     }
 
+    public abstract KrmsRulesContext getKrmsRulesContextFromBean();
+
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + (finalDoc ? 1231 : 1237);
+        result = prime * result + ((moduleItemCode == null) ? 0 : moduleItemCode.hashCode());
+        result = prime * result + ((moduleItemKey == null) ? 0 : moduleItemKey.hashCode());
+        result = prime * result + ((moduleSubItemCode == null) ? 0 : moduleSubItemCode.hashCode());
+        result = prime * result + ((moduleSubItemKey == null) ? 0 : moduleSubItemKey.hashCode());
+        return result;
+    }
+
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        ModuleQuestionnaireBean other = (ModuleQuestionnaireBean) obj;
+        if (finalDoc != other.finalDoc)
+            return false;
+        if (moduleItemCode == null) {
+            if (other.moduleItemCode != null)
+                return false;
+        }
+        else if (!moduleItemCode.equals(other.moduleItemCode))
+            return false;
+        if (moduleItemKey == null) {
+            if (other.moduleItemKey != null)
+                return false;
+        }
+        else if (!moduleItemKey.equals(other.moduleItemKey))
+            return false;
+        if (moduleSubItemCode == null) {
+            if (other.moduleSubItemCode != null)
+                return false;
+        }
+        else if (!moduleSubItemCode.equals(other.moduleSubItemCode))
+            return false;
+        if (moduleSubItemKey == null) {
+            if (other.moduleSubItemKey != null)
+                return false;
+        }
+        else if (!moduleSubItemKey.equals(other.moduleSubItemKey))
+            return false;
+        return true;
+    }
+
+    public String getSessionContextKey() {
+        return moduleItemCode + "-" + moduleItemKey + "-" + moduleSubItemCode + "-" + moduleSubItemKey;
+    }
 
 }

@@ -705,8 +705,8 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
     }
     
     public void populateContextQualifiers(Map<String, String> qualifiers) {
-        qualifiers.put("namespaceCode", Constants.MODULE_NAMESPACE_AWARD);
-        qualifiers.put("name", KcKrmsConstants.Award.AWARD_CONTEXT);
+        qualifiers.put("namespaceCode", getNamespace());
+        qualifiers.put("name", getRuleContextName());
     }
     
     public void addFacts(Facts.Builder factsBuilder) {
@@ -714,4 +714,12 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
         fbService.addFacts(factsBuilder, this);
     }
 
+    public String getRuleContextName() {
+        return KcKrmsConstants.Award.AWARD_CONTEXT;
+    }
+
+    @Override
+    public void populateAgendaQualifiers(Map<String, String> qualifiers) {
+        qualifiers.put(KcKrmsConstants.UNIT_NUMBER, getLeadUnitNumber());
+    }
 }

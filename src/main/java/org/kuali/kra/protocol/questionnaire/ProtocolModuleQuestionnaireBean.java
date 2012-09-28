@@ -22,9 +22,12 @@ import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 
 public abstract class ProtocolModuleQuestionnaireBean extends ModuleQuestionnaireBean {
 
+    private Protocol protocol;
+    
     public ProtocolModuleQuestionnaireBean(Protocol protocol) {
         super(CoeusModule.IRB_MODULE_CODE, protocol.getProtocolNumber(), "0", protocol.getSequenceNumber().toString(), 
                                 protocol.getProtocolDocument().getDocumentHeader().getWorkflowDocument().isApproved());
+        this.protocol = protocol;
         setProtocolSubItemCode(protocol) ;
     }
     
@@ -61,9 +64,12 @@ public abstract class ProtocolModuleQuestionnaireBean extends ModuleQuestionnair
         }
         return retVal;
     }
-    
-    // TODO: need to make this method deliver a better hashing 
-    public int hashCode() {
-        return 0;
+
+    public Protocol getProtocol() {
+        return protocol;
+    }
+
+    public void setProtocol(Protocol protocol) {
+        this.protocol = protocol;
     }
 }

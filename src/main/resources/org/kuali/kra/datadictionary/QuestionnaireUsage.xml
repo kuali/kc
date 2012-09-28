@@ -35,6 +35,7 @@
                 <ref bean="QuestionnaireUsage-ruleId"/>
                 <ref bean="QuestionnaireUsage-questionnaireLabel"/>
                 <ref bean="QuestionnaireUsage-mandatory"/>
+                <ref bean="QuestionnaireUsage-delete"/>
                 <ref bean="QuestionnaireUsage-versionNumber"/>
             </list>
         </property>
@@ -130,17 +131,17 @@
     <bean abstract="true" id="QuestionnaireUsage-ruleId-parentBean" parent="AttributeDefinition">
         <property name="name" value="ruleId"/>
         <property name="forceUppercase" value="false"/>
-        <property name="label" value="Rule Id"/>
-        <property name="shortLabel" value="Rule Id"/>
-        <property name="maxLength" value="6"/>
+        <property name="label" value="Rule ID"/>
+        <property name="shortLabel" value="Rule ID"/>
+        <property name="maxLength" value="40"/>
         <property name="validationPattern">
-            <bean parent="NumericValidationPattern"/>
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />
         </property>
         <property name="control">
             <bean p:size="6" parent="TextControlDefinition"/>
         </property>
-        <property name="summary" value="Rule Id"/>
-        <property name="description" value="Rule Id"/>
+        <property name="summary" value="Rule ID"/>
+        <property name="description" value="Rule ID"/>
     </bean>
 
     <bean id="QuestionnaireUsage-questionnaireLabel" parent="QuestionnaireUsage-questionnaireLabel-parentBean"/>
@@ -158,11 +159,19 @@
         <property name="summary" value="Questionnaire Label"/>
         <property name="description" value="Questionnaire Label"/>
     </bean>
+    
+		<bean id="QuestionnaireUsage-delete" parent="QuestionnaireUsage-delete-parentBean"/>
+		<bean abstract="true" id="QuestionnaireUsage-delete-parentBean" parent="AttributeReferenceDummy-genericBoolean">
+			<property name="name" value="delete"/>
+    	<property name="control" >
+	      <bean parent="HiddenControlDefinition" />
+    	</property>			
+		</bean>    
 
     <bean id="QuestionnaireUsage-versionNumber" parent="QuestionnaireUsage-versionNumber-parentBean"/>
     <bean abstract="true" id="QuestionnaireUsage-versionNumber-parentBean" parent="AttributeReferenceDummy-versionNumber">
     </bean>
-
+    		
     <!-- Business Object Inquiry Definition -->
     <bean id="QuestionnaireUsage-inquiryDefinition" parent="QuestionnaireUsage-inquiryDefinition-parentBean"/>
     <bean abstract="true" id="QuestionnaireUsage-inquiryDefinition-parentBean" parent="InquiryDefinition">

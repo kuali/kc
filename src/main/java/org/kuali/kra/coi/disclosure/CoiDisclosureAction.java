@@ -46,6 +46,7 @@ import org.kuali.kra.coi.certification.SubmitDisclosureAction;
 import org.kuali.kra.coi.notesandattachments.CoiNotesAndAttachmentsHelper;
 import org.kuali.kra.coi.notesandattachments.attachments.CoiDisclosureAttachment;
 import org.kuali.kra.coi.print.CoiReportType;
+import org.kuali.kra.coi.questionnaire.DisclosureModuleQuestionnaireBean;
 import org.kuali.kra.coi.questionnaire.DisclosureQuestionnaireHelper;
 import org.kuali.kra.coi.service.CoiPrintingService;
 import org.kuali.kra.infrastructure.Constants;
@@ -382,7 +383,7 @@ public class CoiDisclosureAction extends CoiAction {
         coiDisclosureForm.getDisclosureQuestionnaireHelper().setAnswerQuestionnaire(false);
         coiDisclosureForm.getDisclosureQuestionnaireHelper().setQuestionnaireActiveStatuses();        
         for (AnswerHeader answerHeader : coiDisclosureForm.getDisclosureQuestionnaireHelper().getAnswerHeaders()) {
-            getQuestionnaireAnswerService().setupChildAnswerIndicator(answerHeader.getAnswers());
+            getQuestionnaireAnswerService().setupChildAnswerIndicator(answerHeader);
         }
     }
 
@@ -390,8 +391,7 @@ public class CoiDisclosureAction extends CoiAction {
         coiDisclosureForm.getDisclosureQuestionnaireHelper().setAnswerHeaders(
                 coiDisclosureForm.getDisclosureHelper().getMasterDisclosureBean().getAnswerHeaders());
         List<AnswerHeader> answerHeaders = getQuestionnaireAnswerService().getQuestionnaireAnswer(
-                new ModuleQuestionnaireBean (CoeusModule.COI_DISCLOSURE_MODULE_CODE, coiDisclosure.getCoiDisclosureId() != null ? coiDisclosure.getCoiDisclosureId().toString() : "", coiDisclosure.getEventTypeCode(), "-1", 
-                        false));
+                new DisclosureModuleQuestionnaireBean(coiDisclosure));
         if (CollectionUtils.isEmpty(coiDisclosureForm.getDisclosureQuestionnaireHelper().getAnswerHeaders())) {
             coiDisclosureForm.getDisclosureHelper().getMasterDisclosureBean().getAnswerHeaders().addAll(answerHeaders);
         } else {

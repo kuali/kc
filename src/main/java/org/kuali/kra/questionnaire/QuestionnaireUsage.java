@@ -15,10 +15,17 @@
  */
 package org.kuali.kra.questionnaire;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.lang.ObjectUtils;
 import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.bo.CoeusModule;
+import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 public class QuestionnaireUsage extends KraPersistableBusinessObjectBase implements Comparable<QuestionnaireUsage>, SequenceAssociate<Questionnaire> {
 
@@ -32,7 +39,7 @@ public class QuestionnaireUsage extends KraPersistableBusinessObjectBase impleme
 
     private String questionnaireRefIdFk;
 
-    private Integer ruleId;
+    private String ruleId;
 
     private String questionnaireLabel;
 
@@ -41,10 +48,14 @@ public class QuestionnaireUsage extends KraPersistableBusinessObjectBase impleme
     private boolean mandatory;
 
     private CoeusModule coeusModule;
+    
+    private CoeusSubModule coeusSubModule;
 
     private Questionnaire questionnaire;
 
     private Questionnaire sequenceOwner;
+    
+    private transient boolean delete;
 
     public QuestionnaireUsage() {
     }
@@ -81,11 +92,11 @@ public class QuestionnaireUsage extends KraPersistableBusinessObjectBase impleme
         this.questionnaireRefIdFk = questionnaireRefIdFk;
     }
 
-    public Integer getRuleId() {
+    public String getRuleId() {
         return ruleId;
     }
 
-    public void setRuleId(Integer ruleId) {
+    public void setRuleId(String ruleId) {
         this.ruleId = ruleId;
     }
 
@@ -98,6 +109,9 @@ public class QuestionnaireUsage extends KraPersistableBusinessObjectBase impleme
     }
 
     public CoeusModule getCoeusModule() {
+        if (coeusModule == null && getModuleItemCode() != null) {
+            this.refreshReferenceObject("coeusModule");
+        }
         return coeusModule;
     }
 
@@ -159,5 +173,31 @@ public class QuestionnaireUsage extends KraPersistableBusinessObjectBase impleme
 
     public void setMandatory(boolean mandatory) {
         this.mandatory = mandatory;
+    }
+
+    public CoeusSubModule getCoeusSubModule() {
+        if (coeusSubModule == null) {
+            Map<String, Object> fieldValues = new HashMap<String, Object>();
+            fieldValues.put("moduleCode", moduleItemCode);
+            fieldValues.put("subModuleCode", moduleSubItemCode);
+            List<CoeusSubModule> subModules = 
+                    (List<CoeusSubModule>) KraServiceLocator.getService(BusinessObjectService.class).findMatching(CoeusSubModule.class, fieldValues);
+            if (subModules != null && !subModules.isEmpty()) {
+                coeusSubModule = subModules.get(0);
+            }
+        }
+        return coeusSubModule;
+    }
+
+    public void setCoeusSubModule(CoeusSubModule coeusSubModule) {
+        this.coeusSubModule = coeusSubModule;
+    }
+
+    public boolean isDelete() {
+        return delete;
+    }
+
+    public void setDelete(boolean delete) {
+        this.delete = delete;
     }
 }
