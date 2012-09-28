@@ -1831,19 +1831,7 @@ function getAddRuleRequirementRow(curidx) {
     var atag = jQuery('<a href="#"></a>');
     var image = jQuery('<img border="0" title="Search Rule" alt="Search Rule" class="tinybutton" src="static/images/searchicon.gif" />')
             .attr("id", "searchRule" + curidx).attr("name", "searchRule" + curidx).click(
-       function() {
-         var nodeIndex = jQuery(this).attr("id").substring(10);
-         var url = window.location.href
-         var pathname = window.location.pathname
-         var idx1 = url.indexOf(pathname);
-         var idx2 = url.indexOf("/", idx1 + 1);
-          var extractUrl = url.substr(0, idx2);
-         //alert("nodeidx "+nodeIndex)
-         var winPop = window.open(extractUrl + "/krmsRuleLookup.do?nodeIndex="
-            + nodeIndex  + "&anchor=topOfForm",
-            "_blank", "width=1000, height=800, scrollbars=yes");
-
-            });
+       function() { clickSearchRule(jQuery(this).parent().prev().attr("id").replace(/(:|\.|\[|\])/g,'\\$1'));});
     image.appendTo(atag);
     atag.appendTo(tdtmp);        
 //    jQuery('<a href="#"><img border="0" title="Search Rule"
@@ -2435,101 +2423,48 @@ jQuery('<option value="0" selected="selected">select</option>').appendTo(
 jQuery('<option value="13">Rule Evaluation</option>').appendTo(rootNodeResponseOptions);
 
 // TODO : currently this one is not working copied to questionnairequestion.jsp
-jQuery("#addUsage")
-		.click(function() {
-			// TODO : 1 header and one 'add' row, so has 2 more
-			if (jQuery("#newQuestionnaireUsage\\.moduleItemCode").attr("value") == '') {
+jQuery("#addUsage").click(function() {
+			var newItemCode = jQuery("#newQuestionnaireUsage\\.moduleItemCode").attr("value");
+			var newSubItemCode = jQuery("#newQuestionnaireUsage\\.moduleSubItemCode").attr("value");
+			var newItemCodeDesc = jQuery("#newQuestionnaireUsage\\.moduleItemCode option:selected").text();
+			var newSubItemCodeDesc = newSubItemCode != '0' ? jQuery("#newQuestionnaireUsage\\.moduleSubItemCode option:selected").text()
+					: "";
+			var ruleId = jQuery("#newQuestionnaireUsage\\.ruleId").attr("value");
+			var label = jQuery("#newQuestionnaireUsage\\.questionnaireLabel").attr("value");
+			var mandatory = jQuery("#newQuestionnaireUsage\\.mandatory").attr("checked") ? "Yes" : "No";
+			if (newItemCode == '') {
 				alert("Please select a module");
-			} else if (jQuery("#newQuestionnaireUsage\\.questionnaireLabel").attr("value") == '') {
+			} else if (label == '') {
 				alert("Please enter Label");
-			} else  if (isDuplicateUsage(jQuery("#newQuestionnaireUsage\\.moduleItemCode").attr("value"),jQuery("#newQuestionnaireUsage\\.moduleSubItemCode").attr("value"), qnversion)) {
+			} else  if (isDuplicateUsage(newItemCode,newSubItemCode, ruleId, qnversion)) {
 				alert("Module is already added");
 			} else {	
-				trtmp = jQuery('<tr/>').attr("id", "usage" + ucount);
-				thtmp = jQuery('<th class="infoline"/>').html(ucount);
-				thtmp.appendTo(trtmp);
-				tdtmp = jQuery('<td align="left" valign="middle">')
-						.html(jQuery("#newQuestionnaireUsage\\.moduleItemCode option:selected").text());
-				
-				modulecode = jQuery('<input type="hidden"/>').attr(
-						"value",
-						jQuery("#newQuestionnaireUsage\\.moduleItemCode").attr(
-								"value"));
-				modulecode.prependTo(tdtmp);
-				tdtmp.appendTo(trtmp);
-				tdtmp = jQuery('<td align="left" valign="middle">')
-				.html(jQuery("#newQuestionnaireUsage\\.moduleSubItemCode option:selected").text());
-				
-				subModulecode = jQuery('<input type="hidden"/>').attr(
-						"value",
-						jQuery("#newQuestionnaireUsage\\.moduleSubItemCode").attr(
-								"value"));
-				subModulecode.prependTo(tdtmp);
-
-				tdtmp.appendTo(trtmp);
-				var radioChecked = jQuery("#newQuestionnaireUsage\\.mandatory").attr('checked');
-                var mandatoryValue = "No";
-				if (radioChecked) {
-	                mandatoryValue = "Yes";
+				var template = jQuery('tr.usageTemplate').html();
+				//count should count the indexes of the visible usages.
+				var count = parseInt(jQuery('#usage-table tr:visible th:first').last().html());
+				if (isNaN(count)) {
+					count = 0;
 				}
-				tdtmp = jQuery('<td align="left" valign="middle">').html(mandatoryValue);
-				tdtmp.appendTo(trtmp);
-
-				tdtmp = jQuery('<td align="left" valign="middle">').html(
-						jQuery("#newQuestionnaireUsage\\.questionnaireLabel").attr(
-								"value"));
-				tdtmp.appendTo(trtmp);
-				tdtmp = jQuery('<td align="left" valign="middle">').html(qnversion);
-				tdtmp.appendTo(trtmp);
-				inputtmp = jQuery(
-						'<input type="image" id="deleteUsage" name="deleteUsage" title="Delete Usage" src="static/images/tinybutton-delete1.gif" class="tinybutton">')
-						.attr("id", "deleteUsage" + ucount).click(function() {
-								shiftUsage(jQuery(this).attr("id").substring(11));
-								ucount--;
-								jQuery("#utr"+ucount).remove();
-								// TODO : delete usage also need to update 'item
-								// number' in the first column
-								curnode = jQuery(this).parents('tr:eq(0)');
-								while (curnode.next().size() > 0) {
-									curnode = curnode.next();
-									// alert(Number(curnode.children('th:eq(0)').html())-1);
-									curnode.children('th:eq(0)').html(
-											Number(curnode.children('th:eq(0)')
-													.html()) - 1)
-								}
-								jQuery(this).parents('tr:eq(0)').remove();
-								return false;
-							});
-				tdtmp = jQuery('<td align="left" valign="middle">');
-				jQuery('<div align="center">').html(inputtmp).appendTo(tdtmp);
-				tdtmp.appendTo(trtmp);
-				trtmp.appendTo(jQuery("#usage-table"));
-		        // usage hidden fields
-		        var hidtr = jQuery('<tr id = "utr" name = "utr"/>').attr("id","utr"+ucount).attr("name", "utr"+ucount);
-		        var hidtd = jQuery('<td colspan="2"/>');
-		        // question id for this node
-		        
-		        getUsageHidden("questionnaireUsageId", "").appendTo(hidtd);
-		        getUsageHidden("moduleItemCode", jQuery("#newQuestionnaireUsage\\.moduleItemCode").attr("value")).appendTo(hidtd);
-		        getUsageHidden("moduleSubItemCode", jQuery("#newQuestionnaireUsage\\.moduleSubItemCode").attr("value")).appendTo(hidtd);
-                
-		        getUsageMandatoryHiddenTag(jQuery("#newQuestionnaireUsage\\.mandatory").attr("checked")).appendTo(hidtd);
-		        //getUsageHidden("mandatory", jQuery("#newQuestionnaireUsage\\.mandatory").attr("value")).appendTo(hidtd);
-		        getUsageHidden("questionnaireLabel", jQuery("#newQuestionnaireUsage\\.questionnaireLabel").attr("value")).appendTo(hidtd);
-		        getUsageHidden("questionnaireSequenceNumber", qnversion).appendTo(hidtd);
-		        getUsageHidden("ruleId", "0").appendTo(hidtd);
-		        getUsageHidden("versionNumber", "1").appendTo(hidtd);
-		        getUsageHidden("questionnaireRefIdFk", jQuery('#document\\.newMaintainableObject\\.businessObject\\.questionnaireRefId').attr("value")).appendTo(hidtd);
-		        
-		        hidtd.appendTo(hidtr);
-		        hidtr.hide(); // FF rendering issue. If not hided, then 'line' will be
-		        // drawn at the bottom of the table for each Q hidden row
-		        hidtr.appendTo(jQuery("#usage-table"));
-				ucount++;
-
-			   }// end if-then-else
-				return false;
-			});
+				//index counts any existing(even deleted) usages so the index is one greater.
+				var index = parseInt(jQuery('#usage-table tr:last th:first').html());
+				if (isNaN(index)) {
+					index = 0;
+				}
+				template = template.replace(/%COUNT%/g, count+1);
+				template = template.replace(/%COEUS_MODULE_DESC%/g, newItemCodeDesc);
+				template = template.replace(/%COEUS_MODULE_CODE%/g, newItemCode);
+				template = template.replace(/%COEUS_SUBMODULE_DESC%/g, newSubItemCodeDesc);
+				template = template.replace(/%COEUS_SUB_MODULE_CODE%/g, newSubItemCode);
+				template = template.replace(/%RULE_ID%/g, ruleId);
+				template = template.replace(/%MANDATORY%/g, mandatory);
+				template = template.replace(/%LABEL%/g, label);
+				template = template.replace(/%SEQUENCE%/g, qnversion);
+				template = template.replace(/%INDEX%/g, index);
+				var newRow = jQuery('<tr/>').append(template);
+				jQuery(newRow).appendTo(jQuery("#usage-table tbody"));
+			}
+			return false;
+});
 
 /*
  * search icon click function at the root level.  This will result in multi-value lookup.
@@ -2543,23 +2478,6 @@ jQuery("#rootSearch").click(function() {
 		checkToAddQn(-1);
 		return false;
 	});
-
-function shiftUsage(uidx) {
-	var k = uidx;
-	while (k < (ucount -1)) {
-		//alert(ucount+"-"+(k-1))
-		jQuery("#"+juprefix+ (k-1)+"\\]\\.questionnaireUsageId").attr("value",jQuery("#"+juprefix+k+"\\]\\.questionnaireUsageId").attr("value"));
-		jQuery("#"+juprefix+ (k-1)+"\\]\\.moduleItemCode").attr("value",jQuery("#"+juprefix+k+"\\]\\.moduleItemCode").attr("value"));
-		jQuery("#"+juprefix+ (k-1)+"\\]\\.moduleSubItemCode").attr("value",jQuery("#"+juprefix+k+"\\]\\.moduleSubItemCode").attr("value"));
-		jQuery("#"+juprefix+ (k-1)+"\\]\\.mandatory").attr("checked",jQuery("#"+juprefix+k+"\\]\\.mandatory").attr("checked"));
-		jQuery("#"+juprefix+ (k-1)+"\\]\\.questionnaireLabel").attr("value",jQuery("#"+juprefix+k+"\\]\\.questionnaireLabel").attr("value"));
-		jQuery("#"+juprefix+ (k-1)+"\\]\\.questionnaireSequenceNumber").attr("value",jQuery("#"+juprefix+k+"\\]\\.questionnaireSequenceNumber").attr("value"));
-		jQuery("#"+juprefix+ (k-1)+"\\]\\.ruleId").attr("value",jQuery("#"+juprefix+k+"\\]\\.ruleId").attr("value"));
-		jQuery("#"+juprefix+ (k-1)+"\\]\\.versionNumber").attr("value",jQuery("#"+juprefix+k+"\\]\\.versionNumber").attr("value"));
-		jQuery("#"+juprefix+ (k-1)+"\\]\\.questionnaireRefIdFk").attr("value",jQuery("#"+juprefix+k+"\\]\\.questionnaireRefIdFk").attr("value"));
-		k++;
-	}	
-}
 
 
 /*
@@ -2951,112 +2869,21 @@ if ((jQuery("#maintAction").attr("value") != 'Copy' || jQuery("#docStatus").attr
 } // end if editdata
 
 function loadUsages(usages) {
-    for ( var k = 0; k < usages.length; k++) {
-        field = usages[k].split("#f#");
-        var trtmp = jQuery('<tr/>').attr("id", "usage" + ucount);
-        var thtmp = jQuery('<th class="infoline"/>').html(ucount);
-        thtmp.appendTo(trtmp);
-        // tdtmp = jQuery('<td align="left" valign="middle">').html(field[1]);
-        var tdtmp = jQuery('<td align="left" valign="middle">').html(field[8]);
-        var modulecode = jQuery('<input type="hidden"/>').attr("value", field[1]);
-        modulecode.appendTo(tdtmp);
-        tdtmp.appendTo(trtmp);
-        var subModulecode = jQuery('<input type="hidden"/>').attr("value", field[4]);
-        //TODO : fix here
-        tdtmp = jQuery('<td align="left" valign="middle">').html(field[9]);
-        subModulecode.appendTo(tdtmp);
-        tdtmp.appendTo(trtmp);
-        var mandatoryValue = "No";
-        if (field[7] == 'Y') {
-            mandatoryValue = "Yes";
-        }
-        tdtmp = jQuery('<td align="left" valign="middle">').html(mandatoryValue);
-        tdtmp.appendTo(trtmp);
-        tdtmp = jQuery('<td align="left" valign="middle">').html(field[2]);
-        tdtmp.appendTo(trtmp);
-        // TODO : questionnaire version# will be loaded later
-        //tdtmp = jQuery('<td align="left" valign="middle">').html(field[2]);  
-        tdtmp = jQuery('<td align="left" valign="middle">').html(field[3]);  
-        tdtmp.appendTo(trtmp);
-        var inputtmp = jQuery(
-                '<input type="image" id="deleteUsage" name="deleteUsage" title="Delete Usage" src="static/images/tinybutton-delete1.gif" class="tinybutton">')
-                .attr("id", "deleteUsage" + ucount).click(
-                        function() {
-                                                        // alert(sqlScripts);
-							    shiftUsage(jQuery(this).attr("id").substring(11));
-								ucount--;
-								jQuery("#utr"+ucount).remove();
-                            curnode = jQuery(this).parents('tr:eq(0)');
-                            while (curnode.next().size() > 0) {
-                                curnode = curnode.next();
-                                curnode.children('th:eq(0)').html(
-                                        Number(curnode.children('th:eq(0)')
-                                                .html()) - 1)
-                            }
-
-                            jQuery(this).parents('tr:eq(0)').remove();
-                            return false;
-                        });
-        tdtmp = jQuery('<td align="left" valign="middle">');
-        if (jQuery("#readOnly").attr("value") != 'true') {
-        jQuery('<div align="center">').html(inputtmp).appendTo(tdtmp);
-        } else {
-            jQuery('<div align="center">').appendTo(tdtmp);
-        }    
-        tdtmp.appendTo(trtmp);
-        trtmp.appendTo(jQuery("#usage-table"));
-
-        // usage hidden fields
-		var hidtr = jQuery('<tr id = "utr" name = "utr"/>').attr("id","utr"+ucount).attr("name", "utr"+ucount);
-        var hidtd = jQuery('<td colspan="2"/>');
-        // question id for this node
-        if (field[0] == 'null') {
-        	field[0]="";
-        }    
-        getUsageHidden("questionnaireUsageId", field[0]).appendTo(hidtd);
-        getUsageHidden("moduleItemCode", field[1]).appendTo(hidtd);
-        getUsageHidden("moduleSubItemCode", field[4]).appendTo(hidtd);
-        var isChecked = false;
-        if (field[7] == 'Y') {
-        	isChecked = true;
-        }
-        getUsageMandatoryHiddenTag(isChecked).appendTo(hidtd);
-        //getUsageHidden("mandatory", field[7]).appendTo(hidtd);
-        getUsageHidden("questionnaireLabel", field[2]).appendTo(hidtd);
-        getUsageHidden("questionnaireSequenceNumber", field[3]).appendTo(hidtd);
-        getUsageHidden("ruleId", field[5]).appendTo(hidtd);
-        getUsageHidden("versionNumber", field[6]).appendTo(hidtd);
-        getUsageHidden("questionnaireRefIdFk", jQuery('#document\\.newMaintainableObject\\.businessObject\\.questionnaireRefId').attr("value")).appendTo(hidtd);
-        
-        hidtd.appendTo(hidtr);
-        hidtr.hide(); // FF rendering issue. If not hided, then 'line' will be
-        // drawn at the bottom of the table for each Q hidden row
-        hidtr.appendTo(jQuery("#usage-table"));
-        ucount++;
-    }
-    initucount = ucount-1 ;
-
-
+	jQuery('.deleteUsage').click(
+	    function() {
+	    	jQuery(this).next().attr("value", "Yes");
+	        curnode = jQuery(this).parents('tr:eq(0)');
+	        while (curnode.next().size() > 0) {
+	            curnode = curnode.next();
+	            curnode.children('th:eq(0)').html(
+	                    Number(curnode.children('th:eq(0)')
+	                            .html()) - 1)
+	        }
+	
+	        jQuery(this).parents('tr:eq(0)').hide();
+	        return false;
+	    });
 } // end loadusages
-
-function getUsageMandatoryHiddenTag(isChecked) {
-    var mandatorytag = jQuery('<input type="checkbox" title="Mandatory" class="" style="" onblur="" onchange="" onclick="" >');
-    jQuery(mandatorytag).attr("id",uprefix + (ucount-1) +"].mandatory");
-    jQuery(mandatorytag).attr("name",uprefix + (ucount-1) +"].mandatory");
-    if (isChecked) {
-    	jQuery(mandatorytag).attr("checked", true);
-    } else {
-    	jQuery(mandatorytag).attr("checked", false);
-    }
-    jQuery("#document\\.newMaintainableObject\\.businessObject\\.questionnaireUsages["+ (ucount-1) +"]\\.mandatory").hide();
-    return mandatorytag;
-}
-
-function getUsageHidden(name, value) {
-	return jQuery('<input type="hidden" id = "usage" name = "usage" />').attr("id",
-    		uprefix + (ucount-1)+"]."+name).attr("name", uprefix + (ucount-1)+"]."+name)
-            .attr("value",value);	
-}
 
 function newVersionQuestionPop(questionRefId) {
 
@@ -3355,29 +3182,15 @@ function clickUpdateQuestionVersion(curidx) {
 	return false;
 }
 
-function clickSearchRule(nodeIndex) {
-
-    var url = window.location.href
-    var pathname = window.location.pathname
-    var idx1 = url.indexOf(pathname);
-    var idx2 = url.indexOf("/", idx1 + 1);
-    var extractUrl = url.substr(0, idx2);
-//    alert("nodeidx "+nodeIndex)
-    
-     var winPop = window.open(extractUrl + "/krmsRuleLookup.do?nodeIndex="
-            + nodeIndex  + "&anchor=topOfForm",
+function clickSearchRule(fieldId) {
+     var winPop = window.open("krmsRuleLookup.do?fieldId="
+            + fieldId  + "&anchor=topOfForm",
             "_blank", "width=1000, height=800, scrollbars=yes");
-         
-         //http://127.0.0.1:8080/kc-dev/kr-krad/lookup?methodToCall=start&amp;dataObjectClassName=org.kuali.rice.krms.impl.repository.RuleBo&amp;returnLocation=http://127.0.0.1:8080/kc-dev/portal.do&amp;hideReturnLink=true" 
-/*
- *   var winPop = window.open(extractUrl + "/kr-krad/lookup?methodToCall=start&dataObjectClassName=org.kuali.rice.krms.impl.repository.RuleBo&nodeIndex="
- *           + nodeIndex  + "&anchor=topOfForm",
- *           "_blank", "width=1000, height=800, scrollbars=yes");
-*/
 }
 
-function returnRule(ruleId, nodeIndex) {
-//   alert("return rule "+ruleId+" for "+nodeIndex);
-   jQuery("#ruleId"+nodeIndex).attr("value",ruleId);
+function returnRule(ruleId, fieldId) {
+	var id = '#' + fieldId;
+	id = id.replace(/(:|\.|\[|\])/g,'\\$1');
+   jQuery(id).attr("value",ruleId);
 }
 

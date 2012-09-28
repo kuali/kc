@@ -597,4 +597,8 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
         fbService.addFacts(factsBuilder, this);
     }
     
+    public void populateAgendaQualifiers(Map<String, String> qualifiers) {
+        qualifiers.put(KcKrmsConstants.UNIT_NUMBER, getLeadUnitNumber());
+    }
+    
 }

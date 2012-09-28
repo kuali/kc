@@ -133,5 +133,10 @@ public class CoiDisclosureDocument extends ResearchDocumentBase implements Copya
         CoiDisclosureFactBuilderService fbService = KraServiceLocator.getService(CoiDisclosureFactBuilderService.class);
         fbService.addFacts(factsBuilder, this);
     }
+    
+    @Override
+    public void populateAgendaQualifiers(Map<String, String> qualifiers) {
+        qualifiers.put(KcKrmsConstants.UNIT_NUMBER, getCoiDisclosure().getLeadUnitNumber());
+    }
 
 }

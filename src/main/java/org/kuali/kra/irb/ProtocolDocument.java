@@ -668,5 +668,10 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
         IrbProtocolFactBuilderService fbService = KraServiceLocator.getService(IrbProtocolFactBuilderService.class);
         fbService.addFacts(factsBuilder, this);
     }
+    
+    @Override
+    public void populateAgendaQualifiers(Map<String, String> qualifiers) {
+        qualifiers.put(KcKrmsConstants.UNIT_NUMBER, getProtocol().getLeadUnitNumber());
+    }    
 
 }

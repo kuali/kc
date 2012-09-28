@@ -189,7 +189,7 @@ public class ProtocolQuestionnaireAction extends ProtocolAction {
         ProtocolForm protocolForm = (ProtocolForm) form;
         String submissionNumber = request.getParameter(SUBMISSION_NUMBER);
         String protocolNumber = request.getParameter(PROTOCOL_NUMBER);
-        ModuleQuestionnaireBean moduleQuestionnaireBean = new ModuleQuestionnaireBean(CoeusModule.IRB_MODULE_CODE, protocolNumber, CoeusSubModule.PROTOCOL_SUBMISSION, submissionNumber, !protocolNumber.endsWith(SUFFIX_T));
+        ModuleQuestionnaireBean moduleQuestionnaireBean = new ProtocolModuleQuestionnaireBean(CoeusModule.IRB_MODULE_CODE, protocolNumber, CoeusSubModule.PROTOCOL_SUBMISSION, submissionNumber, !protocolNumber.endsWith(SUFFIX_T));
         protocolForm.getQuestionnaireHelper().setAnswerHeaders(
                 getQuestionnaireAnswerService().getQuestionnaireAnswer(moduleQuestionnaireBean));
         if (protocolNumber.endsWith(SUFFIX_T)) {
@@ -215,7 +215,7 @@ public class ProtocolQuestionnaireAction extends ProtocolAction {
         String sequenceNumber = request.getParameter("sequenceNumber");
         String protocolNumber = request.getParameter(PROTOCOL_NUMBER);
         
-        ModuleQuestionnaireBean moduleQuestionnaireBean = new ModuleQuestionnaireBean(CoeusModule.IRB_MODULE_CODE, protocolNumber,
+        ModuleQuestionnaireBean moduleQuestionnaireBean = new ProtocolModuleQuestionnaireBean(CoeusModule.IRB_MODULE_CODE, protocolNumber,
             (protocolNumber.contains("A") || protocolNumber.contains("R")) ? CoeusSubModule.AMENDMENT_RENEWAL : CoeusSubModule.ZERO_SUBMODULE, sequenceNumber, true);
         protocolForm.getQuestionnaireHelper().setAnswerHeaders(
                 getQuestionnaireAnswerService().getQuestionnaireAnswer(moduleQuestionnaireBean));
@@ -235,7 +235,7 @@ public class ProtocolQuestionnaireAction extends ProtocolAction {
         ProtocolForm protocolForm = (ProtocolForm) form;
         String submissionNumber = request.getParameter(SUBMISSION_NUMBER);
         String protocolNumber = request.getParameter(PROTOCOL_NUMBER);
-        ModuleQuestionnaireBean moduleQuestionnaireBean = new ModuleQuestionnaireBean(CoeusModule.IRB_MODULE_CODE, protocolNumber, CoeusSubModule.PROTOCOL_SUBMISSION, submissionNumber, !protocolNumber.endsWith(SUFFIX_T));
+        ModuleQuestionnaireBean moduleQuestionnaireBean = new ProtocolModuleQuestionnaireBean(CoeusModule.IRB_MODULE_CODE, protocolNumber, CoeusSubModule.PROTOCOL_SUBMISSION, submissionNumber, !protocolNumber.endsWith(SUFFIX_T));
         protocolForm.getQuestionnaireHelper().setAnswerHeaders(
                 getQuestionnaireAnswerService().getQuestionnaireAnswer(moduleQuestionnaireBean));
         if (protocolNumber.endsWith(SUFFIX_T)) {
@@ -275,7 +275,7 @@ public class ProtocolQuestionnaireAction extends ProtocolAction {
         if (protocol.isAmendment()) {
             subModuleCode = CoeusSubModule.AMENDMENT;
         }
-        ModuleQuestionnaireBean moduleQuestionnaireBean = new ModuleQuestionnaireBean(CoeusModule.IRB_MODULE_CODE, protocolNumber,
+        ModuleQuestionnaireBean moduleQuestionnaireBean = new ProtocolModuleQuestionnaireBean(CoeusModule.IRB_MODULE_CODE, protocolNumber,
                                                                                       subModuleCode, sequenceNumber, true);
         // TODO : should handle this more smoothly.  maybe in service, change the fieldvalues map of subitemcode to a list
         // so bos.findmatching will find all the matching codes in the list 

@@ -17,6 +17,7 @@ package org.kuali.kra.proposaldevelopment.questionnaire;
 
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.CoeusSubModule;
+import org.kuali.kra.krms.KrmsRulesContext;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
@@ -25,7 +26,7 @@ import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
  * 
  * This class...
  */
-public class ProposalPersonModuleQuestionnaireBean extends ModuleQuestionnaireBean {
+public class ProposalPersonModuleQuestionnaireBean extends ProposalDevelopmentModuleQuestionnaireBean {
     
     /**
      * 
@@ -36,6 +37,22 @@ public class ProposalPersonModuleQuestionnaireBean extends ModuleQuestionnaireBe
     public ProposalPersonModuleQuestionnaireBean(DevelopmentProposal developmentProposal, ProposalPerson person) {
         super(CoeusModule.PROPOSAL_DEVELOPMENT_MODULE_CODE, person.getUniqueId(), 
                 CoeusSubModule.PROPOSAL_PERSON_CERTIFICATION, "0", 
-                developmentProposal.getProposalDocument().getDocumentHeader().getWorkflowDocument().isApproved());      
+                developmentProposal.getProposalDocument().getDocumentHeader().getWorkflowDocument().isApproved());
+        setDevelopmentProposal(developmentProposal);
+    }
+    
+    public ProposalPersonModuleQuestionnaireBean(String moduleItemCode, String moduleItemKey, String moduleSubItemCode, String moduleSubItemKey, boolean finalDoc) {
+        super(moduleItemCode, moduleItemKey, moduleSubItemCode, moduleSubItemKey, finalDoc);
+    }
+    
+    @Override
+    public KrmsRulesContext getKrmsRulesContextFromBean() {
+        if (getDevelopmentProposal() != null) {
+            return getDevelopmentProposal().getKrmsRulesContext();
+        } else if (getModuleItemKey().contains("|")) {
+            return loadKrmsRulesContext(getModuleItemKey().split("\\|")[0]);
+        } else {
+            return super.getKrmsRulesContextFromBean();
+        }
     }
 }

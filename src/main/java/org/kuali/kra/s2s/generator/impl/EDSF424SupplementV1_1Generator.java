@@ -35,6 +35,7 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.questionnaire.ProposalDevelopmentModuleQuestionnaireBean;
 import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
 import org.kuali.kra.questionnaire.answer.Answer;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
@@ -86,12 +87,8 @@ public class EDSF424SupplementV1_1Generator extends
 		edsf424Supplement.setProjectDirector(globLibV20Generator
 				.getContactPersonDataType(pi));
 		String answer = null;
-		ModuleQuestionnaireBean moduleQuestionnaireBean = new ModuleQuestionnaireBean(
-                CoeusModule.PROPOSAL_DEVELOPMENT_MODULE_CODE, pdDoc.getDevelopmentProposal().getProposalNumber(), CoeusSubModule.ZERO_SUBMODULE ,
-                    CoeusSubModule.ZERO_SUBMODULE, true);
-        QuestionnaireAnswerService questionnaireAnswerService = KraServiceLocator.getService(QuestionnaireAnswerService.class);
-        List<AnswerHeader> answerHeaders = questionnaireAnswerService.getQuestionnaireAnswer(moduleQuestionnaireBean);        
-        if (answerHeaders != null && !answerHeaders.isEmpty()) {
+		List<AnswerHeader> answerHeaders = getQuestionnaireAnswers(pdDoc.getDevelopmentProposal(), true);
+		if (answerHeaders != null && !answerHeaders.isEmpty()) {
             for (AnswerHeader answerHeader : answerHeaders) {
                 List<Answer> answerDetails = answerHeader.getAnswers();
                 for (Answer answers : answerDetails) {                   

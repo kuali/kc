@@ -29,14 +29,21 @@ import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.CoeusSubModule;
+import org.kuali.kra.coi.questionnaire.DisclosureModuleQuestionnaireBean;
+import org.kuali.kra.iacuc.questionnaire.IacucProtocolModuleQuestionnaireBean;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolFinderDao;
+import org.kuali.kra.irb.questionnaire.ProtocolModuleQuestionnaireBean;
 import org.kuali.kra.krms.KcKrmsContextBo;
 import org.kuali.kra.krms.KrmsRulesContext;
+import org.kuali.kra.krms.UnitAgendaTypeService;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.questionnaire.ProposalDevelopmentModuleQuestionnaireBean;
+import org.kuali.kra.proposaldevelopment.questionnaire.ProposalDevelopmentS2sModuleQuestionnaireBean;
+import org.kuali.kra.proposaldevelopment.questionnaire.ProposalPersonModuleQuestionnaireBean;
 import org.kuali.kra.questionnaire.Questionnaire;
 import org.kuali.kra.questionnaire.QuestionnaireQuestion;
 import org.kuali.kra.questionnaire.QuestionnaireUsage;
@@ -52,6 +59,7 @@ import org.kuali.rice.krms.api.engine.ExecutionOptions;
 import org.kuali.rice.krms.api.engine.Facts;
 import org.kuali.rice.krms.api.engine.ResultEvent;
 import org.kuali.rice.krms.api.engine.SelectionCriteria;
+import org.kuali.rice.krms.api.repository.rule.RuleDefinition;
 import org.kuali.rice.krms.framework.engine.BasicRule;
 import org.kuali.rice.krms.framework.type.ValidationActionTypeService;
 
@@ -75,10 +83,10 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
     /*
      * Get the questionnaire that is 'final' for the specified module.
      */
-    public List<QuestionnaireUsage> getPublishedQuestionnaire(String coeusModule, String coeusSubModule, boolean finalDoc) {
+    public List<QuestionnaireUsage> getPublishedQuestionnaire(ModuleQuestionnaireBean moduleQuestionnaireBean) {
         Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put(MODULE_ITEM_CODE, coeusModule);
-        fieldValues.put(MODULE_SUB_ITEM_CODE, coeusSubModule);
+        fieldValues.put(MODULE_ITEM_CODE, moduleQuestionnaireBean.getModuleItemCode());
+        fieldValues.put(MODULE_SUB_ITEM_CODE, moduleQuestionnaireBean.getModuleSubItemCode());
 
         List<QuestionnaireUsage> usages = new ArrayList<QuestionnaireUsage>();
         List<String> questionnaireIds = new ArrayList<String>();
@@ -88,18 +96,31 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
         // use this sort, to list the higher version before lower version
         if (CollectionUtils.isNotEmpty(questionnaireUsages)) {
             Collections.sort((List<QuestionnaireUsage>) questionnaireUsages);
-            // Collections.reverse((List<QuestionnaireUsage>) questionnaireUsages);
+        }
+        
+        List<String> ruleIds = new ArrayList<String>();
+        for (QuestionnaireUsage questionnaireUsage : questionnaireUsages) {
+            if (StringUtils.isNotBlank(questionnaireUsage.getRuleId())) {
+                ruleIds.add(questionnaireUsage.getRuleId());
+            }
+        }
+        Map<String, Boolean> ruleResults = new HashMap<String, Boolean>();
+        if (!ruleIds.isEmpty()) {
+            ruleResults = runApplicableRules(ruleIds, moduleQuestionnaireBean);
         }
 
-        // the higher version will have higher questionnaireidfk
+        // the higher version will have higher questionnaireid
         for (QuestionnaireUsage questionnaireUsage : questionnaireUsages) {
             if (!questionnaireIds.contains(questionnaireUsage.getQuestionnaire().getQuestionnaireId())) {
                 questionnaireIds.add(questionnaireUsage.getQuestionnaire().getQuestionnaireId());
-                if (finalDoc || (isCurrentQuestionnaire(questionnaireUsage.getQuestionnaire()) && questionnaireUsage.getQuestionnaire().isActive())) {
-                    // TODO : if usage is not in current qn, also, this qn is not saved
-                    // this will cause problem because it should not be included. so, may have to
-                    // filter out in initanswerheaders
-                    usages.add(questionnaireUsage);
+                if (moduleQuestionnaireBean.isFinalDoc() || (isCurrentQuestionnaire(questionnaireUsage.getQuestionnaire()) && questionnaireUsage.getQuestionnaire().isActive())) {
+                    if (StringUtils.isNotBlank(questionnaireUsage.getRuleId())) {
+                        if (ruleResults.containsKey(questionnaireUsage.getRuleId()) && ruleResults.get(questionnaireUsage.getRuleId()).booleanValue()) {
+                            usages.add(questionnaireUsage);
+                        }
+                    } else {
+                        usages.add(questionnaireUsage);
+                    }
                 }
             }
         }
@@ -109,10 +130,9 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
     /*
      * set up answer headers for the initial load of module questionnaire answers
      */
-    protected List<AnswerHeader> initAnswerHeaders(ModuleQuestionnaireBean moduleQuestionnaireBean, Map<String, AnswerHeader> answerHeaderMap, boolean finalDoc) {
+    protected List<AnswerHeader> initAnswerHeaders(ModuleQuestionnaireBean moduleQuestionnaireBean, Map<String, AnswerHeader> answerHeaderMap) {
         List<AnswerHeader> answerHeaders = new ArrayList<AnswerHeader>();
-        for (QuestionnaireUsage questionnaireUsage : getPublishedQuestionnaire(moduleQuestionnaireBean.getModuleItemCode(),
-                moduleQuestionnaireBean.getModuleSubItemCode(), finalDoc)) {
+        for (QuestionnaireUsage questionnaireUsage : getPublishedQuestionnaire(moduleQuestionnaireBean)) {
             String questionnaireId = questionnaireUsage.getQuestionnaire().getQuestionnaireId();
             if (answerHeaderMap.containsKey(questionnaireId)) {
                 answerHeaders.add(answerHeaderMap.get(questionnaireId));
@@ -128,7 +148,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
                 }
             }
             else {
-                if ((!finalDoc && isCurrentQuestionnaire(questionnaireUsage.getQuestionnaire()))
+                if ((!moduleQuestionnaireBean.isFinalDoc() && isCurrentQuestionnaire(questionnaireUsage.getQuestionnaire()))
                         && questionnaireUsage.getQuestionnaire().isActive()) {
                     // filter out an not saved and usage is not include in current qn
                     answerHeaders.add(setupAnswerForQuestionnaire(questionnaireUsage.getQuestionnaire(), moduleQuestionnaireBean));
@@ -145,8 +165,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
      */
     public AnswerHeader getNewVersionAnswerHeader(ModuleQuestionnaireBean moduleQuestionnaireBean, Questionnaire questionnaire) {
         AnswerHeader answerHeader = new AnswerHeader();
-        List<QuestionnaireUsage> usages = getPublishedQuestionnaire(moduleQuestionnaireBean.getModuleItemCode(),
-                moduleQuestionnaireBean.getModuleSubItemCode(), moduleQuestionnaireBean.isFinalDoc());
+        List<QuestionnaireUsage> usages = getPublishedQuestionnaire(moduleQuestionnaireBean);
         for (QuestionnaireUsage questionnaireUsage : usages) {
             if (questionnaireUsage.getQuestionnaire().getQuestionnaireId().equals(questionnaire.getQuestionnaireId())
                     && questionnaireUsage.getQuestionnaire().getSequenceNumber() > questionnaire.getSequenceNumber()) {
@@ -215,41 +234,24 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
     public List<AnswerHeader> getQuestionnaireAnswer(ModuleQuestionnaireBean moduleQuestionnaireBean) {
         Map<String, AnswerHeader> answerHeaderMap = new HashMap<String, AnswerHeader>();
         List<AnswerHeader> answers = retrieveAnswerHeaders(moduleQuestionnaireBean);
-        // TODO : should clear qn branching rule result cache because PD context might be changed some how ?
-        String namespace = null;
-        String contextKey = null;
-        if (CoeusModule.PROPOSAL_DEVELOPMENT_MODULE_CODE.equals(moduleQuestionnaireBean.getModuleItemCode())) {
-            namespace = Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT;
-            String itemKey = Constants.EMPTY_STRING;
-            if (moduleQuestionnaireBean.getModuleItemKey().indexOf("|") > 0) {
-                itemKey = moduleQuestionnaireBean.getModuleItemKey().substring(0,moduleQuestionnaireBean.getModuleItemKey().indexOf("|"));
-            }
-            contextKey = itemKey+"-"+moduleQuestionnaireBean.getModuleSubItemKey();
-        } else {
-            namespace = Constants.MODULE_NAMESPACE_PROTOCOL;
-            contextKey = moduleQuestionnaireBean.getModuleItemKey()+"-"+moduleQuestionnaireBean.getModuleSubItemKey();
-        }
-        GlobalVariables.getUserSession().removeObject(namespace + "-" + contextKey + "-ruleresults");
-        GlobalVariables.getUserSession().removeObject(namespace + "-" + contextKey + "-rulereferenced");
+
+        GlobalVariables.getUserSession().removeObject(moduleQuestionnaireBean.getSessionContextKey() + "-rulereferenced");
         for (AnswerHeader answerHeader : answers) {
             if (!answerHeaderMap.containsKey(answerHeader.getQuestionnaire().getQuestionnaireId())
                     || Long.parseLong(answerHeaderMap.get(answerHeader.getQuestionnaire().getQuestionnaireId()).getQuestionnaireRefIdFk()) 
                             < Long.parseLong(answerHeader.getQuestionnaireRefIdFk())) {
-                setupChildAnswerIndicator(answerHeader.getAnswers());
+                setupChildAnswerIndicator(answerHeader);
                 answerHeaderMap.put(answerHeader.getQuestionnaire().getQuestionnaireId(), answerHeader);
             }
         }
 
-        List<AnswerHeader> answerHeaders = initAnswerHeaders(moduleQuestionnaireBean, answerHeaderMap,
-                moduleQuestionnaireBean.isFinalDoc());
+        List<AnswerHeader> answerHeaders = initAnswerHeaders(moduleQuestionnaireBean, answerHeaderMap);
         for (AnswerHeader answerHeader : answerHeaders) {
             Collections.sort(answerHeader.getAnswers(), new AnswerComparator());
             answerHeader.setCompleted(isQuestionnaireAnswerComplete(answerHeader.getAnswers()));
             answerHeader.setHasVisibleQuestion(hasVisibleQuestion(answerHeader.getAnswers()));
         }
 
-        
-//        moduleQuestionnaireBean.setRuleResults((Map<String, Boolean>)GlobalVariables.getUserSession().retrieveObject(namespace + "-" + contextKey + "-rulereferenced"));
         return answerHeaders;
     }
 
@@ -264,8 +266,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
 
     protected List<String> getAssociateedQuestionnaireIds(ModuleQuestionnaireBean moduleQuestionnaireBean) {
         List<String> questionnaireIds = new ArrayList<String>();
-        for (QuestionnaireUsage questionnaireUsage : getPublishedQuestionnaire(moduleQuestionnaireBean.getModuleItemCode(),
-                moduleQuestionnaireBean.getModuleSubItemCode(), moduleQuestionnaireBean.isFinalDoc())) {
+        for (QuestionnaireUsage questionnaireUsage : getPublishedQuestionnaire(moduleQuestionnaireBean)) {
             questionnaireIds.add(questionnaireUsage.getQuestionnaire().getQuestionnaireId());
         }
         return questionnaireIds;
@@ -341,7 +342,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
             }
         }
         // set up indicator then to empty answer that should not be copied
-        setupChildAnswerIndicator(newAnswerHeader.getAnswers());
+        setupChildAnswerIndicator(newAnswerHeader);
         for (Answer answer : newAnswerHeader.getAnswers()) {
             if (StringUtils.isNotBlank(answer.getAnswer()) && NO.equals(answer.getMatchedChild())) {
                 answer.setAnswer("");
@@ -493,8 +494,8 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
         for (Answer answer : answers) {
             answer.setAnswerHeader(answerHeader);
         }
-        setupChildAnswerIndicator(answers);
         answerHeader.setAnswers(answers);
+        setupChildAnswerIndicator(answerHeader);
         return answerHeader;
     }
 
@@ -541,14 +542,27 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
      * 
      * @see org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService#setupChildAnswerIndicator(java.util.List)
      */
-    public void setupChildAnswerIndicator(List<Answer> answers) {
+    public void setupChildAnswerIndicator(AnswerHeader answerHeader) {
+        List<Answer> answers = answerHeader.getAnswers();
         List<List<Answer>> parentAnswers = setupParentAnswers(answers);
+        List<String> ruleIds = new ArrayList<String>();
         for (Answer answer : answers) {
             if (answer.getQuestionnaireQuestion().getParentQuestionNumber() > 0) {
                 answer.setParentAnswer(parentAnswers.get(answer.getQuestionnaireQuestion().getParentQuestionNumber()));
             }
+            if (StringUtils.isNotBlank(answer.getQuestionnaireQuestion().getRuleId())) {
+                ruleIds.add(answer.getQuestionnaireQuestion().getRuleId());
+            }
+            if (ConditionType.RULE_EVALUATION.getCondition().equals(answer.getQuestionnaireQuestion().getCondition())) {
+                ruleIds.add(answer.getQuestionnaireQuestion().getConditionValue());
+            }
         }
         Collections.sort(answers, new AnswerComparator());
+        
+        Map<String, Boolean> ruleResults = new HashMap<String, Boolean>();
+        if (!ruleIds.isEmpty()) {
+             ruleResults = runApplicableRules(ruleIds, getModuleSpecificBean(answerHeader));
+        }
 
         for (Answer answer : answers) {
 //            answer.refreshReferenceObject("questionnaireQuestion");
@@ -562,10 +576,12 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
                 if (StringUtils.isNotBlank(ruleId)) {
                     // TODO : need to implement rulematched
                   //  if (ruleMatched(answer.getQuestionnaireQuestion().getConditionValue())) {
-                    if (isRuleValid(ruleId, getKrmsRulesContext(answer.getAnswerHeader()))) {
+                    if (ruleResults.containsKey(ruleId) && ruleResults.get(ruleId).booleanValue()) {
                         answer.setMatchedChild(YES);
+                        answer.setRuleMatched(true);
                     } else {
                         answer.setMatchedChild(NO);
+                        answer.setRuleMatched(false);
                     }
                 } else {
                     answer.setMatchedChild(YES);
@@ -585,11 +601,18 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
                     answer.setMatchedChild(NO);
                     if (ConditionType.RULE_EVALUATION.getCondition().equals(questionnaireQuestion.getCondition())) {
                         // evaluate this rule, so the ruleReferenced map can be populated
-                         isRuleValid(questionnaireQuestion.getConditionValue(), getKrmsRulesContext(answer.getAnswerHeader()));
+                        String ruleId = questionnaireQuestion.getConditionValue();
+                         if (ruleResults.containsKey(ruleId) && ruleResults.get(ruleId).booleanValue()) {
+                             answer.setRuleMatched(true);
+                         } else {
+                             answer.setRuleMatched(false);
+                         }
                     }
                 }
-                else if ((ConditionType.RULE_EVALUATION.getCondition().equals(questionnaireQuestion.getCondition()) && isRuleValid(questionnaireQuestion.getConditionValue(), getKrmsRulesContext(answer.getAnswerHeader()))) || isAnyAnswerMatched(questionnaireQuestion.getCondition(), parentAnswers.get(questionnaireQuestion.getParentQuestionNumber()), questionnaireQuestion
-                        .getConditionValue())) {
+                else if ((ConditionType.RULE_EVALUATION.getCondition().equals(questionnaireQuestion.getCondition()) 
+                            && ruleResults.containsKey(questionnaireQuestion.getConditionValue()) && ruleResults.get(questionnaireQuestion.getConditionValue()).booleanValue()) 
+                       || isAnyAnswerMatched(questionnaireQuestion.getCondition(), 
+                               parentAnswers.get(questionnaireQuestion.getParentQuestionNumber()), questionnaireQuestion.getConditionValue())) {
                     answer.setMatchedChild(YES);
                 }
                 else {
@@ -826,137 +849,74 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
         return protocolNumbers;
     }
     
-    private KrmsRulesContext getKrmsRulesContext(AnswerHeader answerHeader) {
-        KrmsRulesContext ruleContext = null;
-        if (CoeusModule.PROPOSAL_DEVELOPMENT_MODULE_CODE.equals(answerHeader.getModuleItemCode())) {
-            ruleContext = getRuleContextClass(answerHeader, "proposalNumber", DevelopmentProposal.class);
-        } else if (CoeusModule.IRB_MODULE_CODE.equals(answerHeader.getModuleItemCode())) {
-            ruleContext = getRuleContextClass(answerHeader, "protocolNumber", Protocol.class);
-            
-        }
-        return ruleContext;
-    }
-    
-    private KrmsRulesContext getRuleContextClass(AnswerHeader answerHeader, String propertyName, Class clazz) {
-        Map <String, Object> fieldValues = new HashMap<String, Object>();
-        if (!clazz.getSimpleName().equals("DevelopmentProposal")) {
-            fieldValues.put(propertyName, answerHeader.getModuleItemKey());
-            fieldValues.put("sequenceNumber", answerHeader.getModuleSubItemKey());           
-        } else {
-            String moduleItemKey = answerHeader.getModuleItemKey().indexOf("|")==-1?
-                                        answerHeader.getModuleItemKey():
-                                            answerHeader.getModuleItemKey().substring(0, answerHeader.getModuleItemKey().indexOf("|"));
-            fieldValues.put(propertyName, moduleItemKey);
-        }
-        return ((List<KcKrmsContextBo>)businessObjectService.findMatching(clazz, fieldValues)).get(0).getKrmsRulesContext();
-    }
-   
-    private boolean isRuleValid(String ruleId, KrmsRulesContext rulesContext) {
-        String namespace = null;
-        String contextKey = null;
-        if (rulesContext instanceof ProposalDevelopmentDocument) {
-            namespace = Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT;
-            contextKey = ((ProposalDevelopmentDocument)rulesContext).getDevelopmentProposal().getProposalNumber()+"-0";
-        } else {
-            namespace = Constants.MODULE_NAMESPACE_PROTOCOL;
-            contextKey = ((ProtocolDocument)rulesContext).getProtocol().getProtocolNumber()+"-"+((ProtocolDocument)rulesContext).getProtocol().getSequenceNumber();
-        }
-        boolean isValid = false;
-//        if (GlobalVariables.getUserSession().retrieveObject(namespace + "-" + contextKey + "-ruleresults") == null) {
-            isValid = loadAndisRuleValid(ruleId, rulesContext);
-//        } else {
-//            Map <String, Boolean> results = (Map <String, Boolean>)GlobalVariables.getUserSession().retrieveObject(namespace + "-" + contextKey + "-ruleresults");
-//            String ruleName = KrmsApiServiceLocator.getRuleRepositoryService().getRule(ruleId).getName(); 
-//            if (MapUtils.isNotEmpty(results)) {
-//                isValid = results.get(ruleName);
-//            }
-//        }
-        ((Map <String, Boolean>)GlobalVariables.getUserSession().retrieveObject(namespace + "-" + contextKey + "-rulereferenced")).put(ruleId, Boolean.valueOf(isValid));
-        return isValid;
-    }
-    
-    private boolean loadAndisRuleValid(String ruleId, KrmsRulesContext rulesContext) {
-
-        // TODO : this cached map should only be set up if it is empty
+    private Map<String, Boolean> runApplicableRules(List<String> ruleIds, ModuleQuestionnaireBean moduleQuestionnaireBean) {
         Map <String, Boolean> ruleResults = new HashMap<String, Boolean>();
-        
-        // TODO : may need a ruleid -> name map
-        Map<String, String> contextQualifiers = new HashMap<String, String>();
-        rulesContext.populateContextQualifiers(contextQualifiers);
-
-        Map<String,String> agendaQualifiers = new HashMap<String,String>();
-        // TODO : "name" qualifier should be working after 2.1.  currently, there is a bug.
-        // TODO : may create a kcrulecontext which will extend krmsrulecontext.   the kcrulecontexgt can have 'getnamespace'
-        String namespace = null;
-        String contextKey = null;
-        if (rulesContext instanceof ProposalDevelopmentDocument) {
-            namespace = Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT;
-            contextKey = ((ProposalDevelopmentDocument)rulesContext).getDevelopmentProposal().getProposalNumber()+"-0";
-        } else {
-            namespace = Constants.MODULE_NAMESPACE_PROTOCOL;
-            contextKey = ((ProtocolDocument)rulesContext).getProtocol().getProtocolNumber()+"-"+((ProtocolDocument)rulesContext).getProtocol().getSequenceNumber();
-        }
-        agendaQualifiers.put("name", getAgendaName(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT));  // specify a single agenda by name
-       
-        SelectionCriteria selectionCriteria = SelectionCriteria.createCriteria(null, contextQualifiers, agendaQualifiers);
-
-        Facts.Builder factsBuilder = Facts.Builder.create();
-        // not sure about this addfacts.  there are many  
-        rulesContext.addFacts(factsBuilder);
-
-        ExecutionOptions xOptions = new ExecutionOptions();
-        xOptions.setFlag(ExecutionFlag.LOG_EXECUTION, true);
-
-        EngineResults results = KrmsApiServiceLocator.getEngine().execute(selectionCriteria, factsBuilder.build(), xOptions);
-        
-        String errors = (String) results.getAttribute(ValidationActionTypeService.VALIDATIONS_ACTION_ATTRIBUTE);
-        boolean isValid = false;
-        if (results.getResultsOfType(ResultEvent.RULE_EVALUATED) != null && results.getResultsOfType(ResultEvent.RULE_EVALUATED).size() > 0) {
-            String ruleName = KrmsApiServiceLocator.getRuleRepositoryService().getRule(ruleId).getName();  
-            for (ResultEvent resultEvent : results.getResultsOfType(ResultEvent.RULE_EVALUATED)) {
-                ruleResults.put(((BasicRule)resultEvent.getSource()).getName(), resultEvent.getResult());
-                if (StringUtils.equals(ruleName, ((BasicRule)resultEvent.getSource()).getName())) {
-                    isValid = resultEvent.getResult();
+        KrmsRulesContext rulesContext = moduleQuestionnaireBean.getKrmsRulesContextFromBean();
+        if (rulesContext != null) {
+            String namespace = rulesContext.getClass().getAnnotation(ParameterConstants.NAMESPACE.class).namespace();
+            Map<String, String> contextQualifiers = new HashMap<String, String>();
+            rulesContext.populateContextQualifiers(contextQualifiers);
+            Map<String,String> agendaQualifiers = new HashMap<String,String>();
+            rulesContext.populateAgendaQualifiers(agendaQualifiers);
+            agendaQualifiers.put("typeId", UnitAgendaTypeService.QUESTIONNAIRE_AGENDA_TYPE_ID);
+    
+            contextQualifiers.put("namespaceCode", namespace);
+            SelectionCriteria selectionCriteria = SelectionCriteria.createCriteria(null, contextQualifiers, agendaQualifiers);
+    
+            Facts.Builder factsBuilder = Facts.Builder.create();
+            rulesContext.addFacts(factsBuilder);
+    
+            ExecutionOptions xOptions = new ExecutionOptions();
+            xOptions.setFlag(ExecutionFlag.LOG_EXECUTION, true);
+    
+            EngineResults results = KrmsApiServiceLocator.getEngine().execute(selectionCriteria, factsBuilder.build(), xOptions);
+    
+            List<RuleDefinition> ruleDefinitions = KrmsApiServiceLocator.getRuleRepositoryService().getRules(ruleIds);
+            Map<String, RuleDefinition> ruleMap = new HashMap<String, RuleDefinition>();
+            for (RuleDefinition rule : ruleDefinitions) {
+                ruleMap.put(rule.getName(), rule);
+            }
+            if (results.getResultsOfType(ResultEvent.RULE_EVALUATED) != null && results.getResultsOfType(ResultEvent.RULE_EVALUATED).size() > 0) {
+                for (ResultEvent resultEvent : results.getResultsOfType(ResultEvent.RULE_EVALUATED)) {
+                    String ruleName = ((BasicRule)resultEvent.getSource()).getName();
+                    if (ruleMap.containsKey(ruleName)) {
+                        ruleResults.put(ruleMap.get(ruleName).getId(), resultEvent.getResult());
+                    }
                 }
             }
-//            ResultEvent resultEvent = results.getResultsOfType(ResultEvent.RULE_EVALUATED).get(0);
-//            // can't access 'proposition of basicrule
-//            // ((BasicRule)resultEvent.getSource()).
-//            isValid = results.getResultsOfType(ResultEvent.RULE_EVALUATED).get(0).getResult();
+    
+            // use session to cache the evaluation results for now
+            GlobalVariables.getUserSession().addObject(moduleQuestionnaireBean.getSessionContextKey() + "-rulereferenced", ruleResults);
         }
-//        if (StringUtils.isBlank(errors)) {
-            
-//            String[] errorArray = StringUtils.split(errors, ",");
-//            return Arrays.asList(errorArray);
-//        }
-//        return StringUtils.isNotBlank(errors);
-        // use session to cache the evaluation results for now
-        GlobalVariables.getUserSession().addObject(namespace + "-" + contextKey + "-ruleresults", ruleResults);
-        GlobalVariables.getUserSession().addObject(namespace + "-" + contextKey + "-rulereferenced", new HashMap<String, Boolean>());
-        return isValid;
-    }
-
-    private String getAgendaName(String namespace) {
-        // TODO : may need to expand this agenda name to a list or based namespace
-        // 'Development Proposal Branching Questionnaire'
-        String agendaName = parameterService.getParameterValueAsString(namespace, ParameterConstants.DOCUMENT_COMPONENT, "QUESTIONNAIRE_BRANCHING_AGENDA");
-        if (StringUtils.isNotBlank(agendaName)) {
-            return agendaName;
-            
-        } else {
-            return "Development Proposal Branching Questionnaire";
-        }
-//        Map<String,String> fieldValues = new HashMap<String,String>();
-//        fieldValues.put("ruleId", ruleId);
-//        AgendaItemBo agendaItem = businessObjectService.findByPrimaryKey(AgendaItemBo.class, fieldValues);
-//        fieldValues.clear();
-//        fieldValues.put("id", agendaItem.getAgendaId());
-//        return businessObjectService.findByPrimaryKey(AgendaBo.class, fieldValues);
-        
+        return ruleResults;
     }
 
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
+    }
+    
+    public ModuleQuestionnaireBean getModuleSpecificBean(AnswerHeader answerHeader) {
+        return getModuleSpecificBean(answerHeader.getModuleItemCode(), answerHeader.getModuleItemKey(), answerHeader.getModuleSubItemCode(), answerHeader.getModuleSubItemKey(), true);
+    }
+    
+    public ModuleQuestionnaireBean getModuleSpecificBean(String moduleItemCode, String moduleItemKey, String moduleSubItemCode, String moduleSubItemKey, boolean finalDoc) {
+        if (CoeusModule.COI_DISCLOSURE_MODULE_CODE.equals(moduleItemCode)) {
+            return new DisclosureModuleQuestionnaireBean(moduleItemCode, moduleItemKey, moduleSubItemCode, moduleSubItemKey, finalDoc);
+        } else if (CoeusModule.IACUC_PROTOCOL_MODULE_CODE.equals(moduleItemCode)) {
+            return new IacucProtocolModuleQuestionnaireBean(moduleItemCode, moduleItemKey, moduleSubItemCode, moduleSubItemKey, finalDoc);
+        } else if (CoeusModule.IRB_MODULE_CODE.equals(moduleItemCode)) {
+            return new ProtocolModuleQuestionnaireBean(moduleItemCode, moduleItemKey, moduleSubItemCode, moduleSubItemKey, finalDoc);
+        } else if (CoeusModule.PROPOSAL_DEVELOPMENT_MODULE_CODE.equals(moduleItemCode)) {
+            if (CoeusSubModule.PROPOSAL_PERSON_CERTIFICATION.equals(moduleSubItemCode)) {
+                return new ProposalPersonModuleQuestionnaireBean(moduleItemCode, moduleItemKey, moduleSubItemCode, moduleSubItemKey, finalDoc);
+            } else if (CoeusSubModule.PROPOSAL_S2S_SUBMODULE.equals(moduleSubItemCode)) {
+                return new ProposalDevelopmentS2sModuleQuestionnaireBean(moduleItemCode, moduleItemKey, moduleSubItemCode, moduleSubItemKey, finalDoc);
+            } else {
+                return new ProposalDevelopmentModuleQuestionnaireBean(moduleItemCode, moduleItemKey, moduleSubItemCode, moduleSubItemKey, finalDoc);
+            }
+        } else {
+            throw new IllegalArgumentException("Unrecognized moduleItemCode");
+        }
     }
     
     

@@ -19,9 +19,10 @@ import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
 public class KrmsRuleLookupForm extends KualiDocumentFormBase  {
 
+    private static final long serialVersionUID = -2680524221259987683L;
     private String ruleId;
-    private Integer nodeIndex;
-    
+    private String fieldId;
+
     public KrmsRuleLookupForm() {
         super();
     }
@@ -34,12 +35,12 @@ public class KrmsRuleLookupForm extends KualiDocumentFormBase  {
         this.ruleId = ruleId;
     }
 
-    public Integer getNodeIndex() {
-        return nodeIndex;
+    public String getFieldId() {
+        return fieldId;
     }
 
-    public void setNodeIndex(Integer nodeIndex) {
-        this.nodeIndex = nodeIndex;
+    public void setFieldId(String fieldId) {
+        this.fieldId = fieldId;
     }
 
 

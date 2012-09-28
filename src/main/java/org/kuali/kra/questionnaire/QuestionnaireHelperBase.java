@@ -136,7 +136,7 @@ public abstract class QuestionnaireHelperBase implements Serializable {
      * @param headerIndex
      */
     public void updateChildIndicator(int headerIndex) {
-        getQuestionnaireAnswerService().setupChildAnswerIndicator(answerHeaders.get(headerIndex).getAnswers());
+        getQuestionnaireAnswerService().setupChildAnswerIndicator(answerHeaders.get(headerIndex));
     }
 
     /**

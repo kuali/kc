@@ -24,4 +24,7 @@ public interface KrmsRulesContext {
     void populateContextQualifiers(Map<String, String> qualifiers);
     
     void addFacts(Facts.Builder factsBuilder);
+    
+    void populateAgendaQualifiers(Map<String, String> qualifiers);
+    
 }

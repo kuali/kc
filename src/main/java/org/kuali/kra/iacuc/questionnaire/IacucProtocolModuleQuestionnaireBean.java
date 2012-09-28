@@ -15,17 +15,25 @@
  */
 package org.kuali.kra.iacuc.questionnaire;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.iacuc.IacucProtocol;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.krms.KrmsRulesContext;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.questionnaire.ProtocolModuleQuestionnaireBean;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 public class IacucProtocolModuleQuestionnaireBean extends ProtocolModuleQuestionnaireBean {
 
     public IacucProtocolModuleQuestionnaireBean(IacucProtocol protocol) {
         super(CoeusModule.IACUC_PROTOCOL_MODULE_CODE, protocol.getProtocolNumber(), "0", protocol.getSequenceNumber().toString(), 
                 protocol.getProtocolDocument().getDocumentHeader().getWorkflowDocument().isApproved());
+        setProtocol(protocol);
         setProtocolSubItemCode(protocol) ;
     }
     
@@ -38,6 +46,23 @@ public class IacucProtocolModuleQuestionnaireBean extends ProtocolModuleQuestion
             setModuleSubItemCode(CoeusSubModule.CONTINUATION);
         } else {
             super.setProtocolSubItemCode(protocol);
+        }
+    }
+
+    @Override
+    public KrmsRulesContext getKrmsRulesContextFromBean() {
+        if (getProtocol() != null) {
+            return getProtocol().getKrmsRulesContext();
+        } else {
+            Map<String, Object> values = new HashMap<String, Object>();
+            values.put("protocolNumber", getModuleItemKey());
+            values.put("sequenceNumber", getModuleSubItemKey());
+            List<IacucProtocol> protocols = (List<IacucProtocol>) KraServiceLocator.getService(BusinessObjectService.class).findMatching(IacucProtocol.class, values);
+            if (protocols != null && !protocols.isEmpty()) {
+                return protocols.get(0).getIacucProtocolDocument();
+            } else {
+                return null;
+            }
         }
     }
 }

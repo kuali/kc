@@ -234,14 +234,14 @@
         <field-descriptor name="moduleSubItemCode" column="MODULE_SUB_ITEM_CODE" jdbc-type="VARCHAR" />
         <field-descriptor name="questionnaireSequenceNumber" column="QUESTIONNAIRE_SEQUENCE_NUMBER" jdbc-type="INTEGER" />
         <field-descriptor name="questionnaireRefIdFk" column="QUESTIONNAIRE_REF_ID_FK" jdbc-type="VARCHAR" />
-        <field-descriptor name="ruleId" column="RULE_ID" jdbc-type="INTEGER" />
+        <field-descriptor name="ruleId" column="RULE_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="questionnaireLabel" column="QUESTIONNAIRE_LABEL" jdbc-type="VARCHAR" />
         <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
         <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="mandatory" column="IS_MANDATORY" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
-        <reference-descriptor name="coeusModule" class-ref="org.kuali.kra.bo.CoeusModule" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+        <reference-descriptor name="coeusModule" class-ref="org.kuali.kra.bo.CoeusModule" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="moduleItemCode"/>
         </reference-descriptor>
         <reference-descriptor name="questionnaire" class-ref="org.kuali.kra.questionnaire.Questionnaire" auto-retrieve="true" auto-update="none" auto-delete="none"> 

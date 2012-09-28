@@ -15,15 +15,57 @@
  */
 package org.kuali.kra.proposaldevelopment.questionnaire;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.CoeusSubModule;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.krms.KrmsRulesContext;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 public class ProposalDevelopmentModuleQuestionnaireBean extends ModuleQuestionnaireBean {
     
+    private DevelopmentProposal developmentProposal;
+    
     public ProposalDevelopmentModuleQuestionnaireBean(DevelopmentProposal developmentProposal) {
-        super(CoeusModule.PROPOSAL_DEVELOPMENT_MODULE_CODE, developmentProposal.getProposalNumber(), CoeusSubModule.ZERO_SUBMODULE, "0", developmentProposal.getProposalDocument().getDocumentHeader().getWorkflowDocument().isApproved());      
+        super(CoeusModule.PROPOSAL_DEVELOPMENT_MODULE_CODE, developmentProposal.getProposalNumber(), CoeusSubModule.ZERO_SUBMODULE, "0", 
+                developmentProposal.getProposalDocument().getDocumentHeader().hasWorkflowDocument() ? developmentProposal.getProposalDocument().getDocumentHeader().getWorkflowDocument().isApproved() : true);
+        this.developmentProposal = developmentProposal;
+    }
+    
+    public ProposalDevelopmentModuleQuestionnaireBean(DevelopmentProposal developmentProposal, boolean finalDoc) {
+        this(developmentProposal);
+        setFinalDoc(finalDoc);
+    }
+    
+    public ProposalDevelopmentModuleQuestionnaireBean(String moduleItemCode, String moduleItemKey, String moduleSubItemCode, String moduleSubItemKey, boolean finalDoc) {
+        super(moduleItemCode, moduleItemKey, moduleSubItemCode, moduleSubItemKey, finalDoc);
+    }
+
+    @Override
+    public KrmsRulesContext getKrmsRulesContextFromBean() {
+        if (developmentProposal != null) {
+            return developmentProposal.getKrmsRulesContext();
+        } else {
+            return loadKrmsRulesContext(getModuleItemKey());
+
+        }
+    }
+    
+    protected KrmsRulesContext loadKrmsRulesContext(String proposalNumber) {
+        DevelopmentProposal proposal = KraServiceLocator.getService(BusinessObjectService.class).findBySinglePrimaryKey(DevelopmentProposal.class, proposalNumber);
+        return proposal.getKrmsRulesContext();
+    }
+
+    public DevelopmentProposal getDevelopmentProposal() {
+        return developmentProposal;
+    }
+
+    public void setDevelopmentProposal(DevelopmentProposal developmentProposal) {
+        this.developmentProposal = developmentProposal;
     }
     
 }

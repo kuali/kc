@@ -1291,11 +1291,11 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
 
         //Collections.sort(coiDisclosure.getCoiDiscDetails());
         List<AnswerHeader> answerHeaders = new ArrayList<AnswerHeader>();
-        Long currentDisclosureId = coiDisclosure.getCoiDisclosureId();
-        if (currentDisclosureId == null) {
+        CoiDisclosure currentDisclosure = coiDisclosure;
+        if (currentDisclosure == null || currentDisclosure.getCoiDisclosureId() == null) {
             // if this is click update discl link
             CoiDisclosure masterDisclosure = getCurrentDisclosure();
-            currentDisclosureId = masterDisclosure.getCoiDisclosureId();
+            currentDisclosure = masterDisclosure;
             answerHeaders = copyDisclosureQuestionnaire(masterDisclosure, coiDisclosure);
         } else {
             answerHeaders = retrieveAnswerHeaders(coiDisclosure);
@@ -1315,7 +1315,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
                     moduleItemKey = coiDiscDetail.getModuleItemKey();
                     addProjectDisclAttachments(disclosureProjectBean, coiDisclosure, coiDiscDetail.getOriginalCoiDisclosureId());
                     addProjectDisclNotepads(disclosureProjectBean, coiDisclosure, coiDiscDetail.getOriginalCoiDisclosureId());
-                    addProjectDisclQuestionnaires(disclosureProjectBean, answerHeaders, currentDisclosureId);
+                    addProjectDisclQuestionnaires(disclosureProjectBean, answerHeaders, currentDisclosure);
                 }
       //          disclosureProjectBean.getCoiDisclProject().getCoiDiscDetails().add(coiDiscDetail);            
             }
@@ -1326,7 +1326,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
                 moduleItemKey = coiDisclProject1.getModuleItemKey();
 //                addProjectDisclAttachments(disclosureProjectBean, coiDisclosure, coiDiscDetail.getOriginalCoiDisclosureId());
 //                addProjectDisclNotepads(disclosureProjectBean, coiDisclosure, coiDiscDetail.getOriginalCoiDisclosureId());
-                addProjectDisclQuestionnaires(disclosureProjectBean, answerHeaders, currentDisclosureId);
+                addProjectDisclQuestionnaires(disclosureProjectBean, answerHeaders, currentDisclosure);
                
             }
         }
@@ -1346,8 +1346,8 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         return (List<AnswerHeader>) businessObjectService.findMatching(AnswerHeader.class, fieldValues);
     }
     
-    private void addProjectDisclQuestionnaires(CoiDisclosureProjectBean disclosureProjectBean, List<AnswerHeader> answerHeaders, Long originalDisclosureId) {
-        disclosureProjectBean.populateAnswers(originalDisclosureId.toString());
+    private void addProjectDisclQuestionnaires(CoiDisclosureProjectBean disclosureProjectBean, List<AnswerHeader> answerHeaders, CoiDisclosure originalDisclosure) {
+        disclosureProjectBean.populateAnswers(originalDisclosure);
     }
     
     private void addProjectDisclAttachments(CoiDisclosureProjectBean disclosureProjectBean, CoiDisclosure coiDisclosure, Long originalDisclosureId) {
