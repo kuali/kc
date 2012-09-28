@@ -17,7 +17,7 @@ package org.kuali.kra.protocol.actions.submit;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.common.committee.bo.CommitteeDecisionMotionType;
-import org.kuali.kra.protocol.actions.ProtocolActionType;
+import org.kuali.kra.protocol.actions.ProtocolActionTypeBase;
 
 /**
  * This class represents the action follow up mapping as it exists in coeus.
@@ -45,11 +45,11 @@ public abstract class ValidProtocolActionAction extends KraPersistableBusinessOb
 
     private String userPrompt;
 
-    private ProtocolActionType protocolActionType;
+    private ProtocolActionTypeBase protocolActionType;
 
     private CommitteeDecisionMotionType committeeDecisionMotionType;
 
-    private ProtocolActionType followupProtocolActionType;
+    private ProtocolActionTypeBase followupProtocolActionType;
 
     /**
      * Gets the motionTypeCode attribute. 
@@ -71,7 +71,7 @@ public abstract class ValidProtocolActionAction extends KraPersistableBusinessOb
      * Gets the protocolActionType attribute. 
      * @return Returns the protocolActionType.
      */
-    public ProtocolActionType getProtocolActionType() {
+    public ProtocolActionTypeBase getProtocolActionType() {
         return protocolActionType;
     }
 
@@ -79,7 +79,7 @@ public abstract class ValidProtocolActionAction extends KraPersistableBusinessOb
      * Sets the protocolActionType attribute value.
      * @param protocolActionType The protocolActionType to set.
      */
-    public void setProtocolActionType(ProtocolActionType protocolActionType) {
+    public void setProtocolActionType(ProtocolActionTypeBase protocolActionType) {
         this.protocolActionType = protocolActionType;
     }
 
@@ -103,7 +103,7 @@ public abstract class ValidProtocolActionAction extends KraPersistableBusinessOb
      * Gets the followupProtocolActionType attribute. 
      * @return Returns the followupProtocolActionType.
      */
-    public ProtocolActionType getFollowupProtocolActionType() {
+    public ProtocolActionTypeBase getFollowupProtocolActionType() {
         return followupProtocolActionType;
     }
 
@@ -111,7 +111,7 @@ public abstract class ValidProtocolActionAction extends KraPersistableBusinessOb
      * Sets the followupProtocolActionType attribute value.
      * @param followupProtocolActionType The followupProtocolActionType to set.
      */
-    public void setFollowupProtocolActionType(ProtocolActionType followupProtocolActionType) {
+    public void setFollowupProtocolActionType(ProtocolActionTypeBase followupProtocolActionType) {
         this.followupProtocolActionType = followupProtocolActionType;
     }
 

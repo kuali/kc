@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.iacuc.protocol;
 
-import org.kuali.kra.protocol.protocol.ProtocolNumberServiceImpl;
+import org.kuali.kra.protocol.protocol.ProtocolNumberServiceImplBase;
 
-public class IacucProtocolNumberServiceImpl extends ProtocolNumberServiceImpl implements IacucProtocolNumberService {
+public class IacucProtocolNumberServiceImpl extends ProtocolNumberServiceImplBase implements IacucProtocolNumberService {
 
     @Override
     protected String getSequenceNameHook() {

@@ -17,7 +17,7 @@ package org.kuali.kra.protocol.actions.submit;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
-public abstract class ProtocolSubmissionQualifierType extends KraPersistableBusinessObjectBase {
+public abstract class ProtocolSubmissionQualifierTypeBase extends KraPersistableBusinessObjectBase {
 
 // TODO *********commented the code below during IACUC refactoring********* 
 //    public static final String ANNUAL_SCHEDULED_BY_IRB = "2";
@@ -55,7 +55,7 @@ public abstract class ProtocolSubmissionQualifierType extends KraPersistableBusi
 
     private String description;
 
-    public ProtocolSubmissionQualifierType() {
+    public ProtocolSubmissionQualifierTypeBase() {
     }
 
     public String getSubmissionQualifierTypeCode() {

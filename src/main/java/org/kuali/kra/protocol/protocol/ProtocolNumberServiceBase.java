@@ -18,7 +18,7 @@ package org.kuali.kra.protocol.protocol;
 /**
  * ProtocolNumberService.
  */
-public interface ProtocolNumberService {
+public interface ProtocolNumberServiceBase {
 
     /**
      * Generate a unique Protocol Number.  The Protocol Number

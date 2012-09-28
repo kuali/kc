@@ -68,20 +68,20 @@ public abstract class ProtocolAttachmentServiceImpl implements ProtocolAttachmen
     }
     
     public abstract Class<? extends Protocol> getProtocolClassHook();
-    public abstract Class<? extends ProtocolAttachmentStatus> getProtocolAttachmentStatusClassHook();
+    public abstract Class<? extends ProtocolAttachmentStatusBase> getProtocolAttachmentStatusClassHook();
     public abstract Class<? extends ProtocolPerson> getProtocolPersonClassHook();
-    public abstract Class<? extends ProtocolAttachmentType> getProtocolAttachmentTypeClassHook();
-    public abstract Class<? extends ProtocolAttachmentTypeGroup> getProtocolAttachmentTypeGroupClassHook();
+    public abstract Class<? extends ProtocolAttachmentTypeBase> getProtocolAttachmentTypeClassHook();
+    public abstract Class<? extends ProtocolAttachmentTypeGroupBase> getProtocolAttachmentTypeGroupClassHook();
     public abstract Class<? extends ProtocolAttachmentProtocol> getProtocolAttachmentProtocolClassHook();
     public abstract Class<? extends ProtocolAttachmentPersonnel> getProtocolAttachmentPersonnelClassHook();
     
     /** {@inheritDoc} */
-    public ProtocolAttachmentStatus getStatusFromCode(final String code) {
+    public ProtocolAttachmentStatusBase getStatusFromCode(final String code) {
         return this.getCodeType(getProtocolAttachmentStatusClassHook(), code);
     }
 
     /** {@inheritDoc} */
-    public ProtocolAttachmentType getTypeFromCode(final String code) {
+    public ProtocolAttachmentTypeBase getTypeFromCode(final String code) {
         return this.getCodeType(getProtocolAttachmentTypeClassHook(), code);
     }
 
@@ -106,7 +106,7 @@ public abstract class ProtocolAttachmentServiceImpl implements ProtocolAttachmen
 //        
 //        return types;
 //    }
-    public abstract Collection<ProtocolAttachmentType> getTypesForGroup(String code);
+    public abstract Collection<ProtocolAttachmentTypeBase> getTypesForGroup(String code);
     
     /** {@inheritDoc} */
     public void saveAttatchment(ProtocolAttachmentBase attachment) {

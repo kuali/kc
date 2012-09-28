@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.irb.actions.amendrenew;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.protocol.actions.amendrenew.ProtocolModuleBase;
 
 @SuppressWarnings("serial")
-public class ProtocolModule extends KraPersistableBusinessObjectBase {
+public class ProtocolModule extends ProtocolModuleBase {
 
     public static final String GENERAL_INFO = "001";
 

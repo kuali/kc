@@ -24,7 +24,7 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.ProtocolDocument;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentPersonnel;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentService;
-import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentType;
+import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentTypeBase;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.krad.util.GlobalVariables;
 
@@ -61,7 +61,7 @@ public abstract class ProtocolAttachmentPersonnelRule extends ResearchDocumentRu
     protected boolean validType(String typeCode, String groupCode, String propertyName) {
         assert !StringUtils.isEmpty(groupCode);
         
-        for (ProtocolAttachmentType type : getProtocolAttachmentService().getTypesForGroup(groupCode)) {
+        for (ProtocolAttachmentTypeBase type : getProtocolAttachmentService().getTypesForGroup(groupCode)) {
             if (StringUtils.equals(type.getCode(), typeCode)) {
                 return true;
             }

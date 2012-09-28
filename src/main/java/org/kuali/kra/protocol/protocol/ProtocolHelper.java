@@ -34,7 +34,7 @@ import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.ProtocolDocument;
 import org.kuali.kra.protocol.ProtocolForm;
 import org.kuali.kra.protocol.actions.ProtocolAction;
-import org.kuali.kra.protocol.actions.ProtocolActionType;
+import org.kuali.kra.protocol.actions.ProtocolActionTypeBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
 // TODO *********commented the code below during IACUC refactoring********* 
 // import org.kuali.kra.irb.actions.submit.ProtocolExemptStudiesCheckListItem;
@@ -583,7 +583,7 @@ public abstract class ProtocolHelper implements Serializable {
 
 
     // hook method
-    protected abstract ProtocolNumberService getProtocolNumberService();
+    protected abstract ProtocolNumberServiceBase getProtocolNumberService();
  
     private KcPersonService getPersonService() {
         if(personService == null) {

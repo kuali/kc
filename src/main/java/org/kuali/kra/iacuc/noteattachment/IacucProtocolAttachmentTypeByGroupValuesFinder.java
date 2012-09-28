@@ -25,7 +25,7 @@ import org.kuali.kra.lookup.keyvalue.ConditionValuesFinder;
 import org.kuali.kra.lookup.keyvalue.PrefixValuesFinder;
 import org.kuali.kra.lookup.keyvalue.SortedValuesFinder;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentBase;
-import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentTypeGroup;
+import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentTypeGroupBase;
 import org.kuali.kra.protocol.noteattachment.TypedAttachment;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
@@ -43,7 +43,7 @@ public class IacucProtocolAttachmentTypeByGroupValuesFinder <T extends ProtocolA
     private Collection<T> filterTypes;
 
     /**
-     * Gets the keyvalue pair for {@link ProtocolAttachmentTypeGroup ProtocolAttachmentTypeGroup}.
+     * Gets the keyvalue pair for {@link ProtocolAttachmentTypeGroupBase ProtocolAttachmentTypeGroup}.
      * The key is the typeCode and the value is the type description.
      * <p>
      * {@link #setGroupCode(String) setGroupCode(String)}

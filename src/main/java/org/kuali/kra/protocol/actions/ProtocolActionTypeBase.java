@@ -22,7 +22,7 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
  * that can be performed against a Protocol document.
  */
 @SuppressWarnings("serial")
-public abstract class ProtocolActionType extends KraPersistableBusinessObjectBase {
+public abstract class ProtocolActionTypeBase extends KraPersistableBusinessObjectBase {
 
 // TODO *********commented the code below during IACUC refactoring********* 
 //    public static final String PROTOCOL_CREATED = "100";
@@ -135,7 +135,7 @@ public abstract class ProtocolActionType extends KraPersistableBusinessObjectBas
     /**
      * Constructs a ProtocolActionType.
      */
-    public ProtocolActionType() {
+    public ProtocolActionTypeBase() {
     }
 
     public void setProtocolActionTypeCode(String protocolActionTypeCode) {

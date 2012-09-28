@@ -16,10 +16,10 @@
 package org.kuali.kra.iacuc.protocol;
 
 import org.kuali.kra.iacuc.protocol.reference.IacucProtocolReferenceType;
-import org.kuali.kra.protocol.protocol.ProtocolReferenceTypeValuesFinder;
-import org.kuali.kra.protocol.protocol.reference.ProtocolReferenceType;
+import org.kuali.kra.protocol.protocol.ProtocolReferenceTypeValuesFinderBase;
+import org.kuali.kra.protocol.protocol.reference.ProtocolReferenceTypeBase;
 
-public class IacucProtocolReferenceTypeValuesFinder extends ProtocolReferenceTypeValuesFinder {
+public class IacucProtocolReferenceTypeValuesFinder extends ProtocolReferenceTypeValuesFinderBase {
 
     /**
      * Comment for <code>serialVersionUID</code>
@@ -27,7 +27,7 @@ public class IacucProtocolReferenceTypeValuesFinder extends ProtocolReferenceTyp
     private static final long serialVersionUID = 809031604590465735L;
 
     @Override
-    protected Class<? extends ProtocolReferenceType> getProtocolReferenceTypeBOClassHook() {
+    protected Class<? extends ProtocolReferenceTypeBase> getProtocolReferenceTypeBOClassHook() {
         return IacucProtocolReferenceType.class;
     }
 

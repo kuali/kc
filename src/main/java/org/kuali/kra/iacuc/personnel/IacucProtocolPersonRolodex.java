@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.iacuc.personnel;
 
-import org.kuali.kra.protocol.personnel.ProtocolPersonRolodex;
+import org.kuali.kra.protocol.personnel.ProtocolPersonRolodexBase;
 
-public class IacucProtocolPersonRolodex extends ProtocolPersonRolodex {
+public class IacucProtocolPersonRolodex extends ProtocolPersonRolodexBase {
 
     // TODO: none of this data is being mapped to any columns in any table, so its not being saved, nor being read from anywhere. 
     // it seems all of these fields, or rather all these getter/setters serve only to provide compatibility with kcperson getters/setters

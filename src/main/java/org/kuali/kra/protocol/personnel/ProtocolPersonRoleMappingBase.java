@@ -20,7 +20,7 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 /**
  * This class represents protocol person role mapping business object
  */
-public abstract class ProtocolPersonRoleMapping extends KraPersistableBusinessObjectBase {
+public abstract class ProtocolPersonRoleMappingBase extends KraPersistableBusinessObjectBase {
 
     /**
      * Comment for <code>serialVersionUID</code>
@@ -33,11 +33,11 @@ public abstract class ProtocolPersonRoleMapping extends KraPersistableBusinessOb
 
     private String targetRoleId;
 
-    private ProtocolPersonRole sourceRole;
+    private ProtocolPersonRoleBase sourceRole;
 
-    private ProtocolPersonRole targetRole;
+    private ProtocolPersonRoleBase targetRole;
 
-    public ProtocolPersonRoleMapping() {
+    public ProtocolPersonRoleMappingBase() {
     }
 
     public Integer getRoleMappingId() {
@@ -64,19 +64,19 @@ public abstract class ProtocolPersonRoleMapping extends KraPersistableBusinessOb
         this.targetRoleId = targetRoleId;
     }
 
-    public ProtocolPersonRole getSourceRole() {
+    public ProtocolPersonRoleBase getSourceRole() {
         return sourceRole;
     }
 
-    public void setSourceRole(ProtocolPersonRole sourceRole) {
+    public void setSourceRole(ProtocolPersonRoleBase sourceRole) {
         this.sourceRole = sourceRole;
     }
 
-    public ProtocolPersonRole getTargetRole() {
+    public ProtocolPersonRoleBase getTargetRole() {
         return targetRole;
     }
 
-    public void setTargetRole(ProtocolPersonRole targetRole) {
+    public void setTargetRole(ProtocolPersonRoleBase targetRole) {
         this.targetRole = targetRole;
     }
 }

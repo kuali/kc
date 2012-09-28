@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.irb.noteattachment;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentTypeGroupBase;
 
 /**
  * This class represents the Protocol Attachment Type Group.
  */
-public class ProtocolAttachmentTypeGroup extends KraPersistableBusinessObjectBase {
+public class ProtocolAttachmentTypeGroup extends ProtocolAttachmentTypeGroupBase {
 
     private static final long serialVersionUID = 2053606476193782286L;
 

@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.iacuc.protocol.location;
 
-import org.kuali.kra.protocol.protocol.location.ProtocolOrganizationType;
+import org.kuali.kra.protocol.protocol.location.ProtocolOrganizationTypeBase;
 
-public class IacucProtocolOrganizationType extends ProtocolOrganizationType {
+public class IacucProtocolOrganizationType extends ProtocolOrganizationTypeBase {
 
     /**
      * Comment for <code>serialVersionUID</code>

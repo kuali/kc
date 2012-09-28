@@ -74,7 +74,7 @@ public abstract class ProtocolOnlineReview extends KraPersistableBusinessObjectB
 
     private ProtocolOnlineReviewStatus protocolOnlineReviewStatus;
 
-    private ProtocolOnlineReviewDeterminationRecommendation protocolOnlineReviewDeterminationRecommendation;
+    private ProtocolOnlineReviewDeterminationRecommendationBase protocolOnlineReviewDeterminationRecommendation;
 
     private List<CommitteeScheduleMinute> committeeScheduleMinutes;
 
@@ -266,7 +266,7 @@ public abstract class ProtocolOnlineReview extends KraPersistableBusinessObjectB
      * Gets the protocolReviewDeterminationRecommendation attribute. 
      * @return Returns the protocolReviewDeterminationRecommendation.
      */
-    public ProtocolOnlineReviewDeterminationRecommendation getProtocolOnlineReviewDeterminationRecommendation() {
+    public ProtocolOnlineReviewDeterminationRecommendationBase getProtocolOnlineReviewDeterminationRecommendation() {
         return protocolOnlineReviewDeterminationRecommendation;
     }
 
@@ -274,7 +274,7 @@ public abstract class ProtocolOnlineReview extends KraPersistableBusinessObjectB
      * Sets the protocolReviewDeterminationRecommendation attribute value.
      * @param protocolOnlineReviewDeterminationRecommendation The protocolReviewDeterminationRecommendation to set.
      */
-    public void setProtocolOnlineReviewDeterminationRecommendation(ProtocolOnlineReviewDeterminationRecommendation protocolOnlineReviewDeterminationRecommendation) {
+    public void setProtocolOnlineReviewDeterminationRecommendation(ProtocolOnlineReviewDeterminationRecommendationBase protocolOnlineReviewDeterminationRecommendation) {
         this.protocolOnlineReviewDeterminationRecommendation = protocolOnlineReviewDeterminationRecommendation;
     }
 

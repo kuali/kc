@@ -24,7 +24,7 @@ import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.ProtocolOnlineReviewDocument;
-import org.kuali.kra.protocol.actions.ProtocolActionType;
+import org.kuali.kra.protocol.actions.ProtocolActionTypeBase;
 //import org.kuali.kra.protocol.actions.notification.AssignReviewerNotificationRenderer;
 //import org.kuali.kra.protocol.actions.notification.ProtocolNotificationRequestBean;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewer;

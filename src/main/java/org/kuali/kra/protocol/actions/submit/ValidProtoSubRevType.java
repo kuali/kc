@@ -30,9 +30,9 @@ public class ValidProtoSubRevType extends KraPersistableBusinessObjectBase {
 
     private String protocolReviewTypeCode;
 
-    private ProtocolReviewType protocolReviewType;
+    private ProtocolReviewTypeBase protocolReviewType;
 
-    private ProtocolSubmissionType submissionType;
+    private ProtocolSubmissionTypeBase submissionType;
 
     public ValidProtoSubRevType() {
     }
@@ -61,19 +61,19 @@ public class ValidProtoSubRevType extends KraPersistableBusinessObjectBase {
         this.protocolReviewTypeCode = protocolReviewTypeCode;
     }
 
-    public ProtocolReviewType getProtocolReviewType() {
+    public ProtocolReviewTypeBase getProtocolReviewType() {
         return protocolReviewType;
     }
 
-    public void setProtocolReviewType(ProtocolReviewType protocolReviewType) {
+    public void setProtocolReviewType(ProtocolReviewTypeBase protocolReviewType) {
         this.protocolReviewType = protocolReviewType;
     }
 
-    public ProtocolSubmissionType getSubmissionType() {
+    public ProtocolSubmissionTypeBase getSubmissionType() {
         return submissionType;
     }
 
-    public void setSubmissionType(ProtocolSubmissionType submissionType) {
+    public void setSubmissionType(ProtocolSubmissionTypeBase submissionType) {
         this.submissionType = submissionType;
     }
 }

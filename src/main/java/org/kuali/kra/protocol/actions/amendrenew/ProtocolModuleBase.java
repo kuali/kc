@@ -18,7 +18,7 @@ package org.kuali.kra.protocol.actions.amendrenew;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 @SuppressWarnings("serial")
-public abstract class ProtocolModule extends KraPersistableBusinessObjectBase {
+public abstract class ProtocolModuleBase extends KraPersistableBusinessObjectBase {
 
 //    public static final String GENERAL_INFO = "001";
 //
@@ -48,7 +48,7 @@ public abstract class ProtocolModule extends KraPersistableBusinessObjectBase {
     protected String protocolModuleCode;
     protected String description;
 
-    protected ProtocolModule() {
+    protected ProtocolModuleBase() {
     }
 
     public String getProtocolModuleCode() {

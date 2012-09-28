@@ -31,7 +31,7 @@ import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentPersonnel;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentProtocol;
 import org.kuali.kra.protocol.noteattachment.ProtocolNotepad;
 import org.kuali.kra.protocol.personnel.ProtocolPerson;
-import org.kuali.kra.protocol.protocol.ProtocolNumberService;
+import org.kuali.kra.protocol.protocol.ProtocolNumberServiceBase;
 import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSource;
 import org.kuali.kra.protocol.protocol.location.ProtocolLocation;
 import org.kuali.kra.protocol.protocol.participant.ProtocolParticipant;
@@ -364,7 +364,7 @@ public abstract class ProtocolCopyServiceImpl<GenericProtocolDocument extends Pr
     protected abstract Class<? extends org.kuali.kra.protocol.actions.ProtocolAction> getProtocolActionBOClassHook();
     protected abstract String getProtocolActionProtocolCreatedCodeHook();
     protected abstract String getSequenceNumberNameHook();
-    protected abstract ProtocolNumberService getProtocolNumberServiceHook();
+    protected abstract ProtocolNumberServiceBase getProtocolNumberServiceHook();
     protected abstract ProtocolAction getProtocolActionNewInstanceHook(Protocol protocol, ProtocolSubmission protocolSubmission, String protocolActionTypeCode);
     protected abstract String getProtocolAggregatorHook();
     protected abstract String getProtocolApproverHook();

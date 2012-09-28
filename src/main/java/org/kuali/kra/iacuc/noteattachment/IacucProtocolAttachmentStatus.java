@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.iacuc.noteattachment;
 
-import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentStatus;
+import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentStatusBase;
 
-public class IacucProtocolAttachmentStatus extends ProtocolAttachmentStatus {
+public class IacucProtocolAttachmentStatus extends ProtocolAttachmentStatusBase {
 
     private static final long serialVersionUID = -4905081370303790577L;
 

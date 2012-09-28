@@ -87,9 +87,9 @@ public abstract class ProtocolSubmission extends ProtocolAssociate {
     @SkipVersioning
     private transient List<ProtocolOnlineReview> protocolOnlineReviews;
 
-    private ProtocolSubmissionType protocolSubmissionType;
+    private ProtocolSubmissionTypeBase protocolSubmissionType;
 
-    private ProtocolSubmissionQualifierType protocolSubmissionQualifierType;
+    private ProtocolSubmissionQualifierTypeBase protocolSubmissionQualifierType;
 
     private CommitteeDecisionMotionType committeeDecisionMotionType;
 
@@ -106,12 +106,12 @@ public abstract class ProtocolSubmission extends ProtocolAssociate {
     @SkipVersioning
     private transient List<ProtocolReviewAttachment> reviewAttachments;
 
-    private ProtocolReviewType protocolReviewType;
+    private ProtocolReviewTypeBase protocolReviewType;
 
     @SkipVersioning
     private transient Committee committee;
 
-    private ProtocolSubmissionStatus submissionStatus;
+    private ProtocolSubmissionStatusBase submissionStatus;
 
     // lookup field  
     private String piName;
@@ -346,11 +346,11 @@ public abstract class ProtocolSubmission extends ProtocolAssociate {
         this.protocolOnlineReviews = protocolOnlineReviews;
     }
 
-    public ProtocolReviewType getProtocolReviewType() {
+    public ProtocolReviewTypeBase getProtocolReviewType() {
         return protocolReviewType;
     }
 
-    public void setProtocolReviewType(ProtocolReviewType protocolReviewType) {
+    public void setProtocolReviewType(ProtocolReviewTypeBase protocolReviewType) {
         this.protocolReviewType = protocolReviewType;
     }
 
@@ -384,40 +384,40 @@ public abstract class ProtocolSubmission extends ProtocolAssociate {
         this.committee = committee;
     }
 
-    public ProtocolSubmissionStatus getSubmissionStatus() {
+    public ProtocolSubmissionStatusBase getSubmissionStatus() {
         if (StringUtils.isNotBlank(submissionStatusCode) && submissionStatus == null) {
             this.refreshReferenceObject("submissionStatus");
         }
         return submissionStatus;
     }
 
-    public void setSubmissionStatus(ProtocolSubmissionStatus submissionStatus) {
+    public void setSubmissionStatus(ProtocolSubmissionStatusBase submissionStatus) {
         this.submissionStatus = submissionStatus;
     }
 
-    public void setProtocolSubmissionType(ProtocolSubmissionType protocolSubmissionType) {
+    public void setProtocolSubmissionType(ProtocolSubmissionTypeBase protocolSubmissionType) {
         this.protocolSubmissionType = protocolSubmissionType;
     }
 
-    public ProtocolSubmissionType getProtocolSubmissionType() {
+    public ProtocolSubmissionTypeBase getProtocolSubmissionType() {
         if (StringUtils.isNotBlank(submissionTypeCode) && protocolSubmissionType == null) {
             this.refreshReferenceObject("protocolSubmissionType");
         }
         return protocolSubmissionType;
     }
 
-    public void setProtocolSubmissionQualifierType(ProtocolSubmissionQualifierType protocolSubmissionQualifierType) {
+    public void setProtocolSubmissionQualifierType(ProtocolSubmissionQualifierTypeBase protocolSubmissionQualifierType) {
         this.protocolSubmissionQualifierType = protocolSubmissionQualifierType;
     }
 
-    public ProtocolSubmissionQualifierType getProtocolSubmissionQualifierType() {
+    public ProtocolSubmissionQualifierTypeBase getProtocolSubmissionQualifierType() {
         if(null == protocolSubmissionQualifierType) {
             protocolSubmissionQualifierType = getNewInstanceProtocolSubmissionQualifierTypeHook();
         }
         return protocolSubmissionQualifierType;
     }
 
-    protected abstract ProtocolSubmissionQualifierType getNewInstanceProtocolSubmissionQualifierTypeHook();
+    protected abstract ProtocolSubmissionQualifierTypeBase getNewInstanceProtocolSubmissionQualifierTypeHook();
 
     public void setCommitteeDecisionMotionType(CommitteeDecisionMotionType committeeDecisionMotionType) {
         this.committeeDecisionMotionType = committeeDecisionMotionType;

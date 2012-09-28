@@ -118,7 +118,7 @@ public abstract class ProtocolAttachmentBaseRuleHelper {
         }
         
         if (StringUtils.isBlank(attachment.getDescription()) && OTHER_TYPE_CODE.equals(attachment.getType().getCode())) {
-            final ProtocolAttachmentType type = this.attachmentService.getTypeFromCode(attachment.getType().getCode());
+            final ProtocolAttachmentTypeBase type = this.attachmentService.getTypeFromCode(attachment.getType().getCode());
             this.errorReporter.reportError(this.propertyPrefix + "." + TypedAttachment.PropertyName.DESCRIPTION,
                 KeyConstants.ERROR_PROTOCOL_ATTACHMENT_MISSING_DESC, (type != null) ? type.getDescription(): "");
             return false;
@@ -145,13 +145,13 @@ public abstract class ProtocolAttachmentBaseRuleHelper {
             return true;
         }
         
-        for (ProtocolAttachmentType type : this.attachmentService.getTypesForGroup(attachment.getGroupCode())) {
+        for (ProtocolAttachmentTypeBase type : this.attachmentService.getTypesForGroup(attachment.getGroupCode())) {
             if (type != null && attachment.getType().getCode().equals(type.getCode())) {
                 return true;
             }
         }
         
-        final ProtocolAttachmentType type = this.attachmentService.getTypeFromCode(attachment.getType().getCode());
+        final ProtocolAttachmentTypeBase type = this.attachmentService.getTypeFromCode(attachment.getType().getCode());
         this.errorReporter.reportError(this.propertyPrefix + "." + TypedAttachment.PropertyName.TYPE_CODE,
             KeyConstants.ERROR_PROTOCOL_ATTACHMENT_INVALID_TYPE, (type != null) ? type.getDescription(): "");
         

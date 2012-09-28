@@ -24,12 +24,18 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.protocol.reference.ProtocolReferenceType;
 import org.kuali.kra.lookup.keyvalue.KeyValueFinderService;
 import org.kuali.kra.lookup.keyvalue.PrefixValuesFinder;
+import org.kuali.kra.protocol.protocol.ProtocolReferenceTypeValuesFinderBase;
+import org.kuali.kra.protocol.protocol.reference.ProtocolReferenceTypeBase;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.service.KeyValuesService;
 
-public class ProtocolReferenceTypeValuesFinder extends KeyValuesBase {
+public class ProtocolReferenceTypeValuesFinder extends ProtocolReferenceTypeValuesFinderBase {
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = -3469947964740703859L;
+    
     KeyValueFinderService keyValueFinderService = (KeyValueFinderService) KraServiceLocator.getService("keyValueFinderService");
 
     /**
@@ -40,6 +46,7 @@ public class ProtocolReferenceTypeValuesFinder extends KeyValuesBase {
      * @return the list of &lt;key, value&gt; pairs of abstract types. The first entry is always &lt;"", "select:"&gt;.
      * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
      */
+    @SuppressWarnings("rawtypes")
     public List<KeyValue> getKeyValues() {
         KeyValuesService keyValuesService = (KeyValuesService) KraServiceLocator.getService("keyValuesService");
         Collection protocolReferenceTypes = keyValuesService.findAllOrderBy(ProtocolReferenceType.class,
@@ -54,6 +61,11 @@ public class ProtocolReferenceTypeValuesFinder extends KeyValuesBase {
             }
         }
         return keyValues;
+    }
+
+    @Override
+    protected Class<? extends ProtocolReferenceTypeBase> getProtocolReferenceTypeBOClassHook() {
+        return ProtocolReferenceType.class;
     }
 
 

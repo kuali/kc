@@ -45,7 +45,7 @@ import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.ProtocolDocument;
 import org.kuali.kra.protocol.ProtocolOnlineReviewDocument;
 import org.kuali.kra.protocol.actions.ProtocolAction;
-import org.kuali.kra.protocol.actions.submit.ProtocolReviewType;
+import org.kuali.kra.protocol.actions.submit.ProtocolReviewTypeBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewer;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewerBean;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
@@ -296,7 +296,7 @@ public class IacucProtocolModifySubmissionServiceImpl extends IacucProtocolProce
     protected void proccessNewReviewType(ProtocolSubmission submission, String newReviewType) {
         Map fieldValues = new HashMap();
         fieldValues.put("PROTOCOL_REVIEW_TYPE_CODE", newReviewType);
-        ProtocolReviewType newType = (ProtocolReviewType) this.businessObjectService.findByPrimaryKey(IacucProtocolReviewType.class, fieldValues);
+        ProtocolReviewTypeBase newType = (ProtocolReviewTypeBase) this.businessObjectService.findByPrimaryKey(IacucProtocolReviewType.class, fieldValues);
         submission.setProtocolReviewType(newType);
         submission.setProtocolReviewTypeCode(newType.getReviewTypeCode());
     }
