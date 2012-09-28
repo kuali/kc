@@ -18,21 +18,30 @@ package org.kuali.kra.protocol.noteattachment;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 /**
- * This class represents the Protocol Attachment Type.
+ * This class represents the Protocol Attachment Status.
  */
-public abstract class ProtocolAttachmentType extends KraPersistableBusinessObjectBase {
+public abstract class ProtocolAttachmentStatusBase extends KraPersistableBusinessObjectBase {
 
-    private static final long serialVersionUID = 8188183900415658970L;
+    private static final long serialVersionUID = 2053606476193782286L;
 
-    protected String code;
-
-    protected String description;
-
+    public static final String DRAFT = "1";
+    public static final String FINALIZED = "2";
+    public static final String DELETED = "3";
+    public static final String SUPERCEDED = "4";
+    public static final String EXPIRED = "5";    
     
-    protected ProtocolAttachmentType() {
+    private String code;
+
+    private String description;
+
+
+    /**
+     * empty ctor to satisfy JavaBean convention.
+     */
+    protected ProtocolAttachmentStatusBase() {
         super();
     }
-    
+
     /**
      * Convenience ctor to set the relevant properties of this class.
      * 
@@ -43,38 +52,38 @@ public abstract class ProtocolAttachmentType extends KraPersistableBusinessObjec
      * @param code the code.
      * @param description the description.
      */
-    protected ProtocolAttachmentType(String code, String description) {
+    public ProtocolAttachmentStatusBase(String code, String description) {
         this.code = code;
         this.description = description;
     }
 
     /**
-     * Gets the protocol attachment type code.
-     * @return the protocol attachment type code
+     * Gets the protocol attachment status code.
+     * @return the protocol attachment status code
      */
     public String getCode() {
         return this.code;
     }
 
     /**
-     * Sets the protocol attachment type code.
-     * @param code the protocol attachment type code
+     * Sets the protocol attachment status code.
+     * @param code the protocol attachment status code
      */
     public void setCode(String code) {
         this.code = code;
     }
 
     /**
-     * Gets the protocol attachment type description.
-     * @return the protocol attachment type description
+     * Gets the protocol attachment status description.
+     * @return the protocol attachment status description
      */
     public String getDescription() {
         return this.description;
     }
 
     /**
-     * Sets the protocol attachment type description.
-     * @param description the protocol attachment type description
+     * Sets the protocol attachment status description.
+     * @param description the protocol attachment status description
      */
     public void setDescription(String description) {
         this.description = description;
@@ -99,10 +108,10 @@ public abstract class ProtocolAttachmentType extends KraPersistableBusinessObjec
         if (obj == null) {
             return false;
         }
-        if (!(obj instanceof ProtocolAttachmentType)) {
+        if (!(obj instanceof ProtocolAttachmentStatusBase)) {
             return false;
         }
-        ProtocolAttachmentType other = (ProtocolAttachmentType) obj;
+        ProtocolAttachmentStatusBase other = (ProtocolAttachmentStatusBase) obj;
         if (this.code == null) {
             if (other.code != null) {
                 return false;

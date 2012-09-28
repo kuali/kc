@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.iacuc.onlinereview;
 
-import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewDeterminationRecommendation;
+import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewDeterminationRecommendationBase;
 
-public class IacucProtocolOnlineReviewDeterminationRecommendation extends ProtocolOnlineReviewDeterminationRecommendation {
+public class IacucProtocolOnlineReviewDeterminationRecommendation extends ProtocolOnlineReviewDeterminationRecommendationBase {
 
     /**
      * Comment for <code>serialVersionUID</code>

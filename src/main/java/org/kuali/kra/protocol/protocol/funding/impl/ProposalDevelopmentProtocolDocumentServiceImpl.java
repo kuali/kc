@@ -29,7 +29,7 @@ import org.kuali.kra.protocol.actions.ProtocolAction;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
 import org.kuali.kra.protocol.personnel.ProtocolPerson;
 import org.kuali.kra.protocol.personnel.ProtocolPersonnelService;
-import org.kuali.kra.protocol.protocol.ProtocolNumberService;
+import org.kuali.kra.protocol.protocol.ProtocolNumberServiceBase;
 import org.kuali.kra.protocol.protocol.funding.ProposalDevelopmentProtocolDocumentService;
 import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSource;
 import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceService;
@@ -218,7 +218,7 @@ public abstract class ProposalDevelopmentProtocolDocumentServiceImpl<GenericProt
     protected abstract String getProtocolActionProtocolCreatedCodeHook();
     protected abstract String getProtocolTypeCodeHook();
     protected abstract void populateProtocolSpecificFieldsHook(Protocol protocol);
-    protected abstract ProtocolNumberService getProtocolNumberServiceHook();
+    protected abstract ProtocolNumberServiceBase getProtocolNumberServiceHook();
     protected abstract ProtocolAction getProtocolActionNewInstanceHook(Protocol protocol, ProtocolSubmission protocolSubmission, String protocolActionTypeCode);
     protected abstract String getProtocolAggregatorHook();
     protected abstract String getProtocolApproverHook();

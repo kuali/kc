@@ -35,7 +35,7 @@ import org.kuali.kra.protocol.actions.ProtocolAction;
 import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsService;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
 import org.kuali.kra.protocol.personnel.ProtocolPerson;
-import org.kuali.kra.protocol.personnel.ProtocolPersonRolodex;
+import org.kuali.kra.protocol.personnel.ProtocolPersonRolodexBase;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
@@ -98,7 +98,7 @@ public class IacucPrintXmlUtilServiceImpl implements IacucPrintXmlUtilService {
     }
 
 
-    public void setPersonXml(ProtocolPersonRolodex rolodex, PersonType personType) {
+    public void setPersonXml(ProtocolPersonRolodexBase rolodex, PersonType personType) {
         personType.setPersonID(rolodex.getRolodexId().toString());
         String fullName = rolodex.getMiddleName() != null ? rolodex.getLastName() + "," + rolodex.getFirstName()
                 + rolodex.getMiddleName() : rolodex.getLastName() + "," + rolodex.getFirstName();

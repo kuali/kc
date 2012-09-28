@@ -56,8 +56,8 @@ import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.actions.ProtocolStatus;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
-import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionStatus;
-import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionType;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionStatusBase;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionTypeBase;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentFilter;
 import org.kuali.kra.protocol.protocol.research.ProtocolResearchArea;
 import org.kuali.kra.protocol.summary.ProtocolSummary;
@@ -287,13 +287,13 @@ public class IacucProtocol extends Protocol {
 
 
     @Override
-    protected ProtocolSubmissionStatus getProtocolSubmissionStatusNewInstanceHook() {
+    protected ProtocolSubmissionStatusBase getProtocolSubmissionStatusNewInstanceHook() {
         return new IacucProtocolSubmissionStatus();
     }
 
 
     @Override
-    protected ProtocolSubmissionType getProtocolSubmissionTypeNewInstanceHook() {
+    protected ProtocolSubmissionTypeBase getProtocolSubmissionTypeNewInstanceHook() {
         return new IacucProtocolSubmissionType();
     }
 

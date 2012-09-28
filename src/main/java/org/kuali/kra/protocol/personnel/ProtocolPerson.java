@@ -50,9 +50,9 @@ public abstract class ProtocolPerson extends ProtocolAssociate implements Person
 
     private AffiliationType affiliationType;
 
-    private ProtocolPersonRole protocolPersonRole;
+    private ProtocolPersonRoleBase protocolPersonRole;
 
-    private ProtocolPersonRolodex rolodex;
+    private ProtocolPersonRolodexBase rolodex;
 
     private boolean delete;
 
@@ -259,11 +259,11 @@ public abstract class ProtocolPerson extends ProtocolAssociate implements Person
         this.affiliationType = affiliationType;
     }
 
-    public ProtocolPersonRole getProtocolPersonRole() {
+    public ProtocolPersonRoleBase getProtocolPersonRole() {
         return this.protocolPersonRole;
     }
 
-    public void setProtocolPersonRoles(ProtocolPersonRole protocolPersonRole) {
+    public void setProtocolPersonRoles(ProtocolPersonRoleBase protocolPersonRole) {
         this.protocolPersonRole = protocolPersonRole;
     }
 
@@ -285,11 +285,11 @@ public abstract class ProtocolPerson extends ProtocolAssociate implements Person
         return this.kcPersonService;
     }
 
-    public ProtocolPersonRolodex getRolodex() {
+    public ProtocolPersonRolodexBase getRolodex() {
         return this.rolodex;
     }
 
-    public void setRolodex(ProtocolPersonRolodex rolodex) {
+    public void setRolodex(ProtocolPersonRolodexBase rolodex) {
         this.rolodex = rolodex;
     }
 

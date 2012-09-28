@@ -18,7 +18,7 @@ package org.kuali.kra.protocol.personnel;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
 
-public abstract class ProtocolPersonRole extends KraPersistableBusinessObjectBase implements Comparable<ProtocolPersonRole>, MutableInactivatable {
+public abstract class ProtocolPersonRoleBase extends KraPersistableBusinessObjectBase implements Comparable<ProtocolPersonRoleBase>, MutableInactivatable {
 
     /**
      * Comment for <code>serialVersionUID</code>
@@ -53,7 +53,7 @@ public abstract class ProtocolPersonRole extends KraPersistableBusinessObjectBas
 
     private boolean active;
 
-    public ProtocolPersonRole() {
+    public ProtocolPersonRoleBase() {
     }
 
     public String getProtocolPersonRoleId() {
@@ -112,7 +112,7 @@ public abstract class ProtocolPersonRole extends KraPersistableBusinessObjectBas
         this.active = active;
     }
 
-    public int compareTo(ProtocolPersonRole other) {
+    public int compareTo(ProtocolPersonRoleBase other) {
         int result = 0;
         if (other != null) {
             if (description != null && other.description != null) {

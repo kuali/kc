@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.irb.protocol.location;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.protocol.protocol.location.ProtocolOrganizationTypeBase;
 
 /**
  * 
  * This class represents the Protocol Organization Type Business Object.
  */
-public class ProtocolOrganizationType extends KraPersistableBusinessObjectBase {
+public class ProtocolOrganizationType extends ProtocolOrganizationTypeBase {
 
     /**
      * Comment for <code>serialVersionUID</code>

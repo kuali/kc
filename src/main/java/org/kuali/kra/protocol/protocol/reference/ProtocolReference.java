@@ -48,7 +48,7 @@ public abstract class ProtocolReference extends ProtocolAssociate {
 
     private String comments;
 
-    private ProtocolReferenceType protocolReferenceType;
+    private ProtocolReferenceTypeBase protocolReferenceType;
 
     /**
 	 * 
@@ -65,7 +65,7 @@ public abstract class ProtocolReference extends ProtocolAssociate {
 	 * @param protocolReferenceType
 	 * @throws ParseException
 	 */
-    public ProtocolReference(ProtocolReferenceBean bean, Protocol protocol, ProtocolReferenceType protocolReferenceType) throws ParseException {
+    public ProtocolReference(ProtocolReferenceBean bean, Protocol protocol, ProtocolReferenceTypeBase protocolReferenceType) throws ParseException {
         this.protocolReferenceType = protocolReferenceType;
         this.protocolReferenceTypeCode = protocolReferenceType.getProtocolReferenceTypeCode();
         this.setProtocol(protocol);
@@ -142,11 +142,11 @@ public abstract class ProtocolReference extends ProtocolAssociate {
         this.comments = comments;
     }
 
-    public ProtocolReferenceType getProtocolReferenceType() {
+    public ProtocolReferenceTypeBase getProtocolReferenceType() {
         return protocolReferenceType;
     }
 
-    public void setProtocolReferenceType(ProtocolReferenceType protocolReferenceType) {
+    public void setProtocolReferenceType(ProtocolReferenceTypeBase protocolReferenceType) {
         this.protocolReferenceType = protocolReferenceType;
     }
 

@@ -76,7 +76,7 @@ public abstract class ProtocolAction extends ProtocolAssociate {
     @SkipVersioning
     private transient ProtocolSubmission protocolSubmission;
 
-    private ProtocolActionType protocolActionType;
+    private ProtocolActionTypeBase protocolActionType;
     
     private List<ProtocolCorrespondence> protocolCorrespondences;
 
@@ -201,7 +201,7 @@ public abstract class ProtocolAction extends ProtocolAssociate {
         return protocolSubmission;
     }
 
-    public void setProtocolActionType(ProtocolActionType protocolActionType) {
+    public void setProtocolActionType(ProtocolActionTypeBase protocolActionType) {
         this.protocolActionType = protocolActionType;
     }
 
@@ -209,7 +209,7 @@ public abstract class ProtocolAction extends ProtocolAssociate {
      * Refreshes the protocol action type (if it doesn't exist) and returns it.
      * @return
      */
-    public ProtocolActionType getProtocolActionType() {
+    public ProtocolActionTypeBase getProtocolActionType() {
         if (StringUtils.isBlank(protocolActionTypeCode)) {
             protocolActionType = null;
         } else {

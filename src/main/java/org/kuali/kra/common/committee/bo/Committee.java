@@ -28,7 +28,7 @@ import org.kuali.kra.bo.Unit;
 import org.kuali.kra.coi.CoiReviewType;
 import org.kuali.kra.common.committee.document.CommitteeDocumentBase;
 import org.kuali.kra.common.permissions.Permissionable;
-import org.kuali.kra.protocol.actions.submit.ProtocolReviewType;
+import org.kuali.kra.protocol.actions.submit.ProtocolReviewTypeBase;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.kra.util.DateUtils;
 
@@ -59,7 +59,7 @@ public abstract class Committee<CMT extends Committee<CMT, CD, CS>,
     
     private Unit homeUnit;
     private CommitteeType committeeType;
-    private ProtocolReviewType reviewType;
+    private ProtocolReviewTypeBase reviewType;
     private CoiReviewType coiReviewType;
     
     private CD committeeDocument;
@@ -215,11 +215,11 @@ public abstract class Committee<CMT extends Committee<CMT, CD, CS>,
         this.committeeType = committeeType;
     }
 
-    public ProtocolReviewType getReviewType() {
+    public ProtocolReviewTypeBase getReviewType() {
         return reviewType;
     }
 
-    public void setReviewType(ProtocolReviewType reviewType) {
+    public void setReviewType(ProtocolReviewTypeBase reviewType) {
         this.reviewType = reviewType;
     }
     

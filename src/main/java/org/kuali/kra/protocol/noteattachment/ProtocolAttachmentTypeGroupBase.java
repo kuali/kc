@@ -20,7 +20,7 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 /**
  * This class represents the Protocol Attachment Type Group.
  */
-public abstract class ProtocolAttachmentTypeGroup extends KraPersistableBusinessObjectBase {
+public abstract class ProtocolAttachmentTypeGroupBase extends KraPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = 2053606476193782286L;
 
@@ -28,16 +28,16 @@ public abstract class ProtocolAttachmentTypeGroup extends KraPersistableBusiness
 
     private String typeCode;
 
-    private ProtocolAttachmentType type;
+    private ProtocolAttachmentTypeBase type;
 
     private String groupCode;
 
-    private ProtocolAttachmentGroup group;
+    private ProtocolAttachmentGroupBase group;
 
     /**
      * empty ctor to satisfy JavaBean convention.
      */
-    public ProtocolAttachmentTypeGroup() {
+    public ProtocolAttachmentTypeGroupBase() {
         super();
     }
 
@@ -51,7 +51,7 @@ public abstract class ProtocolAttachmentTypeGroup extends KraPersistableBusiness
      * @param type the type.
      * @param group the group.
      */
-    protected ProtocolAttachmentTypeGroup(ProtocolAttachmentType type, ProtocolAttachmentGroup group) {
+    protected ProtocolAttachmentTypeGroupBase(ProtocolAttachmentTypeBase type, ProtocolAttachmentGroupBase group) {
         this.type = type;
         this.group = group;
     }
@@ -76,7 +76,7 @@ public abstract class ProtocolAttachmentTypeGroup extends KraPersistableBusiness
      * Gets the Protocol Attachment Type.
      * @return Protocol Attachment Type
      */
-    public ProtocolAttachmentType getType() {
+    public ProtocolAttachmentTypeBase getType() {
         return this.type;
     }
 
@@ -84,7 +84,7 @@ public abstract class ProtocolAttachmentTypeGroup extends KraPersistableBusiness
      * Sets the Protocol Attachment Type.
      * @param type Protocol Attachment Type
      */
-    public void setType(ProtocolAttachmentType type) {
+    public void setType(ProtocolAttachmentTypeBase type) {
         this.type = type;
     }
 
@@ -92,7 +92,7 @@ public abstract class ProtocolAttachmentTypeGroup extends KraPersistableBusiness
      * Gets the Protocol Attachment Group.
      * @return Protocol Attachment Group
      */
-    public ProtocolAttachmentGroup getGroup() {
+    public ProtocolAttachmentGroupBase getGroup() {
         return this.group;
     }
 
@@ -100,7 +100,7 @@ public abstract class ProtocolAttachmentTypeGroup extends KraPersistableBusiness
      * Sets the Protocol Attachment Group.
      * @param group Protocol Attachment Group
      */
-    public void setGroup(ProtocolAttachmentGroup group) {
+    public void setGroup(ProtocolAttachmentGroupBase group) {
         this.group = group;
     }
 
@@ -156,10 +156,10 @@ public abstract class ProtocolAttachmentTypeGroup extends KraPersistableBusiness
         if (obj == null) {
             return false;
         }
-        if (!(obj instanceof ProtocolAttachmentTypeGroup)) {
+        if (!(obj instanceof ProtocolAttachmentTypeGroupBase)) {
             return false;
         }
-        ProtocolAttachmentTypeGroup other = (ProtocolAttachmentTypeGroup) obj;
+        ProtocolAttachmentTypeGroupBase other = (ProtocolAttachmentTypeGroupBase) obj;
         if (this.group == null) {
             if (other.group != null) {
                 return false;

@@ -41,7 +41,7 @@ public abstract class ProtocolLocation extends ProtocolAssociate {
 
     private Organization organization;
 
-    private ProtocolOrganizationType protocolOrganizationType;
+    private ProtocolOrganizationTypeBase protocolOrganizationType;
 
     /**
 	 * Constructs a ProtocolLocation.java.
@@ -89,11 +89,11 @@ public abstract class ProtocolLocation extends ProtocolAssociate {
         this.organization = organization;
     }
 
-    public ProtocolOrganizationType getProtocolOrganizationType() {
+    public ProtocolOrganizationTypeBase getProtocolOrganizationType() {
         return protocolOrganizationType;
     }
 
-    public void setProtocolOrganizationType(ProtocolOrganizationType protocolOrganizationType) {
+    public void setProtocolOrganizationType(ProtocolOrganizationTypeBase protocolOrganizationType) {
         this.protocolOrganizationType = protocolOrganizationType;
     }
 

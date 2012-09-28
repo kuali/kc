@@ -144,7 +144,7 @@ import org.kuali.kra.protocol.ProtocolDocument;
 import org.kuali.kra.protocol.ProtocolForm;
 import org.kuali.kra.protocol.actions.ProtocolAction;
 import org.kuali.kra.protocol.actions.ProtocolActionBean;
-import org.kuali.kra.protocol.actions.ProtocolActionType;
+import org.kuali.kra.protocol.actions.ProtocolActionTypeBase;
 import org.kuali.kra.protocol.actions.ProtocolOnlineReviewCommentable;
 import org.kuali.kra.protocol.actions.ProtocolSubmissionDoc;
 import org.kuali.kra.protocol.actions.notify.ProtocolActionAttachment;
@@ -1678,7 +1678,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
                     recordProtocolActionSuccess("Assign to Agenda");
                     
                     ProtocolAction lastAction = protocolForm.getProtocolDocument().getProtocol().getLastProtocolAction();
-                    ProtocolActionType lastActionType = lastAction.getProtocolActionType();
+                    ProtocolActionTypeBase lastActionType = lastAction.getProtocolActionType();
                     String description = lastActionType.getDescription();
                     IacucProtocolNotificationRenderer renderer = new IacucProtocolNotificationRenderer(protocol);
                     IacucProtocolNotificationContext context = new IacucProtocolNotificationContext(protocol, IacucProtocolActionType.ASSIGNED_TO_AGENDA, description, renderer);

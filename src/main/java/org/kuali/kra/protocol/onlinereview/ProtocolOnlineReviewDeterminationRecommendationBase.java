@@ -17,7 +17,7 @@ package org.kuali.kra.protocol.onlinereview;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
-public abstract class ProtocolOnlineReviewDeterminationRecommendation extends KraPersistableBusinessObjectBase {
+public abstract class ProtocolOnlineReviewDeterminationRecommendationBase extends KraPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = 521840115701578958L;
 

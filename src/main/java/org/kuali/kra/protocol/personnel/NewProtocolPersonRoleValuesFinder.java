@@ -45,11 +45,11 @@ public class NewProtocolPersonRoleValuesFinder extends KeyValuesBase {
      */
     public List<KeyValue> getKeyValues() {
         KeyValuesService keyValuesService = (KeyValuesService) KraServiceLocator.getService("keyValuesService");
-        Collection protocolPersonRoles = keyValuesService.findAllOrderBy(ProtocolPersonRole.class,"description",true);
+        Collection protocolPersonRoles = keyValuesService.findAllOrderBy(ProtocolPersonRoleBase.class,"description",true);
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         keyValues.add(0, new ConcreteKeyValue(PrefixValuesFinder.getPrefixKey(), PrefixValuesFinder.getDefaultPrefixValue()));    
         for (Iterator iter = protocolPersonRoles.iterator(); iter.hasNext();) {
-            ProtocolPersonRole protocolPersonRole = (ProtocolPersonRole) iter.next();
+            ProtocolPersonRoleBase protocolPersonRole = (ProtocolPersonRoleBase) iter.next();
             keyValues.add(new ConcreteKeyValue(protocolPersonRole.getProtocolPersonRoleId(), protocolPersonRole.getDescription()));                            
         }
         return keyValues;

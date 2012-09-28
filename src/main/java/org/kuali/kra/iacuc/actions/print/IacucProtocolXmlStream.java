@@ -38,8 +38,8 @@ import org.kuali.kra.protocol.actions.print.ProtocolXmlStream;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewer;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
 import org.kuali.kra.protocol.personnel.ProtocolPerson;
-import org.kuali.kra.protocol.personnel.ProtocolPersonRole;
-import org.kuali.kra.protocol.personnel.ProtocolPersonRolodex;
+import org.kuali.kra.protocol.personnel.ProtocolPersonRoleBase;
+import org.kuali.kra.protocol.personnel.ProtocolPersonRolodexBase;
 import org.kuali.kra.protocol.personnel.ProtocolUnit;
 import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSource;
 import org.kuali.kra.protocol.protocol.participant.ProtocolParticipant;
@@ -197,7 +197,7 @@ public class IacucProtocolXmlStream extends ProtocolXmlStream {
             PersonType personType = protocolReviewerType.addNewPerson();
             boolean isNonEmployee = protocolReviewer.getNonEmployeeFlag();
             if (isNonEmployee) {
-                ProtocolPersonRolodex rolodex = getBusinessObjectService().findBySinglePrimaryKey(ProtocolPersonRolodex.class,
+                ProtocolPersonRolodexBase rolodex = getBusinessObjectService().findBySinglePrimaryKey(ProtocolPersonRolodexBase.class,
                         protocolReviewer.getRolodexId());
                 KraServiceLocator.getService(IacucPrintXmlUtilService.class).setPersonXml(rolodex, personType);
 
@@ -375,10 +375,10 @@ public class IacucProtocolXmlStream extends ProtocolXmlStream {
         List<ProtocolPerson> vecInvestigator = protocol.getProtocolPersons();
         for (ProtocolPerson protocolPerson : vecInvestigator) {
             protocolPerson.refreshNonUpdateableReferences();
-            if (protocolPerson.getProtocolPersonRoleId().equals(ProtocolPersonRole.ROLE_PRINCIPAL_INVESTIGATOR)
-                    || protocolPerson.getProtocolPersonRoleId().equals(ProtocolPersonRole.ROLE_CO_INVESTIGATOR)) {
+            if (protocolPerson.getProtocolPersonRoleId().equals(ProtocolPersonRoleBase.ROLE_PRINCIPAL_INVESTIGATOR)
+                    || protocolPerson.getProtocolPersonRoleId().equals(ProtocolPersonRoleBase.ROLE_CO_INVESTIGATOR)) {
                 InvestigatorType investigator = protocolType.addNewInvestigator();
-                if (protocolPerson.getProtocolPersonRoleId().equals(ProtocolPersonRole.ROLE_PRINCIPAL_INVESTIGATOR)) {
+                if (protocolPerson.getProtocolPersonRoleId().equals(ProtocolPersonRoleBase.ROLE_PRINCIPAL_INVESTIGATOR)) {
                     investigator.setPIFlag(true);
                     if (protocolPerson.isTrained()) {
                         investigator.setTrainingFlag(FLAG_YES);
@@ -400,7 +400,7 @@ public class IacucProtocolXmlStream extends ProtocolXmlStream {
                      
                 }
                 KraServiceLocator.getService(IacucPrintXmlUtilService.class).setPersonRolodexType(protocolPerson, investigator.addNewPerson());
-            } else if (protocolPerson.getProtocolPersonRoleId().equals(ProtocolPersonRole.ROLE_STUDY_PERSONNEL)) {
+            } else if (protocolPerson.getProtocolPersonRoleId().equals(ProtocolPersonRoleBase.ROLE_STUDY_PERSONNEL)) {
                 KeyStudyPersonType keyStudyPerson = protocolType.addNewKeyStudyPerson();
                 if (protocolPerson.getAffiliationType() != null) {
                     keyStudyPerson.setAffiliation(protocolPerson.getAffiliationType().getDescription());
@@ -413,7 +413,7 @@ public class IacucProtocolXmlStream extends ProtocolXmlStream {
                 }
                 KraServiceLocator.getService(IacucPrintXmlUtilService.class).setPersonRolodexType(protocolPerson, keyStudyPerson.addNewPerson());
             } else if (protocolPerson.getProtocolPersonRoleId().equals(IacucProtocolPersonRole.ROLE_CORRESPONDENTS)
-                  || (protocolPerson.getProtocolPersonRoleId().equals(ProtocolPersonRole.ROLE_CORRESPONDENT_ADMINISTRATOR))) {
+                  || (protocolPerson.getProtocolPersonRoleId().equals(ProtocolPersonRoleBase.ROLE_CORRESPONDENT_ADMINISTRATOR))) {
                 CorrespondentType correspondent = protocolType.addNewCorrespondent();
                 correspondent.setTypeOfCorrespondent(protocolPerson.getProtocolPersonRole().getDescription());
                 correspondent.setCorrespondentTypeDesc(protocolPerson.getProtocolPersonRole().getDescription());

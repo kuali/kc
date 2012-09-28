@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.irb.actions.submit;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionStatusBase;
 
-public class ProtocolSubmissionStatus extends KraPersistableBusinessObjectBase {
+public class ProtocolSubmissionStatus extends ProtocolSubmissionStatusBase {
 
     private static final long serialVersionUID = -3005754570292744646L;
 

@@ -33,7 +33,7 @@ import org.kuali.kra.common.committee.bo.CommitteeResearchArea;
 import org.kuali.kra.common.committee.bo.CommitteeSchedule;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.iacuc.committee.print.service.IacucPrintXmlUtilService;
-import org.kuali.kra.protocol.personnel.ProtocolPersonRolodex;
+import org.kuali.kra.protocol.personnel.ProtocolPersonRolodexBase;
 import org.kuali.kra.printing.xmlstream.PrintBaseXmlStream;
 
 import edu.mit.coeus.xml.iacuc.CommitteeDocument;
@@ -194,7 +194,7 @@ public class IacucCommitteeXmlStream extends PrintBaseXmlStream {
              KcPerson personBean = membershipBean.getPerson();
              getPrintXmlUtilService().setPersonXml(personBean, person);
          }else{ 
-            ProtocolPersonRolodex rolodexBean =  membershipBean.getRolodex();
+            ProtocolPersonRolodexBase rolodexBean =  membershipBean.getRolodex();
             getPrintXmlUtilService().setPersonXml(rolodexBean, person);
          }    
     }

@@ -1,4 +1,3 @@
-// TODO *********code has been moved to base class, should ultimately be removed**********
 /*
  * Copyright 2005-2010 The Kuali Foundation
  * 
@@ -18,12 +17,13 @@ package org.kuali.kra.irb.protocol;
 
 import java.util.Calendar;
 
+import org.kuali.kra.protocol.protocol.ProtocolNumberServiceImplBase;
 import org.kuali.rice.krad.service.SequenceAccessorService;
 
 /**
  * ProtocolNumberService Implementation.
  */
-public class ProtocolNumberServiceImpl implements ProtocolNumberService {
+public class ProtocolNumberServiceImpl extends ProtocolNumberServiceImplBase implements ProtocolNumberService {
 
     private static final String ZERO = "0";
     private static final String SEQUENCE_NAME = "SEQ_PROTOCOL_ID";
@@ -101,7 +101,11 @@ public class ProtocolNumberServiceImpl implements ProtocolNumberService {
         // TODO the constant SEQUENCE_NAME is now replaced by a hook invocation in the refactored parent code
         return sequenceAccessorService.getNextAvailableSequenceNumber(SEQUENCE_NAME);
     }
+
+    @Override
+    protected String getSequenceNameHook() {
+        return SEQUENCE_NAME;
+    }
     
     
 }
-// TODO **********************end************************
