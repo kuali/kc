@@ -15,10 +15,14 @@
  */
 package org.kuali.kra.irb.protocol.reference;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+import org.kuali.kra.protocol.protocol.reference.ProtocolReferenceTypeBase;
 
-public class ProtocolReferenceType extends KraPersistableBusinessObjectBase implements MutableInactivatable {
+public class ProtocolReferenceType extends ProtocolReferenceTypeBase {
+
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = 6127401095168093096L;
 
     private Integer protocolReferenceTypeCode;
 

@@ -350,14 +350,14 @@ public abstract class ProtocolSubmitActionRule extends ResearchDocumentRuleBase 
         return !existsUnique(getProtocolSubmissionTypeClassHook(), "submissionTypeCode", submissionTypeCode);
     }
 
-    protected abstract Class<? extends ProtocolSubmissionType> getProtocolSubmissionTypeClassHook();
+    protected abstract Class<? extends ProtocolSubmissionTypeBase> getProtocolSubmissionTypeClassHook();
     
 
     private boolean isReviewTypeInvalid(String reviewTypeCode) {
         return !existsUnique(getProtocolReviewTypeClassHook(), "reviewTypeCode", reviewTypeCode);
     }
     
-    protected abstract Class<? extends ProtocolReviewType> getProtocolReviewTypeClassHook();
+    protected abstract Class<? extends ProtocolReviewTypeBase> getProtocolReviewTypeClassHook();
 
 
 // TODO *********commented the code below during IACUC refactoring*********    

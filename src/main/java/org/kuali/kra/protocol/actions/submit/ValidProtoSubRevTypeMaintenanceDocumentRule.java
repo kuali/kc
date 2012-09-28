@@ -71,8 +71,8 @@ public class ValidProtoSubRevTypeMaintenanceDocumentRule extends KraMaintenanceD
         if (StringUtils.isNotBlank(validProtoSubRevType.getSubmissionTypeCode())) {
             Map<String, String> fieldValues = new HashMap<String, String>();
             fieldValues.put("submissionTypeCode", validProtoSubRevType.getSubmissionTypeCode());
-            List<ProtocolSubmissionType> submissionTypes = (List<ProtocolSubmissionType>) boService.findMatching(
-                    ProtocolSubmissionType.class, fieldValues);
+            List<ProtocolSubmissionTypeBase> submissionTypes = (List<ProtocolSubmissionTypeBase>) boService.findMatching(
+                    ProtocolSubmissionTypeBase.class, fieldValues);
             if (submissionTypes.isEmpty()) {
                 GlobalVariables.getMessageMap().putError("document.newMaintainableObject.submissionTypeCode",
                         KeyConstants.ERROR_SUBMISSION_TYPE_NOT_EXISTS,
@@ -88,7 +88,7 @@ public class ValidProtoSubRevTypeMaintenanceDocumentRule extends KraMaintenanceD
         if (StringUtils.isNotBlank(validProtoSubRevType.getProtocolReviewTypeCode())) {
             Map<String, String> fieldValues = new HashMap<String, String>();
             fieldValues.put("reviewTypeCode", validProtoSubRevType.getProtocolReviewTypeCode());
-            List<ProtocolReviewType> reviewTypes = (List<ProtocolReviewType>) boService.findMatching(ProtocolReviewType.class,
+            List<ProtocolReviewTypeBase> reviewTypes = (List<ProtocolReviewTypeBase>) boService.findMatching(ProtocolReviewTypeBase.class,
                     fieldValues);
             if (reviewTypes.isEmpty()) {
                 GlobalVariables.getMessageMap().putError("document.newMaintainableObject.protocolReviewTypeCode",

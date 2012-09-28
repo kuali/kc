@@ -44,7 +44,7 @@ import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentPersonnel;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentService;
 import org.kuali.kra.protocol.personnel.AddProtocolUnitEvent;
 import org.kuali.kra.protocol.personnel.ProtocolPerson;
-import org.kuali.kra.protocol.personnel.ProtocolPersonRole;
+import org.kuali.kra.protocol.personnel.ProtocolPersonRoleBase;
 import org.kuali.kra.protocol.personnel.ProtocolUnit;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
@@ -95,7 +95,7 @@ public class IacucProtocolPersonnelAction extends IacucProtocolAction {
         if (rulePassed) {
             getProtocolPersonnelService().addProtocolPerson(protocol, newProtocolPerson);
             //If we are adding a new principal investigator, make sure we update the person id
-            if (StringUtils.equals(newProtocolPerson.getProtocolPersonRoleId(), ProtocolPersonRole.ROLE_PRINCIPAL_INVESTIGATOR)) {
+            if (StringUtils.equals(newProtocolPerson.getProtocolPersonRoleId(), ProtocolPersonRoleBase.ROLE_PRINCIPAL_INVESTIGATOR)) {
                 protocolForm.getProtocolHelper().setPersonId(newProtocolPerson.getPersonId());
             }
             protocolForm.getPersonnelHelper().setNewProtocolPerson(new IacucProtocolPerson());

@@ -15,14 +15,14 @@
  */
 package org.kuali.kra.irb.actions.submit;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.protocol.actions.submit.ProtocolReviewTypeBase;
 
 /**
  * A Protocol Review Type refers to the type of review that an
  * IRB Committee will perform, e.g. Full, Expedited, Exempt, etc.
  */
 @SuppressWarnings("serial")
-public class ProtocolReviewType extends KraPersistableBusinessObjectBase {
+public class ProtocolReviewType extends ProtocolReviewTypeBase {
 
     public static final String FULL_TYPE_CODE = "1";
 

@@ -42,20 +42,20 @@ import org.kuali.kra.protocol.actions.ProtocolStatus;
 import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewModule;
 import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewal;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
-import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionStatus;
-import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionType;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionStatusBase;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionTypeBase;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentBase;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentFilter;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentPersonnel;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentProtocol;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentService;
-import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentStatus;
+import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentStatusBase;
 import org.kuali.kra.protocol.noteattachment.ProtocolNotepad;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReview;
 import org.kuali.kra.protocol.personnel.ProtocolPerson;
 import org.kuali.kra.protocol.personnel.ProtocolPersonnelService;
 import org.kuali.kra.protocol.personnel.ProtocolUnit;
-import org.kuali.kra.protocol.protocol.ProtocolType;
+import org.kuali.kra.protocol.protocol.ProtocolTypeBase;
 import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSource;
 import org.kuali.kra.protocol.protocol.location.ProtocolLocation;
 import org.kuali.kra.protocol.protocol.location.ProtocolLocationService;
@@ -133,7 +133,7 @@ public abstract class Protocol extends KraPersistableBusinessObjectBase implemen
     private ProtocolStatus protocolStatus;
  
     
-    private ProtocolType protocolType; 
+    private ProtocolTypeBase protocolType; 
 
 // TODO *********commented the code below during IACUC refactoring********* 
 //    private List<ProtocolRiskLevel> protocolRiskLevels;
@@ -503,11 +503,11 @@ public abstract class Protocol extends KraPersistableBusinessObjectBase implemen
         this.protocolStatus = protocolStatus;
     }
 
-    public ProtocolType getProtocolType() {
+    public ProtocolTypeBase getProtocolType() {
         return protocolType;
     }
 
-    public void setProtocolType(ProtocolType protocolType) {
+    public void setProtocolType(ProtocolTypeBase protocolType) {
         this.protocolType = protocolType;
     }
 
@@ -1129,9 +1129,9 @@ public abstract class Protocol extends KraPersistableBusinessObjectBase implemen
     }
 
     
-    protected abstract ProtocolSubmissionStatus getProtocolSubmissionStatusNewInstanceHook();
+    protected abstract ProtocolSubmissionStatusBase getProtocolSubmissionStatusNewInstanceHook();
 
-    protected abstract ProtocolSubmissionType getProtocolSubmissionTypeNewInstanceHook();
+    protected abstract ProtocolSubmissionTypeBase getProtocolSubmissionTypeNewInstanceHook();
 
     protected abstract ProtocolSubmission getProtocolSubmissionNewInstanceHook();
     
@@ -1474,7 +1474,7 @@ public abstract class Protocol extends KraPersistableBusinessObjectBase implemen
                 attachment.getFile().setId(null);
             }
             if (attachment.isDraft()) {
-                attachment.setDocumentStatusCode(ProtocolAttachmentStatus.FINALIZED);
+                attachment.setDocumentStatusCode(ProtocolAttachmentStatusBase.FINALIZED);
                 attachmentProtocols.add(attachment);
                 attachment.setProtocol(this);
             }

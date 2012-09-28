@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.iacuc.actions.submit;
 
-import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionStatus;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionStatusBase;
 
-public class IacucProtocolSubmissionStatus extends ProtocolSubmissionStatus {
+public class IacucProtocolSubmissionStatus extends ProtocolSubmissionStatusBase {
 
     private static final long serialVersionUID = 7346700694406537435L;
 

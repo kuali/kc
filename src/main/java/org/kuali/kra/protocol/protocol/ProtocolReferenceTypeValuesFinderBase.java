@@ -21,16 +21,15 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.protocol.protocol.reference.ProtocolReferenceType;
+import org.kuali.kra.protocol.protocol.reference.ProtocolReferenceTypeBase;
 import org.kuali.kra.lookup.keyvalue.KeyValueFinderService;
 import org.kuali.kra.lookup.keyvalue.PrefixValuesFinder;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.service.KeyValuesService;
 
-public abstract class ProtocolReferenceTypeValuesFinder extends KeyValuesBase {
+public abstract class ProtocolReferenceTypeValuesFinderBase extends KeyValuesBase {
     /**
      * Comment for <code>serialVersionUID</code>
      */
@@ -53,7 +52,7 @@ public abstract class ProtocolReferenceTypeValuesFinder extends KeyValuesBase {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         keyValues.add(0, new ConcreteKeyValue(PrefixValuesFinder.getPrefixKey(), PrefixValuesFinder.getDefaultPrefixValue()));
         for (Iterator iter = protocolReferenceTypes.iterator(); iter.hasNext();) {
-            ProtocolReferenceType protocolReferenceType = (ProtocolReferenceType) iter.next();
+            ProtocolReferenceTypeBase protocolReferenceType = (ProtocolReferenceTypeBase) iter.next();
             if (protocolReferenceType.isActive()) {
                 keyValues.add(new ConcreteKeyValue(protocolReferenceType.getProtocolReferenceTypeCode().toString(),
                     protocolReferenceType.getDescription()));
@@ -62,6 +61,6 @@ public abstract class ProtocolReferenceTypeValuesFinder extends KeyValuesBase {
         return keyValues;
     }
 
-    protected abstract Class<? extends ProtocolReferenceType> getProtocolReferenceTypeBOClassHook();
+    protected abstract Class<? extends ProtocolReferenceTypeBase> getProtocolReferenceTypeBOClassHook();
 
 }

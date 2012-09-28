@@ -18,27 +18,20 @@ package org.kuali.kra.protocol.noteattachment;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 /**
- * This class represents the Protocol Attachment Status.
+ * This class represents the Protocol Attachment Group.
  */
-public abstract class ProtocolAttachmentStatus extends KraPersistableBusinessObjectBase {
+public abstract class ProtocolAttachmentGroupBase extends KraPersistableBusinessObjectBase {
 
     private static final long serialVersionUID = 2053606476193782286L;
 
-    public static final String DRAFT = "1";
-    public static final String FINALIZED = "2";
-    public static final String DELETED = "3";
-    public static final String SUPERCEDED = "4";
-    public static final String EXPIRED = "5";    
-    
     private String code;
 
     private String description;
 
-
     /**
      * empty ctor to satisfy JavaBean convention.
      */
-    protected ProtocolAttachmentStatus() {
+    protected ProtocolAttachmentGroupBase() {
         super();
     }
 
@@ -52,38 +45,38 @@ public abstract class ProtocolAttachmentStatus extends KraPersistableBusinessObj
      * @param code the code.
      * @param description the description.
      */
-    public ProtocolAttachmentStatus(String code, String description) {
+    public ProtocolAttachmentGroupBase(String code, String description) {
         this.code = code;
         this.description = description;
     }
 
     /**
-     * Gets the protocol attachment status code.
-     * @return the protocol attachment status code
+     * Gets the protocol attachment group code.
+     * @return the protocol attachment group code
      */
     public String getCode() {
         return this.code;
     }
 
     /**
-     * Sets the protocol attachment status code.
-     * @param code the protocol attachment status code
+     * Sets the protocol attachment group code.
+     * @param code the protocol attachment group code
      */
     public void setCode(String code) {
         this.code = code;
     }
 
     /**
-     * Gets the protocol attachment status description.
-     * @return the protocol attachment status description
+     * Gets the protocol attachment group description.
+     * @return the protocol attachment group description
      */
     public String getDescription() {
         return this.description;
     }
 
     /**
-     * Sets the protocol attachment status description.
-     * @param description the protocol attachment status description
+     * Sets the protocol attachment group description.
+     * @param description the protocol attachment group description
      */
     public void setDescription(String description) {
         this.description = description;
@@ -108,10 +101,10 @@ public abstract class ProtocolAttachmentStatus extends KraPersistableBusinessObj
         if (obj == null) {
             return false;
         }
-        if (!(obj instanceof ProtocolAttachmentStatus)) {
+        if (!(obj instanceof ProtocolAttachmentGroupBase)) {
             return false;
         }
-        ProtocolAttachmentStatus other = (ProtocolAttachmentStatus) obj;
+        ProtocolAttachmentGroupBase other = (ProtocolAttachmentGroupBase) obj;
         if (this.code == null) {
             if (other.code != null) {
                 return false;

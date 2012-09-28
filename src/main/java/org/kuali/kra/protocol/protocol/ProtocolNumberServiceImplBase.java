@@ -22,7 +22,7 @@ import org.kuali.rice.krad.service.SequenceAccessorService;
 /**
  * ProtocolNumberService Implementation.
  */
-public abstract class ProtocolNumberServiceImpl implements ProtocolNumberService {
+public abstract class ProtocolNumberServiceImplBase implements ProtocolNumberServiceBase {
 
     private static final String ZERO = "0";
     private static final int MAX_NUMBER = 1000000;

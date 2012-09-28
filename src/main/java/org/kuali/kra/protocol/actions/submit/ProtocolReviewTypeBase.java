@@ -22,7 +22,7 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
  * IRB Committee will perform, e.g. Full, Expedited, Exempt, etc.
  */
 @SuppressWarnings("serial")
-public class ProtocolReviewType extends KraPersistableBusinessObjectBase {
+public class ProtocolReviewTypeBase extends KraPersistableBusinessObjectBase {
 
     private String reviewTypeCode;
 
@@ -33,7 +33,7 @@ public class ProtocolReviewType extends KraPersistableBusinessObjectBase {
     /**
      * Constructs a ProtocolReviewType.
      */
-    public ProtocolReviewType() {
+    public ProtocolReviewTypeBase() {
     }
 
     public String getReviewTypeCode() {

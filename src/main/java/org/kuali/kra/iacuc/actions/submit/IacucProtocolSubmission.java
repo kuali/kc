@@ -18,7 +18,7 @@ package org.kuali.kra.iacuc.actions.submit;
 import org.kuali.kra.iacuc.committee.bo.IacucCommittee;
 import org.kuali.kra.iacuc.committee.bo.IacucCommitteeSchedule;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
-import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionQualifierType;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionQualifierTypeBase;
 
 /**
  * 
@@ -32,7 +32,7 @@ public class IacucProtocolSubmission extends ProtocolSubmission {
     private static final long serialVersionUID = 4270551170133689515L;
 
     @Override
-    protected ProtocolSubmissionQualifierType getNewInstanceProtocolSubmissionQualifierTypeHook() {
+    protected ProtocolSubmissionQualifierTypeBase getNewInstanceProtocolSubmissionQualifierTypeHook() {
         return new IacucProtocolSubmissionQualifierType();
     }
     

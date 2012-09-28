@@ -15,14 +15,14 @@
  */
 package org.kuali.kra.irb.actions;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.protocol.actions.ProtocolActionTypeBase;
 
 /**
  * A Protocol Action Type refers to the type of actions that an
  * that can be performed against a Protocol document.
  */
 @SuppressWarnings("serial")
-public class ProtocolActionType extends KraPersistableBusinessObjectBase {
+public class ProtocolActionType extends ProtocolActionTypeBase {
 
     public static final String PROTOCOL_CREATED = "100";
 

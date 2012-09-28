@@ -21,7 +21,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.protocol.actions.ProtocolActionType;
+import org.kuali.kra.protocol.actions.ProtocolActionTypeBase;
 
 public abstract class BatchCorrespondence extends KraPersistableBusinessObjectBase {
 
@@ -51,7 +51,7 @@ public abstract class BatchCorrespondence extends KraPersistableBusinessObjectBa
 
     private ProtocolCorrespondenceType protocolCorrespondenceType;
 
-    private ProtocolActionType protocolActionType;
+    private ProtocolActionTypeBase protocolActionType;
 
     public BatchCorrespondence() {
         setBatchCorrespondenceDetails(new ArrayList<BatchCorrespondenceDetail>());
@@ -156,11 +156,11 @@ public abstract class BatchCorrespondence extends KraPersistableBusinessObjectBa
         this.protocolCorrespondenceType = protocolCorrespondenceType;
     }
 
-    public ProtocolActionType getProtocolActionType() {
+    public ProtocolActionTypeBase getProtocolActionType() {
         return protocolActionType;
     }
 
-    public void setProtocolActionType(ProtocolActionType protocolActionType) {
+    public void setProtocolActionType(ProtocolActionTypeBase protocolActionType) {
         this.protocolActionType = protocolActionType;
     }
 }

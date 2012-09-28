@@ -24,7 +24,7 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.ProtocolDocument;
-import org.kuali.kra.protocol.actions.amendrenew.ProtocolModule;
+import org.kuali.kra.protocol.actions.amendrenew.ProtocolModuleBase;
 import org.kuali.kra.questionnaire.BaseQuestionnaireAuditRule;
 import org.kuali.kra.questionnaire.QuestionnaireUsage;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;

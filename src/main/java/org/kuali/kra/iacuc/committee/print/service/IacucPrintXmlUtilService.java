@@ -20,7 +20,7 @@ import org.kuali.kra.common.committee.bo.CommitteeSchedule;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
 import org.kuali.kra.protocol.personnel.ProtocolPerson;
-import org.kuali.kra.protocol.personnel.ProtocolPersonRolodex;
+import org.kuali.kra.protocol.personnel.ProtocolPersonRolodexBase;
 
 import edu.mit.coeus.xml.iacuc.PersonType;
 import edu.mit.coeus.xml.iacuc.ProtocolSubmissionType;
@@ -34,7 +34,7 @@ import edu.mit.coeus.xml.iacuc.SubmissionDetailsType;
 public interface IacucPrintXmlUtilService {
     
     public void setPersonXml(KcPerson person, PersonType personType);
-    public void setPersonXml(ProtocolPersonRolodex rolodex, PersonType personType);
+    public void setPersonXml(ProtocolPersonRolodexBase rolodex, PersonType personType);
     public void setPersonRolodexType(ProtocolPerson protocolPerson, PersonType personType);   
     
     public void setProtocolSubmissionAction(IacucProtocolSubmission protocolSubmission,

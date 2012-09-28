@@ -38,7 +38,7 @@ public abstract class ProtocolAttachmentPersonnel extends ProtocolAttachmentBase
 
     protected String typeCode;
 
-    protected ProtocolAttachmentType type;
+    protected ProtocolAttachmentTypeBase type;
 
     protected String description;
 
@@ -98,12 +98,12 @@ public abstract class ProtocolAttachmentPersonnel extends ProtocolAttachmentBase
     }
 
     /** {@inheritDoc} */
-    public ProtocolAttachmentType getType() {
+    public ProtocolAttachmentTypeBase getType() {
         return this.type;
     }
 
     /** {@inheritDoc} */
-    public void setType(ProtocolAttachmentType type) {
+    public void setType(ProtocolAttachmentTypeBase type) {
         this.type = type;
     }
 

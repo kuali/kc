@@ -34,7 +34,7 @@ import org.kuali.kra.protocol.actions.ProtocolAction;
 import org.kuali.kra.protocol.actions.submit.ProtocolActionService;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentProtocol;
-import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentStatus;
+import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentStatusBase;
 import org.kuali.kra.protocol.protocol.location.ProtocolLocationService;
 import org.kuali.kra.protocol.protocol.research.ProtocolResearchAreaService;
 import org.kuali.kra.service.KcPersonService;
@@ -328,7 +328,7 @@ public abstract class ProtocolDocument extends ResearchDocumentBase implements C
         for (ProtocolAttachmentProtocol attachment : protocol.getAttachmentProtocols()) {
             attachment.setProtocol(protocol);
             if (attachment.isDraft()) {
-                attachment.setDocumentStatusCode(ProtocolAttachmentStatus.FINALIZED);
+                attachment.setDocumentStatusCode(ProtocolAttachmentStatusBase.FINALIZED);
             }
         }
     }

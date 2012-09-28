@@ -42,7 +42,7 @@ public abstract class ProtocolAttachmentProtocol extends ProtocolAttachmentBase 
     // 1-Complete, 2-Incomplete.  an attachment status must be 'complete' before this protocol can be submitted.  
     protected String statusCode;
 
-    protected ProtocolAttachmentStatus status;
+    protected ProtocolAttachmentStatusBase status;
 
     protected String contactName;
 
@@ -54,7 +54,7 @@ public abstract class ProtocolAttachmentProtocol extends ProtocolAttachmentBase 
 
     protected String typeCode;
 
-    protected ProtocolAttachmentType type;
+    protected ProtocolAttachmentTypeBase type;
 
     protected String description;
 
@@ -102,7 +102,7 @@ public abstract class ProtocolAttachmentProtocol extends ProtocolAttachmentBase 
      * Gets the Protocol Attachment Protocol Status.
      * @return the Protocol Attachment Protocol Status
      */
-    public ProtocolAttachmentStatus getStatus() {
+    public ProtocolAttachmentStatusBase getStatus() {
         return this.status;
     }
 
@@ -110,7 +110,7 @@ public abstract class ProtocolAttachmentProtocol extends ProtocolAttachmentBase 
      * Sets the Protocol Attachment Protocol Status.
      * @param status the Protocol Attachment Protocol Status
      */
-    public void setStatus(ProtocolAttachmentStatus status) {
+    public void setStatus(ProtocolAttachmentStatusBase status) {
         this.status = status;
     }
 
@@ -195,12 +195,12 @@ public abstract class ProtocolAttachmentProtocol extends ProtocolAttachmentBase 
     }
 
     /** {@inheritDoc} */
-    public ProtocolAttachmentType getType() {
+    public ProtocolAttachmentTypeBase getType() {
         return this.type;
     }
 
     /** {@inheritDoc} */
-    public void setType(ProtocolAttachmentType type) {
+    public void setType(ProtocolAttachmentTypeBase type) {
         this.type = type;
     }
 
