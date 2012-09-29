@@ -21,7 +21,7 @@ import java.util.List;
 
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
-import org.kuali.kra.meeting.MinuteEntryType;
+import org.kuali.kra.common.committee.meeting.MinuteEntryType;
 
 /**
  * This class defines functions that need to be implemented in a "bean" that needs to provide support for reviewer comments.

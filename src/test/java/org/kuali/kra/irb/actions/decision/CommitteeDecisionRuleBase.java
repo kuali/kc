@@ -26,7 +26,7 @@ import org.kuali.kra.committee.service.CommitteeScheduleAttendanceService;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewCommentsBean;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
-import org.kuali.kra.meeting.MinuteEntryType;
+import org.kuali.kra.common.committee.meeting.MinuteEntryType;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 
 public abstract class CommitteeDecisionRuleBase extends KcUnitTestBase {
