@@ -20,6 +20,7 @@ import java.util.List;
 import junit.framework.Assert;
 
 import org.junit.Test;
+import org.kuali.kra.common.committee.meeting.AlternateForValuesFinder;
 import org.kuali.rice.core.api.util.KeyValue;
 
 public class AlternateForValuesFinderTest {
