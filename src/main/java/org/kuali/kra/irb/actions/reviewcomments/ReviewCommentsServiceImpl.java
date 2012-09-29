@@ -50,7 +50,7 @@ import org.kuali.kra.irb.onlinereview.ProtocolReviewable;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
-import org.kuali.kra.meeting.MinuteEntryType;
+import org.kuali.kra.common.committee.meeting.MinuteEntryType;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;

@@ -43,7 +43,7 @@ import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
 import org.kuali.kra.irb.test.ProtocolFactory;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
-import org.kuali.kra.meeting.MinuteEntryType;
+import org.kuali.kra.common.committee.meeting.MinuteEntryType;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.core.api.datetime.DateTimeService;

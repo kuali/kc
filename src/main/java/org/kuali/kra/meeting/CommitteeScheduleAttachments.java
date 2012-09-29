@@ -33,6 +33,7 @@ import org.kuali.kra.bo.KcAttachment;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.coi.CoiDisclosureEventType;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
+import org.kuali.kra.common.committee.meeting.AttachmentsEntryType;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentType;

@@ -34,6 +34,7 @@ import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.bo.CommitteeMembershipRole;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.common.committee.bo.MembershipRole;
+import org.kuali.kra.common.committee.meeting.MinuteEntryType;
 import org.kuali.kra.common.committee.web.struts.form.schedule.Time12HrFmt;
 import org.kuali.kra.common.committee.web.struts.form.schedule.Time12HrFmt.MERIDIEM;
 import org.kuali.kra.irb.Protocol;
