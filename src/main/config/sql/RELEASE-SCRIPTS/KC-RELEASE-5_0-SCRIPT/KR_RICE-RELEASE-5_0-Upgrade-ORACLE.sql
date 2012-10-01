@@ -12,7 +12,6 @@ spool KR_RICE-RELEASE-5_0-Upgrade-ORACLE-Install.log
 @../../current/5.0/rice/KR_RICE_09_2.0.0-2.1.0_2012-04-16_B000.sql
 @../../current/5.0/rice/KR_RICE_10_2.0.0-2.1.0_2012-04-16b_B000.sql
 @../../current/5.0/rice/KR_RICE_11_2.0.0-2.1.0_2012-04-19_B000.sql
-@../../current/5.0/rice/KR_RICE_12_2.0.0-2.1.0_2012-04-24_B000.sql
 @../../current/5.0/rice/KR_RICE_13_2.0.0-2.1.0_2012-04-25_B000.sql
 @../../current/5.0/rice/KR_RICE_14_2.0.0-2.1.0_2012-05-11_B000.sql
 @../../current/5.0/rice/KR_RICE_15_2.0.0-2.1.0_2012-05-17_B000.sql
