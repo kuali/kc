@@ -1165,12 +1165,11 @@ function pasteChild(parentid, startnode) {
         value +"#f#" +splitq[8] +"#f#" +splitq[9] +"#f#" +splitq[10] +"#f#" +splitq[11] ;
 	jQuery("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
 	}
-	if (ruleId != '') {
+	if (ruleId != '' && ruleId != 'null') {
 		var newResponse = getRuleEvaluationDeleteRow(ruleId, idx);
-		newResponse.appendTo(jQuery("#addRuleRequirement"+curidx).parents('div:eq(0)')
+		newResponse.appendTo(jQuery("#addRuleRequirement"+idx).parents('div:eq(0)')
 				.children('table:eq(0)').children('tbody'));
-		var idx = jQuery("#addRuleRequirement"+curidx).parents('li:eq(0)').attr("id")
-				.substring(8);
+		jQuery("#addRuleRequirement" + idx).parents('tr:eq(0)').remove();
 		var splitq = jQuery("#qnaireQuestions\\["+ idx+"\\]").attr("value").split("#f#");
 	    var tmpstr = splitq[0] +"#f#" +splitq[1] 
         +"#f#" +splitq[2] +"#f#" +splitq[3] +"#f#" +splitq[4] +"#f#" +splitq[5] +"#f#" +splitq[6] +"#f#" +
@@ -3001,6 +3000,7 @@ function addForReplace(curidx) {
 	//alert("replace question "+curidx);
 	var idx = curidx;
 	var addQn = "#addQn"+curidx
+	var originalNodeConfig = jQuery("#qnaireQuestions\\["+ curidx+"\\]").attr("value");
 	//alert(jQuery("#repqdesc").attr("value")+"-"+jQuery("#repqdispans").attr("value"))
 		if (jQuery("#repqdesc").attr("value") == ''
 				|| jQuery("#repqtypeid").attr("value") == '') {
@@ -3115,10 +3115,14 @@ function addForReplace(curidx) {
 			jQuery("#questionNumber").attr("value",
 					Number(jQuery("#questionNumber").attr("value")) + 1);
 
+			var splitq = originalNodeConfig.split("#f#");
+			var cond = splitq[6];
+			var value = splitq[7];
+			var ruleId =splitq[11];
 			idx = jQuery(listitem).attr("id").substring(8);		
             var tmpstr = "" +"#f#" +jQuery('#document\\.newMaintainableObject\\.businessObject\\.questionnaireRefId').attr("value") 
-               +"#f#" +qid +"#f#" +qnum +"#f#" +parentNum +"#f#" +"N" +"#f#" +"" +"#f#" +
-               "" +"#f#" +seqnum +"#f#" +"1" +"#f#" +"N" +"#f#" +null;
+               +"#f#" +qid +"#f#" +qnum +"#f#" +parentNum +"#f#" + "N" +"#f#" + cond +"#f#" +
+               value +"#f#" +seqnum +"#f#" +"1" +"#f#" +"N" +"#f#" + ruleId;
             jQuery("#qnaireQuestions\\["+ idx+"\\]").attr("value",tmpstr);
 
 					
