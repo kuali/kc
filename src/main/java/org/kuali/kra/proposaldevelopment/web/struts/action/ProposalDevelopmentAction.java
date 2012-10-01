@@ -127,6 +127,7 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
     private static final String SUMMARY_ATTACHMENTS_INDICATOR = "enableSummaryAttachmentsPanel";
     private static final String SUMMARY_KEYWORDS_INDICATOR = "enableSummaryKeywordsPanel";
     private static final String PROPOSAL_SUMMARY_DISCLAIMER_INDICATOR = "propSummaryDisclaimerText";
+    private static final String SUMMARY_DATA_VALIDATION_INDICATOR = "enableSummaryDataValidationPanel";
     private static final String ERROR_NO_GRANTS_GOV_FORM_SELECTED = "error.proposalDevelopment.no.grants.gov.form.selected";
     private static final String PERSON_INDEX= "personIndex";
     private static final String COMMENTS= "comments";
@@ -1186,6 +1187,7 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
         pdform.getProposalDevelopmentParameters().put(SUMMARY_QUESTIONS_INDICATOR, this.getParameterService().getParameter(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, ParameterConstants.DOCUMENT_COMPONENT, SUMMARY_QUESTIONS_INDICATOR));
         pdform.getProposalDevelopmentParameters().put(SUMMARY_ATTACHMENTS_INDICATOR, this.getParameterService().getParameter(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, ParameterConstants.DOCUMENT_COMPONENT, SUMMARY_ATTACHMENTS_INDICATOR));
         pdform.getProposalDevelopmentParameters().put(SUMMARY_KEYWORDS_INDICATOR, this.getParameterService().getParameter(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, ParameterConstants.DOCUMENT_COMPONENT, SUMMARY_KEYWORDS_INDICATOR));
+        pdform.getProposalDevelopmentParameters().put(SUMMARY_DATA_VALIDATION_INDICATOR, this.getParameterService().getParameter(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, ParameterConstants.DOCUMENT_COMPONENT, SUMMARY_DATA_VALIDATION_INDICATOR));       
         pdform.getProposalDevelopmentParameters().put(PROPOSAL_SUMMARY_DISCLAIMER_INDICATOR, this.getParameterService().getParameter(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, ParameterConstants.DOCUMENT_COMPONENT, PROPOSAL_SUMMARY_DISCLAIMER_INDICATOR));
         pdform.getProposalDevelopmentParameters().put(SUMMARY_SPECIAL_REVIEW_LIST, this.getParameterService().getParameter(Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT, ParameterConstants.DOCUMENT_COMPONENT, SUMMARY_SPECIAL_REVIEW_LIST));
         pdform.getSpecialReviewHelper().populatePropSpecialReviewApproverView(pdform.getProposalDevelopmentParameters().get(SUMMARY_SPECIAL_REVIEW_LIST).getValue());
