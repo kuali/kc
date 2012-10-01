@@ -13,31 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.iacuc.committee.rules;
+package org.kuali.kra.iacuc.committee.lookup.keyvalue;
 
 import org.kuali.kra.common.committee.bo.CommitteeBase;
-import org.kuali.kra.common.committee.document.CommitteeDocumentBase;
 import org.kuali.kra.common.committee.lookup.keyvalue.CommitteeIdValuesFinderBase;
-import org.kuali.kra.common.committee.rules.CommitteeDocumentRuleBase;
 import org.kuali.kra.iacuc.committee.bo.IacucCommittee;
-import org.kuali.kra.iacuc.committee.document.CommonCommitteeDocument;
-import org.kuali.kra.iacuc.committee.lookup.keyvalue.IacucCommitteeIdValuesFinder;
 
-public class IacucCommitteeDocumentRule extends CommitteeDocumentRuleBase {
+public class IacucCommitteeIdValuesFinder extends CommitteeIdValuesFinderBase {
+
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = -5083716441320247996L;
 
     @Override
     protected Class<? extends CommitteeBase> getCommitteeBOClassHook() {
         return IacucCommittee.class;
-    }
-
-    @Override
-    protected CommitteeIdValuesFinderBase getNewCommitteeIdValuesFinderInstanceHook() {
-        return new IacucCommitteeIdValuesFinder();        
-    }
-
-    @Override
-    protected Class<? extends CommitteeDocumentBase> getCommitteeDocumentBOClassHook() {
-        return CommonCommitteeDocument.class;
     }
 
 }

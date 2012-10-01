@@ -194,7 +194,10 @@ jQuery(function(){
                                 <kra-meeting:meetingAttendance />
             
             <!-- Tabbed Panel Head: Minutes -->
-                                <kra-meeting:meetingMinutes 
+                                <kra-meeting:meetingMinutes
+                                   protocolContingencyBOClassName = "org.kuali.kra.iacuc.committee.meeting.IacucProtocolContingency"
+                                   committeeScheduleMinuteBOClassName = "org.kuali.kra.iacuc.committee.meeting.IacucCommitteeScheduleMinute"
+                                   committeeScheduleMinuteAttributes = "${DataDictionary.IacucCommitteeScheduleMinute.attributes}" 
                                    protocolValuesFinderClassName="org.kuali.kra.iacuc.committee.meeting.IacucProtocolValuesFinder" />
             
             <!-- Tabbed Panel Head: Attachments -->

@@ -79,7 +79,7 @@
                 ${protocolSummary.piName}&nbsp;
                 <input type="hidden" name="${prefix}.piProtocolPersonId"
                        value="${protocolSummary.piProtocolPersonId}" />
-                <kul:directInquiry boClassName="org.kuali.kra.irb.personnel.ProtocolPerson"
+                <kul:directInquiry boClassName="org.kuali.kra.iacuc.personnel.IacucProtocolPerson"
                                    inquiryParameters="${prefix}.piProtocolPersonId:protocolPersonId" 
                                    anchor="${currentTabIndex}" />
             </td>
