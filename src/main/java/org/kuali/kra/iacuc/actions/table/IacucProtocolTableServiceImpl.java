@@ -22,9 +22,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.common.committee.bo.Committee;
-import org.kuali.kra.common.committee.bo.CommitteeSchedule;
-import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinute;
+import org.kuali.kra.common.committee.bo.CommitteeBase;
+import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
+import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinuteBase;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.actions.IacucProtocolAction;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
@@ -72,18 +72,18 @@ public class IacucProtocolTableServiceImpl implements IacucProtocolTableService 
     
     
     @Override
-    public CommitteeSchedule getNextScheduleForCommittee(CommitteeSchedule currentSchedule) {
-        CommitteeSchedule retVal = null;
+    public CommitteeScheduleBase getNextScheduleForCommittee(CommitteeScheduleBase currentSchedule) {
+        CommitteeScheduleBase retVal = null;
         if( (null != currentSchedule) && (null != currentSchedule.getCommitteeIdFk()) ) {
             currentSchedule.refreshReferenceObject("committee");
-            Committee committee = currentSchedule.getCommittee();
+            CommitteeBase committee = currentSchedule.getCommittee();
             if((null != committee)) {
-                List<CommitteeSchedule> schedules = committee.getCommitteeSchedules();
+                List<CommitteeScheduleBase> schedules = committee.getCommitteeSchedules();
                 if(null != schedules) {
                     // sort will use the schedule's comparison method which orders by date
                     Collections.sort(schedules);
                     // iterate through the schedules until we find the schedule corresponding to the current
-                    for(CommitteeSchedule schedule:schedules) {
+                    for(CommitteeScheduleBase schedule:schedules) {
                         if (StringUtils.equals(schedule.getScheduleId(), currentSchedule.getScheduleId())) {
                             // found it, now check if next schedule exists, and if so get it
                             int indexOfSchedule = schedules.indexOf(schedule);                            
@@ -102,8 +102,8 @@ public class IacucProtocolTableServiceImpl implements IacucProtocolTableService 
     
     // bump the submission to the next schedule (if any) for the same committee, and move the associated minutes (if any)
     private void bumpSubmissionToNextSchedule(IacucProtocolSubmission submission){
-        CommitteeSchedule originalSchedule = submission.getCommitteeSchedule();
-        CommitteeSchedule nextSchedule = getNextScheduleForCommittee(originalSchedule);
+        CommitteeScheduleBase originalSchedule = submission.getCommitteeSchedule();
+        CommitteeScheduleBase nextSchedule = getNextScheduleForCommittee(originalSchedule);
         if(null != nextSchedule) {
             // update submission's links to point to next schedule
             submission.setScheduleId(nextSchedule.getScheduleId());

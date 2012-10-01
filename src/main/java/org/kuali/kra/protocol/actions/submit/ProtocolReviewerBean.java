@@ -16,7 +16,7 @@
 package org.kuali.kra.protocol.actions.submit;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.common.committee.bo.CommitteeMembership;
+import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
 import org.kuali.kra.protocol.notification.ProtocolNotificationRequestBean;
 import org.kuali.rice.krad.bo.BusinessObjectBase;
 
@@ -49,7 +49,7 @@ public abstract class ProtocolReviewerBean extends BusinessObjectBase {
         
     }
     
-    public ProtocolReviewerBean(CommitteeMembership member) {
+    public ProtocolReviewerBean(CommitteeMembershipBase member) {
         if (!StringUtils.isBlank(member.getPersonId())) {
             this.setPersonId(member.getPersonId());
             this.setNonEmployeeFlag(false);
@@ -104,7 +104,7 @@ public abstract class ProtocolReviewerBean extends BusinessObjectBase {
         return result;
     }   
     
-    public boolean isProtocolReviewerBeanForCommitteeMembership( CommitteeMembership membership ) {
+    public boolean isProtocolReviewerBeanForCommitteeMembership( CommitteeMembershipBase membership ) {
         boolean result = ( membership.getPersonId()==null && membership.getRolodexId()!=null && StringUtils.equals(this.getPersonId(), membership.getRolodexId().toString() ))
                          ||
                          ( membership.getPersonId()!=null && membership.getPersonId()!=null && StringUtils.equals(membership.getPersonId(), this.getPersonId()));

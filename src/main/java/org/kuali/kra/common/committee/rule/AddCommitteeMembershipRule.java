@@ -20,7 +20,7 @@ import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 /**
  * 
- * This interface addresses the adds rule for adding a new <code>CommitteeMembership</code>
+ * This interface addresses the adds rule for adding a new <code>CommitteeMembershipBase</code>
  * 
  * @author Kuali Research Administration Team (kc.dev@kuali.org)
  */

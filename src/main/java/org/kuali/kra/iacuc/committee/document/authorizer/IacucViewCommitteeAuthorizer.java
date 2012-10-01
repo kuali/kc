@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.iacuc.committee.document.authorizer;
 
-import org.kuali.kra.common.committee.document.authorizer.ViewCommitteeAuthorizer;
+import org.kuali.kra.common.committee.document.authorizer.ViewCommitteeAuthorizerBase;
 import org.kuali.kra.infrastructure.PermissionConstants;
 
-public class IacucViewCommitteeAuthorizer extends ViewCommitteeAuthorizer {
+public class IacucViewCommitteeAuthorizer extends ViewCommitteeAuthorizerBase {
 
     @Override
     protected String getPermissionNameForViewCommitteeHook() {

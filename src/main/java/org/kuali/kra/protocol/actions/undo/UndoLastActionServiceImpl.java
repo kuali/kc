@@ -40,7 +40,7 @@ import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReview;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewStatus;
 import org.kuali.kra.protocol.onlinereview.ProtocolReviewAttachment;
-import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinute;
+import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinuteBase;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.WorkflowDocumentFactory;
@@ -297,7 +297,7 @@ public abstract class UndoLastActionServiceImpl implements UndoLastActionService
         copiedReview.setSubmissionIdFk(protocolSubmission.getSubmissionId());
         copiedReview.setProtocolId(protocol.getProtocolId());
         if (CollectionUtils.isNotEmpty(copiedReview.getCommitteeScheduleMinutes())) {
-            for (CommitteeScheduleMinute comment : copiedReview.getCommitteeScheduleMinutes()) {
+            for (CommitteeScheduleMinuteBase comment : copiedReview.getCommitteeScheduleMinutes()) {
                 comment.setProtocolIdFk(protocol.getProtocolId());
                 comment.setProtocolOnlineReviewIdFk(null);
             }
@@ -316,8 +316,8 @@ public abstract class UndoLastActionServiceImpl implements UndoLastActionService
      */
     protected void convertReviewComments(Protocol protocol) {
         Protocol oldProtocol = getOldProtocol(protocol);
-        List<CommitteeScheduleMinute> comments = reviewCommentsService.getReviewerComments(protocol.getProtocolNumber(), protocol.getProtocolSubmission().getSubmissionNumber());
-        for (CommitteeScheduleMinute comment :  comments) {
+        List<CommitteeScheduleMinuteBase> comments = reviewCommentsService.getReviewerComments(protocol.getProtocolNumber(), protocol.getProtocolSubmission().getSubmissionNumber());
+        for (CommitteeScheduleMinuteBase comment :  comments) {
             if (comment.getProtocolIdFk().equals(oldProtocol.getProtocolId())) {
                 comment.setProtocolIdFk(protocol.getProtocolId());
             }

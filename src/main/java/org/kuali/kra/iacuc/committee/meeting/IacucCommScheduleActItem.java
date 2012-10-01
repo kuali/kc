@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.iacuc.committee.meeting;
 
-import org.kuali.kra.common.committee.meeting.CommScheduleActItem;
+import org.kuali.kra.common.committee.meeting.CommScheduleActItemBase;
 
-public class IacucCommScheduleActItem extends CommScheduleActItem {
+public class IacucCommScheduleActItem extends CommScheduleActItemBase {
 
     /**
      * Comment for <code>serialVersionUID</code>

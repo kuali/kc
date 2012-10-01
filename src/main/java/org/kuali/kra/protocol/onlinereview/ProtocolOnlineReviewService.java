@@ -18,7 +18,7 @@ package org.kuali.kra.protocol.onlinereview;
 import java.sql.Date;
 import java.util.List;
 
-import org.kuali.kra.common.committee.bo.CommitteeMembership;
+import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.ProtocolOnlineReviewDocument;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewer;
@@ -43,7 +43,7 @@ public interface ProtocolOnlineReviewService {
      */
     String PROTOCOL_ONLINE_REVIEW_DOCUMENT_TYPE = "ProtocolOnlineReviewDocument";
 
-    List<CommitteeMembership> getAvailableCommitteeMembersForCurrentSubmission(Protocol protocol);
+    List<CommitteeMembershipBase> getAvailableCommitteeMembersForCurrentSubmission(Protocol protocol);
     List<ProtocolOnlineReviewDocument> getProtocolReviewDocumentsForCurrentSubmission(Protocol protocol);
     String getProtocolOnlineReviewDocumentDescription( String protocolNumber, String piName );
     
@@ -90,7 +90,7 @@ public interface ProtocolOnlineReviewService {
      * @param protocol
      * @return
      */
-//    List<CommitteeMembership> getAvailableCommitteeMembersForCurrentSubmission(Protocol protocol);
+//    List<CommitteeMembershipBase> getAvailableCommitteeMembersForCurrentSubmission(Protocol protocol);
 
     /**
      * Get a list of current ProtocolReview documents associated with the protocol and current submission.

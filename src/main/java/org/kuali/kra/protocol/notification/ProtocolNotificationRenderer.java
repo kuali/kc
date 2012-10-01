@@ -22,7 +22,7 @@ import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.common.committee.bo.Committee;
+import org.kuali.kra.common.committee.bo.CommitteeBase;
 import org.kuali.kra.common.notification.NotificationRendererBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.Protocol;
@@ -174,14 +174,14 @@ public abstract class ProtocolNotificationRenderer extends NotificationRendererB
 // TODO *********commented the code below during IACUC refactoring*********         
 //        List<CommonCommittee> committees = (List<CommonCommittee>) getBusinessObjectService().findMatching(CommonCommittee.class, fieldValues);
         
-        List<Committee> committees = (List<Committee>) getBusinessObjectService().findMatching(getCommonCommitteeBOClassHook(), fieldValues);
+        List<CommitteeBase> committees = (List<CommitteeBase>) getBusinessObjectService().findMatching(getCommonCommitteeBOClassHook(), fieldValues);
         if (CollectionUtils.isNotEmpty(committees)) {
             result = committees.get(0).getCommitteeName();
         }        
         return result;        
     }
 
-    protected abstract Class<? extends Committee> getCommonCommitteeBOClassHook();
+    protected abstract Class<? extends CommitteeBase> getCommonCommitteeBOClassHook();
     
     
 }

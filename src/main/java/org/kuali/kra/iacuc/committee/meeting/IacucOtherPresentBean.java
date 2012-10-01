@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.iacuc.committee.meeting;
 
-import org.kuali.kra.common.committee.meeting.CommitteeScheduleAttendance;
-import org.kuali.kra.common.committee.meeting.OtherPresentBean;
+import org.kuali.kra.common.committee.meeting.CommitteeScheduleAttendanceBase;
+import org.kuali.kra.common.committee.meeting.OtherPresentBeanBase;
 
-public class IacucOtherPresentBean extends OtherPresentBean {
+public class IacucOtherPresentBean extends OtherPresentBeanBase {
 
     /**
      * Comment for <code>serialVersionUID</code>
@@ -26,7 +26,7 @@ public class IacucOtherPresentBean extends OtherPresentBean {
     private static final long serialVersionUID = 4104827435161461535L;
 
     @Override
-    protected CommitteeScheduleAttendance getNewCommitteeScheduleAttendanceInstanceHook() {
+    protected CommitteeScheduleAttendanceBase getNewCommitteeScheduleAttendanceInstanceHook() {
         return new IacucCommitteeScheduleAttendance();
     }
 

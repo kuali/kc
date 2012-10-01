@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.iacuc.committee.bo;
 
-import org.kuali.kra.common.committee.bo.CommitteeResearchArea;
+import org.kuali.kra.common.committee.bo.CommitteeResearchAreaBase;
 
-public class IacucCommitteeResearchArea extends CommitteeResearchArea {
+public class IacucCommitteeResearchArea extends CommitteeResearchAreaBase {
 
     /**
      * Comment for <code>serialVersionUID</code>

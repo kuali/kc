@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.common.committee.rules;
 
-import org.kuali.kra.common.committee.bo.CommitteeBatchCorrespondence;
-import org.kuali.kra.common.committee.bo.CommitteeBatchCorrespondenceDetail;
+import org.kuali.kra.common.committee.bo.CommitteeBatchCorrespondenceBase;
+import org.kuali.kra.common.committee.bo.CommitteeBatchCorrespondenceDetailBase;
 import org.kuali.kra.common.committee.rule.event.CommitteeActionViewBatchCorrespondenceEvent;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rule.BusinessRuleInterface;
@@ -40,8 +40,8 @@ public class CommitteeActionViewBatchCorrespondenceRule extends ResearchDocument
      * @return true if validation passed the rules, false otherwise.
      */
     public boolean processRules(CommitteeActionViewBatchCorrespondenceEvent event) {
-        for (CommitteeBatchCorrespondence committeeBatchCorrespondence : event.getCommitteeBatchCorrespondences()) {
-            for (CommitteeBatchCorrespondenceDetail committeeBatchCorrespondenceDetail : 
+        for (CommitteeBatchCorrespondenceBase committeeBatchCorrespondence : event.getCommitteeBatchCorrespondences()) {
+            for (CommitteeBatchCorrespondenceDetailBase committeeBatchCorrespondenceDetail : 
                     committeeBatchCorrespondence.getCommitteeBatchCorrespondenceDetails()) {
                 if (committeeBatchCorrespondenceDetail.getSelected()) {
                     return true;

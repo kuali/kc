@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.iacuc.committee.meeting;
 
-import org.kuali.kra.common.committee.bo.CommitteeSchedule;
-import org.kuali.kra.common.committee.meeting.CommScheduleMinuteDoc;
+import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
+import org.kuali.kra.common.committee.meeting.CommScheduleMinuteDocBase;
 import org.kuali.kra.common.committee.meeting.CommonMeetingService;
-import org.kuali.kra.common.committee.meeting.MeetingActionsAction;
-import org.kuali.kra.common.committee.meeting.ScheduleAgenda;
+import org.kuali.kra.common.committee.meeting.MeetingActionsActionBase;
+import org.kuali.kra.common.committee.meeting.ScheduleAgendaBase;
 import org.kuali.kra.common.committee.print.service.CommitteePrintingServiceBase;
 import org.kuali.kra.iacuc.actions.reviewcomments.IacucReviewCommentsService;
 import org.kuali.kra.iacuc.committee.bo.IacucCommitteeSchedule;
@@ -32,10 +32,10 @@ import org.kuali.kra.protocol.actions.correspondence.ProtocolActionCorrespondenc
 import org.kuali.kra.protocol.actions.correspondence.ProtocolActionsCorrespondence;
 import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsService;
 
-public class IacucMeetingActionsAction extends MeetingActionsAction {
+public class IacucMeetingActionsAction extends MeetingActionsActionBase {
 
     @Override
-    protected ScheduleAgenda getNewScheduleAgendaInstanceHook() {
+    protected ScheduleAgendaBase getNewScheduleAgendaInstanceHook() {
         return new IacucScheduleAgenda();
     }
 
@@ -45,7 +45,7 @@ public class IacucMeetingActionsAction extends MeetingActionsAction {
     }
 
     @Override
-    protected CommScheduleMinuteDoc getNewCommScheduleMinuteDocInstanceHook() {
+    protected CommScheduleMinuteDocBase getNewCommScheduleMinuteDocInstanceHook() {
         return new IacucCommScheduleMinuteDoc();
     }
 
@@ -65,7 +65,7 @@ public class IacucMeetingActionsAction extends MeetingActionsAction {
     }
 
     @Override
-    protected Class<? extends CommitteeSchedule> getCommitteeScheduleBOClass() {
+    protected Class<? extends CommitteeScheduleBase> getCommitteeScheduleBOClass() {
         return IacucCommitteeSchedule.class;
     }
 

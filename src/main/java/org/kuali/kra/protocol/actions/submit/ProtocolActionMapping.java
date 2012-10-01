@@ -21,7 +21,7 @@ import java.util.Map;
 import org.kuali.kra.drools.brms.FactBean;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.ProtocolDao;
-import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinute;
+import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinuteBase;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -128,12 +128,12 @@ public abstract class ProtocolActionMapping implements FactBean {
         fieldValues.put(SUBMISSION_NUMBER, protocol.getProtocolSubmission().getSubmissionNumber());
         
 // TODO *********commented the code below during IACUC refactoring********* 
-//        return businessObjectService.countMatching(CommitteeScheduleMinute.class, fieldValues) > 0;
+//        return businessObjectService.countMatching(CommitteeScheduleMinuteBase.class, fieldValues) > 0;
         
         return businessObjectService.countMatching(getCommitteeScheduleMinuteBOClassHook(), fieldValues) > 0;
     }
     
-    protected abstract Class<? extends CommitteeScheduleMinute> getCommitteeScheduleMinuteBOClassHook();
+    protected abstract Class<? extends CommitteeScheduleMinuteBase> getCommitteeScheduleMinuteBOClassHook();
     
     public abstract boolean getSubmissionCount();
 

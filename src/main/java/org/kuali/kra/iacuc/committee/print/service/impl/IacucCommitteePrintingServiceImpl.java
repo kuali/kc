@@ -20,7 +20,7 @@ import java.net.URLEncoder;
 import java.util.List;
 
 import org.kuali.kra.common.committee.print.CommitteeReportType;
-import org.kuali.kra.common.committee.print.ScheduleTemplatePrint;
+import org.kuali.kra.common.committee.print.ScheduleTemplatePrintBase;
 import org.kuali.kra.iacuc.committee.print.IacucCommitteeFutureScheduledMeetingsPrint;
 import org.kuali.kra.iacuc.committee.print.IacucCommitteeRosterPrint;
 import org.kuali.kra.iacuc.committee.print.IacucCommitteeTemplatePrint;
@@ -45,7 +45,7 @@ public class IacucCommitteePrintingServiceImpl extends PrintingServiceImpl imple
     private static final String ERROR_MESSAGE = "Unknown report type specified";
     
     private IacucCommitteeTemplatePrint committeeTemplatePrint;
-    private ScheduleTemplatePrint scheduleTemplatePrint;
+    private ScheduleTemplatePrintBase scheduleTemplatePrint;
     private IacucProtocolCorrespondenceTemplatePrint protocolCorrespondenceTemplatePrint;
     private IacucProtocolBatchCorrespondencePrint protocolBatchCorrespondencePrint;
     private IacucCommitteeRosterPrint committeeRosterPrint;
@@ -118,7 +118,7 @@ public class IacucCommitteePrintingServiceImpl extends PrintingServiceImpl imple
         this.committeeTemplatePrint = committeeTemplatePrint;
     }
 
-    public ScheduleTemplatePrint getScheduleTemplatePrint() {
+    public ScheduleTemplatePrintBase getScheduleTemplatePrint() {
         /**
          * For some reason, spring doesn't always properly set scheduleTemplatePrint, so this correct that condition.
          */
@@ -128,7 +128,7 @@ public class IacucCommitteePrintingServiceImpl extends PrintingServiceImpl imple
         return scheduleTemplatePrint;
     }
 
-    public void setScheduleTemplatePrint(ScheduleTemplatePrint scheduleTemplatePrint) {
+    public void setScheduleTemplatePrint(ScheduleTemplatePrintBase scheduleTemplatePrint) {
         this.scheduleTemplatePrint = scheduleTemplatePrint;
     }
 

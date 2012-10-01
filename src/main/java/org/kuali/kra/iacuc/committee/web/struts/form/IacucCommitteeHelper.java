@@ -15,14 +15,14 @@
  */
 package org.kuali.kra.iacuc.committee.web.struts.form;
 
-import org.kuali.kra.common.committee.bo.CommitteeMembership;
-import org.kuali.kra.common.committee.bo.Committee;
-import org.kuali.kra.common.committee.bo.CommitteeSchedule;
-import org.kuali.kra.common.committee.document.authorization.CommitteeScheduleTask;
-import org.kuali.kra.common.committee.document.authorization.CommitteeTask;
+import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
+import org.kuali.kra.common.committee.bo.CommitteeBase;
+import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
+import org.kuali.kra.common.committee.document.authorization.CommitteeScheduleTaskBase;
+import org.kuali.kra.common.committee.document.authorization.CommitteeTaskBase;
 import org.kuali.kra.common.committee.service.CommitteeScheduleServiceBase;
 import org.kuali.kra.common.committee.service.CommitteeServiceBase;
-import org.kuali.kra.common.committee.web.struts.form.CommitteeHelper;
+import org.kuali.kra.common.committee.web.struts.form.CommitteeHelperBase;
 import org.kuali.kra.iacuc.committee.bo.IacucCommittee;
 import org.kuali.kra.iacuc.committee.bo.IacucCommitteeMembership;
 import org.kuali.kra.iacuc.committee.bo.IacucCommitteeSchedule;
@@ -31,7 +31,7 @@ import org.kuali.kra.iacuc.committee.service.IacucCommitteeScheduleService;
 import org.kuali.kra.iacuc.committee.service.IacucCommitteeService;
 import org.kuali.kra.infrastructure.TaskGroupName;
 
-public class IacucCommitteeHelper extends CommitteeHelper {
+public class IacucCommitteeHelper extends CommitteeHelperBase {
 
     /**
      * Comment for <code>serialVersionUID</code>
@@ -44,19 +44,19 @@ public class IacucCommitteeHelper extends CommitteeHelper {
 
     @SuppressWarnings("rawtypes")
     @Override
-    protected CommitteeScheduleTask getNewCommitteeScheduleTaskInstanceHook(String taskName, Committee committee, CommitteeSchedule committeeSchedule) {
+    protected CommitteeScheduleTaskBase getNewCommitteeScheduleTaskInstanceHook(String taskName, CommitteeBase committee, CommitteeScheduleBase committeeSchedule) {
         return new IacucCommitteeScheduleTask(taskName, (IacucCommittee) committee, (IacucCommitteeSchedule) committeeSchedule);
     }
 
     @SuppressWarnings("rawtypes")
     @Override
-    protected CommitteeTask getNewCommitteeTaskInstanceHook(String taskName, Committee committee) {
+    protected CommitteeTaskBase getNewCommitteeTaskInstanceHook(String taskName, CommitteeBase committee) {
         // creating an anonymous class to avoid task hierarchy issues
-        return new CommitteeTask<IacucCommittee>(TaskGroupName.IACUC_COMMITTEE, taskName, (IacucCommittee) committee) {};
+        return new CommitteeTaskBase<IacucCommittee>(TaskGroupName.IACUC_COMMITTEE, taskName, (IacucCommittee) committee) {};
     }
 
     @Override
-    protected CommitteeMembership getNewCommitteeMembershipInstanceHook() {
+    protected CommitteeMembershipBase getNewCommitteeMembershipInstanceHook() {
         return new IacucCommitteeMembership();
     }
 

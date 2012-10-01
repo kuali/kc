@@ -17,7 +17,7 @@ package org.kuali.kra.protocol.actions.reviewcomments;
 
 import java.util.List;
 
-import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinute;
+import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinuteBase;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewer;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
@@ -55,7 +55,7 @@ public interface ReviewCommentsService<PRA extends ProtocolReviewAttachment> {
      * @param submissionNumber The number of the submission
      * @return a list of reviewer comments
      */
-    List<CommitteeScheduleMinute> getReviewerComments(String protocolNumber, int submissionNumber);
+    List<CommitteeScheduleMinuteBase> getReviewerComments(String protocolNumber, int submissionNumber);
     
     /**
      *     
@@ -64,7 +64,7 @@ public interface ReviewCommentsService<PRA extends ProtocolReviewAttachment> {
       *   1) The current user has the role IRB Administrator
       *   2) The current user does not have the role IRB Administrator, but the current user is the comment creator
       *   3) The current user does not have the role IRB Administrator, the current user is not the comment creator, but the comment is public and final
-      * @param CommitteeScheduleMinute minute
+      * @param CommitteeScheduleMinuteBase minute
      *  @return whether the current user can view this comment
      */
     boolean getReviewerCommentsView(ProtocolReviewable minute);
@@ -84,7 +84,7 @@ public interface ReviewCommentsService<PRA extends ProtocolReviewAttachment> {
      * @param reviewComments the list of reviewer comments
      * @param protocol the current protocol
      */
-    void addReviewComment(CommitteeScheduleMinute newReviewComment, List<CommitteeScheduleMinute> reviewComments, Protocol protocol);
+    void addReviewComment(CommitteeScheduleMinuteBase newReviewComment, List<CommitteeScheduleMinuteBase> reviewComments, Protocol protocol);
     
     /**
      * Adds the newReviewerComment to the list of reviewerComments in the given protocol online review.
@@ -92,7 +92,7 @@ public interface ReviewCommentsService<PRA extends ProtocolReviewAttachment> {
      * @param reviewComments the list of reviewer comments
      * @param protocolOnlineReview the current protocol online review
      */
-    void addReviewComment(CommitteeScheduleMinute newReviewComment, List<CommitteeScheduleMinute> reviewComments, ProtocolOnlineReview protocolOnlineReview);
+    void addReviewComment(CommitteeScheduleMinuteBase newReviewComment, List<CommitteeScheduleMinuteBase> reviewComments, ProtocolOnlineReview protocolOnlineReview);
     
     /**
      * Moves one review comment up the list by one value.
@@ -100,7 +100,7 @@ public interface ReviewCommentsService<PRA extends ProtocolReviewAttachment> {
      * @param protocol the current protocol
      * @param fromIndex the current position of the review comment
      */
-    void moveUpReviewComment(List<CommitteeScheduleMinute> reviewComments, Protocol protocol, int fromIndex);
+    void moveUpReviewComment(List<CommitteeScheduleMinuteBase> reviewComments, Protocol protocol, int fromIndex);
     
     /**
      * Moves one review comment down the list by one value.
@@ -108,7 +108,7 @@ public interface ReviewCommentsService<PRA extends ProtocolReviewAttachment> {
      * @param protocol the current protocol
      * @param fromIndex the current position of the review comment
      */
-    void moveDownReviewComment(List<CommitteeScheduleMinute> reviewComments, Protocol protocol, int fromIndex);
+    void moveDownReviewComment(List<CommitteeScheduleMinuteBase> reviewComments, Protocol protocol, int fromIndex);
     
     /**
      * Delete the review comment at index from the list of reviewComments and add it to the list of deletedReviewComments.
@@ -116,21 +116,21 @@ public interface ReviewCommentsService<PRA extends ProtocolReviewAttachment> {
      * @param index the index of the reviewer comment to be deleted
      * @param deletedReviewComments the list of deleted reviewer comments
      */
-    void deleteReviewComment(List<CommitteeScheduleMinute> reviewComments, int index, List<CommitteeScheduleMinute> deletedReviewComments);
+    void deleteReviewComment(List<CommitteeScheduleMinuteBase> reviewComments, int index, List<CommitteeScheduleMinuteBase> deletedReviewComments);
     
     /**
      * Delete all review comments from the list of reviewComments and add them all to the  list of deletedReviewComments.
      * @param reviewComments the list of reviewer comments
      * @param deletedReviewComments the list of deleted reviewer comments
      */
-    void deleteAllReviewComments(List<CommitteeScheduleMinute> reviewComments, List<CommitteeScheduleMinute> deletedReviewComments);
+    void deleteAllReviewComments(List<CommitteeScheduleMinuteBase> reviewComments, List<CommitteeScheduleMinuteBase> deletedReviewComments);
     
     /**
      * Saves the given reviewComments to the database and deletes the given deletedReviewComments.
      * @param reviewComments the review comments that will be saved
      * @param deletedReviewComments the review comments that will be deleted
      */
-    void saveReviewComments(List<CommitteeScheduleMinute> reviewComments, List<CommitteeScheduleMinute> deletedReviewComments);
+    void saveReviewComments(List<CommitteeScheduleMinuteBase> reviewComments, List<CommitteeScheduleMinuteBase> deletedReviewComments);
 
 
     /**
@@ -158,19 +158,19 @@ public interface ReviewCommentsService<PRA extends ProtocolReviewAttachment> {
      * 
      * This method is to check whether the current user can view this minute comment.
      * 
-     * @param CommitteeScheduleMinute minute
+     * @param CommitteeScheduleMinuteBase minute
      * @return whether the current user can view this comment
      */
-    boolean getReviewerMinuteCommentsView(CommitteeScheduleMinute minute);
+    boolean getReviewerMinuteCommentsView(CommitteeScheduleMinuteBase minute);
     
     /**
      * 
      * This method is to check whether the Reviewer can view Accepted minute comment.
      * 
-     * @param CommitteeScheduleMinute minute
+     * @param CommitteeScheduleMinuteBase minute
      * @return whether the current user can view this comment
      */
-    boolean getReviewerAcceptedCommentsView(CommitteeScheduleMinute minute);
+    boolean getReviewerAcceptedCommentsView(CommitteeScheduleMinuteBase minute);
     
     /**
      * 

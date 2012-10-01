@@ -17,14 +17,14 @@ package org.kuali.kra.iacuc.committee.web.struts.action;
 
 import java.util.List;
 
-import org.kuali.kra.common.committee.bo.CommitteeMembership;
-import org.kuali.kra.common.committee.bo.Committee;
-import org.kuali.kra.common.committee.document.authorization.CommitteeTask;
+import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
+import org.kuali.kra.common.committee.bo.CommitteeBase;
+import org.kuali.kra.common.committee.document.authorization.CommitteeTaskBase;
 import org.kuali.kra.common.committee.rule.event.CommitteeMemberEventBase.ErrorType;
-import org.kuali.kra.common.committee.rule.event.DeleteCommitteeMemberEvent;
-import org.kuali.kra.common.committee.rules.CommitteeDocumentRule;
+import org.kuali.kra.common.committee.rule.event.DeleteCommitteeMemberEventBase;
+import org.kuali.kra.common.committee.rules.CommitteeDocumentRuleBase;
 import org.kuali.kra.common.committee.service.CommitteeMembershipServiceBase;
-import org.kuali.kra.common.committee.web.struts.action.CommitteeMembershipAction;
+import org.kuali.kra.common.committee.web.struts.action.CommitteeMembershipActionBase;
 import org.kuali.kra.iacuc.committee.bo.IacucCommittee;
 import org.kuali.kra.iacuc.committee.bo.IacucCommitteeMembership;
 import org.kuali.kra.iacuc.committee.rule.event.IacucDeleteCommitteeMemberEvent;
@@ -33,22 +33,22 @@ import org.kuali.kra.iacuc.committee.service.IacucCommitteeMembershipService;
 import org.kuali.kra.infrastructure.TaskGroupName;
 import org.kuali.rice.krad.document.Document;
 
-public class IacucCommitteeMembershipAction extends CommitteeMembershipAction {
+public class IacucCommitteeMembershipAction extends CommitteeMembershipActionBase {
 
     @Override
-    protected CommitteeMembership getNewCommitteeMembershipInstanceHook() {
+    protected CommitteeMembershipBase getNewCommitteeMembershipInstanceHook() {
         return new IacucCommitteeMembership();
     }
 
     @Override
-    protected CommitteeDocumentRule getNewCommitteeDocumentRuleInstanceHook() {
+    protected CommitteeDocumentRuleBase getNewCommitteeDocumentRuleInstanceHook() {
         return new IacucCommitteeDocumentRule();
     }
 
     @Override
-    protected CommitteeTask getNewCommitteeTaskInstanceHook(String taskName, Committee committee) {
+    protected CommitteeTaskBase getNewCommitteeTaskInstanceHook(String taskName, CommitteeBase committee) {
         // creating an anonymous class to avoid task hierarchy issues
-        return new CommitteeTask<IacucCommittee>(TaskGroupName.IACUC_COMMITTEE, taskName, (IacucCommittee) committee) {};
+        return new CommitteeTaskBase<IacucCommittee>(TaskGroupName.IACUC_COMMITTEE, taskName, (IacucCommittee) committee) {};
     }
 
     @Override
@@ -62,8 +62,8 @@ public class IacucCommitteeMembershipAction extends CommitteeMembershipAction {
     }
 
     @Override
-    protected DeleteCommitteeMemberEvent getNewDeleteCommitteeMemberEventInstanceHook(String errorPathPrefix, Document document,
-            List<CommitteeMembership> committeeMemberships, ErrorType type) {
+    protected DeleteCommitteeMemberEventBase getNewDeleteCommitteeMemberEventInstanceHook(String errorPathPrefix, Document document,
+            List<CommitteeMembershipBase> committeeMemberships, ErrorType type) {
         
         return new IacucDeleteCommitteeMemberEvent(errorPathPrefix, document, committeeMemberships,type);
     }

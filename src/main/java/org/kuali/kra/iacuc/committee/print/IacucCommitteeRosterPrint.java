@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.iacuc.committee.print;
 
-import org.kuali.kra.common.committee.print.TemplatePrint;
+import org.kuali.kra.common.committee.print.TemplatePrintBase;
 
 /**
  * This class provides the implementation for printing Committee Roster.
@@ -25,7 +25,7 @@ import org.kuali.kra.common.committee.print.TemplatePrint;
  * streaming etc.
  * 
  */
-public class IacucCommitteeRosterPrint extends TemplatePrint {
+public class IacucCommitteeRosterPrint extends TemplatePrintBase {
 
     private static final long serialVersionUID = -4077775486854400861L;
 

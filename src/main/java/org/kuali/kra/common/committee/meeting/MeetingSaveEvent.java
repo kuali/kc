@@ -27,11 +27,11 @@ public class MeetingSaveEvent extends MeetingEventBase<MeetingSaveRule> {
     
     private static final String MSG = "Save meeting data ";
     
-    public MeetingSaveEvent(String errorPathPrefix, CommitteeDocumentBase document, MeetingHelper meetingHelper, ErrorType type) {
+    public MeetingSaveEvent(String errorPathPrefix, CommitteeDocumentBase document, MeetingHelperBase meetingHelper, ErrorType type) {
         super(MSG + getDocumentId(document), errorPathPrefix, document, meetingHelper, type);
     }
     
-    public MeetingSaveEvent(String errorPathPrefix, Document document, MeetingHelper meetingHelper, ErrorType type) {
+    public MeetingSaveEvent(String errorPathPrefix, Document document, MeetingHelperBase meetingHelper, ErrorType type) {
         this(errorPathPrefix, (CommitteeDocumentBase)document, meetingHelper, type);
     }
     

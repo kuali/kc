@@ -15,26 +15,26 @@
  */
 package org.kuali.kra.iacuc.committee.meeting;
 
-import org.kuali.kra.common.committee.meeting.CommScheduleMinuteDoc;
-import org.kuali.kra.common.committee.meeting.CommitteeScheduleAttendance;
-import org.kuali.kra.common.committee.meeting.MeetingServiceImpl;
-import org.kuali.kra.common.committee.meeting.OtherPresentBean;
-import org.kuali.kra.common.committee.meeting.ProtocolContingency;
-import org.kuali.kra.common.committee.meeting.ScheduleAgenda;
+import org.kuali.kra.common.committee.meeting.CommScheduleMinuteDocBase;
+import org.kuali.kra.common.committee.meeting.CommitteeScheduleAttendanceBase;
+import org.kuali.kra.common.committee.meeting.MeetingServiceImplBase;
+import org.kuali.kra.common.committee.meeting.OtherPresentBeanBase;
+import org.kuali.kra.common.committee.meeting.ProtocolContingencyBase;
+import org.kuali.kra.common.committee.meeting.ScheduleAgendaBase;
 import org.kuali.kra.iacuc.committee.bo.IacucCommittee;
 import org.kuali.kra.iacuc.committee.bo.IacucCommitteeSchedule;
 import org.kuali.kra.iacuc.correspondence.IacucProtocolCorrespondence;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondence;
 
-public class IacucMeetingServiceImpl extends MeetingServiceImpl<IacucCommitteeSchedule, IacucCommitteeScheduleMinute, IacucCommittee> implements IacucMeetingService {
+public class IacucMeetingServiceImpl extends MeetingServiceImplBase<IacucCommitteeSchedule, IacucCommitteeScheduleMinute, IacucCommittee> implements IacucMeetingService {
 
     @Override
-    protected Class<? extends ScheduleAgenda> getScheduleAgendaBOClassHook() {
+    protected Class<? extends ScheduleAgendaBase> getScheduleAgendaBOClassHook() {
         return IacucScheduleAgenda.class;
     }
 
     @Override
-    protected Class<? extends CommScheduleMinuteDoc> getCommScheduleMinuteDocBOClassHook() {
+    protected Class<? extends CommScheduleMinuteDocBase> getCommScheduleMinuteDocBOClassHook() {
         return IacucCommScheduleMinuteDoc.class;
     }
 
@@ -44,12 +44,12 @@ public class IacucMeetingServiceImpl extends MeetingServiceImpl<IacucCommitteeSc
     }
 
     @Override
-    protected Class<? extends ProtocolContingency> getProtocolContingencyBOClassHook() {
+    protected Class<? extends ProtocolContingencyBase> getProtocolContingencyBOClassHook() {
         return IacucProtocolContingency.class;
     }
 
     @Override
-    protected OtherPresentBean getNewOtherPresentBeanInstanceHook() {
+    protected OtherPresentBeanBase getNewOtherPresentBeanInstanceHook() {
         return new IacucOtherPresentBean();
     }
 
@@ -59,7 +59,7 @@ public class IacucMeetingServiceImpl extends MeetingServiceImpl<IacucCommitteeSc
     }
 
     @Override
-    protected CommitteeScheduleAttendance getNewCommitteeScheduleAttendanceInstanceHook() {
+    protected CommitteeScheduleAttendanceBase getNewCommitteeScheduleAttendanceInstanceHook() {
         return new IacucCommitteeScheduleAttendance();
     }
 

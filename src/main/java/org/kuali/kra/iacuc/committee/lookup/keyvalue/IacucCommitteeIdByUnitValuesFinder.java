@@ -16,11 +16,11 @@
 package org.kuali.kra.iacuc.committee.lookup.keyvalue;
 
 import org.kuali.kra.common.committee.bo.CommitteeType;
-import org.kuali.kra.common.committee.lookup.keyvalue.CommitteeIdByUnitValuesFinder;
+import org.kuali.kra.common.committee.lookup.keyvalue.CommitteeIdByUnitValuesFinderBase;
 import org.kuali.kra.iacuc.committee.bo.IacucCommittee;
 import org.kuali.kra.infrastructure.RoleConstants;
 
-public class IacucCommitteeIdByUnitValuesFinder extends CommitteeIdByUnitValuesFinder<IacucCommittee> {
+public class IacucCommitteeIdByUnitValuesFinder extends CommitteeIdByUnitValuesFinderBase<IacucCommittee> {
 
     /**
      * Comment for <code>serialVersionUID</code>

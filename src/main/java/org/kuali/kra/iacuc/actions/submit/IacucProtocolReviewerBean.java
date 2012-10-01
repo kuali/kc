@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.iacuc.actions.submit;
 
-import org.kuali.kra.common.committee.bo.CommitteeMembership;
+import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewerBean;
 
 public class IacucProtocolReviewerBean extends ProtocolReviewerBean {
@@ -29,7 +29,7 @@ public class IacucProtocolReviewerBean extends ProtocolReviewerBean {
         super();
     }
 
-    public IacucProtocolReviewerBean(CommitteeMembership member) {
+    public IacucProtocolReviewerBean(CommitteeMembershipBase member) {
         super(member);
     }
     

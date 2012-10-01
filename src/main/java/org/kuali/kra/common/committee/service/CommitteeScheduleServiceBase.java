@@ -21,31 +21,31 @@ import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.common.committee.bo.Committee;
-import org.kuali.kra.common.committee.bo.CommitteeSchedule;
-import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinute;
+import org.kuali.kra.common.committee.bo.CommitteeBase;
+import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
+import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinuteBase;
 import org.kuali.kra.common.committee.web.struts.form.schedule.ScheduleData;
 
 
-public interface CommitteeScheduleServiceBase<CS extends CommitteeSchedule<CS, CMT, ?, CSM>, 
-                                                CMT extends Committee<CMT,?,CS>,
-                                                CSM extends CommitteeScheduleMinute<CSM, CS>> {
+public interface CommitteeScheduleServiceBase<CS extends CommitteeScheduleBase<CS, CMT, ?, CSM>, 
+                                                CMT extends CommitteeBase<CMT,?,CS>,
+                                                CSM extends CommitteeScheduleMinuteBase<CSM, CS>> {
     
     /**
-     * This method implementer must check if passed CommitteeSchedule is deleteable.
+     * This method implementer must check if passed CommitteeScheduleBase is deleteable.
      * <br/>
      * Rule:
      * <br/>
      * Any past schedule date must not be allowed to delete.
      * <br/>
-     * Allow delete if NO Protocol is assigned to CommitteeSchedule.
+     * Allow delete if NO Protocol is assigned to CommitteeScheduleBase.
      * @param committeeSchedule
      * @return
      */
     public Boolean isCommitteeScheduleDeletable(CS committeeSchedule);
     
     /**
-     * This method implementer must add new non conflicting, non-repeating schedule dates to existing Committee.CommitteeSchedule list.
+     * This method implementer must add new non conflicting, non-repeating schedule dates to existing CommitteeBase.CommitteeScheduleBase list.
      * @param scheduleData
      * @param committee
      * @throws ParseException
@@ -86,7 +86,7 @@ public interface CommitteeScheduleServiceBase<CS extends CommitteeSchedule<CS, C
     public CSM getCommitteeScheduleMinute(Long committeeScheduleId);
     
     /**
-     * This method will downloadAttachment  to CommitteeScheduleAttachments.
+     * This method will downloadAttachment  to CommitteeScheduleAttachmentsBase.
      * @param committeScheduleAttachments
      * @return
      */

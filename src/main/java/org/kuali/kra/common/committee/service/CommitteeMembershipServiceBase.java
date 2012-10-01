@@ -18,20 +18,20 @@ package org.kuali.kra.common.committee.service;
 import java.util.Collection;
 
 import org.kuali.kra.bo.ResearchArea;
-import org.kuali.kra.common.committee.bo.Committee;
-import org.kuali.kra.common.committee.bo.CommitteeMembership;
+import org.kuali.kra.common.committee.bo.CommitteeBase;
+import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipRole;
 
-public interface CommitteeMembershipServiceBase<CMT extends Committee<CMT, ?, ?>> {
+public interface CommitteeMembershipServiceBase<CMT extends CommitteeBase<CMT, ?, ?>> {
     /**
-     * This method adds a CommitteeMembership to the List of CommitteeMemberships.
+     * This method adds a CommitteeMembershipBase to the List of CommitteeMemberships.
      * @param committee which contains list of CommitteeeMembership.
      * @param committeeMembership object is added to CommitteeMemberhip list.
      */
-    void addCommitteeMembership(CMT committee, CommitteeMembership committeeMembership);
+    void addCommitteeMembership(CMT committee, CommitteeMembershipBase committeeMembership);
     
     /**
-     * This method deletes CommitteeMembership(s) - those marked as delete
+     * This method deletes CommitteeMembershipBase(s) - those marked as delete
      * @param committee which contains list of CommitteeMemberhips
      */
     void deleteCommitteeMembership(CMT committee);
@@ -39,31 +39,31 @@ public interface CommitteeMembershipServiceBase<CMT extends Committee<CMT, ?, ?>
     /**
      * This method adds a CommitteeMembershipRole to the list of CommitteeMembershipRoles of a 
      * committee member.
-     * @param committee - the committee that contains the CommitteeMembership to which the role is to be added.
-     * @param selectedmembershipIndex - the index position of the CommitteeMembership to which the role is to be added. 
+     * @param committee - the committee that contains the CommitteeMembershipBase to which the role is to be added.
+     * @param selectedmembershipIndex - the index position of the CommitteeMembershipBase to which the role is to be added. 
      * @param committeeMembershipRole - the role that is to be added
      */
     void addCommitteeMembershipRole(CMT committee, int selectedMembershipIndex, CommitteeMembershipRole committeeMembershipRole);
 
     /**
      * This method deletes a CommitteeMembershipRole from the list of CommitteeMembershipRoles
-     * @param committee - the committee that contains the CommitteeMembership from which the role is to be deleted.
-     * @param selectedMembershipIndex - the index position of the CommitteeMembership from which the role is to be deleted.
+     * @param committee - the committee that contains the CommitteeMembershipBase from which the role is to be deleted.
+     * @param selectedMembershipIndex - the index position of the CommitteeMembershipBase from which the role is to be deleted.
      * @param lineNumber - the position of the ComitteeMembershipRole to be deleted
      */
     void deleteCommitteeMembershipRole(CMT committee, int selectedMembershipIndex, int lineNumber);
 
     /**
      * This method adds CommitteeMembershipExpertise to a committeeMembership
-     * @param committeeMembership - the CommitteeMembership to which the expertise is to be added.
+     * @param committeeMembership - the CommitteeMembershipBase to which the expertise is to be added.
      * @param committeeMembershipExpertise - collection of expertise that is to be added
      */
-    void addCommitteeMembershipExpertise(CommitteeMembership committeeMembership, Collection<ResearchArea> researchAreas);
+    void addCommitteeMembershipExpertise(CommitteeMembershipBase committeeMembership, Collection<ResearchArea> researchAreas);
 
     /**
      * This method deletes a CommitteeMembershipExpertise from the list of CommitteeMembershipExpertise
-     * @param committee - the committee that contains the CommitteeMembership from which the role is to be deleted.
-     * @param selectedMembershipIndex - the index position of the CommitteeMembership from which the role is to be deleted.
+     * @param committee - the committee that contains the CommitteeMembershipBase from which the role is to be deleted.
+     * @param selectedMembershipIndex - the index position of the CommitteeMembershipBase from which the role is to be deleted.
      * @param lineNumber - the position of the CommitteeMembershipExpertise to be deleted
      */
     void deleteCommitteeMembershipExpertise(CMT committee, int selectedMembershipIndex, int lineNumber);
@@ -77,7 +77,7 @@ public interface CommitteeMembershipServiceBase<CMT extends Committee<CMT, ?, ?>
      * @param committeeId
      * @return
      */
-    boolean isMemberAssignedToReviewer(CommitteeMembership member, String committeeId);
+    boolean isMemberAssignedToReviewer(CommitteeMembershipBase member, String committeeId);
 
     /**
      * 
@@ -88,5 +88,5 @@ public interface CommitteeMembershipServiceBase<CMT extends Committee<CMT, ?, ?>
      * @param committeeId
      * @return
      */
-    boolean isMemberAttendedMeeting(CommitteeMembership member, String committeeId);
+    boolean isMemberAttendedMeeting(CommitteeMembershipBase member, String committeeId);
 }

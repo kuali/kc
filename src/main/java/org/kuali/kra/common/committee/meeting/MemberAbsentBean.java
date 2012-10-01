@@ -25,13 +25,13 @@ import java.io.Serializable;
 public class MemberAbsentBean implements Serializable, Comparable<MemberAbsentBean> {
 
     private static final long serialVersionUID = -5220883072192174587L;
-    private CommitteeScheduleAttendance attendance;
+    private CommitteeScheduleAttendanceBase attendance;
 
-    public CommitteeScheduleAttendance getAttendance() {
+    public CommitteeScheduleAttendanceBase getAttendance() {
         return attendance;
     }
 
-    public void setAttendance(CommitteeScheduleAttendance attendance) {
+    public void setAttendance(CommitteeScheduleAttendanceBase attendance) {
         this.attendance = attendance;
     }
 

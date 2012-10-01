@@ -19,8 +19,8 @@ package org.kuali.kra.common.committee.notification;
 import java.util.List;
 
 import org.kuali.kra.bo.CoeusModule;
-import org.kuali.kra.common.committee.bo.Committee;
-import org.kuali.kra.common.committee.bo.CommitteeSchedule;
+import org.kuali.kra.common.committee.bo.CommitteeBase;
+import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
 import org.kuali.kra.common.notification.NotificationRenderer;
 import org.kuali.kra.common.notification.NotificationContextBase;
 import org.kuali.kra.common.notification.bo.NotificationTypeRecipient;
@@ -39,18 +39,18 @@ public class CommitteeNotificationContext extends NotificationContextBase {
 
     private static final long serialVersionUID = 6642334312368480034L;
 
-    private Committee committee;
-    private CommitteeSchedule committeeSchedule;
+    private CommitteeBase committee;
+    private CommitteeScheduleBase committeeSchedule;
     private String actionTypeCode;
     private String contextName;
     
     /**
-     * Constructs a Committee notification context and sets the necessary services.
+     * Constructs a CommitteeBase notification context and sets the necessary services.
      * @param protocol
      * @param actionTypeCode
      * @param contextName
      */
-    public CommitteeNotificationContext(CommitteeSchedule committeeSchedule, String actionTypeCode, String contextName, NotificationRenderer renderer) {
+    public CommitteeNotificationContext(CommitteeScheduleBase committeeSchedule, String actionTypeCode, String contextName, NotificationRenderer renderer) {
         super(renderer);
 
         this.committee = committeeSchedule.getCommittee();

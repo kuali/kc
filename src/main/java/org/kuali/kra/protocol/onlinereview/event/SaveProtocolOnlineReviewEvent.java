@@ -19,7 +19,7 @@ import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinute;
+import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinuteBase;
 import org.kuali.kra.protocol.ProtocolOnlineReviewDocument;
 import org.kuali.kra.protocol.onlinereview.ProtocolReviewAttachment;
 import org.kuali.kra.protocol.onlinereview.rules.SaveProtocolOnlineReviewRule;
@@ -31,7 +31,7 @@ public class SaveProtocolOnlineReviewEvent extends KraDocumentEventBase {
     
     
     private static final Log LOG = LogFactory.getLog(SaveProtocolOnlineReviewEvent.class);
-    private final List<CommitteeScheduleMinute> minutes;
+    private final List<CommitteeScheduleMinuteBase> minutes;
     private List<ProtocolReviewAttachment> reviewAttachments;
     private final long onlineReviewIndex;
   
@@ -41,7 +41,7 @@ public class SaveProtocolOnlineReviewEvent extends KraDocumentEventBase {
      * @param newProtocolNotepad the new attachment to be added.
      */
     public SaveProtocolOnlineReviewEvent(final ProtocolOnlineReviewDocument document,
-        final List<CommitteeScheduleMinute> minutes, final long onlineReviewIndex ) {
+        final List<CommitteeScheduleMinuteBase> minutes, final long onlineReviewIndex ) {
         super("adding new protocol notepad", "notesAttachmentsHelper", document);
         this.onlineReviewIndex = onlineReviewIndex;
         if (document == null) {
@@ -92,7 +92,7 @@ public class SaveProtocolOnlineReviewEvent extends KraDocumentEventBase {
      * Gets the minutes attribute. 
      * @return Returns the minutes.
      */
-    public List<CommitteeScheduleMinute> getMinutes() {
+    public List<CommitteeScheduleMinuteBase> getMinutes() {
         return minutes;
     }
 

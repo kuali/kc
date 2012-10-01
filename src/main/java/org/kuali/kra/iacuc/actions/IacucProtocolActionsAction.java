@@ -34,7 +34,7 @@ import org.kuali.kra.authorization.ApplicationTask;
 import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.CoeusSubModule;
-import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinute;
+import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinuteBase;
 import org.kuali.kra.common.committee.meeting.MinuteEntryType;
 import org.kuali.kra.common.committee.service.CommitteeServiceBase;
 import org.kuali.kra.common.notification.bo.NotificationTypeRecipient;
@@ -3183,8 +3183,8 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         
         if (reviewCommentsBean != null) {
             String errorPropertyName = reviewCommentsBean.getErrorPropertyName();
-            CommitteeScheduleMinute newReviewComment = reviewCommentsBean.getNewReviewComment();
-            List<CommitteeScheduleMinute> reviewComments = reviewCommentsBean.getReviewComments();
+            CommitteeScheduleMinuteBase newReviewComment = reviewCommentsBean.getNewReviewComment();
+            List<CommitteeScheduleMinuteBase> reviewComments = reviewCommentsBean.getReviewComments();
             IacucProtocol protocol = (IacucProtocol) document.getProtocol();
             
             if (applyRules(new IacucProtocolAddReviewCommentEvent((IacucProtocolDocument) document, errorPropertyName, newReviewComment))) {
@@ -3214,7 +3214,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         IacucReviewCommentsBean reviewCommentsBean = getReviewCommentsBean(mapping, form, request, response);
         
         if (reviewCommentsBean != null) {
-            List<CommitteeScheduleMinute> reviewComments = reviewCommentsBean.getReviewComments();
+            List<CommitteeScheduleMinuteBase> reviewComments = reviewCommentsBean.getReviewComments();
             int lineNumber = getSelectedLine(request);    
             getReviewCommentsService().moveUpReviewComment(reviewComments, document.getProtocol(), lineNumber);
         }
@@ -3237,7 +3237,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         IacucReviewCommentsBean reviewCommentsBean = getReviewCommentsBean(mapping, form, request, response);
         
         if (reviewCommentsBean != null) {
-            List<CommitteeScheduleMinute> reviewComments = reviewCommentsBean.getReviewComments();
+            List<CommitteeScheduleMinuteBase> reviewComments = reviewCommentsBean.getReviewComments();
             int lineNumber = getSelectedLine(request);            
             getReviewCommentsService().moveDownReviewComment(reviewComments, document.getProtocol(), lineNumber);
         }
@@ -3258,9 +3258,9 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         IacucReviewCommentsBean reviewCommentsBean = getReviewCommentsBean(mapping, form, request, response);
         
         if (reviewCommentsBean != null) {
-            List<CommitteeScheduleMinute> reviewComments = reviewCommentsBean.getReviewComments();
+            List<CommitteeScheduleMinuteBase> reviewComments = reviewCommentsBean.getReviewComments();
             int lineNumber = getLineToDelete(request);
-            List<CommitteeScheduleMinute> deletedReviewComments = reviewCommentsBean.getDeletedReviewComments();
+            List<CommitteeScheduleMinuteBase> deletedReviewComments = reviewCommentsBean.getDeletedReviewComments();
             
             getReviewCommentsService().deleteReviewComment(reviewComments, lineNumber, deletedReviewComments);
             if (reviewComments.isEmpty()) {
@@ -3318,7 +3318,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
      */
     private void saveReviewComments(IacucProtocolForm protocolForm, IacucReviewCommentsBean actionBean) throws Exception { 
         getReviewCommentsService().saveReviewComments(actionBean.getReviewComments(), actionBean.getDeletedReviewComments());           
-        actionBean.setDeletedReviewComments(new ArrayList<CommitteeScheduleMinute>());
+        actionBean.setDeletedReviewComments(new ArrayList<CommitteeScheduleMinuteBase>());
         protocolForm.getActionHelper().prepareCommentsView();
     }
  

@@ -15,14 +15,14 @@
  */
 package org.kuali.kra.iacuc.committee.document.authorization;
 
-import org.kuali.kra.common.committee.bo.Committee;
-import org.kuali.kra.common.committee.document.authorization.CommitteeDocumentAuthorizer;
-import org.kuali.kra.common.committee.document.authorization.CommitteeTask;
+import org.kuali.kra.common.committee.bo.CommitteeBase;
+import org.kuali.kra.common.committee.document.authorization.CommitteeDocumentAuthorizerBase;
+import org.kuali.kra.common.committee.document.authorization.CommitteeTaskBase;
 import org.kuali.kra.iacuc.committee.bo.IacucCommittee;
 import org.kuali.kra.infrastructure.TaskGroupName;
 import org.kuali.kra.infrastructure.TaskName;
 
-public class IacucCommitteeDocumentAuthorizer extends CommitteeDocumentAuthorizer {
+public class IacucCommitteeDocumentAuthorizer extends CommitteeDocumentAuthorizerBase {
 
     @Override
     protected String getAddCommitteeTaskNameHook() {
@@ -30,9 +30,9 @@ public class IacucCommitteeDocumentAuthorizer extends CommitteeDocumentAuthorize
     }
 
     @Override
-    protected CommitteeTask getNewCommitteeTaskInstanceHook(String taskName, Committee committee) {
+    protected CommitteeTaskBase getNewCommitteeTaskInstanceHook(String taskName, CommitteeBase committee) {
         // creating an anonymous class to avoid task hierarchy issues
-        return new CommitteeTask<IacucCommittee>(TaskGroupName.IACUC_COMMITTEE, taskName, (IacucCommittee) committee) {};
+        return new CommitteeTaskBase<IacucCommittee>(TaskGroupName.IACUC_COMMITTEE, taskName, (IacucCommittee) committee) {};
     }
 
 }
