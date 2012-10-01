@@ -21,8 +21,8 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.RolePersons;
-import org.kuali.kra.common.committee.bo.Committee;
-import org.kuali.kra.common.committee.bo.CommitteeSchedule;
+import org.kuali.kra.common.committee.bo.CommitteeBase;
+import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
 import org.kuali.kra.common.committee.service.CommitteeServiceBase;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -34,13 +34,13 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
- * The Committee Document wraps a single Committee BO.  
+ * The CommitteeBase Document wraps a single CommitteeBase BO.  
  * The document is necessary for workflow.
  */
 @SuppressWarnings("serial")
 public abstract class CommitteeDocumentBase<CD extends CommitteeDocumentBase<CD, CMT, CS>, 
-                                            CMT extends Committee<CMT, CD, CS>, 
-                                            CS extends CommitteeSchedule<CS, CMT, ?, ?>> 
+                                            CMT extends CommitteeBase<CMT, CD, CS>, 
+                                            CS extends CommitteeScheduleBase<CS, CMT, ?, ?>> 
                         
                                             extends ResearchDocumentBase implements Copyable, SessionDocument { 
 
@@ -84,18 +84,18 @@ public abstract class CommitteeDocumentBase<CD extends CommitteeDocumentBase<CD,
     }
 
     /**
-     * Get the Committee BO.  This is a convenience method for easily
-     * obtaining the single Committee BO in the list.
-     * @return the Committee BO
+     * Get the CommitteeBase BO.  This is a convenience method for easily
+     * obtaining the single CommitteeBase BO in the list.
+     * @return the CommitteeBase BO
      */
     public CMT getCommittee() {
         return committeeList.get(0);
     }
 
     /**
-     * Set the Committee BO.  This is a convenience method to easily
+     * Set the CommitteeBase BO.  This is a convenience method to easily
      * insert the committee into the list.
-     * @param committee the Committee BO
+     * @param committee the CommitteeBase BO
      */
     public void setCommittee(CMT committee) {
         committeeList.set(0, committee);
@@ -130,7 +130,7 @@ public abstract class CommitteeDocumentBase<CD extends CommitteeDocumentBase<CD,
 // TODO : only save to wkflw document, not persist to BO till 'approve'        
 //        List <CommitteeMembershipRole> roles = new ArrayList<CommitteeMembershipRole>();
 //        List<CommitteeMembershipExpertise> expertise = new ArrayList<CommitteeMembershipExpertise>();
-//        for (CommitteeMembership committeeMembership : getCommittee().getCommitteeMemberships()) {
+//        for (CommitteeMembershipBase committeeMembership : getCommittee().getCommitteeMemberships()) {
 //            roles.addAll(committeeMembership.getMembershipRoles());
 //            expertise.addAll(committeeMembership.getMembershipExpertise());
 //        }

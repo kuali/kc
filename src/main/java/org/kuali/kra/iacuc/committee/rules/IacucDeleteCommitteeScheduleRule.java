@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.iacuc.committee.rules;
 
-import org.kuali.kra.common.committee.rules.DeleteCommitteeScheduleRule;
+import org.kuali.kra.common.committee.rules.DeleteCommitteeScheduleRuleBase;
 import org.kuali.kra.common.committee.service.CommitteeServiceBase;
 import org.kuali.kra.iacuc.committee.service.IacucCommitteeService;
 
-public class IacucDeleteCommitteeScheduleRule extends DeleteCommitteeScheduleRule {
+public class IacucDeleteCommitteeScheduleRule extends DeleteCommitteeScheduleRuleBase {
 
     @Override
     protected Class<? extends CommitteeServiceBase> getCommitteeServiceClassHook() {

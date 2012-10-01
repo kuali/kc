@@ -17,9 +17,9 @@ package org.kuali.kra.iacuc.committee.bo;
 
 import java.sql.Date;
 
-import org.kuali.kra.common.committee.bo.CommitteeBatchCorrespondence;
+import org.kuali.kra.common.committee.bo.CommitteeBatchCorrespondenceBase;
 
-public class IacucCommitteeBatchCorrespondence extends CommitteeBatchCorrespondence {
+public class IacucCommitteeBatchCorrespondence extends CommitteeBatchCorrespondenceBase {
 
     /**
      * Comment for <code>serialVersionUID</code>

@@ -24,11 +24,11 @@ public class MeetingAddAttachmentsEvent extends MeetingEventBase<MeetingAddAttac
 {
     private static final String MSG = "Add meeting attachments ";
     
-    public MeetingAddAttachmentsEvent(String errorPathPrefix, CommitteeDocumentBase document, MeetingHelper meetingHelper, ErrorType type) {
+    public MeetingAddAttachmentsEvent(String errorPathPrefix, CommitteeDocumentBase document, MeetingHelperBase meetingHelper, ErrorType type) {
        super(MSG + getDocumentId(document), errorPathPrefix, document, meetingHelper, type);
     }
     
-    public MeetingAddAttachmentsEvent(String errorPathPrefix, Document document, MeetingHelper meetingHelper, ErrorType type) {
+    public MeetingAddAttachmentsEvent(String errorPathPrefix, Document document, MeetingHelperBase meetingHelper, ErrorType type) {
         this(errorPathPrefix, (CommitteeDocumentBase)document, meetingHelper, type);
     }
     

@@ -29,11 +29,11 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.Unit;
-import org.kuali.kra.common.committee.bo.Committee;
-import org.kuali.kra.common.committee.bo.CommitteeMembership;
-import org.kuali.kra.common.committee.bo.CommitteeSchedule;
-import org.kuali.kra.common.committee.meeting.CommScheduleActItem;
-import org.kuali.kra.common.committee.meeting.CommitteeScheduleAttendance;
+import org.kuali.kra.common.committee.bo.CommitteeBase;
+import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
+import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
+import org.kuali.kra.common.committee.meeting.CommScheduleActItemBase;
+import org.kuali.kra.common.committee.meeting.CommitteeScheduleAttendanceBase;
 import org.kuali.kra.common.committee.service.CommitteeMembershipServiceBase;
 import org.kuali.kra.iacuc.committee.bo.IacucCommitteeSchedule;
 import org.kuali.kra.iacuc.committee.print.service.IacucPrintXmlUtilService;
@@ -75,9 +75,9 @@ public class IacucScheduleXmlStream extends PrintBaseXmlStream {
     private String FOLLOW_UP_ACTION_CODE = "109";
 
     public Map<String, XmlObject> generateXmlStream(KraPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {        
-        Committee committee = (Committee)printableBusinessObject;
+        CommitteeBase committee = (CommitteeBase)printableBusinessObject;
         String scheduleId = (String)reportParameters.get("scheduleId");
-        CommitteeSchedule committeeSchedule = findCommitteeSchedule(committee,scheduleId);
+        CommitteeScheduleBase committeeSchedule = findCommitteeSchedule(committee,scheduleId);
         Map<String, XmlObject> xmlObjectList = new LinkedHashMap<String, XmlObject>();
         ScheduleDocument scheduleDocument =
 		ScheduleDocument.Factory.newInstance();
@@ -88,11 +88,11 @@ public class IacucScheduleXmlStream extends PrintBaseXmlStream {
     }
 
 
-    private CommitteeSchedule findCommitteeSchedule(
-	Committee committee, String scheduleId) {
-        List<CommitteeSchedule> committeeSchedules =
+    private CommitteeScheduleBase findCommitteeSchedule(
+	CommitteeBase committee, String scheduleId) {
+        List<CommitteeScheduleBase> committeeSchedules =
 	committee.getCommitteeSchedules();
-        for (CommitteeSchedule committeeSchedule : committeeSchedules) {
+        for (CommitteeScheduleBase committeeSchedule : committeeSchedules) {
             if(committeeSchedule.getScheduleId().equals(scheduleId)){
                 return committeeSchedule;
             }
@@ -100,7 +100,7 @@ public class IacucScheduleXmlStream extends PrintBaseXmlStream {
         return null;
     }
 
-    public ScheduleType getSchedule(CommitteeSchedule committeeSchedule) {
+    public ScheduleType getSchedule(CommitteeScheduleBase committeeSchedule) {
         ScheduleType schedule = ScheduleType.Factory.newInstance();
         setScheduleMasterData(committeeSchedule, schedule.addNewScheduleMasterData());
         ScheduleSummaryType prevSchedule = schedule.addNewPreviousSchedule();
@@ -315,9 +315,9 @@ public class IacucScheduleXmlStream extends PrintBaseXmlStream {
         }
     }
 
-    private void setOtherActionItems(CommitteeSchedule committeeSchedule, ScheduleType schedule) {
-        List<CommScheduleActItem> otherActions = committeeSchedule.getCommScheduleActItems();
-        for (CommScheduleActItem otherActionInfoBean : otherActions) {
+    private void setOtherActionItems(CommitteeScheduleBase committeeSchedule, ScheduleType schedule) {
+        List<CommScheduleActItemBase> otherActions = committeeSchedule.getCommScheduleActItems();
+        for (CommScheduleActItemBase otherActionInfoBean : otherActions) {
             otherActionInfoBean.refreshNonUpdateableReferences();
             OtherBusiness otherBusinessType = schedule.addNewOtherBusiness();
             otherBusinessType.setActionItemNumber(BigInteger.valueOf(otherActionInfoBean.getActionItemNumber()));
@@ -438,9 +438,9 @@ public class IacucScheduleXmlStream extends PrintBaseXmlStream {
 //        return actions.isEmpty() ? null : actions.get(0);
     }
 
-    private void setAttendance(CommitteeSchedule committeeSchedule, ScheduleType schedule) {
-        List<CommitteeScheduleAttendance> attendenceList = committeeSchedule.getCommitteeScheduleAttendances();
-        for (CommitteeScheduleAttendance attendanceInfoBean : attendenceList) {
+    private void setAttendance(CommitteeScheduleBase committeeSchedule, ScheduleType schedule) {
+        List<CommitteeScheduleAttendanceBase> attendenceList = committeeSchedule.getCommitteeScheduleAttendances();
+        for (CommitteeScheduleAttendanceBase attendanceInfoBean : attendenceList) {
             Attendents attendents = schedule.addNewAttendents();
             attendents.setAttendentName(attendanceInfoBean.getPersonName());
             attendents.setAlternateFlag(attendanceInfoBean.getAlternateFlag());
@@ -449,8 +449,8 @@ public class IacucScheduleXmlStream extends PrintBaseXmlStream {
             attendents.setPresentFlag(true);
         }
 
-        List<CommitteeMembership> committeeMemberships = committeeSchedule.getCommittee().getCommitteeMemberships();
-        for (CommitteeMembership committeeMembership : committeeMemberships) {
+        List<CommitteeMembershipBase> committeeMemberships = committeeSchedule.getCommittee().getCommitteeMemberships();
+        for (CommitteeMembershipBase committeeMembership : committeeMemberships) {
             if (!getCommitteeMembershipService().isMemberAttendedMeeting(committeeMembership,
                     committeeSchedule.getCommittee().getCommitteeId())) {
                 Attendents attendents = schedule.addNewAttendents();
@@ -464,7 +464,7 @@ public class IacucScheduleXmlStream extends PrintBaseXmlStream {
 
 
 
-    public ScheduleMasterDataType setScheduleMasterData(CommitteeSchedule scheduleDetailsBean, ScheduleMasterDataType scheduleMasterDataType) {
+    public ScheduleMasterDataType setScheduleMasterData(CommitteeScheduleBase scheduleDetailsBean, ScheduleMasterDataType scheduleMasterDataType) {
         scheduleDetailsBean.refreshNonUpdateableReferences();
         String committeeId = scheduleDetailsBean.getCommittee().getCommitteeId();
         scheduleMasterDataType.setScheduleId(scheduleDetailsBean.getScheduleId());
@@ -520,15 +520,15 @@ public class IacucScheduleXmlStream extends PrintBaseXmlStream {
         return scheduleMasterDataType;
     }
 
-    public void setNextSchedule(CommitteeSchedule scheduleDetailsBean,ScheduleMasterDataType scheduleMasterData) {
-        CommitteeSchedule nextSchedule = getNextOrPreviousSchedule(scheduleDetailsBean, true);
+    public void setNextSchedule(CommitteeScheduleBase scheduleDetailsBean,ScheduleMasterDataType scheduleMasterData) {
+        CommitteeScheduleBase nextSchedule = getNextOrPreviousSchedule(scheduleDetailsBean, true);
         if (nextSchedule != null){
             setScheduleMasterData(nextSchedule, scheduleMasterData);
         }
     }
 
-    public void setPreviousSchedule(CommitteeSchedule scheduleDetailsBean,ScheduleMasterDataType scheduleMasterDataType) {
-        CommitteeSchedule prevSchedule = getNextOrPreviousSchedule(scheduleDetailsBean, true);
+    public void setPreviousSchedule(CommitteeScheduleBase scheduleDetailsBean,ScheduleMasterDataType scheduleMasterDataType) {
+        CommitteeScheduleBase prevSchedule = getNextOrPreviousSchedule(scheduleDetailsBean, true);
         if (prevSchedule != null){
             setScheduleMasterData(prevSchedule, scheduleMasterDataType);
         }
@@ -542,15 +542,15 @@ public class IacucScheduleXmlStream extends PrintBaseXmlStream {
      * @param nextFlag
      * @return
      */
-    private CommitteeSchedule getNextOrPreviousSchedule(CommitteeSchedule scheduleDetailsBean, boolean nextFlag) {
+    private CommitteeScheduleBase getNextOrPreviousSchedule(CommitteeScheduleBase scheduleDetailsBean, boolean nextFlag) {
         Map<String, String> scheduleParam = new HashMap<String, String>();
         scheduleParam.put("committeeIdFk", scheduleDetailsBean.getCommittee().getId().toString());
-        List<CommitteeSchedule> schedules = (List) getBusinessObjectService().findMatchingOrderBy(IacucCommitteeSchedule.class,
+        List<CommitteeScheduleBase> schedules = (List) getBusinessObjectService().findMatchingOrderBy(IacucCommitteeSchedule.class,
                 scheduleParam, "scheduledDate", false);
         if (!schedules.isEmpty()) {
             int size = schedules.size();
             for (int i = 0; i < size; i++) {
-                CommitteeSchedule schedule = schedules.get(i);
+                CommitteeScheduleBase schedule = schedules.get(i);
                 if (schedule.getScheduleId().equals(scheduleDetailsBean.getScheduleId())) {
                     if (nextFlag && i < (size -1)) {
                         return schedules.get(i + 1);

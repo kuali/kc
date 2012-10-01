@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.iacuc.committee.meeting;
 
-import org.kuali.kra.common.committee.meeting.MeetingAddMinuteRule;
-import org.kuali.kra.common.committee.meeting.ProtocolContingency;
+import org.kuali.kra.common.committee.meeting.MeetingAddMinuteRuleBase;
+import org.kuali.kra.common.committee.meeting.ProtocolContingencyBase;
 
-public class IacucMeetingAddMinuteRule extends MeetingAddMinuteRule {
+public class IacucMeetingAddMinuteRule extends MeetingAddMinuteRuleBase {
 
     @Override
-    protected Class<? extends ProtocolContingency> getProtocolContingencyBOClassHook() {
+    protected Class<? extends ProtocolContingencyBase> getProtocolContingencyBOClassHook() {
         return IacucProtocolContingency.class;
     }
 

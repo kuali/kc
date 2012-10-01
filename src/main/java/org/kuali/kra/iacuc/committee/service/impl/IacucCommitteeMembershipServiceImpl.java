@@ -15,14 +15,14 @@
  */
 package org.kuali.kra.iacuc.committee.service.impl;
 
-import org.kuali.kra.common.committee.service.impl.CommitteeMembershipServiceImpl;
+import org.kuali.kra.common.committee.service.impl.CommitteeMembershipServiceImplBase;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
 import org.kuali.kra.iacuc.committee.bo.IacucCommittee;
 import org.kuali.kra.iacuc.committee.service.IacucCommitteeMembershipService;
 import org.kuali.kra.iacuc.committee.service.IacucCommitteeService;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
 
-public class IacucCommitteeMembershipServiceImpl extends CommitteeMembershipServiceImpl<IacucCommittee, IacucCommitteeService> implements IacucCommitteeMembershipService{
+public class IacucCommitteeMembershipServiceImpl extends CommitteeMembershipServiceImplBase<IacucCommittee, IacucCommitteeService> implements IacucCommitteeMembershipService{
 
     @Override
     protected Class<? extends ProtocolSubmission> getProtocolSubmissionBOClassHook() {

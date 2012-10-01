@@ -24,8 +24,8 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.kra.common.committee.bo.CommitteeMembership;
-import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinute;
+import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
+import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinuteBase;
 import org.kuali.kra.common.committee.service.CommitteeServiceBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.kew.KraDocumentRejectionService;
@@ -236,8 +236,8 @@ public abstract class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineR
     /**
      * @see org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewService#getAvailableCommitteeMembersForCurrentSubmission(org.kuali.kra.protocol.Protocol)
      */
-    public List<CommitteeMembership> getAvailableCommitteeMembersForCurrentSubmission(Protocol protocol) {
-        List<CommitteeMembership> results = new ArrayList<CommitteeMembership>();
+    public List<CommitteeMembershipBase> getAvailableCommitteeMembersForCurrentSubmission(Protocol protocol) {
+        List<CommitteeMembershipBase> results = new ArrayList<CommitteeMembershipBase>();
         
         ProtocolSubmission submission = protocol.getProtocolSubmission();
         submission.refreshReferenceObject("protocolOnlineReviews");
@@ -249,9 +249,9 @@ public abstract class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineR
         
      
         List<ProtocolOnlineReview> currentReviews = submission.getProtocolOnlineReviews();
-        List<CommitteeMembership> committeeMembers = getCommitteeService().getAvailableMembers(submission.getCommitteeId(), submission.getScheduleId());
+        List<CommitteeMembershipBase> committeeMembers = getCommitteeService().getAvailableMembers(submission.getCommitteeId(), submission.getScheduleId());
         //TODO: Make this better.
-        for (CommitteeMembership member : committeeMembers) {
+        for (CommitteeMembershipBase member : committeeMembers) {
             boolean found = false;
             for (ProtocolOnlineReview review : currentReviews) {
                 if (review.getProtocolReviewer().isProtocolReviewerFromCommitteeMembership(member) && review.isActive()) {
@@ -487,8 +487,8 @@ public abstract class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineR
 //            cancelOnlineReviewDocument(protocolOnlineReviewDocument, submission, annotation);
 //            protocolOnlineReviewDocument.getProtocolOnlineReview().setProtocolOnlineReviewStatusCode(ProtocolOnlineReviewStatus.REMOVED_CANCELLED_STATUS_CD);
 //            
-//            List<CommitteeScheduleMinute> reviewComments = protocolOnlineReviewDocument.getProtocolOnlineReview().getCommitteeScheduleMinutes();
-//            List<CommitteeScheduleMinute> deletedReviewComments = new ArrayList<CommitteeScheduleMinute>();
+//            List<CommitteeScheduleMinuteBase> reviewComments = protocolOnlineReviewDocument.getProtocolOnlineReview().getCommitteeScheduleMinutes();
+//            List<CommitteeScheduleMinuteBase> deletedReviewComments = new ArrayList<CommitteeScheduleMinuteBase>();
 //            getReviewerCommentsService().deleteAllReviewComments(reviewComments, deletedReviewComments);
 //            getReviewerCommentsService().saveReviewComments(reviewComments, deletedReviewComments);
 //
@@ -535,8 +535,8 @@ public abstract class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineR
             cancelOnlineReviewDocument(protocolOnlineReviewDocument, submission, annotation);
             submissionsProtocolOnlineReview.setProtocolOnlineReviewStatusCode(getProtocolOLRRemovedCancelledStatusCodeHook());
             
-            List<CommitteeScheduleMinute> reviewComments = protocolOnlineReviewDocument.getProtocolOnlineReview().getCommitteeScheduleMinutes();
-            List<CommitteeScheduleMinute> deletedReviewComments = new ArrayList<CommitteeScheduleMinute>();
+            List<CommitteeScheduleMinuteBase> reviewComments = protocolOnlineReviewDocument.getProtocolOnlineReview().getCommitteeScheduleMinutes();
+            List<CommitteeScheduleMinuteBase> deletedReviewComments = new ArrayList<CommitteeScheduleMinuteBase>();
             getReviewerCommentsService().deleteAllReviewComments(reviewComments, deletedReviewComments);
             getReviewerCommentsService().saveReviewComments(reviewComments, deletedReviewComments);
             
@@ -612,7 +612,7 @@ public abstract class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineR
             review.setProtocolId(newSubmission.getProtocol().getProtocolId());
             review.setSubmissionIdFk(newSubmission.getSubmissionId());
             if (CollectionUtils.isNotEmpty(review.getCommitteeScheduleMinutes())) {
-                for (CommitteeScheduleMinute comment : review.getCommitteeScheduleMinutes()) {
+                for (CommitteeScheduleMinuteBase comment : review.getCommitteeScheduleMinutes()) {
                     comment.setProtocolIdFk(review.getProtocolId());
                     comment.setScheduleIdFk(newSubmission.getScheduleIdFk());
                 }
@@ -805,7 +805,7 @@ public abstract class ProtocolOnlineReviewServiceImpl implements ProtocolOnlineR
         return PersonnelIds;
     }
     
-    private boolean isProtocolPersonnel(Protocol protocol, CommitteeMembership member) {
+    private boolean isProtocolPersonnel(Protocol protocol, CommitteeMembershipBase member) {
         return getPersonnelIds(protocol).contains(member.getPersonId());
     }
 

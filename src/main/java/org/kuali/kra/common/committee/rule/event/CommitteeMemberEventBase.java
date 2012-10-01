@@ -17,7 +17,7 @@ package org.kuali.kra.common.committee.rule.event;
 
 import java.util.List;
 
-import org.kuali.kra.common.committee.bo.CommitteeMembership;
+import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 import org.kuali.rice.krad.document.Document;
@@ -33,7 +33,7 @@ public abstract class CommitteeMemberEventBase <Z extends BusinessRuleInterface>
      */
     public enum ErrorType {HARDERROR, SOFTERROR};
     
-    private List<CommitteeMembership> committeeMemberships;
+    private List<CommitteeMembershipBase> committeeMemberships;
         
     private ErrorType type;
     
@@ -46,7 +46,7 @@ public abstract class CommitteeMemberEventBase <Z extends BusinessRuleInterface>
      * @param committeeMemberships
      * @param type
      */
-    public CommitteeMemberEventBase(String description, String errorPathPrefix, Document document, List<CommitteeMembership> committeeMemberships, ErrorType type) {        
+    public CommitteeMemberEventBase(String description, String errorPathPrefix, Document document, List<CommitteeMembershipBase> committeeMemberships, ErrorType type) {        
         super(description, errorPathPrefix, document);
         this.committeeMemberships = committeeMemberships;
         this.type = type;
@@ -56,11 +56,11 @@ public abstract class CommitteeMemberEventBase <Z extends BusinessRuleInterface>
         return this.type;
     }
 
-    public List<CommitteeMembership> getCommitteeMemberships() {
+    public List<CommitteeMembershipBase> getCommitteeMemberships() {
         return committeeMemberships;
     }
 
-    public void setCommitteeMemberships(List<CommitteeMembership> committeeMemberships) {
+    public void setCommitteeMemberships(List<CommitteeMembershipBase> committeeMemberships) {
         this.committeeMemberships = committeeMemberships;
     }
 }

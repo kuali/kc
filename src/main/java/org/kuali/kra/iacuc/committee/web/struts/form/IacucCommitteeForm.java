@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.iacuc.committee.web.struts.form;
 
-import org.kuali.kra.common.committee.web.struts.form.CommitteeHelper;
-import org.kuali.kra.common.committee.web.struts.form.CommitteeForm;
+import org.kuali.kra.common.committee.web.struts.form.CommitteeHelperBase;
+import org.kuali.kra.common.committee.web.struts.form.CommitteeFormBase;
 
-public class IacucCommitteeForm extends CommitteeForm {
+public class IacucCommitteeForm extends CommitteeFormBase {
 
     /**
      * Comment for <code>serialVersionUID</code>
@@ -26,7 +26,7 @@ public class IacucCommitteeForm extends CommitteeForm {
     private static final long serialVersionUID = 5623611578157741521L;
 
     @Override
-    protected CommitteeHelper getNewCommitteeHelperInstanceHook(CommitteeForm committeeForm) {
+    protected CommitteeHelperBase getNewCommitteeHelperInstanceHook(CommitteeFormBase committeeForm) {
         return new IacucCommitteeHelper((IacucCommitteeForm)committeeForm);
     }
 

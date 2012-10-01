@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.iacuc.committee.document.authorizer;
 
-import org.kuali.kra.common.committee.document.authorizer.CommitteeActionAuthorizer;
+import org.kuali.kra.common.committee.document.authorizer.CommitteeActionAuthorizerBase;
 import org.kuali.kra.infrastructure.PermissionConstants;
 
-public class IacucCommitteeActionAuthorizer extends CommitteeActionAuthorizer {
+public class IacucCommitteeActionAuthorizer extends CommitteeActionAuthorizerBase {
 
     @Override
     protected String getPermissionNameForPerformCommitteeActionsCodeHook() {

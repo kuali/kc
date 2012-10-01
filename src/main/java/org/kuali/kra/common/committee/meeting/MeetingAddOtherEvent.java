@@ -27,11 +27,11 @@ public class MeetingAddOtherEvent  extends MeetingEventBase<MeetingAddOtherRule>
     
     private static final String MSG = "Add meeting present other  ";
     
-    public MeetingAddOtherEvent(String errorPathPrefix, CommitteeDocumentBase document, MeetingHelper meetingHelper, ErrorType type) {
+    public MeetingAddOtherEvent(String errorPathPrefix, CommitteeDocumentBase document, MeetingHelperBase meetingHelper, ErrorType type) {
         super(MSG + getDocumentId(document), errorPathPrefix, document, meetingHelper, type);
     }
     
-    public MeetingAddOtherEvent(String errorPathPrefix, Document document, MeetingHelper meetingHelper, ErrorType type) {
+    public MeetingAddOtherEvent(String errorPathPrefix, Document document, MeetingHelperBase meetingHelper, ErrorType type) {
         this(errorPathPrefix, (CommitteeDocumentBase)document, meetingHelper, type);
     }
     

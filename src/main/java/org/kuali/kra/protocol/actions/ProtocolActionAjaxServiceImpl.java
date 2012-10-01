@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.common.committee.bo.CommitteeMembership;
+import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
 import org.kuali.kra.common.committee.service.CommitteeServiceBase;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewerType;
@@ -41,10 +41,10 @@ public abstract class ProtocolActionAjaxServiceImpl implements ProtocolActionAja
 //        criteria.put("protocolId", protocolId);
 //        Protocol protocol = (Protocol) (businessObjectService.findMatching(getProtocolClassHook(), criteria).toArray())[0];
 //        // filter out the protocol personnel; they cannot be reviewers on their own protocol
-//        List<CommitteeMembership> filteredMembers = protocol.filterOutProtocolPersonnel(committeeService.getAvailableMembers(
+//        List<CommitteeMembershipBase> filteredMembers = protocol.filterOutProtocolPersonnel(committeeService.getAvailableMembers(
 //                committeeId, scheduleId));
 //        
-//        for (CommitteeMembership filteredMember : filteredMembers) {
+//        for (CommitteeMembershipBase filteredMember : filteredMembers) {
 //            if (StringUtils.isNotBlank(filteredMember.getPersonId())) {
 //                ajaxList.append(filteredMember.getPersonId() + ";" + filteredMember.getPersonName() + ";N;");
 //            } else {

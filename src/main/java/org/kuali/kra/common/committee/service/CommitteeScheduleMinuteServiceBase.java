@@ -17,15 +17,15 @@ package org.kuali.kra.common.committee.service;
 
 import java.util.List;
 
-import org.kuali.kra.meeting.CommitteeScheduleMinute;
+import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinuteBase;
 
 public interface CommitteeScheduleMinuteServiceBase {
 
     
     /**
-    * Populate the createUserFullName and updateUserFullName fields on each of the CommitteeScheduleMinute objects in the provided list.
+    * Populate the createUserFullName and updateUserFullName fields on each of the CommitteeScheduleMinuteBase objects in the provided list.
     * @param protocolAttachmentBases 
     */
-   void setMinuteFullUserNames(List<CommitteeScheduleMinute> committeeScheduleMinutes);
+   void setMinuteFullUserNames(List<CommitteeScheduleMinuteBase> committeeScheduleMinutes);
     
 }

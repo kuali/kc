@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.sql.Date;
 
-import org.kuali.kra.common.committee.bo.CommitteeMembership;
+import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
 import org.kuali.kra.common.committee.service.CommitteeServiceBase;
 import org.kuali.kra.iacuc.IacucProtocolForm;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionBean;
@@ -112,8 +112,8 @@ public class IacucProtocolModifySubmissionBean extends IacucProtocolActionBean i
                  * no reviewers should be assigned if schedule not chosen.
                  */
                 if (!StringUtils.isBlank(scheduleId)) {
-                    List<CommitteeMembership> members = getProtocol().filterOutProtocolPersonnel(getCommitteeService().getAvailableMembers(committeeId, scheduleId));
-                    for (CommitteeMembership member : members) {
+                    List<CommitteeMembershipBase> members = getProtocol().filterOutProtocolPersonnel(getCommitteeService().getAvailableMembers(committeeId, scheduleId));
+                    for (CommitteeMembershipBase member : members) {
                         reviewers.add(new IacucProtocolReviewerBean(member));
                     }
     

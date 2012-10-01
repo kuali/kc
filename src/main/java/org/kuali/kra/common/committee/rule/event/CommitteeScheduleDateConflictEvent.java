@@ -17,7 +17,7 @@ package org.kuali.kra.common.committee.rule.event;
 
 import java.util.List;
 
-import org.kuali.kra.common.committee.bo.CommitteeSchedule;
+import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
 import org.kuali.kra.common.committee.document.CommitteeDocumentBase;
 import org.kuali.kra.common.committee.rules.CommitteeScheduleDateConflictRule;
 import org.kuali.kra.common.committee.web.struts.form.schedule.ScheduleData;
@@ -26,13 +26,13 @@ import org.kuali.rice.krad.document.Document;
 
 public class CommitteeScheduleDateConflictEvent extends CommitteeScheduleEventBase<CommitteeScheduleDateConflictRule> {
     
-    public static final String MSG = "adding CommitteeSchedule to document ";
+    public static final String MSG = "adding CommitteeScheduleBase to document ";
   
-    public CommitteeScheduleDateConflictEvent(String errorPathPrefix, CommitteeDocumentBase document, ScheduleData scheduleData, List<CommitteeSchedule> committeeSchedules, ErrorType type) {
+    public CommitteeScheduleDateConflictEvent(String errorPathPrefix, CommitteeDocumentBase document, ScheduleData scheduleData, List<CommitteeScheduleBase> committeeSchedules, ErrorType type) {
         super(MSG + getDocumentId(document), errorPathPrefix, document, scheduleData, committeeSchedules, type);
     }
     
-    public CommitteeScheduleDateConflictEvent(String errorPathPrefix, Document document, ScheduleData scheduleData, List<CommitteeSchedule> committeeSchedules, ErrorType type) {
+    public CommitteeScheduleDateConflictEvent(String errorPathPrefix, Document document, ScheduleData scheduleData, List<CommitteeScheduleBase> committeeSchedules, ErrorType type) {
         this(errorPathPrefix, (CommitteeDocumentBase)document, scheduleData, committeeSchedules, type);
     }
     

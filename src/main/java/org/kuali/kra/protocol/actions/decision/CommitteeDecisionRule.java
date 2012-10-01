@@ -22,7 +22,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.common.committee.bo.CommitteeDecisionMotionType;
 import org.kuali.kra.common.committee.service.CommitteeScheduleAttendanceServiceBase;
-import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinute;
+import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinuteBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -86,7 +86,7 @@ public abstract class CommitteeDecisionRule<CD extends CommitteeDecision<?>> ext
         } else {
             String motionTypeCode = committeeDecision.getMotionTypeCode();
             ReviewCommentsBean reviewerCommentsBean = committeeDecision.getReviewCommentsBean();
-            List<CommitteeScheduleMinute> reviewComments = reviewerCommentsBean.getReviewComments();
+            List<CommitteeScheduleMinuteBase> reviewComments = reviewerCommentsBean.getReviewComments();
             Protocol protocol = committeeDecision.getProtocol();
             if ((CommitteeDecisionMotionType.SPECIFIC_MINOR_REVISIONS.equals(motionTypeCode) 
                     || CommitteeDecisionMotionType.SUBSTANTIVE_REVISIONS_REQUIRED.equals(motionTypeCode)
@@ -105,9 +105,9 @@ public abstract class CommitteeDecisionRule<CD extends CommitteeDecision<?>> ext
         return KeyConstants.ERROR_PROTOCOL_RECORD_COMMITEE_NO_SMR_SRR_DISAPPROVE_REVIEWER_COMMENTS;
     }
 
-    private List<CommitteeScheduleMinute> filterReviewComments(List<CommitteeScheduleMinute> reviewComments, Protocol protocol) {
-        List<CommitteeScheduleMinute> filteredComments = new ArrayList<CommitteeScheduleMinute>();
-        for (CommitteeScheduleMinute comment : reviewComments) {
+    private List<CommitteeScheduleMinuteBase> filterReviewComments(List<CommitteeScheduleMinuteBase> reviewComments, Protocol protocol) {
+        List<CommitteeScheduleMinuteBase> filteredComments = new ArrayList<CommitteeScheduleMinuteBase>();
+        for (CommitteeScheduleMinuteBase comment : reviewComments) {
             if (protocol.getProtocolId().equals(comment.getProtocolId())) {
                 filteredComments.add(comment);
             }

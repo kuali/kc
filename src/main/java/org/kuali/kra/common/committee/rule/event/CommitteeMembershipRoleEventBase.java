@@ -54,7 +54,7 @@ public abstract class CommitteeMembershipRoleEventBase extends KraDocumentEventB
     }
 
     /**
-     * Get the index of the <code>CommitteeMembership</code> of this event.
+     * Get the index of the <code>CommitteeMembershipBase</code> of this event.
      * 
      * @return <code>membershipIndex</code>
      */

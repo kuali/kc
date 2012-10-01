@@ -19,10 +19,10 @@ import java.sql.Date;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.common.committee.bo.CommitteeBatchCorrespondence;
-import org.kuali.kra.common.committee.bo.CommitteeBatchCorrespondenceDetail;
+import org.kuali.kra.common.committee.bo.CommitteeBatchCorrespondenceBase;
+import org.kuali.kra.common.committee.bo.CommitteeBatchCorrespondenceDetailBase;
 import org.kuali.kra.common.committee.print.service.CommitteePrintingServiceBase;
-import org.kuali.kra.common.committee.service.impl.CommitteeBatchCorrespondenceServiceImpl;
+import org.kuali.kra.common.committee.service.impl.CommitteeBatchCorrespondenceServiceImplBase;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.actions.IacucProtocolAction;
@@ -45,7 +45,7 @@ import org.kuali.kra.protocol.correspondence.ProtocolCorrespondence;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceType;
 
 
-public class IacucCommitteeBatchCorrespondenceServiceImpl extends CommitteeBatchCorrespondenceServiceImpl implements IacucCommitteeBatchCorrespondenceService {
+public class IacucCommitteeBatchCorrespondenceServiceImpl extends CommitteeBatchCorrespondenceServiceImplBase implements IacucCommitteeBatchCorrespondenceService {
 
     @Override
       /**
@@ -53,16 +53,16 @@ public class IacucCommitteeBatchCorrespondenceServiceImpl extends CommitteeBatch
       * @param batchCorrespondenceTypeCode
       * @param startDate
       * @param endDate
-      * @return CommitteeBatchCorrespondence
+      * @return CommitteeBatchCorrespondenceBase
       * @throws Exception 
       */
-     public CommitteeBatchCorrespondence generateBatchCorrespondence(String batchCorrespondenceTypeCode, String committeeId, Date startDate, 
+     public CommitteeBatchCorrespondenceBase generateBatchCorrespondence(String batchCorrespondenceTypeCode, String committeeId, Date startDate, 
              Date endDate) throws Exception {
          BatchCorrespondence batchCorrespondence = null;
          List<? extends Protocol> protocols = null;
          finalActionCounter = 0;
     
-         CommitteeBatchCorrespondence committeeBatchCorrespondence = new IacucCommitteeBatchCorrespondence(batchCorrespondenceTypeCode, 
+         CommitteeBatchCorrespondenceBase committeeBatchCorrespondence = new IacucCommitteeBatchCorrespondence(batchCorrespondenceTypeCode, 
                  committeeId, startDate, endDate);
          
          String protocolActionTypeCode;
@@ -88,7 +88,7 @@ public class IacucCommitteeBatchCorrespondenceServiceImpl extends CommitteeBatch
                      LOG.warn("Correspondence template \"" + protocolCorrespondenceType.getDescription() + "\" is missing.  Correspondence for protocol " 
                              + protocol.getProtocolNumber() + " has not been generated.  Add the missing template and regenerate correspondence.");
                  } else {
-                     CommitteeBatchCorrespondenceDetail batchCorrespondenceDetail = createBatchCorrespondenceDetail(committeeId, protocol, 
+                     CommitteeBatchCorrespondenceDetailBase batchCorrespondenceDetail = createBatchCorrespondenceDetail(committeeId, protocol, 
                              protocolCorrespondenceType, committeeBatchCorrespondence.getCommitteeBatchCorrespondenceId(), protocolActionTypeCode);
                      committeeBatchCorrespondence.getCommitteeBatchCorrespondenceDetails().add(batchCorrespondenceDetail);
                      
@@ -159,7 +159,7 @@ public class IacucCommitteeBatchCorrespondenceServiceImpl extends CommitteeBatch
     }
 
     @Override
-    protected CommitteeBatchCorrespondenceDetail getNewCommitteeBatchCorrespondenceDetailInstanceHook() {
+    protected CommitteeBatchCorrespondenceDetailBase getNewCommitteeBatchCorrespondenceDetailInstanceHook() {
         return new IacucCommitteeBatchCorrespondenceDetail();
     }
 

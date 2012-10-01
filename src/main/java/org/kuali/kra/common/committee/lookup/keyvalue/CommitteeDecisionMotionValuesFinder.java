@@ -27,7 +27,7 @@ import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.service.KeyValuesService;
 
 /**
- * Returns all possible values for the Committee Decision Motion dropdown box.
+ * Returns all possible values for the CommitteeBase Decision Motion dropdown box.
  */
 public class CommitteeDecisionMotionValuesFinder extends KeyValuesBase {
     

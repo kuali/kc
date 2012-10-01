@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.iacuc.committee.meeting;
 
-import org.kuali.kra.common.committee.meeting.MeetingForm;
-import org.kuali.kra.common.committee.meeting.MeetingHelper;
+import org.kuali.kra.common.committee.meeting.MeetingFormBase;
+import org.kuali.kra.common.committee.meeting.MeetingHelperBase;
 
-public class IacucMeetingForm extends MeetingForm {
+public class IacucMeetingForm extends MeetingFormBase {
 
     /**
      * Comment for <code>serialVersionUID</code>
@@ -26,7 +26,7 @@ public class IacucMeetingForm extends MeetingForm {
     private static final long serialVersionUID = -2580635682386198931L;
 
     @Override
-    protected MeetingHelper getNewMeetingHelperInstanceHook(MeetingForm meetingForm) {
+    protected MeetingHelperBase getNewMeetingHelperInstanceHook(MeetingFormBase meetingForm) {
         return new IacucMeetingHelper(meetingForm);
     }
 

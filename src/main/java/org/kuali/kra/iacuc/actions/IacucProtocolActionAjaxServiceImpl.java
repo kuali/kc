@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.common.committee.bo.CommitteeMembership;
+import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewerType;
 import org.kuali.kra.protocol.Protocol;
@@ -68,10 +68,10 @@ public class IacucProtocolActionAjaxServiceImpl extends ProtocolActionAjaxServic
          */
         if (!StringUtils.isBlank(scheduleId)) {
             // filter out the protocol personnel; they cannot be reviewers on their own protocol
-            List<CommitteeMembership> filteredMembers = protocol.filterOutProtocolPersonnel(getCommitteeService().getAvailableMembers(
+            List<CommitteeMembershipBase> filteredMembers = protocol.filterOutProtocolPersonnel(getCommitteeService().getAvailableMembers(
                     committeeId, scheduleId));
             
-            for (CommitteeMembership filteredMember : filteredMembers) {
+            for (CommitteeMembershipBase filteredMember : filteredMembers) {
                 if (StringUtils.isNotBlank(filteredMember.getPersonId())) {
                     ajaxList.append(filteredMember.getPersonId() + ";" + filteredMember.getPersonName() + ";N;");
                 } else {

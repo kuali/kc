@@ -17,13 +17,13 @@ package org.kuali.kra.iacuc.committee.web.struts.action;
 
 import java.sql.Date;
 
-import org.kuali.kra.common.committee.bo.Committee;
+import org.kuali.kra.common.committee.bo.CommitteeBase;
 import org.kuali.kra.common.committee.dao.CommitteeBatchCorrespondenceDao;
-import org.kuali.kra.common.committee.document.authorization.CommitteeTask;
+import org.kuali.kra.common.committee.document.authorization.CommitteeTaskBase;
 import org.kuali.kra.common.committee.print.service.CommitteePrintingServiceBase;
-import org.kuali.kra.common.committee.rule.event.CommitteeActionGenerateBatchCorrespondenceEvent;
+import org.kuali.kra.common.committee.rule.event.CommitteeActionGenerateBatchCorrespondenceEventBase;
 import org.kuali.kra.common.committee.service.CommitteeBatchCorrespondenceServiceBase;
-import org.kuali.kra.common.committee.web.struts.action.CommitteeActionsAction;
+import org.kuali.kra.common.committee.web.struts.action.CommitteeActionsActionBase;
 import org.kuali.kra.iacuc.committee.bo.IacucCommittee;
 import org.kuali.kra.iacuc.committee.dao.IacucCommitteeBatchCorrespondenceDao;
 import org.kuali.kra.iacuc.committee.print.service.IacucCommitteePrintingService;
@@ -33,16 +33,16 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskGroupName;
 import org.kuali.rice.krad.document.Document;
 
-public class IacucCommitteeActionsAction extends CommitteeActionsAction {
+public class IacucCommitteeActionsAction extends CommitteeActionsActionBase {
 
     @Override
-    protected CommitteeTask getNewCommitteeTaskInstanceHook(String taskName, Committee committee) {
+    protected CommitteeTaskBase getNewCommitteeTaskInstanceHook(String taskName, CommitteeBase committee) {
         // creating an anonymous class to avoid task hierarchy issues
-        return new CommitteeTask<IacucCommittee>(TaskGroupName.IACUC_COMMITTEE, taskName, (IacucCommittee) committee) {};
+        return new CommitteeTaskBase<IacucCommittee>(TaskGroupName.IACUC_COMMITTEE, taskName, (IacucCommittee) committee) {};
     }
 
     @Override
-    protected CommitteeActionGenerateBatchCorrespondenceEvent getNewCommitteeActionGenerateBatchCorrespondenceEventInstanceHook(String errorPathPrefix,
+    protected CommitteeActionGenerateBatchCorrespondenceEventBase getNewCommitteeActionGenerateBatchCorrespondenceEventInstanceHook(String errorPathPrefix,
             Document document, String batchCorrespondenceTypeCode, Date startDate, Date endDate, String committeeId) {
         return new IacucCommitteeActionGenerateBatchCorrespondenceEvent(errorPathPrefix, document, batchCorrespondenceTypeCode, startDate, endDate, committeeId);
     }

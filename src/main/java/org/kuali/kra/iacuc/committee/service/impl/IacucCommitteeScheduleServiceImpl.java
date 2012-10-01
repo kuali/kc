@@ -15,15 +15,15 @@
  */
 package org.kuali.kra.iacuc.committee.service.impl;
 
-import org.kuali.kra.common.committee.meeting.CommitteeScheduleAttachments;
-import org.kuali.kra.common.committee.service.impl.CommitteeScheduleServiceImpl;
+import org.kuali.kra.common.committee.meeting.CommitteeScheduleAttachmentsBase;
+import org.kuali.kra.common.committee.service.impl.CommitteeScheduleServiceImplBase;
 import org.kuali.kra.iacuc.committee.bo.IacucCommittee;
 import org.kuali.kra.iacuc.committee.bo.IacucCommitteeSchedule;
 import org.kuali.kra.iacuc.committee.meeting.IacucCommitteeScheduleAttachments;
 import org.kuali.kra.iacuc.committee.meeting.IacucCommitteeScheduleMinute;
 import org.kuali.kra.iacuc.committee.service.IacucCommitteeScheduleService;
 
-public class IacucCommitteeScheduleServiceImpl extends CommitteeScheduleServiceImpl<IacucCommitteeSchedule, IacucCommittee, IacucCommitteeScheduleMinute> implements IacucCommitteeScheduleService{
+public class IacucCommitteeScheduleServiceImpl extends CommitteeScheduleServiceImplBase<IacucCommitteeSchedule, IacucCommittee, IacucCommitteeScheduleMinute> implements IacucCommitteeScheduleService{
 
     @Override
     protected IacucCommitteeSchedule getNewCommiteeScheduleInstanceHook() {
@@ -36,7 +36,7 @@ public class IacucCommitteeScheduleServiceImpl extends CommitteeScheduleServiceI
     }
 
     @Override
-    protected CommitteeScheduleAttachments getNewCommitteeScheduleAttachmentsInstanceHook() {
+    protected CommitteeScheduleAttachmentsBase getNewCommitteeScheduleAttachmentsInstanceHook() {
         return new IacucCommitteeScheduleAttachments();
     }
 

@@ -33,7 +33,7 @@ import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.coi.Disclosurable;
-import org.kuali.kra.common.committee.bo.CommitteeMembership;
+import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
 import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -1067,14 +1067,14 @@ public abstract class Protocol extends KraPersistableBusinessObjectBase implemen
 //        CommitteeMembershipType committeeMembershipType2 = new CommitteeMembershipType();
 //        committeeMembershipType2.setDescription("Secondary");
 //        
-//        CommitteeMembership committeeMembership1 = new CommitteeMembership();
+//        CommitteeMembershipBase committeeMembership1 = new CommitteeMembershipBase();
 //        committeeMembership1.setPersonName("Bryan Hutchinson");
 //        committeeMembership1.setMembershipType(committeeMembershipType1);
-//        CommitteeMembership committeeMembership2 = new CommitteeMembership();
+//        CommitteeMembershipBase committeeMembership2 = new CommitteeMembershipBase();
 //        committeeMembership2.setPersonName("Kiltesh Patel");
 //        committeeMembership2.setMembershipType(committeeMembershipType2);
 //        
-//        List<CommitteeMembership>  list = new ArrayList<CommitteeMembership>();
+//        List<CommitteeMembershipBase>  list = new ArrayList<CommitteeMembershipBase>();
 //        list.add(committeeMembership1);
 //        list.add(committeeMembership2);
 //        
@@ -2179,7 +2179,7 @@ public abstract class Protocol extends KraPersistableBusinessObjectBase implemen
      * @param member
      * @return
      */
-    public boolean isMemberInProtocolPersonnel(CommitteeMembership member) {
+    public boolean isMemberInProtocolPersonnel(CommitteeMembershipBase member) {
         boolean retValue = false;
         for(ProtocolPerson protocolPerson: this.protocolPersons) {
             if( StringUtils.isNotBlank(member.getPersonId()) && StringUtils.isNotBlank(protocolPerson.getPersonId()) ) {
@@ -2206,9 +2206,9 @@ public abstract class Protocol extends KraPersistableBusinessObjectBase implemen
      * @param members
      * @return the filtered list of members
      */
-    public List<CommitteeMembership> filterOutProtocolPersonnel(List<CommitteeMembership> members) {
-        List<CommitteeMembership> filteredMemebers = new ArrayList<CommitteeMembership>();
-        for (CommitteeMembership member : members) {
+    public List<CommitteeMembershipBase> filterOutProtocolPersonnel(List<CommitteeMembershipBase> members) {
+        List<CommitteeMembershipBase> filteredMemebers = new ArrayList<CommitteeMembershipBase>();
+        for (CommitteeMembershipBase member : members) {
             if(!isMemberInProtocolPersonnel(member)) {
                 filteredMemebers.add(member);
             }

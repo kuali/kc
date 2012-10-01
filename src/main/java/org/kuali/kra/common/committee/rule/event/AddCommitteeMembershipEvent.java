@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.common.committee.rule.event;
 
-import org.kuali.kra.common.committee.bo.Committee;
-import org.kuali.kra.common.committee.bo.CommitteeMembership;
+import org.kuali.kra.common.committee.bo.CommitteeBase;
+import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
 import org.kuali.kra.common.committee.document.CommitteeDocumentBase;
 import org.kuali.kra.common.committee.rule.AddCommitteeMembershipRule;
 import org.kuali.rice.krad.document.Document;
@@ -24,8 +24,8 @@ import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 /**
  * 
- * This class represents the event when a <code>{@link CommitteeMembership}</code> is added to a 
- * <code>{@link Committee}</code>.
+ * This class represents the event when a <code>{@link CommitteeMembershipBase}</code> is added to a 
+ * <code>{@link CommitteeBase}</code>.
  * 
  * @author Kuali Research Administration Team (kc.dev@kuali.org)
  */
@@ -40,8 +40,8 @@ public class AddCommitteeMembershipEvent extends CommitteeMembershipEventBase {
      * @param committeeMembership
      */
    public AddCommitteeMembershipEvent(String errorPathPrefix, CommitteeDocumentBase comitteeDocument, 
-           CommitteeMembership committeeMembership) {
-        super("adding CommitteeMembership to document " + getDocumentId(comitteeDocument),
+           CommitteeMembershipBase committeeMembership) {
+        super("adding CommitteeMembershipBase to document " + getDocumentId(comitteeDocument),
                 errorPathPrefix, comitteeDocument, committeeMembership);
     }
 
@@ -54,14 +54,14 @@ public class AddCommitteeMembershipEvent extends CommitteeMembershipEventBase {
     * @param committeeMembership
     */
   public AddCommitteeMembershipEvent(String errorPathPrefix, Document document, 
-          CommitteeMembership committeeMembership) {
+          CommitteeMembershipBase committeeMembership) {
        this(errorPathPrefix, (CommitteeDocumentBase) document, committeeMembership);
    }
 
     /**
      * 
      * Returns the <code>{@link AddCommitteeMembershipRule}</code> class which is needed to validate a
-     * <code>{@link CommitteeMembership}</code>
+     * <code>{@link CommitteeMembershipBase}</code>
      * 
      * @return <code>{@link AddCommitteeMembershipRule} class</code>
      */
@@ -71,7 +71,7 @@ public class AddCommitteeMembershipEvent extends CommitteeMembershipEventBase {
 
     /**
      * 
-     * Invokes the processing of the rules when adding a <code>{@link CommitteeMembership}</code>.
+     * Invokes the processing of the rules when adding a <code>{@link CommitteeMembershipBase}</code>.
      * 
      * @param The <code>{@link AddCommitteeMembershipRule}</code> that is to be used for processing
      * @return <code>true</code> if all rules are satisfied, otherwise <code>false</code>

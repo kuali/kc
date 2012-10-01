@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.iacuc.committee.meeting;
 
-import org.kuali.kra.common.committee.meeting.CommScheduleMinuteDoc;
+import org.kuali.kra.common.committee.meeting.CommScheduleMinuteDocBase;
 
 
-public class IacucCommScheduleMinuteDoc extends CommScheduleMinuteDoc {
+public class IacucCommScheduleMinuteDoc extends CommScheduleMinuteDocBase {
 
     /**
      * Comment for <code>serialVersionUID</code>

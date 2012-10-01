@@ -17,7 +17,7 @@ package org.kuali.kra.common.committee.service;
 
 import java.sql.Date;
 
-import org.kuali.kra.common.committee.bo.CommitteeBatchCorrespondence;
+import org.kuali.kra.common.committee.bo.CommitteeBatchCorrespondenceBase;
 
 /**
  * 
@@ -31,9 +31,9 @@ public interface CommitteeBatchCorrespondenceServiceBase {
      * @param batchCorrespondenceTypeCode
      * @param startDate
      * @param endDate
-     * @return CommitteeBatchCorrespondence
+     * @return CommitteeBatchCorrespondenceBase
      * @throws Exception 
      */
-    CommitteeBatchCorrespondence generateBatchCorrespondence(String batchCorrespondenceTypeCode, String committeeId, Date startDate, Date endDate) throws Exception;
+    CommitteeBatchCorrespondenceBase generateBatchCorrespondence(String batchCorrespondenceTypeCode, String committeeId, Date startDate, Date endDate) throws Exception;
 
 }

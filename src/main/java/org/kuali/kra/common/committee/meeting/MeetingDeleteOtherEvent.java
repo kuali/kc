@@ -37,7 +37,7 @@ public class MeetingDeleteOtherEvent extends MeetingEventBase<MeetingDeleteOther
      * @param type The type of error
      * @param otherNumber The index of the Other Action in the Other Action list.
      */
-    public MeetingDeleteOtherEvent(String errorPathPrefix, CommitteeDocumentBase document, MeetingHelper meetingHelper, ErrorType type, int otherNumber) {
+    public MeetingDeleteOtherEvent(String errorPathPrefix, CommitteeDocumentBase document, MeetingHelperBase meetingHelper, ErrorType type, int otherNumber) {
         super(MSG + getDocumentId(document), errorPathPrefix, document, meetingHelper, type);
         this.otherNumber = otherNumber;
     }
@@ -51,7 +51,7 @@ public class MeetingDeleteOtherEvent extends MeetingEventBase<MeetingDeleteOther
      * @param type The type of error
      * @param otherNumber The index of the Other Action in the Other Action list.
      */
-    public MeetingDeleteOtherEvent(String errorPathPrefix, Document document, MeetingHelper meetingHelper, ErrorType type, int otherNumber) {
+    public MeetingDeleteOtherEvent(String errorPathPrefix, Document document, MeetingHelperBase meetingHelper, ErrorType type, int otherNumber) {
         this(errorPathPrefix, (CommitteeDocumentBase) document, meetingHelper, type, otherNumber);
     }
     

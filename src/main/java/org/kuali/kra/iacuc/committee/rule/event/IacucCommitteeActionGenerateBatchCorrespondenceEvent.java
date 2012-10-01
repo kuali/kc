@@ -17,13 +17,13 @@ package org.kuali.kra.iacuc.committee.rule.event;
 
 import java.sql.Date;
 
-import org.kuali.kra.common.committee.rule.event.CommitteeActionGenerateBatchCorrespondenceEvent;
-import org.kuali.kra.common.committee.rules.CommitteeActionGenerateBatchCorrespondenceRule;
+import org.kuali.kra.common.committee.rule.event.CommitteeActionGenerateBatchCorrespondenceEventBase;
+import org.kuali.kra.common.committee.rules.CommitteeActionGenerateBatchCorrespondenceRuleBase;
 import org.kuali.kra.iacuc.committee.rules.IacucCommitteeActionGenerateBatchCorrespondenceRule;
 import org.kuali.rice.krad.document.Document;
 
 
-public class IacucCommitteeActionGenerateBatchCorrespondenceEvent extends CommitteeActionGenerateBatchCorrespondenceEvent {
+public class IacucCommitteeActionGenerateBatchCorrespondenceEvent extends CommitteeActionGenerateBatchCorrespondenceEventBase {
 
     public IacucCommitteeActionGenerateBatchCorrespondenceEvent(String errorPathPrefix, Document document,
             String batchCorrespondenceTypeCode, Date startDate, Date endDate, String committeeId) {
@@ -31,7 +31,7 @@ public class IacucCommitteeActionGenerateBatchCorrespondenceEvent extends Commit
     }
 
     @Override
-    protected CommitteeActionGenerateBatchCorrespondenceRule getNewCommitteeActionGenerateBatchCorrespondenceRuleInstanceHook() {
+    protected CommitteeActionGenerateBatchCorrespondenceRuleBase getNewCommitteeActionGenerateBatchCorrespondenceRuleInstanceHook() {
         return new IacucCommitteeActionGenerateBatchCorrespondenceRule();
     }
 

@@ -15,65 +15,65 @@
  */
 package org.kuali.kra.iacuc.committee.meeting;
 
-import org.kuali.kra.common.committee.bo.Committee;
-import org.kuali.kra.common.committee.bo.CommitteeSchedule;
-import org.kuali.kra.common.committee.document.authorization.CommitteeScheduleTask;
-import org.kuali.kra.common.committee.document.authorization.CommitteeTask;
-import org.kuali.kra.common.committee.meeting.CommScheduleActItem;
-import org.kuali.kra.common.committee.meeting.CommitteeScheduleAttachments;
-import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinute;
-import org.kuali.kra.common.committee.meeting.MeetingForm;
-import org.kuali.kra.common.committee.meeting.MeetingHelper;
-import org.kuali.kra.common.committee.meeting.OtherPresentBean;
+import org.kuali.kra.common.committee.bo.CommitteeBase;
+import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
+import org.kuali.kra.common.committee.document.authorization.CommitteeScheduleTaskBase;
+import org.kuali.kra.common.committee.document.authorization.CommitteeTaskBase;
+import org.kuali.kra.common.committee.meeting.CommScheduleActItemBase;
+import org.kuali.kra.common.committee.meeting.CommitteeScheduleAttachmentsBase;
+import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinuteBase;
+import org.kuali.kra.common.committee.meeting.MeetingFormBase;
+import org.kuali.kra.common.committee.meeting.MeetingHelperBase;
+import org.kuali.kra.common.committee.meeting.OtherPresentBeanBase;
 import org.kuali.kra.iacuc.committee.bo.IacucCommittee;
 import org.kuali.kra.iacuc.committee.bo.IacucCommitteeSchedule;
 import org.kuali.kra.iacuc.committee.document.authorization.IacucCommitteeScheduleTask;
 import org.kuali.kra.infrastructure.TaskGroupName;
 
-public class IacucMeetingHelper extends MeetingHelper {
+public class IacucMeetingHelper extends MeetingHelperBase {
 
     /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = -5657448017371644177L;
 
-    public IacucMeetingHelper(MeetingForm form) {
+    public IacucMeetingHelper(MeetingFormBase form) {
         super((IacucMeetingForm)form);
     }
 
     @Override
-    protected CommitteeScheduleAttachments getNewCommitteeScheduleAttachmentsInstanceHook() {
+    protected CommitteeScheduleAttachmentsBase getNewCommitteeScheduleAttachmentsInstanceHook() {
         return new IacucCommitteeScheduleAttachments();
     }
 
     @Override
-    protected OtherPresentBean getNewOtherPresentBeanInstanceHook() {
+    protected OtherPresentBeanBase getNewOtherPresentBeanInstanceHook() {
         return new IacucOtherPresentBean();
     }
 
     @Override
-    protected CommScheduleActItem getNewCommScheduleActItemInstanceHook() {
+    protected CommScheduleActItemBase getNewCommScheduleActItemInstanceHook() {
         return new IacucCommScheduleActItem();
     }
 
     @Override
-    protected CommitteeScheduleMinute<?, ?> getNewCommitteeScheduleMinuteInstanceHook() {
+    protected CommitteeScheduleMinuteBase<?, ?> getNewCommitteeScheduleMinuteInstanceHook() {
         return new IacucCommitteeScheduleMinute();
     }
 
     @Override
-    protected CommitteeSchedule<?, ?, ?, ?> getNewCommitteeScheduleInstanceHook() {
+    protected CommitteeScheduleBase<?, ?, ?, ?> getNewCommitteeScheduleInstanceHook() {
         return new IacucCommitteeSchedule();
     }
 
     @Override
-    protected CommitteeTask getNewCommitteeTaskInstanceHook(String taskName, Committee committee) {
+    protected CommitteeTaskBase getNewCommitteeTaskInstanceHook(String taskName, CommitteeBase committee) {
         // creating an anonymous class to avoid task hierarchy issues
-        return new CommitteeTask<IacucCommittee>(TaskGroupName.IACUC_COMMITTEE, taskName, (IacucCommittee) committee) {};
+        return new CommitteeTaskBase<IacucCommittee>(TaskGroupName.IACUC_COMMITTEE, taskName, (IacucCommittee) committee) {};
     }
 
     @Override
-    protected CommitteeScheduleTask getNewCommitteeScheduleTaskInstanceHook(String taskName, Committee committee, CommitteeSchedule committeeSchedule) {
+    protected CommitteeScheduleTaskBase getNewCommitteeScheduleTaskInstanceHook(String taskName, CommitteeBase committee, CommitteeScheduleBase committeeSchedule) {
         return new IacucCommitteeScheduleTask(taskName, (IacucCommittee) committee, (IacucCommitteeSchedule) committeeSchedule);
     }
 
