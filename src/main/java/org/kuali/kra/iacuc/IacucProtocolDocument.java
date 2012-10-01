@@ -33,13 +33,13 @@ import org.kuali.kra.iacuc.rules.IacucProtocolFactBuilderService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.krms.KcKrmsConstants;
-import org.kuali.kra.protocol.Protocol;
-import org.kuali.kra.protocol.ProtocolDocument;
+import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.protocol.ProtocolFinderDao;
 import org.kuali.kra.protocol.ProtocolVersionService;
-import org.kuali.kra.protocol.actions.ProtocolAction;
+import org.kuali.kra.protocol.actions.ProtocolActionBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolActionService;
-import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.kra.protocol.protocol.location.ProtocolLocationService;
 import org.kuali.kra.protocol.protocol.research.ProtocolResearchAreaService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
@@ -53,16 +53,16 @@ import org.kuali.rice.krms.api.engine.Facts.Builder;
 
 /**
  * 
- * This class represents the Protocol Document Object.
- * ProtocolDocument has a 1:1 relationship with Protocol Business Object.
- * We have declared a list of Protocol BOs in the ProtocolDocument at the same time to
+ * This class represents the ProtocolBase Document Object.
+ * ProtocolDocumentBase has a 1:1 relationship with ProtocolBase Business Object.
+ * We have declared a list of ProtocolBase BOs in the ProtocolDocumentBase at the same time to
  * get around the OJB anonymous keys issue of primary keys of different data types.
  * Also we have provided convenient getter and setter methods so that to the outside world;
- * Protocol and ProtocolDocument can have a 1:1 relationship.
+ * ProtocolBase and ProtocolDocumentBase can have a 1:1 relationship.
  */
 @NAMESPACE(namespace=Constants.MODULE_NAMESPACE_IACUC)
 @COMPONENT(component=ParameterConstants.DOCUMENT_COMPONENT)
-public class IacucProtocolDocument extends ProtocolDocument { 
+public class IacucProtocolDocument extends ProtocolDocumentBase { 
     /**
      * Comment for <code>serialVersionUID</code>
      */
@@ -73,7 +73,7 @@ public class IacucProtocolDocument extends ProtocolDocument {
     private static final String CONTINUATION_KEY = "C";
 	
     /**
-     * Constructs a ProtocolDocument object.
+     * Constructs a ProtocolDocumentBase object.
      */
 	public IacucProtocolDocument() { 
         super();
@@ -187,7 +187,7 @@ public class IacucProtocolDocument extends ProtocolDocument {
     }
 
     @Override
-    protected ProtocolAction getNewProtocolActionInstanceHook(Protocol protocol, ProtocolSubmission protocolSubmission, String protocolStatusCode) {
+    protected ProtocolActionBase getNewProtocolActionInstanceHook(ProtocolBase protocol, ProtocolSubmissionBase protocolSubmission, String protocolStatusCode) {
         String protocolActionTypeCode = IacucProtocolActionType.RENEWAL_CREATED; 
         if(protocolStatusCode.equals(IacucProtocolStatus.AMENDMENT_MERGED)) {
             protocolActionTypeCode = IacucProtocolActionType.AMENDMENT_CREATED;
@@ -203,7 +203,7 @@ public class IacucProtocolDocument extends ProtocolDocument {
     }
 
     @Override
-    protected Class<? extends Protocol> getProtocolBOClassHook() {
+    protected Class<? extends ProtocolBase> getProtocolBOClassHook() {
         return IacucProtocol.class;
     }
 

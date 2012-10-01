@@ -18,10 +18,10 @@ package org.kuali.kra.protocol.auth;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolModule;
 
 /**
- * The Modify Protocol General Info Authorizer determines if
+ * The Modify ProtocolBase General Info Authorizer determines if
  * the user can modify the general info for a protocol.
  */
-public class ModifyProtocolGeneralInfoAuthorizer extends ModifyAmendmentAuthorizer {
+public class ModifyProtocolGeneralInfoAuthorizer extends ModifyAmendmentAuthorizerBase {
 
     public ModifyProtocolGeneralInfoAuthorizer() {
         super(ProtocolModule.GENERAL_INFO);

@@ -32,9 +32,9 @@ import org.kuali.kra.common.committee.bo.CommitteeMembershipRole;
 import org.kuali.kra.common.committee.bo.CommitteeBase;
 import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
 import org.kuali.kra.common.committee.web.struts.form.schedule.Time12HrFmt;
-import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondence;
-import org.kuali.kra.protocol.personnel.ProtocolPerson;
+import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
@@ -125,7 +125,7 @@ public abstract class MeetingServiceImplBase<CS extends CommitteeScheduleBase<CS
         List<Long> protocolIds = new ArrayList<Long>();
         List<ProtocolCorrespondence> correspondences = new ArrayList<ProtocolCorrespondence>();
         // TODO : check if want to use criteria/dao to get the list or use this loop
-        for (ProtocolSubmission submission : committeeSchedule.getLatestProtocolSubmissions()) {
+        for (ProtocolSubmissionBase submission : committeeSchedule.getLatestProtocolSubmissions()) {
             if (!protocolIds.contains(submission.getProtocolId())) {
                 protocolIds.add(submission.getProtocolId());
                 fieldValues.put("protocolId", submission.getProtocolId());
@@ -666,9 +666,9 @@ public abstract class MeetingServiceImplBase<CS extends CommitteeScheduleBase<CS
      *      org.kuali.kra.common.committee.bo.CommitteeScheduleBase, int)
      */
     public void populateFormHelper(MeetingHelperBase meetingHelper, CS commSchedule, int lineNumber) {
-        for (ProtocolSubmission protocolSubmission : commSchedule.getLatestProtocolSubmissions()) {
+        for (ProtocolSubmissionBase protocolSubmission : commSchedule.getLatestProtocolSubmissions()) {
             ProtocolSubmittedBean protocolSubmittedBean = new ProtocolSubmittedBean();
-            ProtocolPerson pi = protocolSubmission.getProtocol().getPrincipalInvestigator();
+            ProtocolPersonBase pi = protocolSubmission.getProtocol().getPrincipalInvestigator();
             protocolSubmittedBean.setPersonId(pi.getPersonId());
             protocolSubmittedBean.setPersonName(pi.getPersonName());
             protocolSubmittedBean.setRolodexId(pi.getRolodexId());

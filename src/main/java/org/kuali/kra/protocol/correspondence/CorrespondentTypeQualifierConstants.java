@@ -20,7 +20,7 @@ package org.kuali.kra.protocol.correspondence;
  * This class used in the CorrespondentTypeQualifierValuesFinder.
  */
 public enum CorrespondentTypeQualifierConstants {
-    PROTOCOL("P", "Protocol"),
+    PROTOCOL("P", "ProtocolBase"),
     UNIT("U", "Unit"),
     ORGANIZATION("O", "Organization");
     

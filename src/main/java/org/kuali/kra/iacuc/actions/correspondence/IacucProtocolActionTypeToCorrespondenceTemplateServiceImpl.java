@@ -24,13 +24,13 @@ import java.util.Map;
 
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
 import org.kuali.kra.iacuc.correspondence.IacucProtocolCorrespondenceType;
-import org.kuali.kra.protocol.actions.correspondence.ProtocolActionTypeToCorrespondenceTemplateServiceImpl;
-import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceTemplate;
-import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceType;
+import org.kuali.kra.protocol.actions.correspondence.ProtocolActionTypeToCorrespondenceTemplateServiceImplBase;
+import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceTemplateBase;
+import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceTypeBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 public class IacucProtocolActionTypeToCorrespondenceTemplateServiceImpl 
-    extends ProtocolActionTypeToCorrespondenceTemplateServiceImpl implements IacucProtocolActionTypeToCorrespondenceTemplateService {
+    extends ProtocolActionTypeToCorrespondenceTemplateServiceImplBase implements IacucProtocolActionTypeToCorrespondenceTemplateService {
     
     private Map<String, List<String>> actionTypesToCorrespondenceType;
 
@@ -65,13 +65,13 @@ public class IacucProtocolActionTypeToCorrespondenceTemplateServiceImpl
     }
 
     @Override
-    protected List<ProtocolCorrespondenceTemplate> getCorrespondenceTemplatesForTypeId(String correspondenceTypeId) {
+    protected List<ProtocolCorrespondenceTemplateBase> getCorrespondenceTemplatesForTypeId(String correspondenceTypeId) {
         IacucProtocolCorrespondenceType type = 
             getBusinessObjectService().findBySinglePrimaryKey(IacucProtocolCorrespondenceType.class, correspondenceTypeId);
         if (type != null) {
             return type.getProtocolCorrespondenceTemplates();
         } else {
-            return new ArrayList<ProtocolCorrespondenceTemplate>();
+            return new ArrayList<ProtocolCorrespondenceTemplateBase>();
         }
     }
 }

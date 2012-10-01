@@ -15,17 +15,17 @@
  */
 package org.kuali.kra.protocol.protocol.location;
 
-import org.kuali.kra.protocol.ProtocolDocument;
+import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
 
 /**
  * Event triggered when a protocol location state is modified on a 
- * <code>{@link ProtocolDocument}</code>
+ * <code>{@link ProtocolDocumentBase}</code>
  *
  */
 public interface ProtocolLocationEvent extends KualiDocumentEvent {
     /**
-     * @return <code>{@link ProtocolLocation}</code> that triggered this event.
+     * @return <code>{@link ProtocolLocationBase}</code> that triggered this event.
      */
-    public ProtocolLocation getProtocolLocation();
+    public ProtocolLocationBase getProtocolLocation();
 }

@@ -31,11 +31,11 @@ import org.kuali.kra.iacuc.procedures.IacucProtocolProcedureService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.infrastructure.TaskName;
-import org.kuali.kra.protocol.auth.ProtocolTask;
+import org.kuali.kra.protocol.auth.ProtocolTaskBase;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewService;
-import org.kuali.kra.protocol.Protocol;
-import org.kuali.kra.protocol.ProtocolAction;
-import org.kuali.kra.protocol.ProtocolForm;
+import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.protocol.ProtocolActionBase;
+import org.kuali.kra.protocol.ProtocolFormBase;
 import org.kuali.kra.protocol.personnel.ProtocolPersonTrainingService;
 import org.kuali.kra.protocol.personnel.ProtocolPersonnelService;
 import org.kuali.kra.service.KraAuthorizationService;
@@ -45,7 +45,7 @@ import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.util.KRADConstants;
 
-public class IacucProtocolAction extends ProtocolAction {
+public class IacucProtocolAction extends ProtocolActionBase {
    
     public static final String IACUC_PROTOCOL_NAME_HOOK = "iacucProtocol";
     public static final String IACUC_PROTOCOL_QUESTIONNAIRE_HOOK = "iacucQuestionnaire";
@@ -76,7 +76,7 @@ public class IacucProtocolAction extends ProtocolAction {
     }
     
     public ActionForward medusa(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws WorkflowException {
-        ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolFormBase protocolForm = (ProtocolFormBase) form;
         if (protocolForm.getProtocolDocument().getDocumentNumber() == null) {
             loadDocument(protocolForm);
         }
@@ -132,14 +132,14 @@ public class IacucProtocolAction extends ProtocolAction {
     }
 
     @Override
-    protected void initialDocumentSaveAddRolesHook(String userId, Protocol protocol) {
+    protected void initialDocumentSaveAddRolesHook(String userId, ProtocolBase protocol) {
         KraAuthorizationService kraAuthService = getKraAuthorizationService();
         kraAuthService.addRole(userId, RoleConstants.IACUC_PROTOCOL_AGGREGATOR, protocol);
         kraAuthService.addRole(userId, RoleConstants.IACUC_PROTOCOL_APPROVER, protocol);         
     }
 
     @Override
-    protected void sendNotification(ProtocolForm protocolForm) {
+    protected void sendNotification(ProtocolFormBase protocolForm) {
       IacucProtocol protocol = (IacucProtocol)protocolForm.getProtocolDocument().getProtocol();
       IacucProtocolNotificationRenderer renderer = new IacucProtocolNotificationRenderer(protocol);
       IacucProtocolNotificationContext context = new IacucProtocolNotificationContext(protocol, IacucProtocolActionType.IACUC_PROTOCOL_CREATED, "Created", renderer);
@@ -171,7 +171,7 @@ public class IacucProtocolAction extends ProtocolAction {
 
 
     @Override
-    protected ProtocolTask createNewModifyProtocolTaskInstanceHook(Protocol protocol) {
+    protected ProtocolTaskBase createNewModifyProtocolTaskInstanceHook(ProtocolBase protocol) {
         return new IacucProtocolTask(TaskName.MODIFY_IACUC_PROTOCOL, (IacucProtocol) protocol);
     }
 

@@ -33,10 +33,10 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.personmasschange.bo.PersonMassChange;
 import org.kuali.kra.personmasschange.service.IacucProtocolPersonMassChangeService;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewer;
-import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReview;
-import org.kuali.kra.protocol.personnel.ProtocolPerson;
+import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewBase;
+import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
 import org.kuali.kra.protocol.personnel.ProtocolPersonTrainingService;
-import org.kuali.kra.protocol.personnel.ProtocolUnit;
+import org.kuali.kra.protocol.personnel.ProtocolUnitBase;
 import org.kuali.kra.rules.ErrorReporter;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.PersonEditableService;
@@ -126,8 +126,8 @@ public class IacucProtocolPersonMassChangeServiceImpl extends MassPersonChangeSe
         boolean isProtocolChangeCandidate = false;
         boolean hasErrors = false;
         
-        List<ProtocolPerson> persons = protocol.getProtocolPersons();
-        List<ProtocolOnlineReview> onlineReviews = protocol.getProtocolOnlineReviews();
+        List<ProtocolPersonBase> persons = protocol.getProtocolPersons();
+        List<ProtocolOnlineReviewBase> onlineReviews = protocol.getProtocolOnlineReviews();
         
         String[] investigatorRoles = { IacucProtocolPersonRole.ROLE_PRINCIPAL_INVESTIGATOR, IacucProtocolPersonRole.ROLE_CO_INVESTIGATOR };
         String[] keyStudyPersonRoles = { IacucProtocolPersonRole.ROLE_STUDY_PERSONNEL };
@@ -154,10 +154,10 @@ public class IacucProtocolPersonMassChangeServiceImpl extends MassPersonChangeSe
         return isProtocolChangeCandidate && !hasErrors;
     }
     
-    private boolean isReviewerChangeCandidate(PersonMassChange personMassChange, List<ProtocolOnlineReview> onlineReviews) {
+    private boolean isReviewerChangeCandidate(PersonMassChange personMassChange, List<ProtocolOnlineReviewBase> onlineReviews) {
         boolean isReviewerChangeCandidate = false;
         
-        for (ProtocolOnlineReview onlineReview : onlineReviews) {
+        for (ProtocolOnlineReviewBase onlineReview : onlineReviews) {
             ProtocolReviewer reviewer = onlineReview.getProtocolReviewer();
             if (isPersonIdMassChange(personMassChange, reviewer.getPersonId()) || isRolodexIdMassChange(personMassChange, reviewer.getRolodexId())) {
                 isReviewerChangeCandidate = true;
@@ -202,7 +202,7 @@ public class IacucProtocolPersonMassChangeServiceImpl extends MassPersonChangeSe
     }
 
     private void performPersonPersonMassChange(PersonMassChange personMassChange, IacucProtocol protocol, String... personRoles) {
-        for (ProtocolPerson person : protocol.getProtocolPersons()) {
+        for (ProtocolPersonBase person : protocol.getProtocolPersons()) {
             if (isPersonInRole(person, personRoles)) {
                 if (isPersonIdMassChange(personMassChange, person.getPersonId()) || isRolodexIdMassChange(personMassChange, person.getRolodexId())) {
                     if (personMassChange.getReplacerPersonId() != null) {
@@ -213,7 +213,7 @@ public class IacucProtocolPersonMassChangeServiceImpl extends MassPersonChangeSe
                         getPersonEditableService().populateContactFieldsFromPersonId(person);
                         getProtocolPersonTrainingService().setTrainedFlag(person);
                         
-                        for (ProtocolUnit unit : person.getProtocolUnits()) {
+                        for (ProtocolUnitBase unit : person.getProtocolUnits()) {
                             unit.setPersonId(personMassChange.getReplacerPersonId());
                         }
                     } else if (personMassChange.getReplacerRolodexId() != null) {
@@ -224,7 +224,7 @@ public class IacucProtocolPersonMassChangeServiceImpl extends MassPersonChangeSe
                         getPersonEditableService().populateContactFieldsFromRolodexId(person);
                         getProtocolPersonTrainingService().setTrainedFlag(person);
                         
-                        for (ProtocolUnit unit : person.getProtocolUnits()) {
+                        for (ProtocolUnitBase unit : person.getProtocolUnits()) {
                             unit.setPersonId(null);
                         }
                     }
@@ -237,7 +237,7 @@ public class IacucProtocolPersonMassChangeServiceImpl extends MassPersonChangeSe
 
     private void performReviewerPersonMassChange(PersonMassChange personMassChange, IacucProtocol protocol) {
         if (personMassChange.getIacucProtocolPersonMassChange().isReviewer()) {
-            for (ProtocolOnlineReview onlineReview : protocol.getProtocolOnlineReviews()) {
+            for (ProtocolOnlineReviewBase onlineReview : protocol.getProtocolOnlineReviews()) {
                 ProtocolReviewer reviewer = onlineReview.getProtocolReviewer();
                 if (isPersonIdMassChange(personMassChange, reviewer.getPersonId()) || isRolodexIdMassChange(personMassChange, reviewer.getRolodexId())) {
                     if (personMassChange.getReplacerPersonId() != null) {

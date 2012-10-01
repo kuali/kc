@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.iacuc.actions.noreview;
 
-import org.kuali.kra.protocol.actions.noreview.ProtocolReviewNotRequiredRule;
+import org.kuali.kra.protocol.actions.noreview.ProtocolReviewNotRequiredRuleBase;
 
 /**
  * This class managed the business rules of marking a protocol as not required.
  */
-public class IacucProtocolReviewNotRequiredRule extends ProtocolReviewNotRequiredRule {
+public class IacucProtocolReviewNotRequiredRule extends ProtocolReviewNotRequiredRuleBase {
 
 
 }

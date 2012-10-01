@@ -16,9 +16,9 @@
 package org.kuali.kra.iacuc.actions.submit;
 
 import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
-import org.kuali.kra.protocol.actions.submit.ProtocolReviewerBean;
+import org.kuali.kra.protocol.actions.submit.ProtocolReviewerBeanBase;
 
-public class IacucProtocolReviewerBean extends ProtocolReviewerBean {
+public class IacucProtocolReviewerBean extends ProtocolReviewerBeanBase {
 
     /**
      * Comment for <code>serialVersionUID</code>

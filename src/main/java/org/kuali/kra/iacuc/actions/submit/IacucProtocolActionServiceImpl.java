@@ -26,11 +26,11 @@ import org.kuali.kra.iacuc.actions.IacucProtocolAction;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
 import org.kuali.kra.iacuc.actions.IacucProtocolSubmissionDoc;
 import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.kra.protocol.Protocol;
-import org.kuali.kra.protocol.actions.ProtocolAction;
+import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.protocol.actions.ProtocolActionBase;
 import org.kuali.kra.protocol.actions.submit.ActionRightMapping;
-import org.kuali.kra.protocol.actions.submit.ProtocolActionMapping;
-import org.kuali.kra.protocol.actions.submit.ProtocolActionServiceImpl;
+import org.kuali.kra.protocol.actions.submit.ProtocolActionMappingBase;
+import org.kuali.kra.protocol.actions.submit.ProtocolActionServiceImplBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolActionUpdateMapping;
 import org.kuali.kra.protocol.actions.submit.ProtocolUndoActionMapping;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
@@ -42,7 +42,7 @@ import org.kuali.kra.questionnaire.answer.AnswerHeader;
  * pre-validation include canperform and authorization check.
  * post-update will update protocol status or submission status.
  */
-public class IacucProtocolActionServiceImpl extends ProtocolActionServiceImpl implements IacucProtocolActionService {
+public class IacucProtocolActionServiceImpl extends ProtocolActionServiceImplBase implements IacucProtocolActionService {
 
     static private final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(IacucProtocolActionServiceImpl.class);
 
@@ -112,7 +112,7 @@ public class IacucProtocolActionServiceImpl extends ProtocolActionServiceImpl im
     /*
      * This method is to check if user has permission in lead unit
      */
-    protected boolean hasPermissionLeadUnit(String actionTypeCode, Protocol protocol, ActionRightMapping rightMapper) {
+    protected boolean hasPermissionLeadUnit(String actionTypeCode, ProtocolBase protocol, ActionRightMapping rightMapper) {
         rightMapper.setActionTypeCode(actionTypeCode);
         rulesList.get(PERMISSIONS_LEADUNIT_RULE).executeRules(rightMapper);
         return rightMapper.isAllowed() ? unitAuthorizationService.hasPermission(getUserIdentifier(), protocol.getLeadUnitNumber(),
@@ -122,7 +122,7 @@ public class IacucProtocolActionServiceImpl extends ProtocolActionServiceImpl im
     /**
      * This method is to check if user has permission to submit
      */
-    protected boolean hasPermissionToSubmit(String actionTypeCode, Protocol protocol, ActionRightMapping rightMapper) {
+    protected boolean hasPermissionToSubmit(String actionTypeCode, ProtocolBase protocol, ActionRightMapping rightMapper) {
         rightMapper.setActionTypeCode(actionTypeCode);
         rulesList.get(PERMISSIONS_SUBMIT_RULE).executeRules(rightMapper);
         return rightMapper.isAllowed() ? kraAuthorizationService.hasPermission(getUserIdentifier(), protocol, rightMapper
@@ -133,7 +133,7 @@ public class IacucProtocolActionServiceImpl extends ProtocolActionServiceImpl im
     /**
      * This method is to check if user has permission in committee home unit
      */
-    protected boolean hasPermissionAsCommitteeMember(String actionTypeCode, Protocol protocol, ActionRightMapping rightMapper) {
+    protected boolean hasPermissionAsCommitteeMember(String actionTypeCode, ProtocolBase protocol, ActionRightMapping rightMapper) {
         rightMapper.setActionTypeCode(actionTypeCode);
         rightMapper.setCommitteeId(protocol.getProtocolSubmission().getCommitteeId());
         rightMapper.setScheduleId(protocol.getProtocolSubmission().getScheduleId());
@@ -156,7 +156,7 @@ public class IacucProtocolActionServiceImpl extends ProtocolActionServiceImpl im
      * 
      * @see org.kuali.kra.irb.actions.submit.IacucProtocolActionService#resetProtocolStatus(org.kuali.kra.irb.actions.IacucProtocolAction, org.kuali.kra.irb.IacucProtocol)
      */
-    public void resetProtocolStatus(ProtocolAction protocolActionBo, Protocol protocol) {
+    public void resetProtocolStatus(ProtocolActionBase protocolActionBo, ProtocolBase protocol) {
         IacucProtocolAction protocolAction = (IacucProtocolAction) protocolActionBo;
         if (protocolAction.getPrevProtocolStatusCode() != null) {
             protocol.setProtocolStatusCode(protocolAction.getPrevProtocolStatusCode());
@@ -179,7 +179,7 @@ public class IacucProtocolActionServiceImpl extends ProtocolActionServiceImpl im
     /*
      * This is to remove the questionnaire answered for request submission
      */
-    private void removeQuestionnaireAnswer(ProtocolAction protocolActionBo, Protocol protocol) {
+    private void removeQuestionnaireAnswer(ProtocolActionBase protocolActionBo, ProtocolBase protocol) {
         // 'bos.deletematching' will not work because it is not deleting 'answers'
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put("moduleItemCode", CoeusModule.IRB_MODULE_CODE);
@@ -205,7 +205,7 @@ public class IacucProtocolActionServiceImpl extends ProtocolActionServiceImpl im
     }
 
     @Override
-    protected ProtocolActionMapping getNewProtocolActionMappingInstanceHook(String actionTypeCode, String submissionStatusCode,
+    protected ProtocolActionMappingBase getNewProtocolActionMappingInstanceHook(String actionTypeCode, String submissionStatusCode,
             String submissionTypeCode, String protocolReviewTypeCode, String protocolStatusCode, String scheduleId,
             Integer submissionNumber) {
         return new IacucProtocolActionMapping(actionTypeCode, submissionStatusCode, submissionTypeCode, protocolReviewTypeCode, protocolStatusCode, scheduleId, submissionNumber);

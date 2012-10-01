@@ -16,9 +16,9 @@
 package org.kuali.kra.iacuc.actions.delete;
 
 import org.kuali.kra.iacuc.actions.IacucProtocolStatus;
-import org.kuali.kra.protocol.actions.delete.ProtocolDeleteServiceImpl;
+import org.kuali.kra.protocol.actions.delete.ProtocolDeleteServiceImplBase;
 
-public class IacucProtocolDeleteServiceImpl extends ProtocolDeleteServiceImpl implements IacucProtocolDeleteService {
+public class IacucProtocolDeleteServiceImpl extends ProtocolDeleteServiceImplBase implements IacucProtocolDeleteService {
 
     @Override
     protected String getDeletedProtocolStatusCodeHook() {

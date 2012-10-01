@@ -15,18 +15,18 @@
  */
 package org.kuali.kra.iacuc.actions.genericactions;
 
-import org.kuali.kra.protocol.Protocol;
+import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.genericactions.ProtocolGenericActionBean;
 import org.kuali.kra.protocol.actions.genericactions.ProtocolGenericActionService;
 
 public interface IacucProtocolGenericActionService extends ProtocolGenericActionService {
     
-    void iacucAcknowledgement(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception;    
+    void iacucAcknowledgement(ProtocolBase protocol, ProtocolGenericActionBean actionBean) throws Exception;    
 
-    void iacucDeactivate(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception;    
+    void iacucDeactivate(ProtocolBase protocol, ProtocolGenericActionBean actionBean) throws Exception;    
     
-    void iacucHold(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception;
+    void iacucHold(ProtocolBase protocol, ProtocolGenericActionBean actionBean) throws Exception;
     
-    void iacucLiftHold(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception;
+    void iacucLiftHold(ProtocolBase protocol, ProtocolGenericActionBean actionBean) throws Exception;
 
 }

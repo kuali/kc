@@ -18,9 +18,9 @@ package org.kuali.kra.iacuc.actions.decision;
 import org.kuali.kra.common.committee.service.CommitteeScheduleAttendanceServiceBase;
 import org.kuali.kra.iacuc.committee.service.IacucCommitteeScheduleAttendanceService;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.protocol.actions.decision.CommitteeDecisionRule;
+import org.kuali.kra.protocol.actions.decision.CommitteeDecisionRuleBase;
 
-public class IacucCommitteeDecisionRule extends CommitteeDecisionRule<IacucCommitteeDecision> {
+public class IacucCommitteeDecisionRule extends CommitteeDecisionRuleBase<IacucCommitteeDecision> {
 
     @Override
     protected String getNoCommentsForRevisionsErrorMessageHook() {

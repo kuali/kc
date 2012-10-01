@@ -30,9 +30,9 @@ import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReviewStatus;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.protocol.ProtocolDocument;
-import org.kuali.kra.protocol.ProtocolOnlineReviewDocument;
-import org.kuali.kra.protocol.actions.submit.ProtocolReviewerBean;
+import org.kuali.kra.protocol.ProtocolDocumentBase;
+import org.kuali.kra.protocol.ProtocolOnlineReviewDocumentBase;
+import org.kuali.kra.protocol.actions.submit.ProtocolReviewerBeanBase;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 
 import org.kuali.rice.kew.api.KewApiConstants;
@@ -50,7 +50,7 @@ public class IacucProtocolModifySubmissionRuleImpl extends ResearchDocumentRuleB
     private static final String SECONDARY_REVIEWER_TYPE = "2";
     
 
-    public boolean processModifySubmissionRule(ProtocolDocument document, IacucProtocolModifySubmissionBean actionBean) {
+    public boolean processModifySubmissionRule(ProtocolDocumentBase document, IacucProtocolModifySubmissionBean actionBean) {
         boolean valid = true;
         String errorParameters = null;
         if (StringUtils.isBlank(actionBean.getProtocolReviewTypeCode())) {
@@ -76,20 +76,20 @@ public class IacucProtocolModifySubmissionRuleImpl extends ResearchDocumentRuleB
         return valid;
     }
     
-    public boolean validAssignReviewers(ProtocolDocument document, IacucProtocolModifySubmissionBean actionBean) {
+    public boolean validAssignReviewers(ProtocolDocumentBase document, IacucProtocolModifySubmissionBean actionBean) {
         boolean isValid = true;
         int totalValidReviewers = 0;
                 
-        List<ProtocolReviewerBean> reviewers = actionBean.getReviewers();
+        List<ProtocolReviewerBeanBase> reviewers = actionBean.getReviewers();
         
 //        // Cannot have assigned reviewers with no schedule
 //        if (StringUtils.isBlank(actionBean.getScheduleId()) &&  reviewers != null && reviewers.size() > 0) {
 //            isValid=false;
 //        }
 
-        List<ProtocolOnlineReviewDocument> protocolOnlineReviewDocuments = getProtocolOnlineReviewService().getProtocolReviewDocumentsForCurrentSubmission(document.getProtocol()); 
+        List<ProtocolOnlineReviewDocumentBase> protocolOnlineReviewDocuments = getProtocolOnlineReviewService().getProtocolReviewDocumentsForCurrentSubmission(document.getProtocol()); 
         for (int i = 0; i < reviewers.size(); i++) {
-            ProtocolReviewerBean reviewer = reviewers.get(i);
+            ProtocolReviewerBeanBase reviewer = reviewers.get(i);
             if (ObjectUtils.isNotNull(reviewer.getReviewerTypeCode())) {
                 if(reviewer.getReviewerTypeCode().equals(PRIMARY_REVIEWER_TYPE) || reviewer.getReviewerTypeCode().equals(SECONDARY_REVIEWER_TYPE)) {
                     totalValidReviewers++;
@@ -99,7 +99,7 @@ public class IacucProtocolModifySubmissionRuleImpl extends ResearchDocumentRuleB
                 isValid = false;
             } else if (StringUtils.isBlank(reviewer.getReviewerTypeCode())) {
                 //get the review
-                for (ProtocolOnlineReviewDocument pDocument : protocolOnlineReviewDocuments) {
+                for (ProtocolOnlineReviewDocumentBase pDocument : protocolOnlineReviewDocuments) {
                     if (reviewer.isProtocolReviewerBeanForReviewer(pDocument.getProtocolOnlineReview().getProtocolReviewer())) {
                         //the review exists and the user is asking to remove it...
                         isValid &= isValidRemovalRequest(pDocument, reviewer, i);
@@ -118,7 +118,7 @@ public class IacucProtocolModifySubmissionRuleImpl extends ResearchDocumentRuleB
         return isValid;
     }
     
-    public boolean isValidRemovalRequest(ProtocolOnlineReviewDocument document, ProtocolReviewerBean reviewer, int reviewerIndex) {
+    public boolean isValidRemovalRequest(ProtocolOnlineReviewDocumentBase document, ProtocolReviewerBeanBase reviewer, int reviewerIndex) {
         boolean isValid = true;
         WorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
         String propertyName =  Constants.IACUC_PROTOCOL_MODIFY_SUBMISSION_KEY + ".reviewer[" + reviewerIndex + "].reviewerTypeCode";
@@ -142,7 +142,7 @@ public class IacucProtocolModifySubmissionRuleImpl extends ResearchDocumentRuleB
         return isValid;
     }   
     
-    private boolean isReviewerValid(ProtocolReviewerBean reviewer, int reviewerIndex) {
+    private boolean isReviewerValid(ProtocolReviewerBeanBase reviewer, int reviewerIndex) {
         boolean isValid = true;
         String reviewerTypeCode = reviewer.getReviewerTypeCode();
         

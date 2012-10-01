@@ -44,11 +44,11 @@ import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.print.AbstractPrint;
 import org.kuali.kra.printing.util.PrintingUtils;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
-import org.kuali.kra.protocol.Protocol;
+import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.correspondence.ProtocolActionCorrespondenceGenerationService;
-import org.kuali.kra.protocol.actions.correspondence.ProtocolActionsCorrespondence;
+import org.kuali.kra.protocol.actions.correspondence.ProtocolActionsCorrespondenceBase;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondence;
-import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceType;
+import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceTypeBase;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -61,15 +61,15 @@ public abstract class MeetingActionsActionBase extends MeetingActionBase {
     private static final List GENERIC_TYPE_CORRESPONDENCE;
     static {
         final List correspondenceTypes = new ArrayList();
-        correspondenceTypes.add(ProtocolCorrespondenceType.ABANDON_NOTICE);
-        correspondenceTypes.add(ProtocolCorrespondenceType.APPROVAL_LETTER);
-        correspondenceTypes.add(ProtocolCorrespondenceType.CLOSURE_NOTICE);
-        correspondenceTypes.add(ProtocolCorrespondenceType.EXPEDITED_APPROVAL_LETTER);
-        correspondenceTypes.add(ProtocolCorrespondenceType.NOTICE_OF_DEFERRAL);
-        correspondenceTypes.add(ProtocolCorrespondenceType.SMR_LETTER);
-        correspondenceTypes.add(ProtocolCorrespondenceType.SRR_LETTER);
-        correspondenceTypes.add(ProtocolCorrespondenceType.SUSPENSION_NOTICE);
-        correspondenceTypes.add(ProtocolCorrespondenceType.TERMINATION_NOTICE);
+        correspondenceTypes.add(ProtocolCorrespondenceTypeBase.ABANDON_NOTICE);
+        correspondenceTypes.add(ProtocolCorrespondenceTypeBase.APPROVAL_LETTER);
+        correspondenceTypes.add(ProtocolCorrespondenceTypeBase.CLOSURE_NOTICE);
+        correspondenceTypes.add(ProtocolCorrespondenceTypeBase.EXPEDITED_APPROVAL_LETTER);
+        correspondenceTypes.add(ProtocolCorrespondenceTypeBase.NOTICE_OF_DEFERRAL);
+        correspondenceTypes.add(ProtocolCorrespondenceTypeBase.SMR_LETTER);
+        correspondenceTypes.add(ProtocolCorrespondenceTypeBase.SRR_LETTER);
+        correspondenceTypes.add(ProtocolCorrespondenceTypeBase.SUSPENSION_NOTICE);
+        correspondenceTypes.add(ProtocolCorrespondenceTypeBase.TERMINATION_NOTICE);
         GENERIC_TYPE_CORRESPONDENCE = correspondenceTypes;
     }
 
@@ -80,15 +80,15 @@ public abstract class MeetingActionsActionBase extends MeetingActionBase {
         
         // TODO IRB specific should go in subclassed IRB - commented as part of code lifted for base
         /*
-        CORR_TYPE_TO_ACTION_TYPE_MAP.put(ProtocolCorrespondenceType.ABANDON_NOTICE, ProtocolActionType.ABANDON_PROTOCOL);
-        CORR_TYPE_TO_ACTION_TYPE_MAP.put(ProtocolCorrespondenceType.APPROVAL_LETTER,ProtocolActionType.APPROVED);
-        CORR_TYPE_TO_ACTION_TYPE_MAP.put(ProtocolCorrespondenceType.CLOSURE_NOTICE,ProtocolActionType.CLOSED_ADMINISTRATIVELY_CLOSED);
-        CORR_TYPE_TO_ACTION_TYPE_MAP.put(ProtocolCorrespondenceType.EXPEDITED_APPROVAL_LETTER,ProtocolActionType.EXPEDITE_APPROVAL);
-        CORR_TYPE_TO_ACTION_TYPE_MAP.put(ProtocolCorrespondenceType.NOTICE_OF_DEFERRAL,ProtocolActionType.DEFERRED);
-        CORR_TYPE_TO_ACTION_TYPE_MAP.put(ProtocolCorrespondenceType.SMR_LETTER,ProtocolActionType.SPECIFIC_MINOR_REVISIONS_REQUIRED);
-        CORR_TYPE_TO_ACTION_TYPE_MAP.put(ProtocolCorrespondenceType.SRR_LETTER,ProtocolActionType.SUBSTANTIVE_REVISIONS_REQUIRED);
-        CORR_TYPE_TO_ACTION_TYPE_MAP.put(ProtocolCorrespondenceType.SUSPENSION_NOTICE,ProtocolActionType.SUSPENDED);
-        CORR_TYPE_TO_ACTION_TYPE_MAP.put(ProtocolCorrespondenceType.TERMINATION_NOTICE,ProtocolActionType.TERMINATED);
+        CORR_TYPE_TO_ACTION_TYPE_MAP.put(ProtocolCorrespondenceTypeBase.ABANDON_NOTICE, ProtocolActionType.ABANDON_PROTOCOL);
+        CORR_TYPE_TO_ACTION_TYPE_MAP.put(ProtocolCorrespondenceTypeBase.APPROVAL_LETTER,ProtocolActionType.APPROVED);
+        CORR_TYPE_TO_ACTION_TYPE_MAP.put(ProtocolCorrespondenceTypeBase.CLOSURE_NOTICE,ProtocolActionType.CLOSED_ADMINISTRATIVELY_CLOSED);
+        CORR_TYPE_TO_ACTION_TYPE_MAP.put(ProtocolCorrespondenceTypeBase.EXPEDITED_APPROVAL_LETTER,ProtocolActionType.EXPEDITE_APPROVAL);
+        CORR_TYPE_TO_ACTION_TYPE_MAP.put(ProtocolCorrespondenceTypeBase.NOTICE_OF_DEFERRAL,ProtocolActionType.DEFERRED);
+        CORR_TYPE_TO_ACTION_TYPE_MAP.put(ProtocolCorrespondenceTypeBase.SMR_LETTER,ProtocolActionType.SPECIFIC_MINOR_REVISIONS_REQUIRED);
+        CORR_TYPE_TO_ACTION_TYPE_MAP.put(ProtocolCorrespondenceTypeBase.SRR_LETTER,ProtocolActionType.SUBSTANTIVE_REVISIONS_REQUIRED);
+        CORR_TYPE_TO_ACTION_TYPE_MAP.put(ProtocolCorrespondenceTypeBase.SUSPENSION_NOTICE,ProtocolActionType.SUSPENDED);
+        CORR_TYPE_TO_ACTION_TYPE_MAP.put(ProtocolCorrespondenceTypeBase.TERMINATION_NOTICE,ProtocolActionType.TERMINATED);
         */
     }
 
@@ -428,7 +428,7 @@ public abstract class MeetingActionsActionBase extends MeetingActionBase {
         meetingHelper.setRegeneratedCorrespondences(new ArrayList<ProtocolCorrespondence>());
         for (ProtocolCorrespondence protocolCorrespondence : meetingHelper.getCorrespondences()) {
             if (protocolCorrespondence.isRegenerateFlag()) {
-                Protocol protocol = protocolCorrespondence.getProtocol();
+                ProtocolBase protocol = protocolCorrespondence.getProtocol();
                 AttachmentDataSource dataSource = generateCorrespondenceDocumentAndAttach(protocol, protocolCorrespondence);
                 PrintableAttachment source = new PrintableAttachment();
                 if (dataSource != null) {
@@ -444,17 +444,17 @@ public abstract class MeetingActionsActionBase extends MeetingActionBase {
         return mapping.findForward("correspondence");
     }
 
-    protected AttachmentDataSource generateCorrespondenceDocumentAndAttach(Protocol protocol, ProtocolCorrespondence oldCorrespondence) throws PrintingException {
+    protected AttachmentDataSource generateCorrespondenceDocumentAndAttach(ProtocolBase protocol, ProtocolCorrespondence oldCorrespondence) throws PrintingException {
  
 // TODO *********commented the code below during IACUC refactoring*********         
 //        IacucProtocolActionsCorrespondence correspondence = new IacucProtocolActionsCorrespondence(oldCorrespondence.getProtocolAction().getProtocolActionTypeCode());
         
-        ProtocolActionsCorrespondence correspondence = getNewProtocolActionsCorrespondenceInstanceHook(oldCorrespondence.getProtocolAction().getProtocolActionTypeCode());
+        ProtocolActionsCorrespondenceBase correspondence = getNewProtocolActionsCorrespondenceInstanceHook(oldCorrespondence.getProtocolAction().getProtocolActionTypeCode());
         correspondence.setProtocol(protocol);
         return getProtocolActionCorrespondenceGenerationService().reGenerateCorrespondenceDocument(correspondence);
     } 
 
-    protected abstract ProtocolActionsCorrespondence getNewProtocolActionsCorrespondenceInstanceHook(String protocolActionTypeCode);
+    protected abstract ProtocolActionsCorrespondenceBase getNewProtocolActionsCorrespondenceInstanceHook(String protocolActionTypeCode);
 
     protected abstract ProtocolActionCorrespondenceGenerationService getProtocolActionCorrespondenceGenerationService();
     

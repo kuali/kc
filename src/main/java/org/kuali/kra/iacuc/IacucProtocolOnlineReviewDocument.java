@@ -24,11 +24,11 @@ import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReview;
 import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReviewStatus;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.protocol.Protocol;
-import org.kuali.kra.protocol.ProtocolOnlineReviewDocument;
+import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.protocol.ProtocolOnlineReviewDocumentBase;
 import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsService;
-import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReview;
-import org.kuali.kra.protocol.onlinereview.ProtocolReviewAttachment;
+import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewBase;
+import org.kuali.kra.protocol.onlinereview.ProtocolReviewAttachmentBase;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.COMPONENT;
@@ -45,7 +45,7 @@ import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
 
 @NAMESPACE(namespace=Constants.MODULE_NAMESPACE_IACUC)
 @COMPONENT(component=ParameterConstants.DOCUMENT_COMPONENT)
-public class IacucProtocolOnlineReviewDocument  extends ProtocolOnlineReviewDocument { 
+public class IacucProtocolOnlineReviewDocument  extends ProtocolOnlineReviewDocumentBase { 
     
     /**
      * Comment for <code>serialVersionUID</code>
@@ -71,8 +71,8 @@ public class IacucProtocolOnlineReviewDocument  extends ProtocolOnlineReviewDocu
     
     @Override
     public String serializeDocumentToXml() {
-        for(ProtocolOnlineReview protocolOnlineReview: this.getProtocolOnlineReviewList()) {
-            Protocol protocol = protocolOnlineReview.getProtocol();
+        for(ProtocolOnlineReviewBase protocolOnlineReview: this.getProtocolOnlineReviewList()) {
+            ProtocolBase protocol = protocolOnlineReview.getProtocol();
             protocol.getLeadUnitNumber();
         }
         String xml = super.serializeDocumentToXml(); 
@@ -87,10 +87,10 @@ public class IacucProtocolOnlineReviewDocument  extends ProtocolOnlineReviewDocu
     /**
      * 
      * This method is a convenience method for facilitating a 1:1 relationship between ProtocolDocument 
-     * and Protocol to the outside world - aka a single Protocol field associated with ProtocolDocument
+     * and ProtocolBase to the outside world - aka a single ProtocolBase field associated with ProtocolDocument
      * @return
      */
-    public ProtocolOnlineReview getProtocolOnlineReview() {
+    public ProtocolOnlineReviewBase getProtocolOnlineReview() {
         if (protocolOnlineReviewList.size() == 0) return null;
         return protocolOnlineReviewList.get(0);
     }
@@ -98,10 +98,10 @@ public class IacucProtocolOnlineReviewDocument  extends ProtocolOnlineReviewDocu
     /**
      * 
      * This method is a convenience method for facilitating a 1:1 relationship between ProtocolDocument 
-     * and Protocol to the outside world - aka a single Protocol field associated with ProtocolDocument
+     * and ProtocolBase to the outside world - aka a single ProtocolBase field associated with ProtocolDocument
      * @param protocol
      */
-    public void setProtocolOnlineReview(ProtocolOnlineReview protocolOnlineReview) {
+    public void setProtocolOnlineReview(ProtocolOnlineReviewBase protocolOnlineReview) {
         protocolOnlineReviewList.set(0, (IacucProtocolOnlineReview) protocolOnlineReview);
     }
 
@@ -109,7 +109,7 @@ public class IacucProtocolOnlineReviewDocument  extends ProtocolOnlineReviewDocu
      * 
      * This method is used by OJB to get around with anonymous keys issue.
      * Warning : Developers should never use this method.
-     * @return List<Protocol>
+     * @return List<ProtocolBase>
      */
     public List<IacucProtocolOnlineReview> getProtocolOnlineReviewList() {
         return protocolOnlineReviewList;
@@ -164,7 +164,7 @@ public class IacucProtocolOnlineReviewDocument  extends ProtocolOnlineReviewDocu
         if (StringUtils.equals(statusChangeEvent.getNewRouteStatus(), KewApiConstants.ROUTE_HEADER_CANCEL_CD) 
                 || StringUtils.equals(statusChangeEvent.getNewRouteStatus(), KewApiConstants.ROUTE_HEADER_DISAPPROVED_CD)) {
             if (LOG.isDebugEnabled()) {
-                LOG.debug(String.format("Protocol Online Review Document %s has been cancelled, deleting associated review comments.", getDocumentNumber()));
+                LOG.debug(String.format("ProtocolBase Online Review Document %s has been cancelled, deleting associated review comments.", getDocumentNumber()));
             }
 //            getProtocolOnlineReview().getProtocolSubmission().getProtocolReviewers().remove(getProtocolOnlineReview().getProtocolReviewer());
 //            
@@ -173,8 +173,8 @@ public class IacucProtocolOnlineReviewDocument  extends ProtocolOnlineReviewDocu
 //            getReviewerCommentsService().deleteAllReviewComments(reviewComments, deletedReviewComments);
 //            getReviewerCommentsService().saveReviewComments(reviewComments, deletedReviewComments);
 //
-//            List<ProtocolReviewAttachment> reviewAttachments = getProtocolOnlineReview().getReviewAttachments();
-            List<ProtocolReviewAttachment> deletedReviewAttachments = new ArrayList<ProtocolReviewAttachment>();
+//            List<ProtocolReviewAttachmentBase> reviewAttachments = getProtocolOnlineReview().getReviewAttachments();
+            List<ProtocolReviewAttachmentBase> deletedReviewAttachments = new ArrayList<ProtocolReviewAttachmentBase>();
 //            getReviewerCommentsService().deleteAllReviewAttachments(reviewAttachments, deletedReviewAttachments);
 //            getReviewerCommentsService().saveReviewAttachments(reviewAttachments, deletedReviewAttachments);
 
@@ -231,7 +231,7 @@ public class IacucProtocolOnlineReviewDocument  extends ProtocolOnlineReviewDocu
     private boolean isOnlineReviewApproveComplete(String olrDocId) {
         boolean isComplete = true;
         try {
-            ProtocolOnlineReviewDocument onlineReviewDoc = (ProtocolOnlineReviewDocument)getDocumentService().getByDocumentHeaderId(olrDocId);
+            ProtocolOnlineReviewDocumentBase onlineReviewDoc = (ProtocolOnlineReviewDocumentBase)getDocumentService().getByDocumentHeaderId(olrDocId);
             if (getWorkflowDocumentService().getCurrentRouteNodeNames(onlineReviewDoc.getDocumentHeader().getWorkflowDocument()).equalsIgnoreCase(Constants.ONLINE_REVIEW_ROUTE_NODE_ONLINE_REVIEWER)) {
                 isComplete = false;
             }
@@ -245,7 +245,7 @@ public class IacucProtocolOnlineReviewDocument  extends ProtocolOnlineReviewDocu
     private boolean isOnlineReviewRejectComplete(String olrDocId) {
         boolean isComplete = true;
         try {
-            ProtocolOnlineReviewDocument onlineReviewDoc = (ProtocolOnlineReviewDocument)getDocumentService().getByDocumentHeaderId(olrDocId);
+            ProtocolOnlineReviewDocumentBase onlineReviewDoc = (ProtocolOnlineReviewDocumentBase)getDocumentService().getByDocumentHeaderId(olrDocId);
             if (!getWorkflowDocumentService().getCurrentRouteNodeNames(onlineReviewDoc.getDocumentHeader().getWorkflowDocument()).equalsIgnoreCase(Constants.ONLINE_REVIEW_ROUTE_NODE_ONLINE_REVIEWER)) {
                 isComplete = false;
             }

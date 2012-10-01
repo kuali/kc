@@ -27,7 +27,7 @@ import org.kuali.kra.protocol.noteattachment.TypedAttachment;
  * 
  * This class is used to run ojb query directly.
  */
-public interface ProtocolDao<GenericProtocol extends Protocol> {
+public interface ProtocolDao<GenericProtocol extends ProtocolBase> {
     
     /**
      * 
@@ -78,7 +78,7 @@ public interface ProtocolDao<GenericProtocol extends Protocol> {
     /*
     // TODO *********commented the code below during IACUC refactoring*********
      * If this is specific to IRB, it has to be moved to IRB protocol Dao     
-    List<Protocol> getIrbNotifiedProtocols(String committeeId, Date startDate, Date endDate);
+    List<ProtocolBase> getIrbNotifiedProtocols(String committeeId, Date startDate, Date endDate);
     */
     
     /**
@@ -92,6 +92,6 @@ public interface ProtocolDao<GenericProtocol extends Protocol> {
      */
     // TODO (backfitting note) this method is a general-purpose abstraction of the IRB-specific method above
     // and should be eventually be used for IRB as well (with appropriate IRB hook implementations) 
-    List<Protocol> getNotifiedProtocols(String committeeId, Date startDate, Date endDate);
+    List<ProtocolBase> getNotifiedProtocols(String committeeId, Date startDate, Date endDate);
 
 }

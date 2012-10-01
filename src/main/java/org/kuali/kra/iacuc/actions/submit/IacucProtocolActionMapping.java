@@ -26,13 +26,13 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinuteBase;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
 import org.kuali.kra.iacuc.committee.meeting.IacucCommitteeScheduleMinute;
-import org.kuali.kra.protocol.actions.submit.ProtocolActionMapping;
+import org.kuali.kra.protocol.actions.submit.ProtocolActionMappingBase;
 
 /*
  * This class is for the condition attributes of of the protocol action.
  * i.e., the condition of protocol status, submissionstatus, action type code etc.
  */
-public class IacucProtocolActionMapping extends ProtocolActionMapping {
+public class IacucProtocolActionMapping extends ProtocolActionMappingBase {
     
     private static final Map<String, String> ACTION_TYPE_SUBMISSION_TYPE_MAP;
     static {

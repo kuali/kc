@@ -18,14 +18,14 @@ package org.kuali.kra.protocol.actions.reviewcomments;
 import java.util.List;
 
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinuteBase;
-import org.kuali.kra.protocol.Protocol;
+import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewer;
-import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
-import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReview;
-import org.kuali.kra.protocol.onlinereview.ProtocolReviewAttachment;
-import org.kuali.kra.protocol.onlinereview.ProtocolReviewable;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
+import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewBase;
+import org.kuali.kra.protocol.onlinereview.ProtocolReviewAttachmentBase;
+import org.kuali.kra.protocol.onlinereview.ProtocolReviewableBase;
 
-public interface ReviewCommentsService<PRA extends ProtocolReviewAttachment> {
+public interface ReviewCommentsService<PRA extends ProtocolReviewAttachmentBase> {
     /**
      * Determines whether the given principal can view the list of online reviewer comments for the given protocol submission.
      * 
@@ -37,7 +37,7 @@ public interface ReviewCommentsService<PRA extends ProtocolReviewAttachment> {
      * @param protocolSubmission the protocol submission
      * @return true if the principal can view the list of online reviewer comments for the given protocol submission, false otherwise
      */
-    boolean canViewOnlineReviewerComments(String principalId, ProtocolSubmission protocolSubmission);
+    boolean canViewOnlineReviewerComments(String principalId, ProtocolSubmissionBase protocolSubmission);
     
     /**
      * Determines whether the given principal can view the list of online reviewers for the given protocol submission.
@@ -47,7 +47,7 @@ public interface ReviewCommentsService<PRA extends ProtocolReviewAttachment> {
      * @param protocolSubmission the protocol submission
      * @return true if the principal can view the list of online reviewers, false otherwise
      */
-    boolean canViewOnlineReviewers(String principalId, ProtocolSubmission protocolSubmission);    
+    boolean canViewOnlineReviewers(String principalId, ProtocolSubmissionBase protocolSubmission);    
     
     /**
      * Finds and returns the reviewer comments for a protocol number and a certain submission.
@@ -67,7 +67,7 @@ public interface ReviewCommentsService<PRA extends ProtocolReviewAttachment> {
       * @param CommitteeScheduleMinuteBase minute
      *  @return whether the current user can view this comment
      */
-    boolean getReviewerCommentsView(ProtocolReviewable minute);
+    boolean getReviewerCommentsView(ProtocolReviewableBase minute);
     
     /**
      * 
@@ -84,7 +84,7 @@ public interface ReviewCommentsService<PRA extends ProtocolReviewAttachment> {
      * @param reviewComments the list of reviewer comments
      * @param protocol the current protocol
      */
-    void addReviewComment(CommitteeScheduleMinuteBase newReviewComment, List<CommitteeScheduleMinuteBase> reviewComments, Protocol protocol);
+    void addReviewComment(CommitteeScheduleMinuteBase newReviewComment, List<CommitteeScheduleMinuteBase> reviewComments, ProtocolBase protocol);
     
     /**
      * Adds the newReviewerComment to the list of reviewerComments in the given protocol online review.
@@ -92,7 +92,7 @@ public interface ReviewCommentsService<PRA extends ProtocolReviewAttachment> {
      * @param reviewComments the list of reviewer comments
      * @param protocolOnlineReview the current protocol online review
      */
-    void addReviewComment(CommitteeScheduleMinuteBase newReviewComment, List<CommitteeScheduleMinuteBase> reviewComments, ProtocolOnlineReview protocolOnlineReview);
+    void addReviewComment(CommitteeScheduleMinuteBase newReviewComment, List<CommitteeScheduleMinuteBase> reviewComments, ProtocolOnlineReviewBase protocolOnlineReview);
     
     /**
      * Moves one review comment up the list by one value.
@@ -100,7 +100,7 @@ public interface ReviewCommentsService<PRA extends ProtocolReviewAttachment> {
      * @param protocol the current protocol
      * @param fromIndex the current position of the review comment
      */
-    void moveUpReviewComment(List<CommitteeScheduleMinuteBase> reviewComments, Protocol protocol, int fromIndex);
+    void moveUpReviewComment(List<CommitteeScheduleMinuteBase> reviewComments, ProtocolBase protocol, int fromIndex);
     
     /**
      * Moves one review comment down the list by one value.
@@ -108,7 +108,7 @@ public interface ReviewCommentsService<PRA extends ProtocolReviewAttachment> {
      * @param protocol the current protocol
      * @param fromIndex the current position of the review comment
      */
-    void moveDownReviewComment(List<CommitteeScheduleMinuteBase> reviewComments, Protocol protocol, int fromIndex);
+    void moveDownReviewComment(List<CommitteeScheduleMinuteBase> reviewComments, ProtocolBase protocol, int fromIndex);
     
     /**
      * Delete the review comment at index from the list of reviewComments and add it to the list of deletedReviewComments.
@@ -142,7 +142,7 @@ public interface ReviewCommentsService<PRA extends ProtocolReviewAttachment> {
      * @param submissionNumber
      * @return
      */
-    boolean setHideReviewerName(Protocol protocol, int submissionNumber);
+    boolean setHideReviewerName(ProtocolBase protocol, int submissionNumber);
     
 
     /**
@@ -152,7 +152,7 @@ public interface ReviewCommentsService<PRA extends ProtocolReviewAttachment> {
      * @param reviewComments
      * @return
      */
-    boolean setHideReviewerName(List<? extends ProtocolReviewable> reviewComments);
+    boolean setHideReviewerName(List<? extends ProtocolReviewableBase> reviewComments);
     
     /**
      * 
@@ -204,7 +204,7 @@ public interface ReviewCommentsService<PRA extends ProtocolReviewAttachment> {
      * @param reviewAttachments
      * @param protocol
      */
-    void addReviewAttachment(PRA newReviewAttachment, List<PRA> reviewAttachments, Protocol protocol);
+    void addReviewAttachment(PRA newReviewAttachment, List<PRA> reviewAttachments, ProtocolBase protocol);
 
     /**
      * 

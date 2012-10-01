@@ -31,19 +31,19 @@ public class ProtocolCorrespondenceTemplateServiceImpl implements ProtocolCorres
 
     BusinessObjectService businessObjectService;
 
-    public void addDefaultProtocolCorrespondenceTemplate(ProtocolCorrespondenceType correspondenceType, 
-        ProtocolCorrespondenceTemplate correspondenceTemplate) throws Exception {
+    public void addDefaultProtocolCorrespondenceTemplate(ProtocolCorrespondenceTypeBase correspondenceType, 
+        ProtocolCorrespondenceTemplateBase correspondenceTemplate) throws Exception {
         correspondenceTemplate.setCommitteeId(Constants.DEFAULT_CORRESPONDENCE_TEMPLATE);
         addProtocolCorrespondenceTemplate(correspondenceType, correspondenceTemplate);
     }
     
-    public void addCommitteeProtocolCorrespondenceTemplate(ProtocolCorrespondenceType correspondenceType, 
-            ProtocolCorrespondenceTemplate correspondenceTemplate) throws Exception {
+    public void addCommitteeProtocolCorrespondenceTemplate(ProtocolCorrespondenceTypeBase correspondenceType, 
+            ProtocolCorrespondenceTemplateBase correspondenceTemplate) throws Exception {
         addProtocolCorrespondenceTemplate(correspondenceType, correspondenceTemplate);
     }
 
-    protected void addProtocolCorrespondenceTemplate(ProtocolCorrespondenceType correspondenceType, 
-            ProtocolCorrespondenceTemplate correspondenceTemplate) throws Exception {
+    protected void addProtocolCorrespondenceTemplate(ProtocolCorrespondenceTypeBase correspondenceType, 
+            ProtocolCorrespondenceTemplateBase correspondenceTemplate) throws Exception {
         correspondenceTemplate.setProtoCorrespTypeCode(correspondenceType.getProtoCorrespTypeCode());
 
         FormFile templateFile = correspondenceTemplate.getTemplateFile();
@@ -53,13 +53,13 @@ public class ProtocolCorrespondenceTemplateServiceImpl implements ProtocolCorres
         correspondenceType.getProtocolCorrespondenceTemplates().add(correspondenceTemplate);
     }
     
-    public void saveProtocolCorrespondenceTemplates(List<ProtocolCorrespondenceType> protocolCorrespondenceTypes, 
-            List<ProtocolCorrespondenceTemplate> deletedBos) {
+    public void saveProtocolCorrespondenceTemplates(List<ProtocolCorrespondenceTypeBase> protocolCorrespondenceTypes, 
+            List<ProtocolCorrespondenceTemplateBase> deletedBos) {
         if (!deletedBos.isEmpty()) {
             businessObjectService.delete(deletedBos);
         }
 
-        for (ProtocolCorrespondenceType protocolCorrespondenceType : protocolCorrespondenceTypes) {
+        for (ProtocolCorrespondenceTypeBase protocolCorrespondenceType : protocolCorrespondenceTypes) {
             businessObjectService.save(protocolCorrespondenceType);
         }
     }
@@ -68,18 +68,18 @@ public class ProtocolCorrespondenceTemplateServiceImpl implements ProtocolCorres
         this.businessObjectService = businessObjectService;
     }
     
-    public ProtocolCorrespondenceTemplate getProtocolCorrespondenceTemplate (String committeeId, String protoCorrespTypeCode) {
+    public ProtocolCorrespondenceTemplateBase getProtocolCorrespondenceTemplate (String committeeId, String protoCorrespTypeCode) {
 
-        // TODO : ProtocolCorrespondenceTemplate is using 'committeeId' not the pk (id) of committee
+        // TODO : ProtocolCorrespondenceTemplateBase is using 'committeeId' not the pk (id) of committee
         // is this ok ?
         Map fieldValues = new HashMap();
         fieldValues.put("committeeId", committeeId);
         fieldValues.put("protoCorrespTypeCode", protoCorrespTypeCode);
-        ProtocolCorrespondenceTemplate protocolCorrespondenceTemplate = null;
-        List<ProtocolCorrespondenceTemplate> templates = (List<ProtocolCorrespondenceTemplate>)businessObjectService.findMatching(ProtocolCorrespondenceTemplate.class, fieldValues);
+        ProtocolCorrespondenceTemplateBase protocolCorrespondenceTemplate = null;
+        List<ProtocolCorrespondenceTemplateBase> templates = (List<ProtocolCorrespondenceTemplateBase>)businessObjectService.findMatching(ProtocolCorrespondenceTemplateBase.class, fieldValues);
         if (templates.isEmpty()) {
             fieldValues.put("committeeId", "DEFAULT");
-            templates = (List<ProtocolCorrespondenceTemplate>)businessObjectService.findMatching(ProtocolCorrespondenceTemplate.class, fieldValues);
+            templates = (List<ProtocolCorrespondenceTemplateBase>)businessObjectService.findMatching(ProtocolCorrespondenceTemplateBase.class, fieldValues);
             if (!templates.isEmpty()) {
                 protocolCorrespondenceTemplate = templates.get(0);
             }

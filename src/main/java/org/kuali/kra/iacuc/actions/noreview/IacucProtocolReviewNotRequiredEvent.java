@@ -16,7 +16,7 @@
 package org.kuali.kra.iacuc.actions.noreview;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.protocol.ProtocolDocument;
+import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.protocol.actions.noreview.ExecuteProtocolReviewNotRequiredRule;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
@@ -34,7 +34,7 @@ public class IacucProtocolReviewNotRequiredEvent extends KraDocumentEventBase {
      * @param document
      * @param actionBean
      */
-    public IacucProtocolReviewNotRequiredEvent(ProtocolDocument document, IacucProtocolReviewNotRequiredBean actionBean) {
+    public IacucProtocolReviewNotRequiredEvent(ProtocolDocumentBase document, IacucProtocolReviewNotRequiredBean actionBean) {
         super("review not required for document " + getDocumentId(document), "", document);
         this.actionBean = actionBean;
         logEvent();
@@ -51,7 +51,7 @@ public class IacucProtocolReviewNotRequiredEvent extends KraDocumentEventBase {
      * @see org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.rice.krad.rules.rule.BusinessRule)
      */
     public boolean invokeRuleMethod(BusinessRule rule) {
-        return ((ExecuteProtocolReviewNotRequiredRule) rule).processReviewNotRequiredRule((ProtocolDocument) getDocument(), actionBean);
+        return ((ExecuteProtocolReviewNotRequiredRule) rule).processReviewNotRequiredRule((ProtocolDocumentBase) getDocument(), actionBean);
     }
 
     @Override

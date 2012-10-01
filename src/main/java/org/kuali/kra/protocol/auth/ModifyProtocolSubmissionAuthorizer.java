@@ -16,18 +16,18 @@
 package org.kuali.kra.protocol.auth;
 
 import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.kra.protocol.Protocol;
+import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 
 /**
  * 
  * This class maintains the authorizations required to perform a modification to protocol submission.
  */
-public class ModifyProtocolSubmissionAuthorizer extends ProtocolAuthorizer {
+public class ModifyProtocolSubmissionAuthorizer extends ProtocolAuthorizerBase {
 
     @Override
-    public boolean isAuthorized(String userId, ProtocolTask task) {
-        Protocol protocol = task.getProtocol();
+    public boolean isAuthorized(String userId, ProtocolTaskBase task) {
+        ProtocolBase protocol = task.getProtocol();
         return hasPermission(userId, protocol, PermissionConstants.MODIFY_PROTOCOL_SUBMISSION) 
             && canExecuteAction(task.getProtocol(), ProtocolActionType.MODIFY_PROTOCOL_SUBMISISON);
     }

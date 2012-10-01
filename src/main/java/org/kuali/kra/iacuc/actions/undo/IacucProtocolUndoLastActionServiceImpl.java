@@ -24,12 +24,12 @@ import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
 import org.kuali.kra.iacuc.actions.IacucProtocolStatus;
 import org.kuali.kra.iacuc.correspondence.IacucProtocolCorrespondence;
-import org.kuali.kra.protocol.Protocol;
-import org.kuali.kra.protocol.actions.ProtocolAction;
-import org.kuali.kra.protocol.actions.undo.UndoLastActionServiceImpl;
+import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.protocol.actions.ProtocolActionBase;
+import org.kuali.kra.protocol.actions.undo.UndoLastActionServiceImplBase;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondence;
 
-public class IacucProtocolUndoLastActionServiceImpl extends UndoLastActionServiceImpl implements IacucProtocolUndoLastActionService {
+public class IacucProtocolUndoLastActionServiceImpl extends UndoLastActionServiceImplBase implements IacucProtocolUndoLastActionService {
 
     @Override
     protected String getAmendmentInProgressStatusHook() {
@@ -59,7 +59,7 @@ public class IacucProtocolUndoLastActionServiceImpl extends UndoLastActionServic
     }
 
     @Override
-    protected void removeAttachedCorrespondences(ProtocolAction protocolAction) {
+    protected void removeAttachedCorrespondences(ProtocolActionBase protocolAction) {
         if(protocolAction != null) {
             Map<String, String> fieldValues = new HashMap<String, String>();
             fieldValues.put("actionIdFk", protocolAction.getProtocolActionId().toString());
@@ -70,7 +70,7 @@ public class IacucProtocolUndoLastActionServiceImpl extends UndoLastActionServic
         }
     }
     
-    protected Protocol getOldProtocol(Protocol protocol) {
+    protected ProtocolBase getOldProtocol(ProtocolBase protocol) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put("protocolNumber", protocol.getProtocolNumber());
         fieldValues.put("sequenceNumber", protocol.getSequenceNumber() - 1);

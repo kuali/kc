@@ -44,9 +44,9 @@ import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
- * The PermissionsHelperBase is the base class of all PermissionsHelper classes.
+ * The PermissionsHelperBase is the base class of all PermissionsHelperBase classes.
  * Every document that requires a Permissions tab web page must have a form that
- * has a PermissionsHelper derived from PermissionsHelperBase.
+ * has a PermissionsHelperBase derived from PermissionsHelperBase.
  */
 public abstract class PermissionsHelperBase implements Serializable {
     
@@ -257,7 +257,7 @@ public abstract class PermissionsHelperBase implements Serializable {
      * Get the role's display name.  By default, the name of role is also
      * its display name.  A derived class may override this method in order
      * to change the display name.  For example, one may wish to have the
-     * "Protocol Aggregator" role simply displayed as "Aggregator".
+     * "ProtocolBase Aggregator" role simply displayed as "Aggregator".
      * @param roleName the name of the role
      * @return the role's display name
      */

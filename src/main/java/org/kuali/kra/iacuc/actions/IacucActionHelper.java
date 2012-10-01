@@ -76,25 +76,25 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.protocol.actions.noreview.ProtocolReviewNotRequiredBean;
-import org.kuali.kra.protocol.Protocol;
-import org.kuali.kra.protocol.ProtocolForm;
-import org.kuali.kra.protocol.ProtocolOnlineReviewDocument;
+import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.protocol.ProtocolFormBase;
+import org.kuali.kra.protocol.ProtocolOnlineReviewDocumentBase;
 import org.kuali.kra.protocol.ProtocolVersionService;
-import org.kuali.kra.protocol.actions.ActionHelper;
-import org.kuali.kra.protocol.actions.ProtocolAction;
+import org.kuali.kra.protocol.actions.ActionHelperBase;
+import org.kuali.kra.protocol.actions.ProtocolActionBase;
 import org.kuali.kra.protocol.actions.ProtocolActionBean;
 import org.kuali.kra.protocol.actions.ProtocolEditableBean;
-import org.kuali.kra.protocol.actions.ProtocolSubmissionDoc;
-import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewModule;
+import org.kuali.kra.protocol.actions.ProtocolSubmissionDocBase;
+import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewModuleBase;
 import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewService;
-import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewal;
+import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewalBase;
 import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendmentBean;
 import org.kuali.kra.protocol.actions.approve.ProtocolApproveBean;
 import org.kuali.kra.protocol.actions.assignagenda.ProtocolAssignToAgendaBean;
 import org.kuali.kra.protocol.actions.correction.AdminCorrectionBean;
 import org.kuali.kra.protocol.actions.decision.CommitteeDecision;
 import org.kuali.kra.protocol.actions.decision.CommitteeDecisionService;
-import org.kuali.kra.protocol.actions.decision.CommitteePerson;
+import org.kuali.kra.protocol.actions.decision.CommitteePersonBase;
 import org.kuali.kra.protocol.actions.delete.ProtocolDeleteBean;
 import org.kuali.kra.protocol.actions.followup.FollowupActionService;
 import org.kuali.kra.protocol.actions.notify.ProtocolActionAttachment;
@@ -102,15 +102,15 @@ import org.kuali.kra.protocol.actions.notifycommittee.ProtocolNotifyCommitteeBea
 import org.kuali.kra.protocol.actions.print.ProtocolQuestionnairePrintingService;
 import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsService;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmitAction;
-import org.kuali.kra.protocol.actions.submit.ValidProtocolActionAction;
+import org.kuali.kra.protocol.actions.submit.ValidProtocolActionActionBase;
 import org.kuali.kra.protocol.actions.undo.UndoLastActionBean;
 import org.kuali.kra.protocol.actions.withdraw.ProtocolAdministrativelyIncompleteBean;
 import org.kuali.kra.protocol.actions.withdraw.ProtocolAdministrativelyWithdrawBean;
 import org.kuali.kra.protocol.actions.withdraw.ProtocolWithdrawBean;
-import org.kuali.kra.protocol.auth.ProtocolTask;
+import org.kuali.kra.protocol.auth.ProtocolTaskBase;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondence;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewService;
-import org.kuali.kra.protocol.questionnaire.ProtocolModuleQuestionnaireBean;
+import org.kuali.kra.protocol.questionnaire.ProtocolModuleQuestionnaireBeanBase;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.kra.rules.ErrorReporter;
@@ -121,9 +121,9 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
- * The form helper class for the Protocol Actions tab.
+ * The form helper class for the ProtocolBase Actions tab.
  */
-public class IacucActionHelper extends ActionHelper {
+public class IacucActionHelper extends ActionHelperBase {
 
     /**
      * Comment for <code>serialVersionUID</code>
@@ -196,11 +196,11 @@ public class IacucActionHelper extends ActionHelper {
     
 
     /**
-     * Constructs an ActionHelper.
+     * Constructs an ActionHelperBase.
      * @param form the protocol form
      * @throws Exception 
      */
-    public IacucActionHelper(ProtocolForm form) throws Exception {
+    public IacucActionHelper(ProtocolFormBase form) throws Exception {
         super(form);
         
         protocolAssignCmtBean = new IacucProtocolAssignCmtBean(this);
@@ -280,7 +280,7 @@ public class IacucActionHelper extends ActionHelper {
      * @return a non-null approval date
      */
     @Override
-    protected Date buildApprovalDate(Protocol protocol) {
+    protected Date buildApprovalDate(ProtocolBase protocol) {
         Date approvalDate = protocol.getApprovalDate();
         
         if (approvalDate == null || protocol.isNew() || protocol.isRenewal() || ((IacucProtocol)protocol).isContinuation()) {
@@ -306,7 +306,7 @@ public class IacucActionHelper extends ActionHelper {
      * @return a non-null expiration date
      */
     @Override
-    protected Date buildExpirationDate(Protocol protocol, Date approvalDate) {
+    protected Date buildExpirationDate(ProtocolBase protocol, Date approvalDate) {
         Date expirationDate = protocol.getExpirationDate();
         
         if (expirationDate == null || protocol.isNew() || protocol.isRenewal() || ((IacucProtocol)protocol).isContinuation()) {
@@ -318,9 +318,9 @@ public class IacucActionHelper extends ActionHelper {
         return expirationDate;
     }
 
-    private ProtocolAction findProtocolAction(String actionTypeCode, List<ProtocolAction> protocolActions, IacucProtocolSubmission currentSubmission) {
+    private ProtocolActionBase findProtocolAction(String actionTypeCode, List<ProtocolActionBase> protocolActions, IacucProtocolSubmission currentSubmission) {
 
-        for (ProtocolAction pa : protocolActions) {
+        for (ProtocolActionBase pa : protocolActions) {
             if (pa.getProtocolActionType().getProtocolActionTypeCode().equals(actionTypeCode)
                     && (pa.getProtocolSubmission() == null || pa.getProtocolSubmission().equals(currentSubmission))) {
                 return pa;
@@ -429,7 +429,7 @@ public class IacucActionHelper extends ActionHelper {
         return (IacucProtocolSubmitAction)protocolSubmitAction;
     }
 
-    public ProtocolForm getProtocolForm() {
+    public ProtocolFormBase getProtocolForm() {
         return form;
     }
     
@@ -606,18 +606,18 @@ public class IacucActionHelper extends ActionHelper {
     }
 
     @Override
-    protected IacucProtocolTask createNewAmendRenewDeleteTaskInstanceHook(Protocol protocol) {
+    protected IacucProtocolTask createNewAmendRenewDeleteTaskInstanceHook(ProtocolBase protocol) {
         return new IacucProtocolTask(TaskName.PROTOCOL_AMEND_RENEW_DELETE, (IacucProtocol) protocol);
     }
     
 
     @Override
-    protected IacucProtocolTask createNewAmendRenewDeleteUnavailableTaskInstanceHook(Protocol protocol) {
+    protected IacucProtocolTask createNewAmendRenewDeleteUnavailableTaskInstanceHook(ProtocolBase protocol) {
         return new IacucProtocolTask(TaskName.PROTOCOL_AMEND_RENEW_DELETE_UNAVAILABLE, (IacucProtocol) protocol);
     }
 
     @Override
-    protected ProtocolDeleteBean getNewProtocolDeleteBeanInstanceHook(ActionHelper actionHelper) {
+    protected ProtocolDeleteBean getNewProtocolDeleteBeanInstanceHook(ActionHelperBase actionHelper) {
         return new IacucProtocolDeleteBean((IacucActionHelper)actionHelper);
     }
 
@@ -646,8 +646,8 @@ public class IacucActionHelper extends ActionHelper {
     
     public List<String> getReviewRecommendations() {
         List<String> recommendations = new ArrayList<String>();
-        List<ProtocolOnlineReviewDocument> reviewDocs = getOnlineReviewService().getProtocolReviewDocumentsForCurrentSubmission(getProtocol());
-        for (ProtocolOnlineReviewDocument doc : reviewDocs) {
+        List<ProtocolOnlineReviewDocumentBase> reviewDocs = getOnlineReviewService().getProtocolReviewDocumentsForCurrentSubmission(getProtocol());
+        for (ProtocolOnlineReviewDocumentBase doc : reviewDocs) {
             IacucProtocolOnlineReview review = (IacucProtocolOnlineReview) doc.getProtocolOnlineReview();
             if (ObjectUtils.isNotNull(review) && ObjectUtils.isNotNull(review.getDeterminationReviewTypeCode())) {
                 recommendations.add(review.getProtocolReviewer().getFullName() + "--" + getReviewType(review.getDeterminationReviewTypeCode()));
@@ -664,7 +664,7 @@ public class IacucActionHelper extends ActionHelper {
     }
     
     @Override
-    protected ProtocolTask createNewAbandonTaskInstanceHook(Protocol protocol) {
+    protected ProtocolTaskBase createNewAbandonTaskInstanceHook(ProtocolBase protocol) {
         return new IacucProtocolTask(TaskName.IACUC_ABANDON_PROTOCOL, (IacucProtocol) protocol);
     }
 
@@ -694,81 +694,81 @@ public class IacucActionHelper extends ActionHelper {
     }
 
     @Override
-    protected ProtocolSubmitAction getNewProtocolSubmitActionInstanceHook(ActionHelper actionHelper) {
+    protected ProtocolSubmitAction getNewProtocolSubmitActionInstanceHook(ActionHelperBase actionHelper) {
        return new IacucProtocolSubmitAction((IacucActionHelper) actionHelper);
     }
 
     @Override
-    protected ProtocolNotifyCommitteeBean getNewProtocolNotifyCommitteeBeanInstanceHook(ActionHelper actionHelper) {
+    protected ProtocolNotifyCommitteeBean getNewProtocolNotifyCommitteeBeanInstanceHook(ActionHelperBase actionHelper) {
         return new IacucProtocolNotifyCommitteeBean((IacucActionHelper) actionHelper);
     }
 
 
     @Override
-    protected ProtocolModuleQuestionnaireBean getNewProtocolModuleQuestionnaireBeanInstanceHook(Protocol protocol) {
+    protected ProtocolModuleQuestionnaireBeanBase getNewProtocolModuleQuestionnaireBeanInstanceHook(ProtocolBase protocol) {
         return new IacucProtocolModuleQuestionnaireBean((IacucProtocol)protocol);
     }
 
     @Override
-    protected ProtocolTask getModifySubmissionAvailableTaskHook() {
+    protected ProtocolTaskBase getModifySubmissionAvailableTaskHook() {
         return new IacucProtocolTask(TaskName.IACUC_MODIFY_PROTOCOL_SUBMISSION, (IacucProtocol) getProtocol());
 
     }
 
     @Override
-    protected ProtocolTask getModifySubmissionUnavailableTaskHook() {
+    protected ProtocolTaskBase getModifySubmissionUnavailableTaskHook() {
         return new IacucProtocolTask(TaskName.IACUC_MODIFY_PROTOCOL_SUBMISSION_UNAVAILABLE, (IacucProtocol) getProtocol());
     }
     
     @Override
-    protected ProtocolTask getNewSubmitProtocolTaskInstanceHook(Protocol protocol) {
+    protected ProtocolTaskBase getNewSubmitProtocolTaskInstanceHook(ProtocolBase protocol) {
         return new IacucProtocolTask(TaskName.SUBMIT_IACUC_PROTOCOL, (IacucProtocol) protocol);
     }
 
     @Override
-    protected ProtocolTask getNewSubmitProtocolUnavailableTaskInstanceHook(Protocol protocol) {
+    protected ProtocolTaskBase getNewSubmitProtocolUnavailableTaskInstanceHook(ProtocolBase protocol) {
         return new IacucProtocolTask(TaskName.SUBMIT_IACUC_PROTOCOL_UNAVAILABLE, (IacucProtocol) protocol);
     }
 
 
     @Override
-    protected ProtocolWithdrawBean getNewProtocolWithdrawBeanInstanceHook(ActionHelper actionHelper) {
+    protected ProtocolWithdrawBean getNewProtocolWithdrawBeanInstanceHook(ActionHelperBase actionHelper) {
         return new IacucProtocolWithdrawBean((IacucActionHelper) actionHelper);
     }
     
     @Override
-    protected ProtocolAdministrativelyWithdrawBean getNewProtocolAdminWithdrawBeanInstanceHook(ActionHelper actionHelper) {
+    protected ProtocolAdministrativelyWithdrawBean getNewProtocolAdminWithdrawBeanInstanceHook(ActionHelperBase actionHelper) {
         return new IacucProtocolAdministrativelyWithdrawBean((IacucActionHelper) actionHelper);
     }
     
     @Override
-    protected ProtocolAdministrativelyIncompleteBean getNewProtocolAdminIncompleteBeanInstanceHook(ActionHelper actionHelper) {
+    protected ProtocolAdministrativelyIncompleteBean getNewProtocolAdminIncompleteBeanInstanceHook(ActionHelperBase actionHelper) {
         return new IacucProtocolAdministrativelyIncompleteBean((IacucActionHelper) actionHelper);
     }
 
     @Override
-    protected ProtocolAmendmentBean getNewProtocolAmendmentBeanInstanceHook(ActionHelper actionHelper) {
+    protected ProtocolAmendmentBean getNewProtocolAmendmentBeanInstanceHook(ActionHelperBase actionHelper) {
         return new IacucProtocolAmendmentBean((IacucActionHelper) actionHelper);
     }
     
 
     @Override
-    protected ProtocolTask getNewAmendmentProtocolTaskInstanceHook(Protocol protocol) {
+    protected ProtocolTaskBase getNewAmendmentProtocolTaskInstanceHook(ProtocolBase protocol) {
         return new IacucProtocolTask(TaskName.CREATE_IACUC_PROTOCOL_AMENDMENT, (IacucProtocol) protocol);
     }
 
     @Override
-    protected ProtocolTask getNewAmendmentProtocolUnavailableTaskInstanceHook(Protocol protocol) {
+    protected ProtocolTaskBase getNewAmendmentProtocolUnavailableTaskInstanceHook(ProtocolBase protocol) {
         return new IacucProtocolTask(TaskName.CREATE_IACUC_PROTOCOL_AMENDMENT_UNAVAILABLE, (IacucProtocol) protocol);
     }
     
     @Override
-    protected ProtocolTask getNewWithdrawProtocolTaskInstanceHook(Protocol protocol) {
+    protected ProtocolTaskBase getNewWithdrawProtocolTaskInstanceHook(ProtocolBase protocol) {
         return new IacucProtocolTask(TaskName.PROTOCOL_WITHDRAW, (IacucProtocol) protocol);
     }
 
     @Override
-    protected ProtocolTask getNewWithdrawProtocolUnavailableTaskInstanceHook(Protocol protocol) {
+    protected ProtocolTaskBase getNewWithdrawProtocolUnavailableTaskInstanceHook(ProtocolBase protocol) {
         return new IacucProtocolTask(TaskName.PROTOCOL_WITHDRAW_UNAVAILABLE, (IacucProtocol) protocol);
     }
 
@@ -848,7 +848,7 @@ public class IacucActionHelper extends ActionHelper {
                 // Amendment details needs to be displayed even after the amendment has been merged with the protocol.
                 originalProtocolNumber = getProtocol().getProtocolNumber();
             }
-            List<Protocol> protocols = getProtocolAmendRenewServiceHook().getAmendmentAndRenewals(originalProtocolNumber);
+            List<ProtocolBase> protocols = getProtocolAmendRenewServiceHook().getAmendmentAndRenewals(originalProtocolNumber);
 
             IacucProtocolAmendRenewal correctAmendment = getCorrectAmendment(protocols);
             if (ObjectUtils.isNotNull(correctAmendment)) {
@@ -882,8 +882,8 @@ public class IacucActionHelper extends ActionHelper {
      * @param protocols
      * @return
      */
-    protected IacucProtocolAmendRenewal getCorrectAmendment(List<Protocol> protocols) {
-        for (Protocol protocol : protocols) {
+    protected IacucProtocolAmendRenewal getCorrectAmendment(List<ProtocolBase> protocols) {
+        for (ProtocolBase protocol : protocols) {
             // There should always be an amendment with the current submission number.
             if (protocol.isAmendment() && ObjectUtils.isNotNull(protocol.getProtocolSubmission().getSubmissionNumber()) 
                 && protocol.getProtocolSubmission().getSubmissionNumber() == currentSubmissionNumber) {
@@ -902,88 +902,88 @@ public class IacucActionHelper extends ActionHelper {
     }
 
     @Override
-    protected ProtocolApproveBean getNewProtocolApproveBeanInstanceHook(ActionHelper actionHelper, String errorPropertyKey) {
+    protected ProtocolApproveBean getNewProtocolApproveBeanInstanceHook(ActionHelperBase actionHelper, String errorPropertyKey) {
         return new IacucProtocolApproveBean((IacucActionHelper) actionHelper, errorPropertyKey);
     }
 
     @Override
-    protected ProtocolTask getNewAdminApproveProtocolTaskInstanceHook(Protocol protocol) {
+    protected ProtocolTaskBase getNewAdminApproveProtocolTaskInstanceHook(ProtocolBase protocol) {
         return new IacucProtocolTask(TaskName.ADMIN_APPROVE_PROTOCOL, (IacucProtocol) protocol);
     }
 
     @Override
-    protected ProtocolTask getNewAdminApproveUnavailableProtocolTaskInstanceHook(Protocol protocol) {
+    protected ProtocolTaskBase getNewAdminApproveUnavailableProtocolTaskInstanceHook(ProtocolBase protocol) {
         return new IacucProtocolTask(TaskName.ADMIN_APPROVE_PROTOCOL_UNAVAILABLE, (IacucProtocol) protocol);
     }
     
     @Override
-    protected ProtocolTask getExpireTaskInstanceHook(Protocol protocol) {
+    protected ProtocolTaskBase getExpireTaskInstanceHook(ProtocolBase protocol) {
         IacucProtocolTask task = new IacucProtocolTask(IacucGenericProtocolAuthorizer.EXPIRE_PROTOCOL, (IacucProtocol)protocol);
         return task;
     }
     
     @Override
-    protected ProtocolTask getExpireUnavailableTaskInstanceHook(Protocol protocol) {
+    protected ProtocolTaskBase getExpireUnavailableTaskInstanceHook(ProtocolBase protocol) {
         IacucProtocolTask task = new IacucProtocolTask(IacucGenericProtocolAuthorizer.EXPIRE_UNAVAILABLE_PROTOCOL, (IacucProtocol)protocol);
         return task;
     }
     
     @Override
-    protected ProtocolTask getTerminateTaskInstanceHook(Protocol protocol) {
+    protected ProtocolTaskBase getTerminateTaskInstanceHook(ProtocolBase protocol) {
         IacucProtocolTask task = new IacucProtocolTask(IacucGenericProtocolAuthorizer.TERMINATE_PROTOCOL, (IacucProtocol)protocol);
         return task;
     }
     
     @Override
-    protected ProtocolTask getTerminateUnavailableTaskInstanceHook(Protocol protocol) {
+    protected ProtocolTaskBase getTerminateUnavailableTaskInstanceHook(ProtocolBase protocol) {
         IacucProtocolTask task = new IacucProtocolTask(IacucGenericProtocolAuthorizer.TERMINATE_UNAVAILBLE_PROTOCOL, (IacucProtocol)protocol);
         return task;
     }
     
     @Override
-    protected ProtocolTask getSuspendTaskInstanceHook(Protocol protocol) {
+    protected ProtocolTaskBase getSuspendTaskInstanceHook(ProtocolBase protocol) {
         IacucProtocolTask task = new IacucProtocolTask(IacucGenericProtocolAuthorizer.SUSPEND_PROTOCOL, (IacucProtocol)protocol);
         return task;
     }
     
     @Override
-    protected ProtocolTask getSuspendUnavailableTaskInstanceHook(Protocol protocol) {
+    protected ProtocolTaskBase getSuspendUnavailableTaskInstanceHook(ProtocolBase protocol) {
         IacucProtocolTask task = new IacucProtocolTask(IacucGenericProtocolAuthorizer.SUSPEND_UNAVAILABLE_PROTOCOL, (IacucProtocol)protocol);
         return task;
     }
 
     @Override
-    protected ProtocolTask getNewAdminWithdrawProtocolTaskInstanceHook(Protocol protocol) {
+    protected ProtocolTaskBase getNewAdminWithdrawProtocolTaskInstanceHook(ProtocolBase protocol) {
         return new IacucProtocolTask(TaskName.ADMIN_WITHDRAW_PROTOCOL, (IacucProtocol) protocol);
     }
 
     @Override
-    protected ProtocolTask getNewAdminWithdrawUnavailableProtocolTaskInstanceHook(Protocol protocol) {
+    protected ProtocolTaskBase getNewAdminWithdrawUnavailableProtocolTaskInstanceHook(ProtocolBase protocol) {
         return new IacucProtocolTask(TaskName.ADMIN_WITHDRAW_PROTOCOL_UNAVAILABLE, (IacucProtocol) protocol);
     }
 
     @Override
-    protected ProtocolTask getNewAdminMarkIncompleteProtocolTaskInstanceHook(Protocol protocol) {
+    protected ProtocolTaskBase getNewAdminMarkIncompleteProtocolTaskInstanceHook(ProtocolBase protocol) {
         return new IacucProtocolTask(TaskName.ADMIN_INCOMPLETE_PROTOCOL, (IacucProtocol) protocol);
     }
 
     @Override
-    protected ProtocolTask getNewAdminMarkIncompleteUnavailableProtocolTaskInstanceHook(Protocol protocol) {
+    protected ProtocolTaskBase getNewAdminMarkIncompleteUnavailableProtocolTaskInstanceHook(ProtocolBase protocol) {
         return new IacucProtocolTask(TaskName.ADMIN_INCOMPLETE_PROTOCOL_UNAVAILABLE, (IacucProtocol) protocol);
     }
 
     @Override
-    protected ProtocolAssignToAgendaBean getNewProtocolAssignToAgendaBeanInstanceHook(ActionHelper actionHelper) {
+    protected ProtocolAssignToAgendaBean getNewProtocolAssignToAgendaBeanInstanceHook(ActionHelperBase actionHelper) {
         return new IacucProtocolAssignToAgendaBean((IacucActionHelper) actionHelper);
     }
 
     @Override
-    protected ProtocolTask createNewAssignToAgendaTaskInstanceHook(Protocol protocol) {
+    protected ProtocolTaskBase createNewAssignToAgendaTaskInstanceHook(ProtocolBase protocol) {
         return new IacucProtocolTask(TaskName.ASSIGN_TO_AGENDA, (IacucProtocol) protocol);
     }
 
     @Override
-    protected ProtocolTask createNewAssignToAgendaUnavailableTaskInstanceHook(Protocol protocol) {
+    protected ProtocolTaskBase createNewAssignToAgendaUnavailableTaskInstanceHook(ProtocolBase protocol) {
         return new IacucProtocolTask(TaskName.ASSIGN_TO_AGENDA_UNAVAILABLE, (IacucProtocol) protocol);
     }
     
@@ -1017,7 +1017,7 @@ public class IacucActionHelper extends ActionHelper {
 
 
     @Override
-    protected CommitteeDecisionService<? extends CommitteeDecision<? extends CommitteePerson>> getCommitteeDecisionService() {
+    protected CommitteeDecisionService<? extends CommitteeDecision<? extends CommitteePersonBase>> getCommitteeDecisionService() {
         return KraServiceLocator.getService(IacucCommitteeDecisionService.class);
     }
 
@@ -1031,17 +1031,17 @@ public class IacucActionHelper extends ActionHelper {
     }
 
     @Override
-    protected IacucCommitteeDecision getNewCommitteeDecisionInstanceHook(ActionHelper actionHelper) {
+    protected IacucCommitteeDecision getNewCommitteeDecisionInstanceHook(ActionHelperBase actionHelper) {
         return new IacucCommitteeDecision((IacucActionHelper) actionHelper);
     }
 
     @Override
-    protected Class<? extends ProtocolSubmissionDoc> getProtocolSubmissionDocClassHook() {
+    protected Class<? extends ProtocolSubmissionDocBase> getProtocolSubmissionDocClassHook() {
         return IacucProtocolSubmissionDoc.class;
     }
 
     @Override
-    protected Class<? extends FollowupActionService<? extends ValidProtocolActionAction>> getFollowupActionServiceClassHook() {
+    protected Class<? extends FollowupActionService<? extends ValidProtocolActionActionBase>> getFollowupActionServiceClassHook() {
         return IacucFollowupActionService.class;
     }
 
@@ -1095,7 +1095,7 @@ public class IacucActionHelper extends ActionHelper {
     protected void populateExistingAmendmentBean(ProtocolAmendmentBean amendmentBean, List<String> moduleTypeCodes) {
         IacucProtocolAmendRenewal protocolAmendRenewal = (IacucProtocolAmendRenewal)getProtocol().getProtocolAmendRenewal();
         amendmentBean.setSummary(protocolAmendRenewal.getSummary());
-        for (ProtocolAmendRenewModule module : protocolAmendRenewal.getModules()) {
+        for (ProtocolAmendRenewModuleBase module : protocolAmendRenewal.getModules()) {
             moduleTypeCodes.add(module.getProtocolModuleTypeCode());
             if (StringUtils.equals(IacucProtocolModule.GENERAL_INFO, module.getProtocolModuleTypeCode())) {
                 amendmentBean.setGeneralInfo(true);
@@ -1208,7 +1208,7 @@ public class IacucActionHelper extends ActionHelper {
     }
     
     @Override
-    protected void enableModuleOption(ProtocolAmendmentBean amendmentBean, ProtocolAmendRenewal correctAmendment) {
+    protected void enableModuleOption(ProtocolAmendmentBean amendmentBean, ProtocolAmendRenewalBase correctAmendment) {
         amendmentBean.setGeneralInfo((correctAmendment.hasModule(IacucProtocolModule.GENERAL_INFO)) ? true : false);
         amendmentBean.setProtocolPersonnel((correctAmendment.hasModule(IacucProtocolModule.PROTOCOL_PERSONNEL)) ? true : false);
         amendmentBean.setAreasOfResearch((correctAmendment.hasModule(IacucProtocolModule.AREAS_OF_RESEARCH)) ? true : false);
@@ -1229,12 +1229,12 @@ public class IacucActionHelper extends ActionHelper {
     }
     
     @Override
-    protected ProtocolTask getModifyAmendmentSectionsProtocolTaskInstanceHook(Protocol protocol) {
+    protected ProtocolTaskBase getModifyAmendmentSectionsProtocolTaskInstanceHook(ProtocolBase protocol) {
         return new IacucProtocolTask(TaskName.MODIFY_IACUC_PROTOCOL_AMENDMENT_SECTIONS, (IacucProtocol) protocol);
     }
 
     @Override
-    protected ProtocolTask getModifyAmendmentSectionsUnavailableProtocolUnavailableTaskInstanceHook(Protocol protocol) {
+    protected ProtocolTaskBase getModifyAmendmentSectionsUnavailableProtocolUnavailableTaskInstanceHook(ProtocolBase protocol) {
         return new IacucProtocolTask(TaskName.MODIFY_IACUC_PROTOCOL_AMENDMENT_SECTIONS_UNAVAILABLE, (IacucProtocol) protocol);
     }
 
@@ -1334,19 +1334,19 @@ public class IacucActionHelper extends ActionHelper {
 
 
     @Override
-    protected ProtocolTask getAdminCorrectionProtocolTaskInstanceHook(Protocol protocol) {
+    protected ProtocolTaskBase getAdminCorrectionProtocolTaskInstanceHook(ProtocolBase protocol) {
         return new IacucProtocolTask(TaskName.IACUC_PROTOCOL_ADMIN_CORRECTION, (IacucProtocol) protocol);
     }
 
 
     @Override
-    protected ProtocolTask getAdminCorrectionUnavailableProtocolTaskInstanceHook(Protocol protocol) {
+    protected ProtocolTaskBase getAdminCorrectionUnavailableProtocolTaskInstanceHook(ProtocolBase protocol) {
         return new IacucProtocolTask(TaskName.IACUC_PROTOCOL_ADMIN_CORRECTION_UNAVAILABLE, (IacucProtocol) protocol);
     }
 
 
     @Override
-    protected AdminCorrectionBean getNewAdminCorrectionBeanInstanceHook(ActionHelper actionHelper) {
+    protected AdminCorrectionBean getNewAdminCorrectionBeanInstanceHook(ActionHelperBase actionHelper) {
         return new IacucAdminCorrectionBean((IacucActionHelper) actionHelper);
     }
 
@@ -1403,13 +1403,13 @@ public class IacucActionHelper extends ActionHelper {
 
 
     @Override
-    protected ProtocolTask getNewRenewalProtocolTaskInstanceHook(Protocol protocol) {
+    protected ProtocolTaskBase getNewRenewalProtocolTaskInstanceHook(ProtocolBase protocol) {
         return new IacucProtocolTask(TaskName.CREATE_IACUC_PROTOCOL_RENEWAL, (IacucProtocol) protocol);
     }
 
 
     @Override
-    protected ProtocolTask getNewRenewalProtocolUnavailableTaskInstanceHook(Protocol protocol) {
+    protected ProtocolTaskBase getNewRenewalProtocolUnavailableTaskInstanceHook(ProtocolBase protocol) {
         return new IacucProtocolTask(TaskName.CREATE_IACUC_PROTOCOL_RENEWAL_UNAVAILABLE, (IacucProtocol) protocol);
     }
 
@@ -1450,25 +1450,25 @@ public class IacucActionHelper extends ActionHelper {
 
     @Override
     protected boolean hasModifyAmendmentSectionsPermission() {
-        ProtocolTask task = getModifyAmendmentSectionsProtocolTaskInstanceHook(getProtocol());
+        ProtocolTaskBase task = getModifyAmendmentSectionsProtocolTaskInstanceHook(getProtocol());
         return ((!getProtocol().isRenewalWithoutAmendment() && !getProtocol().isContinuationWithoutAmendment())&&(getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task)));
     }
 
     protected boolean hasCreateContinuationPermission() {
-        ProtocolTask task = getNewContinuationProtocolTaskInstance(getProtocol());
+        ProtocolTaskBase task = getNewContinuationProtocolTaskInstance(getProtocol());
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
     
     protected boolean hasCreateContinuationUnavailablePermission() {
-        ProtocolTask task = getNewContinuationProtocolUnavailableTaskInstance(getProtocol());
+        ProtocolTaskBase task = getNewContinuationProtocolUnavailableTaskInstance(getProtocol());
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
 
-    protected ProtocolTask getNewContinuationProtocolTaskInstance(Protocol protocol) {
+    protected ProtocolTaskBase getNewContinuationProtocolTaskInstance(ProtocolBase protocol) {
         return new IacucProtocolTask(TaskName.CREATE_IACUC_PROTOCOL_CONTINUATION, (IacucProtocol) protocol);
     }
 
-    protected ProtocolTask getNewContinuationProtocolUnavailableTaskInstance(Protocol protocol) {
+    protected ProtocolTaskBase getNewContinuationProtocolUnavailableTaskInstance(ProtocolBase protocol) {
         return new IacucProtocolTask(TaskName.CREATE_IACUC_PROTOCOL_CONTINUATION_UNAVAILABLE, (IacucProtocol) protocol);
     }
 

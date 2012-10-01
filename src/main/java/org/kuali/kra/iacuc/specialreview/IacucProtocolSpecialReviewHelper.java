@@ -22,14 +22,14 @@ import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.IacucProtocolForm;
 import org.kuali.kra.iacuc.auth.IacucProtocolTask;
-import org.kuali.kra.protocol.auth.ProtocolTask;
-import org.kuali.kra.protocol.specialreview.ProtocolSpecialReview;
-import org.kuali.kra.protocol.specialreview.ProtocolSpecialReviewHelper;
+import org.kuali.kra.protocol.auth.ProtocolTaskBase;
+import org.kuali.kra.protocol.specialreview.ProtocolSpecialReviewBase;
+import org.kuali.kra.protocol.specialreview.ProtocolSpecialReviewHelperBase;
 
 /**
  * Defines the Special Review Helper for Protocol.
  */
-public class IacucProtocolSpecialReviewHelper extends ProtocolSpecialReviewHelper {
+public class IacucProtocolSpecialReviewHelper extends ProtocolSpecialReviewHelperBase {
     
     private IacucProtocolForm form;
 
@@ -47,12 +47,12 @@ public class IacucProtocolSpecialReviewHelper extends ProtocolSpecialReviewHelpe
 
     @Override
     protected boolean hasModifySpecialReviewPermission(String principalId) {
-        ProtocolTask task = new IacucProtocolTask(TaskName.MODIFY_IACUC_PROTOCOL_SPECIAL_REVIEW, (IacucProtocol)form.getProtocolDocument().getProtocol());
+        ProtocolTaskBase task = new IacucProtocolTask(TaskName.MODIFY_IACUC_PROTOCOL_SPECIAL_REVIEW, (IacucProtocol)form.getProtocolDocument().getProtocol());
         return getTaskAuthorizationService().isAuthorized(principalId, task);
     }
     
     @Override
-    protected List<ProtocolSpecialReview> getSpecialReviews() {
+    protected List<ProtocolSpecialReviewBase> getSpecialReviews() {
         return form.getProtocolDocument().getProtocol().getSpecialReviews();
     }
 

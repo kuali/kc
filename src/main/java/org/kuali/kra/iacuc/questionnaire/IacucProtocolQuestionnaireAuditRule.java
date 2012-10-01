@@ -18,21 +18,21 @@ package org.kuali.kra.iacuc.questionnaire;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.actions.amendrenew.IacucProtocolModule;
-import org.kuali.kra.protocol.Protocol;
-import org.kuali.kra.protocol.questionnaire.ProtocolModuleQuestionnaireBean;
-import org.kuali.kra.protocol.questionnaire.ProtocolQuestionnaireAuditRule;
+import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.protocol.questionnaire.ProtocolModuleQuestionnaireBeanBase;
+import org.kuali.kra.protocol.questionnaire.ProtocolQuestionnaireAuditRuleBase;
 
-public class IacucProtocolQuestionnaireAuditRule extends ProtocolQuestionnaireAuditRule {
+public class IacucProtocolQuestionnaireAuditRule extends ProtocolQuestionnaireAuditRuleBase {
     
     protected String getModuleCodeHook() {
         return CoeusModule.IRB_MODULE_CODE;
     }
 
-    protected ProtocolModuleQuestionnaireBean getProtocolModuleQuestionnaireBean(Protocol protocol) {
+    protected ProtocolModuleQuestionnaireBeanBase getProtocolModuleQuestionnaireBean(ProtocolBase protocol) {
         return new IacucProtocolModuleQuestionnaireBean((IacucProtocol) protocol);
     }
 
-    protected ProtocolModuleQuestionnaireBean getProtocolModuleQuestionnaireBean(String moduleItemCode, String moduleItemKey, String moduleSubItemCode, String moduleSubItemKey, boolean finalDoc) {
+    protected ProtocolModuleQuestionnaireBeanBase getProtocolModuleQuestionnaireBean(String moduleItemCode, String moduleItemKey, String moduleSubItemCode, String moduleSubItemKey, boolean finalDoc) {
         return new IacucProtocolModuleQuestionnaireBean(moduleItemCode, moduleItemKey, moduleSubItemCode, moduleSubItemKey, finalDoc);
     }
 

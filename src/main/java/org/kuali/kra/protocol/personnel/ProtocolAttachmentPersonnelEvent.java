@@ -15,16 +15,16 @@
  */
 package org.kuali.kra.protocol.personnel;
 
-import org.kuali.kra.protocol.ProtocolDocument;
-import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentPersonnel;
+import org.kuali.kra.protocol.ProtocolDocumentBase;
+import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentPersonnelBase;
 
 /**
  * Event triggered when a protocol attachment personnel is modified on a
- * <code>{@link ProtocolDocument}</code>
+ * <code>{@link ProtocolDocumentBase}</code>
  */
 public interface ProtocolAttachmentPersonnelEvent {
     
-    public ProtocolAttachmentPersonnel getProtocolAttachmentPersonnel();
+    public ProtocolAttachmentPersonnelBase getProtocolAttachmentPersonnel();
     
     public int getPersonIndex();
 }

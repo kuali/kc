@@ -18,10 +18,10 @@ package org.kuali.kra.protocol.auth;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolModule;
 
 /**
- * The Modify Protocol Funding Source Authorizer determines if
+ * The Modify ProtocolBase Funding Source Authorizer determines if
  * the user can modify the funding sources for a protocol.
  */
-public class ModifyProtocolFundingSourceAuthorizer extends ModifyAmendmentAuthorizer {
+public class ModifyProtocolFundingSourceAuthorizer extends ModifyAmendmentAuthorizerBase {
 
     public ModifyProtocolFundingSourceAuthorizer() {
         super(ProtocolModule.FUNDING_SOURCE);

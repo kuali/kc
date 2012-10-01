@@ -37,7 +37,7 @@ public class ProtocolPersonValuesFinder extends KeyValuesBase {
     private Long protocolId;
     
     /**
-     * Gets the keyvalue pair for {@link ProtocolPerson ProtocolPerson}.
+     * Gets the keyvalue pair for {@link ProtocolPersonBase ProtocolPersonBase}.
      * The key is the protocolPersonId and the value is the type personName.
      * <p>
      * {@link #setProtocolId(Integer) setProtocolId(Integer)}
@@ -61,9 +61,9 @@ public class ProtocolPersonValuesFinder extends KeyValuesBase {
      * @return the {@link KeyValuesFinder KeyValuesFinder}
      */
     KeyValuesFinder createKeyValuesFinder() {
-        ConditionValuesFinder<ProtocolPerson> condFinder
-            = new ConditionValuesFinder<ProtocolPerson>();
-        condFinder.setClazz(ProtocolPerson.class);
+        ConditionValuesFinder<ProtocolPersonBase> condFinder
+            = new ConditionValuesFinder<ProtocolPersonBase>();
+        condFinder.setClazz(ProtocolPersonBase.class);
         condFinder.setKey(PROTOCOL_PERSON_ID_NAME);
         condFinder.setValue(PERSON_NAME_NAME);
         condFinder.setConditions(Collections.<String, Object>singletonMap(PROTOCOL_ID_NAME, this.getProtocolId()));
@@ -71,16 +71,16 @@ public class ProtocolPersonValuesFinder extends KeyValuesBase {
     }
     
     /**
-     * Gets the Protocol Id.
-     * @return the Protocol Id
+     * Gets the ProtocolBase Id.
+     * @return the ProtocolBase Id
      */
     public Long getProtocolId() {
         return this.protocolId;
     }
 
     /**
-     * Sets the Protocol Id.
-     * @param protocolId the Protocol Id
+     * Sets the ProtocolBase Id.
+     * @param protocolId the ProtocolBase Id
      */
     public void setProtocolId(final Long protocolId) {
         this.protocolId = protocolId;

@@ -18,8 +18,8 @@ package org.kuali.kra.iacuc.auth;
 import org.kuali.kra.common.committee.bo.CommitteeDecisionMotionType;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
 import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.kra.protocol.actions.ProtocolAction;
-import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
+import org.kuali.kra.protocol.actions.ProtocolActionBase;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 
 /**
  * Is the user allowed to disapprove protocols and the action is currently not available?
@@ -31,13 +31,13 @@ public class DisapproveIacucProtocolUnavailableAuthorizer extends IacucProtocolA
      * @see org.kuali.kra.protocol.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.protocol.auth.ProtocolTask)
      */
     public boolean isAuthorized(String userId, IacucProtocolTask task) {        
-        ProtocolAction lastAction = task.getProtocol().getLastProtocolAction();
-        ProtocolSubmission lastSubmission = task.getProtocol().getProtocolSubmission();
+        ProtocolActionBase lastAction = task.getProtocol().getLastProtocolAction();
+        ProtocolSubmissionBase lastSubmission = task.getProtocol().getProtocolSubmission();
         
         return (!canPerform(lastAction, lastSubmission)) && hasPermission(userId, task.getProtocol(), PermissionConstants.PERFORM_IACUC_ACTIONS_ON_PROTO);
     }
     
-    private boolean canPerform(ProtocolAction lastAction, ProtocolSubmission lastSubmission) {
+    private boolean canPerform(ProtocolActionBase lastAction, ProtocolSubmissionBase lastSubmission) {
         boolean canPerform = false;
         
         if (lastAction != null && lastSubmission != null) {

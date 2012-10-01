@@ -23,7 +23,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.kuali.kra.infrastructure.RoleConstants;
-import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReview;
+import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewBase;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.rice.core.api.exception.RiceIllegalArgumentException;
@@ -61,7 +61,7 @@ public class IacucProtocolOnlineReviewDerivedRoleTypeServiceImpl  extends Derive
         if (NumberUtils.isNumber(qualificationSubmissionId) && NumberUtils.isNumber(qualificationReviewId)) {
             Long submissionId = Long.parseLong(qualificationSubmissionId);
             Long reviewId = Long.parseLong(qualificationReviewId);
-            for (ProtocolOnlineReview pReview : getProtocolOnlineReviewService().getProtocolReviews(submissionId)) {
+            for (ProtocolOnlineReviewBase pReview : getProtocolOnlineReviewService().getProtocolReviews(submissionId)) {
                 if (!pReview.getProtocolReviewer().getNonEmployeeFlag() && reviewId.equals(pReview.getProtocolOnlineReviewId())) {
                     pReview.refresh();
                     members.add(RoleMembership.Builder.create(null, null, pReview.getProtocolReviewer().getPersonId(), MemberType.PRINCIPAL, null).build() );
@@ -88,8 +88,8 @@ public class IacucProtocolOnlineReviewDerivedRoleTypeServiceImpl  extends Derive
             validateRequiredAttributesAgainstReceived(qualification);
             //a principal has the role if they have an online review for the protocol.
             String protocolNumber = qualification.get(KcKimAttributes.PROTOCOL);
-            List<ProtocolOnlineReview> reviews = getProtocolOnlineReviewService().getProtocolReviews(protocolNumber);
-            for( ProtocolOnlineReview review : reviews ) {
+            List<ProtocolOnlineReviewBase> reviews = getProtocolOnlineReviewService().getProtocolReviews(protocolNumber);
+            for( ProtocolOnlineReviewBase review : reviews ) {
                 if( !review.getProtocolReviewer().getNonEmployeeFlag() && StringUtils.equals( review.getProtocolReviewer().getPersonId(), principalId ) ) {
                     return  true;
                 }

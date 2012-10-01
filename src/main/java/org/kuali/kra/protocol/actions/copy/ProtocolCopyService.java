@@ -15,15 +15,15 @@
  */
 package org.kuali.kra.protocol.actions.copy;
 
-import org.kuali.kra.protocol.ProtocolDocument;
+import org.kuali.kra.protocol.ProtocolDocumentBase;
 
 
 /**
- * The Protocol Copy Service is responsible for copying protocols.
+ * The ProtocolBase Copy Service is responsible for copying protocols.
  *
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
-public interface ProtocolCopyService<GenericProtocolDocument extends ProtocolDocument> {
+public interface ProtocolCopyService<GenericProtocolDocument extends ProtocolDocumentBase> {
     
     /**
      * Copy a protocol document.
@@ -46,5 +46,5 @@ public interface ProtocolCopyService<GenericProtocolDocument extends ProtocolDoc
      *         otherwise null if an error occurred, e.g. the user didn't have permission to copy the document
      * @throws Exception if anything really bad happens
      */
-    public ProtocolDocument copyProtocol(GenericProtocolDocument doc, String protocolNumber, boolean isAmendmentRenewal) throws Exception;
+    public ProtocolDocumentBase copyProtocol(GenericProtocolDocument doc, String protocolNumber, boolean isAmendmentRenewal) throws Exception;
 }

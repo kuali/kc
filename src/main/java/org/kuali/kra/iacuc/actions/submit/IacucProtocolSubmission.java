@@ -17,14 +17,14 @@ package org.kuali.kra.iacuc.actions.submit;
 
 import org.kuali.kra.iacuc.committee.bo.IacucCommittee;
 import org.kuali.kra.iacuc.committee.bo.IacucCommitteeSchedule;
-import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionQualifierTypeBase;
 
 /**
  * 
  * This class tracks the data associated with the submission of a protocol for review.
  */
-public class IacucProtocolSubmission extends ProtocolSubmission {
+public class IacucProtocolSubmission extends ProtocolSubmissionBase {
     
     /**
      * Comment for <code>serialVersionUID</code>

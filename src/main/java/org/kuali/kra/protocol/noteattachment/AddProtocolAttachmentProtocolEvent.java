@@ -17,25 +17,25 @@ package org.kuali.kra.protocol.noteattachment;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.kra.protocol.ProtocolDocument;
+import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 /**
- * Event created when adding a new {@link ProtocolAttachmentProtocol ProtocolAttachmentProtocol}.
+ * Event created when adding a new {@link ProtocolAttachmentProtocolBase ProtocolAttachmentProtocolBase}.
  */
 class AddProtocolAttachmentProtocolEvent extends KraDocumentEventBase {
 
     private static final Log LOG = LogFactory.getLog(AddProtocolAttachmentProtocolEvent.class);
-    private final ProtocolAttachmentProtocol newAttachmentProtocol;
+    private final ProtocolAttachmentProtocolBase newAttachmentProtocol;
     
     /**
      * Creates a new event.
      * @param document the document.
      * @param newAttachmentProtocol the new attachment to be added.
      */
-    public AddProtocolAttachmentProtocolEvent(final ProtocolDocument document,
-        final ProtocolAttachmentProtocol newAttachmentProtocol) {
+    public AddProtocolAttachmentProtocolEvent(final ProtocolDocumentBase document,
+        final ProtocolAttachmentProtocolBase newAttachmentProtocol) {
         super("adding new protocol attachment", "notesAttachmentsHelper", document);
         
         if (document == null) {
@@ -66,10 +66,10 @@ class AddProtocolAttachmentProtocolEvent extends KraDocumentEventBase {
     }
 
     /**
-     * Gets new {@link ProtocolAttachmentProtocol ProtocolAttachmentProtocol}.
-     * @return new {@link ProtocolAttachmentProtocol ProtocolAttachmentProtocol}.
+     * Gets new {@link ProtocolAttachmentProtocolBase ProtocolAttachmentProtocolBase}.
+     * @return new {@link ProtocolAttachmentProtocolBase ProtocolAttachmentProtocolBase}.
      */
-    public ProtocolAttachmentProtocol getNewAttachmentProtocol() {
+    public ProtocolAttachmentProtocolBase getNewAttachmentProtocol() {
         return this.newAttachmentProtocol;
     }
 }

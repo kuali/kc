@@ -17,15 +17,15 @@ package org.kuali.kra.protocol.actions.correspondence;
 
 import java.util.List;
 
-import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceTemplate;
+import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceTemplateBase;
 
 public interface ProtocolActionTypeToCorrespondenceTemplateService {
     /**
      * 
-     * This method maps a protocol action type to a protocol correspondence template, and returns a list of ProtocolCorrespondenceTemplate objects.
+     * This method maps a protocol action type to a protocol correspondence template, and returns a list of ProtocolCorrespondenceTemplateBase objects.
      * @param protocolActionType a ProtocolActionType String
-     * @return a list of ProtocolCorrespondenceTemplate objects.
+     * @return a list of ProtocolCorrespondenceTemplateBase objects.
      */
-    List<ProtocolCorrespondenceTemplate> getTemplatesByProtocolAction(String protocolActionType); 
+    List<ProtocolCorrespondenceTemplateBase> getTemplatesByProtocolAction(String protocolActionType); 
 
 }

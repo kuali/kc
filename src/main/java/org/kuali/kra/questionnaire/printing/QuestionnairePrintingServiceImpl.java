@@ -28,9 +28,9 @@ import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.print.AbstractPrint;
 import org.kuali.kra.printing.service.PrintingService;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
-import org.kuali.kra.protocol.Protocol;
+import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.print.QuestionnairePrintOption;
-import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.kra.questionnaire.Questionnaire;
 import org.kuali.kra.questionnaire.print.QuestionnairePrint;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -133,19 +133,19 @@ public abstract class QuestionnairePrintingServiceImpl implements QuestionnaireP
      * need further work for requestion submission questionnaire printables
      * which should be retrieved from protocolsubmission ?
      */
-    private Protocol getProtocolPrintable(QuestionnairePrintOption printOption) {
+    private ProtocolBase getProtocolPrintable(QuestionnairePrintOption printOption) {
         if (CoeusSubModule.PROTOCOL_SUBMISSION.equals(printOption.getSubItemCode())) {
             Map keyValues = new HashMap();
             keyValues.put("protocolNumber", printOption.getItemKey());
             keyValues.put("submissionNumber", printOption.getSubItemKey());
-            return ((List<ProtocolSubmission>) businessObjectService.findMatchingOrderBy(getProtocolSubmissionBOClassHook(), keyValues,
+            return ((List<ProtocolSubmissionBase>) businessObjectService.findMatchingOrderBy(getProtocolSubmissionBOClassHook(), keyValues,
                     "submissionId", false)).get(0).getProtocol();
         }
         else {
             Map keyValues = new HashMap();
             keyValues.put("protocolNumber", printOption.getItemKey());
             keyValues.put("sequenceNumber", printOption.getSubItemKey());
-            return ((List<Protocol>) businessObjectService.findMatching(getProtocolBOClassHook(), keyValues)).get(0);
+            return ((List<ProtocolBase>) businessObjectService.findMatching(getProtocolBOClassHook(), keyValues)).get(0);
         }
 
     }
@@ -176,7 +176,7 @@ public abstract class QuestionnairePrintingServiceImpl implements QuestionnaireP
         this.businessObjectService = businessObjectService;
     }
 
-    protected abstract Class<? extends Protocol> getProtocolBOClassHook();
-    protected abstract Class<? extends ProtocolSubmission> getProtocolSubmissionBOClassHook();
+    protected abstract Class<? extends ProtocolBase> getProtocolBOClassHook();
+    protected abstract Class<? extends ProtocolSubmissionBase> getProtocolSubmissionBOClassHook();
 
 }

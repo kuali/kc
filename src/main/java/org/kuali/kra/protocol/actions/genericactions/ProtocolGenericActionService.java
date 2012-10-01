@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.protocol.actions.genericactions;
 
-import org.kuali.kra.protocol.Protocol;
-import org.kuali.kra.protocol.ProtocolDocument;
+import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.protocol.ProtocolDocumentBase;
 
 /**
  * Defines the functions needed for the generic action service functions.
@@ -26,123 +26,123 @@ public interface ProtocolGenericActionService {
 // TODO *********commented the code below during IACUC refactoring*********     
 //    /**
 //     * Close a protocol.
-//     * @param protocol Protocol object
+//     * @param protocol ProtocolBase object
 //     * @param actionBean ProtocolGenericActionBean object
 //     * @throws Exception if there was a general problem performing the action
 //     */
-//    void close(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception;
+//    void close(ProtocolBase protocol, ProtocolGenericActionBean actionBean) throws Exception;
 //    
 //    /**
 //     * Close enrollment for a protocol.
-//     * @param protocol Protocol object
+//     * @param protocol ProtocolBase object
 //     * @param actionBean ProtocolGenericActionBean object
 //     * @throws Exception if there was a general problem performing the action
 //     */
-//    void closeEnrollment(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception;
+//    void closeEnrollment(ProtocolBase protocol, ProtocolGenericActionBean actionBean) throws Exception;
 //
 //    /**
 //     * Defer a protocol.
-//     * @param protocol Protocol object
+//     * @param protocol ProtocolBase object
 //     * @param actionBean ProtocolGenericActionBean object
-//     * @return the newly versioned Protocol document
+//     * @return the newly versioned ProtocolBase document
 //     * @throws Exception if there was a general problem performing the action
 //     */
-//    ProtocolDocument defer(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception;
+//    ProtocolDocumentBase defer(ProtocolBase protocol, ProtocolGenericActionBean actionBean) throws Exception;
     
     /**
      * Disapproves a protocol.
-     * @param protocol Protocol object
+     * @param protocol ProtocolBase object
      * @param actionBean ProtocolGenericActionBean object
      * @throws Exception if there was a general problem performing the action
      */
-    void disapprove(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception;
+    void disapprove(ProtocolBase protocol, ProtocolGenericActionBean actionBean) throws Exception;
     
     /**
      * Expire a protocol.
-     * @param protocol Protocol object
+     * @param protocol ProtocolBase object
      * @param actionBean ProtocolGenericActionBean object
      * @throws Exception if there was a general problem performing the action
      */
-    void expire(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception;
+    void expire(ProtocolBase protocol, ProtocolGenericActionBean actionBean) throws Exception;
     
     
 // TODO *********commented the code below during IACUC refactoring*********     
 //    /**
 //     * Record IRB Acknowledgement for a protocol.
-//     * @param protocol Protocol object
+//     * @param protocol ProtocolBase object
 //     * @param actionBean ProtocolGenericActionBean object
 //     * @throws Exception if there was a general problem performing the action
 //     */
-//    void irbAcknowledgement(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception;
+//    void irbAcknowledgement(ProtocolBase protocol, ProtocolGenericActionBean actionBean) throws Exception;
 //    
 //    /**
 //     * Permit Data Analysis.
-//     * @param protocol Protocol object
+//     * @param protocol ProtocolBase object
 //     * @param actionBean ProtocolGenericActionBean object
 //     * @throws Exception if there was a general problem performing the action
 //     */
-//    void permitDataAnalysis(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception;
+//    void permitDataAnalysis(ProtocolBase protocol, ProtocolGenericActionBean actionBean) throws Exception;
 //    
 //    /**
 //     * Reopen a protocol for enrollment.
-//     * @param protocol Protocol object
+//     * @param protocol ProtocolBase object
 //     * @param actionBean ProtocolGenericActionBean object
 //     * @throws Exception if there was a general problem performing the action
 //     */
-//    void reopenEnrollment(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception;
+//    void reopenEnrollment(ProtocolBase protocol, ProtocolGenericActionBean actionBean) throws Exception;
     
     /**
      * Returns the protocol to the PI for specific minor revisions.
-     * @param protocol Protocol object
+     * @param protocol ProtocolBase object
      * @param actionBean ProtocolGenericActionBean object
-     * @return the newly versioned Protocol document
+     * @return the newly versioned ProtocolBase document
      * @throws Exception if there was a general problem performing the action
      */
-    ProtocolDocument returnForSMR(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception;
+    ProtocolDocumentBase returnForSMR(ProtocolBase protocol, ProtocolGenericActionBean actionBean) throws Exception;
     
 
     /**
      * Returns the protocol to the PI for substantial revisions.
-     * @param protocol Protocol object
+     * @param protocol ProtocolBase object
      * @param actionBean ProtocolGenericActionBean object
-     * @return the newly versioned Protocol document
+     * @return the newly versioned ProtocolBase document
      * @throws Exception if there was a general problem performing the action
      */
-    ProtocolDocument returnForSRR(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception;
+    ProtocolDocumentBase returnForSRR(ProtocolBase protocol, ProtocolGenericActionBean actionBean) throws Exception;
     
     /**
      * Returns the protocol to the PI.
-     * @param protocol Protocol object
+     * @param protocol ProtocolBase object
      * @param actionBean ProtocolGenericActionBean object
-     * @return the newly versioned Protocol document
+     * @return the newly versioned ProtocolBase document
      * @throws Exception if there was a general problem performing the action
      */
-    ProtocolDocument returnToPI(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception;
+    ProtocolDocumentBase returnToPI(ProtocolBase protocol, ProtocolGenericActionBean actionBean) throws Exception;
     
 
     /**
      * Suspend the protocol by the PI or by the IRB Administrator.
-     * @param protocol Protocol object
+     * @param protocol ProtocolBase object
      * @param actionBean ProtocolGenericActionBean object
      * @throws Exception if there was a general problem performing the action
      */
-    void suspend(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception;
+    void suspend(ProtocolBase protocol, ProtocolGenericActionBean actionBean) throws Exception;
 
 // TODO *********commented the code below during IACUC refactoring*********     
 //    /**
 //     * Suspend the protocol by DSMB.
-//     * @param protocol Protocol object
+//     * @param protocol ProtocolBase object
 //     * @param actionBean ProtocolGenericActionBean object
 //     * @throws Exception if there was a general problem performing the action
 //     */
-//    void suspendByDsmb(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception;
+//    void suspendByDsmb(ProtocolBase protocol, ProtocolGenericActionBean actionBean) throws Exception;
     
     /**
      * Terminate a protocol.
-     * @param protocol Protocol object
+     * @param protocol ProtocolBase object
      * @param actionBean ProtocolGenericActionBean object
      * @throws Exception if there was a general problem performing the action
      */
-    void terminate(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception;
+    void terminate(ProtocolBase protocol, ProtocolGenericActionBean actionBean) throws Exception;
     
 }

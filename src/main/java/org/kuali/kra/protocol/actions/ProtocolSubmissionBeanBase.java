@@ -49,7 +49,7 @@ public interface ProtocolSubmissionBeanBase extends ProtocolActionBean {
     private List<ProtocolActionAttachment> actionAttachments = new ArrayList<ProtocolActionAttachment>();
     private List<AnswerHeader> answerHeaders;
 
-    public ProtocolSubmissionBeanBase(ActionHelper actionHelper) {
+    public ProtocolSubmissionBeanBase(ActionHelperBase actionHelper) {
         super(actionHelper);
     }
 

@@ -25,7 +25,7 @@ import org.kuali.kra.iacuc.onlinereview.authorization.IacucProtocolOnlineReviewT
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewForm;
+import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewFormBase;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.kns.web.ui.ExtraButton;
@@ -33,7 +33,7 @@ import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 @SuppressWarnings("deprecation")
-public class IacucProtocolOnlineReviewForm  extends ProtocolOnlineReviewForm  {
+public class IacucProtocolOnlineReviewForm  extends ProtocolOnlineReviewFormBase  {
     
     
     /**

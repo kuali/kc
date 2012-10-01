@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.iacuc.protocol.location;
 
-import org.kuali.kra.protocol.protocol.location.ProtocolLocationRule;
+import org.kuali.kra.protocol.protocol.location.ProtocolLocationRuleBase;
 
-public class IacucProtocolLocationRule extends ProtocolLocationRule {
+public class IacucProtocolLocationRule extends ProtocolLocationRuleBase {
 
 }

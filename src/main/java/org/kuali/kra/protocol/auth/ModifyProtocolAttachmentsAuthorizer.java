@@ -18,10 +18,10 @@ package org.kuali.kra.protocol.auth;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolModule;
 
 /**
- * The Modify Protocol Attachments Authorizer determines if
+ * The Modify ProtocolBase Attachments Authorizer determines if
  * the user can modify the attachments for a protocol.
  */
-public class ModifyProtocolAttachmentsAuthorizer extends ModifyAmendmentAuthorizer {
+public class ModifyProtocolAttachmentsAuthorizer extends ModifyAmendmentAuthorizerBase {
 
     public ModifyProtocolAttachmentsAuthorizer() {
         super(ProtocolModule.ADD_MODIFY_ATTACHMENTS);

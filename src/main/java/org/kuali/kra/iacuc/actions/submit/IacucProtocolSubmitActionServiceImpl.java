@@ -30,7 +30,7 @@ import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
 import org.kuali.kra.iacuc.actions.IacucProtocolStatus;
 import org.kuali.kra.iacuc.committee.meeting.IacucCommitteeScheduleMinute;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinuteBase;
-import org.kuali.kra.protocol.Protocol;
+import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolActionService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -62,7 +62,7 @@ public class IacucProtocolSubmitActionServiceImpl implements IacucProtocolSubmit
     }
     
     /**
-     * Set the Protocol Action Service.
+     * Set the ProtocolBase Action Service.
      * @param protocolActionService
      */
     public void setProtocolActionService(ProtocolActionService protocolActionService) {
@@ -70,7 +70,7 @@ public class IacucProtocolSubmitActionServiceImpl implements IacucProtocolSubmit
     }
     
     /**
-     * Set the Protocol Finder DAO.
+     * Set the ProtocolBase Finder DAO.
      * @param protocolFinderDao
      */
     public void setProtocolFinderDao(IacucProtocolFinderDao protocolFinderDao) {
@@ -86,7 +86,7 @@ public class IacucProtocolSubmitActionServiceImpl implements IacucProtocolSubmit
     }
     
     /**
-     * Set the Protocol Assign Reviewers Service.
+     * Set the ProtocolBase Assign Reviewers Service.
      * @param protocolAssignReviewersService
      */
 //    public void setProtocolAssignReviewersService(ProtocolAssignReviewersService protocolAssignReviewersService) {
@@ -207,7 +207,7 @@ public class IacucProtocolSubmitActionServiceImpl implements IacucProtocolSubmit
      * data for a submission: type, checklists, reviewers, etc.
      * @throws Exception 
      * 
-     * @see org.kuali.kra.iacuc.actions.submit.ProtocolSubmitActionService#submitToIacucForReview(org.kuali.kra.protocol.Protocol, org.kuali.kra.protocol.actions.submit.ProtocolSubmitAction)
+     * @see org.kuali.kra.iacuc.actions.submit.ProtocolSubmitActionService#submitToIacucForReview(org.kuali.kra.protocol.ProtocolBase, org.kuali.kra.protocol.actions.submit.ProtocolSubmitAction)
      */
     public void submitToIacucForReview(IacucProtocol protocol, IacucProtocolSubmitAction submitAction) throws Exception {
         
@@ -281,7 +281,7 @@ public class IacucProtocolSubmitActionServiceImpl implements IacucProtocolSubmit
     protected void addActionToOriginalProtocol(String type, String origProtocolNumber, Integer submissionNumber) throws WorkflowException {
         String protocolNumber = origProtocolNumber.substring(0, 10);
         String index = origProtocolNumber.substring(11);
-        Protocol protocol = protocolFinderDao.findCurrentProtocolByNumber(protocolNumber);
+        ProtocolBase protocol = protocolFinderDao.findCurrentProtocolByNumber(protocolNumber);
         IacucProtocolAction protocolAction = new IacucProtocolAction((IacucProtocol) protocol, null, IacucProtocolActionType.SUBMITTED_TO_IACUC);
         protocolAction.setComments(type + "-" + index + ": " + SUBMITTED_TO_IACUC);
         protocolAction.setSubmissionNumber(submissionNumber);
@@ -293,7 +293,7 @@ public class IacucProtocolSubmitActionServiceImpl implements IacucProtocolSubmit
     }
 
     /**
-     * Create a Protocol Submission.
+     * Create a ProtocolBase Submission.
      * @param protocol the protocol
      * @param submitAction the submission data
      * @return a protocol submission

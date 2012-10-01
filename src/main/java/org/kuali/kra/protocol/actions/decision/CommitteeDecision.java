@@ -20,12 +20,12 @@ import java.util.List;
 import org.kuali.kra.common.committee.bo.CommitteeDecisionMotionType;
 import org.kuali.kra.protocol.actions.ProtocolActionBean;
 import org.kuali.kra.protocol.actions.ProtocolOnlineReviewCommentable;
-import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsBean;
+import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsBeanBase;
 
 /**
  * This class is a bean for managing the input for a committee decision.
  */
-public interface CommitteeDecision<CP extends CommitteePerson> extends ProtocolActionBean, ProtocolOnlineReviewCommentable, Serializable {
+public interface CommitteeDecision<CP extends CommitteePersonBase> extends ProtocolActionBean, ProtocolOnlineReviewCommentable, Serializable {
     
     /**
      * This method initializes the class.
@@ -86,7 +86,7 @@ public interface CommitteeDecision<CP extends CommitteePerson> extends ProtocolA
     
     public int getNoCountValue();
 
-    public void setReviewCommentsBean(ReviewCommentsBean reviewCommentsBean);
+    public void setReviewCommentsBean(ReviewCommentsBeanBase reviewCommentsBean);
 
 
 }

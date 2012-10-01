@@ -18,10 +18,10 @@ package org.kuali.kra.protocol.auth;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolModule;
 
 /**
- * The Add Protocol Notes Authorizer determines if a user has the right
+ * The Add ProtocolBase Notes Authorizer determines if a user has the right
  * to create protocol notes
  */
-public class AddProtocolNotesAuthorizer extends ModifyAmendmentAuthorizer {
+public class AddProtocolNotesAuthorizer extends ModifyAmendmentAuthorizerBase {
 
     protected AddProtocolNotesAuthorizer() {
         super(ProtocolModule.ADD_MODIFY_ATTACHMENTS);

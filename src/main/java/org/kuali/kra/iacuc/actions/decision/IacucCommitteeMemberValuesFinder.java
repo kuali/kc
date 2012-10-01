@@ -21,12 +21,12 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.common.committee.bo.CommitteeBase;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
 import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
-import org.kuali.kra.protocol.Protocol;
-import org.kuali.kra.protocol.ProtocolForm;
+import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.protocol.ProtocolFormBase;
 import org.kuali.kra.iacuc.actions.IacucActionsKeyValuesBase;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionStatus;
 import org.kuali.kra.iacuc.committee.service.IacucCommitteeService;
-import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleAttendanceBase;
 import org.kuali.kra.common.committee.service.CommitteeServiceBase;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
@@ -49,9 +49,9 @@ public class IacucCommitteeMemberValuesFinder extends IacucActionsKeyValuesBase 
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         keyValues.add(new ConcreteKeyValue("", "select"));
         
-        Protocol protocol = getProtocol();
+        ProtocolBase protocol = getProtocol();
         if (protocol != null) {
-            ProtocolSubmission submission = getCurrentSubmission(protocol);
+            ProtocolSubmissionBase submission = getCurrentSubmission(protocol);
             if (submission != null) {
                 String committeeId = submission.getCommitteeId();
                 CommitteeBase committee = getCommitteeService().getCommitteeById(committeeId);
@@ -69,8 +69,8 @@ public class IacucCommitteeMemberValuesFinder extends IacucActionsKeyValuesBase 
         return keyValues;
     }
 
-    private ProtocolSubmission getCurrentSubmission(Protocol protocol) {
-        for (ProtocolSubmission submission : protocol.getProtocolSubmissions()) {
+    private ProtocolSubmissionBase getCurrentSubmission(ProtocolBase protocol) {
+        for (ProtocolSubmissionBase submission : protocol.getProtocolSubmissions()) {
             if (StringUtils.equals(submission.getSubmissionStatusCode(), IacucProtocolSubmissionStatus.IN_AGENDA) ||
                 StringUtils.equals(submission.getSubmissionStatusCode(), IacucProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE)) {
                 return submission;
@@ -79,16 +79,16 @@ public class IacucCommitteeMemberValuesFinder extends IacucActionsKeyValuesBase 
         return null;
     }
 
-    private Protocol getProtocol() {
+    private ProtocolBase getProtocol() {
         KualiForm form = KNSGlobalVariables.getKualiForm();
-        if (form != null && form instanceof ProtocolForm) {
-            return ((ProtocolForm) form).getProtocolDocument().getProtocol();
+        if (form != null && form instanceof ProtocolFormBase) {
+            return ((ProtocolFormBase) form).getProtocolDocument().getProtocol();
         }
         return null;
     }
     
     private boolean isReviewerAttendingMeeting(CommitteeMembershipBase member) {
-        Protocol prot = getProtocol();
+        ProtocolBase prot = getProtocol();
         boolean retVal = false;
         if (prot != null) {
             CommitteeScheduleBase schedule = prot.getProtocolSubmission().getCommitteeSchedule();

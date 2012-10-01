@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.iacuc.correspondence;
 
-import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceType;
+import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceTypeBase;
 
-public class IacucProtocolCorrespondenceType extends ProtocolCorrespondenceType{
+public class IacucProtocolCorrespondenceType extends ProtocolCorrespondenceTypeBase{
 
     /**
      * Comment for <code>serialVersionUID</code>

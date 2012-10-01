@@ -18,9 +18,9 @@ package org.kuali.kra.iacuc.procedures;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kra.protocol.ProtocolAssociate;
+import org.kuali.kra.protocol.ProtocolAssociateBase;
 
-public class IacucProtocolStudyGroupBean extends ProtocolAssociate {
+public class IacucProtocolStudyGroupBean extends ProtocolAssociateBase {
 
 
     /**

@@ -16,19 +16,19 @@
 package org.kuali.kra.protocol.auth;
 
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.protocol.ProtocolDocument;
+import org.kuali.kra.protocol.ProtocolDocumentBase;
 
 /**
  * Is the user allowed to approve protocols?
  */
-public class ProtocolApproveOtherAuthorizer extends ProtocolAuthorizer {
+public class ProtocolApproveOtherAuthorizer extends ProtocolAuthorizerBase {
 
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.protocol.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.protocol.auth.ProtocolTask)
+     * @see org.kuali.kra.protocol.auth.ProtocolAuthorizerBase#isAuthorized(java.lang.String, org.kuali.kra.protocol.auth.ProtocolTaskBase)
      */
-    public boolean isAuthorized(String userId, ProtocolTask task) {
-        ProtocolDocument protocolDocument = task.getProtocol().getProtocolDocument();
+    public boolean isAuthorized(String userId, ProtocolTaskBase task) {
+        ProtocolDocumentBase protocolDocument = task.getProtocol().getProtocolDocument();
 
         return kraWorkflowService.isUserActionRequested(protocolDocument, userId) && 
             (!kraWorkflowService.isDocumentOnNode(protocolDocument, Constants.PROTOCOL_IRBREVIEW_ROUTE_NODE_NAME) || 

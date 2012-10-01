@@ -18,7 +18,7 @@ package org.kuali.kra.iacuc.auth;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
 import org.kuali.kra.iacuc.auth.IacucProtocolTask;
 import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.kra.protocol.actions.ProtocolAction;
+import org.kuali.kra.protocol.actions.ProtocolActionBase;
 /**
  * Is the user allowed to record committee decisions for a protocol?
  */
@@ -43,7 +43,7 @@ public class RecordCommitteeDecisionIacucProtocolUnavailableAuthorizer extends I
      * @param lastAction
      * @return
      */
-    private boolean canRecordCommitteeDecision(ProtocolAction lastAction) {
+    private boolean canRecordCommitteeDecision(ProtocolActionBase lastAction) {
         if(lastAction != null && !IacucProtocolActionType.RECORD_COMMITTEE_DECISION.equals(lastAction.getProtocolActionTypeCode())) {
             return true;
         }

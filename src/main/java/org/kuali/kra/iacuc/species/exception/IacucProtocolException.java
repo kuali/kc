@@ -17,9 +17,9 @@ package org.kuali.kra.iacuc.species.exception;
 
 import org.kuali.kra.iacuc.IacucExceptionCategory;
 import org.kuali.kra.iacuc.IacucSpecies;
-import org.kuali.kra.protocol.ProtocolAssociate;
+import org.kuali.kra.protocol.ProtocolAssociateBase;
 
-public class IacucProtocolException extends ProtocolAssociate { 
+public class IacucProtocolException extends ProtocolAssociateBase { 
     
     private static final long serialVersionUID = 1L;
 

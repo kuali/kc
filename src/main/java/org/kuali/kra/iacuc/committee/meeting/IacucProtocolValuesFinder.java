@@ -17,7 +17,7 @@ package org.kuali.kra.iacuc.committee.meeting;
 
 import org.kuali.kra.common.committee.meeting.ProtocolValuesFinderBase;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
-import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 
 public class IacucProtocolValuesFinder extends ProtocolValuesFinderBase {
 
@@ -27,7 +27,7 @@ public class IacucProtocolValuesFinder extends ProtocolValuesFinderBase {
     private static final long serialVersionUID = -360649243591776772L;
 
     @Override
-    protected Class<? extends ProtocolSubmission> getProtocolSubmissionBOClassHook() {
+    protected Class<? extends ProtocolSubmissionBase> getProtocolSubmissionBOClassHook() {
         return IacucProtocolSubmission.class;
     }
 

@@ -21,14 +21,14 @@ import org.kuali.kra.irb.actions.ProtocolActionType;
 /**
  * Is the user allowed to approve a response?
  */
-public class ResponseApprovalAuthorizer extends ProtocolAuthorizer {
+public class ResponseApprovalAuthorizer extends ProtocolAuthorizerBase {
 
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.protocol.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.protocol.auth.ProtocolTask)
+     * @see org.kuali.kra.protocol.auth.ProtocolAuthorizerBase#isAuthorized(java.lang.String, org.kuali.kra.protocol.auth.ProtocolTaskBase)
      */
     @Override
-    public boolean isAuthorized(String userId, ProtocolTask task) {
+    public boolean isAuthorized(String userId, ProtocolTaskBase task) {
         return canExecuteAction(task.getProtocol(), ProtocolActionType.RESPONSE_APPROVAL) 
             && hasPermission(userId, task.getProtocol(), PermissionConstants.MAINTAIN_PROTOCOL_SUBMISSIONS);
     }

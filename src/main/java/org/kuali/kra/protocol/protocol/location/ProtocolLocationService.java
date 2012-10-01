@@ -15,30 +15,30 @@
  */
 package org.kuali.kra.protocol.protocol.location;
 
-import org.kuali.kra.protocol.Protocol;
+import org.kuali.kra.protocol.ProtocolBase;
 
 
 public interface ProtocolLocationService {
 
     /**
-     * This method adds ProtocolLocation to the List of ProtocolLocations.
+     * This method adds ProtocolLocationBase to the List of ProtocolLocations.
      * @param protocol which contains list of ProtocolLocations.
-     * @param ProtocolLocation object is added to ProtocolLocations list.
+     * @param ProtocolLocationBase object is added to ProtocolLocations list.
      */
-    public abstract void addProtocolLocation(Protocol protocol, ProtocolLocation protocolLocation);
+    public abstract void addProtocolLocation(ProtocolBase protocol, ProtocolLocationBase protocolLocation);
     
     /**
-     * This method adds a default ProtocolLocation to the List of ProtocolLocations.
+     * This method adds a default ProtocolLocationBase to the List of ProtocolLocations.
      * i.e. Initialize protocol location with a default organization
      * @param protocol which contains list of ProtocolLocations.
      */
-    public abstract void addDefaultProtocolLocation(Protocol protocol);
+    public abstract void addDefaultProtocolLocation(ProtocolBase protocol);
 
     /**
-     * This method will clear ProtocolLocation address from the List at specified position(lineNumber)
+     * This method will clear ProtocolLocationBase address from the List at specified position(lineNumber)
      * @param protocol which contains list of ProtocolLocations
      * @param lineNumber to clear location address
      */
-    public abstract void clearProtocolLocationAddress(Protocol protocol, int lineNumber);
+    public abstract void clearProtocolLocationAddress(ProtocolBase protocol, int lineNumber);
 
 }

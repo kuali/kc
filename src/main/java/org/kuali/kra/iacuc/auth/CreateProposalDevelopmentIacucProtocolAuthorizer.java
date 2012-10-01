@@ -23,8 +23,8 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.kra.protocol.Protocol;
-import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSource;
+import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceBase;
 /**
  * This service class is used to do authorization for create proposal task for proposal development document.  
  */
@@ -36,7 +36,7 @@ public class CreateProposalDevelopmentIacucProtocolAuthorizer extends IacucProto
      */
     public boolean isAuthorized(String userId, IacucProtocolTask task) {
 
-        Protocol protocol = (Protocol)task.getProtocol();
+        ProtocolBase protocol = (ProtocolBase)task.getProtocol();
 
         return ( canCreateProposal() && hasProposalRequiredFields(protocol)); 
     }
@@ -49,7 +49,7 @@ public class CreateProposalDevelopmentIacucProtocolAuthorizer extends IacucProto
         return canCreateProposal;
     }
         
-    private boolean hasProposalRequiredFields(Protocol protocol)
+    private boolean hasProposalRequiredFields(ProtocolBase protocol)
     {
         boolean validProposalRequiredFields=true;
              
@@ -66,9 +66,9 @@ public class CreateProposalDevelopmentIacucProtocolAuthorizer extends IacucProto
             validProposalRequiredFields = false;
         }
         // find sponsor from funding source
-        List<ProtocolFundingSource> protocolFundingSources = protocol.getProtocolFundingSources();
-        ProtocolFundingSource sponsorProtocolFundingSource = null; 
-        for(ProtocolFundingSource protocolFundingSource : protocolFundingSources)
+        List<ProtocolFundingSourceBase> protocolFundingSources = protocol.getProtocolFundingSources();
+        ProtocolFundingSourceBase sponsorProtocolFundingSource = null; 
+        for(ProtocolFundingSourceBase protocolFundingSource : protocolFundingSources)
         {
             if ( protocolFundingSource.isSponsorFunding() )
             {

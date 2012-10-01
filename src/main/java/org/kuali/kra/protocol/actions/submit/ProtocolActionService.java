@@ -17,8 +17,8 @@ package org.kuali.kra.protocol.actions.submit;
 
 import java.util.List;
 
-import org.kuali.kra.protocol.Protocol;
-import org.kuali.kra.protocol.actions.ProtocolAction;
+import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.protocol.actions.ProtocolActionBase;
 
 
 public interface ProtocolActionService {
@@ -30,7 +30,7 @@ public interface ProtocolActionService {
      * @param protocol
      * @return
      */
-    public List<String> getActionsAllowed(Protocol protocol);
+    public List<String> getActionsAllowed(ProtocolBase protocol);
 
     /**
      * 
@@ -38,7 +38,7 @@ public interface ProtocolActionService {
      * @param protocolActionBo
      * @param protocol
      */
-    public void updateProtocolStatus(ProtocolAction protocolActionBo, Protocol protocol);
+    public void updateProtocolStatus(ProtocolActionBase protocolActionBo, ProtocolBase protocol);
     
     /**
      * 
@@ -46,7 +46,7 @@ public interface ProtocolActionService {
      * @param protocolActionBo
      * @param protocol
      */
-    public void resetProtocolStatus(ProtocolAction protocolActionBo, Protocol protocol);
+    public void resetProtocolStatus(ProtocolActionBase protocolActionBo, ProtocolBase protocol);
 
     /**
      * 
@@ -56,22 +56,22 @@ public interface ProtocolActionService {
      * @param protocol
      * @return
      */
-    public boolean isActionAllowed(String actionTypeCode, Protocol protocol);
+    public boolean isActionAllowed(String actionTypeCode, ProtocolBase protocol);
     
     /**
      * Determines whether the given action in the protocol should be opened, based on whether it is a followup action.
      * @param protocolActionTypeCode The code for the protocol action
-     * @param protocol The Protocol
+     * @param protocol The ProtocolBase
      * @return true, if the Drools rules state that the action should now be open for followup, false otherwise
      */
-    public boolean isActionOpenForFollowup(String protocolActionTypeCode, Protocol protocol);
+    public boolean isActionOpenForFollowup(String protocolActionTypeCode, ProtocolBase protocol);
     
     
     /**
-     * Determines whether the logged in user is Protocol Personnel
-     *@param protocol The Protocol
+     * Determines whether the logged in user is ProtocolBase Personnel
+     *@param protocol The ProtocolBase
      * @return true, if the logged in user is protocol personnel else returns false
      */
     
-    public boolean isProtocolPersonnel(Protocol protocol) ;
+    public boolean isProtocolPersonnel(ProtocolBase protocol) ;
 }

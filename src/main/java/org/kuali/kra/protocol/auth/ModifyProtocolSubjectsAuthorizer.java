@@ -18,10 +18,10 @@ package org.kuali.kra.protocol.auth;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolModule;
 
 /**
- * The Modify Protocol Subjects Authorizer determines if
+ * The Modify ProtocolBase Subjects Authorizer determines if
  * the user can modify the subjects for a protocol.
  */
-public class ModifyProtocolSubjectsAuthorizer extends ModifyAmendmentAuthorizer {
+public class ModifyProtocolSubjectsAuthorizer extends ModifyAmendmentAuthorizerBase {
 
     public ModifyProtocolSubjectsAuthorizer() {
         super(ProtocolModule.SUBJECTS);

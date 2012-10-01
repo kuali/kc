@@ -17,13 +17,13 @@ package org.kuali.kra.iacuc.actions.modifysubmission;
 
 import java.util.List;
 
-import org.kuali.kra.protocol.Protocol;
-import org.kuali.kra.protocol.ProtocolDocument;
-import org.kuali.kra.protocol.actions.submit.ProtocolReviewerBean;
+import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.protocol.ProtocolDocumentBase;
+import org.kuali.kra.protocol.actions.submit.ProtocolReviewerBeanBase;
 
 public interface IacucProtocolModifySubmissionService {
 
-    public void modifySubmission(ProtocolDocument protocolDocument, IacucProtocolModifySubmissionBean bean, List<ProtocolReviewerBean> beans) throws Exception;
+    public void modifySubmission(ProtocolDocumentBase protocolDocument, IacucProtocolModifySubmissionBean bean, List<ProtocolReviewerBeanBase> beans) throws Exception;
 
-    public String getAssignedScheduleId(Protocol protocol);
+    public String getAssignedScheduleId(ProtocolBase protocol);
 }

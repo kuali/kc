@@ -28,18 +28,18 @@ import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.committee.bo.IacucCommittee;
 import org.kuali.kra.iacuc.committee.print.IacucCommitteeXmlStream;
-import org.kuali.kra.protocol.Protocol;
-import org.kuali.kra.protocol.actions.print.ProtocolXmlStream;
-import org.kuali.kra.protocol.actions.print.RenewalReminderStream;
+import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.protocol.actions.print.ProtocolXmlStreamBase;
+import org.kuali.kra.protocol.actions.print.RenewalReminderStreamBase;
 
 import edu.mit.coeus.xml.iacuc.CommitteeMasterDataType;
 import edu.mit.coeus.xml.iacuc.NextScheduleDateType;
 import edu.mit.coeus.xml.iacuc.RenewalReminderDocument;
 import edu.mit.coeus.xml.iacuc.RenewalReminderType;
 
-public class IacucRenewalReminderStream extends RenewalReminderStream {
+public class IacucRenewalReminderStream extends RenewalReminderStreamBase {
 
-    private ProtocolXmlStream protocolXmlStream;
+    private ProtocolXmlStreamBase protocolXmlStream;
     private IacucCommitteeXmlStream committeeXmlStream;
 
     /**
@@ -95,7 +95,7 @@ public class IacucRenewalReminderStream extends RenewalReminderStream {
        return xmlObjectMap;
     }
 
-    private void setActionDate(Protocol protocol) {
+    private void setActionDate(ProtocolBase protocol) {
 // TODO : verify as part of code refactor        
 //       for (ProtocolAction action : protocol.getProtocolActions()) {
 //           if (ProtocolActionType.SPECIFIC_MINOR_REVISIONS_REQUIRED.equals(action.getProtocolActionTypeCode()) ||
@@ -106,7 +106,7 @@ public class IacucRenewalReminderStream extends RenewalReminderStream {
 //       }
     }
     
-    public void setProtocolXmlStream(ProtocolXmlStream protocolXmlStream) {
+    public void setProtocolXmlStream(ProtocolXmlStreamBase protocolXmlStream) {
         this.protocolXmlStream = protocolXmlStream;
     }
 

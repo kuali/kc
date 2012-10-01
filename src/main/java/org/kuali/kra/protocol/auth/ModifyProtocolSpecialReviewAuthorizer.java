@@ -18,10 +18,10 @@ package org.kuali.kra.protocol.auth;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolModule;
 
 /**
- * The Modify Protocol Special Review Authorizer determines if
+ * The Modify ProtocolBase Special Review Authorizer determines if
  * the user can modify the special review for a protocol.
  */
-public class ModifyProtocolSpecialReviewAuthorizer extends ModifyAmendmentAuthorizer {
+public class ModifyProtocolSpecialReviewAuthorizer extends ModifyAmendmentAuthorizerBase {
 
     public ModifyProtocolSpecialReviewAuthorizer() {
         super(ProtocolModule.SPECIAL_REVIEW);

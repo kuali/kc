@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.protocol.protocol.participant;
 
-import org.kuali.kra.protocol.Protocol;
+import org.kuali.kra.protocol.ProtocolBase;
 
 /**
  * 
  * This interface describes the service API to maintain the <code>{@link ProtocolParticipant}</code>s of a
- * <code>{@link Protocol}</code>.
+ * <code>{@link ProtocolBase}</code>.
  * 
  * @author Kuali Research Administration Team (kc.dev@kuali.org)
  */
@@ -33,6 +33,6 @@ public interface ProtocolParticipantService {
      * @param protocol which contains list of ProtocolParticipant.
      * @param protocolParticipant which is added to ProtocolParticipants list after setting ParticipantType.
      */
-    void addProtocolParticipant(Protocol protocol, ProtocolParticipant protocolParticipant);
+    void addProtocolParticipant(ProtocolBase protocol, ProtocolParticipant protocolParticipant);
 
 }

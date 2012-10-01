@@ -17,7 +17,7 @@ package org.kuali.kra.protocol.actions.request;
 
 import java.io.Serializable;
 
-import org.kuali.kra.protocol.actions.ActionHelper;
+import org.kuali.kra.protocol.actions.ActionHelperBase;
 import org.kuali.kra.protocol.actions.ProtocolSubmissionBeanBase;
 
 /**
@@ -33,7 +33,7 @@ import org.kuali.kra.protocol.actions.ProtocolSubmissionBeanBase;
  * For each of these request actions, a user can select a committee and give
  * a reason for the request.  Each request, though, will require a different
  * protocol action type and submission type entry in the database.  Please
- * see the ActionHelper class for how this class is used.
+ * see the ActionHelperBase class for how this class is used.
  */
 public interface ProtocolRequestBean extends ProtocolSubmissionBeanBase, Serializable {
    

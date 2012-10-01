@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.iacuc.actions;
 
-import org.kuali.kra.protocol.actions.ProtocolSubmissionDoc;
+import org.kuali.kra.protocol.actions.ProtocolSubmissionDocBase;
 
-public class IacucProtocolSubmissionDoc extends ProtocolSubmissionDoc {
+public class IacucProtocolSubmissionDoc extends ProtocolSubmissionDocBase {
 
     /**
      * Comment for <code>serialVersionUID</code>

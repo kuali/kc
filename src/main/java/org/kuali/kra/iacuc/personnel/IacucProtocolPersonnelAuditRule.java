@@ -16,10 +16,10 @@
 package org.kuali.kra.iacuc.personnel;
 
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.protocol.personnel.ProtocolPersonnelAuditRule;
+import org.kuali.kra.protocol.personnel.ProtocolPersonnelAuditRuleBase;
 import org.kuali.kra.protocol.personnel.ProtocolPersonnelService;
 
-public class IacucProtocolPersonnelAuditRule extends ProtocolPersonnelAuditRule {
+public class IacucProtocolPersonnelAuditRule extends ProtocolPersonnelAuditRuleBase {
 
     @Override
     protected ProtocolPersonnelService getProtocolPersonnelService() {

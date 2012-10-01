@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.common.committee.meeting;
 
-import org.kuali.kra.protocol.Protocol;
+import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolReviewerBase;
-import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 
 /**
  * 
@@ -27,15 +27,15 @@ public abstract class ProtocolMeetingVoterBase extends ProtocolReviewerBase {
 
     private String comments;
 
-    private Protocol protocol;
+    private ProtocolBase protocol;
 
-    private ProtocolSubmission protocolSubmission;
+    private ProtocolSubmissionBase protocolSubmission;
 
-    public ProtocolSubmission getProtocolSubmission() {
+    public ProtocolSubmissionBase getProtocolSubmission() {
         return protocolSubmission;
     }
 
-    public void setProtocolSubmission(ProtocolSubmission protocolSubmission) {
+    public void setProtocolSubmission(ProtocolSubmissionBase protocolSubmission) {
         this.protocolSubmission = protocolSubmission;
     }
 
@@ -47,11 +47,11 @@ public abstract class ProtocolMeetingVoterBase extends ProtocolReviewerBase {
         this.comments = comments;
     }
 
-    public Protocol getProtocol() {
+    public ProtocolBase getProtocol() {
         return protocol;
     }
 
-    public void setProtocol(Protocol protocol) {
+    public void setProtocol(ProtocolBase protocol) {
         this.protocol = protocol;
     }
 }

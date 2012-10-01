@@ -18,8 +18,8 @@ package org.kuali.kra.iacuc.committee.print.service;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
-import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
-import org.kuali.kra.protocol.personnel.ProtocolPerson;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
+import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
 import org.kuali.kra.protocol.personnel.ProtocolPersonRolodexBase;
 
 import edu.mit.coeus.xml.iacuc.PersonType;
@@ -35,19 +35,19 @@ public interface IacucPrintXmlUtilService {
     
     public void setPersonXml(KcPerson person, PersonType personType);
     public void setPersonXml(ProtocolPersonRolodexBase rolodex, PersonType personType);
-    public void setPersonRolodexType(ProtocolPerson protocolPerson, PersonType personType);   
+    public void setPersonRolodexType(ProtocolPersonBase protocolPerson, PersonType personType);   
     
     public void setProtocolSubmissionAction(IacucProtocolSubmission protocolSubmission,
             SubmissionDetailsType protocolSubmissionDetail);
-    public void setSubmissionCheckListinfo(org.kuali.kra.protocol.actions.submit.ProtocolSubmission protocolSubmission,
+    public void setSubmissionCheckListinfo(org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase protocolSubmission,
             SubmissionDetailsType protocolSubmissionDetail);
     public void setMinutes(CommitteeScheduleBase scheduleDetailsBean, ScheduleType schedule);
     public void setProcotolMinutes(CommitteeScheduleBase committeeSchedule, 
-            org.kuali.kra.protocol.actions.submit.ProtocolSubmission protocolSubmission, ProtocolSubmissionType protocolSubmissionType);
+            org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase protocolSubmission, ProtocolSubmissionType protocolSubmissionType);
     public void setProcotolSubmissionMinutes(CommitteeScheduleBase committeeSchedule,
-            ProtocolSubmission protocolSubmission, Submissions submissionsType);
+            ProtocolSubmissionBase protocolSubmission, Submissions submissionsType);
     
     public void setProtocolReviewMinutes(CommitteeScheduleBase committeeSchedule,
-            org.kuali.kra.protocol.actions.submit.ProtocolSubmission protocolSubmission, Submissions submissionsType);
+            org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase protocolSubmission, Submissions submissionsType);
     
 }

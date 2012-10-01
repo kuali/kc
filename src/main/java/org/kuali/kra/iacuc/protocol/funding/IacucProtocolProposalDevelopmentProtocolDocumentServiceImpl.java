@@ -26,25 +26,25 @@ import org.kuali.kra.iacuc.protocol.IacucProtocolNumberService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
-import org.kuali.kra.protocol.Protocol;
-import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
-import org.kuali.kra.protocol.personnel.ProtocolPerson;
+import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
+import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
 import org.kuali.kra.protocol.personnel.ProtocolPersonnelService;
-import org.kuali.kra.protocol.protocol.funding.impl.ProposalDevelopmentProtocolDocumentServiceImpl;
+import org.kuali.kra.protocol.protocol.funding.impl.ProposalDevelopmentProtocolDocumentServiceImplBase;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.DocumentService;
 
 /**
  * 
- * This service creates Proposal Development Document from Protocol for users authorized to create proposal. This created
- * proposal is then added to Protocol Funding sources. 
+ * This service creates Proposal Development Document from ProtocolBase for users authorized to create proposal. This created
+ * proposal is then added to ProtocolBase Funding sources. 
  */
 public class IacucProtocolProposalDevelopmentProtocolDocumentServiceImpl 
-    extends ProposalDevelopmentProtocolDocumentServiceImpl 
+    extends ProposalDevelopmentProtocolDocumentServiceImplBase 
     implements IacucProtocolProposalDevelopmentProtocolDocumentService {
     
-    public static final String IACUC_PROTOCOL_CREATED = "IACUC Protocol created";
+    public static final String IACUC_PROTOCOL_CREATED = "IACUC ProtocolBase created";
     public final static String IACUC_PROTOCOL_TYPE_CODE_DEFAULT = "iacuc.protocol.type.code.default";
     public final static String IACUC_PROTOCOL_LAY_STATEMENT1_DEFAULT = "iacuc.protocol.lay.statement1.default";
     ParameterService parameterService;    
@@ -65,7 +65,7 @@ public class IacucProtocolProposalDevelopmentProtocolDocumentServiceImpl
     }
 
     @Override
-    protected IacucProtocolAction getProtocolActionNewInstanceHook(Protocol protocol, ProtocolSubmission protocolSubmission,
+    protected IacucProtocolAction getProtocolActionNewInstanceHook(ProtocolBase protocol, ProtocolSubmissionBase protocolSubmission,
             String protocolActionTypeCode) {
         return new IacucProtocolAction((IacucProtocol) protocol, (IacucProtocolSubmission) protocolSubmission, protocolActionTypeCode);
     }
@@ -101,7 +101,7 @@ public class IacucProtocolProposalDevelopmentProtocolDocumentServiceImpl
     }
 
     @Override
-    protected ProtocolPerson getProtocolPersonNewInstanceHook() {
+    protected ProtocolPersonBase getProtocolPersonNewInstanceHook() {
         return new IacucProtocolPerson();
     }
 
@@ -126,7 +126,7 @@ public class IacucProtocolProposalDevelopmentProtocolDocumentServiceImpl
     }
 
     @Override
-    protected void populateProtocolSpecificFieldsHook(Protocol protocol) {
+    protected void populateProtocolSpecificFieldsHook(ProtocolBase protocol) {
         if ( parameterService ==null)
         {
             parameterService = KraServiceLocator.getService(ParameterService.class);

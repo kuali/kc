@@ -18,13 +18,13 @@ package org.kuali.kra.iacuc.actions.assignCmt;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.protocol.ProtocolDocument;
+import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 public class IacucProtocolAssignCmtRuleImpl extends ResearchDocumentRuleBase implements IacucProtocolAssignCmtRule {
 
-    public boolean processAssignToCommittee(ProtocolDocument document, IacucProtocolAssignCmtBean actionBean) {
+    public boolean processAssignToCommittee(ProtocolDocumentBase document, IacucProtocolAssignCmtBean actionBean) {
         boolean valid = true;
         if (StringUtils.isBlank(actionBean.getCommitteeId())) {
             valid = false;

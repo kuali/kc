@@ -34,7 +34,7 @@ public class ValidProtocolActionActionMaintenanceDocumentRule extends KraMainten
      */
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
-        ValidProtocolActionAction validProtocolActionAction = (ValidProtocolActionAction) document.getDocumentBusinessObject();
+        ValidProtocolActionActionBase validProtocolActionAction = (ValidProtocolActionActionBase) document.getDocumentBusinessObject();
         return validate(validProtocolActionAction);
     }
 
@@ -45,18 +45,18 @@ public class ValidProtocolActionActionMaintenanceDocumentRule extends KraMainten
      */
     @Override
     protected boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {
-        ValidProtocolActionAction validProtocolActionAction = (ValidProtocolActionAction) document.getDocumentBusinessObject();
+        ValidProtocolActionActionBase validProtocolActionAction = (ValidProtocolActionActionBase) document.getDocumentBusinessObject();
         return validate(validProtocolActionAction);
     }
 
-    private boolean validate(ValidProtocolActionAction validProtocolActionAction) {
+    private boolean validate(ValidProtocolActionActionBase validProtocolActionAction) {
        boolean result = true;
        result &= validatePromptUser(validProtocolActionAction);
        return result;
     }
 
     
-    private boolean validatePromptUser(ValidProtocolActionAction validProtocolActionAction) {
+    private boolean validatePromptUser(ValidProtocolActionActionBase validProtocolActionAction) {
         boolean result = true;
         if (validProtocolActionAction.getUserPromptFlag() && StringUtils.isEmpty(validProtocolActionAction.getUserPrompt()) ) {
             GlobalVariables.getMessageMap().putError("document.newMaintainableObject.userPrompt",

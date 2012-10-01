@@ -19,7 +19,7 @@ import java.util.List;
 
 import org.kuali.kra.common.committee.service.CommitteeServiceBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.protocol.ProtocolForm;
+import org.kuali.kra.protocol.ProtocolFormBase;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
@@ -59,7 +59,7 @@ public abstract class CommitteeScheduleValuesFinderBase extends KeyValuesBase {
 
     /**
      * Get the committee id.  Currently we are only concerned with
-     * scheduling protocols.  The committee id is found in via the ProtocolForm.
+     * scheduling protocols.  The committee id is found in via the ProtocolFormBase.
      * Keep in mind that the user selects the committee via a drop-down and
      * thus the selected committee id is placed into the form.
      * @return
@@ -67,8 +67,8 @@ public abstract class CommitteeScheduleValuesFinderBase extends KeyValuesBase {
     private String getCommitteeId() {
         String committeeId = "";
         KualiForm form = KNSGlobalVariables.getKualiForm();
-        if (form instanceof ProtocolForm) {
-            ProtocolForm protocolForm = (ProtocolForm) form;
+        if (form instanceof ProtocolFormBase) {
+            ProtocolFormBase protocolForm = (ProtocolFormBase) form;
             committeeId = protocolForm.getActionHelper().getProtocolSubmitAction().getCommitteeId();
         }
         return committeeId;

@@ -16,7 +16,7 @@
 package org.kuali.kra.protocol.protocol.location;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.protocol.ProtocolDocument;
+import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -25,28 +25,28 @@ public abstract class ProtocolLocationEventBase extends KraDocumentEventBase imp
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory
             .getLog(ProtocolLocationEventBase.class);
 
-    private ProtocolLocation protocolLocation;
+    private ProtocolLocationBase protocolLocation;
 
-    protected ProtocolLocationEventBase(String description, String errorPathPrefix, ProtocolDocument document,
-            ProtocolLocation protocolLocation) {
+    protected ProtocolLocationEventBase(String description, String errorPathPrefix, ProtocolDocumentBase document,
+            ProtocolLocationBase protocolLocation) {
         super(description, errorPathPrefix, document);
 
         // by doing a deep copy, we are ensuring that the business rule class can't update
         // the original object by reference
-        this.protocolLocation = (ProtocolLocation) ObjectUtils.deepCopy(protocolLocation);
+        this.protocolLocation = (ProtocolLocationBase) ObjectUtils.deepCopy(protocolLocation);
 
         logEvent();
     }
 
-    protected ProtocolLocationEventBase(String description, String errorPathPrefix, ProtocolDocument document) {
+    protected ProtocolLocationEventBase(String description, String errorPathPrefix, ProtocolDocumentBase document) {
         super(description, errorPathPrefix, document);
         logEvent();
     }
     
     /**
-     * @return <code>{@link ProtocolLocation}</code> that triggered this event.
+     * @return <code>{@link ProtocolLocationBase}</code> that triggered this event.
      */
-    public ProtocolLocation getProtocolLocation() {
+    public ProtocolLocationBase getProtocolLocation() {
         return this.protocolLocation;
     }
 

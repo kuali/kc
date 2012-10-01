@@ -17,26 +17,26 @@ package org.kuali.kra.protocol.actions.followup;
 
 import java.util.List;
 
-import org.kuali.kra.protocol.Protocol;
-import org.kuali.kra.protocol.actions.submit.ValidProtocolActionAction;
+import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.protocol.actions.submit.ValidProtocolActionActionBase;
 
-public interface FollowupActionService<T extends ValidProtocolActionAction> {
+public interface FollowupActionService<T extends ValidProtocolActionActionBase> {
     
     
     /**
      * Determines if the action is a follow-up action for the current state of the
      * protocol.  This is a replacement method for the one found in the ProtocolActionService
-     * that relies on drools rules instead of the ValidProtocolActionAction maintenance artifact.
+     * that relies on drools rules instead of the ValidProtocolActionActionBase maintenance artifact.
      * 
      * @param protocolActionTypeCode  The type code we are checking is a follow up action
      * @param protocol The protocol you are interested in.
      * 
      * @return 
      */
-    boolean isActionOpenForFollowup(String protocolActionTypeCode, Protocol protocol);
+    boolean isActionOpenForFollowup(String protocolActionTypeCode, ProtocolBase protocol);
     
     List<T> getFollowupsForActionTypeAndMotionType(String protocolActionTypeCode, String committeeMotionTypeCode);
     
-    List<T> getFollowupsForProtocol(Protocol protocol);
+    List<T> getFollowupsForProtocol(ProtocolBase protocol);
 
 }

@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.iacuc.actions.correction;
 
-import org.kuali.kra.protocol.actions.correction.ProtocolAdminCorrectionRule;
+import org.kuali.kra.protocol.actions.correction.ProtocolAdminCorrectionRuleBase;
 
-public class IacucProtocolAdminCorrectionRule extends ProtocolAdminCorrectionRule {
+public class IacucProtocolAdminCorrectionRule extends ProtocolAdminCorrectionRuleBase {
 
 }

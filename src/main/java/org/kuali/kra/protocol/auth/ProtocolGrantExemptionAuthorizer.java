@@ -21,12 +21,12 @@ import org.kuali.kra.irb.actions.ProtocolActionType;
 /**
  * Determine if a user can assign a protocol to a committee/schedule.
  */
-public class ProtocolGrantExemptionAuthorizer extends ProtocolAuthorizer {
+public class ProtocolGrantExemptionAuthorizer extends ProtocolAuthorizerBase {
 
     /**
-     * @see org.kuali.kra.protocol.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.protocol.auth.ProtocolTask)
+     * @see org.kuali.kra.protocol.auth.ProtocolAuthorizerBase#isAuthorized(java.lang.String, org.kuali.kra.protocol.auth.ProtocolTaskBase)
      */
-    public boolean isAuthorized(String userId, ProtocolTask task) {
+    public boolean isAuthorized(String userId, ProtocolTaskBase task) {
         return !task.getProtocol().isAmendment() && !task.getProtocol().isRenewal() &&
                canExecuteAction(task.getProtocol(), ProtocolActionType.GRANT_EXEMPTION) &&
                hasPermission(userId, task.getProtocol(), PermissionConstants.MAINTAIN_PROTOCOL_SUBMISSIONS);

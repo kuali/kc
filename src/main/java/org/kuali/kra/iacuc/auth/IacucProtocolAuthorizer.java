@@ -22,14 +22,14 @@ import org.kuali.kra.iacuc.actions.IacucProtocolStatus;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewType;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionStatus;
-import org.kuali.kra.protocol.auth.ProtocolAuthorizer;
-import org.kuali.kra.protocol.auth.ProtocolTask;
+import org.kuali.kra.protocol.auth.ProtocolAuthorizerBase;
+import org.kuali.kra.protocol.auth.ProtocolTaskBase;
 import org.kuali.rice.krad.util.ObjectUtils;
 
-public abstract class IacucProtocolAuthorizer extends ProtocolAuthorizer {
+public abstract class IacucProtocolAuthorizer extends ProtocolAuthorizerBase {
     
     
-    public final boolean isAuthorized(String userId, ProtocolTask task) {
+    public final boolean isAuthorized(String userId, ProtocolTaskBase task) {
         return isAuthorized(userId, (IacucProtocolTask) task);
     }
     

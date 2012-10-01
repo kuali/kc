@@ -132,7 +132,7 @@ public class SpecialReviewServiceImpl implements SpecialReviewService {
             }
             else if (SpecialReviewType.ANIMAL_USAGE.equals(specialReviewTypeCode) )
             {
-                org.kuali.kra.protocol.Protocol protocol = getIacucProtocolFinderDao().findCurrentProtocolByNumber(protocolNumber);
+                org.kuali.kra.protocol.ProtocolBase protocol = getIacucProtocolFinderDao().findCurrentProtocolByNumber(protocolNumber);
                 if (protocol != null) {
                 Document document = getDocumentService().getByDocumentHeaderId(protocol.getProtocolDocument().getDocumentNumber());
                 routeHeaderId = document.getDocumentHeader().getWorkflowDocument().getDocumentId();

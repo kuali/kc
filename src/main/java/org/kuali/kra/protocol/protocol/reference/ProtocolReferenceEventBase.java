@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.protocol.protocol.reference;
 
-import org.kuali.kra.protocol.ProtocolDocument;
+import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
 
 /**
@@ -23,9 +23,9 @@ import org.kuali.kra.rule.event.KraDocumentEventBase;
  */
 public abstract class ProtocolReferenceEventBase extends KraDocumentEventBase implements ProtocolReferenceEvent {
     
-    private ProtocolReferenceBean protocolReferenceBean;
+    private ProtocolReferenceBeanBase protocolReferenceBean;
     
-    protected ProtocolReferenceEventBase(String description, String errorPathPrefix, ProtocolDocument document, ProtocolReferenceBean protocolReferenceBean) {
+    protected ProtocolReferenceEventBase(String description, String errorPathPrefix, ProtocolDocumentBase document, ProtocolReferenceBeanBase protocolReferenceBean) {
         super(description, errorPathPrefix, document);
         this.protocolReferenceBean = protocolReferenceBean;
     }
@@ -40,7 +40,7 @@ public abstract class ProtocolReferenceEventBase extends KraDocumentEventBase im
     /**
      * @see org.kuali.kra.protocol.protocol.reference.ProtocolReferenceEvent#getProtocolReferenceBean()
      */
-    public ProtocolReferenceBean getProtocolReferenceBean() {
+    public ProtocolReferenceBeanBase getProtocolReferenceBean() {
         return this.protocolReferenceBean;
     }
 

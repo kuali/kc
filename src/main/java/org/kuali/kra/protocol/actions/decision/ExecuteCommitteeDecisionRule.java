@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.protocol.actions.decision;
 
-import org.kuali.kra.protocol.ProtocolDocument;
+import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.protocol.actions.decision.CommitteeDecision;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
@@ -27,10 +27,10 @@ public interface ExecuteCommitteeDecisionRule<CD extends CommitteeDecision<?> > 
     /**
      * 
      * This method will check for valid user input and attach error message to fields as needed.
-     * @param document the ProtocolDocument
+     * @param document the ProtocolDocumentBase
      * @param actionBean a CommitteeDecision bean
      * @return a boolean as to whether the user input is valid
      */
-    boolean proccessCommitteeDecisionRule(ProtocolDocument document, CD actionBean);
+    boolean proccessCommitteeDecisionRule(ProtocolDocumentBase document, CD actionBean);
 
 }

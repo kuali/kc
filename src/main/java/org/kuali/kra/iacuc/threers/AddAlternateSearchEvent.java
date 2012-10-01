@@ -17,7 +17,7 @@ package org.kuali.kra.iacuc.threers;
 
 import java.util.List;
 
-import org.kuali.kra.protocol.ProtocolDocument;
+import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 import org.kuali.rice.krad.document.Document;
@@ -27,7 +27,7 @@ public class AddAlternateSearchEvent extends KraDocumentEventBaseExtension {
     private IacucAlternateSearch alternateSearch;
     private List<String> selectedDatabases;
     
-    protected AddAlternateSearchEvent(ProtocolDocument document, IacucAlternateSearch alternateSearch, List<String> selectedDatabases) {
+    protected AddAlternateSearchEvent(ProtocolDocumentBase document, IacucAlternateSearch alternateSearch, List<String> selectedDatabases) {
         super("Add Alternate Search", "", document);
         
         this.alternateSearch = alternateSearch;

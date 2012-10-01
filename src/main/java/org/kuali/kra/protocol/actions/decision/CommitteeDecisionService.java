@@ -17,21 +17,21 @@ package org.kuali.kra.protocol.actions.decision;
 
 import java.util.List;
 
-import org.kuali.kra.protocol.Protocol;
+import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.common.committee.meeting.ProtocolVoteAbstaineeBase;
 import org.kuali.kra.common.committee.meeting.ProtocolVoteRecusedBase;
 
 /**
  * The Committee Decision Service processes committee decisions.
  */
-public interface CommitteeDecisionService<CD extends CommitteeDecision<? extends CommitteePerson> > {
+public interface CommitteeDecisionService<CD extends CommitteeDecision<? extends CommitteePersonBase> > {
 
     /**
      * Record the committee's decision.
      * @param protocol
      * @param committeeDecision
      */
-    void processCommitteeDecision(Protocol protocol, CD committeeDecision) throws Exception;
+    void processCommitteeDecision(ProtocolBase protocol, CD committeeDecision) throws Exception;
     
     /**
      * Finds all of the abstainer votes for the given protocolNumber and submissionNumber.

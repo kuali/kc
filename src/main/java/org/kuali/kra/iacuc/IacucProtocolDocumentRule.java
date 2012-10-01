@@ -53,19 +53,19 @@ import org.kuali.kra.iacuc.species.rule.AddProtocolSpeciesRule;
 import org.kuali.kra.iacuc.species.rule.ProtocolSpeciesRule;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.protocol.ProtocolDocument;
-import org.kuali.kra.protocol.ProtocolDocumentRule;
+import org.kuali.kra.protocol.ProtocolDocumentBase;
+import org.kuali.kra.protocol.ProtocolDocumentRuleBase;
 import org.kuali.kra.protocol.actions.decision.ExecuteCommitteeDecisionAbstainerRule;
 import org.kuali.kra.protocol.actions.decision.ExecuteCommitteeDecisionRecuserRule;
-import org.kuali.kra.protocol.actions.submit.ProtocolSubmitActionRule;
-import org.kuali.kra.protocol.noteattachment.SubmitProtocolAttachmentProtocolRuleImpl;
-import org.kuali.kra.protocol.personnel.ProtocolAttachmentPersonnelRule;
-import org.kuali.kra.protocol.personnel.ProtocolPersonnelAuditRule;
-import org.kuali.kra.protocol.personnel.ProtocolUnitRule;
-import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceAuditRule;
-import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceRule;
-import org.kuali.kra.protocol.protocol.location.ProtocolLocationRule;
-import org.kuali.kra.protocol.protocol.research.ProtocolResearchAreaAuditRule;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmitActionRuleBase;
+import org.kuali.kra.protocol.noteattachment.SubmitProtocolAttachmentProtocolRuleImplBase;
+import org.kuali.kra.protocol.personnel.ProtocolAttachmentPersonnelRuleBase;
+import org.kuali.kra.protocol.personnel.ProtocolPersonnelAuditRuleBase;
+import org.kuali.kra.protocol.personnel.ProtocolUnitRuleBase;
+import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceAuditRuleBase;
+import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceRuleBase;
+import org.kuali.kra.protocol.protocol.location.ProtocolLocationRuleBase;
+import org.kuali.kra.protocol.protocol.research.ProtocolResearchAreaAuditRuleBase;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 import org.kuali.rice.krad.document.Document;
 
@@ -74,7 +74,7 @@ import org.kuali.rice.krad.document.Document;
  *
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class IacucProtocolDocumentRule extends ProtocolDocumentRule<IacucCommitteeDecision> implements AddProtocolSpeciesRule, 
+public class IacucProtocolDocumentRule extends ProtocolDocumentRuleBase<IacucCommitteeDecision> implements AddProtocolSpeciesRule, 
                                                                                AddProtocolExceptionRule, 
                                                                                IacucProtocolAssignCmtRule,
                                                                                IacucProtocolModifySubmissionRule {
@@ -168,7 +168,7 @@ public class IacucProtocolDocumentRule extends ProtocolDocumentRule<IacucCommitt
     }
 
     @Override
-    protected ProtocolResearchAreaAuditRule getNewProtocolResearchAreaAuditRuleInstanceHook() {
+    protected ProtocolResearchAreaAuditRuleBase getNewProtocolResearchAreaAuditRuleInstanceHook() {
         return new IacucProtocolResearchAreaAuditRule();
     }
 
@@ -189,58 +189,58 @@ public class IacucProtocolDocumentRule extends ProtocolDocumentRule<IacucCommitt
     }
 
     @Override
-    protected KraDocumentEventBaseExtension getSaveProtocolPersonnelEventHook(ProtocolDocument document) {
+    protected KraDocumentEventBaseExtension getSaveProtocolPersonnelEventHook(ProtocolDocumentBase document) {
         return new SaveIacucProtocolPersonnelEvent(Constants.EMPTY_STRING, document);
     }
 
     @Override
-    protected ProtocolPersonnelAuditRule getNewProtocolPersonnelAuditRuleInstanceHook() {
+    protected ProtocolPersonnelAuditRuleBase getNewProtocolPersonnelAuditRuleInstanceHook() {
         return new IacucProtocolPersonnelAuditRule();
     }
 
     @Override
-    protected ProtocolUnitRule getNewProtocolUnitRuleInstanceHook() {
+    protected ProtocolUnitRuleBase getNewProtocolUnitRuleInstanceHook() {
         return new IacucProtocolUnitRule();
     }
 
     @Override
-    protected ProtocolSubmitActionRule newProtocolSubmitActionRuleInstanceHook() {
+    protected ProtocolSubmitActionRuleBase newProtocolSubmitActionRuleInstanceHook() {
         return new IacucProtocolSubmitActionRule();
     }
 
     @Override
-    protected ProtocolLocationRule getNewProtocolLocationRuleInstanceHook() {
+    protected ProtocolLocationRuleBase getNewProtocolLocationRuleInstanceHook() {
         return new IacucProtocolLocationRule();
     }
 
     @Override
-    protected ProtocolFundingSourceAuditRule getNewProtocolFundingSourceAuditRuleInstanceHook() {
+    protected ProtocolFundingSourceAuditRuleBase getNewProtocolFundingSourceAuditRuleInstanceHook() {
         return new IacucProtocolFundingSourceAuditRule();
     }
 
     @Override
-    protected ProtocolFundingSourceRule getNewProtocolFundingSourceRuleInstanceHook() {
+    protected ProtocolFundingSourceRuleBase getNewProtocolFundingSourceRuleInstanceHook() {
         return new IacucProtocolFundingSourceRule();
     }
     
 
     @Override
-    public boolean processAssignToCommittee(ProtocolDocument document, IacucProtocolAssignCmtBean actionBean) {
+    public boolean processAssignToCommittee(ProtocolDocumentBase document, IacucProtocolAssignCmtBean actionBean) {
         return new IacucProtocolAssignCmtRuleImpl().processAssignToCommittee(document, actionBean);
     }    
 
     @Override
-    public ProtocolAttachmentPersonnelRule getProtocolAttachmentPersonnelRuleInstanceHook() {
+    public ProtocolAttachmentPersonnelRuleBase getProtocolAttachmentPersonnelRuleInstanceHook() {
         return new IacucProtocolAttachmentPersonnelRule();
     }
 
     @Override
-    protected SubmitProtocolAttachmentProtocolRuleImpl newSubmitProtocolAttachmentProtocolRuleImplInstanceHook() {
+    protected SubmitProtocolAttachmentProtocolRuleImplBase newSubmitProtocolAttachmentProtocolRuleImplInstanceHook() {
         return new SubmitIacucProtocolAttachmentProtocolRuleImpl();
     }    
 
     @Override
-    public boolean processModifySubmissionRule(ProtocolDocument document, IacucProtocolModifySubmissionBean actionBean) {
+    public boolean processModifySubmissionRule(ProtocolDocumentBase document, IacucProtocolModifySubmissionBean actionBean) {
         return new IacucProtocolModifySubmissionRuleImpl().processModifySubmissionRule(document, actionBean);
     }
 

@@ -29,7 +29,7 @@ import org.kuali.kra.iacuc.correspondence.IacucProtocolActionsCorrespondence;
 import org.kuali.kra.iacuc.correspondence.IacucProtocolCorrespondenceType;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.actions.correspondence.ProtocolActionCorrespondenceGenerationService;
-import org.kuali.kra.protocol.actions.correspondence.ProtocolActionsCorrespondence;
+import org.kuali.kra.protocol.actions.correspondence.ProtocolActionsCorrespondenceBase;
 import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsService;
 
 public class IacucMeetingActionsAction extends MeetingActionsActionBase {
@@ -55,7 +55,7 @@ public class IacucMeetingActionsAction extends MeetingActionsActionBase {
     }
 
     @Override
-    protected ProtocolActionsCorrespondence getNewProtocolActionsCorrespondenceInstanceHook(String protocolActionTypeCode) {
+    protected ProtocolActionsCorrespondenceBase getNewProtocolActionsCorrespondenceInstanceHook(String protocolActionTypeCode) {
         return new IacucProtocolActionsCorrespondence(protocolActionTypeCode);
     }
 

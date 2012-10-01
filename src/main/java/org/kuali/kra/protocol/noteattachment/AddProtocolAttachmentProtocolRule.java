@@ -18,12 +18,12 @@ package org.kuali.kra.protocol.noteattachment;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 /**
- * Contains rules for adding {@link ProtocolAttachmentProtocol ProtocolAttachmentProtocol}.
+ * Contains rules for adding {@link ProtocolAttachmentProtocolBase ProtocolAttachmentProtocolBase}.
  */
 public interface AddProtocolAttachmentProtocolRule extends BusinessRule {
 
     /**
-     * Executes the rules for adding a new {@link ProtocolAttachmentProtocol ProtocolAttachmentProtocol}.
+     * Executes the rules for adding a new {@link ProtocolAttachmentProtocolBase ProtocolAttachmentProtocolBase}.
      * @param event the add event.
      * @return if validation passes.
      */

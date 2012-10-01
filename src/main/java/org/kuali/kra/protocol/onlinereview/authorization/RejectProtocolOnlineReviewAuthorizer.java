@@ -16,10 +16,10 @@
 package org.kuali.kra.protocol.onlinereview.authorization;
 
 import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReview;
+import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewBase;
 
 /**
- * The Modify Protocol Online Review Authorizer checks to see if the user has 
+ * The Modify ProtocolBase Online Review Authorizer checks to see if the user has 
  * permission to modify a protocol online review. 
  * 
  * Authorization depends on the users role.  If the user is a member of the IRB Administrator
@@ -28,14 +28,14 @@ import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReview;
  * they have an outstanding approve request on the document.
  *  
  */
-public class RejectProtocolOnlineReviewAuthorizer extends ProtocolOnlineReviewAuthorizer {
+public class RejectProtocolOnlineReviewAuthorizer extends ProtocolOnlineReviewAuthorizerBase {
 
     /**
-     * @see org.kuali.kra.protocol.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.protocol.auth.ProtocolTask)
+     * @see org.kuali.kra.protocol.auth.ProtocolAuthorizerBase#isAuthorized(java.lang.String, org.kuali.kra.protocol.auth.ProtocolTaskBase)
      */
     public boolean isAuthorized(String userId, ProtocolOnlineReviewTask task) {
         boolean hasPermission = false;
-        ProtocolOnlineReview protocolOnlineReview = task.getProtocolOnlineReview();
+        ProtocolOnlineReviewBase protocolOnlineReview = task.getProtocolOnlineReview();
         
         if ( protocolOnlineReview.getProtocolOnlineReviewId() == null ) {
             //we never authorize edits on a review, the reviews are created

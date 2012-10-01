@@ -18,7 +18,7 @@ package org.kuali.kra.protocol.protocol.reference;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 /**
- * This class adds rule for adding new <code>ProtocolReference</code> object
+ * This class adds rule for adding new <code>ProtocolReferenceBase</code> object
  */
 public interface AddProtocolReferenceRule extends BusinessRule {
     
@@ -27,6 +27,6 @@ public interface AddProtocolReferenceRule extends BusinessRule {
      * @param addProtocolReferenceEvent
      * @return boolean true for valid object and false for invalid entry
      */
-    public boolean processAddProtocolReferenceBusinessRules(AddProtocolReferenceEvent addProtocolReferenceEvent);
+    public boolean processAddProtocolReferenceBusinessRules(AddProtocolReferenceEventBase addProtocolReferenceEvent);
     
 }

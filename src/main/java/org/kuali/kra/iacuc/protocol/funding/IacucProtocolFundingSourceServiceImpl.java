@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.iacuc.protocol.funding;
 
-import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSource;
-import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceServiceImpl;
+import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceBase;
+import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceServiceImplBase;
 
-public class IacucProtocolFundingSourceServiceImpl extends ProtocolFundingSourceServiceImpl implements IacucProtocolFundingSourceService {
+public class IacucProtocolFundingSourceServiceImpl extends ProtocolFundingSourceServiceImplBase implements IacucProtocolFundingSourceService {
 
     @Override
-    protected ProtocolFundingSource creatNewProtocolFundingSourceInstanceHook(String fundingSourceNumber,
+    protected ProtocolFundingSourceBase creatNewProtocolFundingSourceInstanceHook(String fundingSourceNumber,
             String fundingSourceTypeCode, String fundingSourceName, String fundingSourceTitle) {
         return new IacucProtocolFundingSource(fundingSourceNumber, fundingSourceTypeCode, fundingSourceName, fundingSourceTitle);
     }

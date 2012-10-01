@@ -331,7 +331,7 @@ public class MedusaServiceImpl implements MedusaService {
     }
     
     protected void buildGraph(HashMap<BusinessObject, List<BusinessObject>> graph, IacucProtocol protocol) {
-        for (org.kuali.kra.protocol.protocol.funding.ProtocolFundingSource fundingSource : protocol.getProtocolFundingSources()) {
+        for (org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceBase fundingSource : protocol.getProtocolFundingSources()) {
             if (StringUtils.equals(fundingSource.getFundingSourceTypeCode(), FundingSourceType.AWARD)) {
                 addToGraph(graph, getAward(fundingSource.getFundingSourceNumber()), protocol);
             } else if (StringUtils.equals(fundingSource.getFundingSourceTypeCode(), FundingSourceType.INSTITUTIONAL_PROPOSAL)) {

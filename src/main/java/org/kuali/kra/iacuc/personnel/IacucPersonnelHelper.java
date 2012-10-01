@@ -25,18 +25,18 @@ import org.kuali.kra.iacuc.noteattachment.IacucProtocolAttachmentPersonnel;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
-import org.kuali.kra.protocol.Protocol;
-import org.kuali.kra.protocol.ProtocolForm;
-import org.kuali.kra.protocol.auth.ProtocolTask;
-import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentPersonnel;
-import org.kuali.kra.protocol.personnel.PersonnelHelper;
-import org.kuali.kra.protocol.personnel.ProtocolPerson;
-import org.kuali.kra.protocol.personnel.ProtocolUnit;
+import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.protocol.ProtocolFormBase;
+import org.kuali.kra.protocol.auth.ProtocolTaskBase;
+import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentPersonnelBase;
+import org.kuali.kra.protocol.personnel.PersonnelHelperBase;
+import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
+import org.kuali.kra.protocol.personnel.ProtocolUnitBase;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
-public class IacucPersonnelHelper extends PersonnelHelper implements Serializable {
+public class IacucPersonnelHelper extends PersonnelHelperBase implements Serializable {
     
     /**
      * Comment for <code>serialVersionUID</code>
@@ -44,14 +44,14 @@ public class IacucPersonnelHelper extends PersonnelHelper implements Serializabl
     private static final long serialVersionUID = 7184772967685221846L;
 
 
-    public IacucPersonnelHelper(ProtocolForm form) {
+    public IacucPersonnelHelper(ProtocolFormBase form) {
         super(form);
         setNewProtocolPerson(new IacucProtocolPerson());
     }    
       
 
-    protected void initializeModifyProtocolPermission(Protocol protocol) {
-        ProtocolTask task = new IacucProtocolTask(TaskName.MODIFY_IACUC_PROTOCOL_PERSONNEL, (IacucProtocol) protocol);
+    protected void initializeModifyProtocolPermission(ProtocolBase protocol) {
+        ProtocolTaskBase task = new IacucProtocolTask(TaskName.MODIFY_IACUC_PROTOCOL_PERSONNEL, (IacucProtocol) protocol);
         modifyPersonnel = getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);     
     }
 
@@ -62,13 +62,13 @@ public class IacucPersonnelHelper extends PersonnelHelper implements Serializabl
 
 
     @Override
-    public ProtocolUnit createNewProtocolUnitInstanceHook() {
+    public ProtocolUnitBase createNewProtocolUnitInstanceHook() {
         return new IacucProtocolUnit();
     }
 
 
     @Override
-    public ProtocolAttachmentPersonnel createNewProtocolAttachmentPersonnelInstanceHook() {
+    public ProtocolAttachmentPersonnelBase createNewProtocolAttachmentPersonnelInstanceHook() {
         return new IacucProtocolAttachmentPersonnel();
     }
 

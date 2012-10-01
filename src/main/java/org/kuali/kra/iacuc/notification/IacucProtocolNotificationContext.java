@@ -19,7 +19,7 @@ import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReview;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.protocol.notification.ProtocolNotificationContext;
+import org.kuali.kra.protocol.notification.ProtocolNotificationContextBase;
 import org.kuali.kra.protocol.notification.ProtocolNotificationRoleQualifierService;
 
 
@@ -27,7 +27,7 @@ import org.kuali.kra.protocol.notification.ProtocolNotificationRoleQualifierServ
  * This class extends the notification context base and provides some helpful functions for
  * any Protocol- specific events.
  */
-public class IacucProtocolNotificationContext extends ProtocolNotificationContext {
+public class IacucProtocolNotificationContext extends ProtocolNotificationContextBase {
 
     private static final long serialVersionUID = 7517888688386565168L;
 

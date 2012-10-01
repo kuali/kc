@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.iacuc.actions.decision;
 
-import org.kuali.kra.protocol.actions.decision.CommitteePerson;
+import org.kuali.kra.protocol.actions.decision.CommitteePersonBase;
 
-public class IacucCommitteePerson extends CommitteePerson {
+public class IacucCommitteePerson extends CommitteePersonBase {
 
     /**
      * Comment for <code>serialVersionUID</code>
