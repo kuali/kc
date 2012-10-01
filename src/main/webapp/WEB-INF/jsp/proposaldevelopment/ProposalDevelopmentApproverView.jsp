@@ -94,6 +94,25 @@
 			<kra-summary:proposalDevelopmentSummaryKeywords />
 			</c:if>
 		</c:if>
+		<c:if test="${KualiForm.proposalDevelopmentParameters['enableSummaryDataValidationPanel'].value == 'Y'}">
+			<kra:proposalDevelopmentDataValidation auditActivated="${KualiForm.auditActivated}"
+				categories="Validation Errors,Warnings,Grants.Gov Errors"
+				topTab="true"
+				helpParameterNamespace="KC-PD" 
+				helpParameterDetailType="Document" 
+				helpParameterName="proposalDevelopmentDataValidation1HelpUrl">
+				<p>You can activate a Validation check to determine any errors or
+				incomplete information. The following Validations types will be
+				determined:</p>
+				<ul>
+					<li>errors that prevent submission into routing</li>
+					<li>warnings that serve as alerts to possible data issues but
+					will not prevent submission into routing</li>
+					<li>errors that prevent submission to grants.gov</li>
+				</ul>
+	
+			</kra:proposalDevelopmentDataValidation>
+		</c:if>
 		
 		<c:if test="${KualiForm.proposalDevelopmentParameters['enableSummaryPrintPanel'].value == 'Y'}">
 			<kra-summary:proposalDevelopmentSummaryPrintForms />
