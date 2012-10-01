@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.common.committee.bo.CommitteeMembership;
+import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
 import org.kuali.kra.iacuc.actions.IacucActionHelper;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionBean;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewerBean;
@@ -70,8 +70,8 @@ public class IacucProtocolAssignReviewersBean extends IacucProtocolActionBean im
 //                if (!StringUtils.isBlank(committeeId) && (!StringUtils.isBlank(scheduleId) || isExpeditedSubmission(submission))) {
                 
                 if (!StringUtils.isBlank(committeeId) && !StringUtils.isBlank(scheduleId)) {
-                    List<CommitteeMembership> members = getProtocol().filterOutProtocolPersonnel(getCommitteeService().getAvailableMembers(committeeId, scheduleId));
-                    for (CommitteeMembership member : members) {
+                    List<CommitteeMembershipBase> members = getProtocol().filterOutProtocolPersonnel(getCommitteeService().getAvailableMembers(committeeId, scheduleId));
+                    for (CommitteeMembershipBase member : members) {
                         reviewers.add(new IacucProtocolReviewerBean(member));
                     }
                     

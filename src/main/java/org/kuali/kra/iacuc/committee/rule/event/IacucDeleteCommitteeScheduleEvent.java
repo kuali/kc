@@ -17,27 +17,27 @@ package org.kuali.kra.iacuc.committee.rule.event;
 
 import java.util.List;
 
-import org.kuali.kra.common.committee.bo.CommitteeSchedule;
+import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
 import org.kuali.kra.common.committee.document.CommitteeDocumentBase;
-import org.kuali.kra.common.committee.rule.event.DeleteCommitteeScheduleEvent;
-import org.kuali.kra.common.committee.rules.DeleteCommitteeScheduleRule;
+import org.kuali.kra.common.committee.rule.event.DeleteCommitteeScheduleEventBase;
+import org.kuali.kra.common.committee.rules.DeleteCommitteeScheduleRuleBase;
 import org.kuali.kra.common.committee.web.struts.form.schedule.ScheduleData;
 import org.kuali.kra.iacuc.committee.rules.IacucDeleteCommitteeScheduleRule;
 import org.kuali.rice.krad.document.Document;
 
-public class IacucDeleteCommitteeScheduleEvent extends DeleteCommitteeScheduleEvent {
+public class IacucDeleteCommitteeScheduleEvent extends DeleteCommitteeScheduleEventBase {
 
-    public IacucDeleteCommitteeScheduleEvent(String errorPathPrefix, CommitteeDocumentBase document, ScheduleData scheduleData, List<CommitteeSchedule> committeeSchedules, ErrorType type) {
+    public IacucDeleteCommitteeScheduleEvent(String errorPathPrefix, CommitteeDocumentBase document, ScheduleData scheduleData, List<CommitteeScheduleBase> committeeSchedules, ErrorType type) {
         super(errorPathPrefix, document, scheduleData, committeeSchedules, type);
     }
 
     
-    public IacucDeleteCommitteeScheduleEvent(String errorPathPrefix, Document document, ScheduleData scheduleData, List<CommitteeSchedule> committeeSchedules, ErrorType type) {
+    public IacucDeleteCommitteeScheduleEvent(String errorPathPrefix, Document document, ScheduleData scheduleData, List<CommitteeScheduleBase> committeeSchedules, ErrorType type) {
         this(errorPathPrefix, (CommitteeDocumentBase) document, scheduleData, committeeSchedules, type);
     }
 
     @Override
-    protected DeleteCommitteeScheduleRule getNewDeleteCommitteeScheduleRuleInstanceHook() {
+    protected DeleteCommitteeScheduleRuleBase getNewDeleteCommitteeScheduleRuleInstanceHook() {
         return new IacucDeleteCommitteeScheduleRule();
     }
 

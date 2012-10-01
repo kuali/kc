@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.iacuc.committee.print;
 
-import org.kuali.kra.common.committee.print.TemplatePrint;
+import org.kuali.kra.common.committee.print.TemplatePrintBase;
 import org.kuali.kra.iacuc.actions.print.IacucProtocolPrintWatermark;
 import org.kuali.kra.protocol.actions.print.ProtocolPrintWatermark;
 import org.kuali.kra.util.watermark.Watermarkable;
@@ -24,7 +24,7 @@ import org.kuali.kra.util.watermark.Watermarkable;
  * 
  * This class identifies the template print functionality for committee reports.
  */
-public class IacucProtocolCorrespondenceTemplatePrint extends TemplatePrint {
+public class IacucProtocolCorrespondenceTemplatePrint extends TemplatePrintBase {
 
     private static final long serialVersionUID = 8304381236192765809L;
 

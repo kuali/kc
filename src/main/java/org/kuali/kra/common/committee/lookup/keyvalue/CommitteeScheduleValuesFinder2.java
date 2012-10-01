@@ -28,7 +28,7 @@ import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 /**
  * Finds the available set of dates where a protocol can be scheduled
  * for a review by a committee.  This values finder is almost exactly 
- * the same as CommitteeScheduleValuesFinder, except that the committee
+ * the same as CommitteeScheduleValuesFinderBase, except that the committee
  * information comes from the AssignCmtSchedBean.
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
@@ -45,8 +45,8 @@ public class CommitteeScheduleValuesFinder2 extends KeyValuesBase {
     }
     
     /**
-     * Get the Committee Service.
-     * @return the Committee Service
+     * Get the CommitteeBase Service.
+     * @return the CommitteeBase Service
      */
     private CommitteeServiceBase getCommitteeService() {
         return KraServiceLocator.getService(CommitteeServiceBase.class);

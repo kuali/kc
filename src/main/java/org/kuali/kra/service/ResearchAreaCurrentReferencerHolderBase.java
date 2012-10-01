@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.service;
 
-import org.kuali.kra.common.committee.bo.CommitteeMembership;
-import org.kuali.kra.common.committee.bo.Committee;
+import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
+import org.kuali.kra.common.committee.bo.CommitteeBase;
 import org.kuali.kra.protocol.Protocol;
 
 /**
@@ -28,8 +28,8 @@ public class ResearchAreaCurrentReferencerHolderBase {
     
     private String researchAreaCode;
     private Protocol currentReferencingProtocol;
-    private Committee currentReferencingCommittee;
-    private CommitteeMembership currentReferencingCommitteeMembership;
+    private CommitteeBase currentReferencingCommittee;
+    private CommitteeMembershipBase currentReferencingCommitteeMembership;
     public static final ResearchAreaCurrentReferencerHolderBase NO_REFERENCER = new ResearchAreaCurrentReferencerHolderBase();
     
     private ResearchAreaCurrentReferencerHolderBase() {
@@ -37,7 +37,7 @@ public class ResearchAreaCurrentReferencerHolderBase {
     }
     
     
-    public ResearchAreaCurrentReferencerHolderBase(String researchAreaCode, Protocol currentReferencingProtocol, Committee currentReferencingCommittee, CommitteeMembership currentReferencingCommitteeMembership) {
+    public ResearchAreaCurrentReferencerHolderBase(String researchAreaCode, Protocol currentReferencingProtocol, CommitteeBase currentReferencingCommittee, CommitteeMembershipBase currentReferencingCommitteeMembership) {
         this.researchAreaCode = researchAreaCode;
         this.currentReferencingProtocol = currentReferencingProtocol;
         this.currentReferencingCommittee = currentReferencingCommittee;
@@ -47,10 +47,10 @@ public class ResearchAreaCurrentReferencerHolderBase {
     public Protocol getCurrentReferencingProtocol() {
         return currentReferencingProtocol;
     }
-    public Committee getCurrentReferencingCommittee() {
+    public CommitteeBase getCurrentReferencingCommittee() {
         return currentReferencingCommittee;
     }
-    public CommitteeMembership getCurrentReferencingCommitteeMembership() {
+    public CommitteeMembershipBase getCurrentReferencingCommitteeMembership() {
         return currentReferencingCommitteeMembership;
     }
 

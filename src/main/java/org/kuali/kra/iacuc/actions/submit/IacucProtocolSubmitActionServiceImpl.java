@@ -22,14 +22,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kra.common.committee.bo.CommitteeSchedule;
+import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.IacucProtocolFinderDao;
 import org.kuali.kra.iacuc.actions.IacucProtocolAction;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
 import org.kuali.kra.iacuc.actions.IacucProtocolStatus;
 import org.kuali.kra.iacuc.committee.meeting.IacucCommitteeScheduleMinute;
-import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinute;
+import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinuteBase;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.actions.submit.ProtocolActionService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -259,10 +259,10 @@ public class IacucProtocolSubmitActionServiceImpl implements IacucProtocolSubmit
     protected void updateDefaultSchedule(IacucProtocolSubmission submission) {
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put("protocolIdFk", submission.getProtocolId().toString());
-        fieldValues.put("scheduleIdFk", CommitteeSchedule.DEFAULT_SCHEDULE_ID.toString());
+        fieldValues.put("scheduleIdFk", CommitteeScheduleBase.DEFAULT_SCHEDULE_ID.toString());
         List<IacucCommitteeScheduleMinute> minutes = (List<IacucCommitteeScheduleMinute>) businessObjectService.findMatching(IacucCommitteeScheduleMinute.class, fieldValues);
         if (!minutes.isEmpty()) {
-            for (CommitteeScheduleMinute minute : minutes) {
+            for (CommitteeScheduleMinuteBase minute : minutes) {
                 minute.setScheduleIdFk(submission.getScheduleIdFk());
             }
             businessObjectService.save(minutes);

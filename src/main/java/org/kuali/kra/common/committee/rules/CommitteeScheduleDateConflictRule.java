@@ -21,7 +21,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-import org.kuali.kra.common.committee.bo.CommitteeSchedule;
+import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
 import org.kuali.kra.common.committee.rule.event.CommitteeScheduleDateConflictEvent;
 import org.kuali.kra.common.committee.rule.event.CommitteeScheduleEventBase.ErrorType;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -64,7 +64,7 @@ public class CommitteeScheduleDateConflictRule extends ResearchDocumentRuleBase 
      */
     private boolean processHardErrors(CommitteeScheduleDateConflictEvent addCommitteeScheduleEvent) {
         boolean rulePassed = true;
-        List<CommitteeSchedule> committeeSchedules = addCommitteeScheduleEvent.getCommitteeSchedules();   
+        List<CommitteeScheduleBase> committeeSchedules = addCommitteeScheduleEvent.getCommitteeSchedules();   
         List<Date> conflictDates = new LinkedList<Date>();
         
         rulePassed = parseUniqueDateSet(committeeSchedules, conflictDates);
@@ -76,15 +76,15 @@ public class CommitteeScheduleDateConflictRule extends ResearchDocumentRuleBase 
     
     /**
      * Helper method to find if dates in schedule are not conflicting.
-     * @param committeeSchedules is list of CommitteeSchedule.
+     * @param committeeSchedules is list of CommitteeScheduleBase.
      * @param Date in conflict are added to conflictDates list. 
      * @return true if no conflict else false.
      */
-    private boolean parseUniqueDateSet(List<CommitteeSchedule> committeeSchedules, List<Date> conflictDates){
+    private boolean parseUniqueDateSet(List<CommitteeScheduleBase> committeeSchedules, List<Date> conflictDates){
         boolean retVal = true;
         boolean flag = true;
         Set<Date> set = new LinkedHashSet<Date>();
-        for(CommitteeSchedule committeeSchedule : committeeSchedules) {
+        for(CommitteeScheduleBase committeeSchedule : committeeSchedules) {
             flag = true;
             flag = set.add(committeeSchedule.getScheduledDate());
             if(!flag)
@@ -100,12 +100,12 @@ public class CommitteeScheduleDateConflictRule extends ResearchDocumentRuleBase 
      * @param committeeSchedules
      * @param conflictDates
      */
-    private void identifyPotentialConflicts(List<CommitteeSchedule> committeeSchedules, List<Date> conflictDates) {
+    private void identifyPotentialConflicts(List<CommitteeScheduleBase> committeeSchedules, List<Date> conflictDates) {
         Date scheduleDate = null;
         int count = 0;
         for(Date date : conflictDates) {
             count = 0;
-            for(CommitteeSchedule committeeSchedule : committeeSchedules) {
+            for(CommitteeScheduleBase committeeSchedule : committeeSchedules) {
                 scheduleDate = committeeSchedule.getScheduledDate();
                 if(DateUtils.isSameDay(date, scheduleDate)){
                     reportError(String.format(ID, count), KeyConstants.ERROR_COMMITTEESCHEDULE_DATE_CONFLICT, scheduleDate.toString());

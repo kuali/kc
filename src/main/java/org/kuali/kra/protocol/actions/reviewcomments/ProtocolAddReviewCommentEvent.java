@@ -16,7 +16,7 @@
 package org.kuali.kra.protocol.actions.reviewcomments;
 
 
-import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinute;
+import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinuteBase;
 import org.kuali.kra.protocol.ProtocolDocument;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
@@ -27,7 +27,7 @@ import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 public abstract class ProtocolAddReviewCommentEvent extends KraDocumentEventBaseExtension {
     
     private String propertyName;
-    private CommitteeScheduleMinute reviewComment;
+    private CommitteeScheduleMinuteBase reviewComment;
 
     /**
      * Constructs a ProtocolAddReviewerCommentEvent.
@@ -36,7 +36,7 @@ public abstract class ProtocolAddReviewCommentEvent extends KraDocumentEventBase
      * @param propertyName The error path property prefix
      * @param reviewComment The added Reviewer Comment
      */
-    public ProtocolAddReviewCommentEvent(ProtocolDocument document, String propertyName, CommitteeScheduleMinute reviewComment) {
+    public ProtocolAddReviewCommentEvent(ProtocolDocument document, String propertyName, CommitteeScheduleMinuteBase reviewComment) {
         super("Enter reviewer comment", "", document);
         this.propertyName = propertyName;
         this.reviewComment = reviewComment;
@@ -50,7 +50,7 @@ public abstract class ProtocolAddReviewCommentEvent extends KraDocumentEventBase
         return propertyName;
     }
     
-    public CommitteeScheduleMinute getReviewComment() {
+    public CommitteeScheduleMinuteBase getReviewComment() {
         return reviewComment;
     }
 

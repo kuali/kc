@@ -16,9 +16,9 @@
 package org.kuali.kra.iacuc.committee.keyvalue;
 
 import org.kuali.kra.common.committee.bo.CommitteeType;
-import org.kuali.kra.common.committee.keyvalue.MembershipRoleValuesFinder;
+import org.kuali.kra.common.committee.keyvalue.MembershipRoleValuesFinderBase;
 
-public class IacucMembershipRoleValuesFinder extends MembershipRoleValuesFinder {
+public class IacucMembershipRoleValuesFinder extends MembershipRoleValuesFinderBase {
 
     /**
      * Comment for <code>serialVersionUID</code>

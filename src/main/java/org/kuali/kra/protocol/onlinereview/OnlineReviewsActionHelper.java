@@ -29,7 +29,7 @@ import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
-import org.kuali.kra.common.committee.bo.CommitteeMembership;
+import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.ProtocolDocument;
@@ -193,8 +193,8 @@ public abstract class OnlineReviewsActionHelper implements Serializable {
      * This method...
      * @return
      */
-    public List<CommitteeMembership> getAvailableCommitteeMembersForCurrentSubmission() {
-        List<CommitteeMembership> members = getProtocolOnlineReviewService()
+    public List<CommitteeMembershipBase> getAvailableCommitteeMembersForCurrentSubmission() {
+        List<CommitteeMembershipBase> members = getProtocolOnlineReviewService()
         .getAvailableCommitteeMembersForCurrentSubmission(form.getProtocolDocument().getProtocol());
         return members;
     }

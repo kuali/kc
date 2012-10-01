@@ -17,7 +17,7 @@ package org.kuali.kra.protocol.correspondence;
 
 import org.apache.struts.upload.FormFile;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.common.committee.bo.Committee;
+import org.kuali.kra.common.committee.bo.CommitteeBase;
 import org.kuali.kra.common.committee.service.CommitteeServiceBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 
@@ -81,7 +81,7 @@ public abstract class ProtocolCorrespondenceTemplate extends KraPersistableBusin
         this.correspondenceTemplate = correspondenceTemplate;
     }
 
-    public Committee getCommittee() {
+    public CommitteeBase getCommittee() {
         return getCommitteeService().getCommitteeById(committeeId);
     }
 

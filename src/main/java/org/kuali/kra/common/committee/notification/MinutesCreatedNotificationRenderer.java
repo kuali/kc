@@ -17,7 +17,7 @@ package org.kuali.kra.common.committee.notification;
 
 import java.util.Map;
 
-import org.kuali.kra.common.committee.meeting.CommScheduleMinuteDoc;
+import org.kuali.kra.common.committee.meeting.CommScheduleMinuteDocBase;
 
 /**
  * Renders additional fields for the Agenda Created notification.
@@ -27,7 +27,7 @@ public class MinutesCreatedNotificationRenderer extends CommitteeNotificationRen
     private static final long serialVersionUID = -6019679826378390076L;
     
     private String actionTaken;
-    private CommScheduleMinuteDoc commScheduleMinuteDoc;
+    private CommScheduleMinuteDocBase commScheduleMinuteDoc;
 
     /**
      * Constructs an Minutes Created notification renderer.
@@ -35,7 +35,7 @@ public class MinutesCreatedNotificationRenderer extends CommitteeNotificationRen
      * @param protocol
      * @param actionTaken
      */
-    public MinutesCreatedNotificationRenderer(CommScheduleMinuteDoc minuteDoc, String actionTaken) {
+    public MinutesCreatedNotificationRenderer(CommScheduleMinuteDocBase minuteDoc, String actionTaken) {
         super(minuteDoc.getCommitteeSchedule().getCommittee());
         this.commScheduleMinuteDoc = minuteDoc;
         this.actionTaken = actionTaken;
@@ -49,11 +49,11 @@ public class MinutesCreatedNotificationRenderer extends CommitteeNotificationRen
         this.actionTaken = actionTaken;
     }
 
-    public CommScheduleMinuteDoc getCommScheduleMinuteDoc() {
+    public CommScheduleMinuteDocBase getCommScheduleMinuteDoc() {
         return commScheduleMinuteDoc;
     }
     
-    public void setCommScheduleMinuteDoc(CommScheduleMinuteDoc commScheduleMinuteDoc) {
+    public void setCommScheduleMinuteDoc(CommScheduleMinuteDocBase commScheduleMinuteDoc) {
         this.commScheduleMinuteDoc = commScheduleMinuteDoc;
     }
     

@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.iacuc.committee.service.impl;
 
-import org.kuali.kra.common.committee.bo.CommitteeResearchArea;
-import org.kuali.kra.common.committee.service.impl.CommitteeServiceImpl;
+import org.kuali.kra.common.committee.bo.CommitteeResearchAreaBase;
+import org.kuali.kra.common.committee.service.impl.CommitteeServiceImplBase;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
 import org.kuali.kra.iacuc.committee.bo.IacucCommittee;
 import org.kuali.kra.iacuc.committee.bo.IacucCommitteeResearchArea;
@@ -24,7 +24,7 @@ import org.kuali.kra.iacuc.committee.bo.IacucCommitteeSchedule;
 import org.kuali.kra.iacuc.committee.meeting.IacucCommitteeScheduleMinute;
 import org.kuali.kra.iacuc.committee.service.IacucCommitteeService;
 
-public class IacucCommitteeServiceImpl extends CommitteeServiceImpl<IacucCommittee, IacucCommitteeSchedule, IacucProtocolSubmission, IacucCommitteeScheduleMinute> implements IacucCommitteeService {
+public class IacucCommitteeServiceImpl extends CommitteeServiceImplBase<IacucCommittee, IacucCommitteeSchedule, IacucProtocolSubmission, IacucCommitteeScheduleMinute> implements IacucCommitteeService {
 
     @Override
     protected Class<IacucCommittee> getCommitteeBOClassHook() {
@@ -32,7 +32,7 @@ public class IacucCommitteeServiceImpl extends CommitteeServiceImpl<IacucCommitt
     }
 
     @Override
-    protected CommitteeResearchArea getNewCommitteeResearchAreaInstanceHook() {
+    protected CommitteeResearchAreaBase getNewCommitteeResearchAreaInstanceHook() {
         return new IacucCommitteeResearchArea();
     }
 

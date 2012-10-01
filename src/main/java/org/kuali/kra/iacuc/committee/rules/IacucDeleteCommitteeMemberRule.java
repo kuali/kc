@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.iacuc.committee.rules;
 
-import org.kuali.kra.common.committee.rules.DeleteCommitteeMemberRule;
+import org.kuali.kra.common.committee.rules.DeleteCommitteeMemberRuleBase;
 import org.kuali.kra.common.committee.service.CommitteeMembershipServiceBase;
 import org.kuali.kra.iacuc.committee.service.IacucCommitteeMembershipService;
 
-public class IacucDeleteCommitteeMemberRule extends DeleteCommitteeMemberRule {
+public class IacucDeleteCommitteeMemberRule extends DeleteCommitteeMemberRuleBase {
 
     @Override
     protected Class<? extends CommitteeMembershipServiceBase> getCommitteeMembershipServiceClassHook() {

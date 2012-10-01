@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.iacuc.committee.bo;
 
-import org.kuali.kra.common.committee.bo.CommitteeSchedule;
+import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
 import org.kuali.kra.iacuc.committee.meeting.IacucCommitteeScheduleMinute;
 
-public class IacucCommitteeSchedule extends CommitteeSchedule<IacucCommitteeSchedule, IacucCommittee, IacucProtocolSubmission, IacucCommitteeScheduleMinute> {
+public class IacucCommitteeSchedule extends CommitteeScheduleBase<IacucCommitteeSchedule, IacucCommittee, IacucProtocolSubmission, IacucCommitteeScheduleMinute> {
 
 
    

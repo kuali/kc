@@ -29,10 +29,10 @@ import java.util.Map;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.CoeusSubModule;
-import org.kuali.kra.common.committee.bo.CommitteeSchedule;
-import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinute;
-import org.kuali.kra.common.committee.meeting.ProtocolVoteAbstainee;
-import org.kuali.kra.common.committee.meeting.ProtocolVoteRecused;
+import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
+import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinuteBase;
+import org.kuali.kra.common.committee.meeting.ProtocolVoteAbstaineeBase;
+import org.kuali.kra.common.committee.meeting.ProtocolVoteRecusedBase;
 import org.kuali.kra.common.committee.service.CommitteeScheduleServiceBase;
 import org.kuali.kra.common.committee.service.CommitteeServiceBase;
 import org.kuali.kra.infrastructure.Constants;
@@ -319,10 +319,10 @@ public abstract class ActionHelper implements Serializable {
     
     // additional properties for Submission Details
     protected ProtocolSubmission selectedSubmission;
-    protected List<CommitteeScheduleMinute> reviewComments;        
+    protected List<CommitteeScheduleMinuteBase> reviewComments;        
     protected List<? extends ProtocolReviewAttachment> reviewAttachments;        
-    protected List<ProtocolVoteAbstainee> abstainees;        
-    protected List<ProtocolVoteRecused> recusers;        
+    protected List<ProtocolVoteAbstaineeBase> abstainees;        
+    protected List<ProtocolVoteRecusedBase> recusers;        
     protected List<ProtocolReviewer> protocolReviewers;        
     protected int currentSubmissionNumber;
     protected String renewalSummary;
@@ -675,7 +675,7 @@ public abstract class ActionHelper implements Serializable {
         Date approvalDate = protocol.getApprovalDate();
         
         if (approvalDate == null || protocol.isNew() || protocol.isRenewal()) {
-            CommitteeSchedule committeeSchedule = protocol.getProtocolSubmission().getCommitteeSchedule();
+            CommitteeScheduleBase committeeSchedule = protocol.getProtocolSubmission().getCommitteeSchedule();
             if (committeeSchedule != null) {
                 approvalDate = committeeSchedule.getScheduledDate();
             } else {
@@ -1058,13 +1058,13 @@ public abstract class ActionHelper implements Serializable {
         }
     }
     
-    protected List<CommitteeScheduleMinute> getCopiedReviewComments() {       
-        List<CommitteeScheduleMinute> clonedMinutes = new ArrayList<CommitteeScheduleMinute>();
+    protected List<CommitteeScheduleMinuteBase> getCopiedReviewComments() {       
+        List<CommitteeScheduleMinuteBase> clonedMinutes = new ArrayList<CommitteeScheduleMinuteBase>();
         Long scheduleIdFk = getProtocol().getProtocolSubmission().getScheduleIdFk();
         // TODO OPTIMIZATION perhaps the minutes list can be an instance variable and call to the committeeScheduleService need only be made once
-        List<CommitteeScheduleMinute> minutes = getCommitteeScheduleService().getMinutesBySchedule(scheduleIdFk);
+        List<CommitteeScheduleMinuteBase> minutes = getCommitteeScheduleService().getMinutesBySchedule(scheduleIdFk);
         if (CollectionUtils.isNotEmpty(minutes)) {
-            for (CommitteeScheduleMinute minute : minutes) {
+            for (CommitteeScheduleMinuteBase minute : minutes) {
                 clonedMinutes.add(minute.getCopy());
             }
         }
@@ -2607,19 +2607,19 @@ public abstract class ActionHelper implements Serializable {
     protected abstract Class<? extends CommitteeServiceBase> getCommitteeServiceClassHook();
 
 
-    public List<CommitteeScheduleMinute> getReviewComments() {
+    public List<CommitteeScheduleMinuteBase> getReviewComments() {
         return reviewComments;
     }
 
-    private void setReviewComments(List<CommitteeScheduleMinute> reviewComments) {
+    private void setReviewComments(List<CommitteeScheduleMinuteBase> reviewComments) {
         this.reviewComments = reviewComments;
     }
 
-    public List<ProtocolVoteAbstainee> getAbstainees() {
+    public List<ProtocolVoteAbstaineeBase> getAbstainees() {
         return abstainees;
     }
 
-    public void setAbstainees(List<ProtocolVoteAbstainee> abstainees) {
+    public void setAbstainees(List<ProtocolVoteAbstaineeBase> abstainees) {
         this.abstainees = abstainees;
     }
     
@@ -2736,11 +2736,11 @@ public abstract class ActionHelper implements Serializable {
                     && 
                 (protocolManageReviewCommentsBean.getReviewCommentsBean().getDeletedReviewComments().size() == 0) ) {
                 // TODO OPTIMIZATION perhaps the call below is not needed, can simply use getReviewComments since the review comments have been set above 
-                List<CommitteeScheduleMinute> reviewComments = getReviewerCommentsService().getReviewerComments(getProtocol().getProtocolNumber(), currentSubmissionNumber);
-                Collections.sort(reviewComments, new Comparator<CommitteeScheduleMinute>() {
+                List<CommitteeScheduleMinuteBase> reviewComments = getReviewerCommentsService().getReviewerComments(getProtocol().getProtocolNumber(), currentSubmissionNumber);
+                Collections.sort(reviewComments, new Comparator<CommitteeScheduleMinuteBase>() {
 
                     @Override
-                    public int compare(CommitteeScheduleMinute csm1, CommitteeScheduleMinute csm2) {
+                    public int compare(CommitteeScheduleMinuteBase csm1, CommitteeScheduleMinuteBase csm2) {
                         int retVal = 0;
                         if( (csm1 != null) && (csm2 != null) && (csm1.getEntryNumber() != null) && (csm2.getEntryNumber() != null) ) {
                             retVal = csm1.getEntryNumber().compareTo(csm2.getEntryNumber());
@@ -3016,11 +3016,11 @@ public abstract class ActionHelper implements Serializable {
 //        return valid;
 //    }
 
-    public List<ProtocolVoteRecused> getRecusers() {
+    public List<ProtocolVoteRecusedBase> getRecusers() {
         return recusers;
     }
 
-    public void setRecusers(List<ProtocolVoteRecused> recusers) {
+    public void setRecusers(List<ProtocolVoteRecusedBase> recusers) {
         this.recusers = recusers;
     }
     
@@ -3236,7 +3236,7 @@ public abstract class ActionHelper implements Serializable {
      */
     private boolean checkToHideSubmissionReviewerName() {
         boolean isHide = true;
-        for (CommitteeScheduleMinute reviewComment : getReviewComments()) {
+        for (CommitteeScheduleMinuteBase reviewComment : getReviewComments()) {
             if (reviewComment.isDisplayReviewerName()) {
                 isHide = false;
                 break;

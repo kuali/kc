@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.iacuc.committee.service.impl;
 
-import org.kuali.kra.common.committee.service.impl.CommitteeScheduleAttendanceServiceImpl;
+import org.kuali.kra.common.committee.service.impl.CommitteeScheduleAttendanceServiceImplBase;
 import org.kuali.kra.iacuc.committee.bo.IacucCommittee;
 import org.kuali.kra.iacuc.committee.bo.IacucCommitteeSchedule;
 import org.kuali.kra.iacuc.committee.document.CommonCommitteeDocument;
@@ -23,7 +23,7 @@ import org.kuali.kra.iacuc.committee.service.IacucCommitteeScheduleAttendanceSer
 import org.kuali.kra.iacuc.committee.service.IacucCommitteeService;
 
 public class IacucCommitteeScheduleAttendanceServiceImpl extends 
-                                                            CommitteeScheduleAttendanceServiceImpl<IacucCommitteeService, IacucCommittee, CommonCommitteeDocument, IacucCommitteeSchedule> 
+                                                            CommitteeScheduleAttendanceServiceImplBase<IacucCommitteeService, IacucCommittee, CommonCommitteeDocument, IacucCommitteeSchedule> 
                                                          implements IacucCommitteeScheduleAttendanceService {
 
     @Override

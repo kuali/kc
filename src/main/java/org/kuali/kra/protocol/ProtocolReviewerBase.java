@@ -20,7 +20,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Rolodex;
-import org.kuali.kra.common.committee.bo.CommitteeMembership;
+import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
 import org.kuali.kra.service.KcPersonService;
@@ -132,13 +132,13 @@ public class ProtocolReviewerBase extends KraPersistableBusinessObjectBase {
     }
 
     /**
-     * Convenience method - is the CommitteeMembership and this ProtocolReviewerBase the
+     * Convenience method - is the CommitteeMembershipBase and this ProtocolReviewerBase the
      * same person?  Does the check properly against the person or rolodex as required.
      * 
      * @param member
      * @return
      */
-    public boolean isProtocolReviewerFromCommitteeMembership(CommitteeMembership member) {
+    public boolean isProtocolReviewerFromCommitteeMembership(CommitteeMembershipBase member) {
         boolean isMatched = false;
         if (!getNonEmployeeFlag() && StringUtils.equals(member.getPersonId(), getPersonId())) {
             isMatched = true;

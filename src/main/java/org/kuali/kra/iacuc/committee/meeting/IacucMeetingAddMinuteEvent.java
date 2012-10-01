@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.iacuc.committee.meeting;
 
-import org.kuali.kra.common.committee.meeting.MeetingAddMinuteEvent;
-import org.kuali.kra.common.committee.meeting.MeetingAddMinuteRule;
+import org.kuali.kra.common.committee.meeting.MeetingAddMinuteEventBase;
+import org.kuali.kra.common.committee.meeting.MeetingAddMinuteRuleBase;
 import org.kuali.kra.iacuc.committee.document.CommonCommitteeDocument;
 import org.kuali.rice.krad.document.Document;
 
-public class IacucMeetingAddMinuteEvent extends MeetingAddMinuteEvent {
+public class IacucMeetingAddMinuteEvent extends MeetingAddMinuteEventBase {
 
     public IacucMeetingAddMinuteEvent(String errorPathPrefix, CommonCommitteeDocument document, IacucMeetingHelper meetingHelper,
             org.kuali.kra.common.committee.meeting.MeetingEventBase.ErrorType type) {
@@ -33,7 +33,7 @@ public class IacucMeetingAddMinuteEvent extends MeetingAddMinuteEvent {
     }
 
     @Override
-    protected MeetingAddMinuteRule getMeetingAddMinuteRuleInstanceHook() {
+    protected MeetingAddMinuteRuleBase getMeetingAddMinuteRuleInstanceHook() {
         return new IacucMeetingAddMinuteRule();
     }
 

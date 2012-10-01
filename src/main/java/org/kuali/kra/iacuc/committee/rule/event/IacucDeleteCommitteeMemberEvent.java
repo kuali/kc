@@ -17,43 +17,43 @@ package org.kuali.kra.iacuc.committee.rule.event;
 
 import java.util.List;
 
-import org.kuali.kra.common.committee.bo.CommitteeMembership;
+import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
 import org.kuali.kra.common.committee.document.CommitteeDocumentBase;
-import org.kuali.kra.common.committee.rule.event.DeleteCommitteeMemberEvent;
-import org.kuali.kra.common.committee.rules.DeleteCommitteeMemberRule;
+import org.kuali.kra.common.committee.rule.event.DeleteCommitteeMemberEventBase;
+import org.kuali.kra.common.committee.rules.DeleteCommitteeMemberRuleBase;
 import org.kuali.kra.iacuc.committee.rules.IacucDeleteCommitteeMemberRule;
 import org.kuali.rice.krad.document.Document;
 
-public class IacucDeleteCommitteeMemberEvent extends DeleteCommitteeMemberEvent {
+public class IacucDeleteCommitteeMemberEvent extends DeleteCommitteeMemberEventBase {
 
     /**
      * 
-     * Constructs a DeleteCommitteeMemberEvent.java.
+     * Constructs a DeleteCommitteeMemberEventBase.java.
      * 
      * @param errorPathPrefix
      * @param document
      * @param committeeMemberships
      * @param type
      */
-    public IacucDeleteCommitteeMemberEvent(String errorPathPrefix, CommitteeDocumentBase document, List<CommitteeMembership> committeeMemberships, ErrorType type) {
+    public IacucDeleteCommitteeMemberEvent(String errorPathPrefix, CommitteeDocumentBase document, List<CommitteeMembershipBase> committeeMemberships, ErrorType type) {
         super(errorPathPrefix, document, committeeMemberships, type);
     }
 
     /**
      * 
-     * Constructs a DeleteCommitteeMemberEvent.java.
+     * Constructs a DeleteCommitteeMemberEventBase.java.
      * 
      * @param errorPathPrefix
      * @param document
      * @param committeeMemberships
      * @param type
      */
-    public IacucDeleteCommitteeMemberEvent(String errorPathPrefix, Document document, List<CommitteeMembership> committeeMemberships, ErrorType type) {
+    public IacucDeleteCommitteeMemberEvent(String errorPathPrefix, Document document, List<CommitteeMembershipBase> committeeMemberships, ErrorType type) {
         this(errorPathPrefix, (CommitteeDocumentBase) document, committeeMemberships, type);
     }
 
     @Override
-    protected DeleteCommitteeMemberRule getNewDeleteCommitteeMemberRuleInstanceHook() {
+    protected DeleteCommitteeMemberRuleBase getNewDeleteCommitteeMemberRuleInstanceHook() {
         return new IacucDeleteCommitteeMemberRule();
     }
 

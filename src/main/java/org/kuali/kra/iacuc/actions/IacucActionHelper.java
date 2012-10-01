@@ -25,7 +25,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.CoeusSubModule;
-import org.kuali.kra.common.committee.bo.CommitteeSchedule;
+import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
 import org.kuali.kra.common.committee.service.CommitteeScheduleServiceBase;
 import org.kuali.kra.common.committee.service.CommitteeServiceBase;
 import org.kuali.kra.iacuc.IacucProtocol;
@@ -284,7 +284,7 @@ public class IacucActionHelper extends ActionHelper {
         Date approvalDate = protocol.getApprovalDate();
         
         if (approvalDate == null || protocol.isNew() || protocol.isRenewal() || ((IacucProtocol)protocol).isContinuation()) {
-            CommitteeSchedule committeeSchedule = protocol.getProtocolSubmission().getCommitteeSchedule();
+            CommitteeScheduleBase committeeSchedule = protocol.getProtocolSubmission().getCommitteeSchedule();
             if (committeeSchedule != null) {
                 approvalDate = committeeSchedule.getScheduledDate();
             } else {

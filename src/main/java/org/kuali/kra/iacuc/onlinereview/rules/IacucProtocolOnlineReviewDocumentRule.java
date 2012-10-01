@@ -16,7 +16,7 @@
 package org.kuali.kra.iacuc.onlinereview.rules;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinute;
+import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinuteBase;
 import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReview;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -54,7 +54,7 @@ implements AddOnlineReviewCommentRule,
     private transient KraAuthorizationService kraAuthorizationService;
     private transient KraWorkflowService kraWorkflowService;
 
-    public boolean processAddProtocolOnlineReviewComment(IacucProtocolOnlineReview protocolOnlineReview, CommitteeScheduleMinute minute) {
+    public boolean processAddProtocolOnlineReviewComment(IacucProtocolOnlineReview protocolOnlineReview, CommitteeScheduleMinuteBase minute) {
         return false;
     }
 
@@ -62,7 +62,7 @@ implements AddOnlineReviewCommentRule,
     public boolean processAddProtocolOnlineReviewComment(AddProtocolOnlineReviewCommentEvent event) {
 
         boolean valid = true;
-        CommitteeScheduleMinute minute = event.getCommitteeScheduleMinute();
+        CommitteeScheduleMinuteBase minute = event.getCommitteeScheduleMinute();
         if (StringUtils.isEmpty(minute.getMinuteEntry()) && StringUtils.isEmpty(minute.getProtocolContingencyCode())) {
             valid = false;
             GlobalVariables.getMessageMap().clearErrorPath();
@@ -84,7 +84,7 @@ implements AddOnlineReviewCommentRule,
 
         int index = 0;
 
-        for (CommitteeScheduleMinute minute : event.getMinutes()) {
+        for (CommitteeScheduleMinuteBase minute : event.getMinutes()) {
             if (StringUtils.isEmpty(minute.getMinuteEntry()) && StringUtils.isEmpty(minute.getProtocolContingencyCode())) {
                 valid = false;
                 GlobalVariables.getMessageMap().putError(String.format("reviewComments[%s].minuteEntry", index),
@@ -148,7 +148,7 @@ implements AddOnlineReviewCommentRule,
         // //we only enforce "all comments must be final" if we are moving off of the reviewers approval node.
         // int commentIndex = 0;
         //
-        // for (CommitteeScheduleMinute minute : event.getMinutes()) {
+        // for (CommitteeScheduleMinuteBase minute : event.getMinutes()) {
         // if (!minute.isFinalFlag()) {
         // GlobalVariables.getMessageMap().putError(String.format("reviewComments[%s].finalFlag", commentIndex),
         // KeyConstants.ERROR_ONLINE_REVIEW_COMMENTS_FINAL_AFTER_REVIEWER_ROUTE);

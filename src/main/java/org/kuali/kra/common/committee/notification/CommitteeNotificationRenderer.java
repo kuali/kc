@@ -17,7 +17,7 @@ package org.kuali.kra.common.committee.notification;
 
 import java.util.Map;
 
-import org.kuali.kra.common.committee.bo.Committee;
+import org.kuali.kra.common.committee.bo.CommitteeBase;
 import org.kuali.kra.common.notification.NotificationRendererBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KcPersonService;
@@ -37,16 +37,16 @@ public class CommitteeNotificationRenderer extends NotificationRendererBase {
      */
     private static final long serialVersionUID = 6334584979829689495L;
 
-    private Committee committee;
+    private CommitteeBase committee;
     
     private transient BusinessObjectService businessObjectService;
     private transient KcPersonService kcPersonService;
     
     /**
      * Constructs an IRB notification renderer.
-     * @param Committee
+     * @param CommitteeBase
      */
-    public CommitteeNotificationRenderer(Committee committee) {
+    public CommitteeNotificationRenderer(CommitteeBase committee) {
         this.committee = committee;
     }
 
@@ -76,11 +76,11 @@ public class CommitteeNotificationRenderer extends NotificationRendererBase {
         return params;
     }
 
-    public Committee getCommittee() {
+    public CommitteeBase getCommittee() {
         return committee;
     }
 
-    public void setCommittee(Committee committee) {
+    public void setCommittee(CommitteeBase committee) {
         this.committee = committee;
     }
     

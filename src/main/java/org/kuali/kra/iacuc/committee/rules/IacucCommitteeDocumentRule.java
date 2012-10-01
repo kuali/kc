@@ -15,24 +15,24 @@
  */
 package org.kuali.kra.iacuc.committee.rules;
 
-import org.kuali.kra.common.committee.bo.Committee;
+import org.kuali.kra.common.committee.bo.CommitteeBase;
 import org.kuali.kra.common.committee.document.CommitteeDocumentBase;
-import org.kuali.kra.common.committee.lookup.keyvalue.CommitteeIdValuesFinder;
-import org.kuali.kra.common.committee.rules.CommitteeDocumentRule;
+import org.kuali.kra.common.committee.lookup.keyvalue.CommitteeIdValuesFinderBase;
+import org.kuali.kra.common.committee.rules.CommitteeDocumentRuleBase;
 import org.kuali.kra.iacuc.committee.bo.IacucCommittee;
 import org.kuali.kra.iacuc.committee.document.CommonCommitteeDocument;
 
-public class IacucCommitteeDocumentRule extends CommitteeDocumentRule {
+public class IacucCommitteeDocumentRule extends CommitteeDocumentRuleBase {
 
     @Override
-    protected Class<? extends Committee> getCommitteeBOClassHook() {
+    protected Class<? extends CommitteeBase> getCommitteeBOClassHook() {
         return IacucCommittee.class;
     }
 
     @Override
-    protected CommitteeIdValuesFinder getNewCommitteeIdValuesFinderInstanceHook() {
+    protected CommitteeIdValuesFinderBase getNewCommitteeIdValuesFinderInstanceHook() {
         // creating anonymous classes in order to avoid inheritance issues
-        return new CommitteeIdValuesFinder() {
+        return new CommitteeIdValuesFinderBase() {
 
             /**
              * Comment for <code>serialVersionUID</code>
@@ -40,7 +40,7 @@ public class IacucCommitteeDocumentRule extends CommitteeDocumentRule {
             private static final long serialVersionUID = 7790195024569716075L;
 
             @Override
-            protected Class<? extends Committee> getCommitteeBOClassHook() {
+            protected Class<? extends CommitteeBase> getCommitteeBOClassHook() {
                 return IacucCommittee.class;
             }
             

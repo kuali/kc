@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.iacuc.committee.dao.ojb;
 
-import org.kuali.kra.common.committee.dao.ojb.CommitteeBatchCorrespondenceDaoOjb;
+import org.kuali.kra.common.committee.dao.ojb.CommitteeBatchCorrespondenceDaoOjbBase;
 import org.kuali.kra.iacuc.committee.bo.IacucCommitteeBatchCorrespondence;
 import org.kuali.kra.iacuc.committee.dao.IacucCommitteeBatchCorrespondenceDao;
 
-public class IacucCommitteeBatchCorrespondenceDaoOjb extends CommitteeBatchCorrespondenceDaoOjb<IacucCommitteeBatchCorrespondence> implements IacucCommitteeBatchCorrespondenceDao {
+public class IacucCommitteeBatchCorrespondenceDaoOjb extends CommitteeBatchCorrespondenceDaoOjbBase<IacucCommitteeBatchCorrespondence> implements IacucCommitteeBatchCorrespondenceDao {
 
     @Override
     protected Class<IacucCommitteeBatchCorrespondence> getCommitteeBatchCorrespondenceBOClassHook() {

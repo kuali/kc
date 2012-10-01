@@ -20,7 +20,7 @@ import java.util.Map;
 
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.common.committee.bo.CommitteeSchedule;
+import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.protocol.actions.print.CorrespondenceXmlStream;
 import org.kuali.kra.protocol.actions.print.ProtocolXmlStream;
@@ -41,7 +41,7 @@ public class IacucCorrespondenceXmlStream extends CorrespondenceXmlStream {
         String scheduleId = null;
         Integer submissionNumber = null;
         if (protocolSubmission != null) {
-            CommitteeSchedule committeeSchedule = protocolSubmission.getCommitteeSchedule();
+            CommitteeScheduleBase committeeSchedule = protocolSubmission.getCommitteeSchedule();
             scheduleId = committeeSchedule != null ? committeeSchedule.getScheduleId() : null;
             submissionNumber = protocolSubmission.getSubmissionNumber();
         }

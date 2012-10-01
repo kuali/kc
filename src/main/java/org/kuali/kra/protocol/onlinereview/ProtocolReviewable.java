@@ -16,7 +16,7 @@
 package org.kuali.kra.protocol.onlinereview;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.common.committee.bo.CommitteeSchedule;
+import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -25,7 +25,7 @@ import org.kuali.rice.krad.service.BusinessObjectService;
  * 
  * This class is for review comments and attachments
  */
-public abstract class ProtocolReviewable<CS extends CommitteeSchedule<CS, ?, ?, ?>> extends KraPersistableBusinessObjectBase {
+public abstract class ProtocolReviewable<CS extends CommitteeScheduleBase<CS, ?, ?, ?>> extends KraPersistableBusinessObjectBase {
     /**
      * Comment for <code>serialVersionUID</code>
      */

@@ -58,7 +58,7 @@ public class MeetingAddOtherRule extends ResearchDocumentRuleBase implements Bus
     /*
      * check if the selected person for 'other present' is a member.
      */
-    private boolean isMemberPresent(MemberPresentBean memberPresentBean, OtherPresentBean otherPresentBean) {
+    private boolean isMemberPresent(MemberPresentBean memberPresentBean, OtherPresentBeanBase otherPresentBean) {
         boolean isPresent = false;
         if (memberPresentBean.getAttendance().getNonEmployeeFlag() && otherPresentBean.getAttendance().getNonEmployeeFlag()
                 && memberPresentBean.getAttendance().getPersonId().equals(otherPresentBean.getAttendance().getPersonId())) {

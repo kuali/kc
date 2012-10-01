@@ -24,7 +24,7 @@ import org.apache.commons.lang.ObjectUtils;
  * This class implements the committee membership role business object.
  * 
  */
-public class CommitteeMembershipRole extends CommitteeSequenceAssociate {
+public class CommitteeMembershipRole extends CommitteeSequenceAssociateBase {
 
     private static final long serialVersionUID = 6048477313137155626L;
 

@@ -17,7 +17,7 @@ package org.kuali.kra.common.committee.notification;
 
 import java.util.Map;
 
-import org.kuali.kra.common.committee.meeting.ScheduleAgenda;
+import org.kuali.kra.common.committee.meeting.ScheduleAgendaBase;
 
 /**
  * Renders additional fields for the Agenda Created notification.
@@ -27,7 +27,7 @@ public class AgendaCreatedNotificationRenderer extends CommitteeNotificationRend
     private static final long serialVersionUID = -6019679826378390076L;
     
     private String actionTaken;
-    private ScheduleAgenda scheduleAgenda;
+    private ScheduleAgendaBase scheduleAgenda;
 
     /**
      * Constructs an Agenda Created notification renderer.
@@ -35,7 +35,7 @@ public class AgendaCreatedNotificationRenderer extends CommitteeNotificationRend
      * @param protocol
      * @param actionTaken
      */
-    public AgendaCreatedNotificationRenderer(ScheduleAgenda scheduleAgenda, String actionTaken) {
+    public AgendaCreatedNotificationRenderer(ScheduleAgendaBase scheduleAgenda, String actionTaken) {
         super(scheduleAgenda.getCommitteeSchedule().getCommittee());
         this.scheduleAgenda = scheduleAgenda;
         this.actionTaken = actionTaken;
@@ -49,11 +49,11 @@ public class AgendaCreatedNotificationRenderer extends CommitteeNotificationRend
         this.actionTaken = actionTaken;
     }
 
-    public ScheduleAgenda getScheduleAgenda() {
+    public ScheduleAgendaBase getScheduleAgenda() {
         return scheduleAgenda;
     }
     
-    public void setScheduleAgenda(ScheduleAgenda scheduleAgenda) {
+    public void setScheduleAgenda(ScheduleAgendaBase scheduleAgenda) {
         this.scheduleAgenda = scheduleAgenda;
     }
     

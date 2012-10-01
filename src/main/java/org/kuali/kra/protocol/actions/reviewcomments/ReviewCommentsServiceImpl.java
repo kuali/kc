@@ -30,12 +30,12 @@ import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.bo.KcPerson;
-import org.kuali.kra.common.committee.bo.Committee;
-import org.kuali.kra.common.committee.bo.CommitteeMembership;
+import org.kuali.kra.common.committee.bo.CommitteeBase;
+import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
 import org.kuali.kra.common.committee.service.CommitteeScheduleServiceBase;
 import org.kuali.kra.common.committee.service.CommitteeServiceBase;
-import org.kuali.kra.common.committee.bo.CommitteeSchedule;
-import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinute;
+import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
+import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinuteBase;
 import org.kuali.kra.common.committee.meeting.MinuteEntryType;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
@@ -141,8 +141,8 @@ public abstract class ReviewCommentsServiceImpl<PRA extends ProtocolReviewAttach
     
     
     
-    public List<CommitteeScheduleMinute> getReviewerComments(String protocolNumber, int submissionNumber) {
-        ArrayList<CommitteeScheduleMinute> reviewComments = new ArrayList<CommitteeScheduleMinute>();
+    public List<CommitteeScheduleMinuteBase> getReviewerComments(String protocolNumber, int submissionNumber) {
+        ArrayList<CommitteeScheduleMinuteBase> reviewComments = new ArrayList<CommitteeScheduleMinuteBase>();
 
         List<ProtocolSubmission> protocolSubmissions = protocolFinderDao.findProtocolSubmissions(protocolNumber, submissionNumber);
 
@@ -154,13 +154,13 @@ public abstract class ReviewCommentsServiceImpl<PRA extends ProtocolReviewAttach
                 fieldValues.put("submissionIdFk", protocolSubmission.getSubmissionId());
                 
 // TODO *********commented the code below during IACUC refactoring********* 
-//                List<CommitteeScheduleMinute> reviewComments1 = (List<CommitteeScheduleMinute>) businessObjectService
-//                .findMatchingOrderBy(CommitteeScheduleMinute.class, fieldValues, "commScheduleMinutesId", false);
+//                List<CommitteeScheduleMinuteBase> reviewComments1 = (List<CommitteeScheduleMinuteBase>) businessObjectService
+//                .findMatchingOrderBy(CommitteeScheduleMinuteBase.class, fieldValues, "commScheduleMinutesId", false);
                 
 
-                List<CommitteeScheduleMinute> reviewComments1 = (List<CommitteeScheduleMinute>) businessObjectService
+                List<CommitteeScheduleMinuteBase> reviewComments1 = (List<CommitteeScheduleMinuteBase>) businessObjectService
                         .findMatchingOrderBy(getCommitteeScheduleMinuteBOClassHook(), fieldValues, "commScheduleMinutesId", false);
-                for (CommitteeScheduleMinute minute : reviewComments1) {
+                for (CommitteeScheduleMinuteBase minute : reviewComments1) {
                     String minuteEntryTypeCode = minute.getMinuteEntryTypeCode();
                     // need to check current minute entry; otherwise may have minutes from previous version comittee
                     if ((MinuteEntryType.PROTOCOL.equals(minuteEntryTypeCode) || MinuteEntryType.PROTOCOL_REVIEWER_COMMENT
@@ -176,7 +176,7 @@ public abstract class ReviewCommentsServiceImpl<PRA extends ProtocolReviewAttach
         return reviewComments;
     }
 
-    protected abstract Class<? extends CommitteeScheduleMinute> getCommitteeScheduleMinuteBOClassHook();
+    protected abstract Class<? extends CommitteeScheduleMinuteBase> getCommitteeScheduleMinuteBOClassHook();
     
     @Override
     public List<PRA> getReviewerAttachments(String protocolNumber, int submissionNumber) {
@@ -225,10 +225,10 @@ public abstract class ReviewCommentsServiceImpl<PRA extends ProtocolReviewAttach
     /*
      * when version committee, the minutes also versioned. This is to get the current one.
      */
-    protected boolean isCurrentMinuteEntry(CommitteeScheduleMinute minute) {
+    protected boolean isCurrentMinuteEntry(CommitteeScheduleMinuteBase minute) {
         minute.refreshReferenceObject("committeeSchedule");
         if (minute.getCommitteeSchedule() != null) {
-            Committee committee = committeeService.getCommitteeById(minute.getCommitteeSchedule().getCommittee().getCommitteeId());
+            CommitteeBase committee = committeeService.getCommitteeById(minute.getCommitteeSchedule().getCommittee().getCommitteeId());
             return committee.getId().equals(minute.getCommitteeSchedule().getCommittee().getId());
         }
         else {
@@ -237,14 +237,14 @@ public abstract class ReviewCommentsServiceImpl<PRA extends ProtocolReviewAttach
         }
     }
 
-    public void addReviewComment(CommitteeScheduleMinute newReviewComment, List<CommitteeScheduleMinute> reviewComments,
+    public void addReviewComment(CommitteeScheduleMinuteBase newReviewComment, List<CommitteeScheduleMinuteBase> reviewComments,
             Protocol protocol) {
         ProtocolSubmission protocolSubmission = getSubmission(protocol);
         if (protocolSubmission.getScheduleIdFk() != null) {
             newReviewComment.setScheduleIdFk(protocolSubmission.getScheduleIdFk());
         }
         else {
-            newReviewComment.setScheduleIdFk(CommitteeSchedule.DEFAULT_SCHEDULE_ID);
+            newReviewComment.setScheduleIdFk(CommitteeScheduleBase.DEFAULT_SCHEDULE_ID);
         }
         newReviewComment.setEntryNumber(reviewComments.size());
         newReviewComment.setProtocolIdFk(protocol.getProtocolId());
@@ -260,7 +260,7 @@ public abstract class ReviewCommentsServiceImpl<PRA extends ProtocolReviewAttach
     }
     
   
-    public void addReviewComment(CommitteeScheduleMinute newReviewComment, List<CommitteeScheduleMinute> reviewComments,
+    public void addReviewComment(CommitteeScheduleMinuteBase newReviewComment, List<CommitteeScheduleMinuteBase> reviewComments,
             ProtocolOnlineReview protocolOnlineReview) {
         newReviewComment.setProtocolOnlineReview(protocolOnlineReview);
         newReviewComment.setProtocolOnlineReviewIdFk(protocolOnlineReview.getProtocolOnlineReviewId());
@@ -270,11 +270,11 @@ public abstract class ReviewCommentsServiceImpl<PRA extends ProtocolReviewAttach
     }
 
   
-    public void moveUpReviewComment(List<CommitteeScheduleMinute> reviewComments, Protocol protocol, int fromIndex) {
+    public void moveUpReviewComment(List<CommitteeScheduleMinuteBase> reviewComments, Protocol protocol, int fromIndex) {
         if (fromIndex > 0) {
             int toIndex = indexOfPreviousProtocolReviewComment(reviewComments, protocol, fromIndex);
             if (toIndex < fromIndex) {
-                CommitteeScheduleMinute movingReviewComment = reviewComments.remove(fromIndex);
+                CommitteeScheduleMinuteBase movingReviewComment = reviewComments.remove(fromIndex);
                 reviewComments.add(toIndex, movingReviewComment);
                 for (int i = toIndex; i <= fromIndex; i++) {
                     reviewComments.get(i).setEntryNumber(i);
@@ -296,13 +296,13 @@ public abstract class ReviewCommentsServiceImpl<PRA extends ProtocolReviewAttach
      * @param currentIndex the index of the current review comment
      * @return the index of the previous review comment, or the same index if there is none
      */
-    private int indexOfPreviousProtocolReviewComment(List<CommitteeScheduleMinute> reviewComments, Protocol protocol,
+    private int indexOfPreviousProtocolReviewComment(List<CommitteeScheduleMinuteBase> reviewComments, Protocol protocol,
             int currentIndex) {
         int previousIndex = currentIndex;
 
-        for (ListIterator<CommitteeScheduleMinute> iterator = reviewComments.listIterator(currentIndex); iterator.hasPrevious();) {
+        for (ListIterator<CommitteeScheduleMinuteBase> iterator = reviewComments.listIterator(currentIndex); iterator.hasPrevious();) {
             int iteratorIndex = iterator.previousIndex();
-            CommitteeScheduleMinute currentReviewComment = iterator.previous();
+            CommitteeScheduleMinuteBase currentReviewComment = iterator.previous();
             if (ObjectUtils.equals(currentReviewComment.getProtocolId(), protocol.getProtocolId())) {
                 previousIndex = iteratorIndex;
                 break;
@@ -314,11 +314,11 @@ public abstract class ReviewCommentsServiceImpl<PRA extends ProtocolReviewAttach
 
     
     
-    public void moveDownReviewComment(List<CommitteeScheduleMinute> reviewComments, Protocol protocol, int fromIndex) {
+    public void moveDownReviewComment(List<CommitteeScheduleMinuteBase> reviewComments, Protocol protocol, int fromIndex) {
         if (fromIndex < reviewComments.size() - 1) {
             int toIndex = indexOfNextProtocolReviewComment(reviewComments, protocol, fromIndex);
             if (toIndex > fromIndex) {
-                CommitteeScheduleMinute movingReviewComment = reviewComments.remove(fromIndex);
+                CommitteeScheduleMinuteBase movingReviewComment = reviewComments.remove(fromIndex);
                 reviewComments.add(toIndex, movingReviewComment);
                 for (int i = fromIndex; i <= toIndex; i++) {
                     reviewComments.get(i).setEntryNumber(i);
@@ -340,7 +340,7 @@ public abstract class ReviewCommentsServiceImpl<PRA extends ProtocolReviewAttach
      * 
      * In addition if the comment is not associated with an online review then it automatically returns true.
      * 
-     * @param CommitteeScheduleMinute minute
+     * @param CommitteeScheduleMinuteBase minute
      * @return whether the current user can view this comment
      */
     public boolean getReviewerCommentsView(ProtocolReviewable minute) {
@@ -398,12 +398,12 @@ public abstract class ReviewCommentsServiceImpl<PRA extends ProtocolReviewAttach
      * @param currentIndex the index of the current review comment
      * @return the index of the next review comment, or the same index if there is none
      */
-    private int indexOfNextProtocolReviewComment(List<CommitteeScheduleMinute> reviewComments, Protocol protocol, int currentIndex) {
+    private int indexOfNextProtocolReviewComment(List<CommitteeScheduleMinuteBase> reviewComments, Protocol protocol, int currentIndex) {
         int nextIndex = currentIndex;
 
-        for (ListIterator<CommitteeScheduleMinute> iterator = reviewComments.listIterator(currentIndex + 1); iterator.hasNext();) {
+        for (ListIterator<CommitteeScheduleMinuteBase> iterator = reviewComments.listIterator(currentIndex + 1); iterator.hasNext();) {
             int iteratorIndex = iterator.nextIndex();
-            CommitteeScheduleMinute currentReviewComment = iterator.next();
+            CommitteeScheduleMinuteBase currentReviewComment = iterator.next();
             if (ObjectUtils.equals(currentReviewComment.getProtocolId(), protocol.getProtocolId())) {
                 nextIndex = iteratorIndex;
                 break;
@@ -413,10 +413,10 @@ public abstract class ReviewCommentsServiceImpl<PRA extends ProtocolReviewAttach
         return nextIndex;
     }
 
-    public void deleteReviewComment(List<CommitteeScheduleMinute> reviewComments, int index,
-            List<CommitteeScheduleMinute> deletedReviewComments) {
+    public void deleteReviewComment(List<CommitteeScheduleMinuteBase> reviewComments, int index,
+            List<CommitteeScheduleMinuteBase> deletedReviewComments) {
         if (index >= 0 && index < reviewComments.size()) {
-            CommitteeScheduleMinute reviewComment = reviewComments.get(index);
+            CommitteeScheduleMinuteBase reviewComment = reviewComments.get(index);
             if (reviewComment.getCommScheduleMinutesId() != null) {
                 deletedReviewComments.add(reviewComment);
             }
@@ -428,8 +428,8 @@ public abstract class ReviewCommentsServiceImpl<PRA extends ProtocolReviewAttach
         }
     }
 
-    public void deleteAllReviewComments(List<CommitteeScheduleMinute> reviewComments, List<CommitteeScheduleMinute> deletedReviewComments) {
-        for (CommitteeScheduleMinute reviewerComment : reviewComments) {
+    public void deleteAllReviewComments(List<CommitteeScheduleMinuteBase> reviewComments, List<CommitteeScheduleMinuteBase> deletedReviewComments) {
+        for (CommitteeScheduleMinuteBase reviewerComment : reviewComments) {
             if (reviewerComment.getCommScheduleMinutesId() != null) {
                 deletedReviewComments.add(reviewerComment);
             }
@@ -437,11 +437,11 @@ public abstract class ReviewCommentsServiceImpl<PRA extends ProtocolReviewAttach
         reviewComments.clear();
     }
 
-    public void saveReviewComments(List<CommitteeScheduleMinute> reviewComments, List<CommitteeScheduleMinute> deletedReviewComments) {
-        for (CommitteeScheduleMinute reviewComment : reviewComments) {
+    public void saveReviewComments(List<CommitteeScheduleMinuteBase> reviewComments, List<CommitteeScheduleMinuteBase> deletedReviewComments) {
+        for (CommitteeScheduleMinuteBase reviewComment : reviewComments) {
             boolean doUpdate = true;
             if (reviewComment.getCommScheduleMinutesId() != null) {
-                CommitteeScheduleMinute existing = committeeScheduleService.getCommitteeScheduleMinute(reviewComment.getCommScheduleMinutesId());
+                CommitteeScheduleMinuteBase existing = committeeScheduleService.getCommitteeScheduleMinute(reviewComment.getCommScheduleMinutesId());
                 if (!StringUtils.equals(reviewComment.getMinuteEntry(), existing.getMinuteEntry())) {
                    doUpdate = true; 
                    KcPerson kcPerson = KraServiceLocator.getService(KcPersonService.class).getKcPersonByPersonId(GlobalVariables.getUserSession().getPerson().getPrincipalId());
@@ -624,15 +624,15 @@ public abstract class ReviewCommentsServiceImpl<PRA extends ProtocolReviewAttach
 
     private List<String> getActiveMemberId(ProtocolReviewable reviewComment) {
         List<String> activeMemberIds = new ArrayList<String>();
-        List<CommitteeMembership> members = new ArrayList<CommitteeMembership>();
+        List<CommitteeMembershipBase> members = new ArrayList<CommitteeMembershipBase>();
         if (reviewComment.isReviewComment()) {
-            members = ((CommitteeScheduleMinute) reviewComment).getCommitteeSchedule().getCommittee().getCommitteeMemberships();
+            members = ((CommitteeScheduleMinuteBase) reviewComment).getCommitteeSchedule().getCommittee().getCommitteeMemberships();
         }
         else {
             members = ((PRA) reviewComment).getProtocol().getProtocolSubmission().getCommittee()
                     .getCommitteeMemberships();
         }
-        for (CommitteeMembership member : members) {
+        for (CommitteeMembershipBase member : members) {
             if (member.isActive()) {
                 if (StringUtils.isNotBlank(member.getPersonId())) {
                     activeMemberIds.add(member.getPersonId());
@@ -663,10 +663,10 @@ public abstract class ReviewCommentsServiceImpl<PRA extends ProtocolReviewAttach
     /**
      * Returns whether the current user can view this non Final Comments and Private Comment.
      * 
-     * @param CommitteeScheduleMinute minute
+     * @param CommitteeScheduleMinuteBase minute
      * @return whether the current user can view this comment
      */
-    public boolean getReviewerMinuteCommentsView(CommitteeScheduleMinute minute) {
+    public boolean getReviewerMinuteCommentsView(CommitteeScheduleMinuteBase minute) {
         String principalId = GlobalVariables.getUserSession().getPrincipalId();
         String principalName = GlobalVariables.getUserSession().getPrincipalName();
         return StringUtils.equals(principalName, minute.getCreateUser()) && minute.isFinalFlag()
@@ -682,7 +682,7 @@ public abstract class ReviewCommentsServiceImpl<PRA extends ProtocolReviewAttach
     /*
      * if the person is PI.
      */
-    private boolean isPrincipalInvestigator(CommitteeScheduleMinute reviewComment, String principalId) {
+    private boolean isPrincipalInvestigator(CommitteeScheduleMinuteBase reviewComment, String principalId) {
         boolean isPi = false;
         if (reviewComment.getProtocolId() != null) {
             // TODO : need to check if the submission number is ok to get this way
@@ -914,10 +914,10 @@ public abstract class ReviewCommentsServiceImpl<PRA extends ProtocolReviewAttach
 //     */
     private boolean isActiveCommitteeMember(ProtocolReviewable minute, String principalId) {
         boolean result = false;
-        List<CommitteeMembership> committeeMembers = committeeService.getAvailableMembers(minute.getCommitteeSchedule()
+        List<CommitteeMembershipBase> committeeMembers = committeeService.getAvailableMembers(minute.getCommitteeSchedule()
                 .getCommittee().getCommitteeId(), minute.getCommitteeSchedule().getScheduleId());
         if (CollectionUtils.isNotEmpty(committeeMembers)) {
-            for (CommitteeMembership member : committeeMembers) {
+            for (CommitteeMembershipBase member : committeeMembers) {
                 if (StringUtils.equals(principalId, member.getPersonId())) {
                     result = true;
                     break;
@@ -938,10 +938,10 @@ public abstract class ReviewCommentsServiceImpl<PRA extends ProtocolReviewAttach
     private boolean isActiveCommitteeMember(ProtocolSubmission submission, String principalId) {
         boolean result = false;
 
-        List<CommitteeMembership> committeeMembers = committeeService.getAvailableMembers(submission.getCommitteeId(),
+        List<CommitteeMembershipBase> committeeMembers = committeeService.getAvailableMembers(submission.getCommitteeId(),
                 submission.getScheduleId());
         if (CollectionUtils.isNotEmpty(committeeMembers)) {
-            for (CommitteeMembership member : committeeMembers) {
+            for (CommitteeMembershipBase member : committeeMembers) {
                 if (StringUtils.equals(principalId, member.getPersonId())) {
                     result = true;
                     break;
@@ -956,10 +956,10 @@ public abstract class ReviewCommentsServiceImpl<PRA extends ProtocolReviewAttach
     /**
      * Returns whether the Reviewer can view this accepted minute Comments in print.
      * 
-     * @param CommitteeScheduleMinute minute
+     * @param CommitteeScheduleMinuteBase minute
      * @return whether the current user can view this comment
      */
-    public boolean getReviewerAcceptedCommentsView(CommitteeScheduleMinute minute) {
+    public boolean getReviewerAcceptedCommentsView(CommitteeScheduleMinuteBase minute) {
         boolean viewAcceptedMinute = false;
         String principalId = GlobalVariables.getUserSession().getPrincipalId();
         String principalName = GlobalVariables.getUserSession().getPrincipalName();

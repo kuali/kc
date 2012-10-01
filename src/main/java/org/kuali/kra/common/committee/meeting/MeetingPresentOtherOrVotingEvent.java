@@ -28,11 +28,11 @@ public class MeetingPresentOtherOrVotingEvent extends MeetingEventBase<MeetingPr
     private static final String MSG = "Present other or voting ";
     
     private MemberAbsentBean memberAbsentBean;
-    public MeetingPresentOtherOrVotingEvent(String errorPathPrefix, CommitteeDocumentBase document, MeetingHelper meetingHelper, ErrorType type) {
+    public MeetingPresentOtherOrVotingEvent(String errorPathPrefix, CommitteeDocumentBase document, MeetingHelperBase meetingHelper, ErrorType type) {
         super(MSG + getDocumentId(document), errorPathPrefix, document, meetingHelper, type);
     }
     
-    public MeetingPresentOtherOrVotingEvent(String errorPathPrefix, Document document, MeetingHelper meetingHelper, MemberAbsentBean memberAbsentBean, ErrorType type) {
+    public MeetingPresentOtherOrVotingEvent(String errorPathPrefix, Document document, MeetingHelperBase meetingHelper, MemberAbsentBean memberAbsentBean, ErrorType type) {
         this(errorPathPrefix, (CommitteeDocumentBase)document, meetingHelper, type);
         this.memberAbsentBean = memberAbsentBean;
     }

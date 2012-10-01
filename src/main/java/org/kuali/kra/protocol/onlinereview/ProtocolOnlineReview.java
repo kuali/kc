@@ -25,7 +25,7 @@ import org.kuali.kra.UnitAclLoadable;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Rolodex;
-import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinute;
+import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinuteBase;
 import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.RoleConstants;
@@ -76,7 +76,7 @@ public abstract class ProtocolOnlineReview extends KraPersistableBusinessObjectB
 
     private ProtocolOnlineReviewDeterminationRecommendationBase protocolOnlineReviewDeterminationRecommendation;
 
-    private List<CommitteeScheduleMinute> committeeScheduleMinutes;
+    private List<CommitteeScheduleMinuteBase> committeeScheduleMinutes;
 
     private List<ProtocolReviewAttachment> reviewAttachments;
 
@@ -100,7 +100,7 @@ public abstract class ProtocolOnlineReview extends KraPersistableBusinessObjectB
     private transient String reviewerTypeCode;
 
     public ProtocolOnlineReview() {
-        this.committeeScheduleMinutes = new ArrayList<CommitteeScheduleMinute>();
+        this.committeeScheduleMinutes = new ArrayList<CommitteeScheduleMinuteBase>();
     }
 
     /**
@@ -353,7 +353,7 @@ public abstract class ProtocolOnlineReview extends KraPersistableBusinessObjectB
      * Gets the committeeScheduleMinutes attribute. 
      * @return Returns the committeeScheduleMinutes.
      */
-    public List<CommitteeScheduleMinute> getCommitteeScheduleMinutes() {
+    public List<CommitteeScheduleMinuteBase> getCommitteeScheduleMinutes() {
         return committeeScheduleMinutes;
     }
 
@@ -361,7 +361,7 @@ public abstract class ProtocolOnlineReview extends KraPersistableBusinessObjectB
      * Sets the committeeScheduleMinutes attribute value.
      * @param committeeScheduleMinutes The committeeScheduleMinutes to set.
      */
-    public void setCommitteeScheduleMinutes(List<CommitteeScheduleMinute> committeeScheduleMinutes) {
+    public void setCommitteeScheduleMinutes(List<CommitteeScheduleMinuteBase> committeeScheduleMinutes) {
         this.committeeScheduleMinutes = committeeScheduleMinutes;
     }
 

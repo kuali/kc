@@ -15,27 +15,27 @@
  */
 package org.kuali.kra.iacuc.committee.web.struts.action;
 
-import org.kuali.kra.common.committee.bo.Committee;
-import org.kuali.kra.common.committee.document.authorization.CommitteeTask;
-import org.kuali.kra.common.committee.rules.CommitteeDocumentRule;
+import org.kuali.kra.common.committee.bo.CommitteeBase;
+import org.kuali.kra.common.committee.document.authorization.CommitteeTaskBase;
+import org.kuali.kra.common.committee.rules.CommitteeDocumentRuleBase;
 import org.kuali.kra.common.committee.service.CommitteeServiceBase;
-import org.kuali.kra.common.committee.web.struts.action.CommitteeCommitteeAction;
+import org.kuali.kra.common.committee.web.struts.action.CommitteeCommitteeActionBase;
 import org.kuali.kra.iacuc.committee.bo.IacucCommittee;
 import org.kuali.kra.iacuc.committee.rules.IacucCommitteeDocumentRule;
 import org.kuali.kra.iacuc.committee.service.IacucCommitteeService;
 import org.kuali.kra.infrastructure.TaskGroupName;
 
-public class IacucCommitteeCommitteeAction extends CommitteeCommitteeAction {
+public class IacucCommitteeCommitteeAction extends CommitteeCommitteeActionBase {
 
     @Override
-    protected CommitteeDocumentRule getNewCommitteeDocumentRuleInstanceHook() {
+    protected CommitteeDocumentRuleBase getNewCommitteeDocumentRuleInstanceHook() {
         return new IacucCommitteeDocumentRule();
     }
 
     @Override
-    protected CommitteeTask getNewCommitteeTaskInstanceHook(String taskName, Committee committee) {
+    protected CommitteeTaskBase getNewCommitteeTaskInstanceHook(String taskName, CommitteeBase committee) {
         // creating an anonymous class to avoid task hierarchy issues
-        return new CommitteeTask<IacucCommittee>(TaskGroupName.IACUC_COMMITTEE, taskName, (IacucCommittee) committee) {};
+        return new CommitteeTaskBase<IacucCommittee>(TaskGroupName.IACUC_COMMITTEE, taskName, (IacucCommittee) committee) {};
     }
 
     @Override

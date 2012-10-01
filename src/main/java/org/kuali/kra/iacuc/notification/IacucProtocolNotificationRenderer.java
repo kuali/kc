@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.kuali.kra.common.committee.bo.Committee;
+import org.kuali.kra.common.committee.bo.CommitteeBase;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.actions.IacucProtocolAction;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
@@ -118,7 +118,7 @@ public class IacucProtocolNotificationRenderer extends ProtocolNotificationRende
     }
 
     @Override
-    protected Class<? extends Committee> getCommonCommitteeBOClassHook() {
+    protected Class<? extends CommitteeBase> getCommonCommitteeBOClassHook() {
         return IacucCommittee.class;
     }
     

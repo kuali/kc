@@ -19,8 +19,8 @@ import java.io.IOException;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.kuali.kra.common.committee.bo.CommitteeMembership;
-import org.kuali.kra.common.committee.bo.Committee;
+import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
+import org.kuali.kra.common.committee.bo.CommitteeBase;
 import org.kuali.kra.protocol.Protocol;
 import org.xml.sax.SAXException;
 
@@ -77,20 +77,20 @@ public interface ResearchAreasServiceBase {
     Protocol getCurrentProtocolReferencingResearchArea(String researchAreaCode);
     
     /**
-     * This method will return the instance of a current Committee BO, saved in the db, that references the research area with the given code.
+     * This method will return the instance of a current CommitteeBase BO, saved in the db, that references the research area with the given code.
      * If no such saved committee instance exists in the db, then this method returns null.
      * @param researchAreaCode
      * @return
      */
-    Committee getCurrentCommitteeReferencingResearchArea(String researchAreaCode);
+    CommitteeBase getCurrentCommitteeReferencingResearchArea(String researchAreaCode);
     
     /**
-     * This method will return the instance of a current CommitteeMembership BO, saved in the db, that references the research area with the given code.
+     * This method will return the instance of a current CommitteeMembershipBase BO, saved in the db, that references the research area with the given code.
      * If no such saved committee membership instance exists in the db, then this method returns null.
      * @param researchAreaCode
      * @return
      */
-    CommitteeMembership getCurrentCommitteeMembershipReferencingResearchArea(String researchAreaCode);
+    CommitteeMembershipBase getCurrentCommitteeMembershipReferencingResearchArea(String researchAreaCode);
     
     /**
      * This method will deactivate the research area that has the given <code>researchAreaCode</code>, and will also 

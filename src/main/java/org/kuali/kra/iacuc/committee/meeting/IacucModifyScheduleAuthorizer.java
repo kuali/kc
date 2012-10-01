@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.iacuc.committee.meeting;
 
-import org.kuali.kra.common.committee.meeting.ModifyScheduleAuthorizer;
+import org.kuali.kra.common.committee.meeting.ModifyScheduleAuthorizerBase;
 import org.kuali.kra.infrastructure.PermissionConstants;
 
-public class IacucModifyScheduleAuthorizer extends ModifyScheduleAuthorizer {
+public class IacucModifyScheduleAuthorizer extends ModifyScheduleAuthorizerBase {
 
     @Override
     protected String getModfifySchedulePermissionNameHook() {
