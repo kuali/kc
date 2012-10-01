@@ -21,7 +21,7 @@ package org.kuali.kra.protocol.protocol;
 public interface ProtocolNumberServiceBase {
 
     /**
-     * Generate a unique Protocol Number.  The Protocol Number
+     * Generate a unique ProtocolBase Number.  The ProtocolBase Number
      * has the following format:
      * 
      *     YYDDxxxxxx

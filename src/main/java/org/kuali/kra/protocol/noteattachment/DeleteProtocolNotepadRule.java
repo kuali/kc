@@ -18,12 +18,12 @@ package org.kuali.kra.protocol.noteattachment;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 /**
- * Contains rules for deleting a {@link ProtocolNotepad ProtocolNotepad}.
+ * Contains rules for deleting a {@link ProtocolNotepadBase ProtocolNotepadBase}.
  */
 public interface DeleteProtocolNotepadRule extends BusinessRule {
 
     /**
-     * Executes the rules for deleting an existing {@link ProtocolNotepad ProtocolNotepad}.
+     * Executes the rules for deleting an existing {@link ProtocolNotepadBase ProtocolNotepadBase}.
      * @param event the add event.
      * @return if validation passes.
      */

@@ -17,9 +17,9 @@ package org.kuali.kra.iacuc.onlinereview;
 
 import java.sql.Date;
 
-import org.kuali.kra.protocol.ProtocolOnlineReviewDocument;
+import org.kuali.kra.protocol.ProtocolOnlineReviewDocumentBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewer;
-import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 
@@ -35,13 +35,13 @@ public interface IacucProtocolOnlineReviewService extends ProtocolOnlineReviewSe
 //    /**
 //     * Name of the online review document.
 //     */
-//    String PROTOCOL_ONLINE_REVIEW_DOCUMENT_TYPE = "ProtocolOnlineReviewDocument";
+//    String PROTOCOL_ONLINE_REVIEW_DOCUMENT_TYPE = "ProtocolOnlineReviewDocumentBase";
 //
 //    List<CommitteeMembership> getAvailableCommitteeMembersForCurrentSubmission(Protocol protocol);
-//    List<ProtocolOnlineReviewDocument> getProtocolReviewDocumentsForCurrentSubmission(Protocol protocol);
+//    List<ProtocolOnlineReviewDocumentBase> getProtocolReviewDocumentsForCurrentSubmission(Protocol protocol);
 //    String getProtocolOnlineReviewDocumentDescription( String protocolNumber, String piName );
 
-    public ProtocolOnlineReviewDocument createProtocolOnlineReviewDocument(ProtocolSubmission protocolSubmission,
+    public ProtocolOnlineReviewDocumentBase createProtocolOnlineReviewDocument(ProtocolSubmissionBase protocolSubmission,
             ProtocolReviewer protocolReviewer, String documentDescription, String documentExplanation,
             String documentOrganizationDocumentNumber, Date dateRequested, Date dateDue, String principalId)
             throws WorkflowException;

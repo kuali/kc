@@ -20,8 +20,8 @@ import java.util.Collection;
 import java.util.List;
 
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.protocol.ProtocolDocument;
-import org.kuali.kra.protocol.ProtocolForm;
+import org.kuali.kra.protocol.ProtocolDocumentBase;
+import org.kuali.kra.protocol.ProtocolFormBase;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
@@ -38,7 +38,7 @@ import org.kuali.rice.krad.service.KeyValuesService;
 public class ParticipantTypeValuesFinder extends KeyValuesBase {
     
     /**
-     * Constructs the list of Protocol Participant Types.  Each entry
+     * Constructs the list of ProtocolBase Participant Types.  Each entry
      * in the list is a &lt;key, value&gt; pair, where the "key" is the unique
      * type code and the "value" is the textual description that is viewed
      * by a user.  The list is obtained from the Participant Type database table
@@ -57,7 +57,7 @@ public class ParticipantTypeValuesFinder extends KeyValuesBase {
      * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List<KeyValue> getKeyValues() {
-        ProtocolDocument doc = getDocument();
+        ProtocolDocumentBase doc = getDocument();
         KeyValuesService keyValuesService = 
             (KeyValuesService) KraServiceLocator.getService("keyValuesService");
         Collection<ParticipantType> participantTypes = keyValuesService.findAll(ParticipantType.class);
@@ -73,14 +73,14 @@ public class ParticipantTypeValuesFinder extends KeyValuesBase {
     }
     
     /**
-     * Get the Protocol Document for the current session.  The
+     * Get the ProtocolBase Document for the current session.  The
      * document is within the current form.
      * 
      * @return the current document or null if not found
      */
-    private ProtocolDocument getDocument() {
-        ProtocolDocument doc = null;
-        ProtocolForm form = (ProtocolForm) KNSGlobalVariables.getKualiForm();
+    private ProtocolDocumentBase getDocument() {
+        ProtocolDocumentBase doc = null;
+        ProtocolFormBase form = (ProtocolFormBase) KNSGlobalVariables.getKualiForm();
         if (form != null) {
             doc = form.getProtocolDocument();
         }
@@ -90,11 +90,11 @@ public class ParticipantTypeValuesFinder extends KeyValuesBase {
     /**
      * Does the document already have a participant using the given participant type?
      * 
-     * @param doc, the Protocol Document.
+     * @param doc, the ProtocolBase Document.
      * @param participantType, the participant type to look for.
      * @return true if the participant type is found; otherwise false.
      */
-    private boolean hasParticipant(ProtocolDocument doc, ParticipantType participantType) {
+    private boolean hasParticipant(ProtocolDocumentBase doc, ParticipantType participantType) {
         if (doc != null) {
             List<ProtocolParticipant> protocolParticipants = doc.getProtocol().getProtocolParticipants();
             for (ProtocolParticipant protocolParticipant : protocolParticipants) {

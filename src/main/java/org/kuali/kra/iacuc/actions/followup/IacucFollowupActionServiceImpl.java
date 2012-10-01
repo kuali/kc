@@ -19,10 +19,10 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
 import org.kuali.kra.iacuc.actions.submit.IacucValidProtocolActionAction;
-import org.kuali.kra.protocol.actions.followup.FollowupActionServiceImpl;
+import org.kuali.kra.protocol.actions.followup.FollowupActionServiceImplBase;
 
 
-public class IacucFollowupActionServiceImpl extends FollowupActionServiceImpl<IacucValidProtocolActionAction> implements IacucFollowupActionService {
+public class IacucFollowupActionServiceImpl extends FollowupActionServiceImplBase<IacucValidProtocolActionAction> implements IacucFollowupActionService {
  
     
     private static final Log LOG = LogFactory.getLog(IacucFollowupActionServiceImpl.class);

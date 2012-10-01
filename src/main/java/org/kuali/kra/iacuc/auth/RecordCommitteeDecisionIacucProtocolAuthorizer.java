@@ -17,7 +17,7 @@ package org.kuali.kra.iacuc.auth;
 
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
 import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.kra.protocol.actions.ProtocolAction;
+import org.kuali.kra.protocol.actions.ProtocolActionBase;
 
 
 
@@ -41,7 +41,7 @@ public class RecordCommitteeDecisionIacucProtocolAuthorizer extends IacucProtoco
      * @param lastAction
      * @return
      */
-    private boolean canRecordCommitteeDecision(ProtocolAction lastAction) {
+    private boolean canRecordCommitteeDecision(ProtocolActionBase lastAction) {
         if(lastAction != null && !IacucProtocolActionType.RECORD_COMMITTEE_DECISION.equals(lastAction.getProtocolActionTypeCode())) {
             return true;
         }

@@ -22,13 +22,13 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.protocol.ProtocolAction;
-import org.kuali.kra.protocol.ProtocolForm;
+import org.kuali.kra.protocol.ProtocolActionBase;
+import org.kuali.kra.protocol.ProtocolFormBase;
 
 public class IacucProtocolMedusaAction extends IacucProtocolAction {
     public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         super.docHandler(mapping, form, request, response);
-        ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolFormBase protocolForm = (ProtocolFormBase) form;
         protocolForm.getMedusaBean().setMedusaViewRadio("0");
         protocolForm.getMedusaBean().setModuleName("iacuc");
         protocolForm.getMedusaBean().setModuleIdentifier(protocolForm.getProtocolDocument().getProtocol().getProtocolId());

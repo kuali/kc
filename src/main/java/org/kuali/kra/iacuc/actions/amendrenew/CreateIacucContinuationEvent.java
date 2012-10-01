@@ -16,10 +16,10 @@
 package org.kuali.kra.iacuc.actions.amendrenew;
 
 import org.kuali.kra.iacuc.IacucProtocolDocument;
-import org.kuali.kra.protocol.actions.amendrenew.CreateContinuationEvent;
+import org.kuali.kra.protocol.actions.amendrenew.CreateContinuationEventBase;
 import org.kuali.kra.rule.BusinessRuleInterface;
 
-public class CreateIacucContinuationEvent extends CreateContinuationEvent{
+public class CreateIacucContinuationEvent extends CreateContinuationEventBase{
 
     public CreateIacucContinuationEvent(IacucProtocolDocument document, String propertyName, String renewalSummary) {
         super(document, propertyName, renewalSummary);

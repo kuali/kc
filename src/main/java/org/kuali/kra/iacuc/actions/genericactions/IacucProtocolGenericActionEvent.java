@@ -16,10 +16,10 @@
 package org.kuali.kra.iacuc.actions.genericactions;
 
 import org.kuali.kra.iacuc.IacucProtocolDocument;
-import org.kuali.kra.protocol.actions.genericactions.ProtocolGenericActionEvent;
+import org.kuali.kra.protocol.actions.genericactions.ProtocolGenericActionEventBase;
 import org.kuali.kra.rule.BusinessRuleInterface;
 
-public class IacucProtocolGenericActionEvent extends ProtocolGenericActionEvent {
+public class IacucProtocolGenericActionEvent extends ProtocolGenericActionEventBase {
 
     public IacucProtocolGenericActionEvent(IacucProtocolDocument document, IacucProtocolGenericActionBean protocolGenericActionBean) {
         super(document, protocolGenericActionBean);

@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.iacuc.correspondence;
 
-import org.kuali.kra.protocol.correspondence.BatchCorrespondenceDetailAuthorizationServiceImpl;
+import org.kuali.kra.protocol.correspondence.BatchCorrespondenceDetailAuthorizationServiceImplBase;
 
-public class IacucBatchCorrespondenceDetailAuthorizationServiceImpl extends BatchCorrespondenceDetailAuthorizationServiceImpl implements IacucBatchCorrespondenceDetailAuthorizationService {
+public class IacucBatchCorrespondenceDetailAuthorizationServiceImpl extends BatchCorrespondenceDetailAuthorizationServiceImplBase implements IacucBatchCorrespondenceDetailAuthorizationService {
 
     @Override
     protected String getNameSpaceHook() {

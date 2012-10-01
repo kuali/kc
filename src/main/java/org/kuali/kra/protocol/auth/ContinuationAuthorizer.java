@@ -15,16 +15,16 @@
  */
 package org.kuali.kra.protocol.auth;
 
-import org.kuali.kra.protocol.Protocol;
+import org.kuali.kra.protocol.ProtocolBase;
 
-public class ContinuationAuthorizer extends ProtocolAuthorizer {
+public class ContinuationAuthorizer extends ProtocolAuthorizerBase {
 
     @Override
-    public boolean isAuthorized(String userId, ProtocolTask task) {
+    public boolean isAuthorized(String userId, ProtocolTaskBase task) {
         return false;
     }
 
-    protected final boolean isAmendmentOrRenewalOrContinuation(Protocol protocol) {
+    protected final boolean isAmendmentOrRenewalOrContinuation(ProtocolBase protocol) {
         return protocol.getProtocolNumber() != null &&
                (protocol.getProtocolNumber().contains("A") ||
                        protocol.getProtocolNumber().contains("C") ||

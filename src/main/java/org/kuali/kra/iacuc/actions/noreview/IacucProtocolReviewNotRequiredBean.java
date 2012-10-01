@@ -16,7 +16,7 @@
 package org.kuali.kra.iacuc.actions.noreview;
 
 import org.kuali.kra.iacuc.IacucProtocol;
-import org.kuali.kra.protocol.actions.ActionHelper;
+import org.kuali.kra.protocol.actions.ActionHelperBase;
 import org.kuali.kra.protocol.actions.noreview.ProtocolReviewNotRequiredBean;
 
 /**
@@ -30,7 +30,7 @@ public class IacucProtocolReviewNotRequiredBean extends ProtocolReviewNotRequire
      * Constructs a ProtocolReviewNotRequiredBean.
      * @param actionHelper Reference back to the action helper for this bean
      */
-    public IacucProtocolReviewNotRequiredBean(ActionHelper actionHelper) {
+    public IacucProtocolReviewNotRequiredBean(ActionHelperBase actionHelper) {
         super(actionHelper);
     }
 

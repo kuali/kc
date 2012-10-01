@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.iacuc.actions.print;
 
-import org.kuali.kra.protocol.actions.print.ProtocolFullProtocolPrint;
-import org.kuali.kra.protocol.actions.print.ProtocolPrintWatermark;
+import org.kuali.kra.protocol.actions.print.ProtocolFullProtocolPrintBase;
+import org.kuali.kra.protocol.actions.print.ProtocolPrintWatermarkBase;
 
-public class IacucProtocolFullProtocolPrint extends ProtocolFullProtocolPrint {
+public class IacucProtocolFullProtocolPrint extends ProtocolFullProtocolPrintBase {
 
     @Override
-    protected ProtocolPrintWatermark getNewProtocolPrintWatermarkInstanceHook() {
+    protected ProtocolPrintWatermarkBase getNewProtocolPrintWatermarkInstanceHook() {
         return new IacucProtocolPrintWatermark();
     }
 

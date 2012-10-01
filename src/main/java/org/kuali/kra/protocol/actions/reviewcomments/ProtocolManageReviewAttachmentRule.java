@@ -17,7 +17,7 @@ package org.kuali.kra.protocol.actions.reviewcomments;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.protocol.onlinereview.ProtocolReviewAttachment;
+import org.kuali.kra.protocol.onlinereview.ProtocolReviewAttachmentBase;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -26,7 +26,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
  * 
  * This class is validating the description of review attachments is not empty 
  */
-public class ProtocolManageReviewAttachmentRule<E extends ProtocolManageReviewAttachmentEvent<?>> extends ResearchDocumentRuleBase implements BusinessRuleInterface<E> {
+public class ProtocolManageReviewAttachmentRule<E extends ProtocolManageReviewAttachmentEventBase<?>> extends ResearchDocumentRuleBase implements BusinessRuleInterface<E> {
 
     /**
      * {@inheritDoc}
@@ -41,7 +41,7 @@ public class ProtocolManageReviewAttachmentRule<E extends ProtocolManageReviewAt
         GlobalVariables.getMessageMap().addToErrorPath(event.getPropertyName());
         int index = 0;
 
-        for (ProtocolReviewAttachment reviewAttachment : event.getReviewAttachments()) {
+        for (ProtocolReviewAttachmentBase reviewAttachment : event.getReviewAttachments()) {
             if (StringUtils.isEmpty(reviewAttachment.getDescription())) {
                 isValid = false;
                 GlobalVariables.getMessageMap().putError(String.format("reviewAttachments[%s].description", index),

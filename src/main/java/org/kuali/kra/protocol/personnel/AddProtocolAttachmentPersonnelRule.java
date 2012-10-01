@@ -21,7 +21,7 @@ public interface AddProtocolAttachmentPersonnelRule extends BusinessRule {
 
     /**
      * 
-     * This method evaluates to true if ProtocolAttachmentPersonnel object satisfy required fields and business rules.
+     * This method evaluates to true if ProtocolAttachmentPersonnelBase object satisfy required fields and business rules.
      * @param addProtocolAttachmentPersonnelEvent
      * @return boolean true for valid object and false otherwise.
      */

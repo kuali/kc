@@ -17,9 +17,9 @@ package org.kuali.kra.iacuc.actions.submit;
 
 import org.apache.commons.logging.Log;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
-import org.kuali.kra.protocol.actions.submit.ProtocolSubmitActionEvent;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmitActionEventBase;
 
-public class IacucProtocolSubmitActionEvent extends ProtocolSubmitActionEvent {
+public class IacucProtocolSubmitActionEvent extends ProtocolSubmitActionEventBase {
     
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(IacucProtocolSubmitActionEvent.class);
 

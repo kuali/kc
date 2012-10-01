@@ -16,7 +16,7 @@
 package org.kuali.kra.protocol.actions.print;
 
 import org.kuali.kra.protocol.actions.print.ProtocolActionPrintRule;
-import org.kuali.kra.protocol.ProtocolDocument;
+import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 
@@ -27,16 +27,16 @@ public class ProtocolActionPrintEvent<T extends BusinessRuleInterface> extends K
     private Boolean historyReport;
     private Boolean reviewCommentsReport;
 
-    public ProtocolActionPrintEvent(ProtocolDocument document, Boolean summaryReport, Boolean fullReport,Boolean historyReport ,Boolean reviewCommentsReport) {
-        super("Protocol Print", "", document);
+    public ProtocolActionPrintEvent(ProtocolDocumentBase document, Boolean summaryReport, Boolean fullReport,Boolean historyReport ,Boolean reviewCommentsReport) {
+        super("ProtocolBase Print", "", document);
         this.summaryReport = summaryReport;
         this.fullReport = fullReport;
         this.historyReport = historyReport;
         this.reviewCommentsReport = reviewCommentsReport;
     }
     
-    public ProtocolDocument getProtocolDocument() {
-        return (ProtocolDocument) getDocument();
+    public ProtocolDocumentBase getProtocolDocument() {
+        return (ProtocolDocumentBase) getDocument();
     }
     
 

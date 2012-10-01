@@ -43,7 +43,7 @@ import org.kuali.kra.common.committee.web.struts.form.schedule.MonthlyScheduleDe
 import org.kuali.kra.common.committee.web.struts.form.schedule.ScheduleData;
 import org.kuali.kra.common.committee.web.struts.form.schedule.StyleKey;
 import org.kuali.kra.common.committee.web.struts.form.schedule.YearlyScheduleDetails;
-import org.kuali.kra.protocol.Protocol;
+import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsService;
 import org.kuali.kra.scheduling.expr.util.CronSpecialChars;
 import org.kuali.kra.scheduling.sequence.DefaultScheduleSequence;
@@ -130,13 +130,13 @@ public abstract class CommitteeScheduleServiceImplBase<CS extends CommitteeSched
     }
        
     /**
-     * Helper method to check if Protocol is assigned to CommitteeScheduleBase.
+     * Helper method to check if ProtocolBase is assigned to CommitteeScheduleBase.
      * @param committeeSchedule
      * @return
      */
     protected Boolean isProtocolAssignedToScheduleDate(CS committeeSchedule){
         boolean retVal = true;
-        List<Protocol> list = committeeSchedule.getProtocols();
+        List<ProtocolBase> list = committeeSchedule.getProtocols();
         if(null == list || list.size() == 0)
             retVal = false;
         return retVal;

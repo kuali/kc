@@ -19,8 +19,8 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinuteBase;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReview;
-import org.kuali.kra.protocol.onlinereview.ProtocolReviewAttachment;
+import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewBase;
+import org.kuali.kra.protocol.onlinereview.ProtocolReviewAttachmentBase;
 import org.kuali.kra.protocol.onlinereview.event.AddProtocolOnlineReviewCommentEvent;
 import org.kuali.kra.protocol.onlinereview.event.DeleteProtocolOnlineReviewEvent;
 import org.kuali.kra.protocol.onlinereview.event.DisapproveProtocolOnlineReviewCommentEvent;
@@ -51,7 +51,7 @@ public class ProtocolOnlineReviewDocumentRule extends ResearchDocumentRuleBase i
     private transient KraAuthorizationService kraAuthorizationService;
     private transient KraWorkflowService kraWorkflowService;
     
-    public boolean processAddProtocolOnlineReviewComment(ProtocolOnlineReview protocolOnlineReview, CommitteeScheduleMinuteBase minute) {
+    public boolean processAddProtocolOnlineReviewComment(ProtocolOnlineReviewBase protocolOnlineReview, CommitteeScheduleMinuteBase minute) {
         return false;
     }
 
@@ -75,7 +75,7 @@ public class ProtocolOnlineReviewDocumentRule extends ResearchDocumentRuleBase i
         GlobalVariables.getMessageMap().clearErrorPath();
         GlobalVariables.getMessageMap().addToErrorPath(String.format(ONLINE_REVIEW_COMMENTS_ERROR_PATH, event.getOnlineReviewIndex()));
         
-        ProtocolOnlineReview protocolOnlineReview = event.getProtocolOnlineReviewDocument().getProtocolOnlineReview();
+        ProtocolOnlineReviewBase protocolOnlineReview = event.getProtocolOnlineReviewDocument().getProtocolOnlineReview();
         
         int index = 0;
         
@@ -92,7 +92,7 @@ public class ProtocolOnlineReviewDocumentRule extends ResearchDocumentRuleBase i
         GlobalVariables.getMessageMap().addToErrorPath(String.format(ONLINE_REVIEW_ATTACHMENTS_ERROR_PATH, event.getOnlineReviewIndex()));
         index = 0;
         
-        for (ProtocolReviewAttachment reviewAttachment : event.getReviewAttachments()) {
+        for (ProtocolReviewAttachmentBase reviewAttachment : event.getReviewAttachments()) {
             if (StringUtils.isEmpty(reviewAttachment.getDescription())) {
                 valid=false;
                 GlobalVariables.getMessageMap().putError(String.format("reviewAttachments[%s].description" ,index),  

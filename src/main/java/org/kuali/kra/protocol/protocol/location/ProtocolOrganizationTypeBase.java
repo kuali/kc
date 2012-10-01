@@ -19,7 +19,7 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 /**
  * 
- * This class represents the Protocol Organization Type Business Object.
+ * This class represents the ProtocolBase Organization Type Business Object.
  */
 public abstract class ProtocolOrganizationTypeBase extends KraPersistableBusinessObjectBase {
 

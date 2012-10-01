@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.protocol.actions.correction;
 
-import org.kuali.kra.protocol.Protocol;
+import org.kuali.kra.protocol.ProtocolBase;
 
 
 
 public interface AdminCorrectionService {
     
-    void sendCorrectionNotification(Protocol protocol, AdminCorrectionBean adminCorrectionBean) throws Exception;
+    void sendCorrectionNotification(ProtocolBase protocol, AdminCorrectionBean adminCorrectionBean) throws Exception;
 }

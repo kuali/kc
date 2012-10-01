@@ -19,9 +19,9 @@ import java.sql.Timestamp;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.protocol.Protocol;
-import org.kuali.kra.protocol.actions.ProtocolAction;
-import org.kuali.kra.protocol.notification.ProtocolNotificationRequestBean;
+import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.protocol.actions.ProtocolActionBase;
+import org.kuali.kra.protocol.notification.ProtocolNotificationRequestBeanBase;
 
 /**
  * 
@@ -49,11 +49,11 @@ public class ProtocolCorrespondence extends KraPersistableBusinessObjectBase {
 
     private boolean finalFlag;
 
-    private Protocol protocol;
+    private ProtocolBase protocol;
 
-    private ProtocolCorrespondenceType protocolCorrespondenceType;
+    private ProtocolCorrespondenceTypeBase protocolCorrespondenceType;
 
-    private ProtocolAction protocolAction;
+    private ProtocolActionBase protocolAction;
     
     private boolean regenerateFlag;
     private Timestamp createTimestamp; 
@@ -62,7 +62,7 @@ public class ProtocolCorrespondence extends KraPersistableBusinessObjectBase {
 
 
     // hooks to view/save correspondence
-    private ProtocolNotificationRequestBean notificationRequestBean;
+    private ProtocolNotificationRequestBeanBase notificationRequestBean;
     private String forwardName;
     private boolean holdingPage;
 
@@ -145,27 +145,27 @@ public class ProtocolCorrespondence extends KraPersistableBusinessObjectBase {
         return finalFlag;
     }
 
-    public Protocol getProtocol() {
+    public ProtocolBase getProtocol() {
         return protocol;
     }
 
-    public void setProtocol(Protocol protocol) {
+    public void setProtocol(ProtocolBase protocol) {
         this.protocol = protocol;
     }
 
-    public ProtocolAction getProtocolAction() {
+    public ProtocolActionBase getProtocolAction() {
         return protocolAction;
     }
 
-    public void setProtocolAction(ProtocolAction protocolAction) {
+    public void setProtocolAction(ProtocolActionBase protocolAction) {
         this.protocolAction = protocolAction;
     }
 
-    public void setProtocolCorrespondenceType(ProtocolCorrespondenceType protocolCorrespondenceType) {
+    public void setProtocolCorrespondenceType(ProtocolCorrespondenceTypeBase protocolCorrespondenceType) {
         this.protocolCorrespondenceType = protocolCorrespondenceType;
     }
 
-    public ProtocolCorrespondenceType getProtocolCorrespondenceType() {
+    public ProtocolCorrespondenceTypeBase getProtocolCorrespondenceType() {
         if (protocolCorrespondenceType == null && StringUtils.isNotBlank(protoCorrespTypeCode)) {
             this.refreshReferenceObject("protocolCorrespondenceType");
         }
@@ -180,11 +180,11 @@ public class ProtocolCorrespondence extends KraPersistableBusinessObjectBase {
         this.forwardName = forwardName;
     }
 
-    public ProtocolNotificationRequestBean getNotificationRequestBean() {
+    public ProtocolNotificationRequestBeanBase getNotificationRequestBean() {
         return notificationRequestBean;
     }
 
-    public void setNotificationRequestBean(ProtocolNotificationRequestBean notificationRequestBean) {
+    public void setNotificationRequestBean(ProtocolNotificationRequestBeanBase notificationRequestBean) {
         this.notificationRequestBean = notificationRequestBean;
     }
 

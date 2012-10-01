@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.iacuc.correspondence;
 
-import org.kuali.kra.protocol.correspondence.BatchCorrespondence;
-import org.kuali.kra.protocol.correspondence.BatchCorrespondenceDetail;
-import org.kuali.kra.protocol.correspondence.BatchCorrespondenceDetailForm;
+import org.kuali.kra.protocol.correspondence.BatchCorrespondenceBase;
+import org.kuali.kra.protocol.correspondence.BatchCorrespondenceDetailBase;
+import org.kuali.kra.protocol.correspondence.BatchCorrespondenceDetailFormBase;
 
-public class IacucBatchCorrespondenceDetailForm extends BatchCorrespondenceDetailForm {
+public class IacucBatchCorrespondenceDetailForm extends BatchCorrespondenceDetailFormBase {
 
     /**
      * Comment for <code>serialVersionUID</code>
@@ -27,12 +27,12 @@ public class IacucBatchCorrespondenceDetailForm extends BatchCorrespondenceDetai
     private static final long serialVersionUID = 5275137818040289329L;
 
     @Override
-    protected BatchCorrespondence getNewBatchCorrespondenceInstanceHook() {
+    protected BatchCorrespondenceBase getNewBatchCorrespondenceInstanceHook() {
         return new IacucBatchCorrespondence();
     }
 
     @Override
-    protected BatchCorrespondenceDetail getNewBatchCorrespondenceDetailInstanceHook() {
+    protected BatchCorrespondenceDetailBase getNewBatchCorrespondenceDetailInstanceHook() {
         return new IacucBatchCorrespondenceDetail();
     }
 

@@ -17,9 +17,9 @@ package org.kuali.kra.iacuc.procedures;
 
 import org.kuali.kra.iacuc.IacucLocationName;
 import org.kuali.kra.iacuc.IacucLocationType;
-import org.kuali.kra.protocol.ProtocolAssociate;
+import org.kuali.kra.protocol.ProtocolAssociateBase;
 
-public class IacucProtocolStudyGroupLocation extends ProtocolAssociate { 
+public class IacucProtocolStudyGroupLocation extends ProtocolAssociateBase { 
     
     private static final long serialVersionUID = 1L;
 

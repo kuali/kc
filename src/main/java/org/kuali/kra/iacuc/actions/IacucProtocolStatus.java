@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.iacuc.actions;
 
-import org.kuali.kra.protocol.actions.ProtocolStatus;
+import org.kuali.kra.protocol.actions.ProtocolStatusBase;
 
-public class IacucProtocolStatus extends ProtocolStatus { 
+public class IacucProtocolStatus extends ProtocolStatusBase { 
     
     /**
      * Comment for <code>serialVersionUID</code>

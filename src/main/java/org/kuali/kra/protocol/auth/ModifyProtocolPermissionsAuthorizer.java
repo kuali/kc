@@ -18,10 +18,10 @@ package org.kuali.kra.protocol.auth;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolModule;
 
 /**
- * The Modify Protocol Permissions Authorizer checks to see if the user has 
- * permission to maintain protocol access, i.e. assign Users to Protocol Roles.
+ * The Modify ProtocolBase Permissions Authorizer checks to see if the user has 
+ * permission to maintain protocol access, i.e. assign Users to ProtocolBase Roles.
  */
-public class ModifyProtocolPermissionsAuthorizer extends ModifyAmendmentAuthorizer {
+public class ModifyProtocolPermissionsAuthorizer extends ModifyAmendmentAuthorizerBase {
 
     public ModifyProtocolPermissionsAuthorizer() {
         super(ProtocolModule.PROTOCOL_PERMISSIONS);

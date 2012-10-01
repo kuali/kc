@@ -18,10 +18,10 @@ package org.kuali.kra.protocol.auth;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolModule;
 
 /**
- * The Modify Protocol Others Authorizer determines if
+ * The Modify ProtocolBase Others Authorizer determines if
  * the user can modify the other parts of a protocol.
  */
-public class ModifyProtocolOthersAuthorizer extends ModifyAmendmentAuthorizer {
+public class ModifyProtocolOthersAuthorizer extends ModifyAmendmentAuthorizerBase {
 
     public ModifyProtocolOthersAuthorizer() {
         super(ProtocolModule.OTHERS);

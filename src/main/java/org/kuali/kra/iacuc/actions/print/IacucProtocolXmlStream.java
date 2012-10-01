@@ -34,17 +34,17 @@ import org.kuali.kra.iacuc.committee.print.IacucScheduleXmlStream;
 import org.kuali.kra.iacuc.committee.print.service.IacucPrintXmlUtilService;
 import org.kuali.kra.iacuc.personnel.IacucProtocolPersonRole;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.protocol.actions.print.ProtocolXmlStream;
+import org.kuali.kra.protocol.actions.print.ProtocolXmlStreamBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewer;
-import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
-import org.kuali.kra.protocol.personnel.ProtocolPerson;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
+import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
 import org.kuali.kra.protocol.personnel.ProtocolPersonRoleBase;
 import org.kuali.kra.protocol.personnel.ProtocolPersonRolodexBase;
-import org.kuali.kra.protocol.personnel.ProtocolUnit;
-import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSource;
+import org.kuali.kra.protocol.personnel.ProtocolUnitBase;
+import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceBase;
 import org.kuali.kra.protocol.protocol.participant.ProtocolParticipant;
-import org.kuali.kra.protocol.protocol.research.ProtocolResearchArea;
-import org.kuali.kra.protocol.specialreview.ProtocolSpecialReview;
+import org.kuali.kra.protocol.protocol.research.ProtocolResearchAreaBase;
+import org.kuali.kra.protocol.specialreview.ProtocolSpecialReviewBase;
 import org.kuali.kra.service.KcPersonService;
 
 import edu.mit.coeus.xml.iacuc.CorrespondentType;
@@ -61,7 +61,7 @@ import edu.mit.coeus.xml.iacuc.SpecialReviewType;
 import edu.mit.coeus.xml.iacuc.SubmissionDetailsType;
 import edu.mit.coeus.xml.iacuc.ProtocolType.Submissions;
 
-public class IacucProtocolXmlStream extends ProtocolXmlStream {
+public class IacucProtocolXmlStream extends ProtocolXmlStreamBase {
     
     private IacucPrintXmlUtilService printXmlUtilService;
     private KcPersonService kcPersonService;
@@ -109,7 +109,7 @@ public class IacucProtocolXmlStream extends ProtocolXmlStream {
         addRiskLevels(protocolInfoBean, protocolType);
         return protocolType;
     }
-    private Integer getParentSubmissionNumber(org.kuali.kra.protocol.Protocol protocolInfoBean, Integer submissionNumber) {
+    private Integer getParentSubmissionNumber(org.kuali.kra.protocol.ProtocolBase protocolInfoBean, Integer submissionNumber) {
         return 0;
     }
 
@@ -257,7 +257,7 @@ public class IacucProtocolXmlStream extends ProtocolXmlStream {
      * @param submission
      * @return
      */
-    protected void setMinutes(org.kuali.kra.protocol.actions.submit.ProtocolSubmission submissionInfoBean,
+    protected void setMinutes(org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase submissionInfoBean,
             Submissions submission) {
         CommitteeScheduleBase committeeSchedule = submissionInfoBean.getCommitteeSchedule();
         if (committeeSchedule != null) {
@@ -265,9 +265,9 @@ public class IacucProtocolXmlStream extends ProtocolXmlStream {
         }
     }
 
-    private ProtocolSubmission findProtocolSubmission(org.kuali.kra.protocol.Protocol protocol, Integer submissionNumber) {
-        List<ProtocolSubmission> protocolSubmissions = protocol.getProtocolSubmissions();
-        for (ProtocolSubmission protocolSubmission : protocolSubmissions) {
+    private ProtocolSubmissionBase findProtocolSubmission(org.kuali.kra.protocol.ProtocolBase protocol, Integer submissionNumber) {
+        List<ProtocolSubmissionBase> protocolSubmissions = protocol.getProtocolSubmissions();
+        for (ProtocolSubmissionBase protocolSubmission : protocolSubmissions) {
             if (protocolSubmission.getSubmissionNumber().equals(submissionNumber)) {
                 return protocolSubmission;
             }
@@ -276,8 +276,8 @@ public class IacucProtocolXmlStream extends ProtocolXmlStream {
     }
 
     private void addSpecialReview(IacucProtocol protocol, ProtocolType protocolType) {
-        List<ProtocolSpecialReview> vecSpecialReview = protocol.getSpecialReviews();
-        for (ProtocolSpecialReview specialReviewBean : vecSpecialReview) {
+        List<ProtocolSpecialReviewBase> vecSpecialReview = protocol.getSpecialReviews();
+        for (ProtocolSpecialReviewBase specialReviewBean : vecSpecialReview) {
             specialReviewBean.refreshNonUpdateableReferences();
             SpecialReviewType specialReview = protocolType.addNewSpecialReview();
             if (specialReviewBean.getApplicationDate() != null) {
@@ -329,8 +329,8 @@ public class IacucProtocolXmlStream extends ProtocolXmlStream {
     private void addFundingSource(IacucProtocol protocol, ProtocolType protocolType) {
         int fundingSourceTypeCode;
         String fundingSourceName, fundingSourceCode;
-        List<ProtocolFundingSource> vecFundingSource = protocol.getProtocolFundingSources();       
-        for (ProtocolFundingSource protocolFundingSourceBean : vecFundingSource) {
+        List<ProtocolFundingSourceBase> vecFundingSource = protocol.getProtocolFundingSources();       
+        for (ProtocolFundingSourceBase protocolFundingSourceBean : vecFundingSource) {
             FundingSourceType fundingSource = protocolType.addNewFundingSource();
             fundingSourceCode = protocolFundingSourceBean.getFundingSourceNumber();
             fundingSourceTypeCode = Integer.valueOf(protocolFundingSourceBean.getFundingSourceTypeCode());
@@ -360,8 +360,8 @@ public class IacucProtocolXmlStream extends ProtocolXmlStream {
     }
 
     private void addResearchArea(IacucProtocol protocol, ProtocolType protocolType) {
-        List<ProtocolResearchArea> researchAreas = protocol.getProtocolResearchAreas();
-        for (ProtocolResearchArea protocolReasearchAreasBean : researchAreas) {
+        List<ProtocolResearchAreaBase> researchAreas = protocol.getProtocolResearchAreas();
+        for (ProtocolResearchAreaBase protocolReasearchAreasBean : researchAreas) {
             protocolReasearchAreasBean.refreshNonUpdateableReferences();
             ResearchAreaType researchArea = protocolType.addNewResearchArea();
             researchArea.setResearchAreaCode(protocolReasearchAreasBean.getResearchAreaCode());
@@ -372,8 +372,8 @@ public class IacucProtocolXmlStream extends ProtocolXmlStream {
     }
 
     private void addProtocolPersons(IacucProtocol protocol, ProtocolType protocolType) {
-        List<ProtocolPerson> vecInvestigator = protocol.getProtocolPersons();
-        for (ProtocolPerson protocolPerson : vecInvestigator) {
+        List<ProtocolPersonBase> vecInvestigator = protocol.getProtocolPersons();
+        for (ProtocolPersonBase protocolPerson : vecInvestigator) {
             protocolPerson.refreshNonUpdateableReferences();
             if (protocolPerson.getProtocolPersonRoleId().equals(ProtocolPersonRoleBase.ROLE_PRINCIPAL_INVESTIGATOR)
                     || protocolPerson.getProtocolPersonRoleId().equals(ProtocolPersonRoleBase.ROLE_CO_INVESTIGATOR)) {
@@ -389,7 +389,7 @@ public class IacucProtocolXmlStream extends ProtocolXmlStream {
                         investigator.setAffiliationDesc(protocolPerson.getAffiliationType().getDescription());
                     } 
                     List<edu.mit.coeus.xml.iacuc.InvestigatorType.Unit> unitList = new ArrayList <InvestigatorType.Unit>();
-                    for (ProtocolUnit protocolUnit :protocolPerson.getProtocolUnits()) {
+                    for (ProtocolUnitBase protocolUnit :protocolPerson.getProtocolUnits()) {
                         edu.mit.coeus.xml.iacuc.InvestigatorType.Unit unit = edu.mit.coeus.xml.iacuc.InvestigatorType.Unit.Factory.newInstance();
                         unit.setUnitName(protocolUnit.getUnitName());
                         unit.setUnitNumber(protocolUnit.getUnitNumber());

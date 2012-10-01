@@ -19,23 +19,23 @@ import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.actions.IacucProtocolAction;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
 import org.kuali.kra.iacuc.correspondence.IacucProtocolActionsCorrespondence;
-import org.kuali.kra.protocol.Protocol;
-import org.kuali.kra.protocol.actions.ProtocolAction;
+import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.protocol.actions.ProtocolActionBase;
 import org.kuali.kra.protocol.actions.approve.ProtocolApproveBean;
-import org.kuali.kra.protocol.actions.approve.ProtocolApproveServiceImpl;
-import org.kuali.kra.protocol.actions.correspondence.ProtocolActionsCorrespondence;
+import org.kuali.kra.protocol.actions.approve.ProtocolApproveServiceImplBase;
+import org.kuali.kra.protocol.actions.correspondence.ProtocolActionsCorrespondenceBase;
 
-public class IacucProtocolApproveServiceImpl extends ProtocolApproveServiceImpl implements IacucProtocolApproveService {
+public class IacucProtocolApproveServiceImpl extends ProtocolApproveServiceImplBase implements IacucProtocolApproveService {
 
     private static final String FULL_APPROVAL_FINALIZE_OLR_ANNOTATION = "Online Review finalized as part of full approval action on protocol.";
     
     
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.protocol.actions.approve.ProtocolApproveService#grantFullApproval(org.kuali.kra.protocol.Protocol, 
+     * @see org.kuali.kra.protocol.actions.approve.ProtocolApproveService#grantFullApproval(org.kuali.kra.protocol.ProtocolBase, 
      *      org.kuali.kra.protocol.actions.approve.ProtocolApproveBean)
      */
-    public void grantFullApproval(Protocol protocol, ProtocolApproveBean actionBean) throws Exception {
+    public void grantFullApproval(ProtocolBase protocol, ProtocolApproveBean actionBean) throws Exception {
         generateProtocolActionAndAttach(protocol, actionBean, IacucProtocolActionType.IACUC_APPROVED);   
 
         if (protocol.getApprovalDate() == null) {
@@ -63,13 +63,13 @@ public class IacucProtocolApproveServiceImpl extends ProtocolApproveServiceImpl 
     
     
     @Override
-    protected ProtocolAction getNewProtocolActionInstanceHook(Protocol protocol, Object object, String protocolActionTypeCode) {
+    protected ProtocolActionBase getNewProtocolActionInstanceHook(ProtocolBase protocol, Object object, String protocolActionTypeCode) {
         return new IacucProtocolAction((IacucProtocol)protocol, null, protocolActionTypeCode);
     }
 
 
     @Override
-    protected ProtocolActionsCorrespondence getNewProtocolActionsCorrespondence(String protocolActionTypeCode) {
+    protected ProtocolActionsCorrespondenceBase getNewProtocolActionsCorrespondence(String protocolActionTypeCode) {
         return new IacucProtocolActionsCorrespondence(protocolActionTypeCode);
     }
 

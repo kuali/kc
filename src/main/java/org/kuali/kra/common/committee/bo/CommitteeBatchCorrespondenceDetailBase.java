@@ -16,7 +16,7 @@
 package org.kuali.kra.common.committee.bo;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.protocol.actions.ProtocolAction;
+import org.kuali.kra.protocol.actions.ProtocolActionBase;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondence;
 
 /**
@@ -39,7 +39,7 @@ public abstract class CommitteeBatchCorrespondenceDetailBase extends KraPersista
 
     private CommitteeBatchCorrespondenceBase committeeBatchCorrespondence;
 
-    private ProtocolAction protocolAction;
+    private ProtocolActionBase protocolAction;
 
     private ProtocolCorrespondence protocolCorrespondence;
 
@@ -90,11 +90,11 @@ public abstract class CommitteeBatchCorrespondenceDetailBase extends KraPersista
         this.committeeBatchCorrespondence = committeeBatchCorrespondence;
     }
 
-    public ProtocolAction getProtocolAction() {
+    public ProtocolActionBase getProtocolAction() {
         return protocolAction;
     }
 
-    public void setProtocolAction(ProtocolAction protocolAction) {
+    public void setProtocolAction(ProtocolActionBase protocolAction) {
         this.protocolAction = protocolAction;
     }
 

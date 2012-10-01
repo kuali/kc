@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.protocol.actions.delete;
 
-import org.kuali.kra.protocol.Protocol;
+import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.delete.ProtocolDeleteBean;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 
@@ -27,6 +27,6 @@ public interface ProtocolDeleteService {
      * @param deleteBean the required data for performing a withdrawal
      * @throws WorkflowException 
      */
-    public void delete(Protocol protocol, ProtocolDeleteBean deleteBean) throws WorkflowException;
+    public void delete(ProtocolBase protocol, ProtocolDeleteBean deleteBean) throws WorkflowException;
 
 }

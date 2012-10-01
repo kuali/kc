@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.iacuc.protocol.location;
 
-import org.kuali.kra.protocol.protocol.location.ProtocolLocation;
+import org.kuali.kra.protocol.protocol.location.ProtocolLocationBase;
 
-public class IacucProtocolLocation extends ProtocolLocation {
+public class IacucProtocolLocation extends ProtocolLocationBase {
 
     /**
      * Comment for <code>serialVersionUID</code>

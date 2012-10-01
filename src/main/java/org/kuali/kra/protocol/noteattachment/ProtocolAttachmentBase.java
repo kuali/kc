@@ -22,13 +22,13 @@ import java.util.Collection;
 import org.apache.struts.upload.FormFile;
 import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.bo.AttachmentFile;
-import org.kuali.kra.protocol.Protocol;
-import org.kuali.kra.protocol.ProtocolAssociate;
+import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.protocol.ProtocolAssociateBase;
 
 /**
- * This is the base class for all Protocol Attachments.
+ * This is the base class for all ProtocolBase Attachments.
  */
-public abstract class ProtocolAttachmentBase extends ProtocolAssociate implements TypedAttachment {
+public abstract class ProtocolAttachmentBase extends ProtocolAssociateBase implements TypedAttachment {
 
     private static final long serialVersionUID = -2519574730475246022L;
 
@@ -61,13 +61,13 @@ public abstract class ProtocolAttachmentBase extends ProtocolAssociate implement
      * 
      * @param protocol the protocol.
      */
-    public ProtocolAttachmentBase(final Protocol protocol) {
+    public ProtocolAttachmentBase(final ProtocolBase protocol) {
         super(protocol);
     }
 
     /**
-     * Gets the Protocol Attachment Base File.
-     * @return the Protocol Attachment Base File
+     * Gets the ProtocolBase Attachment Base File.
+     * @return the ProtocolBase Attachment Base File
      */
     public AttachmentFile getFile() {
         if (this.fileId != null && this.file == null) {
@@ -77,24 +77,24 @@ public abstract class ProtocolAttachmentBase extends ProtocolAssociate implement
     }
 
     /**
-     * Sets the Protocol Attachment Base File.
-     * @param file the Protocol Attachment Base File
+     * Sets the ProtocolBase Attachment Base File.
+     * @param file the ProtocolBase Attachment Base File
      */
     public void setFile(AttachmentFile file) {
         this.file = file;
     }
 
     /**
-     * Gets the Protocol Attachment Base New File.
-     * @return the Protocol Attachment Base New File
+     * Gets the ProtocolBase Attachment Base New File.
+     * @return the ProtocolBase Attachment Base New File
      */
     public FormFile getNewFile() {
         return this.newFile;
     }
 
     /**
-     * Sets the Protocol Attachment Base New File.
-     * @param newFile the Protocol Attachment Base New File
+     * Sets the ProtocolBase Attachment Base New File.
+     * @param newFile the ProtocolBase Attachment Base New File
      */
     public void setNewFile(FormFile newFile) {
         this.newFile = newFile;

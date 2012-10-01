@@ -39,7 +39,7 @@ import org.kuali.kra.common.committee.meeting.CommitteeScheduleAttendanceBase;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinuteBase;
 import org.kuali.kra.common.committee.meeting.ScheduleAgendaBase;
 import org.kuali.kra.common.committee.service.CommitteeServiceBase;
-import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -51,7 +51,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
  */
 public abstract class CommitteeServiceImplBase<CMT extends CommitteeBase<CMT, ?, CS>, 
                                            CS extends CommitteeScheduleBase<CS, CMT, PS, CSM>,
-                                           PS extends ProtocolSubmission,
+                                           PS extends ProtocolSubmissionBase,
                                            CSM extends CommitteeScheduleMinuteBase<CSM, CS>> 
 
                                            implements CommitteeServiceBase<CMT, CS> {

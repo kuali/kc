@@ -17,10 +17,10 @@ package org.kuali.kra.iacuc.actions.reviewcomments;
 
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinuteBase;
 import org.kuali.kra.iacuc.committee.meeting.IacucCommitteeScheduleMinute;
-import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsBean;
+import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsBeanBase;
 import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsService;
 
-public class IacucReviewCommentsBean extends ReviewCommentsBean {
+public class IacucReviewCommentsBean extends ReviewCommentsBeanBase {
 
     /**
      * Comment for <code>serialVersionUID</code>

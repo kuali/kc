@@ -36,15 +36,15 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.printing.Printable;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.print.AbstractPrint;
-import org.kuali.kra.protocol.Protocol;
+import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolDao;
-import org.kuali.kra.protocol.actions.ProtocolAction;
+import org.kuali.kra.protocol.actions.ProtocolActionBase;
 import org.kuali.kra.protocol.actions.genericactions.ProtocolGenericActionService;
-import org.kuali.kra.protocol.correspondence.BatchCorrespondence;
-import org.kuali.kra.protocol.correspondence.BatchCorrespondenceDetail;
+import org.kuali.kra.protocol.correspondence.BatchCorrespondenceBase;
+import org.kuali.kra.protocol.correspondence.BatchCorrespondenceDetailBase;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondence;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceTemplateService;
-import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceType;
+import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceTypeBase;
 import org.kuali.kra.service.KcEmailService;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.util.DateUtils;
@@ -71,7 +71,7 @@ public abstract class CommitteeBatchCorrespondenceServiceImplBase implements Com
 
 
     protected BusinessObjectService businessObjectService;
-    protected ProtocolDao<? extends Protocol> protocolDao;
+    protected ProtocolDao<? extends ProtocolBase> protocolDao;
     protected ProtocolGenericActionService protocolGenericActionService;
     protected ProtocolCorrespondenceTemplateService protocolCorrespondenceTemplateService;
     protected DocumentService documentService;
@@ -96,8 +96,8 @@ public abstract class CommitteeBatchCorrespondenceServiceImplBase implements Com
 //     */
 //    public CommitteeBatchCorrespondenceBase generateBatchCorrespondence(String batchCorrespondenceTypeCode, String committeeId, Date startDate, 
 //            Date endDate) throws Exception {
-//        BatchCorrespondence batchCorrespondence = null;
-//        List<? extends Protocol> protocols = null;
+//        BatchCorrespondenceBase batchCorrespondence = null;
+//        List<? extends ProtocolBase> protocols = null;
 //        finalActionCounter = 0;
 //
 //        CommitteeBatchCorrespondenceBase committeeBatchCorrespondence = new CommitteeBatchCorrespondenceBase(batchCorrespondenceTypeCode, 
@@ -117,8 +117,8 @@ public abstract class CommitteeBatchCorrespondenceServiceImplBase implements Com
 //
 //        batchCorrespondence = lookupBatchCorrespondence(batchCorrespondenceTypeCode);
 //        
-//        for (Protocol protocol : protocols) {
-//            ProtocolCorrespondenceType protocolCorrespondenceType = getProtocolCorrespondenceTypeToGenerate(protocol, batchCorrespondence);
+//        for (ProtocolBase protocol : protocols) {
+//            ProtocolCorrespondenceTypeBase protocolCorrespondenceType = getProtocolCorrespondenceTypeToGenerate(protocol, batchCorrespondence);
 //
 //            if (protocolCorrespondenceType != null)  {
 //                if (protocolCorrespondenceTemplateService.getProtocolCorrespondenceTemplate(committeeId, 
@@ -155,7 +155,7 @@ public abstract class CommitteeBatchCorrespondenceServiceImplBase implements Com
 //    }
     
     /**
-     * This method determines if and for which ProtocolCorrespondenceType a batch correspondence needs to be generated.
+     * This method determines if and for which ProtocolCorrespondenceTypeBase a batch correspondence needs to be generated.
      * The final action is being applied at this time as well.
      * 
      * @param protocol
@@ -164,10 +164,10 @@ public abstract class CommitteeBatchCorrespondenceServiceImplBase implements Com
      *         Null if no correspondence needs to be generated.
      * @throws Exception
      */
-    protected ProtocolCorrespondenceType getProtocolCorrespondenceTypeToGenerate(Protocol protocol, BatchCorrespondence batchCorrespondence) throws Exception {
-        ProtocolCorrespondenceType protocolCorrespondenceType = null;
+    protected ProtocolCorrespondenceTypeBase getProtocolCorrespondenceTypeToGenerate(ProtocolBase protocol, BatchCorrespondenceBase batchCorrespondence) throws Exception {
+        ProtocolCorrespondenceTypeBase protocolCorrespondenceType = null;
 
-        if (StringUtils.equals(batchCorrespondence.getSendCorrespondence(), BatchCorrespondence.SEND_CORRESPONDENCE_BEFORE_EVENT)) {
+        if (StringUtils.equals(batchCorrespondence.getSendCorrespondence(), BatchCorrespondenceBase.SEND_CORRESPONDENCE_BEFORE_EVENT)) {
             protocolCorrespondenceType = getBeforeProtocolCorrespondenceTypeToGenerate(protocol, batchCorrespondence);
         } else {
             protocolCorrespondenceType = getAfterProtocolCorrespondenceTypeToGenerate(protocol, batchCorrespondence);
@@ -181,22 +181,22 @@ public abstract class CommitteeBatchCorrespondenceServiceImplBase implements Com
     }
     
     /**
-     * This method assists with determining what ProtocolCorrespondenceType is applicable to be generated at this time for
+     * This method assists with determining what ProtocolCorrespondenceTypeBase is applicable to be generated at this time for
      * correspondences that are to be send before the event.
      * 
      * @param protocol
      * @param batchCorrespondence
-     * @return The ProtocolCorrespondenceType for which correspondence may be generated at this time.  
+     * @return The ProtocolCorrespondenceTypeBase for which correspondence may be generated at this time.  
      *         Null if no correspondence needs to be generated.
      * @throws Exception
      */
-    protected ProtocolCorrespondenceType getBeforeProtocolCorrespondenceTypeToGenerate(Protocol protocol, 
-            BatchCorrespondence batchCorrespondence) throws Exception {
-        ProtocolCorrespondenceType protocolCorrespondenceType = null;
+    protected ProtocolCorrespondenceTypeBase getBeforeProtocolCorrespondenceTypeToGenerate(ProtocolBase protocol, 
+            BatchCorrespondenceBase batchCorrespondence) throws Exception {
+        ProtocolCorrespondenceTypeBase protocolCorrespondenceType = null;
         
         double diff = DateUtils.getDifferenceInDays(new Timestamp(System.currentTimeMillis()), new Timestamp(protocol.getExpirationDate().getTime()));
         
-        for (BatchCorrespondenceDetail batchCorrespondenceDetail : batchCorrespondence.getBatchCorrespondenceDetails()) {
+        for (BatchCorrespondenceDetailBase batchCorrespondenceDetail : batchCorrespondence.getBatchCorrespondenceDetails()) {
             if (batchCorrespondenceDetail.getDaysToEvent() >= diff) { 
                 protocolCorrespondenceType = batchCorrespondenceDetail.getProtocolCorrespondenceType();
             }
@@ -211,23 +211,23 @@ public abstract class CommitteeBatchCorrespondenceServiceImplBase implements Com
     }
 
     /**
-     * This method assists with determining what ProtocolCorrespondenceType is applicable to be generated at this time for
+     * This method assists with determining what ProtocolCorrespondenceTypeBase is applicable to be generated at this time for
      * correspondences that are to be send after the event.
      * 
      * @param protocol
      * @param batchCorrespondence
-     * @return The ProtocolCorrespondenceType for which correspondence may be generated at this time.  
+     * @return The ProtocolCorrespondenceTypeBase for which correspondence may be generated at this time.  
      *         Null if no correspondence needs to be generated.
      * @throws Exception
      */
-    protected ProtocolCorrespondenceType getAfterProtocolCorrespondenceTypeToGenerate(Protocol protocol, 
-            BatchCorrespondence batchCorrespondence) throws Exception {
-        ProtocolCorrespondenceType protocolCorrespondenceType = null;
+    protected ProtocolCorrespondenceTypeBase getAfterProtocolCorrespondenceTypeToGenerate(ProtocolBase protocol, 
+            BatchCorrespondenceBase batchCorrespondence) throws Exception {
+        ProtocolCorrespondenceTypeBase protocolCorrespondenceType = null;
 
         //double diff = DateUtils.getDifferenceInDays(protocol.getLastProtocolAction().getUpdateTimestamp(), new Timestamp(System.currentTimeMillis()));
         double diff = DateUtils.getDifferenceInDays(protocol.getLastProtocolAction().getActionDate(), new Timestamp(System.currentTimeMillis()));
 
-        for (BatchCorrespondenceDetail batchCorrespondenceDetail : batchCorrespondence.getBatchCorrespondenceDetails()) {
+        for (BatchCorrespondenceDetailBase batchCorrespondenceDetail : batchCorrespondence.getBatchCorrespondenceDetails()) {
             if (batchCorrespondenceDetail.getDaysToEvent() <= diff) { 
                 protocolCorrespondenceType = batchCorrespondenceDetail.getProtocolCorrespondenceType();
             }
@@ -243,7 +243,7 @@ public abstract class CommitteeBatchCorrespondenceServiceImplBase implements Com
 
     
     
-    protected abstract void applyFinalAction(Protocol protocol, BatchCorrespondence batchCorrespondence) throws Exception;
+    protected abstract void applyFinalAction(ProtocolBase protocol, BatchCorrespondenceBase batchCorrespondence) throws Exception;
     
 // TODO *********commented the code below during IACUC refactoring*********    
 //    /**
@@ -253,7 +253,7 @@ public abstract class CommitteeBatchCorrespondenceServiceImplBase implements Com
 //     * @param batchCorrespondence
 //     * @throws Exception
 //     */
-//    protected void applyFinalAction(Protocol protocol, BatchCorrespondence batchCorrespondence) throws Exception {
+//    protected void applyFinalAction(ProtocolBase protocol, BatchCorrespondenceBase batchCorrespondence) throws Exception {
 //    
 //        ProtocolGenericActionBean actionBean = new IacucProtocolGenericActionBean(null, Constants.EMPTY_STRING);
 //        actionBean.setComments("Final action of batch Correspondence: " + batchCorrespondence.getDescription());
@@ -290,7 +290,7 @@ public abstract class CommitteeBatchCorrespondenceServiceImplBase implements Com
      * @param protocolCorrespondenceType
      * @return true if the correspondence has already been generated, false otherwise
      */
-    protected boolean correspondencePreviouslyGenerated(Protocol protocol, ProtocolCorrespondenceType protocolCorrespondenceType) {
+    protected boolean correspondencePreviouslyGenerated(ProtocolBase protocol, ProtocolCorrespondenceTypeBase protocolCorrespondenceType) {
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put(PROTOCOL_NUMBER, protocol.getProtocolNumber());
         fieldValues.put(SEQUENCE_NUMBER, protocol.getSequenceNumber().toString());
@@ -317,8 +317,8 @@ public abstract class CommitteeBatchCorrespondenceServiceImplBase implements Com
      * @return the populated CommitteeBatchCorrespondenceDetailBase
      * @throws PrintingException 
      */
-    protected CommitteeBatchCorrespondenceDetailBase createBatchCorrespondenceDetail(String committeeId, Protocol protocol, 
-            ProtocolCorrespondenceType protocolCorrespondenceType, String committeeBatchCorrespondenceId, 
+    protected CommitteeBatchCorrespondenceDetailBase createBatchCorrespondenceDetail(String committeeId, ProtocolBase protocol, 
+            ProtocolCorrespondenceTypeBase protocolCorrespondenceType, String committeeBatchCorrespondenceId, 
             String protocolActionTypeCode) throws PrintingException {
         
 // TODO *********commented the code below during IACUC refactoring*********         
@@ -346,25 +346,25 @@ public abstract class CommitteeBatchCorrespondenceServiceImplBase implements Com
     
     /**
      * 
-     * This method creates the ProtocolAction business object and persists it to the database.
+     * This method creates the ProtocolActionBase business object and persists it to the database.
      * @param protocol
      * @param protocolCorrespondenceType
      * @param protocolActionTypeCode
-     * @return the populated ProtocolAction
+     * @return the populated ProtocolActionBase
      */
-    protected ProtocolAction createAndSaveProtocolAction(Protocol protocol, ProtocolCorrespondenceType protocolCorrespondenceType, 
+    protected ProtocolActionBase createAndSaveProtocolAction(ProtocolBase protocol, ProtocolCorrespondenceTypeBase protocolCorrespondenceType, 
             String protocolActionTypeCode) {
 // TODO *********commented the code below during IACUC refactoring*********         
-//        ProtocolAction protocolAction = new IacucProtocolAction((IacucProtocol) protocol, null, protocolActionTypeCode);
+//        ProtocolActionBase protocolAction = new IacucProtocolAction((IacucProtocol) protocol, null, protocolActionTypeCode);
         
-        ProtocolAction protocolAction = getNewProtocolActionInstanceHook(protocol, null, protocolActionTypeCode);
+        ProtocolActionBase protocolAction = getNewProtocolActionInstanceHook(protocol, null, protocolActionTypeCode);
         protocolAction.setComments(protocolCorrespondenceType.getDescription());
         
         businessObjectService.save(protocolAction);
         return protocolAction;
     }
 
-    protected abstract ProtocolAction getNewProtocolActionInstanceHook(Protocol protocol, Object object, String protocolActionTypeCode);
+    protected abstract ProtocolActionBase getNewProtocolActionInstanceHook(ProtocolBase protocol, Object object, String protocolActionTypeCode);
 
     /**
      * 
@@ -375,8 +375,8 @@ public abstract class CommitteeBatchCorrespondenceServiceImplBase implements Com
      * @return the populated ProtocolCorrespondence
      * @throws PrintingException 
      */
-    protected ProtocolCorrespondence createAndSaveProtocolCorrespondence(String committeeId, Protocol protocol, 
-            ProtocolCorrespondenceType protocolCorrespondenceType, ProtocolAction protocolAction) throws PrintingException {
+    protected ProtocolCorrespondence createAndSaveProtocolCorrespondence(String committeeId, ProtocolBase protocol, 
+            ProtocolCorrespondenceTypeBase protocolCorrespondenceType, ProtocolActionBase protocolAction) throws PrintingException {
         
 // TODO *********commented the code below during IACUC refactoring*********               
 //        ProtocolCorrespondence protocolCorrespondence = new IacucProtocolCorrespondence();
@@ -440,21 +440,21 @@ public abstract class CommitteeBatchCorrespondenceServiceImplBase implements Com
     
     /**
      * 
-     * This method looks up the BatchCorrespondence business object via the batchCorrespondenceTypeCode.
+     * This method looks up the BatchCorrespondenceBase business object via the batchCorrespondenceTypeCode.
      * @param batchCorrespondenceTypeCode
-     * @return the BatchCorrespondence business object
+     * @return the BatchCorrespondenceBase business object
      */
-    protected BatchCorrespondence lookupBatchCorrespondence(String batchCorrespondenceTypeCode) {
+    protected BatchCorrespondenceBase lookupBatchCorrespondence(String batchCorrespondenceTypeCode) {
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put(BATCH_CORRESPONDENCE_TYPE_CODE, batchCorrespondenceTypeCode);
 
 // TODO *********commented the code below during IACUC refactoring*********         
-//        return (BatchCorrespondence) businessObjectService.findByPrimaryKey(IacucBatchCorrespondence.class, fieldValues);
+//        return (BatchCorrespondenceBase) businessObjectService.findByPrimaryKey(IacucBatchCorrespondence.class, fieldValues);
 
         return businessObjectService.findByPrimaryKey(getBatchCorrespondenceBOClassHook(), fieldValues);
     }
     
-    protected abstract Class<? extends BatchCorrespondence> getBatchCorrespondenceBOClassHook();
+    protected abstract Class<? extends BatchCorrespondenceBase> getBatchCorrespondenceBOClassHook();
 
     
     protected abstract CommitteePrintingServiceBase getCommitteePrintingService();
@@ -516,11 +516,11 @@ public abstract class CommitteeBatchCorrespondenceServiceImplBase implements Com
         this.dateTimeService = dateTimeService;
     }
     
-    public ProtocolDao<? extends Protocol> getProtocolDao() {
+    public ProtocolDao<? extends ProtocolBase> getProtocolDao() {
         return protocolDao;
     }
 
-    public void setProtocolDao(ProtocolDao<? extends Protocol> protocolDao) {
+    public void setProtocolDao(ProtocolDao<? extends ProtocolBase> protocolDao) {
         this.protocolDao = protocolDao;
     }
 

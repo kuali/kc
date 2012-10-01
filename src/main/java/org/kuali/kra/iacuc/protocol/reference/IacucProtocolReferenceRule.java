@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.iacuc.protocol.reference;
 
-import org.kuali.kra.protocol.protocol.reference.ProtocolReferenceRule;
+import org.kuali.kra.protocol.protocol.reference.ProtocolReferenceRuleBase;
 
-public class IacucProtocolReferenceRule extends ProtocolReferenceRule {
+public class IacucProtocolReferenceRule extends ProtocolReferenceRuleBase {
 
     /**
      * Comment for <code>serialVersionUID</code>

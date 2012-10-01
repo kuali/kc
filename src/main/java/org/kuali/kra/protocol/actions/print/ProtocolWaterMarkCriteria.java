@@ -17,14 +17,14 @@ package org.kuali.kra.protocol.actions.print;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.printing.WaterMarkCriteria;
-import org.kuali.kra.protocol.Protocol;
+import org.kuali.kra.protocol.ProtocolBase;
 
 public class ProtocolWaterMarkCriteria implements WaterMarkCriteria {
 
     public Object getWaterMark(KraPersistableBusinessObjectBase kraPersistableBusinessObject) {
-        Protocol protocol = (Protocol)kraPersistableBusinessObject;
+        ProtocolBase protocol = (ProtocolBase)kraPersistableBusinessObject;
         if(protocol.getProtocolStatusCode().equals("301")){
-            return "Protocol Approval Expired";
+            return "ProtocolBase Approval Expired";
         }else{
             return "";
         }

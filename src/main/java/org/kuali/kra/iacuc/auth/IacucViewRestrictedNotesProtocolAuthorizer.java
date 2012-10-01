@@ -16,17 +16,17 @@
 package org.kuali.kra.iacuc.auth;
 
 import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.kra.protocol.auth.ProtocolAuthorizer;
-import org.kuali.kra.protocol.auth.ProtocolTask;
+import org.kuali.kra.protocol.auth.ProtocolAuthorizerBase;
+import org.kuali.kra.protocol.auth.ProtocolTaskBase;
 
 /**
  * The View Protocol Authorizer determines if a user has the right
  * to view restricted notes protocol.
  */
-public class IacucViewRestrictedNotesProtocolAuthorizer extends ProtocolAuthorizer {
+public class IacucViewRestrictedNotesProtocolAuthorizer extends ProtocolAuthorizerBase {
 
     /** {@inheritDoc} */
-    public boolean isAuthorized(String userId, ProtocolTask task) {
+    public boolean isAuthorized(String userId, ProtocolTaskBase task) {
         return hasPermission(userId, task.getProtocol(), PermissionConstants.VIEW_IACUC_RESTRICTED_NOTES);
     }
 }

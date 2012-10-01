@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.protocol.actions.noreview;
 
-import org.kuali.kra.protocol.ProtocolDocument;
+import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 /**
@@ -31,5 +31,5 @@ public interface ExecuteProtocolReviewNotRequiredRule extends BusinessRule {
      * @param actionBean
      * @return
      */
-    boolean processReviewNotRequiredRule(ProtocolDocument document, ProtocolReviewNotRequiredBean actionBean);
+    boolean processReviewNotRequiredRule(ProtocolDocumentBase document, ProtocolReviewNotRequiredBean actionBean);
 }

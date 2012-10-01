@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.protocol.actions.noreview;
 
-import org.kuali.kra.protocol.ProtocolDocument;
+import org.kuali.kra.protocol.ProtocolDocumentBase;
 
 /**
  * 
@@ -29,5 +29,5 @@ public interface ProtocolReviewNotRequiredService {
     * @param protocolDocument
     * @param actionBean
     */
-    void reviewNotRequired(ProtocolDocument protocolDocument, ProtocolReviewNotRequiredBean actionBean);
+    void reviewNotRequired(ProtocolDocumentBase protocolDocument, ProtocolReviewNotRequiredBean actionBean);
 }

@@ -18,10 +18,10 @@ package org.kuali.kra.protocol.auth;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolModule;
 
 /**
- * The Modify Protocol References Authorizer determines if
+ * The Modify ProtocolBase References Authorizer determines if
  * the user can modify the references for a protocol.
  */
-public class ModifyProtocolReferencesAuthorizer extends ModifyAmendmentAuthorizer {
+public class ModifyProtocolReferencesAuthorizer extends ModifyAmendmentAuthorizerBase {
 
     public ModifyProtocolReferencesAuthorizer() {
         super(ProtocolModule.PROTOCOL_REFERENCES);

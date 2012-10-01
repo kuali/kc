@@ -21,7 +21,7 @@ import org.apache.struts.upload.FormFile;
 
 /**
  * 
- * This class is an attachment bean for action attachment. these information will be saved to ProtocolSubmissionDoc
+ * This class is an attachment bean for action attachment. these information will be saved to ProtocolSubmissionDocBase
  */
 public class ProtocolActionAttachment implements Serializable {
 

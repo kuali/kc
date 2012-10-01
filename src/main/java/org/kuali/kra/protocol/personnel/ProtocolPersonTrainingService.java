@@ -36,7 +36,7 @@ public interface ProtocolPersonTrainingService {
      * Hook this service method to external / other training session as required. 
      * @param protocolPersons
      */
-    public void updatePersonTrained(List<ProtocolPerson> protocolPersons);
+    public void updatePersonTrained(List<ProtocolPersonBase> protocolPersons);
     
     /**
      * This method is to set trained flag for a person
@@ -44,7 +44,7 @@ public interface ProtocolPersonTrainingService {
      * This method is invoked from isPersonTrained and while adding a new person to the list.
      * @param protocolPerson
      */
-    public void setTrainedFlag(ProtocolPerson protocolPerson);
+    public void setTrainedFlag(ProtocolPersonBase protocolPerson);
 
     /**
      * This method is to get training details for a person

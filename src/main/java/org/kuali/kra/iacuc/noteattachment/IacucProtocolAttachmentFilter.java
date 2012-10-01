@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.iacuc.noteattachment;
 
-import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentFilter;
+import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentFilterBase;
 
-public class IacucProtocolAttachmentFilter extends ProtocolAttachmentFilter {
+public class IacucProtocolAttachmentFilter extends ProtocolAttachmentFilterBase {
 
     private static final long serialVersionUID = -1228250095640467305L;
 

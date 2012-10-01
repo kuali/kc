@@ -16,12 +16,12 @@
 package org.kuali.kra.protocol.protocol.participant;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.protocol.Protocol;
+import org.kuali.kra.protocol.ProtocolBase;
 
 /**
  * 
  * This class implements the services to maintain the <code>{@link ProtocolParticipant}</code>s of a 
- * <code>{@link Protocol}</code>.
+ * <code>{@link ProtocolBase}</code>.
  * 
  * @author Kuali Research Administration Team (kc.dev@kuali.org)
  */
@@ -34,7 +34,7 @@ public class ProtocolParticipantServiceImpl implements ProtocolParticipantServic
      * @param protocol which contains list of ProtocolParticipant.
      * @param protocolParticipant which is added to ProtocolParticipants list after setting ParticipantType.
      */
-    public void addProtocolParticipant(Protocol protocol, ProtocolParticipant protocolParticipant) {
+    public void addProtocolParticipant(ProtocolBase protocol, ProtocolParticipant protocolParticipant) {
         protocolParticipant.setProtocol(protocol);
         if (StringUtils.isBlank(protocolParticipant.getProtocolNumber())) {
             protocolParticipant.setProtocolNumber("0");

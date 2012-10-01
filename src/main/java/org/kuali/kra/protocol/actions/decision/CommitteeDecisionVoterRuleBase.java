@@ -21,7 +21,7 @@ import java.util.List;
  * 
  * This class takes care of the basic functionality of verifying on meeting voter.
  */
-public abstract class CommitteeDecisionVoterRuleBase<CP extends CommitteePerson> {
+public abstract class CommitteeDecisionVoterRuleBase<CP extends CommitteePersonBase> {
     
     /**
      * 

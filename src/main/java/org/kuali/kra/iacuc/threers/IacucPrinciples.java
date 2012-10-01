@@ -15,14 +15,14 @@
  */
 package org.kuali.kra.iacuc.threers;
 
-import org.kuali.kra.protocol.ProtocolAssociate;
+import org.kuali.kra.protocol.ProtocolAssociateBase;
 
 /**
  * 
  * This class represents the "Three R's" or principles of IACUC,
  * (Reduction, Refinement, & Replacement).
  */
-public class IacucPrinciples extends ProtocolAssociate {
+public class IacucPrinciples extends ProtocolAssociateBase {
 
     private static final long serialVersionUID = 580264349919894175L;
     

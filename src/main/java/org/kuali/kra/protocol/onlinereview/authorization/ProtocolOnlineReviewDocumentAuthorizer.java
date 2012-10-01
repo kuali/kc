@@ -22,7 +22,7 @@ import org.kuali.kra.authorization.ApplicationTask;
 import org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
-import org.kuali.kra.protocol.ProtocolOnlineReviewDocument;
+import org.kuali.kra.protocol.ProtocolOnlineReviewDocumentBase;
 import org.kuali.kra.service.KraWorkflowService;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.kim.api.identity.Person;
@@ -37,7 +37,7 @@ public class ProtocolOnlineReviewDocumentAuthorizer extends KcTransactionalDocum
     public Set<String> getEditModes(Document document, Person user, Set<String> currentEditModes) {
         Set<String> editModes = new HashSet<String>();
         
-        ProtocolOnlineReviewDocument protocolOnlineReviewDocument = (ProtocolOnlineReviewDocument) document;
+        ProtocolOnlineReviewDocumentBase protocolOnlineReviewDocument = (ProtocolOnlineReviewDocumentBase) document;
         String userId = user.getPrincipalId();
         
         if (canExecuteProtocolOnlineReviewTask(userId, protocolOnlineReviewDocument, TaskName.MAINTAIN_PROTOCOL_ONLINEREVIEWS)) {  
@@ -63,11 +63,11 @@ public class ProtocolOnlineReviewDocumentAuthorizer extends KcTransactionalDocum
      * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#canOpen(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
      */
     public boolean canOpen(Document document, Person user) {
-        ProtocolOnlineReviewDocument protocolOnlineReviewDocument = (ProtocolOnlineReviewDocument) document;
+        ProtocolOnlineReviewDocumentBase protocolOnlineReviewDocument = (ProtocolOnlineReviewDocumentBase) document;
         if (protocolOnlineReviewDocument.getProtocolOnlineReview() == null) {
             return canCreateProtocolOnlineReview(user);
         }
-        return canExecuteProtocolOnlineReviewTask(user.getPrincipalId(), (ProtocolOnlineReviewDocument) document, TaskName.VIEW_PROTOCOL_ONLINEREVIEW);
+        return canExecuteProtocolOnlineReviewTask(user.getPrincipalId(), (ProtocolOnlineReviewDocumentBase) document, TaskName.VIEW_PROTOCOL_ONLINEREVIEW);
     }
     
     /**
@@ -88,7 +88,7 @@ public class ProtocolOnlineReviewDocumentAuthorizer extends KcTransactionalDocum
      * @param taskName the name of the task
      * @return true if has permission; otherwise false
      */
-    private boolean canExecuteProtocolOnlineReviewTask(String userId, ProtocolOnlineReviewDocument doc, String taskName) {
+    private boolean canExecuteProtocolOnlineReviewTask(String userId, ProtocolOnlineReviewDocumentBase doc, String taskName) {
         ProtocolOnlineReviewTask task = new ProtocolOnlineReviewTask(taskName, doc.getProtocolOnlineReview());       
         TaskAuthorizationService taskAuthenticationService = KraServiceLocator.getService(TaskAuthorizationService.class);
         return taskAuthenticationService.isAuthorized(userId, task);
@@ -99,8 +99,8 @@ public class ProtocolOnlineReviewDocumentAuthorizer extends KcTransactionalDocum
      */
     @Override
     public boolean canEdit(Document document, Person user) {
-        return canExecuteProtocolOnlineReviewTask(user.getPrincipalId(), (ProtocolOnlineReviewDocument) document, TaskName.MODIFY_PROTOCOL_ONLINEREVIEW) 
-               || canExecuteProtocolOnlineReviewTask(user.getPrincipalId(), (ProtocolOnlineReviewDocument) document, TaskName.MAINTAIN_PROTOCOL_ONLINEREVIEWS); 
+        return canExecuteProtocolOnlineReviewTask(user.getPrincipalId(), (ProtocolOnlineReviewDocumentBase) document, TaskName.MODIFY_PROTOCOL_ONLINEREVIEW) 
+               || canExecuteProtocolOnlineReviewTask(user.getPrincipalId(), (ProtocolOnlineReviewDocumentBase) document, TaskName.MAINTAIN_PROTOCOL_ONLINEREVIEWS); 
     }
     
     /**
@@ -146,7 +146,7 @@ public class ProtocolOnlineReviewDocumentAuthorizer extends KcTransactionalDocum
     //we only let the IRB Admin disapprove these documents.
     public boolean canDisapprove(Document document, Person user) {
         boolean result = super.canDisapprove(document, user);
-        result &= canExecuteProtocolOnlineReviewTask(user.getPrincipalId(), (ProtocolOnlineReviewDocument) document, TaskName.MAINTAIN_PROTOCOL_ONLINEREVIEWS); 
+        result &= canExecuteProtocolOnlineReviewTask(user.getPrincipalId(), (ProtocolOnlineReviewDocumentBase) document, TaskName.MAINTAIN_PROTOCOL_ONLINEREVIEWS); 
         return result;
     }
     

@@ -16,23 +16,23 @@
 package org.kuali.kra.iacuc.correspondence;
 
 import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.kra.protocol.correspondence.BatchCorrespondence;
-import org.kuali.kra.protocol.correspondence.BatchCorrespondenceDetail;
-import org.kuali.kra.protocol.correspondence.BatchCorrespondenceDetailAction;
+import org.kuali.kra.protocol.correspondence.BatchCorrespondenceBase;
+import org.kuali.kra.protocol.correspondence.BatchCorrespondenceDetailBase;
+import org.kuali.kra.protocol.correspondence.BatchCorrespondenceDetailActionBase;
 import org.kuali.kra.protocol.correspondence.BatchCorrespondenceDetailAuthorizationService;
-import org.kuali.kra.protocol.correspondence.BatchCorrespondenceDetailForm;
-import org.kuali.kra.protocol.correspondence.BatchCorrespondenceDetailRule;
+import org.kuali.kra.protocol.correspondence.BatchCorrespondenceDetailFormBase;
+import org.kuali.kra.protocol.correspondence.BatchCorrespondenceDetailRuleBase;
 import org.kuali.kra.protocol.correspondence.BatchCorrespondenceDetailService;
 
-public class IacucBatchCorrespondenceDetailAction extends BatchCorrespondenceDetailAction {
+public class IacucBatchCorrespondenceDetailAction extends BatchCorrespondenceDetailActionBase {
 
     @Override
-    protected BatchCorrespondenceDetailForm getNewBatchCorrespondenceDetailFormInstanceHook() {
+    protected BatchCorrespondenceDetailFormBase getNewBatchCorrespondenceDetailFormInstanceHook() {
         return new IacucBatchCorrespondenceDetailForm();
     }
 
     @Override
-    protected BatchCorrespondenceDetail getNewBatchCorrespondenceDetailInstanceHook() {
+    protected BatchCorrespondenceDetailBase getNewBatchCorrespondenceDetailInstanceHook() {
         return new IacucBatchCorrespondenceDetail();
     }
 
@@ -47,12 +47,12 @@ public class IacucBatchCorrespondenceDetailAction extends BatchCorrespondenceDet
     }
 
     @Override
-    protected Class<? extends BatchCorrespondence> getBatchCorrespondenceClassHook() {
+    protected Class<? extends BatchCorrespondenceBase> getBatchCorrespondenceClassHook() {
         return IacucBatchCorrespondence.class;
     }
 
     @Override
-    protected BatchCorrespondenceDetailRule getNewInstanceOfBatchCorrespondenceDetailRuleHook() {
+    protected BatchCorrespondenceDetailRuleBase getNewInstanceOfBatchCorrespondenceDetailRuleHook() {
         return new IacucBatchCorrespondenceDetailRule();
     }
 

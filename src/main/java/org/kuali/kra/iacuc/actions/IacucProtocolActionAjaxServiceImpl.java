@@ -23,17 +23,17 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewerType;
-import org.kuali.kra.protocol.Protocol;
-import org.kuali.kra.protocol.actions.ProtocolActionAjaxServiceImpl;
+import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.protocol.actions.ProtocolActionAjaxServiceImplBase;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
-public class IacucProtocolActionAjaxServiceImpl extends ProtocolActionAjaxServiceImpl implements IacucProtocolActionAjaxService {
+public class IacucProtocolActionAjaxServiceImpl extends ProtocolActionAjaxServiceImplBase implements IacucProtocolActionAjaxService {
     
     private ParameterService parameterService;
     
     public static final String DEFAULT_REVIEW_TYPE_PARAMETER_NAME = "IACUC_ALL_COMM_REVIEWERS_DEFAULT_ASSIGNED";
 
-    public Class<? extends Protocol> getProtocolClassHook() {
+    public Class<? extends ProtocolBase> getProtocolClassHook() {
         return IacucProtocol.class;
     }
 
@@ -61,7 +61,7 @@ public class IacucProtocolActionAjaxServiceImpl extends ProtocolActionAjaxServic
 
         HashMap<String, String> criteria = new HashMap<String, String>();
         criteria.put("protocolId", protocolId);
-        Protocol protocol = (Protocol) (getBusinessObjectService().findMatching(IacucProtocol.class, criteria).toArray())[0];
+        ProtocolBase protocol = (ProtocolBase) (getBusinessObjectService().findMatching(IacucProtocol.class, criteria).toArray())[0];
         
         /*
          * no reviewers should be assigned if schedule not chosen.

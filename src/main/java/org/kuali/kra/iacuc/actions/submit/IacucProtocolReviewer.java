@@ -22,7 +22,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewer;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewerType;
-import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReview;
+import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewBase;
 
 public class IacucProtocolReviewer  extends ProtocolReviewer {
 
@@ -40,7 +40,7 @@ public class IacucProtocolReviewer  extends ProtocolReviewer {
 
     // transient property for submission detail display 
     @SkipVersioning
-    private transient List<ProtocolOnlineReview> protocolOnlineReviews = new ArrayList<ProtocolOnlineReview>();
+    private transient List<ProtocolOnlineReviewBase> protocolOnlineReviews = new ArrayList<ProtocolOnlineReviewBase>();
 
     public Long getProtocolReviewerId() {
         return protocolReviewerId;
@@ -98,7 +98,7 @@ public class IacucProtocolReviewer  extends ProtocolReviewer {
      * @return Returns the protocolOnlineReviews.
      */
     @Override
-   public List<ProtocolOnlineReview> getProtocolOnlineReviews() {
+   public List<ProtocolOnlineReviewBase> getProtocolOnlineReviews() {
         return protocolOnlineReviews;
     }
 
@@ -107,7 +107,7 @@ public class IacucProtocolReviewer  extends ProtocolReviewer {
      * @param protocolOnlineReviews The protocolOnlineReviews to set.
      */
     @Override
-    public void setProtocolOnlineReviews(List<ProtocolOnlineReview> protocolOnlineReviews) {
+    public void setProtocolOnlineReviews(List<ProtocolOnlineReviewBase> protocolOnlineReviews) {
         this.protocolOnlineReviews = protocolOnlineReviews;
     }
 

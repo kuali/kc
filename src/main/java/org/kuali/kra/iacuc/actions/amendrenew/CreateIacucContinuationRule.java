@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.iacuc.actions.amendrenew;
 
-import org.kuali.kra.protocol.actions.amendrenew.CreateContinuationRule;
+import org.kuali.kra.protocol.actions.amendrenew.CreateContinuationRuleBase;
 
-public class CreateIacucContinuationRule extends CreateContinuationRule {
+public class CreateIacucContinuationRule extends CreateContinuationRuleBase {
 
 }

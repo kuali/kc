@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.protocol.protocol.participant;
 
-import org.kuali.kra.protocol.ProtocolAssociate;
+import org.kuali.kra.protocol.ProtocolAssociateBase;
 
 /**
  * 
@@ -23,7 +23,7 @@ import org.kuali.kra.protocol.ProtocolAssociate;
  * 
  * @author Kuali Research Administration Team (kc.dev@kuali.org)
  */
-public class ProtocolParticipant extends ProtocolAssociate {
+public class ProtocolParticipant extends ProtocolAssociateBase {
 
     private Long protocolParticipantId;
 

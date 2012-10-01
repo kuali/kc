@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.iacuc.correspondence;
 
-import org.kuali.kra.protocol.correspondence.BatchCorrespondence;
+import org.kuali.kra.protocol.correspondence.BatchCorrespondenceBase;
 
-public class IacucBatchCorrespondence extends BatchCorrespondence {
+public class IacucBatchCorrespondence extends BatchCorrespondenceBase {
 
     /**
      * Comment for <code>serialVersionUID</code>

@@ -24,10 +24,10 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.common.committee.rule.event.CommitteeActionGenerateBatchCorrespondenceEventBase;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.protocol.correspondence.BatchCorrespondence;
-import org.kuali.kra.protocol.correspondence.BatchCorrespondenceDetail;
+import org.kuali.kra.protocol.correspondence.BatchCorrespondenceBase;
+import org.kuali.kra.protocol.correspondence.BatchCorrespondenceDetailBase;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceTemplateService;
-import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceType;
+import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceTypeBase;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.krad.bo.BusinessObject;
@@ -91,9 +91,9 @@ public abstract class CommitteeActionGenerateBatchCorrespondenceRuleBase extends
     private boolean missingTemplates(String batchCorrespondenceTypeCode, String committeeId) {
         List<String> missingTemplates = new ArrayList<String>();
         
-        BatchCorrespondence batchCorrespondence = lookupBatchCorrespondence(batchCorrespondenceTypeCode);
+        BatchCorrespondenceBase batchCorrespondence = lookupBatchCorrespondence(batchCorrespondenceTypeCode);
             
-        for (BatchCorrespondenceDetail batchCorrespondenceDetail : batchCorrespondence.getBatchCorrespondenceDetails()) {
+        for (BatchCorrespondenceDetailBase batchCorrespondenceDetail : batchCorrespondence.getBatchCorrespondenceDetails()) {
             if (getProtocolCorrespondenceTemplateService().getProtocolCorrespondenceTemplate(committeeId, 
                     batchCorrespondenceDetail.getProtoCorrespTypeCode()) == null) {
                 missingTemplates.add(getProtocolCorrespondenceDescription(batchCorrespondenceDetail.getProtoCorrespTypeCode()));
@@ -118,11 +118,11 @@ public abstract class CommitteeActionGenerateBatchCorrespondenceRuleBase extends
     
     /**
      * 
-     * This method looks up the BatchCorrespondence business object via the batchCorrespondenceTypeCode.
+     * This method looks up the BatchCorrespondenceBase business object via the batchCorrespondenceTypeCode.
      * @param batchCorrespondenceTypeCode
-     * @return the BatchCorrespondence business object
+     * @return the BatchCorrespondenceBase business object
      */
-    private BatchCorrespondence lookupBatchCorrespondence(String batchCorrespondenceTypeCode) {
+    private BatchCorrespondenceBase lookupBatchCorrespondence(String batchCorrespondenceTypeCode) {
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put(BATCH_CORRESPONDENCE_TYPE_CODE, batchCorrespondenceTypeCode);
         
@@ -132,7 +132,7 @@ public abstract class CommitteeActionGenerateBatchCorrespondenceRuleBase extends
         return getBusinessObjectService().findByPrimaryKey(getBatchCorrespondenceBOClassHook(), fieldValues);
     }
 
-    protected abstract  Class<? extends BatchCorrespondence> getBatchCorrespondenceBOClassHook();
+    protected abstract  Class<? extends BatchCorrespondenceBase> getBatchCorrespondenceBOClassHook();
     
     
     
@@ -164,7 +164,7 @@ public abstract class CommitteeActionGenerateBatchCorrespondenceRuleBase extends
         return getBusinessObjectService().findByPrimaryKey(getProtocolCorrespondenceTypeBOClassHook(), primaryKeys).getDescription();  
     }
 
-    protected abstract Class<? extends ProtocolCorrespondenceType> getProtocolCorrespondenceTypeBOClassHook();
+    protected abstract Class<? extends ProtocolCorrespondenceTypeBase> getProtocolCorrespondenceTypeBOClassHook();
     
     
 }

@@ -22,7 +22,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
@@ -48,7 +48,7 @@ public abstract class ProtocolValuesFinderBase extends KeyValuesBase {
         // note: the following will overwrite existing elements in the tree; that's the whole point.  We
         // want discrete values in the list.
         TreeMap<String, KeyValue> valuesMap = new TreeMap<String, KeyValue>();
-        for (ProtocolSubmission protocolSubmission : getProtocols()) {
+        for (ProtocolSubmissionBase protocolSubmission : getProtocols()) {
             KeyValue keyValue = new ConcreteKeyValue(protocolSubmission.getProtocolId().toString(), protocolSubmission.getProtocolNumber());
             valuesMap.put(protocolSubmission.getProtocolNumber(), keyValue);
         }
@@ -57,17 +57,17 @@ public abstract class ProtocolValuesFinderBase extends KeyValuesBase {
         return keyValues;
     }
 
-    private List<? extends ProtocolSubmission> getProtocols() {
+    private List<? extends ProtocolSubmissionBase> getProtocols() {
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put("scheduleIdFk", scheduleId);
         
 // TODO *********commented the code below during IACUC refactoring*********         
 //        return (List<IacucProtocolSubmission>) getBusinessObjectService().findMatching(IacucProtocolSubmission.class, fieldValues);
         
-        return (List<? extends ProtocolSubmission>) getBusinessObjectService().findMatching(getProtocolSubmissionBOClassHook(), fieldValues);
+        return (List<? extends ProtocolSubmissionBase>) getBusinessObjectService().findMatching(getProtocolSubmissionBOClassHook(), fieldValues);
     }
 
-    protected abstract Class<? extends ProtocolSubmission> getProtocolSubmissionBOClassHook();
+    protected abstract Class<? extends ProtocolSubmissionBase> getProtocolSubmissionBOClassHook();
 
     protected BusinessObjectService getBusinessObjectService() {
         return KraServiceLocator.getService(BusinessObjectService.class);

@@ -37,9 +37,9 @@ import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.IacucProtocolForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.irb.customdata.CustomDataHelper;
-import org.kuali.kra.protocol.ProtocolDocument;
-import org.kuali.kra.protocol.ProtocolForm;
-import org.kuali.kra.protocol.customdata.ProtocolCustomDataHelper;
+import org.kuali.kra.protocol.ProtocolDocumentBase;
+import org.kuali.kra.protocol.ProtocolFormBase;
+import org.kuali.kra.protocol.customdata.ProtocolCustomDataHelperBase;
 import org.kuali.rice.krad.util.KRADConstants;
 
 /**
@@ -71,11 +71,11 @@ public class IacucProtocolCustomDataAction extends IacucProtocolAction {
      */
     public ActionForward reload(ActionMapping mapping, ActionForm form, 
             HttpServletRequest request, HttpServletResponse response) throws Exception { 
-        ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolFormBase protocolForm = (ProtocolFormBase) form;
         super.reload(mapping, form, request, response);
         protocolForm.getCustomDataHelper().prepareView(protocolForm.getProtocolDocument().getProtocol());
         
-        ProtocolDocument protocolDocument = protocolForm.getProtocolDocument();
+        ProtocolDocumentBase protocolDocument = protocolForm.getProtocolDocument();
         
         for (Map.Entry<String, String[]> customAttributeValue : protocolForm.getCustomDataHelper().getCustomAttributeValues().entrySet()) {
             String customAttributeId = customAttributeValue.getKey().substring(2);
@@ -134,7 +134,7 @@ public class IacucProtocolCustomDataAction extends IacucProtocolAction {
      * @throws Exception
      */
     public ActionForward clearLookupValue(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolFormBase protocolForm = (ProtocolFormBase) form;
         IacucProtocolCustomDataHelper customDataHelper = (IacucProtocolCustomDataHelper) protocolForm.getCustomDataHelper();
         IacucProtocol iacucProtocol = (IacucProtocol) protocolForm.getProtocolDocument().getProtocol();
         List <IacucProtocolCustomData> iacucProtocolList= iacucProtocol.getIacucProtocolCustomDataList();

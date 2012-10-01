@@ -17,10 +17,10 @@ package org.kuali.kra.iacuc.procedures;
 
 import org.kuali.kra.iacuc.IacucProcedureCategoryCustomData;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.protocol.ProtocolAssociate;
+import org.kuali.kra.protocol.ProtocolAssociateBase;
 import org.kuali.rice.krad.util.ObjectUtils;
 
-public class IacucProtocolStudyCustomData extends ProtocolAssociate { 
+public class IacucProtocolStudyCustomData extends ProtocolAssociateBase { 
     
     private static final long serialVersionUID = 1L;
 

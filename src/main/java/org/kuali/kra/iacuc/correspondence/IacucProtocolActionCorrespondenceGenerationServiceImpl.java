@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.iacuc.correspondence;
 
-import org.kuali.kra.protocol.actions.correspondence.ProtocolActionCorrespondenceGenerationServiceImpl;
+import org.kuali.kra.protocol.actions.correspondence.ProtocolActionCorrespondenceGenerationServiceImplBase;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondence;
 
 
@@ -24,7 +24,7 @@ import org.kuali.kra.protocol.correspondence.ProtocolCorrespondence;
  * This class deals with making a protocol attachment from a template based on an action.
  */
 public class IacucProtocolActionCorrespondenceGenerationServiceImpl 
-    extends ProtocolActionCorrespondenceGenerationServiceImpl implements IacucProtocolActionCorrespondenceGenerationService {
+    extends ProtocolActionCorrespondenceGenerationServiceImplBase implements IacucProtocolActionCorrespondenceGenerationService {
 
     @Override
     protected ProtocolCorrespondence getNewProtocolCorrespondenceHook() {

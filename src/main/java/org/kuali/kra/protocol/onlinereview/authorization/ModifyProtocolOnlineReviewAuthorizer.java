@@ -17,13 +17,13 @@ package org.kuali.kra.protocol.onlinereview.authorization;
 
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.kra.protocol.ProtocolOnlineReviewDocument;
-import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReview;
+import org.kuali.kra.protocol.ProtocolOnlineReviewDocumentBase;
+import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewBase;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.DocumentService;
 
 /**
- * The Modify Protocol Online Review Authorizer checks to see if the user has 
+ * The Modify ProtocolBase Online Review Authorizer checks to see if the user has 
  * permission to modify a protocol online review. 
  * 
  * Authorization depends on the users role.  If the user is a member of the IRB Administrator
@@ -32,21 +32,21 @@ import org.kuali.rice.krad.service.DocumentService;
  * they have an outstanding approve request on the document.
  *  
  */
-public class ModifyProtocolOnlineReviewAuthorizer extends ProtocolOnlineReviewAuthorizer {
+public class ModifyProtocolOnlineReviewAuthorizer extends ProtocolOnlineReviewAuthorizerBase {
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ModifyProtocolOnlineReviewAuthorizer.class);
     /**
-     * @see org.kuali.kra.protocol.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.protocol.auth.ProtocolTask)
+     * @see org.kuali.kra.protocol.auth.ProtocolAuthorizerBase#isAuthorized(java.lang.String, org.kuali.kra.protocol.auth.ProtocolTaskBase)
      */
     public boolean isAuthorized(String userId, ProtocolOnlineReviewTask task) {
         boolean hasPermission = true;
-        ProtocolOnlineReview protocolOnlineReview = task.getProtocolOnlineReview();
-        ProtocolOnlineReviewDocument protocolDoc = null;
+        ProtocolOnlineReviewBase protocolOnlineReview = task.getProtocolOnlineReview();
+        ProtocolOnlineReviewDocumentBase protocolDoc = null;
         try {
-            protocolDoc = (ProtocolOnlineReviewDocument)KraServiceLocator.getService(DocumentService.class).getByDocumentHeaderId(protocolOnlineReview.getProtocolOnlineReviewDocument().getDocumentNumber());
+            protocolDoc = (ProtocolOnlineReviewDocumentBase)KraServiceLocator.getService(DocumentService.class).getByDocumentHeaderId(protocolOnlineReview.getProtocolOnlineReviewDocument().getDocumentNumber());
         }
         catch (WorkflowException e) {
-            LOG.error(String.format("Could not find ProtocolOnlineReview, document number %s",protocolOnlineReview.getProtocolOnlineReviewDocument().getDocumentNumber()));
+            LOG.error(String.format("Could not find ProtocolOnlineReviewBase, document number %s",protocolOnlineReview.getProtocolOnlineReviewDocument().getDocumentNumber()));
             return false;
         }
         

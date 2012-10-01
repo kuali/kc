@@ -32,7 +32,7 @@ import org.kuali.kra.common.committee.meeting.CommitteeScheduleAttendanceBase;
 import org.kuali.kra.common.committee.service.CommitteeMembershipServiceBase;
 import org.kuali.kra.common.committee.service.CommitteeServiceBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewer;
-import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
@@ -152,7 +152,7 @@ public abstract class CommitteeMembershipServiceImplBase<CMT extends CommitteeBa
      */
     public boolean isMemberAssignedToReviewer(CommitteeMembershipBase member, String committeeId) {
         boolean isReviewer = false;
-        for (ProtocolSubmission submission : getProtocolSubmissionsForCommittee(committeeId)) {
+        for (ProtocolSubmissionBase submission : getProtocolSubmissionsForCommittee(committeeId)) {
             for (ProtocolReviewer reviewer : submission.getProtocolReviewers()) {
                 if ((member.getPersonId()!=null && StringUtils.equals(reviewer.getPersonId(), member.getPersonId()))
                         || (member.getRolodexId() != null && member.getRolodexId().equals(reviewer.getRolodexId()))) {
@@ -188,14 +188,14 @@ public abstract class CommitteeMembershipServiceImplBase<CMT extends CommitteeBa
      * get protocolsubmissions that are assigned to this committee.
      */
     @SuppressWarnings("unchecked")
-    protected List<ProtocolSubmission> getProtocolSubmissionsForCommittee(String committeeId) {
+    protected List<ProtocolSubmissionBase> getProtocolSubmissionsForCommittee(String committeeId) {
         Map<String, String> fieldMap = new HashMap<String, String>();
         fieldMap.put("committeeId",committeeId);
-        return (List<ProtocolSubmission>) businessObjectService.findMatching(getProtocolSubmissionBOClassHook(), fieldMap);
+        return (List<ProtocolSubmissionBase>) businessObjectService.findMatching(getProtocolSubmissionBOClassHook(), fieldMap);
     }
     
     
-    protected abstract Class<? extends ProtocolSubmission> getProtocolSubmissionBOClassHook();
+    protected abstract Class<? extends ProtocolSubmissionBase> getProtocolSubmissionBOClassHook();
 
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;

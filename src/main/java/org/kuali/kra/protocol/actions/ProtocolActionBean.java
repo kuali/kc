@@ -15,17 +15,17 @@
  */
 package org.kuali.kra.protocol.actions;
 
-import org.kuali.kra.protocol.Protocol;
+import org.kuali.kra.protocol.ProtocolBase;
 
 /**
- * Defines the superclass of all Protocol action beans.
+ * Defines the superclass of all ProtocolBase action beans.
  */
 public interface ProtocolActionBean {    
  
-    public void setActionHelper(ActionHelper actionHelper);
+    public void setActionHelper(ActionHelperBase actionHelper);
 
-    public ActionHelper getActionHelper();
+    public ActionHelperBase getActionHelper();
     
-    public Protocol getProtocol();
+    public ProtocolBase getProtocol();
 
 }

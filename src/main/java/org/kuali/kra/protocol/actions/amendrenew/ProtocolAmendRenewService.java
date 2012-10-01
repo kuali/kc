@@ -18,12 +18,12 @@ package org.kuali.kra.protocol.actions.amendrenew;
 import java.util.Collection;
 import java.util.List;
 
-import org.kuali.kra.protocol.Protocol;
-import org.kuali.kra.protocol.ProtocolDocument;
+import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 
 /**
- * Protocol Amendment/Renewal Service.
+ * ProtocolBase Amendment/Renewal Service.
  */
 public interface ProtocolAmendRenewService {
 
@@ -37,7 +37,7 @@ public interface ProtocolAmendRenewService {
      * @return the amendment's document number
      * @throws Exception
      */
-    public String createAmendment(ProtocolDocument protocolDocument, ProtocolAmendmentBean amendmentBean) throws Exception;
+    public String createAmendment(ProtocolDocumentBase protocolDocument, ProtocolAmendmentBean amendmentBean) throws Exception;
 
     /**
      * Create a Renewal without an Amendment.
@@ -46,7 +46,7 @@ public interface ProtocolAmendRenewService {
      * @return the renewal's document number
      * @throws Exception
      */
-    public String createRenewal(ProtocolDocument protocolDocument, String renewalSummary) throws Exception;
+    public String createRenewal(ProtocolDocumentBase protocolDocument, String renewalSummary) throws Exception;
     
     /**
      * Create a Renewal with an Amendment.
@@ -55,7 +55,7 @@ public interface ProtocolAmendRenewService {
      * @return the renewal's document number
      * @throws Exception
      */
-    public String createRenewalWithAmendment(ProtocolDocument protocolDocument, ProtocolAmendmentBean amendmentBean) throws Exception;
+    public String createRenewalWithAmendment(ProtocolDocumentBase protocolDocument, ProtocolAmendmentBean amendmentBean) throws Exception;
     
     /**
      * Update the summary and amendment sections.
@@ -63,7 +63,7 @@ public interface ProtocolAmendRenewService {
      * @param amendmentBean the amendment info (summary and which modules to be amended)
      * @throws WorkflowException 
      */
-    public void updateAmendmentRenewal(ProtocolDocument protocolDocument, ProtocolAmendmentBean amendmentBean) throws WorkflowException;
+    public void updateAmendmentRenewal(ProtocolDocumentBase protocolDocument, ProtocolAmendmentBean amendmentBean) throws WorkflowException;
 
     /**
      * Get all of the Amendments and Renewals for a given protocol.
@@ -72,7 +72,7 @@ public interface ProtocolAmendRenewService {
      * @throws Exception 
      * @throws Exception 
      */
-    public List<Protocol> getAmendmentAndRenewals(String protocolNumber) throws Exception;
+    public List<ProtocolBase> getAmendmentAndRenewals(String protocolNumber) throws Exception;
     
     /**
      * This method returns all of the amendments associated with a protocol.
@@ -80,7 +80,7 @@ public interface ProtocolAmendRenewService {
      * @return the list of amendments
      * @throws Exception
      */
-    public Collection<Protocol> getAmendments(String protocolNumber) throws Exception;
+    public Collection<ProtocolBase> getAmendments(String protocolNumber) throws Exception;
     
     /**
      * This method returns all of the renewals associated with a protocol.
@@ -88,7 +88,7 @@ public interface ProtocolAmendRenewService {
      * @return the list of renewals
      * @throws Exception
      */
-    public Collection<Protocol> getRenewals(String protocolNumber) throws Exception;
+    public Collection<ProtocolBase> getRenewals(String protocolNumber) throws Exception;
     
     /**
      * Get the list of protocol modules that can be amended.  Modules that

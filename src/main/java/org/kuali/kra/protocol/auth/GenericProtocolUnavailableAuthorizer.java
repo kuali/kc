@@ -24,7 +24,7 @@ import org.kuali.kra.infrastructure.PermissionConstants;
 public class GenericProtocolUnavailableAuthorizer extends GenericProtocolAuthorizer {
     /** {@inheritDoc} */
     @Override
-    public boolean isAuthorized(String userId, ProtocolTask task) {
+    public boolean isAuthorized(String userId, ProtocolTaskBase task) {
         return !canExecuteAction(task.getProtocol(), super.convertGenericTaskNameToProtocolActionType()) 
             && hasPermission(userId, task.getProtocol(), PermissionConstants.MAINTAIN_PROTOCOL_SUBMISSIONS);
     }

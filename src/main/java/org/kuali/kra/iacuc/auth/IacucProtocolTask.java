@@ -17,14 +17,14 @@ package org.kuali.kra.iacuc.auth;
 
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.infrastructure.TaskGroupName;
-import org.kuali.kra.protocol.auth.ProtocolTask;
+import org.kuali.kra.protocol.auth.ProtocolTaskBase;
 
-public final class IacucProtocolTask  extends ProtocolTask {
+public final class IacucProtocolTask  extends ProtocolTaskBase {
     
     public static final String CREATE_PROPOSAL_FOR_IACUC_PROTOCOL = "createProposalForIacucProtocol";
     
     /**
-     * Constructs a ProtocolTask.
+     * Constructs a ProtocolTaskBase.
      * @param taskName the name of the task
      * @param protocol the IacucProtocol
      */

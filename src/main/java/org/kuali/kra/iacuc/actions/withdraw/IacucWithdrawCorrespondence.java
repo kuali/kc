@@ -18,8 +18,8 @@ package org.kuali.kra.iacuc.actions.withdraw;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
 import org.kuali.kra.iacuc.actions.print.IacucProtocolPrintWatermark;
 import org.kuali.kra.iacuc.correspondence.IacucProtocolActionsCorrespondence;
-import org.kuali.kra.protocol.actions.correspondence.ProtocolActionsCorrespondence;
-import org.kuali.kra.protocol.actions.print.ProtocolPrintWatermark;
+import org.kuali.kra.protocol.actions.correspondence.ProtocolActionsCorrespondenceBase;
+import org.kuali.kra.protocol.actions.print.ProtocolPrintWatermarkBase;
 
 /**
  * 

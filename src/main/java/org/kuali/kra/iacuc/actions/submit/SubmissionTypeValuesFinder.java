@@ -24,8 +24,8 @@ import org.kuali.kra.common.committee.service.CommitteeServiceBase;
 import org.kuali.kra.iacuc.actions.IacucActionsKeyValuesBase;
 import org.kuali.kra.iacuc.actions.IacucProtocolStatus;
 import org.kuali.kra.iacuc.committee.service.IacucCommitteeService;
-import org.kuali.kra.protocol.Protocol;
-import org.kuali.kra.protocol.ProtocolForm;
+import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.protocol.ProtocolFormBase;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
@@ -50,9 +50,9 @@ public class SubmissionTypeValuesFinder extends IacucActionsKeyValuesBase {
        
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         keyValues.add(new ConcreteKeyValue("", "select"));
-        ProtocolForm pf = (ProtocolForm) KNSGlobalVariables.getKualiForm();
+        ProtocolFormBase pf = (ProtocolFormBase) KNSGlobalVariables.getKualiForm();
         if (pf != null) {
-            Protocol protocol = pf.getProtocolDocument().getProtocol();
+            ProtocolBase protocol = pf.getProtocolDocument().getProtocol();
             Collection<IacucProtocolSubmissionType> submissionTypes = this.getKeyValuesService().findAll(IacucProtocolSubmissionType.class);
             String currentStatus  = pf.getProtocolDocument().getProtocol().getProtocolStatusCode();
             for (IacucProtocolSubmissionType submissionType : submissionTypes) {
@@ -65,7 +65,7 @@ public class SubmissionTypeValuesFinder extends IacucActionsKeyValuesBase {
         return keyValues;
     }
     
-    protected boolean validStatusSubmissionTypePair(IacucProtocolSubmissionType submissionType, String currentStatus, Protocol protocol) {
+    protected boolean validStatusSubmissionTypePair(IacucProtocolSubmissionType submissionType, String currentStatus, ProtocolBase protocol) {
         if (StringUtils.equalsIgnoreCase(submissionType.getSubmissionTypeCode(), IacucProtocolSubmissionType.INITIAL_SUBMISSION)) {
             return displayResubmission(currentStatus) || displayInitialSubmission(currentStatus);
         } else if (StringUtils.equalsIgnoreCase(submissionType.getSubmissionTypeCode(), IacucProtocolSubmissionType.AMENDMENT)) {
@@ -98,18 +98,18 @@ public class SubmissionTypeValuesFinder extends IacucActionsKeyValuesBase {
         return validateCurrentStatus(currentStatus, validStatuses);
     }
     
-    private boolean displayAmendment(String currentStatus, Protocol protocol) {
+    private boolean displayAmendment(String currentStatus, ProtocolBase protocol) {
         String validStatuses[] = { IacucProtocolStatus.WITHDRAWN, IacucProtocolStatus.AMENDMENT_IN_PROGRESS, IacucProtocolStatus.SUBMITTED_TO_IACUC };
         return validateCurrentStatus(currentStatus, validStatuses)  && hasAmmendmentProtocolNumber(protocol.getProtocolNumber());
     }
     
-    private boolean displayContinuation(String currentStatus, Protocol protocol) {
+    private boolean displayContinuation(String currentStatus, ProtocolBase protocol) {
         String validStatuses[] = { IacucProtocolStatus.WITHDRAWN, IacucProtocolStatus.RENEWAL_IN_PROGRESS, IacucProtocolStatus.CONTINUATION_IN_PROGRESS, IacucProtocolStatus.SUBMITTED_TO_IACUC };
         return validateCurrentStatus(currentStatus, validStatuses)  && (hasRenewalProtocolNumber(protocol.getProtocolNumber()) || 
                 hasContinuationProtocolNumber(protocol.getProtocolNumber()));
     }
     
-    private boolean displayContinuationWithAmendment(String currentStatus, Protocol protocol) {
+    private boolean displayContinuationWithAmendment(String currentStatus, ProtocolBase protocol) {
         String validStatuses[] = { IacucProtocolStatus.WITHDRAWN, IacucProtocolStatus.RENEWAL_IN_PROGRESS, IacucProtocolStatus.CONTINUATION_IN_PROGRESS, IacucProtocolStatus.SUBMITTED_TO_IACUC };
         return validateCurrentStatus(currentStatus, validStatuses)  && (hasRenewalProtocolNumber(protocol.getProtocolNumber()) || 
                 hasContinuationProtocolNumber(protocol.getProtocolNumber()));

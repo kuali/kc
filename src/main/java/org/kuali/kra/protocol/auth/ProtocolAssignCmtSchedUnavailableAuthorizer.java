@@ -17,21 +17,21 @@ package org.kuali.kra.protocol.auth;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.kra.protocol.Protocol;
+import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.irb.actions.ProtocolActionType;
-import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
 
 /**
  * Determine if a user can assign a protocol to a committee/schedule and the action is currently unavailable.
  */
-public class ProtocolAssignCmtSchedUnavailableAuthorizer extends ProtocolAuthorizer {
+public class ProtocolAssignCmtSchedUnavailableAuthorizer extends ProtocolAuthorizerBase {
 
     /**
-     * @see org.kuali.kra.protocol.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.protocol.auth.ProtocolTask)
+     * @see org.kuali.kra.protocol.auth.ProtocolAuthorizerBase#isAuthorized(java.lang.String, org.kuali.kra.protocol.auth.ProtocolTaskBase)
      */
-    public boolean isAuthorized(String username, ProtocolTask task) {
-        Protocol protocol = task.getProtocol();
+    public boolean isAuthorized(String username, ProtocolTaskBase task) {
+        ProtocolBase protocol = task.getProtocol();
         return (!kraWorkflowService.isInWorkflow(protocol.getProtocolDocument()) ||
               //  !isPendingOrSubmittedToCommittee(protocol)) &&
                 !canExecuteAction(task.getProtocol(), ProtocolActionType.NOTIFIED_COMMITTEE)) &&
@@ -43,7 +43,7 @@ public class ProtocolAssignCmtSchedUnavailableAuthorizer extends ProtocolAuthori
      * @param protocol
      * @return
      */
-    private boolean isPendingOrSubmittedToCommittee(Protocol protocol) {
+    private boolean isPendingOrSubmittedToCommittee(ProtocolBase protocol) {
         return findSubmission(protocol) != null;
     }
     
@@ -53,8 +53,8 @@ public class ProtocolAssignCmtSchedUnavailableAuthorizer extends ProtocolAuthori
      * @param protocol
      * @return
      */
-    private ProtocolSubmission findSubmission(Protocol protocol) {
-        for (ProtocolSubmission submission : protocol.getProtocolSubmissions()) {
+    private ProtocolSubmissionBase findSubmission(ProtocolBase protocol) {
+        for (ProtocolSubmissionBase submission : protocol.getProtocolSubmissions()) {
             if (StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.PENDING) ||
                 StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE)) {
                 return submission;

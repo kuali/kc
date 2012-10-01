@@ -18,7 +18,7 @@ package org.kuali.kra.protocol.actions.submit;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 /**
- * A Protocol Review Type refers to the type of review that an
+ * A ProtocolBase Review Type refers to the type of review that an
  * IRB Committee will perform, e.g. Full, Expedited, Exempt, etc.
  */
 @SuppressWarnings("serial")

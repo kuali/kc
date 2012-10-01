@@ -317,7 +317,7 @@ public class ProposalDevelopmentSpecialReviewAction extends ProposalDevelopmentA
             if ( protocolLinkingEnabled)
             {
                 IacucProtocolProposalDevelopmentProtocolDocumentServiceImpl service = getIacucProtocolProposalDevelopmentProtocolDocumentService(); 
-                org.kuali.kra.protocol.ProtocolDocument protocolDocument = service.createProtocolDocument(proposalDevelopmentForm);
+                org.kuali.kra.protocol.ProtocolDocumentBase protocolDocument = service.createProtocolDocument(proposalDevelopmentForm);
                 if (protocolDocument != null )
                 {
                     specialReview.setSpecialReviewTypeCode(SpecialReviewType.ANIMAL_USAGE);

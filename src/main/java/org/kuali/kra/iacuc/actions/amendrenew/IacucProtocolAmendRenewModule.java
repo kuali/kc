@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.iacuc.actions.amendrenew;
 
-import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewModule;
+import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewModuleBase;
 
 @SuppressWarnings("serial")
-public class IacucProtocolAmendRenewModule extends ProtocolAmendRenewModule {
+public class IacucProtocolAmendRenewModule extends ProtocolAmendRenewModuleBase {
 
 }

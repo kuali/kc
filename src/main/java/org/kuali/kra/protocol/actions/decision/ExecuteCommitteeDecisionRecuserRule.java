@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.protocol.actions.decision;
 
-import org.kuali.kra.protocol.ProtocolDocument;
+import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 /**
@@ -29,5 +29,5 @@ public interface ExecuteCommitteeDecisionRecuserRule<CD extends CommitteeDecisio
      * @param committeeDecision
      * @return
      */
-    boolean proccessCommitteeDecisionRecuserRule(ProtocolDocument document, CD committeeDecision);
+    boolean proccessCommitteeDecisionRecuserRule(ProtocolDocumentBase document, CD committeeDecision);
 }

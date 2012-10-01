@@ -20,9 +20,9 @@ import java.util.List;
 
 import org.kuali.kra.bo.PersonTraining;
 import org.kuali.kra.iacuc.IacucPersonTraining;
-import org.kuali.kra.protocol.ProtocolAssociate;
+import org.kuali.kra.protocol.ProtocolAssociateBase;
 
-public class IacucProcedurePersonResponsible extends ProtocolAssociate { 
+public class IacucProcedurePersonResponsible extends ProtocolAssociateBase { 
     
     private static final long serialVersionUID = 1L;
 

@@ -17,13 +17,13 @@ package org.kuali.kra.protocol.protocol.participant;
 
 import java.util.List;
 
-import org.kuali.kra.protocol.ProtocolDocument;
+import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 
 /**
  * This class represents the event when a <code>{@link ProtocolParticipant}</code> is added to a 
- * <code>{@link Protocol}</code>.
+ * <code>{@link ProtocolBase}</code>.
  * 
  * @author Kuali Research Administration Team (kc.dev@kuali.org)
  */
@@ -42,7 +42,7 @@ public class AddProtocolParticipantEvent extends KraDocumentEventBaseExtension {
      * @param newProtocolParticipant
      * @param existingProtocolParticipants
      */
-    public AddProtocolParticipantEvent(ProtocolDocument document, ProtocolParticipant newProtocolParticipant, 
+    public AddProtocolParticipantEvent(ProtocolDocumentBase document, ProtocolParticipant newProtocolParticipant, 
             List<ProtocolParticipant> protocolParticipants) {
         super("Adding ProtocolParticipant to document " + getDocumentId(document), NEW_PROTOCOL_PARTICIPANT_FIELD, document);
     

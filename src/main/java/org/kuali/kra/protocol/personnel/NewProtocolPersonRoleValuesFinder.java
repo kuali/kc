@@ -33,7 +33,7 @@ public class NewProtocolPersonRoleValuesFinder extends KeyValuesBase {
     KeyValueFinderService keyValueFinderService= (KeyValueFinderService)KraServiceLocator.getService("keyValueFinderService");
     
     /**
-     * Constructs the list of Protocol Person Roles.  Each entry
+     * Constructs the list of ProtocolBase Person Roles.  Each entry
      * in the list is a &lt;key, value&gt; pair, where the "key" is the unique
      * status code and the "value" is the textual description that is viewed
      * by a user.  The list is obtained from the PROTOCOL_PERSON_ROLES database table

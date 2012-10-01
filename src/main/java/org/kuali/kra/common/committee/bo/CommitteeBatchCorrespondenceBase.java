@@ -24,7 +24,7 @@ import java.util.List;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.protocol.correspondence.BatchCorrespondence;
+import org.kuali.kra.protocol.correspondence.BatchCorrespondenceBase;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.service.SequenceAccessorService;
 
@@ -50,7 +50,7 @@ public abstract class CommitteeBatchCorrespondenceBase extends KraPersistableBus
 
     private List<CommitteeBatchCorrespondenceDetailBase> committeeBatchCorrespondenceDetails;
 
-    private BatchCorrespondence batchCorrespondence;
+    private BatchCorrespondenceBase batchCorrespondence;
 
     private CommitteeBase committee;
 
@@ -157,11 +157,11 @@ public abstract class CommitteeBatchCorrespondenceBase extends KraPersistableBus
         this.committeeBatchCorrespondenceDetails = committeeBatchCorrespondenceDetails;
     }
 
-    public BatchCorrespondence getBatchCorrespondence() {
+    public BatchCorrespondenceBase getBatchCorrespondence() {
         return batchCorrespondence;
     }
 
-    public void setBatchCorrespondence(BatchCorrespondence batchCorrespondence) {
+    public void setBatchCorrespondence(BatchCorrespondenceBase batchCorrespondence) {
         this.batchCorrespondence = batchCorrespondence;
     }
 

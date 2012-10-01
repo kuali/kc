@@ -28,12 +28,12 @@ import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionStatus;
 import org.kuali.kra.iacuc.committee.meeting.IacucProtocolVoteAbstainee;
 import org.kuali.kra.iacuc.committee.meeting.IacucProtocolVoteRecused;
-import org.kuali.kra.protocol.Protocol;
-import org.kuali.kra.protocol.actions.ProtocolAction;
-import org.kuali.kra.protocol.actions.decision.CommitteeDecisionServiceImpl;
-import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
+import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.protocol.actions.ProtocolActionBase;
+import org.kuali.kra.protocol.actions.decision.CommitteeDecisionServiceImplBase;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 
-public class IacucCommitteeDecisionServiceImpl extends CommitteeDecisionServiceImpl<IacucCommitteeDecision> implements IacucCommitteeDecisionService {
+public class IacucCommitteeDecisionServiceImpl extends CommitteeDecisionServiceImplBase<IacucCommitteeDecision> implements IacucCommitteeDecisionService {
 
     @Override
     protected String getProtocolActionTypeCodeForRecordCommitteeDecisionHook() {
@@ -41,18 +41,18 @@ public class IacucCommitteeDecisionServiceImpl extends CommitteeDecisionServiceI
     }
 
     @Override
-    protected ProtocolAction getNewProtocolActionInstanceHook(Protocol protocol, ProtocolSubmission submission, String recordCommitteeDecisionActionCode) {
+    protected ProtocolActionBase getNewProtocolActionInstanceHook(ProtocolBase protocol, ProtocolSubmissionBase submission, String recordCommitteeDecisionActionCode) {
         return new IacucProtocolAction((IacucProtocol) protocol, (IacucProtocolSubmission) submission,
             recordCommitteeDecisionActionCode);
     }
 
     @Override
-    protected ProtocolSubmission getSubmission(Protocol protocol) {
+    protected ProtocolSubmissionBase getSubmission(ProtocolBase protocol) {
         // There are 'findCommission' in other classes. Consider to create a utility static method for this
         // need to loop thru to find the last submission.
         // it may have submit/Wd/notify irb/submit, and this will cause problem if don't loop thru.
-        ProtocolSubmission protocolSubmission = null;
-        for (ProtocolSubmission submission : protocol.getProtocolSubmissions()) {
+        ProtocolSubmissionBase protocolSubmission = null;
+        for (ProtocolSubmissionBase submission : protocol.getProtocolSubmissions()) {
             if (StringUtils.equals(submission.getSubmissionStatusCode(), IacucProtocolSubmissionStatus.IN_AGENDA)) {
             
 //                    || 

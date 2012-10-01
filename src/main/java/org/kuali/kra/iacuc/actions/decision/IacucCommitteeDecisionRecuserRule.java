@@ -17,7 +17,7 @@ package org.kuali.kra.iacuc.actions.decision;
 
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.protocol.ProtocolDocument;
+import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.protocol.actions.decision.CommitteeDecisionVoterRuleBase;
 import org.kuali.kra.protocol.actions.decision.ExecuteCommitteeDecisionRecuserRule;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -32,7 +32,7 @@ public class IacucCommitteeDecisionRecuserRule extends CommitteeDecisionVoterRul
      * 
      * @see org.kuali.kra.irb.actions.decision.ExecuteCommitteeDecisionRecuserRule#proccessCommitteeDecisionRecuserRule(org.kuali.kra.irb.actions.decision.CommitteeDecision)
      */
-    public boolean proccessCommitteeDecisionRecuserRule(ProtocolDocument document, IacucCommitteeDecision committeeDecision) {
+    public boolean proccessCommitteeDecisionRecuserRule(ProtocolDocumentBase document, IacucCommitteeDecision committeeDecision) {
         boolean retVal = true; 
         
         if(!processVoter(committeeDecision.getNewRecused(), committeeDecision.getAbstainers(), committeeDecision.getRecused())) {

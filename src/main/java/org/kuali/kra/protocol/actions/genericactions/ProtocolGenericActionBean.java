@@ -20,7 +20,7 @@ import java.sql.Date;
 
 import org.kuali.kra.protocol.actions.ProtocolActionBean;
 import org.kuali.kra.protocol.actions.ProtocolOnlineReviewCommentable;
-import org.kuali.kra.protocol.actions.reviewcomments.ReviewAttachmentsBean;
+import org.kuali.kra.protocol.actions.reviewcomments.ReviewAttachmentsBeanBase;
 
 /**
  * This interface is really just a "form" for generic actions.
@@ -37,6 +37,6 @@ public interface ProtocolGenericActionBean extends ProtocolActionBean, ProtocolO
     
     public String getErrorPropertyKey();
 
-    public void setReviewAttachmentsBean(ReviewAttachmentsBean reviewAttachmentsBean);
+    public void setReviewAttachmentsBean(ReviewAttachmentsBeanBase reviewAttachmentsBean);
     
 }

@@ -22,7 +22,7 @@ import java.util.Map;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmitActionService;
-import org.kuali.kra.protocol.ProtocolSubmissionLookupableHelperServiceImpl;
+import org.kuali.kra.protocol.ProtocolSubmissionLookupableHelperServiceImplBase;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.krad.bo.BusinessObject;
@@ -32,7 +32,7 @@ import org.kuali.rice.krad.bo.BusinessObject;
  * This class is to create action links and inquiry url for protocolsubmission lookup. 
  */
 @SuppressWarnings({ "serial", "unchecked" })
-public class IacucProtocolSubmissionLookupableHelperServiceImpl extends ProtocolSubmissionLookupableHelperServiceImpl {
+public class IacucProtocolSubmissionLookupableHelperServiceImpl extends ProtocolSubmissionLookupableHelperServiceImplBase {
 
     protected IacucProtocolSubmitActionService protocolSubmitActionService;
  

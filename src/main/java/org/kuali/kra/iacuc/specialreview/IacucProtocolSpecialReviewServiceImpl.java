@@ -23,10 +23,10 @@ import java.util.Map;
 import org.kuali.kra.bo.SpecialReviewApprovalType;
 import org.kuali.kra.common.specialreview.bo.SpecialReview;
 import org.kuali.kra.iacuc.IacucProtocol;
-import org.kuali.kra.protocol.Protocol;
-import org.kuali.kra.protocol.specialreview.impl.ProtocolSpecialReviewServiceImpl;
+import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.protocol.specialreview.impl.ProtocolSpecialReviewServiceImplBase;
 
-public class IacucProtocolSpecialReviewServiceImpl extends ProtocolSpecialReviewServiceImpl 
+public class IacucProtocolSpecialReviewServiceImpl extends ProtocolSpecialReviewServiceImplBase 
     implements IacucProtocolSpecialReviewService {
 
 
@@ -39,7 +39,7 @@ public class IacucProtocolSpecialReviewServiceImpl extends ProtocolSpecialReview
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override
-    protected void setProtocolExemptStudiesCheckListItemHook(Protocol protocol, SpecialReview specialReview) {
+    protected void setProtocolExemptStudiesCheckListItemHook(ProtocolBase protocol, SpecialReview specialReview) {
         List<String> exemptionTypeCodes = new ArrayList<String>();
         // No ProtocolExemptStudiesCheckListItem
 //      for (ProtocolExemptStudiesCheckListItem checkListItem : protocol.getProtocolSubmission().getExemptStudiesCheckList()) {

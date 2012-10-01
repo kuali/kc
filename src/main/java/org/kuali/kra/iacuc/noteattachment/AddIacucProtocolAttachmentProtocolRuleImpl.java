@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.iacuc.noteattachment;
 
-import org.kuali.kra.protocol.noteattachment.AddProtocolAttachmentProtocolRuleImpl;
+import org.kuali.kra.protocol.noteattachment.AddProtocolAttachmentProtocolRuleImplBase;
 import org.kuali.kra.protocol.noteattachment.NoteAndAttachmentPrefix;
 
 
-public class AddIacucProtocolAttachmentProtocolRuleImpl extends AddProtocolAttachmentProtocolRuleImpl {
+public class AddIacucProtocolAttachmentProtocolRuleImpl extends AddProtocolAttachmentProtocolRuleImplBase {
 
     public AddIacucProtocolAttachmentProtocolRuleImpl() {
         super();

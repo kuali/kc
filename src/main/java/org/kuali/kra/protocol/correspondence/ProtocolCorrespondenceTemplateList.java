@@ -22,23 +22,23 @@ import java.util.List;
  * 
  * This class is a work around to access values of a sub list with EL.
  * e.g. the EL "replaceCorrespondenceTemplates[${status.index}].[${status2.index}].templateFile
- * does not work to access List<List<ProtocolCorrespondenceTemplate>> replaceCorrespondenceTemplates.
+ * does not work to access List<List<ProtocolCorrespondenceTemplateBase>> replaceCorrespondenceTemplates.
  * To solve this we added this intermediate class and use the following EL statement:
  * "replaceCorrespondenceTemplates[${status.index}].list[${status2.index}].templateFile"
  */
 public class ProtocolCorrespondenceTemplateList {
 
-	private List<ProtocolCorrespondenceTemplate> list;
+	private List<ProtocolCorrespondenceTemplateBase> list;
 	
 	public ProtocolCorrespondenceTemplateList() {
-		list = new ArrayList<ProtocolCorrespondenceTemplate>();
+		list = new ArrayList<ProtocolCorrespondenceTemplateBase>();
 	}
 
-	public List<ProtocolCorrespondenceTemplate> getList() {
+	public List<ProtocolCorrespondenceTemplateBase> getList() {
 		return list;
 	}
 
-	public void setList(List<ProtocolCorrespondenceTemplate> list) {
+	public void setList(List<ProtocolCorrespondenceTemplateBase> list) {
 		this.list = list;
 	}
 }

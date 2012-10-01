@@ -21,9 +21,9 @@ package org.kuali.kra.protocol.correspondence;
  */
 public enum CorrespondenceTypeModuleIdConstants {
     SYSTEM("Y", "System"),
-    PROTOCOL("P", "Protocol"),
+    PROTOCOL("P", "ProtocolBase"),
     SCHEDULE("S", "Schedule"),
-    PROTOCOL_SUBMISSION("U", "Protocol Submission"),
+    PROTOCOL_SUBMISSION("U", "ProtocolBase Submission"),
     COMMITTEE("C", "Committee");
     
     private final String code;   

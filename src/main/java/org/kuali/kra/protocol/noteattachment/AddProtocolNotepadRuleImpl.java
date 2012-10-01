@@ -27,7 +27,7 @@ public class AddProtocolNotepadRuleImpl implements AddProtocolNotepadRule {
     
     /** {@inheritDoc} */
     public boolean processAddProtocolNotepadRules(AddProtocolNotepadEvent event) {
-        final ProtocolNotepad newProtocolNotepad = event.getNewProtocolNotepad();
+        final ProtocolNotepadBase newProtocolNotepad = event.getNewProtocolNotepad();
         
         boolean valid = this.notesHelper.validPrimitiveFields(newProtocolNotepad);
                

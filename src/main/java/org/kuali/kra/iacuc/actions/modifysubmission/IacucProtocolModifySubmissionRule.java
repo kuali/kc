@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.iacuc.actions.modifysubmission;
 
-import org.kuali.kra.protocol.ProtocolDocument;
+import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 public interface IacucProtocolModifySubmissionRule extends BusinessRule {
     
-    public boolean processModifySubmissionRule(ProtocolDocument document, IacucProtocolModifySubmissionBean actionBean);
+    public boolean processModifySubmissionRule(ProtocolDocumentBase document, IacucProtocolModifySubmissionBean actionBean);
 
 }

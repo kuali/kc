@@ -21,26 +21,26 @@ import java.util.Collections;
 
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.personnel.IacucProtocolPerson;
-import org.kuali.kra.protocol.Protocol;
+import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolDao;
-import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentPersonnel;
-import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentProtocol;
-import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentServiceImpl;
+import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentPersonnelBase;
+import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentProtocolBase;
+import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentServiceImplBase;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentStatusBase;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentTypeBase;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentTypeGroupBase;
-import org.kuali.kra.protocol.personnel.ProtocolPerson;
+import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 
-public class IacucProtocolAttachmentServiceImpl extends ProtocolAttachmentServiceImpl implements IacucProtocolAttachmentService {
+public class IacucProtocolAttachmentServiceImpl extends ProtocolAttachmentServiceImplBase implements IacucProtocolAttachmentService {
 
     public IacucProtocolAttachmentServiceImpl(BusinessObjectService boService, ProtocolDao protocolDao) {
         super(boService, protocolDao);
     }
 
     @Override
-    public Class<? extends Protocol> getProtocolClassHook() {
+    public Class<? extends ProtocolBase> getProtocolClassHook() {
         return IacucProtocol.class;
     }
 
@@ -50,7 +50,7 @@ public class IacucProtocolAttachmentServiceImpl extends ProtocolAttachmentServic
     }
 
     @Override
-    public Class<? extends ProtocolPerson> getProtocolPersonClassHook() {
+    public Class<? extends ProtocolPersonBase> getProtocolPersonClassHook() {
         return IacucProtocolPerson.class;
     }
 
@@ -65,12 +65,12 @@ public class IacucProtocolAttachmentServiceImpl extends ProtocolAttachmentServic
     }
 
     @Override
-    public Class<? extends ProtocolAttachmentProtocol> getProtocolAttachmentProtocolClassHook() {
+    public Class<? extends ProtocolAttachmentProtocolBase> getProtocolAttachmentProtocolClassHook() {
         return IacucProtocolAttachmentProtocol.class;
     }
 
     @Override
-    public Class<? extends ProtocolAttachmentPersonnel> getProtocolAttachmentPersonnelClassHook() {
+    public Class<? extends ProtocolAttachmentPersonnelBase> getProtocolAttachmentPersonnelClassHook() {
         return IacucProtocolAttachmentPersonnel.class;
     }
 

@@ -22,7 +22,7 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.kra.service.KcPersonService;
 
 public class ProtocolReviewerBase extends KraPersistableBusinessObjectBase {
@@ -39,9 +39,9 @@ public class ProtocolReviewerBase extends KraPersistableBusinessObjectBase {
 
     private Rolodex rolodex;
 
-    private Protocol protocol;
+    private ProtocolBase protocol;
 
-    private ProtocolSubmission protocolSubmission;
+    private ProtocolSubmissionBase protocolSubmission;
 
     //transient fields for the services, and the  
     //kcPerson.  
@@ -97,19 +97,19 @@ public class ProtocolReviewerBase extends KraPersistableBusinessObjectBase {
         this.rolodex = rolodex;
     }
 
-    public Protocol getProtocol() {
+    public ProtocolBase getProtocol() {
         return protocol;
     }
 
-    public void setProtocol(Protocol protocol) {
+    public void setProtocol(ProtocolBase protocol) {
         this.protocol = protocol;
     }
 
-    public ProtocolSubmission getProtocolSubmission() {
+    public ProtocolSubmissionBase getProtocolSubmission() {
         return protocolSubmission;
     }
 
-    public void setProtocolSubmission(ProtocolSubmission protocolSubmission) {
+    public void setProtocolSubmission(ProtocolSubmissionBase protocolSubmission) {
         this.protocolSubmission = protocolSubmission;
     }
 

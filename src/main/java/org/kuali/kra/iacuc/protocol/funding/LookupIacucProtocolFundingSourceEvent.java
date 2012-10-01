@@ -17,10 +17,10 @@ package org.kuali.kra.iacuc.protocol.funding;
 
 import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.protocol.ProtocolEventBase;
-import org.kuali.kra.protocol.protocol.funding.LookupProtocolFundingSourceEvent;
+import org.kuali.kra.protocol.protocol.funding.LookupProtocolFundingSourceEventBase;
 import org.kuali.kra.protocol.protocol.funding.LookupProtocolFundingSourceRule;
 
-public class LookupIacucProtocolFundingSourceEvent extends LookupProtocolFundingSourceEvent {
+public class LookupIacucProtocolFundingSourceEvent extends LookupProtocolFundingSourceEventBase {
 
     public LookupIacucProtocolFundingSourceEvent(String errorPathPrefix, IacucProtocolDocument document, String fundingSourceTypeCode, ProtocolEventBase.ErrorType type) {
         super(errorPathPrefix, document, fundingSourceTypeCode, type);

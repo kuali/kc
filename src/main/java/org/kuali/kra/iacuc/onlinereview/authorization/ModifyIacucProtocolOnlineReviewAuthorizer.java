@@ -17,8 +17,8 @@ package org.kuali.kra.iacuc.onlinereview.authorization;
 
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.kra.protocol.ProtocolOnlineReviewDocument;
-import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReview;
+import org.kuali.kra.protocol.ProtocolOnlineReviewDocumentBase;
+import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewBase;
 import org.kuali.kra.protocol.onlinereview.authorization.ProtocolOnlineReviewTask;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.DocumentService;
@@ -31,13 +31,13 @@ public class ModifyIacucProtocolOnlineReviewAuthorizer extends IacucProtocolOnli
      */
     public boolean isAuthorized(String userId, IacucProtocolOnlineReviewTask task) {
         boolean hasPermission = true;
-        ProtocolOnlineReview protocolOnlineReview = task.getProtocolOnlineReview();
-        ProtocolOnlineReviewDocument protocolDoc = null;
+        ProtocolOnlineReviewBase protocolOnlineReview = task.getProtocolOnlineReview();
+        ProtocolOnlineReviewDocumentBase protocolDoc = null;
         try {
-            protocolDoc = (ProtocolOnlineReviewDocument)KraServiceLocator.getService(DocumentService.class).getByDocumentHeaderId(protocolOnlineReview.getProtocolOnlineReviewDocument().getDocumentNumber());
+            protocolDoc = (ProtocolOnlineReviewDocumentBase)KraServiceLocator.getService(DocumentService.class).getByDocumentHeaderId(protocolOnlineReview.getProtocolOnlineReviewDocument().getDocumentNumber());
         }
         catch (WorkflowException e) {
-            LOG.error(String.format("Could not find ProtocolOnlineReview, document number %s",protocolOnlineReview.getProtocolOnlineReviewDocument().getDocumentNumber()));
+            LOG.error(String.format("Could not find ProtocolOnlineReviewBase, document number %s",protocolOnlineReview.getProtocolOnlineReviewDocument().getDocumentNumber()));
             return false;
         }
         

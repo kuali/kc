@@ -22,7 +22,7 @@ import java.util.List;
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
 
-import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceTemplate;
+import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceTemplateBase;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceTemplateService;
 import org.kuali.kra.printing.print.AbstractPrint;
 
@@ -52,7 +52,7 @@ public abstract class TemplatePrintBase extends AbstractPrint {
     public List<Source> getXSLTemplates() {
         Source src = new StreamSource();
         ArrayList<Source> sourceList = new ArrayList<Source>();
-        ProtocolCorrespondenceTemplate template = protocolCorrespondenceTemplateService.getProtocolCorrespondenceTemplate(
+        ProtocolCorrespondenceTemplateBase template = protocolCorrespondenceTemplateService.getProtocolCorrespondenceTemplate(
                 getCommitteeId() , getProtoCorrespTypeCode());
         if (template != null) {
             src = new StreamSource(new ByteArrayInputStream(template.getCorrespondenceTemplate()));

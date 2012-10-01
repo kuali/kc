@@ -16,12 +16,12 @@
 package org.kuali.kra.iacuc.actions.amendrenew;
 
 import org.kuali.kra.iacuc.IacucProtocolDocument;
-import org.kuali.kra.protocol.actions.amendrenew.ModifyAmendmentSectionsEvent;
+import org.kuali.kra.protocol.actions.amendrenew.ModifyAmendmentSectionsEventBase;
 import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendmentBean;
 import org.kuali.kra.rule.BusinessRuleInterface;
 
 
-public class ModifyIacucAmendmentSectionsEvent extends ModifyAmendmentSectionsEvent {
+public class ModifyIacucAmendmentSectionsEvent extends ModifyAmendmentSectionsEventBase {
 
     public ModifyIacucAmendmentSectionsEvent(IacucProtocolDocument document, String propertyName, ProtocolAmendmentBean amendmentBean) {
         super(document, propertyName, amendmentBean);

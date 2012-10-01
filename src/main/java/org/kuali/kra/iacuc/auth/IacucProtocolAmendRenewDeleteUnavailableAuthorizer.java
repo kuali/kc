@@ -20,7 +20,7 @@ import org.kuali.kra.iacuc.actions.IacucProtocolStatus;
 import org.kuali.kra.iacuc.auth.IacucProtocolAuthorizer;
 import org.kuali.kra.iacuc.auth.IacucProtocolTask;
 import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.kra.protocol.Protocol;
+import org.kuali.kra.protocol.ProtocolBase;
 
 /**
  * Is the user allowed to delete a protocol, amendment or renewal and the action is currently not available?
@@ -36,7 +36,7 @@ public class IacucProtocolAmendRenewDeleteUnavailableAuthorizer extends IacucPro
                 !inProgress(task.getProtocol()));
     }
     
-    private boolean inProgress(Protocol protocol) {
+    private boolean inProgress(ProtocolBase protocol) {
         return StringUtils.equals(protocol.getProtocolStatusCode(), IacucProtocolStatus.IN_PROGRESS);
     }
     

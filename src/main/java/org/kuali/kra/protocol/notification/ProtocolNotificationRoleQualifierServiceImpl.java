@@ -17,8 +17,8 @@ package org.kuali.kra.protocol.notification;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.common.notification.bo.NotificationModuleRoleQualifier;
-import org.kuali.kra.protocol.Protocol;
-import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReview;
+import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewBase;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 
 /**
@@ -26,8 +26,8 @@ import org.kuali.kra.kim.bo.KcKimAttributes;
  */
 public class ProtocolNotificationRoleQualifierServiceImpl implements ProtocolNotificationRoleQualifierService {
 
-    private Protocol protocol;
-    private ProtocolOnlineReview protocolOnlineReview;
+    private ProtocolBase protocol;
+    private ProtocolOnlineReviewBase protocolOnlineReview;
     
     /**
      * {@inheritDoc}
@@ -60,19 +60,19 @@ public class ProtocolNotificationRoleQualifierServiceImpl implements ProtocolNot
         return roleQualifierValue;
     }
 
-    public Protocol getProtocol() {
+    public ProtocolBase getProtocol() {
         return protocol;
     }
 
-    public void setProtocol(Protocol protocol) {
+    public void setProtocol(ProtocolBase protocol) {
         this.protocol = protocol;
     }
 
-    public ProtocolOnlineReview getProtocolOnlineReview() {
+    public ProtocolOnlineReviewBase getProtocolOnlineReview() {
         return protocolOnlineReview;
     }
 
-    public void setProtocolOnlineReview(ProtocolOnlineReview protocolOnlineReview) {
+    public void setProtocolOnlineReview(ProtocolOnlineReviewBase protocolOnlineReview) {
         this.protocolOnlineReview = protocolOnlineReview;
     }
 
