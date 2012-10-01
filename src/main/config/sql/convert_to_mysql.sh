@@ -60,6 +60,41 @@ process_sequences()
 				
 }
 
+process_sequence_creation()
+{
+	thisLine=''
+	if [ -f cmd.sql ]
+	then
+		rm cmd.sql
+	fi
+	while read thisLine
+	do
+		echo ${thisLine} >> cmd.sql
+		if [ `grep -c '/' cmd.sql` -gt 0 ]
+		then
+			if [ `grep -ci 'create sequence' cmd.sql` -gt 0 ]
+			then
+				seq_name=`grep -i 'create sequence' cmd.sql | tr -s ' ' | cut -d' ' -f3`
+				
+				echo "CREATE TABLE ${seq_name} (" > cmd.sql
+				echo '		id bigint(19) not null auto_increment, primary key (id)' >> cmd.sql
+				echo ') ENGINE MyISAM' >> cmd.sql
+				echo '/' >> cmd.sql
+				echo "ALTER TABLE ${seq_name} auto_increment = 1" >> cmd.sql
+				echo '/' >> cmd.sql
+			fi
+			cat cmd.sql
+			rm cmd.sql
+		fi
+	done
+	if [ -f cmd.sql ]
+	then
+		cat cmd.sql
+		rm cmd.sql
+	fi	
+				
+}
+
 convert_file()
 {
 	oracleFile="$1"
@@ -72,13 +107,22 @@ convert_file()
 	cat ${oracleFile} >> ${mysqlFile}
 	if [ `grep -c 'DELIMITER ;' ${mysqlFile}` -lt 1 ]
 	then
-		echo 'DELIMITER ;' >> ${mysqlFile}
+		echo "\nDELIMITER ;" >> ${mysqlFile}
 	fi
 	sed -i -e s/SYS_GUID/UUID/ig -e s/SYSDATE/NOW\(\)/ig -e 's/to_date(/STR_TO_DATE(/ig' -e 's/YYYYMMDD/%Y%m%d/ig' -e 's/HH24MI/%H%i/ig' ${mysqlFile}
 	if [ `grep -ci '.NEXTVAL' ${mysqlFile}` -gt 0 ]
 	then
 		cat ${mysqlFile} | process_sequences > ${mysqlFile}.tmp
 		mv ${mysqlFile}.tmp ${mysqlFile}
+	fi
+	if [ `grep -ci 'create sequence' ${mysqlFile}` -gt 0 ]
+	then
+		cat ${mysqlFile} | process_sequence_creation > ${mysqlFile}.tmp
+		mv ${mysqlFile}.tmp ${mysqlFile}
+	fi
+	if [ `echo "${mysqlFile}" | grep -c '_TBL_'` -gt 0 ] && [ `grep -ci 'NUMBER(' "${mysqlFile}"` -gt 0 ]
+	then
+		sed -i -e 's/NUMBER(/DECIMAL(/gi' -e 's/VARCHAR2/VARCHAR/gi' "${mysqlFile}"
 	fi
 }
 
