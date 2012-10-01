@@ -60,9 +60,8 @@
                             <c:otherwise>
                                 ${bean.newReviewComment.protocolContingencyCode}
                             </c:otherwise>
-                        </c:choose> 
-                        <!-- bait and switch; the lookup BO class is from the old committee package because we cannot define a DD lookup for BO from new committee package -->
-                        <kul:lookup boClassName="org.kuali.kra.meeting.ProtocolContingency" 
+                        </c:choose>
+                        <kul:lookup boClassName="org.kuali.kra.iacuc.committee.meeting.IacucProtocolContingency" 
                                     fieldConversions="protocolContingencyCode:${property}.newReviewComment.protocolContingencyCode" />
                     </td>
                                             
@@ -116,8 +115,7 @@
 	                                    ${reviewComment.protocolContingencyCode}
 	                                    <c:choose>
 		                            		<c:when test="${!reviewCommentReadOnly}">
-		                            		    <!-- bait and switch; the lookup BO class is from the old committee package because we cannot define a DD lookup for BO from new committee package -->
-	                                    		<kul:lookup boClassName="org.kuali.kra.meeting.ProtocolContingency"
+	                                    		<kul:lookup boClassName="org.kuali.kra.iacuc.committee.meeting.IacucProtocolContingency"
 	                                                        fieldConversions="protocolContingencyCode:${property}.reviewComments[${status.index}].protocolContingencyCode" />
 	                                        </c:when>
 	                                    </c:choose>

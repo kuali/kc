@@ -17,7 +17,7 @@
 
 
 
-<%@ attribute name="bean" required="true" type="org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsBean" %>
+<%@ attribute name="bean" required="true" type="org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsBeanBase" %>
 <%@ attribute name="documentNumber" required="true"%>
 <%@ attribute name="property" required="true" %>
 <%@ attribute name="action" required="true" %>
@@ -25,7 +25,7 @@
 <%@ attribute name="reviewIndex" required = "true" %>
 <%@ attribute name="readOnly" required = "true" %>
 
-<c:set var="minutesAttributes" value="${DataDictionary.CommitteeScheduleMinute.attributes}" />
+<c:set var="minutesAttributes" value="${DataDictionary.IacucCommitteeScheduleMinute.attributes}" />
 
 <kul:innerTab tabTitle="Review Comments" parentTab="" defaultOpen="true" tabErrorKey="onlineReviewsActionHelper.reviewCommentsBeans[${reviewIndex}].*" useCurrentTabIndexAsKey="false">
     <div class="innerTab-container" align="left">
@@ -66,7 +66,7 @@
                             </c:otherwise>
                         </c:choose> 
                     		<c:if test = "${!readOnly}">
-                        		<kul:lookup boClassName="org.kuali.kra.meeting.ProtocolContingency" 
+                        		<kul:lookup boClassName="org.kuali.kra.iacuc.committee.meeting.IacucProtocolContingency" 
                                     fieldConversions="protocolContingencyCode:${property}.newReviewComment.protocolContingencyCode"  />
                        		</c:if>
                     </td>
@@ -143,7 +143,7 @@
 	                               
 	                                    <c:choose>
 		                            		<c:when test="${!reviewComment.readOnly}">
-	                                    		<kul:lookup boClassName="org.kuali.kra.meeting.ProtocolContingency"
+	                                    		<kul:lookup boClassName="org.kuali.kra.iacuc.committee.meeting.IacucProtocolContingency"
 	                                                fieldConversions="protocolContingencyCode:${property}.reviewComments[${status.index}].protocolContingencyCode" />
 	                                        </c:when>
 	                                    </c:choose>

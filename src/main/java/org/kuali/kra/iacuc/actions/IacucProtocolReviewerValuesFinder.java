@@ -13,37 +13,39 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.irb.actions;
+package org.kuali.kra.iacuc.actions;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.irb.ProtocolForm;
-import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
+import org.kuali.kra.common.committee.service.CommitteeServiceBase;
+import org.kuali.kra.iacuc.IacucProtocolForm;
+import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionStatus;
+import org.kuali.kra.iacuc.committee.service.IacucCommitteeService;
+import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.protocol.actions.submit.ProtocolReviewer;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 
-public class ProtocolReviewerValuesFinder extends IrbActionsKeyValuesBase {
+public class IacucProtocolReviewerValuesFinder extends IacucActionsKeyValuesBase {
     
     /**
      * Comment for <code>serialVersionUID</code>
      */
-    private static final long serialVersionUID = 6339476452241934050L;
+    private static final long serialVersionUID = 8186396635481365939L;
 
     public List<KeyValue> getKeyValues() {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         keyValues.add(new ConcreteKeyValue("", "select"));
         
-        Protocol protocol = getProtocol();
+        ProtocolBase protocol = getProtocol();
         if (protocol != null) {
-            ProtocolSubmission submission = getCurrentSubmission(protocol);
+            ProtocolSubmissionBase submission = getCurrentSubmission(protocol);
             if (submission != null) {
                 List<ProtocolReviewer> reviewers = submission.getProtocolReviewers();
                 for (ProtocolReviewer reviewer : reviewers) {
@@ -63,21 +65,26 @@ public class ProtocolReviewerValuesFinder extends IrbActionsKeyValuesBase {
 //        }
 //    }
 
-    private ProtocolSubmission getCurrentSubmission(Protocol protocol) {
-        for (ProtocolSubmission submission : protocol.getProtocolSubmissions()) {
-            if (StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.IN_AGENDA) ||
-                StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE)) {
+    private ProtocolSubmissionBase getCurrentSubmission(ProtocolBase protocol) {
+        for (ProtocolSubmissionBase submission : protocol.getProtocolSubmissions()) {
+            if (StringUtils.equals(submission.getSubmissionStatusCode(), IacucProtocolSubmissionStatus.IN_AGENDA) ||
+                StringUtils.equals(submission.getSubmissionStatusCode(), IacucProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE)) {
                 return submission;
             }
         }
         return null;
     }
 
-    private Protocol getProtocol() {
+    private ProtocolBase getProtocol() {
         KualiForm form = KNSGlobalVariables.getKualiForm();
-        if (form != null && form instanceof ProtocolForm) {
-            return ((ProtocolForm) form).getProtocolDocument().getProtocol();
+        if (form != null && form instanceof IacucProtocolForm) {
+            return ((IacucProtocolForm) form).getProtocolDocument().getProtocol();
         }
         return null;
+    }
+
+    @Override
+    protected Class<? extends CommitteeServiceBase> getCommitteeServiceClassHook() {
+        return IacucCommitteeService.class;
     }
 }
