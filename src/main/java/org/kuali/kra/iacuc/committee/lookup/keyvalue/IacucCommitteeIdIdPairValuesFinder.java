@@ -15,20 +15,41 @@
  */
 package org.kuali.kra.iacuc.committee.lookup.keyvalue;
 
-import org.kuali.kra.common.committee.bo.CommitteeBase;
-import org.kuali.kra.common.committee.lookup.keyvalue.CommitteeIdIdPairValuesFinderBase;
-import org.kuali.kra.iacuc.committee.bo.IacucCommittee;
+import java.util.ArrayList;
+import java.util.List;
 
-public class IacucCommitteeIdIdPairValuesFinder extends CommitteeIdIdPairValuesFinderBase {
+import org.apache.commons.collections.CollectionUtils;
+import org.kuali.kra.common.committee.bo.CommitteeBase;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+
+public class IacucCommitteeIdIdPairValuesFinder extends IacucCommitteeIdValuesFinder {
 
     /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = -1856217969303750675L;
-
+    
+    /**
+     * This override will return the active committee <id, id> pairs list as key-labels. 
+     * 
+     * @see org.kuali.kra.common.committee.lookup.keyvalue.CommitteeIdValuesFinderBase#getKeyValues()
+     */
     @Override
-    protected Class<? extends CommitteeBase> getCommitteeBOClassHook() {
-        return IacucCommittee.class;
+    public List<KeyValue> getKeyValues() {        
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
+        keyValues.add(new ConcreteKeyValue("", "select"));
+        
+        List<CommitteeBase> committees = this.getActiveCommittees();
+        if (CollectionUtils.isNotEmpty(committees)) {
+            for (CommitteeBase committee : committees) {
+                keyValues.add(new ConcreteKeyValue(committee.getCommitteeId(), committee.getCommitteeId()));
+            }
+        }
+        return keyValues;
     }
+    
+
+    
 
 }

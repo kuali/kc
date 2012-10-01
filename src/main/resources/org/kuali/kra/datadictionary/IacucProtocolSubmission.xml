@@ -204,7 +204,7 @@
         </property>
 		<property name="control" >
       		<bean parent="SelectControlDefinition"
-            	p:valuesFinderClass="org.kuali.kra.committee.lookup.keyvalue.CommitteeIdIdPairValuesFinder"
+            	p:valuesFinderClass="org.kuali.kra.iacuc.committee.lookup.keyvalue.IacucCommitteeIdIdPairValuesFinder"
                 p:includeKeyInLabel="false" />
 		</property>
         <property name="summary" value="Committee Id" />

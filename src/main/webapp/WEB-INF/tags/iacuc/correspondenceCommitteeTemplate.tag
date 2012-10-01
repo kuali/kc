@@ -49,7 +49,7 @@
                     </c:forEach>
                     <c:set target="${paramMap}" property="correspondenceTemplates" value="${KualiForm.correspondenceTypes[index].committeeProtocolCorrespondenceTemplates}" />
                     <html:select property="newCorrespondenceTemplates[${index}].committeeId" tabindex="0"  >                               
-                        <c:forEach items="${krafn:getOptionList('org.kuali.kra.committee.lookup.keyvalue.CommitteeIdValuesFinder', paramMap)}" var="option">
+                        <c:forEach items="${krafn:getOptionList('org.kuali.kra.iacuc.committee.lookup.keyvalue.IacucCommitteeIdValuesFinder', paramMap)}" var="option">
                             <c:choose>                      
                                 <c:when test="${KualiForm.newCorrespondenceTemplates[index].committeeId == option.key}">
                                     <option value="${option.key}" selected>${option.value}</option>

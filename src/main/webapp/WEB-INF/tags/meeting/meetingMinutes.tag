@@ -13,12 +13,15 @@
 	<c:set var="protocolValuesFinderClassName" value="org.kuali.kra.meeting.ProtocolValuesFinder" />
 </c:if>
 
-<%@ attribute name="committeeScheduleMinuteAttributes" required="false" %>
+<%@ attribute name="committeeScheduleMinuteAttributes" required="false" type="java.util.Map" %>
 <c:if test="${committeeScheduleMinuteAttributes == null}">
 	<c:set var="committeeScheduleMinuteAttributes" value="${DataDictionary.CommitteeScheduleMinute.attributes}" />
 </c:if>
 
-
+<%@ attribute name="protocolContingencyBOClassName" required="false" %>
+<c:if test="${protocolContingencyBOClassName == null}">
+	<c:set var="protocolContingencyBOClassName" value="org.kuali.kra.meeting.ProtocolContingency" />
+</c:if>
 
 <c:set var="attributeReferenceDummyAttributes" value="${DataDictionary.AttributeReferenceDummy.attributes}" />
 <jsp:useBean id="paramMap" class="java.util.HashMap"/>
@@ -190,7 +193,7 @@
 	                <td align="left" valign="middle" class="infoline" width="20%">
 	               	    <div align="center" id = "meetingHelper.newCommitteeScheduleMinute.pcCommentDiv"  style="${pcDivStyle}">
 	               		    <kul:htmlControlAttribute property="meetingHelper.newCommitteeScheduleMinute.protocolContingencyCode" attributeEntry="${committeeScheduleMinuteAttributes.protocolContingencyCode}" onblur="loadStandardReviewComment('meetingHelper.newCommitteeScheduleMinute.protocolContingencyCode', 'meetingHelper.newCommitteeScheduleMinute.minuteEntry');"  />
-                            <kul:lookup boClassName="org.kuali.kra.meeting.ProtocolContingency" 
+                            <kul:lookup boClassName="${protocolContingencyBOClassName}" 
                                     fieldConversions="protocolContingencyCode:meetingHelper.newCommitteeScheduleMinute.protocolContingencyCode,description:meetingHelper.newCommitteeScheduleMinute.minuteEntry" />
                    	    </div>
                    	    <noscript>
