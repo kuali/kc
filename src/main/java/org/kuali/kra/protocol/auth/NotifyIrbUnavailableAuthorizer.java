@@ -21,12 +21,12 @@ import org.kuali.kra.irb.actions.ProtocolActionType;
 /**
  * Is the user allowed to notify the IRB office and the action is currently not available?
  */
-public class NotifyIrbUnavailableAuthorizer extends ProtocolAuthorizer {
+public class NotifyIrbUnavailableAuthorizer extends ProtocolAuthorizerBase {
 
     /**
-     * @see org.kuali.kra.protocol.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.protocol.auth.ProtocolTask)
+     * @see org.kuali.kra.protocol.auth.ProtocolAuthorizerBase#isAuthorized(java.lang.String, org.kuali.kra.protocol.auth.ProtocolTaskBase)
      */
-    public boolean isAuthorized(String userId, ProtocolTask task) {
+    public boolean isAuthorized(String userId, ProtocolTaskBase task) {
         return hasPermission(userId, task.getProtocol(), PermissionConstants.SUBMIT_PROTOCOL) &&
                (isAmendmentOrRenewal(task.getProtocol()) ||
                 !canExecuteAction(task.getProtocol(), ProtocolActionType.NOTIFY_IRB));

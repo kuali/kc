@@ -22,7 +22,7 @@ import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.common.permissions.web.struts.form.PermissionsHelperBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
-import org.kuali.kra.protocol.Protocol;
+import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.service.KraAuthorizationService;
 
 /**
@@ -34,7 +34,7 @@ public class ProtocolPrintPermissionUtils extends PermissionsHelperBase {
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = -6233936470002193650L;
-    private Protocol protocol;
+    private ProtocolBase protocol;
 
     public ProtocolPrintPermissionUtils() {
         super();
@@ -73,7 +73,7 @@ public class ProtocolPrintPermissionUtils extends PermissionsHelperBase {
      * Sets the protocol attribute value.
      * @param protocol The protocol to set.
      */
-    public void setProtocol(Protocol protocol) {
+    public void setProtocol(ProtocolBase protocol) {
         this.protocol = protocol;
     }
 
@@ -81,7 +81,7 @@ public class ProtocolPrintPermissionUtils extends PermissionsHelperBase {
      * Gets the protocol attribute. 
      * @return Returns the protocol.
      */
-    public Protocol getProtocol() {
+    public ProtocolBase getProtocol() {
         return protocol;
     }
 

@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.iacuc.protocol.research;
 
-import org.kuali.kra.protocol.protocol.research.ProtocolResearchArea;
-import org.kuali.kra.protocol.protocol.research.ProtocolResearchAreaServiceImpl;
+import org.kuali.kra.protocol.protocol.research.ProtocolResearchAreaBase;
+import org.kuali.kra.protocol.protocol.research.ProtocolResearchAreaServiceImplBase;
 
-public class IacucProtocolResearchAreaServiceImpl extends ProtocolResearchAreaServiceImpl implements IacucProtocolResearchAreaService {
+public class IacucProtocolResearchAreaServiceImpl extends ProtocolResearchAreaServiceImplBase implements IacucProtocolResearchAreaService {
 
     @Override
-    protected ProtocolResearchArea getNewProtocolResearchAreaInstanceHook() {
+    protected ProtocolResearchAreaBase getNewProtocolResearchAreaInstanceHook() {
         return new IacucProtocolResearchArea();
     }
 

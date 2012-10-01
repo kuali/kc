@@ -18,8 +18,8 @@ package org.kuali.kra.protocol.actions.noreview;
 import java.io.Serializable;
 import java.sql.Date;
 
-import org.kuali.kra.protocol.Protocol;
-import org.kuali.kra.protocol.actions.ActionHelper;
+import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.protocol.actions.ActionHelperBase;
 import org.kuali.kra.protocol.actions.ProtocolActionBean;
 
 /**
@@ -33,14 +33,14 @@ public class ProtocolReviewNotRequiredBean implements ProtocolActionBean, Serial
     private Date actionDate = new Date(System.currentTimeMillis());
     private Date decisionDate = new Date(System.currentTimeMillis());
 
-    private Protocol protocol;
-    private ActionHelper actionHelper;
+    private ProtocolBase protocol;
+    private ActionHelperBase actionHelper;
     
     /**
      * Constructs a ProtocolReviewNotRequiredBean.
      * @param actionHelper Reference back to the action helper for this bean
      */
-    public ProtocolReviewNotRequiredBean(ActionHelper actionHelper) {
+    public ProtocolReviewNotRequiredBean(ActionHelperBase actionHelper) {
         this.actionHelper = actionHelper;
     }
 
@@ -68,20 +68,20 @@ public class ProtocolReviewNotRequiredBean implements ProtocolActionBean, Serial
         this.decisionDate = decisionDate;
     }
 
-    public Protocol getProtocol() {
+    public ProtocolBase getProtocol() {
         return protocol;
     }
     
-    public void setProtocol(Protocol protocol) {
+    public void setProtocol(ProtocolBase protocol) {
         this.protocol = protocol;
     }
     
-    public ActionHelper getActionHelper() {
+    public ActionHelperBase getActionHelper() {
         return actionHelper;
     }
 
     @Override
-    public void setActionHelper(ActionHelper actionHelper) {
+    public void setActionHelper(ActionHelperBase actionHelper) {
         this.actionHelper = actionHelper;
         this.protocol = actionHelper.getProtocol();
     }

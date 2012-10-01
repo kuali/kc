@@ -19,14 +19,14 @@ import org.kuali.kra.iacuc.IacucProtocolForm;
 import org.kuali.kra.iacuc.actions.reviewcomments.IacucReviewAttachmentsBean;
 import org.kuali.kra.iacuc.actions.reviewcomments.IacucReviewCommentsBean;
 import org.kuali.kra.iacuc.actions.reviewcomments.IacucReviewCommentsService;
-import org.kuali.kra.protocol.actions.reviewcomments.ReviewAttachmentsBean;
-import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsBean;
+import org.kuali.kra.protocol.actions.reviewcomments.ReviewAttachmentsBeanBase;
+import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsBeanBase;
 import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsService;
-import org.kuali.kra.protocol.onlinereview.OnlineReviewsActionHelper;
-import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewForm;
+import org.kuali.kra.protocol.onlinereview.OnlineReviewsActionHelperBase;
+import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewFormBase;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewService;
 
-public class IacucOnlineReviewsActionHelper  extends  OnlineReviewsActionHelper {
+public class IacucOnlineReviewsActionHelper  extends  OnlineReviewsActionHelperBase {
    
     /**
      * Comment for <code>serialVersionUID</code>
@@ -41,18 +41,18 @@ public class IacucOnlineReviewsActionHelper  extends  OnlineReviewsActionHelper 
 
     
     @Override
-    protected ReviewAttachmentsBean getNewReviewAttachmentsBeanHook(String errorPropertyKey) {
+    protected ReviewAttachmentsBeanBase getNewReviewAttachmentsBeanHook(String errorPropertyKey) {
         return new IacucReviewAttachmentsBean(errorPropertyKey);
     }
 
     @Override
-    protected ReviewCommentsBean getNewReviewCommentsBeanInstanceHook(String errorPropertyKey) {
+    protected ReviewCommentsBeanBase getNewReviewCommentsBeanInstanceHook(String errorPropertyKey) {
         return new IacucReviewCommentsBean(errorPropertyKey);
     }
 
 
     @Override
-    protected ProtocolOnlineReviewForm getNewProtocolOnlineReviewFormInstanceHook() throws Exception {
+    protected ProtocolOnlineReviewFormBase getNewProtocolOnlineReviewFormInstanceHook() throws Exception {
         return new IacucProtocolOnlineReviewForm();
     }
 

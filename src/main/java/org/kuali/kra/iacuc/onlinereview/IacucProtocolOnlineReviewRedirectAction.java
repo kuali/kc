@@ -16,10 +16,10 @@
 package org.kuali.kra.iacuc.onlinereview;
 
 import org.kuali.kra.iacuc.IacucProtocol;
-import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewRedirectAction;
+import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewRedirectActionBase;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewService;
 
-public class IacucProtocolOnlineReviewRedirectAction extends ProtocolOnlineReviewRedirectAction{
+public class IacucProtocolOnlineReviewRedirectAction extends ProtocolOnlineReviewRedirectActionBase{
 
     protected Class<IacucProtocol> getProtocolClass() {
         return IacucProtocol.class;

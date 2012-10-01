@@ -30,7 +30,7 @@ import org.kuali.kra.iacuc.committee.bo.IacucCommittee;
 import org.kuali.kra.iacuc.committee.document.CommonCommitteeDocument;
 import org.kuali.kra.iacuc.personnel.IacucProtocolPerson;
 import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
@@ -144,7 +144,7 @@ public class IacucProtocolSubmissionLookupHelperServiceTest extends KcUnitTestBa
         protocolDocument.setDocumentNumber("101");
         protocol.setProtocolDocument(protocolDocument);
         IacucProtocolSubmission protocolSubmission = new IacucProtocolSubmission();
-        List<ProtocolSubmission> submissions = new ArrayList<ProtocolSubmission>();
+        List<ProtocolSubmissionBase> submissions = new ArrayList<ProtocolSubmissionBase>();
         protocolSubmission.setSubmissionId(102L);
         IacucCommittee committee = new IacucCommittee();
         committee.setCommitteeId("100");

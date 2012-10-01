@@ -16,7 +16,7 @@
 package org.kuali.kra.protocol.personnel;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentPersonnel;
+import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentPersonnelBase;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
 import org.kuali.rice.krad.document.Document;
 
@@ -25,21 +25,21 @@ public abstract class ProtocolAttachmentPersonnelEventBase  extends KraDocumentE
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory
     .getLog(ProtocolAttachmentPersonnelEventBase.class);
 
-    private ProtocolAttachmentPersonnel protocolAttachmentPersonnel;
+    private ProtocolAttachmentPersonnelBase protocolAttachmentPersonnel;
     private int personIndex;
 
     protected ProtocolAttachmentPersonnelEventBase(String description, String errorPathPrefix, Document document,
-            ProtocolAttachmentPersonnel protocolAttachmentPersonnel, int personIndex) {
+            ProtocolAttachmentPersonnelBase protocolAttachmentPersonnel, int personIndex) {
         super(description, errorPathPrefix, document);
         setProtocolAttachmentPersonnel(protocolAttachmentPersonnel);
         setPersonIndex(personIndex);
     }
 
-    public ProtocolAttachmentPersonnel getProtocolAttachmentPersonnel() {
+    public ProtocolAttachmentPersonnelBase getProtocolAttachmentPersonnel() {
         return protocolAttachmentPersonnel;
     }
 
-    public void setProtocolAttachmentPersonnel(ProtocolAttachmentPersonnel protocolAttachmentPersonnel) {
+    public void setProtocolAttachmentPersonnel(ProtocolAttachmentPersonnelBase protocolAttachmentPersonnel) {
         this.protocolAttachmentPersonnel = protocolAttachmentPersonnel;
     }
 

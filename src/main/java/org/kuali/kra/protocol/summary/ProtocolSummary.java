@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.protocol.actions.ProtocolAction;
+import org.kuali.kra.protocol.actions.ProtocolActionBase;
 
 
 
@@ -66,7 +66,7 @@ public class ProtocolSummary implements Serializable {
         
     }
     
-    public void setLastProtocolAction(ProtocolAction protocolAction) {
+    public void setLastProtocolAction(ProtocolActionBase protocolAction) {
         if (protocolAction == null) {
             lastProtocolActionDescription = "";
         }

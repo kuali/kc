@@ -20,9 +20,9 @@ import java.util.List;
 
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
 import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.kra.protocol.Protocol;
+import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.auth.AbandonProtocolAuthorizer;
-import org.kuali.kra.protocol.auth.ProtocolTask;
+import org.kuali.kra.protocol.auth.ProtocolTaskBase;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.util.GlobalVariables;
 
@@ -40,7 +40,7 @@ public class AbandonIacucProtocolAuthorizer extends IacucProtocolAuthorizer {
 //    }
 
     /**
-     * @see org.kuali.kra.protocol.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.protocol.auth.ProtocolTask)
+     * @see org.kuali.kra.protocol.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.protocol.auth.ProtocolTaskBase)
      */
     public boolean isAuthorized(String userId, IacucProtocolTask task) {
         //TODO : permission : PI and protocol has never been approved. protocol status is SRR/SMR
@@ -54,7 +54,7 @@ public class AbandonIacucProtocolAuthorizer extends IacucProtocolAuthorizer {
     /*
      * commenting out, not being used for now
      */
-//    private boolean isInitialProtocol(Protocol protocol) {
+//    private boolean isInitialProtocol(ProtocolBase protocol) {
 //        boolean initialProtocol = true;
 //        
 //        /* -- commented as part of GENERATED CODE need to verify
@@ -71,7 +71,7 @@ public class AbandonIacucProtocolAuthorizer extends IacucProtocolAuthorizer {
     /*
      * commenting out, not being used for now
      */
-//    private boolean isPrincipalInvestigator(Protocol protocol) {
+//    private boolean isPrincipalInvestigator(ProtocolBase protocol) {
 //        Person user = GlobalVariables.getUserSession().getPerson();
 //        boolean isPi = false;
 //        if (user.getPrincipalId().equals(protocol.getPrincipalInvestigator().getPersonId())) {

@@ -40,12 +40,12 @@ import org.kuali.kra.iacuc.threers.IacucAlternateSearch;
 import org.kuali.kra.iacuc.threers.IacucPrinciples;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
-import org.kuali.kra.protocol.Protocol;
-import org.kuali.kra.protocol.actions.ProtocolAction;
-import org.kuali.kra.protocol.actions.copy.ProtocolCopyServiceImpl;
-import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
+import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.protocol.actions.ProtocolActionBase;
+import org.kuali.kra.protocol.actions.copy.ProtocolCopyServiceImplBase;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 
-public class IacucProtocolCopyServiceImpl extends ProtocolCopyServiceImpl<IacucProtocolDocument> implements IacucProtocolCopyService{
+public class IacucProtocolCopyServiceImpl extends ProtocolCopyServiceImplBase<IacucProtocolDocument> implements IacucProtocolCopyService{
 
     private IacucProtocolSpeciesService iacucProtocolSpeciesService;
     private IacucProtocolExceptionService iacucProtocolExceptionService;
@@ -56,7 +56,7 @@ public class IacucProtocolCopyServiceImpl extends ProtocolCopyServiceImpl<IacucP
     }
     
     @Override
-    protected Class<? extends ProtocolAction> getProtocolActionBOClassHook() {
+    protected Class<? extends ProtocolActionBase> getProtocolActionBOClassHook() {
         return IacucProtocolAction.class;
     }
 
@@ -192,7 +192,7 @@ public class IacucProtocolCopyServiceImpl extends ProtocolCopyServiceImpl<IacucP
     }
     
     @Override
-    protected IacucProtocolAction getProtocolActionNewInstanceHook(Protocol protocol, ProtocolSubmission protocolSubmission,
+    protected IacucProtocolAction getProtocolActionNewInstanceHook(ProtocolBase protocol, ProtocolSubmissionBase protocolSubmission,
             String protocolActionTypeCode) {
         return new IacucProtocolAction((IacucProtocol) protocol, (IacucProtocolSubmission) protocolSubmission, protocolActionTypeCode);
     }

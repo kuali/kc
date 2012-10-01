@@ -27,13 +27,13 @@ import org.kuali.kra.common.specialreview.rule.event.AddSpecialReviewEvent;
 import org.kuali.kra.iacuc.IacucProtocolAction;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.protocol.ProtocolDocument;
-import org.kuali.kra.protocol.ProtocolForm;
-import org.kuali.kra.protocol.specialreview.ProtocolSpecialReview;
+import org.kuali.kra.protocol.ProtocolDocumentBase;
+import org.kuali.kra.protocol.ProtocolFormBase;
+import org.kuali.kra.protocol.specialreview.ProtocolSpecialReviewBase;
 import org.kuali.rice.krad.util.KRADConstants;
 
 /**
- * This class represents the Struts Action for Special Review page(ProtocolSpecialReview.jsp).
+ * This class represents the Struts Action for Special Review page(ProtocolSpecialReviewBase.jsp).
  */
 public class IacucProtocolSpecialReviewAction extends IacucProtocolAction {
     
@@ -43,7 +43,7 @@ public class IacucProtocolSpecialReviewAction extends IacucProtocolAction {
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward forward = super.execute(mapping, form, request, response);
         
-        ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolFormBase protocolForm = (ProtocolFormBase) form;
         
         protocolForm.getSpecialReviewHelper().prepareView();
         
@@ -60,12 +60,12 @@ public class IacucProtocolSpecialReviewAction extends IacucProtocolAction {
      * @throws Exception
      */
     public ActionForward addSpecialReview(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolDocument document = protocolForm.getProtocolDocument();
-        ProtocolSpecialReview specialReview = protocolForm.getSpecialReviewHelper().getNewSpecialReview();
-        List<ProtocolSpecialReview> specialReviews = document.getProtocol().getSpecialReviews();
+        ProtocolFormBase protocolForm = (ProtocolFormBase) form;
+        ProtocolDocumentBase document = protocolForm.getProtocolDocument();
+        ProtocolSpecialReviewBase specialReview = protocolForm.getSpecialReviewHelper().getNewSpecialReview();
+        List<ProtocolSpecialReviewBase> specialReviews = document.getProtocol().getSpecialReviews();
         
-        if (applyRules(new AddSpecialReviewEvent<ProtocolSpecialReview>(document, specialReview, specialReviews, false))) {
+        if (applyRules(new AddSpecialReviewEvent<ProtocolSpecialReviewBase>(document, specialReview, specialReviews, false))) {
             specialReview.setSpecialReviewNumber(document.getDocumentNextValue(Constants.SPECIAL_REVIEW_NUMBER));
             document.getProtocol().getSpecialReviews().add(specialReview);
             protocolForm.getSpecialReviewHelper().setNewSpecialReview(new IacucProtocolSpecialReview());
@@ -106,8 +106,8 @@ public class IacucProtocolSpecialReviewAction extends IacucProtocolAction {
         
         Object question = request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME);
         if (CONFIRM_DELETE_SPECIAL_REVIEW_KEY.equals(question)) {
-            ProtocolForm protocolForm = (ProtocolForm) form;
-            ProtocolDocument document = protocolForm.getProtocolDocument();
+            ProtocolFormBase protocolForm = (ProtocolFormBase) form;
+            ProtocolDocumentBase document = protocolForm.getProtocolDocument();
             
             document.getProtocol().getSpecialReviews().remove(getLineToDelete(request));
         }

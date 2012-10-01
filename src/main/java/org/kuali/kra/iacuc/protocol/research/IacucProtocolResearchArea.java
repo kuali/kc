@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.iacuc.protocol.research;
 
-import org.kuali.kra.protocol.protocol.research.ProtocolResearchArea;
+import org.kuali.kra.protocol.protocol.research.ProtocolResearchAreaBase;
 
-public class IacucProtocolResearchArea extends ProtocolResearchArea {
+public class IacucProtocolResearchArea extends ProtocolResearchAreaBase {
 
     /**
      * Comment for <code>serialVersionUID</code>

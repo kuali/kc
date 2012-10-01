@@ -15,24 +15,24 @@
  */
 package org.kuali.kra.protocol.personnel;
 
-import org.kuali.kra.protocol.ProtocolDocument;
+import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 /**
- * This class represents the AddProtocolPersonnelEvent
+ * This class represents the AddProtocolPersonnelEventBase
  */
 public class AddProtocolUnitEvent extends ProtocolUnitEventBase {
     
-    public AddProtocolUnitEvent(String errorPathPrefix, ProtocolDocument document, 
-            ProtocolUnit protocolUnit, int personIndex) {
-        super("adding ProtocolUnit to document " + getDocumentId(document), errorPathPrefix, document, 
+    public AddProtocolUnitEvent(String errorPathPrefix, ProtocolDocumentBase document, 
+            ProtocolUnitBase protocolUnit, int personIndex) {
+        super("adding ProtocolUnitBase to document " + getDocumentId(document), errorPathPrefix, document, 
                 protocolUnit, personIndex);
     }
 
     public AddProtocolUnitEvent(String errorPathPrefix, Document document, 
-            ProtocolUnit protocolUnit, int personIndex) {
-        this(errorPathPrefix, (ProtocolDocument) document, protocolUnit, personIndex);
+            ProtocolUnitBase protocolUnit, int personIndex) {
+        this(errorPathPrefix, (ProtocolDocumentBase) document, protocolUnit, personIndex);
     }
     
     /**

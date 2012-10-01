@@ -18,9 +18,9 @@ package org.kuali.kra.iacuc.protocol.reference;
 import java.text.ParseException;
 
 import org.kuali.kra.iacuc.IacucProtocol;
-import org.kuali.kra.protocol.protocol.reference.ProtocolReference;
+import org.kuali.kra.protocol.protocol.reference.ProtocolReferenceBase;
 
-public class IacucProtocolReference extends ProtocolReference {
+public class IacucProtocolReference extends ProtocolReferenceBase {
     
     /**
      * Comment for <code>serialVersionUID</code>

@@ -18,7 +18,7 @@ package org.kuali.kra.protocol.specialreview;
 import org.kuali.kra.common.specialreview.bo.SpecialReviewExemption;
 
 /**
- * Defines a Special Review Exemption for a Protocol.
+ * Defines a Special Review Exemption for a ProtocolBase.
  */
 public class ProtocolSpecialReviewExemption extends SpecialReviewExemption {
 
@@ -28,7 +28,7 @@ public class ProtocolSpecialReviewExemption extends SpecialReviewExemption {
 
     private Long protocolSpecialReviewId;
 
-    private ProtocolSpecialReview protocolSpecialReview;
+    private ProtocolSpecialReviewBase protocolSpecialReview;
 
     public Long getProtocolSpecialReviewExemptionId() {
         return protocolSpecialReviewExemptionId;
@@ -46,11 +46,11 @@ public class ProtocolSpecialReviewExemption extends SpecialReviewExemption {
         this.protocolSpecialReviewId = protocolSpecialReviewId;
     }
 
-    public ProtocolSpecialReview getProtocolSpecialReview() {
+    public ProtocolSpecialReviewBase getProtocolSpecialReview() {
         return protocolSpecialReview;
     }
 
-    public void setProtocolSpecialReview(ProtocolSpecialReview protocolSpecialReview) {
+    public void setProtocolSpecialReview(ProtocolSpecialReviewBase protocolSpecialReview) {
         this.protocolSpecialReview = protocolSpecialReview;
     }
 }

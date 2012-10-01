@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.iacuc.protocol.funding;
 
-import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceRule;
+import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceRuleBase;
 import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceService;
 
-public class IacucProtocolFundingSourceRule extends ProtocolFundingSourceRule {
+public class IacucProtocolFundingSourceRule extends ProtocolFundingSourceRuleBase {
 
     @Override
     protected Class<? extends ProtocolFundingSourceService> getProtocolFundingSourceServiceClassHook() {

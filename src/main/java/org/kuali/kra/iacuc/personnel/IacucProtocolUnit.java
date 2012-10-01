@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.iacuc.personnel;
 
-import org.kuali.kra.protocol.personnel.ProtocolUnit;
+import org.kuali.kra.protocol.personnel.ProtocolUnitBase;
 
-public class IacucProtocolUnit extends ProtocolUnit{
+public class IacucProtocolUnit extends ProtocolUnitBase{
 
     /**
      * Comment for <code>serialVersionUID</code>

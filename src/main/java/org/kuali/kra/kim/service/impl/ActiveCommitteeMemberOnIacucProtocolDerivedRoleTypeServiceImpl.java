@@ -25,7 +25,7 @@ import org.kuali.kra.common.committee.bo.CommitteeBase;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.kim.bo.KcKimAttributes;
-import org.kuali.kra.protocol.Protocol;
+import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.rice.core.api.exception.RiceIllegalArgumentException;
 import org.kuali.rice.core.api.membership.MemberType;
 import org.kuali.rice.kim.api.role.RoleMembership;
@@ -53,7 +53,7 @@ public class ActiveCommitteeMemberOnIacucProtocolDerivedRoleTypeServiceImpl exte
         String protocolNumber = qualification.get(KcKimAttributes.PROTOCOL);
         
         if (StringUtils.isNotBlank(protocolNumber)) {
-            Protocol protocol = getProtocolByNumber(protocolNumber);
+            ProtocolBase protocol = getProtocolByNumber(protocolNumber);
             if (protocol != null) {
                 if (protocol.getProtocolSubmission() != null) {
                     CommitteeBase<?, ?, ?> committee = protocol.getProtocolSubmission().getCommittee();
@@ -83,7 +83,7 @@ public class ActiveCommitteeMemberOnIacucProtocolDerivedRoleTypeServiceImpl exte
         String protocolNumber = qualification.get(KcKimAttributes.PROTOCOL);
         
         if (StringUtils.isNotBlank(protocolNumber)) {
-            Protocol protocol = getProtocolByNumber(protocolNumber);
+            ProtocolBase protocol = getProtocolByNumber(protocolNumber);
             if (protocol != null) {
                 if (protocol.getProtocolSubmission() != null) {
                     CommitteeBase<?, ?, ?> committee = protocol.getProtocolSubmission().getCommittee();
@@ -102,11 +102,11 @@ public class ActiveCommitteeMemberOnIacucProtocolDerivedRoleTypeServiceImpl exte
         return false;
     }
     
-    private Protocol getProtocolByNumber(String protocolNumber) {
+    private ProtocolBase getProtocolByNumber(String protocolNumber) {
         // TODO : this seems buggy.  protocolnumber is not a PK.  need to refactor this
         Map<String,Object> keymap = new HashMap<String,Object>();
         keymap.put( "protocolNumber", protocolNumber);
-        return (Protocol)getBusinessObjectService().findByPrimaryKey(IacucProtocol.class, keymap );    
+        return (ProtocolBase)getBusinessObjectService().findByPrimaryKey(IacucProtocol.class, keymap );    
     }
 
     /*

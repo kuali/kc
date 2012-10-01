@@ -18,13 +18,13 @@ package org.kuali.kra.iacuc.protocol.funding;
 import java.util.List;
 
 import org.kuali.kra.iacuc.IacucProtocolDocument;
-import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSource;
+import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceBase;
 import org.kuali.kra.protocol.protocol.funding.SaveProtocolFundingSourceLinkEvent;
 
 public class SaveIacucProtocolFundingSourceLinkEvent extends SaveProtocolFundingSourceLinkEvent {
 
-    public SaveIacucProtocolFundingSourceLinkEvent(IacucProtocolDocument document, List<ProtocolFundingSource> protocolFundingSources,
-            List<ProtocolFundingSource> deletedProtocolFundingSources) {
+    public SaveIacucProtocolFundingSourceLinkEvent(IacucProtocolDocument document, List<ProtocolFundingSourceBase> protocolFundingSources,
+            List<ProtocolFundingSourceBase> deletedProtocolFundingSources) {
         super(document, protocolFundingSources, deletedProtocolFundingSources);
     }
 

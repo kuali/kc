@@ -17,45 +17,45 @@ package org.kuali.kra.iacuc.onlinereview.authorization;
 
 import org.kuali.kra.authorization.Task;
 import org.kuali.kra.infrastructure.TaskGroupName;
-import org.kuali.kra.protocol.ProtocolOnlineReviewDocument;
-import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReview;
+import org.kuali.kra.protocol.ProtocolOnlineReviewDocumentBase;
+import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewBase;
 
 public class IacucProtocolOnlineReviewTask extends Task {
-    private ProtocolOnlineReview protocolOnlineReview;
-    private ProtocolOnlineReviewDocument protocolOnlineReviewDocument;
+    private ProtocolOnlineReviewBase protocolOnlineReview;
+    private ProtocolOnlineReviewDocumentBase protocolOnlineReviewDocument;
     
     /**
      * Constructs a ProtocolOnlineReviewTask.
      * @param taskName the name of the task
      * @param protocolOnlineReview the Protocol
      */
-    public IacucProtocolOnlineReviewTask(String taskName, ProtocolOnlineReview protocolOnlineReview) {
+    public IacucProtocolOnlineReviewTask(String taskName, ProtocolOnlineReviewBase protocolOnlineReview) {
         super(TaskGroupName.IACUC_PROTOCOL_ONLINEREVIEW, taskName);
         this.protocolOnlineReview = protocolOnlineReview;
     }
     
-    public IacucProtocolOnlineReviewTask(String taskName, ProtocolOnlineReviewDocument protocolOnlineReviewDocument) {
+    public IacucProtocolOnlineReviewTask(String taskName, ProtocolOnlineReviewDocumentBase protocolOnlineReviewDocument) {
         super(TaskGroupName.IACUC_PROTOCOL_ONLINEREVIEW, taskName);
         this.protocolOnlineReview = protocolOnlineReviewDocument.getProtocolOnlineReview();
         this.protocolOnlineReviewDocument = protocolOnlineReviewDocument;
     }
     
-    public IacucProtocolOnlineReviewTask(String taskName, ProtocolOnlineReview protocolOnlineReview, String genericTaskName) {
+    public IacucProtocolOnlineReviewTask(String taskName, ProtocolOnlineReviewBase protocolOnlineReview, String genericTaskName) {
         super(TaskGroupName.IACUC_PROTOCOL_ONLINEREVIEW, taskName, genericTaskName);
         this.protocolOnlineReview = protocolOnlineReview;
     }
 
-    public IacucProtocolOnlineReviewTask(String taskName, ProtocolOnlineReviewDocument protocolOnlineReviewDocument, String genericTaskName) {
+    public IacucProtocolOnlineReviewTask(String taskName, ProtocolOnlineReviewDocumentBase protocolOnlineReviewDocument, String genericTaskName) {
         super(TaskGroupName.IACUC_PROTOCOL_ONLINEREVIEW, taskName, genericTaskName);
         this.protocolOnlineReview = protocolOnlineReviewDocument.getProtocolOnlineReview();
         this.protocolOnlineReviewDocument = protocolOnlineReviewDocument;
     }
 
     /**
-     * Get the ProtocolOnlineReview.
-     * @return the ProtocolOnlineReview
+     * Get the ProtocolOnlineReviewBase.
+     * @return the ProtocolOnlineReviewBase
      */
-    public ProtocolOnlineReview getProtocolOnlineReview() {
+    public ProtocolOnlineReviewBase getProtocolOnlineReview() {
         return protocolOnlineReview;
     }
 
@@ -63,7 +63,7 @@ public class IacucProtocolOnlineReviewTask extends Task {
      * Gets the protocolOnlineReviewDocument attribute. 
      * @return Returns the protocolOnlineReviewDocument.
      */
-    public ProtocolOnlineReviewDocument getProtocolOnlineReviewDocument() {
+    public ProtocolOnlineReviewDocumentBase getProtocolOnlineReviewDocument() {
         return protocolOnlineReviewDocument;
     }
 

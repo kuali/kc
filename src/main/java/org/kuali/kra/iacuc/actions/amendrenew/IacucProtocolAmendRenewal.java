@@ -16,9 +16,9 @@
 package org.kuali.kra.iacuc.actions.amendrenew;
 
 import org.kuali.kra.iacuc.IacucProtocol;
-import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewal;
+import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewalBase;
 
-public class IacucProtocolAmendRenewal extends ProtocolAmendRenewal {
+public class IacucProtocolAmendRenewal extends ProtocolAmendRenewalBase {
 
     private static final long serialVersionUID = -7462565809814272506L;
 

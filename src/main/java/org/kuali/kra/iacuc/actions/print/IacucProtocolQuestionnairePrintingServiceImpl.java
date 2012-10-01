@@ -17,10 +17,10 @@ package org.kuali.kra.iacuc.actions.print;
 
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
-import org.kuali.kra.protocol.actions.print.ProtocolQuestionnairePrintingServiceImpl;
-import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
+import org.kuali.kra.protocol.actions.print.ProtocolQuestionnairePrintingServiceImplBase;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 
-public class IacucProtocolQuestionnairePrintingServiceImpl extends ProtocolQuestionnairePrintingServiceImpl implements IacucProtocolQuestionnairePrintingService{
+public class IacucProtocolQuestionnairePrintingServiceImpl extends ProtocolQuestionnairePrintingServiceImplBase implements IacucProtocolQuestionnairePrintingService{
 
     @Override
     protected String getCoeusModuleCode() {
@@ -28,7 +28,7 @@ public class IacucProtocolQuestionnairePrintingServiceImpl extends ProtocolQuest
     }
 
     @Override
-    protected Class<? extends ProtocolSubmission> getProtocolSubmissionBOClassHook() {
+    protected Class<? extends ProtocolSubmissionBase> getProtocolSubmissionBOClassHook() {
         return IacucProtocolSubmission.class;
     }
 

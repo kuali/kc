@@ -19,9 +19,9 @@ import java.util.List;
 
 import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.onlinereview.IacucProtocolReviewAttachment;
-import org.kuali.kra.protocol.actions.reviewcomments.ProtocolManageReviewAttachmentEvent;
+import org.kuali.kra.protocol.actions.reviewcomments.ProtocolManageReviewAttachmentEventBase;
 
-public class IacucProtocolManageReviewAttachmentEvent extends ProtocolManageReviewAttachmentEvent<IacucProtocolReviewAttachment> {
+public class IacucProtocolManageReviewAttachmentEvent extends ProtocolManageReviewAttachmentEventBase<IacucProtocolReviewAttachment> {
 
     public IacucProtocolManageReviewAttachmentEvent(IacucProtocolDocument document, String propertyName, List<IacucProtocolReviewAttachment> reviewAttachments) {
         super(document, propertyName, reviewAttachments);

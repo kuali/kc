@@ -35,8 +35,8 @@ import org.kuali.kra.iacuc.committee.service.IacucCommitteeService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.actions.decision.CommitteeDecision;
-import org.kuali.kra.protocol.actions.reviewcomments.ReviewAttachmentsBean;
-import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsBean;
+import org.kuali.kra.protocol.actions.reviewcomments.ReviewAttachmentsBeanBase;
+import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsBeanBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 public class IacucCommitteeDecision extends IacucProtocolActionBean implements CommitteeDecision<IacucCommitteePerson> {
@@ -262,11 +262,11 @@ public class IacucCommitteeDecision extends IacucProtocolActionBean implements C
         return reviewCommentsBean;
     }
 
-    public void setReviewCommentsBean(ReviewCommentsBean reviewCommentsBean) {
+    public void setReviewCommentsBean(ReviewCommentsBeanBase reviewCommentsBean) {
         this.reviewCommentsBean = (IacucReviewCommentsBean) reviewCommentsBean;
     }
 
-    public ReviewAttachmentsBean getReviewAttachmentsBean() {
+    public ReviewAttachmentsBeanBase getReviewAttachmentsBean() {
         // TODO Auto-generated method stub
         return null;
     }

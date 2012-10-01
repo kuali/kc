@@ -24,11 +24,11 @@ import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.krms.KrmsRulesContext;
-import org.kuali.kra.protocol.Protocol;
-import org.kuali.kra.protocol.questionnaire.ProtocolModuleQuestionnaireBean;
+import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.protocol.questionnaire.ProtocolModuleQuestionnaireBeanBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
-public class IacucProtocolModuleQuestionnaireBean extends ProtocolModuleQuestionnaireBean {
+public class IacucProtocolModuleQuestionnaireBean extends ProtocolModuleQuestionnaireBeanBase {
 
     public IacucProtocolModuleQuestionnaireBean(IacucProtocol protocol) {
         super(CoeusModule.IACUC_PROTOCOL_MODULE_CODE, protocol.getProtocolNumber(), "0", protocol.getSequenceNumber().toString(), 

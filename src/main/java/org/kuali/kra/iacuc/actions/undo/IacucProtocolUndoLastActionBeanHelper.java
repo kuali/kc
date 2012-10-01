@@ -19,9 +19,9 @@ import java.io.Serializable;
 
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
 import org.kuali.kra.iacuc.actions.IacucProtocolStatus;
-import org.kuali.kra.protocol.actions.undo.UndoLastActionBeanHelper;
+import org.kuali.kra.protocol.actions.undo.UndoLastActionBeanHelperBase;
 
-public class IacucProtocolUndoLastActionBeanHelper extends UndoLastActionBeanHelper implements Serializable {
+public class IacucProtocolUndoLastActionBeanHelper extends UndoLastActionBeanHelperBase implements Serializable {
 
     private static final long serialVersionUID = 792168534895993037L;
 

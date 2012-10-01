@@ -22,18 +22,18 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.infrastructure.TaskName;
-import org.kuali.kra.protocol.Protocol;
-import org.kuali.kra.protocol.ProtocolDocument;
-import org.kuali.kra.protocol.ProtocolForm;
-import org.kuali.kra.protocol.auth.ProtocolTask;
+import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.protocol.ProtocolDocumentBase;
+import org.kuali.kra.protocol.ProtocolFormBase;
+import org.kuali.kra.protocol.auth.ProtocolTaskBase;
 import org.kuali.kra.protocol.noteattachment.AddProtocolAttachmentProtocolRule;
-import org.kuali.kra.protocol.noteattachment.NotesAttachmentsHelper;
-import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentFilter;
-import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentPersonnel;
-import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentProtocol;
+import org.kuali.kra.protocol.noteattachment.NotesAttachmentsHelperBase;
+import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentFilterBase;
+import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentPersonnelBase;
+import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentProtocolBase;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentService;
-import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentVersioningUtility;
-import org.kuali.kra.protocol.noteattachment.ProtocolNotepad;
+import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentVersioningUtilityBase;
+import org.kuali.kra.protocol.noteattachment.ProtocolNotepadBase;
 import org.kuali.kra.protocol.noteattachment.ProtocolNotepadService;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.TaskAuthorizationService;
@@ -44,11 +44,11 @@ import org.kuali.rice.krad.util.GlobalVariables;
 
 
 /**
- * This is the "Helper" class for IACUC Protocol Notes And Attachments.
+ * This is the "Helper" class for IACUC ProtocolBase Notes And Attachments.
  */
-public class IacucNotesAttachmentsHelper extends NotesAttachmentsHelper {
+public class IacucNotesAttachmentsHelper extends NotesAttachmentsHelperBase {
 
-    public IacucNotesAttachmentsHelper(ProtocolForm form) {
+    public IacucNotesAttachmentsHelper(ProtocolFormBase form) {
         super(form, (ProtocolAttachmentService)KraServiceLocator.getService("iacucProtocolAttachmentService"), 
                 KraServiceLocator.getService(TaskAuthorizationService.class),
                 KraServiceLocator.getService(KraAuthorizationService.class),
@@ -60,22 +60,22 @@ public class IacucNotesAttachmentsHelper extends NotesAttachmentsHelper {
 
     @Override
     public boolean canEditProtocolAttachments() {
-        final ProtocolTask task = new IacucProtocolTask(TaskName.MODIFY_IACUC_PROTOCOL_ATTACHMENTS, (IacucProtocol) this.getProtocol());
+        final ProtocolTaskBase task = new IacucProtocolTask(TaskName.MODIFY_IACUC_PROTOCOL_ATTACHMENTS, (IacucProtocol) this.getProtocol());
         return this.authService.isAuthorized(this.getUserIdentifier(), task);
     }
 
     @Override
-    protected ProtocolAttachmentProtocol createNewProtocolAttachmentProtocolInstanceHook(Protocol protocol) {
+    protected ProtocolAttachmentProtocolBase createNewProtocolAttachmentProtocolInstanceHook(ProtocolBase protocol) {
         return new IacucProtocolAttachmentProtocol(protocol);
     }
 
     @Override
-    protected ProtocolAttachmentPersonnel createNewProtocolAttachmentPersonnelInstanceHook(Protocol protocol) {
+    protected ProtocolAttachmentPersonnelBase createNewProtocolAttachmentPersonnelInstanceHook(ProtocolBase protocol) {
         return new IacucProtocolAttachmentPersonnel(protocol);
     }
 
     @Override
-    protected ProtocolAttachmentFilter createNewProtocolAttachmentFilterInstanceHook() {
+    protected ProtocolAttachmentFilterBase createNewProtocolAttachmentFilterInstanceHook() {
         return new IacucProtocolAttachmentFilter();
     }
 
@@ -86,13 +86,13 @@ public class IacucNotesAttachmentsHelper extends NotesAttachmentsHelper {
 
     @Override
     public boolean canAddProtocolNotepads() {
-        final ProtocolTask task = new IacucProtocolTask(TaskName.ADD_IACUC_PROTOCOL_NOTES, (IacucProtocol) this.getProtocol());
+        final ProtocolTaskBase task = new IacucProtocolTask(TaskName.ADD_IACUC_PROTOCOL_NOTES, (IacucProtocol) this.getProtocol());
         return this.authService.isAuthorized(this.getUserIdentifier(), task);
     }
 
     @Override
     public boolean canViewRestrictedProtocolNotepads() {
-        final ProtocolTask task = new IacucProtocolTask(TaskName.IACUC_VIEW_RESTRICTED_NOTES, (IacucProtocol) this.getProtocol());
+        final ProtocolTaskBase task = new IacucProtocolTask(TaskName.IACUC_VIEW_RESTRICTED_NOTES, (IacucProtocol) this.getProtocol());
         return this.authService.isAuthorized(this.getUserIdentifier(), task);
     }
 
@@ -102,27 +102,27 @@ public class IacucNotesAttachmentsHelper extends NotesAttachmentsHelper {
     }
 
     @Override
-    public Class<? extends ProtocolAttachmentProtocol> getProtocolAttachmentProtocolClassHook() {
+    public Class<? extends ProtocolAttachmentProtocolBase> getProtocolAttachmentProtocolClassHook() {
         return IacucProtocolAttachmentProtocol.class;
     }
 
     @Override
-    public Class<? extends ProtocolAttachmentPersonnel> getProtocolAttachmentPersonnelClassHook() {
+    public Class<? extends ProtocolAttachmentPersonnelBase> getProtocolAttachmentPersonnelClassHook() {
         return IacucProtocolAttachmentPersonnel.class;
     }
 
     @Override
-    public Class<? extends ProtocolNotepad> getProtocolNotepadClassHook() {
+    public Class<? extends ProtocolNotepadBase> getProtocolNotepadClassHook() {
         return IacucProtocolNotepad.class;
     }
 
     @Override
-    public Class<? extends ProtocolDocument> getProtocolDocumentClassHook() {
+    public Class<? extends ProtocolDocumentBase> getProtocolDocumentClassHook() {
         return IacucProtocolDocument.class;
     }
 
     @Override
-    protected ProtocolNotepad createNewProtocolNotepadInstanceHook(Protocol protocol) {
+    protected ProtocolNotepadBase createNewProtocolNotepadInstanceHook(ProtocolBase protocol) {
         return new IacucProtocolNotepad(protocol);
     }
 

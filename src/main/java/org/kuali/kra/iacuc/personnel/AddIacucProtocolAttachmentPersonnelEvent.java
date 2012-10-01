@@ -15,15 +15,15 @@
  */
 package org.kuali.kra.iacuc.personnel;
 
-import org.kuali.kra.protocol.ProtocolDocument;
-import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentPersonnel;
+import org.kuali.kra.protocol.ProtocolDocumentBase;
+import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentPersonnelBase;
 import org.kuali.kra.protocol.personnel.AddProtocolAttachmentPersonnelEvent;
 
 
 public class AddIacucProtocolAttachmentPersonnelEvent extends AddProtocolAttachmentPersonnelEvent {
 
-    public AddIacucProtocolAttachmentPersonnelEvent(String errorPathPrefix, ProtocolDocument document,
-            ProtocolAttachmentPersonnel protocolAttachmentPersonnel, int personIndex) {
+    public AddIacucProtocolAttachmentPersonnelEvent(String errorPathPrefix, ProtocolDocumentBase document,
+            ProtocolAttachmentPersonnelBase protocolAttachmentPersonnel, int personIndex) {
         super(errorPathPrefix, document, protocolAttachmentPersonnel, personIndex);
     }
 

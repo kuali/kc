@@ -21,6 +21,6 @@ import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
  * This interface is hook to Kuali Event Notification
  */
 public interface ProtocolReferenceEvent extends KualiDocumentEvent {    
-    public ProtocolReferenceBean getProtocolReferenceBean();
+    public ProtocolReferenceBeanBase getProtocolReferenceBean();
     
 }

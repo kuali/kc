@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.iacuc.actions.submit;
 
-import org.kuali.kra.protocol.actions.submit.ValidProtocolActionAction;
+import org.kuali.kra.protocol.actions.submit.ValidProtocolActionActionBase;
 
 /**
  * This class represents the action follow up mapping as it exists in coeus.
@@ -25,7 +25,7 @@ import org.kuali.kra.protocol.actions.submit.ValidProtocolActionAction;
  * a unique key on the underlying table.
  * 
  */
-public class IacucValidProtocolActionAction extends ValidProtocolActionAction {
+public class IacucValidProtocolActionAction extends ValidProtocolActionActionBase {
 
     /**
      * Comment for <code>serialVersionUID</code>

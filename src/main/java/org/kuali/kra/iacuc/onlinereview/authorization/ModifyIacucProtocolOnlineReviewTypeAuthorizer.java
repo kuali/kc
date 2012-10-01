@@ -22,8 +22,8 @@ import org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewerType;
 import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReview;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.kra.protocol.ProtocolOnlineReviewDocument;
-import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReview;
+import org.kuali.kra.protocol.ProtocolOnlineReviewDocumentBase;
+import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewBase;
 import org.kuali.kra.protocol.onlinereview.authorization.ProtocolOnlineReviewTask;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.DocumentService;
@@ -37,9 +37,9 @@ public class ModifyIacucProtocolOnlineReviewTypeAuthorizer extends IacucProtocol
     public boolean isAuthorized(String userId, IacucProtocolOnlineReviewTask task) {
         boolean hasPermission = false;
         IacucProtocolOnlineReview protocolOnlineReview = (IacucProtocolOnlineReview) task.getProtocolOnlineReview();
-        ProtocolOnlineReviewDocument protocolDoc = null;
+        ProtocolOnlineReviewDocumentBase protocolDoc = null;
         try {
-            protocolDoc = (ProtocolOnlineReviewDocument)KraServiceLocator.getService(DocumentService.class).getByDocumentHeaderId(protocolOnlineReview.getProtocolOnlineReviewDocument().getDocumentNumber());
+            protocolDoc = (ProtocolOnlineReviewDocumentBase)KraServiceLocator.getService(DocumentService.class).getByDocumentHeaderId(protocolOnlineReview.getProtocolOnlineReviewDocument().getDocumentNumber());
         
             if ( protocolOnlineReview.getProtocolOnlineReviewId() != null
                     && !protocolOnlineReview.getProtocolOnlineReviewDocument().isViewOnly()) { 
@@ -61,7 +61,7 @@ public class ModifyIacucProtocolOnlineReviewTypeAuthorizer extends IacucProtocol
             }
         }
         catch (WorkflowException e) {
-            LOG.error(String.format("Could not find ProtocolOnlineReview, document number %s",protocolOnlineReview.getProtocolOnlineReviewDocument().getDocumentNumber()));
+            LOG.error(String.format("Could not find ProtocolOnlineReviewBase, document number %s",protocolOnlineReview.getProtocolOnlineReviewDocument().getDocumentNumber()));
         }        
         return hasPermission;
     }

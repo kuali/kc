@@ -17,9 +17,9 @@ package org.kuali.kra.iacuc.auth;
 
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
 import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.kra.protocol.auth.CreateContinuationUnavailableAuthorizer;
+import org.kuali.kra.protocol.auth.CreateContinuationUnavailableAuthorizerBase;
 
-public class CreateIacucContinuationUnavailableAuthorizer extends CreateContinuationUnavailableAuthorizer {
+public class CreateIacucContinuationUnavailableAuthorizer extends CreateContinuationUnavailableAuthorizerBase {
 
     @Override
     protected String getActionTypeContinuationCreatedHook() {

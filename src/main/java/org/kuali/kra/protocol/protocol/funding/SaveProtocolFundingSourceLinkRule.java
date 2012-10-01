@@ -30,7 +30,7 @@ import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 
 /**
- * Runs the rule processing for saving a Protocol Funding Source.
+ * Runs the rule processing for saving a ProtocolBase Funding Source.
  */
 public class SaveProtocolFundingSourceLinkRule extends ResearchDocumentRuleBase implements BusinessRuleInterface<SaveProtocolFundingSourceLinkEvent> {
 
@@ -47,7 +47,7 @@ public class SaveProtocolFundingSourceLinkRule extends ResearchDocumentRuleBase 
     public boolean processRules(SaveProtocolFundingSourceLinkEvent event) {
         boolean rulePassed = true;
         
-        for (ProtocolFundingSource protocolFundingSource : event.getProtocolFundingSources()) {
+        for (ProtocolFundingSourceBase protocolFundingSource : event.getProtocolFundingSources()) {
             String fundingSourceNumber = protocolFundingSource.getFundingSourceNumber();
             String fundingSourceTypeCode = protocolFundingSource.getFundingSourceTypeCode();
             String protocolNumber = protocolFundingSource.getProtocolNumber();
@@ -60,7 +60,7 @@ public class SaveProtocolFundingSourceLinkRule extends ResearchDocumentRuleBase 
         return rulePassed;
     }
     
-    private boolean validateProtocolFundingSource(ProtocolFundingSource protocolFundingSource) {
+    private boolean validateProtocolFundingSource(ProtocolFundingSourceBase protocolFundingSource) {
         boolean isValid = true;
         
         String fundingSourceType = protocolFundingSource.getFundingSourceTypeCode();

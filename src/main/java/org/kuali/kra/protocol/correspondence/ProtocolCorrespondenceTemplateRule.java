@@ -47,8 +47,8 @@ public class ProtocolCorrespondenceTemplateRule {
      * @return true if the validation is successful, false otherwise
      * @throws IOException 
      */
-    public boolean processAddDefaultProtocolCorrespondenceTemplateRules(ProtocolCorrespondenceType correspondenceType,
-            ProtocolCorrespondenceTemplate newCorrespondenceTemplate, int index) throws IOException {
+    public boolean processAddDefaultProtocolCorrespondenceTemplateRules(ProtocolCorrespondenceTypeBase correspondenceType,
+            ProtocolCorrespondenceTemplateBase newCorrespondenceTemplate, int index) throws IOException {
         boolean valid = true;
         
         String filePropertyName = String.format(PROPERTY_NAME_NEW_DEFAULT_TEMPLATE_FILE, index);
@@ -67,8 +67,8 @@ public class ProtocolCorrespondenceTemplateRule {
      * @return true if the validation is successful, false otherwise
      * @throws IOException 
      */
-    public boolean processAddProtocolCorrespondenceTemplateRules(ProtocolCorrespondenceType correspondenceType,
-            ProtocolCorrespondenceTemplate newCorrespondenceTemplate, int index) throws IOException {
+    public boolean processAddProtocolCorrespondenceTemplateRules(ProtocolCorrespondenceTypeBase correspondenceType,
+            ProtocolCorrespondenceTemplateBase newCorrespondenceTemplate, int index) throws IOException {
         boolean valid = true;
         
         String committeePropertyName = String.format(PROPERTY_NAME_NEW_COMMITTEE_ID, index);
@@ -91,8 +91,8 @@ public class ProtocolCorrespondenceTemplateRule {
      * @return true if the validation is successful, false otherwise
      * @throws IOException 
      */
-    public boolean processReplaceProtocolCorrespondenceTemplateRules(ProtocolCorrespondenceType correspondenceType,
-            ProtocolCorrespondenceTemplate newCorrespondenceTemplate, int typeIndex, int templateIndex) throws IOException {
+    public boolean processReplaceProtocolCorrespondenceTemplateRules(ProtocolCorrespondenceTypeBase correspondenceType,
+            ProtocolCorrespondenceTemplateBase newCorrespondenceTemplate, int typeIndex, int templateIndex) throws IOException {
         boolean valid = true;
 
         String committeePropertyName = String.format(PROPERTY_NAME_COMMITTEE_ID, typeIndex, templateIndex);
@@ -111,11 +111,11 @@ public class ProtocolCorrespondenceTemplateRule {
      * @return true if the validation is successful, false otherwise
      * @throws IOException 
      */
-    public boolean processSaveProtocolCorrespondenceTemplateRules(List<ProtocolCorrespondenceType> protocolCorrespondenceTypes) throws IOException {
+    public boolean processSaveProtocolCorrespondenceTemplateRules(List<ProtocolCorrespondenceTypeBase> protocolCorrespondenceTypes) throws IOException {
         boolean valid = true;
-        for (ProtocolCorrespondenceType protocolCorrespondenceType : protocolCorrespondenceTypes) {
+        for (ProtocolCorrespondenceTypeBase protocolCorrespondenceType : protocolCorrespondenceTypes) {
             int typeIndex = protocolCorrespondenceTypes.indexOf(protocolCorrespondenceType);
-            List<ProtocolCorrespondenceTemplate> protocolCorrespondenceTemplates = protocolCorrespondenceType.getCommitteeProtocolCorrespondenceTemplates();
+            List<ProtocolCorrespondenceTemplateBase> protocolCorrespondenceTemplates = protocolCorrespondenceType.getCommitteeProtocolCorrespondenceTemplates();
 
             valid &= !hasInvalidCommittee(protocolCorrespondenceTemplates, typeIndex);
             valid &= !hasDuplicateCommittee(protocolCorrespondenceTemplates, typeIndex);
@@ -132,9 +132,9 @@ public class ProtocolCorrespondenceTemplateRule {
      * @param typeIndex
      * @return
      */
-    private boolean hasInvalidCommittee(List<ProtocolCorrespondenceTemplate> protocolCorrespondenceTemplates, int typeIndex) {
+    private boolean hasInvalidCommittee(List<ProtocolCorrespondenceTemplateBase> protocolCorrespondenceTemplates, int typeIndex) {
         boolean hasInvalidCommittee = false;
-        for (ProtocolCorrespondenceTemplate protocolCorrespondenceTemplate : protocolCorrespondenceTemplates) {
+        for (ProtocolCorrespondenceTemplateBase protocolCorrespondenceTemplate : protocolCorrespondenceTemplates) {
             int templateIndex = protocolCorrespondenceTemplates.indexOf(protocolCorrespondenceTemplate);
             String propertyName = String.format(PROPERTY_NAME_COMMITTEE_ID, typeIndex, templateIndex);
             hasInvalidCommittee |= !committeeSpecified(protocolCorrespondenceTemplate.getCommitteeId(), propertyName);
@@ -150,9 +150,9 @@ public class ProtocolCorrespondenceTemplateRule {
      * @param typeIndex, the index of the protocol correspondence type (used for error messages)
      * @return true if duplicates exists, false otherwise
      */
-    private boolean hasDuplicateCommittee(List<ProtocolCorrespondenceTemplate> protocolCorrespondenceTemplates, int typeIndex) {
-        List<ProtocolCorrespondenceTemplate> tmpTemplates = new ArrayList<ProtocolCorrespondenceTemplate>();
-        for (ProtocolCorrespondenceTemplate protocolCorrespondenceTemplate : protocolCorrespondenceTemplates) {
+    private boolean hasDuplicateCommittee(List<ProtocolCorrespondenceTemplateBase> protocolCorrespondenceTemplates, int typeIndex) {
+        List<ProtocolCorrespondenceTemplateBase> tmpTemplates = new ArrayList<ProtocolCorrespondenceTemplateBase>();
+        for (ProtocolCorrespondenceTemplateBase protocolCorrespondenceTemplate : protocolCorrespondenceTemplates) {
             int templateIndex = protocolCorrespondenceTemplates.indexOf(protocolCorrespondenceTemplate);
             String propertyName = String.format(PROPERTY_NAME_COMMITTEE_ID, typeIndex, templateIndex);
 
@@ -189,9 +189,9 @@ public class ProtocolCorrespondenceTemplateRule {
      * @param propertyName - the property that is being verified (used for error message).
      * @return true if the committee has a template defined, false otherwise.
      */
-    private boolean duplicateCommittee(List<ProtocolCorrespondenceTemplate> correspondenceTemplates, String committeeId, String propertyName) {
+    private boolean duplicateCommittee(List<ProtocolCorrespondenceTemplateBase> correspondenceTemplates, String committeeId, String propertyName) {
         boolean duplicate = false;
-        for (ProtocolCorrespondenceTemplate correspondenceTemplate : correspondenceTemplates) {
+        for (ProtocolCorrespondenceTemplateBase correspondenceTemplate : correspondenceTemplates) {
             if (correspondenceTemplate.getCommitteeId().equals(committeeId)) {
                 GlobalVariables.getMessageMap().putError(propertyName, 
                         KeyConstants.ERROR_CORRESPONDENCE_TEMPLATE_COMMITTEE_DUPLICATE);
@@ -246,10 +246,10 @@ public class ProtocolCorrespondenceTemplateRule {
      * @return true if all files are valid of the templates, false otherwise
      * @throws IOException
      */
-    private boolean validTemplates(ProtocolCorrespondenceType protocolCorrespondenceType, int typeIndex) throws IOException {
+    private boolean validTemplates(ProtocolCorrespondenceTypeBase protocolCorrespondenceType, int typeIndex) throws IOException {
         boolean isValid = true;
         
-        ProtocolCorrespondenceTemplate defaultTemplate = protocolCorrespondenceType.getDefaultProtocolCorrespondenceTemplate();
+        ProtocolCorrespondenceTemplateBase defaultTemplate = protocolCorrespondenceType.getDefaultProtocolCorrespondenceTemplate();
         if (defaultTemplate != null) {
         	if ((defaultTemplate.getCorrespondenceTemplate().length == 0) 
         			|| StringUtils.isBlank(defaultTemplate.getFileName())) { 
@@ -260,8 +260,8 @@ public class ProtocolCorrespondenceTemplateRule {
         }
       
 
-        List<ProtocolCorrespondenceTemplate> protocolCorrespondenceTemplates = protocolCorrespondenceType.getCommitteeProtocolCorrespondenceTemplates();  
-        for (ProtocolCorrespondenceTemplate protocolCorrespondenceTemplate : protocolCorrespondenceTemplates) {
+        List<ProtocolCorrespondenceTemplateBase> protocolCorrespondenceTemplates = protocolCorrespondenceType.getCommitteeProtocolCorrespondenceTemplates();  
+        for (ProtocolCorrespondenceTemplateBase protocolCorrespondenceTemplate : protocolCorrespondenceTemplates) {
             if ((protocolCorrespondenceTemplate.getCorrespondenceTemplate() == null)
                     || (protocolCorrespondenceTemplate.getCorrespondenceTemplate().length == 0)
                     || StringUtils.isBlank(protocolCorrespondenceTemplate.getFileName())) {

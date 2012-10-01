@@ -16,10 +16,10 @@
 package org.kuali.kra.iacuc.personnel;
 
 import org.kuali.kra.iacuc.IacucProtocol;
-import org.kuali.kra.protocol.personnel.ProtocolPerson;
+import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
 
 
-public class IacucProtocolPerson extends ProtocolPerson {
+public class IacucProtocolPerson extends ProtocolPersonBase {
 
     private static final long serialVersionUID = 6676849646094141708L;
     

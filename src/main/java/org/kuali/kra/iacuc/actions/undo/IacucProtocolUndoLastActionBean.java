@@ -22,15 +22,15 @@ import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
 import org.kuali.kra.iacuc.actions.IacucProtocolStatus;
 import org.kuali.kra.iacuc.actions.genericactions.IacucProtocolGenericActionBean;
 import org.kuali.kra.irb.actions.ProtocolActionType;
-import org.kuali.kra.protocol.Protocol;
-import org.kuali.kra.protocol.actions.ActionHelper;
-import org.kuali.kra.protocol.actions.ProtocolAction;
+import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.protocol.actions.ActionHelperBase;
+import org.kuali.kra.protocol.actions.ProtocolActionBase;
 import org.kuali.kra.protocol.actions.undo.UndoLastActionBean;
-import org.kuali.kra.protocol.actions.undo.UndoLastActionBeanHelper;
+import org.kuali.kra.protocol.actions.undo.UndoLastActionBeanHelperBase;
 
 public class IacucProtocolUndoLastActionBean extends IacucProtocolGenericActionBean implements UndoLastActionBean {
 
-    private UndoLastActionBeanHelper helper;
+    private UndoLastActionBeanHelperBase helper;
     
     public IacucProtocolUndoLastActionBean(IacucActionHelper actionHelper, String errorPropertyKey) {
         super(actionHelper, errorPropertyKey);
@@ -43,7 +43,7 @@ public class IacucProtocolUndoLastActionBean extends IacucProtocolGenericActionB
     }
 
     @Override
-    public ProtocolAction getLastAction() {
+    public ProtocolActionBase getLastAction() {
         return helper.getLastPerformedAction(getProtocol().getProtocolActions());
     }
 

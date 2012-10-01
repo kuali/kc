@@ -18,8 +18,8 @@ package org.kuali.kra.iacuc.actions.processBillable;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.auth.IacucProtocolTask;
 import org.kuali.kra.infrastructure.TaskName;
-import org.kuali.kra.protocol.Protocol;
-import org.kuali.kra.protocol.auth.ProtocolTask;
+import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.protocol.auth.ProtocolTaskBase;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
@@ -38,7 +38,7 @@ private TaskAuthorizationService taskAuthorizationService;
      * @param protocol
      * @param billable
      */
-    public void processBillable(Protocol protocol, boolean billable) {
+    public void processBillable(ProtocolBase protocol, boolean billable) {
         if (canUpdateBillableField(protocol)) {
             protocol.getProtocolSubmission().setBillable(billable);
         }
@@ -48,7 +48,7 @@ private TaskAuthorizationService taskAuthorizationService;
         this.taskAuthorizationService = taskAuthorizationService;
     }
 
-    private boolean canUpdateBillableField(Protocol protocol) {
+    private boolean canUpdateBillableField(ProtocolBase protocol) {
         IacucProtocolTask task = new IacucProtocolTask(TaskName.MODIFY_IACUC_PROTOCOL_BILLABLE, (IacucProtocol)protocol);
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }

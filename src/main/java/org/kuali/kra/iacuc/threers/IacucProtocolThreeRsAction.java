@@ -31,7 +31,7 @@ import org.kuali.kra.iacuc.IacucProtocolAction;
 import org.kuali.kra.iacuc.IacucProtocolForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.protocol.ProtocolForm;
+import org.kuali.kra.protocol.ProtocolFormBase;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.springframework.util.CollectionUtils;
 

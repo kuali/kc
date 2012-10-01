@@ -16,7 +16,7 @@
 package org.kuali.kra.protocol.personnel;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.protocol.ProtocolDocument;
+import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -25,11 +25,11 @@ public abstract class ProtocolUnitEventBase extends KraDocumentEventBase impleme
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory
             .getLog(ProtocolUnitEventBase.class);
 
-    private ProtocolUnit protocolUnit;
+    private ProtocolUnitBase protocolUnit;
     private int personIndex;
 
-    protected ProtocolUnitEventBase(String description, String errorPathPrefix, ProtocolDocument document,
-            ProtocolUnit protocolUnit, int personIndex) {
+    protected ProtocolUnitEventBase(String description, String errorPathPrefix, ProtocolDocumentBase document,
+            ProtocolUnitBase protocolUnit, int personIndex) {
         super(description, errorPathPrefix, document);
         setProtocolUnit(protocolUnit);
         this.personIndex = personIndex;
@@ -37,9 +37,9 @@ public abstract class ProtocolUnitEventBase extends KraDocumentEventBase impleme
     }
 
     /**
-     * @return <code>{@link ProtocolUnit}</code> that triggered this event.
+     * @return <code>{@link ProtocolUnitBase}</code> that triggered this event.
      */
-    public ProtocolUnit getProtocolUnit() {
+    public ProtocolUnitBase getProtocolUnit() {
         return this.protocolUnit;
     }
 
@@ -55,8 +55,8 @@ public abstract class ProtocolUnitEventBase extends KraDocumentEventBase impleme
      * by doing a deep copy, we are ensuring that the business rule class can't update
      * the original object by reference
      */
-    private void setProtocolUnit(ProtocolUnit protocolUnit) {
-        this.protocolUnit = (ProtocolUnit) ObjectUtils.deepCopy(protocolUnit);
+    private void setProtocolUnit(ProtocolUnitBase protocolUnit) {
+        this.protocolUnit = (ProtocolUnitBase) ObjectUtils.deepCopy(protocolUnit);
     }
 
     /**

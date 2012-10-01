@@ -19,7 +19,7 @@ import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.common.specialreview.lookup.keyvalue.SpecialReviewTypeValuesFinder;
 
 /**
- * Provides a value finder for the Protocol-specific Special Review Types.
+ * Provides a value finder for the ProtocolBase-specific Special Review Types.
  */
 public class ProtocolSpecialReviewTypeValuesFinder extends SpecialReviewTypeValuesFinder {
 

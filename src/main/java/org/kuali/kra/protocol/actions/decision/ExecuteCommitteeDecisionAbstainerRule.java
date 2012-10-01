@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.protocol.actions.decision;
 
-import org.kuali.kra.protocol.ProtocolDocument;
+import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 /**
@@ -29,5 +29,5 @@ public interface ExecuteCommitteeDecisionAbstainerRule<CD extends CommitteeDecis
      * @param committeeDecision
      * @return
      */
-    boolean proccessCommitteeDecisionAbstainerRule(ProtocolDocument document, CD committeeDecision);
+    boolean proccessCommitteeDecisionAbstainerRule(ProtocolDocumentBase document, CD committeeDecision);
 }

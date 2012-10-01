@@ -25,7 +25,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
  * 
  * This class implements the business rule when adding new review attachment.  ie, validate description and file are entered.
  */
-public class ProtocolAddReviewAttachmentRule<E extends ProtocolAddReviewAttachmentEvent<?>> extends ResearchDocumentRuleBase implements BusinessRuleInterface<E> {
+public class ProtocolAddReviewAttachmentRule<E extends ProtocolAddReviewAttachmentEventBase<?>> extends ResearchDocumentRuleBase implements BusinessRuleInterface<E> {
     
     /**
      * {@inheritDoc}

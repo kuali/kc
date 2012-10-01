@@ -15,17 +15,17 @@
  */
 package org.kuali.kra.protocol.protocol.reference;
 
-import org.kuali.kra.protocol.Protocol;
+import org.kuali.kra.protocol.ProtocolBase;
 
 
 public interface ProtocolReferenceService {
 
     /**
-     * This method adds ProtocolReference to the List of ProtocolReferences along with 
+     * This method adds ProtocolReferenceBase to the List of ProtocolReferences along with 
      * appropriate ProtocolReferenceType.
      * @param protocol which contains list of ProtocolReferences.
      * @param protocolReference object is added to ProtocolReferences list after setting ProtocolReferenceType.
      */
-    public abstract void addProtocolReference(Protocol protocol, ProtocolReference protocolReference);
+    public abstract void addProtocolReference(ProtocolBase protocol, ProtocolReferenceBase protocolReference);
     
 }

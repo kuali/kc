@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.iacuc.actions.amendrenew;
 
-import org.kuali.kra.protocol.actions.amendrenew.CreateRenewalRule;
+import org.kuali.kra.protocol.actions.amendrenew.CreateRenewalRuleBase;
 
-public class CreateIacucRenewalRule extends CreateRenewalRule {
+public class CreateIacucRenewalRule extends CreateRenewalRuleBase {
 
 }

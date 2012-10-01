@@ -25,28 +25,28 @@ import org.kuali.kra.iacuc.actions.IacucProtocolAction;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
 import org.kuali.kra.iacuc.actions.IacucProtocolStatus;
 import org.kuali.kra.iacuc.questionnaire.IacucProtocolModuleQuestionnaireBean;
-import org.kuali.kra.protocol.Protocol;
-import org.kuali.kra.protocol.ProtocolDocument;
-import org.kuali.kra.protocol.actions.ProtocolAction;
-import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewModule;
-import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewServiceImpl;
-import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewal;
+import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.protocol.ProtocolDocumentBase;
+import org.kuali.kra.protocol.actions.ProtocolActionBase;
+import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewModuleBase;
+import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewServiceImplBase;
+import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewalBase;
 import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendmentBean;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
- * The Protocol Amendment/Renewal Service Implementation.
+ * The ProtocolBase Amendment/Renewal Service Implementation.
  */
-public class IacucProtocolAmendRenewServiceImpl extends ProtocolAmendRenewServiceImpl implements IacucProtocolAmendRenewService {
+public class IacucProtocolAmendRenewServiceImpl extends ProtocolAmendRenewServiceImplBase implements IacucProtocolAmendRenewService {
     protected static final String CONTINUATION_ID = "C";
     protected static final String CONTINUATION_NEXT_VALUE = "nextContinuationValue";
     protected static final String CONTINUATION = "Continuation";
     
 
     @Override
-    protected void addModules(Protocol protocol, ProtocolAmendmentBean amendmentBean) {
-        ProtocolAmendRenewal amendmentEntry = protocol.getProtocolAmendRenewal();
+    protected void addModules(ProtocolBase protocol, ProtocolAmendmentBean amendmentBean) {
+        ProtocolAmendRenewalBase amendmentEntry = protocol.getProtocolAmendRenewal();
         if (amendmentBean.getGeneralInfo()) {
             amendmentEntry.addModule(createModule(amendmentEntry, IacucProtocolModule.GENERAL_INFO));
         } else {
@@ -160,17 +160,17 @@ public class IacucProtocolAmendRenewServiceImpl extends ProtocolAmendRenewServic
     }
 
     @Override
-    protected ProtocolAction getNewAmendmentProtocolActionInstanceHook(Protocol protocol) {
+    protected ProtocolActionBase getNewAmendmentProtocolActionInstanceHook(ProtocolBase protocol) {
         return new IacucProtocolAction((IacucProtocol)protocol, IacucProtocolActionType.AMENDMENT_CREATED);
     }
 
     @Override
-    protected ProtocolAction getNewRenewalProtocolActionInstanceHook(Protocol protocol) {
+    protected ProtocolActionBase getNewRenewalProtocolActionInstanceHook(ProtocolBase protocol) {
         return new IacucProtocolAction((IacucProtocol)protocol, IacucProtocolActionType.RENEWAL_CREATED);
     }
 
     @Override
-    protected ModuleQuestionnaireBean getNewProtocolModuleQuestionnaireBeanInstanceHook(Protocol protocol) {
+    protected ModuleQuestionnaireBean getNewProtocolModuleQuestionnaireBeanInstanceHook(ProtocolBase protocol) {
         return new IacucProtocolModuleQuestionnaireBean((IacucProtocol) protocol);
     }
 
@@ -206,17 +206,17 @@ public class IacucProtocolAmendRenewServiceImpl extends ProtocolAmendRenewServic
     }
 
     @Override
-    protected Class<? extends Protocol> getProtocolBOClassHook() {
+    protected Class<? extends ProtocolBase> getProtocolBOClassHook() {
         return IacucProtocol.class;
     }
 
     @Override
-    protected ProtocolAmendRenewal getNewProtocolAmendRenewalInstanceHook() {
+    protected ProtocolAmendRenewalBase getNewProtocolAmendRenewalInstanceHook() {
         return new IacucProtocolAmendRenewal();
     }
 
     @Override
-    protected ProtocolAmendRenewModule getNewProtocolAmendRenewModuleInstanceHook() {
+    protected ProtocolAmendRenewModuleBase getNewProtocolAmendRenewModuleInstanceHook() {
         return new IacucProtocolAmendRenewModule();
     }
 
@@ -244,7 +244,7 @@ public class IacucProtocolAmendRenewServiceImpl extends ProtocolAmendRenewServic
         protocolDocument.getProtocol().getProtocolActions().add(protocolAction);
         
         // attributes are same for continuation. Let us use the same amendrenewal object here.
-        ProtocolAmendRenewal protocolAmendRenewal = createAmendmentRenewal(protocolDocument, continuationProtocolDocument, continuationSummary);
+        ProtocolAmendRenewalBase protocolAmendRenewal = createAmendmentRenewal(protocolDocument, continuationProtocolDocument, continuationSummary);
         continuationProtocolDocument.getProtocol().setProtocolAmendRenewal(protocolAmendRenewal);
         documentService.saveDocument(protocolDocument);
         documentService.saveDocument(continuationProtocolDocument);
@@ -290,7 +290,7 @@ public class IacucProtocolAmendRenewServiceImpl extends ProtocolAmendRenewServic
     }
 
     /**
-     * Create a Protocol Action indicating that a renewal has been created.
+     * Create a ProtocolBase Action indicating that a renewal has been created.
      * @param protocol
      * @param protocolNumber protocol number of the renewal
      * @return a protocol action
@@ -305,7 +305,7 @@ public class IacucProtocolAmendRenewServiceImpl extends ProtocolAmendRenewServic
     public Collection<IacucProtocol> getContinuations(String protocolNumber) throws Exception {
         List<IacucProtocol> continuations = new ArrayList<IacucProtocol>();
         Collection<IacucProtocol> protocols = (Collection<IacucProtocol>) kraLookupDao.findCollectionUsingWildCard(IacucProtocol.class, PROTOCOL_NUMBER, protocolNumber + CONTINUATION_ID + "%", true);
-        for (Protocol protocol : protocols) {
+        for (ProtocolBase protocol : protocols) {
             IacucProtocolDocument protocolDocument = (IacucProtocolDocument) documentService.getByDocumentHeaderId(protocol.getProtocolDocument().getDocumentNumber());
             continuations.add(protocolDocument.getIacucProtocol());
         }
@@ -313,8 +313,8 @@ public class IacucProtocolAmendRenewServiceImpl extends ProtocolAmendRenewServic
     }
 
     @Override
-    public List<Protocol> getAmendmentAndRenewals(String protocolNumber) throws Exception {
-        List<Protocol> protocols = super.getAmendmentAndRenewals(protocolNumber);
+    public List<ProtocolBase> getAmendmentAndRenewals(String protocolNumber) throws Exception {
+        List<ProtocolBase> protocols = super.getAmendmentAndRenewals(protocolNumber);
         // let us add continuations (continuation is same as renewal)
         protocols.addAll(getContinuations(protocolNumber));
         return protocols;

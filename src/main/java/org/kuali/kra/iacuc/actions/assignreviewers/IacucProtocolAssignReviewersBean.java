@@ -26,9 +26,9 @@ import org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewerBean;
 import org.kuali.kra.iacuc.committee.service.IacucCommitteeService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.actions.assignreviewers.ProtocolAssignReviewersBean;
-import org.kuali.kra.protocol.actions.submit.ProtocolReviewerBean;
-import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
-import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReview;
+import org.kuali.kra.protocol.actions.submit.ProtocolReviewerBeanBase;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
+import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewBase;
 
 /**
  * This class is really just a "form" for assigning a protocol
@@ -40,7 +40,7 @@ public class IacucProtocolAssignReviewersBean extends IacucProtocolActionBean im
     
     private String currentCommitteeId = null;
     private String currentScheduleId = null;
-    private List<ProtocolReviewerBean> reviewers = new ArrayList<ProtocolReviewerBean>();
+    private List<ProtocolReviewerBeanBase> reviewers = new ArrayList<ProtocolReviewerBeanBase>();
     
     /**
      * Constructs a ProtocolAssignReviewersBean.
@@ -55,7 +55,7 @@ public class IacucProtocolAssignReviewersBean extends IacucProtocolActionBean im
      * and schedule, and assigns their reviewer types if any have been saved in the past
      */
     public void prepareView() {
-        ProtocolSubmission submission = getProtocol().getProtocolSubmission();
+        ProtocolSubmissionBase submission = getProtocol().getProtocolSubmission();
         if (submission != null) {
             String committeeId = submission.getCommitteeId();
             String scheduleId = submission.getScheduleId();
@@ -75,9 +75,9 @@ public class IacucProtocolAssignReviewersBean extends IacucProtocolActionBean im
                         reviewers.add(new IacucProtocolReviewerBean(member));
                     }
                     
-                    for (ProtocolOnlineReview review : submission.getProtocolOnlineReviews()) {
+                    for (ProtocolOnlineReviewBase review : submission.getProtocolOnlineReviews()) {
                         if (review.isActive()) {
-                            for (ProtocolReviewerBean reviewerBean : reviewers) {
+                            for (ProtocolReviewerBeanBase reviewerBean : reviewers) {
                                 if (reviewerBean.isProtocolReviewerBeanForReviewer(review.getProtocolReviewer())) {
                                     reviewerBean.setReviewerTypeCode(review.getProtocolReviewer().getReviewerTypeCode());
                                     break;
@@ -94,11 +94,11 @@ public class IacucProtocolAssignReviewersBean extends IacucProtocolActionBean im
         return KraServiceLocator.getService(IacucCommitteeService.class);
     }
     
-    public List<ProtocolReviewerBean> getReviewers() {
+    public List<ProtocolReviewerBeanBase> getReviewers() {
         return reviewers;
     }
     
-    public ProtocolReviewerBean getReviewer(int i) {
+    public ProtocolReviewerBeanBase getReviewer(int i) {
         return reviewers.get(i);
     }
     
@@ -107,8 +107,8 @@ public class IacucProtocolAssignReviewersBean extends IacucProtocolActionBean im
      * reviewers in the left column.
      * @return
      */
-    public List<ProtocolReviewerBean> getLeftReviewers() {
-        List<ProtocolReviewerBean> leftReviewers = new ArrayList<ProtocolReviewerBean>();
+    public List<ProtocolReviewerBeanBase> getLeftReviewers() {
+        List<ProtocolReviewerBeanBase> leftReviewers = new ArrayList<ProtocolReviewerBeanBase>();
         for (int i = 0; i < (reviewers.size() + 1) / 2; i++) {
             leftReviewers.add(reviewers.get(i));
         }
@@ -120,8 +120,8 @@ public class IacucProtocolAssignReviewersBean extends IacucProtocolActionBean im
      * reviewers in the right column.
      * @return
      */
-    public List<ProtocolReviewerBean> getRightReviewers() {
-        List<ProtocolReviewerBean> rightReviewers = new ArrayList<ProtocolReviewerBean>();
+    public List<ProtocolReviewerBeanBase> getRightReviewers() {
+        List<ProtocolReviewerBeanBase> rightReviewers = new ArrayList<ProtocolReviewerBeanBase>();
         for (int i = (reviewers.size() + 1) / 2; i < reviewers.size(); i++) {
             rightReviewers.add(reviewers.get(i));
         }
@@ -130,7 +130,7 @@ public class IacucProtocolAssignReviewersBean extends IacucProtocolActionBean im
     
 // TODO *********commented the code below during IACUC refactoring*********     
 // not relevant for IACUC? 
-//    private boolean isExpeditedSubmission(ProtocolSubmission submission) {
+//    private boolean isExpeditedSubmission(ProtocolSubmissionBase submission) {
 //        return submission != null && IacucProtocolReviewType.EXPEDITED_REVIEW_TYPE_CODE.equals(submission.getProtocolReviewTypeCode());
 //    }
     

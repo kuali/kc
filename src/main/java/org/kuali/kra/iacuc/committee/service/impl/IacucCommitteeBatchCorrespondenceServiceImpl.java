@@ -38,11 +38,11 @@ import org.kuali.kra.iacuc.notification.IacucBatchCorrespondenceNotificationRend
 import org.kuali.kra.iacuc.notification.IacucProtocolNotificationContext;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.protocol.Protocol;
-import org.kuali.kra.protocol.actions.ProtocolAction;
-import org.kuali.kra.protocol.correspondence.BatchCorrespondence;
+import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.protocol.actions.ProtocolActionBase;
+import org.kuali.kra.protocol.correspondence.BatchCorrespondenceBase;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondence;
-import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceType;
+import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceTypeBase;
 
 
 public class IacucCommitteeBatchCorrespondenceServiceImpl extends CommitteeBatchCorrespondenceServiceImplBase implements IacucCommitteeBatchCorrespondenceService {
@@ -58,8 +58,8 @@ public class IacucCommitteeBatchCorrespondenceServiceImpl extends CommitteeBatch
       */
      public CommitteeBatchCorrespondenceBase generateBatchCorrespondence(String batchCorrespondenceTypeCode, String committeeId, Date startDate, 
              Date endDate) throws Exception {
-         BatchCorrespondence batchCorrespondence = null;
-         List<? extends Protocol> protocols = null;
+         BatchCorrespondenceBase batchCorrespondence = null;
+         List<? extends ProtocolBase> protocols = null;
          finalActionCounter = 0;
     
          CommitteeBatchCorrespondenceBase committeeBatchCorrespondence = new IacucCommitteeBatchCorrespondence(batchCorrespondenceTypeCode, 
@@ -79,8 +79,8 @@ public class IacucCommitteeBatchCorrespondenceServiceImpl extends CommitteeBatch
     
          batchCorrespondence = lookupBatchCorrespondence(batchCorrespondenceTypeCode);
          
-         for (Protocol protocol : protocols) {
-             ProtocolCorrespondenceType protocolCorrespondenceType = getProtocolCorrespondenceTypeToGenerate(protocol, batchCorrespondence);
+         for (ProtocolBase protocol : protocols) {
+             ProtocolCorrespondenceTypeBase protocolCorrespondenceType = getProtocolCorrespondenceTypeToGenerate(protocol, batchCorrespondence);
     
              if (protocolCorrespondenceType != null)  {
                  if (protocolCorrespondenceTemplateService.getProtocolCorrespondenceTemplate(committeeId, 
@@ -124,7 +124,7 @@ public class IacucCommitteeBatchCorrespondenceServiceImpl extends CommitteeBatch
       * @param batchCorrespondence
       * @throws Exception
       */
-     protected void applyFinalAction(Protocol protocol, BatchCorrespondence batchCorrespondence) throws Exception {
+     protected void applyFinalAction(ProtocolBase protocol, BatchCorrespondenceBase batchCorrespondence) throws Exception {
      
          IacucProtocolGenericActionBean actionBean = new IacucProtocolGenericActionBean(null, Constants.EMPTY_STRING);
          actionBean.setComments("Final action of batch Correspondence: " + batchCorrespondence.getDescription());
@@ -164,7 +164,7 @@ public class IacucCommitteeBatchCorrespondenceServiceImpl extends CommitteeBatch
     }
 
     @Override
-    protected ProtocolAction getNewProtocolActionInstanceHook(Protocol protocol, Object object, String protocolActionTypeCode) {
+    protected ProtocolActionBase getNewProtocolActionInstanceHook(ProtocolBase protocol, Object object, String protocolActionTypeCode) {
         return new IacucProtocolAction((IacucProtocol) protocol, null, protocolActionTypeCode);
     }
 
@@ -174,7 +174,7 @@ public class IacucCommitteeBatchCorrespondenceServiceImpl extends CommitteeBatch
     }
 
     @Override
-    protected Class<? extends BatchCorrespondence> getBatchCorrespondenceBOClassHook() {
+    protected Class<? extends BatchCorrespondenceBase> getBatchCorrespondenceBOClassHook() {
         return IacucBatchCorrespondence.class;
     }
 

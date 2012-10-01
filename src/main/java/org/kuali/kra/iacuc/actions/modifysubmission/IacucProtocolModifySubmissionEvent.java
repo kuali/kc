@@ -16,7 +16,7 @@
 package org.kuali.kra.iacuc.actions.modifysubmission;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.protocol.ProtocolDocument;
+import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
@@ -24,7 +24,7 @@ public class IacucProtocolModifySubmissionEvent extends KraDocumentEventBase{
     private  IacucProtocolModifySubmissionBean actionBean;
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(IacucProtocolModifySubmissionEvent.class);
 
-    public IacucProtocolModifySubmissionEvent(ProtocolDocument document, IacucProtocolModifySubmissionBean actionBean) {
+    public IacucProtocolModifySubmissionEvent(ProtocolDocumentBase document, IacucProtocolModifySubmissionBean actionBean) {
         super("Modifying submission " + getDocumentId(document), "", document);
         this.actionBean = actionBean;
         logEvent();
@@ -51,7 +51,7 @@ public class IacucProtocolModifySubmissionEvent extends KraDocumentEventBase{
     }
 
     public boolean invokeRuleMethod(BusinessRule rule) {
-        return ((IacucProtocolModifySubmissionRule) rule).processModifySubmissionRule((ProtocolDocument) getDocument(), actionBean);
+        return ((IacucProtocolModifySubmissionRule) rule).processModifySubmissionRule((ProtocolDocumentBase) getDocument(), actionBean);
     }
 
 

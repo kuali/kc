@@ -32,8 +32,8 @@ public class ProtocolNotepadServiceImpl implements ProtocolNotepadService {
     /**
      * @see org.kuali.kra.protocol.noteattachment.ProtocolNotepadService#setProtocolNotepadUpdateUsersName(java.util.List)
      */
-    public void setProtocolNotepadUpdateUsersName(List<ProtocolNotepad> protocolNotepads) {
-        for (ProtocolNotepad pnp : protocolNotepads) {
+    public void setProtocolNotepadUpdateUsersName(List<ProtocolNotepadBase> protocolNotepads) {
+        for (ProtocolNotepadBase pnp : protocolNotepads) {
             if (LOG.isDebugEnabled()) { 
                 LOG.debug(String.format("Looking up person for update user %s.", pnp.getUpdateUser()));
             }

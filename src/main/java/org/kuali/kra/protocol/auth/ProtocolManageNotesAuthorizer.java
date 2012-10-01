@@ -16,19 +16,19 @@
 package org.kuali.kra.protocol.auth;
 
 import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.kra.protocol.Protocol;
+import org.kuali.kra.protocol.ProtocolBase;
 
 /**
  * This class...
  */
-public class ProtocolManageNotesAuthorizer extends ProtocolAuthorizer {
+public class ProtocolManageNotesAuthorizer extends ProtocolAuthorizerBase {
 
     /**
-     * @see org.kuali.kra.protocol.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.protocol.auth.ProtocolTask)
+     * @see org.kuali.kra.protocol.auth.ProtocolAuthorizerBase#isAuthorized(java.lang.String, org.kuali.kra.protocol.auth.ProtocolTaskBase)
      */
     @Override
-    public boolean isAuthorized(String userId, ProtocolTask task) {
-        Protocol protocol = task.getProtocol();
+    public boolean isAuthorized(String userId, ProtocolTaskBase task) {
+        ProtocolBase protocol = task.getProtocol();
         return hasPermission(userId, protocol, PermissionConstants.MAINTAIN_NOTES);
     }
 

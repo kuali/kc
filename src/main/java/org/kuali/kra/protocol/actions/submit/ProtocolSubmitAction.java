@@ -63,25 +63,25 @@ public interface ProtocolSubmitAction extends ProtocolActionBean, Serializable {
 
     public boolean isReviewerListAvailable();
 
-    public List<ProtocolReviewerBean> getReviewers();
+    public List<ProtocolReviewerBeanBase> getReviewers();
 
-    public ProtocolReviewerBean getReviewer(int i);
+    public ProtocolReviewerBeanBase getReviewer(int i);
 
     /**
      * We display the reviewers in two columns. These are the reviewers in the left column.
      * 
      * @return
      */
-    public List<ProtocolReviewerBean> getLeftReviewers();
+    public List<ProtocolReviewerBeanBase> getLeftReviewers();
     
     /**
      * We display the reviewers in two columns. These are the reviewers in the right column.
      * 
      * @return
      */
-    public List<ProtocolReviewerBean> getRightReviewers();
+    public List<ProtocolReviewerBeanBase> getRightReviewers();
 
-    public void setReviewers(List<ProtocolReviewerBean> reviewerBeans);
+    public void setReviewers(List<ProtocolReviewerBeanBase> reviewerBeans);
     
     public boolean getJavascriptEnabled();
 

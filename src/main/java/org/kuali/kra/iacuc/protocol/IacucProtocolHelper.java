@@ -30,18 +30,18 @@ import org.kuali.kra.iacuc.protocol.funding.IacucProtocolFundingSourceService;
 import org.kuali.kra.iacuc.protocol.location.IacucProtocolLocation;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.protocol.Protocol;
+import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.infrastructure.TaskName;
-import org.kuali.kra.protocol.ProtocolDocument;
-import org.kuali.kra.protocol.actions.ProtocolAction;
-import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
-import org.kuali.kra.protocol.auth.ProtocolTask;
-import org.kuali.kra.protocol.protocol.ProtocolHelper;
-import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSource;
+import org.kuali.kra.protocol.ProtocolDocumentBase;
+import org.kuali.kra.protocol.actions.ProtocolActionBase;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
+import org.kuali.kra.protocol.auth.ProtocolTaskBase;
+import org.kuali.kra.protocol.protocol.ProtocolHelperBase;
+import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceBase;
 import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceService;
-import org.kuali.kra.protocol.protocol.location.ProtocolLocation;
+import org.kuali.kra.protocol.protocol.location.ProtocolLocationBase;
 
-public class IacucProtocolHelper extends ProtocolHelper {
+public class IacucProtocolHelper extends ProtocolHelperBase {
       
     private static final long serialVersionUID = -71094343536405026L;
  
@@ -81,42 +81,42 @@ public class IacucProtocolHelper extends ProtocolHelper {
 
 
     @Override
-    protected Class<? extends ProtocolDocument> getProtocolDocumentClassHook() {
+    protected Class<? extends ProtocolDocumentBase> getProtocolDocumentClassHook() {
         return IacucProtocolDocument.class;
     }
 
 
     @Override
-    protected ProtocolTask getNewInstanceModifyProtocolGeneralInfoTaskHook(Protocol protocol) {
+    protected ProtocolTaskBase getNewInstanceModifyProtocolGeneralInfoTaskHook(ProtocolBase protocol) {
         return new IacucProtocolTask(TaskName.MODIFY_IACUC_PROTOCOL_GENERAL_INFO, (IacucProtocol)protocol);
     }
 
 
     @Override
-    protected ProtocolTask getNewInstanceModifyProtocolResearchAreasTaskHook(Protocol protocol) {
+    protected ProtocolTaskBase getNewInstanceModifyProtocolResearchAreasTaskHook(ProtocolBase protocol) {
         return new IacucProtocolTask(TaskName.MODIFY_IACUC_PROTOCOL_RESEARCH_AREAS, (IacucProtocol)protocol);
     }
     
     
     @Override
-    protected ProtocolTask getNewInstanceModifyProtocolTaskHook(Protocol protocol) {
+    protected ProtocolTaskBase getNewInstanceModifyProtocolTaskHook(ProtocolBase protocol) {
         return new IacucProtocolTask(TaskName.MODIFY_IACUC_PROTOCOL, (IacucProtocol) protocol);
     }
 
 
     @Override
-    protected ProtocolTask getNewInstanceModifyProtocolReferencesTaskHook(Protocol protocol) {
+    protected ProtocolTaskBase getNewInstanceModifyProtocolReferencesTaskHook(ProtocolBase protocol) {
         return new IacucProtocolTask(TaskName.MODIFY_IACUC_PROTOCOL_REFERENCES, (IacucProtocol) protocol);
     }
     
     
     @Override
-    protected ProtocolTask getNewInstanceModifyProtocolOrganizationsTaskHook(Protocol protocol) {
+    protected ProtocolTaskBase getNewInstanceModifyProtocolOrganizationsTaskHook(ProtocolBase protocol) {
         return new IacucProtocolTask(TaskName.MODIFY_IACUC_PROTOCOL_ORGANIZATIONS, (IacucProtocol) protocol);
     }
 
     @Override
-    protected ProtocolTask getNewInstanceCreateProposalDevelopmentTaskHook(Protocol protocol)
+    protected ProtocolTaskBase getNewInstanceCreateProposalDevelopmentTaskHook(ProtocolBase protocol)
     {
         return new IacucProtocolTask(IacucProtocolTask.CREATE_PROPOSAL_FOR_IACUC_PROTOCOL, (IacucProtocol) protocol);
     }
@@ -128,13 +128,13 @@ public class IacucProtocolHelper extends ProtocolHelper {
                 Constants.PARAMETER_COMPONENT_DOCUMENT, Constants.IACUC_PROTOCOL_PROPOSAL_DEVELOPMENT_LINKING_ENABLED_PARAMETER);
     }
     
-    protected ProtocolAction createProtocolCreatedTypeProtocolActionInstanceHook(Protocol protocol) {
+    protected ProtocolActionBase createProtocolCreatedTypeProtocolActionInstanceHook(ProtocolBase protocol) {
         return new IacucProtocolAction((IacucProtocol) protocol, null, IacucProtocolActionType.IACUC_PROTOCOL_CREATED);
     }
 
 
     @Override
-    protected ProtocolLocation getNewProtocolLocationInstanceHook() {
+    protected ProtocolLocationBase getNewProtocolLocationInstanceHook() {
         return new IacucProtocolLocation();
     }
 
@@ -152,13 +152,13 @@ public class IacucProtocolHelper extends ProtocolHelper {
 
 
     @Override
-    protected ProtocolTask getNewInstanceModifyProtocolFundingSourceTaskHook(Protocol protocol) {
+    protected ProtocolTaskBase getNewInstanceModifyProtocolFundingSourceTaskHook(ProtocolBase protocol) {
         return new IacucProtocolTask(TaskName.MODIFY_IACUC_PROTOCOL_FUNDING_SOURCE, (IacucProtocol) protocol);
     }
 
 
     @Override
-    protected ProtocolFundingSource getNewProtocolFundingSourceInstanceHook() {
+    protected ProtocolFundingSourceBase getNewProtocolFundingSourceInstanceHook() {
         return new IacucProtocolFundingSource();
     }
 
@@ -170,7 +170,7 @@ public class IacucProtocolHelper extends ProtocolHelper {
 
 
     @Override
-    public ProtocolTask getNewInstanceModifyProtocolBillableTaskNewHook(Protocol protocol) {
+    public ProtocolTaskBase getNewInstanceModifyProtocolBillableTaskNewHook(ProtocolBase protocol) {
         return new IacucProtocolTask(getModifyProtocolBillableTask(), (IacucProtocol) protocol);
     }
 
@@ -199,7 +199,7 @@ public class IacucProtocolHelper extends ProtocolHelper {
      * @param protocol
      */
     @Override
-    protected void initializePermissions(Protocol protocol) {
+    protected void initializePermissions(ProtocolBase protocol) {
         IacucProtocol iacucProtocol = (IacucProtocol)protocol;
         super.initializePermissions(protocol); 
     }

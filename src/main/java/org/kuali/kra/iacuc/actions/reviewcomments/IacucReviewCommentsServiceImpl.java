@@ -25,14 +25,14 @@ import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReview;
 import org.kuali.kra.iacuc.onlinereview.IacucProtocolReviewAttachment;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.RoleConstants;
-import org.kuali.kra.protocol.Protocol;
-import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsServiceImpl;
+import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsServiceImplBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewer;
-import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
-import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReview;
-import org.kuali.kra.protocol.onlinereview.ProtocolReviewAttachment;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
+import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewBase;
+import org.kuali.kra.protocol.onlinereview.ProtocolReviewAttachmentBase;
 
-public class IacucReviewCommentsServiceImpl extends ReviewCommentsServiceImpl<IacucProtocolReviewAttachment> implements IacucReviewCommentsService {
+public class IacucReviewCommentsServiceImpl extends ReviewCommentsServiceImplBase<IacucProtocolReviewAttachment> implements IacucReviewCommentsService {
     
   private static final String[] PROTOCOL_SUBMISSION_COMPLETE_STATUSES = { IacucProtocolSubmissionStatus.APPROVED,                                                                           
                                                                           IacucProtocolSubmissionStatus.MINOR_REVISIONS_REQUIRED,
@@ -41,7 +41,7 @@ public class IacucReviewCommentsServiceImpl extends ReviewCommentsServiceImpl<Ia
                                                                           IacucProtocolSubmissionStatus.RETURNED_TO_PI};
 
     public void saveReviewAttachments(List<IacucProtocolReviewAttachment> reviewAttachments, List<IacucProtocolReviewAttachment> deletedReviewAttachments) {
-        for (ProtocolReviewAttachment reviewAttachment : reviewAttachments) {
+        for (ProtocolReviewAttachmentBase reviewAttachment : reviewAttachments) {
             boolean doUpdate = true;
             // if (reviewAttachment.getReviewerAttachmentId() != null) {
             // ProtocolOnlineReviewAttachment existing =
@@ -55,7 +55,7 @@ public class IacucReviewCommentsServiceImpl extends ReviewCommentsServiceImpl<Ia
         }
 
         if (!deletedReviewAttachments.isEmpty()) {
-            // for (ProtocolReviewAttachment reviewAttachment : deletedReviewAttachments) {
+            // for (ProtocolReviewAttachmentBase reviewAttachment : deletedReviewAttachments) {
             // businessObjectService.delete((IacucProtocolReviewAttachment)reviewAttachment);
             // }
             // TODO : bos expecting the object defined in repository
@@ -64,11 +64,11 @@ public class IacucReviewCommentsServiceImpl extends ReviewCommentsServiceImpl<Ia
     }
 
     @Override
-    protected ProtocolSubmission getSubmission(Protocol protocol) {
-        ProtocolSubmission protocolSubmission = protocol.getProtocolSubmission();
+    protected ProtocolSubmissionBase getSubmission(ProtocolBase protocol) {
+        ProtocolSubmissionBase protocolSubmission = protocol.getProtocolSubmission();
         if (protocol.getNotifyIrbSubmissionId() != null) {
             // not the current submission, then check programically
-            for (ProtocolSubmission submission : protocol.getProtocolSubmissions()) {
+            for (ProtocolSubmissionBase submission : protocol.getProtocolSubmissions()) {
                 if (submission.getSubmissionId().equals(protocol.getNotifyIrbSubmissionId())) {
                     protocolSubmission = submission;
                     break;
@@ -131,7 +131,7 @@ public class IacucReviewCommentsServiceImpl extends ReviewCommentsServiceImpl<Ia
     }
 
     @Override
-    protected Class<? extends ProtocolOnlineReview> getProtocolOnlineReviewClassHook() {
+    protected Class<? extends ProtocolOnlineReviewBase> getProtocolOnlineReviewClassHook() {
         return IacucProtocolOnlineReview.class;
     }
 

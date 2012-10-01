@@ -33,7 +33,7 @@ import org.kuali.kra.common.committee.document.CommitteeDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsService;
-import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.kra.common.committee.meeting.MeetingEventBase.ErrorType;
 import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
@@ -227,7 +227,7 @@ public abstract class MeetingActionBase extends KualiAction {
      */
     private ActionForward viewProtocolSubmission(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        ProtocolSubmission protocolSubmission = ((MeetingFormBase) form).getMeetingHelper().getCommitteeSchedule()
+        ProtocolSubmissionBase protocolSubmission = ((MeetingFormBase) form).getMeetingHelper().getCommitteeSchedule()
                 .getLatestProtocolSubmissions().get(Integer.parseInt(request.getParameter("line")));
         
 // TODO *********commented the code below during IACUC refactoring*********         

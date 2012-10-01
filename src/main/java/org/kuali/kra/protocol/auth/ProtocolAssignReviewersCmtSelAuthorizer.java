@@ -19,7 +19,7 @@ import java.util.Collections;
 
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.kra.protocol.Protocol;
+import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.kew.api.action.ActionRequest;
 import org.kuali.rice.kew.api.action.RoutingReportCriteria;
@@ -29,24 +29,24 @@ import org.kuali.rice.kew.api.document.DocumentDetail;
 /**
  * Determine if a user can assign a protocol to a committee/schedule.
  */
-public class ProtocolAssignReviewersCmtSelAuthorizer extends ProtocolAuthorizer {
+public class ProtocolAssignReviewersCmtSelAuthorizer extends ProtocolAuthorizerBase {
 
     /**
-     * @see org.kuali.kra.protocol.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.protocol.auth.ProtocolTask)
+     * @see org.kuali.kra.protocol.auth.ProtocolAuthorizerBase#isAuthorized(java.lang.String, org.kuali.kra.protocol.auth.ProtocolTaskBase)
      */
-    public boolean isAuthorized(String username, ProtocolTask task) {
-        Protocol protocol = task.getProtocol();
+    public boolean isAuthorized(String username, ProtocolTaskBase task) {
+        ProtocolBase protocol = task.getProtocol();
         return (isOnNode(protocol) || willBeOnNode(username, protocol)) && 
             hasPermission(username, protocol, PermissionConstants.PERFORM_IRB_ACTIONS_ON_PROTO);
     }
 
-    public boolean isOnNode(Protocol protocol) {
+    public boolean isOnNode(ProtocolBase protocol) {
         return kraWorkflowService.isDocumentOnNode(protocol.getProtocolDocument(), Constants.PROTOCOL_IRBREVIEW_ROUTE_NODE_NAME);
     }
 
     // look to insure our next node won't be "DepartmentReview", which means the protocol will require
     // departmental approval before being assigned reviewers
-    public boolean willBeOnNode(String username, Protocol protocol) {
+    public boolean willBeOnNode(String username, ProtocolBase protocol) {
         boolean results = true;
         RoutingReportCriteria.Builder reportCriteriaBuilder = RoutingReportCriteria.Builder.createByDocumentId(protocol.getProtocolDocument().getDocumentNumber());
         reportCriteriaBuilder.setTargetPrincipalIds(Collections.singletonList(username));

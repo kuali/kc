@@ -18,12 +18,12 @@ package org.kuali.kra.protocol.protocol.location;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 /**
- * This class adds rule for adding new <code>ProtocolLocation</code> object
+ * This class adds rule for adding new <code>ProtocolLocationBase</code> object
  */
 public interface AddProtocolLocationRule extends BusinessRule {
 
     /**
-     * This method evaluates to true if ProtocolLocation objects satisfy required fields and business rules.
+     * This method evaluates to true if ProtocolLocationBase objects satisfy required fields and business rules.
      * @param addProtocolLocationEvent
      * @return boolean true for valid object and false for invalid entry
      */

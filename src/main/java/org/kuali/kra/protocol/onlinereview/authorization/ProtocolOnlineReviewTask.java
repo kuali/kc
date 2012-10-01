@@ -17,50 +17,50 @@ package org.kuali.kra.protocol.onlinereview.authorization;
 
 import org.kuali.kra.authorization.Task;
 import org.kuali.kra.infrastructure.TaskGroupName;
-import org.kuali.kra.protocol.ProtocolOnlineReviewDocument;
-import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReview;
+import org.kuali.kra.protocol.ProtocolOnlineReviewDocumentBase;
+import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewBase;
 
 /**
- * A Protocol Online Review Task is a task that performs an action against a
- * Protocol Online Review.  To assist authorization, the ProtocolOnlineReview is available.
+ * A ProtocolBase Online Review Task is a task that performs an action against a
+ * ProtocolBase Online Review.  To assist authorization, the ProtocolOnlineReviewBase is available.
  */
 public final class ProtocolOnlineReviewTask extends Task {
     
-    private ProtocolOnlineReview protocolOnlineReview;
-    private ProtocolOnlineReviewDocument protocolOnlineReviewDocument;
+    private ProtocolOnlineReviewBase protocolOnlineReview;
+    private ProtocolOnlineReviewDocumentBase protocolOnlineReviewDocument;
     
     /**
      * Constructs a ProtocolOnlineReviewTask.
      * @param taskName the name of the task
-     * @param protocolOnlineReview the Protocol
+     * @param protocolOnlineReview the ProtocolBase
      */
-    public ProtocolOnlineReviewTask(String taskName, ProtocolOnlineReview protocolOnlineReview) {
+    public ProtocolOnlineReviewTask(String taskName, ProtocolOnlineReviewBase protocolOnlineReview) {
         super(TaskGroupName.PROTOCOL_ONLINEREVIEW, taskName);
         this.protocolOnlineReview = protocolOnlineReview;
     }
     
-    public ProtocolOnlineReviewTask(String taskName, ProtocolOnlineReviewDocument protocolOnlineReviewDocument) {
+    public ProtocolOnlineReviewTask(String taskName, ProtocolOnlineReviewDocumentBase protocolOnlineReviewDocument) {
         super(TaskGroupName.PROTOCOL_ONLINEREVIEW, taskName);
         this.protocolOnlineReview = protocolOnlineReviewDocument.getProtocolOnlineReview();
         this.protocolOnlineReviewDocument = protocolOnlineReviewDocument;
     }
     
-    public ProtocolOnlineReviewTask(String taskName, ProtocolOnlineReview protocolOnlineReview, String genericTaskName) {
+    public ProtocolOnlineReviewTask(String taskName, ProtocolOnlineReviewBase protocolOnlineReview, String genericTaskName) {
         super(TaskGroupName.PROTOCOL_ONLINEREVIEW, taskName, genericTaskName);
         this.protocolOnlineReview = protocolOnlineReview;
     }
 
-    public ProtocolOnlineReviewTask(String taskName, ProtocolOnlineReviewDocument protocolOnlineReviewDocument, String genericTaskName) {
+    public ProtocolOnlineReviewTask(String taskName, ProtocolOnlineReviewDocumentBase protocolOnlineReviewDocument, String genericTaskName) {
         super(TaskGroupName.PROTOCOL_ONLINEREVIEW, taskName, genericTaskName);
         this.protocolOnlineReview = protocolOnlineReviewDocument.getProtocolOnlineReview();
         this.protocolOnlineReviewDocument = protocolOnlineReviewDocument;
     }
 
     /**
-     * Get the ProtocolOnlineReview.
-     * @return the ProtocolOnlineReview
+     * Get the ProtocolOnlineReviewBase.
+     * @return the ProtocolOnlineReviewBase
      */
-    public ProtocolOnlineReview getProtocolOnlineReview() {
+    public ProtocolOnlineReviewBase getProtocolOnlineReview() {
         return protocolOnlineReview;
     }
 
@@ -68,7 +68,7 @@ public final class ProtocolOnlineReviewTask extends Task {
      * Gets the protocolOnlineReviewDocument attribute. 
      * @return Returns the protocolOnlineReviewDocument.
      */
-    public ProtocolOnlineReviewDocument getProtocolOnlineReviewDocument() {
+    public ProtocolOnlineReviewDocumentBase getProtocolOnlineReviewDocument() {
         return protocolOnlineReviewDocument;
     }
 

@@ -16,20 +16,20 @@
 package org.kuali.kra.protocol.auth;
 
 import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.kra.protocol.Protocol;
+import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 
 /**
  * This class...
  */
-public class ProtocolReviewNotRequiredAuthorizer extends ProtocolAuthorizer {
+public class ProtocolReviewNotRequiredAuthorizer extends ProtocolAuthorizerBase {
 
     /**
-     * @see org.kuali.kra.protocol.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.protocol.auth.ProtocolTask)
+     * @see org.kuali.kra.protocol.auth.ProtocolAuthorizerBase#isAuthorized(java.lang.String, org.kuali.kra.protocol.auth.ProtocolTaskBase)
      */
     @Override
-    public boolean isAuthorized(String userId, ProtocolTask task) {
-        Protocol protocol = task.getProtocol();
+    public boolean isAuthorized(String userId, ProtocolTaskBase task) {
+        ProtocolBase protocol = task.getProtocol();
         boolean hasPermission = hasPermission(userId, protocol, PermissionConstants.REVIEW_NOT_REQUIRED);
         boolean canExecuteAction = canExecuteAction(task.getProtocol(), ProtocolActionType.IRB_REVIEW_NOT_REQUIRED);
         return hasPermission && canExecuteAction;

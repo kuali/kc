@@ -20,10 +20,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.kuali.kra.protocol.ProtocolAssociate;
+import org.kuali.kra.protocol.ProtocolAssociateBase;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
-public class IacucAlternateSearch extends ProtocolAssociate {
+public class IacucAlternateSearch extends ProtocolAssociateBase {
 
     private static final long serialVersionUID = -7711644839097962481L;
     

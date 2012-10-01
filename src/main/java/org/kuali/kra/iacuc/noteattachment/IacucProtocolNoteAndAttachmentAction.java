@@ -32,14 +32,14 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.printing.Printable;
 import org.kuali.kra.printing.service.WatermarkService;
-import org.kuali.kra.protocol.Protocol;
-import org.kuali.kra.protocol.ProtocolForm;
+import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.protocol.ProtocolFormBase;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentBase;
-import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentPersonnel;
-import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentProtocol;
+import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentPersonnelBase;
+import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentProtocolBase;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentService;
-import org.kuali.kra.protocol.noteattachment.ProtocolNotepad;
-import org.kuali.kra.protocol.personnel.ProtocolPerson;
+import org.kuali.kra.protocol.noteattachment.ProtocolNotepadBase;
+import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
 import org.kuali.kra.util.CollectionUtil;
 import org.kuali.kra.util.watermark.WatermarkConstants;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
@@ -67,7 +67,7 @@ public class IacucProtocolNoteAndAttachmentAction extends IacucProtocolAction {
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         final ActionForward forward = super.execute(mapping, form, request, response);
-        ((ProtocolForm) form).getNotesAttachmentsHelper().prepareView();
+        ((ProtocolFormBase) form).getNotesAttachmentsHelper().prepareView();
         return forward;
     }
 
@@ -77,8 +77,8 @@ public class IacucProtocolNoteAndAttachmentAction extends IacucProtocolAction {
      */
     @Override
     public void preSave(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ((ProtocolForm) form).getNotesAttachmentsHelper().processSave();
-        ((ProtocolForm) form).getNotesAttachmentsHelper().fixReloadedAttachments(request.getParameterMap());
+        ((ProtocolFormBase) form).getNotesAttachmentsHelper().processSave();
+        ((ProtocolFormBase) form).getNotesAttachmentsHelper().fixReloadedAttachments(request.getParameterMap());
     }
 
     /**
@@ -89,19 +89,19 @@ public class IacucProtocolNoteAndAttachmentAction extends IacucProtocolAction {
     public void postSave(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         super.postSave(mapping, form, request, response);
-        if (!((ProtocolForm) form).getNotesAttachmentsHelper().getFilesToDelete().isEmpty()) {
-            getBusinessObjectService().delete(((ProtocolForm) form).getNotesAttachmentsHelper().getFilesToDelete());
-            ((ProtocolForm) form).getNotesAttachmentsHelper().getFilesToDelete().clear();
+        if (!((ProtocolFormBase) form).getNotesAttachmentsHelper().getFilesToDelete().isEmpty()) {
+            getBusinessObjectService().delete(((ProtocolFormBase) form).getNotesAttachmentsHelper().getFilesToDelete());
+            ((ProtocolFormBase) form).getNotesAttachmentsHelper().getFilesToDelete().clear();
             }
-        for (ProtocolPerson person : ((ProtocolForm) form).getProtocolDocument().getProtocol().getProtocolPersons()) {
+        for (ProtocolPersonBase person : ((ProtocolFormBase) form).getProtocolDocument().getProtocol().getProtocolPersons()) {
             person.refreshReferenceObject("attachmentPersonnels");
         }
-        for (ProtocolAttachmentProtocol attachment : ((ProtocolForm) form).getProtocolDocument().getProtocol().getAttachmentProtocols()) {
+        for (ProtocolAttachmentProtocolBase attachment : ((ProtocolFormBase) form).getProtocolDocument().getProtocol().getAttachmentProtocols()) {
             // for some reason, change and save, this list is not updated under attachment.protocol.attachmentprotocols
             attachment.getProtocol().refreshReferenceObject("attachmentProtocols");
         }
         // don't allow edit of saved notes
-        for (ProtocolNotepad notepad : ((ProtocolForm) form).getProtocolDocument().getProtocol().getNotepads()) {
+        for (ProtocolNotepadBase notepad : ((ProtocolFormBase) form).getProtocolDocument().getProtocol().getNotepads()) {
             notepad.setEditable(false);
         }
     }
@@ -118,7 +118,7 @@ public class IacucProtocolNoteAndAttachmentAction extends IacucProtocolAction {
      */
     public ActionForward addAttachmentProtocol(ActionMapping mapping, ActionForm form, HttpServletRequest request,
         HttpServletResponse response) throws Exception {
-        ((ProtocolForm) form).getNotesAttachmentsHelper().addNewProtocolAttachmentProtocol();
+        ((ProtocolFormBase) form).getNotesAttachmentsHelper().addNewProtocolAttachmentProtocol();
         
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
@@ -135,7 +135,7 @@ public class IacucProtocolNoteAndAttachmentAction extends IacucProtocolAction {
      */
     public ActionForward viewAttachmentProtocol(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        return this.viewAttachment(mapping, (ProtocolForm) form, request, response);
+        return this.viewAttachment(mapping, (ProtocolFormBase) form, request, response);
     }
 
     /**
@@ -151,7 +151,7 @@ public class IacucProtocolNoteAndAttachmentAction extends IacucProtocolAction {
      * @throws IllegalArgumentException if the attachmentType is not supported
      * @throws Exception if there is a problem executing the request.
      */
-    private ActionForward deleteAttachment(ActionMapping mapping, ProtocolForm form, HttpServletRequest request,
+    private ActionForward deleteAttachment(ActionMapping mapping, ProtocolFormBase form, HttpServletRequest request,
             HttpServletResponse response, Class<? extends ProtocolAttachmentBase> attachmentType) throws Exception {
         
         final int selection = this.getSelectedLine(request);
@@ -177,10 +177,10 @@ public class IacucProtocolNoteAndAttachmentAction extends IacucProtocolAction {
     public ActionForward deleteAttachmentProtocol(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         int selection = this.getSelectedLine(request);
-        ProtocolAttachmentBase attachment = ((ProtocolForm) form).getNotesAttachmentsHelper().retrieveExistingAttachmentByType(
+        ProtocolAttachmentBase attachment = ((ProtocolFormBase) form).getNotesAttachmentsHelper().retrieveExistingAttachmentByType(
                 selection, IacucProtocolAttachmentProtocol.class);
         if (isValidContactData(attachment, ATTACHMNENT_PATH + selection + "]")) {
-            return confirmDeleteAttachment(mapping, (ProtocolForm) form, request, response, IacucProtocolAttachmentProtocol.class);
+            return confirmDeleteAttachment(mapping, (ProtocolFormBase) form, request, response, IacucProtocolAttachmentProtocol.class);
         } else {
             return mapping.findForward(Constants.MAPPING_BASIC);
         }
@@ -198,7 +198,7 @@ public class IacucProtocolNoteAndAttachmentAction extends IacucProtocolAction {
      */
     public ActionForward deleteAttachmentPersonnel(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        return confirmDeleteAttachment(mapping, (ProtocolForm) form, request, response, ProtocolAttachmentPersonnel.class);
+        return confirmDeleteAttachment(mapping, (ProtocolFormBase) form, request, response, ProtocolAttachmentPersonnelBase.class);
     }
 
     /**
@@ -212,7 +212,7 @@ public class IacucProtocolNoteAndAttachmentAction extends IacucProtocolAction {
      * @throws Exception if there is a problem executing the request.
      */
     public ActionForward confirmDeleteAttachmentProtocol(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return this.deleteAttachment(mapping, (ProtocolForm) form, request, response, ProtocolAttachmentProtocol.class);
+        return this.deleteAttachment(mapping, (ProtocolFormBase) form, request, response, ProtocolAttachmentProtocolBase.class);
     }    
     
     /**
@@ -230,11 +230,11 @@ public class IacucProtocolNoteAndAttachmentAction extends IacucProtocolAction {
      * @throws IllegalArgumentException if the attachmentType is not supported
      * @throws Exception if there is a problem executing the request.
      */
-    private ActionForward viewAttachment(ActionMapping mapping, ProtocolForm form, HttpServletRequest request,
+    private ActionForward viewAttachment(ActionMapping mapping, ProtocolFormBase form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         
         final int selection = this.getSelectedLine(request);
-        ProtocolAttachmentProtocol attachment = (ProtocolAttachmentProtocol)CollectionUtil.getFromList(selection, form.getProtocolDocument().getProtocol().getAttachmentProtocols());
+        ProtocolAttachmentProtocolBase attachment = (ProtocolAttachmentProtocolBase)CollectionUtil.getFromList(selection, form.getProtocolDocument().getProtocol().getAttachmentProtocols());
                
         if (attachment == null) {
             LOG.info(NOT_FOUND_SELECTION + selection);
@@ -286,7 +286,7 @@ public class IacucProtocolNoteAndAttachmentAction extends IacucProtocolAction {
      * @throws IllegalArgumentException if the attachmentType is not supported
      * @throws Exception if there is a problem executing the request.
      */
-    private ActionForward confirmDeleteAttachment(ActionMapping mapping, ProtocolForm form, HttpServletRequest request,
+    private ActionForward confirmDeleteAttachment(ActionMapping mapping, ProtocolFormBase form, HttpServletRequest request,
             HttpServletResponse response, Class<? extends ProtocolAttachmentBase> attachmentType) throws Exception {
         
         final int selection = this.getSelectedLine(request);
@@ -313,13 +313,13 @@ public class IacucProtocolNoteAndAttachmentAction extends IacucProtocolAction {
      * @param protocolAttachmentBase attachment
      * @return attachment file
      */
-    private byte[] getProtocolAttachmentFile(ProtocolForm form, ProtocolAttachmentProtocol attachment){
+    private byte[] getProtocolAttachmentFile(ProtocolFormBase form, ProtocolAttachmentProtocolBase attachment){
         
         byte[] attachmentFile =null;
         final AttachmentFile file = attachment.getFile();
 // TODO *********commented the code below during IACUC refactoring*********
 //        Printable printableArtifacts= getProtocolPrintingService().getProtocolPrintArtifacts(form.getProtocolDocument().getProtocol());
-//        Protocol protocolCurrent = form.getProtocolDocument().getProtocol();
+//        ProtocolBase protocolCurrent = form.getProtocolDocument().getProtocol();
 //        int currentProtoSeqNumber= protocolCurrent.getSequenceNumber();
 //        try {
 //            if(printableArtifacts.isWatermarkEnabled()){
@@ -328,7 +328,7 @@ public class IacucProtocolNoteAndAttachmentAction extends IacucProtocolAction {
 //                String statusCode=attachment.getStatusCode();
 //                // TODO perhaps the check for equality of protocol and attachment sequence numbers, below, is now redundant
 //                if(((getProtocolAttachmentService().isAttachmentActive(attachment))&&(currentProtoSeqNumber == currentAttachmentSequence))||(docStatusCode.equals("1"))){
-//                    if (ProtocolAttachmentProtocol.COMPLETE_STATUS_CODE.equals(statusCode)) {
+//                    if (ProtocolAttachmentProtocolBase.COMPLETE_STATUS_CODE.equals(statusCode)) {
 //                        attachmentFile = getWatermarkService().applyWatermark(file.getData(),printableArtifacts.getWatermarkable().getWatermark());
 //                    }
 //                }else{
@@ -355,20 +355,20 @@ public class IacucProtocolNoteAndAttachmentAction extends IacucProtocolAction {
      */
     public ActionForward addNote(ActionMapping mapping, ActionForm form, HttpServletRequest request,
         HttpServletResponse response) throws Exception {
-        ((ProtocolForm) form).getNotesAttachmentsHelper().addNewNote();
+        ((ProtocolFormBase) form).getNotesAttachmentsHelper().addNewNote();
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
     public ActionForward editNote(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
             final int selection = this.getSelectedLine(request);
-            ((ProtocolForm) form).getNotesAttachmentsHelper().modifyNote(selection);
+            ((ProtocolFormBase) form).getNotesAttachmentsHelper().modifyNote(selection);
             return mapping.findForward(Constants.MAPPING_BASIC);
         }
 
     public ActionForward deleteNote(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        return confirmDeleteNote(mapping, (ProtocolForm) form, request, response);
+        return confirmDeleteNote(mapping, (ProtocolFormBase) form, request, response);
     }
 
     public ActionForward deleteNoteConfirmed(ActionMapping mapping, ActionForm form, HttpServletRequest request,
@@ -376,7 +376,7 @@ public class IacucProtocolNoteAndAttachmentAction extends IacucProtocolAction {
         
         final int selection = this.getSelectedLine(request);
         
-        if (!((ProtocolForm)form).getNotesAttachmentsHelper().deleteNote(selection)) {
+        if (!((ProtocolFormBase)form).getNotesAttachmentsHelper().deleteNote(selection)) {
             LOG.info(NOT_FOUND_SELECTION + selection);
             //may want to tell the user the selection was invalid.
         }
@@ -397,7 +397,7 @@ public class IacucProtocolNoteAndAttachmentAction extends IacucProtocolAction {
      * @throws IllegalArgumentException if the attachmentType is not supported
      * @throws Exception if there is a problem executing the request.
      */
-    private ActionForward confirmDeleteNote(ActionMapping mapping, ProtocolForm form, HttpServletRequest request,
+    private ActionForward confirmDeleteNote(ActionMapping mapping, ProtocolFormBase form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         
         final int selection = this.getSelectedLine(request);
@@ -420,7 +420,7 @@ public class IacucProtocolNoteAndAttachmentAction extends IacucProtocolAction {
     public ActionForward updateAttachmentFilter(ActionMapping mapping, ActionForm form, HttpServletRequest request,
         HttpServletResponse response) throws Exception {
         
-        ((ProtocolForm) form).getNotesAttachmentsHelper().addNewProtocolAttachmentFilter();
+        ((ProtocolFormBase) form).getNotesAttachmentsHelper().addNewProtocolAttachmentFilter();
 
         return mapping.findForward(Constants.MAPPING_BASIC);
     }       
@@ -468,7 +468,7 @@ public class IacucProtocolNoteAndAttachmentAction extends IacucProtocolAction {
     
     /**
      * 
-     * This method is to get Protocol Attachment Service.
+     * This method is to get ProtocolBase Attachment Service.
      */    
     private ProtocolAttachmentService getProtocolAttachmentService() {
         return KraServiceLocator.getService("iacucProtocolAttachmentService");

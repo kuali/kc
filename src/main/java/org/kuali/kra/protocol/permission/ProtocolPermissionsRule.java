@@ -20,7 +20,7 @@ import org.kuali.kra.infrastructure.RoleConstants;
 
 /**
  * Business Rule to determine the legality of modifying the access
- * to a Protocol Document.
+ * to a ProtocolBase Document.
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */

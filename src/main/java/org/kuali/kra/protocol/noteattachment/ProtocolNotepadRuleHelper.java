@@ -19,7 +19,7 @@ import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 
 /**
- * This class contains methods to "help" in validating {@link ProtocolNotepad ProtocolNotepad}.
+ * This class contains methods to "help" in validating {@link ProtocolNotepadBase ProtocolNotepadBase}.
  */
 class ProtocolNotepadRuleHelper {
 
@@ -75,7 +75,7 @@ class ProtocolNotepadRuleHelper {
      * 
      * @return true if valid.
      */
-    boolean validPrimitiveFields(final ProtocolNotepad notepad) {
+    boolean validPrimitiveFields(final ProtocolNotepadBase notepad) {
         return this.validationService.isBusinessObjectValid(notepad, this.propertyPrefix);
     }
 }

@@ -19,7 +19,7 @@ import java.util.Map;
 
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.notification.IacucProtocolNotificationRenderer;
-import org.kuali.kra.protocol.Protocol;
+import org.kuali.kra.protocol.ProtocolBase;
 
 /**
  * Renders additional fields for the Assign Reviewer notification.

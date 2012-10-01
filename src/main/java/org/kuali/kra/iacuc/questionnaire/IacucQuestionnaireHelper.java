@@ -21,18 +21,18 @@ import org.kuali.kra.iacuc.IacucProtocolFinderDao;
 import org.kuali.kra.iacuc.actions.amendrenew.IacucProtocolModule;
 import org.kuali.kra.iacuc.auth.IacucProtocolTask;
 import org.kuali.kra.infrastructure.TaskName;
-import org.kuali.kra.protocol.Protocol;
+import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolFinderDao;
-import org.kuali.kra.protocol.ProtocolForm;
-import org.kuali.kra.protocol.auth.ProtocolTask;
-import org.kuali.kra.protocol.questionnaire.ProtocolModuleQuestionnaireBean;
-import org.kuali.kra.protocol.questionnaire.QuestionnaireHelper;
+import org.kuali.kra.protocol.ProtocolFormBase;
+import org.kuali.kra.protocol.auth.ProtocolTaskBase;
+import org.kuali.kra.protocol.questionnaire.ProtocolModuleQuestionnaireBeanBase;
+import org.kuali.kra.protocol.questionnaire.QuestionnaireHelperBase;
 
 /**
  * 
  * This is Helper class for protocol questionnaire.
  */
-public class IacucQuestionnaireHelper extends QuestionnaireHelper {
+public class IacucQuestionnaireHelper extends QuestionnaireHelperBase {
 
     private static final long serialVersionUID = -7998778375503716988L;
 
@@ -41,14 +41,14 @@ public class IacucQuestionnaireHelper extends QuestionnaireHelper {
      * Constructs an IacucProtocolQuestionnaireHelper.java. To hook up with protocol form.
      * @param form
      */
-    public IacucQuestionnaireHelper(ProtocolForm form) {
+    public IacucQuestionnaireHelper(ProtocolFormBase form) {
         super(form);
     }
 
     /*
      * authorization check.
      */
-    protected ProtocolTask getModifyQnnrTaskHook(Protocol protocol) {
+    protected ProtocolTaskBase getModifyQnnrTaskHook(ProtocolBase protocol) {
         return new IacucProtocolTask(TaskName.MODIFY_IACUC_PROTOCOL_QUESTIONNAIRE, (IacucProtocol)protocol);
     }
     
@@ -56,7 +56,7 @@ public class IacucQuestionnaireHelper extends QuestionnaireHelper {
         return CoeusModule.IACUC_PROTOCOL_MODULE_CODE;
     }
 
-    protected ProtocolModuleQuestionnaireBean getProtocolModuleQuestionnaireBeanHook(Protocol protocol) {
+    protected ProtocolModuleQuestionnaireBeanBase getProtocolModuleQuestionnaireBeanHook(ProtocolBase protocol) {
         return new IacucProtocolModuleQuestionnaireBean((IacucProtocol) protocol);
     }
 

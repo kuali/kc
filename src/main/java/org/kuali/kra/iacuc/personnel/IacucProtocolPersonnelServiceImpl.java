@@ -17,13 +17,13 @@ package org.kuali.kra.iacuc.personnel;
 
 import org.kuali.kra.protocol.personnel.ProtocolPersonRoleBase;
 import org.kuali.kra.protocol.personnel.ProtocolPersonRoleMappingBase;
-import org.kuali.kra.protocol.personnel.ProtocolPersonnelServiceImpl;
-import org.kuali.kra.protocol.personnel.ProtocolUnit;
+import org.kuali.kra.protocol.personnel.ProtocolPersonnelServiceImplBase;
+import org.kuali.kra.protocol.personnel.ProtocolUnitBase;
 
-public class IacucProtocolPersonnelServiceImpl extends ProtocolPersonnelServiceImpl implements IacucProtocolPersonnelService {
+public class IacucProtocolPersonnelServiceImpl extends ProtocolPersonnelServiceImplBase implements IacucProtocolPersonnelService {
 
     @Override
-    protected ProtocolUnit createNewProtocolUnitInstanceHook() {
+    protected ProtocolUnitBase createNewProtocolUnitInstanceHook() {
         return new IacucProtocolUnit();
     }
 

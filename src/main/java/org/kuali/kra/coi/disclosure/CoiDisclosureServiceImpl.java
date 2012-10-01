@@ -1181,7 +1181,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
      */
     private boolean isProtocolFundedByActiveSponsor(IacucProtocol protocol) {
          boolean isActive = false;
-         for (org.kuali.kra.protocol.protocol.funding.ProtocolFundingSource fundingSource : protocol.getProtocolFundingSources()) {
+         for (org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceBase fundingSource : protocol.getProtocolFundingSources()) {
              if (fundingSource.isSponsorFunding() && isSponsorForDisclosure(ProtocolDocument.class, fundingSource.getFundingSourceNumber(), SPONSORS_FOR_PROTOCOL_DISCLOSE, ALL_SPONSORS_FOR_PROTOCOL_DISCLOSE)) {
                  isActive = true;
                  break;

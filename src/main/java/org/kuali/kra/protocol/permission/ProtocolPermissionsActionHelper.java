@@ -34,14 +34,14 @@ import org.kuali.kra.common.permissions.web.struts.form.PermissionsForm;
 import org.kuali.kra.common.permissions.web.struts.form.PermissionsHelperBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.protocol.ProtocolAction;
-import org.kuali.kra.protocol.ProtocolDocument;
+import org.kuali.kra.protocol.ProtocolActionBase;
+import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.util.KRADConstants;
 
 /**
- * The Protocol Permissions Action Helper performs all of the presentation logic
+ * The ProtocolBase Permissions Action Helper performs all of the presentation logic
  * for the Permissions tab web page.  The ProtocolPermissionsAction delegates all
  * of the work to this helper.
  */
@@ -56,7 +56,7 @@ public class ProtocolPermissionsActionHelper extends PermissionsActionHelperBase
      * Constructs a ProtocolPermissionsActionHelper.
      * @param parentAction the parent Action instance that will delegate to this helper
      */
-    public ProtocolPermissionsActionHelper(ProtocolAction parentAction) {
+    public ProtocolPermissionsActionHelper(ProtocolActionBase parentAction) {
         super(parentAction);
     }
     
@@ -65,7 +65,7 @@ public class ProtocolPermissionsActionHelper extends PermissionsActionHelperBase
      */
     @Override
     protected void addUserToRoleInDatabase(Document document, String userId, String roleName) {
-        ProtocolDocument protocolDocument = (ProtocolDocument) document;
+        ProtocolDocumentBase protocolDocument = (ProtocolDocumentBase) document;
         getKraAuthorizationService().addRole(userId, roleName, protocolDocument.getProtocol());
     }
     
@@ -74,13 +74,13 @@ public class ProtocolPermissionsActionHelper extends PermissionsActionHelperBase
      */
     @Override
     protected void removeUserFromRoleInDatabase(Document document, String userId, String roleName) {
-        ProtocolDocument protocolDocument = (ProtocolDocument) document;
+        ProtocolDocumentBase protocolDocument = (ProtocolDocumentBase) document;
         getKraAuthorizationService().removeRole(userId, roleName, protocolDocument.getProtocol());
     }
     
     /**
-     * Get the Protocol Authorization Service.
-     * @return the Protocol Authorization Service
+     * Get the ProtocolBase Authorization Service.
+     * @return the ProtocolBase Authorization Service
      */
     private KraAuthorizationService getKraAuthorizationService() {
         return KraServiceLocator.getService(KraAuthorizationService.class);
@@ -113,7 +113,7 @@ public class ProtocolPermissionsActionHelper extends PermissionsActionHelperBase
         editRoles.setLineNum(lineNum);
         editRoles.setJavaScriptEnabled(isJavaScriptEnabled(request));
         editRoles.setUserName(user.getPerson().getUserName());
-        editRoles.setPrinipalInvestigator(isPrincipalInvestigator((ProtocolDocument) permissionsForm.getDocument(), user.getPerson().getPersonId()));
+        editRoles.setPrinipalInvestigator(isPrincipalInvestigator((ProtocolDocumentBase) permissionsForm.getDocument(), user.getPerson().getPersonId()));
             
         List<PermissionsRoleState> roleStates = new ArrayList<PermissionsRoleState>();
         List<Role> roles = permissionsHelper.getNormalRoles();
@@ -199,7 +199,7 @@ public class ProtocolPermissionsActionHelper extends PermissionsActionHelperBase
     /*
      * Check if user is PI
      */
-    private boolean isPrincipalInvestigator(ProtocolDocument protocolDocument, String personId) {
+    private boolean isPrincipalInvestigator(ProtocolDocumentBase protocolDocument, String personId) {
         return StringUtils.equals(personId, protocolDocument.getProtocol().getPrincipalInvestigatorId());
     }    
 }

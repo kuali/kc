@@ -18,7 +18,7 @@ package org.kuali.kra.iacuc.auth;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kra.protocol.Protocol;
+import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewService;
 
 public abstract class ModifyIacucAmendmentAuthorizer extends ModifyIacucProtocolAuthorizer {
@@ -35,7 +35,7 @@ public abstract class ModifyIacucAmendmentAuthorizer extends ModifyIacucProtocol
      */
     @Override
     public boolean isAuthorized(String userId, IacucProtocolTask task) {
-        Protocol protocol = task.getProtocol();
+        ProtocolBase protocol = task.getProtocol();
         boolean hasPermission = super.isAuthorized(userId, task);
 
         if (hasPermission && isAmendmentOrRenewal(protocol)) {
@@ -49,7 +49,7 @@ public abstract class ModifyIacucAmendmentAuthorizer extends ModifyIacucProtocol
         return hasPermission;
     }
     
-    private boolean canCorrectModule(Protocol protocol, String moduleTypeCode) {
+    private boolean canCorrectModule(ProtocolBase protocol, String moduleTypeCode) {
         List<String> availableModules = new ArrayList<String>();
         
         try {
@@ -70,7 +70,7 @@ public abstract class ModifyIacucAmendmentAuthorizer extends ModifyIacucProtocol
      * @param moduleTypeCode the module type code
      * @return true if the module can be modified; otherwise false
      */
-    private boolean canModifyModule(Protocol protocol, String moduleTypeCode) {
+    private boolean canModifyModule(ProtocolBase protocol, String moduleTypeCode) {
         return protocol.getProtocolAmendRenewal().hasModule(moduleTypeCode);
     }
 

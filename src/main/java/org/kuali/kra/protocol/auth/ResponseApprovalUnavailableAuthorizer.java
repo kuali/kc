@@ -21,14 +21,14 @@ import org.kuali.kra.irb.actions.ProtocolActionType;
 /**
  * Is the user allowed to approve a response and the action is currently unavailable?
  */
-public class ResponseApprovalUnavailableAuthorizer extends ProtocolAuthorizer {
+public class ResponseApprovalUnavailableAuthorizer extends ProtocolAuthorizerBase {
 
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.protocol.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.protocol.auth.ProtocolTask)
+     * @see org.kuali.kra.protocol.auth.ProtocolAuthorizerBase#isAuthorized(java.lang.String, org.kuali.kra.protocol.auth.ProtocolTaskBase)
      */
     @Override
-    public boolean isAuthorized(String userId, ProtocolTask task) {
+    public boolean isAuthorized(String userId, ProtocolTaskBase task) {
         return !canExecuteAction(task.getProtocol(), ProtocolActionType.RESPONSE_APPROVAL) 
             && hasPermission(userId, task.getProtocol(), PermissionConstants.MAINTAIN_PROTOCOL_SUBMISSIONS);
     }

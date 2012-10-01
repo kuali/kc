@@ -30,11 +30,11 @@ import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
 import org.kuali.kra.iacuc.committee.print.service.IacucPrintXmlUtilService;
 import org.kuali.kra.iacuc.personnel.IacucProtocolPersonRolodex;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.protocol.Protocol;
-import org.kuali.kra.protocol.actions.ProtocolAction;
+import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.protocol.actions.ProtocolActionBase;
 import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsService;
-import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
-import org.kuali.kra.protocol.personnel.ProtocolPerson;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
+import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
 import org.kuali.kra.protocol.personnel.ProtocolPersonRolodexBase;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -85,7 +85,7 @@ public class IacucPrintXmlUtilServiceImpl implements IacucPrintXmlUtilService {
 
     }
 
-    public void setPersonRolodexType(ProtocolPerson protocolPerson, PersonType personType) {
+    public void setPersonRolodexType(ProtocolPersonBase protocolPerson, PersonType personType) {
         if (protocolPerson.getPerson() == null) {
             IacucProtocolPersonRolodex rolodex = getBusinessObjectService().findBySinglePrimaryKey(IacucProtocolPersonRolodex.class,
                     protocolPerson.getRolodexId());
@@ -127,7 +127,7 @@ public class IacucPrintXmlUtilServiceImpl implements IacucPrintXmlUtilService {
      */
     public void setProtocolSubmissionAction(IacucProtocolSubmission protocolSubmission,
             SubmissionDetailsType protocolSubmissionDetail) {
-        ProtocolAction protcolAction = findProtocolActionForSubmission(protocolSubmission);
+        ProtocolActionBase protcolAction = findProtocolActionForSubmission(protocolSubmission);
         if (protcolAction != null) {
             protcolAction.refreshNonUpdateableReferences();
             edu.mit.coeus.xml.iacuc.SubmissionDetailsType.ActionType actionTypeInfo = protocolSubmissionDetail.addNewActionType();
@@ -143,15 +143,15 @@ public class IacucPrintXmlUtilServiceImpl implements IacucPrintXmlUtilService {
         }
     }
 
-    protected ProtocolAction findProtocolActionForSubmission(IacucProtocolSubmission protocolSubmission) {
+    protected ProtocolActionBase findProtocolActionForSubmission(IacucProtocolSubmission protocolSubmission) {
         Map<String, Object> param = new HashMap<String, Object>();
         param.put("submissionIdFk", protocolSubmission.getSubmissionId());
-        List<ProtocolAction> actions = (List) getBusinessObjectService().findMatchingOrderBy(IacucProtocolAction.class, param,
+        List<ProtocolActionBase> actions = (List) getBusinessObjectService().findMatchingOrderBy(IacucProtocolAction.class, param,
                 "actionId", true);
         return actions.isEmpty() ? null : actions.get(0);
     }
 
-    public void setSubmissionCheckListinfo(org.kuali.kra.protocol.actions.submit.ProtocolSubmission protocolSubmission,
+    public void setSubmissionCheckListinfo(org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase protocolSubmission,
             SubmissionDetailsType protocolSubmissionDetail) {
         edu.mit.coeus.xml.iacuc.SubmissionDetailsType.SubmissionChecklistInfo submissionChecklistInfo = protocolSubmissionDetail.addNewSubmissionChecklistInfo();
         String formattedCode = new String();
@@ -243,10 +243,10 @@ public class IacucPrintXmlUtilServiceImpl implements IacucPrintXmlUtilService {
     }
 
     public void setProcotolMinutes(CommitteeScheduleBase committeeSchedule,
-            org.kuali.kra.protocol.actions.submit.ProtocolSubmission protocolSubmission, ProtocolSubmissionType protocolSubmissionType) {       
+            org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase protocolSubmission, ProtocolSubmissionType protocolSubmissionType) {       
         List<CommitteeScheduleMinuteBase> minutes = committeeSchedule.getCommitteeScheduleMinutes();
         for (CommitteeScheduleMinuteBase minuteEntryInfoBean : minutes) {
-            Protocol protocol = minuteEntryInfoBean.getProtocol();
+            ProtocolBase protocol = minuteEntryInfoBean.getProtocol();
             if (protocol != null && protocol.getProtocolNumber() != null) {
                 if (protocol.getProtocolNumber().equals(protocolSubmission.getProtocolNumber())
                         && protocol.getProtocolSubmission() != null
@@ -263,10 +263,10 @@ public class IacucPrintXmlUtilServiceImpl implements IacucPrintXmlUtilService {
     }
 
     public void setProcotolSubmissionMinutes(CommitteeScheduleBase committeeSchedule,
-            ProtocolSubmission protocolSubmission, Submissions submissionsType) {      
+            ProtocolSubmissionBase protocolSubmission, Submissions submissionsType) {      
         List<CommitteeScheduleMinuteBase> minutes = committeeSchedule.getCommitteeScheduleMinutes();
         for (CommitteeScheduleMinuteBase minuteEntryInfoBean : minutes) {
-            Protocol protocol = minuteEntryInfoBean.getProtocol();
+            ProtocolBase protocol = minuteEntryInfoBean.getProtocol();
             if (protocol != null && protocol.getProtocolNumber() != null) {
                 if (protocol.getProtocolNumber().equals(protocolSubmission.getProtocolNumber())
                       && protocol.getProtocolSubmission() != null
@@ -287,10 +287,10 @@ public class IacucPrintXmlUtilServiceImpl implements IacucPrintXmlUtilService {
      * @param submissionsType
      */
     public void setProtocolReviewMinutes(CommitteeScheduleBase committeeSchedule,
-            org.kuali.kra.protocol.actions.submit.ProtocolSubmission protocolSubmission, Submissions submissionsType) {      
+            org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase protocolSubmission, Submissions submissionsType) {      
         List<CommitteeScheduleMinuteBase> minutes = committeeSchedule.getCommitteeScheduleMinutes();
         for (CommitteeScheduleMinuteBase minuteEntryInfoBean : minutes) {
-            Protocol protocol = minuteEntryInfoBean.getProtocol();
+            ProtocolBase protocol = minuteEntryInfoBean.getProtocol();
             if (protocol != null && protocol.getProtocolNumber() != null) {
                 if (protocol.getProtocolNumber().equals(protocolSubmission.getProtocolNumber())
                       && protocol.getProtocolSubmission() != null

@@ -21,18 +21,18 @@ import org.kuali.kra.common.specialreview.service.impl.SpecialReviewServiceImpl;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.protocol.Protocol;
-import org.kuali.kra.protocol.protocol.funding.impl.ProtocolProposalDevelopmentDocumentServiceImpl;
+import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.protocol.protocol.funding.impl.ProtocolProposalDevelopmentDocumentServiceImplBase;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
 /**
  * 
- * This service creates Proposal Development Document from Protocol for users authorized to create proposal. This created
- * proposal is then added to Protocol Funding sources. 
+ * This service creates Proposal Development Document from ProtocolBase for users authorized to create proposal. This created
+ * proposal is then added to ProtocolBase Funding sources. 
  */
-public class IacucProtocolProposalDevelopmentDocumentServiceImpl extends ProtocolProposalDevelopmentDocumentServiceImpl implements IacucProtocolProposalDevelopmentDocumentService {
+public class IacucProtocolProposalDevelopmentDocumentServiceImpl extends ProtocolProposalDevelopmentDocumentServiceImplBase implements IacucProtocolProposalDevelopmentDocumentService {
 
     public final static String IACUC_PROJECT_END_DATE_NUMBER_OF_YEARS = "iacucProtocolProjectEndDateNumberOfYears";
     ParameterService parameterService;

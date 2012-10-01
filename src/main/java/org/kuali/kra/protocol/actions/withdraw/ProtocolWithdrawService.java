@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.protocol.actions.withdraw;
 
-import org.kuali.kra.protocol.Protocol;
-import org.kuali.kra.protocol.ProtocolDocument;
+import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.protocol.ProtocolDocumentBase;
 
 /**
- * Protocol Withdraw Service.
+ * ProtocolBase Withdraw Service.
  */
 public interface ProtocolWithdrawService {
 
@@ -31,7 +31,7 @@ public interface ProtocolWithdrawService {
      * @return new protocol document 
      * @throws Exception 
      */
-    public ProtocolDocument withdraw(Protocol protocol, ProtocolWithdrawBean withdrawBean) throws Exception;
+    public ProtocolDocumentBase withdraw(ProtocolBase protocol, ProtocolWithdrawBean withdrawBean) throws Exception;
 
     
     /**
@@ -42,7 +42,7 @@ public interface ProtocolWithdrawService {
      * @return new protocol document 
      * @throws Exception 
      */
-    public ProtocolDocument administrativelyWithdraw(Protocol protocol, ProtocolAdministrativelyWithdrawBean administrativelyWithdrawBean) throws Exception;
+    public ProtocolDocumentBase administrativelyWithdraw(ProtocolBase protocol, ProtocolAdministrativelyWithdrawBean administrativelyWithdrawBean) throws Exception;
     
     /**
      * Perform the task of administratively marking a protocol as 'incomplete'. A new protocol document will be created
@@ -52,5 +52,5 @@ public interface ProtocolWithdrawService {
      * @return new protocol document 
      * @throws Exception 
      */
-    public ProtocolDocument administrativelyMarkIncomplete(Protocol protocol, ProtocolAdministrativelyIncompleteBean markIncompleteBean) throws Exception;
+    public ProtocolDocumentBase administrativelyMarkIncomplete(ProtocolBase protocol, ProtocolAdministrativelyIncompleteBean markIncompleteBean) throws Exception;
 }
