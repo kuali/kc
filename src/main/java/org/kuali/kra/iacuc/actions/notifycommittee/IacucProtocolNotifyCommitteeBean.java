@@ -19,7 +19,7 @@ import java.sql.Date;
 
 import org.kuali.kra.common.committee.bo.CommitteeBase;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionBean;
-import org.kuali.kra.protocol.actions.ActionHelper;
+import org.kuali.kra.protocol.actions.ActionHelperBase;
 import org.kuali.kra.protocol.actions.notifycommittee.ProtocolNotifyCommitteeBean;
 
 /**
@@ -40,7 +40,7 @@ public class IacucProtocolNotifyCommitteeBean extends IacucProtocolActionBean im
      * Constructs a ProtocolNotifyCommitteeBean.
      * @param actionHelper Reference back to the action helper for this bean
      */
-    public IacucProtocolNotifyCommitteeBean(ActionHelper actionHelper) {
+    public IacucProtocolNotifyCommitteeBean(ActionHelperBase actionHelper) {
         super(actionHelper);
         committee = actionHelper.getProtocol().getProtocolSubmission().getCommittee();
     }

@@ -21,12 +21,12 @@ import org.kuali.kra.irb.actions.ProtocolActionType;
 /**
  * Is the user allowed to request a close of a protocol?
  */
-public class ProtocolRequestCloseAuthorizer extends ProtocolAuthorizer {
+public class ProtocolRequestCloseAuthorizer extends ProtocolAuthorizerBase {
 
     /**
-     * @see org.kuali.kra.protocol.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.protocol.auth.ProtocolTask)
+     * @see org.kuali.kra.protocol.auth.ProtocolAuthorizerBase#isAuthorized(java.lang.String, org.kuali.kra.protocol.auth.ProtocolTaskBase)
      */
-    public boolean isAuthorized(String userId, ProtocolTask task) {
+    public boolean isAuthorized(String userId, ProtocolTaskBase task) {
         return !isAmendmentOrRenewal(task.getProtocol()) &&
                canExecuteAction(task.getProtocol(), ProtocolActionType.REQUEST_TO_CLOSE) &&
                hasPermission(userId, task.getProtocol(), PermissionConstants.SUBMIT_PROTOCOL);

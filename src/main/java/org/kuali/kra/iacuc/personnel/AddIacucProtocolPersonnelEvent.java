@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.iacuc.personnel;
 
-import org.kuali.kra.protocol.ProtocolDocument;
-import org.kuali.kra.protocol.personnel.AddProtocolPersonnelEvent;
+import org.kuali.kra.protocol.ProtocolDocumentBase;
+import org.kuali.kra.protocol.personnel.AddProtocolPersonnelEventBase;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -24,17 +24,17 @@ import org.kuali.rice.krad.util.ObjectUtils;
 /**
  * Represents the event to add a ProtocolPersonnel.
  */
-public class AddIacucProtocolPersonnelEvent extends AddProtocolPersonnelEvent {
+public class AddIacucProtocolPersonnelEvent extends AddProtocolPersonnelEventBase {
     
     private IacucProtocolPerson protocolPerson;
     
     /**
-     * Constructs a AddProtocolPersonnelEvent.
+     * Constructs a AddProtocolPersonnelEventBase.
      * @param errorPathPrefix The error path prefix
      * @param document The document to validate
      * @param protocolPerson the person to add
      */
-    public AddIacucProtocolPersonnelEvent(String errorPathPrefix, ProtocolDocument document, IacucProtocolPerson protocolPerson) {
+    public AddIacucProtocolPersonnelEvent(String errorPathPrefix, ProtocolDocumentBase document, IacucProtocolPerson protocolPerson) {
         super(errorPathPrefix, document, protocolPerson);
     
     }

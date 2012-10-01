@@ -16,40 +16,40 @@
 package org.kuali.kra.protocol.notification;
 
 import org.kuali.kra.common.notification.service.KcNotificationRoleQualifierService;
-import org.kuali.kra.protocol.Protocol;
-import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReview;
+import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewBase;
 
 /**
- * Defines the service to fill in module role qualifier information for Protocol.
+ * Defines the service to fill in module role qualifier information for ProtocolBase.
  */
 public interface ProtocolNotificationRoleQualifierService extends KcNotificationRoleQualifierService {
 
     /**
-     * Returns the Protocol.
+     * Returns the ProtocolBase.
      * 
-     * @return the Protocol
+     * @return the ProtocolBase
      */
-    Protocol getProtocol();
+    ProtocolBase getProtocol();
     
     /**
-     * Sets the Protocol.
+     * Sets the ProtocolBase.
      *
-     * @param protocol the Protocol to set
+     * @param protocol the ProtocolBase to set
      */
-    void setProtocol(Protocol protocol);
+    void setProtocol(ProtocolBase protocol);
 
     /**
-     * Returns the Protocol Online Review.
+     * Returns the ProtocolBase Online Review.
      * 
-     * @return the Protocol Online Review
+     * @return the ProtocolBase Online Review
      */
-    ProtocolOnlineReview getProtocolOnlineReview();
+    ProtocolOnlineReviewBase getProtocolOnlineReview();
     
     /**
-     * Sets the Protocol Online Review.
+     * Sets the ProtocolBase Online Review.
      *
-     * @param protocolOnlineReview the Protocol Online Review to set
+     * @param protocolOnlineReview the ProtocolBase Online Review to set
      */
-    void setProtocolOnlineReview(ProtocolOnlineReview protocolOnlineReview);
+    void setProtocolOnlineReview(ProtocolOnlineReviewBase protocolOnlineReview);
     
 }

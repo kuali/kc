@@ -17,10 +17,10 @@ package org.kuali.kra.iacuc.actions.correction;
 
 import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.protocol.actions.correction.AdminCorrectionBean;
-import org.kuali.kra.protocol.actions.correction.ProtocolAdminCorrectionEvent;
+import org.kuali.kra.protocol.actions.correction.ProtocolAdminCorrectionEventBase;
 import org.kuali.kra.rule.BusinessRuleInterface;
 
-public class IacucProtocolAdminCorrectionEvent extends ProtocolAdminCorrectionEvent {
+public class IacucProtocolAdminCorrectionEvent extends ProtocolAdminCorrectionEventBase {
 
     public IacucProtocolAdminCorrectionEvent(IacucProtocolDocument document, String propertyName, AdminCorrectionBean actionBean) {
         super(document, propertyName, actionBean);

@@ -18,25 +18,25 @@ package org.kuali.kra.protocol.protocol.research;
 import java.util.Collection;
 
 import org.kuali.kra.bo.ResearchAreaBase;
-import org.kuali.kra.protocol.Protocol;
+import org.kuali.kra.protocol.ProtocolBase;
 
 
 public interface ProtocolResearchAreaService {
 
     /**
-     * When a multi-lookup returns for a set of Research Areas, we must add them to the Protocol Document.
+     * When a multi-lookup returns for a set of Research Areas, we must add them to the ProtocolBase Document.
      * Note that we don't add duplicate research areas.
      * NOTE: This should be moved to a service since it is business logic.
-     * @param protocolDocument the Protocol Document
+     * @param protocolDocument the ProtocolBase Document
      * @param selectedBOs the selected BOs (Research Areas)
      */
-    public abstract void addProtocolResearchArea(Protocol protocol, Collection<ResearchAreaBase> selectedBOs);
+    public abstract void addProtocolResearchArea(ProtocolBase protocol, Collection<ResearchAreaBase> selectedBOs);
     
     /**
      * Checks to see if the list of research areas in the given protocol is empty.
      * @param protocol The protocol with the list of research areas
      * @return True if there are no research areas in this protocol, false otherwise
      */
-    boolean isEmptyProtocolResearchAreas(Protocol protocol);
+    boolean isEmptyProtocolResearchAreas(ProtocolBase protocol);
     
 }

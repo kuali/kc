@@ -21,14 +21,14 @@ package org.kuali.kra.protocol.noteattachment;
 public interface TypedAttachment {
 
     /**
-     * Gets the Protocol Attachment Base Type.
-     * @return the Protocol Attachment Base Type
+     * Gets the ProtocolBase Attachment Base Type.
+     * @return the ProtocolBase Attachment Base Type
      */
     ProtocolAttachmentTypeBase getType();
     
     /**
-     * Sets the Protocol Attachment Base Type.
-     * @param type the Protocol Attachment Base Type
+     * Sets the ProtocolBase Attachment Base Type.
+     * @param type the ProtocolBase Attachment Base Type
      */
     void setType(ProtocolAttachmentTypeBase type);
     
@@ -71,7 +71,7 @@ public interface TypedAttachment {
     void setDescription(String description);
     
     /**
-     * The group code that the Protocol Attachment belongs to.
+     * The group code that the ProtocolBase Attachment belongs to.
      * The group code relates to {@link ProtocolAttachmentGroupBase ProtocolAttachmentGroup}.
      * 
      * @return the group code.

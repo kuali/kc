@@ -17,19 +17,19 @@ package org.kuali.kra.iacuc.questionnaire.print;
 
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
-import org.kuali.kra.protocol.Protocol;
-import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
+import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.kra.questionnaire.printing.QuestionnairePrintingServiceImpl;
 
 public class IacucQuestionnairePrintingServiceImpl extends QuestionnairePrintingServiceImpl implements IacucQuestionnairePrintingService{
 
     @Override
-    protected Class<? extends Protocol> getProtocolBOClassHook() {
+    protected Class<? extends ProtocolBase> getProtocolBOClassHook() {
         return IacucProtocol.class;
     }
 
     @Override
-    protected Class<? extends ProtocolSubmission> getProtocolSubmissionBOClassHook() {
+    protected Class<? extends ProtocolSubmissionBase> getProtocolSubmissionBOClassHook() {
         return IacucProtocolSubmission.class;
     }
 

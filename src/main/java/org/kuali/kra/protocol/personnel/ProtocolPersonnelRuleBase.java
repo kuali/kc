@@ -21,7 +21,7 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.protocol.ProtocolDocument;
+import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 
 /**
@@ -44,14 +44,14 @@ public abstract class ProtocolPersonnelRuleBase extends ResearchDocumentRuleBase
      * @param addProtocolPersonnelEvent The event invoking the add protocol personnel rules
      * @return True if the protocol personnel is valid, false otherwise
      */
-    public boolean processAddProtocolPersonnelEvent(AddProtocolPersonnelEvent addProtocolPersonnelEvent) {
+    public boolean processAddProtocolPersonnelEvent(AddProtocolPersonnelEventBase addProtocolPersonnelEvent) {
         boolean isValid = true;
 
-        ProtocolPerson protocolPerson = addProtocolPersonnelEvent.getProtocolPerson();
+        ProtocolPersonBase protocolPerson = addProtocolPersonnelEvent.getProtocolPerson();
         if (isEmptyPersonOrRole(protocolPerson)) {
             isValid = false;
         } else {
-            List<ProtocolPerson> protocolPersons = getProtocolPersons(addProtocolPersonnelEvent);
+            List<ProtocolPersonBase> protocolPersons = getProtocolPersons(addProtocolPersonnelEvent);
             isValid &= !isDuplicateInvestigator(protocolPerson, protocolPersons, true);
             isValid &= !isPISameAsCoI(protocolPerson, protocolPersons);
             isValid &= !isDuplicatePerson(protocolPerson, addProtocolPersonnelEvent);
@@ -66,7 +66,7 @@ public abstract class ProtocolPersonnelRuleBase extends ResearchDocumentRuleBase
      * @param newPerson
      * @return
      */
-    private boolean isDuplicateInvestigator(ProtocolPerson protocolPerson, List<ProtocolPerson> protocolPersons, boolean newPerson) {
+    private boolean isDuplicateInvestigator(ProtocolPersonBase protocolPerson, List<ProtocolPersonBase> protocolPersons, boolean newPerson) {
         boolean investigatorDuplicate = false;
         if (getProtocolPersonnelService().isPrincipalInvestigator(protocolPerson)) {
             investigatorDuplicate = isDuplicatePI(protocolPersons, protocolPersons, true);
@@ -74,8 +74,8 @@ public abstract class ProtocolPersonnelRuleBase extends ResearchDocumentRuleBase
         return investigatorDuplicate;
     }
     
-    private boolean isPISameAsCoI(ProtocolPerson newProtocolPerson, List<ProtocolPerson> protocolPersons) {
-        ProtocolPerson pi = getProtocolPersonnelService().getPrincipalInvestigator(protocolPersons);
+    private boolean isPISameAsCoI(ProtocolPersonBase newProtocolPerson, List<ProtocolPersonBase> protocolPersons) {
+        ProtocolPersonBase pi = getProtocolPersonnelService().getPrincipalInvestigator(protocolPersons);
         boolean duplicatePerson = getProtocolPersonnelService().isPISameAsCoI(pi, newProtocolPerson);
         if (duplicatePerson) {
             reportError(formatErrorPropertyName(true, protocolPersons.indexOf(pi), ERROR_PROPERTY_PERSON_ROLE), KeyConstants.ERROR_PROTOCOL_PERSONNEL_PI_SAMEAS_COI);
@@ -96,9 +96,9 @@ public abstract class ProtocolPersonnelRuleBase extends ResearchDocumentRuleBase
      * @param newPerson - to identify whether invoked during add or save
      * @return
      */
-    private boolean isDuplicatePI(List<ProtocolPerson> searchableProtocolPersons, List<ProtocolPerson> allProtocolPersons, boolean newPerson) {
+    private boolean isDuplicatePI(List<ProtocolPersonBase> searchableProtocolPersons, List<ProtocolPersonBase> allProtocolPersons, boolean newPerson) {
         boolean investigatorDuplicate = false;
-        ProtocolPerson principalInvestigator = getProtocolPersonnelService().getPrincipalInvestigator(searchableProtocolPersons);
+        ProtocolPersonBase principalInvestigator = getProtocolPersonnelService().getPrincipalInvestigator(searchableProtocolPersons);
         if (principalInvestigator != null) {
             investigatorDuplicate = true;
             reportError(formatErrorPropertyName(newPerson, allProtocolPersons.indexOf(principalInvestigator), ERROR_PROPERTY_PERSON_ROLE), 
@@ -136,7 +136,7 @@ public abstract class ProtocolPersonnelRuleBase extends ResearchDocumentRuleBase
      * @param addProtocolPersonnelEvent
      * @return true / false
      */
-    private boolean isDuplicatePerson(ProtocolPerson protocolPerson, AddProtocolPersonnelEvent addProtocolPersonnelEvent) {
+    private boolean isDuplicatePerson(ProtocolPersonBase protocolPerson, AddProtocolPersonnelEventBase addProtocolPersonnelEvent) {
         boolean duplicatePerson = false;
         if (getProtocolPersonnelService().isDuplicatePerson(getProtocolPersons(addProtocolPersonnelEvent), protocolPerson)) {
             duplicatePerson = true;
@@ -147,11 +147,11 @@ public abstract class ProtocolPersonnelRuleBase extends ResearchDocumentRuleBase
 
     /**
      * This method is to check if user selected a person and protocol role for a new person
-     * Protocol person and role fields are mandatory
+     * ProtocolBase person and role fields are mandatory
      * @param protocolPerson
      * @return true / false
      */
-    private boolean isEmptyPersonOrRole(ProtocolPerson protocolPerson) {
+    private boolean isEmptyPersonOrRole(ProtocolPersonBase protocolPerson) {
         boolean personRoleEmpty = false;
         if (StringUtils.isEmpty(protocolPerson.getProtocolPersonRoleId()) 
                 || (StringUtils.isEmpty(protocolPerson.getPersonId()) 
@@ -167,8 +167,8 @@ public abstract class ProtocolPersonnelRuleBase extends ResearchDocumentRuleBase
      * @param addProtocolPersonnelEvent
      * @return
      */
-    private List<ProtocolPerson> getProtocolPersons(AddProtocolPersonnelEvent addProtocolPersonnelEvent) {
-        return ((ProtocolDocument) addProtocolPersonnelEvent.getDocument()).getProtocol().getProtocolPersons();        
+    private List<ProtocolPersonBase> getProtocolPersons(AddProtocolPersonnelEventBase addProtocolPersonnelEvent) {
+        return ((ProtocolDocumentBase) addProtocolPersonnelEvent.getDocument()).getProtocol().getProtocolPersons();        
     }
 
     /**
@@ -176,11 +176,11 @@ public abstract class ProtocolPersonnelRuleBase extends ResearchDocumentRuleBase
      * @param saveProtocolPersonnelEvent The event invoking the save protocol personnel rules
      * @return True if the protocol personnel are valid, false otherwise
      */
-    public boolean processSaveProtocolPersonnelEvent(SaveProtocolPersonnelEvent saveProtocolPersonnelEvent) {
+    public boolean processSaveProtocolPersonnelEvent(SaveProtocolPersonnelEventBase saveProtocolPersonnelEvent) {
         boolean isValid = true;
         
-        ProtocolDocument protocolDocument = (ProtocolDocument) saveProtocolPersonnelEvent.getDocument();
-        List<ProtocolPerson> protocolPersons = protocolDocument.getProtocol().getProtocolPersons();
+        ProtocolDocumentBase protocolDocument = (ProtocolDocumentBase) saveProtocolPersonnelEvent.getDocument();
+        List<ProtocolPersonBase> protocolPersons = protocolDocument.getProtocol().getProtocolPersons();
         
         getProtocolPersonnelService().syncProtocolPersonRoleChanges(protocolPersons);
         getProtocolPersonnelService().switchInvestigatorCoInvestigatorRole(protocolPersons);
@@ -202,14 +202,14 @@ public abstract class ProtocolPersonnelRuleBase extends ResearchDocumentRuleBase
      * @param protocolPersons
      * @return
      */
-    private boolean isValidPrincipalInvestigator(List<ProtocolPerson> protocolPersons) {
+    private boolean isValidPrincipalInvestigator(List<ProtocolPersonBase> protocolPersons) {
         boolean investigatorValid = true;
-        ProtocolPerson principalInvestigator = getProtocolPersonnelService().getPrincipalInvestigator(protocolPersons);
+        ProtocolPersonBase principalInvestigator = getProtocolPersonnelService().getPrincipalInvestigator(protocolPersons);
         if (principalInvestigator == null) {
             investigatorValid = false;
             reportError(formatErrorPropertyName(true, 0, ERROR_PROPERTY_PERSON_ROLE), KeyConstants.ERROR_PRINCIPAL_INVESTIGATOR_NOT_FOUND);
         } else {
-            List<ProtocolPerson> existingProtocolPersons = new ArrayList<ProtocolPerson>();
+            List<ProtocolPersonBase> existingProtocolPersons = new ArrayList<ProtocolPersonBase>();
             existingProtocolPersons.addAll(protocolPersons);
             existingProtocolPersons.remove(principalInvestigator);
             investigatorValid &= !isDuplicatePI(existingProtocolPersons, protocolPersons, false); 
@@ -226,9 +226,9 @@ public abstract class ProtocolPersonnelRuleBase extends ResearchDocumentRuleBase
      * @param protocolPersons
      * @return true / false
      */
-    private boolean isValidPersonUnit(List<ProtocolPerson> protocolPersons) {
+    private boolean isValidPersonUnit(List<ProtocolPersonBase> protocolPersons) {
         boolean personUnitValid = true;
-        for (ProtocolPerson protocolPerson : protocolPersons) {
+        for (ProtocolPersonBase protocolPerson : protocolPersons) {
             protocolPerson.refreshReferenceObject(REFERENCE_PERSON_ROLE);
             if (protocolPerson.getProtocolPersonRole().isUnitDetailsRequired()) {
                 int personIndex = protocolPersons.indexOf(protocolPerson);
@@ -253,9 +253,9 @@ public abstract class ProtocolPersonnelRuleBase extends ResearchDocumentRuleBase
      * @param protocolUnits
      * @return true / false
      */
-    private boolean isPersonLeadUnitExists(List<ProtocolUnit> protocolUnits) {
+    private boolean isPersonLeadUnitExists(List<ProtocolUnitBase> protocolUnits) {
         boolean unitExists = false;
-        for (ProtocolUnit protocolUnit : protocolUnits) {
+        for (ProtocolUnitBase protocolUnit : protocolUnits) {
             if (protocolUnit.getLeadUnitFlag()) {
                 unitExists = true;
                 break;
@@ -266,8 +266,8 @@ public abstract class ProtocolPersonnelRuleBase extends ResearchDocumentRuleBase
     
     
     /**
-     * Gets the Protocol Personnel Service.
-     * @return the Protocol Personnel Service
+     * Gets the ProtocolBase Personnel Service.
+     * @return the ProtocolBase Personnel Service
      */
     public ProtocolPersonnelService getProtocolPersonnelService() {
         if (protocolPersonnelService == null) {
@@ -279,8 +279,8 @@ public abstract class ProtocolPersonnelRuleBase extends ResearchDocumentRuleBase
     public abstract ProtocolPersonnelService getProtocolPersonnelServiceHook();
     
     /**
-     * Sets the Protocol Personnel Service.
-     * @param protocolPersonnelService the Protocol Personnel Service
+     * Sets the ProtocolBase Personnel Service.
+     * @param protocolPersonnelService the ProtocolBase Personnel Service
      */
     public void setProtocolPersonnelService(ProtocolPersonnelService protocolPersonnelService) {
         this.protocolPersonnelService = protocolPersonnelService;

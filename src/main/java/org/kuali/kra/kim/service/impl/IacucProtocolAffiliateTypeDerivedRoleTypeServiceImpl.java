@@ -25,7 +25,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.AffiliationType;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.kim.bo.KcKimAttributes;
-import org.kuali.kra.protocol.personnel.ProtocolPerson;
+import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
 import org.kuali.rice.core.api.exception.RiceIllegalArgumentException;
 import org.kuali.rice.core.api.membership.MemberType;
 import org.kuali.rice.kim.api.role.RoleMembership;
@@ -52,7 +52,7 @@ public class IacucProtocolAffiliateTypeDerivedRoleTypeServiceImpl extends Derive
         IacucProtocol protocol = getProtocol(protocolNumber);
         
         if (protocol != null && CollectionUtils.isNotEmpty(protocol.getProtocolPersons())) {
-            for (ProtocolPerson person : protocol.getProtocolPersons()) {
+            for (ProtocolPersonBase person : protocol.getProtocolPersons()) {
                 if (StringUtils.equals(getAffiliationType(person.getAffiliationType().getAffiliationTypeCode()), roleName) &&
                     StringUtils.isNotBlank(person.getPerson().getPersonId())) {
                     members.add(RoleMembership.Builder.create(null, null, person.getPerson().getPersonId(), MemberType.PRINCIPAL, null).build());
@@ -73,7 +73,7 @@ public class IacucProtocolAffiliateTypeDerivedRoleTypeServiceImpl extends Derive
         IacucProtocol protocol = getProtocol(protocolNumber);
 
         if (protocol != null && CollectionUtils.isNotEmpty(protocol.getProtocolPersons())) {
-            for (ProtocolPerson person : protocol.getProtocolPersons()) {
+            for (ProtocolPersonBase person : protocol.getProtocolPersons()) {
                 //Find protocol person that matches the principal id
                 if (StringUtils.equals(principalId, person.getPersonId())) {
                     if (StringUtils.equals(roleName, getAffiliationType(person.getAffiliationType().getAffiliationTypeCode()))) {

@@ -17,10 +17,10 @@ package org.kuali.kra.iacuc.actions.decision;
 
 import org.apache.commons.logging.Log;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
-import org.kuali.kra.protocol.actions.decision.CommitteeDecisionRecuserEvent;
+import org.kuali.kra.protocol.actions.decision.CommitteeDecisionRecuserEventBase;
 
 
-public class IacucCommitteeDecisionRecuserEvent extends CommitteeDecisionRecuserEvent<IacucCommitteeDecision> {
+public class IacucCommitteeDecisionRecuserEvent extends CommitteeDecisionRecuserEventBase<IacucCommitteeDecision> {
     
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(IacucCommitteeDecisionRecuserEvent.class);
 

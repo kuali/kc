@@ -27,7 +27,7 @@ import org.kuali.kra.common.permissions.web.struts.form.PermissionsForm;
 import org.kuali.kra.iacuc.IacucProtocolAction;
 import org.kuali.kra.iacuc.IacucProtocolDocumentRule;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.protocol.ProtocolForm;
+import org.kuali.kra.protocol.ProtocolFormBase;
 import org.kuali.kra.protocol.permission.ProtocolPermissionsActionHelper;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.krad.document.Document;
@@ -45,7 +45,7 @@ public class IacucProtocolPermissionsAction extends IacucProtocolAction implemen
             throws Exception {
         ActionForward actionForward = super.execute(mapping, form, request, response);
 
-        ((ProtocolForm)form).getPermissionsHelper().prepareView();
+        ((ProtocolFormBase)form).getPermissionsHelper().prepareView();
         
         return actionForward;
     }
@@ -56,7 +56,7 @@ public class IacucProtocolPermissionsAction extends IacucProtocolAction implemen
     @Override
     protected void preDocumentSave(KualiDocumentFormBase form) throws Exception {
         super.preDocumentSave(form);
-        permissionsActionHelper.save((ProtocolForm) form);
+        permissionsActionHelper.save((ProtocolFormBase) form);
     }
     
     /**
@@ -66,7 +66,7 @@ public class IacucProtocolPermissionsAction extends IacucProtocolAction implemen
     protected ActionForward saveOnClose(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward forward = super.saveOnClose(mapping, form, request, response);
 
-        permissionsActionHelper.save((ProtocolForm) form);
+        permissionsActionHelper.save((ProtocolFormBase) form);
         
         return forward;
     }

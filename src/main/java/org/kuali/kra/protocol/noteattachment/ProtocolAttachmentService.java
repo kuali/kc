@@ -18,11 +18,11 @@ package org.kuali.kra.protocol.noteattachment;
 import java.util.Collection;
 import java.util.List;
 
-import org.kuali.kra.protocol.personnel.ProtocolPerson;
+import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
 
 
 /**
- * Contains the methods used for Protocol Notes and Attachments.
+ * Contains the methods used for ProtocolBase Notes and Attachments.
  */
 public interface ProtocolAttachmentService {
 
@@ -92,7 +92,7 @@ public interface ProtocolAttachmentService {
      * @return the BO
      * @throws IllegalArgumentException if the code or type is null.
      */
-    ProtocolPerson getPerson(Integer personId);
+    ProtocolPersonBase getPerson(Integer personId);
     
     /**
      * Deletes an existing {@link ProtocolAttachmentBase ProtocolAttachmentBase}. It will also
@@ -115,7 +115,7 @@ public interface ProtocolAttachmentService {
      * @param attachment
      * @return
      */
-    boolean isNewAttachmentVersion(ProtocolAttachmentProtocol attachment);
+    boolean isNewAttachmentVersion(ProtocolAttachmentProtocolBase attachment);
      
     
     /**
@@ -124,7 +124,7 @@ public interface ProtocolAttachmentService {
      * @param attachment
      * @return
      */
-    boolean isAttachmentActive(ProtocolAttachmentProtocol attachment);
+    boolean isAttachmentActive(ProtocolAttachmentProtocolBase attachment);
     
      /**
       * 
@@ -132,7 +132,7 @@ public interface ProtocolAttachmentService {
       * @param attachment
       * @return
       */
-    boolean isSharedFile(ProtocolAttachmentPersonnel attachment);
+    boolean isSharedFile(ProtocolAttachmentPersonnelBase attachment);
 
      
      /**

@@ -23,13 +23,13 @@ import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 import org.kuali.rice.krad.document.Document;
 
 /**
- * Represents the event for saving a Protocol Funding Source.
+ * Represents the event for saving a ProtocolBase Funding Source.
  */
 public class SaveProtocolFundingSourceLinkEvent extends KraDocumentEventBaseExtension {
     
-    private List<ProtocolFundingSource> protocolFundingSources;
+    private List<ProtocolFundingSourceBase> protocolFundingSources;
     
-    private List<ProtocolFundingSource> deletedProtocolFundingSources;
+    private List<ProtocolFundingSourceBase> deletedProtocolFundingSources;
     
     /**
      * Constructs a SaveProtocolFundingSourceEvent.
@@ -38,27 +38,27 @@ public class SaveProtocolFundingSourceLinkEvent extends KraDocumentEventBaseExte
      * @param document
      * @param protocolFundingSources
      */
-    public SaveProtocolFundingSourceLinkEvent(Document document, List<ProtocolFundingSource> protocolFundingSources, 
-        List<ProtocolFundingSource> deletedProtocolFundingSources) {
+    public SaveProtocolFundingSourceLinkEvent(Document document, List<ProtocolFundingSourceBase> protocolFundingSources, 
+        List<ProtocolFundingSourceBase> deletedProtocolFundingSources) {
         
         super("saving protocol funding sources to document " + getDocumentId(document), Constants.EMPTY_STRING, document);
         this.protocolFundingSources = protocolFundingSources;
         this.deletedProtocolFundingSources = deletedProtocolFundingSources;
     }
 
-    public List<ProtocolFundingSource> getProtocolFundingSources() {
+    public List<ProtocolFundingSourceBase> getProtocolFundingSources() {
         return protocolFundingSources;
     }
 
-    public void setProtocolFundingSources(List<ProtocolFundingSource> protocolFundingSources) {
+    public void setProtocolFundingSources(List<ProtocolFundingSourceBase> protocolFundingSources) {
         this.protocolFundingSources = protocolFundingSources;
     }
 
-    public List<ProtocolFundingSource> getDeletedProtocolFundingSources() {
+    public List<ProtocolFundingSourceBase> getDeletedProtocolFundingSources() {
         return deletedProtocolFundingSources;
     }
 
-    public void setDeletedProtocolFundingSources(List<ProtocolFundingSource> deletedProtocolFundingSources) {
+    public void setDeletedProtocolFundingSources(List<ProtocolFundingSourceBase> deletedProtocolFundingSources) {
         this.deletedProtocolFundingSources = deletedProtocolFundingSources;
     }
 

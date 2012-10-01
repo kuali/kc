@@ -17,24 +17,24 @@ package org.kuali.kra.protocol.auth;
 
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.kra.protocol.Protocol;
+import org.kuali.kra.protocol.ProtocolBase;
 
 /**
- * The Modify Protocol Authorizer checks to see if the user has 
+ * The Modify ProtocolBase Authorizer checks to see if the user has 
  * permission to modify a protocol. Authorization depends upon whether
  * the protocol is being created or modified.  For creation, the
  * user needs the CREATE_PROTOCOL permission.  If the protocol is being
  * modified, the user only needs to have the MODIFY_PROTOCOL permission 
  * for that protocol.
  */
-public class ModifyProtocolAuthorizer extends ProtocolAuthorizer {
+public class ModifyProtocolAuthorizer extends ProtocolAuthorizerBase {
 
     /**
-     * @see org.kuali.kra.protocol.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.protocol.auth.ProtocolTask)
+     * @see org.kuali.kra.protocol.auth.ProtocolAuthorizerBase#isAuthorized(java.lang.String, org.kuali.kra.protocol.auth.ProtocolTaskBase)
      */
-    public boolean isAuthorized(String userId, ProtocolTask task) {
+    public boolean isAuthorized(String userId, ProtocolTaskBase task) {
         boolean hasPermission = true;
-        Protocol protocol = task.getProtocol();
+        ProtocolBase protocol = task.getProtocol();
         Long protocolId = protocol.getProtocolId();
         if (protocolId == null) {
             

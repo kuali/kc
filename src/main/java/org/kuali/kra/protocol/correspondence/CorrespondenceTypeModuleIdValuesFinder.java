@@ -23,7 +23,7 @@ import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 /**
  * 
- * This class returns the module IDs that ProtocolCorrespondenceType can have.
+ * This class returns the module IDs that ProtocolCorrespondenceTypeBase can have.
  */
 public class CorrespondenceTypeModuleIdValuesFinder extends KeyValuesBase {
 

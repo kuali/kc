@@ -15,15 +15,15 @@
  */
 package org.kuali.kra.iacuc.actions.assignCmt;
 
-import org.kuali.kra.protocol.Protocol;
+import org.kuali.kra.protocol.ProtocolBase;
 
 
 public interface IacucProtocolAssignCmtService {
     
-    public void assignToCommittee(Protocol protocol, IacucProtocolAssignCmtBean actionBean) throws Exception;
+    public void assignToCommittee(ProtocolBase protocol, IacucProtocolAssignCmtBean actionBean) throws Exception;
 
-    public String getAssignedCommitteeId(Protocol protocol);
+    public String getAssignedCommitteeId(ProtocolBase protocol);
     
-    public String getAssignedScheduleId(Protocol protocol);
+    public String getAssignedScheduleId(ProtocolBase protocol);
 
 }

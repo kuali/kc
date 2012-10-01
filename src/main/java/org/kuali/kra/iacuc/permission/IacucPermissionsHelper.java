@@ -26,15 +26,15 @@ import org.kuali.kra.iacuc.IacucProtocolForm;
 import org.kuali.kra.iacuc.auth.IacucProtocolTask;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.infrastructure.TaskName;
-import org.kuali.kra.protocol.auth.ProtocolTask;
-import org.kuali.kra.protocol.permission.PermissionsHelper;
+import org.kuali.kra.protocol.auth.ProtocolTaskBase;
+import org.kuali.kra.protocol.permission.PermissionsHelperBase;
 
 
 /**
- * The PermissionsHelper is used to manage the Permissions tab web page.
+ * The PermissionsHelperBase is used to manage the Permissions tab web page.
  * It contains the data, forms, and methods needed to render the page.
  */
-public class IacucPermissionsHelper extends PermissionsHelper {
+public class IacucPermissionsHelper extends PermissionsHelperBase {
     
     /**
      * Comment for <code>serialVersionUID</code>
@@ -46,7 +46,7 @@ public class IacucPermissionsHelper extends PermissionsHelper {
     
     
     /**
-     * Constructs a PermissionsHelper.
+     * Constructs a PermissionsHelperBase.
      * @param form the form
      */
     public IacucPermissionsHelper(IacucProtocolForm form) {
@@ -85,7 +85,7 @@ public class IacucPermissionsHelper extends PermissionsHelper {
      */
     @Override
     public boolean canModifyPermissions() {              
-        ProtocolTask task = new IacucProtocolTask(TaskName.MODIFY_IACUC_PROTOCOL_ROLES, (IacucProtocol) getProtocol());
+        ProtocolTaskBase task = new IacucProtocolTask(TaskName.MODIFY_IACUC_PROTOCOL_ROLES, (IacucProtocol) getProtocol());
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);     
     }
 

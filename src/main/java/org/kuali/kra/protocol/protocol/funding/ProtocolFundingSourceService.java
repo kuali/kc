@@ -17,7 +17,7 @@ package org.kuali.kra.protocol.protocol.funding;
 
 import java.util.Map.Entry;
 
-import org.kuali.kra.protocol.ProtocolAction;
+import org.kuali.kra.protocol.ProtocolActionBase;
 
 /**
  * Provides the required API for performing a multi-type lookup for funding sources, business rules used by the View, and business rule management for a 
@@ -26,23 +26,23 @@ import org.kuali.kra.protocol.ProtocolAction;
 public interface ProtocolFundingSourceService {
 
     /**
-     * Updates the name and title for a Protocol funding source.
+     * Updates the name and title for a ProtocolBase funding source.
      * 
      * @param fundingSourceTypeCode the type code of the funding source
      * @param fundingSourceNumber the human-readable number of the funding source
      * @param fundingSourceName the name of the funding source
-     * @return an instance of a Protocol funding source
+     * @return an instance of a ProtocolBase funding source
      */
-    ProtocolFundingSource updateProtocolFundingSource(String fundingSourceTypeCode, String fundingSourceNumber, String fundingSourceName);
+    ProtocolFundingSourceBase updateProtocolFundingSource(String fundingSourceTypeCode, String fundingSourceNumber, String fundingSourceName);
     
     /**
      * Checks if the identifier contained in {@code protocolFundingSource} is valid for the type (e.g. for type Unit, verifies whether it has a valid unit 
      * number).
      * 
-     * @param protocolFundingSource the Protocol funding source to validate
-     * @return true if the Protocol funding source has a valid identifier, false otherwise
+     * @param protocolFundingSource the ProtocolBase funding source to validate
+     * @return true if the ProtocolBase funding source has a valid identifier, false otherwise
      */
-    boolean isValidIdForType(ProtocolFundingSource protocolFundingSource);
+    boolean isValidIdForType(ProtocolFundingSourceBase protocolFundingSource);
     
     /**
      * Returns lookup parameters to create a funding source lookup URL based its type.
@@ -64,14 +64,14 @@ public interface ProtocolFundingSourceService {
 
 
     /**
-     * Creates a view URL for the Protocol funding source.
+     * Creates a view URL for the ProtocolBase funding source.
      * 
      * @param protocolFundingSource the funding source to view
      * @param action a back reference back to the action
      * @return a valid URL to view the funding source
      * @throws Exception
      */
-    String getViewProtocolFundingSourceUrl(ProtocolFundingSource protocolFundingSource, ProtocolAction action) throws Exception;
+    String getViewProtocolFundingSourceUrl(ProtocolFundingSourceBase protocolFundingSource, ProtocolActionBase action) throws Exception;
     
     /**
      * Returns whether the name attribute is editable according to {@code fundingSourceTypeCode}.

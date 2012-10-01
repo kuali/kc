@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.iacuc.correspondence;
 
-import org.kuali.kra.protocol.correspondence.SendCorrespondenceValuesFinder;
+import org.kuali.kra.protocol.correspondence.SendCorrespondenceValuesFinderBase;
 
-public class IacucSendCorrespondenceValuesFinder extends SendCorrespondenceValuesFinder {
+public class IacucSendCorrespondenceValuesFinder extends SendCorrespondenceValuesFinderBase {
 
     /**
      * Comment for <code>serialVersionUID</code>

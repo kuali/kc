@@ -17,19 +17,19 @@ package org.kuali.kra.protocol.auth;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.kra.protocol.Protocol;
+import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
 
 /**
  * Is the user allowed to notify the IRB office?
  */
-public class NotifyCommitteeAuthorizer extends ProtocolAuthorizer {
+public class NotifyCommitteeAuthorizer extends ProtocolAuthorizerBase {
 
     /**
-     * @see org.kuali.kra.protocol.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.protocol.auth.ProtocolTask)
+     * @see org.kuali.kra.protocol.auth.ProtocolAuthorizerBase#isAuthorized(java.lang.String, org.kuali.kra.protocol.auth.ProtocolTaskBase)
      */
-    public boolean isAuthorized(String userId, ProtocolTask task) {
+    public boolean isAuthorized(String userId, ProtocolTaskBase task) {
 boolean result = isStatusValid(task.getProtocol()) &&
                  canExecuteAction(task.getProtocol(), ProtocolActionType.NOTIFIED_COMMITTEE) &&
                  hasPermission(userId, task.getProtocol(), PermissionConstants.PERFORM_IRB_ACTIONS_ON_PROTO);
@@ -39,7 +39,7 @@ return result;
 //        hasPermission(userId, task.getProtocol(), PermissionConstants.PERFORM_IRB_ACTIONS_ON_PROTO);
     }
     
-    private boolean isStatusValid(Protocol protocol) {
+    private boolean isStatusValid(ProtocolBase protocol) {
         String submissionStatusCode = protocol.getProtocolSubmission().getSubmissionStatus().getProtocolSubmissionStatusCode();
         return StringUtils.isNotBlank(submissionStatusCode)
                 && (ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE.equals(submissionStatusCode));

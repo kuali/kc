@@ -18,7 +18,7 @@ package org.kuali.kra.protocol.onlinereview.dao;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReview;
+import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewBase;
 
 public interface ProtocolOnlineReviewDao {
     
@@ -29,7 +29,7 @@ public interface ProtocolOnlineReviewDao {
      * @param fieldValues
      * @return
      */
-    List<ProtocolOnlineReview> getProtocolOnlineReviews(Map<String,String> fieldValues);
+    List<ProtocolOnlineReviewBase> getProtocolOnlineReviews(Map<String,String> fieldValues);
     
     
 }

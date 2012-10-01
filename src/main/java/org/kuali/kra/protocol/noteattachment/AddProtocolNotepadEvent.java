@@ -17,25 +17,25 @@ package org.kuali.kra.protocol.noteattachment;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.kra.protocol.ProtocolDocument;
+import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 /**
- * Event created when adding a new {@link ProtocolNotepad ProtocolNotepad}.
+ * Event created when adding a new {@link ProtocolNotepadBase ProtocolNotepadBase}.
  */
 public class AddProtocolNotepadEvent extends KraDocumentEventBase {
 
     private static final Log LOG = LogFactory.getLog(AddProtocolNotepadEvent.class);
-    private final ProtocolNotepad newProtocolNotepad;
+    private final ProtocolNotepadBase newProtocolNotepad;
     
     /**
      * Creates a new event.
      * @param document the document.
      * @param newProtocolNotepad the new attachment to be added.
      */
-    public AddProtocolNotepadEvent(final ProtocolDocument document,
-        final ProtocolNotepad newProtocolNotepad) {
+    public AddProtocolNotepadEvent(final ProtocolDocumentBase document,
+        final ProtocolNotepadBase newProtocolNotepad) {
         super("adding new protocol notepad", "notesAttachmentsHelper", document);
         
         if (document == null) {
@@ -66,10 +66,10 @@ public class AddProtocolNotepadEvent extends KraDocumentEventBase {
     }
 
     /**
-     * Gets new {@link ProtocolNotepad ProtocolNotepad}.
-     * @return new {@link ProtocolNotepad ProtocolNotepad}.
+     * Gets new {@link ProtocolNotepadBase ProtocolNotepadBase}.
+     * @return new {@link ProtocolNotepadBase ProtocolNotepadBase}.
      */
-    public ProtocolNotepad getNewProtocolNotepad() {
+    public ProtocolNotepadBase getNewProtocolNotepad() {
         return this.newProtocolNotepad;
     }
 }

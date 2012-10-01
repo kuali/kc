@@ -19,7 +19,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import org.kuali.kra.protocol.actions.ProtocolActionBean;
-import org.kuali.kra.protocol.actions.submit.ProtocolReviewerBean;
+import org.kuali.kra.protocol.actions.submit.ProtocolReviewerBeanBase;
 
 /**
  * This class is really just a "form" for assigning a protocol
@@ -33,22 +33,22 @@ public interface ProtocolAssignReviewersBean extends ProtocolActionBean, Seriali
      */
     public void prepareView();
     
-    public List<ProtocolReviewerBean> getReviewers();
+    public List<ProtocolReviewerBeanBase> getReviewers();
     
-    public ProtocolReviewerBean getReviewer(int i);
+    public ProtocolReviewerBeanBase getReviewer(int i);
     
     /**
      * We display the reviewers in two columns.  These are the
      * reviewers in the left column.
      * @return
      */
-    public List<ProtocolReviewerBean> getLeftReviewers();
+    public List<ProtocolReviewerBeanBase> getLeftReviewers();
     
     /**
      * We display the reviewers in two columns.  These are the
      * reviewers in the right column.
      * @return
      */
-    public List<ProtocolReviewerBean> getRightReviewers();
+    public List<ProtocolReviewerBeanBase> getRightReviewers();
     
 }

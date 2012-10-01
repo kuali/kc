@@ -22,7 +22,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.protocol.auth.GenericProtocolAuthorizer;
-import org.kuali.kra.protocol.auth.ProtocolTask;
+import org.kuali.kra.protocol.auth.ProtocolTaskBase;
 
 /**
  * 
@@ -71,7 +71,7 @@ public class IacucGenericProtocolAuthorizer extends GenericProtocolAuthorizer {
     
     /** {@inheritDoc} */
     @Override
-    public boolean isAuthorized(String userId, ProtocolTask task) {
+    public boolean isAuthorized(String userId, ProtocolTaskBase task) {
         if (StringUtils.isEmpty(this.genericTaskName)) {
             this.genericTaskName = task.getTaskName();
         }

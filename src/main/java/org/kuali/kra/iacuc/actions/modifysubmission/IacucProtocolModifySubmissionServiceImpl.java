@@ -41,17 +41,17 @@ import org.kuali.kra.iacuc.notification.IacucProtocolNotificationRequestBean;
 import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReview;
 import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReviewService;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.protocol.Protocol;
-import org.kuali.kra.protocol.ProtocolDocument;
-import org.kuali.kra.protocol.ProtocolOnlineReviewDocument;
-import org.kuali.kra.protocol.actions.ProtocolAction;
+import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.protocol.ProtocolDocumentBase;
+import org.kuali.kra.protocol.ProtocolOnlineReviewDocumentBase;
+import org.kuali.kra.protocol.actions.ProtocolActionBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewTypeBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewer;
-import org.kuali.kra.protocol.actions.submit.ProtocolReviewerBean;
-import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
-import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReview;
+import org.kuali.kra.protocol.actions.submit.ProtocolReviewerBeanBase;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
+import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewBase;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewService;
-import org.kuali.kra.protocol.personnel.ProtocolPerson;
+import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
 import org.kuali.kra.util.DateUtils;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.bo.AdHocRouteRecipient;
@@ -70,8 +70,8 @@ public class IacucProtocolModifySubmissionServiceImpl extends IacucProtocolProce
     private static final String NEXT_ACTION_ID_KEY = "actionId";
 
 
-    public void modifySubmission(ProtocolDocument protocolDocument, IacucProtocolModifySubmissionBean bean, List<ProtocolReviewerBean> beans) throws Exception {
-        ProtocolSubmission submission = protocolDocument.getProtocol().getProtocolSubmission();
+    public void modifySubmission(ProtocolDocumentBase protocolDocument, IacucProtocolModifySubmissionBean bean, List<ProtocolReviewerBeanBase> beans) throws Exception {
+        ProtocolSubmissionBase submission = protocolDocument.getProtocol().getProtocolSubmission();
         submission.setSubmissionTypeCode(bean.getSubmissionTypeCode());
         submission.setSubmissionTypeQualifierCode(bean.getSubmissionQualifierTypeCode());
         setSchedule(submission, bean.getCommitteeId(), bean.getScheduleId());
@@ -102,10 +102,10 @@ public class IacucProtocolModifySubmissionServiceImpl extends IacucProtocolProce
     }
     
     private void addNewAction(IacucProtocol protocol, IacucProtocolModifySubmissionBean actionBean, String prevSubmissionStatusCode) {
-        ProtocolAction lastAction = protocol.getLastProtocolAction();
-        ProtocolAction newAction = new IacucProtocolAction();
+        ProtocolActionBase lastAction = protocol.getLastProtocolAction();
+        ProtocolActionBase newAction = new IacucProtocolAction();
         // deep copy will replaced the last action with the new one after save
-       // ProtocolAction newAction = (ProtocolAction)ObjectUtils.deepCopy(protocol.getLastProtocolAction());
+       // ProtocolActionBase newAction = (ProtocolActionBase)ObjectUtils.deepCopy(protocol.getLastProtocolAction());
         newAction.setActionId(protocol.getNextValue(NEXT_ACTION_ID_KEY));
         newAction.setActualActionDate(new Timestamp(System.currentTimeMillis()));
         newAction.setActionDate(new Timestamp(System.currentTimeMillis()));
@@ -125,7 +125,7 @@ public class IacucProtocolModifySubmissionServiceImpl extends IacucProtocolProce
         this.committeeService = committeeService;
     }
     
-    public void setSchedule(ProtocolSubmission submission, String committeeId, String scheduleId) {
+    public void setSchedule(ProtocolSubmissionBase submission, String committeeId, String scheduleId) {
         if (!setCommittee(submission, committeeId)) {
             submission.setScheduleId(null);
             submission.setScheduleIdFk(null);
@@ -148,7 +148,7 @@ public class IacucProtocolModifySubmissionServiceImpl extends IacucProtocolProce
         }
     }
     
-    protected void updateDefaultSchedule(ProtocolSubmission submission) {
+    protected void updateDefaultSchedule(ProtocolSubmissionBase submission) {
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put("protocolIdFk", submission.getProtocolId().toString());
 //        fieldValues.put("scheduleIdFk", CommitteeScheduleBase.DEFAULT_SCHEDULE_ID.toString());
@@ -165,7 +165,7 @@ public class IacucProtocolModifySubmissionServiceImpl extends IacucProtocolProce
         }
     }
     
-    public boolean setCommittee(ProtocolSubmission submission, String committeeId) {
+    public boolean setCommittee(ProtocolSubmissionBase submission, String committeeId) {
         CommitteeBase committee = committeeService.getCommitteeById(committeeId);
         if (committee == null) {
             submission.setCommitteeId(null);
@@ -180,19 +180,19 @@ public class IacucProtocolModifySubmissionServiceImpl extends IacucProtocolProce
             return true;
         }
     }
-    public String getAssignedScheduleId(Protocol protocol) {
-        ProtocolSubmission submission = findSubmission(protocol);
+    public String getAssignedScheduleId(ProtocolBase protocol) {
+        ProtocolSubmissionBase submission = findSubmission(protocol);
         if (submission != null && StringUtils.equals(submission.getSubmissionStatusCode(), IacucProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE)) {
             return submission.getScheduleId();
         }
         return null;
     }
     
-    protected ProtocolSubmission findSubmission(Protocol protocol) {
+    protected ProtocolSubmissionBase findSubmission(ProtocolBase protocol) {
         // need to loop thru to find the last submission.
         // it may have submit/Wd/notify irb/submit, and this will cause problem if don't loop thru.
-        ProtocolSubmission protocolSubmission = null;
-        for (ProtocolSubmission submission : protocol.getProtocolSubmissions()) {
+        ProtocolSubmissionBase protocolSubmission = null;
+        for (ProtocolSubmissionBase submission : protocol.getProtocolSubmissions()) {
             if (StringUtils.equals(submission.getSubmissionStatusCode(), IacucProtocolSubmissionStatus.PENDING) ||
                 StringUtils.equals(submission.getSubmissionStatusCode(), IacucProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE)) {
                 protocolSubmission = submission;
@@ -202,15 +202,15 @@ public class IacucProtocolModifySubmissionServiceImpl extends IacucProtocolProce
 
     }
     
-    protected void removeReviewer(ProtocolSubmission protocolSubmission, ProtocolReviewerBean protocolReviewBean,String annotation) {
+    protected void removeReviewer(ProtocolSubmissionBase protocolSubmission, ProtocolReviewerBeanBase protocolReviewBean,String annotation) {
         //We need to send the notification prior to the online review being removed in order to satisfy the kim role recipients requirements
-        ProtocolOnlineReviewDocument onlineReviewDocument = 
+        ProtocolOnlineReviewDocumentBase onlineReviewDocument = 
             protocolOnlineReviewService.getProtocolOnlineReviewDocument(protocolReviewBean.getPersonId(), protocolReviewBean.getNonEmployeeFlag(), protocolSubmission);
         if (onlineReviewDocument != null) {   
-            Protocol protocol = protocolSubmission.getProtocol();
-            ProtocolOnlineReview protocolOnlineReview = onlineReviewDocument.getProtocolOnlineReview();
+            ProtocolBase protocol = protocolSubmission.getProtocol();
+            ProtocolOnlineReviewBase protocolOnlineReview = onlineReviewDocument.getProtocolOnlineReview();
             protocolReviewBean.setNotificationRequestBean(new IacucProtocolNotificationRequestBean((IacucProtocol)protocol, (IacucProtocolOnlineReview) protocolOnlineReview, IacucProtocolActionType.ASSIGN_REVIEWER, "Assign Reviewer", null, null));
-            protocolReviewBean.setActionFlag(ProtocolReviewerBean.REMOVE);
+            protocolReviewBean.setActionFlag(ProtocolReviewerBeanBase.REMOVE);
             IacucProtocolAssignReviewerNotificationRenderer renderer = new IacucProtocolAssignReviewerNotificationRenderer((IacucProtocol) protocol, "removed");
             IacucProtocolNotificationContext context = new IacucProtocolNotificationContext((IacucProtocol)protocol, (IacucProtocolOnlineReview)protocolOnlineReview, IacucProtocolActionType.ASSIGN_REVIEWER, "Assign Reviewer", renderer);
            // if (!getPromptUserForNotificationEditor(context)) {
@@ -221,16 +221,16 @@ public class IacucProtocolModifySubmissionServiceImpl extends IacucProtocolProce
         protocolOnlineReviewService.removeOnlineReviewDocument(protocolReviewBean.getPersonId(), protocolReviewBean.getNonEmployeeFlag(), protocolSubmission, annotation);
     }
     
-    public void assignReviewers(ProtocolSubmission protocolSubmission, List<ProtocolReviewerBean> protocolReviewerBeans, IacucProtocolModifySubmissionBean protocolModifySubmissionBean) throws Exception  {
+    public void assignReviewers(ProtocolSubmissionBase protocolSubmission, List<ProtocolReviewerBeanBase> protocolReviewerBeans, IacucProtocolModifySubmissionBean protocolModifySubmissionBean) throws Exception  {
         if (protocolSubmission != null) {
-            for (ProtocolReviewerBean bean : protocolReviewerBeans) {
+            for (ProtocolReviewerBeanBase bean : protocolReviewerBeans) {
                 if (StringUtils.isNotBlank(bean.getReviewerTypeCode())) {
                     if (!protocolOnlineReviewService.isProtocolReviewer(bean.getPersonId(), bean.getNonEmployeeFlag(), protocolSubmission)) {
                         
                         createReviewer(protocolSubmission, bean, protocolModifySubmissionBean);
                     } else {
                         updateReviewer(protocolSubmission, bean, protocolModifySubmissionBean);
-                        bean.setActionFlag(ProtocolReviewerBean.UPDATE);
+                        bean.setActionFlag(ProtocolReviewerBeanBase.UPDATE);
                     }
                 } else {
                     //need to check if this person is currently a reviewer...
@@ -244,11 +244,11 @@ public class IacucProtocolModifySubmissionServiceImpl extends IacucProtocolProce
         }
     }
     
-    protected void updateReviewer(ProtocolSubmission protocolSubmission, ProtocolReviewerBean protocolReviewerBean, IacucProtocolModifySubmissionBean protocolModifySubmissionBean) {
+    protected void updateReviewer(ProtocolSubmissionBase protocolSubmission, ProtocolReviewerBeanBase protocolReviewerBean, IacucProtocolModifySubmissionBean protocolModifySubmissionBean) {
         ProtocolReviewer reviewer = protocolOnlineReviewService.getProtocolReviewer(protocolReviewerBean.getPersonId(), protocolReviewerBean.getNonEmployeeFlag(), protocolSubmission);
         reviewer.setReviewerTypeCode(protocolReviewerBean.getReviewerTypeCode());
         IacucProtocolOnlineReview iacucProtocolOnlineReview = null;
-        for (ProtocolOnlineReview onlineReview : reviewer.getProtocolOnlineReviews()) {
+        for (ProtocolOnlineReviewBase onlineReview : reviewer.getProtocolOnlineReviews()) {
             if (onlineReview.getSubmissionIdFk().equals(protocolSubmission.getSubmissionId())) {
                 iacucProtocolOnlineReview = (IacucProtocolOnlineReview)onlineReview;
             }
@@ -260,12 +260,12 @@ public class IacucProtocolModifySubmissionServiceImpl extends IacucProtocolProce
         businessObjectService.save(reviewer);
     }
     
-    protected void createReviewer(ProtocolSubmission protocolSubmission, ProtocolReviewerBean protocolReviewerBean, IacucProtocolModifySubmissionBean protocolModifySubmissionBean) throws WorkflowException {
+    protected void createReviewer(ProtocolSubmissionBase protocolSubmission, ProtocolReviewerBeanBase protocolReviewerBean, IacucProtocolModifySubmissionBean protocolModifySubmissionBean) throws WorkflowException {
         String principalId = protocolReviewerBean.getPersonId();
         boolean nonEmployeeFlag = protocolReviewerBean.getNonEmployeeFlag();
         String reviewerTypeCode = protocolReviewerBean.getReviewerTypeCode();
         ProtocolReviewer reviewer = protocolOnlineReviewService.createProtocolReviewer(principalId, nonEmployeeFlag, reviewerTypeCode, protocolSubmission);
-        ProtocolPerson protocolPerson = protocolSubmission.getProtocol().getPrincipalInvestigator();
+        ProtocolPersonBase protocolPerson = protocolSubmission.getProtocol().getPrincipalInvestigator();
         String protocolNumber = protocolSubmission.getProtocol().getProtocolNumber();
         String description = protocolOnlineReviewService.getProtocolOnlineReviewDocumentDescription(protocolNumber, protocolPerson.getLastName());
         String explanation = Constants.EMPTY_STRING;
@@ -275,16 +275,16 @@ public class IacucProtocolModifySubmissionServiceImpl extends IacucProtocolProce
         Date dateRequested = null;
         Date dateDue = null;
         String sessionPrincipalId = GlobalVariables.getUserSession().getPrincipalId();
-        ProtocolOnlineReviewDocument document =  protocolOnlineReviewService.createProtocolOnlineReviewDocument(protocolSubmission, reviewer, 
+        ProtocolOnlineReviewDocumentBase document =  protocolOnlineReviewService.createProtocolOnlineReviewDocument(protocolSubmission, reviewer, 
               description, explanation, organizationDocumentNumber, dateRequested, dateDue, sessionPrincipalId);
         protocolSubmission.getProtocolOnlineReviews().add(document.getProtocolOnlineReview());
         documentService.routeDocument(document, routeAnnotation, new ArrayList<AdHocRouteRecipient>());
         
         //send notification now that the online review has been created.
         IacucProtocol protocol = (IacucProtocol) protocolSubmission.getProtocol();
-        ProtocolOnlineReview protocolOnlineReview = document.getProtocolOnlineReview();
+        ProtocolOnlineReviewBase protocolOnlineReview = document.getProtocolOnlineReview();
         protocolReviewerBean.setNotificationRequestBean(new IacucProtocolNotificationRequestBean(protocol, (IacucProtocolOnlineReview) protocolOnlineReview, IacucProtocolActionType.ASSIGN_REVIEWER, "Assign Reviewer", null, null));
-        protocolReviewerBean.setActionFlag(ProtocolReviewerBean.CREATE);
+        protocolReviewerBean.setActionFlag(ProtocolReviewerBeanBase.CREATE);
         IacucProtocolAssignReviewerNotificationRenderer renderer = new IacucProtocolAssignReviewerNotificationRenderer(protocol, "added");
         IacucProtocolNotificationContext context = new IacucProtocolNotificationContext(protocol, (IacucProtocolOnlineReview) protocolOnlineReview, IacucProtocolActionType.ASSIGN_REVIEWER, "Assign Reviewer", renderer);
         //if (!getPromptUserForNotificationEditor(context)) {
@@ -293,7 +293,7 @@ public class IacucProtocolModifySubmissionServiceImpl extends IacucProtocolProce
         ((IacucProtocolOnlineReview) protocolOnlineReview).setDeterminationReviewDateDue(protocolModifySubmissionBean.getDueDate());
     }
     
-    protected void proccessNewReviewType(ProtocolSubmission submission, String newReviewType) {
+    protected void proccessNewReviewType(ProtocolSubmissionBase submission, String newReviewType) {
         Map fieldValues = new HashMap();
         fieldValues.put("PROTOCOL_REVIEW_TYPE_CODE", newReviewType);
         ProtocolReviewTypeBase newType = (ProtocolReviewTypeBase) this.businessObjectService.findByPrimaryKey(IacucProtocolReviewType.class, fieldValues);
@@ -315,7 +315,7 @@ public class IacucProtocolModifySubmissionServiceImpl extends IacucProtocolProce
     }
    
     /**
-     * Set the Protocol Online Review Service.
+     * Set the ProtocolBase Online Review Service.
      * @param protocolOnlineReviewService protocolOnlineReviewService.
      */
     public void setProtocolOnlineReviewService(ProtocolOnlineReviewService protocolOnlineReviewService) {

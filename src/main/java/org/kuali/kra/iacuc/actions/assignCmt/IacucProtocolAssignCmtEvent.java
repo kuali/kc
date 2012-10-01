@@ -16,7 +16,7 @@
 package org.kuali.kra.iacuc.actions.assignCmt;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.protocol.ProtocolDocument;
+import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
@@ -27,7 +27,7 @@ public class IacucProtocolAssignCmtEvent extends KraDocumentEventBase  {
     
     private IacucProtocolAssignCmtBean actionBean;
     
-    public IacucProtocolAssignCmtEvent(ProtocolDocument document, IacucProtocolAssignCmtBean actionBean) {
+    public IacucProtocolAssignCmtEvent(ProtocolDocumentBase document, IacucProtocolAssignCmtBean actionBean) {
         super("Submitting for review for document " + getDocumentId(document), "", document);
         this.actionBean = actionBean;
         logEvent();
@@ -54,7 +54,7 @@ public class IacucProtocolAssignCmtEvent extends KraDocumentEventBase  {
     }
 
     public boolean invokeRuleMethod(BusinessRule rule) {
-        return ((IacucProtocolAssignCmtRule) rule).processAssignToCommittee((ProtocolDocument) getDocument(), actionBean);
+        return ((IacucProtocolAssignCmtRule) rule).processAssignToCommittee((ProtocolDocumentBase) getDocument(), actionBean);
     }
 
   

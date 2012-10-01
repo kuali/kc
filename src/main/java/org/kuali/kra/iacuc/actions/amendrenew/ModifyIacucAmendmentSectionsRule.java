@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.iacuc.actions.amendrenew;
 
-import org.kuali.kra.protocol.actions.amendrenew.ModifyAmendmentSectionsRule;
+import org.kuali.kra.protocol.actions.amendrenew.ModifyAmendmentSectionsRuleBase;
 
-public class ModifyIacucAmendmentSectionsRule extends ModifyAmendmentSectionsRule {
+public class ModifyIacucAmendmentSectionsRule extends ModifyAmendmentSectionsRuleBase {
 
 }

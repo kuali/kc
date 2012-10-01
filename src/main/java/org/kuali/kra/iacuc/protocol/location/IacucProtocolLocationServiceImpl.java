@@ -16,13 +16,13 @@
 package org.kuali.kra.iacuc.protocol.location;
 
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.protocol.protocol.location.ProtocolLocation;
-import org.kuali.kra.protocol.protocol.location.ProtocolLocationServiceImpl;
+import org.kuali.kra.protocol.protocol.location.ProtocolLocationBase;
+import org.kuali.kra.protocol.protocol.location.ProtocolLocationServiceImplBase;
 
-public class IacucProtocolLocationServiceImpl extends ProtocolLocationServiceImpl implements IacucProtocolLocationService {
+public class IacucProtocolLocationServiceImpl extends ProtocolLocationServiceImplBase implements IacucProtocolLocationService {
 
     @Override
-    protected ProtocolLocation getNewProtocolLocationInstanceHook() {
+    protected ProtocolLocationBase getNewProtocolLocationInstanceHook() {
         return new IacucProtocolLocation();
     }
 

@@ -23,9 +23,9 @@ package org.kuali.kra.protocol.auth;
 public class AnswerProtocolQuestionnaireAuthorizer extends ModifyProtocolAuthorizer {
     
     /**
-     * @see org.kuali.kra.protocol.auth.ModifyProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.protocol.auth.ProtocolTask)
+     * @see org.kuali.kra.protocol.auth.ModifyProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.protocol.auth.ProtocolTaskBase)
      */
-    public boolean isAuthorized(String userId, ProtocolTask task) {
+    public boolean isAuthorized(String userId, ProtocolTaskBase task) {
         return super.isAuthorized(userId, task);
     }
 }

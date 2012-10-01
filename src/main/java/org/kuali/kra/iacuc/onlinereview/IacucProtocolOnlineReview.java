@@ -16,14 +16,14 @@
 package org.kuali.kra.iacuc.onlinereview;
 
 import java.sql.Date;
-import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReview;
+import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewBase;
 
 /**
  * This class encapsulates the notion of a protocol review. Essentially 
  * a join between protocol, submission, and a reviewer.  The ProtocolReview
  * is created by the IRB Admin as request.
  */
-public class IacucProtocolOnlineReview extends ProtocolOnlineReview {
+public class IacucProtocolOnlineReview extends ProtocolOnlineReviewBase {
     
     
     /**

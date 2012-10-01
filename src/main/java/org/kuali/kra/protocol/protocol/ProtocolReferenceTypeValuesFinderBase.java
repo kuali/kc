@@ -38,7 +38,7 @@ public abstract class ProtocolReferenceTypeValuesFinderBase extends KeyValuesBas
     KeyValueFinderService keyValueFinderService = (KeyValueFinderService) KraServiceLocator.getService("keyValueFinderService");
 
     /**
-     * Constructs the list of Protocol Types. Each entry in the list is a &lt;key, value&gt; pair, where the "key" is the unique
+     * Constructs the list of ProtocolBase Types. Each entry in the list is a &lt;key, value&gt; pair, where the "key" is the unique
      * status code and the "value" is the textual description that is viewed by a user. The list is obtained from the PROTOCOL_TYPE
      * database table via the "KeyValueFinderService".
      * 

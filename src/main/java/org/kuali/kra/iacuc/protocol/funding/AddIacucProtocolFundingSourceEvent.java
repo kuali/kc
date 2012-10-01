@@ -17,21 +17,21 @@ package org.kuali.kra.iacuc.protocol.funding;
 
 import java.util.List;
 
-import org.kuali.kra.protocol.protocol.funding.AddProtocolFundingSourceEvent;
-import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSource;
-import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceRule;
+import org.kuali.kra.protocol.protocol.funding.AddProtocolFundingSourceEventBase;
+import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceBase;
+import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceRuleBase;
 import org.kuali.rice.krad.document.Document;
 
-public class AddIacucProtocolFundingSourceEvent extends AddProtocolFundingSourceEvent {
+public class AddIacucProtocolFundingSourceEvent extends AddProtocolFundingSourceEventBase {
 
     public AddIacucProtocolFundingSourceEvent(String description, Document document, IacucProtocolFundingSource fundingSource,
-            List<ProtocolFundingSource> protocolFundingSources) {
+            List<ProtocolFundingSourceBase> protocolFundingSources) {
         super(description, document, fundingSource, protocolFundingSources);
 
     }
 
     @Override
-    public ProtocolFundingSourceRule getRule() {
+    public ProtocolFundingSourceRuleBase getRule() {
         return new IacucProtocolFundingSourceRule();
     }
 

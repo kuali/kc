@@ -17,25 +17,25 @@ package org.kuali.kra.protocol.noteattachment;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.kra.protocol.ProtocolDocument;
+import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 /**
- * Event created when delete an existing {@link ProtocolNotepad ProtocolNotepad}.
+ * Event created when delete an existing {@link ProtocolNotepadBase ProtocolNotepadBase}.
  */
 public class DeleteProtocolNotepadEvent extends KraDocumentEventBase {
 
     private static final Log LOG = LogFactory.getLog(DeleteProtocolNotepadEvent.class);
-    private final ProtocolNotepad protocolNotepad;
+    private final ProtocolNotepadBase protocolNotepad;
     
     /**
      * Creates a new "delete" event.
      * @param document the document.
      * @param deleteProtocolNotepad the new attachment to be deleted.
      */
-    public DeleteProtocolNotepadEvent(final ProtocolDocument document,
-        final ProtocolNotepad protocolNotepad) {
+    public DeleteProtocolNotepadEvent(final ProtocolDocumentBase document,
+        final ProtocolNotepadBase protocolNotepad) {
         super("deleting existing protocol notepad", "notesAttachmentsHelper", document);
         
         if (document == null) {
@@ -66,10 +66,10 @@ public class DeleteProtocolNotepadEvent extends KraDocumentEventBase {
     }
 
     /**
-     * Gets new {@link ProtocolNotepad ProtocolNotepad}.
-     * @return new {@link ProtocolNotepad ProtocolNotepad}.
+     * Gets new {@link ProtocolNotepadBase ProtocolNotepadBase}.
+     * @return new {@link ProtocolNotepadBase ProtocolNotepadBase}.
      */
-    public ProtocolNotepad getProtocolNotepad() {
+    public ProtocolNotepadBase getProtocolNotepad() {
         return this.protocolNotepad;
     }
 }

@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.iacuc.actions.correction;
 
-import org.kuali.kra.protocol.actions.correction.AdminCorrectionServiceImpl;
+import org.kuali.kra.protocol.actions.correction.AdminCorrectionServiceImplBase;
 
-public class IacucAdminCorrectionServiceImpl extends AdminCorrectionServiceImpl {
+public class IacucAdminCorrectionServiceImpl extends AdminCorrectionServiceImplBase {
 
 }

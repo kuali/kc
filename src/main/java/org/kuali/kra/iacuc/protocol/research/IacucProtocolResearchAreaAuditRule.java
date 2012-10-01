@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.iacuc.protocol.research;
 
-import org.kuali.kra.protocol.protocol.research.ProtocolResearchAreaAuditRule;
+import org.kuali.kra.protocol.protocol.research.ProtocolResearchAreaAuditRuleBase;
 
-public class IacucProtocolResearchAreaAuditRule extends ProtocolResearchAreaAuditRule {
+public class IacucProtocolResearchAreaAuditRule extends ProtocolResearchAreaAuditRuleBase {
 
 }

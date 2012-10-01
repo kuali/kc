@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.iacuc.actions.assignagenda;
 
-import org.kuali.kra.protocol.actions.assignagenda.ProtocolAssignToAgendaRule;
+import org.kuali.kra.protocol.actions.assignagenda.ProtocolAssignToAgendaRuleBase;
 
-public class IacucProtocolAssignToAgendaRule extends ProtocolAssignToAgendaRule<IacucProtocolAssignToAgendaEvent> {
+public class IacucProtocolAssignToAgendaRule extends ProtocolAssignToAgendaRuleBase<IacucProtocolAssignToAgendaEvent> {
     
 }

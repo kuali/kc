@@ -17,40 +17,40 @@ package org.kuali.kra.iacuc;
 
 import org.kuali.kra.iacuc.procedures.IacucProtocolProcedureService;
 import org.kuali.kra.iacuc.questionnaire.IacucProtocolModuleQuestionnaireBean;
-import org.kuali.kra.protocol.Protocol;
-import org.kuali.kra.protocol.ProtocolDocument;
-import org.kuali.kra.protocol.ProtocolVersionServiceImpl;
-import org.kuali.kra.protocol.questionnaire.ProtocolModuleQuestionnaireBean;
+import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.protocol.ProtocolDocumentBase;
+import org.kuali.kra.protocol.ProtocolVersionServiceImplBase;
+import org.kuali.kra.protocol.questionnaire.ProtocolModuleQuestionnaireBeanBase;
 
 
 /**
- * Protocol Version Service Implementation.
+ * ProtocolBase Version Service Implementation.
  */
-public class IacucProtocolVersionServiceImpl extends ProtocolVersionServiceImpl implements IacucProtocolVersionService{
+public class IacucProtocolVersionServiceImpl extends ProtocolVersionServiceImplBase implements IacucProtocolVersionService{
     private IacucProtocolProcedureService iacucProtocolProcedureService;
     
     protected String getProtocolDocumentTypeHook() {
         return "IacucProtocolDocument";
     }
     
-    protected Protocol createProtocolNewVersionHook(Protocol protocol) throws Exception {
+    protected ProtocolBase createProtocolNewVersionHook(ProtocolBase protocol) throws Exception {
         IacucProtocol iacucProtocol = (IacucProtocol)protocol;
         iacucProtocol = versioningService.createNewVersion(iacucProtocol);
         getIacucProtocolProcedureService().resetProcedurePanel(iacucProtocol);
         return iacucProtocol;
     }
 
-    protected ProtocolModuleQuestionnaireBean getNewInstanceProtocolModuleQuestionnaireBeanHook(Protocol protocol) {
+    protected ProtocolModuleQuestionnaireBeanBase getNewInstanceProtocolModuleQuestionnaireBeanHook(ProtocolBase protocol) {
         return new IacucProtocolModuleQuestionnaireBean((IacucProtocol) protocol);
     }
 
     @Override
-    protected Class<? extends Protocol> getProtocolBOClassHook() {
+    protected Class<? extends ProtocolBase> getProtocolBOClassHook() {
         return IacucProtocol.class;
     }
 
     @Override
-    protected ProtocolDocument createNewProtocolDocumentInstanceHook() {
+    protected ProtocolDocumentBase createNewProtocolDocumentInstanceHook() {
         return new IacucProtocolDocument();
     }
 

@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.iacuc.correspondence;
 
-import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceTemplateAction;
+import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceTemplateActionBase;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceTemplateAuthorizationService;
-import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceTemplateForm;
+import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceTemplateFormBase;
 
-public class IacucProtocolCorrespondenceTemplateAction extends ProtocolCorrespondenceTemplateAction{
+public class IacucProtocolCorrespondenceTemplateAction extends ProtocolCorrespondenceTemplateActionBase{
 
     @Override
     protected Class<? extends ProtocolCorrespondenceTemplateAuthorizationService> getProtocolCorrespondenceTemplateAuthorizationServiceClassHook() {
@@ -27,7 +27,7 @@ public class IacucProtocolCorrespondenceTemplateAction extends ProtocolCorrespon
     }
 
     @Override
-    protected ProtocolCorrespondenceTemplateForm getNewProtocolCorrespondenceTemplateFormInstanceHook() {
+    protected ProtocolCorrespondenceTemplateFormBase getNewProtocolCorrespondenceTemplateFormInstanceHook() {
         return new IacucProtocolCorrespondenceTemplateForm();
     }
 

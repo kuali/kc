@@ -22,22 +22,22 @@ import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
 import org.kuali.kra.iacuc.IacucProtocol;
-import org.kuali.kra.protocol.actions.print.CorrespondenceXmlStream;
-import org.kuali.kra.protocol.actions.print.ProtocolXmlStream;
-import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
+import org.kuali.kra.protocol.actions.print.CorrespondenceXmlStreamBase;
+import org.kuali.kra.protocol.actions.print.ProtocolXmlStreamBase;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 
 import edu.mit.coeus.xml.iacuc.CorrespondenceDocument;
 import edu.mit.coeus.xml.iacuc.CorrespondenceType;
 
-public class IacucCorrespondenceXmlStream extends CorrespondenceXmlStream {
+public class IacucCorrespondenceXmlStream extends CorrespondenceXmlStreamBase {
     
-    private ProtocolXmlStream protocolXmlStream;
+    private ProtocolXmlStreamBase protocolXmlStream;
     /**
      * @see org.kuali.kra.printing.xmlstream.XmlStream#generateXmlStream(KraPersistableBusinessObjectBase, java.util.Map)
      */
     public Map<String, XmlObject> generateXmlStream(KraPersistableBusinessObjectBase printableBusinessObject, Map<String, Object> reportParameters) {
         IacucProtocol protocol = (IacucProtocol) printableBusinessObject;
-        ProtocolSubmission protocolSubmission = protocol.getProtocolSubmission();
+        ProtocolSubmissionBase protocolSubmission = protocol.getProtocolSubmission();
         String scheduleId = null;
         Integer submissionNumber = null;
         if (protocolSubmission != null) {
@@ -57,7 +57,7 @@ public class IacucCorrespondenceXmlStream extends CorrespondenceXmlStream {
     public CorrespondenceType getCorrespondence(IacucProtocol  protocol, String scheduleId, Integer submissionNumber) {
         CorrespondenceType correspondence = CorrespondenceType.Factory.newInstance();
         correspondence.setCurrentDate(getDateTimeService().getCurrentCalendar());
-        ProtocolXmlStream protocolStream = getProtocolXmlStream();
+        ProtocolXmlStreamBase protocolStream = getProtocolXmlStream();
         if (submissionNumber == null || submissionNumber.intValue() <= 0) {
             correspondence.setProtocol(((IacucProtocolXmlStream) protocolStream).getProtocol(protocol));
         } else {
@@ -72,7 +72,7 @@ public class IacucCorrespondenceXmlStream extends CorrespondenceXmlStream {
      * Sets the protocolXmlStream attribute value.
      * @param protocolXmlStream The protocolXmlStream to set.
      */
-    public void setProtocolXmlStream(ProtocolXmlStream protocolXmlStream) {
+    public void setProtocolXmlStream(ProtocolXmlStreamBase protocolXmlStream) {
         this.protocolXmlStream = protocolXmlStream;
     }
 
@@ -80,7 +80,7 @@ public class IacucCorrespondenceXmlStream extends CorrespondenceXmlStream {
      * Gets the protocolXmlStream attribute. 
      * @return Returns the protocolXmlStream.
      */
-    public ProtocolXmlStream getProtocolXmlStream() {
+    public ProtocolXmlStreamBase getProtocolXmlStream() {
         return protocolXmlStream;
     }
 

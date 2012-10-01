@@ -15,15 +15,15 @@
  */
 package org.kuali.kra.iacuc.noteattachment;
 
-import org.kuali.kra.protocol.Protocol;
-import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentProtocol;
+import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentProtocolBase;
 
-public class IacucProtocolAttachmentProtocol extends ProtocolAttachmentProtocol {
+public class IacucProtocolAttachmentProtocol extends ProtocolAttachmentProtocolBase {
 
     private static final long serialVersionUID = 4879429021874546070L;
     private static final String GROUP_CODE = "1";
     
-    public IacucProtocolAttachmentProtocol(Protocol protocol) {
+    public IacucProtocolAttachmentProtocol(ProtocolBase protocol) {
         super(protocol);
     }
 
@@ -38,7 +38,7 @@ public class IacucProtocolAttachmentProtocol extends ProtocolAttachmentProtocol 
 
     @Override
     public String getAttachmentDescription() {
-        return "Protocol Attachment";
+        return "ProtocolBase Attachment";
     }
 
     @Override

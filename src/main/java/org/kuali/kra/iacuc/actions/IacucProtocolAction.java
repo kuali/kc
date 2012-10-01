@@ -20,13 +20,13 @@ import org.kuali.kra.common.committee.service.CommitteeServiceBase;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
 import org.kuali.kra.iacuc.committee.service.IacucCommitteeService;
-import org.kuali.kra.protocol.actions.ProtocolAction;
+import org.kuali.kra.protocol.actions.ProtocolActionBase;
 
 /**
  * 
  * This class manages all the attributes needed to maintain a protocol action.
  */
-public class IacucProtocolAction extends ProtocolAction {
+public class IacucProtocolAction extends ProtocolActionBase {
     
     private static final long serialVersionUID = -4895673225969021493L;
 

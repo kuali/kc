@@ -39,15 +39,15 @@ import org.kuali.kra.iacuc.auth.IacucProtocolTask;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PropertyConstants;
 import org.kuali.kra.infrastructure.TaskName;
-import org.kuali.kra.protocol.Protocol;
-import org.kuali.kra.protocol.auth.ProtocolTask;
-import org.kuali.kra.protocol.customdata.ProtocolCustomDataHelper;
+import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.protocol.auth.ProtocolTaskBase;
+import org.kuali.kra.protocol.customdata.ProtocolCustomDataHelperBase;
 
 /**
  * The CustomDataHelper is used to manage the Custom Data tab web page.
  * It contains the data, forms, and methods needed to render the page.
  */
-public class IacucProtocolCustomDataHelper extends ProtocolCustomDataHelper { 
+public class IacucProtocolCustomDataHelper extends ProtocolCustomDataHelperBase { 
 
     private static final String CUSTOM_ATTRIBUTE_NAME = "IacucProtocolCustomDataAttribute";
     private static final String PROTOCOL_ID_ATTRIBUTE_NAME = "protocolId";
@@ -69,7 +69,7 @@ public class IacucProtocolCustomDataHelper extends ProtocolCustomDataHelper {
 //  */
 // @Override
     public boolean canModifyCustomData() {
-        ProtocolTask task = new IacucProtocolTask(TaskName.MODIFY_IACUC_PROTOCOL_OTHERS, (IacucProtocol) getProtocol());
+        ProtocolTaskBase task = new IacucProtocolTask(TaskName.MODIFY_IACUC_PROTOCOL_OTHERS, (IacucProtocol) getProtocol());
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
 
@@ -88,7 +88,7 @@ public class IacucProtocolCustomDataHelper extends ProtocolCustomDataHelper {
     }
     
 
-    public void prepareView(Protocol protocol) {
+    public void prepareView(ProtocolBase protocol) {
         initializePermissions();
 
         customAttributeGroups = new TreeMap<String, List<CustomAttributeDocument>>();

@@ -17,9 +17,9 @@ package org.kuali.kra.iacuc.personnel;
 
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.personnel.ProtocolPersonnelService;
-import org.kuali.kra.protocol.personnel.ProtocolUnitRule;
+import org.kuali.kra.protocol.personnel.ProtocolUnitRuleBase;
 
-public class IacucProtocolUnitRule extends ProtocolUnitRule {
+public class IacucProtocolUnitRule extends ProtocolUnitRuleBase {
 
     @Override
     protected ProtocolPersonnelService getProtocolPersonnelService() {

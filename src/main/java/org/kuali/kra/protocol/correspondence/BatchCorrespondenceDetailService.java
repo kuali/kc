@@ -21,19 +21,19 @@ public interface BatchCorrespondenceDetailService {
 
     /**
      * 
-     * This method add a BatchCorrespondenceDetail to the BatchCorrespondence.
+     * This method add a BatchCorrespondenceDetailBase to the BatchCorrespondenceBase.
      * @param batchCorrespondence
      * @param newBatchCorrespondenceDetail
      */
-    void addBatchCorrespondenceDetail(BatchCorrespondence batchCorrespondence,
-            BatchCorrespondenceDetail newBatchCorrespondenceDetail);
+    void addBatchCorrespondenceDetail(BatchCorrespondenceBase batchCorrespondence,
+            BatchCorrespondenceDetailBase newBatchCorrespondenceDetail);
 
     /**
      * 
-     * This method saves the BatchCorrespondenceDetais of the BatchCorrespondence.
+     * This method saves the BatchCorrespondenceDetais of the BatchCorrespondenceBase.
      * @param batchCorrespondence
      * @param deletedBos
      */
-    void saveBatchCorrespondenceDetails(BatchCorrespondence batchCorrespondence, 
-            List<BatchCorrespondenceDetail> deletedBos);
+    void saveBatchCorrespondenceDetails(BatchCorrespondenceBase batchCorrespondence, 
+            List<BatchCorrespondenceDetailBase> deletedBos);
 }

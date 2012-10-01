@@ -25,7 +25,7 @@ import java.util.List;
 import org.apache.commons.collections.CollectionUtils;
 import org.kuali.kra.common.committee.bo.CommitteeBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceTemplate;
+import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceTemplateBase;
 import org.kuali.kra.lookup.keyvalue.KeyValueComparator;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -43,7 +43,7 @@ public abstract class CommitteeIdValuesFinderBase extends KeyValuesBase {
      */
     private static final long serialVersionUID = -2721177236491755020L;
     
-    private List<ProtocolCorrespondenceTemplate> correspondenceTemplates;
+    private List<ProtocolCorrespondenceTemplateBase> correspondenceTemplates;
     private BusinessObjectService businessObjectService;
     
     
@@ -118,7 +118,7 @@ public abstract class CommitteeIdValuesFinderBase extends KeyValuesBase {
         List<String> committeeIds = new ArrayList<String>();
 
         if (CollectionUtils.isNotEmpty(correspondenceTemplates)) {
-            for (ProtocolCorrespondenceTemplate correspondenceTemplate : correspondenceTemplates) {
+            for (ProtocolCorrespondenceTemplateBase correspondenceTemplate : correspondenceTemplates) {
                 committeeIds.add(correspondenceTemplate.getCommitteeId());
             }
         }
@@ -126,11 +126,11 @@ public abstract class CommitteeIdValuesFinderBase extends KeyValuesBase {
         return committeeIds;
     }
 
-    public List<ProtocolCorrespondenceTemplate> getCorrespondenceTemplates() {
+    public List<ProtocolCorrespondenceTemplateBase> getCorrespondenceTemplates() {
         return correspondenceTemplates;
     }
 
-    public void setCorrespondenceTemplates(List<ProtocolCorrespondenceTemplate> correspondenceTemplates) {
+    public void setCorrespondenceTemplates(List<ProtocolCorrespondenceTemplateBase> correspondenceTemplates) {
         this.correspondenceTemplates = correspondenceTemplates;
     }
 

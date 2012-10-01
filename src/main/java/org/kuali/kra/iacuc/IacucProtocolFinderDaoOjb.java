@@ -16,22 +16,22 @@
 package org.kuali.kra.iacuc;
 
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
-import org.kuali.kra.protocol.Protocol;
-import org.kuali.kra.protocol.ProtocolFinderDaoOjb;
-import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
+import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.protocol.ProtocolFinderDaoOjbBase;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 
 /**
  * The ProtocolFinderDao implementation for OJB.
  */
-public class IacucProtocolFinderDaoOjb extends ProtocolFinderDaoOjb implements IacucProtocolFinderDao {
+public class IacucProtocolFinderDaoOjb extends ProtocolFinderDaoOjbBase implements IacucProtocolFinderDao {
 
     @Override
-    protected Class<? extends Protocol> getProtocolBOClassHook() {
+    protected Class<? extends ProtocolBase> getProtocolBOClassHook() {
         return IacucProtocol.class;
     }
 
     @Override
-    protected Class<? extends ProtocolSubmission> getProtocolSubmissionBOClassHook() {
+    protected Class<? extends ProtocolSubmissionBase> getProtocolSubmissionBOClassHook() {
         return IacucProtocolSubmission.class;
     }
 

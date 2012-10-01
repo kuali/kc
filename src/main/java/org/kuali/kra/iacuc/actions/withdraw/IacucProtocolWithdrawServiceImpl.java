@@ -25,22 +25,22 @@ import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
 import org.kuali.kra.iacuc.actions.IacucProtocolStatus;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionStatus;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionType;
-import org.kuali.kra.protocol.actions.ProtocolAction;
-import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
-import org.kuali.kra.protocol.Protocol;
-import org.kuali.kra.protocol.ProtocolDocument;
+import org.kuali.kra.protocol.actions.ProtocolActionBase;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
+import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.protocol.actions.withdraw.ProtocolAdministrativelyIncompleteBean;
 import org.kuali.kra.protocol.actions.withdraw.ProtocolAdministrativelyWithdrawBean;
 import org.kuali.kra.protocol.actions.withdraw.ProtocolWithdrawBean;
-import org.kuali.kra.protocol.actions.withdraw.ProtocolWithdrawServiceImpl;
+import org.kuali.kra.protocol.actions.withdraw.ProtocolWithdrawServiceImplBase;
 
 
 
 
-public class IacucProtocolWithdrawServiceImpl extends ProtocolWithdrawServiceImpl implements IacucProtocolWithdrawService {
+public class IacucProtocolWithdrawServiceImpl extends ProtocolWithdrawServiceImplBase implements IacucProtocolWithdrawService {
     
     @Override
-    public ProtocolDocument administrativelyMarkIncomplete(Protocol protocol, ProtocolAdministrativelyIncompleteBean markIncompleteBean) throws Exception {
+    public ProtocolDocumentBase administrativelyMarkIncomplete(ProtocolBase protocol, ProtocolAdministrativelyIncompleteBean markIncompleteBean) throws Exception {
         String protocolWithdrawnActionTypeCode = IacucProtocolActionType.ADMINISTRATIVELY_INCOMPLETE;
         String protocolWithdrawnStatusCode = IacucProtocolStatus.ADMINISTRATIVELY_INCOMPLETE;
         String protocolWithdrawnSubmissionStatusCode = IacucProtocolSubmissionStatus.ADMINISTRATIVELY_INCOMPLETE;
@@ -49,7 +49,7 @@ public class IacucProtocolWithdrawServiceImpl extends ProtocolWithdrawServiceImp
 
     
     @Override
-    public ProtocolDocument administrativelyWithdraw(Protocol protocol, ProtocolAdministrativelyWithdrawBean administrativelyWithdrawBean) throws Exception {
+    public ProtocolDocumentBase administrativelyWithdraw(ProtocolBase protocol, ProtocolAdministrativelyWithdrawBean administrativelyWithdrawBean) throws Exception {
         String protocolWithdrawnActionTypeCode = IacucProtocolActionType.ADMINISTRATIVELY_WITHDRAWN;
         String protocolWithdrawnStatusCode = IacucProtocolStatus.ADMINISTRATIVELY_WITHDRAWN;
         String protocolWithdrawnSubmissionStatusCode = IacucProtocolSubmissionStatus.WITHDRAWN;
@@ -58,7 +58,7 @@ public class IacucProtocolWithdrawServiceImpl extends ProtocolWithdrawServiceImp
     
     
     @Override
-    public ProtocolDocument withdraw(Protocol protocol, ProtocolWithdrawBean withdrawBean) throws Exception {
+    public ProtocolDocumentBase withdraw(ProtocolBase protocol, ProtocolWithdrawBean withdrawBean) throws Exception {
         String protocolWithdrawnActionTypeCode = IacucProtocolActionType.IACUC_WITHDRAWN;
         String protocolWithdrawnStatusCode = IacucProtocolStatus.WITHDRAWN;
         String protocolWithdrawnSubmissionStatusCode = IacucProtocolSubmissionStatus.WITHDRAWN; 
@@ -68,14 +68,14 @@ public class IacucProtocolWithdrawServiceImpl extends ProtocolWithdrawServiceImp
 
     
     // the common withdrawal logic used by three service methods above
-    private ProtocolDocument commonWithdrawLogic(Protocol protocol, 
+    private ProtocolDocumentBase commonWithdrawLogic(ProtocolBase protocol, 
                                                  ProtocolWithdrawBean withdrawBean, 
                                                  String protocolWithdrawnActionTypeCode,
                                                  String protocolWithdrawnStatusCode,
                                                  String protocolWithdrawnSubmissionStatusCode) throws Exception {        
         
-        ProtocolSubmission submission = getSubmission(protocol);
-        ProtocolAction protocolAction = new IacucProtocolAction((IacucProtocol) protocol, null, protocolWithdrawnActionTypeCode);
+        ProtocolSubmissionBase submission = getSubmission(protocol);
+        ProtocolActionBase protocolAction = new IacucProtocolAction((IacucProtocol) protocol, null, protocolWithdrawnActionTypeCode);
         protocolAction.setComments(withdrawBean.getReason());
         protocol.getProtocolActions().add(protocolAction);
 
@@ -119,7 +119,7 @@ public class IacucProtocolWithdrawServiceImpl extends ProtocolWithdrawServiceImp
 
             // if there is an assign to agenda protocol action, remove it.
 // TODO *********commented the code below during IACUC refactoring*********             
-//            ProtocolAction assignToAgendaProtocolAction = protocolAssignToAgendaService
+//            ProtocolActionBase assignToAgendaProtocolAction = protocolAssignToAgendaService
 //                    .getAssignedToAgendaProtocolAction(newProtocolDocument.getProtocol());
 //            if (assignToAgendaProtocolAction != null) {
 //                newProtocolDocument.getProtocol().getProtocolActions().remove(assignToAgendaProtocolAction);
@@ -151,7 +151,7 @@ public class IacucProtocolWithdrawServiceImpl extends ProtocolWithdrawServiceImp
      * @param submission
      * @return true if withdrawable; otherwise false
      */
-    protected boolean isAllowedStatus(ProtocolSubmission submission) {
+    protected boolean isAllowedStatus(ProtocolSubmissionBase submission) {
         return StringUtils.equals(submission.getSubmissionStatusCode(), IacucProtocolSubmissionStatus.PENDING) ||
                StringUtils.equals(submission.getSubmissionStatusCode(), IacucProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE);
     }
@@ -161,7 +161,7 @@ public class IacucProtocolWithdrawServiceImpl extends ProtocolWithdrawServiceImp
      * @param submission
      * @return true if withdrawable; otherwise false
      */
-    protected boolean isNormalSubmission(ProtocolSubmission submission) {
+    protected boolean isNormalSubmission(ProtocolSubmissionBase submission) {
         return StringUtils.equals(submission.getSubmissionTypeCode(), IacucProtocolSubmissionType.AMENDMENT) ||
                StringUtils.equals(submission.getSubmissionTypeCode(), IacucProtocolSubmissionType.INITIAL_SUBMISSION) ||
                StringUtils.equals(submission.getSubmissionTypeCode(), IacucProtocolSubmissionType.CONTINUATION) ||

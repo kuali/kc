@@ -17,9 +17,9 @@ package org.kuali.kra.iacuc.auth;
 
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
 import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.kra.protocol.auth.ModifyAmendmentSectionsAuthorizer;
+import org.kuali.kra.protocol.auth.ModifyAmendmentSectionsAuthorizerBase;
 
-public class ModifyIacucAmendmentSectionsAuthorizer extends ModifyAmendmentSectionsAuthorizer {
+public class ModifyIacucAmendmentSectionsAuthorizer extends ModifyAmendmentSectionsAuthorizerBase {
 
     @Override
     protected String getActionTypeModifyAmendmentHook() {

@@ -16,8 +16,8 @@
 package org.kuali.kra.protocol.actions.submit;
 
 import org.kuali.kra.drools.brms.FactBean;
-import org.kuali.kra.protocol.Protocol;
-import org.kuali.kra.protocol.actions.ProtocolAction;
+import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.protocol.actions.ProtocolActionBase;
 
 /*
  * This is the post condition attributes for a protocol action
@@ -30,11 +30,11 @@ public class ProtocolUndoActionMapping implements FactBean {
     
     boolean protocolSubmissionToBeDeleted = false;
     
-    Protocol protocol;
+    ProtocolBase protocol;
     
-    ProtocolSubmission protocolSubmission;
+    ProtocolSubmissionBase protocolSubmission;
     
-    ProtocolAction protocolAction;
+    ProtocolActionBase protocolAction;
     
     public ProtocolUndoActionMapping(String actionTypeCode, String submissionTypeCode, String protocolStatusCode) {
         super();
@@ -43,11 +43,11 @@ public class ProtocolUndoActionMapping implements FactBean {
         this.protocolStatusCode = protocolStatusCode;
     }
     
-    public ProtocolSubmission getProtocolSubmission() {
+    public ProtocolSubmissionBase getProtocolSubmission() {
         return protocolSubmission;
     }
 
-    public void setProtocolSubmission(ProtocolSubmission protocolSubmission) {
+    public void setProtocolSubmission(ProtocolSubmissionBase protocolSubmission) {
         this.protocolSubmission = protocolSubmission;
     }
     
@@ -75,19 +75,19 @@ public class ProtocolUndoActionMapping implements FactBean {
         this.protocolStatusCode = protocolStatusCode;
     }
 
-    public Protocol getProtocol() {
+    public ProtocolBase getProtocol() {
         return protocol;
     }
     
-    public void setProtocol(Protocol protocol) {
+    public void setProtocol(ProtocolBase protocol) {
         this.protocol = protocol;
     }
     
-    public ProtocolAction getProtocolAction() {
+    public ProtocolActionBase getProtocolAction() {
         return protocolAction;
     }
 
-    public void setProtocolAction(ProtocolAction protocolAction) {
+    public void setProtocolAction(ProtocolActionBase protocolAction) {
         this.protocolAction = protocolAction;
     }
 

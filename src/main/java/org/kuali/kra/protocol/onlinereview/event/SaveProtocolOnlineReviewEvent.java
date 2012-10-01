@@ -20,8 +20,8 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinuteBase;
-import org.kuali.kra.protocol.ProtocolOnlineReviewDocument;
-import org.kuali.kra.protocol.onlinereview.ProtocolReviewAttachment;
+import org.kuali.kra.protocol.ProtocolOnlineReviewDocumentBase;
+import org.kuali.kra.protocol.onlinereview.ProtocolReviewAttachmentBase;
 import org.kuali.kra.protocol.onlinereview.rules.SaveProtocolOnlineReviewRule;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
@@ -32,7 +32,7 @@ public class SaveProtocolOnlineReviewEvent extends KraDocumentEventBase {
     
     private static final Log LOG = LogFactory.getLog(SaveProtocolOnlineReviewEvent.class);
     private final List<CommitteeScheduleMinuteBase> minutes;
-    private List<ProtocolReviewAttachment> reviewAttachments;
+    private List<ProtocolReviewAttachmentBase> reviewAttachments;
     private final long onlineReviewIndex;
   
     /**
@@ -40,7 +40,7 @@ public class SaveProtocolOnlineReviewEvent extends KraDocumentEventBase {
      * @param document the document.
      * @param newProtocolNotepad the new attachment to be added.
      */
-    public SaveProtocolOnlineReviewEvent(final ProtocolOnlineReviewDocument document,
+    public SaveProtocolOnlineReviewEvent(final ProtocolOnlineReviewDocumentBase document,
         final List<CommitteeScheduleMinuteBase> minutes, final long onlineReviewIndex ) {
         super("adding new protocol notepad", "notesAttachmentsHelper", document);
         this.onlineReviewIndex = onlineReviewIndex;
@@ -76,8 +76,8 @@ public class SaveProtocolOnlineReviewEvent extends KraDocumentEventBase {
     }
 
    
-    public ProtocolOnlineReviewDocument getProtocolOnlineReviewDocument() {
-        return (ProtocolOnlineReviewDocument)getDocument();
+    public ProtocolOnlineReviewDocumentBase getProtocolOnlineReviewDocument() {
+        return (ProtocolOnlineReviewDocumentBase)getDocument();
     }
 
     /**
@@ -97,7 +97,7 @@ public class SaveProtocolOnlineReviewEvent extends KraDocumentEventBase {
     }
 
 
-    public List<ProtocolReviewAttachment> getReviewAttachments() {
+    public List<ProtocolReviewAttachmentBase> getReviewAttachments() {
         return reviewAttachments;
     }
     

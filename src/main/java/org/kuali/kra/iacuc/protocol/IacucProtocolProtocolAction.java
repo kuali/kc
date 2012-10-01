@@ -63,10 +63,10 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.protocol.ProtocolDocument;
+import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.protocol.ProtocolEventBase;
-import org.kuali.kra.protocol.ProtocolForm;
-import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSource;
+import org.kuali.kra.protocol.ProtocolFormBase;
+import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceBase;
 import org.kuali.kra.protocol.protocol.funding.ProtocolProposalDevelopmentDocumentService;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
@@ -93,7 +93,7 @@ public class IacucProtocolProtocolAction extends IacucProtocolAction {
         ActionForward actionForward = super.execute(mapping, form, request, response);
 
         // Following is for protocol lookup - edit protocol
-        ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolFormBase protocolForm = (ProtocolFormBase) form;
         String commandParam = request.getParameter(KRADConstants.PARAMETER_COMMAND);
         
 // TODO *********commented the code below during IACUC refactoring*********         
@@ -120,7 +120,7 @@ public class IacucProtocolProtocolAction extends IacucProtocolAction {
     @Override
     public ActionForward headerTab(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-        ProtocolForm protocolform = (ProtocolForm) form;
+        ProtocolFormBase protocolform = (ProtocolFormBase) form;
 
         String command = request.getParameter("command");
         String docId = request.getParameter("docId");
@@ -137,7 +137,7 @@ public class IacucProtocolProtocolAction extends IacucProtocolAction {
 
     
     @Override
-    protected <T extends BusinessObject> void processMultipleLookupResults(ProtocolDocument protocolDocument,
+    protected <T extends BusinessObject> void processMultipleLookupResults(ProtocolDocumentBase protocolDocument,
             Class<T> lookupResultsBOClass, Collection<T> selectedBOs) {
         if (lookupResultsBOClass.isAssignableFrom(IacucResearchArea.class)) {
             IacucProtocolResearchAreaService service = KraServiceLocator.getService("iacucProtocolResearchAreaService");
@@ -188,7 +188,7 @@ public class IacucProtocolProtocolAction extends IacucProtocolAction {
      */
     public ActionForward deleteProtocolReference(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolFormBase protocolForm = (ProtocolFormBase) form;
 
         protocolForm.getProtocolDocument().getProtocol().getProtocolReferences().remove(getLineToDelete(request));
 
@@ -209,7 +209,7 @@ public class IacucProtocolProtocolAction extends IacucProtocolAction {
      */
     public ActionForward deleteProtocolResearchArea(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolFormBase protocolForm = (ProtocolFormBase) form;
         protocolForm.getProtocolDocument().getProtocol().getProtocolResearchAreas().remove(getLineToDelete(request));
         // finally do validation and error reporting for inactive research areas
         (new IacucProtocolDocumentRule()).processProtocolResearchAreaBusinessRules(protocolForm.getProtocolDocument());
@@ -254,7 +254,7 @@ public class IacucProtocolProtocolAction extends IacucProtocolAction {
      */
     public ActionForward deleteProtocolLocation(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolFormBase protocolForm = (ProtocolFormBase) form;
         protocolForm.getProtocolDocument().getProtocol().getProtocolLocations().remove(getLineToDelete(request));
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
@@ -272,7 +272,7 @@ public class IacucProtocolProtocolAction extends IacucProtocolAction {
      */
     public ActionForward clearProtocolLocationAddress(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolFormBase protocolForm = (ProtocolFormBase) form;
         getProtocolLocationService().clearProtocolLocationAddress(protocolForm.getProtocolDocument().getProtocol(),
                 getSelectedLine(request));
         return mapping.findForward(Constants.MAPPING_BASIC);
@@ -302,10 +302,10 @@ public class IacucProtocolProtocolAction extends IacucProtocolAction {
      */
     public ActionForward addProtocolFundingSource(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolFormBase protocolForm = (ProtocolFormBase) form;
         IacucProtocolDocument protocolDocument = (IacucProtocolDocument) protocolForm.getProtocolDocument();
         IacucProtocolFundingSource fundingSource = (IacucProtocolFundingSource) protocolForm.getProtocolHelper().getNewFundingSource();
-        List<ProtocolFundingSource> protocolFundingSources = protocolDocument.getProtocol().getProtocolFundingSources();
+        List<ProtocolFundingSourceBase> protocolFundingSources = protocolDocument.getProtocol().getProtocolFundingSources();
         AddIacucProtocolFundingSourceEvent event = new AddIacucProtocolFundingSourceEvent(Constants.EMPTY_STRING, protocolDocument,
             fundingSource, protocolFundingSources);
 
@@ -320,7 +320,7 @@ public class IacucProtocolProtocolAction extends IacucProtocolAction {
     }
     
     /**
-     * This method is linked to ProtocolFundingSourceService to Delete a ProtocolFundingSource. Method is called in
+     * This method is linked to ProtocolFundingSourceService to Delete a ProtocolFundingSourceBase. Method is called in
      * protocolFundingSources.tag
      * 
      * @param mapping
@@ -338,7 +338,7 @@ public class IacucProtocolProtocolAction extends IacucProtocolAction {
     }
 
     /**
-     * This method is linked to ProtocolFundingSourceService to Delete a ProtocolFundingSource. Method is called in
+     * This method is linked to ProtocolFundingSourceService to Delete a ProtocolFundingSourceBase. Method is called in
      * protocolFundingSources.tag
      * 
      * @param mapping
@@ -353,10 +353,10 @@ public class IacucProtocolProtocolAction extends IacucProtocolAction {
         
         Object question = request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME);
         if (CONFIRM_DELETE_PROTOCOL_FUNDING_SOURCE_KEY.equals(question)) {
-            ProtocolForm protocolForm = (ProtocolForm) form;
-            ProtocolDocument protocolDocument = protocolForm.getProtocolDocument();
+            ProtocolFormBase protocolForm = (ProtocolFormBase) form;
+            ProtocolDocumentBase protocolDocument = protocolForm.getProtocolDocument();
             
-            ProtocolFundingSource protocolFundingSource = protocolDocument.getProtocol().getProtocolFundingSources().remove(getLineToDelete(request));
+            ProtocolFundingSourceBase protocolFundingSource = protocolDocument.getProtocol().getProtocolFundingSources().remove(getLineToDelete(request));
             protocolForm.getProtocolHelper().getDeletedProtocolFundingSources().add(protocolFundingSource);
         }
         
@@ -364,7 +364,7 @@ public class IacucProtocolProtocolAction extends IacucProtocolAction {
     }
 
     /**
-     * This method is linked to ProtocolFundingSourceService to View a ProtocolFundingSource. Method is called in
+     * This method is linked to ProtocolFundingSourceService to View a ProtocolFundingSourceBase. Method is called in
      * protocolFundingSources.tag
      * 
      * @param mapping
@@ -376,7 +376,7 @@ public class IacucProtocolProtocolAction extends IacucProtocolAction {
      */
     public ActionForward viewProtocolFundingSource(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolFormBase protocolForm = (ProtocolFormBase) form;
 
         // Note that if the getSelectedLine doesn't find the line number in the new window's request attributes,
         // so we'll get it from the parameter list instead
@@ -389,7 +389,7 @@ public class IacucProtocolProtocolAction extends IacucProtocolAction {
             lineNumber = getLineToDelete(request);
         }
 
-        ProtocolFundingSource protocolFundingSource = protocolForm.getProtocolDocument().getProtocol().getProtocolFundingSources().get(
+        ProtocolFundingSourceBase protocolFundingSource = protocolForm.getProtocolDocument().getProtocol().getProtocolFundingSources().get(
                 lineNumber);
 
         String viewFundingSourceUrl = getProtocolFundingSourceService()
@@ -406,7 +406,7 @@ public class IacucProtocolProtocolAction extends IacucProtocolAction {
     
     
     /**
-     * Exposing this to be used in ProtocolFundingSource Service so we can avoid stacking funding source conditional logic in the
+     * Exposing this to be used in ProtocolFundingSourceBase Service so we can avoid stacking funding source conditional logic in the
      * action
      * 
      * @see org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase#buildForwardUrl(java.lang.Long)
@@ -434,7 +434,7 @@ public class IacucProtocolProtocolAction extends IacucProtocolAction {
         
         ActionForward returnAction = null;
 
-        ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolFormBase protocolForm = (ProtocolFormBase) form;
 
         String fundingSourceTypeCode = protocolForm.getProtocolHelper().getNewFundingSource().getFundingSourceTypeCode();
 
@@ -492,8 +492,8 @@ public class IacucProtocolProtocolAction extends IacucProtocolAction {
      */
     public ActionForward createProposalDevelopment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolDocument protocolDocument = protocolForm.getProtocolDocument();
+        ProtocolFormBase protocolForm = (ProtocolFormBase) form;
+        ProtocolDocumentBase protocolDocument = protocolForm.getProtocolDocument();
         if ( protocolForm.getProtocolHelper().isProtocolProposalDevelopmentLinkingEnabled())
         {
             ProtocolProposalDevelopmentDocumentService service = getProtocolProposalDevelopmentDocumentService(); 
@@ -506,7 +506,7 @@ public class IacucProtocolProtocolAction extends IacucProtocolAction {
                 IacucProtocolFundingSource proposalProtocolFundingSource = (IacucProtocolFundingSource) protocolFundingSourceServiceImpl.updateProtocolFundingSource(FundingSourceType.PROPOSAL_DEVELOPMENT, developmentProposal.getProposalNumber(), developmentProposal.getSponsorName());
                 proposalProtocolFundingSource.setProtocol(protocolDocument.getProtocol());
                
-                List<ProtocolFundingSource> protocolFundingSources = protocolDocument.getProtocol().getProtocolFundingSources();
+                List<ProtocolFundingSourceBase> protocolFundingSources = protocolDocument.getProtocol().getProtocolFundingSources();
                 AddIacucProtocolFundingSourceEvent event = 
                         new AddIacucProtocolFundingSourceEvent(Constants.EMPTY_STRING, protocolDocument, proposalProtocolFundingSource, protocolFundingSources);
                 
@@ -527,10 +527,10 @@ public class IacucProtocolProtocolAction extends IacucProtocolAction {
 
     
     private void preSaveProtocol(ActionForm form)  throws Exception {
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolDocument protocolDocument = protocolForm.getProtocolDocument();     
-        List<ProtocolFundingSource> protocolFundingSources = protocolDocument.getProtocol().getProtocolFundingSources();
-        List<ProtocolFundingSource> deletedProtocolFundingSources = protocolForm.getProtocolHelper().getDeletedProtocolFundingSources();
+        ProtocolFormBase protocolForm = (ProtocolFormBase) form;
+        ProtocolDocumentBase protocolDocument = protocolForm.getProtocolDocument();     
+        List<ProtocolFundingSourceBase> protocolFundingSources = protocolDocument.getProtocol().getProtocolFundingSources();
+        List<ProtocolFundingSourceBase> deletedProtocolFundingSources = protocolForm.getProtocolHelper().getDeletedProtocolFundingSources();
         protocolForm.getProtocolHelper().setNewProtocolFundingSources(protocolForm.getProtocolHelper().findNewFundingSources());
         setDeletedFundingSource(form);
         
@@ -553,9 +553,9 @@ public class IacucProtocolProtocolAction extends IacucProtocolAction {
          
     private void setDeletedFundingSource(ActionForm form) {
         
-        ProtocolForm protocolForm = (ProtocolForm) form;
-       protocolForm.setDeletedProtocolFundingSources(new ArrayList<ProtocolFundingSource> ());
-        for (ProtocolFundingSource fundingSource : protocolForm.getProtocolHelper().getDeletedProtocolFundingSources()) {
+        ProtocolFormBase protocolForm = (ProtocolFormBase) form;
+       protocolForm.setDeletedProtocolFundingSources(new ArrayList<ProtocolFundingSourceBase> ());
+        for (ProtocolFundingSourceBase fundingSource : protocolForm.getProtocolHelper().getDeletedProtocolFundingSources()) {
             if (fundingSource.getProtocolFundingSourceId() != null) {
                 protocolForm.getDeletedProtocolFundingSources().add(fundingSource);
             }
@@ -600,14 +600,14 @@ public class IacucProtocolProtocolAction extends IacucProtocolAction {
     private void fundingSourceNotification(ActionForm form) {
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
         IacucProtocol protocol = (IacucProtocol) protocolForm.getProtocolDocument().getProtocol();
-        for (ProtocolFundingSource fundingSource : protocolForm.getProtocolHelper().getNewProtocolFundingSources()) {
+        for (ProtocolFundingSourceBase fundingSource : protocolForm.getProtocolHelper().getNewProtocolFundingSources()) {
             String fundingType = "'" + fundingSource.getFundingSourceType().getDescription() + "': " + fundingSource.getFundingSourceNumber();
             IacucProtocolFundingSourceNotificationRenderer renderer = new IacucProtocolFundingSourceNotificationRenderer(protocol, fundingType, "linked to");
             IacucProtocolNotificationContext context = new IacucProtocolNotificationContext(protocol, IacucProtocolActionType.FUNDING_SOURCE, "Funding Source", renderer);
             getKcNotificationService().sendNotification(context);
 
         }
-        for (ProtocolFundingSource fundingSource : protocolForm.getDeletedProtocolFundingSources()) {
+        for (ProtocolFundingSourceBase fundingSource : protocolForm.getDeletedProtocolFundingSources()) {
             if (fundingSource.getProtocolFundingSourceId() != null) {
                 String fundingType = "'" + fundingSource.getFundingSourceType().getDescription() + "': " + fundingSource.getFundingSourceNumber();
                 IacucProtocolFundingSourceNotificationRenderer renderer = new IacucProtocolFundingSourceNotificationRenderer(protocol, fundingType, "removed from");
@@ -656,7 +656,7 @@ public class IacucProtocolProtocolAction extends IacucProtocolAction {
      * get the saved answer headers
      */
     private List<AnswerHeader> getAnswerHeaders(ActionForm form, String actionTypeCode) {
-        ProtocolForm protocolForm = (ProtocolForm) form;
+        ProtocolFormBase protocolForm = (ProtocolFormBase) form;
         ModuleQuestionnaireBean moduleQuestionnaireBean = new IacucProtocolModuleQuestionnaireBean(CoeusModule.IACUC_PROTOCOL_MODULE_CODE, protocolForm.getProtocolDocument().getProtocol().getProtocolNumber() + "T", CoeusSubModule.PROTOCOL_SUBMISSION, actionTypeCode, false);
         return getQuestionnaireAnswerService().getQuestionnaireAnswer(moduleQuestionnaireBean);
     }

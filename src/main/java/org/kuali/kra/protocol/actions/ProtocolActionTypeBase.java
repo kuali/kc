@@ -18,8 +18,8 @@ package org.kuali.kra.protocol.actions;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 /**
- * A Protocol Action Type refers to the type of actions that an
- * that can be performed against a Protocol document.
+ * A ProtocolBase Action Type refers to the type of actions that an
+ * that can be performed against a ProtocolBase document.
  */
 @SuppressWarnings("serial")
 public abstract class ProtocolActionTypeBase extends KraPersistableBusinessObjectBase {

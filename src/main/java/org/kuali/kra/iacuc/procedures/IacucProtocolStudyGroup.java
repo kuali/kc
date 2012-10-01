@@ -22,7 +22,7 @@ import java.util.List;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.iacuc.IacucPainCategory;
 import org.kuali.kra.iacuc.species.IacucProtocolSpecies;
-import org.kuali.kra.protocol.ProtocolAssociate;
+import org.kuali.kra.protocol.ProtocolAssociateBase;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
 public class IacucProtocolStudyGroup extends KraPersistableBusinessObjectBase { 

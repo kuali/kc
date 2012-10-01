@@ -17,9 +17,9 @@ package org.kuali.kra.iacuc.auth;
 
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
 import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.kra.protocol.auth.AdminCorrectionProtocolAuthorizer;
+import org.kuali.kra.protocol.auth.AdminCorrectionProtocolAuthorizerBase;
 
-public class IacucAdminCorrectionProtocolAuthorizer extends AdminCorrectionProtocolAuthorizer {
+public class IacucAdminCorrectionProtocolAuthorizer extends AdminCorrectionProtocolAuthorizerBase {
 
     @Override
     protected String getActionTypeAdminCorrectionHook() {

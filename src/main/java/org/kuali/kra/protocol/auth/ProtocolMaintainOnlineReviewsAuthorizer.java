@@ -17,12 +17,12 @@ package org.kuali.kra.protocol.auth;
 
 import org.kuali.kra.infrastructure.PermissionConstants;
 
-public class ProtocolMaintainOnlineReviewsAuthorizer extends ProtocolAuthorizer {
+public class ProtocolMaintainOnlineReviewsAuthorizer extends ProtocolAuthorizerBase {
 
     /**
-     * @see org.kuali.kra.protocol.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.protocol.auth.ProtocolTask)
+     * @see org.kuali.kra.protocol.auth.ProtocolAuthorizerBase#isAuthorized(java.lang.String, org.kuali.kra.protocol.auth.ProtocolTaskBase)
      */
-    public boolean isAuthorized(String userId, ProtocolTask task) {
+    public boolean isAuthorized(String userId, ProtocolTaskBase task) {
         return hasPermission( userId, task.getProtocol(), PermissionConstants.MAINTAIN_ONLINE_REVIEWS);
     }
 }

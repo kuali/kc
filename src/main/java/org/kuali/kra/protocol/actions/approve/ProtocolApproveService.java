@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.protocol.actions.approve;
 
-import org.kuali.kra.protocol.Protocol;
+import org.kuali.kra.protocol.ProtocolBase;
 
 /**
  * 
@@ -24,38 +24,38 @@ import org.kuali.kra.protocol.Protocol;
 public interface ProtocolApproveService {
     
     /**
-     * Approves a full submission to a Protocol.
-     * @param protocol the current Protocol
+     * Approves a full submission to a ProtocolBase.
+     * @param protocol the current ProtocolBase
      * @param actionBean the bean that contains the comments and dates
      * @throws Exception
      */
-    void grantFullApproval(Protocol protocol, ProtocolApproveBean actionBean) throws Exception;
+    void grantFullApproval(ProtocolBase protocol, ProtocolApproveBean actionBean) throws Exception;
 
 // TODO *********commented the code below during IACUC refactoring********* 
  // This method does not seem relevant for IACUC, so push it down only to IRB and declare it only in the IRB service interface    
 //    /**
-//     * Approves an expedited submission to a Protocol.
-//     * @param protocol the current Protocol
+//     * Approves an expedited submission to a ProtocolBase.
+//     * @param protocol the current ProtocolBase
 //     * @param actionBean the bean that contains the comments and dates
 //     * @throws Exception
 //     */
-//    void grantExpeditedApproval(Protocol protocol, ProtocolApproveBean actionBean) throws Exception;
+//    void grantExpeditedApproval(ProtocolBase protocol, ProtocolApproveBean actionBean) throws Exception;
     
     /**
-     * Approves a response submission to a Protocol.
-     * @param protocol the current Protocol
+     * Approves a response submission to a ProtocolBase.
+     * @param protocol the current ProtocolBase
      * @param actionBean the bean that contains the comments and dates
      * @throws Exception
      */
-    void grantResponseApproval(Protocol protocol, ProtocolApproveBean actionBean) throws Exception;
+    void grantResponseApproval(ProtocolBase protocol, ProtocolApproveBean actionBean) throws Exception;
     
     
     /**
-     * Administratively approves a Protocol.
-     * @param protocol the current Protocol
+     * Administratively approves a ProtocolBase.
+     * @param protocol the current ProtocolBase
      * @param actionBean the bean that contains the comments and dates
      * @throws Exception
      */
-    public void grantAdminApproval(Protocol protocol, ProtocolApproveBean actionBean) throws Exception;
+    public void grantAdminApproval(ProtocolBase protocol, ProtocolApproveBean actionBean) throws Exception;
 
 }

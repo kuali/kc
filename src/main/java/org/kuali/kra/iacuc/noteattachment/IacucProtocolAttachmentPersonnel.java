@@ -15,16 +15,16 @@
  */
 package org.kuali.kra.iacuc.noteattachment;
 
-import org.kuali.kra.protocol.Protocol;
-import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentPersonnel;
+import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentPersonnelBase;
 
-public class IacucProtocolAttachmentPersonnel extends ProtocolAttachmentPersonnel {
+public class IacucProtocolAttachmentPersonnel extends ProtocolAttachmentPersonnelBase {
 
     private static final long serialVersionUID = 5529222336473432436L;
     
     private static final String GROUP_CODE = "2";
 
-    public IacucProtocolAttachmentPersonnel(Protocol protocol) {
+    public IacucProtocolAttachmentPersonnel(ProtocolBase protocol) {
         super(protocol);
     }
     

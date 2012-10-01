@@ -26,11 +26,11 @@ import org.kuali.kra.iacuc.actions.assignCmt.IacucProtocolAssignCmtService;
 import org.kuali.kra.iacuc.actions.genericactions.IacucProtocolGenericActionBean;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionStatus;
-import org.kuali.kra.protocol.actions.ProtocolAction;
+import org.kuali.kra.protocol.actions.ProtocolActionBase;
 import org.kuali.kra.protocol.actions.assignagenda.ProtocolAssignToAgendaBean;
-import org.kuali.kra.protocol.actions.assignagenda.ProtocolAssignToAgendaServiceImpl;
-import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
-import org.kuali.kra.protocol.Protocol;
+import org.kuali.kra.protocol.actions.assignagenda.ProtocolAssignToAgendaServiceImplBase;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
+import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.rice.core.api.util.KeyValue;
 
 
@@ -39,7 +39,7 @@ import org.kuali.rice.core.api.util.KeyValue;
  * 
  * This class implements ProtocolAssignToAgendaService.
  */
-public class IacucProtocolAssignToAgendaServiceImpl extends ProtocolAssignToAgendaServiceImpl implements IacucProtocolAssignToAgendaService {
+public class IacucProtocolAssignToAgendaServiceImpl extends ProtocolAssignToAgendaServiceImplBase implements IacucProtocolAssignToAgendaService {
     
     private IacucProtocolAssignCmtService protocolAssignCmtService;
 
@@ -50,12 +50,12 @@ public class IacucProtocolAssignToAgendaServiceImpl extends ProtocolAssignToAgen
 
 
     @Override
-    public String getAssignedCommitteeId(Protocol protocol) {
+    public String getAssignedCommitteeId(ProtocolBase protocol) {
         return this.protocolAssignCmtService.getAssignedCommitteeId(protocol);
     }
 
     @Override
-    public String getAssignedScheduleDate(Protocol protocol) {
+    public String getAssignedScheduleDate(ProtocolBase protocol) {
         String scheduleId = this.protocolAssignCmtService.getAssignedScheduleId(protocol);
         List<KeyValue> keyPair = this.getCommitteeService().getAvailableCommitteeDates(getAssignedCommitteeId(protocol));
         for (KeyValue kp : keyPair) {
@@ -71,7 +71,7 @@ public class IacucProtocolAssignToAgendaServiceImpl extends ProtocolAssignToAgen
         IacucProtocolSubmission submission = (IacucProtocolSubmission) findLastSubmission(protocol);
         submission.setSubmissionStatusCode("102");
         // add a new protocol action
-        ProtocolAction protocolAction = getNewProtocolRemoveFromAgendaActionInstanceHook(protocol, submission);
+        ProtocolActionBase protocolAction = getNewProtocolRemoveFromAgendaActionInstanceHook(protocol, submission);
         protocolAction.setComments(actionBean.getComments());
         protocolAction.setActionDate(new Timestamp(actionBean.getActionDate().getTime()));
         protocol.getProtocolActions().add(protocolAction);
@@ -79,9 +79,9 @@ public class IacucProtocolAssignToAgendaServiceImpl extends ProtocolAssignToAgen
         getDocumentService().saveDocument(protocol.getProtocolDocument());    
     }
     
-    protected ProtocolSubmission findLastSubmission(Protocol protocol) {
-        ProtocolSubmission returnSubmission = null;
-        for (ProtocolSubmission submission : protocol.getProtocolSubmissions()) {
+    protected ProtocolSubmissionBase findLastSubmission(ProtocolBase protocol) {
+        ProtocolSubmissionBase returnSubmission = null;
+        for (ProtocolSubmissionBase submission : protocol.getProtocolSubmissions()) {
             if (returnSubmission == null || returnSubmission.getSequenceNumber() < submission.getSequenceNumber()) {
                 returnSubmission = submission;
             }
@@ -89,7 +89,7 @@ public class IacucProtocolAssignToAgendaServiceImpl extends ProtocolAssignToAgen
         return returnSubmission;
     }
     
-    public ProtocolAction getNewProtocolRemoveFromAgendaActionInstanceHook(IacucProtocol protocol, IacucProtocolSubmission submission) {
+    public ProtocolActionBase getNewProtocolRemoveFromAgendaActionInstanceHook(IacucProtocol protocol, IacucProtocolSubmission submission) {
         return new IacucProtocolAction( protocol, submission, IacucProtocolActionType.REMOVE_FROM_AGENDA);
     }
         
@@ -107,7 +107,7 @@ public class IacucProtocolAssignToAgendaServiceImpl extends ProtocolAssignToAgen
     
 
     @Override
-    protected ProtocolAction getNewProtocolAssignToAgendaActionInstanceHook(Protocol protocol, ProtocolSubmission submission) {
+    protected ProtocolActionBase getNewProtocolAssignToAgendaActionInstanceHook(ProtocolBase protocol, ProtocolSubmissionBase submission) {
         return new IacucProtocolAction( (IacucProtocol)protocol, (IacucProtocolSubmission) submission, IacucProtocolActionType.ASSIGNED_TO_AGENDA);
     }
 

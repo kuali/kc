@@ -19,14 +19,14 @@ import org.kuali.kra.common.committee.rules.CommitteeActionGenerateBatchCorrespo
 import org.kuali.kra.iacuc.correspondence.IacucBatchCorrespondence;
 import org.kuali.kra.iacuc.correspondence.IacucProtocolCorrespondenceTemplateService;
 import org.kuali.kra.iacuc.correspondence.IacucProtocolCorrespondenceType;
-import org.kuali.kra.protocol.correspondence.BatchCorrespondence;
+import org.kuali.kra.protocol.correspondence.BatchCorrespondenceBase;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceTemplateService;
-import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceType;
+import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceTypeBase;
 
 public class IacucCommitteeActionGenerateBatchCorrespondenceRule extends CommitteeActionGenerateBatchCorrespondenceRuleBase {
 
     @Override
-    protected Class<? extends BatchCorrespondence> getBatchCorrespondenceBOClassHook() {
+    protected Class<? extends BatchCorrespondenceBase> getBatchCorrespondenceBOClassHook() {
         return IacucBatchCorrespondence.class;
     }
 
@@ -36,7 +36,7 @@ public class IacucCommitteeActionGenerateBatchCorrespondenceRule extends Committ
     }
 
     @Override
-    protected Class<? extends ProtocolCorrespondenceType> getProtocolCorrespondenceTypeBOClassHook() {
+    protected Class<? extends ProtocolCorrespondenceTypeBase> getProtocolCorrespondenceTypeBOClassHook() {
         return IacucProtocolCorrespondenceType.class;
     }
 

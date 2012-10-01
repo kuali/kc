@@ -18,25 +18,25 @@ package org.kuali.kra.protocol.auth;
 import org.kuali.kra.infrastructure.Constants;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.kra.protocol.Protocol;
-import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
+import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
 
 /**
  * Determine if a user can assign a protocol to a committee/schedule.
  */
-public class ProtocolAssignReviewersAuthorizer extends ProtocolAuthorizer {
+public class ProtocolAssignReviewersAuthorizer extends ProtocolAuthorizerBase {
 
     /**
-     * @see org.kuali.kra.protocol.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.protocol.auth.ProtocolTask)
+     * @see org.kuali.kra.protocol.auth.ProtocolAuthorizerBase#isAuthorized(java.lang.String, org.kuali.kra.protocol.auth.ProtocolTaskBase)
      */
-    public boolean isAuthorized(String username, ProtocolTask task) {
-        Protocol protocol = task.getProtocol();
+    public boolean isAuthorized(String username, ProtocolTaskBase task) {
+        ProtocolBase protocol = task.getProtocol();
         return isOnNode(protocol) && isPendingOrSubmittedToCommittee(protocol) && isInSchedule(protocol) &&
                 hasPermission(username, protocol, PermissionConstants.PERFORM_IRB_ACTIONS_ON_PROTO);
     }
 
-    public boolean isOnNode(Protocol protocol) {
+    public boolean isOnNode(ProtocolBase protocol) {
         return kraWorkflowService.isDocumentOnNode(protocol.getProtocolDocument(), Constants.PROTOCOL_IRBREVIEW_ROUTE_NODE_NAME);
     }
 
@@ -45,7 +45,7 @@ public class ProtocolAssignReviewersAuthorizer extends ProtocolAuthorizer {
      * @param protocol
      * @return
      */
-    private boolean isPendingOrSubmittedToCommittee(Protocol protocol) {
+    private boolean isPendingOrSubmittedToCommittee(ProtocolBase protocol) {
         return findSubmission(protocol) != null;
     }
     
@@ -54,8 +54,8 @@ public class ProtocolAssignReviewersAuthorizer extends ProtocolAuthorizer {
      * @param protocol
      * @return
      */
-    private boolean isInSchedule(Protocol protocol) {
-        ProtocolSubmission submission = findSubmission(protocol);
+    private boolean isInSchedule(ProtocolBase protocol) {
+        ProtocolSubmissionBase submission = findSubmission(protocol);
         return submission != null &&
                !StringUtils.isBlank(submission.getCommitteeId()) &&
                !StringUtils.isBlank(submission.getScheduleId());
@@ -67,8 +67,8 @@ public class ProtocolAssignReviewersAuthorizer extends ProtocolAuthorizer {
      * @param protocol
      * @return
      */
-    private ProtocolSubmission findSubmission(Protocol protocol) {
-        for (ProtocolSubmission submission : protocol.getProtocolSubmissions()) {
+    private ProtocolSubmissionBase findSubmission(ProtocolBase protocol) {
+        for (ProtocolSubmissionBase submission : protocol.getProtocolSubmissions()) {
             if (StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.PENDING) ||
                 StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE)) {
                 return submission;

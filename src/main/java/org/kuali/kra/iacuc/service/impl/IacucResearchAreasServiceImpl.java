@@ -19,13 +19,13 @@ import org.kuali.kra.bo.ResearchAreaBase;
 import org.kuali.kra.iacuc.IacucResearchArea;
 import org.kuali.kra.iacuc.protocol.research.IacucProtocolResearchArea;
 import org.kuali.kra.iacuc.service.IacucResearchAreasService;
-import org.kuali.kra.protocol.protocol.research.ProtocolResearchArea;
+import org.kuali.kra.protocol.protocol.research.ProtocolResearchAreaBase;
 import org.kuali.kra.service.impl.ResearchAreasServiceBaseImpl;
 
 public class IacucResearchAreasServiceImpl extends ResearchAreasServiceBaseImpl implements IacucResearchAreasService {
 
     @Override
-    protected Class<? extends ProtocolResearchArea> getProtocolResearchAreaBOClassHook() {
+    protected Class<? extends ProtocolResearchAreaBase> getProtocolResearchAreaBOClassHook() {
         return IacucProtocolResearchArea.class;
     }
 

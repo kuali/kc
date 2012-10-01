@@ -18,13 +18,13 @@ package org.kuali.kra.protocol.personnel;
 import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 /**
- * This class adds rule for adding new <code>ProtocolPerson</code> object
+ * This class adds rule for adding new <code>ProtocolPersonBase</code> object
  */
 public interface AddProtocolUnitRule extends BusinessRule {
 
     /**
-     * This method evaluates to true if ProtocolUnit objects satisfy required fields and business rules.
-     * Protocol unit number is mandatory.
+     * This method evaluates to true if ProtocolUnitBase objects satisfy required fields and business rules.
+     * ProtocolBase unit number is mandatory.
      * @param addProtocolPersonnelEvent
      * @return boolean true for valid object and false for invalid entry
      */

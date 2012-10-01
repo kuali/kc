@@ -21,12 +21,12 @@ import org.kuali.kra.irb.actions.ProtocolActionType;
 /**
  * Is the user allowed to request a termination of a protocol and the action is currently not available?
  */
-public class ProtocolRequestTerminateUnavailableAuthorizer extends ProtocolAuthorizer {
+public class ProtocolRequestTerminateUnavailableAuthorizer extends ProtocolAuthorizerBase {
 
     /**
-     * @see org.kuali.kra.protocol.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.protocol.auth.ProtocolTask)
+     * @see org.kuali.kra.protocol.auth.ProtocolAuthorizerBase#isAuthorized(java.lang.String, org.kuali.kra.protocol.auth.ProtocolTaskBase)
      */
-    public boolean isAuthorized(String userId, ProtocolTask task) {
+    public boolean isAuthorized(String userId, ProtocolTaskBase task) {
         return hasPermission(userId, task.getProtocol(), PermissionConstants.SUBMIT_PROTOCOL) &&
                (isAmendmentOrRenewal(task.getProtocol()) ||
                 !canExecuteAction(task.getProtocol(), ProtocolActionType.REQUEST_FOR_TERMINATION));

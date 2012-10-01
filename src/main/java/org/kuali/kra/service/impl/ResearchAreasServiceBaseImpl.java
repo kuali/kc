@@ -34,8 +34,8 @@ import org.kuali.kra.common.committee.bo.CommitteeResearchAreaBase;
 import org.kuali.kra.common.committee.bo.CommitteeBase;
 import org.kuali.kra.dao.ResearchAreaReferencesDao;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.protocol.Protocol;
-import org.kuali.kra.protocol.protocol.research.ProtocolResearchArea;
+import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.protocol.protocol.research.ProtocolResearchAreaBase;
 import org.kuali.kra.service.ResearchAreaCurrentReferencerHolderBase;
 import org.kuali.kra.service.ResearchAreasServiceBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -390,17 +390,17 @@ public abstract class ResearchAreasServiceBaseImpl implements ResearchAreasServi
     /**
      * @see org.kuali.kra.service.ResearchAreasService#getCurrentProtocolReferencingResearchArea(java.lang.String)
      */
-    public Protocol getCurrentProtocolReferencingResearchArea(String researchAreaCode) {
-        Protocol retValue = null;
-        // get the collection of all ProtocolResearchArea instances that have the given research area code
+    public ProtocolBase getCurrentProtocolReferencingResearchArea(String researchAreaCode) {
+        ProtocolBase retValue = null;
+        // get the collection of all ProtocolResearchAreaBase instances that have the given research area code
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put(RESEARCH_AREA_CODE, researchAreaCode);
         @SuppressWarnings("unchecked")
-        List<ProtocolResearchArea> pras = (List<ProtocolResearchArea>) this.getBusinessObjectService().findMatching(getProtocolResearchAreaBOClassHook(), fieldValues);
+        List<ProtocolResearchAreaBase> pras = (List<ProtocolResearchAreaBase>) this.getBusinessObjectService().findMatching(getProtocolResearchAreaBOClassHook(), fieldValues);
         // loop through the collection checking the parent protocol of each instance for 'currentness'
-        for(ProtocolResearchArea pra : pras) {
+        for(ProtocolResearchAreaBase pra : pras) {
             // get the parent protocol instance via getter (it is populated because of auto-retrieve in repository)
-            Protocol parentProtocol = pra.getProtocol();
+            ProtocolBase parentProtocol = pra.getProtocol();
             //check if protocol is active
             if( (null != parentProtocol) && parentProtocol.isActive()) {
                 retValue = parentProtocol;
@@ -514,7 +514,7 @@ public abstract class ResearchAreasServiceBaseImpl implements ResearchAreasServi
     @SuppressWarnings("unchecked")
     public ResearchAreaCurrentReferencerHolderBase getAnyCurrentReferencerForResearchAreaOrDescendant(String researchAreaCode) {
         ResearchAreaCurrentReferencerHolderBase retValue = ResearchAreaCurrentReferencerHolderBase.NO_REFERENCER;
-        Protocol referencingProtocol = this.getCurrentProtocolReferencingResearchArea(researchAreaCode);
+        ProtocolBase referencingProtocol = this.getCurrentProtocolReferencingResearchArea(researchAreaCode);
         if(null != referencingProtocol) {
             retValue = new ResearchAreaCurrentReferencerHolderBase(researchAreaCode, referencingProtocol, null, null);
         }
@@ -571,7 +571,7 @@ public abstract class ResearchAreasServiceBaseImpl implements ResearchAreasServi
         this.researchAreaReferencesDao = researchAreaReferencesDao;
     }
 
-    protected abstract Class<? extends ProtocolResearchArea> getProtocolResearchAreaBOClassHook();
+    protected abstract Class<? extends ProtocolResearchAreaBase> getProtocolResearchAreaBOClassHook();
     protected abstract Class<? extends ResearchAreaBase> getResearchAreaBOClassHook();
     protected abstract ResearchAreaBase getNewResearchAreaInstanceHook(String researchAreaCode, String parentResearchAreaCode, String description, boolean active);
 

@@ -17,7 +17,7 @@ package org.kuali.kra.protocol;
 
 import java.util.List;
 
-import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 
 
 /**
@@ -31,7 +31,7 @@ public interface ProtocolFinderDao {
      * @param protocolNumber
      * @return the protocol or null if not found
      */
-    Protocol findCurrentProtocolByNumber(String protocolNumber);
+    ProtocolBase findCurrentProtocolByNumber(String protocolNumber);
     
     /**
      * 
@@ -40,7 +40,7 @@ public interface ProtocolFinderDao {
      * @param submissionNumber
      * @return
      */
-    List<ProtocolSubmission> findProtocolSubmissions(String protocolNumber, int submissionNumber);
+    List<ProtocolSubmissionBase> findProtocolSubmissions(String protocolNumber, int submissionNumber);
 
     /**
      * 
@@ -48,5 +48,5 @@ public interface ProtocolFinderDao {
      * @param protocolNumber
      * @return
      */
-    List<Protocol> findProtocols(String protocolNumber);
+    List<ProtocolBase> findProtocols(String protocolNumber);
 }

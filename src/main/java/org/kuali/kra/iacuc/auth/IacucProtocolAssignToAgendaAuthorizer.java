@@ -18,7 +18,7 @@ package org.kuali.kra.iacuc.auth;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.kra.protocol.Protocol;
+import org.kuali.kra.protocol.ProtocolBase;
 
 /**
  * Determine if a user can assign a protocol to a committee/schedule.
@@ -28,7 +28,7 @@ public class IacucProtocolAssignToAgendaAuthorizer extends IacucProtocolAuthoriz
     /** {@inheritDoc} */
     @Override
     public boolean isAuthorized(String username, IacucProtocolTask task) {
-        Protocol protocol = task.getProtocol();
+        ProtocolBase protocol = task.getProtocol();
         return kraWorkflowService.isInWorkflow(protocol.getProtocolDocument())
                 && kraWorkflowService.isDocumentOnNode(protocol.getProtocolDocument(), Constants.PROTOCOL_IACUCREVIEW_ROUTE_NODE_NAME)
                 && canExecuteAction(protocol, IacucProtocolActionType.ASSIGNED_TO_AGENDA)

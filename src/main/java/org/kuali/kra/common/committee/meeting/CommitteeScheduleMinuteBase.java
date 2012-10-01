@@ -25,10 +25,10 @@ import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.protocol.Protocol;
+import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewer;
-import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReview;
-import org.kuali.kra.protocol.onlinereview.ProtocolReviewable;
+import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewBase;
+import org.kuali.kra.protocol.onlinereview.ProtocolReviewableBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
@@ -39,7 +39,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 public abstract class CommitteeScheduleMinuteBase<CSM extends CommitteeScheduleMinuteBase<CSM, CS>,
                                               CS extends CommitteeScheduleBase<CS, ?, ?, CSM>> 
 
-                                              extends ProtocolReviewable<CS> implements Cloneable {
+                                              extends ProtocolReviewableBase<CS> implements Cloneable {
 
     private static final long serialVersionUID = -2294619582524055884L;
 
@@ -86,16 +86,16 @@ public abstract class CommitteeScheduleMinuteBase<CSM extends CommitteeScheduleM
     private Timestamp createTimestamp;
 
     @SkipVersioning
-    private transient ProtocolOnlineReview protocolOnlineReview;
+    private transient ProtocolOnlineReviewBase protocolOnlineReview;
 
     private String minuteEntry;
 
     // TODO : not sure how this protocols yet.  
     @SkipVersioning
-    private List<Protocol> protocols;
+    private List<ProtocolBase> protocols;
 
     @SkipVersioning
-    private Protocol protocol;
+    private ProtocolBase protocol;
     
     private boolean generateAttendance = false;
 
@@ -263,11 +263,11 @@ public abstract class CommitteeScheduleMinuteBase<CSM extends CommitteeScheduleM
         this.commScheduleActItem = commScheduleActItem;
     }
 
-    public List<Protocol> getProtocols() {
+    public List<ProtocolBase> getProtocols() {
         return protocols;
     }
 
-    public void setProtocols(List<Protocol> protocols) {
+    public void setProtocols(List<ProtocolBase> protocols) {
         this.protocols = protocols;
     }
 
@@ -287,11 +287,11 @@ public abstract class CommitteeScheduleMinuteBase<CSM extends CommitteeScheduleM
         this.finalFlag = finalFlag;
     }
 
-    public Protocol getProtocol() {
+    public ProtocolBase getProtocol() {
         return protocol;
     }
 
-    public void setProtocol(Protocol protocol) {
+    public void setProtocol(ProtocolBase protocol) {
         this.protocol = protocol;
     }
 
@@ -347,7 +347,7 @@ public abstract class CommitteeScheduleMinuteBase<CSM extends CommitteeScheduleM
      * Gets the protocolReview attribute. 
      * @return Returns the protocolReview.
      */
-    public ProtocolOnlineReview getProtocolOnlineReview() {
+    public ProtocolOnlineReviewBase getProtocolOnlineReview() {
         return protocolOnlineReview;
     }
 
@@ -355,7 +355,7 @@ public abstract class CommitteeScheduleMinuteBase<CSM extends CommitteeScheduleM
      * Sets the protocolReview attribute value.
      * @param protocolReview The protocolReview to set.
      */
-    public void setProtocolOnlineReview(ProtocolOnlineReview protocolReview) {
+    public void setProtocolOnlineReview(ProtocolOnlineReviewBase protocolReview) {
         this.protocolOnlineReview = protocolReview;
     }
 
@@ -556,7 +556,7 @@ public abstract class CommitteeScheduleMinuteBase<CSM extends CommitteeScheduleM
     //        boolean accepted = false;  
     //           
     //        if (getProtocolOnlineReviewIdFk() != null) {  
-    //            ProtocolOnlineReview protocolOnlineReview = getBusinessObjectService().findBySinglePrimaryKey(ProtocolOnlineReview.class, getProtocolOnlineReviewIdFk());  
+    //            ProtocolOnlineReviewBase protocolOnlineReview = getBusinessObjectService().findBySinglePrimaryKey(ProtocolOnlineReviewBase.class, getProtocolOnlineReviewIdFk());  
     //            if (protocolOnlineReview.isAdminAccepted()) {  
     //                accepted = true;  
     //            }  

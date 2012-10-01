@@ -17,9 +17,9 @@ package org.kuali.kra.iacuc.auth;
 
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
 import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.kra.protocol.auth.CreateAmendmentAuthorizer;
+import org.kuali.kra.protocol.auth.CreateAmendmentAuthorizerBase;
 
-public class CreateIacucAmendmentAuthorizer extends CreateAmendmentAuthorizer {
+public class CreateIacucAmendmentAuthorizer extends CreateAmendmentAuthorizerBase {
 
     @Override
     protected String getActionTypeAmendmentCreatedHook() {

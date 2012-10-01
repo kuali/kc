@@ -19,9 +19,9 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionStatus;
 import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.kra.protocol.Protocol;
-import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
-import org.kuali.kra.protocol.auth.ProtocolTask;
+import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
+import org.kuali.kra.protocol.auth.ProtocolTaskBase;
 
 public class IacucProtocolAssignToCmtUnavailableAuthorizer extends IacucProtocolAuthorizer {
    
@@ -30,7 +30,7 @@ public class IacucProtocolAssignToCmtUnavailableAuthorizer extends IacucProtocol
      * @param protocol
      * @return
      */
-    private boolean isPendingOrSubmittedToCommittee(Protocol protocol) {
+    private boolean isPendingOrSubmittedToCommittee(ProtocolBase protocol) {
         return findSubmission(protocol) != null;
     }
     
@@ -40,8 +40,8 @@ public class IacucProtocolAssignToCmtUnavailableAuthorizer extends IacucProtocol
      * @param protocol
      * @return
      */
-    private ProtocolSubmission findSubmission(Protocol protocol) {
-        for (ProtocolSubmission submission : protocol.getProtocolSubmissions()) {
+    private ProtocolSubmissionBase findSubmission(ProtocolBase protocol) {
+        for (ProtocolSubmissionBase submission : protocol.getProtocolSubmissions()) {
             if (StringUtils.equals(submission.getSubmissionStatusCode(), IacucProtocolSubmissionStatus.PENDING) ||
                 StringUtils.equals(submission.getSubmissionStatusCode(), IacucProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE)) {
                 return submission;
@@ -52,7 +52,7 @@ public class IacucProtocolAssignToCmtUnavailableAuthorizer extends IacucProtocol
 
     @Override
     public boolean isAuthorized(String userId, IacucProtocolTask task) {
-        Protocol protocol = task.getProtocol();
+        ProtocolBase protocol = task.getProtocol();
         return (!kraWorkflowService.isInWorkflow(protocol.getProtocolDocument()) ||
               //  !isPendingOrSubmittedToCommittee(protocol)) &&
                 !canExecuteAction(task.getProtocol(), IacucProtocolActionType.NOTIFIED_COMMITTEE)) &&

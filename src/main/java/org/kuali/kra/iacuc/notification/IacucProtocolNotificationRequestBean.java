@@ -17,9 +17,9 @@ package org.kuali.kra.iacuc.notification;
 
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReview;
-import org.kuali.kra.protocol.notification.ProtocolNotificationRequestBean;
+import org.kuali.kra.protocol.notification.ProtocolNotificationRequestBeanBase;
 
-public class IacucProtocolNotificationRequestBean extends ProtocolNotificationRequestBean {
+public class IacucProtocolNotificationRequestBean extends ProtocolNotificationRequestBeanBase {
 
     /**
      * Comment for <code>serialVersionUID</code>

@@ -22,8 +22,8 @@ import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.protocol.Protocol;
-import org.kuali.kra.protocol.personnel.ProtocolPerson;
+import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.rice.core.api.exception.RiceIllegalArgumentException;
@@ -49,10 +49,10 @@ public class IacucProtocolPersonnelDerivedRoleTypeServiceImpl extends DerivedRol
         List<RoleMembership> members = new ArrayList<RoleMembership>();
 
         String protocolNumber = qualification.get(KcKimAttributes.PROTOCOL);       
-        Protocol protocol = getProtocol(protocolNumber);
+        ProtocolBase protocol = getProtocol(protocolNumber);
         
         if (protocol != null && CollectionUtils.isNotEmpty(protocol.getProtocolPersons())) {
-            for (ProtocolPerson person : protocol.getProtocolPersons()) {
+            for (ProtocolPersonBase person : protocol.getProtocolPersons()) {
                 if (StringUtils.equals(person.getProtocolPersonRoleId(), roleName) &&
                     StringUtils.isNotBlank(person.getPerson().getPersonId())) {
                     members.add(RoleMembership.Builder.create(null, null, person.getPerson().getPersonId(), MemberType.PRINCIPAL, null).build());
@@ -71,10 +71,10 @@ public class IacucProtocolPersonnelDerivedRoleTypeServiceImpl extends DerivedRol
         
         String protocolNumber = qualification.get(KcKimAttributes.PROTOCOL);
         
-        Protocol protocol = getProtocol(protocolNumber);
+        ProtocolBase protocol = getProtocol(protocolNumber);
 
         if (protocol != null && CollectionUtils.isNotEmpty(protocol.getProtocolPersons())) {
-            for (ProtocolPerson person : protocol.getProtocolPersons()) {
+            for (ProtocolPersonBase person : protocol.getProtocolPersons()) {
                 //Find protocol person that matches the principal id
                 if (StringUtils.equals(principalId, person.getPersonId())) {
                     if (StringUtils.equals(roleName, person.getProtocolPersonRoleId())) {
@@ -87,10 +87,10 @@ public class IacucProtocolPersonnelDerivedRoleTypeServiceImpl extends DerivedRol
         return false;
     }
     
-    private Protocol getProtocol(String protocolNumber) {
+    private ProtocolBase getProtocol(String protocolNumber) {
         Map<String,Object> keymap = new HashMap<String,Object>();
         keymap.put("protocolNumber", protocolNumber);
-        return (Protocol) getBusinessObjectService().findByPrimaryKey(IacucProtocol.class, keymap);
+        return (ProtocolBase) getBusinessObjectService().findByPrimaryKey(IacucProtocol.class, keymap);
     }
     
     /*

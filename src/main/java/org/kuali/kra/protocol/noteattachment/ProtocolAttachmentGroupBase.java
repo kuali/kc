@@ -18,7 +18,7 @@ package org.kuali.kra.protocol.noteattachment;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 /**
- * This class represents the Protocol Attachment Group.
+ * This class represents the ProtocolBase Attachment Group.
  */
 public abstract class ProtocolAttachmentGroupBase extends KraPersistableBusinessObjectBase {
 

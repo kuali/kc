@@ -29,11 +29,11 @@ import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.protocol.Protocol;
+import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolLookupConstants;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
-import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReview;
+import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewBase;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
@@ -64,7 +64,7 @@ public class ProtocolOnlineReviewDaoOjb extends PlatformAwareDaoBaseOjb implemen
         initialization();
     }
     
-    public List<ProtocolOnlineReview> getProtocolOnlineReviews(Map<String, String> fieldValues) {
+    public List<ProtocolOnlineReviewBase> getProtocolOnlineReviews(Map<String, String> fieldValues) {
         Criteria crit = new Criteria();
         baseLookupFieldValues = new HashMap<String, String>();
         collectionFieldValues = new HashMap<String, CritField>();
@@ -85,9 +85,9 @@ public class ProtocolOnlineReviewDaoOjb extends PlatformAwareDaoBaseOjb implemen
 //                crit.addExists(getUnitReportQuery(entry));
 //            }
 //        }
-        Query q = QueryFactory.newQuery(ProtocolOnlineReview.class, crit, true);
+        Query q = QueryFactory.newQuery(ProtocolOnlineReviewBase.class, crit, true);
         logQuery(q);
-        return (List<ProtocolOnlineReview>) getPersistenceBrokerTemplate().getCollectionByQuery(q);
+        return (List<ProtocolOnlineReviewBase>) getPersistenceBrokerTemplate().getCollectionByQuery(q);
     }
 
 
@@ -251,8 +251,8 @@ public class ProtocolOnlineReviewDaoOjb extends PlatformAwareDaoBaseOjb implemen
 
         EMPLOYEE_REVIEWER(ProtocolOnlineReviewLookupConstants.Property.REVIEWER_EMPLOYEE, ProtocolReviewer.class),
         NONEMPLOYEE_REVIEWER(ProtocolOnlineReviewLookupConstants.Property.REVIEWER_NONEMPLOYEE,ProtocolReviewer.class),
-        PROTOCOL_ID(ProtocolOnlineReviewLookupConstants.Property.PROTOCOL_ID, Protocol.class),
-        PROTOCOL_NUMBER(ProtocolOnlineReviewLookupConstants.Property.PROTOCOL_NUMBER,Protocol.class),
+        PROTOCOL_ID(ProtocolOnlineReviewLookupConstants.Property.PROTOCOL_ID, ProtocolBase.class),
+        PROTOCOL_NUMBER(ProtocolOnlineReviewLookupConstants.Property.PROTOCOL_NUMBER,ProtocolBase.class),
         SUBMISSION_ID(ProtocolOnlineReviewLookupConstants.Property.SUBMISSION_ID,ProtocolSubmission.class);
         
         private String critFieldName;

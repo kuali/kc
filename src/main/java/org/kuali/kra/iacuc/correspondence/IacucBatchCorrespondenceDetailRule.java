@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.iacuc.correspondence;
 
-import org.kuali.kra.protocol.correspondence.BatchCorrespondenceDetailRule;
+import org.kuali.kra.protocol.correspondence.BatchCorrespondenceDetailRuleBase;
 
-public class IacucBatchCorrespondenceDetailRule extends BatchCorrespondenceDetailRule {
+public class IacucBatchCorrespondenceDetailRule extends BatchCorrespondenceDetailRuleBase {
 
 }

@@ -18,10 +18,10 @@ package org.kuali.kra.protocol.auth;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolModule;
 
 /**
- * The Modify Protocol Areas of Research Authorizer determines if
+ * The Modify ProtocolBase Areas of Research Authorizer determines if
  * the user can modify the research areas for a protocol.
  */
-public class ModifyProtocolAreasOfResearchAuthorizer extends ModifyAmendmentAuthorizer {
+public class ModifyProtocolAreasOfResearchAuthorizer extends ModifyAmendmentAuthorizerBase {
 
     public ModifyProtocolAreasOfResearchAuthorizer() {
         super(ProtocolModule.AREAS_OF_RESEARCH);

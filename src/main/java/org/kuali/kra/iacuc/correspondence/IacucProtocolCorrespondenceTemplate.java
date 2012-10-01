@@ -17,9 +17,9 @@ package org.kuali.kra.iacuc.correspondence;
 
 import org.kuali.kra.common.committee.service.CommitteeServiceBase;
 import org.kuali.kra.iacuc.committee.service.IacucCommitteeService;
-import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceTemplate;
+import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceTemplateBase;
 
-public class IacucProtocolCorrespondenceTemplate extends ProtocolCorrespondenceTemplate {
+public class IacucProtocolCorrespondenceTemplate extends ProtocolCorrespondenceTemplateBase {
     
     @Override
     protected Class<? extends CommitteeServiceBase> getCommitteeServiceClassHook() {

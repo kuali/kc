@@ -23,10 +23,10 @@ import org.kuali.kra.iacuc.IacucPainCategory;
 import org.kuali.kra.iacuc.IacucSpecies;
 import org.kuali.kra.iacuc.IacucSpeciesCountType;
 import org.kuali.kra.iacuc.species.exception.IacucProtocolException;
-import org.kuali.kra.protocol.ProtocolAssociate;
+import org.kuali.kra.protocol.ProtocolAssociateBase;
 import org.kuali.rice.krad.util.ObjectUtils;
 
-public class IacucProtocolSpecies extends ProtocolAssociate { 
+public class IacucProtocolSpecies extends ProtocolAssociateBase { 
     
     private static final long serialVersionUID = 1L;
 

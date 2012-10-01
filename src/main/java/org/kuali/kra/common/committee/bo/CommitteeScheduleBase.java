@@ -37,8 +37,8 @@ import org.kuali.kra.common.committee.web.struts.form.schedule.Time12HrFmt;
 import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.kim.bo.KcKimAttributes;
-import org.kuali.kra.protocol.Protocol;
-import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
+import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.kra.util.DateUtils;
 
 /**
@@ -46,7 +46,7 @@ import org.kuali.kra.util.DateUtils;
  */
 public abstract class CommitteeScheduleBase<CS extends CommitteeScheduleBase<CS, CMT, PS, CSM>,
                                               CMT extends CommitteeBase<CMT, ?, CS>, 
-                                              PS extends ProtocolSubmission,
+                                              PS extends ProtocolSubmissionBase,
                                               CSM extends CommitteeScheduleMinuteBase<CSM, CS>>
 
                                               extends CommitteeAssociateBase implements Comparable<CS>, Permissionable{ 
@@ -79,9 +79,9 @@ public abstract class CommitteeScheduleBase<CS extends CommitteeScheduleBase<CS,
 	private CMT committee; 
     private ScheduleStatus scheduleStatus;
     
-    //TODO revisit required during meeting management to map Protocol
+    //TODO revisit required during meeting management to map ProtocolBase
     @SkipVersioning
-    private List<Protocol> protocols;
+    private List<ProtocolBase> protocols;
     private Time12HrFmt viewStartTime;
     private Time12HrFmt viewEndTime;
 
@@ -349,11 +349,11 @@ public abstract class CommitteeScheduleBase<CS extends CommitteeScheduleBase<CS,
         this.delete = delete;
     }        
     
-    public List<Protocol> getProtocols() {
+    public List<ProtocolBase> getProtocols() {
         return protocols;
     }
 
-    public void setProtocols(List<Protocol> protocols) {
+    public void setProtocols(List<ProtocolBase> protocols) {
         this.protocols = protocols;
     }
     

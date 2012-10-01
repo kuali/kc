@@ -27,7 +27,7 @@ public class SaveProtocolQuestionnaireEvent extends KraDocumentEventBaseExtensio
     private List<AnswerHeader> answerHeaders;
 
     public SaveProtocolQuestionnaireEvent(Document document, List<AnswerHeader> answerHeaders) {
-        super("Saving Protocol Questionnaires (and answers) to document" + getDocumentId(document), Constants.EMPTY_STRING, document);        
+        super("Saving ProtocolBase Questionnaires (and answers) to document" + getDocumentId(document), Constants.EMPTY_STRING, document);        
         this.answerHeaders = answerHeaders;
     }
 

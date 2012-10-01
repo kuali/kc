@@ -18,7 +18,7 @@ package org.kuali.kra.protocol.noteattachment;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 /**
- * This class represents the Protocol Attachment Type Group.
+ * This class represents the ProtocolBase Attachment Type Group.
  */
 public abstract class ProtocolAttachmentTypeGroupBase extends KraPersistableBusinessObjectBase {
 
@@ -73,32 +73,32 @@ public abstract class ProtocolAttachmentTypeGroupBase extends KraPersistableBusi
     }
 
     /**
-     * Gets the Protocol Attachment Type.
-     * @return Protocol Attachment Type
+     * Gets the ProtocolBase Attachment Type.
+     * @return ProtocolBase Attachment Type
      */
     public ProtocolAttachmentTypeBase getType() {
         return this.type;
     }
 
     /**
-     * Sets the Protocol Attachment Type.
-     * @param type Protocol Attachment Type
+     * Sets the ProtocolBase Attachment Type.
+     * @param type ProtocolBase Attachment Type
      */
     public void setType(ProtocolAttachmentTypeBase type) {
         this.type = type;
     }
 
     /**
-     * Gets the Protocol Attachment Group.
-     * @return Protocol Attachment Group
+     * Gets the ProtocolBase Attachment Group.
+     * @return ProtocolBase Attachment Group
      */
     public ProtocolAttachmentGroupBase getGroup() {
         return this.group;
     }
 
     /**
-     * Sets the Protocol Attachment Group.
-     * @param group Protocol Attachment Group
+     * Sets the ProtocolBase Attachment Group.
+     * @param group ProtocolBase Attachment Group
      */
     public void setGroup(ProtocolAttachmentGroupBase group) {
         this.group = group;
