@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.iacuc.committee.lookup.keyvalue;
 
-import org.kuali.kra.common.committee.bo.Committee;
-import org.kuali.kra.common.committee.lookup.keyvalue.CommitteeIdIdPairValuesFinder;
+import org.kuali.kra.common.committee.bo.CommitteeBase;
+import org.kuali.kra.common.committee.lookup.keyvalue.CommitteeIdIdPairValuesFinderBase;
 import org.kuali.kra.iacuc.committee.bo.IacucCommittee;
 
-public class IacucCommitteeIdIdPairValuesFinder extends CommitteeIdIdPairValuesFinder {
+public class IacucCommitteeIdIdPairValuesFinder extends CommitteeIdIdPairValuesFinderBase {
 
     /**
      * Comment for <code>serialVersionUID</code>
@@ -27,7 +27,7 @@ public class IacucCommitteeIdIdPairValuesFinder extends CommitteeIdIdPairValuesF
     private static final long serialVersionUID = -1856217969303750675L;
 
     @Override
-    protected Class<? extends Committee> getCommitteeBOClassHook() {
+    protected Class<? extends CommitteeBase> getCommitteeBOClassHook() {
         return IacucCommittee.class;
     }
 

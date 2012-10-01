@@ -29,7 +29,7 @@ public class ScheduleActItemType extends KraPersistableBusinessObjectBase {
 
     private String description;
 
-    private CommScheduleActItem commScheduleActItems;
+    private CommScheduleActItemBase commScheduleActItems;
 
     public ScheduleActItemType() {
     }
@@ -50,11 +50,11 @@ public class ScheduleActItemType extends KraPersistableBusinessObjectBase {
         this.description = description;
     }
 
-    public CommScheduleActItem getCommScheduleActItems() {
+    public CommScheduleActItemBase getCommScheduleActItems() {
         return commScheduleActItems;
     }
 
-    public void setCommScheduleActItems(CommScheduleActItem commScheduleActItems) {
+    public void setCommScheduleActItems(CommScheduleActItemBase commScheduleActItems) {
         this.commScheduleActItems = commScheduleActItems;
     }
 }

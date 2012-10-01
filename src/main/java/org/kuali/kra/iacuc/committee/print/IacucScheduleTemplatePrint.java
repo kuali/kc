@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.iacuc.committee.print;
 
-import org.kuali.kra.common.committee.print.ScheduleTemplatePrint;
+import org.kuali.kra.common.committee.print.ScheduleTemplatePrintBase;
 import org.kuali.kra.iacuc.correspondence.IacucProtocolCorrespondenceTemplateService;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceTemplateService;
 
-public class IacucScheduleTemplatePrint extends ScheduleTemplatePrint {
+public class IacucScheduleTemplatePrint extends ScheduleTemplatePrintBase {
 
     /**
      * Comment for <code>serialVersionUID</code>

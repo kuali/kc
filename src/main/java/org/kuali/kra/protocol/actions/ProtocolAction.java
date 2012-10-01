@@ -24,7 +24,7 @@ import java.util.Map;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.SkipVersioning;
-import org.kuali.kra.common.committee.bo.CommitteeMembership;
+import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
 import org.kuali.kra.common.committee.service.CommitteeServiceBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.Protocol;
@@ -502,11 +502,11 @@ public abstract class ProtocolAction extends ProtocolAssociate {
     public boolean isActiveCommitteeMember() {
         boolean result = false;
         ProtocolSubmission submission = getSubmission();
-        List<CommitteeMembership> committeeMembers = 
+        List<CommitteeMembershipBase> committeeMembers = 
             getCommitteeService().getAvailableMembers(submission.getCommitteeId(),
                     submission.getScheduleId());
         if (CollectionUtils.isNotEmpty(committeeMembers)) {
-            for (CommitteeMembership member : committeeMembers) {
+            for (CommitteeMembershipBase member : committeeMembers) {
                 if (StringUtils.equals(GlobalVariables.getUserSession().getPrincipalId(), member.getPersonId())) {
                     result = true;
                     break;

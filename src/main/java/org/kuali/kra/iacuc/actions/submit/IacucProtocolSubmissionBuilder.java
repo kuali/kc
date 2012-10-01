@@ -25,8 +25,8 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.struts.upload.FormFile;
-import org.kuali.kra.common.committee.bo.Committee;
-import org.kuali.kra.common.committee.bo.CommitteeSchedule;
+import org.kuali.kra.common.committee.bo.CommitteeBase;
+import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
 import org.kuali.kra.common.committee.service.CommitteeServiceBase;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.IacucProtocolFinderDao;
@@ -175,7 +175,7 @@ public class IacucProtocolSubmissionBuilder {
      * @param committeeId
      */
     public void setCommittee(String committeeId) {
-        Committee committee = getCommitteeService().getCommitteeById(committeeId);
+        CommitteeBase committee = getCommitteeService().getCommitteeById(committeeId);
         if (committee != null) {
             protocolSubmission.setCommitteeId(committee.getCommitteeId());
             protocolSubmission.setCommitteeIdFk(committee.getId());
@@ -190,7 +190,7 @@ public class IacucProtocolSubmissionBuilder {
      */
     public void setSchedule(String scheduleId) {
         if (protocolSubmission.getCommittee() != null) {
-            CommitteeSchedule schedule = getCommitteeService().getCommitteeSchedule(protocolSubmission.getCommittee(), scheduleId);
+            CommitteeScheduleBase schedule = getCommitteeService().getCommitteeSchedule(protocolSubmission.getCommittee(), scheduleId);
             if (schedule != null) {
                 protocolSubmission.setScheduleId(schedule.getScheduleId());
                 protocolSubmission.setScheduleIdFk(schedule.getId());

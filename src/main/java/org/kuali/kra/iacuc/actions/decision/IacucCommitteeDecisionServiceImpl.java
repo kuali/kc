@@ -19,8 +19,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.common.committee.meeting.ProtocolVoteAbstainee;
-import org.kuali.kra.common.committee.meeting.ProtocolVoteRecused;
+import org.kuali.kra.common.committee.meeting.ProtocolVoteAbstaineeBase;
+import org.kuali.kra.common.committee.meeting.ProtocolVoteRecusedBase;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.actions.IacucProtocolAction;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
@@ -75,22 +75,22 @@ public class IacucCommitteeDecisionServiceImpl extends CommitteeDecisionServiceI
   }
 
     @Override
-    protected Class<? extends ProtocolVoteAbstainee> getProtocolVoteAbstaineeBOClassHook() {
+    protected Class<? extends ProtocolVoteAbstaineeBase> getProtocolVoteAbstaineeBOClassHook() {
         return IacucProtocolVoteAbstainee.class;
     }
 
     @Override
-    protected ProtocolVoteAbstainee getNewProtocolVoteAbstaineeInstanceHook() {
+    protected ProtocolVoteAbstaineeBase getNewProtocolVoteAbstaineeInstanceHook() {
         return new IacucProtocolVoteAbstainee();
     }
 
     @Override
-    protected Class<? extends ProtocolVoteRecused> getProtocolVoteRecusedBOClassHook() {
+    protected Class<? extends ProtocolVoteRecusedBase> getProtocolVoteRecusedBOClassHook() {
         return IacucProtocolVoteRecused.class;
     }
 
     @Override
-    protected ProtocolVoteRecused getNewProtocolVoteRecusedInstanceHook() {
+    protected ProtocolVoteRecusedBase getNewProtocolVoteRecusedInstanceHook() {
         return new IacucProtocolVoteRecused();
     }
 

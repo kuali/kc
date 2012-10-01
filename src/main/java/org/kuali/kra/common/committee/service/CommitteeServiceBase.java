@@ -19,20 +19,20 @@ import java.util.Collection;
 import java.util.List;
 
 import org.kuali.kra.bo.ResearchArea;
-import org.kuali.kra.common.committee.bo.Committee;
-import org.kuali.kra.common.committee.bo.CommitteeMembership;
-import org.kuali.kra.common.committee.bo.CommitteeSchedule;
+import org.kuali.kra.common.committee.bo.CommitteeBase;
+import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
+import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
 import org.kuali.rice.core.api.util.KeyValue;
 
 /**
- * The Committee Service provides a set of methods for
+ * The CommitteeBase Service provides a set of methods for
  * working with committees.
  */
-public interface CommitteeServiceBase<CMT extends Committee<CMT, ?, CS>, 
-                                        CS extends CommitteeSchedule<CS, CMT, ?, ?>> {
+public interface CommitteeServiceBase<CMT extends CommitteeBase<CMT, ?, CS>, 
+                                        CS extends CommitteeScheduleBase<CS, CMT, ?, ?>> {
 
     /**
-     * Retrieve a committee from the database based upon its Committee ID.
+     * Retrieve a committee from the database based upon its CommitteeBase ID.
      * @param committeeId the committee ID
      * @return the committee or null if not found
      */
@@ -47,7 +47,7 @@ public interface CommitteeServiceBase<CMT extends Committee<CMT, ?, CS>,
 
     /**
      * Get the valid upcoming committee dates for scheduling a protocol.
-     * This method is used by CommitteeScheduleValuesFinder.
+     * This method is used by CommitteeScheduleValuesFinderBase.
      * @param id the committee's unique id
      * @return list of key/value pairs with the dates  
      */
@@ -59,14 +59,14 @@ public interface CommitteeServiceBase<CMT extends Committee<CMT, ?, CS>,
      * @param scheduleId the schedule's id
      * @return the list of active members who will be at the meeting
      */
-    public List<CommitteeMembership> getAvailableMembers(String committeeId, String scheduleId);
+    public List<CommitteeMembershipBase> getAvailableMembers(String committeeId, String scheduleId);
     
     /**
      * Get the active members in a committee.
      * @param committeeId the committee's id
      * @return the list of active members on the committee now
      */
-    public List<CommitteeMembership> getAvailableMembersNow(String committeeId);
+    public List<CommitteeMembershipBase> getAvailableMembersNow(String committeeId);
     
     /**
      * Get the committee schedule.

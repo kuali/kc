@@ -23,8 +23,8 @@ import java.util.Map;
 
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.common.committee.bo.Committee;
-import org.kuali.kra.common.committee.bo.CommitteeSchedule;
+import org.kuali.kra.common.committee.bo.CommitteeBase;
+import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.committee.bo.IacucCommittee;
 import org.kuali.kra.iacuc.committee.print.IacucCommitteeXmlStream;
@@ -51,7 +51,7 @@ public class IacucRenewalReminderStream extends RenewalReminderStream {
         RenewalReminderType renewalReminder = RenewalReminderType.Factory.newInstance() ;
         renewalReminder.setCurrentDate(getDateTimeService().getCurrentCalendar()) ;
         String committeeId = (String)reportParameters.get("committeeId");
-        Committee committee = null;
+        CommitteeBase committee = null;
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put("committeeId", committeeId);
         Collection<IacucCommittee> committees = getBusinessObjectService().findMatching(IacucCommittee.class, fieldValues);
@@ -60,14 +60,14 @@ public class IacucRenewalReminderStream extends RenewalReminderStream {
              * Return the most recent approved committee (i.e. the committee version with the highest 
              * sequence number that is approved/in the database).
              */
-            committee = (Committee) Collections.max(committees);
+            committee = (CommitteeBase) Collections.max(committees);
         }
         CommitteeMasterDataType committeeMasterData = CommitteeMasterDataType.Factory.newInstance();
         committeeXmlStream.setCommitteeMasterData(committee,committeeMasterData) ;
         renewalReminder.setCommitteeMasterData(committeeMasterData) ;
-        List<CommitteeSchedule> committeSchedules = committee.getCommitteeSchedules();
+        List<CommitteeScheduleBase> committeSchedules = committee.getCommitteeSchedules();
         int rowNumber = 0;
-        for (CommitteeSchedule committeeSchedule : committeSchedules) {
+        for (CommitteeScheduleBase committeeSchedule : committeSchedules) {
             if(rowNumber<5 ) break;
             if(committeeSchedule.getScheduledDate().after(getDateTimeService().getCurrentDate()) ||
                     committeeSchedule.getScheduledDate().equals(getDateTimeService().getCurrentDate())){

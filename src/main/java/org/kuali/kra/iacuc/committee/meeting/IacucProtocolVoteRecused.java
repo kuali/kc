@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.iacuc.committee.meeting;
 
-import org.kuali.kra.common.committee.meeting.ProtocolVoteRecused;
+import org.kuali.kra.common.committee.meeting.ProtocolVoteRecusedBase;
 
-public class IacucProtocolVoteRecused extends ProtocolVoteRecused {
+public class IacucProtocolVoteRecused extends ProtocolVoteRecusedBase {
 
     /**
      * Comment for <code>serialVersionUID</code>

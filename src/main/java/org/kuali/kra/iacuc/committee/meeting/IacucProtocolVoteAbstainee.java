@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.iacuc.committee.meeting;
 
-import org.kuali.kra.common.committee.meeting.ProtocolVoteAbstainee;
+import org.kuali.kra.common.committee.meeting.ProtocolVoteAbstaineeBase;
 
-public class IacucProtocolVoteAbstainee extends ProtocolVoteAbstainee {
+public class IacucProtocolVoteAbstainee extends ProtocolVoteAbstaineeBase {
 
     /**
      * Comment for <code>serialVersionUID</code>

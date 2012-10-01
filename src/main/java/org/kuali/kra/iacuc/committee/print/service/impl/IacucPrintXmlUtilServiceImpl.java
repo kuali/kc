@@ -22,9 +22,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kra.bo.KcPerson;
-import org.kuali.kra.common.committee.bo.CommitteeSchedule;
-import org.kuali.kra.common.committee.meeting.CommScheduleActItem;
-import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinute;
+import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
+import org.kuali.kra.common.committee.meeting.CommScheduleActItemBase;
+import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinuteBase;
 import org.kuali.kra.iacuc.actions.IacucProtocolAction;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
 import org.kuali.kra.iacuc.committee.print.service.IacucPrintXmlUtilService;
@@ -183,11 +183,11 @@ public class IacucPrintXmlUtilServiceImpl implements IacucPrintXmlUtilService {
 //        }
     }
 
-    public void setMinutes(CommitteeSchedule scheduleDetailsBean, ScheduleType schedule) {
+    public void setMinutes(CommitteeScheduleBase scheduleDetailsBean, ScheduleType schedule) {
 // TODO verify refactor code        
-        List<CommitteeScheduleMinute> vecMinutes = scheduleDetailsBean.getCommitteeScheduleMinutes();
+        List<CommitteeScheduleMinuteBase> vecMinutes = scheduleDetailsBean.getCommitteeScheduleMinutes();
         if (!vecMinutes.isEmpty()) {
-            for (CommitteeScheduleMinute minuteEntryInfoBean : vecMinutes) {
+            for (CommitteeScheduleMinuteBase minuteEntryInfoBean : vecMinutes) {
                 if (!minuteEntryInfoBean.getMinuteEntryTypeCode().equals("3") && 
                         !minuteEntryInfoBean.getPrivateCommentFlag()) {
                     if (reviewCommentsService.getReviewerCommentsView(minuteEntryInfoBean)){
@@ -202,7 +202,7 @@ public class IacucPrintXmlUtilServiceImpl implements IacucPrintXmlUtilService {
         }
     }
 
-    protected void addMinute(CommitteeSchedule committeeSchedule, CommitteeScheduleMinute committeeScheduleMinute, MinuteType minutesType) {
+    protected void addMinute(CommitteeScheduleBase committeeSchedule, CommitteeScheduleMinuteBase committeeScheduleMinute, MinuteType minutesType) {
         committeeScheduleMinute.refreshNonUpdateableReferences();
         minutesType.setScheduleId(committeeScheduleMinute.getScheduleIdFk().toString());
         minutesType.setEntryNumber(new BigInteger(String.valueOf(committeeScheduleMinute.getEntryNumber())));
@@ -231,9 +231,9 @@ public class IacucPrintXmlUtilServiceImpl implements IacucPrintXmlUtilService {
 
     }
 
-    protected String getOtherItemDescription(CommitteeSchedule committeeSchedule, CommitteeScheduleMinute committeeScheduleMinute) {
-        List<CommScheduleActItem> actionItems = committeeSchedule.getCommScheduleActItems();
-        for (CommScheduleActItem commScheduleActItem : actionItems) {
+    protected String getOtherItemDescription(CommitteeScheduleBase committeeSchedule, CommitteeScheduleMinuteBase committeeScheduleMinute) {
+        List<CommScheduleActItemBase> actionItems = committeeSchedule.getCommScheduleActItems();
+        for (CommScheduleActItemBase commScheduleActItem : actionItems) {
             if (committeeScheduleMinute.getMinuteEntryTypeCode().equals("4")
                     && committeeScheduleMinute.getProtocol().getProtocolNumber().equals(commScheduleActItem.getActionItemNumber())) {
                 return commScheduleActItem.getItemDescription();
@@ -242,10 +242,10 @@ public class IacucPrintXmlUtilServiceImpl implements IacucPrintXmlUtilService {
         return committeeScheduleMinute.getProtocol().getProtocolNumber();
     }
 
-    public void setProcotolMinutes(CommitteeSchedule committeeSchedule,
+    public void setProcotolMinutes(CommitteeScheduleBase committeeSchedule,
             org.kuali.kra.protocol.actions.submit.ProtocolSubmission protocolSubmission, ProtocolSubmissionType protocolSubmissionType) {       
-        List<CommitteeScheduleMinute> minutes = committeeSchedule.getCommitteeScheduleMinutes();
-        for (CommitteeScheduleMinute minuteEntryInfoBean : minutes) {
+        List<CommitteeScheduleMinuteBase> minutes = committeeSchedule.getCommitteeScheduleMinutes();
+        for (CommitteeScheduleMinuteBase minuteEntryInfoBean : minutes) {
             Protocol protocol = minuteEntryInfoBean.getProtocol();
             if (protocol != null && protocol.getProtocolNumber() != null) {
                 if (protocol.getProtocolNumber().equals(protocolSubmission.getProtocolNumber())
@@ -262,10 +262,10 @@ public class IacucPrintXmlUtilServiceImpl implements IacucPrintXmlUtilService {
         }
     }
 
-    public void setProcotolSubmissionMinutes(CommitteeSchedule committeeSchedule,
+    public void setProcotolSubmissionMinutes(CommitteeScheduleBase committeeSchedule,
             ProtocolSubmission protocolSubmission, Submissions submissionsType) {      
-        List<CommitteeScheduleMinute> minutes = committeeSchedule.getCommitteeScheduleMinutes();
-        for (CommitteeScheduleMinute minuteEntryInfoBean : minutes) {
+        List<CommitteeScheduleMinuteBase> minutes = committeeSchedule.getCommitteeScheduleMinutes();
+        for (CommitteeScheduleMinuteBase minuteEntryInfoBean : minutes) {
             Protocol protocol = minuteEntryInfoBean.getProtocol();
             if (protocol != null && protocol.getProtocolNumber() != null) {
                 if (protocol.getProtocolNumber().equals(protocolSubmission.getProtocolNumber())
@@ -286,10 +286,10 @@ public class IacucPrintXmlUtilServiceImpl implements IacucPrintXmlUtilService {
      * @param protocolSubmission
      * @param submissionsType
      */
-    public void setProtocolReviewMinutes(CommitteeSchedule committeeSchedule,
+    public void setProtocolReviewMinutes(CommitteeScheduleBase committeeSchedule,
             org.kuali.kra.protocol.actions.submit.ProtocolSubmission protocolSubmission, Submissions submissionsType) {      
-        List<CommitteeScheduleMinute> minutes = committeeSchedule.getCommitteeScheduleMinutes();
-        for (CommitteeScheduleMinute minuteEntryInfoBean : minutes) {
+        List<CommitteeScheduleMinuteBase> minutes = committeeSchedule.getCommitteeScheduleMinutes();
+        for (CommitteeScheduleMinuteBase minuteEntryInfoBean : minutes) {
             Protocol protocol = minuteEntryInfoBean.getProtocol();
             if (protocol != null && protocol.getProtocolNumber() != null) {
                 if (protocol.getProtocolNumber().equals(protocolSubmission.getProtocolNumber())

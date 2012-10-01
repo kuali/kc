@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.iacuc.committee.bo;
 
-import org.kuali.kra.common.committee.bo.CommitteeMembership;
+import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
 
-public class IacucCommitteeMembership extends CommitteeMembership {
+public class IacucCommitteeMembership extends CommitteeMembershipBase {
 
     /**
      * Comment for <code>serialVersionUID</code>

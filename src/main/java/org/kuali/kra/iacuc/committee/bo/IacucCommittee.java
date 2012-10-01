@@ -16,12 +16,12 @@
 package org.kuali.kra.iacuc.committee.bo;
 
 import org.kuali.kra.common.committee.bo.CommitteeType;
-import org.kuali.kra.common.committee.bo.Committee;
+import org.kuali.kra.common.committee.bo.CommitteeBase;
 import org.kuali.kra.iacuc.committee.document.CommonCommitteeDocument;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.RoleConstants;
 
-public class IacucCommittee extends Committee<IacucCommittee, CommonCommitteeDocument, IacucCommitteeSchedule> {
+public class IacucCommittee extends CommitteeBase<IacucCommittee, CommonCommitteeDocument, IacucCommitteeSchedule> {
 
     /**
      * Comment for <code>serialVersionUID</code>

@@ -23,9 +23,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.common.committee.bo.Committee;
-import org.kuali.kra.common.committee.bo.CommitteeSchedule;
-import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinute;
+import org.kuali.kra.common.committee.bo.CommitteeBase;
+import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
+import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinuteBase;
 import org.kuali.kra.common.committee.service.CommitteeServiceBase;
 import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.iacuc.IacucProtocol;
@@ -132,7 +132,7 @@ public class IacucProtocolModifySubmissionServiceImpl extends IacucProtocolProce
             submission.setCommitteeSchedule(null);
         }
         else {
-            CommitteeSchedule schedule = committeeService.getCommitteeSchedule(submission.getCommittee(), scheduleId);
+            CommitteeScheduleBase schedule = committeeService.getCommitteeSchedule(submission.getCommittee(), scheduleId);
             if (schedule == null) {
                 submission.setScheduleId(null);
                 submission.setScheduleIdFk(null);
@@ -151,12 +151,12 @@ public class IacucProtocolModifySubmissionServiceImpl extends IacucProtocolProce
     protected void updateDefaultSchedule(ProtocolSubmission submission) {
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put("protocolIdFk", submission.getProtocolId().toString());
-//        fieldValues.put("scheduleIdFk", CommitteeSchedule.DEFAULT_SCHEDULE_ID.toString());
+//        fieldValues.put("scheduleIdFk", CommitteeScheduleBase.DEFAULT_SCHEDULE_ID.toString());
         List<IacucCommitteeScheduleMinute> minutes = (List<IacucCommitteeScheduleMinute>) businessObjectService.findMatching(IacucCommitteeScheduleMinute.class, fieldValues);
         if (!minutes.isEmpty()) {
-            for (CommitteeScheduleMinute minute : minutes) {
+            for (CommitteeScheduleMinuteBase minute : minutes) {
                 if (submission.getScheduleIdFk() == null) {
-                    minute.setScheduleIdFk(CommitteeSchedule.DEFAULT_SCHEDULE_ID);
+                    minute.setScheduleIdFk(CommitteeScheduleBase.DEFAULT_SCHEDULE_ID);
                 } else {
                     minute.setScheduleIdFk(submission.getScheduleIdFk());
                 }
@@ -166,7 +166,7 @@ public class IacucProtocolModifySubmissionServiceImpl extends IacucProtocolProce
     }
     
     public boolean setCommittee(ProtocolSubmission submission, String committeeId) {
-        Committee committee = committeeService.getCommitteeById(committeeId);
+        CommitteeBase committee = committeeService.getCommitteeById(committeeId);
         if (committee == null) {
             submission.setCommitteeId(null);
             submission.setCommitteeIdFk(null);

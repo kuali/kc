@@ -21,12 +21,12 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.SkipVersioning;
-import org.kuali.kra.common.committee.bo.Committee;
+import org.kuali.kra.common.committee.bo.CommitteeBase;
 import org.kuali.kra.common.committee.bo.CommitteeDecisionMotionType;
-import org.kuali.kra.common.committee.bo.CommitteeSchedule;
-import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinute;
-import org.kuali.kra.common.committee.meeting.ProtocolVoteAbstainee;
-import org.kuali.kra.common.committee.meeting.ProtocolVoteRecused;
+import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
+import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinuteBase;
+import org.kuali.kra.common.committee.meeting.ProtocolVoteAbstaineeBase;
+import org.kuali.kra.common.committee.meeting.ProtocolVoteRecusedBase;
 import org.kuali.kra.protocol.ProtocolAssociate;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReview;
 import org.kuali.kra.protocol.onlinereview.ProtocolReviewAttachment;
@@ -93,15 +93,15 @@ public abstract class ProtocolSubmission extends ProtocolAssociate {
 
     private CommitteeDecisionMotionType committeeDecisionMotionType;
 
-    private List<ProtocolVoteAbstainee> abstainers = new ArrayList<ProtocolVoteAbstainee>();
+    private List<ProtocolVoteAbstaineeBase> abstainers = new ArrayList<ProtocolVoteAbstaineeBase>();
 
-    private List<ProtocolVoteRecused> recusers = new ArrayList<ProtocolVoteRecused>();
-
-    @SkipVersioning
-    private transient CommitteeSchedule committeeSchedule;
+    private List<ProtocolVoteRecusedBase> recusers = new ArrayList<ProtocolVoteRecusedBase>();
 
     @SkipVersioning
-    private transient List<CommitteeScheduleMinute> committeeScheduleMinutes;
+    private transient CommitteeScheduleBase committeeSchedule;
+
+    @SkipVersioning
+    private transient List<CommitteeScheduleMinuteBase> committeeScheduleMinutes;
 
     @SkipVersioning
     private transient List<ProtocolReviewAttachment> reviewAttachments;
@@ -109,7 +109,7 @@ public abstract class ProtocolSubmission extends ProtocolAssociate {
     private ProtocolReviewTypeBase protocolReviewType;
 
     @SkipVersioning
-    private transient Committee committee;
+    private transient CommitteeBase committee;
 
     private ProtocolSubmissionStatusBase submissionStatus;
 
@@ -137,25 +137,25 @@ public abstract class ProtocolSubmission extends ProtocolAssociate {
         this.recusedCount = recusedCount;
     }
 
-    public List<ProtocolVoteAbstainee> getAbstainers() {
+    public List<ProtocolVoteAbstaineeBase> getAbstainers() {
         if (abstainers == null || abstainers.size() == 0) {
             refreshReferenceObject("abstainers");
         }
         return abstainers;
     }
 
-    public void setAbstainers(List<ProtocolVoteAbstainee> abstainers) {
+    public void setAbstainers(List<ProtocolVoteAbstaineeBase> abstainers) {
         this.abstainers = abstainers;
     }
 
-    public List<ProtocolVoteRecused> getRecusers() {
+    public List<ProtocolVoteRecusedBase> getRecusers() {
         if (recusers == null || recusers.size() == 0) {
             refreshReferenceObject("recusers");
         }
         return recusers;
     }
 
-    public void setRecusers(List<ProtocolVoteRecused> recusers) {
+    public void setRecusers(List<ProtocolVoteRecusedBase> recusers) {
         this.recusers = recusers;
     }
 
@@ -373,14 +373,14 @@ public abstract class ProtocolSubmission extends ProtocolAssociate {
      * This method returns the committee object.
      * @return
      */
-    public Committee getCommittee() {
+    public CommitteeBase getCommittee() {
         if (committeeIdFk != null && committee == null) {
             refreshReferenceObject("committee");
         }
         return committee;
     }
 
-    public void setCommittee(Committee committee) {
+    public void setCommittee(CommitteeBase committee) {
         this.committee = committee;
     }
 
@@ -427,7 +427,7 @@ public abstract class ProtocolSubmission extends ProtocolAssociate {
         return committeeDecisionMotionType;
     }
 
-    public void setCommitteeSchedule(CommitteeSchedule committeeSchedule) {
+    public void setCommitteeSchedule(CommitteeScheduleBase committeeSchedule) {
         this.committeeSchedule = committeeSchedule;
     }
 
@@ -436,19 +436,19 @@ public abstract class ProtocolSubmission extends ProtocolAssociate {
      * This method returns the committee schedule.
      * @return
      */
-    public CommitteeSchedule getCommitteeSchedule() {
+    public CommitteeScheduleBase getCommitteeSchedule() {
         if (scheduleIdFk != null && committeeSchedule == null) {
             refreshReferenceObject("committeeSchedule");
         }
         return committeeSchedule;
     }
 
-    public List<CommitteeScheduleMinute> getCommitteeScheduleMinutes() {
+    public List<CommitteeScheduleMinuteBase> getCommitteeScheduleMinutes() {
         refreshReferenceObject("committeeScheduleMinutes");
         return committeeScheduleMinutes;
     }
 
-    public void setCommitteeScheduleMinutes(List<CommitteeScheduleMinute> committeeScheduleMinutes) {
+    public void setCommitteeScheduleMinutes(List<CommitteeScheduleMinuteBase> committeeScheduleMinutes) {
         this.committeeScheduleMinutes = committeeScheduleMinutes;
     }
 

@@ -28,8 +28,8 @@ import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.Unit;
-import org.kuali.kra.common.committee.bo.Committee;
-import org.kuali.kra.common.committee.bo.CommitteeSchedule;
+import org.kuali.kra.common.committee.bo.CommitteeBase;
+import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolActionService;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
@@ -286,13 +286,13 @@ public class IacucProtocolSummaryXmlStream extends ProtocolSummaryXmlStream {
         submission.setCurrentSubmissionFlag(currentFlag);
         setMinutes(submissionInfoBean, submission);
         if (submissionInfoBean.getCommitteeId() != null) {
-            Committee committee = submissionInfoBean.getCommittee();            
+            CommitteeBase committee = submissionInfoBean.getCommittee();            
             getCommitteeXmlStream().setCommitteeMasterData(committee, submission.addNewCommitteeMasterData());
             getCommitteeXmlStream().setCommitteeMembers(committee, submission);
         }
 
         if (submissionInfoBean.getScheduleId() != null) {
-            CommitteeSchedule committeeSchedule = submissionInfoBean.getCommitteeSchedule();
+            CommitteeScheduleBase committeeSchedule = submissionInfoBean.getCommitteeSchedule();
             getScheduleXmlStream().setScheduleMasterData(committeeSchedule, submission.addNewScheduleMasterData());
             ScheduleSummaryType nextSchedule = submission.addNewNextSchedule();
             getScheduleXmlStream().setNextSchedule(committeeSchedule, nextSchedule.addNewScheduleMasterData());
@@ -317,7 +317,7 @@ public class IacucProtocolSummaryXmlStream extends ProtocolSummaryXmlStream {
      */
     protected void setMinutes(org.kuali.kra.protocol.actions.submit.ProtocolSubmission submissionInfoBean,
             Submissions submission) {
-        CommitteeSchedule committeeSchedule = submissionInfoBean.getCommitteeSchedule();
+        CommitteeScheduleBase committeeSchedule = submissionInfoBean.getCommitteeSchedule();
         if (committeeSchedule != null) {
             getPrintXmlUtilService().setProtocolReviewMinutes(committeeSchedule, submissionInfoBean, submission);
         }

@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.common.committee.service;
 
-import org.kuali.kra.common.committee.meeting.CommScheduleMinuteDoc;
-import org.kuali.kra.common.committee.meeting.ScheduleAgenda;
+import org.kuali.kra.common.committee.meeting.CommScheduleMinuteDocBase;
+import org.kuali.kra.common.committee.meeting.ScheduleAgendaBase;
 
 
 /**
@@ -30,7 +30,7 @@ public interface CommonCommitteeNotificationService {
      * These methods generate committee notifications
      * @throws Exception 
      */
-    public void generateNotification(String notificationType, ScheduleAgenda agenda);
-    public void generateNotification(String notificationType, CommScheduleMinuteDoc minuteDoc);
+    public void generateNotification(String notificationType, ScheduleAgendaBase agenda);
+    public void generateNotification(String notificationType, CommScheduleMinuteDocBase minuteDoc);
  
 }

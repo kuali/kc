@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.iacuc.committee.rules;
 
-import org.kuali.kra.common.committee.rules.CommitteeActionGenerateBatchCorrespondenceRule;
+import org.kuali.kra.common.committee.rules.CommitteeActionGenerateBatchCorrespondenceRuleBase;
 import org.kuali.kra.iacuc.correspondence.IacucBatchCorrespondence;
 import org.kuali.kra.iacuc.correspondence.IacucProtocolCorrespondenceTemplateService;
 import org.kuali.kra.iacuc.correspondence.IacucProtocolCorrespondenceType;
@@ -23,7 +23,7 @@ import org.kuali.kra.protocol.correspondence.BatchCorrespondence;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceTemplateService;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceType;
 
-public class IacucCommitteeActionGenerateBatchCorrespondenceRule extends CommitteeActionGenerateBatchCorrespondenceRule {
+public class IacucCommitteeActionGenerateBatchCorrespondenceRule extends CommitteeActionGenerateBatchCorrespondenceRuleBase {
 
     @Override
     protected Class<? extends BatchCorrespondence> getBatchCorrespondenceBOClassHook() {

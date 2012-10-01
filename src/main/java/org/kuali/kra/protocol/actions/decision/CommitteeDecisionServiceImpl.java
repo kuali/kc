@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.common.committee.bo.CommitteeMembership;
+import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
 import org.kuali.kra.common.committee.service.CommitteeServiceBase;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.ProtocolFinderDao;
@@ -29,11 +29,11 @@ import org.kuali.kra.protocol.actions.ProtocolAction;
 import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsBean;
 import org.kuali.kra.protocol.actions.submit.ProtocolActionService;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
-import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinute;
+import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinuteBase;
 import org.kuali.kra.common.committee.meeting.MinuteEntryType;
-import org.kuali.kra.common.committee.meeting.ProtocolMeetingVoter;
-import org.kuali.kra.common.committee.meeting.ProtocolVoteAbstainee;
-import org.kuali.kra.common.committee.meeting.ProtocolVoteRecused;
+import org.kuali.kra.common.committee.meeting.ProtocolMeetingVoterBase;
+import org.kuali.kra.common.committee.meeting.ProtocolVoteAbstaineeBase;
+import org.kuali.kra.common.committee.meeting.ProtocolVoteRecusedBase;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
@@ -90,7 +90,7 @@ public abstract class CommitteeDecisionServiceImpl<CD extends CommitteeDecision<
             protocol.getProtocolActions().add(protocolAction);
             businessObjectService.save(protocolAction);
             
-            List<CommitteeMembership> committeeMemberships =  
+            List<CommitteeMembershipBase> committeeMemberships =  
                 committeeService.getAvailableMembers(protocol.getProtocolSubmission().getCommitteeId(), protocol.getProtocolSubmission().getScheduleId());
             
             proccessAbstainers(committeeDecision, committeeMemberships, protocol, submission.getScheduleIdFk(), submission.getSubmissionId());
@@ -106,25 +106,25 @@ public abstract class CommitteeDecisionServiceImpl<CD extends CommitteeDecision<
     protected abstract ProtocolAction getNewProtocolActionInstanceHook(Protocol protocol, ProtocolSubmission submission, String recordCommitteeDecisionActionCode);
     
 
-    protected void proccessAbstainers(CD committeeDecision, List<CommitteeMembership> committeeMemberships, 
+    protected void proccessAbstainers(CD committeeDecision, List<CommitteeMembershipBase> committeeMemberships, 
             Protocol protocol, Long scheduleIdFk, Long submissionIdFk) {       
         if (!committeeDecision.getAbstainers().isEmpty()) {
             //there are abstainers, lets save them
             for (CommitteePerson person : committeeDecision.getAbstainers()) {
-                for (CommitteeMembership membership : committeeMemberships) {
+                for (CommitteeMembershipBase membership : committeeMemberships) {
                     if (membership.getCommitteeMembershipId().equals(person.getMembershipId())) {
                         //check to see if it is already been persisted
                         Map fieldValues = getFieldValuesMap(protocol.getProtocolId(), scheduleIdFk, membership.getPersonId(), membership.getRolodexId(), submissionIdFk);
                         
 // TODO *********commented the code below during IACUC refactoring********* 
-//                        if (businessObjectService.findMatching(ProtocolVoteAbstainee.class, fieldValues).size() == 0) {                            
+//                        if (businessObjectService.findMatching(ProtocolVoteAbstaineeBase.class, fieldValues).size() == 0) {                            
   
                         if (businessObjectService.findMatching(getProtocolVoteAbstaineeBOClassHook(), fieldValues).size() == 0) {
-                            //we found a match, and has not been saved, lets make a ProtocolVoteAbstainee and save it
+                            //we found a match, and has not been saved, lets make a ProtocolVoteAbstaineeBase and save it
                             saveProtocolMeetingVoter(getNewProtocolVoteAbstaineeInstanceHook(), protocol, scheduleIdFk, membership.getPersonId(), membership.getRolodexId(), submissionIdFk);
                             
 // TODO *********commented the code below during IACUC refactoring*********                       
-//                            saveProtocolMeetingVoter(new ProtocolVoteAbstainee(), protocol, scheduleIdFk, membership.getPersonId(), membership.getRolodexId(), submissionIdFk);
+//                            saveProtocolMeetingVoter(new ProtocolVoteAbstaineeBase(), protocol, scheduleIdFk, membership.getPersonId(), membership.getRolodexId(), submissionIdFk);
                             
                         }
                         break;
@@ -134,12 +134,12 @@ public abstract class CommitteeDecisionServiceImpl<CD extends CommitteeDecision<
         }       
         if (!committeeDecision.getAbstainersToDelete().isEmpty()) {
             for (CommitteePerson person : committeeDecision.getAbstainersToDelete()) {
-                for (CommitteeMembership membership : committeeMemberships) {
+                for (CommitteeMembershipBase membership : committeeMemberships) {
                     if (membership.getCommitteeMembershipId().equals(person.getMembershipId())) {
                         Map fieldValues = getFieldValuesMap(protocol.getProtocolId(), scheduleIdFk, membership.getPersonId(), membership.getRolodexId(), submissionIdFk);
                         
 // TODO *********commented the code below during IACUC refactoring*********                         
-//                        businessObjectService.deleteMatching(ProtocolVoteAbstainee.class, fieldValues);
+//                        businessObjectService.deleteMatching(ProtocolVoteAbstaineeBase.class, fieldValues);
                         
                         businessObjectService.deleteMatching(getProtocolVoteAbstaineeBOClassHook(), fieldValues);
                     }
@@ -150,32 +150,32 @@ public abstract class CommitteeDecisionServiceImpl<CD extends CommitteeDecision<
         
     }
     
-    protected abstract Class<? extends ProtocolVoteAbstainee> getProtocolVoteAbstaineeBOClassHook();
+    protected abstract Class<? extends ProtocolVoteAbstaineeBase> getProtocolVoteAbstaineeBOClassHook();
 
-    protected abstract ProtocolVoteAbstainee getNewProtocolVoteAbstaineeInstanceHook();
+    protected abstract ProtocolVoteAbstaineeBase getNewProtocolVoteAbstaineeInstanceHook();
 
     
     
-    protected void proccessRecusers(CD committeeDecision, List<CommitteeMembership> committeeMemberships, 
+    protected void proccessRecusers(CD committeeDecision, List<CommitteeMembershipBase> committeeMemberships, 
             Protocol protocol, Long scheduleIdFk, Long submissionIdFk) {     
         
         if (!committeeDecision.getRecused().isEmpty()) {
             //there are recusers, lets save them
             for (CommitteePerson person : committeeDecision.getRecused()) {
-                for (CommitteeMembership membership : committeeMemberships) {
+                for (CommitteeMembershipBase membership : committeeMemberships) {
                     if (membership.getCommitteeMembershipId().equals(person.getMembershipId())) {
                         //check to see if it is already been persisted
                         Map fieldValues = getFieldValuesMap(protocol.getProtocolId(), scheduleIdFk, membership.getPersonId(), membership.getRolodexId(), submissionIdFk);
                         
 // TODO *********commented the code below during IACUC refactoring********* 
-//                        if (businessObjectService.findMatching(ProtocolVoteRecused.class, fieldValues).size() == 0) {
+//                        if (businessObjectService.findMatching(ProtocolVoteRecusedBase.class, fieldValues).size() == 0) {
                         
                         if (businessObjectService.findMatching(getProtocolVoteRecusedBOClassHook(), fieldValues).size() == 0) {
-                            //we found a match, and has not been saved, lets make a ProtocolVoteAbstainee and save it
+                            //we found a match, and has not been saved, lets make a ProtocolVoteAbstaineeBase and save it
                             saveProtocolMeetingVoter(getNewProtocolVoteRecusedInstanceHook(), protocol, scheduleIdFk, membership.getPersonId(), membership.getRolodexId(), submissionIdFk);
                             
 // TODO *********commented the code below during IACUC refactoring********* 
-//                            saveProtocolMeetingVoter(new ProtocolVoteRecused(), protocol, scheduleIdFk, membership.getPersonId(), membership.getRolodexId(), submissionIdFk);
+//                            saveProtocolMeetingVoter(new ProtocolVoteRecusedBase(), protocol, scheduleIdFk, membership.getPersonId(), membership.getRolodexId(), submissionIdFk);
                         }
                         break;
                     }
@@ -185,12 +185,12 @@ public abstract class CommitteeDecisionServiceImpl<CD extends CommitteeDecision<
         
         if (!committeeDecision.getRecusedToDelete().isEmpty()) {
             for (CommitteePerson person : committeeDecision.getRecusedToDelete()) {
-                for (CommitteeMembership membership : committeeMemberships) {
+                for (CommitteeMembershipBase membership : committeeMemberships) {
                     if (membership.getCommitteeMembershipId().equals(person.getMembershipId())) {
                         Map fieldValues = getFieldValuesMap(protocol.getProtocolId(), scheduleIdFk, membership.getPersonId(), membership.getRolodexId(),submissionIdFk);
                         
 // TODO *********commented the code below during IACUC refactoring*********                         
-//                        businessObjectService.deleteMatching(ProtocolVoteRecused.class, fieldValues);
+//                        businessObjectService.deleteMatching(ProtocolVoteRecusedBase.class, fieldValues);
                         
                         businessObjectService.deleteMatching(getProtocolVoteRecusedBOClassHook(), fieldValues);
                     }
@@ -200,14 +200,14 @@ public abstract class CommitteeDecisionServiceImpl<CD extends CommitteeDecision<
         }
     }
     
-    protected abstract ProtocolVoteRecused getNewProtocolVoteRecusedInstanceHook();
+    protected abstract ProtocolVoteRecusedBase getNewProtocolVoteRecusedInstanceHook();
     
     
 
-    protected abstract Class<? extends ProtocolVoteRecused> getProtocolVoteRecusedBOClassHook();
+    protected abstract Class<? extends ProtocolVoteRecusedBase> getProtocolVoteRecusedBOClassHook();
     
 
-    protected void saveProtocolMeetingVoter(ProtocolMeetingVoter voter, Protocol protocol, Long scheduleIdFk, String personId, Integer rolodexId, Long submissionIdFk) {
+    protected void saveProtocolMeetingVoter(ProtocolMeetingVoterBase voter, Protocol protocol, Long scheduleIdFk, String personId, Integer rolodexId, Long submissionIdFk) {
         voter.setProtocol(protocol);
         voter.setProtocolIdFk(protocol.getProtocolId());
         voter.setSubmissionIdFk(submissionIdFk);
@@ -251,7 +251,7 @@ public abstract class CommitteeDecisionServiceImpl<CD extends CommitteeDecision<
     
     protected void addReviewComments(ProtocolSubmission submission, ReviewCommentsBean reviewCommentsBean) {
         int nextEntryNumber = 0;
-        for (CommitteeScheduleMinute minute : reviewCommentsBean.getReviewComments()) {
+        for (CommitteeScheduleMinuteBase minute : reviewCommentsBean.getReviewComments()) {
             minute.setEntryNumber(nextEntryNumber);
             // comments are retrieved based on schedule, so should not change other protocol's review comments
             if (StringUtils.isBlank(minute.getMinuteEntryTypeCode())) {
@@ -278,8 +278,8 @@ public abstract class CommitteeDecisionServiceImpl<CD extends CommitteeDecision<
      * {@inheritDoc}
      * @see org.kuali.kra.irb.actions.decision.CommitteeDecisionService#getAbstainers(java.lang.String, int)
      */
-    public List<ProtocolVoteAbstainee> getAbstainers(String protocolNumber, int submissionNumber) {
-        List<ProtocolVoteAbstainee> protocolVoteAbstainers = new ArrayList<ProtocolVoteAbstainee>();
+    public List<ProtocolVoteAbstaineeBase> getAbstainers(String protocolNumber, int submissionNumber) {
+        List<ProtocolVoteAbstaineeBase> protocolVoteAbstainers = new ArrayList<ProtocolVoteAbstaineeBase>();
 
         for (ProtocolSubmission protocolSubmission : protocolFinderDao.findProtocolSubmissions(protocolNumber, submissionNumber)) {
             protocolVoteAbstainers.addAll(protocolSubmission.getAbstainers());
@@ -292,8 +292,8 @@ public abstract class CommitteeDecisionServiceImpl<CD extends CommitteeDecision<
      * {@inheritDoc}
      * @see org.kuali.kra.irb.actions.decision.CommitteeDecisionService#getRecusers(java.lang.String, int)
      */
-    public List<ProtocolVoteRecused> getRecusers(String protocolNumber, int submissionNumber) {
-        List<ProtocolVoteRecused> protocolVoteRecusers = new ArrayList<ProtocolVoteRecused>();
+    public List<ProtocolVoteRecusedBase> getRecusers(String protocolNumber, int submissionNumber) {
+        List<ProtocolVoteRecusedBase> protocolVoteRecusers = new ArrayList<ProtocolVoteRecusedBase>();
         
         for (ProtocolSubmission protocolSubmission : protocolFinderDao.findProtocolSubmissions(protocolNumber, submissionNumber)) {
             protocolSubmission.refreshReferenceObject("recusers");

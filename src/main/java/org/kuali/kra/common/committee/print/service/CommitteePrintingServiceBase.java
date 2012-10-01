@@ -24,8 +24,8 @@ import org.kuali.kra.printing.print.AbstractPrint;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 
 /**
- * This class provides the means for printing reports related to Committee. It has the
- * capability to provide a PDF document of various reports related to Committee like 
+ * This class provides the means for printing reports related to CommitteeBase. It has the
+ * capability to provide a PDF document of various reports related to CommitteeBase like 
  * Roster and Future Scheduled Meetings.
  */
 public interface CommitteePrintingServiceBase {

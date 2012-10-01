@@ -17,7 +17,7 @@ package org.kuali.kra.common.committee.rule.event;
 
 import java.util.List;
 
-import org.kuali.kra.common.committee.bo.CommitteeBatchCorrespondence;
+import org.kuali.kra.common.committee.bo.CommitteeBatchCorrespondenceBase;
 import org.kuali.kra.common.committee.rules.CommitteeActionPrintCommitteeDocumentRule;
 import org.kuali.kra.common.committee.rules.CommitteeActionViewBatchCorrespondenceRule;
 import org.kuali.kra.rule.BusinessRuleInterface;
@@ -26,10 +26,10 @@ import org.kuali.rice.krad.document.Document;
 public class CommitteeActionViewBatchCorrespondenceEvent extends CommitteeActionsEventBase<CommitteeActionPrintCommitteeDocumentRule> {
     private static final String MSG = "view batch correspondence";
     
-    private List<CommitteeBatchCorrespondence> committeeBatchCorrespondences;
+    private List<CommitteeBatchCorrespondenceBase> committeeBatchCorrespondences;
     private boolean viewGenerated;
 
-    public CommitteeActionViewBatchCorrespondenceEvent(String errorPathPrefix, Document document, List<CommitteeBatchCorrespondence> committeeBatchCorrespondences, boolean viewGenerated) {
+    public CommitteeActionViewBatchCorrespondenceEvent(String errorPathPrefix, Document document, List<CommitteeBatchCorrespondenceBase> committeeBatchCorrespondences, boolean viewGenerated) {
         super(MSG + getDocumentId(document), errorPathPrefix, document);
         setCommitteeBatchCorrespondences(committeeBatchCorrespondences);
         setViewGenerated(viewGenerated);
@@ -41,11 +41,11 @@ public class CommitteeActionViewBatchCorrespondenceEvent extends CommitteeAction
         return new CommitteeActionViewBatchCorrespondenceRule();
     }
 
-    public List<CommitteeBatchCorrespondence> getCommitteeBatchCorrespondences() {
+    public List<CommitteeBatchCorrespondenceBase> getCommitteeBatchCorrespondences() {
         return committeeBatchCorrespondences;
     }
 
-    public void setCommitteeBatchCorrespondences(List<CommitteeBatchCorrespondence> committeeBatchCorrespondences) {
+    public void setCommitteeBatchCorrespondences(List<CommitteeBatchCorrespondenceBase> committeeBatchCorrespondences) {
         this.committeeBatchCorrespondences = committeeBatchCorrespondences;
     }
 

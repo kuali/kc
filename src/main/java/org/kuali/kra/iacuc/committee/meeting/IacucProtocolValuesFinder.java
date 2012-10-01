@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.iacuc.committee.meeting;
 
-import org.kuali.kra.common.committee.meeting.ProtocolValuesFinder;
+import org.kuali.kra.common.committee.meeting.ProtocolValuesFinderBase;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
 
-public class IacucProtocolValuesFinder extends ProtocolValuesFinder {
+public class IacucProtocolValuesFinder extends ProtocolValuesFinderBase {
 
     /**
      * Comment for <code>serialVersionUID</code>

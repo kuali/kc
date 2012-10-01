@@ -19,7 +19,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinute;
+import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinuteBase;
 import org.kuali.kra.common.committee.meeting.MinuteEntryType;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 
@@ -33,9 +33,9 @@ public abstract class ReviewCommentsBean  implements Serializable {
 
     private String errorPropertyKey;
     
-    private CommitteeScheduleMinute newReviewComment;
-    private List<CommitteeScheduleMinute> reviewComments;
-    private List<CommitteeScheduleMinute> deletedReviewComments;
+    private CommitteeScheduleMinuteBase newReviewComment;
+    private List<CommitteeScheduleMinuteBase> reviewComments;
+    private List<CommitteeScheduleMinuteBase> deletedReviewComments;
     // flag to hide reviewer name for this bean.
     private boolean hideReviewerName;
     /**
@@ -46,38 +46,38 @@ public abstract class ReviewCommentsBean  implements Serializable {
         
         this.newReviewComment = getNewCommitteeScheduleMinuteInstanceHook();
         this.newReviewComment.setMinuteEntryTypeCode(MinuteEntryType.PROTOCOL);
-        this.reviewComments = new ArrayList<CommitteeScheduleMinute>();
-        this.deletedReviewComments = new ArrayList<CommitteeScheduleMinute>();
+        this.reviewComments = new ArrayList<CommitteeScheduleMinuteBase>();
+        this.deletedReviewComments = new ArrayList<CommitteeScheduleMinuteBase>();
     }
 
-    protected abstract CommitteeScheduleMinute getNewCommitteeScheduleMinuteInstanceHook();
+    protected abstract CommitteeScheduleMinuteBase getNewCommitteeScheduleMinuteInstanceHook();
 
     public String getErrorPropertyName() {
         return errorPropertyKey;
     }
     
-    public CommitteeScheduleMinute getNewReviewComment() {
+    public CommitteeScheduleMinuteBase getNewReviewComment() {
         return newReviewComment;
     }
     
-    public void setNewReviewComment(CommitteeScheduleMinute newReviewComment) {
+    public void setNewReviewComment(CommitteeScheduleMinuteBase newReviewComment) {
         this.newReviewComment = newReviewComment;
     }
     
-    public List<CommitteeScheduleMinute> getReviewComments() {
+    public List<CommitteeScheduleMinuteBase> getReviewComments() {
         return reviewComments;
     }
     
-    public void setReviewComments(List<CommitteeScheduleMinute> reviewComments) {
+    public void setReviewComments(List<CommitteeScheduleMinuteBase> reviewComments) {
         this.reviewComments = reviewComments;         
         this.setHideReviewerName(getReviewCommentsService().setHideReviewerName(this.reviewComments));
     }
     
-    public List<CommitteeScheduleMinute> getDeletedReviewComments() {
+    public List<CommitteeScheduleMinuteBase> getDeletedReviewComments() {
         return deletedReviewComments;
     }
     
-    public void setDeletedReviewComments(List<CommitteeScheduleMinute> deletedReviewComments) {
+    public void setDeletedReviewComments(List<CommitteeScheduleMinuteBase> deletedReviewComments) {
         this.deletedReviewComments = deletedReviewComments;
     }
 

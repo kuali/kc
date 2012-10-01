@@ -24,8 +24,8 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.kra.common.committee.bo.CommitteeMembership;
-import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinute;
+import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
+import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinuteBase;
 import org.kuali.kra.common.committee.service.CommitteeServiceBase;
 import org.kuali.kra.iacuc.IacucProtocolOnlineReviewDocument;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewer;
@@ -68,8 +68,8 @@ public class IacucProtocolOnlineReviewServiceImpl extends ProtocolOnlineReviewSe
 
 
     @Override
-    public List<CommitteeMembership> getAvailableCommitteeMembersForCurrentSubmission(Protocol protocol) {
-        List<CommitteeMembership> results = new ArrayList<CommitteeMembership>();
+    public List<CommitteeMembershipBase> getAvailableCommitteeMembersForCurrentSubmission(Protocol protocol) {
+        List<CommitteeMembershipBase> results = new ArrayList<CommitteeMembershipBase>();
 
         ProtocolSubmission submission = protocol.getProtocolSubmission();
         submission.refreshReferenceObject("protocolOnlineReviews");
@@ -79,12 +79,12 @@ public class IacucProtocolOnlineReviewServiceImpl extends ProtocolOnlineReviewSe
         }
 
         List<ProtocolOnlineReview> currentReviews = submission.getProtocolOnlineReviews();
-        List<CommitteeMembership> committeeMembers = committeeService.getAvailableMembers(submission.getCommitteeId(),
+        List<CommitteeMembershipBase> committeeMembers = committeeService.getAvailableMembers(submission.getCommitteeId(),
                 submission.getScheduleId());
         // TODO: Make this better.
         // should run this for loop to exclude protocol personnel
 //        if (CollectionUtils.isNotEmpty(currentReviews)) {
-            for (CommitteeMembership member : committeeMembers) {
+            for (CommitteeMembershipBase member : committeeMembers) {
                 boolean found = false;
                 for (ProtocolOnlineReview review : currentReviews) {
                     if (review.getProtocolReviewer().isProtocolReviewerFromCommitteeMembership(member) && review.isActive()) {
@@ -180,7 +180,7 @@ public class IacucProtocolOnlineReviewServiceImpl extends ProtocolOnlineReviewSe
         return PersonnelIds;
     }
 
-    private boolean isProtocolPersonnel(Protocol protocol, CommitteeMembership member) {
+    private boolean isProtocolPersonnel(Protocol protocol, CommitteeMembershipBase member) {
         return getPersonnelIds(protocol).contains(member.getPersonId());
     }
 
@@ -427,8 +427,8 @@ public class IacucProtocolOnlineReviewServiceImpl extends ProtocolOnlineReviewSe
             cancelOnlineReviewDocument(protocolOnlineReviewDocument, submission, annotation);
             submissionsProtocolOnlineReview.setProtocolOnlineReviewStatusCode(IacucProtocolOnlineReviewStatus.REMOVED_CANCELLED_STATUS_CD);
             
-            List<CommitteeScheduleMinute> reviewComments = protocolOnlineReviewDocument.getProtocolOnlineReview().getCommitteeScheduleMinutes();
-            List<CommitteeScheduleMinute> deletedReviewComments = new ArrayList<CommitteeScheduleMinute>();
+            List<CommitteeScheduleMinuteBase> reviewComments = protocolOnlineReviewDocument.getProtocolOnlineReview().getCommitteeScheduleMinutes();
+            List<CommitteeScheduleMinuteBase> deletedReviewComments = new ArrayList<CommitteeScheduleMinuteBase>();
             reviewCommentsService.deleteAllReviewComments(reviewComments, deletedReviewComments);
             reviewCommentsService.saveReviewComments(reviewComments, deletedReviewComments);
             

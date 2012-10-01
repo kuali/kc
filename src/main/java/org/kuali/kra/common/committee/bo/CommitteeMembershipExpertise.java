@@ -22,7 +22,7 @@ import org.kuali.kra.bo.ResearchArea;
  * This class implements the committee membership expertise business object.
  * 
  */
-public class CommitteeMembershipExpertise extends CommitteeSequenceAssociate {
+public class CommitteeMembershipExpertise extends CommitteeSequenceAssociateBase {
 
     private static final long serialVersionUID = 4926007164018659270L;
 

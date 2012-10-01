@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.iacuc.committee.document.authorization;
 
-import org.kuali.kra.common.committee.document.authorization.CommitteeScheduleTask;
+import org.kuali.kra.common.committee.document.authorization.CommitteeScheduleTaskBase;
 import org.kuali.kra.iacuc.committee.bo.IacucCommittee;
 import org.kuali.kra.iacuc.committee.bo.IacucCommitteeSchedule;
 import org.kuali.kra.infrastructure.TaskGroupName;
 
-public class IacucCommitteeScheduleTask extends CommitteeScheduleTask<IacucCommittee, IacucCommitteeSchedule> {
+public class IacucCommitteeScheduleTask extends CommitteeScheduleTaskBase<IacucCommittee, IacucCommitteeSchedule> {
 
     public IacucCommitteeScheduleTask(String taskName, IacucCommittee committee, IacucCommitteeSchedule schedule) {
         super(TaskGroupName.IACUC_COMMITTEE, taskName, committee, schedule);

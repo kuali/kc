@@ -18,7 +18,7 @@ package org.kuali.kra.iacuc.actions.assignCmt;
 import java.sql.Timestamp;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.common.committee.bo.Committee;
+import org.kuali.kra.common.committee.bo.CommitteeBase;
 import org.kuali.kra.common.committee.service.CommitteeServiceBase;
 import org.kuali.kra.iacuc.actions.IacucProtocolAction;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
@@ -51,7 +51,7 @@ public class IacucProtocolAssignCmtServiceImpl implements IacucProtocolAssignCmt
     }
 
     public boolean setCommittee(ProtocolSubmission submission, String committeeId) {
-        Committee committee = committeeService.getCommitteeById(committeeId);
+        CommitteeBase committee = committeeService.getCommitteeById(committeeId);
         if (committee == null) {
             submission.setCommitteeId(null);
             submission.setCommitteeIdFk(null);

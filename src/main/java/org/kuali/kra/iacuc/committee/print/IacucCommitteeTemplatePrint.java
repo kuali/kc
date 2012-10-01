@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.iacuc.committee.print;
 
-import org.kuali.kra.common.committee.print.TemplatePrint;
+import org.kuali.kra.common.committee.print.TemplatePrintBase;
 
 /**
  * 
  * This class identifies the template print functionality for committee reports.
  */
-public class IacucCommitteeTemplatePrint extends TemplatePrint {
+public class IacucCommitteeTemplatePrint extends TemplatePrintBase {
 
     private static final long serialVersionUID = 8819040007652342082L;
 

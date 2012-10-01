@@ -29,8 +29,8 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.bo.AttachmentFile;
-import org.kuali.kra.common.committee.bo.CommitteeMembership;
-import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinute;
+import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
+import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinuteBase;
 import org.kuali.kra.common.committee.meeting.MinuteEntryType;
 import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.iacuc.IacucProtocol;
@@ -98,7 +98,7 @@ public class IacucProtocolOnlineReviewAction extends IacucProtocolAction {
         OnlineReviewsActionHelper onlineReviewHelper = protocolForm.getOnlineReviewsActionHelper();
 
         if (validateCreateNewProtocolOnlineReview(protocolForm)) {
-            CommitteeMembership membership
+            CommitteeMembershipBase membership
                 = getBusinessObjectService().findBySinglePrimaryKey(IacucCommitteeMembership.class, onlineReviewHelper.getNewProtocolReviewCommitteeMembershipId());
             ProtocolReviewerBean bean = new IacucProtocolReviewerBean(membership);
             
@@ -160,9 +160,9 @@ public class IacucProtocolOnlineReviewAction extends IacucProtocolAction {
         
         if (applyRules(new AddProtocolOnlineReviewCommentEvent(document, reviewCommentsBean.getNewReviewComment(), documentIndex))
                 && applyRules(new SaveProtocolOnlineReviewEvent(document, reviewCommentsBean.getReviewComments(), documentIndex))) {
-            CommitteeScheduleMinute newReviewComment = reviewCommentsBean.getNewReviewComment();
-            List<CommitteeScheduleMinute> reviewComments = reviewCommentsBean.getReviewComments();
-            List<CommitteeScheduleMinute> deletedReviewComments = reviewCommentsBean.getDeletedReviewComments();
+            CommitteeScheduleMinuteBase newReviewComment = reviewCommentsBean.getNewReviewComment();
+            List<CommitteeScheduleMinuteBase> reviewComments = reviewCommentsBean.getReviewComments();
+            List<CommitteeScheduleMinuteBase> deletedReviewComments = reviewCommentsBean.getDeletedReviewComments();
             if (protocolForm.getEditingMode().get(TaskName.MAINTAIN_PROTOCOL_ONLINEREVIEWS) == null) {
                 newReviewComment.setPrivateCommentFlag(true);
                 newReviewComment.setFinalFlag(false);
@@ -222,8 +222,8 @@ public class IacucProtocolOnlineReviewAction extends IacucProtocolAction {
         int commentIndex = getOnlineReviewActionIndexNumber(parameterName, "deleteOnlineReviewComment");
                 
         if (applyRules(new SaveProtocolOnlineReviewEvent(document, reviewCommentsBean.getReviewComments(), documentIndex))) {
-            List<CommitteeScheduleMinute> reviewComments = reviewCommentsBean.getReviewComments();
-            List<CommitteeScheduleMinute> deletedReviewComments = reviewCommentsBean.getDeletedReviewComments();
+            List<CommitteeScheduleMinuteBase> reviewComments = reviewCommentsBean.getReviewComments();
+            List<CommitteeScheduleMinuteBase> deletedReviewComments = reviewCommentsBean.getDeletedReviewComments();
             
             getReviewCommentsService().deleteReviewComment(reviewComments, commentIndex, deletedReviewComments);
             getReviewCommentsService().saveReviewComments(reviewComments, deletedReviewComments);
@@ -351,8 +351,8 @@ public class IacucProtocolOnlineReviewAction extends IacucProtocolAction {
         
         if (applyRules(new SaveProtocolOnlineReviewEvent(document, reviewCommentsBean.getReviewComments(), documentIndex))) {
             Protocol protocol = protocolForm.getProtocolDocument().getProtocol();
-            List<CommitteeScheduleMinute> reviewComments = reviewCommentsBean.getReviewComments();
-            List<CommitteeScheduleMinute> deletedReviewComments = reviewCommentsBean.getDeletedReviewComments();
+            List<CommitteeScheduleMinuteBase> reviewComments = reviewCommentsBean.getReviewComments();
+            List<CommitteeScheduleMinuteBase> deletedReviewComments = reviewCommentsBean.getDeletedReviewComments();
             
             getReviewCommentsService().moveUpReviewComment(reviewComments, protocol, commentIndex);
             getReviewCommentsService().saveReviewComments(reviewComments, deletedReviewComments);
@@ -387,8 +387,8 @@ public class IacucProtocolOnlineReviewAction extends IacucProtocolAction {
               
         if (applyRules(new SaveProtocolOnlineReviewEvent(document, reviewCommentsBean.getReviewComments(), documentIndex))) {
             Protocol protocol = protocolForm.getProtocolDocument().getProtocol();
-            List<CommitteeScheduleMinute> reviewComments = reviewCommentsBean.getReviewComments();
-            List<CommitteeScheduleMinute> deletedReviewComments = reviewCommentsBean.getDeletedReviewComments();
+            List<CommitteeScheduleMinuteBase> reviewComments = reviewCommentsBean.getReviewComments();
+            List<CommitteeScheduleMinuteBase> deletedReviewComments = reviewCommentsBean.getDeletedReviewComments();
             
             getReviewCommentsService().moveDownReviewComment(reviewComments, protocol, commentIndex);
             getReviewCommentsService().saveReviewComments(reviewComments, deletedReviewComments);
@@ -549,8 +549,8 @@ public class IacucProtocolOnlineReviewAction extends IacucProtocolAction {
     }
 
     private void setOnlineReviewCommentFinalFlags(ProtocolOnlineReview onlineReview, boolean flagValue) {
-        List<CommitteeScheduleMinute> minutes = onlineReview.getCommitteeScheduleMinutes();
-        for (CommitteeScheduleMinute minute : minutes) {
+        List<CommitteeScheduleMinuteBase> minutes = onlineReview.getCommitteeScheduleMinutes();
+        for (CommitteeScheduleMinuteBase minute : minutes) {
             minute.setFinalFlag(flagValue);
         }
     }

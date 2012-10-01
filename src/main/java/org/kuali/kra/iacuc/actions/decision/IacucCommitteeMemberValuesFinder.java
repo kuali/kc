@@ -18,16 +18,16 @@ package org.kuali.kra.iacuc.actions.decision;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.common.committee.bo.Committee;
-import org.kuali.kra.common.committee.bo.CommitteeMembership;
-import org.kuali.kra.common.committee.bo.CommitteeSchedule;
+import org.kuali.kra.common.committee.bo.CommitteeBase;
+import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
+import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
 import org.kuali.kra.protocol.Protocol;
 import org.kuali.kra.protocol.ProtocolForm;
 import org.kuali.kra.iacuc.actions.IacucActionsKeyValuesBase;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionStatus;
 import org.kuali.kra.iacuc.committee.service.IacucCommitteeService;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmission;
-import org.kuali.kra.common.committee.meeting.CommitteeScheduleAttendance;
+import org.kuali.kra.common.committee.meeting.CommitteeScheduleAttendanceBase;
 import org.kuali.kra.common.committee.service.CommitteeServiceBase;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -54,10 +54,10 @@ public class IacucCommitteeMemberValuesFinder extends IacucActionsKeyValuesBase 
             ProtocolSubmission submission = getCurrentSubmission(protocol);
             if (submission != null) {
                 String committeeId = submission.getCommitteeId();
-                Committee committee = getCommitteeService().getCommitteeById(committeeId);
+                CommitteeBase committee = getCommitteeService().getCommitteeById(committeeId);
                 if (committee != null) {
-                    List<CommitteeMembership> members = committee.getCommitteeMemberships();
-                    for (CommitteeMembership member : members) {
+                    List<CommitteeMembershipBase> members = committee.getCommitteeMemberships();
+                    for (CommitteeMembershipBase member : members) {
                         if (member.isActive() && isReviewerAttendingMeeting(member)) {
                             keyValues.add(new ConcreteKeyValue(member.getCommitteeMembershipId().toString(), member.getPersonName()));
                         }
@@ -87,14 +87,14 @@ public class IacucCommitteeMemberValuesFinder extends IacucActionsKeyValuesBase 
         return null;
     }
     
-    private boolean isReviewerAttendingMeeting(CommitteeMembership member) {
+    private boolean isReviewerAttendingMeeting(CommitteeMembershipBase member) {
         Protocol prot = getProtocol();
         boolean retVal = false;
         if (prot != null) {
-            CommitteeSchedule schedule = prot.getProtocolSubmission().getCommitteeSchedule();
+            CommitteeScheduleBase schedule = prot.getProtocolSubmission().getCommitteeSchedule();
             if(schedule != null) {
-                List<CommitteeScheduleAttendance> attendees = schedule.getCommitteeScheduleAttendances();
-                for (CommitteeScheduleAttendance attendee : attendees) {
+                List<CommitteeScheduleAttendanceBase> attendees = schedule.getCommitteeScheduleAttendances();
+                for (CommitteeScheduleAttendanceBase attendee : attendees) {
                     if (attendee.isCommitteeMember(member)) {
                         return true;
                     }

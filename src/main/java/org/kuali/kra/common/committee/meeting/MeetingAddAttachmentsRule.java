@@ -30,7 +30,7 @@ public class MeetingAddAttachmentsRule  extends ResearchDocumentRuleBase impleme
     public boolean processRules(MeetingAddAttachmentsEvent event) {
         // TODO Auto-generated method stub
         boolean isValid = true;
-        CommitteeScheduleAttachments committeeScheduleAttachments = event.getMeetingHelper().getNewCommitteeScheduleAttachments();
+        CommitteeScheduleAttachmentsBase committeeScheduleAttachments = event.getMeetingHelper().getNewCommitteeScheduleAttachments();
         if (committeeScheduleAttachments.getAttachmentsTypeCode() == null){
             isValid = false;
             reportError(propertyPrefix+ATTACHMENTS_ID

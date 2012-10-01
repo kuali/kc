@@ -16,14 +16,14 @@
 package org.kuali.kra.iacuc.committee.lookup;
 
 import org.kuali.kra.common.committee.bo.CommitteeType;
-import org.kuali.kra.common.committee.document.authorization.CommitteeTask;
-import org.kuali.kra.common.committee.lookup.CommitteeScheduleLookupableHelperServiceImpl;
+import org.kuali.kra.common.committee.document.authorization.CommitteeTaskBase;
+import org.kuali.kra.common.committee.lookup.CommitteeScheduleLookupableHelperServiceImplBase;
 import org.kuali.kra.iacuc.committee.bo.IacucCommittee;
 import org.kuali.kra.iacuc.committee.bo.IacucCommitteeSchedule;
 import org.kuali.kra.iacuc.committee.document.authorization.IacucCommitteeScheduleTask;
 import org.kuali.kra.infrastructure.TaskGroupName;
 
-public class IacucCommitteeScheduleLookupableHelperServiceImpl extends CommitteeScheduleLookupableHelperServiceImpl<IacucCommitteeSchedule, IacucCommittee, CommitteeTask<IacucCommittee>, IacucCommitteeScheduleTask> {
+public class IacucCommitteeScheduleLookupableHelperServiceImpl extends CommitteeScheduleLookupableHelperServiceImplBase<IacucCommitteeSchedule, IacucCommittee, CommitteeTaskBase<IacucCommittee>, IacucCommitteeScheduleTask> {
 
     /**
      * Comment for <code>serialVersionUID</code>
@@ -46,9 +46,9 @@ public class IacucCommitteeScheduleLookupableHelperServiceImpl extends Committee
     }
 
     @Override
-    protected CommitteeTask<IacucCommittee> getNewCommitteeTaskInstanceHook(String taskName, IacucCommittee committee) {
+    protected CommitteeTaskBase<IacucCommittee> getNewCommitteeTaskInstanceHook(String taskName, IacucCommittee committee) {
         // creating an anonymous class to avoid task hierarchy issues
-        return new CommitteeTask<IacucCommittee>(TaskGroupName.IACUC_COMMITTEE, taskName, committee) {};
+        return new CommitteeTaskBase<IacucCommittee>(TaskGroupName.IACUC_COMMITTEE, taskName, committee) {};
     }
 
     @Override
