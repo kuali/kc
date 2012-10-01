@@ -15,109 +15,14 @@
  */
 package org.kuali.kra.iacuc.actions.submit;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewer;
-import org.kuali.kra.protocol.actions.submit.ProtocolReviewerType;
-import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewBase;
 
-public class IacucProtocolReviewer  extends ProtocolReviewer {
-
-    private Long protocolReviewerId;
-
-    private String protocolNumber;
-
-    private Integer sequenceNumber;
-
-    private Integer submissionNumber;
-
-    private String reviewerTypeCode;
-
-    private ProtocolReviewerType protocolReviewerType;
-
-    // transient property for submission detail display 
-    @SkipVersioning
-    private transient List<ProtocolOnlineReviewBase> protocolOnlineReviews = new ArrayList<ProtocolOnlineReviewBase>();
-
-    public Long getProtocolReviewerId() {
-        return protocolReviewerId;
-    }
-
-    public void setProtocolReviewerId(Long protocolReviewerId) {
-        this.protocolReviewerId = protocolReviewerId;
-    }
-
-    public String getProtocolNumber() {
-        return protocolNumber;
-    }
-
-    public void setProtocolNumber(String protocolNumber) {
-        this.protocolNumber = protocolNumber;
-    }
-
-    public Integer getSequenceNumber() {
-        return sequenceNumber;
-    }
-
-    public void setSequenceNumber(Integer sequenceNumber) {
-        this.sequenceNumber = sequenceNumber;
-    }
-
-    public Integer getSubmissionNumber() {
-        return submissionNumber;
-    }
-
-    public void setSubmissionNumber(Integer submissionNumber) {
-        this.submissionNumber = submissionNumber;
-    }
-
-    public void setReviewerTypeCode(String reviewerTypeCode) {
-        this.reviewerTypeCode = reviewerTypeCode;
-    }
-
-    public String getReviewerTypeCode() {
-        return reviewerTypeCode;
-    }
-
-    public ProtocolReviewerType getProtocolReviewerType() {
-        if (protocolReviewerType == null && StringUtils.isNotBlank(reviewerTypeCode)) {
-            refreshReferenceObject("protocolReviewerType");
-        }
-        return protocolReviewerType;
-    }
-
-    public void setProtocolReviewerType(ProtocolReviewerType protocolReviewerType) {
-        this.protocolReviewerType = protocolReviewerType;
-    }
+public class IacucProtocolReviewer extends ProtocolReviewer {
 
     /**
-     * Gets the protocolOnlineReviews attribute. 
-     * @return Returns the protocolOnlineReviews.
+     * Comment for <code>serialVersionUID</code>
      */
-    @Override
-   public List<ProtocolOnlineReviewBase> getProtocolOnlineReviews() {
-        return protocolOnlineReviews;
-    }
+    private static final long serialVersionUID = -3266797619365149644L;
 
-    /**
-     * Sets the protocolOnlineReviews attribute value.
-     * @param protocolOnlineReviews The protocolOnlineReviews to set.
-     */
-    @Override
-    public void setProtocolOnlineReviews(List<ProtocolOnlineReviewBase> protocolOnlineReviews) {
-        this.protocolOnlineReviews = protocolOnlineReviews;
-    }
-
-    @Override
-    public List buildListOfDeletionAwareLists() {
-        List managedLists = super.buildListOfDeletionAwareLists();
-        if (protocolOnlineReviews != null) {
-            managedLists.add(protocolOnlineReviews);
-        }
-        return managedLists;
-    }
 
 }

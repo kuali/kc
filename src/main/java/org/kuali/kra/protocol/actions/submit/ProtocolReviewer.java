@@ -109,12 +109,13 @@ public class ProtocolReviewer extends ProtocolReviewerBase {
         this.protocolOnlineReviews = protocolOnlineReviews;
     }
 
-//    @Override
-//    public List buildListOfDeletionAwareLists() {
-//        List managedLists = super.buildListOfDeletionAwareLists();
-//        if (protocolOnlineReviews != null) {
-//            managedLists.add(protocolOnlineReviews);
-//        }
-//        return managedLists;
-//    }
+    @Override
+    public List buildListOfDeletionAwareLists() {
+        List managedLists = super.buildListOfDeletionAwareLists();
+        if (protocolOnlineReviews != null) {
+            managedLists.add(protocolOnlineReviews);
+        }
+        return managedLists;
+    }
+    
 }
