@@ -23,6 +23,7 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.quartz.CronExpression;
+import org.quartz.CronTrigger;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 
 /**
@@ -32,14 +33,14 @@ import org.springframework.scheduling.quartz.SchedulerFactoryBean;
  */
 public class S2SSchedulerFactoryBean extends SchedulerFactoryBean {
     private static final Log LOG = LogFactory.getLog(S2SSchedulerFactoryBean.class);
-    private List<S2SCronTrigger> triggers;
+    private List<CronTrigger> triggers;
 
     /**
      * Gets the triggers attribute.
      * 
      * @return Returns the triggers.
      */
-    public List<S2SCronTrigger> getTriggers() {
+    public List<CronTrigger> getTriggers() {
         return triggers;
     }
 
@@ -48,27 +49,27 @@ public class S2SSchedulerFactoryBean extends SchedulerFactoryBean {
      * 
      * @param triggers The triggers to set.
      */
-    public void setTriggers(List<S2SCronTrigger> triggers) {
+    public void setTriggers(List<CronTrigger> triggers) {
         this.triggers = triggers;
 
         CronExpression cronExpression;
-        List<S2SCronTrigger> schedulableTriggers = new ArrayList<S2SCronTrigger>();
+        List<CronTrigger> schedulableTriggers = new ArrayList<CronTrigger>();
 
-        for (S2SCronTrigger s2SCronTrigger : triggers) {
+        for (CronTrigger cronTrigger : triggers) {
             try {
-                cronExpression = new CronExpression(s2SCronTrigger.getCronExpression());
+                cronExpression = new CronExpression(cronTrigger.getCronExpression());
                 if (cronExpression.getNextValidTimeAfter(new Date()) == null) {
                     // The cron expression is valid, but will never trigger.
-                    LOG.info(s2SCronTrigger.getCronExpression() + " not valid cronexpression. The job will not be scheduled.");
+                    LOG.info(cronTrigger.getCronExpression() + " not valid cronexpression. The job will not be scheduled.");
                     continue;
                 }
             }
             catch (ParseException e) {
-                LOG.info(s2SCronTrigger.getCronExpression() + " not valid cronexpression. The job will not be scheduled.");
+                LOG.info(cronTrigger.getCronExpression() + " not valid cronexpression. The job will not be scheduled.");
                 continue;
             }
-            schedulableTriggers.add(s2SCronTrigger);
+            schedulableTriggers.add(cronTrigger);
         }
-        super.setTriggers(schedulableTriggers.toArray(new S2SCronTrigger[0]));
+        super.setTriggers(schedulableTriggers.toArray(new CronTrigger[0]));
     }
 }
