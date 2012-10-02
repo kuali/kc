@@ -189,6 +189,7 @@ public class AwardServiceImpl implements AwardService {
         Collection<Award> awards = businessObjectService.findMatching(Award.class, values);
         for (Award award : awards) {
             award.setAwardSequenceStatus(VersionStatus.ARCHIVED.name());
+            award.setAllowUpdateTimestampToBeReset(false);
             businessObjectService.save(award);
         }
     }
