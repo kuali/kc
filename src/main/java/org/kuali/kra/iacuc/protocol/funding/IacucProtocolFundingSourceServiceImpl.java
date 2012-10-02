@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.iacuc.protocol.funding;
 
+import org.kuali.kra.iacuc.IacucProtocolDocument;
+import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceBase;
 import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceServiceImplBase;
 
@@ -24,6 +26,11 @@ public class IacucProtocolFundingSourceServiceImpl extends ProtocolFundingSource
     protected ProtocolFundingSourceBase creatNewProtocolFundingSourceInstanceHook(String fundingSourceNumber,
             String fundingSourceTypeCode, String fundingSourceName, String fundingSourceTitle) {
         return new IacucProtocolFundingSource(fundingSourceNumber, fundingSourceTypeCode, fundingSourceName, fundingSourceTitle);
+    }
+
+    @Override
+    protected Class<? extends ProtocolDocumentBase> getProtocolDocumentBOClassHook() {
+        return IacucProtocolDocument.class;
     }
 
 }

@@ -32,6 +32,7 @@ import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionStatus;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionType;
 import org.kuali.kra.iacuc.customdata.IacucProtocolCustomData;
 import org.kuali.kra.iacuc.noteattachment.IacucProtocolAttachmentFilter;
+import org.kuali.kra.iacuc.noteattachment.IacucProtocolAttachmentProtocol;
 import org.kuali.kra.iacuc.personnel.IacucProtocolPersonnelService;
 import org.kuali.kra.iacuc.procedures.IacucProcedurePersonResponsible;
 import org.kuali.kra.iacuc.procedures.IacucProtocolProcedureService;
@@ -63,6 +64,7 @@ import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionStatusBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionTypeBase;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentFilterBase;
+import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentProtocolBase;
 import org.kuali.kra.protocol.protocol.research.ProtocolResearchAreaBase;
 import org.kuali.kra.protocol.summary.ProtocolSummary;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
@@ -701,7 +703,7 @@ public class IacucProtocol extends ProtocolBase {
     }
 
     protected IacucProtocolProcedureService getProtocolProcedureService() {
-        return (IacucProtocolProcedureService)KraServiceLocator.getService("iacucProtocolProcedureService");
+        return KraServiceLocator.getService(IacucProtocolProcedureService.class);
     }
 
     @Override
@@ -716,6 +718,11 @@ public class IacucProtocol extends ProtocolBase {
         }
         String protocolNumber = this.getProtocolNumber()  != null ? this.getProtocolNumber() : "*";
         qualifiedRoleAttributes.put(KcKimAttributes.PROTOCOL, protocolNumber);
+    }
+
+    @Override
+    protected Class<? extends ProtocolAttachmentProtocolBase> getProtocolAttachmentProtocolClassHook() {
+        return IacucProtocolAttachmentProtocol.class;
     }
 
 }

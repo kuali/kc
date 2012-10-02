@@ -30,7 +30,7 @@ import org.kuali.rice.krad.util.KRADConstants;
  * 
  * This class is the maintenance document rule for valid submission/review type table.
  */
-public class ValidProtoSubRevTypeMaintenanceDocumentRule extends KraMaintenanceDocumentRuleBase {
+public abstract class ValidProtoSubRevTypeMaintenanceDocumentRuleBase extends KraMaintenanceDocumentRuleBase {
     private Long oldTypeId = null;
 
     /**
@@ -71,8 +71,12 @@ public class ValidProtoSubRevTypeMaintenanceDocumentRule extends KraMaintenanceD
         if (StringUtils.isNotBlank(validProtoSubRevType.getSubmissionTypeCode())) {
             Map<String, String> fieldValues = new HashMap<String, String>();
             fieldValues.put("submissionTypeCode", validProtoSubRevType.getSubmissionTypeCode());
-            List<ProtocolSubmissionTypeBase> submissionTypes = (List<ProtocolSubmissionTypeBase>) boService.findMatching(
-                    ProtocolSubmissionTypeBase.class, fieldValues);
+            
+// TODO *********commented the code below during IACUC refactoring********* 
+//            List<ProtocolSubmissionTypeBase> submissionTypes = (List<ProtocolSubmissionTypeBase>) boService.findMatching(
+//                    ProtocolSubmissionTypeBase.class, fieldValues);
+            
+            List<ProtocolSubmissionTypeBase> submissionTypes = (List<ProtocolSubmissionTypeBase>) boService.findMatching(getProtocolSubmissionTypeBOClassHook(), fieldValues);
             if (submissionTypes.isEmpty()) {
                 GlobalVariables.getMessageMap().putError("document.newMaintainableObject.submissionTypeCode",
                         KeyConstants.ERROR_SUBMISSION_TYPE_NOT_EXISTS,
@@ -82,14 +86,21 @@ public class ValidProtoSubRevTypeMaintenanceDocumentRule extends KraMaintenanceD
         }
         return valid;
     }
+    
+    protected abstract Class<? extends ProtocolSubmissionTypeBase> getProtocolSubmissionTypeBOClassHook();
+    
+    
 
     private boolean validateReviewType(ValidProtoSubRevType validProtoSubRevType) {
         boolean valid = true;
         if (StringUtils.isNotBlank(validProtoSubRevType.getProtocolReviewTypeCode())) {
             Map<String, String> fieldValues = new HashMap<String, String>();
             fieldValues.put("reviewTypeCode", validProtoSubRevType.getProtocolReviewTypeCode());
-            List<ProtocolReviewTypeBase> reviewTypes = (List<ProtocolReviewTypeBase>) boService.findMatching(ProtocolReviewTypeBase.class,
-                    fieldValues);
+            
+// TODO *********commented the code below during IACUC refactoring*********             
+//            List<ProtocolReviewTypeBase> reviewTypes = (List<ProtocolReviewTypeBase>) boService.findMatching(ProtocolReviewTypeBase.class,
+//                    fieldValues);
+            List<ProtocolReviewTypeBase> reviewTypes = (List<ProtocolReviewTypeBase>) boService.findMatching(getProtocolReviewTypeBOClassHook(), fieldValues);
             if (reviewTypes.isEmpty()) {
                 GlobalVariables.getMessageMap().putError("document.newMaintainableObject.protocolReviewTypeCode",
                         KeyConstants.ERROR_REVIEW_TYPE_NOT_EXISTS,
@@ -99,6 +110,10 @@ public class ValidProtoSubRevTypeMaintenanceDocumentRule extends KraMaintenanceD
         }
         return valid;
     }
+    
+    protected abstract Class<? extends ProtocolReviewTypeBase> getProtocolReviewTypeBOClassHook();
+    
+    
 
     private boolean checkSubmReviewTypeExists(ValidProtoSubRevType validProtoSubRevType) {
         boolean valid = true;
