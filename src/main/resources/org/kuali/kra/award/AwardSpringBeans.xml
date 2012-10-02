@@ -741,9 +741,15 @@
         </property>
     </bean>
     
-    <bean id="cfdaTrigger" class="org.kuali.kra.external.Cfda.CfdaCronTrigger">
+    <bean id="cfdaTrigger" class="org.kuali.kra.scheduling.quartz.KcCronTriggerBean">
         <property name="jobDetail" ref="cfdaBatchJobDetail" />
-        <property name="parameterService" ref="parameterService" />
+        <property name="parameterService" ref="parameterService" />    
+        <property name="dateTimeService" ref="dateTimeService" />
+        <property name="cronExpressionParameterName" value="CFDA_BATCH_JOB_CRON_EXPRESSION" />
+        <property name="triggerEnabledParameterName" value="FIN_SYSTEM_INTEGRATION_ON" />
+        <property name="startTimeParameterName" value="CFDA_BATCH_JOB_CRON_START_TIME" />
+        <property name="parameterNamespace" value="KC-AWARD" />
+        <property name="parameterComponent" value="Document" />
     </bean>
 
     <bean id="schedulerFactory" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
