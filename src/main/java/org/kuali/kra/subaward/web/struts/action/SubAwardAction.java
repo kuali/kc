@@ -188,7 +188,7 @@ public class SubAwardAction extends KraTransactionalDocumentActionBase{
         checkSubAwardCode(subAward);
         String userId = GlobalVariables.getUserSession().getPrincipalName();
         if (subAward.getSubAwardId() == null) {
-            getVersionHistoryService().createVersionHistory(subAward, VersionStatus.PENDING, userId);
+            getVersionHistoryService().updateVersionHistory(subAward, VersionStatus.PENDING, userId);
         }
         if (new SubAwardDocumentRule().processAddSubAwardBusinessRules(subAward)) {
             ActionForward forward = super.save(mapping, form, request, response);
