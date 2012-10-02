@@ -212,7 +212,7 @@ public class IacucProtocolNoteAndAttachmentAction extends IacucProtocolAction {
      * @throws Exception if there is a problem executing the request.
      */
     public ActionForward confirmDeleteAttachmentProtocol(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return this.deleteAttachment(mapping, (ProtocolFormBase) form, request, response, ProtocolAttachmentProtocolBase.class);
+        return this.deleteAttachment(mapping, (ProtocolFormBase) form, request, response, IacucProtocolAttachmentProtocol.class);
     }    
     
     /**

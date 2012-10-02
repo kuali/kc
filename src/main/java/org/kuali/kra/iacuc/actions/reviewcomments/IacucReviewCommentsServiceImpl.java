@@ -18,6 +18,7 @@ package org.kuali.kra.iacuc.actions.reviewcomments;
 import java.util.List;
 
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinuteBase;
+import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewer;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionStatus;
 import org.kuali.kra.iacuc.committee.meeting.IacucCommitteeScheduleMinute;
@@ -26,6 +27,7 @@ import org.kuali.kra.iacuc.onlinereview.IacucProtocolReviewAttachment;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsServiceImplBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewer;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
@@ -138,6 +140,11 @@ public class IacucReviewCommentsServiceImpl extends ReviewCommentsServiceImplBas
     @Override
     protected Class<? extends CommitteeScheduleMinuteBase> getCommitteeScheduleMinuteBOClassHook() {
         return IacucCommitteeScheduleMinute.class;
+    }
+
+    @Override
+    protected Class<? extends ProtocolDocumentBase> getProtocolDocumentBOClassHook() {
+        return IacucProtocolDocument.class;
     }
 
 }

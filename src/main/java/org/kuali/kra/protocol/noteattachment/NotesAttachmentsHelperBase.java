@@ -365,7 +365,7 @@ public abstract class NotesAttachmentsHelperBase {
         
         final boolean deleted;
         
-        if (ProtocolAttachmentProtocolBase.class.equals(type)) {
+        if (getProtocolAttachmentProtocolClassHook().equals(type)) {
             deleted = this.deleteExistingAttachment(attachmentNumber, this.getProtocol().getAttachmentProtocols());
         } else {
             throw new IllegalArgumentException(UNSUPPORTED_ATTACHMENT_TYPE + type);

@@ -77,6 +77,7 @@ import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.protocol.actions.noreview.ProtocolReviewNotRequiredBean;
 import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.protocol.ProtocolFormBase;
 import org.kuali.kra.protocol.ProtocolOnlineReviewDocumentBase;
 import org.kuali.kra.protocol.ProtocolVersionService;
@@ -1531,6 +1532,12 @@ public class IacucActionHelper extends ActionHelperBase {
     @Override
     protected Class<? extends CommitteeScheduleServiceBase> getCommitteeScheduleServiceClassHook() {
         return IacucCommitteeScheduleService.class;
+    }
+
+
+    @Override
+    protected Class<? extends ProtocolDocumentBase> getProtocolDocumentBOClassHook() {
+        return IacucProtocolDocument.class;
     }
 
 }

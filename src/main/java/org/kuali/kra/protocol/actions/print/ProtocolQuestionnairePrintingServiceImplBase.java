@@ -138,8 +138,13 @@ public abstract class ProtocolQuestionnairePrintingServiceImplBase implements Pr
                         keyValues.put("protocolId", submissions.get(0).getProtocolId());
                         keyValues.put("submissionNumber", answerHeader.getModuleSubItemKey());
                         // keyValues.put("submissionIdFk", submission.getSubmissionId());
-                        ProtocolActionBase protocolAction = ((List<ProtocolActionBase>) getBusinessObjectService().findMatching(
-                                ProtocolActionBase.class, keyValues)).get(0);
+                        
+                        
+// TODO *********commented the code below during IACUC refactoring*********                         
+//                        ProtocolActionBase protocolAction = ((List<ProtocolActionBase>) getBusinessObjectService().findMatching(
+//                                ProtocolActionBase.class, keyValues)).get(0);
+                        
+                        ProtocolActionBase protocolAction = ((List<ProtocolActionBase>) getBusinessObjectService().findMatching(getProtocolActionBOClassHook(), keyValues)).get(0);
                         label = usage.getQuestionnaireLabel() + " - " + protocolAction.getProtocolActionType().getDescription()
                                 + " - " + protocolAction.getActionDateString();
                     }
@@ -155,7 +160,11 @@ public abstract class ProtocolQuestionnairePrintingServiceImplBase implements Pr
         return label;
     }
 
+    protected abstract Class<? extends ProtocolActionBase> getProtocolActionBOClassHook();
+
     protected abstract Class<? extends ProtocolSubmissionBase> getProtocolSubmissionBOClassHook();
+    
+    
     
     /*
      * This is Questionnaire answer is with submodulecode of "0".
@@ -170,8 +179,12 @@ public abstract class ProtocolQuestionnairePrintingServiceImplBase implements Pr
           //  keyValues.put("protocolNumber", getProtocol().getProtocolNumber());
             ProtocolBase prevProtocol = null;
             // if this is an A/R protocol, then need to find the original protocol that the A/R first merged into.
-            for (ProtocolBase protocol : ((List<ProtocolBase>) getBusinessObjectService().findMatchingOrderBy(ProtocolBase.class, keyValues,
-                    "sequenceNumber", true))) {
+            
+// TODO *********commented the code below during IACUC refactoring*********             
+//            for (ProtocolBase protocol : ((List<ProtocolBase>) getBusinessObjectService().findMatchingOrderBy(ProtocolBase.class, keyValues,
+//                    "sequenceNumber", true))) {
+            
+            for (ProtocolBase protocol : ((List<ProtocolBase>) getBusinessObjectService().findMatchingOrderBy(getProtocolBOClassHook(), keyValues, "sequenceNumber", true))) {
                 isCurrentQn = answerHeader.getModuleSubItemKey().equals(protocol.getSequenceNumber().toString())
                         && !CollectionUtils.isEmpty(getProtocol().getProtocolSubmissions())
                         && isMergedToProtocol(protocol, getProtocol());
@@ -195,6 +208,10 @@ public abstract class ProtocolQuestionnairePrintingServiceImplBase implements Pr
         return isCurrentQn;
     }
     
+    protected abstract Class<? extends ProtocolBase> getProtocolBOClassHook();
+    
+    
+
     private boolean isMergedToProtocol(ProtocolBase protocol, ProtocolBase amendment) {
         boolean merged = false;
         int submissionNumber = amendment.getProtocolSubmissions().get(amendment.getProtocolSubmissions().size() - 1).getSubmissionNumber();
@@ -222,8 +239,13 @@ public abstract class ProtocolQuestionnairePrintingServiceImplBase implements Pr
             // A/R has been merged to this version of protocol
             Map keyValues = new HashMap();
             keyValues.put("protocolNumber", answerHeader.getModuleItemKey());
-            ProtocolBase protocol = ((List<ProtocolBase>) getBusinessObjectService().findMatchingOrderBy(ProtocolBase.class, keyValues,
-                    "sequenceNumber", false)).get(0);
+            
+// TODO *********commented the code below during IACUC refactoring*********             
+//            ProtocolBase protocol = ((List<ProtocolBase>) getBusinessObjectService().findMatchingOrderBy(ProtocolBase.class, keyValues,
+//                    "sequenceNumber", false)).get(0);
+
+            ProtocolBase protocol = ((List<ProtocolBase>) getBusinessObjectService().findMatchingOrderBy(getProtocolBOClassHook(), keyValues, "sequenceNumber", false)).get(0);
+
             isCurrentQn = answerHeader.getModuleSubItemKey().equals(protocol.getSequenceNumber().toString())
                     && !CollectionUtils.isEmpty(protocol.getProtocolSubmissions())
                     && isMergedToProtocol(getProtocol(), protocol);

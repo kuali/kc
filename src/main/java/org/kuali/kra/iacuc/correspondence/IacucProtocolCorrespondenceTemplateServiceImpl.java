@@ -15,80 +15,14 @@
  */
 package org.kuali.kra.iacuc.correspondence;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.struts.upload.FormFile;
-import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceTemplateBase;
-import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceTypeBase;
-import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceTemplateServiceImpl;
 
-public class IacucProtocolCorrespondenceTemplateServiceImpl implements IacucProtocolCorrespondenceTemplateService {
+public class IacucProtocolCorrespondenceTemplateServiceImpl extends ProtocolCorrespondenceTemplateServiceImpl implements IacucProtocolCorrespondenceTemplateService {
 
-    BusinessObjectService businessObjectService;
-
-    public void addDefaultProtocolCorrespondenceTemplate(ProtocolCorrespondenceTypeBase correspondenceType, 
-        ProtocolCorrespondenceTemplateBase correspondenceTemplate) throws Exception {
-        correspondenceTemplate.setCommitteeId(Constants.DEFAULT_CORRESPONDENCE_TEMPLATE);
-        addProtocolCorrespondenceTemplate(correspondenceType, correspondenceTemplate);
+    @Override
+    protected Class<? extends ProtocolCorrespondenceTemplateBase> getProtocolCorrespondenceTemplateBOClassHook() {
+        return IacucProtocolCorrespondenceTemplate.class;
     }
-    
-    public void addCommitteeProtocolCorrespondenceTemplate(ProtocolCorrespondenceTypeBase correspondenceType, 
-            ProtocolCorrespondenceTemplateBase correspondenceTemplate) throws Exception {
-        addProtocolCorrespondenceTemplate(correspondenceType, correspondenceTemplate);
-    }
-
-    protected void addProtocolCorrespondenceTemplate(ProtocolCorrespondenceTypeBase correspondenceType, 
-            ProtocolCorrespondenceTemplateBase correspondenceTemplate) throws Exception {
-        correspondenceTemplate.setProtoCorrespTypeCode(correspondenceType.getProtoCorrespTypeCode());
-
-        FormFile templateFile = correspondenceTemplate.getTemplateFile();
-        correspondenceTemplate.setFileName(templateFile.getFileName());
-        correspondenceTemplate.setCorrespondenceTemplate(templateFile.getFileData());
-        
-        correspondenceType.getProtocolCorrespondenceTemplates().add(correspondenceTemplate);
-    }
-    
-    public void saveProtocolCorrespondenceTemplates(List<ProtocolCorrespondenceTypeBase> protocolCorrespondenceTypes, 
-            List<ProtocolCorrespondenceTemplateBase> deletedBos) {
-        if (!deletedBos.isEmpty()) {
-            for (ProtocolCorrespondenceTemplateBase template : deletedBos) {
-                businessObjectService.delete((IacucProtocolCorrespondenceTemplate)template);
-            }
-            //businessObjectService.delete((List<IacucProtocolCorrespondenceTemplate>)deletedBos);
-        }
-
-        for (ProtocolCorrespondenceTypeBase protocolCorrespondenceType : protocolCorrespondenceTypes) {
-            businessObjectService.save((IacucProtocolCorrespondenceType)protocolCorrespondenceType);
-        }
-    }
-
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
-    }
-    
-    public ProtocolCorrespondenceTemplateBase getProtocolCorrespondenceTemplate (String committeeId, String protoCorrespTypeCode) {
-
-        // TODO : ProtocolCorrespondenceTemplateBase is using 'committeeId' not the pk (id) of committee
-        // is this ok ?
-        Map fieldValues = new HashMap();
-        fieldValues.put("committeeId", committeeId);
-        fieldValues.put("protoCorrespTypeCode", protoCorrespTypeCode);
-        ProtocolCorrespondenceTemplateBase protocolCorrespondenceTemplate = null;
-        List<IacucProtocolCorrespondenceTemplate> templates = (List<IacucProtocolCorrespondenceTemplate>)businessObjectService.findMatching(IacucProtocolCorrespondenceTemplate.class, fieldValues);
-        if (templates.isEmpty()) {
-            fieldValues.put("committeeId", "DEFAULT");
-            templates = (List<IacucProtocolCorrespondenceTemplate>)businessObjectService.findMatching(IacucProtocolCorrespondenceTemplate.class, fieldValues);
-            if (!templates.isEmpty()) {
-                protocolCorrespondenceTemplate = templates.get(0);
-            }
-        } else {
-            protocolCorrespondenceTemplate = templates.get(0);            
-        }
-        return protocolCorrespondenceTemplate;
-    }
-
 
 }

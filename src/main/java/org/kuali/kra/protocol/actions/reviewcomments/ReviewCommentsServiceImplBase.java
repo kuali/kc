@@ -529,9 +529,16 @@ public abstract class ReviewCommentsServiceImplBase<PRA extends ProtocolReviewAt
      * retrieve Display reviewer name parameter and compre with 'HIDE'
      */
     private boolean isDisplayReviewerName(String paramName) {
-        String param = parameterService.getParameterValueAsString(ProtocolDocumentBase.class, paramName);
+
+// TODO *********commented the code below during IACUC refactoring*********         
+//        String param = parameterService.getParameterValueAsString(ProtocolDocumentBase.class, paramName);
+        
+        String param = parameterService.getParameterValueAsString(getProtocolDocumentBOClassHook(), paramName);
         return !StringUtils.equals(HIDE, param);
     }
+
+    protected abstract Class<? extends ProtocolDocumentBase> getProtocolDocumentBOClassHook();
+    
 
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
