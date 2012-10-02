@@ -17,7 +17,9 @@ package org.kuali.kra.iacuc;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
@@ -53,6 +55,7 @@ import org.kuali.kra.iacuc.threers.IacucPrinciples;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
+import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.kra.krms.KrmsRulesContext;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.ProtocolStatusBase;
@@ -704,6 +707,15 @@ public class IacucProtocol extends ProtocolBase {
     @Override
     public KrmsRulesContext getKrmsRulesContext() {
         return getIacucProtocolDocument();
+    }
+    
+    @Override
+    public void populateAdditionalQualifiedRoleAttributes(Map<String, String> qualifiedRoleAttributes) {
+        if (qualifiedRoleAttributes == null) {
+            qualifiedRoleAttributes = new HashMap<String, String>();
+        }
+        String protocolNumber = this.getProtocolNumber()  != null ? this.getProtocolNumber() : "*";
+        qualifiedRoleAttributes.put(KcKimAttributes.PROTOCOL, protocolNumber);
     }
 
 }
