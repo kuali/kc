@@ -16,6 +16,7 @@
 package org.kuali.kra.institutionalproposal.home;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -174,6 +175,8 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     private transient String lookupUnitNumber;
     private transient String lookupPersonNumber;
     private transient FiscalYearMonthService fiscalYearMonthService;
+    
+    private transient boolean allowUpdateTimestampToBeReset = true;
 
     public InstitutionalProposal() {
         super();
@@ -1853,5 +1856,27 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
             this.fiscalYearMonthService = KraServiceLocator.getService(FiscalYearMonthService.class);
         }
         return this.fiscalYearMonthService;
+    }
+    
+    public boolean isAllowUpdateTimestampToBeReset() {
+        return allowUpdateTimestampToBeReset;
+    }
+    
+    /**
+     * 
+     * Setting this value to false will prevent the update timestamp field from being upddate just once.  After that, the update timestamp field will update as regular.
+     * @param allowUpdateTimestampToBeReset
+     */
+    public void setAllowUpdateTimestampToBeReset(boolean allowUpdateTimestampToBeReset) {
+        this.allowUpdateTimestampToBeReset = allowUpdateTimestampToBeReset;
+    }
+
+    @Override
+    public void setUpdateTimestamp(Timestamp updateTimestamp) {
+        if (isAllowUpdateTimestampToBeReset()) {
+            super.setUpdateTimestamp(updateTimestamp);
+        } else {
+            setAllowUpdateTimestampToBeReset(true);
+        }
     }
 }
