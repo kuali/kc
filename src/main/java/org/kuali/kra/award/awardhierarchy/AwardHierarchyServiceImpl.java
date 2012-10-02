@@ -459,7 +459,7 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
     }
 
     protected void finalizeAward(Award newAward) {
-        versionHistoryService.createVersionHistory(newAward, VersionStatus.ACTIVE, GlobalVariables.getUserSession().getPrincipalName());
+        versionHistoryService.updateVersionHistory(newAward, VersionStatus.ACTIVE, GlobalVariables.getUserSession().getPrincipalName());
         awardService.updateAwardSequenceStatus(newAward, VersionStatus.ACTIVE);
     }
     

@@ -255,14 +255,14 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
 
             //getVersionHistoryService().createVersionHistory(getAward(), VersionStatus.ACTIVE, GlobalVariables.getUserSession().getPrincipalName());
             getAwardService().updateAwardSequenceStatus(getAward(), VersionStatus.ACTIVE);
-            getVersionHistoryService().updateVersionHistoryOnRouteToFinal(getAward(), VersionStatus.ACTIVE, GlobalVariables.getUserSession().getPrincipalName());
+            getVersionHistoryService().updateVersionHistory(getAward(), VersionStatus.ACTIVE, GlobalVariables.getUserSession().getPrincipalName());
         }
         if (newStatus.equalsIgnoreCase(KewApiConstants.ROUTE_HEADER_CANCEL_CD) || newStatus.equalsIgnoreCase(KewApiConstants.ROUTE_HEADER_DISAPPROVED_CD)) {
             revertFundedProposals();
             disableAwardComments();
             //getVersionHistoryService().createVersionHistory(getAward(), VersionStatus.CANCELED, GlobalVariables.getUserSession().getPrincipalName());
             getAwardService().updateAwardSequenceStatus(getAward(), VersionStatus.CANCELED);
-            getVersionHistoryService().updateVersionHistoryOnCancel(getAward(), VersionStatus.CANCELED, GlobalVariables.getUserSession().getPrincipalName());
+            getVersionHistoryService().updateVersionHistory(getAward(), VersionStatus.CANCELED, GlobalVariables.getUserSession().getPrincipalName());
         }
         
         //reset Award List with updated document - in some scenarios the change in status is not reflected.

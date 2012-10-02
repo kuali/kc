@@ -534,7 +534,7 @@ public class AwardAction extends BudgetParentActionBase {
         String userId = GlobalVariables.getUserSession().getPrincipalName();
         Award award = awardDocument.getAward();
         getAwardService().updateAwardSequenceStatus(award, VersionStatus.PENDING);
-        getVersionHistoryService().createVersionHistory(award, VersionStatus.PENDING, userId);
+        getVersionHistoryService().updateVersionHistory(award, VersionStatus.PENDING, userId);
         
         // set awardDirectFandADistributions on award
         if(isNewAward(awardForm) && !(award.getAwardEffectiveDate() == null)){

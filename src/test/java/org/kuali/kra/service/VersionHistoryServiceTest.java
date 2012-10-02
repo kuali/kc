@@ -85,7 +85,7 @@ public class VersionHistoryServiceTest {
     }
     
     private VersionHistory createAndCheckNewActiveVersion(SequenceOwner<? extends SequenceOwner<?>> sequenceOwner, String userName) {
-        VersionHistory history = service.createVersionHistory(sequenceOwner, VersionStatus.ACTIVE, userName);
+        VersionHistory history = service.updateVersionHistory(sequenceOwner, VersionStatus.ACTIVE, userName);
         Assert.assertEquals(VersionStatus.ACTIVE, history.getStatus());
         return history;
     }
