@@ -3513,7 +3513,12 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     public boolean isAllowUpdateTimestampToBeReset() {
         return allowUpdateTimestampToBeReset;
     }
-
+    
+    /**
+     * 
+     * Setting this value to false will prevent the update timestamp field from being upddate just once.  After that, the update timestamp field will update as regular.
+     * @param allowUpdateTimestampToBeReset
+     */
     public void setAllowUpdateTimestampToBeReset(boolean allowUpdateTimestampToBeReset) {
         this.allowUpdateTimestampToBeReset = allowUpdateTimestampToBeReset;
     }
