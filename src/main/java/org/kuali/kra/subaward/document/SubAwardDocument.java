@@ -78,16 +78,14 @@ implements  Copyable, SessionDocument {
         String newStatus = statusChangeEvent.getNewRouteStatus();
 
         if (KewApiConstants.ROUTE_HEADER_FINAL_CD.equalsIgnoreCase(newStatus)) {
-            getVersionHistoryService().updateVersionHistoryOnRouteToFinal(
-            getSubAward(), VersionStatus.ACTIVE, GlobalVariables.
-            getUserSession().getPrincipalName());
+            getVersionHistoryService().updateVersionHistory(getSubAward(), VersionStatus.ACTIVE, GlobalVariables.
+                    getUserSession().getPrincipalName());
         }
         if (newStatus.equalsIgnoreCase(KewApiConstants.ROUTE_HEADER_CANCEL_CD)
         || newStatus.equalsIgnoreCase(
         KewApiConstants.ROUTE_HEADER_DISAPPROVED_CD)) {
-            getVersionHistoryService().updateVersionHistoryOnCancel(
-            getSubAward(), VersionStatus.CANCELED, GlobalVariables.
-            getUserSession().getPrincipalName());
+            getVersionHistoryService().updateVersionHistory(getSubAward(), VersionStatus.CANCELED, GlobalVariables. 
+                    getUserSession().getPrincipalName());
         }
 
         for (SubAward subAward : subAwardList) {
