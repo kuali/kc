@@ -16,6 +16,7 @@
 package org.kuali.kra.award.home;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -254,6 +255,8 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
 
     private transient List<AwardUnitContact> centralAdminContacts;
     private List<SubAward> subAwardList;
+    
+    private transient boolean allowUpdateTimestampToBeReset = true;
     /**
      * 
      * Constructs an Award BO.
@@ -3505,5 +3508,22 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     public String getProjectId() {
         // TODO Auto-generated method stub
         return getAwardNumber();
+    }
+    
+    public boolean isAllowUpdateTimestampToBeReset() {
+        return allowUpdateTimestampToBeReset;
+    }
+
+    public void setAllowUpdateTimestampToBeReset(boolean allowUpdateTimestampToBeReset) {
+        this.allowUpdateTimestampToBeReset = allowUpdateTimestampToBeReset;
+    }
+
+    @Override
+    public void setUpdateTimestamp(Timestamp updateTimestamp) {
+        if (isAllowUpdateTimestampToBeReset()) {
+            super.setUpdateTimestamp(updateTimestamp);
+        } else {
+            setAllowUpdateTimestampToBeReset(true);
+        }
     }
 }
