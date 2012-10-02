@@ -154,4 +154,10 @@ public class IacucProtocolLookupableHelperServiceImpl extends ProtocolLookupable
         return new IacucProtocolTask(taskName, (IacucProtocol) protocol);
     }
 
+
+    @Override
+    protected Class<? extends ProtocolBase> getProtocolClassHook() {
+        return IacucProtocol.class;
+    }
+
 }

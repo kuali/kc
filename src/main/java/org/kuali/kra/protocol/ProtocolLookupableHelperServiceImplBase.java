@@ -191,14 +191,15 @@ public abstract class ProtocolLookupableHelperServiceImplBase<GenericProtocol ex
      */
     private CollectionIncomplete<GenericProtocol> getPagedResults(List<GenericProtocol> protocols) {
         Long matchingResultsCount = new Long(protocols.size());
-        Integer searchResultsLimit = LookupUtils.getSearchResultsLimit(ProtocolBase.class);
+        Integer searchResultsLimit = LookupUtils.getSearchResultsLimit(getProtocolClassHook());
         if ((matchingResultsCount == null) || (matchingResultsCount.intValue() <= searchResultsLimit.intValue())) {
             return new CollectionIncomplete<GenericProtocol>(protocols, new Long(0));
         } else {
             return new CollectionIncomplete<GenericProtocol>(trimResult(protocols, searchResultsLimit), matchingResultsCount);
         }
     }
-    
+
+
     /**
      * This method trims the search result.
      * @param result, the result set to be trimmed
@@ -452,4 +453,6 @@ public abstract class ProtocolLookupableHelperServiceImplBase<GenericProtocol ex
     protected abstract ProtocolDao<GenericProtocol> getProtocolDaoHook();
     protected abstract String getDocumentTypeNameHook();
     protected abstract String getHtmlActionHook();
+    protected abstract Class<? extends ProtocolBase> getProtocolClassHook();
+    
 }

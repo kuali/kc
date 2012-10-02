@@ -19,13 +19,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.protocol.ProtocolFormBase;
-import org.kuali.kra.protocol.auth.ProtocolTaskBase;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentPersonnelBase;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -152,8 +149,15 @@ public abstract class PersonnelHelperBase implements Serializable {
      * @return parameter value
      */
     protected String getParameterValue(String parameterName) {
-        return this.getParameterService().getParameterValueAsString(ProtocolDocumentBase.class, parameterName);        
+        
+// TODO *********commented the code below during IACUC refactoring********* 
+//        return this.getParameterService().getParameterValueAsString(ProtocolDocumentBase.class, parameterName);
+        
+        return this.getParameterService().getParameterValueAsString(getProtocolDocumentBOClassHook(), parameterName);        
     }
+
+    protected abstract Class<? extends ProtocolDocumentBase> getProtocolDocumentBOClassHook();
+    
 
     public boolean isPersonTrainingSectionRequired() {
         return personTrainingSectionRequired;

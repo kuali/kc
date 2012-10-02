@@ -20,12 +20,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kra.iacuc.IacucProtocol;
+import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.auth.IacucProtocolTask;
 import org.kuali.kra.iacuc.noteattachment.IacucProtocolAttachmentPersonnel;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.protocol.ProtocolFormBase;
 import org.kuali.kra.protocol.auth.ProtocolTaskBase;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentPersonnelBase;
@@ -70,6 +72,12 @@ public class IacucPersonnelHelper extends PersonnelHelperBase implements Seriali
     @Override
     public ProtocolAttachmentPersonnelBase createNewProtocolAttachmentPersonnelInstanceHook() {
         return new IacucProtocolAttachmentPersonnel();
+    }
+
+
+    @Override
+    protected Class<? extends ProtocolDocumentBase> getProtocolDocumentBOClassHook() {
+        return IacucProtocolDocument.class;
     }
 
 

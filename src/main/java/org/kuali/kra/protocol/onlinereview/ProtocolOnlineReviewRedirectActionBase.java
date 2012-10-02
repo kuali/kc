@@ -64,9 +64,13 @@ public abstract class ProtocolOnlineReviewRedirectActionBase extends KraTransact
         return null;
     }
     
-    protected Class getProtocolClass() {
-        return ProtocolBase.class;    
-    }
+    
+    protected abstract Class<? extends ProtocolBase> getProtocolClass();
+    
+// TODO *********commented the code below during IACUC refactoring*********     
+//    protected Class getProtocolClass() {
+//        return ProtocolBase.class;    
+//    }
     
     private boolean isOnlineReviewEnabled(ActionForm form, ProtocolBase protocol) { 
         String principalId = GlobalVariables.getUserSession().getPrincipalId();
