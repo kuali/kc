@@ -74,6 +74,7 @@ public class InstitutionalProposalVersioningServiceImpl implements Institutional
             InstitutionalProposal proposalToArchive = results.get(0);
             proposalToArchive.setProposalSequenceStatus(VersionStatus.ARCHIVED.toString());
             proposalToArchive.deactivateFundingProposals();
+            proposalToArchive.setAllowUpdateTimestampToBeReset(false);
             businessObjectService.save(proposalToArchive);
         }
     }
