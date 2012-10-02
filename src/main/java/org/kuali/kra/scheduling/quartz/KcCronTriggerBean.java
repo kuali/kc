@@ -23,6 +23,7 @@ import java.util.Date;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.rice.core.api.datetime.DateTimeService;
@@ -40,13 +41,8 @@ import org.springframework.scheduling.quartz.CronTriggerBean;
 public class KcCronTriggerBean extends CronTriggerBean {
 
     private static final Log LOG = LogFactory.getLog(KcCronTriggerBean.class);
-
-    /**
-     * Default Cron expression which is 1 AM every day.
-     */
-    private static final String DEFAULT_CRON_EXPRESSION = "0 0 1 * * ?";
     
-    private String defaultCronExpression = DEFAULT_CRON_EXPRESSION;
+    private String defaultCronExpression = Constants.DEFAULT_CRON_EXPRESSION;
     private String parameterNamespace;
     private String parameterComponent;
     private String cronExpressionParameterName = KeyConstants.PESSIMISTIC_LOCKING_CRON_EXPRESSION;
@@ -85,10 +81,10 @@ public class KcCronTriggerBean extends CronTriggerBean {
             if (param != null) {
                 return param;
             } 
-            LOG.warn("parameter [" + cronExpressionParameterName + "] not found using default value of [" + DEFAULT_CRON_EXPRESSION + "].");
+            LOG.warn("parameter [" + cronExpressionParameterName + "] not found using default value of [" + defaultCronExpression + "].");
     
         }
-        return DEFAULT_CRON_EXPRESSION;
+        return defaultCronExpression;
     }
     
     protected Date getCronStartTime() {
