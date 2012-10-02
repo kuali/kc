@@ -30,7 +30,7 @@ import org.kuali.rice.krad.util.KRADConstants;
  * 
  * This class is the maintenance document rule for valid submission/type qualifier table.
  */
-public class ValidProtoSubTypeQualMaintenanceDocumentRule extends KraMaintenanceDocumentRuleBase {
+public abstract class ValidProtoSubTypeQualMaintenanceDocumentRuleBase extends KraMaintenanceDocumentRuleBase {
 
     private Long oldTypeId = null;
     /**
@@ -70,8 +70,12 @@ public class ValidProtoSubTypeQualMaintenanceDocumentRule extends KraMaintenance
         if (StringUtils.isNotBlank(validProtoSubTypeQual.getSubmissionTypeCode())) {
             Map<String, String> fieldValues = new HashMap<String, String>();
             fieldValues.put("submissionTypeCode", validProtoSubTypeQual.getSubmissionTypeCode());
-            List<ProtocolSubmissionTypeBase> submissionTypes = (List<ProtocolSubmissionTypeBase>) boService.findMatching(
-                    ProtocolSubmissionTypeBase.class, fieldValues);
+            
+// TODO *********commented the code below during IACUC refactoring*********             
+//            List<ProtocolSubmissionTypeBase> submissionTypes = (List<ProtocolSubmissionTypeBase>) boService.findMatching(
+//                    ProtocolSubmissionTypeBase.class, fieldValues);
+            
+            List<ProtocolSubmissionTypeBase> submissionTypes = (List<ProtocolSubmissionTypeBase>) boService.findMatching(getProtocolSubmissionTypeBOClassHook(), fieldValues);
             if (submissionTypes.isEmpty()) {
                 GlobalVariables.getMessageMap().putError("document.newMaintainableObject.submissionTypeCode",
                         KeyConstants.ERROR_SUBMISSION_TYPE_NOT_EXISTS,
@@ -81,14 +85,22 @@ public class ValidProtoSubTypeQualMaintenanceDocumentRule extends KraMaintenance
         }
         return valid;
     }
+    
+    protected abstract Class<? extends ProtocolSubmissionTypeBase> getProtocolSubmissionTypeBOClassHook();
+
+    
 
     private boolean validateTypeQualifier(ValidProtoSubTypeQual validProtoSubTypeQual) {
         boolean valid = true;
         if (StringUtils.isNotBlank(validProtoSubTypeQual.getSubmissionTypeQualCode())) {
             Map<String, String> fieldValues = new HashMap<String, String>();
             fieldValues.put("submissionQualifierTypeCode", validProtoSubTypeQual.getSubmissionTypeQualCode());
-            List<ProtocolSubmissionQualifierTypeBase> typeQualifiers = (List<ProtocolSubmissionQualifierTypeBase>) boService.findMatching(ProtocolSubmissionQualifierTypeBase.class,
-                    fieldValues);
+            
+// TODO *********commented the code below during IACUC refactoring*********             
+//            List<ProtocolSubmissionQualifierTypeBase> typeQualifiers = (List<ProtocolSubmissionQualifierTypeBase>) boService.findMatching(ProtocolSubmissionQualifierTypeBase.class,
+//                    fieldValues);
+            
+            List<ProtocolSubmissionQualifierTypeBase> typeQualifiers = (List<ProtocolSubmissionQualifierTypeBase>) boService.findMatching(getProtocolSubmissionQualifierTypeBOClassHook(), fieldValues);
             if (typeQualifiers.isEmpty()) {
                 GlobalVariables.getMessageMap().putError("document.newMaintainableObject.submissionTypeQualCode",
                         KeyConstants.ERROR_TYPE_QUALIFIER_NOT_EXISTS,
@@ -98,6 +110,9 @@ public class ValidProtoSubTypeQualMaintenanceDocumentRule extends KraMaintenance
         }
         return valid;
     }
+
+    protected abstract Class<? extends ProtocolSubmissionQualifierTypeBase> getProtocolSubmissionQualifierTypeBOClassHook();
+    
 
     private boolean checkSubmTypeQualifierExists(ValidProtoSubTypeQual validProtoSubTypeQual) {
         boolean valid = true;

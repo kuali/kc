@@ -1556,10 +1556,13 @@ public abstract class ProtocolBase extends KraPersistableBusinessObjectBase impl
     private boolean fileIsReferencedByOther(Long fileId) {
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put("fileId", fileId.toString());
-        return getBusinessObjectService().countMatching(ProtocolAttachmentProtocolBase.class, fieldValues) > 1;
+        return getBusinessObjectService().countMatching(getProtocolAttachmentProtocolClassHook(), fieldValues) > 1;
         
     }
     
+    protected abstract Class<? extends ProtocolAttachmentProtocolBase> getProtocolAttachmentProtocolClassHook();
+    
+
     protected void mergeNotepads(ProtocolBase amendment) {
         List <ProtocolNotepadBase> notepads = new ArrayList<ProtocolNotepadBase>();
         if (amendment.getNotepads() != null) {

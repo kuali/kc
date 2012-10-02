@@ -1107,8 +1107,14 @@ public abstract class ActionHelperBase implements Serializable {
 //    }
 
     protected String getParameterValue(String parameterName) {
-        return this.getParameterService().getParameterValueAsString(ProtocolDocumentBase.class, parameterName);      
+        
+// TODO *********commented the code below during IACUC refactoring*********         
+//        return this.getParameterService().getParameterValueAsString(ProtocolDocumentBase.class, parameterName);    
+        
+        return this.getParameterService().getParameterValueAsString(getProtocolDocumentBOClassHook(), parameterName);      
     }
+    
+    protected abstract Class<? extends ProtocolDocumentBase> getProtocolDocumentBOClassHook();
   
   
     protected boolean hasSubmitProtocolPermission() {

@@ -21,13 +21,14 @@ import java.util.Map;
 
 import org.apache.struts.upload.FormFile;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * 
  * This class implements the ProtocolCorrespondenceTemplateService.
  */
-public class ProtocolCorrespondenceTemplateServiceImpl implements ProtocolCorrespondenceTemplateService {
+public abstract class ProtocolCorrespondenceTemplateServiceImpl implements ProtocolCorrespondenceTemplateService {
 
     BusinessObjectService businessObjectService;
 
@@ -76,10 +77,18 @@ public class ProtocolCorrespondenceTemplateServiceImpl implements ProtocolCorres
         fieldValues.put("committeeId", committeeId);
         fieldValues.put("protoCorrespTypeCode", protoCorrespTypeCode);
         ProtocolCorrespondenceTemplateBase protocolCorrespondenceTemplate = null;
-        List<ProtocolCorrespondenceTemplateBase> templates = (List<ProtocolCorrespondenceTemplateBase>)businessObjectService.findMatching(ProtocolCorrespondenceTemplateBase.class, fieldValues);
+        
+// TODO *********commented the code below during IACUC refactoring*********         
+//        List<ProtocolCorrespondenceTemplateBase> templates = (List<ProtocolCorrespondenceTemplateBase>)businessObjectService.findMatching(ProtocolCorrespondenceTemplateBase.class, fieldValues);
+        
+        List<ProtocolCorrespondenceTemplateBase> templates = (List<ProtocolCorrespondenceTemplateBase>)businessObjectService.findMatching(getProtocolCorrespondenceTemplateBOClassHook(), fieldValues);
         if (templates.isEmpty()) {
             fieldValues.put("committeeId", "DEFAULT");
-            templates = (List<ProtocolCorrespondenceTemplateBase>)businessObjectService.findMatching(ProtocolCorrespondenceTemplateBase.class, fieldValues);
+            
+// TODO *********commented the code below during IACUC refactoring*********             
+//            templates = (List<ProtocolCorrespondenceTemplateBase>)businessObjectService.findMatching(ProtocolCorrespondenceTemplateBase.class, fieldValues);
+            
+            templates = (List<ProtocolCorrespondenceTemplateBase>)businessObjectService.findMatching(getProtocolCorrespondenceTemplateBOClassHook(), fieldValues);
             if (!templates.isEmpty()) {
                 protocolCorrespondenceTemplate = templates.get(0);
             }
@@ -88,5 +97,8 @@ public class ProtocolCorrespondenceTemplateServiceImpl implements ProtocolCorres
         }
         return protocolCorrespondenceTemplate;
     }
+
+    
+    protected abstract Class<? extends ProtocolCorrespondenceTemplateBase> getProtocolCorrespondenceTemplateBOClassHook();
 
 }
