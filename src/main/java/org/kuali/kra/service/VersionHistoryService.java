@@ -22,33 +22,16 @@ import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.bo.versioning.VersionStatus;
 
 public interface VersionHistoryService {
-    
+
     /**
-     * Create a new VersiionHistory entry
+     * Update or create the version history to the appropriate status. If versionStatus is Active, then all other
+     * active versions are set to archived.
      * @param sequenceOwner
      * @param versionStatus
      * @param userId
      * @return
      */
-    VersionHistory createVersionHistory(SequenceOwner<? extends SequenceOwner<?>> sequenceOwner, VersionStatus versionStatus, String userId);
-    
-    /**
-     * Create a new VersiionHistory entry
-     * @param sequenceOwner
-     * @param versionStatus
-     * @param userId
-     * @return
-     */
-    VersionHistory updateVersionHistoryOnRouteToFinal(SequenceOwner<? extends SequenceOwner<?>> sequenceOwner, VersionStatus versionStatus, String userId);
-    
-    /**
-     * Create a new VersiionHistory entry
-     * @param sequenceOwner
-     * @param versionStatus
-     * @param userId
-     * @return
-     */
-    VersionHistory updateVersionHistoryOnCancel(SequenceOwner<? extends SequenceOwner<?>> sequenceOwner, VersionStatus versionStatus, String userId);
+    VersionHistory updateVersionHistory(SequenceOwner<? extends SequenceOwner<?>> sequenceOwner, VersionStatus versionStatus, String userId);
     
     /**
      * Find the active VersionHistory for a given SequenceOwner type and version name
