@@ -1,0 +1,26 @@
+"TERM_RSLVR_PARM_SPEC_ID","TERM_RSLVR_ID","NM","VER_NBR"
+"KC1000","KC1001","Question ID",1
+"KC1001","KC1001","Questionnaire Ref ID",1
+"KC1002","KC1002","Question ID",1
+"KC1003","KC1002","Questionnaire Ref ID",1
+"KC1004","KC1003","Question ID",1
+"KC1005","KC1003","Questionnaire Ref ID",1
+"KC1006","KC1004","Question ID",1
+"KC1007","KC1004","Questionnaire Ref ID",1
+"KC1008","KC1005","Question ID",1
+"KC1009","KC1005","Questionnaire Ref ID",1
+"KC2000","KC2000","GrantsGov Form Name",1
+"KC2001","KC2001","Lead Unit Number",1
+"KC2002","KC2002","Sponsor Code",1
+"KC2003","KC2003","Award Type Code",1
+"KC2005","KC2005","Principal ID",1
+"KC2006","KC2006","Principal ID",1
+"KC2007","KC2007","Unit Number",1
+"KC2008","KC2008","Special Review Type Code",1
+"KC2009","KC2009","Unit Number",1
+"KC2010","KC2010","Sponsor Type Code",1
+"KC2016","KC2016","Cost Element",1
+"KC2017","KC2017","Activity Type Code",1
+"KC2018","KC2018","Sponsor Code",1
+"KC2021","KC2021","Version Number",1
+"KC2022","KC2022","Proposal Type Code",1
