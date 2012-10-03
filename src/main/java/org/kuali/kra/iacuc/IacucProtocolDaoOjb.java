@@ -24,6 +24,7 @@ import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
 import org.kuali.kra.iacuc.actions.IacucProtocolAction;
 import org.kuali.kra.iacuc.personnel.IacucProtocolPerson;
 import org.kuali.kra.iacuc.personnel.IacucProtocolUnit;
+import org.kuali.kra.iacuc.protocol.funding.IacucProtocolFundingSource;
 import org.kuali.kra.iacuc.protocol.location.IacucProtocolLocation;
 import org.kuali.kra.iacuc.protocol.research.IacucProtocolResearchArea;
 import org.kuali.kra.iacuc.species.IacucProtocolSpecies;
@@ -102,7 +103,7 @@ public class IacucProtocolDaoOjb extends ProtocolDaoOjbBase<IacucProtocol> imple
                 IacucProtocolPerson.class));
         criteriaFields.add(new CriteriaFieldHelper(ProtocolLookupConstants.Property.FUNDING_SOURCE, 
                 ProtocolLookupConstants.Property.FUNDING_SOURCE, 
-                ProtocolFundingSourceBase.class));
+                IacucProtocolFundingSource.class));
         criteriaFields.add(new CriteriaFieldHelper(ProtocolLookupConstants.Property.PERFORMING_ORGANIZATION_ID,
                 ProtocolLookupConstants.Property.ORGANIZATION_ID, 
                 IacucProtocolLocation.class));
