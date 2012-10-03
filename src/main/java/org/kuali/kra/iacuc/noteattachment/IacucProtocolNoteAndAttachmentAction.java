@@ -198,7 +198,7 @@ public class IacucProtocolNoteAndAttachmentAction extends IacucProtocolAction {
      */
     public ActionForward deleteAttachmentPersonnel(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        return confirmDeleteAttachment(mapping, (ProtocolFormBase) form, request, response, ProtocolAttachmentPersonnelBase.class);
+        return confirmDeleteAttachment(mapping, (ProtocolFormBase) form, request, response, IacucProtocolAttachmentPersonnel.class);
     }
 
     /**
