@@ -75,7 +75,6 @@
 			</delete>
 		</rollback>		
     </changeSet>
-
 	<changeSet context="bootstrap,demo" author="kc" id="KC_LOAD_KRIM_RSP_T">
 		<loadData tableName="KRIM_RSP_T" file="bootstrap/KRIM_RSP_T.csv" />
 		<rollback>

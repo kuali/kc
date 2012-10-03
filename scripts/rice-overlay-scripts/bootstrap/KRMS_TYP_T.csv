@@ -1,0 +1,6 @@
+"TYP_ID","NM","NMSPC_CD","SRVC_NM","ACTV","VER_NBR"
+"KC1000","Unit Agenda","KC-KRMS","unitAgendaTypeService","Y",1
+"KC1001","Function Term Resolver Type Service","KC-PD","functionTermResolverTypeService","Y",1
+"KC1002","Question Term Resolver Type Service","KC-KRMS","questionResolverTypeService","Y",1
+"KC1003","CONTEXT","KC-KRMS",NULL,"Y",1
+"KC1004","Questionnaire Agenda","KC-KRMS","unitAgendaTypeService","Y",1
