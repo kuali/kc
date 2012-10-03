@@ -54,7 +54,7 @@ public class AwardSyncAuditRule implements DocumentAuditRule {
         auditErrors = new ArrayList<AuditError>();
         auditWarnings = new ArrayList<AuditError>();
         Award award = awardDocument.getAward();
-        if (award.getSyncChanges() != null) {
+        if (award.getSyncChanges() != null && !award.getSyncChanges().isEmpty()) {
             for (AwardSyncChange change : award.getSyncChanges()) {
                 if (change.getSyncDescendantsType() == null) {
                     valid = false;
