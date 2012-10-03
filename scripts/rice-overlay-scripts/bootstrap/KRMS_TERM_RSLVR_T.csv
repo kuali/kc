@@ -1,0 +1,31 @@
+"TERM_RSLVR_ID","NMSPC_CD","NM","TYP_ID","OUTPUT_TERM_SPEC_ID","ACTV","VER_NBR"
+"KC1000","KC-PD","storedFunctionResolver","KC1001","KC1009","Y",1
+"KC1001","KC-PD","questionResolver","KC1002","KC1016","Y",1
+"KC1002","KC-PROTOCOL","questionResolver","KC1002","KC1026","Y",1
+"KC1003","KC-IACUC","questionResolver","KC1002","KC1027","Y",1
+"KC1004","KC-AWARD","questionResolver","KC1002","KC1028","Y",1
+"KC1005","KC-COIDISCLOSURE","questionResolver","KC1002","KC1029","Y",1
+"KC2000","KC-PD","Java Function Resolver","KC1001","KC2000","Y",1
+"KC2001","KC-PD","Lead Unit Resolver","KC1001","KC2001","Y",1
+"KC2002","KC-PD","Sponsor Group Resolver","KC1001","KC2002","Y",1
+"KC2003","KC-PD","Proposal Award Type Resolver","KC1001","KC2003","Y",1
+"KC2004","KC-PD","S2S Leadership Resolver","KC1001","KC2004","Y",1
+"KC2005","KC-PD","Check Proposal PI Resolver","KC1001","KC2005","Y",1
+"KC2006","KC-PD","Check Proposal COI Resolver","KC1001","KC2006","Y",1
+"KC2007","KC-PD","Lead Unit Below Resolver","KC1001","KC2007","Y",1
+"KC2008","KC-PD","Special Review Resolver","KC1001","KC2008","Y",1
+"KC2009","KC-PD","Proposal Unit Resolver","KC1001","KC2009","Y",1
+"KC2010","KC-PD","Sponsor Type Resolver","KC1001","KC2010","Y",1
+"KC2011","KC-PD","S2S Attachment Narrative Resolver","KC1001","KC2011","Y",1
+"KC2012","KC-PD","S2S Modular Budget Resolver","KC1001","KC2012","Y",1
+"KC2013","KC-PD","S2S Federal Id Resolver","KC1001","KC2013","Y",1
+"KC2014","KC-PD","MTDC Deviation Resolver","KC1001","KC2014","Y",1
+"KC2015","KC-PD","S2S Exemption Resolver","KC1001","KC2015","Y",1
+"KC2016","KC-PD","Cost Element Resolver","KC1001","KC2016","Y",1
+"KC2017","KC-PD","Activity Type Resolver","KC1001","KC2017","Y",1
+"KC2018","KC-PD","Sponsor Resolver","KC1001","KC2018","Y",1
+"KC2019","KC-PD","Non Faculty PI Resolver","KC1001","KC2019","Y",1
+"KC2020","KC-PD","Attachment File Name Resolver","KC1001","KC2020","Y",1
+"KC2021","KC-PD","MTDC Deviation In Version Resolver","KC1001","KC2021","Y",1
+"KC2022","KC-PD","Proposal Type Resolver","KC1001","KC2022","Y",1
+"KC2023","KC-PD","Incomplete Narrative Resolver","KC1001","KC2023","Y",1
