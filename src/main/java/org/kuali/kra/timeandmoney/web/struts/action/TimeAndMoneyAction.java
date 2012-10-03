@@ -333,8 +333,9 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
     protected void inspectAndCaptureCurrentFundEffectiveDateChanges(TimeAndMoneyForm timeAndMoneyForm, Boolean isNoCostExtension, AwardAmountInfo aai, Integer index,
                                                         Award award, TimeAndMoneyDocument timeAndMoneyDocument, Entry<String, AwardHierarchyNode> awardHierarchyNode,
                                                         List<TransactionDetail> dateChangeTransactionDetailItems) {
-        if(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getCurrentFundEffectiveDate()!=null &&
-                !timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getCurrentFundEffectiveDate().equals(aai.getCurrentFundEffectiveDate())){
+        if(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).isPopulatedFromClient() 
+                && timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getCurrentFundEffectiveDate()!=null 
+                && !timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getCurrentFundEffectiveDate().equals(aai.getCurrentFundEffectiveDate())){
             if (isNoCostExtension && 
                     timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getCurrentFundEffectiveDate().before(aai.getCurrentFundEffectiveDate())) {
                         AwardAmountInfo tempAai = getNewAwardAmountInfoForDateChangeTransaction(aai, award, timeAndMoneyDocument.getDocumentNumber());
@@ -350,7 +351,8 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
                     awardHierarchyNode.getValue().setCurrentFundEffectiveDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getCurrentFundEffectiveDate());
                     award.getAwardAmountInfos().add(aai);
             }
-        } else if (timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getCurrentFundEffectiveDate() == null) {
+        } else if (timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).isPopulatedFromClient()
+                && timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getCurrentFundEffectiveDate() == null) {
           //FYI, this will show an erorr to the user, we are doing this such they can see the error, and that they had put in a null value
             awardHierarchyNode.getValue().setCurrentFundEffectiveDate(null);
         }
@@ -372,8 +374,9 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
     protected void inspectAndCaptureObligationExpirationDateChanges(TimeAndMoneyForm timeAndMoneyForm, Boolean isNoCostExtension, AwardAmountInfo aai, Integer index,
                                                         Award award, TimeAndMoneyDocument timeAndMoneyDocument, Entry<String, AwardHierarchyNode> awardHierarchyNode,
                                                         List<TransactionDetail> dateChangeTransactionDetailItems) {
-        if(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getObligationExpirationDate()!=null &&
-                !timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getObligationExpirationDate().equals(aai.getObligationExpirationDate())){
+        if(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).isPopulatedFromClient()
+                && timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getObligationExpirationDate()!=null 
+                && !timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getObligationExpirationDate().equals(aai.getObligationExpirationDate())){
             if (isNoCostExtension && 
                     timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getObligationExpirationDate().after(aai.getObligationExpirationDate())) {
                         AwardAmountInfo tempAai = getNewAwardAmountInfoForDateChangeTransaction(aai, award, timeAndMoneyDocument.getDocumentNumber());
@@ -389,7 +392,8 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
                     awardHierarchyNode.getValue().setObligationExpirationDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getObligationExpirationDate());
                     award.getAwardAmountInfos().add(aai);
             }
-        } else if (timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getObligationExpirationDate() == null) {
+        } else if (timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).isPopulatedFromClient()
+                && timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getObligationExpirationDate() == null) {
           //FYI, this will show an erorr to the user, we are doing this such they can see the error, and that they had put in a null value
             awardHierarchyNode.getValue().setObligationExpirationDate(null);
         }
@@ -413,8 +417,9 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
                                                         Award award, TimeAndMoneyDocument timeAndMoneyDocument, Entry<String, AwardHierarchyNode> awardHierarchyNode,
                                                         List<TransactionDetail> dateChangeTransactionDetailItems) {
         
-        if(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getFinalExpirationDate()!=null &&
-              !timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getFinalExpirationDate().equals(aai.getFinalExpirationDate())){ 
+        if(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).isPopulatedFromClient()
+                && timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getFinalExpirationDate()!=null 
+                && !timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getFinalExpirationDate().equals(aai.getFinalExpirationDate())){ 
           if (isNoCostExtension && 
                   timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getFinalExpirationDate().after(aai.getFinalExpirationDate())) {
                       AwardAmountInfo tempAai = getNewAwardAmountInfoForDateChangeTransaction(aai, award, timeAndMoneyDocument.getDocumentNumber());
@@ -430,7 +435,8 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
                   awardHierarchyNode.getValue().setFinalExpirationDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getFinalExpirationDate());
                   award.getAwardAmountInfos().add(aai);
           }
-      } else if (timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getFinalExpirationDate() == null) {
+      } else if (timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).isPopulatedFromClient()
+              && timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getFinalExpirationDate() == null) {
           //FYI, this will show an erorr to the user, we are doing this such they can see the error, and that they had put in a null value
           awardHierarchyNode.getValue().setFinalExpirationDate(null);
       }
