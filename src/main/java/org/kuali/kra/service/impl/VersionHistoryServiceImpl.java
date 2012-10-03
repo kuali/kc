@@ -61,21 +61,23 @@ public class VersionHistoryServiceImpl implements VersionHistoryService {
         
         //if newly active, clear any other active version histories
         if (versionStatus == VersionStatus.ACTIVE) {
-            archiveActiveVersions(sequenceOwner.getClass(), getVersionName(sequenceOwner));
+            archiveActiveVersions(sequenceOwner.getClass(), getVersionName(sequenceOwner), currentVersion);
         }
         bos.save(currentVersion);
 
         return currentVersion;
     }
     
-    protected void archiveActiveVersions(Class klass, String versionName) {
+    protected void archiveActiveVersions(Class klass, String versionName, VersionHistory currentVersion) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put(SEQUENCE_OWNER_CLASS_NAME_FIELD, klass.getName());
         fieldValues.put(SEQUENCE_OWNER_REFERENCE_VERSION_NAME, versionName);  
         fieldValues.put(VERSION_STATUS_FIELD, VersionStatus.ACTIVE.toString());
         for (VersionHistory version : bos.findMatching(VersionHistory.class, fieldValues)) {
-            version.setStatus(VersionStatus.ARCHIVED);
-            bos.save(version);
+            if (!version.equals(currentVersion)) {
+                version.setStatus(VersionStatus.ARCHIVED);
+                bos.save(version);
+            }
         }
     }
     
