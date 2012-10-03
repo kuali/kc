@@ -33,6 +33,7 @@ import org.kuali.kra.iacuc.committee.print.IacucCommitteeXmlStream;
 import org.kuali.kra.iacuc.committee.print.IacucScheduleXmlStream;
 import org.kuali.kra.iacuc.committee.print.service.IacucPrintXmlUtilService;
 import org.kuali.kra.iacuc.personnel.IacucProtocolPersonRole;
+import org.kuali.kra.iacuc.personnel.IacucProtocolPersonRolodex;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.actions.print.ProtocolXmlStreamBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewer;
@@ -197,8 +198,7 @@ public class IacucProtocolXmlStream extends ProtocolXmlStreamBase {
             PersonType personType = protocolReviewerType.addNewPerson();
             boolean isNonEmployee = protocolReviewer.getNonEmployeeFlag();
             if (isNonEmployee) {
-                ProtocolPersonRolodexBase rolodex = getBusinessObjectService().findBySinglePrimaryKey(ProtocolPersonRolodexBase.class,
-                        protocolReviewer.getRolodexId());
+                ProtocolPersonRolodexBase rolodex = getBusinessObjectService().findBySinglePrimaryKey(IacucProtocolPersonRolodex.class, protocolReviewer.getRolodexId());
                 KraServiceLocator.getService(IacucPrintXmlUtilService.class).setPersonXml(rolodex, personType);
 
             } else {
