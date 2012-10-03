@@ -45,6 +45,9 @@ public class AwardHierarchyNode extends AwardHierarchy {
     private String awardDocumentNumber;
     private Boolean hasChildren;
     
+    //transient
+    private boolean populatedFromClient;
+    
 
     public AwardHierarchyNode() {
         anticipatedTotalAmount = new KualiDecimal("0");
@@ -425,5 +428,13 @@ public class AwardHierarchyNode extends AwardHierarchy {
             && ObjectUtils.equals(awardDocumentNumber, other.getAwardDocumentNumber())
             && ObjectUtils.equals(getHasChildren(), other.getHasChildren());
         return retVal;
+    }
+
+    public boolean isPopulatedFromClient() {
+        return populatedFromClient;
+    }
+
+    public void setPopulatedFromClient(boolean populatedFromClient) {
+        this.populatedFromClient = populatedFromClient;
     }
 }
