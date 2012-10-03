@@ -68,6 +68,8 @@ public class SubmissionTypeValuesFinder extends IacucActionsKeyValuesBase {
     protected boolean validStatusSubmissionTypePair(IacucProtocolSubmissionType submissionType, String currentStatus, ProtocolBase protocol) {
         if (StringUtils.equalsIgnoreCase(submissionType.getSubmissionTypeCode(), IacucProtocolSubmissionType.INITIAL_SUBMISSION)) {
             return displayResubmission(currentStatus) || displayInitialSubmission(currentStatus);
+        } else if (StringUtils.equalsIgnoreCase(submissionType.getSubmissionTypeCode(), IacucProtocolSubmissionType.FYI)) {
+            return displayResubmission(currentStatus) || displayFYISubmission(currentStatus);
         } else if (StringUtils.equalsIgnoreCase(submissionType.getSubmissionTypeCode(), IacucProtocolSubmissionType.AMENDMENT)) {
             return displayResubmission(currentStatus) || displayAmendment(currentStatus, protocol);
         } else if (StringUtils.equalsIgnoreCase(submissionType.getSubmissionTypeCode(), IacucProtocolSubmissionType.CONTINUATION)) {
@@ -78,6 +80,18 @@ public class SubmissionTypeValuesFinder extends IacucActionsKeyValuesBase {
             return displayResubmission(currentStatus) || displayResponseToPrevIACUCNotification(currentStatus);
         }
         return false; 
+    }
+    
+    // TODO this is just a temporary fix to test acknowledge action, need further clarification to decide when exactly to show the FYI option
+    private boolean displayFYISubmission(String currentStatus) {
+        String validStatuses[] = { 
+                                   IacucProtocolStatus.IN_PROGRESS, 
+                                   IacucProtocolStatus.WITHDRAWN, 
+                                   IacucProtocolStatus.SUBMITTED_TO_IACUC,
+                                   IacucProtocolStatus.ADMINISTRATIVELY_WITHDRAWN,
+                                   IacucProtocolStatus.ADMINISTRATIVELY_INCOMPLETE
+                                  };
+        return validateCurrentStatus(currentStatus, validStatuses);
     }
     
     private boolean displayInitialSubmission(String currentStatus) {
