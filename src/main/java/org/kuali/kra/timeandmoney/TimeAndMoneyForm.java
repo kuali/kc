@@ -51,6 +51,7 @@ import org.kuali.rice.kns.web.ui.HeaderField;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.springframework.util.AutoPopulatingList;
 
 public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
 
@@ -116,16 +117,11 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
         awardDirectFandADistributionBean = new AwardDirectFandADistributionBean(this);
         order = new ArrayList<String>();
         columnSpan = new ArrayList<Integer>();
-        obligationStartDates = new ArrayList<String>();        
-        obligationExpirationDates = new ArrayList<String>();
-        finalExpirationDates = new ArrayList<String>();
-        awardHierarchyNodeItems = new ArrayList<AwardHierarchyNode>();
-        for(int i=0;i<100;i++){
-            obligationStartDates.add(null);
-            obligationExpirationDates.add(null);
-            finalExpirationDates.add(null);
-            awardHierarchyNodeItems.add(new AwardHierarchyNode());
-        }
+        obligationStartDates = new AutoPopulatingList<String>(String.class);        
+        obligationExpirationDates = new AutoPopulatingList<String>(String.class);
+        finalExpirationDates = new AutoPopulatingList<String>(String.class);
+        awardHierarchyNodeItems = new AutoPopulatingList<AwardHierarchyNode>(AwardHierarchyNode.class);
+        
         setControlForAwardHierarchyView("2");
         setCurrentOrPendingView("0");
         setDirectIndirectViewEnabled(getParameterService().getParameterValueAsString(Constants.PARAMETER_MODULE_AWARD, Constants.PARAMETER_COMPONENT_DOCUMENT, "ENABLE_AWD_ANT_OBL_DIRECT_INDIRECT_COST"));
@@ -163,28 +159,16 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
         this.registerEditableProperty("controlForAwardHierarchyView");
         this.registerEditableProperty("currentOrPendingView");
         this.registerEditableProperty("directIndirectViewEnabled");
-        registerHierarchyNodeDates();
         super.populate(request);
     }
     
-    /**
-     * This method registers the dates for each node that is being sent to the request on save.  Only nodes that are expanded in the 
-     * view will be sent.
-     */
-    public void registerHierarchyNodeDates() {
-        int temp = 1;
-        for (AwardHierarchyNode awardHierarchyNode : awardHierarchyNodeItems) {
-            this.registerEditableProperty("awardHierarchyNodeItems[" + temp + "].currentFundEffectiveDate");
-            this.registerEditableProperty("awardHierarchyNodeItems[" + temp + "].finalExpirationDate");
-            this.registerEditableProperty("awardHierarchyNodeItems[" + temp + "].obligationExpirationDate");
-            this.registerEditableProperty("awardHierarchyNodeItems[" + temp + "].amountObligatedToDate");
-            this.registerEditableProperty("awardHierarchyNodeItems[" + temp + "].anticipatedTotalAmount");
-            this.registerEditableProperty("awardHierarchyNodeItems[" + temp + "].obligatedTotalDirect");
-            this.registerEditableProperty("awardHierarchyNodeItems[" + temp + "].obligatedTotalIndirect");
-            this.registerEditableProperty("awardHierarchyNodeItems[" + temp + "].anticipatedTotalDirect");
-            this.registerEditableProperty("awardHierarchyNodeItems[" + temp + "].anticipatedTotalIndirect");
-            temp++;
+    public boolean isPropertyEditable(String propertyName) {
+        if (propertyName.startsWith("awardHierarchyNodeItems[")) {
+            return true;
+        } else {
+            return super.isPropertyEditable(propertyName);
         }
+
     }
     
     /**
