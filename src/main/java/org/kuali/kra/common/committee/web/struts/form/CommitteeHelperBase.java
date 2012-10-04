@@ -25,7 +25,7 @@ import org.apache.commons.lang.time.DateUtils;
 import org.kuali.kra.common.committee.bo.CommitteeBase;
 import org.kuali.kra.common.committee.bo.CommitteeBatchCorrespondenceBase;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
-import org.kuali.kra.common.committee.bo.CommitteeMembershipExpertise;
+import org.kuali.kra.common.committee.bo.CommitteeMembershipExpertiseBase;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipRole;
 import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
 import org.kuali.kra.common.committee.document.authorization.CommitteeScheduleTaskBase;
@@ -52,7 +52,7 @@ public abstract class CommitteeHelperBase implements Serializable {
     private boolean modifyCommittee = false;
     private CommitteeMembershipBase newCommitteeMembership;
     private List<CommitteeMembershipRole> newCommitteeMembershipRoles;
-    private List<CommitteeMembershipExpertise> newCommitteeMembershipExpertise;
+    private List<CommitteeMembershipExpertiseBase> newCommitteeMembershipExpertise;
     private ScheduleData scheduleData;
     private String generateBatchCorrespondenceTypeCode;
     private java.sql.Date generateStartDate;
@@ -207,14 +207,16 @@ public abstract class CommitteeHelperBase implements Serializable {
         this.newCommitteeMembershipRoles = newCommitteeMembershipRoles;
     }
     
-    public List<CommitteeMembershipExpertise> getNewCommitteeMembershipExpertise() {
+    public List<CommitteeMembershipExpertiseBase> getNewCommitteeMembershipExpertise() {
         while (this.committeeForm.getCommitteeDocument().getCommittee().getCommitteeMemberships().size() > this.newCommitteeMembershipExpertise.size()) {
-            this.newCommitteeMembershipExpertise.add(this.newCommitteeMembershipExpertise.size(), new CommitteeMembershipExpertise());
+            this.newCommitteeMembershipExpertise.add(this.newCommitteeMembershipExpertise.size(), getNewCommitteeMembershipExpertiseInstanceHook());
         }
         return newCommitteeMembershipExpertise;
     }
 
-    public void setNewCommitteeMembershipExpertise(List <CommitteeMembershipExpertise> newCommitteeMembershipExpertise) {
+    protected abstract CommitteeMembershipExpertiseBase getNewCommitteeMembershipExpertiseInstanceHook();
+    
+    public void setNewCommitteeMembershipExpertise(List <CommitteeMembershipExpertiseBase> newCommitteeMembershipExpertise) {
         this.newCommitteeMembershipExpertise = newCommitteeMembershipExpertise;
     }
 

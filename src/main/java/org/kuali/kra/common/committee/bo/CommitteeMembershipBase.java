@@ -64,7 +64,7 @@ public abstract class CommitteeMembershipBase extends CommitteeAssociateBase {
 
     private List<CommitteeMembershipRole> membershipRoles;
 
-    private List<CommitteeMembershipExpertise> membershipExpertise;
+    private List<CommitteeMembershipExpertiseBase> membershipExpertise;
 
     private CommitteeMembershipType membershipType;
 
@@ -80,7 +80,7 @@ public abstract class CommitteeMembershipBase extends CommitteeAssociateBase {
 
     public CommitteeMembershipBase() {
         setMembershipRoles(new ArrayList<CommitteeMembershipRole>());
-        setMembershipExpertise(new ArrayList<CommitteeMembershipExpertise>());
+        setMembershipExpertise(new ArrayList<CommitteeMembershipExpertiseBase>());
     }
 
     public Long getCommitteeMembershipId() {
@@ -205,11 +205,11 @@ public abstract class CommitteeMembershipBase extends CommitteeAssociateBase {
         return membershipRoles;
     }
 
-    public void setMembershipExpertise(List<CommitteeMembershipExpertise> committeeMembershipExpertise) {
+    public void setMembershipExpertise(List<CommitteeMembershipExpertiseBase> committeeMembershipExpertise) {
         this.membershipExpertise = committeeMembershipExpertise;
     }
 
-    public List<CommitteeMembershipExpertise> getMembershipExpertise() {
+    public List<CommitteeMembershipExpertiseBase> getMembershipExpertise() {
         return membershipExpertise;
     }
 
@@ -371,4 +371,5 @@ public abstract class CommitteeMembershipBase extends CommitteeAssociateBase {
         }
         return retVal;
     }
+
 }

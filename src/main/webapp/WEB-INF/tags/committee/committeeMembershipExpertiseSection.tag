@@ -1,5 +1,7 @@
 <%@ include file="/WEB-INF/jsp/committee/committeeMember.jsp"%>
 
+<%@ attribute name="researchAreaReference" required="true" %>
+
 <c:set var="membershipExpertiseAttributes" value="${DataDictionary.CommitteeMembershipExpertise.attributes}" />
 
 <table border="0" cellpadding="0" cellspacing="0" summary="">
@@ -33,7 +35,7 @@
                                 <td align="left" valign="middle" class="infoline">
                                     <div align="left">
                                         (select)
-                                        <kul:multipleValueLookup boClassName="org.kuali.kra.bo.ResearchArea" 
+                                        <kul:multipleValueLookup boClassName="${researchAreaReference}" 
                                                                  lookedUpCollectionName="committeeResearchAreas"
                                                                  anchor="${currentTabIndex}.memberIndex${memberIndex}"/>
                                     </div>

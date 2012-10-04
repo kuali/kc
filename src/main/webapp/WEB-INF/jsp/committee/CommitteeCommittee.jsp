@@ -32,7 +32,7 @@
 <div align="right"><kul:help documentTypeName="CommitteeDocument" pageName="Committee" /></div>
 <kul:documentOverview editingMode="${KualiForm.editingMode}" />
 <kra-committee:committee />
-<kra-committee:committeeResearchAreas />
+<kra-committee:committeeResearchAreas researchAreaReference = "org.kuali.kra.bo.ResearchArea"/>
 
 <kul:panelFooter />
 	<kul:documentControls 

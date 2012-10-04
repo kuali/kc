@@ -17,6 +17,7 @@ package org.kuali.kra.iacuc.committee.web.struts.action;
 
 import java.util.List;
 
+import org.kuali.kra.bo.ResearchAreaBase;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
 import org.kuali.kra.common.committee.bo.CommitteeBase;
 import org.kuali.kra.common.committee.document.authorization.CommitteeTaskBase;
@@ -25,6 +26,7 @@ import org.kuali.kra.common.committee.rule.event.DeleteCommitteeMemberEventBase;
 import org.kuali.kra.common.committee.rules.CommitteeDocumentRuleBase;
 import org.kuali.kra.common.committee.service.CommitteeMembershipServiceBase;
 import org.kuali.kra.common.committee.web.struts.action.CommitteeMembershipActionBase;
+import org.kuali.kra.iacuc.IacucResearchArea;
 import org.kuali.kra.iacuc.committee.bo.IacucCommittee;
 import org.kuali.kra.iacuc.committee.bo.IacucCommitteeMembership;
 import org.kuali.kra.iacuc.committee.rule.event.IacucDeleteCommitteeMemberEvent;
@@ -66,6 +68,11 @@ public class IacucCommitteeMembershipAction extends CommitteeMembershipActionBas
             List<CommitteeMembershipBase> committeeMemberships, ErrorType type) {
         
         return new IacucDeleteCommitteeMemberEvent(errorPathPrefix, document, committeeMemberships,type);
+    }
+
+    @Override
+    protected Class<? extends ResearchAreaBase> getResearchAreaBOClassHook() {
+        return IacucResearchArea.class;
     }
 
 }

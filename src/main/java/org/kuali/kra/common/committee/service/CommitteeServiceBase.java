@@ -18,7 +18,7 @@ package org.kuali.kra.common.committee.service;
 import java.util.Collection;
 import java.util.List;
 
-import org.kuali.kra.bo.ResearchArea;
+import org.kuali.kra.bo.ResearchAreaBase;
 import org.kuali.kra.common.committee.bo.CommitteeBase;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
 import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
@@ -43,7 +43,7 @@ public interface CommitteeServiceBase<CMT extends CommitteeBase<CMT, ?, CS>,
      * @param committee the committee to add to
      * @param researchAreas the research areas to add
      */
-    public void addResearchAreas(CMT committee, Collection<ResearchArea> researchAreas);
+    public void addResearchAreas(CMT committee, Collection<ResearchAreaBase> researchAreas);
 
     /**
      * Get the valid upcoming committee dates for scheduling a protocol.

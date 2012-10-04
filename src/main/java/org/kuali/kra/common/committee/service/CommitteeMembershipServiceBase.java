@@ -17,7 +17,7 @@ package org.kuali.kra.common.committee.service;
 
 import java.util.Collection;
 
-import org.kuali.kra.bo.ResearchArea;
+import org.kuali.kra.bo.ResearchAreaBase;
 import org.kuali.kra.common.committee.bo.CommitteeBase;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipRole;
@@ -58,7 +58,7 @@ public interface CommitteeMembershipServiceBase<CMT extends CommitteeBase<CMT, ?
      * @param committeeMembership - the CommitteeMembershipBase to which the expertise is to be added.
      * @param committeeMembershipExpertise - collection of expertise that is to be added
      */
-    void addCommitteeMembershipExpertise(CommitteeMembershipBase committeeMembership, Collection<ResearchArea> researchAreas);
+    void addCommitteeMembershipExpertise(CommitteeMembershipBase committeeMembership, Collection<ResearchAreaBase> researchAreas);
 
     /**
      * This method deletes a CommitteeMembershipExpertise from the list of CommitteeMembershipExpertise

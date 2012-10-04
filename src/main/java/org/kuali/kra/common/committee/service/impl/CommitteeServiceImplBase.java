@@ -27,7 +27,7 @@ import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.bo.ResearchArea;
+import org.kuali.kra.bo.ResearchAreaBase;
 import org.kuali.kra.common.committee.bo.CommitteeBase;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipRole;
@@ -98,8 +98,8 @@ public abstract class CommitteeServiceImplBase<CMT extends CommitteeBase<CMT, ?,
      * @see org.kuali.kra.common.committee.service.CommitteeServiceBase#addResearchAreas(org.kuali.kra.common.committee.bo.CMT,
      *      java.util.Collection)
      */
-    public void addResearchAreas(CMT committee, Collection<ResearchArea> researchAreas) {
-        for (ResearchArea researchArea : researchAreas) {
+    public void addResearchAreas(CMT committee, Collection<ResearchAreaBase> researchAreas) {
+        for (ResearchAreaBase researchArea : researchAreas) {
             if (!hasResearchArea(committee, researchArea)) {
                 addCommitteeResearchArea(committee, researchArea);
             }
@@ -113,7 +113,7 @@ public abstract class CommitteeServiceImplBase<CMT extends CommitteeBase<CMT, ?,
      * @param researchArea
      * @return true if the committee has the research area; otherwise false
      */
-    protected boolean hasResearchArea(CMT committee, ResearchArea researchArea) {
+    protected boolean hasResearchArea(CMT committee, ResearchAreaBase researchArea) {
         for (CommitteeResearchAreaBase committeeResearchArea : committee.getCommitteeResearchAreas()) {
             if (StringUtils.equals(committeeResearchArea.getResearchAreaCode(), researchArea.getResearchAreaCode())) {
                 return true;
@@ -128,7 +128,7 @@ public abstract class CommitteeServiceImplBase<CMT extends CommitteeBase<CMT, ?,
      * @param committee
      * @param researchArea
      */
-    protected void addCommitteeResearchArea(CMT committee, ResearchArea researchArea) {
+    protected void addCommitteeResearchArea(CMT committee, ResearchAreaBase researchArea) {
         
 // TODO *********commented the code below during IACUC refactoring*********         
 //        CommitteeResearchAreaBase committeeResearchArea = new CommitteeResearchAreaBase();

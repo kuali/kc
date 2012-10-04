@@ -25,6 +25,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.bo.ResearchArea;
+import org.kuali.kra.bo.ResearchAreaBase;
 import org.kuali.kra.common.committee.bo.CommitteeBase;
 import org.kuali.kra.common.committee.document.CommitteeDocumentBase;
 import org.kuali.kra.common.committee.document.authorization.CommitteeTaskBase;
@@ -78,13 +79,15 @@ public abstract class CommitteeCommitteeActionBase extends CommitteeActionBase {
     @Override
     protected void processMultipleLookupResults(CommitteeFormBase committeeForm,
             Class lookupResultsBOClass, Collection<PersistableBusinessObject> selectedBOs) {
-        if (lookupResultsBOClass.isAssignableFrom(ResearchArea.class)) {
+        if (lookupResultsBOClass.isAssignableFrom(getResearchAreaBOClassHook())) {
             CommitteeBase committee = committeeForm.getCommitteeDocument().getCommittee();
             getCommitteeService().addResearchAreas(committee, (Collection) selectedBOs);
             // finally do validation and error reporting for inactive research areas
             getNewCommitteeDocumentRuleInstanceHook().validateCommitteeResearchAreas(committee);
         }
     }
+
+    protected abstract Class<? extends ResearchAreaBase> getResearchAreaBOClassHook();
     
     protected abstract CommitteeDocumentRuleBase getNewCommitteeDocumentRuleInstanceHook();
     
