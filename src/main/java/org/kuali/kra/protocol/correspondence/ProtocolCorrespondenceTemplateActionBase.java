@@ -28,7 +28,6 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.rice.core.api.util.RiceConstants;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
@@ -52,9 +51,16 @@ public abstract class ProtocolCorrespondenceTemplateActionBase extends KualiDocu
             HttpServletResponse response) throws Exception {
 
         // Check and initialize permissions
-        if (getProtocolCorrespondenceTemplateAuthorizationService().hasPermission(PermissionConstants.MODIFY_IACUC_CORRESPONDENCE_TEMPLATE)) {
+// TODO *********commented the code below during IACUC refactoring*********         
+//        if (getProtocolCorrespondenceTemplateAuthorizationService().hasPermission(PermissionConstants.MODIFY_IACUC_CORRESPONDENCE_TEMPLATE)) {
+        
+        if (getProtocolCorrespondenceTemplateAuthorizationService().hasPermission(getModifyCorrespondenceTemplatePermissionNameHook())) {
             ((ProtocolCorrespondenceTemplateFormBase) form).setReadOnly(false);
-        } else if (getProtocolCorrespondenceTemplateAuthorizationService().hasPermission(PermissionConstants.VIEW_IACUC_CORRESPONDENCE_TEMPLATE)) {
+            
+// TODO *********commented the code below during IACUC refactoring*********             
+//        } else if (getProtocolCorrespondenceTemplateAuthorizationService().hasPermission(PermissionConstants.VIEW_IACUC_CORRESPONDENCE_TEMPLATE)) {
+            
+        } else if (getProtocolCorrespondenceTemplateAuthorizationService().hasPermission(getViewCorrespondenceTemplatePermissionNameHook())) {
             ((ProtocolCorrespondenceTemplateFormBase) form).setReadOnly(true);
         } else {
             throw new AuthorizationException(GlobalVariables.getUserSession().getPerson().getPrincipalName(), 
@@ -75,6 +81,11 @@ public abstract class ProtocolCorrespondenceTemplateActionBase extends KualiDocu
         return super.execute(mapping, form, request, response);
     }
     
+    
+    protected abstract String getModifyCorrespondenceTemplatePermissionNameHook();
+    
+    protected abstract String getViewCorrespondenceTemplatePermissionNameHook();
+
     protected abstract ProtocolCorrespondenceTemplateFormBase getNewProtocolCorrespondenceTemplateFormInstanceHook();
     
     
@@ -310,9 +321,18 @@ public abstract class ProtocolCorrespondenceTemplateActionBase extends KualiDocu
      * @return ProtocolCorrespondenceTemplateService
      */
     private ProtocolCorrespondenceTemplateService getProtocolCorrespondenceTemplateService() {
-        return (ProtocolCorrespondenceTemplateService) KraServiceLocator.getService("iacucProtocolCorrespondenceTemplateService");
+        
+// TODO *********commented the code below during IACUC refactoring********* 
+//        return (ProtocolCorrespondenceTemplateService) KraServiceLocator.getService("iacucProtocolCorrespondenceTemplateService");
+        
+        return KraServiceLocator.getService(getProtocolCorrespondenceTemplateServiceClassHook());
     }
     
+    protected abstract Class<? extends ProtocolCorrespondenceTemplateService> getProtocolCorrespondenceTemplateServiceClassHook();
+    
+    
+    
+
     /**
      * This method returns the index of the selected correspondence type.
      * @param request
@@ -355,7 +375,11 @@ public abstract class ProtocolCorrespondenceTemplateActionBase extends KualiDocu
             HttpServletResponse response) throws Exception {
 
         // Check modify permission
-        if (!getProtocolCorrespondenceTemplateAuthorizationService().hasPermission(PermissionConstants.MODIFY_IACUC_CORRESPONDENCE_TEMPLATE)) {
+        
+// TODO *********commented the code below during IACUC refactoring*********         
+//        if (!getProtocolCorrespondenceTemplateAuthorizationService().hasPermission(PermissionConstants.MODIFY_IACUC_CORRESPONDENCE_TEMPLATE)) {
+        
+        if (!getProtocolCorrespondenceTemplateAuthorizationService().hasPermission(getModifyCorrespondenceTemplatePermissionNameHook())) { 
             throw new AuthorizationException(GlobalVariables.getUserSession().getPerson().getPrincipalName(), 
                     findMethodToCall(form, request), this.getClass().getSimpleName());
         }
@@ -404,7 +428,10 @@ public abstract class ProtocolCorrespondenceTemplateActionBase extends KualiDocu
             HttpServletResponse response) throws Exception {
         ActionForward actionForward = mapping.findForward(KRADConstants.MAPPING_PORTAL);
         
-        if (getProtocolCorrespondenceTemplateAuthorizationService().hasPermission(PermissionConstants.MODIFY_IACUC_CORRESPONDENCE_TEMPLATE)) {
+// TODO *********commented the code below during IACUC refactoring*********         
+//        if (getProtocolCorrespondenceTemplateAuthorizationService().hasPermission(PermissionConstants.MODIFY_IACUC_CORRESPONDENCE_TEMPLATE)) {
+        
+        if (getProtocolCorrespondenceTemplateAuthorizationService().hasPermission(getModifyCorrespondenceTemplatePermissionNameHook())) {
             if (!StringUtils.equals(request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME), KRADConstants.DOCUMENT_SAVE_BEFORE_CLOSE_QUESTION)) {
                 // Ask question whether to save before close
                 actionForward = this.performQuestionWithoutInput(mapping, form, request, response, KRADConstants.DOCUMENT_SAVE_BEFORE_CLOSE_QUESTION, 
@@ -430,6 +457,8 @@ public abstract class ProtocolCorrespondenceTemplateActionBase extends KualiDocu
         
         return actionForward;
     }
+
+    
     
     /**
      * 
