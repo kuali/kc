@@ -74,7 +74,8 @@
         </reference-descriptor>
     </class-descriptor>
     
-    <class-descriptor class="org.kuali.kra.common.committee.bo.CommitteeMembershipExpertise" table="COMM_MEMBER_EXPERTISE">
+    <!--  
+    <class-descriptor class="org.kuali.kra.common.committee.bo.CommitteeMembershipExpertiseBase" table="COMM_MEMBER_EXPERTISE">
         <field-descriptor name="committeeMembershipExpertiseId" column="COMM_MEMBER_EXPERTISE_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_COMMITTEE_ID" autoincrement="true" />
         <field-descriptor name="committeeMembershipIdFk" column="COMM_MEMBERSHIP_ID_FK" jdbc-type="BIGINT" />
         <field-descriptor name="researchAreaCode" column="RESEARCH_AREA_CODE" jdbc-type="VARCHAR" />
@@ -88,6 +89,7 @@
         </reference-descriptor>
     </class-descriptor>
     
+    -->
     
 
 <!--  shared meeting classes -->

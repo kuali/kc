@@ -16,7 +16,9 @@
 package org.kuali.kra.iacuc.service.impl;
 
 import org.kuali.kra.bo.ResearchAreaBase;
+import org.kuali.kra.common.committee.bo.CommitteeMembershipExpertiseBase;
 import org.kuali.kra.iacuc.IacucResearchArea;
+import org.kuali.kra.iacuc.committee.bo.IacucCommitteeMembershipExpertise;
 import org.kuali.kra.iacuc.protocol.research.IacucProtocolResearchArea;
 import org.kuali.kra.iacuc.service.IacucResearchAreasService;
 import org.kuali.kra.protocol.protocol.research.ProtocolResearchAreaBase;
@@ -39,6 +41,11 @@ public class IacucResearchAreasServiceImpl extends ResearchAreasServiceBaseImpl 
             String description, boolean active) {
         return new IacucResearchArea(researchAreaCode, parentResearchAreaCode, 
                 description, active);
+    }
+
+    @Override
+    protected Class<? extends CommitteeMembershipExpertiseBase> getCommitteeMembershipExpertiseClassHook() {
+        return IacucCommitteeMembershipExpertise.class;
     }
 
 }

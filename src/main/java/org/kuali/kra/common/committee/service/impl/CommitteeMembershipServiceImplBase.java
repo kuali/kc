@@ -22,10 +22,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.bo.ResearchArea;
+import org.kuali.kra.bo.ResearchAreaBase;
 import org.kuali.kra.common.committee.bo.CommitteeBase;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
-import org.kuali.kra.common.committee.bo.CommitteeMembershipExpertise;
+import org.kuali.kra.common.committee.bo.CommitteeMembershipExpertiseBase;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipRole;
 import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleAttendanceBase;
@@ -108,11 +108,11 @@ public abstract class CommitteeMembershipServiceImplBase<CMT extends CommitteeBa
     /**
      * @see org.kuali.kra.common.committee.service.CommitteeMembershipServiceBase#addCommitteeMembershipExpertise(org.kuali.kra.common.committee.bo.CommitteeMembershipBase, java.util.Collection)
      */
-    public void addCommitteeMembershipExpertise(CommitteeMembershipBase committeeMembership, Collection<ResearchArea> researchAreas) {
-        for (ResearchArea researchArea: researchAreas) {
+    public void addCommitteeMembershipExpertise(CommitteeMembershipBase committeeMembership, Collection<ResearchAreaBase> researchAreas) {
+        for (ResearchAreaBase researchArea: researchAreas) {
             // check if the research area is not already included in expertise for the committee member
             if(!isDuplicateResearchArea(committeeMembership, researchArea)) {
-                CommitteeMembershipExpertise membershipExpertise = new CommitteeMembershipExpertise();
+                CommitteeMembershipExpertiseBase membershipExpertise = getNewCommitteeMembershipExpertiseInstanceHook();
                 membershipExpertise.setResearchAreaCode(researchArea.getResearchAreaCode());
                 membershipExpertise.setCommitteeMembershipIdFk(committeeMembership.getCommitteeMembershipId());
                 membershipExpertise.refreshReferenceObject(REFERENCE_RESEARCH_AREA);
@@ -122,14 +122,16 @@ public abstract class CommitteeMembershipServiceImplBase<CMT extends CommitteeBa
         }
     }
     
+    protected abstract CommitteeMembershipExpertiseBase getNewCommitteeMembershipExpertiseInstanceHook();
+    
     /**
      * This method is a private helper method to prevent duplicate research areas in committee member's expertise
      * @param committeeMembership
      * @param researchArea
      * @return
      */
-    private boolean isDuplicateResearchArea(CommitteeMembershipBase committeeMembership, ResearchArea researchArea){
-        for(CommitteeMembershipExpertise cme: (committeeMembership.getMembershipExpertise())){
+    private boolean isDuplicateResearchArea(CommitteeMembershipBase committeeMembership, ResearchAreaBase researchArea){
+        for(CommitteeMembershipExpertiseBase cme: (committeeMembership.getMembershipExpertise())){
             if(researchArea.equals(cme.getResearchArea())){
                 return true;
             }
@@ -142,7 +144,7 @@ public abstract class CommitteeMembershipServiceImplBase<CMT extends CommitteeBa
      */
     public void deleteCommitteeMembershipExpertise(CMT committee, int selectedMembershipIndex, int lineNumber) {
         CommitteeMembershipBase committeeMembership = committee.getCommitteeMemberships().get(selectedMembershipIndex);
-        CommitteeMembershipExpertise committeeMembershipExpertise = committeeMembership.getMembershipExpertise().get(lineNumber);
+        CommitteeMembershipExpertiseBase committeeMembershipExpertise = committeeMembership.getMembershipExpertise().get(lineNumber);
         committeeMembership.getMembershipExpertise().remove(committeeMembershipExpertise);
     }
 

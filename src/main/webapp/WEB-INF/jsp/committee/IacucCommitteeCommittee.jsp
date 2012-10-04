@@ -32,7 +32,7 @@
 <kul:documentOverview editingMode="${KualiForm.editingMode}" />
 
 <kra-committee:committee cmtAttributes="${DataDictionary.IacucCommittee.attributes}" />
-<kra-committee:committeeResearchAreas />
+<kra-committee:committeeResearchAreas researchAreaReference = "org.kuali.kra.iacuc.IacucResearchArea"/>
 
 <kul:panelFooter />
 	<kul:documentControls 

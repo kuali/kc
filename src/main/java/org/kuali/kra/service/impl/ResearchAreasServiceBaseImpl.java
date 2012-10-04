@@ -29,9 +29,10 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.ResearchAreaBase;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
-import org.kuali.kra.common.committee.bo.CommitteeMembershipExpertise;
+import org.kuali.kra.common.committee.bo.CommitteeMembershipExpertiseBase;
 import org.kuali.kra.common.committee.bo.CommitteeResearchAreaBase;
 import org.kuali.kra.common.committee.bo.CommitteeBase;
+import org.kuali.kra.common.committee.service.CommitteeServiceBase;
 import org.kuali.kra.dao.ResearchAreaReferencesDao;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.ProtocolBase;
@@ -460,9 +461,9 @@ public abstract class ResearchAreasServiceBaseImpl implements ResearchAreasServi
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put(RESEARCH_AREA_CODE, researchAreaCode);
         @SuppressWarnings("unchecked")
-        List<CommitteeMembershipExpertise> cmes = (List<CommitteeMembershipExpertise>) this.getBusinessObjectService().findMatching(CommitteeMembershipExpertise.class, fieldValues);
+        List<CommitteeMembershipExpertiseBase> cmes = (List<CommitteeMembershipExpertiseBase>) this.getBusinessObjectService().findMatching(getCommitteeMembershipExpertiseClassHook(), fieldValues);
         // loop through the collection checking the parent committee of each instance for currentness
-        for(CommitteeMembershipExpertise cme:cmes) {
+        for(CommitteeMembershipExpertiseBase cme:cmes) {
             // first get the parent committee membership using the FK
             CommitteeMembershipBase parentCommitteeMembership = this.getBusinessObjectService().findBySinglePrimaryKey(CommitteeMembershipBase.class, cme.getCommitteeMembershipIdFk());
             // check if the parent committee membership's term is still open
@@ -479,6 +480,7 @@ public abstract class ResearchAreasServiceBaseImpl implements ResearchAreasServi
         return retValue;
     }
 
+    protected abstract Class<? extends CommitteeMembershipExpertiseBase> getCommitteeMembershipExpertiseClassHook();    
     
     /**
      * This method recursively inactivates all child research areas.

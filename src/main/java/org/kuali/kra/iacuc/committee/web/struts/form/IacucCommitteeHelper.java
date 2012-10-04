@@ -15,8 +15,9 @@
  */
 package org.kuali.kra.iacuc.committee.web.struts.form;
 
-import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
 import org.kuali.kra.common.committee.bo.CommitteeBase;
+import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
+import org.kuali.kra.common.committee.bo.CommitteeMembershipExpertiseBase;
 import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
 import org.kuali.kra.common.committee.document.authorization.CommitteeScheduleTaskBase;
 import org.kuali.kra.common.committee.document.authorization.CommitteeTaskBase;
@@ -25,6 +26,7 @@ import org.kuali.kra.common.committee.service.CommitteeServiceBase;
 import org.kuali.kra.common.committee.web.struts.form.CommitteeHelperBase;
 import org.kuali.kra.iacuc.committee.bo.IacucCommittee;
 import org.kuali.kra.iacuc.committee.bo.IacucCommitteeMembership;
+import org.kuali.kra.iacuc.committee.bo.IacucCommitteeMembershipExpertise;
 import org.kuali.kra.iacuc.committee.bo.IacucCommitteeSchedule;
 import org.kuali.kra.iacuc.committee.document.authorization.IacucCommitteeScheduleTask;
 import org.kuali.kra.iacuc.committee.service.IacucCommitteeScheduleService;
@@ -68,6 +70,11 @@ public class IacucCommitteeHelper extends CommitteeHelperBase {
     @Override
     protected Class<? extends CommitteeServiceBase> getCommitteeServiceClassHook() {
         return IacucCommitteeService.class;
+    }
+
+    @Override
+    protected CommitteeMembershipExpertiseBase getNewCommitteeMembershipExpertiseInstanceHook() {
+        return new IacucCommitteeMembershipExpertise();
     }
 
 }

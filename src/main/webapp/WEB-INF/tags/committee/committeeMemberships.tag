@@ -2,6 +2,7 @@
 
 <%@ attribute name="readOnly" description="All fields are displayed as read-only elements." required="true" %>
 
+<%@ attribute name="researchAreaReference" required="true" %>
 <%@ attribute name="membershipRoleValuesFinderClassName" required="false" %>
 <c:if test="${membershipRoleValuesFinderClassName == null}">
 	<c:set var="membershipRoleValuesFinderClassName" value="org.kuali.kra.committee.keyvalue.MembershipRoleValuesFinder" />
@@ -102,7 +103,7 @@
               <kra-committee:committeeMembershipDetailsSection committeeMembership="${committeeMembershipProperty}" memberIndex="${status.index}" parentTabValue="${tabTitleValue}"  readOnly="${readOnly}" />
               <kra-committee:committeeMembershipContactInformationSection committeeMembership="${committeeMembershipProperty}" memberIndex="${status.index}" parentTabValue="${tabTitleValue}"  readOnly="${readOnly}" />
               <kra-committee:committeeMembershipRolesSection committeeMembership="${committeeMembershipProperty}" memberIndex="${status.index}" parentTabValue="${tabTitleValue}"  readOnly="${readOnly}"  finderClassName="${membershipRoleValuesFinderClassName}" />
-              <kra-committee:committeeMembershipExpertiseSection committeeMembership="${committeeMembershipProperty}" memberIndex="${status.index}" parentTabValue="${tabTitleValue}" readOnly="${readOnly}" />
+              <kra-committee:committeeMembershipExpertiseSection researchAreaReference = "${researchAreaReference}" committeeMembership="${committeeMembershipProperty}" memberIndex="${status.index}" parentTabValue="${tabTitleValue}" readOnly="${readOnly}" />
             </div>
         </kul:tab>
     </c:if>

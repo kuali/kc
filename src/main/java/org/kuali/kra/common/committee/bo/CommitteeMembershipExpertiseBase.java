@@ -15,14 +15,14 @@
  */
 package org.kuali.kra.common.committee.bo;
 
-import org.kuali.kra.bo.ResearchArea;
+import org.kuali.kra.bo.ResearchAreaBase;
 
 /**
  * 
  * This class implements the committee membership expertise business object.
  * 
  */
-public class CommitteeMembershipExpertise extends CommitteeSequenceAssociateBase {
+public abstract class CommitteeMembershipExpertiseBase extends CommitteeSequenceAssociateBase {
 
     private static final long serialVersionUID = 4926007164018659270L;
 
@@ -32,12 +32,14 @@ public class CommitteeMembershipExpertise extends CommitteeSequenceAssociateBase
 
     private String researchAreaCode;
 
-    private ResearchArea researchArea;
+    private ResearchAreaBase researchArea;
 
-    public CommitteeMembershipExpertise() {
-        setResearchArea(new ResearchArea());
+    public CommitteeMembershipExpertiseBase() {
+        setResearchArea(getNewResearchAreaInstanceHook());
     }
 
+    protected abstract ResearchAreaBase getNewResearchAreaInstanceHook();
+    
     public Long getCommitteeMembershipExpertiseId() {
         return committeeMembershipExpertiseId;
     }
@@ -62,11 +64,11 @@ public class CommitteeMembershipExpertise extends CommitteeSequenceAssociateBase
         this.researchAreaCode = researchAreaCode;
     }
 
-    public ResearchArea getResearchArea() {
+    public ResearchAreaBase getResearchArea() {
         return researchArea;
     }
 
-    public void setResearchArea(ResearchArea researchArea) {
+    public void setResearchArea(ResearchAreaBase researchArea) {
         this.researchArea = researchArea;
     }
 
@@ -81,7 +83,7 @@ public class CommitteeMembershipExpertise extends CommitteeSequenceAssociateBase
         if (obj.getClass() != this.getClass()) {
             return false;
         }
-        CommitteeMembershipExpertise committeeMembershipExpertise = (CommitteeMembershipExpertise) obj;
+        CommitteeMembershipExpertiseBase committeeMembershipExpertise = (CommitteeMembershipExpertiseBase) obj;
         if (this.committeeMembershipIdFk != null && this.committeeMembershipIdFk.equals(committeeMembershipExpertise.committeeMembershipIdFk) && this.researchAreaCode != null && this.researchAreaCode.equals(committeeMembershipExpertise.researchAreaCode)) {
             return true;
         } else {
