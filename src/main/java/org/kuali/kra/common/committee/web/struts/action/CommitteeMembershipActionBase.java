@@ -33,6 +33,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.bo.ResearchArea;
+import org.kuali.kra.bo.ResearchAreaBase;
 import org.kuali.kra.common.committee.bo.CommitteeBase;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipRole;
@@ -239,7 +240,7 @@ public abstract class CommitteeMembershipActionBase extends CommitteeActionBase 
             Class lookupResultsBOClass, Collection<PersistableBusinessObject> selectedBOs) {
         int membershipIndex = committeeForm.getCommitteeHelper().getMemberIndex();
         CommitteeMembershipBase committeeMembership = ((CommitteeBase<?, ?, ?>)(committeeForm.getCommitteeDocument().getCommittee())).getCommitteeMemberships().get(membershipIndex);
-        if (lookupResultsBOClass.isAssignableFrom(ResearchArea.class)) {
+        if (lookupResultsBOClass.isAssignableFrom(getResearchAreaBOClassHook())) {
             getCommitteeMembershipService().addCommitteeMembershipExpertise(committeeMembership, (Collection) selectedBOs);
             // finally do validation and error reporting for inactive research areas
             (getNewCommitteeDocumentRuleInstanceHook()).checkResearchAreasForCommitteeMember(committeeMembership, membershipIndex);
@@ -249,6 +250,7 @@ public abstract class CommitteeMembershipActionBase extends CommitteeActionBase 
         }
     }
     
+    protected abstract Class<? extends ResearchAreaBase> getResearchAreaBOClassHook();
     protected abstract CommitteeDocumentRuleBase getNewCommitteeDocumentRuleInstanceHook();
 
     /**

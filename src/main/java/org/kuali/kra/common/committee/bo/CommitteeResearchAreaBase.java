@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.common.committee.bo;
 
-import org.kuali.kra.bo.ResearchArea;
+import org.kuali.kra.bo.ResearchAreaBase;
 
 /**
  * This class implements the committee research area business object.
@@ -30,7 +30,7 @@ public abstract class CommitteeResearchAreaBase extends CommitteeAssociateBase {
 
     private CommitteeBase committee;
 
-    private ResearchArea researchArea;
+    private ResearchAreaBase researchArea;
 
     public CommitteeResearchAreaBase() {
     }
@@ -51,11 +51,11 @@ public abstract class CommitteeResearchAreaBase extends CommitteeAssociateBase {
         this.researchAreaCode = researchAreaCode;
     }
 
-    public ResearchArea getResearchAreas() {
+    public ResearchAreaBase getResearchAreas() {
         return researchArea;
     }
 
-    public void setResearchAreas(ResearchArea researchArea) {
+    public void setResearchAreas(ResearchAreaBase researchArea) {
         this.researchArea = researchArea;
     }
 
@@ -67,11 +67,11 @@ public abstract class CommitteeResearchAreaBase extends CommitteeAssociateBase {
         this.committee = committee;
     }
 
-    public ResearchArea getResearchArea() {
+    public ResearchAreaBase getResearchArea() {
         return researchArea;
     }
 
-    public void setResearchArea(ResearchArea researchArea) {
+    public void setResearchArea(ResearchAreaBase researchArea) {
         this.researchArea = researchArea;
     }
 

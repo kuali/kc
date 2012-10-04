@@ -15,6 +15,8 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
+<%@ attribute name="researchAreaReference" required="true"%>
+
 <c:set var="action" value="committeeCommittee" />
 <c:set var="readOnly" value="${!KualiForm.committeeHelper.modifyCommittee}" />
 
@@ -38,7 +40,7 @@
 	            <tr>
 		            <th width="10%" class="infoline">add:</th>
 		            <td width="70%" class="infoline">
-		                (select)&nbsp;<kul:multipleValueLookup boClassName="org.kuali.kra.bo.ResearchArea" 
+		                (select)&nbsp;<kul:multipleValueLookup boClassName="${researchAreaReference}" 
 	              		lookedUpCollectionName="committeeResearchAreas"
 	              		anchor="${tabKey}"/>
 				    </td>
