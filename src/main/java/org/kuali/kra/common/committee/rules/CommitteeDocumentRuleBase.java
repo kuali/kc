@@ -27,7 +27,7 @@ import org.kuali.kra.bo.Unit;
 import org.kuali.kra.common.committee.bo.CommitteeResearchAreaBase;
 import org.kuali.kra.common.committee.bo.CommitteeBase;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
-import org.kuali.kra.common.committee.bo.CommitteeMembershipExpertise;
+import org.kuali.kra.common.committee.bo.CommitteeMembershipExpertiseBase;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipRole;
 import org.kuali.kra.common.committee.document.CommitteeDocumentBase;
 import org.kuali.kra.common.committee.lookup.keyvalue.CommitteeIdValuesFinderBase;
@@ -631,11 +631,11 @@ public abstract class CommitteeDocumentRuleBase extends ResearchDocumentRuleBase
         boolean inactiveFound = false;
         StringBuffer inactiveResearchAreaIndices = new StringBuffer();
         
-        List<CommitteeMembershipExpertise> cmes = committeeMember.getMembershipExpertise();
+        List<CommitteeMembershipExpertiseBase> cmes = committeeMember.getMembershipExpertise();
         // iterate over all the research areas for this committee member looking for inactive research areas
         if(CollectionUtils.isNotEmpty(cmes)) {
             int raIndex = 0;
-            for (CommitteeMembershipExpertise cme : cmes) {
+            for (CommitteeMembershipExpertiseBase cme : cmes) {
                 if(!(cme.getResearchArea().isActive())) {
                     inactiveFound = true;
                     inactiveResearchAreaIndices.append(raIndex).append(SEPERATOR);

@@ -27,7 +27,7 @@ import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.common.committee.bo.CommitteeBase;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
-import org.kuali.kra.common.committee.bo.CommitteeMembershipExpertise;
+import org.kuali.kra.common.committee.bo.CommitteeMembershipExpertiseBase;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipRole;
 import org.kuali.kra.common.committee.bo.CommitteeResearchAreaBase;
 import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
@@ -155,9 +155,9 @@ public class IacucCommitteeXmlStream extends PrintBaseXmlStream {
             committeeMember.setMemberType(membershipBean.getMembershipType().getDescription()) ;
         }
         committeeMember.setPaidMemberFlag(membershipBean.getPaidMember());
-        List<CommitteeMembershipExpertise> committeeMemResearchArea =  membershipBean.getMembershipExpertise();
+        List<CommitteeMembershipExpertiseBase> committeeMemResearchArea =  membershipBean.getMembershipExpertise();
         if (committeeMemResearchArea != null){
-            for (CommitteeMembershipExpertise committeeMemberExpertise : committeeMemResearchArea) {
+            for (CommitteeMembershipExpertiseBase committeeMemberExpertise : committeeMemResearchArea) {
                 ResearchAreaType researchArea = committeeMember.addNewResearchArea();
                 researchArea.setResearchAreaCode(committeeMemberExpertise.getResearchAreaCode()) ;
                 if (committeeMemberExpertise.getResearchArea()!=null){
