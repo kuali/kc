@@ -96,8 +96,10 @@ public class AwardHierarchyUIServiceImpl implements AwardHierarchyUIService {
         appendJson(sb, "principalInvestigatorName", aNode.getPrincipalInvestigatorName());
         sb.append(",");
         appendJson(sb, "leadUnitName", aNode.getLeadUnitName());
-        sb.append(",");
-        appendJson(sb, "title", aNode.getTitle());
+        sb.append(","); 
+        //remove any and all carriage returns
+        String titleCleaned = aNode.getTitle().replaceAll("[\\r\\n]", " ");   
+        appendJson(sb, "title", titleCleaned);
         sb.append(",");
         appendJson(sb, "awardId", aNode.getAwardId().toString());
         sb.append(",");
