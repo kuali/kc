@@ -119,7 +119,7 @@
 		</c:if>
 		
 		<c:forEach var="institutionalProposalPersonUnit" items="${institutionalProposalContact.units}" varStatus="institutionalProposalPersonUnitRowStatus">
-		<input type="hidden" name="institutional_proposal_person_unit.identifier_${institutionalProposalContactRowStatus.index}" value="${institutionalProposalPersonUnit.unit.unitNumber}" />
+		<input type="hidden" name="institutional_proposal_person_unit.identifier_${institutionalProposalPersonUnitRowStatus.index}" value="${institutionalProposalPersonUnit.unit.unitNumber}" />
 		<c:choose>                  
 			<c:when test="${empty institutionalProposalPersonUnit.ospAdministrators}">
             <tr>
@@ -136,7 +136,7 @@
                 <td valign="middle">
                 	<div align="center">
                 		${institutionalProposalPersonUnit.unit.unitName}&nbsp;
-      	                <kul:directInquiry boClassName="org.kuali.kra.bo.Unit" inquiryParameters="institutional_proposal_person_unit.identifier_${institutionalProposalContactRowStatus.index}:unitNumber" anchor="${tabKey}" />
+      	                <kul:directInquiry boClassName="org.kuali.kra.bo.Unit" inquiryParameters="institutional_proposal_person_unit.identifier_${institutionalProposalPersonUnitRowStatus.index}:unitNumber" anchor="${tabKey}" />
                 	</div> 
 				</td>
 				<td valign="middle">
@@ -176,7 +176,7 @@
                 		<td valign="middle">
                 			<div align="center">
                 				${institutionalProposalPersonUnit.unit.unitName}&nbsp;
-        	                <kul:directInquiry boClassName="org.kuali.kra.bo.Unit" inquiryParameters="institutional_proposal_person_unit.identifier_${institutionalProposalContactRowStatus.index}:unitNumber" anchor="${tabKey}" />
+        	                <kul:directInquiry boClassName="org.kuali.kra.bo.Unit" inquiryParameters="institutional_proposal_person_unit.identifier_${institutionalProposalPersonUnitRowStatus.index}:unitNumber" anchor="${tabKey}" />
                 			</div> 
 						</td>
 						<td valign="middle">
