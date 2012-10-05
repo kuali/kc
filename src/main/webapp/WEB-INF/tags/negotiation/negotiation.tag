@@ -11,13 +11,6 @@
 <kul:tab tabTitle="Negotiation" defaultOpen="${!medusaLink}" 
 					tabErrorKey="document.negotiationList[0].negotiation*,document.negotiationList[0].negotiator*,document.negotiationList[0].anticipatedAwardDate,document.negotiationList[0].documentFolder,document.negotiationList[0].associatedDocumentId,document.negotiationList[0].unAssociatedDetail*" 
 					auditCluster="requiredFieldsAuditErrors" tabAuditKey="document.title" useRiceAuditMode="true">
-	<c:if test="${!empty KualiForm.negotiationDocument.negotiation.associatedDocumentWarning}">
-		<div class="tab-container-error"><div class="left-errmsg-tab"><div>
-			<img src="${ConfigProperties.kr.externalizable.images.url}warning.png" alt="warning" />
-            <strong>Warnings for this Section:</strong>
-            <div style="display:list-item;margin-left:20px;"><c:out value="${KualiForm.negotiationDocument.negotiation.associatedDocumentWarning}"/></div>
-          </div></div></div>
-	</c:if>
 	<div class="tab-container" align="center">
     	<h3>
     	    <c:choose><c:when test="${empty KualiForm.document.negotiationList[0].negotiationId}">
