@@ -853,11 +853,11 @@ public class AwardAction extends BudgetParentActionBase {
             String routeHeaderId = timeAndMoneyDocument.getDocumentHeader().getWorkflowDocument().getDocumentId();
             String forward = buildForwardUrl(routeHeaderId);
             actionForward = new ActionForward(forward, true);
+            //add this to session and leverage in T&M for return to award action.
+            GlobalVariables.getUserSession  ().addObject(Constants.AWARD_DOCUMENT_STRING_FOR_SESSION + "-" + timeAndMoneyDocument.getDocumentNumber(), awardForm.getAwardDocument().getDocumentNumber());            
         } else {
             actionForward = mapping.findForward(Constants.MAPPING_AWARD_BASIC);
         }
-        //add this to session and leverage in T&M for return to award action.
-        GlobalVariables.getUserSession  ().addObject(GlobalVariables.getUserSession().getKualiSessionId()+Constants.AWARD_DOCUMENT_STRING_FOR_SESSION, awardForm.getAwardDocument());
         return actionForward;
 
     }
