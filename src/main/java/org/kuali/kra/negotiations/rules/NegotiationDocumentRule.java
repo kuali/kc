@@ -144,12 +144,13 @@ public class NegotiationDocumentRule extends ResearchDocumentRuleBase {
         if (negotiation.getNegotiationAssociationType() != null 
                 && !StringUtils.equals(negotiation.getNegotiationAssociationType().getCode(), NegotiationAssociationType.NONE_ASSOCIATION)
                 && StringUtils.isEmpty(negotiation.getAssociatedDocumentId())) {
-            negotiation.setAssociatedDocumentWarning(expandErrorString(KeyConstants.NEGOTIATION_WARNING_ASSOCIATEDID_NOT_SET, 
-                    new String[]{negotiation.getNegotiationAssociationType().getDescription()}));
+            //negotiation.setAssociatedDocumentWarning(expandErrorString(KeyConstants.NEGOTIATION_WARNING_ASSOCIATEDID_NOT_SET, 
+               //     new String[]{negotiation.getNegotiationAssociationType().getDescription()}));
+            valid = false;
             //can't do this because the document is final, when final and without error the messagemap is cleared during save
             //so must workaround to display this warning.
-            //getErrorReporter().reportWarning(ASSOCIATED_DOCMENT_ID, KeyConstants.NEGOTIATION_WARNING_ASSOCIATEDID_NOT_SET, 
-            //        negotiation.getNegotiationAssociationType().getDescription());
+            getErrorReporter().reportError(ASSOCIATED_DOCMENT_ID, KeyConstants.NEGOTIATION_WARNING_ASSOCIATEDID_NOT_SET, 
+                    negotiation.getNegotiationAssociationType().getDescription());
         }
         return valid;
     }

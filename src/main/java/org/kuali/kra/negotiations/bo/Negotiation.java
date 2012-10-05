@@ -74,8 +74,6 @@ public class Negotiation extends KraPersistableBusinessObjectBase implements Per
      * Long awardId - award String proposalNumber -developmentProposal Long proposalId - institutionalProposal
      */
     private String associatedDocumentId;
-    //transient - workaround for inability to actually display warning on final document unless an error exists.
-    private String associatedDocumentWarning;
 
     private NegotiationStatus negotiationStatus;
     private NegotiationAgreementType negotiationAgreementType;
@@ -453,13 +451,5 @@ public class Negotiation extends KraPersistableBusinessObjectBase implements Per
 
     public void setOldNegotiationAssociationTypeId(Long oldNegotiationAssociationTypeId) {
         this.oldNegotiationAssociationTypeId = oldNegotiationAssociationTypeId;
-    }
-
-    public String getAssociatedDocumentWarning() {
-        return associatedDocumentWarning;
-    }
-
-    public void setAssociatedDocumentWarning(String associatedDocumentWarning) {
-        this.associatedDocumentWarning = associatedDocumentWarning;
     }
 }

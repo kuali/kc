@@ -65,7 +65,6 @@ public class NegotiationNegotiationAction extends NegotiationAction {
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         NegotiationForm negotiationForm = (NegotiationForm) form;
-        negotiationForm.getNegotiationDocument().getNegotiation().setAssociatedDocumentWarning(null);
         ActionForward actionForward = super.execute(mapping, form, request, response);
         loadCodeObjects(negotiationForm.getNegotiationDocument().getNegotiation());
         negotiationForm.getMedusaBean().setModuleName("neg");
