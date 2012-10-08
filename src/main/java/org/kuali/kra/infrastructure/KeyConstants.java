@@ -101,6 +101,7 @@ public final class KeyConstants {
     public static final String ERROR_ONE_UNIT="error.one.unit";
     public static final String ERROR_PERCENTAGE="error.percentage";
     
+    public static final String ERROR_ERA_COMMON_USER_NAME="error.investigators.eraCommonUserName";
     public static final String ERROR_REQUIRED_FOR_FILE_NAME="error.required.for.fileName";
     public static final String ERROR_ABSTRACT_TYPE_NOT_SELECTED = "error.abstractType.notselected";
     public static final String ERROR_ABSTRACT_TYPE_INVALID = "error.abstractType.invalid";
