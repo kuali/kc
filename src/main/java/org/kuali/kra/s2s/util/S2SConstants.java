@@ -83,5 +83,6 @@ public interface S2SConstants {
     public static final String FORMVERSION_1_4 = "1.4";
     public static final String CONGRESSIONAL_DISTRICT = "performancesite.district.notfound";
     public static final String STATUS_PUREGED = "PURGED";
-    
+    public static final String ERROR_ERA_COMMON_USER_NAME="eRA Commons User Name is missing for ";
+
 }

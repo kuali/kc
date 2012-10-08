@@ -35,6 +35,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.Rolodex;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
@@ -45,6 +46,7 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.SponsorService;
+import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.krad.service.BusinessObjectService;
 /**
  * This class generates RRKeyPersonExpanded xml object. It uses xmlbeans for
@@ -215,7 +217,12 @@ public class RRKeyPersonExpandedV1_2Generator extends
 		}
 		if (PI.getEraCommonsUserName() != null) {
 			profile.setCredential(PI.getEraCommonsUserName());
-		}
+		} else {
+            if (KraServiceLocator.getService(SponsorService.class).isSponsorNihMultiplePi(pdDoc.getDevelopmentProposal())) {
+                getAuditErrors().add(new AuditError(Constants.NO_FIELD, S2SConstants.ERROR_ERA_COMMON_USER_NAME + PI.getFullName(), 
+                        Constants.GRANTS_GOV_PAGE + "." + Constants.GRANTS_GOV_PANEL_ANCHOR));             
+            }
+        }
 		profile.setProjectRole(ProjectRoleDataType.PD_PI);
 		setAttachments(profile, PI);
 		profileDataType.setProfile(profile);
@@ -401,7 +408,13 @@ public class RRKeyPersonExpandedV1_2Generator extends
 		}
 		if (keyPerson.getEraCommonsUserName() != null) {
 			profileKeyPerson.setCredential(keyPerson.getEraCommonsUserName());
-		}
+		} else {
+            if (KraServiceLocator.getService(SponsorService.class).isSponsorNihMultiplePi(pdDoc.getDevelopmentProposal())) {
+                getAuditErrors().add(
+                        new AuditError(Constants.NO_FIELD, S2SConstants.ERROR_ERA_COMMON_USER_NAME + keyPerson.getFullName(),
+                            Constants.GRANTS_GOV_PAGE + "." + Constants.GRANTS_GOV_PANEL_ANCHOR));
+            }
+        }
         if (keyPerson.getProposalPersonRoleId().equals(CO_INVESTIGATOR)) {
             if(KraServiceLocator.getService(SponsorService.class).isSponsorNihMultiplePi(pdDoc.getDevelopmentProposal())){
                 if (keyPerson.isMultiplePi()) {
