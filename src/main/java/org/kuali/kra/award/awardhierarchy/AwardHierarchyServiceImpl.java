@@ -386,16 +386,18 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
         for(AwardCustomData awardCustomData : newAward.getAwardCustomDataList()) {
             availableCustomAttributes.add(awardCustomData.getCustomAttributeId());
         }
-        Map<String, CustomAttributeDocument> customAttributeDocuments = oldAward.getAwardDocument().getCustomAttributeDocuments();
-        for (Map.Entry<String, CustomAttributeDocument> entry : customAttributeDocuments.entrySet()) {
-            CustomAttributeDocument customAttributeDocument = entry.getValue();
-            if(!availableCustomAttributes.contains(customAttributeDocument.getCustomAttributeId())) {
-                AwardCustomData awardCustomData = new AwardCustomData();
-                awardCustomData.setCustomAttributeId((long) customAttributeDocument.getCustomAttributeId());
-                awardCustomData.setCustomAttribute(customAttributeDocument.getCustomAttribute());
-                awardCustomData.setValue("");
-                awardCustomData.setAward(newAward);
-                newAward.getAwardCustomDataList().add(awardCustomData);
+        if(oldAward.getAwardDocument() != null) {
+            Map<String, CustomAttributeDocument> customAttributeDocuments = oldAward.getAwardDocument().getCustomAttributeDocuments();
+            for (Map.Entry<String, CustomAttributeDocument> entry : customAttributeDocuments.entrySet()) {
+                CustomAttributeDocument customAttributeDocument = entry.getValue();
+                if(!availableCustomAttributes.contains(customAttributeDocument.getCustomAttributeId())) {
+                    AwardCustomData awardCustomData = new AwardCustomData();
+                    awardCustomData.setCustomAttributeId((long) customAttributeDocument.getCustomAttributeId());
+                    awardCustomData.setCustomAttribute(customAttributeDocument.getCustomAttribute());
+                    awardCustomData.setValue("");
+                    awardCustomData.setAward(newAward);
+                    newAward.getAwardCustomDataList().add(awardCustomData);
+                }
             }
         }
     }
