@@ -302,7 +302,6 @@ public class SubAwardServiceImpl implements SubAwardService {
     
     @Override
     public String getCalculatedFollowupDateForAjaxCall(String baseDate) {
-        System.err.println("Got to getCalculatedFollowupDateForAjaxClass");
         final String empty = "";
         String[] elements = baseDate.split("/");
         if (elements.length == 3) {
