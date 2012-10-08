@@ -19,15 +19,18 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.award.AwardAmountInfoService;
 import org.kuali.kra.award.AwardNumberService;
+import org.kuali.kra.award.customdata.AwardCustomData;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
@@ -42,6 +45,7 @@ import org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.Awar
 import org.kuali.kra.award.paymentreports.specialapproval.foreigntravel.AwardApprovedForeignTravel;
 import org.kuali.kra.award.specialreview.AwardSpecialReview;
 import org.kuali.kra.award.version.service.AwardVersionService;
+import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.infrastructure.Constants;
@@ -362,12 +366,39 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
             List<AwardSpecialReview> awardSpecialReviews = new ArrayList<AwardSpecialReview>();
             newAward.setSpecialReviews(awardSpecialReviews);
             clearFilteredAttributes(newAward);
+            synchNewCustomAttributes(newAward, award);
+            
         } catch(Exception e) { 
             throw uncheckedException(e);
         }
         return newAward;
     }
    
+    /**
+     * This method is to synch custom attributes. During copy process only existing custom attributes
+     * available in the old document is copied. We need to make sure we have all the latest custom attributes
+     * tied to the new document.
+     * @param newAward
+     * @param oldAward
+     */
+    protected void synchNewCustomAttributes(Award newAward, Award oldAward) {
+        Set<Long> availableCustomAttributes = new HashSet<Long>();
+        for(AwardCustomData awardCustomData : newAward.getAwardCustomDataList()) {
+            availableCustomAttributes.add(awardCustomData.getCustomAttributeId());
+        }
+        Map<String, CustomAttributeDocument> customAttributeDocuments = oldAward.getAwardDocument().getCustomAttributeDocuments();
+        for (Map.Entry<String, CustomAttributeDocument> entry : customAttributeDocuments.entrySet()) {
+            CustomAttributeDocument customAttributeDocument = entry.getValue();
+            if(!availableCustomAttributes.contains(customAttributeDocument.getCustomAttributeId())) {
+                AwardCustomData awardCustomData = new AwardCustomData();
+                awardCustomData.setCustomAttributeId((long) customAttributeDocument.getCustomAttributeId());
+                awardCustomData.setCustomAttribute(customAttributeDocument.getCustomAttribute());
+                awardCustomData.setValue("");
+                awardCustomData.setAward(newAward);
+                newAward.getAwardCustomDataList().add(awardCustomData);
+            }
+        }
+    }
     
     protected void clearFilteredAttributes(Award newAward) {
         // setting all financial information to null so copied award can spawn its own
