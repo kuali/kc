@@ -28,6 +28,7 @@ import static org.kuali.kra.infrastructure.Constants.PRINCIPAL_INVESTIGATOR_ROLE
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_INVESTIGATOR_LOWBOUND;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_INVESTIGATOR_UNITS_UPBOUND;
 import static org.kuali.kra.infrastructure.KeyConstants.ERROR_PROPOSAL_PERSON_CERTIFICATION_INCOMPLETE;
+import static org.kuali.kra.infrastructure.KeyConstants.ERROR_ERA_COMMON_USER_NAME;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 import java.util.ArrayList;
@@ -46,6 +47,7 @@ import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.kra.service.SponsorService;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
@@ -77,9 +79,13 @@ public class KeyPersonnelAuditRule extends ResearchDocumentRuleBase implements D
         retval &= new ProposalDevelopmentKeyPersonsRule().processCustomSaveDocumentBusinessRules(pd);
         
         boolean hasInvestigator = false;
-        
+        int  personCount = 0;
         for (ProposalPerson person : pd.getDevelopmentProposal().getProposalPersons()) {
             retval &= validateInvestigator(person);
+            if (KraServiceLocator.getService(SponsorService.class).isSponsorNihMultiplePi(pd.getDevelopmentProposal())) {
+                retval &= validateEraCommonUserName(person, personCount);
+            }
+
             if (!hasInvestigator && isInvestigator(person)) {
                 hasInvestigator = true;
             }
@@ -91,6 +97,17 @@ public class KeyPersonnelAuditRule extends ResearchDocumentRuleBase implements D
         }
         return retval;
 
+    }
+    
+    private boolean validateEraCommonUserName(ProposalPerson person, int personCount) {
+        boolean retval = true;
+        if (person.getEraCommonsUserName() == null) {
+            getAuditErrors().add(new AuditError(
+                    "document.developmentProposalList[0].proposalPersons[" + personCount + "].eraCommonUserName", 
+                        ERROR_ERA_COMMON_USER_NAME, KEY_PERSONNEL_PAGE + "." + KEY_PERSONNEL_PANEL_ANCHOR, new String[]{person.getFullName()}));
+            retval = false;
+        }
+        return retval;
     }
        
     /**
