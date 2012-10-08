@@ -319,7 +319,6 @@ public class NegotiationDaoOjb extends LookupDaoOjb implements NegotiationDao {
      * @return
      */
     protected Collection<Negotiation> getNegotiationsLinkedToSubAward(Map<String, String> negotiationValues, Map<String, String> associatedValues) {
-        System.err.println("Got to getNegotiationsLinkedToSubAward ****************************** ");
         //List<Negotiation> result = new ArrayList<Negotiation>();
         
         Map<String, String> values = transformMap(associatedValues, subAwardTransform);
