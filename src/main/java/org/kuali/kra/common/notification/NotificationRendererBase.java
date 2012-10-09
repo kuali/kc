@@ -35,12 +35,7 @@ public abstract class NotificationRendererBase implements NotificationRenderer, 
 
     public static final String USER_FULLNAME = "{USER_FULLNAME}";
     public static final String DOCHANDLER_PREFIX = "{DOCUMENT_PREFIX}";
-    
-    public static final String DOCHANDLER_SCHM_PROP = "application.http.scheme";
-    public static final String DOCHANDLER_HOST_PROP = "application.host";
-    public static final String DOCHANDLER_PORT_PROP = "http.port";
-    public static final String DOCHANDLER_CODE_PROP = "app.code";
-    public static final String DOCHANDLER_ENVR_PROP = "environment";
+    public static final String RICE_SERVER_URL = "rice.server.url";
 
     private transient KcPersonService kcPersonService;
     private ConfigurationService kualiConfigurationService;
@@ -105,18 +100,7 @@ public abstract class NotificationRendererBase implements NotificationRenderer, 
     }
 
     private String getDocumentLocation() {
-        String result = null;
-        String schm = getKualiConfigurationService().getPropertyValueAsString(DOCHANDLER_SCHM_PROP);
-        String host = getKualiConfigurationService().getPropertyValueAsString(DOCHANDLER_HOST_PROP);
-        String port = getKualiConfigurationService().getPropertyValueAsString(DOCHANDLER_PORT_PROP);
-        String code = getKualiConfigurationService().getPropertyValueAsString(DOCHANDLER_CODE_PROP);
-        String envr = getKualiConfigurationService().getPropertyValueAsString(DOCHANDLER_ENVR_PROP);
-        if (schm == null || host == null || code == null || envr == null) {
-            result = "..";   // default is to back up URL before KEN (relative to base at this server)
-        } else {
-            result = schm + "://" + host + (!StringUtils.isEmpty(port) ? ":" + port : "") + "/" + code + "-" + envr;
-        }
-        return result;
+        return getKualiConfigurationService().getPropertyValueAsString(RICE_SERVER_URL);
     }
 
     private ConfigurationService getKualiConfigurationService() {
