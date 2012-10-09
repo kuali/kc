@@ -34,10 +34,15 @@ $j(document).ready(
 function enableDisableCheckbox() {
 	var choice = document.getElementById("${property}.assignToAgenda");
 	var sched = document.getElementById("${property}.scheduleId");
-	if (choice.checked) {
-		sched.disabled = false;
-	} else {
-		sched.disabled = true;
+	var schedChoice = true;
+	if (choice != null && choice.checked) {
+		//sched.disabled = false;
+		schedChoice = false;
+	//} else {
+	//	sched.disabled = true;
+	}
+	if(sched != null) {
+		sched.disabled = schedChoice;
 	}
 }
 </script>
