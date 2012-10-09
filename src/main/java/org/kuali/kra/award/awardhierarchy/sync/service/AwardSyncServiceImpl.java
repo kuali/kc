@@ -70,7 +70,7 @@ public class AwardSyncServiceImpl implements AwardSyncService {
     protected static final String SYNC_FAILURE_MESSAGE = "Failed";
     protected static final String CHANGE_LOG_SUCCESS = "Success";
     
-    protected static final String IGNORED_MESSAGE_KEYS = "error.award.person.credit.split.,error.award.person.unit.credit.split.";
+    protected static final String IGNORED_MESSAGE_KEYS = "error.award.person.credit.split.,error.award.person.unit.credit.split.,error.awardProjectPerson.uncertified";
     protected final Log LOG = LogFactory.getLog(AwardSyncServiceImpl.class);
     
     private AwardSyncHelpersService awardSyncHelpersService;
