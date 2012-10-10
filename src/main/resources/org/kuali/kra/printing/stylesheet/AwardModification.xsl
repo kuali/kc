@@ -4382,6 +4382,85 @@ or  substring(  AwardDetails/ApprvdSubcontractIndicator , 2 ) = &quot;1&quot;">
 																								</fo:table-cell>
 																							</fo:table-row>
 																						</xsl:for-each>
+																						<fo:table-row font-family="Arial" font-size="9pt">
+																							<fo:table-cell font-size="9pt" padding="2pt" display-align="before">
+																								<fo:block/>
+																							</fo:table-cell>
+																							<fo:table-cell padding="2pt" display-align="before">
+																								<fo:block/>
+																							</fo:table-cell>
+																							<fo:table-cell padding="2pt" display-align="before">
+																								<fo:block/>
+																							</fo:table-cell>
+																							<fo:table-cell padding="2pt" display-align="before">
+																								<fo:block/>
+																							</fo:table-cell>
+																							<fo:table-cell padding="2pt" display-align="before">
+																								<fo:block/>
+																							</fo:table-cell>
+																							<fo:table-cell padding="2pt" height="10" display-align="before">
+																								<fo:block>
+																									<fo:block text-align="center">
+																										<fo:leader leader-pattern="rule" rule-thickness="1" leader-length="100%" color="black"/>
+																									</fo:block>
+																								</fo:block>
+																							</fo:table-cell>
+																						</fo:table-row>
+																						<fo:table-row font-family="Arial" font-size="9pt">
+																							<fo:table-cell font-size="9pt" padding="2pt" display-align="before">
+																								<fo:block/>
+																							</fo:table-cell>
+																							<fo:table-cell padding="2pt" display-align="before">
+																								<fo:block/>
+																							</fo:table-cell>
+																							<fo:table-cell padding="2pt" display-align="before">
+																								<fo:block/>
+																							</fo:table-cell>
+																							<fo:table-cell padding="2pt" display-align="before">
+																								<fo:block/>
+																							</fo:table-cell>
+																							<fo:table-cell font-family="Arial" font-size="9pt" font-weight="bold" padding="2pt" text-align="right" display-align="before">
+																								<fo:block>
+																									<fo:inline>
+																										<xsl:text>Total:</xsl:text>
+																									</fo:inline>
+																								</fo:block>
+																							</fo:table-cell>
+																							<fo:table-cell font-size="9pt" padding="2pt" display-align="before">
+																								<fo:block>
+																									<fo:inline>
+																										<xsl:text>$</xsl:text>
+																									</fo:inline>
+																									<fo:inline>
+																										<xsl:value-of select="format-number(number(sum(  CostSharingItem/Amount  )), '###,##0.00')"/>
+																									</fo:inline>
+																								</fo:block>
+																							</fo:table-cell>
+																						</fo:table-row>
+																						<fo:table-row font-family="Arial" font-size="9pt">
+																							<fo:table-cell font-size="9pt" padding="2pt" display-align="before">
+																								<fo:block/>
+																							</fo:table-cell>
+																							<fo:table-cell padding="2pt" display-align="before">
+																								<fo:block/>
+																							</fo:table-cell>
+																							<fo:table-cell padding="2pt" display-align="before">
+																								<fo:block/>
+																							</fo:table-cell>
+																							<fo:table-cell padding="2pt" display-align="before">
+																								<fo:block/>
+																							</fo:table-cell>
+																							<fo:table-cell padding="2pt" display-align="before">
+																								<fo:block/>
+																							</fo:table-cell>
+																							<fo:table-cell padding="2pt" height="10" display-align="before">
+																								<fo:block>
+																									<fo:block text-align="center">
+																										<fo:leader leader-pattern="rule" rule-thickness="1" leader-length="100%" color="black"/>
+																									</fo:block>
+																								</fo:block>
+																							</fo:table-cell>
+																						</fo:table-row>
 																					</fo:table-body>
 																				</fo:table>
 																			</xsl:if>
