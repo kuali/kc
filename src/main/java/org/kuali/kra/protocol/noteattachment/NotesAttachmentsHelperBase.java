@@ -779,7 +779,11 @@ public abstract class NotesAttachmentsHelperBase {
     
     void updateUserFieldsIfNecessary(ProtocolNotepadBase currentNote) {
         if (currentNote.isEditable()) {
-                setUpdateFields(currentNote);
+            setUpdateFields(currentNote);
+            if (StringUtils.isEmpty(currentNote.getCreateUser())) {
+                currentNote.setCreateUser(GlobalVariables.getUserSession().getPrincipalName());
+                currentNote.setCreateTimestamp(dateTimeService.getCurrentTimestamp());
+            }
         }
     }
 

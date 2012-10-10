@@ -41,6 +41,10 @@ public abstract class ProtocolNotepadBase extends ProtocolAssociateBase implemen
     protected String noteTopic;
 
     protected boolean editable;
+    
+    private String createUser;
+    
+    private Timestamp createTimestamp;
 
     @SkipVersioning
     protected transient String updateUserFullName;
@@ -274,5 +278,21 @@ public abstract class ProtocolNotepadBase extends ProtocolAssociateBase implemen
      */
     public int compareTo(ProtocolNotepadBase protocolNotepad) {
         return this.getUpdateTimestamp().compareTo(protocolNotepad.getUpdateTimestamp());
+    }
+
+    public String getCreateUser() {
+        return createUser;
+    }
+
+    public void setCreateUser(String createUser) {
+        this.createUser = createUser;
+    }
+
+    public Timestamp getCreateTimestamp() {
+        return createTimestamp;
+    }
+
+    public void setCreateTimestamp(Timestamp createTimestamp) {
+        this.createTimestamp = createTimestamp;
     }
 }
