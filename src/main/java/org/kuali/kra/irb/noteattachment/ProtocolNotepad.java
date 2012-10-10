@@ -41,6 +41,12 @@ public class ProtocolNotepad extends ProtocolAssociate implements Comparable<Pro
     private String noteTopic;
 
     private boolean editable;
+    
+    /**
+     * Be sure to remove these two member variables when this class extends org.kuali.kra.protocol.noteattachment.ProtocolNotepadBase as these variables will be implemented there.
+     */
+    private String createUser;
+    private Timestamp createTimestamp;
 
     @SkipVersioning
     private transient String updateUserFullName;
@@ -274,5 +280,41 @@ public class ProtocolNotepad extends ProtocolAssociate implements Comparable<Pro
      */
     public int compareTo(ProtocolNotepad protocolNotepad) {
         return this.getUpdateTimestamp().compareTo(protocolNotepad.getUpdateTimestamp());
+    }
+    
+    /**
+     * 
+     * Be sure to remove this function when this class extends org.kuali.kra.protocol.noteattachment.ProtocolNotepadBase as this function will be implemented there.
+     * @return
+     */
+    public String getCreateUser() {
+        return createUser;
+    }
+    
+    /**
+     * 
+     * Be sure to remove this function when this class extends org.kuali.kra.protocol.noteattachment.ProtocolNotepadBase as this function will be implemented there.
+     * @param createUser
+     */
+    public void setCreateUser(String createUser) {
+        this.createUser = createUser;
+    }
+    
+    /**
+     * 
+     * Be sure to remove this function when this class extends org.kuali.kra.protocol.noteattachment.ProtocolNotepadBase as this function will be implemented there.
+     * @return
+     */
+    public Timestamp getCreateTimestamp() {
+        return createTimestamp;
+    }
+    
+    /**
+     * 
+     * Be sure to remove this function when this class extends org.kuali.kra.protocol.noteattachment.ProtocolNotepadBase as this function will be implemented there.
+     * @param createTimestamp
+     */
+    public void setCreateTimestamp(Timestamp createTimestamp) {
+        this.createTimestamp = createTimestamp;
     }
 }

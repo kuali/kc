@@ -47,6 +47,9 @@ public class CoiDisclosureNotepad extends CoiDisclosureAssociate implements Comp
     @SkipVersioning
     private CoiDisclosure originalCoiDisclosure; 
     private Long financialEntityId;
+    private String createUser;
+    private Timestamp createTimestamp;
+    
     @SkipVersioning
     private PersonFinIntDisclosure financialEntity;
     private String eventTypeCode;
@@ -298,6 +301,22 @@ public class CoiDisclosureNotepad extends CoiDisclosureAssociate implements Comp
 
     public void setOriginalCoiDisclosure(CoiDisclosure originalCoiDisclosure) {
         this.originalCoiDisclosure = originalCoiDisclosure;
+    }
+    
+    public String getCreateUser() {
+        return createUser;
+    }
+
+    public void setCreateUser(String createUser) {
+        this.createUser = createUser;
+    }
+
+    public Timestamp getCreateTimestamp() {
+        return createTimestamp;
+    }
+
+    public void setCreateTimestamp(Timestamp createTimestamp) {
+        this.createTimestamp = createTimestamp;
     }
 
 }
