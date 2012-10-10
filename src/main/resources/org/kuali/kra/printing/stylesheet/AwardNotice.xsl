@@ -5069,6 +5069,85 @@
 																							</fo:table-cell>
 																						</fo:table-row>
 																					</xsl:for-each>
+																					<fo:table-row font-family="Arial" font-size="9pt" font-weight="normal">
+																						<fo:table-cell font-size="9pt" padding="2pt" display-align="before">
+																							<fo:block/>
+																						</fo:table-cell>
+																						<fo:table-cell padding="2pt" display-align="before">
+																							<fo:block/>
+																						</fo:table-cell>
+																						<fo:table-cell padding="2pt" display-align="before">
+																							<fo:block/>
+																						</fo:table-cell>
+																						<fo:table-cell padding="2pt" display-align="before">
+																							<fo:block/>
+																						</fo:table-cell>
+																						<fo:table-cell padding="2pt" display-align="before">
+																							<fo:block/>
+																						</fo:table-cell>
+																						<fo:table-cell padding="2pt" height="10" display-align="before">
+																							<fo:block>
+																								<fo:block text-align="center">
+																									<fo:leader leader-pattern="rule" rule-thickness="1" leader-length="100%" color="black"/>
+																								</fo:block>
+																							</fo:block>
+																						</fo:table-cell>
+																					</fo:table-row>
+																					<fo:table-row font-family="Arial" font-size="9pt" font-weight="normal">
+																						<fo:table-cell font-size="9pt" padding="2pt" display-align="before">
+																							<fo:block/>
+																						</fo:table-cell>
+																						<fo:table-cell padding="2pt" display-align="before">
+																							<fo:block/>
+																						</fo:table-cell>
+																						<fo:table-cell padding="2pt" display-align="before">
+																							<fo:block/>
+																						</fo:table-cell>
+																						<fo:table-cell padding="2pt" display-align="before">
+																							<fo:block/>
+																						</fo:table-cell>
+																						<fo:table-cell font-family="Arial" font-size="9pt" font-weight="bold" padding="2pt" text-align="right" display-align="before">
+																							<fo:block>
+																								<fo:inline>
+																									<xsl:text>Total:</xsl:text>
+																								</fo:inline>
+																							</fo:block>
+																						</fo:table-cell>
+																						<fo:table-cell font-size="9pt" padding="2pt" display-align="before">
+																							<fo:block>
+																								<fo:inline>
+																									<xsl:text>$</xsl:text>
+																								</fo:inline>
+																								<fo:inline>
+																									<xsl:value-of select="format-number(number(sum(  CostSharingItem/Amount  )), '###,##0.00')"/>
+																								</fo:inline>
+																							</fo:block>
+																						</fo:table-cell>
+																					</fo:table-row>
+																					<fo:table-row font-family="Arial" font-size="9pt" font-weight="normal">
+																						<fo:table-cell font-size="9pt" padding="2pt" display-align="before">
+																							<fo:block/>
+																						</fo:table-cell>
+																						<fo:table-cell padding="2pt" display-align="before">
+																							<fo:block/>
+																						</fo:table-cell>
+																						<fo:table-cell padding="2pt" display-align="before">
+																							<fo:block/>
+																						</fo:table-cell>
+																						<fo:table-cell padding="2pt" display-align="before">
+																							<fo:block/>
+																						</fo:table-cell>
+																						<fo:table-cell padding="2pt" display-align="before">
+																							<fo:block/>
+																						</fo:table-cell>
+																						<fo:table-cell padding="2pt" height="10" display-align="before">
+																							<fo:block>
+																								<fo:block text-align="center">
+																									<fo:leader leader-pattern="rule" rule-thickness="1" leader-length="100%" color="black"/>
+																								</fo:block>
+																							</fo:block>
+																						</fo:table-cell>
+																					</fo:table-row>																					
 																				</fo:table-body>
 																			</fo:table>
 																		</xsl:if>
@@ -5646,6 +5725,112 @@
 																								</fo:table-cell>
 																							</fo:table-row>
 																						</xsl:for-each>
+																						<fo:table-row font-family="Arial" font-size="9pt" font-weight="normal">
+																							<fo:table-cell padding-bottom="0" padding-left="20pt" padding-top="0" padding="2pt" display-align="before">
+																								<fo:block/>
+																							</fo:table-cell>
+																							<fo:table-cell padding-bottom="0" padding-left="6pt" padding-top="0" padding="2pt" display-align="before">
+																								<fo:block/>
+																							</fo:table-cell>
+																							<fo:table-cell padding-bottom="0" padding-top="0" padding="2pt" display-align="before">
+																								<fo:block/>
+																							</fo:table-cell>
+																							<fo:table-cell font-size="9pt" padding-bottom="0" padding-top="0" padding="2pt" display-align="before">
+																								<fo:block/>
+																							</fo:table-cell>
+																							<fo:table-cell font-size="9pt" padding-bottom="0" padding-top="0" padding="2pt" display-align="before">
+																								<fo:block/>
+																							</fo:table-cell>
+																							<fo:table-cell padding-bottom="0" padding-top="0" padding="2pt" display-align="before">
+																								<fo:block/>
+																							</fo:table-cell>
+																							<fo:table-cell padding-bottom="0" padding-top="0" padding="2pt" display-align="before">
+																								<fo:block/>
+																							</fo:table-cell>
+																							<fo:table-cell padding-bottom="0" padding-top="0" padding="2pt" display-align="before">
+																								<fo:block/>
+																							</fo:table-cell>
+																							<fo:table-cell padding-bottom="0" padding-top="0" padding="2pt" display-align="before">
+																								<fo:block>
+																									<fo:block text-align="center">
+																										<fo:leader leader-pattern="rule" rule-thickness="1" leader-length="100%" color="black"/>
+																									</fo:block>
+																								</fo:block>
+																							</fo:table-cell>																							
+																						</fo:table-row>
+																						<fo:table-row font-family="Arial" font-size="9pt" font-weight="normal">
+																							<fo:table-cell padding-bottom="0" padding-left="20pt" padding-top="0" padding="2pt" display-align="before">
+																								<fo:block/>
+																							</fo:table-cell>
+																							<fo:table-cell padding-bottom="0" padding-left="6pt" padding-top="0" padding="2pt" display-align="before">
+																								<fo:block/>
+																							</fo:table-cell>
+																							<fo:table-cell padding-bottom="0" padding-top="0" padding="2pt" display-align="before">
+																								<fo:block/>
+																							</fo:table-cell>
+																							<fo:table-cell font-size="9pt" padding-bottom="0" padding-top="0" padding="2pt" display-align="before">
+																								<fo:block/>
+																							</fo:table-cell>
+																							<fo:table-cell font-size="9pt" padding-bottom="0" padding-top="0" padding="2pt" display-align="before">
+																								<fo:block/>
+																							</fo:table-cell>																							
+																							<fo:table-cell padding-bottom="0" padding-top="0" padding="2pt" display-align="before">
+																								<fo:block/>
+																							</fo:table-cell>
+																							<fo:table-cell padding-bottom="0" padding-top="0" padding="2pt" display-align="before">
+																								<fo:block/>
+																							</fo:table-cell>
+																							<fo:table-cell font-family="Arial" font-size="9pt" font-weight="bold" padding="2pt" text-align="right" display-align="before">
+																								<fo:block>
+																									<fo:inline>
+																										<xsl:text>Total:</xsl:text>
+																									</fo:inline>
+																								</fo:block>
+																							</fo:table-cell>
+																							<fo:table-cell font-size="9pt" padding-bottom="0" padding-top="0" padding="2pt" display-align="center">
+																								<fo:block>
+																									<fo:inline>
+																										<xsl:text>$</xsl:text>
+																									</fo:inline>
+																									<fo:inline>
+																										<xsl:value-of select="format-number(number(sum(  IndirectCostSharingItem/UnderRecoveryAmount  )), '###,##0.00')"/>
+																									</fo:inline>
+																								</fo:block>
+																							</fo:table-cell>																							
+																						</fo:table-row>
+																						<fo:table-row font-family="Arial" font-size="9pt" font-weight="normal">
+																							<fo:table-cell padding-bottom="0" padding-left="20pt" padding-top="0" padding="2pt" display-align="before">
+																								<fo:block/>
+																							</fo:table-cell>
+																							<fo:table-cell padding-bottom="0" padding-left="6pt" padding-top="0" padding="2pt" display-align="before">
+																								<fo:block/>
+																							</fo:table-cell>
+																							<fo:table-cell padding-bottom="0" padding-top="0" padding="2pt" display-align="before">
+																								<fo:block/>
+																							</fo:table-cell>
+																							<fo:table-cell font-size="9pt" padding-bottom="0" padding-top="0" padding="2pt" display-align="before">
+																								<fo:block/>
+																							</fo:table-cell>
+																							<fo:table-cell font-size="9pt" padding-bottom="0" padding-top="0" padding="2pt" display-align="before">
+																								<fo:block/>
+																							</fo:table-cell>
+																							<fo:table-cell padding-bottom="0" padding-top="0" padding="2pt" display-align="before">
+																								<fo:block/>
+																							</fo:table-cell>
+																							<fo:table-cell padding-bottom="0" padding-top="0" padding="2pt" display-align="before">
+																								<fo:block/>
+																							</fo:table-cell>
+																							<fo:table-cell padding-bottom="0" padding-top="0" padding="2pt" display-align="before">
+																								<fo:block/>
+																							</fo:table-cell>
+																							<fo:table-cell padding-bottom="0" padding-top="0" padding="2pt" display-align="before">
+																								<fo:block>
+																									<fo:block text-align="center">
+																										<fo:leader leader-pattern="rule" rule-thickness="1" leader-length="100%" color="black"/>
+																									</fo:block>
+																								</fo:block>
+																							</fo:table-cell>																							
+																						</fo:table-row>
 																					</fo:table-body>
 																				</fo:table>
 																			</xsl:if>
@@ -8746,7 +8931,22 @@
 																			</fo:inline>
 																		</fo:block>
 																	</fo:table-cell>
-														        </fo:table-row>														  
+														        </fo:table-row>
+														        <fo:table-row font-family="Arial" font-size="9pt" font-weight="normal">
+																	<fo:table-cell padding="2pt" display-align="center">
+																		<fo:block/>
+																	</fo:table-cell>
+																	<fo:table-cell font-size="9pt" padding="2pt" display-align="center">
+																		<fo:block/>
+																	</fo:table-cell>
+																	<fo:table-cell font-size="9pt" padding="2pt" height="5" display-align="center">
+																		<fo:block>
+																			<fo:block text-align="left">
+																				<fo:leader leader-pattern="rule" rule-thickness="1" leader-length="20%" color="black"/>
+																			</fo:block>
+																		</fo:block>
+																	</fo:table-cell>
+																</fo:table-row>														  
 														        <fo:table-row font-family="Arial" font-size="9pt"
 																       font-weight="bold">
 																      <fo:table-cell padding="2pt"
@@ -8774,6 +8974,21 @@
 																	    </fo:block>
 																   </fo:table-cell>																
 															    </fo:table-row>
+															    <fo:table-row font-family="Arial" font-size="9pt" font-weight="normal">
+																	<fo:table-cell padding="2pt" display-align="center">
+																		<fo:block/>
+																	</fo:table-cell>
+																	<fo:table-cell font-size="9pt" padding="2pt" display-align="center">
+																		<fo:block/>
+																	</fo:table-cell>
+																	<fo:table-cell font-size="9pt" padding="2pt" height="5" display-align="center">
+																		<fo:block>
+																			<fo:block text-align="left">
+																				<fo:leader leader-pattern="rule" rule-thickness="1" leader-length="20%" color="black"/>
+																			</fo:block>
+																		</fo:block>
+																	</fo:table-cell>
+																</fo:table-row>
 													</fo:table-body>
 												</fo:table>
 											</xsl:if>
