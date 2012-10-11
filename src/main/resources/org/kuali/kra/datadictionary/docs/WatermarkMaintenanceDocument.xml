@@ -53,8 +53,7 @@
                     p:name="statusCode"
                     p:required="true" />
                 <bean parent="MaintainableFieldDefinition"
-                    p:name="watermarkText" 
-                    p:required="true" />               
+                    p:name="watermarkText" />               
                <bean parent="MaintainableFieldDefinition"
                     p:name="watermarkStatus" 
                     p:required="true"  />               
