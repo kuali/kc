@@ -1160,7 +1160,6 @@ public class CoiDisclosureAction extends CoiAction {
     }
     
     private CoiDisclosure getExistingDisclosure(String eventTypeCode) {
-        /*
         CoiDisclosure updateMaster = null;
         Map fieldValues = new HashMap();
         fieldValues.put("personId", GlobalVariables.getUserSession().getPrincipalId());
@@ -1180,9 +1179,6 @@ public class CoiDisclosureAction extends CoiAction {
         }
         
         return updateMaster;
-        */
-        CoiDisclosure coiDisclosure = this.getCoiDisclosureService().getCurrentDisclosure();
-        return coiDisclosure;
     }    
     
     private void updateCorrespondingCoiDisclProject(CoiDisclosure coiDisclosure, String dispositionStatus, String disclosureStatus) {
