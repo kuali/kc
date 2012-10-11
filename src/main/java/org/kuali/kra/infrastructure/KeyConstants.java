@@ -998,6 +998,7 @@ public final class KeyConstants {
     public static final String ERROR_WATERMARK_STATUS_CODE_EXIST = "error.watermark.statuscode.exists";
     public static final String INSUFFICIENT_AMOUNT_TO_PERIOD_DIRECT_COST_LIMIT_SYNC = "insufficient.amount.to.period.direct.cost.limit.sync";
     public static final String TOTAL_DIRECT_COST_ALREADY_IN_SYNC = "total.direct.cost.already.sync";
+    public static final String ERROR_WATERMARK_TEXT_REQUIRED = "error.watermark.text.required";
     
     public static final String ERROR_DUPLICATE_PROPERTY = "error.duplicate.property";
     public static final String ERROR_DATA_GROUP_NOT_EXIST = "error.datagroup.not.exist";
