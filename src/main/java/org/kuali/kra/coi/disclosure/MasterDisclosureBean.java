@@ -145,6 +145,10 @@ public class MasterDisclosureBean implements Serializable {
                 getProtocolProjects().add(coiDisclosureProjectBean);
                 coiDisclosureProjectBean.setExcludeFE(isEventExcludFE(CoiDisclosureEventType.IRB_PROTOCOL));
                 break;
+            case 4 :
+                getProtocolProjects().add(coiDisclosureProjectBean);
+                coiDisclosureProjectBean.setExcludeFE(isEventExcludFE(CoiDisclosureEventType.IACUC_PROTOCOL));
+                break;
             case 10 :
                 getProposalProjects().add(coiDisclosureProjectBean);
                 coiDisclosureProjectBean.setExcludeFE(isEventExcludFE(CoiDisclosureEventType.INSTITUTIONAL_PROPOSAL));
