@@ -23,6 +23,7 @@ import org.kuali.kra.bo.Watermark;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.rules.KraMaintenanceDocumentRuleBase;
+import org.kuali.kra.util.watermark.WatermarkConstants;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -69,9 +70,18 @@ public class ValidWatermarkStatusMaintenanceDocumentRule extends KraMaintenanceD
     public boolean isDocumentValidForSave(MaintenanceDocument document) {
         boolean result = super.isDocumentValidForSave(document);
         final Watermark watermark = (Watermark) document.getNewMaintainableObject().getDataObject();
+        if (watermark.getWatermarkType().equalsIgnoreCase(WatermarkConstants.WATERMARK_TYPE_TEXT) && watermark.getWatermarkText() == null) {
+            final MessageMap errorMap = GlobalVariables.getMessageMap();
+            errorMap.putError("document.newMaintainableObject.watermarkText", KeyConstants.ERROR_WATERMARK_TEXT_REQUIRED);
+            result = false;
+        }
         if (!document.getNewMaintainableObject().getMaintenanceAction().equals(KRADConstants.MAINTENANCE_DELETE_ACTION)) {
             if(document.getNewMaintainableObject().getMaintenanceAction().equals(KRADConstants.MAINTENANCE_EDIT_ACTION)) {
                 final Watermark oldWatermarkDocument = (Watermark) document.getOldMaintainableObject().getDataObject();
+                if (watermark.getWatermarkType().equalsIgnoreCase(WatermarkConstants.WATERMARK_TYPE_IMAGE) && watermark.getWatermarkText() == null) {
+                    result = true;
+                }
+                
                 if(!oldWatermarkDocument.getStatusCode().equals(watermark.getStatusCode())){
                     result &= validateWatermarkStatusCode(watermark.getStatusCode());
                 }
