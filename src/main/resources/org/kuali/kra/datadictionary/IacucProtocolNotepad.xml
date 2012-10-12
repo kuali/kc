@@ -44,6 +44,8 @@
                 <ref bean="IacucProtocolNotepad-versionNumber" />
                 <ref bean="IacucProtocolNotepad-updateUser" />
 				<ref bean="IacucProtocolNotepad-updateTimestamp" />
+				<ref bean="IacucProtocolNotepad-createUser" />
+				<ref bean="IacucProtocolNotepad-createTimestamp" />
             </list>
         </property>
     </bean>
@@ -146,7 +148,7 @@
 	<bean id="IacucProtocolNotepad-updateUser-parentBean" abstract="true" parent="KraAttributeReferenceDummy-updateUser" >
 		<property name="name" value="updateUser" />
 		<property name="label" value="Updated By" />
-		<property name="shortLabel" value="Author" />
+		<property name="shortLabel" value="Updater" />
 	</bean>
 	
 	<bean id="IacucProtocolNotepad-updateTimestamp" parent="IacucProtocolNotepad-updateTimestamp-parentBean" />
@@ -154,6 +156,20 @@
 		<property name="name" value="updateTimestamp" />
 		<property name="label" value="Last Update" />
 		<property name="shortLabel" value="Posted Timestamp" />
+	</bean>
+	
+	<bean id="IacucProtocolNotepad-createUser" parent="IacucProtocolNotepad-createUser-parentBean" />
+	<bean id="IacucProtocolNotepad-createUser-parentBean" abstract="true" parent="KraAttributeReferenceDummy-updateUser" >
+		<property name="name" value="createUser" />
+		<property name="label" value="Created By" />
+		<property name="shortLabel" value="Author" />
+	</bean>
+	
+	<bean id="IacucProtocolNotepad-createTimestamp" parent="IacucProtocolNotepad-createTimestamp-parentBean" />
+	<bean id="IacucProtocolNotepad-createTimestamp-parentBean" abstract="true" parent="KraAttributeReferenceDummy-updateTimestamp" >
+		<property name="name" value="createTimestamp" />
+		<property name="label" value="Created Date" />
+		<property name="shortLabel" value="Created Date" />
 	</bean>
 
     <bean id="IacucProtocolNotepad-versionNumber" parent="IacucProtocolNotepad-versionNumber-parentBean" />
