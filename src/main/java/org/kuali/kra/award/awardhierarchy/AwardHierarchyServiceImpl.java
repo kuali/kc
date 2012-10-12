@@ -382,10 +382,11 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
      * @param oldAward
      */
     protected void synchNewCustomAttributes(Award newAward, Award oldAward) {
-        Set<Long> availableCustomAttributes = new HashSet<Long>();
+        Set<Integer> availableCustomAttributes = new HashSet<Integer>();
         for(AwardCustomData awardCustomData : newAward.getAwardCustomDataList()) {
-            availableCustomAttributes.add(awardCustomData.getCustomAttributeId());
+            availableCustomAttributes.add(awardCustomData.getCustomAttributeId().intValue());
         }
+        
         if(oldAward.getAwardDocument() != null) {
             Map<String, CustomAttributeDocument> customAttributeDocuments = oldAward.getAwardDocument().getCustomAttributeDocuments();
             for (Map.Entry<String, CustomAttributeDocument> entry : customAttributeDocuments.entrySet()) {
