@@ -44,6 +44,8 @@
                 <ref bean="ProtocolNotepad-versionNumber" />
                 <ref bean="ProtocolNotepad-updateUser" />
 				<ref bean="ProtocolNotepad-updateTimestamp" />
+				<ref bean="ProtocolNotepad-createUser" />
+				<ref bean="ProtocolNotepad-createTimestamp" />
             </list>
         </property>
     </bean>
@@ -154,6 +156,20 @@
 		<property name="name" value="updateTimestamp" />
 		<property name="label" value="Last Update" />
 		<property name="shortLabel" value="Posted Timestamp" />
+	</bean>
+	
+	<bean id="ProtocolNotepad-createUser" parent="ProtocolNotepad-createUser-parentBean" />
+	<bean id="ProtocolNotepad-createUser-parentBean" abstract="true" parent="KraAttributeReferenceDummy-updateUser" >
+		<property name="name" value="createUser" />
+		<property name="label" value="Created By" />
+		<property name="shortLabel" value="Author" />
+	</bean>
+	
+	<bean id="ProtocolNotepad-createTimestamp" parent="ProtocolNotepad-createTimestamp-parentBean" />
+	<bean id="ProtocolNotepad-createTimestamp-parentBean" abstract="true" parent="KraAttributeReferenceDummy-updateTimestamp" >
+		<property name="name" value="createTimestamp" />
+		<property name="label" value="Created Date" />
+		<property name="shortLabel" value="Created Date" />
 	</bean>
 
     <bean id="ProtocolNotepad-versionNumber" parent="ProtocolNotepad-versionNumber-parentBean" />
