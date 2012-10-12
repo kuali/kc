@@ -156,8 +156,7 @@ public class CoiDisclosureAction extends CoiAction {
         }
         if (coiDisclosure.getCoiDisclProjects() != null || !coiDisclosure.getCoiDisclProjects().isEmpty()) {
             for (CoiDisclProject coiDisclProject : coiDisclosure.getCoiDisclProjects()) {
-                if (!new CoiDisclosureAdministratorActionRule().isValidStatus(
-                        coiDisclosure.getCoiDisclosureStatus().getCoiDisclosureStatusCode(), coiDisclProject.getDisclosureDispositionCode())) {
+                if (!new CoiDisclosureAdministratorActionRule().isValidDispositionStatus(coiDisclProject.getDisclosureDispositionCode())) {
                     isValid = false;
                 }
             }
