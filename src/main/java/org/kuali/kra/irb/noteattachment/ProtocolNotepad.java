@@ -20,8 +20,12 @@ import java.sql.Timestamp;
 import java.util.Comparator;
 
 import org.kuali.kra.SkipVersioning;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolAssociate;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * The Protocol Notepad class.
@@ -50,6 +54,7 @@ public class ProtocolNotepad extends ProtocolAssociate implements Comparable<Pro
 
     @SkipVersioning
     private transient String updateUserFullName;
+    protected transient String createUserFullName;
 
     /**
      * empty ctor to satisfy JavaBean convention.
@@ -316,5 +321,20 @@ public class ProtocolNotepad extends ProtocolAssociate implements Comparable<Pro
      */
     public void setCreateTimestamp(Timestamp createTimestamp) {
         this.createTimestamp = createTimestamp;
+    }
+    
+    public String getCreateUserFullName() {
+        return createUserFullName;
+    }
+
+    public void setCreateUserFullName(String createUserFullName) {
+        this.createUserFullName = createUserFullName;
+    }
+    
+    @Override
+    protected void prePersist() {
+        super.prePersist();
+        this.setCreateUser(GlobalVariables.getUserSession().getPrincipalName());
+        this.setCreateTimestamp(((DateTimeService) KraServiceLocator.getService(Constants.DATE_TIME_SERVICE_NAME)).getCurrentTimestamp());
     }
 }
