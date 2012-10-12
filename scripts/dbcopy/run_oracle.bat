@@ -1,1 +1,0 @@
-ant oracle-all -Dbun.username=KCBND -Dbun.password=bnd174kc -Dtst.username=KCUNT -Dtst.password=unt174kc -Ddb.version=500
