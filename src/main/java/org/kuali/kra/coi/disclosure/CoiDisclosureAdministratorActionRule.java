@@ -16,6 +16,7 @@
 package org.kuali.kra.coi.disclosure;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.krad.util.GlobalVariables;
 
@@ -32,6 +33,15 @@ public class CoiDisclosureAdministratorActionRule {
         }
         if (StringUtils.isBlank(dispositionStatus)) {
             GlobalVariables.getMessageMap().putError(ADMIN_ERRORS, KeyConstants.ERROR_COI_DISPOSITON_STATUS_REQUIRED); 
+            isValid = false;
+        }
+        return isValid;
+    }
+    
+    public boolean isValidDispositionStatus(String dispositionStatus) {
+        boolean isValid = true;
+        if (StringUtils.isBlank(dispositionStatus)) {
+            GlobalVariables.getMessageMap().putError(Constants.DISCLOSURE_MANUAL_DISPOSITION_STATUS, KeyConstants.ERROR_COI_DISPOSITON_STATUS_REQUIRED); 
             isValid = false;
         }
         return isValid;
