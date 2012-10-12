@@ -205,7 +205,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     private static final String CONFIRM_ASSIGN_TO_AGENDA_KEY = "confirmAssignToAgenda";
     private static final String CONFIRM_ASSIGN_CMT_SCHED_KEY = "confirmAssignCmtSched";
     private static final String CONIFRM_REMOVE_REVIEWER_KEY="confirmRemoveReviewer";
-    
+    private static final String PERSON_NOT_FOUND_FORMAT_STRING = "%s (not found)";
     
     private static final String NOT_FOUND_SELECTION = "The attachment was not found for selection ";
 
@@ -3406,6 +3406,12 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
                         if (StringUtils.isBlank(note.getUpdateUserFullName())) {
                             note.setUpdateUserFullName(GlobalVariables.getUserSession().getPerson().getName());
                             note.setUpdateTimestamp(KraServiceLocator.getService(DateTimeService.class).getCurrentTimestamp());
+                        }
+                        if (StringUtils.isNotBlank(note.getCreateUser())) {
+                            Person creator = this.getPersonService().getPersonByPrincipalName(note.getCreateUser());
+                            note.setCreateUserFullName(creator==null?String.format(PERSON_NOT_FOUND_FORMAT_STRING, note.getCreateUser()):creator.getName());
+                        } else {
+                            note.setCreateUserFullName("");
                         }
                         note.setEditable(false);
                     }

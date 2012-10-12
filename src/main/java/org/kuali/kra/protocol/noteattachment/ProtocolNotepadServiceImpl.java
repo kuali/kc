@@ -17,6 +17,7 @@ package org.kuali.kra.protocol.noteattachment;
 
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.rice.kim.api.identity.Person;
@@ -40,8 +41,12 @@ public class ProtocolNotepadServiceImpl implements ProtocolNotepadService {
             Person person = personService.getPersonByPrincipalName(pnp.getUpdateUser());
             pnp.setUpdateUserFullName(person==null?String.format(PERSON_NOT_FOUND_FORMAT_STRING, pnp.getUpdateUser()):person.getName());
             
-            Person creator = personService.getPersonByPrincipalName(pnp.getCreateUser());
-            pnp.setCreateUserFullName(creator==null?String.format(PERSON_NOT_FOUND_FORMAT_STRING, pnp.getCreateUser()):creator.getName());
+            if (StringUtils.isNotBlank(pnp.getCreateUser())) {
+                Person creator = personService.getPersonByPrincipalName(pnp.getCreateUser());
+                pnp.setCreateUserFullName(creator==null?String.format(PERSON_NOT_FOUND_FORMAT_STRING, pnp.getCreateUser()):creator.getName());
+            } else {
+                pnp.setCreateUserFullName("");
+            }
         }
     }
 
