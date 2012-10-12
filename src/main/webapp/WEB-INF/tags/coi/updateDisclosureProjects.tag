@@ -6,7 +6,7 @@
 	or fn:length(masterDisclosure.manualTravelProjects) > 0
 	or fn:length(masterDisclosure.otherManualProjects) > 0}" >
 <kul:tab defaultOpen="false" tabTitle="Manual Projects" auditCluster="financialEntityDiscAuditErrors" tabAuditKey="disclosureHelper.masterDisclosureBean.manualAwardProjects[*,disclosureHelper.masterDisclosureBean.manualProtocolProjects[*,disclosureHelper.masterDisclosureBean.manualProposalProjects[*,disclosureHelper.masterDisclosureBean.manualTravelProjects[*" useRiceAuditMode="true"
-    tabErrorKey="disclosureHelper.newCoiDisclProject.*" >
+    tabErrorKey="disclosureHelper.newCoiDisclProject.*,document.coiDisclosureList[0].coiDisclProjects[0].*" >
     <div class="tab-container" align="center">
               
 
