@@ -36,8 +36,8 @@
         <table id="protocol-notepad-table" cellpadding="0" cellspacing="0" summary="Protocol Notepad">
 			<tr>
 				<th scope="row">&nbsp;</th>
-				<th><kul:htmlAttributeLabel attributeEntry="${protocolNotesAttributes.updateTimestamp}" useShortLabel="true" noColon="true" /></th>
-				<th><kul:htmlAttributeLabel attributeEntry="${protocolNotesAttributes.updateUser}" useShortLabel="true" noColon="true" /></th>
+				<th align="center">Created By</th>
+				<th align="center">Updated By</th>
 				<th align="left"><kul:htmlAttributeLabel attributeEntry="${protocolNotesAttributes.noteTopic}" useShortLabel="true" noColon="true"/></th>
 				<th align="left"><kul:htmlAttributeLabel attributeEntry="${protocolNotesAttributes.comments}" useShortLabel="true" noColon="true"/></th>
 				<th><kul:htmlAttributeLabel attributeEntry="${protocolNotesAttributes.restrictedView}" useShortLabel="true" noColon="true"/></th>
@@ -45,19 +45,19 @@
 			</tr>
 			<kra:permission value="${modifyPermission}">
 				<tr>
-	            	<th width="40" align="center" scope="row"><div align="center">Add:</div></th>
-	            	<td width="80" class="infoline">
+	            	<th align="center" scope="row"><div align="center">Add:</div></th>
+	            	<td class="infoline">
 	            		&nbsp;           	
 	            	</td>
-		            <td width="50" class="infoline">
+		            <td class="infoline">
 		              	&nbsp;
 		            </td>
-		            <td width="150" class="infoline">
+		            <td class="infoline">
 		            	<div align="center">
 	            	    	<kul:htmlControlAttribute property="notesAttachmentsHelper.newProtocolNotepad.noteTopic" attributeEntry="${protocolNotesAttributes.noteTopic}" readOnly="${!modifyPermission}" />
 	            	  	</div>
 		            </td>
-		            <td width="1000" class="infoline">
+		            <td class="infoline">
 		            	<div align="left">
 	            	    	<kul:htmlControlAttribute property="notesAttachmentsHelper.newProtocolNotepad.comments" attributeEntry="${protocolNotesAttributes.comments}" readOnly="${!modifyPermission}" />
 	            	  	</div>
@@ -83,14 +83,16 @@
 						<th class="infoline">
 							<c:out value="${status.index+1}" />
 						</th>
-		                <td valign="middle">
-                            <c:if test="${!protocolNotepad.editable}">
-							    <kul:htmlControlAttribute property="document.protocol.notepads[${status.index}].updateTimestamp" attributeEntry="${protocolNotesAttributes.updateTimestamp}" readOnly="true"/>
-                            </c:if>
+						<td align="center">
+							${KualiForm.document.protocol.notepads[status.index].createUserFullName}
+							<Br/> 
+							<kul:htmlControlAttribute property="document.protocol.notepads[${status.index}].createTimestamp" attributeEntry="${protocolNotesAttributes.updateTimestamp}" readOnly="true"/>
 						</td>
-		                <td valign="middle">
+						<td align="center">
 							${KualiForm.document.protocol.notepads[status.index].updateUserFullName}
-		                </td>
+							<Br/> 
+							<kul:htmlControlAttribute property="document.protocol.notepads[${status.index}].updateTimestamp" attributeEntry="${protocolNotesAttributes.updateTimestamp}" readOnly="true"/>
+						</td>
 		                <td valign="middle">                	
 							<div align="center">
 								<kul:htmlControlAttribute property="document.protocol.notepads[${status.index}].noteTopic" attributeEntry="${protocolNotesAttributes.noteTopic}" readOnly="${!modifyPermission || !protocolNotepad.editable}"/>

@@ -20,8 +20,12 @@ import java.sql.Timestamp;
 import java.util.Comparator;
 
 import org.kuali.kra.SkipVersioning;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolAssociateBase;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * The ProtocolBase Notepad class.
@@ -48,6 +52,7 @@ public abstract class ProtocolNotepadBase extends ProtocolAssociateBase implemen
 
     @SkipVersioning
     protected transient String updateUserFullName;
+    protected transient String createUserFullName;
 
     /**
      * empty ctor to satisfy JavaBean convention.
@@ -165,6 +170,14 @@ public abstract class ProtocolNotepadBase extends ProtocolAssociateBase implemen
      */
     public void setUpdateUserFullName(String updateUserFullName) {
         this.updateUserFullName = updateUserFullName;
+    }
+
+    public String getCreateUserFullName() {
+        return createUserFullName;
+    }
+
+    public void setCreateUserFullName(String createUserFullName) {
+        this.createUserFullName = createUserFullName;
     }
 
     /** {@inheritDoc} */
@@ -294,5 +307,12 @@ public abstract class ProtocolNotepadBase extends ProtocolAssociateBase implemen
 
     public void setCreateTimestamp(Timestamp createTimestamp) {
         this.createTimestamp = createTimestamp;
+    }
+    
+    @Override
+    protected void prePersist() {
+        super.prePersist();
+        this.setCreateUser(GlobalVariables.getUserSession().getPrincipalName());
+        this.setCreateTimestamp(((DateTimeService) KraServiceLocator.getService(Constants.DATE_TIME_SERVICE_NAME)).getCurrentTimestamp());
     }
 }
