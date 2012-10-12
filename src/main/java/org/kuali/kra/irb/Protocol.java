@@ -1263,8 +1263,9 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
         if (amendment.isRenewalWithoutAmendment() && isRenewalWithNewAttachment(amendment)) {
             merge(amendment, ProtocolModule.ADD_MODIFY_ATTACHMENTS);
         }
-        mergeProtocolSubmission(amendment);
+        //mergeProtocolSubmission(amendment);
         if (mergeActions) {
+            mergeProtocolSubmission(amendment);
             mergeProtocolAction(amendment);
         }
     }
