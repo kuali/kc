@@ -27,6 +27,10 @@ import org.kuali.kra.coi.CoiDisclProject;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.CoiDisclosureAssociate;
 import org.kuali.kra.coi.personfinancialentity.PersonFinIntDisclosure;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 public class CoiDisclosureNotepad extends CoiDisclosureAssociate implements Comparable<CoiDisclosureNotepad> {
@@ -49,6 +53,7 @@ public class CoiDisclosureNotepad extends CoiDisclosureAssociate implements Comp
     private Long financialEntityId;
     private String createUser;
     private Timestamp createTimestamp;
+    private transient String createUserFullName;
     
     @SkipVersioning
     private PersonFinIntDisclosure financialEntity;
@@ -317,6 +322,21 @@ public class CoiDisclosureNotepad extends CoiDisclosureAssociate implements Comp
 
     public void setCreateTimestamp(Timestamp createTimestamp) {
         this.createTimestamp = createTimestamp;
+    }
+    
+    public String getCreateUserFullName() {
+        return createUserFullName;
+    }
+
+    public void setCreateUserFullName(String createUserFullName) {
+        this.createUserFullName = createUserFullName;
+    }
+    
+    @Override
+    protected void prePersist() {
+        super.prePersist();
+        this.setCreateUser(GlobalVariables.getUserSession().getPrincipalName());
+        this.setCreateTimestamp(((DateTimeService) KraServiceLocator.getService(Constants.DATE_TIME_SERVICE_NAME)).getCurrentTimestamp());
     }
 
 }
