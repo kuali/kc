@@ -46,6 +46,8 @@
                 <ref bean="CoiDisclosureNotepad-updateUser" />
 				<ref bean="CoiDisclosureNotepad-updateTimestamp" />
 				<ref bean="CoiDisclosureNotepad-financialEntityId" />
+				<ref bean="CoiDisclosureNotepad-createUser" />
+				<ref bean="CoiDisclosureNotepad-createTimestamp" />
             </list>
         </property>
     </bean>
@@ -192,6 +194,20 @@
 		<property name="name" value="updateTimestamp" />
 		<property name="label" value="Last Update" />
 		<property name="shortLabel" value="Posted Timestamp" />
+	</bean>
+	
+	<bean id="CoiDisclosureNotepad-createUser" parent="CoiDisclosureNotepad-createUser-parentBean" />
+	<bean id="CoiDisclosureNotepad-createUser-parentBean" abstract="true" parent="KraAttributeReferenceDummy-updateUser" >
+		<property name="name" value="createUser" />
+		<property name="label" value="Created By" />
+		<property name="shortLabel" value="Author" />
+	</bean>
+	
+	<bean id="CoiDisclosureNotepad-createTimestamp" parent="CoiDisclosureNotepad-createTimestamp-parentBean" />
+	<bean id="CoiDisclosureNotepad-createTimestamp-parentBean" abstract="true" parent="KraAttributeReferenceDummy-updateTimestamp" >
+		<property name="name" value="createTimestamp" />
+		<property name="label" value="Created Date" />
+		<property name="shortLabel" value="Created Date" />
 	</bean>
 
     <bean id="CoiDisclosureNotepad-versionNumber" parent="CoiDisclosureNotepad-versionNumber-parentBean" />
