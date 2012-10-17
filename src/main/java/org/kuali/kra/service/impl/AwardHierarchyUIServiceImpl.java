@@ -97,9 +97,13 @@ public class AwardHierarchyUIServiceImpl implements AwardHierarchyUIService {
         sb.append(",");
         appendJson(sb, "leadUnitName", aNode.getLeadUnitName());
         sb.append(","); 
-        //remove any and all carriage returns
+        
+        //remove any and all carriage returns, and add leading and trailing spaces to '<' & '>'
         String titleCleaned = aNode.getTitle().replaceAll("[\\r\\n]", " ");   
+        titleCleaned = titleCleaned.replaceAll(">", " > ");
+        titleCleaned = titleCleaned.replaceAll("<", " < ");
         appendJson(sb, "title", titleCleaned);
+        
         sb.append(",");
         appendJson(sb, "awardId", aNode.getAwardId().toString());
         sb.append(",");
