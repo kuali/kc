@@ -45,6 +45,8 @@ import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.util.CollectionUtil;
 import org.kuali.rice.kim.api.identity.IdentityService;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
@@ -68,6 +70,7 @@ public class CoiNotesAndAttachmentsHelper {
     private final IdentityService identityService;
 
     private static final String CONFIRM_YES_DELETE_ATTACHMENT = "confirmDeleteCoiDisclosureAttachment";
+    private static final String PERSON_NOT_FOUND_FORMAT_STRING = "%s (not found)";
     // Currently setting this to 1 since there are no CoiDisclosure attachment types
     private static final String ATTACHMENT_TYPE_CD = "1";
     private boolean viewRestricted;
@@ -95,7 +98,8 @@ public class CoiNotesAndAttachmentsHelper {
     }
 
     public void prepareView() {
-        this.initializePermissions();      
+        this.initializePermissions();   
+        initializeNotePaseUserNames(this.getCoiDisclosure().getCoiDisclosureNotepads());
     }
 
     /**
@@ -109,6 +113,20 @@ public class CoiNotesAndAttachmentsHelper {
         // initialize individual permissions for notes and attachments
         canDeleteUpdateNotes();
         canDeleteUpdateAttachments();
+    }
+    
+    protected void initializeNotePaseUserNames(List<CoiDisclosureNotepad> notepads) {
+        for (CoiDisclosureNotepad notePad : notepads) {
+            Person person = this.getPersonService().getPersonByPrincipalName(notePad.getUpdateUser());
+            notePad.setUpdateUserFullName(person==null?String.format(PERSON_NOT_FOUND_FORMAT_STRING, notePad.getUpdateUser()):person.getName());
+            
+            if (StringUtils.isNotBlank(notePad.getCreateUser())) {
+                Person creator = this.getPersonService().getPersonByPrincipalName(notePad.getCreateUser());
+                notePad.setCreateUserFullName(creator==null?String.format(PERSON_NOT_FOUND_FORMAT_STRING, notePad.getCreateUser()):creator.getName());
+            } else {
+                notePad.setCreateUserFullName("");
+            }
+        }
     }
 
     public boolean isModifyAttachments() {
@@ -588,6 +606,10 @@ public class CoiNotesAndAttachmentsHelper {
     
     private void deleteNotepad(int noteToDelete) {
         this.getCoiDisclosure().getCoiDisclosureNotepads().remove(noteToDelete);
+    }
+    
+    public PersonService getPersonService() {
+        return KraServiceLocator.getService(PersonService.class);
     }
 
 }
