@@ -38,8 +38,8 @@
         <table id="coiDisclosure-notepad-table" cellpadding="0" cellspacing="0" summary="Coi Disclosure Notepad">
 			<tr>
 				<th scope="row">&nbsp;</th>
-				<th><kul:htmlAttributeLabel attributeEntry="${notesAttributes.updateTimestamp}" useShortLabel="true" noColon="true" /></th>
-				<th><kul:htmlAttributeLabel attributeEntry="${notesAttributes.updateUser}" useShortLabel="true" noColon="true" /></th>
+				<th align="left">Created By</th>
+				<th align="left">Updated By</th>
 				<th align="left"><kul:htmlAttributeLabel attributeEntry="${notesAttributes.noteTopic}" useShortLabel="true" noColon="true"/></th>
 				<th align="left"><kul:htmlAttributeLabel attributeEntry="${notesAttributes.comments}" useShortLabel="true" noColon="true"/></th>
 				<th align="left"><kul:htmlAttributeLabel attributeEntry="${notesAttributes.projectId}" useShortLabel="true" noColon="true"/></th>
@@ -127,21 +127,20 @@
 						<th class="infoline">
 							<c:out value="${status.index+1}" />
 						</th>
-		                <td valign="middle">
-							<c:choose>
-								<c:when test="${coiDisclosureNotepad.editable}">         	
-						    		&nbsp;
-				        		</c:when>
-								<c:otherwise>
-						    		<kul:htmlControlAttribute property="document.coiDisclosure.coiDisclosureNotepads[${status.index}].updateTimestamp" attributeEntry="${notesAttributes.updateTimestamp}" readOnly="true"/>
-				        		</c:otherwise>
-				        	</c:choose>
-						</td>
-		                <td valign="middle">
+						<td valign="middle"> 
 							<div align="center">
- 	                		    <kul:htmlControlAttribute property="document.coiDisclosure.coiDisclosureNotepads[${status.index}].updateUser" attributeEntry="${notesAttributes.updateUser}" readOnly="true"/>
+								<kul:htmlControlAttribute property="document.coiDisclosure.coiDisclosureNotepads[${status.index}].createUser" attributeEntry="${notesAttributes.createUser}" readOnly="true"/>
+								<br/>
+								<kul:htmlControlAttribute property="document.coiDisclosure.coiDisclosureNotepads[${status.index}].createTimestamp" attributeEntry="${notesAttributes.createTimestamp}" readOnly="true"/>
 							</div>
-		                </td>
+						</td>
+						<td valign="middle"> 
+							<div align="center">
+								<kul:htmlControlAttribute property="document.coiDisclosure.coiDisclosureNotepads[${status.index}].updateUser" attributeEntry="${notesAttributes.updateUser}" readOnly="true"/>
+								<br/>
+								<kul:htmlControlAttribute property="document.coiDisclosure.coiDisclosureNotepads[${status.index}].updateTimestamp" attributeEntry="${notesAttributes.updateTimestamp}" readOnly="true"/>
+							</div>
+						</td>
 		                <td valign="middle">                	
 							<div align="left">
 								<kul:htmlControlAttribute property="document.coiDisclosure.coiDisclosureNotepads[${status.index}].noteTopic" attributeEntry="${notesAttributes.noteTopic}" readOnly="${noteReadOnly}" />

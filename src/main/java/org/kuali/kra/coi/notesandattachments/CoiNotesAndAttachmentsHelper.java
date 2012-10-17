@@ -469,10 +469,6 @@ public class CoiNotesAndAttachmentsHelper {
             if (note.getOriginalCoiDisclosureId() == null) {
                 note.setOriginalCoiDisclosureId(disclosure.getCoiDisclosureId());
             }
-            if (StringUtils.isEmpty(note.getCreateUser())) {
-                note.setCreateUser(GlobalVariables.getUserSession().getPrincipalName());
-                note.setCreateTimestamp(dateTimeService.getCurrentTimestamp());
-            }
         }        
     }
         
