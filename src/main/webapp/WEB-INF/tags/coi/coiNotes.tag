@@ -129,14 +129,20 @@
 						</th>
 						<td valign="middle"> 
 							<div align="center">
+								<!-- 
 								<kul:htmlControlAttribute property="document.coiDisclosure.coiDisclosureNotepads[${status.index}].createUser" attributeEntry="${notesAttributes.createUser}" readOnly="true"/>
+								 -->
+								 ${KualiForm.document.coiDisclosure.coiDisclosureNotepads[status.index].createUserFullName}
 								<br/>
 								<kul:htmlControlAttribute property="document.coiDisclosure.coiDisclosureNotepads[${status.index}].createTimestamp" attributeEntry="${notesAttributes.createTimestamp}" readOnly="true"/>
 							</div>
 						</td>
 						<td valign="middle"> 
 							<div align="center">
+								<!-- 
 								<kul:htmlControlAttribute property="document.coiDisclosure.coiDisclosureNotepads[${status.index}].updateUser" attributeEntry="${notesAttributes.updateUser}" readOnly="true"/>
+								 -->
+								 ${KualiForm.document.coiDisclosure.coiDisclosureNotepads[status.index].updateUserFullName}
 								<br/>
 								<kul:htmlControlAttribute property="document.coiDisclosure.coiDisclosureNotepads[${status.index}].updateTimestamp" attributeEntry="${notesAttributes.updateTimestamp}" readOnly="true"/>
 							</div>
