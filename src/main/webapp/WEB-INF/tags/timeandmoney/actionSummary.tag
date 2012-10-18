@@ -71,12 +71,12 @@
 				</td>
 				<td align="center" valign="middle" >
 				<div align="center">				        		
-					${timeAndMoneyActionSummaryItems.obligationCumulative}
+					<fmt:formatNumber type="currency" currencySymbol="" value="${timeAndMoneyActionSummaryItems.obligationCumulative}"/>
 				</div>
 				</td>
 				<td align="center" valign="middle" >
 				<div align="center">				        		
-					${timeAndMoneyActionSummaryItems.changeAmount}
+					<fmt:formatNumber type="currency" currencySymbol="" value="${timeAndMoneyActionSummaryItems.changeAmount}"/>
 				</div>
 				</td>
         	</tr>
