@@ -18,7 +18,11 @@
 <c:set var="awardAmountInfoAttributes" value="${DataDictionary.AwardAmountInfo.attributes}" />
 <c:set var="transactionDetailAttributes" value="${DataDictionary.TransactionDetail.attributes}" />
 <c:set var="awardCurrentActionCommentAttributes" value="${DataDictionary.AwardComment.attributes}" />
-
+<style>
+	td.datacell div{
+		text-align: right;
+	}
+</style>
 
 <kul:tab tabTitle="History (${KualiForm.document.awardNumber})" defaultOpen="false" tabErrorKey="">
 	<div class="tab-container" align="center">
@@ -143,72 +147,45 @@
 	        			</th>
 					</tr>
 					<tr>
-	        			<td align="center" valign="middle">
-	        			<div align="center" >
+	        			<td class="datacell"><div>
 		        			<fmt:formatDate value="${awardAmountInfoHistory.awardAmountInfo.currentFundEffectiveDate}" pattern="MM/dd/yyyy" />
-		        		</div>
-		        		</td>				        		
-		        		<td align="center" valign="middle">
-		        		<div align="center" >
+		        		</div></td>				        		
+								<td class="datacell"><div>
 		        			<fmt:formatDate value="${awardAmountInfoHistory.awardAmountInfo.obligationExpirationDate}" pattern="MM/dd/yyyy" />
-		        		</div>	
-		        		</td>
-		        		</div>				        		
-		        		<td align="center" valign="middle">
-		        		<div align="center" >
+		        		</div></td>				        		
+		        		<td class="datacell"><div>
 		        			<fmt:formatDate value="${awardAmountInfoHistory.awardAmountInfo.finalExpirationDate}" pattern="MM/dd/yyyy" />
-		        		</div>
-		        		</td>
-		        		<td align="center" valign="middle">
-		        		<div align="center" >				        		
-		        			${awardAmountInfoHistory.awardAmountInfo.obligatedChange}
-		        		</div>	
-		        		</td>
-		        		<td align="center" valign="middle">
-		        		<div align="center" >				        		
-		        			${awardAmountInfoHistory.awardAmountInfo.obligatedChangeDirect}
-		        		</div>	
-		        		</td>
-		        		<td align="center" valign="middle">
-		        		<div align="center" >				        		
-		        			${awardAmountInfoHistory.awardAmountInfo.obligatedChangeIndirect}
-		        		</div>	
-		        		</td>
-		        		<td align="center" valign="middle">
-		        		<div align="center" >				        		
-		        			${awardAmountInfoHistory.awardAmountInfo.amountObligatedToDate}
-		        		</div>	
-		        		</td>
-		        		<td align="center" valign="middle">
-		        		<div align="center" >				        		
-		        			${awardAmountInfoHistory.awardAmountInfo.obliDistributableAmount}
-		        		</div>	
-		        		</td>
-		        		<td align="center" valign="middle">
-		        		<div align="center" >				        		
-		        			${awardAmountInfoHistory.awardAmountInfo.anticipatedChange}
-		        		</div>	
-		        		</td>
-		        		<td align="center" valign="middle">
-		        		<div align="center" >				        		
-		        			${awardAmountInfoHistory.awardAmountInfo.anticipatedChangeDirect}
-		        		</div>	
-		        		</td>
-		        		<td align="center" valign="middle">
-		        		<div align="center" >				        		
-		        			${awardAmountInfoHistory.awardAmountInfo.anticipatedChangeIndirect}
-		        		</div>	
-		        		</td>
-		        		<td align="center" valign="middle">
-		        		<div align="center" >				        		
-		        			${awardAmountInfoHistory.awardAmountInfo.anticipatedTotalAmount}
-		        		</div>	
-		        		</td>
-		        		<td align="center" valign="middle">
-		        		<div align="center" >				        		
-		        			${awardAmountInfoHistory.awardAmountInfo.antDistributableAmount}
-		        		</div>	
-		        		</td>		        		
+		        		</div></td>
+		        		<td class="datacell"><div>				        		
+		        			<fmt:formatNumber type="currency" currencySymbol="" value="${awardAmountInfoHistory.awardAmountInfo.obligatedChange}"/>
+		        		</div></td>
+		        		<td class="datacell"><div>				        		
+		        			<fmt:formatNumber type="currency" currencySymbol="" value="${awardAmountInfoHistory.awardAmountInfo.obligatedChangeDirect}"/>
+		        		</div></td>
+		        		<td class="datacell"><div>				        		
+		        			<fmt:formatNumber type="currency" currencySymbol="" value="${awardAmountInfoHistory.awardAmountInfo.obligatedChangeIndirect}"/>
+		        		</div></td>
+		        		<td class="datacell"><div>				        		
+		        			<fmt:formatNumber type="currency" currencySymbol="" value="${awardAmountInfoHistory.awardAmountInfo.amountObligatedToDate}"/>
+		        		</div></td>
+		        		<td class="datacell"><div>				        		
+		        			<fmt:formatNumber type="currency" currencySymbol="" value="${awardAmountInfoHistory.awardAmountInfo.obliDistributableAmount}"/>
+		        		</div></td>
+		        		<td class="datacell"><div>				        		
+		        			<fmt:formatNumber type="currency" currencySymbol="" value="${awardAmountInfoHistory.awardAmountInfo.anticipatedChange}"/>
+		        		</div></td>
+		        		<td class="datacell"><div>				        		
+		        			<fmt:formatNumber type="currency" currencySymbol="" value="${awardAmountInfoHistory.awardAmountInfo.anticipatedChangeDirect}"/>
+		        		</div></td>
+		        		<td class="datacell"><div>				        		
+		        			<fmt:formatNumber type="currency" currencySymbol="" value="${awardAmountInfoHistory.awardAmountInfo.anticipatedChangeIndirect}"/>
+		        		</div></td>
+		        		<td class="datacell"><div>				        		
+		        			<fmt:formatNumber type="currency" currencySymbol="" value="${awardAmountInfoHistory.awardAmountInfo.anticipatedTotalAmount}"/>
+		        		</div></td>
+		        		<td class="datacell"><div>				        		
+		        			<fmt:formatNumber type="currency" currencySymbol="" value="${awardAmountInfoHistory.awardAmountInfo.antDistributableAmount}"/>
+		        		</div></td>		        		
 	        		</tr>
 	        		</c:when>
         			<c:otherwise>
@@ -241,53 +218,35 @@
 	        			</th>
 					</tr>
 					<tr>
-	        			<td align="center" valign="middle">
-	        			<div align="center" >
+	        			<td class="datacell"><div>
 		        			<fmt:formatDate value="${awardAmountInfoHistory.awardAmountInfo.currentFundEffectiveDate}" pattern="MM/dd/yyyy" />
-		        		</div>
-		        		</td>				        		
-		        		<td align="center" valign="middle">
-		        		<div align="center" >
+		        		</div></td>				        		
+								<td class="datacell"><div>
 		        			<fmt:formatDate value="${awardAmountInfoHistory.awardAmountInfo.obligationExpirationDate}" pattern="MM/dd/yyyy" />
-		        		</div>	
-		        		</td>
-		        		</div>				        		
-		        		<td align="center" valign="middle">
-		        		<div align="center" >
+		        		</div></td>				        		
+		        		<td class="datacell"><div>
 		        			<fmt:formatDate value="${awardAmountInfoHistory.awardAmountInfo.finalExpirationDate}" pattern="MM/dd/yyyy" />
-		        		</div>
-		        		</td>
-		        		<td align="center" valign="middle">
-		        		<div align="center" >				        		
-		        			${awardAmountInfoHistory.awardAmountInfo.obligatedChange}
-		        		</div>	
-		        		</td>
-		        		<td align="center" valign="middle">
-		        		<div align="center" >				        		
-		        			${awardAmountInfoHistory.awardAmountInfo.amountObligatedToDate}
-		        		</div>	
-		        		</td>
-		        		<td align="center" valign="middle">
-		        		<div align="center" >				        		
-		        			${awardAmountInfoHistory.awardAmountInfo.obliDistributableAmount}
-		        		</div>	
-		        		</td>
-		        		<td align="center" valign="middle">
-		        		<div align="center" >				        		
-		        			${awardAmountInfoHistory.awardAmountInfo.anticipatedChange}
-		        		</div>	
-		        		</td>
-		        		<td align="center" valign="middle">
-		        		<div align="center" >				        		
-		        			${awardAmountInfoHistory.awardAmountInfo.anticipatedTotalAmount}
-		        		</div>	
-		        		</td>
-		        		<td align="center" valign="middle">
-		        		<div align="center" >				        		
-		        			${awardAmountInfoHistory.awardAmountInfo.antDistributableAmount}
-		        		</div>	
-		        		</td>		        		
+		        		</div></td>
+		        		<td class="datacell"><div>				        		
+		        			<fmt:formatNumber type="currency" currencySymbol="" value="${awardAmountInfoHistory.awardAmountInfo.obligatedChange}"/>
+		        		</div></td>
+		        		<td class="datacell"><div>				        		
+		        			<fmt:formatNumber type="currency" currencySymbol="" value="${awardAmountInfoHistory.awardAmountInfo.amountObligatedToDate}"/>
+		        		</div></td>
+		        		<td class="datacell"><div>				        		
+		        			<fmt:formatNumber type="currency" currencySymbol="" value="${awardAmountInfoHistory.awardAmountInfo.obliDistributableAmount}"/>
+		        		</div></td>
+		        		<td class="datacell"><div>				        		
+		        			<fmt:formatNumber type="currency" currencySymbol="" value="${awardAmountInfoHistory.awardAmountInfo.anticipatedChange}"/>
+		        		</div></td>
+		        		<td class="datacell"><div>				        		
+		        			<fmt:formatNumber type="currency" currencySymbol="" value="${awardAmountInfoHistory.awardAmountInfo.anticipatedTotalAmount}"/>
+		        		</div></td>
+		        		<td class="datacell"><div>				        		
+		        			<fmt:formatNumber type="currency" currencySymbol="" value="${awardAmountInfoHistory.awardAmountInfo.antDistributableAmount}"/>
+		        		</div></td>		        		
 	        		</tr>
+	        		
         			</c:otherwise>
 	        	</c:choose>
 	        			<c:if test="${awardAmountInfoHistory.transactionType == 'MONEY'}">
