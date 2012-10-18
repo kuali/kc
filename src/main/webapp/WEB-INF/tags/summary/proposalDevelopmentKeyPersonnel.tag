@@ -14,7 +14,7 @@
  limitations under the License.
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
-
+<%@ attribute name="transparentBackground" required="true" %>
 
 <c:set var="proposalPersonAttributes"
 	value="${DataDictionary.ProposalPerson.attributes}" />
@@ -33,7 +33,7 @@
 <c:set var="rowIndex" value="1" />
 <c:set var="keypersonrole" value="<%=org.kuali.kra.infrastructure.Constants.KEY_PERSON_ROLE%>" />
 <kul:tab
-	tabTitle="Key Personnel (${fn:length(KualiForm.document.developmentProposalList[0].proposalPersons)})"
+	tabTitle="Key Personnel (${fn:length(KualiForm.document.developmentProposalList[0].proposalPersons)})" transparentBackground="${transparentBackground }"
 	defaultOpen="false" tabErrorKey="">
 	<c:if test="${fn:length(KualiForm.document.developmentProposalList[0].proposalPersons) > 0}">
 	
