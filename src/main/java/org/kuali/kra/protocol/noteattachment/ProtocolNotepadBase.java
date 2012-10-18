@@ -290,7 +290,7 @@ public abstract class ProtocolNotepadBase extends ProtocolAssociateBase implemen
      * @see java.lang.Comparable#compareTo(java.lang.Object)
      */
     public int compareTo(ProtocolNotepadBase protocolNotepad) {
-        return this.getUpdateTimestamp().compareTo(protocolNotepad.getUpdateTimestamp());
+        return this.getCreateTimestamp().compareTo(protocolNotepad.getCreateTimestamp());
     }
 
     public String getCreateUser() {
