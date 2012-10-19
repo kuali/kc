@@ -14,7 +14,7 @@
  limitations under the License.
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
-<%@ attribute name="transparentBackground" required="true" %>
+<%@ attribute name="transparentBackground" required="false" %>
 <c:set var="budgetAttributes"
 	value="${DataDictionary.Budget.attributes}" />
 <c:set var="budgetPeriodAttributes"
