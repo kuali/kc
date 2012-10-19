@@ -14,7 +14,7 @@
  limitations under the License.
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
-
+<%@ attribute name="transparentBackground" required="false" %>
 <c:set var="action" value="proposalDevelopmentApproverView" />
 <c:set var="proposalDevelopmentAttributes"
 	value="${DataDictionary.DevelopmentProposal.attributes}" />
@@ -33,7 +33,7 @@
 	</c:if>
 </c:forEach>
 
-<kul:tab tabTitle="Attachments" defaultOpen="false" tabErrorKey="">
+<kul:tab tabTitle="Attachments" defaultOpen="false" tabErrorKey="" transparentBackground="${transparentBackground }">
 
 	<kul:innerTab
 		tabTitle="Proposal Attachments(${proposalAttachementCount})"
