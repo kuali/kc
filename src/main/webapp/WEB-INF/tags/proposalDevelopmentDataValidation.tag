@@ -14,7 +14,7 @@
  limitations under the License.
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
-
+<%@ attribute name="transparentBackground" required="false" %>
 <%@ attribute name="auditActivated" required="true" type="java.lang.Boolean" description="whether audit is activated" %>
 <%@ attribute name="topTab" required="false" type="java.lang.Boolean" description="is this the top tab on the page" %>
 <%@ attribute name="helpParameterNamespace" required="false" %>
@@ -28,7 +28,7 @@
 	<%--instead of using kul:tabTop tag just define the workarea div - this gets around an unbalanced tag problem when using conditional tags --%>
 	<div id="workarea">
 </c:if>
-<kul:tab tabTitle="${title}" defaultOpen="${auditActivated}"  tabAuditKey="*">
+<kul:tab tabTitle="${title}" defaultOpen="${auditActivated}"  tabAuditKey="*" transparentBackground="${transparentBackground }">
 	<div class="tab-container" align="center">
 		<h3> 
 			<span class="subhead-left">${title}</span>

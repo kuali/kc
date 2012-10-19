@@ -15,7 +15,7 @@
 --%>
 
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
-
+<%@ attribute name="transparentBackground" required="false" %>
 <c:set var="proposalDevelopmentAttributes"
 	value="${DataDictionary.DevelopmentProposal.attributes}" />
 <c:set var="scienceKeywordAttributes"
@@ -27,7 +27,7 @@
 	value="org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument" />
 
 <kul:tab
-	tabTitle="Keywords (${fn:length(KualiForm.document.developmentProposalList[0].propScienceKeywords)})"
+	tabTitle="Keywords (${fn:length(KualiForm.document.developmentProposalList[0].propScienceKeywords)})" transparentBackground="${transparentBackground }"
 	defaultOpen="false" tabErrorKey="">
 	<div class="tab-container" align="center">
 		<h3>
