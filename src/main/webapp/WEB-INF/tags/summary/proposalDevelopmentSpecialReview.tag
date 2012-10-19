@@ -28,7 +28,7 @@
 	description="The property name of the collection that holds all the current Special Reviews"%>
 <%@ attribute name="action" required="true" 
 	description="The name of the action class"%>
-<%@ attribute name="transparentBackground" required="true" %>
+<%@ attribute name="transparentBackground" required="false" %>
 <c:set var="canModify"
 	value="${KualiForm.specialReviewHelper.canModifySpecialReview}" />
 <c:set var="enableIrbProtocolLinking"

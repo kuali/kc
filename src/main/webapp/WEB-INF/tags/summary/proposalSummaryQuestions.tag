@@ -19,7 +19,7 @@
 	type="org.kuali.kra.questionnaire.QuestionnaireHelperBase"%>
 <%@ attribute name="property" required="true"%>
 <%@ attribute name="forceNonTransparent" required="false"%>
-
+<%@ attribute name="transparentBackground" required="false" %>
 <c:if test="${empty forceNonTransparent}">
 	<c:set var="forceNonTransparent" value="false" />
 </c:if>
@@ -36,7 +36,7 @@
 	<input type="hidden" name="${prop}" id="${prop}"
 		value="${bean.answerHeaders[status.index].showQuestions}" />
 
-	<kra-summary:proposalQuestionnaireAnswers bean="${bean}"
+	<kra-summary:proposalQuestionnaireAnswers bean="${bean}" transparentBackground="${transparentBackground }"
 		property="${property}" answerHeaderIndex="${status.index}"
 		forceNonTransparent="${forceNonTransparent}" />
 </c:forEach>
