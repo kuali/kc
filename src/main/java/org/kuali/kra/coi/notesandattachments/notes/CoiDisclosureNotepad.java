@@ -276,7 +276,11 @@ public class CoiDisclosureNotepad extends CoiDisclosureAssociate implements Comp
     
     @Override
     public int compareTo(CoiDisclosureNotepad coiDisclosureNotepad) {
-        return this.getCreateTimestamp().compareTo(coiDisclosureNotepad.getCreateTimestamp());
+        if (this.getCreateTimestamp() == null || coiDisclosureNotepad.getCreateTimestamp() == null) {
+            return this.getUpdateTimestamp().compareTo(coiDisclosureNotepad.getUpdateTimestamp());
+        } else {
+            return this.getCreateTimestamp().compareTo(coiDisclosureNotepad.getCreateTimestamp());
+        }
 
     }
 
