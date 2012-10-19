@@ -284,7 +284,11 @@ public class ProtocolNotepad extends ProtocolAssociate implements Comparable<Pro
      * @see java.lang.Comparable#compareTo(java.lang.Object)
      */
     public int compareTo(ProtocolNotepad protocolNotepad) {
-        return this.getCreateTimestamp().compareTo(protocolNotepad.getCreateTimestamp());
+        if (this.getCreateTimestamp() == null || protocolNotepad.getCreateTimestamp() == null) {
+            return this.getUpdateTimestamp().compareTo(protocolNotepad.getUpdateTimestamp());
+        } else {
+            return this.getCreateTimestamp().compareTo(protocolNotepad.getCreateTimestamp());
+        }
     }
     
     /**
