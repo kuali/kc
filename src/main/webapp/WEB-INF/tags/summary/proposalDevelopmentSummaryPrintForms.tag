@@ -15,8 +15,8 @@
 --%>
 
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
-
-<kul:tab tabTitle="Print" defaultOpen="false" tabErrorKey="print*">
+<%@ attribute name="transparentBackground" required="false" %>
+<kul:tab tabTitle="Print" defaultOpen="false" tabErrorKey="print*" transparentBackground="${transparentBackground }">
 
 	<div class="tab-container" align="center">
 		<h3>

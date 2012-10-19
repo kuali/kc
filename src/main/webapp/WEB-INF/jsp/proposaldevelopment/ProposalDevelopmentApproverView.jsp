@@ -86,21 +86,23 @@
 			</c:if>
 		</c:forEach>
 		
-		<c:if
-			test="${fn:length(KualiForm.document.developmentProposalList[0].propPersonBios)>0 || proposalAttachementCount > 0 ||fn:length(KualiForm.document.developmentProposalList[0].instituteAttachments) >0}">
+		<c:if test="${fn:length(KualiForm.document.developmentProposalList[0].propPersonBios)>0 || proposalAttachementCount > 0 ||fn:length(KualiForm.document.developmentProposalList[0].instituteAttachments) >0}">
 			<c:if test="${KualiForm.proposalDevelopmentParameters['enableSummaryAttachmentsPanel'].value == 'Y'}">
-			<kra-summary:proposalDevelopmentSummaryAttachments />
+				<kra-summary:proposalDevelopmentSummaryAttachments transparentBackground="${isTopPanel }" />
+				<c:set var="isTopPanel" value="false"/>
 			</c:if>
 		</c:if>
+		
 		<c:if test="${fn:length(KualiForm.document.developmentProposalList[0].propScienceKeywords) > 0}">
 			<c:if test="${KualiForm.proposalDevelopmentParameters['enableSummaryKeywordsPanel'].value == 'Y'}">
-				<kra-summary:proposalDevelopmentSummaryKeywords />
+				<kra-summary:proposalDevelopmentSummaryKeywords transparentBackground="${isTopPanel }" />
+				<c:set var="isTopPanel" value="false"/>
 			</c:if>
 		</c:if>
 		
 		<c:if test="${KualiForm.proposalDevelopmentParameters['enableSummaryDataValidationPanel'].value == 'Y'}">
 			<kra:proposalDevelopmentDataValidation auditActivated="${KualiForm.auditActivated}"
-				categories="Validation Errors,Warnings,Grants.Gov Errors"
+				categories="Validation Errors,Warnings,Grants.Gov Errors" transparentBackground="${isTopPanel }"
 				topTab="true"
 				helpParameterNamespace="KC-PD" 
 				helpParameterDetailType="Document" 
@@ -116,10 +118,12 @@
 				</ul>
 	
 			</kra:proposalDevelopmentDataValidation>
+			<c:set var="isTopPanel" value="false"/>
 		</c:if>
 		
 		<c:if test="${KualiForm.proposalDevelopmentParameters['enableSummaryPrintPanel'].value == 'Y'}">
-			<kra-summary:proposalDevelopmentSummaryPrintForms />
+			<kra-summary:proposalDevelopmentSummaryPrintForms transparentBackground="${isTopPanel }" />
+			<c:set var="isTopPanel" value="false"/>
 		</c:if>
 
 		<kul:panelFooter />
