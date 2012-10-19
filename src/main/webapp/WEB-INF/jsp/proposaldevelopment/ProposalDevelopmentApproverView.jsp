@@ -50,19 +50,22 @@
 
 
 		<c:if test="${KualiForm.proposalDevelopmentParameters['enableCustomDataInfoPanel'].value == 'Y'}">
-			<kra-summary:proposalDevelopmentCustomDataInformation />
+			<kra-summary:proposalDevelopmentCustomDataInformation transparentBackground="${isTopPanel }"/>
+			<c:set var="isTopPanel" value="false"/>
 		</c:if>
 
 		<c:if test="${KualiForm.proposalDevelopmentParameters['enableSummaryQuestionsPanel'].value == 'Y'}">
-			<kra-summary:proposalSummaryQuestions
+			<kra-summary:proposalSummaryQuestions  transparentBackground="${isTopPanel }"
 				bean="${KualiForm.questionnaireHelper}"
 				property="questionnaireHelper" />
+			
+			<c:set var="isTopPanel" value="false"/>
 			<c:set var="forceTabNonTransparent" value="true" />
 			<c:if test="${fn:length(KualiForm.questionnaireHelper.answerHeaders) == 0}">
 				<c:set var="forceTabNonTransparent" value="false" />
 			</c:if>
-	
-			<kra-summary:proposalSummaryQuestions
+			
+			<kra-summary:proposalSummaryQuestions  transparentBackground="${isTopPanel }"
 				bean="${KualiForm.s2sQuestionnaireHelper}"
 				property="s2sQuestionnaireHelper"
 				forceNonTransparent="${forceTabNonTransparent}" />

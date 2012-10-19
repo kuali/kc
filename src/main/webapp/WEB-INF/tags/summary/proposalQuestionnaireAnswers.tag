@@ -21,6 +21,7 @@
 <%@ attribute name="property" required="true"%>
 <%@ attribute name="answerHeaderIndex" required="true"%>
 <%@ attribute name="forceNonTransparent" required="false"%>
+<%@ attribute name="transparentBackground" required="false" %>
 
 <c:if test="${empty forceNonTransparent}">
 	<c:set var="forceNonTransparent" value="false" />
@@ -55,7 +56,7 @@
 	<c:set var="showQuestions" value="true" />
 </c:if>
 
-<kul:tab tabTitle="Questions" defaultOpen="false">
+<kul:tab tabTitle="Questions" defaultOpen="false" transparentBackground="${transparentBackground }">
 
 	<div class="tab-container" align="center">
 		<c:if
@@ -86,7 +87,7 @@
 			</div>
 			</td>
 			</tr>
-			</table>
+			</table> 
 			</c:if>
 
 			<c:set var="tableId"
