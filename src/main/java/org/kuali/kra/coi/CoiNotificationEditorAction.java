@@ -24,11 +24,14 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.coi.notification.CoiNotification;
 import org.kuali.kra.common.notification.bo.KcNotification;
 import org.kuali.kra.common.notification.bo.NotificationTypeRecipient;
 import org.kuali.kra.common.notification.rule.event.AddNotificationRecipientEvent;
 import org.kuali.kra.common.notification.rule.event.SendNotificationEvent;
+import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 
 public class CoiNotificationEditorAction extends CoiAction {
     public static final String DISCLOSURE_ACTIONS_TAB = "disclosureActions";
@@ -113,7 +116,8 @@ public class CoiNotificationEditorAction extends CoiAction {
         List<NotificationTypeRecipient> notificationRecipients = coiDisclosureForm.getNotificationHelper().getNotificationRecipients();
         
         if (checkRule(new SendNotificationEvent(document, notification, notificationRecipients))) {
-            coiDisclosureForm.getNotificationHelper().sendNotification();
+            getKcNotificationService().sendNotificationAndPersist(coiDisclosureForm.getNotificationHelper().getNotificationContext(), 
+                    new CoiNotification(), notificationRecipients, document.getCoiDisclosure());
             String forwardName = coiDisclosureForm.getNotificationHelper().getNotificationContext().getForwardName();
             coiDisclosureForm.getNotificationHelper().setNotificationContext(null);
             if (StringUtils.isNotBlank(forwardName)) {
@@ -126,6 +130,9 @@ public class CoiNotificationEditorAction extends CoiAction {
         return actionForward;
     }
 
+    private KcNotificationService getKcNotificationService() {
+        return KraServiceLocator.getService(KcNotificationService.class);
+    }
 
     /**
      * Cancels a Notification.
