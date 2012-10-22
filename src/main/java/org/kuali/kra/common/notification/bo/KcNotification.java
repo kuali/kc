@@ -16,6 +16,8 @@
 package org.kuali.kra.common.notification.bo;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * Defines a document-specific instance of a Notification Type.
@@ -30,9 +32,13 @@ public class KcNotification extends KraPersistableBusinessObjectBase {
 
     private String documentNumber;
 
+    private String recipients;
+    
     private String subject;
 
     private String message;
+
+    private Long owningDocumentIdFk;
 
     private NotificationType notificationType;
 
@@ -60,6 +66,14 @@ public class KcNotification extends KraPersistableBusinessObjectBase {
         this.documentNumber = documentNumber;
     }
 
+    public String getRecipients() {
+        return recipients;
+    }
+
+    public void setRecipients(String recipients) {
+        this.recipients = recipients;
+    }
+
     public String getSubject() {
         return subject;
     }
@@ -82,5 +96,17 @@ public class KcNotification extends KraPersistableBusinessObjectBase {
 
     public void setNotificationType(NotificationType notificationType) {
         this.notificationType = notificationType;
+    }
+
+    public Long getOwningDocumentIdFk() {
+        return owningDocumentIdFk;
+    }
+
+    public void setOwningDocumentIdFk(Long owningDocumentIdFk) {
+        this.owningDocumentIdFk = owningDocumentIdFk;
+    }
+
+    public void persistOwningObject(KraPersistableBusinessObjectBase object) {
+        KraServiceLocator.getService(BusinessObjectService.class).save(object);
     }
 }
