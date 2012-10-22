@@ -53,7 +53,7 @@ public class CoiNotificationContext extends NotificationContextBase {
     public CoiNotificationContext(CoiDisclosure coiDisclosure, String actionTypeCode, String contextName, NotificationRenderer renderer) {
         super(renderer);
 
-        this.coiDisclosureDocumentNumber = coiDisclosureDocumentNumber;
+        this.coiDisclosureDocumentNumber = coiDisclosure.getCoiDisclosureDocument().getDocumentNumber();
         this.actionTypeCode = actionTypeCode;
         this.contextName = contextName;
         

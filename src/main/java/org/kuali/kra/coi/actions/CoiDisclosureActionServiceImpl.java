@@ -47,9 +47,12 @@ import org.kuali.kra.coi.certification.SubmitDisclosureAction;
 import org.kuali.kra.coi.notesandattachments.attachments.CoiDisclosureAttachment;
 import org.kuali.kra.coi.notesandattachments.notes.CoiDisclosureNotepad;
 import org.kuali.kra.coi.notification.AssignReviewerNotificationRenderer;
+import org.kuali.kra.coi.notification.CoiNotification;
 import org.kuali.kra.coi.notification.CoiNotificationContext;
 import org.kuali.kra.coi.notification.DisclosureCertifiedNotificationRenderer;
 import org.kuali.kra.coi.notification.DisclosureCertifiedNotificationRequestBean;
+import org.kuali.kra.common.notification.NotificationContext;
+import org.kuali.kra.common.notification.bo.KcNotification;
 import org.kuali.kra.common.notification.bo.NotificationTypeRecipient;
 import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.common.notification.web.struts.form.NotificationHelper;
@@ -432,7 +435,7 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
             coiDisclosureForm.getNotificationHelper().initializeDefaultValues(context);
             return mapping.findForward("protocolNotificationEditor");
         } else {
-            getKcNotificationService().sendNotification(context);
+            getKcNotificationService().sendNotificationAndPersist(context, new CoiNotification(), coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure());
             return null;
         }
     }
@@ -628,13 +631,9 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
         if (coiNotificationHelper.getPromptUserForNotificationEditor(context)) {
             forward = mapping.findForward("coiDisclosureNotificationEditor");
         } else {
-            coiDisclosureForm.getNotificationHelper().sendNotification();
+            getKcNotificationService().sendNotificationAndPersist(context, new CoiNotification(), coiNotificationHelper.getNotificationRecipients(), coiDisclosureDocument.getCoiDisclosure());
         }
         return forward;
-    }
-
-    protected KcNotificationService getNotificationService() {
-        return KraServiceLocator.getService(KcNotificationService.class);
     }
 
 }

@@ -86,6 +86,9 @@
 		<reference-descriptor name="coiDisclosureEventType" class-ref="org.kuali.kra.coi.CoiDisclosureEventType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="eventTypeCode"/>
 		</reference-descriptor>
+        <collection-descriptor name="disclosureNotifications" element-class-ref="org.kuali.kra.coi.notification.CoiNotification" auto-retrieve="true" auto-update="object" auto-delete="object">
+            <inverse-foreignkey field-ref="owningDocumentIdFk" />
+        </collection-descriptor>
 	</class-descriptor>
 
 	<class-descriptor class="org.kuali.kra.coi.notesandattachments.attachments.CoiDisclosureAttachment" table="COI_DISCLOSURE_ATTACHMENT">
@@ -662,6 +665,10 @@
 		<reference-descriptor name="coiDisclosure" class-ref="org.kuali.kra.coi.CoiDisclosure" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="coiDisclosureId"/>
 		</reference-descriptor>
+        <collection-descriptor name="disclosureNotifications" element-class-ref="org.kuali.kra.iacuc.notification.IacucProtocolNotification" 
+        	auto-retrieve="true" auto-update="object" auto-delete="object">
+            <inverse-foreignkey field-ref="actionIdFk" />
+        </collection-descriptor>
 	</class-descriptor>    
 	<class-descriptor class="org.kuali.kra.coi.CoiDispositionStatus" table="COI_DISPOSITION_STATUS">
 		<field-descriptor name="coiDispositionCode" column="COI_DISPOSITION_CODE" jdbc-type="VARCHAR" primarykey="true" />
@@ -719,6 +726,23 @@
         <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+    </class-descriptor>
+
+	<class-descriptor class="org.kuali.kra.coi.notification.CoiNotification" table="COI_NOTIFICATION">
+        <field-descriptor name="notificationId" column="NOTIFICATION_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_NOTIFICATION_ID" autoincrement="true" />
+        <field-descriptor name="notificationTypeId" column="NOTIFICATION_TYPE_ID" jdbc-type="BIGINT" />
+        <field-descriptor name="documentNumber" column="DOCUMENT_NUMBER" jdbc-type="VARCHAR" />
+        <field-descriptor name="owningDocumentIdFk" column="OWNING_DOCUMENT_ID_FK" jdbc-type="BIGINT" />
+        <field-descriptor name="recipients" column="RECIPIENTS" jdbc-type="VARCHAR" />
+        <field-descriptor name="subject" column="SUBJECT" jdbc-type="VARCHAR" />
+        <field-descriptor name="message" column="MESSAGE" jdbc-type="VARCHAR" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        <reference-descriptor name="notificationType" class-ref="org.kuali.kra.common.notification.bo.NotificationType" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="notificationTypeId"/>
+        </reference-descriptor>
     </class-descriptor>
     
 </descriptor-repository>
