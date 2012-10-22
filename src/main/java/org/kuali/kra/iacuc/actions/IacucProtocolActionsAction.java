@@ -116,6 +116,7 @@ import org.kuali.kra.iacuc.noteattachment.IacucProtocolAttachmentProtocol;
 import org.kuali.kra.iacuc.noteattachment.IacucProtocolAttachmentService;
 import org.kuali.kra.iacuc.notification.IacucProtocolAssignReviewerNotificationRenderer;
 import org.kuali.kra.iacuc.notification.IacucProtocolGenericActionNotificationRenderer;
+import org.kuali.kra.iacuc.notification.IacucProtocolNotification;
 import org.kuali.kra.iacuc.notification.IacucProtocolNotificationContext;
 import org.kuali.kra.iacuc.notification.IacucProtocolNotificationRenderer;
 import org.kuali.kra.iacuc.notification.IacucProtocolNotificationRequestBean;
@@ -510,7 +511,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
     IacucProtocolNotificationRenderer submitRenderer = new IacucProtocolNotificationRenderer(protocol);
     IacucProtocolNotificationContext submitContext = new IacucProtocolNotificationContext(protocol, null, 
                                                 IacucProtocolActionType.SUBMITTED_TO_IACUC, "Submit", submitRenderer);
-    getNotificationService().sendNotification(submitContext);
+    getNotificationService().sendNotificationAndPersist(submitContext, new IacucProtocolNotification(), protocol);
     // next send out notification that reviewers have been assigned
 // TODO *********commented the code below during IACUC refactoring********* 
 //    AssignReviewerNotificationRenderer renderer = new AssignReviewerNotificationRenderer(protocolForm.getProtocolDocument().getProtocol(), "added");
@@ -1655,7 +1656,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
     
     /**
      * 
-     * This method...
+     * This method... 
      * @param mapping
      * @param form
      * @param request
@@ -1688,9 +1689,8 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
                         protocolForm.getNotificationHelper().initializeDefaultValues(context);
                         forward = mapping.findForward("iacucProtocolNotificationEditor");
                     } else {
-                        getNotificationService().sendNotification(context);
+                        getNotificationService().sendNotificationAndPersist(context, new IacucProtocolNotification(), protocol);
                     }
-                    
                 }
                 actionBean.prepareView();
             }
@@ -1724,7 +1724,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
                     protocolForm.getNotificationHelper().initializeDefaultValues(context);
                     forward = mapping.findForward("iacucProtocolNotificationEditor");
                 } else {
-                    getNotificationService().sendNotification(context);
+                    getNotificationService().sendNotificationAndPersist(context, new IacucProtocolNotification(), protocol);
                 }
             }
         } else {
@@ -2061,7 +2061,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
                 } else {
                     IacucProtocolNotificationRenderer renderer = new IacucProtocolNotificationRenderer((IacucProtocol) document.getProtocol());
                     IacucProtocolNotificationContext context = new IacucProtocolNotificationContext((IacucProtocol) document.getProtocol(), actionType, actionDescription2, renderer);
-                    getNotificationService().sendNotification(context);
+                    getNotificationService().sendNotificationAndPersist(context, new IacucProtocolNotification(), protocol);
                     forward = routeProtocolToHoldingPage(mapping, protocolForm);                                    
                 }
             }
@@ -4235,10 +4235,9 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
                   protocolForm.getNotificationHelper().initializeDefaultValues(context);
                   return mapping.findForward("iacucProtocolNotificationEditor");
               } else {
-                  getNotificationService().sendNotification(context);
+                  getNotificationService().sendNotificationAndPersist(context, new IacucProtocolNotification(), protocol);
                   return forward;
               }
-                  
           }
     
     
@@ -4597,7 +4596,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
             protocolForm.getNotificationHelper().initializeDefaultValues(context);
             forward = mapping.findForward("iacucProtocolNotificationEditor");
         } else {
-            getNotificationService().sendNotification(context);
+            getNotificationService().sendNotificationAndPersist(context, new IacucProtocolNotification(), protocol);
         }
         recordProtocolActionSuccess("Send Review Type Determination Notification");
 
@@ -4606,10 +4605,6 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
     
     protected IdentityService getIdentityService() {
         return KraServiceLocator.getService(IdentityService.class);
-    }
-    
-    private KcNotificationService getKcNotificationService() {
-        return KraServiceLocator.getService(KcNotificationService.class);
     }
     
     public ActionForward modifySubmissionAction(ActionMapping mapping, ActionForm form, HttpServletRequest request,
@@ -4642,7 +4637,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
                     IacucProtocolNotificationRenderer assignRenderer = new IacucProtocolNotificationRenderer(protocol);
                     IacucProtocolNotificationContext assignContext = new IacucProtocolNotificationContext(protocol, null, 
                             IacucProtocolActionType.MODIFY_PROTOCOL_SUBMISSION, "Modified", assignRenderer);
-                    getNotificationService().sendNotification(assignContext);
+                    getNotificationService().sendNotificationAndPersist(assignContext, new IacucProtocolNotification(), protocol);
                     protocolForm.setReinitializeModifySubmissionFields(true);
                 }
             }
@@ -4690,9 +4685,9 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         IacucProtocolAssignReviewerNotificationRenderer renderer = new IacucProtocolAssignReviewerNotificationRenderer(protocol, "added");
         List<ProtocolNotificationRequestBeanBase> addReviewerNotificationBeans = getNotificationRequestBeans(beans,
-                IacucProtocolReviewerBean.CREATE);
+                IacucProtocolReviewerBean.CREATE, true);
         List<ProtocolNotificationRequestBeanBase> removeReviewerNotificationBeans = getNotificationRequestBeans(beans,
-                IacucProtocolReviewerBean.REMOVE);
+                IacucProtocolReviewerBean.REMOVE, false);
         if (!CollectionUtils.isEmpty(addReviewerNotificationBeans)) {
             ProtocolNotificationRequestBeanBase notificationBean = addReviewerNotificationBeans.get(0);
             IacucProtocolNotificationContext context = new IacucProtocolNotificationContext((IacucProtocol)notificationBean.getProtocol(),
@@ -4793,10 +4788,10 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
      }
  }
  
- private List<ProtocolNotificationRequestBeanBase> getNotificationRequestBeans(List<ProtocolReviewerBeanBase> beans, String actionFlag) {
+ private List<ProtocolNotificationRequestBeanBase> getNotificationRequestBeans(List<ProtocolReviewerBeanBase> beans, String actionFlag, boolean notNullFlag) {
      List<ProtocolNotificationRequestBeanBase> notificationRequestBeans = new ArrayList<ProtocolNotificationRequestBeanBase>();
      for (ProtocolReviewerBeanBase bean : beans) {
-         if (StringUtils.equals(actionFlag, bean.getActionFlag())) {
+         if (StringUtils.equals(actionFlag, bean.getActionFlag()) && (notNullFlag == !StringUtils.isEmpty(bean.getReviewerTypeCode()))) {
              notificationRequestBeans.add(bean.getNotificationRequestBean());
          }
      }

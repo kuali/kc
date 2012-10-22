@@ -36,6 +36,7 @@ import org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewType;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionStatus;
 import org.kuali.kra.iacuc.committee.meeting.IacucCommitteeScheduleMinute;
 import org.kuali.kra.iacuc.notification.IacucProtocolAssignReviewerNotificationRenderer;
+import org.kuali.kra.iacuc.notification.IacucProtocolNotification;
 import org.kuali.kra.iacuc.notification.IacucProtocolNotificationContext;
 import org.kuali.kra.iacuc.notification.IacucProtocolNotificationRequestBean;
 import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReview;
@@ -213,9 +214,7 @@ public class IacucProtocolModifySubmissionServiceImpl extends IacucProtocolProce
             protocolReviewBean.setActionFlag(ProtocolReviewerBeanBase.REMOVE);
             IacucProtocolAssignReviewerNotificationRenderer renderer = new IacucProtocolAssignReviewerNotificationRenderer((IacucProtocol) protocol, "removed");
             IacucProtocolNotificationContext context = new IacucProtocolNotificationContext((IacucProtocol)protocol, (IacucProtocolOnlineReview)protocolOnlineReview, IacucProtocolActionType.ASSIGN_REVIEWER, "Assign Reviewer", renderer);
-           // if (!getPromptUserForNotificationEditor(context)) {
-            kcNotificationService.sendNotification(context);
-       // }
+            getKcNotificationService().sendNotificationAndPersist(context, new IacucProtocolNotification(), protocol);
         }
         
         protocolOnlineReviewService.removeOnlineReviewDocument(protocolReviewBean.getPersonId(), protocolReviewBean.getNonEmployeeFlag(), protocolSubmission, annotation);
@@ -287,9 +286,7 @@ public class IacucProtocolModifySubmissionServiceImpl extends IacucProtocolProce
         protocolReviewerBean.setActionFlag(ProtocolReviewerBeanBase.CREATE);
         IacucProtocolAssignReviewerNotificationRenderer renderer = new IacucProtocolAssignReviewerNotificationRenderer(protocol, "added");
         IacucProtocolNotificationContext context = new IacucProtocolNotificationContext(protocol, (IacucProtocolOnlineReview) protocolOnlineReview, IacucProtocolActionType.ASSIGN_REVIEWER, "Assign Reviewer", renderer);
-        //if (!getPromptUserForNotificationEditor(context)) {
-            kcNotificationService.sendNotification(context);
-        //}
+        getKcNotificationService().sendNotificationAndPersist(context, new IacucProtocolNotification(), protocol);
         ((IacucProtocolOnlineReview) protocolOnlineReview).setDeterminationReviewDateDue(protocolModifySubmissionBean.getDueDate());
     }
     
@@ -310,8 +307,12 @@ public class IacucProtocolModifySubmissionServiceImpl extends IacucProtocolProce
     }
    
     
-    public void setKcNotificationService(KcNotificationService kcNotificationService) {
-        this.kcNotificationService = kcNotificationService;
+    public void setKcNotificationService(KcNotificationService notificationService) {
+        this.kcNotificationService = notificationService;
+    }
+   
+    public KcNotificationService getKcNotificationService() {
+        return kcNotificationService;
     }
    
     /**

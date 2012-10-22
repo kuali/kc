@@ -25,8 +25,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.common.notification.service.KcNotificationService;
-//temp import org.kuali.kra.iacuc.actions.IacucProtocolSubmissionBuilder;
-import org.kuali.kra.protocol.actions.submit.ProtocolActionService;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.actions.IacucProtocolAction;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
@@ -35,8 +33,8 @@ import org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewType;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionBuilder;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionStatus;
+import org.kuali.kra.iacuc.notification.IacucProtocolNotification;
 import org.kuali.kra.iacuc.notification.IacucProtocolNotificationContext;
-import org.kuali.kra.iacuc.notification.IacucProtocolNotificationRenderer;
 import org.kuali.kra.iacuc.notification.IacucProtocolRequestActionNotificationRenderer;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -175,7 +173,7 @@ public class IacucProtocolRequestServiceImpl implements IacucProtocolRequestServ
         
         IacucProtocolRequestActionNotificationRenderer renderer = new IacucProtocolRequestActionNotificationRenderer(protocol, requestBean.getReason());
         IacucProtocolNotificationContext context = new IacucProtocolNotificationContext(protocol, protocolActionTypeCode, description, renderer);
-        kcNotificationService.sendNotification(context);
+        getKcNotificationService().sendNotificationAndPersist(context, new IacucProtocolNotification(), protocol);
     }
 
 
@@ -185,6 +183,10 @@ public class IacucProtocolRequestServiceImpl implements IacucProtocolRequestServ
     
     public void setKcNotificationService(KcNotificationService kcNotificationService) {
         this.kcNotificationService = kcNotificationService;
+    }
+
+    public KcNotificationService getKcNotificationService() {
+        return kcNotificationService;
     }
 
 }

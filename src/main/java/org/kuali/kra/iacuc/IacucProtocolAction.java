@@ -24,6 +24,7 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
 import org.kuali.kra.iacuc.auth.IacucProtocolTask;
+import org.kuali.kra.iacuc.notification.IacucProtocolNotification;
 import org.kuali.kra.iacuc.notification.IacucProtocolNotificationContext;
 import org.kuali.kra.iacuc.notification.IacucProtocolNotificationRenderer;
 import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReviewService;
@@ -39,11 +40,7 @@ import org.kuali.kra.protocol.ProtocolFormBase;
 import org.kuali.kra.protocol.personnel.ProtocolPersonTrainingService;
 import org.kuali.kra.protocol.personnel.ProtocolPersonnelService;
 import org.kuali.kra.service.KraAuthorizationService;
-import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
-import org.kuali.rice.krad.util.KRADConstants;
 
 public class IacucProtocolAction extends ProtocolActionBase {
    
@@ -143,7 +140,8 @@ public class IacucProtocolAction extends ProtocolActionBase {
       IacucProtocol protocol = (IacucProtocol)protocolForm.getProtocolDocument().getProtocol();
       IacucProtocolNotificationRenderer renderer = new IacucProtocolNotificationRenderer(protocol);
       IacucProtocolNotificationContext context = new IacucProtocolNotificationContext(protocol, IacucProtocolActionType.IACUC_PROTOCOL_CREATED, "Created", renderer);
-      KraServiceLocator.getService(KcNotificationService.class).sendNotification(context);
+      KcNotificationService notificationService = KraServiceLocator.getService(KcNotificationService.class);
+      notificationService.sendNotificationAndPersist(context, new IacucProtocolNotification(), protocol);
     }
     
     
