@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.external.award.impl;
 
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,8 +42,6 @@ public class AwardAccountValidationServiceImpl implements AwardAccountValidation
     private static final String AWARD_ADDRESS_NOT_COMPLETE = "error.award.createAccount.invalid.piAddress";
     private static final String AWARD_PI_NOT_SPECIFIED = "error.award.createAccount.invalid.pi";
     private static final String AWARD_F_AND_A_RATE_NOT_SPECIFIED = "error.award.createAccount.invalid.rate";
-    private static final String CURRENT_RATE_NOT_SPECIFIED = "error.award.createAccount.invalid.currentRate";
-    private static final String AWARD_ACCOUNT_NUMBER_NOT_SPECIFIED = "error.award.createAccount.invalid.accountNumber";
     private BusinessObjectService businessObjectService;
     
     public boolean validateAwardAccountDetails(Award award) {
@@ -58,10 +55,7 @@ public class AwardAccountValidationServiceImpl implements AwardAccountValidation
         rulePassed &= isValidPaymentMethod(award);
         rulePassed &= isValidAddress(award);
         rulePassed &= isValidFandarate(award);        
-        /*
-         * Not sure if this is a required field, commenting it out for now
-         */
-        //rulePassed &= isValidIdcRate(award);
+       
         return rulePassed;
     }
 
@@ -103,35 +97,20 @@ public class AwardAccountValidationServiceImpl implements AwardAccountValidation
   
  
     /**
-     * This method checks if there are F and A rates provided. And that there is at least one
-     * for the current year.
+     * This method checks if there are F and A rates provided. 
      * @param award
      * @return isValid
      */
     protected boolean isValidFandarate(Award award) {
         List<AwardFandaRate> rates = award.getAwardFandaRate();
         boolean isValid = true;
-        boolean currentYearRate = false;
-        Calendar calendar = Calendar.getInstance();
-        int currentYear = calendar.get(Calendar.YEAR);
 
         if (ObjectUtils.isNull(rates) || rates.size() == 0) {
             GlobalVariables.getMessageMap().putError(AWARD_F_AND_A_RATE_NOT_SPECIFIED, 
                                                     KeyConstants.AWARD_F_AND_A_RATE_NOT_SPECIFIED);
             isValid = false;
-        } else {
-            for (AwardFandaRate rate : rates) {
-                if (Integer.parseInt(rate.getFiscalYear()) == currentYear) {
-                    currentYearRate = true;
-                }      
-            }
-        }
-        
-        if (!currentYearRate) {
-            GlobalVariables.getMessageMap().putError(CURRENT_RATE_NOT_SPECIFIED, 
-                                                    KeyConstants.CURRENT_RATE_NOT_SPECIFIED, currentYear+"");
-            isValid = false;
-        }
+        } 
+      
         return isValid;
     }
     
@@ -177,7 +156,7 @@ public class AwardAccountValidationServiceImpl implements AwardAccountValidation
         } else {
             criteria.put("offCampusRate", currentFandaRate.getApplicableFandaRate());
         }
-        // TODO Auto-generated method stub
+
         List<ValidRates> rates = (List<ValidRates>) businessObjectService.findMatching(ValidRates.class, criteria);
         
         // you should only find one rate that matches this criteria, this check happens in the award
