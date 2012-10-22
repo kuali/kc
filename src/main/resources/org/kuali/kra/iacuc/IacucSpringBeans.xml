@@ -547,6 +547,19 @@
             <ref bean="documentService" />
         </property>
     </bean>
+
+<!-- 
+    <bean id="protocolNotificationService" class="org.kuali.kra.protocol.notification.service.impl.ProtocolNotificationServiceImpl">
+        <property name="businessObjectService" ref="businessObjectService" />
+        <property name="roleManagementService" ref="roleService" />
+        <property name="kcPersonService" ref="kcPersonService" />
+        <property name="rolodexService" ref="rolodexService" />
+        <property name="parameterService" ref="parameterService" />
+        <property name="identityService" ref="identityService" />
+        <property name="kcEmailService" ref="kcEmailService" />
+        <property name="sendNotificationService" ref="sendNotificationService" />
+    </bean>
+-->    
     
     <bean id="iacucProtocolOnlineReviewLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
         <property name="lookupableHelperService">
@@ -672,7 +685,7 @@
 		
     </bean>
     
-        <bean id = "iacucProtocolOnlineReviewService" class = "org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReviewServiceImpl">
+        <bean id="iacucProtocolOnlineReviewService" class="org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReviewServiceImpl">
         <property name = "kraAuthorizationService" ref = "kraAuthorizationService"/>
         <property name = "businessObjectService" ref = "businessObjectService"/>
         <property name = "documentService" ref = "documentService"/>
@@ -695,7 +708,7 @@
         <property name="protocolActionService" ref="iacucProtocolActionService" />
         <property name="protocolActionCorrespondenceGenerationService" ref="iacucProtocolActionCorrespondenceGenerationService" />
         <property name="kcNotificationService" ref="kcNotificationService" />
-       <property name="documentService" ref="documentService" />
+        <property name="documentService" ref="documentService" />
     </bean>
     
    <bean id="iacucProtocolVersionService" class="org.kuali.kra.iacuc.IacucProtocolVersionServiceImpl">
@@ -1124,7 +1137,6 @@
     <bean id="iacucResearchAreasService" class="org.kuali.kra.iacuc.service.impl.IacucResearchAreasServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
     </bean>
-    
     
     <bean id="iacucRenewalReminderStream" class="org.kuali.kra.iacuc.actions.print.IacucRenewalReminderStream" parent="printBaseXmlStream">
          <property name="protocolXmlStream" ref="iacucProtocolXmlStream" />
