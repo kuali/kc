@@ -37,6 +37,7 @@ import org.kuali.kra.coi.disclosure.DisclosurePersonUnit;
 import org.kuali.kra.coi.notesandattachments.attachments.CoiDisclosureAttachment;
 import org.kuali.kra.coi.notesandattachments.attachments.CoiDisclosureAttachmentFilter;
 import org.kuali.kra.coi.notesandattachments.notes.CoiDisclosureNotepad;
+import org.kuali.kra.coi.notification.CoiNotification;
 import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -131,7 +132,8 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
     private transient String reporterCreated;
     private transient KcPersonService kcPersonService;
 
-
+    // must persist generated notifications
+    List<CoiNotification> disclosureNotifications;
 
     public CoiDisclosure() { 
         super();
@@ -868,5 +870,19 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
     public void setCoiDisclProjectTitle(String coiDisclProjectTitle) {
         this.coiDisclProjectTitle = coiDisclProjectTitle;
     }
+
+    public List<CoiNotification> getDisclosureNotifications() {
+        if (disclosureNotifications == null) {
+            disclosureNotifications = new ArrayList<CoiNotification>();
+        }
+        return disclosureNotifications;
+    }
+
+    public void setDisclosureNotifications(List<CoiNotification> disclosureNotifications) {
+        this.disclosureNotifications = disclosureNotifications;
+    }
  
+    public void addNotification(CoiNotification notification) {
+        getDisclosureNotifications().add(notification);
+    }
 }
