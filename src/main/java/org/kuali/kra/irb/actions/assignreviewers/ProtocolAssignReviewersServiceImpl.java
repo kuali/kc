@@ -31,6 +31,7 @@ import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewerBean;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.notification.IRBNotificationContext;
+import org.kuali.kra.irb.notification.IRBProtocolNotification;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
@@ -86,8 +87,8 @@ public class ProtocolAssignReviewersServiceImpl implements ProtocolAssignReviewe
             AssignReviewerNotificationRenderer renderer = new AssignReviewerNotificationRenderer(protocol, "removed");
             IRBNotificationContext context = new IRBNotificationContext(protocol, protocolOnlineReview, ProtocolActionType.ASSIGN_REVIEWER, "Assign Reviewer", renderer);
             if (!getPromptUserForNotificationEditor(context)) {
-            kcNotificationService.sendNotification(context);
-        }
+                kcNotificationService.sendNotificationAndPersist(context, new IRBProtocolNotification(), protocol);
+            }
         }
         
         protocolOnlineReviewService.removeOnlineReviewDocument(protocolReviewBean.getPersonId(), protocolReviewBean.getNonEmployeeFlag(), protocolSubmission, annotation);
@@ -132,7 +133,7 @@ public class ProtocolAssignReviewersServiceImpl implements ProtocolAssignReviewe
         AssignReviewerNotificationRenderer renderer = new AssignReviewerNotificationRenderer(protocol, "added");
         IRBNotificationContext context = new IRBNotificationContext(protocol, protocolOnlineReview, ProtocolActionType.ASSIGN_REVIEWER, "Assign Reviewer", renderer);
         if (!getPromptUserForNotificationEditor(context)) {
-            kcNotificationService.sendNotification(context);
+            kcNotificationService.sendNotificationAndPersist(context, new IRBProtocolNotification(), protocol);
         }
     }
     

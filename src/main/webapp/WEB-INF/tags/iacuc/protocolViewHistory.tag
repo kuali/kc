@@ -127,22 +127,21 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.selectedHistoryItem")}
 		           		                            <c:forEach items="${protocolAction.protocolCorrespondences}" var="correspondence" varStatus="attachmentStatus">
 		           		    	                        <tr>
 		           		    	                            <td>${correspondence.protocolCorrespondenceType.description}</td>
-                    <td align="left" valign="middle">
-                        <div align="left"><fmt:formatDate value="${correspondence.createTimestamp}" pattern="MM/dd/yyyy KK:mm a" /> </div>
-                    </td>
-                    <td align="left" valign="middle">
-                        <div align="left"> 
-                            <c:choose>
-                                  <c:when test="${correspondence.finalFlag}">
-                                     Yes (<fmt:formatDate value="${correspondence.finalFlagTimestamp}" pattern="MM/dd/yyyy KK:mm a" /> )
-                                  </c:when>
-                                  <c:otherwise>
-                                     No
-                                  </c:otherwise>
-                                     
-                            </c:choose>
-                        </div>
-                    </td>
+                    										<td align="left" valign="middle">
+                        										<div align="left"><fmt:formatDate value="${correspondence.createTimestamp}" pattern="MM/dd/yyyy KK:mm a" /> </div>
+                    										</td>
+										                    <td align="left" valign="middle">
+                        										<div align="left"> 
+                            										<c:choose>
+                                  										<c:when test="${correspondence.finalFlag}">
+                                     										Yes (<fmt:formatDate value="${correspondence.finalFlagTimestamp}" pattern="MM/dd/yyyy KK:mm a" /> )
+                                  										</c:when>
+                                  										<c:otherwise>
+                                     										No
+                                  										</c:otherwise>
+                                     								</c:choose>
+                        										</div>
+                    										</td>
 		           		 					                <td align="center" valign="middle">
                                                                 <div align="center">
                                                                   <c:if test="${iacucAdmin or correspondence.finalFlag}">
@@ -161,6 +160,50 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.selectedHistoryItem")}
                                                                    </c:if>
 								                               </div>
 							                                 </td>
+		           		    	                        </tr>
+		           		                            </c:forEach>
+		            		                    </tbody>
+		            		                </table>
+	            		                </div>
+	            		        	</kul:innerTab>
+	            		        </td>            		        
+	            			</tr>
+	            		</c:if>
+	
+		            	<c:if test="${fn:length(protocolAction.protocolNotifications) > 0}">
+	            			<tr>
+	            				<td class="infoline">&nbsp;</td>
+	            		        <td colspan="4">
+	            		        	<kul:innerTab tabTitle="Notifications" tabItemCount="${fn:length(protocolAction.protocolNotifications)}" parentTab="attachment${status.index}" defaultOpen="false" tabErrorKey="">
+	            		        		<div class="innerTab-container" align="left">
+		                                    <table class="tab" cellpadding="0" cellspacing="0" summary="">
+		                                        <tbody>
+		                                            <tr>
+                                                       <th style="text-align:center">Date Created</th>
+		                                               <th style="text-align:center">Recipients</th>
+		                                               <th style="text-align:center">Subject</th>
+                                                       <th style="text-align:center">Message</th>
+		                                            </tr>
+		           		                            <c:forEach items="${protocolAction.protocolNotifications}" var="notification" varStatus="notificationStatus">
+		           		    	                        <tr>
+															<td>
+																<div align="center"><fmt:formatDate value="${notification.updateTimestamp}" pattern="MM/dd/yyyy KK:mm a" /> 
+															</div>
+                    										<td align="left" valign="middle">
+																<div align="center">
+																    ${notification.recipients}
+                        										</div>
+                    										</td>
+										                    <td align="left" valign="middle">
+                        										<div align="left"> 
+                            										${notification.subject}
+                        										</div>
+                    										</td>
+		           		 					                <td align="center" valign="middle">
+                                                                <div align="left">
+                                                                	${notification.message}
+								                            	</div>
+							                                </td>
 		           		    	                        </tr>
 		           		                            </c:forEach>
 		            		                    </tbody>

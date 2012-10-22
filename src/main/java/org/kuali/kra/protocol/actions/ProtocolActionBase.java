@@ -17,6 +17,7 @@ package org.kuali.kra.protocol.actions;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,11 +27,13 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
 import org.kuali.kra.common.committee.service.CommitteeServiceBase;
+import org.kuali.kra.common.notification.bo.KcNotification;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolAssociateBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondence;
+import org.kuali.kra.protocol.notification.ProtocolNotification;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -80,6 +83,8 @@ public abstract class ProtocolActionBase extends ProtocolAssociateBase {
     
     private List<ProtocolCorrespondence> protocolCorrespondences;
 
+    private List<KcNotification> protocolNotifications;
+    
     @SkipVersioning
     private transient List<ProtocolSubmissionDocBase> protocolSubmissionDocs;
 
@@ -368,6 +373,21 @@ public abstract class ProtocolActionBase extends ProtocolAssociateBase {
         this.protocolCorrespondences = protocolCorrespondences;
     }
 
+    public List<KcNotification> getProtocolNotifications() {
+        if (protocolNotifications == null) {
+            protocolNotifications = new ArrayList<KcNotification>();
+        }
+        return protocolNotifications;
+    }
+
+    public void setProtocolNotifications(List<KcNotification> notifications) {
+        this.protocolNotifications = notifications;
+    }
+
+    public void addProtocolNotification(KcNotification notification) {
+        this.getProtocolNotifications().add(notification);
+    }
+    
     public List<ProtocolSubmissionDocBase> getProtocolSubmissionDocs() {
         return protocolSubmissionDocs;
     }
@@ -566,5 +586,9 @@ public abstract class ProtocolActionBase extends ProtocolAssociateBase {
     }   
     
     protected abstract String getCoeusModule();
+
+    public void addNotification(KcNotification notification) {
+        getProtocolNotifications().add(notification);       
+    }
     
 }

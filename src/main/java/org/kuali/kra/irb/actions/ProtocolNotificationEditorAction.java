@@ -37,10 +37,9 @@ import org.kuali.kra.irb.ProtocolAction;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.irb.actions.notification.AssignReviewerNotificationRenderer;
-import org.kuali.kra.irb.actions.notification.DeleteReviewNotificationRenderer;
 import org.kuali.kra.irb.actions.notification.ProtocolNotificationRequestBean;
 import org.kuali.kra.irb.notification.IRBNotificationContext;
-import org.kuali.kra.irb.notification.IRBNotificationRenderer;
+import org.kuali.kra.irb.notification.IRBProtocolNotification;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -128,7 +127,8 @@ public class ProtocolNotificationEditorAction extends ProtocolAction {
         List<NotificationTypeRecipient> notificationRecipients = protocolForm.getNotificationHelper().getNotificationRecipients();
         
         if (applyRules(new SendNotificationEvent(document, notification, notificationRecipients))) {
-            protocolForm.getNotificationHelper().sendNotification();
+            getKcNotificationService().sendNotificationAndPersist(protocolForm.getNotificationHelper().getNotificationContext(), 
+                new IRBProtocolNotification(), document.getProtocol());
             String forwardName = protocolForm.getNotificationHelper().getNotificationContext().getForwardName();
             protocolForm.getNotificationHelper().setNotificationContext(null);
             if (StringUtils.isNotBlank(forwardName)) {
@@ -240,14 +240,14 @@ public class ProtocolNotificationEditorAction extends ProtocolAction {
 //                    }
 //                }
 //                protocolForm.getNotificationHelper().setNotificationRecipients(allRecipients);
-//                getNotificationService().sendNotification(context);
+//                getKcNotificationService().sendNotification(context);
 //                i++;
 //            }
             return forward;
         }
     }
 
-    private KcNotificationService getNotificationService() {
+    private KcNotificationService getKcNotificationService() {
         return KraServiceLocator.getService(KcNotificationService.class);
     }
 
