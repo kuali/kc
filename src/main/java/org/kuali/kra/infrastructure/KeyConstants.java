@@ -555,7 +555,6 @@ public final class KeyConstants {
     public static final String AWARD_ACCOUNT_NUMBER_NOT_SPECIFIED = "error.award.createAccount.invalid.accountNumber";
     public static final String BOTH_ACCOUNT_AND_CHART_REQUIRED = "error.award.account.number.and.chart.required";    
     public static final String CANNOT_CONNECT_TO_SERVICE = "error.award.createAccount.cannotConnect";
-    public static final String CURRENT_RATE_NOT_SPECIFIED = "error.award.createAccount.invalid.currentRate";
     public static final String DOCUMENT_NUMBER_NULL = "error.award.createAccount.nullDocumentNumber";
     public static final String DOCUMENT_SAVED_WITH_ERRORS = "error.award.createAccount.saved.with.errors";
     public static final String NO_PERMISSION_TO_LINK_ACCOUNT = "error.award.link.account.no.permission";
