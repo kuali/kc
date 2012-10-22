@@ -40,6 +40,7 @@ import org.kuali.kra.iacuc.IacucProtocolForm;
 import org.kuali.kra.iacuc.IacucResearchArea;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
 import org.kuali.kra.iacuc.notification.IacucProtocolFundingSourceNotificationRenderer;
+import org.kuali.kra.iacuc.notification.IacucProtocolNotification;
 import org.kuali.kra.iacuc.notification.IacucProtocolNotificationContext;
 import org.kuali.kra.iacuc.protocol.funding.AddIacucProtocolFundingSourceEvent;
 import org.kuali.kra.iacuc.protocol.funding.IacucProtocolFundingSource;
@@ -604,15 +605,14 @@ public class IacucProtocolProtocolAction extends IacucProtocolAction {
             String fundingType = "'" + fundingSource.getFundingSourceType().getDescription() + "': " + fundingSource.getFundingSourceNumber();
             IacucProtocolFundingSourceNotificationRenderer renderer = new IacucProtocolFundingSourceNotificationRenderer(protocol, fundingType, "linked to");
             IacucProtocolNotificationContext context = new IacucProtocolNotificationContext(protocol, IacucProtocolActionType.FUNDING_SOURCE, "Funding Source", renderer);
-            getKcNotificationService().sendNotification(context);
-
+            getKcNotificationService().sendNotificationAndPersist(context, new IacucProtocolNotification(), protocol);
         }
         for (ProtocolFundingSourceBase fundingSource : protocolForm.getDeletedProtocolFundingSources()) {
             if (fundingSource.getProtocolFundingSourceId() != null) {
                 String fundingType = "'" + fundingSource.getFundingSourceType().getDescription() + "': " + fundingSource.getFundingSourceNumber();
                 IacucProtocolFundingSourceNotificationRenderer renderer = new IacucProtocolFundingSourceNotificationRenderer(protocol, fundingType, "removed from");
                 IacucProtocolNotificationContext context = new IacucProtocolNotificationContext(protocol, IacucProtocolActionType.FUNDING_SOURCE, "Funding Source", renderer);
-                getKcNotificationService().sendNotification(context);
+                getKcNotificationService().sendNotificationAndPersist(context, new IacucProtocolNotification(), protocol);
             }
 
         }
