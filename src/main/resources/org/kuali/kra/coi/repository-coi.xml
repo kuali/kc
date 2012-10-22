@@ -665,10 +665,6 @@
 		<reference-descriptor name="coiDisclosure" class-ref="org.kuali.kra.coi.CoiDisclosure" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="coiDisclosureId"/>
 		</reference-descriptor>
-        <collection-descriptor name="disclosureNotifications" element-class-ref="org.kuali.kra.iacuc.notification.IacucProtocolNotification" 
-        	auto-retrieve="true" auto-update="object" auto-delete="object">
-            <inverse-foreignkey field-ref="actionIdFk" />
-        </collection-descriptor>
 	</class-descriptor>    
 	<class-descriptor class="org.kuali.kra.coi.CoiDispositionStatus" table="COI_DISPOSITION_STATUS">
 		<field-descriptor name="coiDispositionCode" column="COI_DISPOSITION_CODE" jdbc-type="VARCHAR" primarykey="true" />
