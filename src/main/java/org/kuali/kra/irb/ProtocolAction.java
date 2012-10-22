@@ -46,6 +46,7 @@ import org.kuali.kra.irb.auth.ProtocolTask;
 import org.kuali.kra.irb.correspondence.ProtocolCorrespondence;
 import org.kuali.kra.irb.notification.IRBNotificationContext;
 import org.kuali.kra.irb.notification.IRBNotificationRenderer;
+import org.kuali.kra.irb.notification.IRBProtocolNotification;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.kra.irb.personnel.ProtocolPersonTrainingService;
 import org.kuali.kra.irb.personnel.ProtocolPersonnelService;
@@ -582,11 +583,11 @@ public abstract class ProtocolAction extends KraTransactionalDocumentActionBase 
     }
 
     private void sendNotification(ProtocolForm protocolForm) {
-        
         Protocol protocol = protocolForm.getProtocolDocument().getProtocol();
         IRBNotificationRenderer renderer = new IRBNotificationRenderer(protocol);
         IRBNotificationContext context = new IRBNotificationContext(protocol, ProtocolActionType.PROTOCOL_CREATED_NOTIFICATION, "Created", renderer);
-        KraServiceLocator.getService(KcNotificationService.class).sendNotification(context);
+        KcNotificationService notificationService = KraServiceLocator.getService(KcNotificationService.class);
+        notificationService.sendNotificationAndPersist(context, new IRBProtocolNotification(), protocol);
     }
     
     protected List<String> getUnitRulesMessages(ProtocolDocument protocolDoc) {
