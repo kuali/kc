@@ -751,6 +751,10 @@
         	auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="actionIdFk" />
         </collection-descriptor>
+        <collection-descriptor name="protocolNotifications" element-class-ref="org.kuali.kra.irb.notification.IRBProtocolNotification" 
+        	auto-retrieve="true" auto-update="object" auto-delete="object">
+            <inverse-foreignkey field-ref="owningDocumentIdFk" />
+        </collection-descriptor>
         <!-- 
         <collection-descriptor name="protocolCorrespondences" element-class-ref="org.kuali.kra.irb.correspondence.ProtocolCorrespondence" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"  auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="actionIdFk" />
@@ -1354,4 +1358,22 @@
 			<foreignkey field-ref="correspondentTypeCode"/>
 		</reference-descriptor>
 	</class-descriptor>
+	
+	<class-descriptor class="org.kuali.kra.irb.notification.IRBProtocolNotification" table="PROTOCOL_NOTIFICATION">
+        <field-descriptor name="notificationId" column="NOTIFICATION_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_NOTIFICATION_ID" autoincrement="true" />
+        <field-descriptor name="notificationTypeId" column="NOTIFICATION_TYPE_ID" jdbc-type="BIGINT" />
+        <field-descriptor name="documentNumber" column="DOCUMENT_NUMBER" jdbc-type="VARCHAR" />
+        <field-descriptor name="owningDocumentIdFk" column="OWNING_DOCUMENT_ID_FK" jdbc-type="BIGINT" />
+        <field-descriptor name="recipients" column="RECIPIENTS" jdbc-type="VARCHAR" />
+        <field-descriptor name="subject" column="SUBJECT" jdbc-type="VARCHAR" />
+        <field-descriptor name="message" column="MESSAGE" jdbc-type="VARCHAR" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        <reference-descriptor name="notificationType" class-ref="org.kuali.kra.common.notification.bo.NotificationType" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="notificationTypeId"/>
+        </reference-descriptor>
+    </class-descriptor>
+	
 </descriptor-repository>
