@@ -36,13 +36,10 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.iacuc.IacucProtocolAction;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.IacucProtocolForm;
-import org.kuali.kra.iacuc.notification.IacucProtocolNotificationRequestBean;
-import org.kuali.kra.iacuc.notification.IacucProtocolNotificationContext;
-import org.kuali.kra.iacuc.notification.IacucProtocolNotificationRenderer;
+import org.kuali.kra.iacuc.notification.IacucProtocolNotification;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.rice.krad.util.ObjectUtils;
 
 public class IacucProtocolNotificationEditorAction extends IacucProtocolAction {
     private static final String PROTOCOL_ACTIONS_TAB = "iacucProtocolActions";
@@ -126,7 +123,8 @@ public class IacucProtocolNotificationEditorAction extends IacucProtocolAction {
         List<NotificationTypeRecipient> notificationRecipients = protocolForm.getNotificationHelper().getNotificationRecipients();
         
         if (applyRules(new SendNotificationEvent(document, notification, notificationRecipients))) {
-            protocolForm.getNotificationHelper().sendNotification();
+            getKcNotificationService().sendNotificationAndPersist(protocolForm.getNotificationHelper().getNotificationContext(), 
+                                                                new IacucProtocolNotification(), document.getProtocol());
             String forwardName = protocolForm.getNotificationHelper().getNotificationContext().getForwardName();
             protocolForm.getNotificationHelper().setNotificationContext(null);
             if (StringUtils.isNotBlank(forwardName)) {
@@ -247,7 +245,7 @@ public class IacucProtocolNotificationEditorAction extends IacucProtocolAction {
 //        }
 //    }
 
-    private KcNotificationService getNotificationService() {
+    private KcNotificationService getKcNotificationService() {
         return KraServiceLocator.getService(KcNotificationService.class);
     }
 

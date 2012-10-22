@@ -42,6 +42,7 @@ import org.kuali.kra.iacuc.actions.reviewcomments.IacucReviewCommentsService;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewerBean;
 import org.kuali.kra.iacuc.committee.bo.IacucCommitteeMembership;
 import org.kuali.kra.iacuc.committee.meeting.IacucCommitteeScheduleMinute;
+import org.kuali.kra.iacuc.notification.IacucProtocolNotification;
 import org.kuali.kra.iacuc.notification.IacucProtocolNotificationContext;
 import org.kuali.kra.iacuc.notification.IacucProtocolNotificationRenderer;
 import org.kuali.kra.iacuc.notification.IacucProtocolNotificationRequestBean;
@@ -518,7 +519,7 @@ public class IacucProtocolOnlineReviewAction extends IacucProtocolAction {
             protocolForm.getNotificationHelper().initializeDefaultValues(context);
             return mapping.findForward("iacucProtocolNotificationEditor");
         } else {
-            getNotificationService().sendNotification(context);
+            getNotificationService().sendNotificationAndPersist(context, new IacucProtocolNotification(), protocolForm.getProtocolDocument().getProtocol());
             if (forward == null) {
                 return routeProtocolOLRToHoldingPage(mapping, protocolForm, notificationRequestBean.getDocNumber(), notificationRequestBean.getOlrEvent());
             } else {
