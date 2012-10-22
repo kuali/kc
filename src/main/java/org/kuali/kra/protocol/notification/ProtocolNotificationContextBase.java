@@ -18,13 +18,11 @@ package org.kuali.kra.protocol.notification;
 
 import java.util.List;
 
-import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.common.notification.NotificationRenderer;
 import org.kuali.kra.common.notification.NotificationContextBase;
 import org.kuali.kra.common.notification.bo.NotificationTypeRecipient;
 import org.kuali.kra.common.notification.exception.UnknownRoleException;
 import org.kuali.kra.common.notification.service.KcNotificationModuleRoleService;
-import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewBase;
@@ -72,7 +70,7 @@ public abstract class ProtocolNotificationContextBase extends NotificationContex
         this.actionTypeCode = actionTypeCode;
         this.contextName = contextName;
         
-        setNotificationService(KraServiceLocator.getService(KcNotificationService.class));
+//      setNotificationService(KraServiceLocator.getService(ProtocolNotificationService.class));
         setNotificationModuleRoleService(KraServiceLocator.getService(KcNotificationModuleRoleService.class));
 // following demoted to IACUC constructor
 //        setNotificationRoleQualifierService(KraServiceLocator.getService(getProtocolNotificationRoleQualifierServiceClassHook()));

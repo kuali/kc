@@ -17,6 +17,7 @@ package org.kuali.kra.irb.actions;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -30,6 +31,7 @@ import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.service.CommitteeService;
+import org.kuali.kra.common.notification.bo.KcNotification;
 import org.kuali.kra.common.notification.bo.NotificationTypeRecipient;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
@@ -86,6 +88,8 @@ public class ProtocolAction extends ProtocolAssociate {
 
     private List<ProtocolCorrespondence> protocolCorrespondences;
 
+    private List<KcNotification> protocolNotifications;
+    
     @SkipVersioning
     private transient List<ProtocolSubmissionDoc> protocolSubmissionDocs;
 
@@ -554,6 +558,20 @@ public class ProtocolAction extends ProtocolAssociate {
     public void setCommitteeService(CommitteeService committeeService) {
         this.committeeService = committeeService;
     }   
-    
 
+//TODO: Can remove this once IRB refactor is done    
+    public List<KcNotification> getProtocolNotifications() {
+        if (protocolNotifications == null) {
+            protocolNotifications = new ArrayList<KcNotification>();
+        }
+        return protocolNotifications;
+    }
+
+    public void setProtocolNotifications(List<KcNotification> notifications) {
+        this.protocolNotifications = notifications;
+    }
+    
+    public void addNotification(KcNotification notification) {
+        getProtocolNotifications().add(notification);       
+    }
 }
