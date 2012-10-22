@@ -122,7 +122,7 @@ public class KcNotificationServiceTest extends KcUnitTestBase {
         service.setBusinessObjectService(getMockSearchBusinessObjectService(MODULE_CODE_VALUE, ACTION_TYPE_CODE_VALUE_101));
         
         NotificationContext notificationContext = getMockNotificationContext();
-        KcNotification notification = service.createNotification(notificationContext);
+        KcNotification notification = service.createNotificationObject(notificationContext);
         
         assertEquals(DOCUMENT_NUMBER_VALUE, notification.getDocumentNumber());
         assertEquals(SUBJECT_VALUE, notification.getSubject());
