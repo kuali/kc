@@ -80,8 +80,8 @@ public class TransactionRuleImpl extends ResearchDocumentRuleBase implements Tra
         boolean requiredFieldsComplete = areRequiredFieldsComplete(event.getPendingTransactionItemForValidation());
         if (requiredFieldsComplete) {
             event.getTimeAndMoneyDocument().add(event.getPendingTransactionItemForValidation());
-            List<Award> awards = processTransactions(event.getTimeAndMoneyDocument());
             event.getTimeAndMoneyDocument().getPendingTransactions().remove(event.getPendingTransactionItemForValidation());
+            List<Award> awards = processTransactions(event.getTimeAndMoneyDocument());
             Award award = getLastSourceAwardReferenceInAwards(awards, event.getPendingTransactionItemForValidation().getSourceAwardNumber());
             //if source award is "External, the award will be null and we don't need to validate these amounts.
             boolean validObligatedFunds = true;
@@ -235,13 +235,7 @@ public class TransactionRuleImpl extends ResearchDocumentRuleBase implements Tra
     }
     
     private boolean validateSourceObligatedFunds (PendingTransaction pendingTransaction, Award award) {
-        //AwardAmountInfo awardAmountInfo = award.getAwardAmountInfos().get(award.getAwardAmountInfos().size() -1);
-        /**
-         * See KRACOEUS-5626 for why we are doing this.
-         */
-        Award activeAward = getAwardVersionService().getWorkingAwardVersion(award.getAwardNumber());
-        activeAward.refresh();
-        AwardAmountInfo awardAmountInfo = activeAward.getAwardAmountInfos().get(activeAward.getAwardAmountInfos().size() -1);
+        AwardAmountInfo awardAmountInfo = award.getAwardAmountInfos().get(award.getAwardAmountInfos().size() -1);
         boolean valid = true;        
         if (awardAmountInfo.getObliDistributableAmount().subtract(pendingTransaction.getObligatedAmount()).isNegative()) {
             reportError(OBLIGATED_AMOUNT_PROPERTY, KeyConstants.ERROR_OBLIGATED_AMOUNT_INVALID);
