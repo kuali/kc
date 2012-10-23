@@ -7,7 +7,7 @@
 	</kra:section>
 <link rel="stylesheet" href="css/jquery/new_kuali.css" type="text/css" />
 <link type="text/css" href="css/jquery/questionnaire.css" rel="stylesheet">
-<kul:documentPage showDocumentInfo="false"
+<kul:documentPage showDocumentInfo="true"
 	htmlFormAction="proposalDevelopmentApproverView"
 		documentTypeName="ProposalDevelopmentDocument"
 			renderMultipart="false"
