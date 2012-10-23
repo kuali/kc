@@ -750,7 +750,7 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
             AwardAccountValidationService accountValidationService = getAwardAccountValidationService();
             boolean rulePassed = accountValidationService.validateAwardAccountDetails(award);
             if (rulePassed) {
-                AccountCreationClient client = (AccountCreationClient) KraServiceLocator.getService("accountCreationClient");
+                AccountCreationClient client = getAccountCreationClient();
                 /*
                  * If account hasn't already been created, create it or
                  * display an error
@@ -783,6 +783,10 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
         return forward; 
     }
     
+    protected AccountCreationClient getAccountCreationClient() {
+        return KraServiceLocator.getService("accountCreationClient");
+    }
+   
     protected AwardAccountValidationService getAwardAccountValidationService() {
         return KraServiceLocator.getService("awardAccountValidationService");
     }
