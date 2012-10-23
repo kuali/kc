@@ -45,6 +45,7 @@ import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.notification.FundingSourceNotificationRenderer;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.notification.IRBNotificationContext;
+import org.kuali.kra.irb.notification.IRBProtocolNotification;
 import org.kuali.kra.irb.protocol.funding.AddProtocolFundingSourceEvent;
 import org.kuali.kra.irb.protocol.funding.LookupProtocolFundingSourceEvent;
 import org.kuali.kra.irb.protocol.funding.ProtocolFundingSource;
@@ -664,7 +665,7 @@ public class ProtocolProtocolAction extends ProtocolAction {
             String fundingType = "'" + fundingSource.getFundingSourceType().getDescription() + "': " + fundingSource.getFundingSourceNumber();
             FundingSourceNotificationRenderer renderer = new FundingSourceNotificationRenderer(protocol, fundingType, "linked to");
             IRBNotificationContext context = new IRBNotificationContext(protocol, ProtocolActionType.FUNDING_SOURCE, "Funding Source", renderer);
-            getKcNotificationService().sendNotification(context);
+            getKcNotificationService().sendNotificationAndPersist(context, new IRBProtocolNotification(), protocol);
 
         }
         for (ProtocolFundingSource fundingSource : protocolForm.getDeletedProtocolFundingSources()) {
@@ -672,7 +673,7 @@ public class ProtocolProtocolAction extends ProtocolAction {
                 String fundingType = "'" + fundingSource.getFundingSourceType().getDescription() + "': " + fundingSource.getFundingSourceNumber();
                 FundingSourceNotificationRenderer renderer = new FundingSourceNotificationRenderer(protocol, fundingType, "removed from");
                 IRBNotificationContext context = new IRBNotificationContext(protocol, ProtocolActionType.FUNDING_SOURCE, "Funding Source", renderer);
-                getKcNotificationService().sendNotification(context);
+                getKcNotificationService().sendNotificationAndPersist(context, new IRBProtocolNotification(), protocol);
             }
 
         }
