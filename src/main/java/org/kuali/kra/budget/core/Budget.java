@@ -70,6 +70,7 @@ import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwardFiles;
 import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwards;
 import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModular;
 import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModularIdc;
+import org.kuali.kra.proposaldevelopment.budget.service.ProposalBudgetNumberOfMonthsService;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -1687,6 +1688,14 @@ public class Budget extends BudgetVersionOverview {
 
     public boolean isCostSharingSubmissionEnabled() {
         return getParameterService().getParameterValueAsString(BudgetDocument.class, Constants.ENABLE_COST_SHARE_SUBMIT).equals(PARAM_VALUE_ENABLED);
+    }
+    
+    public String getSummaryNumberOfMonths() {
+        return String.valueOf(this.getProposalBudgetNumberOfMonthsService().getNumberOfMonth(this.getSummaryPeriodStartDate(), this.getSummaryPeriodEndDate()));
+    }
+    
+    protected ProposalBudgetNumberOfMonthsService getProposalBudgetNumberOfMonthsService() {
+        return KraServiceLocator.getService(ProposalBudgetNumberOfMonthsService.class);
     }
 }
 
