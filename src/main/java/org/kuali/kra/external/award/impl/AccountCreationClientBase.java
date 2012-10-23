@@ -70,7 +70,6 @@ public abstract class AccountCreationClientBase implements AccountCreationClient
 
     private static final Log LOG = LogFactory.getLog(AccountCreationClientBase.class);
 
-    private AccountParametersDTO accountParameters;
     private DocumentService documentService;
     private BusinessObjectService businessObjectService;
     private ParameterService parameterService;
@@ -116,9 +115,8 @@ public abstract class AccountCreationClientBase implements AccountCreationClient
      * @see org.kuali.kra.external.award.AccountCreationClient#createAwardAccount(org.kuali.kra.award.home.Award)
      */
     public void createAwardAccount(Award award) throws DatatypeConfigurationException, WorkflowException {
-        
-        setAccountParameters(award);
-        accountParameters = getAccountParameters();
+
+        AccountParametersDTO accountParameters = getAccountParameters(award);
         AccountCreationStatusDTO createAccountResult = null;
         
         try {
@@ -152,6 +150,10 @@ public abstract class AccountCreationClientBase implements AccountCreationClient
                     GlobalVariables.getMessageMap().putError(KeyConstants.DOCUMENT_NUMBER_NULL, KeyConstants.DOCUMENT_NUMBER_NULL);
                     LOG.warn("Document number returned from KFS account creation service is null.");
                 } else {
+                    // force account number to upper case since KFS does that. Account number should not be null
+                    // at this point.
+                    String accountNumber = award.getAccountNumber().toUpperCase();
+                    award.setAccountNumber(accountNumber);
                     award.setFinancialAccountDocumentNumber(financialAccountDocumentNumber);
                     Calendar calendar = Calendar.getInstance();
                     award.setFinancialAccountCreationDate(new Date(calendar.getTime().getTime()));
@@ -182,15 +184,15 @@ public abstract class AccountCreationClientBase implements AccountCreationClient
      * @param award
      * @throws DatatypeConfigurationException
      */
-    protected void setAccountParameters(Award award) throws DatatypeConfigurationException {
+    protected AccountParametersDTO getAccountParameters(Award award) throws DatatypeConfigurationException {
 
-        accountParameters  = new AccountParametersDTO();
+        AccountParametersDTO accountParameters  = new AccountParametersDTO();
         
-        setName(award);
+        setName(award, accountParameters);
         //Account number
         accountParameters.setAccountNumber(award.getAccountNumber());
-        setDefaultAddress(award);
-        setAdminAddress(award);       
+        setDefaultAddress(award, accountParameters);
+        setAdminAddress(award, accountParameters);       
         
         //cfdaNumber
         String cfdaNumber = award.getCfdaNumber();
@@ -216,7 +218,7 @@ public abstract class AccountCreationClientBase implements AccountCreationClient
         String expenseGuidelineText = award.getAwardNumber();
         accountParameters.setExpenseGuidelineText(expenseGuidelineText);
         
-        setIncomeGuidelineText(award);
+        setIncomeGuidelineText(award, accountParameters);
         
         //account purpose text
         accountParameters.setPurposeText(award.getTitle());
@@ -248,6 +250,8 @@ public abstract class AccountCreationClientBase implements AccountCreationClient
         //higher education function code
         accountParameters.setHigherEdFunctionCode(award.getActivityType().getHigherEducationFunctionCode());
         
+        return accountParameters;
+        
     }
    
     protected String getIndirectCostTypeCode(String rateClassCode, String rateTypeCode) {
@@ -262,7 +266,7 @@ public abstract class AccountCreationClientBase implements AccountCreationClient
      * This method sets the name.
      * @param award
      */
-    protected void setName(Award award) {
+    protected void setName(Award award, AccountParametersDTO accountParameters) {
         
         final int ACCOUNT_NAME_LENGTH = 40;
         // Account name
@@ -289,7 +293,7 @@ public abstract class AccountCreationClientBase implements AccountCreationClient
      * This method sets the default address.
      * @param award
      */
-    protected void setDefaultAddress(Award award) {
+    protected void setDefaultAddress(Award award, AccountParametersDTO accountParameters) {
         //default address is the PI address
         KcPerson principalInvestigator = award.getPrincipalInvestigator().getPerson();
         if (ObjectUtils.isNotNull(principalInvestigator)) {
@@ -317,7 +321,7 @@ public abstract class AccountCreationClientBase implements AccountCreationClient
      * This method sets the admin address.
      * @param award
      */
-    protected void setAdminAddress(Award award) {
+    protected void setAdminAddress(Award award, AccountParametersDTO accountParameters) {
         List<AwardUnitContact> unitContacts = award.getAwardUnitContacts();
         for (AwardUnitContact contact : unitContacts) {
             contact.refreshReferenceObject("unitAdministratorType");
@@ -353,7 +357,7 @@ public abstract class AccountCreationClientBase implements AccountCreationClient
      * This method sets the income guideline text.
      * @param award
      */
-    protected void setIncomeGuidelineText(Award award) {
+    protected void setIncomeGuidelineText(Award award, AccountParametersDTO accountParameters) {
         //income guideline text
         award.refreshReferenceObject("awardBasisOfPayment");        
         String paymentBasis = award.getAwardBasisOfPayment().getDescription();
@@ -369,10 +373,7 @@ public abstract class AccountCreationClientBase implements AccountCreationClient
         }
         accountParameters.setIncomeGuidelineText(incomeGuidelineText);
     }
-    
-    protected AccountParametersDTO getAccountParameters() {
-        return accountParameters;
-    }
+  
 
     /**
      * Sets the documentService attribute value. Injected by Spring.
