@@ -6,6 +6,7 @@
 	<kra:section permission="submitToSponsor">
 	</kra:section>
 <link rel="stylesheet" href="css/jquery/new_kuali.css" type="text/css" />
+<link type="text/css" href="css/jquery/questionnaire.css" rel="stylesheet">
 <kul:documentPage showDocumentInfo="false"
 	htmlFormAction="proposalDevelopmentApproverView"
 		documentTypeName="ProposalDevelopmentDocument"
@@ -55,9 +56,10 @@
 		</c:if>
 
 		<c:if test="${KualiForm.proposalDevelopmentParameters['enableSummaryQuestionsPanel'].value == 'Y'}">
+			<kul:tab tabTitle="Questions" defaultOpen="false" transparentBackground="${transparentBackground }"><div class="tab-container" align="center">
 			<kra-summary:proposalSummaryQuestions  transparentBackground="${isTopPanel }"
 				bean="${KualiForm.questionnaireHelper}"
-				property="questionnaireHelper" />
+				property="questionnaireHelper" parentTab="Questions"/>
 			
 			<c:set var="isTopPanel" value="false"/>
 			<c:set var="forceTabNonTransparent" value="true" />
@@ -68,14 +70,15 @@
 			<kra-summary:proposalSummaryQuestions  transparentBackground="${isTopPanel }"
 				bean="${KualiForm.s2sQuestionnaireHelper}"
 				property="s2sQuestionnaireHelper"
-				forceNonTransparent="${forceTabNonTransparent}" />
+				forceNonTransparent="${forceTabNonTransparent}" parentTab="Questions"/>
 	
+			<script>var $j = jQuery.noConflict();</script>
 			<script type="text/javascript" src="scripts/questionnaireAnswer.js"></script>
-	
 			<c:set var="topTabTransparent" value="true" />
 			<c:if test="${fn:length(KualiForm.questionnaireHelper.answerHeaders) gt 0 or fn:length(KualiForm.s2sQuestionnaireHelper.answerHeaders) gt 0}">
 				<c:set var="topTabTransparent" value="false" />
 			</c:if>
+			</div></kul:tab>
 		</c:if>
 		
 		<c:set scope="page" var="proposalAttachementCount" value="0" />

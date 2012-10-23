@@ -3521,7 +3521,7 @@ function proposalDevelopmentPersonCertificationPop(personIndex,docFormKey,sessio
 		
 		propDevPersonCertificationWindow.focus();
 	}else {
-		propDevPersonCertificationWindow = window.open(extractUrlBase()+ "/proposalDevelopment.do?methodToCall=getProposalPersonCertification&personIndex="+personIndex+"&docFormKey="+docFormKey+"&documentWebScope="+documentWebScope, "mywindow", "width=800, height=300, scrollbars=yes");
+		propDevPersonCertificationWindow = window.open(extractUrlBase()+ "/proposalDevelopment.do?methodToCall=getProposalPersonCertification&personIndex="+personIndex+"&docFormKey="+docFormKey+"&documentWebScope="+documentWebScope, "mywindow", "width=900, height=500, scrollbars=yes");
 	}
 }
 
