@@ -104,9 +104,10 @@
 		</c:if>
 		
 		<c:if test="${KualiForm.proposalDevelopmentParameters['enableSummaryDataValidationPanel'].value == 'Y'}">
-			<kra:proposalDevelopmentDataValidation auditActivated="${KualiForm.auditActivated}"
+			<kra:dataValidation auditActivated="${KualiForm.auditActivated}"
 				categories="Validation Errors,Warnings,Grants.Gov Errors" transparentBackground="${isTopPanel }"
-				topTab="true"
+				topTab="false"
+				title="Validations"
 				helpParameterNamespace="KC-PD" 
 				helpParameterDetailType="Document" 
 				helpParameterName="proposalDevelopmentDataValidation1HelpUrl">
@@ -120,7 +121,7 @@
 					<li>errors that prevent submission to grants.gov</li>
 				</ul>
 	
-			</kra:proposalDevelopmentDataValidation>
+			</kra:dataValidation>
 			<c:set var="isTopPanel" value="false"/>
 		</c:if>
 		

@@ -20,15 +20,19 @@
 <%@ attribute name="helpParameterDetailType" required="false" %>
 <%@ attribute name="helpParameterName" required="false" %>
 <%@ attribute name="categories" required="false" type="java.lang.String" description="comma-separated string of validation categories (ex: Validation Errors,Warnings). If not set a default will be used." %>
+<%@ attribute name="title" required="false" %>
+<%@ attribute name="transparentBackground" required="false" %>
 <%@ tag body-content="scriptless" description="The instructions for using the validation. If not set a default will be used." example="You can activate a Validation check...</p><ul><li>errors</li><li>warnings</li></ul>" %>
 
-<c:set var="title" value="Data Validation" />
+<c:if test="${empty title}">
+	<c:set var="title" value="Data Validation" />
+</c:if>
 <c:if test="${topTab == true}">
 	<%--instead of using kul:tabTop tag just define the workarea div - this gets around an unbalanced tag problem when using conditional tags --%>
 	<div id="workarea">
 </c:if>
 	
-<kul:tab tabTitle="${title}" defaultOpen="${auditActivated}"  transparentBackground="${topTab}" tabAuditKey="*">
+<kul:tab tabTitle="${title}" defaultOpen="${auditActivated}"  transparentBackground="${topTab || transparentBackground}" tabAuditKey="*">
 	<div class="tab-container" align="center">
 		<h3> 
 			<span class="subhead-left">${title}</span>
