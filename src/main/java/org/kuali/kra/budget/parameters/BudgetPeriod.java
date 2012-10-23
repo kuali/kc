@@ -30,7 +30,9 @@ import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetAssociate;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.infrastructure.DeepCopyIgnore;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModular;
+import org.kuali.kra.proposaldevelopment.budget.service.ProposalBudgetNumberOfMonthsService;
 import org.kuali.kra.util.DateUtils;
 
 public class BudgetPeriod extends BudgetAssociate {
@@ -454,5 +456,13 @@ public class BudgetPeriod extends BudgetAssociate {
     }
 
     public void populateSummaryCalcAmounts() {
+    }
+    
+    public String getNumberOfMonths() {
+        return String.valueOf(this.getProposalBudgetNumberOfMonthsService().getNumberOfMonth(this.getStartDate(), this.getEndDate()));
+    }
+    
+    protected ProposalBudgetNumberOfMonthsService getProposalBudgetNumberOfMonthsService() {
+        return KraServiceLocator.getService(ProposalBudgetNumberOfMonthsService.class);
     }
 }
