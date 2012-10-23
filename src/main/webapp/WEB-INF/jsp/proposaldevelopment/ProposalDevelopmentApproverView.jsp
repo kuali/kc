@@ -130,7 +130,9 @@
 			<c:set var="isTopPanel" value="false"/>
 		</c:if>
 
-		<kul:panelFooter />
+		<c:if test="${!isTopPanel}">
+			<kul:panelFooter />
+		</c:if>
 	</div>
 	<c:set var="tabindex" value="0" />
 
