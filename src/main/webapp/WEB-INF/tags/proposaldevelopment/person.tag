@@ -692,11 +692,8 @@
        value = "${bean.ruleReferenced}" />
 			
 			<kra-questionnaire:questionnaireAnswersInnerTab bean = "${bean}" property = "${property}" 
-				answerHeaderIndex = "${answerHeaderIndex}" parentTab="${parentTabName}" completed="${completed }"
-				personIndex="${personIndex }"/>
-				
-				
-			<%--<kra-questionnaire:questionnaireAnswers bean = "${bean}" property = "${property}" answerHeaderIndex = "${answerHeaderIndex}"/> --%>
+				answerHeaderIndex = "${answerHeaderIndex}" parentTab="${parentTabName}"
+				printLineIndex="${personIndex }"/>
 		</td>
 	</tr>
   </c:when>
@@ -736,8 +733,8 @@
 			
 			
 			<kra-questionnaire:questionnaireAnswersInnerTab bean = "${bean}" property = "${property}" 
-				answerHeaderIndex = "${answerHeaderIndex}" parentTab="${parentTabName}" completed="${completed}" 
-				personIndex="${personIndex }"/>
+				answerHeaderIndex = "${answerHeaderIndex}" parentTab="${parentTabName}" 
+				printLineIndex="${personIndex }"/>
 				
 			<%--<kra-questionnaire:questionnaireAnswers bean = "${bean}" property = "${property}" answerHeaderIndex = "${answerHeaderIndex}"/>--%>
 		</td>

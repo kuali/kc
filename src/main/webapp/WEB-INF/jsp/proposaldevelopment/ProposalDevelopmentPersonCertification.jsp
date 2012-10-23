@@ -16,12 +16,18 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <kul:page lookup="true" docTitle="Proposal Person Certification" transactionalDocument="true" htmlFormAction="proposalDevelopment">
 	<script language="javascript" src="scripts/kuali_application.js"></script>
-	<%-- <kra-pd:personYnqSection proposalPerson="${proposalPerson}"  personIndex="${personIndex}"/> --%>
+	<link type="text/css" href="css/jquery/questionnaire.css" rel="stylesheet">
+	<script>var $j = jQuery.noConflict();</script>
+	<script type="text/javascript" src="scripts/questionnaireAnswer.js"></script>
+
+	
+	<div id="workarea">
 	<c:out value = "${proposalPersonProperty}"/>
 	<c:out value = "${status.index}"/>
-		<kra-summary:proposalDevelopmentPersonCertification  />
+	<kra-summary:proposalDevelopmentPersonCertification  />
 	<kul:panelFooter />
 	<div id="globalbuttons" class="globalbuttons"> 
  		<html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_close.gif" styleClass="globalbuttons" onclick="window.close()" title="close" alt="close"/>
+	</div>
 	</div>
 </kul:page>
