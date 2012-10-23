@@ -31,7 +31,8 @@
 			         ${kfunc:registerEditableProperty(KualiForm, prop)}
 			         <input type="hidden" name="${prop}" id ="${prop}" 
 		                 value = "${bean.answerHeaders[status.index].showQuestions}" />
-		             <kra-questionnaire:questionnaireAnswersInnerTabSinglePanel bean = "${bean}" property = "${property}" answerHeaderIndex = "${status.index}" parentTab="Questionnaire"/>
+		             <kra-questionnaire:questionnaireAnswersInnerTab bean="${bean}" property="${property}" 
+		             	answerHeaderIndex="${status.index}" parentTab="Questionnaire"/>
 		         </div>					 
               </c:if>
            </c:when>
@@ -41,7 +42,8 @@
 			         ${kfunc:registerEditableProperty(KualiForm, prop)}
 			         <input type="hidden" name="${prop}" id ="${prop}" 
 		                 value = "${bean.answerHeaders[status.index].showQuestions}" />
-		             <kra-questionnaire:questionnaireAnswersInnerTabSinglePanel bean = "${bean}" property = "${property}" answerHeaderIndex = "${status.index}" parentTab="Questionnaire"/>
+		             <kra-questionnaire:questionnaireAnswersInnerTab bean="${bean}" property="${property}" 
+		             	answerHeaderIndex="${status.index}" parentTab="Questionnaire"/>
 		         </div>					 
            </c:otherwise>
        </c:choose>
