@@ -438,4 +438,14 @@ public class Organization extends KraPersistableBusinessObjectBase {
     public void setOnrResidentRepRolodex(Rolodex onrResidentRepRolodex) {
         this.onrResidentRepRolodex = onrResidentRepRolodex;
     }
+
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public List buildListOfDeletionAwareLists() {
+        List managedLists = super.buildListOfDeletionAwareLists();
+        managedLists.add(this.organizationTypes);
+        return managedLists;
+    }
+
 }
