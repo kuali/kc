@@ -10,7 +10,7 @@
  Unless required by applicable law or agreed to in writing, software
  distributed under the License is distributed on an "AS IS" BASIS,
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
+ See the License for the spec:ific language governing permissions and
  limitations under the License.
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
@@ -45,6 +45,9 @@
           		<th width="5%"><div align="center">&nbsp;</div></th> 
           		<th width="10%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${budgetPeriodAttributes.startDate}" noColon="true" /></div></th>
           		<th width="10%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${budgetPeriodAttributes.endDate}" noColon="true" /></div></th>
+          		<c:if test="${proposalBudgetFlag}">
+          			<th align="center">No. of Months</th>
+          		</c:if>
           		<th width="10%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${budgetPeriodAttributes.totalCost}" noColon="true" /></div></th>
           		<th width="10%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${budgetPeriodAttributes.totalDirectCost}" noColon="true" /></div></th>
           		<th width="10%"><div align="center"><kul:htmlAttributeLabel attributeEntry="${budgetPeriodAttributes.totalIndirectCost}" noColon="true" /></div></th>
@@ -72,6 +75,9 @@
                 	<kul:htmlControlAttribute property="newBudgetPeriod.endDate" attributeEntry="${budgetPeriodAttributes.endDate}" />
                 	</div>
                 </td>
+                <c:if test="${proposalBudgetFlag}">
+                	<td class="infoline"></td>
+                </c:if>
                 <td width="10%" valign="middle" class="infoline">                	
                 	<div align="center">
                   	<kul:htmlControlAttribute property="newBudgetPeriod.totalCost" attributeEntry="${budgetPeriodAttributes.totalCost}" styleClass="amount" /> 
@@ -140,6 +146,12 @@
                 		<kul:htmlControlAttribute property="document.budget.budgetPeriods[${status.index}].endDate" attributeEntry="${budgetPeriodAttributes.endDate}" />
 					</div>
 	                </td>
+	                <c:if test="${proposalBudgetFlag}">
+		                <td>
+		                	 <bean:define id="numberOfMonths" name="KualiForm" property="document.budget.budgetPeriods[${status.index}].numberOfMonths" />
+		                	${numberOfMonths }
+		                </td>
+	                </c:if>
 	                <td width="10%" valign="middle">                	
 					<div align="center">
                   		<kul:htmlControlAttribute property="document.budget.budgetPeriods[${status.index}].totalCost" attributeEntry="${budgetPeriodAttributes.totalCost}" styleClass="amount" readOnly="${periodReadOnly}"/> 
@@ -199,7 +211,7 @@
 	            </tr>
         	</c:forEach> 
         	<tr>
-        		<td colspan="10" class="subhead">Totals</td>
+        		<td colspan="11" class="subhead">Totals</td>
     	    </tr>
           	<tr>
           		<td width="5%" class="infoline"> 
@@ -220,6 +232,11 @@
                 		<strong> <fmt:formatDate value="${KualiForm.document.budget.summaryPeriodEndDate}" pattern="MM/dd/yyyy" /> </strong>
                 	</div>
                 </td>
+                <c:if test="${proposalBudgetFlag}">
+	                <td class="infoline">
+	                	<strong>${KualiForm.document.budget.summaryNumberOfMonths }</strong>
+	                </td>
+                </c:if>
                 <td width="10%" valign="middle" class="infoline">                	
                 	<div align="center">
                 	    <strong> <kul:htmlControlAttribute property="document.budget.totalCost" attributeEntry="${budgetPeriodAttributes.totalCost}" styleClass="amount" readOnly="true"/> </strong>
@@ -356,6 +373,7 @@
           	    
           </c:if>  	
         </table>
+        <br/>
     </div> 
 </kul:tab>
 <kul:panelFooter />
