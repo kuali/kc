@@ -51,6 +51,9 @@
         <property name="budgetCalculationService" ref="budgetCalculationService" />
     </bean>
     
+    <bean id="proposalBudgetNumberOfMonthsService" class="org.kuali.kra.proposaldevelopment.budget.service.impl.ProposalBudgetNumberOfMonthsServiceImpl" >
+    </bean>
+    
     <bean id="proposalStateService" class="org.kuali.kra.proposaldevelopment.service.impl.ProposalStateServiceImpl">
         <property name="proposalHierarchyService" ref="proposalHierarchyService" />
     </bean>
