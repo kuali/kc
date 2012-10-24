@@ -249,6 +249,8 @@ implements Permissionable, SequenceOwner<SubAward>, Negotiable {
 	 * @return Returns the requisitionerName.
 	 */
 	public String getRequisitionerName() {
+	    //calling getRequisitionerUserName() as that function sets the requestionsitioner name
+	    getRequisitionerUserName();
 		return requisitionerName;
 	}
 
