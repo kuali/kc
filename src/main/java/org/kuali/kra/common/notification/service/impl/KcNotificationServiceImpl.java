@@ -564,8 +564,16 @@ public class KcNotificationServiceImpl implements KcNotificationService {
      */
     private void fillinNotificationObject(KcNotification notification, NotificationContext context) {
         NotificationType notificationType = getNotificationType(context);
+        // some fields will already be set if we get here from one of the notification editors
         if (notificationType != null) {
-            notification.setNotificationTypeId(notificationType.getNotificationTypeId());
+            if (notification.getNotificationType() == null) {
+                notification.setNotificationTypeId(notificationType.getNotificationTypeId());
+                String instanceSubject = context.replaceContextVariables(notificationType.getSubject());
+                notification.setSubject(instanceSubject);
+                String instanceMessage = context.replaceContextVariables(notificationType.getMessage());
+                notification.setMessage(instanceMessage);
+                notification.setNotificationType(notificationType);
+            }
             notification.setDocumentNumber(context.getDocumentNumber());
             Collection<NotificationRecipient.Builder> notificationRecipients = getNotificationRecipients(context);
             String resultList = "";
@@ -573,11 +581,6 @@ public class KcNotificationServiceImpl implements KcNotificationService {
                 resultList += ", " + recipient.getRecipientId();
             }            
             notification.setRecipients(resultList.substring(2));
-            String instanceSubject = context.replaceContextVariables(notificationType.getSubject());
-            notification.setSubject(instanceSubject);
-            String instanceMessage = context.replaceContextVariables(notificationType.getMessage());
-            notification.setMessage(instanceMessage);
-            notification.setNotificationType(notificationType);
         }
     }
     
