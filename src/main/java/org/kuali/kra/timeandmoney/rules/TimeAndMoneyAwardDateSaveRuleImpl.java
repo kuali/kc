@@ -28,6 +28,7 @@ import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.kra.timeandmoney.AwardHierarchyNode;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.kra.timeandmoney.rule.event.TimeAndMoneyAwardDateSaveEvent;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
@@ -51,7 +52,6 @@ public class TimeAndMoneyAwardDateSaveRuleImpl extends ResearchDocumentRuleBase 
     }
     
     private boolean validateObligatedDates(TimeAndMoneyDocument document) {
-        System.err.println("Got here!");
         boolean valid = true;
         int i = 0;
         for(Entry<String, AwardHierarchyNode> awardHierarchyNode : document.getAwardHierarchyNodes().entrySet()) {
@@ -61,6 +61,7 @@ public class TimeAndMoneyAwardDateSaveRuleImpl extends ResearchDocumentRuleBase 
             Date obligatedEndDate = awardHierarchyNode.getValue().getObligationExpirationDate();
             Date projectEndDate = awardHierarchyNode.getValue().getFinalExpirationDate();
             Date projectStartDate = aai.getAward().getAwardEffectiveDate();
+            KualiDecimal obligatedTotal = awardHierarchyNode.getValue().getAmountObligatedToDate();
             if (projectEndDate == null) {
                 String field = "awardHierarchyNodeItems[" + i + "].finalexpirationdate"; 
                 reportError(field, KeyConstants.ERROR_FISCAL_YEAR_REQUIRED, "Project End");
@@ -91,6 +92,18 @@ public class TimeAndMoneyAwardDateSaveRuleImpl extends ResearchDocumentRuleBase 
                 reportError(field, KeyConstants.ERROR_START_DATE_ON_OR_BEFORE, "Obligation Start Date","Project End Date ");
                 valid = false;
             }
+            if (obligatedTotal != null) {
+                if (obligatedStartDate == null) {
+                    String field = "awardHierarchyNodeItems[" + i + "].currentFundEffectiveDate"; 
+                    reportError(field, KeyConstants.ERROR_AWARD_EFFECTIVE_DATE);
+                    valid = false;
+                }
+                if (obligatedEndDate == null) {
+                    String field = "awardHierarchyNodeItems[" + i + "].obligationExpirationDate"; 
+                    reportError(field, KeyConstants.ERROR_OBLIGATION_EXPIRATION_DATE);
+                    valid = false;
+                }
+            }
             i++;
         }
         return valid;
@@ -104,32 +117,6 @@ public class TimeAndMoneyAwardDateSaveRuleImpl extends ResearchDocumentRuleBase 
     public AwardVersionService getAwardVersionService() {
         return KraServiceLocator.getService(AwardVersionService.class);
     }
-    /*
-    private boolean validateDatesNotNull(TimeAndMoneyDocument document) {
-        boolean valid = true;
-        for(Entry<String, AwardHierarchyNode> awardHierarchyNode : document.getAwardHierarchyNodes().entrySet()){
-            Date obligatedStartDate = awardHierarchyNode.getValue().getCurrentFundEffectiveDate();
-            Date obligatedEndDate = awardHierarchyNode.getValue().getObligationExpirationDate();
-            Date projectEndDate = awardHierarchyNode.getValue().getFinalExpirationDate();
-            if(obligatedStartDate == null) {
-                valid = false;
-                reportError(OBLIGATED_START_DATE_PROPERTY, KeyConstants.ERROR_DATE_NULL, 
-                        awardHierarchyNode.getValue().getAwardNumber(), "Obligated Start Date");
-            }
-            if(obligatedEndDate == null) {
-                valid = false;
-                reportError(OBLIGATED_END_DATE_PROPERTY, KeyConstants.ERROR_DATE_NULL, 
-                        awardHierarchyNode.getValue().getAwardNumber(), "Obligated End Date");
-            }
-            if(projectEndDate == null) {
-                valid = false;
-                reportError(FINAL_EXPIRATION_DATE_PROPERTY, KeyConstants.ERROR_DATE_NULL, 
-                        awardHierarchyNode.getValue().getAwardNumber(), "Final Expiration Date");
-            }
-            
-        }
-        return valid;
-    }*/
     
     private boolean validateDatesAgainstProjectStartDate(TimeAndMoneyDocument document) {
         boolean valid = true;
