@@ -127,8 +127,7 @@ public class ProtocolNotificationEditorAction extends ProtocolAction {
         List<NotificationTypeRecipient> notificationRecipients = protocolForm.getNotificationHelper().getNotificationRecipients();
         
         if (applyRules(new SendNotificationEvent(document, notification, notificationRecipients))) {
-            getKcNotificationService().sendNotificationAndPersist(protocolForm.getNotificationHelper().getNotificationContext(), 
-                new IRBProtocolNotification(), document.getProtocol());
+            protocolForm.getNotificationHelper().sendNotificationAndPersist(document.getProtocol());
             String forwardName = protocolForm.getNotificationHelper().getNotificationContext().getForwardName();
             protocolForm.getNotificationHelper().setNotificationContext(null);
             if (StringUtils.isNotBlank(forwardName)) {
