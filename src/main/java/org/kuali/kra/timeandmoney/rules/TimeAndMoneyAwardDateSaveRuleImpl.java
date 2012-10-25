@@ -51,15 +51,18 @@ public class TimeAndMoneyAwardDateSaveRuleImpl extends ResearchDocumentRuleBase 
     }
     
     private boolean validateObligatedDates(TimeAndMoneyDocument document) {
+        System.err.println("Got here!");
         boolean valid = true;
-        for(Entry<String, AwardHierarchyNode> awardHierarchyNode : document.getAwardHierarchyNodes().entrySet()){
+        int i = 0;
+        for(Entry<String, AwardHierarchyNode> awardHierarchyNode : document.getAwardHierarchyNodes().entrySet()) {
             Award award = getAwardVersionService().getWorkingAwardVersion(awardHierarchyNode.getValue().getAwardNumber());
             AwardAmountInfo aai = getAwardAmountInfoService().fetchAwardAmountInfoWithHighestTransactionId(award.getAwardAmountInfos());
             Date obligatedStartDate = awardHierarchyNode.getValue().getCurrentFundEffectiveDate();
             Date obligatedEndDate = awardHierarchyNode.getValue().getObligationExpirationDate();
             Date projectEndDate = awardHierarchyNode.getValue().getFinalExpirationDate();
+            Date projectStartDate = aai.getAward().getAwardEffectiveDate();
             if (projectEndDate == null) {
-                String field = "awardHierarchyNodeItems[0].finalexpirationdate"; 
+                String field = "awardHierarchyNodeItems[" + i + "].finalexpirationdate"; 
                 reportError(field, KeyConstants.ERROR_FISCAL_YEAR_REQUIRED, "Project End");
                 valid = false;
             } else if(!(obligatedStartDate == null) && !(obligatedEndDate == null)) {
@@ -73,19 +76,26 @@ public class TimeAndMoneyAwardDateSaveRuleImpl extends ResearchDocumentRuleBase 
                 }
             } else {
                 if (obligatedStartDate == null && !(aai.getCurrentFundEffectiveDate()==null)) {
-                    String field = "awardHierarchyNodeItems[0].currentFundEffectiveDate"; 
+                    String field = "awardHierarchyNodeItems[" + i + "].currentFundEffectiveDate"; 
                     reportError(field, KeyConstants.ERROR_FISCAL_YEAR_REQUIRED, "Oblg. Start");
                     valid = false;
                 }
                 if (obligatedEndDate == null && !(aai.getObligationExpirationDate() == null)) {
-                    String field = "awardHierarchyNodeItems[0].obligationExpirationDate"; 
+                    String field = "awardHierarchyNodeItems[" + i + "].obligationExpirationDate"; 
                     reportError(field, KeyConstants.ERROR_FISCAL_YEAR_REQUIRED, "Oblg. End");
                     valid = false;
                 }
             }
+            if (obligatedStartDate != null &&  projectEndDate != null && obligatedStartDate.after(projectEndDate)) {
+                String field = "awardHierarchyNodeItems[" + i + "].currentFundEffectiveDate";
+                reportError(field, KeyConstants.ERROR_START_DATE_ON_OR_BEFORE, "Obligation Start Date","Project End Date ");
+                valid = false;
+            }
+            i++;
         }
         return valid;
     }
+    
     
     private AwardAmountInfoService getAwardAmountInfoService() {
         return KraServiceLocator.getService(AwardAmountInfoService.class);
