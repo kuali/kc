@@ -69,6 +69,9 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
                 if (canViewChartOfAccountsElement(awardDocument)) {
                     editModes.add("viewChartOfAccountsElement");
                 }
+                if (canViewAccountElement(awardDocument)) {
+                    editModes.add("viewAccountElement");
+                }
             }
             else {
                 editModes.add(AuthorizationConstants.EditMode.UNVIEWABLE);
@@ -109,6 +112,9 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
             }   
             if (canViewChartOfAccountsElement(awardDocument)) {
                 editModes.add("viewChartOfAccountsElement");
+            }
+            if (canViewAccountElement(awardDocument)) {
+                editModes.add("viewAccountElement");
             }
         }
         
@@ -152,11 +158,11 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
     }
     
     protected boolean isFinancialSystemIntegrationParameterOn() {
-        String awardAccountParameter = getParameterService().getParameterValueAsString (
+        Boolean awardAccountParameter = getParameterService().getParameterValueAsBoolean (
                                                                 Constants.PARAMETER_MODULE_AWARD, 
                                                                 ParameterConstants.DOCUMENT_COMPONENT, 
                                                                 Constants.FIN_SYSTEM_INTEGRATION_ON_OFF_PARAMETER);
-        return awardAccountParameter.equalsIgnoreCase(Constants.FIN_SYSTEM_INTEGRATION_ON) ? true : false;
+        return awardAccountParameter;
     }
     
     public boolean hasCreateAccountPermission(AwardDocument document) {  
@@ -164,7 +170,7 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
     }
     
     /*
-     * Same permissions for creating and linking accounts
+     * This only appears when the integration is ON
      */
     public boolean canViewChartOfAccountsElement(AwardDocument document) {
         if (hasCreateAccountPermission(document) && isFinancialSystemIntegrationParameterOn()) {
@@ -172,7 +178,20 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
         }
         return false;
     }
-    
+    /*
+     * This field appears even if the financial integration if OFF 
+     * but when it is ON, the user needs to have
+     * the create account permission to view it.
+     */
+    public boolean canViewAccountElement(AwardDocument document) {
+        boolean hasPermission = true;
+        if (isFinancialSystemIntegrationParameterOn()) { 
+            if (!hasCreateAccountPermission(document)) {
+                hasPermission = false;
+            }
+        }
+        return hasPermission;
+    }
     /**
      * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#canOpen(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
      */

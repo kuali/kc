@@ -114,6 +114,7 @@
 		</td>
   	</tr>
   	<tr>
+    	<kra:section permission="viewAccountElement">
     	
       	<th>
     		<div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.accountNumber}" /></div>
@@ -121,6 +122,7 @@
     	<td align="left" valign="middle">
     		<kul:htmlControlAttribute property="document.awardList[0].accountNumber" attributeEntry="${awardAttributes.accountNumber}" />
     	</td>
+    	</kra:section>
     	<th>
     		<div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.awardTypeCode}" /></div>
       	</th>
