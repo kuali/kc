@@ -32,8 +32,8 @@ public class IacucProtocolNotification extends ProtocolNotification {
 
     public void persistOwningObject(KraPersistableBusinessObjectBase object) {
         IacucProtocol protocol = (IacucProtocol)object;
+        this.setOwningDocumentIdFk(protocol.getLastProtocolAction().getProtocolActionId());
         protocol.getLastProtocolAction().addNotification(this);
-        KraServiceLocator.getService(BusinessObjectService.class).save(protocol);
         KraServiceLocator.getService(BusinessObjectService.class).save(this);
     }
 
