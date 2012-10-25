@@ -34,8 +34,8 @@ public class IRBProtocolNotification extends ProtocolNotification {
 //TODO: Remove this once IRB is refactored to use common protocol code    
     public void persistOwningObject(KraPersistableBusinessObjectBase object) {
         Protocol protocol = (Protocol)object;
+        this.setOwningDocumentIdFk(protocol.getLastProtocolAction().getProtocolActionId());
         protocol.getLastProtocolAction().addNotification(this);
-        KraServiceLocator.getService(BusinessObjectService.class).save(protocol);
         KraServiceLocator.getService(BusinessObjectService.class).save(this);
     }
 

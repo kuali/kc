@@ -151,6 +151,7 @@ import org.kuali.kra.irb.noteattachment.ProtocolAttachmentService;
 import org.kuali.kra.irb.noteattachment.ProtocolNotepad;
 import org.kuali.kra.irb.notification.IRBNotificationContext;
 import org.kuali.kra.irb.notification.IRBNotificationRenderer;
+import org.kuali.kra.irb.notification.IRBProtocolNotification;
 import org.kuali.kra.irb.onlinereview.ProtocolReviewAttachment;
 import org.kuali.kra.irb.questionnaire.ProtocolModuleQuestionnaireBean;
 import org.kuali.kra.irb.questionnaire.ProtocolQuestionnaireAuditRule;
@@ -481,7 +482,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             IRBNotificationContext context1 = new IRBNotificationContext(notificationBean1.getProtocol(),
                     notificationBean1.getProtocolOnlineReview(), notificationBean1.getActionType(),
                     notificationBean1.getDescription(), renderer1);
-            getNotificationService().sendNotification(context1);
+            getNotificationService().sendNotificationAndPersist(context1, new IRBProtocolNotification(), protocol);
         }
         
         ProtocolNotificationRequestBean notificationBean2 = new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(), ProtocolActionType.SUBMIT_TO_IRB_NOTIFICATION, "Submit");
@@ -493,7 +494,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             protocolForm.getNotificationHelper().initializeDefaultValues(context2);
             return mapping.findForward("protocolNotificationEditor");
         } else {
-            getNotificationService().sendNotification(context2);
+            getNotificationService().sendNotificationAndPersist(context2, new IRBProtocolNotification(), protocol);
             return routeProtocolToHoldingPage(mapping, protocolForm);
         }
         //return createSuccessfulSubmitRedirect("Protocol", protocolDocument.getProtocol().getProtocolNumber(), request, mapping, protocolForm);
@@ -1437,7 +1438,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
                         protocolForm.getNotificationHelper().initializeDefaultValues(context);
                         forward = mapping.findForward("protocolNotificationEditor");
                     } else {
-                        getNotificationService().sendNotification(context);
+                        getNotificationService().sendNotificationAndPersist(context, new IRBProtocolNotification(), protocol);
                     }
                 }
             }
@@ -1754,7 +1755,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
                 } else {
                     IRBNotificationRenderer renderer = new IRBNotificationRenderer(document.getProtocol());
                     IRBNotificationContext context = new IRBNotificationContext(document.getProtocol(), ProtocolActionType.APPROVED, "Approved", renderer);
-                    getNotificationService().sendNotification(context);
+                    getNotificationService().sendNotificationAndPersist(context, new IRBProtocolNotification(), document.getProtocol());
                     forward = routeProtocolToHoldingPage(mapping, protocolForm);                                    
                 }
             }
@@ -3771,7 +3772,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             protocolForm.getNotificationHelper().initializeDefaultValues(context);
             return mapping.findForward("protocolNotificationEditor");
         } else {
-            getNotificationService().sendNotification(context);
+            getNotificationService().sendNotificationAndPersist(context, new IRBProtocolNotification(), protocolForm.getProtocolDocument().getProtocol());
             return forward;
         }
     }

@@ -29,6 +29,8 @@ import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.ResearchArea;
 import org.kuali.kra.bo.RolePersons;
+import org.kuali.kra.common.notification.bo.KcNotification;
+import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -334,11 +336,10 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
 
         finalizeAttachmentProtocol(this.getProtocol());
         getBusinessObjectService().save(this);
-        mergeProtocolCorrespondence(newProtocolDocument, this.getProtocol().getLastProtocolAction().getProtocolActionTypeCode());
-           
+        mergeProtocolCorrespondenceAndNotification(newProtocolDocument, this.getProtocol().getLastProtocolAction().getProtocolActionTypeCode());
     }
     
-    protected void mergeProtocolCorrespondence(ProtocolDocument newProtocolDocument, String protocolActionType) {
+    protected void mergeProtocolCorrespondenceAndNotification(ProtocolDocument newProtocolDocument, String protocolActionType) {
         /**
          * This is a hack, but if there another way to do it?  Not that I can find.
          * We need to find the last instance of a Protocol Action of type ProtocolActionType.APPROVED and copy that action's correspondence, and put it in the
@@ -352,19 +353,19 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
                 }
             }
         }
-        ProtocolAction newDocPaToUser = null;
+        ProtocolAction newDocPaToUse = null;
         for (ProtocolAction pa2 : newProtocolDocument.getProtocol().getProtocolActions()) {
             if (StringUtils.equals(ProtocolActionType.APPROVED, pa2.getProtocolActionTypeCode())) {
-                if (newDocPaToUser == null || newDocPaToUser.getUpdateTimestamp().before(pa2.getUpdateTimestamp())) {
-                    newDocPaToUser = pa2;
+                if (newDocPaToUse == null || newDocPaToUse.getUpdateTimestamp().before(pa2.getUpdateTimestamp())) {
+                    newDocPaToUse = pa2;
                 }
             }
         }
-        if (newDocPaToUser != null && getProtocolPaToUse != null) {
+        if (newDocPaToUse != null && getProtocolPaToUse != null) {
             for (ProtocolCorrespondence pc : getProtocolPaToUse.getProtocolCorrespondences()) {
                 ProtocolCorrespondence newPc = new ProtocolCorrespondence();
                 newPc.setActionId(pc.getActionId());
-                newPc.setActionIdFk(newDocPaToUser.getProtocolActionId());
+                newPc.setActionIdFk(newDocPaToUse.getProtocolActionId());
                 newPc.setCorrespondence(pc.getCorrespondence());
                 newPc.setCreateTimestamp(pc.getCreateTimestamp());
                 newPc.setCreateUser(pc.getCreateUser());
@@ -375,21 +376,25 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
                 newPc.setHoldingPage(pc.isHoldingPage());
                 newPc.setNewCollectionRecord(pc.isNewCollectionRecord());
                 newPc.setNotificationRequestBean(pc.getNotificationRequestBean());
-                newPc.setProtocol(newDocPaToUser.getProtocol());
-                newPc.setProtocolAction(newDocPaToUser);
+                newPc.setProtocol(newDocPaToUse.getProtocol());
+                newPc.setProtocolAction(newDocPaToUse);
                 newPc.setProtocolCorrespondenceType(pc.getProtocolCorrespondenceType());
-                newPc.setProtocolId(newDocPaToUser.getProtocolId());
-                newPc.setProtocolNumber(newDocPaToUser.getProtocolNumber());
+                newPc.setProtocolId(newDocPaToUse.getProtocolId());
+                newPc.setProtocolNumber(newDocPaToUse.getProtocolNumber());
                 newPc.setProtoCorrespTypeCode(pc.getProtoCorrespTypeCode());
                 newPc.setRegenerateFlag(pc.isRegenerateFlag());
                 newPc.setSequenceNumber(pc.getSequenceNumber());
-                if (newDocPaToUser.getProtocolCorrespondences() == null) {
-                    newDocPaToUser.setProtocolCorrespondences(new ArrayList<ProtocolCorrespondence>());
+                if (newDocPaToUse.getProtocolCorrespondences() == null) {
+                    newDocPaToUse.setProtocolCorrespondences(new ArrayList<ProtocolCorrespondence>());
                 }
-                newDocPaToUser.getProtocolCorrespondences().add(newPc);
+                newDocPaToUse.getProtocolCorrespondences().add(newPc);
                 getBusinessObjectService().save(newPc);
             }
-            getBusinessObjectService().save(newDocPaToUser);
+            for (KcNotification notification : getProtocolPaToUse.getProtocolNotifications()) {
+                KcNotification newNotification = getKcNotificationService().copy(notification);
+                getBusinessObjectService().save(newNotification);
+            }
+            getBusinessObjectService().save(newDocPaToUse);
         }   
         
     }
@@ -429,6 +434,10 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
     
     private BusinessObjectService getBusinessObjectService() {
         return KraServiceLocator.getService(BusinessObjectService.class);
+    }
+
+    private KcNotificationService getKcNotificationService() {
+        return KraServiceLocator.getService(KcNotificationService.class);
     }
 
     /**
