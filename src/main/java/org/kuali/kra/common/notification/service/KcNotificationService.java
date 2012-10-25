@@ -136,5 +136,10 @@ public interface KcNotificationService {
      */
     void sendNotification(String contextName, String subject, String message, Collection<NotificationRecipient.Builder> notificationRecipients);
 
+    /**
+     * Make a copy of an existing notification
+     * @param notification
+     */
+    KcNotification copy(KcNotification oldNotification);
     
 }

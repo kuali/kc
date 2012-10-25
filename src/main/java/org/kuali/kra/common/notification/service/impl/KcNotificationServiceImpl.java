@@ -665,5 +665,16 @@ public class KcNotificationServiceImpl implements KcNotificationService {
     public void setKcEmailService(KcEmailService kcEmailService) {
         this.kcEmailService = kcEmailService;
     }
-    
+
+    public KcNotification copy(KcNotification oldNotification) {
+        KcNotification newNotification = new KcNotification();
+        newNotification.setNotificationId(oldNotification.getNotificationId());
+        newNotification.setNotificationTypeId(oldNotification.getNotificationTypeId());
+        newNotification.setDocumentNumber(oldNotification.getDocumentNumber());
+        newNotification.setRecipients(oldNotification.getRecipients());
+        newNotification.setSubject(oldNotification.getSubject());
+        newNotification.setMessage(oldNotification.getMessage());
+        newNotification.setNotificationType(oldNotification.getNotificationType());
+        return newNotification;
+    }
 }
