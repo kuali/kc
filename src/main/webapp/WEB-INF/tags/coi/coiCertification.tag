@@ -129,7 +129,7 @@
 															// trigger
 															$j("#certSubmit").click(
 																function() {
-																	alert("${submitThankyouStatement}");
+<%-- we don't really need this...											alert("${submitThankyouStatement}");   --%>
 																	$j("#certSubmit").hide(0);
 																	$j("#certCheckbox").attr("disabled", true);
 																}
