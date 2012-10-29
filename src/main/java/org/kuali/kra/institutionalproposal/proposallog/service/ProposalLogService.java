@@ -15,10 +15,21 @@
  */
 package org.kuali.kra.institutionalproposal.proposallog.service;
 
+import java.util.List;
+
+import org.kuali.kra.institutionalproposal.proposallog.ProposalLog;
+
 /**
  * External services provided by the Proposal Log module.
  */
 public interface ProposalLogService {
+    
+    /**
+     * Tie the temporary proposal to the permanent one and update the status.
+     * @param permamentProposalLog
+     * @param temporaryProposalNumber
+     */
+    void mergeProposalLog(ProposalLog permanentProposalLog, String temporaryProposalNumber);    
     
     /**
      * Update the state of the log entry for the given proposal number to reflect that it has been merged
@@ -35,14 +46,17 @@ public interface ProposalLogService {
      * @param proposalNumber String
      */
     void promoteProposalLog(String proposalNumber);
-
-    /**
-     * links merged temporary proposal log and permanent proposal log
-     */
-    void updateMergedTempLog(String tempProposalNumber, String permProposalNumber);
     
     /**
      * links merged institutional proposal and proposal log
      */    
     void updateMergedInstProposal(Long proposalId, String proposalNumber);
+    
+    /**
+     * Gets all temporary proposal logs with the matching pi that haven't been merged yet.
+     * @param proposalLogTypeCode
+     * @param piId
+     * @return
+     */
+    List<ProposalLog> getMatchingTemporaryProposalLogs(String proposalLogTypeCode, String piId, String rolodexId);    
 }

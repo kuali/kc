@@ -121,8 +121,8 @@ public class ProposalLogLookupableHelperServiceImpl extends KualiLookupableHelpe
         fieldValues.put(KEWPropertyConstants.DOCUMENT_TYPE_ID, docTypeIds);
         fieldValues.put(DOC_ROUTE_STATUS, KewApiConstants.ROUTE_HEADER_FINAL_CD);
         List<DocumentRouteHeaderValue> docHeaders = (List<DocumentRouteHeaderValue>) getBusinessObjectService().findMatching(DocumentRouteHeaderValue.class, fieldValues);
-        try {
-            for (DocumentRouteHeaderValue docHeader : docHeaders) {
+        for (DocumentRouteHeaderValue docHeader : docHeaders) {
+            try {
                 MaintenanceDocumentBase doc = (MaintenanceDocumentBase) documentService.getByDocumentHeaderId(docHeader.getDocumentId());
                 for(ProposalLog proposalLog : results){
                     ProposalLog proposalLogDoc = (ProposalLog)doc.getNoteTarget();
@@ -135,13 +135,12 @@ public class ProposalLogLookupableHelperServiceImpl extends KualiLookupableHelpe
                         }
                        
                     }
-                            
-                }
-                
                 }
             } catch (Exception e) {
                 e.printStackTrace();
+            }                
         }
+
         
         return proposalLogs;
     }
