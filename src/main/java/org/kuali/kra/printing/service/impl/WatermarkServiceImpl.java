@@ -21,6 +21,7 @@ import java.io.IOException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.fop.pdf.PDFText;
 import org.kuali.kra.printing.service.WatermarkService;
 import org.kuali.kra.util.watermark.WatermarkBean;
 import org.kuali.kra.util.watermark.WatermarkConstants;
@@ -34,10 +35,9 @@ import com.lowagie.text.HeaderFooter;
 import com.lowagie.text.Image;
 import com.lowagie.text.Phrase;
 import com.lowagie.text.Rectangle;
-import com.lowagie.text.pdf.BaseFont;
 import com.lowagie.text.pdf.PdfContentByte;
+import com.lowagie.text.pdf.PdfGState;
 import com.lowagie.text.pdf.PdfImportedPage;
-import com.lowagie.text.pdf.PdfOutline;
 import com.lowagie.text.pdf.PdfReader;
 import com.lowagie.text.pdf.PdfStamper;
 import com.lowagie.text.pdf.PdfWriter;
@@ -134,11 +134,12 @@ public class WatermarkServiceImpl implements WatermarkService {
              }
             else if(watermarkBean.getPosition().equals(WatermarkConstants.WATERMARK_POSITION_DIAGONAL)){
                 watermarkPageDocument(document,writer,reader);
-                 byte[]bs=byteArrayOutputStream.toByteArray();
-               pdfReader=new PdfReader(bs);
+            }
+            byte[] bs = byteArrayOutputStream.toByteArray();
+            pdfReader = new PdfReader(bs);
             pdfStamp = new PdfStamper(pdfReader, byteArrayOutputStream);
             decorateWatermark(pdfStamp, watermarkBean);
-        }}
+        }
         catch (IOException decorateWatermark) {
             LOG.error("Exception occured in WatermarkServiceImpl. Water mark Exception: " + decorateWatermark.getMessage());
         }
@@ -160,21 +161,23 @@ public class WatermarkServiceImpl implements WatermarkService {
         PdfReader pdfReader = watermarkPdfStamper.getReader();
         int pageCount = pdfReader.getNumberOfPages();
         int pdfPageNumber = 0;
-
+        
         PdfContentByte pdfContents;
         Rectangle rectangle;
         while (pdfPageNumber < pageCount) {
             pdfPageNumber++;
             // pdfContents = watermarkPdfStamper.getOverContent(pdfPageNumber);
             rectangle = pdfReader.getPageSizeWithRotation(pdfPageNumber);
-            pdfContents = watermarkPdfStamper.getUnderContent(pdfPageNumber);
-            if (watermarkBean.getType().equalsIgnoreCase(WatermarkConstants.WATERMARK_TYPE_IMAGE)) {
+            //pdfContents = watermarkPdfStamper.getUnderContent(pdfPageNumber);                       
+            if (watermarkBean.getType().equalsIgnoreCase(WatermarkConstants.WATERMARK_TYPE_IMAGE)) {  
+                pdfContents = watermarkPdfStamper.getUnderContent(pdfPageNumber);     
                 decoratePdfWatermarkImage(pdfContents, (int) rectangle.getHeight(), (int) rectangle.getHeight(), watermarkBean);
             }
-            if (watermarkBean.getType().equalsIgnoreCase(WatermarkConstants.WATERMARK_TYPE_TEXT)) {
+            if (watermarkBean.getType().equalsIgnoreCase(WatermarkConstants.WATERMARK_TYPE_TEXT)) {     
+                pdfContents = watermarkPdfStamper.getOverContent(pdfPageNumber);
                 decoratePdfWatermarkText(pdfContents, (int) rectangle.getHeight(), (int) rectangle.getHeight(), watermarkBean);
             }
-
+            watermarkPdfStamper.setFormFlattening(true);    
         }
         try {
             watermarkPdfStamper.close();
@@ -198,9 +201,12 @@ public class WatermarkServiceImpl implements WatermarkService {
      */
     private void decoratePdfWatermarkText(PdfContentByte pdfContentByte, int pageWidth, int pageHeight, WatermarkBean watermarkBean) {
         float x, y, x1, y1, angle;
+        PdfGState pdfGState = new PdfGState();
+        pdfGState.setFillOpacity(0.3f);
         try {
             if (watermarkBean.getType().equalsIgnoreCase(WatermarkConstants.WATERMARK_TYPE_TEXT)) {
                 pdfContentByte.beginText();
+                pdfContentByte.setGState(pdfGState);
                 pdfContentByte.setFontAndSize(watermarkBean.getFont().getBaseFont(), watermarkBean.getFont().getSize());
                 Color fillColor = watermarkBean.getFont().getColor() == null ? WatermarkConstants.DEFAULT_WATERMARK_COLOR
                         : watermarkBean.getFont().getColor();
@@ -220,6 +226,7 @@ public class WatermarkServiceImpl implements WatermarkService {
                 pdfContentByte.showTextAligned(Element.ALIGN_LEFT, watermarkBean.getText(), x + x1, y - y1, (float) Math
                         .toDegrees(angle));
                 pdfContentByte.endText();
+                
             }
 
         }
@@ -260,13 +267,16 @@ public class WatermarkServiceImpl implements WatermarkService {
      * @param watermarkBean
      */
     private void decoratePdfWatermarkImage(PdfContentByte pdfContentByte, int pageWidth, int pageHeight, WatermarkBean watermarkBean) {
+        PdfGState pdfGState = new PdfGState();
         try {
             if (watermarkBean.getType().equalsIgnoreCase(WatermarkConstants.WATERMARK_TYPE_IMAGE)) {
                 Image watermarkImage = Image.getInstance(watermarkBean.getFileImage());
                 if (watermarkImage != null) {
+                    pdfGState.setFillOpacity(0.3f);
+                    pdfContentByte.setGState(pdfGState);
                     float height = watermarkImage.getPlainHeight();
                     float width = watermarkImage.getPlainWidth();
-                    watermarkImage.setAbsolutePosition((pageWidth - width) / 2, (pageHeight - height) / 2);
+                    watermarkImage.setAbsolutePosition((pageWidth - width) / 2, (pageHeight - height) / 2);                   
                     pdfContentByte.addImage(watermarkImage);
                 }
 
