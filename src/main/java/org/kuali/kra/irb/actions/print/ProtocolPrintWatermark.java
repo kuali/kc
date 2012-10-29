@@ -130,7 +130,9 @@ public class ProtocolPrintWatermark implements Watermarkable {
                 watermarkBean.setPositionFont(getWatermarkPositionFont(WatermarkConstants.FONT, watermarkPositionFontSize, watermarkFontColour));
                 // create a renderer instance so as to replace the parameters in the watermark's text with values obtained from the protocol
                 IRBNotificationRenderer renderer = new IRBNotificationRenderer((Protocol) getPersistableBusinessObject());
-                watermarkBean.setText(renderer.render(watermark.getWatermarkText()));
+                if (watermark.getWatermarkText() != null) {
+                    watermarkBean.setText(renderer.render(watermark.getWatermarkText()));
+                } 
                 if (watermarkBean.getType().equals(WatermarkConstants.WATERMARK_TYPE_IMAGE)) {
                     watermarkBean.setText(watermark.getFileName());
                     byte[] imageData = watermark.getAttachmentContent();
