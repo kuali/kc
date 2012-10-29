@@ -288,7 +288,7 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcTransactionalDocume
     @Override
     public boolean canReload(Document document, Person user) {
         WorkflowDocument workflow = document.getDocumentHeader().getWorkflowDocument();
-        return canEdit(document, user) || workflow.isCanceled();
+        return canEdit(document, user) && !workflow.isInitiated() || workflow.isCanceled();
     }
     
     @Override
