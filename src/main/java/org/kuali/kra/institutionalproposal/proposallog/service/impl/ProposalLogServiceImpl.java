@@ -15,9 +15,14 @@
  */
 package org.kuali.kra.institutionalproposal.proposallog.service.impl;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.institutionalproposal.proposallog.ProposalLog;
 import org.kuali.kra.institutionalproposal.proposallog.ProposalLogUtils;
 import org.kuali.kra.institutionalproposal.proposallog.service.ProposalLogService;
@@ -35,6 +40,17 @@ public class ProposalLogServiceImpl implements ProposalLogService {
      * 
      * @param proposalNumber String
      */
+    public void mergeProposalLog(ProposalLog permanentProposalLog, String temporaryProposalNumber) {
+        ProposalLog tempProposalLog = getBusinessObjectService().findBySinglePrimaryKey(ProposalLog.class, temporaryProposalNumber);
+        if (tempProposalLog == null) {
+            throw new IllegalArgumentException("Can't update proposal log status; proposal number " + temporaryProposalNumber + " not found.");
+        } else {
+            tempProposalLog.setMergedWith(permanentProposalLog.getProposalNumber());
+            tempProposalLog.setLogStatus(ProposalLogUtils.getProposalLogMergedStatusCode());
+            getBusinessObjectService().save(tempProposalLog);
+        }
+    }
+    
     public void mergeProposalLog(String proposalNumber) {
         updateProposalLogStatus(proposalNumber, ProposalLogUtils.getProposalLogMergedStatusCode());
     }
@@ -50,25 +66,14 @@ public class ProposalLogServiceImpl implements ProposalLogService {
     }
     
     protected void updateProposalLogStatus(String proposalNumber, String logStatus) {
-        Map<String, String> criteria = new HashMap<String, String>();
-        criteria.put("proposalNumber", proposalNumber);
-        ProposalLog proposalLog = 
-            (ProposalLog) this.getBusinessObjectService().findByPrimaryKey(ProposalLog.class, criteria);
+        ProposalLog proposalLog = getBusinessObjectService().findBySinglePrimaryKey(ProposalLog.class, proposalNumber);
         if (proposalLog == null) {
             throw new IllegalArgumentException("Can't update proposal log status; proposal number " + proposalNumber + " not found.");
         }
         proposalLog.setLogStatus(logStatus);
         this.getBusinessObjectService().save(proposalLog);
     }
-
-    public void updateMergedTempLog(String tempProposalNumber, String permProposalNumber) {
-        Map<String, String> criteria = new HashMap<String, String>();
-        criteria.put("proposalNumber", tempProposalNumber);
-        ProposalLog proposalLog = (ProposalLog) this.getBusinessObjectService().findByPrimaryKey(ProposalLog.class, criteria);
-        proposalLog.setMergedWith(permProposalNumber);
-        this.getBusinessObjectService().save(proposalLog);
-    }        
-    
+   
     public void updateMergedInstProposal(Long proposalId, String proposalNumber)
     {
         // insert proposalId into PROPOSAL_LOG.INST_PROPOSAL_NUMBER
@@ -83,6 +88,36 @@ public class ProposalLogServiceImpl implements ProposalLogService {
         }        
     }
     
+    public List<ProposalLog> getMatchingTemporaryProposalLogs(String proposalLogTypeCode, String piId, String rolodexId) {
+        List<ProposalLog> matchedLogs = new ArrayList<ProposalLog>();
+        if ((StringUtils.isNotBlank(piId) || StringUtils.isNotBlank(rolodexId)) && StringUtils.equals(proposalLogTypeCode, ProposalLogUtils.getProposalLogPermanentTypeCode())) {
+            Map<String, String> criteria = new HashMap<String, String>(); 
+            if (StringUtils.isNotBlank(piId)) {
+                criteria.put("piId", piId);
+            } else if (StringUtils.isNotBlank(rolodexId)) {
+                criteria.put("rolodexId", rolodexId);
+            }
+            criteria.put("proposalLogTypeCode", ProposalLogUtils.getProposalLogTemporaryTypeCode());
+            matchedLogs = (List<ProposalLog>) this.getBusinessObjectService().findMatching(ProposalLog.class, criteria);
+            purgeAlreadyMergedLogs(matchedLogs);
+        }
+        return matchedLogs;
+    }
+
+    /**
+     * Temporary logs that have already been merged can't be merged again. 
+     * @param pLogs
+     */
+    private void purgeAlreadyMergedLogs(Collection<ProposalLog> pLogs) {
+        Iterator<ProposalLog> iter = pLogs.iterator();
+        while (iter.hasNext()) {
+            ProposalLog pLog = iter.next();
+            if (pLog.getLogStatus().equals(ProposalLogUtils.getProposalLogMergedStatusCode())) {
+                iter.remove();
+            }
+        }
+    }
+
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
