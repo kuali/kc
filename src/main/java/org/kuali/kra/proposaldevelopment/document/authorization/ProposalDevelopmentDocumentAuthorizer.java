@@ -158,6 +158,11 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcTransactionalDocume
         if (canExecuteTask(userId, doc, TaskName.MAINTAIN_PROPOSAL_HIERARCHY)) {
             editModes.add("maintainProposalHierarchy");
         }
+        
+        if (canExecuteTask(userId, doc, TaskName.REJECT_PROPOSAL)) {
+            editModes.add(TaskName.REJECT_PROPOSAL);
+        }
+        
         setNarrativePermissions(userId, doc, editModes);
     } 
     
