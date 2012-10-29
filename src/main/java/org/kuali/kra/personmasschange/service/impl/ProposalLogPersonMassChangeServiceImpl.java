@@ -75,7 +75,7 @@ public class ProposalLogPersonMassChangeServiceImpl extends MassPersonChangeServ
                 Rolodex rolodex = getRolodexService().getRolodex(personMassChange.getReplacerRolodexId());
                 proposalLogChangeCandidate.setPiId(null);
                 proposalLogChangeCandidate.setRolodexId(rolodex.getRolodexId());
-                proposalLogChangeCandidate.setPiName(null);
+                proposalLogChangeCandidate.setPiName(rolodex.getFullName());
             }
 
             getBusinessObjectService().save(proposalLogChangeCandidate);

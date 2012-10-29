@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.institutionalproposal.proposallog;
 
+import java.util.List;
+
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 public class ProposalLogMergeForm extends KualiForm {
@@ -23,6 +25,11 @@ public class ProposalLogMergeForm extends KualiForm {
     
     private String proposalLogNumber;
     private String institutionalProposalNumber;
+    
+    private String proposalLogTypeCode;
+    private String piId;
+    private String rolodexId;
+    private List<ProposalLog> matchedProposalLogs;
     
     public String getProposalLogNumber() {
         return proposalLogNumber;
@@ -38,6 +45,38 @@ public class ProposalLogMergeForm extends KualiForm {
     
     public void setInstitutionalProposalNumber(String institutionalProposalNumber) {
         this.institutionalProposalNumber = institutionalProposalNumber;
+    }
+    
+    public String getProposalLogTypeCode() {
+        return proposalLogTypeCode;
+    }
+
+    public void setProposalLogTypeCode(String proposalLogTypeCode) {
+        this.proposalLogTypeCode = proposalLogTypeCode;
+    }
+
+    public String getPiId() {
+        return piId;
+    }
+
+    public void setPiId(String piId) {
+        this.piId = piId;
+    }
+
+    public List<ProposalLog> getMatchedProposalLogs() {
+        return matchedProposalLogs;
+    }
+
+    public void setMatchedProposalLogs(List<ProposalLog> matchedProposalLogs) {
+        this.matchedProposalLogs = matchedProposalLogs;
+    }
+
+    public String getRolodexId() {
+        return rolodexId;
+    }
+
+    public void setRolodexId(String rolodexId) {
+        this.rolodexId = rolodexId;
     }
     
 }
