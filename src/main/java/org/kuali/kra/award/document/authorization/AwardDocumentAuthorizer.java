@@ -218,15 +218,7 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
     public boolean canSave(Document document, Person user) {
         return canEdit(document, user);
     }
-    
-    /**
-     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canReload(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
-     */
-    @Override
-    public boolean canReload(Document document, Person user) {
-        return canEdit(document, user);
-    }
-    
+  
     /**
      * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canCopy(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
      */
