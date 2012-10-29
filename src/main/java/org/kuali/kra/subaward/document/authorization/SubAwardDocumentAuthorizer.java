@@ -94,17 +94,7 @@ extends KcTransactionalDocumentAuthorizerBase {
         return getTaskAuthorizationService().isAuthorized(userId, task);
     }
 
-    /**.
-     * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase
-     * #canReload(org.kuali.rice.kns.document.Document,
-     *  org.kuali.rice.kim.api.identity.Person)
-     */
-    @Override
-    public boolean canReload(Document document, Person user) {
-        return canEdit(document, user);
-    }
-
-    /**.
+    /**
      * This method is for checking whether user can open
      * @param document the Document
      * @param user the Person
