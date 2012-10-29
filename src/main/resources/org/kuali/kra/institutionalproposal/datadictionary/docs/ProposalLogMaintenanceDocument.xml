@@ -22,7 +22,6 @@
     <bean id="ProposalLogMaintenanceDocument" parent="ProposalLogMaintenanceDocument-parentBean" />
     <bean id="ProposalLogMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
         <property name="businessObjectClass" value="org.kuali.kra.institutionalproposal.proposallog.ProposalLog" />
-        <property name="promptBeforeValidationClass" value="org.kuali.kra.institutionalproposal.proposallog.ProposalLogPromptBeforeValidation" />
         <property name="maintainableClass" value="org.kuali.kra.institutionalproposal.proposallog.ProposalLogMaintainableImpl" />
         <property name="maintainableSections" >
             <list>
@@ -43,7 +42,7 @@
         <property name="webScriptFiles">
         <list>
             <value>../dwr/interface/RolodexService.js</value>
-            <value>../scripts/jqLoadRolodex.js</value>       
+            <value>../scripts/proposalLog.js</value>   
         </list>
        </property>
        
@@ -61,8 +60,9 @@
                 <bean parent="MaintainableFieldDefinition" p:unconditionallyReadOnly="true" p:name="fiscalMonthYear" p:required="false" />
                 <bean parent="MaintainableFieldDefinition" p:name="fiscalMonth" p:required="false" />
                 <bean parent="MaintainableFieldDefinition" p:name="fiscalYear" p:required="false" />
-                <bean parent="MaintainableFieldDefinition" p:name="proposalLogTypeCode" p:required="true" />
+                <bean parent="MaintainableFieldDefinition" p:name="proposalLogTypeCode" p:required="true" />                
                 <bean parent="MaintainableFieldDefinition" p:name="logStatus" p:required="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="mergedWith" p:required="false"/>                
                 <bean parent="MaintainableFieldDefinition" p:name="proposalTypeCode" p:required="true" />
                 <bean parent="MaintainableFieldDefinition" p:name="title" p:required="true" />
                 <bean parent="MaintainableFieldDefinition" p:name="piId" p:required="false" />

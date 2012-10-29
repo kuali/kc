@@ -46,6 +46,13 @@ public class ProposalLogMergeAction extends KualiAction {
         return mapping.findForward("portal");
     }
     
+    //http://127.0.0.1:8080/kc-dev/mergeProposalLog.do?methodToCall=getMatchingTemporaryProposals&proposalLogTypeCode=1&piId=10000000002
+    public ActionForward getMatchingTemporaryProposals(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ProposalLogMergeForm proposalLogMergeForm = (ProposalLogMergeForm) form;
+        proposalLogMergeForm.setMatchedProposalLogs(getProposalLogService().getMatchingTemporaryProposalLogs(proposalLogMergeForm.getProposalLogTypeCode(), proposalLogMergeForm.getPiId(), proposalLogMergeForm.getRolodexId()));
+        return mapping.findForward("temporaryList");
+    }
+    
     protected ProposalLogService getProposalLogService() {
         return KraServiceLocator.getService(ProposalLogService.class);
     }

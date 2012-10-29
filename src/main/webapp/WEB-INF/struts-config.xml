@@ -335,6 +335,7 @@
       
       <action path="/mergeProposalLog" name="ProposalLogMergeForm" attribute="KualiForm" scope="request" parameter="methodToCall" validate="false" input="/WEB-INF/jsp/institutionalproposal/ProposalLogMerge.jsp" type="org.kuali.kra.institutionalproposal.proposallog.ProposalLogMergeAction">
         <forward name="basic" path="/WEB-INF/jsp/institutionalproposal/ProposalLogMerge.jsp" />
+        <forward name="temporaryList" path="/WEB-INF/jsp/institutionalproposal/ProposalLogTemporaryList.jsp" />
       </action>
       <action path="/printProposalLog" name="ProposalLogPrintForm" attribute="KualiForm" scope="request" parameter="methodToCall" validate="false" type="org.kuali.kra.institutionalproposal.proposallog.ProposalLogPrintAction">
         <forward name="basic" path="/portal.jsp" redirect="true" />

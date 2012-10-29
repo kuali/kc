@@ -43,6 +43,7 @@
                 <ref bean="ProposalLog-proposalTypeCode" />
                 <ref bean="ProposalLog-title" />
                 <ref bean="ProposalLog-piId" />
+                <ref bean="ProposalLog-piName" />
                 <ref bean="ProposalLog-mergedWith" />
                 <ref bean="ProposalLog-instProposalNumber" />
                 <ref bean="ProposalLog-person.userName" />
@@ -239,6 +240,15 @@
         <property name="displayLabelAttribute" value="person.userName" />
     </bean>
     
+    <bean id="ProposalLog-piName" parent="ProposalLog-piName-parentBean" />
+    <bean id="ProposalLog-piName-parentBean" abstract="true" parent="PersonImpl-name">
+        <property name="name" value="piName" />
+        <property name="label" value="Principal Investigator" />
+        <property name="shortLabel" value="PI" />
+        <property name="displayLabelAttribute" value="piName" />
+    </bean>
+    
+    
     <bean id="ProposalLog-person.userName" parent="ProposalLog-person.userName-parentBean" />
     <bean id="ProposalLog-person.userName-parentBean" abstract="true" parent="PersonImpl-principalName">
         <property name="name" value="person.userName" />
@@ -359,24 +369,15 @@
 		<property name="summary" value="The Deadline Time of the Proposal" />
 		<property name="description"
 			value="The time in which the proposal is due to the sponsoring agency.  Additional deadlines may be set by the office authorized to submit proposals on behalf of the institution (e.g. sponsored programs, etc.)." />
-	</bean>
+	</bean>	
 
     <bean id="ProposalLog-mergedWith" parent="ProposalLog-mergedWith-parentBean" />
-    <bean id="ProposalLog-mergedWith-parentBean" abstract="true" parent="AttributeDefinition" >
+    <bean id="ProposalLog-mergedWith-parentBean" abstract="true" parent="ProposalLog-proposalNumber" >
         <property name="name" value="mergedWith" />
-        <property name="label" value="Merged With Prop Log" />
-        <property name="shortLabel" value="Merged With Prop Log" />
-        <property name="maxLength" value="200" />
-        <property name="validationPattern" >
-            <bean parent="AnyCharacterValidationPattern" 
-                p:allowWhitespace="true" />
-        </property>
-        <property name="control" >
-            <bean parent="TextControlDefinition"
-                p:size="40" />
-        </property>
-        <property name="summary" value="Merged With Prop Log" />
-        <property name="description" value="Merged With Prop Log" />
+        <property name="label" value="Proposal Merged With" />
+        <property name="shortLabel" value="Proposal Merged With" />
+        <property name="summary" value="Proposal Merged With" />
+        <property name="description" value="Proposal Merged With" />
     </bean>
 
     <bean id="ProposalLog-instProposalNumber" parent="ProposalLog-instProposalNumber-parentBean" />
@@ -576,6 +577,10 @@
                     p:attributeName="proposalLogType.description" />
                 <bean parent="FieldDefinition"
                     p:attributeName="proposalLogStatus.description" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="mergedWith" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="instProposalNumber" />                    
                 <bean parent="FieldDefinition"
                     p:attributeName="proposalType.description" />
                 <bean parent="FieldDefinition"
