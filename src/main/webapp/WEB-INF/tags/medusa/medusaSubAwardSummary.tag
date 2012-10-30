@@ -9,7 +9,7 @@
       <th colspan="4" style="border-style: solid; text-align:left; border-color: rgb(230, 230, 230) rgb(147, 147, 147) rgb(147, 147, 147); border-width: 1px; padding: 3px; border-collapse: collapse; background-color: rgb(184, 184, 184); background-image: none;">Summary</th>
     </tr>
     <tr>
-      <th style="text-align: right;">Subward ID:</th>
+      <th style="text-align: right;">Subaward ID:</th>
       <td><c:out value="${node.bo.subAwardCode}"/></td>
       <th style="text-align: right;">Status:</th>
       <td><c:out value="${node.bo.statusDescription}"/></td>
@@ -36,7 +36,7 @@
       <th style="text-align: right;" >Title:</th>
       <td><c:out value="${node.bo.title}"/></td>
       <th style="text-align: right;">Requisitioner:</th>
-      <td><c:out value="${node.bo.requisitionerName}"/></td>
+      <td><c:out value="${node.bo.requisitioner.fullName}"/></td>
     </tr> 
     <tr>
       <th style="text-align: right;" >Requisitioner Unit:</th>
