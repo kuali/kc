@@ -49,10 +49,9 @@ import org.kuali.kra.coi.notesandattachments.notes.CoiDisclosureNotepad;
 import org.kuali.kra.coi.notification.AssignReviewerNotificationRenderer;
 import org.kuali.kra.coi.notification.CoiNotification;
 import org.kuali.kra.coi.notification.CoiNotificationContext;
+import org.kuali.kra.coi.notification.CoiNotificationRenderer;
 import org.kuali.kra.coi.notification.DisclosureCertifiedNotificationRenderer;
 import org.kuali.kra.coi.notification.DisclosureCertifiedNotificationRequestBean;
-import org.kuali.kra.common.notification.NotificationContext;
-import org.kuali.kra.common.notification.bo.KcNotification;
 import org.kuali.kra.common.notification.bo.NotificationTypeRecipient;
 import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.common.notification.web.struts.form.NotificationHelper;
@@ -78,7 +77,6 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
     private DocumentService documentService;
     private KcNotificationService kcNotificationService;
     private static final Log LOG = LogFactory.getLog(CoiDisclosureActionServiceImpl.class);
-    private static final String PROTOCOL_TAB = "protocol";
     private QuestionnaireAnswerService questionnaireAnswerService;
     private static final String MODULE_ITEM_CODE = "moduleItemCode";
     private static final String MODULE_ITEM_KEY = "moduleItemKey";
@@ -124,7 +122,7 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
             
         disclosures.add(createDisclosureHistory(coiDisclosure));
         businessObjectService.save(disclosures);
-        
+        sendNotification(coiDisclosure, CoiActionType.APPROVED_EVENT, "Approved");        
     }
     
     /**
@@ -132,7 +130,6 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
      * @see org.kuali.kra.coi.actions.CoiDisclosureActionService#disapproveDisclosure(org.kuali.kra.coi.CoiDisclosure, java.lang.String)
      */
     public void disapproveDisclosure(CoiDisclosure coiDisclosure, String coiDispositionCode) throws Exception {
-        CoiDisclosure masterCoiDisclosure = getMasterDisclosure(coiDisclosure.getCoiDisclosureNumber());
         
         coiDisclosure.setDisclosureDispositionCode(coiDispositionCode);
         coiDisclosure.setDisclosureStatusCode(CoiDisclosureStatus.DISAPPROVED);
@@ -143,6 +140,7 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
         businessObjectService.save(coiDisclosure);
         businessObjectService.save(createDisclosureHistory(coiDisclosure));
         documentService.disapproveDocument(coiDisclosure.getCoiDisclosureDocument(), "Document approved.");       
+        sendNotification(coiDisclosure, CoiActionType.DISAPPROVED_EVENT, "Disapproved");        
     }
 
     /**
@@ -416,10 +414,7 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
         CoiNotificationContext context = new CoiNotificationContext(coiDisclosureDocument.getCoiDisclosure(), 
                                                                     disclosureCertifiedNotificationBean.getActionType(), 
                                                                     disclosureCertifiedNotificationBean.getDescription(), renderer);
-//        if (coiDisclosureForm.getNotificationHelper().getPromptUserForNotificationEditor(context)) {
-            return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_TAB), coiDisclosureForm, renderer, context, disclosureCertifiedNotificationBean);
-//        }
-//        return null;
+        return checkToSendNotification(mapping, mapping.findForward(Constants.MAPPING_BASIC), coiDisclosureForm, renderer, context, disclosureCertifiedNotificationBean);
     }
     
     private DisclosureCertifiedNotificationRequestBean getDisclosureCertifiedRequestBean(CoiDisclosure coiDisclosure, List<CoiUserRole> userRoles) {
@@ -636,4 +631,8 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
         return forward;
     }
 
+    public void sendNotification(CoiDisclosure disclosure, String actionType, String actionTaken) {
+        CoiNotificationContext context = new CoiNotificationContext(disclosure, actionType, actionTaken, new CoiNotificationRenderer(disclosure));
+        getKcNotificationService().sendNotificationAndPersist(context, new CoiNotification(), disclosure);
+    }
 }
