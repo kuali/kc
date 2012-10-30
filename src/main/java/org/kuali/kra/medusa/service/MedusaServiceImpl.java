@@ -38,6 +38,7 @@ import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.common.specialreview.bo.SpecialReview;
 import org.kuali.kra.iacuc.IacucProtocol;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.proposaladmindetails.ProposalAdminDetails;
 import org.kuali.kra.institutionalproposal.specialreview.InstitutionalProposalSpecialReview;
@@ -566,6 +567,9 @@ public class MedusaServiceImpl implements MedusaService {
             return null;
         }
         SubAward currentSubAward = (SubAward) getActiveOrCurrentVersion(SubAward.class, subAward.getSubAwardCode());
+        if (currentSubAward != null) {
+            KraServiceLocator.getService(SubAwardService.class).getAmountInfo(currentSubAward);
+        }
         return currentSubAward == null ? subAward : currentSubAward;
     }
     
