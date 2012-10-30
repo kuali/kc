@@ -123,8 +123,7 @@ public class IacucProtocolNotificationEditorAction extends IacucProtocolAction {
         List<NotificationTypeRecipient> notificationRecipients = protocolForm.getNotificationHelper().getNotificationRecipients();
         
         if (applyRules(new SendNotificationEvent(document, notification, notificationRecipients))) {
-            getKcNotificationService().sendNotificationAndPersist(protocolForm.getNotificationHelper().getNotificationContext(), 
-                                                                new IacucProtocolNotification(), document.getProtocol());
+            protocolForm.getNotificationHelper().sendNotificationAndPersist(new IacucProtocolNotification(), document.getProtocol());
             String forwardName = protocolForm.getNotificationHelper().getNotificationContext().getForwardName();
             protocolForm.getNotificationHelper().setNotificationContext(null);
             if (StringUtils.isNotBlank(forwardName)) {
