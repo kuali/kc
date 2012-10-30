@@ -215,7 +215,9 @@ public class NotificationHelper<T extends NotificationContext> implements Serial
     public void sendNotification() {
         getNotificationService().sendNotification(notificationContext, notification, notificationRecipients);
     }
-    public void sendNotificationAndPersist(KraPersistableBusinessObjectBase object) {
+    public void sendNotificationAndPersist(KcNotification notification, KraPersistableBusinessObjectBase object) {
+        notification.setMessage(getNotification().getMessage());
+        notification.setSubject(getNotification().getSubject());
         getNotificationService().sendNotificationAndPersist(notificationContext, notification, notificationRecipients, object);
     }
 
