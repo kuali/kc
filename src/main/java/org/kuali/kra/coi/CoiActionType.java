@@ -25,4 +25,6 @@ public class CoiActionType {
     //These numbers are arbitrary, just don't duplicate
     public static final String ASSIGN_REVIEWER = "205";
     public static final String CERTIFIED_EVENT = "214";
+    public static final String APPROVED_EVENT = "204";
+    public static final String DISAPPROVED_EVENT = "304";
 }
