@@ -182,12 +182,12 @@ public class DisclosureActionHelper implements Serializable {
     public void approveDisclosure() throws WorkflowException {
         CoiDisclosureDocument coiDisclosureDocument = coiDisclosureForm.getCoiDisclosureDocument();
                  
-            getCoiDisclosureActionService().approveDisclosure(coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure(), coiDisclosureForm.getCoiDispositionCode());
-            coiDisclosureForm.getDisclosureHelper().setMasterDisclosureBean(
-                    getCoiDisclosureService().getMasterDisclosureDetail(coiDisclosureDocument.getCoiDisclosure()));
-            coiDisclosureForm.getDisclosureQuestionnaireHelper().setAnswerHeaders(coiDisclosureForm.getDisclosureHelper().getMasterDisclosureBean().getAnswerHeaders());
-            coiDisclosureForm.getDisclosureQuestionnaireHelper().resetHeaderLabels();
-            coiDisclosureForm.getDisclosureQuestionnaireHelper().setAnswerQuestionnaire(false);
+        getCoiDisclosureActionService().approveDisclosure(coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure(), coiDisclosureForm.getCoiDispositionCode());
+        coiDisclosureForm.getDisclosureHelper().setMasterDisclosureBean(
+                  getCoiDisclosureService().getMasterDisclosureDetail(coiDisclosureDocument.getCoiDisclosure()));
+        coiDisclosureForm.getDisclosureQuestionnaireHelper().setAnswerHeaders(coiDisclosureForm.getDisclosureHelper().getMasterDisclosureBean().getAnswerHeaders());
+        coiDisclosureForm.getDisclosureQuestionnaireHelper().resetHeaderLabels();
+        coiDisclosureForm.getDisclosureQuestionnaireHelper().setAnswerQuestionnaire(false);
     }
 
     
