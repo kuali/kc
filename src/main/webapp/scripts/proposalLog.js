@@ -14,7 +14,7 @@ jQuery(document).ready(function() {
 
 function loadMatchingTemporaryLogs() {
 	  jQuery.ajax({
-          url: "http://127.0.0.1:8080/kc-dev/mergeProposalLog.do",
+          url: "../mergeProposalLog.do",
           type: 'GET',
           dataType: 'html',
           data: 'methodToCall=getMatchingTemporaryProposals&proposalLogTypeCode=' + jQuery(jq_escape('document.newMaintainableObject.proposalLogTypeCode')).val() + '&piId=' + jQuery(jq_escape('document.newMaintainableObject.piId')).val() + '&rolodexId=' + jQuery(jq_escape('document.newMaintainableObject.rolodexId')).val(),
