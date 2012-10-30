@@ -568,10 +568,8 @@ public class KcNotificationServiceImpl implements KcNotificationService {
         if (notificationType != null) {
             if (notification.getNotificationType() == null) {
                 notification.setNotificationTypeId(notificationType.getNotificationTypeId());
-                String instanceSubject = context.replaceContextVariables(notificationType.getSubject());
-                notification.setSubject(instanceSubject);
-                String instanceMessage = context.replaceContextVariables(notificationType.getMessage());
-                notification.setMessage(instanceMessage);
+                notification.setSubject(context.replaceContextVariables(notification.getSubject()));
+                notification.setMessage(context.replaceContextVariables(notification.getMessage()));
                 notification.setNotificationType(notificationType);
             }
             notification.setDocumentNumber(context.getDocumentNumber());
