@@ -62,6 +62,7 @@ import org.kuali.kra.krms.KcKrmsConstants;
 import org.kuali.kra.krms.KrmsRulesContext;
 import org.kuali.kra.service.AwardCustomAttributeService;
 import org.kuali.kra.service.KraAuthorizationService;
+import org.kuali.kra.service.KraWorkflowService;
 import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
@@ -666,8 +667,7 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
              */
             if (getDocumentHeader().getWorkflowDocument().isFinal() 
                     || getDocumentHeader().getWorkflowDocument().isProcessed()
-                    || getDocumentHeader().getWorkflowDocument().isCompletionRequested()
-                    || getDocumentHeader().getWorkflowDocument().isApprovalRequested()) {
+                    || KraServiceLocator.getService(KraWorkflowService.class).hasPendingApprovalRequests(getDocumentHeader().getWorkflowDocument())) {
                 isComplete = true;
             } else if (!getAward().getSyncChanges().isEmpty() && getAward().getSyncStatuses().size() > 1) {
                 //if we are doing a sync(sync changes is not empty) and we have a sync status for an award

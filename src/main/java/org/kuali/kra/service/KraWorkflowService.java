@@ -121,4 +121,6 @@ public interface KraWorkflowService {
      */
     boolean requestAlreadyApproved(WorkflowDocument workflowDoc, ActionRequest request);
     
+    boolean hasPendingApprovalRequests(WorkflowDocument workflowDoc);
+    
 }
