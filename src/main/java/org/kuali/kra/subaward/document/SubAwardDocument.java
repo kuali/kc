@@ -21,13 +21,16 @@ import java.util.List;
 import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.service.KraWorkflowService;
 import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.krad.document.Copyable;
 import org.kuali.rice.krad.document.SessionDocument;
+import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
@@ -139,13 +142,19 @@ implements  Copyable, SessionDocument {
     public boolean isProcessComplete() {
 
         boolean isComplete = false;
+
         if (getDocumentHeader().hasWorkflowDocument()) {
-            if (getDocumentHeader().getWorkflowDocument().isFinal()) {
+            /**
+             * per KRACOEUS-5394 changing from getDocumentHeader().getWorkflowDocument().isFinal().  This way
+             * we route back to the award document more appropriately from holding page.
+             */
+            if (getDocumentHeader().getWorkflowDocument().isFinal() 
+                    || getDocumentHeader().getWorkflowDocument().isProcessed()
+                    || KraServiceLocator.getService(KraWorkflowService.class).hasPendingApprovalRequests(getDocumentHeader().getWorkflowDocument())) {
                 isComplete = true;
             }
         }
-
+           
         return isComplete;
-
     }
 }
