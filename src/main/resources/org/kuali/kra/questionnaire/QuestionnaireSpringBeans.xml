@@ -120,7 +120,7 @@
 	
 		<!--  questionnaire print -->
       <bean id="questionnaireXmlStream"
-            class="org.kuali.kra.questionnaire.print.QuestionnaireXmlStream">
+            class="org.kuali.kra.questionnaire.print.QuestionnaireXmlStream" scope="prototype">
             <property name="businessObjectService">
                 <ref bean="businessObjectService" />
             </property>
