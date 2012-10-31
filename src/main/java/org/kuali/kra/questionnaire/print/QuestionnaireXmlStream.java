@@ -152,18 +152,21 @@ public class QuestionnaireXmlStream implements XmlStream {
         
         String documentNumber = (String)params.get("documentNumber");
         Integer questionnaireId = (Integer)params.get("questionnaireId");
-        org.kuali.kra.questionnaire.Questionnaire questionnaire;
-        if(questionnaireId!=null){ 
-            Map<String,Integer> qParam = new HashMap<String,Integer>();
-            qParam.put("questionnaireId", questionnaireId);
-            List<org.kuali.kra.questionnaire.Questionnaire> questionnaires = 
-                (List)businessObjectService.findMatchingOrderBy(
-                        org.kuali.kra.questionnaire.Questionnaire.class, qParam, "questionnaireRefId", false);
-            questionnaire = questionnaires.get(0);
-            // not sure why need this.  If it is not refreshed, some may get empty Questions
-            questionnaire.refreshReferenceObject("questionnaireQuestions");
-        }else{
-            questionnaire = findQuestionnaireObject(documentNumber);
+        org.kuali.kra.questionnaire.Questionnaire questionnaire = 
+                (org.kuali.kra.questionnaire.Questionnaire)params.get("questionnaire");
+        if (questionnaire == null) {
+            if (questionnaireId != null) { 
+                Map<String,Integer> qParam = new HashMap<String,Integer>();
+                qParam.put("questionnaireId", questionnaireId);
+                List<org.kuali.kra.questionnaire.Questionnaire> questionnaires = 
+                    (List)businessObjectService.findMatchingOrderBy(
+                            org.kuali.kra.questionnaire.Questionnaire.class, qParam, "questionnaireRefId", false);
+                questionnaire = questionnaires.get(0);
+                // not sure why need this.  If it is not refreshed, some may get empty Questions
+                questionnaire.refreshReferenceObject("questionnaireQuestions");
+            } else {
+                questionnaire = findQuestionnaireObject(documentNumber);
+            }
         }
         
         Boolean questionnaireCompletionFlag = (Boolean)params.get("QUESTIONNAIRE_COMPLETION_FLAG");
@@ -712,7 +715,7 @@ public class QuestionnaireXmlStream implements XmlStream {
     private void setQuestionInfoData(org.kuali.kra.questionnaire.Questionnaire questionnaire,
             ModuleQuestionnaireBean moduleQuestionnaireBean, Questionnaire questionnaireType, boolean questionnaireCompletionFlag,
             KraPersistableBusinessObjectBase printableBusinessObject) throws PrintingException {
-        List<AnswerHeader> answerHeaders = null;
+        List<AnswerHeader> answerHeaders = new ArrayList<AnswerHeader>();
         org.kuali.kra.questionnaire.Questionnaire answeredQuestionnaire = null;
         if (moduleQuestionnaireBean != null) {
             answerHeaders = questionnaireAnswerService.getQuestionnaireAnswer(moduleQuestionnaireBean);
@@ -724,11 +727,9 @@ public class QuestionnaireXmlStream implements XmlStream {
 
         }
         org.kuali.kra.questionnaire.Questionnaire toSortQuestionnaire = null;
-        if (answerHeaders!=null && answerHeaders.size() > 0) {
-            for (AnswerHeader header : answerHeaders) {
-                if (header.getQuestionnaire().getQuestionnaireId().equals(questionnaire.getQuestionnaireId())) {
-                    toSortQuestionnaire = header.getQuestionnaire();
-                }
+        for (AnswerHeader header : answerHeaders) {
+            if (header.getQuestionnaire().getQuestionnaireId().equals(questionnaire.getQuestionnaireId())) {
+                toSortQuestionnaire = header.getQuestionnaire();
             }
         }
         

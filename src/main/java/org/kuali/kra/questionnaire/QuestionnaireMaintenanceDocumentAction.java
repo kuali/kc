@@ -577,7 +577,7 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
         reportParameters.put("documentNumber", qnForm.getDocument().getDocumentNumber());
         Questionnaire questionnaire = ((Questionnaire) ((MaintenanceDocumentBase) qnForm.getDocument())
                 .getNewMaintainableObject().getDataObject());
-        reportParameters.put("questionnaireId", questionnaire.getQuestionnaireIdAsInteger());
+        reportParameters.put("questionnaire", questionnaire);
         if (qnForm.getTemplateFile() != null && qnForm.getTemplateFile().getFileData().length > 0) {
             reportParameters.put("template", qnForm.getTemplateFile().getFileData());
             
