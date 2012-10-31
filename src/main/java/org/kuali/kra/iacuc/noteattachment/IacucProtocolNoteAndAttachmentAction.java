@@ -27,6 +27,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.iacuc.IacucProtocolAction;
+import org.kuali.kra.iacuc.actions.print.IacucProtocolPrintingService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -34,6 +35,7 @@ import org.kuali.kra.printing.Printable;
 import org.kuali.kra.printing.service.WatermarkService;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolFormBase;
+import org.kuali.kra.protocol.actions.print.ProtocolPrintingService;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentBase;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentPersonnelBase;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentProtocolBase;
@@ -318,28 +320,28 @@ public class IacucProtocolNoteAndAttachmentAction extends IacucProtocolAction {
         byte[] attachmentFile =null;
         final AttachmentFile file = attachment.getFile();
 // TODO *********commented the code below during IACUC refactoring*********
-//        Printable printableArtifacts= getProtocolPrintingService().getProtocolPrintArtifacts(form.getProtocolDocument().getProtocol());
-//        ProtocolBase protocolCurrent = form.getProtocolDocument().getProtocol();
-//        int currentProtoSeqNumber= protocolCurrent.getSequenceNumber();
-//        try {
-//            if(printableArtifacts.isWatermarkEnabled()){
-//                int currentAttachmentSequence=attachment.getSequenceNumber();
-//                String docStatusCode=attachment.getDocumentStatusCode();
-//                String statusCode=attachment.getStatusCode();
-//                // TODO perhaps the check for equality of protocol and attachment sequence numbers, below, is now redundant
-//                if(((getProtocolAttachmentService().isAttachmentActive(attachment))&&(currentProtoSeqNumber == currentAttachmentSequence))||(docStatusCode.equals("1"))){
-//                    if (ProtocolAttachmentProtocolBase.COMPLETE_STATUS_CODE.equals(statusCode)) {
-//                        attachmentFile = getWatermarkService().applyWatermark(file.getData(),printableArtifacts.getWatermarkable().getWatermark());
-//                    }
-//                }else{
-//                    attachmentFile = getWatermarkService().applyWatermark(file.getData(),printableArtifacts.getWatermarkable().getInvalidWatermark());
-//                    LOG.info(INVALID_ATTACHMENT + attachment.getDocumentId());
-//                }
-//            }
-//        }
-//        catch (Exception e) {
-//            LOG.error("Exception Occured in ProtocolNoteAndAttachmentAction. : ",e);    
-//        }        
+        Printable printableArtifacts = getProtocolPrintingService().getProtocolPrintArtifacts(form.getProtocolDocument().getProtocol());
+        ProtocolBase protocolCurrent = form.getProtocolDocument().getProtocol();
+        int currentProtoSeqNumber= protocolCurrent.getSequenceNumber();
+        try {
+            if(printableArtifacts.isWatermarkEnabled()){
+                int currentAttachmentSequence=attachment.getSequenceNumber();
+                String docStatusCode=attachment.getDocumentStatusCode();
+                String statusCode=attachment.getStatusCode();
+                // TODO perhaps the check for equality of protocol and attachment sequence numbers, below, is now redundant
+                if(((getProtocolAttachmentService().isAttachmentActive(attachment))&&(currentProtoSeqNumber == currentAttachmentSequence))||(docStatusCode.equals("1"))){
+                    if (ProtocolAttachmentProtocolBase.COMPLETE_STATUS_CODE.equals(statusCode)) {
+                        attachmentFile = getWatermarkService().applyWatermark(file.getData(),printableArtifacts.getWatermarkable().getWatermark());
+                    }
+                }else{
+                    attachmentFile = getWatermarkService().applyWatermark(file.getData(),printableArtifacts.getWatermarkable().getInvalidWatermark());
+                    LOG.info(INVALID_ATTACHMENT + attachment.getDocumentId());
+                }
+            }
+        }
+        catch (Exception e) {
+            LOG.error("Exception Occured in ProtocolNoteAndAttachmentAction. : ",e);    
+        }        
         return attachmentFile;
     }
     
@@ -462,9 +464,9 @@ public class IacucProtocolNoteAndAttachmentAction extends IacucProtocolAction {
      * 
      */
 // TODO *********commented the code below during IACUC refactoring*********
-//    private ProtocolPrintingService getProtocolPrintingService() {
-//        return KraServiceLocator.getService(ProtocolPrintingService.class);
-//    }
+    private IacucProtocolPrintingService getProtocolPrintingService() {
+        return KraServiceLocator.getService(IacucProtocolPrintingService.class);
+    }
     
     /**
      * 
