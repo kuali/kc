@@ -33,6 +33,7 @@
 				<ref bean="DevelopmentProposal-requestedEndDateInitial" />
 				<ref bean="DevelopmentProposal-activityTypeCode" />
 				<ref bean="DevelopmentProposal-ownedByUnitNumber" />
+				<ref bean="DevelopmentProposal-ownedByUnitNumberRestricted" />
 				<ref bean="DevelopmentProposal-ownedByUnit.unitName" />
 				<ref bean="DevelopmentProposal-proposalTypeCode" />
 				<ref bean="DevelopmentProposal-proposalType.description" />
@@ -259,8 +260,7 @@
 	</bean>
 
 	<bean id="DevelopmentProposal-ownedByUnitNumber" parent="DevelopmentProposal-ownedByUnitNumber-parentBean" />
-	<bean id="DevelopmentProposal-ownedByUnitNumber-parentBean"
-		abstract="true" parent="AttributeDefinition">
+	<bean id="DevelopmentProposal-ownedByUnitNumber-parentBean" abstract="true" parent="Unit-unitNumber">
 		<property name="name" value="ownedByUnitNumber" />
 		<property name="forceUppercase" value="false" />
 		<property name="label" value="Lead Unit" />
@@ -270,15 +270,22 @@
 			<bean parent="AnyCharacterValidationPattern" />
 		</property>
 		<property name="required" value="true" />
+		<property name="summary" value="Lead Unit (Owned by Unit)" />
+		<property name="description"
+			value="The proposal's fixed home unit that will be used for routing and business rule purposes. AKA Owned by Unit." />
+	</bean>
+	
+	<bean id="DevelopmentProposal-ownedByUnitNumberRestricted" parent="DevelopmentProposal-ownedByUnitNumberRestricted-parentBean" />
+	<bean id="DevelopmentProposal-ownedByUnitNumberRestricted-parentBean" abstract="true" parent="DevelopmentProposal-ownedByUnitNumber">
+		<property name="name" value="ownedByUnitNumberRestricted" />
+		<property name="required" value="true" />
 		<property name="control">
 			<bean parent="SelectControlDefinition"
 				p:valuesFinderClass="org.kuali.kra.proposaldevelopment.lookup.keyvalue.LeadUnitValuesFinder"
 				p:includeKeyInLabel="false" />
 		</property>
-		<property name="summary" value="Lead Unit (Owned by Unit)" />
-		<property name="description"
-			value="The proposal's fixed home unit that will be used for routing and business rule purposes. AKA Owned by Unit." />
 	</bean>
+	
 
 	<bean id="DevelopmentProposal-ownedByUnit.unitName" parent="DevelopmentProposal-ownedByUnit.unitName-parentBean" />
 	<bean id="DevelopmentProposal-ownedByUnit.unitName-parentBean"
