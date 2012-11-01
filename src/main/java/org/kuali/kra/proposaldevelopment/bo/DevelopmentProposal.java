@@ -505,6 +505,17 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
         this.ownedByUnitNumber = ownedByUnit;
     }
 
+    /**
+     * Dummy getter to support 2 different views of ownedByUnit through the DD.
+     * @return
+     */
+    public String getOwnedByUnitNumberRestricted() {
+        return ownedByUnitNumber;
+    }
+    public void setOwnedByUnitNumberRestricted(String ownedByUnit) {
+        this.ownedByUnitNumber = ownedByUnit;
+    }
+
     public String getProposalTypeCode() {
         return proposalTypeCode;
     }
