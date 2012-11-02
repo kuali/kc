@@ -11,3 +11,4 @@
 <forward name="certification" path="/WEB-INF/jsp/coi/CoiCertification.jsp" />
 <forward name="disclosureActions" path="/WEB-INF/jsp/coi/CoiDisclosureActions.jsp" />
 <forward name="coiDisclosureNotificationEditor" path="/WEB-INF/jsp/coi/CoiDisclosureNotificationEditor.jsp"/>
+<forward name="viewNotification" path="/WEB-INF/jsp/coi/ViewNotification.jsp" />
