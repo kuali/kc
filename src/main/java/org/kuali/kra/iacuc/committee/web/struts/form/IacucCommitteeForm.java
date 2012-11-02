@@ -15,8 +15,12 @@
  */
 package org.kuali.kra.iacuc.committee.web.struts.form;
 
+import org.kuali.kra.common.committee.document.CommitteeDocumentBase;
 import org.kuali.kra.common.committee.web.struts.form.CommitteeHelperBase;
 import org.kuali.kra.common.committee.web.struts.form.CommitteeFormBase;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kns.web.ui.HeaderField;
+import org.springframework.util.CollectionUtils;
 
 public class IacucCommitteeForm extends CommitteeFormBase {
 
@@ -34,5 +38,19 @@ public class IacucCommitteeForm extends CommitteeFormBase {
     protected String getDefaultDocumentTypeName() {
         return "CommonCommitteeDocument";
     }
+    
+    /**
+     * @see org.kuali.core.web.struts.form.KualiDocumentFormBase#populateHeaderFields(org.kuali.core.workflow.service.KualiWorkflowDocument)
+     */
+    @Override
+    public void populateHeaderFields(WorkflowDocument workflowDocument) {
+        super.populateHeaderFields(workflowDocument);
+        CommitteeDocumentBase committeeDoc = getCommitteeDocument();
+
+        getDocInfo().set(4, new HeaderField("DataDictionary.IacucCommittee.attributes.committeeId", (committeeDoc == null || CollectionUtils.isEmpty(committeeDoc.getCommitteeList())) ? null : committeeDoc.getCommittee().getCommitteeId()));
+        getDocInfo().set(5, new HeaderField("DataDictionary.IacucCommittee.attributes.committeeName", getCommitteeNameForHeaderDisplay(committeeDoc)));
+    }
+
+
 
 }
