@@ -106,7 +106,7 @@ public abstract class CommitteeFormBase extends KraTransactionalDocumentFormBase
         super.populate(request);
     }
     
-    private String getCommitteeNameForHeaderDisplay(CommitteeDocumentBase committeeDoc) {
+    protected String getCommitteeNameForHeaderDisplay(CommitteeDocumentBase committeeDoc) {
         String trimmedCommitteeName = null;
         if(committeeDoc != null && !CollectionUtils.isEmpty(committeeDoc.getCommitteeList())) {  
             trimmedCommitteeName = committeeDoc.getCommittee().getCommitteeName();
