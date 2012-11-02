@@ -24,6 +24,7 @@
                  <th><div align="center">Project Number </div></th> 
                  <th><div align="center">Disclosure Status </div></th> 
                  <th><div align="center">Sequence</div></th> 
+                 <th><div align="center">Notifications</div></th> 
 				 <th><div align="center">Actions </div> </th>
 			</tr>
 			<%-- Header --%>
@@ -57,9 +58,26 @@
 	                                       <td align="left" valign="middle">
 	                                           <div align="left"> ${disclProjectBean.coiDisclosure.coiDisclosureStatus.description} </div>
 					                       </td>
-					                       </td>
 	                                       <td align="left" valign="middle">
 	                                           <div align="left"> ${disclProjectBean.coiDisclosure.sequenceNumber} </div>
+					                       </td>
+	                                       <td align="left" valign="middle">
+	                                           <div align="left">
+	                                               <c:choose>
+	                                                   <c:when test="${fn:length(disclProjectBean.coiDisclosure.notificationsByDocId) == 0}">
+	                                                       &nbsp;None&nbsp;
+	                                                   </c:when>
+	                                                   <c:otherwise>
+	                                                       <c:forEach var="notification" items="${disclProjectBean.coiDisclosure.notificationsByDocId}" varStatus="notificationStatus">
+											                   <div>
+   											                       <a class="viewNotification" id="viewNotification${status.index}" title="${notification.subject}" href="${pageContext.request.contextPath}/coiDisclosure.do?methodToCall=viewDisclosureNotification&notificationId=${notification.notificationId}" scrolling="no" noresize>
+											                           <c:out value="${notification.subject}"/>
+											                       </a>
+											                   </div>
+                                                           </c:forEach>										                   				                                               
+	                                                   </c:otherwise>
+	                                               </c:choose>
+	                                           </div>
 					                       </td>
 
                                           	<td> 

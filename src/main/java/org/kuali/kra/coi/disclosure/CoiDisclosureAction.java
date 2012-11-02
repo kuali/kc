@@ -45,10 +45,16 @@ import org.kuali.kra.coi.certification.CertifyDisclosureEvent;
 import org.kuali.kra.coi.certification.SubmitDisclosureAction;
 import org.kuali.kra.coi.notesandattachments.CoiNotesAndAttachmentsHelper;
 import org.kuali.kra.coi.notesandattachments.attachments.CoiDisclosureAttachment;
+import org.kuali.kra.coi.notification.CoiNotification;
+import org.kuali.kra.coi.personfinancialentity.FinancialEntityForm;
+import org.kuali.kra.coi.personfinancialentity.FinancialEntityHelper;
+import org.kuali.kra.coi.personfinancialentity.FinancialEntitySummaryHelper;
+import org.kuali.kra.coi.personfinancialentity.PersonFinIntDisclosure;
 import org.kuali.kra.coi.print.CoiReportType;
 import org.kuali.kra.coi.questionnaire.DisclosureModuleQuestionnaireBean;
 import org.kuali.kra.coi.questionnaire.DisclosureQuestionnaireHelper;
 import org.kuali.kra.coi.service.CoiPrintingService;
+import org.kuali.kra.common.notification.bo.KcNotification;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -1192,4 +1198,16 @@ public class CoiDisclosureAction extends CoiAction {
             }
         }      
     }    
+    
+    public ActionForward viewDisclosureNotification(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) form;
+        String notificationId = request.getParameter("notificationId");
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put("notificationId", notificationId);
+        List<CoiNotification> notifications = (List<CoiNotification>) getBusinessObjectService().findMatching(CoiNotification.class, fieldValues);
+        coiDisclosureForm.getDisclosureHelper().setViewNotification(notifications.get(0));
+        return mapping.findForward("viewNotification");
+    }
+    
+
 }

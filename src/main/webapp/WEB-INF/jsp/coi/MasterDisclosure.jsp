@@ -23,8 +23,8 @@
 	showTabButtons="true"
 	auditCount="0"
   	headerDispatch="${KualiForm.headerDispatch}"
-  	headerTabActive="disclosure"
-  	>
+  	headerTabActive="disclosure">
+  	
 	<link type="text/css" rel="stylesheet" href="krad/plugins/fancybox/jquery.fancybox-1.3.4.css"></link>
     <script type="text/javascript" src="krad/plugins/fancybox/jquery.fancybox-1.3.4.pack.js"></script>     
 
@@ -37,6 +37,13 @@
         		$j("a.disclosureFeHistory").fancybox({ 
         			'width':400,
         			'height':200,
+        			'type':'iframe',
+        			'autoScale':'false'
+        			            		
+        		});
+        		$j("a.viewNotification").fancybox({ 
+        			'width':700,
+        			'height':150,
         			'type':'iframe',
         			'autoScale':'false'
         			            		

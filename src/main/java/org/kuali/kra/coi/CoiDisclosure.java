@@ -22,6 +22,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -42,12 +43,14 @@ import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
+import org.kuali.kra.questionnaire.QuestionnaireUsage;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.util.DateUtils;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.service.SequenceAccessorService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -131,7 +134,8 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
     // transient for award header label
     private transient String reporterCreated;
     private transient KcPersonService kcPersonService;
-
+    private transient BusinessObjectService businessObjectService;
+    
     // must persist generated notifications
     List<CoiNotification> disclosureNotifications;
 
@@ -163,6 +167,12 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
         return this.kcPersonService;
     }
     
+    protected BusinessObjectService getBusinessObjectService() {
+        if (this.businessObjectService == null) {
+            this.businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+        }
+        return this.businessObjectService;
+    }
     
     public List<CoiDisclosureNotepad> getCoiDisclosureNotepads() {
         
@@ -876,6 +886,13 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
             disclosureNotifications = new ArrayList<CoiNotification>();
         }
         return disclosureNotifications;
+    }
+
+    public List<CoiNotification> getNotificationsByDocId() {
+System.out.println("NNNNNNN, disclosure id = " + this.coiDisclosureNumber + ", document # = " + getCoiDisclosureDocument().getDocumentNumber());
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put("documentNumber", getCoiDisclosureDocument().getDocumentNumber());
+        return (List<CoiNotification>) getBusinessObjectService().findMatching(CoiNotification.class, fieldValues);
     }
 
     public void setDisclosureNotifications(List<CoiNotification> disclosureNotifications) {
