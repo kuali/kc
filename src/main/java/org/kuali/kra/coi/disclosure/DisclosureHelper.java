@@ -27,6 +27,7 @@ import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.CoiDisclosureDocument;
 import org.kuali.kra.coi.CoiDisclosureForm;
 import org.kuali.kra.coi.auth.CoiDisclosureTask;
+import org.kuali.kra.coi.notification.CoiNotification;
 import org.kuali.kra.coi.personfinancialentity.FinEntityDataMatrixBean;
 import org.kuali.kra.coi.personfinancialentity.FinancialEntityService;
 import org.kuali.kra.iacuc.IacucProtocol;
@@ -77,7 +78,8 @@ public class DisclosureHelper implements Serializable {
     private String proposalType;
     private boolean modifyReporter;
     MasterDisclosureBean masterDisclosureBean;
-
+    private CoiNotification viewNotification;    
+    
     public DisclosureHelper(CoiDisclosureForm form) {
         this.form = form;
         setNewDisclosurePersonUnit(new DisclosurePersonUnit());
@@ -389,4 +391,13 @@ public class DisclosureHelper implements Serializable {
     public boolean isIsMasterDisclosure() {
         return getMasterDisclosureBean() != null;
     }
+
+    public CoiNotification getViewNotification() {
+        return viewNotification;
+    }
+
+    public void setViewNotification(CoiNotification viewNotification) {
+        this.viewNotification = viewNotification;
+    }
+    
 }
