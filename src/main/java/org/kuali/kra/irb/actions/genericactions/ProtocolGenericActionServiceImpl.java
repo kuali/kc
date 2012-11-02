@@ -172,6 +172,7 @@ public class ProtocolGenericActionServiceImpl implements ProtocolGenericActionSe
         protocolActionService.updateProtocolStatus(protocolAction, protocol);
         protocol.setProtocolStatusCode(newProtocolStatus);
         protocol.refreshReferenceObject("protocolStatus");
+        protocol.refreshReferenceObject("protocolSubmission");
         documentService.saveDocument(protocol.getProtocolDocument());
         createCorrespondenceAndAttach(protocol, protocolActionType);
     }
@@ -194,6 +195,7 @@ public class ProtocolGenericActionServiceImpl implements ProtocolGenericActionSe
     }
     
     private ProtocolAction createProtocolActionAndAttach(Protocol protocol, ProtocolGenericActionBean actionBean, String protocolActionType) {
+        protocol.refreshReferenceObject("protocolSubmission");
         ProtocolAction protocolAction = new ProtocolAction(protocol, null, protocolActionType);
         protocolAction.setComments(actionBean.getComments());
         protocolAction.setActionDate(new Timestamp(actionBean.getActionDate().getTime()));
@@ -246,13 +248,14 @@ public class ProtocolGenericActionServiceImpl implements ProtocolGenericActionSe
     
     private ProtocolDocument getVersionedDocument(Protocol protocol) throws Exception {
         ProtocolDocument newDocument = protocolVersionService.versionProtocolDocument(protocol.getProtocolDocument());
-//        protocolOnlineReviewService.moveOnlineReviews(protocol.getProtocolSubmission(), newDocument.getProtocol().getProtocolSubmission());
+        //protocolOnlineReviewService.moveOnlineReviews(protocol.getProtocolSubmission(), newDocument.getProtocol().getProtocolSubmission());
         newDocument.getProtocol().setProtocolSubmission(null);
         newDocument.getProtocol().setApprovalDate(null);
         newDocument.getProtocol().setLastApprovalDate(null);
         newDocument.getProtocol().setExpirationDate(null);
         
-        newDocument.getProtocol().refreshReferenceObject("protocolStatus");
+        newDocument.getProtocol().refreshReferenceObject("protocolStatus"); 
+        newDocument.getProtocol().refreshReferenceObject("protocolSubmission");
         documentService.saveDocument(newDocument);
         
         return newDocument;
