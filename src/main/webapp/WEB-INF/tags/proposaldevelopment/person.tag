@@ -201,9 +201,10 @@
                                                   readOnly="${!personEditableFields['addressLine3'] || addressLine3}" />
                     </td>
                     <th align="left" nowrap="nowrap"> <div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalPersonAttributes.countryCode}"  /></div></th>
-                    <td align="left"><kul:htmlControlAttribute property="${proposalPerson}.countryCode" 
-                                                                     attributeEntry="${proposalPersonAttributes.countryCode}" 
-                                                                           readOnly="${!personEditableFields['countryCode'] }" />
+                    <td align="left"><kul:htmlControlAttribute property="${proposalPerson}.countryCode" attributeEntry="${proposalPersonAttributes.countryCode}"  
+                    	readOnly="${!personEditableFields['countryCode'] }"
+                    	onchange="javascript: loadStates(this.options[this.selectedIndex].value, '${proposalPerson}.state');return false" />
+                    	
                     	<c:set var="currentCountryCode" value="${KualiForm.document.developmentProposalList[0].proposalPersons[personIndex].countryCode}"/>
                     	<jsp:setProperty name="KualiForm" property="currentPersonCountryCode" value="${currentCountryCode }"  />  
                     </td>
@@ -212,9 +213,8 @@
                   
                   <tr>
                     <th align="left" nowrap="nowrap"> <div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalPersonAttributes.postalCode}"  /></div></th>
-                    <td align="left"><kul:htmlControlAttribute property="${proposalPerson}.postalCode" 
-                                                                     attributeEntry="${proposalPersonAttributes.postalCode}" 
-                                                                           readOnly="${!personEditableFields['postalCode'] }" />
+                    <td align="left"><kul:htmlControlAttribute property="${proposalPerson}.postalCode" attributeEntry="${proposalPersonAttributes.postalCode}" 
+                    	readOnly="${!personEditableFields['postalCode'] }" />
                     </td>
                     <th align="left" nowrap="nowrap" width="15%"> <div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalPersonAttributes.state}"  /></div></th>
                     <td align="left" width="30%">

@@ -31,6 +31,7 @@ import org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRecipient;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.service.AwardReportsService;
+import org.kuali.kra.util.ValuesFinderUtility;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -44,8 +45,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class AwardReportsServiceImpl implements AwardReportsService {
     protected static final String REPORT_CLASS_CODE_FIELD = "reportClassCode";
     
-    private static final String SEMICOLON_AS_DELIMITOR = ";";
-    private static final String COMMA_AS_DELIMITOR = ",";
+    //private static final String SEMICOLON_AS_DELIMITOR = ";";
+    //private static final String COMMA_AS_DELIMITOR = ",";
     
     private ParameterService parameterService;
     private BusinessObjectService businessObjectService;
@@ -163,37 +164,10 @@ public class AwardReportsServiceImpl implements AwardReportsService {
         
         FrequencyCodeValuesFinder frequencyCodeValuesFinder = getFrequencyCodeValuesFinder(reportClassCode, reportCode);
                 
-        return processKeyValueList(frequencyCodeValuesFinder.getKeyValues());
+        return ValuesFinderUtility.processKeyValueList(frequencyCodeValuesFinder.getKeyValues());
     }
     
-    /**
-     * 
-     * This method processes a list of KeyValue and converts them to a string separated
-     * by semi-colons and comas.
-     * This is used in both getFrequencyCodes and getFrequencyBaseCodes services.
-     *  
-     * @param KeyValueList
-     * @return
-     */
-    protected String processKeyValueList(List<KeyValue> KeyValueList){
-        
-        StringBuilder strBuilder = new StringBuilder();
-        
-        int lastElementIndex = KeyValueList.size()-1;
-        
-        for(int i = 0; i < lastElementIndex; i++){
-            strBuilder.append(KeyValueList.get(i).getKey());
-            strBuilder.append(SEMICOLON_AS_DELIMITOR);
-            strBuilder.append(KeyValueList.get(i).getValue());
-            strBuilder.append(COMMA_AS_DELIMITOR);
-        }
-        
-        strBuilder.append(KeyValueList.get(lastElementIndex).getKey());
-        strBuilder.append(SEMICOLON_AS_DELIMITOR);
-        strBuilder.append(KeyValueList.get(lastElementIndex).getValue());
-        
-        return strBuilder.toString();
-    }
+    
     
     
     /**
@@ -203,7 +177,7 @@ public class AwardReportsServiceImpl implements AwardReportsService {
     public String getFrequencyBaseCodes(String frequencyCode){        
         FrequencyBaseCodeValuesFinder frequencyBaseCodeValuesFinder = getFrequencyBaseCodeValuesFinder(frequencyCode);
             
-        return processKeyValueList(frequencyBaseCodeValuesFinder.getKeyValues());
+        return ValuesFinderUtility.processKeyValueList(frequencyBaseCodeValuesFinder.getKeyValues());
         
     }
 

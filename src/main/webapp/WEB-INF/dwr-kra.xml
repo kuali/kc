@@ -131,7 +131,12 @@
 			<param name="beanName" value="awardReportsService" />			
 			<include method="getFrequencyCodes" />
 			<include method="getFrequencyBaseCodes" />
-		</create>		
+		</create>	
+		
+		<create creator="spring" javascript="ProposalPersonService">
+            <param name="beanName" value="proposalPersonService" />
+            <include method="getNewStateList" />
+        </create> 	
 		
 		<create creator="spring" javascript="AwardPaymentAndInvoicesService">
 			<param name="beanName" value="awardPaymentAndInvoicesService" />			
@@ -213,6 +218,6 @@
         </convert>
         <convert converter="bean" match="org.kuali.rice.location.api.state.State">
             <param name="include" value="code,name,countryCode" />
-        </convert>        
+        </convert>
 	</allow>
 </dwr>
