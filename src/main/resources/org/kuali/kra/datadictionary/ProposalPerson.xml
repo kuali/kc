@@ -473,10 +473,16 @@
 
   <bean id="ProposalPerson-county-parentBean" abstract="true" parent="KcPersonExtendedAttributes-county">
   </bean>
+  
   <bean id="ProposalPerson-state" parent="ProposalPerson-state-parentBean" />
-
   <bean id="ProposalPerson-state-parentBean" abstract="true" parent="KraAttributeReferenceDummy-state">
+  	<property name="control">
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kra.proposaldevelopment.lookup.keyvalue.KCStateValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
   </bean>
+  
   <bean id="ProposalPerson-countryOfCitizenship" parent="ProposalPerson-countryOfCitizenship-parentBean" />
 
   <bean id="ProposalPerson-countryOfCitizenship-parentBean" abstract="true" parent="KraAttributeReferenceDummy-countryCode">

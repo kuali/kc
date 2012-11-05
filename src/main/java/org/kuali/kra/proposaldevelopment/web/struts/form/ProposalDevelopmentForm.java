@@ -231,6 +231,8 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
    
     private String[] selectedBudgetPrint;
     private static final String PROPOSAL_SUMMARY_TAB_INDICATOR = "enableProposalSummaryTab";   
+    
+    private transient String currentPersonCountryCode = "";
 
     public ProposalDevelopmentForm() {
         super();
@@ -2007,6 +2009,29 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
             }
         }
 
+    }
+
+    public String getCurrentPersonCountryCode() {
+        return currentPersonCountryCode;
+    }
+
+    public void setCurrentPersonCountryCode(String pCurrentPersonCountryCode) {
+        System.err.println("pCurrentPersonCountryCode: " + pCurrentPersonCountryCode);
+        this.currentPersonCountryCode = pCurrentPersonCountryCode;
+    }
+    
+    public String getValueFinderResultDoNotCache(){
+        if (this.getActionFormUtilMap() instanceof ActionFormUtilMap) {
+            ((ActionFormUtilMap) this.getActionFormUtilMap()).setCacheValueFinderResults(false);
+        }
+        return "";
+    }
+    
+    public String getValueFinderResultCache(){
+        if (this.getActionFormUtilMap() instanceof ActionFormUtilMap) {
+            ((ActionFormUtilMap) this.getActionFormUtilMap()).setCacheValueFinderResults(true);
+        }
+        return "";
     }
    
 }
