@@ -22,6 +22,7 @@ import org.kuali.kra.award.home.AwardBasisOfPayment;
 import org.kuali.kra.award.home.AwardMethodOfPayment;
 import org.kuali.kra.award.home.ValidAwardBasisPayment;
 import org.kuali.kra.award.home.ValidBasisMethodPayment;
+import org.kuali.kra.util.ValuesFinderUtility;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -55,7 +56,7 @@ public class AwardPaymentAndInvoicesServiceImpl implements AwardPaymentAndInvoic
             results.add(new ConcreteKeyValue( current.getBasisOfPaymentCode(), current.getBasisOfPayment().getDescription() ));
         }
         
-        return processKeyValueList(results);
+        return ValuesFinderUtility.processKeyValueList(results);
     }
 
     /**
@@ -69,7 +70,7 @@ public class AwardPaymentAndInvoicesServiceImpl implements AwardPaymentAndInvoic
             current.refresh();
             results.add(new ConcreteKeyValue( current.getMethodOfPaymentCode(), current.getMethodOfPayment().getDescription() ));
         }
-        return processKeyValueList(results);
+        return ValuesFinderUtility.processKeyValueList(results);
     }
     
 
@@ -135,34 +136,7 @@ public class AwardPaymentAndInvoicesServiceImpl implements AwardPaymentAndInvoic
     }
 
     
-    /**
-     * 
-     * This method processes a list of KeyValue and converts them to a string separated
-     * by semi-colons and comas.
-     * This is used in both getFrequencyCodes and getFrequencyBaseCodes services.
-     *  
-     * @param KeyValueList
-     * @return
-     */
-    protected String processKeyValueList(List<KeyValue> KeyValueList){
-        
-        StringBuilder strBuilder = new StringBuilder();
-        
-        int lastElementIndex = KeyValueList.size()-1;
-        
-        for(int i = 0; i < lastElementIndex; i++){
-            strBuilder.append(KeyValueList.get(i).getKey());
-            strBuilder.append(SEMICOLON_AS_DELIMITOR);
-            strBuilder.append(KeyValueList.get(i).getValue());
-            strBuilder.append(COMMA_AS_DELIMITOR);
-        }
-        
-        strBuilder.append(KeyValueList.get(lastElementIndex).getKey());
-        strBuilder.append(SEMICOLON_AS_DELIMITOR);
-        strBuilder.append(KeyValueList.get(lastElementIndex).getValue());
-        
-        return strBuilder.toString();
-    }
+    
 
     /**
      * @see org.kuali.kra.service.AwardPaymentAndInvoicesService#getAwardBasisOfPaymentDescription(java.lang.String)
