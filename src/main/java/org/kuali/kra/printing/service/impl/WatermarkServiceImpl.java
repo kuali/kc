@@ -166,15 +166,12 @@ public class WatermarkServiceImpl implements WatermarkService {
         Rectangle rectangle;
         while (pdfPageNumber < pageCount) {
             pdfPageNumber++;
-            // pdfContents = watermarkPdfStamper.getOverContent(pdfPageNumber);
+            pdfContents = watermarkPdfStamper.getOverContent(pdfPageNumber);
             rectangle = pdfReader.getPageSizeWithRotation(pdfPageNumber);
-            //pdfContents = watermarkPdfStamper.getUnderContent(pdfPageNumber);                       
             if (watermarkBean.getType().equalsIgnoreCase(WatermarkConstants.WATERMARK_TYPE_IMAGE)) {  
-                pdfContents = watermarkPdfStamper.getUnderContent(pdfPageNumber);     
                 decoratePdfWatermarkImage(pdfContents, (int) rectangle.getHeight(), (int) rectangle.getHeight(), watermarkBean);
             }
-            if (watermarkBean.getType().equalsIgnoreCase(WatermarkConstants.WATERMARK_TYPE_TEXT)) {     
-                pdfContents = watermarkPdfStamper.getOverContent(pdfPageNumber);
+            if (watermarkBean.getType().equalsIgnoreCase(WatermarkConstants.WATERMARK_TYPE_TEXT)) {    
                 decoratePdfWatermarkText(pdfContents, (int) rectangle.getHeight(), (int) rectangle.getHeight(), watermarkBean);
             }
             watermarkPdfStamper.setFormFlattening(true);    
@@ -201,8 +198,9 @@ public class WatermarkServiceImpl implements WatermarkService {
      */
     private void decoratePdfWatermarkText(PdfContentByte pdfContentByte, int pageWidth, int pageHeight, WatermarkBean watermarkBean) {
         float x, y, x1, y1, angle;
+        final float OPACITY = 0.3f;
         PdfGState pdfGState = new PdfGState();
-        pdfGState.setFillOpacity(0.3f);
+        pdfGState.setFillOpacity(OPACITY);
         try {
             if (watermarkBean.getType().equalsIgnoreCase(WatermarkConstants.WATERMARK_TYPE_TEXT)) {
                 pdfContentByte.beginText();
@@ -268,15 +266,16 @@ public class WatermarkServiceImpl implements WatermarkService {
      */
     private void decoratePdfWatermarkImage(PdfContentByte pdfContentByte, int pageWidth, int pageHeight, WatermarkBean watermarkBean) {
         PdfGState pdfGState = new PdfGState();
+        final float OPACITY = 0.3f;
         try {
             if (watermarkBean.getType().equalsIgnoreCase(WatermarkConstants.WATERMARK_TYPE_IMAGE)) {
                 Image watermarkImage = Image.getInstance(watermarkBean.getFileImage());
                 if (watermarkImage != null) {
-                    pdfGState.setFillOpacity(0.3f);
+                    pdfGState.setFillOpacity(OPACITY);
                     pdfContentByte.setGState(pdfGState);
                     float height = watermarkImage.getPlainHeight();
                     float width = watermarkImage.getPlainWidth();
-                    watermarkImage.setAbsolutePosition((pageWidth - width) / 2, (pageHeight - height) / 2);                   
+                    watermarkImage.setAbsolutePosition((pageWidth - width) / 2, (pageHeight - height) / 2);
                     pdfContentByte.addImage(watermarkImage);
                 }
 
