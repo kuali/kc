@@ -300,6 +300,8 @@
           class="org.kuali.kra.proposaldevelopment.notification.ProposalDevelopmentNotificationRoleQualifierServiceImpl" scope="prototype" />
     
     <bean id="proposalHierarchyDao" parent="platformAwareDao" class="org.kuali.kra.proposaldevelopment.hierarchy.dao.ojb.ProposalHierarchyDaoOjb" />
+    
+    <bean id="stateDao" parent="platformAwareDao" class="org.kuali.kra.proposaldevelopment.service.impl.StateDaoOjbImpl" />
 
     <bean id="proposalHierarchyService" class="org.kuali.kra.proposaldevelopment.hierarchy.service.impl.ProposalHierarchyServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
