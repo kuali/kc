@@ -73,6 +73,47 @@ public class KCStateValuesFinder extends KeyValuesBase {
         return labels;
     }
     
+    public static List<KeyValue> getKeyValues(String countryCodePassedIn) {
+        List<KeyValue> labels = new ArrayList<KeyValue>();
+        if (StringUtils.isNotEmpty(countryCodePassedIn)) {
+            String determinedCountryCode;
+            if (countryCodePassedIn.length() == 2) {
+                determinedCountryCode = countryCodePassedIn;
+            } else {
+                StateDao stateDao = KraServiceLocator.getService(StateDao.class);
+                determinedCountryCode = stateDao.convertAltCountryCodeToRealCountryCode(countryCodePassedIn);
+            }
+            
+            
+            List<State> baseCodes = LocationApiServiceLocator.getStateService().findAllStatesInCountry(determinedCountryCode);
+            List<State> codes = new ArrayList<State>( baseCodes );
+            Collections.sort(codes, new Comparator<State> () {
+                @Override
+                public int compare(State o1, State o2) {
+                    int countryCompare = o1.getCountryCode().compareTo(o2.getCountryCode());
+                    if (countryCompare == 0) {
+                        int stateCompare = o1.getName().compareTo(o2.getName());
+                        return stateCompare;
+                    } else {
+                        return countryCompare;
+                    }
+                }
+            });
+            
+            List<KeyValue> newLabels = new ArrayList<KeyValue>();
+            newLabels.add(new ConcreteKeyValue("", ""));
+            for (State state : codes) {
+                if(state.isActive()) {
+                    newLabels.add(new ConcreteKeyValue(state.getCode(), state.getCountryCode() + " - " + state.getName()));
+                }
+            }
+            labels = newLabels;
+            
+        }
+        
+        return labels;
+    }
+    
     protected void findCurrentPersonCountryCode() {
         ProposalDevelopmentForm pdf = (ProposalDevelopmentForm) KNSGlobalVariables.getKualiForm();
         if (pdf != null) {

@@ -2016,7 +2016,6 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     }
 
     public void setCurrentPersonCountryCode(String pCurrentPersonCountryCode) {
-        System.err.println("pCurrentPersonCountryCode: " + pCurrentPersonCountryCode);
         this.currentPersonCountryCode = pCurrentPersonCountryCode;
     }
     
