@@ -636,7 +636,7 @@ public abstract class CommitteeDocumentRuleBase extends ResearchDocumentRuleBase
         if(CollectionUtils.isNotEmpty(cmes)) {
             int raIndex = 0;
             for (CommitteeMembershipExpertiseBase cme : cmes) {
-                if(!(cme.getResearchArea().isActive())) {
+                if(cme.getResearchArea() !=null && !(cme.getResearchArea().isActive())) {
                     inactiveFound = true;
                     inactiveResearchAreaIndices.append(raIndex).append(SEPERATOR);
                 }
