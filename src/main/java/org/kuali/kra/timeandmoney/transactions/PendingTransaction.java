@@ -114,7 +114,8 @@ public class PendingTransaction extends KraPersistableBusinessObjectBase {
      * @return Returns the obligatedAmount.
      */
     public KualiDecimal getObligatedAmount() {
-        return obligatedAmount;
+        //return obligatedAmount;
+        return cleanKualiDecimal(obligatedAmount);
     }
 
     /**
@@ -130,7 +131,8 @@ public class PendingTransaction extends KraPersistableBusinessObjectBase {
      * @return Returns the anticipatedAmount.
      */
     public KualiDecimal getAnticipatedAmount() {
-        return anticipatedAmount;
+        //return anticipatedAmount;
+        return cleanKualiDecimal(anticipatedAmount);
     }
 
     /**
@@ -178,7 +180,8 @@ public class PendingTransaction extends KraPersistableBusinessObjectBase {
      * @return Returns the obligatedDirectAmount.
      */
     public KualiDecimal getObligatedDirectAmount() {
-        return obligatedDirectAmount;
+        //return obligatedDirectAmount;
+        return cleanKualiDecimal(obligatedDirectAmount);
     }
 
     /**
@@ -194,7 +197,8 @@ public class PendingTransaction extends KraPersistableBusinessObjectBase {
      * @return Returns the obligatedIndirectAmount.
      */
     public KualiDecimal getObligatedIndirectAmount() {
-        return obligatedIndirectAmount;
+        //return obligatedIndirectAmount;
+        return cleanKualiDecimal(obligatedIndirectAmount);
     }
 
     /**
@@ -210,7 +214,8 @@ public class PendingTransaction extends KraPersistableBusinessObjectBase {
      * @return Returns the anticipatedDirectAmount.
      */
     public KualiDecimal getAnticipatedDirectAmount() {
-        return anticipatedDirectAmount;
+        //return anticipatedDirectAmount;
+        return cleanKualiDecimal(anticipatedDirectAmount);
     }
 
     /**
@@ -226,7 +231,8 @@ public class PendingTransaction extends KraPersistableBusinessObjectBase {
      * @return Returns the anticipatedIndirectAmount.
      */
     public KualiDecimal getAnticipatedIndirectAmount() {
-        return anticipatedIndirectAmount;
+        //return anticipatedIndirectAmount;
+        return cleanKualiDecimal(anticipatedIndirectAmount);
     }
 
     /**
@@ -251,5 +257,13 @@ public class PendingTransaction extends KraPersistableBusinessObjectBase {
      */
     public void setProcessedFlag(Boolean processedFlag) {
         this.processedFlag = processedFlag;
+    }
+    
+    protected KualiDecimal cleanKualiDecimal(KualiDecimal kd) {
+        if (kd == null) {
+            return new KualiDecimal(0);
+        } else {
+            return kd;
+        }
     }
 }
