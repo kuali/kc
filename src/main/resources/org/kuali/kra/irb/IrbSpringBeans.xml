@@ -515,7 +515,7 @@
                     <property name="taskName" value="protocolReturnToPI" />
                 </bean>
                 <bean class="org.kuali.kra.irb.auth.ProtocolReturnToPIUnavailableAuthorizer" parent="parentProtocolAuthorizer">
-                    <property name="taskName" value="returnToPIProtocolUnavailable" />
+                    <property name="taskName" value="protocolReturnToPIUnavailable" />
                 </bean>
             </list>
         </property>
