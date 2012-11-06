@@ -33,7 +33,7 @@
     <kra-committee:committeeAddMembershipSection readOnly="${readOnly}" />
     
     <kra-committee:committeeMemberships readOnly="${readOnly}" 
-    	researchAreaReference = "org.kuali.kra.irb.protocol.research.ProtocolResearchArea" 
+    	researchAreaReference = "org.kuali.kra.bo.ResearchArea" 
     	membershipRoleValuesFinderClassName="org.kuali.kra.committee.keyvalue.MembershipRoleValuesFinder"/>
 
     <c:if test="${!readOnly && fn:length(KualiForm.document.committee.committeeMemberships) > 0}">
