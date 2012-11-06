@@ -265,8 +265,8 @@ public interface TaskName {
 //    public static final String ADMIN_INCOMPLETE_IACUC_PROTOCOL_UNAVAILABLE = "adminMarkIncompleteIacucProtocolUnavailable"; 
 //    public static final String ADMIN_WITHDRAW_IACUC_PROTOCOL = "adminWithdrawIacucProtocol"; 
 //    public static final String ADMIN_WITHDRAW_IACUC_PROTOCOL_UNAVAILABLE = "adminWithdrawIacucProtocolUnavailable"; 
-    public static final String RETURN_TO_PI_PROTOCOL = "protocolReturnToPI"; 
-    public static final String RETURN_TO_PI_PROTOCOL_UNAVAILABLE = "returnToPIProtocolUnavailable"; 
+    public static final String RETURN_TO_PI_PROTOCOL = "protocolReturnToPI";
+    public static final String RETURN_TO_PI_PROTOCOL_UNAVAILABLE = "protocolReturnToPIUnavailable";
     public static final String REVIEW_NOT_REQUIRED_IACUC_PROTOCOL = "reviewNotRequiredIacucProtocol"; 
     public static final String REVIEW_NOT_REQUIRED_IACUC_PROTOCOL_UNAVAILABLE = "reviewNotRequiredIacucProtocolUnavailable"; 
     public static final String VIEW_IACUC_PROTOCOL = "viewIacucProtocol";
