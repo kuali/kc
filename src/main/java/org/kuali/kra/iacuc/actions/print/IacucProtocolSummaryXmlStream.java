@@ -272,8 +272,8 @@ public class IacucProtocolSummaryXmlStream extends ProtocolSummaryXmlStreamBase 
             submissionDetail.setSubmissionTypeDesc(submissionInfoBean.getProtocolSubmissionType().getDescription());
         }
         if (submissionInfoBean.getProtocolSubmissionQualifierType() != null) {
-            submissionDetail.setSubmissionTypeQualifierCode(new BigInteger(String.valueOf(submissionInfoBean
-                    .getSubmissionTypeQualifierCode())));
+            submissionDetail.setSubmissionTypeQualifierCode(submissionInfoBean.getSubmissionTypeQualifierCode() == null ?
+                    new BigInteger("0") : new BigInteger(String.valueOf(submissionInfoBean.getSubmissionTypeQualifierCode())));
             submissionDetail.setSubmissionTypeQualifierDesc(submissionInfoBean.getProtocolSubmissionQualifierType()
                     .getDescription());
         }
