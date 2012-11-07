@@ -22,6 +22,7 @@ import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.bo.AdHocRouteRecipient;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.exception.ValidationException;
 import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
 import org.kuali.rice.krad.service.DocumentService;
 
@@ -151,6 +152,21 @@ public class DocumentServiceAdapter implements DocumentService {
 
     @Override
     public Document completeDocument(Document document, String annotation, List adHocRecipients) throws WorkflowException {
+        return null;
+    }
+
+    @Override
+    public Document getNewDocument(String documentTypeName, String initiatorPrincipalNm) throws WorkflowException {
+        return null;
+    }
+
+    @Override
+    public Document superUserDisapproveDocumentWithoutSaving(Document document, String annotation) throws WorkflowException {
+        return null;
+    }
+
+    @Override
+    public Document validateAndPersistDocument(Document document, KualiDocumentEvent event) throws ValidationException {
         return null;
     }
 
