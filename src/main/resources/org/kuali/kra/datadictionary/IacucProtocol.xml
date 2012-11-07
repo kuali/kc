@@ -289,8 +289,8 @@
     <bean id="IacucProtocol-approvalDate" parent="IacucProtocol-approvalDate-parentBean" />
     <bean id="IacucProtocol-approvalDate-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
 		<property name="name" value="approvalDate" />
-		<property name="label" value="Initial Approval Date" />
-		<property name="shortLabel" value="Initial Approval Date" />
+		<property name="label" value="Approval Date" />
+		<property name="shortLabel" value="Approval Date" />
 		<property name="summary" value="Approval Date" />
 		<property name="description" value="Approval Date" />
 		<property name="validationPattern" >
@@ -945,6 +945,8 @@
 					p:attributeName="description" />
 				<bean parent="FieldDefinition"
                     p:attributeName="initialSubmissionDate" />
+				<bean parent="FieldDefinition"
+					p:attributeName="approvalDate" />
 				<bean parent="FieldDefinition"
 					p:attributeName="expirationDate" />
 				<bean parent="FieldDefinition"
