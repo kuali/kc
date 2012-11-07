@@ -267,6 +267,8 @@ public class WatermarkServiceImpl implements WatermarkService {
     private void decoratePdfWatermarkImage(PdfContentByte pdfContentByte, int pageWidth, int pageHeight, WatermarkBean watermarkBean) {
         PdfGState pdfGState = new PdfGState();
         final float OPACITY = 0.3f;
+        float absPosX;
+        float absPosY;
         try {
             if (watermarkBean.getType().equalsIgnoreCase(WatermarkConstants.WATERMARK_TYPE_IMAGE)) {
                 Image watermarkImage = Image.getInstance(watermarkBean.getFileImage());
@@ -275,7 +277,17 @@ public class WatermarkServiceImpl implements WatermarkService {
                     pdfContentByte.setGState(pdfGState);
                     float height = watermarkImage.getPlainHeight();
                     float width = watermarkImage.getPlainWidth();
-                    watermarkImage.setAbsolutePosition((pageWidth - width) / 2, (pageHeight - height) / 2);
+                    int diagonal = (int) Math.sqrt((pageWidth * pageWidth) + (pageHeight * pageHeight));
+                    int pivotPoint = (diagonal - (int) width) / 2;
+                    float angle = (float) Math.atan((float) pageHeight / pageWidth);
+                    absPosX = (float) (pivotPoint * pageWidth) / diagonal;
+                    absPosY = (float) (pivotPoint * pageHeight) / diagonal;
+                    watermarkImage.setAbsolutePosition(absPosX, absPosY); 
+                    if((pageWidth / 2) < width) {
+                        watermarkImage.scaleToFit(pageWidth / 2, pageHeight / 2);
+                    } else {
+                        watermarkImage.scaleToFit(width, height);
+                    }
                     pdfContentByte.addImage(watermarkImage);
                 }
 
