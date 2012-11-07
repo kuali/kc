@@ -46,7 +46,7 @@
         	<tr>
 				<td align="left" valign="left" class="infoline" rowspan="1">
 		          	<div align="center">
-	                	${awardVersionHistory.documentUrl}"
+	                	${awardVersionHistory.documentUrl}
 		            </div>                	
 				</td>
 				<c:choose>
@@ -66,7 +66,7 @@
 				<tr>
 				<td  align="left" valign="left" class="infoline" rowspan="1">
 		          	<div align="center">
-	                	${timeAndMoneyDocumentHistory.documentUrl}"
+	                	${timeAndMoneyDocumentHistory.documentUrl}
 		            </div>                	
 				</td>
 				<c:choose>
