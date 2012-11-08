@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.iacuc;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -36,6 +37,7 @@ import org.kuali.kra.iacuc.personnel.IacucProtocolAttachmentPersonnelRule;
 import org.kuali.kra.iacuc.personnel.IacucProtocolPersonnelAuditRule;
 import org.kuali.kra.iacuc.personnel.IacucProtocolUnitRule;
 import org.kuali.kra.iacuc.personnel.SaveIacucProtocolPersonnelEvent;
+import org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroup;
 import org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroupBean;
 import org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroupDetailBean;
 import org.kuali.kra.iacuc.protocol.funding.IacucProtocolFundingSourceAuditRule;
@@ -106,11 +108,13 @@ public class IacucProtocolDocumentRule extends ProtocolDocumentRuleBase<IacucCom
         List<IacucProtocolSpecies> speciesList = document.getIacucProtocol().getIacucProtocolSpeciesList();
         List<IacucProtocolStudyGroupBean> protocolStudyGroups = document.getIacucProtocol().getIacucProtocolStudyGroups();
         Set<Integer> distinctProtocolSpecies = getDistinctSpeciesList(speciesList);
+        Set<String> distinctProtocolSpeciesGroups = getDistinctSpeciesGroups(speciesList);
         if(!isProtocolExceptionValid(protocolExceptions, distinctProtocolSpecies)) {
             reportError(NEW_PROTOCOL_SPECIES_PATH, KeyConstants.IACUC_PROTOCOL_SPECIES_DEPENDENCY_EXISTS, new String[] {PROTOCOL_EXCEPTION});
             valid = false;
         }
-        if(!isProtocolProcedureValid(protocolStudyGroups, distinctProtocolSpecies)) {
+        if(!isProtocolProcedureValid(protocolStudyGroups, distinctProtocolSpecies) ||
+            !isProtocolProcedureSpeciesGroupValid(protocolStudyGroups, distinctProtocolSpeciesGroups)) {
             reportError(NEW_PROTOCOL_SPECIES_PATH, KeyConstants.IACUC_PROTOCOL_SPECIES_DEPENDENCY_EXISTS, new String[] {PROTOCOL_PROCEDURE});
             valid = false;
         }
@@ -160,6 +164,45 @@ public class IacucProtocolDocumentRule extends ProtocolDocumentRuleBase<IacucCom
             distinctSpecies.add(protocolSpecies.getSpeciesCode());
         }
         return distinctSpecies;
+    }
+
+    /**
+     * This method is to get a distinct list of species group configured.
+     * @param speciesList
+     * @return
+     */
+    protected Set<String> getDistinctSpeciesGroups(List<IacucProtocolSpecies> speciesList) {
+        Set<String> distinctSpeciesGroups = new HashSet<String>();
+        for(IacucProtocolSpecies protocolSpecies : speciesList) {
+            distinctSpeciesGroups.add(protocolSpecies.getSpeciesGroup());
+        }
+        return distinctSpeciesGroups;
+    }
+    
+    /**
+     * This method is to check if list species groups used for procedures are valid
+     * @param protocolStudyGroups
+     * @param protocolSpeciesGroups
+     * @return
+     */
+    protected boolean isProtocolProcedureSpeciesGroupValid(List<IacucProtocolStudyGroupBean> protocolStudyGroups, Set<String> protocolSpeciesGroups) {
+        List<String> speciesGroups = new ArrayList<String>();
+        for(IacucProtocolStudyGroupBean studyGroupBean : protocolStudyGroups) {
+            for(IacucProtocolStudyGroupDetailBean studyGroupDetailBean : studyGroupBean.getIacucProtocolStudyGroupDetailBeans()) {
+                for(IacucProtocolStudyGroup iacucProtocolStudyGroup : studyGroupDetailBean.getIacucProtocolStudyGroups()) {
+                    IacucProtocolSpecies protocolSpecies = iacucProtocolStudyGroup.getIacucProtocolSpecies();
+                    speciesGroups.add(protocolSpecies.getSpeciesGroup());
+                }
+            }
+        }
+        boolean invalidSpeciesReference = false;
+        for(String speciesGroup : speciesGroups) {
+            if(!protocolSpeciesGroups.contains(speciesGroup)) {
+                invalidSpeciesReference = true;
+                break;
+            }
+        }
+        return !invalidSpeciesReference;
     }
     
     @Override

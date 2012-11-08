@@ -21,7 +21,6 @@ import java.util.Comparator;
 import java.util.List;
 
 import org.kuali.kra.iacuc.IacucProtocol;
-import org.kuali.kra.iacuc.species.IacucProtocolSpecies;
 import org.kuali.rice.krad.service.SequenceAccessorService;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -29,21 +28,9 @@ public class IacucProtocolExceptionServiceImpl implements IacucProtocolException
     private SequenceAccessorService sequenceAccessorService;
     private static final String PROTOCOL_EXCEPTION_SEQUENCE_ID = "SEQ_IACUC_PROTO_EXCEPTION_ID";
     private static final String REFERENCE_EXCEPTION_CATEGORY = "iacucExceptionCategory";
-    private static final String REFERENCE_PROTOCOL_SPECIES = "iacucProtocolSpecies";
+    private static final String REFERENCE_PROTOCOL_SPECIES = "iacucSpecies";
 
     public void addProtocolException(IacucProtocol protocol, IacucProtocolException protocolException) {
-        
-        /*
-        protocolException.setIacucProtocolExceptionId(getNextProtocolExceptionSequence());
-        protocolException.setExceptionId(getNextProtocolExceptionId(protocol));
-        protocolException.setProtocolNumber(protocol.getProtocolNumber());
-        protocolException.setSequenceNumber(protocol.getSequenceNumber());
-        
-        refreshSpeciesReferenceObjects(protocolException);
-        */
-        
-        
-        
         protocol.getIacucProtocolExceptions().add(getNewProtocolException(protocol, protocolException));
     }
     

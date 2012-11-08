@@ -1642,7 +1642,7 @@ public abstract class ProtocolBase extends KraPersistableBusinessObjectBase impl
     }
     
     
-    private Object deepCopy(Object obj) {
+    protected Object deepCopy(Object obj) {
         return ObjectUtils.deepCopy((Serializable) obj);
     }
     
