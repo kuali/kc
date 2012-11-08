@@ -153,16 +153,31 @@ public class IacucProtocolProcedureServiceImpl implements IacucProtocolProcedure
      * @see org.kuali.kra.iacuc.procedures.IacucProtocolProcedureService#addProtocolStudyGroup(org.kuali.kra.iacuc.IacucProtocolForm)
      */
     public void addProtocolStudyGroup(IacucProtocolStudyGroupBean selectedProtocolStudyGroupBean, IacucProtocol iacucProtocol) {
+        boolean isNewCategoryBean = ObjectUtils.isNull(selectedProtocolStudyGroupBean.getIacucProtocolStudyGroupHeaderId());
         List<String> protocolSpeciesAndGroups =  selectedProtocolStudyGroupBean.getProtocolSpeciesAndGroups(); 
         List<String> protocolPersonsResponsible =  selectedProtocolStudyGroupBean.getProtocolPersonsResponsible(); 
-        setAttributesForNewStudyGroupBean(selectedProtocolStudyGroupBean, iacucProtocol);
+        if(isNewCategoryBean) {
+            setAttributesForNewStudyGroupBean(selectedProtocolStudyGroupBean, iacucProtocol);
+        }
         List<IacucProtocolStudyGroupDetailBean> newDetailBeans = addStudyGroupBeans(protocolSpeciesAndGroups, selectedProtocolStudyGroupBean, iacucProtocol);
         List<IacucProcedurePersonResponsible> procedurePersonsResponsible = addPersonsResponsible(protocolPersonsResponsible);
         addPersonToDetailBean(newDetailBeans, procedurePersonsResponsible,selectedProtocolStudyGroupBean, iacucProtocol);
         addProcedureCustomData(selectedProtocolStudyGroupBean, newDetailBeans, iacucProtocol);
-        iacucProtocol.getIacucProtocolStudyGroups().add(selectedProtocolStudyGroupBean);
+        if(isNewCategoryBean) {
+            iacucProtocol.getIacucProtocolStudyGroups().add(selectedProtocolStudyGroupBean);
+        }else {
+            IacucProtocolStudyGroupBean selectedProtocolStudyGroup = getProtocolStudyGroup(iacucProtocol, selectedProtocolStudyGroupBean);
+            selectedProtocolStudyGroup.getIacucProtocolStudyGroupDetailBeans().addAll(getAllDetailBeansThatDoesNotExist(newDetailBeans, selectedProtocolStudyGroup));
+        }
     }
 
+    private List<IacucProtocolStudyGroupDetailBean> getAllDetailBeansThatDoesNotExist(List<IacucProtocolStudyGroupDetailBean> newDetailBeans, IacucProtocolStudyGroupBean iacucProtocolStudyGroupBean) {
+        List<IacucProtocolStudyGroupDetailBean> newBeansToAdd = new ArrayList<IacucProtocolStudyGroupDetailBean>();
+        newBeansToAdd.addAll(newDetailBeans);
+        newBeansToAdd.removeAll(iacucProtocolStudyGroupBean.getIacucProtocolStudyGroupDetailBeans());
+        return newBeansToAdd;
+    }
+    
     /**
      * @see org.kuali.kra.iacuc.procedures.IacucProtocolProcedureService#deleteProtocolStudyGroup(org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroupBean, org.kuali.kra.iacuc.procedures.IacucProtocolStudyGroupDetailBean)
      */
@@ -170,8 +185,9 @@ public class IacucProtocolProcedureServiceImpl implements IacucProtocolProcedure
             IacucProtocolStudyGroupDetailBean selectedProcedureDetailBean, IacucProtocol iacucProtocol) {
         selectedProtocolStudyGroupBean.getIacucProtocolStudyGroupDetailBeans().remove(selectedProcedureDetailBean);
         IacucProtocolStudyGroupBean selectedProtocolStudyGroup = getProtocolStudyGroup(iacucProtocol, selectedProtocolStudyGroupBean);
-        if(selectedProtocolStudyGroup.getIacucProtocolStudyGroupDetailBeans().size() == 1) {
-            iacucProtocol.getIacucProtocolStudyGroups().remove(selectedProtocolStudyGroupBean);
+        if(selectedProtocolStudyGroupBean.getIacucProtocolStudyGroupDetailBeans().size() == 0) {
+            iacucProtocol.getIacucProtocolStudyGroups().remove(selectedProtocolStudyGroup);
+            selectedProtocolStudyGroupBean.setIacucProtocolStudyGroupHeaderId(null);
         }else {
             selectedProtocolStudyGroup.getIacucProtocolStudyGroupDetailBeans().remove(selectedProcedureDetailBean);
         }
@@ -434,6 +450,7 @@ public class IacucProtocolProcedureServiceImpl implements IacucProtocolProcedure
             for(IacucProtocolStudyGroupBean iacucProtocolStudyGroup : iacucProtocolStudyGroups) {
                 if(iacucProtocolStudyGroupBean.getProcedureCategoryCode().equals(iacucProtocolStudyGroup.getProcedureCategoryCode()) && 
                         iacucProtocolStudyGroupBean.getProcedureCode().equals(iacucProtocolStudyGroup.getProcedureCode())) {
+                    iacucProtocolStudyGroupBean.setIacucProtocolStudyGroupHeaderId(iacucProtocolStudyGroup.getIacucProtocolStudyGroupHeaderId());
                     iacucProtocolStudyGroupBean.setProtocol(iacucProtocolStudyGroup.getProtocol());
                     iacucProtocolStudyGroupBean.setProtocolId(iacucProtocolStudyGroup.getProtocolId());
                     iacucProtocolStudyGroupBean.setProtocolNumber(iacucProtocolStudyGroup.getProtocolNumber());
@@ -652,6 +669,7 @@ public class IacucProtocolProcedureServiceImpl implements IacucProtocolProcedure
         personResponsible.setIacucProtocolStudyGroupId(studyGroup.getIacucProtocolStudyGroupId());
         personResponsible.setProtocolNumber(selectedProtocolStudyGroupBean.getProtocolNumber());
         personResponsible.setSequenceNumber(selectedProtocolStudyGroupBean.getSequenceNumber());
+        personResponsible.setProtocolId(selectedProtocolStudyGroupBean.getProtocolId());
     }
     
     /**
