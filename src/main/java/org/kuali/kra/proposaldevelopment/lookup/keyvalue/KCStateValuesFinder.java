@@ -22,7 +22,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.proposaldevelopment.service.StateDao;
+import org.kuali.kra.proposaldevelopment.service.ProposalCountryService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -80,8 +80,8 @@ public class KCStateValuesFinder extends KeyValuesBase {
             if (countryCodePassedIn.length() == 2) {
                 determinedCountryCode = countryCodePassedIn;
             } else {
-                StateDao stateDao = KraServiceLocator.getService(StateDao.class);
-                determinedCountryCode = stateDao.convertAltCountryCodeToRealCountryCode(countryCodePassedIn);
+                ProposalCountryService proposalCountryService = KraServiceLocator.getService(ProposalCountryService.class);
+                determinedCountryCode = proposalCountryService.convertAltCountryCodeToRealCountryCode(countryCodePassedIn);
             }
             
             
@@ -122,8 +122,8 @@ public class KCStateValuesFinder extends KeyValuesBase {
                 if (currentPersonCountryCode.length() == 2) {
                     countryCode = currentPersonCountryCode;
                 } else {
-                    StateDao stateDao = KraServiceLocator.getService(StateDao.class);
-                    countryCode = stateDao.convertAltCountryCodeToRealCountryCode(currentPersonCountryCode);
+                    ProposalCountryService proposalCountryService = KraServiceLocator.getService(ProposalCountryService.class);
+                    countryCode = proposalCountryService.convertAltCountryCodeToRealCountryCode(currentPersonCountryCode);
                 }
             } else {
                 countryCode = "";
