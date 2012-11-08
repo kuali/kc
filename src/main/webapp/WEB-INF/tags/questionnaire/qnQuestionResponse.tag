@@ -99,7 +99,7 @@
         	<input id ="ruleId${qidx}" name ="ruleId${qidx}" type="text" size="25">
                <a href="#"><img border="0" title="Search Rule"
                             alt="Search Rule" class="tinybutton" name="searchRule${qidx}"
-                            id="searchRule${qidx}" src="static/images/searchicon.gif"  onClick="clickSearchRule('#ruleId${qidx}')"></a>
+                            id="searchRule${qidx}" src="static/images/searchicon.gif"  onClick="clickSearchRule('ruleId${qidx}')"></a>
            </td>
             <td style="width: 65px; text-align: center;" class="content_info">
                 <input type="image" alt="add" style="border: medium none;"
