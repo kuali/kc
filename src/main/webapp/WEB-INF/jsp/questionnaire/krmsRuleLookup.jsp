@@ -27,9 +27,8 @@
         name="ruleId" value="${KrmsRuleLookupForm.ruleId}"/>
     <input type="hidden" id="anchor"
         name="anchor" value="${KrmsRuleLookupForm.anchor}"/>
-
+        
         <label>
-
 
        <input type="button" id = "lookupBtn" value="Rule lookup" onclick="window.location.href='${ConfigProperties.rice.server.url}/kr-krad/lookup?methodToCall=start&amp;dataObjectClassName=org.kuali.rice.krms.impl.repository.RuleBo&amp;returnLocation=${ConfigProperties.application.url}/krmsRuleLookup.do&returnFormKey=1&conversionFields=id:ruleId'" />
         
@@ -45,7 +44,7 @@
             
               
                  function returnRule() {
-                        var newRuleId = document.getElementById("ruleId").value
+                        var newRuleId = document.getElementById("ruleId").value;
                         if (newRuleId != '') {
 	                        var fieldId = document.getElementById("fieldId").value
 	                        window.opener.returnRule(newRuleId,fieldId);
