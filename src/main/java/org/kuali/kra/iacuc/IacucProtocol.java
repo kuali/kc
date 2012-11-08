@@ -70,7 +70,6 @@ import org.kuali.kra.protocol.summary.ProtocolSummary;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * 
@@ -145,12 +144,14 @@ public class IacucProtocol extends ProtocolBase {
         managedLists.add(getIacucPrinciples());
         managedLists.add(getIacucAlternateSearches());
 
+        //List<IacucProtocolStudyGroup> iacucProtocolStudyGroups = new ArrayList<IacucProtocolStudyGroup>();
         List<IacucProtocolStudyGroupDetailBean> studyGroupDetails = new ArrayList<IacucProtocolStudyGroupDetailBean>();
         List<IacucProtocolStudyGroupLocation> studyGroupLocations = new ArrayList<IacucProtocolStudyGroupLocation>();
         List<IacucProcedurePersonResponsible> personsResponsible = new ArrayList<IacucProcedurePersonResponsible>();
         for(IacucProtocolStudyGroupBean studyGroupBean : getIacucProtocolStudyGroups()) {
             studyGroupDetails.addAll(studyGroupBean.getIacucProtocolStudyGroupDetailBeans());
             for(IacucProtocolStudyGroupDetailBean studyGroupDetailBean : studyGroupBean.getIacucProtocolStudyGroupDetailBeans()) {
+                //iacucProtocolStudyGroups.addAll(studyGroupDetailBean.getIacucProtocolStudyGroups());
                 for (IacucProtocolStudyGroup studyGroup : studyGroupDetailBean.getIacucProtocolStudyGroups()) {
                     studyGroupLocations.addAll(studyGroup.getIacucProtocolStudyGroupLocations());
                     personsResponsible.addAll(studyGroup.getIacucProcedurePersonsResponsible());
@@ -159,6 +160,7 @@ public class IacucProtocol extends ProtocolBase {
         }
         managedLists.add(studyGroupLocations);
         managedLists.add(personsResponsible);
+        //managedLists.add(iacucProtocolStudyGroups);
         managedLists.add(studyGroupDetails);
         managedLists.add(getIacucProtocolStudyGroups());
         managedLists.add(getIacucProtocolExceptions());
@@ -639,12 +641,14 @@ public class IacucProtocol extends ProtocolBase {
         getProtocolCopyService().copyProtocolThreers((IacucProtocol)amendment, this);
     }
 
+    @SuppressWarnings("unchecked")
     protected void mergeProtocolSpeciesAndGroups(ProtocolBase amendment) {
-        getProtocolCopyService().copyProtocolSpeciesAndGroups((IacucProtocol)amendment, this);
+        getProtocolCopyService().mergeProtocolSpeciesAndGroups((IacucProtocol)amendment, this);
     }
     
+    @SuppressWarnings("unchecked")
     protected void mergeProtocolProcedures(ProtocolBase amendment) {
-        getProtocolCopyService().copyProtocolProcedures((IacucProtocol)amendment, this);
+        getProtocolCopyService().mergeProtocolProcedures((IacucProtocol)amendment, this);
     }
 
     protected void mergeProtocolExceptions(ProtocolBase amendment) {
