@@ -44,7 +44,7 @@ public class IacucProtocolSpeciesServiceImpl implements IacucProtocolSpeciesServ
         //TODO - How to handle protocol number and sequence number
         protocolSpecies.setProtocolNumber(protocol.getProtocolNumber());
         protocolSpecies.setSequenceNumber(protocol.getSequenceNumber());
-        
+        protocolSpecies.setProtocolId(protocol.getProtocolId());
         refreshSpeciesReferenceObjects(protocolSpecies);
         return protocolSpecies;
     }
