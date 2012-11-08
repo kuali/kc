@@ -240,6 +240,10 @@
     <bean id="stateService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="stateService" />
     </bean>
+
+    <bean id="countryService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="countryService" />
+    </bean>
     
     <bean id="transactionalDocumentDictionaryService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="transactionalDocumentDictionaryService" />

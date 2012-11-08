@@ -15,6 +15,6 @@
  */
 package org.kuali.kra.proposaldevelopment.service;
 
-public interface StateDao {
+public interface ProposalCountryService {
     String convertAltCountryCodeToRealCountryCode(String currentCountryCode);
 }
