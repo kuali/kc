@@ -19,15 +19,18 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 
 import org.apache.ojb.broker.PersistenceBroker;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.service.StateDao;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.framework.persistence.dao.PlatformAwareDao;
 import org.kuali.rice.core.framework.persistence.platform.DatabasePlatform;
+import org.kuali.rice.location.api.country.CountryService;
 import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 public class StateDaoOjbImpl extends PersistenceBrokerDaoSupport implements PlatformAwareDao, StateDao {
     
     private DatabasePlatform dbPlatform;
+    private CountryService countryService;
     
     public synchronized DatabasePlatform getDbPlatform(){
         if (this.dbPlatform == null) {
@@ -44,21 +47,18 @@ public class StateDaoOjbImpl extends PersistenceBrokerDaoSupport implements Plat
     @Override
     public String convertAltCountryCodeToRealCountryCode(String currentCountryCode) {
         try {
-            Statement stmt = null;
-            PersistenceBroker pbInstance = getPersistenceBroker(true);
-            
-            StringBuffer query = new StringBuffer("SELECT POSTAL_CNTRY_CD FROM KRLC_CNTRY_T WHERE ALT_POSTAL_CNTRY_CD = '");
-            query.append(currentCountryCode).append("'");
-        
-            stmt = pbInstance.serviceConnectionManager().getConnection().createStatement();
-            ResultSet rs = stmt.executeQuery(query.toString());
-            while(rs.next()){
-                return rs.getString(1);
-            }
+            return getCountryService().getCountryByAlternateCode(currentCountryCode).getCode();
         } catch (Exception e) {
             e.printStackTrace();
             return "";
         }
-        return "";
     }
+    
+    CountryService getCountryService() {
+        if (this.countryService == null) {
+            this.countryService = KraServiceLocator.getService(CountryService.class);
+        }
+        return this.countryService;
+    }
+    
 }
