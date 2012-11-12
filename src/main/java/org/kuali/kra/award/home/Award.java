@@ -2679,7 +2679,9 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
             for(int i = TOTAL_STATIC_REPORTS ;i < awardCloseoutItems.size() ; i++){
                 awardCloseoutNewItems.add(awardCloseoutItems.get(i));
             }
-            awardCloseoutItems.removeAll(awardCloseoutNewItems);
+            for (int i = awardCloseoutItems.size();i > TOTAL_STATIC_REPORTS; i--) {
+                awardCloseoutItems.remove(i - 1);
+            }
             Collections.sort(awardCloseoutNewItems, new Comparator(){
               public int compare(Object o1, Object o2) {
                   if(o1 instanceof AwardCloseout && o2 instanceof AwardCloseout) {
