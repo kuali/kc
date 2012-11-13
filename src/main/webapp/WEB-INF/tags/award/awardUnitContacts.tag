@@ -119,8 +119,6 @@
 		<c:forEach var="awardContact"
 			items="${KualiForm.unitContactsBean.unitContacts}"
 			varStatus="awardContactRowStatus">
-			<c:set var="isDefaultUnitContact"
-				value="${awardContact.unitAdministratorUnitNumber != null}" />
 			<tr>
 				<th class="infoline" scope="row"><c:out
 					value="${awardContactRowStatus.index + 1}" /></th>
@@ -143,7 +141,7 @@
 					anchor="${tabKey}" /></div>
 				</td>
 				<td valign="middle"><c:choose>
-					<c:when test="${not isDefaultUnitContact}">
+					<c:when test="${not awardContact.defaultUnitContact}">
 						<div align="center"><kul:htmlControlAttribute
 							property="unitContactsBean.unitContacts[${awardContactRowStatus.index}].unitAdministratorTypeCode"
 							attributeEntry="${awardUnitContactAttributes.unitAdministratorTypeCode}"
@@ -162,7 +160,7 @@
 				<div align="center">${awardContact.emailAddress}&nbsp;</div>
 				</td>
 
-				<td><c:if test="${not isDefaultUnitContact}">
+				<td><c:if test="${not awardContact.defaultUnitContact}">
 					<c:set var="deleteButton" value="tinybutton-delete1.gif" />
 				</c:if> <c:if test="${isLeadUnit}">
 					<c:set var="deleteButton" value="tinybutton-delete2.gif" />
