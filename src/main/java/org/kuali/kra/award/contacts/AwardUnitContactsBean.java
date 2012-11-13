@@ -69,6 +69,7 @@ public class AwardUnitContactsBean extends AwardContactsBean {
                 newAwardUnitContact.setUnitAdministratorType(unitAdministrator.getUnitAdministratorType());
                 newAwardUnitContact.setUnitAdministratorTypeCode(unitAdministrator.getUnitAdministratorTypeCode());
                 newAwardUnitContact.setFullName(person.getFullName());
+                newAwardUnitContact.setDefaultUnitContact(true);
                 getAward().add(newAwardUnitContact);
             }
         }
