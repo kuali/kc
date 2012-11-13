@@ -845,6 +845,7 @@ AbstractResearchAndRelatedStream {
                 budgetPeriodType.setTravelTotal(getTravelTotal(budgetLineItems));
                 budgetPeriodType.setParticipantPatientCostsArray(getParticipantPatientCost(developmentProposal,budgetLineItems));
                 budgetPeriodType.setParticipantPatientTotal(getParticipantPatientTotal(budgetLineItems));
+                budgetPeriodType.setNumberOfParticipants(BigInteger.valueOf(budgetPeriod.getNumberOfParticipants() == null ? 0 : budgetPeriod.getNumberOfParticipants()));
                 budgetPeriodType.setPeriodDirectCostsTotal(budgetPeriod.getTotalDirectCost().bigDecimalValue());
                 budgetPeriodType.setIndirectCostsTotal(budgetPeriod.getTotalIndirectCost().bigDecimalValue());
                 setIndirectCostDetails(budgetPeriod,budgetPeriodType);
