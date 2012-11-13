@@ -459,6 +459,7 @@ public interface Constants {
     
     public static final boolean GRANTS_GOV_LINK_TARGET_POPUP = true;
     public static final String BUDGET_CATEGORY_TYPE_PERSONNEL = "budgetCategoryType.personnel";
+    public static final String BUDGET_CATEGORY_TYPE_PARTICIPANT_SUPPORT = "budgetCategoryType.participantSupport";
     
     public static final String KIM_QUAL_ATTR_PROPOSAL_KEY = "proposal";
 
