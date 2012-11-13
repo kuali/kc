@@ -1312,7 +1312,6 @@ public class S2SBudgetCalculatorServiceImpl implements
                     totalParticipantCostSharing = totalParticipantCostSharing.add(costInfo.getCostSharing());
                 }
                 totalParticipantCost = totalParticipantCost.add(costInfo.getCost());
-                totalParticipantCount += costInfo.getQuantity();
             }
             else if (costInfo.getCategory().equals(getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
                     Constants.S2SBUDGET_PARTICIPANT_TRAVEL_CATEGORY))) {
@@ -1322,7 +1321,6 @@ public class S2SBudgetCalculatorServiceImpl implements
                     totalParticipantCostSharing = totalParticipantCostSharing.add(costInfo.getCostSharing());
                 }
                 totalParticipantCost = totalParticipantCost.add(costInfo.getCost());
-                totalParticipantCount += costInfo.getQuantity();
             }
             else if (costInfo.getCategory().equals(getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
                     Constants.S2SBUDGET_PARTICIPANT_TUITION_CATEGORY))) {
@@ -1332,7 +1330,6 @@ public class S2SBudgetCalculatorServiceImpl implements
                     totalParticipantCostSharing = totalParticipantCostSharing.add(costInfo.getCostSharing());
                 }
                 totalParticipantCost = totalParticipantCost.add(costInfo.getCost());
-                totalParticipantCount += costInfo.getQuantity();
             }
             else if (costInfo.getCategory().equals(getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
                     Constants.S2SBUDGET_PARTICIPANT_SUBSISTENCE_CATEGORY))) {
@@ -1342,8 +1339,6 @@ public class S2SBudgetCalculatorServiceImpl implements
                     totalParticipantCostSharing = totalParticipantCostSharing.add(costInfo.getCostSharing());
                 }
                 totalParticipantCost = totalParticipantCost.add(costInfo.getCost());
-
-                totalParticipantCount += costInfo.getQuantity();
             }
             else if (costInfo.getCategory().equals(getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class,
                     Constants.S2SBUDGET_PARTICIPANT_OTHER_CATEGORY))) {
@@ -1400,7 +1395,7 @@ public class S2SBudgetCalculatorServiceImpl implements
         otherDirectCostInfo.setPartOtherCostSharing(partOtherCostSharing);
         otherDirectCostInfo.setParticipantTotal(totalParticipantCost);
         otherDirectCostInfo.setParticipantTotalCostSharing(totalParticipantCostSharing);
-        otherDirectCostInfo.setParticipantTotalCount(totalParticipantCount);
+        otherDirectCostInfo.setParticipantTotalCount(budgetPeriod.getNumberOfParticipants() == null ? 0 : budgetPeriod.getNumberOfParticipants());
 
         totalOtherDirect = totalOtherDirect.add(materialCost);
         totalOtherDirect = totalOtherDirect.add(consultantCost);

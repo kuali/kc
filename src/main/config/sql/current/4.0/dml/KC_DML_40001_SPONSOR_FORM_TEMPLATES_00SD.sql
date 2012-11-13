@@ -1742,7 +1742,11 @@ buffer := '
                                 <fo:table-row>
                                     <fo:table-cell padding-start="6pt" number-columns-spanned="5" width=".5in" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start" border-style="solid" border-width="1pt" border-color="black">
                                         <fo:block>
-                                            <fo:inline font-size="7pt">TOTAL NUMBER OF PARTICIPANTS(&#160;&#160; )&#160;&#160;&#160; TOTAL PARTICIPANT COSTS</fo:inline>
+                                            <fo:inline font-size="7pt">TOTAL NUMBER OF PARTICIPANTS(&#160;</fo:inline>
+                                            <fo:inline font-size="7pt">
+                                                <xsl:value-of select="sum( n1:ResearchAndRelatedProject/BudgetSummary/BudgetPeriod[BudgetPeriodID=1]/NumberOfParticipants )" />
+                	                        </fo:inline>
+										    <fo:inline>&#160; )&#160;&#160;&#160; TOTAL PARTICIPANT COSTS</fo:inline>
                                         </fo:block>
                                     </fo:table-cell>
                                     <fo:table-cell font-size="7pt" text-align="right" width="1in" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" border-style="solid" border-width="1pt" border-color="black">
@@ -4145,7 +4149,11 @@ buffer := 'splay-align="center" text-align="start" border-style="solid" border-w
                                 <fo:table-row>
                                     <fo:table-cell padding-start="6pt" number-columns-spanned="5" width=".5in" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start" border-style="solid" border-width="1pt" border-color="black">
                                         <fo:block>
-                                            <fo:inline font-size="7pt">TOTAL NUMBER OF PARTICIPANTS(&#160;&#160; )&#160;&#160;&#160; TOTAL PARTICIPANT COSTS</fo:inline>
+                                            <fo:inline font-size="7pt">TOTAL NUMBER OF PARTICIPANTS(&#160;</fo:inline>
+                                            <fo:inline font-size="7pt">
+                                                <xsl:value-of select="sum( n1:ResearchAndRelatedProject/BudgetSummary/BudgetPeriod[BudgetPeriodID=2]/NumberOfParticipants )" />
+                	                        </fo:inline>
+										    <fo:inline>&#160; )&#160;&#160;&#160; TOTAL PARTICIPANT COSTS</fo:inline>
                                         </fo:block>
                                     </fo:table-cell>
                                     <fo:table-cell font-size="7pt" text-align="right" width="1in" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" border-style="solid" border-width="1pt" border-color="black">
@@ -6548,7 +6556,11 @@ buffer := '="gray" width="1in" padding-start="3pt" padding-end="3pt" padding-bef
                                 <fo:table-row>
                                     <fo:table-cell padding-start="6pt" number-columns-spanned="5" width=".5in" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start" border-style="solid" border-width="1pt" border-color="black">
                                         <fo:block>
-                                            <fo:inline font-size="7pt">TOTAL NUMBER OF PARTICIPANTS(&#160;&#160; )&#160;&#160;&#160; TOTAL PARTICIPANT COSTS</fo:inline>
+                                            <fo:inline font-size="7pt">TOTAL NUMBER OF PARTICIPANTS(&#160;</fo:inline>
+                                            <fo:inline font-size="7pt">
+                                                <xsl:value-of select="sum( n1:ResearchAndRelatedProject/BudgetSummary/BudgetPeriod[BudgetPeriodID=3]/NumberOfParticipants )" />
+                	                        </fo:inline>
+										    <fo:inline>&#160; )&#160;&#160;&#160; TOTAL PARTICIPANT COSTS</fo:inline>
                                         </fo:block>
                                     </fo:table-cell>
                                     <fo:table-cell font-size="7pt" text-align="right" width="1in" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" border-style="solid" border-width="1pt" border-color="black">
@@ -8951,7 +8963,11 @@ buffer := 'dding-before="3pt" padding-after="3pt" display-align="center" text-al
                                 <fo:table-row>
                                     <fo:table-cell padding-start="6pt" number-columns-spanned="5" width=".5in" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start" border-style="solid" border-width="1pt" border-color="black">
                                         <fo:block>
-                                            <fo:inline font-size="7pt">TOTAL NUMBER OF PARTICIPANTS(&#160;&#160; )&#160;&#160;&#160; TOTAL PARTICIPANT COSTS</fo:inline>
+                                            <fo:inline font-size="7pt">TOTAL NUMBER OF PARTICIPANTS(&#160;</fo:inline>
+                                            <fo:inline font-size="7pt">
+                                                <xsl:value-of select="sum( n1:ResearchAndRelatedProject/BudgetSummary/BudgetPeriod[BudgetPeriodID=4]/NumberOfParticipants )" />
+                	                        </fo:inline>
+										    <fo:inline>&#160; )&#160;&#160;&#160; TOTAL PARTICIPANT COSTS</fo:inline>
                                         </fo:block>
                                     </fo:table-cell>
                                     <fo:table-cell font-size="7pt" text-align="right" width="1in" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" border-style="solid" border-width="1pt" border-color="black">
@@ -11354,7 +11370,11 @@ buffer := 'o:table-cell background-color="gray" width="1in" padding-start="3pt" 
                                 <fo:table-row>
                                     <fo:table-cell padding-start="6pt" number-columns-spanned="5" width=".5in" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start" border-style="solid" border-width="1pt" border-color="black">
                                         <fo:block>
-                                            <fo:inline font-size="7pt">TOTAL NUMBER OF PARTICIPANTS(&#160;&#160; )&#160;&#160;&#160; TOTAL PARTICIPANT COSTS</fo:inline>
+                                            <fo:inline font-size="7pt">TOTAL NUMBER OF PARTICIPANTS(&#160;</fo:inline>
+                                            <fo:inline font-size="7pt">
+                                                <xsl:value-of select="sum( n1:ResearchAndRelatedProject/BudgetSummary/BudgetPeriod[BudgetPeriodID=5]/NumberOfParticipants )" />
+                	                        </fo:inline>
+										    <fo:inline>&#160; )&#160;&#160;&#160; TOTAL PARTICIPANT COSTS</fo:inline>
                                         </fo:block>
                                     </fo:table-cell>
                                     <fo:table-cell font-size="7pt" text-align="right" width="1in" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" border-style="solid" border-width="1pt" border-color="black">

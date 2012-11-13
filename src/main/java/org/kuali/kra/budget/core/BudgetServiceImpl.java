@@ -514,6 +514,20 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
         
         return panelName.toString();
     }
+    
+    public String getParticipantSupportCategoryCode() {
+        return parameterService.getParameterValueAsString(BudgetDocument.class, Constants.BUDGET_CATEGORY_TYPE_PARTICIPANT_SUPPORT);
+    }
+    
+    public List<BudgetLineItem> getMatchingLineItems(List<BudgetLineItem> lineItems, List<String> costElements) {
+        List<BudgetLineItem> result = new ArrayList<BudgetLineItem>();
+        for (BudgetLineItem lineItem : lineItems) {
+            if (costElements.contains(lineItem.getCostElement())) {
+                result.add(lineItem);
+            }
+        }
+        return result;
+    }
 
     @SuppressWarnings("unchecked")
     public Collection<BudgetRate> getSavedProposalRates(BudgetVersionOverview budgetToOpen) {

@@ -139,6 +139,7 @@
 			<xs:element name="EndDate" type="xs:date"/>
 			<xs:element name="ProgramIncome" type="common:CurrencyType"/>
 			<xs:element name="Fee" type="common:CurrencyType"/>
+			<xs:element name="NumberOfParticipants" type="xs:integer"/>
 			<xs:element name="SalariesAndWages" type="nih:SalariesAndWagesType" minOccurs="0" maxOccurs="unbounded"/>
 			<xs:element ref="rar:EquipmentCosts" minOccurs="0" maxOccurs="unbounded"/>
 			<xs:element ref="rar:TravelCosts" minOccurs="0" maxOccurs="2"/>
