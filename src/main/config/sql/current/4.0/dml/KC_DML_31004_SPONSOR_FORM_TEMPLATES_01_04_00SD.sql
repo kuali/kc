@@ -1681,7 +1681,11 @@ buffer := '                                           <fo:block line-height="6pt
                                 <fo:table-row>
                                     <fo:table-cell padding-start="6pt" number-columns-spanned="5" width=".5in" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start" border-style="solid" border-width="1pt" border-color="black">
                                         <fo:block>
-                                            <fo:inline font-size="7pt">TOTAL NUMBER OF PARTICIPANTS(&#160;&#160; )&#160;&#160;&#160; TOTAL PARTICIPANT COSTS</fo:inline>
+                                            <fo:inline font-size="7pt">TOTAL NUMBER OF PARTICIPANTS(&#160;</fo:inline>
+                                            <fo:inline font-size="7pt">
+                                                <xsl:value-of select="sum( n1:ResearchAndRelatedProject/BudgetSummary/BudgetPeriod[BudgetPeriodID=3]/NumberOfParticipants )" />
+                	                        </fo:inline>
+										    <fo:inline>&#160; )&#160;&#160;&#160; TOTAL PARTICIPANT COSTS</fo:inline>
                                         </fo:block>
                                     </fo:table-cell>
                                     <fo:table-cell font-size="7pt" text-align="right" width="1in" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" border-style="solid" border-width="1pt" border-color="black">

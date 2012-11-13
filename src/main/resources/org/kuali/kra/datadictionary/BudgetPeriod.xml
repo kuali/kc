@@ -37,6 +37,7 @@
         <ref bean="BudgetPeriod-totalDirectCost" />
         <ref bean="BudgetPeriod-totalIndirectCost" />
         <ref bean="BudgetPeriod-underrecoveryAmount" />
+        <ref bean="BudgetPeriod-numberOfParticipants" />
         <ref bean="BudgetPeriod-budgetParentId" />
         <ref bean="BudgetPeriod-institutionalProposalNumber" />
         <ref bean="BudgetPeriod-institutionalProposalVersion" />
@@ -205,6 +206,24 @@
     <property name="summary" value="Unrecovered F&amp;A" />
     <property name="description" value="Unrecovered F&amp;A" />
   </bean>
+  <bean id="BudgetPeriod-numberOfParticipants" parent="BudgetPeriod-numberOfParticipants-parentBean" />
+
+  <bean id="BudgetPeriod-numberOfParticipants-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="numberOfParticipants" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Number of Participants" />
+    <property name="shortLabel" value="Number of Participants" />
+    <property name="maxLength" value="6" />
+    <property name="validationPattern" >
+      <bean parent="NumericValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="TextControlDefinition"
+            p:size="4" />
+    </property>
+    <property name="summary" value="Number of Participants" />
+    <property name="description" value="Number of Participants" />
+  </bean> 
   <bean id="BudgetPeriod-budgetParentId" parent="BudgetPeriod-budgetParentId-parentBean" />
 
   <bean id="BudgetPeriod-budgetParentId-parentBean" abstract="true" parent="Award-awardId-parentBean">
