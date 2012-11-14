@@ -26,8 +26,8 @@ public class ViewSubAwardAuthorizer extends SubAwardAuthorizer {
 
     @Override
     public boolean isAuthorized(String userId, SubAwardTask task) {
-        return hasPermission(userId, task.getSubAwardDocument().
-        	getSubAward(), PermissionConstants.VIEW_SUBAWARD);
+        return this.kraWorkflowService.hasWorkflowPermission(userId, task.getSubAwardDocument()) ||
+                hasPermission(userId, task.getSubAwardDocument().getSubAward(), PermissionConstants.VIEW_SUBAWARD);
 
     }
 
