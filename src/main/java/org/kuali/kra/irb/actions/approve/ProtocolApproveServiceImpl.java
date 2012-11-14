@@ -56,7 +56,7 @@ public class ProtocolApproveServiceImpl implements ProtocolApproveService {
         if (protocol.getApprovalDate() == null) {
             protocol.setApprovalDate(actionBean.getApprovalDate());
         }
-        if (protocol.isRenewal()) {
+        if (protocol.isRenewal() || protocol.isAmendment()) {
             protocol.setLastApprovalDate(actionBean.getApprovalDate());
         }
         String exemptProtocolTypeCode = parameterService.getParameterValueAsString(ProtocolDocument.class, Constants.PROTOCOL_TYPE_CODE_EXEMPT);
