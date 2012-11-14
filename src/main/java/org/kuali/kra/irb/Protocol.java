@@ -394,6 +394,11 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
     }
 
     public Date getLastApprovalDate() {
+        if (lastApprovalDate == null) {
+            if (isAmendment()) {
+                return approvalDate;
+            }
+        }
         return lastApprovalDate;
     }
 
@@ -1901,7 +1906,7 @@ public class Protocol extends KraPersistableBusinessObjectBase implements Sequen
     }
     
     public boolean isAmendment() {
-        return protocolNumber.contains(AMENDMENT_LETTER);
+        return protocolNumber != null && protocolNumber.contains(AMENDMENT_LETTER);
     }
     
     public boolean isRenewal() {
