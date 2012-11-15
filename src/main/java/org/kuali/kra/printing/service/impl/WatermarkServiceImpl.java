@@ -134,11 +134,11 @@ public class WatermarkServiceImpl implements WatermarkService {
              }
             else if(watermarkBean.getPosition().equals(WatermarkConstants.WATERMARK_POSITION_DIAGONAL)){
                 watermarkPageDocument(document,writer,reader);
+                byte[] bs = byteArrayOutputStream.toByteArray();
+                pdfReader = new PdfReader(bs);
+                pdfStamp = new PdfStamper(pdfReader, byteArrayOutputStream);
+                decorateWatermark(pdfStamp, watermarkBean);
             }
-            byte[] bs = byteArrayOutputStream.toByteArray();
-            pdfReader = new PdfReader(bs);
-            pdfStamp = new PdfStamper(pdfReader, byteArrayOutputStream);
-            decorateWatermark(pdfStamp, watermarkBean);
         }
         catch (IOException decorateWatermark) {
             LOG.error("Exception occured in WatermarkServiceImpl. Water mark Exception: " + decorateWatermark.getMessage());
