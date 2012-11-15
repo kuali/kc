@@ -332,60 +332,43 @@
   
   <bean id="SubAward-requisitionerId" parent="SubAward-requisitionerId-parentBean" />
   
-  <bean id="SubAward-requisitionerId-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="SubAward-requisitionerId-parentBean" abstract="true" parent="PersonImpl-principalId">
     <property name="name" value="requisitionerId" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="Requisitioner ID" />
     <property name="shortLabel" value="Requisitioner ID" />
-    <property name="maxLength" value="200" />
-    <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" />
-    </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="60" />
-    </property>
-    <property name="summary" value="Requisitioner ID" />
-    <property name="description" value="Requisitioner ID" />    
+    <property name="displayLabelAttribute" value="requisitionerUserName" />
+        <property name="control">
+            <bean parent="HiddenControlDefinition" />
+        </property>
   </bean>
   
   <bean id="SubAward-requisitionerUserName" parent="SubAward-requisitionerUserName-parentBean" />
   
-  <bean id="SubAward-requisitionerUserName-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="SubAward-requisitionerUserName-parentBean" abstract="true" parent="PersonImpl-principalName">
     <property name="name" value="requisitionerUserName" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="Requisitioner User Name" />
     <property name="shortLabel" value="Requisitioner User Name" />
-    <property name="maxLength" value="200" />
+    <property name="required" value="false" />
     <property name="validationPattern" >
-      <bean parent="AlphaNumericValidationPattern" />
-    </property>
-    <property name="required" value="true" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="60" />
-    </property>
-    <property name="summary" value="Requisitioner User Name" />
-    <property name="description" value="Requisitioner User Name" />    
+            <bean parent="AnyCharacterValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="KualiUserControlDefinition"
+                p:personNameAttributeName="requisitionerName"
+                p:universalIdAttributeName="requisitionerId"
+                p:userIdAttributeName="requisitionerUserName" />
+        </property>
   </bean>
   
    <bean id="SubAward-requisitionerName" parent="SubAward-requisitionerName-parentBean" />
   
-  <bean id="SubAward-requisitionerName-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="SubAward-requisitionerName-parentBean" abstract="true" parent="KcPerson-fullName">
     <property name="name" value="requisitionerName" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="Requisitioner" />
     <property name="shortLabel" value="Requisitioner" />
-    <property name="maxLength" value="200" />
-   
-    <property name="required" value="false" />
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="60" />
-    </property>
-    <property name="summary" value="Requisitioner Name" />
-    <property name="description" value="Requisitioner Name" />    
   </bean>
   
   
@@ -622,7 +605,7 @@
             <list>
               <bean parent="FieldDefinition"
                     p:attributeName="subAwardId"
-                    p:forceInquiry="true" />             
+                    p:forceInquiry="true" />   
             </list>
           </property>
         </bean>
@@ -677,7 +660,7 @@
         <bean p:attributeName="statusCode" parent="FieldDefinition" p:forceInquiry="true" />
         <bean p:attributeName="accountNumber" parent="FieldDefinition" p:forceInquiry="true" />
         <bean p:attributeName="vendorNumber" parent="FieldDefinition" p:forceInquiry="true" />
-        <bean p:attributeName="requisitionerUserName" parent="FieldDefinition" />
+        <bean p:attributeName="requisitionerUserName" parent="FieldDefinition" p:forceInquiry="true"  />
         <bean p:attributeName="requisitionerUnit" parent="FieldDefinition" p:forceInquiry="true" />
         <bean p:attributeName="archiveLocation" parent="FieldDefinition" p:forceInquiry="true" />
         <bean p:attributeName="closeoutDate" parent="FieldDefinition" p:forceInquiry="true" />
@@ -693,6 +676,7 @@
     </property>
     <property name="resultFields" >
       <list>
+        <bean p:attributeName="requisitionerName" parent="FieldDefinition" p:forceInquiry="true"/>
         <bean p:attributeName="subAwardCode" parent="FieldDefinition" p:forceInquiry="true" />
         <bean p:attributeName="organizationId" parent="FieldDefinition" p:forceInquiry="true" />
         <bean p:attributeName="organizationName" parent="FieldDefinition" p:forceInquiry="true" />
@@ -704,7 +688,6 @@
         <bean p:attributeName="subAwardStatus.description" parent="FieldDefinition" p:forceInquiry="true" />
         <bean p:attributeName="accountNumber" parent="FieldDefinition" p:forceInquiry="true" />
         <bean p:attributeName="vendorNumber" parent="FieldDefinition" p:forceInquiry="true" />
-        <bean p:attributeName="requisitionerName" parent="FieldDefinition" />
         <bean p:attributeName="unit.unitName" parent="FieldDefinition" p:forceInquiry="true" />
         <bean p:attributeName="archiveLocation" parent="FieldDefinition" p:forceInquiry="true" />
         <bean p:attributeName="closeoutDate" parent="FieldDefinition" p:forceInquiry="true" />
