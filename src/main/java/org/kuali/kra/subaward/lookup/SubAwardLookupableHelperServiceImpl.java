@@ -27,6 +27,7 @@ import java.util.TreeSet;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.versioning.VersionHistory;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
 import org.kuali.kra.service.ServiceHelper;
 import org.kuali.kra.service.VersionHistoryService;
@@ -160,20 +161,22 @@ public class SubAwardLookupableHelperServiceImpl extends KraLookupableHelperServ
        * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#getRows()
        */
       @Override
-      public List<Row> getRows() {
-          List<Row> rows =  super.getRows();
-          for (Row row : rows) {
-              for (Field field : row.getFields()) {
+    public List<Row> getRows() {
+        List<Row> rows = super.getRows();
+        for (Row row : rows) {
+            for (Field field : row.getFields()) {
 
-    if (field.getPropertyName().equals("startDate")
-    || field.getPropertyName().equals("endDate")
-                          || field.getPropertyName().equals("closeoutDate")) {
-                      field.setDatePicker(true);
-                  }
-              }
-          }
-          return rows;
-      }
+                if (field.getPropertyName().equals("startDate") || field.getPropertyName().equals("endDate")
+                        || field.getPropertyName().equals("closeoutDate")) {
+                    field.setDatePicker(true);
+                }
+                if (field.getPropertyName().equals("requisitionerUserName")) {
+                    field.setFieldConversions("principalName:requisitionerUserName,principalId:requisitionerId");
+                }
+            }
+        }
+        return rows;
+    }
       @Override
       protected void addEditHtmlData(List<HtmlData> htmlDataList, BusinessObject businessObject) {
           //no-op
