@@ -17,6 +17,7 @@ package org.kuali.kra.institutionalproposal.service.impl;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -61,6 +62,7 @@ import org.kuali.kra.service.ServiceHelper;
 import org.kuali.kra.service.VersionException;
 import org.kuali.kra.service.VersioningService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.bo.AdHocRouteRecipient;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -90,6 +92,7 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
     private VersioningService versioningService;
     private InstitutionalProposalVersioningService institutionalProposalVersioningService;
     private SequenceAccessorService sequenceAccessorService;
+    private ParameterService parameterService;
     
     /**
      * Creates a new pending Institutional Proposal based on given development proposal and budget.
@@ -642,6 +645,23 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
      */
     public void setSequenceAccessorService(SequenceAccessorService sequenceAccessorService) {
         this.sequenceAccessorService = sequenceAccessorService;
+    }
+
+    /**
+     * @see org.kuali.kra.institutionalproposal.service.InstitutionalProposalService#getValidFundingProposalStatusCodes()
+     */
+    @Override
+    public Collection<String> getValidFundingProposalStatusCodes() {
+        String value = getParameterService().getParameterValueAsString(InstitutionalProposalDocument.class, "validFundingProposalStatusCodes");
+        return Arrays.asList(value.split(","));
+    }
+
+    protected ParameterService getParameterService() {
+        return parameterService;
+    }
+
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
     }
     
 }
