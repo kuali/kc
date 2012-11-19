@@ -31,6 +31,7 @@ import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocumen
 import org.kuali.kra.institutionalproposal.document.authorization.InstitutionalProposalDocumentAuthorizer;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.proposaladmindetails.ProposalAdminDetails;
+import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
 import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.rice.kew.api.KewApiConstants;
@@ -65,6 +66,7 @@ public class InstitutionalProposalLookupableHelperServiceImpl extends KraLookupa
     private boolean includeMainSearchCustomActionUrls;
     private boolean includeMergeCustomActionUrls;
     private DocumentService documentService;
+    private InstitutionalProposalService institutionalProposalService;
 
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
@@ -232,22 +234,22 @@ public class InstitutionalProposalLookupableHelperServiceImpl extends KraLookupa
         }
     }
 
-    /*
-     * This method is to filter out IP's not having valid status codes of 1,2,6
-     */
+    /**
+     * This method is to filter out IP's not having codes in the valid funding proposal status codes parameter.
+     **/
     protected void filterInvalidProposalStatus(List<? extends BusinessObject> searchResults) {
-        String[] validStatuses = new String[] {STAT_PENDING, STAT_FUNDED, STAT_REV_REQ};        
-        List<String> validCodesToFilter = Arrays.asList(validStatuses);   
+        Collection<String> validCodes = getInstitutionalProposalService().getValidFundingProposalStatusCodes();           
         for (int j = 0; j < searchResults.size(); j++) {
-            if (!validCodesToFilter.contains(((InstitutionalProposal) searchResults.get(j)).getStatusCode().toString())) {
-                ((InstitutionalProposal)searchResults.get(j)).setShowReturnLink(false);
+            InstitutionalProposal result = (InstitutionalProposal) searchResults.get(j);
+            if (!validCodes.contains(result.getStatusCode().toString())) {
+                result.setShowReturnLink(false);
             }
         }
     }
 
-    /*
+    /**
      * Find if any proposal associate with this INSP has 'Approval Pending Submitted' proposal state type
-     */
+     **/
     protected boolean isDevelopmentProposalAppPendingSubmitted(InstitutionalProposal ip) {
         boolean isApprovePending = false;
         Collection<DevelopmentProposal> devProposals = getDevelopmentProposals(ip);
@@ -326,6 +328,13 @@ public class InstitutionalProposalLookupableHelperServiceImpl extends KraLookupa
     public boolean isResultReturnable(BusinessObject object) {
         InstitutionalProposal institutionalProposal = (InstitutionalProposal)object;
         return institutionalProposal.getShowReturnLink();
+    }
+    
+    protected InstitutionalProposalService getInstitutionalProposalService() {
+        return institutionalProposalService;
+    }
+    public void setInstitutionalProposalService(InstitutionalProposalService institutionalProposalService) {
+        this.institutionalProposalService = institutionalProposalService;
     }
 
 }

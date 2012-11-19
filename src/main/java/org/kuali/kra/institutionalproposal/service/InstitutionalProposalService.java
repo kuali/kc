@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.institutionalproposal.service;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -119,4 +120,10 @@ public interface InstitutionalProposalService {
     List<DevelopmentProposal> getAllLinkedDevelopmentProposals(String proposalNumber); 
     
     String getNextInstitutionalProposalNumber();
+    
+    /**
+     * Return a list of valid proposal status codes for award funding as defined by the 'validFundingProposalStatusCodes' parm.
+     * @return
+     */
+    Collection<String> getValidFundingProposalStatusCodes();
 }

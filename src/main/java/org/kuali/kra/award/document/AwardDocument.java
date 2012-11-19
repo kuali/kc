@@ -347,7 +347,7 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
         List<AwardFundingProposal> pendingVersions = new ArrayList<AwardFundingProposal>();
         for (AwardFundingProposal afp : getAward().getFundingProposals()) {
             InstitutionalProposal proposal = afp.getProposal();
-            if (ProposalStatus.PENDING.equals(proposal.getStatusCode())) {
+            if (!ProposalStatus.FUNDED.equals(proposal.getStatusCode())) {
                 modifiedProposals.add(proposal.getProposalNumber());
                 pendingVersions.add(afp);
             }
