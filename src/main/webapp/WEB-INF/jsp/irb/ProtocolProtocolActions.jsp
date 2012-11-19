@@ -57,6 +57,7 @@
 <kul:routeLog /> 
 <c:if test="${showActions}" >
 <kul:adHocRecipients />
+<kul:superUserActions />			
 </c:if>
 <kul:panelFooter />
 	            

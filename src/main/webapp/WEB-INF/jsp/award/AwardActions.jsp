@@ -58,7 +58,9 @@
 <kra-a:awardSync />
 <kra-a:awardPrint />
 <kul:adHocRecipients />
-<kul:routeLog /> 
+<kul:routeLog />
+<kul:superUserActions />			
+
 <kra:section permission="createAwardAccount">
 <kra-a:awardCreateAccount />
 </kra:section>
