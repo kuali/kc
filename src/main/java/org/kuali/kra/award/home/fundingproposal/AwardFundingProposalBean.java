@@ -28,7 +28,6 @@ import org.kuali.kra.award.customdata.AwardCustomData;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardService;
 import org.kuali.kra.bo.CustomAttributeDocument;
-import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.institutionalproposal.InstitutionalProposalConstants;
@@ -36,8 +35,6 @@ import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.proposaladmindetails.ProposalAdminDetails;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
-import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -324,18 +321,12 @@ public class AwardFundingProposalBean implements Serializable {
     
     
     private boolean validProposalStatus() {
-        
         int proposalStatusCode = newFundingProposal.getProposalStatus().getProposalStatusCode();
-        List<String> validCodes= new ArrayList<String>( KraServiceLocator.getService(ParameterService.class).getParameterValuesAsString(Constants.MODULE_NAMESPACE_INSTITUTIONAL_PROPOSAL, ParameterConstants.DOCUMENT_COMPONENT, "validFundingProposalStatusCodes") );
-        ListIterator itr= validCodes.listIterator();
-        while(itr.hasNext()) {
-            Object currentCode= itr.next();
-            String[] codes= ((String) currentCode).split(","); 
-            for(int i=0; i < codes.length; i++) {
-                int code= Integer.parseInt(codes[i]);
-                if(proposalStatusCode == code) {
-                    return true;
-                }
+        Collection<String> validCodes = getInstitutionalProposalService().getValidFundingProposalStatusCodes();
+        for (String validCode : validCodes) {
+            int code = Integer.parseInt(validCode);
+            if(proposalStatusCode == code) {
+                return true;
             }
         }
         
