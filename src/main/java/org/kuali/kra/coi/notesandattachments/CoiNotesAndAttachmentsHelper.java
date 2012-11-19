@@ -530,6 +530,8 @@ public class CoiNotesAndAttachmentsHelper {
         final AddCoiDisclosureNotepadEvent event = new AddCoiDisclosureNotepadEvent((CoiDisclosureDocument) coiDisclosureForm.getDocument(), this.newCoiDisclosureNotepad);
 
         if (rule.processAddCoiDisclosureNotepadRules(event)) {
+            newCoiDisclosureNotepad.setCreateUser(GlobalVariables.getUserSession().getPrincipalName());
+            newCoiDisclosureNotepad.setCreateTimestamp(((DateTimeService) KraServiceLocator.getService(Constants.DATE_TIME_SERVICE_NAME)).getCurrentTimestamp());
             addNewNotepad(newCoiDisclosureNotepad);
             initCoiDisclosureNotepad();
         }

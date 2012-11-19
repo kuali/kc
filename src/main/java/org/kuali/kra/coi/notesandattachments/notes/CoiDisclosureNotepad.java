@@ -335,12 +335,12 @@ public class CoiDisclosureNotepad extends CoiDisclosureAssociate implements Comp
     public void setCreateUserFullName(String createUserFullName) {
         this.createUserFullName = createUserFullName;
     }
-    
+    /*
     @Override
     protected void prePersist() {
         super.prePersist();
         this.setCreateUser(GlobalVariables.getUserSession().getPrincipalName());
         this.setCreateTimestamp(((DateTimeService) KraServiceLocator.getService(Constants.DATE_TIME_SERVICE_NAME)).getCurrentTimestamp());
     }
-
+    */
 }
