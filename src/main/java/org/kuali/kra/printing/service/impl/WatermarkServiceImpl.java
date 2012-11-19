@@ -63,12 +63,18 @@ public class WatermarkServiceImpl implements WatermarkService {
 
         try {
             if (watermarkBean != null) {
-                ByteArrayOutputStream byteArrayOutputStream = attachWatermarking(watermarkBean, pdfFileData);
+                // flatten original PDF before adding watermark. This prevents interactive form data from getting lost.
+                PdfReader origFile = new PdfReader(pdfBytes);
+                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                PdfStamper stamper = new PdfStamper(origFile, byteArrayOutputStream);
+                stamper.setFormFlattening(true);
+                stamper.close();
+                byteArrayOutputStream = attachWatermarking(watermarkBean, byteArrayOutputStream.toByteArray());
                 pdfFileData = byteArrayOutputStream.toByteArray();
             }
         }
         catch (Exception exception) {
-            LOG.error("Exception occured in WatermarkServiceImpl. Water mark Exception: " + exception.getMessage());
+            LOG.error("Exception occured in WatermarkServiceImpl. Water mark Exception: " + exception);
         }
 
         return pdfFileData;
