@@ -721,8 +721,11 @@ public class NotesAttachmentsHelper {
         if (!rule.processAddProtocolNotepadRules(event)) {
             return;
         }
-
-        this.addNewNotepad(this.protocolNotepad);
+        
+        ProtocolNotepad pn = this.protocolNotepad;
+        pn.setCreateUser(GlobalVariables.getUserSession().getPrincipalName());
+        pn.setCreateTimestamp(((DateTimeService) KraServiceLocator.getService(Constants.DATE_TIME_SERVICE_NAME)).getCurrentTimestamp());
+        this.addNewNotepad(pn);
         
         this.initProtocolNotepad();
     }
