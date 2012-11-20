@@ -671,7 +671,7 @@ public class KRAS2SServiceImpl implements S2SService {
 						+ opportunityForm.getFormName(), ex);
 			}
 		}
-		if (!validationSucceeded) {
+		if (!validationSucceeded || !auditErrors.isEmpty()) {
 			setValidationErrorMessage(auditErrors);
 		}
 		return validationSucceeded;

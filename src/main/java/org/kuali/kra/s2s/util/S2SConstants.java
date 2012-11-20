@@ -84,5 +84,7 @@ public interface S2SConstants {
     public static final String CONGRESSIONAL_DISTRICT = "performancesite.district.notfound";
     public static final String STATUS_PUREGED = "PURGED";
     public static final String ERROR_ERA_COMMON_USER_NAME="eRA Commons User Name is missing for ";
+    public static final String PARTICIPANT_COUNT_REQUIRED = "s2s.budget.participantcount.required";
+    public static final String PARTICIPANT_COSTS_REQUIRED = "s2s.budget.participantcost.required";
 
 }

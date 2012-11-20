@@ -1,5 +1,5 @@
 INSERT INTO SPONSOR_FORM_TEMPLATES (SPONSOR_FORM_TEMPLATE_ID,SPONSOR_FORM_ID,PAGE_NUMBER,PAGE_DESCRIPTION,FILE_NAME,CONTENT_TYPE,FORM_TEMPLATE,UPDATE_USER,UPDATE_TIMESTAMP,OBJ_ID,VER_NBR) 
-    VALUES (SEQ_SPONSOR_FORM_TEMPLATES.NEXTVAL,(SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'NSF forms (Coeus 4.0)'),7,'Budget Summary Total','Budget Summary Total..xslt','text/xml',EMPTY_CLOB(),'admin',SYSDATE,SYS_GUID(),1)
+    VALUES (SEQ_SPONSOR_FORM_TEMPLATES.NEXTVAL,(SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'NSF forms (Coeus 4.0)'),7,'Budget Summary Total','Budget Summary Total.xslt','text/xml',EMPTY_CLOB(),'admin',SYSDATE,SYS_GUID(),1)
 /
 DECLARE    data CLOB; buffer VARCHAR2(30000);
 BEGIN
@@ -1187,19 +1187,19 @@ END;
 DECLARE    data CLOB; buffer VARCHAR2(30000);
 BEGIN
 SELECT FORM_TEMPLATE INTO data FROM SPONSOR_FORM_TEMPLATES WHERE SPONSOR_FORM_ID = (SELECT SPONSOR_FORM_ID FROM SPONSOR_FORMS WHERE PACKAGE_NAME = 'NSF forms (Coeus 4.0)') AND PAGE_NUMBER = 7 FOR UPDATE;
-buffer := 'pos;Participant Stipends&apos;]/Cost ), ''#,###,###,##0.00'')" />
+buffer := 'pos;Stipends&apos;]/Cost ), ''#,###,###,##0.00'')" />
                                                 </fo:block>
                                             </fo:block>
                                             <fo:inline font-size="7pt">&#160;&#160;&#160;&#160; 2. TRAVEL&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; $</fo:inline>
-                                            <xsl:value-of select="format-number(sum(nih:ResearchAndRelatedProject/BudgetSummary/BudgetPeriod/rar:ParticipantPatientCosts[Type=&apos;Participant Travel&apos;]/Cost ), ''#,###,###,##0.00'')" />
+                                            <xsl:value-of select="format-number(sum(nih:ResearchAndRelatedProject/BudgetSummary/BudgetPeriod/rar:ParticipantPatientCosts[Type=&apos;Travel&apos;]/Cost ), ''#,###,###,##0.00'')" />
                                             <fo:block space-before.optimum="1pt" space-after.optimum="2pt">
                                                 <fo:block line-height="6pt">
                                                     <fo:inline font-size="7pt">&#160;&#160;&#160;&#160; 3. SUBSISTENCE&#160;&#160;&#160;&#160;&#160; $</fo:inline>
-                                                    <xsl:value-of select="format-number(sum(nih:ResearchAndRelatedProject/BudgetSummary/BudgetPeriod/rar:ParticipantPatientCosts[Type=&apos;Participant Subsistence&apos;]/Cost ), ''#,###,###,##0.00'')" />
+                                                    <xsl:value-of select="format-number(sum(nih:ResearchAndRelatedProject/BudgetSummary/BudgetPeriod/rar:ParticipantPatientCosts[Type=&apos;Subsistence&apos;]/Cost ), ''#,###,###,##0.00'')" />
                                                 </fo:block>
                                             </fo:block>
                                             <fo:inline font-size="7pt">&#160;&#160;&#160;&#160; 4. OTHER&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; $</fo:inline>
-                                            <xsl:value-of select="format-number(sum(nih:ResearchAndRelatedProject/BudgetSummary/BudgetPeriod/rar:ParticipantPatientCosts[Type=&apos;Participant Other&apos;]/Cost ), ''#,###,###,##0.00'')" />
+                                            <xsl:value-of select="format-number(sum(nih:ResearchAndRelatedProject/BudgetSummary/BudgetPeriod/rar:ParticipantPatientCosts[Type=&apos;Other&apos;]/Cost ), ''#,###,###,##0.00'')" />
                                         </fo:block>
                                     </fo:table-cell>
                                     <fo:table-cell background-color="gray" text-align="right" width="1in" padding-start="3pt" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" border-style="solid" border-width="1pt" border-color="black">
@@ -1214,7 +1214,7 @@ buffer := 'pos;Participant Stipends&apos;]/Cost ), ''#,###,###,##0.00'')" />
                                         <fo:block>
                                             <fo:inline font-size="7pt">TOTAL NUMBER OF PARTICIPANTS(&#160;</fo:inline>
                                             <fo:inline font-size="7pt">
-                                                <xsl:value-of select="sum( n1:ResearchAndRelatedProject/BudgetSummary/BudgetPeriod/NumberOfParticipants )" />
+                                                <xsl:value-of select="sum( nih:ResearchAndRelatedProject/BudgetSummary/BudgetPeriod/NumberOfParticipants )" />
                 	                        </fo:inline>
 										    <fo:inline>&#160; )&#160;&#160;&#160; TOTAL PARTICIPANT COSTS</fo:inline>
                                         </fo:block>
