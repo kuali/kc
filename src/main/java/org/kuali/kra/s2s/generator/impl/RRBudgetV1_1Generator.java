@@ -120,6 +120,7 @@ public class RRBudgetV1_1Generator extends RRBudgetBaseGenerator {
 		List<BudgetPeriodInfo> budgetperiodList;
 		BudgetSummaryInfo budgetSummary = null;
 		try {
+		    validateBudgetForForm(pdDoc);
 			budgetperiodList = s2sBudgetCalculatorService
 					.getBudgetPeriods(pdDoc);
 			budgetSummary = s2sBudgetCalculatorService.getBudgetInfo(pdDoc,budgetperiodList);

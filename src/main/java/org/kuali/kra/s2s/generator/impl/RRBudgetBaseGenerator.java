@@ -30,8 +30,10 @@ import java.util.Map;
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
 
+import org.kuali.kra.budget.core.BudgetService;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
+import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.printing.PrintingException;
@@ -40,6 +42,8 @@ import org.kuali.kra.printing.service.PrintingService;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.generator.bo.BudgetPeriodInfo;
 import org.kuali.kra.s2s.generator.bo.CostInfo;
@@ -47,6 +51,8 @@ import org.kuali.kra.s2s.generator.bo.EquipmentInfo;
 import org.kuali.kra.s2s.generator.bo.KeyPersonInfo;
 import org.kuali.kra.s2s.service.S2SBudgetCalculatorService;
 import org.kuali.kra.s2s.service.S2SUtilService;
+import org.kuali.kra.s2s.util.S2SConstants;
+import org.kuali.kra.s2s.validator.S2SErrorHandler;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
@@ -63,6 +69,7 @@ public abstract class RRBudgetBaseGenerator extends S2SBaseFormGenerator {
 	protected S2SUtilService s2sUtilService;
 	protected BusinessObjectService businessObjectService;
 	private DocumentService documentService ;
+	protected BudgetService budgetService;
 	public static final String OTHERCOST_DESCRIPTION = "Other";
 	public static final String OTHERPERSONNEL_POSTDOC = "PostDoc";
 	public static final String OTHERPERSONNEL_GRADUATE = "Grad";
@@ -98,6 +105,7 @@ public abstract class RRBudgetBaseGenerator extends S2SBaseFormGenerator {
 				.getService(S2SBudgetCalculatorService.class);
 		businessObjectService = KraServiceLocator
 				.getService(BusinessObjectService.class);
+		budgetService = KraServiceLocator.getService(BudgetService.class);
 	}
 	protected void deleteAutoGenNarratives() {
 		BusinessObjectService businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
@@ -289,6 +297,33 @@ public abstract class RRBudgetBaseGenerator extends S2SBaseFormGenerator {
    }
    
    /**
+    * Perform manual validations on the budget. Similarly done in RRFedNonFedBudgetBaseGenerator due to object graph.
+    * @param pdDoc
+    * @return
+    * @throws S2SException
+    */
+   protected boolean validateBudgetForForm(ProposalDevelopmentDocument pdDoc) throws S2SException {
+       boolean valid = true;
+       
+       BudgetDocument budget = s2sBudgetCalculatorService.getFinalBudgetVersion(pdDoc);
+       for (BudgetPeriod period : budget.getBudget().getBudgetPeriods()) {
+           List<String> participantSupportCode = new ArrayList<String>();
+           participantSupportCode.add(budgetService.getParticipantSupportCategoryCode());
+           List<BudgetLineItem> participantSupportLineItems = 
+                   budgetService.getMatchingLineItems(period.getBudgetLineItems(), participantSupportCode);
+           int numberOfParticipants = period.getNumberOfParticipants() == null ? 0 : period.getNumberOfParticipants();
+           if (!participantSupportLineItems.isEmpty() && numberOfParticipants == 0) {
+               getAuditErrors().add(S2SErrorHandler.getError(S2SConstants.PARTICIPANT_COUNT_REQUIRED));
+               valid = false;
+           } else if (numberOfParticipants > 0 && participantSupportLineItems.isEmpty()) {
+               getAuditErrors().add(S2SErrorHandler.getError(S2SConstants.PARTICIPANT_COSTS_REQUIRED));
+               valid = false;
+           }
+       }
+       return valid;
+   }
+   
+   /**
     * @return the documentService
     */
    public DocumentService getDocumentService() {
@@ -302,6 +337,14 @@ public abstract class RRBudgetBaseGenerator extends S2SBaseFormGenerator {
    public void setDocumentService(DocumentService documentService) {
        this.documentService = documentService;
    }
+   
+    protected BudgetService getBudgetService() {
+        return budgetService;
+    }
+    
+    public void setBudgetService(BudgetService budgetService) {
+        this.budgetService = budgetService;
+    }
 
 
 }

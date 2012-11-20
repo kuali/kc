@@ -1651,19 +1651,19 @@ buffer := '                                         </xsl:for-each>
                                             <fo:block space-before.optimum="1pt" space-after.optimum="2pt">
                                                 <fo:block font-size="7pt">
                                                     <fo:inline font-size="7pt">&#160;&#160;&#160;&#160; 1. STIPENDS&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; $</fo:inline>
-                                                    <xsl:value-of select="format-number(sum(n1:ResearchAndRelatedProject/BudgetSummary/BudgetPeriod[BudgetPeriodID=5]/n3:ParticipantPatientCosts[Type=&apos;Participant Stipends&apos;]/Cost ), ''#,###,###,##0.00'')" />
+                                                    <xsl:value-of select="format-number(sum(n1:ResearchAndRelatedProject/BudgetSummary/BudgetPeriod[BudgetPeriodID=5]/n3:ParticipantPatientCosts[Type=&apos;Stipends&apos;]/Cost ), ''#,###,###,##0.00'')" />
                                                 </fo:block>
                                             </fo:block>
                                             <fo:inline font-size="7pt">&#160;&#160;&#160;&#160; 2. TRAVEL&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; $</fo:inline>
-                                            <xsl:value-of select="format-number(sum(n1:ResearchAndRelatedProject/BudgetSummary/BudgetPeriod[BudgetPeriodID=5]/n3:ParticipantPatientCosts[Type=&apos;Participant Travel&apos;]/Cost ), ''#,###,###,##0.00'')" />
+                                            <xsl:value-of select="format-number(sum(n1:ResearchAndRelatedProject/BudgetSummary/BudgetPeriod[BudgetPeriodID=5]/n3:ParticipantPatientCosts[Type=&apos;Travel&apos;]/Cost ), ''#,###,###,##0.00'')" />
                                             <fo:block space-before.optimum="1pt" space-after.optimum="2pt">
                                                 <fo:block line-height="6pt">
                                                     <fo:inline font-size="7pt">&#160;&#160;&#160;&#160; 3. SUBSISTENCE&#160;&#160;&#160;&#160;&#160; $</fo:inline>
-                                                    <xsl:value-of select="format-number(sum(n1:ResearchAndRelatedProject/BudgetSummary/BudgetPeriod[BudgetPeriodID=5]/n3:ParticipantPatientCosts[Type=&apos;Participant Subsistence&apos;]/Cost ), ''#,###,###,##0.00'')" />
+                                                    <xsl:value-of select="format-number(sum(n1:ResearchAndRelatedProject/BudgetSummary/BudgetPeriod[BudgetPeriodID=5]/n3:ParticipantPatientCosts[Type=&apos;Subsistence&apos;]/Cost ), ''#,###,###,##0.00'')" />
                                                 </fo:block>
                                             </fo:block>
                                             <fo:inline font-size="7pt">&#160;&#160;&#160;&#160; 4. OTHER&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; $</fo:inline>
-                                            <xsl:value-of select="format-number(sum(n1:ResearchAndRelatedProject/BudgetSummary/BudgetPeriod[BudgetPeriodID=5]/n3:ParticipantPatientCosts[Type=&apos;Participant Other&apos;]/Cost ), ''#,###,###,##0.00'')"';
+                                            <xsl:value-of select="format-number(sum(n1:ResearchAndRelatedProject/BudgetSummary/BudgetPeriod[BudgetPeriodID=5]/n3:ParticipantPatientCosts[Type=&apos;Other&apos;]/Cost ), ''#,###,###,##0.00'')"';
 DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
 END;
 /

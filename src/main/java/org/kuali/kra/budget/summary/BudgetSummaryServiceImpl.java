@@ -100,7 +100,8 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
                     budgetLineItems = budgetPeriod.getBudgetLineItems();
                     period1Duration = KraServiceLocator.getService(DateTimeService.class).dateDiff(budgetPeriod.getStartDate(), budgetPeriod.getEndDate(), false);
                     break;
-                default :    
+                default :
+                    budgetPeriod.setNumberOfParticipants(budgetPeriod1.getNumberOfParticipants());
                     /* add line items for following periods */
                     for(BudgetLineItem periodLineItem: budgetLineItems) {
                         BudgetLineItem budgetLineItem = (BudgetLineItem)(KraServiceLocator.getService(DeepCopyPostProcessor.class).processDeepCopyWithDeepCopyIgnore(periodLineItem));
