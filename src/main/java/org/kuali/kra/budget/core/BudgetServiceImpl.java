@@ -519,10 +519,10 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
         return parameterService.getParameterValueAsString(BudgetDocument.class, Constants.BUDGET_CATEGORY_TYPE_PARTICIPANT_SUPPORT);
     }
     
-    public List<BudgetLineItem> getMatchingLineItems(List<BudgetLineItem> lineItems, List<String> costElements) {
+    public List<BudgetLineItem> getMatchingLineItems(List<BudgetLineItem> lineItems, List<String> budgetCategoryType) {
         List<BudgetLineItem> result = new ArrayList<BudgetLineItem>();
         for (BudgetLineItem lineItem : lineItems) {
-            if (costElements.contains(lineItem.getCostElement())) {
+            if (budgetCategoryType.contains(lineItem.getBudgetCategory().getBudgetCategoryTypeCode())) {
                 result.add(lineItem);
             }
         }
