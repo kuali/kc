@@ -65,7 +65,7 @@ public class InstitutionalProposalFinancialRuleImpl extends ResearchDocumentRule
                valid = false;
            }
        }
-       if(institutionalProposal.getRequestedStartDateTotal() != null && institutionalProposal.getRequestedStartDateInitial() != null) {
+       if(institutionalProposal.getRequestedEndDateTotal() != null && institutionalProposal.getRequestedEndDateInitial() != null) {
            if (!(validateFirstDatePriorToSecondDate(institutionalProposal.getRequestedEndDateInitial(),
                    institutionalProposal.getRequestedEndDateTotal()))) {
                this.reportError("document.institutionalProposalList[0].requestedEndDateInitial", KeyConstants.ERROR_FINANCIAL_DATES, 
