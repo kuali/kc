@@ -304,7 +304,7 @@ public class PrintServiceImpl implements PrintService {
 			s2sFormGenerator.setAuditErrors(errors);
 			s2sFormGenerator.setAttachments(new ArrayList<AttachmentData>());
 			XmlObject formObject = s2sFormGenerator.getFormObject(pdDoc);
-			if (s2SValidatorService.validate(formObject, errors)) {
+			if (s2SValidatorService.validate(formObject, errors) && errors.isEmpty()) {
 			    String applicationXml = formObject.xmlText(s2SFormGeneratorService.getXmlOptionsPrefixes());
 			    String filteredApplicationXml = getS2SUtilService().removeTimezoneFactor(applicationXml);
 				byte[] formXmlBytes = filteredApplicationXml.getBytes();
