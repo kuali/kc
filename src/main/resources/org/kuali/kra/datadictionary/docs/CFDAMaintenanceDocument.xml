@@ -38,7 +38,7 @@
       <list>
         <bean parent="MaintainableFieldDefinition" p:name="cfdaNumber" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="cfdaProgramTitleName" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="cfdaMaintenanceTypeId" p:required="true" />
+        <bean parent="MaintainableFieldDefinition" p:name="cfdaMaintenanceTypeId" p:defaultValue="MANUAL" p:required="true" />
         <bean parent="MaintainableFieldDefinition" p:name="activeFlag" p:required="true"/>
       </list>
     </property>
