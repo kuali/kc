@@ -76,10 +76,9 @@
     	<property name="validationPattern" >
       	<bean parent="AnyCharacterValidationPattern" />
     	</property>
-    	<property name="control">
-      	<bean parent="TextControlDefinition" p:size="8"/>
-      	<!--<bean parent ="SelectControlDefinition" />-->
-    	</property>
+		<property name="control">
+      		<bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.kra.award.lookup.keyvalue.CfdaMaintenanceTypeValuesFinder" p:includeKeyInLabel="false"/>
+    	</property> 
   	</bean>
   
   <bean id="CFDA-activeFlag" parent="CFDA-activeFlag-parentBean" />
