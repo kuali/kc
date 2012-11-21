@@ -34,7 +34,7 @@ public class CfdaMaintenanceTypeValuesFinder extends KeyValuesBase {
     public List<KeyValue> getKeyValues() {
         List<KeyValue> labels = new ArrayList<KeyValue>();
         labels.add(new ConcreteKeyValue(Constants.CFDA_MAINT_TYP_ID_AUTOMATIC, Constants.CFDA_MAINT_TYP_ID_AUTOMATIC));
-        labels.add(new ConcreteKeyValue(Constants.CFDA_MAINT_TYP_ID_AUTOMATIC, Constants.CFDA_MAINT_TYP_ID_MANUAL));
+        labels.add(new ConcreteKeyValue(Constants.CFDA_MAINT_TYP_ID_MANUAL, Constants.CFDA_MAINT_TYP_ID_MANUAL));
 
 
         return labels;
