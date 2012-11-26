@@ -26,6 +26,7 @@ public class CfdaDTO implements Serializable {
     private String cfdaNumber;
     private String cfdaProgramTitleName;
     private String cfdaMaintenanceTypeId;
+    private boolean active;
     private String awardId;
     private static final long serialVersionUID = 7517946137745989736L;
 
@@ -54,5 +55,10 @@ public class CfdaDTO implements Serializable {
     public void setCfdaMaintenanceTypeId(String cfdaMaintenanceTypeId) {
         this.cfdaMaintenanceTypeId = cfdaMaintenanceTypeId;
     }
-    
+    public boolean isActive() {
+        return active;
+    }
+    public void setActive(boolean active) {
+        this.active = active;
+    }
 }
