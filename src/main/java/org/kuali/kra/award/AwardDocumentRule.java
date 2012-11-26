@@ -824,40 +824,16 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         Date effStartDate = award.getAwardEffectiveDate(); 
         Date effEndDate = award.getAwardAmountInfos().get(lastIndex).getFinalExpirationDate();
         
-        // make sure Project Start Date <= Obligation Start Date <= Obligation End Date <= Project Start Date
-        if (effStartDate != null && effEndDate != null && effStartDate.after(effEndDate))  {
-            success = false;
-            errorMap.putError("awardAmountInfos["+lastIndex+"].finalExpirationDate", KeyConstants.ERROR_START_DATE_ON_OR_BEFORE,
-                    new String[] {"Project Start Date", "Project End Date"});
-        }
+        success = success && AwardDateRulesHelper.validateProjectStartBeforeProjectEnd(errorMap, effStartDate, effEndDate, "awardAmountInfos["+lastIndex+"].finalExpirationDate");
+        
         Date oblStartDate = award.getAwardAmountInfos().get(lastIndex).getCurrentFundEffectiveDate(); 
         Date oblEndDate = award.getAwardAmountInfos().get(lastIndex).getObligationExpirationDate();
-        if (oblStartDate != null && oblEndDate != null && oblStartDate.after(oblEndDate)) {
-            success = false;
-            errorMap.putError("awardAmountInfos["+lastIndex+"].obligationExpirationDate", KeyConstants.ERROR_START_DATE_ON_OR_BEFORE,
-                    new String[] {"Obligation Start Date", "Obligation End Date"});
-        }
-        // make sure obligation dates are within effective dates
-        if (oblStartDate != null && effStartDate != null && oblStartDate.before(effStartDate)) {
-            success = false;
-            errorMap.putError("awardAmountInfos["+lastIndex+"].currentFundEffectiveDate", KeyConstants.ERROR_START_DATE_ON_OR_BEFORE,
-                    new String[] {"Project Start Date","Obligation Start Date"});
-        }
-        if (oblEndDate != null && effStartDate != null && oblEndDate.before(effStartDate)) {
-            success = false;
-            errorMap.putError("awardAmountInfos["+lastIndex+"].obligationExpirationDate", KeyConstants.ERROR_START_DATE_ON_OR_BEFORE,
-                    new String[] {"Project Start Date","Obligation End Date"});
-        }
-        if (oblStartDate != null && effEndDate != null && oblStartDate.after(effEndDate)) {
-            success = false;
-            errorMap.putError("awardAmountInfos["+lastIndex+"].currentFundEffectiveDate", KeyConstants.ERROR_START_DATE_ON_OR_BEFORE,
-                    new String[] {"Obligation Start Date", "Project End Date"});
-        }
-        if (oblEndDate != null && effEndDate != null && oblEndDate.after(effEndDate)) {
-            success = false;
-            errorMap.putError("awardAmountInfos["+lastIndex+"].obligationExpirationDate", KeyConstants.ERROR_START_DATE_ON_OR_BEFORE,
-                    new String[] {"Obligation End Date", "Project End Date"});
-        }
+
+        success = AwardDateRulesHelper.validateObligationStartBeforeObligationEnd(errorMap, oblStartDate, oblEndDate, "awardAmountInfos["+lastIndex+"].obligationExpirationDate") && success;
+        success = AwardDateRulesHelper.validateProjectStartBeforeObligationStart(errorMap, effStartDate, oblStartDate, "awardAmountInfos["+lastIndex+"].currentFundEffectiveDate") && success;
+        success = AwardDateRulesHelper.validateProjectStartBeforeObligationEnd(errorMap, effStartDate, oblEndDate, "awardAmountInfos["+lastIndex+"].obligationExpirationDate") && success;
+        success = AwardDateRulesHelper.validateObligationStartBeforeProjectEnd(errorMap, oblStartDate, effEndDate, "awardAmountInfos["+lastIndex+"].currentFundEffectiveDate") && success;
+        success = AwardDateRulesHelper.validateObligationEndBeforeProjectEnd(errorMap, oblEndDate, effEndDate, "awardAmountInfos["+lastIndex+"].obligationExpirationDate") && success;
 
         errorMap.removeFromErrorPath(AWARD_ERROR_PATH);
         errorMap.removeFromErrorPath(DOCUMENT_ERROR_PATH);
