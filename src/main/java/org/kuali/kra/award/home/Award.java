@@ -1220,18 +1220,6 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     }
 
     /**
-     * This method calculates the total cost of all funding proposals
-     * @return
-     */
-    public KualiDecimal getTotalCostOfFundingProposals() {
-        KualiDecimal total = new KualiDecimal(0.00);
-        for (AwardFundingProposal afp : fundingProposals) {
-            total = total.add(new KualiDecimal(afp.getProposal().getTotalCost().doubleValue()));
-        }
-        return total;
-    }
-
-    /**
      * 
      * @param proposalNumber
      */
