@@ -19,6 +19,7 @@ import java.sql.Date;
 import java.util.Map.Entry;
 
 import org.kuali.kra.award.AwardAmountInfoService;
+import org.kuali.kra.award.AwardDateRulesHelper;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
 import org.kuali.kra.award.version.service.AwardVersionService;
@@ -30,6 +31,7 @@ import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.kra.timeandmoney.rule.event.TimeAndMoneyAwardDateSaveEvent;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
 
 /**
  * This class...
@@ -48,7 +50,8 @@ public class TimeAndMoneyAwardDateSaveRuleImpl extends ResearchDocumentRuleBase 
         TimeAndMoneyDocument timeAndMoneyDocument = (TimeAndMoneyDocument) timeAndMoneyAwardDateSaveEvent.getDocument();
         
         //return validateObligatedDates(timeAndMoneyDocument) && validateDatesNotNull(timeAndMoneyDocument) && validateDatesAgainstProjectStartDate(timeAndMoneyDocument);
-        return validateObligatedDates(timeAndMoneyDocument) && validateDatesAgainstProjectStartDate(timeAndMoneyDocument);
+        //return validateObligatedDates(timeAndMoneyDocument) && validateDatesAgainstProjectStartDate(timeAndMoneyDocument);
+        return validateObligatedDates(timeAndMoneyDocument);
     }
     
     private boolean validateObligatedDates(TimeAndMoneyDocument document) {
@@ -62,6 +65,16 @@ public class TimeAndMoneyAwardDateSaveRuleImpl extends ResearchDocumentRuleBase 
             Date projectEndDate = awardHierarchyNode.getValue().getFinalExpirationDate();
             Date projectStartDate = aai.getAward().getAwardEffectiveDate();
             KualiDecimal obligatedTotal = awardHierarchyNode.getValue().getAmountObligatedToDate();
+            
+            MessageMap errorMap = GlobalVariables.getMessageMap();
+            valid = AwardDateRulesHelper.validateProjectStartBeforeProjectEnd(errorMap, projectStartDate, projectEndDate, "awardAmountInfos["+i+"].finalExpirationDate") && valid;
+            valid = AwardDateRulesHelper.validateObligationStartBeforeObligationEnd(errorMap, obligatedStartDate, obligatedEndDate, "awardAmountInfos["+i+"].obligationExpirationDate") && valid;
+            valid = AwardDateRulesHelper.validateProjectStartBeforeObligationStart(errorMap, projectStartDate, obligatedStartDate, "awardAmountInfos["+i+"].currentFundEffectiveDate") && valid;
+            valid = AwardDateRulesHelper.validateProjectStartBeforeObligationEnd(errorMap, projectStartDate, obligatedEndDate, "awardAmountInfos["+i+"].obligationExpirationDate") && valid;
+            valid = AwardDateRulesHelper.validateObligationStartBeforeProjectEnd(errorMap, obligatedStartDate, projectEndDate, "awardAmountInfos["+i+"].currentFundEffectiveDate") && valid;
+            valid = AwardDateRulesHelper.validateObligationEndBeforeProjectEnd(errorMap, obligatedEndDate, projectEndDate, "awardAmountInfos["+i+"].obligationExpirationDate") && valid;
+            
+            /*
             if (projectEndDate == null) {
                 String field = "awardHierarchyNodeItems[" + i + "].finalexpirationdate"; 
                 reportError(field, KeyConstants.ERROR_FISCAL_YEAR_REQUIRED, "Project End");
@@ -92,6 +105,7 @@ public class TimeAndMoneyAwardDateSaveRuleImpl extends ResearchDocumentRuleBase 
                 reportError(field, KeyConstants.ERROR_START_DATE_ON_OR_BEFORE, "Obligation Start Date","Project End Date ");
                 valid = false;
             }
+            */
             if (obligatedTotal != null && obligatedTotal.isGreaterThan(new KualiDecimal(0))) {
                 if (obligatedStartDate == null) {
                     String field = "awardHierarchyNodeItems[" + i + "].currentFundEffectiveDate"; 
@@ -118,6 +132,7 @@ public class TimeAndMoneyAwardDateSaveRuleImpl extends ResearchDocumentRuleBase 
         return KraServiceLocator.getService(AwardVersionService.class);
     }
     
+    /*
     private boolean validateDatesAgainstProjectStartDate(TimeAndMoneyDocument document) {
         boolean valid = true;
         for(Entry<String, AwardHierarchyNode> awardHierarchyNode : document.getAwardHierarchyNodes().entrySet()){
@@ -143,6 +158,8 @@ public class TimeAndMoneyAwardDateSaveRuleImpl extends ResearchDocumentRuleBase 
             }   
           return valid;  
         }
+    
+    */
     
     
     public boolean enforceAwardStartDatePopulated(Award award) {
