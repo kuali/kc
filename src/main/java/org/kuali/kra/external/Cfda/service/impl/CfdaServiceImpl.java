@@ -233,8 +233,8 @@ public class CfdaServiceImpl implements CfdaService {
             else if (kcCfda.getCfdaMaintenanceTypeId().equalsIgnoreCase(Constants.CFDA_MAINT_TYP_ID_AUTOMATIC)) {
 
                 if (govCfda == null) {
-                    if (kcCfda.getActiveFlag()) {
-                        kcCfda.setActiveFlag(false);
+                    if (kcCfda.isActive()) {
+                        kcCfda.setActive(false);
                         businessObjectService.save(kcCfda);
                         updateResults.setNumberOfRecordsDeactivatedBecauseNoLongerOnWebSite(updateResults.getNumberOfRecordsDeactivatedBecauseNoLongerOnWebSite() + 1);
                     }
@@ -244,11 +244,15 @@ public class CfdaServiceImpl implements CfdaService {
                     }
                 }
                 else {
-                    if (kcCfda.getActiveFlag()) {
+                    if (kcCfda.isActive()) {
+                       /*if (!kcCfda.getCfdaProgramTitleName().equalsIgnoreCase(govCfda.getCfdaProgramTitleName())) {
+                            message.append("The program title for CFDA " + kcCfda.getCfdaNumber() + " changed from " 
+                                            + kcCfda.getCfdaProgramTitleName() + " to " + govCfda.getCfdaProgramTitleName() + ".<BR>");
+                        }*/
                         updateResults.setNumberOfRecordsUpdatedBecauseAutomatic(updateResults.getNumberOfRecordsUpdatedBecauseAutomatic() + 1);
                     }
                     else {
-                        kcCfda.setActiveFlag(true);
+                        kcCfda.setActive(true);
                         updateResults.setNumberOfRecordsReActivated(updateResults.getNumberOfRecordsReActivated() + 1);
                     }
 
@@ -292,7 +296,7 @@ public class CfdaServiceImpl implements CfdaService {
             String cfdaProgramTitleName = trimProgramTitleName(cfda.getCfdaProgramTitleName());
             // all new cfda numbers are set to automatic and active
             cfda.setCfdaProgramTitleName(SQLUtils.cleanString(cfdaProgramTitleName));
-            cfda.setActiveFlag(true);
+            cfda.setActive(true);
             cfda.setCfdaMaintenanceTypeId(Constants.CFDA_MAINT_TYP_ID_AUTOMATIC);
             getBusinessObjectService().save(cfda);
         }

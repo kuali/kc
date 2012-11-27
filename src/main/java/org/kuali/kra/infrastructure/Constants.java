@@ -507,8 +507,8 @@ public interface Constants {
     public static final String GET_FIN_SYSTEM_URL_FROM_WSDL = "GET_FIN_SYSTEM_URL_FROM_WSDL";
     //CFDA
     public static final int MAX_ALLOWABLE_CFDA_PGM_TITLE_NAME = 300;
-    public static final String CFDA_MAINT_TYP_ID_AUTOMATIC = "Automatic";
-    public static final String CFDA_MAINT_TYP_ID_MANUAL = "Manual";
+    public static final String CFDA_MAINT_TYP_ID_AUTOMATIC = "AUTOMATIC";
+    public static final String CFDA_MAINT_TYP_ID_MANUAL = "MANUAL";
     public static final String CFDA_GOV_URL_PARAMETER = "CFDA_GOV_URL";
     public static final String CFDA_GOV_LOGIN_USERNAME = "anonymous";
     public static final String CFDA_CRON_START_TIME_PARAMETER = "CFDA_BATCH_JOB_CRON_START_TIME";

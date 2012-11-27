@@ -25,14 +25,14 @@ public class CFDA extends KraPersistableBusinessObjectBase {
 
     private String cfdaMaintenanceTypeId;
 
-    private Boolean activeFlag;
+    private Boolean active;
 
-    public Boolean getActiveFlag() {
-        return activeFlag;
+    public Boolean isActive() {
+        return active;
     }
 
-    public void setActiveFlag(Boolean activeFlag) {
-        this.activeFlag = activeFlag;
+    public void setActive(Boolean active) {
+        this.active = active;
     }
 
     public String getCfdaMaintenanceTypeId() {
