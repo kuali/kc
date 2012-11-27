@@ -238,8 +238,8 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
         GlobalVariables.getUserSession().removeObject(moduleQuestionnaireBean.getSessionContextKey() + "-rulereferenced");
         for (AnswerHeader answerHeader : answers) {
             if (!answerHeaderMap.containsKey(answerHeader.getQuestionnaire().getQuestionnaireId())
-                    || Long.parseLong(answerHeaderMap.get(answerHeader.getQuestionnaire().getQuestionnaireId()).getQuestionnaireRefIdFk()) 
-                            < Long.parseLong(answerHeader.getQuestionnaireRefIdFk())) {
+                    || answerHeaderMap.get(answerHeader.getQuestionnaire().getQuestionnaireId()).getQuestionnaire().getSequenceNumber()
+                            < answerHeader.getQuestionnaire().getSequenceNumber()) {
                 setupChildAnswerIndicator(answerHeader);
                 answerHeaderMap.put(answerHeader.getQuestionnaire().getQuestionnaireId(), answerHeader);
             }
