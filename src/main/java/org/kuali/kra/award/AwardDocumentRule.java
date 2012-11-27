@@ -824,7 +824,7 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         Date effStartDate = award.getAwardEffectiveDate(); 
         Date effEndDate = award.getAwardAmountInfos().get(lastIndex).getFinalExpirationDate();
         
-        success = success && AwardDateRulesHelper.validateProjectStartBeforeProjectEnd(errorMap, effStartDate, effEndDate, "awardAmountInfos["+lastIndex+"].finalExpirationDate");
+        success = AwardDateRulesHelper.validateProjectStartBeforeProjectEnd(errorMap, effStartDate, effEndDate, "awardAmountInfos["+lastIndex+"].finalExpirationDate") && success;
         
         Date oblStartDate = award.getAwardAmountInfos().get(lastIndex).getCurrentFundEffectiveDate(); 
         Date oblEndDate = award.getAwardAmountInfos().get(lastIndex).getObligationExpirationDate();
