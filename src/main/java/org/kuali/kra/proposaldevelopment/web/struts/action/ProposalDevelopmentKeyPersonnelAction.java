@@ -52,7 +52,6 @@ import org.kuali.kra.bo.KcPersonExtendedAttributes;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
@@ -552,6 +551,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
             for (ProposalPersonQuestionnaireHelper helper : pdform.getProposalPersonQuestionnaireHelpers()) {
                 //doing this check to make sure the person wasn't automatically deleted after adding.
                 if (pdform.getProposalDevelopmentDocument().getDevelopmentProposal().getProposalPersons().contains(helper.getProposalPerson())) {
+                    helper.preSave();
                     answerHeadersToSave.addAll(helper.getAnswerHeaders());
                 }
             }
@@ -851,12 +851,12 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
             int selectedPersonIndex = Integer.parseInt(formProperty.substring(36, formProperty.length()-1));
             
             ProposalPerson person = document.getDevelopmentProposal().getProposalPerson(selectedPersonIndex);
-            ProposalPersonQuestionnaireHelper helper = new ProposalPersonQuestionnaireHelper(pdform, person);
+            ProposalPersonQuestionnaireHelper helper = pdform.getProposalPersonQuestionnaireHelpers().get(selectedPersonIndex);
             
             helper.updateQuestionnaireAnswer(getLineToDelete(request));
             getBusinessObjectService().save(helper.getAnswerHeaders().get(getLineToDelete(request)));
             
-            return this.reload(mapping, pdform, request, response);
+            return mapping.findForward(MAPPING_BASIC);
             
         } else {
             throw new RuntimeException(String.format("Do not know how to process updateAnswerToNewVersion for formProperty %s",formProperty));
