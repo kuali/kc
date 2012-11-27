@@ -6,6 +6,16 @@
       <th colspan="4" style="border-style: solid; text-align: left; border-color: rgb(230, 230, 230) rgb(147, 147, 147) rgb(147, 147, 147); border-width: 1px; padding: 3px; border-collapse: collapse; background-color: rgb(184, 184, 184); background-image: none;">Subaward ${node.bo.subAwardId}</th>
     </tr>
     <tr>
+      <td style="text-align: center;" colspan="4">
+	  <a href="${ConfigProperties.application.url}/subAwardHome.do?methodToCall=docHandler&command=displayDocSearchView&docId=${node.bo.subAwardDocument.documentNumber}&medusaOpenedDoc=true"
+	     target="_blank" class="medusaOpenLink">
+	    <img title="Open Subaward" 
+	          alt="Open Subaward" style="border: medium none ;" 
+	          src="static/images/tinybutton-opensubaward.gif"/>
+	  </a>      	  
+      </td>
+    </tr>    
+    <tr>
       <th colspan="4" style="border-style: solid; text-align:left; border-color: rgb(230, 230, 230) rgb(147, 147, 147) rgb(147, 147, 147); border-width: 1px; padding: 3px; border-collapse: collapse; background-color: rgb(184, 184, 184); background-image: none;">Summary</th>
     </tr>
     <tr>
@@ -15,7 +25,7 @@
       <td><c:out value="${node.bo.statusDescription}"/></td>
     </tr>
      <tr>
-      <th style="text-align: right;">Account Id:</th>
+      <th style="text-align: right;">Account ID:</th>
       <td><c:out value="${node.bo.accountNumber}"/></td>
       <th style="text-align: right;">Subrecipient:</th>
        <td><c:out value="${node.bo.organizationName}"/></td>
