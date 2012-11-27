@@ -20,7 +20,7 @@
         <ref bean="CFDA-cfdaNumber" />
         <ref bean="CFDA-cfdaProgramTitleName" />
         <ref bean="CFDA-cfdaMaintenanceTypeId" />
-        <ref bean="CFDA-activeFlag" />
+        <ref bean="CFDA-active" />
       </list>
     </property>
   </bean>
@@ -81,9 +81,9 @@
     	</property> 
   	</bean>
   
-  <bean id="CFDA-activeFlag" parent="CFDA-activeFlag-parentBean" />
-  <bean id="CFDA-activeFlag-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="name" value="activeFlag" />
+  <bean id="CFDA-active" parent="CFDA-active-parentBean" />
+  <bean id="CFDA-active-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="active" />
     <property name="forceUppercase" value="false" />
     <property name="label" value="Active" />
     <property name="shortLabel" value="Active" />
@@ -122,7 +122,7 @@
               <bean parent="FieldDefinition"
               		p:attributeName="cfdaMaintenanceTypeId" />
               <bean parent="FieldDefinition"
-              		p:attributeName="activeFlag" />
+              		p:attributeName="active" />
             </list>
           </property>
         </bean>
@@ -151,7 +151,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="cfdaMaintenanceTypeId" />
         <bean parent="FieldDefinition"
-        	  p:attributeName="activeFlag" />
+        	  p:attributeName="active" />
       </list>
     </property>
     <property name="resultFields" >
@@ -164,7 +164,7 @@
         <bean parent="FieldDefinition"
               p:attributeName="cfdaMaintenanceTypeId" />
         <bean parent="FieldDefinition"
-        	  p:attributeName="activeFlag" />
+        	  p:attributeName="active" />
       </list>
     </property>
   </bean>
