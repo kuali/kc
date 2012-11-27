@@ -32,56 +32,56 @@ public class AwardDateRulesHelper {
     public static final String PROJECT_START_DATE = "Project Start Date";
     public static final String PROJECT_END_DATE = "Project End Date";
     
-    public static boolean validateObligationStartBeforeObligationEnd(MessageMap errorMap, Date obligationStartDate, Date obligationEndDate, String fieldName) {
+    public static boolean validateObligationStartBeforeObligationEnd(MessageMap errorMap, Date obligationStartDate, Date obligationEndDate, String fieldName, String awardID) {
         boolean success = true;
         if (isDateOneAfterDateTwo(obligationStartDate, obligationEndDate)) {
             success = false;
-            errorMap.putError(fieldName, KeyConstants.ERROR_START_DATE_ON_OR_BEFORE, new String[] {OBLIGATION_START_DATE, OBLIGATION_END_DATE});
+            errorMap.putError(fieldName, KeyConstants.ERROR_START_DATE_ON_OR_BEFORE, new String[] {OBLIGATION_START_DATE, OBLIGATION_END_DATE, awardID});
         }
         return success;
     }
     
-    public static boolean validateObligationStartBeforeProjectEnd(MessageMap errorMap, Date obligationStartDate, Date projectEndDate, String fieldName) {
+    public static boolean validateObligationStartBeforeProjectEnd(MessageMap errorMap, Date obligationStartDate, Date projectEndDate, String fieldName, String awardID) {
         boolean success = true;
         if (isDateOneAfterDateTwo(obligationStartDate, projectEndDate)) {
             success = false;
-            errorMap.putError(fieldName, KeyConstants.ERROR_START_DATE_ON_OR_BEFORE, new String[] {OBLIGATION_START_DATE, PROJECT_END_DATE});
+            errorMap.putError(fieldName, KeyConstants.ERROR_START_DATE_ON_OR_BEFORE, new String[] {OBLIGATION_START_DATE, PROJECT_END_DATE, awardID});
         }
         return success;
     }
     
-    public static boolean validateObligationEndBeforeProjectEnd(MessageMap errorMap, Date obligationEndDate, Date projectEndDate, String fieldName) {
+    public static boolean validateObligationEndBeforeProjectEnd(MessageMap errorMap, Date obligationEndDate, Date projectEndDate, String fieldName, String awardID) {
         boolean success = true;
         if (isDateOneAfterDateTwo(obligationEndDate, projectEndDate)) {
             success = false;
-            errorMap.putError(fieldName, KeyConstants.ERROR_START_DATE_ON_OR_BEFORE, new String[] {OBLIGATION_END_DATE, PROJECT_END_DATE});
+            errorMap.putError(fieldName, KeyConstants.ERROR_START_DATE_ON_OR_BEFORE, new String[] {OBLIGATION_END_DATE, PROJECT_END_DATE, awardID});
         }
         return success;
     }
     
-    public static boolean validateProjectStartBeforeObligationStart(MessageMap errorMap, Date projectStartDate, Date obligationStartDate, String fieldName) {
+    public static boolean validateProjectStartBeforeObligationStart(MessageMap errorMap, Date projectStartDate, Date obligationStartDate, String fieldName, String awardID) {
         boolean success = true;
         if (isDateOneAfterDateTwo(projectStartDate, obligationStartDate)) {
             success = false;
-            errorMap.putError(fieldName, KeyConstants.ERROR_START_DATE_ON_OR_BEFORE, new String[] {PROJECT_START_DATE, OBLIGATION_START_DATE});
+            errorMap.putError(fieldName, KeyConstants.ERROR_START_DATE_ON_OR_BEFORE, new String[] {PROJECT_START_DATE, OBLIGATION_START_DATE, awardID});
         }
         return success;
     }
     
-    public static boolean validateProjectStartBeforeObligationEnd(MessageMap errorMap, Date projectStartDate, Date obligationEndDate, String fieldName) {
+    public static boolean validateProjectStartBeforeObligationEnd(MessageMap errorMap, Date projectStartDate, Date obligationEndDate, String fieldName, String awardID) {
         boolean success = true;
         if (isDateOneAfterDateTwo(projectStartDate, obligationEndDate)) {
             success = false;
-            errorMap.putError(fieldName, KeyConstants.ERROR_START_DATE_ON_OR_BEFORE, new String[] {PROJECT_START_DATE, OBLIGATION_END_DATE});
+            errorMap.putError(fieldName, KeyConstants.ERROR_START_DATE_ON_OR_BEFORE, new String[] {PROJECT_START_DATE, OBLIGATION_END_DATE, awardID});
         }
         return success;
     }
     
-    public static boolean validateProjectStartBeforeProjectEnd(MessageMap errorMap, Date projectStartDate, Date projectEndDate, String fieldName) {
+    public static boolean validateProjectStartBeforeProjectEnd(MessageMap errorMap, Date projectStartDate, Date projectEndDate, String fieldName, String awardID) {
         boolean success = true;
         if (isDateOneAfterDateTwo(projectStartDate, projectEndDate)) {
             success = false;
-            errorMap.putError(fieldName, KeyConstants.ERROR_START_DATE_ON_OR_BEFORE, new String[] {PROJECT_START_DATE, PROJECT_END_DATE});
+            errorMap.putError(fieldName, KeyConstants.ERROR_START_DATE_ON_OR_BEFORE, new String[] {PROJECT_START_DATE, PROJECT_END_DATE, awardID});
         }
         return success;
     }
