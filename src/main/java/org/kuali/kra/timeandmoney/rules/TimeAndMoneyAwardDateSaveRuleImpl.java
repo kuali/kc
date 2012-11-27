@@ -67,45 +67,15 @@ public class TimeAndMoneyAwardDateSaveRuleImpl extends ResearchDocumentRuleBase 
             KualiDecimal obligatedTotal = awardHierarchyNode.getValue().getAmountObligatedToDate();
             
             MessageMap errorMap = GlobalVariables.getMessageMap();
-            valid = AwardDateRulesHelper.validateProjectStartBeforeProjectEnd(errorMap, projectStartDate, projectEndDate, "awardAmountInfos["+i+"].finalExpirationDate") && valid;
-            valid = AwardDateRulesHelper.validateObligationStartBeforeObligationEnd(errorMap, obligatedStartDate, obligatedEndDate, "awardAmountInfos["+i+"].obligationExpirationDate") && valid;
-            valid = AwardDateRulesHelper.validateProjectStartBeforeObligationStart(errorMap, projectStartDate, obligatedStartDate, "awardAmountInfos["+i+"].currentFundEffectiveDate") && valid;
-            valid = AwardDateRulesHelper.validateProjectStartBeforeObligationEnd(errorMap, projectStartDate, obligatedEndDate, "awardAmountInfos["+i+"].obligationExpirationDate") && valid;
-            valid = AwardDateRulesHelper.validateObligationStartBeforeProjectEnd(errorMap, obligatedStartDate, projectEndDate, "awardAmountInfos["+i+"].currentFundEffectiveDate") && valid;
-            valid = AwardDateRulesHelper.validateObligationEndBeforeProjectEnd(errorMap, obligatedEndDate, projectEndDate, "awardAmountInfos["+i+"].obligationExpirationDate") && valid;
+            String fieldStarter =  "awardHierarchyNodeItems[" + i;
+            String awardId = award.getAwardNumber();
+            valid = AwardDateRulesHelper.validateProjectStartBeforeProjectEnd(errorMap, projectStartDate, projectEndDate, fieldStarter + "].finalExpirationDate", awardId) && valid;
+            valid = AwardDateRulesHelper.validateObligationStartBeforeObligationEnd(errorMap, obligatedStartDate, obligatedEndDate, fieldStarter + "].obligationExpirationDate", awardId) && valid;
+            valid = AwardDateRulesHelper.validateProjectStartBeforeObligationStart(errorMap, projectStartDate, obligatedStartDate, fieldStarter + "].currentFundEffectiveDate", awardId) && valid;
+            valid = AwardDateRulesHelper.validateProjectStartBeforeObligationEnd(errorMap, projectStartDate, obligatedEndDate, fieldStarter + "].obligationExpirationDate", awardId) && valid;
+            valid = AwardDateRulesHelper.validateObligationStartBeforeProjectEnd(errorMap, obligatedStartDate, projectEndDate, fieldStarter + "].currentFundEffectiveDate", awardId) && valid;
+            valid = AwardDateRulesHelper.validateObligationEndBeforeProjectEnd(errorMap, obligatedEndDate, projectEndDate, fieldStarter + "].obligationExpirationDate", awardId) && valid;
             
-            /*
-            if (projectEndDate == null) {
-                String field = "awardHierarchyNodeItems[" + i + "].finalexpirationdate"; 
-                reportError(field, KeyConstants.ERROR_FISCAL_YEAR_REQUIRED, "Project End");
-                valid = false;
-            } else if(!(obligatedStartDate == null) && !(obligatedEndDate == null)) {
-                if(obligatedStartDate.after(obligatedEndDate) || obligatedStartDate.equals(obligatedEndDate)) {
-                    valid = false;
-                    reportError(OBLIGATED_DATE_PROPERTY, KeyConstants.ERROR_OBLIGATED_DATES_INVALID, awardHierarchyNode.getValue().getAwardNumber());
-                }
-                if(obligatedEndDate.after(projectEndDate)) {
-                    valid = false;
-                    reportError(OBLIGATED_DATE_PROPERTY, KeyConstants.ERROR_OBLIGATED_END_DATE, awardHierarchyNode.getValue().getAwardNumber());
-                }
-            } else {
-                if (obligatedStartDate == null && !(aai.getCurrentFundEffectiveDate()==null)) {
-                    String field = "awardHierarchyNodeItems[" + i + "].currentFundEffectiveDate"; 
-                    reportError(field, KeyConstants.ERROR_FISCAL_YEAR_REQUIRED, "Oblg. Start");
-                    valid = false;
-                }
-                if (obligatedEndDate == null && !(aai.getObligationExpirationDate() == null)) {
-                    String field = "awardHierarchyNodeItems[" + i + "].obligationExpirationDate"; 
-                    reportError(field, KeyConstants.ERROR_FISCAL_YEAR_REQUIRED, "Oblg. End");
-                    valid = false;
-                }
-            }
-            if (obligatedStartDate != null &&  projectEndDate != null && obligatedStartDate.after(projectEndDate)) {
-                String field = "awardHierarchyNodeItems[" + i + "].currentFundEffectiveDate";
-                reportError(field, KeyConstants.ERROR_START_DATE_ON_OR_BEFORE, "Obligation Start Date","Project End Date ");
-                valid = false;
-            }
-            */
             if (obligatedTotal != null && obligatedTotal.isGreaterThan(new KualiDecimal(0))) {
                 if (obligatedStartDate == null) {
                     String field = "awardHierarchyNodeItems[" + i + "].currentFundEffectiveDate"; 
@@ -132,7 +102,7 @@ public class TimeAndMoneyAwardDateSaveRuleImpl extends ResearchDocumentRuleBase 
         return KraServiceLocator.getService(AwardVersionService.class);
     }
     
-    /*
+    /* Leaving this code in here temporarily for quick look up purposes.  If everything tests fine, then this can be removed shortly 11/27/2012
     private boolean validateDatesAgainstProjectStartDate(TimeAndMoneyDocument document) {
         boolean valid = true;
         for(Entry<String, AwardHierarchyNode> awardHierarchyNode : document.getAwardHierarchyNodes().entrySet()){
