@@ -89,8 +89,7 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
         List<S2sOppForms> s2sOppForms = new ArrayList<S2sOppForms>();
         
         if(proposalDevelopmentForm.getNewS2sOpportunity() != null 
-                && StringUtils.isNotEmpty(proposalDevelopmentForm.getNewS2sOpportunity().getOpportunityId()) 
-                && StringUtils.isNotEmpty(proposalDevelopmentForm.getNewS2sOpportunity().getCfdaNumber())) {
+                && StringUtils.isNotEmpty(proposalDevelopmentForm.getNewS2sOpportunity().getOpportunityId())) {
             proposalDevelopmentDocument.getDevelopmentProposal().setS2sOpportunity(proposalDevelopmentForm.getNewS2sOpportunity());
             proposalDevelopmentForm.setNewS2sOpportunity(new S2sOpportunity());
         }
