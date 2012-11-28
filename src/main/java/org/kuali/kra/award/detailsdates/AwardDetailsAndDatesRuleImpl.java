@@ -45,8 +45,8 @@ public class AwardDetailsAndDatesRuleImpl extends ResearchDocumentRuleBase imple
     private static final String SPONSOR_CODE_PROPERTY_NAME = "detailsAndDatesFormHelper.newAwardTransferringSponsor.sponsorCode";
     private static final String ANTICIPATED_AMOUNT_PROPERTY_NAME = "awardAmountInfos[0].anticipatedTotalAmount";
     private static final String OBLIGATED_AMOUNT_PROPERTY_NAME = "awardAmountInfos[0].amountObligatedToDate";
-    private static final String AWARD_EFFECTIVE_DATE_PROPERTY_NAME = "awardEffectiveDate";
-    private static final String OBLIGATION_EXPIRATION_DATE_PROPERTY_NAME = "obligationExpirationDate";
+    private static final String AWARD_EFFECTIVE_DATE_PROPERTY_NAME = "awardAmountInfos[0].currentFundEffectiveDate";
+    private static final String OBLIGATION_EXPIRATION_DATE_PROPERTY_NAME = "awardAmountInfos[0].obligationExpirationDate";
     private static final String AWARD_ACCOUNT_NUMBER_PROPERTY_NAME = "accountNumber";
     private static final String AWARD_FIN_CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME = "financialChartOfAccountsCode";
     private ParameterService parameterService;
