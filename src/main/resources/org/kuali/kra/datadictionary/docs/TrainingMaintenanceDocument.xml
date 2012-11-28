@@ -34,7 +34,8 @@
         
         
         <property name="documentTypeName" value="TrainingMaintenanceDocument"/>
-        <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
+        <!-- <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/> -->
+        <property name="documentAuthorizerClass" value="org.kuali.kra.authorizer.TrainingMaintenanceDocumentAuthorizer"/>
         
         
     </bean>
