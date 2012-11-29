@@ -2440,12 +2440,13 @@ jQuery("#addUsage").click(function() {
 			} else {	
 				var template = jQuery('tr.usageTemplate').html();
 				//count should count the indexes of the visible usages.
-				var count = parseInt(jQuery('#usage-table tr:visible th:first').last().html());
+				var countHtml = jQuery('#usage-table tr:visible th').last().html();
+				var count = parseInt(countHtml);
 				if (isNaN(count)) {
 					count = 0;
 				}
 				//index counts any existing(even deleted) usages so the index is one greater.
-				var index = parseInt(jQuery('#usage-table tr:last th:first').html());
+				var index = parseInt(jQuery('#usage-table tr:last th').html());
 				if (isNaN(index)) {
 					index = 0;
 				}
@@ -2461,6 +2462,8 @@ jQuery("#addUsage").click(function() {
 				template = template.replace(/%INDEX%/g, index);
 				var newRow = jQuery('<tr/>').append(template);
 				jQuery(newRow).appendTo(jQuery("#usage-table tbody"));
+				//reapply the delete on-click handler.
+				loadUsages();
 			}
 			return false;
 });

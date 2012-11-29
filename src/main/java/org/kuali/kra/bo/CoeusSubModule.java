@@ -53,6 +53,8 @@ public class CoeusSubModule extends KraPersistableBusinessObjectBase {
     private String description;
 
     private CoeusModule coeusModule;
+    
+    private boolean requireUniqueQuestionnareUsage;
 
     public CoeusSubModule() {
     }
@@ -95,5 +97,13 @@ public class CoeusSubModule extends KraPersistableBusinessObjectBase {
 
     public void setCoeusModule(CoeusModule coeusModule) {
         this.coeusModule = coeusModule;
+    }
+
+    public boolean isRequireUniqueQuestionnareUsage() {
+        return requireUniqueQuestionnareUsage;
+    }
+
+    public void setRequireUniqueQuestionnareUsage(boolean requireUniqueQuestionnareUsage) {
+        this.requireUniqueQuestionnareUsage = requireUniqueQuestionnareUsage;
     }
 }

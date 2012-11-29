@@ -110,6 +110,17 @@ public class QuestionnaireMaintenanceDocumentRule extends MaintenanceDocumentRul
             valid = false;
         }
         
+        for (QuestionnaireUsage usage : newQuestionnaire.getQuestionnaireUsages()) {
+            if (usage.getCoeusSubModule() != null 
+                    && usage.getCoeusSubModule().isRequireUniqueQuestionnareUsage()
+                    && !getQuestionnaireService().isUniqueUsage(newQuestionnaire, usage)) {
+                errorMap.putError("document.newMaintainableObject.businessObject.questionnaireUsages[" + 
+                                   newQuestionnaire.getQuestionnaireUsages().indexOf(usage) + "].moduleSubItemCode", 
+                        KeyConstants.ERROR_QUESTIONNAIRE_DUPLICATE_USAGE);
+            }
+        }
+        
+        
         return valid;
 
     }

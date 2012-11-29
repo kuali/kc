@@ -870,6 +870,7 @@ public final class KeyConstants {
     public static final String ERROR_QUESTIONNAIRE_NAME_EXIST = "error.questionnaire.name.exist";
     public static final String ERROR_QUESTIONNAIRE_FILENAME_INVALID = "error.questionnaire.filename.invalid";    
     public static final String ERROR_QUESTIONNAIRE_QUESTION_INACTIVE = "error.questionnaire.question_inactive";
+    public static final String ERROR_QUESTIONNAIRE_DUPLICATE_USAGE = "error.questionnaire.duplicate.usage";
     
     // meeting
     public static final String ERROR_ADD_MEMBER_PRESENT = "error.add.member.present";
