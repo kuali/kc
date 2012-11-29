@@ -178,8 +178,8 @@ public class QuestionnaireUsage extends KraPersistableBusinessObjectBase impleme
     public CoeusSubModule getCoeusSubModule() {
         if (coeusSubModule == null) {
             Map<String, Object> fieldValues = new HashMap<String, Object>();
-            fieldValues.put("moduleCode", moduleItemCode);
-            fieldValues.put("subModuleCode", moduleSubItemCode);
+            fieldValues.put("moduleCode", Integer.valueOf(moduleItemCode));
+            fieldValues.put("subModuleCode", Integer.valueOf(moduleSubItemCode));
             List<CoeusSubModule> subModules = 
                     (List<CoeusSubModule>) KraServiceLocator.getService(BusinessObjectService.class).findMatching(CoeusSubModule.class, fieldValues);
             if (subModules != null && !subModules.isEmpty()) {

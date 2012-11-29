@@ -23,6 +23,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.lang.ObjectUtils;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.AwardPermissionConstants;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
@@ -147,6 +149,30 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
      */
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
+    }
+    
+    /**
+     * @see org.kuali.kra.questionnaire.QuestionnaireService#isUniqueUsage(org.kuali.kra.questionnaire.QuestionnaireUsage)
+     */
+    public boolean isUniqueUsage(Questionnaire questionnaire, QuestionnaireUsage usage) {
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put("moduleItemCode", usage.getCoeusModule().getModuleCode());
+        fieldValues.put("moduleSubItemCode", usage.getCoeusSubModule().getSubModuleCode());
+        List<QuestionnaireUsage> usages = (List<QuestionnaireUsage>) businessObjectService.findMatching(QuestionnaireUsage.class, fieldValues);
+        for (QuestionnaireUsage curUsage : usages) {
+            if (!StringUtils.equals(questionnaire.getQuestionnaireId(), curUsage.getQuestionnaire().getQuestionnaireId())
+                    && curUsage.getQuestionnaire().isActive() && isCurrentQuestionnaire(curUsage.getQuestionnaire())) {
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    public boolean isCurrentQuestionnaire(Questionnaire questionnaire) {
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put("questionnaireId", questionnaire.getQuestionnaireId());
+        List<Questionnaire> questionnaires = (List<Questionnaire>) businessObjectService.findMatchingOrderBy(Questionnaire.class, fieldValues, "sequenceNumber", false);
+        return questionnaire.getQuestionnaireRefId().equals(questionnaires.get(0).getQuestionnaireRefId());
     }
 
 
