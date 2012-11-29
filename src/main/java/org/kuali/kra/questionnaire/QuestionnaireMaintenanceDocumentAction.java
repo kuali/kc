@@ -443,6 +443,11 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
 //        .setIsFinal(true);
         setupQuestionAndUsage(form);
         qnForm.setNewQuestionnaireUsage(new QuestionnaireUsage());
+        if (qnForm.getDocument() != null && ((MaintenanceDocumentBase) qnForm.getDocument()).getNewMaintainableObject() != null) {
+            Questionnaire newQuestionnaire = (Questionnaire) ((MaintenanceDocumentBase) qnForm.getDocument())
+                    .getNewMaintainableObject().getDataObject();
+            checkForDeletedUsages(newQuestionnaire);
+        }
         ActionForward forward = super.route(mapping, form, request, response);
         
         checkAndSetAllQuestionsAreUpToDate(qnForm);

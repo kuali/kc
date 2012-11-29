@@ -138,6 +138,7 @@
         <field-descriptor name="moduleCode" column="MODULE_CODE" jdbc-type="VARCHAR" />
         <field-descriptor name="subModuleCode" column="SUB_MODULE_CODE" jdbc-type="VARCHAR" />
         <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
+        <field-descriptor name="requireUniqueQuestionnareUsage" column="REQUIRE_UNIQUE_QUESTIONNAIRE" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
         <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
         <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
