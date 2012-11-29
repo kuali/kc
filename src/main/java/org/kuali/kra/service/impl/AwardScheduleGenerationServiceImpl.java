@@ -125,18 +125,8 @@ public class AwardScheduleGenerationServiceImpl implements AwardScheduleGenerati
         java.util.Date startDate;
         java.util.Date endDate = null;
         Calendar calendar = new GregorianCalendar();
-        final String SF_269_EXPENDITURE_REPORT_CODE = "33";
-        final String FREQUENCY_ANNUAL = "Annual";
-        if (awardReportTerm.getReportCode().equalsIgnoreCase(SF_269_EXPENDITURE_REPORT_CODE)
-                && awardReportTerm.getFrequencyBaseCode().equalsIgnoreCase(
-                        FrequencyBaseConstants.AWARD_EXPIRATION_DATE_OF_OBLIGATION.getfrequencyBase())
-                && awardReportTerm.getFrequency().getDescription().equalsIgnoreCase(FREQUENCY_ANNUAL)) {
-            startDate = mapOfDates.get(FrequencyBaseConstants.AWARD_EXPIRATION_DATE_OF_OBLIGATION.getfrequencyBase());
-        }
-        else {
-            startDate = getStartDate(awardReportTerm, mapOfDates);
-        }
-       
+        
+        startDate = getStartDate(awardReportTerm, mapOfDates);
         if (StringUtils.isNotBlank(awardReportTerm.getFrequencyBaseCode())) {
             endDate = getEndDate(awardReportTerm.getFrequencyBaseCode(),startDate, mapOfDates);
         }
