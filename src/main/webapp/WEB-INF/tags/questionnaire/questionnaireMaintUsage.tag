@@ -102,18 +102,21 @@
           		</c:if></td>
           	</tr>
           <c:forEach items="${KualiForm.document.newMaintainableObject.dataObject.questionnaireUsages}" var="usage" varStatus="status">
-          	<tr id="usage${status.count}">
-          		<th class="infoline"><c:out value="${status.count}"/></th>
-          		<td><c:out value="${usage.coeusModule.description}"/>
+			<kul:checkErrors keyMatch="document.newMaintainableObject.businessObject.questionnaireUsages[${status.index}].moduleSubItemCode" auditMatch="document.newMaintainableObject.businessObject.questionnaireUsages[${status.index}].moduleSubItemCode"/></td>
+          	<c:set var="errorStyle" value="${hasErrors ? 'background-color:#FFD5D5; background-image: none;' : '' }"/>
+          
+          	<tr id="usage${status.count}" style="${errorStyle}">
+          		<th class="infoline" style="${errorStyle}"><c:out value="${status.count}"/></th>
+          		<td style="${errorStyle}"><c:out value="${usage.coeusModule.description}"/>
           				<input type="hidden" name="document.newMaintainableObject.businessObject.questionnaireUsages[${status.index}].moduleItemCode" value="${usage.moduleItemCode}"/></td>
-          		<td><c:out value="${usage.coeusSubModule.description == null ? '' : usage.coeusSubModule.description}"/>
-          				<input type="hidden" name="document.newMaintainableObject.businessObject.questionnaireUsages[${status.index}].moduleSubItemCode" value="${usage.moduleSubItemCode}"/></td>
-          		<td><c:out value="${usage.ruleId == null ? '' : usage.ruleId}"/>
+          		<td style="${errorStyle}"><c:out value="${usage.coeusSubModule.description == null ? '' : usage.coeusSubModule.description}"/>
+          				<input type="hidden" name="document.newMaintainableObject.businessObject.questionnaireUsages[${status.index}].moduleSubItemCode" value="${usage.moduleSubItemCode}"/>
+          		<td style="${errorStyle}"><c:out value="${usage.ruleId == null ? '' : usage.ruleId}"/>
           				<input type="hidden" name="document.newMaintainableObject.businessObject.questionnaireUsages[${status.index}].ruleId" value="${usage.ruleId}"/></td>
-          		<td><c:out value="${usage.mandatory ? 'Yes' : 'No'}"/></td>
-          		<td><c:out value="${usage.questionnaireLabel}"/></td>
-          		<td><c:out value="${usage.questionnaireSequenceNumber}"/></td>
-          		<td style="text-align: center;"><c:if test="${!KualiForm.readOnly}">
+          		<td style="${errorStyle}"><c:out value="${usage.mandatory ? 'Yes' : 'No'}"/></td>
+          		<td style="${errorStyle}"><c:out value="${usage.questionnaireLabel}"/></td>
+          		<td style="${errorStyle}"><c:out value="${usage.questionnaireSequenceNumber}"/></td>
+          		<td style="text-align: center; ${errorStyle}"><c:if test="${!KualiForm.readOnly}">
           			<input type="image" id="deleteUsage${status.count}" 
           				name="deleteUsage" class="deleteUsage" title="Delete Usage" src="static/images/tinybutton-delete1.gif" class="tinybutton">
           			<kul:htmlControlAttribute property="document.newMaintainableObject.businessObject.questionnaireUsages[${status.index}].delete" attributeEntry="${questionnaireUsageAttributes.delete}" />
@@ -125,9 +128,12 @@
     </div>
 </div>
 
+<kul:checkErrors keyMatch="document.newMaintainableObject.businessObject.questionnaireUsages*" auditMatch="document.newMaintainableObject.businessObject.questionnaireUsages*"/>
   <script>
 
-                jq("#usagepanelcontent").hide();
+  				<c:if test="${!hasErrors}">
+                	jq("#usagepanelcontent").hide();
+                </c:if>
                 jq("a.usagepanelcontrol").toggle(
                     function()
                     {

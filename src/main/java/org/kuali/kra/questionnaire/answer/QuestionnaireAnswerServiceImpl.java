@@ -46,6 +46,7 @@ import org.kuali.kra.proposaldevelopment.questionnaire.ProposalDevelopmentS2sMod
 import org.kuali.kra.proposaldevelopment.questionnaire.ProposalPersonModuleQuestionnaireBean;
 import org.kuali.kra.questionnaire.Questionnaire;
 import org.kuali.kra.questionnaire.QuestionnaireQuestion;
+import org.kuali.kra.questionnaire.QuestionnaireService;
 import org.kuali.kra.questionnaire.QuestionnaireUsage;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -80,6 +81,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
     private BusinessObjectService businessObjectService;
     private ProtocolFinderDao protocolFinderDao;
     private ParameterService  parameterService;
+    private QuestionnaireService questionnaireService;
     /*
      * Get the questionnaire that is 'final' for the specified module.
      */
@@ -113,7 +115,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
         for (QuestionnaireUsage questionnaireUsage : questionnaireUsages) {
             if (!questionnaireIds.contains(questionnaireUsage.getQuestionnaire().getQuestionnaireId())) {
                 questionnaireIds.add(questionnaireUsage.getQuestionnaire().getQuestionnaireId());
-                if (moduleQuestionnaireBean.isFinalDoc() || (isCurrentQuestionnaire(questionnaireUsage.getQuestionnaire()) && questionnaireUsage.getQuestionnaire().isActive())) {
+                if (moduleQuestionnaireBean.isFinalDoc() || (getQuestionnaireService().isCurrentQuestionnaire(questionnaireUsage.getQuestionnaire()) && questionnaireUsage.getQuestionnaire().isActive())) {
                     if (StringUtils.isNotBlank(questionnaireUsage.getRuleId())) {
                         if (ruleResults.containsKey(questionnaireUsage.getRuleId()) && ruleResults.get(questionnaireUsage.getRuleId()).booleanValue()) {
                             usages.add(questionnaireUsage);
@@ -148,7 +150,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
                 }
             }
             else {
-                if ((!moduleQuestionnaireBean.isFinalDoc() && isCurrentQuestionnaire(questionnaireUsage.getQuestionnaire()))
+                if ((!moduleQuestionnaireBean.isFinalDoc() && getQuestionnaireService().isCurrentQuestionnaire(questionnaireUsage.getQuestionnaire()))
                         && questionnaireUsage.getQuestionnaire().isActive()) {
                     // filter out an not saved and usage is not include in current qn
                     answerHeaders.add(setupAnswerForQuestionnaire(questionnaireUsage.getQuestionnaire(), moduleQuestionnaireBean));
@@ -271,15 +273,6 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
         }
         return questionnaireIds;
 
-    }
-
-    protected boolean isCurrentQuestionnaire(Questionnaire questionnaire) {
-        Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put("questionnaireId", questionnaire.getQuestionnaireId());
-        List<Questionnaire> questionnaires = (List<Questionnaire>) businessObjectService.findMatchingOrderBy(Questionnaire.class, fieldValues, "sequenceNumber", false);
-        // "isFinal" is used to check whether the questionnaire is 'Active' or not.
-        return questionnaire.getQuestionnaireRefId().equals(questionnaires.get(0).getQuestionnaireRefId());
-        // && questionnaire.getIsFinal();
     }
 
     /**
@@ -917,6 +910,14 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
         } else {
             throw new IllegalArgumentException("Unrecognized moduleItemCode");
         }
+    }
+
+    protected QuestionnaireService getQuestionnaireService() {
+        return questionnaireService;
+    }
+
+    public void setQuestionnaireService(QuestionnaireService questionnaireService) {
+        this.questionnaireService = questionnaireService;
     }
     
     

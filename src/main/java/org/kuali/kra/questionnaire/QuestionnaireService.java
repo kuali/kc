@@ -40,5 +40,19 @@ public interface QuestionnaireService {
      * @return
      */
     public  List<String>  getAssociateModules();
+    
+    /**
+     * Returns true if the usage passed in is unique. Determined by checking for matching coeus module and coeus sub module codes.
+     * @param usage
+     * @return
+     */
+    public boolean isUniqueUsage(Questionnaire questionnaire, QuestionnaireUsage usage);
+    
+    /**
+     * Returns true of the questionnaire is the newest version of the questionnaire.
+     * @param questionnaire
+     * @return
+     */
+    public boolean isCurrentQuestionnaire(Questionnaire questionnaire);
 
 }
