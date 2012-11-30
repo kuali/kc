@@ -40,7 +40,18 @@ public class PersonTrainingMaintenanceDocumentAuthorizer extends MaintenanceDocu
     
     @Override
     public boolean canMaintain(Object dataObject, Person user) {
-        boolean retVal = this.isAuthorized(dataObject, KC_SYS,  PERMISSION_MAINTAIN_PERSON_TRAINING, user.getPrincipalId());
-        return retVal;
+        Map<String, String> permissionDetails = new HashMap<String, String>(2);
+        permissionDetails.put(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME,
+                getDocumentDictionaryService().getMaintenanceDocumentTypeName(
+                        dataObject.getClass()));
+        permissionDetails.put(KRADConstants.MAINTENANCE_ACTN, KC_SYS);
+        return !permissionExistsByTemplate(KC_SYS,
+                KimConstants.PermissionTemplateNames.INITIATE_DOCUMENT,
+                permissionDetails)
+                || isAuthorizedByTemplate(
+                        dataObject,
+                        KC_SYS,
+                        KimConstants.PermissionTemplateNames.INITIATE_DOCUMENT,
+                        user.getPrincipalId(), permissionDetails, null);
     }
 }
