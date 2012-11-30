@@ -408,6 +408,11 @@ public final class KeyConstants {
     public static final String ERROR_INVALID_CFDA = "error.award.cfda.invalid";
     public static final String ERROR_AWARD_EFFECTIVE_DATE_TIME_AND_MONEY = "error.award.effective.date.timeAndMoney";
     
+    public static final String ERROR_ANTICIPATED_AMOUNT_FROM_TRANSACTIONS = "error.anticipated.amount.from.transactions";
+    public static final String ERROR_AWARD_OBLIGATED_NEGATIVE_FROM_TRANSACTIONS = "error.award.obligated.negative.from.transactions";
+    public static final String ERROR_AWARD_ANTICIPATED_NEGATIVE_FROM_TRANSACTIONS = "error.award.anticipated.negative.from.transactions";
+    public static final String ERROR_AWARD_OBLIGATED_DATES_FROM_TRANSACTIONS = "error.award.obligated.dates.from.transactions";
+    
     //Award Budget
     public static final String WARNING_AWARD_BUDGET_COSTLIMIT_NOTEQUAL_OBLIGATED = "warning.awardbudget.limitNotEqual.obligated";
     
