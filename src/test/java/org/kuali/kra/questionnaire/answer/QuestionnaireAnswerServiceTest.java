@@ -36,6 +36,7 @@ import org.kuali.kra.irb.ProtocolFinderDao;
 import org.kuali.kra.irb.questionnaire.ProtocolModuleQuestionnaireBean;
 import org.kuali.kra.questionnaire.Questionnaire;
 import org.kuali.kra.questionnaire.QuestionnaireQuestion;
+import org.kuali.kra.questionnaire.QuestionnaireServiceImpl;
 import org.kuali.kra.questionnaire.QuestionnaireUsage;
 import org.kuali.kra.questionnaire.question.Question;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
@@ -56,6 +57,7 @@ public class QuestionnaireAnswerServiceTest {
     @Test
     public void testGetNewVersionAnswerHeader() {
         QuestionnaireAnswerServiceImpl questionnaireAnswerServiceImpl = new QuestionnaireAnswerServiceImpl();
+        QuestionnaireServiceImpl questionnaireServiceImpl = new QuestionnaireServiceImpl();
         
         
         final Map <String, String> fieldValues = new HashMap<String, String>();
@@ -90,6 +92,9 @@ public class QuestionnaireAnswerServiceTest {
                     fieldValues1, "sequenceNumber", false); will(returnValue(questionnaires));
        }});
         questionnaireAnswerServiceImpl.setBusinessObjectService(businessObjectService);
+        questionnaireAnswerServiceImpl.setQuestionnaireService(questionnaireServiceImpl);
+        questionnaireServiceImpl.setBusinessObjectService(businessObjectService);
+        
         
         AnswerHeader answerHeader = questionnaireAnswerServiceImpl.getNewVersionAnswerHeader(new ProtocolModuleQuestionnaireBean(CoeusModule.IRB_MODULE_CODE, protocol.getProtocolNumber(), "0", protocol.getSequenceNumber().toString(), false), questionnaire);
         Assert.assertEquals(4, answerHeader.getAnswers().size());
@@ -185,6 +190,7 @@ public class QuestionnaireAnswerServiceTest {
     @Test
     public void testVersioningQuestionnaireAnswer() {
         QuestionnaireAnswerServiceImpl questionnaireAnswerServiceImpl = new QuestionnaireAnswerServiceImpl();
+        QuestionnaireServiceImpl questionnaireServiceImpl = new QuestionnaireServiceImpl();
         
         ModuleQuestionnaireBean moduleQuestionnaireBean = new ProtocolModuleQuestionnaireBean(CoeusModule.IRB_MODULE_CODE, "0912000001", "0", "0", false);
         final Map <String, String> fieldValues = new HashMap<String, String>();
@@ -227,6 +233,8 @@ public class QuestionnaireAnswerServiceTest {
                     fieldValues1, "sequenceNumber", false); will(returnValue(questionnaires));
         }});
         questionnaireAnswerServiceImpl.setBusinessObjectService(businessObjectService);
+        questionnaireAnswerServiceImpl.setQuestionnaireService(questionnaireServiceImpl);
+        questionnaireServiceImpl.setBusinessObjectService(businessObjectService);
         
         AnswerHeader answerHeader = questionnaireAnswerServiceImpl.versioningQuestionnaireAnswer(new ProtocolModuleQuestionnaireBean(CoeusModule.IRB_MODULE_CODE, protocol.getProtocolNumber(),"0", protocol.getSequenceNumber().toString(), false), 1).get(0);
         Assert.assertEquals(3, answerHeader.getAnswers().size());
@@ -343,6 +351,7 @@ public class QuestionnaireAnswerServiceTest {
        // answerheader(0) is set up as existing one
         // answerheader(1) is a newly created one
         QuestionnaireAnswerServiceImpl questionnaireAnswerServiceImpl = new QuestionnaireAnswerServiceImpl();
+        QuestionnaireServiceImpl questionnaireServiceImpl = new QuestionnaireServiceImpl();
         
         ModuleQuestionnaireBean moduleQuestionnaireBean = new ProtocolModuleQuestionnaireBean(CoeusModule.IRB_MODULE_CODE, "0912000001", "0", "0", false);
         final Map <String, String> fieldValues = new HashMap<String, String>();
@@ -409,6 +418,9 @@ public class QuestionnaireAnswerServiceTest {
 
         
         questionnaireAnswerServiceImpl.setBusinessObjectService(businessObjectService);
+        questionnaireAnswerServiceImpl.setQuestionnaireService(questionnaireServiceImpl);
+        questionnaireServiceImpl.setBusinessObjectService(businessObjectService);
+        
         
         List<AnswerHeader> answerHeaders = questionnaireAnswerServiceImpl.getQuestionnaireAnswer(new ProtocolModuleQuestionnaireBean(CoeusModule.IRB_MODULE_CODE, protocol.getProtocolNumber(),"0", protocol.getSequenceNumber().toString(), false));
         Assert.assertEquals(2, answerHeaders.size());
