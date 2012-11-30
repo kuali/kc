@@ -78,13 +78,15 @@ public class TimeAndMoneyAwardAmountTransactionRuleImpl extends ResearchDocument
                     KualiDecimal obligatedTotal = awardHierarchyNode.getValue().getAmountObligatedToDate();
                     KualiDecimal anticipatedTotal = awardHierarchyNode.getValue().getAnticipatedTotalAmount();
                     for (PendingTransaction pendingTransaction: timeAndMoneyDocument.getPendingTransactions()) {
-                        if (StringUtils.equals(pendingTransaction.getSourceAwardNumber(), award.getAwardNumber())) {
-                            anticipatedTotal = anticipatedTotal.subtract(pendingTransaction.getAnticipatedAmount());
-                            obligatedTotal = obligatedTotal.subtract(pendingTransaction.getObligatedAmount());
-                        }
-                        if (StringUtils.equals(pendingTransaction.getDestinationAwardNumber(), award.getAwardNumber())) {
-                            anticipatedTotal = anticipatedTotal.add(pendingTransaction.getAnticipatedAmount());
-                            obligatedTotal = obligatedTotal.add(pendingTransaction.getObligatedAmount());
+                        if (!pendingTransaction.getProcessedFlag().booleanValue()) {
+                            if (StringUtils.equals(pendingTransaction.getSourceAwardNumber(), award.getAwardNumber())) {
+                                anticipatedTotal = anticipatedTotal.subtract(pendingTransaction.getAnticipatedAmount());
+                                obligatedTotal = obligatedTotal.subtract(pendingTransaction.getObligatedAmount());
+                            }
+                            if (StringUtils.equals(pendingTransaction.getDestinationAwardNumber(), award.getAwardNumber())) {
+                                anticipatedTotal = anticipatedTotal.add(pendingTransaction.getAnticipatedAmount());
+                                obligatedTotal = obligatedTotal.add(pendingTransaction.getObligatedAmount());
+                            }
                         }
                     }
                     MessageMap errorMap = GlobalVariables.getMessageMap();
