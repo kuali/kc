@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" href="css/award_hierarchy.css" type="text/css" />
 
-<kul:tab tabTitle="Award Hierarchy" defaultOpen="true" tabErrorKey="awardHierarchyNodeItems*,document.award.timeAndMoneyAwardAmountTransaction.newAwardAmountTransaction*,document.award.timeAndMoneyAwardDates*,totals*,timeAndMoneyTransaction*,newAwardAmountTransaction.transactionTypeCode,goToAwardNumber" auditCluster="reportsAuditErrors" tabAuditKey="document.reportTermsAuditRules*" useRiceAuditMode="true">
+<kul:tab tabTitle="Award Hierarchy" defaultOpen="true" tabErrorKey="awardHierarchyNodeItems*,document.award.timeAndMoneyAwardAmountTransaction.newAwardAmountTransaction*,document.award.timeAndMoneyAwardDates*,totals*,timeAndMoneyTransaction*,newAwardAmountTransaction.transactionTypeCode,goToAwardNumber,document.awardList[0].awardAmountInfos[0].*" auditCluster="reportsAuditErrors" tabAuditKey="document.reportTermsAuditRules*" useRiceAuditMode="true">
 	<div class="tab-container" align="right">
 		<h3>
     		<span class="subhead-left">Award Hierarchy</span>
