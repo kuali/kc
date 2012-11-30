@@ -22,6 +22,7 @@ import java.util.Map;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 
 public class TrainingMaintenanceDocumentAuthorizer extends MaintenanceDocumentAuthorizerBase {
@@ -31,16 +32,28 @@ public class TrainingMaintenanceDocumentAuthorizer extends MaintenanceDocumentAu
     
     @Override
     public boolean canInitiate(String documentTypeName, Person user) {
-        String nameSpaceCode = KRADConstants.KUALI_RICE_SYSTEM_NAMESPACE;
         Map<String, String> permissionDetails = new HashMap<String, String>();
         permissionDetails.put(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME, documentTypeName);
         
-        return getPermissionService().isAuthorized(user.getPrincipalId(), KC_SYS, PERMISSION_MAINTAIN_TRAINING, permissionDetails);
+        boolean retVal =  getPermissionService().isAuthorized(user.getPrincipalId(), KC_SYS, PERMISSION_MAINTAIN_TRAINING, permissionDetails);
+        System.err.println("canInitiate: '" + retVal + "'");
+        return retVal;
     }
     
     @Override
-    public boolean canMaintain(Object dataObject, Person user) {
-        boolean retVal = this.isAuthorized(dataObject, KC_SYS,  PERMISSION_MAINTAIN_TRAINING, user.getPrincipalId());
-        return retVal;
+    public boolean canMaintain(Object dataObject, Person user) {    
+        Map<String, String> permissionDetails = new HashMap<String, String>(2);
+        permissionDetails.put(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME,
+                getDocumentDictionaryService().getMaintenanceDocumentTypeName(
+                        dataObject.getClass()));
+        permissionDetails.put(KRADConstants.MAINTENANCE_ACTN, KC_SYS);
+        return !permissionExistsByTemplate(KC_SYS,
+                KimConstants.PermissionTemplateNames.INITIATE_DOCUMENT,
+                permissionDetails)
+                || isAuthorizedByTemplate(
+                        dataObject,
+                        KC_SYS,
+                        KimConstants.PermissionTemplateNames.INITIATE_DOCUMENT,
+                        user.getPrincipalId(), permissionDetails, null);
     }
 }
