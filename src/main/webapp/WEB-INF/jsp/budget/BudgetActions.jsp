@@ -49,6 +49,7 @@
 		   </c:otherwise>
 	    </c:choose>
 	    <c:if test="${proposalBudgetFlag}">
+	    	<kra-b:proposalHierarchyBudget />
 			<kra-b:budgetSubAwardsBudget />
 	    </c:if>
 	    <c:if test="${not proposalBudgetFlag}">
