@@ -16,13 +16,17 @@
 package org.kuali.kra.proposaldevelopment.questionnaire;
 
 import org.kuali.kra.bo.CoeusModule;
+import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.questionnaire.QuestionnaireHelperBase;
+import org.kuali.kra.questionnaire.QuestionnaireService;
+import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 
 /**
@@ -40,6 +44,8 @@ public class ProposalPersonQuestionnaireHelper extends QuestionnaireHelperBase {
     private ProposalPerson proposalPerson;
     
     private ProposalDevelopmentForm proposalDevelopmentForm;
+    
+    private QuestionnaireService questionnaireService;
 
     /**
      * Constructs a ProposalPersonQuestionnaireHelper.java.
@@ -128,5 +134,36 @@ public class ProposalPersonQuestionnaireHelper extends QuestionnaireHelperBase {
     
     public String getNamespaceCd() {
         return Constants.MODULE_NAMESPACE_PROPOSAL_DEVELOPMENT;
+    }
+    
+    @Override
+    public void populateAnswers() {
+        super.populateAnswers();
+        if (getAnswerHeaders().size() > 1) {
+            //if we have more than 1 questionnaire make sure the first one is the one with the current usage.
+            AnswerHeader mostCurrentHeader = getAnswerHeaders().get(0);
+            for (AnswerHeader header : getAnswerHeaders()) {
+                //should only be 1 header that is the current questionnaire and has the usage for certification
+                if (getQuestionnaireService().isCurrentQuestionnaire(header.getQuestionnaire()) &&
+                        header.getQuestionnaire().hasUsageFor(getModuleCode(), CoeusSubModule.PROPOSAL_PERSON_CERTIFICATION)) {
+                    mostCurrentHeader = header;
+                }
+            }
+            getAnswerHeaders().remove(mostCurrentHeader);
+            getAnswerHeaders().add(0, mostCurrentHeader);
+        }
+    }
+
+
+    protected QuestionnaireService getQuestionnaireService() {
+        if (questionnaireService == null) {
+            questionnaireService = KraServiceLocator.getService(QuestionnaireService.class);
+        }
+        return questionnaireService;
+    }
+
+
+    public void setQuestionnaireService(QuestionnaireService questionnaireService) {
+        this.questionnaireService = questionnaireService;
     }
 }
