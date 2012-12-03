@@ -55,14 +55,18 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
+import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwardAttachment;
 import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwardFiles;
 import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwards;
 import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwardsRule;
 import org.kuali.kra.proposaldevelopment.budget.service.BudgetPrintService;
 import org.kuali.kra.proposaldevelopment.budget.service.BudgetSubAwardService;
+import org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyKeyConstants;
+import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.service.KcAttachmentService;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
+import org.kuali.kra.web.struts.action.StrutsConfirmation;
 import org.kuali.kra.web.struts.action.AuditActionHelper.ValidationState;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
@@ -75,6 +79,7 @@ import org.kuali.rice.kns.web.struts.form.KualiForm;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -798,4 +803,38 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
         return super.rates(mapping, form, request, response);
     }
 
+    public ActionForward syncBudgetToParent(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        BudgetForm budgetForm = (BudgetForm) form;
+        DevelopmentProposal childProposal = (DevelopmentProposal) budgetForm.getBudgetDocument().getParentDocument().getBudgetParent();
+        getHierarchyHelper().syncBudgetToParent(childProposal, false);
+        if (GlobalVariables.getMessageMap().containsMessageKey(ProposalHierarchyKeyConstants.QUESTION_EXTEND_PROJECT_DATE_CONFIRM)) {
+            return doEndDateConfirmation(mapping, form, request, response, "syncBudgetToParent", "syncToHierarchyParentConfirm");
+        }
+        return mapping.findForward(Constants.MAPPING_BASIC);
+
+    }
+    
+    private ActionForward doEndDateConfirmation(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, String questionId, String yesMethodName) throws Exception {
+        List<ErrorMessage> errors = GlobalVariables.getMessageMap().getErrorMessagesForProperty(ProposalHierarchyKeyConstants.FIELD_CHILD_NUMBER);
+        List<String> proposalNumbers = new ArrayList<String>();
+        for (ErrorMessage error : errors) {
+            if (error.getErrorKey().equals(ProposalHierarchyKeyConstants.QUESTION_EXTEND_PROJECT_DATE_CONFIRM)) {
+                proposalNumbers.add(error.getMessageParameters()[0]);
+            }
+        }
+        String proposalNumberList = StringUtils.join(proposalNumbers, ',');
+        StrutsConfirmation question = buildParameterizedConfirmationQuestion(mapping, form, request, response, questionId, ProposalHierarchyKeyConstants.QUESTION_EXTEND_PROJECT_DATE_CONFIRM, proposalNumberList);
+        GlobalVariables.getMessageMap().getErrorMessages().clear();
+        GlobalVariables.getMessageMap().getWarningMessages().clear();
+        GlobalVariables.getMessageMap().getInfoMessages().clear();
+        return confirm(question, yesMethodName, "hierarchyActionCanceled");
+    }
+    
+    public ActionForward syncBudgetToParentConfirm(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        BudgetForm budgetForm = (BudgetForm) form;
+        DevelopmentProposal childProposal = (DevelopmentProposal) budgetForm.getBudgetDocument().getParentDocument().getBudgetParent();
+        getHierarchyHelper().syncBudgetToParent(childProposal, true);
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }    
+    
 }

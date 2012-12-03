@@ -102,6 +102,13 @@ public interface ProposalHierarchyService {
     public void synchronizeChild(DevelopmentProposal childProposal) throws ProposalHierarchyException;
     
     /**
+     * This method syncs only the budget from the child proposal specificed to the hierarchy budget.
+     * @param childProposal
+     * @throws ProposalHierarchyException
+     */
+    public void synchronizeChildProposalBudget(DevelopmentProposal childProposal) throws ProposalHierarchyException;  
+    
+    /**
      * This method synchronizes the contents of all children into the hierarchy.  If any child has changed since its last synchronization, the parent is reaggregated.
      * @param hierarchyProposalDocument the hierarchy in question
      * @throws ProposalHierarchyException if hierarchyProposalDocument is not a valid Hierarchy

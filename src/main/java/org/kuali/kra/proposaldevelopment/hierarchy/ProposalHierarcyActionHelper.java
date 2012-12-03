@@ -117,6 +117,20 @@ public class ProposalHierarcyActionHelper {
             }
         }
     }
+    
+    public void syncBudgetToParent(DevelopmentProposal childProposal, boolean allowEndDateChange) {
+        DevelopmentProposal hierarchy = getProposalHierarchyService().getDevelopmentProposal(childProposal.getHierarchyParentProposalNumber());
+        if (validateChildForSync(childProposal, hierarchy, allowEndDateChange)) {
+            try {
+                getProposalHierarchyService().synchronizeChildProposalBudget(childProposal);
+                KNSGlobalVariables.getMessageList().add(MESSAGE_SYNC_SUCCESS);
+    
+            }
+            catch (ProposalHierarchyException e) {
+                doUnexpectedError(e, FIELD_GENERIC, true);
+            }
+        }
+    }    
 
     public void createHierarchy(DevelopmentProposal initialChildProposal) {
         LOG.info(String.format("createHierarchy called with Proposal $s", initialChildProposal.getProposalNumber()));

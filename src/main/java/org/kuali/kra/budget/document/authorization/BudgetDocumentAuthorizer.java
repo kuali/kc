@@ -76,6 +76,10 @@ public class BudgetDocumentAuthorizer extends KcTransactionalDocumentAuthorizerB
             editModes.add(AuthorizationConstants.EditMode.UNVIEWABLE);
         }
         
+        if (canExecuteBudgetTask(userId, budgetDoc, TaskName.MAINTAIN_PROPOSAL_HIERARCHY)) {
+            editModes.add("maintainProposalHierarchy");
+        }
+        
         if (isBudgetComplete(parentDocument, budgetDoc)) {
             editModes.remove("modifyBudgets");
             editModes.remove("addBudget");
