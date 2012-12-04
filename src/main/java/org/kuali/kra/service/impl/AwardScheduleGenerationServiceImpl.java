@@ -130,7 +130,8 @@ public class AwardScheduleGenerationServiceImpl implements AwardScheduleGenerati
         if (awardReportTerm.getReportCode().equalsIgnoreCase(SF_269_EXPENDITURE_REPORT_CODE)
                 && awardReportTerm.getFrequencyBaseCode().equalsIgnoreCase(
                         FrequencyBaseConstants.AWARD_EXPIRATION_DATE_OF_OBLIGATION.getfrequencyBase())
-                && awardReportTerm.getFrequency().getDescription().equalsIgnoreCase(FREQUENCY_ANNUAL)) {
+                && awardReportTerm.getFrequency().getDescription().equalsIgnoreCase(FREQUENCY_ANNUAL)
+                && (mapOfDates.get(FrequencyBaseConstants.AWARD_EXPIRATION_DATE_OF_OBLIGATION.getfrequencyBase()) != null)) {
             calendar.setTime(mapOfDates.get(FrequencyBaseConstants.AWARD_EXPIRATION_DATE_OF_OBLIGATION.getfrequencyBase()));
             startDate = calendar.getTime();
         }
