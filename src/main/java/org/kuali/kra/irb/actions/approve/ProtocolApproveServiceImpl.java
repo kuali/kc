@@ -77,7 +77,7 @@ public class ProtocolApproveServiceImpl implements ProtocolApproveService {
         
         protocol.setApprovalDate(actionBean.getApprovalDate());
         protocol.setExpirationDate(actionBean.getExpirationDate());
-        if (protocol.isRenewal()) {
+        if (protocol.isRenewal() || protocol.isAmendment()) {
             protocol.setLastApprovalDate(actionBean.getApprovalDate());
         }
         finalizeReviewsAndSave(protocol, ProtocolActionType.EXPEDITE_APPROVAL, EXPEDITED_APPROVAL_FINALIZE_OLR_ANNOTATION);
@@ -96,7 +96,7 @@ public class ProtocolApproveServiceImpl implements ProtocolApproveService {
         if (protocol.getApprovalDate() == null) {
             protocol.setApprovalDate(actionBean.getApprovalDate());
         }
-        if (protocol.isRenewal()) {
+        if (protocol.isRenewal() || protocol.isAmendment()) {
             protocol.setLastApprovalDate(actionBean.getApprovalDate());
         }
         protocol.setExpirationDate(actionBean.getExpirationDate());
