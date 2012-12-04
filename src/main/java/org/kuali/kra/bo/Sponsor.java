@@ -56,6 +56,9 @@ public class Sponsor extends KraPersistableBusinessObjectBase {
     private Unit unit;
 
     private Rolodex rolodex;
+    
+    private boolean active;
+    
 
     public Sponsor() {
         super();
@@ -221,4 +224,14 @@ public class Sponsor extends KraPersistableBusinessObjectBase {
     public void setRolodex(Rolodex rolodex) {
         this.rolodex = rolodex;
     }
+    
+    
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+    
 }

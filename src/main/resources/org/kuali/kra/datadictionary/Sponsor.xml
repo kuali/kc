@@ -41,6 +41,7 @@
         <ref bean="Sponsor-state" />
         <ref bean="Sponsor-countryCode" />
         <ref bean="Sponsor-versionNumber" />
+        <ref bean="Sponsor-active" />
       </list>
     </property>
     <property name="relationships" >
@@ -364,12 +365,25 @@
 
   <bean id="Sponsor-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
   </bean>
+  
+  <bean id="Sponsor-active" parent="Sponsor-active-parentBean"/>
+   <bean id="Sponsor-active-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean"> 
+   <!--<bean id="Sponsor-activeString-parentBean" abstract="true" parent="AttributeDefinition">-->
+		<property name="name" value="active" />
+		<property name="label" value="Active" />
+		<property name="shortLabel" value="Active" />
+		<property name="summary" value="Active" />
+		<property name="description" value="Active" />
+		<property name="control" >
+			<!-- <bean parent="TextControlDefinition" p:size="1" />-->
+		    <bean parent="HiddenControlDefinition" />
+		</property> 
+   </bean>
 
 <!-- Business Object Inquiry Definition -->
 
 
   <bean id="Sponsor-inquiryDefinition" parent="Sponsor-inquiryDefinition-parentBean" />
-
   <bean id="Sponsor-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
     <property name="title" value="Sponsor" />
     <property name="inquirySections" >
@@ -379,35 +393,21 @@
           <property name="numberOfColumns" value="1" />
           <property name="inquiryFields" >
             <list>
-              <bean parent="FieldDefinition"
-                    p:attributeName="sponsorCode"
-                    p:forceInquiry="true" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="acronym" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="auditReportSentForFy" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="cageNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="countryCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="dodacNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="dunAndBradstreetNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="dunsPlusFourNumber" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="unit.unitName" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="postalCode" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="rolodexId" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="sponsorName" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="sponsorType.description" />
-              <bean parent="FieldDefinition"
-                    p:attributeName="state" />
+              <bean parent="FieldDefinition" p:attributeName="sponsorCode" p:forceInquiry="true" />
+              <bean parent="FieldDefinition" p:attributeName="acronym" />
+              <bean parent="FieldDefinition" p:attributeName="auditReportSentForFy" />
+              <bean parent="FieldDefinition" p:attributeName="cageNumber" />
+              <bean parent="FieldDefinition" p:attributeName="countryCode" />
+              <bean parent="FieldDefinition" p:attributeName="dodacNumber" />
+              <bean parent="FieldDefinition" p:attributeName="dunAndBradstreetNumber" />
+              <bean parent="FieldDefinition" p:attributeName="dunsPlusFourNumber" />
+              <bean parent="FieldDefinition" p:attributeName="unit.unitName" />
+              <bean parent="FieldDefinition" p:attributeName="postalCode" />
+              <bean parent="FieldDefinition" p:attributeName="rolodexId" />
+              <bean parent="FieldDefinition" p:attributeName="sponsorName" />
+              <bean parent="FieldDefinition" p:attributeName="sponsorType.description" />
+              <bean parent="FieldDefinition" p:attributeName="state" />
+              <!-- <bean parent="FieldDefinition" p:attributeName="active" p:defaultValue="Y" /> -->
             </list>
           </property>
         </bean>
@@ -439,59 +439,34 @@
     
     <property name="lookupFields" >
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="sponsorCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="sponsorName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="acronym" />
-        <bean parent="FieldDefinition"
-              p:attributeName="sponsorTypeCode"
-              p:forceLookup="true" />
-        <bean parent="FieldDefinition"
-              p:attributeName="dunAndBradstreetNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="dunsPlusFourNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="dodacNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="cageNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="postalCode" />
-        <bean parent="FieldDefinition"
-              p:attributeName="state" />
-        <bean parent="FieldDefinition"
-              p:attributeName="countryCode"
-              p:forceLookup="true" />
-        <bean parent="FieldDefinition"
-              p:attributeName="auditReportSentForFy" />
-        <bean parent="FieldDefinition"
-              p:attributeName="ownedByUnit" />
-        <bean parent="FieldDefinition"
-              p:attributeName="rolodexId" />
+        <bean parent="FieldDefinition" p:attributeName="sponsorCode" />
+        <bean parent="FieldDefinition" p:attributeName="sponsorName" />
+        <bean parent="FieldDefinition" p:attributeName="acronym" />
+        <bean parent="FieldDefinition" p:attributeName="sponsorTypeCode" p:forceLookup="true" />
+        <bean parent="FieldDefinition" p:attributeName="dunAndBradstreetNumber" />
+        <bean parent="FieldDefinition" p:attributeName="dunsPlusFourNumber" />
+        <bean parent="FieldDefinition" p:attributeName="dodacNumber" />
+        <bean parent="FieldDefinition" p:attributeName="cageNumber" />
+        <bean parent="FieldDefinition" p:attributeName="postalCode" />
+        <bean parent="FieldDefinition" p:attributeName="state" />
+        <bean parent="FieldDefinition" p:attributeName="countryCode" p:forceLookup="true" />
+        <bean parent="FieldDefinition" p:attributeName="auditReportSentForFy" />
+        <bean parent="FieldDefinition" p:attributeName="ownedByUnit" />
+        <bean parent="FieldDefinition" p:attributeName="rolodexId" />
+        <!-- <bean parent="FieldDefinition" p:attributeName="active"  p:defaultValue="Y" /> -->
       </list>
     </property>
     <property name="resultFields" >
       <list>
-        <bean parent="FieldDefinition"
-              p:attributeName="sponsorCode"
-              p:forceInquiry="true" />
-        <bean parent="FieldDefinition"
-              p:attributeName="sponsorName" />
-        <bean parent="FieldDefinition"
-              p:attributeName="acronym" />
-        <bean parent="FieldDefinition"
-              p:attributeName="sponsorType.description" />
-        <bean parent="FieldDefinition"
-              p:attributeName="dunAndBradstreetNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="dodacNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="cageNumber" />
-        <bean parent="FieldDefinition"
-              p:attributeName="state" />
-        <bean parent="FieldDefinition"
-              p:attributeName="countryCode" />
+        <bean parent="FieldDefinition" p:attributeName="sponsorCode" p:forceInquiry="true" />
+        <bean parent="FieldDefinition" p:attributeName="sponsorName" />
+        <bean parent="FieldDefinition" p:attributeName="acronym" />
+        <bean parent="FieldDefinition" p:attributeName="sponsorType.description" />
+        <bean parent="FieldDefinition" p:attributeName="dunAndBradstreetNumber" />
+        <bean parent="FieldDefinition" p:attributeName="dodacNumber" />
+        <bean parent="FieldDefinition" p:attributeName="cageNumber" />
+        <bean parent="FieldDefinition" p:attributeName="state" />
+        <bean parent="FieldDefinition" p:attributeName="countryCode" />
       </list>
     </property>
     
