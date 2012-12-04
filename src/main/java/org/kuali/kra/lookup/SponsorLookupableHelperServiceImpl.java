@@ -35,6 +35,9 @@ import org.kuali.rice.krad.util.GlobalVariables;
 public class SponsorLookupableHelperServiceImpl  extends KualiLookupableHelperServiceImpl {
     private static final String HIERARCHY_NAME = "hierarchyName";
     private static final String SELECTED_HIERARCHY_NAME = "selectedHierarchyName";
+    
+    protected static final String ACTIVE_FIELD_NAME = "active";
+    protected static final String ACTIVE_FIELD_DEFAULT_VALUE = "Y";
 
     /**
      * 
@@ -42,7 +45,11 @@ public class SponsorLookupableHelperServiceImpl  extends KualiLookupableHelperSe
      * This is primarily for multiple value lookup.  also need to take care of single value lookup
      */
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
-     
+    
+        if (!fieldValues.containsKey(ACTIVE_FIELD_NAME)) {
+            fieldValues.put(ACTIVE_FIELD_NAME, ACTIVE_FIELD_DEFAULT_VALUE);
+        }
+        
         List<Sponsor> searchResults;
         List<Sponsor> searchResultsReturn = new ArrayList<Sponsor>();
         //searchResults = super.getSearchResults(fieldValues);
