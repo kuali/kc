@@ -263,6 +263,7 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
             if(rule.checkSpecialCharacters(newBudgetsubAwardFiles.getSubAwardXmlFileData().toString())){
                 newBudgetsubAwardFiles.setSubAwardXmlFileData(KraServiceLocator.getService(KcAttachmentService.class).
                         checkAndReplaceSpecialCharacters(newBudgetsubAwardFiles.getSubAwardXmlFileData().toString()));
+                newBudgetSubAward.setSubAwardXmlFileData(newBudgetsubAwardFiles.getSubAwardXmlFileData());
             }
             newBudgetsubAwardFiles.setSubAwardXfdFileName(subAwardFileName);
             newBudgetSubAward.setSubAwardXfdFileName(subAwardFileName);
