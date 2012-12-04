@@ -276,7 +276,7 @@ public class AwardHierarchyNode extends AwardHierarchy {
      * @return Returns the anticipatedTotalDirect.
      */
     public KualiDecimal getAnticipatedTotalDirect() {
-        return anticipatedTotalDirect;
+        return (anticipatedTotalDirect != null) ? anticipatedTotalDirect : new KualiDecimal(0.0);
     }
 
     /**
@@ -292,7 +292,7 @@ public class AwardHierarchyNode extends AwardHierarchy {
      * @return Returns the anticipatedTotalIndirect.
      */
     public KualiDecimal getAnticipatedTotalIndirect() {
-        return anticipatedTotalIndirect;
+        return (anticipatedTotalIndirect != null) ? anticipatedTotalIndirect : new KualiDecimal(0.0);
     }
 
     /**
@@ -308,7 +308,7 @@ public class AwardHierarchyNode extends AwardHierarchy {
      * @return Returns the obligatedTotalDirect.
      */
     public KualiDecimal getObligatedTotalDirect() {
-        return obligatedTotalDirect;
+        return (obligatedTotalDirect != null) ? obligatedTotalDirect : new KualiDecimal(0.0);
     }
 
     /**
@@ -324,7 +324,7 @@ public class AwardHierarchyNode extends AwardHierarchy {
      * @return Returns the obligatedTotalIndirect.
      */
     public KualiDecimal getObligatedTotalIndirect() {
-        return obligatedTotalIndirect;
+        return (obligatedTotalIndirect != null) ? obligatedTotalIndirect : new KualiDecimal(0.0);
     }
 
     /**
