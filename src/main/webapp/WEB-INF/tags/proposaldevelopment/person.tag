@@ -84,6 +84,22 @@
                     </td>
                   </tr>
                   <tr>
+                  <th align="left" nowrap="nowrap"> <div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalPersonAttributes.firstName}"  /></div></th>
+                  <td>
+                  <c:if test="${KualiForm.document.developmentProposalList[0].proposalPersons[personIndex].firstName != null}">
+                      <kul:htmlControlAttribute property="${proposalPerson}.firstName" attributeEntry="${proposalPersonAttributes.firstName}" 
+                                                readOnly="${personEditableFields['firstName'] }"/>
+                   </c:if>
+                  </td>
+                  <th align="left" width="15%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${proposalPersonAttributes.lastName}"  /></div></th>
+                   <td>
+                   <c:if test="${KualiForm.document.developmentProposalList[0].proposalPersons[personIndex].lastName != null}">
+                      <kul:htmlControlAttribute property="${proposalPerson}.lastName" attributeEntry="${proposalPersonAttributes.lastName}" 
+                                                readOnly="${personEditableFields['lastName'] }"/>
+                   </c:if>
+                  </td>
+                  </tr>
+                  <tr>
                     <th colspan="4">Organization</th>
                   </tr>
                   <tr>
