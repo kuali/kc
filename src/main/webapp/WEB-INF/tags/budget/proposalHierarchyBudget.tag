@@ -42,7 +42,7 @@
 								a Parent Document.
 							</c:when>
 							<c:when test="${hierarchyStatus == hierarchyChildStatus}" >
-								a Child Document. The following actions are available: 
+								a Child Document.
 							</c:when>
 							<c:otherwise>
 								currently unlinked to a proposal hierarchy. 
@@ -53,7 +53,7 @@
 			</tr>
 			<kra:section permission="${maintainProposalHierarchy}">
 			<c:choose>
-				<c:when test="${hierarchyStatus == hierarchyChildStatus}" >
+				<c:when test="${hierarchyStatus == hierarchyChildStatus && KualiForm.syncableBudget}" >
 					<tr>
 						<td class="infoline" colspan="3">
 							<div align="center">
@@ -61,6 +61,14 @@
 						        	    src='${ConfigProperties.kra.externalizable.images.url}tinybutton-syncbudgettoparent.gif' styleClass="tinybutton"/>
 							</div>
 		                </td>
+					</tr>
+				</c:when><c:when test="${hierarchyStatus == hierarchyChildStatus}">
+					<tr>
+						<td class="infoline" colspan="3">
+							<div align="center">
+								This budget cannot be synced as it is not the final or most recent budget for the proposal.
+							</div>
+						</td>
 					</tr>
 				</c:when>
 			</c:choose>

@@ -22,6 +22,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
@@ -47,11 +48,15 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.infrastructure.TaskName;
+import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwards;
 import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModularIdc;
 import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModularSummary;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyException;
 import org.kuali.kra.proposaldevelopment.hierarchy.bo.HierarchyProposalSummary;
+import org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService;
+import org.kuali.kra.proposaldevelopment.hierarchy.service.impl.ProposalHierarchyServiceImpl;
 import org.kuali.kra.web.struts.form.BudgetVersionFormBase;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
@@ -135,6 +140,8 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
     private transient String enableBudgetSalaryByPeriod;
     
     private BudgetFormulatedCostDetail newBudgetFormulatedCost;
+    
+    private ProposalHierarchyService proposalHierarchyService;
     
     /**
      * Gets the selectedToPrintComment attribute. 
@@ -994,4 +1001,26 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
     public void setNewBudgetFormulatedCost(BudgetFormulatedCostDetail newBudgetFormulatedCost) {
         this.newBudgetFormulatedCost = newBudgetFormulatedCost;
     }
+
+    protected ProposalHierarchyService getProposalHierarchyService() {
+        if (proposalHierarchyService == null) {
+            proposalHierarchyService = KraServiceLocator.getService(ProposalHierarchyService.class);
+        }
+        return proposalHierarchyService;
+    }
+
+    public void setProposalHierarchyService(ProposalHierarchyService proposalHierarchyService) {
+        this.proposalHierarchyService = proposalHierarchyService;
+    }
+    
+    public boolean isSyncableBudget() throws ProposalHierarchyException {
+        BudgetDocument<DevelopmentProposal> budget = 
+                getProposalHierarchyService().getSyncableBudget((DevelopmentProposal) this.getBudgetDocument().getParentDocument().getBudgetParent());
+        if (budget != null
+                && StringUtils.equals(budget.getDocumentNumber(), getBudgetDocument().getDocumentNumber())) {
+            return true;
+        } else {
+            return false;
+        }
+    }    
 }
