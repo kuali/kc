@@ -368,16 +368,11 @@
   
   <bean id="Sponsor-active" parent="Sponsor-active-parentBean"/>
    <bean id="Sponsor-active-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean"> 
-   <!--<bean id="Sponsor-activeString-parentBean" abstract="true" parent="AttributeDefinition">-->
 		<property name="name" value="active" />
 		<property name="label" value="Active" />
 		<property name="shortLabel" value="Active" />
 		<property name="summary" value="Active" />
 		<property name="description" value="Active" />
-		<property name="control" >
-			<!-- <bean parent="TextControlDefinition" p:size="1" />-->
-		    <bean parent="HiddenControlDefinition" />
-		</property> 
    </bean>
 
 <!-- Business Object Inquiry Definition -->
@@ -407,7 +402,6 @@
               <bean parent="FieldDefinition" p:attributeName="sponsorName" />
               <bean parent="FieldDefinition" p:attributeName="sponsorType.description" />
               <bean parent="FieldDefinition" p:attributeName="state" />
-              <!-- <bean parent="FieldDefinition" p:attributeName="active" p:defaultValue="Y" /> -->
             </list>
           </property>
         </bean>
@@ -453,7 +447,6 @@
         <bean parent="FieldDefinition" p:attributeName="auditReportSentForFy" />
         <bean parent="FieldDefinition" p:attributeName="ownedByUnit" />
         <bean parent="FieldDefinition" p:attributeName="rolodexId" />
-        <!-- <bean parent="FieldDefinition" p:attributeName="active"  p:defaultValue="Y" /> -->
       </list>
     </property>
     <property name="resultFields" >
