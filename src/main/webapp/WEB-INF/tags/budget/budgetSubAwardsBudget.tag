@@ -65,8 +65,10 @@
 					</td>
 					<td class="infoline">
 						<div align=center>
+							<%--
 						    <html:image property="methodToCall.addNonXFD.line${status.index}.anchor${currentTabIndex}"
                             src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton"/>
+                             --%>
 							<html:image property="methodToCall.translateXFD.anchor${tabKey}"
 							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-extractxml.gif' styleClass="tinybutton"/>
 						</div>
@@ -146,9 +148,10 @@
 											}
 										-->
 									</script>
-																		
+									<%--							
 									<html:image property="methodToCall.addNonXFDBudgetLine.line${status.index}.anchor${currentTabIndex}"
 		                            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton"/>
+		                             --%>
 									<html:image property="methodToCall.translateXFDBudgetLine.line${status.index}.anchor${tabKey}"
 									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-extractxml.gif' styleClass="tinybutton"/>
 									
