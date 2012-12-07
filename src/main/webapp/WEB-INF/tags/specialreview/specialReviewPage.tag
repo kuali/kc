@@ -49,22 +49,33 @@
 </c:if>
 
 <script>
-function processNotYetAppliedChange(control) {
-	var row = getRow(control);
-	var reviewTypes = jQuery(row).find(specialReviewTypeSelector);
+var SpecialReviewGlobals = {};
+SpecialReviewGlobals.approvalTypeSelector = 'select[name*="approvalTypeCode"]';
+SpecialReviewGlobals.specialReviewTypeSelector = 'select[name*="specialReviewTypeCode"]';
+SpecialReviewGlobals.disabledApprovalTypeSelector = 'select[name*="disabledApprovalTypeCode"]';
+SpecialReviewGlobals.notYetAppliedApprovalTypeCode = '3';
+SpecialReviewGlobals.humanSubjectsTypeCode = '1';
+SpecialReviewGlobals.animalUsageTypeCode = '2';
+SpecialReviewGlobals.origSearchIcon;
+SpecialReviewGlobals.disabledSearchIcon = "${ConfigProperties.kra.externalizable.images.url}/searchicon1.gif";
+SpecialReviewGlobals.enableIrbProtocolLinking = ${enableIrbProtocolLinking};
+SpecialReviewGlobals.enableIacucProtocolLinking = ${enableIacucProtocolLinking};
+SpecialReviewGlobals.processNotYetAppliedChange = function(control) {
+	var row = this.getRow(control);
+	var reviewTypes = jQuery(row).find(this.specialReviewTypeSelector);
 	var typeCode = reviewTypes.val();
-	var approvalTypes = jQuery(row).find(approvalTypeSelector);
+	var approvalTypes = jQuery(row).find(this.approvalTypeSelector);
 	var protocolNumber = jQuery(row).find('input[type="text"][name*="protocolNumber"]');
-	if ((typeCode == humanSubjectsTypeCode && enableIrbProtocolLinking)
-			|| (typeCode == animalUsageTypeCode && enableIacucProtocolLinking)) {
-		if (approvalTypes.val() == notYetAppliedApprovalTypeCode) {
+	if ((typeCode == this.humanSubjectsTypeCode && this.enableIrbProtocolLinking)
+			|| (typeCode == this.animalUsageTypeCode && this.enableIacucProtocolLinking)) {
+		if (approvalTypes.val() == this.notYetAppliedApprovalTypeCode) {
 			jQuery(protocolNumber).prop('readonly', true);
 			jQuery(protocolNumber).siblings().find('input').prop('disabled', true);
-			jQuery(protocolNumber).siblings().find('input').attr('src', disabledSearchIcon);
+			jQuery(protocolNumber).siblings().find('input').attr('src', this.disabledSearchIcon);
 		} else {
 			jQuery(protocolNumber).prop('readonly', false);
 			jQuery(protocolNumber).siblings().find('input').prop('disabled', false);
-			jQuery(protocolNumber).siblings().find('input').attr('src', origSearchIcon);
+			jQuery(protocolNumber).siblings().find('input').attr('src', this.origSearchIcon);
 		}
 		if (jQuery(protocolNumber).val().length > 0) {
 			approvalTypes.val('');
@@ -84,95 +95,69 @@ function processNotYetAppliedChange(control) {
 		approvalTypes.prop('disabled', false);
 		jQuery(protocolNumber).prop('readonly', false);
 		jQuery(protocolNumber).siblings().find('input').prop('disabled', false);
-		jQuery(protocolNumber).siblings().find('input').attr('src', origSearchIcon);
+		jQuery(protocolNumber).siblings().find('input').attr('src', this.origSearchIcon);
 	}
 }
-function getRow(control) {
+SpecialReviewGlobals.getRow = function(control) {
 	var parent = jQuery(control).parentsUntil('tr');
 	return jQuery(parent).parent();
 }
-function getLinkedApprovalTypeCode(specialReviewTypeCode) {
-	if (specialReviewTypeCode == humanSubjectsTypeCode) {
-		alert('5');
-		return '5';
-	} else if (specialReviewTypeCode == animalUsageTypeCode) {
-		return '6'
-	} else {
-		return '';
-	}
-}
-var approvalTypeSelector = 'select[name*="approvalTypeCode"]';
-var specialReviewTypeSelector = 'select[name*="specialReviewTypeCode"]';
-var disabledApprovalTypeSelector = 'select[name*="disabledApprovalTypeCode"]';
-var notYetAppliedApprovalTypeCode = '3';
-var humanSubjectsTypeCode = '1';
-var animalUsageTypeCode = '2';
-var origSearchIcon;
-var disabledSearchIcon = "${ConfigProperties.kra.externalizable.images.url}/searchicon1.gif";
-var enableIrbProtocolLinking = "${enableIrbProtocolLinking}";
-var enableIacucProtocolLinking = "${enableIacucProtocolLinking}";
-jQuery(document).ready(function() {
-	origSearchIcon = jQuery('input[type="image"][src*="searchicon.gif"]').attr('src');
-	jQuery('input[type="text"][name*="protocolNumber"]').change(function() {processNotYetAppliedChange(this);});
-	jQuery(approvalTypeSelector).change(function() {processNotYetAppliedChange(this);});
-	jQuery(approvalTypeSelector).first().children().clone().each(function() {jQuery(disabledApprovalTypeSelector).append(this);});
-	jQuery('select[name*="specialReviewTypeCode"]').each(function() {
-			showHideSpecialReviewProtocolLink(this, '${canCreateIrbProtocol}', '${canCreateIacucProtocol}','${enableIrbProtocolLinking}','${enableIacucProtocolLinking}');
-	});
-	jQuery('input[type="text"][name*="protocolNumber"]').each(function() {processNotYetAppliedChange(this);});
-});
-
-function removeApprovalOptions(approvalType, optionValuesToKeep) {
+SpecialReviewGlobals.removeApprovalOptions = function(approvalType, optionValuesToKeep) {
 	jQuery(approvalType).children().each(function() {
 		if (jQuery.inArray(jQuery(this).val(), optionValuesToKeep) == -1) {
 			jQuery(this).remove();
 		}
 	});
 }
-
-function addDisabledOptionsBack(approvalType) {
+SpecialReviewGlobals.addDisabledOptionsBack = function(approvalType) {
 	jQuery(approvalType).html('');
-	jQuery(disabledApprovalTypeSelector).children().clone().each(function() {
+	jQuery(this.disabledApprovalTypeSelector).children().clone().each(function() {
 		jQuery(approvalType).append(this);
 	});
 }
-
-function showHideSpecialReviewProtocolLink(specialReviewControl, canCreateIrbProtocol, canCreateIacucProtocol) {
-	var row = getRow(specialReviewControl);
+SpecialReviewGlobals.showHideSpecialReviewProtocolLink = function(specialReviewControl, canCreateIrbProtocol, canCreateIacucProtocol) {
+	var row = this.getRow(specialReviewControl);
 	var typeCode = jQuery(specialReviewControl).val();
-	if ((typeCode == humanSubjectsTypeCode &&  canCreateIrbProtocol)
-			|| (typeCode == animalUsageTypeCode && canCreateIacucProtocol)) {
+	if ((typeCode == this.humanSubjectsTypeCode && canCreateIrbProtocol)
+			|| (typeCode == this.animalUsageTypeCode && canCreateIacucProtocol)) {
 		jQuery(row).find('input[name*="createProtocol"]').show();
 	} else {
 		jQuery(row).find('input[name*="createProtocol"]').hide(); 	
 	}
-	var selectedApprovalType = jQuery(row).find(approvalTypeSelector).val();
-	if (typeCode == humanSubjectsTypeCode &&  enableIrbProtocolLinking) {
+	var selectedApprovalType = jQuery(row).find(this.approvalTypeSelector).val();
+	if (typeCode == this.humanSubjectsTypeCode && this.enableIrbProtocolLinking) {
 		jQuery(row).find('span.irbLookupLink').show();
 		jQuery(row).find('span.iacucLookupLink').hide();
 		jQuery(row).find('.dynamicReadDiv').show();
 		jQuery(row).find('.dynamicEditDiv').hide();
-		removeApprovalOptions(jQuery(row).find(approvalTypeSelector), new Array("", notYetAppliedApprovalTypeCode));
-	} else if (typeCode == animalUsageTypeCode && enableIacucProtocolLinking) {
+		this.removeApprovalOptions(jQuery(row).find(this.approvalTypeSelector), new Array("", this.notYetAppliedApprovalTypeCode));
+	} else if (typeCode == this.animalUsageTypeCode && this.enableIacucProtocolLinking) {
 		jQuery(row).find('span.irbLookupLink').hide();
 		jQuery(row).find('span.iacucLookupLink').show();
 		jQuery(row).find('.dynamicReadDiv').show();
 		jQuery(row).find('.dynamicEditDiv').hide();
-		removeApprovalOptions(jQuery(row).find(approvalTypeSelector), new Array("", notYetAppliedApprovalTypeCode));
+		this.removeApprovalOptions(jQuery(row).find(this.approvalTypeSelector), new Array("", this.notYetAppliedApprovalTypeCode));
 	} else {
 		jQuery(row).find('span.irbLookupLink').hide();
 		jQuery(row).find('span.iacucLookupLink').hide();
 		jQuery(row).find('.dynamicReadDiv').hide();
 		jQuery(row).find('.dynamicEditDiv').show();
-		addDisabledOptionsBack(jQuery(row).find(approvalTypeSelector));
+		this.addDisabledOptionsBack(jQuery(row).find(this.approvalTypeSelector));
 	}
-	jQuery(row).find(approvalTypeSelector).val(selectedApprovalType);
-	processNotYetAppliedChange(jQuery(row).find(approvalTypeSelector));
+	jQuery(row).find(this.approvalTypeSelector).val(selectedApprovalType);
+	this.processNotYetAppliedChange(jQuery(row).find(this.approvalTypeSelector));
 }
 
-function isProtocolLinkingEnabled(row) {
-	
-}
+jQuery(document).ready(function() {
+	SpecialReviewGlobals.origSearchIcon = jQuery('input[type="image"][src*="searchicon.gif"]').attr('src');
+	jQuery('input[type="text"][name*="protocolNumber"]').change(function() {SpecialReviewGlobals.processNotYetAppliedChange(this);});
+	jQuery(SpecialReviewGlobals.approvalTypeSelector).change(function() {SpecialReviewGlobals.processNotYetAppliedChange(this);});
+	jQuery(SpecialReviewGlobals.approvalTypeSelector).first().children().clone().each(function() {jQuery(SpecialReviewGlobals.disabledApprovalTypeSelector).append(this);});
+	jQuery('select[name*="specialReviewTypeCode"]').each(function() {
+		SpecialReviewGlobals.showHideSpecialReviewProtocolLink(this, '${canCreateIrbProtocol}', '${canCreateIacucProtocol}');
+	});
+	jQuery('input[type="text"][name*="protocolNumber"]').each(function() {SpecialReviewGlobals.processNotYetAppliedChange(this);});
+});
 </script>
 
 <kul:tab tabTitle="Special Review" defaultOpen="true" alwaysOpen="true" transparentBackground="true" tabErrorKey="specialReviewHelper.newSpecialReview*,${collectionProperty}*">
@@ -226,7 +211,7 @@ function isProtocolLinkingEnabled(row) {
 	                   <kul:htmlControlAttribute property="specialReviewHelper.newSpecialReview.specialReviewTypeCode" 
 		                                         attributeEntry="${attributes.specialReviewTypeCode}"
 		                                         styleClass="fixed-size-200-select"
-		                                         onchange="showHideSpecialReviewProtocolLink(this, '${canCreateIrbProtocol}', '${canCreateIacucProtocol}');return false"/>
+		                                         onchange="SpecialReviewGlobals.showHideSpecialReviewProtocolLink(this, '${canCreateIrbProtocol}', '${canCreateIacucProtocol}');return false"/>
 					</div></td>
 	                <td class="infoline"><div align="center">
 	                   <kul:htmlControlAttribute property="specialReviewHelper.newSpecialReview.approvalTypeCode" 
@@ -322,7 +307,7 @@ function isProtocolLinkingEnabled(row) {
 	                                              readOnly="${not canModify}"
 	                                              styleClass="fixed-size-200-select"
 	                                              readOnlyAlternateDisplay="${specialReview.specialReviewType.description}" 
-	                                              onchange="showHideSpecialReviewProtocolLink(this, '${canCreateIrbProtocol}', '${canCreateIacucProtocol}');return false" />
+	                                              onchange="SpecialReviewGlobals.showHideSpecialReviewProtocolLink(this, '${canCreateIrbProtocol}', '${canCreateIacucProtocol}');return false" />
 					</div></td>
                     <td><div align="center">
                         <kul:htmlControlAttribute property="${collectionProperty}[${status.index}].approvalTypeCode" 
@@ -343,6 +328,7 @@ function isProtocolLinkingEnabled(row) {
                         <kul:htmlControlAttribute property="${collectionProperty}[${status.index}].protocolNumber" 
                                                   attributeEntry="${attributes.protocolNumber}" 
                                                   readOnly="${not canModify}" />
+							<c:if test="${canModify}">
                             <span class="irbLookupLink" style="${initialStyleIrb}">
 	                            <kul:lookup boClassName="org.kuali.kra.irb.Protocol" 
 		                                    fieldConversions="protocolNumber:${collectionProperty}[${status.index}].protocolNumber" />
@@ -351,6 +337,7 @@ function isProtocolLinkingEnabled(row) {
 	                            <kul:lookup boClassName="org.kuali.kra.iacuc.IacucProtocol" 
 		                                    fieldConversions="protocolNumber:${collectionProperty}[${status.index}].protocolNumber" />
                             </span>
+                            </c:if>
 					</div></td>
                     <td align="left" valign="middle"><div align="center">
                         <kra:dynamicHtmlControlAttribute property="${collectionProperty}[${status.index}].applicationDate" 
