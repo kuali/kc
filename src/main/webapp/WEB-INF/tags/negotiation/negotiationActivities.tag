@@ -123,5 +123,10 @@ $jq(document).ready(function() {
     </tbody>
   </table>
 </kul:innerTab>
+
+<kul:innerTab parentTab="Activities & Attachments" tabTitle="Notifications" defaultOpen="false" useCurrentTabIndexAsKey="true" overrideDivClass="innerTab-h3head">
+	<kra-negotiation:negotiationNotifications/>
+</kul:innerTab>
+
 </div>
 </kul:tab> 

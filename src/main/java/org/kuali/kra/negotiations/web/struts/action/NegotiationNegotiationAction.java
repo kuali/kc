@@ -42,6 +42,7 @@ import org.kuali.kra.negotiations.bo.NegotiationUnassociatedDetail;
 import org.kuali.kra.negotiations.customdata.NegotiationCustomData;
 import org.kuali.kra.negotiations.document.NegotiationDocument;
 import org.kuali.kra.negotiations.notifications.NegotiationCloseNotificationContext;
+import org.kuali.kra.negotiations.notifications.NegotiationNotification;
 import org.kuali.kra.negotiations.printing.NegotiationActivityPrintType;
 import org.kuali.kra.negotiations.web.struts.form.NegotiationForm;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
@@ -191,7 +192,7 @@ public class NegotiationNegotiationAction extends NegotiationAction {
                 negotiationForm.getNotificationHelper().initializeDefaultValues(context);
                 return mapping.findForward("notificationEditor");
             } else {
-                getNotificationService().sendNotification(context);
+                getNotificationService().sendNotificationAndPersist(context, new NegotiationNotification(), negotiation);
             }
         }
         if (negotiation.getUnAssociatedDetail() != null) {
