@@ -266,7 +266,7 @@
     	</property>
         <property name="control" >
             <bean parent="TextControlDefinition"
-                p:size="10" />
+                p:size="40" />
         </property>
         <property name="summary" value="Comments" />
         <property name="description" value="Comments" />
