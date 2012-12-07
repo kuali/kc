@@ -26,6 +26,7 @@ public class SpecialReviewApprovalType extends KraPersistableBusinessObjectBase 
      */
     public static final String PENDING = "1";
     public static final String APPROVED = "2";
+    public static final String NOT_YET_APPLIED = "3";
     public static final String EXEMPT = "4";
 
     /**

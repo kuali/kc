@@ -24,6 +24,7 @@ import java.util.Map;
 
 import org.apache.commons.collections.ListUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.bo.SpecialReviewApprovalType;
 import org.kuali.kra.bo.SpecialReviewType;
 import org.kuali.kra.bo.ValidSpecialReviewApproval;
 import org.kuali.kra.common.specialreview.bo.SpecialReview;
@@ -184,42 +185,44 @@ public class SpecialReviewRuleBase<T extends SpecialReview<? extends SpecialRevi
     private boolean validateProtocolNumber(T specialReview, List<T> specialReviews, String errorString) {
         boolean isValid = true;
         
-        if (StringUtils.isBlank(specialReview.getProtocolNumber())) {
-            isValid = false;
-            reportError(PROTOCOL_NUMBER_FIELD, KeyConstants.ERROR_SPECIAL_REVIEW_REQUIRED_FOR_VALID, PROTOCOL_NUMBER_TITLE, errorString);
-        } else {
-            if ( SpecialReviewType.HUMAN_SUBJECTS.equals(specialReview.getSpecialReviewTypeCode()))
-            {
-                Protocol protocol = getProtocolFinderDao().findCurrentProtocolByNumber(specialReview.getProtocolNumber());
-                if (protocol == null) {
-                    isValid = false;
-                    reportError(PROTOCOL_NUMBER_FIELD, KeyConstants.ERROR_SPECIAL_REVIEW_PROTOCOL_NUMBER_INVALID);
-                } else {
-                    List<T> existingSpecialReviews = ListUtils.subtract(specialReviews, Collections.singletonList(specialReview));
-                    for (T existingSpecialReview : existingSpecialReviews) {
-                        if (StringUtils.equals(specialReview.getProtocolNumber(), existingSpecialReview.getProtocolNumber())) {
-                            isValid = false;
-                            reportError(PROTOCOL_NUMBER_FIELD, KeyConstants.ERROR_SPECIAL_REVIEW_PROTOCOL_NUMBER_DUPLICATE);
+        if (!StringUtils.equals(SpecialReviewApprovalType.NOT_YET_APPLIED, specialReview.getApprovalTypeCode())) {
+            if (StringUtils.isBlank(specialReview.getProtocolNumber())) {
+                isValid = false;
+                reportError(PROTOCOL_NUMBER_FIELD, KeyConstants.ERROR_SPECIAL_REVIEW_REQUIRED_FOR_VALID, PROTOCOL_NUMBER_TITLE, errorString);
+            } else {
+                if ( SpecialReviewType.HUMAN_SUBJECTS.equals(specialReview.getSpecialReviewTypeCode()))
+                {
+                    Protocol protocol = getProtocolFinderDao().findCurrentProtocolByNumber(specialReview.getProtocolNumber());
+                    if (protocol == null) {
+                        isValid = false;
+                        reportError(PROTOCOL_NUMBER_FIELD, KeyConstants.ERROR_SPECIAL_REVIEW_PROTOCOL_NUMBER_INVALID);
+                    } else {
+                        List<T> existingSpecialReviews = ListUtils.subtract(specialReviews, Collections.singletonList(specialReview));
+                        for (T existingSpecialReview : existingSpecialReviews) {
+                            if (StringUtils.equals(specialReview.getProtocolNumber(), existingSpecialReview.getProtocolNumber())) {
+                                isValid = false;
+                                reportError(PROTOCOL_NUMBER_FIELD, KeyConstants.ERROR_SPECIAL_REVIEW_PROTOCOL_NUMBER_DUPLICATE);
+                            }
                         }
                     }
                 }
-            }
-            else if ( SpecialReviewType.ANIMAL_USAGE.equals(specialReview.getSpecialReviewTypeCode()))
-            {
-                IacucProtocol iacucProtocol = (IacucProtocol)getIacucProtocolFinderDao().findCurrentProtocolByNumber(specialReview.getProtocolNumber());
-                if (iacucProtocol == null) {
-                    isValid = false;
-                    reportError(PROTOCOL_NUMBER_FIELD, KeyConstants.ERROR_SPECIAL_REVIEW_PROTOCOL_NUMBER_INVALID);
-                } else {
-                    List<T> existingSpecialReviews = ListUtils.subtract(specialReviews, Collections.singletonList(specialReview));
-                    for (T existingSpecialReview : existingSpecialReviews) {
-                        if (StringUtils.equals(specialReview.getProtocolNumber(), existingSpecialReview.getProtocolNumber())) {
-                            isValid = false;
-                            reportError(PROTOCOL_NUMBER_FIELD, KeyConstants.ERROR_SPECIAL_REVIEW_PROTOCOL_NUMBER_DUPLICATE);
+                else if ( SpecialReviewType.ANIMAL_USAGE.equals(specialReview.getSpecialReviewTypeCode()))
+                {
+                    IacucProtocol iacucProtocol = (IacucProtocol)getIacucProtocolFinderDao().findCurrentProtocolByNumber(specialReview.getProtocolNumber());
+                    if (iacucProtocol == null) {
+                        isValid = false;
+                        reportError(PROTOCOL_NUMBER_FIELD, KeyConstants.ERROR_SPECIAL_REVIEW_PROTOCOL_NUMBER_INVALID);
+                    } else {
+                        List<T> existingSpecialReviews = ListUtils.subtract(specialReviews, Collections.singletonList(specialReview));
+                        for (T existingSpecialReview : existingSpecialReviews) {
+                            if (StringUtils.equals(specialReview.getProtocolNumber(), existingSpecialReview.getProtocolNumber())) {
+                                isValid = false;
+                                reportError(PROTOCOL_NUMBER_FIELD, KeyConstants.ERROR_SPECIAL_REVIEW_PROTOCOL_NUMBER_DUPLICATE);
+                            }
                         }
                     }
+                    
                 }
-                
             }
         }
         
