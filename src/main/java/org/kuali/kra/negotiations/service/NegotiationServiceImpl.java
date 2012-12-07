@@ -46,11 +46,11 @@ import org.kuali.kra.negotiations.bo.NegotiationPersonDTO;
 import org.kuali.kra.negotiations.bo.NegotiationStatus;
 import org.kuali.kra.negotiations.bo.NegotiationUnassociatedDetail;
 import org.kuali.kra.negotiations.document.NegotiationDocument;
+import org.kuali.kra.negotiations.notifications.NegotiationNotification;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.subaward.bo.SubAward;
-import org.kuali.rice.core.api.membership.MemberType;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.kim.api.role.RoleMembership;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
@@ -357,6 +357,14 @@ public class NegotiationServiceImpl implements NegotiationService {
         return beansToReturn;
     }
     
+    public List<NegotiationNotification> getNegotiationNotifications(Negotiation negotiation) {
+        Map<String, Object> fieldValues = new HashMap<String, Object>(); 
+        fieldValues.put("documentNumber", negotiation.getNegotiationDocument().getDocumentNumber());
+        List<NegotiationNotification> notifications = (List<NegotiationNotification>)getBusinessObjectService().findMatching(NegotiationNotification.class, fieldValues);
+        return notifications;
+    }
+    
+
     private void setBeanStuff(NegotiationActivityHistoryLineBean bean, Date efectiveLocationStartDate, Date efectiveLocationEndDate, String locationDays) {
         bean.setEfectiveLocationEndDate(efectiveLocationEndDate);
         bean.setEfectiveLocationStartDate(efectiveLocationStartDate);

@@ -41,6 +41,7 @@ import org.kuali.kra.negotiations.customdata.CustomDataHelper;
 import org.kuali.kra.negotiations.customdata.NegotiationCustomData;
 import org.kuali.kra.negotiations.document.NegotiationDocument;
 import org.kuali.kra.negotiations.notifications.NegotiationCloseNotificationContext;
+import org.kuali.kra.negotiations.notifications.NegotiationNotification;
 import org.kuali.kra.negotiations.service.NegotiationService;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
@@ -320,11 +321,20 @@ public class NegotiationForm extends KraTransactionalDocumentFormBase {
     
     /**
      * 
-     * This method calls the negotiation service and return the results of hte getNegotiationActivityHistoryLineBeans funciton.
+     * This method calls the negotiation service and return the results of the getNegotiationActivityHistoryLineBeans function.
      * @return
      */
     public List<NegotiationActivityHistoryLineBean> getNegotiationActivityHistoryLineBeans() {
         return this.getNegotiationService().getNegotiationActivityHistoryLineBeans(this.getNegotiationDocument().getNegotiation().getActivities());
+    }
+
+    /**
+     * 
+     * This method calls the negotiation service and return the results of the getNegotiationNotifications function.
+     * @return
+     */
+    public List<NegotiationNotification> getNegotiationNotifications() {
+        return this.getNegotiationService().getNegotiationNotifications(this.getNegotiationDocument().getNegotiation());
     }
 
     public NotificationHelper<NegotiationCloseNotificationContext> getNotificationHelper() {

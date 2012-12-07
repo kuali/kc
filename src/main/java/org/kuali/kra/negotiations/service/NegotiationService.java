@@ -26,6 +26,7 @@ import org.kuali.kra.negotiations.bo.NegotiationAssociatedDetailBean;
 import org.kuali.kra.negotiations.bo.NegotiationAssociationType;
 import org.kuali.kra.negotiations.bo.NegotiationStatus;
 import org.kuali.kra.negotiations.bo.NegotiationUnassociatedDetail;
+import org.kuali.kra.negotiations.notifications.NegotiationNotification;
 import org.kuali.rice.krad.bo.BusinessObject;
 
 /**
@@ -143,6 +144,8 @@ public interface NegotiationService {
     NegotiationUnassociatedDetail findAndLoadNegotiationUnassociatedDetail(Negotiation negotiation);
     
     List<NegotiationActivityHistoryLineBean> getNegotiationActivityHistoryLineBeans(List<NegotiationActivity> activities);
+    
+    List<NegotiationNotification> getNegotiationNotifications(Negotiation negotiation);
     
     /**
      * 
