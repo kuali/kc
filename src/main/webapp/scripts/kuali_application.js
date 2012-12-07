@@ -3278,41 +3278,6 @@ function ajaxLoad(methodToCall, codeField, fieldToUpdate) {
     return false;
 }
 
-/**
- * Display the Protocol link and make the fields read-only if the special review type is Human Subjects
- */
-
-function showHideSpecialReviewProtocolLink(specialReviewTypeCode, idPrefix, canCreateIrbProtocol, canCreateIacucProtocol, enableIrbProtocolLinking, enableIacucProtocolLinking) {
-	var readOnly = ( specialReviewTypeCode.value == '1' || specialReviewTypeCode.value == '2');
-	if (specialReviewTypeCode.value == '1' &&  canCreateIrbProtocol == 'true' ) {
-		changeObjectVisibility(idPrefix + ".startprotocol.image.div", "inline");
-	}
-	else if (specialReviewTypeCode.value == '2' && canCreateIacucProtocol == 'true' ) {
-		changeObjectVisibility(idPrefix + ".startprotocol.image.div", "inline");
-	}
-	else
-	{
-		changeObjectVisibility(idPrefix + ".startprotocol.image.div", "none"); 	
-	}
-	if (specialReviewTypeCode.value == '1' &&  enableIrbProtocolLinking == 'true' ) {
-		changeObjectVisibility(idPrefix + ".protocolNumber.irb.link.div", "inline");
-		changeObjectVisibility(idPrefix + ".protocolNumber.iacuc.link.div", "none");
-		enableDisableReadOnlyDynamicHtmlControl(true, new Array(idPrefix + ".approvalTypeCode", idPrefix + ".applicationDate", idPrefix + ".approvalDate", idPrefix + ".expirationDate", idPrefix + ".exemptionTypeCodes"));
-	}
-	else if (specialReviewTypeCode.value == '2' && enableIacucProtocolLinking == 'true' ) {
-		changeObjectVisibility(idPrefix + ".protocolNumber.irb.link.div", "none"); 
-		changeObjectVisibility(idPrefix + ".protocolNumber.iacuc.link.div", "inline");
-		enableDisableReadOnlyDynamicHtmlControl(true, new Array(idPrefix + ".approvalTypeCode", idPrefix + ".applicationDate", idPrefix + ".approvalDate", idPrefix + ".expirationDate", idPrefix + ".exemptionTypeCodes"));
-	}
-	else
-	{
-		changeObjectVisibility(idPrefix + ".protocolNumber.irb.link.div", "none"); 
-		changeObjectVisibility(idPrefix + ".protocolNumber.iacuc.link.div", "none");
-		enableDisableReadOnlyDynamicHtmlControl(false, new Array(idPrefix + ".approvalTypeCode", idPrefix + ".applicationDate", idPrefix + ".approvalDate", idPrefix + ".expirationDate", idPrefix + ".exemptionTypeCodes"));
-
-	}
-}
-
 function enableDisableReadOnlyDynamicHtmlControl(readOnly, ids) {
 	if (readOnly) {
 		for (var i = 0; i < ids.length; i++) {
