@@ -30,6 +30,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.negotiations.document.NegotiationDocument;
+import org.kuali.kra.negotiations.notifications.NegotiationNotification;
 import org.kuali.kra.negotiations.service.NegotiationService;
 import org.kuali.kra.negotiations.customdata.NegotiationCustomData;
 import org.kuali.rice.kim.api.KimConstants;
@@ -85,6 +86,8 @@ public class Negotiation extends KraPersistableBusinessObjectBase implements Per
     private boolean printAll = true;
     private Long oldNegotiationAssociationTypeId;
 
+    private List<NegotiationNotification> negotiationNotifications;
+    
     public int getPrintindex() {
         return printindex;
     }
@@ -97,6 +100,7 @@ public class Negotiation extends KraPersistableBusinessObjectBase implements Per
         super();
         activities = new ArrayList<NegotiationActivity>();
         negotiationCustomDataList = new ArrayList<NegotiationCustomData>();
+        negotiationNotifications = new ArrayList<NegotiationNotification>();
     }
 
     public Integer getNegotiationAge() {
@@ -451,5 +455,17 @@ public class Negotiation extends KraPersistableBusinessObjectBase implements Per
 
     public void setOldNegotiationAssociationTypeId(Long oldNegotiationAssociationTypeId) {
         this.oldNegotiationAssociationTypeId = oldNegotiationAssociationTypeId;
+    }
+
+    public List<NegotiationNotification> getNegotiationNotifications() {
+        return negotiationNotifications;
+    }
+
+    public void setNegotiationNotifications(List<NegotiationNotification> negotiationNotifications) {
+        this.negotiationNotifications = negotiationNotifications;
+    }
+
+    public void addNotification(NegotiationNotification negotiationNotification) {
+        getNegotiationNotifications().add(negotiationNotification);        
     }
 }
