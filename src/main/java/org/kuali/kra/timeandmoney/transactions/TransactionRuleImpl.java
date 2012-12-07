@@ -155,11 +155,22 @@ public class TransactionRuleImpl extends ResearchDocumentRuleBase implements Tra
     private boolean validateAnticipatedGreaterThanObligated (AddTransactionRuleEvent event, List<Award> awards) {
         boolean valid = true;
         //add the transaction to the document so we can simulate processing the transaction.
-        event.getTimeAndMoneyDocument().add(event.getPendingTransactionItemForValidation());
+        PendingTransaction pendingTransaction = event.getPendingTransactionItemForValidation();
+        event.getTimeAndMoneyDocument().add(pendingTransaction);
         for (Award award : awards) {
             Award activeAward = getAwardVersionService().getWorkingAwardVersion(award.getAwardNumber());
             AwardAmountInfo awardAmountInfo = activeAward.getAwardAmountInfos().get(activeAward.getAwardAmountInfos().size() -1);
-            if (awardAmountInfo.getAnticipatedTotalAmount().subtract(awardAmountInfo.getAmountObligatedToDate()).isNegative()) {
+            KualiDecimal anticipatedTotal = awardAmountInfo.getAnticipatedTotalAmount();
+            KualiDecimal obligatedTotal = awardAmountInfo.getAmountObligatedToDate();
+            if (StringUtils.equals(pendingTransaction.getSourceAwardNumber(), awardAmountInfo.getAwardNumber())) {
+                anticipatedTotal = anticipatedTotal.subtract(pendingTransaction.getAnticipatedAmount());
+                obligatedTotal = obligatedTotal.subtract(pendingTransaction.getObligatedAmount());
+            }
+            if (StringUtils.equals(pendingTransaction.getDestinationAwardNumber(), award.getAwardNumber())) {
+                anticipatedTotal = anticipatedTotal.add(pendingTransaction.getAnticipatedAmount());
+                obligatedTotal = obligatedTotal.add(pendingTransaction.getObligatedAmount());
+            }
+            if (anticipatedTotal.isLessThan(obligatedTotal)) {
                 reportError(OBLIGATED_AMOUNT_PROPERTY, KeyConstants.ERROR_TOTAL_AMOUNT_INVALID, activeAward.getAwardNumber());
                 valid = false;
             }
