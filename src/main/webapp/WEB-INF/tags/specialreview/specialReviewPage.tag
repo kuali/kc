@@ -48,13 +48,141 @@
 	<c:set var="buttonStyle" value="display:inline"/>
 </c:if>
 
+<script>
+function processNotYetAppliedChange(control) {
+	var row = getRow(control);
+	var reviewTypes = jQuery(row).find(specialReviewTypeSelector);
+	var typeCode = reviewTypes.val();
+	var approvalTypes = jQuery(row).find(approvalTypeSelector);
+	var protocolNumber = jQuery(row).find('input[type="text"][name*="protocolNumber"]');
+	if ((typeCode == humanSubjectsTypeCode && enableIrbProtocolLinking)
+			|| (typeCode == animalUsageTypeCode && enableIacucProtocolLinking)) {
+		if (approvalTypes.val() == notYetAppliedApprovalTypeCode) {
+			jQuery(protocolNumber).prop('readonly', true);
+			jQuery(protocolNumber).siblings().find('input').prop('disabled', true);
+			jQuery(protocolNumber).siblings().find('input').attr('src', disabledSearchIcon);
+		} else {
+			jQuery(protocolNumber).prop('readonly', false);
+			jQuery(protocolNumber).siblings().find('input').prop('disabled', false);
+			jQuery(protocolNumber).siblings().find('input').attr('src', origSearchIcon);
+		}
+		if (jQuery(protocolNumber).val().length > 0) {
+			approvalTypes.val('');
+			approvalTypes.prop('disabled', true);
+			if (approvalTypes.siblings('span').html().match(/\w/).length > 0) {
+				approvalTypes.hide();
+				approvalTypes.siblings('span').show();
+			}
+		} else {
+			approvalTypes.show();
+			approvalTypes.prop('disabled', false);
+			approvalTypes.siblings('span').hide();
+		}
+	} else {
+		approvalTypes.siblings('span').hide();
+		approvalTypes.show();
+		approvalTypes.prop('disabled', false);
+		jQuery(protocolNumber).prop('readonly', false);
+		jQuery(protocolNumber).siblings().find('input').prop('disabled', false);
+		jQuery(protocolNumber).siblings().find('input').attr('src', origSearchIcon);
+	}
+}
+function getRow(control) {
+	var parent = jQuery(control).parentsUntil('tr');
+	return jQuery(parent).parent();
+}
+function getLinkedApprovalTypeCode(specialReviewTypeCode) {
+	if (specialReviewTypeCode == humanSubjectsTypeCode) {
+		alert('5');
+		return '5';
+	} else if (specialReviewTypeCode == animalUsageTypeCode) {
+		return '6'
+	} else {
+		return '';
+	}
+}
+var approvalTypeSelector = 'select[name*="approvalTypeCode"]';
+var specialReviewTypeSelector = 'select[name*="specialReviewTypeCode"]';
+var disabledApprovalTypeSelector = 'select[name*="disabledApprovalTypeCode"]';
+var notYetAppliedApprovalTypeCode = '3';
+var humanSubjectsTypeCode = '1';
+var animalUsageTypeCode = '2';
+var origSearchIcon;
+var disabledSearchIcon = "${ConfigProperties.kra.externalizable.images.url}/searchicon1.gif";
+var enableIrbProtocolLinking = "${enableIrbProtocolLinking}";
+var enableIacucProtocolLinking = "${enableIacucProtocolLinking}";
+jQuery(document).ready(function() {
+	origSearchIcon = jQuery('input[type="image"][src*="searchicon.gif"]').attr('src');
+	jQuery('input[type="text"][name*="protocolNumber"]').change(function() {processNotYetAppliedChange(this);});
+	jQuery(approvalTypeSelector).change(function() {processNotYetAppliedChange(this);});
+	jQuery(approvalTypeSelector).first().children().clone().each(function() {jQuery(disabledApprovalTypeSelector).append(this);});
+	jQuery('select[name*="specialReviewTypeCode"]').each(function() {
+			showHideSpecialReviewProtocolLink(this, '${canCreateIrbProtocol}', '${canCreateIacucProtocol}','${enableIrbProtocolLinking}','${enableIacucProtocolLinking}');
+	});
+	jQuery('input[type="text"][name*="protocolNumber"]').each(function() {processNotYetAppliedChange(this);});
+});
+
+function removeApprovalOptions(approvalType, optionValuesToKeep) {
+	jQuery(approvalType).children().each(function() {
+		if (jQuery.inArray(jQuery(this).val(), optionValuesToKeep) == -1) {
+			jQuery(this).remove();
+		}
+	});
+}
+
+function addDisabledOptionsBack(approvalType) {
+	jQuery(approvalType).html('');
+	jQuery(disabledApprovalTypeSelector).children().clone().each(function() {
+		jQuery(approvalType).append(this);
+	});
+}
+
+function showHideSpecialReviewProtocolLink(specialReviewControl, canCreateIrbProtocol, canCreateIacucProtocol) {
+	var row = getRow(specialReviewControl);
+	var typeCode = jQuery(specialReviewControl).val();
+	if ((typeCode == humanSubjectsTypeCode &&  canCreateIrbProtocol)
+			|| (typeCode == animalUsageTypeCode && canCreateIacucProtocol)) {
+		jQuery(row).find('input[name*="createProtocol"]').show();
+	} else {
+		jQuery(row).find('input[name*="createProtocol"]').hide(); 	
+	}
+	var selectedApprovalType = jQuery(row).find(approvalTypeSelector).val();
+	if (typeCode == humanSubjectsTypeCode &&  enableIrbProtocolLinking) {
+		jQuery(row).find('span.irbLookupLink').show();
+		jQuery(row).find('span.iacucLookupLink').hide();
+		jQuery(row).find('.dynamicReadDiv').show();
+		jQuery(row).find('.dynamicEditDiv').hide();
+		removeApprovalOptions(jQuery(row).find(approvalTypeSelector), new Array("", notYetAppliedApprovalTypeCode));
+	} else if (typeCode == animalUsageTypeCode && enableIacucProtocolLinking) {
+		jQuery(row).find('span.irbLookupLink').hide();
+		jQuery(row).find('span.iacucLookupLink').show();
+		jQuery(row).find('.dynamicReadDiv').show();
+		jQuery(row).find('.dynamicEditDiv').hide();
+		removeApprovalOptions(jQuery(row).find(approvalTypeSelector), new Array("", notYetAppliedApprovalTypeCode));
+	} else {
+		jQuery(row).find('span.irbLookupLink').hide();
+		jQuery(row).find('span.iacucLookupLink').hide();
+		jQuery(row).find('.dynamicReadDiv').hide();
+		jQuery(row).find('.dynamicEditDiv').show();
+		addDisabledOptionsBack(jQuery(row).find(approvalTypeSelector));
+	}
+	jQuery(row).find(approvalTypeSelector).val(selectedApprovalType);
+	processNotYetAppliedChange(jQuery(row).find(approvalTypeSelector));
+}
+
+function isProtocolLinkingEnabled(row) {
+	
+}
+</script>
+
 <kul:tab tabTitle="Special Review" defaultOpen="true" alwaysOpen="true" transparentBackground="true" tabErrorKey="specialReviewHelper.newSpecialReview*,${collectionProperty}*">
     <div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left">Special Review</span>
     		<span class="subhead-right"><kul:help businessObjectClassName="${businessObjectClassName}" altText="help"/></span>
         </h3>
-        
+        <%-- used to store the original list of approval type codes --%>
+        <select name="disabledApprovalTypeCode" style="display:none;"/>
         <table id="specialReviewTableId" cellpadding="0" cellspacing="0" summary="">
           	<tr>
           		<th><div align="left">&nbsp;</div></th> 
@@ -98,25 +226,21 @@
 	                   <kul:htmlControlAttribute property="specialReviewHelper.newSpecialReview.specialReviewTypeCode" 
 		                                         attributeEntry="${attributes.specialReviewTypeCode}"
 		                                         styleClass="fixed-size-200-select"
-		                                         onchange="showHideSpecialReviewProtocolLink(this, 'specialReviewHelper.newSpecialReview', '${canCreateIrbProtocol}', '${canCreateIacucProtocol}','${enableIrbProtocolLinking}','${enableIacucProtocolLinking}');return false"/>
+		                                         onchange="showHideSpecialReviewProtocolLink(this, '${canCreateIrbProtocol}', '${canCreateIacucProtocol}');return false"/>
 					</div></td>
 	                <td class="infoline"><div align="center">
-	                   <kra:dynamicHtmlControlAttribute property="specialReviewHelper.newSpecialReview.approvalTypeCode" 
-		                                                attributeEntry="${attributes.approvalTypeCode}" 
-		                                                initialReadOnly="${protocolLinkingReadOnly}"
-		                                                readOnlyBody="true"
-		                                                staticOnly="false">
-                           ${KualiForm.specialReviewHelper.newSpecialReview.protocolStatus}
-		               </kra:dynamicHtmlControlAttribute>
+	                   <kul:htmlControlAttribute property="specialReviewHelper.newSpecialReview.approvalTypeCode" 
+		                                                attributeEntry="${attributes.approvalTypeCode}"/>
+                       <span>${KualiForm.specialReviewHelper.newSpecialReview.protocolStatus}</span>
 	                </div></td>
 	                <td class="infoline"><div align="center">
                         <kul:htmlControlAttribute property="specialReviewHelper.newSpecialReview.protocolNumber" 
 		                                          attributeEntry="${attributes.protocolNumber}" />
-                            <span id="specialReviewHelper.newSpecialReview.protocolNumber.irb.link.div" style="${initialStyleIrb}">
+                            <span class="irbLookupLink" style="${initialStyleIrb}">
                                 <kul:lookup boClassName="org.kuali.kra.irb.Protocol" 
                                             fieldConversions="protocolNumber:specialReviewHelper.newSpecialReview.protocolNumber" />
                             </span>
-                            <span id="specialReviewHelper.newSpecialReview.protocolNumber.iacuc.link.div" style="${initialStyleIacuc}">
+                            <span class="iacucLookupLink" style="${initialStyleIacuc}">
                                 <kul:lookup boClassName="org.kuali.kra.iacuc.IacucProtocol" 
                                             fieldConversions="protocolNumber:specialReviewHelper.newSpecialReview.protocolNumber" />
                             </span>
@@ -151,13 +275,10 @@
 						            styleClass="tinybutton"/>
 
 					            <c:if test="${canCreateIrbProtocol || canCreateIacucProtocol}">
-
-		                            <span id="specialReviewHelper.newSpecialReview.startprotocol.image.div" style="${buttonStyle}">
-					                            <html:image property="methodToCall.createProtocol.anchor${tabKey}"
-					                            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-startprotocol.gif' 
-				    	                        title="Create Protocol"
-				        	                    styleClass="tinybutton"/>
-		        	                </span>
+		                            <html:image property="methodToCall.createProtocol.anchor${tabKey}"
+		                            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-startprotocol.gif' 
+	    	                        title="Create Protocol"
+	        	                    styleClass="tinybutton"/>
 	        	                </c:if>
 	                </div></td>
 	            </tr>
@@ -201,34 +322,32 @@
 	                                              readOnly="${not canModify}"
 	                                              styleClass="fixed-size-200-select"
 	                                              readOnlyAlternateDisplay="${specialReview.specialReviewType.description}" 
-	                                              onchange="showHideSpecialReviewProtocolLink(this, '${collectionProperty}[${status.index}]', '${canCreateIrbProtocol}', '${canCreateIacucProtocol}','${enableIrbProtocolLinking}','${enableIacucProtocolLinking}');return false" />
+	                                              onchange="showHideSpecialReviewProtocolLink(this, '${canCreateIrbProtocol}', '${canCreateIacucProtocol}');return false" />
 					</div></td>
                     <td><div align="center">
-                        <kra:dynamicHtmlControlAttribute property="${collectionProperty}[${status.index}].approvalTypeCode" 
+                        <kul:htmlControlAttribute property="${collectionProperty}[${status.index}].approvalTypeCode" 
 	                                                     attributeEntry="${attributes.approvalTypeCode}" 
-	                                                     initialReadOnly="${protocolLinkingReadOnly}"
-                                                         readOnly="${not canModify}"
-                                                         readOnlyBody="true" 
-                                                         staticOnly="false">
+                                                         readOnly="${not canModify}"/>
+							<span>
                             <c:choose>
 	                            <c:when test="${protocolLinkingReadOnly}">
-	                                ${collectionReference[status.index].protocolStatus}
+	                                ${specialReview.protocolStatus}
 	                            </c:when>
 	                            <c:otherwise>
-	                                ${collectionReference[status.index].approvalType.description}
+	                                ${specialReview.approvalType.description}
 	                            </c:otherwise>
                             </c:choose>
-                        </kra:dynamicHtmlControlAttribute>
+                            </span>
 	                </div></td>
                     <td><div align="center">
                         <kul:htmlControlAttribute property="${collectionProperty}[${status.index}].protocolNumber" 
                                                   attributeEntry="${attributes.protocolNumber}" 
                                                   readOnly="${not canModify}" />
-                            <span id="${collectionProperty}[${status.index}].protocolNumber.irb.link.div" style="${initialStyleIrb}">
+                            <span class="irbLookupLink" style="${initialStyleIrb}">
 	                            <kul:lookup boClassName="org.kuali.kra.irb.Protocol" 
 		                                    fieldConversions="protocolNumber:${collectionProperty}[${status.index}].protocolNumber" />
                             </span>
-                            <span id="${collectionProperty}[${status.index}].protocolNumber.iacuc.link.div" style="${initialStyleIacuc}">
+                            <span class="iacucLookupLink" style="${initialStyleIacuc}">
 	                            <kul:lookup boClassName="org.kuali.kra.iacuc.IacucProtocol" 
 		                                    fieldConversions="protocolNumber:${collectionProperty}[${status.index}].protocolNumber" />
                             </span>
