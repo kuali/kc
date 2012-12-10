@@ -358,9 +358,12 @@ public class NegotiationServiceImpl implements NegotiationService {
     }
     
     public List<NegotiationNotification> getNegotiationNotifications(Negotiation negotiation) {
-        Map<String, Object> fieldValues = new HashMap<String, Object>(); 
-        fieldValues.put("documentNumber", negotiation.getNegotiationDocument().getDocumentNumber());
-        List<NegotiationNotification> notifications = (List<NegotiationNotification>)getBusinessObjectService().findMatching(NegotiationNotification.class, fieldValues);
+        List<NegotiationNotification> notifications = new ArrayList<NegotiationNotification>();
+        if (negotiation.getNegotiationDocument() != null) {
+            Map<String, Object> fieldValues = new HashMap<String, Object>(); 
+            fieldValues.put("documentNumber", negotiation.getNegotiationDocument().getDocumentNumber());
+            notifications = (List<NegotiationNotification>)getBusinessObjectService().findMatching(NegotiationNotification.class, fieldValues);
+        }
         return notifications;
     }
     
