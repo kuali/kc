@@ -18,74 +18,114 @@ package org.kuali.kra.irb.specialreview;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kra.common.specialreview.web.struts.form.SpecialReviewHelperBase;
-import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
+import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.irb.auth.ProtocolTask;
-import org.kuali.kra.service.TaskAuthorizationService;
+import org.kuali.kra.protocol.auth.ProtocolTaskBase;
+import org.kuali.kra.protocol.specialreview.ProtocolSpecialReviewBase;
+import org.kuali.kra.protocol.specialreview.ProtocolSpecialReviewHelperBase;
 
 /**
  * Defines the Special Review Helper for Protocol.
  */
-public class SpecialReviewHelper extends SpecialReviewHelperBase<ProtocolSpecialReview> {
+public class SpecialReviewHelper extends ProtocolSpecialReviewHelperBase {
 
     private static final long serialVersionUID = -6004130465079070854L;
-
     private ProtocolForm form;
-    
-    private transient TaskAuthorizationService taskAuthorizationService;
-    
-    /**
-     * Constructs a SpecialReviewHelper.
-     * @param form the container form
-     */
+
     public SpecialReviewHelper(ProtocolForm form) {
         this.form = form;
         setNewSpecialReview(new ProtocolSpecialReview());
-        setLinkedProtocolNumbers(new ArrayList<String>());    
+        setLinkedProtocolNumbers(new ArrayList<String>());
+    }
+
+    @Override
+    protected List<ProtocolSpecialReviewBase> getSpecialReviews() {
+        return form.getProtocolDocument().getProtocol().getSpecialReviews();
     }
 
     @Override
     protected boolean hasModifySpecialReviewPermission(String principalId) {
-        ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_SPECIAL_REVIEW, form.getProtocolDocument().getProtocol());
+        ProtocolTaskBase task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_SPECIAL_REVIEW, (Protocol)form.getProtocolDocument().getProtocol());
         return getTaskAuthorizationService().isAuthorized(principalId, task);
     }
-    
+
     @Override
-    protected boolean isIrbProtocolLinkingEnabledForModule() {
+    public boolean isIrbProtocolLinkingEnabledForModule() {
         return false;
     }
 
     @Override
-    protected boolean isIacucProtocolLinkingEnabledForModule() {
+    public boolean isIacucProtocolLinkingEnabledForModule() {
         return false;
-    }
-
-    @Override
-    protected List<ProtocolSpecialReview> getSpecialReviews() {
-        return form.getProtocolDocument().getProtocol().getSpecialReviews();
-    }
-    
-    public TaskAuthorizationService getTaskAuthorizationService() {
-        if (taskAuthorizationService == null) {
-            taskAuthorizationService = KraServiceLocator.getService(TaskAuthorizationService.class);
-        }
-        return taskAuthorizationService;
-    }
-    
-    public void setTaskAuthorizationService(TaskAuthorizationService taskAuthorizationService) {
-        this.taskAuthorizationService = taskAuthorizationService;
     }
 
     @Override
     public boolean isCanCreateIrbProtocol() {
-        return false;
+        return true;
     }
+
     @Override
     public boolean isCanCreateIacucProtocol() {
         return false;
     }
+
+
+// TODO ********************** commented out during IRB backfit ************************
+//    private ProtocolForm form;
+//    
+//    private transient TaskAuthorizationService taskAuthorizationService;
+//    
+//    /**
+//     * Constructs a SpecialReviewHelper.
+//     * @param form the container form
+//     */
+//    public SpecialReviewHelper(ProtocolForm form) {
+//        this.form = form;
+//        setNewSpecialReview(new ProtocolSpecialReview());
+//        setLinkedProtocolNumbers(new ArrayList<String>());    
+//    }
+//
+//    @Override
+//    protected boolean hasModifySpecialReviewPermission(String principalId) {
+//        ProtocolTask task = new ProtocolTask(TaskName.MODIFY_PROTOCOL_SPECIAL_REVIEW, form.getProtocolDocument().getProtocol());
+//        return getTaskAuthorizationService().isAuthorized(principalId, task);
+//    }
+//    
+//    @Override
+//    protected boolean isIrbProtocolLinkingEnabledForModule() {
+//        return false;
+//    }
+//
+//    @Override
+//    protected boolean isIacucProtocolLinkingEnabledForModule() {
+//        return false;
+//    }
+//
+//    @Override
+//    protected List<ProtocolSpecialReview> getSpecialReviews() {
+//        return form.getProtocolDocument().getProtocol().getSpecialReviews();
+//    }
+//    
+//    public TaskAuthorizationService getTaskAuthorizationService() {
+//        if (taskAuthorizationService == null) {
+//            taskAuthorizationService = KraServiceLocator.getService(TaskAuthorizationService.class);
+//        }
+//        return taskAuthorizationService;
+//    }
+//    
+//    public void setTaskAuthorizationService(TaskAuthorizationService taskAuthorizationService) {
+//        this.taskAuthorizationService = taskAuthorizationService;
+//    }
+//
+//    @Override
+//    public boolean isCanCreateIrbProtocol() {
+//        return false;
+//    }
+//    @Override
+//    public boolean isCanCreateIacucProtocol() {
+//        return false;
+//    }
     
 }

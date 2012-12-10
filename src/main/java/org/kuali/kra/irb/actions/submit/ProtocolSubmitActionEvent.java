@@ -15,44 +15,56 @@
  */
 package org.kuali.kra.irb.actions.submit;
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.irb.ProtocolDocument;
-import org.kuali.kra.rule.event.KraDocumentEventBase;
-import org.kuali.rice.krad.rules.rule.BusinessRule;
+import org.apache.commons.logging.Log;
+import org.kuali.kra.protocol.ProtocolDocumentBase;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmitAction;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmitActionEventBase;
 
-public class ProtocolSubmitActionEvent  extends KraDocumentEventBase {
-    
-    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProtocolSubmitActionEvent.class);
-    
-    private ProtocolSubmitAction submitAction;
-    
-    public ProtocolSubmitActionEvent(ProtocolDocument document, ProtocolSubmitAction submitAction) {
-        super("Submitting for review for document " + getDocumentId(document), "", document);
-        this.submitAction = submitAction;
-        logEvent();
+public class ProtocolSubmitActionEvent extends ProtocolSubmitActionEventBase {
+        
+    public ProtocolSubmitActionEvent(ProtocolDocumentBase document, ProtocolSubmitAction submitAction) {
+        super(document, submitAction);
     }
+
+    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProtocolSubmitActionEvent.class);
 
     @Override
-    protected void logEvent() {
-        StringBuffer logMessage = new StringBuffer(StringUtils.substringAfterLast(this.getClass().getName(), "."));
-        logMessage.append(" with ");
-
-        // vary logging detail as needed
-        if (this.submitAction == null) {
-            logMessage.append("null submitAction");
-        }
-        else {
-            logMessage.append(this.submitAction.toString());
-        }
-
-        LOG.debug(logMessage);
+    protected Log getLOGHook() {
+        return LOG;
     }
-
-    public Class getRuleInterfaceClass() {
-        return ExecuteProtocolSubmitActionRule.class;
-    }
-
-    public boolean invokeRuleMethod(BusinessRule rule) {
-        return ((ExecuteProtocolSubmitActionRule) rule).processSubmitAction((ProtocolDocument) getDocument(), submitAction);
-    }
+    
+// TODO ********************** commented out during IRB backfit ************************    
+//    private ProtocolSubmitAction submitAction;
+//    
+//    public ProtocolSubmitActionEvent(ProtocolDocument document, ProtocolSubmitAction submitAction) {
+//        super("Submitting for review for document " + getDocumentId(document), "", document);
+//        this.submitAction = submitAction;
+//        logEvent();
+//    }
+//
+//    @Override
+//    protected void logEvent() {
+//        StringBuffer logMessage = new StringBuffer(StringUtils.substringAfterLast(this.getClass().getName(), "."));
+//        logMessage.append(" with ");
+//
+//        // vary logging detail as needed
+//        if (this.submitAction == null) {
+//            logMessage.append("null submitAction");
+//        }
+//        else {
+//            logMessage.append(this.submitAction.toString());
+//        }
+//
+//        LOG.debug(logMessage);
+//    }
+//
+//    public Class getRuleInterfaceClass() {
+//        return ExecuteProtocolSubmitActionRule.class;
+//    }
+//
+//    public boolean invokeRuleMethod(BusinessRule rule) {
+//        return ((ExecuteProtocolSubmitActionRule) rule).processSubmitAction((ProtocolDocument) getDocument(), submitAction);
+//    }
+    
+    
 }

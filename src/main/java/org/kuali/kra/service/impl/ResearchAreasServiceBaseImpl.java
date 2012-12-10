@@ -39,6 +39,7 @@ import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.protocol.research.ProtocolResearchAreaBase;
 import org.kuali.kra.service.ResearchAreaCurrentReferencerHolderBase;
 import org.kuali.kra.service.ResearchAreasServiceBase;
+import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.w3c.dom.Document;
@@ -421,7 +422,7 @@ public abstract class ResearchAreasServiceBaseImpl implements ResearchAreasServi
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put(COMMITTEE_ID, committee.getCommitteeId());
         @SuppressWarnings("unchecked")
-        List<CommitteeBase> committees = (List<CommitteeBase>) this.getBusinessObjectService().findMatchingOrderBy(CommitteeBase.class, fieldValues, SEQUENCE_NUMBER, false);
+        List<CommitteeBase> committees = (List<CommitteeBase>) this.getBusinessObjectService().findMatchingOrderBy(getCommitteeBOClassHook(), fieldValues, SEQUENCE_NUMBER, false);
         // check the first element's sequence number with the argument's sequence number
         if( (committees != null) && (!committees.isEmpty()) && (committees.get(0).getSequenceNumber().equals(committee.getSequenceNumber())) ) {
             retValue = true;
@@ -438,11 +439,11 @@ public abstract class ResearchAreasServiceBaseImpl implements ResearchAreasServi
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put(RESEARCH_AREA_CODE, researchAreaCode);
         @SuppressWarnings("unchecked")
-        List<CommitteeResearchAreaBase> cras = (List<CommitteeResearchAreaBase>) this.getBusinessObjectService().findMatching(CommitteeResearchAreaBase.class, fieldValues);
+        List<CommitteeResearchAreaBase> cras = (List<CommitteeResearchAreaBase>) this.getBusinessObjectService().findMatching(getCommitteeResearchAreaBOClassHook(), fieldValues);
         // loop through the collection checking the parent committee of each instance for currentness
         for(CommitteeResearchAreaBase cra:cras) {
             // get the parent committee using the FK (auto-retrieve is false in the repository)
-            CommitteeBase parentCommittee = this.getBusinessObjectService().findBySinglePrimaryKey(CommitteeBase.class, cra.getCommitteeIdFk());
+            CommitteeBase parentCommittee = this.getBusinessObjectService().findBySinglePrimaryKey(getCommitteeBOClassHook(), cra.getCommitteeIdFk());
             // check if the committee is the current version
             if( (null != parentCommittee) && this.isCurrentVersion(parentCommittee) ) {
                 retValue = parentCommittee;
@@ -451,6 +452,8 @@ public abstract class ResearchAreasServiceBaseImpl implements ResearchAreasServi
         }
         return retValue;
     }
+
+    
 
     /**
      * @see org.kuali.kra.service.ResearchAreasService#getCurrentCommitteeMembershipReferencingResearchArea(java.lang.String)
@@ -465,11 +468,11 @@ public abstract class ResearchAreasServiceBaseImpl implements ResearchAreasServi
         // loop through the collection checking the parent committee of each instance for currentness
         for(CommitteeMembershipExpertiseBase cme:cmes) {
             // first get the parent committee membership using the FK
-            CommitteeMembershipBase parentCommitteeMembership = this.getBusinessObjectService().findBySinglePrimaryKey(CommitteeMembershipBase.class, cme.getCommitteeMembershipIdFk());
+            CommitteeMembershipBase parentCommitteeMembership = this.getBusinessObjectService().findBySinglePrimaryKey(getCommitteeMembershipBOClassHook(), cme.getCommitteeMembershipIdFk());
             // check if the parent committee membership's term is still open
             if(null != parentCommitteeMembership && (!parentCommitteeMembership.hasTermEnded()) ) {
                 // then get the parent committee using the FK
-                CommitteeBase parentCommittee = this.getBusinessObjectService().findBySinglePrimaryKey(CommitteeBase.class, parentCommitteeMembership.getCommitteeIdFk());
+                CommitteeBase parentCommittee = this.getBusinessObjectService().findBySinglePrimaryKey(getCommitteeBOClassHook(), parentCommitteeMembership.getCommitteeIdFk());
                 // check if the committee is the current version
                 if( (null != parentCommittee) && this.isCurrentVersion(parentCommittee) ) {
                     retValue = parentCommitteeMembership;
@@ -479,6 +482,8 @@ public abstract class ResearchAreasServiceBaseImpl implements ResearchAreasServi
         }
         return retValue;
     }
+
+    protected abstract Class<? extends CommitteeMembershipBase> getCommitteeMembershipBOClassHook();
 
     protected abstract Class<? extends CommitteeMembershipExpertiseBase> getCommitteeMembershipExpertiseClassHook();    
     
@@ -528,7 +533,7 @@ public abstract class ResearchAreasServiceBaseImpl implements ResearchAreasServi
             else {
                 CommitteeMembershipBase referencingCommitteeMembership = this.getCurrentCommitteeMembershipReferencingResearchArea(researchAreaCode);
                 if(null != referencingCommitteeMembership) {
-                    CommitteeBase parentCommittee = this.getBusinessObjectService().findBySinglePrimaryKey(CommitteeBase.class, referencingCommitteeMembership.getCommitteeIdFk());
+                    CommitteeBase parentCommittee = this.getBusinessObjectService().findBySinglePrimaryKey(getCommitteeBOClassHook(), referencingCommitteeMembership.getCommitteeIdFk());
                     retValue = new ResearchAreaCurrentReferencerHolderBase(researchAreaCode, null, parentCommittee, referencingCommitteeMembership);
                 }              
                 else {
@@ -552,6 +557,9 @@ public abstract class ResearchAreasServiceBaseImpl implements ResearchAreasServi
         return retValue;   
     }
     
+   
+    
+     
     
     public BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
@@ -573,6 +581,8 @@ public abstract class ResearchAreasServiceBaseImpl implements ResearchAreasServi
         this.researchAreaReferencesDao = researchAreaReferencesDao;
     }
 
+    protected abstract Class<? extends CommitteeBase> getCommitteeBOClassHook();
+    protected abstract Class<? extends CommitteeResearchAreaBase> getCommitteeResearchAreaBOClassHook();
     protected abstract Class<? extends ProtocolResearchAreaBase> getProtocolResearchAreaBOClassHook();
     protected abstract Class<? extends ResearchAreaBase> getResearchAreaBOClassHook();
     protected abstract ResearchAreaBase getNewResearchAreaInstanceHook(String researchAreaCode, String parentResearchAreaCode, String description, boolean active);

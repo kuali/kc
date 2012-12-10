@@ -20,7 +20,6 @@ import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.IacucProtocolForm;
 import org.kuali.kra.iacuc.actions.IacucProtocolAction;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
-import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
 import org.kuali.kra.iacuc.auth.IacucProtocolTask;
 import org.kuali.kra.iacuc.personnel.IacucProtocolPerson;
 import org.kuali.kra.iacuc.personnel.IacucProtocolPersonnelService;
@@ -34,12 +33,12 @@ import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;
-import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.kra.protocol.auth.ProtocolTaskBase;
 import org.kuali.kra.protocol.protocol.ProtocolHelperBase;
 import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceBase;
 import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceService;
 import org.kuali.kra.protocol.protocol.location.ProtocolLocationBase;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 
 public class IacucProtocolHelper extends ProtocolHelperBase {
       
@@ -54,15 +53,14 @@ public class IacucProtocolHelper extends ProtocolHelperBase {
     @Override
     // implementation of hook method
     protected IacucProtocolPersonnelService getProtocolPersonnelService() {
-        return (IacucProtocolPersonnelService)KraServiceLocator.getService("iacucProtocolPersonnelService");
+        return KraServiceLocator.getService(IacucProtocolPersonnelService.class);
     }
 
 
     @Override
     // implementation of hook method
     protected IacucProtocolNumberService getProtocolNumberService() {
-        // TODO Auto-generated method stub
-        return (IacucProtocolNumberService)KraServiceLocator.getService("iacucProtocolNumberService");
+        return KraServiceLocator.getService(IacucProtocolNumberService.class);
     }
 
 
@@ -200,8 +198,13 @@ public class IacucProtocolHelper extends ProtocolHelperBase {
      */
     @Override
     protected void initializePermissions(ProtocolBase protocol) {
-        IacucProtocol iacucProtocol = (IacucProtocol)protocol;
-        super.initializePermissions(protocol); 
+        super.initializePermissions((IacucProtocol) protocol); 
+    }
+
+
+    @Override
+    public void syncSpecialReviewsWithFundingSources() throws WorkflowException {
+        getDeletedProtocolFundingSources().clear();        
     }
 
 }

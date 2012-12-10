@@ -15,32 +15,31 @@
  */
 package org.kuali.kra.irb.actions.amendrenew;
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.rule.BusinessRuleInterface;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.kra.protocol.actions.amendrenew.ModifyAmendmentSectionsRuleBase;
 
 /**
  * Business rule for modifying  amendment sections.  The user is required to enter a summary.
  * For protocol amendments they must select at least one module which will be modified in the amendment.
  */
-@SuppressWarnings("unchecked")
-public class ModifyAmendmentSectionsRule extends ResearchDocumentRuleBase implements BusinessRuleInterface<ModifyAmendmentSectionsEvent> {
 
-    public boolean processRules(ModifyAmendmentSectionsEvent event) {
-        
-        boolean valid = true;
-        
-        if (StringUtils.isBlank(event.getAmendmentBean().getSummary())) {
-            valid = false;
-            reportError(event.getPropertyName(), KeyConstants.ERROR_PROTOCOL_SUMMARY_IS_REQUIRED);
-        }
-        
-        if (event.isAmendment() && !event.getAmendmentBean().isSomeSelected()) {
-            valid = false;
-            reportError(event.getPropertyName(), KeyConstants.ERROR_PROTOCOL_SELECT_MODULE);
-        }
-        
-        return valid;
-    }
+public class ModifyAmendmentSectionsRule extends ModifyAmendmentSectionsRuleBase {
+
+// TODO ********************** commented out during IRB backfit ************************    
+//    public boolean processRules(ModifyAmendmentSectionsEvent event) {
+//        
+//        boolean valid = true;
+//        
+//        if (StringUtils.isBlank(event.getAmendmentBean().getSummary())) {
+//            valid = false;
+//            reportError(event.getPropertyName(), KeyConstants.ERROR_PROTOCOL_SUMMARY_IS_REQUIRED);
+//        }
+//        
+//        if (event.isAmendment() && !event.getAmendmentBean().isSomeSelected()) {
+//            valid = false;
+//            reportError(event.getPropertyName(), KeyConstants.ERROR_PROTOCOL_SELECT_MODULE);
+//        }
+//        
+//        return valid;
+//    }
+    
 }

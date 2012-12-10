@@ -18,64 +18,75 @@ package org.kuali.kra.committee.rule.event;
 import java.sql.Date;
 
 import org.kuali.kra.committee.rules.CommitteeActionGenerateBatchCorrespondenceRule;
-import org.kuali.kra.common.committee.rule.event.CommitteeActionsEventBase;
-import org.kuali.kra.rule.BusinessRuleInterface;
+import org.kuali.kra.common.committee.rule.event.CommitteeActionGenerateBatchCorrespondenceEventBase;
+import org.kuali.kra.common.committee.rules.CommitteeActionGenerateBatchCorrespondenceRuleBase;
 import org.kuali.rice.krad.document.Document;
 
-public class CommitteeActionGenerateBatchCorrespondenceEvent extends CommitteeActionsEventBase<CommitteeActionGenerateBatchCorrespondenceRule> {
+public class CommitteeActionGenerateBatchCorrespondenceEvent extends CommitteeActionGenerateBatchCorrespondenceEventBase {
 
-    private static final String MSG = "generate batch correspondence";
-    
-    private String batchCorrespondenceTypeCode;
-    private Date startDate;
-    private Date endDate;
-    private String committeeId;
-    
-    public CommitteeActionGenerateBatchCorrespondenceEvent(String errorPathPrefix, Document document, String batchCorrespondenceTypeCode,
-            Date startDate, Date endDate, String committeeId) {
-        super(MSG + getDocumentId(document), errorPathPrefix, document);
-        setBatchCorrespondenceTypeCode(batchCorrespondenceTypeCode);
-        setStartDate(startDate);
-        setEndDate(endDate);
-        setCommitteeId(committeeId);
+    public CommitteeActionGenerateBatchCorrespondenceEvent(String errorPathPrefix, Document document, String batchCorrespondenceTypeCode, Date startDate, Date endDate, String committeeId) {
+        super(errorPathPrefix, document, batchCorrespondenceTypeCode, startDate, endDate, committeeId);
     }
 
-    @SuppressWarnings("unchecked")
     @Override
-    public BusinessRuleInterface getRule() {
+    protected CommitteeActionGenerateBatchCorrespondenceRuleBase getNewCommitteeActionGenerateBatchCorrespondenceRuleInstanceHook() {
         return new CommitteeActionGenerateBatchCorrespondenceRule();
     }
 
-    public String getBatchCorrespondenceTypeCode() {
-        return batchCorrespondenceTypeCode;
-    }
-
-    public void setBatchCorrespondenceTypeCode(String batchCorrespondenceTypeCode) {
-        this.batchCorrespondenceTypeCode = batchCorrespondenceTypeCode;
-    }
-
-    public Date getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
-    }
-
-    public Date getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
-    }
-
-    public String getCommitteeId() {
-        return committeeId;
-    }
-
-    public void setCommitteeId(String committeeId) {
-        this.committeeId = committeeId;
-    }
+    
+// TODO ********************** commented out during IRB backfit ************************    
+//    private static final String MSG = "generate batch correspondence";
+//    
+//    private String batchCorrespondenceTypeCode;
+//    private Date startDate;
+//    private Date endDate;
+//    private String committeeId;
+//    
+//    public CommitteeActionGenerateBatchCorrespondenceEvent(String errorPathPrefix, Document document, String batchCorrespondenceTypeCode,
+//            Date startDate, Date endDate, String committeeId) {
+//        super(MSG + getDocumentId(document), errorPathPrefix, document);
+//        setBatchCorrespondenceTypeCode(batchCorrespondenceTypeCode);
+//        setStartDate(startDate);
+//        setEndDate(endDate);
+//        setCommitteeId(committeeId);
+//    }
+//
+//    @SuppressWarnings("unchecked")
+//    @Override
+//    public BusinessRuleInterface getRule() {
+//        return new CommitteeActionGenerateBatchCorrespondenceRule();
+//    }
+//
+//    public String getBatchCorrespondenceTypeCode() {
+//        return batchCorrespondenceTypeCode;
+//    }
+//
+//    public void setBatchCorrespondenceTypeCode(String batchCorrespondenceTypeCode) {
+//        this.batchCorrespondenceTypeCode = batchCorrespondenceTypeCode;
+//    }
+//
+//    public Date getStartDate() {
+//        return startDate;
+//    }
+//
+//    public void setStartDate(Date startDate) {
+//        this.startDate = startDate;
+//    }
+//
+//    public Date getEndDate() {
+//        return endDate;
+//    }
+//
+//    public void setEndDate(Date endDate) {
+//        this.endDate = endDate;
+//    }
+//
+//    public String getCommitteeId() {
+//        return committeeId;
+//    }
+//
+//    public void setCommitteeId(String committeeId) {
+//        this.committeeId = committeeId;
+//    }
 
 }

@@ -15,15 +15,14 @@
  */
 package org.kuali.kra.irb.noteattachment;
 
-import java.util.List;
+public interface ProtocolNotepadService extends org.kuali.kra.protocol.noteattachment.ProtocolNotepadService {
 
-public interface ProtocolNotepadService {
-
-    /**
-     * Populate the updateUserFullName transient field in each ProtocolNotepad object in the list param. 
-     * list.
-     * @param protocolNotepads The list of ProtocolNotepad objects you wish to populate the updateUserFullName field on.
-     */
-    void setProtocolNotepadUpdateUsersName(List<ProtocolNotepad> protocolNotepads);
+// TODO ********************** commented out during IRB backfit ************************    
+//    /**
+//     * Populate the updateUserFullName transient field in each ProtocolNotepad object in the list param. 
+//     * list.
+//     * @param protocolNotepads The list of ProtocolNotepad objects you wish to populate the updateUserFullName field on.
+//     */
+//    void setProtocolNotepadUpdateUsersName(List<ProtocolNotepad> protocolNotepads);
     
 }

@@ -24,7 +24,7 @@ import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.irb.actions.print.QuestionnairePrintOption;
+import org.kuali.kra.protocol.actions.print.QuestionnairePrintOption;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.printing.Printable;
 import org.kuali.kra.printing.PrintingException;
@@ -137,7 +137,7 @@ public class QuestionnairePrintingServiceImpl implements QuestionnairePrintingSe
             Map keyValues = new HashMap();
             keyValues.put("protocolNumber", printOption.getItemKey());
             keyValues.put("submissionNumber", printOption.getSubItemKey());
-            return ((List<ProtocolSubmission>) businessObjectService.findMatchingOrderBy(ProtocolSubmission.class, keyValues,
+            return (Protocol) ((List<ProtocolSubmission>) businessObjectService.findMatchingOrderBy(ProtocolSubmission.class, keyValues,
                     "submissionId", false)).get(0).getProtocol();
         }
         else {

@@ -15,8 +15,10 @@
  */
 package org.kuali.kra.irb.actions.submit;
 
-public interface ProtocolActionAjaxService {
+
+public interface ProtocolActionAjaxService extends org.kuali.kra.protocol.actions.ProtocolActionAjaxService {
     
+
     /**
      * Get the valid upcoming committee dates for scheduling a protocol.
      * This method is used exclusively by DWR for obtaining a list to show
@@ -28,24 +30,26 @@ public interface ProtocolActionAjaxService {
      */
     public String getValidCommitteeDates(String committeeId, String docFormKey);
     
-    /**
-     * Get the reviewers for a protocol based upon a committee and schedule.
-     * Protocol personnel cannot be reviewers and are to be filtered out from the results.
-     * This method is used exclusively by DWR. To handle the conversion from
-     * Java to JavaScript, the list is returned as a comma separated string.
-     * The format is: <personId1>;<fullName1>;<personId2>;<fullName2>;...
-     * @param committeeId the committee's unique id
-     * @param scheduleId the schedule's id
-     * @return
-     */
-    public String getReviewers(String protocolId, String committeeId, String scheduleId, String docFormKey);
     
-    /**
-     * Get the reviewer types.  This method is used exclusively by DWR. 
-     * To handle the conversion from Java to JavaScript, the list is returned 
-     * as a comma separated string.  
-     * The format is: <typeCode1>;<description1>;<typeCode2>;<description2>;...
-     * @return
-     */
-    public String getReviewerTypes();
+// TODO ********************** commented out during IRB backfit ************************  
+//    /**
+//     * Get the reviewers for a protocol based upon a committee and schedule.
+//     * Protocol personnel cannot be reviewers and are to be filtered out from the results.
+//     * This method is used exclusively by DWR. To handle the conversion from
+//     * Java to JavaScript, the list is returned as a comma separated string.
+//     * The format is: <personId1>;<fullName1>;<personId2>;<fullName2>;...
+//     * @param committeeId the committee's unique id
+//     * @param scheduleId the schedule's id
+//     * @return
+//     */
+//    public String getReviewers(String protocolId, String committeeId, String scheduleId, String docFormKey);
+//    
+//    /**
+//     * Get the reviewer types.  This method is used exclusively by DWR. 
+//     * To handle the conversion from Java to JavaScript, the list is returned 
+//     * as a comma separated string.  
+//     * The format is: <typeCode1>;<description1>;<typeCode2>;<description2>;...
+//     * @return
+//     */
+//    public String getReviewerTypes();
 }

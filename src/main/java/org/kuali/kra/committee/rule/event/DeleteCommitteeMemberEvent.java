@@ -20,17 +20,16 @@ import java.util.List;
 import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.committee.rules.DeleteCommitteeMemberRule;
-import org.kuali.kra.rule.BusinessRuleInterface;
+import org.kuali.kra.common.committee.rule.event.DeleteCommitteeMemberEventBase;
+import org.kuali.kra.common.committee.rules.DeleteCommitteeMemberRuleBase;
 import org.kuali.rice.krad.document.Document;
 
 /**
  * 
  * This class is the rule event for deleting committee member.
  */
-public class DeleteCommitteeMemberEvent extends CommitteeMemberEventBase<DeleteCommitteeMemberRule> {
-
-    private static final String MSG = "delete committee member ";
-
+public class DeleteCommitteeMemberEvent extends DeleteCommitteeMemberEventBase {
+    
     /**
      * 
      * Constructs a DeleteCommitteeMemberEvent.java.
@@ -40,9 +39,8 @@ public class DeleteCommitteeMemberEvent extends CommitteeMemberEventBase<DeleteC
      * @param committeeMemberships
      * @param type
      */
-    public DeleteCommitteeMemberEvent(String errorPathPrefix, CommitteeDocument document,
-            List<CommitteeMembership> committeeMemberships, ErrorType type) {
-        super(MSG + getDocumentId(document), errorPathPrefix, document, committeeMemberships, type);
+    public DeleteCommitteeMemberEvent(String errorPathPrefix, CommitteeDocument document, List<CommitteeMembership> committeeMemberships, ErrorType type) {
+        super(errorPathPrefix, document, (List) committeeMemberships, type);
     }
 
     /**
@@ -54,14 +52,50 @@ public class DeleteCommitteeMemberEvent extends CommitteeMemberEventBase<DeleteC
      * @param committeeMemberships
      * @param type
      */
-    public DeleteCommitteeMemberEvent(String errorPathPrefix, Document document, List<CommitteeMembership> committeeMemberships,
-            ErrorType type) {
+    public DeleteCommitteeMemberEvent(String errorPathPrefix, Document document, List<CommitteeMembership> committeeMemberships, ErrorType type) {
         this(errorPathPrefix, (CommitteeDocument) document, committeeMemberships, type);
     }
+    
 
-    @SuppressWarnings("unchecked")
     @Override
-    public BusinessRuleInterface getRule() {
+    protected DeleteCommitteeMemberRuleBase getNewDeleteCommitteeMemberRuleInstanceHook() {
         return new DeleteCommitteeMemberRule();
     }
+
+// TODO ********************** commented out during IRB backfit ************************    
+//    private static final String MSG = "delete committee member ";
+//
+//    /**
+//     * 
+//     * Constructs a DeleteCommitteeMemberEvent.java.
+//     * 
+//     * @param errorPathPrefix
+//     * @param document
+//     * @param committeeMemberships
+//     * @param type
+//     */
+//    public DeleteCommitteeMemberEvent(String errorPathPrefix, CommitteeDocument document,
+//            List<CommitteeMembership> committeeMemberships, ErrorType type) {
+//        super(MSG + getDocumentId(document), errorPathPrefix, document, committeeMemberships, type);
+//    }
+//
+//    /**
+//     * 
+//     * Constructs a DeleteCommitteeMemberEvent.java.
+//     * 
+//     * @param errorPathPrefix
+//     * @param document
+//     * @param committeeMemberships
+//     * @param type
+//     */
+//    public DeleteCommitteeMemberEvent(String errorPathPrefix, Document document, List<CommitteeMembership> committeeMemberships,
+//            ErrorType type) {
+//        this(errorPathPrefix, (CommitteeDocument) document, committeeMemberships, type);
+//    }
+//
+//    @SuppressWarnings("unchecked")
+//    @Override
+//    public BusinessRuleInterface getRule() {
+//        return new DeleteCommitteeMemberRule();
+//    }
 }

@@ -19,6 +19,7 @@ import java.io.Serializable;
 
 import org.kuali.kra.iacuc.actions.IacucActionHelper;
 import org.kuali.kra.iacuc.actions.IacucProtocolSubmissionBeanBase;
+import org.kuali.kra.protocol.actions.request.ProtocolRequestBean;
 
 /**
  * The ProtocolRequestBean is used for some of the common, yet simple,
@@ -35,7 +36,7 @@ import org.kuali.kra.iacuc.actions.IacucProtocolSubmissionBeanBase;
  * protocol action type and submission type entry in the database.  Please
  * see the ActionHelper class for how this class is used.
  */
-public class IacucProtocolRequestBean extends IacucProtocolSubmissionBeanBase implements Serializable {
+public class IacucProtocolRequestBean extends IacucProtocolSubmissionBeanBase implements ProtocolRequestBean {
     
     private static final long serialVersionUID = -4980779026132275453L;
     private String protocolActionTypeCode;

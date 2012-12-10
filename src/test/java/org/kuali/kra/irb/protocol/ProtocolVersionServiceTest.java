@@ -53,7 +53,7 @@ public class ProtocolVersionServiceTest extends KcUnitTestBase {
     @Test
     public void testVersioning() throws Exception {
         ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
-        ProtocolDocument newProtocolDocument = protocolVersionService.versionProtocolDocument(protocolDocument);
+        ProtocolDocument newProtocolDocument = (ProtocolDocument) protocolVersionService.versionProtocolDocument(protocolDocument);
         assertNotNull(newProtocolDocument);
         assertTrue(!StringUtils.equals(protocolDocument.getDocumentNumber(), newProtocolDocument.getDocumentNumber()));
         assertTrue((protocolDocument.getProtocol().getSequenceNumber() + 1 == newProtocolDocument.getProtocol().getSequenceNumber()));
@@ -68,14 +68,14 @@ public class ProtocolVersionServiceTest extends KcUnitTestBase {
     
     @Test 
     public void testGetProtocolVersion() throws Exception {
-        Protocol protocol = protocolVersionService.getProtocolVersion(PROTOCOL_NUMBER, 1);
+        Protocol protocol = (Protocol) protocolVersionService.getProtocolVersion(PROTOCOL_NUMBER, 1);
         assertNull(protocol);
         
         ProtocolDocument protocolDocument1 = ProtocolFactory.createProtocolDocument(PROTOCOL_NUMBER);
-        ProtocolDocument protocolDocument2 = protocolVersionService.versionProtocolDocument(protocolDocument1);
-        ProtocolDocument protocolDocument3 = protocolVersionService.versionProtocolDocument(protocolDocument2);
+        ProtocolDocument protocolDocument2 = (ProtocolDocument) protocolVersionService.versionProtocolDocument(protocolDocument1);
+        ProtocolDocument protocolDocument3 = (ProtocolDocument) protocolVersionService.versionProtocolDocument(protocolDocument2);
         
-        protocol = protocolVersionService.getProtocolVersion(PROTOCOL_NUMBER, 2);
+        protocol = (Protocol) protocolVersionService.getProtocolVersion(PROTOCOL_NUMBER, 2);
         assertNotNull(protocol);
         assertEquals(new Integer(2), protocol.getSequenceNumber());
     }

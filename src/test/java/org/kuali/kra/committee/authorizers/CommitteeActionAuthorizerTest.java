@@ -23,10 +23,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.document.CommitteeDocument;
-import org.kuali.kra.committee.document.authorization.CommitteeTask;
 import org.kuali.kra.committee.document.authorizer.CommitteeActionAuthorizer;
 import org.kuali.kra.committee.service.CommitteeService;
 import org.kuali.kra.committee.test.CommitteeFactory;
+import org.kuali.kra.common.committee.document.authorization.CommitteeTaskBase;
+import org.kuali.kra.infrastructure.TaskGroupName;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.service.impl.mocks.KraAuthorizationServiceMock;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
@@ -73,7 +74,7 @@ public class CommitteeActionAuthorizerTest extends KcUnitTestBase {
         authorizer.setKraAuthorizationService(kraAuthorizationService);
         
         committeeDocument.getDocumentHeader().getWorkflowDocument().route("");
-        CommitteeTask task = new CommitteeTask(TaskName.PERFORM_COMMITTEE_ACTIONS, committeeDocument.getCommittee());
+        CommitteeTaskBase<Committee> task = new CommitteeTaskBase<Committee>(TaskGroupName.COMMITTEE, TaskName.PERFORM_COMMITTEE_ACTIONS, committeeDocument.getCommittee()) {};
         assertEquals(true, authorizer.isAuthorized(USERNAME, task));
     }
     
@@ -92,7 +93,7 @@ public class CommitteeActionAuthorizerTest extends KcUnitTestBase {
         authorizer.setKraAuthorizationService(kraAuthorizationService);
 
         committeeDocument.getDocumentHeader().getWorkflowDocument().route("");
-        CommitteeTask task = new CommitteeTask(TaskName.PERFORM_COMMITTEE_ACTIONS, committeeDocument.getCommittee());
+        CommitteeTaskBase<Committee> task = new CommitteeTaskBase<Committee>(TaskGroupName.COMMITTEE, TaskName.PERFORM_COMMITTEE_ACTIONS, committeeDocument.getCommittee()) {};
         assertEquals(false, authorizer.isAuthorized(USERNAME, task));
     }
     
@@ -110,7 +111,7 @@ public class CommitteeActionAuthorizerTest extends KcUnitTestBase {
         final KraAuthorizationServiceMock kraAuthorizationService = new KraAuthorizationServiceMock(true);
         authorizer.setKraAuthorizationService(kraAuthorizationService);
         
-        CommitteeTask task = new CommitteeTask(TaskName.PERFORM_COMMITTEE_ACTIONS, committeeDocument.getCommittee());
+        CommitteeTaskBase<Committee> task = new CommitteeTaskBase<Committee>(TaskGroupName.COMMITTEE, TaskName.PERFORM_COMMITTEE_ACTIONS, committeeDocument.getCommittee()) {};
         assertEquals(false, authorizer.isAuthorized(USERNAME, task));
     }
     
@@ -130,7 +131,7 @@ public class CommitteeActionAuthorizerTest extends KcUnitTestBase {
         authorizer.setKraAuthorizationService(kraAuthorizationService);
         
         committeeDocument.getDocumentHeader().getWorkflowDocument().route("");
-        CommitteeTask task = new CommitteeTask(TaskName.PERFORM_COMMITTEE_ACTIONS, committeeDocument.getCommittee());
+        CommitteeTaskBase<Committee> task = new CommitteeTaskBase<Committee>(TaskGroupName.COMMITTEE, TaskName.PERFORM_COMMITTEE_ACTIONS, committeeDocument.getCommittee()) {};
         assertEquals(false, authorizer.isAuthorized(USERNAME, task));
     }
     

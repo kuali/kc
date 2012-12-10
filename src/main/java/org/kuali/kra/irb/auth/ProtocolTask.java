@@ -15,39 +15,58 @@
  */
 package org.kuali.kra.irb.auth;
 
-import org.kuali.kra.authorization.Task;
 import org.kuali.kra.infrastructure.TaskGroupName;
 import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.protocol.auth.ProtocolTaskBase;
 
 /**
  * A Protocol Task is a task that performs an action against a
  * Protocol.  To assist authorization, the Protocol is available.
  */
-public final class ProtocolTask extends Task {
-    
-    private Protocol protocol;
-    public static final String CREATE_PROPOSAL_FOR_IRB_PROTOCOL = "createProposalForIrbProtocol";
+public final class ProtocolTask extends ProtocolTaskBase {
+  public static final String CREATE_PROPOSAL_FOR_IRB_PROTOCOL = "createProposalForIrbProtocol";
 
     /**
-     * Constructs a ProtocolTask.
+     * Constructs a ProtocolTaskBase.
      * @param taskName the name of the task
      * @param protocol the Protocol
      */
     public ProtocolTask(String taskName, Protocol protocol) {
-        super(TaskGroupName.PROTOCOL, taskName);
-        this.protocol = protocol;
+        super(TaskGroupName.PROTOCOL, taskName, protocol);
     }
     
     public ProtocolTask(String taskName, Protocol protocol, String genericTaskName) {
-        super(TaskGroupName.PROTOCOL, taskName, genericTaskName);
-        this.protocol = protocol;
+        super(TaskGroupName.PROTOCOL, taskName, protocol, genericTaskName);
     }
 
-    /**
-     * Get the Protocol.
-     * @return the Protocol
-     */
     public Protocol getProtocol() {
-        return protocol;
+        return (Protocol)super.getProtocol();
     }
+    
+    
+ // TODO ********************** commented out during IRB backfit ************************    
+//    private Protocol protocol;
+//
+//    /**
+//     * Constructs a ProtocolTask.
+//     * @param taskName the name of the task
+//     * @param protocol the Protocol
+//     */
+//    public ProtocolTask(String taskName, Protocol protocol) {
+//        super(TaskGroupName.PROTOCOL, taskName);
+//        this.protocol = protocol;
+//    }
+//    
+//    public ProtocolTask(String taskName, Protocol protocol, String genericTaskName) {
+//        super(TaskGroupName.PROTOCOL, taskName, genericTaskName);
+//        this.protocol = protocol;
+//    }
+//
+//    /**
+//     * Get the Protocol.
+//     * @return the Protocol
+//     */
+//    public Protocol getProtocol() {
+//        return protocol;
+//    }
 }

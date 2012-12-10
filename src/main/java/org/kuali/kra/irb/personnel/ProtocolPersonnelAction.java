@@ -37,15 +37,17 @@ import org.kuali.kra.irb.ProtocolAction;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.irb.actions.print.ProtocolPrintingService;
-import org.kuali.kra.irb.noteattachment.ProtocolAttachmentBase;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentPersonnel;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentProtocol;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentService;
 import org.kuali.kra.printing.Printable;
 import org.kuali.kra.printing.service.WatermarkService;
+import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentBase;
+import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentPersonnelBase;
+import org.kuali.kra.protocol.personnel.AddProtocolUnitEvent;
+import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
 import org.kuali.kra.irb.personnel.ProtocolPersonRole;
 import org.kuali.kra.service.KraAuthorizationService;
-import org.kuali.kra.util.watermark.WatermarkConstants;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
 import org.kuali.rice.krad.util.KRADConstants;
 
@@ -88,12 +90,11 @@ public class ProtocolPersonnelAction extends ProtocolAction {
     public ActionForward addProtocolPerson(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolPerson newProtocolPerson = protocolForm.getPersonnelHelper().getNewProtocolPerson();
-        Protocol protocol = protocolForm.getProtocolDocument().getProtocol();
+        ProtocolPerson newProtocolPerson = (ProtocolPerson) protocolForm.getPersonnelHelper().getNewProtocolPerson();
+        Protocol protocol = (Protocol) protocolForm.getProtocolDocument().getProtocol();
 
         // check any business rules
-        boolean rulePassed = applyRules(new AddProtocolPersonnelEvent(Constants.EMPTY_STRING, protocolForm.getProtocolDocument(),
-            newProtocolPerson));
+        boolean rulePassed = applyRules(new AddProtocolPersonnelEvent(Constants.EMPTY_STRING, (ProtocolDocument) protocolForm.getProtocolDocument(), newProtocolPerson));
         if (rulePassed) {
             getProtocolPersonnelService().addProtocolPerson(protocol, newProtocolPerson);
             //If we are adding a new principal investigator, make sure we update the person id
@@ -118,7 +119,7 @@ public class ProtocolPersonnelAction extends ProtocolAction {
      */
     public ActionForward deleteProtocolPerson(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolDocument protocolDocument = protocolForm.getProtocolDocument();
+        ProtocolDocument protocolDocument = (ProtocolDocument) protocolForm.getProtocolDocument();
         getProtocolPersonnelService().deleteProtocolPerson(protocolDocument.getProtocol());
         return mapping.findForward(Constants.MAPPING_BASIC );
     }
@@ -153,14 +154,14 @@ public class ProtocolPersonnelAction extends ProtocolAction {
     public ActionForward addPersonnelAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolDocument protocolDocument = protocolForm.getProtocolDocument();
+        ProtocolDocument protocolDocument = (ProtocolDocument) protocolForm.getProtocolDocument();
         int selectedPersonIndex = getSelectedPersonIndex(request, protocolDocument);
-        ProtocolPerson protocolPerson = protocolDocument.getProtocol().getProtocolPerson(selectedPersonIndex);
-        ProtocolAttachmentPersonnel newAttachmentPersonnel = protocolForm.getPersonnelHelper().getNewProtocolAttachmentPersonnels().get(selectedPersonIndex);
+        ProtocolPerson protocolPerson = (ProtocolPerson) protocolDocument.getProtocol().getProtocolPerson(selectedPersonIndex);
+        ProtocolAttachmentPersonnel newAttachmentPersonnel = (ProtocolAttachmentPersonnel) protocolForm.getPersonnelHelper().getNewProtocolAttachmentPersonnels().get(selectedPersonIndex);
         newAttachmentPersonnel.setPersonId(protocolPerson.getProtocolPersonId());
         newAttachmentPersonnel.setProtocolNumber(protocolPerson.getProtocolNumber());
         
-        boolean rulePassed =  applyRules(new AddProtocolAttachmentPersonnelEvent(Constants.EMPTY_STRING, protocolForm.getProtocolDocument(), 
+        boolean rulePassed =  applyRules(new AddProtocolAttachmentPersonnelEvent(Constants.EMPTY_STRING, (ProtocolDocument) protocolForm.getProtocolDocument(), 
                 newAttachmentPersonnel, selectedPersonIndex));
 
         if (rulePassed) {
@@ -184,8 +185,8 @@ public class ProtocolPersonnelAction extends ProtocolAction {
     public ActionForward viewPersonnelAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolDocument protocolDocument = protocolForm.getProtocolDocument();
-        ProtocolPerson protocolPerson = protocolDocument.getProtocol().getProtocolPerson(getSelectedPersonIndex(request, protocolDocument));
+        ProtocolDocument protocolDocument = (ProtocolDocument) protocolForm.getProtocolDocument();
+        ProtocolPerson protocolPerson = (ProtocolPerson) protocolDocument.getProtocol().getProtocolPerson(getSelectedPersonIndex(request, protocolDocument));
         ProtocolAttachmentBase attachment = protocolPerson.getAttachmentPersonnels().get(getSelectedLine(request));
         return printAttachmentProtocol(mapping, protocolForm, response, attachment);
     }
@@ -222,7 +223,7 @@ public class ProtocolPersonnelAction extends ProtocolAction {
      * @return attachment file
      */
       
-    private byte[] getProtocolAttachmentFile(ProtocolForm form,ProtocolAttachmentBase attachment){
+    private byte[] getProtocolAttachmentFile(ProtocolForm form, ProtocolAttachmentBase attachment){
         
         byte[] attachmentFile =null;
         final AttachmentFile file = attachment.getFile();
@@ -231,7 +232,7 @@ public class ProtocolPersonnelAction extends ProtocolAction {
         try {
             if(printableArtifacts.isWatermarkEnabled()){
             Integer attachmentDocumentId =attachment.getDocumentId();
-            List<ProtocolAttachmentProtocol> protocolAttachmentList=form.getProtocolDocument().getProtocol().getAttachmentProtocols();
+            List<ProtocolAttachmentProtocol> protocolAttachmentList=(List)form.getProtocolDocument().getProtocol().getAttachmentProtocols();
             if(protocolAttachmentList.size()>0){
                 for (ProtocolAttachmentProtocol personnelAttachment : protocolAttachmentList) {
                     if(attachmentDocumentId.equals(personnelAttachment.getDocumentId()) && 
@@ -265,9 +266,9 @@ public class ProtocolPersonnelAction extends ProtocolAction {
      */
     public ActionForward deletePersonnelAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
             HttpServletResponse response) throws Exception {
-        ProtocolDocument protocolDocument = ((ProtocolForm) form).getProtocolDocument();
-        ProtocolPerson protocolPerson = protocolDocument.getProtocol().getProtocolPerson(getSelectedPersonIndex(request, protocolDocument));
-        ProtocolAttachmentPersonnel attachment = protocolPerson.getAttachmentPersonnels().get(getSelectedLine(request));
+        ProtocolDocument protocolDocument = (ProtocolDocument) ((ProtocolForm) form).getProtocolDocument();
+        ProtocolPerson protocolPerson = (ProtocolPerson) protocolDocument.getProtocol().getProtocolPerson(getSelectedPersonIndex(request, protocolDocument));
+        ProtocolAttachmentPersonnel attachment = (ProtocolAttachmentPersonnel) protocolPerson.getAttachmentPersonnels().get(getSelectedLine(request));
 
         final StrutsConfirmation confirm 
         = buildParameterizedConfirmationQuestion(mapping, form, request, response, CONFIRM_YES_DELETE_ATTACHMENT_PERSONNEL, 
@@ -287,9 +288,9 @@ public class ProtocolPersonnelAction extends ProtocolAction {
      * @throws Exception if there is a problem executing the request.
      */
     public ActionForward confirmDeleteAttachmentPersonnel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ProtocolDocument protocolDocument = ((ProtocolForm) form).getProtocolDocument();
-        ProtocolPerson protocolPerson = protocolDocument.getProtocol().getProtocolPerson(getSelectedPersonIndex(request, protocolDocument));
-        ProtocolAttachmentPersonnel attachment = protocolPerson.getAttachmentPersonnels().get(getSelectedLine(request));
+        ProtocolDocument protocolDocument = (ProtocolDocument) ((ProtocolForm) form).getProtocolDocument();
+        ProtocolPerson protocolPerson = (ProtocolPerson) protocolDocument.getProtocol().getProtocolPerson(getSelectedPersonIndex(request, protocolDocument));
+        ProtocolAttachmentPersonnel attachment = (ProtocolAttachmentPersonnel) protocolPerson.getAttachmentPersonnels().get(getSelectedLine(request));
 
         if (attachment.getFileId() != null && !getProtocolAttachmentService().isSharedFile(attachment)) {
             ((ProtocolForm) form).getNotesAttachmentsHelper().getFilesToDelete().add(attachment.getFile());
@@ -314,15 +315,13 @@ public class ProtocolPersonnelAction extends ProtocolAction {
      */
     public ActionForward addProtocolPersonUnit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolDocument protocolDocument = protocolForm.getProtocolDocument();
+        ProtocolDocument protocolDocument = (ProtocolDocument) protocolForm.getProtocolDocument();
         int selectedPersonIndex = getSelectedPersonIndex(request, protocolDocument);
 
-        ProtocolPerson protocolPerson = protocolDocument.getProtocol().getProtocolPerson(selectedPersonIndex);
+        ProtocolPerson protocolPerson = (ProtocolPerson) protocolDocument.getProtocol().getProtocolPerson(selectedPersonIndex);
         
-        ProtocolUnit newProtocolPersonUnit = protocolForm.getPersonnelHelper().getNewProtocolPersonUnits().get(selectedPersonIndex);
-        boolean rulePassed = applyRules(new AddProtocolUnitEvent(Constants.EMPTY_STRING, protocolForm.getProtocolDocument(), 
-                newProtocolPersonUnit, selectedPersonIndex));
-
+        ProtocolUnit newProtocolPersonUnit = (ProtocolUnit) protocolForm.getPersonnelHelper().getNewProtocolPersonUnits().get(selectedPersonIndex);
+        boolean rulePassed = applyRules(new AddProtocolUnitEvent(Constants.EMPTY_STRING, protocolForm.getProtocolDocument(), newProtocolPersonUnit, selectedPersonIndex));
         if (rulePassed) {
             getProtocolPersonnelService().addProtocolPersonUnit(protocolForm.getPersonnelHelper().getNewProtocolPersonUnits(), protocolPerson, selectedPersonIndex);
         }
@@ -343,7 +342,7 @@ public class ProtocolPersonnelAction extends ProtocolAction {
      */
     public ActionForward deleteProtocolPersonUnit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolDocument protocolDocument = protocolForm.getProtocolDocument();
+        ProtocolDocument protocolDocument = (ProtocolDocument) protocolForm.getProtocolDocument();
         int selectedPersonIndex = getSelectedPersonIndex(request, protocolDocument);
         getProtocolPersonnelService().deleteProtocolPersonUnit(protocolDocument.getProtocol(), selectedPersonIndex, getSelectedLine(request));
 
@@ -361,7 +360,7 @@ public class ProtocolPersonnelAction extends ProtocolAction {
      */
     public ActionForward updateProtocolPersonView(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolDocument protocolDocument = protocolForm.getProtocolDocument();
+        ProtocolDocument protocolDocument = (ProtocolDocument) protocolForm.getProtocolDocument();
         int selectedPersonIndex = getSelectedPersonIndex(request, protocolDocument);
         getProtocolPersonnelService().switchInvestigatorCoInvestigatorRole(protocolDocument.getProtocol().getProtocolPersons());
         getProtocolPersonnelService().syncPersonRoleAndUnit(protocolDocument.getProtocol().getProtocolPerson(selectedPersonIndex));
@@ -369,13 +368,14 @@ public class ProtocolPersonnelAction extends ProtocolAction {
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
-    /**
-     * This method is to get protocol personnel service
-     * @return ProtocolPersonnelService
-     */
-    private ProtocolPersonnelService getProtocolPersonnelService() {
-        return (ProtocolPersonnelService)KraServiceLocator.getService("protocolPersonnelService");
-    }
+// TODO ********************** commented out during IRB backfit ************************    
+//    /**
+//     * This method is to get protocol personnel service
+//     * @return ProtocolPersonnelService
+//     */
+//    protected ProtocolPersonnelService getProtocolPersonnelService() {
+//        return (ProtocolPersonnelService)KraServiceLocator.getService("protocolPersonnelService");
+//    }
 
     /**
      * This method for Watermark Service. 
@@ -414,7 +414,7 @@ public class ProtocolPersonnelAction extends ProtocolAction {
      * @param form
      * @return
      */
-    private List<ProtocolPerson> getProtocolPersons(ActionForm form) {
+    private List<ProtocolPersonBase> getProtocolPersons(ActionForm form) {
         return ((ProtocolForm) form).getProtocolDocument().getProtocol().getProtocolPersons();
     }
 
@@ -424,9 +424,9 @@ public class ProtocolPersonnelAction extends ProtocolAction {
         super.preSave(mapping, form, request, response);
         
         ProtocolForm protocolForm = (ProtocolForm) form;
-        Protocol protocol = protocolForm.getProtocolDocument().getProtocol();
+        Protocol protocol = (Protocol) protocolForm.getProtocolDocument().getProtocol();
         
-        for (ProtocolPerson protocolPerson : protocol.getProtocolPersons()) {
+        for (ProtocolPersonBase protocolPerson : protocol.getProtocolPersons()) {
             String personComparator = (protocolPerson.getPersonId() != null) ? protocolPerson.getPersonId() : protocolPerson.getRolodexId().toString(); 
             if (protocolPerson.isPrincipalInvestigator() && !personComparator.equals(protocol.getPrincipalInvestigatorId())) {
                 // reset PI from cached getter
@@ -437,7 +437,10 @@ public class ProtocolPersonnelAction extends ProtocolAction {
                     KraAuthorizationService kraAuthService = KraServiceLocator.getService(KraAuthorizationService.class);
                     kraAuthService.addRole(protocolPerson.getPersonId(), RoleConstants.PROTOCOL_AGGREGATOR, protocol);
                     kraAuthService.addRole(protocolPerson.getPersonId(), RoleConstants.PROTOCOL_APPROVER, protocol);
+                    
+// TODO *********TEMPORARILY COMMENTED OUT DURING IRB BACKFITTING*********                     
                     protocolForm.getPermissionsHelper().resetUserStates();
+                    
                 }
             }
             else if (!protocolPerson.isPrincipalInvestigator() &&
@@ -447,6 +450,8 @@ public class ProtocolPersonnelAction extends ProtocolAction {
                     // Assign the Other Role To Viewer the AGGREGATOR role.
                     KraAuthorizationService kraAuthService = KraServiceLocator.getService(KraAuthorizationService.class);
                     kraAuthService.addRole(protocolPerson.getPersonId(), RoleConstants.PROTOCOL_VIEWER, protocol);
+                    
+// TODO *********TEMPORARILY COMMENTED OUT DURING IRB BACKFITTING*********                     
                     protocolForm.getPermissionsHelper().resetUserStates();
                 }
             }
@@ -459,7 +464,7 @@ public class ProtocolPersonnelAction extends ProtocolAction {
         List<ProtocolAttachmentPersonnel> attachments = (List<ProtocolAttachmentPersonnel>)getBusinessObjectService().findMatching(ProtocolAttachmentPersonnel.class, keyMap);
         List<AttachmentFile> filesToDelete = new ArrayList<AttachmentFile>();
         List<Long> attachmentIds = new ArrayList<Long>();
-        for (ProtocolAttachmentPersonnel attachment : protocol.getAttachmentPersonnels()) {
+        for (ProtocolAttachmentPersonnelBase attachment : protocol.getAttachmentPersonnels()) {
             if (attachment.getId() != null) {
                 attachmentIds.add(attachment.getId());
             }
@@ -469,7 +474,10 @@ public class ProtocolPersonnelAction extends ProtocolAction {
                 filesToDelete.add(attachment.getFile());
             }
         }
+        
+// TODO *********TEMPORARILY COMMENTED OUT DURING IRB BACKFITTING*********         
         protocolForm.getNotesAttachmentsHelper().setFilesToDelete(filesToDelete);
+        
     }
 
     
@@ -483,11 +491,13 @@ public class ProtocolPersonnelAction extends ProtocolAction {
     @Override
     public void postSave(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-        // TODO Auto-generated method stub
         super.postSave(mapping, form, request, response);
+ 
+// TODO *********TEMPORARILY COMMENTED OUT DURING IRB BACKFITTING*********         
         if (!((ProtocolForm) form).getNotesAttachmentsHelper().getFilesToDelete().isEmpty()) {
             getBusinessObjectService().delete(((ProtocolForm) form).getNotesAttachmentsHelper().getFilesToDelete());
             ((ProtocolForm) form).getNotesAttachmentsHelper().getFilesToDelete().clear();
         }
+        
     }
 }

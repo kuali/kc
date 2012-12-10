@@ -27,6 +27,7 @@ import org.kuali.kra.irb.actions.submit.ExpeditedReviewCheckListItem;
 import org.kuali.kra.irb.actions.submit.ProtocolExemptStudiesCheckListItem;
 import org.kuali.kra.irb.actions.submit.ProtocolExpeditedReviewCheckListItem;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewType;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 
 /**
  * This class is really just a "form" for editing a protocol submission.
@@ -60,7 +61,7 @@ public class ProtocolModifySubmissionBean extends ProtocolActionBean implements 
         
         expeditedReviewCheckList = getCheckListService().getExpeditedReviewCheckList();        
         for (ExpeditedReviewCheckListItem displayItem : expeditedReviewCheckList) {
-            for (ProtocolExpeditedReviewCheckListItem databaseItem : actionHelper.getProtocol().getProtocolSubmission().getExpeditedReviewCheckList()) {
+            for (ProtocolExpeditedReviewCheckListItem databaseItem : ((ProtocolSubmission) actionHelper.getProtocol().getProtocolSubmission()).getExpeditedReviewCheckList()) {
                 if (displayItem.getExpeditedReviewCheckListCode().equals(databaseItem.getExpeditedReviewCheckListCode())) {
                     displayItem.setChecked(true);
                 }
@@ -69,7 +70,7 @@ public class ProtocolModifySubmissionBean extends ProtocolActionBean implements 
         
         exemptStudiesCheckList = getCheckListService().getExemptStudiesCheckList();
         for (ExemptStudiesCheckListItem displayItem : exemptStudiesCheckList) {
-            for (ProtocolExemptStudiesCheckListItem databaseItem : actionHelper.getProtocol().getProtocolSubmission().getExemptStudiesCheckList()) {
+            for (ProtocolExemptStudiesCheckListItem databaseItem : ((ProtocolSubmission) actionHelper.getProtocol().getProtocolSubmission()).getExemptStudiesCheckList()) {
                 if (displayItem.getExemptStudiesCheckListCode().equals(databaseItem.getExemptStudiesCheckListCode())) {
                     displayItem.setChecked(true);
                 }

@@ -29,11 +29,12 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.bo.KcPerson;
-import org.kuali.kra.bo.Unit;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.service.CommitteeService;
+import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinuteBase;
+import org.kuali.kra.common.committee.meeting.MinuteEntryType;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.irb.Protocol;
@@ -43,7 +44,6 @@ import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
 import org.kuali.kra.irb.test.ProtocolFactory;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
-import org.kuali.kra.common.committee.meeting.MinuteEntryType;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.core.api.datetime.DateTimeService;
@@ -87,7 +87,7 @@ public class ReviewCommentsServiceTest extends KcUnitTestBase {
     public void testAddReviewComment() throws Exception {
         ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
         
-        List<CommitteeScheduleMinute> reviewComments = new ArrayList<CommitteeScheduleMinute>();
+        List<CommitteeScheduleMinuteBase> reviewComments = new ArrayList<CommitteeScheduleMinuteBase>();
         
         CommitteeScheduleMinute firstNewReviewComment = new CommitteeScheduleMinute();
         firstNewReviewComment.setMinuteEntryTypeCode(MinuteEntryType.PROTOCOL);
@@ -97,7 +97,7 @@ public class ReviewCommentsServiceTest extends KcUnitTestBase {
         service.addReviewComment(firstNewReviewComment, reviewComments, protocolDocument.getProtocol());
         
         assertEquals(1, reviewComments.size());
-        CommitteeScheduleMinute firstReviewComment = reviewComments.get(0);
+        CommitteeScheduleMinute firstReviewComment = (CommitteeScheduleMinute) reviewComments.get(0);
         assertNotNull(firstReviewComment);
         assertEquals(MinuteEntryType.PROTOCOL, firstReviewComment.getMinuteEntryTypeCode());
         assertEquals(Integer.valueOf(0), firstReviewComment.getEntryNumber());
@@ -110,7 +110,7 @@ public class ReviewCommentsServiceTest extends KcUnitTestBase {
         service.addReviewComment(secondNewReviewComment, reviewComments, protocolDocument.getProtocol());
         
         assertEquals(2, reviewComments.size());
-        CommitteeScheduleMinute secondReviewComment = reviewComments.get(1);
+        CommitteeScheduleMinute secondReviewComment = (CommitteeScheduleMinute) reviewComments.get(1);
         assertNotNull(secondReviewComment);
         assertEquals(MinuteEntryType.PROTOCOL, secondReviewComment.getMinuteEntryTypeCode());
         assertEquals(Integer.valueOf(1), secondReviewComment.getEntryNumber());
@@ -121,7 +121,7 @@ public class ReviewCommentsServiceTest extends KcUnitTestBase {
     public void testMoveUpReviewComment() throws Exception {
         ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
         
-        List<CommitteeScheduleMinute> reviewComments = new ArrayList<CommitteeScheduleMinute>();
+        List<CommitteeScheduleMinuteBase> reviewComments = new ArrayList<CommitteeScheduleMinuteBase>();
         
         CommitteeScheduleMinute firstNewReviewComment = new CommitteeScheduleMinute();
         firstNewReviewComment.setProtocol(protocolDocument.getProtocol());
@@ -147,19 +147,19 @@ public class ReviewCommentsServiceTest extends KcUnitTestBase {
         
         assertEquals(3, reviewComments.size());
         
-        CommitteeScheduleMinute thirdReviewComment = reviewComments.get(0);
+        CommitteeScheduleMinute thirdReviewComment = (CommitteeScheduleMinute) reviewComments.get(0);
         assertNotNull(thirdReviewComment);
         assertEquals(MinuteEntryType.PROTOCOL, thirdReviewComment.getMinuteEntryTypeCode());
         assertEquals(Integer.valueOf(0), thirdReviewComment.getEntryNumber());
         assertEquals(THIRD_COMMENT, thirdReviewComment.getMinuteEntry());
         
-        CommitteeScheduleMinute firstReviewComment = reviewComments.get(1);
+        CommitteeScheduleMinute firstReviewComment = (CommitteeScheduleMinute) reviewComments.get(1);
         assertNotNull(firstReviewComment);
         assertEquals(MinuteEntryType.PROTOCOL, firstReviewComment.getMinuteEntryTypeCode());
         assertEquals(Integer.valueOf(1), firstReviewComment.getEntryNumber());
         assertEquals(FIRST_COMMENT, firstReviewComment.getMinuteEntry());
         
-        CommitteeScheduleMinute secondReviewComment = reviewComments.get(2);
+        CommitteeScheduleMinute secondReviewComment = (CommitteeScheduleMinute) reviewComments.get(2);
         assertNotNull(secondReviewComment);
         assertEquals(MinuteEntryType.ACTION_ITEM, secondReviewComment.getMinuteEntryTypeCode());
         assertEquals(Integer.valueOf(2), secondReviewComment.getEntryNumber());
@@ -170,7 +170,7 @@ public class ReviewCommentsServiceTest extends KcUnitTestBase {
     public void testMoveDownReviewComment() throws Exception {
         ProtocolDocument protocolDocument = ProtocolFactory.createProtocolDocument();
         
-        List<CommitteeScheduleMinute> reviewComments = new ArrayList<CommitteeScheduleMinute>();
+        List<CommitteeScheduleMinuteBase> reviewComments = new ArrayList<CommitteeScheduleMinuteBase>();
         
         CommitteeScheduleMinute firstNewReviewComment = new CommitteeScheduleMinute();
         firstNewReviewComment.setProtocol(protocolDocument.getProtocol());
@@ -196,19 +196,19 @@ public class ReviewCommentsServiceTest extends KcUnitTestBase {
         
         assertEquals(3, reviewComments.size());
         
-        CommitteeScheduleMinute secondReviewComment = reviewComments.get(0);
+        CommitteeScheduleMinute secondReviewComment = (CommitteeScheduleMinute) reviewComments.get(0);
         assertNotNull(secondReviewComment);
         assertEquals(MinuteEntryType.ACTION_ITEM, secondReviewComment.getMinuteEntryTypeCode());
         assertEquals(Integer.valueOf(0), secondReviewComment.getEntryNumber());
         assertEquals(SECOND_COMMENT, secondReviewComment.getMinuteEntry());
         
-        CommitteeScheduleMinute thirdReviewComment = reviewComments.get(1);
+        CommitteeScheduleMinute thirdReviewComment = (CommitteeScheduleMinute) reviewComments.get(1);
         assertNotNull(thirdReviewComment);
         assertEquals(MinuteEntryType.PROTOCOL, thirdReviewComment.getMinuteEntryTypeCode());
         assertEquals(Integer.valueOf(1), thirdReviewComment.getEntryNumber());
         assertEquals(THIRD_COMMENT, thirdReviewComment.getMinuteEntry());
         
-        CommitteeScheduleMinute firstReviewComment = reviewComments.get(2);
+        CommitteeScheduleMinute firstReviewComment = (CommitteeScheduleMinute) reviewComments.get(2);
         assertNotNull(firstReviewComment);
         assertEquals(MinuteEntryType.PROTOCOL, firstReviewComment.getMinuteEntryTypeCode());
         assertEquals(Integer.valueOf(2), firstReviewComment.getEntryNumber());
@@ -217,8 +217,8 @@ public class ReviewCommentsServiceTest extends KcUnitTestBase {
     
     @Test
     public void testDeleteReviewComment() throws Exception {
-        List<CommitteeScheduleMinute> reviewComments = new ArrayList<CommitteeScheduleMinute>();
-        List<CommitteeScheduleMinute> deletedReviewComments = new ArrayList<CommitteeScheduleMinute>();
+        List<CommitteeScheduleMinuteBase> reviewComments = new ArrayList<CommitteeScheduleMinuteBase>();
+        List<CommitteeScheduleMinuteBase> deletedReviewComments = new ArrayList<CommitteeScheduleMinuteBase>();
         
         CommitteeScheduleMinute firstNewReviewComment = new CommitteeScheduleMinute();
         firstNewReviewComment.setCommScheduleMinutesId(1L);
@@ -245,13 +245,13 @@ public class ReviewCommentsServiceTest extends KcUnitTestBase {
         
         assertEquals(2, reviewComments.size());
         
-        CommitteeScheduleMinute secondReviewComment = reviewComments.get(0);
+        CommitteeScheduleMinute secondReviewComment = (CommitteeScheduleMinute) reviewComments.get(0);
         assertNotNull(secondReviewComment);
         assertEquals(MinuteEntryType.ACTION_ITEM, secondReviewComment.getMinuteEntryTypeCode());
         assertEquals(Integer.valueOf(0), secondReviewComment.getEntryNumber());
         assertEquals(SECOND_COMMENT, secondReviewComment.getMinuteEntry());
         
-        CommitteeScheduleMinute thirdReviewComment = reviewComments.get(1);
+        CommitteeScheduleMinute thirdReviewComment = (CommitteeScheduleMinute) reviewComments.get(1);
         assertNotNull(thirdReviewComment);
         assertEquals(MinuteEntryType.PROTOCOL, thirdReviewComment.getMinuteEntryTypeCode());
         assertEquals(Integer.valueOf(1), thirdReviewComment.getEntryNumber());
@@ -259,7 +259,7 @@ public class ReviewCommentsServiceTest extends KcUnitTestBase {
         
         assertEquals(1, deletedReviewComments.size());
         
-        CommitteeScheduleMinute firstReviewComment = deletedReviewComments.get(0);
+        CommitteeScheduleMinute firstReviewComment = (CommitteeScheduleMinute) deletedReviewComments.get(0);
         assertNotNull(firstReviewComment);
         assertEquals(MinuteEntryType.PROTOCOL, firstReviewComment.getMinuteEntryTypeCode());
         assertEquals(FIRST_COMMENT, firstReviewComment.getMinuteEntry());
@@ -267,8 +267,8 @@ public class ReviewCommentsServiceTest extends KcUnitTestBase {
     
     @Test
     public void testDeleteAllReviewComment() throws Exception {
-        List<CommitteeScheduleMinute> reviewComments = new ArrayList<CommitteeScheduleMinute>();
-        List<CommitteeScheduleMinute> deletedReviewComments = new ArrayList<CommitteeScheduleMinute>();
+        List<CommitteeScheduleMinuteBase> reviewComments = new ArrayList<CommitteeScheduleMinuteBase>();
+        List<CommitteeScheduleMinuteBase> deletedReviewComments = new ArrayList<CommitteeScheduleMinuteBase>();
         
         CommitteeScheduleMinute firstNewReviewComment = new CommitteeScheduleMinute();
         firstNewReviewComment.setCommScheduleMinutesId(1L);
@@ -293,17 +293,17 @@ public class ReviewCommentsServiceTest extends KcUnitTestBase {
         assertEquals(0, reviewComments.size());
         assertEquals(3, deletedReviewComments.size());
         
-        CommitteeScheduleMinute firstReviewComment = deletedReviewComments.get(0);
+        CommitteeScheduleMinute firstReviewComment = (CommitteeScheduleMinute) deletedReviewComments.get(0);
         assertNotNull(firstReviewComment);
         assertEquals(MinuteEntryType.PROTOCOL, firstReviewComment.getMinuteEntryTypeCode());
         assertEquals(FIRST_COMMENT, firstReviewComment.getMinuteEntry());
         
-        CommitteeScheduleMinute secondReviewComment = deletedReviewComments.get(1);
+        CommitteeScheduleMinute secondReviewComment = (CommitteeScheduleMinute) deletedReviewComments.get(1);
         assertNotNull(secondReviewComment);
         assertEquals(MinuteEntryType.ACTION_ITEM, secondReviewComment.getMinuteEntryTypeCode());
         assertEquals(SECOND_COMMENT, secondReviewComment.getMinuteEntry());
         
-        CommitteeScheduleMinute thirdReviewComment = deletedReviewComments.get(2);
+        CommitteeScheduleMinute thirdReviewComment = (CommitteeScheduleMinute) deletedReviewComments.get(2);
         assertNotNull(thirdReviewComment);
         assertEquals(MinuteEntryType.PROTOCOL, thirdReviewComment.getMinuteEntryTypeCode());
         assertEquals(THIRD_COMMENT, thirdReviewComment.getMinuteEntry());
@@ -708,7 +708,7 @@ public class ReviewCommentsServiceTest extends KcUnitTestBase {
             }
 
         };
-        submission.setCommitteeScheduleMinutes(reviewComments);
+        submission.setCommitteeScheduleMinutes((List)reviewComments);
         submission.setProtocolNumber("001");
         submission.setSubmissionNumber(1);
         submissions.add(submission);

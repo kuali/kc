@@ -34,7 +34,10 @@ public abstract class ProtocolApproveServiceImplBase implements ProtocolApproveS
 // TODO *********commented the code below during IACUC refactoring*********     
 //    private static final String FULL_APPROVAL_FINALIZE_OLR_ANNOTATION = "Online Review finalized as part of full approval action on protocol.";
 //    private static final String EXPEDITED_APPROVAL_FINALIZE_OLR_ANNOTATION = "Online Review finalized as part of expedited approval action on protocol.";
-    private static final String RESPONSE_APPROVAL_FINALIZE_OLR_ANNOTATION = "Online Review finalized as part of response approval action on protocol.";
+
+    // TODO ********************** added or modified during IRB backfit merge BEGIN ********************** 
+    protected static final String RESPONSE_APPROVAL_FINALIZE_OLR_ANNOTATION = "Online Review finalized as part of response approval action on protocol.";
+    // TODO ********************** added or modified during IRB backfit merge END ************************
     private static final String ADMIN_APPROVAL_FINALIZE_OLR_ANNOTATION = "Online Review finalized as part of administrative approval action on protocol.";
     
     private DocumentService documentService;

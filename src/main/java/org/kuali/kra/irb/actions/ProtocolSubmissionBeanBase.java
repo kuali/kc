@@ -18,14 +18,16 @@ package org.kuali.kra.irb.actions;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kra.irb.actions.notifyirb.ProtocolActionAttachment;
+//import org.kuali.kra.irb.actions.notifyirb.ProtocolActionAttachment;
+import org.kuali.kra.protocol.actions.notify.ProtocolActionAttachment;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 
 /**
  * 
  * This class for the base property of request/notify irb action
  */
-public abstract class ProtocolSubmissionBeanBase extends ProtocolActionBean {
+public abstract class ProtocolSubmissionBeanBase extends ProtocolActionBean implements org.kuali.kra.protocol.actions.ProtocolSubmissionBeanBase {
+    
     private String committeeId;
     private ProtocolActionAttachment newActionAttachment;
     private List<ProtocolActionAttachment> actionAttachments = new ArrayList<ProtocolActionAttachment>();
@@ -55,7 +57,7 @@ public abstract class ProtocolSubmissionBeanBase extends ProtocolActionBean {
         return actionAttachments;
     }
 
-    public void setActionAttachments(List<ProtocolActionAttachment> actionAttachments) {
+    public void setActionAttachments(List<org.kuali.kra.protocol.actions.notify.ProtocolActionAttachment> actionAttachments) {
         this.actionAttachments = actionAttachments;
     }
 

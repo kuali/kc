@@ -31,21 +31,20 @@ import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
  */
 public interface ProtocolOnlineReviewService {
     
-    static final String ONLINE_REVIEW_DOCUMENT_DESCRIPTION_FORMAT = "%s/ProtocolBase# %s";
+    static final String ONLINE_REVIEW_DOCUMENT_DESCRIPTION_FORMAT = "%s/Protocol# %s";
     
     /**
      * Document type code for online review.
      */
     String PROTOCOL_ONLINE_REVIEW_DOCUMENT_TYPE_CODE = "PTRV";
     
-    /**
-     * Name of the online review document.
-     */
-    String PROTOCOL_ONLINE_REVIEW_DOCUMENT_TYPE = "ProtocolOnlineReviewDocumentBase";
+// TODO ********************** commented out during IRB backfit ************************
+// This should be a hook in the base    
+//    /**
+//     * Name of the online review document.
+//     */
+//    String PROTOCOL_ONLINE_REVIEW_DOCUMENT_TYPE = "ProtocolOnlineReviewDocumentBase";
 
-    List<CommitteeMembershipBase> getAvailableCommitteeMembersForCurrentSubmission(ProtocolBase protocol);
-    List<ProtocolOnlineReviewDocumentBase> getProtocolReviewDocumentsForCurrentSubmission(ProtocolBase protocol);
-    String getProtocolOnlineReviewDocumentDescription( String protocolNumber, String piName );
     
     /**
      * Assign an online review to a reviewer.  Reviewers must be a member of the committee.
@@ -83,14 +82,14 @@ public interface ProtocolOnlineReviewService {
      * @param protocol 
      * @return
      */
-//    List<ProtocolOnlineReviewDocumentBase> getProtocolReviewDocumentsForCurrentSubmission(ProtocolBase protocol);
+    List<ProtocolOnlineReviewDocumentBase> getProtocolReviewDocumentsForCurrentSubmission(ProtocolBase protocol);
    
     /**
      * This method...
      * @param protocol
      * @return
      */
-//    List<CommitteeMembershipBase> getAvailableCommitteeMembersForCurrentSubmission(ProtocolBase protocol);
+    List<CommitteeMembershipBase> getAvailableCommitteeMembersForCurrentSubmission(ProtocolBase protocol);
 
     /**
      * Get a list of current ProtocolReview documents associated with the protocol and current submission.
@@ -166,7 +165,7 @@ public interface ProtocolOnlineReviewService {
      * @param submission
      * @param annotation
      */
-//    void cancelOnlineReviews(ProtocolSubmissionBase submission, String annotation);
+    void cancelOnlineReviews(ProtocolSubmissionBase submission, String annotation);
     
     /*
      * Remove all online reviews associated with the submission.
@@ -178,7 +177,7 @@ public interface ProtocolOnlineReviewService {
      * @param annotation  The annotation to be applied to the workflow document when we cancel.
      *  
      */
-//    void removeOnlineReviews(ProtocolSubmissionBase submission, String annotation);
+    void removeOnlineReviews(ProtocolSubmissionBase submission, String annotation);
     
     /**
      * Finalizes all online review documents associated with the submission.
@@ -198,7 +197,7 @@ public interface ProtocolOnlineReviewService {
      * @param piName The name of the pi to add to the description.
      * @return String to be used in the description.
      */
-//    String getProtocolOnlineReviewDocumentDescription( String protocolNumber, String piName );
+    String getProtocolOnlineReviewDocumentDescription( String protocolNumber, String piName );
     
     /**
      * 
@@ -207,6 +206,6 @@ public interface ProtocolOnlineReviewService {
      * @param submission
      * @param newSubmission
      */
-//    void moveOnlineReviews(ProtocolSubmissionBase submission, ProtocolSubmissionBase newSubmission);
+    void moveOnlineReviews(ProtocolSubmissionBase submission, ProtocolSubmissionBase newSubmission);
 
 }

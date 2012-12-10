@@ -13,10 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.committee.bo.businessLogic;
+package org.kuali.kra.irb.actions.print;
 
-public interface CommitteeCollaboratorBusinessLogic {
-    
-    public CommitteeCollaboratorBusinessLogicFactoryGroup getCommitteeCollaboratorBusinessLogicFactoryGroup();
+public interface ProtocolQuestionnairePrintingService extends org.kuali.kra.protocol.actions.print.ProtocolQuestionnairePrintingService {
 
 }

@@ -72,7 +72,7 @@ public abstract class CommitteeScheduleLookupableHelperServiceImplBase<CS extend
     // committee PK list before querying the database via BOService.
     // (See replacement for this method in ResearchAreaReferencesDaoOjb if efficiency becomes a concern)
     // NOTE: this method modifies the state of this object by updating two instance fields.
-    private boolean isCurrentVersion(CMT committee) {
+    protected boolean isCurrentVersion(CMT committee) {
         boolean retValue = false;
         if (this.activeCommitteePKs.contains(committee.getId())) {
             retValue = true;

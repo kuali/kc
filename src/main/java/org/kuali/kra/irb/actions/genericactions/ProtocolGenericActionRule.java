@@ -15,30 +15,29 @@
  */
 package org.kuali.kra.irb.actions.genericactions;
 
-import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.rule.BusinessRuleInterface;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.kra.protocol.actions.genericactions.ProtocolGenericActionRuleBase;
 
 /**
  * Encapsulates the rules for performing a generic action.
  */
-public class ProtocolGenericActionRule extends ResearchDocumentRuleBase implements BusinessRuleInterface<ProtocolGenericActionEvent> {
+public class ProtocolGenericActionRule extends ProtocolGenericActionRuleBase<ProtocolGenericActionEvent> {
     
-    private static final String ACTION_DATE_FIELD = "actionDate";
-    
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.kra.rule.BusinessRuleInterface#processRules(org.kuali.kra.rule.event.KraDocumentEventBaseExtension)
-     */
-    public boolean processRules(ProtocolGenericActionEvent event) {
-        boolean isValid = true;
-        
-        if (event.getProtocolGenericActionBean().getActionDate() == null) {
-            isValid = false;
-            reportError(ACTION_DATE_FIELD, KeyConstants.ERROR_PROTOCOL_GENERIC_ACTION_DATE_REQUIRED);  
-        }
-        
-        return isValid;
-    }
+// TODO ********************** commented out during IRB backfit ************************    
+//    private static final String ACTION_DATE_FIELD = "actionDate";
+//    
+//    /**
+//     * {@inheritDoc}
+//     * @see org.kuali.kra.rule.BusinessRuleInterface#processRules(org.kuali.kra.rule.event.KraDocumentEventBaseExtension)
+//     */
+//    public boolean processRules(ProtocolGenericActionEvent event) {
+//        boolean isValid = true;
+//        
+//        if (event.getProtocolGenericActionBean().getActionDate() == null) {
+//            isValid = false;
+//            reportError(ACTION_DATE_FIELD, KeyConstants.ERROR_PROTOCOL_GENERIC_ACTION_DATE_REQUIRED);  
+//        }
+//        
+//        return isValid;
+//    }
 
 }

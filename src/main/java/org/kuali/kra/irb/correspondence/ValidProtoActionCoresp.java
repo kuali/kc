@@ -19,7 +19,11 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 public class ValidProtoActionCoresp extends KraPersistableBusinessObjectBase {
 
-    private static final long serialVersionUID = 1L;
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = -4484534983706133742L;
+
 
     private Long validProtoActionCorespId;
 
@@ -63,4 +67,5 @@ public class ValidProtoActionCoresp extends KraPersistableBusinessObjectBase {
     public void setFinalFlag(boolean finalFlag) {
         this.finalFlag = finalFlag;
     }
+    
 }

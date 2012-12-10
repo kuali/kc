@@ -140,7 +140,7 @@ public class BatchCorrespondenceDetailAction extends KualiDocumentActionBase {
         int index = getSelectedBatchCorrespondenceDetail(request);
         BatchCorrespondenceDetailForm batchCorrespondenceDetailForm = (BatchCorrespondenceDetailForm) form;
         BatchCorrespondence batchCorrespondence = batchCorrespondenceDetailForm.getBatchCorrespondence();
-        BatchCorrespondenceDetail batchCorrespondenceDetail = batchCorrespondence.getBatchCorrespondenceDetails().get(index);
+        BatchCorrespondenceDetail batchCorrespondenceDetail = (BatchCorrespondenceDetail)batchCorrespondence.getBatchCorrespondenceDetails().get(index);
         
         // Add batch correspondence detail to database deletion list
         batchCorrespondenceDetailForm.getDeletedBatchCorrespondenceDetail().add(batchCorrespondenceDetail);

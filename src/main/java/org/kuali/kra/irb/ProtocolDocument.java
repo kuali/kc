@@ -17,57 +17,40 @@
 package org.kuali.kra.irb;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.kra.authorization.KraAuthorizationConstants;
-import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.ResearchArea;
-import org.kuali.kra.bo.RolePersons;
+import org.kuali.kra.bo.ResearchAreaBase;
 import org.kuali.kra.common.notification.bo.KcNotification;
 import org.kuali.kra.common.notification.service.KcNotificationService;
-import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.kra.irb.actions.submit.ProtocolActionService;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
 import org.kuali.kra.irb.correspondence.ProtocolCorrespondence;
-import org.kuali.kra.irb.noteattachment.ProtocolAttachmentProtocol;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentStatus;
 import org.kuali.kra.irb.protocol.location.ProtocolLocationService;
 import org.kuali.kra.irb.protocol.research.ProtocolResearchAreaService;
 import org.kuali.kra.irb.rules.IrbProtocolFactBuilderService;
 import org.kuali.kra.krms.KcKrmsConstants;
-import org.kuali.kra.krms.KrmsRulesContext;
-import org.kuali.kra.service.KcPersonService;
-import org.kuali.kra.service.KraAuthorizationService;
+import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.protocol.ProtocolDocumentBase;
+import org.kuali.kra.protocol.actions.ProtocolActionBase;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
+import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentProtocolBase;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.COMPONENT;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.NAMESPACE;
-import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
-import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
-import org.kuali.rice.kew.routeheader.service.RouteHeaderService;
-import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.krad.UserSession;
-import org.kuali.rice.krad.document.Copyable;
-import org.kuali.rice.krad.document.SessionDocument;
-import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.service.DocumentService;
-import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
-import org.kuali.rice.krad.workflow.KualiDocumentXmlMaterializer;
-import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
 import org.kuali.rice.krms.api.engine.Facts.Builder;
 
 
@@ -82,16 +65,21 @@ import org.kuali.rice.krms.api.engine.Facts.Builder;
  */
 @NAMESPACE(namespace=Constants.MODULE_NAMESPACE_PROTOCOL)
 @COMPONENT(component=ParameterConstants.DOCUMENT_COMPONENT)
-public class ProtocolDocument extends ResearchDocumentBase implements Copyable, SessionDocument, KrmsRulesContext { 
-    private static final Log LOG = LogFactory.getLog(ProtocolDocument.class);
-    public static final String DOCUMENT_TYPE_CODE = "PROT";
-    private static final String AMENDMENT_KEY = "A";
-    private static final String RENEWAL_KEY = "R";
-    private static final String OLR_DOC_ID_PARAM = "&olrDocId=";
+public class ProtocolDocument extends ProtocolDocumentBase { 
+    
     /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 803158468103165087L;
+
+    private static final Log LOG = LogFactory.getLog(ProtocolDocument.class);
+    public static final String DOCUMENT_TYPE_CODE = "PROT";
+    
+// TODO ********************** commented out during IRB backfit ************************    
+//    private static final String AMENDMENT_KEY = "A";
+//    private static final String RENEWAL_KEY = "R";
+//    private static final String OLR_DOC_ID_PARAM = "&olrDocId=";
+   
     
     private static final String APPROVED_COMMENT = "Approved";
     private static final String DISAPPROVED_COMMENT = "Disapproved";
@@ -99,45 +87,44 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
                                                                  ProtocolStatus.DEFERRED + " " + ProtocolStatus.SUBSTANTIVE_REVISIONS_REQUIRED + " " +  
                                                                  ProtocolStatus.AMENDMENT_IN_PROGRESS + " " + ProtocolStatus.RENEWAL_IN_PROGRESS + " " + 
                                                                  ProtocolStatus.SUSPENDED_BY_PI + " " + ProtocolStatus.DELETED + " " + ProtocolStatus.WITHDRAWN;
-    
-    private List<Protocol> protocolList;
-    private String protocolWorkflowType;
-	private boolean reRouted = false;
-	
-    /**
-     * Constructs a ProtocolDocument object.
-     */
-	public ProtocolDocument() {
-	    // TODO *********code has been moved to base class, should ultimately be removed**********
-        super();
-        protocolList = new ArrayList<Protocol>();
-        // TODO the method below is replaced by a creator hook in the refactored parent class
-        Protocol newProtocol = new Protocol();
-        newProtocol.setProtocolDocument(this);
-        protocolList.add(newProtocol);
-        // TODO **********************end************************
-        
-        setProtocolWorkflowType(ProtocolWorkflowType.NORMAL);
-        initializeProtocolLocation();
-	} 
-	
-	/**
-	 * 
-	 * @see org.kuali.kra.document.ResearchDocumentBase#initialize()
-	 */
-    public void initialize() {
-        super.initialize();
-        Map<String, String> primaryKeys = new HashMap<String, String>();
-        primaryKeys.put("RESEARCH_AREA_CODE", "000001");
-        ResearchArea ra = (ResearchArea) this.getBusinessObjectService().findByPrimaryKey(ResearchArea.class, primaryKeys);
-        Collection<ResearchArea> selectedBOs = new ArrayList<ResearchArea>();
-        selectedBOs.add(ra);
-        KraServiceLocator.getService(ProtocolResearchAreaService.class).addProtocolResearchArea(this.getProtocol(), selectedBOs);
-    }
 
+// TODO ********************** commented out during IRB backfit ************************    
+//    private List<Protocol> protocolList;
+//    private String protocolWorkflowType;
+//	  private boolean reRouted = false;
+//	
+//    /**
+//     * Constructs a ProtocolDocument object.
+//     */
+//	public ProtocolDocument() {
+//        super();
+//        protocolList = new ArrayList<Protocol>();
+//        Protocol newProtocol = new Protocol();
+//        newProtocol.setProtocolDocument(this);
+//        protocolList.add(newProtocol);
+//        setProtocolWorkflowType(ProtocolWorkflowType.NORMAL);
+//        initializeProtocolLocation();
+//	} 
+//	
+//	
+//	
+//	/**
+//	 * 
+//	 * @see org.kuali.kra.document.ResearchDocumentBase#initialize()
+//	 */
+//    public void initialize() {
+//        super.initialize();
+//        Map<String, String> primaryKeys = new HashMap<String, String>();
+//        primaryKeys.put("RESEARCH_AREA_CODE", "000001");
+//        ResearchArea ra = (ResearchArea) this.getBusinessObjectService().findByPrimaryKey(ResearchArea.class, primaryKeys);
+//        Collection<ResearchArea> selectedBOs = new ArrayList<ResearchArea>();
+//        selectedBOs.add(ra);
+//        KraServiceLocator.getService(ProtocolResearchAreaService.class).addProtocolResearchArea((Protocol) this.getProtocol(), selectedBOs);
+//    }
+//
+//    
     
-    
-    // TODO *********code has been moved to base class, should ultimately be removed**********
+
     /**
      * 
      * This method is a convenience method for facilitating a 1:1 relationship between ProtocolDocument 
@@ -145,139 +132,154 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
      * @return
      */
     public Protocol getProtocol() {
-        if (protocolList.size() == 0) return null;
-        return protocolList.get(0);
+       return (Protocol)super.getProtocol();
     }
 
-    /**
-     * 
-     * This method is a convenience method for facilitating a 1:1 relationship between ProtocolDocument 
-     * and Protocol to the outside world - aka a single Protocol field associated with ProtocolDocument
-     * @param protocol
-     */
-    public void setProtocol(Protocol protocol) {
-        protocolList.set(0, protocol);
-    }
-
-
-    /**
-     * 
-     * This method is used by OJB to get around with anonymous keys issue.
-     * Warning : Developers should never use this method.
-     * @return List<Protocol>
-     */
-    public List<Protocol> getProtocolList() {
-        return protocolList;
-    }
-
-    /**
-     * 
-     * This method is used by OJB to get around with anonymous keys issue.
-     * Warning : Developers should never use this method
-     * @param protocolList
-     */
-    public void setProtocolList(List<Protocol> protocolList) {
-        this.protocolList = protocolList;
-    }
     
-    /**
-     * @see org.kuali.core.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
-     */
-    @SuppressWarnings("unchecked")
-    @Override
-    public List buildListOfDeletionAwareLists() {
-        List managedLists = super.buildListOfDeletionAwareLists();
-        if (getProtocol() != null) {
-            managedLists.addAll(getProtocol().buildListOfDeletionAwareLists());
-        }
-        managedLists.add(protocolList);
-        return managedLists;
-    }
-    // TODO **********************end************************
-    
-    
-    
-    
-    /**
-     * @see org.kuali.kra.document.ResearchDocumentBase#getAllRolePersons()
-     */
-    @Override
-    protected List<RolePersons> getAllRolePersons() {
-        KraAuthorizationService kraAuthService = 
-               (KraAuthorizationService) KraServiceLocator.getService(KraAuthorizationService.class); 
-        return kraAuthService.getAllRolePersons(getProtocol());
-    }
+// TODO ********************** commented out during IRB backfit ************************    
+//    /**
+//     * 
+//     * This method is a convenience method for facilitating a 1:1 relationship between ProtocolDocument 
+//     * and Protocol to the outside world - aka a single Protocol field associated with ProtocolDocument
+//     * @param protocol
+//     */
+//    public void setProtocol(Protocol protocol) {
+//        protocolList.set(0, protocol);
+//    }
+//
+//
+//    /**
+//     * 
+//     * This method is used by OJB to get around with anonymous keys issue.
+//     * Warning : Developers should never use this method.
+//     * @return List<Protocol>
+//     */
+//    public List<Protocol> getProtocolList() {
+//        return protocolList;
+//    }
+//
+//    /**
+//     * 
+//     * This method is used by OJB to get around with anonymous keys issue.
+//     * Warning : Developers should never use this method
+//     * @param protocolList
+//     */
+//    public void setProtocolList(List<Protocol> protocolList) {
+//        this.protocolList = protocolList;
+//    }
+//    
+//    /**
+//     * @see org.kuali.core.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
+//     */
+//    @SuppressWarnings("unchecked")
+//    @Override
+//    public List buildListOfDeletionAwareLists() {
+//        List managedLists = super.buildListOfDeletionAwareLists();
+//        if (getProtocol() != null) {
+//            managedLists.addAll(getProtocol().buildListOfDeletionAwareLists());
+//        }
+//        managedLists.add(protocolList);
+//        return managedLists;
+//    }
+//
+//    
+//    
+//    
+//    
+//    /**
+//     * @see org.kuali.kra.document.ResearchDocumentBase#getAllRolePersons()
+//     */
+//    @Override
+//    protected List<RolePersons> getAllRolePersons() {
+//        KraAuthorizationService kraAuthService = 
+//               (KraAuthorizationService) KraServiceLocator.getService(KraAuthorizationService.class); 
+//        return kraAuthService.getAllRolePersons(getProtocol());
+//    }
     
     public String getDocumentTypeCode() {
         return DOCUMENT_TYPE_CODE;
     }
     
-    public String getProtocolWorkflowType() {
-		return protocolWorkflowType;
-	}
-
-	public void setProtocolWorkflowType(ProtocolWorkflowType protocolWorkflowType) {
-		this.protocolWorkflowType = protocolWorkflowType.getName();
-	}
     
-    /**
-     * @see org.kuali.rice.krad.document.DocumentBase#doRouteStatusChange(org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange)
-     */
     @Override
-    public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
-        super.doRouteStatusChange(statusChangeEvent);
-        if (isFinal(statusChangeEvent)) {
-            // this is implementing option#1 for kcinfr-30.  save original usersession person
-            // after merge is done, then reset to the original usersession person.  
-            // this is workaround for async.  There will be rice enhancement to resolve this issue.
-            try {
-                DocumentRouteHeaderValue document = KraServiceLocator.getService(RouteHeaderService.class).getRouteHeader(
-                        this.getDocumentHeader().getWorkflowDocument().getDocumentId());
-                String principalId = document.getActionsTaken().get(document.getActionsTaken().size() - 1).getPrincipalId();
-                String asyncPrincipalId = GlobalVariables.getUserSession().getPrincipalId();
-                String asyncPrincipalName = GlobalVariables.getUserSession().getPrincipalName();
-                if (!principalId.equals(asyncPrincipalId)) {
-                    KcPerson person = KraServiceLocator.getService(KcPersonService.class).getKcPersonByPersonId(principalId);
-                    GlobalVariables.setUserSession(new UserSession(person.getUserName()));                    
-                }
-                if (isAmendment()) {
-                    mergeAmendment(ProtocolStatus.AMENDMENT_MERGED, "Amendment");
-                }
-                else if (isRenewal()) {
-                    mergeAmendment(ProtocolStatus.RENEWAL_MERGED, "Renewal");
-                }
-                
-                if (!principalId.equals(asyncPrincipalId)) {
-                    GlobalVariables.setUserSession(new UserSession(asyncPrincipalName));                    
-                }
-            }
-            catch (Exception e) {
+    protected void mergeProtocolAmendment() {
+        if (isAmendment()) {
+            mergeAmendment(ProtocolStatus.AMENDMENT_MERGED, "Amendment");
+        }
+        else if (isRenewal()) {
+            mergeAmendment(ProtocolStatus.RENEWAL_MERGED, "Renewal");
+        }
+    }
 
-            }
-        }
-        else if (isDisapproved(statusChangeEvent)) { 
-            if (!isNormal()){
-                this.getProtocol().setActive(false);
-                getBusinessObjectService().save(this);
-            }
-        }
-    }
-    
-    /**
-     * Add a new protocol action to the protocol and update the status.
-     * @param actionTypeCode the new action
-     */
-    public void updateProtocolStatus(String actionTypeCode, String comments) {
-        ProtocolAction protocolAction = new ProtocolAction(getProtocol(), null, actionTypeCode);
-        protocolAction.setComments(comments);
-        getProtocol().getProtocolActions().add(protocolAction);
-        
-        getProtocolActionService().updateProtocolStatus(protocolAction, getProtocol());
-    }
-    
-    private ProtocolActionService getProtocolActionService() {
-        return KraServiceLocator.getService(ProtocolActionService.class);
-    }
+// TODO ********************** commented out during IRB backfit ************************    
+//    public String getProtocolWorkflowType() {
+//		return protocolWorkflowType;
+//	}
+//
+//    
+//	public void setProtocolWorkflowType(ProtocolWorkflowType protocolWorkflowType) {
+//		this.protocolWorkflowType = protocolWorkflowType.getName();
+//	}
+//    
+//    /**
+//     * @see org.kuali.rice.krad.document.DocumentBase#doRouteStatusChange(org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange)
+//     */
+//    @Override
+//    public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
+//        super.doRouteStatusChange(statusChangeEvent);
+//        if (isFinal(statusChangeEvent)) {
+//            // this is implementing option#1 for kcinfr-30.  save original usersession person
+//            // after merge is done, then reset to the original usersession person.  
+//            // this is workaround for async.  There will be rice enhancement to resolve this issue.
+//            try {
+//                DocumentRouteHeaderValue document = KraServiceLocator.getService(RouteHeaderService.class).getRouteHeader(
+//                        this.getDocumentHeader().getWorkflowDocument().getDocumentId());
+//                String principalId = document.getActionsTaken().get(document.getActionsTaken().size() - 1).getPrincipalId();
+//                String asyncPrincipalId = GlobalVariables.getUserSession().getPrincipalId();
+//                String asyncPrincipalName = GlobalVariables.getUserSession().getPrincipalName();
+//                if (!principalId.equals(asyncPrincipalId)) {
+//                    KcPerson person = KraServiceLocator.getService(KcPersonService.class).getKcPersonByPersonId(principalId);
+//                    GlobalVariables.setUserSession(new UserSession(person.getUserName()));                    
+//                }
+//                if (isAmendment()) {
+//                    mergeAmendment(ProtocolStatus.AMENDMENT_MERGED, "Amendment");
+//                }
+//                else if (isRenewal()) {
+//                    mergeAmendment(ProtocolStatus.RENEWAL_MERGED, "Renewal");
+//                }
+//                
+//                if (!principalId.equals(asyncPrincipalId)) {
+//                    GlobalVariables.setUserSession(new UserSession(asyncPrincipalName));                    
+//                }
+//            }
+//            catch (Exception e) {
+//
+//            }
+//        }
+//        else if (isDisapproved(statusChangeEvent)) { 
+//            if (!isNormal()){
+//                this.getProtocol().setActive(false);
+//                getBusinessObjectService().save(this);
+//            }
+//        }
+//    }
+//    
+//    /**
+//     * Add a new protocol action to the protocol and update the status.
+//     * @param actionTypeCode the new action
+//     */
+//    public void updateProtocolStatus(String actionTypeCode, String comments) {
+//        ProtocolAction protocolAction = new ProtocolAction(getProtocol(), null, actionTypeCode);
+//        protocolAction.setComments(comments);
+//        getProtocol().getProtocolActions().add(protocolAction);
+//        
+//        getProtocolActionService().updateProtocolStatus(protocolAction, getProtocol());
+//    }
+//
+//    
+//    private ProtocolActionService getProtocolActionService() {
+//        return KraServiceLocator.getService(ProtocolActionService.class);
+//    }
 
     /**
      * Merge the amendment into the original protocol.  Actually, we must first make a new
@@ -286,14 +288,14 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
      * @param protocolStatusCode
      * @throws Exception
      */
-    private void mergeAmendment(String protocolStatusCode, String type) {
-        Protocol currentProtocol = getProtocolFinder().findCurrentProtocolByNumber(getOriginalProtocolNumber());
+    protected void mergeAmendment(String protocolStatusCode, String type) {
+        Protocol currentProtocol = (Protocol) getProtocolFinder().findCurrentProtocolByNumber(getOriginalProtocolNumber());
         final ProtocolDocument newProtocolDocument;
         try {
             // workflowdocument is null, so need to use documentservice to retrieve it
             currentProtocol.setProtocolDocument((ProtocolDocument)getDocumentService().getByDocumentHeaderId(currentProtocol.getProtocolDocument().getDocumentNumber()));
             currentProtocol.setMergeAmendment(true);
-            newProtocolDocument = getProtocolVersionService().versionProtocolDocument(currentProtocol.getProtocolDocument());
+            newProtocolDocument = (ProtocolDocument) getProtocolVersionService().versionProtocolDocument(currentProtocol.getProtocolDocument());
         } catch (Exception e) {
             throw new ProtocolMergeException(e);
         }
@@ -301,7 +303,7 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
         newProtocolDocument.getProtocol().merge(getProtocol());
         getProtocol().setProtocolStatusCode(protocolStatusCode);
         
-        ProtocolAction action = new ProtocolAction(newProtocolDocument.getProtocol(), null, ProtocolActionType.APPROVED);
+        ProtocolAction action = new ProtocolAction((Protocol) newProtocolDocument.getProtocol(), null, ProtocolActionType.APPROVED);
         action.setComments(type + "-" + getProtocolNumberIndex() + ": Approved");
         newProtocolDocument.setProtocolWorkflowType(ProtocolWorkflowType.APPROVED);
         newProtocolDocument.getProtocol().getProtocolActions().add(action);
@@ -319,24 +321,27 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
         this.getProtocol().setActive(false);
         
         // now that we've updated the approved protocol, we must find all others under modification and update them too.
-        for (Protocol otherProtocol: getProtocolFinder().findProtocols(getOriginalProtocolNumber())) {
+        for (ProtocolBase otherProtocol: getProtocolFinder().findProtocols(getOriginalProtocolNumber())) {
             String status = otherProtocol.getProtocolStatus().getProtocolStatusCode();
-            if (isEligibleForMerging(status, otherProtocol)) {
+            if (isEligibleForMerging(status, (Protocol) otherProtocol)) {
                 // then this protocol version is being amended so push changes to it
                 LOG.info("Merging amendment " + this.getProtocol().getProtocolNumber() + " into editable protocol " + otherProtocol.getProtocolNumber());
                 otherProtocol.merge(getProtocol(), false);
                 String protocolType = protocolStatusCode.equals(ProtocolStatus.AMENDMENT_MERGED) ? ProtocolActionType.AMENDMENT_CREATED 
                                                                                                  : ProtocolActionType.RENEWAL_CREATED;
-                action = new ProtocolAction(otherProtocol, null, protocolType);
+                action = new ProtocolAction((Protocol) otherProtocol, null, protocolType);
                 action.setComments(type + "-" + getProtocolNumberIndex() + ": Merged");
                 otherProtocol.getProtocolActions().add(action);
                 getBusinessObjectService().save(otherProtocol);
             }
         }
 
-        finalizeAttachmentProtocol(this.getProtocol());
+        finalizeAttachmentProtocol((Protocol)this.getProtocol());
         getBusinessObjectService().save(this);
+        
+// TODO ********************** added or modified during IRB backfit merge BEGIN **********************   
         mergeProtocolCorrespondenceAndNotification(newProtocolDocument, this.getProtocol().getLastProtocolAction().getProtocolActionTypeCode());
+           
     }
     
     protected void mergeProtocolCorrespondenceAndNotification(ProtocolDocument newProtocolDocument, String protocolActionType) {
@@ -346,23 +351,23 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
          * corresponding action on .  Per KCIRB-1830
         */  
         ProtocolAction getProtocolPaToUse = null;
-        for (ProtocolAction pa : getProtocol().getProtocolActions()) {
+        for (ProtocolActionBase pa : getProtocol().getProtocolActions()) {
             if (StringUtils.equals(protocolActionType, pa.getProtocolActionTypeCode())) {
                 if (getProtocolPaToUse == null || getProtocolPaToUse.getUpdateTimestamp().before(pa.getUpdateTimestamp())) {
-                    getProtocolPaToUse = pa;
+                    getProtocolPaToUse = (ProtocolAction) pa;
                 }
             }
         }
         ProtocolAction newDocPaToUse = null;
-        for (ProtocolAction pa2 : newProtocolDocument.getProtocol().getProtocolActions()) {
+        for (ProtocolActionBase pa2 : newProtocolDocument.getProtocol().getProtocolActions()) {
             if (StringUtils.equals(ProtocolActionType.APPROVED, pa2.getProtocolActionTypeCode())) {
                 if (newDocPaToUse == null || newDocPaToUse.getUpdateTimestamp().before(pa2.getUpdateTimestamp())) {
-                    newDocPaToUse = pa2;
+                    newDocPaToUse = (ProtocolAction) pa2;
                 }
             }
         }
         if (newDocPaToUse != null && getProtocolPaToUse != null) {
-            for (ProtocolCorrespondence pc : getProtocolPaToUse.getProtocolCorrespondences()) {
+            for (org.kuali.kra.protocol.correspondence.ProtocolCorrespondence pc : getProtocolPaToUse.getProtocolCorrespondences()) {
                 ProtocolCorrespondence newPc = new ProtocolCorrespondence();
                 newPc.setActionId(pc.getActionId());
                 newPc.setActionIdFk(newDocPaToUse.getProtocolActionId());
@@ -385,7 +390,7 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
                 newPc.setRegenerateFlag(pc.isRegenerateFlag());
                 newPc.setSequenceNumber(pc.getSequenceNumber());
                 if (newDocPaToUse.getProtocolCorrespondences() == null) {
-                    newDocPaToUse.setProtocolCorrespondences(new ArrayList<ProtocolCorrespondence>());
+                    newDocPaToUse.setProtocolCorrespondences(new ArrayList<org.kuali.kra.protocol.correspondence.ProtocolCorrespondence>());
                 }
                 newDocPaToUse.getProtocolCorrespondences().add(newPc);
                 getBusinessObjectService().save(newPc);
@@ -397,7 +402,14 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
             getBusinessObjectService().save(newDocPaToUse);
         }   
         
+    }    
+    
+    
+    private KcNotificationService getKcNotificationService() {
+        return KraServiceLocator.getService(KcNotificationService.class);
     }
+// TODO ********************** added or modified during IRB backfit merge END ************************     
+    
     
     private boolean isEligibleForMerging(String status, Protocol otherProtocol) {
         return listOfStatiiEligibleForMerging.contains(status) && !StringUtils.equals(this.getProtocol().getProtocolNumber(), otherProtocol.getProtocolNumber());
@@ -407,7 +419,7 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
      * This method is to make the document status of the attachment protocol to "finalized" 
      */
     private void finalizeAttachmentProtocol(Protocol protocol) {
-        for (ProtocolAttachmentProtocol attachment : protocol.getAttachmentProtocols()) {
+        for (ProtocolAttachmentProtocolBase attachment : protocol.getAttachmentProtocols()) {
             attachment.setProtocol(protocol);
             if (attachment.isDraft()) {
                 attachment.setDocumentStatusCode(ProtocolAttachmentStatus.FINALIZED);
@@ -420,177 +432,179 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
         return KraServiceLocator.getService(ProtocolVersionService.class);
     }
 
-    private String getProtocolNumberIndex() {
-        return this.getProtocol().getProtocolNumber().substring(11);
-    }
-
+// TODO ********************** commented out during IRB backfit ************************    
+//    private String getProtocolNumberIndex() {
+//        return this.getProtocol().getProtocolNumber().substring(11);
+//    }
+//
     private ProtocolFinderDao getProtocolFinder() {
         return KraServiceLocator.getService(ProtocolFinderDao.class);
     }
     
-    private DocumentService getDocumentService() {
-        return KraServiceLocator.getService(DocumentService.class);
-    }
+// TODO ********************** commented out during IRB backfit ************************    
+//    private DocumentService getDocumentService() {
+//        return KraServiceLocator.getService(DocumentService.class);
+//    }
+//    
+//    private BusinessObjectService getBusinessObjectService() {
+//        return KraServiceLocator.getService(BusinessObjectService.class);
+//    }
+//
+//    
+//    /**
+//     * Amendments/Renewals have a protocol number with a 4 character suffix.
+//     * The first 10 characters is the protocol number of the original protocol.
+//     * @return
+//     */
+//    private String getOriginalProtocolNumber() {
+//        return getProtocol().getProtocolNumber().substring(0, 10);
+//    }
+//
+//    /**
+//     * Has the document entered the final state in workflow?
+//     * @param statusChangeEvent
+//     * @return
+//     */
+//    private boolean isFinal(DocumentRouteStatusChange statusChangeEvent) {
+//        return StringUtils.equals(KewApiConstants.ROUTE_HEADER_FINAL_CD, statusChangeEvent.getNewRouteStatus());
+//    }
+//    
+//    /**
+//     * Has the document entered the disapproval state in workflow?
+//     * @param statusChangeEvent
+//     * @return
+//     */
+//    private boolean isDisapproved(DocumentRouteStatusChange statusChangeEvent) {
+//        return StringUtils.equals(KewApiConstants.ROUTE_HEADER_DISAPPROVED_CD, statusChangeEvent.getNewRouteStatus());
+//    }
+//    
+//    /**
+//     * Is this a renewal protocol document?
+//     * @return
+//     */
+//    public boolean isRenewal() {
+//        return getProtocol().getProtocolNumber().contains(RENEWAL_KEY);
+//    }
+//
+//    /**
+//     * Is this an amendment protocol document?
+//     * @return
+//     */
+//    public boolean isAmendment() {
+//        return getProtocol().getProtocolNumber().contains(AMENDMENT_KEY);
+//    }
+//    
+//    /**
+//     * Is this a normal protocol document?
+//     * @return
+//     */
+//    public boolean isNormal() {
+//        return !isAmendment() && !isRenewal();
+//    }
+//    
+//    /**
+//     * Has the document been submitted to workflow now
+//     * @param statusChangeEvent
+//     * @return
+//     */
+//    private boolean isComplete(DocumentRouteStatusChange statusChangeEvent) {
+//        return (StringUtils.equals(KewApiConstants.ROUTE_HEADER_ENROUTE_CD, statusChangeEvent.getNewRouteStatus()) && 
+//                StringUtils.equals(KewApiConstants.ROUTE_HEADER_SAVED_CD, statusChangeEvent.getOldRouteStatus()));
+//    }
+//
+//    private static class ProtocolMergeException extends RuntimeException {
+//        ProtocolMergeException(Throwable t) {
+//            super(t);
+//        }
+//    }
+//    
+//    /**
+//     * Contains all the property names in this class.
+//     */
+//    public static enum ProtocolWorkflowType {
+//        NORMAL("Normal"), APPROVED("Approved"), APPROVED_AMENDMENT("ApprovedAmendment");
+//        
+//        private final String name;
+//        
+//        /**
+//         * Sets the enum properties.
+//         * @param name the name.
+//         */
+//        ProtocolWorkflowType(final String name) {
+//            this.name = name;
+//        }
+//        
+//        /**
+//         * Gets the ProtocolWorkflowType name.
+//         * @return the the ProtocolWorkflowType name.
+//         */
+//        public String getName() {
+//            return this.name;
+//        }
+//        
+//        /**
+//         * Gets the {@link #getName() }.
+//         * @return {@link #getName() }
+//         */
+//        @Override
+//        public String toString() {
+//            return this.name;
+//        }
+//    }
+//
+//    @Override
+//    public void prepareForSave() {
+//        super.prepareForSave();
+//        if (ObjectUtils.isNull(this.getVersionNumber())) {
+//            this.setVersionNumber(new Long(0));
+//        }
+//    }
     
-    private BusinessObjectService getBusinessObjectService() {
-        return KraServiceLocator.getService(BusinessObjectService.class);
-    }
-
-    private KcNotificationService getKcNotificationService() {
-        return KraServiceLocator.getService(KcNotificationService.class);
-    }
-
-    /**
-     * Amendments/Renewals have a protocol number with a 4 character suffix.
-     * The first 10 characters is the protocol number of the original protocol.
-     * @return
-     */
-    private String getOriginalProtocolNumber() {
-        return getProtocol().getProtocolNumber().substring(0, 10);
-    }
-
-    /**
-     * Has the document entered the final state in workflow?
-     * @param statusChangeEvent
-     * @return
-     */
-    private boolean isFinal(DocumentRouteStatusChange statusChangeEvent) {
-        return StringUtils.equals(KewApiConstants.ROUTE_HEADER_FINAL_CD, statusChangeEvent.getNewRouteStatus());
-    }
     
-    /**
-     * Has the document entered the disapproval state in workflow?
-     * @param statusChangeEvent
-     * @return
-     */
-    private boolean isDisapproved(DocumentRouteStatusChange statusChangeEvent) {
-        return StringUtils.equals(KewApiConstants.ROUTE_HEADER_DISAPPROVED_CD, statusChangeEvent.getNewRouteStatus());
-    }
-    
-    /**
-     * Is this a renewal protocol document?
-     * @return
-     */
-    public boolean isRenewal() {
-        return getProtocol().getProtocolNumber().contains(RENEWAL_KEY);
-    }
+// TODO ********************** commented out during IRB backfit ************************    
+//    /*
+//     * Initialize protocol location.
+//     * Add default organization.
+//     */
+//    private void initializeProtocolLocation() {
+//        KraServiceLocator.getService(ProtocolLocationService.class).addDefaultProtocolLocation((Protocol) this.getProtocol());
+//    }
+// 
+//    @Override
+//    public KualiDocumentXmlMaterializer wrapDocumentWithMetadataForXmlSerialization() {
+//        this.getProtocol().getLeadUnitNumber();
+//        return super.wrapDocumentWithMetadataForXmlSerialization();
+//    }
+//    
+//    /** {@inheritDoc} */
+//    @Override
+//    public boolean useCustomLockDescriptors() {
+//        return true;
+//    }
+//
+//    /** {@inheritDoc} */
+//    @Override
+//    public String getCustomLockDescriptor(Person user) {
+//        String activeLockRegion = (String) GlobalVariables.getUserSession().retrieveObject(KraAuthorizationConstants.ACTIVE_LOCK_REGION);
+//        if (StringUtils.isNotEmpty(activeLockRegion)) {
+//            return this.getDocumentNumber() + "-" + activeLockRegion; 
+//        }
+//
+//        return null;
+//    }
+//    
+//    public boolean getReRouted() {
+//        return reRouted;
+//    }
+//
+//    public void setReRouted(boolean reRouted) {
+//        this.reRouted = reRouted;
+//    }
 
-    /**
-     * Is this an amendment protocol document?
-     * @return
-     */
-    public boolean isAmendment() {
-        return getProtocol().getProtocolNumber().contains(AMENDMENT_KEY);
-    }
-    
-    /**
-     * Is this a normal protocol document?
-     * @return
-     */
-    public boolean isNormal() {
-        return !isAmendment() && !isRenewal();
-    }
-    
-    /**
-     * Has the document been submitted to workflow now
-     * @param statusChangeEvent
-     * @return
-     */
-    private boolean isComplete(DocumentRouteStatusChange statusChangeEvent) {
-        return (StringUtils.equals(KewApiConstants.ROUTE_HEADER_ENROUTE_CD, statusChangeEvent.getNewRouteStatus()) && 
-                StringUtils.equals(KewApiConstants.ROUTE_HEADER_SAVED_CD, statusChangeEvent.getOldRouteStatus()));
-    }
-
-    private static class ProtocolMergeException extends RuntimeException {
-        ProtocolMergeException(Throwable t) {
-            super(t);
-        }
-    }
-    
-    /**
-     * Contains all the property names in this class.
-     */
-    public static enum ProtocolWorkflowType {
-        NORMAL("Normal"), APPROVED("Approved"), APPROVED_AMENDMENT("ApprovedAmendment");
-        
-        private final String name;
-        
-        /**
-         * Sets the enum properties.
-         * @param name the name.
-         */
-        ProtocolWorkflowType(final String name) {
-            this.name = name;
-        }
-        
-        /**
-         * Gets the ProtocolWorkflowType name.
-         * @return the the ProtocolWorkflowType name.
-         */
-        public String getName() {
-            return this.name;
-        }
-        
-        /**
-         * Gets the {@link #getName() }.
-         * @return {@link #getName() }
-         */
-        @Override
-        public String toString() {
-            return this.name;
-        }
-    }
-
-    @Override
-    public void prepareForSave() {
-        super.prepareForSave();
-        if (ObjectUtils.isNull(this.getVersionNumber())) {
-            this.setVersionNumber(new Long(0));
-        }
-    }
-    
-    /*
-     * Initialize protocol location.
-     * Add default organization.
-     */
-    private void initializeProtocolLocation() {
-        KraServiceLocator.getService(ProtocolLocationService.class).addDefaultProtocolLocation(this.getProtocol());
-    }
- 
-    @Override
-    public KualiDocumentXmlMaterializer wrapDocumentWithMetadataForXmlSerialization() {
-        this.getProtocol().getLeadUnitNumber();
-        return super.wrapDocumentWithMetadataForXmlSerialization();
-    }
-    
-    /** {@inheritDoc} */
-    @Override
-    public boolean useCustomLockDescriptors() {
-        return true;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public String getCustomLockDescriptor(Person user) {
-        String activeLockRegion = (String) GlobalVariables.getUserSession().retrieveObject(KraAuthorizationConstants.ACTIVE_LOCK_REGION);
-        if (StringUtils.isNotEmpty(activeLockRegion)) {
-            return this.getDocumentNumber() + "-" + activeLockRegion; 
-        }
-
-        return null;
-    }
-    
-    public boolean getReRouted() {
-        return reRouted;
-    }
-
-    public void setReRouted(boolean reRouted) {
-        this.reRouted = reRouted;
-    }
-
-    private WorkflowDocumentService getWorkflowDocumentService() {
-        return KRADServiceLocatorWeb.getWorkflowDocumentService();
-    }    
+// TODO ********************** commented out during IRB backfit ************************    
+//    private WorkflowDocumentService getWorkflowDocumentService() {
+//        return KRADServiceLocatorWeb.getWorkflowDocumentService();
+//    }    
 
     /**
      * 
@@ -655,18 +669,19 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
         return isComplete;
     }
 
-    /**
-     * This method returns the doc number of the current active protocol
-     * @return documentNumber
-     */
-    protected String getNewProtocolDocId() {
-        Map keyMap = new HashMap(); 
-        keyMap.put("protocolNumber", getProtocol().getAmendedProtocolNumber());
-        keyMap.put("active", "Y");
-        BusinessObjectService boService = KraServiceLocator.getService(BusinessObjectService.class);        
-        List<Protocol> protocols = (List<Protocol>) boService.findMatchingOrderBy(Protocol.class, keyMap, "sequenceNumber", false);
-        return (protocols.size() == 0) ? null : protocols.get(0).getProtocolDocument().getDocumentNumber();    
-    }
+// TODO ********************** commented out during IRB backfit ************************    
+//    /**
+//     * This method returns the doc number of the current active protocol
+//     * @return documentNumber
+//     */
+//    protected String getNewProtocolDocId() {
+//        Map keyMap = new HashMap(); 
+//        keyMap.put("protocolNumber", getProtocol().getAmendedProtocolNumber());
+//        keyMap.put("active", "Y");
+//        BusinessObjectService boService = KraServiceLocator.getService(BusinessObjectService.class);        
+//        List<Protocol> protocols = (List<Protocol>) boService.findMatchingOrderBy(Protocol.class, keyMap, "sequenceNumber", false);
+//        return (protocols.size() == 0) ? null : protocols.get(0).getProtocolDocument().getDocumentNumber();    
+//    }
     
     public void populateContextQualifiers(Map<String, String> qualifiers) {
         qualifiers.put("namespaceCode", Constants.MODULE_NAMESPACE_PROTOCOL);
@@ -677,10 +692,53 @@ public class ProtocolDocument extends ResearchDocumentBase implements Copyable, 
         IrbProtocolFactBuilderService fbService = KraServiceLocator.getService(IrbProtocolFactBuilderService.class);
         fbService.addFacts(factsBuilder, this);
     }
-    
+
+
     @Override
-    public void populateAgendaQualifiers(Map<String, String> qualifiers) {
-        qualifiers.put(KcKrmsConstants.UNIT_NUMBER, getProtocol().getLeadUnitNumber());
-    }    
+    protected Protocol createNewProtocolInstanceHook() {
+        return new Protocol();
+    }
+
+
+    @Override
+    protected Class<? extends org.kuali.kra.protocol.protocol.research.ProtocolResearchAreaService> getProtocolResearchAreaServiceClassHook() {
+        return ProtocolResearchAreaService.class;
+    }
+
+
+    @Override
+    protected Class<? extends ResearchAreaBase> getResearchAreaBoClassHook() {
+        return ResearchArea.class;
+    }
+
+
+    @Override
+    protected ProtocolActionBase getNewProtocolActionInstanceHook(ProtocolBase protocol, ProtocolSubmissionBase protocolSubmission, String actionTypeCode) {
+        return new ProtocolAction((Protocol) protocol, (ProtocolSubmission) protocolSubmission, actionTypeCode);
+    }
+
+
+    @Override
+    protected Class<? extends org.kuali.kra.protocol.actions.submit.ProtocolActionService> getProtocolActionServiceClassHook() {
+        return ProtocolActionService.class;
+    }
+
+
+    @Override
+    protected Class<? extends org.kuali.kra.protocol.protocol.location.ProtocolLocationService> getProtocolLocationServiceClassHook() {
+        return ProtocolLocationService.class;
+    }
+
+
+    @Override
+    protected Class<? extends ProtocolBase> getProtocolBOClassHook() {
+        return Protocol.class;
+    }
+
+// TODO ********************** commented out during IRB backfit ************************    
+//    @Override
+//    public void populateAgendaQualifiers(Map<String, String> qualifiers) {
+//        qualifiers.put(KcKrmsConstants.UNIT_NUMBER, getProtocol().getLeadUnitNumber());
+//    }    
 
 }

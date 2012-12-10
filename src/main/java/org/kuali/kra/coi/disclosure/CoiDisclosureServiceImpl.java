@@ -66,10 +66,12 @@ import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolFinderDao;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
+import org.kuali.kra.irb.protocol.ProtocolType;
 import org.kuali.kra.irb.protocol.funding.ProtocolFundingSource;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceBase;
 import org.kuali.kra.questionnaire.answer.Answer;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.service.KcPersonService;
@@ -300,7 +302,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         List<Protocol> protocols = getProtocols(GlobalVariables.getUserSession().getPrincipalId());
         for (Protocol protocol : protocols) {
             CoiDisclProject coiDisclProject = createNewCoiDisclProject(coiDisclosure, CoiDisclosureEventType.IRB_PROTOCOL);
-            coiDisclProject.setProtocolType(protocol.getProtocolType());
+            coiDisclProject.setProtocolType((ProtocolType) protocol.getProtocolType());
             coiDisclProject.setCoiProjectId(protocol.getProtocolId().toString()); //Project Id
             coiDisclProject.setModuleItemKey(protocol.getProtocolNumber()); //Module Item Key
             coiDisclProject.setCoiProjectTitle(protocol.getTitle()); //Project Title
@@ -876,10 +878,10 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
                         fieldValues);
             for (ProtocolPerson protocolPerson : protocolPersons) {
                     if (protocolPerson.getProtocol().isActive()
-                            && isProtocolDisclosurable(protocolPerson.getProtocol())
+                            && isProtocolDisclosurable((Protocol) protocolPerson.getProtocol())
                             && !isProjectReported(protocolPerson.getProtocol().getProtocolNumber(),
                                     CoiDisclosureEventType.IRB_PROTOCOL, protocolPerson.getPersonId())) {
-                    protocols.add(protocolPerson.getProtocol());
+                    protocols.add((Protocol) protocolPerson.getProtocol());
                 }
             }
 //        }
@@ -1162,7 +1164,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
      */
     private boolean isProtocolFundedByActiveSponsor(Protocol protocol) {
          boolean isActive = false;
-         for (ProtocolFundingSource fundingSource : protocol.getProtocolFundingSources()) {
+         for (ProtocolFundingSourceBase fundingSource : protocol.getProtocolFundingSources()) {
              if (fundingSource.isSponsorFunding() && isSponsorForDisclosure(ProtocolDocument.class, fundingSource.getFundingSourceNumber(), SPONSORS_FOR_PROTOCOL_DISCLOSE, ALL_SPONSORS_FOR_PROTOCOL_DISCLOSE)) {
                  isActive = true;
                  break;

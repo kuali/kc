@@ -25,25 +25,20 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.coi.questionnaire.DisclosureModuleQuestionnaireBean;
 import org.kuali.kra.iacuc.questionnaire.IacucProtocolModuleQuestionnaireBean;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolFinderDao;
 import org.kuali.kra.irb.questionnaire.ProtocolModuleQuestionnaireBean;
-import org.kuali.kra.krms.KcKrmsContextBo;
 import org.kuali.kra.krms.KrmsRulesContext;
 import org.kuali.kra.krms.UnitAgendaTypeService;
-import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.questionnaire.ProposalDevelopmentModuleQuestionnaireBean;
 import org.kuali.kra.proposaldevelopment.questionnaire.ProposalDevelopmentS2sModuleQuestionnaireBean;
 import org.kuali.kra.proposaldevelopment.questionnaire.ProposalPersonModuleQuestionnaireBean;
+import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.questionnaire.Questionnaire;
 import org.kuali.kra.questionnaire.QuestionnaireQuestion;
 import org.kuali.kra.questionnaire.QuestionnaireService;
@@ -62,7 +57,6 @@ import org.kuali.rice.krms.api.engine.ResultEvent;
 import org.kuali.rice.krms.api.engine.SelectionCriteria;
 import org.kuali.rice.krms.api.repository.rule.RuleDefinition;
 import org.kuali.rice.krms.framework.engine.BasicRule;
-import org.kuali.rice.krms.framework.type.ValidationActionTypeService;
 
 /**
  * 
@@ -81,7 +75,12 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
     private BusinessObjectService businessObjectService;
     private ProtocolFinderDao protocolFinderDao;
     private ParameterService  parameterService;
+    
+ // TODO ********************** added or modified during IRB backfit merge BEGIN ********************** 
     private QuestionnaireService questionnaireService;
+ // TODO ********************** added or modified during IRB backfit merge END ************************
+
+    
     /*
      * Get the questionnaire that is 'final' for the specified module.
      */
@@ -115,6 +114,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
         for (QuestionnaireUsage questionnaireUsage : questionnaireUsages) {
             if (!questionnaireIds.contains(questionnaireUsage.getQuestionnaire().getQuestionnaireId())) {
                 questionnaireIds.add(questionnaireUsage.getQuestionnaire().getQuestionnaireId());
+             // TODO ********************** added or modified during IRB backfit merge BEGIN ********************** 
                 if (moduleQuestionnaireBean.isFinalDoc() || (getQuestionnaireService().isCurrentQuestionnaire(questionnaireUsage.getQuestionnaire()) && questionnaireUsage.getQuestionnaire().isActive())) {
                     if (StringUtils.isNotBlank(questionnaireUsage.getRuleId())) {
                         if (ruleResults.containsKey(questionnaireUsage.getRuleId()) && ruleResults.get(questionnaireUsage.getRuleId()).booleanValue()) {
@@ -124,6 +124,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
                         usages.add(questionnaireUsage);
                     }
                 }
+             // TODO ********************** added or modified during IRB backfit merge END ************************
             }
         }
         return usages;
@@ -150,11 +151,13 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
                 }
             }
             else {
+             // TODO ********************** added or modified during IRB backfit merge BEGIN ********************** 
                 if ((!moduleQuestionnaireBean.isFinalDoc() && getQuestionnaireService().isCurrentQuestionnaire(questionnaireUsage.getQuestionnaire()))
                         && questionnaireUsage.getQuestionnaire().isActive()) {
                     // filter out an not saved and usage is not include in current qn
                     answerHeaders.add(setupAnswerForQuestionnaire(questionnaireUsage.getQuestionnaire(), moduleQuestionnaireBean));
                 }
+             // TODO ********************** added or modified during IRB backfit merge END ************************
             }
         }
         return answerHeaders;
@@ -239,12 +242,14 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
 
         GlobalVariables.getUserSession().removeObject(moduleQuestionnaireBean.getSessionContextKey() + "-rulereferenced");
         for (AnswerHeader answerHeader : answers) {
+         // TODO ********************** added or modified during IRB backfit merge BEGIN ********************** 
             if (!answerHeaderMap.containsKey(answerHeader.getQuestionnaire().getQuestionnaireId())
                     || answerHeaderMap.get(answerHeader.getQuestionnaire().getQuestionnaireId()).getQuestionnaire().getSequenceNumber()
                             < answerHeader.getQuestionnaire().getSequenceNumber()) {
                 setupChildAnswerIndicator(answerHeader);
                 answerHeaderMap.put(answerHeader.getQuestionnaire().getQuestionnaireId(), answerHeader);
             }
+         // TODO ********************** added or modified during IRB backfit merge END ************************
         }
 
         List<AnswerHeader> answerHeaders = initAnswerHeaders(moduleQuestionnaireBean, answerHeaderMap);
@@ -834,7 +839,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
      */
     private List<String> getProtocolNumbers(String protocolNumber) {
         List<String> protocolNumbers = new ArrayList<String>();
-        for (Protocol protocol : protocolFinderDao.findProtocols(protocolNumber)) {
+        for (ProtocolBase protocol : protocolFinderDao.findProtocols(protocolNumber)) {
             if (!protocolNumbers.contains(protocol.getProtocolNumber())) {
                 protocolNumbers.add(protocol.getProtocolNumber());
             }
@@ -911,7 +916,9 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
             throw new IllegalArgumentException("Unrecognized moduleItemCode");
         }
     }
+    
 
+    // TODO ********************** added or modified during IRB backfit merge BEGIN ********************** 
     protected QuestionnaireService getQuestionnaireService() {
         return questionnaireService;
     }
@@ -919,6 +926,6 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
     public void setQuestionnaireService(QuestionnaireService questionnaireService) {
         this.questionnaireService = questionnaireService;
     }
-    
+    // TODO ********************** added or modified during IRB backfit merge END ************************
     
 }

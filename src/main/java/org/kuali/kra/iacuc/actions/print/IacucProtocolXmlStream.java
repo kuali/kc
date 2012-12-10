@@ -43,7 +43,6 @@ import org.kuali.kra.protocol.personnel.ProtocolPersonRoleBase;
 import org.kuali.kra.protocol.personnel.ProtocolPersonRolodexBase;
 import org.kuali.kra.protocol.personnel.ProtocolUnitBase;
 import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceBase;
-import org.kuali.kra.protocol.protocol.participant.ProtocolParticipant;
 import org.kuali.kra.protocol.protocol.research.ProtocolResearchAreaBase;
 import org.kuali.kra.protocol.specialreview.ProtocolSpecialReviewBase;
 import org.kuali.kra.service.KcPersonService;
@@ -102,7 +101,8 @@ public class IacucProtocolXmlStream extends ProtocolXmlStreamBase {
         addProtocolPersons(protocolInfoBean, protocolType);
         addResearchArea(protocolInfoBean, protocolType);
         addFundingSource(protocolInfoBean, protocolType);
-        addVulnerableSubject(protocolInfoBean, protocolType);
+// TODO ********************** commented out during IRB backfit ************************ PUSHED TO IRB, NOT RELEVANT FOR IACUC        
+//        addVulnerableSubject(protocolInfoBean, protocolType);
         addSpecialReview(protocolInfoBean, protocolType);
         addSubmissionDetails(protocolInfoBean,protocolType,submissionNumber, "Yes");
         Integer parentSubmissionNumber = getParentSubmissionNumber(protocolInfoBean, submissionNumber);
@@ -122,7 +122,8 @@ public class IacucProtocolXmlStream extends ProtocolXmlStreamBase {
         addProtocolPersons(protocol, protocolType);
         addResearchArea(protocol, protocolType);
         addFundingSource(protocol, protocolType);
-        addVulnerableSubject(protocol, protocolType);
+// TODO ********************** commented out during IRB backfit ************************ PUSHED TO IRB, NOT RELEVANT FOR IACUC         
+//        addVulnerableSubject(protocol, protocolType);
         addSpecialReview(protocol, protocolType);
         addSubmissionDetails(protocol, protocolType);
         addRiskLevels(protocol, protocolType);
@@ -307,24 +308,25 @@ public class IacucProtocolXmlStream extends ProtocolXmlStreamBase {
         }
     }
 
-    private void addVulnerableSubject(IacucProtocol protocol, ProtocolType protocolType) {
-        List<ProtocolParticipant> protocolParticipants = protocol.getProtocolParticipants();
-        for (ProtocolParticipant protocolParticipant : protocolParticipants) {
-            protocolParticipant.refreshNonUpdateableReferences();
-            // VulnerableSubject vulnerableSubject = protocolType.addNewVulnerableSubject();
-            // if(protocolVulnerableSubListsBean.getSubjectCount() == null){
-            // vulnerableSubject.setVulnerableSubjectCount(new BigInteger("0")) ;
-            // }else{
-            // vulnerableSubject.setVulnerableSubjectCount(new
-            // BigInteger(String.valueOf(protocolVulnerableSubListsBean.getSubjectCount()))) ;
-            // }
-            // if (protocolParticipant.getParticipantType() != null) {
-            //    vulnerableSubject.setVulnerableSubjectTypeCode(new BigInteger(protocolParticipant.getParticipantTypeCode()));
-            //    vulnerableSubject.setVulnerableSubjectTypeDesc(protocolParticipant.getParticipantType().getDescription());
-            // }
-        }
-
-    }
+// TODO ********************** commented out during IRB backfit ************************ PUSHED TO IRB, NOT RELEVANT FOR IACUC   
+//    private void addVulnerableSubject(IacucProtocol protocol, ProtocolType protocolType) {
+//        List<ProtocolParticipant> protocolParticipants = protocol.getProtocolParticipants();
+//        for (ProtocolParticipant protocolParticipant : protocolParticipants) {
+//            protocolParticipant.refreshNonUpdateableReferences();
+//            // VulnerableSubject vulnerableSubject = protocolType.addNewVulnerableSubject();
+//            // if(protocolVulnerableSubListsBean.getSubjectCount() == null){
+//            // vulnerableSubject.setVulnerableSubjectCount(new BigInteger("0")) ;
+//            // }else{
+//            // vulnerableSubject.setVulnerableSubjectCount(new
+//            // BigInteger(String.valueOf(protocolVulnerableSubListsBean.getSubjectCount()))) ;
+//            // }
+//            // if (protocolParticipant.getParticipantType() != null) {
+//            //    vulnerableSubject.setVulnerableSubjectTypeCode(new BigInteger(protocolParticipant.getParticipantTypeCode()));
+//            //    vulnerableSubject.setVulnerableSubjectTypeDesc(protocolParticipant.getParticipantType().getDescription());
+//            // }
+//        }
+//
+//    }
 
     private void addFundingSource(IacucProtocol protocol, ProtocolType protocolType) {
         int fundingSourceTypeCode;

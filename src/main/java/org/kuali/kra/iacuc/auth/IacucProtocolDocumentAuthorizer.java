@@ -26,6 +26,7 @@ import org.kuali.kra.authorization.ApplicationTask;
 import org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
+import org.kuali.kra.iacuc.actions.IacucProtocolStatus;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewerType;
 import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReview;
 import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReviewService;
@@ -103,7 +104,7 @@ public class IacucProtocolDocumentAuthorizer extends KcTransactionalDocumentAuth
         for (ProtocolPersonBase participant : participants) {
             if (StringUtils.equalsIgnoreCase(participant.getPersonId() + "", user.getPrincipalId())) {
                 String statusCode = protocolDoc.getProtocol().getProtocolStatusCode();
-                if (statusCode.equalsIgnoreCase(ProtocolStatusBase.SUBMITTED_TO_IACUC)) {
+                if (statusCode.equalsIgnoreCase(IacucProtocolStatus.SUBMITTED_TO_IACUC)) {
                     return false;
                 }
             }

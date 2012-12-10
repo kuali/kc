@@ -15,72 +15,82 @@
  */
 package org.kuali.kra.irb.actions.reviewcomments;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.kuali.kra.irb.onlinereview.ProtocolReviewAttachment;
+import org.kuali.kra.protocol.actions.reviewcomments.ReviewAttachmentsBeanBase;
 
 /**
  * 
  * This class for UI set up review attachments
  */
-public class ReviewAttachmentsBean implements Serializable {
+public class ReviewAttachmentsBean extends ReviewAttachmentsBeanBase<ProtocolReviewAttachment> {
 
     private static final long serialVersionUID = -5330578993055642005L;
 
-    private String errorPropertyKey;
-    
-    private ProtocolReviewAttachment newReviewAttachment;
-    private List<ProtocolReviewAttachment> reviewAttachments;
-    private List<ProtocolReviewAttachment> deletedReviewAttachments;
-    // flag to hide reviewer name for this bean.
-    private boolean hideReviewerName;
-    /**
-     * Constructs a ReviewerAttachmentsBean.
-     */
+// TODO ********************** commented out during IRB backfit ************************    
+//    private String errorPropertyKey;
+//    
+//    private ProtocolReviewAttachment newReviewAttachment;
+//    private List<ProtocolReviewAttachment> reviewAttachments;
+//    private List<ProtocolReviewAttachment> deletedReviewAttachments;
+//    // flag to hide reviewer name for this bean.
+//    private boolean hideReviewerName;
+//    /**
+//     * Constructs a ReviewerAttachmentsBean.
+//     */
+//    public ReviewAttachmentsBean(String errorPropertyKey) {
+//        this.errorPropertyKey = errorPropertyKey + ".reviewAttachmentsBean";
+//        
+//        this.newReviewAttachment = new ProtocolReviewAttachment();
+//        this.reviewAttachments = new ArrayList<ProtocolReviewAttachment>();
+//        this.deletedReviewAttachments = new ArrayList<ProtocolReviewAttachment>();
+//    }
+
     public ReviewAttachmentsBean(String errorPropertyKey) {
-        this.errorPropertyKey = errorPropertyKey + ".reviewAttachmentsBean";
-        
-        this.newReviewAttachment = new ProtocolReviewAttachment();
-        this.reviewAttachments = new ArrayList<ProtocolReviewAttachment>();
-        this.deletedReviewAttachments = new ArrayList<ProtocolReviewAttachment>();
+        super(errorPropertyKey);
     }
 
-    public String getErrorPropertyName() {
-        return errorPropertyKey;
+    @Override
+    protected ProtocolReviewAttachment getNewProtocolReviewAttachmentInstanceHook() {
+        return new ProtocolReviewAttachment();
     }
     
-
-    public boolean isHideReviewerName() {
-        return hideReviewerName;
-    }
-
-    public void setHideReviewerName(boolean hideReviewerName) {
-        this.hideReviewerName = hideReviewerName;
-    }
     
-    public ProtocolReviewAttachment getNewReviewAttachment() {
-        return newReviewAttachment;
-    }
-
-    public void setNewReviewAttachment(ProtocolReviewAttachment newReviewAttachment) {
-        this.newReviewAttachment = newReviewAttachment;
-    }
-
-    public List<ProtocolReviewAttachment> getReviewAttachments() {
-        return reviewAttachments;
-    }
-
-    public void setReviewAttachments(List<ProtocolReviewAttachment> reviewAttachments) {
-        this.reviewAttachments = reviewAttachments;
-    }
-
-    public List<ProtocolReviewAttachment> getDeletedReviewAttachments() {
-        return deletedReviewAttachments;
-    }
-
-    public void setDeletedReviewAttachments(List<ProtocolReviewAttachment> deletedReviewAttachments) {
-        this.deletedReviewAttachments = deletedReviewAttachments;
-    }
+// TODO ********************** commented out during IRB backfit ************************    
+//    public String getErrorPropertyName() {
+//        return errorPropertyKey;
+//    }
+//    
+//
+//    public boolean isHideReviewerName() {
+//        return hideReviewerName;
+//    }
+//
+//    public void setHideReviewerName(boolean hideReviewerName) {
+//        this.hideReviewerName = hideReviewerName;
+//    }
+//    
+//    public ProtocolReviewAttachment getNewReviewAttachment() {
+//        return newReviewAttachment;
+//    }
+//
+//    public void setNewReviewAttachment(ProtocolReviewAttachment newReviewAttachment) {
+//        this.newReviewAttachment = newReviewAttachment;
+//    }
+//
+//    public List<ProtocolReviewAttachment> getReviewAttachments() {
+//        return reviewAttachments;
+//    }
+//
+//    public void setReviewAttachments(List<ProtocolReviewAttachment> reviewAttachments) {
+//        this.reviewAttachments = reviewAttachments;
+//    }
+//
+//    public List<ProtocolReviewAttachment> getDeletedReviewAttachments() {
+//        return deletedReviewAttachments;
+//    }
+//
+//    public void setDeletedReviewAttachments(List<ProtocolReviewAttachment> deletedReviewAttachments) {
+//        this.deletedReviewAttachments = deletedReviewAttachments;
+//    }
+    
 }

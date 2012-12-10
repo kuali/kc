@@ -28,6 +28,9 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.ProtocolStatus;
+import org.kuali.kra.protocol.ProtocolDocumentBase;
+import org.kuali.kra.protocol.actions.submit.ExecuteProtocolSubmitActionRule;
+import org.kuali.kra.protocol.actions.submit.ProtocolReviewerBeanBase;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.bo.BusinessObject;
@@ -50,21 +53,21 @@ public class ProtocolSubmitActionRule extends ResearchDocumentRuleBase implement
      * @see org.kuali.kra.irb.actions.submit.ExecuteProtocolSubmitActionRule#processSubmitAction(org.kuali.kra.irb.ProtocolDocument,
      *      org.kuali.kra.irb.actions.submit.ProtocolSubmitAction)
      */
-    public boolean processSubmitAction(ProtocolDocument document, ProtocolSubmitAction submitAction) {
+    public boolean processSubmitAction(ProtocolDocumentBase document, org.kuali.kra.protocol.actions.submit.ProtocolSubmitAction submitAction) {
 
-        boolean isValid = validateSubmissionType(document, submitAction);
-        isValid &= validateProtocolReviewType(submitAction);
+        boolean isValid = validateSubmissionType((ProtocolDocument)document, (ProtocolSubmitAction) submitAction);
+        isValid &= validateProtocolReviewType((ProtocolSubmitAction) submitAction);
         if (StringUtils.isNotBlank(submitAction.getSubmissionTypeCode())
                 && StringUtils.isNotBlank(submitAction.getProtocolReviewTypeCode())) {
-            isValid &= isValidSubmReviewType(submitAction);
+            isValid &= isValidSubmReviewType((ProtocolSubmitAction) submitAction);
         }
         if (isMandatory()) {
-            isValid &= validateCommittee(submitAction);
-            isValid &= validateSchedule(submitAction);
+            isValid &= validateCommittee((ProtocolSubmitAction) submitAction);
+            isValid &= validateSchedule((ProtocolSubmitAction) submitAction);
         }
-        isValid &= validateCheckLists(submitAction);
-        isValid &= validateReviewers(submitAction);
-        isValid &= checkNoSpoofing(submitAction);
+        isValid &= validateCheckLists((ProtocolSubmitAction) submitAction);
+        isValid &= validateReviewers((ProtocolSubmitAction) submitAction);
+        isValid &= checkNoSpoofing((ProtocolSubmitAction) submitAction);
 
         return isValid;
 
@@ -180,10 +183,10 @@ public class ProtocolSubmitActionRule extends ResearchDocumentRuleBase implement
      */
     private boolean validateReviewers(ProtocolSubmitAction submitAction) {
         boolean isValid = true;
-        List<ProtocolReviewerBean> reviewers = submitAction.getReviewers();
+        List<ProtocolReviewerBeanBase> reviewers = submitAction.getReviewers();
 
         for (int i = 0; i < reviewers.size(); i++) {
-            ProtocolReviewerBean reviewer = reviewers.get(i);
+            ProtocolReviewerBean reviewer = (ProtocolReviewerBean) reviewers.get(i);
             if (!isReviewerValid(reviewer, i)) {
                 isValid = false;
             }
@@ -202,13 +205,13 @@ public class ProtocolSubmitActionRule extends ResearchDocumentRuleBase implement
      */
     public boolean checkNoSpoofing(ProtocolSubmitAction submitAction) {
         boolean isValid = true;
-        List<ProtocolReviewerBean> submittedReviewers = submitAction.getReviewers();
+        List<ProtocolReviewerBean> submittedReviewers = (List) submitAction.getReviewers();
         if (null != submittedReviewers && submittedReviewers.size() > 0) {
             if (StringUtils.isBlank(submitAction.getCommitteeId()) || StringUtils.isBlank(submitAction.getScheduleId())) {
                 isValid = false;
             }
             else {
-                List<CommitteeMembership> actualReviewers = submitAction.getProtocol().filterOutProtocolPersonnel(
+                List<CommitteeMembership> actualReviewers = (List) submitAction.getProtocol().filterOutProtocolPersonnel(
                         getCommitteeService().getAvailableMembers(submitAction.getCommitteeId(), submitAction.getScheduleId()));
                 for (int i = 0; i < submittedReviewers.size(); i++) {
                     ProtocolReviewerBean reviewer = submittedReviewers.get(i);

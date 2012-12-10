@@ -17,20 +17,22 @@ package org.kuali.kra.irb.actions.decision;
 
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.irb.ProtocolDocument;
+import org.kuali.kra.protocol.ProtocolDocumentBase;
+import org.kuali.kra.protocol.actions.decision.CommitteeDecisionVoterRuleBase;
+import org.kuali.kra.protocol.actions.decision.ExecuteCommitteeDecisionRecuserRule;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * 
  * This class handles the rules for the recuser side of the committee decision.
  */
-public class CommitteeDecisionRecuserRule extends CommitteeDecisionVoterRuleBase implements ExecuteCommitteeDecisionRecuserRule {
+public class CommitteeDecisionRecuserRule extends CommitteeDecisionVoterRuleBase implements ExecuteCommitteeDecisionRecuserRule<CommitteeDecision> {
     
     /**
      * 
      * @see org.kuali.kra.irb.actions.decision.ExecuteCommitteeDecisionRecuserRule#proccessCommitteeDecisionRecuserRule(org.kuali.kra.irb.actions.decision.CommitteeDecision)
      */
-    public boolean proccessCommitteeDecisionRecuserRule(ProtocolDocument document, CommitteeDecision committeeDecision) {
+    public boolean proccessCommitteeDecisionRecuserRule(ProtocolDocumentBase document, CommitteeDecision committeeDecision) {
         boolean retVal = true; 
         
         if(!processVoter(committeeDecision.getNewRecused(), committeeDecision.getAbstainers(), committeeDecision.getRecused())) {

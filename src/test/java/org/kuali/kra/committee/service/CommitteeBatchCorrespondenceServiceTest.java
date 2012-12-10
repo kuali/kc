@@ -38,6 +38,7 @@ import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplate;
 import org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplateService;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
+import org.kuali.kra.protocol.actions.ProtocolActionBase;
 import org.kuali.kra.service.impl.mocks.MockKcPersonService;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.kra.util.DateUtils;
@@ -93,7 +94,7 @@ public class CommitteeBatchCorrespondenceServiceTest extends KcUnitTestBase {
         }});
         committeeBatchCorrespondenceServiceImpl.setProtocolCorrespondenceTemplateService(protocolCorrespondenceTemplateService);
         
-      CommitteeBatchCorrespondence committeeBatchCorrespondence = committeeBatchCorrespondenceServiceImpl.generateBatchCorrespondence(batchCorrespondenceTypeCode, committeeId, startDate, endDate);
+      CommitteeBatchCorrespondence committeeBatchCorrespondence = (CommitteeBatchCorrespondence) committeeBatchCorrespondenceServiceImpl.generateBatchCorrespondence(batchCorrespondenceTypeCode, committeeId, startDate, endDate);
 
       // assert CommitteeBatchCorrespondence
       assertEquals(committeeId, committeeBatchCorrespondence.getCommitteeId());
@@ -126,7 +127,7 @@ public class CommitteeBatchCorrespondenceServiceTest extends KcUnitTestBase {
         final ProtocolDao protocolDao = context.mock(ProtocolDao.class);
         final List<Protocol> protocols = initProtocols();
         context.checking(new Expectations() {{
-            oneOf(protocolDao).getIrbNotifiedProtocols(committeeId, startDate, endDate); will(returnValue(protocols));
+            oneOf(protocolDao).getNotifiedProtocols(committeeId, startDate, endDate); will(returnValue(protocols));
         }});
         committeeBatchCorrespondenceServiceImpl.setProtocolDao(protocolDao);
         
@@ -137,7 +138,7 @@ public class CommitteeBatchCorrespondenceServiceTest extends KcUnitTestBase {
         }});
         committeeBatchCorrespondenceServiceImpl.setProtocolCorrespondenceTemplateService(protocolCorrespondenceTemplateService);
         
-      CommitteeBatchCorrespondence committeeBatchCorrespondence = committeeBatchCorrespondenceServiceImpl.generateBatchCorrespondence(batchCorrespondenceTypeCode, committeeId, startDate, endDate);
+      CommitteeBatchCorrespondence committeeBatchCorrespondence = (CommitteeBatchCorrespondence) committeeBatchCorrespondenceServiceImpl.generateBatchCorrespondence(batchCorrespondenceTypeCode, committeeId, startDate, endDate);
 
       // assert CommitteeBatchCorrespondence
       assertEquals(committeeId, committeeBatchCorrespondence.getCommitteeId());
@@ -177,7 +178,7 @@ public class CommitteeBatchCorrespondenceServiceTest extends KcUnitTestBase {
         protocol1.setProtocolNumber(PROTOCOL_NUMBER);
         protocol1.setSequenceNumber(SEQUENCE_NUMBER);
         protocol1.setExpirationDate(new Date(DateUtils.addDays(new Date(System.currentTimeMillis()), 17).getTime())); 
-        protocol1.setProtocolActions(new ArrayList<ProtocolAction>());
+        protocol1.setProtocolActions(new ArrayList<ProtocolActionBase>());
         ProtocolAction protocolAction1 = new ProtocolAction();
         protocolAction1.setActionDate(new Timestamp(DateUtils.addDays(new Date(System.currentTimeMillis()), -2).getTime()));
         protocolAction1.setUpdateTimestamp(protocolAction1.getActionDate());
@@ -209,7 +210,7 @@ public class CommitteeBatchCorrespondenceServiceTest extends KcUnitTestBase {
         protocol2.setProtocolNumber(PROTOCOL_NUMBER);
         protocol2.setSequenceNumber(SEQUENCE_NUMBER);
         protocol2.setExpirationDate(new Date(DateUtils.addDays(new Date(System.currentTimeMillis()), 130).getTime()));
-        protocol2.setProtocolActions(new ArrayList<ProtocolAction>());
+        protocol2.setProtocolActions(new ArrayList<ProtocolActionBase>());
         ProtocolAction protocolAction2 = new ProtocolAction();
         protocolAction2.setActionDate(new Timestamp(DateUtils.addDays(new Date(System.currentTimeMillis()), -16).getTime()));
         protocolAction2.setUpdateTimestamp(protocolAction2.getActionDate());

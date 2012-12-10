@@ -15,6 +15,9 @@
  */
 package org.kuali.kra.irb.actions.print;
 
+import org.kuali.kra.protocol.actions.print.ProtocolPrintWatermarkBase;
+import org.kuali.kra.protocol.actions.print.ProtocolReviewCommentsPrintBase;
+
 
 /**
  * This class provides the implementation for printing Protocol Review Comments Report. It
@@ -23,17 +26,24 @@ package org.kuali.kra.irb.actions.print;
  * this XML and XSls for any purpose like report generation, PDF streaming etc.
  * 
  */
-public class ProtocolReviewCommentsPrint extends ProtocolReportPrint {
+public class ProtocolReviewCommentsPrint extends ProtocolReviewCommentsPrintBase {
 
     private static final long serialVersionUID = 7330987522940892013L;
 
-    /**
-     * 
-     * @see org.kuali.kra.irb.actions.print.ProtocolReportPrint#getProtocolPrintType()
-     */
-    public String getProtocolPrintType() {
-        return ProtocolPrintType.PROTOCOL_REVIEW_COMMENTS_REPORT.getProtocolPrintType();
+    
+    @Override
+    protected ProtocolPrintWatermarkBase getNewProtocolPrintWatermarkInstanceHook() {
+        return new ProtocolPrintWatermark();
     }
+    
+// TODO ********************** commented out during IRB backfit ************************    
+//    /**
+//     * 
+//     * @see org.kuali.kra.irb.actions.print.ProtocolReportPrint#getProtocolPrintType()
+//     */
+//    public String getProtocolPrintType() {
+//        return ProtocolPrintType.PROTOCOL_REVIEW_COMMENTS_REPORT.getProtocolPrintType();
+//    }
 
 
 }

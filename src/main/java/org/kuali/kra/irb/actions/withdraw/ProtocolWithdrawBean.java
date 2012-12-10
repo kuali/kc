@@ -16,19 +16,23 @@
 package org.kuali.kra.irb.actions.withdraw;
 
 import java.io.Serializable;
+import java.sql.Date;
 
 import org.kuali.kra.irb.actions.ActionHelper;
 import org.kuali.kra.irb.actions.ProtocolActionBean;
+import org.kuali.kra.protocol.actions.correspondence.ProtocolActionsCorrespondenceBase;
 
 /**
  * This class is really just a "form" containing the reason
  * for withdrawing a protocol.
  */
-public class ProtocolWithdrawBean extends ProtocolActionBean implements Serializable {
+public class ProtocolWithdrawBean extends ProtocolActionBean implements org.kuali.kra.protocol.actions.withdraw.ProtocolWithdrawBean {
     
     private static final long serialVersionUID = -3244694733749584969L;
     
     private String reason = "";
+    
+    private Date actionDate = new Date(System.currentTimeMillis());
     
     /**
      * Constructs a ProtocolWithdrawBean.java.
@@ -46,12 +50,20 @@ public class ProtocolWithdrawBean extends ProtocolActionBean implements Serializ
         return reason;
     }
     
+    public Date getActionDate() {
+        return actionDate;
+    }
+    
+    public void setActionDate(Date actionDate) {
+        this.actionDate = actionDate;
+    }
+    
     /**
      * 
      * This method returns the correct correspondence for this object
      * @return a WithdrawCorrespondence object
      */
-    public WithdrawCorrespondence getCorrespondence() {
+    public ProtocolActionsCorrespondenceBase getCorrespondence() {
         WithdrawCorrespondence correspondence = new WithdrawCorrespondence();
         return correspondence;
     }

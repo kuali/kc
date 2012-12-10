@@ -15,34 +15,35 @@
  */
 package org.kuali.kra.irb.actions.approve;
 
-import java.sql.Timestamp;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
-import org.kuali.kra.irb.actions.correspondence.ProtocolActionCorrespondenceGenerationService;
 import org.kuali.kra.irb.actions.genericactions.ProtocolGenericCorrespondence;
-import org.kuali.kra.irb.actions.submit.ProtocolActionService;
-import org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService;
+import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.protocol.actions.ProtocolActionBase;
+import org.kuali.kra.protocol.actions.approve.ProtocolApproveServiceImplBase;
+import org.kuali.kra.protocol.actions.correspondence.ProtocolActionsCorrespondenceBase;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.krad.service.DocumentService;
 
 /**
  * Approves a protocol, either for a full, expedited, or response protocol submission.
  */
-public class ProtocolApproveServiceImpl implements ProtocolApproveService {
+public class ProtocolApproveServiceImpl extends ProtocolApproveServiceImplBase implements ProtocolApproveService {
     
     private static final String FULL_APPROVAL_FINALIZE_OLR_ANNOTATION = "Online Review finalized as part of full approval action on protocol.";
     private static final String EXPEDITED_APPROVAL_FINALIZE_OLR_ANNOTATION = "Online Review finalized as part of expedited approval action on protocol.";
-    private static final String RESPONSE_APPROVAL_FINALIZE_OLR_ANNOTATION = "Online Review finalized as part of response approval action on protocol.";
     
-    private DocumentService documentService;
-    private ProtocolActionService protocolActionService;
-    private ProtocolActionCorrespondenceGenerationService protocolActionCorrespondenceGenerationService;
-    private ProtocolOnlineReviewService protocolOnlineReviewService;
+// TODO ********************** commented out during IRB backfit ************************    
+//    private static final String RESPONSE_APPROVAL_FINALIZE_OLR_ANNOTATION = "Online Review finalized as part of response approval action on protocol.";
+//    
+//    private DocumentService documentService;
+//    private ProtocolActionService protocolActionService;
+//    private ProtocolActionCorrespondenceGenerationService protocolActionCorrespondenceGenerationService;
+//    private ProtocolOnlineReviewService protocolOnlineReviewService;
+    
     private ParameterService parameterService;
 
     /**
@@ -50,15 +51,17 @@ public class ProtocolApproveServiceImpl implements ProtocolApproveService {
      * @see org.kuali.kra.irb.actions.approve.ProtocolApproveService#grantFullApproval(org.kuali.kra.irb.Protocol, 
      *      org.kuali.kra.irb.actions.approve.ProtocolApproveBean)
      */
-    public void grantFullApproval(Protocol protocol, ProtocolApproveBean actionBean) throws Exception {
+    public void grantFullApproval(ProtocolBase protocol, org.kuali.kra.protocol.actions.approve.ProtocolApproveBean actionBean) throws Exception {
         generateProtocolActionAndAttach(protocol, actionBean, ProtocolActionType.APPROVED);   
 
         if (protocol.getApprovalDate() == null) {
             protocol.setApprovalDate(actionBean.getApprovalDate());
         }
+        // TODO ********************** added or modified during IRB backfit merge BEGIN ********************** 
         if (protocol.isRenewal() || protocol.isAmendment()) {
             protocol.setLastApprovalDate(actionBean.getApprovalDate());
         }
+        // TODO ********************** added or modified during IRB backfit merge END ************************
         String exemptProtocolTypeCode = parameterService.getParameterValueAsString(ProtocolDocument.class, Constants.PROTOCOL_TYPE_CODE_EXEMPT);
         if (!StringUtils.equals(exemptProtocolTypeCode, protocol.getProtocolTypeCode())) {
             protocol.setExpirationDate(actionBean.getExpirationDate());
@@ -77,19 +80,17 @@ public class ProtocolApproveServiceImpl implements ProtocolApproveService {
         
         protocol.setApprovalDate(actionBean.getApprovalDate());
         protocol.setExpirationDate(actionBean.getExpirationDate());
+        // TODO ********************** added or modified during IRB backfit merge BEGIN ********************** 
         if (protocol.isRenewal() || protocol.isAmendment()) {
             protocol.setLastApprovalDate(actionBean.getApprovalDate());
         }
+        // TODO ********************** added or modified during IRB backfit merge END ************************
         finalizeReviewsAndSave(protocol, ProtocolActionType.EXPEDITE_APPROVAL, EXPEDITED_APPROVAL_FINALIZE_OLR_ANNOTATION);
         
         protocol.getProtocolDocument().getDocumentHeader().getWorkflowDocument().approve(actionBean.getComments());
     }
-
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.kra.irb.actions.approve.ProtocolApproveService#grantResponseApproval(org.kuali.kra.irb.Protocol, 
-     *      org.kuali.kra.irb.actions.approve.ProtocolApproveBean)
-     */
+    
+ // TODO ********************** added or modified during IRB backfit merge BEGIN ********************** 
     public void grantResponseApproval(Protocol protocol, ProtocolApproveBean actionBean) throws Exception {
         generateProtocolActionAndAttach(protocol, actionBean, ProtocolActionType.RESPONSE_APPROVAL);
         
@@ -105,49 +106,103 @@ public class ProtocolApproveServiceImpl implements ProtocolApproveService {
         
         protocol.getProtocolDocument().getDocumentHeader().getWorkflowDocument().approve(actionBean.getComments());
     }
-    
-    private void generateProtocolActionAndAttach(Protocol protocol, ProtocolApproveBean actionBean, String protocolActionTypeCode) {
-        ProtocolAction protocolAction = new ProtocolAction(protocol, null, protocolActionTypeCode);
-        protocolAction.setComments(actionBean.getComments());
-        protocolAction.setActionDate(new Timestamp(actionBean.getActionDate().getTime()));
-        protocolAction.setSubmissionIdFk(protocol.getLastProtocolAction().getSubmissionIdFk());
-        protocolAction.setSubmissionNumber(protocol.getLastProtocolAction().getSubmissionNumber());
-        protocol.getProtocolActions().add(protocolAction);
-        protocolActionService.updateProtocolStatus(protocolAction, protocol);
-    }
-    
-    private void finalizeReviewsAndSave(Protocol protocol, String protocolActionTypeCode, String reviewAnnotation) throws Exception {
-        protocol.refreshReferenceObject("protocolStatus");
-        protocolOnlineReviewService.finalizeOnlineReviews(protocol.getProtocolSubmission(), reviewAnnotation);
-        documentService.saveDocument(protocol.getProtocolDocument());
-        
-        ProtocolGenericCorrespondence correspondence = new ProtocolGenericCorrespondence(protocolActionTypeCode);
-        correspondence.setPrintableBusinessObject(protocol);
-        correspondence.setProtocol(protocol);
-        protocolActionCorrespondenceGenerationService.generateCorrespondenceDocumentAndAttach(correspondence);
-    }
-    
-    public void setDocumentService(DocumentService documentService) {
-        this.documentService = documentService;
-    }
+ // TODO ********************** added or modified during IRB backfit merge END ************************
 
-    public void setProtocolActionService(ProtocolActionService protocolActionService) {
-        this.protocolActionService = protocolActionService;
-    }
     
-    public void setProtocolActionCorrespondenceGenerationService(ProtocolActionCorrespondenceGenerationService protocolActionCorrespondenceGenerationService) {
-        this.protocolActionCorrespondenceGenerationService = protocolActionCorrespondenceGenerationService;
-    }
 
-    public ProtocolOnlineReviewService getProtocolOnlineReviewService() {
-        return protocolOnlineReviewService;
-    }
+// TODO ********************** commented out during IRB backfit ************************    
+//    /**
+//     * {@inheritDoc}
+//     * @see org.kuali.kra.irb.actions.approve.ProtocolApproveService#grantResponseApproval(org.kuali.kra.irb.Protocol, 
+//     *      org.kuali.kra.irb.actions.approve.ProtocolApproveBean)
+//     */
+//    public void grantResponseApproval(Protocol protocol, ProtocolApproveBean actionBean) throws Exception {
+//        generateProtocolActionAndAttach(protocol, actionBean, ProtocolActionType.RESPONSE_APPROVAL);
+//        
+//        if (protocol.getApprovalDate() == null) {
+//            protocol.setApprovalDate(actionBean.getApprovalDate());
+//        }
+//        if (protocol.isRenewal()) {
+//            protocol.setLastApprovalDate(actionBean.getApprovalDate());
+//        }
+//        protocol.setExpirationDate(actionBean.getExpirationDate());
+//        
+//        finalizeReviewsAndSave(protocol, ProtocolActionType.APPROVED, RESPONSE_APPROVAL_FINALIZE_OLR_ANNOTATION);
+//        
+//        protocol.getProtocolDocument().getDocumentHeader().getWorkflowDocument().approve(actionBean.getComments());
+//    }
+//    
+//    private void generateProtocolActionAndAttach(Protocol protocol, ProtocolApproveBean actionBean, String protocolActionTypeCode) {
+//        ProtocolAction protocolAction = new ProtocolAction(protocol, null, protocolActionTypeCode);
+//        protocolAction.setComments(actionBean.getComments());
+//        protocolAction.setActionDate(new Timestamp(actionBean.getActionDate().getTime()));
+//        protocolAction.setSubmissionIdFk(protocol.getLastProtocolAction().getSubmissionIdFk());
+//        protocolAction.setSubmissionNumber(protocol.getLastProtocolAction().getSubmissionNumber());
+//        protocol.getProtocolActions().add(protocolAction);
+//        protocolActionService.updateProtocolStatus(protocolAction, protocol);
+//    }
+//    
+//    private void finalizeReviewsAndSave(Protocol protocol, String protocolActionTypeCode, String reviewAnnotation) throws Exception {
+//        protocol.refreshReferenceObject("protocolStatus");
+//        protocolOnlineReviewService.finalizeOnlineReviews(protocol.getProtocolSubmission(), reviewAnnotation);
+//        documentService.saveDocument(protocol.getProtocolDocument());
+//        
+//        ProtocolGenericCorrespondence correspondence = new ProtocolGenericCorrespondence(protocolActionTypeCode);
+//        correspondence.setPrintableBusinessObject(protocol);
+//        correspondence.setProtocol(protocol);
+//        protocolActionCorrespondenceGenerationService.generateCorrespondenceDocumentAndAttach(correspondence);
+//    }
+//
+//    
+//    
+//    public void setDocumentService(DocumentService documentService) {
+//        this.documentService = documentService;
+//    }
+//
+//    public void setProtocolActionService(ProtocolActionService protocolActionService) {
+//        this.protocolActionService = protocolActionService;
+//    }
+//    
+//    public void setProtocolActionCorrespondenceGenerationService(ProtocolActionCorrespondenceGenerationService protocolActionCorrespondenceGenerationService) {
+//        this.protocolActionCorrespondenceGenerationService = protocolActionCorrespondenceGenerationService;
+//    }
+//
+//    public ProtocolOnlineReviewService getProtocolOnlineReviewService() {
+//        return protocolOnlineReviewService;
+//    }
+//
+//    public void setProtocolOnlineReviewService(ProtocolOnlineReviewService protocolOnlineReviewService) {
+//        this.protocolOnlineReviewService = protocolOnlineReviewService;
+//    } 
 
-    public void setProtocolOnlineReviewService(ProtocolOnlineReviewService protocolOnlineReviewService) {
-        this.protocolOnlineReviewService = protocolOnlineReviewService;
-    } 
-
+    
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
     }
+    
+    
+    
+    
+
+    @Override
+    protected String getProtocolActionTypeCodeForResponseApprovalHook() {
+        return ProtocolActionType.RESPONSE_APPROVAL;
+    }
+
+    @Override
+    protected String getProtocolActionTypeCodeForAdminApprovalHook() {
+        // TODO this method needs to be populated after the IRB backfit is done in order for IRB to also have the admin approve action
+        return null;
+    }
+
+    @Override
+    protected ProtocolActionBase getNewProtocolActionInstanceHook(ProtocolBase protocol, Object object, String protocolActionTypeCode) {
+        return new ProtocolAction((Protocol) protocol, null, protocolActionTypeCode);
+    }
+
+    @Override
+    protected ProtocolActionsCorrespondenceBase getNewProtocolActionsCorrespondence(String protocolActionTypeCode) {
+        return new ProtocolGenericCorrespondence(protocolActionTypeCode);
+    }
+    
 }

@@ -15,45 +15,54 @@
  */
 package org.kuali.kra.meeting;
 
+import org.kuali.kra.common.committee.meeting.ScheduleAgendaBase;
+
 
 /**
  * 
  * This class is meeting generated agenda doc.
  */
-public class ScheduleAgenda extends GeneratedMeetingDoc {
+public class ScheduleAgenda extends ScheduleAgendaBase {
 
-    private static final long serialVersionUID = -3448403457020324952L;
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = -7391443576927569496L;
 
-    private Long scheduleAgendaId;
-
-    private Integer agendaNumber;
-
-    private String agendaName;
-
-    public ScheduleAgenda() {
-    }
-
-    public Long getScheduleAgendaId() {
-        return scheduleAgendaId;
-    }
-
-    public void setScheduleAgendaId(Long scheduleAgendaId) {
-        this.scheduleAgendaId = scheduleAgendaId;
-    }
-
-    public Integer getAgendaNumber() {
-        return agendaNumber;
-    }
-
-    public void setAgendaNumber(Integer agendaNumber) {
-        this.agendaNumber = agendaNumber;
-    }
-
-    public String getAgendaName() {
-        return agendaName;
-    }
-
-    public void setAgendaName(String agendaName) {
-        this.agendaName = agendaName;
-    }
+    
+    
+// TODO ********************** commented out during IRB backfit ************************
+//    private Long scheduleAgendaId;
+//
+//    private Integer agendaNumber;
+//
+//    private String agendaName;
+//
+//    public ScheduleAgenda() {
+//    }
+//
+//    public Long getScheduleAgendaId() {
+//        return scheduleAgendaId;
+//    }
+//
+//    public void setScheduleAgendaId(Long scheduleAgendaId) {
+//        this.scheduleAgendaId = scheduleAgendaId;
+//    }
+//
+//    public Integer getAgendaNumber() {
+//        return agendaNumber;
+//    }
+//
+//    public void setAgendaNumber(Integer agendaNumber) {
+//        this.agendaNumber = agendaNumber;
+//    }
+//
+//    public String getAgendaName() {
+//        return agendaName;
+//    }
+//
+//    public void setAgendaName(String agendaName) {
+//        this.agendaName = agendaName;
+//    }
+    
 }

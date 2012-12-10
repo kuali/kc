@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.irb.protocol.participant;
 
-import org.kuali.kra.irb.ProtocolAssociate;
+import org.kuali.kra.protocol.ProtocolAssociateBase;
 
 /**
  * 
@@ -23,7 +23,12 @@ import org.kuali.kra.irb.ProtocolAssociate;
  * 
  * @author Kuali Research Administration Team (kc.dev@kuali.org)
  */
-public class ProtocolParticipant extends ProtocolAssociate {
+public class ProtocolParticipant extends ProtocolAssociateBase {
+
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = 1716821047021762233L;
 
     private Long protocolParticipantId;
 

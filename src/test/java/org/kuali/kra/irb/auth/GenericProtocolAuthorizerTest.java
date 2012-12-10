@@ -125,6 +125,7 @@ public class GenericProtocolAuthorizerTest extends KcUnitTestBase {
         assertTrue(auth.isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), task));
     }
     
+    @SuppressWarnings("unchecked")
     private Protocol getBaseProtocol(String protocolStatusCode, String submissionType) throws Exception{
         
         ProtocolDocument pd = ProtocolFactory.createProtocolDocument("123", new Integer(1));
@@ -137,7 +138,7 @@ public class GenericProtocolAuthorizerTest extends KcUnitTestBase {
         List<ProtocolSubmission> protocolSubmissions = new ArrayList<ProtocolSubmission>();
         protocolSubmissions.add(ps);        
         pd.getProtocol().setProtocolSubmission(ps);
-        pd.getProtocol().setProtocolSubmissions(protocolSubmissions);
+        pd.getProtocol().setProtocolSubmissions((List)protocolSubmissions);
         pd.getProtocol().setLeadUnitNumber("000001");
         return pd.getProtocol();     
     }

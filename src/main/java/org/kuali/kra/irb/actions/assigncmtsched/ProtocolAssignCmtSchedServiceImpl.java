@@ -31,6 +31,7 @@ import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
@@ -115,16 +116,16 @@ public class ProtocolAssignCmtSchedServiceImpl implements ProtocolAssignCmtSched
     }
 
     private void updateSubmission(Protocol protocol, ProtocolAssignCmtSchedBean actionBean) {
-        for (ProtocolSubmission submission : protocol.getProtocolSubmissions()) {
+        for (ProtocolSubmissionBase submission : protocol.getProtocolSubmissions()) {
             if (submission.getSubmissionNumber().equals(protocol.getLastProtocolAction().getSubmissionNumber())) {
-                setSchedule(submission, actionBean.getNewCommitteeId(), actionBean.getNewScheduleId());
+                setSchedule((ProtocolSubmission)submission, actionBean.getNewCommitteeId(), actionBean.getNewScheduleId());
                 break;
             }
         }
     }
     
     private void addNewAction(Protocol protocol, ProtocolAssignCmtSchedBean actionBean) {
-        ProtocolAction lastAction = protocol.getLastProtocolAction();
+        ProtocolAction lastAction = (ProtocolAction)protocol.getLastProtocolAction();
         ProtocolAction newAction = new ProtocolAction();
         // deep copy will replaced the last action with the new one after save
        // ProtocolAction newAction = (ProtocolAction)ObjectUtils.deepCopy(protocol.getLastProtocolAction());
@@ -151,10 +152,10 @@ public class ProtocolAssignCmtSchedServiceImpl implements ProtocolAssignCmtSched
         // need to loop thru to find the last submission.
         // it may have submit/Wd/notify irb/submit, and this will cause problem if don't loop thru.
         ProtocolSubmission protocolSubmission = null;
-        for (ProtocolSubmission submission : protocol.getProtocolSubmissions()) {
+        for (ProtocolSubmissionBase submission : protocol.getProtocolSubmissions()) {
             if (StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.PENDING) ||
                 StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE)) {
-                protocolSubmission = submission;
+                protocolSubmission = (ProtocolSubmission)submission;
             }
         }
         return protocolSubmission;
@@ -173,7 +174,7 @@ public class ProtocolAssignCmtSchedServiceImpl implements ProtocolAssignCmtSched
             submission.setCommitteeSchedule(null);
         }
         else {
-            CommitteeSchedule schedule = committeeService.getCommitteeSchedule(submission.getCommittee(), scheduleId);
+            CommitteeSchedule schedule = committeeService.getCommitteeSchedule((Committee)submission.getCommittee(), scheduleId);
             if (schedule == null) {
                 submission.setScheduleId(null);
                 submission.setScheduleIdFk(null);

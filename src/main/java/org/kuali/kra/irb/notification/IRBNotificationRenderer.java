@@ -23,22 +23,22 @@ import java.util.Map;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.committee.bo.Committee;
-import org.kuali.kra.common.notification.NotificationRendererBase;
+import org.kuali.kra.common.committee.bo.CommitteeBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionQualifierType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
+import org.kuali.kra.protocol.notification.ProtocolNotificationRendererBase;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
-import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * Renders fields for the IRB notifications.
  */
-public class IRBNotificationRenderer extends NotificationRendererBase {
+public class IRBNotificationRenderer extends ProtocolNotificationRendererBase {
 
     private static final long serialVersionUID = 7966684994606021231L;
 
@@ -52,6 +52,7 @@ public class IRBNotificationRenderer extends NotificationRendererBase {
      * @param protocol
      */
     public IRBNotificationRenderer(Protocol protocol) {
+        super(protocol);
         this.protocol = protocol;
     }
 
@@ -125,11 +126,14 @@ public class IRBNotificationRenderer extends NotificationRendererBase {
                 if (protocol.getProtocolSubmission() != null) {
                     params.put(key, getSafeMessage(key, getProtocolReviewTypeDescription(protocol.getProtocolSubmission().getProtocolReviewTypeCode())));
                 }
-            } else if (StringUtils.equals(key, IRBReplacementParameters.COMMITTEE_NAME)) {
-                if (protocol.getProtocolSubmission() != null) {
-                    params.put(key, getSafeMessage(key, getCommitteeName(protocol.getProtocolSubmission().getCommitteeId())));
-                }
-            } else if (StringUtils.equals(key, IRBReplacementParameters.PROTOCOL_INITIAL_APPROVAL_DATE)) {
+            } 
+// TODO ********************** commented out during IRB backfit ************************            
+//            else if (StringUtils.equals(key, IRBReplacementParameters.COMMITTEE_NAME)) {
+//                if (protocol.getProtocolSubmission() != null) {
+//                    params.put(key, getSafeMessage(key, getCommitteeName(protocol.getProtocolSubmission().getCommitteeId())));
+//                }
+//            } 
+            else if (StringUtils.equals(key, IRBReplacementParameters.PROTOCOL_INITIAL_APPROVAL_DATE)) {
                 if ( (protocol.getProtocolSubmission() != null) && (protocol.getApprovalDate() != null) ) {
                     params.put(key, getSafeMessage(key, (new SimpleDateFormat("d'-'MMM'-'yyyy")).format(protocol.getApprovalDate())));
                 }
@@ -228,16 +232,23 @@ public class IRBNotificationRenderer extends NotificationRendererBase {
         }        
         return result;
     }
-    
-    private String getCommitteeName(String committeeId) {
-        String result = null;
-        Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put("committeeId", committeeId);
-        List<Committee> committees = 
-            (List<Committee>) getBusinessObjectService().findMatching(Committee.class, fieldValues);
-        if (CollectionUtils.isNotEmpty(committees)) {
-            result = committees.get(0).getCommitteeName();
-        }        
-        return result;        
+
+    @Override
+    protected Class<? extends CommitteeBase> getCommonCommitteeBOClassHook() {
+        return Committee.class;
     }
+ 
+// TODO ********************** commented out during IRB backfit ************************    
+//    private String getCommitteeName(String committeeId) {
+//        String result = null;
+//        Map<String, String> fieldValues = new HashMap<String, String>();
+//        fieldValues.put("committeeId", committeeId);
+//        List<Committee> committees = 
+//            (List<Committee>) getBusinessObjectService().findMatching(Committee.class, fieldValues);
+//        if (CollectionUtils.isNotEmpty(committees)) {
+//            result = committees.get(0).getCommitteeName();
+//        }        
+//        return result;        
+//    }
+    
 }

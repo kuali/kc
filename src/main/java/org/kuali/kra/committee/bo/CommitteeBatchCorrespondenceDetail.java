@@ -15,102 +15,106 @@
  */
 package org.kuali.kra.committee.bo;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.irb.actions.ProtocolAction;
-import org.kuali.kra.irb.correspondence.ProtocolCorrespondence;
+import org.kuali.kra.common.committee.bo.CommitteeBatchCorrespondenceDetailBase;
 
 /**
  * 
  * This class implements the CommitteeBatchCorrespondenceDetail business object.
  */
-public class CommitteeBatchCorrespondenceDetail extends KraPersistableBusinessObjectBase {
-
-    private static final long serialVersionUID = 1L;
-
-    private Long committeeBatchCorrespondenceDetailId;
-
-    private String committeeBatchCorrespondenceId;
-
-    private Long protocolActionId;
-
-    private Long protocolCorrespondenceId;
-
-    private boolean selected;
-
-    private CommitteeBatchCorrespondence committeeBatchCorrespondence;
-
-    private ProtocolAction protocolAction;
-
-    private ProtocolCorrespondence protocolCorrespondence;
+public class CommitteeBatchCorrespondenceDetail extends CommitteeBatchCorrespondenceDetailBase {
 
     /**
-     * 
-     * Constructs a CommitteeBatchCorrespondenceDetail.java.
+     * Comment for <code>serialVersionUID</code>
      */
-    public CommitteeBatchCorrespondenceDetail() {
-    }
+    private static final long serialVersionUID = -2512689635788743371L;
 
-    public Long getCommitteeBatchCorrespondenceDetailId() {
-        return committeeBatchCorrespondenceDetailId;
-    }
-
-    public void setCommitteeBatchCorrespondenceDetailId(Long committeeBatchCorrespondenceDetailId) {
-        this.committeeBatchCorrespondenceDetailId = committeeBatchCorrespondenceDetailId;
-    }
-
-    public String getCommitteeBatchCorrespondenceId() {
-        return committeeBatchCorrespondenceId;
-    }
-
-    public void setCommitteeBatchCorrespondenceId(String committeeBatchCorrespondenceId) {
-        this.committeeBatchCorrespondenceId = committeeBatchCorrespondenceId;
-    }
-
-    public Long getProtocolActionId() {
-        return protocolActionId;
-    }
-
-    public void setProtocolActionId(Long protocolActionId) {
-        this.protocolActionId = protocolActionId;
-    }
-
-    public Long getProtocolCorrespondenceId() {
-        return protocolCorrespondenceId;
-    }
-
-    public void setProtocolCorrespondenceId(Long protocolCorrespondenceId) {
-        this.protocolCorrespondenceId = protocolCorrespondenceId;
-    }
-
-    public CommitteeBatchCorrespondence getCommitteeBatchCorrespondence() {
-        return committeeBatchCorrespondence;
-    }
-
-    public void setCommitteeBatchCorrespondence(CommitteeBatchCorrespondence committeeBatchCorrespondence) {
-        this.committeeBatchCorrespondence = committeeBatchCorrespondence;
-    }
-
-    public ProtocolAction getProtocolAction() {
-        return protocolAction;
-    }
-
-    public void setProtocolAction(ProtocolAction protocolAction) {
-        this.protocolAction = protocolAction;
-    }
-
-    public ProtocolCorrespondence getProtocolCorrespondence() {
-        return protocolCorrespondence;
-    }
-
-    public void setProtocolCorrespondence(ProtocolCorrespondence protocolCorrespondence) {
-        this.protocolCorrespondence = protocolCorrespondence;
-    }
-
-    public boolean getSelected() {
-        return selected;
-    }
-
-    public void setSelected(boolean selected) {
-        this.selected = selected;
-    }
+    
+    
+// TODO ********************** commented out during IRB backfit ************************
+//    private Long committeeBatchCorrespondenceDetailId;
+//
+//    private String committeeBatchCorrespondenceId;
+//
+//    private Long protocolActionId;
+//
+//    private Long protocolCorrespondenceId;
+//
+//    private boolean selected;
+//
+//    private CommitteeBatchCorrespondence committeeBatchCorrespondence;
+//
+//    private ProtocolAction protocolAction;
+//
+//    private ProtocolCorrespondence protocolCorrespondence;
+//
+//    /**
+//     * 
+//     * Constructs a CommitteeBatchCorrespondenceDetail.java.
+//     */
+//    public CommitteeBatchCorrespondenceDetail() {
+//    }
+//
+//    public Long getCommitteeBatchCorrespondenceDetailId() {
+//        return committeeBatchCorrespondenceDetailId;
+//    }
+//
+//    public void setCommitteeBatchCorrespondenceDetailId(Long committeeBatchCorrespondenceDetailId) {
+//        this.committeeBatchCorrespondenceDetailId = committeeBatchCorrespondenceDetailId;
+//    }
+//
+//    public String getCommitteeBatchCorrespondenceId() {
+//        return committeeBatchCorrespondenceId;
+//    }
+//
+//    public void setCommitteeBatchCorrespondenceId(String committeeBatchCorrespondenceId) {
+//        this.committeeBatchCorrespondenceId = committeeBatchCorrespondenceId;
+//    }
+//
+//    public Long getProtocolActionId() {
+//        return protocolActionId;
+//    }
+//
+//    public void setProtocolActionId(Long protocolActionId) {
+//        this.protocolActionId = protocolActionId;
+//    }
+//
+//    public Long getProtocolCorrespondenceId() {
+//        return protocolCorrespondenceId;
+//    }
+//
+//    public void setProtocolCorrespondenceId(Long protocolCorrespondenceId) {
+//        this.protocolCorrespondenceId = protocolCorrespondenceId;
+//    }
+//
+//    public CommitteeBatchCorrespondence getCommitteeBatchCorrespondence() {
+//        return committeeBatchCorrespondence;
+//    }
+//
+//    public void setCommitteeBatchCorrespondence(CommitteeBatchCorrespondence committeeBatchCorrespondence) {
+//        this.committeeBatchCorrespondence = committeeBatchCorrespondence;
+//    }
+//
+//    public ProtocolAction getProtocolAction() {
+//        return protocolAction;
+//    }
+//
+//    public void setProtocolAction(ProtocolAction protocolAction) {
+//        this.protocolAction = protocolAction;
+//    }
+//
+//    public ProtocolCorrespondence getProtocolCorrespondence() {
+//        return protocolCorrespondence;
+//    }
+//
+//    public void setProtocolCorrespondence(ProtocolCorrespondence protocolCorrespondence) {
+//        this.protocolCorrespondence = protocolCorrespondence;
+//    }
+//
+//    public boolean getSelected() {
+//        return selected;
+//    }
+//
+//    public void setSelected(boolean selected) {
+//        this.selected = selected;
+//    }
 }

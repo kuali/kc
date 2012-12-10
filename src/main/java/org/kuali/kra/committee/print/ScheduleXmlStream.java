@@ -17,17 +17,11 @@ package org.kuali.kra.committee.print;
 
 import java.math.BigInteger;
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
-
-import noNamespace.PersonDocument;
-import noNamespace.DisclosureProjectsDocument.DisclosureProjects;
-
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
@@ -35,9 +29,11 @@ import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.committee.bo.Committee;
-import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.service.CommitteeMembershipService;
+import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
+import org.kuali.kra.common.committee.meeting.CommScheduleActItemBase;
+import org.kuali.kra.common.committee.meeting.CommitteeScheduleAttendanceBase;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.risklevel.ProtocolRiskLevel;
@@ -48,14 +44,11 @@ import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.irb.personnel.ProtocolPersonRole;
 import org.kuali.kra.irb.personnel.ProtocolPersonRolodex;
 import org.kuali.kra.irb.protocol.funding.ProtocolFundingSource;
-import org.kuali.kra.meeting.CommScheduleActItem;
-import org.kuali.kra.meeting.CommitteeScheduleAttendance;
 import org.kuali.kra.printing.xmlstream.PrintBaseXmlStream;
+import org.kuali.kra.protocol.actions.ProtocolActionBase;
+import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
 import org.kuali.kra.service.KcPersonService;
 
-import edu.mit.irb.irbnamespace.CorrespondenceDocument;
-import edu.mit.irb.irbnamespace.CorrespondenceDocument.Correspondence;
-import edu.mit.irb.irbnamespace.ProtocolDocument;
 import edu.mit.irb.irbnamespace.ScheduleDocument;
 import edu.mit.irb.irbnamespace.InvestigatorDocument.Investigator;
 import edu.mit.irb.irbnamespace.PersonDocument.Person;
@@ -132,11 +125,11 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
 			ProtocolMasterData protocolMaster = protocolSummary.addNewProtocolMasterData();
 			String followUpAction = null;
 			String actionTypeCode = null;
-            Protocol protocol = protocolSubmission.getProtocol();
+            Protocol protocol = (Protocol) protocolSubmission.getProtocol();
             String submissionStatus=protocol.getProtocolSubmission().getSubmissionStatusCode();
-            List<ProtocolAction> protocolActions=protocolSubmission.getProtocol().getProtocolActions();
+            List<ProtocolActionBase> protocolActions=protocolSubmission.getProtocol().getProtocolActions();
             
-            for (ProtocolAction protocolAction : protocolActions){
+            for (ProtocolActionBase protocolAction : protocolActions){
             	actionTypeCode = protocolAction.getProtocolActionTypeCode();
             	if(actionTypeCode.equals(EXPEDIT_ACTION_TYPE_CODE) || actionTypeCode.equals(EXEMPT_ACTION_TYPE_CODE)){
                     if (protocolAction.getFollowupActionCode() != null
@@ -255,12 +248,12 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
             }
             setSubmissionCheckListinfo(protocolSubmission, protocolSubmissionDetail);
             setProtocolSubmissionReviewers(protocolSubmission, protocolSubmissionDetail);
-			List<ProtocolPerson> protocolPersons = protocolSubmission.getProtocol().getProtocolPersons();
-            for (ProtocolPerson protocolPerson : protocolPersons) {
+			List<ProtocolPersonBase> protocolPersons = protocolSubmission.getProtocol().getProtocolPersons();
+            for (ProtocolPersonBase protocolPerson : protocolPersons) {
                 if (protocolPerson.getProtocolPersonRoleId().equals(ProtocolPersonRole.ROLE_PRINCIPAL_INVESTIGATOR)
                         || protocolPerson.getProtocolPersonRoleId().equals(ProtocolPersonRole.ROLE_CO_INVESTIGATOR)) {
                     Investigator investigator = protocolSummary.addNewInvestigator();
-                    getIrbPrintXmlUtilService().setPersonRolodexType(protocolPerson, investigator.addNewPerson());
+                    getIrbPrintXmlUtilService().setPersonRolodexType((ProtocolPerson) protocolPerson, investigator.addNewPerson());
                     if(protocolPerson.getProtocolPersonRoleId().equals(ProtocolPersonRole.ROLE_PRINCIPAL_INVESTIGATOR)){
                         investigator.setPIFlag(true);
                     }
@@ -273,7 +266,7 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
            	 riskLevelType.setComments(protocolRiskLevelBean.getComments());
            	}
              
-            List<ProtocolFundingSource> vecFundingSource = protocol.getProtocolFundingSources();
+            List<ProtocolFundingSource> vecFundingSource = (List) protocol.getProtocolFundingSources();
             int fundingSourceTypeCode;
             String fundingSourceName, fundingSourceCode;
             for (ProtocolFundingSource protocolFundingSourceBean : vecFundingSource) {
@@ -322,8 +315,8 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
     }
 
     private void setOtherActionItems(CommitteeSchedule committeeSchedule, Schedule schedule) {
-        List<CommScheduleActItem> otherActions = committeeSchedule.getCommScheduleActItems();
-        for (CommScheduleActItem otherActionInfoBean : otherActions) {
+        List<CommScheduleActItemBase> otherActions = committeeSchedule.getCommScheduleActItems();
+        for (CommScheduleActItemBase otherActionInfoBean : otherActions) {
             otherActionInfoBean.refreshNonUpdateableReferences();
             OtherBusiness otherBusinessType = schedule.addNewOtherBusiness();
             otherBusinessType.setActionItemNumber(BigInteger.valueOf(otherActionInfoBean.getActionItemNumber()));
@@ -356,12 +349,12 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
 
     private void setProtocolSubmissionReviewers(org.kuali.kra.irb.actions.submit.ProtocolSubmission protocolSubmission,
             SubmissionDetails protocolSubmissionDetail) {
-        List<ProtocolReviewer> vecReviewers = protocolSubmission.getProtocolReviewers();
-        for (ProtocolReviewer protocolReviewer : vecReviewers) {
+        List<org.kuali.kra.protocol.actions.submit.ProtocolReviewer> vecReviewers = protocolSubmission.getProtocolReviewers();
+        for (org.kuali.kra.protocol.actions.submit.ProtocolReviewer protocolReviewer : vecReviewers) {
             protocolReviewer.refreshNonUpdateableReferences();
             edu.mit.irb.irbnamespace.ProtocolReviewerDocument.ProtocolReviewer protocolReviewerType = protocolSubmissionDetail
                     .addNewProtocolReviewer();
-            setPerson(protocolReviewer, protocolReviewerType);
+            setPerson((ProtocolReviewer) protocolReviewer, protocolReviewerType);
             protocolReviewerType.setReviewerTypeDesc(protocolReviewer.getProtocolReviewerType().getDescription());
             protocolReviewerType.setReviewerTypeCode(new BigInteger(String.valueOf(protocolReviewer.getReviewerTypeCode())));
         }
@@ -418,10 +411,10 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
 
 
     private ProtocolAction findProtocolActionForSubmission(org.kuali.kra.irb.actions.submit.ProtocolSubmission protocolSubmission) {
-        List<ProtocolAction> protocolActions = protocolSubmission.getProtocol().getProtocolActions();
-        for (ProtocolAction protocolAction : protocolActions) {
+        List<ProtocolActionBase> protocolActions = protocolSubmission.getProtocol().getProtocolActions();
+        for (ProtocolActionBase protocolAction : protocolActions) {
             if(protocolAction.getSubmissionNumber()!=null && protocolAction.getSubmissionNumber().equals(protocolSubmission.getSubmissionNumber())){
-                return protocolAction;
+                return (ProtocolAction) protocolAction;
             }
         }
         return null;
@@ -433,8 +426,8 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
     }
 
     private void setAttendance(CommitteeSchedule committeeSchedule, Schedule schedule) {
-        List<CommitteeScheduleAttendance> attendenceList = committeeSchedule.getCommitteeScheduleAttendances();
-        for (CommitteeScheduleAttendance attendanceInfoBean : attendenceList) {
+        List<CommitteeScheduleAttendanceBase> attendenceList = committeeSchedule.getCommitteeScheduleAttendances();
+        for (CommitteeScheduleAttendanceBase attendanceInfoBean : attendenceList) {
             Attendents attendents = schedule.addNewAttendents();
             attendents.setAttendentName(attendanceInfoBean.getPersonName());
             attendents.setAlternateFlag(attendanceInfoBean.getAlternateFlag());
@@ -443,8 +436,8 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
             attendents.setPresentFlag(true);
         }
 
-        List<CommitteeMembership> committeeMemberships = committeeSchedule.getCommittee().getCommitteeMemberships();
-        for (CommitteeMembership committeeMembership : committeeMemberships) {
+        List<CommitteeMembershipBase> committeeMemberships = committeeSchedule.getCommittee().getCommitteeMemberships();
+        for (CommitteeMembershipBase committeeMembership : committeeMemberships) {
             if (!getCommitteeMembershipService().isMemberAttendedMeeting(committeeMembership,
                     committeeSchedule.getCommittee().getCommitteeId())) {
                 Attendents attendents = schedule.addNewAttendents();

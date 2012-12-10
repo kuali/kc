@@ -17,19 +17,15 @@ package org.kuali.kra.irb;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.common.customattributes.CustomDataForm;
 import org.kuali.kra.common.notification.web.struts.form.NotificationHelper;
-import org.kuali.kra.common.permissions.web.struts.form.PermissionsForm;
-import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.actions.ActionHelper;
 import org.kuali.kra.irb.actions.ProtocolStatus;
@@ -42,35 +38,36 @@ import org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.kra.irb.permission.PermissionsHelper;
 import org.kuali.kra.irb.personnel.PersonnelHelper;
 import org.kuali.kra.irb.protocol.ProtocolHelper;
-import org.kuali.kra.irb.protocol.funding.ProtocolFundingSource;
 import org.kuali.kra.irb.protocol.reference.ProtocolReferenceBean;
 import org.kuali.kra.irb.questionnaire.ProtocolModuleQuestionnaireBean;
 import org.kuali.kra.irb.questionnaire.QuestionnaireHelper;
 import org.kuali.kra.irb.specialreview.SpecialReviewHelper;
-import org.kuali.kra.medusa.MedusaBean;
-import org.kuali.kra.questionnaire.QuestionableFormInterface;
+import org.kuali.kra.protocol.ProtocolFormBase;
+import org.kuali.kra.protocol.actions.ActionHelperBase;
+import org.kuali.kra.protocol.customdata.ProtocolCustomDataHelperBase;
+import org.kuali.kra.protocol.noteattachment.NotesAttachmentsHelperBase;
+import org.kuali.kra.protocol.notification.ProtocolNotificationContextBase;
+import org.kuali.kra.protocol.onlinereview.OnlineReviewsActionHelperBase;
+import org.kuali.kra.protocol.permission.PermissionsHelperBase;
+import org.kuali.kra.protocol.personnel.PersonnelHelperBase;
+import org.kuali.kra.protocol.protocol.ProtocolHelperBase;
+import org.kuali.kra.protocol.protocol.reference.ProtocolReferenceBeanBase;
+import org.kuali.kra.protocol.questionnaire.QuestionnaireHelperBase;
+import org.kuali.kra.protocol.specialreview.ProtocolSpecialReviewHelperBase;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
-import org.kuali.kra.service.KraAuthorizationService;
-import org.kuali.kra.web.struts.form.Auditable;
-import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
-import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kns.datadictionary.HeaderNavigation;
-import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.ActionFormUtilMap;
-import org.kuali.rice.kns.web.ui.ExtraButton;
 import org.kuali.rice.kns.web.ui.HeaderField;
-import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.util.KRADConstants;
 
 /**
  * This class...
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class ProtocolForm extends KraTransactionalDocumentFormBase implements PermissionsForm, CustomDataForm, Auditable, QuestionableFormInterface {
+public class ProtocolForm extends ProtocolFormBase implements CustomDataForm {
     
     private static final long serialVersionUID = 3736148760520952504L;
     
@@ -81,77 +78,68 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
     private static final String ONLINE_REVIEW_NAV_TO = "onlineReview";
     private static final String CUSTOM_DATA_NAV_TO = "customData";
     
-    // TODO *********code has been moved to base class, should ultimately be removed**********
-    private ProtocolHelper protocolHelper;
-    // TODO **********************end************************
+// TODO ********************** commented out during IRB backfit ************************
+//    private ProtocolHelper protocolHelper;
+//    private PersonnelHelper personnelHelper;
+//    private PermissionsHelper permissionsHelper;
+//    private CustomDataHelper customDataHelper;
+//    private SpecialReviewHelper specialReviewHelper;
+//    private ActionHelper actionHelper;
+//    private OnlineReviewsActionHelper onlineReviewsActionHelper;
+//    private QuestionnaireHelper questionnaireHelper;
+//    private NotificationHelper<IRBNotificationContext> notificationHelper;
+//    private MedusaBean medusaBean;
+//    //transient so that the helper and its members don't have to be serializable or transient
+//    //reinitialized in the getter
+//    private transient NotesAttachmentsHelper notesAttachmentsHelper;
+//    private boolean auditActivated;
+//    
+//    private ProtocolReferenceBean newProtocolReferenceBean;
+//    
+//    //KNS Lookup hooks
+//    private String lookupResultsSequenceNumber;
+//    private String lookupResultsBOClassName;
+//    
+//    private boolean javaScriptEnabled = true;
+//    
+//    private String detailId;
+//    // temp field : set in presave and then referenced in postsave
+//    private transient List<ProtocolFundingSource> deletedProtocolFundingSources;
+//    
+
     
-    private PersonnelHelper personnelHelper;
-    private PermissionsHelper permissionsHelper;
-    private CustomDataHelper customDataHelper;
-    private SpecialReviewHelper specialReviewHelper;
-    private ActionHelper actionHelper;
-    private OnlineReviewsActionHelper onlineReviewsActionHelper;
-    private QuestionnaireHelper questionnaireHelper;
-    private NotificationHelper<IRBNotificationContext> notificationHelper;
-    private MedusaBean medusaBean;
-    //transient so that the helper and its members don't have to be serializable or transient
-    //reinitialized in the getter
-    private transient NotesAttachmentsHelper notesAttachmentsHelper;
-    private boolean auditActivated;
-    
-    private ProtocolReferenceBean newProtocolReferenceBean;
-    
-    //KNS Lookup hooks
-    private String lookupResultsSequenceNumber;
-    private String lookupResultsBOClassName;
-    
-    private boolean javaScriptEnabled = true;
-    
-    private String detailId;
-    // temp field : set in presave and then referenced in postsave
-    private transient List<ProtocolFundingSource> deletedProtocolFundingSources;
-    
-    
-    // TODO *********code has been moved to base class, should ultimately be removed**********    
     public ProtocolForm() throws Exception {
         super();
-        initialize();
-        this.registerEditableProperty("methodToCall");
     }
-    // TODO **********************end************************    
+  
     
     
     /** {@inheritDoc} */
     @Override
-    // TODO this method has been removed from the refactored parent class code, let subclasses provide hook implementations
     protected String getDefaultDocumentTypeName() {
         return "ProtocolDocument";
     }
 
-    /**
-     *
-     * This method initialize all form variables
-     * @throws Exception 
-     */
-    public void initialize() throws Exception {
-        // TODO *********code has been moved to base class, should ultimately be removed**********
-        // TODO provide a corresponding creator hook implementation to replace the "new" call below
-        setProtocolHelper(new ProtocolHelper(this));
-        // TODO **********************end************************
-        
-        setPersonnelHelper(new PersonnelHelper(this));
-        setPermissionsHelper(new PermissionsHelper(this));
-        setCustomDataHelper(new CustomDataHelper(this));
-        setSpecialReviewHelper(new SpecialReviewHelper(this));
-        setActionHelper(new ActionHelper(this));
-        setQuestionnaireHelper(new QuestionnaireHelper(this));
-        setNotesAttachmentsHelper(new NotesAttachmentsHelper(this));
-        this.notesAttachmentsHelper.prepareView();
-        setNewProtocolReferenceBean(new ProtocolReferenceBean());
-        setOnlineReviewsActionHelper(new OnlineReviewsActionHelper(this));
-        setNotificationHelper(new NotificationHelper<IRBNotificationContext>());
-        setMedusaBean(new MedusaBean());
-    }
+//    /**
+//     *
+//     * This method initialize all form variables
+//     * @throws Exception 
+//     */
+//    public void initialize() throws Exception {
+//        setProtocolHelper(new ProtocolHelper(this));        
+//        setPersonnelHelper(new PersonnelHelper(this));
+//        setPermissionsHelper(new PermissionsHelper(this));
+//        setCustomDataHelper(new CustomDataHelper(this));
+//        setSpecialReviewHelper(new SpecialReviewHelper(this));
+//        setActionHelper(new ActionHelper(this));
+//        setQuestionnaireHelper(new QuestionnaireHelper(this));
+//        setNotesAttachmentsHelper(new NotesAttachmentsHelper(this));
+//        this.notesAttachmentsHelper.prepareView();
+//        setNewProtocolReferenceBean(new ProtocolReferenceBean());
+//        setOnlineReviewsActionHelper(new OnlineReviewsActionHelper(this));
+//        setNotificationHelper(new NotificationHelper<IRBNotificationContext>());
+//        setMedusaBean(new MedusaBean());
+//    }
 
     /**
      * @see org.kuali.rice.kns.web.struts.form.KualiForm#getHeaderNavigationTabs()
@@ -163,6 +151,7 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
      * List if it is disabled.
      * 
      */
+    @SuppressWarnings("deprecation")
     @Override
     public HeaderNavigation[] getHeaderNavigationTabs() {
         
@@ -174,11 +163,11 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
 
         if (getProtocolDocument() != null && getProtocolDocument().getProtocol() != null) {
             String principalId = GlobalVariables.getUserSession().getPrincipalId();
-            ProtocolSubmission submission = getProtocolDocument().getProtocol().getProtocolSubmission();
+            ProtocolSubmission submission = (ProtocolSubmission) getProtocolDocument().getProtocol().getProtocolSubmission();
             boolean isUserOnlineReviewer = onlineReviewService.isProtocolReviewer(principalId, false, submission);
             boolean isUserIrbAdmin = getKraAuthorizationService().hasRole(GlobalVariables.getUserSession().getPrincipalId(), "KC-UNT", "IRB Administrator"); 
             onlineReviewTabEnabled = (isUserOnlineReviewer || isUserIrbAdmin) 
-                    && onlineReviewService.isProtocolInStateToBeReviewed(getProtocolDocument().getProtocol());
+                    && onlineReviewService.isProtocolInStateToBeReviewed((Protocol) getProtocolDocument().getProtocol());
         }
         
             //We have to copy the HeaderNavigation elements into a new collection as the 
@@ -190,6 +179,8 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
                     resultList.add(nav);
                 }
             } else if (StringUtils.equals(nav.getHeaderTabNavigateTo(),CUSTOM_DATA_NAV_TO)) {
+                
+// TODO *********TEMPORARILY COMMENTED OUT DURING IRB BACKFITTING*********                 
                 boolean displayTab = this.getCustomDataHelper().canDisplayCustomDataTab();
                 nav.setDisabled(!displayTab);
                 if (displayTab) {
@@ -205,16 +196,17 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
         return result;
     }
     
-// TODO *********code has been moved to base class, should ultimately be removed**********
-    /**
-     * 
-     * This method is a wrapper method for getting DataDictionary Service using the Service Locator.
-     * @return
-     */
-    protected DataDictionaryService getDataDictionaryService(){
-        return (DataDictionaryService) KraServiceLocator.getService(Constants.DATA_DICTIONARY_SERVICE_NAME);
-    }
-// TODO **********************end************************
+
+// TODO ********************** commented out during IRB backfit ************************    
+//    /**
+//     * 
+//     * This method is a wrapper method for getting DataDictionary Service using the Service Locator.
+//     * @return
+//     */
+//    protected DataDictionaryService getDataDictionaryService(){
+//        return (DataDictionaryService) KraServiceLocator.getService(Constants.DATA_DICTIONARY_SERVICE_NAME);
+//    }
+
 
     /**
      * 
@@ -227,6 +219,7 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
 
     
     
+    @SuppressWarnings("deprecation")
     @Override
     public void populate(HttpServletRequest request) { 
         initAnswerList(request);
@@ -255,17 +248,18 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
 
     private QuestionnaireAnswerService getQuestionnaireAnswerService() {
         return KraServiceLocator.getService(QuestionnaireAnswerService.class);
-}
+    }
 
+    @SuppressWarnings("deprecation")
     @Override
     public void populateHeaderFields(WorkflowDocument workflowDocument) {
         super.populateHeaderFields(workflowDocument);
-        ProtocolDocument pd = getProtocolDocument();
+        ProtocolDocument pd = (ProtocolDocument) getProtocolDocument();
         
         HeaderField documentNumber = getDocInfo().get(0);
         documentNumber.setDdAttributeEntryName("DataDictionary.ProtocolDocument.attributes.documentNumber");
         
-        ProtocolStatus protocolStatus = (pd == null) ? null : pd.getProtocol().getProtocolStatus();
+        ProtocolStatus protocolStatus = (ProtocolStatus) ((pd == null) ? null : pd.getProtocol().getProtocolStatus());
         HeaderField docStatus = new HeaderField("DataDictionary.AttributeReferenceDummy.attributes.workflowDocumentStatus", protocolStatus == null? "" : protocolStatus.getDescription());
         getDocInfo().set(1, docStatus);
         
@@ -302,75 +296,74 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
         getDocInfo().add(expirationDate);
     }
 
-    /* Reset method
-     * @param mapping
-     * @param request
-     */
-    @Override
-    public void reset(ActionMapping mapping, HttpServletRequest request) {
-        super.reset(mapping, request);
-        this.setLookupResultsSequenceNumber(null);
-        this.setLookupResultsBOClassName(null);
-        onlineReviewsActionHelper.init(true);
-    }
-    
-    public String getLookupResultsSequenceNumber() {
-        return lookupResultsSequenceNumber;
-    }
-
-    public void setLookupResultsSequenceNumber(String lookupResultsSequenceNumber) {
-        this.lookupResultsSequenceNumber = lookupResultsSequenceNumber;
-    }
-    
-    public String getLookupResultsBOClassName() {
-        return lookupResultsBOClassName;
-    }
-
-    public void setLookupResultsBOClassName(String lookupResultsBOClassName) {
-        this.lookupResultsBOClassName = lookupResultsBOClassName;
-    }
-    
-    // TODO *********code has been moved to base class, should ultimately be removed**********
-    public void setProtocolHelper(ProtocolHelper protocolHelper) {
-        this.protocolHelper = protocolHelper;
-    }
+// TODO ********************** commented out during IRB backfit ************************    
+//    /* Reset method
+//     * @param mapping
+//     * @param request
+//     */
+//    @Override
+//    public void reset(ActionMapping mapping, HttpServletRequest request) {
+//        super.reset(mapping, request);
+//        this.setLookupResultsSequenceNumber(null);
+//        this.setLookupResultsBOClassName(null);
+//        onlineReviewsActionHelper.init(true);
+//    }
+//    
+//    public String getLookupResultsSequenceNumber() {
+//        return lookupResultsSequenceNumber;
+//    }
+//
+//    public void setLookupResultsSequenceNumber(String lookupResultsSequenceNumber) {
+//        this.lookupResultsSequenceNumber = lookupResultsSequenceNumber;
+//    }
+//    
+//    public String getLookupResultsBOClassName() {
+//        return lookupResultsBOClassName;
+//    }
+//
+//    public void setLookupResultsBOClassName(String lookupResultsBOClassName) {
+//        this.lookupResultsBOClassName = lookupResultsBOClassName;
+//    }
+//    
+//    public void setProtocolHelper(ProtocolHelper protocolHelper) {
+//        this.protocolHelper = protocolHelper;
+//    }
 
     public ProtocolHelper getProtocolHelper() {
-        return protocolHelper;
+        return (ProtocolHelper) super.getProtocolHelper();
     }
-    // TODO **********************end************************
     
-    private void setPersonnelHelper(PersonnelHelper personnelHelper) {
-        this.personnelHelper = personnelHelper;
-    }
+//    private void setPersonnelHelper(PersonnelHelper personnelHelper) {
+//        this.personnelHelper = personnelHelper;
+//    }
     
     public PersonnelHelper getPersonnelHelper() {
-        return personnelHelper;
+        return (PersonnelHelper) super.getPersonnelHelper();
     }
     
-    private void setPermissionsHelper(PermissionsHelper permissionsHelper) {
-        this.permissionsHelper = permissionsHelper;
-    }
+//    private void setPermissionsHelper(PermissionsHelper permissionsHelper) {
+//        this.permissionsHelper = permissionsHelper;
+//    }
     
     public PermissionsHelper getPermissionsHelper() {
-        return permissionsHelper;
+        return (PermissionsHelper) super.getPermissionsHelper();
     }
     
-    public void setNewProtocolReferenceBean(ProtocolReferenceBean newProtocolReferenceBean) {
-        this.newProtocolReferenceBean = newProtocolReferenceBean;
-    }
+//    public void setNewProtocolReferenceBean(ProtocolReferenceBean newProtocolReferenceBean) {
+//        this.newProtocolReferenceBean = newProtocolReferenceBean;
+//    }
 
+    
     public ProtocolReferenceBean getNewProtocolReferenceBean() {
-        return newProtocolReferenceBean;
+        return (ProtocolReferenceBean) super.getNewProtocolReferenceBean();
     }
     
-    
-    // TODO *********code has been moved to base class, should ultimately be removed**********
-    @Override
-    protected void setSaveDocumentControl(Map editMode) {
-      
-    }
-    // TODO **********************end************************
+
+//    @Override
+//    protected void setSaveDocumentControl(Map editMode) {
+//      
+//    }
+
     
     
     
@@ -387,97 +380,95 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
     }
  
 
-    public CustomDataHelper getCustomDataHelper() {
-        return customDataHelper;
-    }
+//    public CustomDataHelper getCustomDataHelper() {
+//        return customDataHelper;
+//    }
+//
+//    public void setCustomDataHelper(CustomDataHelper customDataHelper) {
+//        this.customDataHelper = customDataHelper;
+//    }
+//    
+//    /** {@inheritDoc} */
+//    public boolean isAuditActivated() {
+//        return this.auditActivated;
+//    }
 
-    public void setCustomDataHelper(CustomDataHelper customDataHelper) {
-        this.customDataHelper = customDataHelper;
-    }
-    
-    /** {@inheritDoc} */
-    public boolean isAuditActivated() {
-        return this.auditActivated;
-    }
-
-    /** {@inheritDoc} */
-    public void setAuditActivated(boolean auditActivated) {
-        this.auditActivated = auditActivated;
-    }
-
-    public SpecialReviewHelper getSpecialReviewHelper() {
-        return specialReviewHelper;
-    }
-
-    public void setSpecialReviewHelper(SpecialReviewHelper specialReviewHelper) {
-        this.specialReviewHelper = specialReviewHelper;
-    }
-
+//    /** {@inheritDoc} */
+//    public void setAuditActivated(boolean auditActivated) {
+//        this.auditActivated = auditActivated;
+//    }
+//
+//    public SpecialReviewHelper getSpecialReviewHelper() {
+//        return specialReviewHelper;
+//    }
+//
+//    public void setSpecialReviewHelper(SpecialReviewHelper specialReviewHelper) {
+//        this.specialReviewHelper = specialReviewHelper;
+//    }
+//
     /**
      * Gets the Notes & Attachments Helper.
      * @return Notes & Attachments Helper
      */
     public NotesAttachmentsHelper getNotesAttachmentsHelper() {
-        if (notesAttachmentsHelper == null) {
-            notesAttachmentsHelper = new NotesAttachmentsHelper(this);
-        }
-        
-        return notesAttachmentsHelper;
+        return (NotesAttachmentsHelper) super.getNotesAttachmentsHelper();
     }
 
-    /**
-     * Sets the Notes & Attachments Helper.
-     * @param notesAttachmentsHelper the Notes & Attachments Helper
-     */
-    public void setNotesAttachmentsHelper(NotesAttachmentsHelper notesAttachmentsHelper) {
-        this.notesAttachmentsHelper = notesAttachmentsHelper;
-    }
+//    /**
+//     * Sets the Notes & Attachments Helper.
+//     * @param notesAttachmentsHelper the Notes & Attachments Helper
+//     */
+//    public void setNotesAttachmentsHelper(NotesAttachmentsHelper notesAttachmentsHelper) {
+//        this.notesAttachmentsHelper = notesAttachmentsHelper;
+//    }
+    
     
     public ActionHelper getActionHelper() {
-        return actionHelper;
+        return (ActionHelper) super.getActionHelper();
     }
+
+// TODO ********************** commented out during IRB backfit ************************    
+//    private void setActionHelper(ActionHelper actionHelper) {
+//        this.actionHelper = actionHelper;
+//    }
+//
+//    public boolean isJavaScriptEnabled() {
+//        return javaScriptEnabled;
+//    }
+//
+//    public void setJavaScriptEnabled(boolean javaScriptEnabled) {
+//        this.javaScriptEnabled = javaScriptEnabled;
+//    }
     
-    private void setActionHelper(ActionHelper actionHelper) {
-        this.actionHelper = actionHelper;
-    }
 
-    public boolean isJavaScriptEnabled() {
-        return javaScriptEnabled;
-    }
-
-    public void setJavaScriptEnabled(boolean javaScriptEnabled) {
-        this.javaScriptEnabled = javaScriptEnabled;
-    }
-
-    // TODO *********code has been moved to base class, should ultimately be removed**********
     public ProtocolDocument getProtocolDocument() {
-        return (ProtocolDocument) getDocument();
-    }
-    // TODO **********************end************************
-
-    public QuestionnaireHelper getQuestionnaireHelper() {
-        return questionnaireHelper;
+        return (ProtocolDocument) super.getProtocolDocument();
     }
 
-    public void setQuestionnaireHelper(QuestionnaireHelper questionnaireHelper) {
-        this.questionnaireHelper = questionnaireHelper;
-    }
-
-    public void setOnlineReviewsActionHelper(OnlineReviewsActionHelper onlineReviewActionHelper) {
-        this.onlineReviewsActionHelper = onlineReviewActionHelper;
-    }
-
-    public OnlineReviewsActionHelper getOnlineReviewsActionHelper() {
-        return onlineReviewsActionHelper;
-    }
-
-    public NotificationHelper<IRBNotificationContext> getNotificationHelper() {
-        return notificationHelper;
-    }
-
-    public void setNotificationHelper(NotificationHelper<IRBNotificationContext> notificationHelper) {
-        this.notificationHelper = notificationHelper;
-    }
+// TODO ********************** commented out during IRB backfit ************************    
+//    public QuestionnaireHelper getQuestionnaireHelper() {
+//        return questionnaireHelper;
+//    }
+//
+//    public void setQuestionnaireHelper(QuestionnaireHelper questionnaireHelper) {
+//        this.questionnaireHelper = questionnaireHelper;
+//    }
+//
+//    public void setOnlineReviewsActionHelper(OnlineReviewsActionHelper onlineReviewActionHelper) {
+//        this.onlineReviewsActionHelper = onlineReviewActionHelper;
+//    }
+//
+//    public OnlineReviewsActionHelper getOnlineReviewsActionHelper() {
+//        return onlineReviewsActionHelper;
+//    }
+//
+//    public NotificationHelper<IRBNotificationContext> getNotificationHelper() {
+//        return notificationHelper;
+//    }
+//
+//    public void setNotificationHelper(NotificationHelper<IRBNotificationContext> notificationHelper) {
+//        this.notificationHelper = notificationHelper;
+//    }
 
     @Override
     public boolean isPropertyEditable(String propertyName) {
@@ -491,11 +482,9 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
         }
     }
    
-    // TODO *********code has been moved to base class, should ultimately be removed**********
-    public KraAuthorizationService getKraAuthorizationService() {
-        return KraServiceLocator.getService(KraAuthorizationService.class);
-    }
-    // TODO **********************end************************
+//    public KraAuthorizationService getKraAuthorizationService() {
+//        return KraServiceLocator.getService(KraAuthorizationService.class);
+//    }
     
     /**
      * 
@@ -503,70 +492,157 @@ public class ProtocolForm extends KraTransactionalDocumentFormBase implements Pe
      * @return
      */
     public boolean getDisplayRiskLevelPanel() {
-        return this.getProtocolDocument().getProtocol().getProtocolRiskLevels() != null 
-            && this.getProtocolDocument().getProtocol().getProtocolRiskLevels().size() > 0;
+        return ((Protocol) this.getProtocolDocument().getProtocol()).getProtocolRiskLevels() != null 
+            && ((Protocol) this.getProtocolDocument().getProtocol()).getProtocolRiskLevels().size() > 0;
         
     }
     
-    public List<ExtraButton> getExtraActionsButtons() {
-        // clear out the extra buttons array
-        extraButtons.clear();
-
-        String externalImageURL = Constants.KR_EXTERNALIZABLE_IMAGES_URI_KEY;
-        ConfigurationService configurationService = KRADServiceLocator.getKualiConfigurationService();
-        
-        boolean suppressRoutingControls = getActionHelper().getCanApproveFull() || !getActionHelper().getCanApproveOther();
-        if (suppressRoutingControls && getDocumentActions().get(KRADConstants.KUALI_ACTION_CAN_SEND_ADHOC_REQUESTS) != null) {
-            String sendAdHocRequestsImage = configurationService.getPropertyValueAsString(externalImageURL) + "buttonsmall_sendadhocreq.gif";
-            addExtraButton("methodToCall.sendAdHocRequests", sendAdHocRequestsImage, "Send AdHoc Requests");
-        }
-        externalImageURL = Constants.KRA_EXTERNALIZABLE_IMAGES_URI_KEY;
-        
-        String sendNotificationImage = configurationService.getPropertyValueAsString(externalImageURL) + "buttonsmall_send_notification.gif";
-        addExtraButton("methodToCall.sendNotification", sendNotificationImage, "Send Notification");
-        
-        return extraButtons;
-    }
+//    public List<ExtraButton> getExtraActionsButtons() {
+//        // clear out the extra buttons array
+//        extraButtons.clear();
+//
+//        String externalImageURL = Constants.KR_EXTERNALIZABLE_IMAGES_URI_KEY;
+//        ConfigurationService configurationService = KRADServiceLocator.getKualiConfigurationService();
+//        
+//        boolean suppressRoutingControls = getActionHelper().getCanApproveFull() || !getActionHelper().getCanApproveOther();
+//        if (suppressRoutingControls && getDocumentActions().get(KRADConstants.KUALI_ACTION_CAN_SEND_ADHOC_REQUESTS) != null) {
+//            String sendAdHocRequestsImage = configurationService.getPropertyValueAsString(externalImageURL) + "buttonsmall_sendadhocreq.gif";
+//            addExtraButton("methodToCall.sendAdHocRequests", sendAdHocRequestsImage, "Send AdHoc Requests");
+//        }
+//        externalImageURL = Constants.KRA_EXTERNALIZABLE_IMAGES_URI_KEY;
+//        
+//        String sendNotificationImage = configurationService.getPropertyValueAsString(externalImageURL) + "buttonsmall_send_notification.gif";
+//        addExtraButton("methodToCall.sendNotification", sendNotificationImage, "Send Notification");
+//        
+//        return extraButtons;
+//    }
      
     public String getModuleCode() {
         return CoeusModule.IRB_MODULE_CODE;
     }
 
-    public String getDetailId() {
-        return detailId;
+
+
+    @Override
+    protected NotificationHelper<? extends ProtocolNotificationContextBase> getNotificationHelperHook() {
+        return new NotificationHelper<IRBNotificationContext>();
     }
 
-    public void setDetailId(String detailId) {
-        this.detailId = detailId;
+
+
+    @Override
+    protected ProtocolReferenceBeanBase createNewProtocolReferenceBeanInstance() {
+        return new ProtocolReferenceBean();
     }
 
-    public List<ProtocolFundingSource> getDeletedProtocolFundingSources() {
-        return deletedProtocolFundingSources;
+
+
+    @Override
+    protected QuestionnaireHelperBase createNewQuestionnaireHelperInstanceHook(ProtocolFormBase protocolForm) {
+        return new QuestionnaireHelper((ProtocolForm) protocolForm);
     }
 
-    public void setDeletedProtocolFundingSources(List<ProtocolFundingSource> deletedProtocolFundingSources) {
-        this.deletedProtocolFundingSources = deletedProtocolFundingSources;
+
+
+    @Override
+    protected ActionHelperBase createNewActionHelperInstanceHook(ProtocolFormBase protocolForm) throws Exception {
+        return new ActionHelper((ProtocolForm) protocolForm);
+    }
+
+
+
+    @Override
+    protected ProtocolSpecialReviewHelperBase createNewSpecialReviewHelperInstanceHook(ProtocolFormBase protocolForm) {
+        return new SpecialReviewHelper((ProtocolForm) protocolForm);
+    }
+
+
+
+    @Override
+    protected ProtocolCustomDataHelperBase createNewCustomDataHelperInstanceHook(ProtocolFormBase protocolForm) {
+        return new CustomDataHelper((ProtocolForm) protocolForm);
+    }
+
+
+
+    @Override
+    protected OnlineReviewsActionHelperBase createNewOnlineReviewsActionHelperInstanceHook(ProtocolFormBase protocolForm) {
+        return new OnlineReviewsActionHelper((ProtocolForm) protocolForm);
+    }
+
+
+
+    @Override
+    protected ProtocolHelperBase createNewProtocolHelperInstanceHook(ProtocolFormBase protocolForm) {
+        return new ProtocolHelper((ProtocolForm) protocolForm);
+    }
+
+
+
+    @Override
+    protected PermissionsHelperBase createNewPermissionsHelperInstanceHook(ProtocolFormBase protocolForm) {
+        return new PermissionsHelper((ProtocolForm) protocolForm);
+    }
+
+
+
+    @Override
+    protected PersonnelHelperBase createNewPersonnelHelperInstanceHook(ProtocolFormBase protocolForm) {
+        return new PersonnelHelper((ProtocolForm) protocolForm);
+    }
+
+
+
+    @Override
+    protected QuestionnaireHelperBase createNewQuestionnaireHelper(ProtocolFormBase protocolForm) {
+        return new QuestionnaireHelper(protocolForm);
+    }
+
+
+
+    @Override
+    protected NotesAttachmentsHelperBase createNewNotesAttachmentsHelperInstanceHook(ProtocolFormBase protocolForm) {
+        return new NotesAttachmentsHelper((ProtocolForm) protocolForm);
     }
     
-    public String getQuestionnaireFieldStarter() {
-        return "questionnaireHelper.answerHeaders[";
-    }
+
+// TODO ********************** commented out during IRB backfit ************************    
+//    public String getDetailId() {
+//        return detailId;
+//    }
+//
+//    public void setDetailId(String detailId) {
+//        this.detailId = detailId;
+//    }
+//
+//    public List<ProtocolFundingSource> getDeletedProtocolFundingSources() {
+//        return deletedProtocolFundingSources;
+//    }
+//
+//    public void setDeletedProtocolFundingSources(List<ProtocolFundingSource> deletedProtocolFundingSources) {
+//        this.deletedProtocolFundingSources = deletedProtocolFundingSources;
+//    }
+//    
+//    public String getQuestionnaireFieldStarter() {
+//        return "questionnaireHelper.answerHeaders[";
+//    }
+//    
+//    public String getQuestionnaireFieldMiddle() {
+//        return DEFAULT_MIDDLE;
+//    }
+//    
+//    public String getQuestionnaireFieldEnd() {
+//        return DEFAULT_END;
+//    }
+//
+//
+//    public MedusaBean getMedusaBean() {
+//        return medusaBean;
+//    }
+//
+//
+//    public void setMedusaBean(MedusaBean medusaBean) {
+//        this.medusaBean = medusaBean;
+//    }    
     
-    public String getQuestionnaireFieldMiddle() {
-        return DEFAULT_MIDDLE;
-    }
-    
-    public String getQuestionnaireFieldEnd() {
-        return DEFAULT_END;
-    }
-
-
-    public MedusaBean getMedusaBean() {
-        return medusaBean;
-    }
-
-
-    public void setMedusaBean(MedusaBean medusaBean) {
-        this.medusaBean = medusaBean;
-    }    
 }

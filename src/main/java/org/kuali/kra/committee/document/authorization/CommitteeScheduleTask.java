@@ -17,6 +17,8 @@ package org.kuali.kra.committee.document.authorization;
 
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
+import org.kuali.kra.common.committee.document.authorization.CommitteeScheduleTaskBase;
+import org.kuali.kra.infrastructure.TaskGroupName;
 
 /**
  * A Committee Task is a task that performs an action against a
@@ -26,17 +28,22 @@ import org.kuali.kra.committee.bo.CommitteeSchedule;
  * both the committee and schedule are needed to do this.
  * 
  */
-public class CommitteeScheduleTask extends CommitteeTask {
+public class CommitteeScheduleTask extends CommitteeScheduleTaskBase<Committee, CommitteeSchedule> {
 
-    protected CommitteeSchedule schedule;
-    
     public CommitteeScheduleTask(String taskName, Committee committee, CommitteeSchedule schedule) {
-        super(taskName, committee);
-        this.schedule = schedule;
+        super(TaskGroupName.COMMITTEE, taskName, committee, schedule);
     }
-
-    public CommitteeSchedule getCommitteeSchedule() {
-        return schedule;
-    }
+    
+// TODO ********************** commented out during IRB backfit ************************    
+//    protected CommitteeSchedule schedule;
+//    
+//    public CommitteeScheduleTask(String taskName, Committee committee, CommitteeSchedule schedule) {
+//        super(taskName, committee);
+//        this.schedule = schedule;
+//    }
+//
+//    public CommitteeSchedule getCommitteeSchedule() {
+//        return schedule;
+//    }
     
 }

@@ -25,6 +25,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.service.CommitteeService;
+import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.rice.core.api.membership.MemberType;
 import org.kuali.rice.kim.api.role.RoleMembership;
@@ -87,8 +88,8 @@ public class ActiveCommitteeMemberDerivedRoleTypeServiceImpl extends DerivedRole
 		if (!StringUtils.isEmpty(committeeId)) {
 		    Committee committee = committeeService.getCommitteeById(committeeId);
     		if (committee != null ) {
-    		    for (CommitteeMembership membership : committee.getCommitteeMemberships()) {
-    		        if (isQualified(membership,qualification)) {
+    		    for (CommitteeMembershipBase membership : committee.getCommitteeMemberships()) {
+    		        if (isQualified((CommitteeMembership) membership,qualification)) {
     		            members.add(RoleMembership.Builder.create(null, null, membership.getPersonId(), MemberType.PRINCIPAL, null).build());
     		            if (LOG.isDebugEnabled()) {
     		                LOG.debug(String.format("Adding %s for getRoleMembersFromDerivedRole for committee %s",committee));
@@ -112,8 +113,8 @@ public class ActiveCommitteeMemberDerivedRoleTypeServiceImpl extends DerivedRole
         if (!StringUtils.isEmpty(committeeId)) {
             Committee committee = committeeService.getCommitteeById(committeeId);
             if (committee != null) {
-                for (CommitteeMembership membership : committee.getCommitteeMemberships()) {
-                    if (isQualified(membership,qualification) && membership.getPersonId()!=null && StringUtils.equals(principalId, membership.getPersonId())) {
+                for (CommitteeMembershipBase membership : committee.getCommitteeMemberships()) {
+                    if (isQualified((CommitteeMembership) membership,qualification) && membership.getPersonId()!=null && StringUtils.equals(principalId, membership.getPersonId())) {
                         return true;
                     }
                 }

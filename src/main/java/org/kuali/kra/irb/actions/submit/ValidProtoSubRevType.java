@@ -15,65 +15,65 @@
  */
 package org.kuali.kra.irb.actions.submit;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-
-public class ValidProtoSubRevType extends KraPersistableBusinessObjectBase {
+public class ValidProtoSubRevType extends org.kuali.kra.protocol.actions.submit.ValidProtoSubRevType {
 
     /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 3396505214377892706L;
 
-    private Long validProtoSubRevTypeId;
-
-    private String submissionTypeCode;
-
-    private String protocolReviewTypeCode;
-
-    private ProtocolReviewType protocolReviewType;
-
-    private ProtocolSubmissionType submissionType;
-
-    public ValidProtoSubRevType() {
-    }
-
-    public Long getValidProtoSubRevTypeId() {
-        return validProtoSubRevTypeId;
-    }
-
-    public void setValidProtoSubRevTypeId(Long validProtoSubRevTypeId) {
-        this.validProtoSubRevTypeId = validProtoSubRevTypeId;
-    }
-
-    public String getSubmissionTypeCode() {
-        return submissionTypeCode;
-    }
-
-    public void setSubmissionTypeCode(String submissionTypeCode) {
-        this.submissionTypeCode = submissionTypeCode;
-    }
-
-    public String getProtocolReviewTypeCode() {
-        return protocolReviewTypeCode;
-    }
-
-    public void setProtocolReviewTypeCode(String protocolReviewTypeCode) {
-        this.protocolReviewTypeCode = protocolReviewTypeCode;
-    }
-
-    public ProtocolReviewType getProtocolReviewType() {
-        return protocolReviewType;
-    }
-
-    public void setProtocolReviewType(ProtocolReviewType protocolReviewType) {
-        this.protocolReviewType = protocolReviewType;
-    }
-
-    public ProtocolSubmissionType getSubmissionType() {
-        return submissionType;
-    }
-
-    public void setSubmissionType(ProtocolSubmissionType submissionType) {
-        this.submissionType = submissionType;
-    }
+// TODO ********************** commented out during IRB backfit ************************    
+//    private Long validProtoSubRevTypeId;
+//
+//    private String submissionTypeCode;
+//
+//    private String protocolReviewTypeCode;
+//
+//    private ProtocolReviewType protocolReviewType;
+//
+//    private ProtocolSubmissionType submissionType;
+//
+//    public ValidProtoSubRevType() {
+//    }
+//
+//    public Long getValidProtoSubRevTypeId() {
+//        return validProtoSubRevTypeId;
+//    }
+//
+//    public void setValidProtoSubRevTypeId(Long validProtoSubRevTypeId) {
+//        this.validProtoSubRevTypeId = validProtoSubRevTypeId;
+//    }
+//
+//    public String getSubmissionTypeCode() {
+//        return submissionTypeCode;
+//    }
+//
+//    public void setSubmissionTypeCode(String submissionTypeCode) {
+//        this.submissionTypeCode = submissionTypeCode;
+//    }
+//
+//    public String getProtocolReviewTypeCode() {
+//        return protocolReviewTypeCode;
+//    }
+//
+//    public void setProtocolReviewTypeCode(String protocolReviewTypeCode) {
+//        this.protocolReviewTypeCode = protocolReviewTypeCode;
+//    }
+//
+//    public ProtocolReviewType getProtocolReviewType() {
+//        return protocolReviewType;
+//    }
+//
+//    public void setProtocolReviewType(ProtocolReviewType protocolReviewType) {
+//        this.protocolReviewType = protocolReviewType;
+//    }
+//
+//    public ProtocolSubmissionType getSubmissionType() {
+//        return submissionType;
+//    }
+//
+//    public void setSubmissionType(ProtocolSubmissionType submissionType) {
+//        this.submissionType = submissionType;
+//    }
+    
 }

@@ -333,7 +333,7 @@
 	
 	<bean id="CommSchedule-committee.committeeMemberships.personId" parent="CommSchedule-committee.committeeMemberships.personId-parentBean" />
     <bean id="CommSchedule-committee.committeeMemberships.personId-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBigText">
-        <property name="name" value="committee.committeeMemberships.personId" />
+        <property name="name" value="irbCommittee.committeeMemberships.personId" />
         <property name="label" value="All My Schedules" />
         <property name="shortLabel" value="All My Schedules" />
         <property name="summary" value="All My Schedules" />
@@ -466,7 +466,7 @@
 <!-- 				<bean parent="FieldDefinition" -->
 <!-- 					p:attributeName="committee.committeeTypeCode" /> -->
 				<bean parent="FieldDefinition"
-                    p:attributeName="committee.committeeMemberships.personId" p:hidden="true" />
+                    p:attributeName="irbCommittee.committeeMemberships.personId" p:hidden="true" />
 			</list>
 		</property>
 		<property name="resultFields" >

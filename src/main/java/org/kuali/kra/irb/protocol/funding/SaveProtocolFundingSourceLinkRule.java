@@ -26,6 +26,7 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
+import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceBase;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 
@@ -47,18 +48,18 @@ public class SaveProtocolFundingSourceLinkRule extends ResearchDocumentRuleBase 
     public boolean processRules(SaveProtocolFundingSourceLinkEvent event) {
         boolean rulePassed = true;
         
-        for (ProtocolFundingSource protocolFundingSource : event.getProtocolFundingSources()) {
+        for (ProtocolFundingSourceBase protocolFundingSource : event.getProtocolFundingSources()) {
             String fundingSourceNumber = protocolFundingSource.getFundingSourceNumber();
             String fundingSourceTypeCode = protocolFundingSource.getFundingSourceTypeCode();
             String protocolNumber = protocolFundingSource.getProtocolNumber();
             
             if (!getSpecialReviewService().isLinkedToSpecialReview(fundingSourceNumber, fundingSourceTypeCode, protocolNumber)) {
-                rulePassed &= validateProtocolFundingSource(protocolFundingSource);
+                rulePassed &= validateProtocolFundingSource((ProtocolFundingSource) protocolFundingSource);
             }
         }
         
-        for (ProtocolFundingSource protocolFundingSource : event.getDeletedProtocolFundingSources()) {
-            rulePassed &= validateProtocolFundingSource(protocolFundingSource);
+        for (ProtocolFundingSourceBase protocolFundingSource : event.getDeletedProtocolFundingSources()) {
+            rulePassed &= validateProtocolFundingSource((ProtocolFundingSource) protocolFundingSource);
         }
         
         return rulePassed;

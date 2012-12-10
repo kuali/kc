@@ -46,8 +46,8 @@ public class ProtocolAssignReviewersRule extends ResearchDocumentRuleBase implem
     /**{@inheritDoc}**/
     public boolean processAssignReviewers(ProtocolDocument document, ProtocolAssignReviewersBean actionBean) {
         boolean isValid = true;
-        List<ProtocolReviewerBean> reviewers = actionBean.getReviewers();
-        List<ProtocolOnlineReviewDocument> protocolOnlineReviewDocuments = getProtocolOnlineReviewService().getProtocolReviewDocumentsForCurrentSubmission(document.getProtocol()); 
+        List<ProtocolReviewerBean> reviewers = (List)actionBean.getReviewers();
+        List<ProtocolOnlineReviewDocument> protocolOnlineReviewDocuments = (List)getProtocolOnlineReviewService().getProtocolReviewDocumentsForCurrentSubmission(document.getProtocol()); 
         for (int i = 0; i < reviewers.size(); i++) {
             ProtocolReviewerBean reviewer = reviewers.get(i);
             if (!isReviewerValid(reviewer, i)) {

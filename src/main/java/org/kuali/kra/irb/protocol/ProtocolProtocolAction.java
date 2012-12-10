@@ -31,6 +31,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.bo.FundingSourceType;
 import org.kuali.kra.bo.ResearchArea;
+import org.kuali.kra.bo.ResearchAreaBase;
 import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -43,9 +44,12 @@ import org.kuali.kra.irb.ProtocolEventBase;
 import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.notification.FundingSourceNotificationRenderer;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.notification.IRBNotificationContext;
+
+// TODO ********************** added or modified during IRB backfit merge BEGIN ************************ 
 import org.kuali.kra.irb.notification.IRBProtocolNotification;
+// TODO ********************** added or modified during IRB backfit merge END ************************ 
+
 import org.kuali.kra.irb.protocol.funding.AddProtocolFundingSourceEvent;
 import org.kuali.kra.irb.protocol.funding.LookupProtocolFundingSourceEvent;
 import org.kuali.kra.irb.protocol.funding.ProtocolFundingSource;
@@ -67,6 +71,9 @@ import org.kuali.kra.irb.protocol.reference.ProtocolReferenceType;
 import org.kuali.kra.irb.protocol.research.ProtocolResearchAreaService;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.protocol.ProtocolDocumentBase;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
+import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceBase;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.document.Document;
@@ -99,7 +106,7 @@ public class ProtocolProtocolAction extends ProtocolAction {
         if (StringUtils.isNotBlank(commandParam) && commandParam.equals(KewApiConstants.DOCSEARCH_COMMAND)
                 && StringUtils.isNotBlank(request.getParameter("submissionId"))) {
             // protocolsubmission lookup
-            for (ProtocolSubmission protocolSubmission : protocolForm.getProtocolDocument().getProtocol().getProtocolSubmissions()) {
+            for (ProtocolSubmissionBase protocolSubmission : protocolForm.getProtocolDocument().getProtocol().getProtocolSubmissions()) {
                 if (StringUtils.isNotBlank(request.getParameter("submissionId"))) {
                     protocolForm.getProtocolDocument().getProtocol().setNotifyIrbSubmissionId(Long.parseLong(request.getParameter("submissionId")));
                 }
@@ -133,14 +140,13 @@ public class ProtocolProtocolAction extends ProtocolAction {
     }
 
     @Override
-    protected <T extends BusinessObject> void processMultipleLookupResults(ProtocolDocument protocolDocument,
+    protected <T extends BusinessObject> void processMultipleLookupResults(ProtocolDocumentBase protocolDocument,
             Class<T> lookupResultsBOClass, Collection<T> selectedBOs) {
         if (lookupResultsBOClass.isAssignableFrom(ResearchArea.class)) {
-            ProtocolResearchAreaService service = (ProtocolResearchAreaService) KraServiceLocator
-                    .getService("protocolResearchAreaService");
-            service.addProtocolResearchArea(protocolDocument.getProtocol(), (Collection<ResearchArea>) selectedBOs);
+            ProtocolResearchAreaService service = KraServiceLocator.getService(ProtocolResearchAreaService.class);
+            service.addProtocolResearchArea(protocolDocument.getProtocol(), (Collection<ResearchAreaBase>) selectedBOs);
             // finally do validation and error reporting for inactive research areas
-            (new ProtocolDocumentRule()).processProtocolResearchAreaBusinessRules(protocolDocument);
+            (new ProtocolDocumentRule()).processProtocolResearchAreaBusinessRules((ProtocolDocument) protocolDocument);
         }
         
         
@@ -173,12 +179,12 @@ public class ProtocolProtocolAction extends ProtocolAction {
         throws Exception {
         
         ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolParticipant newProtocolParticipant = protocolForm.getProtocolHelper().getNewProtocolParticipant();
-        List<ProtocolParticipant> protocolParticipants = protocolForm.getProtocolDocument().getProtocol().getProtocolParticipants();
+        ProtocolParticipant newProtocolParticipant = ((ProtocolHelper) protocolForm.getProtocolHelper()).getNewProtocolParticipant();
+        List<ProtocolParticipant> protocolParticipants = ((Protocol) protocolForm.getProtocolDocument().getProtocol()).getProtocolParticipants();
 
-        if (applyRules(new AddProtocolParticipantEvent(protocolForm.getProtocolDocument(), newProtocolParticipant, protocolParticipants))) {
-            getProtocolParticipantService().addProtocolParticipant(protocolForm.getProtocolDocument().getProtocol(), newProtocolParticipant);
-            protocolForm.getProtocolHelper().setNewProtocolParticipant(new ProtocolParticipant());          
+        if (applyRules(new AddProtocolParticipantEvent((ProtocolDocument) protocolForm.getProtocolDocument(), newProtocolParticipant, protocolParticipants))) {
+            getProtocolParticipantService().addProtocolParticipant((Protocol) protocolForm.getProtocolDocument().getProtocol(), newProtocolParticipant);
+            ((ProtocolHelper) protocolForm.getProtocolHelper()).setNewProtocolParticipant(new ProtocolParticipant());          
         }
 
         return mapping.findForward(Constants.MAPPING_BASIC);
@@ -200,7 +206,7 @@ public class ProtocolProtocolAction extends ProtocolAction {
         throws Exception {
         
         ProtocolForm protocolForm = (ProtocolForm) form;
-        protocolForm.getProtocolDocument().getProtocol().getProtocolParticipants().remove(getLineToDelete(request));
+        ((Protocol) protocolForm.getProtocolDocument().getProtocol()).getProtocolParticipants().remove(getLineToDelete(request));
 
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
@@ -236,12 +242,12 @@ public class ProtocolProtocolAction extends ProtocolAction {
     public ActionForward addProtocolReferenceBean(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolReferenceBean bean = protocolForm.getNewProtocolReferenceBean();
+        ProtocolReferenceBean bean = (ProtocolReferenceBean) protocolForm.getNewProtocolReferenceBean();
         
         if (applyRules(new AddProtocolReferenceEvent(Constants.EMPTY_STRING, protocolForm.getProtocolDocument(), bean))) {
             ProtocolReferenceType type = this.getBusinessObjectService().findBySinglePrimaryKey(ProtocolReferenceType.class, bean.getProtocolReferenceTypeCode());
             
-            ProtocolReference ref = new ProtocolReference(bean, protocolForm.getProtocolDocument().getProtocol(), type);
+            ProtocolReference ref = new ProtocolReference(bean, (Protocol) protocolForm.getProtocolDocument().getProtocol(), type);
             
             ProtocolReferenceService service = KraServiceLocator.getService(ProtocolReferenceService.class);
 
@@ -291,7 +297,7 @@ public class ProtocolProtocolAction extends ProtocolAction {
         ProtocolForm protocolForm = (ProtocolForm) form;
         protocolForm.getProtocolDocument().getProtocol().getProtocolResearchAreas().remove(getLineToDelete(request));
         // finally do validation and error reporting for inactive research areas
-        (new ProtocolDocumentRule()).processProtocolResearchAreaBusinessRules(protocolForm.getProtocolDocument());
+        (new ProtocolDocumentRule()).processProtocolResearchAreaBusinessRules((ProtocolDocument) protocolForm.getProtocolDocument());
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
@@ -309,7 +315,7 @@ public class ProtocolProtocolAction extends ProtocolAction {
     public ActionForward addProtocolLocation(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolLocation newProtocolLocation = protocolForm.getProtocolHelper().getNewProtocolLocation();
+        ProtocolLocation newProtocolLocation = (ProtocolLocation) protocolForm.getProtocolHelper().getNewProtocolLocation();
 
         if (applyRules(new AddProtocolLocationEvent(Constants.EMPTY_STRING, protocolForm.getProtocolDocument(), newProtocolLocation))) {
             getProtocolLocationService().addProtocolLocation(protocolForm.getProtocolDocument().getProtocol(), newProtocolLocation);
@@ -388,11 +394,11 @@ public class ProtocolProtocolAction extends ProtocolAction {
     public ActionForward addProtocolFundingSource(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolDocument protocolDocument = protocolForm.getProtocolDocument();
-        ProtocolFundingSource fundingSource = protocolForm.getProtocolHelper().getNewFundingSource();
-        List<ProtocolFundingSource> protocolFundingSources = protocolDocument.getProtocol().getProtocolFundingSources();
+        ProtocolDocument protocolDocument = (ProtocolDocument) protocolForm.getProtocolDocument();
+        ProtocolFundingSource fundingSource = (ProtocolFundingSource) protocolForm.getProtocolHelper().getNewFundingSource();
+        List<ProtocolFundingSourceBase> protocolFundingSources = protocolDocument.getProtocol().getProtocolFundingSources();
         AddProtocolFundingSourceEvent event = new AddProtocolFundingSourceEvent(Constants.EMPTY_STRING, protocolDocument,
-            fundingSource, protocolFundingSources);
+            fundingSource, (List)protocolFundingSources);
 
         protocolForm.getProtocolHelper().syncFundingSources(protocolDocument.getProtocol());
 
@@ -439,9 +445,9 @@ public class ProtocolProtocolAction extends ProtocolAction {
         Object question = request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME);
         if (CONFIRM_DELETE_PROTOCOL_FUNDING_SOURCE_KEY.equals(question)) {
             ProtocolForm protocolForm = (ProtocolForm) form;
-            ProtocolDocument protocolDocument = protocolForm.getProtocolDocument();
+            ProtocolDocument protocolDocument = (ProtocolDocument) protocolForm.getProtocolDocument();
             
-            ProtocolFundingSource protocolFundingSource = protocolDocument.getProtocol().getProtocolFundingSources().remove(getLineToDelete(request));
+            ProtocolFundingSource protocolFundingSource = (ProtocolFundingSource) protocolDocument.getProtocol().getProtocolFundingSources().remove(getLineToDelete(request));
             protocolForm.getProtocolHelper().getDeletedProtocolFundingSources().add(protocolFundingSource);
         }
         
@@ -468,7 +474,7 @@ public class ProtocolProtocolAction extends ProtocolAction {
         String line = request.getParameter("line");
         int lineNumber = Integer.parseInt(line);
 
-        ProtocolFundingSource protocolFundingSource = protocolForm.getProtocolDocument().getProtocol().getProtocolFundingSources().get(
+        ProtocolFundingSource protocolFundingSource = (ProtocolFundingSource) protocolForm.getProtocolDocument().getProtocol().getProtocolFundingSources().get(
                 lineNumber);
 
         String viewFundingSourceUrl = getProtocolFundingSourceService()
@@ -570,7 +576,7 @@ public class ProtocolProtocolAction extends ProtocolAction {
     public ActionForward createProposalDevelopment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolDocument protocolDocument = protocolForm.getProtocolDocument();
+        ProtocolDocument protocolDocument = (ProtocolDocument) protocolForm.getProtocolDocument();
         
         if ( protocolForm.getProtocolHelper().isProtocolProposalDevelopmentLinkingEnabled())
         {
@@ -581,12 +587,12 @@ public class ProtocolProtocolAction extends ProtocolAction {
                 DevelopmentProposal developmentProposal = proposalDevelopmentDocument.getDevelopmentProposal();
         
                 ProtocolFundingSourceServiceImpl protocolFundingSourceServiceImpl = (ProtocolFundingSourceServiceImpl) getProtocolFundingSourceService(); 
-                ProtocolFundingSource proposalProtocolFundingSource = protocolFundingSourceServiceImpl.updateProtocolFundingSource(FundingSourceType.PROPOSAL_DEVELOPMENT, developmentProposal.getProposalNumber(), developmentProposal.getSponsorName());
+                ProtocolFundingSource proposalProtocolFundingSource = (ProtocolFundingSource) protocolFundingSourceServiceImpl.updateProtocolFundingSource(FundingSourceType.PROPOSAL_DEVELOPMENT, developmentProposal.getProposalNumber(), developmentProposal.getSponsorName());
                 proposalProtocolFundingSource.setProtocol(protocolDocument.getProtocol());
                
-                List<ProtocolFundingSource> protocolFundingSources = protocolDocument.getProtocol().getProtocolFundingSources();
+                List<ProtocolFundingSourceBase> protocolFundingSources = protocolDocument.getProtocol().getProtocolFundingSources();
                 AddProtocolFundingSourceEvent event = new AddProtocolFundingSourceEvent(Constants.EMPTY_STRING, protocolDocument,
-                        proposalProtocolFundingSource, protocolFundingSources);
+                        proposalProtocolFundingSource, (List)protocolFundingSources);
                 
                 if (applyRules(event)) {
                     protocolDocument.getProtocol().getProtocolFundingSources().add(proposalProtocolFundingSource);
@@ -605,16 +611,16 @@ public class ProtocolProtocolAction extends ProtocolAction {
 
     private void preSaveProtocol(ActionForm form)  throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolDocument protocolDocument = protocolForm.getProtocolDocument();
-        List<ProtocolFundingSource> protocolFundingSources = protocolDocument.getProtocol().getProtocolFundingSources();
-        List<ProtocolFundingSource> deletedProtocolFundingSources = protocolForm.getProtocolHelper().getDeletedProtocolFundingSources();
+        ProtocolDocument protocolDocument = (ProtocolDocument) protocolForm.getProtocolDocument();
+        List<ProtocolFundingSourceBase> protocolFundingSources = protocolDocument.getProtocol().getProtocolFundingSources();
+        List<ProtocolFundingSourceBase> deletedProtocolFundingSources = protocolForm.getProtocolHelper().getDeletedProtocolFundingSources();
         protocolForm.getProtocolHelper().setNewProtocolFundingSources(protocolForm.getProtocolHelper().findNewFundingSources());
         setDeletedFundingSource(form);
         protocolForm.getProtocolHelper().prepareRequiredFieldsForSave();
         protocolForm.getProtocolHelper().createInitialProtocolAction();
         
         if (protocolDocument.getProtocol().isNew()) {
-            if (applyRules(new SaveProtocolFundingSourceLinkEvent(protocolDocument, protocolFundingSources, deletedProtocolFundingSources))) {
+            if (applyRules(new SaveProtocolFundingSourceLinkEvent(protocolDocument, (List)protocolFundingSources, (List)deletedProtocolFundingSources))) {
                 protocolForm.getProtocolHelper().syncSpecialReviewsWithFundingSources();
             }
         }
@@ -624,13 +630,14 @@ public class ProtocolProtocolAction extends ProtocolAction {
     private void setDeletedFundingSource(ActionForm form) {
         
         ProtocolForm protocolForm = (ProtocolForm) form;
-       protocolForm.setDeletedProtocolFundingSources(new ArrayList<ProtocolFundingSource> ());
-        for (ProtocolFundingSource fundingSource : protocolForm.getProtocolHelper().getDeletedProtocolFundingSources()) {
+       protocolForm.setDeletedProtocolFundingSources(new ArrayList<ProtocolFundingSourceBase> ());
+        for (ProtocolFundingSourceBase fundingSource : protocolForm.getProtocolHelper().getDeletedProtocolFundingSources()) {
             if (fundingSource.getProtocolFundingSourceId() != null) {
                 protocolForm.getDeletedProtocolFundingSources().add(fundingSource);
             }
         }
-   }
+    }
+    
     @Override
     protected ActionForward saveOnClose(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
@@ -652,7 +659,6 @@ public class ProtocolProtocolAction extends ProtocolAction {
     @Override
     public void postSave(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-        // TODO Auto-generated method stub
         super.postSave(mapping, form, request, response);
         fundingSourceNotification(form);
 
@@ -660,20 +666,27 @@ public class ProtocolProtocolAction extends ProtocolAction {
 
     private void fundingSourceNotification(ActionForm form) {
         ProtocolForm protocolForm = (ProtocolForm) form;
-        Protocol protocol = protocolForm.getProtocolDocument().getProtocol();
-        for (ProtocolFundingSource fundingSource : protocolForm.getProtocolHelper().getNewProtocolFundingSources()) {
+        Protocol protocol = (Protocol) protocolForm.getProtocolDocument().getProtocol();
+        for (ProtocolFundingSourceBase fundingSource : protocolForm.getProtocolHelper().getNewProtocolFundingSources()) {
             String fundingType = "'" + fundingSource.getFundingSourceType().getDescription() + "': " + fundingSource.getFundingSourceNumber();
             FundingSourceNotificationRenderer renderer = new FundingSourceNotificationRenderer(protocol, fundingType, "linked to");
             IRBNotificationContext context = new IRBNotificationContext(protocol, ProtocolActionType.FUNDING_SOURCE, "Funding Source", renderer);
+            
+// TODO ********************** added or modified during IRB backfit merge BEGIN ************************             
             getKcNotificationService().sendNotificationAndPersist(context, new IRBProtocolNotification(), protocol);
+// TODO ********************** added or modified during IRB backfit merge END ************************             
 
         }
-        for (ProtocolFundingSource fundingSource : protocolForm.getDeletedProtocolFundingSources()) {
+        for (ProtocolFundingSourceBase fundingSource : protocolForm.getDeletedProtocolFundingSources()) {
             if (fundingSource.getProtocolFundingSourceId() != null) {
                 String fundingType = "'" + fundingSource.getFundingSourceType().getDescription() + "': " + fundingSource.getFundingSourceNumber();
                 FundingSourceNotificationRenderer renderer = new FundingSourceNotificationRenderer(protocol, fundingType, "removed from");
                 IRBNotificationContext context = new IRBNotificationContext(protocol, ProtocolActionType.FUNDING_SOURCE, "Funding Source", renderer);
+             
+// TODO ********************** added or modified during IRB backfit merge BEGIN ************************                 
                 getKcNotificationService().sendNotificationAndPersist(context, new IRBProtocolNotification(), protocol);
+// TODO ********************** added or modified during IRB backfit merge END ************************ 
+                
             }
 
         }

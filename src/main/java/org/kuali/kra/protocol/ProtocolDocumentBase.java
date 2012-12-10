@@ -24,7 +24,6 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.bo.KcPerson;
-import org.kuali.kra.bo.ResearchArea;
 import org.kuali.kra.bo.ResearchAreaBase;
 import org.kuali.kra.bo.RolePersons;
 import org.kuali.kra.document.ResearchDocumentBase;
@@ -41,7 +40,6 @@ import org.kuali.kra.protocol.protocol.research.ProtocolResearchAreaService;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.rice.kew.api.KewApiConstants;
-import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kew.routeheader.service.RouteHeaderService;
@@ -250,7 +248,7 @@ public abstract class ProtocolDocumentBase extends ResearchDocumentBase implemen
         getProtocolActionService().updateProtocolStatus(protocolAction, getProtocol());
     }
     
-    protected abstract ProtocolActionBase getNewProtocolActionInstanceHook(ProtocolBase protocol, ProtocolSubmissionBase protocolSubmission, String protocolStatusCode);
+    protected abstract ProtocolActionBase getNewProtocolActionInstanceHook(ProtocolBase protocol, ProtocolSubmissionBase protocolSubmission, String actionTypeCode);
 
     
     protected ProtocolActionService getProtocolActionService() {
@@ -259,68 +257,68 @@ public abstract class ProtocolDocumentBase extends ResearchDocumentBase implemen
     
     protected abstract Class<? extends ProtocolActionService> getProtocolActionServiceClassHook();
     
-    
-    /**
-     * Merge the amendment into the original protocol.  Actually, we must first make a new
-     * version of the original and then merge the amendment into that new version.
-     * Also merge changes into any versions of the protocol that are being amended/renewed.
-     * @param protocolStatusCode
-     * @throws Exception
-     */
-    protected void mergeAmendment(String protocolStatusCode, String type) {
-        ProtocolBase currentProtocol = getProtocolFinderDaoHook().findCurrentProtocolByNumber(getOriginalProtocolNumber());
-        final ProtocolDocumentBase newProtocolDocument;
-        try {
-            // workflowdocument is null, so need to use documentservice to retrieve it
-            currentProtocol.setProtocolDocument((ProtocolDocumentBase)getDocumentService().getByDocumentHeaderId(currentProtocol.getProtocolDocument().getDocumentNumber()));
-            currentProtocol.setMergeAmendment(true);
-            newProtocolDocument = getProtocolVersionServiceHook().versionProtocolDocument(currentProtocol.getProtocolDocument());
-        } catch (Exception e) {
-            throw new ProtocolMergeException(e);
-        }
-        
-        newProtocolDocument.getProtocol().merge(getProtocol());
-        getProtocol().setProtocolStatusCode(protocolStatusCode);
-        
-        ProtocolActionBase action = getNewProtocolActionInstanceHook(newProtocolDocument.getProtocol(), null, getProtocolActionTypeApprovedHook()); 
-            //new ProtocolActionBase(newProtocolDocument.getProtocol(), null, getProtocolActionTypeApprovedHook());
-        action.setComments(type + "-" + getProtocolNumberIndex() + ": Approved");
-        newProtocolDocument.setProtocolWorkflowType(ProtocolWorkflowType.APPROVED);
-        newProtocolDocument.getProtocol().getProtocolActions().add(action);
-        if (!currentProtocol.getProtocolStatusCode().equals(getProtocolStatusExemptHook())) {
-            newProtocolDocument.getProtocol().setProtocolStatusCode(getProtocolStatusActiveOpenToEnrollmentHook());
-        }
-        try {
-            getDocumentService().saveDocument(newProtocolDocument);
-            // blanket approve to make the new protocol document 'final'
-            newProtocolDocument.getDocumentHeader().getWorkflowDocument().route(type + "-" + getProtocolNumberIndex() + ": merged");
-        } catch (WorkflowException e) {
-            throw new ProtocolMergeException(e);
-        }
-        
-        this.getProtocol().setActive(false);
-        
-        // now that we've updated the approved protocol, we must find all others under modification and update them too.
-        for (ProtocolBase otherProtocol: getProtocolFinderDaoHook().findProtocols(getOriginalProtocolNumber())) {
-            String status = otherProtocol.getProtocolStatus().getProtocolStatusCode();
-            if (isEligibleForMerging(status, otherProtocol)) {
-                // then this protocol version is being amended so push changes to it
-                //LOG.info("Merging amendment " + this.getProtocol().getProtocolNumber() + " into editable protocol " + otherProtocol.getProtocolNumber());
-                otherProtocol.merge(getProtocol(), false);
-                action = getNewProtocolActionInstanceHook(otherProtocol, null, protocolStatusCode);
-                action.setComments(type + "-" + getProtocolNumberIndex() + ": Merged");
-                otherProtocol.getProtocolActions().add(action);
-                getBusinessObjectService().save(otherProtocol);
-            }
-        }
-
-        finalizeAttachmentProtocol(this.getProtocol());
-        getBusinessObjectService().save(this);
-    }
-    
-    protected boolean isEligibleForMerging(String status, ProtocolBase otherProtocol) {
-        return getListOfStatusEligibleForMergingHook().contains(status) && !StringUtils.equals(this.getProtocol().getProtocolNumber(), otherProtocol.getProtocolNumber());
-    }
+// TODO ********************** commented out during IRB backfit ************************, pushed to IACUC subclass    
+//    /**
+//     * Merge the amendment into the original protocol.  Actually, we must first make a new
+//     * version of the original and then merge the amendment into that new version.
+//     * Also merge changes into any versions of the protocol that are being amended/renewed.
+//     * @param protocolStatusCode
+//     * @throws Exception
+//     */
+//    protected void mergeAmendment(String protocolStatusCode, String type) {
+//        ProtocolBase currentProtocol = getProtocolFinderDaoHook().findCurrentProtocolByNumber(getOriginalProtocolNumber());
+//        final ProtocolDocumentBase newProtocolDocument;
+//        try {
+//            // workflowdocument is null, so need to use documentservice to retrieve it
+//            currentProtocol.setProtocolDocument((ProtocolDocumentBase)getDocumentService().getByDocumentHeaderId(currentProtocol.getProtocolDocument().getDocumentNumber()));
+//            currentProtocol.setMergeAmendment(true);
+//            newProtocolDocument = getProtocolVersionServiceHook().versionProtocolDocument(currentProtocol.getProtocolDocument());
+//        } catch (Exception e) {
+//            throw new ProtocolMergeException(e);
+//        }
+//        
+//        newProtocolDocument.getProtocol().merge(getProtocol());
+//        getProtocol().setProtocolStatusCode(protocolStatusCode);
+//        
+//        ProtocolActionBase action = getNewProtocolActionInstanceHook(newProtocolDocument.getProtocol(), null, getProtocolActionTypeApprovedHook()); 
+//            //new ProtocolActionBase(newProtocolDocument.getProtocol(), null, getProtocolActionTypeApprovedHook());
+//        action.setComments(type + "-" + getProtocolNumberIndex() + ": Approved");
+//        newProtocolDocument.setProtocolWorkflowType(ProtocolWorkflowType.APPROVED);
+//        newProtocolDocument.getProtocol().getProtocolActions().add(action);
+//        if (!currentProtocol.getProtocolStatusCode().equals(getProtocolStatusExemptHook())) {
+//            newProtocolDocument.getProtocol().setProtocolStatusCode(getProtocolStatusActiveOpenToEnrollmentHook());
+//        }
+//        try {
+//            getDocumentService().saveDocument(newProtocolDocument);
+//            // blanket approve to make the new protocol document 'final'
+//            newProtocolDocument.getDocumentHeader().getWorkflowDocument().route(type + "-" + getProtocolNumberIndex() + ": merged");
+//        } catch (WorkflowException e) {
+//            throw new ProtocolMergeException(e);
+//        }
+//        
+//        this.getProtocol().setActive(false);
+//        
+//        // now that we've updated the approved protocol, we must find all others under modification and update them too.
+//        for (ProtocolBase otherProtocol: getProtocolFinderDaoHook().findProtocols(getOriginalProtocolNumber())) {
+//            String status = otherProtocol.getProtocolStatus().getProtocolStatusCode();
+//            if (isEligibleForMerging(status, otherProtocol)) {
+//                // then this protocol version is being amended so push changes to it
+//                //LOG.info("Merging amendment " + this.getProtocol().getProtocolNumber() + " into editable protocol " + otherProtocol.getProtocolNumber());
+//                otherProtocol.merge(getProtocol(), false);
+//                action = getNewProtocolActionInstanceHook(otherProtocol, null, protocolStatusCode);
+//                action.setComments(type + "-" + getProtocolNumberIndex() + ": Merged");
+//                otherProtocol.getProtocolActions().add(action);
+//                getBusinessObjectService().save(otherProtocol);
+//            }
+//        }
+//
+//        finalizeAttachmentProtocol(this.getProtocol());
+//        getBusinessObjectService().save(this);
+//    }
+//    
+//    protected boolean isEligibleForMerging(String status, ProtocolBase otherProtocol) {
+//        return getListOfStatusEligibleForMergingHook().contains(status) && !StringUtils.equals(this.getProtocol().getProtocolNumber(), otherProtocol.getProtocolNumber());
+//    }
 
     /*
      * This method is to make the document status of the attachment protocol to "finalized" 
@@ -347,12 +345,12 @@ public abstract class ProtocolDocumentBase extends ResearchDocumentBase implemen
 //        return KraServiceLocator.getService(ProtocolFinderDao.class);
 //    }
     
-    protected abstract ProtocolFinderDao getProtocolFinderDaoHook();
-    protected abstract ProtocolVersionService getProtocolVersionServiceHook();
-    protected abstract String getProtocolActionTypeApprovedHook();
-    protected abstract String getProtocolStatusExemptHook();
-    protected abstract String getProtocolStatusActiveOpenToEnrollmentHook();
-    protected abstract String getListOfStatusEligibleForMergingHook();
+//    protected abstract ProtocolFinderDao getProtocolFinderDaoHook();
+//    protected abstract ProtocolVersionService getProtocolVersionServiceHook();
+//    protected abstract String getProtocolActionTypeApprovedHook();
+//    protected abstract String getProtocolStatusExemptHook();
+//    protected abstract String getProtocolStatusActiveOpenToEnrollmentHook();
+//    protected abstract String getListOfStatusEligibleForMergingHook();
 
     
     protected DocumentService getDocumentService() {
@@ -378,7 +376,7 @@ public abstract class ProtocolDocumentBase extends ResearchDocumentBase implemen
      * @param statusChangeEvent
      * @return
      */
-    private boolean isFinal(DocumentRouteStatusChange statusChangeEvent) {
+    protected boolean isFinal(DocumentRouteStatusChange statusChangeEvent) {
         return StringUtils.equals(KewApiConstants.ROUTE_HEADER_FINAL_CD, statusChangeEvent.getNewRouteStatus());
     }
     
@@ -387,7 +385,7 @@ public abstract class ProtocolDocumentBase extends ResearchDocumentBase implemen
      * @param statusChangeEvent
      * @return
      */
-    private boolean isDisapproved(DocumentRouteStatusChange statusChangeEvent) {
+    protected boolean isDisapproved(DocumentRouteStatusChange statusChangeEvent) {
         return StringUtils.equals(KewApiConstants.ROUTE_HEADER_DISAPPROVED_CD, statusChangeEvent.getNewRouteStatus());
     }
    
@@ -429,8 +427,8 @@ public abstract class ProtocolDocumentBase extends ResearchDocumentBase implemen
                 StringUtils.equals(KewApiConstants.ROUTE_HEADER_SAVED_CD, statusChangeEvent.getOldRouteStatus()));
     }
 
-    private static class ProtocolMergeException extends RuntimeException {
-        ProtocolMergeException(Throwable t) {
+    public static class ProtocolMergeException extends RuntimeException {
+        public ProtocolMergeException(Throwable t) {
             super(t);
         }
     }
