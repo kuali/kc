@@ -395,6 +395,13 @@ public class BudgetVersionsAction extends BudgetAction {
         }
 
         if (!valid) {
+            for (BudgetDocumentVersion budgetDocumentVersion: parentDocument.getBudgetDocumentVersions()) {
+                BudgetVersionOverview budgetVersion =  budgetDocumentVersion.getBudgetVersionOverview();
+
+                    String budgetStatusIncompleteCode = getParameterService().getParameterValueAsString(
+                            BudgetDocument.class, Constants.BUDGET_STATUS_INCOMPLETE_CODE);
+                    budgetVersion.setBudgetStatus(budgetStatusIncompleteCode);
+            }
             return mapping.findForward(Constants.MAPPING_BASIC);
         }
 
