@@ -20,6 +20,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
@@ -37,6 +38,11 @@ import org.kuali.rice.krad.service.KeyValuesService;
  */
 public class ParticipantTypeValuesFinder extends KeyValuesBase {
     
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = 6315943281880005921L;
+
     /**
      * Constructs the list of Protocol Participant Types.  Each entry
      * in the list is a &lt;key, value&gt; pair, where the "key" is the unique
@@ -82,7 +88,7 @@ public class ParticipantTypeValuesFinder extends KeyValuesBase {
         ProtocolDocument doc = null;
         ProtocolForm form = (ProtocolForm) KNSGlobalVariables.getKualiForm();
         if (form != null) {
-            doc = form.getProtocolDocument();
+            doc = (ProtocolDocument) form.getProtocolDocument();
         }
         return doc;
     }
@@ -96,7 +102,7 @@ public class ParticipantTypeValuesFinder extends KeyValuesBase {
      */
     private boolean hasParticipant(ProtocolDocument doc, ParticipantType participantType) {
         if (doc != null) {
-            List<ProtocolParticipant> protocolParticipants = doc.getProtocol().getProtocolParticipants();
+            List<ProtocolParticipant> protocolParticipants = ((Protocol) doc.getProtocol()).getProtocolParticipants();
             for (ProtocolParticipant protocolParticipant : protocolParticipants) {
                 if (protocolParticipant.getParticipantTypeCode().
                         equals(participantType.getParticipantTypeCode())) {

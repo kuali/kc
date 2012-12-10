@@ -15,10 +15,20 @@
  */
 package org.kuali.kra.iacuc.committee.meeting;
 
+import java.util.ArrayList;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.struts.action.ActionForm;
+import org.apache.struts.action.ActionForward;
+import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
 import org.kuali.kra.common.committee.meeting.CommScheduleMinuteDocBase;
 import org.kuali.kra.common.committee.meeting.CommonMeetingService;
 import org.kuali.kra.common.committee.meeting.MeetingActionsActionBase;
+import org.kuali.kra.common.committee.meeting.MeetingFormBase;
+import org.kuali.kra.common.committee.meeting.MeetingHelperBase;
 import org.kuali.kra.common.committee.meeting.ScheduleAgendaBase;
 import org.kuali.kra.common.committee.print.service.CommitteePrintingServiceBase;
 import org.kuali.kra.iacuc.actions.reviewcomments.IacucReviewCommentsService;
@@ -28,9 +38,13 @@ import org.kuali.kra.iacuc.correspondence.IacucProtocolActionCorrespondenceGener
 import org.kuali.kra.iacuc.correspondence.IacucProtocolActionsCorrespondence;
 import org.kuali.kra.iacuc.correspondence.IacucProtocolCorrespondenceType;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.protocol.actions.correspondence.ProtocolActionCorrespondenceGenerationService;
-import org.kuali.kra.protocol.actions.correspondence.ProtocolActionsCorrespondenceBase;
+import org.kuali.kra.printing.PrintingException;
+import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
+import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsService;
+import org.kuali.kra.protocol.correspondence.ProtocolCorrespondence;
+import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class IacucMeetingActionsAction extends MeetingActionsActionBase {
 
@@ -54,15 +68,6 @@ public class IacucMeetingActionsAction extends MeetingActionsActionBase {
         return IacucProtocolCorrespondenceType.MINUTES;
     }
 
-    @Override
-    protected ProtocolActionsCorrespondenceBase getNewProtocolActionsCorrespondenceInstanceHook(String protocolActionTypeCode) {
-        return new IacucProtocolActionsCorrespondence(protocolActionTypeCode);
-    }
-
-    @Override
-    protected ProtocolActionCorrespondenceGenerationService getProtocolActionCorrespondenceGenerationService() {
-        return KraServiceLocator.getService(IacucProtocolActionCorrespondenceGenerationService.class);
-    }
 
     @Override
     protected Class<? extends CommitteeScheduleBase> getCommitteeScheduleBOClass() {
@@ -89,4 +94,38 @@ public class IacucMeetingActionsAction extends MeetingActionsActionBase {
         return KraServiceLocator.getService(IacucCommitteePrintingService.class);
     }
 
+    public ActionForward regenerateCorrespondence(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        // final int selection = this.getSelectedLine(request);
+        MeetingHelperBase meetingHelper = ((MeetingFormBase) form).getMeetingHelper();
+        meetingHelper.setRegeneratedCorrespondences(new ArrayList<ProtocolCorrespondence>());
+        for (ProtocolCorrespondence protocolCorrespondence : meetingHelper.getCorrespondences()) {
+            if (protocolCorrespondence.isRegenerateFlag()) {
+                ProtocolBase protocol = protocolCorrespondence.getProtocol();
+                AttachmentDataSource dataSource = generateCorrespondenceDocumentAndAttach(protocol, protocolCorrespondence);
+                PrintableAttachment source = new PrintableAttachment();
+                if (dataSource != null) {
+                    protocolCorrespondence.setCorrespondence(dataSource.getContent());
+                    protocolCorrespondence.setFinalFlag(false);
+                    protocolCorrespondence.setCreateUser(GlobalVariables.getUserSession().getPrincipalName());
+                    protocolCorrespondence.setCreateTimestamp(KraServiceLocator.getService(DateTimeService.class)
+                            .getCurrentTimestamp());
+                }
+                meetingHelper.getRegeneratedCorrespondences().add(protocolCorrespondence);
+            }
+        }
+        getBusinessObjectService().save(meetingHelper.getRegeneratedCorrespondences());
+        return mapping.findForward("correspondence");
+    }
+
+    protected AttachmentDataSource generateCorrespondenceDocumentAndAttach(ProtocolBase protocol, ProtocolCorrespondence oldCorrespondence) throws PrintingException {
+        IacucProtocolActionsCorrespondence correspondence = new IacucProtocolActionsCorrespondence(oldCorrespondence.getProtocolAction().getProtocolActionTypeCode());
+        correspondence.setProtocol(protocol);
+        return getProtocolActionCorrespondenceGenerationService().reGenerateCorrespondenceDocument(correspondence);
+    }
+
+    private IacucProtocolActionCorrespondenceGenerationService getProtocolActionCorrespondenceGenerationService() {
+        return KraServiceLocator.getService(IacucProtocolActionCorrespondenceGenerationService.class);
+    }
+    
 }

@@ -24,6 +24,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.lookup.keyvalue.ConditionValuesFinder;
 import org.kuali.kra.lookup.keyvalue.PrefixValuesFinder;
 import org.kuali.kra.lookup.keyvalue.SortedValuesFinder;
+import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentBase;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.keyvalues.KeyValuesFinder;
@@ -53,8 +54,12 @@ import org.kuali.rice.krad.keyvalues.KeyValuesFinder;
  * 
  * See {@link #getKeyValues()}.
  */
-public class ProtocolAttachmentTypeByGroupValuesFinder <T extends ProtocolAttachmentBase & TypedAttachment> extends KeyValuesBase {
+public class ProtocolAttachmentTypeByGroupValuesFinder <T extends ProtocolAttachmentBase & org.kuali.kra.protocol.noteattachment.TypedAttachment> extends KeyValuesBase {
     
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = 1806457024473671666L;
     private static final String GROUP_CODE_NAME = "groupCode";
     private static final String TYPE_DESCRIPTION_NAME = "type.description";
     private static final String TYPE_CODE_NAME = "type.code";
@@ -127,7 +132,7 @@ public class ProtocolAttachmentTypeByGroupValuesFinder <T extends ProtocolAttach
             return false;
         }
         
-        for (final TypedAttachment attachment : this.filterTypes) {
+        for (final org.kuali.kra.protocol.noteattachment.TypedAttachment attachment : this.filterTypes) {
             if (attachment.getType().getCode().equals(typeCode)) {
                 return true;
             }

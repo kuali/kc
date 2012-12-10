@@ -15,10 +15,15 @@
  */
 package org.kuali.kra.iacuc.personnel;
 
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.RoleConstants;
+import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
 import org.kuali.kra.protocol.personnel.ProtocolPersonRoleBase;
 import org.kuali.kra.protocol.personnel.ProtocolPersonRoleMappingBase;
 import org.kuali.kra.protocol.personnel.ProtocolPersonnelServiceImplBase;
 import org.kuali.kra.protocol.personnel.ProtocolUnitBase;
+import org.kuali.kra.service.KraAuthorizationService;
 
 public class IacucProtocolPersonnelServiceImpl extends ProtocolPersonnelServiceImplBase implements IacucProtocolPersonnelService {
 
@@ -41,7 +46,41 @@ public class IacucProtocolPersonnelServiceImpl extends ProtocolPersonnelServiceI
     public Class<? extends ProtocolPersonRoleBase> getProtocolPersonRoleClassHook() {
         return IacucProtocolPersonRole.class;
     }
-    
+
+    @Override
+    /**
+     * {@inheritDoc}
+     * @see org.kuali.kra.protocol.personnel.ProtocolPersonnelService#setPrincipalInvestigator(org.kuali.kra.protocol.personnel.ProtocolPersonBase, 
+     *                                                                                    org.kuali.kra.protocol.ProtocolBase)
+     */
+    public void setPrincipalInvestigator(ProtocolPersonBase newPrincipalInvestigator, ProtocolBase protocol) {
+        if (protocol != null) {
+            ProtocolPersonBase currentPrincipalInvestigator = getPrincipalInvestigator(protocol.getProtocolPersons());
+
+            if (newPrincipalInvestigator != null) {
+                newPrincipalInvestigator.setProtocolPersonRoleId(getPrincipalInvestigatorRole());
+                if (currentPrincipalInvestigator == null) {
+                    protocol.getProtocolPersons().add(newPrincipalInvestigator);
+                }
+                else if (!isDuplicatePerson(protocol.getProtocolPersons(), newPrincipalInvestigator)) {
+                    protocol.getProtocolPersons().remove(currentPrincipalInvestigator);
+                    protocol.getProtocolPersons().add(newPrincipalInvestigator);
+                }
+
+                // Assign the PI the AGGREGATOR role if PI has a personId.
+                if (newPrincipalInvestigator.getPersonId() != null) {
+                    personEditableService.populateContactFieldsFromPersonId(newPrincipalInvestigator);
+                    KraAuthorizationService kraAuthService = KraServiceLocator.getService(KraAuthorizationService.class);
+                    kraAuthService.addRole(newPrincipalInvestigator.getPersonId(), RoleConstants.IACUC_PROTOCOL_AGGREGATOR,
+                            protocol);
+                    kraAuthService.addRole(newPrincipalInvestigator.getPersonId(), RoleConstants.IACUC_PROTOCOL_APPROVER, protocol);
+                }
+                else {
+                    personEditableService.populateContactFieldsFromRolodexId(newPrincipalInvestigator);
+                }
+            }
+        }
+    }    
     
 
 }

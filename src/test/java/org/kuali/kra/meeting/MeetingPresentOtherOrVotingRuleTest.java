@@ -18,8 +18,12 @@ package org.kuali.kra.meeting;
 import java.util.ArrayList;
 
 import org.junit.Test;
+import org.kuali.kra.common.committee.meeting.MeetingEventBase.ErrorType;
+import org.kuali.kra.common.committee.meeting.MeetingPresentOtherOrVotingEvent;
+import org.kuali.kra.common.committee.meeting.MeetingPresentOtherOrVotingRule;
+import org.kuali.kra.common.committee.meeting.MemberAbsentBean;
+import org.kuali.kra.common.committee.meeting.MemberPresentBean;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.meeting.MeetingEventBase.ErrorType;
 import org.kuali.kra.rules.TemplateRuleTest;
 
 public class MeetingPresentOtherOrVotingRuleTest {

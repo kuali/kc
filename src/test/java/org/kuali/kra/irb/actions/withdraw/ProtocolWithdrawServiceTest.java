@@ -95,7 +95,7 @@ public class ProtocolWithdrawServiceTest extends KcUnitTestBase {
         protocolSubmitActionService.submitToIrbForReview(oldProtocolDocument.getProtocol(), getMockSubmitAction());
         assertEquals(ProtocolStatus.SUBMITTED_TO_IRB, oldProtocolDocument.getProtocol().getProtocolStatusCode());
         
-        ProtocolDocument newProtocolDocument = service.withdraw(oldProtocolDocument.getProtocol(), getMockProtocolWithdrawBean());
+        ProtocolDocument newProtocolDocument = (ProtocolDocument) service.withdraw(oldProtocolDocument.getProtocol(), getMockProtocolWithdrawBean());
     
         assertTrue(oldProtocolDocument.getDocumentHeader().getWorkflowDocument().isCanceled());
         assertEquals(ProtocolStatus.WITHDRAWN, newProtocolDocument.getProtocol().getProtocolStatusCode());

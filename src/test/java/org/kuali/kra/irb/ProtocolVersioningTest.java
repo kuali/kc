@@ -33,6 +33,8 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentProtocol;
 import org.kuali.kra.irb.protocol.location.ProtocolLocation;
 import org.kuali.kra.irb.test.ProtocolFactory;
+import org.kuali.kra.protocol.ProtocolAssociateBase;
+import org.kuali.kra.protocol.protocol.location.ProtocolLocationBase;
 import org.kuali.kra.service.VersioningService;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
@@ -97,7 +99,7 @@ public class ProtocolVersioningTest extends KcUnitTestBase {
      */
     @Test
     public void test_many_associates_versioning() throws Exception {
-        List<ProtocolLocation> locations = new ArrayList<ProtocolLocation>();
+        List<ProtocolLocationBase> locations = new ArrayList<ProtocolLocationBase>();
         
         ProtocolLocation location = new ProtocolLocation();
         location.setProtocol(ver1.getProtocol());
@@ -224,7 +226,7 @@ public class ProtocolVersioningTest extends KcUnitTestBase {
      * @param ver1 the first version
      * @param ver2 the second version
      */
-    private void assertIsVersioned(ProtocolAssociate ver1, ProtocolAssociate ver2) {
+    private void assertIsVersioned(ProtocolAssociateBase ver1, ProtocolAssociateBase ver2) {
         Assert.assertThat(ver2.getSequenceNumber(), is(ver1.getSequenceNumber() + 1));
         Assert.assertThat(ver2.getProtocolNumber(), equalTo(ver1.getProtocol().getProtocolNumber()));
         Assert.assertThat(ver2.getProtocolId(), not(equalTo(ver1.getProtocolId())));
@@ -259,7 +261,7 @@ public class ProtocolVersioningTest extends KcUnitTestBase {
      * @param ver1 the first version
      * @param ver2 the second version
      */
-    private <T extends ProtocolAssociate> void assertIsVersioned(List<T> ver1, List<T> ver2) {
+    private <T extends ProtocolAssociateBase> void assertIsVersioned(List<T> ver1, List<T> ver2) {
         Assert.assertThat(ver2.size(), equalTo(ver1.size()));
         
         for (int i = 0; i < ver1.size(); i++) {

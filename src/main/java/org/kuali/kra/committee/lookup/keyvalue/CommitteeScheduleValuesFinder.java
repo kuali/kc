@@ -15,15 +15,9 @@
  */
 package org.kuali.kra.committee.lookup.keyvalue;
 
-import java.util.List;
-
+import org.kuali.kra.common.committee.lookup.keyvalue.CommitteeScheduleValuesFinderBase;
+import org.kuali.kra.common.committee.service.CommitteeServiceBase;
 import org.kuali.kra.committee.service.CommitteeService;
-import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.irb.ProtocolForm;
-import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
-import org.kuali.rice.kns.web.struts.form.KualiForm;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 /**
  * Finds the available set of dates where a protocol can be scheduled
@@ -31,39 +25,51 @@ import org.kuali.rice.krad.keyvalues.KeyValuesBase;
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
-public class CommitteeScheduleValuesFinder extends KeyValuesBase {
+public class CommitteeScheduleValuesFinder extends CommitteeScheduleValuesFinderBase {
     
     /**
-     * @return the list of &lt;key, value&gt; pairs of committees.  The first entry
-     * is always &lt;"", "select:"&gt;.
-     * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
+     * Comment for <code>serialVersionUID</code>
      */
-    public List<KeyValue> getKeyValues() {
-        return getCommitteeService().getAvailableCommitteeDates(getCommitteeId());
-    }
-    
-    /**
-     * Get the Committee Service.
-     * @return the Committee Service
-     */
-    private CommitteeService getCommitteeService() {
-        return KraServiceLocator.getService(CommitteeService.class);
+    private static final long serialVersionUID = 338230898950097350L;
+
+    @Override
+    protected Class<? extends CommitteeServiceBase> getCommitteeServiceClassHook() {
+        return CommitteeService.class;
     }
 
-    /**
-     * Get the committee id.  Currently we are only concerned with
-     * scheduling protocols.  The committee id is found in via the ProtocolForm.
-     * Keep in mind that the user selects the committee via a drop-down and
-     * thus the selected committee id is placed into the form.
-     * @return
-     */
-    private String getCommitteeId() {
-        String committeeId = "";
-        KualiForm form = KNSGlobalVariables.getKualiForm();
-        if (form instanceof ProtocolForm) {
-            ProtocolForm protocolForm = (ProtocolForm) form;
-            committeeId = protocolForm.getActionHelper().getProtocolSubmitAction().getCommitteeId();
-        }
-        return committeeId;
-    }
+// TODO ********************** commented out during IRB backfit ************************    
+//    /**
+//     * @return the list of &lt;key, value&gt; pairs of committees.  The first entry
+//     * is always &lt;"", "select:"&gt;.
+//     * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
+//     */
+//    public List<KeyValue> getKeyValues() {
+//        return getCommitteeService().getAvailableCommitteeDates(getCommitteeId());
+//    }
+//    
+//    /**
+//     * Get the Committee Service.
+//     * @return the Committee Service
+//     */
+//    private CommitteeService getCommitteeService() {
+//        return KraServiceLocator.getService(CommitteeService.class);
+//    }
+//
+//    /**
+//     * Get the committee id.  Currently we are only concerned with
+//     * scheduling protocols.  The committee id is found in via the ProtocolForm.
+//     * Keep in mind that the user selects the committee via a drop-down and
+//     * thus the selected committee id is placed into the form.
+//     * @return
+//     */
+//    private String getCommitteeId() {
+//        String committeeId = "";
+//        KualiForm form = KNSGlobalVariables.getKualiForm();
+//        if (form instanceof ProtocolForm) {
+//            ProtocolForm protocolForm = (ProtocolForm) form;
+//            committeeId = protocolForm.getActionHelper().getProtocolSubmitAction().getCommitteeId();
+//        }
+//        return committeeId;
+//    }
+    
 }

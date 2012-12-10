@@ -735,6 +735,7 @@ public class ProtocolActionServiceTest extends ProtocolActionServiceTestBase {
         assertTrue(protocolActionService.canPerformAction("102", protocol));
     }
 
+    @SuppressWarnings("rawtypes")
     @Test
     public void testActionTypeCode205ReviewTypeCode2() {
         protocol.getProtocolSubmission().setSubmissionNumber(1); // Not null
@@ -744,7 +745,7 @@ public class ProtocolActionServiceTest extends ProtocolActionServiceTestBase {
         ProtocolReviewer reviewer = new ProtocolReviewer();
         review.setProtocolReviewer(reviewer);
         reviews.add(review);
-        protocol.getProtocolSubmission().setProtocolOnlineReviews(reviews);
+        protocol.getProtocolSubmission().setProtocolOnlineReviews((List)reviews);
 
         protocol.getProtocolSubmission().setProtocolReviewTypeCode("2");
 
@@ -755,6 +756,7 @@ public class ProtocolActionServiceTest extends ProtocolActionServiceTestBase {
         assertTrue(protocolActionService.canPerformAction("205", protocol));
     }
 
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     @Test
     public void testActionTypeCode208ReviewTypeCode6() {
         protocol.getProtocolSubmission().setSubmissionNumber(1); // Not null
@@ -764,7 +766,7 @@ public class ProtocolActionServiceTest extends ProtocolActionServiceTestBase {
         ProtocolReviewer reviewer = new ProtocolReviewer();
         review.setProtocolReviewer(reviewer);
         reviews.add(review);
-        protocol.getProtocolSubmission().setProtocolOnlineReviews(reviews);
+        protocol.getProtocolSubmission().setProtocolOnlineReviews((List)reviews);
 
         protocol.getProtocolSubmission().setProtocolReviewTypeCode("6");
 

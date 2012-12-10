@@ -844,7 +844,7 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
             return preRulesForward;
         }
 
-        CommitteeDocument committeeDocument = committeeForm.getCommitteeDocument();
+        CommitteeDocument committeeDocument = (CommitteeDocument) committeeForm.getCommitteeDocument();
 
         getKraDocumentService().routeDocument(committeeDocument, committeeForm.getAnnotation(), combineAdHocRecipients(committeeForm));
         KNSGlobalVariables.getMessageList().add(RiceKeyConstants.MESSAGE_ROUTE_SUCCESSFUL);

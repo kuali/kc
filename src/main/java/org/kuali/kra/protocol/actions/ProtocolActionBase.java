@@ -473,7 +473,7 @@ public abstract class ProtocolActionBase extends ProtocolAssociateBase {
         
     }
     
-    private String getAmendmentRenewalNumber(String comment) {
+    protected String getAmendmentRenewalNumber(String comment) {
         String retVal="";
         if (comment.startsWith("Amendment-")) {
             retVal = "A" + comment.substring(10, 13);

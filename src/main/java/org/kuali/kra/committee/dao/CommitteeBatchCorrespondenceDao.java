@@ -15,25 +15,23 @@
  */
 package org.kuali.kra.committee.dao;
 
-import java.sql.Date;
-import java.util.List;
-
 import org.kuali.kra.committee.bo.CommitteeBatchCorrespondence;
 
 /**
  * 
  * This class provides enhanced database access functionality.
  */
-public interface CommitteeBatchCorrespondenceDao {
+public interface CommitteeBatchCorrespondenceDao extends org.kuali.kra.common.committee.dao.CommitteeBatchCorrespondenceDao<CommitteeBatchCorrespondence> {
     
-    /**
-     * This method returns all CommitteeBatchCorrespondence of the specified type.  Optionally a date range may be specified to further
-     * narrow the result set.
-     * @param batchCorrespondenceTypeCode
-     * @param startDate - optional, if specified the CommitteeBatchCorrespondence must be created on or after this date.
-     * @param endDate - optional, if specified the CommitteeBatchCorrespondence must be created on or before this date.
-     * @return List of the requested CommitteeBatchCorrespondence
-     */
-    List<CommitteeBatchCorrespondence> getCommitteeBatchCorrespondence(String batchCorrespondenceTypeCode, Date startDate, Date endDate);
+// TODO ********************** commented out during IRB backfit ************************    
+//    /**
+//     * This method returns all CommitteeBatchCorrespondence of the specified type.  Optionally a date range may be specified to further
+//     * narrow the result set.
+//     * @param batchCorrespondenceTypeCode
+//     * @param startDate - optional, if specified the CommitteeBatchCorrespondence must be created on or after this date.
+//     * @param endDate - optional, if specified the CommitteeBatchCorrespondence must be created on or before this date.
+//     * @return List of the requested CommitteeBatchCorrespondence
+//     */
+//    List<CommitteeBatchCorrespondence> getCommitteeBatchCorrespondence(String batchCorrespondenceTypeCode, Date startDate, Date endDate);
 
 }

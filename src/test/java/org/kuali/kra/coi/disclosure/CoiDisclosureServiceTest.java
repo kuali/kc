@@ -44,6 +44,7 @@ import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.irb.protocol.funding.ProtocolFundingSource;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
+import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceBase;
 import org.kuali.kra.service.VersioningService;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.krad.UserSession;
@@ -771,7 +772,7 @@ public class CoiDisclosureServiceTest extends KcUnitTestBase {
        ProtocolFundingSource fundingSource = new ProtocolFundingSource();
        fundingSource.setFundingSourceTypeCode(FundingSourceType.SPONSOR);
        fundingSource.setFundingSourceNumber("000340");
-       protocol.setProtocolFundingSources(new ArrayList<ProtocolFundingSource>());
+       protocol.setProtocolFundingSources(new ArrayList<ProtocolFundingSourceBase>());
        protocol.getProtocolFundingSources().add(fundingSource);
        person.setProtocol(protocol);
        persons.add(person);

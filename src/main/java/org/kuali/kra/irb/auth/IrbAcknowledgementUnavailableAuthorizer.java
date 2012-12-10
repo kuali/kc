@@ -22,6 +22,7 @@ import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 
 /**
  * 
@@ -41,9 +42,9 @@ public class IrbAcknowledgementUnavailableAuthorizer extends ProtocolAuthorizer 
         Protocol protocol = task.getProtocol();
         if (protocol.getNotifyIrbSubmissionId() != null) {
             // not the current submission, then check programically
-            for (ProtocolSubmission submission : protocol.getProtocolSubmissions()) {
+            for (ProtocolSubmissionBase submission : protocol.getProtocolSubmissions()) {
                 if (submission.getSubmissionId().equals(protocol.getNotifyIrbSubmissionId())) {
-                    isValid = isValidFYI(submission);
+                    isValid = isValidFYI((ProtocolSubmission) submission);
                 }
             }
         }

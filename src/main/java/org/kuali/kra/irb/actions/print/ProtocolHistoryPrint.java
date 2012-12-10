@@ -15,6 +15,9 @@
  */
 package org.kuali.kra.irb.actions.print;
 
+import org.kuali.kra.protocol.actions.print.ProtocolHistoryPrintBase;
+import org.kuali.kra.protocol.actions.print.ProtocolPrintWatermarkBase;
+
 
 /**
  * This class provides the implementation for printing Protocol History Report. It generates XML that conforms with Protocol History Report
@@ -22,16 +25,23 @@ package org.kuali.kra.irb.actions.print;
  * any purpose like report generation, PDF streaming etc.
  * 
  */
-public class ProtocolHistoryPrint extends ProtocolReportPrint {
+public class ProtocolHistoryPrint extends ProtocolHistoryPrintBase {
 
     private static final long serialVersionUID = 834187306362966953L;
-
-    /**
-     * 
-     * @see org.kuali.kra.irb.actions.print.ProtocolReportPrint#getProtocolPrintType()
-     */
-    public String getProtocolPrintType() {
-        return ProtocolPrintType.PROTOCOL_PROTOCOL_HISTORY_REPORT.getProtocolPrintType();
+    
+    @Override
+    protected ProtocolPrintWatermarkBase getNewProtocolPrintWatermarkInstanceHook() {
+        return new ProtocolPrintWatermark();
     }
+
+    
+// TODO ********************** commented out during IRB backfit ************************    
+//    /**
+//     * 
+//     * @see org.kuali.kra.irb.actions.print.ProtocolReportPrint#getProtocolPrintType()
+//     */
+//    public String getProtocolPrintType() {
+//        return ProtocolPrintType.PROTOCOL_PROTOCOL_HISTORY_REPORT.getProtocolPrintType();
+//    }
 
 }

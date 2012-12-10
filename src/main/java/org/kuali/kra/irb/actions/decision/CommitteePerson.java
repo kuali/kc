@@ -15,18 +15,14 @@
  */
 package org.kuali.kra.irb.actions.decision;
 
-import java.io.Serializable;
+import org.kuali.kra.protocol.actions.decision.CommitteePersonBase;
 
-@SuppressWarnings("serial")
-public class CommitteePerson implements Serializable{
+public class CommitteePerson extends CommitteePersonBase {
 
-    private Long membershipId;
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = -2168060913915166500L;
 
-    public Long getMembershipId() {
-        return membershipId;
-    }
-
-    public void setMembershipId(Long membershipId) {
-        this.membershipId = membershipId;
-    }
+    
 }

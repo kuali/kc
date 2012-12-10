@@ -26,11 +26,9 @@ import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.committee.bo.CommitteeMembership;
-import org.kuali.kra.committee.bo.CommitteeMembershipExpertise;
-import org.kuali.kra.committee.bo.CommitteeMembershipRole;
-import org.kuali.kra.committee.bo.CommitteeResearchArea;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
-import org.kuali.kra.committee.document.CommitteeDocument;
+import org.kuali.kra.common.committee.bo.CommitteeMembershipExpertiseBase;
+import org.kuali.kra.common.committee.bo.CommitteeResearchAreaBase;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.irb.personnel.ProtocolPersonRolodex;
 import org.kuali.kra.printing.xmlstream.PrintBaseXmlStream;
@@ -82,9 +80,9 @@ public class CommitteeXmlStream extends PrintBaseXmlStream {
         return committeeType ;
     }
     private void setCommitteeResearchArea(org.kuali.kra.committee.bo.Committee committee, Committee committeeType) {
-        List<CommitteeResearchArea> committeeResearchAreas = committee.getCommitteeResearchAreas();
+        List<CommitteeResearchAreaBase> committeeResearchAreas = committee.getCommitteeResearchAreas();
         if(committeeResearchAreas.isEmpty()) return;
-        for (CommitteeResearchArea committeeResearchArea : committeeResearchAreas) {
+        for (CommitteeResearchAreaBase committeeResearchArea : committeeResearchAreas) {
             edu.mit.irb.irbnamespace.ResearchAreaDocument.ResearchArea researchArea = committeeType.addNewResearchArea();
             researchArea.setResearchAreaCode(committeeResearchArea.getResearchAreaCode()) ;
             researchArea.setResearchAreaDescription(committeeResearchArea.getResearchArea().getDescription()) ;
@@ -115,7 +113,7 @@ public class CommitteeXmlStream extends PrintBaseXmlStream {
     }
 
     public void setCommitteeMembers(org.kuali.kra.committee.bo.Committee committee, Committee committeeType) {
-        List<CommitteeMembership> committeeMemberships = committee.getCommitteeMemberships();
+        List<CommitteeMembership> committeeMemberships = (List)committee.getCommitteeMemberships();
         if(committeeMemberships.isEmpty()) return;
         for (CommitteeMembership membershipBean : committeeMemberships) {
             CommitteeMember committeeMember = committeeType.addNewCommitteeMember();
@@ -124,7 +122,7 @@ public class CommitteeXmlStream extends PrintBaseXmlStream {
         
     }
     public void setCommitteeMembers(org.kuali.kra.committee.bo.Committee committee, Submissions committeeType) {
-        List<CommitteeMembership> committeeMemberships = committee.getCommitteeMemberships();
+        List<CommitteeMembership> committeeMemberships = (List)committee.getCommitteeMemberships();
         if(committeeMemberships.isEmpty()) return;
         for (CommitteeMembership membershipBean : committeeMemberships) {
             CommitteeMember committeeMember = committeeType.addNewCommitteeMember();
@@ -153,9 +151,9 @@ public class CommitteeXmlStream extends PrintBaseXmlStream {
             committeeMember.setMemberType(membershipBean.getMembershipType().getDescription()) ;
         }
         committeeMember.setPaidMemberFlag(membershipBean.getPaidMember());
-        List<CommitteeMembershipExpertise> committeeMemResearchArea =  membershipBean.getMembershipExpertise();
+        List<CommitteeMembershipExpertiseBase> committeeMemResearchArea =  membershipBean.getMembershipExpertise();
         if (committeeMemResearchArea != null){
-            for (CommitteeMembershipExpertise committeeMemberExpertise : committeeMemResearchArea) {
+            for (CommitteeMembershipExpertiseBase committeeMemberExpertise : committeeMemResearchArea) {
                 ResearchArea researchArea = committeeMember.addNewResearchArea();
                 researchArea.setResearchAreaCode(committeeMemberExpertise.getResearchAreaCode()) ;
                 if (committeeMemberExpertise.getResearchArea()!=null){
@@ -163,9 +161,9 @@ public class CommitteeXmlStream extends PrintBaseXmlStream {
                 }
             }    
         }
-        List<CommitteeMembershipRole> vecMemRoles = membershipBean.getMembershipRoles();
+        List<org.kuali.kra.common.committee.bo.CommitteeMembershipRole> vecMemRoles = membershipBean.getMembershipRoles();
         if ( vecMemRoles != null){
-            for (CommitteeMembershipRole committeeMembershipRole : vecMemRoles) {
+            for (org.kuali.kra.common.committee.bo.CommitteeMembershipRole committeeMembershipRole : vecMemRoles) {
                 CommitteeMemberRole committeeMemRole = committeeMember.addNewCommitteeMemberRole();
                 committeeMemRole.setMemberRoleCode(new BigInteger(String.valueOf(committeeMembershipRole.getMembershipRoleCode()))) ;
                 if (committeeMembershipRole.getMembershipRole()!= null){
@@ -192,7 +190,7 @@ public class CommitteeXmlStream extends PrintBaseXmlStream {
              KcPerson personBean = membershipBean.getPerson();
              getIrbPrintXmlUtilService().setPersonXml(personBean, person);
          }else{ 
-            ProtocolPersonRolodex rolodexBean =  membershipBean.getRolodex();
+            ProtocolPersonRolodex rolodexBean =  (ProtocolPersonRolodex) membershipBean.getRolodex();
             getIrbPrintXmlUtilService().setPersonXml(rolodexBean, person);
          }    
     }

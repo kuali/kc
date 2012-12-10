@@ -15,41 +15,44 @@
  */
 package org.kuali.kra.meeting;
 
-import org.kuali.kra.committee.bo.Committee;
-import org.kuali.kra.committee.bo.CommitteeSchedule;
-import org.kuali.kra.committee.document.authorization.CommitteeScheduleTask;
-import org.kuali.kra.committee.document.authorization.CommitteeTask;
-import org.kuali.kra.committee.document.authorizer.CommitteeAuthorizer;
+import org.kuali.kra.common.committee.meeting.ViewScheduleAuthorizerBase;
 import org.kuali.kra.infrastructure.PermissionConstants;
 
-public class ViewScheduleAuthorizer extends CommitteeAuthorizer {
+public class ViewScheduleAuthorizer extends ViewScheduleAuthorizerBase {
 
-    /**
-     * @see org.kuali.kra.irb.document.authorizer.CommitteeAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.irb.document.authorization.CommitteeTask)
-     */
-    public boolean isAuthorized(String username, CommitteeTask task) {
-        boolean hasPermission = true;
-        Committee committee = task.getCommittee();
-        if (task instanceof CommitteeScheduleTask) {
-            hasPermission = hasPermission(username,((CommitteeScheduleTask)task).getCommitteeSchedule(),PermissionConstants.VIEW_SCHEDULE);
-            // now check if this schedule is flagged as available by admin
-            hasPermission = hasPermission && ((CommitteeScheduleTask)task).getCommitteeSchedule().isAvailableToReviewers();
-        } else {
-            hasPermission = hasPermission(username, committee, PermissionConstants.VIEW_SCHEDULE);
-        }        
-        return hasPermission;
+    @Override
+    protected String getPermissionNameForViewScheduleHook() {
+        return PermissionConstants.VIEW_SCHEDULE;
     }
-
-    /**
-     * Does the given user has the permission for this committee?
-     * @param username the unique username of the user
-     * @param committee the committee
-     * @param permissionName the name of the permission
-     * @return true if the person has the permission; otherwise false
-     */
-    protected final boolean hasPermission(String userId, CommitteeSchedule committeeSchedule, String permissionName) {
-        return kraAuthorizationService.hasPermission(userId, committeeSchedule, permissionName);
-    }
+    
+    
+// TODO ********************** commented out during IRB backfit ************************
+//    /**
+//     * @see org.kuali.kra.irb.document.authorizer.CommitteeAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.irb.document.authorization.CommitteeTask)
+//     */
+//    public boolean isAuthorized(String username, CommitteeTask task) {
+//        boolean hasPermission = true;
+//        Committee committee = task.getCommittee();
+//        if (task instanceof CommitteeScheduleTask) {
+//            hasPermission = hasPermission(username,((CommitteeScheduleTask)task).getCommitteeSchedule(),PermissionConstants.VIEW_SCHEDULE);
+//            // now check if this schedule is flagged as available by admin
+//            hasPermission = hasPermission && ((CommitteeScheduleTask)task).getCommitteeSchedule().isAvailableToReviewers();
+//        } else {
+//            hasPermission = hasPermission(username, committee, PermissionConstants.VIEW_SCHEDULE);
+//        }        
+//        return hasPermission;
+//    }
+//
+//    /**
+//     * Does the given user has the permission for this committee?
+//     * @param username the unique username of the user
+//     * @param committee the committee
+//     * @param permissionName the name of the permission
+//     * @return true if the person has the permission; otherwise false
+//     */
+//    protected final boolean hasPermission(String userId, CommitteeSchedule committeeSchedule, String permissionName) {
+//        return kraAuthorizationService.hasPermission(userId, committeeSchedule, permissionName);
+//    }
     
 
 }

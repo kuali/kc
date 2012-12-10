@@ -40,57 +40,51 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.printing.Printable;
-import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.print.AbstractPrint;
 import org.kuali.kra.printing.util.PrintingUtils;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
-import org.kuali.kra.protocol.ProtocolBase;
-import org.kuali.kra.protocol.actions.correspondence.ProtocolActionCorrespondenceGenerationService;
-import org.kuali.kra.protocol.actions.correspondence.ProtocolActionsCorrespondenceBase;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondence;
-import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceTypeBase;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 public abstract class MeetingActionsActionBase extends MeetingActionBase {
 
-    private static final String AGENDA_TYPE = "9";
-    private static final String MEETING_MINUTE_TYPE = "10";
-
-    private static final List GENERIC_TYPE_CORRESPONDENCE;
-    static {
-        final List correspondenceTypes = new ArrayList();
-        correspondenceTypes.add(ProtocolCorrespondenceTypeBase.ABANDON_NOTICE);
-        correspondenceTypes.add(ProtocolCorrespondenceTypeBase.APPROVAL_LETTER);
-        correspondenceTypes.add(ProtocolCorrespondenceTypeBase.CLOSURE_NOTICE);
-        correspondenceTypes.add(ProtocolCorrespondenceTypeBase.EXPEDITED_APPROVAL_LETTER);
-        correspondenceTypes.add(ProtocolCorrespondenceTypeBase.NOTICE_OF_DEFERRAL);
-        correspondenceTypes.add(ProtocolCorrespondenceTypeBase.SMR_LETTER);
-        correspondenceTypes.add(ProtocolCorrespondenceTypeBase.SRR_LETTER);
-        correspondenceTypes.add(ProtocolCorrespondenceTypeBase.SUSPENSION_NOTICE);
-        correspondenceTypes.add(ProtocolCorrespondenceTypeBase.TERMINATION_NOTICE);
-        GENERIC_TYPE_CORRESPONDENCE = correspondenceTypes;
-    }
-
-    private static final Map<String, String> CORR_TYPE_TO_ACTION_TYPE_MAP;
-
-    static {
-        CORR_TYPE_TO_ACTION_TYPE_MAP = new HashMap<String, String>();
-        
-        // TODO IRB specific should go in subclassed IRB - commented as part of code lifted for base
-        /*
-        CORR_TYPE_TO_ACTION_TYPE_MAP.put(ProtocolCorrespondenceTypeBase.ABANDON_NOTICE, ProtocolActionType.ABANDON_PROTOCOL);
-        CORR_TYPE_TO_ACTION_TYPE_MAP.put(ProtocolCorrespondenceTypeBase.APPROVAL_LETTER,ProtocolActionType.APPROVED);
-        CORR_TYPE_TO_ACTION_TYPE_MAP.put(ProtocolCorrespondenceTypeBase.CLOSURE_NOTICE,ProtocolActionType.CLOSED_ADMINISTRATIVELY_CLOSED);
-        CORR_TYPE_TO_ACTION_TYPE_MAP.put(ProtocolCorrespondenceTypeBase.EXPEDITED_APPROVAL_LETTER,ProtocolActionType.EXPEDITE_APPROVAL);
-        CORR_TYPE_TO_ACTION_TYPE_MAP.put(ProtocolCorrespondenceTypeBase.NOTICE_OF_DEFERRAL,ProtocolActionType.DEFERRED);
-        CORR_TYPE_TO_ACTION_TYPE_MAP.put(ProtocolCorrespondenceTypeBase.SMR_LETTER,ProtocolActionType.SPECIFIC_MINOR_REVISIONS_REQUIRED);
-        CORR_TYPE_TO_ACTION_TYPE_MAP.put(ProtocolCorrespondenceTypeBase.SRR_LETTER,ProtocolActionType.SUBSTANTIVE_REVISIONS_REQUIRED);
-        CORR_TYPE_TO_ACTION_TYPE_MAP.put(ProtocolCorrespondenceTypeBase.SUSPENSION_NOTICE,ProtocolActionType.SUSPENDED);
-        CORR_TYPE_TO_ACTION_TYPE_MAP.put(ProtocolCorrespondenceTypeBase.TERMINATION_NOTICE,ProtocolActionType.TERMINATED);
-        */
-    }
+// TODO ********************** commented out during IRB backfit ************************     
+//    private static final String AGENDA_TYPE = "9";
+//    private static final String MEETING_MINUTE_TYPE = "10";
+//
+//    private static final List GENERIC_TYPE_CORRESPONDENCE;
+//    static {
+//        final List correspondenceTypes = new ArrayList();
+//        correspondenceTypes.add(ProtocolCorrespondenceTypeBase.ABANDON_NOTICE);
+//        correspondenceTypes.add(ProtocolCorrespondenceTypeBase.APPROVAL_LETTER);
+//        correspondenceTypes.add(ProtocolCorrespondenceTypeBase.CLOSURE_NOTICE);
+//        correspondenceTypes.add(ProtocolCorrespondenceTypeBase.EXPEDITED_APPROVAL_LETTER);
+//        correspondenceTypes.add(ProtocolCorrespondenceTypeBase.NOTICE_OF_DEFERRAL);
+//        correspondenceTypes.add(ProtocolCorrespondenceTypeBase.SMR_LETTER);
+//        correspondenceTypes.add(ProtocolCorrespondenceTypeBase.SRR_LETTER);
+//        correspondenceTypes.add(ProtocolCorrespondenceTypeBase.SUSPENSION_NOTICE);
+//        correspondenceTypes.add(ProtocolCorrespondenceTypeBase.TERMINATION_NOTICE);
+//        GENERIC_TYPE_CORRESPONDENCE = correspondenceTypes;
+//    }
+//
+//    private static final Map<String, String> CORR_TYPE_TO_ACTION_TYPE_MAP;
+//
+//    static {
+//        CORR_TYPE_TO_ACTION_TYPE_MAP = new HashMap<String, String>();
+//        
+//        CORR_TYPE_TO_ACTION_TYPE_MAP.put(ProtocolCorrespondenceTypeBase.ABANDON_NOTICE, ProtocolActionType.ABANDON_PROTOCOL);
+//        CORR_TYPE_TO_ACTION_TYPE_MAP.put(ProtocolCorrespondenceTypeBase.APPROVAL_LETTER,ProtocolActionType.APPROVED);
+//        CORR_TYPE_TO_ACTION_TYPE_MAP.put(ProtocolCorrespondenceTypeBase.CLOSURE_NOTICE,ProtocolActionType.CLOSED_ADMINISTRATIVELY_CLOSED);
+//        CORR_TYPE_TO_ACTION_TYPE_MAP.put(ProtocolCorrespondenceTypeBase.EXPEDITED_APPROVAL_LETTER,ProtocolActionType.EXPEDITE_APPROVAL);
+//        CORR_TYPE_TO_ACTION_TYPE_MAP.put(ProtocolCorrespondenceTypeBase.NOTICE_OF_DEFERRAL,ProtocolActionType.DEFERRED);
+//        CORR_TYPE_TO_ACTION_TYPE_MAP.put(ProtocolCorrespondenceTypeBase.SMR_LETTER,ProtocolActionType.SPECIFIC_MINOR_REVISIONS_REQUIRED);
+//        CORR_TYPE_TO_ACTION_TYPE_MAP.put(ProtocolCorrespondenceTypeBase.SRR_LETTER,ProtocolActionType.SUBSTANTIVE_REVISIONS_REQUIRED);
+//        CORR_TYPE_TO_ACTION_TYPE_MAP.put(ProtocolCorrespondenceTypeBase.SUSPENSION_NOTICE,ProtocolActionType.SUSPENDED);
+//        CORR_TYPE_TO_ACTION_TYPE_MAP.put(ProtocolCorrespondenceTypeBase.TERMINATION_NOTICE,ProtocolActionType.TERMINATED);
+//       
+//    }
 
     
     /**
@@ -111,7 +105,7 @@ public abstract class MeetingActionsActionBase extends MeetingActionBase {
 // TODO *********commented the code below during IACUC refactoring********* 
 //        List<Printable> printableArtifactList = getPrintableArtifacts(meetingHelper, AGENDA_TYPE, IacucProtocolCorrespondenceType.AGENDA);
         
-        List<Printable> printableArtifactList = getPrintableArtifacts(meetingHelper, AGENDA_TYPE, getProtocolCorrespondenceAgendaTypeCodeHook());
+        List<Printable> printableArtifactList = getPrintableArtifacts(meetingHelper, getProtocolCorrespondenceAgendaTypeCodeHook());
         if (printableArtifactList.get(0).getXSLTemplates().isEmpty()) {
             GlobalVariables.getMessageMap().putError("meetingHelper.scheduleAgenda",
                     KeyConstants.ERROR_PROTO_CORRESPONDENCE_TEMPL_NOT_SET);
@@ -145,7 +139,7 @@ public abstract class MeetingActionsActionBase extends MeetingActionBase {
     /*
      * get the printable and add to printable list. 
      */
-    private List<Printable> getPrintableArtifacts(MeetingHelperBase meetingHelper, String protoCorrespTypeCode, String protocolCorrespondenceTypeCode) {
+    private List<Printable> getPrintableArtifacts(MeetingHelperBase meetingHelper, String protocolCorrespondenceTypeCode) {
         AbstractPrint printable = (AbstractPrint)getCommitteePrintingService().getCommitteePrintable(CommitteeReportType.SCHEDULE_TEMPLATE);    
         CommitteeBase committee = meetingHelper.getCommitteeSchedule().getCommittee();
         printable.setPrintableBusinessObject(committee);        
@@ -191,7 +185,7 @@ public abstract class MeetingActionsActionBase extends MeetingActionBase {
 // TODO *********commented the code below during IACUC refactoring*********         
 //        List<Printable> printableArtifactList = getPrintableArtifacts(meetingHelper, MEETING_MINUTE_TYPE, IacucProtocolCorrespondenceType.MINUTES);
         
-        List<Printable> printableArtifactList = getPrintableArtifacts(meetingHelper, MEETING_MINUTE_TYPE, getProtocolCorrespondenceMinutesTypeCodeHook());
+        List<Printable> printableArtifactList = getPrintableArtifacts(meetingHelper, getProtocolCorrespondenceMinutesTypeCodeHook());
         if (printableArtifactList.get(0).getXSLTemplates().isEmpty()) {
             GlobalVariables.getMessageMap().putError("meetingHelper.meetingMinute",
                     KeyConstants.ERROR_PROTO_CORRESPONDENCE_TEMPL_NOT_SET);
@@ -355,7 +349,12 @@ public abstract class MeetingActionsActionBase extends MeetingActionBase {
      * This is a similar class from printingserviceimpl
      * TODO : maybe should create a public class for this ?
      */
-    private class PrintableAttachment extends AttachmentDataSource {
+    public class PrintableAttachment extends AttachmentDataSource {
+        /**
+         * Comment for <code>serialVersionUID</code>
+         */
+        private static final long serialVersionUID = -8537865725808758230L;
+        
         private byte[] streamData;
 
         public byte[] getContent() {
@@ -420,48 +419,52 @@ public abstract class MeetingActionsActionBase extends MeetingActionBase {
         return KraServiceLocator.getService(DocumentService.class);
     }
    
-    public ActionForward regenerateCorrespondence(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-
-        // final int selection = this.getSelectedLine(request);
-        MeetingHelperBase meetingHelper = ((MeetingFormBase) form).getMeetingHelper();
-        meetingHelper.setRegeneratedCorrespondences(new ArrayList<ProtocolCorrespondence>());
-        for (ProtocolCorrespondence protocolCorrespondence : meetingHelper.getCorrespondences()) {
-            if (protocolCorrespondence.isRegenerateFlag()) {
-                ProtocolBase protocol = protocolCorrespondence.getProtocol();
-                AttachmentDataSource dataSource = generateCorrespondenceDocumentAndAttach(protocol, protocolCorrespondence);
-                PrintableAttachment source = new PrintableAttachment();
-                if (dataSource != null) {
-                    protocolCorrespondence.setCorrespondence(dataSource.getContent());
-                    protocolCorrespondence.setFinalFlag(false);
-                    protocolCorrespondence.setCreateUser(GlobalVariables.getUserSession().getPrincipalName());
-                    protocolCorrespondence.setCreateTimestamp(KraServiceLocator.getService(DateTimeService.class).getCurrentTimestamp());
-                }
-                meetingHelper.getRegeneratedCorrespondences().add(protocolCorrespondence);
-            }
-        }
-        getBusinessObjectService().save(meetingHelper.getRegeneratedCorrespondences());
-        return mapping.findForward("correspondence");
-    }
-
-    protected AttachmentDataSource generateCorrespondenceDocumentAndAttach(ProtocolBase protocol, ProtocolCorrespondence oldCorrespondence) throws PrintingException {
- 
-// TODO *********commented the code below during IACUC refactoring*********         
-//        IacucProtocolActionsCorrespondence correspondence = new IacucProtocolActionsCorrespondence(oldCorrespondence.getProtocolAction().getProtocolActionTypeCode());
-        
-        ProtocolActionsCorrespondenceBase correspondence = getNewProtocolActionsCorrespondenceInstanceHook(oldCorrespondence.getProtocolAction().getProtocolActionTypeCode());
-        correspondence.setProtocol(protocol);
-        return getProtocolActionCorrespondenceGenerationService().reGenerateCorrespondenceDocument(correspondence);
-    } 
-
-    protected abstract ProtocolActionsCorrespondenceBase getNewProtocolActionsCorrespondenceInstanceHook(String protocolActionTypeCode);
-
-    protected abstract ProtocolActionCorrespondenceGenerationService getProtocolActionCorrespondenceGenerationService();
     
-// TODO *********commented the code below during IACUC refactoring*********     
-//    private IacucProtocolActionCorrespondenceGenerationService getProtocolActionCorrespondenceGenerationService() {
-//        return KraServiceLocator.getService(IacucProtocolActionCorrespondenceGenerationService.class);
+    public abstract ActionForward regenerateCorrespondence(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception;
+    
+// TODO ********************** commented out during IRB backfit ************************ PUSHED DOWN TO SUBCLASSES    
+//    public ActionForward regenerateCorrespondence(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+//            HttpServletResponse response) throws Exception {
+//
+//        // final int selection = this.getSelectedLine(request);
+//        MeetingHelperBase meetingHelper = ((MeetingFormBase) form).getMeetingHelper();
+//        meetingHelper.setRegeneratedCorrespondences(new ArrayList<ProtocolCorrespondence>());
+//        for (ProtocolCorrespondence protocolCorrespondence : meetingHelper.getCorrespondences()) {
+//            if (protocolCorrespondence.isRegenerateFlag()) {
+//                ProtocolBase protocol = protocolCorrespondence.getProtocol();
+//                AttachmentDataSource dataSource = generateCorrespondenceDocumentAndAttach(protocol, protocolCorrespondence);
+//                PrintableAttachment source = new PrintableAttachment();
+//                if (dataSource != null) {
+//                    protocolCorrespondence.setCorrespondence(dataSource.getContent());
+//                    protocolCorrespondence.setFinalFlag(false);
+//                    protocolCorrespondence.setCreateUser(GlobalVariables.getUserSession().getPrincipalName());
+//                    protocolCorrespondence.setCreateTimestamp(KraServiceLocator.getService(DateTimeService.class).getCurrentTimestamp());
+//                }
+//                meetingHelper.getRegeneratedCorrespondences().add(protocolCorrespondence);
+//            }
+//        }
+//        getBusinessObjectService().save(meetingHelper.getRegeneratedCorrespondences());
+//        return mapping.findForward("correspondence");
 //    }
+//
+//    protected AttachmentDataSource generateCorrespondenceDocumentAndAttach(ProtocolBase protocol, ProtocolCorrespondence oldCorrespondence) throws PrintingException {
+// 
+//// TODO *********commented the code below during IACUC refactoring*********         
+////        IacucProtocolActionsCorrespondence correspondence = new IacucProtocolActionsCorrespondence(oldCorrespondence.getProtocolAction().getProtocolActionTypeCode());
+//        
+//        ProtocolActionsCorrespondenceBase correspondence = getNewProtocolActionsCorrespondenceInstanceHook(oldCorrespondence.getProtocolAction().getProtocolActionTypeCode());
+//        correspondence.setProtocol(protocol);
+//        return getProtocolActionCorrespondenceGenerationService().reGenerateCorrespondenceDocument(correspondence);
+//    } 
+//
+//    protected abstract ProtocolActionsCorrespondenceBase getNewProtocolActionsCorrespondenceInstanceHook(String protocolActionTypeCode);
+//
+//    protected abstract ProtocolActionCorrespondenceGenerationService getProtocolActionCorrespondenceGenerationService();
+//    
+//// TODO *********commented the code below during IACUC refactoring*********     
+////    private IacucProtocolActionCorrespondenceGenerationService getProtocolActionCorrespondenceGenerationService() {
+////        return KraServiceLocator.getService(IacucProtocolActionCorrespondenceGenerationService.class);
+////    }
    
     public ActionForward viewGeneratedCorrespondence(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {

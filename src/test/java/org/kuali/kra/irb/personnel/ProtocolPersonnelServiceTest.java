@@ -25,9 +25,12 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentPersonnel;
-import org.kuali.kra.irb.protocol.location.ProtocolLocation;
 import org.kuali.kra.irb.protocol.location.ProtocolLocationService;
 import org.kuali.kra.irb.test.mocks.MockProtocolPersonTrainingService;
+import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
+import org.kuali.kra.protocol.personnel.ProtocolUnitBase;
+import org.kuali.kra.protocol.protocol.location.ProtocolLocationBase;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -122,9 +125,9 @@ public class ProtocolPersonnelServiceTest extends KcUnitTestBase {
             @Override
             protected ProtocolLocationService getProtocolLocationService() {
                return new ProtocolLocationService() {
-                public void addDefaultProtocolLocation(Protocol protocol) {}
-                public void addProtocolLocation(Protocol protocol, ProtocolLocation protocolLocation) {}
-                public void clearProtocolLocationAddress(Protocol protocol, int lineNumber) { }
+                public void addDefaultProtocolLocation(ProtocolBase protocol) {}
+                public void addProtocolLocation(ProtocolBase protocol, ProtocolLocationBase protocolLocation) {}
+                public void clearProtocolLocationAddress(ProtocolBase protocol, int lineNumber) { }
                };
             }
         };
@@ -148,15 +151,15 @@ public class ProtocolPersonnelServiceTest extends KcUnitTestBase {
             @Override
             protected ProtocolLocationService getProtocolLocationService() {
                return new ProtocolLocationService() {
-                public void addDefaultProtocolLocation(Protocol protocol) {}
-                public void addProtocolLocation(Protocol protocol, ProtocolLocation protocolLocation) {}
-                public void clearProtocolLocationAddress(Protocol protocol, int lineNumber) { }
+                public void addDefaultProtocolLocation(ProtocolBase protocol) {}
+                public void addProtocolLocation(ProtocolBase protocol, ProtocolLocationBase protocolLocation) {}
+                public void clearProtocolLocationAddress(ProtocolBase protocol, int lineNumber) { }
                };
             }
             
         };
         ProtocolPerson protocolPerson = getCoInvestigatorPerson();
-        List<ProtocolUnit> protocolPersonUnits = new ArrayList<ProtocolUnit>();
+        List<ProtocolUnitBase> protocolPersonUnits = new ArrayList<ProtocolUnitBase>();
         protocol.getProtocolPersons().add(protocolPerson);
         protocolPersonUnits.add(getProtocolUnit());
         service.addProtocolPersonUnit(protocolPersonUnits, protocolPerson, 0);
@@ -169,7 +172,7 @@ public class ProtocolPersonnelServiceTest extends KcUnitTestBase {
      */
     @Test
     public void testIsPIExists() throws Exception {
-        List<ProtocolPerson> protocolPersons = new ArrayList<ProtocolPerson>();
+        List<ProtocolPersonBase> protocolPersons = new ArrayList<ProtocolPersonBase>();
         protocolPersons.add(getPrincipalInvestigatorPerson());
         protocolPersons.add(getCoInvestigatorPerson());
         boolean piExists = service.isPIExists(protocolPersons);
@@ -182,7 +185,7 @@ public class ProtocolPersonnelServiceTest extends KcUnitTestBase {
      */
     @Test
     public void testDuplicatePerson() throws Exception {
-        List<ProtocolPerson> protocolPersons = new ArrayList<ProtocolPerson>();
+        List<ProtocolPersonBase> protocolPersons = new ArrayList<ProtocolPersonBase>();
         protocolPersons.add(getPrincipalInvestigatorPerson());
         ProtocolPerson coi = getCoInvestigatorPerson();
         coi.setPersonId(CO_INVESTIGATOR_PERSON_ID);
@@ -197,10 +200,10 @@ public class ProtocolPersonnelServiceTest extends KcUnitTestBase {
      */
     @Test
     public void testPIPerson() throws Exception {
-        List<ProtocolPerson> protocolPersons = new ArrayList<ProtocolPerson>();
+        List<ProtocolPersonBase> protocolPersons = new ArrayList<ProtocolPersonBase>();
         protocolPersons.add(getPrincipalInvestigatorPerson());
         protocolPersons.add(getCoInvestigatorPerson());
-        ProtocolPerson investigator = service.getPrincipalInvestigator(protocolPersons);
+        ProtocolPerson investigator = (ProtocolPerson) service.getPrincipalInvestigator(protocolPersons);
         assertEquals(investigator.getProtocolPersonRoleId(), PRINCIPAL_INVESTIGATOR_ROLE_ID);
     }
 
@@ -215,7 +218,7 @@ public class ProtocolPersonnelServiceTest extends KcUnitTestBase {
         assertEquals(protocolPersons.get(0).getProtocolPersonRoleId(), PRINCIPAL_INVESTIGATOR_ROLE_ID);
         assertEquals(protocolPersons.get(1).getProtocolPersonRoleId(), CO_INVESTIGATOR_ROLE_ID);
         protocolPersons.get(0).setProtocolPersonRoleId(CO_INVESTIGATOR_ROLE_ID);
-        service.switchInvestigatorCoInvestigatorRole(protocolPersons);
+        service.switchInvestigatorCoInvestigatorRole((List) protocolPersons);
         assertEquals(protocolPersons.get(0).getProtocolPersonRoleId(), CO_INVESTIGATOR_ROLE_ID);
         assertEquals(protocolPersons.get(1).getProtocolPersonRoleId(), PRINCIPAL_INVESTIGATOR_ROLE_ID);
     }
@@ -230,7 +233,7 @@ public class ProtocolPersonnelServiceTest extends KcUnitTestBase {
      */
     @Test
     public void testInValidStudentFacultyMatch() throws Exception {
-        List<ProtocolPerson> protocolPersons = getProtocolPersons();
+        List<ProtocolPersonBase> protocolPersons = (List) getProtocolPersons();
         boolean isInvalidMatch = service.isValidStudentFacultyMatch(protocolPersons);
         assertTrue(isInvalidMatch);
         protocolPersons.get(0).setAffiliationTypeCode(getStudentAffiliationType()); 
@@ -246,7 +249,7 @@ public class ProtocolPersonnelServiceTest extends KcUnitTestBase {
      */
     @Test
     public void testSelectProtocolUnit() throws Exception {
-        List<ProtocolPerson> protocolPersons = getProtocolPersons();
+        List<ProtocolPersonBase> protocolPersons = (List) getProtocolPersons();
         protocolPersons.get(0).setSelectedUnit(1); 
         protocolPersons.get(0).getProtocolUnits().addAll(getProtocolUnits());
         service.selectProtocolUnit(protocolPersons);

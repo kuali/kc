@@ -129,7 +129,7 @@ public class ProtocolLookupHelperServiceTest extends KcUnitTestBase {
         assertEquals(((HtmlData.AnchorHtmlData) inquiryUrl).getHref(), UNIT_INQ_URL);
         inquiryUrl = protocolLookupableHelperServiceImpl.getInquiryUrl(protocol, "investigator");
         assertEquals(((HtmlData.AnchorHtmlData) inquiryUrl).getHref(), PERSON_INQ_URL);
-        ProtocolPerson protocolPerson = protocol.getProtocolPersons().get(0);
+        ProtocolPerson protocolPerson = (ProtocolPerson) protocol.getProtocolPersons().get(0);
         protocolPerson.setPersonId("");
         protocolPerson.setRolodexId(new Integer(1727));
         protocol.getProtocolPersons().clear();

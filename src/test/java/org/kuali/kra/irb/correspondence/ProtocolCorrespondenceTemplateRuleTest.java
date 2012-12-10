@@ -35,6 +35,9 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
+import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceTemplateBase;
+import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceTemplateRule;
+import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceTypeBase;
 
 public class ProtocolCorrespondenceTemplateRuleTest {
 
@@ -577,7 +580,7 @@ public class ProtocolCorrespondenceTemplateRuleTest {
     public void testSaveCorrespondenceTemplateMissingCommittee() throws Exception {
     	simulateValidMockedFileBehavior();
     	
-        List<ProtocolCorrespondenceType> protocolCorrespondenceTypes = new ArrayList<ProtocolCorrespondenceType>();
+        List<ProtocolCorrespondenceTypeBase> protocolCorrespondenceTypes = new ArrayList<ProtocolCorrespondenceTypeBase>();
         protocolCorrespondenceTypes.add(getCorrespondenceType(new String[] {null}));
 
         boolean rulePassed = new ProtocolCorrespondenceTemplateRule().processSaveProtocolCorrespondenceTemplateRules(protocolCorrespondenceTypes);
@@ -611,7 +614,7 @@ public class ProtocolCorrespondenceTemplateRuleTest {
     public void testSaveCorrespondenceTemplateBlankCommittee() throws Exception {
     	simulateValidMockedFileBehavior();
     	
-        List<ProtocolCorrespondenceType> protocolCorrespondenceTypes = new ArrayList<ProtocolCorrespondenceType>();
+        List<ProtocolCorrespondenceTypeBase> protocolCorrespondenceTypes = new ArrayList<ProtocolCorrespondenceTypeBase>();
         protocolCorrespondenceTypes.add(getCorrespondenceType(new String[] {"", "2"}));
 
         boolean rulePassed = new ProtocolCorrespondenceTemplateRule().processSaveProtocolCorrespondenceTemplateRules(protocolCorrespondenceTypes);
@@ -645,7 +648,7 @@ public class ProtocolCorrespondenceTemplateRuleTest {
     public void testSaveCorrespondenceTemplateDuplicateCommittee() throws Exception {
     	simulateValidMockedFileBehavior();
     	
-        List<ProtocolCorrespondenceType> protocolCorrespondenceTypes = new ArrayList<ProtocolCorrespondenceType>();
+        List<ProtocolCorrespondenceTypeBase> protocolCorrespondenceTypes = new ArrayList<ProtocolCorrespondenceTypeBase>();
         protocolCorrespondenceTypes.add(getCorrespondenceType(new String[] {"1", "1"}));
 
         boolean rulePassed = new ProtocolCorrespondenceTemplateRule().processSaveProtocolCorrespondenceTemplateRules(protocolCorrespondenceTypes);
@@ -677,7 +680,7 @@ public class ProtocolCorrespondenceTemplateRuleTest {
     @SuppressWarnings("unchecked")
     @Test
     public void testSaveCorrespondenceTemplateMissingFileName() throws Exception {
-        List<ProtocolCorrespondenceType> protocolCorrespondenceTypes = new ArrayList<ProtocolCorrespondenceType>();
+        List<ProtocolCorrespondenceTypeBase> protocolCorrespondenceTypes = new ArrayList<ProtocolCorrespondenceTypeBase>();
         protocolCorrespondenceTypes.add(getCorrespondenceType(new String[] {"1", "2"}));
 
         // create and add faulty data
@@ -716,7 +719,7 @@ public class ProtocolCorrespondenceTemplateRuleTest {
     @SuppressWarnings("unchecked")
     @Test
     public void testSaveCorrespondenceTemplateInvalidFile() throws Exception {
-        List<ProtocolCorrespondenceType> protocolCorrespondenceTypes = new ArrayList<ProtocolCorrespondenceType>();
+        List<ProtocolCorrespondenceTypeBase> protocolCorrespondenceTypes = new ArrayList<ProtocolCorrespondenceTypeBase>();
         protocolCorrespondenceTypes.add(getCorrespondenceType(new String[] {"1", "2"}));
 
         // create and add faulty data
@@ -755,7 +758,7 @@ public class ProtocolCorrespondenceTemplateRuleTest {
     @SuppressWarnings("unchecked")
     @Test
     public void testSaveCorrespondenceTemplateMissingDefaultFileName() throws Exception {
-        List<ProtocolCorrespondenceType> protocolCorrespondenceTypes = new ArrayList<ProtocolCorrespondenceType>();
+        List<ProtocolCorrespondenceTypeBase> protocolCorrespondenceTypes = new ArrayList<ProtocolCorrespondenceTypeBase>();
         protocolCorrespondenceTypes.add(getCorrespondenceType(new String[] {"1", "2"}));
 
         // create and add faulty data
@@ -794,7 +797,7 @@ public class ProtocolCorrespondenceTemplateRuleTest {
     @SuppressWarnings("unchecked")
     @Test
     public void testSaveCorrespondenceTemplateInvalidDefaultFile() throws Exception {
-        List<ProtocolCorrespondenceType> protocolCorrespondenceTypes = new ArrayList<ProtocolCorrespondenceType>();
+        List<ProtocolCorrespondenceTypeBase> protocolCorrespondenceTypes = new ArrayList<ProtocolCorrespondenceTypeBase>();
         protocolCorrespondenceTypes.add(getCorrespondenceType(new String[] {"1", "2"}));
 
         // create and add faulty data
@@ -832,7 +835,7 @@ public class ProtocolCorrespondenceTemplateRuleTest {
      */
     @Test
     public void testSaveCorrespondenceTemplate() throws Exception {
-        List<ProtocolCorrespondenceType> protocolCorrespondenceTypes = new ArrayList<ProtocolCorrespondenceType>();
+        List<ProtocolCorrespondenceTypeBase> protocolCorrespondenceTypes = new ArrayList<ProtocolCorrespondenceTypeBase>();
         protocolCorrespondenceTypes.add(getCorrespondenceType(new String[] {"1", "2"}));
         protocolCorrespondenceTypes.add(getCorrespondenceType(new String[] {"1", "3"}));
         protocolCorrespondenceTypes.add(getCorrespondenceType(new String[] {"3", "2"}));
@@ -875,13 +878,13 @@ public class ProtocolCorrespondenceTemplateRuleTest {
     private ProtocolCorrespondenceTemplate getCorrespondenceTemplate(String committeeId) throws IOException {
     	simulateValidMockedFileBehavior();
     	
-        ProtocolCorrespondenceTemplate protocolCorrespondenceTemplate = new ProtocolCorrespondenceTemplate() {
+        ProtocolCorrespondenceTemplateBase protocolCorrespondenceTemplate = new ProtocolCorrespondenceTemplate() {
             private static final long serialVersionUID = 1L;
 
             // Since we don't actually test the sort order and we don't want to instantiate the Committee
             // object the compareTo method is overridden.
             @Override
-            public int compareTo(ProtocolCorrespondenceTemplate arg) {
+            public int compareTo(ProtocolCorrespondenceTemplateBase arg) {
                 return this.getCommitteeId().compareTo(arg.getCommitteeId());
             }
         };
@@ -890,7 +893,7 @@ public class ProtocolCorrespondenceTemplateRuleTest {
         protocolCorrespondenceTemplate.setFileName("test.xml");
         protocolCorrespondenceTemplate.setCorrespondenceTemplate(new byte[] { (byte) 1, (byte) 2, (byte) 3 });
         protocolCorrespondenceTemplate.setTemplateFile(mockedFile);
-        return protocolCorrespondenceTemplate;
+        return (ProtocolCorrespondenceTemplate) protocolCorrespondenceTemplate;
     }
     
     private void simulateValidMockedFileBehavior() throws IOException {

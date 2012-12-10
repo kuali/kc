@@ -41,7 +41,7 @@ public final class ProtocolOnlineReviewTask extends Task {
     
     public ProtocolOnlineReviewTask(String taskName, ProtocolOnlineReviewDocument protocolOnlineReviewDocument) {
         super(TaskGroupName.PROTOCOL_ONLINEREVIEW, taskName);
-        this.protocolOnlineReview = protocolOnlineReviewDocument.getProtocolOnlineReview();
+        this.protocolOnlineReview = (ProtocolOnlineReview) protocolOnlineReviewDocument.getProtocolOnlineReview();
         this.protocolOnlineReviewDocument = protocolOnlineReviewDocument;
     }
     
@@ -52,7 +52,7 @@ public final class ProtocolOnlineReviewTask extends Task {
 
     public ProtocolOnlineReviewTask(String taskName, ProtocolOnlineReviewDocument protocolOnlineReviewDocument, String genericTaskName) {
         super(TaskGroupName.PROTOCOL_ONLINEREVIEW, taskName, genericTaskName);
-        this.protocolOnlineReview = protocolOnlineReviewDocument.getProtocolOnlineReview();
+        this.protocolOnlineReview = (ProtocolOnlineReview) protocolOnlineReviewDocument.getProtocolOnlineReview();
         this.protocolOnlineReviewDocument = protocolOnlineReviewDocument;
     }
 

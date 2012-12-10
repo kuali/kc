@@ -29,12 +29,13 @@ import org.kuali.kra.irb.actions.notification.AssignReviewerNotificationRenderer
 import org.kuali.kra.irb.actions.notification.ProtocolNotificationRequestBean;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewerBean;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.notification.IRBNotificationContext;
 import org.kuali.kra.irb.notification.IRBProtocolNotification;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
+import org.kuali.kra.protocol.actions.submit.ProtocolReviewerBeanBase;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
@@ -52,9 +53,9 @@ public class ProtocolAssignReviewersServiceImpl implements ProtocolAssignReviewe
      * @see org.kuali.kra.irb.actions.assignreviewers.ProtocolAssignReviewersService#assignReviewers(org.kuali.kra.irb.actions.submit.ProtocolSubmission, 
      *      java.util.List)
      */
-    public void assignReviewers(ProtocolSubmission protocolSubmission, List<ProtocolReviewerBean> protocolReviewerBeans) throws Exception  {
+    public void assignReviewers(ProtocolSubmissionBase protocolSubmission, List<ProtocolReviewerBeanBase> protocolReviewerBeans) throws Exception  {
         if (protocolSubmission != null) {
-            for (ProtocolReviewerBean bean : protocolReviewerBeans) {
+            for (ProtocolReviewerBeanBase bean : protocolReviewerBeans) {
                 if (StringUtils.isNotBlank(bean.getReviewerTypeCode())) {
                     if (!protocolOnlineReviewService.isProtocolReviewer(bean.getPersonId(), bean.getNonEmployeeFlag(), protocolSubmission)) {
                         
@@ -75,23 +76,26 @@ public class ProtocolAssignReviewersServiceImpl implements ProtocolAssignReviewe
         }
     }
     
-    protected void removeReviewer(ProtocolSubmission protocolSubmission, ProtocolReviewerBean protocolReviewBean,String annotation) {
+    protected void removeReviewer(ProtocolSubmissionBase protocolSubmission, ProtocolReviewerBeanBase bean,String annotation) {
         //We need to send the notification prior to the online review being removed in order to satisfy the kim role recipients requirements
         ProtocolOnlineReviewDocument onlineReviewDocument = 
-            protocolOnlineReviewService.getProtocolOnlineReviewDocument(protocolReviewBean.getPersonId(), protocolReviewBean.getNonEmployeeFlag(), protocolSubmission);
+            (ProtocolOnlineReviewDocument) protocolOnlineReviewService.getProtocolOnlineReviewDocument(bean.getPersonId(), bean.getNonEmployeeFlag(), protocolSubmission);
         if (onlineReviewDocument != null) {   
-            Protocol protocol = protocolSubmission.getProtocol();
-            ProtocolOnlineReview protocolOnlineReview = onlineReviewDocument.getProtocolOnlineReview();
-            protocolReviewBean.setNotificationRequestBean(new ProtocolNotificationRequestBean(protocol, protocolOnlineReview, ProtocolActionType.ASSIGN_REVIEWER, "Assign Reviewer", null, null));
-            protocolReviewBean.setActionFlag(ProtocolReviewerBean.REMOVE);
+            Protocol protocol = (Protocol) protocolSubmission.getProtocol();
+            ProtocolOnlineReview protocolOnlineReview = (ProtocolOnlineReview) onlineReviewDocument.getProtocolOnlineReview();
+            bean.setNotificationRequestBean(new ProtocolNotificationRequestBean(protocol, protocolOnlineReview, ProtocolActionType.ASSIGN_REVIEWER, "Assign Reviewer", null, null));
+            bean.setActionFlag(ProtocolReviewerBean.REMOVE);
             AssignReviewerNotificationRenderer renderer = new AssignReviewerNotificationRenderer(protocol, "removed");
             IRBNotificationContext context = new IRBNotificationContext(protocol, protocolOnlineReview, ProtocolActionType.ASSIGN_REVIEWER, "Assign Reviewer", renderer);
             if (!getPromptUserForNotificationEditor(context)) {
+             // TODO ********************** added or modified during IRB backfit merge BEGIN ********************** 
                 kcNotificationService.sendNotificationAndPersist(context, new IRBProtocolNotification(), protocol);
+             // TODO ********************** added or modified during IRB backfit merge END ************************
+
             }
         }
         
-        protocolOnlineReviewService.removeOnlineReviewDocument(protocolReviewBean.getPersonId(), protocolReviewBean.getNonEmployeeFlag(), protocolSubmission, annotation);
+        protocolOnlineReviewService.removeOnlineReviewDocument(bean.getPersonId(), bean.getNonEmployeeFlag(), protocolSubmission, annotation);
     }
     
     private boolean getPromptUserForNotificationEditor(IRBNotificationContext context) {
@@ -105,12 +109,12 @@ public class ProtocolAssignReviewersServiceImpl implements ProtocolAssignReviewe
         return promptUser;
     }
 
-    protected void createReviewer(ProtocolSubmission protocolSubmission, ProtocolReviewerBean protocolReviewerBean) {
-        String principalId = protocolReviewerBean.getPersonId();
-        boolean nonEmployeeFlag = protocolReviewerBean.getNonEmployeeFlag();
-        String reviewerTypeCode = protocolReviewerBean.getReviewerTypeCode();
-        ProtocolReviewer reviewer = protocolOnlineReviewService.createProtocolReviewer(principalId, nonEmployeeFlag, reviewerTypeCode, protocolSubmission);
-        ProtocolPerson protocolPerson = protocolSubmission.getProtocol().getPrincipalInvestigator();
+    protected void createReviewer(ProtocolSubmissionBase protocolSubmission, ProtocolReviewerBeanBase bean) {
+        String principalId = bean.getPersonId();
+        boolean nonEmployeeFlag = bean.getNonEmployeeFlag();
+        String reviewerTypeCode = bean.getReviewerTypeCode();
+        ProtocolReviewer reviewer = (ProtocolReviewer) protocolOnlineReviewService.createProtocolReviewer(principalId, nonEmployeeFlag, reviewerTypeCode, protocolSubmission);
+        ProtocolPerson protocolPerson = (ProtocolPerson) protocolSubmission.getProtocol().getPrincipalInvestigator();
         String protocolNumber = protocolSubmission.getProtocol().getProtocolNumber();
         String description = protocolOnlineReviewService.getProtocolOnlineReviewDocumentDescription(protocolNumber, protocolPerson.getLastName());
         String explanation = Constants.EMPTY_STRING;
@@ -120,26 +124,28 @@ public class ProtocolAssignReviewersServiceImpl implements ProtocolAssignReviewe
         Date dateRequested = null;
         Date dateDue = null;
         String sessionPrincipalId = GlobalVariables.getUserSession().getPrincipalId();
-        ProtocolOnlineReviewDocument document = protocolOnlineReviewService.createAndRouteProtocolOnlineReviewDocument(protocolSubmission, reviewer, 
+        ProtocolOnlineReviewDocument document = (ProtocolOnlineReviewDocument) protocolOnlineReviewService.createAndRouteProtocolOnlineReviewDocument(protocolSubmission, reviewer, 
                 description, explanation, organizationDocumentNumber, routeAnnotation, initialApproval, dateRequested, dateDue, sessionPrincipalId);
     
         protocolSubmission.getProtocolOnlineReviews().add(document.getProtocolOnlineReview());
         
         //send notification now that the online review has been created.
-        Protocol protocol = protocolSubmission.getProtocol();
-        ProtocolOnlineReview protocolOnlineReview = document.getProtocolOnlineReview();
-        protocolReviewerBean.setNotificationRequestBean(new ProtocolNotificationRequestBean(protocol, protocolOnlineReview, ProtocolActionType.ASSIGN_REVIEWER, "Assign Reviewer", null, null));
-        protocolReviewerBean.setActionFlag(ProtocolReviewerBean.CREATE);
+        Protocol protocol = (Protocol) protocolSubmission.getProtocol();
+        ProtocolOnlineReview protocolOnlineReview = (ProtocolOnlineReview) document.getProtocolOnlineReview();
+        bean.setNotificationRequestBean(new ProtocolNotificationRequestBean(protocol, protocolOnlineReview, ProtocolActionType.ASSIGN_REVIEWER, "Assign Reviewer", null, null));
+        bean.setActionFlag(ProtocolReviewerBean.CREATE);
         AssignReviewerNotificationRenderer renderer = new AssignReviewerNotificationRenderer(protocol, "added");
         IRBNotificationContext context = new IRBNotificationContext(protocol, protocolOnlineReview, ProtocolActionType.ASSIGN_REVIEWER, "Assign Reviewer", renderer);
         if (!getPromptUserForNotificationEditor(context)) {
+            // TODO ********************** added or modified during IRB backfit merge BEGIN ********************** 
             kcNotificationService.sendNotificationAndPersist(context, new IRBProtocolNotification(), protocol);
+            // TODO ********************** added or modified during IRB backfit merge END ************************
         }
     }
     
-    protected void updateReviewer(ProtocolSubmission protocolSubmission, ProtocolReviewerBean protocolReviewerBean) {
-        ProtocolReviewer reviewer = protocolOnlineReviewService.getProtocolReviewer(protocolReviewerBean.getPersonId(), protocolReviewerBean.getNonEmployeeFlag(), protocolSubmission);
-        reviewer.setReviewerTypeCode(protocolReviewerBean.getReviewerTypeCode());
+    protected void updateReviewer(ProtocolSubmissionBase protocolSubmission, ProtocolReviewerBeanBase bean) {
+        ProtocolReviewer reviewer = (ProtocolReviewer) protocolOnlineReviewService.getProtocolReviewer(bean.getPersonId(), bean.getNonEmployeeFlag(), protocolSubmission);
+        reviewer.setReviewerTypeCode(bean.getReviewerTypeCode());
         businessObjectService.save(reviewer);
     }
 

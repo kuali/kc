@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.committee.print;
 
+import org.kuali.kra.common.committee.print.TemplatePrintBase;
 import org.kuali.kra.irb.actions.print.ProtocolPrintWatermark;
 import org.kuali.kra.util.watermark.Watermarkable;
 
@@ -22,7 +23,7 @@ import org.kuali.kra.util.watermark.Watermarkable;
  * 
  * This class identifies the template print functionality for committee reports.
  */
-public class ProtocolBatchCorrespondencePrint extends TemplatePrint {
+public class ProtocolBatchCorrespondencePrint extends TemplatePrintBase {
 
     private static final long serialVersionUID = 8304381236192765809L;
 

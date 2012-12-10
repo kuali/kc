@@ -25,6 +25,7 @@ import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.Test;
 import org.kuali.kra.committee.bo.Committee;
+import org.kuali.kra.common.committee.bo.CommitteeBase;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -131,7 +132,7 @@ public class CommitteeIdValuesFinderTest {
         
         CommitteeIdValuesFinder finder = new CommitteeIdValuesFinder();
         finder.setBusinessObjectService(businessObjectService);
-        List<Committee> results = finder.getActiveCommittees();
+        List<CommitteeBase> results = finder.getActiveCommittees();
         
         Assert.assertEquals(4, results.size());
         Assert.assertTrue(results.contains(committee1));
@@ -163,7 +164,7 @@ public class CommitteeIdValuesFinderTest {
         committee4.setCommitteeId(this.CMT_4_ID);
         committee4.setCommitteeName(this.C4_LATEST_NAME);
         
-        final List<Committee> activeCommittees = new ArrayList<Committee>();
+        final List<CommitteeBase> activeCommittees = new ArrayList<CommitteeBase>();
         activeCommittees.add(committee1);
         activeCommittees.add(committee2);
         activeCommittees.add(committee3);
@@ -179,7 +180,7 @@ public class CommitteeIdValuesFinderTest {
         // getActiveCommittees() method, with our mock
         CommitteeIdValuesFinder finder = new CommitteeIdValuesFinder(){
             @Override
-            protected List<Committee> getActiveCommittees() {
+            public List<CommitteeBase> getActiveCommittees() {
                 return activeCommittees;
             }
         };

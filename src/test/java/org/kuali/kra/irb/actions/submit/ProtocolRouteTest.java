@@ -180,8 +180,9 @@ public class ProtocolRouteTest extends KcUnitTestBase {
     /**
      * Verfy that the protocol has the given protocol action.
      */
+    @SuppressWarnings("unchecked")
     private void verifyProtocolAction(Protocol protocol, String actionTypeCode) {
-        List<ProtocolAction> actions = protocol.getProtocolActions();
+        List<ProtocolAction> actions = (List)protocol.getProtocolActions();
         for (ProtocolAction action : actions) {
             if (StringUtils.equals(actionTypeCode, action.getProtocolActionTypeCode())) {
                 return;

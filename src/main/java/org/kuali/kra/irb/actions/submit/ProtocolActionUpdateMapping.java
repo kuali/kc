@@ -15,90 +15,94 @@
  */
 package org.kuali.kra.irb.actions.submit;
 
-import org.kuali.kra.drools.brms.FactBean;
-import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.irb.actions.ProtocolAction;
-
 /*
  * This is the post condition attributes for a protocol action
  */
-public class ProtocolActionUpdateMapping implements FactBean {
-    
-    String actionTypeCode;
-    
-    String submissionTypeCode;
-    
-    String protocolStatusCode;
-    
-    String protocolNumberARCondition;
+public class ProtocolActionUpdateMapping extends org.kuali.kra.protocol.actions.submit.ProtocolActionUpdateMapping {
 
-    Protocol protocol;
-    
-    ProtocolSubmission protocolSubmission;
-    
-    ProtocolAction protocolAction;
-    
     public ProtocolActionUpdateMapping(String actionTypeCode, String submissionTypeCode, String protocolStatusCode, String specialCondition) {
-        super();
-        this.actionTypeCode=actionTypeCode;
-        this.submissionTypeCode = submissionTypeCode;
-        this.protocolStatusCode = protocolStatusCode;
-        this.protocolNumberARCondition = specialCondition;
+        super(actionTypeCode, submissionTypeCode, protocolStatusCode, specialCondition);
     }
     
-    public ProtocolSubmission getProtocolSubmission() {
-        return protocolSubmission;
-    }
-
-    public void setProtocolSubmission(ProtocolSubmission protocolSubmission) {
-        this.protocolSubmission = protocolSubmission;
-    }
     
-    public String getActionTypeCode() {
-        return actionTypeCode;
-    }
+  
+// TODO ********************** commented out during IRB backfit ************************    
+//    String actionTypeCode;
+//    
+//    String submissionTypeCode;
+//    
+//    String protocolStatusCode;
+//    
+//    String protocolNumberARCondition;
+//
+//    Protocol protocol;
+//    
+//    ProtocolSubmission protocolSubmission;
+//    
+//    ProtocolAction protocolAction;
+//    
+//    public ProtocolActionUpdateMapping(String actionTypeCode, String submissionTypeCode, String protocolStatusCode, String specialCondition) {
+//        super();
+//        this.actionTypeCode=actionTypeCode;
+//        this.submissionTypeCode = submissionTypeCode;
+//        this.protocolStatusCode = protocolStatusCode;
+//        this.protocolNumberARCondition = specialCondition;
+//    }
+//    
+//    public ProtocolSubmission getProtocolSubmission() {
+//        return protocolSubmission;
+//    }
+//
+//    public void setProtocolSubmission(ProtocolSubmission protocolSubmission) {
+//        this.protocolSubmission = protocolSubmission;
+//    }
+//    
+//    public String getActionTypeCode() {
+//        return actionTypeCode;
+//    }
+//    
+//    public void setActionTypeCode(String actionTypeCode) {
+//        this.actionTypeCode = actionTypeCode;
+//    }
+//    
+//    public Protocol getProtocol() {
+//        return protocol;
+//    }
+//    
+//    public void setProtocol(Protocol protocol) {
+//        this.protocol = protocol;
+//    }
+//    
+//    public String getSubmissionTypeCode() {
+//        return submissionTypeCode;
+//    }
+//    
+//    public void setSubmissionTypeCode(String submissionTypeCode) {
+//        this.submissionTypeCode = submissionTypeCode;
+//    }
+//
+//    public String getProtocolStatusCode() {
+//        return protocolStatusCode;
+//    }
+//
+//    public void setProtocolStatusCode(String protocolStatusCode) {
+//        this.protocolStatusCode = protocolStatusCode;
+//    }
+//    
+//    public String getProtocolNumberARCondition() {
+//        return protocolNumberARCondition;
+//    }
+//
+//    public void setProtocolNumberARCondition(String protocolNumberARCondition) {
+//        this.protocolNumberARCondition = protocolNumberARCondition;
+//    }
+//
+//    public ProtocolAction getProtocolAction() {
+//        return protocolAction;
+//    }
+//
+//    public void setProtocolAction(ProtocolAction protocolAction) {
+//        this.protocolAction = protocolAction;
+//    }
     
-    public void setActionTypeCode(String actionTypeCode) {
-        this.actionTypeCode = actionTypeCode;
-    }
-    
-    public Protocol getProtocol() {
-        return protocol;
-    }
-    
-    public void setProtocol(Protocol protocol) {
-        this.protocol = protocol;
-    }
-    
-    public String getSubmissionTypeCode() {
-        return submissionTypeCode;
-    }
-    
-    public void setSubmissionTypeCode(String submissionTypeCode) {
-        this.submissionTypeCode = submissionTypeCode;
-    }
-
-    public String getProtocolStatusCode() {
-        return protocolStatusCode;
-    }
-
-    public void setProtocolStatusCode(String protocolStatusCode) {
-        this.protocolStatusCode = protocolStatusCode;
-    }
-    
-    public String getProtocolNumberARCondition() {
-        return protocolNumberARCondition;
-    }
-
-    public void setProtocolNumberARCondition(String protocolNumberARCondition) {
-        this.protocolNumberARCondition = protocolNumberARCondition;
-    }
-
-    public ProtocolAction getProtocolAction() {
-        return protocolAction;
-    }
-
-    public void setProtocolAction(ProtocolAction protocolAction) {
-        this.protocolAction = protocolAction;
-    }
 }

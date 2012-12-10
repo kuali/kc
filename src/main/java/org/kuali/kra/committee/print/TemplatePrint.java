@@ -52,7 +52,7 @@ public abstract class TemplatePrint extends AbstractPrint {
     public List<Source> getXSLTemplates() {
         Source src = new StreamSource();
         ArrayList<Source> sourceList = new ArrayList<Source>();
-        ProtocolCorrespondenceTemplate template = protocolCorrespondenceTemplateService.getProtocolCorrespondenceTemplate(
+        ProtocolCorrespondenceTemplate template = (ProtocolCorrespondenceTemplate) protocolCorrespondenceTemplateService.getProtocolCorrespondenceTemplate(
                 getCommitteeId() , getProtoCorrespTypeCode());
         if (template != null) {
             src = new StreamSource(new ByteArrayInputStream(template.getCorrespondenceTemplate()));

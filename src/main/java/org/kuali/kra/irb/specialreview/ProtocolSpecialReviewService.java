@@ -15,14 +15,14 @@
  */
 package org.kuali.kra.irb.specialreview;
 
-import org.kuali.kra.common.specialreview.bo.SpecialReview;
 
 
-public interface ProtocolSpecialReviewService {
+public interface ProtocolSpecialReviewService extends org.kuali.kra.protocol.specialreview.ProtocolSpecialReviewService{
+ // TODO ********************** commented out during IRB backfit ************************
 
-    public static final String AMENDMENT_KEY = "A";
-    public static final String RENEWAL_KEY = "R";
-
-    public void populateSpecialReview(SpecialReview specialReview);
+//    public static final String AMENDMENT_KEY = "A";
+//    public static final String RENEWAL_KEY = "R";
+//
+//    public void populateSpecialReview(SpecialReview specialReview);
 
 }

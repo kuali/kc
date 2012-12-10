@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.irb.noteattachment;
 
-import java.util.List;
-
 import javax.mail.internet.HeaderTokenizer;
 import javax.mail.internet.MimeUtility;
 import javax.servlet.http.HttpServletRequest;
@@ -35,10 +33,11 @@ import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolAction;
 import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.irb.actions.print.ProtocolPrintingService;
-import org.kuali.kra.irb.personnel.ProtocolPerson;
-import org.kuali.kra.irb.summary.AttachmentSummary;
 import org.kuali.kra.printing.Printable;
 import org.kuali.kra.printing.service.WatermarkService;
+import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentProtocolBase;
+import org.kuali.kra.protocol.noteattachment.ProtocolNotepadBase;
+import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
 import org.kuali.kra.util.CollectionUtil;
 import org.kuali.kra.util.watermark.WatermarkConstants;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
@@ -144,7 +143,7 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
     public ActionForward deleteAttachmentProtocol(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         int selection = this.getSelectedLine(request);
-        ProtocolAttachmentBase attachment = ((ProtocolForm) form).getNotesAttachmentsHelper().retrieveExistingAttachmentByType(
+        org.kuali.kra.protocol.noteattachment.ProtocolAttachmentBase attachment = ((ProtocolForm) form).getNotesAttachmentsHelper().retrieveExistingAttachmentByType(
                 selection, ProtocolAttachmentProtocol.class);
         if (isValidContactData(attachment, ATTACHMNENT_PATH + selection + "]")) {
             return confirmDeleteAttachment(mapping, (ProtocolForm) form, request, response, ProtocolAttachmentProtocol.class);
@@ -156,7 +155,7 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
     /*
      * add this check, so to prevent the situation that data is not editable after deletion.
      */
-    private boolean isValidContactData(ProtocolAttachmentBase attachment, String errorPath) {
+    private boolean isValidContactData(org.kuali.kra.protocol.noteattachment.ProtocolAttachmentBase attachment, String errorPath) {
         MessageMap errorMap = GlobalVariables.getMessageMap();
         errorMap.addToErrorPath(errorPath);
         getDictionaryValidationService().validateBusinessObject(attachment);
@@ -212,10 +211,10 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
      * @throws Exception if there is a problem executing the request.
      */
     private ActionForward confirmDeleteAttachment(ActionMapping mapping, ProtocolForm form, HttpServletRequest request,
-            HttpServletResponse response, Class<? extends ProtocolAttachmentBase> attachmentType) throws Exception {
+            HttpServletResponse response, Class<? extends org.kuali.kra.protocol.noteattachment.ProtocolAttachmentBase> attachmentType) throws Exception {
         
         final int selection = this.getSelectedLine(request);
-        final ProtocolAttachmentBase attachment = form.getNotesAttachmentsHelper().retrieveExistingAttachmentByType(selection, attachmentType);
+        final org.kuali.kra.protocol.noteattachment.ProtocolAttachmentBase attachment = form.getNotesAttachmentsHelper().retrieveExistingAttachmentByType(selection, attachmentType);
        
         if (attachment == null) {
             LOG.info(NOT_FOUND_SELECTION + selection);
@@ -245,13 +244,13 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
      * @throws Exception if there is a problem executing the request.
      */
     private ActionForward deleteAttachment(ActionMapping mapping, ProtocolForm form, HttpServletRequest request,
-            HttpServletResponse response, Class<? extends ProtocolAttachmentBase> attachmentType) throws Exception {
+            HttpServletResponse response, Class<? extends org.kuali.kra.protocol.noteattachment.ProtocolAttachmentBase> attachmentType) throws Exception {
         
         final int selection = this.getSelectedLine(request);
         
         if (!form.getNotesAttachmentsHelper().deleteExistingAttachmentByType(selection, attachmentType)) {
             LOG.info(NOT_FOUND_SELECTION + selection);
-            //may want to tell the user the selection was invalid.
+            //TODO may want to tell the user the selection was invalid.
         }
         
         return mapping.findForward(Constants.MAPPING_BASIC);
@@ -315,7 +314,7 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
         byte[] attachmentFile =null;
         final AttachmentFile file = attachment.getFile();
         Printable printableArtifacts= getProtocolPrintingService().getProtocolPrintArtifacts(form.getProtocolDocument().getProtocol());
-        Protocol protocolCurrent = form.getProtocolDocument().getProtocol();
+        Protocol protocolCurrent = (Protocol) form.getProtocolDocument().getProtocol();
         int currentProtoSeqNumber= protocolCurrent.getSequenceNumber();
         try {
             if(printableArtifacts.isWatermarkEnabled()){
@@ -438,15 +437,15 @@ public class ProtocolNoteAndAttachmentAction extends ProtocolAction {
             getBusinessObjectService().delete(((ProtocolForm) form).getNotesAttachmentsHelper().getFilesToDelete());
             ((ProtocolForm) form).getNotesAttachmentsHelper().getFilesToDelete().clear();
             }
-        for (ProtocolPerson person : ((ProtocolForm) form).getProtocolDocument().getProtocol().getProtocolPersons()) {
+        for (ProtocolPersonBase person : ((ProtocolForm) form).getProtocolDocument().getProtocol().getProtocolPersons()) {
             person.refreshReferenceObject("attachmentPersonnels");
         }
-        for (ProtocolAttachmentProtocol attachment : ((ProtocolForm) form).getProtocolDocument().getProtocol().getAttachmentProtocols()) {
+        for (ProtocolAttachmentProtocolBase attachment : ((ProtocolForm) form).getProtocolDocument().getProtocol().getAttachmentProtocols()) {
             // for some reason, change and save, this list is not updated under attachment.protocol.attachmentprotocols
             attachment.getProtocol().refreshReferenceObject("attachmentProtocols");
         }
         // don't allow edit of saved notes
-        for (ProtocolNotepad notepad : ((ProtocolForm) form).getProtocolDocument().getProtocol().getNotepads()) {
+        for (ProtocolNotepadBase notepad : ((ProtocolForm) form).getProtocolDocument().getProtocol().getNotepads()) {
             notepad.setEditable(false);
         }
     }

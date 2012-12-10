@@ -64,13 +64,11 @@ public abstract class CommitteeBase<CMT extends CommitteeBase<CMT, CD, CS>,
     
     private CD committeeDocument;
     
-    //private List<CommitteeMembershipBase> committeeMemberships;
+    private List<CommitteeMembershipBase> committeeMemberships;
     private List<CS> committeeSchedules;
     
-    //private List<CommitteeResearchAreaBase> committeeResearchAreas;
-    private List<CommitteeResearchAreaBase> committeeBaseResearchAreas;
-    private List<CommitteeMembershipBase> committeeMemberships;
-    
+    private List<CommitteeResearchAreaBase> committeeResearchAreas;
+   
     // transient lookup fields
     private static final String CHAIR_MEMBERSHIP_ROLE_CODE = "1";
     private String committeeChair;
@@ -258,11 +256,11 @@ public abstract class CommitteeBase<CMT extends CommitteeBase<CMT, CD, CS>,
     }
     
     public List<CommitteeResearchAreaBase> getCommitteeResearchAreas() {
-        return committeeBaseResearchAreas;
+        return committeeResearchAreas;
     }
 
     public void setCommitteeResearchAreas(List<CommitteeResearchAreaBase> committeeResearchAreas) {
-        this.committeeBaseResearchAreas = committeeResearchAreas;
+        this.committeeResearchAreas = committeeResearchAreas;
     }
     public Boolean getPrintRooster() {
         return printRooster;
@@ -450,13 +448,5 @@ public abstract class CommitteeBase<CMT extends CommitteeBase<CMT, CD, CS>,
         }
         return retVal;
     }
-
-    public List<CommitteeResearchAreaBase> getCommitteeBaseResearchAreas() {
-        return committeeBaseResearchAreas;
-    }
-
-    public void setCommitteeBaseResearchAreas(List<CommitteeResearchAreaBase> committeeBaseResearchAreas) {
-        this.committeeBaseResearchAreas = committeeBaseResearchAreas;
-    }
-
+    
 }

@@ -15,33 +15,30 @@
  */
 package org.kuali.kra.irb.personnel;
 
-import java.util.List;
-
-
-
 
 /**
  * This class represents service interface for protocol personnel
  * training. Each institution can customize this interface to deal
  * with person training.
  */
-public interface ProtocolPersonTrainingService {
+public interface ProtocolPersonTrainingService extends org.kuali.kra.protocol.personnel.ProtocolPersonTrainingService {
 
-    /**
-     * This method is to set trained flag for each person
-     * This method is invoked while navigating to personnel page to set the trained flag for 
-     * each person in the list.
-     * Hook this service method to external / other training session as required. 
-     * @param protocolPersons
-     */
-    public void updatePersonTrained(List<ProtocolPerson> protocolPersons);
-    
-    /**
-     * This method is to set trained flag for a person
-     * Set true / false
-     * This method is invoked from isPersonTrained and while adding a new person to the list.
-     * @param protocolPerson
-     */
-    public void setTrainedFlag(ProtocolPerson protocolPerson);
+// TODO ********************** commented out during IRB backfit ************************    
+//    /**
+//     * This method is to set trained flag for each person
+//     * This method is invoked while navigating to personnel page to set the trained flag for 
+//     * each person in the list.
+//     * Hook this service method to external / other training session as required. 
+//     * @param protocolPersons
+//     */
+//    public void updatePersonTrained(List<ProtocolPerson> protocolPersons);
+//    
+//    /**
+//     * This method is to set trained flag for a person
+//     * Set true / false
+//     * This method is invoked from isPersonTrained and while adding a new person to the list.
+//     * @param protocolPerson
+//     */
+//    public void setTrainedFlag(ProtocolPerson protocolPerson);
 
 }

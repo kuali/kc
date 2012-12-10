@@ -26,13 +26,13 @@ public class ProtocolPrintingServiceTest extends PrintingServiceTestBase {
     @Test
     public void testGetProtocolPrintable() {
 
-        Printable printable = getPrintingService().getProtocolPrintable(ProtocolPrintType.PROTOCOL_FULL_PROTOCOL_REPORT);
+        Printable printable = getPrintingService().getProtocolPrintable(org.kuali.kra.protocol.actions.print.ProtocolPrintType.PROTOCOL_FULL_PROTOCOL_REPORT);
         assertTrue(printable instanceof ProtocolFullProtocolPrint);
-        printable = getPrintingService().getProtocolPrintable(ProtocolPrintType.PROTOCOL_PROTOCOL_HISTORY_REPORT);
+        printable = getPrintingService().getProtocolPrintable(org.kuali.kra.protocol.actions.print.ProtocolPrintType.PROTOCOL_PROTOCOL_HISTORY_REPORT);
         assertTrue(printable instanceof ProtocolHistoryPrint);
-        printable = getPrintingService().getProtocolPrintable(ProtocolPrintType.PROTOCOL_REVIEW_COMMENTS_REPORT);
+        printable = getPrintingService().getProtocolPrintable(org.kuali.kra.protocol.actions.print.ProtocolPrintType.PROTOCOL_REVIEW_COMMENTS_REPORT);
         assertTrue(printable instanceof ProtocolReviewCommentsPrint);
-        printable = getPrintingService().getProtocolPrintable(ProtocolPrintType.PROTOCOL_SUMMARY_VIEW_REPORT);
+        printable = getPrintingService().getProtocolPrintable(org.kuali.kra.protocol.actions.print.ProtocolPrintType.PROTOCOL_SUMMARY_VIEW_REPORT);
         assertTrue(printable instanceof ProtocolSummaryViewPrint);
     }
 

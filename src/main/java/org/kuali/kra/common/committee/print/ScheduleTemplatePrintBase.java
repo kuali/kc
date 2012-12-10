@@ -15,15 +15,6 @@
  */
 package org.kuali.kra.common.committee.print;
 
-import java.io.ByteArrayInputStream;
-import java.util.ArrayList;
-import java.util.List;
-import javax.xml.transform.Source;
-import javax.xml.transform.stream.StreamSource;
-
-import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceTemplateService;
-import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceTemplateBase;
-
 /**
  * 
  * This class identifies the template print functionality for committee schedule reports.
@@ -38,20 +29,6 @@ public abstract class ScheduleTemplatePrintBase extends TemplatePrintBase {
     public String getProtoCorrespTypeCode() {
         return  (String) getReportParameters().get(REPORT_PARAMETER_KEY);
     }
-    
-    @Override
-    public List<Source> getXSLTemplates() {
-        Source src = new StreamSource();
-        ArrayList<Source> sourceList = new ArrayList<Source>();
-        ProtocolCorrespondenceTemplateBase template = getProtocolCorrespondenceTemplateService().getProtocolCorrespondenceTemplate(getCommitteeId() , getProtoCorrespTypeCode());
-        if (template != null) {
-            src = new StreamSource(new ByteArrayInputStream(template.getCorrespondenceTemplate()));
-            sourceList.add(src);
-        }
-        return sourceList;
-    }
-
-    protected abstract ProtocolCorrespondenceTemplateService getProtocolCorrespondenceTemplateService();
-    
+   
    
 }

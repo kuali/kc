@@ -16,24 +16,14 @@
 package org.kuali.kra.irb.protocol.reference;
 
 import org.kuali.kra.irb.ProtocolDocument;
+import org.kuali.kra.protocol.protocol.reference.AddProtocolReferenceEventBase;
 import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.krad.rules.rule.BusinessRule;
 
 /**
  * This class hooks Rule to Event in KNS
  */
-public class AddProtocolReferenceEvent extends ProtocolReferenceEventBase {
+public class AddProtocolReferenceEvent extends AddProtocolReferenceEventBase {
 
-    /*
-
-    public AddProtocolReferenceEvent(String errorPathPrefix, ProtocolDocument document, ProtocolReference protocolReference) {
-        super("adding ProtocolReference to document " + getDocumentId(document), errorPathPrefix, document, protocolReference);
-    }
-
-    public AddProtocolReferenceEvent(String errorPathPrefix, Document document, ProtocolReference protocolReference) {
-        this(errorPathPrefix, (ProtocolDocument)document, protocolReference);
-    }
-    */   
     
     /**
      * 
@@ -43,7 +33,7 @@ public class AddProtocolReferenceEvent extends ProtocolReferenceEventBase {
      * @param protocolReferenceBean
      */
     public AddProtocolReferenceEvent(String errorPathPrefix, ProtocolDocument document, ProtocolReferenceBean protocolReferenceBean) {
-        super("adding ProtocolReference to document " + getDocumentId(document), errorPathPrefix, document, protocolReferenceBean);
+        super(errorPathPrefix, document, protocolReferenceBean);
     }
     
     /**
@@ -57,18 +47,52 @@ public class AddProtocolReferenceEvent extends ProtocolReferenceEventBase {
         this(errorPathPrefix, (ProtocolDocument)document, protocolReferenceBean);
     } 
     
-    /**
-     * @see org.kuali.core.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
-     */
-    public Class getRuleInterfaceClass() {
-        return AddProtocolReferenceRule.class;
-    }
-
-    /**
-     * @see org.kuali.core.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.core.rule.BusinessRule)
-     */
-    public boolean invokeRuleMethod(BusinessRule rule) {
-        return ((AddProtocolReferenceRule)rule).processAddProtocolReferenceBusinessRules(this);
-    }
+// TODO ********************** commented out during IRB backfit ************************    
+//    /*
+//
+//    public AddProtocolReferenceEvent(String errorPathPrefix, ProtocolDocument document, ProtocolReference protocolReference) {
+//        super("adding ProtocolReference to document " + getDocumentId(document), errorPathPrefix, document, protocolReference);
+//    }
+//
+//    public AddProtocolReferenceEvent(String errorPathPrefix, Document document, ProtocolReference protocolReference) {
+//        this(errorPathPrefix, (ProtocolDocument)document, protocolReference);
+//    }
+//    */   
+//    
+//    /**
+//     * 
+//     * Constructs a AddProtocolReferenceEvent.java.
+//     * @param errorPathPrefix
+//     * @param document
+//     * @param protocolReferenceBean
+//     */
+//    public AddProtocolReferenceEvent(String errorPathPrefix, ProtocolDocument document, ProtocolReferenceBean protocolReferenceBean) {
+//        super("adding ProtocolReference to document " + getDocumentId(document), errorPathPrefix, document, protocolReferenceBean);
+//    }
+//    
+//    /**
+//     * 
+//     * Constructs a AddProtocolReferenceEvent.java.
+//     * @param errorPathPrefix
+//     * @param document
+//     * @param protocolReferenceBean
+//     */
+//    public AddProtocolReferenceEvent(String errorPathPrefix, Document document, ProtocolReferenceBean protocolReferenceBean) {
+//        this(errorPathPrefix, (ProtocolDocument)document, protocolReferenceBean);
+//    } 
+//    
+//    /**
+//     * @see org.kuali.core.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
+//     */
+//    public Class getRuleInterfaceClass() {
+//        return AddProtocolReferenceRule.class;
+//    }
+//
+//    /**
+//     * @see org.kuali.core.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.core.rule.BusinessRule)
+//     */
+//    public boolean invokeRuleMethod(BusinessRule rule) {
+//        return ((AddProtocolReferenceRule)rule).processAddProtocolReferenceBusinessRules(this);
+//    }
 
 }

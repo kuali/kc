@@ -17,8 +17,12 @@ package org.kuali.kra.irb.actions.amendrenew;
 
 import org.kuali.kra.protocol.actions.amendrenew.ProtocolModuleBase;
 
-@SuppressWarnings("serial")
 public class ProtocolModule extends ProtocolModuleBase {
+
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = 4529315510212062290L;
 
     public static final String GENERAL_INFO = "001";
 
@@ -44,26 +48,27 @@ public class ProtocolModule extends ProtocolModuleBase {
 
     public static final String QUESTIONNAIRE = "026";
 
-    private String protocolModuleCode;
-
-    private String description;
-
-    public ProtocolModule() {
-    }
-
-    public String getProtocolModuleCode() {
-        return protocolModuleCode;
-    }
-
-    public void setProtocolModuleCode(String protocolModuleCode) {
-        this.protocolModuleCode = protocolModuleCode;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
+//    private String protocolModuleCode;
+//
+//    private String description;
+//
+//    public ProtocolModule() {
+//    }
+//
+//    public String getProtocolModuleCode() {
+//        return protocolModuleCode;
+//    }
+//
+//    public void setProtocolModuleCode(String protocolModuleCode) {
+//        this.protocolModuleCode = protocolModuleCode;
+//    }
+//
+//    public String getDescription() {
+//        return description;
+//    }
+//
+//    public void setDescription(String description) {
+//        this.description = description;
+//    }
+    
 }

@@ -32,12 +32,16 @@ import org.junit.Test;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.bo.CommitteeMembershipExpertise;
-import org.kuali.kra.committee.bo.CommitteeMembershipRole;
 import org.kuali.kra.committee.bo.CommitteeResearchArea;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
+import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
+import org.kuali.kra.common.committee.bo.CommitteeMembershipRole;
+import org.kuali.kra.common.committee.bo.CommitteeResearchAreaBase;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.protocol.location.ProtocolLocation;
 import org.kuali.kra.irb.protocol.location.ProtocolLocationService;
+import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.protocol.protocol.location.ProtocolLocationBase;
 import org.kuali.kra.service.VersioningService;
 import org.kuali.kra.service.impl.VersioningServiceImpl;
 
@@ -148,7 +152,7 @@ public class CommitteeVersioningTest implements Serializable {
     
     private CommitteeSchedule createCommitteeSchedule(String date) {
         CommitteeSchedule committeeSchedule = new CommitteeSchedule();
-        List<Protocol> protocols = new ArrayList<Protocol>();
+        List<ProtocolBase> protocols = new ArrayList<ProtocolBase>();
         protocols.add(createProtocol());
         committeeSchedule.setProtocols(protocols);
         
@@ -163,15 +167,20 @@ public class CommitteeVersioningTest implements Serializable {
      */
     private Protocol createProtocol() {
         Protocol p = new Protocol() {
+            /**
+             * Comment for <code>serialVersionUID</code>
+             */
+            private static final long serialVersionUID = 1L;
+
             @Override
             public void refreshReferenceObject(String referenceObjectName) {}
 
             @Override
             protected ProtocolLocationService getProtocolLocationService() {
                return new ProtocolLocationService() {
-                public void addDefaultProtocolLocation(Protocol protocol) {}
-                public void addProtocolLocation(Protocol protocol, ProtocolLocation protocolLocation) {}
-                public void clearProtocolLocationAddress(Protocol protocol, int lineNumber) { }
+                public void addDefaultProtocolLocation(ProtocolBase protocol) {}
+                public void addProtocolLocation(ProtocolBase protocol, ProtocolLocationBase protocolLocation) {}
+                public void clearProtocolLocationAddress(ProtocolBase protocol, int lineNumber) { }
                };
             }
             
@@ -192,23 +201,23 @@ public class CommitteeVersioningTest implements Serializable {
         // Committee Research Area
         assertEquals(originalCommittee.getCommitteeResearchAreas().size(), versionedCommittee.getCommitteeResearchAreas().size());
         List<String> versionedResearchAreaCodes = new ArrayList<String>();
-        for (CommitteeResearchArea versionedResearchArea : versionedCommittee.getCommitteeResearchAreas()) {
+        for (CommitteeResearchAreaBase versionedResearchArea : versionedCommittee.getCommitteeResearchAreas()) {
             versionedResearchAreaCodes.add(versionedResearchArea.getResearchAreaCode());
         }
-        for (CommitteeResearchArea originalResearchArea : originalCommittee.getCommitteeResearchAreas()) {
+        for (CommitteeResearchAreaBase originalResearchArea : originalCommittee.getCommitteeResearchAreas()) {
             assertTrue(versionedResearchAreaCodes.contains(originalResearchArea.getResearchAreaCode()));    
         }
         
         // Committee Membership
         assertEquals(originalCommittee.getCommitteeMemberships().size(), versionedCommittee.getCommitteeMemberships().size());
         Map<String, Integer> versionedMembershipMapping = new HashMap<String, Integer>();
-        for (CommitteeMembership versionedMembership : versionedCommittee.getCommitteeMemberships()) {
+        for (CommitteeMembershipBase versionedMembership : versionedCommittee.getCommitteeMemberships()) {
             versionedMembershipMapping.put(versionedMembership.getPersonName(), versionedCommittee.getCommitteeMemberships().indexOf(versionedMembership));
         }
-        for (CommitteeMembership originalMembership : originalCommittee.getCommitteeMemberships()) {
+        for (CommitteeMembershipBase originalMembership : originalCommittee.getCommitteeMemberships()) {
             assertTrue(versionedMembershipMapping.containsKey(originalMembership.getPersonName()));
             Integer index = versionedMembershipMapping.get(originalMembership.getPersonName());
-            verifyMembershipRoleExpertiseVersioning(originalMembership, versionedCommittee.getCommitteeMemberships().get(index));
+            verifyMembershipRoleExpertiseVersioning((CommitteeMembership) originalMembership, (CommitteeMembership) versionedCommittee.getCommitteeMemberships().get(index));
         }
         
         // Committee Schedule
@@ -223,15 +232,14 @@ public class CommitteeVersioningTest implements Serializable {
         
         if(originalCommittee.getCommitteeSchedules().size() > 0) {
             assertEquals(originalCommittee.getCommitteeSchedules().get(0).getProtocols().size(), versionedCommittee.getCommitteeSchedules().get(0).getProtocols().size());
-            Protocol pRef = originalCommittee.getCommitteeSchedules().get(0).getProtocols().get(0);
-            Protocol pCheck = versionedCommittee.getCommitteeSchedules().get(0).getProtocols().get(0);
+            Protocol pRef = (Protocol) originalCommittee.getCommitteeSchedules().get(0).getProtocols().get(0);
+            Protocol pCheck = (Protocol) versionedCommittee.getCommitteeSchedules().get(0).getProtocols().get(0);
             assertTrue(pRef != pCheck);
             assertEquals(pRef.getProtocolId(), pCheck.getProtocolId());
         }
     }
 
-    private void verifyMembershipRoleExpertiseVersioning(CommitteeMembership originalMembership,
-            CommitteeMembership versionedMembership) {
+    private void verifyMembershipRoleExpertiseVersioning(CommitteeMembership originalMembership, CommitteeMembership versionedMembership) {
         assertEquals(originalMembership.getMembershipRoles().size(), versionedMembership.getMembershipRoles().size());
         assertEquals(originalMembership.getMembershipExpertise().size(), versionedMembership.getMembershipExpertise().size());
         List<String> versionedRoleCodes = new ArrayList<String>();

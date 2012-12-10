@@ -15,47 +15,55 @@
  */
 package org.kuali.kra.irb.noteattachment;
 
-import java.util.List;
-
-import org.kuali.kra.irb.ProtocolDocument;
+import org.kuali.kra.protocol.noteattachment.SubmitProtocolAttachmentProtocolRuleImplBase;
 
 /**
  * Class handles rules for submitting a {@link ProtocolAttachmentProtocol ProtocolAttachmentProtocol}.
  * This class does not have a corresponding event or Rule interface because it is just used-by the mega
  * {@link org.kuali.kra.irb.ProtocolDocumentRule ProtocolDocumentRule} for submit events.
  */
-public class SubmitProtocolAttachmentProtocolRuleImpl {
-
-    private final ProtocolAttachmentProtocolRuleHelper protocolHelper = new ProtocolAttachmentProtocolRuleHelper();
+public class SubmitProtocolAttachmentProtocolRuleImpl extends SubmitProtocolAttachmentProtocolRuleImplBase {
     
-    /**
-     * Executes the rules related to {@link ProtocolAttachmentProtocol ProtocolAttachmentProtocol} when saving a ProtocolDocument.
-     * @param document the document
-     * @return true if valid  
-     */
-    public boolean processSubmitProtocolAttachmentProtocolRules(final ProtocolDocument document) {      
-        
-        if (document == null) {
-            throw new IllegalArgumentException("the document was null");
-        }
-        boolean valid = true;
-        
-        final List<ProtocolAttachmentProtocol> attachments = document.getProtocol().getAttachmentProtocols();
-        
-        for (int i = 0; i < attachments.size(); i++) {
-            final ProtocolAttachmentProtocol attachment = attachments.get(i);
-            this.setPropertyPrefixes(NoteAndAttachmentPrefix.ATTACHMENT_PROTOCOL.getIndexedPrefix(i));
-
-            valid &= this.protocolHelper.validStatusForSubmission(attachment);
-        }
-        return valid;
-    }
     
-    /**
-     * Resets the PropertyPrefixes on the used helpers.
-     * @param prefix the prefix.
-     */
-    private void setPropertyPrefixes(String prefix) {
-        this.protocolHelper.resetPropertyPrefix(prefix);
+    public SubmitProtocolAttachmentProtocolRuleImpl() {
+        super();
+        
+        // TODO : temporarily plugin this propertyprefix.  need to rework to have correct prefix
+        protocolHelper = new ProtocolAttachmentProtocolRuleHelper("notesAttachmentsHelper.newAttachmentProtocol");
     }
+
+// TODO ********************** commented out during IRB backfit ************************    
+//    private final ProtocolAttachmentProtocolRuleHelper protocolHelper = new ProtocolAttachmentProtocolRuleHelper();
+//    
+//    /**
+//     * Executes the rules related to {@link ProtocolAttachmentProtocol ProtocolAttachmentProtocol} when saving a ProtocolDocument.
+//     * @param document the document
+//     * @return true if valid  
+//     */
+//    public boolean processSubmitProtocolAttachmentProtocolRules(final ProtocolDocument document) {      
+//        
+//        if (document == null) {
+//            throw new IllegalArgumentException("the document was null");
+//        }
+//        boolean valid = true;
+//        
+//        final List<ProtocolAttachmentProtocol> attachments = document.getProtocol().getAttachmentProtocols();
+//        
+//        for (int i = 0; i < attachments.size(); i++) {
+//            final ProtocolAttachmentProtocol attachment = attachments.get(i);
+//            this.setPropertyPrefixes(NoteAndAttachmentPrefix.ATTACHMENT_PROTOCOL.getIndexedPrefix(i));
+//
+//            valid &= this.protocolHelper.validStatusForSubmission(attachment);
+//        }
+//        return valid;
+//    }
+//    
+//    /**
+//     * Resets the PropertyPrefixes on the used helpers.
+//     * @param prefix the prefix.
+//     */
+//    private void setPropertyPrefixes(String prefix) {
+//        this.protocolHelper.resetPropertyPrefix(prefix);
+//    }
+    
 }

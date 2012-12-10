@@ -31,9 +31,12 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeMembership;
-import org.kuali.kra.committee.bo.CommitteeMembershipRole;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
+import org.kuali.kra.common.committee.bo.CommitteeMembershipRole;
 import org.kuali.kra.common.committee.bo.MembershipRole;
+import org.kuali.kra.common.committee.meeting.CommScheduleActItemBase;
+import org.kuali.kra.common.committee.meeting.MemberAbsentBean;
+import org.kuali.kra.common.committee.meeting.MemberPresentBean;
 import org.kuali.kra.common.committee.meeting.MinuteEntryType;
 import org.kuali.kra.common.committee.web.struts.form.schedule.Time12HrFmt;
 import org.kuali.kra.common.committee.web.struts.form.schedule.Time12HrFmt.MERIDIEM;
@@ -201,7 +204,7 @@ public class MeetingServiceTest extends KcUnitTestBase {
         });
         meetingService.setSequenceAccessorService(sequenceAccessorService);
         CommitteeSchedule committeeSchedule = new CommitteeSchedule();
-        committeeSchedule.setCommScheduleActItems(new ArrayList<CommScheduleActItem>());
+        committeeSchedule.setCommScheduleActItems(new ArrayList<CommScheduleActItemBase>());
         meetingService.addOtherAction(newOtherAction, committeeSchedule);
         Assert.assertTrue(committeeSchedule.getCommScheduleActItems().size() == 1);
         Assert.assertEquals(committeeSchedule.getCommScheduleActItems().get(0).getScheduleActItemTypeCode(), "1");
@@ -218,9 +221,9 @@ public class MeetingServiceTest extends KcUnitTestBase {
         CommScheduleActItem otherAction2 = getOtherActionItem(2L, "2", 2);
         items.add(otherAction2);
         CommitteeSchedule committeeSchedule = new CommitteeSchedule();
-        committeeSchedule.setCommScheduleActItems(items);
+        committeeSchedule.setCommScheduleActItems((List) items);
 
-        meetingService.deleteOtherAction(committeeSchedule, 1, deletedItems);
+        meetingService.deleteOtherAction(committeeSchedule, 1, (List) deletedItems);
         Assert.assertTrue(committeeSchedule.getCommScheduleActItems().size() == 1);
         Assert.assertEquals(committeeSchedule.getCommScheduleActItems().get(0).getScheduleActItemTypeCode(), "1");
         Assert.assertEquals(committeeSchedule.getCommScheduleActItems().get(0).getActionItemNumber(), new Integer(1));
@@ -322,7 +325,7 @@ public class MeetingServiceTest extends KcUnitTestBase {
         MeetingHelper meetingHelper = new MeetingHelper(new MeetingForm());
         meetingHelper.setCommitteeSchedule(committeeSchedule);
         meetingHelper.setMemberAbsentBeans(memberAbsentBeans);
-        meetingHelper.setOtherPresentBeans(otherPresentBeans);
+        meetingHelper.setOtherPresentBeans((List) otherPresentBeans);
         meetingService.presentOther(meetingHelper, 1);
         Assert.assertTrue(otherPresentBeans.size() == 1);
         Assert.assertTrue(memberAbsentBeans.size() == 2);
@@ -381,7 +384,7 @@ public class MeetingServiceTest extends KcUnitTestBase {
 
         MeetingHelper meetingHelper = new MeetingHelper(new MeetingForm());
         meetingHelper.setMemberAbsentBeans(memberAbsentBeans);
-        meetingHelper.setOtherPresentBeans(otherPresentBeans);
+        meetingHelper.setOtherPresentBeans((List) otherPresentBeans);
         meetingHelper.setNewOtherPresentBean(newOtherPresentBean);
         meetingHelper.setCommitteeSchedule(committeeSchedule);
         meetingService.addOtherPresent(meetingHelper);
@@ -419,7 +422,7 @@ public class MeetingServiceTest extends KcUnitTestBase {
 
         MeetingHelper meetingHelper = new MeetingHelper(new MeetingForm());
         meetingHelper.setMemberAbsentBeans(memberAbsentBeans);
-        meetingHelper.setOtherPresentBeans(otherPresentBeans);
+        meetingHelper.setOtherPresentBeans((List) otherPresentBeans);
         meetingHelper.setCommitteeSchedule(committeeSchedule);
         meetingService.deleteOtherPresent(meetingHelper, 0);
         Assert.assertTrue(otherPresentBeans.size() == 1);

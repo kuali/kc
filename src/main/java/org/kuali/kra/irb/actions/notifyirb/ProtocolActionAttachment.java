@@ -15,46 +15,45 @@
  */
 package org.kuali.kra.irb.actions.notifyirb;
 
-import java.io.Serializable;
-
-import org.apache.struts.upload.FormFile;
-
 /**
  * 
  * This class is an attachment bean for action attachment. these information will be saved to ProtocolSubmissionDoc
  */
-public class ProtocolActionAttachment implements Serializable {
+public class ProtocolActionAttachment extends org.kuali.kra.protocol.actions.notify.ProtocolActionAttachment {
+    
     private static final long serialVersionUID = -2626638393031365683L;
-    private String fileName;
-    private transient FormFile file;
-    private String description;
-
-    public ProtocolActionAttachment() {
-        
-    }
-
-    public String getFileName() {
-        return fileName;
-    }
-
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
-    }
-
-    public FormFile getFile() {
-        return file;
-    }
-
-    public void setFile(FormFile file) {
-        this.file = file;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
+    
+// TODO ********************** commented out during IRB backfit ************************    
+//    private String fileName;
+//    private transient FormFile file;
+//    private String description;
+//
+//    public ProtocolActionAttachment() {
+//        
+//    }
+//
+//    public String getFileName() {
+//        return fileName;
+//    }
+//
+//    public void setFileName(String fileName) {
+//        this.fileName = fileName;
+//    }
+//
+//    public FormFile getFile() {
+//        return file;
+//    }
+//
+//    public void setFile(FormFile file) {
+//        this.file = file;
+//    }
+//
+//    public String getDescription() {
+//        return description;
+//    }
+//
+//    public void setDescription(String description) {
+//        this.description = description;
+//    }
 
 }

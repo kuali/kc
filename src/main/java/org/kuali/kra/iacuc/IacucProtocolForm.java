@@ -75,15 +75,12 @@ public class IacucProtocolForm extends ProtocolFormBase {
     
     public IacucProtocolForm() throws Exception {
         super();
-        initializeIacucProtocolHelpers();
         initializeIacucProtocolSpecies();
         initializeIacucAlternateSearchHelper();
         initializeIacucProtocolException();
         initializeIacucProtocolProcedures();
     }
 
-    public void initializeIacucProtocolHelpers() throws Exception {
-    }
     
     public void initializeIacucProtocolSpecies() throws Exception {
         setIacucProtocolSpeciesHelper(new IacucProtocolSpeciesHelper(this));
@@ -347,7 +344,7 @@ public class IacucProtocolForm extends ProtocolFormBase {
     }
 
     @Override
-    protected NotificationHelper getNotificationHelperHook() {
+    protected NotificationHelper<IacucProtocolNotificationContext> getNotificationHelperHook() {
         return new NotificationHelper<IacucProtocolNotificationContext>();
     }
 

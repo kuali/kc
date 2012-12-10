@@ -22,6 +22,7 @@ import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
+import org.kuali.kra.protocol.actions.ProtocolActionBase;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.util.GlobalVariables;
 
@@ -57,7 +58,7 @@ public class AbandonProtocolAuthorizer extends ProtocolAuthorizer {
      */
     private boolean isInitialProtocol(Protocol protocol) {
         boolean initialProtocol = true;
-        for (ProtocolAction action : protocol.getProtocolActions()) {
+        for (ProtocolActionBase action : protocol.getProtocolActions()) {
             if (APPROVE_ACTION_TYPES.contains(action.getProtocolActionTypeCode())) {
                 initialProtocol = false;
                 break;

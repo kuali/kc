@@ -32,9 +32,8 @@
  
     <kra-committee:committeeAddMembershipSection readOnly="${readOnly}" />
     
-    <kra-committee:committeeMemberships readOnly="${readOnly}" 
-    	researchAreaReference = "org.kuali.kra.bo.ResearchArea" 
-    	membershipRoleValuesFinderClassName="org.kuali.kra.committee.keyvalue.MembershipRoleValuesFinder"/>
+    <kra-committee:committeeMemberships readOnly="${readOnly}"  
+    researchAreaReference = "org.kuali.kra.bo.ResearchArea"/>
 
     <c:if test="${!readOnly && fn:length(KualiForm.document.committee.committeeMemberships) > 0}">
         <c:set var="extraButtonSource" value="${ConfigProperties.kra.externalizable.images.url}buttonsmall_deletesel.gif"/>

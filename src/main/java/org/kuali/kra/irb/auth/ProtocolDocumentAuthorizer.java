@@ -25,10 +25,11 @@ import org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
+import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewService;
-import org.kuali.kra.irb.personnel.ProtocolPerson;
+import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
@@ -41,6 +42,11 @@ import org.kuali.rice.krad.util.GlobalVariables;
  */
 public class ProtocolDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBase {
     
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = -8742664470188406956L;
+
     /**
      * @see org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizer#getEditModes(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person, java.util.Set)
      */
@@ -88,8 +94,8 @@ public class ProtocolDocumentAuthorizer extends KcTransactionalDocumentAuthorize
      */
     public boolean canViewReviewComments(Document document, Person user) {
         ProtocolDocument protocolDoc = (ProtocolDocument)document;
-        List<ProtocolPerson> participants = protocolDoc.getProtocol().getProtocolPersons();
-        for (ProtocolPerson participant : participants) {
+        List<ProtocolPersonBase> participants = protocolDoc.getProtocol().getProtocolPersons();
+        for (ProtocolPersonBase participant : participants) {
             if (StringUtils.equalsIgnoreCase(participant.getPersonId() + "", user.getPrincipalId())) {
                 String statusCode = protocolDoc.getProtocol().getProtocolStatusCode();
                 if (statusCode.equalsIgnoreCase(ProtocolStatus.SUBMITTED_TO_IRB)) {
@@ -140,7 +146,7 @@ public class ProtocolDocumentAuthorizer extends KcTransactionalDocumentAuthorize
      * @return true if has permission; otherwise false
      */
     private boolean canExecuteProtocolTask(String userId, ProtocolDocument doc, String taskName) {
-        ProtocolTask task = new ProtocolTask(taskName, doc.getProtocol());       
+        ProtocolTask task = new ProtocolTask(taskName, (Protocol) doc.getProtocol());       
         TaskAuthorizationService taskAuthenticationService = KraServiceLocator.getService(TaskAuthorizationService.class);
         return taskAuthenticationService.isAuthorized(userId, task);
     }

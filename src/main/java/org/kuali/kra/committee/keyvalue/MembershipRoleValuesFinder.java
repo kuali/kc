@@ -15,51 +15,50 @@
  */
 package org.kuali.kra.committee.keyvalue;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.common.committee.bo.CommitteeType;
-import org.kuali.kra.common.committee.bo.MembershipRole;
-import org.kuali.kra.committee.web.struts.form.CommitteeForm;
-import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.rice.core.api.util.ConcreteKeyValue;
-import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
-import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.kra.common.committee.keyvalue.MembershipRoleValuesFinderBase;
 
-public class MembershipRoleValuesFinder extends KeyValuesBase {
+public class MembershipRoleValuesFinder extends MembershipRoleValuesFinderBase {
+
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = -8641252213493844509L;
 
     @Override
-    public List<KeyValue> getKeyValues() {
-        List<KeyValue> keyLabels = new ArrayList<KeyValue>();
-        keyLabels.add(new ConcreteKeyValue("", "select"));
-
-        CommitteeForm committeeForm = (CommitteeForm) KNSGlobalVariables.getKualiForm();
-        String committeeTypeCode = committeeForm.getCommitteeDocument().getCommittee().getCommitteeTypeCode();
-        List<? extends MembershipRole> roles = new ArrayList<MembershipRole>();
-        Map<String, String> criteria = new HashMap<String, String>();
-        if (StringUtils.equalsIgnoreCase(committeeTypeCode, CommitteeType.IRB_TYPE_CODE)) {
-            criteria.put("committeeTypeCode", CommitteeType.IRB_TYPE_CODE);
-            
-        } else {
-            //IACUC
-            criteria.put("committeeTypeCode", CommitteeType.IACUC_TYPE_CODE);
-
-        }
-        roles = (List<? extends MembershipRole>) getBusinessObjectService().findMatching(MembershipRole.class, criteria);
-
-        for(MembershipRole role : roles) {
-            keyLabels.add(new ConcreteKeyValue(role.getMembershipRoleCode(), role.getDescription()));
-        }
-        return keyLabels;
+    protected String getCommitteeTypeCodeHook() {
+        return CommitteeType.IRB_TYPE_CODE;
     }
     
-    protected BusinessObjectService getBusinessObjectService() {
-        return KraServiceLocator.getService(BusinessObjectService.class);
-    }
+    
+// TODO ********************** commented out during IRB backfit ************************
+//    @Override
+//    public List<KeyValue> getKeyValues() {
+//        List<KeyValue> keyLabels = new ArrayList<KeyValue>();
+//        keyLabels.add(new ConcreteKeyValue("", "select"));
+//
+//        CommitteeForm committeeForm = (CommitteeForm) KNSGlobalVariables.getKualiForm();
+//        String committeeTypeCode = committeeForm.getCommitteeDocument().getCommittee().getCommitteeTypeCode();
+//        List<? extends MembershipRole> roles = new ArrayList<MembershipRole>();
+//        Map<String, String> criteria = new HashMap<String, String>();
+//        if (StringUtils.equalsIgnoreCase(committeeTypeCode, CommitteeType.IRB_TYPE_CODE)) {
+//            criteria.put("committeeTypeCode", CommitteeType.IRB_TYPE_CODE);
+//            
+//        } else {
+//            //IACUC
+//            criteria.put("committeeTypeCode", CommitteeType.IACUC_TYPE_CODE);
+//
+//        }
+//        roles = (List<? extends MembershipRole>) getBusinessObjectService().findMatching(MembershipRole.class, criteria);
+//
+//        for(MembershipRole role : roles) {
+//            keyLabels.add(new ConcreteKeyValue(role.getMembershipRoleCode(), role.getDescription()));
+//        }
+//        return keyLabels;
+//    }
+//    
+//    protected BusinessObjectService getBusinessObjectService() {
+//        return KraServiceLocator.getService(BusinessObjectService.class);
+//    }
     
 }

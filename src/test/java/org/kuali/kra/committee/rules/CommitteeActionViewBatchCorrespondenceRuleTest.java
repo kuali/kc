@@ -21,7 +21,9 @@ import java.util.List;
 import org.junit.Test;
 import org.kuali.kra.committee.bo.CommitteeBatchCorrespondence;
 import org.kuali.kra.committee.bo.CommitteeBatchCorrespondenceDetail;
-import org.kuali.kra.committee.rule.event.CommitteeActionViewBatchCorrespondenceEvent;
+import org.kuali.kra.common.committee.bo.CommitteeBatchCorrespondenceBase;
+import org.kuali.kra.common.committee.rule.event.CommitteeActionViewBatchCorrespondenceEvent;
+import org.kuali.kra.common.committee.rules.CommitteeActionViewBatchCorrespondenceRule;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.rules.TemplateRuleTest;
 
@@ -38,7 +40,7 @@ public class CommitteeActionViewBatchCorrespondenceRuleTest {
                 committeeBatchCorrespondenceDetail.setSelected(true);
                 CommitteeBatchCorrespondence committeeBatchCorrespondence = new CommitteeBatchCorrespondence();
                 committeeBatchCorrespondence.getCommitteeBatchCorrespondenceDetails().add(committeeBatchCorrespondenceDetail);
-                List<CommitteeBatchCorrespondence> committeeBatchCorrespondences = new ArrayList<CommitteeBatchCorrespondence>();
+                List<CommitteeBatchCorrespondenceBase> committeeBatchCorrespondences = new ArrayList<CommitteeBatchCorrespondenceBase>();
                 committeeBatchCorrespondences.add(committeeBatchCorrespondence);
                 
                 event = new CommitteeActionViewBatchCorrespondenceEvent(Constants.EMPTY_STRING, null, committeeBatchCorrespondences, false);
@@ -55,7 +57,7 @@ public class CommitteeActionViewBatchCorrespondenceRuleTest {
 
             @Override
             protected void prerequisite() {
-                List<CommitteeBatchCorrespondence> committeeBatchCorrespondences = new ArrayList<CommitteeBatchCorrespondence>();
+                List<CommitteeBatchCorrespondenceBase> committeeBatchCorrespondences = new ArrayList<CommitteeBatchCorrespondenceBase>();
                 event = new CommitteeActionViewBatchCorrespondenceEvent(Constants.EMPTY_STRING, null, committeeBatchCorrespondences, false);
                 rule = new CommitteeActionViewBatchCorrespondenceRule();
                 expectedReturnValue = false;

@@ -15,28 +15,25 @@
  */
 package org.kuali.kra.irb.actions.followup;
 
-import java.util.List;
-
-import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.submit.ValidProtocolActionAction;
 
-public interface FollowupActionService {
+public interface FollowupActionService extends org.kuali.kra.protocol.actions.followup.FollowupActionService<ValidProtocolActionAction> {
     
-    
-    /**
-     * Determines if the action is a follow-up action for the current state of the
-     * protocol.  This is a replacement method for the one found in the ProtocolActionService
-     * that relies on drools rules instead of the ValidProtocolActionAction maintenance artifact.
-     * 
-     * @param protocolActionTypeCode  The type code we are checking is a follow up action
-     * @param protocol The protocol you are interested in.
-     * 
-     * @return 
-     */
-    boolean isActionOpenForFollowup(String protocolActionTypeCode, Protocol protocol);
-    
-    List<ValidProtocolActionAction> getFollowupsForActionTypeAndMotionType(String protocolActionTypeCode, String committeeMotionTypeCode);
-    
-    List<ValidProtocolActionAction> getFollowupsForProtocol(Protocol protocol);
+// TODO ********************** commented out during IRB backfit ************************
+//    /**
+//     * Determines if the action is a follow-up action for the current state of the
+//     * protocol.  This is a replacement method for the one found in the ProtocolActionService
+//     * that relies on drools rules instead of the ValidProtocolActionAction maintenance artifact.
+//     * 
+//     * @param protocolActionTypeCode  The type code we are checking is a follow up action
+//     * @param protocol The protocol you are interested in.
+//     * 
+//     * @return 
+//     */
+//    boolean isActionOpenForFollowup(String protocolActionTypeCode, Protocol protocol);
+//    
+//    List<ValidProtocolActionAction> getFollowupsForActionTypeAndMotionType(String protocolActionTypeCode, String committeeMotionTypeCode);
+//    
+//    List<ValidProtocolActionAction> getFollowupsForProtocol(Protocol protocol);
 
 }

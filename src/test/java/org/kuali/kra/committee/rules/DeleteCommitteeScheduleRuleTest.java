@@ -33,8 +33,10 @@ import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.committee.rule.event.DeleteCommitteeScheduleEvent;
-import org.kuali.kra.committee.rule.event.CommitteeScheduleEventBase.ErrorType;
 import org.kuali.kra.committee.service.impl.CommitteeServiceImpl;
+import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
+import org.kuali.kra.common.committee.rule.event.CommitteeScheduleEventBase.ErrorType;
+import org.kuali.kra.common.committee.rule.event.DeleteCommitteeScheduleEventBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
@@ -61,15 +63,15 @@ public class DeleteCommitteeScheduleRuleTest extends CommitteeRuleTestBase {
             // however, still using jmock for businessobjectservice.  Once, we have committee & protocol data
             // preloaded, then we should not do this override here.
             @Override
-            public boolean processRules(DeleteCommitteeScheduleEvent deleteCommitteeScheduleEvent) {
+            public boolean processRules(DeleteCommitteeScheduleEventBase deleteCommitteeScheduleEvent) {
 
                 boolean rulePassed = true;
-                List<CommitteeSchedule> schedules = deleteCommitteeScheduleEvent.getCommitteeSchedules();
+                List<CommitteeScheduleBase> schedules = deleteCommitteeScheduleEvent.getCommitteeSchedules();
                 Committee activeCommittee = committeeService.getCommitteeById(
                         ((CommitteeDocument) deleteCommitteeScheduleEvent.getDocument()).getCommittee().getCommitteeId());
                 if (activeCommittee != null) {
                     int i = 0;
-                    for (CommitteeSchedule schedule : schedules) {
+                    for (CommitteeScheduleBase schedule : schedules) {
                         if (schedule.isSelected() && canNotDelete(activeCommittee.getCommitteeSchedules(), schedule.getScheduleId())) {
                             reportError(ID + i + "].selected", KeyConstants.ERROR_COMMITTEESCHEDULE_DELETE);
                             rulePassed = false;
@@ -169,7 +171,7 @@ public class DeleteCommitteeScheduleRuleTest extends CommitteeRuleTestBase {
         Committee committee = new Committee();
         committee.setCommitteeId("test");
         committee.setSequenceNumber(1);
-        committee.setCommitteeSchedules(getCommitteeSchedules(containMeetingData));
+        committee.setCommitteeSchedules((List)getCommitteeSchedules(containMeetingData));
         committees.add(committee);
         return committees;
        
@@ -185,8 +187,8 @@ public class DeleteCommitteeScheduleRuleTest extends CommitteeRuleTestBase {
         Assert.assertEquals(message.getErrorKey(), errorKey);
     }
 
-    private List<CommitteeSchedule> getCommitteeSchedules(boolean containMeetingData) {
-        List<CommitteeSchedule> committeeSchedules = new ArrayList<CommitteeSchedule>();    
+    private List<CommitteeScheduleBase> getCommitteeSchedules(boolean containMeetingData) {
+        List<CommitteeScheduleBase> committeeSchedules = new ArrayList<CommitteeScheduleBase>();    
         CommitteeSchedule committeeSchedule = new CommitteeSchedule();
         committeeSchedules.add(committeeSchedule);
         committeeSchedule.setSelected(true);
@@ -205,7 +207,7 @@ public class DeleteCommitteeScheduleRuleTest extends CommitteeRuleTestBase {
         review.setProtocolReviewer(reviewer);
         reviews.add(review);
         ProtocolSubmission submission = new ProtocolSubmission();
-        submission.setProtocolOnlineReviews(reviews);
+        submission.setProtocolOnlineReviews((List)reviews);
         submissions.add(submission);
         return submissions;
     }

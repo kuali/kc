@@ -68,21 +68,22 @@ public class ProtocolActionTypeToCorrespondenceTemplateServiceTest extends KcUni
     
     @Test
     public void testGetTemplatesByProtocolAction1(){
-        List<ProtocolCorrespondenceTemplate> result = service.getTemplatesByProtocolAction(ProtocolActionType.SUBMIT_TO_IRB);
+        List<ProtocolCorrespondenceTemplate> result = (List)service.getTemplatesByProtocolAction(ProtocolActionType.SUBMIT_TO_IRB);
         assertTrue(result.size() == 2);
     }
     
     @Test
     public void testGetTemplatesByProtocolAction2(){
-        List<ProtocolCorrespondenceTemplate> result = service.getTemplatesByProtocolAction(ProtocolActionType.ADMINISTRATIVE_CORRECTION);
+        List<ProtocolCorrespondenceTemplate> result = (List)service.getTemplatesByProtocolAction(ProtocolActionType.ADMINISTRATIVE_CORRECTION);
         assertTrue(result.size() == 0);
     }
     
+    @SuppressWarnings("unchecked")
     @Test
     public void testGetTemplatesByProtocolAction3(){
         boolean didError = false;
         try {
-        List<ProtocolCorrespondenceTemplate> result = service.getTemplatesByProtocolAction("foobar");
+        List<ProtocolCorrespondenceTemplate> result = (List)service.getTemplatesByProtocolAction("foobar");
         } catch (IllegalArgumentException ae) {
             didError = true;
         }

@@ -15,17 +15,25 @@
  */
 package org.kuali.kra.committee.print;
 
+import org.kuali.kra.common.committee.print.ScheduleTemplatePrintBase;
+
 /**
  * 
  * This class identifies the template print functionality for committee schedule reports.
  */
-public class ScheduleTemplatePrint extends TemplatePrint {
+public class ScheduleTemplatePrint extends ScheduleTemplatePrintBase {
 
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
     private static final long serialVersionUID = -1565960151556324475L;
 
-    @Override
-    public String getProtoCorrespTypeCode() {
-        return  (String) getReportParameters().get("protoCorrespTypeCode");
-    }
+//    private static final long serialVersionUID = -1565960151556324475L;
+//
+//
+//    @Override
+//    public String getProtoCorrespTypeCode() {
+//        return  (String) getReportParameters().get("protoCorrespTypeCode");
+//    }
 
 }

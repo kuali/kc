@@ -27,8 +27,9 @@ import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionBean;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.ProtocolStatus;
+import org.kuali.kra.protocol.actions.ProtocolActionBase;
 
-public class UndoLastActionBean extends ProtocolActionBean implements Serializable {
+public class UndoLastActionBean extends ProtocolActionBean implements org.kuali.kra.protocol.actions.undo.UndoLastActionBean, Serializable {
 
     private static final long serialVersionUID = 801139767436741048L;
     
@@ -126,7 +127,12 @@ public class UndoLastActionBean extends ProtocolActionBean implements Serializab
     
     public void refreshActionsPerformed() {
         if(null != this.getProtocol()) {
-            this.actionsPerformed = this.getProtocol().getProtocolActions();
+            this.actionsPerformed = (List)this.getProtocol().getProtocolActions();
         }  
+    }
+
+    @Override
+    public ProtocolActionBase getLastAction() {
+        return this.getLastPerformedAction();
     }
 }

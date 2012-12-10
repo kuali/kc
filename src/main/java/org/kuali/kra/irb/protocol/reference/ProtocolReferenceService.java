@@ -15,17 +15,17 @@
  */
 package org.kuali.kra.irb.protocol.reference;
 
-import org.kuali.kra.irb.Protocol;
 
 
-public interface ProtocolReferenceService {
+public interface ProtocolReferenceService extends org.kuali.kra.protocol.protocol.reference.ProtocolReferenceService {
+ // TODO ********************** commented out during IRB backfit ************************
 
-    /**
-     * This method adds ProtocolReference to the List of ProtocolReferences along with 
-     * appropriate ProtocolReferenceType.
-     * @param protocol which contains list of ProtocolReferences.
-     * @param protocolReference object is added to ProtocolReferences list after setting ProtocolReferenceType.
-     */
-    public abstract void addProtocolReference(Protocol protocol, ProtocolReference protocolReference);
+//    /**
+//     * This method adds ProtocolReference to the List of ProtocolReferences along with 
+//     * appropriate ProtocolReferenceType.
+//     * @param protocol which contains list of ProtocolReferences.
+//     * @param protocolReference object is added to ProtocolReferences list after setting ProtocolReferenceType.
+//     */
+//    public abstract void addProtocolReference(Protocol protocol, ProtocolReference protocolReference);
     
 }

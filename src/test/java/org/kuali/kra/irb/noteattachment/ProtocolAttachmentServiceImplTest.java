@@ -31,6 +31,7 @@ import org.junit.Test;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDao;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
+import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentTypeBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
@@ -76,7 +77,7 @@ public class ProtocolAttachmentServiceImplTest {
             }
         });
         
-        final ProtocolAttachmentStatus gotStatus = paService.getStatusFromCode("1");
+        final ProtocolAttachmentStatus gotStatus = (ProtocolAttachmentStatus) paService.getStatusFromCode("1");
         
         this.context.assertIsSatisfied();
         
@@ -99,7 +100,7 @@ public class ProtocolAttachmentServiceImplTest {
             }
         });
         
-        final ProtocolAttachmentType gotType = paService.getTypeFromCode("1");
+        final ProtocolAttachmentType gotType = (ProtocolAttachmentType) paService.getTypeFromCode("1");
         
         this.context.assertIsSatisfied();
         
@@ -117,6 +118,7 @@ public class ProtocolAttachmentServiceImplTest {
     }
     
     /** tests calling getTypesForGroup with valid arg where the group is found. */
+    @SuppressWarnings("unchecked")
     @Test
     public void getTypesForGroupFound() {
         final BusinessObjectService boService = this.context.mock(BusinessObjectService.class);
@@ -136,7 +138,7 @@ public class ProtocolAttachmentServiceImplTest {
             }
         });
         
-        final Collection<ProtocolAttachmentType> gotTypes = paService.getTypesForGroup("1");
+        final Collection<ProtocolAttachmentType> gotTypes = (Collection)paService.getTypesForGroup("1");
         
         this.context.assertIsSatisfied();
         
@@ -144,6 +146,7 @@ public class ProtocolAttachmentServiceImplTest {
     }
     
     /** tests calling getTypesForGroup with valid arg where the group is not found. */
+    @SuppressWarnings("rawtypes")
     @Test
     public void getTypesForGroupNotFound() {
         final BusinessObjectService boService = this.context.mock(BusinessObjectService.class);
@@ -158,7 +161,7 @@ public class ProtocolAttachmentServiceImplTest {
             }
         });
         
-        final Collection<ProtocolAttachmentType> gotTypes = paService.getTypesForGroup("1");
+        final Collection<ProtocolAttachmentType> gotTypes = (Collection)paService.getTypesForGroup("1");
         
         this.context.assertIsSatisfied();
         
@@ -191,7 +194,7 @@ public class ProtocolAttachmentServiceImplTest {
             }
         });
         
-        final ProtocolPerson gotPerson = paService.getPerson(1);
+        final ProtocolPerson gotPerson = (ProtocolPerson) paService.getPerson(1);
         
         this.context.assertIsSatisfied();
         

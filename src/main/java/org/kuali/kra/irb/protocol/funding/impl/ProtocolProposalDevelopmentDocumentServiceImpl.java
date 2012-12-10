@@ -19,7 +19,6 @@ import java.sql.Date;
 import java.util.Calendar;
 import java.util.List;
 
-import org.kuali.kra.bo.FundingSourceType;
 import org.kuali.kra.bo.SpecialReviewApprovalType;
 import org.kuali.kra.bo.SpecialReviewType;
 import org.kuali.kra.common.specialreview.service.impl.SpecialReviewServiceImpl;
@@ -30,9 +29,7 @@ import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.irb.protocol.ProtocolHelper;
-import org.kuali.kra.irb.protocol.funding.AddProtocolFundingSourceEvent;
 import org.kuali.kra.irb.protocol.funding.ProtocolFundingSource;
-import org.kuali.kra.irb.protocol.funding.ProtocolFundingSourceServiceImpl;
 import org.kuali.kra.irb.protocol.funding.ProtocolProposalDevelopmentDocumentService;
 import org.kuali.kra.proposaldevelopment.ProposalDevelopmentUtils;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
@@ -42,13 +39,13 @@ import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.proposaldevelopment.service.impl.KeyPersonnelServiceImpl;
 import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
+import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceBase;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.PersonEditableService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
-import org.kuali.rice.krad.service.KualiRuleService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
@@ -82,7 +79,7 @@ public class ProtocolProposalDevelopmentDocumentServiceImpl implements ProtocolP
    
     public void populateDocumentOverview(Protocol protocol, ProposalDevelopmentDocument proposalDocument)
     {
-        ProtocolDocument protocolDocument = protocol.getProtocolDocument();
+        ProtocolDocument protocolDocument = (ProtocolDocument) protocol.getProtocolDocument();
         DocumentHeader proposalDocumentHeader = proposalDocument.getDocumentHeader();
         DocumentHeader protocolDocumentHeader = protocolDocument.getDocumentHeader();
       
@@ -118,13 +115,13 @@ public class ProtocolProposalDevelopmentDocumentServiceImpl implements ProtocolP
         developmentProposal.setProposalTypeCode(proposalTypeCode);
                 
         // find sponsor from funding source
-        List<ProtocolFundingSource> protocolFundingSources = protocol.getProtocolFundingSources();
+        List<ProtocolFundingSourceBase> protocolFundingSources = protocol.getProtocolFundingSources();
         ProtocolFundingSource sponsorProtocolFundingSource = null; 
-        for(ProtocolFundingSource protocolFundingSource : protocolFundingSources)
+        for(ProtocolFundingSourceBase protocolFundingSource : protocolFundingSources)
         {
             if ( protocolFundingSource.isSponsorFunding() )
             {
-                sponsorProtocolFundingSource = protocolFundingSource;
+                sponsorProtocolFundingSource = (ProtocolFundingSource) protocolFundingSource;
                 break;
             }
         }

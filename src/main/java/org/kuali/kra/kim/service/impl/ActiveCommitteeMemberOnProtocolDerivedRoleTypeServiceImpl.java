@@ -23,6 +23,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeMembership;
+import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.rice.core.api.membership.MemberType;
@@ -61,9 +62,9 @@ public class ActiveCommitteeMemberOnProtocolDerivedRoleTypeServiceImpl extends D
             Protocol protocol = getProtocolByNumber(protocolNumber);
             if (protocol != null) {
                 if (protocol.getProtocolSubmission() != null) {
-                    Committee committee = protocol.getProtocolSubmission().getCommittee();
+                    Committee committee = (Committee) protocol.getProtocolSubmission().getCommittee();
                     if (committee != null) {
-                        for (CommitteeMembership membership : committee.getCommitteeMemberships()) {
+                        for (CommitteeMembershipBase membership : committee.getCommitteeMemberships()) {
                             if (membership.getPersonId()!=null && membership.isActive()) {
                                 members.add(RoleMembership.Builder.create(null, null, membership.getPersonId(), MemberType.PRINCIPAL, null).build());
                             }
@@ -91,9 +92,9 @@ public class ActiveCommitteeMemberOnProtocolDerivedRoleTypeServiceImpl extends D
             Protocol protocol = getProtocolByNumber(protocolNumber);
             if (protocol != null) {
                 if (protocol.getProtocolSubmission() != null) {
-                    Committee committee = protocol.getProtocolSubmission().getCommittee();
+                    Committee committee = (Committee) protocol.getProtocolSubmission().getCommittee();
                     if (committee != null) {
-                        for (CommitteeMembership membership : committee.getCommitteeMemberships()) {
+                        for (CommitteeMembershipBase membership : committee.getCommitteeMemberships()) {
                             if (membership.getPersonId()!=null && StringUtils.equals(principalId, membership.getPersonId())) {
                                 return true;
                             }

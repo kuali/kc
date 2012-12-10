@@ -15,19 +15,19 @@
  */
 package org.kuali.kra.irb.actions.genericactions;
 
-import java.io.Serializable;
 import java.sql.Date;
 
 import org.kuali.kra.irb.actions.ActionHelper;
 import org.kuali.kra.irb.actions.ProtocolActionBean;
-import org.kuali.kra.irb.actions.ProtocolOnlineReviewCommentable;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewAttachmentsBean;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewCommentsBean;
+import org.kuali.kra.protocol.actions.reviewcomments.ReviewAttachmentsBeanBase;
+import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsBeanBase;
 
 /**
  * This class is really just a "form" for generic actions.
  */
-public class ProtocolGenericActionBean extends ProtocolActionBean implements ProtocolOnlineReviewCommentable, Serializable {
+public class ProtocolGenericActionBean extends ProtocolActionBean implements org.kuali.kra.protocol.actions.genericactions.ProtocolGenericActionBean {
 
     private static final long serialVersionUID = 1098390205989217539L;
     
@@ -79,8 +79,8 @@ public class ProtocolGenericActionBean extends ProtocolActionBean implements Pro
         return reviewAttachmentsBean;
     }
 
-    public void setReviewAttachmentsBean(ReviewAttachmentsBean reviewAttachmentsBean) {
-        this.reviewAttachmentsBean = reviewAttachmentsBean;
+    public void setReviewAttachmentsBean(ReviewAttachmentsBeanBase reviewAttachmentsBean) {
+        this.reviewAttachmentsBean = (ReviewAttachmentsBean) reviewAttachmentsBean;
     }
     
 }

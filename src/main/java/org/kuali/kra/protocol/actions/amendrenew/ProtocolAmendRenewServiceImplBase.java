@@ -59,7 +59,7 @@ public abstract class ProtocolAmendRenewServiceImplBase implements ProtocolAmend
     protected static final String PROTOCOL_STATUS = "protocolStatus";
     
     protected DocumentService documentService;
-    protected ProtocolCopyService<ProtocolDocumentBase> protocolCopyService;
+    protected ProtocolCopyService protocolCopyService;
     protected KraLookupDao kraLookupDao;
     protected ProtocolFinderDao protocolFinderDao;
     protected SequenceAccessorService sequenceAccessorService;
@@ -77,7 +77,7 @@ public abstract class ProtocolAmendRenewServiceImplBase implements ProtocolAmend
      * Set the ProtocolBase Copy Service.
      * @param protocolCopyService
      */
-    public void setProtocolCopyService(ProtocolCopyService<ProtocolDocumentBase> protocolCopyService) {
+    public void setProtocolCopyService(ProtocolCopyService protocolCopyService) {
         this.protocolCopyService = protocolCopyService;
     }
 

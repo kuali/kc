@@ -16,26 +16,27 @@
 package org.kuali.kra.irb.protocol.reference;
 
 
-import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.protocol.protocol.reference.ProtocolReferenceServiceImplBase;
 
 
-public class ProtocolReferenceServiceImpl implements ProtocolReferenceService {
+public class ProtocolReferenceServiceImpl extends ProtocolReferenceServiceImplBase implements ProtocolReferenceService {
     
-    @SuppressWarnings("unused")
-    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProtocolReferenceServiceImpl.class);
-    
-    /**
-     * @see org.kuali.kra.irb.protocol.reference.ProtocolReferenceService#addProtocolReference(org.kuali.kra.irb.document.ProtocolDocument, org.kuali.kra.irb.protocol.reference.ProtocolReference)
-     */
-    public void addProtocolReference(Protocol protocol, ProtocolReference protocolReference) {
-        
-        protocolReference.refreshReferenceObject("protocolReferenceType");
-        
-        //TODO Framework problem of 2 saves, protocolNumber & SequenceNumber are not null fields and they are only available after one saves new protocol.
-        protocolReference.setProtocolNumber("0");
-        protocolReference.setSequenceNumber(0);
-        
-        protocol.getProtocolReferences().add(protocolReference);
-    }
+ // TODO ********************** commented out during IRB backfit ************************
+//    @SuppressWarnings("unused")
+//    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProtocolReferenceServiceImpl.class);
+//    
+//    /**
+//     * @see org.kuali.kra.irb.protocol.reference.ProtocolReferenceService#addProtocolReference(org.kuali.kra.irb.document.ProtocolDocument, org.kuali.kra.irb.protocol.reference.ProtocolReference)
+//     */
+//    public void addProtocolReference(Protocol protocol, ProtocolReference protocolReference) {
+//        
+//        protocolReference.refreshReferenceObject("protocolReferenceType");
+//        
+//        //TODO Framework problem of 2 saves, protocolNumber & SequenceNumber are not null fields and they are only available after one saves new protocol.
+//        protocolReference.setProtocolNumber("0");
+//        protocolReference.setSequenceNumber(0);
+//        
+//        protocol.getProtocolReferences().add(protocolReference);
+//    }
 
 }

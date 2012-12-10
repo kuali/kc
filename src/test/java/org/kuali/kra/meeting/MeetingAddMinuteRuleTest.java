@@ -24,8 +24,8 @@ import org.jmock.integration.junit4.JMock;
 import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kuali.kra.common.committee.meeting.MeetingEventBase.ErrorType;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.meeting.MeetingEventBase.ErrorType;
 import org.kuali.kra.rules.TemplateRuleTest;
 import org.kuali.rice.krad.service.BusinessObjectService;
 

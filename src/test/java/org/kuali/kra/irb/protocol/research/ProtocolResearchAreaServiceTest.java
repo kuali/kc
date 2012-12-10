@@ -60,18 +60,20 @@ public class ProtocolResearchAreaServiceTest {
         service = new ProtocolResearchAreaServiceImpl();
     }
     
+    @SuppressWarnings("unchecked")
     @Test
     public void testAddProtocolResearchArea() throws Exception {
                    
-        service.addProtocolResearchArea(protocol, listOfResearchArea);
+        service.addProtocolResearchArea(protocol, (List)listOfResearchArea);
         //Protocol must have 2 objects in ProtocolResearchArea
         assertEquals(2, protocol.getProtocolResearchAreas().size());
     }
     
+    @SuppressWarnings("unchecked")
     @Test
     public void testAddProtocolResearchAreaForDuplicate() throws Exception {
                    
-        service.addProtocolResearchArea(protocol, listOfResearchArea);
+        service.addProtocolResearchArea(protocol, (List)listOfResearchArea);
         //Protocol must have 2 objects in ProtocolResearchArea
         assertEquals(2, protocol.getProtocolResearchAreas().size());
         
@@ -81,7 +83,7 @@ public class ProtocolResearchAreaServiceTest {
         listOfResearchArea.add(bo3);
         
         //Duplicate insert test
-        service.addProtocolResearchArea(protocol, listOfResearchArea);
+        service.addProtocolResearchArea(protocol, (List)listOfResearchArea);
         //Size must be 3, only newer object is added to list
         assertEquals(3, protocol.getProtocolResearchAreas().size());
     }

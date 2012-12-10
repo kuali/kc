@@ -15,123 +15,128 @@
  */
 package org.kuali.kra.meeting;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.committee.bo.CommitteeSchedule;
+import org.kuali.kra.common.committee.meeting.CommScheduleActItemBase;
 
 /**
  * 
  * This class is for schedule meeting other action.
  */
-public class CommScheduleActItem extends KraPersistableBusinessObjectBase {
-
-    private static final long serialVersionUID = 5688256868516863628L;
-
-    private Long commScheduleActItemsId;
-
-    private Long scheduleIdFk;
-
-    private Integer actionItemNumber;
-
-    private String scheduleActItemTypeCode;
-
-    private String itemDescription;
-
-    private CommitteeSchedule committeeSchedule;
-
-    private ScheduleActItemType scheduleActItemType;
-
-    public CommScheduleActItem() {
-    }
-
-    public Long getCommScheduleActItemsId() {
-        return commScheduleActItemsId;
-    }
-
-    public void setCommScheduleActItemsId(Long commScheduleActItemsId) {
-        this.commScheduleActItemsId = commScheduleActItemsId;
-    }
-
-    public Integer getActionItemNumber() {
-        return actionItemNumber;
-    }
-
-    public void setActionItemNumber(Integer actionItemNumber) {
-        this.actionItemNumber = actionItemNumber;
-    }
-
-    public String getScheduleActItemTypeCode() {
-        return scheduleActItemTypeCode;
-    }
-
-    public void setScheduleActItemTypeCode(String scheduleActItemTypeCode) {
-        this.scheduleActItemTypeCode = scheduleActItemTypeCode;
-    }
-
-    public String getItemDescription() {
-        return itemDescription;
-    }
-
-    public void setItemDescription(String itemDescription) {
-        this.itemDescription = itemDescription;
-    }
-
-    public ScheduleActItemType getScheduleActItemType() {
-        return scheduleActItemType;
-    }
-
-    public void setScheduleActItemType(ScheduleActItemType scheduleActItemType) {
-        this.scheduleActItemType = scheduleActItemType;
-    }
-
-    public CommitteeSchedule getCommitteeSchedule() {
-        return committeeSchedule;
-    }
-
-    public void setCommitteeSchedule(CommitteeSchedule committeeSchedule) {
-        this.committeeSchedule = committeeSchedule;
-    }
-
-    public Long getScheduleIdFk() {
-        return scheduleIdFk;
-    }
-
-    public void setScheduleIdFk(Long scheduleIdFk) {
-        this.scheduleIdFk = scheduleIdFk;
-    }
+public class CommScheduleActItem extends CommScheduleActItemBase {
 
     /**
-     * @see java.lang.Object#equals(java.lang.Object)
+     * Comment for <code>serialVersionUID</code>
      */
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        CommScheduleActItem other = (CommScheduleActItem) obj;
-        if (commScheduleActItemsId == null) {
-            if (other.commScheduleActItemsId != null) {
-                return false;
-            }
-        } else if (!commScheduleActItemsId.equals(other.commScheduleActItemsId)) {
-            return false;
-        }
-        return true;
-    }
+    private static final long serialVersionUID = -373252317683039246L;
 
-    /**
-     * @see java.lang.Object#hashCode()
-     */
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((commScheduleActItemsId == null) ? 0 : commScheduleActItemsId.hashCode());
-        return result;
-    }
+
+// TODO ********************** commented out during IRB backfit ************************
+//    private Long commScheduleActItemsId;
+//
+//    private Long scheduleIdFk;
+//
+//    private Integer actionItemNumber;
+//
+//    private String scheduleActItemTypeCode;
+//
+//    private String itemDescription;
+//
+//    private CommitteeSchedule committeeSchedule;
+//
+//    private ScheduleActItemType scheduleActItemType;
+//
+//    public CommScheduleActItem() {
+//    }
+//
+//    public Long getCommScheduleActItemsId() {
+//        return commScheduleActItemsId;
+//    }
+//
+//    public void setCommScheduleActItemsId(Long commScheduleActItemsId) {
+//        this.commScheduleActItemsId = commScheduleActItemsId;
+//    }
+//
+//    public Integer getActionItemNumber() {
+//        return actionItemNumber;
+//    }
+//
+//    public void setActionItemNumber(Integer actionItemNumber) {
+//        this.actionItemNumber = actionItemNumber;
+//    }
+//
+//    public String getScheduleActItemTypeCode() {
+//        return scheduleActItemTypeCode;
+//    }
+//
+//    public void setScheduleActItemTypeCode(String scheduleActItemTypeCode) {
+//        this.scheduleActItemTypeCode = scheduleActItemTypeCode;
+//    }
+//
+//    public String getItemDescription() {
+//        return itemDescription;
+//    }
+//
+//    public void setItemDescription(String itemDescription) {
+//        this.itemDescription = itemDescription;
+//    }
+//
+//    public ScheduleActItemType getScheduleActItemType() {
+//        return scheduleActItemType;
+//    }
+//
+//    public void setScheduleActItemType(ScheduleActItemType scheduleActItemType) {
+//        this.scheduleActItemType = scheduleActItemType;
+//    }
+//
+//    public CommitteeSchedule getCommitteeSchedule() {
+//        return committeeSchedule;
+//    }
+//
+//    public void setCommitteeSchedule(CommitteeSchedule committeeSchedule) {
+//        this.committeeSchedule = committeeSchedule;
+//    }
+//
+//    public Long getScheduleIdFk() {
+//        return scheduleIdFk;
+//    }
+//
+//    public void setScheduleIdFk(Long scheduleIdFk) {
+//        this.scheduleIdFk = scheduleIdFk;
+//    }
+//
+//    /**
+//     * @see java.lang.Object#equals(java.lang.Object)
+//     */
+//    @Override
+//    public boolean equals(Object obj) {
+//        if (this == obj) {
+//            return true;
+//        }
+//        if (obj == null) {
+//            return false;
+//        }
+//        if (getClass() != obj.getClass()) {
+//            return false;
+//        }
+//        CommScheduleActItem other = (CommScheduleActItem) obj;
+//        if (commScheduleActItemsId == null) {
+//            if (other.commScheduleActItemsId != null) {
+//                return false;
+//            }
+//        } else if (!commScheduleActItemsId.equals(other.commScheduleActItemsId)) {
+//            return false;
+//        }
+//        return true;
+//    }
+//
+//    /**
+//     * @see java.lang.Object#hashCode()
+//     */
+//    @Override
+//    public int hashCode() {
+//        final int prime = 31;
+//        int result = 1;
+//        result = prime * result + ((commScheduleActItemsId == null) ? 0 : commScheduleActItemsId.hashCode());
+//        return result;
+//    }
+    
 }

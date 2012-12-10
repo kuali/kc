@@ -35,8 +35,10 @@
   	
 <div align="right"><kul:help documentTypeName="ProtocolDocument" pageName="Protocol" /></div>
 <kul:documentOverview editingMode="${KualiForm.editingMode}" />
+
 <kra-irb:protocolRequiredFields />
 <kra-irb:protocolStatusDate />
+
 <c:choose>
 	<c:when test="${KualiForm.displayRiskLevelPanel}" > 
 		<kra-irb:protocolRiskLevel />

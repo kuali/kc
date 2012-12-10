@@ -51,7 +51,7 @@ public class CommitteeNotificationServiceImpl implements CommitteeNotificationSe
     public void generateNotification(String notificationType, ScheduleAgenda agenda) {
         
         if (StringUtils.equals(notificationType, Constants.COMMITTEE_AGENDA_NOTIFICATION)) {
-            CommitteeSchedule committeeSchedule = agenda.getCommitteeSchedule();
+            CommitteeSchedule committeeSchedule = (CommitteeSchedule) agenda.getCommitteeSchedule();
             AgendaCreatedNotificationRenderer renderer = new AgendaCreatedNotificationRenderer(agenda, "action taken");
             CommitteeNotificationContext context = new CommitteeNotificationContext(committeeSchedule, 
                                                     notificationType, "Agenda Generated Notification", renderer);
@@ -69,7 +69,7 @@ public class CommitteeNotificationServiceImpl implements CommitteeNotificationSe
     public void generateNotification(String notificationType, CommScheduleMinuteDoc minuteDoc) {
         
         if (StringUtils.equals(notificationType, Constants.COMMITTEE_MINUTES_NOTIFICATION)) {
-            CommitteeSchedule committeeSchedule = minuteDoc.getCommitteeSchedule();
+            CommitteeSchedule committeeSchedule = (CommitteeSchedule) minuteDoc.getCommitteeSchedule();
             MinutesCreatedNotificationRenderer renderer = new MinutesCreatedNotificationRenderer(minuteDoc, "action taken");
             CommitteeNotificationContext context = new CommitteeNotificationContext(committeeSchedule, 
                                                     notificationType, "Agenda Generated Notification", renderer);

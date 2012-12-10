@@ -15,23 +15,24 @@
  */
 package org.kuali.kra.irb.actions.submit;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.service.CommitteeService;
+import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.actions.ActionHelper;
 import org.kuali.kra.irb.actions.ProtocolActionBean;
+import org.kuali.kra.protocol.actions.submit.ProtocolReviewerBeanBase;
 import org.springframework.util.AutoPopulatingList;
 
 /**
  * This class is really just a "form" for submitting a protocol for review in the Submit for Review Action.
  */
 @SuppressWarnings("unchecked")
-public class ProtocolSubmitAction extends ProtocolActionBean implements Serializable {
+public class ProtocolSubmitAction extends ProtocolActionBean implements org.kuali.kra.protocol.actions.submit.ProtocolSubmitAction  {
 
     private static final long serialVersionUID = -4712974868607781787L;
 
@@ -110,10 +111,10 @@ public class ProtocolSubmitAction extends ProtocolActionBean implements Serializ
      */
     private void buildReviewers() {
         this.reviewerListAvailable = true;
-        List<CommitteeMembership> members = getProtocol().filterOutProtocolPersonnel(
+        List<CommitteeMembershipBase> members = getProtocol().filterOutProtocolPersonnel(
                 getCommitteeService().getAvailableMembers(this.committeeId, this.scheduleId));
-        for (CommitteeMembership member : members) {
-            ProtocolReviewerBean reviewer = new ProtocolReviewerBean(member);
+        for (CommitteeMembershipBase member : members) {
+            ProtocolReviewerBean reviewer = new ProtocolReviewerBean((CommitteeMembership) member);
             reviewers.add(reviewer);
         }
     }
@@ -124,7 +125,7 @@ public class ProtocolSubmitAction extends ProtocolActionBean implements Serializ
     }
 
 
-    private CommitteeService getCommitteeService() {
+    public CommitteeService getCommitteeService() {
         return KraServiceLocator.getService(CommitteeService.class);
     }
 
@@ -201,8 +202,8 @@ public class ProtocolSubmitAction extends ProtocolActionBean implements Serializ
         return reviewerListAvailable;
     }
 
-    public List<ProtocolReviewerBean> getReviewers() {
-        return reviewers;
+    public List<ProtocolReviewerBeanBase> getReviewers() {
+        return (List) reviewers;
     }
 
     public ProtocolReviewerBean getReviewer(int i) {
@@ -214,8 +215,8 @@ public class ProtocolSubmitAction extends ProtocolActionBean implements Serializ
      * 
      * @return
      */
-    public List<ProtocolReviewerBean> getLeftReviewers() {
-        List<ProtocolReviewerBean> leftReviewers = new ArrayList<ProtocolReviewerBean>();
+    public List<ProtocolReviewerBeanBase> getLeftReviewers() {
+        List<ProtocolReviewerBeanBase> leftReviewers = new ArrayList<ProtocolReviewerBeanBase>();
         for (int i = 0; i < (reviewers.size() + 1) / 2; i++) {
             leftReviewers.add(reviewers.get(i));
         }
@@ -227,16 +228,16 @@ public class ProtocolSubmitAction extends ProtocolActionBean implements Serializ
      * 
      * @return
      */
-    public List<ProtocolReviewerBean> getRightReviewers() {
-        List<ProtocolReviewerBean> rightReviewers = new ArrayList<ProtocolReviewerBean>();
+    public List<ProtocolReviewerBeanBase> getRightReviewers() {
+        List<ProtocolReviewerBeanBase> rightReviewers = new ArrayList<ProtocolReviewerBeanBase>();
         for (int i = (reviewers.size() + 1) / 2; i < reviewers.size(); i++) {
             rightReviewers.add(reviewers.get(i));
         }
         return rightReviewers;
     }
 
-    public void setReviewers(List<ProtocolReviewerBean> reviewerBeans) {
-        this.reviewers = reviewerBeans;
+    public void setReviewers(List<ProtocolReviewerBeanBase> reviewerBeans) {
+        this.reviewers = (List) reviewerBeans;
     }
 
     public void setExpeditedReviewCheckList(List<ExpeditedReviewCheckListItem> checkList) {

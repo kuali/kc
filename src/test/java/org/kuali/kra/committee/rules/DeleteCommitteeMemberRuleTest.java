@@ -33,15 +33,19 @@ import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.committee.rule.event.DeleteCommitteeMemberEvent;
-import org.kuali.kra.committee.rule.event.CommitteeMemberEventBase.ErrorType;
 import org.kuali.kra.committee.service.CommitteeService;
 import org.kuali.kra.committee.service.impl.CommitteeMembershipServiceImpl;
+import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
+import org.kuali.kra.common.committee.meeting.CommitteeScheduleAttendanceBase;
+import org.kuali.kra.common.committee.rule.event.CommitteeMemberEventBase.ErrorType;
+import org.kuali.kra.common.committee.rule.event.DeleteCommitteeMemberEventBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
 import org.kuali.kra.meeting.CommitteeScheduleAttendance;
+import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -65,11 +69,11 @@ public class DeleteCommitteeMemberRuleTest extends CommitteeRuleTestBase {
             private static final String AS_REVIEWER = "as the person is a reviewer of the protocol";
             private static final String AS_ATTENDANCE = "as the person has attended a schedule meeting";
             @Override
-            public boolean processRules(DeleteCommitteeMemberEvent event) {
+            public boolean processRules(DeleteCommitteeMemberEventBase event) {
 
                 boolean rulePassed = true;
                 int i = 0;
-                for (CommitteeMembership member : event.getCommitteeMemberships()) {
+                for (CommitteeMembershipBase member : event.getCommitteeMemberships()) {
                     if (member.isDelete() && committeeMembershipService.isMemberAssignedToReviewer(member,
                             ((CommitteeDocument) event.getDocument()).getCommittee().getCommitteeId())) {
                         reportError(ID + i + "].delete", KeyConstants.ERROR_COMMITTEEMEMBER_DELETE, AS_REVIEWER);
@@ -127,7 +131,7 @@ public class DeleteCommitteeMemberRuleTest extends CommitteeRuleTestBase {
         committeeMemberships.add(committeeMembership);
         List<Committee> committees = new ArrayList<Committee>();
         committees.add(committee);
-        committee.setCommitteeMemberships(committeeMemberships);
+        committee.setCommitteeMemberships((List) committeeMemberships);
         document.setCommitteeList(committees);
         DeleteCommitteeMemberEvent event = new DeleteCommitteeMemberEvent(Constants.EMPTY_STRING, document, committeeMemberships, ErrorType.HARDERROR);
         Assert.assertTrue(rule.processRules(event));
@@ -168,7 +172,7 @@ public class DeleteCommitteeMemberRuleTest extends CommitteeRuleTestBase {
         committeeMemberships.add(committeeMembership);
         List<Committee> committees = new ArrayList<Committee>();
         committees.add(committee);
-        committee.setCommitteeMemberships(committeeMemberships);
+        committee.setCommitteeMemberships((List) committeeMemberships);
         document.setCommitteeList(committees);
         DeleteCommitteeMemberEvent event = new DeleteCommitteeMemberEvent(Constants.EMPTY_STRING, document, committeeMemberships, ErrorType.HARDERROR);
         Assert.assertFalse(rule.processRules(event));
@@ -198,7 +202,7 @@ public class DeleteCommitteeMemberRuleTest extends CommitteeRuleTestBase {
         List<CommitteeSchedule> schedules = new ArrayList<CommitteeSchedule>(); 
         CommitteeScheduleAttendance  attendance = new CommitteeScheduleAttendance();
         CommitteeSchedule  schedule = new CommitteeSchedule();
-        List<CommitteeScheduleAttendance> attendances = new ArrayList<CommitteeScheduleAttendance>(); 
+        List<CommitteeScheduleAttendanceBase> attendances = new ArrayList<CommitteeScheduleAttendanceBase>(); 
         attendance.setPersonId("100");
         attendances.add(attendance);
         schedules.add(schedule);
@@ -219,7 +223,7 @@ public class DeleteCommitteeMemberRuleTest extends CommitteeRuleTestBase {
         committeeMemberships.add(committeeMembership);
         List<Committee> committees = new ArrayList<Committee>();
         committees.add(committee);
-        committee.setCommitteeMemberships(committeeMemberships);
+        committee.setCommitteeMemberships((List) committeeMemberships);
         document.setCommitteeList(committees);
         DeleteCommitteeMemberEvent event = new DeleteCommitteeMemberEvent(Constants.EMPTY_STRING, document, committeeMemberships, ErrorType.HARDERROR);
         Assert.assertFalse(rule.processRules(event));
@@ -239,7 +243,7 @@ public class DeleteCommitteeMemberRuleTest extends CommitteeRuleTestBase {
 
     private List<ProtocolSubmission> getProtocolSubmissions(boolean isSameReviewer) {
         List<ProtocolSubmission> submissions = new ArrayList<ProtocolSubmission>();
-        List<ProtocolOnlineReview> reviews = new ArrayList<ProtocolOnlineReview>();
+        List<ProtocolOnlineReviewBase> reviews = new ArrayList<ProtocolOnlineReviewBase>();
         ProtocolOnlineReview review = new ProtocolOnlineReview();
         ProtocolReviewer reviewer = new ProtocolReviewer();
         if (isSameReviewer) {

@@ -17,20 +17,22 @@ package org.kuali.kra.irb.actions.decision;
 
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.irb.ProtocolDocument;
+import org.kuali.kra.protocol.ProtocolDocumentBase;
+import org.kuali.kra.protocol.actions.decision.CommitteeDecisionVoterRuleBase;
+import org.kuali.kra.protocol.actions.decision.ExecuteCommitteeDecisionAbstainerRule;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * 
  * This class handles the rules for the abstainer side of the committee decision.
  */
-public class CommitteeDecisionAbstainerRule extends CommitteeDecisionVoterRuleBase implements ExecuteCommitteeDecisionAbstainerRule {
+public class CommitteeDecisionAbstainerRule extends CommitteeDecisionVoterRuleBase implements ExecuteCommitteeDecisionAbstainerRule<CommitteeDecision> {
     
     /**
      * 
      * @see org.kuali.kra.irb.actions.decision.ExecuteCommitteeDecisionAbstainerRule#proccessCommitteeDecisionAbstainerRule(org.kuali.kra.irb.actions.decision.CommitteeDecision)
      */
-    public boolean proccessCommitteeDecisionAbstainerRule(ProtocolDocument document, CommitteeDecision committeeDecision) {
+    public boolean proccessCommitteeDecisionAbstainerRule(ProtocolDocumentBase document, CommitteeDecision committeeDecision) {
         boolean retVal = true;
         if (!processVoter(committeeDecision.getNewAbstainer(), committeeDecision.getAbstainers(), committeeDecision.getRecused())) {
             GlobalVariables.getMessageMap().putError(Constants.PROTOCOL_COMMITTEE_DECISION_ACTION_PROPERTY_KEY + ".newAbstainer.membershipId", 

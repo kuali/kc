@@ -13,14 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.committee.bo.businessLogic;
+package org.kuali.kra.irb.actions.withdraw;
 
-import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.kra.irb.actions.ActionHelper;
 
-public interface CommitteeCollaboratorBusinessLogicFactory <BO extends BusinessObject, BL extends CommitteeCollaboratorBusinessLogic> {
+public class ProtocolAdministrativelyIncompleteBean extends ProtocolWithdrawBean implements org.kuali.kra.protocol.actions.withdraw.ProtocolAdministrativelyIncompleteBean {
 
-    public void setCommitteeCollaboratorBusinessLogicFactoryGroup(CommitteeCollaboratorBusinessLogicFactoryGroup committeeCollaboratorBusinessLogicFactoryGroup);
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = -4564083324808749647L;
 
-    public BL getBusinessLogicFor(BO businessObject);
-    
+    public ProtocolAdministrativelyIncompleteBean(ActionHelper actionHelper) {
+        super(actionHelper);    
+    }
+
 }
