@@ -155,6 +155,9 @@ public class BudgetParametersAction extends BudgetAction {
                     return super.save(mapping, form, request, response);
                 }
                 else {
+                    String budgetStatusIncompleteCode = this.getParameterService().getParameterValueAsString(
+                            BudgetDocument.class, Constants.BUDGET_STATUS_INCOMPLETE_CODE);
+                    budget.setBudgetStatus(budgetStatusIncompleteCode);
                     mapping.findForward(Constants.MAPPING_BASIC);
                 }
             }
