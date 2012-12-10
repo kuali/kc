@@ -1281,6 +1281,8 @@ public abstract class ProtocolBase extends KraPersistableBusinessObjectBase impl
     
     // this method was modified during IRB backfit merge with the assumption that these changes are applicable to both IRB and IACUC
     public void merge(ProtocolBase amendment, boolean mergeActions) {
+        // set this value here, since it is applicable regardless of which modules are amended
+        this.lastApprovalDate = amendment.getLastApprovalDate();
         List<ProtocolAmendRenewModuleBase> modules = amendment.getProtocolAmendRenewal().getModules();
         for (ProtocolAmendRenewModuleBase module : modules) {
             merge(amendment, module.getProtocolModuleTypeCode());
@@ -1433,7 +1435,7 @@ public abstract class ProtocolBase extends KraPersistableBusinessObjectBase impl
         this.initialSubmissionDate = amendment.getInitialSubmissionDate();
         this.approvalDate = amendment.getApprovalDate(); 
         this.expirationDate = amendment.getExpirationDate(); 
-        this.lastApprovalDate = amendment.getLastApprovalDate();
+//*moved* this.lastApprovalDate = amendment.getLastApprovalDate();
         this.description = amendment.getDescription();
         this.fdaApplicationNumber = amendment.getFdaApplicationNumber();
         //this.billable = amendment.isBillable();
