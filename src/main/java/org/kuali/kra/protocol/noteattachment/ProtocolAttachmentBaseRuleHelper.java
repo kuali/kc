@@ -56,24 +56,24 @@ public abstract class ProtocolAttachmentBaseRuleHelper {
 //        this.resetPropertyPrefix(aPropertyPrefix);
 //    }
 //    
-//    /**
-//     * Creates helper deferring the setting of the prefix to later and setting used services.
-//     * @param attachmentService the Attachment Service
-//     * @throws IllegalArgumentException if the attachmentService is null
-//     */
-//    ProtocolAttachmentBaseRuleHelper(final ProtocolAttachmentService attachmentService,
-//        final DictionaryValidationService validationService) {
-//        if (attachmentService == null) {
-//            throw new IllegalArgumentException("the attachmentService is null");
-//        }
-//        
-//        if (validationService == null) {
-//            throw new IllegalArgumentException("the validationService is null");
-//        }
-//        
-//        this.attachmentService = attachmentService;
-//        this.validationService = validationService;
-//    }
+    /**
+     * Creates helper deferring the setting of the prefix to later and setting used services.
+     * @param attachmentService the Attachment Service
+     * @throws IllegalArgumentException if the attachmentService is null
+     */
+    protected ProtocolAttachmentBaseRuleHelper(final ProtocolAttachmentService attachmentService,
+        final DictionaryValidationService validationService) {
+        if (attachmentService == null) {
+            throw new IllegalArgumentException("the attachmentService is null");
+        }
+        
+        if (validationService == null) {
+            throw new IllegalArgumentException("the validationService is null");
+        }
+        
+        this.attachmentService = attachmentService;
+        this.validationService = validationService;
+    }
     
     protected ProtocolAttachmentBaseRuleHelper(final String aPropertyPrefix,
             final ProtocolAttachmentService attachmentService,
@@ -97,7 +97,7 @@ public abstract class ProtocolAttachmentBaseRuleHelper {
      * @param aPropertyPrefix the prefix (ex: notesAttachmentsHelper.newAttachmentProtocol)
      * @throws IllegalArgumentException if the propertyPrefix is null
      */
-    void resetPropertyPrefix(final String aPropertyPrefix) {
+    public void resetPropertyPrefix(final String aPropertyPrefix) {
         if (aPropertyPrefix == null) {
             throw new IllegalArgumentException("propertyPrefix is null");
         }
@@ -111,7 +111,7 @@ public abstract class ProtocolAttachmentBaseRuleHelper {
      * @param attachment the attachment.
      * @return true is valid.
      */
-    <T extends ProtocolAttachmentBase & TypedAttachment> boolean validDescriptionWhenRequired(final T attachment) {
+    public <T extends ProtocolAttachmentBase & TypedAttachment> boolean validDescriptionWhenRequired(final T attachment) {
         
         if (attachment.getType() == null || attachment.getType().getCode() == null) {
             return true;
@@ -139,7 +139,7 @@ public abstract class ProtocolAttachmentBaseRuleHelper {
      * @param attachment the attachment.
      * @return true is valid.
      */
-    <T extends ProtocolAttachmentBase & TypedAttachment> boolean validTypeForGroup(final T attachment) {
+    public <T extends ProtocolAttachmentBase & TypedAttachment> boolean validTypeForGroup(final T attachment) {
         
         if (attachment.getType() == null || attachment.getType().getCode() == null) {
             return true;
@@ -210,7 +210,7 @@ public abstract class ProtocolAttachmentBaseRuleHelper {
      * @param attachmentBase the attachment
      * @return true if valid.
      */
-    boolean validPrimitiveFields(final ProtocolAttachmentBase attachmentBase) {
+    public boolean validPrimitiveFields(final ProtocolAttachmentBase attachmentBase) {
         
         final Long oldFileId = attachmentBase.getFileId();
         try {

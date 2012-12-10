@@ -23,8 +23,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kra.irb.actions.ProtocolActionType;
-import org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplate;
 import org.kuali.kra.irb.correspondence.ProtocolCorrespondenceType;
+import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceTemplateBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
@@ -85,9 +85,9 @@ public class ProtocolActionTypeToCorrespondenceTemplateServiceImpl implements Pr
      * 
      * @see org.kuali.kra.irb.actions.correspondence.ProtocolActionTypeToCorrespondenceTemplateService#getTemplatesByProtocolAction(java.lang.String)
      */
-    public List<ProtocolCorrespondenceTemplate> getTemplatesByProtocolAction(String protocolActionType) {
+    public List<ProtocolCorrespondenceTemplateBase> getTemplatesByProtocolAction(String protocolActionType) {
         if (actionTypesToCorrespondenceType.containsKey(protocolActionType)) {
-            List<ProtocolCorrespondenceTemplate> templates = new ArrayList<ProtocolCorrespondenceTemplate>();
+            List<ProtocolCorrespondenceTemplateBase> templates = new ArrayList<ProtocolCorrespondenceTemplateBase>();
             
             Collection<ProtocolCorrespondenceType> protocolCorrespondenceTypes = this.getBusinessObjectService().findAll(ProtocolCorrespondenceType.class);
             List<String> correspondenceTypeDescriptions = actionTypesToCorrespondenceType.get(protocolActionType);

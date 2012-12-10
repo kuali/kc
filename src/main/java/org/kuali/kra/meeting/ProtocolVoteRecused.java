@@ -15,25 +15,29 @@
  */
 package org.kuali.kra.meeting;
 
+import org.kuali.kra.common.committee.meeting.ProtocolVoteRecusedBase;
+
 
 /**
  * 
  * This class is for member recused from vote.
  */
-public class ProtocolVoteRecused extends ProtocolMeetingVoter {
+public class ProtocolVoteRecused extends ProtocolVoteRecusedBase {
 
     private static final long serialVersionUID = 6207540592702779518L;
 
-    private Long protocolVoteRecusedId;
-
-    public ProtocolVoteRecused() {
-    }
-
-    public Long getProtocolVoteRecusedId() {
-        return protocolVoteRecusedId;
-    }
-
-    public void setProtocolVoteRecusedId(Long protocolVoteRecusedId) {
-        this.protocolVoteRecusedId = protocolVoteRecusedId;
-    }
+// TODO ********************** commented out during IRB backfit ************************    
+//    private Long protocolVoteRecusedId;
+//
+//    public ProtocolVoteRecused() {
+//    }
+//
+//    public Long getProtocolVoteRecusedId() {
+//        return protocolVoteRecusedId;
+//    }
+//
+//    public void setProtocolVoteRecusedId(Long protocolVoteRecusedId) {
+//        this.protocolVoteRecusedId = protocolVoteRecusedId;
+//    }
+    
 }

@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -145,7 +146,7 @@ public abstract class ProtocolOnlineReviewServiceImplBase implements ProtocolOnl
         ProtocolOnlineReviewDocumentBase protocolReviewDocument;
         
         Person person = personService.getPerson(principalId);
-        WorkflowDocument workflowDocument = workflowDocumentService.createWorkflowDocument(PROTOCOL_ONLINE_REVIEW_DOCUMENT_TYPE, person);
+        WorkflowDocument workflowDocument = workflowDocumentService.createWorkflowDocument(getProtocolOLRDocumentTypeHook(), person);
         
         DocumentHeader docHeader = new DocumentHeader();
         docHeader.setWorkflowDocument(workflowDocument);
@@ -179,8 +180,9 @@ public abstract class ProtocolOnlineReviewServiceImplBase implements ProtocolOnl
     
     protected abstract ProtocolOnlineReviewDocumentBase getNewProtocolOnlineReviewDocumentInstanceHook();
     
-
     protected abstract String getProtocolOLRSavedStatusCodeHook();
+
+    protected abstract String getProtocolOLRDocumentTypeHook();
 
     /**
      * {@inheritDoc}
@@ -511,14 +513,12 @@ public abstract class ProtocolOnlineReviewServiceImplBase implements ProtocolOnl
         ProtocolOnlineReviewDocumentBase protocolOnlineReviewDocument = this.getProtocolOnlineReviewDocument(personId, nonEmployeeFlag, submission);
         
         ProtocolOnlineReviewBase submissionsProtocolOnlineReview = null;
- 
         for (ProtocolOnlineReviewBase rev : submission.getProtocolOnlineReviews()) {
             if (rev.getProtocolOnlineReviewId().equals(protocolOnlineReviewDocument.getProtocolOnlineReview().getProtocolOnlineReviewId())) {
                 submissionsProtocolOnlineReview = rev;
                 break;
             }
-        }
-        
+        }        
         
         if (submissionsProtocolOnlineReview == null) {
             throw new IllegalStateException("Could not match OnlineReview document being removed to a protocolOnlineReview in the submission.");
@@ -557,6 +557,7 @@ public abstract class ProtocolOnlineReviewServiceImplBase implements ProtocolOnl
 
     protected abstract String getProtocolOLRRemovedCancelledStatusCodeHook();
 
+
     /**
      * {@inheritDoc}
      * @see org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService#cancelOnlineReviews(org.kuali.kra.irb.actions.submit.ProtocolSubmissionBase, 
@@ -564,13 +565,9 @@ public abstract class ProtocolOnlineReviewServiceImplBase implements ProtocolOnl
      */
     public void cancelOnlineReviews(ProtocolSubmissionBase submission, String annotation) {
         //get the online reviews, loop through them and finalize them if necessary.
-        
-      //-- commented as part of GENERATED CODE need to verify
-        /*
         for (ProtocolOnlineReviewBase review : submission.getProtocolOnlineReviews()) {
             cancelOnlineReviewDocument(review.getProtocolOnlineReviewDocument(), submission, annotation);
         }
-        */
     }
     
     /**
@@ -589,13 +586,9 @@ public abstract class ProtocolOnlineReviewServiceImplBase implements ProtocolOnl
      */
     public void removeOnlineReviews(ProtocolSubmissionBase submission, String annotation) {
         //get the online reviews, loop through them and finalize them if necessary.
-        
-      //-- commented as part of GENERATED CODE need to verify
-        /*
         for(ProtocolOnlineReviewBase review : submission.getProtocolOnlineReviews()) {
             removeOnlineReviewDocument(review.getProtocolOnlineReviewDocument(), submission, annotation);
         }
-        */
     }
     
     /**
@@ -603,9 +596,6 @@ public abstract class ProtocolOnlineReviewServiceImplBase implements ProtocolOnl
      * @see org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService#moveOnlineReviews(org.kuali.kra.irb.actions.submit.ProtocolSubmissionBase, org.kuali.kra.irb.actions.submit.ProtocolSubmissionBase)
      */
     public void moveOnlineReviews(ProtocolSubmissionBase submission, ProtocolSubmissionBase newSubmission) {
-        
-      //-- commented as part of GENERATED CODE need to verify
-        /*
         newSubmission.setProtocolOnlineReviews(new ArrayList<ProtocolOnlineReviewBase>());
         for (ProtocolOnlineReviewBase review : submission.getProtocolOnlineReviews()) {
             review.setProtocol(newSubmission.getProtocol());
@@ -619,7 +609,6 @@ public abstract class ProtocolOnlineReviewServiceImplBase implements ProtocolOnl
             }
             newSubmission.getProtocolOnlineReviews().add(review);
         }
-            */
     }
 
     

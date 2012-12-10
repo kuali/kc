@@ -16,28 +16,18 @@
 package org.kuali.kra.protocol.protocol;
 
 import java.io.Serializable;
-import java.sql.Date;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.Contactable;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.common.specialreview.service.SpecialReviewService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.infrastructure.RoleConstants;
-import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.protocol.ProtocolFormBase;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;
-import org.kuali.kra.protocol.actions.ProtocolActionTypeBase;
-import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
-// TODO *********commented the code below during IACUC refactoring********* 
-// import org.kuali.kra.irb.actions.submit.ProtocolExemptStudiesCheckListItem;
 import org.kuali.kra.protocol.auth.ProtocolTaskBase;
 import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
 import org.kuali.kra.protocol.personnel.ProtocolPersonnelService;
@@ -45,15 +35,12 @@ import org.kuali.kra.protocol.personnel.ProtocolUnitBase;
 import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceBase;
 import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceService;
 import org.kuali.kra.protocol.protocol.location.ProtocolLocationBase;
-import org.kuali.kra.protocol.protocol.participant.ProtocolParticipant;
-import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.RolodexService;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.service.UnitService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.role.RoleService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
@@ -65,7 +52,7 @@ public abstract class ProtocolHelperBase implements Serializable {
     private static final long serialVersionUID = 8036126015259703614L;
 
 
-    private static final String PROTOCOL_CREATED = "ProtocolBase created";
+    private static final String PROTOCOL_CREATED = "Protocol created";
     
     /**
      * Each Helper must contain a reference to its document form
@@ -94,7 +81,9 @@ public abstract class ProtocolHelperBase implements Serializable {
     private ProtocolLocationBase newProtocolLocation;
     private String organizationName;
     private ProtocolFundingSourceBase newFundingSource;
-    private ProtocolParticipant newProtocolParticipant;
+    
+// TODO ********************** commented out during IRB backfit ************************ PUSHED DOWN TO IRB    
+//    private ProtocolParticipant newProtocolParticipant;
     
     private boolean editProtocolFundingSourceName = false;
     private List<ProtocolFundingSourceBase> deletedProtocolFundingSources;
@@ -103,7 +92,10 @@ public abstract class ProtocolHelperBase implements Serializable {
     private boolean modifyFundingSource = false;
     private boolean modifyReferences = false;
     private boolean modifyOrganizations = false;
-    private boolean modifySubjects = false;
+   
+// TODO ********************** commented out during IRB backfit ************************ PUSHED DOWN TO IRB    
+//    private boolean modifySubjects = false;
+    
     private boolean modifyAreasOfResearch = false;
     private boolean canCreateProposalDevelopment = false;
     private boolean protocolProposalDevelopmentLinkingEnabled = false;
@@ -146,7 +138,7 @@ public abstract class ProtocolHelperBase implements Serializable {
     protected abstract Class<? extends ProtocolFundingSourceService> getProtocolFundingSourceServiceClassHook();
 
     
-    private SpecialReviewService getSpecialReviewService() {
+    protected SpecialReviewService getSpecialReviewService() {
         if (this.specialReviewService == null) {
             this.specialReviewService = KraServiceLocator.getService(SpecialReviewService.class);
         }
@@ -201,7 +193,7 @@ public abstract class ProtocolHelperBase implements Serializable {
         initializePermissions(getProtocol());    
     }
     
-    private ProtocolBase getProtocol() {
+    protected ProtocolBase getProtocol() {
         ProtocolDocumentBase document = form.getProtocolDocument();
         if (document == null || document.getProtocol() == null) {
             throw new IllegalArgumentException("invalid (null) ProtocolDocumentBase in ProtocolFormBase");
@@ -211,9 +203,7 @@ public abstract class ProtocolHelperBase implements Serializable {
     
     private void initializeConfigurationParams() {        
         setReferenceId1Label(getParameterValue(getReferenceID1ParameterNameHook()));
-        setReferenceId2Label(getParameterValue(getReferenceID2ParameterNameHook()));
-        
-// TODO *********commented the code below during IACUC refactoring*********         
+        setReferenceId2Label(getParameterValue(getReferenceID2ParameterNameHook()));         
         boolean flag = (getParameterValue(getBillableParameterHook()).equalsIgnoreCase("Y") ? true : false);
         setDisplayBillable(flag);
     }
@@ -232,16 +222,12 @@ public abstract class ProtocolHelperBase implements Serializable {
      */
     protected void initializePermissions(ProtocolBase protocol) {
          
-        initializeModifyProtocolPermission(protocol);
-
-// TODO *********commented the code below during IACUC refactoring*********        
+        initializeModifyProtocolPermission(protocol);   
         if(displayBillable) {
             initializeBillablePermission(protocol);   
-        }
-        
+        }        
         initializeModifyGeneralInfoPermission(protocol);
-        initializeModifyFundingSourcePermission(protocol);
-        
+        initializeModifyFundingSourcePermission(protocol);        
         initializeModifyReferencesPermission(protocol);
         initializeModifyOrganizationsPermission(protocol);
 
@@ -373,11 +359,11 @@ public abstract class ProtocolHelperBase implements Serializable {
         return billableReadOnly;
     }
 
-    private TaskAuthorizationService getTaskAuthorizationService() {
+    protected TaskAuthorizationService getTaskAuthorizationService() {
         return KraServiceLocator.getService(TaskAuthorizationService.class);
     }
 
-    private String getUserIdentifier() {
+    protected String getUserIdentifier() {
          return GlobalVariables.getUserSession().getPrincipalId();
     }
 
@@ -546,12 +532,17 @@ public abstract class ProtocolHelperBase implements Serializable {
     
     protected abstract ProtocolActionBase createProtocolCreatedTypeProtocolActionInstanceHook(ProtocolBase protocol);
        
+    
+    
+    public abstract void syncSpecialReviewsWithFundingSources() throws WorkflowException;
 
-    /**
-     * Synchronizes the information between this ProtocolBase's Funding Sources and any Institutional Proposal or Award Special Review entries.
-     */
-    public void syncSpecialReviewsWithFundingSources() throws WorkflowException {
-// TODO *********commented the code below during IACUC refactoring*********         
+    
+// TODO ********************** commented out during IRB backfit ************************ PUSHED DOWN TO IRB    
+//    /**
+//     * Synchronizes the information between this ProtocolBase's Funding Sources and any Institutional Proposal or Award Special Review entries.
+//     */
+//    public void syncSpecialReviewsWithFundingSources() throws WorkflowException {
+//
 //        for (ProtocolFundingSourceBase protocolFundingSource : getProtocol().getProtocolFundingSources()) {
 //            String fundingSourceNumber = protocolFundingSource.getFundingSourceNumber();
 //            String fundingSourceTypeCode = protocolFundingSource.getFundingSourceTypeCode();
@@ -577,12 +568,11 @@ public abstract class ProtocolHelperBase implements Serializable {
 //            
 //            getSpecialReviewService().deleteSpecialReviewForProtocolFundingSource(fundingSourceNumber, fundingSourceTypeCode, protocolNumber);
 //        }
-        
-        deletedProtocolFundingSources.clear();
-    }
+//        
+//        deletedProtocolFundingSources.clear();
+//    }
 
 
-    // hook method
     protected abstract ProtocolNumberServiceBase getProtocolNumberService();
  
     private KcPersonService getPersonService() {
@@ -748,13 +738,14 @@ public abstract class ProtocolHelperBase implements Serializable {
         this.newFundingSource = newFundingSource;
     }
     
-    public ProtocolParticipant getNewProtocolParticipant() {
-        return newProtocolParticipant;
-    }
-
-    public void setNewProtocolParticipant(ProtocolParticipant newProtocolParticipant) {
-        this.newProtocolParticipant = newProtocolParticipant;
-    }
+// TODO ********************** commented out during IRB backfit ************************ PUSHED DOWN    
+//    public ProtocolParticipant getNewProtocolParticipant() {
+//        return newProtocolParticipant;
+//    }
+//
+//    public void setNewProtocolParticipant(ProtocolParticipant newProtocolParticipant) {
+//        this.newProtocolParticipant = newProtocolParticipant;
+//    }
     
     public boolean getModifyFundingSource() {
         return modifyFundingSource;
@@ -772,9 +763,10 @@ public abstract class ProtocolHelperBase implements Serializable {
         return modifyOrganizations;
     }
 
-    public boolean getModifySubjects() {
-        return modifySubjects;
-    }
+// TODO ********************** commented out during IRB backfit ************************ PUSHED DOWN TO IRB
+//    public boolean getModifySubjects() {
+//        return modifySubjects;
+//    }
 
     public boolean getModifyAreasOfResearch() {
         return modifyAreasOfResearch;
@@ -801,21 +793,22 @@ public abstract class ProtocolHelperBase implements Serializable {
         }
     }
     
-    public boolean isRoleIRBAdmin() {
-        Role roleInfo = getRoleService().getRoleByNamespaceCodeAndName(RoleConstants.DEPARTMENT_ROLE_TYPE, RoleConstants.IRB_ADMINISTRATOR);
-        List<String> roleIds = new ArrayList<String>();
-        roleIds.add(roleInfo.getId());
-        Map<String, String> qualifiedRoleAttributes = new HashMap<String, String>();
-        qualifiedRoleAttributes.put(KcKimAttributes.UNIT_NUMBER, "*");
-        Map<String,String> qualifications =new HashMap<String,String>(qualifiedRoleAttributes);
-        return getRoleService().principalHasRole(getUserIdentifier(), roleIds, qualifications);
-    }
+// TODO ********************** commented out during IRB backfit ************************ PUSHED DOWN TO IRB    
+//    public boolean isRoleIRBAdmin() {
+//        Role roleInfo = getRoleService().getRoleByNamespaceCodeAndName(RoleConstants.DEPARTMENT_ROLE_TYPE, RoleConstants.IRB_ADMINISTRATOR);
+//        List<String> roleIds = new ArrayList<String>();
+//        roleIds.add(roleInfo.getId());
+//        Map<String, String> qualifiedRoleAttributes = new HashMap<String, String>();
+//        qualifiedRoleAttributes.put(KcKimAttributes.UNIT_NUMBER, "*");
+//        Map<String,String> qualifications =new HashMap<String,String>(qualifiedRoleAttributes);
+//        return getRoleService().principalHasRole(getUserIdentifier(), roleIds, qualifications);
+//    }
     
     /**
      * Quick method to get the RoleService
      * @return RoleService reference
      */
-    private RoleService getRoleService() {
+    protected RoleService getRoleService() {
         return KraServiceLocator.getService(RoleService.class);
     }
 

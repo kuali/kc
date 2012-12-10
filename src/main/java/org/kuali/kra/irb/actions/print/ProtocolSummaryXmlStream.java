@@ -40,7 +40,7 @@ import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.ProtocolAction;
-import org.kuali.kra.irb.actions.ProtocolSummaryPrintOptions;
+// import org.kuali.kra.irb.actions.ProtocolSummaryPrintOptions;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewModule;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewal;
 import org.kuali.kra.irb.actions.notification.ProtocolNotificationTemplateAuthorizationService;
@@ -60,6 +60,8 @@ import org.kuali.kra.irb.specialreview.ProtocolSpecialReview;
 import org.kuali.kra.printing.xmlstream.PrintBaseXmlStream;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.protocol.actions.print.ProtocolSummaryPrintOptions;
+import org.kuali.kra.protocol.actions.print.ProtocolSummaryXmlStreamBase;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.SponsorService;
 import org.kuali.kra.service.UnitService;
@@ -96,7 +98,7 @@ import org.w3.x2001.protocolSummarySchema.SchoolInfoType;
 /**
  * This class is to generate Protocol Summary Xml file
  */
-public class ProtocolSummaryXmlStream extends PrintBaseXmlStream {
+public class ProtocolSummaryXmlStream extends ProtocolSummaryXmlStreamBase {
     private static final String OTHER = "9";
     private static final String SCHOOL_NAME = "SCHOOL_NAME";
     private static final String SCHOOL_ACRONYM = "SCHOOL_ACRONYM";
@@ -197,7 +199,7 @@ public class ProtocolSummaryXmlStream extends PrintBaseXmlStream {
         ProtocolDocumentsType protocolDocumentsType = protocolSummary.addNewProtocolDocuments();
         protocolDocumentsType.setProtocolNumber(protocol.getProtocolNumber());
         protocolDocumentsType.setSequenceNumber(protocol.getSequenceNumber());
-        List<ProtocolAttachmentProtocol> protocolAttachments = protocol.getActiveAttachmentProtocols();
+        List<ProtocolAttachmentProtocol> protocolAttachments = (List)protocol.getActiveAttachmentProtocols();
         for (ProtocolAttachmentProtocol protocolAttachmentProtocol : protocolAttachments) {
             if(protocolAttachmentProtocol.getTypeCode().equals(OTHER)){
                 ProtocolOtherDocumentsType protocolOtherDocumentsType = protocolDocumentsType.addNewProtocolOtherDocuments();
@@ -252,7 +254,7 @@ public class ProtocolSummaryXmlStream extends PrintBaseXmlStream {
         }
     }
     private void setProtocolReferences(ProtocolSummary protocolSummary, Protocol protocol) {
-        List<ProtocolReference> protocolReferences = protocol.getProtocolReferences();
+        List<ProtocolReference> protocolReferences = (List) protocol.getProtocolReferences();
         for (ProtocolReference protocolReferencesBean : protocolReferences) {
             protocolReferencesBean.refreshNonUpdateableReferences();
             ProtocolReferencesType protocolReferencesType = protocolSummary.addNewProtocolReferences();
@@ -291,7 +293,7 @@ public class ProtocolSummaryXmlStream extends PrintBaseXmlStream {
 
     
     private void setProtocolOtherData(ProtocolSummary protocolSummary, Protocol protocol) {
-        ProtocolDocument protocolDocument = protocol.getProtocolDocument();
+        ProtocolDocument protocolDocument = (ProtocolDocument) protocol.getProtocolDocument();
         prepareView(protocolDocument);
         Map<String,CustomAttributeDocument> customAttributes = protocolDocument.getCustomAttributeDocuments();
         Iterator<String> customAttributesKeyIt = customAttributes.keySet().iterator();
@@ -313,7 +315,7 @@ public class ProtocolSummaryXmlStream extends PrintBaseXmlStream {
         String amendType = "Amendment";
         String renewalType = "Renewal";
         String protocolNo = null;
-        List<ProtocolAmendRenewal> protocolAmendmentRenewals = protocol.getProtocolAmendRenewals();
+        List<ProtocolAmendRenewal> protocolAmendmentRenewals = (List) protocol.getProtocolAmendRenewals();
         for (ProtocolAmendRenewal protocolAmendRenewalBean : protocolAmendmentRenewals) {
             ProtoAmendRenewalType protoAmendRenewalType = protocolSummary.addNewProtocolAmenRenewal();
             protoAmendRenewalType.setDateCreated(convertDateToCalendar(protocolAmendRenewalBean.getDateCreated()));
@@ -341,7 +343,7 @@ public class ProtocolSummaryXmlStream extends PrintBaseXmlStream {
                 protoAmendRenewalType.setProtocolStatusDesc(protocolAmendRenewalBean.getProtocol().getProtocolStatus().getDescription());
                 protoAmendRenewalType.setProtocolStatusCode(Integer.parseInt(protocolAmendRenewalBean.getProtocol().getProtocolStatusCode()));
             }
-            List<ProtocolAmendRenewModule> vecModuleData  = protocolAmendRenewalBean.getModules();
+            List<ProtocolAmendRenewModule> vecModuleData  = (List) protocolAmendRenewalBean.getModules();
             for (ProtocolAmendRenewModule amendRenewModuleBean : vecModuleData) {
                 ProtocolModulesType protocolModulesType =  protoAmendRenewalType.addNewProtocolModules();
                 if(amendRenewModuleBean.getProtocolModule()!=null){
@@ -353,7 +355,7 @@ public class ProtocolSummaryXmlStream extends PrintBaseXmlStream {
         }
     }
     private void setProtocolNotes(ProtocolSummary protocolSummary, Protocol protocol) {
-        List<ProtocolNotepad> protocolNotes = protocol.getNotepads();
+        List<ProtocolNotepad> protocolNotes = (List) protocol.getNotepads();
         boolean isProtocolPerson = KraServiceLocator.getService(ProtocolActionService.class).isProtocolPersonnel(protocol);
         boolean hasPermission = KraServiceLocator.getService(ProtocolNotificationTemplateAuthorizationService.class).hasPermission(
                 PermissionConstants.VIEW_RESTRICTED_NOTES);
@@ -395,7 +397,7 @@ public class ProtocolSummaryXmlStream extends PrintBaseXmlStream {
         }
     }
     private void setProtocolSpecialReviewes(ProtocolSummary protocolSummary, Protocol protocol) {
-        List<ProtocolSpecialReview> protocolSpecialReviews = protocol.getSpecialReviews();
+        List<ProtocolSpecialReview> protocolSpecialReviews = (List) protocol.getSpecialReviews();
         for (ProtocolSpecialReview specialReview : protocolSpecialReviews) {
             specialReview.refreshNonUpdateableReferences();
             ProtocolSpecialReviewType protocolSpecialReviewType = protocolSummary.addNewProtocolSpecialReview();
@@ -439,7 +441,7 @@ public class ProtocolSummaryXmlStream extends PrintBaseXmlStream {
 
     }
     private void setProtocolActions(ProtocolSummary protocolSummary, Protocol protocol) {
-        List<ProtocolAction> protocolAction = protocol.getProtocolActions();
+        List<ProtocolAction> protocolAction = (List) protocol.getProtocolActions();
         for (ProtocolAction protocolActionsBean : protocolAction) {
             ProtocolActionsType protocolActionsType = protocolSummary.addNewProtocolActions();
             protocolActionsType.setActionId(protocolActionsBean.getActionId());
@@ -464,7 +466,7 @@ public class ProtocolSummaryXmlStream extends PrintBaseXmlStream {
         
     }
     private void setProtocolFundingResources(ProtocolSummary protocolSummary, Protocol protocol) {
-        List<ProtocolFundingSource> protocolFundngSources = protocol.getProtocolFundingSources();
+        List<ProtocolFundingSource> protocolFundngSources = (List) protocol.getProtocolFundingSources();
         for (ProtocolFundingSource fundingSourceBean : protocolFundngSources) {
             ProtocolFundingSourceType protocolFundingSourceType = protocolSummary.addNewProtocolFundingSources();
             protocolFundingSourceType.setFundingSource(fundingSourceBean.getFundingSourceNumber());
@@ -538,7 +540,7 @@ public class ProtocolSummaryXmlStream extends PrintBaseXmlStream {
     }
 
     private void setProtocolResearchAreas(ProtocolSummary protocolSummary, Protocol protocol) {
-        List<ProtocolResearchArea> vecResearchAreas = protocol.getProtocolResearchAreas();
+        List<ProtocolResearchArea> vecResearchAreas = (List) protocol.getProtocolResearchAreas();
         for (ProtocolResearchArea reasearchAreasBean : vecResearchAreas) {
             ProtocolResearchAreasType protocolResearchAreasType = protocolSummary.addNewProtocolResearchAreas();
             protocolResearchAreasType.setProtocolNumber(reasearchAreasBean.getProtocolNumber());
@@ -550,7 +552,7 @@ public class ProtocolSummaryXmlStream extends PrintBaseXmlStream {
         
     }
     private void setProtocolLocations(ProtocolSummary protocolSummary, Protocol protocol) {
-        List<ProtocolLocation> protocolLocationList = protocol.getProtocolLocations();
+        List<ProtocolLocation> protocolLocationList = (List) protocol.getProtocolLocations();
         for (ProtocolLocation protocolLocationListBean : protocolLocationList) {
             protocolLocationListBean.refreshNonUpdateableReferences();
             ProtocolLocationType protocolLocationType = protocolSummary.addNewProtocolOrganization();
@@ -596,7 +598,7 @@ public class ProtocolSummaryXmlStream extends PrintBaseXmlStream {
         return strBffr.toString();
     }
     private void setProtocolPersons(ProtocolSummary protocolSummary, Protocol protocol) {
-        List<ProtocolPerson> vecInvestigator = protocol.getProtocolPersons();
+        List<ProtocolPerson> vecInvestigator = (List) protocol.getProtocolPersons();
         for (ProtocolPerson protocolPerson : vecInvestigator) {
             protocolPerson.refreshNonUpdateableReferences();
             if (protocolPerson.getProtocolPersonRoleId().equals(ProtocolPersonRole.ROLE_PRINCIPAL_INVESTIGATOR)
@@ -614,7 +616,7 @@ public class ProtocolSummaryXmlStream extends PrintBaseXmlStream {
                 protocolInvestigatorType.setSequenceNumber(protocolPerson.getSequenceNumber());
                 protocolInvestigatorType.setUpdateUser(protocolPerson.getUpdateUser());
                 protocolInvestigatorType.setTrainingFlag( ( protocolPerson.isTrained()  ? "Y" : "N" ) );
-                List<ProtocolUnit> vecInvUnits =  protocolPerson.getProtocolUnits();
+                List<ProtocolUnit> vecInvUnits =  (List) protocolPerson.getProtocolUnits();
                 for (ProtocolUnit protocolUnit : vecInvUnits) {
                         ProtocolUnitsType protocolUnitsType = protocolInvestigatorType.addNewProtocolUnits();
                         protocolUnitsType.setLeadUnitFlag((protocolUnit.getLeadUnitFlag() ? "Y" : "N"));
@@ -706,7 +708,7 @@ public class ProtocolSummaryXmlStream extends PrintBaseXmlStream {
     }
     
     private void setProtocolInvestigator(Protocol protocol, ProtocolDetailsType protocolDetailsType) {
-        List<ProtocolPerson> vecInvestigator = protocol.getProtocolPersons();
+        List<ProtocolPerson> vecInvestigator = (List) protocol.getProtocolPersons();
         for (ProtocolPerson protocolPerson : vecInvestigator) {
             protocolPerson.refreshNonUpdateableReferences();
             if (protocolPerson.getProtocolPersonRoleId().equals(ProtocolPersonRole.ROLE_PRINCIPAL_INVESTIGATOR)) {

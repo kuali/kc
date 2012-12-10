@@ -15,60 +15,65 @@
  */
 package org.kuali.kra.irb.actions.delete;
 
-import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolStatus;
-import org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService;
-import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.kra.protocol.actions.delete.ProtocolDeleteServiceImplBase;
 
 /**
  * The ProtocolDeleteService implementation.
  */
-public class ProtocolDeleteServiceImpl implements ProtocolDeleteService {
+public class ProtocolDeleteServiceImpl extends ProtocolDeleteServiceImplBase implements ProtocolDeleteService {
 
-    private DocumentService documentService;
-    private BusinessObjectService businessObjectService;
-    private ProtocolOnlineReviewService protocolOnlineReviewService;
     
-    private static final String DELETE_FINALIZE_OLR_ANNOTATION = "Online Review finalized as part of withdraw action on protocol.";
-
-    public void setDocumentService(DocumentService documentService) {
-        this.documentService = documentService;
+    @Override
+    protected String getDeletedProtocolStatusCodeHook() {
+        return ProtocolStatus.DELETED;
     }
     
-    /**
-     * Set the business object service.
-     * @param businessObjectService the business object service
-     */
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
-    }
-    
-    /**
-     * We never delete documents from the database.  Rather, we simply mark
-     * it as deleted.
-     * @throws WorkflowException 
-     * @see org.kuali.kra.irb.actions.delete.ProtocolDeleteService#delete(org.kuali.kra.irb.Protocol, org.kuali.kra.irb.actions.delete.ProtocolDeleteBean)
-     */
-    public void delete(Protocol protocol, ProtocolDeleteBean deleteBean) throws WorkflowException {
-        protocol.setProtocolStatusCode(ProtocolStatus.DELETED);
-        protocol.setActive(false);
-        businessObjectService.save(protocol.getProtocolDocument());
-        
-        /*
-         * By marking the protocol document as canceled, the protocol
-         * is removed from the user's action list.
-         */
-        documentService.cancelDocument(protocol.getProtocolDocument(), null);
-        protocolOnlineReviewService.finalizeOnlineReviews(protocol.getProtocolSubmission(), DELETE_FINALIZE_OLR_ANNOTATION);
-    }
 
-    public ProtocolOnlineReviewService getProtocolOnlineReviewService() {
-        return protocolOnlineReviewService;
-    }
+// TODO ********************** commented out during IRB backfit ************************    
+//    private DocumentService documentService;
+//    private BusinessObjectService businessObjectService;
+//    private ProtocolOnlineReviewService protocolOnlineReviewService;
+//    
+//    private static final String DELETE_FINALIZE_OLR_ANNOTATION = "Online Review finalized as part of withdraw action on protocol.";
+//
+//    public void setDocumentService(DocumentService documentService) {
+//        this.documentService = documentService;
+//    }
+//    
+//    /**
+//     * Set the business object service.
+//     * @param businessObjectService the business object service
+//     */
+//    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+//        this.businessObjectService = businessObjectService;
+//    }
+//    
+//    /**
+//     * We never delete documents from the database.  Rather, we simply mark
+//     * it as deleted.
+//     * @throws WorkflowException 
+//     * @see org.kuali.kra.irb.actions.delete.ProtocolDeleteService#delete(org.kuali.kra.irb.Protocol, org.kuali.kra.irb.actions.delete.ProtocolDeleteBean)
+//     */
+//    public void delete(Protocol protocol, ProtocolDeleteBean deleteBean) throws WorkflowException {
+//        protocol.setProtocolStatusCode(ProtocolStatus.DELETED);
+//        protocol.setActive(false);
+//        businessObjectService.save(protocol.getProtocolDocument());
+//        
+//        /*
+//         * By marking the protocol document as canceled, the protocol
+//         * is removed from the user's action list.
+//         */
+//        documentService.cancelDocument(protocol.getProtocolDocument(), null);
+//        protocolOnlineReviewService.finalizeOnlineReviews(protocol.getProtocolSubmission(), DELETE_FINALIZE_OLR_ANNOTATION);
+//    }
+//
+//    public ProtocolOnlineReviewService getProtocolOnlineReviewService() {
+//        return protocolOnlineReviewService;
+//    }
+//
+//    public void setProtocolOnlineReviewService(ProtocolOnlineReviewService protocolOnlineReviewService) {
+//        this.protocolOnlineReviewService = protocolOnlineReviewService;
+//    }
 
-    public void setProtocolOnlineReviewService(ProtocolOnlineReviewService protocolOnlineReviewService) {
-        this.protocolOnlineReviewService = protocolOnlineReviewService;
-    }
 }

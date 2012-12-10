@@ -88,15 +88,15 @@
             			</list>
           			</property> -->
         		</bean>
-        		
-        		<bean parent="RelationshipDefinition">
-          			<property name="objectAttributeName" value="lookupProtocol"/>
-	          		<property name="primitiveAttributes">
-            			<list>
-              				<bean p:sourceName="lookupProtocol.protocolNumber" p:targetName="protocolNumber" parent="PrimitiveAttributeDefinition"/>
-            			</list>
-          			</property>
-        		</bean>
+<!-- TEMPORARILY COMMENTED OUT DURING IRB BACKFIT -->        		
+<!--         		<bean parent="RelationshipDefinition"> -->
+<!--           			<property name="objectAttributeName" value="lookupProtocol"/> -->
+<!-- 	          		<property name="primitiveAttributes"> -->
+<!--             			<list> -->
+<!--               				<bean p:sourceName="lookupProtocol.protocolNumber" p:targetName="protocolNumber" parent="PrimitiveAttributeDefinition"/> -->
+<!--             			</list> -->
+<!--           			</property> -->
+<!--         		</bean> -->
         		
 			</list>
 		</property>	

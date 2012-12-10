@@ -15,71 +15,71 @@
  */
 package org.kuali.kra.committee.service.impl;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.committee.bo.Committee;
-import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.committee.service.CommitteeScheduleAttendanceService;
 import org.kuali.kra.committee.service.CommitteeService;
-import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.meeting.CommitteeScheduleAttendance;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.kra.common.committee.service.impl.CommitteeScheduleAttendanceServiceImplBase;
 
 
-public class CommitteeScheduleAttendanceServiceImpl implements CommitteeScheduleAttendanceService {
-    private CommitteeService committeeService;
-    private ParameterService parameterService;
-    
-    public void setCommitteeService(CommitteeService committeeService) {
-        this.committeeService = committeeService;
-    }
-    
-    public void setParameterService(ParameterService parameterService) {
-        this.parameterService = parameterService;
-    }
-    
-    public Set<String> getVotingMembersPresent(String committeeId, String scheduleId) {
-        Set<String> attendedMembers = new HashSet<String>();
-        Committee committee = committeeService.getCommitteeById(committeeId);
-        CommitteeSchedule schedule = committeeService.getCommitteeSchedule(committee, scheduleId);
-        List<CommitteeScheduleAttendance> attendances = schedule.getCommitteeScheduleAttendances();
-        for (CommitteeScheduleAttendance attendance : attendances) {
-             attendedMembers.add(attendance.getPersonId());
-        }
-        String memberId = null;
-        String votingMemberType = parameterService.getParameterValueAsString(CommitteeDocument.class, Constants.COMMITTEE_VOTING_MEMBERSHIP_TYPE_CODE);
-        
-        for(CommitteeMembership member : committee.getCommitteeMemberships()) {
-            memberId = member.getRolodexId() != null ? member.getRolodexId().toString() : member.getPersonId();
-            if(StringUtils.isNotBlank(memberId) && !member.getMembershipTypeCode().equals(votingMemberType)) { 
-                attendedMembers.remove(memberId);
-            }
-        }
-        
-        return attendedMembers;
-    }
-  
-    public Set<String> getActualVotingMembersPresent(String committeeId, String scheduleId) {
-        Set<String> attendedMembers = new HashSet<String>();
-        Committee committee = committeeService.getCommitteeById(committeeId);
-        CommitteeSchedule schedule = committeeService.getCommitteeSchedule(committee, scheduleId);
-        List<CommitteeScheduleAttendance> attendances = schedule.getCommitteeScheduleAttendances();
-        for (CommitteeScheduleAttendance attendance : attendances) {
-             if(!attendance.getGuestFlag()) {
-                 attendedMembers.add(attendance.getPersonId());
-             }
-        }
-        return attendedMembers;
-    }
+public class CommitteeScheduleAttendanceServiceImpl  extends CommitteeScheduleAttendanceServiceImplBase<CommitteeService, Committee, CommitteeDocument, CommitteeSchedule> 
+                                                     implements CommitteeScheduleAttendanceService {
 
-    public int getActualVotingMembersCount(String committeeId, String scheduleId) {
-        return getActualVotingMembersPresent(committeeId, scheduleId).size();
+    @Override
+    protected Class<CommitteeDocument> getCommitteeDocumentClassBOHook() {
+        return CommitteeDocument.class;
     }
+    
+// TODO ********************** commented out during IRB backfit ************************    
+//    private CommitteeService committeeService;
+//    private ParameterService parameterService;
+//    
+//    public void setCommitteeService(CommitteeService committeeService) {
+//        this.committeeService = committeeService;
+//    }
+//    
+//    public void setParameterService(ParameterService parameterService) {
+//        this.parameterService = parameterService;
+//    }
+//    
+//    public Set<String> getVotingMembersPresent(String committeeId, String scheduleId) {
+//        Set<String> attendedMembers = new HashSet<String>();
+//        Committee committee = committeeService.getCommitteeById(committeeId);
+//        CommitteeSchedule schedule = committeeService.getCommitteeSchedule(committee, scheduleId);
+//        List<CommitteeScheduleAttendance> attendances = schedule.getCommitteeScheduleAttendances();
+//        for (CommitteeScheduleAttendance attendance : attendances) {
+//             attendedMembers.add(attendance.getPersonId());
+//        }
+//        String memberId = null;
+//        String votingMemberType = parameterService.getParameterValueAsString(CommitteeDocument.class, Constants.COMMITTEE_VOTING_MEMBERSHIP_TYPE_CODE);
+//        
+//        for(CommitteeMembership member : committee.getCommitteeMemberships()) {
+//            memberId = member.getRolodexId() != null ? member.getRolodexId().toString() : member.getPersonId();
+//            if(StringUtils.isNotBlank(memberId) && !member.getMembershipTypeCode().equals(votingMemberType)) { 
+//                attendedMembers.remove(memberId);
+//            }
+//        }
+//        
+//        return attendedMembers;
+//    }
+//  
+//    public Set<String> getActualVotingMembersPresent(String committeeId, String scheduleId) {
+//        Set<String> attendedMembers = new HashSet<String>();
+//        Committee committee = committeeService.getCommitteeById(committeeId);
+//        CommitteeSchedule schedule = committeeService.getCommitteeSchedule(committee, scheduleId);
+//        List<CommitteeScheduleAttendance> attendances = schedule.getCommitteeScheduleAttendances();
+//        for (CommitteeScheduleAttendance attendance : attendances) {
+//             if(!attendance.getGuestFlag()) {
+//                 attendedMembers.add(attendance.getPersonId());
+//             }
+//        }
+//        return attendedMembers;
+//    }
+//
+//    public int getActualVotingMembersCount(String committeeId, String scheduleId) {
+//        return getActualVotingMembersPresent(committeeId, scheduleId).size();
+//    }
     
     
 }

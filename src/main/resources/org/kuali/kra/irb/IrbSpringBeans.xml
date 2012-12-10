@@ -55,6 +55,7 @@
         <property name="serviceName" value="institutionalProposalService" />
     </bean>
 
+
     <bean id="protocolCorrespondenceTemplateAuthorizationService" class="org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplateAuthorizationServiceImpl">
         <property name="unitAuthorizationService" ref="unitAuthorizationService" />
         <property name="kcPersonService" ref="kcPersonService" />
@@ -80,7 +81,7 @@
     </bean>
         
     <bean id="protocolParticipantTypeService" class="org.kuali.kra.irb.protocol.participant.ProtocolParticipantServiceImpl" />
-    
+     
     <bean id="protocolFundingSourceService" class="org.kuali.kra.irb.protocol.funding.ProtocolFundingSourceServiceImpl" lazy-init="true">
         <property name="fundingSourceTypeService" ref="fundingSourceTypeService" />
         <property name="sponsorService" ref="sponsorService" />
@@ -120,12 +121,13 @@
             <ref bean="dateTimeService" />
         </property>        
     </bean> 
-    
+        
     <bean id="protocolAttachmentService" class="org.kuali.kra.irb.noteattachment.ProtocolAttachmentServiceImpl">
         <constructor-arg index="0" ref="businessObjectService"/>
         <constructor-arg index="1" ref="protocolDao"/>
         <property name = "personService" ref = "personService"/>
     </bean>
+
 
 	<bean id="protocolNotepadService" class="org.kuali.kra.irb.noteattachment.ProtocolNotepadServiceImpl">
         <property name = "personService" ref = "personService"/>
@@ -173,12 +175,12 @@
                 
                 <bean class="org.kuali.kra.irb.auth.ViewProtocolAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="viewProtocol" />
-                </bean>
+                </bean>                
                 
                 <bean class="org.kuali.kra.irb.auth.AddProtocolBillableAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="modifyBillable" />
                 </bean>
-                
+                                
                 <bean class="org.kuali.kra.irb.auth.SubmitProtocolAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="submitProtocol" />
                 </bean>
@@ -291,7 +293,8 @@
                     <property name="taskName" value="protocolAmendRenewDeleteUnavailable" />
                 </bean>
                 
-                <!--  Task Authorizer for modifying persons and their roles on a proposal -->
+<!--                  Task Authorizer for modifying persons and their roles on a proposal -->
+
                 <bean class="org.kuali.kra.irb.auth.ModifyProtocolPermissionsAuthorizer" parent="parentAmendmentAuthorizer">
                     <property name="taskName" value="modifyProtocolRoles" />
                 </bean>
@@ -315,7 +318,7 @@
                 <bean class="org.kuali.kra.irb.auth.ModifyProtocolSubjectsAuthorizer" parent="parentAmendmentAuthorizer">
                     <property name="taskName" value="modifyProtocolSubjects" />
                 </bean>
-                
+                                
                 <bean class="org.kuali.kra.irb.auth.ModifyProtocolAttachmentsAuthorizer" parent="parentAmendmentAuthorizer">
                     <property name="taskName" value="modifyProtocolAttachments" />
                 </bean>
@@ -323,7 +326,7 @@
                 <bean class="org.kuali.kra.irb.auth.ModifyProtocolAreasOfResearchAuthorizer" parent="parentAmendmentAuthorizer">
                     <property name="taskName" value="modifyProtocolAreasOfResearch" />
                 </bean>
-                
+                                
                 <bean class="org.kuali.kra.irb.auth.ModifyProtocolSpecialReviewAuthorizer" parent="parentAmendmentAuthorizer">
                     <property name="taskName" value="modifyProtocolSpecialReview" />
                 </bean>
@@ -379,7 +382,7 @@
                 <bean class="org.kuali.kra.irb.auth.ViewRestrictedNotesProtocolAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="viewRestrictedNotes" />
                 </bean>
-                
+                 
                 <bean class="org.kuali.kra.irb.auth.ExpediteApprovalAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="protocolExpediteApproval" />
                 </bean>
@@ -499,18 +502,23 @@
                 <bean class="org.kuali.kra.irb.auth.ProtocolApproveOtherAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="protocolApproveOther" />
                 </bean>   
+
+
                 <bean class="org.kuali.kra.irb.auth.ProtocolManageNotesAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="protocolManageNotes" />
                 </bean>   
                 <bean class="org.kuali.kra.irb.auth.ProtocolManageNotesUnavailableAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="protocolManageNotesUnavailable" />
-                </bean>   
+                </bean>
+                                   
                 <bean class="org.kuali.kra.irb.auth.AbandonProtocolAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="protocolAbandon" />
                 </bean>   
+
                 <bean class="org.kuali.kra.irb.auth.CreateProposalDevelopmentProtocolAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="createProposalForIrbProtocol" />
                 </bean>   
+                                
                 <bean class="org.kuali.kra.irb.auth.ProtocolReturnToPIAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="protocolReturnToPI" />
                 </bean>
@@ -662,6 +670,7 @@
         <property name="protocolAssignReviewersService" ref="protocolAssignReviewersService" />
     </bean>
     
+    
     <bean id="protocolWithdrawService" class="org.kuali.kra.irb.actions.withdraw.ProtocolWithdrawServiceImpl">
         <property name="documentService" ref="documentService" />
         <property name="businessObjectService" ref="businessObjectService" />
@@ -669,9 +678,10 @@
         <property name="protocolVersionService" ref="protocolVersionService" />
         <property name="protocolAssignToAgendaService" ref="protocolAssignToAgendaService" />
         <property name="protocolActionCorrespondenceGenerationService" ref="protocolActionCorrespondenceGenerationService" />
-		<property name="identityManagementService" ref="identityService"/>
-		<property name="protocolOnlineReviewService" ref="protocolOnlineReviewService"/>
-		<property name="kcNotificationService" ref="kcNotificationService" />
+		<!-- TEMPORARILY COMMENTED OUT DURING IRB BACKFIT - THIS IS NOT USED -->    
+ 		<!-- <property name="identityManagementService" ref="identityService"/> --> 
+		<property name="kcNotificationService" ref="kcNotificationService" /> 
+ 		<property name="protocolOnlineReviewService" ref="protocolOnlineReviewService"/>
     </bean>
     
     <bean id="protocolRequestService" class="org.kuali.kra.irb.actions.request.ProtocolRequestServiceImpl">
@@ -865,6 +875,7 @@
         <property name="kcNotificationService" ref="kcNotificationService" />
         <property name="dateTimeService" ref="dateTimeService" />
     </bean>
+
     
     <bean id="protocolActionCorrespondenceGenerationService" class="org.kuali.kra.irb.actions.correspondence.ProtocolActionCorrespondenceGenerationServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
@@ -885,6 +896,7 @@
 		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService" p:serviceNameSpaceURI="" />
     
     <!-- Protocol Print -->
+   
         <bean id="protocolXmlStream"
             class="org.kuali.kra.irb.actions.print.ProtocolXmlStream" parent="printBaseXmlStream">
             <property name="irbPrintXmlUtilService">
@@ -900,15 +912,18 @@
                 <ref bean="committeeXmlStream" />
             </property>
         </bean>
+        
         <bean id="protocolSummaryXmlStream"
             class="org.kuali.kra.irb.actions.print.ProtocolSummaryXmlStream" parent="printBaseXmlStream">
         </bean>
+        
         <bean id="correspondenceXmlStream"
             class="org.kuali.kra.irb.actions.print.CorrespondenceXmlStream" parent="printBaseXmlStream">
             <property name="protocolXmlStream">
                 <ref bean="protocolXmlStream" />
             </property>
         </bean>
+        
         <bean id="protocolPrintingService"
             class="org.kuali.kra.irb.actions.print.ProtocolPrintingServiceImpl" parent="printingService">
             <property name="protocolFullProtocolPrint" ref="protocolFullProtocolPrint" />
@@ -921,14 +936,17 @@
             class="org.kuali.kra.irb.actions.print.ProtocolFullProtocolPrint" scope="prototype">
             <property name="xmlStream" ref="protocolSummaryXmlStream" />
         </bean>
+        
         <bean id="protocolHistoryPrint"
             class="org.kuali.kra.irb.actions.print.ProtocolHistoryPrint" scope="prototype">
             <property name="xmlStream" ref="protocolXmlStream" />
         </bean>
+        
         <bean id="protocolReviewCommentsPrint"
             class="org.kuali.kra.irb.actions.print.ProtocolReviewCommentsPrint" scope="prototype">
             <property name="xmlStream" ref="protocolXmlStream" />
         </bean>
+        
         <bean id="protocolSummaryViewPrint"
             class="org.kuali.kra.irb.actions.print.ProtocolSummaryViewPrint" scope="prototype">
             <property name="xmlStream" ref="protocolSummaryXmlStream" />
@@ -943,15 +961,17 @@
         <property name="committeeService" ref="committeeService" />
     	<property name="parameterService" ref="parameterService" />
     </bean>
+    
        <!--  <bean id="abstractProtocolActionsCorrespondence"
             class="org.kuali.kra.irb.actions.correspondence.AbstractProtocolActionsCorrespondence" abstract="true">
          <property name="protocolXmlStream" ref="protocolXmlStream" />
         </bean> -->
-            <bean id="renewalReminderStream"
+                
+    <bean id="renewalReminderStream"
             class="org.kuali.kra.irb.actions.print.RenewalReminderStream" parent="printBaseXmlStream">
          <property name="protocolXmlStream" ref="protocolXmlStream" />
          <property name="committeeXmlStream" ref="committeeXmlStream" />
-        </bean>
+    </bean>
  
  	<bean id="protocolApproverRoleTypeService"
 			  class="org.kuali.kra.kim.service.impl.IRBApproverRoleTypeServiceImpl">
@@ -1028,7 +1048,15 @@
 
     <bean id="protocolSpecialReviewService" class="org.kuali.kra.irb.specialreview.ProtocolSpecialReviewServiceImpl">
    		<property name="protocolFinderDao" ref="protocolFinderDao" />    
- 	</bean> 
+ 	</bean>
+ 	
+ 	<bean id="protocolQuestionnairePrintingService"
+        class="org.kuali.kra.irb.actions.print.ProtocolQuestionnairePrintingServiceImpl" scope="prototype">
+        <property name="businessObjectService" ref="businessObjectService" />
+        <property name="questionnaireAnswerService" ref="questionnaireAnswerService" />
+    </bean>
+ 	
+ 	 
 </beans>
 
 

@@ -35,13 +35,15 @@ import org.kuali.kra.bo.ResearchArea;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.bo.CommitteeMembershipExpertise;
-import org.kuali.kra.committee.bo.CommitteeMembershipRole;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.service.impl.CommitteeMembershipServiceImpl;
+import org.kuali.kra.common.committee.bo.CommitteeMembershipRole;
+import org.kuali.kra.common.committee.meeting.CommitteeScheduleAttendanceBase;
 import org.kuali.kra.irb.actions.submit.ProtocolReviewer;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
 import org.kuali.kra.meeting.CommitteeScheduleAttendance;
+import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
@@ -156,7 +158,7 @@ public class CommitteeMembershipServiceTest {
     @Test
     public void testAddCommitteeMembershipExpertise() throws Exception {
         CommitteeMembership committeeMembership = getMembership(PERSON_ID, null, MEMBERSHIP_TYPE_CD, TERM_START_DATE, TERM_END_DATE);
-        committeeMembershipService.addCommitteeMembershipExpertise(committeeMembership, getResearchAreas());
+        committeeMembershipService.addCommitteeMembershipExpertise(committeeMembership, (Collection) getResearchAreas());
         
         assertEquals(3, committeeMembership.getMembershipExpertise().size());
         assertEquals(RESEARCH_AREA_CODE_1, committeeMembership.getMembershipExpertise().get(0).getResearchAreaCode());
@@ -220,7 +222,7 @@ public class CommitteeMembershipServiceTest {
         List<CommitteeSchedule> schedules = new ArrayList<CommitteeSchedule>(); 
         CommitteeScheduleAttendance  attendance = new CommitteeScheduleAttendance();
         CommitteeSchedule  schedule = new CommitteeSchedule();
-        List<CommitteeScheduleAttendance> attendances = new ArrayList<CommitteeScheduleAttendance>(); 
+        List<CommitteeScheduleAttendanceBase> attendances = new ArrayList<CommitteeScheduleAttendanceBase>(); 
         attendance.setPersonId("100");
         attendances.add(attendance);
         schedules.add(schedule);
@@ -243,7 +245,7 @@ public class CommitteeMembershipServiceTest {
      */
     private List<ProtocolSubmission> getProtocolSubmissions() {
         List<ProtocolSubmission> submissions = new ArrayList<ProtocolSubmission>();
-        List<ProtocolOnlineReview> reviews = new ArrayList<ProtocolOnlineReview>();
+        List<ProtocolOnlineReviewBase> reviews = new ArrayList<ProtocolOnlineReviewBase>();
         ProtocolOnlineReview review = new ProtocolOnlineReview();  
         ProtocolReviewer reviewer = new ProtocolReviewer();
         reviewer.setPersonId("100");

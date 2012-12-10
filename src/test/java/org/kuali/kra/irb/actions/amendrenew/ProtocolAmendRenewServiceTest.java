@@ -34,6 +34,7 @@ import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.copy.ProtocolCopyService;
 import org.kuali.kra.irb.test.ProtocolFactory;
+import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -127,14 +128,14 @@ public class ProtocolAmendRenewServiceTest extends KcUnitTestBase {
     }
     
     private void verifyAmendmentRenewal(Protocol protocol, String expectedSummary, int moduleCount) {
-        ProtocolAmendRenewal amendRenewal = protocol.getProtocolAmendRenewal();
+        ProtocolAmendRenewal amendRenewal = (ProtocolAmendRenewal) protocol.getProtocolAmendRenewal();
         assertEquals(amendRenewal.getProtocolId(), protocol.getProtocolId());
         assertEquals(expectedSummary, amendRenewal.getSummary());
         verifyModules(amendRenewal, moduleCount);
     }
     
     private void verifyModules(ProtocolAmendRenewal amendRenewal, int moduleCount) {
-        List<ProtocolAmendRenewModule> modules = amendRenewal.getModules();
+        List<ProtocolAmendRenewModule> modules = (List)amendRenewal.getModules();
         assertEquals(moduleCount, modules.size());
         if (moduleCount > 0) {
             assertContains(ProtocolModule.ADD_MODIFY_ATTACHMENTS, modules);
@@ -155,12 +156,13 @@ public class ProtocolAmendRenewServiceTest extends KcUnitTestBase {
      * Verify that the getAmendmentAndRenewals() method works.
      * @throws WorkflowException
      */
+    @SuppressWarnings("unchecked")
     @Test
     public void testGetAmendmentsAndRenewals() throws Exception {
         ProtocolDocument a1 = ProtocolFactory.createProtocolDocument("0906000001A001");
         ProtocolDocument a2 = ProtocolFactory.createProtocolDocument("0906000001A002");
         ProtocolDocument r1 = ProtocolFactory.createProtocolDocument("0906000001R001");
-        List<Protocol> protocols = service.getAmendmentAndRenewals("0906000001");
+        List<Protocol> protocols = (List)service.getAmendmentAndRenewals("0906000001");
         assertEquals(3, protocols.size());
         assertTrue(containsProtocol(protocols, a1));
         assertTrue(containsProtocol(protocols, a2));

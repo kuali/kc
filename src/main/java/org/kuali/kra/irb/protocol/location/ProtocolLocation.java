@@ -15,98 +15,98 @@
  */
 package org.kuali.kra.irb.protocol.location;
 
-import org.kuali.kra.bo.Organization;
-import org.kuali.kra.bo.Rolodex;
-import org.kuali.kra.irb.ProtocolAssociate;
+import org.kuali.kra.protocol.protocol.location.ProtocolLocationBase;
 
 /**
  * This class represents the Protocol Location Business Object.
  */
-public class ProtocolLocation extends ProtocolAssociate {
+public class ProtocolLocation extends ProtocolLocationBase {
 
     /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 6509347537504066578L;
 
-    private Integer protocolLocationId;
-
-    private String protocolOrganizationTypeCode;
-
-    private String organizationId;
-
-    private Integer rolodexId;
-
-    private Rolodex rolodex;
-
-    private Organization organization;
-
-    private ProtocolOrganizationType protocolOrganizationType;
-
-    /**
-	 * Constructs a ProtocolLocation.java.
-	 */
-    public ProtocolLocation() {
-    }
-
-    public Integer getProtocolLocationId() {
-        return protocolLocationId;
-    }
-
-    public void setProtocolLocationId(Integer protocolLocationId) {
-        this.protocolLocationId = protocolLocationId;
-    }
-
-    public String getProtocolOrganizationTypeCode() {
-        return protocolOrganizationTypeCode;
-    }
-
-    public void setProtocolOrganizationTypeCode(String protocolOrganizationTypeCode) {
-        this.protocolOrganizationTypeCode = protocolOrganizationTypeCode;
-    }
-
-    public String getOrganizationId() {
-        return organizationId;
-    }
-
-    public void setOrganizationId(String organizationId) {
-        this.organizationId = organizationId;
-    }
-
-    public Integer getRolodexId() {
-        return rolodexId;
-    }
-
-    public void setRolodexId(Integer rolodexId) {
-        this.rolodexId = rolodexId;
-    }
-
-    public Organization getOrganization() {
-        return organization;
-    }
-
-    public void setOrganization(Organization organization) {
-        this.organization = organization;
-    }
-
-    public ProtocolOrganizationType getProtocolOrganizationType() {
-        return protocolOrganizationType;
-    }
-
-    public void setProtocolOrganizationType(ProtocolOrganizationType protocolOrganizationType) {
-        this.protocolOrganizationType = protocolOrganizationType;
-    }
-
-    public Rolodex getRolodex() {
-        return rolodex;
-    }
-
-    public void setRolodex(Rolodex rolodex) {
-        this.rolodex = rolodex;
-    }
-
-    /** {@inheritDoc} */
-    public void resetPersistenceState() {
-        this.setProtocolLocationId(null);
-    }
+// TODO ********************** commented out during IRB backfit ************************    
+//    private Integer protocolLocationId;
+//
+//    private String protocolOrganizationTypeCode;
+//
+//    private String organizationId;
+//
+//    private Integer rolodexId;
+//
+//    private Rolodex rolodex;
+//
+//    private Organization organization;
+//
+//    private ProtocolOrganizationType protocolOrganizationType;
+//
+//    /**
+//	 * Constructs a ProtocolLocation.java.
+//	 */
+//    public ProtocolLocation() {
+//    }
+//
+//    public Integer getProtocolLocationId() {
+//        return protocolLocationId;
+//    }
+//
+//    public void setProtocolLocationId(Integer protocolLocationId) {
+//        this.protocolLocationId = protocolLocationId;
+//    }
+//
+//    public String getProtocolOrganizationTypeCode() {
+//        return protocolOrganizationTypeCode;
+//    }
+//
+//    public void setProtocolOrganizationTypeCode(String protocolOrganizationTypeCode) {
+//        this.protocolOrganizationTypeCode = protocolOrganizationTypeCode;
+//    }
+//
+//    public String getOrganizationId() {
+//        return organizationId;
+//    }
+//
+//    public void setOrganizationId(String organizationId) {
+//        this.organizationId = organizationId;
+//    }
+//
+//    public Integer getRolodexId() {
+//        return rolodexId;
+//    }
+//
+//    public void setRolodexId(Integer rolodexId) {
+//        this.rolodexId = rolodexId;
+//    }
+//
+//    public Organization getOrganization() {
+//        return organization;
+//    }
+//
+//    public void setOrganization(Organization organization) {
+//        this.organization = organization;
+//    }
+//
+//    public ProtocolOrganizationType getProtocolOrganizationType() {
+//        return protocolOrganizationType;
+//    }
+//
+//    public void setProtocolOrganizationType(ProtocolOrganizationType protocolOrganizationType) {
+//        this.protocolOrganizationType = protocolOrganizationType;
+//    }
+//
+//    public Rolodex getRolodex() {
+//        return rolodex;
+//    }
+//
+//    public void setRolodex(Rolodex rolodex) {
+//        this.rolodex = rolodex;
+//    }
+//
+//    /** {@inheritDoc} */
+//    public void resetPersistenceState() {
+//        this.setProtocolLocationId(null);
+//    }
+    
 }

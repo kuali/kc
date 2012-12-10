@@ -541,5 +541,10 @@ public class IacucProtocolOnlineReviewServiceImpl extends ProtocolOnlineReviewSe
     protected ProtocolOnlineReviewDocumentBase getNewProtocolOnlineReviewDocumentInstanceHook() {
         return new IacucProtocolOnlineReviewDocument();
     }
+
+    @Override
+    protected String getProtocolOLRDocumentTypeHook() {
+        return IACUC_PROTOCOL_ONLINE_REVIEW_DOCUMENT_TYPE;
+    }
     
 }

@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.irb.actions.undo;
 
-import org.kuali.kra.irb.ProtocolDocument;
 
-public interface UndoLastActionService {
+public interface UndoLastActionService extends org.kuali.kra.protocol.actions.undo.UndoLastActionService {
     
-    ProtocolDocument undoLastAction(ProtocolDocument protocolDocument, UndoLastActionBean undoLastActionBean) throws Exception;
+	// TODO ********************** commented out during IRB backfit ************************
+//    ProtocolDocument undoLastAction(ProtocolDocument protocolDocument, UndoLastActionBean undoLastActionBean) throws Exception;
 }

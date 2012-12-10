@@ -15,13 +15,9 @@
  */
 package org.kuali.kra.committee.document.authorizer;
 
-import org.kuali.kra.committee.bo.Committee;
-import org.kuali.kra.committee.document.authorization.CommitteeTask;
+import org.kuali.kra.common.committee.document.authorizer.ModifyCommitteeAuthorizerBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.krad.document.authorization.PessimisticLock;
-import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * The Modify Committee Authorizer checks to see if the user has 
@@ -31,45 +27,63 @@ import org.kuali.rice.krad.util.GlobalVariables;
  * modified, the user only needs to have the MODIFY_COMMITTEE permission 
  * for that committee.
  */
-public class ModifyCommitteeAuthorizer extends CommitteeAuthorizer {
+public class ModifyCommitteeAuthorizer extends ModifyCommitteeAuthorizerBase {
 
-    /**
-     * @see org.kuali.kra.irb.document.authorizer.CommitteeAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.irb.document.authorization.CommitteeTask)
-     */
-    public boolean isAuthorized(String userId, CommitteeTask task) {
-        boolean hasPermission = true;
-        Committee committee = task.getCommittee();
-        if (committee.getId() == null) {
-            
-            // We have to consider the case when we are saving the committee for the first time.
-            
-            hasPermission = hasUnitPermission(userId, Constants.MODULE_NAMESPACE_PROTOCOL, PermissionConstants.ADD_COMMITTEE);
-        } 
-        else {
-            /*
-             * After the initial save, the committee can only be modified has the required permission.
-             */
-            hasPermission = !committee.getCommitteeDocument().isViewOnly() &&
-                            !isPessimisticLocked(committee.getCommitteeDocument()) &&
-                            hasPermission(userId, committee, PermissionConstants.MODIFY_COMMITTEE);
-        }
-
-        // Verify that document is not locked
-        if (isPessimisticLocked(committee.getCommitteeDocument())) {
-            hasPermission = false;
-        }
-
-        return hasPermission;
+    @Override
+    protected String getPermissionNameForModifyCommitteeHook() {
+        return PermissionConstants.MODIFY_COMMITTEE;
     }
 
-    private boolean isPessimisticLocked(Document document) {
-        boolean isLocked = false;
-        for (PessimisticLock lock : document.getPessimisticLocks()) {
-            // if lock is owned by current user, do not display message for it
-            if (!lock.isOwnedByUser(GlobalVariables.getUserSession().getPerson())) {
-                isLocked = true;
-            }
-        }
-        return isLocked;
+    @Override
+    protected String getModuleNamespaceCodeHook() {
+        return Constants.MODULE_NAMESPACE_PROTOCOL;
     }
+
+    @Override
+    protected String getPermissionNameForAddCommiteeHook() {
+        return PermissionConstants.ADD_COMMITTEE;
+    }
+
+    
+// TODO ********************** commented out during IRB backfit ************************    
+//    /**
+//     * @see org.kuali.kra.irb.document.authorizer.CommitteeAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.irb.document.authorization.CommitteeTask)
+//     */
+//    public boolean isAuthorized(String userId, CommitteeTask task) {
+//        boolean hasPermission = true;
+//        Committee committee = task.getCommittee();
+//        if (committee.getId() == null) {
+//            
+//            // We have to consider the case when we are saving the committee for the first time.
+//            
+//            hasPermission = hasUnitPermission(userId, Constants.MODULE_NAMESPACE_PROTOCOL, PermissionConstants.ADD_COMMITTEE);
+//        } 
+//        else {
+//            /*
+//             * After the initial save, the committee can only be modified has the required permission.
+//             */
+//            hasPermission = !committee.getCommitteeDocument().isViewOnly() &&
+//                            !isPessimisticLocked(committee.getCommitteeDocument()) &&
+//                            hasPermission(userId, committee, PermissionConstants.MODIFY_COMMITTEE);
+//        }
+//
+//        // Verify that document is not locked
+//        if (isPessimisticLocked(committee.getCommitteeDocument())) {
+//            hasPermission = false;
+//        }
+//
+//        return hasPermission;
+//    }
+//
+//    private boolean isPessimisticLocked(Document document) {
+//        boolean isLocked = false;
+//        for (PessimisticLock lock : document.getPessimisticLocks()) {
+//            // if lock is owned by current user, do not display message for it
+//            if (!lock.isOwnedByUser(GlobalVariables.getUserSession().getPerson())) {
+//                isLocked = true;
+//            }
+//        }
+//        return isLocked;
+//    }
+    
 }

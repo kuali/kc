@@ -28,9 +28,9 @@ import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.print.CommitteeXmlStream;
 import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
-import org.kuali.kra.printing.xmlstream.PrintBaseXmlStream;
+import org.kuali.kra.protocol.actions.ProtocolActionBase;
+import org.kuali.kra.protocol.actions.print.RenewalReminderStreamBase;
 
 import edu.mit.irb.irbnamespace.RenewalReminderDocument;
 import edu.mit.irb.irbnamespace.CommitteeMasterDataDocument.CommitteeMasterData;
@@ -40,7 +40,7 @@ import edu.mit.irb.irbnamespace.RenewalReminderDocument.RenewalReminder;
 /**
  * This class...
  */
-public class RenewalReminderStream extends PrintBaseXmlStream {
+public class RenewalReminderStream extends RenewalReminderStreamBase {
     private ProtocolXmlStream protocolXmlStream;
     private CommitteeXmlStream committeeXmlStream;
 
@@ -98,7 +98,7 @@ public class RenewalReminderStream extends PrintBaseXmlStream {
     }
 
     private void setActionDate(Protocol protocol) {
-       for (ProtocolAction action : protocol.getProtocolActions()) {
+       for (ProtocolActionBase action : protocol.getProtocolActions()) {
            if (ProtocolActionType.SPECIFIC_MINOR_REVISIONS_REQUIRED.equals(action.getProtocolActionTypeCode()) ||
                    ProtocolActionType.SUBSTANTIVE_REVISIONS_REQUIRED.equals(action.getProtocolActionTypeCode())) {
                protocol.setExpirationDate(new Date(action.getActionDate().getTime()));

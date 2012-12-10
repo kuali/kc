@@ -18,9 +18,13 @@ package org.kuali.kra.meeting;
 import java.util.ArrayList;
 
 import org.junit.Test;
+import org.kuali.kra.common.committee.meeting.MeetingAddOtherEvent;
+import org.kuali.kra.common.committee.meeting.MeetingAddOtherRule;
+import org.kuali.kra.common.committee.meeting.MeetingEventBase.ErrorType;
+import org.kuali.kra.common.committee.meeting.MemberPresentBean;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.meeting.MeetingEventBase.ErrorType;
 import org.kuali.kra.rules.TemplateRuleTest;
+
 
 public class MeetingAddOtherRuleTest {
 

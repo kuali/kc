@@ -18,7 +18,7 @@ package org.kuali.kra.irb.actions.amendrenew;
 import org.kuali.kra.irb.actions.ActionHelper;
 import org.kuali.kra.irb.actions.ProtocolEditableBean;
 
-public class ProtocolAmendmentBean extends ProtocolEditableBean {
+public class ProtocolAmendmentBean extends ProtocolEditableBean implements org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendmentBean {
 
     private static final long serialVersionUID = 6548643656057631296L;
 

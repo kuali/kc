@@ -17,6 +17,8 @@ package org.kuali.kra.iacuc;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -59,6 +61,7 @@ import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.kra.krms.KrmsRulesContext;
 import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.protocol.actions.ProtocolActionBase;
 import org.kuali.kra.protocol.actions.ProtocolStatusBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionStatusBase;
@@ -144,14 +147,12 @@ public class IacucProtocol extends ProtocolBase {
         managedLists.add(getIacucPrinciples());
         managedLists.add(getIacucAlternateSearches());
 
-        //List<IacucProtocolStudyGroup> iacucProtocolStudyGroups = new ArrayList<IacucProtocolStudyGroup>();
         List<IacucProtocolStudyGroupDetailBean> studyGroupDetails = new ArrayList<IacucProtocolStudyGroupDetailBean>();
         List<IacucProtocolStudyGroupLocation> studyGroupLocations = new ArrayList<IacucProtocolStudyGroupLocation>();
         List<IacucProcedurePersonResponsible> personsResponsible = new ArrayList<IacucProcedurePersonResponsible>();
         for(IacucProtocolStudyGroupBean studyGroupBean : getIacucProtocolStudyGroups()) {
             studyGroupDetails.addAll(studyGroupBean.getIacucProtocolStudyGroupDetailBeans());
             for(IacucProtocolStudyGroupDetailBean studyGroupDetailBean : studyGroupBean.getIacucProtocolStudyGroupDetailBeans()) {
-                //iacucProtocolStudyGroups.addAll(studyGroupDetailBean.getIacucProtocolStudyGroups());
                 for (IacucProtocolStudyGroup studyGroup : studyGroupDetailBean.getIacucProtocolStudyGroups()) {
                     studyGroupLocations.addAll(studyGroup.getIacucProtocolStudyGroupLocations());
                     personsResponsible.addAll(studyGroup.getIacucProcedurePersonsResponsible());
@@ -160,7 +161,6 @@ public class IacucProtocol extends ProtocolBase {
         }
         managedLists.add(studyGroupLocations);
         managedLists.add(personsResponsible);
-        //managedLists.add(iacucProtocolStudyGroups);
         managedLists.add(studyGroupDetails);
         managedLists.add(getIacucProtocolStudyGroups());
         managedLists.add(getIacucProtocolExceptions());
@@ -601,9 +601,10 @@ public class IacucProtocol extends ProtocolBase {
         else if (StringUtils.equals(protocolModuleTypeCode, IacucProtocolModule.SPECIAL_REVIEW)) {
             mergeSpecialReview(amendment);
         }
-        else if (StringUtils.equals(protocolModuleTypeCode, IacucProtocolModule.SUBJECTS)) {
-            mergeSubjects(amendment);
-        }
+// TODO ********************** commented out during IRB backfit ************************ PUSHED DOWN INTO IRB, NOT RELEVANT FOR IACUC        
+//        else if (StringUtils.equals(protocolModuleTypeCode, IacucProtocolModule.SUBJECTS)) {
+//            mergeSubjects(amendment);
+//        }
         else if (StringUtils.equals(protocolModuleTypeCode, IacucProtocolModule.OTHERS)) {
             mergeOthers(amendment);
         }
@@ -628,6 +629,46 @@ public class IacucProtocol extends ProtocolBase {
         }
     }
     
+    
+    /*
+     * merge amendment/renewal protocol action to original protocol when A/R is approved
+     */
+    @SuppressWarnings("unchecked")
+    protected void mergeProtocolAction(ProtocolBase amendment) {
+        List<ProtocolActionBase> protocolActions = (List<ProtocolActionBase>) deepCopy(amendment.getProtocolActions());  
+        Collections.sort(protocolActions, new Comparator<ProtocolActionBase>() {
+            public int compare(ProtocolActionBase action1, ProtocolActionBase action2) {
+                return action1.getActionId().compareTo(action2.getActionId());
+            }
+        });
+        // the first 1 'protocol created is already added to original protocol
+        // the last one is 'approve'
+        protocolActions.remove(0);
+        protocolActions.remove(protocolActions.size() - 1);
+        for (ProtocolActionBase protocolAction : protocolActions) {
+            protocolAction.setProtocolNumber(this.getProtocolNumber());
+            protocolAction.setProtocolActionId(null);
+            protocolAction.setSequenceNumber(getSequenceNumber());
+            protocolAction.setProtocolId(this.getProtocolId());
+            String index = amendment.getProtocolNumber().substring(11);
+            protocolAction.setActionId(getNextValue(NEXT_ACTION_ID_KEY));
+            String type = getProtocolMergeType(amendment);
+            /*
+            String type = "Amendment";
+            if (amendment.isRenewal()) {
+                type = "Renewal";
+            }
+            */
+            if (StringUtils.isNotBlank(protocolAction.getComments())) {
+                protocolAction.setComments(type + "-" + index + ": " + protocolAction.getComments());
+            } else {
+                protocolAction.setComments(type + "-" + index + ": ");
+            }
+            this.getProtocolActions().add(protocolAction);
+        }
+    }
+    
+    
     @Override
     protected void mergeGeneralInfo(ProtocolBase amendment) {
         super.mergeGeneralInfo(amendment);
@@ -641,14 +682,16 @@ public class IacucProtocol extends ProtocolBase {
         getProtocolCopyService().copyProtocolThreers((IacucProtocol)amendment, this);
     }
 
-    @SuppressWarnings("unchecked")
     protected void mergeProtocolSpeciesAndGroups(ProtocolBase amendment) {
+        // TODO ********************** added or modified during IRB backfit merge BEGIN ********************** 
         getProtocolCopyService().mergeProtocolSpeciesAndGroups((IacucProtocol)amendment, this);
+        // TODO ********************** added or modified during IRB backfit merge END ************************
     }
     
-    @SuppressWarnings("unchecked")
     protected void mergeProtocolProcedures(ProtocolBase amendment) {
+        // TODO ********************** added or modified during IRB backfit merge BEGIN ********************** 
         getProtocolCopyService().mergeProtocolProcedures((IacucProtocol)amendment, this);
+        // TODO ********************** added or modified during IRB backfit merge END ************************
     }
 
     protected void mergeProtocolExceptions(ProtocolBase amendment) {
@@ -663,7 +706,7 @@ public class IacucProtocol extends ProtocolBase {
         return getProtocolNumber().contains(CONTINUATION_LETTER);
     }
 
-    @Override
+
     protected String getProtocolMergeType(ProtocolBase amendment) {
         IacucProtocol protocolAmend = (IacucProtocol)amendment;
         String type = "Amendment";

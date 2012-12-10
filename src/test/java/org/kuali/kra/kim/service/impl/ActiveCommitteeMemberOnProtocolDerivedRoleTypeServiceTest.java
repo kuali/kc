@@ -87,7 +87,7 @@ public class ActiveCommitteeMemberOnProtocolDerivedRoleTypeServiceTest {
         submissionList.add(submission);
         
         protocol.setProtocolSubmission(createProtocolSubmission());
-        protocol.setProtocolSubmissions(submissionList);
+        protocol.setProtocolSubmissions((List)submissionList);
         
         return protocol;
     }
@@ -115,7 +115,7 @@ public class ActiveCommitteeMemberOnProtocolDerivedRoleTypeServiceTest {
         members.add(createCommitteeMember("10000000007", "oblood"));
         members.add(createCommitteeMember("10000000008", "cate"));
         members.add(createCommitteeMember("10000000004", "majors"));
-        committee.setCommitteeMemberships(members);
+        committee.setCommitteeMemberships((List)members);
         
         return committee;
     }

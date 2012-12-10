@@ -28,7 +28,7 @@ public class ProtocolApproveOtherAuthorizer extends ProtocolAuthorizer {
      * @see org.kuali.kra.irb.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.irb.auth.ProtocolTask)
      */
     public boolean isAuthorized(String userId, ProtocolTask task) {
-        ProtocolDocument protocolDocument = task.getProtocol().getProtocolDocument();
+        ProtocolDocument protocolDocument = (ProtocolDocument) task.getProtocol().getProtocolDocument();
 
         return kraWorkflowService.isUserActionRequested(protocolDocument, userId) && 
             (!kraWorkflowService.isDocumentOnNode(protocolDocument, Constants.PROTOCOL_IRBREVIEW_ROUTE_NODE_NAME) || 

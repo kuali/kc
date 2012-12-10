@@ -37,7 +37,6 @@ import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.IacucProtocolForm;
 import org.kuali.kra.iacuc.auth.IacucProtocolTask;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.PropertyConstants;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.auth.ProtocolTaskBase;
@@ -49,6 +48,11 @@ import org.kuali.kra.protocol.customdata.ProtocolCustomDataHelperBase;
  */
 public class IacucProtocolCustomDataHelper extends ProtocolCustomDataHelperBase { 
 
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = -5964117436714994219L;
+    
     private static final String CUSTOM_ATTRIBUTE_NAME = "IacucProtocolCustomDataAttribute";
     private static final String PROTOCOL_ID_ATTRIBUTE_NAME = "protocolId";
     private static final String CUSTOM_ATTRIBUTE_DOCUMENT_TYPE_NAME = "documentTypeName";
@@ -77,21 +81,23 @@ public class IacucProtocolCustomDataHelper extends ProtocolCustomDataHelperBase 
         return IacucProtocolDocument.DOCUMENT_TYPE_CODE;
     }
 
-    private SortedMap<String, List<CustomAttributeDocument>> customAttributeGroups;
+// TODO ********************** commented out during IRB backfit ************************    
+//    private SortedMap<String, List<CustomAttributeDocument>> customAttributeGroups;
+//    
+//    public Map<String, List<CustomAttributeDocument>> getCustomAttributeGroups() {
+//        return customAttributeGroups;
+//    }
+//
+//    public void setCustomAttributeGroups(SortedMap<String, List<CustomAttributeDocument>> customAttributeGroups) {
+//        this.customAttributeGroups = customAttributeGroups;
+//    }
     
-    public Map<String, List<CustomAttributeDocument>> getCustomAttributeGroups() {
-        return customAttributeGroups;
-    }
 
-    public void setCustomAttributeGroups(SortedMap<String, List<CustomAttributeDocument>> customAttributeGroups) {
-        this.customAttributeGroups = customAttributeGroups;
-    }
-    
-
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     public void prepareView(ProtocolBase protocol) {
         initializePermissions();
 
-        customAttributeGroups = new TreeMap<String, List<CustomAttributeDocument>>();
+        SortedMap<String, List> customAttributeGroups = new TreeMap<String, List>();
 
         Map<String, CustomAttributeDocument> customAttributeDocuments = getCustomAttributeDocuments("ICPR");
         for(Map.Entry<String, CustomAttributeDocument> customAttributeDocumentEntry:customAttributeDocuments.entrySet()) {

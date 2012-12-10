@@ -89,7 +89,7 @@ public abstract class ProtocolSubmissionBase extends ProtocolAssociateBase {
 
     private ProtocolSubmissionTypeBase protocolSubmissionType;
 
-    private ProtocolSubmissionQualifierTypeBase protocolSubmissionQualifierType;
+    protected ProtocolSubmissionQualifierTypeBase protocolSubmissionQualifierType;
 
     private CommitteeDecisionMotionType committeeDecisionMotionType;
 

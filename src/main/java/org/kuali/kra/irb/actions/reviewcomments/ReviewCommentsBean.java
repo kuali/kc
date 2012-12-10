@@ -15,80 +15,92 @@
  */
 package org.kuali.kra.irb.actions.reviewcomments;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
-import org.kuali.kra.common.committee.meeting.MinuteEntryType;
+import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsBeanBase;
+import org.kuali.kra.irb.actions.reviewcomments.ReviewCommentsService;
+import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinuteBase;
 
 /**
  * This class defines functions that need to be implemented in a "bean" that needs to provide support for reviewer comments.
  */
-public class ReviewCommentsBean implements Serializable {
+public class ReviewCommentsBean extends ReviewCommentsBeanBase {
 
     private static final long serialVersionUID = 1020677422739490270L;
 
-    private String errorPropertyKey;
-    
-    private CommitteeScheduleMinute newReviewComment;
-    private List<CommitteeScheduleMinute> reviewComments;
-    private List<CommitteeScheduleMinute> deletedReviewComments;
-    // flag to hide reviewer name for this bean.
-    private boolean hideReviewerName;
-    /**
-     * Constructs a ReviewerCommentsBean.
-     */
+//    private String errorPropertyKey;
+//    
+//    private CommitteeScheduleMinute newReviewComment;
+//    private List<CommitteeScheduleMinute> reviewComments;
+//    private List<CommitteeScheduleMinute> deletedReviewComments;
+//    // flag to hide reviewer name for this bean.
+//    private boolean hideReviewerName;
+//    /**
+//     * Constructs a ReviewerCommentsBean.
+//     */
+//    public ReviewCommentsBean(String errorPropertyKey) {
+//        this.errorPropertyKey = errorPropertyKey + ".reviewCommentsBean";
+//        
+//        this.newReviewComment = new CommitteeScheduleMinute();
+//        this.newReviewComment.setMinuteEntryTypeCode(MinuteEntryType.PROTOCOL);
+//        this.reviewComments = new ArrayList<CommitteeScheduleMinute>();
+//        this.deletedReviewComments = new ArrayList<CommitteeScheduleMinute>();
+//    }
+
     public ReviewCommentsBean(String errorPropertyKey) {
-        this.errorPropertyKey = errorPropertyKey + ".reviewCommentsBean";
-        
-        this.newReviewComment = new CommitteeScheduleMinute();
-        this.newReviewComment.setMinuteEntryTypeCode(MinuteEntryType.PROTOCOL);
-        this.reviewComments = new ArrayList<CommitteeScheduleMinute>();
-        this.deletedReviewComments = new ArrayList<CommitteeScheduleMinute>();
+        super(errorPropertyKey);
     }
 
-    public String getErrorPropertyName() {
-        return errorPropertyKey;
-    }
-    
-    public CommitteeScheduleMinute getNewReviewComment() {
-        return newReviewComment;
-    }
-    
-    public void setNewReviewComment(CommitteeScheduleMinute newReviewComment) {
-        this.newReviewComment = newReviewComment;
-    }
-    
-    public List<CommitteeScheduleMinute> getReviewComments() {
-        return reviewComments;
-    }
-    
-    public void setReviewComments(List<CommitteeScheduleMinute> reviewComments) {
-        this.reviewComments = reviewComments;
-        this.setHideReviewerName(getReviewCommentsService().setHideReviewerName(this.reviewComments));            
-
-    }
-    
-    public List<CommitteeScheduleMinute> getDeletedReviewComments() {
-        return deletedReviewComments;
-    }
-    
-    public void setDeletedReviewComments(List<CommitteeScheduleMinute> deletedReviewComments) {
-        this.deletedReviewComments = deletedReviewComments;
+    @Override
+    protected CommitteeScheduleMinuteBase getNewCommitteeScheduleMinuteInstanceHook() {
+        return new CommitteeScheduleMinute();
     }
 
-    public boolean isHideReviewerName() {
-        return hideReviewerName;
+    @Override
+    protected Class<? extends org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsService> getReviewCommentsServiceClassHook() {
+        return ReviewCommentsService.class;
     }
 
-    public void setHideReviewerName(boolean hideReviewerName) {
-        this.hideReviewerName = hideReviewerName;
-    }
-    
-    private ReviewCommentsService getReviewCommentsService() {
-        return KraServiceLocator.getService(ReviewCommentsService.class);
-    }
+   
+//    public String getErrorPropertyName() {
+//        return errorPropertyKey;
+//    }
+//    
+//    public CommitteeScheduleMinute getNewReviewComment() {
+//        return newReviewComment;
+//    }
+//    
+//    public void setNewReviewComment(CommitteeScheduleMinute newReviewComment) {
+//        this.newReviewComment = newReviewComment;
+//    }
+//    
+//    public List<CommitteeScheduleMinute> getReviewComments() {
+//        return reviewComments;
+//    }
+//    
+//    public void setReviewComments(List<CommitteeScheduleMinute> reviewComments) {
+//        this.reviewComments = reviewComments;
+//        this.setHideReviewerName(getReviewCommentsService().setHideReviewerName(this.reviewComments));            
+//
+//    }
+//    
+//    public List<CommitteeScheduleMinute> getDeletedReviewComments() {
+//        return deletedReviewComments;
+//    }
+//    
+//    public void setDeletedReviewComments(List<CommitteeScheduleMinute> deletedReviewComments) {
+//        this.deletedReviewComments = deletedReviewComments;
+//    }
+//
+//    public boolean isHideReviewerName() {
+//        return hideReviewerName;
+//    }
+//
+//    public void setHideReviewerName(boolean hideReviewerName) {
+//        this.hideReviewerName = hideReviewerName;
+//    }
+//    
+//    private ReviewCommentsService getReviewCommentsService() {
+//        return KraServiceLocator.getService(ReviewCommentsService.class);
+//    }
 
 }

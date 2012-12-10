@@ -15,72 +15,62 @@
  */
 package org.kuali.kra.irb.actions.correction;
 
-import java.io.InputStream;
-import java.util.Calendar;
-import java.util.List;
+import org.kuali.kra.protocol.actions.correction.AdminCorrectionServiceImplBase;
 
-import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.irb.personnel.ProtocolPerson;
-import org.kuali.rice.core.api.util.xml.XmlJotter;
-import org.kuali.rice.ken.api.service.SendNotificationService;
-import org.kuali.rice.ken.util.Util;
-import org.kuali.rice.krad.util.GlobalVariables;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.xml.sax.InputSource;
+public class AdminCorrectionServiceImpl extends AdminCorrectionServiceImplBase implements AdminCorrectionService {
+	// TODO ********************** commented out during IRB backfit ************************
 
-public class AdminCorrectionServiceImpl implements AdminCorrectionService {
-    private SendNotificationService sendNotificationService;
-    private List<String> notificationTemplates;
-    private static final String DOC_LINK = "<a title=\"\" target=\"_self\" href=\"../kew/DocHandler.do?command=displayDocSearchView&amp;docId=";
-    
-    public void sendCorrectionNotification(Protocol protocol, AdminCorrectionBean adminCorrectionBean) throws Exception {
-        String adminCorrectionNotificationTemplate = notificationTemplates.get(0);
-        InputStream is = this.getClass().getResourceAsStream(adminCorrectionNotificationTemplate);
-        Document notificationRequestDocument;
-
-        try {
-            notificationRequestDocument = Util.parse(new InputSource(is), false, false, null);
-            Element recipientUser = (Element) notificationRequestDocument.getElementsByTagName("user").item(0);
-            ProtocolPerson principalInvestigator = protocol.getPrincipalInvestigator();
-            if (!principalInvestigator.isNonEmployee()) {
-                recipientUser.setTextContent(principalInvestigator.getPerson().getUserName());
-            } else {
-                recipientUser.setTextContent(principalInvestigator.getRolodex().getFullName());
-            }
-
-            Element sender = (Element) notificationRequestDocument.getElementsByTagName("sender").item(0);
-            sender.setTextContent(GlobalVariables.getUserSession().getPrincipalName());
-
-            Element message = (Element) notificationRequestDocument.getElementsByTagName("message").item(0);
-            message.setTextContent("The IRB Protocol " + DOC_LINK + protocol.getProtocolDocument().getDocumentNumber() + "\">" 
-                    + protocol.getProtocolNumber() + "</a> has administrative correction made to it. <br/>" 
-                    + " Comments : " + adminCorrectionBean.getComments());
-
-            Element title = (Element) notificationRequestDocument.getElementsByTagName("title").item(0);
-            title.setTextContent("Administrative Correction has been made to Protocol " + protocol.getProtocolNumber());
-
-            Element sendDateTime = (Element) notificationRequestDocument.getElementsByTagName("sendDateTime").item(0);
-            sendDateTime.setTextContent(Util.toXSDDateTimeString(Calendar.getInstance().getTime()));
-        }
-        finally {
-            if (is != null) {
-                is.close();
-            }
-        }
-
-        String XML = XmlJotter.jotNode(notificationRequestDocument, true);
-        //Waiting for rice KEN bootstrap to be corrected
-        sendNotificationService.invoke(XML);
-    }
-
-    public void setSendNotificationService(SendNotificationService sendNotificationService) {
-        this.sendNotificationService = sendNotificationService;
-    }
-
-    public void setNotificationTemplates(List<String> notificationTemplates) {
-        this.notificationTemplates = notificationTemplates;
-    }
-
+	//    private SendNotificationService sendNotificationService;
+//    private List<String> notificationTemplates;
+//    private static final String DOC_LINK = "<a title=\"\" target=\"_self\" href=\"../kew/DocHandler.do?command=displayDocSearchView&amp;docId=";
+//    
+//    public void sendCorrectionNotification(Protocol protocol, AdminCorrectionBean adminCorrectionBean) throws Exception {
+//        String adminCorrectionNotificationTemplate = notificationTemplates.get(0);
+//        InputStream is = this.getClass().getResourceAsStream(adminCorrectionNotificationTemplate);
+//        Document notificationRequestDocument;
+//
+//        try {
+//            notificationRequestDocument = Util.parse(new InputSource(is), false, false, null);
+//            Element recipientUser = (Element) notificationRequestDocument.getElementsByTagName("user").item(0);
+//            ProtocolPerson principalInvestigator = protocol.getPrincipalInvestigator();
+//            if (!principalInvestigator.isNonEmployee()) {
+//                recipientUser.setTextContent(principalInvestigator.getPerson().getUserName());
+//            } else {
+//                recipientUser.setTextContent(principalInvestigator.getRolodex().getFullName());
+//            }
+//
+//            Element sender = (Element) notificationRequestDocument.getElementsByTagName("sender").item(0);
+//            sender.setTextContent(GlobalVariables.getUserSession().getPrincipalName());
+//
+//            Element message = (Element) notificationRequestDocument.getElementsByTagName("message").item(0);
+//            message.setTextContent("The IRB Protocol " + DOC_LINK + protocol.getProtocolDocument().getDocumentNumber() + "\">" 
+//                    + protocol.getProtocolNumber() + "</a> has administrative correction made to it. <br/>" 
+//                    + " Comments : " + adminCorrectionBean.getComments());
+//
+//            Element title = (Element) notificationRequestDocument.getElementsByTagName("title").item(0);
+//            title.setTextContent("Administrative Correction has been made to Protocol " + protocol.getProtocolNumber());
+//
+//            Element sendDateTime = (Element) notificationRequestDocument.getElementsByTagName("sendDateTime").item(0);
+//            sendDateTime.setTextContent(Util.toXSDDateTimeString(Calendar.getInstance().getTime()));
+//        }
+//        finally {
+//            if (is != null) {
+//                is.close();
+//            }
+//        }
+//
+//        String XML = XmlJotter.jotNode(notificationRequestDocument, true);
+//        //Waiting for rice KEN bootstrap to be corrected
+//        sendNotificationService.invoke(XML);
+//    }
+//
+//    public void setSendNotificationService(SendNotificationService sendNotificationService) {
+//        this.sendNotificationService = sendNotificationService;
+//    }
+//
+//    public void setNotificationTemplates(List<String> notificationTemplates) {
+//        this.notificationTemplates = notificationTemplates;
+//    }
+//
 
 }

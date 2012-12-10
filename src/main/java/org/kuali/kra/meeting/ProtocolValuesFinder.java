@@ -15,59 +15,62 @@
  */
 package org.kuali.kra.meeting;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
-
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.common.committee.meeting.ProtocolValuesFinderBase;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
-import org.kuali.rice.core.api.util.ConcreteKeyValue;
-import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
-import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 
 /**
  * 
  * This class is to find protocols submitted to this committee schedule.
  */
-public class ProtocolValuesFinder extends KeyValuesBase {
-    private String scheduleId;
+public class ProtocolValuesFinder extends ProtocolValuesFinderBase {
 
     /**
-     * @see org.kuali.core.lookup.keyvalues.KeyValuesBase#getKeyValues()
+     * Comment for <code>serialVersionUID</code>
      */
-    public List getKeyValues() {
+    private static final long serialVersionUID = -6742435002576211916L;
 
-        // note: the following will overwrite existing elements in the tree; that's the whole point.  We
-        // want discrete values in the list.
-        TreeMap<String, KeyValue> valuesMap = new TreeMap<String, KeyValue>();
-        for (ProtocolSubmission protocolSubmission : getProtocols()) {
-            KeyValue keyValue = new ConcreteKeyValue(protocolSubmission.getProtocolId().toString(), protocolSubmission.getProtocolNumber());
-            valuesMap.put(protocolSubmission.getProtocolNumber(), keyValue);
-        }
-        List<KeyValue> keyValues = new ArrayList<KeyValue>(valuesMap.values());
-        keyValues.add(0, new ConcreteKeyValue("", "select"));
-        return keyValues;
+    @Override
+    protected Class<? extends ProtocolSubmissionBase> getProtocolSubmissionBOClassHook() {
+        return ProtocolSubmission.class;
     }
-
-    private List<ProtocolSubmission> getProtocols() {
-        Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put("scheduleIdFk", scheduleId);
-        return (List<ProtocolSubmission>) getBusinessObjectService().findMatching(ProtocolSubmission.class, fieldValues);
-    }
-
-    protected BusinessObjectService getBusinessObjectService() {
-        return KraServiceLocator.getService(BusinessObjectService.class);
-    }
-
-    public String getScheduleId() {
-        return scheduleId;
-    }
-
-    public void setScheduleId(String scheduleId) {
-        this.scheduleId = scheduleId;
-    }
+    
+// TODO ********************** commented out during IRB backfit ************************    
+//    private String scheduleId;
+//
+//    /**
+//     * @see org.kuali.core.lookup.keyvalues.KeyValuesBase#getKeyValues()
+//     */
+//    public List getKeyValues() {
+//
+//        // note: the following will overwrite existing elements in the tree; that's the whole point.  We
+//        // want discrete values in the list.
+//        TreeMap<String, KeyValue> valuesMap = new TreeMap<String, KeyValue>();
+//        for (ProtocolSubmission protocolSubmission : getProtocols()) {
+//            KeyValue keyValue = new ConcreteKeyValue(protocolSubmission.getProtocolId().toString(), protocolSubmission.getProtocolNumber());
+//            valuesMap.put(protocolSubmission.getProtocolNumber(), keyValue);
+//        }
+//        List<KeyValue> keyValues = new ArrayList<KeyValue>(valuesMap.values());
+//        keyValues.add(0, new ConcreteKeyValue("", "select"));
+//        return keyValues;
+//    }
+//
+//    private List<ProtocolSubmission> getProtocols() {
+//        Map<String, String> fieldValues = new HashMap<String, String>();
+//        fieldValues.put("scheduleIdFk", scheduleId);
+//        return (List<ProtocolSubmission>) getBusinessObjectService().findMatching(ProtocolSubmission.class, fieldValues);
+//    }
+//
+//    protected BusinessObjectService getBusinessObjectService() {
+//        return KraServiceLocator.getService(BusinessObjectService.class);
+//    }
+//
+//    public String getScheduleId() {
+//        return scheduleId;
+//    }
+//
+//    public void setScheduleId(String scheduleId) {
+//        this.scheduleId = scheduleId;
+//    }
 
 }

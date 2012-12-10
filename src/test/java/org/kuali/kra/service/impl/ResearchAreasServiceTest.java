@@ -39,7 +39,7 @@ import org.kuali.kra.committee.bo.CommitteeResearchArea;
 import org.kuali.kra.dao.ResearchAreaReferencesDao;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.protocol.research.ProtocolResearchArea;
-import org.kuali.kra.service.ResearchAreaCurrentReferencerHolder;
+import org.kuali.kra.service.ResearchAreaCurrentReferencerHolderBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 @RunWith(JMock.class)
@@ -856,7 +856,7 @@ public class ResearchAreasServiceTest {
 
         };
         researchAreasService.setBusinessObjectService(businessObjectService);
-        Assert.assertTrue(researchAreasService.getAnyCurrentReferencerForResearchAreaOrDescendant(researchArea_0.getResearchAreaCode()) == ResearchAreaCurrentReferencerHolder.NO_REFERENCER);
+        Assert.assertTrue(researchAreasService.getAnyCurrentReferencerForResearchAreaOrDescendant(researchArea_0.getResearchAreaCode()) == ResearchAreaCurrentReferencerHolderBase.NO_REFERENCER);
         
         
         // case: an RA is referenced by a protocol
@@ -890,15 +890,15 @@ public class ResearchAreasServiceTest {
             }
         };
         researchAreasService.setBusinessObjectService(businessObjectService);        
-        ResearchAreaCurrentReferencerHolder referencer = researchAreasService.getAnyCurrentReferencerForResearchAreaOrDescendant(researchArea_0.getResearchAreaCode());
+        ResearchAreaCurrentReferencerHolderBase referencer = researchAreasService.getAnyCurrentReferencerForResearchAreaOrDescendant(researchArea_0.getResearchAreaCode());
         Assert.assertTrue(referencer.getResearchAreaCode().equals(researchArea_0_1_1.getResearchAreaCode()));
         Assert.assertTrue(referencer.getCurrentReferencingProtocol() == p1);
         Assert.assertTrue(referencer.getCurrentReferencingCommittee() == null);
         Assert.assertTrue(referencer.getCurrentReferencingCommitteeMembership() == null);
         Assert.assertTrue(referencer.getMessage().equals( "Research area " + researchArea_0_1_1.getResearchAreaCode() + " is referenced by current version of protocol with number " + p1.getProtocolNumber()));
         
-        Assert.assertTrue(researchAreasService.getAnyCurrentReferencerForResearchAreaOrDescendant(researchArea_0_0.getResearchAreaCode()) == ResearchAreaCurrentReferencerHolder.NO_REFERENCER);
-        Assert.assertTrue(researchAreasService.getAnyCurrentReferencerForResearchAreaOrDescendant(researchArea_0_2.getResearchAreaCode()) == ResearchAreaCurrentReferencerHolder.NO_REFERENCER);
+        Assert.assertTrue(researchAreasService.getAnyCurrentReferencerForResearchAreaOrDescendant(researchArea_0_0.getResearchAreaCode()) == ResearchAreaCurrentReferencerHolderBase.NO_REFERENCER);
+        Assert.assertTrue(researchAreasService.getAnyCurrentReferencerForResearchAreaOrDescendant(researchArea_0_2.getResearchAreaCode()) == ResearchAreaCurrentReferencerHolderBase.NO_REFERENCER);
         
         
         // case: An RA is referenced by a committee (and another one down-the-line is referenced by a protocol). Check that the RAs following the one referenced by the committee (in depth-first order) are not checked, instead the recursion simply unwinds from that point. 

@@ -20,10 +20,10 @@ import java.util.Map;
 
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.committee.bo.CommitteeSchedule;
+import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
-import org.kuali.kra.printing.xmlstream.PrintBaseXmlStream;
+import org.kuali.kra.protocol.actions.print.CorrespondenceXmlStreamBase;
 
 import edu.mit.irb.irbnamespace.CorrespondenceDocument;
 import edu.mit.irb.irbnamespace.CorrespondenceDocument.Correspondence;
@@ -31,7 +31,7 @@ import edu.mit.irb.irbnamespace.CorrespondenceDocument.Correspondence;
 /**
  * This class is used to populate the xml beans objects for Correspondence schema elements in irb.xsd
  */
-public class CorrespondenceXmlStream extends PrintBaseXmlStream {
+public class CorrespondenceXmlStream extends CorrespondenceXmlStreamBase {
     private ProtocolXmlStream protocolXmlStream;
     /**
      * @see org.kuali.kra.printing.xmlstream.XmlStream#generateXmlStream(KraPersistableBusinessObjectBase, java.util.Map)
@@ -42,7 +42,7 @@ public class CorrespondenceXmlStream extends PrintBaseXmlStream {
         String scheduleId=null;
         Integer submissionNumber = null;
         if(protocolSubmission!=null){
-            CommitteeSchedule committeeSchedule = protocolSubmission.getCommitteeSchedule();
+            CommitteeScheduleBase committeeSchedule = protocolSubmission.getCommitteeSchedule();
             scheduleId = committeeSchedule!=null?committeeSchedule.getScheduleId():null;
             submissionNumber = protocolSubmission.getSubmissionNumber();
         }

@@ -30,6 +30,7 @@ import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewService;
 import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.test.ProtocolFactory;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.KraWorkflowService;
 import org.kuali.kra.service.UnitAuthorizationService;
@@ -90,7 +91,7 @@ public abstract class ProtocolAuthorizerTestBase extends KcUnitTestBase {
         throws Exception {
         
         ProtocolDocument document = ProtocolFactory.createProtocolDocument(protocolNumber);
-        List<ProtocolSubmission> submissions = new ArrayList<ProtocolSubmission>();
+        List<ProtocolSubmissionBase> submissions = new ArrayList<ProtocolSubmissionBase>();
         ProtocolSubmission submission = new ProtocolSubmission();
         submission.setSubmissionStatusCode(submissionStatusCode);
         submissions.add(submission);

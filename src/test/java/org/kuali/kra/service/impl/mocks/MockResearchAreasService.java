@@ -22,7 +22,7 @@ import org.kuali.kra.bo.ResearchArea;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.service.ResearchAreaCurrentReferencerHolder;
+import org.kuali.kra.service.ResearchAreaCurrentReferencerHolderBase;
 import org.kuali.kra.service.ResearchAreasService;
 
 public class MockResearchAreasService implements ResearchAreasService {
@@ -72,7 +72,7 @@ public class MockResearchAreasService implements ResearchAreasService {
         
     }
 
-    public ResearchAreaCurrentReferencerHolder getAnyCurrentReferencerForResearchAreaOrDescendant(String researchAreaCode) {
+    public ResearchAreaCurrentReferencerHolderBase getAnyCurrentReferencerForResearchAreaOrDescendant(String researchAreaCode) {
         // TODO Auto-generated method stub
         return null;
     }

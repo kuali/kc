@@ -19,13 +19,19 @@ import java.io.Serializable;
 import java.sql.Date;
 
 import org.kuali.kra.committee.bo.Committee;
+import org.kuali.kra.common.committee.bo.CommitteeBase;
 import org.kuali.kra.irb.actions.ActionHelper;
 import org.kuali.kra.irb.actions.ProtocolActionBean;
 
 /**
  * This class is really just a "form" for notifying the Committee.
  */
-public class ProtocolNotifyCommitteeBean extends ProtocolActionBean implements Serializable {
+public class ProtocolNotifyCommitteeBean extends ProtocolActionBean implements org.kuali.kra.protocol.actions.notifycommittee.ProtocolNotifyCommitteeBean {
+    
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = 6386919161260179234L;
     
     private String comment = "";
     private Committee committee;
@@ -37,7 +43,7 @@ public class ProtocolNotifyCommitteeBean extends ProtocolActionBean implements S
      */
     public ProtocolNotifyCommitteeBean(ActionHelper actionHelper) {
         super(actionHelper);
-        committee = actionHelper.getProtocol().getProtocolSubmission().getCommittee();
+        committee = (Committee) actionHelper.getProtocol().getProtocolSubmission().getCommittee();
     }
 
     public String getComment() {
@@ -56,8 +62,8 @@ public class ProtocolNotifyCommitteeBean extends ProtocolActionBean implements S
         return committee.getCommitteeName();
     }
 
-    public void setCommittee(Committee committee) {
-        this.committee = committee;
+    public void setCommittee(CommitteeBase committee) {
+        this.committee = (Committee) committee;
     }
 
     public Date getActionDate() {

@@ -19,10 +19,9 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.ApplicationTask;
-import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
-import org.kuali.kra.irb.ProtocolDocument;
+import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceBase;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.kra.irb.Protocol;
@@ -68,13 +67,13 @@ public class CreateProposalDevelopmentProtocolAuthorizer extends ProtocolAuthori
             validProposalRequiredFields = false;
         }
         // find sponsor from funding source
-        List<ProtocolFundingSource> protocolFundingSources = protocol.getProtocolFundingSources();
+        List<ProtocolFundingSourceBase> protocolFundingSources = protocol.getProtocolFundingSources();
         ProtocolFundingSource sponsorProtocolFundingSource = null; 
-        for(ProtocolFundingSource protocolFundingSource : protocolFundingSources)
+        for(ProtocolFundingSourceBase protocolFundingSource : protocolFundingSources)
         {
             if ( protocolFundingSource.isSponsorFunding() )
             {
-                sponsorProtocolFundingSource = protocolFundingSource;
+                sponsorProtocolFundingSource = (ProtocolFundingSource) protocolFundingSource;
                 break;
             }
         }

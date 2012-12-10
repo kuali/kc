@@ -15,19 +15,17 @@
  */
 package org.kuali.kra.irb.actions.print;
 
-import java.util.List;
-
-import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.printing.Printable;
-import org.kuali.kra.printing.PrintingException;
-import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
+import org.kuali.kra.protocol.actions.print.ProtocolPrintType;
+
 
 /**
  * 
  * This class is for Protocol print in protocol actions page
  */
-public interface ProtocolPrintingService {
-   
+public interface ProtocolPrintingService extends org.kuali.kra.protocol.actions.print.ProtocolPrintingService {
+
+
     /**
      * 
      * This method is to get the printable for the selected report.
@@ -35,23 +33,24 @@ public interface ProtocolPrintingService {
      * @return
      */
     Printable getProtocolPrintable(ProtocolPrintType reportType);
-    
-    /**
-     * 
-     * This method to print the report.  Actually this service is just use PrintingService's print
-     * But need to be defined here.
-     * @param printableArtifactList
-     * @return
-     * @throws PrintingException
-     */
-    AttachmentDataSource print(String reportName, List<Printable> printableArtifactList) throws PrintingException;
-    
-    /**
-     * 
-     * This method is to get the printable Artifacts for the selected protocol.
-     * @param protocol
-     * @return
-     */
-    Printable getProtocolPrintArtifacts(Protocol protocol) ; 
+
+// TODO ********************** commented out during IRB backfit ************************    
+//    /**
+//     * 
+//     * This method to print the report.  Actually this service is just use PrintingService's print
+//     * But need to be defined here.
+//     * @param printableArtifactList
+//     * @return
+//     * @throws PrintingException
+//     */
+//    AttachmentDataSource print(String reportName, List<Printable> printableArtifactList) throws PrintingException;
+//    
+//    /**
+//     * 
+//     * This method is to get the printable Artifacts for the selected protocol.
+//     * @param protocol
+//     * @return
+//     */
+//    Printable getProtocolPrintArtifacts(Protocol protocol) ; 
    
 }

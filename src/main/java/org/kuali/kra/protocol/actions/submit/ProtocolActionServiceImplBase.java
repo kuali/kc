@@ -308,6 +308,12 @@ public abstract class ProtocolActionServiceImplBase implements ProtocolActionSer
         ProtocolActionUpdateMapping protocolAction = getNewProtocolActionUpdateMappingHook(protocolActionBo.getProtocolActionTypeCode(),
             protocol.getProtocolSubmission().getProtocolSubmissionType().getSubmissionTypeCode(), protocol.getProtocolStatusCode(),
             specialCondition);
+        
+// TODO ********************** added or modified during IRB backfit merge BEGIN ************************         
+        // this line was added during IRB backfit merge with the assumption that this refreshing will be needed for IACUC as well
+        protocol.refreshReferenceObject("protocolSubmission");
+// TODO ********************** added or modified during IRB backfit merge END ************************ 
+        
         protocolAction.setProtocol(protocol);
         protocolAction.setProtocolSubmission(protocol.getProtocolSubmission());
         protocolAction.setProtocolAction(protocolActionBo);

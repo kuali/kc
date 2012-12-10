@@ -37,6 +37,7 @@ public class ProtocolReviewerValuesFinder extends IrbActionsKeyValuesBase {
      */
     private static final long serialVersionUID = 6339476452241934050L;
 
+    @SuppressWarnings("unchecked")
     public List<KeyValue> getKeyValues() {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         keyValues.add(new ConcreteKeyValue("", "select"));
@@ -45,7 +46,7 @@ public class ProtocolReviewerValuesFinder extends IrbActionsKeyValuesBase {
         if (protocol != null) {
             ProtocolSubmission submission = getCurrentSubmission(protocol);
             if (submission != null) {
-                List<ProtocolReviewer> reviewers = submission.getProtocolReviewers();
+                List<ProtocolReviewer> reviewers = (List)submission.getProtocolReviewers();
                 for (ProtocolReviewer reviewer : reviewers) {
                     keyValues.add(new ConcreteKeyValue(reviewer.getProtocolReviewerId().toString(), reviewer.getFullName()));
                 }
@@ -63,8 +64,10 @@ public class ProtocolReviewerValuesFinder extends IrbActionsKeyValuesBase {
 //        }
 //    }
 
+    @SuppressWarnings("unchecked")
     private ProtocolSubmission getCurrentSubmission(Protocol protocol) {
-        for (ProtocolSubmission submission : protocol.getProtocolSubmissions()) {
+        List<ProtocolSubmission> protocolSubmissions = (List)protocol.getProtocolSubmissions();
+        for (ProtocolSubmission submission : protocolSubmissions) {
             if (StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.IN_AGENDA) ||
                 StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE)) {
                 return submission;

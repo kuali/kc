@@ -29,10 +29,10 @@ import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.bo.CommitteeMembershipExpertise;
-import org.kuali.kra.committee.bo.CommitteeMembershipRole;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.committee.test.CommitteeFactory;
+import org.kuali.kra.common.committee.bo.CommitteeMembershipRole;
 import org.kuali.kra.common.committee.web.struts.form.schedule.Time12HrFmt;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
@@ -41,6 +41,8 @@ import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.kra.irb.test.ProtocolFactory;
+import org.kuali.kra.protocol.actions.submit.ProtocolReviewerBeanBase;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.kra.service.RolodexService;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -198,7 +200,7 @@ public class ProtocolSubmitActionServiceTest extends KcUnitTestBase {
         
         assertEquals(protocolDocument.getProtocol().getProtocolStatusCode(), ProtocolStatus.SUBMITTED_TO_IRB);
         verifyAction(protocolAction, protocolSubmission);
-        List<ProtocolSubmission> protocolSubmissions =protocolDocument.getProtocol().getProtocolSubmissions();
+        List<ProtocolSubmissionBase> protocolSubmissions =protocolDocument.getProtocol().getProtocolSubmissions();
         protocolSubmissions.add(protocolSubmission);
         protocolDocument.getProtocol().setProtocolSubmissions(protocolSubmissions);
         protocolDocument.getProtocol().setProtocolSubmission(protocolSubmission);
@@ -376,15 +378,15 @@ public class ProtocolSubmitActionServiceTest extends KcUnitTestBase {
         assertEquals(convert(submitAction.getNewCommitteeId()), convert(submission.getCommitteeId()));
         assertEquals(convert(submitAction.getNewScheduleId()), convert(submission.getScheduleId()));
         
-        assertEquals(getReviewCount(submitAction.getReviewers()), getCount(submission.getProtocolReviewers()));
+        assertEquals(getReviewCount((List)submitAction.getReviewers()), getCount(submission.getProtocolReviewers()));
         assertEquals(getExemptStudiesCount(submitAction.getExemptStudiesCheckList()), getCount(submission.getExemptStudiesCheckList()));
         assertEquals(getExpeditedReviewCount(submitAction.getExpeditedReviewCheckList()), getCount(submission.getExpeditedReviewCheckList()));
     
         int index = 0;
         if (submitAction.getReviewers() != null) {
-            for (ProtocolReviewerBean reviewerBean : submitAction.getReviewers()) {
+            for (ProtocolReviewerBeanBase reviewerBean : submitAction.getReviewers()) {
                 if (StringUtils.isNotBlank(reviewerBean.getReviewerTypeCode())) {
-                    verifyReviewer(reviewerBean, submission.getProtocolReviewers().get(index++));
+                    verifyReviewer((ProtocolReviewerBean) reviewerBean, (ProtocolReviewer) submission.getProtocolReviewers().get(index++));
                 }
             }
         }

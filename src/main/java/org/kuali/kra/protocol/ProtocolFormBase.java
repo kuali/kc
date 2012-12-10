@@ -77,9 +77,7 @@ public abstract class ProtocolFormBase extends KraTransactionalDocumentFormBase 
     private PersonnelHelperBase personnelHelper;
     private ProtocolCustomDataHelperBase customDataHelper;
     private ProtocolSpecialReviewHelperBase specialReviewHelper;
-
-    private ActionHelperBase actionHelper;
-    
+    private ActionHelperBase actionHelper;    
     private OnlineReviewsActionHelperBase onlineReviewsActionHelper;
     private QuestionnaireHelperBase questionnaireHelper;    
     private NotificationHelper<ProtocolNotificationContextBase> protocolNotificationHelper;  
@@ -117,27 +115,22 @@ public abstract class ProtocolFormBase extends KraTransactionalDocumentFormBase 
     public void initialize() throws Exception {
         setProtocolHelper(createNewProtocolHelperInstanceHook(this));
         setPersonnelHelper(createNewPersonnelHelperInstanceHook(this));
-        setPermissionsHelper(createNewPermissionsHelperInstanceHook(this));
-        
+        setPermissionsHelper(createNewPermissionsHelperInstanceHook(this));        
         setCustomDataHelper(createNewCustomDataHelperInstanceHook(this)); 
         setSpecialReviewHelper(createNewSpecialReviewHelperInstanceHook(this));
         setActionHelper(createNewActionHelperInstanceHook(this));
-        setQuestionnaireHelper(createNewQuestionnaireHelperInstanceHook(this));
-        
-        setNotesAttachmentsHelper(createNewNotesAttachmentsHelperInstanceHook(this));
-        this.notesAttachmentsHelper.prepareView();
+        setQuestionnaireHelper(createNewQuestionnaireHelperInstanceHook(this));        
+        setNotesAttachmentsHelper(createNewNotesAttachmentsHelperInstanceHook(this));   
+        this.notesAttachmentsHelper.prepareView();        
         setNewProtocolReferenceBean(createNewProtocolReferenceBeanInstance());
         setOnlineReviewsActionHelper(createNewOnlineReviewsActionHelperInstanceHook(this));
+        setNotificationHelper(getNotificationHelperHook());
         setMedusaBean(new MedusaBean());
-        
-// TODO *********commented the code below during IACUC refactoring*********         
-//        setNotificationHelper(new NotificationHelper<IRBNotificationContext>());
-            setNotificationHelper(getNotificationHelperHook());
     }
        
   
 
-    protected abstract NotificationHelper getNotificationHelperHook();
+    protected abstract NotificationHelper<? extends ProtocolNotificationContextBase> getNotificationHelperHook();
     
     protected abstract ProtocolReferenceBeanBase createNewProtocolReferenceBeanInstance();
 
@@ -282,7 +275,8 @@ public abstract class ProtocolFormBase extends KraTransactionalDocumentFormBase 
         super.reset(mapping, request);
         this.setLookupResultsSequenceNumber(null);
         this.setLookupResultsBOClassName(null);
-        //onlineReviewsActionHelper.init(true);
+        
+        onlineReviewsActionHelper.init(true);
     }
     
     public String getLookupResultsSequenceNumber() {
@@ -452,19 +446,20 @@ public abstract class ProtocolFormBase extends KraTransactionalDocumentFormBase 
     public KraAuthorizationService getKraAuthorizationService() {
         return KraServiceLocator.getService(KraAuthorizationService.class);
     }
-    
-    /**
-     * 
-     * This method returns true if the risk level panel should be displayed.
-     * @return
-     */
-    public boolean getDisplayRiskLevelPanel() {
-        return true;
-// TODO *********commented the code below during IACUC refactoring*********        
-//        return this.getProtocolDocument().getProtocol().getProtocolRiskLevels() != null 
-//            && this.getProtocolDocument().getProtocol().getProtocolRiskLevels().size() > 0;
-        
-    }
+
+// TODO ********************** commented out during IRB backfit ************************ PUSHED DOWN TO IRB    
+//    /**
+//     * 
+//     * This method returns true if the risk level panel should be displayed.
+//     * @return
+//     */
+//    public boolean getDisplayRiskLevelPanel() {
+//        return true;
+//// TODO *********commented the code below during IACUC refactoring*********        
+////        return this.getProtocolDocument().getProtocol().getProtocolRiskLevels() != null 
+////            && this.getProtocolDocument().getProtocol().getProtocolRiskLevels().size() > 0;
+//        
+//    }
     
     public List<ExtraButton> getExtraActionsButtons() {
         // clear out the extra buttons array
@@ -521,10 +516,6 @@ public abstract class ProtocolFormBase extends KraTransactionalDocumentFormBase 
     public String getQuestionnaireFieldEnd() {
         return DEFAULT_END;
     }
-//    protected ProtocolOnlineReviewService getProtocolOnlineReviewService() {
-//        return KraServiceLocator.getService(IacucProtocolOnlineReviewService.class);
-//    }
-
 
     public MedusaBean getMedusaBean() {
         return medusaBean;

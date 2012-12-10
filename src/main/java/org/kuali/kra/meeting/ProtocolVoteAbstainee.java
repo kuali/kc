@@ -15,25 +15,29 @@
  */
 package org.kuali.kra.meeting;
 
+import org.kuali.kra.common.committee.meeting.ProtocolVoteAbstaineeBase;
+
 
 /**
  * 
  * This class is for member abstained from vote.
  */
-public class ProtocolVoteAbstainee extends ProtocolMeetingVoter {
+public class ProtocolVoteAbstainee extends ProtocolVoteAbstaineeBase {
 
     private static final long serialVersionUID = 6207540592702779528L;
 
-    private Long protocolVoteAbstaineesId;
-
-    public ProtocolVoteAbstainee() {
-    }
-
-    public Long getProtocolVoteAbstaineesId() {
-        return protocolVoteAbstaineesId;
-    }
-
-    public void setProtocolVoteAbstaineesId(Long protocolVoteAbstaineesId) {
-        this.protocolVoteAbstaineesId = protocolVoteAbstaineesId;
-    }
+// TODO ********************** commented out during IRB backfit ************************    
+//    private Long protocolVoteAbstaineesId;
+//
+//    public ProtocolVoteAbstainee() {
+//    }
+//
+//    public Long getProtocolVoteAbstaineesId() {
+//        return protocolVoteAbstaineesId;
+//    }
+//
+//    public void setProtocolVoteAbstaineesId(Long protocolVoteAbstaineesId) {
+//        this.protocolVoteAbstaineesId = protocolVoteAbstaineesId;
+//    }
+    
 }

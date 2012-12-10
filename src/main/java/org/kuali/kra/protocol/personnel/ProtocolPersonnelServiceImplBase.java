@@ -48,7 +48,7 @@ public abstract class ProtocolPersonnelServiceImplBase implements ProtocolPerson
     private KcPersonService kcPersonService;
     private UnitService unitService;
     
-    private PersonEditableService personEditableService;
+    protected PersonEditableService personEditableService;
     
 
     private static final String REFERENCE_PERSON_ROLE = "protocolPersonRole";
@@ -524,36 +524,37 @@ public abstract class ProtocolPersonnelServiceImplBase implements ProtocolPerson
 
     
     
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.kra.protocol.personnel.ProtocolPersonnelService#setPrincipalInvestigator(org.kuali.kra.protocol.personnel.ProtocolPersonBase, 
-     *                                                                                    org.kuali.kra.protocol.ProtocolBase)
-     */
-    public void setPrincipalInvestigator(ProtocolPersonBase newPrincipalInvestigator, ProtocolBase protocol) {
-        if (protocol != null) {
-            ProtocolPersonBase currentPrincipalInvestigator = getPrincipalInvestigator(protocol.getProtocolPersons());
-            
-            if (newPrincipalInvestigator != null) {
-                newPrincipalInvestigator.setProtocolPersonRoleId(getPrincipalInvestigatorRole());
-                if (currentPrincipalInvestigator == null) {
-                    protocol.getProtocolPersons().add(newPrincipalInvestigator);
-                } else if (!isDuplicatePerson(protocol.getProtocolPersons(), newPrincipalInvestigator)) {
-                    protocol.getProtocolPersons().remove(currentPrincipalInvestigator);
-                    protocol.getProtocolPersons().add(newPrincipalInvestigator);
-                }
-                
-                // Assign the PI the AGGREGATOR role if PI has a personId.
-                if (newPrincipalInvestigator.getPersonId() != null) {
-                    personEditableService.populateContactFieldsFromPersonId(newPrincipalInvestigator);
-                    KraAuthorizationService kraAuthService = KraServiceLocator.getService(KraAuthorizationService.class);
-                    kraAuthService.addRole(newPrincipalInvestigator.getPersonId(), RoleConstants.IACUC_PROTOCOL_AGGREGATOR, protocol);
-                    kraAuthService.addRole(newPrincipalInvestigator.getPersonId(), RoleConstants.IACUC_PROTOCOL_APPROVER, protocol);
-                } else {
-                    personEditableService.populateContactFieldsFromRolodexId(newPrincipalInvestigator);
-                }
-            }
-        }
-    }
+// TODO ********************** commented out during IRB backfit ************************ PUSHED DOWN TO SUBCLASSES    
+//    /**
+//     * {@inheritDoc}
+//     * @see org.kuali.kra.protocol.personnel.ProtocolPersonnelService#setPrincipalInvestigator(org.kuali.kra.protocol.personnel.ProtocolPersonBase, 
+//     *                                                                                    org.kuali.kra.protocol.ProtocolBase)
+//     */
+//    public void setPrincipalInvestigator(ProtocolPersonBase newPrincipalInvestigator, ProtocolBase protocol) {
+//        if (protocol != null) {
+//            ProtocolPersonBase currentPrincipalInvestigator = getPrincipalInvestigator(protocol.getProtocolPersons());
+//            
+//            if (newPrincipalInvestigator != null) {
+//                newPrincipalInvestigator.setProtocolPersonRoleId(getPrincipalInvestigatorRole());
+//                if (currentPrincipalInvestigator == null) {
+//                    protocol.getProtocolPersons().add(newPrincipalInvestigator);
+//                } else if (!isDuplicatePerson(protocol.getProtocolPersons(), newPrincipalInvestigator)) {
+//                    protocol.getProtocolPersons().remove(currentPrincipalInvestigator);
+//                    protocol.getProtocolPersons().add(newPrincipalInvestigator);
+//                }
+//                
+//                // Assign the PI the AGGREGATOR role if PI has a personId.
+//                if (newPrincipalInvestigator.getPersonId() != null) {
+//                    personEditableService.populateContactFieldsFromPersonId(newPrincipalInvestigator);
+//                    KraAuthorizationService kraAuthService = KraServiceLocator.getService(KraAuthorizationService.class);
+//                    kraAuthService.addRole(newPrincipalInvestigator.getPersonId(), RoleConstants.IACUC_PROTOCOL_AGGREGATOR, protocol);
+//                    kraAuthService.addRole(newPrincipalInvestigator.getPersonId(), RoleConstants.IACUC_PROTOCOL_APPROVER, protocol);
+//                } else {
+//                    personEditableService.populateContactFieldsFromRolodexId(newPrincipalInvestigator);
+//                }
+//            }
+//        }
+//    }
 
     
     /**

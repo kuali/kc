@@ -18,6 +18,7 @@ package org.kuali.kra.irb.actions.modifysubmission;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.proccessbillable.ProtocolProccessBillableService;
 import org.kuali.kra.irb.actions.submit.ExemptStudiesCheckListItem;
@@ -92,7 +93,7 @@ public class ProtocolModifySubmissionServiceImpl extends ProtocolProccessBillabl
             if (beanItem.getChecked()) {
                 ProtocolExemptStudiesCheckListItem newItem = new ProtocolExemptStudiesCheckListItem();
                 newItem.setExemptStudiesCheckListCode(beanItem.getExemptStudiesCheckListCode());
-                newItem.setProtocol(submission.getProtocol());
+                newItem.setProtocol((Protocol) submission.getProtocol());
                 newItem.setProtocolId(submission.getProtocolId());
                 newItem.setProtocolNumber(submission.getProtocolNumber());
                 newItem.setProtocolSubmission(submission);
@@ -109,7 +110,7 @@ public class ProtocolModifySubmissionServiceImpl extends ProtocolProccessBillabl
             if (beanItem.getChecked()) {
                 ProtocolExpeditedReviewCheckListItem newItem = new ProtocolExpeditedReviewCheckListItem();
                 newItem.setExpeditedReviewCheckListCode(beanItem.getExpeditedReviewCheckListCode());
-                newItem.setProtocol(submission.getProtocol());
+                newItem.setProtocol((Protocol) submission.getProtocol());
                 newItem.setProtocolId(submission.getProtocolId());
                 newItem.setProtocolNumber(submission.getProtocolNumber());
                 newItem.setProtocolSubmission(submission);

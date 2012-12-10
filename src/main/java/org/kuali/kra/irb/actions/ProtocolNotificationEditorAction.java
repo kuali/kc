@@ -33,13 +33,19 @@ import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolAction;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.irb.actions.notification.AssignReviewerNotificationRenderer;
 import org.kuali.kra.irb.actions.notification.ProtocolNotificationRequestBean;
 import org.kuali.kra.irb.notification.IRBNotificationContext;
+
+// TODO ********************** added or modified during IRB backfit merge BEGIN ************************ 
 import org.kuali.kra.irb.notification.IRBProtocolNotification;
+// TODO ********************** added or modified during IRB backfit merge END ************************ 
+
+import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -127,7 +133,11 @@ public class ProtocolNotificationEditorAction extends ProtocolAction {
         List<NotificationTypeRecipient> notificationRecipients = protocolForm.getNotificationHelper().getNotificationRecipients();
         
         if (applyRules(new SendNotificationEvent(document, notification, notificationRecipients))) {
+        
+// TODO ********************** added or modified during IRB backfit merge BEGIN ************************             
             protocolForm.getNotificationHelper().sendNotificationAndPersist(new IRBProtocolNotification(), document.getProtocol());
+// TODO ********************** added or modified during IRB backfit merge END ************************                 
+            
             String forwardName = protocolForm.getNotificationHelper().getNotificationContext().getForwardName();
             protocolForm.getNotificationHelper().setNotificationContext(null);
             if (StringUtils.isNotBlank(forwardName)) {
@@ -164,10 +174,10 @@ public class ProtocolNotificationEditorAction extends ProtocolAction {
     private ActionForward checkToSendNotification(ActionMapping mapping, ActionForward forward, ProtocolForm protocolForm,
             List<ProtocolNotificationRequestBean> notificationRequestBeans) {
 
-        AssignReviewerNotificationRenderer renderer = new AssignReviewerNotificationRenderer(notificationRequestBeans.get(0)
+        AssignReviewerNotificationRenderer renderer = new AssignReviewerNotificationRenderer((Protocol)notificationRequestBeans.get(0)
                 .getProtocol(), "removed");
-        IRBNotificationContext context = new IRBNotificationContext(notificationRequestBeans.get(0).getProtocol(),
-            notificationRequestBeans.get(0).getProtocolOnlineReview(), notificationRequestBeans.get(0).getActionType(),
+        IRBNotificationContext context = new IRBNotificationContext((Protocol)notificationRequestBeans.get(0).getProtocol(),
+            (ProtocolOnlineReview)notificationRequestBeans.get(0).getProtocolOnlineReview(), notificationRequestBeans.get(0).getActionType(),
             notificationRequestBeans.get(0).getDescription(), renderer);
 
         if (protocolForm.getNotificationHelper().getPromptUserForNotificationEditor(context)) {
@@ -190,7 +200,7 @@ public class ProtocolNotificationEditorAction extends ProtocolAction {
             int i = 1;
             // add all new reviewer to recipients
             while (notificationRequestBeans.size() > i) {
-                context = new IRBNotificationContext(notificationRequestBeans.get(i).getProtocol(), notificationRequestBeans.get(i)
+                context = new IRBNotificationContext((Protocol)notificationRequestBeans.get(i).getProtocol(), (ProtocolOnlineReview)notificationRequestBeans.get(i)
                         .getProtocolOnlineReview(), notificationRequestBeans.get(i).getActionType(), notificationRequestBeans
                         .get(i).getDescription(), renderer);
                 // protocolForm.getNotificationHelper().setNotificationRecipients(new ArrayList<NotificationTypeRecipient>());
@@ -239,17 +249,24 @@ public class ProtocolNotificationEditorAction extends ProtocolAction {
 //                    }
 //                }
 //                protocolForm.getNotificationHelper().setNotificationRecipients(allRecipients);
+  
+// TODO ********************** added or modified during IRB backfit merge BEGIN ************************             
 //                getKcNotificationService().sendNotification(context);
+// TODO ********************** added or modified during IRB backfit merge END ************************ 
+            
 //                i++;
 //            }
             return forward;
         }
     }
 
+// TODO ********************** added or modified during IRB backfit merge BEGIN ************************     
     private KcNotificationService getKcNotificationService() {
         return KraServiceLocator.getService(KcNotificationService.class);
     }
-
+// TODO ********************** added or modified during IRB backfit merge END ************************
+    
+    
     /**
      * Cancels a Notification.
      * 

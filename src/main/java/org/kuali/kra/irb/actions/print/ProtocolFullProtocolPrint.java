@@ -15,6 +15,9 @@
  */
 package org.kuali.kra.irb.actions.print;
 
+import org.kuali.kra.protocol.actions.print.ProtocolFullProtocolPrintBase;
+import org.kuali.kra.protocol.actions.print.ProtocolPrintWatermarkBase;
+
 
 /**
  * This class provides the implementation for printing Protocol Full Protocol Report. It
@@ -23,17 +26,23 @@ package org.kuali.kra.irb.actions.print;
  * this XML and XSls for any purpose like report generation, PDF streaming etc.
  * 
  */
-public class ProtocolFullProtocolPrint extends ProtocolReportPrint {
+public class ProtocolFullProtocolPrint extends ProtocolFullProtocolPrintBase {
 
     private static final long serialVersionUID = -2812548564327706244L;
-
-    /**
-     * 
-     * @see org.kuali.kra.irb.actions.print.ProtocolReportPrint#getProtocolPrintType()
-     */
-    public String getProtocolPrintType() {
-        return ProtocolPrintType.PROTOCOL_FULL_PROTOCOL_REPORT.getProtocolPrintType();
+    
+    @Override
+    protected ProtocolPrintWatermarkBase getNewProtocolPrintWatermarkInstanceHook() {
+        return new ProtocolPrintWatermark();
     }
 
-}
+// TODO ********************** commented out during IRB backfit ************************    
+//    /**
+//     * 
+//     * @see org.kuali.kra.irb.actions.print.ProtocolReportPrint#getProtocolPrintType()
+//     */
+//    public String getProtocolPrintType() {
+//        return ProtocolPrintType.PROTOCOL_FULL_PROTOCOL_REPORT.getProtocolPrintType();
+//    }
 
+    
+}

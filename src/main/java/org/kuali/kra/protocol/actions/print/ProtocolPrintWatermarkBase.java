@@ -135,8 +135,13 @@ public abstract class ProtocolPrintWatermarkBase implements Watermarkable {
 //                watermarkBean.setText(renderer.render(watermark.getWatermarkText()));
                 
               ProtocolNotificationRendererBase renderer = getNewProtocolNotificationRendererInstanceHook((ProtocolBase) getPersistableBusinessObject());
-              watermarkBean.setText(renderer.render(watermark.getWatermarkText()));
-                
+
+              // TODO ********************** added or modified during IRB backfit merge BEGIN ********************** 
+              if (watermark.getWatermarkText() != null) {
+                  watermarkBean.setText(renderer.render(watermark.getWatermarkText()));
+              } 
+           // TODO ********************** added or modified during IRB backfit merge END ************************
+
                 if (watermarkBean.getType().equals(WatermarkConstants.WATERMARK_TYPE_IMAGE)) {
                     watermarkBean.setText(watermark.getFileName());
                     byte[] imageData = watermark.getAttachmentContent();

@@ -15,15 +15,9 @@
  */
 package org.kuali.kra.protocol.customdata;
 
-import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.SortedMap;
-import java.util.TreeMap;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -31,19 +25,19 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.bo.CustomAttributeDocument;
+import org.kuali.kra.common.customattributes.CustomDataHelperBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.protocol.ProtocolFormBase;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * The CustomDataHelper is used to manage the Custom Data tab web page.
  * It contains the data, forms, and methods needed to render the page.
  */
-public abstract class ProtocolCustomDataHelperBase implements Serializable { 
+public abstract class ProtocolCustomDataHelperBase extends CustomDataHelperBase { 
     
 
     /**
@@ -56,14 +50,16 @@ public abstract class ProtocolCustomDataHelperBase implements Serializable {
      * so that it can access the document.
      */
     private ProtocolFormBase form;
-    
-    private SortedMap<String, List<CustomAttributeDocument>> customAttributeGroups;
-    private Map<String, String[]> customAttributeValues = new HashMap<String, String[]>();
+   
+// TODO ********************** commented out during IRB backfit ************************    
+//    private SortedMap<String, List<CustomAttributeDocument>> customAttributeGroups;
+//    private Map<String, String[]> customAttributeValues = new HashMap<String, String[]>();
     
     private transient BusinessObjectService businessObjectService;
     private transient TaskAuthorizationService taskAuthorizationService;
 
-    private boolean modifyCustomData = false;
+// TODO ********************** commented out during IRB backfit ************************    
+//    private boolean modifyCustomData = false;
 
     /**
      * Constructs a CustomDataHelper.
@@ -72,22 +68,23 @@ public abstract class ProtocolCustomDataHelperBase implements Serializable {
     public ProtocolCustomDataHelperBase(ProtocolFormBase form) {
         this.form = form;
     }
-    
-    public Map<String, List<CustomAttributeDocument>> getCustomAttributeGroups() {
-        return customAttributeGroups;
-    }
 
-    public void setCustomAttributeGroups(SortedMap<String, List<CustomAttributeDocument>> customAttributeGroups) {
-        this.customAttributeGroups = customAttributeGroups;
-    }
-
-    public Map<String, String[]> getCustomAttributeValues() {
-        return customAttributeValues;
-    }
-
-    public void setCustomAttributeValues(Map<String, String[]> customAttributeValues) {
-        this.customAttributeValues = customAttributeValues;
-    }
+// TODO ********************** commented out during IRB backfit ************************    
+//    public Map<String, List<CustomAttributeDocument>> getCustomAttributeGroups() {
+//        return customAttributeGroups;
+//    }
+//
+//    public void setCustomAttributeGroups(SortedMap<String, List<CustomAttributeDocument>> customAttributeGroups) {
+//        this.customAttributeGroups = customAttributeGroups;
+//    }
+//
+//    public Map<String, String[]> getCustomAttributeValues() {
+//        return customAttributeValues;
+//    }
+//
+//    public void setCustomAttributeValues(Map<String, String[]> customAttributeValues) {
+//        this.customAttributeValues = customAttributeValues;
+//    }
 
     /*
      * Get the ProtocolBase.
@@ -160,32 +157,33 @@ public abstract class ProtocolCustomDataHelperBase implements Serializable {
         }
         return businessObjectService;
     }
-    
-    /**
-     * 
-     * This method takes in a groupName from the data entry and return a valid string to use in the Map functions later.
-     * Note, data entry may create a null group name, which is invalid with the Map functions.
-     * @param groupName
-     * @return
-     */
-    public String getValidCustomAttributeGroupName(String groupName) {
-        return groupName != null ? groupName : "Custom Data Group";
-    }
-    
-    /**
-     * Get the userName of the user for the current session.
-     * @return the current session's userName
-     */
-    protected String getUserIdentifier() {
-         return GlobalVariables.getUserSession().getPrincipalId();
-    }
-    
-    /**
-     * Initialize the permissions for viewing/editing the Custom Data web page.
-     */
-    public void initializePermissions() {
-        modifyCustomData = canModifyCustomData();
-    }
+
+// TODO ********************** commented out during IRB backfit ************************    
+//    /**
+//     * 
+//     * This method takes in a groupName from the data entry and return a valid string to use in the Map functions later.
+//     * Note, data entry may create a null group name, which is invalid with the Map functions.
+//     * @param groupName
+//     * @return
+//     */
+//    public String getValidCustomAttributeGroupName(String groupName) {
+//        return groupName != null ? groupName : "Custom Data Group";
+//    }
+//    
+//    /**
+//     * Get the userName of the user for the current session.
+//     * @return the current session's userName
+//     */
+//    protected String getUserIdentifier() {
+//         return GlobalVariables.getUserSession().getPrincipalId();
+//    }
+//    
+//    /**
+//     * Initialize the permissions for viewing/editing the Custom Data web page.
+//     */
+//    public void initializePermissions() {
+//        modifyCustomData = canModifyCustomData();
+//    }
 
     /**
      * Can the current user modify the custom data values?
@@ -249,21 +247,22 @@ public abstract class ProtocolCustomDataHelperBase implements Serializable {
         }
         return taskAuthorizationService;
     }
-    
-    /**
-     * Clears the custom attribute value for the specified customAttributeId.
-     * @param customAttributeId The customAttributeId to clear
-     */
-    public void clearCustomAttributeValue(String customAttributeId) {
-        customAttributeValues.put("id" + customAttributeId, new String[]{""});
-    }
 
-    public boolean isModifyCustomData() {
-        return modifyCustomData;
-    }
-
-    public void setModifyCustomData(boolean modifyCustomData) {
-        this.modifyCustomData = modifyCustomData;
-    }
+// TODO ********************** commented out during IRB backfit ************************    
+//    /**
+//     * Clears the custom attribute value for the specified customAttributeId.
+//     * @param customAttributeId The customAttributeId to clear
+//     */
+//    public void clearCustomAttributeValue(String customAttributeId) {
+//        customAttributeValues.put("id" + customAttributeId, new String[]{""});
+//    }
+//
+//    public boolean isModifyCustomData() {
+//        return modifyCustomData;
+//    }
+//
+//    public void setModifyCustomData(boolean modifyCustomData) {
+//        this.modifyCustomData = modifyCustomData;
+//    }
     
 }

@@ -2517,7 +2517,7 @@ function displayReviewers(protocolId) {
 	
     var committeeId = dwr.util.getValue('actionHelper.protocolSubmitAction.committeeId');
     var scheduleId = dwr.util.getValue('actionHelper.protocolSubmitAction.scheduleId');
-	var docFormKey = dwr.util.getValue( "docFormKey" );
+//	var docFormKey = dwr.util.getValue( "docFormKey" );
     
     if (scheduleId == "select") {
     	document.getElementById("reviewers").style.display = 'none';
@@ -2533,7 +2533,7 @@ function displayReviewers(protocolId) {
 				window.status = errorMessage;
 			}
 		};
-		ProtocolActionAjaxService.getReviewers(protocolId, committeeId, scheduleId,docFormKey, dwrReplyReviewers);
+		ProtocolActionAjaxService.getReviewers(protocolId, committeeId, scheduleId, dwrReplyReviewers);
 	}
 }
 

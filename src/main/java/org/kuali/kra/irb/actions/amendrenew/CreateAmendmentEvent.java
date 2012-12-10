@@ -16,38 +16,45 @@
 package org.kuali.kra.irb.actions.amendrenew;
 
 import org.kuali.kra.irb.ProtocolDocument;
+import org.kuali.kra.protocol.actions.amendrenew.CreateAmendmentEventBase;
 import org.kuali.kra.rule.BusinessRuleInterface;
-import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 
 /**
  * When an amendment is created, this event is generated.
  */
 @SuppressWarnings("unchecked")
-public class CreateAmendmentEvent<T extends BusinessRuleInterface> extends KraDocumentEventBaseExtension {
+public class CreateAmendmentEvent extends CreateAmendmentEventBase {
 
-    private ProtocolAmendmentBean amendmentBean;
-    private String propertyName;
 
     public CreateAmendmentEvent(ProtocolDocument document, String propertyName, ProtocolAmendmentBean amendmentBean) {
-        super("Create Amendment", "", document);
-        this.propertyName = propertyName;
-        this.amendmentBean = amendmentBean;
-    }
-    
-    public ProtocolDocument getProtocolDocument() {
-        return (ProtocolDocument) getDocument();
-    }
-    
-    public String getPropertyName() {
-        return propertyName;
-    }
-    
-    public ProtocolAmendmentBean getAmendmentBean() {
-        return amendmentBean;
+        super(document, propertyName, amendmentBean);
     }
 
     @Override
     public BusinessRuleInterface getRule() {
         return new CreateAmendmentRule();
     }
+
+    
+// TODO ********************** commented out during IRB backfit ************************    
+//    private ProtocolAmendmentBean amendmentBean;
+//    private String propertyName;
+//
+//    public CreateAmendmentEvent(ProtocolDocument document, String propertyName, ProtocolAmendmentBean amendmentBean) {
+//        super("Create Amendment", "", document);
+//        this.propertyName = propertyName;
+//        this.amendmentBean = amendmentBean;
+//    }
+//    
+//    public ProtocolDocument getProtocolDocument() {
+//        return (ProtocolDocument) getDocument();
+//    }
+//    
+//    public String getPropertyName() {
+//        return propertyName;
+//    }
+//    
+//    public ProtocolAmendmentBean getAmendmentBean() {
+//        return amendmentBean;
+//    }
 }

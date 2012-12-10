@@ -75,7 +75,7 @@ public class ProtocolOnlineReviewDocumentRule extends ResearchDocumentRuleBase i
         GlobalVariables.getMessageMap().clearErrorPath();
         GlobalVariables.getMessageMap().addToErrorPath(String.format(ONLINE_REVIEW_COMMENTS_ERROR_PATH, event.getOnlineReviewIndex()));
         
-        ProtocolOnlineReview protocolOnlineReview = event.getProtocolOnlineReviewDocument().getProtocolOnlineReview();
+        ProtocolOnlineReview protocolOnlineReview = (ProtocolOnlineReview)event.getProtocolOnlineReviewDocument().getProtocolOnlineReview();
         
         int index = 0;
         

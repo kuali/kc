@@ -25,10 +25,11 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.krms.KcKrmsContextBo;
 import org.kuali.kra.krms.KrmsRulesContext;
+import org.kuali.kra.protocol.questionnaire.ProtocolModuleQuestionnaireBeanBase;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
-public class ProtocolModuleQuestionnaireBean extends ModuleQuestionnaireBean {
+public class ProtocolModuleQuestionnaireBean extends ProtocolModuleQuestionnaireBeanBase {
 
     public ProtocolModuleQuestionnaireBean(Protocol protocol) {
         super(CoeusModule.IRB_MODULE_CODE, protocol.getProtocolNumber(), "0", protocol.getSequenceNumber().toString(), 

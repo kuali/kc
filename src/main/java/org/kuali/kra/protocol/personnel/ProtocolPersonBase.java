@@ -435,13 +435,9 @@ public abstract class ProtocolPersonBase extends ProtocolAssociateBase implement
      */
     @Override
     public void postInitHook(ProtocolBase protocol) {
-        
-        // TODO The below for loop should be uncommented once ProtocolAttachmentPersonnelBase has been refactored
-        /*
         for (ProtocolAttachmentPersonnelBase attachment : this.attachmentPersonnels) {
             attachment.init(this);
         }
-        */
         for (ProtocolUnitBase unit : this.protocolUnits) {
             unit.init(this);
         }

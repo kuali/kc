@@ -61,8 +61,8 @@ public class ProtocolSpecialReviewAction extends ProtocolAction {
     public ActionForward addSpecialReview(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
         ProtocolDocument document = protocolForm.getProtocolDocument();
-        ProtocolSpecialReview specialReview = protocolForm.getSpecialReviewHelper().getNewSpecialReview();
-        List<ProtocolSpecialReview> specialReviews = document.getProtocol().getSpecialReviews();
+        ProtocolSpecialReview specialReview = (ProtocolSpecialReview)protocolForm.getSpecialReviewHelper().getNewSpecialReview();
+        List<ProtocolSpecialReview> specialReviews = (List)document.getProtocol().getSpecialReviews();
         
         if (applyRules(new AddSpecialReviewEvent<ProtocolSpecialReview>(document, specialReview, specialReviews, false))) {
             specialReview.setSpecialReviewNumber(document.getDocumentNextValue(Constants.SPECIAL_REVIEW_NUMBER));

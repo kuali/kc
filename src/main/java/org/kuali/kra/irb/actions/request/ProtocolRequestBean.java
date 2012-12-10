@@ -35,7 +35,7 @@ import org.kuali.kra.irb.actions.ProtocolSubmissionBeanBase;
  * protocol action type and submission type entry in the database.  Please
  * see the ActionHelper class for how this class is used.
  */
-public class ProtocolRequestBean extends ProtocolSubmissionBeanBase implements Serializable {
+public class ProtocolRequestBean extends ProtocolSubmissionBeanBase implements org.kuali.kra.protocol.actions.request.ProtocolRequestBean {
     
     private static final long serialVersionUID = -4980779026132275453L;
     private String protocolActionTypeCode;

@@ -13,10 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.committee.bo.businessLogic;
+package org.kuali.kra.irb.actions.withdraw;
 
-public interface CommitteeResearchAreaBusinessLogic extends CommitteeCollaboratorBusinessLogic {
-    
-    public boolean isEnclosedResearchAreaActive();
-    
+import org.kuali.kra.irb.actions.ActionHelper;
+
+public class ProtocolAdministrativelyWithdrawBean extends ProtocolWithdrawBean implements org.kuali.kra.protocol.actions.withdraw.ProtocolAdministrativelyWithdrawBean {
+
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = -6399240412530956578L;
+
+    public ProtocolAdministrativelyWithdrawBean(ActionHelper actionHelper) {
+        super(actionHelper);
+    }
+
 }

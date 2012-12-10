@@ -23,11 +23,14 @@ import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
+import org.kuali.kra.common.committee.meeting.MeetingEventBase.ErrorType;
+import org.kuali.kra.common.committee.meeting.MeetingSaveEvent;
+import org.kuali.kra.common.committee.meeting.MeetingSaveRule;
 import org.kuali.kra.common.committee.web.struts.form.schedule.Time12HrFmt;
 import org.kuali.kra.common.committee.web.struts.form.schedule.Time12HrFmt.MERIDIEM;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.meeting.MeetingEventBase.ErrorType;
 import org.kuali.kra.rules.TemplateRuleTest;
+import org.kuali.kra.common.committee.meeting.MemberPresentBean;
 
 public class MeetingSaveRuleTest {
     
@@ -59,7 +62,7 @@ public class MeetingSaveRuleTest {
                 committeeSchedule.setViewEndTime(viewEndTime);
                 committeeSchedule.setViewTime(viewTime);
                 meetingHelper.setCommitteeSchedule(committeeSchedule);
-                event = new MeetingSaveEvent(Constants.EMPTY_STRING, null, meetingHelper,  ErrorType.HARDERROR);
+                event = new MeetingSaveEvent(Constants.EMPTY_STRING, null, meetingHelper, ErrorType.HARDERROR);
                 rule = new MeetingSaveRule();
                 expectedReturnValue = true;
             }
