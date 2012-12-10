@@ -21,13 +21,14 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.common.notification.NotificationRendererBase;
-import org.kuali.kra.negotiations.bo.Negotiable;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.negotiations.bo.Negotiation;
+import org.kuali.kra.negotiations.bo.NegotiationUnassociatedDetail;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 
 public class NegotiationNotificationRenderer extends NotificationRendererBase {
 
     private static final String DATE_FORMAT_MM_DD_YYYY = "MM/dd/yyyy";
-    private static final String NOTIFICATION_LINE_BREAK = "\n<br/>\n";
     
     /**
      * Comment for <code>serialVersionUID</code>
@@ -35,10 +36,15 @@ public class NegotiationNotificationRenderer extends NotificationRendererBase {
     private static final long serialVersionUID = 408846376074619623L;
     private Negotiation negotiation; 
     
+    private static String noneGiven = null;
+    
     @Override
     public Map<String, String> getDefaultReplacementParameters() {
+        if (noneGiven == null) {
+            noneGiven = KRADServiceLocator.getKualiConfigurationService().getPropertyValueAsString(KeyConstants.NO_REASON_GIVEN);
+        }
         Map<String, String> result = super.getDefaultReplacementParameters();
-        Negotiable negotiableBo = negotiation.getAssociatedDocument();
+        NegotiationUnassociatedDetail details = negotiation.getUnAssociatedDetail();
         SimpleDateFormat df = new SimpleDateFormat(DATE_FORMAT_MM_DD_YYYY);
         result.put("{NEGOTIATION_ID}", negotiation.getNegotiationId().toString());
         result.put("{NEGOTIATOR}", negotiation.getNegotiator().getFullName());
@@ -58,38 +64,38 @@ public class NegotiationNotificationRenderer extends NotificationRendererBase {
         } else {
             result.put("{END_DATE}", "");
         }
-        if (negotiableBo != null) {
-            result.put("{TITLE}", negotiableBo.getTitle());
+        if (details != null && StringUtils.isNotBlank(details.getTitle())) {
+            result.put("{TITLE}", details.getTitle());
         } else {
-            result.put("{TITLE}", "");
+            result.put("{TITLE}", noneGiven);
         }
-        if (negotiableBo != null && negotiableBo.getPiEmployeeName() != null) { 
-            result.put("{PI}", negotiableBo.getPiEmployeeName());
-        } else if (negotiableBo != null && negotiableBo.getPiNonEmployeeName() != null) {
-            result.put("{PI}", negotiableBo.getPiNonEmployeeName());
+        if (details != null && details.getPiEmployeeName() != null) { 
+            result.put("{PI}", details.getPiEmployeeName());
+        } else if (details != null && details.getPiNonEmployeeName() != null) {
+            result.put("{PI}", details.getPiNonEmployeeName());
         } else {
-            result.put("{PI}", "");
+            result.put("{PI}", noneGiven);
         }
-        if (negotiableBo != null && StringUtils.isNotBlank(negotiableBo.getLeadUnitNumber())) {
-            result.put("{LEAD_UNIT_NUMBER}", negotiableBo.getLeadUnitName());
-            result.put("{LEAD_UNIT_NAME}", negotiableBo.getLeadUnitNumber());
+        if (details != null && StringUtils.isNotBlank(details.getLeadUnitNumber())) {
+            result.put("{LEAD_UNIT_NUMBER}", details.getLeadUnitName());
+            result.put("{LEAD_UNIT_NAME}", details.getLeadUnitNumber());
         } else {
-            result.put("{LEAD_UNIT_NUMBER}", "");
-            result.put("{LEAD_UNIT_NAME}", "");
+            result.put("{LEAD_UNIT_NUMBER}", noneGiven);
+            result.put("{LEAD_UNIT_NAME}", noneGiven);
         }         
-        if (negotiableBo != null && StringUtils.isNotBlank(negotiableBo.getSponsorCode())) {
-            result.put("{SPONSOR_NAME}", negotiableBo.getSponsorName());
-            result.put("{SPONSOR_CODE}", negotiableBo.getSponsorCode());
+        if (details != null && StringUtils.isNotBlank(details.getSponsorCode())) {
+            result.put("{SPONSOR_NAME}", details.getSponsorName());
+            result.put("{SPONSOR_CODE}", details.getSponsorCode());
         } else {            
-            result.put("{SPONSOR_NAME}", "");
-            result.put("{SPONSOR_CODE}", "");
+            result.put("{SPONSOR_NAME}", noneGiven);
+            result.put("{SPONSOR_CODE}", noneGiven);
         }
-        if (negotiableBo != null && StringUtils.isNotBlank(negotiableBo.getPrimeSponsorCode())) {
-            result.put("{PRIME_SPONSOR_NAME}", negotiableBo.getPrimeSponsorName());
-            result.put("{PRIME_SPONSOR_CODE}", negotiableBo.getPrimeSponsorCode());
+        if (details != null && StringUtils.isNotBlank(details.getPrimeSponsorCode())) {
+            result.put("{PRIME_SPONSOR_NAME}", details.getPrimeSponsorName());
+            result.put("{PRIME_SPONSOR_CODE}", details.getPrimeSponsorCode());
         } else {
-            result.put("{PRIME_SPONSOR_NAME}", "");
-            result.put("{PRIME_SPONSOR_CODE}", "");
+            result.put("{PRIME_SPONSOR_NAME}", noneGiven);
+            result.put("{PRIME_SPONSOR_CODE}", noneGiven);
             
         }
         // set up hotlink in notification
