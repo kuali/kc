@@ -16,36 +16,29 @@
 package org.kuali.kra.irb.notification;
 
 
-import java.util.List;
-
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.common.notification.NotificationRenderer;
-import org.kuali.kra.common.notification.NotificationContextBase;
-import org.kuali.kra.common.notification.bo.NotificationTypeRecipient;
-import org.kuali.kra.common.notification.exception.UnknownRoleException;
-import org.kuali.kra.common.notification.service.KcNotificationModuleRoleService;
-import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
-import org.kuali.kra.util.EmailAttachment;
-import org.springframework.util.CollectionUtils;
+import org.kuali.kra.protocol.notification.ProtocolNotificationContextBase;
 
 /**
  * This class extends the notification context base and provides some helpful functions for
  * any IRB specific events.
  */
-public class IRBNotificationContext extends NotificationContextBase {
+public class IRBNotificationContext extends ProtocolNotificationContextBase {
 
     private static final long serialVersionUID = 6642334312368480034L;
     
-    private String documentNumber;
-    private String actionTypeCode;
-    private String contextName;
-    private List<EmailAttachment> emailAttachments;
-    private String forwardName;
-    // This is for assign reviewer.
-    private boolean populateRole;
+// TODO ********************** commented out during IRB backfit ************************    
+//    private String documentNumber;
+//    private String actionTypeCode;
+//    private String contextName;
+//    private List<EmailAttachment> emailAttachments;
+//    private String forwardName;
+//    // This is for assign reviewer.
+//    private boolean populateRole;
     
     /**
      * Constructs an IRB notification context and sets the necessary services.
@@ -55,8 +48,7 @@ public class IRBNotificationContext extends NotificationContextBase {
      * @param contextName
      */
     public IRBNotificationContext(Protocol protocol, ProtocolOnlineReview protocolOnlineReview, String actionTypeCode, String contextName, NotificationRenderer renderer) {
-        this(protocol, actionTypeCode, contextName, renderer);
-        
+        this(protocol, actionTypeCode, contextName, renderer);        
         ((IRBNotificationRoleQualifierService) getNotificationRoleQualifierService()).setProtocolOnlineReview(protocolOnlineReview);
     }
 
@@ -67,14 +59,16 @@ public class IRBNotificationContext extends NotificationContextBase {
      * @param contextName
      */
     public IRBNotificationContext(Protocol protocol, String actionTypeCode, String contextName, NotificationRenderer renderer) {
-        super(renderer);
+        super(protocol, actionTypeCode, contextName, renderer);
         
-        this.documentNumber = protocol.getProtocolDocument().getDocumentNumber();
-        this.actionTypeCode = actionTypeCode;
-        this.contextName = contextName;
+// TODO ********************** commented out during IRB backfit ************************        
+//        this.documentNumber = protocol.getProtocolDocument().getDocumentNumber();
+//        this.actionTypeCode = actionTypeCode;
+//        this.contextName = contextName;
+//        
+//        setNotificationService(KraServiceLocator.getService(KcNotificationService.class));
+//        setNotificationModuleRoleService(KraServiceLocator.getService(KcNotificationModuleRoleService.class));
         
-        setNotificationService(KraServiceLocator.getService(KcNotificationService.class));
-        setNotificationModuleRoleService(KraServiceLocator.getService(KcNotificationModuleRoleService.class));
         setNotificationRoleQualifierService(KraServiceLocator.getService(IRBNotificationRoleQualifierService.class));
         
         ((IRBNotificationRoleQualifierService) getNotificationRoleQualifierService()).setProtocol(protocol);
@@ -88,80 +82,80 @@ public class IRBNotificationContext extends NotificationContextBase {
         return CoeusModule.IRB_MODULE_CODE;
     }
     
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.kra.common.notification.NotificationContextBase#getDocumentNumber()
-     */
-    public String getDocumentNumber() {
-        return documentNumber;
-    }
-    
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.kra.common.notification.NotificationContext#getActionTypeCode()
-     */
-    public String getActionTypeCode() {
-        return actionTypeCode;
-    }
-    
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.kra.common.notification.NotificationContext#getContextName()
-     */
-    public String getContextName() {
-        return contextName;
-    }
-
-    /**
-     * 
-     * @see org.kuali.kra.common.notification.NotificationContext#getEmailAttachments()
-     */
-    public List<EmailAttachment> getEmailAttachments() {
-        return emailAttachments;
-    }
-
-    /**
-     * 
-     * This method sets a list of email attachments
-     * @param emailAttachments
-     */
-    public void setEmailAttachments(List<EmailAttachment> emailAttachments) {
-        this.emailAttachments = emailAttachments;
-    }
-
-    public String getForwardName() {
-        return forwardName;
-    }
-
-    public void setForwardName(String forwardName) {
-        this.forwardName = forwardName;
-    }
-
-    public boolean isPopulateRole() {
-        return populateRole;
-    }
-
-    public void setPopulateRole(boolean populateRole) {
-        this.populateRole = populateRole;
-    }
-
-    /**
-     * This is a hook/hack for assign reviewer/submit for review, which has potential of multiple reviewers
-     * reviewers are supposed to be processed separately, but for 'prompt user', it merged into one prompt.
-     * 'reviewer role' are the same, but the role qualifiers' are different which is based on context.
-     * the role qualifier are populated when we merge all recipients in to one list.
-     * So, when sendnotification, it is just using the last 'context', so at this point, we don't want
-     * rolequalifiers being populated again.  If it is populated again, all reviewer role will retrieve same reviewer because 
-     * the context are the same at the point of 'send'.
-     * Unless, there is better approach, we'll stick with this hack for now.
-     * isPopulateRole is only 'true' for this case, so the other cases will stay the same as before this change.
-     * @see org.kuali.kra.common.notification.NotificationContextBase#populateRoleQualifiers(org.kuali.kra.common.notification.bo.NotificationTypeRecipient)
-     */
-    @Override
-    public void populateRoleQualifiers(NotificationTypeRecipient notificationRecipient) throws UnknownRoleException {
-        if (!isPopulateRole() || CollectionUtils.isEmpty(notificationRecipient.getRoleQualifiers())) {
-            super.populateRoleQualifiers(notificationRecipient);
-        }
-    }
+//    /**
+//     * {@inheritDoc}
+//     * @see org.kuali.kra.common.notification.NotificationContextBase#getDocumentNumber()
+//     */
+//    public String getDocumentNumber() {
+//        return documentNumber;
+//    }
+//    
+//    /**
+//     * {@inheritDoc}
+//     * @see org.kuali.kra.common.notification.NotificationContext#getActionTypeCode()
+//     */
+//    public String getActionTypeCode() {
+//        return actionTypeCode;
+//    }
+//    
+//    /**
+//     * {@inheritDoc}
+//     * @see org.kuali.kra.common.notification.NotificationContext#getContextName()
+//     */
+//    public String getContextName() {
+//        return contextName;
+//    }
+//
+//    /**
+//     * 
+//     * @see org.kuali.kra.common.notification.NotificationContext#getEmailAttachments()
+//     */
+//    public List<EmailAttachment> getEmailAttachments() {
+//        return emailAttachments;
+//    }
+//
+//    /**
+//     * 
+//     * This method sets a list of email attachments
+//     * @param emailAttachments
+//     */
+//    public void setEmailAttachments(List<EmailAttachment> emailAttachments) {
+//        this.emailAttachments = emailAttachments;
+//    }
+//
+//    public String getForwardName() {
+//        return forwardName;
+//    }
+//
+//    public void setForwardName(String forwardName) {
+//        this.forwardName = forwardName;
+//    }
+//
+//    public boolean isPopulateRole() {
+//        return populateRole;
+//    }
+//
+//    public void setPopulateRole(boolean populateRole) {
+//        this.populateRole = populateRole;
+//    }
+//
+//    /**
+//     * This is a hook/hack for assign reviewer/submit for review, which has potential of multiple reviewers
+//     * reviewers are supposed to be processed separately, but for 'prompt user', it merged into one prompt.
+//     * 'reviewer role' are the same, but the role qualifiers' are different which is based on context.
+//     * the role qualifier are populated when we merge all recipients in to one list.
+//     * So, when sendnotification, it is just using the last 'context', so at this point, we don't want
+//     * rolequalifiers being populated again.  If it is populated again, all reviewer role will retrieve same reviewer because 
+//     * the context are the same at the point of 'send'.
+//     * Unless, there is better approach, we'll stick with this hack for now.
+//     * isPopulateRole is only 'true' for this case, so the other cases will stay the same as before this change.
+//     * @see org.kuali.kra.common.notification.NotificationContextBase#populateRoleQualifiers(org.kuali.kra.common.notification.bo.NotificationTypeRecipient)
+//     */
+//    @Override
+//    public void populateRoleQualifiers(NotificationTypeRecipient notificationRecipient) throws UnknownRoleException {
+//        if (!isPopulateRole() || CollectionUtils.isEmpty(notificationRecipient.getRoleQualifiers())) {
+//            super.populateRoleQualifiers(notificationRecipient);
+//        }
+//    }
     
 }

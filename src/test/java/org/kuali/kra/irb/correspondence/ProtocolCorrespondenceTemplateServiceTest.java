@@ -34,6 +34,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceTemplateBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 
@@ -114,7 +115,7 @@ public class ProtocolCorrespondenceTemplateServiceTest {
         ProtocolCorrespondenceType correspondenceType = new ProtocolCorrespondenceType();
         ProtocolCorrespondenceTemplate correspondenceTemplate = new ProtocolCorrespondenceTemplate() {
             @Override
-            public int compareTo(ProtocolCorrespondenceTemplate arg) {
+            public int compareTo(ProtocolCorrespondenceTemplateBase arg) {
                 return this.getCommitteeId().compareTo(arg.getCommitteeId());
             }
         };
@@ -125,7 +126,7 @@ public class ProtocolCorrespondenceTemplateServiceTest {
 
         correspondenceTemplate = new ProtocolCorrespondenceTemplate(){
             @Override
-            public int compareTo(ProtocolCorrespondenceTemplate arg) {
+            public int compareTo(ProtocolCorrespondenceTemplateBase arg) {
                 return this.getCommitteeId().compareTo(arg.getCommitteeId());
             }
         };
@@ -136,7 +137,7 @@ public class ProtocolCorrespondenceTemplateServiceTest {
 
         correspondenceTemplate = new ProtocolCorrespondenceTemplate(){
             @Override
-            public int compareTo(ProtocolCorrespondenceTemplate arg) {
+            public int compareTo(ProtocolCorrespondenceTemplateBase arg) {
                 return this.getCommitteeId().compareTo(arg.getCommitteeId());
             }
         };
@@ -170,7 +171,7 @@ public class ProtocolCorrespondenceTemplateServiceTest {
             }
         });
         templateService.setBusinessObjectService(businessObjectService);
-        ProtocolCorrespondenceTemplate protocolTemplate = templateService.getProtocolCorrespondenceTemplate(COMMITTEE_ID, AGENDA_TYPE);
+        ProtocolCorrespondenceTemplate protocolTemplate = (ProtocolCorrespondenceTemplate) templateService.getProtocolCorrespondenceTemplate(COMMITTEE_ID, AGENDA_TYPE);
         Assert.assertEquals(protocolTemplate.getCommitteeId(), COMMITTEE_ID);
         Assert.assertEquals(protocolTemplate.getProtoCorrespTypeCode(), AGENDA_TYPE);
         Assert.assertEquals(protocolTemplate.getFileName(), AGENDA_FILE_NAME);

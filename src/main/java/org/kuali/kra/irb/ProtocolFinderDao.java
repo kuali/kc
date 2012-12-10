@@ -15,37 +15,37 @@
  */
 package org.kuali.kra.irb;
 
-import java.util.List;
-
-import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
-
 /**
  * The ProtocolFinderDao is used to find protocols.
  */
-public interface ProtocolFinderDao {
+public interface ProtocolFinderDao extends org.kuali.kra.protocol.ProtocolFinderDao {
 
+// TODO ********************** commented out during IRB backfit ************************    
     /**
+     * This method is invoking the super, opened this to reduce the number of cast in
+     * individual class files.
      * Find the current protocol given a protocolNumber.  The
      * current protocol is the one with the highest sequence number.
      * @param protocolNumber
      * @return the protocol or null if not found
      */
     Protocol findCurrentProtocolByNumber(String protocolNumber);
+//    
+//    /**
+//     * 
+//     * This method all protocol submission belong to this protocolNumber.  also include amendment and renewal of this protocol.
+//     * @param protocolNumber
+//     * @param submissionNumber
+//     * @return
+//     */
+//    List<ProtocolSubmission> findProtocolSubmissions(String protocolNumber, int submissionNumber);
+//
+//    /**
+//     * 
+//     * This method is to find all the versioned protocols, amendments, renewals with this protocolNumber.
+//     * @param protocolNumber
+//     * @return
+//     */
+//    List<Protocol> findProtocols(String protocolNumber);
     
-    /**
-     * 
-     * This method all protocol submission belong to this protocolNumber.  also include amendment and renewal of this protocol.
-     * @param protocolNumber
-     * @param submissionNumber
-     * @return
-     */
-    List<ProtocolSubmission> findProtocolSubmissions(String protocolNumber, int submissionNumber);
-
-    /**
-     * 
-     * This method is to find all the versioned protocols, amendments, renewals with this protocolNumber.
-     * @param protocolNumber
-     * @return
-     */
-    List<Protocol> findProtocols(String protocolNumber);
 }

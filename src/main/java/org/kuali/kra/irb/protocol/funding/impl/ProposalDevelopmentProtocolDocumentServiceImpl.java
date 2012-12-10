@@ -38,6 +38,7 @@ import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.specialreview.SpecialReviewHelper;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
+import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceBase;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.SystemAuthorizationService;
 import org.kuali.rice.kim.api.role.Role;
@@ -204,9 +205,9 @@ public class ProposalDevelopmentProtocolDocumentServiceImpl implements ProposalD
     public void populateProtocolFundingSource(DevelopmentProposal developmentProposal, ProtocolDocument protocolDocument) {
         Protocol protocol = protocolDocument.getProtocol();
 
-        List<ProtocolFundingSource> protocolFundingSources = protocol.getProtocolFundingSources();
+        List<ProtocolFundingSourceBase> protocolFundingSources = protocol.getProtocolFundingSources();
         ProtocolFundingSourceServiceImpl protocolFundingSourceServiceImpl = (ProtocolFundingSourceServiceImpl) getProtocolFundingSourceService(); 
-        ProtocolFundingSource protocolFundingSource = protocolFundingSourceServiceImpl.updateProtocolFundingSource(FundingSourceType.SPONSOR, developmentProposal.getSponsorCode(), developmentProposal.getSponsorName());
+        ProtocolFundingSource protocolFundingSource = (ProtocolFundingSource) protocolFundingSourceServiceImpl.updateProtocolFundingSource(FundingSourceType.SPONSOR, developmentProposal.getSponsorCode(), developmentProposal.getSponsorName());
         protocolFundingSource.setProtocol(protocolDocument.getProtocol());
         protocolFundingSources.add(protocolFundingSource);
         

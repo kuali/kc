@@ -23,7 +23,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.service.ResearchAreaCurrentReferencerHolder;
+import org.kuali.kra.service.ResearchAreaCurrentReferencerHolderBase;
 import org.kuali.kra.service.ResearchAreasService;
 import org.kuali.kra.web.struts.form.ResearchAreasForm;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
@@ -115,8 +115,8 @@ public class ResearchAreasAction extends KualiAction {
                 // check if RA is being referenced by any current protocol or committee or cmt membership
                 ResearchAreasService researchAreaService = KraServiceLocator.getService(ResearchAreasService.class);
                 String researchAreaCode = researchAreaForm.getResearchAreaCode();
-                ResearchAreaCurrentReferencerHolder referenceHolder = researchAreaService.getAnyCurrentReferencerForResearchAreaOrDescendant(researchAreaCode);
-                if(referenceHolder != ResearchAreaCurrentReferencerHolder.NO_REFERENCER) {
+                ResearchAreaCurrentReferencerHolderBase referenceHolder = researchAreaService.getAnyCurrentReferencerForResearchAreaOrDescendant(researchAreaCode);
+                if(referenceHolder != ResearchAreaCurrentReferencerHolderBase.NO_REFERENCER) {
                     // let user know about that the research area could not be deactivated because it was being referenced
                     researchAreaForm.setResearchAreas("<h3>" + referenceHolder.getMessage() + "</h3>");
                     GlobalVariables.getUserSession().addObject("raError", (Object) null);

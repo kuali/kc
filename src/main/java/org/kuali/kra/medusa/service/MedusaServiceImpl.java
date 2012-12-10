@@ -48,6 +48,7 @@ import org.kuali.kra.medusa.MedusaNode;
 import org.kuali.kra.negotiations.bo.Negotiation;
 import org.kuali.kra.negotiations.service.NegotiationService;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
+import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceBase;
 import org.kuali.kra.service.AwardHierarchyUIService;
 import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.kra.subaward.bo.SubAward;
@@ -320,7 +321,7 @@ public class MedusaServiceImpl implements MedusaService {
     }
     
     protected void buildGraph(HashMap<BusinessObject, List<BusinessObject>> graph, Protocol protocol) {
-        for (ProtocolFundingSource fundingSource : protocol.getProtocolFundingSources()) {
+        for (ProtocolFundingSourceBase fundingSource : protocol.getProtocolFundingSources()) {
             if (StringUtils.equals(fundingSource.getFundingSourceTypeCode(), FundingSourceType.AWARD)) {
                 addToGraph(graph, getAward(fundingSource.getFundingSourceNumber()), protocol);
             } else if (StringUtils.equals(fundingSource.getFundingSourceTypeCode(), FundingSourceType.INSTITUTIONAL_PROPOSAL)) {

@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.irb.actions.assignagenda;
 
-import java.io.Serializable;
-
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.actions.ActionHelper;
@@ -26,7 +24,7 @@ import org.kuali.kra.printing.Printable;
 /**
  * This class is really just a "form" for assigning a protocol to an agenda.
  */
-public class ProtocolAssignToAgendaBean extends ProtocolGenericActionBean implements Serializable {
+public class ProtocolAssignToAgendaBean extends ProtocolGenericActionBean implements org.kuali.kra.protocol.actions.assignagenda.ProtocolAssignToAgendaBean {
 
     private static final long serialVersionUID = -1671485882883282877L;
     

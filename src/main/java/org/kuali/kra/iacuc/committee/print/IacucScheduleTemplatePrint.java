@@ -17,7 +17,6 @@ package org.kuali.kra.iacuc.committee.print;
 
 import org.kuali.kra.common.committee.print.ScheduleTemplatePrintBase;
 import org.kuali.kra.iacuc.correspondence.IacucProtocolCorrespondenceTemplateService;
-import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceTemplateService;
 
 public class IacucScheduleTemplatePrint extends ScheduleTemplatePrintBase {
 
@@ -26,15 +25,8 @@ public class IacucScheduleTemplatePrint extends ScheduleTemplatePrintBase {
      */
     private static final long serialVersionUID = -9175459734372306511L;
     
-    private IacucProtocolCorrespondenceTemplateService iacucProtocolCorrespondenceTemplateService;
-    
     public void setIacucProtocolCorrespondenceTemplateService(IacucProtocolCorrespondenceTemplateService iacucProtocolCorrespondenceTemplateService) {
-        this.iacucProtocolCorrespondenceTemplateService = iacucProtocolCorrespondenceTemplateService;
+        this.setProtocolCorrespondenceTemplateService(iacucProtocolCorrespondenceTemplateService);
     }
-    
-    public ProtocolCorrespondenceTemplateService getProtocolCorrespondenceTemplateService() {
-        return this.iacucProtocolCorrespondenceTemplateService;
-    }
-
 
 }

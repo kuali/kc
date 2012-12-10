@@ -107,7 +107,7 @@ public abstract class CommitteeDocumentRuleBase extends ResearchDocumentRuleBase
      * @see org.kuali.core.rules.DocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.rice.krad.document.Document)
      */
     @Override
-    protected boolean processCustomSaveDocumentBusinessRules(Document document) {
+    public boolean processCustomSaveDocumentBusinessRules(Document document) {
        
         boolean valid = true;
         

@@ -40,6 +40,7 @@ public class SaveProtocolOnlineReviewEvent extends KraDocumentEventBase {
      * @param document the document.
      * @param newProtocolNotepad the new attachment to be added.
      */
+    @SuppressWarnings("unchecked")
     public SaveProtocolOnlineReviewEvent(final ProtocolOnlineReviewDocument document,
         final List<CommitteeScheduleMinute> minutes, final long onlineReviewIndex ) {
         super("adding new protocol notepad", "notesAttachmentsHelper", document);
@@ -53,7 +54,7 @@ public class SaveProtocolOnlineReviewEvent extends KraDocumentEventBase {
         }
         
         this.minutes = minutes;
-        this.reviewAttachments =document.getProtocolOnlineReview().getReviewAttachments();
+        this.reviewAttachments = (List)document.getProtocolOnlineReview().getReviewAttachments();
     }
   
     

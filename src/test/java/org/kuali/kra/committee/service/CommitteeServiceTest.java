@@ -38,11 +38,14 @@ import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.kra.bo.ResearchArea;
+import org.kuali.kra.bo.ResearchAreaBase;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeMembership;
-import org.kuali.kra.committee.bo.CommitteeMembershipRole;
 import org.kuali.kra.committee.bo.CommitteeResearchArea;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
+import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
+import org.kuali.kra.common.committee.bo.CommitteeMembershipRole;
+import org.kuali.kra.common.committee.bo.CommitteeResearchAreaBase;
 import org.kuali.kra.common.committee.bo.ScheduleStatus;
 import org.kuali.kra.committee.service.impl.CommitteeServiceImpl;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
@@ -129,7 +132,7 @@ public class CommitteeServiceTest {
         CommitteeServiceImpl committeeService = new CommitteeServiceImpl();
         Committee committee = new Committee();
         
-        List<ResearchArea> researchAreas = new ArrayList<ResearchArea>();
+        List<ResearchAreaBase> researchAreas = new ArrayList<ResearchAreaBase>();
         ResearchArea researchArea1 = new ResearchArea();
         researchArea1.setResearchAreaCode(RESEARCH_AREA_CODE_1);
         researchAreas.add(researchArea1);
@@ -139,7 +142,7 @@ public class CommitteeServiceTest {
         researchAreas.add(researchArea2);
         
         committeeService.addResearchAreas(committee, researchAreas);
-        List<CommitteeResearchArea> committeeResearchAreas = committee.getCommitteeResearchAreas();
+        List<CommitteeResearchAreaBase> committeeResearchAreas = committee.getCommitteeResearchAreas();
         assertEquals(2, committeeResearchAreas.size());
         
         assertEquals(RESEARCH_AREA_CODE_1, committeeResearchAreas.get(0).getResearchAreaCode());
@@ -265,7 +268,7 @@ public class CommitteeServiceTest {
         member3.getMembershipRoles().add(role3);
         committee.getCommitteeMemberships().add(member3);
         
-        List<CommitteeMembership> members = committeeService.getAvailableMembers("999", "1");
+        List<CommitteeMembershipBase> members = committeeService.getAvailableMembers("999", "1");
         assertEquals(1, members.size());
         assertEquals(member1, members.get(0));
     }
@@ -352,7 +355,7 @@ public class CommitteeServiceTest {
         List<CommitteeSchedule> schedules = committeeService.mergeCommitteeSchedule("test");
         Assert.assertTrue(schedules.size() == 2);
         CommitteeSchedule schedule = schedules.get(0);
-        ScheduleAgenda agenda = schedule.getScheduleAgendas().get(0);
+        ScheduleAgenda agenda = (ScheduleAgenda) schedule.getScheduleAgendas().get(0);
         assertEquals(schedule.getPlace(), "place 2");
         assertEquals(schedule.getScheduleStatusCode().toString(), "2");
         assertEquals(schedules.get(1).getScheduleId(), "4");
@@ -393,7 +396,7 @@ public class CommitteeServiceTest {
         committeeSchedule.setCommitteeIdFk(1L);
         committeeSchedule.setScheduledDate(new Date(dateFormat.parse("12/31/2012").getTime()));
         committeeSchedule.setScheduleId(scheduleId);
-        committeeSchedule.setScheduleAgendas(getScheduleAgenda("name "+text));
+        committeeSchedule.setScheduleAgendas((List) getScheduleAgenda("name "+text));
         committeeSchedule.setCommitteeScheduleMinutes(getCommitteeScheduleMinute(text));
         committeeSchedule.setTime(new Timestamp(new java.util.Date().getTime()));
         committeeSchedule.setPlace("place "+text);

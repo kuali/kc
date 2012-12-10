@@ -30,6 +30,7 @@ import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
+import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
@@ -120,7 +121,7 @@ public class ProtocolSubmissionLookupHelperServiceTest extends KcUnitTestBase {
         assertEquals(((HtmlData.AnchorHtmlData) inquiryUrl).getHref(), COMMITTEE_INQ_URL);
         inquiryUrl = protocolSubmissionLookupableHelperServiceImpl.getInquiryUrl(protocolSubmission, "piName");
         assertEquals(((HtmlData.AnchorHtmlData) inquiryUrl).getHref(), PERSON_INQ_URL);
-        ProtocolPerson protocolPerson = protocolSubmission.getProtocol().getProtocolPersons().get(0);
+        ProtocolPerson protocolPerson = (ProtocolPerson) protocolSubmission.getProtocol().getProtocolPersons().get(0);
         protocolPerson.setPersonId("");
         protocolPerson.setRolodexId(new Integer(1727));
         protocolSubmission.getProtocol().getProtocolPersons().clear();
@@ -143,7 +144,7 @@ public class ProtocolSubmissionLookupHelperServiceTest extends KcUnitTestBase {
         protocolDocument.setDocumentNumber("101");
         protocol.setProtocolDocument(protocolDocument);
         ProtocolSubmission protocolSubmission = new ProtocolSubmission();
-        List<ProtocolSubmission> submissions = new ArrayList<ProtocolSubmission>();
+        List<ProtocolSubmissionBase> submissions = new ArrayList<ProtocolSubmissionBase>();
         protocolSubmission.setSubmissionId(102L);
         Committee committee = new Committee();
         committee.setCommitteeId("100");

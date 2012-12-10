@@ -22,6 +22,7 @@ import java.util.Map;
 
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
+import org.kuali.kra.common.committee.meeting.CommScheduleActItemBase;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.reviewcomments.ReviewCommentsService;
@@ -31,6 +32,7 @@ import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.irb.personnel.ProtocolPersonRolodex;
 import org.kuali.kra.meeting.CommScheduleActItem;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
+import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
@@ -223,8 +225,8 @@ public class IrbPrintXmlUtilServiceImpl implements IrbPrintXmlUtilService {
     }
 
     protected String getOtherItemDescription(CommitteeSchedule committeeSchedule, CommitteeScheduleMinute committeeScheduleMinute) {
-        List<CommScheduleActItem> actionItems = committeeSchedule.getCommScheduleActItems();
-        for (CommScheduleActItem commScheduleActItem : actionItems) {
+        List<CommScheduleActItemBase> actionItems = committeeSchedule.getCommScheduleActItems();
+        for (CommScheduleActItemBase commScheduleActItem : actionItems) {
             if (committeeScheduleMinute.getMinuteEntryTypeCode().equals("4")
                     && committeeScheduleMinute.getProtocol().getProtocolNumber().equals(commScheduleActItem.getActionItemNumber())) {
                 return commScheduleActItem.getItemDescription();
@@ -237,7 +239,7 @@ public class IrbPrintXmlUtilServiceImpl implements IrbPrintXmlUtilService {
             org.kuali.kra.irb.actions.submit.ProtocolSubmission protocolSubmission, ProtocolSubmission protocolSubmissionType) {
         List<CommitteeScheduleMinute> minutes = committeeSchedule.getCommitteeScheduleMinutes();
         for (CommitteeScheduleMinute minuteEntryInfoBean : minutes) {
-            Protocol protocol = minuteEntryInfoBean.getProtocol();
+            ProtocolBase protocol = minuteEntryInfoBean.getProtocol();
             if (protocol != null && protocol.getProtocolNumber() != null) {
                 if (protocol.getProtocolNumber().equals(protocolSubmission.getProtocolNumber())
                         && protocol.getProtocolSubmission() != null
@@ -257,7 +259,7 @@ public class IrbPrintXmlUtilServiceImpl implements IrbPrintXmlUtilService {
             org.kuali.kra.irb.actions.submit.ProtocolSubmission protocolSubmission, Submissions submissionsType) {
         List<CommitteeScheduleMinute> minutes = committeeSchedule.getCommitteeScheduleMinutes();
         for (CommitteeScheduleMinute minuteEntryInfoBean : minutes) {
-            Protocol protocol = minuteEntryInfoBean.getProtocol();
+            ProtocolBase protocol = minuteEntryInfoBean.getProtocol();
             if (protocol != null && protocol.getProtocolNumber() != null) {
                 if (protocol.getProtocolNumber().equals(protocolSubmission.getProtocolNumber())
                       && protocol.getProtocolSubmission() != null
@@ -281,7 +283,7 @@ public class IrbPrintXmlUtilServiceImpl implements IrbPrintXmlUtilService {
             org.kuali.kra.irb.actions.submit.ProtocolSubmission protocolSubmission, Submissions submissionsType) {
         List<CommitteeScheduleMinute> minutes = committeeSchedule.getCommitteeScheduleMinutes();
         for (CommitteeScheduleMinute minuteEntryInfoBean : minutes) {
-            Protocol protocol = minuteEntryInfoBean.getProtocol();
+            ProtocolBase protocol = minuteEntryInfoBean.getProtocol();
             if (protocol != null && protocol.getProtocolNumber() != null) {
                 if (protocol.getProtocolNumber().equals(protocolSubmission.getProtocolNumber())
                       && protocol.getProtocolSubmission() != null

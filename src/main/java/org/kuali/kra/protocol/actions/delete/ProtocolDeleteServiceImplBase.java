@@ -58,9 +58,7 @@ public abstract class ProtocolDeleteServiceImplBase implements ProtocolDeleteSer
          * is removed from the user's action list.
          */
         documentService.cancelDocument(protocol.getProtocolDocument(), null);
-        
-// TODO *********commented the code below during IACUC refactoring*********         
-//        protocolOnlineReviewService.finalizeOnlineReviews(protocol.getProtocolSubmission(), DELETE_FINALIZE_OLR_ANNOTATION);
+        protocolOnlineReviewService.finalizeOnlineReviews(protocol.getProtocolSubmission(), DELETE_FINALIZE_OLR_ANNOTATION);
     
     }
 

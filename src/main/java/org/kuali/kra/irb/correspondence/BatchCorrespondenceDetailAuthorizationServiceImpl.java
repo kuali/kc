@@ -15,49 +15,52 @@
  */
 package org.kuali.kra.irb.correspondence;
 
-import org.kuali.kra.bo.KcPerson;
-import org.kuali.kra.service.KcPersonService;
-import org.kuali.kra.service.UnitAuthorizationService;
-import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.kra.protocol.correspondence.BatchCorrespondenceDetailAuthorizationServiceImplBase;
 
 /**
  * 
  * This class provides a call to validate whether user has certain permission.
  */
-public class BatchCorrespondenceDetailAuthorizationServiceImpl implements BatchCorrespondenceDetailAuthorizationService {
+public class BatchCorrespondenceDetailAuthorizationServiceImpl extends BatchCorrespondenceDetailAuthorizationServiceImplBase implements BatchCorrespondenceDetailAuthorizationService {
 
-    private UnitAuthorizationService unitAuthorizationService;
-    private KcPersonService kcPersonService;
-
-    /**
-     * 
-     * @see org.kuali.kra.irb.correspondence.BatchCorrespondenceDetailAuthorizationService#hasPermission(java.lang.String)
-     */
-    public boolean hasPermission(String permissionName){
-        KcPerson person = kcPersonService.getKcPersonByUserName(getUserName());       
-        return unitAuthorizationService.hasPermission(person.getPersonId(), "KC-PROTOCOL", permissionName);
-
-    }
-    protected String getUserName() {
-        return GlobalVariables.getUserSession().getPerson().getPrincipalName();
-    }
-    
-    /**
-     * 
-     * This method inject UnitAuthorizationService
-     * @param unitAuthorizationService
-     */
-    public void setUnitAuthorizationService(UnitAuthorizationService unitAuthorizationService) {
-        this.unitAuthorizationService = unitAuthorizationService;
+    @Override
+    protected String getNameSpaceHook() {
+        return "KC-PROTOCOL";
     }
 
-    /**
-     * 
-     * This method inject KcPersonService
-     * @param kcPersonService
-     */
-    public void setKcPersonService(KcPersonService kcPersonService) {
-        this.kcPersonService = kcPersonService;
-    }
-    
+ // TODO ********************** commented out during IRB backfit ************************
+//    private UnitAuthorizationService unitAuthorizationService;
+//    private KcPersonService kcPersonService;
+//
+//    /**
+//     * 
+//     * @see org.kuali.kra.irb.correspondence.BatchCorrespondenceDetailAuthorizationService#hasPermission(java.lang.String)
+//     */
+//    public boolean hasPermission(String permissionName){
+//        KcPerson person = kcPersonService.getKcPersonByUserName(getUserName());       
+//        return unitAuthorizationService.hasPermission(person.getPersonId(), "KC-PROTOCOL", permissionName);
+//
+//    }
+//    protected String getUserName() {
+//        return GlobalVariables.getUserSession().getPerson().getPrincipalName();
+//    }
+//    
+//    /**
+//     * 
+//     * This method inject UnitAuthorizationService
+//     * @param unitAuthorizationService
+//     */
+//    public void setUnitAuthorizationService(UnitAuthorizationService unitAuthorizationService) {
+//        this.unitAuthorizationService = unitAuthorizationService;
+//    }
+//
+//    /**
+//     * 
+//     * This method inject KcPersonService
+//     * @param kcPersonService
+//     */
+//    public void setKcPersonService(KcPersonService kcPersonService) {
+//        this.kcPersonService = kcPersonService;
+//    }
+//    
 }

@@ -199,7 +199,7 @@
 			<inverse-foreignkey field-ref="committeeIdFk" />
 		</collection-descriptor>  
 		
-		<collection-descriptor name="committeeBaseResearchAreas" element-class-ref="org.kuali.kra.iacuc.committee.bo.IacucCommitteeResearchArea" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+		<collection-descriptor name="committeeResearchAreas" element-class-ref="org.kuali.kra.iacuc.committee.bo.IacucCommitteeResearchArea" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="committeeIdFk" />
 		</collection-descriptor>  
 	</class-descriptor>

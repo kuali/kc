@@ -1089,5 +1089,9 @@ public abstract class ReviewCommentsServiceImplBase<PRA extends ProtocolReviewAt
 
     }
 
+    public ProtocolFinderDao getProtocolFinderDao() {
+        return protocolFinderDao;
+    }
+
 
 }

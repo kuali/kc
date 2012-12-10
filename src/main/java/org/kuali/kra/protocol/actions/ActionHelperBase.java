@@ -191,7 +191,10 @@ public abstract class ActionHelperBase implements Serializable {
     protected boolean canTerminateUnavailable = false;
 //    protected boolean canPermitDataAnalysis = false;
 //    protected boolean canPermitDataAnalysisUnavailable = false;
-    protected boolean canEnterRiskLevel = false;
+    
+// TODO ********************** commented out during IRB backfit ************************PUSHED DOWN TO IRB SUBCLASS    
+//    protected boolean canEnterRiskLevel = false;
+    
     protected boolean canMakeAdminCorrection = false;
     protected boolean canMakeAdminCorrectionUnavailable = false;
     protected boolean canRecordCommitteeDecision = false;
@@ -246,9 +249,12 @@ public abstract class ActionHelperBase implements Serializable {
     protected ProtocolWithdrawBean protocolWithdrawBean;
     protected ProtocolRequestBean protocolCloseRequestBean;
     protected ProtocolRequestBean protocolSuspendRequestBean;
-    protected ProtocolRequestBean protocolCloseEnrollmentRequestBean;
-    protected ProtocolRequestBean protocolReOpenEnrollmentRequestBean;
-    protected ProtocolRequestBean protocolDataAnalysisRequestBean;
+    
+// TODO ********************** commented out during IRB backfit ************************ PUSHED DOWN TO IRB SUBCLASS    
+//    protected ProtocolRequestBean protocolCloseEnrollmentRequestBean;
+//    protected ProtocolRequestBean protocolReOpenEnrollmentRequestBean;
+//    protected ProtocolRequestBean protocolDataAnalysisRequestBean;
+    
     protected ProtocolRequestBean protocolTerminateRequestBean;
     protected ProtocolNotifyCommitteeBean protocolNotifyCommitteeBean;
     protected ProtocolAmendmentBean protocolAmendmentBean;
@@ -258,8 +264,11 @@ public abstract class ActionHelperBase implements Serializable {
 //    protected ProtocolAssignReviewersBean protocolAssignReviewersBean;
 //    protected ProtocolGrantExemptionBean protocolGrantExemptionBean;
     private ProtocolApproveBean protocolFullApprovalBean;
-    protected ProtocolApproveBean protocolExpeditedApprovalBean;
-    protected ProtocolApproveBean protocolResponseApprovalBean;
+    
+    
+// TODO ********************** commented out during IRB backfit ************************ PUSHED DOWN TO IRB SUBCLASS    
+//    protected ProtocolApproveBean protocolExpeditedApprovalBean;
+//    protected ProtocolApproveBean protocolResponseApprovalBean;
     
     private ProtocolApproveBean protocolAdminApprovalBean;
     private ProtocolAdministrativelyWithdrawBean protocolAdminWithdrawBean;
@@ -268,20 +277,33 @@ public abstract class ActionHelperBase implements Serializable {
     protected ProtocolGenericActionBean protocolDisapproveBean;
     protected ProtocolGenericActionBean protocolSMRBean;
     protected ProtocolGenericActionBean protocolSRRBean;
-    protected ProtocolGenericActionBean protocolReopenEnrollmentBean;
-    protected ProtocolGenericActionBean protocolCloseEnrollmentBean;
+    
+//    TODO ********************** commented out during IRB backfit ************************ PUSHED DOWN TO IRB SUBCLASS
+//    protected ProtocolGenericActionBean protocolReopenEnrollmentBean;
+//    protected ProtocolGenericActionBean protocolCloseEnrollmentBean;
+    
     protected ProtocolGenericActionBean protocolSuspendBean;
-    protected ProtocolGenericActionBean protocolSuspendByDsmbBean;
+    
+//    TODO ********************** commented out during IRB backfit ************************ PUSHED DOWN TO IRB SUBCLASS    
+//    protected ProtocolGenericActionBean protocolSuspendByDsmbBean;
+    
     protected ProtocolGenericActionBean protocolCloseBean;
     protected ProtocolGenericActionBean protocolExpireBean;
     protected ProtocolGenericActionBean protocolTerminateBean;
-    protected ProtocolGenericActionBean protocolPermitDataAnalysisBean;
-    protected ProtocolGenericActionBean protocolIrbAcknowledgementBean;
+    
+// TODO ********************** commented out during IRB backfit ************************ PUSHED DOWN TO IRB SUBCLASS    
+//    protected ProtocolGenericActionBean protocolPermitDataAnalysisBean;
+//    protected ProtocolGenericActionBean protocolIrbAcknowledgementBean;
+    
+    
     protected ProtocolGenericActionBean protocolReturnToPIBean;
     protected AdminCorrectionBean protocolAdminCorrectionBean;
     protected UndoLastActionBean undoLastActionBean;
     protected CommitteeDecision<?> committeeDecision;
-    protected ProtocolGenericActionBean protocolDeferBean;
+  
+// TODO ********************** commented out during IRB backfit ************************ PUSHED DOWN TO IRB    
+//    protected ProtocolGenericActionBean protocolDeferBean;
+    
 //    protected ProtocolReviewNotRequiredBean protocolReviewNotRequiredBean;
     protected ProtocolGenericActionBean protocolManageReviewCommentsBean;
     protected ProtocolGenericActionBean protocolAbandonBean;
@@ -326,12 +348,13 @@ public abstract class ActionHelperBase implements Serializable {
     protected List<ProtocolReviewer> protocolReviewers;        
     protected int currentSubmissionNumber;
     protected String renewalSummary;
-    
-    // indicator for whether there is submission questionnaire answer exist.
-    // ie, questionnaire has been saved for a request/notify irb action
-    protected boolean submissionQuestionnaireExist;
-    // check if there is submission questionnaire to answer
-    protected boolean toAnswerSubmissionQuestionnaire;
+
+// TODO ********************** commented out during IRB backfit ************************PUSHED DOWN TO IRB SUBCLASS    
+//    // indicator for whether there is submission questionnaire answer exist.
+//    // ie, questionnaire has been saved for a request/notify irb action
+//    protected boolean submissionQuestionnaireExist;
+//    // check if there is submission questionnaire to answer
+//    protected boolean toAnswerSubmissionQuestionnaire;
 
     protected transient CommitteeScheduleServiceBase committeeScheduleService;
     protected transient KcPersonService kcPersonService;
@@ -346,6 +369,7 @@ public abstract class ActionHelperBase implements Serializable {
     protected Map<String, ProtocolActionBean> actionBeanTaskMap = new HashMap<String, ProtocolActionBean>();    
     // protocol print
     protected ProtocolSummaryPrintOptions protocolSummaryPrintOptions;
+    // TODO ProtocolSummaryPrintOptions should be refactored into IRB and IACUC subclasses and the below constructor should be replaced with a hook invocation.
     protected ProtocolSummaryPrintOptions protocolPrintOption = new ProtocolSummaryPrintOptions();
     protected List<QuestionnairePrintOption> questionnairesToPrints;
     // flag if versioned protocol questionnaire exist
@@ -432,8 +456,7 @@ public abstract class ActionHelperBase implements Serializable {
         
         protocolAbandonBean = buildProtocolGenericActionBean(getAbandonActionTypeHook(), getAbandonPropertyKeyHook());//buildProtocolAbandonBeanHook();
         
- 
-// TODO *********commented the code below during IACUC refactoring*********         
+          
         protocolAdminCorrectionBean = createAdminCorrectionBean();
         undoLastActionBean = getNewUndoLastActionBeanInstanceHook();
         
@@ -1795,9 +1818,10 @@ public abstract class ActionHelperBase implements Serializable {
 //        return protocolPermitDataAnalysisBean;
 //    }
     
-    public ProtocolGenericActionBean getProtocolIacucAcknowledgementBean() {
-        return protocolIrbAcknowledgementBean;
-    }
+// TODO ********************** commented out during IRB backfit ************************THIS METHOD SHOULD BE PUSHED DOWN TO IACUC IF NEEDED    
+//    public ProtocolGenericActionBean getProtocolIacucAcknowledgementBean() {
+//        return protocolIrbAcknowledgementBean;
+//    }
     
     public AdminCorrectionBean getProtocolAdminCorrectionBean() {
         return protocolAdminCorrectionBean;
@@ -2530,7 +2554,7 @@ public abstract class ActionHelperBase implements Serializable {
         return protocolActions;
     }
 
-    private Collection<? extends ProtocolSubmissionDocBase> getSubmissionDocs(ProtocolActionBase protocolAction) {
+    protected Collection<? extends ProtocolSubmissionDocBase> getSubmissionDocs(ProtocolActionBase protocolAction) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put("protocolNumber", protocolAction.getProtocolNumber());
         fieldValues.put("submissionNumber", protocolAction.getSubmissionNumber());
@@ -2617,7 +2641,7 @@ public abstract class ActionHelperBase implements Serializable {
         return reviewComments;
     }
 
-    private void setReviewComments(List<CommitteeScheduleMinuteBase> reviewComments) {
+    protected void setReviewComments(List<CommitteeScheduleMinuteBase> reviewComments) {
         this.reviewComments = reviewComments;
     }
 
@@ -2647,7 +2671,7 @@ public abstract class ActionHelperBase implements Serializable {
     protected abstract Class<? extends FollowupActionService<?>> getFollowupActionServiceClassHook();
     
 
-    private ReviewCommentsService getReviewerCommentsService() {
+    protected ReviewCommentsService getReviewerCommentsService() {
         return getReviewCommentsService();
     }
 
@@ -2852,7 +2876,7 @@ public abstract class ActionHelperBase implements Serializable {
         return getAnswerHeaderCount(moduleSubItemCode, moduleSubItemKey) > 0;
     }
 
-    protected int getAnswerHeaderCount(String moduleSubItemCode, String moduleSubItemKey) {
+    public int getAnswerHeaderCount(String moduleSubItemCode, String moduleSubItemKey) {
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put("moduleItemCode", getCoeusModule());
         fieldValues.put("moduleItemKey", getProtocol().getProtocolNumber());
@@ -3240,7 +3264,7 @@ public abstract class ActionHelperBase implements Serializable {
     /*
      * check if to display reviewer name for any of the review comments of the submission selected in submission details..
      */
-    private boolean checkToHideSubmissionReviewerName() {
+    protected boolean checkToHideSubmissionReviewerName() {
         boolean isHide = true;
         for (CommitteeScheduleMinuteBase reviewComment : getReviewComments()) {
             if (reviewComment.isDisplayReviewerName()) {
@@ -3254,7 +3278,7 @@ public abstract class ActionHelperBase implements Serializable {
     /*
      * check if to display reviewer name for any of the review comments of current submission.
      */
-    private boolean checkToHideReviewName() {
+    protected boolean checkToHideReviewName() {
         boolean isHide = true;
         if (getProtocol().getProtocolSubmission().getSubmissionId() != null) {
             isHide = getReviewerCommentsService().setHideReviewerName(getProtocol(), getProtocol().getProtocolSubmission().getSubmissionNumber());
@@ -3357,8 +3381,11 @@ public abstract class ActionHelperBase implements Serializable {
     
     /**
      * 
-     * This method returns the number of years to add for the default expiration date.
+     * This method returns the number of years to add for the default expiration date. 
+     * TODO SEE BACKFIT NOTES
      * @return
      */
-    public abstract int getDefaultExpirationDateDifference();
+    public int getDefaultExpirationDateDifference() {
+        return 1;
+    }
 }

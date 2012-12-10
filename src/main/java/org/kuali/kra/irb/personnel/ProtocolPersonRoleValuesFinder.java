@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.kuali.kra.protocol.personnel.ProtocolPersonRoleMappingBase;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
@@ -41,11 +42,11 @@ public class ProtocolPersonRoleValuesFinder extends KeyValuesBase {
      * @see org.kuali.core.lookup.keyvalues.KeyValuesBase#getKeyValues()
      */
     public List<KeyValue> getKeyValues() {
-        final List<ProtocolPersonRoleMapping> validPersonRoles = getProtocolPersonnelService().getPersonRoleMapping(getSourceRoleId());
+        final List<ProtocolPersonRoleMappingBase> validPersonRoles = getProtocolPersonnelService().getPersonRoleMapping(getSourceRoleId());
         
         List<ConcreteKeyValue> keyValues = new ArrayList<ConcreteKeyValue>();
         keyValues.add(new ConcreteKeyValue(getSourceRoleId(), getSourceRoleDescription()));
-        for(ProtocolPersonRoleMapping protocolPersonRole : validPersonRoles) {
+        for(ProtocolPersonRoleMappingBase protocolPersonRole : validPersonRoles) {
             keyValues.add(new ConcreteKeyValue(protocolPersonRole.getTargetRoleId(), getTargetRoleDescription(protocolPersonRole)));
         }
         Collections.sort(keyValues);
@@ -68,7 +69,7 @@ public class ProtocolPersonRoleValuesFinder extends KeyValuesBase {
      * @param protocolPersonRole
      * @return String - target role name
      */
-    private String getTargetRoleDescription(ProtocolPersonRoleMapping protocolPersonRole) {
+    private String getTargetRoleDescription(ProtocolPersonRoleMappingBase protocolPersonRole) {
         protocolPersonRole.refreshReferenceObject(targetRoleReferenceObject);
         return protocolPersonRole.getTargetRole().getDescription(); 
     }

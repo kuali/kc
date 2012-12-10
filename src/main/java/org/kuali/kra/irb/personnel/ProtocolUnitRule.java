@@ -15,115 +15,112 @@
  */
 package org.kuali.kra.irb.personnel;
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.irb.ProtocolDocument;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
-import org.kuali.kra.service.UnitService;
+import org.kuali.kra.protocol.personnel.ProtocolUnitRuleBase;
 
 /**
  * This class contains rules to validate protocol units for each protocol personnel.
  */
-public class ProtocolUnitRule extends ResearchDocumentRuleBase implements AddProtocolUnitRule {
+public class ProtocolUnitRule extends ProtocolUnitRuleBase {
 
-    private static final String ERROR_PROPERTY_NEW_PERSON_UNIT = "personnelHelper.newProtocolPersonUnits"; 
-    private static final String ERROR_PROPERTY_UNIT_NUMBER = ".unitNumber"; 
-    private String ERROR_PROPERTY_PERSON_INDEX = "[personIndex]";
-    private String PERSON_INDEX = "personIndex";
-    
-    /**
-     * @see org.kuali.kra.irb.ProtocolDocumentRule#processAddProtocolUnitBusinessRules(org.kuali.kra.irb.personnel.AddProtocolUnitEvent)
-     */
-    public boolean processAddProtocolUnitBusinessRules(AddProtocolUnitEvent addProtocolUnitEvent) {
-        boolean isValid = true;
-
-        ProtocolUnit protocolUnit = addProtocolUnitEvent.getProtocolUnit();
-        int personIndex = addProtocolUnitEvent.getPersonIndex();
-        ProtocolPerson protocolPerson = ((ProtocolDocument) addProtocolUnitEvent.getDocument()).getProtocol().getProtocolPerson(personIndex);
-        isValid &= !isEmptyProtocolUnit(protocolUnit, personIndex);
-        if(isValid) {
-            isValid &= isValidProtocolUnit(protocolUnit, personIndex);
-            isValid &= !isDuplicateProtocolUnit(protocolPerson, protocolUnit, personIndex);
-        }
-        return isValid;
-    }
-    
-
-    /**
-     * This method is to check whether protocol unit number is empty
-     * @param protocolUnit
-     * @return
-     */
-    private boolean isEmptyProtocolUnit(ProtocolUnit protocolUnit, int personIndex) {
-        boolean isEmpty = false;
-        if(StringUtils.isBlank(protocolUnit.getUnitNumber())) {
-            reportError(formatErrorPropertyName(personIndex, ERROR_PROPERTY_UNIT_NUMBER), KeyConstants.ERROR_PROTOCOL_UNIT_INVALID);
-            isEmpty = true;
-        }
-        return isEmpty;
-    }
-    
-    /**
-     * This method is to check whether new unit added already exists in the list
-     * @param protocolPerson
-     * @param protocolUnit
-     * @param personIndex
-     * @return
-     */
-    private boolean isDuplicateProtocolUnit(ProtocolPerson protocolPerson, ProtocolUnit protocolUnit, int personIndex) {
-        boolean duplicateUnit = false;
-        duplicateUnit = getProtocolPersonnelService().isDuplicateUnit(protocolPerson, protocolUnit);
-        if(duplicateUnit) {
-            reportError(formatErrorPropertyName(personIndex, ERROR_PROPERTY_UNIT_NUMBER), KeyConstants.ERROR_PROTOCOL_UNIT_DUPLICATE);
-        }
-        return duplicateUnit;
-    }
-    
-    /**
-     * This method is to check whether unit number is valid
-     * @param protocolUnit
-     * @return
-     */
-    private boolean isValidProtocolUnit(ProtocolUnit protocolUnit, int personIndex) {
-        boolean validUnit = true;
-        if(StringUtils.isBlank(getUnitService().getUnitName(protocolUnit.getUnitNumber()))) {
-            reportError(formatErrorPropertyName(personIndex, ERROR_PROPERTY_UNIT_NUMBER), KeyConstants.ERROR_PROTOCOL_UNIT_INVALID);
-            validUnit = false;
-        }
-        return validUnit;
-    }
-
-    /**
-     * This method is to format error property for new protocol unit.
-     * Person holding new unit is identified by personIndex
-     * This is to display message in appropriate tab
-     * @param personIndex
-     * @param errorKey
-     * @return String - formatted error property
-     */
-    private String formatErrorPropertyName(int personIndex, String errorKey) {
-        String errorProperty = null;
-        errorProperty = new StringBuilder(ERROR_PROPERTY_NEW_PERSON_UNIT)
-        .append(ERROR_PROPERTY_PERSON_INDEX.replaceAll(PERSON_INDEX, Integer.toString(personIndex)))
-        .append(errorKey)
-        .toString();
-        return errorProperty;
-    }
-    
-    /**
-     * This method is to get unit service
-     * @return UnitService
-     */
-    private UnitService getUnitService() {
-        return KraServiceLocator.getService(UnitService.class);
-    }
+// TODO ********************** commented out during IRB backfit ************************    
+//    private static final String ERROR_PROPERTY_NEW_PERSON_UNIT = "personnelHelper.newProtocolPersonUnits"; 
+//    private static final String ERROR_PROPERTY_UNIT_NUMBER = ".unitNumber"; 
+//    private String ERROR_PROPERTY_PERSON_INDEX = "[personIndex]";
+//    private String PERSON_INDEX = "personIndex";
+//    
+//    /**
+//     * @see org.kuali.kra.irb.ProtocolDocumentRule#processAddProtocolUnitBusinessRules(org.kuali.kra.irb.personnel.AddProtocolUnitEvent)
+//     */
+//    public boolean processAddProtocolUnitBusinessRules(AddProtocolUnitEvent addProtocolUnitEvent) {
+//        boolean isValid = true;
+//
+//        ProtocolUnit protocolUnit = addProtocolUnitEvent.getProtocolUnit();
+//        int personIndex = addProtocolUnitEvent.getPersonIndex();
+//        ProtocolPerson protocolPerson = ((ProtocolDocument) addProtocolUnitEvent.getDocument()).getProtocol().getProtocolPerson(personIndex);
+//        isValid &= !isEmptyProtocolUnit(protocolUnit, personIndex);
+//        if(isValid) {
+//            isValid &= isValidProtocolUnit(protocolUnit, personIndex);
+//            isValid &= !isDuplicateProtocolUnit(protocolPerson, protocolUnit, personIndex);
+//        }
+//        return isValid;
+//    }
+//    
+//
+//    /**
+//     * This method is to check whether protocol unit number is empty
+//     * @param protocolUnit
+//     * @return
+//     */
+//    private boolean isEmptyProtocolUnit(ProtocolUnit protocolUnit, int personIndex) {
+//        boolean isEmpty = false;
+//        if(StringUtils.isBlank(protocolUnit.getUnitNumber())) {
+//            reportError(formatErrorPropertyName(personIndex, ERROR_PROPERTY_UNIT_NUMBER), KeyConstants.ERROR_PROTOCOL_UNIT_INVALID);
+//            isEmpty = true;
+//        }
+//        return isEmpty;
+//    }
+//    
+//    /**
+//     * This method is to check whether new unit added already exists in the list
+//     * @param protocolPerson
+//     * @param protocolUnit
+//     * @param personIndex
+//     * @return
+//     */
+//    private boolean isDuplicateProtocolUnit(ProtocolPerson protocolPerson, ProtocolUnit protocolUnit, int personIndex) {
+//        boolean duplicateUnit = false;
+//        duplicateUnit = getProtocolPersonnelService().isDuplicateUnit(protocolPerson, protocolUnit);
+//        if(duplicateUnit) {
+//            reportError(formatErrorPropertyName(personIndex, ERROR_PROPERTY_UNIT_NUMBER), KeyConstants.ERROR_PROTOCOL_UNIT_DUPLICATE);
+//        }
+//        return duplicateUnit;
+//    }
+//    
+//    /**
+//     * This method is to check whether unit number is valid
+//     * @param protocolUnit
+//     * @return
+//     */
+//    private boolean isValidProtocolUnit(ProtocolUnit protocolUnit, int personIndex) {
+//        boolean validUnit = true;
+//        if(StringUtils.isBlank(getUnitService().getUnitName(protocolUnit.getUnitNumber()))) {
+//            reportError(formatErrorPropertyName(personIndex, ERROR_PROPERTY_UNIT_NUMBER), KeyConstants.ERROR_PROTOCOL_UNIT_INVALID);
+//            validUnit = false;
+//        }
+//        return validUnit;
+//    }
+//
+//    /**
+//     * This method is to format error property for new protocol unit.
+//     * Person holding new unit is identified by personIndex
+//     * This is to display message in appropriate tab
+//     * @param personIndex
+//     * @param errorKey
+//     * @return String - formatted error property
+//     */
+//    private String formatErrorPropertyName(int personIndex, String errorKey) {
+//        String errorProperty = null;
+//        errorProperty = new StringBuilder(ERROR_PROPERTY_NEW_PERSON_UNIT)
+//        .append(ERROR_PROPERTY_PERSON_INDEX.replaceAll(PERSON_INDEX, Integer.toString(personIndex)))
+//        .append(errorKey)
+//        .toString();
+//        return errorProperty;
+//    }
+//    
+//    /**
+//     * This method is to get unit service
+//     * @return UnitService
+//     */
+//    private UnitService getUnitService() {
+//        return KraServiceLocator.getService(UnitService.class);
+//    }
     
     /**
      * This method is to get protocol personnel service
      * @return ProtocolPersonnelService
      */
-    private ProtocolPersonnelService getProtocolPersonnelService() {
+    protected ProtocolPersonnelService getProtocolPersonnelService() {
         return KraServiceLocator.getService(ProtocolPersonnelService.class);
     }
 

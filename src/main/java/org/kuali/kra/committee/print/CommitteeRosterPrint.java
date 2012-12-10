@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.committee.print;
 
+import org.kuali.kra.common.committee.print.TemplatePrintBase;
+
 /**
  * This class provides the implementation for printing Committee Roster.
  * It generates XML that conforms with Certification Report XSD, fetches
@@ -23,7 +25,7 @@ package org.kuali.kra.committee.print;
  * streaming etc.
  * 
  */
-public class CommitteeRosterPrint extends TemplatePrint {
+public class CommitteeRosterPrint extends TemplatePrintBase {
 
     private static final long serialVersionUID = -4077775486854400861L;
 

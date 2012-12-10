@@ -18,7 +18,7 @@ package org.kuali.kra.irb.actions.correction;
 import org.kuali.kra.irb.actions.ActionHelper;
 import org.kuali.kra.irb.actions.ProtocolEditableBean;
 
-public class AdminCorrectionBean extends ProtocolEditableBean {
+public class AdminCorrectionBean extends ProtocolEditableBean implements org.kuali.kra.protocol.actions.correction.AdminCorrectionBean {
 
     private static final long serialVersionUID = 3247703113947298472L;
     

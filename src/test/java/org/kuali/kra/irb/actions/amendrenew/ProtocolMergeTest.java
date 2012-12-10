@@ -33,6 +33,8 @@ import org.kuali.kra.irb.protocol.participant.ProtocolParticipant;
 import org.kuali.kra.irb.protocol.reference.ProtocolReference;
 import org.kuali.kra.irb.protocol.research.ProtocolResearchArea;
 import org.kuali.kra.irb.specialreview.ProtocolSpecialReview;
+import org.kuali.kra.protocol.actions.ProtocolActionBase;
+import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentPersonnelBase;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 
 public class ProtocolMergeTest extends KcUnitTestBase {
@@ -234,7 +236,7 @@ public class ProtocolMergeTest extends KcUnitTestBase {
         amendment.getProtocolPersons().add(person);
 
         ProtocolAttachmentPersonnel pal = createPersonnelAttachment(DESCRIPTION_1);
-        person.setAttachmentPersonnels(new ArrayList<ProtocolAttachmentPersonnel>());
+        person.setAttachmentPersonnels(new ArrayList<ProtocolAttachmentPersonnelBase>());
         amendment.getAttachmentPersonnels().add(pal);
         person.getAttachmentPersonnels().add(pal);
         pal = createPersonnelAttachment(DESCRIPTION_2);
@@ -333,7 +335,7 @@ public class ProtocolMergeTest extends KcUnitTestBase {
         protocol.setProtocolId(2L);
         protocol.setProtocolNumber("0906000001A001");
         addModule(protocol, moduleTypeCode);
-        List<ProtocolAction> actions = new ArrayList<ProtocolAction>();
+        List<ProtocolActionBase> actions = new ArrayList<ProtocolActionBase>();
         ProtocolAction action1 = new ProtocolAction();
         action1.setActionId(1);
         actions.add(action1);

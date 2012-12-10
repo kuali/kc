@@ -51,7 +51,7 @@
 				<ref bean="IacucCommitteeAttribute-VersionNumber" />
 				<ref bean="IacucCommitteeAttribute-committeeMemberships.membershipRoles.membershipRoleCode" />
 				<ref bean="IacucCommitteeAttribute-committeeMemberships.personName" />
-				<ref bean="IacucCommitteeAttribute-committeeBaseResearchAreas.researchAreaCode" />
+				<ref bean="IacucCommitteeAttribute-committeeResearchAreas.researchAreaCode" />
 				<ref bean="IacucCommitteeAttribute-homeUnit.unitName" />
 				<ref bean="IacucCommitteeAttribute-CommitteeChair" />
 			</list>
@@ -354,9 +354,9 @@
     </bean> 
   
   
-  <bean id="IacucCommitteeAttribute-committeeBaseResearchAreas.researchAreaCode" parent="IacucCommitteeAttribute-committeeBaseResearchAreas.researchAreaCode-parentBean" />
-  	<bean id="IacucCommitteeAttribute-committeeBaseResearchAreas.researchAreaCode-parentBean" abstract="true" parent="IacucResearchArea-researchAreaCode">
-	    <property name="name" value="committeeBaseResearchAreas.researchAreaCode" />
+  <bean id="IacucCommitteeAttribute-committeeResearchAreas.researchAreaCode" parent="IacucCommitteeAttribute-committeeResearchAreas.researchAreaCode-parentBean" />
+  	<bean id="IacucCommitteeAttribute-committeeResearchAreas.researchAreaCode-parentBean" abstract="true" parent="IacucResearchArea-researchAreaCode">
+	    <property name="name" value="committeeResearchAreas.researchAreaCode" />
 	    <property name="forceUppercase" value="false" />
 	    <property name="label" value="Iacuc Research Area" />
 	    <property name="shortLabel" value="Iacuc Research Area" />
@@ -441,7 +441,7 @@
 				<bean parent="FieldDefinition"
 					p:attributeName="committeeMemberships.personName" />
 				<bean parent="FieldDefinition"
-					p:attributeName="committeeBaseResearchAreas.researchAreaCode" />
+					p:attributeName="committeeResearchAreas.researchAreaCode" />
 			</list>
 		</property>
 		<property name="resultFields" >

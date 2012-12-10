@@ -32,9 +32,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.irb.ProtocolAction;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolForm;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
-import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.KRADConstants;
 
 /**
@@ -111,7 +109,7 @@ public class ProtocolCustomDataAction extends ProtocolAction {
      */
     public ActionForward clearLookupValue(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
-        CustomDataHelper customDataHelper = protocolForm.getCustomDataHelper();
+        CustomDataHelper customDataHelper = (CustomDataHelper) protocolForm.getCustomDataHelper();
         Map<String, CustomAttributeDocument> customAttributeDocuments = protocolForm.getProtocolDocument().getCustomAttributeDocuments();
         String attributeParameter = (String) request.getAttribute(KRADConstants.METHOD_TO_CALL_ATTRIBUTE);
         String customAttributeId = StringUtils.substringBetween(attributeParameter, ".id", ".");

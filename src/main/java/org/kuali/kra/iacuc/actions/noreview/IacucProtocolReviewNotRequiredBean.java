@@ -15,16 +15,23 @@
  */
 package org.kuali.kra.iacuc.actions.noreview;
 
+import java.sql.Date;
+
 import org.kuali.kra.iacuc.IacucProtocol;
+import org.kuali.kra.iacuc.actions.IacucProtocolActionBean;
 import org.kuali.kra.protocol.actions.ActionHelperBase;
 import org.kuali.kra.protocol.actions.noreview.ProtocolReviewNotRequiredBean;
 
 /**
  * This class manages the HTML Elements needed for the review not required panel.
  */
-public class IacucProtocolReviewNotRequiredBean extends ProtocolReviewNotRequiredBean {
+public class IacucProtocolReviewNotRequiredBean extends IacucProtocolActionBean implements ProtocolReviewNotRequiredBean {
 
     private static final long serialVersionUID = -8686091412369007790L;
+    
+    private String comments = "";
+    private Date actionDate = new Date(System.currentTimeMillis());
+    private Date decisionDate = new Date(System.currentTimeMillis());
 
     /**
      * Constructs a ProtocolReviewNotRequiredBean.
@@ -32,10 +39,54 @@ public class IacucProtocolReviewNotRequiredBean extends ProtocolReviewNotRequire
      */
     public IacucProtocolReviewNotRequiredBean(ActionHelperBase actionHelper) {
         super(actionHelper);
+//        this.actionHelper = actionHelper;
     }
 
     public IacucProtocol getIacucProtocol() {
         return (IacucProtocol)getProtocol();
     }
+    
+
+    public String getComments() {
+        return comments;
+    }
+
+    public void setComments(String comments) {
+        this.comments = comments;
+    }
+
+    public Date getActionDate() {
+        return actionDate;
+    }
+
+    public void setActionDate(Date actionDate) {
+        this.actionDate = actionDate;
+    }
+
+    public Date getDecisionDate() {
+        return decisionDate;
+    }
+
+    public void setDecisionDate(Date decisionDate) {
+        this.decisionDate = decisionDate;
+    }
+
+//    public ProtocolBase getProtocol() {
+//        return protocol;
+//    }
+//    
+//    public void setProtocol(ProtocolBase protocol) {
+//        this.protocol = protocol;
+//    }
+//    
+//    public ActionHelperBase getActionHelper() {
+//        return actionHelper;
+//    }
+//
+//    @Override
+//    public void setActionHelper(ActionHelperBase actionHelper) {
+//        this.actionHelper = actionHelper;
+//        this.protocol = actionHelper.getProtocol();
+//    }
     
 }

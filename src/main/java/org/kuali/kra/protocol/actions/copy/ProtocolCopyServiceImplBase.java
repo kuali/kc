@@ -279,7 +279,10 @@ public abstract class ProtocolCopyServiceImplBase<GenericProtocolDocument extend
         destDoc.getProtocol().setReferenceNumber1(srcDoc.getProtocol().getReferenceNumber1());
         destDoc.getProtocol().setReferenceNumber2(srcDoc.getProtocol().getReferenceNumber2());
         destDoc.getProtocol().setDescription(srcDoc.getProtocol().getDescription());
-        destDoc.getProtocol().setVulnerableSubjectIndicator(srcDoc.getProtocol().getVulnerableSubjectIndicator());
+        
+// TODO ********************** commented out during IRB backfit ************************  PUSHED DOWN TO IRB        
+//        destDoc.getProtocol().setVulnerableSubjectIndicator(srcDoc.getProtocol().getVulnerableSubjectIndicator());
+        
         destDoc.getProtocol().setCorrespondentIndicator(srcDoc.getProtocol().getCorrespondentIndicator());
         destDoc.getProtocol().setFundingSourceIndicator(srcDoc.getProtocol().getFundingSourceIndicator());
         destDoc.getProtocol().setKeyStudyPersonIndicator(srcDoc.getProtocol().getKeyStudyPersonIndicator());
@@ -324,7 +327,10 @@ public abstract class ProtocolCopyServiceImplBase<GenericProtocolDocument extend
         ProtocolBase srcProtocol = srcDoc.getProtocol();
         ProtocolBase destProtocol = destDoc.getProtocol();
         //destProtocol.setProtocolRiskLevels((List<ProtocolRiskLevel>) deepCopy(srcProtocol.getProtocolRiskLevels()));
-        destProtocol.setProtocolParticipants((List<ProtocolParticipant>) deepCopy(srcProtocol.getProtocolParticipants()));
+        
+// TODO ********************** commented out during IRB backfit ************************  PUSHED DOWN TO IRB        
+        // destProtocol.setProtocolParticipants((List<ProtocolParticipant>) deepCopy(srcProtocol.getProtocolParticipants()));
+        
         destProtocol.setProtocolResearchAreas((List<ProtocolResearchAreaBase>) deepCopy(srcProtocol.getProtocolResearchAreas()));
         destProtocol.setProtocolReferences((List<ProtocolReferenceBase>) deepCopy(srcProtocol.getProtocolReferences()));
         destProtocol.setProtocolLocations((List<ProtocolLocationBase>) deepCopy(srcProtocol.getProtocolLocations()));

@@ -27,6 +27,7 @@ import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.service.CommitteeScheduleService;
 import org.kuali.kra.committee.service.CommitteeService;
+import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.rice.core.api.membership.MemberType;
 import org.kuali.rice.kim.api.role.RoleMembership;
@@ -103,8 +104,8 @@ public class ActiveCommitteeMemberOnScheduledDateDerivedRoleTypeServiceImpl exte
 		    Committee committee = committeeService.getCommitteeById(committeeId);
 		    CommitteeSchedule schedule = committeeService.getCommitteeSchedule(committee, scheduleId);
     		if (committee != null && schedule != null ) {
-    		    for (CommitteeMembership membership : committee.getCommitteeMemberships()) {
-    		        if (isQualified(membership,schedule,qualification)) {
+    		    for (CommitteeMembershipBase membership : committee.getCommitteeMemberships()) {
+    		        if (isQualified((CommitteeMembership) membership,schedule,qualification)) {
     		            members.add(RoleMembership.Builder.create(null, null, membership.getPersonId(), MemberType.PRINCIPAL, null).build() );
     		            if (LOG.isDebugEnabled()) {
     		                LOG.debug(String.format("Adding %s for getRoleMembersFromDerivedRole for committee %s, schedule %s",committeeId,scheduleId));
@@ -130,8 +131,8 @@ public class ActiveCommitteeMemberOnScheduledDateDerivedRoleTypeServiceImpl exte
             Committee committee = committeeService.getCommitteeById(committeeId);
             CommitteeSchedule schedule = committeeService.getCommitteeSchedule(committee, scheduleId);
             if (committee != null && schedule!=null) {
-                for (CommitteeMembership membership : committee.getCommitteeMemberships()) {
-                    if (membership.getPersonId()!=null && StringUtils.equals(principalId, membership.getPersonId()) && isQualified(membership,schedule,qualification)) {
+                for (CommitteeMembershipBase membership : committee.getCommitteeMemberships()) {
+                    if (membership.getPersonId()!=null && StringUtils.equals(principalId, membership.getPersonId()) && isQualified((CommitteeMembership) membership,schedule,qualification)) {
                         return true;
                     }
                 }

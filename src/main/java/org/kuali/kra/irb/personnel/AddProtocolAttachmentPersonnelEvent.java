@@ -15,24 +15,29 @@
  */
 package org.kuali.kra.irb.personnel;
 
+import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentPersonnel;
-import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.krad.rules.rule.BusinessRule;
 
-public class AddProtocolAttachmentPersonnelEvent extends ProtocolAttachmentPersonnelEventBase {
-
-    protected AddProtocolAttachmentPersonnelEvent(String errorPathPrefix, Document document,
-            ProtocolAttachmentPersonnel protocolAttachmentPersonnel, int personIndex) {
-        super("adding ProtocolAttachmentPeronnel to document " + getDocumentId(document), errorPathPrefix, document,
-                protocolAttachmentPersonnel, personIndex);
+public class AddProtocolAttachmentPersonnelEvent extends org.kuali.kra.protocol.personnel.AddProtocolAttachmentPersonnelEvent {
+    
+    protected AddProtocolAttachmentPersonnelEvent(String errorPathPrefix, ProtocolDocument document, ProtocolAttachmentPersonnel protocolAttachmentPersonnel, int personIndex) {
+        super(errorPathPrefix, document, protocolAttachmentPersonnel, personIndex);
     }
 
-    public Class getRuleInterfaceClass() {
-        return AddProtocolAttachmentPersonnelRule.class;
-    }
 
-    public boolean invokeRuleMethod(BusinessRule rule) {
-        return ((AddProtocolAttachmentPersonnelRule) rule).processAddProtocolAttachmentPersonnelRules(this);
-    }
+// TODO ********************** commented out during IRB backfit ************************    
+//    protected AddProtocolAttachmentPersonnelEvent(String errorPathPrefix, Document document,
+//            ProtocolAttachmentPersonnel protocolAttachmentPersonnel, int personIndex) {
+//        super("adding ProtocolAttachmentPeronnel to document " + getDocumentId(document), errorPathPrefix, document,
+//                protocolAttachmentPersonnel, personIndex);
+//    }
+//
+//    public Class getRuleInterfaceClass() {
+//        return AddProtocolAttachmentPersonnelRule.class;
+//    }
+//
+//    public boolean invokeRuleMethod(BusinessRule rule) {
+//        return ((AddProtocolAttachmentPersonnelRule) rule).processAddProtocolAttachmentPersonnelRules(this);
+//    }
 
 }

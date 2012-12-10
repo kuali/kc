@@ -24,7 +24,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -34,16 +33,13 @@ import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.irb.personnel.ProtocolPersonRole;
 import org.kuali.kra.irb.personnel.ProtocolPersonTrainingService;
-import org.kuali.kra.irb.personnel.ProtocolUnit;
 import org.kuali.kra.personmasschange.bo.PersonMassChange;
 import org.kuali.kra.personmasschange.service.ProtocolPersonMassChangeService;
-import org.kuali.kra.rules.ErrorReporter;
-import org.kuali.kra.service.KcPersonService;
+import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewBase;
+import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
+import org.kuali.kra.protocol.personnel.ProtocolUnitBase;
 import org.kuali.kra.service.PersonEditableService;
-import org.kuali.kra.service.RolodexService;
-import org.kuali.kra.service.Sponsorable;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
-import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * Defines the service for performing a Person Mass Change on Protocols.
@@ -127,8 +123,8 @@ public class ProtocolPersonMassChangeServiceImpl extends MassPersonChangeService
         boolean isProtocolChangeCandidate = false;
         boolean hasErrors = false;
         
-        List<ProtocolPerson> persons = protocol.getProtocolPersons();
-        List<ProtocolOnlineReview> onlineReviews = protocol.getProtocolOnlineReviews();
+        List<ProtocolPerson> persons = (List) protocol.getProtocolPersons();
+        List<ProtocolOnlineReview> onlineReviews = (List) protocol.getProtocolOnlineReviews();
         
         String[] investigatorRoles = { ProtocolPersonRole.ROLE_PRINCIPAL_INVESTIGATOR, ProtocolPersonRole.ROLE_CO_INVESTIGATOR };
         String[] keyStudyPersonRoles = { ProtocolPersonRole.ROLE_STUDY_PERSONNEL };
@@ -159,7 +155,7 @@ public class ProtocolPersonMassChangeServiceImpl extends MassPersonChangeService
         boolean isReviewerChangeCandidate = false;
         
         for (ProtocolOnlineReview onlineReview : onlineReviews) {
-            ProtocolReviewer reviewer = onlineReview.getProtocolReviewer();
+            ProtocolReviewer reviewer = (ProtocolReviewer) onlineReview.getProtocolReviewer();
             if (isPersonIdMassChange(personMassChange, reviewer.getPersonId()) || isRolodexIdMassChange(personMassChange, reviewer.getRolodexId())) {
                 isReviewerChangeCandidate = true;
                 break;
@@ -203,7 +199,7 @@ public class ProtocolPersonMassChangeServiceImpl extends MassPersonChangeService
     }
 
     private void performPersonPersonMassChange(PersonMassChange personMassChange, Protocol protocol, String... personRoles) {
-        for (ProtocolPerson person : protocol.getProtocolPersons()) {
+        for (ProtocolPersonBase person : protocol.getProtocolPersons()) {
             if (isPersonInRole(person, personRoles)) {
                 if (isPersonIdMassChange(personMassChange, person.getPersonId()) || isRolodexIdMassChange(personMassChange, person.getRolodexId())) {
                     if (personMassChange.getReplacerPersonId() != null) {
@@ -214,7 +210,7 @@ public class ProtocolPersonMassChangeServiceImpl extends MassPersonChangeService
                         getPersonEditableService().populateContactFieldsFromPersonId(person);
                         getProtocolPersonTrainingService().setTrainedFlag(person);
                         
-                        for (ProtocolUnit unit : person.getProtocolUnits()) {
+                        for (ProtocolUnitBase unit : person.getProtocolUnits()) {
                             unit.setPersonId(personMassChange.getReplacerPersonId());
                         }
                     } else if (personMassChange.getReplacerRolodexId() != null) {
@@ -225,7 +221,7 @@ public class ProtocolPersonMassChangeServiceImpl extends MassPersonChangeService
                         getPersonEditableService().populateContactFieldsFromRolodexId(person);
                         getProtocolPersonTrainingService().setTrainedFlag(person);
                         
-                        for (ProtocolUnit unit : person.getProtocolUnits()) {
+                        for (ProtocolUnitBase unit : person.getProtocolUnits()) {
                             unit.setPersonId(null);
                         }
                     }
@@ -238,8 +234,8 @@ public class ProtocolPersonMassChangeServiceImpl extends MassPersonChangeService
 
     private void performReviewerPersonMassChange(PersonMassChange personMassChange, Protocol protocol) {
         if (personMassChange.getProtocolPersonMassChange().isReviewer()) {
-            for (ProtocolOnlineReview onlineReview : protocol.getProtocolOnlineReviews()) {
-                ProtocolReviewer reviewer = onlineReview.getProtocolReviewer();
+            for (ProtocolOnlineReviewBase onlineReview : protocol.getProtocolOnlineReviews()) {
+                ProtocolReviewer reviewer = (ProtocolReviewer) onlineReview.getProtocolReviewer();
                 if (isPersonIdMassChange(personMassChange, reviewer.getPersonId()) || isRolodexIdMassChange(personMassChange, reviewer.getRolodexId())) {
                     if (personMassChange.getReplacerPersonId() != null) {
                         KcPerson kcPerson = getKcPersonService().getKcPersonByPersonId(personMassChange.getReplacerPersonId());

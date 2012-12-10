@@ -16,22 +16,33 @@
 package org.kuali.kra.irb.personnel;
 
 import org.kuali.kra.irb.ProtocolDocument;
+import org.kuali.kra.protocol.personnel.SaveProtocolPersonnelEventBase;
 import org.kuali.kra.rule.BusinessRuleInterface;
-import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 
 /**
  * Represents the event to save a ProtocolPersonnel.
  */
-public class SaveProtocolPersonnelEvent extends KraDocumentEventBaseExtension {
-
+public class SaveProtocolPersonnelEvent extends SaveProtocolPersonnelEventBase {
+    
     /**
      * Constructs an SaveProtocolPersonnelEvent.
      * @param errorPathPrefix The error path prefix
      * @param document The document to validate
      */
     public SaveProtocolPersonnelEvent(String errorPathPrefix, ProtocolDocument document) {
-        super("Saving protocol personnel on document " + getDocumentId(document), errorPathPrefix, document);
+        super(errorPathPrefix, document);
     }
+    
+
+// TODO ********************** commented out during IRB backfit ************************    
+//    /**
+//     * Constructs an SaveProtocolPersonnelEvent.
+//     * @param errorPathPrefix The error path prefix
+//     * @param document The document to validate
+//     */
+//    public SaveProtocolPersonnelEvent(String errorPathPrefix, ProtocolDocument document) {
+//        super("Saving protocol personnel on document " + getDocumentId(document), errorPathPrefix, document);
+//    }
 
     @Override
     @SuppressWarnings("unchecked")

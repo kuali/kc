@@ -19,49 +19,60 @@ import java.util.List;
 
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.onlinereview.ProtocolReviewAttachment;
-import org.kuali.kra.rule.BusinessRuleInterface;
-import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
+import org.kuali.kra.protocol.actions.reviewcomments.ProtocolManageReviewAttachmentEventBase;
 
 /**
  * 
  * This class is for the rule event of 'manage review attachment'
  */
-public class ProtocolManageReviewAttachmentEvent extends KraDocumentEventBaseExtension {
-    
-    private String propertyName;
-    private List<ProtocolReviewAttachment> reviewAttachments;
+@SuppressWarnings("unchecked")
+public class ProtocolManageReviewAttachmentEvent extends ProtocolManageReviewAttachmentEventBase<ProtocolReviewAttachment> {
 
-    /**
-     * Constructs a ProtocolManageReviewAttachmentEvent.
-     * 
-     * @param document The document to validate
-     * @param propertyName The error path property prefix
-     * @param reviewAttachments The manage Reviewer Attachment
-     */
     public ProtocolManageReviewAttachmentEvent(ProtocolDocument document, String propertyName, List<ProtocolReviewAttachment> reviewAttachments) {
-        super("Enter reviewer attachment", "", document);
-        this.propertyName = propertyName;
-        this.reviewAttachments = reviewAttachments;
-    }
-    
-    public ProtocolDocument getProtocolDocument() {
-        return (ProtocolDocument) getDocument();
-    }
-    
-    public String getPropertyName() {
-        return propertyName;
-    }
-    
- 
-    @Override
-    @SuppressWarnings("unchecked")
-    public BusinessRuleInterface getRule() {
-        return new ProtocolManageReviewAttachmentRule();
+        super(document, propertyName, reviewAttachments);
     }
 
-    public List<ProtocolReviewAttachment> getReviewAttachments() {
-        return reviewAttachments;
+    @Override
+    protected ProtocolManageReviewAttachmentRule getNewProtocolManageReviewAttachmentRuleInstaceHook() {
+        return new ProtocolManageReviewAttachmentRule(); 
     }
+    
+    
+// TODO ********************** commented out during IRB backfit ************************    
+//    private String propertyName;
+//    private List<ProtocolReviewAttachment> reviewAttachments;
+//
+//    /**
+//     * Constructs a ProtocolManageReviewAttachmentEvent.
+//     * 
+//     * @param document The document to validate
+//     * @param propertyName The error path property prefix
+//     * @param reviewAttachments The manage Reviewer Attachment
+//     */
+//    public ProtocolManageReviewAttachmentEvent(ProtocolDocument document, String propertyName, List<ProtocolReviewAttachment> reviewAttachments) {
+//        super("Enter reviewer attachment", "", document);
+//        this.propertyName = propertyName;
+//        this.reviewAttachments = reviewAttachments;
+//    }
+//    
+//    public ProtocolDocument getProtocolDocument() {
+//        return (ProtocolDocument) getDocument();
+//    }
+//    
+//    public String getPropertyName() {
+//        return propertyName;
+//    }
+//    
+// 
+//    @Override
+//    @SuppressWarnings("unchecked")
+//    public BusinessRuleInterface getRule() {
+//        return new ProtocolManageReviewAttachmentRule();
+//    }
+//
+//    public List<ProtocolReviewAttachment> getReviewAttachments() {
+//        return reviewAttachments;
+//    }
 
 
 }

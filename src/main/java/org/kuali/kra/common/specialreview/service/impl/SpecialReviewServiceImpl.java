@@ -150,13 +150,15 @@ public class SpecialReviewServiceImpl implements SpecialReviewService {
      * @see org.kuali.kra.common.specialreview.service.SpecialReviewService#isLinkedToProtocolFundingSource(java.lang.String, java.lang.String, 
      *      java.lang.String)
      */
+    @SuppressWarnings("unchecked")
     public boolean isLinkedToProtocolFundingSource(String protocolNumber, String fundingSourceNumber, String fundingSourceTypeCode) {
         boolean isLinkedToProtocolFundingSource = false;
         
         if (StringUtils.isNotBlank(protocolNumber)) {
-            Protocol protocol = getProtocolFinderDao().findCurrentProtocolByNumber(protocolNumber);
+            Protocol protocol = (Protocol)getProtocolFinderDao().findCurrentProtocolByNumber(protocolNumber);
             if (protocol != null) {
-                for (ProtocolFundingSource protocolFundingSource : protocol.getProtocolFundingSources()) {
+                List<ProtocolFundingSource> protocolFundingSources = (List)protocol.getProtocolFundingSources();
+                for (ProtocolFundingSource protocolFundingSource : protocolFundingSources) {
                     if (StringUtils.equals(protocolFundingSource.getFundingSourceNumber(), fundingSourceNumber) 
                         && StringUtils.equals(protocolFundingSource.getFundingSourceTypeCode(), fundingSourceTypeCode)) {
                         isLinkedToProtocolFundingSource = true;
@@ -232,12 +234,14 @@ public class SpecialReviewServiceImpl implements SpecialReviewService {
      * @see org.kuali.kra.common.specialreview.service.SpecialReviewService#deleteProtocolFundingSourceForSpecialReview(java.lang.String, java.lang.String, 
      *      java.lang.String)
      */
+    @SuppressWarnings("unchecked")
     public void deleteProtocolFundingSourceForSpecialReview(String protocolNumber, String fundingSourceNumber, String fundingSourceTypeCode) {
         Protocol protocol = getProtocolFinderDao().findCurrentProtocolByNumber(protocolNumber);
         if (protocol != null) {
             List<ProtocolFundingSource> deletedProtocolFundingSources = new ArrayList<ProtocolFundingSource>();
             
-            for (ProtocolFundingSource protocolFundingSource : protocol.getProtocolFundingSources()) {
+            List<ProtocolFundingSource> protocolFundingSources = (List)protocol.getProtocolFundingSources();
+            for (ProtocolFundingSource protocolFundingSource : protocolFundingSources) {
                 if (StringUtils.equals(protocolFundingSource.getFundingSourceNumber(), fundingSourceNumber) 
                     && StringUtils.equals(protocolFundingSource.getFundingSourceTypeCode(), fundingSourceTypeCode)) {
                     deletedProtocolFundingSources.add(protocolFundingSource);

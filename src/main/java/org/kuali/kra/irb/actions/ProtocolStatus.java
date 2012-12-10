@@ -15,9 +15,14 @@
  */
 package org.kuali.kra.irb.actions;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.protocol.actions.ProtocolStatusBase;
 
-public class ProtocolStatus extends KraPersistableBusinessObjectBase {
+public class ProtocolStatus extends ProtocolStatusBase {
+
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = -5947289991209122441L;
 
     public static final String IN_PROGRESS = "100";
 
@@ -69,26 +74,27 @@ public class ProtocolStatus extends KraPersistableBusinessObjectBase {
 
     public static final String RENEWAL_MERGED = "401";
 
-    private String protocolStatusCode;
-
-    private String description;
-
-    public ProtocolStatus() {
-    }
-
-    public String getProtocolStatusCode() {
-        return protocolStatusCode;
-    }
-
-    public void setProtocolStatusCode(String protocolStatusCode) {
-        this.protocolStatusCode = protocolStatusCode;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
+// TODO ********************** commented out during IRB backfit ************************    
+//    private String protocolStatusCode;
+//
+//    private String description;
+//
+//    public ProtocolStatus() {
+//    }
+//
+//    public String getProtocolStatusCode() {
+//        return protocolStatusCode;
+//    }
+//
+//    public void setProtocolStatusCode(String protocolStatusCode) {
+//        this.protocolStatusCode = protocolStatusCode;
+//    }
+//
+//    public String getDescription() {
+//        return description;
+//    }
+//
+//    public void setDescription(String description) {
+//        this.description = description;
+//    }
 }

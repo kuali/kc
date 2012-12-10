@@ -15,39 +15,34 @@
  */
 package org.kuali.kra.committee.service;
 
-import java.util.List;
-
-import org.kuali.kra.common.committee.print.CommitteeReportType;
-import org.kuali.kra.printing.Printable;
-import org.kuali.kra.printing.PrintingException;
-import org.kuali.kra.printing.print.AbstractPrint;
-import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
+import org.kuali.kra.common.committee.print.service.CommitteePrintingServiceBase;
 
 /**
  * This class provides the means for printing reports related to Committee. It has the
  * capability to provide a PDF document of various reports related to Committee like 
  * Roster and Future Scheduled Meetings.
  */
-public interface CommitteePrintingService {
-    
-    /**
-     * 
-     * This method gets the specific implementation for printing a committee report based
-     * on the report type.
-     * @param printType
-     * @return printable
-     */
-    AbstractPrint getCommitteePrintable(CommitteeReportType reportType);
-    
-    /**
-     * This method generates the required report and returns the PDF stream as
-     * {@link AttachmentDataSource}.
-     * 
-     * @param printableArtifact the specific implementation for printing the report.
-     * @return {@link AttachmentDataSource} which contains the byte array of the
-     *         generated PDF
-     * @throws PrintingException if any errors occur during report generation
-     */
-    AttachmentDataSource print(List<Printable> printableArtifactList) throws PrintingException;
+public interface CommitteePrintingService extends CommitteePrintingServiceBase {
+
+// TODO ********************** commented out during IRB backfit ************************    
+//    /**
+//     * 
+//     * This method gets the specific implementation for printing a committee report based
+//     * on the report type.
+//     * @param printType
+//     * @return printable
+//     */
+//    AbstractPrint getCommitteePrintable(CommitteeReportType reportType);
+//    
+//    /**
+//     * This method generates the required report and returns the PDF stream as
+//     * {@link AttachmentDataSource}.
+//     * 
+//     * @param printableArtifact the specific implementation for printing the report.
+//     * @return {@link AttachmentDataSource} which contains the byte array of the
+//     *         generated PDF
+//     * @throws PrintingException if any errors occur during report generation
+//     */
+//    AttachmentDataSource print(List<Printable> printableArtifactList) throws PrintingException;
 
 }

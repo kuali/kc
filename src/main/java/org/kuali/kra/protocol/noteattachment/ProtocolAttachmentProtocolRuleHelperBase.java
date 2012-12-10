@@ -56,18 +56,18 @@ public abstract class ProtocolAttachmentProtocolRuleHelperBase {
 //        this.resetPropertyPrefix(aPropertyPrefix);
 //    }
 //    
-//    /**
-//     * Creates helper deferring the setting of the prefix to later and setting used services.
-//     * @param attachmentService the Attachment Service
-//     * @throws IllegalArgumentException if the attachmentService is null
-//     */
-//    protected ProtocolAttachmentProtocolRuleHelperBase(final ProtocolAttachmentService attachmentService) {
-//        if (attachmentService == null) {
-//            throw new IllegalArgumentException("the attachmentService is null");
-//        }
-//        
-//        this.attachmentService = attachmentService;
-//    }
+    /**
+     * Creates helper deferring the setting of the prefix to later and setting used services.
+     * @param attachmentService the Attachment Service
+     * @throws IllegalArgumentException if the attachmentService is null
+     */
+    protected ProtocolAttachmentProtocolRuleHelperBase(final ProtocolAttachmentService attachmentService) {
+        if (attachmentService == null) {
+            throw new IllegalArgumentException("the attachmentService is null");
+        }
+        
+        this.attachmentService = attachmentService;
+    }
     
     /**
      * New constructor added in uplift
@@ -86,7 +86,7 @@ public abstract class ProtocolAttachmentProtocolRuleHelperBase {
      * @param aPropertyPrefix the prefix (ex: notesAttachmentsHelper.newAttachmentProtocol)
      * @throws IllegalArgumentException if the propertyPrefix is null
      */
-    protected void resetPropertyPrefix(final String aPropertyPrefix) {
+    public void resetPropertyPrefix(final String aPropertyPrefix) {
         if (aPropertyPrefix == null) {
             throw new IllegalArgumentException("propertyPrefix is null");
         }
@@ -117,7 +117,7 @@ public abstract class ProtocolAttachmentProtocolRuleHelperBase {
      * @param attachment the attachment.
      * @return true if valid.
      */
-    protected boolean validStatus(final ProtocolAttachmentProtocolBase attachment) {
+    public boolean validStatus(final ProtocolAttachmentProtocolBase attachment) {
         
         //This assumes that the status object has been refreshed from the DB
         //and if not found the refresh action set the person to null.

@@ -368,7 +368,7 @@ public abstract class ProtocolDocumentRuleBase<CD extends CommitteeDecision<? ex
         return newProtocolSubmitActionRuleInstanceHook().processSubmitAction(document, submitAction);
     }
 
-    protected abstract ProtocolSubmitActionRuleBase newProtocolSubmitActionRuleInstanceHook();
+    protected abstract ExecuteProtocolSubmitActionRule newProtocolSubmitActionRuleInstanceHook();
 
 // TODO *********commented the code below during IACUC refactoring*********     
 //    /**

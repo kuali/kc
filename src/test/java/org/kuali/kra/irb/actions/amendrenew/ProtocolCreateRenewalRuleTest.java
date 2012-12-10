@@ -40,7 +40,8 @@ public class ProtocolCreateRenewalRuleTest {
     @Test
     public void testOK() {
 
-        CreateRenewalEvent<?> event = new CreateRenewalEvent<CreateRenewalRule>(null, PROPERTY_KEY, SUMMARY);
+        //CreateRenewalEvent<?> event = new CreateRenewalEvent<CreateRenewalRule>(null, PROPERTY_KEY, SUMMARY);
+        CreateRenewalEvent event = new CreateRenewalEvent(null, PROPERTY_KEY, SUMMARY);
 
         CreateRenewalRule rule = new CreateRenewalRule();
         assertTrue(rule.processRules(event));
@@ -49,7 +50,8 @@ public class ProtocolCreateRenewalRuleTest {
     @Test
     public void testSummary() {
 
-        CreateRenewalEvent<?> event = new CreateRenewalEvent<CreateRenewalRule>(null, PROPERTY_KEY, "");
+        //CreateRenewalEvent<?> event = new CreateRenewalEvent<CreateRenewalRule>(null, PROPERTY_KEY, "");
+        CreateRenewalEvent event = new CreateRenewalEvent(null, PROPERTY_KEY, "");
 
         CreateRenewalRule rule = new CreateRenewalRule();
         assertFalse(rule.processRules(event));

@@ -15,26 +15,25 @@
  */
 package org.kuali.kra.irb.actions.amendrenew;
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.rule.BusinessRuleInterface;
-import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.kra.protocol.actions.amendrenew.CreateRenewalRuleBase;
 
 /**
  * 
  * This class checks the summary for 'create renewal without amendment' is not empty
  */
-public class CreateRenewalRule extends ResearchDocumentRuleBase implements BusinessRuleInterface<CreateRenewalEvent> {
+public class CreateRenewalRule extends CreateRenewalRuleBase {
 
-    public boolean processRules(CreateRenewalEvent event) {
-        
-        boolean valid = true;
-        
-        if (StringUtils.isBlank(event.getRenewalSummary())) {
-            valid = false;
-            reportError(event.getPropertyName(), KeyConstants.ERROR_PROTOCOL_SUMMARY_IS_REQUIRED);
-        }
-                
-        return valid;
-    }
+// TODO ********************** commented out during IRB backfit ************************    
+//    public boolean processRules(CreateRenewalEvent event) {
+//        
+//        boolean valid = true;
+//        
+//        if (StringUtils.isBlank(event.getRenewalSummary())) {
+//            valid = false;
+//            reportError(event.getPropertyName(), KeyConstants.ERROR_PROTOCOL_SUMMARY_IS_REQUIRED);
+//        }
+//                
+//        return valid;
+//    }
+    
 }

@@ -113,7 +113,7 @@ public class ProtocolAssignToAgendaServiceTest extends KcUnitTestBase {
         protocolDocument.getProtocol().getProtocolSubmissions().add(submission);
         ProtocolForm form = new ProtocolForm();
         ActionHelper actionHelper = new ActionHelper(form);
-        ProtocolAssignToAgendaBean actionBean = actionHelper.getAssignToAgendaBean();
+        ProtocolAssignToAgendaBean actionBean = (ProtocolAssignToAgendaBean) actionHelper.getAssignToAgendaBean();
         actionBean.setComments("this is a comment");
         actionBean.setCommitteName("committee name");
         actionBean.setProtocolAssigned(true);
@@ -170,7 +170,7 @@ public class ProtocolAssignToAgendaServiceTest extends KcUnitTestBase {
         protocolDocument.getProtocol().getProtocolSubmissions().add(submission);
         List<ProtocolAction> actions = new ArrayList<ProtocolAction>();
         actions.add(new ProtocolAction(protocolDocument.getProtocol(), submission, ProtocolActionType.SUBMIT_TO_IRB));
-        protocolDocument.getProtocol().setProtocolActions(actions);
+        protocolDocument.getProtocol().setProtocolActions((List)actions);
         boolean result = protocolAssignToAgendaService.isAssignedToAgenda(protocolDocument.getProtocol());
         assertFalse(result);
     }
@@ -182,7 +182,7 @@ public class ProtocolAssignToAgendaServiceTest extends KcUnitTestBase {
         protocolDocument.getProtocol().getProtocolSubmissions().add(submission);
         List<ProtocolAction> actions = new ArrayList<ProtocolAction>();
         actions.add(new ProtocolAction(protocolDocument.getProtocol(), submission, ProtocolActionType.ASSIGN_TO_AGENDA));
-        protocolDocument.getProtocol().setProtocolActions(actions);
+        protocolDocument.getProtocol().setProtocolActions((List)actions);
         boolean result = protocolAssignToAgendaService.isAssignedToAgenda(protocolDocument.getProtocol());
         assertTrue(result);
     }
@@ -197,7 +197,7 @@ public class ProtocolAssignToAgendaServiceTest extends KcUnitTestBase {
         String comments = "My test protocol action comments";
         pa.setComments(comments);
         actions.add(pa);
-        protocolDocument.getProtocol().setProtocolActions(actions);
+        protocolDocument.getProtocol().setProtocolActions((List)actions);
         String result = protocolAssignToAgendaService.getAssignToAgendaComments(protocolDocument.getProtocol());
         assertEquals(comments, result);
     }

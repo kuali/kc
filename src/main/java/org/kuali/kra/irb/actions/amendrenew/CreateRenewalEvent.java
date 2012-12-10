@@ -16,39 +16,46 @@
 package org.kuali.kra.irb.actions.amendrenew;
 
 import org.kuali.kra.irb.ProtocolDocument;
-import org.kuali.kra.rule.BusinessRuleInterface;
-import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
+import org.kuali.kra.protocol.actions.amendrenew.CreateRenewalEventBase;
 
 /**
  * Rule Event for creating renewal without amendment.
  * This class...
  */
-public class CreateRenewalEvent <T extends BusinessRuleInterface> extends KraDocumentEventBaseExtension {
-
-    private String renewalSummary;
-    private String propertyName;
-
+@SuppressWarnings("unchecked")
+public class CreateRenewalEvent extends CreateRenewalEventBase {
+    
     public CreateRenewalEvent(ProtocolDocument document, String propertyName, String renewalSummary) {
-        super("Create Renewal", "", document);
-        this.propertyName = propertyName;
-        this.renewalSummary = renewalSummary;
-    }
-    
-    public ProtocolDocument getProtocolDocument() {
-        return (ProtocolDocument) getDocument();
-    }
-    
-    public String getPropertyName() {
-        return propertyName;
-    }
-    
-    public String getRenewalSummary() {
-        return renewalSummary;
+        super(document, propertyName, renewalSummary);
     }
 
     @Override
-    public BusinessRuleInterface getRule() {
+    public CreateRenewalRule getRule() {
         return new CreateRenewalRule();
     }
+    
+    
+// TODO ********************** commented out during IRB backfit ************************    
+//    private String renewalSummary;
+//    private String propertyName;
+//
+//    public CreateRenewalEvent(ProtocolDocument document, String propertyName, String renewalSummary) {
+//        super("Create Renewal", "", document);
+//        this.propertyName = propertyName;
+//        this.renewalSummary = renewalSummary;
+//    }
+//    
+//    public ProtocolDocument getProtocolDocument() {
+//        return (ProtocolDocument) getDocument();
+//    }
+//    
+//    public String getPropertyName() {
+//        return propertyName;
+//    }
+//    
+//    public String getRenewalSummary() {
+//        return renewalSummary;
+//    }
+
 }
 

@@ -62,7 +62,7 @@ public abstract class CommitteeIdValuesFinderBase extends KeyValuesBase {
      * This method will return the list of all highest-sequence number committee instances.
      * Will always return non-null (but possibly empty) collection.
      */
-    protected List<CommitteeBase> getActiveCommittees() {
+    public List<CommitteeBase> getActiveCommittees() {
         ArrayList<CommitteeBase> returnCommitteeList = new ArrayList<CommitteeBase>();
         
 // TODO *********commented the code below during IACUC refactoring*********         

@@ -19,7 +19,8 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 import org.kuali.kra.committee.bo.Committee;
-import org.kuali.kra.committee.document.authorization.CommitteeTask;
+import org.kuali.kra.common.committee.document.authorization.CommitteeTaskBase;
+import org.kuali.kra.infrastructure.TaskGroupName;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.impl.mocks.KraAuthorizationServiceMock;
@@ -36,7 +37,7 @@ public class ModifyScheduleAuthorizerTest {
         authorizer.setKraAuthorizationService(kraAuthorizationService);
         
         Committee committee = createCommittee("modifyschedule1", "modify schedule test");
-        CommitteeTask task = new CommitteeTask(TaskName.VIEW_SCHEDULE, committee);
+        CommitteeTaskBase<Committee> task = new CommitteeTaskBase<Committee>(TaskGroupName.COMMITTEE, TaskName.VIEW_SCHEDULE, committee) {};
         assertEquals(true, authorizer.isAuthorized(USERNAME, task));
         final KraAuthorizationService kraAuthorizationService1 = new KraAuthorizationServiceMock(false);
         authorizer.setKraAuthorizationService(kraAuthorizationService1);

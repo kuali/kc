@@ -15,36 +15,42 @@
  */
 package org.kuali.kra.meeting;
 
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.common.committee.meeting.ProtocolContingencyBase;
 
 /**
  * 
  * This class is standard protocol review comment.
  */
-public class ProtocolContingency extends KraPersistableBusinessObjectBase {
+public class ProtocolContingency extends ProtocolContingencyBase {
 
-    private static final long serialVersionUID = 9043529163603762324L;
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = -8653530847814189648L;
 
-    private String protocolContingencyCode;
+    
+// TODO ********************** commented out during IRB backfit ************************
+//    private String protocolContingencyCode;
+//
+//    private String description;
+//
+//    public ProtocolContingency() {
+//    }
+//
+//    public String getProtocolContingencyCode() {
+//        return protocolContingencyCode;
+//    }
+//
+//    public void setProtocolContingencyCode(String protocolContingencyCode) {
+//        this.protocolContingencyCode = protocolContingencyCode;
+//    }
+//
+//    public String getDescription() {
+//        return description;
+//    }
+//
+//    public void setDescription(String description) {
+//        this.description = description;
+//    }
 
-    private String description;
-
-    public ProtocolContingency() {
-    }
-
-    public String getProtocolContingencyCode() {
-        return protocolContingencyCode;
-    }
-
-    public void setProtocolContingencyCode(String protocolContingencyCode) {
-        this.protocolContingencyCode = protocolContingencyCode;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
 }

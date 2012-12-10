@@ -15,13 +15,15 @@
  */
 package org.kuali.kra.committee.service;
 
-import java.util.Set;
+import org.kuali.kra.common.committee.service.CommitteeScheduleAttendanceServiceBase;
 
-public interface CommitteeScheduleAttendanceService {
+public interface CommitteeScheduleAttendanceService extends CommitteeScheduleAttendanceServiceBase {
+
+// TODO ********************** commented out during IRB backfit ************************    
+//    Set<String> getVotingMembersPresent (String committeeId, String scheduleId);
+//    
+//    Set<String> getActualVotingMembersPresent (String committeeId, String scheduleId);
+//    
+//    int getActualVotingMembersCount (String committeeId, String scheduleId);
     
-    Set<String> getVotingMembersPresent (String committeeId, String scheduleId);
-    
-    Set<String> getActualVotingMembersPresent (String committeeId, String scheduleId);
-    
-    int getActualVotingMembersCount (String committeeId, String scheduleId);
 }

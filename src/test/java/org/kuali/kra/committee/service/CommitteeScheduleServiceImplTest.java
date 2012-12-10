@@ -51,6 +51,7 @@ import org.kuali.kra.common.committee.web.struts.form.schedule.WeeklyScheduleDet
 import org.kuali.kra.common.committee.web.struts.form.schedule.YearlyScheduleDetails;
 import org.kuali.kra.common.committee.web.struts.form.schedule.Time12HrFmt.MERIDIEM;
 import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.scheduling.expr.util.CronSpecialChars;
 import org.kuali.kra.scheduling.sequence.DefaultScheduleSequence;
 import org.kuali.kra.scheduling.sequence.ScheduleSequence;
@@ -437,7 +438,7 @@ public class CommitteeScheduleServiceImplTest  {
     public void testIsCommitteeScheduleDeletableWithProtocol() throws Exception {
         boolean flag = false;  
         Protocol protocol = context.mock(Protocol.class);       
-        committeeSchedule.setProtocols(new ArrayList<Protocol>());
+        committeeSchedule.setProtocols(new ArrayList<ProtocolBase>());
         committeeSchedule.getProtocols().add(protocol);
         flag = service.isCommitteeScheduleDeletable(committeeSchedule);
         assertFalse(flag);

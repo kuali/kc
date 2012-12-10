@@ -15,19 +15,27 @@
  */
 package org.kuali.kra.committee.document.authorizer;
 
-import org.kuali.kra.committee.document.authorization.CommitteeTask;
+import org.kuali.kra.common.committee.document.authorizer.ViewCommitteeAuthorizerBase;
 import org.kuali.kra.infrastructure.PermissionConstants;
 
 /**
  * The View Committee Authorizer determines if a user has the right
  * to view a specific committee.
  */
-public class ViewCommitteeAuthorizer extends CommitteeAuthorizer {
+public class ViewCommitteeAuthorizer extends ViewCommitteeAuthorizerBase {
 
-    /**
-     * @see org.kuali.kra.irb.document.authorizer.CommitteeAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.irb.document.authorization.CommitteeTask)
-     */
-    public boolean isAuthorized(String userId, CommitteeTask task) {
-        return hasPermission(userId, task.getCommittee(), PermissionConstants.VIEW_COMMITTEE);
+    @Override
+    protected String getPermissionNameForViewCommitteeHook() {
+        return PermissionConstants.VIEW_COMMITTEE;
     }
+
+    
+// TODO ********************** commented out during IRB backfit ************************    
+//    /**
+//     * @see org.kuali.kra.irb.document.authorizer.CommitteeAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.irb.document.authorization.CommitteeTask)
+//     */
+//    public boolean isAuthorized(String userId, CommitteeTask task) {
+//        return hasPermission(userId, task.getCommittee(), PermissionConstants.VIEW_COMMITTEE);
+//    }
+    
 }

@@ -197,7 +197,10 @@ public abstract class ProtocolGenericActionServiceImplBase implements ProtocolGe
     
     
     
-    private ProtocolActionBase createProtocolActionAndAttach(ProtocolBase protocol, ProtocolGenericActionBean actionBean, String protocolActionType) {
+    protected ProtocolActionBase createProtocolActionAndAttach(ProtocolBase protocol, ProtocolGenericActionBean actionBean, String protocolActionType) {
+     // TODO ********************** added or modified during IRB backfit merge BEGIN ********************** 
+        protocol.refreshReferenceObject("protocolSubmission");
+     // TODO ********************** added or modified during IRB backfit merge END ************************
         ProtocolActionBase protocolAction = getNewProtocolActionInstanceHook(protocol, null, protocolActionType);
         protocolAction.setComments(actionBean.getComments());
         protocolAction.setActionDate(new Timestamp(actionBean.getActionDate().getTime()));
@@ -263,7 +266,7 @@ public abstract class ProtocolGenericActionServiceImplBase implements ProtocolGe
     
     
     
-    private ProtocolDocumentBase getVersionedDocument(ProtocolBase protocol) throws Exception {
+    protected ProtocolDocumentBase getVersionedDocument(ProtocolBase protocol) throws Exception {
         ProtocolDocumentBase newDocument = protocolVersionService.versionProtocolDocument(protocol.getProtocolDocument());
 //        protocolOnlineReviewService.moveOnlineReviews(protocol.getProtocolSubmission(), newDocument.getProtocol().getProtocolSubmission());
         newDocument.getProtocol().setProtocolSubmission(null);
@@ -272,6 +275,9 @@ public abstract class ProtocolGenericActionServiceImplBase implements ProtocolGe
         newDocument.getProtocol().setExpirationDate(null);
         
         newDocument.getProtocol().refreshReferenceObject("protocolStatus");
+     // TODO ********************** added or modified during IRB backfit merge BEGIN ********************** 
+        newDocument.getProtocol().refreshReferenceObject("protocolSubmission");
+     // TODO ********************** added or modified during IRB backfit merge END ************************
         documentService.saveDocument(newDocument);
         
         return newDocument;

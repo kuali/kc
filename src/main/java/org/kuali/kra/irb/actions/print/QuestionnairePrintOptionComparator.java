@@ -16,6 +16,7 @@
 package org.kuali.kra.irb.actions.print;
 
 import java.util.Comparator;
+import org.kuali.kra.protocol.actions.print.QuestionnairePrintOption;
 
 import org.apache.commons.lang.ObjectUtils;
 

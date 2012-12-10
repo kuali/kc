@@ -15,54 +15,66 @@
  */
 package org.kuali.kra.irb.actions.decision;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
 import org.kuali.kra.irb.ProtocolDocument;
-import org.kuali.kra.rule.event.KraDocumentEventBase;
-import org.kuali.rice.krad.rules.rule.BusinessRule;
+import org.kuali.kra.protocol.actions.decision.CommitteeDecisionAbstainerEventBase;
 
 /**
  * 
  * This class...
  */
-public class CommitteeDecisionAbstainerEvent extends KraDocumentEventBase {
+@SuppressWarnings({ "unchecked", "rawtypes" })
+public class CommitteeDecisionAbstainerEvent extends CommitteeDecisionAbstainerEventBase {
     
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(CommitteeDecisionAbstainerEvent.class);
-    private CommitteeDecision actionBean;
     
-    /**
-     * 
-     * Constructs a CommitteeDecisionAbstainerEvent.java.
-     * @param document
-     * @param decision
-     */
     public CommitteeDecisionAbstainerEvent(ProtocolDocument document, CommitteeDecision decision) {
-        super("Recording Committee Decision " + getDocumentId(document), "", document);
-        this.actionBean = decision;
+        super(document, decision);
     }
+
 
     @Override
-    protected void logEvent() {
-        StringBuffer logMessage = new StringBuffer(StringUtils.substringAfterLast(this.getClass().getName(), "."));
-        logMessage.append(" with ");
-
-        // vary logging detail as needed
-        if (this.actionBean == null) {
-            logMessage.append("null actionBean");
-        } else {
-            logMessage.append(actionBean.toString());
-        }
-
-        LOG.debug(logMessage);
-
+    protected Log getLOGHook() {
+        return LOG;
     }
-
-    public Class<ExecuteCommitteeDecisionAbstainerRule> getRuleInterfaceClass() {
-        return ExecuteCommitteeDecisionAbstainerRule.class;
-    }
-
-    public boolean invokeRuleMethod(BusinessRule rule) {
-        return ((ExecuteCommitteeDecisionAbstainerRule) rule).proccessCommitteeDecisionAbstainerRule((ProtocolDocument) this.getDocument(),
-                this.actionBean);
-    }
+    
+// TODO ********************** commented out during IRB backfit ************************    
+//    private CommitteeDecision actionBean;
+//    
+//    /**
+//     * 
+//     * Constructs a CommitteeDecisionAbstainerEvent.java.
+//     * @param document
+//     * @param decision
+//     */
+//    public CommitteeDecisionAbstainerEvent(ProtocolDocument document, CommitteeDecision decision) {
+//        super("Recording Committee Decision " + getDocumentId(document), "", document);
+//        this.actionBean = decision;
+//    }
+//
+//    @Override
+//    protected void logEvent() {
+//        StringBuffer logMessage = new StringBuffer(StringUtils.substringAfterLast(this.getClass().getName(), "."));
+//        logMessage.append(" with ");
+//
+//        // vary logging detail as needed
+//        if (this.actionBean == null) {
+//            logMessage.append("null actionBean");
+//        } else {
+//            logMessage.append(actionBean.toString());
+//        }
+//
+//        LOG.debug(logMessage);
+//
+//    }
+//
+//    public Class<ExecuteCommitteeDecisionAbstainerRule> getRuleInterfaceClass() {
+//        return ExecuteCommitteeDecisionAbstainerRule.class;
+//    }
+//
+//    public boolean invokeRuleMethod(BusinessRule rule) {
+//        return ((ExecuteCommitteeDecisionAbstainerRule) rule).proccessCommitteeDecisionAbstainerRule((ProtocolDocument) this.getDocument(),
+//                this.actionBean);
+//    }
 
 }

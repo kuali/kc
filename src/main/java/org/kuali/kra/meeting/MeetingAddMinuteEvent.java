@@ -16,29 +16,44 @@
 package org.kuali.kra.meeting;
 
 import org.kuali.kra.committee.document.CommitteeDocument;
-import org.kuali.kra.rule.BusinessRuleInterface;
+import org.kuali.kra.common.committee.meeting.MeetingAddMinuteEventBase;
 import org.kuali.rice.krad.document.Document;
 
 /**
  * 
  * This class for the event to add committee schedule minute
  */
-public class MeetingAddMinuteEvent  extends MeetingEventBase<MeetingAddMinuteRule> {
-    private static final String MSG = "Add meeting minute ";
+public class MeetingAddMinuteEvent extends MeetingAddMinuteEventBase {
     
     public MeetingAddMinuteEvent(String errorPathPrefix, CommitteeDocument document, MeetingHelper meetingHelper, ErrorType type) {
-        super(MSG + getDocumentId(document), errorPathPrefix, document, meetingHelper, type);
+        super(errorPathPrefix, document, meetingHelper, type);
     }
     
     public MeetingAddMinuteEvent(String errorPathPrefix, Document document, MeetingHelper meetingHelper, ErrorType type) {
-        this(errorPathPrefix, (CommitteeDocument)document, meetingHelper, type);
+        this(errorPathPrefix, (CommitteeDocument) document, meetingHelper, type);
     }
-    
-    @SuppressWarnings("unchecked")
+
     @Override
-    public BusinessRuleInterface getRule() {
+    protected MeetingAddMinuteRule getMeetingAddMinuteRuleInstanceHook() {
         return new MeetingAddMinuteRule();
     }
+    
+// TODO ********************** commented out during IRB backfit ************************    
+//    private static final String MSG = "Add meeting minute ";
+//    
+//    public MeetingAddMinuteEvent(String errorPathPrefix, CommitteeDocument document, MeetingHelper meetingHelper, ErrorType type) {
+//        super(MSG + getDocumentId(document), errorPathPrefix, document, meetingHelper, type);
+//    }
+//    
+//    public MeetingAddMinuteEvent(String errorPathPrefix, Document document, MeetingHelper meetingHelper, ErrorType type) {
+//        this(errorPathPrefix, (CommitteeDocument)document, meetingHelper, type);
+//    }
+//    
+//    @SuppressWarnings("unchecked")
+//    @Override
+//    public BusinessRuleInterface getRule() {
+//        return new MeetingAddMinuteRule();
+//    }
 
 
 }

@@ -17,69 +17,82 @@ package org.kuali.kra.irb.protocol.funding;
 
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.irb.ProtocolEventBase;
+import org.kuali.kra.protocol.protocol.funding.AddProtocolFundingSourceEventBase;
 import org.kuali.rice.krad.document.Document;
 
 /**
  * 
  * This class implements the tightly coupled Event-Rule approach to Kuali Rule processing for Adding a Protocol Funding Source.
  */
-public class AddProtocolFundingSourceEvent extends ProtocolEventBase<ProtocolFundingSourceRule> {
+public class AddProtocolFundingSourceEvent extends AddProtocolFundingSourceEventBase  {
     
-    private static final org.apache.commons.logging.Log LOG = 
-        org.apache.commons.logging.LogFactory.getLog(AddProtocolFundingSourceEvent.class);
+    public AddProtocolFundingSourceEvent(String description, Document document, ProtocolFundingSource fundingSource, List<ProtocolFundingSource> protocolFundingSources) {
+            super(description, document, fundingSource, (List)protocolFundingSources);
+    }
     
-    private static final String MSG = "adding a funding source to a Protocol document ";
-    private ProtocolFundingSource fundingSource;
-    private List<ProtocolFundingSource> protocolFundingSources;
-
-
-
     protected AddProtocolFundingSourceEvent(String description, String errorPathPrefix, Document document) {
-        super(MSG + getDocumentId(document), errorPathPrefix, document, ErrorType.HARDERROR);
+        super(description, errorPathPrefix, document);
     }
     
-    public AddProtocolFundingSourceEvent(String description,  Document document, ProtocolFundingSource fundingSource, 
-            List<ProtocolFundingSource> protocolFundingSources) {
-        super(description+": "+MSG + getDocumentId(document), "", document, ErrorType.HARDERROR);
-
-        this.protocolFundingSources = protocolFundingSources;
-        this.fundingSource = fundingSource;
-    }
-
-
-    @Override
-    protected void logEvent() {
-        StringBuffer logMessage = new StringBuffer(StringUtils.substringAfterLast(this.getClass().getName(), "."));
-        logMessage.append(" with ");
-
-        // vary logging detail as needed
-        if (document == null) {
-            logMessage.append("null protocolDocument");
-        }
-        else {
-            logMessage.append(document.toString());
-        }
-
-        LOG.debug(logMessage);   
-    }
-
-    public ProtocolFundingSource getFundingSource() {
-        return fundingSource;
-    }
-
     @Override
     public ProtocolFundingSourceRule getRule() {
         return new ProtocolFundingSourceRule();
     }
-
-    public List<ProtocolFundingSource> getProtocolFundingSources() {
-        return protocolFundingSources;
-    }
-
-    public void setProtocolFundingSources(List<ProtocolFundingSource> protocolFundingSources) {
-        this.protocolFundingSources = protocolFundingSources;
-    }
+    
+// TODO ********************** commented out during IRB backfit ************************    
+//    private static final org.apache.commons.logging.Log LOG = 
+//        org.apache.commons.logging.LogFactory.getLog(AddProtocolFundingSourceEvent.class);
+//    
+//    private static final String MSG = "adding a funding source to a Protocol document ";
+//    private ProtocolFundingSource fundingSource;
+//    private List<ProtocolFundingSource> protocolFundingSources;
+//
+//
+//
+//    protected AddProtocolFundingSourceEvent(String description, String errorPathPrefix, Document document) {
+//        super(MSG + getDocumentId(document), errorPathPrefix, document, ErrorType.HARDERROR);
+//    }
+//    
+//    public AddProtocolFundingSourceEvent(String description,  Document document, ProtocolFundingSource fundingSource, 
+//            List<ProtocolFundingSource> protocolFundingSources) {
+//        super(description+": "+MSG + getDocumentId(document), "", document, ErrorType.HARDERROR);
+//
+//        this.protocolFundingSources = protocolFundingSources;
+//        this.fundingSource = fundingSource;
+//    }
+//
+//
+//    @Override
+//    protected void logEvent() {
+//        StringBuffer logMessage = new StringBuffer(StringUtils.substringAfterLast(this.getClass().getName(), "."));
+//        logMessage.append(" with ");
+//
+//        // vary logging detail as needed
+//        if (document == null) {
+//            logMessage.append("null protocolDocument");
+//        }
+//        else {
+//            logMessage.append(document.toString());
+//        }
+//
+//        LOG.debug(logMessage);   
+//    }
+//
+//    public ProtocolFundingSource getFundingSource() {
+//        return fundingSource;
+//    }
+//
+//    @Override
+//    public ProtocolFundingSourceRule getRule() {
+//        return new ProtocolFundingSourceRule();
+//    }
+//
+//    public List<ProtocolFundingSource> getProtocolFundingSources() {
+//        return protocolFundingSources;
+//    }
+//
+//    public void setProtocolFundingSources(List<ProtocolFundingSource> protocolFundingSources) {
+//        this.protocolFundingSources = protocolFundingSources;
+//    }
     
 }
