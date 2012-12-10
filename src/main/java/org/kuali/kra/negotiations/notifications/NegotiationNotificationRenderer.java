@@ -37,7 +37,7 @@ public class NegotiationNotificationRenderer extends NotificationRendererBase {
     
     @Override
     public Map<String, String> getDefaultReplacementParameters() {
-        Map<String, String> result = new HashMap<String, String>();
+        Map<String, String> result = super.getDefaultReplacementParameters();
         Negotiable negotiableBo = negotiation.getAssociatedDocument();
         SimpleDateFormat df = new SimpleDateFormat(DATE_FORMAT_MM_DD_YYYY);
         result.put("{NEGOTIATION_ID}", negotiation.getNegotiationId().toString());
@@ -92,6 +92,9 @@ public class NegotiationNotificationRenderer extends NotificationRendererBase {
             result.put("{PRIME_SPONSOR_CODE}", "");
             
         }
+        // set up hotlink in notification
+        result.put("{DOCUMENT_NUMBER}", negotiation.getDocumentNumber());
+
         return result;
     }  
 
