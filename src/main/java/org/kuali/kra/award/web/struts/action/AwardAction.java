@@ -150,6 +150,8 @@ public class AwardAction extends BudgetParentActionBase {
     private static final String QUESTION_VERIFY_SYNC="VerifySync";
     private static final String QUESTION_VERIFY_EMPTY_SYNC="VerifyEmptySync";
     
+   
+    
     private static final AwardTemplateSyncScope[] DEFAULT_SCOPES_REQUIRE_VERIFY_FOR_EMPTY = new AwardTemplateSyncScope[] {
             AwardTemplateSyncScope.PAYMENTS_AND_INVOICES_TAB,
             AwardTemplateSyncScope.SPONSOR_CONTACTS_TAB,
@@ -408,6 +410,22 @@ public class AwardAction extends BudgetParentActionBase {
         Award award = awardForm.getAwardDocument().getAward();
         checkAwardNumber(award);
         String userId = GlobalVariables.getUserSession().getPrincipalName();
+        
+        if (award.getAwardApprovedSubawards() != null || !award.getAwardApprovedSubawards().isEmpty()) {
+            award.setSubContractIndicator(Constants.YES_FLAG);
+        } else {
+            award.setSubContractIndicator(Constants.NO_FLAG);
+        }
+        if (award.getAwardTransferringSponsors() != null || !award.getAwardTransferringSponsors().isEmpty()) {
+            award.setTransferSponsorIndicator(Constants.YES_FLAG);
+        } else {
+            award.setTransferSponsorIndicator(Constants.NO_FLAG);
+        }
+        if (award.getKeywords() != null || !award.getKeywords().isEmpty()) {
+            award.setScienceCodeIndicator(Constants.YES_FLAG);
+        } else {
+            award.setScienceCodeIndicator(Constants.NO_FLAG);
+        }
 
         forward = super.save(mapping, form, request, response);
         if (awardForm.getMethodToCall().equals("save") && awardForm.isAuditActivated()) {
