@@ -205,6 +205,13 @@ public class AwardSpecialReviewAction extends AwardAction {
         List<String> linkedProtocolNumbers = awardForm.getSpecialReviewHelper().getLinkedProtocolNumbers();
         boolean isAwardIrbProtocolLinkingEnabled = awardForm.getSpecialReviewHelper().getIsIrbProtocolLinkingEnabled();
         boolean isAwardIacucProtocolLinkingEnabled = awardForm.getSpecialReviewHelper().getIsIacucProtocolLinkingEnabled();
+        
+        if (awardForm.getAwardDocument().getAward().getSpecialReviews() != null || awardForm.getAwardDocument().getAward().getSpecialReviews().isEmpty()) {
+            awardForm.getAwardDocument().getAward().setSpecialReviewIndicator(Constants.YES_FLAG);
+        } else {
+            awardForm.getAwardDocument().getAward().setSpecialReviewIndicator(Constants.NO_FLAG);
+        }
+        
         if (isAwardIrbProtocolLinkingEnabled || isAwardIacucProtocolLinkingEnabled) {
             if (applyRules(new SaveSpecialReviewLinkEvent<AwardSpecialReview>(document, specialReviews, linkedProtocolNumbers))) {
                 awardForm.getSpecialReviewHelper().syncProtocolFundingSourcesWithSpecialReviews();
