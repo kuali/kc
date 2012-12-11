@@ -279,7 +279,7 @@ jQuery(document).ready(function() {
             
         	<c:forEach var="specialReview" items="${collectionReference}" varStatus="status">
                 <tr>
-                    <c:set var="protocolLinkingReadOnly" value="${((enableIrbProtocolLinking and collectionReference[status.index].specialReviewTypeCode == '1' ) || (enableIacucProtocolLinking and collectionReference[status.index].specialReviewTypeCode == '2' )) }" />
+                    <c:set var="protocolLinkingReadOnly" value="${specialReview.approvalTypeCode != '3' && ((enableIrbProtocolLinking and specialReview.specialReviewTypeCode == '1' ) || (enableIacucProtocolLinking and specialReview.specialReviewTypeCode == '2' )) }" />
                     <c:choose>
                        <c:when test="${enableIrbProtocolLinking && collectionReference[status.index].specialReviewTypeCode == '1'}">
                            <c:set var="initialStyleIrb" value="display:inline"/>
@@ -310,10 +310,12 @@ jQuery(document).ready(function() {
 	                                              onchange="SpecialReviewGlobals.showHideSpecialReviewProtocolLink(this, '${canCreateIrbProtocol}', '${canCreateIacucProtocol}');return false" />
 					</div></td>
                     <td><div align="center">
+						<c:if test="${canModify}">
                         <kul:htmlControlAttribute property="${collectionProperty}[${status.index}].approvalTypeCode" 
 	                                                     attributeEntry="${attributes.approvalTypeCode}" 
                                                          readOnly="${not canModify}"/>
-							<span>
+						</c:if>
+						<span>
                             <c:choose>
 	                            <c:when test="${protocolLinkingReadOnly}">
 	                                ${specialReview.protocolStatus}
@@ -322,7 +324,7 @@ jQuery(document).ready(function() {
 	                                ${specialReview.approvalType.description}
 	                            </c:otherwise>
                             </c:choose>
-                            </span>
+                       </span>
 	                </div></td>
                     <td><div align="center">
                         <kul:htmlControlAttribute property="${collectionProperty}[${status.index}].protocolNumber" 
