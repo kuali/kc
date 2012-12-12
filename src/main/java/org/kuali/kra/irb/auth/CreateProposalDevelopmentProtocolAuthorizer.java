@@ -24,6 +24,7 @@ import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceBase;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.protocol.funding.ProtocolFundingSource;
 /**
@@ -52,8 +53,14 @@ public class CreateProposalDevelopmentProtocolAuthorizer extends ProtocolAuthori
         
     private boolean hasProposalRequiredFields(Protocol protocol)
     {
+        boolean isProtocolSaved = protocol.getProtocolDocument().getDocumentHeader().getWorkflowDocument().isSaved();
         boolean validProposalRequiredFields=true;
-             
+
+        if (!isProtocolSaved)
+        {
+            validProposalRequiredFields = false;
+        }
+        
         if (StringUtils.isEmpty(protocol.getTitle()))
         {
             validProposalRequiredFields = false;
