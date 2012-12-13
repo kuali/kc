@@ -34,6 +34,7 @@
 	<param name="keystore.password">r1c3pw</param>
 	
 	<param name="rice.portal.links.showRiceServerConfig">true</param>
+	<param name="rice.ksb.web.forceEnable">true</param>	
 	<param name="rice.portal.logout.redirectUrl">${rice.server.url}/logout.do</param>
 	
 	<!-- Logging print Configuration -->
