@@ -33,6 +33,7 @@ import org.kuali.kra.award.home.fundingproposal.AwardFundingProposal;
 import org.kuali.kra.award.specialreview.AwardSpecialReview;
 import org.kuali.kra.bo.FundingSourceType;
 import org.kuali.kra.bo.NsfCode;
+import org.kuali.kra.bo.SpecialReviewApprovalType;
 import org.kuali.kra.bo.SpecialReviewType;
 import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.bo.versioning.VersionStatus;
@@ -346,10 +347,18 @@ public class MedusaServiceImpl implements MedusaService {
     
     protected void addSpecialReviewLinksToGraph(HashMap<BusinessObject, List<BusinessObject>> graph, List<? extends SpecialReview> specialReviews, BusinessObject existingBo) {
         for (SpecialReview specialReview : specialReviews) {
-            if (StringUtils.equals(specialReview.getSpecialReviewTypeCode(), SpecialReviewType.HUMAN_SUBJECTS)) {
-                addToGraph(graph, getProtocol(specialReview.getProtocolNumber()), existingBo);
-            } else if (StringUtils.equals(specialReview.getSpecialReviewTypeCode(), SpecialReviewType.ANIMAL_USAGE)) {
-                addToGraph(graph, getIacuc(specialReview.getProtocolNumber()), existingBo);
+            if (StringUtils.equals(specialReview.getSpecialReviewTypeCode(), SpecialReviewType.HUMAN_SUBJECTS)
+                    && !StringUtils.equals(specialReview.getApprovalTypeCode(), SpecialReviewApprovalType.NOT_YET_APPLIED)) {
+                Protocol protocol = getProtocol(specialReview.getProtocolNumber());
+                if (protocol != null) {
+                    addToGraph(graph, protocol, existingBo);
+                }
+            } else if (StringUtils.equals(specialReview.getSpecialReviewTypeCode(), SpecialReviewType.ANIMAL_USAGE)
+                    && !StringUtils.equals(specialReview.getApprovalTypeCode(), SpecialReviewApprovalType.NOT_YET_APPLIED)) {
+                IacucProtocol protocol = getIacuc(specialReview.getProtocolNumber());
+                if (protocol != null) {
+                    addToGraph(graph, protocol, existingBo);
+                }
             }
         }
     }
