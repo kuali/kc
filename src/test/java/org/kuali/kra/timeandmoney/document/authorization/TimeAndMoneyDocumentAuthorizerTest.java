@@ -17,26 +17,21 @@ package org.kuali.kra.timeandmoney.document.authorization;
 
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.kim.bo.KcKimAttributes;
-import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
-import org.kuali.rice.core.api.membership.MemberType;
-import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.group.Group;
 import org.kuali.rice.kim.api.group.GroupService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.role.Role;
-import org.kuali.rice.kim.api.role.RoleMember;
 import org.kuali.rice.kim.api.role.RoleService;
 import org.kuali.rice.kim.impl.role.RoleMemberAttributeDataBo;
 import org.kuali.rice.kim.impl.role.RoleMemberBo;
@@ -103,7 +98,7 @@ public class TimeAndMoneyDocumentAuthorizerTest extends KcUnitTestBase {
         RoleMemberAttributeDataBo attrData = new RoleMemberAttributeDataBo();
         attrData.setAttributeValue("000001");
         attrData.setKimAttributeId("47");
-        attrData.setKimTypeId("66");
+        attrData.setKimTypeId("69");
         attrData.setAssignedToId(roleMember.getId());
         
         RoleMemberAttributeDataBo attrDataTwo = new RoleMemberAttributeDataBo();
@@ -112,8 +107,38 @@ public class TimeAndMoneyDocumentAuthorizerTest extends KcUnitTestBase {
         attrDataTwo.setKimTypeId("69");
         attrDataTwo.setAssignedToId(roleMember.getId());
         
+        roleMember.getAttributeDetails().add(attrData);
+        roleMember.getAttributeDetails().add(attrDataTwo);
+        businessObjectService.save(roleMember);
         businessObjectService.save(attrData);
         businessObjectService.save(attrDataTwo);
+    }
+    
+    @Test
+    public void verifyRoleStuff() {
+        RoleService rs = KraServiceLocator.getService(RoleService.class);
+        Role timeAndMoneyModifier = rs.getRoleByNamespaceCodeAndName("KC-T", "Time And Money Modifier");
+        GroupService gs = KraServiceLocator.getService(GroupService.class);
+        Group timeAndMoneyTestGroup = gs.getGroupByNamespaceCodeAndName("KC-T", "TimeAndMoneyTestGroup");
+        
+        Map fieldValues = new HashMap();
+        fieldValues.put("ROLE_ID", timeAndMoneyModifier.getId());
+        fieldValues.put("MBR_ID", timeAndMoneyTestGroup.getId());
+        Collection roleMembers = businessObjectService.findMatching(RoleMemberBo.class, fieldValues);
+        RoleMemberBo roleMember = (RoleMemberBo) roleMembers.iterator().next();
+        
+        boolean foundUnit = false;
+        boolean foundHierarchFlag = false;
+        for (RoleMemberAttributeDataBo rmb : roleMember.getAttributeDetails()) {
+            if (StringUtils.equalsIgnoreCase(rmb.getAttributeValue(), "000001")) {
+                foundUnit = true;
+            } else if(StringUtils.equalsIgnoreCase(rmb.getAttributeValue(), "Y")){
+                foundHierarchFlag = true;
+            }
+        }
+        assertEquals(2, roleMember.getAttributeDetails().size());
+        assertTrue(foundUnit);
+        assertTrue(foundHierarchFlag);
     }
 
     @Test
@@ -199,5 +224,39 @@ public class TimeAndMoneyDocumentAuthorizerTest extends KcUnitTestBase {
         assertFalse(canBorst);
         assertTrue(canIrbAdmin);
     }
-
+    
+    @Test
+    public void testHasCreatePermission1() {
+        boolean canQuickstart = authorizer.hasCreatePermission(timeAndMoneyDocument, quickstart);
+        boolean canBorst = authorizer.hasCreatePermission(timeAndMoneyDocument, borst);
+        boolean canIrbAdmin = authorizer.hasCreatePermission(timeAndMoneyDocument, irbAdmin);
+        assertTrue(canQuickstart);
+        assertFalse(canBorst);
+        assertTrue(canIrbAdmin);
+    }
+    
+    @Test
+    public void testQuickStartPerm() {
+        RoleService rs = KraServiceLocator.getService(RoleService.class);
+        Role timeAndMoneyModifier = rs.getRoleByNamespaceCodeAndName("KC-T", "Time And Money Modifier");
+        
+        Map fieldValues = new HashMap();
+        fieldValues.put("ROLE_ID", timeAndMoneyModifier.getId());
+        fieldValues.put("MBR_ID", quickstart.getPrincipalId());
+        Collection roleMembers = businessObjectService.findMatching(RoleMemberBo.class, fieldValues);
+        RoleMemberBo roleMember = (RoleMemberBo) roleMembers.iterator().next();
+        
+        boolean foundUnit = false;
+        boolean foundHierarchFlag = false;
+        for (RoleMemberAttributeDataBo rmb : roleMember.getAttributeDetails()) {
+            if (StringUtils.equalsIgnoreCase(rmb.getAttributeValue(), "000001")) {
+                foundUnit = true;
+            } else if(StringUtils.equalsIgnoreCase(rmb.getAttributeValue(), "Y")){
+                foundHierarchFlag = true;
+            }
+        }
+        assertEquals(2, roleMember.getAttributeDetails().size());
+        assertTrue(foundUnit);
+        assertTrue(foundHierarchFlag);
+    }
 }
