@@ -15,24 +15,20 @@
  */
 package org.kuali.kra.timeandmoney.document.authorization;
 
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import org.kuali.kra.award.home.Award;
-import org.kuali.kra.bo.versioning.VersionHistory;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.kim.bo.KcKimAttributes;
-import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizerBase;
-import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * This class is the Time and Money Document Authorizer.  It determines the edit modes and
  * document actions for all time and money documents.
  */
 public class TimeAndMoneyDocumentAuthorizer extends TransactionalDocumentAuthorizerBase {
+    
+    public static final String CREATE_TIME_AND_MONEY_PERMISSION = "Create Time And Money Document";
      
     @Override
     protected void addRoleQualification(
@@ -46,6 +42,15 @@ public class TimeAndMoneyDocumentAuthorizer extends TransactionalDocumentAuthori
         } else {
             attributes.put(KcKimAttributes.UNIT_NUMBER, "*");
         }
+    }
+    
+    public boolean hasCreatePermission(TimeAndMoneyDocument timeAndMoneyDocument, Person user) {
+        boolean retVal = hasPermission(timeAndMoneyDocument, user, CREATE_TIME_AND_MONEY_PERMISSION);
+        return retVal;
+    }
+    
+    private boolean hasPermission(TimeAndMoneyDocument timeAndMoneyDocument, Person user, String permissionName) {
+        return this.isAuthorized(timeAndMoneyDocument, "KC-T", permissionName, user.getPrincipalId());
     }
     
 //    public Award getWorkingAwardVersion(String goToAwardNumber) {
