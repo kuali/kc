@@ -15,17 +15,20 @@
  */
 package org.kuali.kra.institutionalproposal.service.impl;
 
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.kra.award.home.fundingproposal.AwardFundingProposal;
 import org.kuali.kra.bo.CustomAttribute;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.bo.versioning.VersionStatus;
@@ -621,6 +624,66 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
         return 1;
     }
     
+    
+    /**
+     * @see org.kuali.kra.institutionalproposal.service.InstitutionalProposalService#createAndSaveNewVersion(org.kuali.kra.institutionalproposal.home.InstitutionalProposal, org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument)
+     */
+    public InstitutionalProposalDocument createAndSaveNewVersion(InstitutionalProposal currentInstitutionalProposal, 
+            InstitutionalProposalDocument currentInstitutionalProposalDocument) throws VersionException, 
+            WorkflowException, IOException{
+        InstitutionalProposal newVersion = getVersioningService().createNewVersion(currentInstitutionalProposal);
+        
+        synchNewCustomAttributes(newVersion, currentInstitutionalProposal);
+        
+        newVersion.setProposalSequenceStatus(VersionStatus.PENDING.toString());
+        newVersion.setAwardFundingProposals(transferFundingProposals(currentInstitutionalProposal, newVersion));
+        InstitutionalProposalDocument newInstitutionalProposalDocument = 
+            (InstitutionalProposalDocument) getDocumentService().getNewDocument(InstitutionalProposalDocument.class);
+        newInstitutionalProposalDocument.getDocumentHeader().setDocumentDescription(currentInstitutionalProposalDocument.getDocumentHeader().getDocumentDescription());
+        newInstitutionalProposalDocument.setInstitutionalProposal(newVersion);
+        getDocumentService().saveDocument(newInstitutionalProposalDocument);
+        return newInstitutionalProposalDocument;
+    }
+    
+    /**
+     * This method is to synch custom attributes. During version process only existing custom attributes
+     * available in the old document is copied. We need to make sure we have all the latest custom attributes
+     * tied to the new document.
+     * @param newInstitutionalProposal
+     * @param oldInstitutionalProposal
+     */
+    protected void synchNewCustomAttributes(InstitutionalProposal newInstitutionalProposal, InstitutionalProposal oldInstitutionalProposal) {
+        Set<Integer> availableCustomAttributes = new HashSet<Integer>();
+        for(InstitutionalProposalCustomData customData : newInstitutionalProposal.getInstitutionalProposalCustomDataList()) {
+            availableCustomAttributes.add(customData.getCustomAttributeId().intValue());
+        }
+        
+        if(oldInstitutionalProposal.getInstitutionalProposalDocument() != null) {
+            Map<String, CustomAttributeDocument> customAttributeDocuments = oldInstitutionalProposal.getInstitutionalProposalDocument().getCustomAttributeDocuments();
+            for (Map.Entry<String, CustomAttributeDocument> entry : customAttributeDocuments.entrySet()) {
+                CustomAttributeDocument customAttributeDocument = entry.getValue();
+                if(!availableCustomAttributes.contains(customAttributeDocument.getCustomAttributeId())) {
+                    InstitutionalProposalCustomData customData = new InstitutionalProposalCustomData();
+                    customData.setCustomAttributeId((long) customAttributeDocument.getCustomAttributeId());
+                    customData.setCustomAttribute(customAttributeDocument.getCustomAttribute());
+                    customData.setValue("");
+                    customData.setInstitutionalProposal(newInstitutionalProposal);
+                    newInstitutionalProposal.getInstitutionalProposalCustomDataList().add(customData);
+                }
+            }
+        }
+    }
+    
+    protected ArrayList<AwardFundingProposal> transferFundingProposals(InstitutionalProposal oldIP, InstitutionalProposal newIP) {
+        ArrayList<AwardFundingProposal> newFundingProposals = new ArrayList<AwardFundingProposal>();
+        for (AwardFundingProposal afpp:oldIP.getAwardFundingProposals()) {
+            newFundingProposals.add(new AwardFundingProposal(afpp.getAward(), newIP));
+            afpp.setActive(false);
+        }
+        getBusinessObjectService().save(oldIP.getAwardFundingProposals());
+        return newFundingProposals;
+    }
+    
     /* Service injection getters and setters */
     
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
@@ -662,6 +725,18 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
 
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
+    }
+
+    public DocumentService getDocumentService() {
+        return documentService;
+    }
+
+    public VersioningService getVersioningService() {
+        return versioningService;
+    }
+
+    public BusinessObjectService getBusinessObjectService() {
+        return businessObjectService;
     }
     
 }

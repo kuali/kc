@@ -359,7 +359,12 @@ public abstract class ProtocolCopyServiceImplBase<GenericProtocolDocument extend
         destProtocolDocument.initialize();
         for (Entry<String, CustomAttributeDocument> entry : destProtocolDocument.getCustomAttributeDocuments().entrySet()) {
             CustomAttributeDocument cad = srcProtocolDocument.getCustomAttributeDocuments().get(entry.getKey());
-            entry.getValue().getCustomAttribute().setValue(cad.getCustomAttribute().getValue());
+            if(ObjectUtils.isNotNull(cad)) {
+                if(ObjectUtils.isNull(cad.getCustomAttribute())) {
+                    cad.refreshReferenceObject("customAttribute");
+                }
+                entry.getValue().getCustomAttribute().setValue(cad.getCustomAttribute().getValue());
+            }
         }
     }
 
