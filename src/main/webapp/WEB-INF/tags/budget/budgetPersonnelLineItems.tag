@@ -91,7 +91,7 @@
 		   	
 		   	<c:set var="personnelFringeCost" value="0.00" />
 		   	<c:forEach var="fringeRate" items="${budgetPersonnelDetails.budgetPersonnelCalculatedAmounts}" varStatus="frStatus">
-		   		<c:if test="${fringeRate.rateClass.rateClassType == 'E'}">
+		   		<c:if test="${fringeRate.rateClass.rateClassType == 'E' || fringeRate.rateClass.rateClassType == 'V'}">
 		   			<c:set var="personnelFringeCost" value="${personnelFringeCost + krafn:getBigDecimal(fringeRate.calculatedCost)}" />
 		   		</c:if>
 		   	</c:forEach>
