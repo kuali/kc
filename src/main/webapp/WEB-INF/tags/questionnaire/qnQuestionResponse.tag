@@ -8,7 +8,7 @@
 					style="width: 100%; border-top: medium none;" class="elementtable">
 	   <tbody>
 <c:choose>
-    <c:when test = "${empty value}">
+    <c:when test = "${empty value and !KualiForm.readOnly}">
         <tr>
             <th style="text-align: center; width: 150px;">
                 Add
@@ -75,7 +75,7 @@
             </td>
         </tr>
     </c:when>
-    <c:otherwise>
+    <c:when test = "${!empty value}">
         <tr>
 		    <th
 			    style="text-align: left; border-top: medium none; width: 150px;">Current
@@ -84,13 +84,16 @@
 		    <td
 			    style="text-align: center; border-top: medium none; width: 65px;"
 			    class="content_white">
+			    <c:if test="${!KualiForm.readOnly}">
 			    <input type="image" alt="delete" style="border: medium none;" onClick="clickDeleteResponse(${qidx})"
-					src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" id="deletereq${qidx}"></td>
+					src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" id="deletereq${qidx}">
+				</c:if>
+			</td>
 	    </tr>
-    </c:otherwise>
+    </c:when>
 </c:choose>
 <c:choose>
-	<c:when test = "${empty ruleId or (ruleId eq 'null')}" >
+	<c:when test = "${(empty ruleId or ruleId eq 'null') and !KualiForm.readOnly}" >
         <tr>
           <th style="text-align: center; width: 150px;">
 	               Add Rule
@@ -108,7 +111,7 @@
             </td>
         </tr>
 	</c:when>
-	<c:otherwise>
+	<c:when test = "${!(empty ruleId or ruleId eq 'null')}">
         <tr>
 		    <th style="text-align: left; border-top: medium none; width: 150px;">Rule Id:</th>
 		    <td colspan="2" style="text-align: left; border-top: medium none;">${ruleId}
@@ -117,11 +120,20 @@
 		    <td
 			    style="text-align: center; border-top: medium none; width: 65px;"
 			    class="content_white">
+			    <c:if test="${!KualiForm.readOnly}">
 			    <input type="image" alt="delete" style="border: medium none;" onClick="clickDeleteRule(${qidx})"
-					src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" id="deleteRule${qidx}"></td>
+					src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" id="deleteRule${qidx}">
+				</c:if>
+			</td>
+					
 	    </tr>
-	</c:otherwise>
+	</c:when>
 </c:choose>
+<c:if test="${empty value and (empty ruleId or ruleId eq 'null') and KualiForm.readOnly}">
+	<tr>
+		<td colspan="3" style="text-align: center;">No Requirements for Display</td>
+	</tr>
+</c:if>
       
 		</tbody>
 	</table>

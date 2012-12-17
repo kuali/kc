@@ -1705,34 +1705,6 @@ function getAddQuestionRow(curidx) {
 }
 
 /*
- * set up child to parent requirement table
- */
-function getRequirementDisplayTable(curidx) {
-	var tbl154 = jQuery('<table width="100%" cellpadding="0" cellspacing="0" style="border-top:#E4E3E4 solid 1px;">');
-	var trtmp = jQuery('<tr></tr>');
-	var thtmp = jQuery('<th style="background:#939393;height:18px;color:#FFFFFF;text-align:left;padding-left:4px;" colspan="3">');
-	
-	thtmp.html("Requirements for Display");
-	var hsdiv = "#HSReqdiv" + curidx;
-	var image = jQuery(
-			'<img src="kr/images/tinybutton-hide.gif" alt="show/hide this panel" title="show/hide this panel"  style="width:45px; height:15px; border:none; cursor:pointer; padding:2px; vertical-align:middle;" />')
-			.attr("id", "HSReqcontrol" + curidx).toggle(function() {
-				jQuery(hsdiv).slideDown(400);
-				jQuery(this).attr("src", "kr/static/images/tinybutton-hide.gif");
-			}, function() {
-				jQuery(hsdiv).slideUp(200);
-				jQuery(this).attr("src", "kr/static/images/tinybutton-show.gif");
-			});
-	jQuery(image).click(); // if don't do this, then it needs to be clicked twice
-	// for first time.
-	image.prependTo(thtmp);
-	thtmp.appendTo(trtmp);
-	trtmp.appendTo(tbl154);
-	return tbl154;
-
-}
-
-/*
  * set up add requirement row
  */
 function getAddRequirementRow(curidx) {

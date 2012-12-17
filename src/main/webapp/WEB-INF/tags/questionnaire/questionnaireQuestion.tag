@@ -18,6 +18,7 @@ Content </span> <span class="subhead-right">
     altText="help" /> --%>
     </span></h3>
 <div id="questionpanelcontent">
+<input type="hidden" id="readOnly" value="${KualiForm.readOnly}" disabled="disabled"/>
 
 <table id="question-table" width="100%" cellpadding="0" cellspacing="0"
     class="datatable">
@@ -53,9 +54,10 @@ Content </span> <span class="subhead-right">
                     name="prevGroup" id="prevGroup"
                     src="static/images/tinybutton-back.gif"
                     style="border: none;" alt="Back" type="image" /></td>
+                <c:if test="${!KualiForm.readOnly}">
                 <td class="content_grey" style="text-align: right;">Add
                 Question(s):</td>
-                <c:if test="${!KualiForm.readOnly}">
+                
                 <td class="content_white" style="text-align: center;">
                <%--    <input
                     type="hidden" type="text" id="newqdesc0" name="newqdesc0"
