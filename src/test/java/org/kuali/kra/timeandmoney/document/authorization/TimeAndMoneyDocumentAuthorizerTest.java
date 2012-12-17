@@ -47,6 +47,7 @@ public class TimeAndMoneyDocumentAuthorizerTest extends KcUnitTestBase {
     private Person quickstart;
     private Person borst;
     private Person irbAdmin;
+    private Person iacucAdmin;
     
     @Before
     public void setup() throws Exception {
@@ -57,7 +58,9 @@ public class TimeAndMoneyDocumentAuthorizerTest extends KcUnitTestBase {
         quickstart = KraServiceLocator.getService(PersonService.class).getPersonByPrincipalName("quickstart");
         borst = KraServiceLocator.getService(PersonService.class).getPersonByPrincipalName("borst");
         irbAdmin = KraServiceLocator.getService(PersonService.class).getPersonByPrincipalName("irbAdmin");
+        iacucAdmin = KraServiceLocator.getService(PersonService.class).getPersonByPrincipalName("iacucAdmin");
         addIrbAdminToAGroupWithTimeAndMoneyPerm();
+        addIacucAdminToTimeAndMoneyRole();
     }
     
     @After
@@ -69,6 +72,7 @@ public class TimeAndMoneyDocumentAuthorizerTest extends KcUnitTestBase {
         quickstart = null;
         borst = null;
         irbAdmin = null;
+        iacucAdmin = null;
     }
     
     private void addIrbAdminToAGroupWithTimeAndMoneyPerm() {
@@ -92,6 +96,51 @@ public class TimeAndMoneyDocumentAuthorizerTest extends KcUnitTestBase {
         Map fieldValues = new HashMap();
         fieldValues.put("ROLE_ID", timeAndMoneyModifier.getId());
         fieldValues.put("MBR_ID", timeAndMoneyTestGroup.getId());
+        Collection roleMembers = businessObjectService.findMatching(RoleMemberBo.class, fieldValues);
+        RoleMemberBo roleMember = (RoleMemberBo) roleMembers.iterator().next();
+        
+        RoleMemberAttributeDataBo attrData = new RoleMemberAttributeDataBo();
+        attrData.setAttributeValue("000001");
+        attrData.setKimAttributeId("47");
+        attrData.setKimTypeId("69");
+        attrData.setAssignedToId(roleMember.getId());
+        
+        RoleMemberAttributeDataBo attrDataTwo = new RoleMemberAttributeDataBo();
+        attrDataTwo.setAttributeValue("Y");
+        attrDataTwo.setKimAttributeId("48");
+        attrDataTwo.setKimTypeId("69");
+        attrDataTwo.setAssignedToId(roleMember.getId());
+        
+        roleMember.getAttributeDetails().add(attrData);
+        roleMember.getAttributeDetails().add(attrDataTwo);
+        businessObjectService.save(roleMember);
+        businessObjectService.save(attrData);
+        businessObjectService.save(attrDataTwo);
+    }
+    
+    private void addIacucAdminToTimeAndMoneyRole() {
+        RoleService rs = KraServiceLocator.getService(RoleService.class);
+        Role timeAndMoneyModifier = rs.getRoleByNamespaceCodeAndName("KC-T", "Time And Money Modifier");
+        
+        //GroupService gs = KraServiceLocator.getService(GroupService.class);
+        //gs.createGroup(Group.Builder.create("KC-T", "TimeAndMoneyTestGroup", "21").build());
+        
+        /**
+         * Get the group from the database so we have a valid ID
+         */
+        //Group timeAndMoneyTestGroup = gs.getGroupByNamespaceCodeAndName("KC-T", "TimeAndMoneyTestGroup");
+        //gs.addPrincipalToGroup(irbAdmin.getPrincipalId(), timeAndMoneyTestGroup.getId());
+        
+        //String groupId = timeAndMoneyTestGroup.getId();
+        String namespaceCode = timeAndMoneyModifier.getNamespaceCode();
+        String roleName = timeAndMoneyModifier.getName();
+        //rs.assignGroupToRole(groupId, namespaceCode, roleName, new HashMap<String, String>());
+        rs.assignPrincipalToRole(iacucAdmin.getPrincipalId(), namespaceCode, roleName, new HashMap<String, String>());
+        
+        
+        Map fieldValues = new HashMap();
+        fieldValues.put("ROLE_ID", timeAndMoneyModifier.getId());
+        fieldValues.put("MBR_ID", iacucAdmin.getPrincipalId());
         Collection roleMembers = businessObjectService.findMatching(RoleMemberBo.class, fieldValues);
         RoleMemberBo roleMember = (RoleMemberBo) roleMembers.iterator().next();
         
@@ -153,8 +202,10 @@ public class TimeAndMoneyDocumentAuthorizerTest extends KcUnitTestBase {
         boolean canQuickstart = authorizer.canInitiate("TimeAndMoneyDocument", quickstart);
         boolean canBorst = authorizer.canInitiate("TimeAndMoneyDocument", borst);
         boolean canIrbAdmin = authorizer.canInitiate("TimeAndMoneyDocument", irbAdmin);
+        boolean canIaccucAdmin = authorizer.canInitiate("TimeAndMoneyDocument", iacucAdmin);
         assertTrue(canQuickstart);
         assertFalse(canBorst);
+        assertTrue(canIaccucAdmin);
         assertTrue(canIrbAdmin);
         
     }
@@ -164,8 +215,10 @@ public class TimeAndMoneyDocumentAuthorizerTest extends KcUnitTestBase {
         boolean canQuickstart = authorizer.canEdit(timeAndMoneyDocument, quickstart);
         boolean canBorst = authorizer.canEdit(timeAndMoneyDocument, borst);
         boolean canIrbAdmin = authorizer.canEdit(timeAndMoneyDocument, irbAdmin);
+        boolean canIacucAdmin = authorizer.canEdit(timeAndMoneyDocument, iacucAdmin);
         assertTrue(canQuickstart);
         assertFalse(canBorst);
+        assertTrue(canIacucAdmin);
         assertTrue(canIrbAdmin);
     }
 
@@ -174,8 +227,10 @@ public class TimeAndMoneyDocumentAuthorizerTest extends KcUnitTestBase {
         boolean canQuickstart = authorizer.canAnnotate(timeAndMoneyDocument, quickstart);
         boolean canBorst = authorizer.canAnnotate(timeAndMoneyDocument, borst);
         boolean canIrbAdmin = authorizer.canAnnotate(timeAndMoneyDocument, irbAdmin);
+        boolean canIacucAdmin = authorizer.canAnnotate(timeAndMoneyDocument, iacucAdmin);
         assertTrue(canQuickstart);
         assertFalse(canBorst);
+        assertTrue(canIacucAdmin);
         assertTrue(canQuickstart);
     }
 
@@ -200,8 +255,10 @@ public class TimeAndMoneyDocumentAuthorizerTest extends KcUnitTestBase {
         boolean canQuickstart = authorizer.canSave(timeAndMoneyDocument, quickstart);
         boolean canBorst = authorizer.canSave(timeAndMoneyDocument, borst);
         boolean canIrbAdmin = authorizer.canSave(timeAndMoneyDocument, irbAdmin);
+        boolean canIacucAdmin = authorizer.canSave(timeAndMoneyDocument, iacucAdmin);
         assertTrue(canQuickstart);
         assertFalse(canBorst);
+        assertTrue(canIacucAdmin);
         assertTrue(canIrbAdmin);
     }
 
@@ -210,8 +267,10 @@ public class TimeAndMoneyDocumentAuthorizerTest extends KcUnitTestBase {
         boolean canQuickstart = authorizer.canRoute(timeAndMoneyDocument, quickstart);
         boolean canBorst = authorizer.canRoute(timeAndMoneyDocument, borst);
         boolean canIrbAdmin = authorizer.canRoute(timeAndMoneyDocument, irbAdmin);
+        boolean canIacucAdmin = authorizer.canRoute(timeAndMoneyDocument, iacucAdmin);
         assertTrue(canQuickstart);
         assertFalse(canBorst);
+        assertTrue(canIacucAdmin);
         assertTrue(canIrbAdmin);
     }
 
@@ -220,8 +279,10 @@ public class TimeAndMoneyDocumentAuthorizerTest extends KcUnitTestBase {
         boolean canQuickstart = authorizer.canCancel(timeAndMoneyDocument, quickstart);
         boolean canBorst = authorizer.canCancel(timeAndMoneyDocument, borst);
         boolean canIrbAdmin = authorizer.canCancel(timeAndMoneyDocument, irbAdmin);
+        boolean canIacucAdmin = authorizer.canCancel(timeAndMoneyDocument, iacucAdmin);
         assertTrue(canQuickstart);
         assertFalse(canBorst);
+        assertTrue(canIacucAdmin);
         assertTrue(canIrbAdmin);
     }
     
@@ -230,8 +291,10 @@ public class TimeAndMoneyDocumentAuthorizerTest extends KcUnitTestBase {
         boolean canQuickstart = authorizer.hasCreatePermission(timeAndMoneyDocument, quickstart);
         boolean canBorst = authorizer.hasCreatePermission(timeAndMoneyDocument, borst);
         boolean canIrbAdmin = authorizer.hasCreatePermission(timeAndMoneyDocument, irbAdmin);
+        boolean canIacucAdmin = authorizer.hasCreatePermission(timeAndMoneyDocument, iacucAdmin);
         assertTrue(canQuickstart);
         assertFalse(canBorst);
+        assertTrue(canIacucAdmin);
         assertTrue(canIrbAdmin);
     }
     
