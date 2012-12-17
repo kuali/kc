@@ -1090,18 +1090,20 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         for (Map.Entry<String, CustomAttributeDocument> entry: src.getCustomAttributeDocuments().entrySet()) {
             // Find the attribute value
             CustomAttributeDocument customAttributeDocument = entry.getValue();
-            Map<String, Object> primaryKeys = new HashMap<String, Object>();
-            primaryKeys.put(KRADPropertyConstants.DOCUMENT_NUMBER, src.getDocumentNumber());
-            primaryKeys.put(Constants.CUSTOM_ATTRIBUTE_ID, customAttributeDocument.getCustomAttributeId());
-            CustomAttributeDocValue customAttributeDocValue = (CustomAttributeDocValue)businessObjectService.findByPrimaryKey(CustomAttributeDocValue.class, primaryKeys);
-            
-            // Store a new CustomAttributeDocValue using the new document's document number
-            if (customAttributeDocValue != null) {
-                CustomAttributeDocValue newDocValue = new CustomAttributeDocValue();
-                newDocValue.setDocumentNumber(dest.getDocumentNumber());
-                newDocValue.setCustomAttributeId(customAttributeDocument.getCustomAttributeId());
-                newDocValue.setValue(customAttributeDocValue.getValue());
-                KraServiceLocator.getService(BusinessObjectService.class).save(newDocValue);
+            if(customAttributeDocument.isActive()) {
+                Map<String, Object> primaryKeys = new HashMap<String, Object>();
+                primaryKeys.put(KRADPropertyConstants.DOCUMENT_NUMBER, src.getDocumentNumber());
+                primaryKeys.put(Constants.CUSTOM_ATTRIBUTE_ID, customAttributeDocument.getCustomAttributeId());
+                CustomAttributeDocValue customAttributeDocValue = (CustomAttributeDocValue)businessObjectService.findByPrimaryKey(CustomAttributeDocValue.class, primaryKeys);
+                
+                // Store a new CustomAttributeDocValue using the new document's document number
+                if (customAttributeDocValue != null) {
+                    CustomAttributeDocValue newDocValue = new CustomAttributeDocValue();
+                    newDocValue.setDocumentNumber(dest.getDocumentNumber());
+                    newDocValue.setCustomAttributeId(customAttributeDocument.getCustomAttributeId());
+                    newDocValue.setValue(customAttributeDocValue.getValue());
+                    KraServiceLocator.getService(BusinessObjectService.class).save(newDocValue);
+                }
             }
         }
     }
