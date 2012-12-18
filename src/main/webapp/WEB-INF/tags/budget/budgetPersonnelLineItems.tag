@@ -196,7 +196,7 @@
 		
 			<c:set var="fringeCost" value="0.00" />
 		   	<c:forEach var="fringeRate" items="${KualiForm.document.budget.budgetPeriods[budgetPeriod-1].budgetLineItems[budgetLineItemNumber].budgetLineItemCalculatedAmounts}" varStatus="frStatus">
-		   		<c:if test="${fringeRate.rateClass.rateClassType == 'E'}">
+		   		<c:if test="${fringeRate.rateClass.rateClassType == 'E' || fringeRate.rateClass.rateClassType == 'V'}">
 		   			<c:set var="fringeCost" value="${fringeCost + krafn:getBigDecimal(fringeRate.calculatedCost)}" />
 		   		</c:if>
 		   	</c:forEach>
