@@ -55,6 +55,7 @@ import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.proposaladmindetails.ProposalAdminDetails;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
@@ -67,12 +68,13 @@ import org.kuali.kra.s2s.bo.S2sAppSubmission;
 import org.kuali.kra.s2s.bo.S2sApplication;
 import org.kuali.kra.s2s.bo.S2sOppForms;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
+import org.kuali.kra.s2s.bo.S2sProvider;
 import org.kuali.kra.s2s.formmapping.FormMappingInfo;
 import org.kuali.kra.s2s.formmapping.FormMappingLoader;
 import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
 import org.kuali.kra.s2s.generator.S2SGeneratorNotFoundException;
 import org.kuali.kra.s2s.generator.bo.AttachmentData;
-import org.kuali.kra.s2s.service.GrantsGovConnectorService;
+import org.kuali.kra.s2s.service.S2SConnectorService;
 import org.kuali.kra.s2s.service.PrintService;
 import org.kuali.kra.s2s.service.S2SFormGeneratorService;
 import org.kuali.kra.s2s.service.S2SProposalValidatorService;
@@ -104,7 +106,6 @@ public class KRAS2SServiceImpl implements S2SService {
 	private S2SProposalValidatorService s2SProposalValidatorService;
 	private S2SUtilService s2SUtilService;
 	private PrintService printService;
-	private GrantsGovConnectorService grantsGovConnectorService;
 	private S2SValidatorService s2SValidatorService;
 	private static final String GRANTS_GOV_STATUS_ERROR = "ERROR";
 	private static final String KEY_PROPOSAL_NUMBER = "proposalNumber";
@@ -127,9 +128,14 @@ public class KRAS2SServiceImpl implements S2SService {
 	        if (StringUtils.isNotBlank(proposalNumber) && proposalNumber.contains(Constants.COLON)) {
 	            proposalNumber = StringUtils.split(proposalNumber, Constants.COLON)[0];
 	        }
+	        Map<String, String> opportunityMap = new HashMap<String, String>();
+	        opportunityMap.put(KEY_PROPOSAL_NUMBER, proposalNumber);
+	        S2sOpportunity s2sOpportunity = (S2sOpportunity) businessObjectService
+	                .findByPrimaryKey(S2sOpportunity.class, opportunityMap);
+	        
 	        Object statusDetail = null;
 	        GetApplicationStatusDetailResponse applicationStatusDetailResponse;
-	        applicationStatusDetailResponse = grantsGovConnectorService
+	        applicationStatusDetailResponse = getS2sConnectorService(s2sOpportunity)
 	        .getApplicationStatusDetail(ggTrackingId, proposalNumber);
 	        if (applicationStatusDetailResponse != null) {
 	            statusDetail = applicationStatusDetailResponse.getDetailedStatus();
@@ -213,7 +219,7 @@ public class KRAS2SServiceImpl implements S2SService {
 				.getProposalNumber());
 		S2sOpportunity s2sOpportunity = (S2sOpportunity) businessObjectService
 				.findByPrimaryKey(S2sOpportunity.class, opportunityMap);
-		GetApplicationListResponse applicationListResponse = grantsGovConnectorService
+		GetApplicationListResponse applicationListResponse = getS2sConnectorService(s2sOpportunity)
 				.getApplicationList(s2sOpportunity.getOpportunityId(),
 						s2sOpportunity.getCfdaNumber(), s2sOpportunity
 								.getProposalNumber());
@@ -288,7 +294,7 @@ public class KRAS2SServiceImpl implements S2SService {
 			ProposalDevelopmentDocument pdDoc, S2sAppSubmission appSubmission)
 			throws S2SException {
 		boolean statusChanged = false;
-		GetApplicationStatusDetailResponse applicationStatusDetailResponse = grantsGovConnectorService
+		GetApplicationStatusDetailResponse applicationStatusDetailResponse = getS2sConnectorService(pdDoc.getDevelopmentProposal().getS2sOpportunity())
 				.getApplicationStatusDetail(appSubmission.getGgTrackingId(),
 						pdDoc.getDevelopmentProposal().getProposalNumber());
 		if (applicationStatusDetailResponse != null
@@ -384,11 +390,18 @@ public class KRAS2SServiceImpl implements S2SService {
 	 * @see org.kuali.kra.s2s.service.S2SService#searchOpportunity(java.lang.String,
 	 *      java.lang.String, java.lang.String)
 	 */
-	public List<S2sOpportunity> searchOpportunity(String cfdaNumber,
+	public List<S2sOpportunity> searchOpportunity(String providerCode, String cfdaNumber,
 			String opportunityId, String competitionId) throws S2SException {
-		List<S2sOpportunity> s2sOpportunityList;
-		s2sOpportunityList = convertToArrayList(grantsGovConnectorService
-				.getOpportunityList(cfdaNumber, opportunityId, competitionId));
+	    S2sProvider provider = businessObjectService.findBySinglePrimaryKey(S2sProvider.class, providerCode);
+	    if (provider == null) {
+	        throw new S2SException("An invalid provider code was provided when attempting to search for opportunities.");
+	    }
+	    S2SConnectorService connectorService = KraServiceLocator.getService(provider.getConnectorServiceName());
+	    if (connectorService == null) {
+	        throw new S2SException("The connector service '" + provider.getConnectorServiceName() + "' required by '" + provider.getDescription() + "' S2S provider is not configured.");
+	    }
+		List<S2sOpportunity> s2sOpportunityList = convertToArrayList(provider.getCode(), 
+                connectorService.getOpportunityList(cfdaNumber, opportunityId, competitionId));
 		return s2sOpportunityList;
 	}
 
@@ -431,8 +444,10 @@ public class KRAS2SServiceImpl implements S2SService {
 			SubmitApplicationResponse response = null;
 
             String applicationXml = getGrantApplicationDocument(pdDoc, forms);
-
-			response = grantsGovConnectorService.submitApplication(
+            S2sOpportunity s2sOpportunity = pdDoc.getDevelopmentProposal().getS2sOpportunity();
+            S2SConnectorService connectorService = getS2sConnectorService(s2sOpportunity);
+            
+			response = connectorService.submitApplication(
 					applicationXml, attachments, pdDoc
 							.getDevelopmentProposal().getProposalNumber());
             appSubmission.setStatus(S2SConstants.GRANTS_GOV_SUBMISSION_MESSAGE);
@@ -736,7 +751,7 @@ public class KRAS2SServiceImpl implements S2SService {
 	 * @return ArrayList<OpportunityInfo> containing all form information
 	 */
 
-	protected ArrayList<S2sOpportunity> convertToArrayList(
+	protected ArrayList<S2sOpportunity> convertToArrayList(String source,
 			GetOpportunityListResponse resList) {
 		ArrayList<S2sOpportunity> convList = new ArrayList<S2sOpportunity>();
 		if (resList == null || resList.getOpportunityInformation() == null) {
@@ -744,7 +759,7 @@ public class KRAS2SServiceImpl implements S2SService {
 		}
 		for (OpportunityInformationType opportunityInformationType : resList
 				.getOpportunityInformation()) {
-			convList.add(convert2S2sOpportunity(opportunityInformationType));
+			convList.add(convert2S2sOpportunity(source, opportunityInformationType));
 		}
 		return convList;
 	}
@@ -758,7 +773,7 @@ public class KRAS2SServiceImpl implements S2SService {
 	 *         to the OpportunityInformationType object.
 	 */
 	protected S2sOpportunity convert2S2sOpportunity(
-			OpportunityInformationType oppInfoType) {
+			String providerCode, OpportunityInformationType oppInfoType) {
 		S2sOpportunity s2Opportunity = new S2sOpportunity();
 		s2Opportunity.setCfdaNumber(oppInfoType.getCFDANumber());
 		s2Opportunity
@@ -774,6 +789,7 @@ public class KRAS2SServiceImpl implements S2SService {
 		s2Opportunity.setOpportunityId(oppInfoType.getOpportunityID());
 		s2Opportunity.setOpportunityTitle(oppInfoType.getOpportunityTitle());
 		s2Opportunity.setSchemaUrl(oppInfoType.getSchemaURL());
+		s2Opportunity.setProviderCode(providerCode);
 		return s2Opportunity;
 	}
 
@@ -908,17 +924,6 @@ public class KRAS2SServiceImpl implements S2SService {
 	}
 
 	/**
-	 * Sets the grantsGovConnectorService attribute value.
-	 * 
-	 * @param grantsGovConnectorService
-	 *            The grantsGovConnectorService to set.
-	 */
-	public void setGrantsGovConnectorService(
-			GrantsGovConnectorService grantsGovConnectorService) {
-		this.grantsGovConnectorService = grantsGovConnectorService;
-	}
-
-	/**
 	 * Gets the s2SValidatorService attribute.
 	 * 
 	 * @return Returns the s2SValidatorService.
@@ -970,5 +975,9 @@ public class KRAS2SServiceImpl implements S2SService {
             }
         }
         return isAuthorized;
+    }
+
+    protected S2SConnectorService getS2sConnectorService(S2sOpportunity s2sOpportunity) {
+        return KraServiceLocator.getService(s2sOpportunity.getS2sProvider().getConnectorServiceName());
     }
 }
