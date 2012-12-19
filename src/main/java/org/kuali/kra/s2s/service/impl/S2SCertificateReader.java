@@ -31,41 +31,41 @@ import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.service.S2SUtilService;
 
 public class S2SCertificateReader {
-    private static final String KEYSTORE_LOCATION = "s2s.keystore.location";
-    private static final String KEYSTORE_PASSWORD = "s2s.keystore.password";
-    private static final String TRUSTSTORE_LOCATION = "s2s.truststore.location";
-    private static final String TRUSTSTORE_PASSWORD = "s2s.truststore.password";
-    private static final String JKS_TYPE = "JKS";
+    private String keyStoreLocation;
+    private String keyStorePassword;
+    private String trustStoreLocation;
+    private String trustStorePassword;
+    private String jksType = "JKS";
     
-    private static KeyStore keyStore = null;
-    private static KeyStore trustStore = null;
+    private KeyStore keyStore = null;
+    private KeyStore trustStore = null;
     
     private static final Log LOG = LogFactory.getLog(S2SCertificateReader.class);
-    public static KeyStore getKeyStore() throws S2SException{
+    public KeyStore getKeyStore() throws S2SException{
         if(keyStore!=null) return keyStore;
         try {
-            keyStore = KeyStore.getInstance(JKS_TYPE);
-            keyStore.load(new FileInputStream(getS2SUtilService().getProperty(KEYSTORE_LOCATION)),
-                    getS2SUtilService().getProperty(KEYSTORE_PASSWORD).toCharArray());
+            keyStore = KeyStore.getInstance(jksType);
+            keyStore.load(new FileInputStream(getS2SUtilService().getProperty(keyStoreLocation)),
+                    getS2SUtilService().getProperty(keyStorePassword).toCharArray());
         }catch (KeyStoreException e) {
             keyStore = null;
-            LOG.error("Error while creating Keystore with cert " +KEYSTORE_LOCATION, e);
+            LOG.error("Error while creating Keystore with cert " +keyStoreLocation, e);
             throw new S2SException(KeyConstants.ERROR_S2S_KEYSTORE_CREATION,e.getMessage());
         }catch (NoSuchAlgorithmException e) {
             keyStore = null;
-            LOG.error("JCE provider doesnt support certificate algorithm "+KEYSTORE_LOCATION, e);
+            LOG.error("JCE provider doesnt support certificate algorithm "+keyStoreLocation, e);
             throw new S2SException(KeyConstants.ERROR_S2S_KEYSTORE_NO_ALGORITHM,e.getMessage());
         }catch (CertificateException e) {
             keyStore = null;
-            LOG.error("Error while creating keystore "+KEYSTORE_LOCATION, e);
+            LOG.error("Error while creating keystore "+keyStoreLocation, e);
             throw new S2SException(KeyConstants.ERROR_S2S_KEYSTORE_BAD_CERTIFICATE,e.getMessage());
         }catch (FileNotFoundException e) {
             keyStore = null;
-            LOG.error("File not found "+KEYSTORE_LOCATION, e);
+            LOG.error("File not found "+keyStoreLocation, e);
             throw new S2SException(KeyConstants.ERROR_S2S_KEYSTORE_NOT_FOUND,e.getMessage());
         }catch (IOException e) {
             keyStore = null;
-            LOG.error("IO Exception while reading keystore file "+KEYSTORE_LOCATION, e);
+            LOG.error("IO Exception while reading keystore file "+keyStoreLocation, e);
             throw new S2SException(KeyConstants.ERROR_S2S_KEYSTORE_CANNOT_READ,e.getMessage());
         }
         return keyStore;
@@ -75,35 +75,91 @@ public class S2SCertificateReader {
         return KraServiceLocator.getService(S2SUtilService.class);
     }
 
-    public static KeyStore getTrustStore() throws S2SException{
+    public KeyStore getTrustStore() throws S2SException{
         if(trustStore!=null)
             return trustStore;
         try {
-            trustStore = KeyStore.getInstance(JKS_TYPE);
-            trustStore.load(new FileInputStream(getS2SUtilService().getProperty(TRUSTSTORE_LOCATION)),
-                    getS2SUtilService().getProperty(TRUSTSTORE_PASSWORD).toCharArray());
+            trustStore = KeyStore.getInstance(jksType);
+            trustStore.load(new FileInputStream(getS2SUtilService().getProperty(trustStoreLocation)),
+                    getS2SUtilService().getProperty(trustStorePassword).toCharArray());
         }catch (KeyStoreException e) {
             trustStore = null;
-            LOG.error("Error while creating Keystore with cert " +TRUSTSTORE_LOCATION, e);
+            LOG.error("Error while creating Keystore with cert " +trustStoreLocation, e);
             throw new S2SException(KeyConstants.ERROR_S2S_TRUSTSTORE_CREATION,e.getMessage());
         }catch (NoSuchAlgorithmException e) {
             trustStore = null;
-            LOG.error("JCE provider doesnt support certificate algorithm "+TRUSTSTORE_LOCATION, e);
+            LOG.error("JCE provider doesnt support certificate algorithm "+trustStoreLocation, e);
             throw new S2SException(KeyConstants.ERROR_S2S_TRUSTSTORE_NO_ALGORITHM,e.getMessage());
         }catch (CertificateException e) {
             trustStore = null;
-            LOG.error("Error while creating keystore "+TRUSTSTORE_LOCATION, e);
+            LOG.error("Error while creating keystore "+trustStoreLocation, e);
             throw new S2SException(KeyConstants.ERROR_S2S_TRUSTSTORE_BAD_CERTIFICATE,e.getMessage());
         }catch (FileNotFoundException e) {
             trustStore = null;
-            LOG.error("File not found "+TRUSTSTORE_LOCATION, e);
+            LOG.error("File not found "+trustStoreLocation, e);
             throw new S2SException(KeyConstants.ERROR_S2S_TRUSTSTORE_NOT_FOUND,e.getMessage());
         }catch (IOException e) {
             trustStore = null;
-            LOG.error("IO Exception while reading keystore file "+TRUSTSTORE_LOCATION, e);
+            LOG.error("IO Exception while reading keystore file "+trustStoreLocation, e);
             throw new S2SException(KeyConstants.ERROR_S2S_TRUSTSTORE_CANNOT_READ,e.getMessage());
         }
         return trustStore;
+    }
+
+    public String getKeyStoreLocation() {
+        return keyStoreLocation;
+    }
+
+    /**
+     * The configuration parameter name that defines the keystore location
+     * @param keyStoreLocation
+     */
+    public void setKeyStoreLocation(String keyStoreLocation) {
+        this.keyStoreLocation = keyStoreLocation;
+    }
+
+    public String getKeyStorePassword() {
+        return keyStorePassword;
+    }
+
+    /**
+     * The configuration parameter name that defines the keystore password
+     * @param keyStorePassword
+     */
+    public void setKeyStorePassword(String keyStorePassword) {
+        this.keyStorePassword = keyStorePassword;
+    }
+
+    public String getTrustStoreLocation() {
+        return trustStoreLocation;
+    }
+
+    /**
+     * The configuration parameter that defines the trust store location
+     * @param trustStoreLocation
+     */
+    public void setTrustStoreLocation(String trustStoreLocation) {
+        this.trustStoreLocation = trustStoreLocation;
+    }
+
+    public String getTrustStorePassword() {
+        return trustStorePassword;
+    }
+
+    /**
+     * The configuration parameter the defines the trust store password
+     * @param trustStorePassword
+     */
+    public void setTrustStorePassword(String trustStorePassword) {
+        this.trustStorePassword = trustStorePassword;
+    }
+
+    public String getJksType() {
+        return jksType;
+    }
+
+    public void setJksType(String jksType) {
+        this.jksType = jksType;
     }
 
 }

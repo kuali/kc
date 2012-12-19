@@ -36,6 +36,7 @@
         <ref bean="S2sOpportunity-revisionOtherDescription" />
         <ref bean="S2sOpportunity-s2sSubmissionTypeCode" />
         <ref bean="S2sOpportunity-schemaUrl" />
+        <ref bean="S2sOpportunity-providerCode" />
         <ref bean="S2sOpportunity-versionNumber" />
       </list>
     </property>
@@ -268,6 +269,31 @@
     <property name="summary" value="Schema URL" />
     <property name="description" value="Schema URL" />
   </bean>
+  
+  <bean id="S2sOpportunity-providerCode" parent="S2sOpportunity-providerCode-parentBean" />
+  <bean id="S2sOpportunity-providerCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="providerCode" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="S2S Provider" />
+    <property name="shortLabel" value="S2S Provider" />
+    <property name="maxLength" value="4" />
+    <property name="required" value="true"/>
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:businessObjectClass="org.kuali.kra.s2s.bo.S2sProvider"
+            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+            p:includeKeyInLabel="false"
+            p:includeBlankRow="false"
+            p:keyAttribute="code"
+            p:labelAttribute="description" />
+    </property>
+    <property name="summary" value="S2S Provider" />
+    <property name="description" value="S2S Provider" />
+  </bean>  
+  
   <bean id="S2sOpportunity-versionNumber" parent="S2sOpportunity-versionNumber-parentBean" />
 
   <bean id="S2sOpportunity-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
@@ -337,6 +363,8 @@
     </property>
     <property name="lookupFields" >
       <list>
+        <bean parent="FieldDefinition"
+              p:attributeName="providerCode" />      
         <bean parent="FieldDefinition"
               p:attributeName="opportunityId" />
         <bean parent="FieldDefinition"
