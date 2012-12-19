@@ -18,6 +18,11 @@ package org.kuali.kra.bo;
 
 public abstract class ResearchAreaBase extends KraPersistableBusinessObjectBase {
 
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = -1950434459698084680L;
+
     private String researchAreaCode;
 
     private String parentResearchAreaCode;

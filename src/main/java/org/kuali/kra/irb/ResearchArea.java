@@ -13,7 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.bo;
+package org.kuali.kra.irb;
+
+import org.kuali.kra.bo.ResearchAreaBase;
 
 
 public class ResearchArea extends ResearchAreaBase {

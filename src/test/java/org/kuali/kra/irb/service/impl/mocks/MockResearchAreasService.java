@@ -18,10 +18,10 @@ package org.kuali.kra.irb.service.impl.mocks;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kra.bo.ResearchArea;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.ResearchArea;
 import org.kuali.kra.irb.service.ResearchAreasService;
 import org.kuali.kra.service.ResearchAreaCurrentReferencerHolderBase;
 
