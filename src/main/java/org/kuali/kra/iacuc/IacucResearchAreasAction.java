@@ -15,19 +15,12 @@
  */
 package org.kuali.kra.iacuc;
 
-import org.apache.struts.action.ActionForm;
 import org.kuali.kra.iacuc.service.IacucResearchAreasService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.ResearchAreasServiceBase;
 import org.kuali.kra.web.struts.action.ResearchAreasActionBase;
-import org.kuali.kra.web.struts.form.ResearchAreasFormBase;
 
 public class IacucResearchAreasAction extends ResearchAreasActionBase {
-
-    @Override
-    protected ResearchAreasFormBase getResearchAreasForm(ActionForm form) {
-        return (IacucResearchAreasForm)form;
-    }
 
     @Override
     protected ResearchAreasServiceBase getResearchAreasService() {

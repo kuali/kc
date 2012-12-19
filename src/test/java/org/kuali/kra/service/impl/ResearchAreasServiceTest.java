@@ -39,6 +39,7 @@ import org.kuali.kra.committee.bo.CommitteeResearchArea;
 import org.kuali.kra.dao.ResearchAreaReferencesDao;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.protocol.research.ProtocolResearchArea;
+import org.kuali.kra.irb.service.impl.ResearchAreasServiceImpl;
 import org.kuali.kra.service.ResearchAreaCurrentReferencerHolderBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
