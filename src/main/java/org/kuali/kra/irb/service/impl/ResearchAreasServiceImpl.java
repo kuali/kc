@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.irb.service.impl;
 
-import org.kuali.kra.bo.ResearchArea;
 import org.kuali.kra.bo.ResearchAreaBase;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeMembership;
@@ -25,6 +24,7 @@ import org.kuali.kra.common.committee.bo.CommitteeBase;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipExpertiseBase;
 import org.kuali.kra.common.committee.bo.CommitteeResearchAreaBase;
+import org.kuali.kra.irb.ResearchArea;
 import org.kuali.kra.irb.protocol.research.ProtocolResearchArea;
 import org.kuali.kra.irb.service.ResearchAreasService;
 import org.kuali.kra.protocol.protocol.research.ProtocolResearchAreaBase;

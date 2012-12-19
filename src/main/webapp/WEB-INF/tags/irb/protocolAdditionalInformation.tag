@@ -41,7 +41,7 @@
 	            <tr>
 	              <th width="10%" class="infoline">add:</th>
 	              <td width="70%" class="infoline">${KualiForm.document.protocolList[0].newDescription}
-	              		<kul:multipleValueLookup boClassName="org.kuali.kra.bo.ResearchArea" 
+	              		<kul:multipleValueLookup boClassName="org.kuali.kra.irb.ResearchArea" 
 	              		lookedUpCollectionName="protocolResearchAreas"
 	              		anchor="${tabKey}"/>
 				  </td>

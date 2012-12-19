@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.committee.web.struts.action;
 
-import org.kuali.kra.bo.ResearchArea;
 import org.kuali.kra.bo.ResearchAreaBase;
 import org.kuali.kra.committee.rules.CommitteeDocumentRule;
 import org.kuali.kra.committee.service.CommitteeService;
@@ -26,6 +25,7 @@ import org.kuali.kra.common.committee.service.CommitteeServiceBase;
 import org.kuali.kra.common.committee.web.struts.action.CommitteeCommitteeActionBase;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.infrastructure.TaskGroupName;
+import org.kuali.kra.irb.ResearchArea;
 
 /**
  * The CommitteeCommitteeAction corresponds to the Committee tab (web page).  It is

@@ -172,7 +172,7 @@
         <reference-descriptor name="protocol" class-ref="org.kuali.kra.irb.Protocol" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="protocolId"/>
         </reference-descriptor>
-        <reference-descriptor name="researchAreas" class-ref="org.kuali.kra.bo.ResearchArea" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+        <reference-descriptor name="researchAreas" class-ref="org.kuali.kra.irb.ResearchArea" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="researchAreaCode"/>
         </reference-descriptor>
     </class-descriptor>

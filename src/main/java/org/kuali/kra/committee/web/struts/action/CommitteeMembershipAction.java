@@ -17,7 +17,6 @@ package org.kuali.kra.committee.web.struts.action;
 
 import java.util.List;
 
-import org.kuali.kra.bo.ResearchArea;
 import org.kuali.kra.bo.ResearchAreaBase;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeMembership;
@@ -32,6 +31,7 @@ import org.kuali.kra.common.committee.rules.CommitteeDocumentRuleBase;
 import org.kuali.kra.common.committee.service.CommitteeMembershipServiceBase;
 import org.kuali.kra.common.committee.web.struts.action.CommitteeMembershipActionBase;
 import org.kuali.kra.infrastructure.TaskGroupName;
+import org.kuali.kra.irb.ResearchArea;
 import org.kuali.rice.krad.document.Document;
 
 /**
