@@ -748,9 +748,9 @@ function getEditRow(name, id) {
 	    tdTag1 = $j('<td></td>').html( $j('<input type="checkbox" name="m4"/>').attr("id", "checkActive" + idx));
 	}
 	tdTag1.click(function() {
-		if ($j('#checkActive' + idx).attr('checked')) {
-			if ((ulTagId == 'researcharea') || ($j('#checkActive' + ulTagId.substring(2)).attr('checked'))) {
-			    raChanges.updateActiveIndicator(idx, raCode, 'true');
+		if ($j('#checkActive' + idx).prop("checked")) {
+			if ((ulTagId == 'researcharea') || ($j('#checkActive' + ulTagId.substring(2)).prop("checked")) || ($j("#activeflag" + ulTagId.substring(2)).attr("value").trim() == 'true') ) {
+				raChanges.updateActiveIndicator(idx, raCode, 'true');
 			} else {
 				$j('#checkActive' + idx).attr('checked', false);
 				alert('Parent node must be active');
@@ -765,10 +765,9 @@ function getEditRow(name, id) {
 			'<a href="#"><img src="static/images/tinybutton-edit1.gif" width="40" height="15" border="0" title="update"></a>')
 			.attr("id", "editRA" + idx)
 			.click(function() {
-				var header = $j("#raHeader" + $j(this).attr("id").substring(6));
-				// $j("#raHeader"+i) will not work because "i" is evaluated when
-					// this function is called; not when this function is
-					// created
+				// TODO all the "$j(this).attr("id").substring(6)" occurences below should be replaced by idx instead; 
+				// that is what binding in Javascript closures is all about: using the vars of the environment in the inner function.
+					var header = $j("#raHeader" + $j(this).attr("id").substring(6));
 					var desc = editResearchArea($j(this).attr("id").substring(6));
 
 					if (desc.length == 0) {

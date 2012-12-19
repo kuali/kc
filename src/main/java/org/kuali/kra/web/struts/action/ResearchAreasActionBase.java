@@ -24,7 +24,6 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.service.ResearchAreaCurrentReferencerHolderBase;
 import org.kuali.kra.service.ResearchAreasServiceBase;
-import org.kuali.kra.service.ResearchAreaCurrentReferencerHolder;
 import org.kuali.kra.web.struts.form.ResearchAreasFormBase;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -81,7 +80,7 @@ public abstract class ResearchAreasActionBase extends KualiAction {
     }
 
     private void setResearchAreas(ActionForm form) {
-        ResearchAreasFormBase researchAreaForm = getResearchAreasForm(form);
+        ResearchAreasFormBase researchAreaForm = (ResearchAreasFormBase) form;
         ResearchAreasServiceBase researchAreaService = getResearchAreasService();
         if (StringUtils.isNotBlank(researchAreaForm.getAddRA()) && researchAreaForm.getAddRA().equals("Y")) {
             if (researchAreaService.isResearchAreaExist(researchAreaForm.getResearchAreaCode(), researchAreaForm.getDeletedRas())) {
@@ -180,7 +179,6 @@ public abstract class ResearchAreasActionBase extends KualiAction {
         return forward;
     }
     
-    protected abstract ResearchAreasFormBase getResearchAreasForm(ActionForm form);
     protected abstract ResearchAreasServiceBase getResearchAreasService();
 
 }

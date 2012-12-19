@@ -43,6 +43,7 @@
 		${kfunc:registerEditableProperty(KualiForm, "methodToCall.close")}  
 		${kfunc:registerEditableProperty(KualiForm, "methodToCall.cancel")}  
 
+<input type="hidden" id = "researchAreaAjaxCall" value="researchAreaAjax.do"/>
     <div id="globalbuttons" class="globalbuttons">
         <input type="image" id="save" src="kr/static/images/buttonsmall_save.gif" /> 
 	    <input type="image" name="methodToCall.reload" id = "refresh" src="kr/static/images/buttonsmall_refresh.gif" class="globalbuttons" title="refresh" alt="refresh">
@@ -50,7 +51,7 @@
 	    <input type="image" name="methodToCall.cancel" id = "cancel" src="kr/static/images/buttonsmall_cancel.gif" class="globalbuttons" title="cancel" alt="cancel">
     </div>
 
-    <script type="text/javascript" src="scripts/researchArea.js"></script> 
+    <script type="text/javascript" src="scripts/researchAreaShared.js"></script> 
     <script type="text/javascript">
     var $j = jQuery.noConflict();          
         $j(document).ready(function(){

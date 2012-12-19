@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.service.impl;
+package org.kuali.kra.irb.service.impl;
 
 import org.kuali.kra.bo.ResearchArea;
 import org.kuali.kra.bo.ResearchAreaBase;
@@ -26,8 +26,9 @@ import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipExpertiseBase;
 import org.kuali.kra.common.committee.bo.CommitteeResearchAreaBase;
 import org.kuali.kra.irb.protocol.research.ProtocolResearchArea;
+import org.kuali.kra.irb.service.ResearchAreasService;
 import org.kuali.kra.protocol.protocol.research.ProtocolResearchAreaBase;
-import org.kuali.kra.service.ResearchAreasService;
+import org.kuali.kra.service.impl.ResearchAreasServiceBaseImpl;
 
 /**
  * This class...
