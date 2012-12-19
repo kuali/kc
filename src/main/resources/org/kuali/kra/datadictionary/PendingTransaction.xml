@@ -119,8 +119,8 @@
     <bean id="PendingTransaction-obligatedAmount-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="obligatedAmount" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="Obligated" />
-        <property name="shortLabel" value="Obligated" />
+        <property name="label" value="Obligated Change" />
+        <property name="shortLabel" value="Obligated Change" />
         <property name="maxLength" value="22" />
         <property name="validationPattern" >
       <bean parent="FixedPointValidationPattern"
@@ -134,16 +134,16 @@
             p:formattedMaxLength="22"
             p:size="16" />
     </property>
-        <property name="summary" value="Obligated" />
-        <property name="description" value="Obligated" />
+        <property name="summary" value="Obligated Change" />
+        <property name="description" value="Obligated Change" />
     </bean>
     
     <bean id="PendingTransaction-obligatedDirectAmount" parent="PendingTransaction-obligatedDirectAmount-parentBean" />
     <bean id="PendingTransaction-obligatedDirectAmount-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="obligatedDirectAmount" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="Obligated Direct" />
-        <property name="shortLabel" value="Obligated Direct" />
+        <property name="label" value="Obligated Direct Change" />
+        <property name="shortLabel" value="Obligated Direct Change" />
         <property name="maxLength" value="22" />
         <property name="validationPattern" >
       <bean parent="FixedPointValidationPattern"
@@ -165,8 +165,8 @@
     <bean id="PendingTransaction-obligatedIndirectAmount-parentBean" abstract="true" parent="AttributeDefinition" >
         <property name="name" value="obligatedIndirectAmount" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="Obligated F&amp;A" />
-        <property name="shortLabel" value="Obligated F&amp;A" />
+        <property name="label" value="Obligated F&amp;A Change" />
+        <property name="shortLabel" value="Obligated F&amp;A Change" />
         <property name="maxLength" value="22" />
         <property name="validationPattern" >
       <bean parent="FixedPointValidationPattern"
@@ -180,16 +180,16 @@
             p:formattedMaxLength="22"
             p:size="16" />
     </property>
-        <property name="summary" value="Obligated F&amp;A" />
-        <property name="description" value="Obligated F&amp;A" />
+        <property name="summary" value="Obligated F&amp;A Change" />
+        <property name="description" value="Obligated F&amp;A Change" />
     </bean>
 
     <bean id="PendingTransaction-anticipatedAmount" parent="PendingTransaction-anticipatedAmount-parentBean" />
     <bean id="PendingTransaction-anticipatedAmount-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
         <property name="name" value="anticipatedAmount" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="Anticipated" />
-        <property name="shortLabel" value="Anticipated" />
+        <property name="label" value="Anticipated Change" />
+        <property name="shortLabel" value="Anticipated Change" />
         <property name="maxLength" value="22" />
         <property name="validationPattern" >
       <bean parent="FixedPointValidationPattern"
@@ -203,16 +203,16 @@
             p:formattedMaxLength="22"
             p:size="16" />
     </property>
-        <property name="summary" value="Anticipated" />
-        <property name="description" value="Anticipated" />
+        <property name="summary" value="Anticipated Change" />
+        <property name="description" value="Anticipated Change" />
     </bean>
     
     <bean id="PendingTransaction-anticipatedDirectAmount" parent="PendingTransaction-anticipatedDirectAmount-parentBean" />
     <bean id="PendingTransaction-anticipatedDirectAmount-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
         <property name="name" value="anticipatedDirectAmount" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="Anticipated Direct" />
-        <property name="shortLabel" value="Anticipated Direct" />
+        <property name="label" value="Anticipated Direct Change" />
+        <property name="shortLabel" value="Anticipated Direct Change" />
         <property name="maxLength" value="22" />
         <property name="validationPattern" >
       <bean parent="FixedPointValidationPattern"
@@ -226,16 +226,16 @@
             p:formattedMaxLength="22"
             p:size="16" />
     </property>
-        <property name="summary" value="Anticipated Direct" />
-        <property name="description" value="Anticipated Direct" />
+        <property name="summary" value="Anticipated Direct Change" />
+        <property name="description" value="Anticipated Direct Change" />
     </bean>
     
     <bean id="PendingTransaction-anticipatedIndirectAmount" parent="PendingTransaction-anticipatedIndirectAmount-parentBean" />
     <bean id="PendingTransaction-anticipatedIndirectAmount-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
         <property name="name" value="anticipatedIndirectAmount" />
         <property name="forceUppercase" value="false" />
-        <property name="label" value="Anticipated F&amp;A" />
-        <property name="shortLabel" value="Anticipated F&amp;A" />
+        <property name="label" value="Anticipated F&amp;A Change" />
+        <property name="shortLabel" value="Anticipated F&amp;A Change" />
         <property name="maxLength" value="22" />
         <property name="validationPattern" >
       <bean parent="FixedPointValidationPattern"
@@ -249,8 +249,8 @@
             p:formattedMaxLength="22"
             p:size="16" />
     </property>
-        <property name="summary" value="Anticipated F&amp;A" />
-        <property name="description" value="Anticipated F&amp;A" />
+        <property name="summary" value="Anticipated F&amp;A Change" />
+        <property name="description" value="Anticipated F&amp;A Change" />
     </bean>
 
     <bean id="PendingTransaction-comments" parent="PendingTransaction-comments-parentBean" />
