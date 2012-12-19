@@ -99,9 +99,6 @@
 		<property name="dateTimeService">
 			<ref bean="dateTimeService" />
 		</property>
-		<property name="grantsGovConnectorService">
-			<ref bean="grantsGovConnectorService" />
-		</property>
 	</bean>
 
 	<bean id="printService"
@@ -175,14 +172,46 @@
 	</bean>
 
 	<bean id="grantsGovConnectorService"
-		class="org.kuali.kra.s2s.service.impl.GrantsGovConnectorServiceImpl">
+		class="org.kuali.kra.s2s.service.impl.S2SConnectorServiceBase">
 		<property name="s2SUtilService">
 			<ref bean="s2SUtilService" />
 		</property>
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
+		<property name="serviceHost" value="grants.gov.s2s.host"/>
+		<property name="servicePort" value="grants.gov.s2s.port"/>
+		<property name="s2sCertificateReader">
+			<bean class="org.kuali.kra.s2s.service.impl.S2SCertificateReader">
+				<property name="keyStoreLocation" value="s2s.keystore.location"/>
+				<property name="keyStorePassword" value="s2s.keystore.password"/>
+				<property name="trustStoreLocation" value="s2s.truststore.location"/>
+				<property name="trustStorePassword" value="s2s.truststore.password"/>
+				<property name="jksType" value="JKS"/>
+			</bean>
+		</property>
 	</bean>
+	
+	<bean id="researchGovConnectorService"
+		class="org.kuali.kra.s2s.service.impl.S2SConnectorServiceBase">
+		<property name="s2SUtilService">
+			<ref bean="s2SUtilService" />
+		</property>
+		<property name="businessObjectService">
+			<ref bean="businessObjectService" />
+		</property>
+		<property name="serviceHost" value="research.gov.s2s.host"/>
+		<property name="servicePort" value="research.gov.s2s.port"/>
+		<property name="s2sCertificateReader">
+			<bean class="org.kuali.kra.s2s.service.impl.S2SCertificateReader">
+				<property name="keyStoreLocation" value="research.gov.keystore.location"/>
+				<property name="keyStorePassword" value="research.gov.keystore.password"/>
+				<property name="trustStoreLocation" value="research.gov.truststore.location"/>
+				<property name="trustStorePassword" value="research.gov.truststore.password"/>
+				<property name="jksType" value="JKS"/>
+			</bean>
+		</property>		
+	</bean>	
 
 	<!--  S2S Scheduler configuration start -->
 	<bean id="preValidationTask"

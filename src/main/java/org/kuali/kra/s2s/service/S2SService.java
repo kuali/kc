@@ -49,7 +49,7 @@ public interface S2SService {
 	 *         opportunities for the corresponding parameters.
 	 * @throws S2SException
 	 */
-	public List<S2sOpportunity> searchOpportunity(String cfdaNumber,
+	public List<S2sOpportunity> searchOpportunity(String providerCode, String cfdaNumber,
 			String opportunityId, String competitionId) throws S2SException;
 
 	/**

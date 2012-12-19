@@ -290,6 +290,7 @@ public interface Constants {
     public static final String ORIGINAL_PROPOSAL_ID_KEY = "document.developmentProposalList[0].continuedFrom";
     public static final String CFDA_NUMBER = "cfdaNumber";
     public static final String OPPORTUNITY_ID= "opportunityId";
+    public static final String PROVIDER_CODE = "providerCode";
     public static final String NO_FIELD= "noField";
     public static final String GRANTS_GOV_LINK="message.grantsgov.link";
     public static final String GRANTS_GOV_GENERIC_ERROR_KEY= "error.grantsgov.schemavalidation.generic.errorkey";
