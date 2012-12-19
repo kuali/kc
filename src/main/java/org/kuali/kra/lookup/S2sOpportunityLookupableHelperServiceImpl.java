@@ -72,14 +72,16 @@ public class S2sOpportunityLookupableHelperServiceImpl extends KualiLookupableHe
         setReferencesToRefresh(fieldValues.get(KRADConstants.REFERENCES_TO_REFRESH));
         KNSGlobalVariables.getMessageList().add(Constants.GRANTS_GOV_LINK);
         List<S2sOpportunity> s2sOpportunity = new ArrayList<S2sOpportunity>();
-        if (fieldValues != null
-                && (fieldValues.get(Constants.CFDA_NUMBER) != null && !StringUtils.equals(fieldValues.get(Constants.CFDA_NUMBER)
-                        .trim(), ""))
-                || (fieldValues.get(Constants.OPPORTUNITY_ID) != null && !StringUtils.equals(fieldValues.get(
-                        Constants.OPPORTUNITY_ID).trim(), ""))) {
+        String providerCode = fieldValues.get(Constants.PROVIDER_CODE);
+        String cfdaNumber = fieldValues.get(Constants.CFDA_NUMBER);
+        String opportunityId = fieldValues.get(Constants.OPPORTUNITY_ID);
+        if (StringUtils.isBlank(providerCode)) {
+            GlobalVariables.getMessageMap().putError(Constants.PROVIDER_CODE, KeyConstants.ERROR_S2S_PROVIDER_INVALID);
+            return new ArrayList<S2sOpportunity>();
+        }
+        if (StringUtils.isNotBlank(cfdaNumber) || StringUtils.isNotBlank(opportunityId)) {
             try {
-                s2sOpportunity = s2SService.searchOpportunity(fieldValues.get(Constants.CFDA_NUMBER), fieldValues
-                        .get(Constants.OPPORTUNITY_ID), "");
+                s2sOpportunity = s2SService.searchOpportunity(providerCode, cfdaNumber, opportunityId, "");
             }catch (S2SException e) {
                 LOG.error(e.getMessage(), e);
                 GlobalVariables.getMessageMap().putError(Constants.NO_FIELD, e.getErrorKey(),e.getMessage());
@@ -87,11 +89,9 @@ public class S2sOpportunityLookupableHelperServiceImpl extends KualiLookupableHe
             }
             if (s2sOpportunity != null && s2sOpportunity.size()!=0) {
                 return s2sOpportunity;
-            }else if(fieldValues.get(Constants.CFDA_NUMBER) != null && !StringUtils.equals(fieldValues.get(Constants.CFDA_NUMBER)
-                        .trim(), "") && fieldValues.get(Constants.OPPORTUNITY_ID) != null && !StringUtils.equals(fieldValues.get(
-                        Constants.OPPORTUNITY_ID).trim(), "")){
+            } else if (StringUtils.isNotBlank(cfdaNumber) && StringUtils.isNotBlank(opportunityId)) {
                 try{
-                s2sOpportunity = s2SService.searchOpportunity(fieldValues.get(Constants.CFDA_NUMBER), "", "");
+                    s2sOpportunity = s2SService.searchOpportunity(providerCode, cfdaNumber, "", "");
                 }catch (S2SException e) {
                     LOG.error(e.getMessage(), e);
                     GlobalVariables.getMessageMap().putError(Constants.NO_FIELD, e.getErrorKey(),e.getMessage());
@@ -99,16 +99,11 @@ public class S2sOpportunityLookupableHelperServiceImpl extends KualiLookupableHe
                 }
                 if (s2sOpportunity != null) {
                     return s2sOpportunity;
-
-
-                }
-                else{
-                    if (fieldValues.get(Constants.CFDA_NUMBER) != null
-                            && !StringUtils.equals(fieldValues.get(Constants.CFDA_NUMBER).trim(), "")) {
+                } else{
+                    if (StringUtils.isNotBlank(cfdaNumber)) {
                         GlobalVariables.getMessageMap().putError(Constants.CFDA_NUMBER, KeyConstants.ERROR_IF_CFDANUMBER_IS_INVALID);
                     }
-                    if (fieldValues.get(Constants.OPPORTUNITY_ID) != null
-                            && !StringUtils.equals(fieldValues.get(Constants.OPPORTUNITY_ID).trim(), "")) {
+                    if (StringUtils.isNotBlank(opportunityId)) {
                         GlobalVariables.getMessageMap().putError(Constants.OPPORTUNITY_ID,
                                 KeyConstants.ERROR_IF_OPPORTUNITY_ID_IS_INVALID);
                     }

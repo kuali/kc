@@ -65,7 +65,7 @@ import org.apache.cxf.transports.http.configuration.HTTPClientPolicy;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.s2s.S2SException;
-import org.kuali.kra.s2s.service.GrantsGovConnectorService;
+import org.kuali.kra.s2s.service.S2SConnectorService;
 import org.kuali.kra.s2s.service.S2SUtilService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
@@ -73,9 +73,9 @@ import org.kuali.rice.krad.service.BusinessObjectService;
  * 
  * This class is used to make web service call to grants.gov
  */
-public class GrantsGovConnectorServiceImpl implements GrantsGovConnectorService {
+public class S2SConnectorServiceBase implements S2SConnectorService {
     private static final String JKS_TYPE = "JKS";
-    private static final Log LOG = LogFactory.getLog(GrantsGovConnectorServiceImpl.class);
+    protected static final Log LOG = LogFactory.getLog(S2SConnectorServiceBase.class);
     private S2SUtilService s2SUtilService;
     private BusinessObjectService businessObjectService;
     private static final String KEY_PROPOSAL_NUMBER = "proposalNumber";
@@ -84,11 +84,11 @@ public class GrantsGovConnectorServiceImpl implements GrantsGovConnectorService 
     private static final String KEY_OPPORTUNITY_ID = "OpportunityID";
     private static final String KEY_CFDA_NUMBER = "CFDANumber";
     private static final String KEY_SUBMISSION_TITLE = "SubmissionTitle";
-    
-    private static final String KEYSTORE_PASSWORD = "s2s.keystore.password";
-    public static final String GRANTS_GOV_HOST = "grants.gov.s2s.host";
-    public static final String GRANTS_GOV_PORT = "grants.gov.s2s.port";
 
+    protected String serviceHost;
+    protected String servicePort;
+    protected S2SCertificateReader s2sCertificateReader;
+    
     /**
      * This method is to get Opportunity List for the given cfda number,opportunity Id and competition Id from the grants guv. It
      * sets the given parameters on {@link GetOpportunityListRequest} object and passes it to the web service.
@@ -99,7 +99,7 @@ public class GrantsGovConnectorServiceImpl implements GrantsGovConnectorService 
      * @return GetOpportunityListResponse available list of opportunities applicable for the given cfda number,opportunity Id and
      *         competition Id.
      * @throws S2SException
-     * @see org.kuali.kra.s2s.service.GrantsGovConnectorService#getOpportunityList(java.lang.String, java.lang.String,
+     * @see org.kuali.kra.s2s.service.S2SConnectorService#getOpportunityList(java.lang.String, java.lang.String,
      *      java.lang.String)
      */
     public GetOpportunityListResponse getOpportunityList(String cfdaNumber, String opportunityId, String competitionId)
@@ -131,7 +131,7 @@ public class GrantsGovConnectorServiceImpl implements GrantsGovConnectorService 
      * @param proposalNumber Proposal number.
      * @return GetApplicationStatusDetailResponse status of the submitted application.
      * @throws S2SException
-     * @see org.kuali.kra.s2s.service.GrantsGovConnectorService#getApplicationStatusDetail(java.lang.String, java.lang.String)
+     * @see org.kuali.kra.s2s.service.S2SConnectorService#getApplicationStatusDetail(java.lang.String, java.lang.String)
      */
     public GetApplicationStatusDetailResponse getApplicationStatusDetail(String ggTrackingId, String proposalNumber)
             throws S2SException {
@@ -155,7 +155,7 @@ public class GrantsGovConnectorServiceImpl implements GrantsGovConnectorService 
      * @param proposalNumber proposal number.
      * @return GetApplicationListResponse application list.
      * @throws S2SException
-     * @see org.kuali.kra.s2s.service.GrantsGovConnectorService#getApplicationList(java.lang.String, java.lang.String,
+     * @see org.kuali.kra.s2s.service.S2SConnectorService#getApplicationList(java.lang.String, java.lang.String,
      *      java.lang.String)
      */
     public GetApplicationListResponse getApplicationList(String opportunityId, String cfdaNumber, String proposalNumber)
@@ -192,7 +192,7 @@ public class GrantsGovConnectorServiceImpl implements GrantsGovConnectorService 
      * @param proposalNumber proposal number.
      * @return SubmitApplicationResponse corresponding to the input parameters passed.
      * @throws S2SException
-     * @see org.kuali.kra.s2s.service.GrantsGovConnectorService#submitApplication(java.lang.String, java.util.Map, java.lang.String)
+     * @see org.kuali.kra.s2s.service.S2SConnectorService#submitApplication(java.lang.String, java.util.Map, java.lang.String)
      */
     public SubmitApplicationResponse submitApplication(String xmlText, 
                     Map<String, DataHandler> attachments, String proposalNumber)
@@ -306,26 +306,26 @@ public class GrantsGovConnectorServiceImpl implements GrantsGovConnectorService 
      */
     protected void configureKeyStoreAndTrustStore(TLSClientParameters tlsConfig, String alias, boolean mulitCampusEnabled)
             throws S2SException {
-        KeyStore keyStore = S2SCertificateReader.getKeyStore();
+        KeyStore keyStore = s2sCertificateReader.getKeyStore();
         KeyManagerFactory keyManagerFactory;
         try {
             keyManagerFactory = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
             if (alias != null && mulitCampusEnabled) {
                 KeyStore keyStoreAlias;
-                keyStoreAlias = KeyStore.getInstance(JKS_TYPE);
+                keyStoreAlias = KeyStore.getInstance(s2sCertificateReader.getJksType());
                 Certificate[] certificates = keyStore.getCertificateChain(alias);
-                Key key = keyStore.getKey(alias, s2SUtilService.getProperty(KEYSTORE_PASSWORD).toCharArray());
+                Key key = keyStore.getKey(alias, s2SUtilService.getProperty(s2sCertificateReader.getKeyStorePassword()).toCharArray());
                 keyStoreAlias.load(null, null);
                 keyStoreAlias.setKeyEntry(alias, key, 
-                        s2SUtilService.getProperty(KEYSTORE_PASSWORD).toCharArray(), certificates);
+                        s2SUtilService.getProperty(s2sCertificateReader.getKeyStorePassword()).toCharArray(), certificates);
                 keyManagerFactory.init(keyStoreAlias, 
-                        s2SUtilService.getProperty(KEYSTORE_PASSWORD).toCharArray());
+                        s2SUtilService.getProperty(s2sCertificateReader.getKeyStorePassword()).toCharArray());
             }else {
-                keyManagerFactory.init(keyStore, s2SUtilService.getProperty(KEYSTORE_PASSWORD).toCharArray());
+                keyManagerFactory.init(keyStore, s2SUtilService.getProperty(s2sCertificateReader.getKeyStorePassword()).toCharArray());
             }
             KeyManager[] km = keyManagerFactory.getKeyManagers();
             tlsConfig.setKeyManagers(km);
-            KeyStore trustStore = S2SCertificateReader.getTrustStore();
+            KeyStore trustStore = s2sCertificateReader.getTrustStore();
             TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
             trustManagerFactory.init(trustStore);
             TrustManager[] tm = trustManagerFactory.getTrustManagers();
@@ -358,8 +358,8 @@ public class GrantsGovConnectorServiceImpl implements GrantsGovConnectorService 
 
     protected String getS2SSoapHost() throws S2SException {
         StringBuilder host = new StringBuilder();
-        host.append(s2SUtilService.getProperty(GRANTS_GOV_HOST));
-        String port = s2SUtilService.getProperty(GRANTS_GOV_PORT);
+        host.append(s2SUtilService.getProperty(getServiceHost()));
+        String port = s2SUtilService.getProperty(getServicePort());
         if ((!host.toString().endsWith("/")) && (!port.startsWith("/"))) {
             host.append("/");
         }
@@ -391,5 +391,29 @@ public class GrantsGovConnectorServiceImpl implements GrantsGovConnectorService 
      */
     public S2SUtilService getS2SUtilService() {
         return s2SUtilService;
+    }
+
+    public String getServiceHost() {
+        return serviceHost;
+    }
+
+    public void setServiceHost(String serviceHost) {
+        this.serviceHost = serviceHost;
+    }
+
+    public String getServicePort() {
+        return servicePort;
+    }
+
+    public void setServicePort(String servicePort) {
+        this.servicePort = servicePort;
+    }
+
+    public S2SCertificateReader getS2sCertificateReader() {
+        return s2sCertificateReader;
+    }
+
+    public void setS2sCertificateReader(S2SCertificateReader s2sCertificateReader) {
+        this.s2sCertificateReader = s2sCertificateReader;
     }
 }
