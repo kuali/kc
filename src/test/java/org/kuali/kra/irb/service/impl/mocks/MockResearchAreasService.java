@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.service.impl.mocks;
+package org.kuali.kra.irb.service.impl.mocks;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,8 +22,8 @@ import org.kuali.kra.bo.ResearchArea;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.service.ResearchAreasService;
 import org.kuali.kra.service.ResearchAreaCurrentReferencerHolderBase;
-import org.kuali.kra.service.ResearchAreasService;
 
 public class MockResearchAreasService implements ResearchAreasService {
     

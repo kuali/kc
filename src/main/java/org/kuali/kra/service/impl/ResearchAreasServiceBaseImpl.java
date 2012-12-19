@@ -76,7 +76,7 @@ public abstract class ResearchAreasServiceBaseImpl implements ResearchAreasServi
    
     /**
      * 
-     * @see org.kuali.kra.service.ResearchAreasService#getSubResearchAreasForTreeView(java.lang.String)
+     * @see org.kuali.kra.irb.service.ResearchAreasService#getSubResearchAreasForTreeView(java.lang.String)
      */
     public String getSubResearchAreasForTreeView(String researchAreaCode, boolean activeOnly) {
         String researchAreas = "<h3>";
@@ -105,7 +105,7 @@ public abstract class ResearchAreasServiceBaseImpl implements ResearchAreasServi
 
     /**
      * 
-     * @see org.kuali.kra.service.ResearchAreasService#isResearchAreaExist(java.lang.String, java.lang.String)
+     * @see org.kuali.kra.irb.service.ResearchAreasService#isResearchAreaExist(java.lang.String, java.lang.String)
      */
     public boolean isResearchAreaExist(String researchAreaCode, String researchAreas) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
@@ -130,7 +130,7 @@ public abstract class ResearchAreasServiceBaseImpl implements ResearchAreasServi
     
     
     /**
-     * @see org.kuali.kra.service.ResearchAreasService#checkResearchAreaAndDescendantsNotReferenced(java.lang.String)
+     * @see org.kuali.kra.irb.service.ResearchAreasService#checkResearchAreaAndDescendantsNotReferenced(java.lang.String)
      * TODO: optimize by checking only active descendants? Could use the getSubResearchAreas method above
      */  
     public boolean checkResearchAreaAndDescendantsNotReferenced(String researchAreaCode) {
@@ -178,7 +178,7 @@ public abstract class ResearchAreasServiceBaseImpl implements ResearchAreasServi
     
     
     /**
-     * @see org.kuali.kra.service.ResearchAreasService#deleteResearchAreaAndDescendants(java.lang.String)
+     * @see org.kuali.kra.irb.service.ResearchAreasService#deleteResearchAreaAndDescendants(java.lang.String)
      */
     public void deleteResearchAreaAndDescendants(String researchAreaCode) {
         ResearchAreaBase researchArea = getBusinessObjectService().findBySinglePrimaryKey(getResearchAreaBOClassHook(), researchAreaCode);
@@ -287,7 +287,7 @@ public abstract class ResearchAreasServiceBaseImpl implements ResearchAreasServi
      * @throws IOException 
      * @throws ParserConfigurationException 
      * 
-     * @see org.kuali.kra.service.ResearchAreasService#saveResearchAreas(java.lang.String)
+     * @see org.kuali.kra.irb.service.ResearchAreasService#saveResearchAreas(java.lang.String)
      */
     public void saveResearchAreas(String raChangeXML) throws ParserConfigurationException, IOException, SAXException {
         InputSource is = new InputSource();
@@ -390,7 +390,7 @@ public abstract class ResearchAreasServiceBaseImpl implements ResearchAreasServi
     
 
     /**
-     * @see org.kuali.kra.service.ResearchAreasService#getCurrentProtocolReferencingResearchArea(java.lang.String)
+     * @see org.kuali.kra.irb.service.ResearchAreasService#getCurrentProtocolReferencingResearchArea(java.lang.String)
      */
     public ProtocolBase getCurrentProtocolReferencingResearchArea(String researchAreaCode) {
         ProtocolBase retValue = null;
@@ -431,7 +431,7 @@ public abstract class ResearchAreasServiceBaseImpl implements ResearchAreasServi
     }
 
     /**
-     * @see org.kuali.kra.service.ResearchAreasService#getCurrentCommitteeReferencingResearchArea(java.lang.String)
+     * @see org.kuali.kra.irb.service.ResearchAreasService#getCurrentCommitteeReferencingResearchArea(java.lang.String)
      */
     public CommitteeBase getCurrentCommitteeReferencingResearchArea(String researchAreaCode) {
         CommitteeBase retValue = null;
@@ -456,7 +456,7 @@ public abstract class ResearchAreasServiceBaseImpl implements ResearchAreasServi
     
 
     /**
-     * @see org.kuali.kra.service.ResearchAreasService#getCurrentCommitteeMembershipReferencingResearchArea(java.lang.String)
+     * @see org.kuali.kra.irb.service.ResearchAreasService#getCurrentCommitteeMembershipReferencingResearchArea(java.lang.String)
      */
     public CommitteeMembershipBase getCurrentCommitteeMembershipReferencingResearchArea(String researchAreaCode) {
         CommitteeMembershipBase retValue = null;
@@ -504,7 +504,7 @@ public abstract class ResearchAreasServiceBaseImpl implements ResearchAreasServi
     }
     
     /**
-     * @see org.kuali.kra.service.ResearchAreasService#deactivateResearchAreaAndDescendants(java.lang.String)
+     * @see org.kuali.kra.irb.service.ResearchAreasService#deactivateResearchAreaAndDescendants(java.lang.String)
      */
     public void deactivateResearchAreaAndDescendants(String researchAreaCode) throws Exception {
         ResearchAreaBase researchArea = businessObjectService.findBySinglePrimaryKey(getResearchAreaBOClassHook(), researchAreaCode);
@@ -516,7 +516,7 @@ public abstract class ResearchAreasServiceBaseImpl implements ResearchAreasServi
     }
 
     /**
-     * @see org.kuali.kra.service.ResearchAreasService#getAnyCurrentReferencerForResearchAreaOrDescendant(java.lang.String)
+     * @see org.kuali.kra.irb.service.ResearchAreasService#getAnyCurrentReferencerForResearchAreaOrDescendant(java.lang.String)
      */
     @SuppressWarnings("unchecked")
     public ResearchAreaCurrentReferencerHolderBase getAnyCurrentReferencerForResearchAreaOrDescendant(String researchAreaCode) {

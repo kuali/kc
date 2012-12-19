@@ -614,7 +614,7 @@
     
     <bean id="researchAreaReferencesDao" class="org.kuali.kra.dao.ojb.ResearchAreaReferencesDaoOjb" parent="platformAwareDao" />
     
-    <bean id="researchAreasService" class="org.kuali.kra.service.impl.ResearchAreasServiceImpl">
+    <bean id="researchAreasService" class="org.kuali.kra.irb.service.impl.ResearchAreasServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
     </bean>
     
