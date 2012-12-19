@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.protocol.protocol.research;
 
-import org.kuali.kra.bo.ResearchArea;
 import org.kuali.kra.bo.ResearchAreaBase;
+import org.kuali.kra.irb.ResearchArea;
 import org.kuali.kra.protocol.ProtocolAssociateBase;
 
 public abstract class ProtocolResearchAreaBase extends ProtocolAssociateBase {

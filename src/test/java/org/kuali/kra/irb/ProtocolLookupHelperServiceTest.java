@@ -88,7 +88,7 @@ public class ProtocolLookupHelperServiceTest extends KcUnitTestBase {
         for (Row row : rows) {
             for (Field field : row.getFields()) {
                 if (field.getPropertyName().equals("researchAreaCode")) {
-                    assertDropDownField(field, "researchAreaCode","org.kuali.kra.bo.ResearchArea");
+                    assertDropDownField(field, "researchAreaCode", "org.kuali.kra.irb.ResearchArea");
                } 
             }
         }
