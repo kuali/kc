@@ -174,7 +174,7 @@ public class InstitutionalProposalDocument extends ResearchDocumentBase {
     @Override
     public void populateCustomAttributes() {
         InstitutionalProposalCustomAttributeService institutionalProposalCustomAttributeService = KraServiceLocator.getService(InstitutionalProposalCustomAttributeService.class);
-        Map<String, CustomAttributeDocument> customAttributeDocuments = institutionalProposalCustomAttributeService.getDefaultInstitutionalProposalCustomAttributeDocuments();
+        Map<String, CustomAttributeDocument> customAttributeDocuments = institutionalProposalCustomAttributeService.getDefaultInstitutionalProposalCustomAttributeDocuments(this.getDocumentNumber());
         setCustomAttributeDocuments(customAttributeDocuments);
     }
     
