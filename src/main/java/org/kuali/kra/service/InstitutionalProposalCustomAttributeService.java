@@ -26,6 +26,14 @@ public interface InstitutionalProposalCustomAttributeService {
 
     /**
      * This method gets the default CustomAttributeDocuments from the database.
+     * Returns active for new documents and include inactive for existing documents
+     * @return
+     */
+    public Map<String, CustomAttributeDocument> getDefaultInstitutionalProposalCustomAttributeDocuments(String documentNumber);
+
+    /**
+     * This method gets the default CustomAttributeDocuments from the database.
+     * Returns only active custom attributes
      * @return
      */
     public Map<String, CustomAttributeDocument> getDefaultInstitutionalProposalCustomAttributeDocuments();

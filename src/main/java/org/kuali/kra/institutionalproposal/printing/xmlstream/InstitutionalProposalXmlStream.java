@@ -212,7 +212,7 @@ public class InstitutionalProposalXmlStream extends
 	private OtherGroupTypes getCustomData(
 	        InstitutionalProposal institutionalProposal){	    
 	    InstitutionalProposalCustomAttributeService institutionalProposalCustomAttributeService = KraServiceLocator.getService(InstitutionalProposalCustomAttributeService.class);
-        Map<String, CustomAttributeDocument> customAttributeDocuments = institutionalProposalCustomAttributeService.getDefaultInstitutionalProposalCustomAttributeDocuments();
+        Map<String, CustomAttributeDocument> customAttributeDocuments = institutionalProposalCustomAttributeService.getDefaultInstitutionalProposalCustomAttributeDocuments(institutionalProposal.getInstitutionalProposalDocument().getDocumentNumber());
         OtherGroupTypes otherGroup=OtherGroupTypes.Factory.newInstance();        
         List<OtherGroupDetailsTypes> otherGroupDetailsTypesList = new LinkedList<OtherGroupDetailsTypes>();       
        

@@ -19,11 +19,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.kra.bo.CustomAttributeDocValue;
 import org.kuali.kra.bo.CustomAttributeDocument;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PropertyConstants;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.service.InstitutionalProposalCustomAttributeService;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.KRADPropertyConstants;
 
 /**
  * This class has service methods specific to Institutional Proposal Custom Data tab.
@@ -31,6 +34,33 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 public class InstitutionalProposalCustomAttributeServiceImpl implements InstitutionalProposalCustomAttributeService {
 
 private BusinessObjectService businessObjectService;
+    
+    /**
+     * @see org.kuali.kra.service.CustomAttributeService#getDefaultAwardCustomAttributeDocuments()
+     */
+    @SuppressWarnings("unchecked")
+    public Map<String, CustomAttributeDocument> getDefaultInstitutionalProposalCustomAttributeDocuments(String documentNumber) {
+        Map<String, CustomAttributeDocument> customAttributeDocuments = new HashMap<String, CustomAttributeDocument>();
+        Map<String, String> queryMap = new HashMap<String, String>();
+        queryMap.put(PropertyConstants.DOCUMENT.TYPE_NAME.toString(), InstitutionalProposalDocument.DOCUMENT_TYPE_CODE);
+        List<CustomAttributeDocument> customAttributeDocumentList = 
+            (List<CustomAttributeDocument>) getBusinessObjectService().findMatching(CustomAttributeDocument.class, queryMap);
+        for(CustomAttributeDocument customAttributeDocument:customAttributeDocumentList) {
+            Map<String, Object> primaryKeys = new HashMap<String, Object>();
+            primaryKeys.put(KRADPropertyConstants.DOCUMENT_NUMBER, documentNumber);
+            primaryKeys.put(Constants.CUSTOM_ATTRIBUTE_ID, customAttributeDocument.getCustomAttributeId());
+            CustomAttributeDocValue customAttributeDocValue = (CustomAttributeDocValue) getBusinessObjectService().findByPrimaryKey(CustomAttributeDocValue.class, primaryKeys);
+            boolean customAttributeExists = false;
+            if (customAttributeDocValue != null) {
+                customAttributeExists = true;
+            }
+
+            if (customAttributeDocument.isActive() || customAttributeExists) {
+                customAttributeDocuments.put(customAttributeDocument.getCustomAttributeId().toString(), customAttributeDocument);
+            }
+        }
+        return customAttributeDocuments;
+    }
     
     /**
      * @see org.kuali.kra.service.CustomAttributeService#getDefaultAwardCustomAttributeDocuments()
