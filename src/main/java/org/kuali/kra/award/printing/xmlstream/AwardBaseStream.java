@@ -1001,7 +1001,7 @@ public abstract class AwardBaseStream implements XmlStream {
             }
         }
         if (award.getAwardTransactionTypeCode() != null) {
-            award.refresh();
+            award.refreshReferenceObject("awardTransactionType");  
             awardTransactionType.setTransactionTypeCode(award.getAwardTransactionTypeCode());
             if (award.getAwardTransactionType() != null) {
                 awardTransactionType.setTransactionTypeDesc(award.getAwardTransactionType().getDescription());
