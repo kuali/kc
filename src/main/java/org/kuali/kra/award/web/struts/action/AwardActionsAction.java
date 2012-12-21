@@ -491,10 +491,8 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
                 .getRequireSignature());
         AwardPrintingService awardPrintService = KraServiceLocator
                 .getService(AwardPrintingService.class);
-        AwardDocument awardDocument = awardForm.getAwardDocument();
-        Award award = awardDocument.getAward();
         AttachmentDataSource dataStream = awardPrintService.printAwardReport(
-                award,AwardPrintType.AWARD_NOTICE_REPORT,reportParameters);
+                awardForm.getAwardDocument().getAward(),AwardPrintType.AWARD_NOTICE_REPORT,reportParameters);
         streamToResponse(dataStream, response);
         //return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
         return null;
