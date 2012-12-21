@@ -31,6 +31,8 @@
         <ref bean="KraAttributeReferenceDummy-sortId" />
         <ref bean="KraAttributeReferenceDummy-reporter" />
         <ref bean="KraAttributeReferenceDummy-createTimestamp" />
+        <ref bean="KraAttributeReferenceDummy-committeeId" />
+        <ref bean="KraAttributeReferenceDummy-committeeName" />
       </list>
     </property>
   </bean>
@@ -402,4 +404,33 @@
     <property name="summary" value="Created Timestamp" />
     <property name="description" value="The creation or last modification timestamp." />
   </bean>
+  
+  <bean id="KraAttributeReferenceDummy-committeeId" parent="KraAttributeReferenceDummy-committeeId-parentBean" />
+  <bean id="KraAttributeReferenceDummy-committeeId-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="committeeId" />
+		<property name="label" value="Committee ID" />
+		<property name="shortLabel" value="Committee ID" />
+		<property name="maxLength" value="12" />
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="12" />
+		</property>
+		<property name="summary" value="Committee ID" />
+		<property name="description" value="Committee ID" />
+	</bean>
+
+	<bean id="KraAttributeReferenceDummy-committeeName" parent="KraAttributeReferenceDummy-committeeName-parentBean" />
+	<bean id="KraAttributeReferenceDummy-committeeName-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="committeeName" />
+		<property name="label" value="Committee Name" />
+		<property name="shortLabel" value="Committee Name" />
+		<property name="maxLength" value="20" />
+		<property name="control" >
+			<bean parent="TextControlDefinition"
+				p:size="28" />
+		</property>
+		<property name="summary" value="Committee Name" />
+		<property name="description" value="Committee Name" />
+	</bean>
+  
 </beans>

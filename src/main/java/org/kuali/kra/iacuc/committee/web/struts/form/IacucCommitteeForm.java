@@ -47,8 +47,8 @@ public class IacucCommitteeForm extends CommitteeFormBase {
         super.populateHeaderFields(workflowDocument);
         CommitteeDocumentBase committeeDoc = getCommitteeDocument();
 
-        getDocInfo().set(4, new HeaderField("DataDictionary.IacucCommittee.attributes.committeeId", (committeeDoc == null || CollectionUtils.isEmpty(committeeDoc.getCommitteeList())) ? null : committeeDoc.getCommittee().getCommitteeId()));
-        getDocInfo().set(5, new HeaderField("DataDictionary.IacucCommittee.attributes.committeeName", getCommitteeNameForHeaderDisplay(committeeDoc)));
+        getDocInfo().set(4, new HeaderField("DataDictionary.KraAttributeReferenceDummy.attributes.committeeId", (committeeDoc == null || CollectionUtils.isEmpty(committeeDoc.getCommitteeList())) ? null : committeeDoc.getCommittee().getCommitteeId()));
+        getDocInfo().set(5, new HeaderField("DataDictionary.KraAttributeReferenceDummy.attributes.committeeName", getCommitteeNameForHeaderDisplay(committeeDoc)));
     }
 
 
