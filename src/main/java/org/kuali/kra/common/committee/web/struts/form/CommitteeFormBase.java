@@ -142,8 +142,8 @@ public abstract class CommitteeFormBase extends KraTransactionalDocumentFormBase
         HeaderField lastUpdatedDate = new HeaderField("DataDictionary.CommitteeDocument.attributes.updateTimestamp", lastUpdatedDateStr);
         getDocInfo().set(3, lastUpdatedDate);
         
-        getDocInfo().add(new HeaderField("DataDictionary.CommitteeBase.attributes.committeeId", (committeeDoc == null || CollectionUtils.isEmpty(committeeDoc.getCommitteeList())) ? null : committeeDoc.getCommittee().getCommitteeId()));
-        getDocInfo().add(new HeaderField("DataDictionary.CommitteeBase.attributes.committeeName", getCommitteeNameForHeaderDisplay(committeeDoc)));
+        getDocInfo().add(new HeaderField("DataDictionary.KraAttributeReferenceDummy.attributes.committeeId", (committeeDoc == null || CollectionUtils.isEmpty(committeeDoc.getCommitteeList())) ? null : committeeDoc.getCommittee().getCommitteeId()));
+        getDocInfo().add(new HeaderField("DataDictionary.KraAttributeReferenceDummy.attributes.committeeName", getCommitteeNameForHeaderDisplay(committeeDoc)));
     }
 
     /**
