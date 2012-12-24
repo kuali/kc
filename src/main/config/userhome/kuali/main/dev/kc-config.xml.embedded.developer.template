@@ -36,6 +36,7 @@
 	<param name="rice.portal.links.showRiceServerConfig">true</param>
 	<param name="rice.ksb.web.forceEnable">true</param>	
 	<param name="rice.portal.logout.redirectUrl">${rice.server.url}/logout.do</param>
+	<param name="context.names.rice">kr-dev</param>
 	
 	<!-- Logging print Configuration -->
 	<param name="print.logging.directory">log directory path</param>
