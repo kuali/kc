@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.rules;
 
+import java.util.UUID;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -94,6 +96,11 @@ public class SaveCustomAttributeRuleTest extends ProposalDevelopmentRuleTestBase
         assertTrue(rule.processRules(saveCustomAttributeEvent));
         
         UserSession currentSession = GlobalVariables.getUserSession();
+        String kualiSessionId = currentSession.getKualiSessionId();
+        if (kualiSessionId == null) {
+            kualiSessionId = UUID.randomUUID().toString();
+            currentSession.setKualiSessionId(kualiSessionId);
+        }
         PessimisticLock lock = KRADServiceLocatorWeb.getPessimisticLockService().generateNewLock(document.getDocumentNumber(), "PROPOSAL-"+document.getDocumentNumber(), currentSession.getPerson());
         document.addPessimisticLock(lock);
         
