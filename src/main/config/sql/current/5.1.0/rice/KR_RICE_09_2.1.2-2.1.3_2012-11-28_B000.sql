@@ -33,7 +33,7 @@ INSERT INTO KRIM_PERM_ATTR_DATA_T(ATTR_DATA_ID, OBJ_ID, VER_NBR, PERM_ID, KIM_TY
 /
 
 INSERT INTO KRIM_ROLE_T(ROLE_ID, OBJ_ID, VER_NBR, ROLE_NM, NMSPC_CD, DESC_TXT, KIM_TYP_ID, ACTV_IND, LAST_UPDT_DT)
-  VALUES('KR1000', SYS_GUID(), 1, 'Complete Request Recipient', 'KR-WKFLW',
+  VALUES('KR1001', SYS_GUID(), 1, 'Complete Request Recipient', 'KR-WKFLW',
     'This role derives its members from users with an complete action request in the route log of a given document.',
     (select KIM_TYP_ID from KRIM_TYP_T where NM = 'Derived Role: Action Request'), 'Y', NULL)
 /
@@ -49,4 +49,3 @@ INSERT INTO KRIM_ROLE_PERM_T (ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, A
     (Select ROLE_ID from KRIM_ROLE_T where ROLE_NM = 'Complete Request Recipient'),
     (Select PERM_ID from KRIM_PERM_T where NM = 'Edit Kuali ENROUTE Document Route Status Code R'), 'Y')
 /
-
