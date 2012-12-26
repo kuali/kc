@@ -26,38 +26,29 @@ public class KcKnsSessionDocumentServiceImpl implements SessionDocumentService {
 
     @Override
     public WorkflowDocument getDocumentFromSession(UserSession userSession, String docId) {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public void addDocumentToUserSession(UserSession userSession, WorkflowDocument document) {
-        // TODO Auto-generated method stub
-        
+    public void addDocumentToUserSession(UserSession userSession, WorkflowDocument document) {        
     }
 
     @Override
     public void purgeDocumentForm(String documentNumber, String docFormKey, UserSession userSession, String ipAddress) {
-        // TODO Auto-generated method stub
         
     }
 
     @Override
-    public void purgeAllSessionDocuments(Timestamp expirationDate) {
-        // TODO Auto-generated method stub
-        
+    public void purgeAllSessionDocuments(Timestamp expirationDate) {        
     }
 
     @Override
     public KualiDocumentFormBase getDocumentForm(String documentNumber, String docFormKey, UserSession userSession, String ipAddress) {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public void setDocumentForm(KualiDocumentFormBase form, UserSession userSession, String ipAddress) {
-        // TODO Auto-generated method stub
-        
+    public void setDocumentForm(KualiDocumentFormBase form, UserSession userSession, String ipAddress) {        
     }
 
    
