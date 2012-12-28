@@ -26,6 +26,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.apache.struts.action.ActionRedirect;
 import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
 import org.kuali.kra.common.committee.document.CommitteeDocumentBase;
 import org.kuali.kra.common.committee.rule.event.CommitteeScheduleDateConflictEvent;
@@ -44,7 +45,6 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
 import org.kuali.rice.krad.util.KRADConstants;
 
 public abstract class CommitteeScheduleActionBase extends CommitteeActionBase {
@@ -237,9 +237,12 @@ public abstract class CommitteeScheduleActionBase extends CommitteeActionBase {
         
 // TODO *********commented the code below during IACUC refactoring*********         
 //        response.sendRedirect("iacucMeetingManagement.do?methodToCall=start&scheduleId="+commSchedule.getId()+"&lineNum="+(getLineToDelete(request)+1)+"&readOnly=" +(!committeeForm.getCommitteeHelper().canModifySchedule()));
+
+// commented out and replaced with ActionDirect below in order to deal with a rice change that assumes that all action methods will return non-null ActionForward instances.        
+//        response.sendRedirect(getMeetingManagementActionIdHook() + ".do?methodToCall=start&scheduleId="+commSchedule.getId()+"&lineNum="+(getLineToDelete(request)+1)+"&readOnly=" +(!committeeForm.getCommitteeHelper().canModifySchedule()));
+//        return null;
         
-        response.sendRedirect(getMeetingManagementActionIdHook() + ".do?methodToCall=start&scheduleId="+commSchedule.getId()+"&lineNum="+(getLineToDelete(request)+1)+"&readOnly=" +(!committeeForm.getCommitteeHelper().canModifySchedule()));
-        return null;
+        return new ActionRedirect(getMeetingManagementActionIdHook() + ".do?methodToCall=start&scheduleId="+commSchedule.getId()+"&lineNum="+(getLineToDelete(request)+1)+"&readOnly=" +(!committeeForm.getCommitteeHelper().canModifySchedule()));
     }
 
     protected abstract String getMeetingManagementActionIdHook();
