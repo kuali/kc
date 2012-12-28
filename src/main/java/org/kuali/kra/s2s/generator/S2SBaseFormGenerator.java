@@ -20,12 +20,16 @@ import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import gov.grants.apply.system.attachmentsV10.AttachedFileDataType.FileLocation;
 import gov.grants.apply.system.globalV10.HashValueDocument.HashValue;
 
+import java.io.ByteArrayInputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
@@ -53,6 +57,8 @@ import org.kuali.kra.s2s.generator.impl.GlobalLibraryV2_0Generator;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.kra.service.SponsorService;
 import org.kuali.rice.kns.util.AuditError;
+import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
 
 /**
  * 
@@ -72,6 +78,7 @@ public abstract class S2SBaseFormGenerator implements S2SFormGenerator {
     public static final String MODULE_NUMBER = "M";
     public static final String AREAS_AFFECTED_ABSTRACT_TYPE_CODE="16";
     private static final String NARRATIVE_ATTACHMENT_LIST = "narrativeAttachmentList";
+    private static final String NARRATIVE_ATTACHMENT_FILE_LOCATION = "att:FileLocation";
        
     protected static final int ORGANIZATON_NAME_MAX_LENGTH = 60;
     protected static final int DUNS_NUMBER_MAX_LENGTH = 13;
@@ -413,4 +420,47 @@ public abstract class S2SBaseFormGenerator implements S2SFormGenerator {
         QuestionnaireAnswerService questionnaireAnswerService = KraServiceLocator.getService(QuestionnaireAnswerService.class);
         return questionnaireAnswerService.getQuestionnaireAnswer(moduleQuestionnaireBean);
     }
+    
+    /**
+     * Sort the attachments.
+     * @param byteArrayInputStream.
+     */
+    public void sortAttachments(ByteArrayInputStream byteArrayInputStream)  {
+        List<String> attachmentNameList = new ArrayList<String> ();
+        List<AttachmentData> attacmentList = getAttachments();
+        List<AttachmentData> tempAttacmentList = new ArrayList<AttachmentData>();
+        
+        try{
+            DocumentBuilderFactory domParserFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder domParser = domParserFactory.newDocumentBuilder();
+            Document document = domParser.parse(byteArrayInputStream);
+            byteArrayInputStream.close();
+            NodeList fileLocationList = document.getElementsByTagName(NARRATIVE_ATTACHMENT_FILE_LOCATION);                       
+            
+           for(int itemLocation=0;itemLocation<fileLocationList.getLength();itemLocation++){
+               String attachmentName =fileLocationList.item(itemLocation).getAttributes().item(0).getNodeValue();
+               String[] name = attachmentName.split(TYPE_SEPARATOR);               
+               String fileName =name[name.length-1];
+               attachmentNameList.add(fileName);
+           }
+        }catch (Exception e) {
+            LOG.error(e.getMessage(), e);
+        }
+        
+        for(String attachmentName :attachmentNameList){
+            for(AttachmentData attachment : attacmentList){                
+                String[] names = attachment.getContentId().split(TYPE_SEPARATOR);               
+                String fileName =names[names.length-1];
+                if(fileName.equalsIgnoreCase(attachmentName)){
+                    tempAttacmentList.add(attachment);
+                }
+            }
+        }
+        if(tempAttacmentList.size() > 0){
+            attachments.clear();
+            for(AttachmentData tempAttachment :tempAttacmentList){
+                attachments.add(tempAttachment);
+            } 
+        }
+    }     
 }
