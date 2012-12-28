@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.s2s.generator.impl;
 
+import java.io.ByteArrayInputStream;
+
 import gov.grants.apply.forms.phs398ResearchPlan13V13.PHS398ResearchPlan13Document;
 import gov.grants.apply.forms.phs398ResearchPlan13V13.PHS398ResearchPlan13Document.PHS398ResearchPlan13;
 import gov.grants.apply.forms.phs398ResearchPlan13V13.PHS398ResearchPlan13Document.PHS398ResearchPlan13.ApplicationType;
@@ -81,6 +83,9 @@ public class PHS398ResearchPlanV1_3Generator extends
 		researchPlanAttachments.setAppendix(attachmentGroupMin0Max100DataType);
 		phsResearchPlan.setResearchPlanAttachments(researchPlanAttachments);
 		phsResearchPlanDocument.setPHS398ResearchPlan13(phsResearchPlan);
+		
+		ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(phsResearchPlanDocument.toString().getBytes());            
+		sortAttachments(byteArrayInputStream);		
 		return phsResearchPlanDocument;
 	}
 
