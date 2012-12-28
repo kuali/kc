@@ -55,6 +55,7 @@ import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import gov.grants.apply.system.attachmentsV10.AttachmentGroupMin0Max100DataType;
 import gov.grants.apply.system.globalLibraryV20.YesNoDataType;
 
+import java.io.ByteArrayInputStream;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -160,6 +161,8 @@ public class PHS398FellowshipSupplementalV1_1Generator extends
 		phsFellowshipSupplemental
 				.setResearchTrainingPlan(getResearchTrainingPlan());
 		phsFellowshipSupplemental.setBudget(getBudget());
+		ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(phsFellowshipSupplemental.toString().getBytes());            
+        sortAttachments(byteArrayInputStream);
 		return phsFellowshipSupplemental;
 	}
 

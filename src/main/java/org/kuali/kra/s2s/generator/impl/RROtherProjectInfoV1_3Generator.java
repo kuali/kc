@@ -30,6 +30,7 @@ import gov.grants.apply.forms.rrOtherProjectInfo13V13.RROtherProjectInfo13Docume
 import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import gov.grants.apply.system.globalLibraryV20.YesNoDataType;
 
+import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -95,6 +96,8 @@ public class RROtherProjectInfoV1_3Generator extends
 		setInternationalActivities(rrOtherProjectInfo);
 		setAttachments(rrOtherProjectInfo);
 		rrOtherProjectInfoDocument.setRROtherProjectInfo13(rrOtherProjectInfo);
+		ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(rrOtherProjectInfoDocument.toString().getBytes());            
+        sortAttachments(byteArrayInputStream);
 		return rrOtherProjectInfoDocument;
 	}
 
