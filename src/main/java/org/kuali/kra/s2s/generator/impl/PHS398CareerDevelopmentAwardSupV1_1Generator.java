@@ -47,6 +47,7 @@ import gov.grants.apply.forms.phs398ResearchPlan12V12.PHS398ResearchPlan12Docume
 import gov.grants.apply.system.attachmentsV10.AttachedFileDataType;
 import gov.grants.apply.system.attachmentsV10.AttachmentGroupMin0Max100DataType;
 
+import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -84,6 +85,9 @@ public class PHS398CareerDevelopmentAwardSupV1_1Generator extends
 				.setCareerDevelopmentAwardAttachments(getCareerDevelopmentAwardAttachments());
 		phs398CareerDevelopmentAwardSup11Document
 				.setPHS398CareerDevelopmentAwardSup11(phs398CareerDevelopmentAwardSup11);
+		
+		ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(phs398CareerDevelopmentAwardSup11Document.toString().getBytes());            
+        sortAttachments(byteArrayInputStream);
 		return phs398CareerDevelopmentAwardSup11Document;
 	}
 
