@@ -25,12 +25,10 @@ import org.kuali.kra.meeting.CommitteeScheduleMinute;
 public class CommitteeSchedule extends CommitteeScheduleBase<CommitteeSchedule, Committee, ProtocolSubmission, CommitteeScheduleMinute> { 
     
     private static final long serialVersionUID = -360139608123017188L;
-
-    @Override
-    protected Committee getNewCommitteeInstanceHook() {
-        return new Committee();
-    }
     
+    private Committee committee;
+
+
 //    public static final Long DEFAULT_SCHEDULE_ID = 9999999999L;
 //    
 //    private Time12HrFmt viewTime;
@@ -244,15 +242,22 @@ public class CommitteeSchedule extends CommitteeScheduleBase<CommitteeSchedule, 
 //    }
 
     
-    // trying to get DD validation to pas
-    public Committee getIrbCommittee() {
-        return super.getCommittee();
+    public Committee getParentCommittee() {
+        return this.getCommittee();
+    }
+    
+    public Committee getCommittee() {
+        if (committee == null && getCommitteeIdFk() == null) {
+            committee = new Committee();
+        }
+        return committee;
+    }
+    
+	public void setCommittee(Committee committee) {
+		this.committee = committee;
 	}
-
-//	public void setCommittee(Committee committee) {
-//		this.committee = committee;
-//	}
-//
+	
+	
 //    public ScheduleStatus getScheduleStatus() {
 //        return scheduleStatus;
 //    }

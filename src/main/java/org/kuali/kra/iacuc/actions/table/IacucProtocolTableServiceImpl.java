@@ -76,7 +76,7 @@ public class IacucProtocolTableServiceImpl implements IacucProtocolTableService 
         CommitteeScheduleBase retVal = null;
         if( (null != currentSchedule) && (null != currentSchedule.getCommitteeIdFk()) ) {
             currentSchedule.refreshReferenceObject("committee");
-            CommitteeBase committee = currentSchedule.getCommittee();
+            CommitteeBase committee = currentSchedule.getParentCommittee();
             if((null != committee)) {
                 List<CommitteeScheduleBase> schedules = committee.getCommitteeSchedules();
                 if(null != schedules) {

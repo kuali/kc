@@ -228,8 +228,8 @@ public abstract class ReviewCommentsServiceImplBase<PRA extends ProtocolReviewAt
     protected boolean isCurrentMinuteEntry(CommitteeScheduleMinuteBase minute) {
         minute.refreshReferenceObject("committeeSchedule");
         if (minute.getCommitteeSchedule() != null) {
-            CommitteeBase committee = committeeService.getCommitteeById(minute.getCommitteeSchedule().getCommittee().getCommitteeId());
-            return committee.getId().equals(minute.getCommitteeSchedule().getCommittee().getId());
+            CommitteeBase committee = committeeService.getCommitteeById(minute.getCommitteeSchedule().getParentCommittee().getCommitteeId());
+            return committee.getId().equals(minute.getCommitteeSchedule().getParentCommittee().getId());
         }
         else {
             // if scheduleid is 999999999
@@ -633,7 +633,7 @@ public abstract class ReviewCommentsServiceImplBase<PRA extends ProtocolReviewAt
         List<String> activeMemberIds = new ArrayList<String>();
         List<CommitteeMembershipBase> members = new ArrayList<CommitteeMembershipBase>();
         if (reviewComment.isReviewComment()) {
-            members = ((CommitteeScheduleMinuteBase) reviewComment).getCommitteeSchedule().getCommittee().getCommitteeMemberships();
+            members = ((CommitteeScheduleMinuteBase) reviewComment).getCommitteeSchedule().getParentCommittee().getCommitteeMemberships();
         }
         else {
             members = ((PRA) reviewComment).getProtocol().getProtocolSubmission().getCommittee()
@@ -922,7 +922,7 @@ public abstract class ReviewCommentsServiceImplBase<PRA extends ProtocolReviewAt
     private boolean isActiveCommitteeMember(ProtocolReviewableBase minute, String principalId) {
         boolean result = false;
         List<CommitteeMembershipBase> committeeMembers = committeeService.getAvailableMembers(minute.getCommitteeSchedule()
-                .getCommittee().getCommitteeId(), minute.getCommitteeSchedule().getScheduleId());
+                .getParentCommittee().getCommitteeId(), minute.getCommitteeSchedule().getScheduleId());
         if (CollectionUtils.isNotEmpty(committeeMembers)) {
             for (CommitteeMembershipBase member : committeeMembers) {
                 if (StringUtils.equals(principalId, member.getPersonId())) {

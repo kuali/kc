@@ -36,7 +36,7 @@ public class MinutesCreatedNotificationRenderer extends CommitteeNotificationRen
      * @param actionTaken
      */
     public MinutesCreatedNotificationRenderer(CommScheduleMinuteDocBase minuteDoc, String actionTaken) {
-        super(minuteDoc.getCommitteeSchedule().getCommittee());
+        super(minuteDoc.getCommitteeSchedule().getParentCommittee());
         this.commScheduleMinuteDoc = minuteDoc;
         this.actionTaken = actionTaken;
     }
