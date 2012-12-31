@@ -141,7 +141,7 @@ public abstract class MeetingActionsActionBase extends MeetingActionBase {
      */
     private List<Printable> getPrintableArtifacts(MeetingHelperBase meetingHelper, String protocolCorrespondenceTypeCode) {
         AbstractPrint printable = (AbstractPrint)getCommitteePrintingService().getCommitteePrintable(CommitteeReportType.SCHEDULE_TEMPLATE);    
-        CommitteeBase committee = meetingHelper.getCommitteeSchedule().getCommittee();
+        CommitteeBase committee = meetingHelper.getCommitteeSchedule().getParentCommittee();
         printable.setPrintableBusinessObject(committee);        
         Map<String, Object> reportParameters = new HashMap<String, Object>();
         reportParameters.put("committeeId", committee.getCommitteeId());
@@ -380,7 +380,7 @@ public abstract class MeetingActionsActionBase extends MeetingActionBase {
             HttpServletResponse response) throws Exception {
         ActionForward actionForward = mapping.findForward(Constants.MAPPING_BASIC);
         CommitteeDocumentBase document = 
-            ((CommitteeDocumentBase) getDocumentService().getByDocumentHeaderId(((MeetingFormBase) form).getMeetingHelper().getCommitteeSchedule().getCommittee().getCommitteeDocument().getDocumentNumber()));
+            ((CommitteeDocumentBase) getDocumentService().getByDocumentHeaderId(((MeetingFormBase) form).getMeetingHelper().getCommitteeSchedule().getParentCommittee().getCommitteeDocument().getDocumentNumber()));
         Boolean printRooster = ((MeetingFormBase) form).getMeetingHelper().getPrintRooster();
         Boolean printFutureScheduledMeeting = ((MeetingFormBase) form).getMeetingHelper().getPrintFutureScheduledMeeting();
         

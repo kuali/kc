@@ -50,10 +50,10 @@ public class ViewScheduleAuthorizerTest {
         CommitteeSchedule committeeSchedule = new CommitteeSchedule();
         final KraAuthorizationService kraAuthorizationService2 = new KraAuthorizationServiceMock(true);
         authorizer.setKraAuthorizationService(kraAuthorizationService2);        
-        task = new CommitteeScheduleTask(TaskName.VIEW_SCHEDULE, committeeSchedule.getCommittee(), committeeSchedule);
+        task = new CommitteeScheduleTask(TaskName.VIEW_SCHEDULE, committeeSchedule.getParentCommittee(), committeeSchedule);
         assertEquals(false, authorizer.isAuthorized(PERSON_ID, task));        
         committeeSchedule.setAvailableToReviewers(true);        
-        task = new CommitteeScheduleTask(TaskName.VIEW_SCHEDULE, committeeSchedule.getCommittee(), committeeSchedule);
+        task = new CommitteeScheduleTask(TaskName.VIEW_SCHEDULE, committeeSchedule.getParentCommittee(), committeeSchedule);
         assertEquals(true, authorizer.isAuthorized(PERSON_ID, task));
     }
     

@@ -21,22 +21,26 @@ import org.kuali.kra.iacuc.committee.meeting.IacucCommitteeScheduleMinute;
 
 public class IacucCommitteeSchedule extends CommitteeScheduleBase<IacucCommitteeSchedule, IacucCommittee, IacucProtocolSubmission, IacucCommitteeScheduleMinute> {
 
-
-   
-    
     /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = -579662475857490755L;
-
-    @Override
-    protected IacucCommittee getNewCommitteeInstanceHook() {
-        return new IacucCommittee();
+    
+    private IacucCommittee committee;
+    
+    public IacucCommittee getParentCommittee() {
+        return this.getCommittee();
     }
     
-    // trying to get dd validation to pass
-    public IacucCommittee getIacucCommittee() {
-        return super.getCommittee();
+    public IacucCommittee getCommittee() {
+        if (committee == null && getCommitteeIdFk() == null) {
+            committee = new IacucCommittee();
+        }
+        return committee;
+    }
+    
+    public void setCommittee(IacucCommittee committee) {
+        this.committee = committee;
     }
     
 }

@@ -39,7 +39,7 @@ public class AgendaCreatedNotificationRenderer extends CommitteeNotificationRend
      * @param actionTaken
      */
     public AgendaCreatedNotificationRenderer(ScheduleAgenda scheduleAgenda, String actionTaken) {
-        super((Committee)scheduleAgenda.getCommitteeSchedule().getCommittee());
+        super((Committee)scheduleAgenda.getCommitteeSchedule().getParentCommittee());
         this.scheduleAgenda = scheduleAgenda;
         this.actionTaken = actionTaken;
     }

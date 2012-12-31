@@ -117,7 +117,7 @@ public abstract class MeetingActionBase extends KualiAction {
             lineNumber = Integer.parseInt(request.getParameter(LINE_NUMBER));
         }
         else {
-            for (CommitteeScheduleBase<?, ?, ?, ?> schedule : commSchedule.getCommittee().getCommitteeSchedules()) {
+            for (CommitteeScheduleBase<?, ?, ?, ?> schedule : commSchedule.getParentCommittee().getCommitteeSchedules()) {
                 lineNumber++;
                 if (schedule.getId().equals(commSchedule.getId())) {
                     break;
@@ -180,7 +180,7 @@ public abstract class MeetingActionBase extends KualiAction {
         GlobalVariables.getMessageMap().removeFromErrorPath(COMMITTEE_SCHEDULE_ERROR_PATH);
         boolean valid = GlobalVariables.getMessageMap().hasNoErrors();
         valid &= applyRules(new MeetingSaveEvent(Constants.EMPTY_STRING, getCommitteeDocument(meetingHelper.getCommitteeSchedule()
-                .getCommittee().getCommitteeDocument().getDocumentHeader().getDocumentNumber()), meetingHelper, ErrorType.HARDERROR));
+                .getParentCommittee().getCommitteeDocument().getDocumentHeader().getDocumentNumber()), meetingHelper, ErrorType.HARDERROR));
         return valid;
 
     }

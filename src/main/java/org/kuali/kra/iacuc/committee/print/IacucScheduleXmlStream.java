@@ -449,10 +449,10 @@ public class IacucScheduleXmlStream extends PrintBaseXmlStream {
             attendents.setPresentFlag(true);
         }
 
-        List<CommitteeMembershipBase> committeeMemberships = committeeSchedule.getCommittee().getCommitteeMemberships();
+        List<CommitteeMembershipBase> committeeMemberships = committeeSchedule.getParentCommittee().getCommitteeMemberships();
         for (CommitteeMembershipBase committeeMembership : committeeMemberships) {
             if (!getCommitteeMembershipService().isMemberAttendedMeeting(committeeMembership,
-                    committeeSchedule.getCommittee().getCommitteeId())) {
+                    committeeSchedule.getParentCommittee().getCommitteeId())) {
                 Attendents attendents = schedule.addNewAttendents();
                 attendents.setAttendentName(committeeMembership.getPersonName());
                 attendents.setAlternateFlag(false);
@@ -466,10 +466,10 @@ public class IacucScheduleXmlStream extends PrintBaseXmlStream {
 
     public ScheduleMasterDataType setScheduleMasterData(CommitteeScheduleBase scheduleDetailsBean, ScheduleMasterDataType scheduleMasterDataType) {
         scheduleDetailsBean.refreshNonUpdateableReferences();
-        String committeeId = scheduleDetailsBean.getCommittee().getCommitteeId();
+        String committeeId = scheduleDetailsBean.getParentCommittee().getCommitteeId();
         scheduleMasterDataType.setScheduleId(scheduleDetailsBean.getScheduleId());
         scheduleMasterDataType.setCommitteeId(committeeId);
-        scheduleMasterDataType.setCommitteeName(scheduleDetailsBean.getCommittee().getCommitteeName());
+        scheduleMasterDataType.setCommitteeName(scheduleDetailsBean.getParentCommittee().getCommitteeName());
         scheduleMasterDataType.setScheduleStatusCode(BigInteger.valueOf(scheduleDetailsBean.getScheduleStatusCode()));
         scheduleMasterDataType.setScheduleStatusDesc(scheduleDetailsBean.getScheduleStatus().getDescription());
         if (scheduleDetailsBean.getScheduledDate() != null) {
@@ -544,7 +544,7 @@ public class IacucScheduleXmlStream extends PrintBaseXmlStream {
      */
     private CommitteeScheduleBase getNextOrPreviousSchedule(CommitteeScheduleBase scheduleDetailsBean, boolean nextFlag) {
         Map<String, String> scheduleParam = new HashMap<String, String>();
-        scheduleParam.put("committeeIdFk", scheduleDetailsBean.getCommittee().getId().toString());
+        scheduleParam.put("committeeIdFk", scheduleDetailsBean.getParentCommittee().getId().toString());
         List<CommitteeScheduleBase> schedules = (List) getBusinessObjectService().findMatchingOrderBy(IacucCommitteeSchedule.class,
                 scheduleParam, "scheduledDate", false);
         if (!schedules.isEmpty()) {

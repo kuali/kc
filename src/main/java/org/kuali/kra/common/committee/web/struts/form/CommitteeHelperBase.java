@@ -374,7 +374,7 @@ public abstract class CommitteeHelperBase implements Serializable {
     public List<Boolean> canViewSpecificSchedule() {
         List<Boolean> canViewSchedule = new ArrayList<Boolean>();
         for (CommitteeScheduleBase committeeSchedule : getCommittee().getCommitteeSchedules()) {
-            CommitteeTaskBase task = getNewCommitteeScheduleTaskInstanceHook(TaskName.VIEW_SCHEDULE, committeeSchedule.getCommittee(), committeeSchedule);
+            CommitteeTaskBase task = getNewCommitteeScheduleTaskInstanceHook(TaskName.VIEW_SCHEDULE, committeeSchedule.getParentCommittee(), committeeSchedule);
             canViewSchedule.add(getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task));
         }
         return canViewSchedule; 
