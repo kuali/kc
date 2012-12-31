@@ -142,8 +142,8 @@ public class MeetingServiceTest extends KcUnitTestBase {
         });
         meetingService.setBusinessObjectService(businessObjectService);
         meetingService.saveMeetingDetails(committeeSchedule, deletedOtherActions);
-        Assert.assertEquals(committeeSchedule.getCommittee().getCommitteeId(), "test");
-        Assert.assertEquals(committeeSchedule.getCommittee().getCommitteeName(), "committeeName");
+        Assert.assertEquals(committeeSchedule.getParentCommittee().getCommitteeId(), "test");
+        Assert.assertEquals(committeeSchedule.getParentCommittee().getCommitteeName(), "committeeName");
         Assert.assertEquals(committeeSchedule.getPlace(), "iu - poplar");
         Assert.assertEquals(committeeSchedule.getScheduledDate(), new Date(dateFormat.parse("10/01/2009").getTime()));
         Assert.assertEquals(committeeSchedule.getMaxProtocols(), new Integer(5));

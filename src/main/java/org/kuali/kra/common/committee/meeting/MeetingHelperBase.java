@@ -366,7 +366,7 @@ public abstract class MeetingHelperBase implements Serializable {
 // TODO *********commented the code below during IACUC refactoring*********         
 //        CommitteeTaskBase task = new CommitteeTaskBase(TaskName.MODIFY_SCHEDULE, committeeSchedule.getCommittee());
         
-        CommitteeTaskBase task = getNewCommitteeTaskInstanceHook(TaskName.MODIFY_SCHEDULE, committeeSchedule.getCommittee());
+        CommitteeTaskBase task = getNewCommitteeTaskInstanceHook(TaskName.MODIFY_SCHEDULE, committeeSchedule.getParentCommittee());
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
     
@@ -382,7 +382,7 @@ public abstract class MeetingHelperBase implements Serializable {
 // TODO *********commented the code below during IACUC refactoring*********         
 //        CommitteeTaskBase task = new CommitteeScheduleTaskBase(TaskName.VIEW_SCHEDULE, committeeSchedule.getCommittee(), committeeSchedule);
         
-        CommitteeTaskBase task = getNewCommitteeScheduleTaskInstanceHook(TaskName.VIEW_SCHEDULE, committeeSchedule.getCommittee(), committeeSchedule);
+        CommitteeTaskBase task = getNewCommitteeScheduleTaskInstanceHook(TaskName.VIEW_SCHEDULE, committeeSchedule.getParentCommittee(), committeeSchedule);
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
     

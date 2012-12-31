@@ -57,7 +57,7 @@
 				<ref bean="IacucCommSchedule-committee.committeeId" />
 				<ref bean="IacucCommSchedule-committee.committeeName" />
 				<ref bean="IacucCommSchedule-committee.committeeTypeCode" />
-				<ref bean="IacucCommSchedule-iacucCommittee.committeeMemberships.personId" />
+				<ref bean="IacucCommSchedule-committee.committeeMemberships.personId" />
 				<ref bean="IacucCommSchedule-protocolSubmissions.protocolNumber" />
 				<ref bean="IacucCommSchedule-scheduleStatus.description" />
 				<ref bean="IacucCommSchedule-availableToReviewers" />
@@ -331,9 +331,9 @@
 		<property name="shortLabel" value="Committee Type" />
 	</bean>
 	
-	<bean id="IacucCommSchedule-iacucCommittee.committeeMemberships.personId" parent="IacucCommSchedule-iacucCommittee.committeeMemberships.personId-parentBean" />
-    <bean id="IacucCommSchedule-iacucCommittee.committeeMemberships.personId-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBigText">
-        <property name="name" value="iacucCommittee.committeeMemberships.personId" />
+	<bean id="IacucCommSchedule-committee.committeeMemberships.personId" parent="IacucCommSchedule-committee.committeeMemberships.personId-parentBean" />
+    <bean id="IacucCommSchedule-committee.committeeMemberships.personId-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBigText">
+        <property name="name" value="committee.committeeMemberships.personId" />
         <property name="label" value="All My Schedules" />
         <property name="shortLabel" value="All My Schedules" />
         <property name="summary" value="All My Schedules" />
@@ -466,7 +466,7 @@
 <!-- 				<bean parent="FieldDefinition" -->
 <!-- 					p:attributeName="committee.committeeTypeCode" /> -->
 				<bean parent="FieldDefinition"
-                    p:attributeName="iacucCommittee.committeeMemberships.personId" p:hidden="true" />
+                    p:attributeName="committee.committeeMemberships.personId" p:hidden="true" />
 			</list>
 		</property>
 		<property name="resultFields" >

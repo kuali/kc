@@ -76,12 +76,12 @@ public class IacucMeetingManagementAction extends MeetingManagementActionBase {
 
     @Override
     protected String getCommitteeScheduleActionIdHook() {
-        return "iacucCommitteeCommittee";
+        return "iacucCommitteeSchedule";
     }
 
     @Override
     protected String getCommitteeCommitteeActionIdHook() {
-        return "iacucCommitteeSchedule";
+        return "iacucCommitteeCommittee";
     }
 
 }

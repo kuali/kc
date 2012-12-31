@@ -54,7 +54,7 @@ public class CommitteeNotificationContext extends NotificationContextBase {
     public CommitteeNotificationContext(CommitteeSchedule committeeSchedule, String actionTypeCode, String contextName, NotificationRenderer renderer) {
         super(renderer);
 
-        this.committee = committeeSchedule.getCommittee();
+        this.committee = committeeSchedule.getParentCommittee();
         this.committeeSchedule = committeeSchedule;
         this.actionTypeCode = actionTypeCode;
         this.contextName = contextName;

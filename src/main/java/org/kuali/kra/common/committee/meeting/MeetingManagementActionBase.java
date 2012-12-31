@@ -82,7 +82,7 @@ public abstract class MeetingManagementActionBase extends MeetingActionBase {
         MemberAbsentBean memberAbsentBean = meetingForm.getMeetingHelper().getMemberAbsentBeans().get(getLineToDelete(request));
         MeetingHelperBase meetingHelper = ((MeetingFormBase) form).getMeetingHelper();
         if (applyRules(new MeetingPresentOtherOrVotingEvent(Constants.EMPTY_STRING, getCommitteeDocument(meetingHelper
-                .getCommitteeSchedule().getCommittee().getCommitteeDocument().getDocumentHeader().getDocumentNumber()),
+                .getCommitteeSchedule().getParentCommittee().getCommitteeDocument().getDocumentHeader().getDocumentNumber()),
             meetingHelper, memberAbsentBean, ErrorType.HARDERROR))) {
             getMeetingService().presentVoting(meetingHelper, getLineToDelete(request));
         }
@@ -106,7 +106,7 @@ public abstract class MeetingManagementActionBase extends MeetingActionBase {
         MemberAbsentBean memberAbsentBean = meetingForm.getMeetingHelper().getMemberAbsentBeans().get(getLineToDelete(request));
         MeetingHelperBase meetingHelper = ((MeetingFormBase) form).getMeetingHelper();
         if (applyRules(new MeetingPresentOtherOrVotingEvent(Constants.EMPTY_STRING, getCommitteeDocument(meetingHelper
-                .getCommitteeSchedule().getCommittee().getCommitteeDocument().getDocumentHeader().getDocumentNumber()),
+                .getCommitteeSchedule().getParentCommittee().getCommitteeDocument().getDocumentHeader().getDocumentNumber()),
             meetingHelper, memberAbsentBean, ErrorType.HARDERROR))) {
             getMeetingService().presentOther(meetingHelper, getLineToDelete(request));
         }
@@ -127,7 +127,7 @@ public abstract class MeetingManagementActionBase extends MeetingActionBase {
             HttpServletResponse response) {
         MeetingHelperBase meetingHelper = ((MeetingFormBase) form).getMeetingHelper();
         if (applyRules(new MeetingAddOtherEvent(Constants.EMPTY_STRING, getCommitteeDocument(meetingHelper.getCommitteeSchedule()
-                .getCommittee().getCommitteeDocument().getDocumentHeader().getDocumentNumber()), meetingHelper, ErrorType.HARDERROR))) {
+                .getParentCommittee().getCommitteeDocument().getDocumentHeader().getDocumentNumber()), meetingHelper, ErrorType.HARDERROR))) {
             getMeetingService().addOtherPresent(meetingHelper);
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
@@ -167,7 +167,7 @@ public abstract class MeetingManagementActionBase extends MeetingActionBase {
         MeetingFormBase meetingForm = (MeetingFormBase) form;
         MeetingHelperBase meetingHelper = meetingForm.getMeetingHelper();
         CommitteeDocumentBase document 
-            = getCommitteeDocument(meetingHelper.getCommitteeSchedule().getCommittee().getCommitteeDocument().getDocumentHeader().getDocumentNumber());
+            = getCommitteeDocument(meetingHelper.getCommitteeSchedule().getParentCommittee().getCommitteeDocument().getDocumentHeader().getDocumentNumber());
         if (applyRules(getNewMeetingAddMinuteEventInstanceHook(Constants.EMPTY_STRING, document, meetingHelper, ErrorType.HARDERROR))) {
             getMeetingService().addCommitteeScheduleMinute(meetingHelper);
         }
@@ -274,7 +274,7 @@ public abstract class MeetingManagementActionBase extends MeetingActionBase {
         String callerString = String.format("deleteOtherAction.line%s.anchor%s",lineToDelete,0);
         
         if (applyRules(new MeetingDeleteOtherEvent(Constants.EMPTY_STRING, getCommitteeDocument(meetingHelper.getCommitteeSchedule()
-                .getCommittee().getCommitteeDocument().getDocumentHeader().getDocumentNumber()), meetingHelper, ErrorType.HARDERROR, lineToDelete))) {
+                .getParentCommittee().getCommitteeDocument().getDocumentHeader().getDocumentNumber()), meetingHelper, ErrorType.HARDERROR, lineToDelete))) {
             if (question == null){
                 forward =  this.performQuestionWithoutInput(mapping, form, request, response, DELETE_COMMITTEE_OTHER_ACTION_QUESTION, Resources.getMessage(request, KeyConstants.QUESTION_COMMITTEE_MANAGEMENT_DELETE_OTHER_ACTION_CONFIRMATION), KRADConstants.CONFIRMATION_QUESTION, callerString, "");
             } 
@@ -300,7 +300,7 @@ public abstract class MeetingManagementActionBase extends MeetingActionBase {
     private ActionForward getReturnToCommitteeForward(MeetingFormBase form) throws WorkflowException {
         assert form != null : "the form is null";
         final DocumentService docService = KraServiceLocator.getService(DocumentService.class);
-        final String docNumber = form.getMeetingHelper().getCommitteeSchedule().getCommittee().getCommitteeDocument().getDocumentNumber();
+        final String docNumber = form.getMeetingHelper().getCommitteeSchedule().getParentCommittee().getCommitteeDocument().getDocumentNumber();
         
         final CommitteeDocumentBase pdDoc = (CommitteeDocumentBase) docService.getByDocumentHeaderId(docNumber);
         String forwardUrl = buildForwardUrl(pdDoc.getDocumentHeader().getWorkflowDocument().getDocumentId());
@@ -351,7 +351,7 @@ public abstract class MeetingManagementActionBase extends MeetingActionBase {
         
         MeetingFormBase meetingForm = (MeetingFormBase) form;
         MeetingHelperBase meetingHelper = meetingForm.getMeetingHelper();
-        CommitteeDocumentBase document = getCommitteeDocument(meetingHelper.getCommitteeSchedule().getCommittee().
+        CommitteeDocumentBase document = getCommitteeDocument(meetingHelper.getCommitteeSchedule().getParentCommittee().
                                         getCommitteeDocument().getDocumentHeader().getDocumentNumber());
         if (applyRules(new MeetingAddAttachmentsEvent(Constants.EMPTY_STRING, document, meetingHelper, ErrorType.HARDERROR))) {
         CommitteeScheduleBase committeSchedule= meetingHelper.getCommitteeSchedule();

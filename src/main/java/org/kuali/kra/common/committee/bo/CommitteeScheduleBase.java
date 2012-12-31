@@ -76,7 +76,7 @@ public abstract class CommitteeScheduleBase<CS extends CommitteeScheduleBase<CS,
     private boolean availableToReviewers;
 	
 // TODO : recursive reference    
-	private CMT committee; 
+//	private CMT committee; 
     private ScheduleStatus scheduleStatus;
     
     //TODO revisit required during meeting management to map ProtocolBase
@@ -236,7 +236,7 @@ public abstract class CommitteeScheduleBase<CS extends CommitteeScheduleBase<CS,
 
 	public Integer getMaxProtocols() {
         if (maxProtocols == null) {
-            maxProtocols = committee.getMaxProtocols();
+            maxProtocols = getParentCommittee().getMaxProtocols();
         }
 		return maxProtocols;
 	}
@@ -264,18 +264,24 @@ public abstract class CommitteeScheduleBase<CS extends CommitteeScheduleBase<CS,
         this.availableToReviewers = availableToReviewers;
     }
 
-    public CMT getCommittee() {
-        if (committee == null && getCommitteeIdFk() == null) {
-            committee = getNewCommitteeInstanceHook();
-        }
-        return committee;
-	}
 
-	protected abstract CMT getNewCommitteeInstanceHook();
+    public abstract CMT getParentCommittee();
+    
+//    public CMT getCommittee() {
+//        if (committee == null && getCommitteeIdFk() == null) {
+//            committee = getNewCommitteeInstanceHook();
+//        }
+//        return committee;
+//	}
 
-    public void setCommittee(CMT committee) {
-		this.committee = committee;
-	}
+//	protected abstract CMT getNewCommitteeInstanceHook();
+
+	
+	public abstract void setCommittee(CMT committee);
+	
+//    public void setCommittee(CMT committee) {
+//		this.committee = committee;
+//	}
 
     public ScheduleStatus getScheduleStatus() {
         return scheduleStatus;
@@ -548,7 +554,7 @@ public abstract class CommitteeScheduleBase<CS extends CommitteeScheduleBase<CS,
     }
 
     public String getNamespace() {
-        return getCommittee().getNamespace();
+        return getParentCommittee().getNamespace();
     }
 
     public List<String> getRoleNames() {
@@ -559,7 +565,7 @@ public abstract class CommitteeScheduleBase<CS extends CommitteeScheduleBase<CS,
     }
 
     public void populateAdditionalQualifiedRoleAttributes(Map<String, String> qualifiedRoleAttributes) {
-        qualifiedRoleAttributes.put(KcKimAttributes.COMMITTEE, getCommittee().getCommitteeId());
+        qualifiedRoleAttributes.put(KcKimAttributes.COMMITTEE, getParentCommittee().getCommitteeId());
         qualifiedRoleAttributes.put(KcKimAttributes.COMMITTEESCHEDULE, this.getScheduleId());
     }
     
@@ -573,7 +579,7 @@ public abstract class CommitteeScheduleBase<CS extends CommitteeScheduleBase<CS,
      */
     public boolean isActiveFor(String personId) {
         boolean retVal = false;
-        CMT parentCommittee = this.getCommittee();
+        CMT parentCommittee = this.getParentCommittee();
         if(parentCommittee != null){
             CommitteeMembershipBase member = parentCommittee.getCommitteeMembershipFor(personId);
             if(member != null) {
