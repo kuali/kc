@@ -194,6 +194,11 @@
     <param name="TIMESTAMP_TO_STRING_FORMAT_FOR_FILE_NAME" override="false">yyyyMMdd-HH-mm-ss-S</param>
     <!-- replicated from core-config-defaults.xml -->
     
+    <param name="kim.ehcache.config.location" override="false">classpath:org/kuali/rice/kim/impl/config/kim.ehcache.xml</param>
+	<param name="kew.ehcache.config.location" override="false">classpath:org/kuali/rice/kew/impl/config/kew.ehcache.xml</param>
+	<param name="core.ehcache.config.location" override="false">classpath:org/kuali/rice/core/config/core.ehcache.xml</param>
+	<param name="location.ehcache.config.location" override="false">classpath:org/kuali/rice/location/config/location.ehcache.xml</param>
+	
 	 <!-- XAPool is still the default in common-config-defaults. But that might change -->
 	<param name="connection.pool.impl">XAPool</param>
 	 
