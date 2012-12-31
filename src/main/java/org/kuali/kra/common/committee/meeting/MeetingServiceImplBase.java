@@ -290,7 +290,7 @@ public abstract class MeetingServiceImplBase<CS extends CommitteeScheduleBase<CS
      */
     protected boolean isAlternateForMember(CS commonCommitteeSchedule, CommitteeScheduleAttendanceBase committeeScheduleAttendance, Date scheduledDate) {
         boolean isAlternate = false;
-        for (CommitteeMembershipBase committeeMembership : commonCommitteeSchedule.getCommittee().getCommitteeMemberships()) {
+        for (CommitteeMembershipBase committeeMembership : commonCommitteeSchedule.getParentCommittee().getCommitteeMemberships()) {
             if ((committeeScheduleAttendance.getNonEmployeeFlag() && committeeMembership.getRolodexId() != null && committeeScheduleAttendance
                     .getPersonId().equals(committeeMembership.getRolodexId().toString()))
                     || (!committeeScheduleAttendance.getNonEmployeeFlag() && committeeScheduleAttendance.getPersonId().equals(
@@ -442,7 +442,7 @@ public abstract class MeetingServiceImplBase<CS extends CommitteeScheduleBase<CS
         for (MemberAbsentBean memberAbsentBean : meetingHelper.getMemberAbsentBeans()) {
             if (isAbsentMember(memberAbsentBean, otherPresentBean)) {
                 otherPresentBean.setMember(true);
-                getRoleName(otherPresentBean.getAttendance(), meetingHelper.getCommitteeSchedule().getCommittee()
+                getRoleName(otherPresentBean.getAttendance(), meetingHelper.getCommitteeSchedule().getParentCommittee()
                         .getCommitteeMemberships(), meetingHelper.getCommitteeSchedule().getScheduledDate());
                 matchedMemberAbsentBean = memberAbsentBean;
             }
@@ -588,7 +588,7 @@ public abstract class MeetingServiceImplBase<CS extends CommitteeScheduleBase<CS
     protected String getAlternateForName(CS commonCommitteeSchedule, String alternateFor) {
 
         String personName = "";
-        for (CommitteeMembershipBase committeeMembership : commonCommitteeSchedule.getCommittee().getCommitteeMemberships()) {
+        for (CommitteeMembershipBase committeeMembership : commonCommitteeSchedule.getParentCommittee().getCommitteeMemberships()) {
             if ((StringUtils.isNotBlank(committeeMembership.getPersonId()) && committeeMembership.getPersonId()
                     .equals(alternateFor))
                     || (StringUtils.isBlank(committeeMembership.getPersonId()) && committeeMembership.getRolodexId().equals(
@@ -675,11 +675,11 @@ public abstract class MeetingServiceImplBase<CS extends CommitteeScheduleBase<CS
             meetingHelper.getProtocolSubmittedBeans().add(protocolSubmittedBean);
         }
         if (commSchedule.getCommitteeScheduleAttendances().isEmpty()
-                && !commSchedule.getCommittee().getCommitteeMemberships().isEmpty()) {
+                && !commSchedule.getParentCommittee().getCommitteeMemberships().isEmpty()) {
             initAttendance(meetingHelper.getMemberAbsentBeans(), commSchedule);
         }
         else {
-            populateAttendanceToForm(meetingHelper, commSchedule.getCommittee().getCommitteeMemberships(), commSchedule);
+            populateAttendanceToForm(meetingHelper, commSchedule.getParentCommittee().getCommitteeMemberships(), commSchedule);
         }
 
         meetingHelper.setAgendaGenerationDate(getAgendaGenerationDate(commSchedule.getId()));
@@ -699,7 +699,7 @@ public abstract class MeetingServiceImplBase<CS extends CommitteeScheduleBase<CS
     protected String getMeetingTabTitle(CS commonCommitteeSchedule, int lineNumber) {
         DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
 
-        return commonCommitteeSchedule.getCommittee().getCommitteeName() + " #" + lineNumber + " Meeting "
+        return commonCommitteeSchedule.getParentCommittee().getCommitteeName() + " #" + lineNumber + " Meeting "
                 + dateFormat.format(commonCommitteeSchedule.getScheduledDate());
 
     }
@@ -781,7 +781,7 @@ public abstract class MeetingServiceImplBase<CS extends CommitteeScheduleBase<CS
      * Init attendance if this meeting schedule is maintained for the first time.
      */
     protected void initAttendance(List<MemberAbsentBean> memberAbsentBeans, CS commSchedule) {
-        List<CommitteeMembershipBase> committeeMemberships = commSchedule.getCommittee().getCommitteeMemberships();
+        List<CommitteeMembershipBase> committeeMemberships = commSchedule.getParentCommittee().getCommitteeMemberships();
         for (CommitteeMembershipBase committeeMembership : committeeMemberships) {
             if (isActiveMembership(committeeMembership, commSchedule.getScheduledDate())) {
                 

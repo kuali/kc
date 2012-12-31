@@ -436,10 +436,10 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
             attendents.setPresentFlag(true);
         }
 
-        List<CommitteeMembershipBase> committeeMemberships = committeeSchedule.getCommittee().getCommitteeMemberships();
+        List<CommitteeMembershipBase> committeeMemberships = committeeSchedule.getParentCommittee().getCommitteeMemberships();
         for (CommitteeMembershipBase committeeMembership : committeeMemberships) {
             if (!getCommitteeMembershipService().isMemberAttendedMeeting(committeeMembership,
-                    committeeSchedule.getCommittee().getCommitteeId())) {
+                    committeeSchedule.getParentCommittee().getCommitteeId())) {
                 Attendents attendents = schedule.addNewAttendents();
                 attendents.setAttendentName(committeeMembership.getPersonName());
                 attendents.setAlternateFlag(false);
@@ -453,10 +453,10 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
 
     public ScheduleMasterData setScheduleMasterData(CommitteeSchedule scheduleDetailsBean, ScheduleMasterData currentSchedule) {
         scheduleDetailsBean.refreshNonUpdateableReferences();
-        String committeeId = scheduleDetailsBean.getCommittee().getCommitteeId();
+        String committeeId = scheduleDetailsBean.getParentCommittee().getCommitteeId();
         currentSchedule.setScheduleId(scheduleDetailsBean.getScheduleId());
         currentSchedule.setCommitteeId(committeeId);
-        currentSchedule.setCommitteeName(scheduleDetailsBean.getCommittee().getCommitteeName());
+        currentSchedule.setCommitteeName(scheduleDetailsBean.getParentCommittee().getCommitteeName());
         currentSchedule.setScheduleStatusCode(BigInteger.valueOf(scheduleDetailsBean.getScheduleStatusCode()));
         currentSchedule.setScheduleStatusDesc(scheduleDetailsBean.getScheduleStatus().getDescription());
         if (scheduleDetailsBean.getScheduledDate() != null) {
@@ -531,7 +531,7 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
      */
     private CommitteeSchedule getNextOrPreviousSchedule(CommitteeSchedule scheduleDetailsBean, boolean nextFlag) {
         Map<String, String> scheduleParam = new HashMap<String, String>();
-        scheduleParam.put("committeeIdFk", scheduleDetailsBean.getCommittee().getId().toString());
+        scheduleParam.put("committeeIdFk", scheduleDetailsBean.getParentCommittee().getId().toString());
         List<CommitteeSchedule> schedules = (List) getBusinessObjectService().findMatchingOrderBy(CommitteeSchedule.class,
                 scheduleParam, "scheduledDate", false);
         if (!schedules.isEmpty()) {

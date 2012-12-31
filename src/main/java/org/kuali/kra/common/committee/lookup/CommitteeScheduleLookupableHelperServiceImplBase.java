@@ -126,7 +126,7 @@ public abstract class CommitteeScheduleLookupableHelperServiceImplBase<CS extend
         // go through each of the raw schedules and decide if it should be included in the final listing
         for (CS schedule : rawCommitteeSchedules) {
             // check if the schedule's committee is the most current version
-            if ((schedule.getCommittee() != null) && (isCurrentVersion(schedule.getCommittee()))) {
+            if ((schedule.getParentCommittee() != null) && (isCurrentVersion(schedule.getParentCommittee()))) {
                 // are we looking for all schedules or for a specific user?
                 if (StringUtils.isNotBlank(fieldValues.get(SCHEDULE_PERSON_ID_LOOKUP))) {
                     // check if schedule is active for the logged in user and is made available or is modifiable by user
@@ -287,7 +287,7 @@ public abstract class CommitteeScheduleLookupableHelperServiceImplBase<CS extend
 // TODO *********commented the code below during IACUC refactoring*********         
 //        CommitteeTaskBase task = new CommitteeTaskBase(TaskName.MODIFY_SCHEDULE, committeeSchedule.getCommittee());
         
-        CMTTSK task = getNewCommitteeTaskInstanceHook(TaskName.MODIFY_SCHEDULE, committeeSchedule.getCommittee());
+        CMTTSK task = getNewCommitteeTaskInstanceHook(TaskName.MODIFY_SCHEDULE, committeeSchedule.getParentCommittee());
         return taskAuthorizationService.isAuthorized(getUserIdentifier(), task);
     }
     
@@ -300,7 +300,7 @@ public abstract class CommitteeScheduleLookupableHelperServiceImplBase<CS extend
 // TODO *********commented the code below during IACUC refactoring*********         
 //        CommitteeTaskBase task = new CommitteeScheduleTaskBase(TaskName.VIEW_SCHEDULE, committeeSchedule.getCommittee(), committeeSchedule);
         
-        CSTSK task =  getNewCommitteeScheduleTaskInstanceHook(TaskName.VIEW_SCHEDULE, committeeSchedule.getCommittee(), committeeSchedule);
+        CSTSK task =  getNewCommitteeScheduleTaskInstanceHook(TaskName.VIEW_SCHEDULE, committeeSchedule.getParentCommittee(), committeeSchedule);
         boolean result = taskAuthorizationService.isAuthorized(getUserIdentifier(), task);
         return result;
     }
