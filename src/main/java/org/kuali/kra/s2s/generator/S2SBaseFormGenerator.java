@@ -439,7 +439,7 @@ public abstract class S2SBaseFormGenerator implements S2SFormGenerator {
             
            for(int itemLocation=0;itemLocation<fileLocationList.getLength();itemLocation++){
                String attachmentName =fileLocationList.item(itemLocation).getAttributes().item(0).getNodeValue();
-               String[] name = attachmentName.split(TYPE_SEPARATOR);               
+               String[] name = attachmentName.split(KEY_VALUE_SEPARATOR);               
                String fileName =name[name.length-1];
                attachmentNameList.add(fileName);
            }
@@ -449,7 +449,7 @@ public abstract class S2SBaseFormGenerator implements S2SFormGenerator {
         
         for(String attachmentName :attachmentNameList){
             for(AttachmentData attachment : attacmentList){                
-                String[] names = attachment.getContentId().split(TYPE_SEPARATOR);               
+                String[] names = attachment.getContentId().split(KEY_VALUE_SEPARATOR);               
                 String fileName =names[names.length-1];
                 if(fileName.equalsIgnoreCase(attachmentName)){
                     tempAttacmentList.add(attachment);
