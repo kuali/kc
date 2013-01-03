@@ -15,8 +15,10 @@
  */
 package org.kuali.kra.service;
 
+import java.util.List;
 import java.util.Map;
 
+import org.kuali.kra.award.customdata.AwardCustomData;
 import org.kuali.kra.bo.CustomAttributeDocument;
 
 
@@ -31,5 +33,12 @@ public interface AwardCustomAttributeService {
      * @return
      */
     public Map<String, CustomAttributeDocument> getDefaultAwardCustomAttributeDocuments();
+
+    /**
+     * This method gets the default CustomAttributeDocuments from the database.
+     * Returns active for new documents and include inactive for existing documents
+     * @return
+     */
+    public Map<String, CustomAttributeDocument> getDefaultAwardCustomAttributeDocuments(List<AwardCustomData> awardCustomDataList);
 
 }

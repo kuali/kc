@@ -78,4 +78,14 @@ public interface AwardService {
     Award getActiveOrNewestAward(String awardNumber);
     
     
+    /**
+     * This method is to synch custom attributes. During copy process only existing custom attributes
+     * available in the old document is copied. We need to make sure we have all the latest custom attributes
+     * tied to the new document.
+     * @param newAward
+     * @param oldAward
+     */
+    public void synchNewCustomAttributes(Award newAward, Award oldAward);
+    
+    
 }
