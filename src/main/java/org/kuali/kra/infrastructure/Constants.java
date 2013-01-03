@@ -951,6 +951,11 @@ public interface Constants {
     
     public static final String YES_FLAG = "Y";
     public static final String NO_FLAG = "N";
+    
+    //Award property constants
+    public static final String AWARD_ID = "awardId";
+
+    
 
 }
 

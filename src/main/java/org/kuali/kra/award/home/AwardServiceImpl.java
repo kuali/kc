@@ -18,11 +18,15 @@ package org.kuali.kra.award.home;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
+import org.kuali.kra.award.customdata.AwardCustomData;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.notesandattachments.attachments.AwardAttachment;
+import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.budget.summary.BudgetSummaryService;
@@ -102,8 +106,48 @@ public class AwardServiceImpl implements AwardService {
         newVersion.getAwardAmountInfos().get(0).setOriginatingAwardVersion(newVersion.getSequenceNumber());
         newVersion.getAwardAmountInfos().get(0).setTimeAndMoneyDocumentNumber(null);
         newVersion.getAwardAmountInfos().get(0).setSequenceNumber(newVersion.getSequenceNumber());
+        
+        synchNewCustomAttributes(newVersion, awardDocument.getAward());
+        
         return newAwardDocument;
     }   
+    
+    /**
+     * @see org.kuali.kra.award.home.AwardService#synchNewCustomAttributes(org.kuali.kra.award.home.Award, org.kuali.kra.award.home.Award)
+     */
+    public void synchNewCustomAttributes(Award newAward, Award oldAward) {
+        Set<Integer> availableCustomAttributes = new HashSet<Integer>();
+        for(AwardCustomData awardCustomData : newAward.getAwardCustomDataList()) {
+            availableCustomAttributes.add(awardCustomData.getCustomAttributeId().intValue());
+        }
+        
+        if(oldAward.getAwardDocument() != null) {
+            Map<String, CustomAttributeDocument> customAttributeDocuments = oldAward.getAwardDocument().getCustomAttributeDocuments();
+            for (Map.Entry<String, CustomAttributeDocument> entry : customAttributeDocuments.entrySet()) {
+                CustomAttributeDocument customAttributeDocument = entry.getValue();
+                if(!availableCustomAttributes.contains(customAttributeDocument.getCustomAttributeId())) {
+                    AwardCustomData awardCustomData = new AwardCustomData();
+                    awardCustomData.setCustomAttributeId((long) customAttributeDocument.getCustomAttributeId());
+                    awardCustomData.setCustomAttribute(customAttributeDocument.getCustomAttribute());
+                    awardCustomData.setValue("");
+                    awardCustomData.setAward(newAward);
+                    newAward.getAwardCustomDataList().add(awardCustomData);
+                }
+            }
+            newAward.getAwardCustomDataList().removeAll(getInactiveCustomDataList(newAward.getAwardCustomDataList(), customAttributeDocuments));
+        }
+    }
+    
+    private List<AwardCustomData> getInactiveCustomDataList(List<AwardCustomData> awardCustomDataList, Map<String, CustomAttributeDocument> customAttributeDocuments) {
+        List<AwardCustomData> inactiveCustomDataList = new ArrayList<AwardCustomData>();
+        for(AwardCustomData awardCustomData : awardCustomDataList) {
+            CustomAttributeDocument customAttributeDocument = customAttributeDocuments.get(awardCustomData.getCustomAttributeId().toString());
+            if(customAttributeDocument == null || !customAttributeDocument.isActive()) {
+                inactiveCustomDataList.add(awardCustomData);
+            }
+        }
+        return inactiveCustomDataList;
+    }
     
     private AwardAttachment findMatchingAwardAttachment(List<AwardAttachment> originalAwardList, Long currentFileId) throws VersionException {
         for (AwardAttachment attach : originalAwardList) {

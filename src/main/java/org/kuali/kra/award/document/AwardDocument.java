@@ -391,7 +391,7 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
     @Override
     public void populateCustomAttributes() {
         AwardCustomAttributeService awardCustomAttributeService = KraServiceLocator.getService(AwardCustomAttributeService.class);
-        Map<String, CustomAttributeDocument> customAttributeDocuments = awardCustomAttributeService.getDefaultAwardCustomAttributeDocuments();
+        Map<String, CustomAttributeDocument> customAttributeDocuments = awardCustomAttributeService.getDefaultAwardCustomAttributeDocuments(this.getAward().getAwardCustomDataList());
         setCustomAttributeDocuments(customAttributeDocuments);
     }
     
