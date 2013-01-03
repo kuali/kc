@@ -366,7 +366,7 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
             List<AwardSpecialReview> awardSpecialReviews = new ArrayList<AwardSpecialReview>();
             newAward.setSpecialReviews(awardSpecialReviews);
             clearFilteredAttributes(newAward);
-            synchNewCustomAttributes(newAward, award);
+            getAwardService().synchNewCustomAttributes(newAward, award);
             
         } catch(Exception e) { 
             throw uncheckedException(e);
@@ -374,35 +374,6 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
         return newAward;
     }
    
-    /**
-     * This method is to synch custom attributes. During copy process only existing custom attributes
-     * available in the old document is copied. We need to make sure we have all the latest custom attributes
-     * tied to the new document.
-     * @param newAward
-     * @param oldAward
-     */
-    protected void synchNewCustomAttributes(Award newAward, Award oldAward) {
-        Set<Integer> availableCustomAttributes = new HashSet<Integer>();
-        for(AwardCustomData awardCustomData : newAward.getAwardCustomDataList()) {
-            availableCustomAttributes.add(awardCustomData.getCustomAttributeId().intValue());
-        }
-        
-        if(oldAward.getAwardDocument() != null) {
-            Map<String, CustomAttributeDocument> customAttributeDocuments = oldAward.getAwardDocument().getCustomAttributeDocuments();
-            for (Map.Entry<String, CustomAttributeDocument> entry : customAttributeDocuments.entrySet()) {
-                CustomAttributeDocument customAttributeDocument = entry.getValue();
-                if(!availableCustomAttributes.contains(customAttributeDocument.getCustomAttributeId())) {
-                    AwardCustomData awardCustomData = new AwardCustomData();
-                    awardCustomData.setCustomAttributeId((long) customAttributeDocument.getCustomAttributeId());
-                    awardCustomData.setCustomAttribute(customAttributeDocument.getCustomAttribute());
-                    awardCustomData.setValue("");
-                    awardCustomData.setAward(newAward);
-                    newAward.getAwardCustomDataList().add(awardCustomData);
-                }
-            }
-        }
-    }
-    
     protected void clearFilteredAttributes(Award newAward) {
         // setting all financial information to null so copied award can spawn its own
         newAward.setAccountNumber(null);

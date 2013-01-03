@@ -16,14 +16,20 @@
 package org.kuali.kra.service.impl;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.kra.award.customdata.AwardCustomData;
 import org.kuali.kra.award.document.AwardDocument;
+import org.kuali.kra.award.home.Award;
+import org.kuali.kra.bo.CustomAttributeDocValue;
 import org.kuali.kra.bo.CustomAttributeDocument;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PropertyConstants;
 import org.kuali.kra.service.AwardCustomAttributeService;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.KRADPropertyConstants;
 
 /**
  * This class provides the implementation of the Award Custom Attribute Service.
@@ -32,6 +38,39 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 public class AwardCustomAttributeServiceImpl implements AwardCustomAttributeService{
 
     private BusinessObjectService businessObjectService;
+    
+    /**
+     * @see org.kuali.kra.service.CustomAttributeService#getDefaultAwardCustomAttributeDocuments()
+     */
+    @SuppressWarnings("unchecked")
+    public Map<String, CustomAttributeDocument> getDefaultAwardCustomAttributeDocuments(List<AwardCustomData> awardCustomDataList) {
+        Map<String, CustomAttributeDocument> customAttributeDocuments = new HashMap<String, CustomAttributeDocument>();
+        Map<String, String> queryMap = new HashMap<String, String>();
+        queryMap.put(PropertyConstants.DOCUMENT.TYPE_NAME.toString(), AwardDocument.DOCUMENT_TYPE_CODE);
+        List<CustomAttributeDocument> customAttributeDocumentList = 
+            (List<CustomAttributeDocument>) getBusinessObjectService().findMatching(CustomAttributeDocument.class, queryMap);
+
+        HashSet<Long> awardCustomIds = getCurrentCustomAttributeIds(awardCustomDataList);
+        for(CustomAttributeDocument customAttributeDocument:customAttributeDocumentList) {
+            boolean customAttributeExists = false;
+            if (awardCustomIds.contains(customAttributeDocument.getCustomAttributeId().longValue())) {
+                customAttributeExists = true;
+            }
+
+            if (customAttributeDocument.isActive() || customAttributeExists) {
+                customAttributeDocuments.put(customAttributeDocument.getCustomAttributeId().toString(), customAttributeDocument);
+            }
+        }
+        return customAttributeDocuments;
+    }
+    
+    protected HashSet<Long> getCurrentCustomAttributeIds(List<AwardCustomData> awardCustomDataList) {
+        HashSet<Long> awardCustomIds = new HashSet<Long>();
+        for(AwardCustomData awardCustomData : awardCustomDataList) {
+            awardCustomIds.add(awardCustomData.getCustomAttributeId());
+        }
+        return awardCustomIds;
+    }
     
     /**
      * @see org.kuali.kra.service.CustomAttributeService#getDefaultAwardCustomAttributeDocuments()
