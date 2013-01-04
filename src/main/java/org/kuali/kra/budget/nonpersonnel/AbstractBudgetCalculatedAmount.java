@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.budget.nonpersonnel;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.BudgetAssociate;
 import org.kuali.kra.budget.rates.RateClass;
@@ -210,5 +211,14 @@ public abstract class AbstractBudgetCalculatedAmount extends BudgetAssociate {
      */
     public void setRateTypeDescription(String rateTypeDescription) {
         this.rateTypeDescription = rateTypeDescription;
+    }
+    
+    public boolean getAddToFringeRate() {
+        boolean isEmployee = StringUtils.equalsIgnoreCase(this.getRateClass().getRateClassType(), "E");
+        boolean isGoodVacation = StringUtils.equalsIgnoreCase(this.getRateClass().getRateClassType(), "V") 
+                && StringUtils.equalsIgnoreCase(this.getRateTypeCode(), "1");
+
+        
+        return isEmployee || isGoodVacation;
     }
 }
