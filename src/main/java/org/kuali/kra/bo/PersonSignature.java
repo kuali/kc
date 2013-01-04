@@ -17,6 +17,7 @@ package org.kuali.kra.bo;
 
 import org.apache.struts.upload.FormFile;
 import org.kuali.rice.krad.bo.PersistableAttachment;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class PersonSignature extends KraPersistableBusinessObjectBase implements PersistableAttachment {
 
@@ -85,6 +86,10 @@ public class PersonSignature extends KraPersistableBusinessObjectBase implements
     @Override
     public void setContentType(String contentType) {
         this.contentType = contentType;
+    }
+    
+    public Unit getUnit() {
+        return getPerson().getUnit();
     }
 
     public KcPerson getPerson() {
