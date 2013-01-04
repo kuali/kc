@@ -621,7 +621,7 @@ public class AwardHomeAction extends AwardAction {
         AwardForm awardForm = (AwardForm) form;
         ActionForward result = fullSyncToAwardTemplate(mapping, form, request, response);
         
-        awardForm.setReportTrackingBeans(awardForm.buildReportTrackingBeans());
+        awardForm.buildReportTrackingBeans();
         
         return result;
     }
