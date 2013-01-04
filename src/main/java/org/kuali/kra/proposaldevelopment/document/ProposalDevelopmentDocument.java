@@ -46,6 +46,7 @@ import org.kuali.kra.proposaldevelopment.service.ProposalStatusService;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.workflow.KraDocumentXMLMaterializer;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.COMPONENT;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.NAMESPACE;
@@ -140,6 +141,9 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
     public void initialize() {
         super.initialize();
         getDevelopmentProposal().initializeOwnedByUnitNumber();
+        if (getParameterService().getParameterValueAsBoolean(ProposalDevelopmentDocument.class, Constants.HIDE_PROP_DEV_DOC_DESCRIPTION_PARAM)) {
+            this.getDocumentHeader().setDocumentDescription("Proposal Development Document created : " + getDateTimeService().toDateTimeString(getDateTimeService().getCurrentDate()));
+        }
     }
 
     @Override
@@ -266,6 +270,9 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
     
     protected ParameterService getParameterService() {
         return KraServiceLocator.getService(ParameterService.class);
+    }
+    protected DateTimeService getDateTimeService() {
+        return KraServiceLocator.getService(DateTimeService.class);
     }
     
     public Budget getFinalBudgetForThisProposal() {

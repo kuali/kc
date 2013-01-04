@@ -34,8 +34,13 @@
   	headerTabActive="proposal">
   	
 <div align="right"><kul:help documentTypeName="ProposalDevelopmentDocument" pageName="Proposal" /></div>
-<kul:documentOverview editingMode="${KualiForm.editingMode}" />
-<kra-pd:proposalDevelopmentRequiredFields />
+<c:choose><c:when test="${!KualiForm.hidePropDevDocDescriptionPanel}">
+	<kul:documentOverview editingMode="${KualiForm.editingMode}" />
+</c:when><c:otherwise>
+    <div id="workarea">
+    <c:set var="requiredTransparent" value="true"/>
+</c:otherwise></c:choose>
+<kra-pd:proposalDevelopmentRequiredFields transparent="${requiredTransparent}"/>
 <kra-pd:proposalDevelopmentSponsorProgramInformation />
 <kra-pd:proposalDevelopmentOrganizationAndLocation />
 <c:if test="${KualiForm.proposalDevelopmentParameters['deliveryInfoDisplayIndicator'].value == 'Y'}">
