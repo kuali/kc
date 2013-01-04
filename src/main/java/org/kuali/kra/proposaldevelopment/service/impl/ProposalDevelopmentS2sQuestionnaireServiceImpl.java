@@ -134,7 +134,7 @@ public class ProposalDevelopmentS2sQuestionnaireServiceImpl implements ProposalD
         params.put(S2sOppFormQuestionnaire.FORM_NAME_FIELD, formName);
         List<S2sOppFormQuestionnaire> oppFormToQuestionnaires = (List<S2sOppFormQuestionnaire>)getBusinessObjectService().findMatching(S2sOppFormQuestionnaire.class, params);
         if (LOG.isDebugEnabled()) {
-            LOG.debug(String.format("Found %s S2sOppFormQuestionnaire records for (%s,%s)",oppNameSpace,formName));
+            LOG.debug(String.format("Found S2sOppFormQuestionnaire records for (%s,%s)",oppNameSpace,formName));
             for (S2sOppFormQuestionnaire oppFormQuest : oppFormToQuestionnaires) {
                 LOG.debug(oppFormQuest);
             }
