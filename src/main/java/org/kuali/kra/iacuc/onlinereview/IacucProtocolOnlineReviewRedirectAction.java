@@ -33,6 +33,11 @@ public class IacucProtocolOnlineReviewRedirectAction extends ProtocolOnlineRevie
     protected Class<? extends ProtocolOnlineReviewService> getProtocolOnlineReviewServiceClassHook() {
         return IacucProtocolOnlineReviewService.class;
     }
+
+    @Override
+    protected String getProtocolOnlineReviewActionIdHook() {
+        return "iacucProtocolOnlineReview";
+    }
   
 
 }

@@ -70,7 +70,6 @@ public abstract class ProtocolOnlineReviewServiceImplBase implements ProtocolOnl
     protected WorkflowDocumentService workflowDocumentService;
     
     protected String reviewerApproveNodeName;
-    protected String irbAdminApproveNodeName;
     
     @SuppressWarnings("unchecked")
     protected PersonService personService;
@@ -193,7 +192,7 @@ public abstract class ProtocolOnlineReviewServiceImplBase implements ProtocolOnl
                                                    boolean nonEmployeeFlag, 
                                                    String reviewerTypeCode, 
                                                    ProtocolSubmissionBase protocolSubmission) {
-        ProtocolReviewer reviewer = new ProtocolReviewer();
+        ProtocolReviewer reviewer = createNewProtocolReviewerInstanceHook();
         reviewer.setProtocolIdFk(protocolSubmission.getProtocolId());
         reviewer.setSubmissionIdFk(protocolSubmission.getSubmissionId());
         reviewer.setProtocolNumber(protocolSubmission.getProtocolNumber());
@@ -213,6 +212,9 @@ public abstract class ProtocolOnlineReviewServiceImplBase implements ProtocolOnl
     }
 
     
+    protected abstract ProtocolReviewer createNewProtocolReviewerInstanceHook();
+    
+
     /**
      * @see org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewService#getProtocolReviewDocumentsForCurrentSubmission(org.kuali.kra.protocol.ProtocolBase)
      */
@@ -247,9 +249,7 @@ public abstract class ProtocolOnlineReviewServiceImplBase implements ProtocolOnl
             LOG.debug(String.format("Fetching available committee members for protocol %s, submission %s", protocol.getProtocolNumber(), 
                     submission.getSubmissionNumber()));
         }
-        
-        
-     
+           
         List<ProtocolOnlineReviewBase> currentReviews = submission.getProtocolOnlineReviews();
         List<CommitteeMembershipBase> committeeMembers = getCommitteeService().getAvailableMembers(submission.getCommitteeId(), submission.getScheduleId());
         //TODO: Make this better.
@@ -294,7 +294,7 @@ public abstract class ProtocolOnlineReviewServiceImplBase implements ProtocolOnl
     public List<ProtocolOnlineReviewBase> getProtocolReviews(Long submissionId) {
         List<ProtocolOnlineReviewBase> reviews = new ArrayList<ProtocolOnlineReviewBase>();
         
-        ProtocolSubmissionBase submission = getBusinessObjectService().findBySinglePrimaryKey(ProtocolSubmissionBase.class, submissionId);
+        ProtocolSubmissionBase submission = getBusinessObjectService().findBySinglePrimaryKey(getProtocolSubmissionBOClassHook(), submissionId);
         if (submission != null) {
             for(ProtocolOnlineReviewBase review : submission.getProtocolOnlineReviews()) {
                 if(review.isActive()) {
@@ -306,6 +306,8 @@ public abstract class ProtocolOnlineReviewServiceImplBase implements ProtocolOnl
         return reviews;
     }
     
+    protected abstract Class<? extends ProtocolSubmissionBase> getProtocolSubmissionBOClassHook();
+
     /**
      * {@inheritDoc}
      * @see org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewService#getProtocolReviewer(java.lang.String, 
@@ -428,10 +430,13 @@ public abstract class ProtocolOnlineReviewServiceImplBase implements ProtocolOnl
             Map<String,Object> hashMap = new HashMap<String,Object>();
             hashMap.put("protocolId", protocolId);
             hashMap.put("submissionIdFk", submissionIdFk);
-            reviews.addAll(getBusinessObjectService().findMatchingOrderBy(ProtocolOnlineReviewBase.class, hashMap, "dateRequested", false));
+            reviews.addAll(getBusinessObjectService().findMatchingOrderBy(getProtocolOnlineReviewBOClassHook(), hashMap, "dateRequested", false));
         }
         return reviews;
     }
+
+    protected abstract Class<? extends ProtocolOnlineReviewBase> getProtocolOnlineReviewBOClassHook();
+    
 
     protected void cancelOnlineReviewDocument(ProtocolOnlineReviewDocumentBase protocolOnlineReviewDocument, ProtocolSubmissionBase submission, String annotation) {
         try {
@@ -692,22 +697,6 @@ public abstract class ProtocolOnlineReviewServiceImplBase implements ProtocolOnl
      */
     public void setCommitteeService(CommitteeServiceBase committeeService) {
         this.committeeService = committeeService;
-    }
-
-    /**
-     * Gets the irbAdminApproveNodeName attribute. 
-     * @return Returns the irbAdminApproveNodeName.
-     */
-    public String getIrbAdminApproveNodeName() {
-        return irbAdminApproveNodeName;
-    }
-
-    /**
-     * Sets the irbAdminApproveNodeName attribute value.
-     * @param irbAdminApproveNodeName The irbAdminApproveNodeName to set.
-     */
-    public void setIrbAdminApproveNodeName(String irbAdminApproveNodeName) {
-        this.irbAdminApproveNodeName = irbAdminApproveNodeName;
     }
 
     /**
