@@ -25,12 +25,9 @@ public class ProtocolOnlineReviewLookupableHelperServiceImpl extends ProtocolOnl
     private static final long serialVersionUID = -8740814934249836927L;
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProtocolOnlineReviewLookupableHelperServiceImpl.class);
 
-    @Override
-    protected String getProtocolOLRSavedStatusCodeHook() {
-        return ProtocolOnlineReviewStatus.SAVED_STATUS_CD;
-    }
+   
     
-// TODO ********************** commented out during IRB backfit ************************
+// TODO ********************** commented out during IACUC refactor ************************
 //    private DictionaryValidationService dictionaryValidationService;
 //    private ProtocolOnlineReviewDao protocolOnlineReviewDao;
 //    private KcPersonService kcPersonService;
@@ -51,19 +48,25 @@ public class ProtocolOnlineReviewLookupableHelperServiceImpl extends ProtocolOnl
 //    private static final String OBJ_PROTOCOLREVIEWER_NONEMPLOYEE="protocolReviewer.personId";
 //    private static final String OBJ_PROTOCOL_PROTOCOL_NUMBER="protocol.protocolNumber";
 //    private static final String OBJ_PROTOCOL_ONLINE_REVIEW_STATUS_CODE="protocolOnlineReviewStatusCode";
-//    
-//    
-//    
-//    @Override
-//    protected String getDocumentTypeName() {
-//        return "ProtocolOnlineReviewDocument";
-//    }
-//
-//    @Override
-//    protected String getHtmlAction() {
-//        return "protocolOnlineReviewRedirect.do";
-//    }
-//
+    
+    
+    @Override
+    protected String getProtocolOLRSavedStatusCodeHook() {
+        return ProtocolOnlineReviewStatus.SAVED_STATUS_CD;
+    }
+    
+    @Override
+    protected String getDocumentTypeName() {
+        return "ProtocolOnlineReviewDocument";
+    }
+
+    @Override
+    protected String getHtmlAction() {
+        return "protocolOnlineReviewRedirect.do";
+    }
+
+    
+// TODO ********************** commented out during IACUC refactor ************************    
 //    @Override
 //    protected String getKeyFieldName() {
 //        return "protocolOnlineReviewId";

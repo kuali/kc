@@ -65,7 +65,7 @@ public class IacucProtocolOnlineReviewDocument  extends ProtocolOnlineReviewDocu
         super();
         protocolOnlineReviewList = new ArrayList<IacucProtocolOnlineReview>();
         IacucProtocolOnlineReview newProtocolReview = new IacucProtocolOnlineReview();
-//        newProtocolReview.setProtocolOnlineReviewDocument(this);
+        newProtocolReview.setProtocolOnlineReviewDocument(this);
         protocolOnlineReviewList.add(newProtocolReview);
     } 
     

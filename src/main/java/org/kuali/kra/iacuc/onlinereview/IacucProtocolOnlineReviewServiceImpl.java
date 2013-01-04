@@ -17,201 +17,68 @@ package org.kuali.kra.iacuc.onlinereview;
 
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinuteBase;
-import org.kuali.kra.common.committee.service.CommitteeServiceBase;
 import org.kuali.kra.iacuc.IacucProtocolOnlineReviewDocument;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewer;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionStatus;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.kew.KraDocumentRejectionService;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
-import org.kuali.kra.protocol.ProtocolFinderDao;
 import org.kuali.kra.protocol.ProtocolOnlineReviewDocumentBase;
-import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsService;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewer;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewBase;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewServiceImplBase;
-import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewStatus;
-import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
-import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.KraWorkflowService;
 import org.kuali.rice.kew.api.WorkflowDocument;
-import org.kuali.rice.kew.api.WorkflowDocumentFactory;
 import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.krad.bo.AdHocRouteRecipient;
 import org.kuali.rice.krad.bo.DocumentHeader;
-import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.service.DocumentService;
-import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
 
 public class IacucProtocolOnlineReviewServiceImpl extends ProtocolOnlineReviewServiceImplBase implements IacucProtocolOnlineReviewService {
     
     private static final Log LOG = LogFactory.getLog(IacucProtocolOnlineReviewServiceImpl.class);
     private KraWorkflowService kraWorkflowService;
-    private String iacucAdminApproveNodeName;
+  
 
 
-    @Override
-    public List<CommitteeMembershipBase> getAvailableCommitteeMembersForCurrentSubmission(ProtocolBase protocol) {
-        List<CommitteeMembershipBase> results = new ArrayList<CommitteeMembershipBase>();
-
-        ProtocolSubmissionBase submission = protocol.getProtocolSubmission();
-        submission.refreshReferenceObject("protocolOnlineReviews");
-        if (LOG.isDebugEnabled()) {
-            LOG.debug(String.format("Fetching available committee members for protocol %s, submission %s",
-                    protocol.getProtocolNumber(), submission.getSubmissionNumber()));
-        }
-
-        List<ProtocolOnlineReviewBase> currentReviews = submission.getProtocolOnlineReviews();
-        List<CommitteeMembershipBase> committeeMembers = committeeService.getAvailableMembers(submission.getCommitteeId(),
-                submission.getScheduleId());
-        // TODO: Make this better.
-        // should run this for loop to exclude protocol personnel
-//        if (CollectionUtils.isNotEmpty(currentReviews)) {
-            for (CommitteeMembershipBase member : committeeMembers) {
-                boolean found = false;
-                for (ProtocolOnlineReviewBase review : currentReviews) {
-                    if (review.getProtocolReviewer().isProtocolReviewerFromCommitteeMembership(member) && review.isActive()) {
-                        found = true;
-                        break;
-                    }
-                }
-                if (!found && !isProtocolPersonnel(protocol, member)) {
-                    results.add(member);
-                }
-            }
+//    @Override
+//    public List<CommitteeMembershipBase> getAvailableCommitteeMembersForCurrentSubmission(ProtocolBase protocol) {
+//        List<CommitteeMembershipBase> results = new ArrayList<CommitteeMembershipBase>();
+//
+//        ProtocolSubmissionBase submission = protocol.getProtocolSubmission();
+//        submission.refreshReferenceObject("protocolOnlineReviews");
+//        if (LOG.isDebugEnabled()) {
+//            LOG.debug(String.format("Fetching available committee members for protocol %s, submission %s",
+//                    protocol.getProtocolNumber(), submission.getSubmissionNumber()));
 //        }
-//        else {
-//            results.addAll(committeeMembers);
-//        }
-        return results;
-    }
-
-    public List<ProtocolOnlineReviewDocumentBase> getProtocolReviewDocumentsForCurrentSubmission(ProtocolBase protocol) {
-        List<ProtocolOnlineReviewDocumentBase> onlineReviewDocuments = new ArrayList<ProtocolOnlineReviewDocumentBase>();
-        ProtocolSubmissionBase submission = protocol.getProtocolSubmission();
-        List<ProtocolOnlineReviewBase> reviews = findProtocolOnlineReviews(protocol.getProtocolId(), submission.getSubmissionId());
-        for (ProtocolOnlineReviewBase review : reviews) {
-            if (review.isActive()) {
-                review.refresh();
-                try {
-                    onlineReviewDocuments.add((ProtocolOnlineReviewDocumentBase) (documentService.getByDocumentHeaderId(review
-                            .getProtocolOnlineReviewDocument().getDocumentNumber())));
-                }
-                catch (WorkflowException e) {
-                    throw new RuntimeException(String.format(
-                            "Could not load ProtocolOnlineReviewBase docuemnt %s due to WorkflowException: %s", review
-                                    .getProtocolOnlineReviewDocument().getDocumentNumber(), e.getMessage()), e);
-                }
-            }
-        }
-        return onlineReviewDocuments;
-    }
-
-    public String getProtocolOnlineReviewDocumentDescription(String protocolNumber, String piName) {
-        final int fieldLimit = 40;
-        int pilen = piName != null ? piName.length() : 0;
-        int pnlen = protocolNumber != null ? protocolNumber.length() : 0;
-        int ttlLength = pilen + pnlen + ONLINE_REVIEW_DOCUMENT_DESCRIPTION_FORMAT.length() - 4;
-        String piNameToUse = piName;
-
-        if (ttlLength > fieldLimit && piName != null) {
-            int charsToTrim = ttlLength - fieldLimit;
-            piNameToUse = piName.substring(0, Math.max(piName.length() - charsToTrim - 1, 0));
-        }
-        String init = String.format(ONLINE_REVIEW_DOCUMENT_DESCRIPTION_FORMAT, piNameToUse, protocolNumber);
-        if (init.length() > fieldLimit) {
-            return init.substring(0, fieldLimit - 1);
-        }
-        else {
-            return init;
-        }
-
-    }
-
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
-    }
-
-    public void setDocumentService(DocumentService documentService) {
-        this.documentService = documentService;
-    }
-
-    public void setKraAuthorizationService(KraAuthorizationService kraAuthorizationService) {
-        this.kraAuthorizationService = kraAuthorizationService;
-    }
+//
+//        List<ProtocolOnlineReviewBase> currentReviews = submission.getProtocolOnlineReviews();
+//        List<CommitteeMembershipBase> committeeMembers = committeeService.getAvailableMembers(submission.getCommitteeId(),
+//                submission.getScheduleId());
+//        // TODO: Make this better.
+//            for (CommitteeMembershipBase member : committeeMembers) {
+//                boolean found = false;
+//                for (ProtocolOnlineReviewBase review : currentReviews) {
+//                    if (review.getProtocolReviewer().isProtocolReviewerFromCommitteeMembership(member) && review.isActive()) {
+//                        found = true;
+//                        break;
+//                    }
+//                }
+//                if (!found && !isProtocolPersonnel(protocol, member)) {
+//                    results.add(member);
+//                }
+//            }
+//        return results;
+//    }
 
 
-    public void setIdentityManagementService(IdentityService identityManagementService) {
-        this.identityManagementService = identityManagementService;
-    }
-
-    public void setCommitteeService(CommitteeServiceBase committeeService) {
-        this.committeeService = committeeService;
-    }
-
-    private List<String> getPersonnelIds(ProtocolBase protocol) {
-        List<String> PersonnelIds = new ArrayList<String>();
-        for (ProtocolPersonBase person : protocol.getProtocolPersons()) {
-            if (StringUtils.isNotBlank(person.getPersonId())) {
-                PersonnelIds.add(person.getPersonId());
-            }
-            else {
-                PersonnelIds.add(person.getRolodexId().toString());
-            }
-        }
-
-        return PersonnelIds;
-    }
-
-    private boolean isProtocolPersonnel(ProtocolBase protocol, CommitteeMembershipBase member) {
-        return getPersonnelIds(protocol).contains(member.getPersonId());
-    }
-
-    @SuppressWarnings("unchecked")
-    protected List<ProtocolOnlineReviewBase> findProtocolOnlineReviews(Long protocolId, Long submissionIdFk) {
-        List<ProtocolOnlineReviewBase> reviews = new ArrayList<ProtocolOnlineReviewBase>();
-        if (protocolId != null && submissionIdFk != null) {
-            Map<String, Object> hashMap = new HashMap<String, Object>();
-            hashMap.put("protocolId", protocolId);
-            hashMap.put("submissionIdFk", submissionIdFk);
-            reviews.addAll(businessObjectService.findMatchingOrderBy(IacucProtocolOnlineReview.class, hashMap, "dateRequested",
-                    false));
-        }
-        return reviews;
-    }
-
-    public boolean isProtocolReviewer(String personId, boolean nonEmployeeFlag, ProtocolSubmissionBase protocolSubmission) {
-        boolean isReviewer = false;
-
-        if (protocolSubmission != null) {
-            for (ProtocolOnlineReviewBase review : protocolSubmission.getProtocolOnlineReviews()) {
-                if (review.getProtocolReviewer().isPersonIdProtocolReviewer(personId, nonEmployeeFlag) && review.isActive()) {
-                    isReviewer = true;
-                    break;
-                }
-            }
-        }
-
-
-        return isReviewer;
-    }
 
     public boolean isProtocolInStateToBeReviewed(ProtocolBase protocol) {
         boolean isReviewable = false;
@@ -282,28 +149,6 @@ public class IacucProtocolOnlineReviewServiceImpl extends ProtocolOnlineReviewSe
         return document;
     }
 
-    @Override
-    public ProtocolReviewer createProtocolReviewer(String principalId, boolean nonEmployeeFlag, String reviewerTypeCode,
-            ProtocolSubmissionBase protocolSubmission) {
-        IacucProtocolReviewer reviewer = new IacucProtocolReviewer();
-        reviewer.setProtocolIdFk(protocolSubmission.getProtocolId());
-        reviewer.setSubmissionIdFk(protocolSubmission.getSubmissionId());
-        reviewer.setProtocolNumber(protocolSubmission.getProtocolNumber());
-        reviewer.setSequenceNumber(protocolSubmission.getSequenceNumber());
-        reviewer.setSubmissionNumber(protocolSubmission.getSubmissionNumber());
-        if (!nonEmployeeFlag) {
-            reviewer.setPersonId(principalId);
-        }
-        else {
-            reviewer.setRolodexId(Integer.parseInt(principalId));
-        }
-        reviewer.setNonEmployeeFlag(nonEmployeeFlag);
-        reviewer.setReviewerTypeCode(reviewerTypeCode);
-
-        businessObjectService.save(reviewer);
-
-        return reviewer;
-    }
 
     public ProtocolOnlineReviewDocumentBase createProtocolOnlineReviewDocument(ProtocolSubmissionBase protocolSubmission,
             ProtocolReviewer protocolReviewer, String documentDescription, String documentExplanation,
@@ -347,57 +192,6 @@ public class IacucProtocolOnlineReviewServiceImpl extends ProtocolOnlineReviewSe
         return protocolReviewDocument;
     }
 
-    public void setWorkflowDocumentService(WorkflowDocumentService workflowDocumentService) {
-        this.workflowDocumentService = workflowDocumentService;
-    }
-
-    public void setPersonService(PersonService personService) {
-        this.personService = personService;
-    }
-
-    public ProtocolReviewer getProtocolReviewer(String personId, boolean nonEmployeeFlag, ProtocolSubmissionBase protocolSubmission) {
-        ProtocolReviewer protocolReviewer = null;
-
-        if (protocolSubmission != null) {
-            for (ProtocolOnlineReviewBase protocolOnlineReview : protocolSubmission.getProtocolOnlineReviews()) {
-                if (protocolOnlineReview.getProtocolReviewer().isPersonIdProtocolReviewer(personId,nonEmployeeFlag) 
-                        && protocolOnlineReview.isActive()) {
-                    protocolReviewer = protocolOnlineReview.getProtocolReviewer();
-                    break;
-                }
-            }
-        }
-       
-        return protocolReviewer;
-    }
-
-    public ProtocolOnlineReviewDocumentBase getProtocolOnlineReviewDocument(String personId, boolean nonEmployeeFlag, ProtocolSubmissionBase protocolSubmission) {
-        ProtocolOnlineReviewDocumentBase protocolOnlineReviewDocument = null;
-        
-        if (protocolSubmission != null) {
-            for (ProtocolOnlineReviewBase protocolOnlineReview : protocolSubmission.getProtocolOnlineReviews()) {
-                if (protocolOnlineReview.getProtocolReviewer().isPersonIdProtocolReviewer(personId,nonEmployeeFlag) 
-                        && protocolOnlineReview.isActive()) {
-                    try {
-                        protocolOnlineReviewDocument =  (ProtocolOnlineReviewDocumentBase)documentService.getByDocumentHeaderId(protocolOnlineReview.getProtocolOnlineReviewDocument().getDocumentNumber());
-                    }
-                    catch (WorkflowException e) {
-                       if (LOG.isDebugEnabled()) {
-                           String errorMessage = String.format("WorkflowException encountered while looking up document number %s for ProtocolOnlineReviewDocumentBase associated with (submissionId=%s,personId=%s,nonEmployeeFlag=%s",
-                                   protocolOnlineReview.getProtocolOnlineReviewDocument().getDocumentNumber(),
-                                   protocolSubmission.getSubmissionId(),
-                                   personId,nonEmployeeFlag);
-                           
-                           LOG.error(errorMessage,e);
-                           throw new RuntimeException(errorMessage,e);
-                       }
-                    }
-                }
-            }
-        }
- 
-        return protocolOnlineReviewDocument;
-    }
     
     public void removeOnlineReviewDocument(String personId, boolean nonEmployeeFlag, ProtocolSubmissionBase submission, String annotation) {
         ProtocolOnlineReviewDocumentBase protocolOnlineReviewDocument = this.getProtocolOnlineReviewDocument(personId, nonEmployeeFlag, submission);
@@ -446,87 +240,9 @@ public class IacucProtocolOnlineReviewServiceImpl extends ProtocolOnlineReviewSe
             LOG.warn(String.format("ProtocolBase Online Review document could not be found for (personId=%s,nonEmployeeFlag=%s) from (protocol=%s,submission=%s)",personId,nonEmployeeFlag,submission.getProtocol().getProtocolNumber(),submission.getSubmissionNumber()));
         }
     }
+    
 
-    public void setReviewCommentsService(ReviewCommentsService reviewCommentsService) {
-        this.reviewCommentsService = reviewCommentsService;
-    }
-
-    protected void cancelOnlineReviewDocument(ProtocolOnlineReviewDocumentBase protocolOnlineReviewDocument, ProtocolSubmissionBase submission, String annotation) {
-        try {
-           
-            final String principalId = identityManagementService.getPrincipalByPrincipalName(KRADConstants.SYSTEM_USER).getPrincipalId();
-            WorkflowDocument workflowDocument = WorkflowDocumentFactory.loadDocument(principalId, protocolOnlineReviewDocument.getDocumentNumber());
-            
-            if (workflowDocument.isEnroute() 
-                ||
-                workflowDocument.isInitiated()
-                ||
-                workflowDocument.isSaved()
-                ) {
-                workflowDocument.superUserCancel(String.format("Review Cancelled from assign reviewers action by %s", GlobalVariables.getUserSession().getPrincipalId()));
-            }
-        } catch(Exception e) {
-            String errorMessage = String.format("Exception generated while executing superUserCancel on document %s in removeOnlineReviewDocument. Message: %s",protocolOnlineReviewDocument.getDocumentNumber(), e.getMessage());
-            LOG.error(errorMessage);
-            throw new RuntimeException(errorMessage,e);
-        }
-    }
-    public List<ProtocolOnlineReviewBase> getProtocolReviews(Long submissionId) {
-        List<ProtocolOnlineReviewBase> reviews = new ArrayList<ProtocolOnlineReviewBase>();
-        
-        ProtocolSubmissionBase submission = businessObjectService.findBySinglePrimaryKey(IacucProtocolSubmission.class, submissionId);
-        if (submission != null) {
-            for(ProtocolOnlineReviewBase review : submission.getProtocolOnlineReviews()) {
-                if(review.isActive()) {
-                    reviews.add(review);
-                }
-            }
-        }
-        
-        return reviews;
-    }
-    public List<ProtocolOnlineReviewBase> getProtocolReviews(String protocolNumber) {
-        ProtocolBase protocol = protocolFinderDao.findCurrentProtocolByNumber(protocolNumber);
-        List<ProtocolOnlineReviewBase> reviews = null;
-        
-     
-        if (protocol != null && protocol.getProtocolSubmission() != null) {
-            reviews = protocol.getProtocolSubmission().getProtocolOnlineReviews();
-        } else {
-            reviews = new ArrayList<ProtocolOnlineReviewBase>();
-        }
-        
-        return reviews;
-    }
-
-    public void setProtocolFinderDao(ProtocolFinderDao protocolFinderDao) {
-        this.protocolFinderDao = protocolFinderDao;
-    }
- 
-    public void returnProtocolOnlineReviewDocumentToReviewer(ProtocolOnlineReviewDocumentBase reviewDocument, String reason, String principalId) {
-        kraDocumentRejectionService.reject(reviewDocument, reason, principalId, (String)null, reviewerApproveNodeName);     
-    }
-
-    public void setKraDocumentRejectionService(KraDocumentRejectionService kraDocumentRejectionService) {
-        this.kraDocumentRejectionService = kraDocumentRejectionService;
-    }
-
-    public String getReviewerApproveNodeName() {
-        return reviewerApproveNodeName;
-    }
-
-    public void setReviewerApproveNodeName(String reviewerApproveNodeName) {
-        this.reviewerApproveNodeName = reviewerApproveNodeName;
-    }
-
-    public String getIacucAdminApproveNodeName() {
-        return iacucAdminApproveNodeName;
-    }
-
-    public void setIacucAdminApproveNodeName(String iacucAdminApproveNodeName) {
-        this.iacucAdminApproveNodeName = iacucAdminApproveNodeName;
-    }
-
+  
     @Override
     protected String getProtocolOLRSavedStatusCodeHook() {
         return IacucProtocolOnlineReviewStatus.SAVED_STATUS_CD;
@@ -545,6 +261,21 @@ public class IacucProtocolOnlineReviewServiceImpl extends ProtocolOnlineReviewSe
     @Override
     protected String getProtocolOLRDocumentTypeHook() {
         return IACUC_PROTOCOL_ONLINE_REVIEW_DOCUMENT_TYPE;
+    }
+
+    @Override
+    protected ProtocolReviewer createNewProtocolReviewerInstanceHook() {
+        return new IacucProtocolReviewer();
+    }
+
+    @Override
+    protected Class<? extends ProtocolOnlineReviewBase> getProtocolOnlineReviewBOClassHook() {
+        return IacucProtocolOnlineReview.class;
+    }
+
+    @Override
+    protected Class<? extends ProtocolSubmissionBase> getProtocolSubmissionBOClassHook() {
+        return IacucProtocolSubmission.class;
     }
     
 }

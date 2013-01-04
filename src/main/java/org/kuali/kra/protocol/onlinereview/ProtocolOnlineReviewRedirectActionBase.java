@@ -24,6 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.apache.struts.action.ActionRedirect;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.ProtocolBase;
@@ -45,26 +46,36 @@ public abstract class ProtocolOnlineReviewRedirectActionBase extends KraTransact
     }
 
    
-    public ActionForward redirectToProtocolFromReview(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
-    throws Exception {
-        ProtocolOnlineReviewFormBase protocolOnlineReviewForm = (ProtocolOnlineReviewFormBase)form;
+    public ActionForward redirectToProtocolFromReview(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        ProtocolOnlineReviewFormBase protocolOnlineReviewForm = (ProtocolOnlineReviewFormBase) form;
         super.loadDocument(protocolOnlineReviewForm);
-        Map<String,Object> keymap = new HashMap<String,Object>();
-                if (protocolOnlineReviewForm.getProtocolOnlineReviewDocument().getProtocolOnlineReview().isActive()) {
-            keymap.put( "protocolId", protocolOnlineReviewForm.getProtocolOnlineReviewDocument().getProtocolOnlineReview().getProtocolId() );
-            ProtocolBase protocol = (ProtocolBase)getBusinessObjectService().findByPrimaryKey(getProtocolClass(), keymap );
+        Map<String, Object> keymap = new HashMap<String, Object>();
+        if (protocolOnlineReviewForm.getProtocolOnlineReviewDocument().getProtocolOnlineReview().isActive()) {
+            keymap.put("protocolId", protocolOnlineReviewForm.getProtocolOnlineReviewDocument().getProtocolOnlineReview()
+                    .getProtocolId());
+            ProtocolBase protocol = (ProtocolBase) getBusinessObjectService().findByPrimaryKey(getProtocolClass(), keymap);
             if (isOnlineReviewEnabled(form, protocol)) {
-                response.sendRedirect(String.format("iacucProtocolOnlineReview.do?methodToCall=startProtocolOnlineReview&%s=%s",PROTOCOL_DOCUMENT_NUMBER,protocol.getProtocolDocument().getDocumentNumber()));
-            } else {
-                return mapping.findForward(Constants.MAPPING_PROPOSAL_DISPLAY_INACTIVE);                
+             // commented out and replaced with ActionDirect below in order to deal with a rice change that assumes that all action methods will return non-null ActionForward instances.                
+             //   response.sendRedirect(String.format("iacucProtocolOnlineReview.do?methodToCall=startProtocolOnlineReview&%s=%s",
+             //           PROTOCOL_DOCUMENT_NUMBER, protocol.getProtocolDocument().getDocumentNumber()));
+            
+             return new ActionRedirect(String.format(getProtocolOnlineReviewActionIdHook() + ".do?methodToCall=startProtocolOnlineReview&%s=%s", PROTOCOL_DOCUMENT_NUMBER, protocol.getProtocolDocument().getDocumentNumber()));   
+                
             }
-        } else {
+            else {
+                return mapping.findForward(Constants.MAPPING_PROPOSAL_DISPLAY_INACTIVE);
+            }
+        }
+        else {
             return mapping.findForward(Constants.MAPPING_PROPOSAL_DISPLAY_INACTIVE);
         }
-        return null;
     }
     
     
+    protected abstract String getProtocolOnlineReviewActionIdHook();
+
+
     protected abstract Class<? extends ProtocolBase> getProtocolClass();
     
 // TODO *********commented the code below during IACUC refactoring*********     
