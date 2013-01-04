@@ -60,6 +60,7 @@ import org.kuali.kra.kim.service.ProposalRoleService;
 import org.kuali.kra.medusa.MedusaBean;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
+import org.kuali.kra.proposaldevelopment.bo.NarrativeType;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeUserRights;
 import org.kuali.kra.proposaldevelopment.bo.PropScienceKeyword;
 import org.kuali.kra.proposaldevelopment.bo.ProposalAbstract;
@@ -2031,6 +2032,10 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
             ((ActionFormUtilMap) this.getActionFormUtilMap()).setCacheValueFinderResults(true);
         }
         return "";
+    }
+    
+    public Collection<NarrativeType> getAllNarrativeTypes() {
+        return getBusinessObjectService().findAll(NarrativeType.class);
     }
    
 }

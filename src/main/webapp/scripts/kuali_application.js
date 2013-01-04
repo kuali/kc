@@ -3584,3 +3584,32 @@ function loadUnitFormulatedCost(unitNumber, propertyFieldName ) {
 		BudgetRatesService.getUnitFormulatedCost(unitNumber, formulatesTypeCode ,dwrReply);
 	}
 }
+
+//properties is a hash map of the form {id : description, ....}
+//for example {'newAttachment.fileName' : 'File Name'}
+//each property specified is checked to make sure the value is not null and if it is null,
+//the error icon is added as well as "Errors in this section" for it.
+function requirePropertiesOnAdd(properties) {
+	jQuery('.addedByRequireOnAdd').remove();
+	var success = true;
+	for (var id in properties) {
+		var item = jQuery(jq_escape(id));
+		if (item.val().length <= 0) {
+			item.after(jQuery('<img class="addedByRequireOnAdd" alt="error" src="kr/static/images/errormark.gif"/>'));
+			addErrorForItem(item, properties[id] + " is required");
+			success = false;
+		}
+	}
+	return success;
+}
+
+function addErrorForItem(item, errorMsg) {
+	var tab = jQuery(item).parents('div.tab-container').parent();
+	var lastErrorMessage = jQuery(tab).find('div.tab-container-error div.left-errmsg-tab div div').last();
+	if (lastErrorMessage.length == 0) {
+		var errorContainer = jQuery('<div class="tab-container-error addedByRequireOnAdd"/>').html('<div class="left-errmsg-tab"><div><img alt="error" src="kr/static/images/errormark.gif"><strong>Errors found in this Section:</strong></div></div>');
+		tab.children().first().before(errorContainer);
+		lastErrorMessage = errorContainer.find('strong');
+	}
+	lastErrorMessage.after('<div style="display:list-item;margin-left:20px;" class="addedByRequireOnAdd">' + errorMsg + '</div>');
+}
