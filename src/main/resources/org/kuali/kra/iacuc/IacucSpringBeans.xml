@@ -698,7 +698,7 @@
         <property name = "protocolFinderDao" ref = "iacucProtocolFinderDao"/>
          <property name = "kraDocumentRejectionService" ref = "kraDocumentRejectionService"/>
          <property name = "reviewerApproveNodeName" value = "IACUCOnlineReviewer"/>
-        <property name = "iacucAdminApproveNodeName" value = "IACUCAdminReview"/>
+<!--         <property name = "iacucAdminApproveNodeName" value = "IACUCAdminReview"/> -->
         
 <!--         <property name="protocolAssignReviewersService" ref="protocolAssignReviewersService" />
 -->
