@@ -268,7 +268,7 @@ public class AwardForm extends BudgetVersionFormBase
         awardPrintNotice = new AwardPrintNotice();
         awardPrintChangeReport = new AwardTransactionSelectorBean();
         order = new ArrayList<String>();
-        reportTrackingBeans = buildReportTrackingBeans();
+        buildReportTrackingBeans();
         awardHierarchyBean = new AwardHierarchyBean(this);
         medusaBean = new MedusaBean();
         //sync
@@ -283,13 +283,12 @@ public class AwardForm extends BudgetVersionFormBase
         accountCreationHelper = new AccountCreationPresentationHelper();
     }
     
-    public List<ReportTrackingBean> buildReportTrackingBeans() {
-        List<ReportTrackingBean> beans = new ArrayList<ReportTrackingBean>();
+    public void buildReportTrackingBeans() {
+        reportTrackingBeans = new ArrayList<ReportTrackingBean>();
         int numberOfReportItems = this.getAwardDocument().getAward().getAwardReportTermItems().size();
         for (int i=0; i<numberOfReportItems; i++) {
-            beans.add(new ReportTrackingBean());
+            reportTrackingBeans.add(new ReportTrackingBean());
         }
-        return beans;
     }
 
     /**
