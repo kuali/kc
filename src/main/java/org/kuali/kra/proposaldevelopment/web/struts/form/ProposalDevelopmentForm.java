@@ -2037,5 +2037,9 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     public Collection<NarrativeType> getAllNarrativeTypes() {
         return getBusinessObjectService().findAll(NarrativeType.class);
     }
+    
+    public boolean isHidePropDevDocDescriptionPanel() {
+        return getParameterService().getParameterValueAsBoolean(ProposalDevelopmentDocument.class, Constants.HIDE_PROP_DEV_DOC_DESCRIPTION_PARAM);
+    }
    
 }
