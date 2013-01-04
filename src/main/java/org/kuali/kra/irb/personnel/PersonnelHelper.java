@@ -18,6 +18,7 @@ package org.kuali.kra.irb.personnel;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.irb.auth.ProtocolTask;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentPersonnel;
@@ -176,7 +177,7 @@ public class PersonnelHelper extends PersonnelHelperBase {
     
     @Override
     protected Class<? extends ProtocolDocumentBase> getProtocolDocumentBOClassHook() {
-        return ProtocolDocumentBase.class;
+        return ProtocolDocument.class;
     }
 
     @Override
