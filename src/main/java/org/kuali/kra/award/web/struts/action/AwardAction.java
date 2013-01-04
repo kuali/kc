@@ -1128,6 +1128,7 @@ public class AwardAction extends BudgetParentActionBase {
                                                     Constants.NEW_AWARD_REPORT_TERM_RECIPIENTS_LIST_KEY_FOR_INITIALIZE_OBJECTS));
         awardForm.setReportClassForPaymentsAndInvoices((ReportClass) initializedObjects.get(
                                                         Constants.REPORT_CLASS_FOR_PAYMENTS_AND_INVOICES_PANEL));
+        awardForm.buildReportTrackingBeans();
 
     }
 
