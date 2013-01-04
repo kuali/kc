@@ -16,10 +16,7 @@
 package org.kuali.kra.irb.onlinereview;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -161,35 +158,35 @@ public class ProtocolOnlineReviewServiceImpl extends ProtocolOnlineReviewService
 //        return protocolReviewDocument;
 //    }
 //    
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService#createProtocolReviewer(java.lang.String, boolean, java.lang.String, 
-     *      org.kuali.kra.irb.actions.submit.ProtocolSubmission)
-     */
-    public ProtocolReviewer createProtocolReviewer(String principalId, 
-                                                   boolean nonEmployeeFlag, 
-                                                   String reviewerTypeCode, 
-                                                   ProtocolSubmissionBase protocolSubmission) {
-        ProtocolReviewer reviewer = new ProtocolReviewer();
-        reviewer.setProtocolIdFk(protocolSubmission.getProtocolId());
-        reviewer.setSubmissionIdFk(protocolSubmission.getSubmissionId());
-        reviewer.setProtocolNumber(protocolSubmission.getProtocolNumber());
-        reviewer.setSequenceNumber(protocolSubmission.getSequenceNumber());
-        reviewer.setSubmissionNumber(protocolSubmission.getSubmissionNumber());
-        if (!nonEmployeeFlag) {
-            reviewer.setPersonId(principalId);
-        } else {
-            reviewer.setRolodexId(Integer.parseInt(principalId));
-        }
-        reviewer.setNonEmployeeFlag(nonEmployeeFlag);
-        reviewer.setReviewerTypeCode(reviewerTypeCode);
-        
-        businessObjectService.save(reviewer);
-        
-        return reviewer;
-    }
-
-// TODO ********************** commented out during IRB backfit ************************    
+//    /**
+//     * {@inheritDoc}
+//     * @see org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService#createProtocolReviewer(java.lang.String, boolean, java.lang.String, 
+//     *      org.kuali.kra.irb.actions.submit.ProtocolSubmission)
+//     */
+//    public ProtocolReviewer createProtocolReviewer(String principalId, 
+//                                                   boolean nonEmployeeFlag, 
+//                                                   String reviewerTypeCode, 
+//                                                   ProtocolSubmissionBase protocolSubmission) {
+//        ProtocolReviewer reviewer = new ProtocolReviewer();
+//        reviewer.setProtocolIdFk(protocolSubmission.getProtocolId());
+//        reviewer.setSubmissionIdFk(protocolSubmission.getSubmissionId());
+//        reviewer.setProtocolNumber(protocolSubmission.getProtocolNumber());
+//        reviewer.setSequenceNumber(protocolSubmission.getSequenceNumber());
+//        reviewer.setSubmissionNumber(protocolSubmission.getSubmissionNumber());
+//        if (!nonEmployeeFlag) {
+//            reviewer.setPersonId(principalId);
+//        } else {
+//            reviewer.setRolodexId(Integer.parseInt(principalId));
+//        }
+//        reviewer.setNonEmployeeFlag(nonEmployeeFlag);
+//        reviewer.setReviewerTypeCode(reviewerTypeCode);
+//        
+//        businessObjectService.save(reviewer);
+//        
+//        return reviewer;
+//    }
+//
+// 
 //    /**
 //     * @see org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService#getProtocolReviewDocumentsForCurrentSubmission(org.kuali.kra.irb.Protocol)
 //     */
@@ -369,27 +366,27 @@ public class ProtocolOnlineReviewServiceImpl extends ProtocolOnlineReviewService
 //    public void returnProtocolOnlineReviewDocumentToReviewer(ProtocolOnlineReviewDocument reviewDocument, String reason, String principalId) {
 //        kraDocumentRejectionService.reject(reviewDocument, reason, principalId, (String)null, reviewerApproveNodeName);     
 //    }
-    
-    /**
-     * Finds and returns all protocol online reviews for the protocolId and submissionId.
-     * @param protocolId
-     * @param submissionIdFk
-     * @return
-     */
-    @SuppressWarnings("unchecked")
-    protected List<ProtocolOnlineReviewBase> findProtocolOnlineReviews(Long protocolId,
-                                                                 Long submissionIdFk) {
-        List<ProtocolOnlineReviewBase> reviews = new ArrayList<ProtocolOnlineReviewBase>();
-        if (protocolId != null && submissionIdFk != null) {
-            Map<String,Object> hashMap = new HashMap<String,Object>();
-            hashMap.put("protocolId", protocolId);
-            hashMap.put("submissionIdFk", submissionIdFk);
-            reviews.addAll(getBusinessObjectService().findMatchingOrderBy(ProtocolOnlineReview.class, hashMap, "dateRequested", false));
-        }
-        return reviews;
-    }
+//    
+//    /**
+//     * Finds and returns all protocol online reviews for the protocolId and submissionId.
+//     * @param protocolId
+//     * @param submissionIdFk
+//     * @return
+//     */
+//    @SuppressWarnings("unchecked")
+//    protected List<ProtocolOnlineReviewBase> findProtocolOnlineReviews(Long protocolId,
+//                                                                 Long submissionIdFk) {
+//        List<ProtocolOnlineReviewBase> reviews = new ArrayList<ProtocolOnlineReviewBase>();
+//        if (protocolId != null && submissionIdFk != null) {
+//            Map<String,Object> hashMap = new HashMap<String,Object>();
+//            hashMap.put("protocolId", protocolId);
+//            hashMap.put("submissionIdFk", submissionIdFk);
+//            reviews.addAll(getBusinessObjectService().findMatchingOrderBy(ProtocolOnlineReview.class, hashMap, "dateRequested", false));
+//        }
+//        return reviews;
+//    }
+//
 
-// TODO ********************** commented out during IRB backfit ************************    
 //    protected void cancelOnlineReviewDocument(ProtocolOnlineReviewDocument protocolOnlineReviewDocument, ProtocolSubmission submission, String annotation) {
 //        try {
 //           
@@ -556,6 +553,21 @@ public class ProtocolOnlineReviewServiceImpl extends ProtocolOnlineReviewService
     @Override
     protected String getProtocolOLRDocumentTypeHook() {
         return PROTOCOL_ONLINE_REVIEW_DOCUMENT_TYPE;
+    }
+
+    @Override
+    protected ProtocolReviewer createNewProtocolReviewerInstanceHook() {
+        return new ProtocolReviewer();
+    }
+
+    @Override
+    protected Class<? extends ProtocolOnlineReviewBase> getProtocolOnlineReviewBOClassHook() {
+        return ProtocolOnlineReview.class;
+    }
+
+    @Override
+    protected Class<? extends ProtocolSubmissionBase> getProtocolSubmissionBOClassHook() {
+        return ProtocolSubmission.class;
     }
     
 // TODO ********************** commented out during IRB backfit ************************    

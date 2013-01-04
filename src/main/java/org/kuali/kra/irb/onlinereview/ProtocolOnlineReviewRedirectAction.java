@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.irb.onlinereview;
 
-import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReviewService;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewRedirectActionBase;
@@ -35,6 +34,11 @@ public class ProtocolOnlineReviewRedirectAction extends ProtocolOnlineReviewRedi
 
     protected String getAdminRoleName() {
         return "IRB Administrator";
+    }
+
+    @Override
+    protected String getProtocolOnlineReviewActionIdHook() {
+        return "protocolOnlineReview";
     }
     
  // TODO ********************** commented out during IRB backfit ************************
