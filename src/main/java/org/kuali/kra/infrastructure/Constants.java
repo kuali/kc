@@ -956,6 +956,9 @@ public interface Constants {
     public static final String AWARD_ID = "awardId";
 
     
+    //Person signature property constants
+    public static final String PERSON_SIGNATURE_ACTIVE = "signatureActive";
+    public static final String PERSON_SIGNATURE_PERSON_ID = "personId";
 
 }
 
