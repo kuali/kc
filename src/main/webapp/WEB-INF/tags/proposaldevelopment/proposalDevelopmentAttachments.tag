@@ -29,6 +29,32 @@
 <c:set var="proposalDevelopmentAttributes" value="${DataDictionary.DevelopmentProposal.attributes}" />
 <c:set var="narrativeAttributes" value="${DataDictionary.Narrative.attributes}" />
 <c:set var="narrativeAttachmentAttributes" value="${DataDictionary.NarrativeAttachment.attributes}" />
+<script>
+	var PropDevNarrative = { };
+	PropDevNarrative.narrativeTypes ={
+			<c:forEach items="${KualiForm.allNarrativeTypes}" var="narrative">
+				'${narrative.narrativeTypeCode}' : {'allowMultiple' : '${narrative.allowMultiple}'},
+			</c:forEach>
+			'nil' : 'nil'
+	};
+	
+	PropDevNarrative.defaultRequiredProperties = {
+			'narrativeTypeCode' : '<c:out value="${narrativeAttributes.narrativeTypeCode.label}"/>',
+			'narrativeFile' : '<c:out value="${narrativeAttachmentAttributes.fileName.label}"/>',
+			'moduleStatusCode' : '<c:out value="${narrativeAttributes.moduleStatusCode.label}"/>'
+	};
+	PropDevNarrative.buildListOfRequiredPropertiesForNarrative = function(prefix) {
+		var properties = { };
+		for (var h in this.defaultRequiredProperties) {
+			properties[prefix + '.' + h] = this.defaultRequiredProperties[h];
+		}
+		var narrativeType = jQuery(jq_escape(prefix + '.narrativeTypeCode')).val();
+		if (this.narrativeTypes[narrativeType]['allowMultiple'] == 'Y') {
+			properties[prefix + '.moduleTitle'] = '<c:out value="${narrativeAttributes.moduleTitle.label}" />';
+		}
+		return properties;
+	}
+</script>
 
 
 
@@ -60,7 +86,7 @@ internal attachements.  We are just going to loop through the narratives and see
 					</td>
 	          		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${narrativeAttachmentAttributes.fileName}"/></div></th>
 	                <td align="left" valign="middle">
-	                	<html:file property="newNarrative.narrativeFile" />
+	                	<html:file property="newNarrative.narrativeFile" styleId="newNarrative.narrativeFile"/>
 					</td>
 	          	</tr>
 	          	<tr>
@@ -105,7 +131,8 @@ internal attachements.  We are just going to loop through the narratives and see
 					<td colspan=4>
 						<div align="center">
 							<html:image property="methodToCall.addProposalAttachment"
-							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton"/>
+							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' 
+							onclick="return requirePropertiesOnAdd(PropDevNarrative.buildListOfRequiredPropertiesForNarrative('newNarrative'));" styleClass="tinybutton"/>
 						</div>
 	                </td>
 	            </tr>
