@@ -141,8 +141,9 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
     public void initialize() {
         super.initialize();
         getDevelopmentProposal().initializeOwnedByUnitNumber();
-        if (getParameterService().getParameterValueAsBoolean(ProposalDevelopmentDocument.class, Constants.HIDE_PROP_DEV_DOC_DESCRIPTION_PARAM)) {
-            this.getDocumentHeader().setDocumentDescription("Proposal Development Document created : " + getDateTimeService().toDateTimeString(getDateTimeService().getCurrentDate()));
+        String defaultDescValue = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, Constants.HIDE_AND_DEFAULT_PROP_DEV_DOC_DESC_PARAM); 
+        if (!StringUtils.isBlank(defaultDescValue)) {
+            this.getDocumentHeader().setDocumentDescription(defaultDescValue + getDateTimeService().toDateTimeString(getDateTimeService().getCurrentDate()));
         }
     }
 
