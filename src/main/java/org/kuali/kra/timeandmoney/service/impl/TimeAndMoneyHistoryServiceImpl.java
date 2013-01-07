@@ -363,7 +363,7 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
             transactionTypeDescription = "empty";
         }
         return "Time And Money Document: " + transactionTypeDescription + 
-                    ": notice date: " + noticeDate + ", updated : " + getUpdateTimeAndUser(doc) + ". Comments: " + aat.getComments() == null ? "None" : aat.getComments();
+                    ", notice date: " + noticeDate + ", updated " + getUpdateTimeAndUser(doc) + ". Comments: " + (aat.getComments() == null ? "None" : aat.getComments());
     }
     
     protected List<AwardAmountInfo> getValidAwardAmountInfosAssociatedWithAwardVersion(List<AwardAmountInfo> awardAmountInfos, Award award) {
@@ -504,8 +504,7 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
         }else {
             transactionTypeDescription = "empty";
         }
-        return "Award Version " + versionNumber + ": " + transactionTypeDescription + 
-                    ": notice date : " + noticeDate + ", updated : " + getUpdateTimeAndUser(award); 
+        return "Award Version " + versionNumber + ", " + transactionTypeDescription + ", notice date: " + noticeDate + ", updated " + getUpdateTimeAndUser(award); 
     }
     
     protected String buildNewAwardDescriptionLine(Award award) {
@@ -525,9 +524,8 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
         }else {
             transactionTypeDescription = "empty";
         }
-        return "Award Version " + versionNumber + ": " + transactionTypeDescription + 
-                    ": notice date : " + noticeDate + ", updated : " + getUpdateTimeAndUser(award) 
-                    + ". Comments:" + award.getAwardCurrentActionComments().getComments();
+        return "Award Version " + versionNumber + ", " + transactionTypeDescription + ", notice date: " + noticeDate + 
+            ", updated " + getUpdateTimeAndUser(award) + ". Comments:" + (award.getAwardCurrentActionComments().getComments() == null ? "None." : award.getAwardCurrentActionComments().getComments());
     }
     
     protected String getUpdateTimeAndUser(Award award) {
@@ -547,7 +545,7 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
             createDateStr = CoreApiServiceLocator.getDateTimeService().toString(doc.getUpdateTimestamp(), "MM/dd/yy");
             updateUser = doc.getUpdateUser().length() > NUMBER_30 ? doc.getUpdateUser().substring(0, NUMBER_30) : doc.getUpdateUser(); 
         }
-        return createDateStr + ", " + updateUser;
+        return createDateStr + " by " + updateUser;
     }
     
     /**
