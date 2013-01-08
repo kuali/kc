@@ -372,7 +372,7 @@ public class ResearchAndRelatedXmlStream extends AbstractResearchAndRelatedStrea
 		ResearchCoverPage researchCoverPage = ResearchCoverPage.Factory.newInstance();
 		researchCoverPage.setSubmissionCategory(getSubmissionCategoryForResearchCoverPage(
 						                        developmentProposal.getActivityType().getDescription(),
-						                        developmentProposal.getCreationStatusCode()));
+						                        developmentProposal.getProposalStateTypeCode()));
 		researchCoverPage
 				.setApplicationCategory(getApplicationCategoryForResearchCoverPage(developmentProposal
 						.getProposalType().getDescription()));

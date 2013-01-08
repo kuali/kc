@@ -1284,7 +1284,7 @@ AbstractResearchAndRelatedStream {
         researchCoverPage
         .setSubmissionCategory(getSubmissionCategoryForResearchCoverPage(
                 developmentProposal.getActivityType().getDescription(),
-                developmentProposal.getCreationStatusCode()));
+                developmentProposal.getProposalStateTypeCode()));
         researchCoverPage
         .setApplicationCategory(getApplicationCategoryForResearchCoverPage(developmentProposal
                 .getProposalType().getDescription()));
