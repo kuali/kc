@@ -191,31 +191,31 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
                 pendingTransaction.setObligatedAmount((obligatedChangeDirect.add(obligatedChangeIndirect)).abs());
                 pendingTransaction.setAnticipatedAmount((anticipatedChangeDirect.add(anticipatedChangeIndirect)).abs());
                 pendingTransaction.setDocumentNumber(timeAndMoneyDocument.getDocumentNumber());
-                pendingTransaction.setProcessedFlag(true);
+                pendingTransaction.setProcessedFlag(false);
                 timeAndMoneyDocument.getPendingTransactions().add(pendingTransaction);
                 for(PendingTransaction penTran : timeAndMoneyDocument.getPendingTransactions()) {
                     penTran.setDocumentNumber(timeAndMoneyDocument.getDocumentNumber());
                 }
                 getBusinessObjectService().save(timeAndMoneyDocument.getPendingTransactions());//need pending transaction to have a primarykey value
                 aptService.processSingleNodeMoneyTransaction(timeAndMoneyDocument, timeAndMoneyDocument.getAwardAmountTransactions().get(0),
-                awardAmountTransactionItems, awardItems, moneyTransactionDetailItems);
-                ahn.setAmountObligatedToDate(aai.getAmountObligatedToDate().add((obligatedChangeDirect).add(obligatedChangeIndirect)));
-                ahn.setObligatedTotalDirect(awardHierarchyNode.getObligatedTotalDirect());
-                ahn.setObligatedTotalIndirect(awardHierarchyNode.getObligatedTotalIndirect());
-                ahn.setObliDistributableAmount(awardHierarchyNode.getObliDistributableAmount());
-                ahn.setAnticipatedTotalAmount(aai.getAnticipatedTotalAmount().add((anticipatedChangeDirect).add(anticipatedChangeIndirect)));
-                ahn.setAnticipatedTotalDirect(awardHierarchyNode.getAnticipatedTotalDirect());
-                ahn.setAnticipatedTotalIndirect(awardHierarchyNode.getAnticipatedTotalIndirect());
-                ahn.setAntDistributableAmount(awardHierarchyNode.getAntDistributableAmount());
+                    awardAmountTransactionItems, awardItems, moneyTransactionDetailItems);
+//                ahn.setAmountObligatedToDate(aai.getAmountObligatedToDate().add((obligatedChangeDirect).add(obligatedChangeIndirect)));
+//                ahn.setObligatedTotalDirect(awardHierarchyNode.getObligatedTotalDirect());
+//                ahn.setObligatedTotalIndirect(awardHierarchyNode.getObligatedTotalIndirect());
+//                ahn.setObliDistributableAmount(awardHierarchyNode.getObliDistributableAmount());
+//                ahn.setAnticipatedTotalAmount(aai.getAnticipatedTotalAmount().add((anticipatedChangeDirect).add(anticipatedChangeIndirect)));
+//                ahn.setAnticipatedTotalDirect(awardHierarchyNode.getAnticipatedTotalDirect());
+//                ahn.setAnticipatedTotalIndirect(awardHierarchyNode.getAnticipatedTotalIndirect());
+//                ahn.setAntDistributableAmount(awardHierarchyNode.getAntDistributableAmount());
             }else {
-                ahn.setAmountObligatedToDate(aai.getAmountObligatedToDate().add((obligatedChangeDirect).add(obligatedChangeIndirect)));
-                ahn.setObligatedTotalDirect(awardHierarchyNode.getObligatedTotalDirect());
-                ahn.setObligatedTotalIndirect(awardHierarchyNode.getObligatedTotalIndirect());
-                ahn.setObliDistributableAmount(awardHierarchyNode.getObliDistributableAmount());
-                ahn.setAnticipatedTotalAmount(aai.getAnticipatedTotalAmount().add((anticipatedChangeDirect).add(anticipatedChangeIndirect)));
-                ahn.setAnticipatedTotalDirect(awardHierarchyNode.getAnticipatedTotalDirect());
-                ahn.setAnticipatedTotalIndirect(awardHierarchyNode.getAnticipatedTotalIndirect());
-                ahn.setAntDistributableAmount(awardHierarchyNode.getAntDistributableAmount());
+//                ahn.setAmountObligatedToDate(aai.getAmountObligatedToDate().add((obligatedChangeDirect).add(obligatedChangeIndirect)));
+//                ahn.setObligatedTotalDirect(awardHierarchyNode.getObligatedTotalDirect());
+//                ahn.setObligatedTotalIndirect(awardHierarchyNode.getObligatedTotalIndirect());
+//                ahn.setObliDistributableAmount(awardHierarchyNode.getObliDistributableAmount());
+//                ahn.setAnticipatedTotalAmount(aai.getAnticipatedTotalAmount().add((anticipatedChangeDirect).add(anticipatedChangeIndirect)));
+//                ahn.setAnticipatedTotalDirect(awardHierarchyNode.getAnticipatedTotalDirect());
+//                ahn.setAnticipatedTotalIndirect(awardHierarchyNode.getAnticipatedTotalIndirect());
+//                ahn.setAntDistributableAmount(awardHierarchyNode.getAntDistributableAmount());
             }
         }
     }
@@ -254,23 +254,23 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
                 pendingTransaction.setObligatedAmount(obligatedChange.abs());
                 pendingTransaction.setAnticipatedAmount(anticipatedChange.abs());
                 pendingTransaction.setDocumentNumber(timeAndMoneyDocument.getDocumentNumber());
-                pendingTransaction.setProcessedFlag(true);
+                pendingTransaction.setProcessedFlag(false);
                 timeAndMoneyDocument.getPendingTransactions().add(pendingTransaction);
                 for(PendingTransaction penTran : timeAndMoneyDocument.getPendingTransactions()) {
                     penTran.setDocumentNumber(timeAndMoneyDocument.getDocumentNumber());
                 }
                 getBusinessObjectService().save(timeAndMoneyDocument.getPendingTransactions());//need pending transaction to have a primarykey value
-                aptService.processSingleNodeMoneyTransaction(timeAndMoneyDocument, timeAndMoneyDocument.getAwardAmountTransactions().get(0),
-                awardAmountTransactionItems, awardItems, moneyTransactionDetailItems);
-                ahn.setAmountObligatedToDate(awardHierarchyNode.getAmountObligatedToDate());
-                ahn.setObliDistributableAmount(awardHierarchyNode.getObliDistributableAmount());
-                ahn.setAnticipatedTotalAmount(awardHierarchyNode.getAnticipatedTotalAmount());
-                ahn.setAntDistributableAmount(awardHierarchyNode.getAntDistributableAmount());
-            }else {
-                ahn.setAmountObligatedToDate(awardHierarchyNode.getAmountObligatedToDate());
-                ahn.setObliDistributableAmount(awardHierarchyNode.getObliDistributableAmount());
-                ahn.setAnticipatedTotalAmount(awardHierarchyNode.getAnticipatedTotalAmount());
-                ahn.setAntDistributableAmount(awardHierarchyNode.getAntDistributableAmount());
+// try this...                aptService.processSingleNodeMoneyTransaction(timeAndMoneyDocument, timeAndMoneyDocument.getAwardAmountTransactions().get(0),
+//                                 awardAmountTransactionItems, awardItems, moneyTransactionDetailItems);
+//                ahn.setAmountObligatedToDate(awardHierarchyNode.getAmountObligatedToDate());
+//                ahn.setObliDistributableAmount(awardHierarchyNode.getObliDistributableAmount());
+//                ahn.setAnticipatedTotalAmount(awardHierarchyNode.getAnticipatedTotalAmount());
+//                ahn.setAntDistributableAmount(awardHierarchyNode.getAntDistributableAmount());
+//            }else {
+//                ahn.setAmountObligatedToDate(awardHierarchyNode.getAmountObligatedToDate());
+//                ahn.setObliDistributableAmount(awardHierarchyNode.getObliDistributableAmount());
+//                ahn.setAnticipatedTotalAmount(awardHierarchyNode.getAnticipatedTotalAmount());
+//                ahn.setAntDistributableAmount(awardHierarchyNode.getAntDistributableAmount());
             }
         }
     }
@@ -652,7 +652,7 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
 
     /**
      * 
-     * This method refreshes the view depending on various view optins like either active or pending view or dates only, totals and 
+     * This method refreshes the view depending on various view options like either active or pending view or dates only, totals and 
      * distributed/distributable. 
      * 
      * @param mapping
