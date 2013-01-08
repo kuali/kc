@@ -355,12 +355,12 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
         if(!(aat.getNoticeDate() == null)) {
             noticeDate = aat.getNoticeDate().toString();
         }else {
-            noticeDate = "empty";
+            noticeDate = "None";
         }
         if(!(aat.getAwardTransactionType() == null)) {
             transactionTypeDescription = aat.getAwardTransactionType().getDescription();
         }else {
-            transactionTypeDescription = "empty";
+            transactionTypeDescription = "None";
         }
         return "Time And Money Document: " + transactionTypeDescription + 
                     ", notice date: " + noticeDate + ", updated " + getUpdateTimeAndUser(doc) + ". Comments: " + (aat.getComments() == null ? "None" : aat.getComments());
@@ -497,12 +497,12 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
         if(!(aat.getNoticeDate() == null)) {
             noticeDate = aat.getNoticeDate().toString();
         }else {
-            noticeDate = "empty";
+            noticeDate = "None";
         }
         if(!(award.getAwardTransactionType() == null)) {
             transactionTypeDescription = award.getAwardTransactionType().getDescription();
         }else {
-            transactionTypeDescription = "empty";
+            transactionTypeDescription = "None";
         }
         return "Award Version " + versionNumber + ", " + transactionTypeDescription + ", notice date: " + noticeDate + ", updated " + getUpdateTimeAndUser(award); 
     }
@@ -517,12 +517,12 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
         if(!(award.getNoticeDate() == null)) {
             noticeDate = award.getNoticeDate().toString();
         }else {
-            noticeDate = "empty";
+            noticeDate = "None";
         }
         if(!(award.getAwardTransactionType() == null)) {
             transactionTypeDescription = award.getAwardTransactionType().getDescription();
         }else {
-            transactionTypeDescription = "empty";
+            transactionTypeDescription = "None";
         }
         return "Award Version " + versionNumber + ", " + transactionTypeDescription + ", notice date: " + noticeDate + 
             ", updated " + getUpdateTimeAndUser(award) + ". Comments:" + (award.getAwardCurrentActionComments().getComments() == null ? "None." : award.getAwardCurrentActionComments().getComments());
