@@ -970,6 +970,7 @@ public final class KeyConstants {
     public static final String ERROR_START_DATE_ON_OR_AFTER = "error.start.date.on.or.after";
     public static final String ERROR_INVALID_UNITCONTACT_PERSON = "error.unitContact.invalid.person";
     public static final String ERROR_MISSING_UNITCONTACT_PERSON = "error.unitContact.missing.person";
+    public static final String WARNING_AWARD_PROJECT_START_DATE_NULL = "warn.awardProjectStartDate.null";
    
     //Organization
     public static final String ERROR_ORGANIZATION_QUESTIONYNQ_ANSWER_REQUIRED = "error.organization.questionYnq.answerRequired";
