@@ -66,7 +66,8 @@ public abstract class ProtocolPersonTrainingServiceImplBase implements ProtocolP
             matchingKeys.put(ACTIVE_FLAG_FIELD, IS_ACTIVE_VALUE);
             Collection<PersonTraining> personTrainings = getBusinessObjectService().findMatchingOrderBy(PersonTraining.class, matchingKeys, FOLLOWUP_DATE_FIELD, false);
             for (PersonTraining personTraining : personTrainings) {
-                if (getDateTimeService().getCurrentDate().before(personTraining.getFollowupDate())) {
+                if (personTraining.getFollowupDate() == null ||
+                    getDateTimeService().getCurrentDate().before(personTraining.getFollowupDate())) {
                     return true;
                 }
             }
