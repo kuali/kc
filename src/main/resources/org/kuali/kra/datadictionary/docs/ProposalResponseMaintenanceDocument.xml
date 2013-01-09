@@ -2,7 +2,7 @@
 
   <bean id="ProposalResponseMaintenanceDocument" parent="ProposalResponseMaintenanceDocument-parentBean"/>
 
-  <bean id="ProposalResponseMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+  <bean id="ProposalResponseMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
     <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.ProposalResponse"/>
     <property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl"/>
     <property name="maintainableSections">

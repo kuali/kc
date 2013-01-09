@@ -2,7 +2,7 @@
 
   <bean id="NotificationTypeMaintenanceDocument" parent="NotificationTypeMaintenanceDocument-parentBean"/>
 
-  <bean id="NotificationTypeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+  <bean id="NotificationTypeMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
     <property name="businessObjectClass" value="org.kuali.kra.common.notification.bo.NotificationType"/>
     <property name="maintainableClass" value="org.kuali.kra.common.notification.bo.NotificationTypeMaintainableImpl"/>
     <property name="maintainableSections">

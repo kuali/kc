@@ -2,7 +2,7 @@
 
   <bean id="AbstractTypeMaintenanceDocument" parent="AbstractTypeMaintenanceDocument-parentBean"/>
 
-  <bean id="AbstractTypeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+  <bean id="AbstractTypeMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
     <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.AbstractType"/>
     <property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl"/>
     <property name="maintainableSections">
