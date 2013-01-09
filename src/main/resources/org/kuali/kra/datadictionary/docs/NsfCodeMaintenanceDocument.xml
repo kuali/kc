@@ -2,7 +2,7 @@
 
   <bean id="NsfCodeMaintenanceDocument" parent="NsfCodeMaintenanceDocument-parentBean"/>
 
-  <bean id="NsfCodeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+  <bean id="NsfCodeMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
     <property name="businessObjectClass" value="org.kuali.kra.bo.NsfCode"/>
     <property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl"/>
     <property name="maintainableSections">

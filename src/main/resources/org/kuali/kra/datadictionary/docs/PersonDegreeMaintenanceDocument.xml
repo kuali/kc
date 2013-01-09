@@ -2,7 +2,7 @@
 
   <bean id="PersonDegreeMaintenanceDocument" parent="PersonDegreeMaintenanceDocument-parentBean"/>
 
-  <bean id="PersonDegreeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+  <bean id="PersonDegreeMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
     <property name="businessObjectClass" value="org.kuali.kra.bo.PersonDegree"/>
     <property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl"/>
     <property name="maintainableSections">

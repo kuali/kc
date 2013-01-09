@@ -2,7 +2,7 @@
 
   <bean id="YnqMaintenanceDocument" parent="YnqMaintenanceDocument-parentBean"/>
 
-  <bean id="YnqMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+  <bean id="YnqMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
     <property name="businessObjectClass" value="org.kuali.kra.bo.Ynq"/>
     <property name="maintainableClass" value="org.kuali.kra.maintenance.YnqMaintainableImpl"/>
     <property name="maintainableSections">
