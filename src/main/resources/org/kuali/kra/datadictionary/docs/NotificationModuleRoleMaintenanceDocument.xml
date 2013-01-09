@@ -2,7 +2,7 @@
 
   <bean id="NotificationModuleRoleMaintenanceDocument" parent="NotificationModuleRoleMaintenanceDocument-parentBean"/>
 
-  <bean id="NotificationModuleRoleMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+  <bean id="NotificationModuleRoleMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
     <property name="businessObjectClass" value="org.kuali.kra.common.notification.bo.NotificationModuleRole"/>
     <property name="maintainableClass" value="org.kuali.kra.common.notification.bo.NotificationModuleRoleMaintainableImpl"/>
     <property name="maintainableSections">

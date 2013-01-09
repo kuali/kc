@@ -2,7 +2,7 @@
 
   <bean id="PropPerDocTypeMaintenanceDocument" parent="PropPerDocTypeMaintenanceDocument-parentBean"/>
 
-  <bean id="PropPerDocTypeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+  <bean id="PropPerDocTypeMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
     <property name="businessObjectClass" value="org.kuali.kra.bo.PropPerDocType"/>
     <property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl"/>
     <property name="maintainableSections">

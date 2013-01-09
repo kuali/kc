@@ -2,7 +2,7 @@
 
   <bean id="PersonBiosketchMaintenanceDocument" parent="PersonBiosketchMaintenanceDocument-parentBean"/>
 
-  <bean id="PersonBiosketchMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+  <bean id="PersonBiosketchMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
     <property name="businessObjectClass" value="org.kuali.kra.bo.PersonBiosketch"/>
     <property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl"/>
     <property name="maintainableSections">

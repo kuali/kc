@@ -2,7 +2,7 @@
 
   <bean id="NarrativeStatusMaintenanceDocument" parent="NarrativeStatusMaintenanceDocument-parentBean"/>
 
-  <bean id="NarrativeStatusMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+  <bean id="NarrativeStatusMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
     <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.NarrativeStatus"/>
     <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"/>
     <property name="maintainableSections">

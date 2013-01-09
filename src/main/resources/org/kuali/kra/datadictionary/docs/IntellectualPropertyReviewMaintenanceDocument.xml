@@ -2,7 +2,7 @@
 
   <bean id="IntellectualPropertyReviewMaintenanceDocument" parent="IntellectualPropertyReviewMaintenanceDocument-parentBean"/>
 
-  <bean id="IntellectualPropertyReviewMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+  <bean id="IntellectualPropertyReviewMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
     <property name="businessObjectClass" value="org.kuali.kra.institutionalproposal.ipreview.IntellectualPropertyReview"/>
     <property name="maintainableClass" value="org.kuali.kra.institutionalproposal.ipreview.IntellectualPropertyReviewMaintainableImpl"/>
     <property name="maintainableSections">

@@ -20,7 +20,7 @@
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
     <bean id="SubAwardFormsMaintenanceDocument" parent="SubAwardFormsMaintenanceDocument-parentBean" />
-    <bean id="SubAwardFormsMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+    <bean id="SubAwardFormsMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
         <property name="businessObjectClass" value="org.kuali.kra.subaward.bo.SubAwardForms" />
         <property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl" />
         <property name="maintainableSections" >

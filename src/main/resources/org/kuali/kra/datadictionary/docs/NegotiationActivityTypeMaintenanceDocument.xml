@@ -2,7 +2,7 @@
 
   <bean id="NegotiationActivityTypeMaintenanceDocument" parent="NegotiationActivityTypeMaintenanceDocument-parentBean"/>
 
-  <bean id="NegotiationActivityTypeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+  <bean id="NegotiationActivityTypeMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
     <property name="businessObjectClass" value="org.kuali.kra.negotiations.bo.NegotiationActivityType"/>
     <property name="maintainableClass" value="org.kuali.kra.negotiations.bo.NegotiationsMaintainableImpl"/>
     <property name="maintainableSections">
