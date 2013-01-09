@@ -21,7 +21,7 @@
 		http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
 	<bean id="IacucValidProtoSubTypeQualMaintenanceDocument" parent="IacucValidProtoSubTypeQualMaintenanceDocument-parentBean" />
-	<bean id="IacucValidProtoSubTypeQualMaintenanceDocument-parentBean"	abstract="true" parent="MaintenanceDocumentEntry">
+	<bean id="IacucValidProtoSubTypeQualMaintenanceDocument-parentBean"	abstract="true" parent="KcMaintenanceDocumentEntry">
 		<property name="businessObjectClass" value="org.kuali.kra.iacuc.actions.submit.IacucValidProtoSubTypeQual"/>
         <property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl"/>
         <property name="maintainableSections">

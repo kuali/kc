@@ -2,7 +2,7 @@
 
   <bean id="CitizenshipTypeMaintenanceDocument" parent="CitizenshipTypeMaintenanceDocument-parentBean"/>
 
-  <bean id="CitizenshipTypeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+  <bean id="CitizenshipTypeMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
     <property name="businessObjectClass" value="org.kuali.kra.bo.CitizenshipType"/>
     <property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl"/>
     <property name="maintainableSections">

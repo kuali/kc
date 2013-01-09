@@ -2,7 +2,7 @@
 
   <bean id="PersonCustomDataMaintenanceDocument" parent="PersonCustomDataMaintenanceDocument-parentBean"/>
 
-  <bean id="PersonCustomDataMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+  <bean id="PersonCustomDataMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
     <property name="businessObjectClass" value="org.kuali.kra.bo.PersonCustomData"/>
     <property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl"/>
     <property name="maintainableSections">

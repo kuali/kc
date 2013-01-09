@@ -2,7 +2,7 @@
 
   <bean id="S2sProviderMaintenanceDocument" parent="S2sProviderMaintenanceDocument-parentBean"/>
 
-  <bean id="S2sProviderMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+  <bean id="S2sProviderMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
     <property name="businessObjectClass" value="org.kuali.kra.s2s.bo.S2sProvider"/>
     <property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl"/>
     <property name="maintainableSections">

@@ -2,7 +2,7 @@
 
   <bean id="ExemptStudiesCheckListMaintenanceDocument" parent="ExemptStudiesCheckListMaintenanceDocument-parentBean"/>
 
-  <bean id="ExemptStudiesCheckListMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+  <bean id="ExemptStudiesCheckListMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
     <property name="businessObjectClass" value="org.kuali.kra.irb.actions.submit.ExemptStudiesCheckListItem"/>
     <property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl"/>
     <property name="maintainableSections">

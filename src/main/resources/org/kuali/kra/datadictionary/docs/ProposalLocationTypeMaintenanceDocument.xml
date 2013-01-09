@@ -2,7 +2,7 @@
 
   <bean id="ProposalLocationTypeMaintenanceDocument" parent="ProposalLocationTypeMaintenanceDocument-parentBean"/>
 
-  <bean id="ProposalLocationTypeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+  <bean id="ProposalLocationTypeMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
     <property name="businessObjectClass" value="org.kuali.kra.proposaldevelopment.bo.ProposalLocationType"/>
     <property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl"/>
     <property name="maintainableSections">

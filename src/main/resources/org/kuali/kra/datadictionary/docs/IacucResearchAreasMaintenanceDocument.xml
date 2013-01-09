@@ -2,7 +2,7 @@
 
   <bean id="IacucResearchAreasMaintenanceDocument" parent="IacucResearchAreasMaintenanceDocument-parentBean"/>
 
-  <bean id="IacucResearchAreasMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry">
+  <bean id="IacucResearchAreasMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
     <property name="businessObjectClass" value="org.kuali.kra.iacuc.IacucResearchArea"/>
     <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"/>
     <property name="maintainableSections">
