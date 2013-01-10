@@ -268,7 +268,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         
         
         List<String> childProposalNumbers = proposalHierarchyDao.getHierarchyChildProposalNumbers(hierarchyProposalNumber);
-        boolean isLast = childProposalNumbers.size()==1;
+        boolean isLast = childProposalNumbers.size()==1 && StringUtils.equals(childProposalNumbers.get(0), childProposal.getProposalNumber());
      
         childProposal.setHierarchyStatus(HierarchyStatusConstants.None.code());
         childProposal.setHierarchyParentProposalNumber(null);
@@ -924,6 +924,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
                         parentLineItem.setVersionNumber(null);
                         lineItemNumber = parentBudget.getBudgetDocument().getHackedDocumentNextValue(Constants.BUDGET_LINEITEM_NUMBER);
                         parentLineItem.setLineItemNumber(lineItemNumber);
+                        parentLineItem.setLineItemSequence(lineItemNumber);
                         parentLineItem.setHierarchyProposalNumber(childProposalNumber);
                         parentLineItem.setLineItemCost(childPeriod.getTotalIndirectCost());
                         parentLineItem.setIndirectCost(childPeriod.getTotalIndirectCost());
@@ -948,6 +949,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
                         parentLineItem.setVersionNumber(null);
                         lineItemNumber = parentBudget.getBudgetDocument().getHackedDocumentNextValue(Constants.BUDGET_LINEITEM_NUMBER);
                         parentLineItem.setLineItemNumber(lineItemNumber);
+                        parentLineItem.setLineItemSequence(lineItemNumber);
                         parentLineItem.setHierarchyProposalNumber(childProposalNumber);
                         parentLineItem.setLineItemCost(childPeriod.getTotalDirectCost());
                         parentLineItem.setDirectCost(childPeriod.getTotalDirectCost());
