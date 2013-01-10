@@ -182,7 +182,7 @@
         
 <%--        <table cellpadding="0" cellspacing="0" summary="">  --%>
 <%--        <c:set var="isRouted" value="${KualiForm.document.documentRouteStatus}" />  --%>
-<%--          	<%-- Header --%>  --%>
+          	<%-- Header --%>  
 <%--          	<tr>  --%>
 <%--          		<kul:htmlAttributeHeaderCell literalLabel="&nbsp;" scope="col" />  --%>
 <%--          		<kul:htmlAttributeHeaderCell attributeEntry="${pendingTransactionAttributes.transactionId}" scope="col" />  --%>
