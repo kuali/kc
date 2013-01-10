@@ -21,7 +21,7 @@
 <c:set var="textAreaFieldName" value="document.developmentProposalList[0].opportunityTitle" />
 <c:set var="action" value="proposalDevelopmentProposal" />
 
-<kul:tabTop tabTitle="Grants.gov" defaultOpen="true" tabErrorKey="proposalDevelopmentAttributes.cfdaNumber,proposalDevelopmentAttributes.programAnnouncementNumber ">
+<kul:tabTop tabTitle="S2S" defaultOpen="true" tabErrorKey="proposalDevelopmentAttributes.cfdaNumber,proposalDevelopmentAttributes.programAnnouncementNumber ">
     <div class="tab-container" align="center">
         <h3>
             <span class="subhead-left">Opportunity Search</span>
@@ -31,7 +31,7 @@
         <input type="hidden" name="document.developmentProposalList[0].cfdaNumber" value="${KualiForm.document.developmentProposalList[0].cfdaNumber}">    
         <input type="hidden" name="document.developmentProposalList[0].programAnnouncementNumber" value="${KualiForm.document.developmentProposalList[0].programAnnouncementNumber}">            
         
-        Grants.gov Lookup
+        S2S Lookup
         <c:if test="${!readOnly}" >
         	<kul:lookup boClassName="org.kuali.kra.s2s.bo.S2sOpportunity" 
         	fieldConversions="opportunityId:newS2sOpportunity.opportunityId,cfdaNumber:newS2sOpportunity.cfdaNumber,opportunityTitle:newS2sOpportunity.opportunityTitle,s2sSubmissionTypeCode:newS2sOpportunity.s2sSubmissionTypeCode,revisionCode:newS2sOpportunity.revisionCode,competetionId:newS2sOpportunity.competetionId,openingDate:newS2sOpportunity.openingDate,closingDate:newS2sOpportunity.closingDate,instructionUrl:newS2sOpportunity.instructionUrl,schemaUrl:newS2sOpportunity.schemaUrl,providerCode:newS2sOpportunity.providerCode" 

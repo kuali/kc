@@ -1190,8 +1190,8 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
             if(isCanSubmitToGrantsGov()) {
               if(doc.getDevelopmentProposal().getS2sOpportunity() != null 
                       && doc.getDevelopmentProposal().getS2sAppSubmission().size() == 0 ){ 
-                     String grantsGovSubmitImage = configurationService.getPropertyValueAsString(externalImageURL) + "buttonsmall_submitgrantsgov.gif";
-                     addExtraButton("methodToCall.submitToGrantsGov", grantsGovSubmitImage, "Submit To GrantsGov");
+                     String grantsGovSubmitImage = configurationService.getPropertyValueAsString(externalImageURL) + "buttonsmall_submittos2s.gif";
+                     addExtraButton("methodToCall.submitToGrantsGov", grantsGovSubmitImage, "Submit To S2S");
               }
             }
         }
