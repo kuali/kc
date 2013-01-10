@@ -111,12 +111,12 @@
                 </c:when>        
                 <c:when test="${empty KualiForm.document.developmentProposalList[0].s2sOpportunity}" >
                     <tr><td>
-                        No Grants.gov opportunity has been selected
+                        No S2S opportunity has been selected
                     </td></tr>     
                 </c:when>
                 <c:when test="${empty KualiForm.document.developmentProposalList[0].s2sOpportunity.s2sOppForms}" >
                     <tr><td>
-                        No forms are currently available for the Grants.gov opportunity selected.
+                        No forms are currently available for the S2S opportunity selected.
                     </td></tr> 
                </c:when>    
             </c:choose>               
