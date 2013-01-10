@@ -249,7 +249,7 @@ public class BudgetLineItem extends BudgetLineItemBase implements HierarchyMaint
     public int compareTo(BudgetLineItem o) {
         int compare = this.getCostElementName().compareTo(o.getCostElementName());
         if (compare == 0) {
-            compare = this.getLineItemSequence().compareTo(o.getLineItemSequence());
+            compare = this.getLineItemNumber().compareTo(o.getLineItemNumber());
         }
         // TODO Auto-generated method stub
         return compare;
