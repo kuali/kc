@@ -483,6 +483,7 @@ public interface Constants {
     public static final String MAPPING_AWARD_BUDGET_VERSIONS_PAGE = "budgets";
     public static final String MAPPING_ICR_RATE_CODE_PROMPT = "icrRateCodePrompt";
     
+    
     //COI
     public static final String MAPPING_COI_EDIT_LIST = "editList";
     public static final String FINANCIAL_ENTITY_STATUS_ACTIVE = "active";
@@ -596,6 +597,8 @@ public interface Constants {
     public static final String PAYMENT_AND_INVOICES_PANEL_NAME = "Payments";
     public static final String SUBAWARD_PANEL_NAME = "Subaward";
     public static final String SUBAWARD_PANEL_ANCHOR = "Subaward";
+    public static final String MAPPING_AWARD_HOME_DETAILS_AND_DATES_PAGE_ANCHOR = "anchorDetailsDates";
+    public static final String MAPPING_AWARD_HOME_DETAILS_AND_DATES_PAGE_NAME = "Details & Dates";
 
 
 
