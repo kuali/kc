@@ -852,9 +852,9 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         success = AwardDateRulesHelper.validateObligationStartBeforeProjectEnd(errorMap, oblStartDate, effEndDate, fieldStarter+"].currentFundEffectiveDate", awardId) && success;
         success = AwardDateRulesHelper.validateObligationEndBeforeProjectEnd(errorMap, oblEndDate, effEndDate, fieldStarter+"].obligationExpirationDate", awardId) && success;
         if (effStartDate == null) {
-           String link = Constants.MAPPING_AWARD_HOME_PAGE;
+           String link = Constants.MAPPING_AWARD_HOME_PAGE + "." + Constants.MAPPING_AWARD_HOME_DETAILS_AND_DATES_PAGE_ANCHOR;
            String messageKey = KeyConstants.WARNING_AWARD_PROJECT_START_DATE_NULL;
-           String errorKey = fieldStarter+"].awardEffectiveDate";
+           String errorKey = "document.awardList[0].awardEffectiveDate";
            auditWarnings.add(new AuditError(errorKey, messageKey, link));
         }
 
@@ -899,10 +899,10 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
     
     protected void reportAndCreateAuditCluster() {
         if (auditErrors.size() > 0) {
-            KNSGlobalVariables.getAuditErrorMap().put("homePageAuditErrors", new AuditCluster(Constants.AWARD_PAGE, auditErrors, Constants.AUDIT_ERRORS));
+            KNSGlobalVariables.getAuditErrorMap().put("homePageAuditErrors", new AuditCluster(Constants.MAPPING_AWARD_HOME_DETAILS_AND_DATES_PAGE_NAME, auditErrors, Constants.AUDIT_ERRORS));
         }
         if (auditWarnings.size() > 0) {
-            KNSGlobalVariables.getAuditErrorMap().put("homePageAuditErrors", new AuditCluster(Constants.AWARD_PAGE, auditWarnings, Constants.AUDIT_WARNINGS));            
+            KNSGlobalVariables.getAuditErrorMap().put("homePageAuditWarnings", new AuditCluster(Constants.MAPPING_AWARD_HOME_DETAILS_AND_DATES_PAGE_NAME, auditWarnings, Constants.AUDIT_WARNINGS));            
         }
     }
 }
