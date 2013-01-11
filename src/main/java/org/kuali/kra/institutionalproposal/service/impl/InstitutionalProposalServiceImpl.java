@@ -216,6 +216,7 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
                     
                     InstitutionalProposal newVersion = versioningService.createNewVersion(activeVersion);
                     newVersion.setStatusCode(ProposalStatus.FUNDED);
+                    newVersion.setAwardFundingProposals(transferFundingProposals(activeVersion, newVersion));
                     
                     InstitutionalProposalDocument institutionalProposalDocument = 
                         (InstitutionalProposalDocument) documentService.getNewDocument(InstitutionalProposalDocument.class);
@@ -268,7 +269,7 @@ public class InstitutionalProposalServiceImpl implements InstitutionalProposalSe
             for (String proposalNumber : proposalNumbers) {
                 InstitutionalProposal activeVersion = getActiveInstitutionalProposal(proposalNumber);
                 
-                if (activeVersion != null && activeVersion.isFundedByAward(awardNumber, awardSequence) 
+                if (activeVersion != null && activeVersion.isFundedByAward(awardNumber, awardSequence)
                         && activeVersion.getActiveAwardFundingProposals().size() == 1) {
                     LOG.info("Creating a new version of proposal " + proposalNumber + ".");
                     
