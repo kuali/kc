@@ -61,6 +61,7 @@ import org.kuali.rice.kim.api.identity.entity.Entity;
 import org.kuali.rice.kim.api.identity.type.EntityTypeContactInfo;
 import org.kuali.rice.kim.api.role.RoleService;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.springframework.util.ObjectUtils;
 
 /**
  * Defines methods for creating and sending KC Notifications.
@@ -331,7 +332,7 @@ public class KcNotificationServiceImpl implements KcNotificationService {
         List<NotificationTypeRecipient> notificationRecipients = getNotificationType(context).getNotificationTypeRecipients();
         
         uniqueRecipients.addAll(getRoleRecipients(notificationRecipients, context));
-        
+
         return uniqueRecipients;
     }
     
@@ -551,7 +552,11 @@ public class KcNotificationServiceImpl implements KcNotificationService {
             if (recipient.getPersonId() != null) {
                 KcPerson person = getKcPersonService().getKcPersonByPersonId(recipient.getPersonId()); 
                 if (person != null) {
-                    resultList += ", " + person.getUserName();
+                    if(resultList != null) {
+                        resultList += ", " + person.getUserName();
+                    }else {
+                        resultList = person.getUserName();
+                    }
                 }
             }
         }            
@@ -577,8 +582,11 @@ public class KcNotificationServiceImpl implements KcNotificationService {
             String resultList = "";
             for (NotificationRecipient.Builder recipient: notificationRecipients) {
                 resultList += ", " + recipient.getRecipientId();
-            }            
-            notification.setRecipients(resultList.substring(2));
+            }       
+            
+            if(resultList != "") {
+                notification.setRecipients(resultList.substring(2));
+            }
         }
     }
     
