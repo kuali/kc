@@ -81,6 +81,7 @@ import org.kuali.rice.krad.document.Copyable;
 import org.kuali.rice.krad.document.SessionDocument;
 import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
 import org.kuali.rice.krad.rules.rule.event.SaveDocumentEvent;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -353,12 +354,8 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
             }
         }
         if (modifiedProposals.size() > 0) {
-            List<InstitutionalProposal> fundedVersions = getInstitutionalProposalService().fundInstitutionalProposals(modifiedProposals);
-            getAward().getFundingProposals().removeAll(pendingVersions);
-            for (InstitutionalProposal institutionalProposal : fundedVersions) {
-                AwardFundingProposal awardFundingProposal = new AwardFundingProposal(getAward(), institutionalProposal);
-                getAward().getFundingProposals().add(awardFundingProposal);
-            }
+            getInstitutionalProposalService().fundInstitutionalProposals(modifiedProposals);
+            getAward().refreshReferenceObject("fundingProposals");
         }
     }
 
@@ -637,6 +634,9 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
         for (AwardFundingProposal awardFundingProposal : this.getAward().getFundingProposals()) {
             proposalsToUpdate.add(awardFundingProposal.getProposal().getProposalNumber());
         }
+        //remove any funding proposals for this award
+        KraServiceLocator.getService(BusinessObjectService.class).delete(getAward().getFundingProposals());
+        getAward().getFundingProposals().clear();
         
         getInstitutionalProposalService().defundInstitutionalProposals(proposalsToUpdate, 
                 this.getAward().getAwardNumber(), this.getAward().getSequenceNumber());
