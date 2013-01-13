@@ -135,7 +135,12 @@ public class AwardAction extends BudgetParentActionBase {
     private static final String REPORTS_PROPERTY_NAME = "Reports";
     private static final String PAYMENT_INVOICES_PROPERTY_NAME = "Payments and Invoices";
     private static final String COMFIRMATION_PARAM_STRING = "After Award {0} information is synchronized, make sure that the Award Sponsor Contacts information is also synchronized with the same sponsor template. Failing to do so will result in data inconsistency. Are you sure you want to replace current {0} information with selected {1} template information?";
-
+    private static final String SUPER_USER_ACTION_REQUESTS = "superUserActionRequests";
+    
+    private enum SuperUserAction {
+        SUPER_USER_APPROVE, TAKE_SUPER_USER_ACTIONS
+    }
+    
     private ParameterService parameterService;
     private transient AwardBudgetService awardBudgetService;
     private transient AwardService awardService;
@@ -346,7 +351,6 @@ public class AwardAction extends BudgetParentActionBase {
         Object question = request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME);
         Object buttonClicked = request.getParameter(KRADConstants.QUESTION_CLICKED_BUTTON);
         String methodToCall = ((KualiForm) form).getMethodToCall();
-        
         ValidationState status = new AuditActionHelper().isValidSubmission(awardForm, true);
         
         if (status == ValidationState.WARNING) {
@@ -1924,5 +1928,73 @@ public class AwardAction extends BudgetParentActionBase {
 
     public void setSubAwardService(SubAwardService subAwardService) {
         this.subAwardService = subAwardService;
+    }
+    
+    public ActionForward superUserActionHelper(SuperUserAction actionName, ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
+        AwardForm awardForm = (AwardForm) form;
+        Object question = request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME);
+        Object buttonClicked = request.getParameter(KRADConstants.QUESTION_CLICKED_BUTTON);
+        String methodToCall = ((KualiForm) form).getMethodToCall();
+        awardForm.setAuditActivated(true);
+
+        ValidationState status = ValidationState.OK;
+        if (!awardForm.getDocument().getDocumentHeader().getWorkflowDocument().isEnroute()) {
+            status = new AuditActionHelper().isValidSubmission(awardForm, true);
+        }
+        if (status == ValidationState.WARNING) {
+
+            if(question == null){
+                List<String>  selectedActionRequests = awardForm.getSelectedActionRequests();
+                // Need to add the super user requests to user session because they are wiped out by 
+                //the KualiRequestProcessor reset on 
+                //clicking yes to the question. Retrieve again during actual routing and add to form.
+                GlobalVariables.getUserSession().addObject(SUPER_USER_ACTION_REQUESTS, selectedActionRequests);
+                try {
+                    return this.performQuestionWithoutInput(mapping, form, request, response, DOCUMENT_ROUTE_QUESTION, 
+                            "Validation Warning Exists. Are you sure want to submit to workflow routing.", 
+                            KRADConstants.CONFIRMATION_QUESTION, methodToCall, "");
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else if(DOCUMENT_ROUTE_QUESTION.equals(question) && ConfirmationQuestion.YES.equals(buttonClicked)) {   
+                awardForm.setSelectedActionRequests((List<String>)GlobalVariables.getUserSession().retrieveObject(SUPER_USER_ACTION_REQUESTS));
+                GlobalVariables.getUserSession().removeObject(SUPER_USER_ACTION_REQUESTS);
+                switch (actionName) {
+                    case SUPER_USER_APPROVE: 
+                        return super.superUserApprove(mapping, awardForm, request, response);
+                    case TAKE_SUPER_USER_ACTIONS:
+                        return super.takeSuperUserActions(mapping, awardForm, request, response);
+                }
+            }  else {
+                return forward;
+            }
+        }
+
+        else if(status == ValidationState.OK){
+            switch (actionName) {
+                case SUPER_USER_APPROVE: 
+                    return super.superUserApprove(mapping, awardForm, request, response);
+                case TAKE_SUPER_USER_ACTIONS:
+                    return super.takeSuperUserActions(mapping, awardForm, request, response);
+            }
+        } else {
+            GlobalVariables.getMessageMap().clearErrorMessages(); 
+            GlobalVariables.getMessageMap().putError("datavalidation",KeyConstants.ERROR_WORKFLOW_SUBMISSION,  new String[] {});
+            return forward;
+        }
+        return forward;
+    } 
+    
+    
+    @Override
+    public ActionForward superUserApprove(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        return superUserActionHelper(SuperUserAction.SUPER_USER_APPROVE, mapping, form, request, response);
+    }
+    
+    @Override
+    public ActionForward takeSuperUserActions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        return superUserActionHelper(SuperUserAction.TAKE_SUPER_USER_ACTIONS, mapping, form, request, response);
     }
 }
