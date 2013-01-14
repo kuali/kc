@@ -48,7 +48,8 @@
 		<property name="maintainableItems">
 			<list>
 				<!--  <bean parent="MaintainableFieldDefinition" p:name="sponsorTermTypeCode" p:required="true"/> -->
-				<bean parent="MaintainableFieldDefinition" p:name="sponsorTermId" p:required="true"/>
+				<bean parent="MaintainableFieldDefinition" p:name="sponsorTermId" p:required="false"/>
+				<bean parent="MaintainableFieldDefinition" p:name="description" p:required="true"/>
 				<bean parent="MaintainableFieldDefinition" p:name="sponsorTermTypeCode" p:required="true"/>
 				<bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
 			</list>
@@ -76,7 +77,9 @@
 					<property name="summaryTitle" value="Sponsor Template Terms"/>
 					<property name="summaryFields">
 					<list>
+			            <bean parent="MaintainableFieldDefinition" p:name="description"/>
 			            <bean parent="MaintainableFieldDefinition" p:name="sponsorTermId"/>
+			            <bean parent="MaintainableFieldDefinition" p:name="sponsorTermCode"/>
 			            <bean parent="MaintainableFieldDefinition" p:name="sponsorTermTypeCode"/>
                    </list>
 					</property>
@@ -88,7 +91,9 @@
 					</property>
 					<property name="maintainableFields">
 						<list>
-							<bean parent="MaintainableFieldDefinition" p:name="sponsorTermId" p:template = "sponsorTermId" p:unconditionallyReadOnly="true"/>
+						   	<bean parent="MaintainableFieldDefinition" p:name="sponsorTermId" p:template = "sponsorTermId" p:unconditionallyReadOnly="true"/>
+							<bean parent="MaintainableFieldDefinition" p:name="description" p:template = "description" p:unconditionallyReadOnly="true"/>
+							<bean parent="MaintainableFieldDefinition" p:name="sponsorTermCode" p:template = "sponsorTermCode" p:unconditionallyReadOnly="true"/>
 							<bean parent="MaintainableFieldDefinition" p:name="sponsorTermTypeCode" p:template = "sponsorTermTypeCode" p:unconditionallyReadOnly="true"/>
 							<bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
 						</list>
