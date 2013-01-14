@@ -99,6 +99,9 @@ import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 import org.kuali.kra.rule.event.SaveCustomAttributeEvent;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.kra.timeandmoney.TimeAndMoneyForm;
+import org.kuali.kra.timeandmoney.rule.event.TimeAndMoneyAwardDateSaveEvent;
+import org.kuali.kra.timeandmoney.rules.TimeAndMoneyAwardDateSaveRuleImpl;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.kns.util.AuditCluster;
@@ -829,38 +832,51 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
      * and obligation end date >= obligation start date.
      */
     private boolean processDateBusinessRule(MessageMap errorMap, AwardDocument awardDocument) {
-        Award award = awardDocument.getAward();
-        errorMap.addToErrorPath(DOCUMENT_ERROR_PATH);
-        errorMap.addToErrorPath(AWARD_ERROR_PATH);
-
-        boolean success = true;
-        int lastIndex = award.getIndexOfLastAwardAmountInfo();
-        // make sure start dates are before end dates
-        Date effStartDate = award.getAwardEffectiveDate(); 
-        Date effEndDate = award.getAwardAmountInfos().get(lastIndex).getFinalExpirationDate();
-        String awardId = award.getAwardNumber();
-        success = AwardDateRulesHelper.validateProjectStartBeforeProjectEnd(errorMap, effStartDate, effEndDate, "awardAmountInfos["+lastIndex+"].finalExpirationDate", awardId) && success;
         
-        Date oblStartDate = award.getAwardAmountInfos().get(lastIndex).getCurrentFundEffectiveDate(); 
-        Date oblEndDate = award.getAwardAmountInfos().get(lastIndex).getObligationExpirationDate();
+        boolean isTimeAndMoneyDocument = KNSGlobalVariables.getKualiForm() instanceof TimeAndMoneyForm;
         
-        String fieldStarter = "awardAmountInfos["+lastIndex;
-        //String fieldStarter = "awardHierarchyNodeItems["+(lastIndex-1);
-        success = AwardDateRulesHelper.validateObligationStartBeforeObligationEnd(errorMap, oblStartDate, oblEndDate, fieldStarter+"].currentFundEffectiveDate", awardId) && success;
-        success = AwardDateRulesHelper.validateProjectStartBeforeObligationStart(errorMap, effStartDate, oblStartDate, fieldStarter+"].currentFundEffectiveDate", awardId) && success;
-        success = AwardDateRulesHelper.validateProjectStartBeforeObligationEnd(errorMap, effStartDate, oblEndDate, fieldStarter+"].obligationExpirationDate", awardId) && success;
-        success = AwardDateRulesHelper.validateObligationStartBeforeProjectEnd(errorMap, oblStartDate, effEndDate, fieldStarter+"].currentFundEffectiveDate", awardId) && success;
-        success = AwardDateRulesHelper.validateObligationEndBeforeProjectEnd(errorMap, oblEndDate, effEndDate, fieldStarter+"].obligationExpirationDate", awardId) && success;
-        if (effStartDate == null) {
-           String link = Constants.MAPPING_AWARD_HOME_PAGE + "." + Constants.MAPPING_AWARD_HOME_DETAILS_AND_DATES_PAGE_ANCHOR;
-           String messageKey = KeyConstants.WARNING_AWARD_PROJECT_START_DATE_NULL;
-           String errorKey = "document.awardList[0].awardEffectiveDate";
-           auditWarnings.add(new AuditError(errorKey, messageKey, link));
+        if (isTimeAndMoneyDocument) {
+            TimeAndMoneyForm timeAndMoneyForm = (TimeAndMoneyForm) KNSGlobalVariables.getKualiForm();
+            TimeAndMoneyAwardDateSaveEvent event = new TimeAndMoneyAwardDateSaveEvent("", timeAndMoneyForm.getTimeAndMoneyDocument());
+            TimeAndMoneyAwardDateSaveRuleImpl rule = new TimeAndMoneyAwardDateSaveRuleImpl();
+            boolean result = rule.processSaveAwardDatesBusinessRules(event);
+            return result;
+            
+        } else {
+            Award award = awardDocument.getAward();
+            errorMap.addToErrorPath(DOCUMENT_ERROR_PATH);
+            errorMap.addToErrorPath(AWARD_ERROR_PATH);
+    
+            boolean success = true;
+            int lastIndex = award.getIndexOfLastAwardAmountInfo();
+            // make sure start dates are before end dates
+            Date effStartDate = award.getAwardEffectiveDate(); 
+            Date effEndDate = award.getAwardAmountInfos().get(lastIndex).getFinalExpirationDate();
+            String awardId = award.getAwardNumber();
+            
+            
+            Date oblStartDate = award.getAwardAmountInfos().get(lastIndex).getCurrentFundEffectiveDate(); 
+            Date oblEndDate = award.getAwardAmountInfos().get(lastIndex).getObligationExpirationDate();
+            
+            String fieldStarter = "awardAmountInfos["+lastIndex;
+            //String fieldStarter = "awardHierarchyNodeItems["+(lastIndex-1);
+            success = AwardDateRulesHelper.validateProjectStartBeforeProjectEnd(errorMap, effStartDate, effEndDate, fieldStarter+"].finalExpirationDate", awardId) && success;
+            success = AwardDateRulesHelper.validateObligationStartBeforeObligationEnd(errorMap, oblStartDate, oblEndDate, fieldStarter+"].currentFundEffectiveDate", awardId) && success;
+            success = AwardDateRulesHelper.validateProjectStartBeforeObligationStart(errorMap, effStartDate, oblStartDate, fieldStarter+"].currentFundEffectiveDate", awardId) && success;
+            success = AwardDateRulesHelper.validateProjectStartBeforeObligationEnd(errorMap, effStartDate, oblEndDate, fieldStarter+"].obligationExpirationDate", awardId) && success;
+            success = AwardDateRulesHelper.validateObligationStartBeforeProjectEnd(errorMap, oblStartDate, effEndDate, fieldStarter+"].currentFundEffectiveDate", awardId) && success;
+            success = AwardDateRulesHelper.validateObligationEndBeforeProjectEnd(errorMap, oblEndDate, effEndDate, fieldStarter+"].obligationExpirationDate", awardId) && success;
+            if (effStartDate == null) {
+               String link = Constants.MAPPING_AWARD_HOME_PAGE + "." + Constants.MAPPING_AWARD_HOME_DETAILS_AND_DATES_PAGE_ANCHOR;
+               String messageKey = KeyConstants.WARNING_AWARD_PROJECT_START_DATE_NULL;
+               String errorKey = "document.awardList[0].awardEffectiveDate";
+               auditWarnings.add(new AuditError(errorKey, messageKey, link));
+            }
+    
+            errorMap.removeFromErrorPath(AWARD_ERROR_PATH);
+            errorMap.removeFromErrorPath(DOCUMENT_ERROR_PATH);
+            return success;
         }
-
-        errorMap.removeFromErrorPath(AWARD_ERROR_PATH);
-        errorMap.removeFromErrorPath(DOCUMENT_ERROR_PATH);
-        return success;
     }
     
 

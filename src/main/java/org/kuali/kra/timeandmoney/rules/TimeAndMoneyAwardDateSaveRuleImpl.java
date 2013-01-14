@@ -78,12 +78,12 @@ public class TimeAndMoneyAwardDateSaveRuleImpl extends ResearchDocumentRuleBase 
             
             if (obligatedTotal != null && obligatedTotal.isGreaterThan(new KualiDecimal(0))) {
                 if (obligatedStartDate == null) {
-                    String field = "awardHierarchyNodeItems[" + i + "].currentFundEffectiveDate"; 
+                    String field = fieldStarter + "].currentFundEffectiveDate"; 
                     reportError(field, KeyConstants.ERROR_AWARD_EFFECTIVE_DATE);
                     valid = false;
                 }
                 if (obligatedEndDate == null) {
-                    String field = "awardHierarchyNodeItems[" + i + "].obligationExpirationDate"; 
+                    String field = fieldStarter + "].obligationExpirationDate"; 
                     reportError(field, KeyConstants.ERROR_OBLIGATION_EXPIRATION_DATE);
                     valid = false;
                 }
