@@ -36,6 +36,8 @@
 				<ref bean="AwardTemplateTerm-awardTemplateCode" />
 				<ref bean="AwardTemplateTerm-sponsorTermTypeCode" />
 				<ref bean="AwardTemplateTerm-sponsorTermId" />
+				<ref bean="AwardTemplateTerm-description" />
+				<ref bean="AwardTemplateTerm-sponsorTermCode" />
 				<ref bean="AwardTemplateTerm-versionNumber" />
 				<!--  <ref bean="AwardTemplateTerm-SponsorTerm"/> -->
 			</list>
@@ -90,15 +92,15 @@
     	<property name="validationPattern" >
       		<bean parent="AlphaNumericValidationPattern" />
     	</property>
-      <property name="control" >
-	      <bean parent="SelectControlDefinition"
-	            p:businessObjectClass="org.kuali.kra.bo.SponsorTerm"
+       <property name="control" >
+	      <bean parent="HiddenControlDefinition" 
+	          p:businessObjectClass="org.kuali.kra.bo.SponsorTerm"
 	            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
 	            p:includeKeyInLabel="false"
 	            p:includeBlankRow="false"
 	            p:keyAttribute="sponsorTermCode"
-	            p:labelAttribute="description" />
-	    </property>
+	            p:labelAttribute="description" /> 
+	    </property> 
 		
 		<property name="summary" value="Sponsor Term" />
     	<property name="description" value="Sponsor Term" />
@@ -129,6 +131,46 @@
 		<property name="description" value="Sponsor Terms Type Code" />
 	</bean>
 	
+	<bean id="AwardTemplateTerm-description" parent="AwardTemplateTerm-description-parentBean" />
+	<bean id="AwardTemplateTerm-description-parentBean" abstract="true" parent="AttributeDefinition" >
+		<property name="name" value="description" />
+		<property name="forceUppercase" value="false" />
+		<property name="label" value="Description" />
+		<property name="shortLabel" value="description" />
+		<property name="maxLength" value="3" />
+		<property name="validationPattern" >
+			<bean parent="AlphaNumericValidationPattern" />
+		</property>
+	    <property name="control" >
+	      <bean parent="SelectControlDefinition"
+	            p:businessObjectClass="org.kuali.kra.bo.SponsorTermType"
+	            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
+	            p:includeKeyInLabel="false"
+	            p:includeBlankRow="false"
+	            p:keyAttribute="description"
+	            p:labelAttribute="description" />
+	    </property>
+		<property name="summary" value="description" />
+		<property name="description" value="description" />
+	</bean>
+	
+	
+	<bean id="AwardTemplateTerm-sponsorTermCode" parent="AwardTemplateTerm-sponsorTermCode-parentBean"/>
+	<bean abstract="true" id="AwardTemplateTerm-sponsorTermCode-parentBean" parent="AttributeDefinition">
+		<property name="name" value="sponsorTermCode"/>
+		<property name="forceUppercase" value="false"/>
+		<property name="label" value="Code"/>
+		<property name="shortLabel" value="Sponsor Term Code"/>
+		<property name="maxLength" value="3"/>
+		<property name="validationPattern">
+			<bean parent="AlphaNumericValidationPattern"/>
+		</property>
+		<property name="control">
+			 <bean parent="HiddenControlDefinition" />
+		</property>
+		<property name="summary" value="Sponsor Term Code"/>
+		<property name="description" value="Sponsor Term Code"/>
+	</bean>
 	
 	<!--  <bean id="AwardTemplateTerm-sponsorTermId" parent="AwardTemplateTerm-sponsorTermId-parentBean" />
 	<bean id="AwardTemplateTerm-sponsorTermId-parentBean" abstract="true" parent="AttributeDefinition" >
