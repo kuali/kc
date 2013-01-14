@@ -22,14 +22,25 @@
 
 <link rel="stylesheet" href="css/award_hierarchy.css" type="text/css" />
 
-<kul:tab tabTitle="Award Hierarchy" defaultOpen="true" tabErrorKey="awardHierarchyNodeItems*,document.award.timeAndMoneyAwardAmountTransaction.newAwardAmountTransaction*,document.award.timeAndMoneyAwardDates*,totals*,timeAndMoneyTransaction*,newAwardAmountTransaction.transactionTypeCode,goToAwardNumber,document.awardList[0].awardAmountInfos[0].*" auditCluster="reportsAuditErrors" tabAuditKey="document.reportTermsAuditRules*" useRiceAuditMode="true">
+<%--
+<kul:tab tabTitle="Award Hierarchy" defaultOpen="true" 
+	tabErrorKey="awardHierarchyNodeItems*,document.award.timeAndMoneyAwardAmountTransaction.newAwardAmountTransaction*,document.award.timeAndMoneyAwardDates*,totals*,timeAndMoneyTransaction*,newAwardAmountTransaction.transactionTypeCode,goToAwardNumber,document.awardList[0].awardAmountInfos[0].*" 
+	auditCluster="reportsAuditErrors" tabAuditKey="document.reportTermsAuditRules*" useRiceAuditMode="true">
+ --%>
+ 
+<kul:tab tabTitle="Award Hierarchy" defaultOpen="true" 
+	tabErrorKey="awardAmountInfos*,awardHierarchyNodeItems*,document.award.timeAndMoneyAwardAmountTransaction.newAwardAmountTransaction*,document.award.timeAndMoneyAwardDates*,totals*,timeAndMoneyTransaction*,newAwardAmountTransaction.transactionTypeCode,goToAwardNumber,document.awardList[0].awardAmountInfos[0].*"
+	innerTabErrorKey="awardAmountInfos*,awardHierarchyNodeItems*" 
+	auditCluster="reportsAuditErrors" tabAuditKey="document.reportTermsAuditRules*" useRiceAuditMode="true">
+	
 	<div class="tab-container" align="right">
 		<h3>
     		<span class="subhead-left">Award Hierarchy</span>
     		<span class="subhead-right">
     			<kul:help businessObjectClassName="org.kuali.kra.timeandmoney.AwardHierarchyNode" altText="help"/>
 			</span>
-        </h3>   	        
+        </h3>                
+    
     <table cellpadding="0" cellspacing="0" summary="">
     	<tr>
     		<kul:htmlAttributeHeaderCell attributeEntry="${awardAmountTransactionAttributes.transactionTypeCode}" scope="col" />
