@@ -83,6 +83,9 @@
     <bean id="awardFnaDistributionService" class="org.kuali.kra.timeandmoney.service.impl.AwardFnaDistributionServiceImpl">
         <property name="parameterService" ref="parameterService" />
     </bean>
+    
+    <bean id="timeAndMoneyErrorHandlingService" class="org.kuali.kra.timeandmoney.service.impl.TimeAndMoneyErrorHandlingServiceImpl">
+    </bean>
 	
 	<!-- Time and Money Task Authorizers -->
 	
