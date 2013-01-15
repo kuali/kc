@@ -67,8 +67,9 @@ public class TimeAndMoneyAwardDateSaveRuleImpl extends ResearchDocumentRuleBase 
             KualiDecimal obligatedTotal = awardHierarchyNode.getValue().getAmountObligatedToDate();
             
             MessageMap errorMap = GlobalVariables.getMessageMap();
-            String fieldStarter =  "awardHierarchyNodeItems[" + i;
+            String fieldStarter =  "awardHierarchyNodeItems[" + (i + 1);
             String awardId = award.getAwardNumber();
+            
             valid = AwardDateRulesHelper.validateProjectStartBeforeProjectEnd(errorMap, projectStartDate, projectEndDate, fieldStarter + "].finalExpirationDate", awardId) && valid;
             valid = AwardDateRulesHelper.validateObligationStartBeforeObligationEnd(errorMap, obligatedStartDate, obligatedEndDate, fieldStarter + "].obligationExpirationDate", awardId) && valid;
             valid = AwardDateRulesHelper.validateProjectStartBeforeObligationStart(errorMap, projectStartDate, obligatedStartDate, fieldStarter + "].currentFundEffectiveDate", awardId) && valid;
