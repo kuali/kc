@@ -22,6 +22,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import junit.framework.Assert;
+
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.jmock.Expectations;
@@ -31,6 +33,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.Budget;
+import org.kuali.kra.budget.core.BudgetServiceImpl;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
@@ -40,7 +43,7 @@ import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwards;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
-public class BudgetSubAwardServiceTest extends KcUnitTestBase {
+public class BudgetSubAwardServiceTest {
 
     protected static String directLt = "4";
     protected static String directGt = "3";
@@ -50,7 +53,6 @@ public class BudgetSubAwardServiceTest extends KcUnitTestBase {
     protected BudgetSubAwardServiceImpl service;
     protected BudgetSubAwards subAward;
     protected Budget budget;
-    protected BudgetDocument budgetDocument;
     protected int budgetLineItem = 28;
     protected String budgetDocumentNumber = "1498";
     
@@ -58,12 +60,9 @@ public class BudgetSubAwardServiceTest extends KcUnitTestBase {
     
     @Before
     public void setUp() throws Exception {
-        super.setUp();
         context = new JUnit4Mockery();
         service = new BudgetSubAwardServiceImpl();
-        budgetDocument = new BudgetDocument();
         budget = new Budget();
-        budget.setBudgetDocument(budgetDocument);
         budget.setBudgetId(1L+12);
         subAward = new BudgetSubAwards();
         subAward.setBudgetId(budget.getBudgetId());
@@ -82,16 +81,17 @@ public class BudgetSubAwardServiceTest extends KcUnitTestBase {
         }
         final ParameterService parmService = context.mock(ParameterService.class);
         context.checking(new Expectations(){{
-            one(parmService).getParameterValueAsString(Budget.class, Constants.SUBCONTRACTOR_DIRECT_LT_25K_PARAM);
+            one(parmService).getParameterValueAsString(BudgetDocument.class, Constants.SUBCONTRACTOR_DIRECT_LT_25K_PARAM);
             will(returnValue(directLt));
-            one(parmService).getParameterValueAsString(Budget.class, Constants.SUBCONTRACTOR_DIRECT_GT_25K_PARAM);
+            one(parmService).getParameterValueAsString(BudgetDocument.class, Constants.SUBCONTRACTOR_DIRECT_GT_25K_PARAM);
             will(returnValue(directGt));
-            one(parmService).getParameterValueAsString(Budget.class, Constants.SUBCONTRACTOR_F_AND_A_LT_25K_PARAM);
+            one(parmService).getParameterValueAsString(BudgetDocument.class, Constants.SUBCONTRACTOR_F_AND_A_LT_25K_PARAM);
             will(returnValue(indirectLt));
-            one(parmService).getParameterValueAsString(Budget.class, Constants.SUBCONTRACTOR_F_AND_A_GT_25K_PARAM);
+            one(parmService).getParameterValueAsString(BudgetDocument.class, Constants.SUBCONTRACTOR_F_AND_A_GT_25K_PARAM);
             will(returnValue(indirectGt));   
         }});
         service.setParameterService(parmService);
+        service.setBudgetService(new BudgetServiceMock());
     }
     
     @Test
@@ -242,14 +242,14 @@ public class BudgetSubAwardServiceTest extends KcUnitTestBase {
         int index = 0;
         for (BudgetPeriod period : budget.getBudgetPeriods()) {
             for (BudgetLineItem lineItem : period.getBudgetLineItems()) {
-                assertEquals(subAward.getSubAwardNumber(), lineItem.getSubAwardNumber());
-                assertEquals(results.get(index).get(lineItem.getCostElement()), lineItem.getDirectCost());
+                Assert.assertEquals(subAward.getSubAwardNumber(), lineItem.getSubAwardNumber());
+                Assert.assertEquals(results.get(index).get(lineItem.getCostElement()), lineItem.getLineItemCost());
             }
             for (Map.Entry<String, BudgetDecimal> entry : results.get(index).entrySet()) {
                 if (entry.getValue().isZero()) {
-                    assertNull(findLineItemByCostElement(period.getBudgetLineItems(), entry.getKey()));
+                    Assert.assertNull(findLineItemByCostElement(period.getBudgetLineItems(), entry.getKey()));
                 } else {
-                    assertEquals(entry.getValue(), findLineItemByCostElement(period.getBudgetLineItems(), entry.getKey()).getDirectCost());
+                    Assert.assertEquals(entry.getValue(), findLineItemByCostElement(period.getBudgetLineItems(), entry.getKey()).getLineItemCost());
                 }
             }
             index++;
@@ -263,9 +263,9 @@ public class BudgetSubAwardServiceTest extends KcUnitTestBase {
                     return arg0.getLineItemNumber().compareTo(arg1.getLineItemNumber());
                 }                
             });
-            assertEquals(new BudgetDecimal(costShareAmount), period.getBudgetLineItems().get(0).getCostSharingAmount());
+            Assert.assertEquals(new BudgetDecimal(costShareAmount), period.getBudgetLineItems().get(0).getCostSharingAmount());
             for (int i = 1; i < budget.getBudgetPeriods().size(); i++) {
-                assertEquals(BudgetDecimal.ZERO, period.getBudgetLineItems().get(i).getCostSharingAmount());
+                Assert.assertEquals(BudgetDecimal.ZERO, period.getBudgetLineItems().get(i).getCostSharingAmount());
             }
         }
     }
@@ -277,5 +277,19 @@ public class BudgetSubAwardServiceTest extends KcUnitTestBase {
             }
         }
         return null;
+    }
+    
+    protected class BudgetServiceMock extends BudgetServiceImpl {
+        int newLineItemNumber = 28;
+        public void populateNewBudgetLineItem(BudgetLineItem newBudgetLineItem, BudgetPeriod budgetPeriod) {
+            newBudgetLineItem.setBudgetPeriod(budgetPeriod.getBudgetPeriod());
+            newBudgetLineItem.setBudgetPeriodId(budgetPeriod.getBudgetPeriodId());
+            newBudgetLineItem.setStartDate(budgetPeriod.getStartDate());
+            newBudgetLineItem.setEndDate(budgetPeriod.getEndDate());
+            newBudgetLineItem.setBudgetId(budget.getBudgetId());
+            newBudgetLineItem.setLineItemNumber(newLineItemNumber++);
+            newBudgetLineItem.setApplyInRateFlag(true);
+            newBudgetLineItem.setSubmitCostSharingFlag(budget.getSubmitCostSharingFlag());
+        }
     }
 }
