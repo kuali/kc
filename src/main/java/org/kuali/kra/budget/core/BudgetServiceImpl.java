@@ -20,6 +20,7 @@ import static org.kuali.kra.logging.BufferedLogger.debug;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -103,8 +104,7 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
     private BudgetVersionRule budgetVersionRule;
     private DeepCopyPostProcessor deepCopyPostProcessor;
     private BudgetSummaryService budgetSummaryService;
-    private FiscalYearMonthService fiscalYearMonthService;
-    
+    private FiscalYearMonthService fiscalYearMonthService;    
 
     
     /**
@@ -881,5 +881,61 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
         }
         return baseSalary;
     }
+    
+    public void populateNewBudgetLineItem(BudgetLineItem newBudgetLineItem, BudgetPeriod budgetPeriod) {
+        Budget budget = budgetPeriod.getBudget();
+        newBudgetLineItem.setBudgetPeriod(budgetPeriod.getBudgetPeriod());
+        newBudgetLineItem.setBudgetPeriodId(budgetPeriod.getBudgetPeriodId());
+        newBudgetLineItem.setStartDate(budget.getBudgetPeriod(budgetPeriod.getBudgetPeriod() - 1).getStartDate());
+        newBudgetLineItem.setEndDate(budget.getBudgetPeriod(budgetPeriod.getBudgetPeriod() - 1).getEndDate());
+        newBudgetLineItem.setBudgetId(budget.getBudgetId());
+        newBudgetLineItem.setLineItemNumber(budget.getBudgetDocument().getHackedDocumentNextValue(Constants.BUDGET_LINEITEM_NUMBER));
+        newBudgetLineItem.setApplyInRateFlag(true);
+        newBudgetLineItem.setSubmitCostSharingFlag(budget.getSubmitCostSharingFlag());
+        newBudgetLineItem.refreshReferenceObject("costElementBO");
+        
+        // on/off campus flag enhancement
+        String onOffCampusFlag = budget.getOnOffCampusFlag();
+        if (onOffCampusFlag.equalsIgnoreCase(Constants.DEFALUT_CAMUS_FLAG)) {
+            newBudgetLineItem.setOnOffCampusFlag(newBudgetLineItem.getCostElementBO().getOnOffCampusFlag()); 
+        } else {
+            newBudgetLineItem.setOnOffCampusFlag(onOffCampusFlag.equalsIgnoreCase(Constants.ON_CAMUS_FLAG));                 
+        }
+        newBudgetLineItem.setBudgetCategoryCode(newBudgetLineItem.getCostElementBO().getBudgetCategoryCode());
+        newBudgetLineItem.setLineItemSequence(newBudgetLineItem.getLineItemNumber());
+        
+        if(isBudgetFormulatedCostEnabled()){
+            List<String> formulatedCostElements = getFormulatedCostElements();
+            if(formulatedCostElements.contains(newBudgetLineItem.getCostElement())){
+                newBudgetLineItem.setFormulatedCostElementFlag(true);
+            }
+        }
+    }
+    
+    protected boolean isBudgetFormulatedCostEnabled() {
+        String formulatedCostEnabled = getParameterService().getParameterValueAsString(BudgetDocument.class, Constants.FORMULATED_COST_ENABLED);
+        return (formulatedCostEnabled!=null && formulatedCostEnabled.equalsIgnoreCase("Y"))?true:false;
+    }
+    protected List<String> getFormulatedCostElements() {
+        String formulatedCEsValue = getParameterService().getParameterValueAsString(BudgetDocument.class, Constants.FORMULATED_COST_ELEMENTS);
+        String[] formulatedCEs = formulatedCEsValue==null?new String[0]:formulatedCEsValue.split(",");
+        return Arrays.asList(formulatedCEs);
+    }
+
+    protected DocumentService getDocumentService() {
+        return documentService;
+    }
+
+    protected BusinessObjectService getBusinessObjectService() {
+        return businessObjectService;
+    }
+
+    protected ParameterService getParameterService() {
+        return parameterService;
+    }
+
+    protected BudgetPersonService getBudgetPersonService() {
+        return budgetPersonService;
+    }    
 
 }

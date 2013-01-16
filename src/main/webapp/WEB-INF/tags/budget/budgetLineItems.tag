@@ -38,9 +38,7 @@
 	</c:otherwise>
 </c:choose>
 
-<c:if test="${readOnly}" >
-	<c:set var="budgetExpensePanelReadOnly" value="true" />
-</c:if>
+<c:set var="budgetExpensePanelReadOnly" value="${budgetExpensePanelReadOnly || budgetLineItem.subAwardLineItem}" />
 
 <c:set var="budgetExpensePanelReadOnlyIfBudgetVersionIsFinal" value="${budgetExpensePanelReadOnly}" />
 <c:if test="${budgetCategoryTypeCode == 'P' and fn:length(budgetLineItem.budgetPersonnelDetailsList) > 0}" >
@@ -144,7 +142,8 @@
 		    		<c:otherwise>
 			        	<kra-b:budgetLineItemFullView budgetPeriod = "${budgetPeriod}" budgetPeriodBO="${budgetPeriodBO}" budgetCategoryTypeCode = "${budgetCategoryTypeCode}" 
 			        		budgetLineItemNumber="${budgetLineItemNumber}" budgetLineItem="${budgetLineItem}" 
-			        		innerTabParent="${innerTabParent}" budgetExpensePanelReadOnly="${budgetExpensePanelReadOnly}" budgetExpensePanelReadOnlyIfBudgetVersionIsFinal="${budgetExpensePanelReadOnlyIfBudgetVersionIsFinal}"/>
+			        		innerTabParent="${innerTabParent}" budgetExpensePanelReadOnly="${budgetExpensePanelReadOnly}" 
+			        		budgetExpensePanelReadOnlyIfBudgetVersionIsFinal="${budgetExpensePanelReadOnlyIfBudgetVersionIsFinal}"/>
 		        	</c:otherwise>
 	        	</c:choose>
 			</td>

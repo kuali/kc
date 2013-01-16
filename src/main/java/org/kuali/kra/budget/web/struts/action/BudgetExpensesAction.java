@@ -130,37 +130,9 @@ public class BudgetExpensesAction extends BudgetAction {
 //            if(CollectionUtils.isNotEmpty(budgetPeriods)) {
 //                budgetPeriod = budgetPeriods.get(0);
 //            }
-            
-            BudgetCategory newBudgetCategory = new BudgetCategory();
-            newBudgetCategory.setBudgetCategoryTypeCode(getSelectedBudgetCategoryType(request));
-            newBudgetCategory.refreshNonUpdateableReferences();
-            newBudgetLineItem.setBudgetPeriod(budgetPeriod.getBudgetPeriod());
-            newBudgetLineItem.setBudgetPeriodId(budgetPeriod.getBudgetPeriodId());
-            newBudgetLineItem.setBudgetCategory(newBudgetCategory);
-            newBudgetLineItem.setStartDate(budget.getBudgetPeriod(budgetPeriod.getBudgetPeriod() - 1).getStartDate());
-            newBudgetLineItem.setEndDate(budget.getBudgetPeriod(budgetPeriod.getBudgetPeriod() - 1).getEndDate());
-            newBudgetLineItem.setBudgetId(budget.getBudgetId());
-            newBudgetLineItem.setLineItemNumber(budgetDocument.getHackedDocumentNextValue(Constants.BUDGET_LINEITEM_NUMBER));
-            newBudgetLineItem.setApplyInRateFlag(true);
-            newBudgetLineItem.setSubmitCostSharingFlag(budget.getSubmitCostSharingFlag());
-            newBudgetLineItem.refreshReferenceObject("costElementBO");
-            
-            // on/off campus flag enhancement
-            String onOffCampusFlag = budget.getOnOffCampusFlag();
-            if (onOffCampusFlag.equalsIgnoreCase(Constants.DEFALUT_CAMUS_FLAG)) {
-                newBudgetLineItem.setOnOffCampusFlag(newBudgetLineItem.getCostElementBO().getOnOffCampusFlag()); 
-            } else {
-                newBudgetLineItem.setOnOffCampusFlag(onOffCampusFlag.equalsIgnoreCase(Constants.ON_CAMUS_FLAG));                 
-            }
-            newBudgetLineItem.setBudgetCategoryCode(newBudgetLineItem.getCostElementBO().getBudgetCategoryCode());
-            newBudgetLineItem.setLineItemSequence(newBudgetLineItem.getLineItemNumber());
-            if(isBudgetFormulatedCostEnabled()){
-                List<String> formulatedCostElements = getFormulatedCostElements();
-                if(formulatedCostElements.contains(newBudgetLineItem.getCostElement())){
-                    newBudgetLineItem.setFormulatedCostElementFlag(true);
-                }
-            }
-            budget.getBudgetPeriod(budgetPeriod.getBudgetPeriod() - 1).getBudgetLineItems().add(newBudgetLineItem);            
+
+            budgetService.populateNewBudgetLineItem(newBudgetLineItem, budgetPeriod);
+            budgetPeriod.getBudgetLineItems().add(newBudgetLineItem);            
             
             getCalculationService().populateCalculatedAmount(budget, newBudgetLineItem);
             recalculateBudgetPeriod(budgetForm,budget, budget.getBudgetPeriod(budgetPeriod.getBudgetPeriod() - 1));
