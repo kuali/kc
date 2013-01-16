@@ -886,8 +886,8 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
         Budget budget = budgetPeriod.getBudget();
         newBudgetLineItem.setBudgetPeriod(budgetPeriod.getBudgetPeriod());
         newBudgetLineItem.setBudgetPeriodId(budgetPeriod.getBudgetPeriodId());
-        newBudgetLineItem.setStartDate(budget.getBudgetPeriod(budgetPeriod.getBudgetPeriod() - 1).getStartDate());
-        newBudgetLineItem.setEndDate(budget.getBudgetPeriod(budgetPeriod.getBudgetPeriod() - 1).getEndDate());
+        newBudgetLineItem.setStartDate(budgetPeriod.getStartDate());
+        newBudgetLineItem.setEndDate(budgetPeriod.getEndDate());
         newBudgetLineItem.setBudgetId(budget.getBudgetId());
         newBudgetLineItem.setLineItemNumber(budget.getBudgetDocument().getHackedDocumentNextValue(Constants.BUDGET_LINEITEM_NUMBER));
         newBudgetLineItem.setApplyInRateFlag(true);
