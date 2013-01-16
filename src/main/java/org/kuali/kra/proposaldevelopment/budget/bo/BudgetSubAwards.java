@@ -19,8 +19,13 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.upload.FormFile;
+import org.kuali.kra.SkipVersioning;
+import org.kuali.kra.bo.Organization;
+import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetAssociate;
+import org.kuali.kra.infrastructure.DeepCopyIgnore;
 import org.kuali.kra.proposaldevelopment.hierarchy.HierarchyMaintainable;
 
 /**
@@ -42,7 +47,11 @@ public class BudgetSubAwards extends BudgetAssociate implements HierarchyMaintai
 
     private String comments;
 
+    private String organizationId;
+    
     private String organizationName;
+    
+    private Organization organization;
 
     private Integer subAwardStatusCode;
 
@@ -69,6 +78,8 @@ public class BudgetSubAwards extends BudgetAssociate implements HierarchyMaintai
     private List<BudgetSubAwardAttachment> budgetSubAwardAttachments;
 
     private List<BudgetSubAwardFiles> budgetSubAwardFiles;
+    
+    private List<BudgetSubAwardPeriodDetail> budgetSubAwardPeriodDetails;
 
     private String hierarchyProposalNumber;
 
@@ -81,6 +92,7 @@ public class BudgetSubAwards extends BudgetAssociate implements HierarchyMaintai
     public BudgetSubAwards() {
         budgetSubAwardAttachments = new ArrayList<BudgetSubAwardAttachment>();
         budgetSubAwardFiles = new ArrayList<BudgetSubAwardFiles>();
+        budgetSubAwardPeriodDetails = new ArrayList<BudgetSubAwardPeriodDetail>();
     }
 
     public String getProposalNumber() {
@@ -382,4 +394,50 @@ public class BudgetSubAwards extends BudgetAssociate implements HierarchyMaintai
         }
         return retVal;
     }
+
+    public List<BudgetSubAwardPeriodDetail> getBudgetSubAwardPeriodDetails() {
+        return budgetSubAwardPeriodDetails;
+    }
+
+    public void setBudgetSubAwardPeriodDetails(List<BudgetSubAwardPeriodDetail> budgetSubAwardPeriodDetails) {
+        this.budgetSubAwardPeriodDetails = budgetSubAwardPeriodDetails;
+    }
+
+    public String getOrganizationId() {
+        return organizationId;
+    }
+
+    public void setOrganizationId(String organizationId) {
+        if (!StringUtils.equals(this.organizationId, organizationId)) {
+            refreshReferenceObject("organization");
+            if (getOrganization() != null) {
+                setOrganizationName(getOrganization().getOrganizationName());
+            }
+        }
+        this.organizationId = organizationId;
+    }
+
+    public Organization getOrganization() {
+        return organization;
+    }
+
+    public void setOrganization(Organization organization) {
+        this.organization = organization;
+    }
+    
+    public void computePeriodDetails() {
+        for (BudgetSubAwardPeriodDetail detail : getBudgetSubAwardPeriodDetails()) {
+            detail.computeTotal();
+        }
+    }
+    
+    public boolean hasModifiedAmounts() {
+        for (BudgetSubAwardPeriodDetail detail : getBudgetSubAwardPeriodDetails()) {
+            if (detail.isAmountsModified()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

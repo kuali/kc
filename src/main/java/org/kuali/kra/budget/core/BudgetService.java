@@ -182,5 +182,7 @@ public interface BudgetService<T extends BudgetParent>  {
     public String populateBudgetPersonSalaryDetailsInPeriods(String budgetId, String personSequenceNumber, String personId);
     
     public BudgetDecimal getBaseSalaryByPeriod(Long budgetId, int budgetPeriod, KeyPersonInfo keyPerson );
+    
+    public void populateNewBudgetLineItem(BudgetLineItem newBudgetLineItem, BudgetPeriod budgetPeriod);
 
 }

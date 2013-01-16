@@ -310,6 +310,7 @@
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     	<field-descriptor name="submitCostSharingFlag" column="SUBMIT_COST_SHARING" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
     	<field-descriptor name="formulatedCostElementFlag" column="IS_FORMULATED_COST_ELELMENT" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+    	<field-descriptor name="subAwardNumber" column="SUBAWARD_NUMBER" jdbc="INTEGER"/>
 		<collection-descriptor name="budgetLineItemCalculatedAmounts" proxy="true" element-class-ref="org.kuali.kra.budget.nonpersonnel.BudgetLineItemCalculatedAmount" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
 			<inverse-foreignkey field-ref="budgetLineItemId"/>
 		</collection-descriptor>
@@ -1016,6 +1017,7 @@
 		<field-descriptor name="subAwardNumber" column="SUB_AWARD_NUMBER" jdbc-type="INTEGER" primarykey="true"/>
 
 		<field-descriptor name="comments" column="COMMENTS" jdbc-type="VARCHAR"/>
+		<field-descriptor name="organizationId" column="ORGANIZATION_ID" jdbc-type="VARCHAR"/>
 		<field-descriptor name="organizationName" column="ORGANIZATION_NAME" jdbc-type="VARCHAR"/>
 		<field-descriptor name="subAwardStatusCode" column="SUB_AWARD_STATUS_CODE" jdbc-type="INTEGER"/>
 		<field-descriptor name="subAwardXfdFileData" column="SUB_AWARD_XFD_FILE" jdbc-type="LONGVARBINARY"/>
@@ -1032,14 +1034,21 @@
 		<field-descriptor name="formName" column="FORM_NAME" jdbc-type="VARCHAR"/>
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-		<collection-descriptor name="budgetSubAwardFiles" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwardFiles" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="false" auto-update="object" auto-delete="object"> 
+		<collection-descriptor name="budgetSubAwardFiles" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwardFiles" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
 			<inverse-foreignkey field-ref="budgetId"/>
 			<inverse-foreignkey field-ref="subAwardNumber"/>
 		</collection-descriptor>
-		<collection-descriptor name="budgetSubAwardAttachments" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwardAttachment" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="false" auto-update="object" auto-delete="object"> 
+		<collection-descriptor name="budgetSubAwardAttachments" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwardAttachment" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
 			<inverse-foreignkey field-ref="budgetId"/>
 			<inverse-foreignkey field-ref="subAwardNumber"/>
 		</collection-descriptor>
+		<collection-descriptor name="budgetSubAwardPeriodDetails" proxy="true" element-class-ref="org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwardPeriodDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object"> 
+			<inverse-foreignkey field-ref="budgetId"/>
+			<inverse-foreignkey field-ref="subAwardNumber"/>
+		</collection-descriptor>
+        <reference-descriptor name="organization" class-ref="org.kuali.kra.bo.Organization" auto-retrieve="true" auto-update="none" auto-delete="none">
+            <foreignkey field-ref="organizationId" />
+        </reference-descriptor>	
 		<field-descriptor name="hierarchyProposalNumber" column="HIERARCHY_PROPOSAL_NUMBER" jdbc-type="VARCHAR" />
 		<field-descriptor name="hiddenInHierarchy" column="HIDE_IN_HIERARCHY" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
 
@@ -1401,4 +1410,21 @@
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
 	</class-descriptor>	
+	
+	<class-descriptor class="org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwardPeriodDetail" table="BUDGET_SUB_AWARD_PERIOD_DETAIL">
+		<field-descriptor name="budgetSubAwardDetailId" column="SUBAWARD_PERIOD_DETAIL_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_BUDGET_SUBAWARD_PER_DET"/>
+		<field-descriptor name="subAwardNumber" column="SUBAWARD_NUMBER" jdbc-type="INTEGER" />
+		<field-descriptor name="budgetId" column="BUDGET_ID" jdbc-type="BIGINT" />
+		<field-descriptor name="budgetPeriodId" column="BUDGET_PERIOD_NUMBER" jdbc-type="BIGINT" />
+		<field-descriptor name="budgetPeriod" column="BUDGET_PERIOD" jdbc-type="INTEGER" />
+		<field-descriptor name="directCost" column="DIRECT_COST" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
+		<field-descriptor name="indirectCost" column="INDIRECT_COST" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
+		<field-descriptor name="costShare" column="COST_SHARING_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
+		<field-descriptor name="totalCost" column="TOTAL_COST" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+	</class-descriptor>	
+	
 </descriptor-repository>

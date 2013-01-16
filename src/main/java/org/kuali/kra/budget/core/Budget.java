@@ -67,6 +67,7 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.budget.bo.BudgetPrintForm;
 import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwardAttachment;
 import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwardFiles;
+import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwardPeriodDetail;
 import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwards;
 import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModular;
 import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModularIdc;
@@ -482,11 +483,11 @@ public class Budget extends BudgetVersionOverview {
         //        } 
         List<BudgetSubAwardFiles> subAwardFiles = new ArrayList<BudgetSubAwardFiles>();
         List<BudgetSubAwardAttachment> subAwardAttachments = new ArrayList<BudgetSubAwardAttachment>();
+        List<BudgetSubAwardPeriodDetail> subAwardPeriodDetails = new ArrayList<BudgetSubAwardPeriodDetail>();
         for (BudgetSubAwards budgetSubAward : getBudgetSubAwards()) {
-            budgetSubAward.refreshReferenceObject("budgetSubAwardAttachments");
-            budgetSubAward.refreshReferenceObject("budgetSubAwardFiles");
             subAwardFiles.addAll(budgetSubAward.getBudgetSubAwardFiles());
             subAwardAttachments.addAll(budgetSubAward.getBudgetSubAwardAttachments());
+            subAwardPeriodDetails.addAll(budgetSubAward.getBudgetSubAwardPeriodDetails());
         }
         managedLists.add(budgetModularIdcs);
         managedLists.add(budgetModular);
@@ -503,6 +504,7 @@ public class Budget extends BudgetVersionOverview {
         managedLists.add(getBudgetRates());
         managedLists.add(subAwardAttachments);
         managedLists.add(subAwardFiles);
+        managedLists.add(subAwardPeriodDetails);
         managedLists.add(getBudgetSubAwards());
         return managedLists;
     }
