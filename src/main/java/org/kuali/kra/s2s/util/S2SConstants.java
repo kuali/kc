@@ -63,14 +63,14 @@ public interface S2SConstants {
 //    public static final String HOST = "host";
 //    public static final String PORT = "port";
 
-    public static final String STATUS_GRANTS_GOV_SUBMISSION_ERROR = "Grants.Gov Submission Error";
+    public static final String STATUS_GRANTS_GOV_SUBMISSION_ERROR = "S2S Submission Error";
     public static final String STATUS_AGENCY_TRACKING_NUMBER_ASSIGNED = "Agency Tracking Number Assigned";
-    public static final String STATUS_NO_RESPONSE_FROM_GRANTS_GOV = "No response from Grants.Gov";
-    public static final String GRANTS_GOV_STATUS_MESSAGE = "Grants.Gov Submission in Process";
-    public static final String GRANTS_GOV_COMMENTS_MESSAGE = "Trying to submit to Grants.Gov";
-    public static final String GRANTS_GOV_SUBMISION_ERROR_MESSAGE="Error occured while submitting to Grants.Gov, Root Cause: ";
-    public static final String GRANTS_GOV_SUBMISSION_MESSAGE="Submitted to Grants.Gov";
-    public static final String GRANTS_GOV_PROCESSING_MESSAGE="Grants.Gov is processing the request";
+    public static final String STATUS_NO_RESPONSE_FROM_GRANTS_GOV = "No response from S2S Server";
+    public static final String GRANTS_GOV_STATUS_MESSAGE = "S2S Submission in Process";
+    public static final String GRANTS_GOV_COMMENTS_MESSAGE = "Trying to submit to S2S";
+    public static final String GRANTS_GOV_SUBMISION_ERROR_MESSAGE="Error occured while submitting to S2S, Root Cause: ";
+    public static final String GRANTS_GOV_SUBMISSION_MESSAGE="Submitted to S2S";
+    public static final String GRANTS_GOV_PROCESSING_MESSAGE="S2S is processing the request";
     public static final String GRANTS_GOV_STIPEND_ERROR_MESSAGE="A stipend budget line item is required equal to or greater than the trainee numbers and associated stipend levels indicated in the questionnaire.Currently the stipend value in the budget is in deficit by (amount) for Year period of the budget.";
     public static final String STATUS_RECEIVING = "Receiving";
     public static final String STATUS_RECEIVED = "Received";
