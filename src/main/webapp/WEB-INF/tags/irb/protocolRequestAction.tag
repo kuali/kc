@@ -204,7 +204,7 @@
             <kra-irb-action:genericAction tabTitle="Return To PI"
                                           bean="${KualiForm.actionHelper.protocolReturnToPIBean}"
                                           property="actionHelper.protocolReturnToPIBean"
-                                          taskName="returnToPIProtocol"
+                                          taskName="protocolReturnToPI"
                                           methodToCall="returnToPI"
                                           canPerformAction="${KualiForm.actionHelper.canReturnToPI}" />                                          
             <kra-irb-action:reviewNotRequiredAction />
