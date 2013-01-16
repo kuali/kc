@@ -23,6 +23,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -30,20 +32,31 @@ import java.util.Map;
 
 import javax.xml.transform.TransformerException;
 
+import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.xpath.XPathAPI;
+import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.Budget;
+import org.kuali.kra.budget.core.BudgetService;
+import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
+import org.kuali.kra.budget.parameters.BudgetPeriod;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwardAttachment;
 import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwardFiles;
+import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwardPeriodDetail;
 import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwards;
 import org.kuali.kra.proposaldevelopment.budget.service.BudgetSubAwardService;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.formmapping.FormMappingInfo;
 import org.kuali.kra.s2s.formmapping.FormMappingLoader;
 import org.kuali.kra.s2s.util.GrantApplicationHash;
 import org.kuali.kra.s2s.util.S2SConstants;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -68,44 +81,164 @@ public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
     private static final String DUPLICATE_FILE_NAMES =  "Duplicate PDF Attachment File Names"; 
     private static final String XFA_NS = "http://www.xfa.org/schema/xfa-data/1.0/";
     private static final Log LOG = LogFactory.getLog(BudgetSubAwardServiceImpl.class);
+    
+    private ParameterService parameterService;
+    private BudgetService budgetService;
 
 
     /**
      * @see org.kuali.kra.proposaldevelopment.budget.service.BudgetSubAwardService#populateBudgetSubAwardFiles(org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwards)
      */
-    public void populateBudgetSubAwardFiles(BudgetSubAwards budgetSubAwardBean) {
-        BudgetSubAwardFiles budgetSubAwardFiles = budgetSubAwardBean.getBudgetSubAwardFiles().get(0);
+    public void populateBudgetSubAwardFiles(BudgetSubAwards subAward, String newFileName, byte[] newFileData) {
+        subAward.setSubAwardStatusCode(1);
+        BudgetSubAwardFiles newSubAwardFile = new BudgetSubAwardFiles();
+        newSubAwardFile.setSubAwardXfdFileData(newFileData);
+        subAward.getBudgetSubAwardAttachments().clear();
+        subAward.getBudgetSubAwardFiles().clear();
+        subAward.getBudgetSubAwardFiles().add(newSubAwardFile);
         
         boolean subawardBudgetExtracted  = false;
         
         try {
-            byte[] pdfFileContents = budgetSubAwardFiles.getSubAwardXfdFileData();
-            budgetSubAwardBean.setSubAwardXfdFileData(pdfFileContents);
+            byte[] pdfFileContents = newSubAwardFile.getSubAwardXfdFileData();
+            subAward.setSubAwardXfdFileData(pdfFileContents);
             PdfReader  reader = new PdfReader(pdfFileContents);
             byte[] xmlContents=getXMLFromPDF(reader);
             subawardBudgetExtracted = (xmlContents!=null && xmlContents.length>0);
             if(subawardBudgetExtracted){
                 Map fileMap = extractAttachments(reader);
-                updateXML(xmlContents, fileMap, budgetSubAwardBean);
+                updateXML(xmlContents, fileMap, subAward);
             }
         }catch (Exception e) {
             LOG.error("Not able to extract xml from pdf",e);
             subawardBudgetExtracted = false;
         }
         
-        budgetSubAwardFiles.setSubAwardXfdFileData(budgetSubAwardBean.getSubAwardXfdFileData());
+        newSubAwardFile.setSubAwardXfdFileData(subAward.getSubAwardXfdFileData());
         if (subawardBudgetExtracted) {
-            budgetSubAwardFiles.setSubAwardXmlFileData(new String(budgetSubAwardBean.getSubAwardXmlFileData()));
+            newSubAwardFile.setSubAwardXmlFileData(new String(subAward.getSubAwardXmlFileData()));
         }
-        budgetSubAwardFiles.setSubAwardXfdFileName(budgetSubAwardBean.getSubAwardXfdFileName());
-        budgetSubAwardFiles.setBudgetId(budgetSubAwardBean.getBudgetId());
-        budgetSubAwardFiles.setSubAwardNumber(budgetSubAwardBean.getSubAwardNumber());
-        budgetSubAwardBean.setSubAwardXfdFileName(budgetSubAwardBean.getSubAwardXfdFileName());
-        budgetSubAwardBean.setXfdUpdateUser(getLoggedInUserNetworkId());
-        budgetSubAwardBean.setXfdUpdateTimestamp(CoreApiServiceLocator.getDateTimeService().getCurrentTimestamp());
-        budgetSubAwardBean.setXmlUpdateUser(getLoggedInUserNetworkId());
-        budgetSubAwardBean.setXmlUpdateTimestamp(CoreApiServiceLocator.getDateTimeService().getCurrentTimestamp());
+        newSubAwardFile.setSubAwardXfdFileName(newFileName);
+        newSubAwardFile.setBudgetId(subAward.getBudgetId());
+        newSubAwardFile.setSubAwardNumber(subAward.getSubAwardNumber());
+        subAward.setSubAwardXfdFileName(newFileName);
+        subAward.setXfdUpdateUser(getLoggedInUserNetworkId());
+        subAward.setXfdUpdateTimestamp(CoreApiServiceLocator.getDateTimeService().getCurrentTimestamp());
+        subAward.setXmlUpdateUser(getLoggedInUserNetworkId());
+        subAward.setXmlUpdateTimestamp(CoreApiServiceLocator.getDateTimeService().getCurrentTimestamp());
     }
+    
+    public void removeSubAwardAttachment(BudgetSubAwards subAward) {
+        subAward.setFormName(null);
+        subAward.setNamespace(null);
+        subAward.setSubAwardXfdFileData(null);
+        subAward.setSubAwardXfdFileName(null);
+        subAward.setSubAwardXmlFileData(null);
+        subAward.setXfdUpdateUser(null);
+        subAward.getBudgetSubAwardAttachments().clear();
+        subAward.getBudgetSubAwardFiles().clear();
+        subAward.setXfdUpdateUser(getLoggedInUserNetworkId());
+        subAward.setXfdUpdateTimestamp(CoreApiServiceLocator.getDateTimeService().getCurrentTimestamp());
+        subAward.setXmlUpdateUser(getLoggedInUserNetworkId());
+        subAward.setXmlUpdateTimestamp(CoreApiServiceLocator.getDateTimeService().getCurrentTimestamp());        
+    }
+    
+    public void generateSubAwardLineItems(BudgetSubAwards subAward, Budget budget) {
+        BudgetDecimal amountChargeFA = new BudgetDecimal(25000);
+        String directLtCostElement = getParameterService().getParameterValueAsString(BudgetDocument.class, Constants.SUBCONTRACTOR_DIRECT_LT_25K_PARAM);
+        String directGtCostElement = getParameterService().getParameterValueAsString(BudgetDocument.class, Constants.SUBCONTRACTOR_DIRECT_GT_25K_PARAM);
+        String inDirectLtCostElement = getParameterService().getParameterValueAsString(BudgetDocument.class, Constants.SUBCONTRACTOR_F_AND_A_LT_25K_PARAM);
+        String inDirectGtCostElement = getParameterService().getParameterValueAsString(BudgetDocument.class, Constants.SUBCONTRACTOR_F_AND_A_GT_25K_PARAM);
+        for (BudgetSubAwardPeriodDetail detail : subAward.getBudgetSubAwardPeriodDetails()) {
+            BudgetPeriod budgetPeriod = findBudgetPeriod(detail, budget);
+            List<BudgetLineItem> currentLineItems = findSubAwardLineItems(budgetPeriod, subAward.getSubAwardNumber());
+            //zero out existing line items before recalculating
+            for (BudgetLineItem item : currentLineItems) {
+                item.setDirectCost(BudgetDecimal.ZERO);
+                item.setCostSharingAmount(BudgetDecimal.ZERO);
+            }
+            if (BudgetDecimal.returnZeroIfNull(detail.getDirectCost()).isNonZero()) {
+                BudgetDecimal ltValue = lesserValue(detail.getDirectCost(), amountChargeFA);
+                BudgetDecimal gtValue = detail.getDirectCost().subtract(ltValue);
+                BudgetLineItem lt = findOrCreateLineItem(currentLineItems, detail, subAward, budgetPeriod, directLtCostElement);
+                lt.setLineItemCost(ltValue);
+                BudgetLineItem gt = findOrCreateLineItem(currentLineItems, detail, subAward, budgetPeriod, directGtCostElement);
+                gt.setLineItemCost(gtValue);
+                amountChargeFA = amountChargeFA.subtract(ltValue);
+            }
+            if (BudgetDecimal.returnZeroIfNull(detail.getIndirectCost()).isNonZero()) {
+                BudgetDecimal ltValue = lesserValue(detail.getIndirectCost(), amountChargeFA);
+                BudgetDecimal gtValue = detail.getIndirectCost().subtract(ltValue);
+                BudgetLineItem lt = findOrCreateLineItem(currentLineItems, detail, subAward, budgetPeriod, inDirectLtCostElement);
+                lt.setLineItemCost(ltValue);
+                BudgetLineItem gt = findOrCreateLineItem(currentLineItems, detail, subAward, budgetPeriod, inDirectGtCostElement);
+                gt.setLineItemCost(gtValue);
+                amountChargeFA = amountChargeFA.subtract(ltValue);
+            }
+            Collections.sort(currentLineItems, new Comparator<BudgetLineItem>() {
+                public int compare(BudgetLineItem arg0, BudgetLineItem arg1) {
+                    return arg0.getLineItemNumber().compareTo(arg1.getLineItemNumber());
+                }
+            });
+            Iterator<BudgetLineItem> iter = currentLineItems.iterator();
+            while (iter.hasNext()) {
+                BudgetLineItem lineItem = iter.next();
+                if (BudgetDecimal.returnZeroIfNull(lineItem.getLineItemCost()).isZero()) {
+                    budgetPeriod.getBudgetLineItems().remove(lineItem);
+                    iter.remove();
+                }
+            }
+            if (!currentLineItems.isEmpty() && BudgetDecimal.returnZeroIfNull(detail.getCostShare()).isNonZero()) {
+                currentLineItems.get(0).setCostSharingAmount(detail.getCostShare());
+            }
+            budgetPeriod.getBudgetLineItems().addAll(currentLineItems);
+        }
+    }
+    
+    protected BudgetPeriod findBudgetPeriod(BudgetSubAwardPeriodDetail detail, Budget budget) {
+        for (BudgetPeriod period : budget.getBudgetPeriods()) {
+            if (ObjectUtils.equals(detail.getBudgetPeriodId(), period.getBudgetPeriodId())) {
+                return period;
+            }
+        }
+        return null;
+    }
+    
+    protected BudgetDecimal lesserValue(BudgetDecimal num1, BudgetDecimal num2) {
+        if (num1.isLessThan(num2)) {
+            return num1;
+        } else {
+            return num2;
+        }
+    }
+    
+    protected BudgetLineItem findOrCreateLineItem(List<BudgetLineItem> lineItems, BudgetSubAwardPeriodDetail subAwardDetail, BudgetSubAwards subAward, BudgetPeriod budgetPeriod, String costElement) {
+        for (BudgetLineItem curLineItem : lineItems) {
+            if (StringUtils.equals(curLineItem.getCostElement(), costElement)) {
+                return curLineItem;
+            }
+        }
+
+        //if we didn't find one already
+        BudgetLineItem newLineItem = new BudgetLineItem();        
+        newLineItem.setCostElement(costElement);
+        newLineItem.setSubAwardNumber(subAwardDetail.getSubAwardNumber());
+        newLineItem.setLineItemDescription(subAward.getOrganizationName());
+        getBudgetService().populateNewBudgetLineItem(newLineItem, budgetPeriod);
+        lineItems.add(newLineItem);
+        return newLineItem;
+    }
+    
+    protected List<BudgetLineItem> findSubAwardLineItems(BudgetPeriod budgetPeriod, Integer subAwardNumber) {
+        List<BudgetLineItem> lineItems = new ArrayList<BudgetLineItem>();
+        for (BudgetLineItem item : budgetPeriod.getBudgetLineItems()) {
+            if (ObjectUtils.equals(item.getSubAwardNumber(), subAwardNumber)) {
+                lineItems.add(item);
+            }
+        }
+        return lineItems;
+    }
+    
     /**
      * This method return loggedin user id
      */
@@ -483,6 +616,22 @@ public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
         List<String> forms=new ArrayList<String>();
         forms.add("http://apply.grants.gov/forms/RR_FedNonFedBudget10-V1.1");
         return forms;
+    }
+
+    protected ParameterService getParameterService() {
+        return parameterService;
+    }
+
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
+
+    protected BudgetService getBudgetService() {
+        return budgetService;
+    }
+
+    public void setBudgetService(BudgetService budgetService) {
+        this.budgetService = budgetService;
     }
 
 }

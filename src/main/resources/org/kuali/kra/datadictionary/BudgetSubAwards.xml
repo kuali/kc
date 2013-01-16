@@ -22,6 +22,7 @@
         <ref bean="BudgetSubAwards-comments" />
         <ref bean="BudgetSubAwards-proposalNumber" />
         <ref bean="BudgetSubAwards-budgetVersionNumber" />
+        <ref bean="BudgetSubAwards-organizationId" />
         <ref bean="BudgetSubAwards-organizationName" />
         <ref bean="BudgetSubAwards-subAwardStatusCode" />
         <ref bean="BudgetSubAwards-subAwardXfdFileName" />
@@ -113,24 +114,15 @@
     <property name="summary" value="Budget Version Number" />
     <property name="description" value="Budget Version Number" />
   </bean>
+  <bean id="BudgetSubAwards-organizationId" parent="BudgetSubAwards-organizationId-parentBean" />
+
+  <bean id="BudgetSubAwards-organizationId-parentBean" abstract="true" parent="Organization-organizationId">
+    <property name="name" value="organizationId" />
+  </bean>  
   <bean id="BudgetSubAwards-organizationName" parent="BudgetSubAwards-organizationName-parentBean" />
 
-  <bean id="BudgetSubAwards-organizationName-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="BudgetSubAwards-organizationName-parentBean" abstract="true" parent="Organization-organizationName">
     <property name="name" value="organizationName" />
-    <property name="forceUppercase" value="false" />
-    <property name="label" value="Organization Name" />
-    <property name="shortLabel" value="Organization Name" />
-    <property name="maxLength" value="60" />
-    <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
-            p:allowWhitespace="true" />
-    </property>
-    <property name="control" >
-      <bean parent="TextControlDefinition"
-            p:size="40" />
-    </property>
-    <property name="summary" value="Organization Name" />
-    <property name="description" value="Organization Name" />
   </bean>
   <bean id="BudgetSubAwards-subAwardStatusCode" parent="BudgetSubAwards-subAwardStatusCode-parentBean" />
 
