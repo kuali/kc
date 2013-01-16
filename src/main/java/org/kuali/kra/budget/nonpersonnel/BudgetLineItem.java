@@ -43,6 +43,8 @@ public class BudgetLineItem extends BudgetLineItemBase implements HierarchyMaint
     private Date oldStartDate;
 
     private Date oldEndDate;
+    
+    private Integer subAwardNumber;
 
     private String hierarchyProposalNumber;
 
@@ -254,4 +256,17 @@ public class BudgetLineItem extends BudgetLineItemBase implements HierarchyMaint
         // TODO Auto-generated method stub
         return compare;
     }
+    
+    public boolean isSubAwardLineItem() {
+        return subAwardNumber != null;
+    }
+
+    public Integer getSubAwardNumber() {
+        return subAwardNumber;
+    }
+
+    public void setSubAwardNumber(Integer subAwardNumber) {
+        this.subAwardNumber = subAwardNumber;
+    }
+
 }

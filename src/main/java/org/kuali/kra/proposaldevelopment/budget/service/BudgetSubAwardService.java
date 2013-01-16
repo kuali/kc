@@ -16,6 +16,7 @@
 package org.kuali.kra.proposaldevelopment.budget.service;
 
 import org.kuali.kra.budget.core.Budget;
+import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwards;
 /**
  * 
  * This class is for handling Budget Sub awards
@@ -26,11 +27,15 @@ public interface BudgetSubAwardService {
      * This method is to populate the subaward files
      * @param budgetSubAwards
      */
-    public void populateBudgetSubAwardFiles(org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwards budgetSubAwards);
+    public void populateBudgetSubAwardFiles(BudgetSubAwards budgetSubAwards, String newFileName, byte[] newFileData);
     /**
      * 
      * This method is to handle subaward attachments
      * @param budget
      */
     public void populateBudgetSubAwardAttachments(Budget budget);
+    
+    public void removeSubAwardAttachment(BudgetSubAwards subAward);
+    
+    public void generateSubAwardLineItems(BudgetSubAwards subAward, Budget budget);
 }
