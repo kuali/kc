@@ -91,6 +91,8 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
     private Map<String, String> awardHierarchyToggle;
     private String awardHierarchyScrollPosition;
     
+    private List<String> fieldsInError;
+    
     public String getCurrentAwardNumber() {
         return currentAwardNumber;
     }
@@ -128,6 +130,7 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
         previousNodeMap = new HashMap<String, String>();
         nextNodeMap = new HashMap<String, String>();
         awardHierarchyToggle = new TreeMap<String, String>();
+        fieldsInError = new ArrayList<String>();
     }
     
     /** {@inheritDoc} */
@@ -802,11 +805,26 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
     public void setAwardHierarchyScrollPosition(String awardHierarchyScrollPosition) {
         this.awardHierarchyScrollPosition = awardHierarchyScrollPosition;
     }
-    
-    
-    
-    
 
-    
+    public List<String> getFieldsInError() {
+        return fieldsInError;
+    }
 
+    public void setFieldsInError(List<String> fieldsInError) {
+        this.fieldsInError = fieldsInError;
+    }
+    
+    public boolean getIsFieldInErrorList(String fieldName) {
+        boolean returnValue = this.getFieldsInError().contains(fieldName);
+        System.err.println("getIsFieldInErrorList  fieldName: " + fieldName + "   returningL " + (returnValue));
+        return returnValue;
+    }
+    
+    public String getFieldsInErrorList() {
+        StringBuffer sb = new StringBuffer("foo");
+        for (String s : this.getFieldsInError()) {
+            sb.append(",").append(s);
+        }
+        return sb.toString();
+    }
 }
