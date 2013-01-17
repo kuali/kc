@@ -39,7 +39,9 @@
     		<span class="subhead-right">
     			<kul:help businessObjectClassName="org.kuali.kra.timeandmoney.AwardHierarchyNode" altText="help"/>
 			</span>
-        </h3>                
+        </h3>          
+        
+     <input type="hidden" name="formFieldsInError" id="formFieldsInError" value="${KualiForm.fieldsInErrorList }"/>      
     
     <table cellpadding="0" cellspacing="0" summary="">
     	<tr>
