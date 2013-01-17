@@ -18,10 +18,8 @@ package org.kuali.kra.institutionalproposal.web.struts.action;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -33,15 +31,13 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.apache.struts.action.ActionRedirect;
 import org.apache.struts.upload.FormFile;
 import org.kuali.kra.award.home.fundingproposal.AwardFundingProposal;
 import org.kuali.kra.bo.CommentType;
-import org.kuali.kra.bo.CustomAttributeDocument;
-import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.institutionalproposal.customdata.InstitutionalProposalCustomData;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposalComment;
@@ -438,9 +434,11 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
 
         InstitutionalProposalDocument newInstitutionalProposalDocument = getInstitutionalProposalService().createAndSaveNewVersion(institutionalProposal, institutionalProposalDocument);
         reinitializeForm(institutionalProposalForm, newInstitutionalProposalDocument);
-        response.sendRedirect(makeDocumentOpenUrl(newInstitutionalProposalDocument));
-        return null;
+       
+        return new ActionRedirect(makeDocumentOpenUrl(newInstitutionalProposalDocument));
     }
+    
+    
     
     public InstitutionalProposalService getInstitutionalProposalService() {
         if (institutionalProposalService == null) {
