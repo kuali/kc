@@ -114,7 +114,7 @@
         </property>
     	<property name="control" >
       		<bean parent="SelectControlDefinition"
-            	p:businessObjectClass="org.kuali.kra.meeting.ScheduleActItemType"
+            	p:businessObjectClass="org.kuali.kra.common.committee.meeting.ScheduleActItemType"
             	p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
             	p:includeKeyInLabel="false" 
             	p:includeBlankRow="false"
