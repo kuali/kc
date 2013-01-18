@@ -237,7 +237,7 @@ public class MeetingServiceTest extends KcUnitTestBase {
             @Override
             public void refreshReferenceObject(String referenceObjectName) {
                 if (referenceObjectName.equals("scheduleActItemType")) {
-                    ScheduleActItemType scheduleActItemType = new ScheduleActItemType();
+                    org.kuali.kra.common.committee.meeting.ScheduleActItemType scheduleActItemType = new org.kuali.kra.common.committee.meeting.ScheduleActItemType();
                     scheduleActItemType.setScheduleActItemTypeCode(this.getScheduleActItemTypeCode());
                 }
 
