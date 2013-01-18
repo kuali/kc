@@ -119,6 +119,7 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
     private static final String ALTERNATE_OPEN_TAB = "Parameters";
 
     private static final String ONE_ADHOC_REQUIRED_ERROR_KEY = "error.adhoc.oneAdHocRequired";
+    private static final String DOCUMENT_RELOAD_QUESTION="DocReload";
 
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
@@ -632,7 +633,7 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         
         KualiDocumentFormBase docForm = (KualiDocumentFormBase) form;
-
+        
         // only want to prompt them to save if they already can save
         if (canSave(docForm)) {
             
@@ -646,7 +647,7 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
                 // ask question if not already asked
                 forward = performQuestionWithoutInput(mapping, form, request, response, KRADConstants.DOCUMENT_SAVE_BEFORE_CLOSE_QUESTION, 
                         getKualiConfigurationService().getPropertyValueAsString(RiceKeyConstants.QUESTION_SAVE_BEFORE_CLOSE), 
-                        KRADConstants.CONFIRMATION_QUESTION, KRADConstants.MAPPING_CLOSE, "");
+                        Constants.KC_CONFIRMATION_QUESTION, KRADConstants.MAPPING_CLOSE, "");
             } else {
                 // otherwise attempt to save and close
                 Object buttonClicked = request.getParameter(KRADConstants.QUESTION_CLICKED_BUTTON);
@@ -655,7 +656,7 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
                 // Side effecting in that it clears the session attribute that holds the unconverted values.
                 Map<String, Object> unconvertedValues = restoreUnconvertedValuesFromSession(request, docForm);
                 
-                if ((KRADConstants.DOCUMENT_SAVE_BEFORE_CLOSE_QUESTION.equals(question)) && ConfirmationQuestion.YES.equals(buttonClicked)) {
+                if ((KRADConstants.DOCUMENT_SAVE_BEFORE_CLOSE_QUESTION.equals(question)) && KcConfirmationQuestion.YES.equals(buttonClicked)) {
                     // if yes button clicked - save the doc
 
                     // KULRICE-7306: Unconverted Values not carried through during a saveOnClose action.
@@ -666,6 +667,8 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
                     }
                     
                     forward = saveOnClose(mapping, form, request, response);
+                } else if ((KRADConstants.DOCUMENT_SAVE_BEFORE_CLOSE_QUESTION.equals(question)) && KcConfirmationQuestion.CANCEL.equals(buttonClicked)) {
+                    forward = mapping.findForward(Constants.MAPPING_BASIC);
                 } else {
                     forward = super.close(mapping, docForm, request, response);
                 }
@@ -1097,4 +1100,29 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
     protected static String getValidHeaderString(String s) {
         return MimeUtility.quote(s, HeaderTokenizer.MIME);
     }    
+
+    @Override
+    public ActionForward reload(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        KualiDocumentFormBase docForm = (KualiDocumentFormBase) form;
+        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
+        String methodToCall = ((KualiForm) form).getMethodToCall();
+        if (canSave(docForm)) {
+            Object question = getQuestion(request);
+            if (question == null) {
+                return this.performQuestionWithoutInput(mapping, form, request, response, 
+                        DOCUMENT_RELOAD_QUESTION, 
+                        getKualiConfigurationService().getPropertyValueAsString(KeyConstants.WARNING_DOCUMENT_RELOAD_CONFIRMATION),
+                        KRADConstants.CONFIRMATION_QUESTION, methodToCall, "");
+            } else {
+                Object buttonClicked = request.getParameter(KRADConstants.QUESTION_CLICKED_BUTTON);
+                if(DOCUMENT_RELOAD_QUESTION.equals(question) && ConfirmationQuestion.YES.equals(buttonClicked)) {
+                    forward = super.reload(mapping, docForm, request, response);
+                }
+            }
+        }
+        return forward;
+    }
+
+
 }
+

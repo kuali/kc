@@ -1134,6 +1134,7 @@ public final class KeyConstants {
     public static final String ERROR_FORMULATED_CALCULATED_EXPENSES = "error.invalid.budget.formulated.calculated.expense";
     public static final String ERROR_FORUMLATED_COST_DUPLICATE = "error.invalid.budget.formulated.duplicate";
     
+    public static final String WARNING_DOCUMENT_RELOAD_CONFIRMATION = "warning.document.reload.confirmation";
     
     /**
      * private utility class ctor.
