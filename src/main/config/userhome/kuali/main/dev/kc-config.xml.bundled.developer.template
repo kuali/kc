@@ -9,6 +9,9 @@
 	<param name="print.logging.directory">log directory path</param>
 	<param name="print.logging.enable">"true" to enable logging</param>
 
+	<!-- Save Xml Configuration -->
+	<param name="print.xml.directory">directory path</param>
+	
 	<!--
 	<param name="datasource.url">jdbc:mysql://localhost:3306/KCBND</param>
 	<param name="datasource.username">KCBND</param>
