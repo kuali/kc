@@ -115,22 +115,22 @@
 		
 					<c:choose>				
 						<c:when test="${KualiForm.currentOrPendingView == '0'}" >						
-							<input class="nobord" type="radio" value="0" name="currentOrPendingView" checked="true" />
+							<input class="nobord" type="radio" value="0" name="currentOrPendingView" checked="true" onclick="javascript:clickViaRadioButton();"/>
 								current
-							<input class="nobord" type="radio" value="1" name="currentOrPendingView" />
-								pending						
+							<input class="nobord" type="radio" value="1" name="currentOrPendingView" onclick="javascript:clickViaRadioButton();" />
+								pending					
 						</c:when>
 						<c:when test="${KualiForm.currentOrPendingView == '1'}" >						
-							<input class="nobord" type="radio" value="0" name="currentOrPendingView"  />
+							<input class="nobord" type="radio" value="0" name="currentOrPendingView"  onclick="javascript:clickViaRadioButton();" />
 								current
-							<input class="nobord" type="radio" value="1" name="currentOrPendingView" checked="true" />
-					pending						
+							<input class="nobord" type="radio" value="1" name="currentOrPendingView" checked="true" onclick="javascript:clickViaRadioButton();" />
+								pending						
 						</c:when>
-						<c:otherwise>						
-							<input class="nobord" type="radio" value="0" name="currentOrPendingView" />
+						<c:otherwise>				
+							<input class="nobord" type="radio" value="0" name="currentOrPendingView" onclick="javascript:clickViaRadioButton();" />
 								current
-							<input class="nobord" type="radio" value="1" name="currentOrPendingView" />
-								pending					
+							<input class="nobord" type="radio" value="1" name="currentOrPendingView" onclick="javascript:clickViaRadioButton();" />
+								pending				
 						</c:otherwise>
 					</c:choose>				
 				</td>
@@ -179,22 +179,22 @@
 		
 					<c:choose>				
 						<c:when test="${KualiForm.currentOrPendingView == '0'}" >						
-							<input class="nobord" type="radio" value="0" name="currentOrPendingView" checked="true" />
+							<input class="nobord" type="radio" value="0" name="currentOrPendingView" checked="true" onclick="javascript:clickViaRadioButton();" />
 								current
-							<input class="nobord" type="radio" value="1" name="currentOrPendingView" />
-								pending						
+							<input class="nobord" type="radio" value="1" name="currentOrPendingView" onclick="javascript:clickViaRadioButton();" />
+								pending					
 						</c:when>
 						<c:when test="${KualiForm.currentOrPendingView == '1'}" >						
-							<input class="nobord" type="radio" value="0" name="currentOrPendingView"  />
+							<input class="nobord" type="radio" value="0" name="currentOrPendingView" onclick="javascript:clickViaRadioButton();" />
 								current
-							<input class="nobord" type="radio" value="1" name="currentOrPendingView" checked="true" />
+							<input class="nobord" type="radio" value="1" name="currentOrPendingView" checked="true" onclick="javascript:clickViaRadioButton();" />
 					pending						
 						</c:when>
 						<c:otherwise>						
-							<input class="nobord" type="radio" value="0" name="currentOrPendingView" />
+							<input class="nobord" type="radio" value="0" name="currentOrPendingView" onclick="javascript:clickViaRadioButton();" />
 								current
-							<input class="nobord" type="radio" value="1" name="currentOrPendingView" />
-								pending					
+							<input class="nobord" type="radio" value="1" name="currentOrPendingView" onclick="javascript:clickViaRadioButton();" />
+								pending				
 						</c:otherwise>
 					</c:choose>				
 				</td>
