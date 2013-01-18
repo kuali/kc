@@ -20,6 +20,7 @@
 		<form-bean name="BudgetForm" type="org.kuali.kra.budget.web.struts.form.BudgetForm" />
 		<form-bean name="AwardBudgetForm" type="org.kuali.kra.award.budget.AwardBudgetForm" />
 		<form-bean name="AwardForm" type="org.kuali.kra.award.AwardForm" />
+		<form-bean name="AwardSubcontractingGoalsExpendituresForm" type="org.kuali.kra.award.subcontracting.goalsAndExpenditures.AwardSubcontractingGoalsExpendituresForm" />
 		<form-bean name="TimeAndMoneyForm" type="org.kuali.kra.timeandmoney.TimeAndMoneyForm" />
 		<form-bean name="AwardHierarchyForm" type="org.kuali.kra.award.AwardHierarchyForm" />
 		<form-bean name="DocHandlerForm" type="org.kuali.rice.kew.routing.web.DocHandlerForm" />
@@ -340,6 +341,13 @@
       <action path="/printProposalLog" name="ProposalLogPrintForm" attribute="KualiForm" scope="request" parameter="methodToCall" validate="false" type="org.kuali.kra.institutionalproposal.proposallog.ProposalLogPrintAction">
         <forward name="basic" path="/portal.jsp" redirect="true" />
       </action>
+      
+      
+      <!-- Award Subcontracting -->
+      
+      <action path="/awardSubcontractingGoalsExpenditures" name="AwardSubcontractingGoalsExpendituresForm" input="/WEB-INF/jsp/award/AwardSubcontractingGoalsExpenditures.jsp" type="org.kuali.kra.award.web.struts.action.AwardSubcontractingGoalsExpendituresAction" scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+            <forward name="basic" path="/WEB-INF/jsp/award/AwardSubcontractingGoalsExpenditures.jsp" />
+     </action>
       
       
       <!--  KRA IRB Mapping START -->    

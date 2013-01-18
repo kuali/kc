@@ -1550,6 +1550,35 @@
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" primarykey = "true"/>
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
     	
-    </class-descriptor>	    
+    </class-descriptor>
+    
+   <class-descriptor class="org.kuali.kra.award.subcontracting.goalsAndExpenditures.AwardSubcontractingGoalsExpenditures" table="AWARD_SUBCONTRACT_GOALS_EXP">
+		<field-descriptor name="awardNumber" column="AWARD_NUMBER" jdbc-type="VARCHAR" primarykey="true" />
+			
+		<field-descriptor name="largeBusinessGoalAmount" column="LARGE_BUSINESS_AMT_G" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
+		<field-descriptor name="smallBusinessGoalAmount" column="SMALL_BUSINESS_AMT_G" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
+		<field-descriptor name="womanOwnedGoalAmount" column="WOMAN_OWNED_AMT_G" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
+		<field-descriptor name="a8DisadvantageGoalAmount" column="A8_DISADVANTAGE_AMT_G" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
+		<field-descriptor name="hubZoneGoalAmount" column="HUB_ZONE_AMT_G" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
+		<field-descriptor name="veteranOwnedGoalAmount" column="VETERAN_OWNED_AMT_G" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
+		<field-descriptor name="serviceDisabledVeteranOwnedGoalAmount" column="SVC_DISABLED_VET_OWNED_AMT_G" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/> 
+		<field-descriptor name="historicalBlackCollegeGoalAmount" column="HISTORIC_BLACK_COLLEGE_AMT_G" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
+		
+		<field-descriptor name="largeBusinessExpenditureAmount" column="LARGE_BUSINESS_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>		
+		<field-descriptor name="smallBusinessExpenditureAmount" column="SMALL_BUSINESS_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
+		<field-descriptor name="womanOwnedExpenditureAmount" column="WOMAN_OWNED_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
+		<field-descriptor name="a8DisadvantageExpenditureAmount" column="A8_DISADVANTAGE_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
+		<field-descriptor name="hubZoneExpenditureAmount" column="HUB_ZONE_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
+		<field-descriptor name="veteranOwnedExpenditureAmount" column="VETERAN_OWNED_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
+		<field-descriptor name="serviceDisabledVeteranOwnedExpenditureAmount" column="SVC_DISABLED_VET_OWNED_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/> 
+		<field-descriptor name="historicalBlackCollegeExpenditureAmount" column="HISTORIC_BLACK_COLLEGE_AMT" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion"/>
+		
+		<field-descriptor name="comments" column="COMMENTS" jdbc-type="VARCHAR" />
+					
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />		
+	</class-descriptor>
 	
 </descriptor-repository>
