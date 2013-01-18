@@ -114,6 +114,7 @@ import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.util.AuditCluster;
+import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.action.AuditModeAction;
@@ -156,7 +157,6 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     private static final int OK = 0;
     private static final int WARNING = 1;
     private static final int ERROR = 2;
-    
     /**
      * Struts mapping for the Proposal web page.  
      */
@@ -1852,6 +1852,25 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         return superUserActionHelper(SuperUserAction.TAKE_SUPER_USER_ACTIONS, mapping, form, request, response);
     }
 
+    /**
+     * 
+     * This method enable the ability to save the generated system to system XML
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward saveXml(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
+        ProposalDevelopmentDocument proposalDevelopmentDocument = (ProposalDevelopmentDocument)proposalDevelopmentForm.getDocument();
+        proposalDevelopmentDocument.getDevelopmentProposal().setGrantsGovSelectFlag(true);
+        proposalDevelopmentForm.setDocument(proposalDevelopmentDocument);
+        return super.printForms(mapping, proposalDevelopmentForm, request, response);
+       
+    }
+   
     @Override
     public ActionForward superUserApprove(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         return superUserActionHelper(SuperUserAction.SUPER_USER_APPROVE, mapping, form, request, response);

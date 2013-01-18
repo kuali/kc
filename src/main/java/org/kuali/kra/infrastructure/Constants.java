@@ -971,5 +971,6 @@ public interface Constants {
     public static final String PERSON_SIGNATURE_ACTIVE = "signatureActive";
     public static final String PERSON_SIGNATURE_PERSON_ID = "personId";
 
+    public static final String PRINT_XML_DIRECTORY = "print.xml.directory";
 }
 

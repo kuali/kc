@@ -45,6 +45,9 @@
 	<param name="print.logging.directory">log directory path</param>
 	<param name="print.logging.enable">"true" to enable logging</param>
 	
+	<!-- Save Xml Configuration -->
+	<param name="print.xml.directory">directory path</param>
+	
 	<!-- Financial System WSDL Service URL -->
     <param name="fin.system.integration.service.url">financial system service url</param>
     
