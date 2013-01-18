@@ -319,14 +319,14 @@
 <!-- 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" /> -->
 <!-- 	</class-descriptor>		 -->
 	
-	<class-descriptor class="org.kuali.kra.meeting.ScheduleActItemType" table="SCHEDULE_ACT_ITEM_TYPE">
-		<field-descriptor name="scheduleActItemTypeCode" column="SCHEDULE_ACT_ITEM_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true" />
-		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
-		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
-		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
-		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
-		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-	</class-descriptor>		
+<!-- 	<class-descriptor class="org.kuali.kra.meeting.ScheduleActItemType" table="SCHEDULE_ACT_ITEM_TYPE"> -->
+<!-- 		<field-descriptor name="scheduleActItemTypeCode" column="SCHEDULE_ACT_ITEM_TYPE_CODE" jdbc-type="VARCHAR" primarykey="true" /> -->
+<!-- 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" /> -->
+<!-- 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" /> -->
+<!-- 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" /> -->
+<!-- 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" /> -->
+<!-- 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" /> -->
+<!-- 	</class-descriptor>		 -->
 	
 	<class-descriptor class="org.kuali.kra.meeting.CommScheduleActItem" table="COMM_SCHEDULE_ACT_ITEMS">
 		<field-descriptor name="commScheduleActItemsId" column="COMM_SCHEDULE_ACT_ITEMS_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_MEETING_ID" autoincrement="true" />
@@ -341,7 +341,7 @@
 		<reference-descriptor name="committeeSchedule" class-ref="org.kuali.kra.committee.bo.CommitteeSchedule" auto-retrieve="false" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="scheduleIdFk"/>
 		</reference-descriptor>
-		<reference-descriptor name="scheduleActItemType" class-ref="org.kuali.kra.meeting.ScheduleActItemType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="scheduleActItemType" class-ref="org.kuali.kra.common.committee.meeting.ScheduleActItemType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="scheduleActItemTypeCode"/>
 		</reference-descriptor>
 	</class-descriptor>
