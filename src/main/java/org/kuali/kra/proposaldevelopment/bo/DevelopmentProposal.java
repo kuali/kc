@@ -220,6 +220,8 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     private Map<String, List<BudgetChangedData>> budgetChangeHistory;
 
     private Boolean submitFlag = Boolean.FALSE;
+    
+    private Boolean grantsGovSelectFlag = Boolean.FALSE;
 
     private ProposalDevelopmentDocument proposalDocument;
 
@@ -1925,6 +1927,15 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
 
     public Boolean getSubmitFlag() {
         return this.submitFlag;
+    }
+
+
+    public Boolean getGrantsGovSelectFlag() {
+        return grantsGovSelectFlag;
+    }
+
+    public void setGrantsGovSelectFlag(Boolean grantsGovSelectFlag) {
+        this.grantsGovSelectFlag = grantsGovSelectFlag;
     }
 
     public String getProposalStateTypeCode() {
