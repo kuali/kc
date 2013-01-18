@@ -38,4 +38,6 @@ public interface BudgetSubAwardService {
     public void removeSubAwardAttachment(BudgetSubAwards subAward);
     
     public void generateSubAwardLineItems(BudgetSubAwards subAward, Budget budget);
+    
+    public void prepareBudgetSubAwards(Budget budget);
 }

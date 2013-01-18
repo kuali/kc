@@ -20,10 +20,12 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.ObjectUtils;
 import org.kuali.kra.budget.calculator.BudgetCalculationService;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetCommonService;
@@ -36,6 +38,8 @@ import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.OnOffCampusFlagConstants;
+import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwardPeriodDetail;
+import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwards;
 import org.kuali.kra.service.DeepCopyPostProcessor;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -210,7 +214,8 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
         
         //remove any existing periods beyond the number of default periods
         while (budget.getBudgetPeriods().size() > newPeriods.size()) {
-           budget.getBudgetPeriods().remove(budget.getBudgetPeriods().size()-1);
+            deleteBudgetPeriod(budget, budget.getBudgetPeriods().size()-1);
+           //budget.getBudgetPeriods().remove(budget.getBudgetPeriods().size()-1);
         }
         //loop through the new periods and correct the dates to match the default set
         //or add a new period if one does not exist
@@ -262,7 +267,7 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
         return lineItemExists;
     }
 
-    protected void updateBudgetPeriods(List<BudgetPeriod> budgetPeriods, int checkPeriod, boolean deletePeriod) {
+    protected void updateBudgetPeriods(Budget budget, List<BudgetPeriod> budgetPeriods, int checkPeriod, boolean deletePeriod) {
         for(BudgetPeriod budgetPeriod: budgetPeriods) {
             Integer budPeriod = budgetPeriod.getBudgetPeriod();
             if(budPeriod >= checkPeriod) {
@@ -282,7 +287,17 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
                     }
                 }
             }
-            
+        }
+        for (BudgetSubAwards subAward: budget.getBudgetSubAwards()) {
+            for (BudgetSubAwardPeriodDetail detail : subAward.getBudgetSubAwardPeriodDetails()) {
+                if (detail.getBudgetPeriod() >= checkPeriod) {
+                    if (deletePeriod) {
+                        detail.setBudgetPeriod(detail.getBudgetPeriod()-1);
+                    } else {
+                        detail.setBudgetPeriod(detail.getBudgetPeriod()+1);
+                    }
+                }
+            }
         }
     }
 
@@ -299,7 +314,21 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
     public void deleteBudgetPeriod(Budget budget, int delPeriod) {
         List<BudgetPeriod> budgetPeriods = budget.getBudgetPeriods();
         BudgetPeriod deletedPeriod = budgetPeriods.remove(delPeriod);
-        updateBudgetPeriods(budgetPeriods, delPeriod+1, true);
+        deleteSubAwardPeriodDetails(deletedPeriod);
+        updateBudgetPeriods(budget, budgetPeriods, delPeriod+1, true);
+    }
+    
+    protected void deleteSubAwardPeriodDetails(BudgetPeriod deletedPeriod) {
+        Budget budget = deletedPeriod.getBudget();
+        for (BudgetSubAwards subAward : budget.getBudgetSubAwards()) {
+            Iterator<BudgetSubAwardPeriodDetail> iter = subAward.getBudgetSubAwardPeriodDetails().iterator();
+            while (iter.hasNext()) {
+                BudgetSubAwardPeriodDetail detail = iter.next();
+                if (ObjectUtils.equals(detail.getBudgetPeriodId(), deletedPeriod.getBudgetPeriodId())) {
+                    iter.remove();
+                }
+            }
+        }
     }
 
     
@@ -310,9 +339,10 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
         if(newPeriodIndex > totalPeriods) {
             budgetPeriods.add(newBudgetPeriod);
         }else {
-            updateBudgetPeriods(budgetPeriods, newPeriodIndex, false);
+            updateBudgetPeriods(budget, budgetPeriods, newPeriodIndex, false);
             budgetPeriods.add(newPeriodIndex-1, newBudgetPeriod);
         }
+        
     }
     
     /**

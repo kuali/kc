@@ -143,6 +143,24 @@ public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
         subAward.setXmlUpdateTimestamp(CoreApiServiceLocator.getDateTimeService().getCurrentTimestamp());        
     }
     
+    public void prepareBudgetSubAwards(Budget budget) {
+        populateBudgetSubAwardAttachments(budget);
+        for (BudgetSubAwards subAward : budget.getBudgetSubAwards()) {
+            for (BudgetPeriod period : budget.getBudgetPeriods()) {
+                BudgetSubAwardPeriodDetail detail = null;
+                for (BudgetSubAwardPeriodDetail curDetail : subAward.getBudgetSubAwardPeriodDetails()) {
+                    if (ObjectUtils.equals(curDetail.getBudgetPeriodId(), period.getBudgetPeriodId())) {
+                        detail = curDetail;
+                        break;
+                    }
+                }
+                if (detail == null) {
+                    subAward.getBudgetSubAwardPeriodDetails().add(new BudgetSubAwardPeriodDetail(subAward, period));
+                }
+            }
+        }
+    }
+    
     public void generateSubAwardLineItems(BudgetSubAwards subAward, Budget budget) {
         BudgetDecimal amountChargeFA = new BudgetDecimal(25000);
         String directLtCostElement = getParameterService().getParameterValueAsString(BudgetDocument.class, Constants.SUBCONTRACTOR_DIRECT_LT_25K_PARAM);
@@ -186,12 +204,15 @@ public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
                 if (BudgetDecimal.returnZeroIfNull(lineItem.getLineItemCost()).isZero()) {
                     budgetPeriod.getBudgetLineItems().remove(lineItem);
                     iter.remove();
+                } else {
+                    if (!budgetPeriod.getBudgetLineItems().contains(lineItem)) {
+                        budgetPeriod.getBudgetLineItems().add(lineItem);
+                    }
                 }
             }
             if (!currentLineItems.isEmpty() && BudgetDecimal.returnZeroIfNull(detail.getCostShare()).isNonZero()) {
                 currentLineItems.get(0).setCostSharingAmount(detail.getCostShare());
             }
-            budgetPeriod.getBudgetLineItems().addAll(currentLineItems);
         }
     }
     
@@ -231,9 +252,11 @@ public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
     
     protected List<BudgetLineItem> findSubAwardLineItems(BudgetPeriod budgetPeriod, Integer subAwardNumber) {
         List<BudgetLineItem> lineItems = new ArrayList<BudgetLineItem>();
-        for (BudgetLineItem item : budgetPeriod.getBudgetLineItems()) {
-            if (ObjectUtils.equals(item.getSubAwardNumber(), subAwardNumber)) {
-                lineItems.add(item);
+        if (budgetPeriod.getBudgetLineItems() != null) {
+            for (BudgetLineItem item : budgetPeriod.getBudgetLineItems()) {
+                if (ObjectUtils.equals(item.getSubAwardNumber(), subAwardNumber)) {
+                    lineItems.add(item);
+                }
             }
         }
         return lineItems;
