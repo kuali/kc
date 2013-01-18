@@ -42,6 +42,7 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.bo.CustomAttributeDocValue;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.bo.DocumentNextvalue;
+import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetService;
 import org.kuali.kra.budget.document.BudgetDocument;
@@ -57,6 +58,7 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.kew.KraDocumentRejectionService;
+import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.kra.krms.service.KrmsRulesExecutionService;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
@@ -96,6 +98,8 @@ import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.api.role.Role;
+import org.kuali.rice.kim.api.role.RoleService;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
@@ -218,7 +222,26 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
             createS2sOpportunityDetails(proposalDevelopmentForm,s2sOpportunity);
 
         }
-        
+        String principalId = GlobalVariables.getUserSession().getPerson().getPrincipalId();
+        Role roleInfo  = getRoleService().getRoleByNamespaceCodeAndName(RoleConstants.OSP_ROLE_TYPE, RoleConstants.OSP_ADMINISTRATOR);
+        List<String> roleIds = new ArrayList<String>();
+        roleIds.add(roleInfo.getId());
+        Map<String, String> qualifiedRoleAttributes = new HashMap<String, String>();
+        qualifiedRoleAttributes.put(KcKimAttributes.UNIT_NUMBER, "*");
+        Map<String,String> qualifications = new HashMap<String,String>(qualifiedRoleAttributes);
+        if(getRoleService().principalHasRole(principalId, roleIds, qualifications)){
+            proposalDevelopmentForm.setSaveXmlPermission(true);
+        }
+        KraAuthorizationService proposalAuthService = KraServiceLocator.getService(KraAuthorizationService.class);
+        List<KcPerson> persons = proposalAuthService.getPersonsInRole(proposalDevelopmentForm.getProposalDevelopmentDocument(), RoleConstants.AGGREGATOR);
+        for (KcPerson person : persons) {
+            if(GlobalVariables.getUserSession().getPrincipalName().equals(person.getUserName())){
+                proposalDevelopmentForm.setSaveXmlPermission(true);
+            }
+        }
+       if(proposalDevelopmentForm.isGrantsGovEnabled()){
+        proposalDevelopmentForm.setGrantsGovSelectFlag(true);
+       }
         return forward;
     }
     
@@ -1267,7 +1290,13 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
            S2SBudgetCalculatorService s2sBudgetCalculatorService) {
        s2SBudgetCalculatorService = s2sBudgetCalculatorService;
    }
-
+   /**
+    * Quick method to get the RoleService
+    * @return RoleService reference
+    */
+   private RoleService getRoleService() {
+       return KraServiceLocator.getService(RoleService.class);
+   }
 }
 
 class S2sOppFormsComparator1 implements Comparator<S2sOppForms> {

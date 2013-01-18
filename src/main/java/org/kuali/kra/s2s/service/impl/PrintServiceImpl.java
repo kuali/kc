@@ -18,7 +18,12 @@ package org.kuali.kra.s2s.service.impl;
 import gov.grants.apply.system.metaGrantApplication.GrantApplicationDocument;
 import gov.grants.apply.system.metaGrantApplication.GrantApplicationDocument.GrantApplication.Forms;
 
+import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -31,11 +36,13 @@ import javax.xml.transform.stream.StreamSource;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xpath.XPathAPI;
 import org.kuali.kra.bo.SponsorFormTemplate;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.printing.Printable;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.service.PrintingService;
@@ -60,6 +67,7 @@ import org.kuali.kra.s2s.service.S2SFormGeneratorService;
 import org.kuali.kra.s2s.service.S2SUtilService;
 import org.kuali.kra.s2s.service.S2SValidatorService;
 import org.kuali.kra.s2s.util.XPathExecutor;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
@@ -124,12 +132,45 @@ public class PrintServiceImpl implements PrintService {
 		} else {
 			printableList = getPDFStream(pdDoc);
 		}
-		AttachmentDataSource attachmentDataSource = printingService
-				.print(printableList);
+	    if(pdDoc.getDevelopmentProposal().getGrantsGovSelectFlag()){
+		
+		return null;
+	    }
+	    AttachmentDataSource attachmentDataSource = printingService
+        	.print(printableList);
 		attachmentDataSource.setFileName(getFileNameForFormPrinting(pdDoc));
 		return attachmentDataSource;
 	}
 
+	protected void saveGrantsGovXml(ProposalDevelopmentDocument pdDoc,XmlObject formObject,List<AttachmentData> attachmentList,List<S2sAppAttachments> attachmentLists) throws Exception{
+	    String loggingDirectory = KraServiceLocator.getService(ConfigurationService.class).getPropertyValueAsString(Constants.PRINT_XML_DIRECTORY);
+        String opportunityId = pdDoc.getDevelopmentProposal().getS2sOpportunity().getOpportunityId();
+        String proposalnumber = pdDoc.getDevelopmentProposal().getProposalNumber();
+        String exportDate = StringUtils.replaceChars(StringUtils.deleteWhitespace(pdDoc.getDevelopmentProposal().getUpdateTimestamp().toString()), ":", "_");
+        File file = new File(loggingDirectory+proposalnumber);
+        file.mkdir();
+        for (AttachmentData attachmentData : attachmentList) {
+            File attachmentFile = new File(loggingDirectory+proposalnumber,"Attachments");
+            attachmentFile.mkdir();
+            File attachedFile = new File(attachmentFile,attachmentData.getFileName());
+            FileOutputStream output = new FileOutputStream(attachedFile);
+            output.write(attachmentData.getContent());
+            output.close();
+        }
+        for (S2sAppAttachments attAppAttachments : attachmentLists) {
+            File attachmentFile = new File(loggingDirectory+proposalnumber,"Attachments");   
+            attachmentFile.mkdir();
+            AttachmentDataSource ads = getAttributeContent(pdDoc,attAppAttachments.getContentId());
+            File attachedFile = new File(attachmentFile,ads.getFileName());
+            FileOutputStream output = new FileOutputStream(attachedFile);
+            output.write(getAttContent(pdDoc,attAppAttachments.getContentId()));
+            output.close();
+        }
+        File xmlFile= new File(file,opportunityId+proposalnumber+exportDate+".xml");
+        BufferedWriter out = new BufferedWriter(new FileWriter(xmlFile));
+        out.write(formObject.xmlText());
+        out.close();
+	}
 	protected String getFileNameForFormPrinting(ProposalDevelopmentDocument pdDoc) {
 		StringBuilder fileName = new StringBuilder();
 		fileName.append(pdDoc.getDocumentNumber());
@@ -189,7 +230,6 @@ public class PrintServiceImpl implements PrintService {
 				.getDevelopmentProposal().getS2sOppForms());
 
 		List<Printable> formPrintables = new ArrayList<Printable>();
-
 		for (String namespace : sortedNameSpaces) {
 			XmlObject formFragment = null;
 			try {
@@ -204,7 +244,6 @@ public class PrintServiceImpl implements PrintService {
 
 //			XmlObject formObject = s2sFormGenerator.getFormObject(formFragment);
 //			if (s2SValidatorService.validate(formObject, errors)) {
-
 				byte[] formXmlBytes = formFragment.xmlText().getBytes();
 				S2SFormPrint formPrintable = new S2SFormPrint();
 
@@ -258,7 +297,16 @@ public class PrintServiceImpl implements PrintService {
 		    }
 		  catch (Exception e) {
             LOG.error(e.getMessage(), e);
-          }				
+          }		
+          try {
+              if(pdDoc.getDevelopmentProposal().getGrantsGovSelectFlag()){
+              	List<AttachmentData> attachmentLists = new ArrayList<AttachmentData>();
+              	saveGrantsGovXml(pdDoc,formFragment,attachmentLists,attachmentList);
+              }
+          }
+          catch (Exception e) {
+                  LOG.error(e.getMessage(), e);
+          }
 				formPrintable.setAttachments(formAttachments);
 				formPrintables.add(formPrintable);
 //			}
@@ -291,7 +339,7 @@ public class PrintServiceImpl implements PrintService {
 		List<Printable> formPrintables = new ArrayList<Printable>();
 
 	    getS2SUtilService().deleteSystemGeneratedAttachments(pdDoc);
-
+	    Forms forms = Forms.Factory.newInstance();
 		for (String namespace : sortedNameSpaces) {
 			try {
 				info = new FormMappingLoader().getFormInfo(namespace);
@@ -304,7 +352,8 @@ public class PrintServiceImpl implements PrintService {
 			s2sFormGenerator.setAuditErrors(errors);
 			s2sFormGenerator.setAttachments(new ArrayList<AttachmentData>());
 			XmlObject formObject = s2sFormGenerator.getFormObject(pdDoc);
-			if (s2SValidatorService.validate(formObject, errors) && errors.isEmpty()) {
+			setFormObject(forms, formObject);
+			//if (s2SValidatorService.validate(formObject, errors) && errors.isEmpty()) {
 			    String applicationXml = formObject.xmlText(s2SFormGeneratorService.getXmlOptionsPrefixes());
 			    String filteredApplicationXml = getS2SUtilService().removeTimezoneFactor(applicationXml);
 				byte[] formXmlBytes = filteredApplicationXml.getBytes();
@@ -322,6 +371,15 @@ public class PrintServiceImpl implements PrintService {
 				formPrintable.setXSLT(templates);
 
 				List<AttachmentData> attachmentList = s2sFormGenerator.getAttachments();
+				try {
+				    if(pdDoc.getDevelopmentProposal().getGrantsGovSelectFlag()){
+				    	List<S2sAppAttachments> attachmentLists = new ArrayList<S2sAppAttachments>();
+                    	saveGrantsGovXml(pdDoc,forms,attachmentList,attachmentLists);
+				    }
+                }
+                catch (Exception e) {
+                        LOG.error(e.getMessage(), e);
+                }
 				Map<String, byte[]> formAttachments = new LinkedHashMap<String, byte[]>();
 				if (attachmentList != null && !attachmentList.isEmpty()) {
 					for (AttachmentData attachmentData : attachmentList) {
@@ -338,7 +396,7 @@ public class PrintServiceImpl implements PrintService {
 					formPrintable.setAttachments(formAttachments);
 				}
 				formPrintables.add(formPrintable);
-			}
+			//}
 		}
 		if (!errors.isEmpty()) {
 			setValidationErrorMessage(errors);
@@ -439,6 +497,29 @@ public class PrintServiceImpl implements PrintService {
 		return null;
 	}
 
+	protected AttachmentDataSource getAttributeContent(ProposalDevelopmentDocument pdDoc,
+            String contentId) {
+        String[] contentIds = contentId.split("-");
+        String[] contentDesc = contentIds[1].split("_");
+        if (StringUtils.equals(contentIds[0], "N")) {
+            for (Narrative narrative : pdDoc.getDevelopmentProposal()
+                    .getNarratives()) {
+                if (narrative.getModuleNumber().equals(Integer.valueOf(contentDesc[0]))) {
+                    narrative.refreshReferenceObject(NARRATIVE_ATTACHMENT_LIST);
+                    return narrative.getNarrativeAttachmentList().get(0);
+                }
+            }
+        } else if (StringUtils.equals(contentIds[0], "B")){
+            for (ProposalPersonBiography biography : pdDoc.getDevelopmentProposal().getPropPersonBios()) {
+                if (biography.getProposalPersonNumber().equals(Integer.valueOf(contentDesc[0]))
+                        && biography.getBiographyNumber().equals(Integer.valueOf(contentDesc[1]))) {
+                    biography.refreshReferenceObject("personnelAttachmentList");
+                    return biography.getPersonnelAttachmentList().get(0);
+                }
+            }
+        }
+        return null;
+    }
 	/**
 	 * 
 	 * This method gets the latest S2SAppSubmission record from the list of
@@ -605,4 +686,17 @@ public class PrintServiceImpl implements PrintService {
 	public void setPrintingService(PrintingService printingService) {
 		this.printingService = printingService;
 	}
+	protected void setFormObject(Forms forms, XmlObject formObject) {
+        // Create a cursor from the grants.gov form
+        XmlCursor formCursor = formObject.newCursor();
+        formCursor.toStartDoc();
+        formCursor.toNextToken();
+
+        // Create a cursor from the Forms object
+        XmlCursor metaGrantCursor = forms.newCursor();
+        metaGrantCursor.toNextToken();
+
+        // Add the form to the Forms object.
+        formCursor.moveXml(metaGrantCursor);
+    }
 }

@@ -193,8 +193,9 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     private String budgetNumberToSummarize;
     private transient boolean showSubmissionDetails;
     private transient boolean grantsGovSubmitFlag;
-    
-
+    private transient boolean saveXmlPermission; 
+    private transient boolean grantsGovSelectFlag; 
+   
     private String proposalFormTabTitle = "Print Sponsor Form Packages ";
     private transient ParameterService parameterService;
 
@@ -1801,6 +1802,34 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
       */
      public void setGrantsGovSubmitFlag(boolean grantsGovSubmitFlag) {
          this.grantsGovSubmitFlag = grantsGovSubmitFlag;
+     }
+     /**
+      * Gets the SaveXmlPermission attribute. 
+      * @return Returns the SaveXmlPermission.
+      */
+     public boolean isSaveXmlPermission() {
+         return saveXmlPermission;
+     }
+     /**
+      * Sets the SaveXmlPermission attribute value.
+      * @param SaveXmlPermission The SaveXmlPermission to set.
+      */
+     public void setSaveXmlPermission(boolean saveXmlPermission) {
+         this.saveXmlPermission = saveXmlPermission;
+     }
+     /**
+      * Gets the GrantsGovSelectFlag attribute. 
+      * @return Returns the GrantsGovSelectFlag.
+      */
+     public boolean isGrantsGovSelectFlag() {
+         return grantsGovSelectFlag;
+     }
+     /**
+      * Sets the GrantsGovSelectFlag attribute value.
+      * @param GrantsGovSelectFlag The GrantsGovSelectFlag to set.
+      */
+     public void setGrantsGovSelectFlag(boolean grantsGovSelectFlag) {
+         this.grantsGovSelectFlag = grantsGovSelectFlag;
      }
 
     /**
