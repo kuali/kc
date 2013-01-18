@@ -35,5 +35,18 @@
 <kra-pd:proposalDevelopmentGrantsGovOpportunitySearch />
 
 <kul:panelFooter />
-<kul:documentControls transactionalDocument="true" suppressRoutingControls="true" suppressCancelButton="true" />
-</kul:documentPage>
+		<c:if test="${KualiForm.saveXmlPermission and KualiForm.grantsGovSelectFlag}">
+			<c:set var="extraButtonSource" value="${ConfigProperties.kra.externalizable.images.url}buttonsmall_savexml.gif"/>
+  			<c:set var="extraButtonProperty" value="methodToCall.saveXml"/>
+  			<c:set var="extraButtonAlt" value="Save Grants.Gov Xml"/>
+  			<c:set var="viewOnly" value="${not KualiForm.editingMode['modifyProposal']}" /> 
+  		</c:if>
+<kul:documentControls 
+		transactionalDocument="false" 
+		suppressRoutingControls="true" 
+		suppressCancelButton="true" 
+		extraButtonSource="${extraButtonSource}"
+		extraButtonProperty="${extraButtonProperty}"
+		extraButtonAlt="${extraButtonAlt}"
+	    viewOnly="${viewOnly}" />
+ </kul:documentPage>
