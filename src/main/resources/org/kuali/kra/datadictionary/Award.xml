@@ -1072,6 +1072,7 @@
 		    <bean p:attributeName="archiveLocation" parent="FieldDefinition" />
 		    <bean p:attributeName="closeoutDate" parent="FieldDefinition" />
 		  	<bean p:attributeName="projectPersons.awardContactId" parent="FieldDefinition" p:hidden="true"  />
+		  	<bean p:attributeName="subPlanFlag" parent="FieldDefinition" p:hidden="true"  />
 		  </list>
 		</property>
 		<property name="resultFields" >
