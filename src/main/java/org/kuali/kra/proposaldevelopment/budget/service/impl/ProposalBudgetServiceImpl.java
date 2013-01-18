@@ -28,6 +28,8 @@ import org.kuali.kra.budget.versions.AddBudgetVersionEvent;
 import org.kuali.kra.budget.versions.BudgetVersionRule;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
+import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwards;
+import org.kuali.kra.proposaldevelopment.budget.service.BudgetSubAwardService;
 import org.kuali.kra.proposaldevelopment.budget.service.ProposalBudgetService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -42,6 +44,7 @@ public class ProposalBudgetServiceImpl implements ProposalBudgetService {
     private ParameterService parameterService;
     private BudgetService<DevelopmentProposal> budgetService;
     private BudgetCalculationService budgetCalculationService;
+    private BudgetSubAwardService budgetSubAwardService;
     
 
     public BudgetDocument<DevelopmentProposal> getNewBudgetVersion(BudgetParentDocument<DevelopmentProposal> parentDocument,
@@ -164,6 +167,9 @@ public class ProposalBudgetServiceImpl implements ProposalBudgetService {
         return budgetCalculationService;
     }
     public void calculateBudgetOnSave(Budget budget) {
+        for (BudgetSubAwards subAward : budget.getBudgetSubAwards()) {
+            getBudgetSubAwardService().generateSubAwardLineItems(subAward, budget);
+        }
         budgetCalculationService.calculateBudget(budget);
     }
     public boolean isRateOverridden(Budget budget) {
@@ -188,6 +194,12 @@ public class ProposalBudgetServiceImpl implements ProposalBudgetService {
     }
     public void recalculateBudgetPeriod(Budget budget, BudgetPeriod budgetPeriod) {
         budgetCalculationService.calculateBudget(budget);
+    }
+    protected BudgetSubAwardService getBudgetSubAwardService() {
+        return budgetSubAwardService;
+    }
+    public void setBudgetSubAwardService(BudgetSubAwardService budgetSubAwardService) {
+        this.budgetSubAwardService = budgetSubAwardService;
     }
 
 }

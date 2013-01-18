@@ -75,7 +75,7 @@ public class BudgetSubAwardServiceTest {
             period.setBudgetPeriod(i);
             period.setBudgetPeriodId(i+1029L);
             budget.getBudgetPeriods().add(period);
-            BudgetSubAwardPeriodDetail detail = new BudgetSubAwardPeriodDetail(period);
+            BudgetSubAwardPeriodDetail detail = new BudgetSubAwardPeriodDetail(subAward, period);
             detail.setSubAwardNumber(subAward.getSubAwardNumber());
             subAward.getBudgetSubAwardPeriodDetails().add(detail);
         }
