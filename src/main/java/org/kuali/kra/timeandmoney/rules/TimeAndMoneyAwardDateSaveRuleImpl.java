@@ -118,15 +118,19 @@ public class TimeAndMoneyAwardDateSaveRuleImpl extends ResearchDocumentRuleBase 
     }
     
     protected void addFieldToUserSessionMap(String fieldName) {
-        TimeAndMoneyForm form = (TimeAndMoneyForm) KNSGlobalVariables.getKualiForm();
-        System.err.println("addFieldToUserSessionMap: fieldName: '" + fieldName + "'");
-        form.getFieldsInError().add(fieldName);
+        if (KNSGlobalVariables.getKualiForm() instanceof TimeAndMoneyForm) {
+            TimeAndMoneyForm form = (TimeAndMoneyForm) KNSGlobalVariables.getKualiForm();
+            System.err.println("addFieldToUserSessionMap: fieldName: '" + fieldName + "'");
+            form.getFieldsInError().add(fieldName);
+        }
     }
     
     protected void clearFieldsFromUserSessionMap() {
-        TimeAndMoneyForm form = (TimeAndMoneyForm) KNSGlobalVariables.getKualiForm();
-        System.err.println("clearFieldsFromUserSessionMap");
-        form.getFieldsInError().clear();
+        if (KNSGlobalVariables.getKualiForm() instanceof TimeAndMoneyForm) {
+            TimeAndMoneyForm form = (TimeAndMoneyForm) KNSGlobalVariables.getKualiForm();
+            System.err.println("clearFieldsFromUserSessionMap");
+            form.getFieldsInError().clear();
+        }
     }
     
     
