@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -50,6 +51,7 @@ import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.nonpersonnel.BudgetJustificationService;
 import org.kuali.kra.budget.nonpersonnel.BudgetJustificationServiceImpl;
 import org.kuali.kra.budget.nonpersonnel.BudgetJustificationWrapper;
+import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.external.budget.BudgetAdjustmentClient;
@@ -138,12 +140,6 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
         BudgetForm budgetForm = (BudgetForm)form;
         Budget budget = budgetForm.getBudgetDocument().getBudget();
         budgetJustificationService.preSave(budget, getBudgetJusticationWrapper(form));
-        BudgetSubAwardService subAwardService = KraServiceLocator.getService(BudgetSubAwardService.class);
-        for (BudgetSubAwards subAward : budget.getBudgetSubAwards()) {
-            if (subAward.hasModifiedAmounts()) {
-                subAwardService.generateSubAwardLineItems(subAward, budget);
-            }
-        }
         return super.save(mapping, form, request, response);
     }
     
@@ -266,7 +262,7 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
         newBudgetSubAward.setBudgetVersionNumber(budgetDocument.getBudget().getBudgetVersionNumber());
         newBudgetSubAward.setSubAwardStatusCode(1);
         for (BudgetPeriod period : budgetDocument.getBudget().getBudgetPeriods()) {
-            newBudgetSubAward.getBudgetSubAwardPeriodDetails().add(new BudgetSubAwardPeriodDetail(period));
+            newBudgetSubAward.getBudgetSubAwardPeriodDetails().add(new BudgetSubAwardPeriodDetail(newBudgetSubAward, period));
         }
         boolean success = true;
         if (newBudgetSubAward.getNewSubAwardFile() != null && StringUtils.isNotBlank(newBudgetSubAward.getNewSubAwardFile().getFileName())) {
@@ -320,6 +316,16 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
         BudgetForm budgetForm = (BudgetForm)form;
         BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
         int selectedLineNumber = getSelectedLine(request);
+        BudgetSubAwards subAward = budgetDocument.getBudget().getBudgetSubAwards().get(selectedLineNumber);
+        for (BudgetPeriod period : budgetDocument.getBudget().getBudgetPeriods()) {
+            Iterator<BudgetLineItem> iter = period.getBudgetLineItems().iterator();
+            while (iter.hasNext()) {
+                BudgetLineItem item = iter.next();
+                if (org.apache.commons.lang.ObjectUtils.equals(subAward.getSubAwardNumber(), item.getSubAwardNumber())) {
+                    iter.remove();
+                }
+            }
+        }
         budgetDocument.getBudget().getBudgetSubAwards().remove(selectedLineNumber);
         Collections.sort(budgetDocument.getBudget().getBudgetSubAwards());
         return mapping.findForward(Constants.MAPPING_BASIC);

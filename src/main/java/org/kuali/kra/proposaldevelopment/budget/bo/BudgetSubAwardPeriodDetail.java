@@ -51,7 +51,8 @@ public class BudgetSubAwardPeriodDetail extends BudgetAssociate {
         
     }
     
-    public BudgetSubAwardPeriodDetail(BudgetPeriod period) {
+    public BudgetSubAwardPeriodDetail(BudgetSubAwards subAward, BudgetPeriod period) {
+        this.subAwardNumber = subAward.getSubAwardNumber();
         this.budgetId = period.getBudgetId();
         this.budgetPeriod = period.getBudgetPeriod();
         this.budgetPeriodId = period.getBudgetPeriodId();

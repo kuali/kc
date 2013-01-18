@@ -39,6 +39,10 @@
     <bean id="budgetCalculationService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="budgetCalculationService" />
     </bean>
+    
+    <bean id="budgetSubAwardService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="budgetSubAwardService" />
+    </bean>    
                      
     <bean id="kraWorkflowService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="kraWorkflowService" />
@@ -49,6 +53,7 @@
         <property name="documentService" ref="documentService" />
         <property name="parameterService" ref="parameterService" />
         <property name="budgetCalculationService" ref="budgetCalculationService" />
+        <property name="budgetSubAwardService" ref="budgetSubAwardService" />
     </bean>
     
     <bean id="proposalBudgetNumberOfMonthsService" class="org.kuali.kra.proposaldevelopment.budget.service.impl.ProposalBudgetNumberOfMonthsServiceImpl" >

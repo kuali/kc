@@ -556,7 +556,7 @@ public class BudgetAction extends BudgetActionBase {
         BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
         Budget budget = budgetDocument.getBudget();
         populateBudgetPrintForms(budget);
-        KraServiceLocator.getService(BudgetSubAwardService.class).populateBudgetSubAwardAttachments(budget);
+        KraServiceLocator.getService(BudgetSubAwardService.class).prepareBudgetSubAwards(budget);
         return mapping.findForward(Constants.BUDGET_ACTIONS_PAGE);
     }
 
