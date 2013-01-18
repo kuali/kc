@@ -365,3 +365,9 @@ function openPreviousAwards(requestTracker) {
     		return "";
     	}
     }
+
+	function clickViaRadioButton() {
+		var buttons = document.getElementsByName("methodToCall.refreshView");
+		buttons[0].click();
+	}
+    
