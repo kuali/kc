@@ -1066,4 +1066,9 @@
         <property name="businessObjectService" ref="businessObjectService" />
     </bean>
     
+    
+    <bean id="awardSubcontractingGoalsExpendituresService" class="org.kuali.kra.award.subcontracting.goalsAndExpenditures.AwardSubcontractingGoalsExpendituresServiceImpl">
+        <property name="businessObjectService" ref="businessObjectService" />
+    </bean>
+    
 </beans>

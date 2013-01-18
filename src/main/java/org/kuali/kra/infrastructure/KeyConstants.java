@@ -594,6 +594,14 @@ public final class KeyConstants {
     public static final String ERROR_SYNC_DESCENDANT_BLANK = "error.award.awardhierarchy.sync.whichdescendants";
     public static final String ERROR_SYNC_AWARD_STATUS = "error.award.awardhierarchy.sync.invalidstatus";
     
+    //Award sub-contracting errors
+    public static final String SUB_PLAN_AWARD_NOT_FOUND = "error.award.subcontracting.goalsAndExpenditures.awardNotFound";
+    
+    //Award sub-contracting messages
+    public static final String AWARD_GOALS_EXPENDITURES_RELOADED = "message.award.subcontracting.goalsAndExpenditures.goalsExpensesReloaded";
+    public static final String AWARD_GOALS_EXPENDITURES_CLEARED = "message.award.subcontracting.goalsAndExpenditures.goalsExpensesCleared";
+    public static final String AWARD_GOALS_EXPENDITURES_SAVED = "message.award.subcontracting.goalsAndExpenditures.goalsExpensesSaved";
+    
     //COI Required Fields validation messages
     public static final String ERROR_COI_ATTACHMENT_MISSING_DESC = "error.coi.attachment.description.required";
     public static final String ERROR_COI_ATTACHMENT_MISSING_FILE = "error.coi.attachment.missing.file";
@@ -1125,6 +1133,7 @@ public final class KeyConstants {
     public static final String ERROR_FORMULATED_UNIT_COST = "error.invalid.budget.formulated.unit.cost";
     public static final String ERROR_FORMULATED_CALCULATED_EXPENSES = "error.invalid.budget.formulated.calculated.expense";
     public static final String ERROR_FORUMLATED_COST_DUPLICATE = "error.invalid.budget.formulated.duplicate";
+    
     
     /**
      * private utility class ctor.
