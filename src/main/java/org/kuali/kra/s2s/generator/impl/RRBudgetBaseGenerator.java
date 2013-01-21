@@ -304,20 +304,22 @@ public abstract class RRBudgetBaseGenerator extends S2SBaseFormGenerator {
     */
    protected boolean validateBudgetForForm(ProposalDevelopmentDocument pdDoc) throws S2SException {
        boolean valid = true;
-       
+
        BudgetDocument budget = s2sBudgetCalculatorService.getFinalBudgetVersion(pdDoc);
-       for (BudgetPeriod period : budget.getBudget().getBudgetPeriods()) {
-           List<String> participantSupportCode = new ArrayList<String>();
-           participantSupportCode.add(budgetService.getParticipantSupportCategoryCode());
-           List<BudgetLineItem> participantSupportLineItems = 
+       if(budget != null){
+           for (BudgetPeriod period : budget.getBudget().getBudgetPeriods()) {
+               List<String> participantSupportCode = new ArrayList<String>();
+               participantSupportCode.add(budgetService.getParticipantSupportCategoryCode());
+               List<BudgetLineItem> participantSupportLineItems = 
                    budgetService.getMatchingLineItems(period.getBudgetLineItems(), participantSupportCode);
-           int numberOfParticipants = period.getNumberOfParticipants() == null ? 0 : period.getNumberOfParticipants();
-           if (!participantSupportLineItems.isEmpty() && numberOfParticipants == 0) {
-               getAuditErrors().add(S2SErrorHandler.getError(S2SConstants.PARTICIPANT_COUNT_REQUIRED));
-               valid = false;
-           } else if (numberOfParticipants > 0 && participantSupportLineItems.isEmpty()) {
-               getAuditErrors().add(S2SErrorHandler.getError(S2SConstants.PARTICIPANT_COSTS_REQUIRED));
-               valid = false;
+               int numberOfParticipants = period.getNumberOfParticipants() == null ? 0 : period.getNumberOfParticipants();
+               if (!participantSupportLineItems.isEmpty() && numberOfParticipants == 0) {
+                   getAuditErrors().add(S2SErrorHandler.getError(S2SConstants.PARTICIPANT_COUNT_REQUIRED));
+                   valid = false;
+               } else if (numberOfParticipants > 0 && participantSupportLineItems.isEmpty()) {
+                   getAuditErrors().add(S2SErrorHandler.getError(S2SConstants.PARTICIPANT_COSTS_REQUIRED));
+                   valid = false;
+               }
            }
        }
        return valid;
