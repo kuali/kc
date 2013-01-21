@@ -526,7 +526,7 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
                } else {
                    //in case other parts of the document have been saved since we have saved,
                    //we save off possibly changed parts and reload the rest of the document
-                   List<Narrative> newNarratives = pdDocument.getDevelopmentProposal().getNarratives();
+                   List<Narrative> newNarratives = (List<Narrative>) KraServiceLocator.getService(BusinessObjectService.class).findBySinglePrimaryKey(DevelopmentProposal.class, pdDocument.getDevelopmentProposal().getProposalNumber()).getNarratives();
                    List<Narrative> instituteAttachments = pdDocument.getDevelopmentProposal().getInstituteAttachments();
                    List<ProposalAbstract> newAbstracts = pdDocument.getDevelopmentProposal().getProposalAbstracts();
                    List<ProposalPersonBiography> newBiographies = pdDocument.getDevelopmentProposal().getPropPersonBios();
