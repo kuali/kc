@@ -199,6 +199,10 @@
     <bean id="xmlObjectSerializerService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="xmlObjectSerializerService" />
     </bean>
+
+    <bean id="versionHistoryLookupDao" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="versionHistoryLookupDao" />
+    </bean>
     
     <bean id="parentLookupableHelperService" abstract="true">
         <property name="persistenceStructureService" ref="persistenceStructureService" />
@@ -226,11 +230,15 @@
     <bean id="awardLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
         <property name="lookupableHelperService" ref="awardLookupableHelperService" />  
     </bean>
+
+    <bean id="awardLookupDao" parent="platformAwareDao" class="org.kuali.kra.dao.ojb.AwardLookupDaoObj">
+    	<property name="versionHistoryLookupDao" ref="versionHistoryLookupDao" /> 
+    </bean>
     
     <bean id="awardLookupableHelperService" class="org.kuali.kra.award.lookup.AwardLookupableHelperServiceImpl" parent="parentLookupableHelperService" 
           scope="prototype">
         <property name="kcPersonService" ref="kcPersonService" /> 
-        <property name="versionHistoryService" ref="versionHistoryService" />
+        <property name="awardLookupDao" ref="awardLookupDao" />
     </bean>
     
     <bean id="awardPersonLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
