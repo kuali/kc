@@ -36,4 +36,5 @@ public interface SequenceOwner<T extends SequenceOwner<?>> extends SequenceAssoc
      * @return the field name that versions are "grouped" by
      */
     String getVersionNameField();
+
 }

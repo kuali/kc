@@ -366,7 +366,7 @@
 			    </tr>	
     		</c:otherwise>
 		</c:choose>  		
-    			<tr>
+		<tr>
     				<th>
 						<div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAmountInfoAttributes.finalExpirationDate}" /></div>
         			</th>
@@ -397,18 +397,17 @@
 			            <fmt:formatDate value="${KualiForm.document.awardList[0].awardAmountInfos[KualiForm.document.award.indexOfAwardAmountInfoForDisplay].obligationExpirationDate}" pattern="MM/dd/yyyy" />
 			        </div>
 			        </td>
-			    </tr>
 			    
 		</c:when>
 	     	<c:otherwise>
 	     		    <td align="left" valign="middle">
 			            <kul:htmlControlAttribute property="document.awardList[0].awardAmountInfos[${KualiForm.document.award.indexOfAwardAmountInfoForDisplay}].obligationExpirationDate" attributeEntry="${awardAmountInfoAttributes.obligationExpirationDate}"/>
 			        </td>
-			    </tr>
 			</c:otherwise>
 		</c:choose>	
-			   <tr>
-			        <th>
+			    </tr>
+ 			<tr>
+ 			        <th>
 			            <div align="right"><kul:htmlAttributeLabel attributeEntry="${awardAttributes.awardExecutionDate}" /></div>
 			        </th>
 			        <td align="left" valign="middle">
@@ -559,7 +558,7 @@
 							</c:choose>
 						</c:otherwise>
 					</c:choose>
-</table>
+ </table>
 </kul:innerTab>	
 
 </div>
