@@ -67,6 +67,7 @@ import org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRecipient;
 import org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingService;
 import org.kuali.kra.award.paymentreports.closeout.CloseoutReportTypeValuesFinder;
 import org.kuali.kra.award.version.service.AwardVersionService;
+import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.budget.web.struts.action.BudgetParentActionBase;
 import org.kuali.kra.common.notification.service.KcNotificationService;
@@ -751,22 +752,17 @@ public class AwardAction extends BudgetParentActionBase {
      */
     public void setBooleanAwardHasTandMOrIsVersioned (Award award) {
         boolean previousVersionHasBeenEditedInTandMDocument = false;
-        List<Award> awards = getAwardVersions(award.getAwardNumber());
-        if(awards.size() > 1) {
-            previousVersionHasBeenEditedInTandMDocument = true;
-        }else if(awards.size() == 1 && awards.get(0).getAwardAmountInfos().size() > 1){
+        List<VersionHistory> awardHistory = getVersionHistoryService().findVersionHistory(Award.class, award.getAwardNumber());
+        if(awardHistory.size() > 1 || award.getAwardAmountInfos().size() > 1) {
             previousVersionHasBeenEditedInTandMDocument = true;
         }
-//        for(Award awardVersion : awards) {
-//            if(awardVersion.getSequenceNumber() == 1 && awardVersion.getAwardAmountInfos().size() > 2){
-//                previousVersionHasBeenEditedInTandMDocument = true;
-//                break;
-//            }else if(awardVersion.getSequenceNumber() > 1 && awardVersion.getAwardAmountInfos().size() > 1){
-//                previousVersionHasBeenEditedInTandMDocument = true;
-//                break;
-//            }
+        
+//        List<Award> awards = getAwardVersions(award.getAwardNumber());
+//        if(awards.size() > 1) {
+//            previousVersionHasBeenEditedInTandMDocument = true;
+//        }else if(awards.size() == 1 && awards.get(0).getAwardAmountInfos().size() > 1){
+//            previousVersionHasBeenEditedInTandMDocument = true;
 //        }
-//        
         award.setAwardHasAssociatedTandMOrIsVersioned(previousVersionHasBeenEditedInTandMDocument);
     }
     

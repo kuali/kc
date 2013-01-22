@@ -67,7 +67,6 @@ public class VersionHistoryServiceImpl implements VersionHistoryService {
 
         return currentVersion;
     }
-    
     protected void archiveActiveVersions(Class klass, String versionName, VersionHistory currentVersion) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put(SEQUENCE_OWNER_CLASS_NAME_FIELD, klass.getName());
@@ -92,6 +91,26 @@ public class VersionHistoryServiceImpl implements VersionHistoryService {
         } else {
             return null;
         }
+    }
+    
+    private VersionHistory getPendingVersionHistory (List<VersionHistory> list) {
+        VersionHistory returnVal = null;
+        for(VersionHistory vh : list) {
+            if(vh.getStatus().equals(VersionStatus.PENDING)) {
+                returnVal = vh;
+            }
+        }
+        return returnVal;
+    }
+    
+    private VersionHistory getActiveVersionHistory (List<VersionHistory> list) {
+        VersionHistory returnVal = null;
+        for(VersionHistory vh : list) {
+            if(vh.getStatus().equals(VersionStatus.ACTIVE)) {
+                returnVal = vh;
+            }
+        }
+        return returnVal;
     }
 
     /**
@@ -123,10 +142,7 @@ public class VersionHistoryServiceImpl implements VersionHistoryService {
      */
     @SuppressWarnings("unchecked")
     public List<VersionHistory> loadVersionHistory(Class<? extends SequenceOwner> klass, String versionName) {
-        Map<String, Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put(SEQUENCE_OWNER_CLASS_NAME_FIELD, klass.getName());
-        fieldValues.put(SEQUENCE_OWNER_REFERENCE_VERSION_NAME, versionName);        
-        List<VersionHistory> histories = new ArrayList<VersionHistory>(bos.findMatching(VersionHistory.class, fieldValues));
+        List<VersionHistory> histories = findVersionHistory(klass, versionName);
         if(histories.size() > 0) {
             String versionFieldName = histories.get(0).getSequenceOwnerVersionNameField();
             Map<Integer, SequenceOwner<? extends SequenceOwner<?>>> map = findSequenceOwners(klass, versionFieldName, versionName);
@@ -255,5 +271,26 @@ public class VersionHistoryServiceImpl implements VersionHistoryService {
     
     protected String getVersionName(SequenceOwner<? extends SequenceOwner<?>> sequenceOwner) {
         return ObjectUtils.getPropertyValue(sequenceOwner, sequenceOwner.getVersionNameField()).toString();
+    }
+
+    @Override
+    public List<VersionHistory> findVersionHistory(Class<? extends SequenceOwner> klass, String versionName) {
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put(SEQUENCE_OWNER_CLASS_NAME_FIELD, klass.getName());
+        fieldValues.put(SEQUENCE_OWNER_REFERENCE_VERSION_NAME, versionName);        
+        return new ArrayList<VersionHistory>(bos.findMatching(VersionHistory.class, fieldValues));
+        
+    }
+
+    @Override
+    public void loadSequenceOwner(Class klass,VersionHistory versionHistory) {
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put(versionHistory.getSequenceOwnerVersionNameField(), versionHistory.getSequenceOwnerVersionNameValue());
+        fieldValues.put("sequenceNumber", versionHistory.getSequenceOwnerSequenceNumber());
+        Collection<SequenceOwner<? extends SequenceOwner<?>>> c = bos.findMatching(klass, fieldValues);
+        
+        for (SequenceOwner<? extends SequenceOwner<?>> sequenceOwner : c) {
+            versionHistory.setSequenceOwner(sequenceOwner);
+        }
     }
 }

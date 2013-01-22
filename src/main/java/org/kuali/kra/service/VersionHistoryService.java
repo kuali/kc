@@ -69,5 +69,20 @@ public interface VersionHistoryService {
      * @param versionName
      * @return
      */
-    VersionHistory findPendingVersion(Class<? extends SequenceOwner> klass, String versionName);    
+    VersionHistory findPendingVersion(Class<? extends SequenceOwner> klass, String versionName);
+    
+    /**
+     * Find version histories without fetching the sequence owner. If you need sequence owner included in history list, use loadVersionHistory() method.
+     * @param klass
+     * @param versionName
+     * @return
+     */
+    List<VersionHistory> findVersionHistory(Class<? extends SequenceOwner> klass, String versionName);
+
+    /**
+     * 
+     * This method will load the appropriate sequenceOwner to the VersionHistory
+     * @param versionHistory
+     */
+    void loadSequenceOwner(Class<? extends SequenceOwner> klass,VersionHistory versionHistory);
 }

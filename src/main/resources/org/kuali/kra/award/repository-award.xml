@@ -36,9 +36,9 @@
 	
 	<class-descriptor class="org.kuali.kra.award.home.Award" table="AWARD">
 		<field-descriptor name="awardId" column="AWARD_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQUENCE_AWARD_ID" />		
+		<field-descriptor id="1" name="awardNumber" column="AWARD_NUMBER" jdbc-type="VARCHAR" />
+		<field-descriptor id="2" name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER"/>
 		<field-descriptor name="documentNumber" column="DOCUMENT_NUMBER" jdbc-type="VARCHAR" access="anonymous" />
-		<field-descriptor name="awardNumber" column="AWARD_NUMBER" jdbc-type="VARCHAR" />
-		<field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER"/>
 		<field-descriptor name="sponsorCode" column="SPONSOR_CODE" jdbc-type="VARCHAR"/>
 		<field-descriptor name="statusCode" column="STATUS_CODE" jdbc-type="INTEGER"/>
 		<field-descriptor name="templateCode" column="TEMPLATE_CODE" jdbc-type="INTEGER"/>
@@ -90,8 +90,7 @@
     	<field-descriptor name="financialChartOfAccountsCode" column="FIN_CHART_OF_ACCOUNTS_CODE" jdbc-type="VARCHAR" />
     	<field-descriptor name="syncChild" column="HIERARCHY_SYNC_CHILD" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
     	<field-descriptor name="awardSequenceStatus" column="AWARD_SEQUENCE_STATUS" jdbc-type="VARCHAR"/>
-    	
-    	<collection-descriptor name="awardComments" proxy="true" element-class-ref="org.kuali.kra.award.home.AwardComment" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+     	<collection-descriptor name="awardComments" proxy="true" element-class-ref="org.kuali.kra.award.home.AwardComment" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="awardId"/>
         </collection-descriptor>
         
@@ -129,7 +128,7 @@
         	<inverse-foreignkey field-ref="awardId" />
     	</collection-descriptor>
     	
-   		<collection-descriptor name="keywords" element-class-ref="org.kuali.kra.award.home.keywords.AwardScienceKeyword" auto-retrieve="true" auto-update="object" auto-delete="object">
+   		<collection-descriptor name="keywords" proxy="true" element-class-ref="org.kuali.kra.award.home.keywords.AwardScienceKeyword" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="awardId" />
 		</collection-descriptor>
    		<collection-descriptor name="specialReviews" proxy="true" element-class-ref="org.kuali.kra.award.specialreview.AwardSpecialReview" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
@@ -224,6 +223,10 @@
        		 <orderby name="organizationName" sort="ASC" />
        	 	<inverse-foreignkey field-ref="awardId" />
 		</collection-descriptor>
+         <reference-descriptor name="versionHistory" class-ref="org.kuali.kra.bo.versioning.VersionHistorySearchBo" auto-retrieve="true" auto-update="none" auto-delete="none">
+            <foreignkey field-id-ref="1" />
+            <foreignkey field-id-ref="2" />
+        </reference-descriptor>
 	</class-descriptor>
 	
 	<class-descriptor class="org.kuali.kra.award.contacts.AwardPerson" table="AWARD_PERSONS">
