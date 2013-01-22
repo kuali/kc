@@ -373,16 +373,6 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
         List<BudgetPeriod> budgetPeriods = budget.getBudgetPeriods();
         //List<BudgetPersonnelDetails> budgetPersonnelDetails = budget.getBudgetPersonnelDetailsList();
         for(BudgetPeriod budgetPeriod: budgetPeriods) {
-            /* get all line items for each budget period */
-            Collection<BudgetLineItem> periodLineItems = new ArrayList();
-            Collection<BudgetPersonnelDetails> periodPersonnelDetails = new ArrayList();
-            Map budgetLineItemMap = new HashMap();
-            /* filter by budget period */
-            // TODO : not sure how this personnel details list.  This is just copy from an existing method
-            Integer budgetPeriodNumber = budgetPeriod.getBudgetPeriod();
-            budgetLineItemMap.put("budgetPeriod", budgetPeriodNumber);
-            periodLineItems = businessObjectService.findMatching(BudgetLineItem.class, budgetLineItemMap);
-            periodPersonnelDetails = businessObjectService.findMatching(BudgetPersonnelDetails.class, budgetLineItemMap);
             /* update line items */
             if (budgetPeriod.getBudgetLineItems() != null) {
                 for(BudgetLineItem periodLineItem: budgetPeriod.getBudgetLineItems()) {
