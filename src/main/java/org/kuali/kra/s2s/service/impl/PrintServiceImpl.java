@@ -353,7 +353,7 @@ public class PrintServiceImpl implements PrintService {
 			s2sFormGenerator.setAttachments(new ArrayList<AttachmentData>());
 			XmlObject formObject = s2sFormGenerator.getFormObject(pdDoc);
 			setFormObject(forms, formObject);
-			//if (s2SValidatorService.validate(formObject, errors) && errors.isEmpty()) {
+			if (s2SValidatorService.validate(formObject, errors) && errors.isEmpty()) {
 			    String applicationXml = formObject.xmlText(s2SFormGeneratorService.getXmlOptionsPrefixes());
 			    String filteredApplicationXml = getS2SUtilService().removeTimezoneFactor(applicationXml);
 				byte[] formXmlBytes = filteredApplicationXml.getBytes();
@@ -396,7 +396,7 @@ public class PrintServiceImpl implements PrintService {
 					formPrintable.setAttachments(formAttachments);
 				}
 				formPrintables.add(formPrintable);
-			//}
+			}
 		}
 		if (!errors.isEmpty()) {
 			setValidationErrorMessage(errors);
