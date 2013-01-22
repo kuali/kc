@@ -729,6 +729,9 @@
     <bean id="versionHistoryService" class="org.kuali.kra.service.impl.VersionHistoryServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
     </bean>
+    <bean id="versionHistoryLookupDao" parent="platformAwareDao" class="org.kuali.kra.dao.ojb.VersionHistoryLookupDaoOjb">
+    </bean>
+    
     
     <bean id="watermarkService" class="org.kuali.kra.printing.service.impl.WatermarkServiceImpl" />
     
@@ -927,6 +930,18 @@
     	<property name="parameterService" ref="parameterService" />
     	<property name="documentService" ref="documentService" />
     </bean>
+<!--    <bean id="kcKrmsJavaFunctionTermService" class="org.kuali.kra.krms.service.impl.KcKrmsJavaFunctionTermServiceBase" abstract="true">
+    	<property name="businessObjectService" ref="businessObjectService" />
+    	<property name="unitService" ref="unitService" />
+    	<property name="parameterService" ref="parameterService" />
+    	<property name="documentService" ref="documentService" />
+    </bean>
+    <bean id="krmsPropDevJavaFunctionTermService" class="org.kuali.kra.proposaldevelopment.service.impl.KrmsPropDevJavaFunctionTermServiceImpl"
+    																	parent="kcKrmsJavaFunctionTermService">
+    </bean>
+    <bean id="krmsIrbJavaFunctionTermService" class="org.kuali.kra.irb.KrmsIrbJavaFunctionTermServiceImpl"
+    																	parent="kcKrmsJavaFunctionTermService">
+    </bean>-->
     
     <bean 
       class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter"

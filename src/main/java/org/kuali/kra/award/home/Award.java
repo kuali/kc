@@ -62,6 +62,7 @@ import org.kuali.kra.bo.ScienceKeyword;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.bo.UnitAdministrator;
+import org.kuali.kra.bo.versioning.VersionHistorySearchBo;
 import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.budget.core.BudgetParent;
 import org.kuali.kra.budget.personnel.PersonRolodex;
@@ -160,6 +161,8 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     private Date financialAccountCreationDate;
     private String financialChartOfAccountsCode;
     private String awardSequenceStatus;
+//    private String sequenceOwnerVersionNameValue;
+//    private Integer sequenceOwnerSequenceNumber;
 
 
     private static boolean newVersion;
@@ -257,6 +260,9 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     private List<SubAward> subAwardList;
     
     private transient boolean allowUpdateTimestampToBeReset = true;
+    
+    private VersionHistorySearchBo versionHistory;
+
     /**
      * 
      * Constructs an Award BO.
@@ -3521,4 +3527,32 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
             setAllowUpdateTimestampToBeReset(true);
         }
     }
+
+    public VersionHistorySearchBo getVersionHistory() {
+        return versionHistory;
+    }
+
+    public void setVersionHistory(VersionHistorySearchBo versionHistory) {
+        this.versionHistory = versionHistory;
+    }
+    public void setProjectPersons(List<AwardPerson> projectPersons) {
+        this.projectPersons = projectPersons;
+    }
+
+//    public String getSequenceOwnerVersionNameValue() {
+//        return sequenceOwnerVersionNameValue;
+//    }
+//
+//    public void setSequenceOwnerVersionNameValue(String sequenceOwnerVersionNameValue) {
+//        this.sequenceOwnerVersionNameValue = sequenceOwnerVersionNameValue;
+//    }
+//
+//    public Integer getSequenceOwnerSequenceNumber() {
+//        return sequenceOwnerSequenceNumber;
+//    }
+//
+//    public void setSequenceOwnerSequenceNumber(Integer sequenceOwnerSequenceNumber) {
+//        this.sequenceOwnerSequenceNumber = sequenceOwnerSequenceNumber;
+//    }
+    
 }

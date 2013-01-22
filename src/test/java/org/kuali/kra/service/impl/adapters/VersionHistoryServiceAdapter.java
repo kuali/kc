@@ -39,9 +39,19 @@ public class VersionHistoryServiceAdapter implements VersionHistoryService {
     }
 
     @Override
+    public List<VersionHistory> findVersionHistory(Class<? extends SequenceOwner> klass, String versionName) {
+        return null;
+    }
+
+    @Override
+    public void loadSequenceOwner(Class<? extends SequenceOwner> klass, VersionHistory versionHistory) {
+    }   
+    
+    @Override
     public VersionHistory updateVersionHistory(SequenceOwner<? extends SequenceOwner<?>> sequenceOwner,
             VersionStatus versionStatus, String userId) {
         return null;
     }   
+    
     
 }
