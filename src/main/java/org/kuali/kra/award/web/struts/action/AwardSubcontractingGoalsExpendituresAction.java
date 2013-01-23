@@ -34,7 +34,6 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
-import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 
@@ -58,7 +57,9 @@ public class AwardSubcontractingGoalsExpendituresAction extends KualiAction {
             // remove any error messages from any abandoned edits of a BO (we can safely discard them on a refresh).
             removeErrorMessagesForAbandonedGoalsExpendituresBO();            
             // clear out any 'bad' residual input 
-            awardGoalsExpendituresForm.getUnconvertedValues().clear();   
+            awardGoalsExpendituresForm.getUnconvertedValues().clear();
+            // clear out the unsaved changes flag
+            awardGoalsExpendituresForm.setContainingUnsavedChanges(false);
         }
         
         // let superclass handle the main functionality of method dispatch etc.
@@ -102,8 +103,7 @@ public class AwardSubcontractingGoalsExpendituresAction extends KualiAction {
             // set the display message
             AwardSubcontractingGoalsExpendituresForm awardGoalsExpendituresForm = (AwardSubcontractingGoalsExpendituresForm) form;
             String awardNumber = awardGoalsExpendituresForm.getAwardSubcontractingGoalsExpenditures().getAwardNumber();
-            ErrorMessage reloadedMessage = new ErrorMessage(KeyConstants.AWARD_GOALS_EXPENDITURES_RELOADED, new String[]{awardNumber});
-            KNSGlobalVariables.getMessageList().add(reloadedMessage);
+            KNSGlobalVariables.getMessageList().add(KeyConstants.AWARD_GOALS_EXPENDITURES_RELOADED, new String[]{awardNumber});
         }
         return forward;
     }
@@ -115,8 +115,7 @@ public class AwardSubcontractingGoalsExpendituresAction extends KualiAction {
         // set the display message
         AwardSubcontractingGoalsExpendituresForm awardGoalsExpendituresForm = (AwardSubcontractingGoalsExpendituresForm) form;
         String awardNumber = awardGoalsExpendituresForm.getAwardSubcontractingGoalsExpenditures().getAwardNumber();
-        ErrorMessage clearedMessage = new ErrorMessage(KeyConstants.AWARD_GOALS_EXPENDITURES_CLEARED, new String[]{awardNumber});
-        KNSGlobalVariables.getMessageList().add(clearedMessage);
+        KNSGlobalVariables.getMessageList().add(KeyConstants.AWARD_GOALS_EXPENDITURES_CLEARED, new String[]{awardNumber});
         return forward;
     }
     
@@ -133,6 +132,8 @@ public class AwardSubcontractingGoalsExpendituresAction extends KualiAction {
                 getGoalsExpendituresServiceImpl().saveGoalsExpendituresBO(goalsExpendituresBO);                
                 // add the successful save message for display 
                 KNSGlobalVariables.getMessageList().add(KeyConstants.AWARD_GOALS_EXPENDITURES_SAVED, new String[]{awardNumber});
+                // reset the unsaved changes flag
+                awardGoalsExpendituresForm.setContainingUnsavedChanges(false);
             }
             else {
                 // set the flag on the form to not display the details, since somehow (spoofing?) a bad PK was sent in
@@ -143,11 +144,11 @@ public class AwardSubcontractingGoalsExpendituresAction extends KualiAction {
     }    
     
     
-    public ActionForward recalculateBusinessTotals(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {        
+    public ActionForward recalculateBusinessTotals(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        AwardSubcontractingGoalsExpendituresForm awardGoalsExpendituresForm = (AwardSubcontractingGoalsExpendituresForm) form;
         // first check if the default validation went OK 
         if(GlobalVariables.getMessageMap().hasNoErrors()) {
-            // then validate the supplied award number from the BO (just in case there was some inadvertent spoofing?)
-            AwardSubcontractingGoalsExpendituresForm awardGoalsExpendituresForm = (AwardSubcontractingGoalsExpendituresForm) form;
+            // then validate the supplied award number from the BO (just in case there was some inadvertent spoofing?)            
             if((new AwardSubcontractingGoalsExpendituresRule()).validateAwardNumber(awardGoalsExpendituresForm.getAwardSubcontractingGoalsExpenditures().getAwardNumber())) {
                 //do nothing, the totals will be computed in the getters invoked from the tag during display of details
             }
