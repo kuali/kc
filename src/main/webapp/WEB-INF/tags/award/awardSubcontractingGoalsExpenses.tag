@@ -53,7 +53,7 @@
 		<tr>
 			<td> <div align="right"><label>Total</label>
 				<c:if test="${!readOnly}"> 
-					<br/> <html:image property="methodToCall.recalculateBusinessTotals" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-recalculate.gif' styleClass="tinybutton"/></div></td>
+					<br/> <html:image property="methodToCall.recalculateBusinessTotals" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-recalculate.gif' styleClass="tinybutton" styleId="recalculateBusinessTotals"/></div></td>
 				</c:if>
 			<td> <div align="center"> <fmt:formatNumber value="${KualiForm.awardSubcontractingGoalsExpenditures.totalBusinessGoalAmount}" type="currency" currencySymbol="$" maxFractionDigits="2" /> </div></td>
 			<td> <div align="center"> <fmt:formatNumber value="${KualiForm.awardSubcontractingGoalsExpenditures.totalBusinessExpenditureAmount}" type="currency" currencySymbol="$" maxFractionDigits="2" /></div></td>
@@ -104,3 +104,4 @@
 	
 	</table>
 </div>
+
