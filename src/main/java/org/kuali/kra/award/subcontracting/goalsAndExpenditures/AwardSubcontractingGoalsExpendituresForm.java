@@ -29,6 +29,8 @@ public class AwardSubcontractingGoalsExpendituresForm extends KualiForm {
     private String awardNumber;
     private String awardId;
     private boolean displayGoalsExpendituresDetails;
+    private boolean containingUnsavedChanges;
+    
     private AwardSubcontractingGoalsExpenditures awardSubcontractingGoalsExpenditures;
 
     public AwardSubcontractingGoalsExpendituresForm() {
@@ -77,6 +79,16 @@ public class AwardSubcontractingGoalsExpendituresForm extends KualiForm {
 
     public boolean isDisplayGoalsExpendituresDetails() {
         return displayGoalsExpendituresDetails;
+    }
+
+
+    public void setContainingUnsavedChanges(boolean containingUnsavedChanges) {
+        this.containingUnsavedChanges = containingUnsavedChanges;
+    }
+
+
+    public boolean isContainingUnsavedChanges() {
+        return containingUnsavedChanges;
     }
 
    
