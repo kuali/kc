@@ -352,13 +352,12 @@ public class PrintServiceImpl implements PrintService {
 			s2sFormGenerator.setAuditErrors(errors);
 			s2sFormGenerator.setAttachments(new ArrayList<AttachmentData>());
 			XmlObject formObject = s2sFormGenerator.getFormObject(pdDoc);
-			setFormObject(forms, formObject);
+			
 			if (s2SValidatorService.validate(formObject, errors) && errors.isEmpty()) {
 			    String applicationXml = formObject.xmlText(s2SFormGeneratorService.getXmlOptionsPrefixes());
 			    String filteredApplicationXml = getS2SUtilService().removeTimezoneFactor(applicationXml);
 				byte[] formXmlBytes = filteredApplicationXml.getBytes();
 				S2SFormPrint formPrintable = new S2SFormPrint();
-
 				// Linkedhashmap is used to preserve the order of entry.
 				Map<String, byte[]> formXmlDataMap = new LinkedHashMap<String, byte[]>();
 				formXmlDataMap.put(info.getFormName(), formXmlBytes);
@@ -374,6 +373,7 @@ public class PrintServiceImpl implements PrintService {
 				try {
 				    if(pdDoc.getDevelopmentProposal().getGrantsGovSelectFlag()){
 				    	List<S2sAppAttachments> attachmentLists = new ArrayList<S2sAppAttachments>();
+				    	setFormObject(forms, formObject);
                     	saveGrantsGovXml(pdDoc,forms,attachmentList,attachmentLists);
 				    }
                 }
