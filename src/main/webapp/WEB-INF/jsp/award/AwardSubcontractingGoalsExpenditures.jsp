@@ -46,12 +46,12 @@
 	<div id="globalbuttons" class="globalbuttons">
 		<c:if test="${KualiForm.displayGoalsExpendituresDetails}">
 	    	<c:if test="${!readOnly}">
-	        	<html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_save.gif" styleClass="globalbuttons" property="methodToCall.save" title="save" alt="save"/>
+	        	<html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_save.gif" styleClass="globalbuttons" property="methodToCall.save" styleId="save" title="save" alt="save"/>
 	    	</c:if>
 	    	<c:choose>
     	       	<c:when test="${KualiForm.awardSubcontractingGoalsExpenditures.fresh}">
     	      		<c:if test="${!readOnly}">
-	        			<html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_clear.gif" styleClass="globalbuttons" property="methodToCall.clear" title="clear" alt="clear"/>
+	        			<html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_clear.gif" styleClass="globalbuttons" property="methodToCall.clear" title="clear" alt="clear" onclick="excludeSubmitRestriction=true"/>
 	    			</c:if>
 	    	    </c:when>		
 				<c:otherwise>    	       	       
@@ -60,7 +60,7 @@
 	    	</c:choose>
 	    </c:if>
 	    
-	    <html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_close.gif" styleClass="globalbuttons" property="methodToCall.close" title="close" alt="close"/>
+	    <html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_close.gif" styleClass="globalbuttons" property="methodToCall.close" title="close" alt="close" onclick="excludeSubmitRestriction=true"/>
 	    
 	</div>
 	<hr>
