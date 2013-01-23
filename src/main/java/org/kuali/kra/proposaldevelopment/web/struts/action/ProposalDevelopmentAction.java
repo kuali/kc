@@ -239,8 +239,8 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
                 proposalDevelopmentForm.setSaveXmlPermission(true);
             }
         }
-       if(proposalDevelopmentForm.isGrantsGovEnabled()){
-        proposalDevelopmentForm.setGrantsGovSelectFlag(true);
+        if(proposalDevelopmentForm.getProposalDevelopmentDocument().getDevelopmentProposal().getS2sOpportunity()!= null){
+            proposalDevelopmentForm.setGrantsGovSelectFlag(true);
        }
         return forward;
     }
