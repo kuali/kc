@@ -31,6 +31,7 @@ import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.service.DocumentHelperService;
 import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.lookup.CollectionIncomplete;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
@@ -45,11 +46,15 @@ public class DevelopmentProposalLookupableHelperServiceImpl extends KraLookupabl
     @Override
     @SuppressWarnings("unchecked")
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
-        List<DevelopmentProposal> unboundedResults = (List<DevelopmentProposal>) super.getSearchResultsUnbounded(fieldValues);
+        List<DevelopmentProposal> unboundedResults = (List<DevelopmentProposal>) super.getSearchResults(fieldValues);
         
         List<DevelopmentProposal> filteredResults = new ArrayList<DevelopmentProposal>();
         
         filteredResults = (List<DevelopmentProposal>) filterForPermissions(unboundedResults);
+        
+        if (unboundedResults instanceof CollectionIncomplete) {
+            filteredResults = new CollectionIncomplete<DevelopmentProposal>(filteredResults, ((CollectionIncomplete)unboundedResults).getActualSizeIfTruncated());
+        }
 
         return filteredResults;
     }
