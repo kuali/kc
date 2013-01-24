@@ -33,6 +33,7 @@ import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.dao.impl.LookupDaoOjb;
 import org.kuali.rice.krad.lookup.CollectionIncomplete;
+import org.kuali.rice.kns.lookup.LookupUtils;
 
 public class AwardLookupDaoObj extends LookupDaoOjb  implements AwardLookupDao{
     private VersionHistoryLookupDao versionHistoryLookupDao;
@@ -60,9 +61,10 @@ public class AwardLookupDaoObj extends LookupDaoOjb  implements AwardLookupDao{
         Criteria awardCr = new Criteria();
         awardCr.addIn("awardId", awardIds);
         List<Award> awardList = (List<Award>)getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(Award.class, awardCr));
-        if(searchResults instanceof CollectionIncomplete) {
+        if (searchResults instanceof CollectionIncomplete) {
             awardList = new CollectionIncomplete<Award>(awardList, ((CollectionIncomplete<Award>)searchResults).getActualSizeIfTruncated());
         }
+
         return awardList;    
     }
 
@@ -84,7 +86,8 @@ public class AwardLookupDaoObj extends LookupDaoOjb  implements AwardLookupDao{
         if(!timeAndMoneyDocuments.isEmpty()){
             TimeAndMoneyDocument timeAndMoneyDocument = timeAndMoneyDocuments.get(0);
             DocumentHeader documentHeader = timeAndMoneyDocument.getDocumentHeader();
-            WorkflowDocument tnmWorkFlowDoc = documentHeader==null?null:documentHeader.getWorkflowDocument();
+            WorkflowDocument tnmWorkFlowDoc = documentHeader==null || !documentHeader.hasWorkflowDocument() 
+                    ? null : documentHeader.getWorkflowDocument();
             if(tnmWorkFlowDoc!=null && tnmWorkFlowDoc.isFinal()){
                 return true;
             }

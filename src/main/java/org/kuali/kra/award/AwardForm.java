@@ -166,7 +166,6 @@ public class AwardForm extends BudgetVersionFormBase
     private AwardCreditSplitBean awardCreditSplitBean;
     private Map<String, AwardHierarchy> awardHierarchyNodes;
     private String awardNumberInputTemp;//This is temporary till the GUI mock is ready for award hierarchy
-    private List<String> order;
     private AwardFundingProposalBean fundingProposalBean;
     private String awardHierarchy;
     private String awardNumber;
@@ -267,7 +266,6 @@ public class AwardForm extends BudgetVersionFormBase
         fundingProposalBean = new AwardFundingProposalBean(this);
         awardPrintNotice = new AwardPrintNotice();
         awardPrintChangeReport = new AwardTransactionSelectorBean();
-        order = new ArrayList<String>();
         buildReportTrackingBeans();
         awardHierarchyBean = new AwardHierarchyBean(this);
         medusaBean = new MedusaBean();
@@ -851,22 +849,6 @@ public class AwardForm extends BudgetVersionFormBase
      */
     public void setAwardNumberInputTemp(String awardNumberInputTemp) {
         this.awardNumberInputTemp = awardNumberInputTemp;
-    }
-
-    /**
-     * Gets the order attribute. 
-     * @return Returns the order.
-     */
-    public List<String> getOrder() {
-        return order;
-    }
-
-    /**
-     * Sets the order attribute value.
-     * @param order The order to set.
-     */
-    public void setOrder(List<String> order) {
-        this.order = order;
     }
     
     public AwardHierarchyBean getAwardHierarchyBean() {
@@ -1506,5 +1488,15 @@ public class AwardForm extends BudgetVersionFormBase
     public void setReportTrackingBeans(List<ReportTrackingBean> reportTrackingBeans) {
         this.reportTrackingBeans = reportTrackingBeans;
     }
+    
+    public String determineRootAwardNumber(AwardForm awardForm) {
+        String prevRootAwardNumber = getPrevRootAwardNumber();
+        return prevRootAwardNumber != null ? prevRootAwardNumber : getAwardDocument().getAward().getAwardNumber();
+    }
+
+    public String determineParentAwardNumber(AwardForm awardForm) {
+        String prevAwardNumber = getPrevAwardNumber();
+        return prevAwardNumber != null ? prevAwardNumber : Constants.AWARD_HIERARCHY_DEFAULT_PARENT_OF_ROOT;
+    }    
     
 }
