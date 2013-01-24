@@ -162,7 +162,8 @@ begin
   prepare alter_seq_stmt from @alter_seq;
   execute alter_seq_stmt;
   deallocate prepare alter_seq_stmt;
-end /
+end
+/
 
 call p ()
 /
