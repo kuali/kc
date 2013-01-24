@@ -72,7 +72,7 @@ http://www.osedu.org/licenses/ECL-2.0
     <div id="debugLog" style="position: relative; overflow-y: auto; height: 15em; display:none; text-align: left; width:100%;"><a href="javascript: $('#loading').hide(); return false;" style="position: absolute; top: 0; right: 0;">Hide Loading</a></div>
     </div>
     
-	<c:forEach items="${KualiForm.awardHierarchyNodes}" var="tempNode" varStatus="status">
+	<c:forEach items="${KualiForm.awardHierarchyBean.hierarchy}" var="tempNode" varStatus="status">
 		<c:set var="createChildProperty" value="methodToCall.create.awardNumber${tempNode.key}" />  
 		<c:set var="copyAwardProperty" value="methodToCall.copyAward.awardNumber${tempNode.key}" />
 		${kfunc:registerEditableProperty(KualiForm, createChildProperty)}  
@@ -84,7 +84,7 @@ http://www.osedu.org/licenses/ECL-2.0
     <input type="hidden" id ="currentSeqNumber" name="document.awardList[0].sequenceNumber" value="${KualiForm.document.awardList[0].sequenceNumber}">
     <input type="hidden" id = "selectedAwardNumber" name="selectedAwardNumber" value="${(param.selectedAwardNumber == '' or param.selectedAwardNumber == null) ? selectedAwardNumber : param.selectedAwardNumber}">
 	
-	<c:forEach var="i" begin="1" end="${fn:length(KualiForm.awardHierarchyNodes)}" step="1" varStatus ="status">
+	<c:forEach var="i" begin="1" end="${fn:length(KualiForm.awardHierarchyBean.hierarchy)}" step="1" varStatus ="status">
 		<input type="hidden" id = "awardHierarchyTempObject[${i}].awardNumber1" name="awardHierarchyTempObject[${i}].awardNumber1" value="${KualiForm.awardHierarchyTempObjects[i].awardNumber1}">
 		<c:set var="lookupAwardNumber1" value="methodToCall.performLookup.(!!org.kuali.kra.award.home.Award!!).(((awardNumber:awardHierarchyTempObject[${i}].awardNumber1,awardHierarchyTempObject[${i}].awardNumber1:awardNumber))).((``)).((<>)).(([])).((**)).((^^)).((&&)).((//)).((~~))" />
 		${kfunc:registerEditableProperty(KualiForm, lookupAwardNumber1)}

@@ -185,15 +185,6 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
         return new AuditActionHelper().setAuditMode(mapping, (AwardForm) form, false);
     }
     
-    public ActionForward reload(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
-            throws Exception {
-        
-        ActionForward forward = super.reload(mapping, form, request, response);
-        super.populateAwardHierarchy(form);
-        
-        return forward;
-    }
-    
     /**
      * 
      * This method corresponds copy award action on Award Hierarchy UI. Depending on various options selected appropriate helper methods get called.

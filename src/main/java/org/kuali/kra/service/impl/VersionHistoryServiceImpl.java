@@ -126,14 +126,7 @@ public class VersionHistoryServiceImpl implements VersionHistoryService {
          * 
          */
 //        VersionHistory activeVersionHistory = histories.size() == 1 ? histories.get(0) : null;        
-        VersionHistory activeVersionHistory = findActiveVersionHistory(histories);
-        
-        if(activeVersionHistory != null) {
-            String versionFieldName = activeVersionHistory.getSequenceOwnerVersionNameField();
-            SequenceOwner<?> owner = findSequenceOwners(klass, versionFieldName, versionName).get(activeVersionHistory.getSequenceOwnerSequenceNumber());
-            activeVersionHistory.setSequenceOwner(owner);
-        }
-        
+        VersionHistory activeVersionHistory = findActiveVersionHistory(histories);        
         return activeVersionHistory;
     }
 
@@ -180,9 +173,6 @@ public class VersionHistoryServiceImpl implements VersionHistoryService {
         List<VersionHistory> histories = new ArrayList<VersionHistory>(bos.findMatching(VersionHistory.class, fieldValues));
         if(CollectionUtils.isNotEmpty(histories)) {
             pendingVersionHistory = histories.get(0);
-            String versionFieldName = pendingVersionHistory.getSequenceOwnerVersionNameField();
-            SequenceOwner<?> owner = findSequenceOwners(klass, versionFieldName, versionName).get(pendingVersionHistory.getSequenceOwnerSequenceNumber());
-            pendingVersionHistory.setSequenceOwner(owner);
         }
         
         return pendingVersionHistory;
@@ -200,9 +190,6 @@ public class VersionHistoryServiceImpl implements VersionHistoryService {
         List<VersionHistory> histories = new ArrayList<VersionHistory>(bos.findMatching(VersionHistory.class, fieldValues));
         if(CollectionUtils.isNotEmpty(histories)) {
             pendingVersionHistory = histories.get(0);
-            String versionFieldName = pendingVersionHistory.getSequenceOwnerVersionNameField();
-            SequenceOwner<?> owner = findSequenceOwners(klass, versionFieldName, versionName).get(pendingVersionHistory.getSequenceOwnerSequenceNumber());
-            pendingVersionHistory.setSequenceOwner(owner);
         }
         
         return pendingVersionHistory;
@@ -246,6 +233,7 @@ public class VersionHistoryServiceImpl implements VersionHistoryService {
         return activeVersionHistory;
     }
     
+    @Deprecated
     @SuppressWarnings("unchecked")
     protected Map<Integer, SequenceOwner<? extends SequenceOwner<?>>> findSequenceOwners(Class klass, String versionField, String versionName) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();

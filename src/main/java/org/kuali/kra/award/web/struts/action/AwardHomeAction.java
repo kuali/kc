@@ -448,7 +448,7 @@ public class AwardHomeAction extends AwardAction {
             return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
         }
         
-        if(getTimeAndMoneyExistenceService().validateTimeAndMoneyRule(award, awardForm.getAwardHierarchyNodes())){
+        if(getTimeAndMoneyExistenceService().validateTimeAndMoneyRule(award, awardForm.getAwardHierarchyBean().getRootNode().getAwardNumber())) {
             VersionHistory foundPending = findPendingVersion(award);
             cleanUpUserSession();
             if(foundPending != null) {

@@ -162,19 +162,6 @@ public class TimeAndMoneyDocument extends ResearchDocumentBase implements  Copya
     protected ActivePendingTransactionsService getActivePendingTransactionsService(){
         return (ActivePendingTransactionsService) KraServiceLocator.getService(ActivePendingTransactionsService.class);
     }
-    
-    /**
-     * @see org.kuali.kra.document.ResearchDocumentBase#getAllRolePersons()
-     */
-    @Override
-    protected List<RolePersons> getAllRolePersons() {
-        KraAuthorizationService kraAuthorizationService = getKraAuthorizationService(); 
-        return kraAuthorizationService.getAllRolePersons(this);
-    }
-    
-    protected KraAuthorizationService getKraAuthorizationService(){
-        return (KraAuthorizationService) KraServiceLocator.getService(KraAuthorizationService.class);
-    }
 
     public String getDocumentKey() {
         //KimIntegration : Verify

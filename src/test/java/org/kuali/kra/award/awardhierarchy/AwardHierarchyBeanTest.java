@@ -79,7 +79,7 @@ public class AwardHierarchyBeanTest {
 
     private void createAwardHierarchyBean() {
         bean = new AwardHierarchyBeanForUnitTest(null, service);
-        bean.rootNodes.put(rootAward.getAwardNumber(), AwardHierarchy.createRootNode(rootAward));
+        bean.getRootNodes().put(rootAward.getAwardNumber(), AwardHierarchy.createRootNode(rootAward));
     }
 
     private class AwardHierarchyBeanForUnitTest extends AwardHierarchyBean {
