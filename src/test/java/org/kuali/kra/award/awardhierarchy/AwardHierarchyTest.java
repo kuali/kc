@@ -108,7 +108,7 @@ public class AwardHierarchyTest {
 
         node.setVersionHistoryService(prepareVersionHistoryService(awards, versionHistories));
 
-        Assert.assertEquals(awardId_Pending, node.getAward().getAwardId());
+        Assert.assertEquals(awardId_Active, node.getAward().getAwardId());
     }
 
     @Test
