@@ -298,27 +298,9 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
     @Override
     // This method should go away in favor of using DD workflowProperties bean to serialize properties
     public KualiDocumentXmlMaterializer wrapDocumentWithMetadataForXmlSerialization() {
-        KraAuthorizationService kraauthservice = KraServiceLocator.getService(KraAuthorizationService.class);
-        KualiTransactionalDocumentInformation transInfo = new KualiTransactionalDocumentInformation();
-        DocumentInitiator initiatior = new DocumentInitiator();
-        // String initiatorNetworkId = getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId();
-        // try {
-        // UniversalUser initiatorUser = KRADServiceLocator.getUniversalUserService().getUniversalUser(new
-        // PrincipalName(initiatorNetworkId));
-        // initiatorUser.getModuleUsers(); // init the module users map for serialization
-        // initiatior.setUniversalUser(initiatorUser);
-        // }
-        // catch (UserNotFoundException e) {
-        // throw new RuntimeException(e);
-        // }
-        transInfo.setDocumentInitiator(initiatior);
-        KraDocumentXMLMaterializer xmlWrapper = new KraDocumentXMLMaterializer();
-        // KualiDocumentXmlMaterializer xmlWrapper = new KualiDocumentXmlMaterializer();
-        xmlWrapper.setDocument(this);
-        xmlWrapper.setKualiTransactionalDocumentInformation(transInfo);
-        xmlWrapper.setRolepersons(kraauthservice.getAllRolePersons(this));
+        KraDocumentXMLMaterializer xmlWrapper = (KraDocumentXMLMaterializer) super.wrapDocumentWithMetadataForXmlSerialization();
+        xmlWrapper.setRolepersons(getAllRolePersons());
         return xmlWrapper;
-
     }
 
     @Override

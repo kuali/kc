@@ -274,17 +274,16 @@ public class AwardAction extends BudgetParentActionBase {
         Map<String, AwardHierarchy> awardHierarchyNodes = helperBean.getAwardHierarchy(rootNode, order);
         Map<String,AwardHierarchyNode> awardHierarchyNodesMap = new HashMap<String, AwardHierarchyNode>();
         Award currentAward = awardDocument.getAward();
-        getAwardHierarchyService().populateAwardHierarchyNodes(awardHierarchyNodes, awardHierarchyNodesMap, currentAward.getAwardNumber(), currentAward.getSequenceNumber().toString());
-        awardForm.setAwardHierarchyNodes(awardHierarchyNodes);
+        //getAwardHierarchyService().populateAwardHierarchyNodes(awardHierarchyNodes, awardHierarchyNodesMap, currentAward.getAwardNumber(), currentAward.getSequenceNumber().toString());
+        //awardForm.setAwardHierarchyNodes(awardHierarchyNodes);
         awardForm.setRootAwardNumber(rootNode.getRootAwardNumber());
-        awardForm.setOrder(order);
         StringBuilder sb1 = new StringBuilder();
         StringBuilder sb2 = new StringBuilder();
         for(String str:order){
-            AwardHierarchyNode tempAwardNode = awardHierarchyNodesMap.get(str);
+            AwardHierarchy tempAwardNode = awardHierarchyNodes.get(str);
             sb1.append(tempAwardNode.getAwardNumber());
             sb1.append(KRADConstants.BLANK_SPACE).append("%3A");
-            if(tempAwardNode.isAwardDocumentFinalStatus()) {
+            if(true) {//tempAwardNode.isAwardDocumentFinalStatus()) {
                 sb2.append(tempAwardNode.getAwardNumber());
                 sb2.append(KRADConstants.BLANK_SPACE).append("%3A");
             }
@@ -309,7 +308,7 @@ public class AwardAction extends BudgetParentActionBase {
         ActionForward forward = null;
         AwardForm awardForm = (AwardForm) form;
 
-        if(getTimeAndMoneyExistenceService().validateTimeAndMoneyRule(awardForm.getAwardDocument().getAward(), awardForm.getAwardHierarchyNodes())){
+        if(getTimeAndMoneyExistenceService().validateTimeAndMoneyRule(awardForm.getAwardDocument().getAward(), awardForm.getAwardHierarchyBean().getRootNode().getAwardNumber())){
             forward = super.approve(mapping, form, request, response);
         }else{
             getTimeAndMoneyExistenceService().addAwardVersionErrorMessage();
@@ -328,7 +327,7 @@ public class AwardAction extends BudgetParentActionBase {
         AwardForm awardForm = (AwardForm) form;
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         
-        if(getTimeAndMoneyExistenceService().validateTimeAndMoneyRule(awardForm.getAwardDocument().getAward(), awardForm.getAwardHierarchyNodes())){
+        if(getTimeAndMoneyExistenceService().validateTimeAndMoneyRule(awardForm.getAwardDocument().getAward(), awardForm.getAwardHierarchyBean().getRootNode().getAwardNumber())){
             forward = super.route(mapping, form, request, response);
             populateAwardHierarchy(awardForm);
         }else{
@@ -380,7 +379,7 @@ public class AwardAction extends BudgetParentActionBase {
         AwardForm awardForm = (AwardForm) form;
 
         if (getTimeAndMoneyExistenceService().validateTimeAndMoneyRule(awardForm.getAwardDocument().getAward(),
-                awardForm.getAwardHierarchyNodes())) {
+                awardForm.getAwardHierarchyBean().getRootNode().getAwardNumber())) {
             awardForm.setAuditActivated(true);
             ValidationState status = new AuditActionHelper().isValidSubmission(awardForm, true);
             if (status == ValidationState.ERROR) {
@@ -441,7 +440,6 @@ public class AwardAction extends BudgetParentActionBase {
         if (bean.saveHierarchyChanges()) {
             List<String> order = new ArrayList<String>();
             awardForm.setAwardHierarchyNodes(bean.getAwardHierarchy(bean.getRootNode().getAwardNumber(), order));
-            awardForm.setOrder(order);
         }
         // generate hierarchy sync changes after save so all BOs have ids and parent ids set
         for (AwardSyncPendingChangeBean pendingChange : awardForm.getAwardSyncBean().getConfirmedPendingChanges()) {
@@ -568,22 +566,8 @@ public class AwardAction extends BudgetParentActionBase {
         }
         
         if(!awardForm.getAwardDocument().isDocumentSaveAfterVersioning()) {
-            createDefaultAwardHierarchy(awardForm);
+            awardForm.getAwardHierarchyBean().createDefaultAwardHierarchy();
             awardForm.getAwardHierarchyBean().saveHierarchyChanges();            
-        }
-    }
-
-    // TODO JF: Integrate behavior into bean; i.e. bean should create the new node
-    protected void createDefaultAwardHierarchy(AwardForm awardForm) {
-        String awardNumber = awardForm.getAwardDocument().getAward().getAwardNumber();
-        AwardHierarchy newNode = new AwardHierarchy();
-        newNode.setAwardNumber(awardNumber);
-        newNode.setParentAwardNumber(determineParentAwardNumber(awardForm));
-        newNode.setRootAwardNumber(determineRootAwardNumber(awardForm));
-        newNode.setOriginatingAwardNumber(awardNumber);
-        newNode.setAward(awardForm.getAwardDocument().getAward());        
-        if(newNode.isRootNode()) {
-            awardForm.getAwardHierarchyBean().setRootNode(newNode);
         }
     }
     
@@ -1677,16 +1661,6 @@ public class AwardAction extends BudgetParentActionBase {
      */
     protected VersionHistoryService getVersionHistoryService() {
         return KraServiceLocator.getService(VersionHistoryService.class);
-    }
-
-    private String determineRootAwardNumber(AwardForm awardForm) {
-        String prevRootAwardNumber = awardForm.getPrevRootAwardNumber();
-        return prevRootAwardNumber != null ? prevRootAwardNumber : awardForm.getAwardDocument().getAward().getAwardNumber();
-    }
-
-    private String determineParentAwardNumber(AwardForm awardForm) {
-        String prevAwardNumber = awardForm.getPrevAwardNumber();
-        return prevAwardNumber != null ? prevAwardNumber : Constants.AWARD_HIERARCHY_DEFAULT_PARENT_OF_ROOT;
     }
     
     protected String getModuleIdentifierForOpeningDocument(HttpServletRequest request) {

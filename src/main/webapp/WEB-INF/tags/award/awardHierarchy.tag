@@ -68,7 +68,7 @@
     </div>
     <div id="debugLog" style="position: relative; overflow-y: auto; height: 15em; display:none; text-align: left; width:100%;"><a href="javascript: $('#loading').hide(); return false;" style="position: absolute; top: 0; right: 0;">Hide Loading</a></div>
     
-	<c:forEach items="${KualiForm.awardHierarchyNodes}" var="tempNode" varStatus="status">
+	<c:forEach items="${KualiForm.awardHierarchyBean.currentAwardHierarchy}" var="tempNode" varStatus="status">
 		<c:set var="createChildProperty" value="methodToCall.create.awardNumber${tempNode.key}" />  
 		<c:set var="copyAwardProperty" value="methodToCall.copyAward.awardNumber${tempNode.key}" />
 		${kfunc:registerEditableProperty(KualiForm, createChildProperty)}  

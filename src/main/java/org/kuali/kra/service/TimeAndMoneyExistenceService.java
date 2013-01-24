@@ -23,6 +23,6 @@ import org.kuali.rice.kew.api.exception.WorkflowException;
 
 public interface TimeAndMoneyExistenceService {
 
-    boolean validateTimeAndMoneyRule(Award award, Map<String, AwardHierarchy>  awardHierarchyNodes) throws WorkflowException;
+    boolean validateTimeAndMoneyRule(Award award, String rootAwardNumber) throws WorkflowException;
     void addAwardVersionErrorMessage();
 }
