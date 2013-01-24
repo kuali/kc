@@ -240,7 +240,6 @@ public abstract class ResearchDocumentBase extends TransactionalDocumentBase {
         KraDocumentXMLMaterializer xmlWrapper = new KraDocumentXMLMaterializer(); 
         xmlWrapper.setDocument(this); 
         xmlWrapper.setKualiTransactionalDocumentInformation(transInfo); 
-        xmlWrapper.setRolepersons(getAllRolePersons()); 
         return xmlWrapper; 
     }
 

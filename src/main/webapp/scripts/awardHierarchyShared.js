@@ -7,6 +7,7 @@ function RequestTracker(liNode, callback) {
 
 var DEBUG = false;
 function debugLog(str) {
+	console.log(str);
 	if (DEBUG) {
 		jQuery('#debugLog').show();
 		if (jQuery('#debugLog').find('div').length > 1000) {
@@ -163,8 +164,9 @@ function fixDatePickers() {
            data:'awardNumber='+awardNumber+'&addRA=' + addRA + '&' + ROOT_AWARD_LOCATION +'=' + jQuery(jq_escape(ROOT_AWARD_LOCATION)).attr("value") + '&currentAwardNumber='+ jQuery("#currentAwardNumber").attr("value") + '&currentSeqNumber='+ jQuery("#currentSeqNumber").attr("value"),
            cache: false,
            async: true,
-           timeout: 30000,
-           error: function(){
+           timeout: 90000,
+           error: function(error){
+    		  console.log(error);
               alert('Error loading Award Hierarchy information');
               if (liNode != null) {
             	  jQuery(liNode).find('div.collapsable-hitarea:first').click();

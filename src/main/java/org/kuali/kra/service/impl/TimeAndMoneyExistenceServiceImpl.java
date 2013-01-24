@@ -37,10 +37,9 @@ public class TimeAndMoneyExistenceServiceImpl implements TimeAndMoneyExistenceSe
     private DocumentService documentService;
     private BusinessObjectService businessObjectService;
     
-    public boolean validateTimeAndMoneyRule(Award award, Map<String, AwardHierarchy> awardHierarchyNodes) throws WorkflowException {
+    public boolean validateTimeAndMoneyRule(Award award, String rootAwardNumber) throws WorkflowException {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         Boolean timeAndMoneyDocumentDoesNotExist = Boolean.TRUE;
-        String rootAwardNumber = awardHierarchyNodes.get(award.getAwardNumber()).getRootAwardNumber();
         fieldValues.put("rootAwardNumber", rootAwardNumber);
 
         BusinessObjectService businessObjectService =  KraServiceLocator.getService(BusinessObjectService.class);

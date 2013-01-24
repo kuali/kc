@@ -359,16 +359,6 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
         }
     }
 
-    /**
-     * @see org.kuali.kra.document.ResearchDocumentBase#getAllRolePersons()
-     */
-    @Override
-    protected List<RolePersons> getAllRolePersons() {
-        KraAuthorizationService awardAuthService = 
-               (KraAuthorizationService) getKraAuthorizationService(); 
-        return awardAuthService.getAllRolePersons(getAward());
-    }
-    
     @SuppressWarnings("unchecked")
     private void addAwardPersonUnitsCollection(List managedLists, Award award) {
         List<AwardPersonUnit> personUnits = new ArrayList<AwardPersonUnit>();

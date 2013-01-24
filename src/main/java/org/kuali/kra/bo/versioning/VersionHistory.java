@@ -19,6 +19,8 @@ import java.sql.Date;
 
 import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 public class VersionHistory extends KraPersistableBusinessObjectBase {
@@ -119,8 +121,18 @@ public class VersionHistory extends KraPersistableBusinessObjectBase {
     /**
      * Gets the sequenceOwner attribute. 
      * @return Returns the sequenceOwner.
+     * @throws ClassNotFoundException 
      */
     public SequenceOwner<? extends SequenceOwner<?>> getSequenceOwner() {
+        if (sequenceOwner == null) {
+            try {
+                KraServiceLocator.getService(VersionHistoryService.class)
+                    .loadSequenceOwner((Class<? extends SequenceOwner>) Class.forName(this.getSequenceOwnerClassName()), this);
+            }
+            catch (ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        }
         return sequenceOwner;
     }
 
