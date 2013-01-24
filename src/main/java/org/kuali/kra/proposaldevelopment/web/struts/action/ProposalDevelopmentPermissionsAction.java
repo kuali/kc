@@ -78,13 +78,18 @@ public class ProposalDevelopmentPermissionsAction extends ProposalDevelopmentAct
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument doc = proposalDevelopmentForm.getProposalDevelopmentDocument();
         
-        List<ProposalUserRoles> proposalUsers = proposalDevelopmentForm.getCurrentProposalUserRoles();
-        for (ProposalUserRoles proposalUser : proposalUsers) {
+        List<ProposalUserRoles> currentProposalUsers = proposalDevelopmentForm.getCurrentProposalUserRoles();
+        List<ProposalUserRoles> proposalUsers = proposalDevelopmentForm.getProposalUserRoles();
+
+        List<ProposalUserRoles> proposalUsersToDelete = new ArrayList<ProposalUserRoles>(currentProposalUsers);
+        proposalUsersToDelete.removeAll(proposalUsers);
+        for (ProposalUserRoles proposalUser : proposalUsersToDelete) {
             deleteProposalUser(proposalUser, doc);
         }
         
-        proposalUsers = proposalDevelopmentForm.getProposalUserRoles();
-        for (ProposalUserRoles proposalUser : proposalUsers) {
+        List<ProposalUserRoles> proposalUsersToAdd = new ArrayList<ProposalUserRoles>(proposalUsers);
+        proposalUsersToAdd.removeAll(currentProposalUsers);
+        for (ProposalUserRoles proposalUser : proposalUsersToAdd) {
             saveProposalUser(proposalUser, doc);
         }
         
