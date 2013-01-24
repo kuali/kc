@@ -225,6 +225,9 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
     
     public Map<String, AwardHierarchy> getAwardHierarchy(AwardHierarchy anyNode, List<String> order) {
         Map<String, AwardHierarchy> result = new HashMap<String, AwardHierarchy>();
+        if (anyNode == null) {
+            return result;
+        }
         
         Map<String, Object> values = new HashMap<String, Object>();
         //find all hierarchy BOs for the root award number. If the anyNode was got is the root, the award number
