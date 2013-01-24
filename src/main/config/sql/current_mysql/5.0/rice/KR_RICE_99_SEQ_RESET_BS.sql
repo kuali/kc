@@ -1,6 +1,6 @@
-drop procedure if exists p;
+drop procedure if exists p
+/
 
-delimiter //
 create procedure p ()
 begin
   declare l_new_seq INT;
@@ -162,9 +162,10 @@ begin
   prepare alter_seq_stmt from @alter_seq;
   execute alter_seq_stmt;
   deallocate prepare alter_seq_stmt;
-end //
-delimiter ;
+end /
 
-call p ();
+call p ()
+/
 
-drop procedure if exists p;
+drop procedure if exists p
+/
