@@ -23,6 +23,7 @@ import org.kuali.kra.award.AwardDateRulesHelper;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
 import org.kuali.kra.award.version.service.AwardVersionService;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
@@ -32,7 +33,6 @@ import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.kra.timeandmoney.rule.event.TimeAndMoneyAwardDateSaveEvent;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
-import org.kuali.rice.kns.web.struts.form.KualiForm;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
 
@@ -102,12 +102,20 @@ public class TimeAndMoneyAwardDateSaveRuleImpl extends ResearchDocumentRuleBase 
             
             if (obligatedTotal != null && obligatedTotal.isGreaterThan(new KualiDecimal(0))) {
                 if (obligatedStartDate == null) {
-                    reportError(currentFundEffectiveField, KeyConstants.ERROR_AWARD_EFFECTIVE_DATE);
+                    if ("1".equals(getParameterService().getParameterValueAsString(Constants.PARAMETER_MODULE_AWARD, Constants.PARAMETER_COMPONENT_DOCUMENT, "ENABLE_AWD_ANT_OBL_DIRECT_INDIRECT_COST"))) {
+                        reportError(currentFundEffectiveField, KeyConstants.ERROR_AWARD_EFFECTIVE_DATE_TOTAL);
+                    } else {
+                        reportError(currentFundEffectiveField, KeyConstants.ERROR_AWARD_EFFECTIVE_DATE);
+                    }
                     addFieldToUserSessionMap(currentFundEffectiveField);
                     valid = false;
                 }
                 if (obligatedEndDate == null) {
-                    reportError(obligationExirationField, KeyConstants.ERROR_OBLIGATION_EXPIRATION_DATE);
+                    if ("1".equals(getParameterService().getParameterValueAsString(Constants.PARAMETER_MODULE_AWARD, Constants.PARAMETER_COMPONENT_DOCUMENT, "ENABLE_AWD_ANT_OBL_DIRECT_INDIRECT_COST"))) {
+                        reportError(obligationExirationField, KeyConstants.ERROR_OBLIGATION_EXPIRATION_DATE);
+                    } else {
+                        reportError(obligationExirationField, KeyConstants.ERROR_OBLIGATION_EXPIRATION_DATE);
+                    }
                     addFieldToUserSessionMap(obligationExirationField);
                     valid = false;
                 }
