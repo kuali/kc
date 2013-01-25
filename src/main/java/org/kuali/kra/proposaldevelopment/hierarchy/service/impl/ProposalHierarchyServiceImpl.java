@@ -1090,9 +1090,9 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         DevelopmentProposal childProposal = getDevelopmentProposal(childProposalNumber);
         Budget childBudget = getSyncableBudget(childProposal).getBudget();
         ObjectUtils.materializeAllSubObjects(childBudget);
-        int hc1 = computeHierarchyHashCode(childProposal, childBudget);
-        int hc2 = childProposal.getHierarchyLastSyncHashCode();
-        return hc1 == hc2;
+        Integer hc1 = computeHierarchyHashCode(childProposal, childBudget);
+        Integer hc2 = childProposal.getHierarchyLastSyncHashCode();
+        return org.apache.commons.lang.ObjectUtils.equals(hc1, hc2);
     }
     
     protected void setInitialPi(DevelopmentProposal hierarchy, DevelopmentProposal child) {
