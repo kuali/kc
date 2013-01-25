@@ -1010,6 +1010,7 @@
             <bean parent="SortDefinition" >
         </bean>
         </property>
+        <property name="resultSetLimit" value="50" />
         <property name="lookupFields" >
             <list>
                 <bean parent="FieldDefinition"
