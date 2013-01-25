@@ -95,6 +95,7 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
         if (proposalDevelopmentDocument.getDevelopmentProposal().isChild()) throw new ProposalHierarchyException("Cannot perform Grants.gov tasks on a Proposal Hierarchy child");
 
         if(proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity()!=null){
+                proposalDevelopmentForm.setGrantsGovSelectFlag(true);
             if(proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().getProposalNumber()==null){
                 proposalDevelopmentDocument.getDevelopmentProposal().getS2sOpportunity().setProposalNumber(proposalDevelopmentDocument.getDevelopmentProposal().getProposalNumber());                
             }            
