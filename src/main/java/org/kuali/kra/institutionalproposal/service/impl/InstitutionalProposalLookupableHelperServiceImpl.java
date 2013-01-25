@@ -105,7 +105,7 @@ public class InstitutionalProposalLookupableHelperServiceImpl extends KraLookupa
             fieldValues.put("projectPersons.institutionalProposalContactId", StringUtils.join(ids, '|'));
         }
         
-        List<InstitutionalProposal> searchResults = (List<InstitutionalProposal>) super.getSearchResultsUnbounded(fieldValues);
+        List<InstitutionalProposal> searchResults = (List<InstitutionalProposal>) super.getSearchResults(fieldValues);
       
         if (lookupIsFromAward(fieldValues)) {
             filterAlreadyLinkedProposals(searchResults, fieldValues);
