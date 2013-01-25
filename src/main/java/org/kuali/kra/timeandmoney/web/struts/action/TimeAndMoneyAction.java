@@ -576,7 +576,7 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
      */
     private int findAwardHierarchyNodeIndex(Entry<String, AwardHierarchyNode> awardHierarchyNode) {
         String i = awardHierarchyNode.getValue().getAwardNumber().replaceAll("\\d*\\-0*", "");
-        int index = Integer.parseInt(StringUtils.reverse(i));
+        int index = Integer.parseInt(i);
         return index;
     }
     
