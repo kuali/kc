@@ -30,6 +30,7 @@ public class ProtocolMedusaAction extends ProtocolAction {
         protocolForm.getMedusaBean().setMedusaViewRadio("0");
         protocolForm.getMedusaBean().setModuleName("irb");
         protocolForm.getMedusaBean().setModuleIdentifier(protocolForm.getProtocolDocument().getProtocol().getProtocolId());
+        protocolForm.getMedusaBean().generateParentNodes();
         return mapping.findForward("basic");
     }
     

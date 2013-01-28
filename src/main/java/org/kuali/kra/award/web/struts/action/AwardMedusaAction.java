@@ -40,6 +40,7 @@ public class AwardMedusaAction extends AwardAction {
             awardForm.getMedusaBean().setMedusaViewRadio("0");
             awardForm.getMedusaBean().setModuleName("award");
             awardForm.getMedusaBean().setModuleIdentifier(awardForm.getAwardDocument().getAward().getAwardId());
+            awardForm.getMedusaBean().generateParentNodes();
             return mapping.findForward(Constants.MAPPING_AWARD_MEDUSA_PAGE);}
     public ActionForward refreshView(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         

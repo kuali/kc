@@ -386,6 +386,7 @@ public class InstitutionalProposalAction extends KraTransactionalDocumentActionB
        institutionalProposalForm.getMedusaBean().setMedusaViewRadio("0");
        institutionalProposalForm.getMedusaBean().setModuleName("IP");
        institutionalProposalForm.getMedusaBean().setModuleIdentifier(document.getInstitutionalProposal().getProposalId());
+       institutionalProposalForm.getMedusaBean().generateParentNodes();
        return mapping.findForward(Constants.MAPPING_INSTITUTIONAL_PROPOSAL_MEDUSA_PAGE);
    }
    
