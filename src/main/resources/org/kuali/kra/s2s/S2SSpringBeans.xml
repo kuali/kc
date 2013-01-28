@@ -229,7 +229,7 @@
 		<property name="mailInterval" value="20" />
 		<property name="statusMap">
 			<map>
-				<entry key="1" value="Submitted to Grants.Gov" />
+				<entry key="1" value="Submitted to S2S" />
 				<entry key="2" value="Receiving" />
 				<entry key="3" value="Received" />
 				<entry key="4" value="Processing" />
@@ -304,7 +304,7 @@
 		<property name="mailInterval" value="40" />
 		<property name="statusMap">
 			<map>
-				<entry key="10" value="Grants.Gov Submission Error" />
+				<entry key="10" value="S2S Submission Error" />
 			</map>
 		</property>
 		<property name="mailInfoList">
@@ -320,8 +320,8 @@
 		<property name="cc" value="" />
 		<property name="bcc" value="" />
 		<property name="footer" value="" />
-		<property name="message" value="Grants.Gov Submissions" />
-		<property name="subject" value="Grants.Gov Submissions" />
+		<property name="message" value="S2S Submissions" />
+		<property name="subject" value="S2S Submissions" />
 	</bean>
 		<bean id="preValidation"
 		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
