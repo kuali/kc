@@ -39,6 +39,7 @@ import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.common.specialreview.bo.SpecialReview;
 import org.kuali.kra.iacuc.IacucProtocol;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.proposaladmindetails.ProposalAdminDetails;
@@ -55,6 +56,7 @@ import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.kra.subaward.bo.SubAwardFundingSource;
 import org.kuali.kra.subaward.service.SubAwardService;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
@@ -79,6 +81,7 @@ public class MedusaServiceImpl implements MedusaService {
     private VersionHistoryService versionHistoryService;
     private NegotiationService negotiationService;
     private SubAwardService subAwardService;
+    private ParameterService parameterService;
     
     /**
      * 
@@ -346,21 +349,49 @@ public class MedusaServiceImpl implements MedusaService {
     }    
     
     protected void addSpecialReviewLinksToGraph(HashMap<BusinessObject, List<BusinessObject>> graph, List<? extends SpecialReview> specialReviews, BusinessObject existingBo) {
+        Map<String, Boolean> specialReviewLinking = getSpecialReviewLinkingEnabled(existingBo);
         for (SpecialReview specialReview : specialReviews) {
             if (StringUtils.equals(specialReview.getSpecialReviewTypeCode(), SpecialReviewType.HUMAN_SUBJECTS)
+                    && specialReviewLinking.get(SpecialReviewType.HUMAN_SUBJECTS)
                     && !StringUtils.equals(specialReview.getApprovalTypeCode(), SpecialReviewApprovalType.NOT_YET_APPLIED)) {
                 Protocol protocol = getProtocol(specialReview.getProtocolNumber());
-                if (protocol != null) {
-                    addToGraph(graph, protocol, existingBo);
-                }
+                addToGraph(graph, protocol, existingBo);
             } else if (StringUtils.equals(specialReview.getSpecialReviewTypeCode(), SpecialReviewType.ANIMAL_USAGE)
+                    && specialReviewLinking.get(SpecialReviewType.ANIMAL_USAGE)
                     && !StringUtils.equals(specialReview.getApprovalTypeCode(), SpecialReviewApprovalType.NOT_YET_APPLIED)) {
                 IacucProtocol protocol = getIacuc(specialReview.getProtocolNumber());
-                if (protocol != null) {
-                    addToGraph(graph, protocol, existingBo);
-                }
+                addToGraph(graph, protocol, existingBo);
             }
         }
+    }
+    
+    protected Map<String, Boolean> getSpecialReviewLinkingEnabled(BusinessObject existingBo) {
+        Map<String, Boolean> result = new HashMap<String, Boolean>();
+        String irbLinkingName = null;
+        String iacucLinkingName = null;
+        if (existingBo instanceof DevelopmentProposal) {
+            irbLinkingName = Constants.ENABLE_PROTOCOL_TO_DEV_PROPOSAL_LINK;
+            iacucLinkingName = Constants.IACUC_PROTOCOL_PROPOSAL_DEVELOPMENT_LINKING_ENABLED_PARAMETER;
+        } else if (existingBo instanceof InstitutionalProposal) {
+            irbLinkingName = Constants.ENABLE_PROTOCOL_TO_PROPOSAL_LINK;
+            iacucLinkingName = Constants.IACUC_PROTOCOL_INSTITUTE_PROPOSAL_LINKING_ENABLED_PARAMETER;
+        } else if (existingBo instanceof Award) {
+            irbLinkingName = Constants.ENABLE_PROTOCOL_TO_AWARD_LINK;
+            iacucLinkingName = Constants.IACUC_PROTOCOL_AWARD_LINKING_ENABLED_PARAMETER;
+        }
+        if (irbLinkingName != null) {
+            result.put(SpecialReviewType.HUMAN_SUBJECTS, 
+                    getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_PROTOCOL, Constants.PARAMETER_COMPONENT_DOCUMENT, irbLinkingName));
+        } else {
+            result.put(SpecialReviewType.HUMAN_SUBJECTS, Boolean.FALSE);
+        }
+        if (iacucLinkingName != null) {
+            result.put(SpecialReviewType.ANIMAL_USAGE, 
+                    getParameterService().getParameterValueAsBoolean(Constants.MODULE_NAMESPACE_IACUC, Constants.PARAMETER_COMPONENT_DOCUMENT, iacucLinkingName));
+        } else {
+            result.put(SpecialReviewType.ANIMAL_USAGE, Boolean.FALSE);
+        }
+        return result;
     }
     
     /**
@@ -429,6 +460,9 @@ public class MedusaServiceImpl implements MedusaService {
     }
     
     protected void addToGraph(HashMap<BusinessObject, List<BusinessObject>> graph, BusinessObject newBo, BusinessObject existingBo) {
+        if (newBo == null || existingBo == null) {
+            throw new RuntimeException("Inavlid or null Medusa link found");
+        }
         if (findMatchingBo(graph.keySet(), newBo) == null) {
             addEdge(graph, existingBo, newBo);
             if (newBo instanceof Award) {
@@ -898,7 +932,7 @@ public class MedusaServiceImpl implements MedusaService {
      * Gets the awardAmountInfoService attribute. 
      * @return Returns the awardAmountInfoService.
      */
-    public AwardAmountInfoService getAwardAmountInfoService() {
+    protected AwardAmountInfoService getAwardAmountInfoService() {
         return awardAmountInfoService;
     }
 
@@ -910,7 +944,7 @@ public class MedusaServiceImpl implements MedusaService {
         this.awardAmountInfoService = awardAmountInfoService;
     }
 
-    public VersionHistoryService getVersionHistoryService() {
+    protected VersionHistoryService getVersionHistoryService() {
         return versionHistoryService;
     }
 
@@ -918,7 +952,7 @@ public class MedusaServiceImpl implements MedusaService {
         this.versionHistoryService = versionHistoryService;
     }
 
-    public NegotiationService getNegotiationService() {
+    protected NegotiationService getNegotiationService() {
         return negotiationService;
     }
 
@@ -932,6 +966,14 @@ public class MedusaServiceImpl implements MedusaService {
 
     public void setSubAwardService(SubAwardService subAwardService) {
         this.subAwardService = subAwardService;
+    }
+
+    protected ParameterService getParameterService() {
+        return parameterService;
+    }
+
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
     } 
     
 }

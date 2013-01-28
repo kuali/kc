@@ -778,6 +778,7 @@
         <property name="versionHistoryService" ref="versionHistoryService" />
         <property name="negotiationService" ref="negotiationService" />
         <property name="subAwardService" ref="subAwardService"/>
+        <property name="parameterService" ref="parameterService"/>
     </bean>
     
     <bean id ="specialReviewService" class ="org.kuali.kra.common.specialreview.service.impl.SpecialReviewServiceImpl" lazy-init="true">

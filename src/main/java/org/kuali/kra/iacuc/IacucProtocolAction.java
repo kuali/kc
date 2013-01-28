@@ -80,6 +80,7 @@ public class IacucProtocolAction extends ProtocolActionBase {
         protocolForm.getMedusaBean().setMedusaViewRadio("0");
         protocolForm.getMedusaBean().setModuleName("iacuc");
         protocolForm.getMedusaBean().setModuleIdentifier(protocolForm.getProtocolDocument().getProtocol().getProtocolId());
+        protocolForm.getMedusaBean().generateParentNodes();
         return mapping.findForward("medusa");
 
     }

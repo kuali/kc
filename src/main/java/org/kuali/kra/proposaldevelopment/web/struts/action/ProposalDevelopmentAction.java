@@ -903,6 +903,7 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
        proposalDevelopmentForm.getMedusaBean().setMedusaViewRadio("0");
        proposalDevelopmentForm.getMedusaBean().setModuleName("DP");
        proposalDevelopmentForm.getMedusaBean().setModuleIdentifier(Long.valueOf(proposalNumber));
+       proposalDevelopmentForm.getMedusaBean().generateParentNodes();
        return mapping.findForward(Constants.MAPPING_PROPOSAL_MEDUSA_PAGE);
    }
 
