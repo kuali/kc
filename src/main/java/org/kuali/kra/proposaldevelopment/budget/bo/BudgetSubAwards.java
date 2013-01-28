@@ -19,6 +19,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.upload.FormFile;
 import org.kuali.kra.SkipVersioning;
@@ -381,13 +382,13 @@ public class BudgetSubAwards extends BudgetAssociate implements HierarchyMaintai
     public int compareTo(BudgetSubAwards o) {
         int retVal = -1;
         if (o != null) {
-            retVal = this.getOrganizationName().compareTo(o.getOrganizationName());
+            retVal = ObjectUtils.compare(getOrganizationName(), o.getOrganizationName());
             if (retVal == 0) {
-                retVal = this.getComments().compareTo(o.getComments());
+                retVal = ObjectUtils.compare(getComments(), o.getComments());
                 if (retVal == 0) {
-                    retVal = this.getSubAwardXfdFileName().compareTo(o.getSubAwardXfdFileName());
+                    retVal = ObjectUtils.compare(getSubAwardXfdFileName(), o.getSubAwardXfdFileName());
                     if (retVal == 0) {
-                        retVal = this.getSubAwardNumber().compareTo(o.getSubAwardNumber());
+                        retVal = ObjectUtils.compare(getSubAwardNumber(), o.getSubAwardNumber());
                     }
                 }
             }
@@ -409,12 +410,12 @@ public class BudgetSubAwards extends BudgetAssociate implements HierarchyMaintai
 
     public void setOrganizationId(String organizationId) {
         if (!StringUtils.equals(this.organizationId, organizationId)) {
+            this.organizationId = organizationId;
             refreshReferenceObject("organization");
             if (getOrganization() != null) {
                 setOrganizationName(getOrganization().getOrganizationName());
             }
         }
-        this.organizationId = organizationId;
     }
 
     public Organization getOrganization() {

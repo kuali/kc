@@ -114,8 +114,10 @@
 	<td width="8%" valign="middle" >&nbsp;
 		<div align=center>
        		<kra:section permission="modifyBudgets">
+       		<c:if test="${budgetExpensePanelReadOnly}">
 				<html:image property="methodToCall.deleteBudgetLineItem.line${budgetLineItemNumber}.anchor${currentTabIndex}"
 			    	src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton" />
+			</c:if>
 			</kra:section> 
 		</div>
     </td>
