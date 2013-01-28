@@ -237,6 +237,7 @@ public abstract class ProtocolAction extends ProtocolActionBase {
         protocolForm.getMedusaBean().setMedusaViewRadio("0");
         protocolForm.getMedusaBean().setModuleName("irb");
         protocolForm.getMedusaBean().setModuleIdentifier(protocolForm.getProtocolDocument().getProtocol().getProtocolId());
+        protocolForm.getMedusaBean().generateParentNodes();
         return mapping.findForward("medusa");
     }    
 

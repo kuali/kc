@@ -42,6 +42,7 @@ public class SubAwardMedusaAction extends SubAwardAction {
             subAwardForm.getMedusaBean().
             setModuleIdentifier(subAwardForm.getSubAwardDocument().
             getSubAward().getSubAwardId());
+            subAwardForm.getMedusaBean().generateParentNodes();
             return mapping.findForward(Constants.MAPPING_AWARD_MEDUSA_PAGE); }
     /**.
      * This method is for refreshView

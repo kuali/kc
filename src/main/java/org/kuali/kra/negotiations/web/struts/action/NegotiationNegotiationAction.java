@@ -70,6 +70,7 @@ public class NegotiationNegotiationAction extends NegotiationAction {
         loadCodeObjects(negotiationForm.getNegotiationDocument().getNegotiation());
         negotiationForm.getMedusaBean().setModuleName("neg");
         negotiationForm.getMedusaBean().setModuleIdentifier(negotiationForm.getNegotiationDocument().getNegotiation().getNegotiationId());
+        negotiationForm.getMedusaBean().generateParentNodes();
         negotiationForm.getNegotiationActivityHelper().sortActivities();
         negotiationForm.getNegotiationActivityHelper().generateAllAttachments();
         return actionForward;
