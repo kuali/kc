@@ -39,13 +39,10 @@ import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
 import org.kuali.kra.award.version.service.AwardVersionService;
-import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.AwardDirectFandADistributionService;
 import org.kuali.kra.service.KraWorkflowService;
-import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.kra.timeandmoney.AwardHierarchyNode;
 import org.kuali.kra.timeandmoney.TimeAndMoneyForm;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
@@ -315,11 +312,12 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
             Award award = getAwardVersionService().getWorkingAwardVersion(awardHierarchyNode.getValue().getAwardNumber());
             int index = findAwardHierarchyNodeIndex(awardHierarchyNode);
             AwardAmountInfo aai = awardAmountInfoService.fetchAwardAmountInfoWithHighestTransactionId(award.getAwardAmountInfos());
-            inspectAndCaptureCurrentFundEffectiveDateChanges(timeAndMoneyForm, isNoCostExtension, aai, index, award, timeAndMoneyDocument, awardHierarchyNode, dateChangeTransactionDetailItems);
+            boolean needToSaveAward = false;
+            needToSaveAward |= inspectAndCaptureCurrentFundEffectiveDateChanges(timeAndMoneyForm, isNoCostExtension, aai, index, award, timeAndMoneyDocument, awardHierarchyNode, dateChangeTransactionDetailItems);
             aai = awardAmountInfoService.fetchAwardAmountInfoWithHighestTransactionId(award.getAwardAmountInfos());//get new award amount info if date change transactions have been created.
-            inspectAndCaptureObligationExpirationDateChanges(timeAndMoneyForm, isNoCostExtension, aai, index, award, timeAndMoneyDocument, awardHierarchyNode, dateChangeTransactionDetailItems);
+            needToSaveAward |= inspectAndCaptureObligationExpirationDateChanges(timeAndMoneyForm, isNoCostExtension, aai, index, award, timeAndMoneyDocument, awardHierarchyNode, dateChangeTransactionDetailItems);
             aai = awardAmountInfoService.fetchAwardAmountInfoWithHighestTransactionId(award.getAwardAmountInfos());//get new award amount info if date change transactions have been created.
-            inspectAndCaptureFinalExpirationDateChanges(timeAndMoneyForm, isNoCostExtension, aai, index, award, timeAndMoneyDocument, awardHierarchyNode, dateChangeTransactionDetailItems);
+            needToSaveAward |= inspectAndCaptureFinalExpirationDateChanges(timeAndMoneyForm, isNoCostExtension, aai, index, award, timeAndMoneyDocument, awardHierarchyNode, dateChangeTransactionDetailItems);
             //capture any changes of DirectFandADistributions, and add them to the Award working version for persistence.
             if(award.getAwardNumber().equals(timeAndMoneyDocument.getAward().getAwardNumber())) {
                 //must use documentService to save the award document. businessObjectService.save() builds deletion award list on T&M doc and we
@@ -327,8 +325,11 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
                 AwardDocument awardDocument = (AwardDocument) documentService.getByDocumentHeaderId(award.getAwardDocument().getDocumentNumber());
                 awardDocument.getAward().setAwardDirectFandADistributions(timeAndMoneyDocument.getAward().getAwardDirectFandADistributions());
                 documentService.saveDocument(awardDocument);
+                needToSaveAward = true;
             }
-            getBusinessObjectService().save(award);
+            if (needToSaveAward) {
+                getBusinessObjectService().save(award);
+            }
         }
         //we want to apply save rules to doc before we save any captured changes.
         //The save on awardAmountInfoObjects should always be after the save on entire award object otherwise awardAmountInfoObjects changes get overwritten.
@@ -343,15 +344,17 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
      *Date changes in hierarchy view are captured here.  If the transaction is a No Cost Extension, we report the transaction
      *details for display in history tab.
      */
-    protected void inspectAndCaptureCurrentFundEffectiveDateChanges(TimeAndMoneyForm timeAndMoneyForm, Boolean isNoCostExtension, AwardAmountInfo aai, Integer index,
+    protected boolean inspectAndCaptureCurrentFundEffectiveDateChanges(TimeAndMoneyForm timeAndMoneyForm, Boolean isNoCostExtension, AwardAmountInfo aai, Integer index,
                                                         Award award, TimeAndMoneyDocument timeAndMoneyDocument, Entry<String, AwardHierarchyNode> awardHierarchyNode,
                                                         List<TransactionDetail> dateChangeTransactionDetailItems) {
+        boolean needToSave = false;
         if(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).isPopulatedFromClient() 
                 && timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getCurrentFundEffectiveDate()!=null 
                 && !timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getCurrentFundEffectiveDate().equals(aai.getCurrentFundEffectiveDate())){
             if (isNoCostExtension && 
                     timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getCurrentFundEffectiveDate().before(aai.getCurrentFundEffectiveDate())) {
                         AwardAmountInfo tempAai = getNewAwardAmountInfoForDateChangeTransaction(aai, award, timeAndMoneyDocument.getDocumentNumber());
+                        needToSave = true;
                         aai = tempAai;
                         aai.setCurrentFundEffectiveDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getCurrentFundEffectiveDate());
                         awardHierarchyNode.getValue().setCurrentFundEffectiveDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getCurrentFundEffectiveDate());
@@ -359,6 +362,7 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
                         addTransactionDetails(aai.getAwardNumber(), aai.getAwardNumber(), aai.getSequenceNumber(), timeAndMoneyDocument.getAwardNumber(),
                                                 timeAndMoneyDocument.getDocumentNumber(), OBLIGATED_START_COMMENT, dateChangeTransactionDetailItems);
             }else {AwardAmountInfo tempAai = getNewAwardAmountInfoForDateChangeTransaction(aai, award, timeAndMoneyDocument.getDocumentNumber());
+                    needToSave = true;
                     aai = tempAai;
                     aai.setCurrentFundEffectiveDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getCurrentFundEffectiveDate());
                     awardHierarchyNode.getValue().setCurrentFundEffectiveDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getCurrentFundEffectiveDate());
@@ -378,15 +382,17 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
                 !timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getCurrentFundEffectiveDate().equals(awardHierarchyNode.getValue().getCurrentFundEffectiveDate())) {
             awardHierarchyNode.getValue().setCurrentFundEffectiveDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getCurrentFundEffectiveDate());
         }
+        return needToSave;
     }
     
     /**
      *Date changes in hierarchy view are captured here.  If the transaction is a No Cost Extension, we report the transaction
      *details for display in history tab.
      */
-    protected void inspectAndCaptureObligationExpirationDateChanges(TimeAndMoneyForm timeAndMoneyForm, Boolean isNoCostExtension, AwardAmountInfo aai, Integer index,
+    protected boolean inspectAndCaptureObligationExpirationDateChanges(TimeAndMoneyForm timeAndMoneyForm, Boolean isNoCostExtension, AwardAmountInfo aai, Integer index,
                                                         Award award, TimeAndMoneyDocument timeAndMoneyDocument, Entry<String, AwardHierarchyNode> awardHierarchyNode,
                                                         List<TransactionDetail> dateChangeTransactionDetailItems) {
+        boolean needToSave = false;
         if(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).isPopulatedFromClient()
                 && timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getObligationExpirationDate()!=null 
                 && !timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getObligationExpirationDate().equals(aai.getObligationExpirationDate())){
@@ -405,6 +411,7 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
                     awardHierarchyNode.getValue().setObligationExpirationDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getObligationExpirationDate());
                     award.getAwardAmountInfos().add(aai);
             }
+            needToSave = true;
         } else if (timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).isPopulatedFromClient()
                 && timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getObligationExpirationDate() == null) {
           //FYI, this will show an erorr to the user, we are doing this such they can see the error, and that they had put in a null value
@@ -420,16 +427,18 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
                 !timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getObligationExpirationDate().equals(awardHierarchyNode.getValue().getObligationExpirationDate())) {
             awardHierarchyNode.getValue().setObligationExpirationDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getObligationExpirationDate());
         }
+        return needToSave;
     }
     
     /**
      *Date changes in hierarchy view are captured here.  If the transaction is a No Cost Extension, we report the transaction
      *details for display in history tab.
      */
-    protected void inspectAndCaptureFinalExpirationDateChanges(TimeAndMoneyForm timeAndMoneyForm, Boolean isNoCostExtension, AwardAmountInfo aai, Integer index,
+    protected boolean inspectAndCaptureFinalExpirationDateChanges(TimeAndMoneyForm timeAndMoneyForm, Boolean isNoCostExtension, AwardAmountInfo aai, Integer index,
                                                         Award award, TimeAndMoneyDocument timeAndMoneyDocument, Entry<String, AwardHierarchyNode> awardHierarchyNode,
                                                         List<TransactionDetail> dateChangeTransactionDetailItems) {
-        
+       
+        boolean needToSave = false;
         if(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).isPopulatedFromClient()
                 && timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getFinalExpirationDate()!=null 
                 && !timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getFinalExpirationDate().equals(aai.getFinalExpirationDate())){ 
@@ -448,6 +457,7 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
                   awardHierarchyNode.getValue().setFinalExpirationDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getFinalExpirationDate());
                   award.getAwardAmountInfos().add(aai);
           }
+          needToSave = true;
       } else if (timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).isPopulatedFromClient()
               && timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getFinalExpirationDate() == null) {
           //FYI, this will show an erorr to the user, we are doing this such they can see the error, and that they had put in a null value
@@ -462,6 +472,7 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
               !timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getFinalExpirationDate().equals(awardHierarchyNode.getValue().getFinalExpirationDate())) {
           awardHierarchyNode.getValue().setFinalExpirationDate(timeAndMoneyForm.getAwardHierarchyNodeItems().get(index).getFinalExpirationDate());
       }
+      return needToSave;
     }
     
     
