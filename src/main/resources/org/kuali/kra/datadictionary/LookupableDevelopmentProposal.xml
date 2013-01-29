@@ -100,7 +100,7 @@
   <bean id="LookupableDevelopmentProposal-lookupDefinition" parent="LookupableDevelopmentProposal-lookupDefinition-parentBean" />
   <bean id="LookupableDevelopmentProposal-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
     <property name="title" value="Proposal Development Document Lookup" />
-    <property name="lookupableID" value="sponsorLookupable" />
+    <property name="lookupableID" value="lookupableDevelopmentProposalLookupable" />
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
 
     <property name="defaultSort" >
