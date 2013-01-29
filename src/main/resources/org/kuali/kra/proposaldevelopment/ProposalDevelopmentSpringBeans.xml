@@ -253,6 +253,15 @@
         <property name="businessObjectService" ref="businessObjectService" />
     </bean>
     
+    <bean id="lookupableDevelopmentProposalLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+		<property name="lookupableHelperService" ref="lookupableDevelopmentProposalLookupableHelperService" />
+	</bean>
+    
+    <bean id="lookupableDevelopmentProposalLookupableHelperService" class="org.kuali.kra.proposaldevelopment.service.impl.LookupableDevelopmentProposalLookupableHelperServiceImpl" 
+          parent="parentLookupableHelperService" scope="prototype">
+    </bean>
+    
+    
     <bean id="proposalAbstractsService" class="org.kuali.kra.proposaldevelopment.service.impl.ProposalAbstractsServiceImpl">
         <property name="personService" ref="personService" />
     </bean>
