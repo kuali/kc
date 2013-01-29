@@ -174,6 +174,8 @@ public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
             for (BudgetLineItem item : currentLineItems) {
                 item.setDirectCost(BudgetDecimal.ZERO);
                 item.setCostSharingAmount(BudgetDecimal.ZERO);
+                item.setSubAwardNumber(subAward.getSubAwardNumber());
+                item.setLineItemDescription(subAward.getOrganizationName());
             }
             if (BudgetDecimal.returnZeroIfNull(detail.getDirectCost()).isNonZero()) {
                 BudgetDecimal ltValue = lesserValue(detail.getDirectCost(), amountChargeFA);
