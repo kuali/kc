@@ -136,6 +136,7 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
     private static final String PERSON_INDEX= "personIndex";
     private static final String COMMENTS= "comments";
     private static final String SUMMARY_SPECIAL_REVIEW_LIST = "proposal.summary.validSpecialReviewCodes";
+    private static final String PROPOSAL_ATTACHMENT_TYPE_GROUP_CODE = "P";
     private static final Log LOG = LogFactory.getLog(ProposalDevelopmentAction.class);
     private ProposalHierarcyActionHelper hierarchyHelper;
     private KcNotificationService notificationService;
@@ -526,7 +527,7 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
                } else {
                    //in case other parts of the document have been saved since we have saved,
                    //we save off possibly changed parts and reload the rest of the document
-                   List<Narrative> newNarratives = (List<Narrative>) KraServiceLocator.getService(BusinessObjectService.class).findBySinglePrimaryKey(DevelopmentProposal.class, pdDocument.getDevelopmentProposal().getProposalNumber()).getNarratives();
+                   List<Narrative> newNarratives = pdDocument.getDevelopmentProposal().getNarratives();
                    List<Narrative> instituteAttachments = pdDocument.getDevelopmentProposal().getInstituteAttachments();
                    List<ProposalAbstract> newAbstracts = pdDocument.getDevelopmentProposal().getProposalAbstracts();
                    List<ProposalPersonBiography> newBiographies = pdDocument.getDevelopmentProposal().getPropPersonBios();
@@ -534,9 +535,18 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
                    pdForm.setDocument(updatedDocCopy);
                    pdDocument = updatedDocCopy;
                    loadDocument(pdDocument);
-    
+                   
+                    List<Narrative> newNarrativesCopy = new ArrayList<Narrative>();
+                    if (newNarratives != null) {
+                        for (Narrative refreshNarrativesList : newNarratives) {
+                            if (refreshNarrativesList.getNarrativeType().getNarrativeTypeGroup()
+                                    .equalsIgnoreCase(PROPOSAL_ATTACHMENT_TYPE_GROUP_CODE)) {
+                                newNarrativesCopy.add(refreshNarrativesList);
+                            }
+                        }
+                    }
                    //now re-add narratives that could include changes and can't be modified otherwise
-                   pdDocument.getDevelopmentProposal().setNarratives(newNarratives);
+                   pdDocument.getDevelopmentProposal().setNarratives(newNarrativesCopy);
                    pdDocument.getDevelopmentProposal().setInstituteAttachments(instituteAttachments);
                    pdDocument.getDevelopmentProposal().setProposalAbstracts(newAbstracts);
                    pdDocument.getDevelopmentProposal().setPropPersonBios(newBiographies);
