@@ -89,10 +89,15 @@
 	                    <c:if test="${!empty KualiForm.document.institutionalProposal.rolodex.state}" >
 	                    <span id="mailingState"><c:out value="${KualiForm.document.institutionalProposal.rolodex.state}"/>&nbsp;-&nbsp;<c:out value="${KualiForm.document.institutionalProposal.rolodex.postalCode}"/></span><br/>
 	                    </c:if>
+                        <c:if test="${!empty KualiForm.document.institutionalProposal.rolodex.postalCode}" >
+                        <span id="mailingPostalCode"><c:out value="${KualiForm.document.institutionalProposal.rolodex.postalCode}"/></span><br/>
+                        </c:if>
 	                    <div align="right" style="float: right;"> 
 	                       <c:if test="${!readOnly}" >
-	                         <kul:lookup boClassName="org.kuali.kra.bo.Rolodex" fieldConversions="rolodexId:document.institutionalProposal.rolodexId" anchor="${currentTabIndex}"/>
-	                         <html:image property="methodToCall.clearMailingNameAddress" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-clear1.gif" title="Clear Fields" alt="Clear Fields" styleClass="tinybutton"/>
+	                          <kul:lookup boClassName="org.kuali.kra.bo.Rolodex" fieldConversions="rolodexId:document.institutionalProposal.rolodexId" anchor="${currentTabIndex}"/>
+	                          <c:if test="${!empty KualiForm.document.institutionalProposal.rolodex.organization}" >
+	                             <html:image property="methodToCall.clearMailingNameAddress" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-clear1.gif" title="Clear Fields" alt="Clear Fields" styleClass="tinybutton"/>
+	                          </c:if>
 	                       </c:if>
 	                    </div>
                 </td>
