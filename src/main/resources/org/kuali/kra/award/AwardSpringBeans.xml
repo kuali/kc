@@ -231,7 +231,7 @@
         <property name="lookupableHelperService" ref="awardLookupableHelperService" />  
     </bean>
 
-    <bean id="awardLookupDao" parent="platformAwareDao" class="org.kuali.kra.dao.ojb.AwardLookupDaoObj">
+    <bean id="awardLookupDao" parent="platformAwareDao" class="org.kuali.kra.dao.ojb.AwardLookupDaoOjb">
     	<property name="versionHistoryLookupDao" ref="versionHistoryLookupDao" /> 
     </bean>
     
