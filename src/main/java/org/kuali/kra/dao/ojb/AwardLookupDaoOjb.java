@@ -21,7 +21,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ojb.broker.query.Criteria;
-import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.kra.award.home.Award;
@@ -33,12 +32,12 @@ import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.dao.impl.LookupDaoOjb;
 import org.kuali.rice.krad.lookup.CollectionIncomplete;
-import org.kuali.rice.kns.lookup.LookupUtils;
 
-public class AwardLookupDaoObj extends LookupDaoOjb  implements AwardLookupDao{
+@SuppressWarnings("unchecked")
+public class AwardLookupDaoOjb extends LookupDaoOjb  implements AwardLookupDao{
     private VersionHistoryLookupDao versionHistoryLookupDao;
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("rawtypes")
     @Override
     public List<? extends BusinessObject> getAwardSearchResults(Map fieldValues, boolean usePrimaryKeys) {
         List<Award> searchResults = (List<Award>)getVersionHistoryLookupDao().
