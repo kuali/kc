@@ -1077,7 +1077,7 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
                 LOG.warn(ioEx.getMessage(), ioEx);
             }
         }        
-        return null;
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
     
