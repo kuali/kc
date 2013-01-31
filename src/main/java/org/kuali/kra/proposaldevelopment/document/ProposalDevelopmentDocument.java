@@ -141,10 +141,6 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
     public void initialize() {
         super.initialize();
         getDevelopmentProposal().initializeOwnedByUnitNumber();
-        String defaultDescValue = getParameterService().getParameterValueAsString(ProposalDevelopmentDocument.class, Constants.HIDE_AND_DEFAULT_PROP_DEV_DOC_DESC_PARAM); 
-        if (!StringUtils.isBlank(defaultDescValue)) {
-            this.getDocumentHeader().setDocumentDescription(defaultDescValue + getDateTimeService().toDateTimeString(getDateTimeService().getCurrentDate()));
-        }
     }
 
     @Override
@@ -589,6 +585,17 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
     
     public void populateAgendaQualifiers(Map<String, String> qualifiers) {
         qualifiers.put(KcKrmsConstants.UNIT_NUMBER, getLeadUnitNumber());
+    }
+
+    public void defaultDocumentDescription() {
+        DevelopmentProposal proposal = getDevelopmentProposal();
+        String desc = String.format("%s; Proposal No: %s; PI: %s; Sponsor: %s; Due Date: %s",
+                proposal.getTitle().substring(0, 19),
+                proposal.getProposalNumber(),
+                proposal.getPrincipalInvestigatorName(),
+                proposal.getSponsorName(),
+                proposal.getDeadlineDate() != null ? getDateTimeService().toDateString(proposal.getDeadlineDate()) : "null"); 
+        getDocumentHeader().setDocumentDescription(desc);
     }
     
 }
