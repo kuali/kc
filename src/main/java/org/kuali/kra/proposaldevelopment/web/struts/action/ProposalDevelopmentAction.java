@@ -1238,7 +1238,10 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
      * @throws Exception if bad happens
      */
     public void preSave(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        //do nothing
+        ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
+        if (pdForm.isHidePropDevDocDescriptionPanel()) {
+            pdForm.getProposalDevelopmentDocument().defaultDocumentDescription();
+        }
     }
     
     
