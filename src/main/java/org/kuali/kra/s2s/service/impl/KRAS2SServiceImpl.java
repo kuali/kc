@@ -651,13 +651,15 @@ public class KRAS2SServiceImpl implements S2SService {
 		if (opportunityForms.isEmpty()) {
 			developmentProposal.refreshReferenceObject("s2sOppForms");
 		}
-		if(attList==null)
+		if (attList == null) {
 		    attList = new ArrayList<AttachmentData>();
+		}
 	    getS2sUtilService().deleteSystemGeneratedAttachments(pdDoc);
 		for (S2sOppForms opportunityForm : opportunityForms) {
 			if (!opportunityForm.getInclude()) {
 				continue;
 			}
+			List<AttachmentData> formAttList = new ArrayList<AttachmentData>();
 			FormMappingInfo info = null;
 			S2SBaseFormGenerator s2sFormGenerator = null;
 			try {
@@ -668,16 +670,16 @@ public class KRAS2SServiceImpl implements S2SService {
 			}
 			try {
 			    s2sFormGenerator.setAuditErrors(auditErrors);
-			    s2sFormGenerator.setAttachments(attList);
+			    s2sFormGenerator.setAttachments(formAttList);
 				XmlObject formObject = s2sFormGenerator.getFormObject(pdDoc);
 				if (s2SValidatorService.validate(formObject, auditErrors)) {
 					if (forms != null && attList != null) {
 						setFormObject(forms, formObject);
-//						attList.addAll(s2sFormGenerator.getAttachments());
 					}
 				} else {
 					validationSucceeded = false;
 				}
+				attList.addAll(formAttList);
 			} catch (Exception ex) {
 				LOG.error(
 						"Unknown error from " + opportunityForm.getFormName(),
