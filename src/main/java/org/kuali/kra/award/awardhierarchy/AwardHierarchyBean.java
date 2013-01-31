@@ -189,6 +189,9 @@ public class AwardHierarchyBean implements Serializable {
     }
     
     public Map<String, AwardHierarchy> getCurrentAwardHierarchy() {
+        if (hierarchy == null) {
+            loadHierarchy(this.getAwardForm().getAwardDocument().getAward().getAwardNumber());
+        }
         return hierarchy;
     }
     
