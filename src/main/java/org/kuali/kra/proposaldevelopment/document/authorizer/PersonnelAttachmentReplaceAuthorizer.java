@@ -32,7 +32,8 @@ public class PersonnelAttachmentReplaceAuthorizer extends ProposalAuthorizer {
             boolean hasPerm = hasProposalPermission(userId, doc, PermissionConstants.MODIFY_NARRATIVE);
             boolean isInProgress = StringUtils.equalsIgnoreCase(doc.getDevelopmentProposal().getProposalState().getDescription(), "In Progress");
             boolean isApprovalPending = StringUtils.equalsIgnoreCase(doc.getDevelopmentProposal().getProposalState().getDescription(), "Approval Pending");
-            result = hasPerm && (isInProgress || isApprovalPending);
+            boolean isRevisionRequested = StringUtils.equalsIgnoreCase(doc.getDevelopmentProposal().getProposalState().getDescription(), "Revisions Requested");
+            result = hasPerm && (isInProgress || isApprovalPending || isRevisionRequested);
         }
         return result;
     }
