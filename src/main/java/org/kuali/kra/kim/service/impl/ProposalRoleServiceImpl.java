@@ -78,7 +78,8 @@ public class ProposalRoleServiceImpl implements ProposalRoleService {
         while (iter.hasNext()) {
             Role role = iter.next();
             KimType type = systemAuthorizationService.getKimTypeInfoForRole(role);
-            if (StringUtils.startsWith(type.getName(), "Derived Role")) {
+            // filter out derived roles and roles that are not based on Unit or workflow
+            if (StringUtils.startsWith(type.getName(), "Derived Role") || StringUtils.startsWith(type.getName(), "Default")) {
                 iter.remove();
             }
         }
