@@ -453,5 +453,15 @@ public class IdentityServiceAdapter implements IdentityService {
     public PrincipalQueryResults findPrincipals(QueryByCriteria query) throws RiceIllegalArgumentException {
         return null;
     }
+
+    @Override
+    public List<Principal> getPrincipalsByEmployeeId(String arg0) {
+        return null;
+    }
+
+    @Override
+    public List<Principal> getPrincipalsByEntityId(String arg0) {
+        return null;
+    }
     
 }
