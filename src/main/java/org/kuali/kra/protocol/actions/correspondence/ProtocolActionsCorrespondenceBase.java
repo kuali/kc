@@ -125,5 +125,13 @@ public abstract class ProtocolActionsCorrespondenceBase extends AbstractPrint {
     }
 
     protected abstract ProtocolPrintWatermarkBase getNewProtocolPrintWatermarkInstanceHook();
+
+    public String getLeadUnitNumber() {
+        return getProtocol().getLeadUnitNumber();
+    }
+
+    protected abstract String getAdministratorType();
+
+    protected abstract String getModuleNameSpace();
     
 }

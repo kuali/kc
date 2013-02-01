@@ -22,7 +22,7 @@
     <bean id="PersonSignatureMaintenanceDocument" parent="PersonSignatureMaintenanceDocument-parentBean" />
     <bean id="PersonSignatureMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
         <property name="businessObjectClass" value="org.kuali.kra.bo.PersonSignature" />
-        <property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl" />
+        <property name="maintainableClass" value="org.kuali.kra.bo.PersonSignatureMaintainableImpl" />
         <property name="maintainableSections" >
             <list>
                 <ref bean="PersonSignatureMaintenanceDocument-EditPersonSignature" />
@@ -57,8 +57,7 @@
  		        	p:name="person.userName" 
  		        	p:required="false" />
                <bean parent="MaintainableFieldDefinition"
-                    p:name="templateFile"
-                    p:required="true"  />               
+                    p:name="templateFile" />
                <bean parent="MaintainableFieldDefinition"
                     p:name="defaultAdminSignature" 
                     p:required="false"  />               

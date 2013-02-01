@@ -614,6 +614,27 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+		
+<!--  		
+<dependency>
+    <groupId>com.itextpdf</groupId>
+    <artifactId>itextpdf</artifactId>
+    <version>5.3.4</version>
+</dependency>
+-->		
+		
+ <dependency>
+      <groupId>org.apache.pdfbox</groupId>
+      <artifactId>pdfbox</artifactId>
+      <version>1.7.1</version>
+			<exclusions>
+				<exclusion>
+		    		<groupId>commons-logging</groupId>
+		    		<artifactId>commons-logging</artifactId>
+		    	</exclusion>
+			</exclusions>
+ </dependency>
+		
 		<dependency>
 		    <groupId>displaytag</groupId>
 		    <artifactId>displaytag</artifactId>
@@ -1478,6 +1499,27 @@
             </exclusion>
           </exclusions>
         </dependency>
+
+<!--          
+<dependency>
+    <groupId>com.itextpdf</groupId>
+    <artifactId>itextpdf</artifactId>
+    <version>5.3.4</version>
+</dependency>
+-->
+        
+ <dependency>
+      <groupId>org.apache.pdfbox</groupId>
+      <artifactId>pdfbox</artifactId>
+      <version>1.7.1</version>
+			<exclusions>
+				<exclusion>
+		    		<groupId>commons-logging</groupId>
+		    		<artifactId>commons-logging</artifactId>
+		    	</exclusion>
+			</exclusions>
+ </dependency>
+        
       </dependencies>
     </profile>
 	  

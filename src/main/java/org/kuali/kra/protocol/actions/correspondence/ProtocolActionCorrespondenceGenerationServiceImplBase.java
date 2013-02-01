@@ -18,13 +18,18 @@ package org.kuali.kra.protocol.actions.correspondence;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.printing.PrintingException;
+import org.kuali.kra.printing.print.PrintableAttachment;
+import org.kuali.kra.printing.service.PersonSignatureService;
+import org.kuali.kra.printing.service.PrintingService;
+import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondence;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceTemplateBase;
-import org.kuali.kra.printing.PrintingException;
-import org.kuali.kra.printing.service.PrintingService;
-import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -40,6 +45,7 @@ public abstract class ProtocolActionCorrespondenceGenerationServiceImplBase impl
     private ProtocolActionTypeToCorrespondenceTemplateService protocolActionTypeToCorrespondenceTemplateService;
     private DateTimeService dateTimeService;
 
+    private static final Log LOG = LogFactory.getLog(ProtocolActionCorrespondenceGenerationServiceImplBase.class);
     
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
@@ -105,6 +111,7 @@ public abstract class ProtocolActionCorrespondenceGenerationServiceImplBase impl
                 //there are templates in play, lets do some printing and attaching            
                 ProtocolBase protocol = printableCorrespondence.getProtocol();
                 AttachmentDataSource ads = this.printingService.print(printableCorrespondence);
+                applySignatureInDocument(printableCorrespondence, ads);
                 if (ads.getContent().length > 0) {
                     //only need to do this, if there is actually printable correspondence to save
                     //this may not be the case if a bad template is put in place, or under certain testing conditions.
@@ -118,11 +125,36 @@ public abstract class ProtocolActionCorrespondenceGenerationServiceImplBase impl
             if (printableCorrespondence.getXSLTemplates().size() > 0) {
                 //there are templates in play, lets do some printing and attaching            
                 ProtocolBase protocol = printableCorrespondence.getProtocol();
-                return this.printingService.print(printableCorrespondence);
+                AttachmentDataSource ads = this.printingService.print(printableCorrespondence);
+                applySignatureInDocument(printableCorrespondence, ads);
+                return ads;
             }
             return null;
         }
         
+    
+    
+    protected void applySignatureInDocument(ProtocolActionsCorrespondenceBase printableCorrespondence, AttachmentDataSource attachmentDataSource) {
+        try {  
+            PrintableAttachment printablePdf = (PrintableAttachment)attachmentDataSource;
+            String leadUnitNumber = printableCorrespondence.getLeadUnitNumber();
+            String administratorType = printableCorrespondence.getAdministratorType();
+            String moduleNameSpace = printableCorrespondence.getModuleNameSpace();
+            byte[] pdfBytes = printablePdf.getContent();
+            PersonSignatureService personSignatureService = getPersonSignatureService();
+            pdfBytes = personSignatureService.applySignature(leadUnitNumber, administratorType, 
+                    moduleNameSpace, pdfBytes);
+            printablePdf.setContent(pdfBytes);
+        } catch (Exception e) {
+            LOG.error("Exception Occured in ProtocolActionCorrespondenceGenerationServiceImplBase. Person Signature Exception: ",e);    
+        }  
+    }
+    
+    protected PersonSignatureService getPersonSignatureService() {
+        return KraServiceLocator.getService(PersonSignatureService.class);
+        
+    }
+    
     /**{@inheritDoc}**/
     public List<ProtocolCorrespondenceTemplateBase> getCorrespondenceTemplates(String actionType) {
         List<ProtocolCorrespondenceTemplateBase> templates = 
@@ -133,4 +165,5 @@ public abstract class ProtocolActionCorrespondenceGenerationServiceImplBase impl
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
     }
+
 }
