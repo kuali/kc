@@ -18,7 +18,9 @@ package org.kuali.kra.iacuc.correspondence;
 import org.kuali.kra.iacuc.actions.correspondence.IacucProtocolActionTypeToCorrespondenceTemplateService;
 import org.kuali.kra.iacuc.actions.print.IacucCorrespondenceXmlStream;
 import org.kuali.kra.iacuc.actions.print.IacucProtocolPrintWatermark;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.protocol.actions.correspondence.ProtocolActionsCorrespondenceBase;
 import org.kuali.kra.protocol.actions.print.CorrespondenceXmlStreamBase;
 import org.kuali.kra.protocol.actions.print.ProtocolPrintWatermarkBase;
@@ -54,6 +56,16 @@ public class IacucProtocolActionsCorrespondence extends ProtocolActionsCorrespon
     @Override
     public CorrespondenceXmlStreamBase getCorrespondenceXmlStream() {
         return KraServiceLocator.getService(IacucCorrespondenceXmlStream.class);
+    }
+
+    @Override
+    protected String getAdministratorType() {
+        return RoleConstants.IACUC_ADMINISTRATOR;
+    }
+
+    @Override
+    protected String getModuleNameSpace() {
+        return Constants.MODULE_NAMESPACE_IACUC;
     }    
 
 }

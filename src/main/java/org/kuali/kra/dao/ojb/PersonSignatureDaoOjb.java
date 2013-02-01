@@ -36,8 +36,8 @@ public class PersonSignatureDaoOjb extends PlatformAwareDaoBaseOjb implements Pe
     @SuppressWarnings("unchecked")
     public List<PersonSignature> getPersonSignatureForPersonIds( Collection<String> personIds) {
         Criteria criteria = new Criteria();
-        criteria.addColumnIn(Constants.PERSON_SIGNATURE_PERSON_ID, personIds);
-        criteria.addColumnEqualTo(Constants.PERSON_SIGNATURE_ACTIVE, Boolean.TRUE);
+        criteria.addIn(Constants.PERSON_SIGNATURE_PERSON_ID, personIds);
+        criteria.addEqualTo(Constants.PERSON_SIGNATURE_ACTIVE, Boolean.TRUE);
         Query query = QueryFactory.newQuery(PersonSignature.class, criteria);
         Collection<PersonSignature> personSignatures = getPersistenceBrokerTemplate().getCollectionByQuery(query);
         return new ArrayList<PersonSignature>( personSignatures );
