@@ -51,6 +51,7 @@ import org.apache.fop.apps.MimeConstants;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.printing.Printable;
 import org.kuali.kra.printing.PrintingException;
+import org.kuali.kra.printing.print.PrintableAttachment;
 import org.kuali.kra.printing.service.PrintingService;
 import org.kuali.kra.printing.service.WatermarkService;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
@@ -404,21 +405,21 @@ public class PrintingServiceImpl implements PrintingService {
 		return dateFormat.format(calendar.getTime());
 	}
 
-	/**
-	 * 
-	 * This class populates the bytes of PDF document to be generated
-	 */
-	protected class PrintableAttachment extends AttachmentDataSource {
-		private byte[] streamData;
-
-		public byte[] getContent() {
-			return streamData;
-		}
-
-		public void setContent(byte[] streamData) {
-			this.streamData = streamData;
-		}
-	}
+//	/**
+//	 * 
+//	 * This class populates the bytes of PDF document to be generated
+//	 */
+//	protected class PrintableAttachment extends AttachmentDataSource {
+//		private byte[] streamData;
+//
+//		public byte[] getContent() {
+//			return streamData;
+//		}
+//
+//		public void setContent(byte[] streamData) {
+//			this.streamData = streamData;
+//		}
+//	}
 
 	/**
 	 * @return the dateTimeService

@@ -13,24 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.printing.service;
+package org.kuali.kra.printing.print;
 
+import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 
-public interface PersonSignatureService {
-
+/**
+ * 
+ * This class populates the bytes of PDF document to be generated
+ */
+public class PrintableAttachment extends AttachmentDataSource {
     /**
-     * 
-     * This method is to apply signature to the pdf document.
-     * In this method the input pdfBytes are merged with appropriate signature and 
-     * the result is returned.
-     * @param leadUnitNumber
-     * @param administratorType
-     * @param moduleNameSpace
-     * @param pdfBytes
-     * @return pdfFileData
-     * @throws Exception
+     * Comment for <code>serialVersionUID</code>
      */
-    byte[] applySignature(String leadUnitNumber, String administratorType, String moduleNameSpace,
-            byte[] pdfBytes) throws Exception;
+    private static final long serialVersionUID = 1860670624193916246L;
+    private byte[] streamData;
 
+    public byte[] getContent() {
+        return streamData;
+    }
+
+    public void setContent(byte[] streamData) {
+        this.streamData = streamData;
+    }
 }

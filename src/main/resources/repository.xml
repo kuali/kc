@@ -1618,6 +1618,7 @@
 		<field-descriptor name="defaultAdminSignature" column="DEFAULT_ADMIN_SIGNATURE" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
 		<field-descriptor name="signatureActive" column="SIGNATURE_ACTIVE" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
 		<field-descriptor name="attachmentContent" column="PERSON_AUTOGRAPH" jdbc-type="BLOB" />				
+		<field-descriptor name="fileName" column="FILE_NAME" jdbc-type="VARCHAR" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
