@@ -52,7 +52,7 @@
 <kra-iacuc:iacucProtocolSummaryPrint/>
 <kra-iacuc:protocolSummaryViewPrint/>
 <kra-iacuc:iacucProtocolCopyProtocol />
-<kul:superUserActions />			
+<kul:superUserActions showTab="false"/>			
 
 <c:if test="${showActions}" >
     <kra:dataValidation auditActivated="${KualiForm.auditActivated}" topTab="false" helpParameterNamespace="KC-IACUC" helpParameterName="protocolDataValidationHelp" helpParameterDetailType="Document"/>

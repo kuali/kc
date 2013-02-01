@@ -59,7 +59,7 @@
 <kra-a:awardPrint />
 <kul:adHocRecipients />
 <kul:routeLog />
-<kul:superUserActions />			
+<kul:superUserActions showTab="false"/>			
 
 <kra:section permission="createAwardAccount">
 <kra-a:awardCreateAccount />
