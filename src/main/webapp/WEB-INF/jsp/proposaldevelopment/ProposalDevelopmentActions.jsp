@@ -101,7 +101,7 @@ http://www.osedu.org/licenses/ECL-2.0
 		<c:if test="${hierarchyStatus != hierarchyChildStatus}">
 			<kul:routeLog />
 			<kul:adHocRecipients />
-			<kul:superUserActions />			
+			<kul:superUserActions showTab="false"/>			
 			
 		</c:if>
 	
