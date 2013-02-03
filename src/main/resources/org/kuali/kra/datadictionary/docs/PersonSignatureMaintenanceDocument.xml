@@ -36,9 +36,7 @@
         <property name="allowsRecordDeletion" value="true" />
         <property name="documentTypeName" value="PersonSignatureMaintenanceDocument" />
         <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
-        <!--  
-        <property name="businessRulesClass" value="org.kuali.kra.actions.submit.ValidPersonSignatureStatusMaintenanceDocumentRule"/>
-        -->
+        <property name="businessRulesClass" value="org.kuali.kra.bo.ValidPersonSignatureMaintenanceDocumentRule"/>
         
     </bean>
 

@@ -30,7 +30,6 @@ public class PersonSignatureMaintainableImpl extends KraMaintainableImpl impleme
      */
     private static final long serialVersionUID = 8173735177817352778L;
     private static final String KIM_PERSON_LOOKUPABLE_REFRESH_CALLER = "kimPersonLookupable";
-    private static final String PERSON_SIGNATURE_FILE_INVALID_ERROR_KEY = "error.invalid.personSignature.invalid.fileName";
 
     @Override
     @SuppressWarnings("unchecked")
@@ -43,20 +42,4 @@ public class PersonSignatureMaintainableImpl extends KraMaintainableImpl impleme
         }
     }
 
-    @Override
-    public void prepareForSave() {
-        super.prepareForSave();
-        isSignatureValid();
-    }
-
-    private void isSignatureValid() {
-        PersonSignature personSignature = (PersonSignature)this.businessObject;
-        if(StringUtils.isEmpty(personSignature.getFileName())) {
-            ErrorReporter errorReporter = new ErrorReporter();
-            errorReporter.reportError("document.newMaintainableObject.templateFile", 
-                    PERSON_SIGNATURE_FILE_INVALID_ERROR_KEY,
-                    new String[]{});
-        }
-    }
-    
 }
