@@ -60,7 +60,7 @@ public class ValidPersonSignatureMaintenanceDocumentRule extends KraMaintenanceD
         boolean isSignatureValid = true;
         PersonSignature personSignature = (PersonSignature)document.getNewMaintainableObject().getDataObject();
         
-        if(personSignature.getTemplateFile() == null) {
+        if(personSignature.getTemplateFile() == null && personSignature.getFileName() == null) {
             ErrorReporter errorReporter = new ErrorReporter();
             errorReporter.reportError("document.newMaintainableObject.templateFile", 
                     PERSON_SIGNATURE_FILE_INVALID_ERROR_KEY,
