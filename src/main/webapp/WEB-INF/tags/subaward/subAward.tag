@@ -116,10 +116,8 @@
                 </td>
             </tr>
         	<tr>
-				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${subAwardAttributes.requisitionerUserName}" /></div></th>
-              
-                      
-             <td>
+				<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${subAwardAttributes.requisitionerUserName}" forceRequired="true" /></div></th>
+                <td>
 			<c:if test="${!readOnly}">
 	                    <kul:htmlControlAttribute property="document.subAwardList[0].requisitionerUserName" readOnly="${readOnly}" 
 							onblur="loadContactPersonName('document.subAwardList[0].requisitionerUserName',
