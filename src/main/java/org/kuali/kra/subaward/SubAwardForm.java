@@ -24,6 +24,7 @@ import org.kuali.kra.web.struts.form.Auditable;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.Rolodex;
+import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.common.customattributes.CustomDataForm;
 import org.kuali.kra.common.permissions.web.struts.form.PermissionsForm;
@@ -35,6 +36,7 @@ import org.kuali.kra.medusa.MedusaBean;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
 import org.kuali.kra.service.TaskAuthorizationService;
+import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.kra.subaward.bo.SubAwardAmountInfo;
 import org.kuali.kra.subaward.bo.SubAwardAmountReleased;
@@ -389,4 +391,23 @@ implements PermissionsForm, CustomDataForm, Auditable {
         }
         return extraButtons;
     }
+    
+    /*
+     * returns flag indicating if edit button should be displayed at bottom of form 
+     * 
+     */
+    public boolean getDisplayEditButton() {
+        boolean displayEditButton = !isViewOnly();
+        VersionHistory activeVersion = getVersionHistoryService().findActiveVersion(SubAward.class, getSubAwardDocument().getSubAward().getSubAwardCode());
+        if (activeVersion != null) {
+            displayEditButton &= activeVersion.getSequenceOwnerSequenceNumber().equals(getSubAwardDocument().getSubAward().getSequenceNumber());
+        }
+        
+        return displayEditButton;
+    }
+    
+    protected VersionHistoryService getVersionHistoryService() {
+        return KraServiceLocator.getService(VersionHistoryService.class);
+    }
+
 }
