@@ -27,7 +27,7 @@ public class CFDA extends KraPersistableBusinessObjectBase {
 
     private Boolean active;
 
-    public Boolean isActive() {
+    public Boolean getActive() {
         return active;
     }
 
