@@ -378,7 +378,7 @@
 				<property name="localServiceName" value="budgetCategoryService" />
 				<property name="serviceInterface"
 					value="org.kuali.kra.external.budget.service" />
-				<property name="busSecurity" value="false" />
+				<property name="busSecurity" value="${fin.system.integration.bus.security.on}" />
 				<property name="retryAttempts" value="1" />
 			</bean>
 		</property>
@@ -390,7 +390,7 @@
 				<property name="service" ref="budgetCategoryService" />
 				<property name="serviceNameSpaceURI" value="KC" />
 				<property name="localServiceName" value="budgetCategorySoapService" />
-				<property name="busSecurity" value="false" />
+				<property name="busSecurity" value="${fin.system.integration.bus.security.on}" />
 				<property name="jaxWsService" value="true" />
 			</bean>
 		</property>

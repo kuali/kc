@@ -54,6 +54,9 @@
 	<param name="application.id">KC</param>	
 	<param name="application.host">127.0.0.1</param>
 	
+	<!-- Config param for setting the bus security on and off in the integration services -->
+	<param name="fin.system.integration.bus.security.on">false</param>
+	
 	<!-- for local (bundled mode) this defaults to the kc client url -->
 	<param name="rice.server.url">${application.url}</param>
 

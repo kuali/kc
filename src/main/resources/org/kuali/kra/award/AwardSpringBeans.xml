@@ -268,7 +268,7 @@
                 <property name="serviceNameSpaceURI" value="KC" />
                 <property name="localServiceName" value="awardAccountService" />
                 <property name="serviceInterface" value="org.kuali.kra.external.award.AwardAccountService" />
-                <property name="busSecurity" value="false" />
+                <property name="busSecurity" value="${fin.system.integration.bus.security.on}" />
                 <property name="retryAttempts" value="1" />
             </bean>
         </property>
@@ -279,7 +279,7 @@
                 <property name="service" ref="awardAccountService" />
                 <property name="serviceNameSpaceURI" value="KC" />
                 <property name="localServiceName" value="awardAccountSoapService" />
-                <property name="busSecurity" value="false" />
+                <property name="busSecurity" value="${fin.system.integration.bus.security.on}"/>
                 <property name="jaxWsService" value="true" />
             </bean>
         </property>
@@ -732,7 +732,7 @@
                 <property name="serviceNameSpaceURI" value="KC" />
                 <property name="localServiceName" value="cfdaNumberService" />
                 <property name="serviceInterface" value="org.kuali.kra.external.Cfda.service.CfdaNumberService" />
-                <property name="busSecurity" value="false" />
+                <property name="busSecurity" value="${fin.system.integration.bus.security.on}" />
                 <property name="retryAttempts" value="1" />
             </bean>
         </property>
@@ -743,7 +743,7 @@
                 <property name="service" ref="cfdaNumberService" />
                 <property name="serviceNameSpaceURI" value="KC" />
                 <property name="localServiceName" value="cfdaNumberSoapService" />
-                <property name="busSecurity" value="false" />
+                <property name="busSecurity" value="${fin.system.integration.bus.security.on}" />
                 <property name="jaxWsService" value="true" />
             </bean>
         </property>
