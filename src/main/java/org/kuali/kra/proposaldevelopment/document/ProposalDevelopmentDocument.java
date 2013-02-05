@@ -590,7 +590,7 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
     public void defaultDocumentDescription() {
         DevelopmentProposal proposal = getDevelopmentProposal();
         String desc = String.format("%s; Proposal No: %s; PI: %s; Sponsor: %s; Due Date: %s",
-                proposal.getTitle().substring(0, Math.min(proposal.getTitle().length(), 19)),
+                proposal.getTitle() != null ? proposal.getTitle().substring(0, Math.min(proposal.getTitle().length(), 19)) : "null",
                 proposal.getProposalNumber(),
                 proposal.getPrincipalInvestigatorName(),
                 proposal.getSponsorName(),
