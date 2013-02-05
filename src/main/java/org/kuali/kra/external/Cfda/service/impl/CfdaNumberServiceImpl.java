@@ -101,7 +101,7 @@ public class CfdaNumberServiceImpl implements CfdaNumberService {
         cfdaDTO.setCfdaMaintenanceTypeId(cfda.getCfdaMaintenanceTypeId());
         cfdaDTO.setCfdaNumber(cfda.getCfdaNumber());
         cfdaDTO.setCfdaProgramTitleName(cfda.getCfdaProgramTitleName());
-        cfdaDTO.setActive(cfda.isActive());
+        cfdaDTO.setActive(cfda.getActive());
         return cfdaDTO;
     }
     
