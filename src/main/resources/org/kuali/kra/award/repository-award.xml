@@ -1364,7 +1364,7 @@
 			<foreignkey field-ref="awardId" />
 		</reference-descriptor>
 		
-		<reference-descriptor name="proposal" class-ref="org.kuali.kra.institutionalproposal.home.InstitutionalProposal" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+		<reference-descriptor name="proposal" class-ref="org.kuali.kra.institutionalproposal.home.InstitutionalProposalBoLite" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="proposalId"/> 
 		</reference-descriptor>
     </class-descriptor>
