@@ -18,6 +18,8 @@ package org.kuali.kra.award.home.fundingproposal;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
+import org.kuali.kra.institutionalproposal.home.InstitutionalProposalBoLite;
+
 
 /**
  * Represents the relationship between an Award and a funding Institutional Proposal.
@@ -32,7 +34,7 @@ public class AwardFundingProposal extends KraPersistableBusinessObjectBase {
 
     private Award award;
 
-    private InstitutionalProposal proposal;
+    private InstitutionalProposalBoLite proposal;
 
     // for OJB  
     private Long awardId;
@@ -53,10 +55,16 @@ public class AwardFundingProposal extends KraPersistableBusinessObjectBase {
      * @param award
      * @param institutionalProposal
      */
-    public AwardFundingProposal(Award award, InstitutionalProposal proposal) {
+    public AwardFundingProposal(Award award, InstitutionalProposalBoLite proposal) {
         this();
         setAward(award);
         setProposal(proposal);
+    }
+    
+    public AwardFundingProposal(Award award, InstitutionalProposal proposal) {
+        this();
+        setAward(award);
+        setProposal(liteVersion(proposal));
     }
 
     /**
@@ -83,9 +91,9 @@ public class AwardFundingProposal extends KraPersistableBusinessObjectBase {
     /**
      * @return Returns the proposal.
      */
-    public InstitutionalProposal getProposal() {
-        return proposal;
-    }
+    public InstitutionalProposalBoLite getProposal() {
+    	return proposal;
+	}
 
     /**
      * @return Returns the proposalId.
@@ -119,7 +127,7 @@ public class AwardFundingProposal extends KraPersistableBusinessObjectBase {
     /**
      * @param proposal The proposal to set.
      */
-    public void setProposal(InstitutionalProposal proposal) {
+    public void setProposal(InstitutionalProposalBoLite proposal) {
         this.proposal = proposal;
         this.proposalId = proposal != null ? proposal.getProposalId() : null;
     }
@@ -175,5 +183,33 @@ public class AwardFundingProposal extends KraPersistableBusinessObjectBase {
         result = prime * result + ((awardId == null) ? 0 : awardId.hashCode());
         result = prime * result + ((proposalId == null) ? 0 : proposalId.hashCode());
         return result;
+    }
+    
+    protected InstitutionalProposalBoLite liteVersion(InstitutionalProposal ip) {
+    	InstitutionalProposalBoLite pbl = new InstitutionalProposalBoLite();
+    	pbl.setActivityTypeCode(ip.getActivityTypeCode());
+    	pbl.setLeadUnit(ip.getLeadUnit());
+    	pbl.setProposalId(ip.getProposalId());
+    	pbl.setProposalNumber(ip.getProposalNumber());
+    	pbl.setProposalTypeCode(ip.getProposalTypeCode());
+    	pbl.setRequestedEndDateInitial(ip.getRequestedEndDateInitial());
+    	pbl.setRequestedEndDateTotal(ip.getRequestedEndDateTotal());
+    	pbl.setRequestedStartDateInitial(ip.getRequestedStartDateInitial());
+    	pbl.setRequestedStartDateTotal(ip.getRequestedStartDateTotal());
+    	pbl.setSequenceNumber(ip.getSequenceNumber());
+    	pbl.setSponsor(ip.getSponsor());
+    	pbl.setSponsorCode(ip.getSponsorCode());
+    	pbl.setStatusCode(ip.getStatusCode());
+    	pbl.setTitle(ip.getTitle());
+    	pbl.setTotalDirectCostInitial(ip.getTotalDirectCostInitial());
+    	pbl.setTotalDirectCostTotal(ip.getTotalDirectCostTotal());
+    	pbl.setTotalIndirectCostInitial(ip.getTotalIndirectCostInitial());
+    	pbl.setTotalIndirectCostTotal(ip.getTotalIndirectCostTotal());
+    	pbl.setUnitNumber(ip.getUnitNumber());
+    	pbl.setProjectPersons(ip.getProjectPersons());
+    	pbl.setSponsorName(ip.getSponsorName());
+    	pbl.setProposalType(ip.getProposalType());
+    	pbl.setActivityType(ip.getActivityType());
+    	return pbl;
     }
 }
