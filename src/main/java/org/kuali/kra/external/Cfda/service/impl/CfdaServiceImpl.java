@@ -233,7 +233,7 @@ public class CfdaServiceImpl implements CfdaService {
             else if (kcCfda.getCfdaMaintenanceTypeId().equalsIgnoreCase(Constants.CFDA_MAINT_TYP_ID_AUTOMATIC)) {
 
                 if (govCfda == null) {
-                    if (kcCfda.isActive()) {
+                    if (kcCfda.getActive()) {
                         kcCfda.setActive(false);
                         businessObjectService.save(kcCfda);
                         updateResults.setNumberOfRecordsDeactivatedBecauseNoLongerOnWebSite(updateResults.getNumberOfRecordsDeactivatedBecauseNoLongerOnWebSite() + 1);
@@ -244,7 +244,7 @@ public class CfdaServiceImpl implements CfdaService {
                     }
                 }
                 else {
-                    if (kcCfda.isActive()) {
+                    if (kcCfda.getActive()) {
                        /*if (!kcCfda.getCfdaProgramTitleName().equalsIgnoreCase(govCfda.getCfdaProgramTitleName())) {
                             message.append("The program title for CFDA " + kcCfda.getCfdaNumber() + " changed from " 
                                             + kcCfda.getCfdaProgramTitleName() + " to " + govCfda.getCfdaProgramTitleName() + ".<BR>");
