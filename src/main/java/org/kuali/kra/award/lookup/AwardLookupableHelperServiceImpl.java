@@ -17,6 +17,7 @@ package org.kuali.kra.award.lookup;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -353,7 +354,8 @@ class AwardLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {
                 fieldValues.put("rootAwardNumber", rootAwardNumber);
                 
                 List<TimeAndMoneyDocument> timeAndMoneyDocuments = 
-                    (List<TimeAndMoneyDocument>)businessObjectService.findMatchingOrderBy(TimeAndMoneyDocument.class, fieldValues, "documentNumber", true);
+                    (List<TimeAndMoneyDocument>)businessObjectService.findMatching(TimeAndMoneyDocument.class, fieldValues);
+                Collections.sort(timeAndMoneyDocuments);
                 if(!(timeAndMoneyDocuments.size() == 0)) {
                     TimeAndMoneyDocument t = timeAndMoneyDocuments.get(0);
                     TimeAndMoneyDocument timeAndMoneyDocument = (TimeAndMoneyDocument) documentService.getByDocumentHeaderId(t.getDocumentNumber());

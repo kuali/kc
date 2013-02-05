@@ -52,7 +52,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
  * This class represents the Time and Money Document Object.
  * 
  */
-public class TimeAndMoneyDocument extends ResearchDocumentBase implements  Copyable, SessionDocument, Permissionable{
+public class TimeAndMoneyDocument extends ResearchDocumentBase implements Copyable, SessionDocument, Permissionable, Comparable {
     
     /**
      * Comment for <code>serialVersionUID</code>
@@ -429,6 +429,19 @@ public class TimeAndMoneyDocument extends ResearchDocumentBase implements  Copya
            
         return isComplete;
     }
-    
+
+    @Override
+    public int compareTo(Object o) {
+        if (this == o) {
+            return 0;
+        }
+        if (o == null) {
+            return 1;
+        }
+        TimeAndMoneyDocument comparator = (TimeAndMoneyDocument)o;
+        String myKey = StringUtils.leftPad(getDocumentNumber(), 40);
+        String otherKey = StringUtils.leftPad(comparator.getDocumentNumber(), 40);
+        return myKey.compareTo(otherKey);
+    }
     
 }
