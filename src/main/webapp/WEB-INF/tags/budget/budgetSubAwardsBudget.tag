@@ -126,8 +126,8 @@
 									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-viewpdf.gif' styleClass="tinybutton" onclick="excludeSubmitRestriction=true"/>
 									<html:image property="methodToCall.viewXML.line${status.index}.anchor${currentTabIndex}"
 									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-viewxml.gif' styleClass="tinybutton" onclick="excludeSubmitRestriction=true"/>
-									<html:image property="methodToCall.updateBudgetAttachment.line${status.index}.anchor${tabKey}"
-									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-extractxml.gif' styleClass="tinybutton"/>									
+									<html:image property="methodToCall.syncFromBudgetAttachment.line${status.index}.anchor${tabKey}"
+									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-syncfromPDF.gif' styleClass="tinybutton"/>									
 							    </c:when>
 							    <c:when test="${not empty KualiForm.document.budget.budgetSubAwards[status.index].subAwardXfdFileData}">
 							        <html:image property="methodToCall.view.line${status.index}.anchor${currentTabIndex}"
@@ -216,8 +216,8 @@
 	             		 				<td class="infoline" style="text-align: center;"><kul:htmlControlAttribute property="document.budget.budgetSubAwards[${status.index}].budgetSubAwardPeriodDetails[${periodStatus.index}].indirectCost" 
 	             		 				attributeEntry="${periodDetailAttributes.indirectCost}" styleClass="amount calculateTotal" readOnly="${readOnly}"
 	             		 				onchange="Global.calculateTotal(this);"/></td>
-	             		 				<td class="infoline" style="text-align: center;"><kul:htmlControlAttribute property="document.budget.budgetSubAwards[${status.index}].budgetSubAwardPeriodDetails[${periodStatus.index}].costShare" attributeEntry="${periodDetailAttributes.costShare}" styleClass="amount" readOnly="${readOnly}"/></td>
-	             		 				<td class="infoline" style="text-align: center;"><span class="totalCost"><kul:htmlControlAttribute property="document.budget.budgetSubAwards[${status.index}].budgetSubAwardPeriodDetails[${periodStatus.index}].totalCost" attributeEntry="${periodDetailAttributes.totalCost}" styleClass="amount" readOnly="true"/></span></td>
+	             		 				<td class="infoline" style="text-align: center;"><kul:htmlControlAttribute property="document.budget.budgetSubAwards[${status.index}].budgetSubAwardPeriodDetails[${periodStatus.index}].costShare" attributeEntry="${periodDetailAttributes.costShare}" styleClass="amount calculateTotal" readOnly="${readOnly}"/></td>
+	             		 				<td class="infoline" style="text-align: right;"><span class="totalCost"><kul:htmlControlAttribute property="document.budget.budgetSubAwards[${status.index}].budgetSubAwardPeriodDetails[${periodStatus.index}].totalCost" attributeEntry="${periodDetailAttributes.totalCost}" styleClass="amount" readOnly="true"/></span></td>
 	             		 			</tr>
 	             		 		</c:forEach>
 	             		 	</table>	
