@@ -32,17 +32,14 @@ import org.kuali.rice.krad.util.GlobalVariables;
 
 public class BudgetSubAwardsRule {
     
-    public static final String SUBAWARD_FILE_FIELD_NAME = ".subAwardFile";
     public static final String SUBAWARD_ORG_NAME_FIELD_NAME = ".organizationName";
     
     private BudgetSubAwards budgetSubAwards;
-    private String fieldStarter;
     private BusinessObjectService businessObjectService;
     
     
-    public BudgetSubAwardsRule(BudgetSubAwards budgetSubAwards, String fieldStarter) {
+    public BudgetSubAwardsRule(BudgetSubAwards budgetSubAwards) {
         this.budgetSubAwards = budgetSubAwards;
-        this.fieldStarter = fieldStarter;
     }
     
     public boolean processApply() {
@@ -64,7 +61,7 @@ public class BudgetSubAwardsRule {
     
     public boolean checkSpecialCharacters(String text){
         if(getKcAttachmentService().getSpecialCharacter(text)) {
-            GlobalVariables.getMessageMap().putWarning(fieldStarter + SUBAWARD_FILE_FIELD_NAME, Constants.SUBAWARD_FILE_SPECIAL_CHARECTOR);
+            GlobalVariables.getMessageMap().putWarning(Constants.SUBAWARD_FILE_FIELD_NAME, Constants.SUBAWARD_FILE_SPECIAL_CHARECTOR);
             return true;
         }
         return false;
@@ -73,14 +70,14 @@ public class BudgetSubAwardsRule {
     protected boolean verifyOrganizationName(){
         boolean success = true;
         if (StringUtils.isBlank(budgetSubAwards.getOrganizationName())) {
-            GlobalVariables.getMessageMap().putError(fieldStarter + SUBAWARD_ORG_NAME_FIELD_NAME, Constants.SUBAWARD_ORG_NAME_REQUIERED);
+            GlobalVariables.getMessageMap().putError(SUBAWARD_ORG_NAME_FIELD_NAME, Constants.SUBAWARD_ORG_NAME_REQUIERED);
             success = false;
         } else {
             Map params = new HashMap();
             params.put("organizationName", budgetSubAwards.getOrganizationName());
             Organization dbOrganization = this.getBusinessObjectService().findByPrimaryKey(Organization.class, params);
             if (dbOrganization == null || !StringUtils.equals(dbOrganization.getOrganizationName(), budgetSubAwards.getOrganizationName())) {
-                GlobalVariables.getMessageMap().putError(fieldStarter + SUBAWARD_ORG_NAME_FIELD_NAME, Constants.SUBAWARD_ORG_NAME_INVALID);
+                GlobalVariables.getMessageMap().putError(SUBAWARD_ORG_NAME_FIELD_NAME, Constants.SUBAWARD_ORG_NAME_INVALID);
                 success = false;
             }
         }
@@ -92,16 +89,16 @@ public class BudgetSubAwardsRule {
         FormFile newBudgetSubAwardFile = budgetSubAwards.getNewSubAwardFile();
         try {
             if (ArrayUtils.isEmpty(newBudgetSubAwardFile.getFileData())) {
-                GlobalVariables.getMessageMap().putError(fieldStarter + SUBAWARD_FILE_FIELD_NAME, Constants.SUBAWARD_FILE_REQUIERED);
+                GlobalVariables.getMessageMap().putError(Constants.SUBAWARD_FILE_FIELD_NAME, Constants.SUBAWARD_FILE_REQUIERED);
                 success = false;
             }
         } catch(FileNotFoundException fnfe) {
             fnfe.printStackTrace();
-            GlobalVariables.getMessageMap().putError(fieldStarter + SUBAWARD_FILE_FIELD_NAME, Constants.SUBAWARD_FILE_REQUIERED);
+            GlobalVariables.getMessageMap().putError(Constants.SUBAWARD_FILE_FIELD_NAME, Constants.SUBAWARD_FILE_REQUIERED);
             success = false;
         } catch(IOException ioe) {
             ioe.printStackTrace();
-            GlobalVariables.getMessageMap().putError(fieldStarter + SUBAWARD_FILE_FIELD_NAME, Constants.SUBAWARD_FILE_REQUIERED);
+            GlobalVariables.getMessageMap().putError(Constants.SUBAWARD_FILE_FIELD_NAME, Constants.SUBAWARD_FILE_REQUIERED);
             success = false;
         }
         return success;
@@ -127,11 +124,11 @@ public class BudgetSubAwardsRule {
                 //should never happen as this would be caught in verifyNonXFDAttachment
             }
             if(subAwardData==null || subAwardData.length==0 || !contentType.equals(Constants.PDF_REPORT_CONTENT_TYPE)){
-                GlobalVariables.getMessageMap().putError(fieldStarter + SUBAWARD_FILE_FIELD_NAME, Constants.SUBAWARD_FILE_REQUIERED);
+                GlobalVariables.getMessageMap().putError(Constants.SUBAWARD_FILE_FIELD_NAME, Constants.SUBAWARD_FILE_REQUIERED);
                 success = false;
             } else {
                 if(budgetSubAwards.getBudgetSubAwardFiles().isEmpty() || budgetSubAwards.getBudgetSubAwardFiles().get(0).getSubAwardXmlFileData()==null){
-                    GlobalVariables.getMessageMap().putError(fieldStarter + SUBAWARD_FILE_FIELD_NAME, Constants.SUBAWARD_FILE_NOT_EXTRACTED);
+                    GlobalVariables.getMessageMap().putError(Constants.SUBAWARD_FILE_FIELD_NAME, Constants.SUBAWARD_FILE_NOT_EXTRACTED);
                     success = false;
                 }
             }

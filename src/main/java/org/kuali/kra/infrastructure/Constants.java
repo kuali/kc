@@ -448,6 +448,7 @@ public interface Constants {
     /**
      * Subaward budget information
      */
+    public static final String SUBAWARD_FILE_FIELD_NAME = "subAwardFile";
     public static final String SUBAWARD_FILE_REQUIERED = "newSubAward.subAwardFile.required";
     //public static final String SUBAWARD_FILE = "newSubAward.subAwardFile";
     public static final String SUBAWARD_FILE_INVALID = "newSubAward.subAwardFile.inValid";
@@ -456,6 +457,7 @@ public interface Constants {
     public static final String SUBAWARD_ORG_NAME_REQUIERED = "newSubAward.organizationName.required";
     public static final String SUBAWARD_ORG_NAME_INVALID = "newSubAward.organizationName.invalid";
     public static final String SUBAWARD_FILE_SPECIAL_CHARECTOR = "newSubAward.subAwardFile.special.character";
+    public static final String SUBAWARD_FILE_PERIOD_NOT_FOUND = "newSubAward.subAwardFile.periodNotFound";
     
     // sponsor hierarchy
     public static final String HIERARCHY_NAME = "hierarchyName";
