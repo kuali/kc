@@ -337,6 +337,7 @@
     <bean id="budgetSubAwardService" class="org.kuali.kra.proposaldevelopment.budget.service.impl.BudgetSubAwardServiceImpl">
     	<property name="parameterService" ref="parameterService"/>
     	<property name="budgetService" ref="budgetService" />
+    	<property name="businessObjectService" ref="businessObjectService"/>
     </bean>
     
     <bean id="budgetPeriodLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype" lazy-init="true">
