@@ -21,6 +21,7 @@ import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.BudgetAssociate;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.infrastructure.DeepCopyIgnore;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 public class BudgetSubAwardPeriodDetail extends BudgetAssociate {
 
@@ -37,13 +38,13 @@ public class BudgetSubAwardPeriodDetail extends BudgetAssociate {
 
     private Integer budgetPeriod;
     
-    private BudgetDecimal directCost;
+    private BudgetDecimal directCost = BudgetDecimal.ZERO;
     
-    private BudgetDecimal indirectCost;
+    private BudgetDecimal indirectCost = BudgetDecimal.ZERO;
     
-    private BudgetDecimal costShare;
+    private BudgetDecimal costShare = BudgetDecimal.ZERO;
     
-    private BudgetDecimal totalCost;
+    private BudgetDecimal totalCost = BudgetDecimal.ZERO;
     
     private transient boolean amountsModified = false;
 
@@ -142,6 +143,7 @@ public class BudgetSubAwardPeriodDetail extends BudgetAssociate {
     public void computeTotal() {
         BudgetDecimal total = getDirectCost() == null ? BudgetDecimal.ZERO : getDirectCost();
         total = total.add(getIndirectCost() == null ? BudgetDecimal.ZERO : getIndirectCost());
+        total = total.add(getCostShare() == null ? BudgetDecimal.ZERO : getCostShare());
         setTotalCost(total);
     }
 

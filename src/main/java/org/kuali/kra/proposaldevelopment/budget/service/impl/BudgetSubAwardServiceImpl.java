@@ -22,9 +22,13 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -50,6 +54,7 @@ import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwardPeriodDetail;
 import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwards;
 import org.kuali.kra.proposaldevelopment.budget.service.BudgetSubAwardService;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.rules.ErrorReporter;
 import org.kuali.kra.s2s.formmapping.FormMappingInfo;
 import org.kuali.kra.s2s.formmapping.FormMappingLoader;
 import org.kuali.kra.s2s.util.GrantApplicationHash;
@@ -58,6 +63,7 @@ import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
@@ -84,6 +90,7 @@ public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
     
     private ParameterService parameterService;
     private BudgetService budgetService;
+    private BusinessObjectService businessObjectService;
 
 
     /**
@@ -417,6 +424,79 @@ public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
         return arr;
 
     }
+    
+    protected void updateSubAwardBudgetDetails(BudgetSubAwards budgetSubAward, org.w3c.dom.Document document, boolean fnfForm) throws TransformerException, DOMException, ParseException {
+        Budget budget = businessObjectService.findBySinglePrimaryKey(Budget.class, budgetSubAward.getBudgetId());
+        NodeList budgetYearList =  XPathAPI.selectNodeList(document,"//*[local-name(.) = 'BudgetYear']");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        for (int i = 0; i < budgetYearList.getLength(); i++) {
+            Node budgetYear = budgetYearList.item(i);
+            Node startDateNode = XPathAPI.selectSingleNode(budgetYear, "BudgetPeriodStartDate");
+            Node endDateNode = XPathAPI.selectSingleNode(budgetYear, "BudgetPeriodEndDate");
+            Date startDate = dateFormat.parse(startDateNode.getTextContent());
+            Date endDate = dateFormat.parse(endDateNode.getTextContent());
+            //attempt to find a matching budget period
+            BudgetSubAwardPeriodDetail periodDetail = findBudgetSubAwardPeriodDetail(budget, budgetSubAward, startDate, endDate);
+            if (periodDetail != null) {
+                Node directCostNode, indirectCostNode, costShareNode = null;
+                if (fnfForm) {
+                    directCostNode = XPathAPI.selectSingleNode(budgetYear, "DirectCosts/FederalSummary");
+                    indirectCostNode = XPathAPI.selectSingleNode(budgetYear, "IndirectCosts/TotalIndirectCosts/FederalSummary");
+                    costShareNode = XPathAPI.selectSingleNode(budgetYear, "TotalCosts/NonFederalSummary");
+                } else {
+                    directCostNode = XPathAPI.selectSingleNode(budgetYear, "DirectCosts");
+                    indirectCostNode = XPathAPI.selectSingleNode(budgetYear, "IndirectCosts/TotalIndirectCosts");
+                }
+                periodDetail.setDirectCost(new BudgetDecimal(Float.parseFloat(directCostNode.getTextContent())));
+                periodDetail.setIndirectCost(new BudgetDecimal(Float.parseFloat(indirectCostNode.getTextContent())));
+                if (costShareNode != null) {
+                    periodDetail.setCostShare(new BudgetDecimal(Float.parseFloat(costShareNode.getTextContent())));
+                } else {
+                    periodDetail.setCostShare(BudgetDecimal.ZERO);
+                }
+                periodDetail.computeTotal();
+            } else {
+                Node budgetPeriodNode = XPathAPI.selectSingleNode(budgetYear, "BudgetPeriod");
+                String budgetPeriod = null;
+                if (budgetPeriodNode != null) {
+                    budgetPeriod = budgetPeriodNode.getTextContent();
+                }
+                LOG.debug("Unable to find matching period for uploaded period '" + budgetPeriod + "' -- " + startDateNode.getTextContent() + " - " + endDateNode.getTextContent());
+                GlobalVariables.getMessageMap().putWarning(Constants.SUBAWARD_FILE_FIELD_NAME, Constants.SUBAWARD_FILE_PERIOD_NOT_FOUND, budgetPeriod, startDateNode.getTextContent(), endDateNode.getTextContent());
+            }
+        }
+    }
+    
+    /**
+     * First find a budget period that matches the start and end date. If that is found, find a subaward period detail with the same
+     * budget period number.
+     * @param budget
+     * @param budgetSubAward
+     * @param startDate
+     * @param endDate
+     * @return
+     */
+    protected BudgetSubAwardPeriodDetail findBudgetSubAwardPeriodDetail(Budget budget, BudgetSubAwards budgetSubAward, Date startDate, Date endDate) {
+        BudgetPeriod matchingPeriod = null;
+        BudgetSubAwardPeriodDetail matchingDetail = null;
+        for (BudgetPeriod period : budget.getBudgetPeriods()) {
+            if (startDate.getTime() == period.getStartDate().getTime()
+                    && endDate.getTime() == period.getEndDate().getTime()) {
+                matchingPeriod = period;
+                break;
+            }
+        }
+        if (matchingPeriod != null) {
+
+            for (BudgetSubAwardPeriodDetail detail : budgetSubAward.getBudgetSubAwardPeriodDetails()) {
+                if (ObjectUtils.equals(detail.getBudgetPeriod(), matchingPeriod.getBudgetPeriod())) {
+                    matchingDetail = detail;
+                    break;
+                }
+            }
+        }
+        return matchingDetail;
+    }  
 
     /**
      * updates the XMl with hashcode for the files
@@ -431,9 +511,9 @@ public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
         org.w3c.dom.Document document = domParser.parse(byteArrayInputStream);
         byteArrayInputStream.close();
         String namespace=null;
+        String formName = null;
         if (document != null) {
             Node node;
-            String formName;
             Element element = document.getDocumentElement();
             NamedNodeMap map = element.getAttributes();
             String namespaceHolder = element.getNodeName().substring(0, element.getNodeName().indexOf(':'));
@@ -445,6 +525,8 @@ public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
             budgetSubAwardBean.setFormName(formName);
         }
         
+        updateSubAwardBudgetDetails(budgetSubAwardBean, document, StringUtils.contains(formName, "RR_FedNonFedBudget"));
+
         String xpathEmptyNodes = "//*[not(node()) and local-name(.) != 'FileLocation' and local-name(.) != 'HashValue']";
         String xpathOtherPers = "//*[local-name(.)='ProjectRole' and local-name(../../.)='OtherPersonnel' and count(../NumberOfPersonnel)=0]";
         removeAllEmptyNodes(document,xpathEmptyNodes,0);
@@ -560,7 +642,7 @@ public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
             budgetSubAwards.refreshReferenceObject("budgetSubAwardAttachments");
             List<BudgetSubAwardAttachment> attList = budgetSubAwards.getBudgetSubAwardAttachments();
             for (BudgetSubAwardAttachment budgetSubAwardAttachment : attList) {
-                budgetSubAwardAttachment.setAttachment(null);
+                //budgetSubAwardAttachment.setAttachment(null);
             }
         }        
     }   
@@ -657,6 +739,14 @@ public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
 
     public void setBudgetService(BudgetService budgetService) {
         this.budgetService = budgetService;
+    }
+
+    protected BusinessObjectService getBusinessObjectService() {
+        return businessObjectService;
+    }
+
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
     }
 
 }
