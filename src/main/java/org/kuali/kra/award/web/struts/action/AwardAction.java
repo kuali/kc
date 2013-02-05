@@ -19,7 +19,7 @@ import static org.apache.commons.lang.StringUtils.replace;
 import static org.kuali.rice.krad.util.KRADConstants.CONFIRMATION_QUESTION;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -817,7 +817,8 @@ public class AwardAction extends BudgetParentActionBase {
             BusinessObjectService businessObjectService =  KraServiceLocator.getService(BusinessObjectService.class);
 
             List<TimeAndMoneyDocument> timeAndMoneyDocuments = 
-                (List<TimeAndMoneyDocument>)businessObjectService.findMatchingOrderBy(TimeAndMoneyDocument.class, fieldValues, "documentNumber", true);
+                (List<TimeAndMoneyDocument>)businessObjectService.findMatching(TimeAndMoneyDocument.class, fieldValues);
+            Collections.sort(timeAndMoneyDocuments);
             
             Award rootAward = getAwardVersionService().getWorkingAwardVersion(rootAwardNumber);   
             //this logic so we set Transaction Type on new T&M doc.  Defaults to "new" on first creation of T&M doc of a Root Award.
