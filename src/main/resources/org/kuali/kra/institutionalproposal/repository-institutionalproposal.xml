@@ -246,6 +246,44 @@
 			<inverse-foreignkey field-ref="proposalId"/>
 		</collection-descriptor>
 	</class-descriptor>
+	<class-descriptor class="org.kuali.kra.institutionalproposal.home.InstitutionalProposalBoLite" table="PROPOSAL">
+		<field-descriptor name="proposalId" column="PROPOSAL_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_PROPOSAL_PROPOSAL_ID"/>
+		<field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR" />
+		<field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
+		<field-descriptor name="proposalTypeCode" column="PROPOSAL_TYPE_CODE" jdbc-type="INTEGER" />
+		<field-descriptor name="title" column="TITLE" jdbc-type="VARCHAR" />
+		<field-descriptor name="sponsorCode" column="SPONSOR_CODE" jdbc-type="VARCHAR" />
+		<field-descriptor name="activityTypeCode" column="ACTIVITY_TYPE_CODE" jdbc-type="VARCHAR" />
+		<field-descriptor name="requestedStartDateInitial" column="REQUESTED_START_DATE_INITIAL" jdbc-type="DATE" />
+		<field-descriptor name="requestedStartDateTotal" column="REQUESTED_START_DATE_TOTAL" jdbc-type="DATE" />
+		<field-descriptor name="requestedEndDateInitial" column="REQUESTED_END_DATE_INITIAL" jdbc-type="DATE" />
+		<field-descriptor name="requestedEndDateTotal" column="REQUESTED_END_DATE_TOTAL" jdbc-type="DATE" />
+		<field-descriptor name="totalDirectCostInitial" column="TOTAL_DIRECT_COST_INITIAL" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
+		<field-descriptor name="totalDirectCostTotal" column="TOTAL_DIRECT_COST_TOTAL" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
+		<field-descriptor name="totalIndirectCostInitial" column="TOTAL_INDIRECT_COST_INITIAL" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
+		<field-descriptor name="totalIndirectCostTotal" column="TOTAL_INDIRECT_COST_TOTAL" jdbc-type="DECIMAL" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbKualiDecimalFieldConversion" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="unitNumber" column="LEAD_UNIT_NUMBER" jdbc-type="VARCHAR" />
+		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+		
+        <reference-descriptor name="proposalType" class-ref="org.kuali.kra.proposaldevelopment.bo.ProposalType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="proposalTypeCode"/>
+        </reference-descriptor>
+        <reference-descriptor name="sponsor" class-ref="org.kuali.kra.bo.Sponsor" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="sponsorCode" />
+        </reference-descriptor>
+        <reference-descriptor name="leadUnit" class-ref="org.kuali.kra.bo.Unit" auto-retrieve="true" auto-update="none" auto-delete="none">
+            <foreignkey field-ref="unitNumber"/>
+        </reference-descriptor>
+        <reference-descriptor name="activityType" class-ref="org.kuali.kra.proposaldevelopment.bo.ActivityType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="activityTypeCode"/>
+        </reference-descriptor>
+		<collection-descriptor name="projectPersons" proxy="true" element-class-ref="org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPerson" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+            <inverse-foreignkey field-ref="proposalId"/>
+        </collection-descriptor>
+	</class-descriptor>
 	
 	<!--
 	<class-descriptor class="org.kuali.kra.institutionalproposal.home.InstitutionalProposalAdminDetails" table="PROPOSAL_ADMIN_DETAILS">

@@ -74,6 +74,7 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
+import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
 import org.kuali.kra.negotiations.bo.Negotiable;
 import org.kuali.kra.negotiations.bo.NegotiationPersonDTO;
 import org.kuali.kra.proposaldevelopment.bo.ActivityType;
@@ -2878,11 +2879,17 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
      */
     public AwardFundingProposal removeFundingProposal(int index) {
         AwardFundingProposal afp = (index >= 0) ? fundingProposals.remove(index) : null;
-        if (afp != null) {
-            afp.getProposal().remove(afp);
+        afp.getProposalId();
+        InstitutionalProposal proposal = getInstitutionalProposalService().getInstitutionalProposal(afp.getProposalId().toString());
+        if (proposal != null) {
+            proposal.remove(afp);
         }
         return afp;
     }
+    private InstitutionalProposalService getInstitutionalProposalService() {
+        return KraServiceLocator.getService(InstitutionalProposalService.class);
+    }
+
 
     /**
      * Given an AwardComment as a template, try to find an existing AwardComment of that type

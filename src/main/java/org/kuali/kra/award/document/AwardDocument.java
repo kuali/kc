@@ -57,6 +57,7 @@ import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.infrastructure.TaskGroupName;
 import org.kuali.kra.institutionalproposal.ProposalStatus;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
+import org.kuali.kra.institutionalproposal.home.InstitutionalProposalBoLite;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
 import org.kuali.kra.krms.KcKrmsConstants;
 import org.kuali.kra.krms.KrmsRulesContext;
@@ -347,7 +348,7 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
         Set<String> modifiedProposals = new HashSet<String>();
         List<AwardFundingProposal> pendingVersions = new ArrayList<AwardFundingProposal>();
         for (AwardFundingProposal afp : getAward().getFundingProposals()) {
-            InstitutionalProposal proposal = afp.getProposal();
+            InstitutionalProposalBoLite proposal = afp.getProposal();
             if (!ProposalStatus.FUNDED.equals(proposal.getStatusCode())) {
                 modifiedProposals.add(proposal.getProposalNumber());
                 pendingVersions.add(afp);
