@@ -342,16 +342,6 @@
 		<property name="parameterService" ref="parameterService" />
 	</bean>
     
-    <!--<bean id="kcSoapServiceDefinition" abstract="true" 
-		  class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition"
-		  p:jaxWsService="true"
-		  p:priority="3"
-		  p:retryAttempts="0"
-		  p:busSecurity="false"
-		  p:serviceVersion="${kfs.version}"
-		  p:servicePath=""
-		  p:serviceNameSpaceURI="${kc.service.namespace.uri}" />-->
-    
     <bean id="institutionalUnitService" class="org.kuali.kra.external.unit.service.impl.InstitutionalUnitServiceImpl">
         <property name="unitService" ref="unitService" />
         <property name="businessObjectService" ref="businessObjectService" />
