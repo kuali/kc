@@ -222,7 +222,7 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
         }  
     }
         
-    protected List<TimeAndMoneyDocumentHistory> getDocHistoryAndValidInfosAssociatedWithAwardVersion(List<TimeAndMoneyDocument> docs,
+    public List<TimeAndMoneyDocumentHistory> getDocHistoryAndValidInfosAssociatedWithAwardVersion(List<TimeAndMoneyDocument> docs,
             List<AwardAmountInfo> awardAmountInfos, Award award) throws WorkflowException {
         List<TimeAndMoneyDocumentHistory> timeAndMoneyDocumentHistoryList = new ArrayList<TimeAndMoneyDocumentHistory>();
         List<AwardAmountInfo> validInfos = getValidAwardAmountInfosAssociatedWithAwardVersion(awardAmountInfos, award);
@@ -414,7 +414,17 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
         docs.removeAll(tempCanceledDocs);
     }
                      
-    
+    @SuppressWarnings("unchecked")
+    public List<TimeAndMoneyDocument> buildTimeAndMoneyListForAwardDisplay(Award award) throws WorkflowException {
+        Map<String, Object> fieldValues1 = new HashMap<String, Object>();
+        //get the award number.
+        fieldValues1.put("rootAwardNumber", award.getAwardNumber());
+        List<TimeAndMoneyDocument> docs = (List<TimeAndMoneyDocument>)businessObjectService.findMatchingOrderBy(TimeAndMoneyDocument.class, fieldValues1, "documentNumber", true);
+        //we don't want canceled docs to show in history.
+        removeCanceledDocs(docs);
+        return docs;
+    }
+        
     public AwardVersionService getAwardVersionService() {
         awardVersionService = KraServiceLocator.getService(AwardVersionService.class);
         return awardVersionService;
@@ -530,13 +540,7 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
     }
     
     protected String getUpdateTimeAndUser(Award award) {
-        String createDateStr = null;
-        String updateUser = null;
-        if (award.getUpdateTimestamp() != null) {
-            createDateStr = CoreApiServiceLocator.getDateTimeService().toString(award.getUpdateTimestamp(), "hh:mm a MM/dd/yyyy");
-            updateUser = award.getUpdateUser().length() > NUMBER_30 ? award.getUpdateUser().substring(0, NUMBER_30) : award.getUpdateUser(); 
-        }
-        return createDateStr + ", by " + updateUser;
+        return award.getUpdateTimeAndUser();
     }
     
     protected String getUpdateTimeAndUser(TimeAndMoneyDocument doc) {

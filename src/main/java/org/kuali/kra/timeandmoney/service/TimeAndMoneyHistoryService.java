@@ -18,7 +18,11 @@ package org.kuali.kra.timeandmoney.service;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.kra.award.home.Award;
+import org.kuali.kra.award.home.AwardAmountInfo;
 import org.kuali.kra.timeandmoney.AwardVersionHistory;
+import org.kuali.kra.timeandmoney.TimeAndMoneyDocumentHistory;
+import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 
 public interface TimeAndMoneyHistoryService {
@@ -26,4 +30,10 @@ public interface TimeAndMoneyHistoryService {
     void  getTimeAndMoneyHistory(String awardNumber, Map<Object, Object> timeAndMoneyHistory, List<Integer> columnSpan) throws WorkflowException;
 
     void buildTimeAndMoneyHistoryObjects(String awardNumber, List<AwardVersionHistory> awardVersionHistoryCollection) throws WorkflowException;
+    
+    public List<TimeAndMoneyDocumentHistory> getDocHistoryAndValidInfosAssociatedWithAwardVersion(List<TimeAndMoneyDocument> docs,
+            List<AwardAmountInfo> awardAmountInfos, Award award) throws WorkflowException;
+
+    public List<TimeAndMoneyDocument> buildTimeAndMoneyListForAwardDisplay(Award award) throws WorkflowException;
+
 }

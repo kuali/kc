@@ -44,7 +44,6 @@ import org.kuali.kra.common.specialreview.service.SpecialReviewService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.institutionalproposal.specialreview.InstitutionalProposalSpecialReview;
 import org.kuali.kra.service.KeywordsService;
 import org.kuali.kra.service.VersioningService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -203,6 +202,11 @@ public class AwardHomeAction extends AwardAction {
             && StringUtils.isNotBlank(request.getParameter(AWARD_ID_PARAMETER_NAME))) {
             Award award = findSelectedAward(request.getParameter(AWARD_ID_PARAMETER_NAME));
             initializeFormWithAward(awardForm, award);
+        }
+        if (StringUtils.isNotBlank(commandParam) && "redirectAwardHistoryFullViewForPopup".equals(commandParam)) {
+            String awardDocumentNumber = request.getParameter("awardDocumentNumber");
+            String awardNumber = request.getParameter("awardNumber");
+            actionForward = redirectAwardHistoryFullViewForPopup(mapping, form, request, response, awardDocumentNumber, awardNumber);
         }
         
         return actionForward;
@@ -625,4 +629,14 @@ public class AwardHomeAction extends AwardAction {
         
         return result;
     }
+    
+    private ActionForward redirectAwardHistoryFullViewForPopup(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response, String awardDocumentNumber, String awardNumber) throws Exception {
+        //super.populateAwardHierarchy(form);
+        AwardForm awardForm = (AwardForm)form;
+        response.sendRedirect("awardHistory.do?methodToCall=openWindow&awardDocumentNumber=" + awardDocumentNumber + "&awardNumber=" + awardNumber + "&docTypeName=" + awardForm.getDocTypeName());
+      
+        return null;
+    }
+
 }

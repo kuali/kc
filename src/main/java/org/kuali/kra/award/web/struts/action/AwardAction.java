@@ -1033,20 +1033,36 @@ public class AwardAction extends BudgetParentActionBase {
 //        return award;
 //    }
     
+    public ActionForward openWindow(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        String documentNumber = request.getParameter("awardDocumentNumber");
+        String awardNumber = request.getParameter("awardNumber");
+        Award award = getActiveAwardVersion(awardNumber);
+        AwardForm awardForm = (AwardForm)form;
+        awardForm.setCurrentAwardNumber(awardNumber);
+        awardForm.setCurrentSeqNumber(award.getSequenceNumber().toString());
+        DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
+        AwardDocument awardDocument = (AwardDocument)documentService.getByDocumentHeaderId(documentNumber);
+        awardDocument.setAward(award);
+        awardForm.setDocument(awardDocument);
+        populateAwardHierarchy(awardForm);
+        return mapping.findForward("basic");
+    }  
    
-//    private Award getActiveAwardVersion(String goToAwardNumber) {
-//        VersionHistoryService vhs = KraServiceLocator.getService(VersionHistoryService.class);  
-//        VersionHistory vh = vhs.findActiveVersion(Award.class, goToAwardNumber);
-//        Award award = null;
-//        
-//        if(vh!=null){
-//            award = (Award) vh.getSequenceOwner();
-//        }else{
-//            BusinessObjectService businessObjectService =  KraServiceLocator.getService(BusinessObjectService.class);
-//            award = ((List<Award>)businessObjectService.findMatching(Award.class, getHashMapToFindActiveAward(goToAwardNumber))).get(0);              
-//        }
-//        return award;
-//    }
+    protected Award getActiveAwardVersion(String goToAwardNumber) {
+        VersionHistoryService vhs = KraServiceLocator.getService(VersionHistoryService.class);  
+        VersionHistory vh = vhs.findActiveVersion(Award.class, goToAwardNumber);
+        Award award = null;
+        
+        if(vh!=null){
+            award = (Award) vh.getSequenceOwner();
+        }else{
+            BusinessObjectService businessObjectService =  KraServiceLocator.getService(BusinessObjectService.class);
+            award = ((List<Award>)businessObjectService.findMatching(Award.class, getHashMapToFindActiveAward(goToAwardNumber))).get(0);              
+        }
+        return award;
+    }
+
     private Map<String, String> getHashMapToFindActiveAward(String goToAwardNumber) {
         Map<String, String> map = new HashMap<String,String>();
         map.put("awardNumber", goToAwardNumber);
