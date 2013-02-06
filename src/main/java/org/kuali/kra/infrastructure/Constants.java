@@ -458,6 +458,7 @@ public interface Constants {
     public static final String SUBAWARD_ORG_NAME_INVALID = "newSubAward.organizationName.invalid";
     public static final String SUBAWARD_FILE_SPECIAL_CHARECTOR = "newSubAward.subAwardFile.special.character";
     public static final String SUBAWARD_FILE_PERIOD_NOT_FOUND = "newSubAward.subAwardFile.periodNotFound";
+    public static final String SUBAWARD_FILE_DETAILS_UPDATED = "newSubAward.subAwardFile.detailsUpdated";
     
     // sponsor hierarchy
     public static final String HIERARCHY_NAME = "hierarchyName";
