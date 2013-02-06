@@ -118,7 +118,9 @@ public class AwardFundingProposalBean implements Serializable {
         KualiDecimal total = new KualiDecimal(0.00);
         for (Award award : getAllAwardsForAwardNumber()) {
             for (AwardFundingProposal afp : award.getFundingProposals()) {
-                total = total.add(new KualiDecimal(afp.getProposal().getTotalCost().doubleValue()));
+                if (afp.isActive()) {
+                    total = total.add(new KualiDecimal(afp.getProposal().getTotalCost().doubleValue()));
+                }
             }
         }
         return total;
