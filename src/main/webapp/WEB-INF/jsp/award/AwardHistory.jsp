@@ -38,7 +38,6 @@ http://www.osedu.org/licenses/ECL-2.0
 	<div class="tab-container" align="center">
    		<h3>
    			<span class="subhead-left"> History</span>
-       	    <span class="subhead-right"><kul:help parameterNamespace="KC-T" parameterDetailType="Document" parameterName="tmHistoryHelpUrl" altText="help"/></span>
         </h3>
 		<c:forEach var="awardVersion" items="${KualiForm.awardsForHistoryDisplay}" varStatus="status"> 
 		    <c:set var="awardVersionInfo" value="${awardVersion.lastAwardAmountInfo}" />
