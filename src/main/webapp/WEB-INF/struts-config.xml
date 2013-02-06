@@ -261,6 +261,10 @@
           <forward name="basic" path="/WEB-INF/jsp/timeandmoney/TimeAndMoney{1}.jsp" />          
       </action>
       
+      <action path="/awardHistory" name="AwardForm" input="/WEB-INF/jsp/award/AwardHistory.jsp" type="org.kuali.kra.award.web.struts.action.AwardHomeAction" scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+          <forward name="basic" path="/WEB-INF/jsp/award/AwardHistory.jsp" />          
+      </action>
+      
       <action path="/awardHierarchyTimeAndMoneyAjax" name="TimeAndMoneyForm" type="org.kuali.kra.timeandmoney.web.struts.action.TimeAndMoneyAction" attribute="KualiForm">
           <forward name="basic" path="/WEB-INF/jsp/timeandmoney/awardHierarchyTimeAndMoneyAjax.jsp" />
       </action>
