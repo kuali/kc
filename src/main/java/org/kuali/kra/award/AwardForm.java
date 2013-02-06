@@ -1498,5 +1498,22 @@ public class AwardForm extends BudgetVersionFormBase
         String prevAwardNumber = getPrevAwardNumber();
         return prevAwardNumber != null ? prevAwardNumber : Constants.AWARD_HIERARCHY_DEFAULT_PARENT_OF_ROOT;
     }    
+ 
+    // returns list of awards with the same award number and prior to or equal to this one
+    public List<Award>getAwardsForHistoryDisplay() {
+        List<Award>results = new ArrayList<Award>();
+        List<Award>rawList = getAwardDocument().getAward().getAwardVersions();
+        for (int i=0; i<rawList.size();i++) {
+            Award award = rawList.get(i);
+            if (award.getSequenceNumber().compareTo(getAwardDocument().getAward().getSequenceNumber()) > 0) {
+                break;
+            } else {
+                results.add(0,award);  // need reverse order
+            }
+        }
+        return results;
+    }
+    
+    
     
 }

@@ -83,7 +83,11 @@ import org.kuali.kra.service.Sponsorable;
 import org.kuali.kra.service.SystemAuthorizationService;
 import org.kuali.kra.service.UnitService;
 import org.kuali.kra.subaward.bo.SubAward;
+import org.kuali.kra.timeandmoney.TimeAndMoneyDocumentHistory;
+import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
+import org.kuali.kra.timeandmoney.service.TimeAndMoneyHistoryService;
 import org.kuali.kra.timeandmoney.transactions.AwardTransactionType;
+import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.role.Role;
@@ -255,6 +259,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
 
     private transient String lookupOspAdministratorName;
     transient AwardAmountInfoService awardAmountInfoService;
+    transient TimeAndMoneyHistoryService timeAndMoneyHistoryService;
     private transient AwardHierarchyService awardHierarchyService;
 
     private transient List<AwardUnitContact> centralAdminContacts;
@@ -470,6 +475,13 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
             awardHierarchyService = KraServiceLocator.getService(AwardHierarchyService.class);
         }
         return awardHierarchyService;
+    }
+
+    public TimeAndMoneyHistoryService getTimeAndMoneyHistoryService() {
+        if (timeAndMoneyHistoryService == null) {
+            timeAndMoneyHistoryService = KraServiceLocator.getService(TimeAndMoneyHistoryService.class);
+        }
+        return timeAndMoneyHistoryService;
     }
 
     /**
@@ -1447,6 +1459,10 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
             this.refreshReferenceObject("awardDocument");
         }
         return awardDocument;
+    }
+    
+    public String getAwardDocumentUrl() {
+        return getAwardDocument().buildForwardUrl();
     }
 
     /**
@@ -3533,6 +3549,48 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         } else {
             setAllowUpdateTimestampToBeReset(true);
         }
+    }
+    
+    public List<Award> getAwardVersions() {
+        Map<String, String> fieldValues = new HashMap<String,String>();
+        fieldValues.put("awardNumber", getAwardNumber());
+        BusinessObjectService businessObjectService =  KraServiceLocator.getService(BusinessObjectService.class);
+        List<Award> awards = (List<Award>)businessObjectService.findMatchingOrderBy(Award.class, fieldValues, "sequenceNumber", true);   
+        return awards;
+    }
+
+    public String getAwardDescriptionLine() {
+        AwardAmountInfo aai = getLastAwardAmountInfo();
+        String transactionTypeDescription;
+        String versionNumber;
+        if(aai == null || aai.getOriginatingAwardVersion() == null) {
+            versionNumber = getSequenceNumber().toString();
+        }else {
+            versionNumber = aai.getOriginatingAwardVersion().toString();
+        }
+        if(!(getAwardTransactionType() == null)) {
+            transactionTypeDescription = getAwardTransactionType().getDescription();
+        }else {
+            transactionTypeDescription = "None";
+        }
+        return "Award Version " + versionNumber + ", " + transactionTypeDescription + ", updated " + getUpdateTimeAndUser(); 
+    }
+
+    public String getUpdateTimeAndUser() {
+        String createDateStr = null;
+        String updateUser = null;
+        if (getUpdateTimestamp() != null) {
+            createDateStr = CoreApiServiceLocator.getDateTimeService().toString(getUpdateTimestamp(), "hh:mm a MM/dd/yyyy");
+            updateUser = getUpdateUser().length() > 30 ? getUpdateUser().substring(0, 30) : getUpdateUser(); 
+        }
+        return createDateStr + ", by " + updateUser;
+    }
+ 
+    public List<TimeAndMoneyDocumentHistory>getTimeAndMoneyDocumentHistoryList() throws WorkflowException {  
+        List<TimeAndMoneyDocument> tnmDocs = getTimeAndMoneyHistoryService().buildTimeAndMoneyListForAwardDisplay(this);
+        List<TimeAndMoneyDocumentHistory> timeAndMoneyHistoryList = 
+            getTimeAndMoneyHistoryService().getDocHistoryAndValidInfosAssociatedWithAwardVersion(tnmDocs,getAwardAmountInfos(), this);
+        return timeAndMoneyHistoryList;
     }
 
     public VersionHistorySearchBo getVersionHistory() {
