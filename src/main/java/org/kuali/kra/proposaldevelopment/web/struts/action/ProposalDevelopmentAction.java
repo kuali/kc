@@ -133,6 +133,7 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
     private static final String PROPOSAL_SUMMARY_DISCLAIMER_INDICATOR = "propSummaryDisclaimerText";
     private static final String SUMMARY_DATA_VALIDATION_INDICATOR = "enableSummaryDataValidationPanel";
     private static final String ERROR_NO_GRANTS_GOV_FORM_SELECTED = "error.proposalDevelopment.no.grants.gov.form.selected";
+    private static final String ALL_SPONSOR_HIERARCHY_NIH_MULTI_PI = "ALL_SPONSOR_HIERARCHY_NIH_MULTI_PI";
     private static final String PERSON_INDEX= "personIndex";
     private static final String COMMENTS= "comments";
     private static final String SUMMARY_SPECIAL_REVIEW_LIST = "proposal.summary.validSpecialReviewCodes";
@@ -399,8 +400,15 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
         if (sponsorService.isSponsorNihMultiplePi(proposal)) {
             proposal.setNihDescription(getKeyPersonnelService().loadKeyPersonnelRoleDescriptions(true));
         }
-        proposal.setSponsorNihMultiplePi(sponsorService.isSponsorNihMultiplePi(proposal));
-        proposal.setSponsorNihOsc(sponsorService.isSponsorNihOsc(proposal));
+        boolean multiPIFlag = getParameterService().getParameterValueAsBoolean(ProposalDevelopmentDocument.class,
+                ALL_SPONSOR_HIERARCHY_NIH_MULTI_PI);
+        if (multiPIFlag) {
+            proposal.setSponsorNihMultiplePi(true);
+            proposal.setSponsorNihOsc(true);
+        } else {
+            proposal.setSponsorNihMultiplePi(sponsorService.isSponsorNihMultiplePi(proposal));
+            proposal.setSponsorNihOsc(sponsorService.isSponsorNihOsc(proposal));
+        }
     }
     
 
