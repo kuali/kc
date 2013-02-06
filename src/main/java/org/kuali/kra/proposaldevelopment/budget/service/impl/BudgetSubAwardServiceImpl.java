@@ -34,6 +34,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 
 import org.apache.commons.lang.ObjectUtils;
@@ -69,6 +70,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 import com.lowagie.text.pdf.PRStream;
 import com.lowagie.text.pdf.PdfArray;
@@ -96,7 +98,7 @@ public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
     /**
      * @see org.kuali.kra.proposaldevelopment.budget.service.BudgetSubAwardService#populateBudgetSubAwardFiles(org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwards)
      */
-    public void populateBudgetSubAwardFiles(BudgetSubAwards subAward, String newFileName, byte[] newFileData) {
+    public void populateBudgetSubAwardFiles(Budget budget, BudgetSubAwards subAward, String newFileName, byte[] newFileData) {
         subAward.setSubAwardStatusCode(1);
         BudgetSubAwardFiles newSubAwardFile = new BudgetSubAwardFiles();
         newSubAwardFile.setSubAwardXfdFileData(newFileData);
@@ -114,7 +116,7 @@ public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
             subawardBudgetExtracted = (xmlContents!=null && xmlContents.length>0);
             if(subawardBudgetExtracted){
                 Map fileMap = extractAttachments(reader);
-                updateXML(xmlContents, fileMap, subAward);
+                updateXML(xmlContents, fileMap, subAward, budget);
             }
         }catch (Exception e) {
             LOG.error("Not able to extract xml from pdf",e);
@@ -425,10 +427,26 @@ public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
 
     }
     
-    protected void updateSubAwardBudgetDetails(BudgetSubAwards budgetSubAward, org.w3c.dom.Document document, boolean fnfForm) throws TransformerException, DOMException, ParseException {
-        Budget budget = businessObjectService.findBySinglePrimaryKey(Budget.class, budgetSubAward.getBudgetId());
+    /**
+     * 
+     * @see org.kuali.kra.proposaldevelopment.budget.service.BudgetSubAwardService#updateSubAwardBudgetDetails(org.kuali.kra.budget.core.Budget, org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwards, java.util.List)
+     */
+    public boolean updateSubAwardBudgetDetails(Budget budget, BudgetSubAwards budgetSubAward, List<String[]> errors) throws Exception {
+        boolean result = true;
+        //extarct xml from the pdf because the stored xml has been modified
+        if (budgetSubAward.getSubAwardXfdFileData() == null || budgetSubAward.getSubAwardXfdFileData().length == 0) {
+            errors.add(new String[]{Constants.SUBAWARD_FILE_NOT_EXTRACTED});
+            return false;
+        }
+        PdfReader reader = new PdfReader(budgetSubAward.getSubAwardXfdFileData());
+        byte[] xmlContents = getXMLFromPDF(reader);
+        javax.xml.parsers.DocumentBuilderFactory domParserFactory = javax.xml.parsers.DocumentBuilderFactory.newInstance();
+        javax.xml.parsers.DocumentBuilder domParser = domParserFactory.newDocumentBuilder();
+        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(xmlContents);
+        org.w3c.dom.Document document = domParser.parse(byteArrayInputStream);
         NodeList budgetYearList =  XPathAPI.selectNodeList(document,"//*[local-name(.) = 'BudgetYear']");
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        boolean fnfForm = StringUtils.contains(budgetSubAward.getFormName(), "RR_FedNonFedBudget");
         for (int i = 0; i < budgetYearList.getLength(); i++) {
             Node budgetYear = budgetYearList.item(i);
             Node startDateNode = XPathAPI.selectSingleNode(budgetYear, "BudgetPeriodStartDate");
@@ -462,9 +480,10 @@ public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
                     budgetPeriod = budgetPeriodNode.getTextContent();
                 }
                 LOG.debug("Unable to find matching period for uploaded period '" + budgetPeriod + "' -- " + startDateNode.getTextContent() + " - " + endDateNode.getTextContent());
-                GlobalVariables.getMessageMap().putWarning(Constants.SUBAWARD_FILE_FIELD_NAME, Constants.SUBAWARD_FILE_PERIOD_NOT_FOUND, budgetPeriod, startDateNode.getTextContent(), endDateNode.getTextContent());
+                errors.add(new String[]{Constants.SUBAWARD_FILE_PERIOD_NOT_FOUND, budgetPeriod, startDateNode.getTextContent(), endDateNode.getTextContent()});
             }
         }
+        return result;
     }
     
     /**
@@ -489,7 +508,7 @@ public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
         if (matchingPeriod != null) {
 
             for (BudgetSubAwardPeriodDetail detail : budgetSubAward.getBudgetSubAwardPeriodDetails()) {
-                if (ObjectUtils.equals(detail.getBudgetPeriod(), matchingPeriod.getBudgetPeriod())) {
+                if (ObjectUtils.equals(detail.getBudgetPeriodId(), matchingPeriod.getBudgetPeriodId())) {
                     matchingDetail = detail;
                     break;
                 }
@@ -502,7 +521,7 @@ public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
      * updates the XMl with hashcode for the files
      */
 
-  protected BudgetSubAwards updateXML(byte xmlContents[], Map fileMap, BudgetSubAwards budgetSubAwardBean) throws Exception {
+  protected BudgetSubAwards updateXML(byte xmlContents[], Map fileMap, BudgetSubAwards budgetSubAwardBean, Budget budget) throws Exception {
 
         javax.xml.parsers.DocumentBuilderFactory domParserFactory = javax.xml.parsers.DocumentBuilderFactory.newInstance();
         javax.xml.parsers.DocumentBuilder domParser = domParserFactory.newDocumentBuilder();
@@ -524,8 +543,6 @@ public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
             budgetSubAwardBean.setNamespace(namespace);
             budgetSubAwardBean.setFormName(formName);
         }
-        
-        updateSubAwardBudgetDetails(budgetSubAwardBean, document, StringUtils.contains(formName, "RR_FedNonFedBudget"));
 
         String xpathEmptyNodes = "//*[not(node()) and local-name(.) != 'FileLocation' and local-name(.) != 'HashValue']";
         String xpathOtherPers = "//*[local-name(.)='ProjectRole' and local-name(../../.)='OtherPersonnel' and count(../NumberOfPersonnel)=0]";

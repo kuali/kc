@@ -21,6 +21,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -97,6 +98,7 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
     private static final String SUBAWARD_BUDGET_EDIT_LINE_ENDER = "]";
     private static final String UPDATE_COST_LIMITS_QUESTION = "UpdateCostLimitsQuestion";
     private BudgetJustificationService budgetJustificationService;
+    private BudgetSubAwardService budgetSubAwardService;
     private static final Log LOG = LogFactory.getLog(BudgetActionsAction.class);
     private BudgetAdjustmentClient budgetAdjustmentClient = null;
 
@@ -196,7 +198,7 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
         ActionForward forward = super.reload(mapping, form, request, response);
         BudgetForm budgetForm = (BudgetForm)form;
         Budget budget = budgetForm.getBudgetDocument().getBudget();
-        KraServiceLocator.getService(BudgetSubAwardService.class).populateBudgetSubAwardAttachments(budget);
+        getBudgetSubAwardService().populateBudgetSubAwardAttachments(budget);
         return forward;
     }
     
@@ -215,7 +217,7 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
         if (newBudgetSubAward.getNewSubAwardFile() != null && StringUtils.isNotBlank(newBudgetSubAward.getNewSubAwardFile().getFileName())) {
             String fileName = newBudgetSubAward.getNewSubAwardFile().getFileName();
             byte[] fileData = newBudgetSubAward.getNewSubAwardFile().getFileData(); 
-            success = updateBudgetAttachment(newBudgetSubAward, fileName, fileData, "newSubAward");
+            success = updateBudgetAttachment(budgetDocument.getBudget(), newBudgetSubAward, fileName, fileData, "newSubAward");
         }
         if (success) {
             budgetForm.setNewSubAward(new BudgetSubAwards());
@@ -272,7 +274,7 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
         BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
         int selectedLineNumber = getSelectedLine(request);
         BudgetSubAwards subAward = budgetDocument.getBudget().getBudgetSubAwards().get(selectedLineNumber);
-        KraServiceLocator.getService(BudgetSubAwardService.class).removeSubAwardAttachment(subAward);
+        getBudgetSubAwardService().removeSubAwardAttachment(subAward);
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
@@ -283,7 +285,8 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
         FormFile subAwardFile = subAward.getNewSubAwardFile();
         byte[] subAwardData = subAwardFile.getFileData();
         String subAwardFileName = subAwardFile.getFileName();
-        updateBudgetAttachment(subAward, subAwardFileName, subAwardData, SUBAWARD_BUDGET_EDIT_LINE_STARTER + getSelectedLine(request) + SUBAWARD_BUDGET_EDIT_LINE_ENDER);
+        updateBudgetAttachment(budgetDocument.getBudget(), subAward, subAwardFileName, subAwardData, 
+                SUBAWARD_BUDGET_EDIT_LINE_STARTER + getSelectedLine(request) + SUBAWARD_BUDGET_EDIT_LINE_ENDER);
         Collections.sort(budgetDocument.getBudget().getBudgetSubAwards());
         return mapping.findForward(Constants.MAPPING_BASIC);        
     }
@@ -292,21 +295,42 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
         BudgetForm budgetForm = (BudgetForm)form;
         BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
         BudgetSubAwards subAward = getSelectedBudgetSubAward(form, request);
-        byte[] subAwardData = subAward.getSubAwardXfdFileData();
-        String subAwardFileName = subAward.getSubAwardXfdFileName();
         String errorPath = SUBAWARD_BUDGET_EDIT_LINE_STARTER + getSelectedLine(request) + SUBAWARD_BUDGET_EDIT_LINE_ENDER;
         GlobalVariables.getMessageMap().addToErrorPath(errorPath);
-        KraServiceLocator.getService(BudgetSubAwardService.class).populateBudgetSubAwardFiles(subAward, subAwardFileName, subAwardData);
-        Collections.sort(budgetDocument.getBudget().getBudgetSubAwards());
+        updateSubAwardBudgetDetails(budgetDocument.getBudget(), subAward);
+        GlobalVariables.getMessageMap().removeFromErrorPath(errorPath);
         return mapping.findForward(Constants.MAPPING_BASIC);        
     }
     
-    protected boolean updateBudgetAttachment(BudgetSubAwards subAward, String fileName, byte[] fileData, String errorPath) throws FileNotFoundException, IOException {
+    protected boolean updateSubAwardBudgetDetails(Budget budget, BudgetSubAwards subAward) throws Exception {
+        List<String[]> errorMessages = new ArrayList<String[]>();
+        boolean success = getBudgetSubAwardService().updateSubAwardBudgetDetails(budget, subAward, errorMessages);
+        if (!errorMessages.isEmpty()) {
+            for (String[] message : errorMessages) {
+                String[] messageParameters = null;
+                if (message.length > 1) {
+                    messageParameters = Arrays.copyOfRange(message, 1, message.length);
+                }
+                if (success) {
+                    GlobalVariables.getMessageMap().putWarning(Constants.SUBAWARD_FILE_FIELD_NAME, message[0], messageParameters);
+                } else {
+                    GlobalVariables.getMessageMap().putError(Constants.SUBAWARD_FILE_FIELD_NAME, message[0], messageParameters);
+                }
+            }
+        }
+        if (success) {
+            GlobalVariables.getMessageMap().putInfo(Constants.SUBAWARD_FILE_FIELD_NAME, Constants.SUBAWARD_FILE_DETAILS_UPDATED);
+        }
+        return success;
+    }
+    
+    protected boolean updateBudgetAttachment(Budget budget, BudgetSubAwards subAward, String fileName, byte[] fileData, String errorPath) throws Exception {
 
         GlobalVariables.getMessageMap().addToErrorPath(errorPath);
-        KraServiceLocator.getService(BudgetSubAwardService.class).populateBudgetSubAwardFiles(subAward, fileName, fileData);
+        getBudgetSubAwardService().populateBudgetSubAwardFiles(budget, subAward, fileName, fileData);
+        boolean success = updateSubAwardBudgetDetails(budget, subAward);
         BudgetSubAwardsRule rule = new BudgetSubAwardsRule(subAward);
-        boolean success = rule.processXFDAttachment();
+        success &= rule.processXFDAttachment();
         if (success) {
             if (rule.checkSpecialCharacters(subAward.getSubAwardXmlFileData().toString())) {
                 subAward.getBudgetSubAwardFiles().get(0).setSubAwardXmlFileData(KraServiceLocator.getService(KcAttachmentService.class).
@@ -316,7 +340,16 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
         }
         GlobalVariables.getMessageMap().removeFromErrorPath(errorPath);
         return success;
-    }   
+    }
+    
+    protected ErrorMessage convertStringArrayToErrorMessage(String[] message) {
+        ErrorMessage error = new ErrorMessage();
+        error.setErrorKey(message[0]);
+        if (message.length > 1) {
+            error.setMessageParameters(Arrays.copyOfRange(message, 1, message.length-1));
+        }
+        return error;
+    }
 
     public ActionForward printBudgetForm(ActionMapping mapping,
             ActionForm form, HttpServletRequest request,
@@ -705,6 +738,17 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
         DevelopmentProposal childProposal = (DevelopmentProposal) budgetForm.getBudgetDocument().getParentDocument().getBudgetParent();
         getHierarchyHelper().syncBudgetToParent(childProposal, true);
         return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+    public BudgetSubAwardService getBudgetSubAwardService() {
+        if (budgetSubAwardService == null) {
+            budgetSubAwardService = KraServiceLocator.getService(BudgetSubAwardService.class);
+        }
+        return budgetSubAwardService;
+    }
+
+    public void setBudgetSubAwardService(BudgetSubAwardService budgetSubAwardService) {
+        this.budgetSubAwardService = budgetSubAwardService;
     }    
     
 }
