@@ -53,9 +53,7 @@
                 </requests>
                  <role name="IACUCReview">
 					<qualifierResolver>IACUC ProtocolApprover-XPathQualifierResolver</qualifierResolver> 
-                    <activationType>P</activationType>
-                    <mandatoryRoute>true</mandatoryRoute>                    
-					<finalApproval>false</finalApproval>
+                    <activationType>S</activationType>
 	            </role>   
             </routeNodes>
             <parent>KC</parent>
