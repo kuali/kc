@@ -180,42 +180,13 @@
 	             		 			<th style="text-align: center;"><kul:htmlAttributeLabel attributeEntry="${periodDetailAttributes.costShare}" noColon="true" /></th>
 	             		 			<th style="text-align: center;"><kul:htmlAttributeLabel attributeEntry="${periodDetailAttributes.totalCost}" noColon="true" /></th>
 	             		 		</tr>
-	             		 		<script type="text/javascript">
-	             		 			var Global = (function($) {
-	             		 				Number.prototype.formatMoney = function(c, d, t){
-	             		 					var n = this, c = isNaN(c = Math.abs(c)) ? 2 : c, d = d == undefined ? "," : d, t = t == undefined ? "." : t, s = n < 0 ? "-" : "", i = parseInt(n = Math.abs(+n || 0).toFixed(c)) + "", j = (j = i.length) > 3 ? j % 3 : 0;
-	             		 					   return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
-	             		 				};
-	             		 				var Global = {};
-	             		 				Global.calculateTotal = function(inputField) {
-	             		 					var total = 0;
-	             		 					$(inputField).parents('tr').first().find('input.calculateTotal').each(function() {
-	             		 						var fieldValue = $(this).val().replace(/[$,]/g, '');
-	             		 						if (fieldValue == '') fieldValue = 0;
-	             		 						total = total + parseFloat(fieldValue);
-	             		 					});
-	             		 					if (!isNaN(total)) {
-	             		 						var formattedTotal = new Number(total).formatMoney(2, '.', ',');
-	             		 						var amountSpan = $(inputField).parents('tr').first().find('.totalCost');
-	             		 						if (amountSpan.children('input').length > 0) {
-	             		 							amountSpan.children('input').first().val(formattedTotal);
-	             		 						} else {
-	             		 							amountSpan.html(formattedTotal);
-	             		 						}
-	             		 					}
-		             		 			}
-	             		 				return Global;
-	             		 			})(jQuery);
-	             		 		</script>
 	             		 		<c:forEach items="${budgetSubAwards.budgetSubAwardPeriodDetails}" var="periodDetails" varStatus="periodStatus">
 	             		 			<tr>
 	             		 				<th class="infoline"><c:out value="${periodDetails.budgetPeriod}"/></th>
 	             		 				<td class="infoline" style="text-align: center;"><kul:htmlControlAttribute property="document.budget.budgetSubAwards[${status.index}].budgetSubAwardPeriodDetails[${periodStatus.index}].directCost" 
-	             		 				attributeEntry="${periodDetailAttributes.directCost}" styleClass="amount calculateTotal" readOnly="${readOnly}"
-	             		 				onchange="Global.calculateTotal(this);"/></td>
+	             		 				attributeEntry="${periodDetailAttributes.directCost}" styleClass="amount calculateTotal" readOnly="${readOnly}"/></td>
 	             		 				<td class="infoline" style="text-align: center;"><kul:htmlControlAttribute property="document.budget.budgetSubAwards[${status.index}].budgetSubAwardPeriodDetails[${periodStatus.index}].indirectCost" 
-	             		 				attributeEntry="${periodDetailAttributes.indirectCost}" styleClass="amount calculateTotal" readOnly="${readOnly}"
-	             		 				onchange="Global.calculateTotal(this);"/></td>
+	             		 				attributeEntry="${periodDetailAttributes.indirectCost}" styleClass="amount calculateTotal" readOnly="${readOnly}"/></td>
 	             		 				<td class="infoline" style="text-align: center;"><kul:htmlControlAttribute property="document.budget.budgetSubAwards[${status.index}].budgetSubAwardPeriodDetails[${periodStatus.index}].costShare" attributeEntry="${periodDetailAttributes.costShare}" styleClass="amount calculateTotal" readOnly="${readOnly}"/></td>
 	             		 				<td class="infoline" style="text-align: right;"><span class="totalCost"><kul:htmlControlAttribute property="document.budget.budgetSubAwards[${status.index}].budgetSubAwardPeriodDetails[${periodStatus.index}].totalCost" attributeEntry="${periodDetailAttributes.totalCost}" styleClass="amount" readOnly="true"/></span></td>
 	             		 			</tr>
@@ -231,3 +202,31 @@
        </div>                  
    </div>
 </kul:tab>
+<script type="text/javascript">
+	var Global = (function($) {
+		Number.prototype.formatMoney = function(c, d, t){
+			var n = this, c = isNaN(c = Math.abs(c)) ? 2 : c, d = d == undefined ? "," : d, t = t == undefined ? "." : t, s = n < 0 ? "-" : "", i = parseInt(n = Math.abs(+n || 0).toFixed(c)) + "", j = (j = i.length) > 3 ? j % 3 : 0;
+			   return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
+		};
+		var Global = {};
+		Global.calculateTotal = function(inputField) {
+			var total = 0;
+			$(inputField).parents('tr').first().find('input.calculateTotal').each(function() {
+				var fieldValue = $(this).val().replace(/[$,]/g, '');
+				if (fieldValue == '') fieldValue = 0;
+				total = total + parseFloat(fieldValue);
+			});
+			if (!isNaN(total)) {
+				var formattedTotal = new Number(total).formatMoney(2, '.', ',');
+				var amountSpan = $(inputField).parents('tr').first().find('.totalCost');
+				if (amountSpan.children('input').length > 0) {
+					amountSpan.children('input').first().val(formattedTotal);
+				} else {
+					amountSpan.html(formattedTotal);
+				}
+			}
+		}
+		$('input.calculateTotal').change(function() { Global.calculateTotal(this); });
+		return Global;
+	})(jQuery);
+</script>
