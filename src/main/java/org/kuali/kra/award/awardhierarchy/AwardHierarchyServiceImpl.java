@@ -407,10 +407,8 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
         newAward.setFinancialAccountDocumentNumber(null);
         newAward.setFinancialChartOfAccountsCode(null);
         newAward.setNoticeDate(null);
-        int sourceFundingProposalsCount = newAward.getFundingProposals().size();
-        for(int i=0; i < sourceFundingProposalsCount; i++) {
-            newAward.removeFundingProposal(i);
-        }
+        //simply clear the funding proposals since we haven't saved and they haven't been added to the associated proposal.
+        newAward.getFundingProposals().clear();
         newAward.setAwardApprovedSubawards(new ArrayList<AwardApprovedSubaward>());
         newAward.setApprovedEquipmentItems(new ArrayList<AwardApprovedEquipment>());
         newAward.setApprovedForeignTravelTrips(new ArrayList<AwardApprovedForeignTravel>());
