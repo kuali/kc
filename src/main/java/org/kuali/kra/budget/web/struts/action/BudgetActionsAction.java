@@ -318,7 +318,7 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
                 }
             }
         }
-        if (success) {
+        if (success && errorMessages.isEmpty()) {
             GlobalVariables.getMessageMap().putInfo(Constants.SUBAWARD_FILE_FIELD_NAME, Constants.SUBAWARD_FILE_DETAILS_UPDATED);
         }
         return success;
