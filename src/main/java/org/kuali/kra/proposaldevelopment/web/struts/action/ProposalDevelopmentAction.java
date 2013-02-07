@@ -492,6 +492,21 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
             return super.close(mapping, form, request, response);
         }
     }
+    
+    public ActionForward recall(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    
+        ActionForward forward = super.recall(mapping, form, request, response);
+        //commented out for now due to inability to determine if the recall action is finished, but this is known bug as the
+        //proposal status will be incorrect and the user will clobber the workflow change to it on their first save.
+        /*ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
+        String routeHeaderId = proposalDevelopmentForm.getProposalDevelopmentDocument().getDocumentNumber();
+        String returnLocation = buildActionUrl(routeHeaderId, Constants.MAPPING_BASIC, "ProposalDevelopmentDocument");
+        
+        ActionForward basicForward = mapping.findForward(Constants.MAPPING_BASIC);
+        ActionForward holdingPageForward = mapping.findForward(Constants.MAPPING_HOLDING_PAGE);
+        return routeToHoldingPage(basicForward, forward, holdingPageForward, returnLocation);*/
+        return forward;
+    }
 
     /**
      * 
