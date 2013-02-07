@@ -274,8 +274,6 @@ public class AwardAction extends BudgetParentActionBase {
         Map<String, AwardHierarchy> awardHierarchyNodes = helperBean.getAwardHierarchy(rootNode, order);
         Map<String,AwardHierarchyNode> awardHierarchyNodesMap = new HashMap<String, AwardHierarchyNode>();
         Award currentAward = awardDocument.getAward();
-        //getAwardHierarchyService().populateAwardHierarchyNodes(awardHierarchyNodes, awardHierarchyNodesMap, currentAward.getAwardNumber(), currentAward.getSequenceNumber().toString());
-        //awardForm.setAwardHierarchyNodes(awardHierarchyNodes);
         awardForm.setRootAwardNumber(rootNode.getRootAwardNumber());
         StringBuilder sb1 = new StringBuilder();
         StringBuilder sb2 = new StringBuilder();
@@ -289,13 +287,11 @@ public class AwardAction extends BudgetParentActionBase {
             }
         }
         
-        if(CollectionUtils.isNotEmpty(awardForm.getAwardHierarchyTempObjects())) {
-            for(AwardHierarchyTempObject temp: awardForm.getAwardHierarchyTempObjects()){
-                temp.setSelectBox1(sb1.toString());
-                temp.setSelectBox2(sb2.toString());
-            }
+        for(int i = 0; i < helperBean.getMaxAwardNumber(); i++){
+            AwardHierarchyTempObject temp = awardForm.getAwardHierarchyTempObjects().get(i);
+            temp.setSelectBox1(sb1.toString());
+            temp.setSelectBox2(sb2.toString());
         }
-
     }
     
 
