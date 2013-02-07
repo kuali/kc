@@ -28,6 +28,7 @@ import org.kuali.rice.coreservice.framework.CoreFrameworkServiceLocator;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.coreservice.impl.CoreServiceImplServiceLocator;
 import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.WorkflowDocumentFactory;
 import org.kuali.rice.kew.api.action.ActionType;
@@ -146,6 +147,10 @@ public abstract class KcTransactionalDocumentAuthorizerBase extends BusinessObje
         
         if (canFyi(document, user))  {
             documentActions.add(KRADConstants.KUALI_ACTION_CAN_FYI);
+        }
+        
+        if (canRecall(document, user)) {
+            documentActions.add(KRADConstants.KUALI_ACTION_CAN_RECALL);
         }
         
         return documentActions;
@@ -668,6 +673,6 @@ public abstract class KcTransactionalDocumentAuthorizerBase extends BusinessObje
     
     @Override
     public boolean canRecall(Document document, Person user) {
-        return true;
+        return false;
     }
 }
