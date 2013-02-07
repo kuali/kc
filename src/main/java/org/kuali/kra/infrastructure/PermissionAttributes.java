@@ -104,6 +104,10 @@ public class PermissionAttributes {
         attributes = new HashMap<String, String>(); 
         attributes.put(ATTR_SECTION_NAME, SECTION_PERSONNEL_SALARIES);  
         tempAttributesMap.put(PermissionConstants.VIEW_SALARIES, attributes);
+        
+        attributes = new HashMap<String, String>(); 
+        attributes.put(ATTR_DOCUMENT_TYPE_NAME, DOC_TYPE_PROPOSAL_DEVELOPMENT); 
+        tempAttributesMap.put(PermissionConstants.RECALL_PROPOSAL_DOCUMENT, attributes);
 
         attributes = new HashMap<String, String>();
         attributes.put(ATTR_DOCUMENT_TYPE_NAME, DOC_TYPE_PROPOSAL_DEVELOPMENT); 
