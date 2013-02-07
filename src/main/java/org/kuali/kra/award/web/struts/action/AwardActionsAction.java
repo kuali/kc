@@ -200,8 +200,7 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
         
         AwardForm awardForm = (AwardForm)form;
         String awardNumber = getAwardNumber(request);
-        String reversedAwardNumber = StringUtils.reverse(awardNumber);                
-        int index = Integer.parseInt(StringUtils.substring(reversedAwardNumber, 0,reversedAwardNumber.indexOf(ZERO)));
+        int index = Integer.parseInt(StringUtils.split(awardNumber, "-")[1]);
         ActionForward forward = null;
         AwardHierarchy newRootNode = null;
         if (!StringUtils.isEmpty(awardForm.getAwardHierarchyTempObjects().get(index).getCopyAwardRadio())) {
@@ -257,8 +256,7 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
     public ActionForward create(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         AwardForm awardForm = (AwardForm)form;
         String awardNumber = getAwardNumber(request);
-        String reversedAwardNumber = StringUtils.reverse(awardNumber);
-        int index = Integer.parseInt(StringUtils.substring(reversedAwardNumber, 0,reversedAwardNumber.indexOf(ZERO)));
+        int index = Integer.parseInt(StringUtils.split(awardNumber, "-")[1]);
         ActionForward forward = null;
         
         if(awardForm.getAwardHierarchyTempObjects().get(index).getCreateNewChildRadio()!=null){

@@ -2040,10 +2040,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     }
 
     public void initializeAwardHierarchyTempObjects() {
-        awardHierarchyTempObjects = new ArrayList<AwardHierarchyTempObject>();
-        for (int i = 0; i < MAX_NBR_AWD_HIERARCHY_TEMP_OBJECTS; i++) {
-            awardHierarchyTempObjects.add(new AwardHierarchyTempObject());
-        }
+        awardHierarchyTempObjects = new AutoPopulatingList<AwardHierarchyTempObject>(AwardHierarchyTempObject.class);
     }
 
     /**
@@ -3138,10 +3135,6 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     public AwardHierarchyTempObject getAwardHierarchyTempObject(int index) {
         if (awardHierarchyTempObjects == null) {
             initializeAwardHierarchyTempObjects();
-        }
-
-        while (awardHierarchyTempObjects.size() <= index) {
-            awardHierarchyTempObjects.add(new AwardHierarchyTempObject());
         }
 
         return awardHierarchyTempObjects.get(index);
