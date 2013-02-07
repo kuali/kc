@@ -240,6 +240,8 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
         if (!hierarchyList.isEmpty()) {
             for (AwardHierarchy hierarchy : hierarchyList) {
                 result.put(hierarchy.getAwardNumber(), hierarchy);
+                //clear children in case this was already called and cached BOs were returned from OJB.
+                hierarchy.getChildren().clear();
             }
             AwardHierarchy rootNode = result.get(rootAwardNumber);
             for (AwardHierarchy hierarchy : result.values()) {
