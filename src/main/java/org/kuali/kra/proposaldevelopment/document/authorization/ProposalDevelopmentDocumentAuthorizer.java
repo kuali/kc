@@ -368,5 +368,10 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcTransactionalDocume
     public boolean canSendNoteFyi(Document document, Person user) {
         return false;
     }
+    
+    @Override
+    public boolean canRecall(Document document, Person user) {
+        return canExecuteProposalTask(user.getPrincipalId(), (ProposalDevelopmentDocument)document, TaskName.RECALL_PROPOSAL);
+    }
 
 }
