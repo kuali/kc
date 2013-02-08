@@ -271,9 +271,10 @@
         <property name="unitService" ref="unitService" />
     </bean>
   
-    <bean class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter" p:serviceBus-ref="kc.import.serviceBus" 
-		p:callbackService-ref="proposalAllUnitAdministratorDerivedRoleTypeService" p:localServiceName="proposalAllUnitAdministratorDerivedRoleTypeService" 
-		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService" p:serviceNameSpaceURI="" />
+    <bean id="proposalAllUnitAdministratorDerivedRoleTypeServiceCallback" parent="kcCallbackService"
+		p:callbackService-ref="proposalAllUnitAdministratorDerivedRoleTypeService" 
+		p:localServiceName="proposalAllUnitAdministratorDerivedRoleTypeService" 
+		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService"/>
     
     <bean id="proposalCopyService" class="org.kuali.kra.proposaldevelopment.service.impl.ProposalCopyServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
@@ -351,9 +352,10 @@
 		<property name="proposalPersonService" ref="proposalPersonService" />
 	</bean>
 	
-	<bean class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter" p:serviceBus-ref="kc.import.serviceBus" 
-		p:callbackService-ref="proposalRoleTypeService" p:localServiceName="proposalRoleTypeService" 
-		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService" p:serviceNameSpaceURI="" />
+	<bean id="proposalRoleTypeServiceCallback" parent="kcCallbackService" 
+		p:callbackService-ref="proposalRoleTypeService"
+		p:localServiceName="proposalRoleTypeService" 
+		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService"/>
 	
     <bean id="proposalStatusService" class="org.kuali.kra.proposaldevelopment.service.impl.ProposalStatusServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
@@ -570,6 +572,7 @@
 					<property name="taskName" value="modifyBudget" />
 					<property name="requiresWritableDoc" value="true" />
 				</bean>
+				
                 <bean class="org.kuali.kra.proposaldevelopment.document.authorizer.CreateProtocolFromProposalAuthorizer" parent="parentProposalAuthorizer">
                     <property name="taskName" value="createIrbProtocolFromProposal" />
                 </bean>   

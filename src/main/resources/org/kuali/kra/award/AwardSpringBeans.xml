@@ -257,31 +257,24 @@
     <bean id="awardTemplateLookupableHelperServiceImpl" class="org.kuali.kra.award.lookup.AwardTemplateLookupableHelperServiceImpl" 
           parent="parentLookupableHelperService" scope="prototype" />
           
+   <!-- Exposing the award account service as a SOAP service and as a java service -->
     <bean id="awardAccountService" class="org.kuali.kra.external.award.impl.AwardAccountServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="parameterService" ref="parameterService" />
     </bean>
     <bean id="awardAccountServiceJavaExporter" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
         <property name="serviceDefinition">
-            <bean class="org.kuali.rice.ksb.api.bus.support.JavaServiceDefinition">
-                <property name="service" ref="awardAccountService" />
-                <property name="serviceNameSpaceURI" value="KC" />
-                <property name="localServiceName" value="awardAccountService" />
-                <property name="serviceInterface" value="org.kuali.kra.external.award.AwardAccountService" />
-                <property name="busSecurity" value="${fin.system.integration.bus.security.on}" />
-                <property name="retryAttempts" value="1" />
-            </bean>
+            <bean parent="kcJavaService"
+                p:service="awardAccountService"
+                p:localServiceName="awardAccountService"
+                p:serviceInterface="org.kuali.kra.external.award.AwardAccountService"/>
         </property>
     </bean>
     <bean id="awardAccountServiceSoapExporter" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
         <property name="serviceDefinition">
-            <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
-                <property name="service" ref="awardAccountService" />
-                <property name="serviceNameSpaceURI" value="KC" />
-                <property name="localServiceName" value="awardAccountSoapService" />
-                <property name="busSecurity" value="${fin.system.integration.bus.security.on}"/>
-                <property name="jaxWsService" value="true" />
-            </bean>
+            <bean parent="kcSoapService"
+                p:service="awardAccountService"
+                p:localServiceName="awardAccountSoapService" />
         </property>
     </bean>
     
@@ -290,9 +283,10 @@
         <property name="unitService" ref="unitService"/>
     </bean>
    
-    <bean class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter" p:serviceBus-ref="kc.import.serviceBus" 
-		p:callbackService-ref="awardAllUnitAdministratorDerivedRoleTypeService" p:localServiceName="awardAllUnitAdministratorDerivedRoleTypeService" 
-		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService" p:serviceNameSpaceURI="" />
+    <bean id= "awardAllUnitAdministratorDerivedRoleTypeServiceCallback" parent="kcCallbackService" 
+		p:callbackService-ref="awardAllUnitAdministratorDerivedRoleTypeService" 
+		p:localServiceName="awardAllUnitAdministratorDerivedRoleTypeService" 
+		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService"/>
     
     <bean id="awardAmountInfoService" class="org.kuali.kra.award.AwardAmountInfoServiceImpl">   
         <property name="businessObjectService" ref="businessObjectService" />
@@ -345,9 +339,9 @@
         <property name="awardService" ref="awardService"/>
     </bean>
     
-    <bean class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter" p:serviceBus-ref="kc.import.serviceBus" 
+    <bean id="awardInvestigatorsRoleTypeServiceCallback" parent="kcCallbackService"
 		p:callbackService-ref="awardInvestigatorsRoleTypeService" p:localServiceName="awardInvestigatorsRoleTypeService" 
-		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService" p:serviceNameSpaceURI="" />
+		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService"/>
     
     <bean id="awardLockService" class="org.kuali.kra.award.AwardLockServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
@@ -715,38 +709,31 @@
         <property name="dateTimeService" ref="dateTimeService" />
     </bean>
     
-    <!-- Quartz configuration for CFDA batch job-->
-    <!-- Use JobDetail here since the MethodInvokingJobDetailFactoryBean does not support persistent storage-->
-    <bean id="cfdaBatchJobDetail" class="org.quartz.JobDetail" >
-        <property name="jobClass" value="org.kuali.kra.external.Cfda.CfdaBatchJob" />
-        <property name="name" value="cfdaBatchJobDetail" />
-    </bean>
-    
+     <!-- Exposing the CFDA number service as a Java service and SOAP service -->
     <bean id="cfdaNumberService" class="org.kuali.kra.external.Cfda.service.impl.CfdaNumberServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
     </bean>
     <bean id="cfdaNumberServiceJavaExporter" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
         <property name="serviceDefinition">
-            <bean class="org.kuali.rice.ksb.api.bus.support.JavaServiceDefinition">
-                <property name="service" ref="cfdaNumberService" />
-                <property name="serviceNameSpaceURI" value="KC" />
-                <property name="localServiceName" value="cfdaNumberService" />
-                <property name="serviceInterface" value="org.kuali.kra.external.Cfda.service.CfdaNumberService" />
-                <property name="busSecurity" value="${fin.system.integration.bus.security.on}" />
-                <property name="retryAttempts" value="1" />
-            </bean>
+        	<bean parent="kcJavaService"
+        		  p:service="cfdaNumberService"
+        		  p:localServiceName="cfdaNumberService" />
+         </property>
+     </bean>
+ 
+    <bean id="cfdaNumberServiceSoapExporter" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+    	<property name="serviceDefinition">
+         	<bean parent="kcSoapService" 
+         		p:service = "cfdaNumberService"
+           		p:localServiceName="cfdaNumberSoapService" />
         </property>
     </bean>
-    <bean id="cfdaNumberServiceSoapExporter" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
-        <property name="serviceDefinition">
-            <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
-                <property name="service" ref="cfdaNumberService" />
-                <property name="serviceNameSpaceURI" value="KC" />
-                <property name="localServiceName" value="cfdaNumberSoapService" />
-                <property name="busSecurity" value="${fin.system.integration.bus.security.on}" />
-                <property name="jaxWsService" value="true" />
-            </bean>
-        </property>
+    
+    <!-- Quartz configuration for CFDA batch job-->
+    <!-- Use JobDetail here since the MethodInvokingJobDetailFactoryBean does not support persistent storage-->
+    <bean id="cfdaBatchJobDetail" class="org.quartz.JobDetail" >
+        <property name="jobClass" value="org.kuali.kra.external.Cfda.CfdaBatchJob" />
+        <property name="name" value="cfdaBatchJobDetail" />
     </bean>
     
     <bean id="cfdaTrigger" class="org.kuali.kra.scheduling.quartz.KcCronTriggerBean">

@@ -341,32 +341,24 @@
     <bean id="fiscalYearMonthService" class="org.kuali.kra.service.impl.FiscalYearMonthServiceImpl">
 		<property name="parameterService" ref="parameterService" />
 	</bean>
-    
+    <!-- Exposing as SOAP and JAva services -->
     <bean id="institutionalUnitService" class="org.kuali.kra.external.unit.service.impl.InstitutionalUnitServiceImpl">
         <property name="unitService" ref="unitService" />
         <property name="businessObjectService" ref="businessObjectService" />
     </bean>
     <bean id="institutionalUnitServiceJavaExporter" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
         <property name="serviceDefinition">
-            <bean class="org.kuali.rice.ksb.api.bus.support.JavaServiceDefinition">
-                <property name="service" ref="institutionalUnitService" />
-                <property name="serviceNameSpaceURI" value="KC" />
-                <property name="localServiceName" value="institutionalUnitService" />
-                <property name="serviceInterface" value="org.kuali.kra.external.unit.service.InstitutionalUnitService" />
-                <property name="busSecurity" value="${fin.system.integration.bus.security.on}" />
-                <property name="retryAttempts" value="1" />
-            </bean>
+            <bean parent="kcJavaService"
+                p:service="institutionalUnitService"
+                p:localServiceName="institutionalUnitService"
+                p:serviceInterface="org.kuali.kra.external.unit.service.InstitutionalUnitService" />
         </property>
     </bean>
     <bean id="institutionalUnitServiceSoapExporter" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
         <property name="serviceDefinition">
-            <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
-                <property name="service" ref="institutionalUnitService" />
-                <property name="serviceNameSpaceURI" value="KC" />
-                <property name="localServiceName" value="institutionalUnitSoapService" />
-                <property name="busSecurity" value="${fin.system.integration.bus.security.on}" />
-                <property name="jaxWsService" value="true" />
-            </bean>
+            <bean parent="kcSoapService"
+                p:service="institutionalUnitService"
+                p:localServiceName="institutionalUnitSoapService" />
         </property>
     </bean>
 
@@ -592,9 +584,10 @@
         <property name="workflowDocumentService" ref="kewWorkflowDocumentService" />
     </bean>
     
-	<bean class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter" p:serviceBus-ref="kc.import.serviceBus" 
-		p:callbackService-ref="pastApproversDerivedRoleTypeService" p:localServiceName="pastApproversDerivedRoleTypeService" 
-		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService" p:serviceNameSpaceURI="" />
+	<bean id="pastApproversDerivedRoleTypeServiceCallback" parent="kcCallbackService"
+		p:callbackService-ref="pastApproversDerivedRoleTypeService" 
+		p:localServiceName="pastApproversDerivedRoleTypeService" 
+		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService"/>
 
     <bean id="personEditableService" class="org.kuali.kra.service.impl.PersonEditableServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
@@ -685,9 +678,9 @@
         <property name="unitService" ref="unitService" />
     </bean>
    
-    <bean class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter" p:serviceBus-ref="kc.import.serviceBus" 
+    <bean id="unitAdministratorDerivedRoleTypeServiceCallback" parent="kcCallbackService" 
 		p:callbackService-ref="unitAdministratorDerivedRoleTypeService" p:localServiceName="unitAdministratorDerivedRoleTypeService" 
-		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService" p:serviceNameSpaceURI="" />
+		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService"/>
     
     <bean id="unitCorrespondentLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
         <property name="lookupableHelperService" ref="unitCorrespondentLookupableHelperService" />
@@ -708,20 +701,16 @@
         <property name="unitService" ref="unitService" />
     </bean>
    
-    <bean class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter" 
-          p:serviceBus-ref="kc.import.serviceBus"
+    <bean id="unitHierarchyRoleTypeServiceCallback" parent="kcCallbackService"
           p:callbackService-ref="unitHierarchyRoleTypeService"
           p:localServiceName="unitHierarchyRoleTypeService"
-          p:serviceNameSpaceURI="" 
           p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService" />
     
     <bean id="unitRoleTypeService" class="org.kuali.kra.kim.service.impl.UnitRoleTypeServiceImpl" />
   
-    <bean class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter"
-          p:serviceBus-ref="kc.import.serviceBus"
+    <bean id="unitRoleTypeServiceCallback" parent="kcCallbackService"
           p:callbackService-ref="unitRoleTypeService"
           p:localServiceName="unitRoleTypeService"
-          p:serviceNameSpaceURI="" 
           p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService" />  
     
     <bean id="versioningService" class="org.kuali.kra.service.impl.VersioningServiceImpl" />
@@ -944,34 +933,25 @@
     																	parent="kcKrmsJavaFunctionTermService">
     </bean>-->
     
-    <bean 
-      class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter"
-      p:serviceBus-ref="kc.import.serviceBus"
+    <bean id="unitAgendaTypeServiceCallback" parent="kcCallbackService"
       p:callbackService-ref="unitAgendaTypeService"
       p:localServiceName="unitAgendaTypeService"
-      p:serviceNameSpaceURI="" 
       p:serviceInterface="org.kuali.rice.krms.framework.type.AgendaTypeService"/>
     
     <bean id="kcPeopleFlowTypeService" class="org.kuali.kra.krms.service.KcPeopleFlowTypeService">
     </bean>
     
-    <bean 
-      class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter"
-      p:serviceBus-ref="kc.import.serviceBus"
+    <bean id= "kcPeopleFlowTypeServiceCallback" parent="kcCallbackService"
       p:callbackService-ref="kcPeopleFlowTypeService"
       p:localServiceName="kcPeopleFlowTypeService"
-      p:serviceNameSpaceURI="" 
       p:serviceInterface="org.kuali.rice.kew.framework.peopleflow.PeopleFlowTypeService"/>
       
     <bean id="questionResolverTypeService" class="org.kuali.kra.krms.service.impl.QuestionResolverTypeServiceImpl">
     </bean>
     
-    <bean 
-      class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter"
-      p:serviceBus-ref="kc.import.serviceBus"
+    <bean id="questionResolverTypeServiceCallback" parent="kcCallbackService"
       p:callbackService-ref="questionResolverTypeService"
       p:localServiceName="questionResolverTypeService"
-      p:serviceNameSpaceURI="" 
       p:serviceInterface="org.kuali.rice.krms.framework.type.TermResolverTypeService"/>
 
     <bean id="kcConfirmationQuestion" class="org.kuali.kra.web.struts.action.KcConfirmationQuestion">
