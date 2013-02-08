@@ -166,10 +166,12 @@ public class S2SConnectorServiceBase implements S2SConnectorService {
         applicationFilter.setFilter(KEY_OPPORTUNITY_ID);
         applicationFilter.setFilterValue(opportunityId);
         filterList.add(applicationFilter);
-        applicationFilter = new ApplicationFilter();
-        applicationFilter.setFilter(KEY_CFDA_NUMBER);
-        applicationFilter.setFilterValue(cfdaNumber);
-        filterList.add(applicationFilter);
+        if (cfdaNumber != null) {
+            applicationFilter = new ApplicationFilter();
+            applicationFilter.setFilter(KEY_CFDA_NUMBER);
+            applicationFilter.setFilterValue(cfdaNumber);
+            filterList.add(applicationFilter);
+        }        
         applicationFilter = new ApplicationFilter();
         applicationFilter.setFilter(KEY_SUBMISSION_TITLE);
         applicationFilter.setFilterValue(proposalNumber);
