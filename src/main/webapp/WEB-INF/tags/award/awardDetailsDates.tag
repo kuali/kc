@@ -30,8 +30,11 @@
 	<h3>
    		<span class="subhead-left">Details and Dates</span>
    		<span class="subhead-right">
-    	    <a href="${pageContext.request.contextPath}/awardHistory.do?command=redirectAwardHistoryFullViewForPopup&awardDocumentNumber=${KualiForm.document.documentNumber}&awardNumber=${KualiForm.document.awardList[0].awardNumber}&docTypeName=${KualiForm.docTypeName}" target="_blank" >
-            <img align="top" width="80" height="15" alt="View History" src="${ConfigProperties.kra.externalizable.images.url}tinybutton-viewhistory.gif" styleClass="tinybutton" />
+   		    <c:if test="${fn:length(KualiForm.awardsForHistoryDisplay) > 0}" >
+      	        <a href="${pageContext.request.contextPath}/awardHistory.do?command=redirectAwardHistoryFullViewForPopup&awardDocumentNumber=${KualiForm.document.documentNumber}&awardNumber=${KualiForm.document.awardList[0].awardNumber}&docTypeName=${KualiForm.docTypeName}" target="_blank" >
+                    <img align="top" width="80" height="15" alt="View History" src="${ConfigProperties.kra.externalizable.images.url}tinybutton-viewhistory.gif" styleClass="tinybutton" />
+                </a>
+   		    </c:if>
    			<kul:help parameterNamespace="KC-AWARD" parameterDetailType="Document" parameterName="awardDetailsDatesHelp" altText="help"/>
 		</span>
     </h3>
