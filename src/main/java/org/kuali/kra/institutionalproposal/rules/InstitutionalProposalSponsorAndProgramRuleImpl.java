@@ -21,8 +21,10 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.Sponsor;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.TimeFormatter;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
@@ -63,9 +65,29 @@ public class InstitutionalProposalSponsorAndProgramRuleImpl extends ResearchDocu
         
         boolean validPrimeSponsorId = validatePrimeSponsorIdExists(institutionalProposal.getPrimeSponsorCode());
         
-        return validCfdaNumber && validSponsorCode;
+        boolean validSponsorDeadlineTime = validateSponsorDeadlineTime(institutionalProposal);
+        
+        return validCfdaNumber && validSponsorCode && validSponsorDeadlineTime ;
     }
     
+    private boolean validateSponsorDeadlineTime(InstitutionalProposal institutionalProposal) {
+        boolean valid = true;
+        if(!(institutionalProposal.getDeadlineTime() == null)) {
+            TimeFormatter formatter = new TimeFormatter();
+            
+            String formatTime = (String) formatter.convertToObject(institutionalProposal.getDeadlineTime());
+            if (!formatTime.equalsIgnoreCase(Constants.INVALID_TIME)) {
+                institutionalProposal.setDeadlineTime(formatTime);
+            } else {
+                GlobalVariables.getMessageMap().putError("document.institutionalProposal.deadlineTime", KeyConstants.INVALID_DEADLINE_TIME);
+                valid = false;
+            }
+            
+        }
+        return valid;
+    }
+
+
     @SuppressWarnings("unchecked")
     private boolean validateSponsorCodeExists(String sponsorCode) {
         boolean valid = true;

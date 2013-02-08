@@ -25,6 +25,7 @@ import org.kuali.kra.budget.core.BudgetService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.TimeFormatter;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeUserRights;
 import org.kuali.kra.proposaldevelopment.bo.PropScienceKeyword;
@@ -368,7 +369,18 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
                  valid = false;
              }
          }
- 
+         if (proposalDevelopmentDocument.getDevelopmentProposal().getDeadlineTime() != null) {
+             TimeFormatter formatter = new TimeFormatter();
+            
+             String deadLineTime = (String) formatter.convertToObject(proposalDevelopmentDocument.getDevelopmentProposal().getDeadlineTime());
+             if (!deadLineTime.equalsIgnoreCase(Constants.INVALID_TIME)) {
+                 proposalDevelopmentDocument.getDevelopmentProposal().setDeadlineTime(deadLineTime);
+             } else {
+                 errorMap.putError("deadlineTime", KeyConstants.INVALID_DEADLINE_TIME, 
+                         dataDictionaryService.getAttributeErrorLabel(DevelopmentProposal.class, "deadlineTime"));
+                 valid = false;
+             }
+         }
         return valid;
     }
     

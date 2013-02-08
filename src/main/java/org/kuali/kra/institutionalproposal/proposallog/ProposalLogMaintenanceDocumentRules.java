@@ -20,9 +20,12 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.TimeFormatter;
 import org.kuali.kra.institutionalproposal.InstitutionalProposalConstants;
+import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.rules.MaintenanceDocumentRule;
@@ -34,6 +37,8 @@ public class ProposalLogMaintenanceDocumentRules extends MaintenanceDocumentRule
     implements MaintenanceDocumentRule {
     
     private final String SPONSOR_CODE = "document.newMaintainableObject.sponsorCode";
+    
+    private final String SPONSOR_DEADLINE_TIME = "document.newMaintainableObject.deadlineTime";
     /**
      * Checks to see if document is in valid state to save.
      * 
@@ -124,6 +129,17 @@ public class ProposalLogMaintenanceDocumentRules extends MaintenanceDocumentRule
             proposalLog.refreshReferenceObject("sponsor");
             if (proposalLog.getSponsor() == null) {
                 GlobalVariables.getMessageMap().putError(SPONSOR_CODE, KeyConstants.ERROR_INVALID_SPONSOR_CODE);
+                valid = false;
+            }
+        }
+        if (proposalLog.getDeadlineTime() != null) {
+            TimeFormatter formatter = new TimeFormatter();
+            
+            String deadLineTime = (String) formatter.convertToObject(proposalLog.getDeadlineTime());
+            if (!deadLineTime.equalsIgnoreCase(Constants.INVALID_TIME)) {
+                proposalLog.setDeadlineTime(deadLineTime);
+            } else {
+                GlobalVariables.getMessageMap().putError(SPONSOR_DEADLINE_TIME, KeyConstants.INVALID_DEADLINE_TIME);
                 valid = false;
             }
         }
