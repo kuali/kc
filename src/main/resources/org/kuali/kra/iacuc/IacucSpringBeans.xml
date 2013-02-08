@@ -744,17 +744,19 @@
           class="org.kuali.kra.kim.service.impl.IacucProtocolPersonnelDerivedRoleTypeServiceImpl">
     </bean>
     
-    <bean class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter" p:serviceBus-ref="kc.import.serviceBus"
-          p:callbackService-ref="iacucProtocolPersonnelDerivedRoleTypeService" p:localServiceName="iacucProtocolPersonnelDerivedRoleTypeService"
-          p:serviceNameSpaceURI="" p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService" />  
+    <bean id="iacucProtocolPersonnelDerivedRoleTypeServiceCallback" parent="kcCallbackService"
+          p:callbackService-ref="iacucProtocolPersonnelDerivedRoleTypeService" 
+          p:localServiceName="iacucProtocolPersonnelDerivedRoleTypeService"
+          p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService" />  
     
     <bean id="iacucProtocolAffiliateTypeDerivedRoleTypeService"
           class="org.kuali.kra.kim.service.impl.IacucProtocolAffiliateTypeDerivedRoleTypeServiceImpl">
     </bean>
   
-	<bean class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter" p:serviceBus-ref="kc.import.serviceBus" 
-		p:callbackService-ref="iacucProtocolAffiliateTypeDerivedRoleTypeService" p:localServiceName="iacucProtocolAffiliateTypeDerivedRoleTypeService" 
-		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService" p:serviceNameSpaceURI="" />
+	<bean id="iacucProtocolAffiliateTypeDerivedRoleTypeServiceCallback" parent="kcCallbackService" 
+		p:callbackService-ref="iacucProtocolAffiliateTypeDerivedRoleTypeService" 
+		p:localServiceName="iacucProtocolAffiliateTypeDerivedRoleTypeService" 
+		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService"/>
 
 
     <bean id="iacucProtocolCopyService" class="org.kuali.kra.iacuc.actions.copy.IacucProtocolCopyServiceImpl">
@@ -851,9 +853,10 @@
 		<property name="roleManagementService" ref="roleService" />
 	</bean>
  
- 	<bean class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter" p:serviceBus-ref="kc.import.serviceBus" 
-		p:callbackService-ref="iacucProtocolOnlineReviewRoleTypeService" p:localServiceName="iacucProtocolOnlineReviewRoleTypeService" 
-		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService" p:serviceNameSpaceURI="" />
+ 	<bean id="iacucProtocolOnlineReviewRoleTypeServiceCallback" parent="kcCallbackService"
+		p:callbackService-ref="iacucProtocolOnlineReviewRoleTypeService" 
+		p:localServiceName="iacucProtocolOnlineReviewRoleTypeService" 
+		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService"/>
  
      <bean id="activeCommitteeMemberOnIacucProtocolDerivedRoleTypeService"
           class="org.kuali.kra.kim.service.impl.ActiveCommitteeMemberOnIacucProtocolDerivedRoleTypeServiceImpl">
@@ -869,9 +872,10 @@
         
     </bean>
   
-   <bean class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter" p:serviceBus-ref="kc.import.serviceBus" 
-		p:callbackService-ref="activeCommitteeMemberOnIacucProtocolDerivedRoleTypeService" p:localServiceName="activeCommitteeMemberOnIacucProtocolDerivedRoleTypeService" 
-		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService" p:serviceNameSpaceURI="" />
+   <bean id="activeCommitteeMemberOnIacucProtocolDerivedRoleTypeServiceCallback" parent="kcCallbackService" 
+		p:callbackService-ref="activeCommitteeMemberOnIacucProtocolDerivedRoleTypeService" 
+		p:localServiceName="activeCommitteeMemberOnIacucProtocolDerivedRoleTypeService" 
+		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService" />
     
     <!-- Protocol Print -->
 <!-- 	<bean id="iacucPrintXmlUtilService" -->

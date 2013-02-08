@@ -366,6 +366,7 @@
               <property name="businessObjectService" ref="businessObjectService" />
     </bean>
     
+    <!-- Exposing as Java and Soap services -->
     <bean id="budgetCategoryService"
 		class="org.kuali.kra.external.budget.service.impl.BudgetCategoryServiceImpl">
 		<property name="businessObjectService" ref="businessObjectService" />
@@ -373,29 +374,21 @@
 	
     <bean id="budgetCategoryServiceJavaExporter" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
 		<property name="serviceDefinition">
-			<bean class="org.kuali.rice.ksb.api.bus.support.JavaServiceDefinition">
-				<property name="service" ref="budgetCategoryService" />
-				<property name="serviceNameSpaceURI" value="KC" />
-				<property name="localServiceName" value="budgetCategoryService" />
-				<property name="serviceInterface"
-					value="org.kuali.kra.external.budget.service" />
-				<property name="busSecurity" value="${fin.system.integration.bus.security.on}" />
-				<property name="retryAttempts" value="1" />
-			</bean>
+			<bean parent="kcJavaService"
+				p:service="budgetCategoryService"
+				p:localServiceName="budgetCategoryService"
+				p:serviceInterface="org.kuali.kra.external.budget.service" />
 		</property>
 	</bean>
 
 	<bean id="budgetCategoryServiceSoapExporter" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
 		<property name="serviceDefinition">
-			<bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
-				<property name="service" ref="budgetCategoryService" />
-				<property name="serviceNameSpaceURI" value="KC" />
-				<property name="localServiceName" value="budgetCategorySoapService" />
-				<property name="busSecurity" value="${fin.system.integration.bus.security.on}" />
-				<property name="jaxWsService" value="true" />
-			</bean>
+			<bean parent="kcSoapService"
+				p:service="budgetCategoryService"
+				p:localServiceName="budgetCategorySoapService" />
 		</property>
 	</bean>
+	
 	<bean id="breakupIntervalService" class="org.kuali.kra.budget.calculator.BreakupIntervalServiceImpl">
 		<property name="businessObjectService" ref="businessObjectService" />
 	</bean>	

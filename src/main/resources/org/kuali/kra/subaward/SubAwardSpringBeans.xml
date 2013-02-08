@@ -204,8 +204,9 @@
 
     </bean>
     
-	<bean class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter" p:serviceBus-ref="kc.import.serviceBus" 
-		p:callbackService-ref="subAwardRequisitionerDerivedRoleTypeService" p:localServiceName="subAwardRequisitionerDerivedRoleTypeService" 
-		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService" p:serviceNameSpaceURI="" />
+	<bean id="subAwardRequisitionerDerivedRoleTypeServiceCallback" parent="kcCallbackService" 
+		p:callbackService-ref="subAwardRequisitionerDerivedRoleTypeService" 
+		p:localServiceName="subAwardRequisitionerDerivedRoleTypeService" 
+		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService"/>
 	
 </beans>	
