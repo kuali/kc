@@ -37,6 +37,7 @@ public final class KeyConstants {
     public static final String ERROR_START_DATE_AFTER_END_DATE = "error.start.date.after.end.date";
     
     public static final String QUESTION_DELETE_CONFIRMATION = "document.question.delete.text";
+    public static final String INVALID_DEADLINE_TIME = "error.invalid.deadLineTime";
     
     // Notification
     public static final String ERROR_NOTIFICATION_MODULE_CODE_ACTION_CODE_COMBINATION_EXISTS = "error.notification.moduleCode.actionCode.combination.exists";

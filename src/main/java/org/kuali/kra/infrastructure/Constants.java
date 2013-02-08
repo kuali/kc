@@ -162,6 +162,7 @@ public interface Constants {
     public static final String BUDGET_EXPENSES_PAGE_METHOD = "budgetExpenses";
     public static final String BUDGET_EXPENSES_OVERVIEW_PANEL_ANCHOR = "BudgetOvervieV";
     public static final String BUDGET_EXPENSES_OVERVIEW_PANEL_NAME = "Budget Overview (Period ";
+    public static final String INVALID_TIME = "Invalid Time";
     // Proposal Document Property Constants
     public static final String PROPOSAL_NUMBER = "proposalNumber";
     public static final String BUDGET_VERSION_PANEL_NAME = "Budget Versions";
