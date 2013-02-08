@@ -184,9 +184,10 @@
 		</property>
 	</bean>
 	
-    <bean class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter" p:serviceBus-ref="kc.import.serviceBus" 
-		p:callbackService-ref="activeCommitteeMemberDerivedRoleTypeService" p:localServiceName="activeCommitteeMemberDerivedRoleTypeService" 
-		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService" p:serviceNameSpaceURI="" />
+    <bean id="activeCommitteeMemberDerivedRoleTypeServiceCallback" parent="kcCallbackService"
+		p:callbackService-ref="activeCommitteeMemberDerivedRoleTypeService" 
+		p:localServiceName="activeCommitteeMemberDerivedRoleTypeService" 
+		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService"/>
     
     <bean id="activeCommitteeMemberOnScheduledDateDerivedRoleTypeService"
 			  class="org.kuali.kra.workflow.ActiveCommitteeMemberOnScheduledDateDerivedRoleTypeServiceImpl">
@@ -201,9 +202,10 @@
 		</property>
 	</bean>
 	
-    <bean class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter" p:serviceBus-ref="kc.import.serviceBus" 
-		p:callbackService-ref="activeCommitteeMemberOnScheduledDateDerivedRoleTypeService" p:localServiceName="activeCommitteeMemberOnScheduledDateDerivedRoleTypeService" 
-		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService" p:serviceNameSpaceURI="" />
+    <bean id="activeCommitteeMemberOnScheduledDateDerivedRoleTypeServiceCallback" parent="kcCallbackService" 
+		p:callbackService-ref="activeCommitteeMemberOnScheduledDateDerivedRoleTypeService" 
+		p:localServiceName="activeCommitteeMemberOnScheduledDateDerivedRoleTypeService" 
+		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService"/>
     	
 	<bean id="committeeMembershipService"
 		class="org.kuali.kra.committee.service.impl.CommitteeMembershipServiceImpl">

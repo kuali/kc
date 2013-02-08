@@ -23,7 +23,7 @@ public interface Constants {
     public static final String SEMI_COLON=";";
 
     public static final String BOOTSTRAP_SPRING_FILE = "kc.bootstrap.spring.file";
-    
+    public static final String KC_CORE_SERVICE_NAMESPACE = "http://kc.kuali.org/core/v5_0";
     public static final String KRA_SESSION_KEY = "kra.session";
     public static final String APP_CONTEXT_KEY = "app.context.name";
     public static final String DATASOURCE = "kraDataSource";
