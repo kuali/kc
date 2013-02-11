@@ -681,6 +681,7 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
         copyLineItemToPersonnelDetails(budgetDocument);
         budgetDocument.setVersionNumber(null);
         // setting this to null so copied budget can be posted.
+        budgetDocument.getBudget().refreshNonUpdateableReferences();
         budgetDocument.getBudget().setBudgetAdjustmentDocumentNumber(null);
         List<BudgetProjectIncome> projectIncomes = budgetDocument.getBudget().getBudgetProjectIncomes();
         budgetDocument.getBudget().setBudgetProjectIncomes(new ArrayList<BudgetProjectIncome>());
