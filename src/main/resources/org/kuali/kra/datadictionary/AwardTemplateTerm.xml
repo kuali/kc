@@ -143,7 +143,7 @@
 		</property>
 	    <property name="control" >
 	      <bean parent="SelectControlDefinition"
-	            p:businessObjectClass="org.kuali.kra.bo.SponsorTermType"
+	            p:businessObjectClass="org.kuali.kra.bo.SponsorTerm"
 	            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
 	            p:includeKeyInLabel="false"
 	            p:includeBlankRow="false"
@@ -216,7 +216,7 @@
 							<bean parent="FieldDefinition"
 								p:attributeName="templateCode" />
 							<bean parent="FieldDefinition"
-								p:attributeName="sponsorTermId" />
+								p:attributeName="description" />
 						</list>
 					</property>
 				</bean>
@@ -242,7 +242,7 @@
 				<bean parent="FieldDefinition"
 					p:attributeName="templateCode" />
 				<bean parent="FieldDefinition"
-					p:attributeName="sponsorTermId" />
+					p:attributeName="description" />
 			</list>
 		</property>
 		<property name="resultFields" >
@@ -253,7 +253,7 @@
 				<bean parent="FieldDefinition"
 					p:attributeName="templateCode" />
 				<bean parent="FieldDefinition"
-					p:attributeName="sponsorTermId" />
+					p:attributeName="description" />
 			</list>
 		</property>
 	</bean>

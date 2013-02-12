@@ -307,13 +307,14 @@
 		                  <list>
 		                    <bean p:attributeName="awardTemplateTermId" parent="FieldDefinition"/>
 		                    <bean p:attributeName="sponsorTermTypeCode" parent="FieldDefinition"/>
+		                    <bean p:attributeName="description" parent="FieldDefinition"/>	                     
 		                  </list>
 		                </property>
 		                <property name="inquiryFields">
 		                  <list>
 		                    <bean p:attributeName="awardTemplateTermId" parent="FieldDefinition"/>
 		                    <bean p:attributeName="sponsorTermTypeCode" parent="FieldDefinition"/>
-		                    <bean p:attributeName="sponsorTermId" parent="FieldDefinition"/>
+		                    <bean p:attributeName="description" parent="FieldDefinition"/>
 		                  </list>
 		                </property>
 		              </bean>
