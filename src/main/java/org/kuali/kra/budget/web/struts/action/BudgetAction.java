@@ -337,6 +337,32 @@ public class BudgetAction extends BudgetActionBase {
         HttpServletRequest request, HttpServletResponse response)
         throws Exception {
         final ActionForward forward = super.reload(mapping, form, request, response);
+//        final BudgetForm budgetForm = (BudgetForm) form;
+//        BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
+//        BudgetParentDocument parentDocument = budgetDocument.getParentDocument();
+//
+//        budgetForm.setFinalBudgetVersion(getFinalBudgetVersion(parentDocument.getBudgetDocumentVersions()));
+//        setBudgetStatuses(budgetDocument.getParentDocument());
+//
+//        final BudgetTDCValidator tdcValidator = new BudgetTDCValidator(request);
+//        tdcValidator.validateGeneratingWarnings(budgetDocument.getParentDocument());
+//
+//        populateBudgetPrintForms(budgetDocument.getBudget());
+        updateBudgetAttributes(form, request);
+        return forward;
+    }
+    
+    @Override
+    public ActionForward reloadWithoutWarning(ActionMapping mapping, ActionForm form,
+            HttpServletRequest request, HttpServletResponse response)
+    throws Exception {
+        final ActionForward forward = super.reloadWithoutWarning(mapping, form, request, response);
+        updateBudgetAttributes(form, request);
+        return forward;
+    }
+    
+    @SuppressWarnings("rawtypes")
+    protected void updateBudgetAttributes(ActionForm form, HttpServletRequest request) {
         final BudgetForm budgetForm = (BudgetForm) form;
         BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
         BudgetParentDocument parentDocument = budgetDocument.getParentDocument();
@@ -348,7 +374,6 @@ public class BudgetAction extends BudgetActionBase {
         tdcValidator.validateGeneratingWarnings(budgetDocument.getParentDocument());
 
         populateBudgetPrintForms(budgetDocument.getBudget());
-        return forward;
     }
     
     public ActionForward versions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {

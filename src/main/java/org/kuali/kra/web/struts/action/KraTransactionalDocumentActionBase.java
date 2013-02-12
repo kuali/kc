@@ -1123,6 +1123,9 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
         return forward;
     }
 
+    public ActionForward reloadWithoutWarning(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        return super.reload(mapping, form, request, response);
+    }
 
 }
 
