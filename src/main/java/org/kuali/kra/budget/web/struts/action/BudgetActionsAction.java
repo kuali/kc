@@ -228,7 +228,7 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
     
     public ActionForward viewXFD(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetSubAwards subAward = getSelectedBudgetSubAward(form, request);
-        subAward.refreshNonUpdateableReferences();
+        subAward.refreshReferenceObject("budgetSubAwardFiles");
         if(!subAward.getBudgetSubAwardFiles().isEmpty()){
             BudgetSubAwardFiles subAwardFiles = subAward.getBudgetSubAwardFiles().get(0);
             downloadFile(form, request, response, subAwardFiles.getSubAwardXfdFileData(), subAward.getSubAwardXfdFileName(), CONTENT_TYPE_PDF);
