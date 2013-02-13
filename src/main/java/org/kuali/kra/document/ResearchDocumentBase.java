@@ -25,6 +25,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.bo.CustomAttributeDocument;
+import org.kuali.kra.bo.DocumentCustomData;
 import org.kuali.kra.bo.DocumentNextvalue;
 import org.kuali.kra.bo.RolePersons;
 import org.kuali.kra.budget.core.BudgetService;
@@ -82,8 +83,8 @@ public abstract class ResearchDocumentBase extends TransactionalDocumentBase {
         setUpdateTimestamp((this.getService(DateTimeService.class)).getCurrentTimestamp());
         setUpdateUser(updateUser);
 
-        CustomAttributeService customAttributeService = this.getService(CustomAttributeService.class);
-        customAttributeService.saveCustomAttributeValues(this);
+        //CustomAttributeService customAttributeService = this.getService(CustomAttributeService.class);
+        //customAttributeService.saveCustomAttributeValues(this);
         if (this.getVersionNumber() == null) this.setVersionNumber(new Long(0));
         
         // Since we aren't doing optimistic locking, might need to update doc header's version number
@@ -127,11 +128,13 @@ public abstract class ResearchDocumentBase extends TransactionalDocumentBase {
     /**
      * This method populates the customAttributes for this document.
      */
-    protected void populateCustomAttributes() {
+    public void populateCustomAttributes() {
         CustomAttributeService customAttributeService = KraServiceLocator.getService(CustomAttributeService.class);
-        Map<String, CustomAttributeDocument> customAttributeDocuments = customAttributeService.getDefaultCustomAttributesForDocumentType(getDocumentTypeCode(), documentNumber);
+        Map<String, CustomAttributeDocument> customAttributeDocuments = customAttributeService.getDefaultCustomAttributeDocuments(getDocumentTypeCode(), getDocumentCustomData());
         setCustomAttributeDocuments(customAttributeDocuments);
     }
+    
+    public abstract List<? extends DocumentCustomData> getDocumentCustomData();
 
     public Timestamp getUpdateTimestamp() {
         return updateTimestamp;

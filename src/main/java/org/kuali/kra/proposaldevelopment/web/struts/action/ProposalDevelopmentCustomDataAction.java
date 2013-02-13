@@ -23,7 +23,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kra.common.customattributes.CustomDataAction;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
@@ -40,12 +39,6 @@ public class ProposalDevelopmentCustomDataAction extends ProposalDevelopmentActi
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
 
-        for (Map.Entry<String, String[]>customAttributeValue: proposalDevelopmentForm.getCustomAttributeValues().entrySet()) {
-            String customAttributeId = customAttributeValue.getKey().substring(2);
-            String value = customAttributeValue.getValue()[0];
-            proposalDevelopmentDocument.getCustomAttributeDocuments().get(customAttributeId).getCustomAttribute().setValue(value);
-        }
-
         return super.execute(mapping, form, request, response);
     }
 
@@ -54,33 +47,17 @@ public class ProposalDevelopmentCustomDataAction extends ProposalDevelopmentActi
         super.refresh(mapping, form, request, response);
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
+        //proposalDevelopmentForm.getCustomDataHelper().prepareCustomData();
 
-        //Does not seem we need this any more.
-        // TODO : if there is no issue in QA, then remove this. 
-        // now, seemes to have 'customAttributeValues(id7)=quickstart' when return from lookup.
-        // so it will be populated to  form properly.
-//        for (Enumeration i = request.getParameterNames(); i.hasMoreElements();) {
-//            String parameterName = (String) i.nextElement();
-//            if (parameterName.startsWith("document.customAttributeDocuments")) {
-//                // TODO : do we still need this section ?
-//                //document.customAttributeDocuments[Project Details][1].customAttribute.value=tdurkin
-//                int beginIndex = parameterName.indexOf("[") + 1;
-//                int endIndex = parameterName.indexOf("]", beginIndex);
-//                if (beginIndex > 0 && endIndex > 0) {
-//                    String key = parameterName.substring(beginIndex, endIndex);
-//                    beginIndex = parameterName.indexOf("[", endIndex) + 1;
-//                    endIndex = parameterName.indexOf("]", beginIndex);
-//                    if (beginIndex > 0 && endIndex > 0) {
-//                        String indexString = parameterName.substring(beginIndex, endIndex);
-//                        //int index = Integer.parseInt(indexString);
-//                        String value = request.getParameter(parameterName);
-//                        // TODO : why it becomes List ?
-//                        //((List<CustomAttributeDocument>)proposalDevelopmentDocument.getCustomAttributeDocuments()).get(index).getCustomAttribute().setValue(value);
-//                        proposalDevelopmentDocument.getCustomAttributeDocuments().get(indexString).getCustomAttribute().setValue(value);
-//                                          }
-//                }
-//            }
-//        }
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    @Override
+    public ActionForward reload(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        super.reload(mapping, form, request, response);
+        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
+        ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
+        proposalDevelopmentForm.getCustomDataHelper().prepareCustomData();
 
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
@@ -92,7 +69,8 @@ public class ProposalDevelopmentCustomDataAction extends ProposalDevelopmentActi
     @Override
     public void postDocumentSave(KualiDocumentFormBase form) throws Exception {
         super.postDocumentSave(form);
-        CustomDataAction.setCustomAttributeContent(form, CUSTOM_ATTRIBUTE_NAME);
+        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
+        proposalDevelopmentForm.getCustomDataHelper().setCustomAttributeContent(proposalDevelopmentForm.getProposalDevelopmentDocument().getDocumentNumber(), CUSTOM_ATTRIBUTE_NAME);
     }
 
 }

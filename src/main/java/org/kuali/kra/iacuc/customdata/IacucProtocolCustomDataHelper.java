@@ -31,6 +31,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.bo.CustomAttributeDocument;
+import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.IacucProtocolAction;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
@@ -46,7 +47,7 @@ import org.kuali.kra.protocol.customdata.ProtocolCustomDataHelperBase;
  * The CustomDataHelper is used to manage the Custom Data tab web page.
  * It contains the data, forms, and methods needed to render the page.
  */
-public class IacucProtocolCustomDataHelper extends ProtocolCustomDataHelperBase { 
+public class IacucProtocolCustomDataHelper extends ProtocolCustomDataHelperBase<IacucProtocolCustomData> { 
 
     /**
      * Comment for <code>serialVersionUID</code>
@@ -93,83 +94,99 @@ public class IacucProtocolCustomDataHelper extends ProtocolCustomDataHelperBase 
 //    }
     
 
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    public void prepareView(ProtocolBase protocol) {
-        initializePermissions();
+//    @SuppressWarnings({ "rawtypes", "unchecked" })
+//    public void prepareView(ProtocolBase protocol) {
+//        initializePermissions();
+//
+//        SortedMap<String, List> customAttributeGroups = new TreeMap<String, List>();
+//
+//        Map<String, CustomAttributeDocument> customAttributeDocuments = getCustomAttributeDocuments("ICPR");
+//        for(Map.Entry<String, CustomAttributeDocument> customAttributeDocumentEntry:customAttributeDocuments.entrySet()) {
+//            CustomAttributeDocument customAttributeDocument = customAttributeDocumentEntry.getValue();
+//            Map<String, Object> primaryKeys = new HashMap<String, Object>();
+//            primaryKeys.put(PROTOCOL_ID_ATTRIBUTE_NAME, protocol.getProtocolId().toString());
+//            primaryKeys.put(Constants.CUSTOM_ATTRIBUTE_ID, customAttributeDocument.getCustomAttributeId());
+//
+//            IacucProtocolCustomData customAttributeDocValue = (IacucProtocolCustomData) getBusinessObjectService().findByPrimaryKey(IacucProtocolCustomData.class, primaryKeys);
+//            if (customAttributeDocValue != null) {
+//                customAttributeDocument.getCustomAttribute().setValue(customAttributeDocValue.getValue());
+//                getCustomAttributeValues().put("id" + customAttributeDocument.getCustomAttributeId().toString(), customAttributeDocValue.getValue());
+//            }
+//
+//            String customAttrGroupName = getValidCustomAttributeGroupName(customAttributeDocument.getCustomAttribute().getGroupName());
+//            List<CustomAttributeDocument> customAttributeDocumentList = customAttributeGroups.get(customAttrGroupName);
+//
+//            if (customAttributeDocumentList == null) {
+//                customAttributeDocumentList = new ArrayList<CustomAttributeDocument>();
+//                customAttributeGroups.put(customAttrGroupName, customAttributeDocumentList);
+//            }
+//            customAttributeDocumentList.add(customAttributeDocument);
+//        }
+//
+//        setCustomAttributeGroups(customAttributeGroups);
+//    }
+//    
+//    private Map<String, CustomAttributeDocument> getCustomAttributeDocuments(String documentType) {
+//        Map<String, CustomAttributeDocument> customAttributeDocuments = new HashMap<String, CustomAttributeDocument>();
+//        
+//        Map<String, String> fieldValues = new HashMap<String, String>();
+//        fieldValues.put(CUSTOM_ATTRIBUTE_DOCUMENT_TYPE_NAME, documentType);
+//        Collection<CustomAttributeDocument> customAttributeDocumentList = getBusinessObjectService().findMatching(CustomAttributeDocument.class, fieldValues);
+//        for (CustomAttributeDocument customAttributeDocument : customAttributeDocumentList) {
+//            if (customAttributeDocument.isActive()) {
+//                customAttributeDocuments.put(customAttributeDocument.getCustomAttributeId().toString(), customAttributeDocument);
+//            }
+//        }
+//        return customAttributeDocuments;
+//    }
+//    
+//    public IacucProtocolCustomData getIacucProtocolCustomData(CustomAttributeDocument customAttributeDocument, IacucProtocol iacucProtocol) {
+//        IacucProtocolCustomData iacucProtocolCustomData = null;
+//        
+//        for (IacucProtocolCustomData iacucProtocolCustomDataListItem : iacucProtocol.getIacucProtocolCustomDataList()) {
+//            if (customAttributeDocument.getCustomAttributeId().longValue() == iacucProtocolCustomDataListItem.getCustomAttributeId().longValue()) {
+//                iacucProtocolCustomData = iacucProtocolCustomDataListItem;
+//                break;
+//            }
+//        }
+//        
+//        if (iacucProtocolCustomData == null) {
+//            int customAttributeId = customAttributeDocument.getCustomAttributeId();
+//            String customAttributeDefaultValue = customAttributeDocument.getCustomAttribute().getDefaultValue();
+//            String customAttributeValue = customAttributeDocument.getCustomAttribute().getValue();
+//            
+//            iacucProtocolCustomData = new IacucProtocolCustomData();
+//            iacucProtocolCustomData.setCustomAttributeId((long) customAttributeId);
+//            iacucProtocolCustomData.setCustomAttribute(customAttributeDocument.getCustomAttribute());
+//            iacucProtocolCustomData.setProtocolId(iacucProtocol.getProtocolId());
+//            iacucProtocolCustomData.setValue(StringUtils.defaultString(StringUtils.defaultString(customAttributeValue, customAttributeDefaultValue)));
+//        
+//            iacucProtocol.getIacucProtocolCustomDataList().add(iacucProtocolCustomData);
+//        }
+//        
+//        return iacucProtocolCustomData;
+//    }
+    
+    @Override
+    public void prepareCustomData() {
+        this.initializePermissions();
+        super.prepareCustomData();
+    }
 
-        SortedMap<String, List> customAttributeGroups = new TreeMap<String, List>();
-
-        Map<String, CustomAttributeDocument> customAttributeDocuments = getCustomAttributeDocuments("ICPR");
-        for(Map.Entry<String, CustomAttributeDocument> customAttributeDocumentEntry:customAttributeDocuments.entrySet()) {
-            CustomAttributeDocument customAttributeDocument = customAttributeDocumentEntry.getValue();
-            Map<String, Object> primaryKeys = new HashMap<String, Object>();
-            primaryKeys.put(PROTOCOL_ID_ATTRIBUTE_NAME, protocol.getProtocolId().toString());
-            primaryKeys.put(Constants.CUSTOM_ATTRIBUTE_ID, customAttributeDocument.getCustomAttributeId());
-
-            IacucProtocolCustomData customAttributeDocValue = (IacucProtocolCustomData) getBusinessObjectService().findByPrimaryKey(IacucProtocolCustomData.class, primaryKeys);
-            if (customAttributeDocValue != null) {
-                customAttributeDocument.getCustomAttribute().setValue(customAttributeDocValue.getValue());
-                getCustomAttributeValues().put("id" + customAttributeDocument.getCustomAttributeId().toString(), new String[]{customAttributeDocValue.getValue()});
-            }
-
-            String customAttrGroupName = getValidCustomAttributeGroupName(customAttributeDocument.getCustomAttribute().getGroupName());
-            List<CustomAttributeDocument> customAttributeDocumentList = customAttributeGroups.get(customAttrGroupName);
-
-            if (customAttributeDocumentList == null) {
-                customAttributeDocumentList = new ArrayList<CustomAttributeDocument>();
-                customAttributeGroups.put(customAttrGroupName, customAttributeDocumentList);
-            }
-            customAttributeDocumentList.add(customAttributeDocument);
-        }
-
-        setCustomAttributeGroups(customAttributeGroups);
+    @Override
+    protected IacucProtocolCustomData getNewCustomData() {
+        return new IacucProtocolCustomData();
     }
     
-    private Map<String, CustomAttributeDocument> getCustomAttributeDocuments(String documentType) {
-        Map<String, CustomAttributeDocument> customAttributeDocuments = new HashMap<String, CustomAttributeDocument>();
-        
-        Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put(CUSTOM_ATTRIBUTE_DOCUMENT_TYPE_NAME, documentType);
-        Collection<CustomAttributeDocument> customAttributeDocumentList = getBusinessObjectService().findMatching(CustomAttributeDocument.class, fieldValues);
-        for (CustomAttributeDocument customAttributeDocument : customAttributeDocumentList) {
-            if (customAttributeDocument.isActive()) {
-                customAttributeDocuments.put(customAttributeDocument.getCustomAttributeId().toString(), customAttributeDocument);
-            }
-        }
-        return customAttributeDocuments;
-    }
-    
-    public IacucProtocolCustomData getIacucProtocolCustomData(CustomAttributeDocument customAttributeDocument, IacucProtocol iacucProtocol) {
-        IacucProtocolCustomData iacucProtocolCustomData = null;
-        
-        for (IacucProtocolCustomData iacucProtocolCustomDataListItem : iacucProtocol.getIacucProtocolCustomDataList()) {
-            if (customAttributeDocument.getCustomAttributeId().longValue() == iacucProtocolCustomDataListItem.getCustomAttributeId().longValue()) {
-                iacucProtocolCustomData = iacucProtocolCustomDataListItem;
-                break;
-            }
-        }
-        
-        if (iacucProtocolCustomData == null) {
-            int customAttributeId = customAttributeDocument.getCustomAttributeId();
-            String customAttributeDefaultValue = customAttributeDocument.getCustomAttribute().getDefaultValue();
-            String customAttributeValue = customAttributeDocument.getCustomAttribute().getValue();
-            
-            iacucProtocolCustomData = new IacucProtocolCustomData();
-            iacucProtocolCustomData.setCustomAttributeId((long) customAttributeId);
-            iacucProtocolCustomData.setCustomAttribute(customAttributeDocument.getCustomAttribute());
-            iacucProtocolCustomData.setProtocolId(iacucProtocol.getProtocolId());
-            iacucProtocolCustomData.setValue(StringUtils.defaultString(StringUtils.defaultString(customAttributeValue, customAttributeDefaultValue)));
-        
-            iacucProtocol.getIacucProtocolCustomDataList().add(iacucProtocolCustomData);
-        }
-        
-        return iacucProtocolCustomData;
+    @Override
+    public List<IacucProtocolCustomData> getCustomDataList() {
+        return ((IacucProtocol)getProtocol()).getIacucProtocolCustomDataList();
     }
 
-  public ActionForward getCustomDataAction(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-      prepareView(getProtocol());
-      return mapping.findForward(IacucProtocolAction.IACUC_PROTOCOL_CUSTOM_DATA_HOOK);
-  }    
+    @Override
+    public Map<String, CustomAttributeDocument> getCustomAttributeDocuments() {
+        return form.getProtocolDocument().getCustomAttributeDocuments();
+    }
 
 
 }

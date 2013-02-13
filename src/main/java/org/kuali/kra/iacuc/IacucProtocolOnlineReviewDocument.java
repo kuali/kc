@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.bo.DocumentCustomData;
 import org.kuali.kra.bo.RolePersons;
 import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReview;
 import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReviewStatus;
@@ -279,5 +280,10 @@ public class IacucProtocolOnlineReviewDocument  extends ProtocolOnlineReviewDocu
         }
         
         return pValue;
+    }
+
+    @Override
+    public List<? extends DocumentCustomData> getDocumentCustomData() {
+        return null;
     }
 }

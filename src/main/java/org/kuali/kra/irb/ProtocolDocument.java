@@ -17,11 +17,14 @@
 package org.kuali.kra.irb;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.kra.bo.CustomAttributeDocValue;
+import org.kuali.kra.bo.DocumentCustomData;
 import org.kuali.kra.bo.ResearchAreaBase;
 import org.kuali.kra.common.notification.bo.KcNotification;
 import org.kuali.kra.common.notification.service.KcNotificationService;
@@ -86,6 +89,13 @@ public class ProtocolDocument extends ProtocolDocumentBase {
                                                                  ProtocolStatus.DEFERRED + " " + ProtocolStatus.SUBSTANTIVE_REVISIONS_REQUIRED + " " +  
                                                                  ProtocolStatus.AMENDMENT_IN_PROGRESS + " " + ProtocolStatus.RENEWAL_IN_PROGRESS + " " + 
                                                                  ProtocolStatus.SUSPENDED_BY_PI + " " + ProtocolStatus.DELETED + " " + ProtocolStatus.WITHDRAWN;
+    
+    private List<CustomAttributeDocValue> customDataList;
+    
+    public ProtocolDocument() {
+        super();
+        customDataList = new ArrayList<CustomAttributeDocValue>();
+    }
 
 // TODO ********************** commented out during IRB backfit ************************    
 //    private List<Protocol> protocolList;
@@ -732,6 +742,22 @@ public class ProtocolDocument extends ProtocolDocumentBase {
     @Override
     protected Class<? extends ProtocolBase> getProtocolBOClassHook() {
         return Protocol.class;
+    }
+
+
+    @Override
+    public List<? extends DocumentCustomData> getDocumentCustomData() {
+        return getCustomDataList();
+    }
+
+
+    public List<CustomAttributeDocValue> getCustomDataList() {
+        return customDataList;
+    }
+
+
+    public void setCustomDataList(List<CustomAttributeDocValue> customDataList) {
+        this.customDataList = customDataList;
     }
 
 // TODO ********************** commented out during IRB backfit ************************    

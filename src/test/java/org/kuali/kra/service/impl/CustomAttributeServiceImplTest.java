@@ -81,7 +81,7 @@ public class CustomAttributeServiceImplTest extends KcUnitTestBase {
 
 
     @Test public void testGetDefaultCustomAttributesForDocumentType() throws Exception {
-        Map<String, CustomAttributeDocument>customAttributeDocuments = customAttributeService.getDefaultCustomAttributesForDocumentType(TEST_DOCUMENT_TYPE_CODE, TEST_DOCUMENT_NUMBER);
+        Map<String, CustomAttributeDocument>customAttributeDocuments = customAttributeService.getDefaultCustomAttributeDocuments(TEST_DOCUMENT_TYPE_CODE, new ArrayList<CustomAttributeDocValue>());
         assertNotNull(customAttributeDocuments);
         assertEquals(testCustomAttributeDocuments.size(), customAttributeDocuments.size());
 
@@ -106,7 +106,7 @@ public class CustomAttributeServiceImplTest extends KcUnitTestBase {
     }
 
     @Test public void testGetDefaultCustomAttributesForDocumentTypeNullDocument() throws Exception {
-        Map<String, CustomAttributeDocument>customAttributeDocuments = customAttributeService.getDefaultCustomAttributesForDocumentType(TEST_DOCUMENT_TYPE_CODE, TEST_DOCUMENT_NUMBER);
+        Map<String, CustomAttributeDocument>customAttributeDocuments = customAttributeService.getDefaultCustomAttributeDocuments(TEST_DOCUMENT_TYPE_CODE, new ArrayList<CustomAttributeDocValue>());
         assertNotNull(customAttributeDocuments);
         assertNotNull(testCustomAttributeDocuments);
         assertEquals(testCustomAttributeDocuments.size(), customAttributeDocuments.size());
@@ -160,26 +160,6 @@ public class CustomAttributeServiceImplTest extends KcUnitTestBase {
         }
     }
 
-    @Test public void testSaveCustomAttributes() throws Exception {
-        ProposalDevelopmentDocument document = (ProposalDevelopmentDocument) documentService.getNewDocument(ProposalDevelopmentDocument.class);
-        String documentNumber = document.getDocumentNumber();
-        document.initialize();
-        Map<String, CustomAttributeDocument>customAttributeDocuments = document.getCustomAttributeDocuments();
-        CustomAttributeDocument customAttributeDocument = customAttributeDocuments.get("1");
-        Integer customAttributeId = customAttributeDocument.getCustomAttributeId();
-        CustomAttribute customAttribute = customAttributeDocument.getCustomAttribute();
-        String name = customAttribute.getName();
-        customAttribute.setValue(name + "Value");
-
-        customAttributeService.saveCustomAttributeValues(document);
-
-        Map<String, Object> primaryKeys = new HashMap<String, Object>();
-        primaryKeys.put(Constants.CUSTOM_ATTRIBUTE_ID, customAttributeId);
-        primaryKeys.put(KRADPropertyConstants.DOCUMENT_NUMBER, documentNumber);
-        CustomAttributeDocValue customAttributeDocValue = (CustomAttributeDocValue) businessObjectService.findByPrimaryKey(CustomAttributeDocValue.class, primaryKeys);
-        assertNotNull("customAttributeDocValue should be found and not null", customAttributeDocValue);
-        assertEquals(name + "Value", customAttributeDocValue.getValue());
-    }
 
     @Test public void testGetDefaultCustomAttributesFromSavedDocument() throws Exception {
         ProposalDevelopmentDocument document = getDocument();

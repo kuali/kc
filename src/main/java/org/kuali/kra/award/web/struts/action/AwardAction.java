@@ -1165,7 +1165,8 @@ public class AwardAction extends BudgetParentActionBase {
     public ActionForward customData(ActionMapping mapping, ActionForm form
             , HttpServletRequest request, HttpServletResponse response) {
         AwardForm awardForm = (AwardForm) form;
-        return awardForm.getCustomDataHelper().awardCustomData(mapping, form, request, response);
+        awardForm.getCustomDataHelper().prepareCustomData();
+        return mapping.findForward(Constants.MAPPING_AWARD_CUSTOM_DATA_PAGE);
     }
 
     /**

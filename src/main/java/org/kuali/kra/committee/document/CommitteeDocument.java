@@ -16,6 +16,10 @@
 
 package org.kuali.kra.committee.document;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.kuali.kra.bo.DocumentCustomData;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.service.CommitteeService;
@@ -47,6 +51,11 @@ public class CommitteeDocument extends CommitteeDocumentBase<CommitteeDocument, 
     @Override
     protected CommitteeService getCommitteeService() {
         return KraServiceLocator.getService(CommitteeService.class);
+    }
+
+    @Override
+    public List<? extends DocumentCustomData> getDocumentCustomData() {
+        return new ArrayList();
     } 
 
 //	private static final String DOCUMENT_TYPE_CODE = "COMT";

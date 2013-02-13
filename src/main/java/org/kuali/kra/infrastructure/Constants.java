@@ -52,6 +52,7 @@ public interface Constants {
 
     public static final String MAPPING_BASIC = "basic";
     public static final String MAPPING_ERROR = "error";
+    public static final String MAPPING_CUSTOM_DATA = "customData";
     public static final String MAPPING_PROPOSAL_ACTIONS = "actions";
     public static final String MAPPING_PROTOCOL_ACTIONS = "protocolActions";
     public static final String MAPPING_PROTOCOL_ONLINE_REVIEW = "onlineReview";

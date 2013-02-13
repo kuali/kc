@@ -33,6 +33,7 @@
 </script>
 <script type="text/javascript" src="scripts/medusaView.js"></script>  	
   	
+<c:set var="readOnly" value="${not KualiForm.editingMode['modify']}"/>
 <c:set var="medusaLink" value="${KualiForm.methodToCall eq 'medusa'}"/>
 <div align="right"><kul:help documentTypeName="NegotiationDocument" pageName="Negotiation" /></div>
 <kul:documentOverview editingMode="${KualiForm.editingMode}" />
@@ -40,8 +41,8 @@
  <kra-negotiation:negotiation />
 
  <c:if test="${fn:length(KualiForm.customDataHelper.customAttributeGroups) > 0}">
- <kul:tab tabTitle="Custom Data" defaultOpen="false" tabErrorKey="document.negotiationList[0].customAttributeValue*" useRiceAuditMode="false">
- <kra-negotiation:NegotiationCustomDataTab name="${KualiForm.actionName}"/>
+ <kul:tab tabTitle="Custom Data" defaultOpen="false" tabErrorKey="customDataHelper.customDataList*" useRiceAuditMode="false">
+ <kra-negotiation:NegotiationCustomDataTab readOnly="${readOnly}"/>
  </kul:tab>
   </c:if>
   

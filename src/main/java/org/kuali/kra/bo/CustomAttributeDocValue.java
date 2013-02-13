@@ -20,9 +20,9 @@ package org.kuali.kra.bo;
  * 
  * This class is bo of CustomAttributeDocValue.
  */
-public class CustomAttributeDocValue extends KraPersistableBusinessObjectBase {
+public class CustomAttributeDocValue extends KraPersistableBusinessObjectBase implements DocumentCustomData {
 
-    private Integer customAttributeId;
+    private Long customAttributeId;
 
     private String documentNumber;
 
@@ -34,11 +34,11 @@ public class CustomAttributeDocValue extends KraPersistableBusinessObjectBase {
         super();
     }
 
-    public Integer getCustomAttributeId() {
+    public Long getCustomAttributeId() {
         return customAttributeId;
     }
 
-    public void setCustomAttributeId(Integer customAttributeId) {
+    public void setCustomAttributeId(Long customAttributeId) {
         this.customAttributeId = customAttributeId;
     }
 

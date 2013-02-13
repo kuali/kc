@@ -68,7 +68,6 @@ import org.kuali.kra.award.specialreview.SpecialReviewHelper;
 import org.kuali.kra.award.web.struts.action.SponsorTermFormHelper;
 import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.budget.BudgetDecimal;
-import org.kuali.kra.common.customattributes.CustomDataForm;
 import org.kuali.kra.common.notification.web.struts.form.NotificationHelper;
 import org.kuali.kra.common.permissions.web.struts.form.PermissionsForm;
 import org.kuali.kra.external.award.web.AccountCreationPresentationHelper;
@@ -102,7 +101,6 @@ import org.kuali.rice.krad.util.KRADConstants;
 public class AwardForm extends BudgetVersionFormBase 
                                         implements MultiLookupFormBase,
                                                     Auditable,
-                                                    CustomDataForm,
                                                     PermissionsForm {
 
     public static final String SAVE = "save";
@@ -1393,7 +1391,7 @@ public class AwardForm extends BudgetVersionFormBase
             //List returned by DD is it's cached copy of the header navigation list.
         for (HeaderNavigation nav : navigation) {
             if (StringUtils.equals(nav.getHeaderTabNavigateTo(),CUSTOM_DATA_NAV_TO)) {
-                boolean displayTab = !this.getAwardDocument().getCustomAttributeDocuments().isEmpty();
+                boolean displayTab = !this.getCustomDataHelper().getCustomAttributeDocuments().isEmpty();
                 nav.setDisabled(!displayTab);
                 if (displayTab) {
                     resultList.add(nav);
@@ -1513,7 +1511,4 @@ public class AwardForm extends BudgetVersionFormBase
         }
         return results;
     }
-    
-    
-    
 }
