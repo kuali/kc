@@ -8,6 +8,7 @@ import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchyService;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.timeandmoney.AwardHierarchyNode;
+import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 
 public class AwardHierarchyServiceAdapter implements AwardHierarchyService {
     public AwardHierarchy copyAwardAndAllDescendantsAsNewHierarchy(AwardHierarchy targetNode) {
@@ -95,7 +96,7 @@ public class AwardHierarchyServiceAdapter implements AwardHierarchyService {
 
     public void populateAwardHierarchyNodesForTandMDoc(Map<String, AwardHierarchy> awardHierarchyItems,
             Map<String, AwardHierarchyNode> awardHierarchyNodes, String currentAwardNumber, String currentSequenceNumber,
-            String docNum) {
+            TimeAndMoneyDocument doc) {
         // TODO Auto-generated method stub
         
     }
