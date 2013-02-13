@@ -38,7 +38,7 @@ public class KcPersonExtendedAttributesMaintainableImpl extends KraMaintainableI
     private CustomDataHelper customDataHelper;
     
     public KcPersonExtendedAttributesMaintainableImpl() {
-        customDataHelper = new CustomDataHelper();
+        customDataHelper = new CustomDataHelper(this);
     }
 
     public CustomDataHelper getCustomDataHelper() {
@@ -72,7 +72,7 @@ public class KcPersonExtendedAttributesMaintainableImpl extends KraMaintainableI
     private void loadCustomData() {
         KcPersonExtendedAttributes kcPersonExtendedAttributes = (KcPersonExtendedAttributes) getDataObject();
 
-        getCustomDataHelper().populateCustomAttributeGroups(kcPersonExtendedAttributes);
+        getCustomDataHelper().prepareCustomData();
     }
 
     @Override
@@ -100,7 +100,7 @@ public class KcPersonExtendedAttributesMaintainableImpl extends KraMaintainableI
         
         super.saveDataObject();
         
-        getCustomDataHelper().saveCustomAttributesToWorkflow(kcPersonExtendedAttributes, getDocumentNumber());
+        getCustomDataHelper().setCustomAttributeContent(this.getDocumentNumber(), "PersonCustomDataAttribute");
     }
 
     private void reportInvalidPrincipalId(KcPersonExtendedAttributes kcPersonExtendedAttributes) {

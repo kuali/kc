@@ -183,11 +183,7 @@
           parent="parentLookupableHelperService" scope="prototype">
         <property name="negotiationDao" ref="negotiationDao" />
     </bean>
-    
-    <bean id="negotiationCustomAttributeService" class="org.kuali.kra.service.impl.NegotiationCustomAttributeServiceImpl">
-        <property name="businessObjectService" ref="businessObjectService" />
-    </bean>
-    
+        
     <bean id="negotiationDao" class="org.kuali.kra.negotiations.lookup.NegotiationDaoOjb" parent="platformAwareDao">
         <property name="negotiationService" ref="negotiationService" />
         <property name="persistenceStructureService" ref="persistenceStructureService" />

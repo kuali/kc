@@ -22,6 +22,8 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.authorization.Task;
+import org.kuali.kra.bo.CustomAttributeDocValue;
+import org.kuali.kra.bo.DocumentCustomData;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.BudgetParentDocument;
@@ -97,6 +99,7 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
      * If it becomes part of the domain, it should probably move to DevelopmentProposal.java
      */
     private String institutionalProposalNumber;
+    private List<CustomAttributeDocValue> customDataList;
 
     public ProposalDevelopmentDocument() {
         super();
@@ -106,6 +109,7 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
         newProposal.setProposalDocument(this);
         developmentProposalList.add(newProposal);
         budgetDocumentVersions = new ArrayList<BudgetDocumentVersion>();
+        customDataList = new ArrayList<CustomAttributeDocValue>();
     }
 
     public List<DevelopmentProposal> getDevelopmentProposalList() {
@@ -596,6 +600,19 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
                 proposal.getSponsorName(),
                 proposal.getDeadlineDate() != null ? getDateTimeService().toDateString(proposal.getDeadlineDate()) : "null"); 
         getDocumentHeader().setDocumentDescription(desc);
+    }
+
+    @Override
+    public List<? extends DocumentCustomData> getDocumentCustomData() {
+        return getCustomDataList();
+    }
+
+    public List<CustomAttributeDocValue> getCustomDataList() {
+        return customDataList;
+    }
+
+    public void setCustomDataList(List<CustomAttributeDocValue> customDataList) {
+        this.customDataList = customDataList;
     }
     
 }

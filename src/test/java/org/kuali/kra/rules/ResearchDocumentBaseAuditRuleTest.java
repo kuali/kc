@@ -26,7 +26,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.bo.CustomAttribute;
+import org.kuali.kra.bo.CustomAttributeDocValue;
 import org.kuali.kra.bo.CustomAttributeDocument;
+import org.kuali.kra.bo.DocumentCustomData;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
@@ -93,6 +95,11 @@ public class ResearchDocumentBaseAuditRuleTest extends KcUnitTestBase {
             if (customAttributeDocument.isRequired()) {
                 requiredFields.put("customData." + customAttribute.getGroupName() + customAttribute.getName(), customAttribute);
             }
+            CustomAttributeDocValue newValue = new CustomAttributeDocValue();
+            newValue.setCustomAttribute(customAttributeDocument.getCustomAttribute());
+            newValue.setCustomAttributeId(customAttributeDocument.getCustomAttributeId().longValue());
+            newValue.setValue(null);
+            document.getCustomDataList().add(newValue);          
         }
 
         assertFalse("Audit Rule should produce an audit error", auditRule.processRunAuditBusinessRules(document));
@@ -107,7 +114,14 @@ public class ResearchDocumentBaseAuditRuleTest extends KcUnitTestBase {
             assertEquals(customAttribute.getGroupName(), auditCluster.getLabel());
             assertEquals("Validation Errors", auditCluster.getCategory());
             AuditError auditError = (AuditError) auditCluster.getAuditErrorList().get(0);
-            assertEquals("customAttributeValues(id"+customAttribute.getId()+")", auditError.getErrorKey());
+            int index = 0;
+            for (CustomAttributeDocValue value : document.getCustomDataList()) {
+                if (value.getCustomAttributeId().longValue() == customAttribute.getId().longValue()) {
+                    break;
+                }
+                index++;
+            }
+            assertEquals("customDataHelper.customDataList[" + index + "].value", auditError.getErrorKey());
             assertEquals("customData." + StringUtils.deleteWhitespace(customAttribute.getGroupName()), auditError.getLink());
             assertEquals(customAttribute.getLabel(), auditError.getParams()[0]);
             assertEquals(RiceKeyConstants.ERROR_REQUIRED, auditError.getMessageKey());

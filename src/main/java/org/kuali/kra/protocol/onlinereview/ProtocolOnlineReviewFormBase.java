@@ -27,7 +27,6 @@ import org.apache.commons.logging.Log;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.budget.document.BudgetDocument;
-import org.kuali.kra.common.customattributes.CustomDataForm;
 import org.kuali.kra.common.customattributes.CustomDataHelperBase;
 import org.kuali.kra.common.permissions.web.struts.form.PermissionsForm;
 import org.kuali.kra.common.permissions.web.struts.form.PermissionsHelperBase;
@@ -54,7 +53,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
  * This class...
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public abstract class ProtocolOnlineReviewFormBase extends KraTransactionalDocumentFormBase implements PermissionsForm, CustomDataForm, Auditable  {
+public abstract class ProtocolOnlineReviewFormBase extends KraTransactionalDocumentFormBase implements PermissionsForm, Auditable  {
     
     private static final long serialVersionUID = -7633960906991275328L;
     

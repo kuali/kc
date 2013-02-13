@@ -18,6 +18,7 @@ package org.kuali.kra.subaward.document;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.kra.bo.DocumentCustomData;
 import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -156,5 +157,9 @@ implements  Copyable, SessionDocument {
         }
            
         return isComplete;
+    }
+    @Override
+    public List<? extends DocumentCustomData> getDocumentCustomData() {
+        return getSubAward().getSubAwardCustomDataList();
     }
 }

@@ -18,16 +18,20 @@ package org.kuali.kra.service.impl;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.award.customdata.AwardCustomData;
+import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.bo.ArgValueLookup;
 import org.kuali.kra.bo.CustomAttribute;
 import org.kuali.kra.bo.CustomAttributeDataType;
 import org.kuali.kra.bo.CustomAttributeDocValue;
 import org.kuali.kra.bo.CustomAttributeDocument;
+import org.kuali.kra.bo.DocumentCustomData;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -38,6 +42,7 @@ import org.kuali.rice.kew.api.WorkflowDocumentFactory;
 import org.kuali.rice.kew.api.document.attribute.WorkflowAttributeDefinition;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.service.BusinessObjectDictionaryService;
+import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.KRADPropertyConstants;
 
@@ -51,34 +56,36 @@ public class CustomAttributeServiceImpl implements CustomAttributeService {
     private BusinessObjectService businessObjectService;
 
     /**
-     * @see org.kuali.kra.service.CustomAttributeService#getDefaultCustomAttributesForDocumentType(java.lang.String, java.lang.String)
+     * @see org.kuali.kra.service.CustomAttributeService#getDefaultAwardCustomAttributeDocuments()
      */
-    public Map<String, CustomAttributeDocument> getDefaultCustomAttributesForDocumentType(String documentTypeCode, String documentNumber) {
+    @SuppressWarnings("unchecked")
+    public Map<String, CustomAttributeDocument> getDefaultCustomAttributeDocuments(String documentTypeCode, List<? extends DocumentCustomData> customDataList) {
         Map<String, CustomAttributeDocument> customAttributeDocuments = new HashMap<String, CustomAttributeDocument>();
+        Map<String, String> queryMap = new HashMap<String, String>();
+        queryMap.put(PropertyConstants.DOCUMENT.TYPE_NAME.toString(), documentTypeCode);
+        List<CustomAttributeDocument> customAttributeDocumentList = 
+            (List<CustomAttributeDocument>) getBusinessObjectService().findMatching(CustomAttributeDocument.class, queryMap);
 
-        List<CustomAttributeDocument> customAttributeDocumentList = getCustomAttributeDocuments(documentTypeCode);
-
+        HashSet<Long> customIds = getCurrentCustomAttributeIds(customDataList);
         for(CustomAttributeDocument customAttributeDocument:customAttributeDocumentList) {
-            Map<String, Object> primaryKeys = new HashMap<String, Object>();
-            primaryKeys.put(KRADPropertyConstants.DOCUMENT_NUMBER, documentNumber);
-            primaryKeys.put(Constants.CUSTOM_ATTRIBUTE_ID, customAttributeDocument.getCustomAttributeId());
-
-            CustomAttributeDocValue customAttributeDocValue = (CustomAttributeDocValue) getBusinessObjectService().findByPrimaryKey(CustomAttributeDocValue.class, primaryKeys);
-            if (customAttributeDocValue != null) {
-                customAttributeDocument.getCustomAttribute().setValue(customAttributeDocValue.getValue());
-            } else {
-                if (StringUtils.isNotBlank(customAttributeDocument.getCustomAttribute().getDefaultValue())) {
-                    customAttributeDocument.getCustomAttribute().setValue(customAttributeDocument.getCustomAttribute().getDefaultValue());
-                }
+            boolean customAttributeExists = false;
+            if (customIds.contains(customAttributeDocument.getCustomAttributeId().longValue())) {
+                customAttributeExists = true;
             }
-            // inactive cust_attr only displayed if existing in old doc
-            if (customAttributeDocValue != null || customAttributeDocument.isActive()) {
+
+            if (customAttributeDocument.isActive() || customAttributeExists) {
                 customAttributeDocuments.put(customAttributeDocument.getCustomAttributeId().toString(), customAttributeDocument);
             }
         }
-
         return customAttributeDocuments;
-
+    }
+    
+    protected HashSet<Long> getCurrentCustomAttributeIds(List<? extends DocumentCustomData> customDataList) {
+        HashSet<Long> customIds = new HashSet<Long>();
+        for(DocumentCustomData customData : customDataList) {
+            customIds.add(customData.getCustomAttributeId());
+        }
+        return customIds;
     }
     
     /**
@@ -177,7 +184,7 @@ public class CustomAttributeServiceImpl implements CustomAttributeService {
 
                 if (customAttributeDocValue == null) {
                     customAttributeDocValue = new CustomAttributeDocValue();
-                    customAttributeDocValue.setCustomAttributeId(customAttributeDocument.getCustomAttributeId());
+                    customAttributeDocValue.setCustomAttributeId(customAttributeDocument.getCustomAttributeId().longValue());
                     customAttributeDocValue.setDocumentNumber(document.getDocumentNumber());
                 }
 
@@ -192,16 +199,14 @@ public class CustomAttributeServiceImpl implements CustomAttributeService {
      * 
      * @see org.kuali.kra.service.CustomAttributeService#setCustomAttributeKeyValue(org.kuali.kra.document.ResearchDocumentBase, java.lang.String, java.lang.String)
      */
-    public void setCustomAttributeKeyValue(ResearchDocumentBase document, String attributeName, String networkId) throws Exception {
-        WorkflowDocument workflowDocument = WorkflowDocumentFactory.loadDocument(networkId, document.getDocumentHeader().getDocumentNumber()); 
-        //WorkflowDocument document = proposalDevelopmentForm.getWorkflowDocument().getInitiatorPrincipalId();
+    public void setCustomAttributeKeyValue(String documentNumber, Map<String, CustomAttributeDocument> customAttributeDocuments, String attributeName, String networkId) {
+        WorkflowDocument workflowDocument = WorkflowDocumentFactory.loadDocument(networkId, documentNumber);
         
         // Not sure to delete all the content, but there is no other options
         workflowDocument.clearAttributeContent();  
         WorkflowAttributeDefinition customDataDef = WorkflowAttributeDefinition.Builder.create(attributeName).build();
         WorkflowAttributeDefinition.Builder refToUpdate = WorkflowAttributeDefinition.Builder.create(customDataDef);
         
-        Map<String, CustomAttributeDocument>customAttributeDocuments = document.getCustomAttributeDocuments();
         if (customAttributeDocuments != null) {
             for (Map.Entry<String, CustomAttributeDocument> customAttributeDocumentEntry:customAttributeDocuments.entrySet()) {
                 CustomAttributeDocument customAttributeDocument = customAttributeDocumentEntry.getValue();

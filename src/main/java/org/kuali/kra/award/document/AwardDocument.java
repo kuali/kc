@@ -45,6 +45,7 @@ import org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRecipient;
 import org.kuali.kra.award.specialreview.AwardSpecialReview;
 import org.kuali.kra.award.specialreview.AwardSpecialReviewExemption;
 import org.kuali.kra.bo.CustomAttributeDocument;
+import org.kuali.kra.bo.DocumentCustomData;
 import org.kuali.kra.bo.RolePersons;
 import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.budget.document.BudgetDocument;
@@ -61,7 +62,6 @@ import org.kuali.kra.institutionalproposal.home.InstitutionalProposalBoLite;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
 import org.kuali.kra.krms.KcKrmsConstants;
 import org.kuali.kra.krms.KrmsRulesContext;
-import org.kuali.kra.service.AwardCustomAttributeService;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.KraWorkflowService;
 import org.kuali.kra.service.ResearchDocumentService;
@@ -375,16 +375,6 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
     
     protected KraAuthorizationService getKraAuthorizationService(){
         return (KraAuthorizationService) KraServiceLocator.getService(KraAuthorizationService.class);
-    }
-    
-    /**
-     * This method populates the customAttributes for this document.
-     */
-    @Override
-    public void populateCustomAttributes() {
-        AwardCustomAttributeService awardCustomAttributeService = KraServiceLocator.getService(AwardCustomAttributeService.class);
-        Map<String, CustomAttributeDocument> customAttributeDocuments = awardCustomAttributeService.getDefaultAwardCustomAttributeDocuments(this.getAward().getAwardCustomDataList());
-        setCustomAttributeDocuments(customAttributeDocuments);
     }
     
     /**
@@ -736,6 +726,11 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
         
         String returnVal = "<a href=\"" + forward + "\"target=\"_blank\">" + documentNumber + "</a>";
         return returnVal;
+    }
+
+    @Override
+    public List<? extends DocumentCustomData> getDocumentCustomData() {
+        return getAward().getAwardCustomDataList();
     }
 
 }

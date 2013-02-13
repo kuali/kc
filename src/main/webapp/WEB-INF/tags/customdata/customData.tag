@@ -17,6 +17,11 @@
 <%@ attribute name="fullName" required="true"%>
 <%@ attribute name="fieldCount" required="true"%>
 <%@ attribute name="excludeInactive" required="false" %>
+<%@ attribute name="customAttributeGroups" required="true" type="java.util.Map" %>
+<%@ attribute name="customDataList" required="true" type="java.util.List" %>
+<%@ attribute name="customDataListPrefix" required="true" %>
+<%@ attribute name="readOnly" required="false" %>
+
 
 <c:if test="${empty excludeInactive}" >
 	<c:set var="excludeInactive" value="false" />
@@ -39,20 +44,22 @@
 	</h3>
 	<div align="left" style="padding:12px;"><strong> Full Group Name: </strong>${fullName}</div>
 	<table cellpadding=0 cellspacing="0" class="result-table">
-		<c:forEach items="${KualiForm.customDataHelper.customAttributeGroups[fullName]}" var="customAttributeDocument" varStatus="status">
-			<c:if test="${(excludeInactive eq false) or (excludeInactive eq true && customAttributeDocument.active eq true)}">
+		<c:forEach items="${customAttributeGroups[fullName]}" var="customAttributeDocument" varStatus="status">
+		<c:if test="${(excludeInactive eq false) or (excludeInactive eq true && customAttributeDocument.active eq true)}">
 			<tr class="datatable">
 				<th  align="right">
-					<c:if test="${customAttributeDocument.required}">*</c:if>${customAttributeDocument.customAttribute.label}:
+					<c:if test="${customAttributeDocument.required}">*&nbsp;</c:if>${customAttributeDocument.customAttribute.label}:
 				</th>
 				<td width="45%">
-				<c:forEach var="customAttributeDocument1" items="${KualiForm.document.customAttributeDocuments}" > 
-				  	<c:if test="${customAttributeDocument1.key == customAttributeDocument.customAttributeId}" >
-				  	   <c:set var="customAttributeValue" value="${customAttributeDocument1.value.customAttribute.value}" />
-				  	</c:if>
+				<c:forEach var="customAttribute" items="${customDataList}" varStatus="status"> 
+					<c:if test="${customAttribute.customAttributeId == customAttributeDocument.customAttributeId}">
+						<c:set var="customAttributeIndex" value="${status.index}" />
+						<c:set var="customAttributeValue" value="${customAttribute.value}" />
+						<c:set var="customAttributeId" value="${customDataListPrefix}[${customAttributeIndex}].value" />
+					</c:if>
 				</c:forEach>
-				<c:set var="customAttributeId" value="customDataHelper.customAttributeValues(id${customAttributeDocument.customAttributeId})" />
-          	    <c:set var="customAttributeErrorStyle" value="" scope="request"/>
+                        
+          	  <c:set var="customAttributeErrorStyle" value="" scope="request"/>
 				<c:forEach items="${ErrorPropertyList}" var="key">
 				    <c:if test="${key eq customAttributeId}">
 					  <c:set var="customAttributeErrorStyle" value="border-color: red" scope="request"/>
@@ -74,30 +81,24 @@
                 		<c:out value="${customAttributeValue}" />
                 	</c:when>
                 	<c:otherwise>
-                	    ${kfunc:registerEditableProperty(KualiForm, customAttributeId)}
-                        <c:if test="${empty customAttributeDocument.customAttribute.lookupClass}">
-                		    <input id="${customAttributeId}" type="text" name="${customAttributeId}" value='<c:out value="${customAttributeValue}" escapeXml="true" />' style="${customAttributeErrorStyle}" />
-                        </c:if>
+                		${kfunc:registerEditableProperty(KualiForm, customAttributeId)}
+                		<input size="60" id="${customAttributeId}" type="text" name="${customAttributeId}" value='${customAttributeValue}' style="${customAttributeErrorStyle}"/>
 
 						<c:if test="${not empty customAttributeDocument.customAttribute.lookupClass}">
-						  <c:out value="${customAttributeValue}" />
-						  <c:choose>
-						   <c:when test="${customAttributeDocument.customAttribute.lookupClass eq 'org.kuali.kra.bo.ArgValueLookup'}"> 
-								<kul:lookup boClassName="${customAttributeDocument.customAttribute.lookupClass}" 
-									lookupParameters="'${customAttributeDocument.customAttribute.lookupReturn}':argumentName"
-									readOnlyFields="argumentName"
-									fieldConversions="value:${customAttributeId}," 
-									fieldLabel="${customAttributeDocument.customAttribute.label}"  anchor="${tabKey}" />		
+						 <c:choose>
+						   <c:when test="${customAttributeDocument.customAttribute.lookupClass eq 'org.kuali.kra.bo.ArgValueLookup'}">
+							<kul:lookup boClassName="${customAttributeDocument.customAttribute.lookupClass}" 
+								lookupParameters="'${customAttributeDocument.customAttribute.lookupReturn}':argumentName"
+								readOnlyFields="argumentName"
+								fieldConversions="value:${customAttributeId}," 
+								fieldLabel="${customAttributeDocument.customAttribute.label}"  anchor="${tabKey}" />
 						   </c:when>
-						   <c:otherwise>
-							<kul:lookup boClassName="${customAttributeDocument.customAttribute.lookupClass}" fieldConversions="${customAttributeDocument.customAttribute.lookupReturn}:${customAttributeId}," fieldLabel="${customAttributeDocument.customAttribute.label}"  anchor="${tabKey}" />
-						   </c:otherwise>
-                          </c:choose>
-						  <c:if test="${not empty customAttributeValue}">
-                            <html:image property="methodToCall.clearLookupValue.id${customAttributeDocument.customAttributeId}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-clear1.gif" title="Clear Lookup Value" alt="Clear Lookup Value" value="${customAttributeDocument.customAttributeId}" styleClass="tinybutton"/>
-                          </c:if>
+						   <c:otherwise>						   
+							<kul:lookup boClassName="${customAttributeDocument.customAttribute.lookupClass}" fieldConversions="${customAttributeDocument.customAttribute.lookupReturn}:${customAttributeId}," fieldLabel="${customAttributeDocument.customAttribute.label}"  anchor="${tabKey}"/>
+					       </c:otherwise>
+					     </c:choose>
 						</c:if>
-						
+					
 						<c:if test="${customAttributeDocument.customAttribute.customAttributeDataType.description == 'Date'}">
 				            <img src="${ConfigProperties.kr.externalizable.images.url}cal.gif" id="${customAttributeId}_datepicker" style="cursor: pointer;"
 				             title="Date selector" alt="Date selector"
@@ -116,7 +117,7 @@
 					</c:choose>
 				</td>
 			</tr>
-			</c:if>
+		</c:if>
 		</c:forEach>
 	</table>
 </div>

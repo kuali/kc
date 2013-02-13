@@ -29,7 +29,7 @@
   	
   	<div align="right"><kul:help documentTypeName="ProposalDevelopmentDocument" pageName="Custom Data" /></div>
 
-	<kra-pd:proposalDevelopmentCustomData />
+	<kra-customdata:customDataTab />
 	<kul:documentControls transactionalDocument="true" suppressRoutingControls="true" suppressCancelButton="true" />
 
 </kul:documentPage>

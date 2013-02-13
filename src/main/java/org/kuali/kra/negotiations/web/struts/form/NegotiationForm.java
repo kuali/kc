@@ -92,11 +92,7 @@ public class NegotiationForm extends KraTransactionalDocumentFormBase {
     
     private void init()
     {
-    NegotiationForm negotiationForm = (NegotiationForm) this;
-    List<NegotiationCustomData> negotiationCustomDataList = negotiationForm.getNegotiationDocument().getNegotiation().getNegotiationCustomDataList();
-    negotiationForm.getCustomDataHelper().buildCustomDataCollectionsOnFormNewNegotiations(
-            (SortedMap<String, List>) negotiationForm.getCustomDataHelper().getCustomAttributeGroups(), negotiationForm,
-            negotiationForm.getNegotiationDocument().getCustomAttributeDocuments());
+        getCustomDataHelper().prepareCustomData();
     }
     
     /**

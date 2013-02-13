@@ -13,25 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.common.customattributes;
+package org.kuali.kra.bo;
 
-import org.kuali.rice.krad.document.Document;
-
-/**
- * Every form that supports the Custom Data tab must
- * implement this interface.
- */
-public interface CustomDataForm {
-
-    /**
-     * Get the document associated with the form.
-     * @return the document
-     */
-    public Document getDocument();
+public interface DocumentCustomData {
     
-    /**
-     * Get the Custom Data Helper.
-     * @return the custom data helper
-     */
-    public CustomDataHelperBase getCustomDataHelper();
+    public Long getCustomAttributeId();
+
+    public void setCustomAttributeId(Long customAttributeId);
+
+    public String getValue();
+
+    public void setValue(String value);
+
+    public CustomAttribute getCustomAttribute();
+
+    public void setCustomAttribute(CustomAttribute customAttribute);
+
 }

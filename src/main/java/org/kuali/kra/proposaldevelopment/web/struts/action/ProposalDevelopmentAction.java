@@ -841,35 +841,7 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
 
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         ProposalDevelopmentDocument doc = proposalDevelopmentForm.getProposalDevelopmentDocument();
-
-        Map<String, CustomAttributeDocument> customAttributeDocuments = doc.getCustomAttributeDocuments();
-        String documentNumber = doc.getDocumentNumber();
-        for(Map.Entry<String, CustomAttributeDocument> customAttributeDocumentEntry:customAttributeDocuments.entrySet()) {
-            CustomAttributeDocument customAttributeDocument = customAttributeDocumentEntry.getValue();
-            Map<String, Object> primaryKeys = new HashMap<String, Object>();
-            primaryKeys.put(KRADPropertyConstants.DOCUMENT_NUMBER, documentNumber);
-            primaryKeys.put(Constants.CUSTOM_ATTRIBUTE_ID, customAttributeDocument.getCustomAttributeId());
-
-            CustomAttributeDocValue customAttributeDocValue = (CustomAttributeDocValue) KraServiceLocator.getService(BusinessObjectService.class).findByPrimaryKey(CustomAttributeDocValue.class, primaryKeys);
-            if (customAttributeDocValue != null) {
-                customAttributeDocument.getCustomAttribute().setValue(customAttributeDocValue.getValue());
-                proposalDevelopmentForm.getCustomAttributeValues().put("id" + customAttributeDocument.getCustomAttributeId().toString(), new String[]{customAttributeDocValue.getValue()});
-            }
-
-            String groupName = customAttributeDocument.getCustomAttribute().getGroupName();
-            List<CustomAttributeDocument> customAttributeDocumentList = customAttributeGroups.get(groupName);
-
-            if (customAttributeDocumentList == null) {
-                customAttributeDocumentList = new ArrayList<CustomAttributeDocument>();
-                customAttributeGroups.put(groupName, customAttributeDocumentList);
-            }
-            customAttributeDocumentList.add(customAttributeDocument);
-            Collections.sort(customAttributeDocumentList, new LabelComparator());
-           
-        }
-
-        ((ProposalDevelopmentForm)form).setCustomAttributeGroups(customAttributeGroups);
-
+        proposalDevelopmentForm.getCustomDataHelper().prepareCustomData();
         return mapping.findForward(Constants.CUSTOM_ATTRIBUTES_PAGE);
     }
 

@@ -17,11 +17,12 @@ package org.kuali.kra.subaward.customdata;
 
 import org.kuali.kra.subaward.bo.SubAwardAssociate;
 import org.kuali.kra.bo.CustomAttribute;
+import org.kuali.kra.bo.DocumentCustomData;
 
 /**
  * This class is for SubAwardCustomData...
  */
-public class SubAwardCustomData extends SubAwardAssociate {
+public class SubAwardCustomData extends SubAwardAssociate implements DocumentCustomData {
 
     /**.
      * Comment for <code>serialVersionUID</code>

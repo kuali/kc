@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.bo.DocumentCustomData;
 import org.kuali.kra.coi.rules.CoiDisclosureFactBuilderService;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
@@ -137,6 +138,11 @@ public class CoiDisclosureDocument extends ResearchDocumentBase implements Copya
     @Override
     public void populateAgendaQualifiers(Map<String, String> qualifiers) {
         qualifiers.put(KcKrmsConstants.UNIT_NUMBER, getCoiDisclosure().getLeadUnitNumber());
+    }
+
+    @Override
+    public List<? extends DocumentCustomData> getDocumentCustomData() {
+        return new ArrayList();
     }
 
 }

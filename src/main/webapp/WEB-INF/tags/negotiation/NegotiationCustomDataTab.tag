@@ -15,37 +15,17 @@
 --%>
 
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
-<%@ attribute name="name" required="true" %>
+<%@ attribute name="readOnly" required="false" %>
 
 <div id="workarea">
 	<c:set var="fieldCount" value="0" />
 	<c:forEach items="${KualiForm.customDataHelper.customAttributeGroups}" var="customAttributeGroup" varStatus="groupStatus">
 	   	<c:set var="fullName" value="${customAttributeGroup.key}" />
-        <c:set var="tabErrorKey" value=""/>
-		<c:choose>
-				<c:when test="${fn:length(fullName) > 90}">
-		 					<c:set var="tabTitleName" value="${fn:substring(fullName, 0, 90)}..."/>
-				</c:when>
-				<c:otherwise>
-		 					<c:set var="tabTitleName" value="${fullName}"/>
-				</c:otherwise> 
-		</c:choose>
-	   	<c:forEach items="${KualiForm.customDataHelper.customAttributeGroups[fullName]}" var="customAttributeDocument" varStatus="status">
-				<c:set var="customAttributeId" value="customAttributeValues(id${customAttributeDocument.customAttributeId})" />
-                <c:choose>
-					<c:when test="${empty tabErrorKey}">
-    					<c:set var="tabErrorKey" value="${customAttributeId}"/>
-					</c:when>
-					<c:otherwise>
-    					<c:set var="tabErrorKey" value="${tabErrorKey},${customAttributeId}"/>
-					</c:otherwise>
-				</c:choose>
-		  </c:forEach> 
-			<kra-negotiation:NegotiationCustomData fullName="${fullName}" fieldCount="${fieldCount}" />
+			<kra-customdata:customData fullName="${fullName}" fieldCount="${fieldCount}" 
+			customAttributeGroups="${KualiForm.customDataHelper.customAttributeGroups}"
+			customDataList="${KualiForm.customDataHelper.customDataList}"
+			customDataListPrefix="customDataHelper.customDataList"
+			readOnly="${readOnly}"/>
 	   	<c:set var="fieldCount" value="${fieldCount + fn:length(customAttributeGroup.value)}" />
 	</c:forEach>
-
-	<c:if test="${fn:length(KualiForm.customDataHelper.customAttributeGroups) > 0}">
-
-	</c:if>
 </div>

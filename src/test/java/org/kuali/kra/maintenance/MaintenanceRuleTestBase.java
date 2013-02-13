@@ -31,6 +31,7 @@ import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.service.MaintenanceDocumentDictionaryService;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.maintenance.MaintainableImpl;
 import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.springframework.util.AutoPopulatingList;
@@ -82,15 +83,23 @@ public abstract class MaintenanceRuleTestBase extends KcUnitTestBase {
         // add all the pieces
         document.getDocumentHeader().setDocumentDescription("test");
         if (null == oldBo) {
-            document.setOldMaintainableObject(new KualiMaintainableImpl());
+            document.setOldMaintainableObject(getNewMaintainableImpl(null));
         }
         else {
-            document.setOldMaintainableObject(new KualiMaintainableImpl(oldBo));
+            document.setOldMaintainableObject(getNewMaintainableImpl(oldBo));
             document.getOldMaintainableObject().setBoClass(oldBo.getClass());
         }
-        document.setNewMaintainableObject(new KualiMaintainableImpl(newBo));
+        document.setNewMaintainableObject(getNewMaintainableImpl(newBo));
         document.getNewMaintainableObject().setBoClass(newBo.getClass());
         return document;
+    }
+    
+    protected MaintainableImpl getNewMaintainableImpl(PersistableBusinessObject bo) {
+        if (bo == null) {
+            return new KualiMaintainableImpl();
+        } else {
+            return new KualiMaintainableImpl(bo);
+        }
     }
 
     /**

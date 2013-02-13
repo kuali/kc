@@ -76,7 +76,7 @@ import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.proposaldevelopment.web.bean.ProposalUserRoles;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
-import org.kuali.kra.rule.event.SaveCustomAttributeEvent;
+import org.kuali.kra.rule.event.SaveCustomDataEvent;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.kra.service.SponsorService;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
@@ -131,9 +131,9 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
             document, getMaxDictionaryValidationDepth(), VALIDATION_REQUIRED, CHOMP_LAST_LETTER_S_FROM_COLLECTION_NAME);
         GlobalVariables.getMessageMap().removeFromErrorPath(DOCUMENT_ERROR_PATH);
         
+        valid &= processCustomDataBusinessRules(proposalDevelopmentDocument);
         GlobalVariables.getMessageMap().addToErrorPath("document.developmentProposalList[0]");
         valid &= processProposalRequiredFieldsBusinessRule(proposalDevelopmentDocument);
-        valid &= processProtocolCustomDataBusinessRules(proposalDevelopmentDocument);
         
         valid &= processProposalYNQBusinessRule(proposalDevelopmentDocument, false);
         valid &= processBudgetVersionsBusinessRule(proposalDevelopmentDocument, false);
@@ -145,8 +145,10 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
         return valid;
     }
     
-    private boolean processProtocolCustomDataBusinessRules(ProposalDevelopmentDocument document) {
-        return processRules(new SaveCustomAttributeEvent(Constants.EMPTY_STRING, document));
+    private boolean processCustomDataBusinessRules(ProposalDevelopmentDocument document) {
+        return processRules(new SaveCustomDataEvent("customDataHelper.customDataList", document,
+                document.getCustomDataList(),
+                document.getCustomAttributeDocuments()));
     }
 
     public boolean processDeleteProposalSiteRules(BasicProposalSiteEvent proposalSiteEvent) {
