@@ -59,6 +59,7 @@ import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.kra.service.VersioningService;
 import org.kuali.kra.service.impl.ObjectCopyUtils;
 import org.kuali.kra.timeandmoney.AwardHierarchyNode;
+import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.kra.timeandmoney.service.ActivePendingTransactionsService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -684,7 +685,7 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
      * @throws WorkflowException 
      * @see org.kuali.kra.award.awardhierarchy.AwardHierarchyService#populateAwardHierarchyNodes(java.util.Map, java.util.Map)
      */
-    public void populateAwardHierarchyNodesForTandMDoc(Map<String, AwardHierarchy> awardHierarchyItems, Map<String, AwardHierarchyNode> awardHierarchyNodes, String currentAwardNumber, String currentSequenceNumber, String docNum) {
+    public void populateAwardHierarchyNodesForTandMDoc(Map<String, AwardHierarchy> awardHierarchyItems, Map<String, AwardHierarchyNode> awardHierarchyNodes, String currentAwardNumber, String currentSequenceNumber, TimeAndMoneyDocument timeAndMoneyDocument) {
         AwardHierarchyNode awardHierarchyNode;
         String tmpAwardNumber = null;
         
@@ -720,28 +721,28 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
 //                award = activeAward;  
 //            }  */
 
-            AwardAmountInfo awardAmountInfo = awardAmountInfoService.fetchLastAwardAmountInfoForDocNum(award, docNum);            
+            AwardAmountInfo awardAmountInfo = awardAmountInfoService.fetchLastAwardAmountInfoForDocNum(award, timeAndMoneyDocument.getDocumentNumber());            
             
             awardHierarchyNode.setFinalExpirationDate(awardAmountInfo.getFinalExpirationDate());
             awardHierarchyNode.setLeadUnitName(award.getUnitName());
             awardHierarchyNode.setPrincipalInvestigatorName(award.getPrincipalInvestigatorName());
             awardHierarchyNode.setAccountNumber(award.getAccountNumber());
             awardHierarchyNode.setAwardStatusCode(award.getStatusCode());
+//            following will be set below, as we now need to include current value changes as transactions
             awardHierarchyNode.setObliDistributableAmount(awardAmountInfo.getObliDistributableAmount());
+            awardHierarchyNode.setAntDistributableAmount(awardAmountInfo.getAntDistributableAmount());
             awardHierarchyNode.setAmountObligatedToDate(awardAmountInfo.getAmountObligatedToDate());
             awardHierarchyNode.setObligatedTotalDirect(awardAmountInfo.getObligatedTotalDirect());
             awardHierarchyNode.setObligatedTotalIndirect(awardAmountInfo.getObligatedTotalIndirect());
             awardHierarchyNode.setAnticipatedTotalAmount(awardAmountInfo.getAnticipatedTotalAmount());
             awardHierarchyNode.setAnticipatedTotalDirect(awardAmountInfo.getAnticipatedTotalDirect());
             awardHierarchyNode.setAnticipatedTotalIndirect(awardAmountInfo.getAnticipatedTotalIndirect());
-            awardHierarchyNode.setAntDistributableAmount(awardAmountInfo.getAntDistributableAmount());
-            awardHierarchyNode.setCurrentFundEffectiveDate(awardAmountInfo.getCurrentFundEffectiveDate());
-            //awardHierarchyNode.setCurrentFundEffectiveDate(award.getAwardEffectiveDate());
+            awardHierarchyNode.setCurrentFundEffectiveDate(award.getAwardEffectiveDate());
             awardHierarchyNode.setObligationExpirationDate(awardAmountInfo.getObligationExpirationDate());
             awardHierarchyNode.setProjectStartDate(award.getAwardEffectiveDate());
             awardHierarchyNode.setTitle(award.getTitle());
             awardHierarchyNode.setAwardId(award.getAwardId());
-            
+
             /*String documentNumber = award.getAwardDocument().getDocumentNumber();
             boolean awardDocumentFinalStatus = false;
             try {
