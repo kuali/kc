@@ -49,6 +49,9 @@ public class PendingTransaction extends KraPersistableBusinessObjectBase {
 
     private Boolean processedFlag = Boolean.FALSE;
 
+    // is this a transaction resulting from a change to the current values?
+    transient boolean currentValueTransaction = false;
+    
     /**
      * Constructs a PendingTransaction.java.
      */
@@ -265,5 +268,13 @@ public class PendingTransaction extends KraPersistableBusinessObjectBase {
         } else {
             return kd;
         }
+    }
+
+    public boolean isCurrentValueTransaction() {
+        return currentValueTransaction;
+    }
+
+    public void setCurrentValueTransaction(boolean currentValueTransaction) {
+        this.currentValueTransaction = currentValueTransaction;
     }
 }
