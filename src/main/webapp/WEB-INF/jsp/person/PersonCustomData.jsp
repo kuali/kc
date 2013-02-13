@@ -25,4 +25,8 @@
 
 <c:set var="readOnly" value="${KualiForm.document.documentHeader.workflowDocument.status.code eq 'F'}" scope="request" />
 
-<kra-person:customDataTab />
+<kra-customdata:customDataTabSpecific
+	customAttributeGroups="${KualiForm.document.newMaintainableObject.customDataHelper.customAttributeGroups}" 
+	customDataList="${KualiForm.document.newMaintainableObject.businessObject.personCustomDataList}" 
+	customDataListPrefix="document.newMaintainableObject.businessObject.personCustomDataList"
+	headerAndFooter="false"/>

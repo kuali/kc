@@ -23,16 +23,16 @@ import org.kuali.kra.negotiations.bo.NegotiationActivity;
 import org.kuali.kra.negotiations.bo.NegotiationActivityAttachment;
 import org.kuali.kra.negotiations.bo.NegotiationAssociationType;
 import org.kuali.kra.negotiations.bo.NegotiationUnassociatedDetail;
-import org.kuali.kra.negotiations.customdata.NegotiationCustomDataRuleImpl;
-import org.kuali.kra.negotiations.customdata.NegotiationSaveCustomDataRuleEvent;
 import org.kuali.kra.negotiations.document.NegotiationDocument;
 import org.kuali.kra.negotiations.service.NegotiationService;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
+import org.kuali.kra.rule.event.SaveCustomDataEvent;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
 
 /**
  * 
@@ -72,19 +72,18 @@ public class NegotiationDocumentRule extends ResearchDocumentRuleBase {
         NegotiationDocument negotiationDocument = (NegotiationDocument) document;
         Negotiation negotiation = negotiationDocument.getNegotiation();
         
+        boolean result = true;
+        
+        result &= processRules(new SaveCustomDataEvent(negotiationDocument, true));
+
         GlobalVariables.getMessageMap().addToErrorPath(NEGOTIATION_ERROR_PATH);
         
-        boolean result = true;
         result &= validateEndDate(negotiation);
         result &= validateNegotiator(negotiation);
         result &= validateNegotiationAssociations(negotiation);
         result &= validateNegotiationUnassociatedDetails(negotiation);
         result &= validateNegotiationActivities(negotiation); 
-        String errorPath = "negotiationCustomData";
-        NegotiationSaveCustomDataRuleEvent event = new NegotiationSaveCustomDataRuleEvent(errorPath, 
-                                                               negotiationDocument);
-        result &= new NegotiationCustomDataRuleImpl().processSaveNegotiationCustomDataBusinessRules(event);
-           
+        
         GlobalVariables.getMessageMap().removeFromErrorPath(NEGOTIATION_ERROR_PATH);
         
         return result;

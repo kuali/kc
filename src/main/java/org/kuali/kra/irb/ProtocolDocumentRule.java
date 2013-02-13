@@ -65,8 +65,9 @@ import org.kuali.kra.protocol.personnel.SaveProtocolPersonnelEventBase;
 import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceAuditRuleBase;
 import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceRuleBase;
 import org.kuali.kra.protocol.specialreview.ProtocolSpecialReviewBase;
-import org.kuali.kra.rule.event.SaveCustomAttributeEvent;
+import org.kuali.kra.rule.event.SaveCustomDataEvent;
 import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * Main Business Rule class for <code>{@link ProtocolDocument}</code>. Responsible for delegating rules to independent rule classes.
@@ -261,7 +262,7 @@ public class ProtocolDocumentRule extends ProtocolDocumentRuleBase<CommitteeDeci
 //    }
     
     private boolean processProtocolCustomDataBusinessRules(ProtocolDocument document) {
-        return processRules(new SaveCustomAttributeEvent(Constants.EMPTY_STRING, document));
+        return processRules(new SaveCustomDataEvent(document));
     }
     
     private boolean processProtocolSpecialReviewBusinessRules(ProtocolDocument document) {

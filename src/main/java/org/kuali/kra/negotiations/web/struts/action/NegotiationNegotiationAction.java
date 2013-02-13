@@ -128,7 +128,7 @@ public class NegotiationNegotiationAction extends NegotiationAction {
     public ActionForward reload(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward actionForward = super.reload(mapping, form, request, response);
         NegotiationForm negotiationForm = (NegotiationForm) form;
-        negotiationForm.getCustomDataHelper().negotiationCustomData(mapping, negotiationForm, request, response);
+        negotiationForm.getCustomDataHelper().prepareCustomData();
         loadCodeObjects(negotiationForm.getNegotiationDocument().getNegotiation());
         docHandler(mapping, form, request, response);
         return actionForward;
@@ -183,7 +183,6 @@ public class NegotiationNegotiationAction extends NegotiationAction {
                 sendCloseNotification = true;
             }
         }
-        copyCustomDataToNegotiation(negotiationForm);
         ActionForward actionForward = super.save(mapping, form, request, response);
         
         NegotiationCloseNotificationContext context = new NegotiationCloseNotificationContext(negotiationForm.getNegotiationDocument());
@@ -267,61 +266,9 @@ public class NegotiationNegotiationAction extends NegotiationAction {
             throws Exception {
         NegotiationForm negotiationForm = (NegotiationForm) form;
         loadCodeObjects(negotiationForm.getNegotiationDocument().getNegotiation());
-        Negotiation negotiation = negotiationForm.getNegotiationDocument().getNegotiation();
-        copyCustomDataToNegotiation(negotiationForm);
         return super.close(mapping, negotiationForm, request, response);
-            }
-    
-    /**
-     * Copy the custom data to the Award so that it can saved.
-     * @param form
-     */
-    public void copyCustomDataToNegotiation(NegotiationForm negotiationForm) {
-        negotiationForm.getCustomDataHelper().populateCustomAttributeValuesMap();
-        if((negotiationForm.getNegotiationDocument().getNegotiation().getNegotiationCustomDataList().size() == 0)) {
-            copyCustomDataToNewNegotiation(negotiationForm);
-        }else {
-            copyCustomDataToExistingNegotiation(negotiationForm);
-        }
     }
-    
-    /**
-     * This method is called when custom data is created on a newly created Award. It initializes the list on Award and sets the values from the form
-     * @param awardForm
-     */
-    private void copyCustomDataToNewNegotiation(NegotiationForm negotiationForm) {
-        for (Map.Entry<String, String[]>customAttributeValue: negotiationForm.getCustomDataHelper().getCustomAttributeValues().entrySet()) {
-            int customAttributeId = Integer.parseInt(customAttributeValue.getKey().substring(2));         
-            NegotiationCustomData negotiationCustomData = new NegotiationCustomData();
-            negotiationCustomData.setCustomAttribute(new CustomAttribute());
-            negotiationCustomData.getCustomAttribute().setId(customAttributeId);
-            negotiationCustomData.setCustomAttributeId((long) customAttributeId);
-            negotiationCustomData.setNegotiation(negotiationForm.getNegotiationDocument().getNegotiation());
-            if(customAttributeValue.getValue()[0] == null) {
-                negotiationCustomData.setValue("");
-            }else {
-                negotiationCustomData.setValue(customAttributeValue.getValue()[0]);
-            }
-            negotiationForm.getNegotiationDocument().getNegotiation().getNegotiationCustomDataList().add(negotiationCustomData);
-            
-        }
-    }
-    
-    /**
-     * This method copies the values from the form to the awardCustomDataList on Award.
-     * @param awardForm
-     */
-    private void copyCustomDataToExistingNegotiation(NegotiationForm negotiationForm) {
-        for (Map.Entry<String, String[]>customAttributeValue: negotiationForm.getCustomDataHelper().getCustomAttributeValues().entrySet()) {
-            int customAttributeId = Integer.parseInt(customAttributeValue.getKey().substring(2));         
-            String value = customAttributeValue.getValue()[0];
-            for(NegotiationCustomData negotiationCustomData : negotiationForm.getNegotiationDocument().getNegotiation().getNegotiationCustomDataList()) {
-                if(customAttributeId == negotiationCustomData.getCustomAttributeId()) {
-                    negotiationCustomData.setValue(value);
-                }
-            }
-        }
-    }
+
     
     
 

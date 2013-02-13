@@ -24,7 +24,6 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.CoeusSubModule;
-import org.kuali.kra.common.customattributes.CustomDataForm;
 import org.kuali.kra.common.notification.web.struts.form.NotificationHelper;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.actions.ActionHelper;
@@ -67,7 +66,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
  * This class...
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class ProtocolForm extends ProtocolFormBase implements CustomDataForm {
+public class ProtocolForm extends ProtocolFormBase {
     
     private static final long serialVersionUID = 3736148760520952504L;
     

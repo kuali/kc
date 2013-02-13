@@ -22,6 +22,7 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.kra.bo.DocumentCustomData;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
@@ -136,6 +137,11 @@ public class PersonMassChangeDocument extends ResearchDocumentBase implements Se
     
     public void setPersonMassChangeService(PersonMassChangeService personMassChangeService) {
         this.personMassChangeService = personMassChangeService;
+    }
+
+    @Override
+    public List<? extends DocumentCustomData> getDocumentCustomData() {
+        return new ArrayList();
     }
     
 }

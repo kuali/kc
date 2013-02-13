@@ -55,6 +55,7 @@ import org.kuali.kra.protocol.protocol.research.ProtocolResearchAreaBase;
 import org.kuali.kra.protocol.protocol.research.ProtocolResearchAreaAuditRuleBase;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
+import org.kuali.kra.rule.event.SaveCustomDataEvent;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.kra.service.UnitService;
 import org.kuali.rice.krad.document.Document;
@@ -132,9 +133,9 @@ public abstract class ProtocolDocumentRuleBase<CD extends CommitteeDecision<? ex
         valid &= processLeadUnitBusinessRules((ProtocolDocumentBase) document);
         valid &= processProtocolLocationBusinessRules((ProtocolDocumentBase) document);            
         valid &= processProtocolPersonnelBusinessRules((ProtocolDocumentBase) document);
+        valid &= processProtocolCustomDataBusinessRules((ProtocolDocumentBase) document);
         
 // TODO *********commented the code below during IACUC refactoring*********        
-//        valid &= processProtocolCustomDataBusinessRules((ProtocolDocumentBase) document);
 //        valid &= processProtocolSpecialReviewBusinessRules((ProtocolDocumentBase) document);
         
         
@@ -252,9 +253,9 @@ public abstract class ProtocolDocumentRuleBase<CD extends CommitteeDecision<? ex
 
 // TODO *********uncomment the code below in increments as needed during refactoring*********         
 //    
-//    private boolean processProtocolCustomDataBusinessRules(ProtocolDocumentBase document) {
-//        return processRules(new SaveCustomAttributeEvent(Constants.EMPTY_STRING, document));
-//    }
+    private boolean processProtocolCustomDataBusinessRules(ProtocolDocumentBase document) {
+        return processRules(new SaveCustomDataEvent(document));
+    }
 //    
 //    private boolean processProtocolSpecialReviewBusinessRules(ProtocolDocumentBase document) {
 //        List<ProtocolSpecialReviewBase> specialReviews = document.getProtocol().getSpecialReviews();

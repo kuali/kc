@@ -5,8 +5,9 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KcPersonExtendedAttributes;
+import org.kuali.kra.bo.KcPersonExtendedAttributesMaintainableImpl;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.rule.event.PersonSaveCustomDataEvent;
+import org.kuali.kra.rule.event.SaveCustomDataEvent;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.document.Document;
@@ -30,10 +31,13 @@ public class KcPersonExtendedAttributesMaintenanceDocumentRule extends KraMainte
         if (LOG.isDebugEnabled()) {
             LOG.debug("new maintainable is: " + maintenanceDocument.getNewMaintainableObject().getClass());
         }
+        KcPersonExtendedAttributesMaintainableImpl maintainableImpl = (KcPersonExtendedAttributesMaintainableImpl) maintenanceDocument.getNewMaintainableObject();
         KcPersonExtendedAttributes kcPersonExtendedAttributes = (KcPersonExtendedAttributes) maintenanceDocument.getNewMaintainableObject().getDataObject();
 
         rulePassed &= checkExistence(kcPersonExtendedAttributes);
-        rulePassed &= processRules(new PersonSaveCustomDataEvent(CUSTOM_DATA_ERROR_PREFIX, document, kcPersonExtendedAttributes.getPersonCustomDataList()));
+        rulePassed &= processRules(new SaveCustomDataEvent(CUSTOM_DATA_ERROR_PREFIX, document, 
+                kcPersonExtendedAttributes.getPersonCustomDataList(),
+                maintainableImpl.getCustomDataHelper().getCustomAttributeDocuments()));
         rulePassed &= checkEraCommonsUserName(kcPersonExtendedAttributes);
         
         return rulePassed;

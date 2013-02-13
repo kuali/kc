@@ -17,6 +17,7 @@ package org.kuali.kra.common.customattributes;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -25,11 +26,19 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 import org.apache.cxf.common.util.StringUtils;
+import org.kuali.kra.award.AwardForm;
+import org.kuali.kra.award.customdata.AwardCustomData;
+import org.kuali.kra.bo.CustomAttribute;
 import org.kuali.kra.bo.CustomAttributeDocValue;
 import org.kuali.kra.bo.CustomAttributeDocument;
+import org.kuali.kra.bo.DocumentCustomData;
+import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.institutionalproposal.customdata.InstitutionalProposalCustomData;
+import org.kuali.kra.institutionalproposal.web.struts.form.InstitutionalProposalForm;
 import org.kuali.kra.irb.ProtocolDocument;
+import org.kuali.kra.service.CustomAttributeService;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -38,48 +47,95 @@ import org.kuali.rice.krad.util.KRADPropertyConstants;
 /**
  * The CustomDataHelperBase is the base class for all Custom Data Helper classes.
  */
-public abstract class CustomDataHelperBase implements Serializable {
+public abstract class CustomDataHelperBase<T extends DocumentCustomData> implements Serializable {
         
     private SortedMap<String, List> customAttributeGroups = new TreeMap<String, List>();
-    private Map<String, String[]> customAttributeValues = new HashMap<String, String[]>();
    
     /*
      * Is the end-user allowed to modify the custom data values?
      */
     private boolean modifyCustomData = false;
     
+    
     /**
-     * Prepare the tab for viewing.
+     * This method builds the custom data collections used on the form and populates the values from the collection of AwardCustomData on the Award.
+     * @param customAttributeGroups
+     * @param awardForm
+     * @param customAttributeDocuments
      */
-    public void prepareView(ProtocolDocument protocolDocument) {
-        initializePermissions();
-       
-        Map<String, CustomAttributeDocument> customAttributeDocuments = protocolDocument.getCustomAttributeDocuments();
-        String documentNumber = protocolDocument.getDocumentNumber();
-        for(Map.Entry<String, CustomAttributeDocument> customAttributeDocumentEntry:customAttributeDocuments.entrySet()) {
-            CustomAttributeDocument customAttributeDocument = customAttributeDocumentEntry.getValue();
-            Map<String, Object> primaryKeys = new HashMap<String, Object>();
-            primaryKeys.put(KRADPropertyConstants.DOCUMENT_NUMBER, documentNumber);
-            primaryKeys.put(Constants.CUSTOM_ATTRIBUTE_ID, customAttributeDocument.getCustomAttributeId());
-
-            CustomAttributeDocValue customAttributeDocValue = (CustomAttributeDocValue) KraServiceLocator.getService(BusinessObjectService.class).findByPrimaryKey(CustomAttributeDocValue.class, primaryKeys);
-            if (customAttributeDocValue != null) {
-                customAttributeDocument.getCustomAttribute().setValue(customAttributeDocValue.getValue());
-                getCustomAttributeValues().put("id" + customAttributeDocument.getCustomAttributeId().toString(), new String[]{customAttributeDocValue.getValue()});
+    @SuppressWarnings("unchecked")
+    public void buildCustomDataCollectionsOnExistingDocument(SortedMap<String, List> customAttributeGroups) {
+        for(Map.Entry<String, CustomAttributeDocument> customAttributeDocumentEntry:getCustomAttributeDocuments().entrySet()) {
+            T loopAwardCustomData = null;
+            for(T awardCustomData : getCustomDataList()){
+                if(awardCustomData.getCustomAttributeId() == (long) customAttributeDocumentEntry.getValue().getCustomAttribute().getId()){
+                    loopAwardCustomData = awardCustomData;
+                    break;
+                }
             }
-
-            String customAttrGroupName = getValidCustomAttributeGroupName(customAttributeDocument.getCustomAttribute().getGroupName());
-            List<CustomAttributeDocument> customAttributeDocumentList = customAttributeGroups.get(customAttrGroupName);
-
+            if (loopAwardCustomData != null) {
+                String groupName = getCustomAttributeDocuments().get(loopAwardCustomData.getCustomAttributeId().toString()).getCustomAttribute().getGroupName();
+                List<CustomAttributeDocument> customAttributeDocumentList = customAttributeGroups.get(groupName);   
+                if (customAttributeDocumentList == null) {
+                    customAttributeDocumentList = new ArrayList<CustomAttributeDocument>();
+                    customAttributeGroups.put(groupName, customAttributeDocumentList);
+                }
+                customAttributeDocumentList.add(getCustomAttributeDocuments().get(loopAwardCustomData.getCustomAttributeId().toString()));
+                Collections.sort(customAttributeDocumentList, new LabelComparator());
+            }
+        }
+    }
+    
+    /**
+     * This method builds the custom data collections used on the form
+     * @param customAttributeGroups
+     * @param awardForm
+     * @param customAttributeDocuments
+     */
+    @SuppressWarnings("unchecked")
+    public void buildCustomDataCollectionsOnNewDocument(SortedMap<String, List> customAttributeGroups) {
+        for(Map.Entry<String, CustomAttributeDocument> customAttributeDocumentEntry:getCustomAttributeDocuments().entrySet()) {
+            String temp = customAttributeDocumentEntry.getValue().getCustomAttribute().getValue();       
+            String groupName = customAttributeDocumentEntry.getValue().getCustomAttribute().getGroupName();
+            
+            T newCustomData = getNewCustomData();
+            newCustomData.setCustomAttribute(customAttributeDocumentEntry.getValue().getCustomAttribute());
+            newCustomData.setCustomAttributeId(customAttributeDocumentEntry.getValue().getCustomAttributeId().longValue());
+            newCustomData.setValue(customAttributeDocumentEntry.getValue().getCustomAttribute().getDefaultValue());
+            getCustomDataList().add(newCustomData);
+            
+            if (StringUtils.isEmpty(groupName)) {
+                groupName = "No Group";
+            }
+            
+            List<CustomAttributeDocument> customAttributeDocumentList = customAttributeGroups.get(groupName);
             if (customAttributeDocumentList == null) {
                 customAttributeDocumentList = new ArrayList<CustomAttributeDocument>();
-                customAttributeGroups.put(customAttrGroupName, customAttributeDocumentList);
+                customAttributeGroups.put(groupName, customAttributeDocumentList);
+                
             }
-            customAttributeDocumentList.add(customAttributeDocument);
+            customAttributeDocumentList.add(getCustomAttributeDocuments().get(customAttributeDocumentEntry.getValue().getCustomAttributeId().toString()));
+            Collections.sort(customAttributeDocumentList, new LabelComparator());
         }
-
+    }
+    
+    public void prepareCustomData() {
+        initializePermissions();
+        SortedMap<String, List> customAttributeGroups = new TreeMap<String, List>();
+        if(getCustomDataList().size() > 0) {
+            buildCustomDataCollectionsOnExistingDocument(customAttributeGroups);
+        }else {
+            buildCustomDataCollectionsOnNewDocument(customAttributeGroups);
+        }
         setCustomAttributeGroups(customAttributeGroups);
     }
+    
+    protected abstract T getNewCustomData();
+    
+    public abstract List<T> getCustomDataList();
+    
+    public abstract Map<String, CustomAttributeDocument> getCustomAttributeDocuments();
+    
     
     /**
      * 
@@ -103,7 +159,9 @@ public abstract class CustomDataHelperBase implements Serializable {
      * Can the current user modify the custom data values?
      * @return true if can modify the custom data; otherwise false
      */
-    public abstract boolean canModifyCustomData();
+    public boolean canModifyCustomData() {
+        return modifyCustomData;
+    }
     
     /**
      * Get the ModifyCustomData value.
@@ -128,31 +186,6 @@ public abstract class CustomDataHelperBase implements Serializable {
     public Map<String, List> getCustomAttributeGroups() {
         return customAttributeGroups;
     }
-
-
-    /**
-     * Sets the customAttributeValues attribute value.
-     * @param customAttributeValues The customAttributeValues to set.
-     */
-    public void setCustomAttributeValues(Map<String, String[]> customAttributeValues) {
-        this.customAttributeValues = customAttributeValues;
-    }
-
-    /**
-     * Gets the customAttributeValues attribute.
-     * @return Returns the customAttributeValues.
-     */
-    public Map<String, String[]> getCustomAttributeValues() {
-        return customAttributeValues;
-    }
-    
-    /**
-     * Clears the custom attribute value for the specified customAttributeId.
-     * @param customAttributeId The customAttributeId to clear
-     */
-    public void clearCustomAttributeValue(String customAttributeId) {
-        customAttributeValues.put("id" + customAttributeId, new String[]{""});
-    }
     
     protected TaskAuthorizationService getTaskAuthorizationService() {
         return KraServiceLocator.getService(TaskAuthorizationService.class);
@@ -165,6 +198,19 @@ public abstract class CustomDataHelperBase implements Serializable {
     protected String getUserIdentifier() {
          return GlobalVariables.getUserSession().getPrincipalId();
     }
+    
+    /**
+     * Set the custom attribute content in workflow.
+     * @param form
+     * @throws Exception
+     */
+   public void setCustomAttributeContent(String documentNumber, String attributeName) {
+       getCustomAttributeService().setCustomAttributeKeyValue(documentNumber, getCustomAttributeDocuments(), attributeName, getUserIdentifier());
+   } 
+   
+   protected CustomAttributeService getCustomAttributeService() {
+       return KraServiceLocator.getService(CustomAttributeService.class); 
+   }
     
     /**
      * Sorts custom data attributes by label for alphabetical order on custom data panels.
@@ -195,5 +241,4 @@ public abstract class CustomDataHelperBase implements Serializable {
             }
         }
     }
-
 }

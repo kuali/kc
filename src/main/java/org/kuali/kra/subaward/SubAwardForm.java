@@ -26,7 +26,6 @@ import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.budget.document.BudgetDocument;
-import org.kuali.kra.common.customattributes.CustomDataForm;
 import org.kuali.kra.common.permissions.web.struts.form.PermissionsForm;
 import org.kuali.kra.common.permissions.web.struts.form.PermissionsHelperBase;
 import org.kuali.kra.infrastructure.Constants;
@@ -58,7 +57,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
  * This class represents the SubAward Form Struts class....
  */
 public class SubAwardForm extends KraTransactionalDocumentFormBase
-implements PermissionsForm, CustomDataForm, Auditable {
+implements PermissionsForm, Auditable {
 
     private static final long serialVersionUID = -1452575757578523254L;
 
@@ -302,7 +301,7 @@ implements PermissionsForm, CustomDataForm, Auditable {
     }
 
     public SubAward getSubAward() {
-        return subAward;
+        return getSubAwardDocument().getSubAward();
     }
 
     public void setLookupResultsSequenceNumber(String lookupResultsSequenceNumber) {

@@ -212,11 +212,7 @@
         <property name="documentService" ref="documentService" />
         <property name="institutionalProposalService" ref="institutionalProposalService" />
     </bean>
-    
-    <bean id="institutionalProposalCustomAttributeService" class="org.kuali.kra.service.impl.InstitutionalProposalCustomAttributeServiceImpl">
-        <property name="businessObjectService" ref="businessObjectService" />
-    </bean>
-    
+        
     <bean id="institutionalProposalLockService" class="org.kuali.kra.institutionalproposal.service.impl.InstitutionalProposalLockServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
     </bean>

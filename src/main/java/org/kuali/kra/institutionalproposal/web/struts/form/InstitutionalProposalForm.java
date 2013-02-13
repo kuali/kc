@@ -21,7 +21,6 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
-import org.kuali.kra.common.customattributes.CustomDataForm;
 import org.kuali.kra.common.notification.web.struts.form.NotificationHelper;
 import org.kuali.kra.common.web.struts.form.ReportHelperBean;
 import org.kuali.kra.common.web.struts.form.ReportHelperBeanContainer;
@@ -58,7 +57,7 @@ import org.kuali.rice.krad.util.KRADConstants;
 /**
  * This class...
  */
-public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase implements CustomDataForm, Auditable,
+public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase implements Auditable,
                                                                         MultiLookupFormBase, ReportHelperBeanContainer {
 
     /**

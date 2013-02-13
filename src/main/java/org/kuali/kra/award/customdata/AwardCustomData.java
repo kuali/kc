@@ -17,11 +17,12 @@ package org.kuali.kra.award.customdata;
 
 import org.kuali.kra.award.AwardAssociate;
 import org.kuali.kra.bo.CustomAttribute;
+import org.kuali.kra.bo.DocumentCustomData;
 
 /**
  * This class is the BO representation of an Award Custom Data.
  */
-public class AwardCustomData extends AwardAssociate {
+public class AwardCustomData extends AwardAssociate implements DocumentCustomData {
 
     /**
      * Comment for <code>serialVersionUID</code>

@@ -22,6 +22,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.CustomAttribute;
 import org.kuali.kra.bo.CustomAttributeDocument;
+import org.kuali.kra.bo.DocumentCustomData;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
@@ -49,6 +50,15 @@ public class ResearchDocumentBaseAuditRule implements DocumentAuditRule {
             for (Map.Entry<String, CustomAttributeDocument> customAttributeDocumentEntry: customAttributeDocuments.entrySet()) {
                 CustomAttributeDocument customAttributeDocument = customAttributeDocumentEntry.getValue();
                 CustomAttribute customAttribute = customAttributeDocument.getCustomAttribute();
+                List<? extends DocumentCustomData> customDataList = ((ResearchDocumentBase)document).getDocumentCustomData();
+                int index = 0;
+                for (DocumentCustomData data : customDataList) {
+                    if (data.getCustomAttributeId() == customAttribute.getId().longValue()) {
+                        customAttribute.setValue(data.getValue());
+                        break;
+                    }
+                    index++;
+                }
                 if (customAttributeDocument.isRequired() && StringUtils.isEmpty(customAttribute.getValue())) {
                     valid = false;
                     String key = "CustomData" + StringUtils.deleteWhitespace(customAttribute.getGroupName()) + "Errors";
@@ -60,7 +70,7 @@ public class ResearchDocumentBaseAuditRule implements DocumentAuditRule {
                         KNSGlobalVariables.getAuditErrorMap().put(key, auditCluster);
                     }
                     List<AuditError> auditErrors = auditCluster.getAuditErrorList();
-                    auditErrors.add(new AuditError("customAttributeValues(id"+customAttributeDocument.getCustomAttributeId()+")", RiceKeyConstants.ERROR_REQUIRED, StringUtils.deleteWhitespace(Constants.CUSTOM_ATTRIBUTES_PAGE + "." + customAttribute.getGroupName()), new String[]{customAttribute.getLabel()}));
+                    auditErrors.add(new AuditError("customDataHelper.customDataList["+index+"].value", RiceKeyConstants.ERROR_REQUIRED, StringUtils.deleteWhitespace(Constants.CUSTOM_ATTRIBUTES_PAGE + "." + customAttribute.getGroupName()), new String[]{customAttribute.getLabel()}));
                 }
             }
 

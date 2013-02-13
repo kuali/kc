@@ -29,6 +29,7 @@ import org.kuali.kra.service.KeywordsService;
 import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.kra.subaward.SubAwardForm;
 import org.kuali.kra.subaward.bo.SubAward;
+import org.kuali.kra.subaward.customdata.SubAwardCustomData;
 import org.kuali.kra.subaward.document.SubAwardDocument;
 import org.kuali.kra.subaward.service.SubAwardService;
 import org.kuali.kra.subaward.subawardrule.SubAwardDocumentRule;
@@ -300,8 +301,8 @@ public ActionForward closeouts(ActionMapping mapping, ActionForm form, HttpServl
 public ActionForward customData(ActionMapping mapping, ActionForm form
         , HttpServletRequest request, HttpServletResponse response) {
     SubAwardForm subAwardForm = (SubAwardForm) form;
-    return subAwardForm.getCustomDataHelper().
-    subAwardCustomData(mapping, form, request, response);
+    subAwardForm.getCustomDataHelper().prepareCustomData();
+    return mapping.findForward(Constants.MAPPING_CUSTOM_DATA);
 }
 
 /**
@@ -365,6 +366,9 @@ protected void checkSubAwardCode(SubAward subAward){
     if (subAward.getSubAwardCode() == null) {
         String subAwardCode = getSubAwardService().getNextSubAwardCode();
         subAward.setSubAwardCode(subAwardCode);
+    }
+    for (SubAwardCustomData customData : subAward.getSubAwardCustomDataList()) {
+        customData.setSubAward(subAward);
     }
 }
 

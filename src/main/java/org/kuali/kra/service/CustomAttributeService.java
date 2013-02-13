@@ -20,7 +20,9 @@ import java.util.Map;
 
 import org.kuali.kra.bo.CustomAttributeDataType;
 import org.kuali.kra.bo.CustomAttributeDocument;
+import org.kuali.kra.bo.DocumentCustomData;
 import org.kuali.kra.document.ResearchDocumentBase;
+import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 public interface CustomAttributeService {
@@ -33,21 +35,8 @@ public interface CustomAttributeService {
      * @param documentNumber document number for this document
      * @return a List of custom attribute documents for this document
      */
-    public Map<String, CustomAttributeDocument> getDefaultCustomAttributesForDocumentType(String documentTypeCode, String documentNumber);
+    public Map<String, CustomAttributeDocument> getDefaultCustomAttributeDocuments(String documentTypeCode, List<? extends DocumentCustomData> customDataList);
     
-    /**
-     * This method gets the default CustomAttributeDocuments from the database.
-     * @return
-     */
-    public Map<String, CustomAttributeDocument> getDefaultAwardCustomAttributeDocuments();
-
-    /**
-     * This method persists the custom attribute values for a ResearchDocumentBase.
-     *
-     * @param document ResearchDocumentBase to persist custom attributes for.
-     */
-    public void saveCustomAttributeValues(ResearchDocumentBase document);    
-
     /**
      * 
      * This method is to set up the the custom attribute in attribute content
@@ -56,7 +45,7 @@ public interface CustomAttributeService {
      * @param networkId
      * @throws Exception
      */
-    public void setCustomAttributeKeyValue(ResearchDocumentBase document, String attributeName, String networkId) throws Exception;
+    public void setCustomAttributeKeyValue(String documentNumber, Map<String, CustomAttributeDocument> customAttributeDocuments, String attributeName, String networkId);
 
     /**
      * 

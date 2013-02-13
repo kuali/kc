@@ -15,7 +15,7 @@
  */
 package org.kuali.kra.bo;
 
-public class PersonCustomData extends KraPersistableBusinessObjectBase {
+public class PersonCustomData extends KraPersistableBusinessObjectBase implements DocumentCustomData {
 
     private static final long serialVersionUID = 7498061394015743173L;
     
