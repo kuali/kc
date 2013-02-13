@@ -95,9 +95,9 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
         List<PendingTransaction> pendingTransactionsToBeDeleted = new ArrayList<PendingTransaction>();
         updatedPendingTransactions.addAll(doc.getPendingTransactions());
         
+        Map<String, AwardHierarchyNode> awardHierarchyNodes = doc.getAwardHierarchyNodes();
         for(PendingTransaction pendingTransaction: doc.getPendingTransactions()){
             if(pendingTransaction.getProcessedFlag() == false) {
-                Map<String, AwardHierarchyNode> awardHierarchyNodes = doc.getAwardHierarchyNodes();
                 AwardHierarchyNode sourceAwardNode = awardHierarchyNodes.get(pendingTransaction.getSourceAwardNumber());
                 AwardHierarchyNode destinationAwardNode = awardHierarchyNodes.get(pendingTransaction.getDestinationAwardNumber());            
                 AwardHierarchyNode parentNode = new AwardHierarchyNode();
