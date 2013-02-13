@@ -18,6 +18,7 @@ package org.kuali.kra.common.committee.web.struts.action;
 import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 import java.util.Collection;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,6 +27,9 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.award.AwardForm;
+import org.kuali.kra.award.document.AwardDocument;
+import org.kuali.kra.award.home.Award;
 import org.kuali.kra.common.committee.bo.CommitteeBase;
 import org.kuali.kra.common.committee.document.CommitteeDocumentBase;
 import org.kuali.kra.common.committee.document.authorization.CommitteeTaskBase;
@@ -38,6 +42,7 @@ import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kns.lookup.LookupResultsService;
+import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
@@ -349,6 +354,19 @@ public abstract class CommitteeActionBase extends KraTransactionalDocumentAction
         //ActionForward basicForward = mapping.findForward(KRADConstants.MAPPING_PORTAL);
         ActionForward holdingPageForward = mapping.findForward(Constants.MAPPING_HOLDING_PAGE);
         return routeToHoldingPage(forward, forward, holdingPageForward, returnLocation);
+    }
+    
+    @Override
+    protected void populateAuthorizationFields(KualiDocumentFormBase formBase) {
+        super.populateAuthorizationFields(formBase);
+        CommitteeFormBase committeeForm = (CommitteeFormBase) formBase;
+        String command = committeeForm.getCommand();
+        Map documentActions = formBase.getDocumentActions();
+        if ("displayDocSearchView".equals(command)){
+            if (documentActions.containsKey(KRADConstants.KUALI_ACTION_CAN_RELOAD)) {
+                documentActions.remove(KRADConstants.KUALI_ACTION_CAN_RELOAD);
+            }
+        }
     }
 
 }
