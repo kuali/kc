@@ -20,6 +20,8 @@ import java.util.UUID;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.kra.bo.CustomAttributeDocValue;
+import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -28,7 +30,7 @@ import org.kuali.kra.infrastructure.TestUtilities;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rules.ProposalDevelopmentRuleTestBase;
 import org.kuali.kra.proposaldevelopment.service.ProposalRoleTemplateService;
-import org.kuali.kra.rule.event.SaveCustomAttributeEvent;
+import org.kuali.kra.rule.event.SaveCustomDataEvent;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.UserSession;
@@ -44,14 +46,14 @@ import org.springframework.util.AutoPopulatingList;
 // TODO : temporary extends ProposalDevelopmentRuleTestBase to test proposal document custom data 
 // need more generic class for extension, so we can test other modules, such as budget too
 public class SaveCustomAttributeRuleTest extends ProposalDevelopmentRuleTestBase {
-    private SaveCustomAttributeRule rule = null;
+    private SaveCustomDataRule rule = null;
     private BusinessObjectService bos;
 
     @Override
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        rule = new SaveCustomAttributeRule();
+        rule = new SaveCustomDataRule();
         bos = KraServiceLocator.getService(BusinessObjectService.class);
     }
 
@@ -64,6 +66,13 @@ public class SaveCustomAttributeRuleTest extends ProposalDevelopmentRuleTestBase
     }
 
 
+    protected void setCustomAttributeValue(ProposalDevelopmentDocument document, CustomAttributeDocument customAttribute, String value) {
+        CustomAttributeDocValue newValue = new CustomAttributeDocValue();
+        newValue.setCustomAttribute(customAttribute.getCustomAttribute());
+        newValue.setCustomAttributeId(customAttribute.getCustomAttributeId().longValue());
+        newValue.setValue(value);
+        document.getCustomDataList().add(newValue);
+    }
 
     /**
      * Test a good case.
@@ -76,10 +85,12 @@ public class SaveCustomAttributeRuleTest extends ProposalDevelopmentRuleTestBase
         ProposalDevelopmentDocument document = getNewProposalDevelopmentDocument();
         document.setCustomAttributeDocuments(TestUtilities.setupTestCustomAttributeDocuments());
 
-        document.getCustomAttributeDocuments().get("1").getCustomAttribute().setValue(TestUtilities.BILLING_ELEMENT_VALUE);
-        document.getCustomAttributeDocuments().get("4").getCustomAttribute().setValue(TestUtilities.GRADUATE_STUDENT_COUNT_VALUE);
-        document.getCustomAttributeDocuments().get("8").getCustomAttribute().setValue(TestUtilities.LOCAL_REVIEW_DATE_VALUE);
-        SaveCustomAttributeEvent saveCustomAttributeEvent = new SaveCustomAttributeEvent(Constants.EMPTY_STRING, document);
+        setCustomAttributeValue(document, document.getCustomAttributeDocuments().get("1"), TestUtilities.BILLING_ELEMENT_VALUE);
+        setCustomAttributeValue(document, document.getCustomAttributeDocuments().get("4"), TestUtilities.GRADUATE_STUDENT_COUNT_VALUE);
+        setCustomAttributeValue(document, document.getCustomAttributeDocuments().get("8"), TestUtilities.LOCAL_REVIEW_DATE_VALUE);
+        setCustomAttributeValue(document, document.getCustomAttributeDocuments().get("9"), "Yes");
+        setCustomAttributeValue(document, document.getCustomAttributeDocuments().get("5"), "quickstart");
+        SaveCustomDataEvent saveCustomAttributeEvent = new SaveCustomDataEvent(document);
         assertTrue(rule.processRules(saveCustomAttributeEvent));
     }
 
@@ -90,9 +101,9 @@ public class SaveCustomAttributeRuleTest extends ProposalDevelopmentRuleTestBase
         document.setCustomAttributeDocuments(TestUtilities.setupTestCustomAttributeDocuments());
 
         //billing element is not set
-        document.getCustomAttributeDocuments().get("4").getCustomAttribute().setValue(TestUtilities.GRADUATE_STUDENT_COUNT_VALUE);
-        document.getCustomAttributeDocuments().get("8").getCustomAttribute().setValue(TestUtilities.LOCAL_REVIEW_DATE_VALUE);
-        SaveCustomAttributeEvent saveCustomAttributeEvent = new SaveCustomAttributeEvent(Constants.EMPTY_STRING, document);
+        setCustomAttributeValue(document, document.getCustomAttributeDocuments().get("4"), TestUtilities.GRADUATE_STUDENT_COUNT_VALUE);
+        setCustomAttributeValue(document, document.getCustomAttributeDocuments().get("8"), TestUtilities.LOCAL_REVIEW_DATE_VALUE);
+        SaveCustomDataEvent saveCustomAttributeEvent = new SaveCustomDataEvent(document);
         assertTrue(rule.processRules(saveCustomAttributeEvent));
         
         UserSession currentSession = GlobalVariables.getUserSession();
@@ -129,12 +140,12 @@ public class SaveCustomAttributeRuleTest extends ProposalDevelopmentRuleTestBase
         ProposalDevelopmentDocument document = getNewProposalDevelopmentDocument();
         document.setCustomAttributeDocuments(TestUtilities.setupTestCustomAttributeDocuments());
 
-        document.getCustomAttributeDocuments().get("1").getCustomAttribute().setValue(TestUtilities.BILLING_ELEMENT_VALUE);
-        document.getCustomAttributeDocuments().get("4").getCustomAttribute().setValue(TestUtilities.GRADUATE_STUDENT_COUNT_VALUE+"a");
-        document.getCustomAttributeDocuments().get("8").getCustomAttribute().setValue(TestUtilities.LOCAL_REVIEW_DATE_VALUE);
-        SaveCustomAttributeEvent saveCustomAttributeEvent = new SaveCustomAttributeEvent(Constants.EMPTY_STRING, document);
+        setCustomAttributeValue(document, document.getCustomAttributeDocuments().get("1"), TestUtilities.BILLING_ELEMENT_VALUE);
+        setCustomAttributeValue(document, document.getCustomAttributeDocuments().get("4"), TestUtilities.GRADUATE_STUDENT_COUNT_VALUE+"a");
+        setCustomAttributeValue(document, document.getCustomAttributeDocuments().get("8"), TestUtilities.LOCAL_REVIEW_DATE_VALUE);
+        SaveCustomDataEvent saveCustomAttributeEvent = new SaveCustomDataEvent(document);
         assertFalse(rule.processRules(saveCustomAttributeEvent));
-        AutoPopulatingList errors = GlobalVariables.getMessageMap().getMessages("customAttributeValues(id4)");
+        AutoPopulatingList errors = GlobalVariables.getMessageMap().getMessages("customDataHelper.customDataList[1].value");
         assertTrue(errors.size() == 1);
         ErrorMessage message = (ErrorMessage) errors.get(0);
         assertEquals(KeyConstants.ERROR_INVALID_FORMAT_WITH_FORMAT, message.getErrorKey());
@@ -146,12 +157,12 @@ public class SaveCustomAttributeRuleTest extends ProposalDevelopmentRuleTestBase
         ProposalDevelopmentDocument document = getNewProposalDevelopmentDocument();
         document.setCustomAttributeDocuments(TestUtilities.setupTestCustomAttributeDocuments());
 
-        document.getCustomAttributeDocuments().get("1").getCustomAttribute().setValue(TestUtilities.BILLING_ELEMENT_VALUE+"123456789012345678901234567890");
-        document.getCustomAttributeDocuments().get("4").getCustomAttribute().setValue(TestUtilities.GRADUATE_STUDENT_COUNT_VALUE);
-        document.getCustomAttributeDocuments().get("8").getCustomAttribute().setValue(TestUtilities.LOCAL_REVIEW_DATE_VALUE);
-        SaveCustomAttributeEvent saveCustomAttributeEvent = new SaveCustomAttributeEvent(Constants.EMPTY_STRING, document);
+        setCustomAttributeValue(document, document.getCustomAttributeDocuments().get("1"), TestUtilities.BILLING_ELEMENT_VALUE+"123456789012345678901234567890");
+        setCustomAttributeValue(document, document.getCustomAttributeDocuments().get("4"), TestUtilities.GRADUATE_STUDENT_COUNT_VALUE);
+        setCustomAttributeValue(document, document.getCustomAttributeDocuments().get("8"), TestUtilities.LOCAL_REVIEW_DATE_VALUE);
+        SaveCustomDataEvent saveCustomAttributeEvent = new SaveCustomDataEvent(document);
         assertFalse(rule.processRules(saveCustomAttributeEvent));
-        AutoPopulatingList errors = GlobalVariables.getMessageMap().getMessages("customAttributeValues(id1)");
+        AutoPopulatingList errors = GlobalVariables.getMessageMap().getMessages("customDataHelper.customDataList[0].value");
         assertTrue(errors.size() == 1);
         ErrorMessage message = (ErrorMessage) errors.get(0);
         assertEquals(message.getErrorKey(), RiceKeyConstants.ERROR_MAX_LENGTH);
@@ -163,12 +174,13 @@ public class SaveCustomAttributeRuleTest extends ProposalDevelopmentRuleTestBase
         ProposalDevelopmentDocument document = getNewProposalDevelopmentDocument();
         document.setCustomAttributeDocuments(TestUtilities.setupTestCustomAttributeDocuments());
 
-        document.getCustomAttributeDocuments().get("1").getCustomAttribute().setValue(TestUtilities.BILLING_ELEMENT_VALUE);
-        document.getCustomAttributeDocuments().get("4").getCustomAttribute().setValue(TestUtilities.GRADUATE_STUDENT_COUNT_VALUE);
-        document.getCustomAttributeDocuments().get("8").getCustomAttribute().setValue("2008-02-08");
-        SaveCustomAttributeEvent saveCustomAttributeEvent = new SaveCustomAttributeEvent(Constants.EMPTY_STRING, document);
+        
+        setCustomAttributeValue(document, document.getCustomAttributeDocuments().get("1"), TestUtilities.BILLING_ELEMENT_VALUE);
+        setCustomAttributeValue(document, document.getCustomAttributeDocuments().get("4"), TestUtilities.GRADUATE_STUDENT_COUNT_VALUE);
+        setCustomAttributeValue(document, document.getCustomAttributeDocuments().get("8"), "2008-02-08");
+        SaveCustomDataEvent saveCustomAttributeEvent = new SaveCustomDataEvent(document);
         assertFalse(rule.processRules(saveCustomAttributeEvent));
-        AutoPopulatingList errors = GlobalVariables.getMessageMap().getMessages("customAttributeValues(id8)");
+        AutoPopulatingList errors = GlobalVariables.getMessageMap().getMessages("customDataHelper.customDataList[2].value");
         assertTrue(errors.size() == 1);
         ErrorMessage message = (ErrorMessage) errors.get(0);
         assertEquals(RiceKeyConstants.ERROR_INVALID_FORMAT, message.getErrorKey());
@@ -180,16 +192,52 @@ public class SaveCustomAttributeRuleTest extends ProposalDevelopmentRuleTestBase
         ProposalDevelopmentDocument document = getNewProposalDevelopmentDocument();
         document.setCustomAttributeDocuments(TestUtilities.setupTestCustomAttributeDocuments());
 
-        document.getCustomAttributeDocuments().get("1").getCustomAttribute().setValue(TestUtilities.BILLING_ELEMENT_VALUE);
-        document.getCustomAttributeDocuments().get("4").getCustomAttribute().setValue(TestUtilities.GRADUATE_STUDENT_COUNT_VALUE);
-        document.getCustomAttributeDocuments().get("8").getCustomAttribute().setValue("02/29/2010");
-        SaveCustomAttributeEvent saveCustomAttributeEvent = new SaveCustomAttributeEvent(Constants.EMPTY_STRING, document);
+        setCustomAttributeValue(document, document.getCustomAttributeDocuments().get("1"), TestUtilities.BILLING_ELEMENT_VALUE);
+        setCustomAttributeValue(document, document.getCustomAttributeDocuments().get("4"), TestUtilities.GRADUATE_STUDENT_COUNT_VALUE);
+        setCustomAttributeValue(document, document.getCustomAttributeDocuments().get("8"), "02/29/2010");
+        SaveCustomDataEvent saveCustomAttributeEvent = new SaveCustomDataEvent(document);
         assertFalse(rule.processRules(saveCustomAttributeEvent));
-        AutoPopulatingList errors = GlobalVariables.getMessageMap().getMessages("customAttributeValues(id8)");
+        AutoPopulatingList errors = GlobalVariables.getMessageMap().getMessages("customDataHelper.customDataList[2].value");
         assertTrue(errors.size() == 1);
         ErrorMessage message = (ErrorMessage) errors.get(0);
         assertEquals(KeyConstants.ERROR_DATE, message.getErrorKey());
     }
+    
+    @Test
+    public void testInvalidPerson() throws Exception {
+
+        ProposalDevelopmentDocument document = getNewProposalDevelopmentDocument();
+        document.setCustomAttributeDocuments(TestUtilities.setupTestCustomAttributeDocuments());
+
+        setCustomAttributeValue(document, document.getCustomAttributeDocuments().get("1"), TestUtilities.BILLING_ELEMENT_VALUE);
+        setCustomAttributeValue(document, document.getCustomAttributeDocuments().get("4"), TestUtilities.GRADUATE_STUDENT_COUNT_VALUE);
+        setCustomAttributeValue(document, document.getCustomAttributeDocuments().get("8"), TestUtilities.LOCAL_REVIEW_DATE_VALUE);
+        setCustomAttributeValue(document, document.getCustomAttributeDocuments().get("5"), "noarealperson");
+        SaveCustomDataEvent saveCustomAttributeEvent = new SaveCustomDataEvent(document);
+        assertFalse(rule.processRules(saveCustomAttributeEvent));
+        AutoPopulatingList errors = GlobalVariables.getMessageMap().getMessages("customDataHelper.customDataList[3].value");
+        assertTrue(errors.size() == 1);
+        ErrorMessage message = (ErrorMessage) errors.get(0);
+        assertEquals(RiceKeyConstants.ERROR_EXISTENCE, message.getErrorKey());
+    }  
+    
+    @Test
+    public void testInvalidLookup() throws Exception {
+
+        ProposalDevelopmentDocument document = getNewProposalDevelopmentDocument();
+        document.setCustomAttributeDocuments(TestUtilities.setupTestCustomAttributeDocuments());
+
+        setCustomAttributeValue(document, document.getCustomAttributeDocuments().get("1"), TestUtilities.BILLING_ELEMENT_VALUE);
+        setCustomAttributeValue(document, document.getCustomAttributeDocuments().get("4"), TestUtilities.GRADUATE_STUDENT_COUNT_VALUE);
+        setCustomAttributeValue(document, document.getCustomAttributeDocuments().get("8"), TestUtilities.LOCAL_REVIEW_DATE_VALUE);
+        setCustomAttributeValue(document, document.getCustomAttributeDocuments().get("9"), "Uh");
+        SaveCustomDataEvent saveCustomAttributeEvent = new SaveCustomDataEvent(document);
+        assertFalse(rule.processRules(saveCustomAttributeEvent));
+        AutoPopulatingList errors = GlobalVariables.getMessageMap().getMessages("customDataHelper.customDataList[3].value");
+        assertTrue(errors.size() == 1);
+        ErrorMessage message = (ErrorMessage) errors.get(0);
+        assertEquals(RiceKeyConstants.ERROR_EXISTENCE, message.getErrorKey());
+    }      
 
 
     

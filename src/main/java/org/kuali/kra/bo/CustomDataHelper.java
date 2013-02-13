@@ -16,146 +16,41 @@
 package org.kuali.kra.bo;
 
 import java.io.Serializable;
+
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.SortedMap;
-import java.util.TreeMap;
 
-import org.apache.commons.lang.StringEscapeUtils;
-import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.infrastructure.PropertyConstants;
-import org.kuali.rice.kew.api.WorkflowDocument;
-import org.kuali.rice.kew.api.WorkflowDocumentFactory;
-import org.kuali.rice.kew.api.document.attribute.WorkflowAttributeDefinition;
-import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.kra.common.customattributes.CustomDataHelperBase;
 
-public class CustomDataHelper implements Serializable {
+public class CustomDataHelper extends CustomDataHelperBase<PersonCustomData> implements Serializable {
 
     private static final long serialVersionUID = -6829522940099878931L;
     
-    private static final String CUSTOM_ATTRIBUTE_NAME = "PersonCustomDataAttribute";
-
-    private SortedMap<String, List<CustomAttributeDocument>> customAttributeGroups;
+    private KcPersonExtendedAttributesMaintainableImpl maintainableImpl;
+    private Map<String, CustomAttributeDocument> customAttributeDocuments;
     
-    private transient BusinessObjectService businessObjectService;
-    
-    public Map<String, List<CustomAttributeDocument>> getCustomAttributeGroups() {
-        return customAttributeGroups;
+    public CustomDataHelper(KcPersonExtendedAttributesMaintainableImpl maintainableImpl) {
+        this.maintainableImpl = maintainableImpl;
+        customAttributeDocuments = getCustomAttributeService().getDefaultCustomAttributeDocuments("PERS", 
+                maintainableImpl.getDataObject() != null ? ((KcPersonExtendedAttributes) maintainableImpl.getDataObject()).getPersonCustomDataList() : new ArrayList<PersonCustomData>());
     }
 
-    public void setCustomAttributeGroups(SortedMap<String, List<CustomAttributeDocument>> customAttributeGroups) {
-        this.customAttributeGroups = customAttributeGroups;
+    @Override
+    protected PersonCustomData getNewCustomData() {
+        return new PersonCustomData();
     }
-    
-    public void populateCustomAttributeGroups(KcPersonExtendedAttributes kcPersonExtendedAttributes) {
-        Map<String, CustomAttributeDocument> customAttributeDocuments = getCustomAttributeDocuments();
-        
-        customAttributeGroups = new TreeMap<String, List<CustomAttributeDocument>>();
-        for (CustomAttributeDocument customAttributeDocument : customAttributeDocuments.values()) {
-            PersonCustomData personCustomData = getPersonCustomData(customAttributeDocument, kcPersonExtendedAttributes);
-            personCustomData.refreshReferenceObject("customAttribute");
-            String groupName = StringUtils.defaultIfBlank(personCustomData.getCustomAttribute().getGroupName(), "No Group");
-            List<CustomAttributeDocument> groupCustomAttributeDocuments = customAttributeGroups.get(groupName);
-            if (groupCustomAttributeDocuments == null) {
-                groupCustomAttributeDocuments = new ArrayList<CustomAttributeDocument>();
-                customAttributeGroups.put(groupName, groupCustomAttributeDocuments);
-            }
-            groupCustomAttributeDocuments.add(customAttributeDocument);
-            Collections.sort(groupCustomAttributeDocuments, new LabelComparator());
-        }
+
+    @Override
+    public List<PersonCustomData> getCustomDataList() {
+        return ((KcPersonExtendedAttributes) maintainableImpl.getDataObject()).getPersonCustomDataList();
     }
-    
-    public void saveCustomAttributesToWorkflow(KcPersonExtendedAttributes kcPersonExtendedAttributes, String documentNumber) {
-        WorkflowDocument workflowDocument = WorkflowDocumentFactory.loadDocument(GlobalVariables.getUserSession().getPrincipalId(), documentNumber); 
-        
-        workflowDocument.clearAttributeContent();
-        WorkflowAttributeDefinition customDataDef = WorkflowAttributeDefinition.Builder.create(CUSTOM_ATTRIBUTE_NAME).build();
-        WorkflowAttributeDefinition.Builder refToUpdate = WorkflowAttributeDefinition.Builder.create(customDataDef);
-        
-        for (PersonCustomData personCustomData : kcPersonExtendedAttributes.getPersonCustomDataList()) {
-            String value = personCustomData.getValue();
-            personCustomData.refreshReferenceObject("customAttribute");
-            if (StringUtils.isNotBlank(value)) {
-                refToUpdate.addPropertyDefinition(personCustomData.getCustomAttribute().getName(), StringEscapeUtils.escapeXml(value));
-            }
-        }
-        
-        workflowDocument.addAttributeDefinition(refToUpdate.build());
-        workflowDocument.saveDocumentData();
-    }
-    
-    private Map<String, CustomAttributeDocument> getCustomAttributeDocuments() {
-        Map<String, CustomAttributeDocument> customAttributeDocuments = new HashMap<String, CustomAttributeDocument>();
-        
-        Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put(PropertyConstants.DOCUMENT.TYPE_NAME.toString(), "PERS");
-        Collection<CustomAttributeDocument> customAttributeDocumentList = getBusinessObjectService().findMatching(CustomAttributeDocument.class, fieldValues);
-        for (CustomAttributeDocument customAttributeDocument : customAttributeDocumentList) {
-            if (customAttributeDocument.isActive()) {
-                customAttributeDocuments.put(customAttributeDocument.getCustomAttributeId().toString(), customAttributeDocument);
-            }
-        }
-        
+
+    @Override
+    public Map<String, CustomAttributeDocument> getCustomAttributeDocuments() {
         return customAttributeDocuments;
     }
     
-    private PersonCustomData getPersonCustomData(CustomAttributeDocument customAttributeDocument, KcPersonExtendedAttributes kcPersonExtendedAttributes) {
-        PersonCustomData personCustomData = null;
-        
-        for (PersonCustomData personCustomDataListItem : kcPersonExtendedAttributes.getPersonCustomDataList()) {
-            if (customAttributeDocument.getCustomAttributeId().longValue() == personCustomDataListItem.getCustomAttributeId().longValue()) {
-                personCustomData = personCustomDataListItem;
-                break;
-            }
-        }
-        
-        if (personCustomData == null) {
-            int customAttributeId = customAttributeDocument.getCustomAttributeId();
-            String customAttributeDefaultValue = customAttributeDocument.getCustomAttribute().getDefaultValue();
-            String customAttributeValue = customAttributeDocument.getCustomAttribute().getValue();
-            
-            personCustomData = new PersonCustomData();
-            personCustomData.setCustomAttributeId((long) customAttributeId);
-            personCustomData.setCustomAttribute(customAttributeDocument.getCustomAttribute());
-            personCustomData.setPersonId(kcPersonExtendedAttributes.getPersonId());
-            personCustomData.setValue(StringUtils.defaultString(StringUtils.defaultString(customAttributeValue, customAttributeDefaultValue)));
-        
-            kcPersonExtendedAttributes.getPersonCustomDataList().add(personCustomData);
-        }
-        
-        return personCustomData;
-    }
-    
-    /**
-     * Sorts custom data attributes by label for alphabetical order on custom data panels.
-     */
-    protected class LabelComparator implements Comparator<CustomAttributeDocument> {
-        
-        @Override
-        public int compare(CustomAttributeDocument o1, CustomAttributeDocument o2) {    
-            String label1 = StringUtils.defaultString(o1.getCustomAttribute().getLabel());
-            String label2 = StringUtils.defaultString(o2.getCustomAttribute().getLabel());
-            return label1.compareTo(label2);
-        }
-        
-    }
-    
-    public BusinessObjectService getBusinessObjectService() {
-        if (businessObjectService == null) {
-            businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
-        }
-        return businessObjectService;
-    }
-    
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
-    }
+
 
 }

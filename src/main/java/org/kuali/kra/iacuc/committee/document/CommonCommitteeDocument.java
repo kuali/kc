@@ -15,6 +15,10 @@
  */
 package org.kuali.kra.iacuc.committee.document;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.kuali.kra.bo.DocumentCustomData;
 import org.kuali.kra.common.committee.document.CommitteeDocumentBase;
 import org.kuali.kra.iacuc.committee.bo.IacucCommittee;
 import org.kuali.kra.iacuc.committee.bo.IacucCommitteeSchedule;
@@ -41,6 +45,11 @@ public class CommonCommitteeDocument extends CommitteeDocumentBase<CommonCommitt
     @Override
     protected IacucCommitteeService getCommitteeService() {
         return KraServiceLocator.getService(IacucCommitteeService.class);
+    }
+
+    @Override
+    public List<? extends DocumentCustomData> getDocumentCustomData() {
+        return new ArrayList();
     }
 
 }

@@ -36,7 +36,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
-import org.kuali.kra.rule.event.SaveCustomAttributeEvent;
+import org.kuali.kra.rule.event.SaveCustomDataEvent;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.kra.subaward.bo.SubAwardAmountInfo;
@@ -334,8 +334,8 @@ SubAwardFundingSourceRule {
     @Override
     public boolean processRunAuditBusinessRules(Document document){
         boolean retval = true;
+        retval = super.processRunAuditBusinessRules(document);
         retval &= new SubAwardAuditRule().processRunAuditBusinessRules(document);
-        retval &= new SubAwardCustomDataAuditRule().processRunAuditBusinessRules(document);
         retval &= new SubAwardFinancialAuditRule().processRunAuditBusinessRules(document);
         return retval;
     }
@@ -369,26 +369,8 @@ SubAwardFundingSourceRule {
     * @return
     */
     public boolean processSaveAwardCustomDataBusinessRules(Document document) {
-        boolean valid = true;
-        
         SubAwardDocument subAwardDocument = (SubAwardDocument) document;
-        Map<String, CustomAttributeDocument> customAttributeDocuments = subAwardDocument.getCustomAttributeDocuments();
-        for (Map.Entry<String, CustomAttributeDocument> customAttributeDocumentEntry : customAttributeDocuments.entrySet()) {
-            CustomAttributeDocument customAttributeDocument = customAttributeDocumentEntry.getValue();
-            CustomAttribute customAttribute = customAttributeDocument.getCustomAttribute();
-            if(subAwardDocument.getSubAward().getSubAwardCustomDataList().size() > 0) {
-                int customAttributeId = customAttributeDocument.getCustomAttributeId();
-                List<SubAwardCustomData> subAwardCustomDataList = subAwardDocument.getSubAward().getSubAwardCustomDataList();
-                for(SubAwardCustomData awardCustomData : subAwardCustomDataList){
-                  if(awardCustomData.getCustomAttributeId() == customAttributeId){  
-                      customAttribute.setValue(awardCustomData.getValue());
-                      break;
-                  }
-                }
-            }
-        }
-        valid &= processRules(new SaveCustomAttributeEvent(Constants.EMPTY_STRING, subAwardDocument));
-        return valid;
+        return processRules(new SaveCustomDataEvent(subAwardDocument));
     }
     /**
      * @see org.kuali.kra.rule.BusinessRuleInterface#processRules(org.kuali.kra.rule.event.KraDocumentEventBaseExtension)

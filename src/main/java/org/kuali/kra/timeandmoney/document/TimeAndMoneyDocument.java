@@ -28,6 +28,7 @@ import org.kuali.kra.award.awardhierarchy.AwardHierarchyService;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.timeandmoney.AwardDirectFandADistribution;
 import org.kuali.kra.award.version.service.AwardVersionService;
+import org.kuali.kra.bo.DocumentCustomData;
 import org.kuali.kra.bo.RolePersons;
 import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.document.ResearchDocumentBase;
@@ -442,6 +443,11 @@ public class TimeAndMoneyDocument extends ResearchDocumentBase implements Copyab
         String myKey = StringUtils.leftPad(getDocumentNumber(), 40);
         String otherKey = StringUtils.leftPad(comparator.getDocumentNumber(), 40);
         return myKey.compareTo(otherKey);
+    }
+
+    @Override
+    public List<? extends DocumentCustomData> getDocumentCustomData() {
+        return new ArrayList();
     }
     
 }

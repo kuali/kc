@@ -29,7 +29,7 @@
   	
 <div align="right"><kul:help documentTypeName="${KualiForm.documentTypeName}" pageName="Custom Data" /></div>
 
-<kra-ip:institutionalProposalCustomDataTab name="${KualiForm.actionName}" />
+<kra-customdata:customDataTab  />
  
 <kul:documentControls transactionalDocument="true" suppressRoutingControls="true" suppressCancelButton="true"/>
 <script language="javascript" src="scripts/kuali_application.js"></script>

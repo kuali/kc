@@ -18,13 +18,8 @@ package org.kuali.kra.protocol.customdata;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.struts.action.ActionForm;
-import org.apache.struts.action.ActionForward;
-import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.bo.CustomAttributeDocument;
+import org.kuali.kra.bo.DocumentCustomData;
 import org.kuali.kra.common.customattributes.CustomDataHelperBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.ProtocolBase;
@@ -37,7 +32,7 @@ import org.kuali.rice.krad.service.BusinessObjectService;
  * The CustomDataHelper is used to manage the Custom Data tab web page.
  * It contains the data, forms, and methods needed to render the page.
  */
-public abstract class ProtocolCustomDataHelperBase extends CustomDataHelperBase { 
+public abstract class ProtocolCustomDataHelperBase<T extends DocumentCustomData> extends CustomDataHelperBase<T> { 
     
 
     /**
@@ -49,17 +44,10 @@ public abstract class ProtocolCustomDataHelperBase extends CustomDataHelperBase 
      * Each Helper must contain a reference to its document form
      * so that it can access the document.
      */
-    private ProtocolFormBase form;
-   
-// TODO ********************** commented out during IRB backfit ************************    
-//    private SortedMap<String, List<CustomAttributeDocument>> customAttributeGroups;
-//    private Map<String, String[]> customAttributeValues = new HashMap<String, String[]>();
-    
+    protected ProtocolFormBase form;
     private transient BusinessObjectService businessObjectService;
     private transient TaskAuthorizationService taskAuthorizationService;
 
-// TODO ********************** commented out during IRB backfit ************************    
-//    private boolean modifyCustomData = false;
 
     /**
      * Constructs a CustomDataHelper.
@@ -68,23 +56,6 @@ public abstract class ProtocolCustomDataHelperBase extends CustomDataHelperBase 
     public ProtocolCustomDataHelperBase(ProtocolFormBase form) {
         this.form = form;
     }
-
-// TODO ********************** commented out during IRB backfit ************************    
-//    public Map<String, List<CustomAttributeDocument>> getCustomAttributeGroups() {
-//        return customAttributeGroups;
-//    }
-//
-//    public void setCustomAttributeGroups(SortedMap<String, List<CustomAttributeDocument>> customAttributeGroups) {
-//        this.customAttributeGroups = customAttributeGroups;
-//    }
-//
-//    public Map<String, String[]> getCustomAttributeValues() {
-//        return customAttributeValues;
-//    }
-//
-//    public void setCustomAttributeValues(Map<String, String[]> customAttributeValues) {
-//        this.customAttributeValues = customAttributeValues;
-//    }
 
     /*
      * Get the ProtocolBase.
@@ -117,8 +88,6 @@ public abstract class ProtocolCustomDataHelperBase extends CustomDataHelperBase 
     }
     
     protected abstract String getDocumentTypeCode();
-
-    public abstract void prepareView(ProtocolBase protocol);
     
 //TODO: Must be reworked when IACUC and IRB are merged    
 //    public void prepareView(ProtocolDocumentBase protocolDocument) {
@@ -190,8 +159,6 @@ public abstract class ProtocolCustomDataHelperBase extends CustomDataHelperBase 
      * @return true if can modify the custom data; otherwise false
      */
     public abstract boolean canModifyCustomData();
-    
-    public abstract ActionForward getCustomDataAction(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response);
 
 //TODO: Must be reworked when IACUC and IRB are merged    
 //    public ActionForward getCustomDataAction(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, String mappingName) {

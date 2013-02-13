@@ -15,38 +15,30 @@
  */
 package org.kuali.kra.irb.customdata;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import java.util.List;
+import java.util.Map;
 
-import org.apache.struts.action.ActionForm;
-import org.apache.struts.action.ActionForward;
-import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.bo.CustomAttributeDocValue;
+import org.kuali.kra.bo.CustomAttributeDocument;
+import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.irb.auth.ProtocolTask;
-import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.customdata.ProtocolCustomDataHelperBase;
 
 /**
  * The CustomDataHelper is used to manage the Custom Data tab web page.
  * It contains the data, forms, and methods needed to render the page.
  */
-public class CustomDataHelper extends ProtocolCustomDataHelperBase { 
+public class CustomDataHelper extends ProtocolCustomDataHelperBase<CustomAttributeDocValue> { 
     
     /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 3956588282238741445L;
-    
-// TODO ********************** commented out during IRB backfit ************************    
-//    /**
-//     * Each Helper must contain a reference to its document form
-//     * so that it can access the document.
-//     */
-//    private ProtocolForm form;
-    
+
     /**
      * Constructs a CustomDataHelper.
      * @param form the form
@@ -54,19 +46,7 @@ public class CustomDataHelper extends ProtocolCustomDataHelperBase {
     public CustomDataHelper(ProtocolForm form) {
         super(form);
     }
-    
-// TODO ********************** commented out during IRB backfit ************************    
-//    /*
-//     * Get the Protocol.
-//     */
-//    private Protocol getProtocol() {
-//        ProtocolDocument document = (ProtocolDocument) form.getProtocolDocument();
-//        if (document == null || document.getProtocol() == null) {
-//            throw new IllegalArgumentException("invalid (null) ProtocolDocument in ProtocolForm");
-//        }
-//        return (Protocol) document.getProtocol();
-//    }
-//    
+  
     /**
      * @see org.kuali.kra.common.customattributes.CustomDataHelperBase#canModifyCustomData()
      */
@@ -82,43 +62,17 @@ public class CustomDataHelper extends ProtocolCustomDataHelperBase {
     }
 
     @Override
-    public void prepareView(ProtocolBase protocol) {
-        // TODO Auto-generated method stub (temporary for backfit)  This will have to be added after merging back from trunk, its quite possible that we can elevate the IACUC implementation of 
-        // this method to the parent class, requiring only hooks to be implemented. 
-        
+    protected CustomAttributeDocValue getNewCustomData() {
+        return new CustomAttributeDocValue();
     }
 
     @Override
-    public ActionForward getCustomDataAction(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) {
-        // TODO Auto-generated method stub (temporary for backfit) This will have to be added after merging back from trunk, its quite possible that we can elevate the IACUC implementation of 
-        // this method to the parent class, requiring only hooks to be implemented. 
-        return null;
+    public List<CustomAttributeDocValue> getCustomDataList() {
+        return ((ProtocolDocument) form.getProtocolDocument()).getCustomDataList();
     }
-    
-// TODO ********************** commented out during IRB backfit ************************    
-//    /**
-//     * 
-//     * This method returns true if the custom data tab should be displayed.
-//     * @return
-//     */
-//    public boolean canDisplayCustomDataTab() {
-//        boolean localCustomData = this.getCustomAttributeGroups().size() > 0;      
-//        boolean anyProtocolAttr = areThereAnyProtocolCustomAttributes();
-//        return localCustomData || anyProtocolAttr;        
-//    }
-//    
-//    private boolean areThereAnyProtocolCustomAttributes() {
-//        Map fieldValues = new HashMap();
-//        fieldValues.put("DOCUMENT_TYPE_CODE", "PROT");
-//        fieldValues.put("ACTIVE_FLAG", "Y");
-//        Collection<CustomAttributeDocument> documents = getBusinessObjectService().findMatching(CustomAttributeDocument.class, fieldValues);
-//        return documents.size() > 0;
-//    }
-//    
-//    
-//    private BusinessObjectService getBusinessObjectService() {
-//        return KraServiceLocator.getService(BusinessObjectService.class);
-//    }
-    
+
+    @Override
+    public Map<String, CustomAttributeDocument> getCustomAttributeDocuments() {
+        return form.getProtocolDocument().getCustomAttributeDocuments();
+    }
 }

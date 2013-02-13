@@ -129,7 +129,7 @@ public class AwardServiceImpl implements AwardService {
                     AwardCustomData awardCustomData = new AwardCustomData();
                     awardCustomData.setCustomAttributeId((long) customAttributeDocument.getCustomAttributeId());
                     awardCustomData.setCustomAttribute(customAttributeDocument.getCustomAttribute());
-                    awardCustomData.setValue("");
+                    awardCustomData.setValue(customAttributeDocument.getCustomAttribute().getDefaultValue());
                     awardCustomData.setAward(newAward);
                     newAward.getAwardCustomDataList().add(awardCustomData);
                 }

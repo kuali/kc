@@ -16,11 +16,13 @@
 
 package org.kuali.kra.iacuc;
 
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.kra.bo.DocumentCustomData;
 import org.kuali.kra.bo.ResearchAreaBase;
 import org.kuali.kra.iacuc.actions.IacucProtocolAction;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
@@ -359,6 +361,11 @@ public class IacucProtocolDocument extends ProtocolDocumentBase {
     
     protected boolean isEligibleForMerging(String status, ProtocolBase otherProtocol) {
         return getListOfStatusEligibleForMergingHook().contains(status) && !StringUtils.equals(this.getProtocol().getProtocolNumber(), otherProtocol.getProtocolNumber());
+    }
+
+    @Override
+    public List<? extends DocumentCustomData> getDocumentCustomData() {
+        return getIacucProtocol().getIacucProtocolCustomDataList();
     }
 
 

@@ -32,6 +32,9 @@
         <collection-descriptor name="protocolList" proxy="true" element-class-ref="org.kuali.kra.irb.Protocol" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="documentNumber" />
         </collection-descriptor>
+        <collection-descriptor name="customDataList" proxy="true" element-class-ref="org.kuali.kra.bo.CustomAttributeDocValue" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+			 <inverse-foreignkey field-ref="documentNumber"/>
+		</collection-descriptor>     
         <!-- GENERATE NEXT VALUE -->
         <collection-descriptor name="documentNextvalues" element-class-ref="org.kuali.kra.bo.DocumentNextvalue" auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="documentKey" /> 
@@ -111,7 +114,7 @@
         </collection-descriptor>      
         <collection-descriptor name="protocolAmendRenewals" element-class-ref="org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewal" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"  auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="protocolId" />
-        </collection-descriptor>
+        </collection-descriptor>   
     </class-descriptor>
 
     <class-descriptor class="org.kuali.kra.irb.actions.ProtocolStatus" table="PROTOCOL_STATUS">

@@ -235,6 +235,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     private static final String PROPOSAL_SUMMARY_TAB_INDICATOR = "enableProposalSummaryTab";   
     
     private transient String currentPersonCountryCode = "";
+    private ProposalDevelopmentCustomDataHelper customDataHelper;
 
     public ProposalDevelopmentForm() {
         super();
@@ -307,6 +308,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
         setNewInstituteAttachment(createNarrative());
         setNewPropPersonBio(new ProposalPersonBiography());
         setApproverViewTabTitle();
+        customDataHelper = new ProposalDevelopmentCustomDataHelper(this);
     }
 
     /**
@@ -2069,6 +2071,14 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     
     public boolean isHidePropDevDocDescriptionPanel() {
         return getParameterService().getParameterValueAsBoolean(ProposalDevelopmentDocument.class, Constants.HIDE_AND_DEFAULT_PROP_DEV_DOC_DESC_PARAM);
+    }
+
+    public ProposalDevelopmentCustomDataHelper getCustomDataHelper() {
+        return customDataHelper;
+    }
+
+    public void setCustomDataHelper(ProposalDevelopmentCustomDataHelper customDataHelper) {
+        this.customDataHelper = customDataHelper;
     }
    
 }

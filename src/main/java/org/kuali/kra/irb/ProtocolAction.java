@@ -32,7 +32,6 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.committee.bo.CommitteeBatchCorrespondenceDetail;
-import org.kuali.kra.common.customattributes.CustomDataAction;
 import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -225,8 +224,8 @@ public abstract class ProtocolAction extends ProtocolActionBase {
     
 // TODO ********************** temporarily overridden during IRB backfit ************************ this can be removed once the IRB and IACUC custom data helpers are merged completely
     public ActionForward customData(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        ((ProtocolForm)form).getCustomDataHelper().prepareView(((ProtocolForm)form).getProtocolDocument());
-        return CustomDataAction.customData(mapping, form, request, response);
+        ((ProtocolForm)form).getCustomDataHelper().prepareCustomData();
+        return mapping.findForward(Constants.MAPPING_CUSTOM_DATA);
     }
     
     public ActionForward medusa(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception  {

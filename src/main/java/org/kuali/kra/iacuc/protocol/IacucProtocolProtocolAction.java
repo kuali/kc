@@ -620,7 +620,7 @@ public class IacucProtocolProtocolAction extends IacucProtocolAction {
     
     public ActionForward customData(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         IacucProtocolForm protocolForm = (IacucProtocolForm)form;
-        protocolForm.getCustomDataHelper().prepareView(protocolForm.getProtocolDocument().getProtocol());
+        protocolForm.getCustomDataHelper().prepareCustomData();
         return mapping.findForward("iacucCustomData");
     }
     

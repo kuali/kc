@@ -297,7 +297,8 @@ public class InstitutionalProposalAction extends KraTransactionalDocumentActionB
     public ActionForward customData(ActionMapping mapping, ActionForm form
             , HttpServletRequest request, HttpServletResponse response) {     
         InstitutionalProposalForm institutionalProposalForm = (InstitutionalProposalForm) form;
-        return institutionalProposalForm.getCustomDataHelper().institutionalProposalCustomData(mapping, form, request, response);
+        institutionalProposalForm.getCustomDataHelper().prepareCustomData();
+        return mapping.findForward(Constants.MAPPING_INSTITUTIONAL_PROPOSAL_CUSTOM_DATA_PAGE);
     }
     
     /**

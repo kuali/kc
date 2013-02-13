@@ -41,8 +41,6 @@ import org.kuali.kra.award.contacts.AwardProjectPersonsSaveRule;
 import org.kuali.kra.award.contacts.AwardProjectPersonsSaveRuleImpl;
 import org.kuali.kra.award.contacts.AwardSponsorContactAuditRule;
 import org.kuali.kra.award.contacts.SaveAwardProjectPersonsRuleEvent;
-import org.kuali.kra.award.customdata.AwardCustomDataRuleImpl;
-import org.kuali.kra.award.customdata.AwardSaveCustomDataRuleEvent;
 import org.kuali.kra.award.detailsdates.AddAwardTransferringSponsorEvent;
 import org.kuali.kra.award.detailsdates.AwardDetailsAndDatesRule;
 import org.kuali.kra.award.detailsdates.AwardDetailsAndDatesRuleImpl;
@@ -97,8 +95,9 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
-import org.kuali.kra.rule.event.SaveCustomAttributeEvent;
+import org.kuali.kra.rule.event.SaveCustomDataEvent;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.kra.rules.SaveCustomDataRule;
 import org.kuali.kra.timeandmoney.TimeAndMoneyForm;
 import org.kuali.kra.timeandmoney.rule.event.TimeAndMoneyAwardDateSaveEvent;
 import org.kuali.kra.timeandmoney.rules.TimeAndMoneyAwardDateSaveRuleImpl;
@@ -440,24 +439,8 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
     * @return
     */
     private boolean processSaveAwardCustomDataBusinessRules(Document document) {
-        boolean valid = true;
-        
         AwardDocument awardDocument = (AwardDocument) document;
-        
-        valid &= processRules(new SaveCustomAttributeEvent(Constants.EMPTY_STRING, awardDocument));
-        
-        MessageMap errorMap = GlobalVariables.getMessageMap();
-        errorMap.addToErrorPath(DOCUMENT_ERROR_PATH);
-        errorMap.addToErrorPath(AWARD_ERROR_PATH);
-        String errorPath = "awardCustomData";
-        errorMap.addToErrorPath(errorPath);
-        AwardSaveCustomDataRuleEvent event = new AwardSaveCustomDataRuleEvent(errorPath, 
-                                                               awardDocument);
-        valid &= new AwardCustomDataRuleImpl().processSaveAwardCustomDataBusinessRules(event);
-        errorMap.removeFromErrorPath(errorPath);
-        errorMap.removeFromErrorPath(AWARD_ERROR_PATH);
-        errorMap.removeFromErrorPath(DOCUMENT_ERROR_PATH);
-        return valid;
+        return processRules(new SaveCustomDataEvent(awardDocument));
     }
     
     /**
@@ -545,9 +528,9 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
     public boolean processRunAuditBusinessRules(Document document){
         boolean retval = true;
         
+        retval &= super.processRunAuditBusinessRules(document);
         retval &= new AwardReportAuditRule().processRunAuditBusinessRules(document);
         retval &= new AwardTermsAuditRule().processRunAuditBusinessRules(document);
-        retval &= new AwardCustomDataAuditRule().processRunAuditBusinessRules(document);
         retval &= new AwardPaymentAndInvoicesAuditRule().processRunAuditBusinessRules(document);
         retval &= new AwardCostShareAuditRule().processRunAuditBusinessRules(document);
         retval &= new AwardFandARateAuditRule().processRunAuditBusinessRules(document);

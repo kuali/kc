@@ -20,17 +20,12 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kra.bo.CustomAttributeDocument;
-import org.kuali.kra.common.customattributes.CustomDataAction;
-import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.irb.ProtocolAction;
-import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -50,16 +45,7 @@ public class ProtocolCustomDataAction extends ProtocolAction {
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-
-        /*
-         * Primarily, the customdata.tag is using 'customdatahelper.xxx' as field name, 
-         * but the field value is coming from document,  so this copy has to be done 
-         * every time custom data page is refreshed. 
-         */
-        CustomDataAction.copyCustomDataToDocument(form);
-
         ((ProtocolForm)form).getCustomDataHelper().initializePermissions();
-        
         return super.execute(mapping, form, request, response);
     }
     
@@ -70,16 +56,7 @@ public class ProtocolCustomDataAction extends ProtocolAction {
             HttpServletRequest request, HttpServletResponse response) throws Exception { 
         ProtocolForm protocolForm = (ProtocolForm) form;
         super.reload(mapping, form, request, response);
-        CustomDataAction.copyCustomDataToDocument(form);
-        ((ProtocolForm)form).getCustomDataHelper().prepareView(((ProtocolForm)form).getProtocolDocument());
-        
-        ProtocolDocument protocolDocument = protocolForm.getProtocolDocument();
-        
-        for (Map.Entry<String, String[]> customAttributeValue : protocolForm.getCustomDataHelper().getCustomAttributeValues().entrySet()) {
-            String customAttributeId = customAttributeValue.getKey().substring(2);
-            String value = customAttributeValue.getValue()[0];
-            protocolDocument.getCustomAttributeDocuments().get(customAttributeId).getCustomAttribute().setValue(value);
-        }
+        ((ProtocolForm)form).getCustomDataHelper().prepareCustomData();
         return mapping.findForward("customData");    
     }
 
@@ -89,39 +66,8 @@ public class ProtocolCustomDataAction extends ProtocolAction {
     @Override
     public void postDocumentSave(KualiDocumentFormBase form) throws Exception {
         super.postDocumentSave(form);
-        CustomDataAction.setCustomAttributeContent(form, CUSTOM_ATTRIBUTE_NAME);
-        // a hook to display "successfully saved" message
-        // seems not needed any more for rice20.
-//        ErrorMessage errorMessage = new ErrorMessage();
-//        errorMessage.setErrorKey("message.saved");
-//        KNSGlobalVariables.getMessageList().add(errorMessage);
-
-    }
-    
-    /**
-     * Clears the lookup value for the customAttributeId given in the parameter methodToCall.clearLookupValue.
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
-    public ActionForward clearLookupValue(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
-        CustomDataHelper customDataHelper = (CustomDataHelper) protocolForm.getCustomDataHelper();
-        Map<String, CustomAttributeDocument> customAttributeDocuments = protocolForm.getProtocolDocument().getCustomAttributeDocuments();
-        String attributeParameter = (String) request.getAttribute(KRADConstants.METHOD_TO_CALL_ATTRIBUTE);
-        String customAttributeId = StringUtils.substringBetween(attributeParameter, ".id", ".");
-        if ( StringUtils.isNotBlank(customAttributeId))
-        {
-            customDataHelper.clearCustomAttributeValue(customAttributeId);
-            if (customAttributeDocuments.containsKey(customAttributeId)) {
-                customAttributeDocuments.get(customAttributeId).getCustomAttribute().setValue(null);  
-            }
-        }
-       
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        protocolForm.getCustomDataHelper().setCustomAttributeContent(protocolForm.getProtocolDocument().getDocumentNumber(), CUSTOM_ATTRIBUTE_NAME);
     }
 
 }

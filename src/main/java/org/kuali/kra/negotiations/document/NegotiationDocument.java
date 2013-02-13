@@ -18,17 +18,14 @@ package org.kuali.kra.negotiations.document;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.bo.CustomAttributeDocument;
+import org.kuali.kra.bo.DocumentCustomData;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.negotiations.bo.Negotiation;
 import org.kuali.kra.negotiations.bo.NegotiationActivity;
 import org.kuali.kra.negotiations.bo.NegotiationActivityAttachment;
-import org.kuali.kra.service.NegotiationCustomAttributeService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.COMPONENT;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.NAMESPACE;
@@ -62,16 +59,6 @@ public class NegotiationDocument extends ResearchDocumentBase implements Seriali
         negotiationList = new ArrayList<Negotiation>();
         negotiationList.add(new Negotiation());
         populateCustomAttributes();
-    }  
-    
-    /**
-     * This method populates the customAttributes for this document.
-     */
-    @Override
-    public void populateCustomAttributes() {
-        NegotiationCustomAttributeService negotiationCustomAttributeService = KraServiceLocator.getService(NegotiationCustomAttributeService.class);
-        Map<String, CustomAttributeDocument> customAttributeDocuments = negotiationCustomAttributeService.getDefaultNegotiationCustomAttributeDocuments();
-        setCustomAttributeDocuments(customAttributeDocuments);
     }
     
     /**
@@ -187,6 +174,11 @@ public class NegotiationDocument extends ResearchDocumentBase implements Seriali
 
     public void setNegotiationList(List<Negotiation> negotiationList) {
         this.negotiationList = negotiationList;
+    }
+
+    @Override
+    public List<? extends DocumentCustomData> getDocumentCustomData() {
+        return getNegotiation().getNegotiationCustomDataList();
     }
 
 }
