@@ -1778,25 +1778,39 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         List<PersonFinIntDisclosure> financialEntities = financialEntityService.getFinancialEntities(personId, true);
         Long disclosureId = coiDisclosure.getCoiDisclosureId();
         for (CoiDisclProject coiDisclProject : coiDisclosure.getCoiDisclProjects()) {
-            if (!coiDisclProject.getCoiDisclosureEventType().isExcludeFromMasterDisclosure()) {
-                List<CoiDiscDetail> coiDiscDetails = new ArrayList<CoiDiscDetail>();
-                for (CoiDiscDetail coiDiscDetail : coiDisclProject.getCoiDiscDetails()) {
-                    if (!coiDiscDetail.getOriginalCoiDisclosureId().equals(disclosureId)) {
-                        disclosureId = coiDiscDetail.getOriginalCoiDisclosureId();
-                        if (coiDiscDetail.getOriginalCoiDisclosure().isAnnualEvent()) {
-                            checkToAddNewFEForAnnualEvent(financialEntities, coiDiscDetails, disclosureId, coiDisclosure,
-                                    projectDetailMap.get(disclosureId), coiDisclProject);
-                        } else {
-                            checkToAddNewFinancialEntity(financialEntities, coiDiscDetails, disclosureId, coiDisclosure,
-                                    projectDetailMap.get(disclosureId), coiDisclProject);
+
+            List<CoiDiscDetail> coiDiscDetails = new ArrayList<CoiDiscDetail>();
+            if(coiDisclProject.getCoiDiscDetails().size() == 0 && financialEntities.size() > 0) {
+                initializeDisclosureDetails(coiDisclProject);
+                checkToAddNewFinancialEntity(financialEntities, coiDiscDetails, disclosureId, coiDisclosure,
+                        projectDetailMap.get(disclosureId), coiDisclProject);
+            } else {
+                if (!coiDisclProject.getCoiDisclosureEventType().isExcludeFromMasterDisclosure()) {
+                    //List<CoiDiscDetail> coiDiscDetails = new ArrayList<CoiDiscDetail>();
+                    for (CoiDiscDetail coiDiscDetail : coiDisclProject.getCoiDiscDetails()) {
+                        if(!(coiDiscDetail.getOriginalCoiDisclosureId() == null)) {
+                            if (!coiDiscDetail.getOriginalCoiDisclosureId().equals(disclosureId)) {
+                                disclosureId = coiDiscDetail.getOriginalCoiDisclosureId();
+                                if (coiDiscDetail.getOriginalCoiDisclosure().isAnnualEvent()) {
+                                    checkToAddNewFEForAnnualEvent(financialEntities, coiDiscDetails, disclosureId, coiDisclosure,
+                                            projectDetailMap.get(disclosureId), coiDisclProject);
+                                } else {
+                                    checkToAddNewFinancialEntity(financialEntities, coiDiscDetails, disclosureId, coiDisclosure,
+                                            projectDetailMap.get(disclosureId), coiDisclProject);
+                                }
+                            }
+                            getCurrentFinancialEntity(coiDiscDetail);
+                            if (coiDiscDetail.getPersonFinIntDisclosure().isStatusActive()
+                                    && coiDiscDetail.getPersonFinIntDisclosure().isCurrentFlag()) {
+                                coiDiscDetails.add(coiDiscDetail);
+                            }
                         }
                     }
-                    getCurrentFinancialEntity(coiDiscDetail);
-                    if (coiDiscDetail.getPersonFinIntDisclosure().isStatusActive()
-                            && coiDiscDetail.getPersonFinIntDisclosure().isCurrentFlag()) {
-                        coiDiscDetails.add(coiDiscDetail);
-                    }
+                    //coiDisclProject.setCoiDiscDetails(coiDiscDetails);
                 }
+            }
+            //if there aren't new coiDiscDetails, then we don't need to update.
+            if(coiDiscDetails.size() > 0) {
                 coiDisclProject.setCoiDiscDetails(coiDiscDetails);
             }
         }
@@ -1859,18 +1873,26 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
             String projectIdFk = Constants.EMPTY_STRING;
             String moduleItemKey = Constants.EMPTY_STRING;
             boolean isSet = false;
-            for (CoiDiscDetail detail : projectDetails) {
-                if (detail.getPersonFinIntDisclosure().getEntityNumber().equals(personFinIntDisclosure.getEntityNumber())) {
-                    isNewFe = false;
-                    break;
+            
+            if(!(projectDetails == null)) {
+                for (CoiDiscDetail detail : projectDetails) {
+                    if (detail.getPersonFinIntDisclosure().getEntityNumber().equals(personFinIntDisclosure.getEntityNumber())) {
+                        isNewFe = false;
+                        break;
+                    }
+                    if (!isSet) {
+                        projectType = detail.getProjectType();
+                        projectIdFk = detail.getProjectIdFk();
+                        moduleItemKey = detail.getModuleItemKey();
+                        isSet = true;
+                    }
                 }
-                if (!isSet) {
-                    projectType = detail.getProjectType();
-                    projectIdFk = detail.getProjectIdFk();
-                    moduleItemKey = detail.getModuleItemKey();
-                    isSet = true;
-                }
+            } else {
+                projectType = coiDisclProject.getCoiDiscDetails().get(0).getProjectType();
+                projectIdFk = coiDisclProject.getCoiDiscDetails().get(0).getProjectIdFk();
+                moduleItemKey = coiDisclProject.getCoiDiscDetails().get(0).getModuleItemKey();
             }
+            
             if (isNewFe) {
                 // if this is newversion, do we keep the related information and comment ?
                 CoiDiscDetail newDetail = createNewCoiDiscDetail(coiDisclosure, personFinIntDisclosure, moduleItemKey, projectIdFk, projectType);
