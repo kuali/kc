@@ -16,6 +16,8 @@
 package org.kuali.kra.proposaldevelopment.web.struts.action;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.Serializable;
 import java.lang.reflect.Method;
@@ -93,6 +95,7 @@ import org.kuali.kra.service.KraWorkflowService;
 import org.kuali.kra.service.PersonEditableService;
 import org.kuali.kra.service.SponsorService;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
+import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.WorkflowDocument;
@@ -1053,6 +1056,32 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
         if(grantsGovErrorExists){
             GlobalVariables.getMessageMap().putError("grantsGovFormValidationErrors", KeyConstants.VALIDATTION_ERRORS_BEFORE_GRANTS_GOV_SUBMISSION);
             return mapping.findForward(Constants.GRANTS_GOV_PAGE);
+        }
+        if (proposalDevelopmentDocument.getDevelopmentProposal().getGrantsGovSelectFlag()) {
+            String loggingDirectory = KraServiceLocator.getService(ConfigurationService.class).getPropertyValueAsString(Constants.PRINT_XML_DIRECTORY);
+            String saveXmlFolderName = proposalDevelopmentDocument.getSaveXmlFolderName();
+            File grantsGovXmlDirectoryFile = new File(loggingDirectory+saveXmlFolderName+".zip");
+            byte[] bytes = new byte[(int)grantsGovXmlDirectoryFile.length()];
+            FileInputStream  fileInputStream = new FileInputStream(grantsGovXmlDirectoryFile);
+            fileInputStream.read(bytes);
+            ByteArrayOutputStream baos = null;
+            try {
+                baos = new ByteArrayOutputStream(bytes.length);
+                baos.write(bytes);
+                WebUtils.saveMimeOutputStreamAsFile(response, "binary/octet-stream", baos,saveXmlFolderName+".zip");
+                
+            } finally {
+                try {
+                    if (baos != null) {
+                        baos.close();
+                        baos = null;
+                    }
+                } catch (IOException ioEx) {
+                    LOG.warn(ioEx.getMessage(), ioEx);
+                }
+            }
+            proposalDevelopmentDocument.getDevelopmentProposal().setGrantsGovSelectFlag(false);
+            return mapping.findForward(Constants.MAPPING_BASIC);
         }
         if(attachmentDataSource==null || attachmentDataSource.getContent()==null){
             return mapping.findForward(Constants.MAPPING_PROPOSAL_ACTIONS);

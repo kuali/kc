@@ -99,6 +99,7 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
      * If it becomes part of the domain, it should probably move to DevelopmentProposal.java
      */
     private String institutionalProposalNumber;
+    private String saveXmlFolderName;
     private List<CustomAttributeDocValue> customDataList;
 
     public ProposalDevelopmentDocument() {
@@ -615,4 +616,11 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
         this.customDataList = customDataList;
     }
     
+    public String getSaveXmlFolderName() {
+        return saveXmlFolderName;
+    }
+
+    public void setSaveXmlFolderName(String saveXmlFolderName) {
+        this.saveXmlFolderName = saveXmlFolderName;
+    }
 }
