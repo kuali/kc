@@ -786,14 +786,16 @@ public class AwardAction extends BudgetParentActionBase {
     @SuppressWarnings({ "deprecation", "unchecked" })
     public ActionForward timeAndMoney(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception{
         AwardForm awardForm = (AwardForm) form;
+        AwardDocument awardDocument = awardForm.getAwardDocument();
         ActionForward actionForward;
         //if award document is view only then we don't need to save document before opening T&M document.
-        if(!awardForm.getEditingMode().containsKey("viewOnly") || awardForm.getEditingMode().containsKey("fullEntry")){
+        if ((!awardForm.getEditingMode().containsKey("viewOnly") || awardForm.getEditingMode().containsKey("fullEntry")) &&
+                !awardDocument.getDocumentHeader().getWorkflowDocument().isFinal()) {
             this.save(mapping, form, request, response);
         }
         //if T&M document is created, there must be a project start date on the award.
         timeAndMoneyAwardDateSaveRuleImpl = new TimeAndMoneyAwardDateSaveRuleImpl();
-        timeAndMoneyAwardDateSaveRuleImpl.enforceAwardStartDatePopulated(awardForm.getAwardDocument().getAward());
+        timeAndMoneyAwardDateSaveRuleImpl.enforceAwardStartDatePopulated(awardDocument.getAward());
         
         
         if(GlobalVariables.getMessageMap().hasNoErrors()){
@@ -804,7 +806,7 @@ public class AwardAction extends BudgetParentActionBase {
     
             populateAwardHierarchy(form);
     
-            Award award = awardForm.getAwardDocument().getAward();
+            Award award = awardDocument.getAward();
            
     
             Map<String, Object> fieldValues = new HashMap<String, Object>();
@@ -853,7 +855,7 @@ public class AwardAction extends BudgetParentActionBase {
             String forward = buildForwardUrl(routeHeaderId);
             actionForward = new ActionForward(forward, true);
             //add this to session and leverage in T&M for return to award action.
-            GlobalVariables.getUserSession  ().addObject(Constants.AWARD_DOCUMENT_STRING_FOR_SESSION + "-" + timeAndMoneyDocument.getDocumentNumber(), awardForm.getAwardDocument().getDocumentNumber());            
+            GlobalVariables.getUserSession  ().addObject(Constants.AWARD_DOCUMENT_STRING_FOR_SESSION + "-" + timeAndMoneyDocument.getDocumentNumber(), awardDocument.getDocumentNumber());            
         } else {
             actionForward = mapping.findForward(Constants.MAPPING_AWARD_BASIC);
         }
