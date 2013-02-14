@@ -19,10 +19,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.questionnaire.answer.Answer;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
@@ -147,6 +147,19 @@ public abstract class QuestionnaireHelperBase implements Serializable {
         setAnswerHeaders(getQuestionnaireAnswerService().getQuestionnaireAnswer(getModuleQnBean()));
         resetHeaderLabels();
     }
+    
+    public void versionAnswers() {
+        List<AnswerHeader> newAnswerHeaders = getQuestionnaireAnswerService().getQuestionnaireAnswer(getModuleQnBean());
+        for (AnswerHeader answerHeader : newAnswerHeaders) {
+            answerHeader.setAnswerHeaderId(null);
+            for(Answer answer : answerHeader.getAnswers()) {
+                answer.setId(null);
+            }
+        }
+        setAnswerHeaders(newAnswerHeaders);
+        resetHeaderLabels();
+    }
+    
 
     public boolean isAnswerQuestionnaire() {
         return answerQuestionnaire;

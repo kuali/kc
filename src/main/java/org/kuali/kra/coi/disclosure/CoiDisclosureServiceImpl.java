@@ -1328,7 +1328,8 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
                 moduleItemKey = coiDisclProject1.getModuleItemKey();
 //                addProjectDisclAttachments(disclosureProjectBean, coiDisclosure, coiDiscDetail.getOriginalCoiDisclosureId());
 //                addProjectDisclNotepads(disclosureProjectBean, coiDisclosure, coiDiscDetail.getOriginalCoiDisclosureId());
-                addProjectDisclQuestionnaires(disclosureProjectBean, answerHeaders, currentDisclosure);
+                //addProjectDisclQuestionnaires(disclosureProjectBean, answerHeaders, currentDisclosure);
+                versionProjectDisclQuestionnaires(disclosureProjectBean, answerHeaders, currentDisclosure);
                
             }
         }
@@ -1350,6 +1351,10 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
     
     private void addProjectDisclQuestionnaires(CoiDisclosureProjectBean disclosureProjectBean, List<AnswerHeader> answerHeaders, CoiDisclosure originalDisclosure) {
         disclosureProjectBean.populateAnswers(originalDisclosure);
+    }
+    
+    private void versionProjectDisclQuestionnaires(CoiDisclosureProjectBean disclosureProjectBean, List<AnswerHeader> answerHeaders, CoiDisclosure originalDisclosure) {
+        disclosureProjectBean.versionDisclosureAnswers(originalDisclosure);
     }
     
     private void addProjectDisclAttachments(CoiDisclosureProjectBean disclosureProjectBean, CoiDisclosure coiDisclosure, Long originalDisclosureId) {

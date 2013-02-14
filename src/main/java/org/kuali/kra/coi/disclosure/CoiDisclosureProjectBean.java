@@ -195,6 +195,12 @@ public class CoiDisclosureProjectBean implements Serializable {
         projectQuestionnaireHelper.populateAnswers();
     }
     
+    public void versionDisclosureAnswers(CoiDisclosure originalDisclosure) {
+        projectQuestionnaireHelper = new DisclProjectQuestionnaireHelper(coiDisclProject, coiDisclProject.getCoiDisclosure(), originalDisclosure);
+        projectQuestionnaireHelper.versionAnswers();
+    }
+    
+    
     public List<AnswerHeader> getAnswerHeaders() {
         return this.getProjectQuestionnaireHelper().getAnswerHeaders();
     }
