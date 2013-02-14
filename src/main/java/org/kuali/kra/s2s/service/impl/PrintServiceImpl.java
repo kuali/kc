@@ -21,6 +21,7 @@ import gov.grants.apply.system.metaGrantApplication.GrantApplicationDocument.Gra
 import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
@@ -29,6 +30,8 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
@@ -88,7 +91,7 @@ public class PrintServiceImpl implements PrintService {
 
 	private S2SUtilService s2SUtilService;
 	private PrintingService printingService;
-
+	File grantsGovXmlDirectoryFile = null;
 	/**
 	 * Prints the proposal sponsor forms by passing the given proposal
 	 * information to {@link ProposalPrintReader}
@@ -142,15 +145,32 @@ public class PrintServiceImpl implements PrintService {
 		return attachmentDataSource;
 	}
 
-	protected void saveGrantsGovXml(ProposalDevelopmentDocument pdDoc,XmlObject formObject,List<AttachmentData> attachmentList,List<S2sAppAttachments> attachmentLists) throws Exception{
+	protected void saveGrantsGovXml(ProposalDevelopmentDocument pdDoc, boolean formEntryFlag,XmlObject formObject,List<AttachmentData> attachmentList,List<S2sAppAttachments> attachmentLists) throws Exception{
 	    String loggingDirectory = KraServiceLocator.getService(ConfigurationService.class).getPropertyValueAsString(Constants.PRINT_XML_DIRECTORY);
         String opportunityId = pdDoc.getDevelopmentProposal().getS2sOpportunity().getOpportunityId();
         String proposalnumber = pdDoc.getDevelopmentProposal().getProposalNumber();
-        String exportDate = StringUtils.replaceChars(StringUtils.deleteWhitespace(pdDoc.getDevelopmentProposal().getUpdateTimestamp().toString()), ":", "_");
-        File file = new File(loggingDirectory+proposalnumber);
-        file.mkdir();
+        String exportDate = StringUtils.replaceChars(StringUtils.deleteWhitespace(pdDoc.getDevelopmentProposal().getUpdateTimestamp().toString()), ":", "_");        
+        if (grantsGovXmlDirectoryFile == null) {
+            grantsGovXmlDirectoryFile = new File(loggingDirectory + proposalnumber);
+        }
+        File newgrantsGovXmlDirectoryFile = null;
+        int suffix = 1;
+        while (grantsGovXmlDirectoryFile.exists() && formEntryFlag) {
+            grantsGovXmlDirectoryFile = new File(loggingDirectory + proposalnumber);
+            String filename = String.valueOf(suffix);
+            newgrantsGovXmlDirectoryFile = new File(loggingDirectory + proposalnumber + "-" + filename);
+            if (!newgrantsGovXmlDirectoryFile.exists()) {
+                grantsGovXmlDirectoryFile = newgrantsGovXmlDirectoryFile;
+                break;
+            }
+            suffix++;
+        }
+        if (formEntryFlag) {
+            grantsGovXmlDirectoryFile.mkdir();
+        }
+        pdDoc.setSaveXmlFolderName(grantsGovXmlDirectoryFile.getName());
         for (AttachmentData attachmentData : attachmentList) {
-            File attachmentFile = new File(loggingDirectory+proposalnumber,"Attachments");
+            File attachmentFile = new File(grantsGovXmlDirectoryFile,"Attachments");
             attachmentFile.mkdir();
             File attachedFile = new File(attachmentFile,attachmentData.getFileName());
             FileOutputStream output = new FileOutputStream(attachedFile);
@@ -158,7 +178,7 @@ public class PrintServiceImpl implements PrintService {
             output.close();
         }
         for (S2sAppAttachments attAppAttachments : attachmentLists) {
-            File attachmentFile = new File(loggingDirectory+proposalnumber,"Attachments");   
+            File attachmentFile = new File(grantsGovXmlDirectoryFile,"Attachments");   
             attachmentFile.mkdir();
             AttachmentDataSource ads = getAttributeContent(pdDoc,attAppAttachments.getContentId());
             File attachedFile = new File(attachmentFile,ads.getFileName());
@@ -166,11 +186,43 @@ public class PrintServiceImpl implements PrintService {
             output.write(getAttContent(pdDoc,attAppAttachments.getContentId()));
             output.close();
         }
-        File xmlFile= new File(file,opportunityId+proposalnumber+exportDate+".xml");
+        File xmlFile= new File(grantsGovXmlDirectoryFile,opportunityId+proposalnumber+exportDate+".xml");
         BufferedWriter out = new BufferedWriter(new FileWriter(xmlFile));
         out.write(formObject.xmlText());
         out.close();
+        ZipOutputStream zipOutputStream = null;
+        FileOutputStream fileOutputStream = new FileOutputStream(grantsGovXmlDirectoryFile+".zip");
+        zipOutputStream = new ZipOutputStream(fileOutputStream);
+        addFolderToZip("", grantsGovXmlDirectoryFile.getPath(), zipOutputStream);
+        zipOutputStream.flush();
+        zipOutputStream.close();
 	}
+	
+    public static void addFolderToZip(String path, String sourceFolder, ZipOutputStream zipOutputStream) throws Exception {
+        File proposalNumberfolder = new File(sourceFolder);
+        for (String fileName : proposalNumberfolder.list()) {
+            if (path.equals("")) {
+                addFileToZip(proposalNumberfolder.getName(), sourceFolder + "/" + fileName, zipOutputStream);
+            } else {
+                addFileToZip(path + "/" + proposalNumberfolder.getName(), sourceFolder + "/" + fileName, zipOutputStream);
+            }
+        }
+    }
+
+    public static void addFileToZip(String path, String sourceFile, ZipOutputStream zipOutputStream) throws Exception {
+        File attachmentFile = new File(sourceFile);
+        if (attachmentFile.isDirectory()) {
+            addFolderToZip(path, sourceFile, zipOutputStream);
+        } else {
+            byte[] buffer = new byte[1024];
+            int length;
+            FileInputStream fileInputStream = new FileInputStream(attachmentFile);
+            zipOutputStream.putNextEntry(new ZipEntry(path + "/" + attachmentFile.getName()));
+            while ((length = fileInputStream.read(buffer)) > 0) {
+                zipOutputStream.write(buffer, 0, length);
+            }
+        }
+    }
 	protected String getFileNameForFormPrinting(ProposalDevelopmentDocument pdDoc) {
 		StringBuilder fileName = new StringBuilder();
 		fileName.append(pdDoc.getDocumentNumber());
@@ -228,7 +280,7 @@ public class PrintServiceImpl implements PrintService {
 		List<AuditError> errors = new ArrayList<AuditError>();
 		List<String> sortedNameSpaces = getSortedNameSpaces(pdDoc
 				.getDevelopmentProposal().getS2sOppForms());
-
+		boolean formEntryFlag = true;
 		List<Printable> formPrintables = new ArrayList<Printable>();
 		for (String namespace : sortedNameSpaces) {
 			XmlObject formFragment = null;
@@ -301,7 +353,8 @@ public class PrintServiceImpl implements PrintService {
           try {
               if(pdDoc.getDevelopmentProposal().getGrantsGovSelectFlag()){
               	List<AttachmentData> attachmentLists = new ArrayList<AttachmentData>();
-              	saveGrantsGovXml(pdDoc,formFragment,attachmentLists,attachmentList);
+              	saveGrantsGovXml(pdDoc,formEntryFlag,formFragment,attachmentLists,attachmentList);
+              	formEntryFlag = false;
               }
           }
           catch (Exception e) {
@@ -337,7 +390,7 @@ public class PrintServiceImpl implements PrintService {
 				.getDevelopmentProposal().getS2sOppForms());
 
 		List<Printable> formPrintables = new ArrayList<Printable>();
-
+		boolean formEntryFlag = true;
 	    getS2SUtilService().deleteSystemGeneratedAttachments(pdDoc);
 	    Forms forms = Forms.Factory.newInstance();
 		for (String namespace : sortedNameSpaces) {
@@ -374,7 +427,8 @@ public class PrintServiceImpl implements PrintService {
 				    if(pdDoc.getDevelopmentProposal().getGrantsGovSelectFlag()){
 				    	List<S2sAppAttachments> attachmentLists = new ArrayList<S2sAppAttachments>();
 				    	setFormObject(forms, formObject);
-                    	saveGrantsGovXml(pdDoc,forms,attachmentList,attachmentLists);
+                    	saveGrantsGovXml(pdDoc,formEntryFlag,forms,attachmentList,attachmentLists);
+                    	formEntryFlag = false;
 				    }
                 }
                 catch (Exception e) {
