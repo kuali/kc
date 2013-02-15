@@ -10,7 +10,7 @@
 	<param name="datasource.password">ask your team</param>
 	<param name="datasource.ojb.platform">Oracle9i</param>
 
-	<!-- For Embedded Mode -- up to S2S Configuration -->
+	<!-- For Embedded Mode - up to S2S Configuration -->
 	<!--
 	<param name="rice.server.url">http://127.0.0.1:8080/kr-dev</param>
 	<param name="kim.mode">EMBEDDED</param>
