@@ -815,13 +815,15 @@
 			<artifactId>drools-compiler</artifactId>
 			<version>${drools.version}</version>
 			<exclusions>
+				<!-- Causes conflict with Tomcat JDT-->
 				<exclusion>
-					<groupId>org.eclipse.jdt</groupId>
-					<artifactId>core</artifactId>
+					<groupId>org.eclipse.jdt.core.compiler</groupId>
+					<artifactId>ecj</artifactId>
 				</exclusion>
+				<!-- This interferes with Rice's xml parser causing all kinds of workflow havoc -->
 				<exclusion>
-					<artifactId>xml-apis</artifactId>
-					<groupId>xml-apis</groupId>
+					<groupId>com.thoughtworks.xstream</groupId>
+					<artifactId>xstream</artifactId>           
 				</exclusion>
 			</exclusions>
 		</dependency>
@@ -1601,7 +1603,7 @@
 
 	<properties>
 		<cxf.version>2.7.0</cxf.version>
-		<drools.version>5.1.1</drools.version>
+		<drools.version>5.5.0.Final</drools.version>
 		<jetty.version>7.5.1.v20110908</jetty.version>
 		<jmock.version>2.5.1</jmock.version>
 		<jstl.version>1.2</jstl.version>
