@@ -149,14 +149,7 @@ public abstract class QuestionnaireHelperBase implements Serializable {
     }
     
     public void versionAnswers() {
-        List<AnswerHeader> newAnswerHeaders = getQuestionnaireAnswerService().getQuestionnaireAnswer(getModuleQnBean());
-        for (AnswerHeader answerHeader : newAnswerHeaders) {
-            answerHeader.setAnswerHeaderId(null);
-            for(Answer answer : answerHeader.getAnswers()) {
-                answer.setId(null);
-            }
-        }
-        setAnswerHeaders(newAnswerHeaders);
+        setAnswerHeaders(getQuestionnaireAnswerService().getNewVersionOfQuestionnaireAnswer(getModuleQnBean()));
         resetHeaderLabels();
     }
     
