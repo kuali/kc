@@ -681,7 +681,6 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
         copyLineItemToPersonnelDetails(budgetDocument);
         budgetDocument.setVersionNumber(null);
         // setting this to null so copied budget can be posted.
-        budgetDocument.getBudget().refreshNonUpdateableReferences();
         budgetDocument.getBudget().setBudgetAdjustmentDocumentNumber(null);
         List<BudgetProjectIncome> projectIncomes = budgetDocument.getBudget().getBudgetProjectIncomes();
         budgetDocument.getBudget().setBudgetProjectIncomes(new ArrayList<BudgetProjectIncome>());
@@ -716,18 +715,29 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
      * @param projectIncomes
      */
     protected void updateProjectIncomes(BudgetDocument budgetDocument, List<BudgetProjectIncome> projectIncomes) {
-        for (BudgetProjectIncome projectIncome : projectIncomes) {
-            projectIncome.setBudgetId(budgetDocument.getBudget().getBudgetId());
-            for (BudgetPeriod budgetPeriod : budgetDocument.getBudget().getBudgetPeriods()) {
-                if (budgetPeriod.getBudgetPeriod().equals(projectIncome.getBudgetPeriodNumber())) {
-                    projectIncome.setBudgetPeriodId(budgetPeriod.getBudgetPeriodId());
-                    break;
+        if (budgetDocument.getBudget().getBudgetPeriods().size() == 1) {
+            BudgetProjectIncome projectBudgetProjectIncome = projectIncomes.get(0);
+            if (projectBudgetProjectIncome.getBudgetPeriodNumber().equals(
+                    budgetDocument.getBudget().getBudgetPeriods().get(0).getBudgetPeriod())) {
+                projectBudgetProjectIncome.setBudgetId(budgetDocument.getBudget().getBudgetId());
+                projectBudgetProjectIncome.setBudgetPeriodId(budgetDocument.getBudget().getBudgetPeriods().get(0)
+                        .getBudgetPeriodId());
+                businessObjectService.save(projectBudgetProjectIncome);
+            } 
+        } else {
+            for (BudgetProjectIncome projectIncome : projectIncomes) {
+                projectIncome.setBudgetId(budgetDocument.getBudget().getBudgetId());
+                for (BudgetPeriod budgetPeriod : budgetDocument.getBudget().getBudgetPeriods()) {
+                    if (budgetPeriod.getBudgetPeriod().equals(projectIncome.getBudgetPeriodNumber())) {
+                        projectIncome.setBudgetPeriodId(budgetPeriod.getBudgetPeriodId());
+                        break;
+                    }
                 }
             }
+            businessObjectService.save(projectIncomes);
         }
-        businessObjectService.save(projectIncomes);
         budgetDocument.getBudget().refreshReferenceObject("budgetProjectIncomes");
-        
+
     }
     /**
      * 
