@@ -1,7 +1,7 @@
 "ROLE_ID","ROLE_NM","NMSPC_CD","DESC_TXT","KIM_TYP_ID","ACTV_IND","OBJ_ID","VER_NBR"
 "KC100","OSPApprover","KC-WKFLW","Office of Sponsored Projects Approver","1","Y","B6A90093ABFF8D60E040DC0A1F8A1D16",1
-"KC10000","Aggregator Only","KC-PD","Proposal Aggregator without Rate Modify Right","KC68","Y","CD4DFD62C4E1AF8DE040DC0A1F8A69A8",1
-"KC10001","Budget Creator Only","KC-PD","Budget Creator without Rate Modify Perm","KC68","Y","CD4DFD62C4E2AF8DE040DC0A1F8A69A8",1
+"KC10000","Aggregator Only","KC-PD","Proposal Aggregator without Rate Modify Right","KC68","Y","D5A1CCE27716AC6EE040DC0A1F8A32D6",1
+"KC10001","Budget Creator Only","KC-PD","Budget Creator without Rate Modify Perm","KC68","Y","D5A1CCE27717AC6EE040DC0A1F8A32D6",1
 "KC101","Award Budget Viewer","KC-AB","Award Budget Viewer - the role grants permissions to view award budget at departmental level","KC68","Y","B6A90093AC008D60E040DC0A1F8A1D16",1
 "KC102","Award Budget Modifier","KC-AB","Award Budget Modifier - the role grants permissions to modify or view award budget at departmental level","KC68","Y","B6A90093AC018D60E040DC0A1F8A1D16",1
 "KC103","approver","KC-PD","approver","KC68","Y","B6A90093AC028D60E040DC0A1F8A1D16",1
@@ -91,34 +91,36 @@
 "KC1607","Investigators","KC-IP","Institutional Proposal Investigator Role","KC104","Y","C041EF59683D6B48E040DC0A1F8A15A8",1
 "KC1608","All Unit Administrators","KC-IP","All Institutional Proposal Unit Administrators","KC105","Y","C041EF59683F6B48E040DC0A1F8A15A8",1
 "KC161","Maintain IRB Questionnaire","KC-PROTOCOL","Grants the ability to maintain irb questionnaires.","1","Y","C041EF5965096B48E040DC0A1F8A15A8",1
-"KC1610","IACUC Administrator","KC-UNT","IACUC Administrator","KC69","Y","CD4DFD62BF9AAF8DE040DC0A1F8A69A8",1
-"KC1611","IACUC Reviewer","KC-UNT","IACUC Reviewer","KC69","Y","CD4DFD62BF9FAF8DE040DC0A1F8A69A8",1
-"KC1612","Active IACUC Committee Member","KC-IACUC","Role members are derived from active committee members.","KC107","Y","CD4DFD62BFABAF8DE040DC0A1F8A69A8",1
-"KC1613","Active IACUC Committee Member on Scheduled Date","KC-IACUC","Role members are derived from active committee members on scheduled date.","KC108","Y","CD4DFD62BFADAF8DE040DC0A1F8A69A8",1
-"KC1614","Active IACUC Committee Member on Protocol","KC-IACUC","Role members are derived from active committee members on protocol.","KC109","Y","CD4DFD62BFAFAF8DE040DC0A1F8A69A8",1
-"KC1615","Modify all IACUC Protocols","KC-UNT","Modify all IACUC Protocols","KC69","Y","CD4DFD62BFB3AF8DE040DC0A1F8A69A8",1
-"KC1616","View all IACUC Protocols","KC-UNT","View all IACUC Protocols","KC69","Y","CD4DFD62BFCEAF8DE040DC0A1F8A69A8",1
-"KC1617","IACUC Protocol Deleter","KC-IACUC","IACUC Protocol Deleter","KC68","Y","CD4DFD62BFD5AF8DE040DC0A1F8A69A8",1
-"KC1618","Role Maintenance","KC-UNT","Role Maintenance","KC69","Y","CD4DFD62C09CAF8DE040DC0A1F8A69A8",1
-"KC1619","Maintain COI Questionnaire","KC-COIDISCLOSURE","Grants the ability to maintain COI questionnaires.","1","Y","CD4DFD62C0B1AF8DE040DC0A1F8A69A8",1
+"KC1610","IACUC Administrator","KC-UNT","IACUC Administrator","KC69","Y","D5A1CCE2719BAC6EE040DC0A1F8A32D6",1
+"KC1611","IACUC Reviewer","KC-UNT","IACUC Reviewer","KC69","Y","D5A1CCE271A0AC6EE040DC0A1F8A32D6",1
+"KC1612","Active IACUC Committee Member","KC-IACUC","Role members are derived from active committee members.","KC107","Y","D5A1CCE271ACAC6EE040DC0A1F8A32D6",1
+"KC1613","Active IACUC Committee Member on Scheduled Date","KC-IACUC","Role members are derived from active committee members on scheduled date.","KC108","Y","D5A1CCE271AEAC6EE040DC0A1F8A32D6",1
+"KC1614","Active IACUC Committee Member on Protocol","KC-IACUC","Role members are derived from active committee members on protocol.","KC109","Y","D5A1CCE271B0AC6EE040DC0A1F8A32D6",1
+"KC1615","Modify all IACUC Protocols","KC-UNT","Modify all IACUC Protocols","KC69","Y","D5A1CCE271B4AC6EE040DC0A1F8A32D6",1
+"KC1616","View all IACUC Protocols","KC-UNT","View all IACUC Protocols","KC69","Y","D5A1CCE271CFAC6EE040DC0A1F8A32D6",1
+"KC1617","IACUC Protocol Deleter","KC-IACUC","IACUC Protocol Deleter","KC68","Y","D5A1CCE271D6AC6EE040DC0A1F8A32D6",1
+"KC1618","Role Maintenance","KC-UNT","Role Maintenance","KC69","Y","D5A1CCE2729DAC6EE040DC0A1F8A32D6",1
+"KC1619","Maintain COI Questionnaire","KC-COIDISCLOSURE","Grants the ability to maintain COI questionnaires.","1","Y","D5A1CCE272B2AC6EE040DC0A1F8A32D6",1
 "KC162","Maintain Proposal Questionnaire","KC-PD","Grants the ability to maintain proposal questionnaires.","1","Y","C041EF59650D6B48E040DC0A1F8A15A8",1
-"KC1620","Maintain IACUC Questionnaire","KC-IACUC","Grants the ability to maintain IACUC questionnaires.","1","Y","CD4DFD62C0C6AF8DE040DC0A1F8A69A8",1
-"KC1621","IACUC Online Reviewer","KC-IACUC","IACUC Online Reviewer","KC113","Y","CD4DFD62C0DAAF8DE040DC0A1F8A69A8",1
-"KC1622","IACUC ProtocolApprover","KC-IACUC","This role exists primarily to grant implicit Cancel permission to IACUC Protocol Aggregators and Admins","KC83","Y","CD4DFD62C0E7AF8DE040DC0A1F8A69A8",1
-"KC1623","IACUC Protocol Unassigned","KC-IACUC","IACUC Protocol Unassigned - no permissions","KC68","Y","CD4DFD62C0E8AF8DE040DC0A1F8A69A8",1
-"KC1624","Active Committee Member On Iacuc Protocol","KC-IACUC","Role members are derived from active committee members on the protocol.","KC114","Y","CD4DFD62C0EAAF8DE040DC0A1F8A69A8",1
-"KC1625","PI","KC-IACUC","The Protocol Principal Investigator role.","KC115","Y","CD4DFD62C0EDAF8DE040DC0A1F8A69A8",1
-"KC1626","COI","KC-IACUC","The Protocol Co-Investigator role.","KC115","Y","CD4DFD62C0EEAF8DE040DC0A1F8A69A8",1
-"KC1627","SP","KC-IACUC","The Protocol Study Personnel role.","KC115","Y","CD4DFD62C0EFAF8DE040DC0A1F8A69A8",1
-"KC1628","CRC","KC-IACUC","The Protocol Correspondent CRC role.","KC115","Y","CD4DFD62C0F0AF8DE040DC0A1F8A69A8",1
-"KC1629","CA","KC-IACUC","The Protocol Correspondent Administrator role.","KC115","Y","CD4DFD62C0F1AF8DE040DC0A1F8A69A8",1
+"KC1620","Maintain IACUC Questionnaire","KC-IACUC","Grants the ability to maintain IACUC questionnaires.","1","Y","D5A1CCE272C7AC6EE040DC0A1F8A32D6",1
+"KC1621","IACUC Online Reviewer","KC-IACUC","IACUC Online Reviewer","KC113","Y","D5A1CCE272DBAC6EE040DC0A1F8A32D6",1
+"KC1622","IACUC ProtocolApprover","KC-IACUC","This role exists primarily to grant implicit Cancel permission to IACUC Protocol Aggregators and Admins","KC83","Y","D5A1CCE272E8AC6EE040DC0A1F8A32D6",1
+"KC1623","IACUC Protocol Unassigned","KC-IACUC","IACUC Protocol Unassigned - no permissions","KC68","Y","D5A1CCE272E9AC6EE040DC0A1F8A32D6",1
+"KC1624","Active Committee Member On Iacuc Protocol","KC-IACUC","Role members are derived from active committee members on the protocol.","KC114","Y","D5A1CCE272EBAC6EE040DC0A1F8A32D6",1
+"KC1625","PI","KC-IACUC","The Protocol Principal Investigator role.","KC115","Y","D5A1CCE272EEAC6EE040DC0A1F8A32D6",1
+"KC1626","COI","KC-IACUC","The Protocol Co-Investigator role.","KC115","Y","D5A1CCE272EFAC6EE040DC0A1F8A32D6",1
+"KC1627","SP","KC-IACUC","The Protocol Study Personnel role.","KC115","Y","D5A1CCE272F0AC6EE040DC0A1F8A32D6",1
+"KC1628","CRC","KC-IACUC","The Protocol Correspondent CRC role.","KC115","Y","D5A1CCE272F1AC6EE040DC0A1F8A32D6",1
+"KC1629","CA","KC-IACUC","The Protocol Correspondent Administrator role.","KC115","Y","D5A1CCE272F2AC6EE040DC0A1F8A32D6",1
 "KC163","COI Administrator","KC-COIDISCLOSURE","COI Administrator","KC69","Y","C041EF5965266B48E040DC0A1F8A15A8",1
-"KC1630","Faculty","KC-IACUC","The Faculty Affiliate role.","KC116","Y","CD4DFD62C0F3AF8DE040DC0A1F8A69A8",1
-"KC1631","Non-Faculty","KC-IACUC","The Non-Faculty Affiliate role.","KC116","Y","CD4DFD62C0F4AF8DE040DC0A1F8A69A8",1
-"KC1632","Affiliate","KC-IACUC","The Protocol Affiliate role.","KC116","Y","CD4DFD62C0F5AF8DE040DC0A1F8A69A8",1
-"KC1633","Student Investigator","KC-IACUC","The Protocol Student Investigator role.","KC116","Y","CD4DFD62C0F6AF8DE040DC0A1F8A69A8",1
-"KC1634","Faculty Supervisor","KC-IACUC","The Protocol Faculty Supervisor role.","KC116","Y","CD4DFD62C0F7AF8DE040DC0A1F8A69A8",1
-"KC1635","IACUCApprover","KC-UNT","IACUC Approver","KC69","Y","CD4DFD62C14CAF8DE040DC0A1F8A69A8",1
+"KC1630","Faculty","KC-IACUC","The Faculty Affiliate role.","KC116","Y","D5A1CCE272F4AC6EE040DC0A1F8A32D6",1
+"KC1631","Non-Faculty","KC-IACUC","The Non-Faculty Affiliate role.","KC116","Y","D5A1CCE272F5AC6EE040DC0A1F8A32D6",1
+"KC1632","Affiliate","KC-IACUC","The Protocol Affiliate role.","KC116","Y","D5A1CCE272F6AC6EE040DC0A1F8A32D6",1
+"KC1633","Student Investigator","KC-IACUC","The Protocol Student Investigator role.","KC116","Y","D5A1CCE272F7AC6EE040DC0A1F8A32D6",1
+"KC1634","Faculty Supervisor","KC-IACUC","The Protocol Faculty Supervisor role.","KC116","Y","D5A1CCE272F8AC6EE040DC0A1F8A32D6",1
+"KC1635","IACUCApprover","KC-UNT","IACUC Approver","KC69","Y","D5A1CCE2734DAC6EE040DC0A1F8A32D6",1
+"KC1636","COI Approver","KC-COIDISCLOSURE","Role similar to COI Reviewer with some added limited admin functionality","KC69","Y","D5A1CCE273B5AC6EE040DC0A1F8A32D6",1
+"KC1637","Modify Training","KC-SYS","Role for maintaining training and person training","69","Y","D5A1CCE273C8AC6EE040DC0A1F8A32D6",1
 "KC164","COI Reviewer","KC-COIDISCLOSURE","COI Reviewer","KC69","Y","C041EF5965356B48E040DC0A1F8A15A8",1
 "KC165","PI","KC-PROTOCOL","The Protocol Principal Investigator role.","KC87","Y","C041EF59654C6B48E040DC0A1F8A15A8",1
 "KC166","COI","KC-PROTOCOL","The Protocol Co-Investigator role.","KC87","Y","C041EF59654D6B48E040DC0A1F8A15A8",1
@@ -130,10 +132,10 @@
 "KC172","Affiliate","KC-PROTOCOL","The Protocol Affiliate role.","KC88","Y","C041EF5965546B48E040DC0A1F8A15A8",1
 "KC173","Student Investigator","KC-PROTOCOL","The Protocol Sutdent Investigator role.","KC88","Y","C041EF5965556B48E040DC0A1F8A15A8",1
 "KC174","Faculty Supervisor","KC-PROTOCOL","The Protocol Faculty Supervisor role.","KC88","Y","C041EF5965566B48E040DC0A1F8A15A8",1
-"KC1745","Investigators","KC-AWARD","Award Investigator Role","KC110","Y","CD4DFD62C077AF8DE040DC0A1F8A69A8",1
-"KC1746","All Unit Administrators","KC-AWARD","All Award Unit Administrators","KC111","Y","CD4DFD62C079AF8DE040DC0A1F8A69A8",1
+"KC1745","Investigators","KC-AWARD","Award Investigator Role","KC110","Y","D5A1CCE27278AC6EE040DC0A1F8A32D6",1
+"KC1746","All Unit Administrators","KC-AWARD","All Award Unit Administrators","KC111","Y","D5A1CCE2727AAC6EE040DC0A1F8A32D6",1
 "KC175","Protocol Deleter","KC-PROTOCOL","Protocol Deleter","KC68","Y","C041EF5965606B48E040DC0A1F8A15A8",1
-"KC1750","Requisitioner","KC-SUBAWARD","Subaward Requisitioner Role","KC112","Y","CD4DFD62C087AF8DE040DC0A1F8A69A8",1
+"KC1750","Requisitioner","KC-SUBAWARD","Subaward Requisitioner Role","KC112","Y","D5A1CCE27288AC6EE040DC0A1F8A32D6",1
 "KC176","Maintain Award Report Tracking","KC-AWARD","Role to maintain award report tracking records.","1","Y","C041EF5965966B48E040DC0A1F8A15A8",1
 "KC177","KC Superuser","KC-SYS","KC Superuser role for administration access","KC69","Y","C041EF5965B76B48E040DC0A1F8A15A8",1
 "KC98","Manager","KC-SYS","This role represents a collection of all the KC module manager roles and has permission to initiate simple maintenance documents.","1","Y","B6A90093ABFD8D60E040DC0A1F8A1D16",1
