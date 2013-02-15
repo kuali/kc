@@ -166,4 +166,15 @@ public interface QuestionnaireAnswerService {
      */
     ModuleQuestionnaireBean getModuleSpecificBean(String moduleItemCode, String moduleItemKey, String moduleSubItemCode, String moduleSubItemKey, boolean finalDoc);
     
+
+    /**
+     * 
+     * This method is to get a new version of existing questionnaire answer or set up the associate questionnaire answer for the module keys
+     * specified in ModuleQuestionnaireBean.
+     * 
+     * @param moduleQuestionnaireBean
+     * @return
+     */
+    List<AnswerHeader> getNewVersionOfQuestionnaireAnswer(ModuleQuestionnaireBean moduleQuestionnaireBean);
+
 }
