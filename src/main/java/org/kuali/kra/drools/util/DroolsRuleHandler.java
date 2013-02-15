@@ -54,8 +54,7 @@ public class DroolsRuleHandler {
             // Read in the rules source file
             Reader source = new InputStreamReader(this.getClass().getResourceAsStream("/" + rulesFile));
 
-            PackageBuilderConfiguration pkgBuilderCfg = new PackageBuilderConfiguration();
-            pkgBuilderCfg.setClassLoader( this.getClass().getClassLoader() );
+            PackageBuilderConfiguration pkgBuilderCfg = new PackageBuilderConfiguration(this.getClass().getClassLoader());
             JavaDialectConfiguration javaConf = (JavaDialectConfiguration)
             pkgBuilderCfg.getDialectConfiguration( "java" );
             javaConf.setCompiler( JavaDialectConfiguration.ECLIPSE );
