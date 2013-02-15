@@ -928,4 +928,16 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
     }
     // TODO ********************** added or modified during IRB backfit merge END ************************
     
+
+    public List<AnswerHeader> getNewVersionOfQuestionnaireAnswer(ModuleQuestionnaireBean moduleQuestionnaireBean) {
+        List<AnswerHeader> newAnswerHeaders = getQuestionnaireAnswer(moduleQuestionnaireBean);
+        for (AnswerHeader answerHeader : newAnswerHeaders) {
+            answerHeader.setAnswerHeaderId(null);
+            for(Answer answer : answerHeader.getAnswers()) {
+                answer.setId(null);
+            }
+        }
+        return newAnswerHeaders;
+    }
+
 }

@@ -1307,20 +1307,21 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
             CoiDisclProject coiDisclProject1 = (CoiDisclProject)ObjectUtils.deepCopy(coiDisclProject);
             coiDisclProject1.setCoiDispositionStatus(coiDisclProject.getCoiDispositionStatus());
             if (CollectionUtils.isNotEmpty(coiDisclProject1.getCoiDiscDetails())) {
-            for (CoiDiscDetail coiDiscDetail : coiDisclProject1.getCoiDiscDetails()) {
-                if (!StringUtils.equals(projectType, coiDiscDetail.getProjectType()) || !StringUtils.equals(moduleItemKey, coiDiscDetail.getModuleItemKey())) {
-                    disclosureProjectBean = getCoiDisclosureProjectBean(coiDiscDetail);
-                    masterDisclosureBean.addProject(disclosureProjectBean, coiDiscDetail.getProjectType());
-                    if (!StringUtils.equals(projectType, coiDiscDetail.getProjectType())) {
-                        projectType = coiDiscDetail.getProjectType();
+                for (CoiDiscDetail coiDiscDetail : coiDisclProject1.getCoiDiscDetails()) {
+                    if (!StringUtils.equals(projectType, coiDiscDetail.getProjectType()) || !StringUtils.equals(moduleItemKey, coiDiscDetail.getModuleItemKey())) {
+                        disclosureProjectBean = getCoiDisclosureProjectBean(coiDiscDetail);
+                        masterDisclosureBean.addProject(disclosureProjectBean, coiDiscDetail.getProjectType());
+                        if (!StringUtils.equals(projectType, coiDiscDetail.getProjectType())) {
+                            projectType = coiDiscDetail.getProjectType();
+                        }
+                        moduleItemKey = coiDiscDetail.getModuleItemKey();
+                        addProjectDisclAttachments(disclosureProjectBean, coiDisclosure, coiDiscDetail.getOriginalCoiDisclosureId());
+                        addProjectDisclNotepads(disclosureProjectBean, coiDisclosure, coiDiscDetail.getOriginalCoiDisclosureId());
+                        //addProjectDisclQuestionnaires(disclosureProjectBean, answerHeaders, currentDisclosure);
+                        versionProjectDisclQuestionnaires(disclosureProjectBean, answerHeaders, currentDisclosure);
                     }
-                    moduleItemKey = coiDiscDetail.getModuleItemKey();
-                    addProjectDisclAttachments(disclosureProjectBean, coiDisclosure, coiDiscDetail.getOriginalCoiDisclosureId());
-                    addProjectDisclNotepads(disclosureProjectBean, coiDisclosure, coiDiscDetail.getOriginalCoiDisclosureId());
-                    addProjectDisclQuestionnaires(disclosureProjectBean, answerHeaders, currentDisclosure);
+          //          disclosureProjectBean.getCoiDisclProject().getCoiDiscDetails().add(coiDiscDetail);            
                 }
-      //          disclosureProjectBean.getCoiDisclProject().getCoiDiscDetails().add(coiDiscDetail);            
-            }
             } else {
                 disclosureProjectBean = getCoiDisclosureProjectBean(coiDisclProject1);
                 masterDisclosureBean.addProject(disclosureProjectBean, coiDisclProject1.getDisclosureEventType());
