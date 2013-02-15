@@ -113,13 +113,18 @@ public class KcEmailServiceImpl implements KcEmailService {
                 StringUtils.isNotBlank(props.getProperty("mail.smtp.user")) &&
                 StringUtils.isNotBlank(props.getProperty("mail.user.credentials"))) {
             try {
-            sender = new JavaMailSenderImpl();
-        
-            sender.setJavaMailProperties(props);
-            sender.setHost(props.getProperty("mail.smtp.host"));
-            sender.setPort(Integer.parseInt(props.getProperty("mail.smtp.port")));
-            sender.setUsername(props.getProperty("mail.smtp.user"));
-            sender.setPassword(props.getProperty("mail.user.credentials"));
+                sender = new JavaMailSenderImpl();
+                sender.setJavaMailProperties(props);
+                sender.setHost(props.getProperty("mail.smtp.host"));
+                String smtpPort = props.getProperty("mail.smtp.port");
+                try{
+                    int smtpPortNumber = Integer.parseInt(smtpPort);
+                    sender.setPort(smtpPortNumber);
+                }catch(NumberFormatException nfe){
+                    LOG.warn("smtp port is not valid");
+                }
+                sender.setUsername(props.getProperty("mail.smtp.user"));
+                sender.setPassword(props.getProperty("mail.user.credentials"));
             } catch (Exception e) {
                 LOG.warn("Unable to create email sender due to invalid configuration. The properties [mail.smtp.host, " +
                      "mail.smtp.port, mail.smtp.user, mail.user.credentials] need to be set.");
