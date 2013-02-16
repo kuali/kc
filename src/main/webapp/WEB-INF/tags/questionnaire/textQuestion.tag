@@ -27,38 +27,26 @@
 
 <c:set var="questionFieldName" value="${property}.answerHeaders[${answerHeaderIndex}].answers[${questionIndex}].answer" />
 ${kfunc:registerEditableProperty(KualiForm, questionFieldName)}
-                      
-<div class="Qresponsediv">
-    <span class="Qresponse">
-        <table style="border:none; width:100%;" cellpadding="0" cellspacing="0">
-            <tr>
-                <td style="border:none;">
-                <c:set var="answerLength" value="${question.answerMaxLength}" />
-                    <c:choose>
-                        <c:when test="${answerLength > 300}">
-                            <html:textarea property="${questionFieldName}" style="" styleId="${questionFieldName}" title="Question Answer" tabindex="${tabindex}"
-                                rows="3" cols="80"
-                                styleClass="Qanswer"
-                                onkeyup="textLimit(this, ${answerLength});" />
-                    
-                            <kul:expandedTextArea textAreaFieldName="${questionFieldName}" 
-                                action="questionnaire" textAreaLabel="Question Answer" maxLength="${question.answerMaxLength}" />
 
-                        </c:when>
-                        <c:otherwise>
-                            <c:set var="fieldSize" value="${answerLength}" />
-                            <c:if test="${answerLength > 80}">
-                                <c:set var="fieldSize" value="80" />
-                            </c:if>
-                            <input type="text" class="Qanswer" id="${questionFieldName}" name="${questionFieldName}" maxlength="${question.answerMaxLength}" size="${fieldSize}" 
-                                value="${bean.answerHeaders[answerHeaderIndex].answers[questionIndex].answer}" />
-                        </c:otherwise>
-                    </c:choose>
-                    <c:if test="${answerValidationError}">
-	 		            <kul:fieldShowErrorIcon />
-                    </c:if>
-                </td>
-            </tr>
-        </table>
-    </span>
-</div>
+<c:set var="answerLength" value="${question.answerMaxLength}" />
+<c:choose>
+	<c:when test="${answerLength > 300}">
+		<html:textarea property="${questionFieldName}" style="" styleId="${questionFieldName}" title="Question Answer" tabindex="${tabindex}"
+			rows="3" cols="80"
+			styleClass="Qanswer answer questionnaireAnswer"
+			onkeyup="textLimit(this, ${answerLength});" />
+		<kul:expandedTextArea textAreaFieldName="${questionFieldName}" 
+			action="questionnaire" textAreaLabel="Question Answer" maxLength="${question.answerMaxLength}" />
+	</c:when>
+	<c:otherwise>
+		<c:set var="fieldSize" value="${answerLength}" />
+		<c:if test="${answerLength > 80}">
+			<c:set var="fieldSize" value="80" />
+		</c:if>
+		<input type="text" class="Qanswer answer questionnaireAnswer" id="${questionFieldName}" name="${questionFieldName}" maxlength="${question.answerMaxLength}" size="${fieldSize}" 
+			value="${bean.answerHeaders[answerHeaderIndex].answers[questionIndex].answer}" />
+	</c:otherwise>
+</c:choose>
+<c:if test="${answerValidationError}">
+	<kul:fieldShowErrorIcon />
+</c:if>

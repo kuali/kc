@@ -22,37 +22,17 @@
 <%@ attribute name="bean" required="true" type="org.kuali.kra.questionnaire.QuestionnaireHelperBase" %>
 <%@ attribute name="property" required="true" %>
 <%@ attribute name="answerValidationError" %>
-                        
-<div class="Qresponsediv">
-    <span class="Qresponse">
     	
-    	<c:set var="prop" value="${property}.answerHeaders[${answerHeaderIndex}].answers[${questionIndex}].answer"/>
-        ${kfunc:registerEditableProperty(KualiForm, prop)} 
-        <input type="hidden" name="checkboxToReset" value="${prop}"/>
-    
-        <c:choose>
-            <c:when test="${bean.answerHeaders[answerHeaderIndex].answers[questionIndex].answer eq 'Y'}" >
-                <input type="radio" class="QanswerYesNoNa" onClick = "answerChanged(this,'${property}')" style="border:none;" id="${property}.answerHeaders[${answerHeaderIndex}].answers[${questionIndex}].answer" name="${property}.answerHeaders[${answerHeaderIndex}].answers[${questionIndex}].answer" checked="checked" value="Y" />Yes
-            </c:when>
-            <c:otherwise>
-                <input type="radio" class="QanswerYesNoNa" onClick = "answerChanged(this,'${property}')" style="border:none;" id="${property}.answerHeaders[${answerHeaderIndex}].answers[${questionIndex}].answer" name="${property}.answerHeaders[${answerHeaderIndex}].answers[${questionIndex}].answer" value="Y" />Yes
-            </c:otherwise>
-        </c:choose>  
-        <c:choose>
-            <c:when test="${bean.answerHeaders[answerHeaderIndex].answers[questionIndex].answer eq 'N'}" >
-                <input type="radio" class="QanswerYesNoNa" onClick = "answerChanged(this,'${property}')" style="border:none;" id="${property}.answerHeaders[${answerHeaderIndex}].answers[${questionIndex}].answer" name="${property}.answerHeaders[${answerHeaderIndex}].answers[${questionIndex}].answer" checked="checked" value="N" />No
-            </c:when>
-            <c:otherwise >
-                <input type="radio" class="QanswerYesNoNa" onClick = "answerChanged(this,'${property}')" style="border:none;" id="${property}.answerHeaders[${answerHeaderIndex}].answers[${questionIndex}].answer" name="${property}.answerHeaders[${answerHeaderIndex}].answers[${questionIndex}].answer"  value="N" />No
-            </c:otherwise>
-        </c:choose>  
-        <c:choose>
-            <c:when test="${bean.answerHeaders[answerHeaderIndex].answers[questionIndex].answer eq 'X'}" >
-                <input type="radio" class="QanswerYesNoNa" onClick = "answerChanged(this,'${property}')" style="border:none;" id="${property}.answerHeaders[${answerHeaderIndex}].answers[${questionIndex}].answer" name="${property}.answerHeaders[${answerHeaderIndex}].answers[${questionIndex}].answer" checked="checked" value="X" />NA
-            </c:when>
-            <c:otherwise >
-                <input type="radio" class="QanswerYesNoNa" onClick = "answerChanged(this,'${property}')" style="border:none;" id="${property}.answerHeaders[${answerHeaderIndex}].answers[${questionIndex}].answer" name="${property}.answerHeaders[${answerHeaderIndex}].answers[${questionIndex}].answer" value="X" />NA
-            </c:otherwise>
-        </c:choose>  
-    </span>
-</div>
+<c:set var="prop" value="${property}.answerHeaders[${answerHeaderIndex}].answers[${questionIndex}].answer"/>
+${kfunc:registerEditableProperty(KualiForm, prop)} 
+<input type="hidden" name="checkboxToReset" value="${prop}"/>
+
+<input type="radio" class="questionnaireAnswer answer QanswerYesNoNa" 
+	name="${prop}" 
+	value="Y" ${answer == 'Y' ? "checked='true'" : ''}/>Yes
+<input type="radio" class="questionnaireAnswer answer QanswerYesNoNa" 
+	name="${prop}" 
+	value="N" ${answer == 'N' ? "checked='true'" : ''}/>No
+<input type="radio" class="questionnaireAnswer answer QanswerYesNoNa" 
+	name="${prop}" 
+	value="X" ${answer == 'X' ? "checked='true'" : ''}/>NA
