@@ -1,4 +1,5 @@
-    var ruleReferenced;
+var questionnaireDateFormat = "%m/%e/%Y";    
+var ruleReferenced;
     $j(document).ready(function(){
 			
 			// More/Less Information...
@@ -28,6 +29,8 @@
 				  });
 				
 				ruleReferenced = $j("#ruleReferenced");	
+				
+				$j('.questionnaireAnswer').change(function() { answerChanged(this); });
 		});
 
     /*
@@ -52,21 +55,8 @@
     /*
      * go thru each question. if display flag is 'N', then hide this question/
      */
-    $j('table[id^=table-parent-]').each(
-            function() {
-                if ($j(this).children().children().children().children().children('input[id^=childDisplay]').attr("value") == 'N') {
-                    $j(this).hide();
-                }
-            });
     
-    /* need to do this for root node too */
-    $j('table[id^=table-]').each(
-            function() {
-                if ($j(this).children().children().children().children().children('input[id^=childDisplay]').attr("value") == 'N') {
-                    $j(this).hide();
-                }
-            });
-    
+        
     // this is for root-node, for PD/opportunity/forname equivalency.  not ready yet.  so, comment out
 //    $j('input[id^=childDisplay-0]').each(
 //			function() {
@@ -93,145 +83,55 @@
      *         2. The child questions have table id starts with 'table-parent-{answerheaderindex}-{questionanswerindex}-{childquestionanswerindex}"
      *         3. All the matched children questions should be checked whether answer match condition or not.
      */     
-	function answerChanged(answer,formProperty) {
-		var qn= $j(answer).parents('div[class^=Qresponsediv]').siblings('input[id^=parent]');
-        if (qn) {
-            var answerValue = $j(answer).attr("value");
-            var idx = $j(qn).attr("id").substring(7,$j(qn).attr("id").indexOf("-",7));
-            var headerIdx = $j(qn).attr("id").substring($j(qn).attr("id").indexOf("-",7)+1);
-            var responseDiv = $j(answer).parents('div[class^=Qresponsediv]');
-            var prefix = "table-parent-"+headerIdx+"-"+idx;
-            
-           $j("table[id^="+prefix+"-]").each(                           
-        			function() {
-                        var conditionDiv = $j("#"+$j(this).attr("id")+" .condition:nth(0)");
-                        var qidx = $j(this).attr("id").substring(prefix.length+1);
-                        // not sure why conditionDiv is not 'undefine' if the node is not set
-                        if (conditionDiv && conditionDiv.children() && conditionDiv.size() == 1 && conditionDiv.children().size() == 3) {
-                           if (isConditionMatchAnswers(answer, responseDiv, conditionDiv.children('input:eq(1)').attr("value"), conditionDiv.children('input:eq(2)').attr("value"), answerValue)) {
-                           		$j(this).show();                                   		
-                           		$j("#childDisplay"+conditionDiv.children('input:eq(1)').attr("id").substring(9)).attr("value","Y");
-                           		$j("#"+formProperty+"\\.answerHeaders\\["+headerIdx+"\\]\\.answers\\["+qidx+"\\]\\.matchedChild").attr("value","Y");
-                          		showChildren(conditionDiv.children('input:eq(1)').attr("id").substring(10),formProperty);
-                           } else {
-                          		hideChildren(conditionDiv.children('input:eq(1)').attr("id").substring(10),formProperty);
-                          		$j(this).hide();
-                           		$j("#childDisplay"+conditionDiv.children('input:eq(1)').attr("id").substring(9)).attr("value","N");
-                           		$j("#"+formProperty+"\\.answerHeaders\\["+headerIdx+"\\]\\.answers\\["+qidx+"\\]\\.matchedChild").attr("value","N");
-                           		emptyAnswerForHiddenQuestion(this);
-                           }    
-                        }  else {
-                      		hideChildren(conditionDiv.children('input:eq(1)').attr("id").substring(10),formProperty);
-                      		$j(this).hide();
-                       		$j("#childDisplay"+conditionDiv.children('input:eq(1)').attr("id").substring(9)).attr("value","N");
-                       		$j("#"+formProperty+"\\.answerHeaders\\["+headerIdx+"\\]\\.answers\\["+qidx+"\\]\\.matchedChild").attr("value","N");
-                       		emptyAnswerForHiddenQuestion(this);
-
-                        }
-        			});
-        }  
+	function answerChanged(answer) {
+		var questionnairePanel = $j(answer).parents('div.questionnaireContent');
+		var questionTable = $j(answer).parents('table.question');
+		var parentQuestionId = $j(questionTable).data('kc-questionid');
+		
+        $j(questionnairePanel).find("table[data-kc-question-parentid='"+parentQuestionId+"']").each(function() {
+    		var condition = eval($j(this).data('kc-question-condition'));
+    		var questionId = $j(this).data('kc-questionid');
+    		if ($j(questionTable).is(':visible') && isConditionMatchAnswers(answer, condition)) {
+    			$j(this).show();
+    		} else {
+    			$j(this).hide();
+    			emptyAnswerForHiddenQuestion(this);
+    		}
+    		answerChanged($j(this).find('div.answer input[name$=".answer"]'));
+        });
 	}
-
-	/*
-	 * If a answer matched child condition, then this will be called to see if any further descendants
-	 * under this question hierarchy need to be 'shown' too.  This is in general related to descendant
-	 * without condition set up.
-	 */
-    function showChildren(parentIndicator,formProperty) {
-    	var prefix = "table-parent-"+parentIndicator;
-    	var headerIdx = parentIndicator.substring(0, parentIndicator.indexOf("-"));
-    	var idx = parentIndicator.substring(parentIndicator.indexOf("-")+1);
-        $j("table[id^="+prefix+"-]").each(                           
-    			function() {
-                    var conditionDiv = $j("#"+$j(this).attr("id")+" .condition:nth(0)");
-                    var condVal = conditionDiv.children('input:eq(1)').attr("value");
-                    if (condVal == "" || isNaN(condVal)) {
-                   		$j(this).show();                   		
-                   		$j("#childDisplay"+conditionDiv.children('input:eq(1)').attr("id").substring(9)).attr("value","Y");
-                        var qidx = $j(this).attr("id").substring(prefix.length+1);
-                   		$j("#"+formProperty+"\\.answerHeaders\\["+headerIdx+"\\]\\.answers\\["+qidx+"\\]\\.matchedChild").attr("value","Y");
-                  		showChildren(conditionDiv.children('input:eq(1)').attr("id").substring(10),formProperty);
-                    } else {
-                    	// check if rule evaluation
-//                    	if (condVal == 13) {
-                    	if (isRuleValid(condVal, conditionDiv.children('input:eq(2)').attr("value"))) {
-//                    		  var ruleId = conditionDiv.children('input:eq(2)').attr("value");
-//                    		  if (ruleReferenced.length > 0 && (ruleReferenced.indexOf(ruleId+":Y") == 0 
-//                    		    		|| ruleReferenced.val().indexOf(","+ruleId+":Y") > 0) ) {
-                           		$j(this).show();                   		
-                           		$j("#childDisplay"+conditionDiv.children('input:eq(1)').attr("id").substring(9)).attr("value","Y");
-                                var qidx = $j(this).attr("id").substring(prefix.length+1);
-                           		$j("#"+formProperty+"\\.answerHeaders\\["+headerIdx+"\\]\\.answers\\["+qidx+"\\]\\.matchedChild").attr("value","Y");
-                          		showChildren(conditionDiv.children('input:eq(1)').attr("id").substring(10),formProperty);
-//                    	     }
-                    	}
-                    }
-    			});
-
-    }   
-
-    /*
-     * If a child questin's condition becomes unmatched, then need to navigate thru the
-     * descendants and hide all of them under this hierarchy.
-     */
-    function hideChildren(parentIndicator,formProperty) {
-    	var prefix = "table-parent-"+parentIndicator;
-    	var headerIdx = parentIndicator.substring(0, parentIndicator.indexOf("-"));
-    	var idx = parentIndicator.substring(parentIndicator.indexOf("-")+1);
-        $j("table[id^="+prefix+"-]").each(                           
-    			function() {
-              		$j(this).hide();
-                    var conditionDiv = $j("#"+$j(this).attr("id")+" .condition:nth(0)");
-                    
-                    if (conditionDiv && conditionDiv.children() && conditionDiv.size() == 1 && conditionDiv.children().size() == 3) {
-                      		hideChildren(conditionDiv.children('input:eq(1)').attr("id").substring(10),formProperty);                           
-                       		$j("#childDisplay"+conditionDiv.children('input:eq(1)').attr("id").substring(9)).attr("value","N");
-                            var qidx = $j(this).attr("id").substring(prefix.length+1);
-                       		$j("#"+formProperty+"\\.answerHeaders\\["+headerIdx+"\\]\\.answers\\["+qidx+"\\]\\.matchedChild").attr("value","N");
-                       		emptyAnswerForHiddenQuestion(this);
-                    } 
-    			});
-
-    }   
 
     /*
      * uncheck radio button if it is checked and empty answer fields if it is not a 'radio' type.
      */
     function emptyAnswerForHiddenQuestion(questionTable) {
-   		$j(questionTable).find('[class^=Qanswer]').each(
-           		function() {		
-           		  var radioChecked = $j(this).attr('checked');
-           		  if (radioChecked) {
-           			  $j(this).attr('checked', false);
-                  } else {
-                	  if ($j(this).attr("type") != "radio") {
-                		  $j(this).attr("value","");
-                	  }
-                  }	  
-           		});
-
+   		$j(questionTable).find('input[name$=".answer"]').each(function() {		
+   			var radioChecked = $j(this).attr('checked');
+   			if (radioChecked) {
+   				$j(this).attr('checked', false);
+   			} else {
+   				if ($j(this).attr("type") != "radio") {
+   					$j(this).attr("value","");
+   				}
+   			}	  
+   		});
     }
     
     /*
      * check if the answer matched the condition set up for the child question.
      */
-	function isConditionMatchAnswers(parentAnswerField, responseDiv, condition, conditionValue, parentAnswer) {
+	function isConditionMatchAnswers(answer, conditionObj) {
 		// if condition is not set (ie, condition is empty and isNaN) , then it is a required question if its parents is displayed
-		var isMatched = (condition == "") || isNaN(condition) || isRuleValid(condition, conditionValue) || isConditionMatched(parentAnswerField, condition, conditionValue, parentAnswer);
-		if (!isMatched && responseDiv.siblings('div[class^=Qresponsediv]').size() > 0) {
-			responseDiv.siblings('div[class^=Qresponsediv]').each (
-				function() {
+		var isMatched = (conditionObj.conditionFlag == 'false') || isRuleValid(conditionObj.condition, conditionObj.conditionValue) || isConditionMatched(answer, conditionObj);
+		if (!isMatched && $j(answer).parent().siblings('div.answer').size() > 0) {
+			$j(answer).parent().siblings('div.answer').each (function() {
 					if (!isMatched) {
-                        var answer = $j(this).children().children().children().children().children().children('input').attr("value");
-                        isMatched = isConditionMatched(parentAnswerField, condition, conditionValue, answer);
+                        isMatched = isConditionMatched($j(this).find('input.answer:first'), conditionObj);
 					}
                     
-				}
-			)
+			});
 		}
-		
 		return isMatched;
-		
 	}
 	
 	/*
@@ -247,7 +147,7 @@
      * condition check for all the conditions implemented in this release 2.1.
      * Coeus seems only to allow positive integer if condition is related to number
      */
-    function isConditionMatched(parentAnswerField, condition, conditionValue, parentAnswer) {
+    function isConditionMatched(answer, conditionObj) {
 
       /* The following conditions is set up in questionnaire maintenance document maintenance
        * var responseArray = [ 'select', 'Contains text value', 'Matches text',
@@ -255,81 +155,61 @@
        *         		'Greater than or equals number', 'Greater than number', 'Before date',
        *         		'After date' ];                 
        */
-       
+       var condition = conditionObj.condition;
+       var conditionValue = conditionObj.conditionValue;
+       var answerValue = $j(answer).val();
+       if ($j(answer).is(':radio')) {
+    	   answerValue = $j(answer).parent().find(':checked').val();
+    	   if (answerValue === undefined) {
+    		   answerValue = "";
+    	   }
+       }
 		var isMatched = false;
         if (condition == 1) {
           // contains text value
-            isMatched = ((parentAnswer.toUpperCase()).indexOf(conditionValue.toUpperCase()) >= 0);
+            isMatched = ((answerValue.toUpperCase()).indexOf(conditionValue.toUpperCase()) >= 0);
         } else if (condition == 2) {
             // begins with text   
-              isMatched = (parentAnswer.toUpperCase().startsWith(conditionValue.toUpperCase()));
+              isMatched = (answerValue.toUpperCase().startsWith(conditionValue.toUpperCase()));
         } else if (condition == 3) {
             // ends text   
-            isMatched = (parentAnswer.toUpperCase().endsWith(conditionValue.toUpperCase()));
+            isMatched = (answerValue.toUpperCase().endsWith(conditionValue.toUpperCase()));
         } else if (condition == 4) {
             // match text   
-              isMatched = (conditionValue.toUpperCase() == parentAnswer.toUpperCase());
+              isMatched = (conditionValue.toUpperCase() == answerValue.toUpperCase());
         } else if (condition >= 5 && condition <= 10) {
-            if (isNaN(parentAnswer)) {
+            if (isNaN(answerValue)) {
     		   alert("Value must be a number");
-            } else if (!_isInteger(parentAnswer)){
+            } else if (!_isInteger(answerValue)){
      		   alert("Value must be a positive integer");
             } else {
-            	isMatched = (condition == 5 && (Number(parentAnswer) < Number(conditionValue))) ||
-            	            (condition == 6 && (Number(parentAnswer) <= Number(conditionValue))) ||
-            	            (condition == 7 && (Number(parentAnswer) == Number(conditionValue))) ||
-            	            (condition == 8 && (Number(parentAnswer) != Number(conditionValue))) ||
-            	            (condition == 9 && (Number(parentAnswer) >= Number(conditionValue))) ||
-            	            (condition == 10 && (Number(parentAnswer) > Number(conditionValue)));
+            	isMatched = (condition == 5 && (Number(answerValue) < Number(conditionValue))) ||
+            	            (condition == 6 && (Number(answerValue) <= Number(conditionValue))) ||
+            	            (condition == 7 && (Number(answerValue) == Number(conditionValue))) ||
+            	            (condition == 8 && (Number(answerValue) != Number(conditionValue))) ||
+            	            (condition == 9 && (Number(answerValue) >= Number(conditionValue))) ||
+            	            (condition == 10 && (Number(answerValue) > Number(conditionValue)));
             }    
     	} else if (condition > 10 && condition <= 12) {
-        	if (!parseDate(parentAnswer)) {
-    		    alert(parentAnswer + " is Not a Valid Date ");
-        	} else {
-        		setDate(parentAnswerField, parentAnswer);
-        		//$j(parentAnswerField).attr("value",formatDate(parseDate(parentAnswer), "MM/dd/yyyy"));
-        		isMatched = isDateMatched($j(parentAnswerField).attr("value"), conditionValue, condition)
+        	if (answerValue != null) {
+        		if (!Date.parseDate(answerValue, questionnaireDateFormat)) {
+        			alert(answerValue + " is Not a Valid Date ");
+        		} else {
+        			isMatched = isDateMatched($j(answer).val(), conditionValue, condition)
+        		}
         	}
     	}	  
 
         return isMatched;	
 	}
 
-    /*
-     * This method is to convert some special formatted to rice supported date format.
-     * These special formats have no "year" specified, so it parse to year like 110. or -1790
-     * the current year will be added to these format, so it can behave like rice's 'MMM d'
-     */
-    function setDate(parentAnswerField, parentAnswer) {
-    	if (isDate(parentAnswer, "MMM d") || isDate(parentAnswer, "M/d") || isDate(parentAnswer, "M-d")) {
-    		// "MMM d" will be converted to MMM d, 110, and cause issue.  so, make it "MMM d, yyyy"
-    		var d = new Date();
-    		if (isDate(parentAnswer, "MMM d")) {
-    			parentAnswer = parentAnswer + ", " +d.getFullYear();
-    		} else if (isDate(parentAnswer, "M/d")) {
-    			parentAnswer = parentAnswer + "/" +d.getFullYear();
-    		} else if (isDate(parentAnswer, "M-d")) {
-    			parentAnswer = parentAnswer + "-" +d.getFullYear();
-    		} 
-    		
-    	}
-    		$j(parentAnswerField).attr("value",formatDate(parseDate(parentAnswer), "MM/dd/yyyy"));
-    	
-    }
 
 	/*
 	 * check if date is either 'before date' or 'after date'
 	 */
-	function isDateMatched(parentAnswer, conditionValue, condition)
-	 {
-	 //    var mon1  = parentAnswer.substring(0,2)-1;
-	 //    var dt1 = parentAnswer.substring(3,5);
-	 //    var yr1  = parentAnswer.substring(6,10);
-	 //    var mon2  = conditionValue.substring(0,2)-1;
-	 //    var dt2 = conditionValue.substring(3,5);
-	 //    var yr2  = conditionValue.substring(6,10);
-	     var date1 = parseDate(parentAnswer);
-	     var date2 = parseDate(conditionValue);
+	function isDateMatched(parentAnswer, conditionValue, condition) {
+	     var date1 = Date.parseDate(parentAnswer, questionnaireDateFormat);
+	     var date2 = Date.parseDate(conditionValue, questionnaireDateFormat);
 
 		 return (condition == 11 && (date1 < date2)) ||
 		            (condition == 12 && (date1 > date2));

@@ -46,10 +46,9 @@
                     --%> 
             </span>
         </h3>
-        <div id="questionpanelcontent:${property}:${answerHeaderIndex}">
+        <div class="questionnaireContent">
         <%-- hidden rule results --%>
-            <input type="hidden" name="ruleReferenced" id ="ruleReferenced" 
-       value = "${bean.ruleReferenced}" />
+            <input type="hidden" name="ruleReferenced" id ="ruleReferenced" value = "${bean.ruleReferenced}" />
         
             <c:set var="questionid" value="" />
             <c:forEach items="${bean.answerHeaders[answerHeaderIndex].answers}" var="answer" varStatus="status">   
@@ -64,18 +63,18 @@
                             </tr>
                         </table>
                     </c:if>
-
-                    <c:set var="tableId" value="table-${answerHeaderIndex}-${status.index}" />   
-                    <c:if test="${answer.questionnaireQuestion.parentQuestionNumber != 0}" >
-                        <c:set var="tableId" value="table-parent-${answerHeaderIndex}-${answer.questionnaireQuestion.parentQuestionNumber}-${status.index}"/>   
-                    </c:if>                 
-
-                    <c:set var="qname" value="HD${answerHeaderIndex}-QN${status.index}"/>            
+            
                     <c:set var="questionid" value="${answer.questionNumber}" />
-                    <table class="content_table" id = "${tableId}">  
+                   	<c:set var="displayCondition" value="({ 'conditionFlag' : '${answer.questionnaireQuestion.conditionFlag}', 'condition': '${answer.questionnaireQuestion.condition}', 'conditionValue' : '${answer.questionnaireQuestion.conditionValue}'})"/>
+                    <table class="content_table question" style="display: ${answer.matchedChild == 'Y' ? 'table' : 'none'}"
+                    		data-kc-questionindex="${status.index}"
+                    		data-kc-questionid="${questionid}" 
+                    		data-kc-question-matched="${answer.matchedChild}"
+                    		data-kc-question-parentid="${answer.questionnaireQuestion.parentQuestionNumber}"
+                    		data-kc-question-condition="${displayCondition}">  
                         <tr>
                             <td class="content_questionnaire">
-                                <div class="Qdiv" id="${qname}div">
+                                <div class="Qdiv" >
                                     <div class="Qquestiondiv">
                                         <span class="Qmoreinfocontrol">More Information...</span>
                                         <!--<span class="Qnumber">1.0.0</span>-->
@@ -88,11 +87,7 @@
                 <c:choose>
                     <%-- decide whether it is readonly mode --%>
                     <c:when test = "${readOnly}" >
-                        
-                        <c:set var="prop" value="childDisplay-${answerHeaderIndex}-${answer.questionNumber}"/>
-                        ${kfunc:registerEditableProperty(KualiForm, prop)}
-                        <input type="hidden" id="childDisplay-${answerHeaderIndex}-${answer.questionNumber}" name="childDisplay-${answerHeaderIndex}-${answer.questionNumber}" value="${answer.matchedChild}" />                
-                        <c:choose>
+                       <c:choose>
                             <c:when test = "${answer.question.questionTypeId == 1 or answer.question.questionTypeId == 2}" >
                                 <c:choose>
                                     <c:when test = "${answer.answer == 'Y'}" >
