@@ -22,16 +22,11 @@
 <%@ attribute name="property" required="true" %>
 <%@ attribute name="answerValidationError" required = "true" %>
 
-<div class="Qresponsediv">
-    <span class="Qresponse">
-        
-        <c:set var="prop" value="${property}.answerHeaders[${answerHeaderIndex}].answers[${questionIndex}].answer"/>
-        ${kfunc:registerEditableProperty(KualiForm, prop)}
-        
-        <input type="text" class="Qanswer" id="${prop}" name="${prop}" maxlength="${question.answerMaxLength}" size="${question.answerMaxLength}" 
-               value="${bean.answerHeaders[answerHeaderIndex].answers[questionIndex].answer}" />
-        <c:if test="${answerValidationError}">
-	 		<kul:fieldShowErrorIcon />
-        </c:if>
-    </span>
-</div>
+<c:set var="prop" value="${property}.answerHeaders[${answerHeaderIndex}].answers[${questionIndex}].answer"/>
+${kfunc:registerEditableProperty(KualiForm, prop)}
+
+<input type="text" class="Qanswer answer questionnaireAnswer" id="${prop}" name="${prop}" maxlength="${question.answerMaxLength}" size="${question.answerMaxLength}" 
+       value="${bean.answerHeaders[answerHeaderIndex].answers[questionIndex].answer}" />
+<c:if test="${answerValidationError}">
+	<kul:fieldShowErrorIcon />
+</c:if>

@@ -27,6 +27,7 @@
         <c:set var="answerValidationError" value="true"/>
     </c:if>
 </c:forEach>
+<div class="answer">
 <c:choose>
     <c:when test="${bean.answerHeaders[answerHeaderIndex].answers[questionIndex].question.questionTypeId == 1}" >
         <kra-questionnaire:yesNoQuestion question="${bean.answerHeaders[answerHeaderIndex].answers[questionIndex].question}"
@@ -74,36 +75,6 @@
             </c:otherwise>
         </c:choose>
     </c:when>
-    <c:otherwise>
-    </c:otherwise>
 </c:choose>
-<c:set var="questionNumber" value="${bean.answerHeaders[answerHeaderIndex].answers[questionIndex].questionNumber}" />
+</div>
 
-<c:set var="prop" value="parent-${questionNumber}-${answerHeaderIndex}"/>
-${kfunc:registerEditableProperty(KualiForm, prop)}
-<input type="hidden" id="parent-${questionNumber}-${answerHeaderIndex}" name="parent-${questionNumber}-${answerHeaderIndex}" value="${fieldName}" />
-
-<c:set var="prop" value="childDisplay-${answerHeaderIndex}-${questionNumber}"/>
-${kfunc:registerEditableProperty(KualiForm, prop)}
-<input type="hidden" id="childDisplay-${answerHeaderIndex}-${questionNumber}" name="childDisplay-${answerHeaderIndex}-${questionNumber}" value="${bean.answerHeaders[answerHeaderIndex].answers[questionIndex].matchedChild}" />
-
-<c:set var="prop" value="${property}.answerHeaders[${answerHeaderIndex}].answers[${questionIndex}].matchedChild"/>
-${kfunc:registerEditableProperty(KualiForm, prop)}
-<input type="hidden" id="${property}.answerHeaders[${answerHeaderIndex}].answers[${questionIndex}].matchedChild" name="${property}.answerHeaders[${answerHeaderIndex}].answers[${questionIndex}].matchedChild"  value="${bean.answerHeaders[answerHeaderIndex].answers[questionIndex].matchedChild}" />
-
-<c:if test="${bean.answerHeaders[answerHeaderIndex].answers[questionIndex].questionnaireQuestion.parentQuestionNumber != 0}">
-    <div class = "condition">
-        
-        <c:set var="prop" value="conditionFlag-${answerHeaderIndex}-${questionNumber}"/>
-        ${kfunc:registerEditableProperty(KualiForm, prop)}
-        <input type="hidden" id="conditionFlag-${answerHeaderIndex}-${questionNumber}" value="${bean.answerHeaders[answerHeaderIndex].answers[questionIndex].questionnaireQuestion.conditionFlag}" />
-        
-        <c:set var="prop" value="condition-${answerHeaderIndex}-${questionNumber}"/>
-        ${kfunc:registerEditableProperty(KualiForm, prop)}
-        <input type="hidden" id="condition-${answerHeaderIndex}-${questionNumber}" value="${bean.answerHeaders[answerHeaderIndex].answers[questionIndex].questionnaireQuestion.condition}" />
-        
-        <c:set var="prop" value="conditionValue-${answerHeaderIndex}-${questionNumber}"/>
-        ${kfunc:registerEditableProperty(KualiForm, prop)}
-        <input type="hidden" id="conditionValue-${answerHeaderIndex}-${questionNumber}" value="${bean.answerHeaders[answerHeaderIndex].answers[questionIndex].questionnaireQuestion.conditionValue}" />
-    </div>
-</c:if>
