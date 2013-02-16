@@ -24,26 +24,14 @@
 <%@ attribute name="answerValidationError" required = "true" %>
 
 <%@ attribute name="questionIndex" required="true" %>
-<div class="Qresponsediv">
-    <span class="Qresponse">
         
-        <c:set var="prop" value="${property}.answerHeaders[${answerHeaderIndex}].answers[${questionIndex}].answer"/>
-        ${kfunc:registerEditableProperty(KualiForm, prop)}
-                        <jsp:useBean id="paramMap" class="java.util.HashMap"/>
-		                <c:set target="${paramMap}" property="argName" value="${question.lookupReturn}" />
-
-	                        <html:select property="${prop}" tabindex="0"  styleClass="Qanswer">
-		                        <c:forEach items="${krafn:getOptionList('org.kuali.kra.lookup.keyvalue.ArgValueLookupValuesFinder', paramMap)}" var="option">
-		                            <c:choose>                    	
-		                    	        <c:when test="${bean.answerHeaders[answerHeaderIndex].answers[questionIndex].answer == option.key}">
-		                                    <option value="${option.key}" selected>${option.value}</option>
- 		                                </c:when>
-		                                <c:otherwise>
-		                                    <option value="${option.key}">${option.value}</option>
-		                                </c:otherwise>
-		                            </c:choose>                    
-		                        </c:forEach>
-		                    </html:select>
-    </span>
-</div>
-		                    
+<c:set var="prop" value="${property}.answerHeaders[${answerHeaderIndex}].answers[${questionIndex}].answer"/>
+${kfunc:registerEditableProperty(KualiForm, prop)}
+<jsp:useBean id="paramMap" class="java.util.HashMap"/>
+<c:set target="${paramMap}" property="argName" value="${question.lookupReturn}" />
+<c:set var="answer" value="${bean.answerHeaders[answerHeaderIndex].answers[questionIndex].answer}"/>
+<html:select property="${prop}" tabindex="0"  styleClass="Qanswer answer questionnaireAnswer">
+	<c:forEach items="${krafn:getOptionList('org.kuali.kra.lookup.keyvalue.ArgValueLookupValuesFinder', paramMap)}" var="option">
+    	<option value="${option.key}" ${answer == option.key ? 'selected' : ''}>${option.value}</option>
+	</c:forEach>
+</html:select>		                    
