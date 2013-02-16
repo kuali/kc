@@ -24,7 +24,9 @@ import java.util.Map;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.beanutils.BeanUtilsBean;
+import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -62,6 +64,7 @@ import org.kuali.kra.printing.Printable;
 import org.kuali.kra.printing.print.AbstractPrint;
 import org.kuali.kra.printing.service.WatermarkService;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
+import org.kuali.kra.questionnaire.QuestionnaireHelperBase;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
@@ -1124,9 +1127,12 @@ public class CoiDisclosureAction extends CoiAction {
      */
     public ActionForward updateAnswerToNewVersion(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        ((CoiDisclosureForm) form).getDisclosureQuestionnaireHelper().updateQuestionnaireAnswer(getLineToDelete(request));
-        getBusinessObjectService().save(
-                ((CoiDisclosureForm) form).getDisclosureQuestionnaireHelper().getAnswerHeaders().get(getLineToDelete(request)));
+        String methodToCallStart = "methodToCall.updateAnswerToNewVersion.";
+        String methodToCallEnd = ".line";
+        String methodToCall = ((String) request.getAttribute(KRADConstants.METHOD_TO_CALL_ATTRIBUTE));
+        String questionnaireHelperPath = methodToCall.substring(methodToCallStart.length(), methodToCall.indexOf(methodToCallEnd));
+        QuestionnaireHelperBase helper = (QuestionnaireHelperBase) PropertyUtils.getNestedProperty(form, questionnaireHelperPath);
+        helper.updateQuestionnaireAnswer(getLineToDelete(request));
         return mapping.findForward(Constants.MAPPING_BASIC);
 
     }
