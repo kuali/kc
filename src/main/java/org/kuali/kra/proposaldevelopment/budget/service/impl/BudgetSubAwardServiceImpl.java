@@ -158,7 +158,7 @@ public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
             for (BudgetPeriod period : budget.getBudgetPeriods()) {
                 BudgetSubAwardPeriodDetail detail = null;
                 for (BudgetSubAwardPeriodDetail curDetail : subAward.getBudgetSubAwardPeriodDetails()) {
-                    if (ObjectUtils.equals(curDetail.getBudgetPeriodId(), period.getBudgetPeriodId())) {
+                    if (ObjectUtils.equals(curDetail.getBudgetPeriod(), period.getBudgetPeriod())) {
                         detail = curDetail;
                         break;
                     }
@@ -229,7 +229,7 @@ public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
     
     protected BudgetPeriod findBudgetPeriod(BudgetSubAwardPeriodDetail detail, Budget budget) {
         for (BudgetPeriod period : budget.getBudgetPeriods()) {
-            if (ObjectUtils.equals(detail.getBudgetPeriodId(), period.getBudgetPeriodId())) {
+            if (ObjectUtils.equals(detail.getBudgetPeriod(), period.getBudgetPeriod())) {
                 return period;
             }
         }
@@ -508,7 +508,7 @@ public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
         if (matchingPeriod != null) {
 
             for (BudgetSubAwardPeriodDetail detail : budgetSubAward.getBudgetSubAwardPeriodDetails()) {
-                if (ObjectUtils.equals(detail.getBudgetPeriodId(), matchingPeriod.getBudgetPeriodId())) {
+                if (ObjectUtils.equals(detail.getBudgetPeriod(), matchingPeriod.getBudgetPeriod())) {
                     matchingDetail = detail;
                     break;
                 }

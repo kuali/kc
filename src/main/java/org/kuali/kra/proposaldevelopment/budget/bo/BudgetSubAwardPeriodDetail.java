@@ -34,8 +34,6 @@ public class BudgetSubAwardPeriodDetail extends BudgetAssociate {
     
     private Long budgetId;
 
-    private Long budgetPeriodId;
-
     private Integer budgetPeriod;
     
     private BudgetDecimal directCost = BudgetDecimal.ZERO;
@@ -56,7 +54,6 @@ public class BudgetSubAwardPeriodDetail extends BudgetAssociate {
         this.subAwardNumber = subAward.getSubAwardNumber();
         this.budgetId = period.getBudgetId();
         this.budgetPeriod = period.getBudgetPeriod();
-        this.budgetPeriodId = period.getBudgetPeriodId();
     }
     
     public Long getBudgetSubAwardDetailId() {
@@ -65,14 +62,6 @@ public class BudgetSubAwardPeriodDetail extends BudgetAssociate {
 
     public void setBudgetSubAwardDetailId(Long budgetSubAwardDetailId) {
         this.budgetSubAwardDetailId = budgetSubAwardDetailId;
-    }
-
-    public Long getBudgetPeriodId() {
-        return budgetPeriodId;
-    }
-
-    public void setBudgetPeriodId(Long budgetPeriodId) {
-        this.budgetPeriodId = budgetPeriodId;
     }
 
     public Integer getBudgetPeriod() {

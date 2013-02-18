@@ -1415,7 +1415,6 @@
 		<field-descriptor name="budgetSubAwardDetailId" column="SUBAWARD_PERIOD_DETAIL_ID" jdbc-type="BIGINT" primarykey="true" autoincrement="true" sequence-name="SEQ_BUDGET_SUBAWARD_PER_DET"/>
 		<field-descriptor name="subAwardNumber" column="SUBAWARD_NUMBER" jdbc-type="INTEGER" />
 		<field-descriptor name="budgetId" column="BUDGET_ID" jdbc-type="BIGINT" />
-		<field-descriptor name="budgetPeriodId" column="BUDGET_PERIOD_NUMBER" jdbc-type="BIGINT" />
 		<field-descriptor name="budgetPeriod" column="BUDGET_PERIOD" jdbc-type="INTEGER" />
 		<field-descriptor name="directCost" column="DIRECT_COST" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
 		<field-descriptor name="indirectCost" column="INDIRECT_COST" jdbc-type="DECIMAL" conversion="org.kuali.kra.infrastructure.OjbBudgetDecimalFieldConversion"/>
