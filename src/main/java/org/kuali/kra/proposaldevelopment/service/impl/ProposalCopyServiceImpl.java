@@ -972,6 +972,8 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         objectMap.clear();
         fixNumericProperty(budgetDocument, "setBudgetSubawardAttachmentId", Long.class, null, objectMap);
         objectMap.clear();
+        fixNumericProperty(budgetDocument, "setBudgetSubAwardDetailId", Long.class, null, objectMap);
+        objectMap.clear();
         fixNumericProperty(budgetDocument, "setVersionNumber", Integer.class, null, objectMap);
         objectMap.clear();
 
@@ -983,7 +985,7 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
         }
         //Temporary workaround ends here
         
-        ObjectUtils.materializeAllSubObjects(budgetDocument.getBudget());
+        ObjectUtils.materializeAllSubObjects(budgetDocument.getBudget()); 
 
         Budget budget = budgetDocument.getBudget();
         
