@@ -30,24 +30,32 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
 import org.kuali.kra.s2s.service.S2SService;
 import org.kuali.rice.core.api.config.property.ConfigContext;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.web.format.Formatter;
 import org.kuali.rice.core.web.format.TimestampAMPMFormatter;
 import org.kuali.rice.coreservice.api.CoreServiceApiServiceLocator;
+import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kns.document.authorization.BusinessObjectRestrictions;
+import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.lookup.LookupUtils;
+import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.kns.web.ui.Column;
 import org.kuali.rice.kns.web.ui.ResultRow;
 import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.krad.util.UrlFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -58,6 +66,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class S2sOpportunityLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 
     private S2SService s2SService;
+    private DateTimeService dateTimeService;
     private static final Log LOG = LogFactory.getLog(S2sOpportunityLookupableHelperServiceImpl.class);
 
     /**
@@ -124,49 +133,15 @@ public class S2sOpportunityLookupableHelperServiceImpl extends KualiLookupableHe
 
     public void setS2SService(S2SService service) {
         s2SService = service;
-    }
+    }   
 
     public Collection performLookup(LookupForm lookupForm, Collection resultTable, boolean bounded) {
-        Collection displayList;
-        displayList = super.performLookup(lookupForm, resultTable, bounded);
-        ResultRow row;
+        boolean showReturnLink = lookupForm.getBackLocation().contains("proposalDevelopmentGrantsGov");
+        Collection displayList = super.performLookup(lookupForm, resultTable, bounded);
         for (Iterator iter = resultTable.iterator(); iter.hasNext();) {
-            row = (ResultRow) iter.next();
-                
+            ResultRow row = (ResultRow) iter.next();
+ 
             List<Column> columns = row.getColumns();
-            if(!lookupForm.getBackLocation().contains("proposalDevelopmentGrantsGov")){
-            String cfdaNumber=columns.get(0).getPropertyValue();
-            String closingDate=columns.get(1).getPropertyValue();
-            String competetionId=columns.get(2).getPropertyValue();
-            String instructionUrl=columns.get(3).getPropertyValue();
-            String openingDate =columns.get(4).getPropertyValue();
-            String oppurtunityId=columns.get(5).getPropertyValue();
-            String oppurtunityTitle=columns.get(6).getPropertyValue();
-            String schemaUrl=columns.get(7).getPropertyValue();
-            String applicationUrl = KRADServiceLocator.getKualiConfigurationService().getPropertyValueAsString(KRADConstants.APPLICATION_URL_KEY);
-            String createProposalUrl=null;
-            try {
-                    String encodedUrl = URIUtil
-                            .encodeQuery(lookupForm.getBackLocation()
-                                    + "?channelTitle=CreateProposal&channelUrl="
-                                    + applicationUrl
-                                    + "/proposalDevelopmentProposal.do?methodToCall=docHandler&command=initiate&docTypeName=ProposalDevelopmentDocument"
-                                    + "&createProposalFromGrantsGov=true"
-                                    + "&newS2sOpportunity.cfdaNumber=" + cfdaNumber
-                                    + "&newS2sOpportunity.opportunityId=" + oppurtunityId
-                                    + "&newS2sOpportunity.opportunityTitle=" + oppurtunityTitle
-                                    + "&newS2sOpportunity.closingDate=" + closingDate
-                                    + "&newS2sOpportunity.openingDate=" + openingDate
-                                    + "&newS2sOpportunity.instructionUrl=" + instructionUrl
-                                    + "&newS2sOpportunity.competetionId=" + competetionId
-                                    + "&newS2sOpportunity.schemaUrl=" + schemaUrl);
-                    createProposalUrl = "<a href=" + encodedUrl + ">Create Proposal</a>";
-                    row.setReturnUrl(createProposalUrl);
-                }
-                catch (URIException e) {
-                    LOG.error(e.getMessage(), e);
-                }
-            }
             for (Iterator iterator = columns.iterator(); iterator.hasNext();) {
                 Column col = (Column) iterator.next();
 
@@ -178,6 +153,38 @@ public class S2sOpportunityLookupableHelperServiceImpl extends KualiLookupableHe
         }
         return displayList;
     }
+    
+    public HtmlData getReturnUrl(BusinessObject businessObject, LookupForm lookupForm, List returnKeys, BusinessObjectRestrictions businessObjectRestrictions) {
+        boolean showReturnLink = lookupForm.getBackLocation().contains("proposalDevelopmentGrantsGov");
+        if (showReturnLink) {
+            return super.getReturnUrl(businessObject, lookupForm, returnKeys, businessObjectRestrictions);
+        } else {
+            return getCreateLink((S2sOpportunity) businessObject);
+        }
+    }
+    
+    protected AnchorHtmlData getCreateLink(S2sOpportunity opp) {
+        AnchorHtmlData htmlData = new AnchorHtmlData();
+        htmlData.setDisplayText("Create Proposal");
+        Properties parameters = new Properties();
+        parameters.put("createProposalFromGrantsGov", "true");
+        parameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.DOC_HANDLER_METHOD);
+        parameters.put(KRADConstants.PARAMETER_COMMAND, KewApiConstants.INITIATE_COMMAND);
+        parameters.put(KRADConstants.DOCUMENT_TYPE_NAME, "ProposalDevelopmentDocument");
+        parameters.put("newS2sOpportunity.cfdaNumber", opp.getCfdaNumber() != null ? opp.getCfdaNumber() : "");
+        parameters.put("newS2sOpportunity.opportunityId", opp.getOpportunityId() != null ? opp.getOpportunityId() : "");
+        parameters.put("newS2sOpportunity.opportunityTitle", opp.getOpportunityTitle() != null ? opp.getOpportunityTitle() : "");
+        parameters.put("newS2sOpportunity.closingDate", opp.getClosingDate() != null ? getDateTimeService().toDateTimeString(opp.getClosingDate()) : "");
+        parameters.put("newS2sOpportunity.openingDate", opp.getOpeningDate() != null ? getDateTimeService().toDateTimeString(opp.getOpeningDate()) : "");
+        parameters.put("newS2sOpportunity.instructionUrl", opp.getInstructionUrl() != null ? opp.getInstructionUrl() : "");
+        parameters.put("newS2sOpportunity.competetionId", opp.getCompetetionId() != null ? opp.getCompetetionId() : "");
+        parameters.put("newS2sOpportunity.schemaUrl", opp.getSchemaUrl() != null ? opp.getSchemaUrl() : "");
+        parameters.put("newS2sOpportunity.providerCode", opp.getProviderCode());
+        String href  = UrlFactory.parameterizeUrl("../proposalDevelopmentProposal.do", parameters);
+        htmlData.setHref(href);
+        return htmlData;  
+    }
+    
     /**
      * As a workaround to format timestamp objects, overriding this method to handle timestamp formating.
      * @see org.kuali.rice.kns.lookup.AbstractLookupableHelperServiceImpl#getParameters(org.kuali.rice.krad.bo.BusinessObject, java.util.Map, java.lang.String, java.util.List)
@@ -198,5 +205,16 @@ public class S2sOpportunityLookupableHelperServiceImpl extends KualiLookupableHe
             }
         }
         return parameters;
+    }
+
+    protected DateTimeService getDateTimeService() {
+        if (dateTimeService == null) {
+            dateTimeService = KraServiceLocator.getService(DateTimeService.class);
+        }
+        return dateTimeService;
+    }
+
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
     }
 }
