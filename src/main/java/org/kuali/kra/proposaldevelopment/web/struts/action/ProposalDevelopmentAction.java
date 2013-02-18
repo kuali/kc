@@ -1060,24 +1060,28 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
         if (proposalDevelopmentDocument.getDevelopmentProposal().getGrantsGovSelectFlag()) {
             String loggingDirectory = KraServiceLocator.getService(ConfigurationService.class).getPropertyValueAsString(Constants.PRINT_XML_DIRECTORY);
             String saveXmlFolderName = proposalDevelopmentDocument.getSaveXmlFolderName();
-            File grantsGovXmlDirectoryFile = new File(loggingDirectory+saveXmlFolderName+".zip");
-            byte[] bytes = new byte[(int)grantsGovXmlDirectoryFile.length()];
-            FileInputStream  fileInputStream = new FileInputStream(grantsGovXmlDirectoryFile);
-            fileInputStream.read(bytes);
-            ByteArrayOutputStream baos = null;
-            try {
-                baos = new ByteArrayOutputStream(bytes.length);
-                baos.write(bytes);
-                WebUtils.saveMimeOutputStreamAsFile(response, "binary/octet-stream", baos,saveXmlFolderName+".zip");
-                
-            } finally {
+            if (loggingDirectory != null) {
+                File grantsGovXmlDirectoryFile = new File(loggingDirectory + saveXmlFolderName + ".zip");
+                byte[] bytes = new byte[(int) grantsGovXmlDirectoryFile.length()];
+                FileInputStream fileInputStream = new FileInputStream(grantsGovXmlDirectoryFile);
+                fileInputStream.read(bytes);
+                ByteArrayOutputStream baos = null;
                 try {
-                    if (baos != null) {
-                        baos.close();
-                        baos = null;
+                    baos = new ByteArrayOutputStream(bytes.length);
+                    baos.write(bytes);
+                    WebUtils.saveMimeOutputStreamAsFile(response, "binary/octet-stream", baos, saveXmlFolderName + ".zip");
+
+                }
+                finally {
+                    try {
+                        if (baos != null) {
+                            baos.close();
+                            baos = null;
+                        }
                     }
-                } catch (IOException ioEx) {
-                    LOG.warn(ioEx.getMessage(), ioEx);
+                    catch (IOException ioEx) {
+                        LOG.warn(ioEx.getMessage(), ioEx);
+                    }
                 }
             }
             proposalDevelopmentDocument.getDevelopmentProposal().setGrantsGovSelectFlag(false);
