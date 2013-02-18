@@ -167,7 +167,7 @@ function fixDatePickers() {
            timeout: 90000,
            error: function(error){
     		  console.log(error);
-              alert('Error loading Award Hierarchy information');
+              alert('Error loading Award Hierarchy information. Check to see if Award was canceled.');
               if (liNode != null) {
             	  jQuery(liNode).find('div.collapsable-hitarea:first').click();
               }

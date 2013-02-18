@@ -155,6 +155,7 @@ public class AwardHierarchyNode extends AwardHierarchy {
      * @return Returns the amountObligatedToDate.
      */
     public KualiDecimal getAmountObligatedToDate() {
+System.out.println("\n\nOOOTTT get obligated to date = " + amountObligatedToDate + "\n\n");        
         if(amountObligatedToDate == null){
             setAmountObligatedToDate(new KualiDecimal(0));
         }
@@ -166,6 +167,7 @@ public class AwardHierarchyNode extends AwardHierarchy {
      * @param amountObligatedToDate The amountObligatedToDate to set.
      */
     public void setAmountObligatedToDate(KualiDecimal amountObligatedToDate) {
+System.out.println("\n\nOOOTTT set obligated to date = " + amountObligatedToDate + "\n\n");
         this.amountObligatedToDate = amountObligatedToDate;
     }
 
@@ -174,6 +176,7 @@ public class AwardHierarchyNode extends AwardHierarchy {
      * @return Returns the obliDistributableAmount.
      */
     public KualiDecimal getObliDistributableAmount() {
+System.out.println("\n\nOOOTTT get obligated distributable = " + obliDistributableAmount + "\n\n");        
         if(obliDistributableAmount == null){
             setObliDistributableAmount(new KualiDecimal(0));
         }
@@ -186,6 +189,7 @@ public class AwardHierarchyNode extends AwardHierarchy {
      * @param obliDistributableAmount The obliDistributableAmount to set.
      */
     public void setObliDistributableAmount(KualiDecimal obliDistributableAmount) {
+System.out.println("\n\nOOOTTT set obligated distributable = " + obliDistributableAmount + "\n\n");        
         this.obliDistributableAmount = obliDistributableAmount;
     }
 
@@ -308,6 +312,7 @@ public class AwardHierarchyNode extends AwardHierarchy {
      * @return Returns the obligatedTotalDirect.
      */
     public KualiDecimal getObligatedTotalDirect() {
+System.out.println("\n\nOOOTTT get obligated total direct = " + obligatedTotalDirect + "\n\n");        
         return (obligatedTotalDirect != null) ? obligatedTotalDirect : new KualiDecimal(0.0);
     }
 
@@ -316,6 +321,7 @@ public class AwardHierarchyNode extends AwardHierarchy {
      * @param obligatedTotalDirect The obligatedTotalDirect to set.
      */
     public void setObligatedTotalDirect(KualiDecimal obligatedTotalDirect) {
+System.out.println("\n\nOOOTTT set obligated total direct = " + obligatedTotalDirect + "\n\n");        
         this.obligatedTotalDirect = obligatedTotalDirect;
     }
 
@@ -324,6 +330,7 @@ public class AwardHierarchyNode extends AwardHierarchy {
      * @return Returns the obligatedTotalIndirect.
      */
     public KualiDecimal getObligatedTotalIndirect() {
+System.out.println("\n\nOOOTTT get obligated total indirect = " + obligatedTotalIndirect + "\n\n");        
         return (obligatedTotalIndirect != null) ? obligatedTotalIndirect : new KualiDecimal(0.0);
     }
 
@@ -332,6 +339,7 @@ public class AwardHierarchyNode extends AwardHierarchy {
      * @param obligatedTotalIndirect The obligatedTotalIndirect to set.
      */
     public void setObligatedTotalIndirect(KualiDecimal obligatedTotalIndirect) {
+System.out.println("\n\nOOOTTT set obligated total indirect = " + obligatedTotalIndirect + "\n\n");        
         this.obligatedTotalIndirect = obligatedTotalIndirect;
     }
 
