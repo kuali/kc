@@ -324,7 +324,7 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
             Iterator<BudgetSubAwardPeriodDetail> iter = subAward.getBudgetSubAwardPeriodDetails().iterator();
             while (iter.hasNext()) {
                 BudgetSubAwardPeriodDetail detail = iter.next();
-                if (ObjectUtils.equals(detail.getBudgetPeriodId(), deletedPeriod.getBudgetPeriodId())) {
+                if (ObjectUtils.equals(detail.getBudgetPeriod(), deletedPeriod.getBudgetPeriod())) {
                     iter.remove();
                 }
             }
