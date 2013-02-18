@@ -66,10 +66,13 @@ public class CustomAttributeServiceImpl implements CustomAttributeService {
         List<CustomAttributeDocument> customAttributeDocumentList = 
             (List<CustomAttributeDocument>) getBusinessObjectService().findMatching(CustomAttributeDocument.class, queryMap);
 
-        HashSet<Long> customIds = getCurrentCustomAttributeIds(customDataList);
+        HashSet<Long> customIds = new HashSet<Long>();
+        if (customDataList != null) {
+            customIds = getCurrentCustomAttributeIds(customDataList);
+        }
         for(CustomAttributeDocument customAttributeDocument:customAttributeDocumentList) {
             boolean customAttributeExists = false;
-            if (customIds.contains(customAttributeDocument.getCustomAttributeId().longValue())) {
+            if (!customIds.isEmpty() && customIds.contains(customAttributeDocument.getCustomAttributeId().longValue())) {
                 customAttributeExists = true;
             }
 
