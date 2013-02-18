@@ -72,6 +72,10 @@ public class AwardHierarchyUIServiceImpl implements AwardHierarchyUIService {
             awardNode = awardHierarchyNodes.get(awardNumber);
         }else{
             AwardHierarchy hierarchy = awardHierarchyService.loadAwardHierarchy(awardNumber);
+            if (hierarchy == null) {
+                // create temp new hierarchy
+                hierarchy = AwardHierarchy.createRootNode(currentAwardNumber);
+            }
             awardNode = awardHierarchyService.createAwardHierarchyNode(hierarchy, currentAwardNumber, currentSequenceNumber); 
         }
         return "[" + buildJavascriptRecord(awardNumber, awardNode) + "]"; 
