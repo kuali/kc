@@ -498,17 +498,16 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
     
     public ActionForward recall(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
     
-        ActionForward forward = super.recall(mapping, form, request, response);
-        //commented out for now due to inability to determine if the recall action is finished, but this is known bug as the
-        //proposal status will be incorrect and the user will clobber the workflow change to it on their first save.
-        /*ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        String routeHeaderId = proposalDevelopmentForm.getProposalDevelopmentDocument().getDocumentNumber();
-        String returnLocation = buildActionUrl(routeHeaderId, Constants.MAPPING_BASIC, "ProposalDevelopmentDocument");
-        
+        ActionForward forward = super.recall(mapping, form, request, response);       
         ActionForward basicForward = mapping.findForward(Constants.MAPPING_BASIC);
-        ActionForward holdingPageForward = mapping.findForward(Constants.MAPPING_HOLDING_PAGE);
-        return routeToHoldingPage(basicForward, forward, holdingPageForward, returnLocation);*/
-        return forward;
+        //if recall is returning back to basic path then we should return to the portal to avoid
+        //problems with workflow routing changes to the document. This should eventually return to the holding page,
+        //but currently waiting on KCINFR-760.
+        if (StringUtils.equals(basicForward.getPath(), forward.getPath())) {
+            return mapping.findForward(KRADConstants.MAPPING_PORTAL);
+        } else {
+            return forward;
+        }
     }
 
     /**
