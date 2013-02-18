@@ -362,7 +362,8 @@ public class AwardHierarchyBean implements Serializable {
         if(thisRootNode != null) {
             rootNodes.put(thisRootNode.getAwardNumber(), thisRootNode);
         } else {
-            throw new MissingHierarchyException(currentAwardNumber);
+            // create temp new hierarchy
+            thisRootNode = AwardHierarchy.createRootNode(currentAwardNumber);
         }
         return thisRootNode;
     }
