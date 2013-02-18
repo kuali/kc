@@ -266,6 +266,7 @@ public class PrintServiceImpl implements PrintService {
 		GrantApplicationDocument submittedDocument;
 		String frmXpath = null;        
         String frmAttXpath = null;
+        grantsGovXmlDirectoryFile = null;
 		try {
 		    S2sAppSubmission s2sAppSubmission = getLatestS2SAppSubmission(pdDoc);
 		    String submittedApplicationXml = findSubmittedXml(s2sAppSubmission);
@@ -385,6 +386,7 @@ public class PrintServiceImpl implements PrintService {
 			throws S2SException {
 		FormMappingInfo info = null;
 		S2SBaseFormGenerator s2sFormGenerator = null;
+		grantsGovXmlDirectoryFile = null;
 		List<AuditError> errors = new ArrayList<AuditError>();
 		List<String> sortedNameSpaces = getSortedNameSpaces(pdDoc
 				.getDevelopmentProposal().getS2sOppForms());
