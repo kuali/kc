@@ -16,6 +16,8 @@
 package org.kuali.kra.award.home;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRecipient;
@@ -128,7 +130,34 @@ public class AwardTemplate extends KraPersistableBusinessObjectBase {
      * Gets the templateTerms attribute. 
      * @return Returns the templateTerms.
      */
+    @SuppressWarnings("unchecked")
     public List<AwardTemplateTerm> getTemplateTerms() {
+        if (templateTerms != null) {
+            Collections.sort(this.templateTerms, new Comparator() {
+                public int compare(Object o1, Object o2) {                   
+                    AwardTemplateTerm templateTermFirst = (AwardTemplateTerm) o1;
+                    AwardTemplateTerm templateTermSecond = (AwardTemplateTerm) o2;
+                    String sponsorTermTypeCodeFirst = null;
+                    String sponsorTermTypeCodeSecond = null;
+                    if (templateTermFirst == null || templateTermSecond == null) {
+                        return 0;
+                    }
+                    if (templateTermFirst.isNewCollectionRecord() || templateTermSecond.isNewCollectionRecord()) {
+                        return 0; 
+                    }
+                    if (templateTermFirst.getSponsorTerm() == null || templateTermSecond.getSponsorTerm() == null) {
+                        return 0; 
+                    }
+                    if (templateTermFirst.getSponsorTerm() != null) {
+                        sponsorTermTypeCodeFirst = templateTermFirst.getSponsorTerm().getSponsorTermTypeCode();
+                    } 
+                    if (templateTermSecond.getSponsorTerm() != null) {
+                        sponsorTermTypeCodeSecond = templateTermSecond.getSponsorTerm().getSponsorTermTypeCode();
+                    } 
+                    return sponsorTermTypeCodeFirst.compareTo(sponsorTermTypeCodeSecond);
+                }
+            });
+        }
         return templateTerms;
     }
 
