@@ -715,27 +715,17 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
      * @param projectIncomes
      */
     protected void updateProjectIncomes(BudgetDocument budgetDocument, List<BudgetProjectIncome> projectIncomes) {
-        if (budgetDocument.getBudget().getBudgetPeriods().size() == 1) {
-            BudgetProjectIncome projectBudgetProjectIncome = projectIncomes.get(0);
-            if (projectBudgetProjectIncome.getBudgetPeriodNumber().equals(
-                    budgetDocument.getBudget().getBudgetPeriods().get(0).getBudgetPeriod())) {
-                projectBudgetProjectIncome.setBudgetId(budgetDocument.getBudget().getBudgetId());
-                projectBudgetProjectIncome.setBudgetPeriodId(budgetDocument.getBudget().getBudgetPeriods().get(0)
-                        .getBudgetPeriodId());
-                businessObjectService.save(projectBudgetProjectIncome);
-            } 
-        } else {
+        List<BudgetProjectIncome> budgetProjectIncomes = new ArrayList<BudgetProjectIncome>();
+        for (BudgetPeriod budgetPeriod : budgetDocument.getBudget().getBudgetPeriods()) {
             for (BudgetProjectIncome projectIncome : projectIncomes) {
-                projectIncome.setBudgetId(budgetDocument.getBudget().getBudgetId());
-                for (BudgetPeriod budgetPeriod : budgetDocument.getBudget().getBudgetPeriods()) {
-                    if (budgetPeriod.getBudgetPeriod().equals(projectIncome.getBudgetPeriodNumber())) {
-                        projectIncome.setBudgetPeriodId(budgetPeriod.getBudgetPeriodId());
-                        break;
-                    }
+                if (budgetPeriod.getBudgetPeriod().equals(projectIncome.getBudgetPeriodNumber())) {
+                    projectIncome.setBudgetId(budgetDocument.getBudget().getBudgetId());
+                    projectIncome.setBudgetPeriodId(budgetPeriod.getBudgetPeriodId());
+                    budgetProjectIncomes.add(projectIncome);
                 }
             }
-            businessObjectService.save(projectIncomes);
         }
+        businessObjectService.save(budgetProjectIncomes);
         budgetDocument.getBudget().refreshReferenceObject("budgetProjectIncomes");
 
     }
