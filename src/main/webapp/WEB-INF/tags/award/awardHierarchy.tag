@@ -67,13 +67,23 @@
     
     </div>
     <div id="debugLog" style="position: relative; overflow-y: auto; height: 15em; display:none; text-align: left; width:100%;"><a href="javascript: $('#loading').hide(); return false;" style="position: absolute; top: 0; right: 0;">Hide Loading</a></div>
-    
-	<c:forEach items="${KualiForm.awardHierarchyBean.currentAwardHierarchy}" var="tempNode" varStatus="status">
-		<c:set var="createChildProperty" value="methodToCall.create.awardNumber${tempNode.key}" />  
-		<c:set var="copyAwardProperty" value="methodToCall.copyAward.awardNumber${tempNode.key}" />
-		${kfunc:registerEditableProperty(KualiForm, createChildProperty)}  
-		${kfunc:registerEditableProperty(KualiForm, copyAwardProperty)}
-	</c:forEach> 
+
+    <%-- in the case of a canceled Award, there will be no hierarchy info. So make Rice happy by calling  --%> 
+    <%-- registerEditableProperty using the root award number.                                            --%>
+    <c:choose>
+        <c:when test="${fn:length(KualiForm.awardHierarchyBean.currentAwardHierarchy) == 0}" >
+	    	<c:set var="copyAwardProperty" value="methodToCall.copyAward.awardNumber${KualiForm.rootAwardNumber}" />
+		    ${kfunc:registerEditableProperty(KualiForm, copyAwardProperty)}
+        </c:when> 
+        <c:otherwise>   
+	        <c:forEach items="${KualiForm.awardHierarchyBean.currentAwardHierarchy}" var="tempNode" varStatus="status">
+		        <c:set var="createChildProperty" value="methodToCall.create.awardNumber${tempNode.key}" />  
+		        <c:set var="copyAwardProperty" value="methodToCall.copyAward.awardNumber${tempNode.key}" />
+		        ${kfunc:registerEditableProperty(KualiForm, createChildProperty)}  
+		        ${kfunc:registerEditableProperty(KualiForm, copyAwardProperty)}
+	        </c:forEach>
+	    </c:otherwise>
+	</c:choose> 
 	
     <input type="hidden" id = "rootAwardNumber" name="rootAwardNumber" value="${KualiForm.rootAwardNumber}">
     <input type="hidden" id ="currentAwardNumber" name="document.awardList[0].awardNumber" value="${KualiForm.document.awardList[0].awardNumber}">
