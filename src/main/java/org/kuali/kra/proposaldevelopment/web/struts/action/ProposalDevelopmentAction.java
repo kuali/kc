@@ -422,8 +422,9 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
 
         final ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
         final ProposalDevelopmentDocument doc = proposalDevelopmentForm.getProposalDevelopmentDocument();
-        S2sOpportunity s2sOpportunity= new S2sOpportunity();
-        s2sOpportunity = proposalDevelopmentForm.getProposalDevelopmentDocument().getDevelopmentProposal().getS2sOpportunity();
+        //if the proposal hasn't been saved yet, the s2sopp proposal number will be null. We need to save it in the form until we
+        //have a proposal number to set due to OJBs difficulty in dealing with 1-to-1 relationships.
+        S2sOpportunity s2sOpportunity = proposalDevelopmentForm.getProposalDevelopmentDocument().getDevelopmentProposal().getS2sOpportunity();
         if(s2sOpportunity!=null && s2sOpportunity.getProposalNumber()==null){
             proposalDevelopmentForm.getProposalDevelopmentDocument().getDevelopmentProposal().setS2sOpportunity(null);
             proposalDevelopmentForm.setS2sOpportunity(s2sOpportunity);
@@ -438,8 +439,12 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
             forward = mapping.findForward(Constants.MAPPING_PROPOSAL_ACTIONS);
         }
         s2sOpportunity=proposalDevelopmentForm.getS2sOpportunity();
-        if(s2sOpportunity!=null)
+        if(s2sOpportunity!=null) {
             doc.getDevelopmentProposal().setS2sOpportunity(s2sOpportunity);
+            s2sOpportunity.setProposalNumber(doc.getDevelopmentProposal().getProposalNumber());
+            getBusinessObjectService().save(s2sOpportunity);
+            proposalDevelopmentForm.setS2sOpportunity(null);
+        }
         
         doc.getDevelopmentProposal().updateProposalNumbers();
 
