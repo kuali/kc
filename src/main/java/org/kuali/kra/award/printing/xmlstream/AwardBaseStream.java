@@ -73,6 +73,7 @@ import noNamespace.AwardType.AwardTransferringSponsors.TransferringSponsor;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
+import org.kuali.kra.award.awardhierarchy.AwardHierarchyService;
 import org.kuali.kra.award.commitments.AwardCostShare;
 import org.kuali.kra.award.commitments.AwardFandaRate;
 import org.kuali.kra.award.contacts.AwardPerson;
@@ -2698,10 +2699,15 @@ public abstract class AwardBaseStream implements XmlStream {
 							.setAccountTypeDesc(accountTypeDescription);
 				}
 			}
-		String rootAccountNumber = award.getAccountNumber();
-		if(rootAccountNumber!=null){
-		    otherHeaderDetails.setRootAccountNumber(rootAccountNumber);
-		}
+		AwardHierarchy hierarchy = award.getAwardHierarchyService().loadAwardHierarchy(awardDocument.getAward().getAwardNumber());
+        if (hierarchy != null) {
+            AwardHierarchy parent = hierarchy.getParent();
+            if (parent != null) {
+                otherHeaderDetails.setRootAccountNumber(parent.getAward().getAccountNumber());
+            } else {
+                otherHeaderDetails.setRootAccountNumber(award.getAccountNumber());
+            }
+        }
 		if (award.getUpdateUser() != null) {
 			otherHeaderDetails.setUpdateUser(award.getUpdateUser());
 		}
