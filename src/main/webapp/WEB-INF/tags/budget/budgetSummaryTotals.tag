@@ -143,7 +143,7 @@
 			
 			<c:set var="firstCellRowSpan" value="0" />
 			<c:forEach var="personnelObjectCode" items="${personnelObjectCodes}" varStatus="objStatus" >
-				<c:set var="firstCellRowSpan" value="${firstCellRowSpan+1}" />
+				<c:set var="firstCellRowSpan" value="${firstCellRowSpan+2}" />
 				<c:set var="personnelList" value="${KualiForm.document.budget.objectCodePersonnelList[personnelObjectCode]}" />
 	            <c:forEach var="person" items="${personnelList}" varStatus="personStatus" >
 	            	<c:set var="firstCellRowSpan" value="${firstCellRowSpan+1}" />
