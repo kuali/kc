@@ -7,7 +7,6 @@ function RequestTracker(liNode, callback) {
 
 var DEBUG = false;
 function debugLog(str) {
-	console.log(str);
 	if (DEBUG) {
 		jQuery('#debugLog').show();
 		if (jQuery('#debugLog').find('div').length > 1000) {
