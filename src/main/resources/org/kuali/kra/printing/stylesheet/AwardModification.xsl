@@ -2974,7 +2974,7 @@
 																		test="substring(AwardNotice/Award/AwardDetails/AwardHeader/AwardNumber ,8)!=&quot;001&quot;">
 																		<fo:block />
 																		<fo:inline font-size="9pt" font-weight="bold">
-																			<xsl:text>Root Account Number :&#160;&#160; </xsl:text>
+																			<xsl:text>Root Account ID :&#160;&#160; </xsl:text>
 																		</fo:inline>
 																	</xsl:if>
 																</fo:block>
