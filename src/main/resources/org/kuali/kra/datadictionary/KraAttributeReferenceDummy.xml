@@ -52,7 +52,7 @@
     <property name="shortLabel" value="Description" />
     <property name="maxLength" value="200" />
     <property name="validationPattern" >
-      <bean parent="AnyCharacterValidationPattern"
+      <bean parent="UTF8AnyCharacterValidationPattern"
             p:allowWhitespace="true" />
     </property>
     <property name="control" >
