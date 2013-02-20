@@ -97,7 +97,7 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
         
         Map<String, AwardHierarchyNode> awardHierarchyNodes = doc.getAwardHierarchyNodes();
         for(PendingTransaction pendingTransaction: doc.getPendingTransactions()){
-            if(pendingTransaction.getProcessedFlag() == false) {
+            if ((pendingTransaction.getProcessedFlag() == false) && !pendingTransaction.isCurrentValueTransaction()) {
                 AwardHierarchyNode sourceAwardNode = awardHierarchyNodes.get(pendingTransaction.getSourceAwardNumber());
                 AwardHierarchyNode destinationAwardNode = awardHierarchyNodes.get(pendingTransaction.getDestinationAwardNumber());            
                 AwardHierarchyNode parentNode = new AwardHierarchyNode();
