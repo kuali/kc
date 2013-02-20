@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.award.subcontracting.goalsAndExpenditures;
 
+import org.kuali.kra.award.subcontracting.reporting.SubcontractingExpenditureCategoryAmounts;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 
 @SuppressWarnings("deprecation")
@@ -31,11 +32,16 @@ public class AwardSubcontractingGoalsExpendituresForm extends KualiForm {
     private boolean displayGoalsExpendituresDetails;
     private boolean containingUnsavedChanges;
     
-    private AwardSubcontractingGoalsExpenditures awardSubcontractingGoalsExpenditures;
+    private AwardSubcontractingBudgetedGoals awardSubcontractingBudgetedGoals;
+    
+    private SubcontractingExpenditureCategoryAmounts subcontractingExpenditureCategoryAmounts;  
+    
 
     public AwardSubcontractingGoalsExpendituresForm() {
-        this.setAwardSubcontractingGoalsExpenditures(new AwardSubcontractingGoalsExpenditures());
+        this.setAwardSubcontractingBudgetedGoals(new AwardSubcontractingBudgetedGoals());
         this.setDisplayGoalsExpendituresDetails(true);
+        
+        this.setSubcontractingExpenditureCategoryAmounts(new SubcontractingExpenditureCategoryAmounts());
     }
     
     
@@ -63,12 +69,12 @@ public class AwardSubcontractingGoalsExpendituresForm extends KualiForm {
         return awardId;
     }
 
-    public void setAwardSubcontractingGoalsExpenditures(AwardSubcontractingGoalsExpenditures awardSubcontractingGoalsExpenditures) {
-        this.awardSubcontractingGoalsExpenditures = awardSubcontractingGoalsExpenditures;
+    public void setAwardSubcontractingBudgetedGoals(AwardSubcontractingBudgetedGoals awardSubcontractingBudgetedGoals) {
+        this.awardSubcontractingBudgetedGoals = awardSubcontractingBudgetedGoals;
     }
 
-    public AwardSubcontractingGoalsExpenditures getAwardSubcontractingGoalsExpenditures() {
-        return awardSubcontractingGoalsExpenditures;
+    public AwardSubcontractingBudgetedGoals getAwardSubcontractingBudgetedGoals() {
+        return awardSubcontractingBudgetedGoals;
     }
 
 
@@ -91,7 +97,15 @@ public class AwardSubcontractingGoalsExpendituresForm extends KualiForm {
         return containingUnsavedChanges;
     }
 
-   
-  
+
+    
+    public void setSubcontractingExpenditureCategoryAmounts(SubcontractingExpenditureCategoryAmounts subcontractingExpenditureCategoryAmounts) {
+        this.subcontractingExpenditureCategoryAmounts = subcontractingExpenditureCategoryAmounts;
+    }
+
+
+    public SubcontractingExpenditureCategoryAmounts getSubcontractingExpenditureCategoryAmounts() {
+        return subcontractingExpenditureCategoryAmounts;
+    }
 
 }

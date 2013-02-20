@@ -43,7 +43,7 @@ public class AwardSubcontractingGoalsExpendituresRule {
     @SuppressWarnings({ "unchecked" })
     public boolean validateAwardNumber(String awardNumber) {        
         boolean rulePassed = false;
-        String ddEntryName = AwardSubcontractingGoalsExpenditures.class.getSimpleName();
+        String ddEntryName = AwardSubcontractingBudgetedGoals.class.getSimpleName();
         // first check that it was provided
         this.getDictionaryValidationService().validateAttributeRequired(ddEntryName, AWARD_NUMBER, awardNumber, false, AWARD_NUMBER);
         rulePassed = GlobalVariables.getMessageMap().hasNoErrors();

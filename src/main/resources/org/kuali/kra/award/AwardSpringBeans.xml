@@ -1062,4 +1062,12 @@
         <property name="businessObjectService" ref="businessObjectService" />
     </bean>
     
+    <bean id ="subcontractingExpenditureCategoryService" class="org.kuali.kra.award.subcontracting.reporting.SubcontractingExpenditureCategoryServiceImpl">
+    	<property name="detailsDao" ref="subcontractingExpenditureCategoryDetailsDao" />
+    	<property name="businessObjectService" ref="businessObjectService" />
+    </bean>
+    
+    <bean id ="subcontractingExpenditureCategoryDetailsDao" parent="platformAwareDao" class="org.kuali.kra.award.subcontracting.reporting.dao.SubcontractingExpenditureCategoryDetailsDaoOjb">
+    </bean>
+    
 </beans>
