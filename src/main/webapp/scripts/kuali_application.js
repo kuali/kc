@@ -23,6 +23,89 @@ function jq_escape(myid) {
 }
 
 
+var jq = jQuery.noConflict();
+jq(document).ready(function() {
+    createLoading(false);
+});
+
+
+var formHasAlreadyBeenSubmitted = false;
+var excludeSubmitRestriction = false;
+window.hasFormAlreadyBeenSubmitted = function(){
+	try {
+		// save the current scroll position
+		saveScrollPosition();
+	} catch ( ex ) {
+		// do nothing - don't want to stop submit
+	}
+
+    createLoading(true);
+}
+
+
+/**
+ * Uses jQuery plug-in to show a loading notification for a page request. See
+ * <link>http://plugins.jquery.com/project/showLoading</link> for documentation
+ * on options.
+ *
+ * @param showLoading -
+ *          boolean that indicates whether the loading indicator should be shown
+ *          (true) or hidden (false)
+ */
+function createLoading(showLoading) {
+	//var jq = jQuery.noConflict();
+    var processingMessage = '<h1><img src="' + "krad/images/" + 'loading.gif" alt="working..." />Page is being processed by the server....</h1>';
+    
+        if (showLoading) {
+            getContext().blockUI({message: processingMessage});
+        }
+        else {
+            getContext().unblockUI();
+        }
+}
+
+/**
+ * Get the current context
+ *
+ * @returns the jQuery context that can be used to perform actions that must be global to the entire page
+ * ie, showing lightBoxes and growls etc
+ */
+function getContext(){
+    if (usePortalForContext()) {
+        return top.jQuery;
+    }
+    else {
+        return jq;
+    }
+}
+
+/**
+ * Check if portal should be used for context
+ *
+ * <p>
+ * To avoid cross server script errors the local context is used in case the portal window is on a different host.
+ * </p>
+ *
+ * @return true if portal is used for context, false otherwise
+ */
+function usePortalForContext() {
+    var usePortal = false;
+
+    // for iframe use the outer window's context unless the outer window is hosted on a different domain.
+    try {
+        // For security reasons the browsers will not allow cross server scripts and
+        // throw an exception instead.
+        // Note that bad browsers (e.g. google chrome) will not catch the exception
+        usePortal = (top != self) && (top.location.host == location.host);
+    }
+    catch (e) {
+        usePortal = false;
+    }
+
+    return usePortal;
+}
+
+
 function updateSourceNameEditable(fundingSourceTypeCodeFieldName, fundingSourceNumberFieldName, fundingSourceNameFieldName, fundingSourceTitleFieldName, protocolModule) {
 	var fundingSourceTypeCode = dwr.util.getValue( fundingSourceTypeCodeFieldName );
 	var allowEdit;
