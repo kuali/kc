@@ -58,7 +58,7 @@ public class AwardSubcontractingGoalsExpendituresRuleTest {
     private final static String SUB_PLAN_FLAG = "subPlanFlag";
     private final static String SUB_PLAN_FLAG_VAL = "Y";
     
-    private static final String DD_ENTRY_NAME = AwardSubcontractingGoalsExpenditures.class.getSimpleName();
+    private static final String DD_ENTRY_NAME = AwardSubcontractingBudgetedGoals.class.getSimpleName();
 
     protected static final Long AWARD_ID_VAL = 4444L;
 

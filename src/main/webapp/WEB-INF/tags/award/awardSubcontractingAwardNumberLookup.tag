@@ -16,7 +16,7 @@
 
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<c:set var="goalsAndExpendituresAttributes" value="${DataDictionary.AwardSubcontractingGoalsExpenditures.attributes}" />
+<c:set var="budgetedGoalsAttributes" value="${DataDictionary.AwardSubcontractingBudgetedGoals.attributes}" />
 
 <html:hidden property="containingUnsavedChanges" styleId="containingUnsavedChanges" />
 
@@ -26,16 +26,16 @@
 			Award Number Lookup
 		</span> 
 		<span class="subhead-right">
-			<kul:help businessObjectClassName="org.kuali.kra.award.subcontracting.AwardSubcontractingGoalsExpenditures" altText="help" />
+			<kul:help businessObjectClassName="org.kuali.kra.award.subcontracting.AwardSubcontractingBudgetedGoals" altText="help" />
 		</span>
 	</h3>
 	<table cellpadding="0" cellspacing="0" border="0">
 		<tr>
 			<td class="infoline">
 				<div align="center">
-					<kul:htmlAttributeLabel	attributeEntry="${goalsAndExpendituresAttributes.awardNumber}" />
+					<kul:htmlAttributeLabel	attributeEntry="${budgetedGoalsAttributes.awardNumber}" />
 					<input type="hidden" name="subPlanFlag" value="Y">
-					<kul:htmlControlAttribute property="awardNumber" attributeEntry="${goalsAndExpendituresAttributes.awardNumber}"  />
+					<kul:htmlControlAttribute property="awardNumber" attributeEntry="${budgetedGoalsAttributes.awardNumber}"  />
 					<span id="awardLookupButton">
 						<kul:lookup boClassName="org.kuali.kra.award.home.Award" fieldConversions="awardNumber:awardNumber,awardId:awardId" lookupParameters="subPlanFlag:subPlanFlag" anchor="${tabKey}" />
 					</span>
@@ -85,10 +85,8 @@
     
  	// shows the 'recalculate' button if the users change any of the fields involved in computing the large/small business totals  
     function checkIfRecalculateTotalNeeded(changedInputId) {    
-		if(    (changedInputId == "awardSubcontractingGoalsExpenditures.smallBusinessGoalAmount")
-			|| (changedInputId == "awardSubcontractingGoalsExpenditures.largeBusinessGoalAmount")
-			|| (changedInputId == "awardSubcontractingGoalsExpenditures.smallBusinessExpenditureAmount")
-			|| (changedInputId == "awardSubcontractingGoalsExpenditures.largeBusinessExpenditureAmount")
+		if(    (changedInputId == "awardSubcontractingBudgetedGoals.smallBusinessGoalAmount")
+			|| (changedInputId == "awardSubcontractingBudgetedGoals.largeBusinessGoalAmount")
 		   ) {
 			$j("#recalculateBusinessTotals").show();
 			recalculateTotal = true;

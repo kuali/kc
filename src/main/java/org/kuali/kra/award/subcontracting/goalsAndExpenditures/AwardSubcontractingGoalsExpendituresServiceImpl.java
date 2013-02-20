@@ -18,6 +18,7 @@ package org.kuali.kra.award.subcontracting.goalsAndExpenditures;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.kuali.kra.award.subcontracting.reporting.SubcontractingExpenditureCategoryAmounts;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
@@ -27,24 +28,37 @@ public class AwardSubcontractingGoalsExpendituresServiceImpl implements AwardSub
     private BusinessObjectService businessObjectService;
 
     @Override
-    public AwardSubcontractingGoalsExpenditures getGoalsExpendituresBOForAward(String awardNumber) {
-        AwardSubcontractingGoalsExpenditures retVal;            
+    public AwardSubcontractingBudgetedGoals getBudgetedGoalsBOForAward(String awardNumber) {
+        AwardSubcontractingBudgetedGoals retVal;            
         // check if the goals-expense BO for this award number was previously stored, or else create a fresh one.
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put(AWARD_NUMBER, awardNumber);
-        retVal = getBusinessObjectService().findByPrimaryKey(AwardSubcontractingGoalsExpenditures.class, fieldValues);            
+        retVal = getBusinessObjectService().findByPrimaryKey(AwardSubcontractingBudgetedGoals.class, fieldValues);            
         if (retVal == null) {
-            retVal = new AwardSubcontractingGoalsExpenditures(awardNumber);
+            retVal = new AwardSubcontractingBudgetedGoals(awardNumber);
         }
         return retVal;
     }
 
     @Override
-    public void saveGoalsExpendituresBO(AwardSubcontractingGoalsExpenditures goalsExpendituresBO) {
+    public void saveBudgetedGoalsBO(AwardSubcontractingBudgetedGoals budgetedGoalsBO) {
         // use the boService to save the BO
-        getBusinessObjectService().save(goalsExpendituresBO);
+        getBusinessObjectService().save(budgetedGoalsBO);
         // reset the fresh flag on the BO, since its now in the data store
-        goalsExpendituresBO.setFresh(false); 
+        budgetedGoalsBO.setFresh(false); 
+    }
+    
+    @Override
+    public SubcontractingExpenditureCategoryAmounts getExpenditureAmountsBOForAward(String awardNumber) {
+        SubcontractingExpenditureCategoryAmounts retVal;            
+        // check if the expense BO for this award number was previously stored, or else create a fresh one.
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put(AWARD_NUMBER, awardNumber);
+        retVal = getBusinessObjectService().findByPrimaryKey(SubcontractingExpenditureCategoryAmounts.class, fieldValues);            
+        if (retVal == null) {
+            retVal = new SubcontractingExpenditureCategoryAmounts(awardNumber);
+        }
+        return retVal;
     }
 
     // dependency injection

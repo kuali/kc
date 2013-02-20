@@ -599,11 +599,15 @@ public final class KeyConstants {
     
     //Award sub-contracting errors
     public static final String SUB_PLAN_AWARD_NOT_FOUND = "error.award.subcontracting.goalsAndExpenditures.awardNotFound";
+    public static final String EXPENDITURES_RANGE_START_DATE_AFTER_END_DATE = "error.award.subcontracting.reporting.startDateAfterEndDate";
     
     //Award sub-contracting messages
-    public static final String AWARD_GOALS_EXPENDITURES_RELOADED = "message.award.subcontracting.goalsAndExpenditures.goalsExpensesReloaded";
-    public static final String AWARD_GOALS_EXPENDITURES_CLEARED = "message.award.subcontracting.goalsAndExpenditures.goalsExpensesCleared";
-    public static final String AWARD_GOALS_EXPENDITURES_SAVED = "message.award.subcontracting.goalsAndExpenditures.goalsExpensesSaved";
+    public static final String AWARD_GOALS_RELOADED = "message.award.subcontracting.goalsAndExpenditures.goalsReloaded";
+    public static final String AWARD_GOALS_CLEARED = "message.award.subcontracting.goalsAndExpenditures.goalsCleared";
+    public static final String AWARD_GOALS_SAVED = "message.award.subcontracting.goalsAndExpenditures.goalsSaved";
+    
+    public static final String EXPENDITURE_DATA_REGENERATED_ALL_DATES = "message.award.subcontracting.reporting.allDateDataRegenerated";
+    public static final String EXPENDITURE_DATA_REGENERATED_IN_RANGE = "message.award.subcontracting.reporting.dataRegeneratedInDateRange";
     
     //COI Required Fields validation messages
     public static final String ERROR_COI_ATTACHMENT_MISSING_DESC = "error.coi.attachment.description.required";
