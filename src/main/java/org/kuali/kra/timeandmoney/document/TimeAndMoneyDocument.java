@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
@@ -29,13 +30,11 @@ import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.timeandmoney.AwardDirectFandADistribution;
 import org.kuali.kra.award.version.service.AwardVersionService;
 import org.kuali.kra.bo.DocumentCustomData;
-import org.kuali.kra.bo.RolePersons;
 import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
-import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.timeandmoney.AwardHierarchyNode;
 import org.kuali.kra.timeandmoney.AwardVersionHistory;
 import org.kuali.kra.timeandmoney.history.TimeAndMoneyActionSummary;
@@ -110,7 +109,7 @@ public class TimeAndMoneyDocument extends ResearchDocumentBase implements Copyab
     }
     
     protected void init() {
-        awardHierarchyNodes = new HashMap<String, AwardHierarchyNode>();
+        awardHierarchyNodes = new TreeMap<String, AwardHierarchyNode>();
         awardHierarchyItems = new HashMap<String, AwardHierarchy>();
         pendingTransactions = new ArrayList<PendingTransaction>();
         awardAmountTransactions = new ArrayList<AwardAmountTransaction>();
