@@ -376,7 +376,6 @@ function openPreviousAwards(requestTracker) {
     function displayErrorIconAsNeeded(propertyFieldName) {
     	var errorImage = "<img src=\"kr/images/errormark.gif\" alt=\"Error\" title=\"Error\" />";
     	var fieldsInErrorElement = document.getElementById('formFieldsInError');
-alert("displayErrorIconAsNeeded: property = " + propertyFieldName + ", fields in error = " + fieldsInErrorElement.value);    	
     	if (fieldsInErrorElement.value.toLowerCase().indexOf(propertyFieldName.toLowerCase()) >= 0){
     		return errorImage;
     	} else {
