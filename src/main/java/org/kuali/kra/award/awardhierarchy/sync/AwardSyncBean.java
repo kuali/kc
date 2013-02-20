@@ -92,8 +92,10 @@ public class AwardSyncBean implements Serializable {
         AwardHierarchy awardHierarchy = 
             KraServiceLocator.getService(AwardHierarchyService.class).loadAwardHierarchyBranch(awardForm.getAwardDocument().getAward().getAwardNumber());
         List<AwardHierarchy> listOrder = new ArrayList<AwardHierarchy>();
-        for (AwardHierarchy hierarchy : awardHierarchy.getChildren()) {
-            getHierarchyList(hierarchy, listOrder);
+        if (awardHierarchy != null) {
+            for (AwardHierarchy hierarchy : awardHierarchy.getChildren()) {
+                getHierarchyList(hierarchy, listOrder);
+            }
         }
         return listOrder;
     }

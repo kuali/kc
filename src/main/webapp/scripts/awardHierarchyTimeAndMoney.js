@@ -264,12 +264,14 @@ function openPreviousAwards(requestTracker) {
 		        	var abc = "<table style=\"border: medium none ; padding: 0px; border-collapse: collapse;\"><tbody><tr><td style=\"border: medium none ; border-collapse: collapse; vertical-align: top\">"+txtImage+"&nbsp;"+text1+"</td>"
 		        		+"<td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 114px; border-collapse: collapse; vertical-align: top; align:right; \">"
 		        		+"<input type='hidden' name='awardHierarchyNodeItems[" + awardNumber2 + "].populatedFromClient' id='awardHierarchyNodeItems[" + awardNumber2 + "].populatedFromClient'"+ " value='true'/>"
-			  			+"<input type=\"text\" class = 'datepicker' name=\"awardHierarchyNodeItems[" + awardNumber2 + "].currentFundEffectiveDate\" id=\"awardHierarchyNodeItems[" + awardNumber2 + "].currentFundEffectiveDate\""+ " value=\"" +text2 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/></td>"
-			  			+"<td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 114px; border-collapse: collapse; vertical-align: top; align:right;\">"	  			
+			  			+"<input type=\"text\" class = 'datepicker' name=\"awardHierarchyNodeItems[" + awardNumber2 + "].currentFundEffectiveDate\" id=\"awardHierarchyNodeItems[" + awardNumber2 + "].currentFundEffectiveDate\""+ " value=\"" +text2 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"
+                	    + displayErrorIconAsNeeded("awardHierarchyNodeItems[" + awardNumber2 + "].currentFundEffectiveDate")
+			  			+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 114px; border-collapse: collapse; vertical-align: top; align:right;\">"	  			
 			  			+"<input type=\"text\" name=\"awardHierarchyNodeItems[" + awardNumber2 + "].obligationExpirationDate\" id=\"awardHierarchyNodeItems[" + awardNumber2 + "].obligationExpirationDate\""+ " value=\"" +text3 + "\" class = 'datepicker' style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"
-			  			//+ displaydate()
+                        + displayErrorIconAsNeeded("awardHierarchyNodeItems[" + awardNumber2 + "].obligationExpirationDate")
 			  			+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 114px; border-collapse: collapse; vertical-align: top; align:right; \">"
 			  			+"<input type=\"text\" class = 'datepicker' name=\"awardHierarchyNodeItems[" + awardNumber2 + "].finalExpirationDate\" id=\"awardHierarchyNodeItems[" + awardNumber2 + "].finalExpirationDate\""+ " value=\"" +text4 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>" 
+                        + displayErrorIconAsNeeded("awardHierarchyNodeItems[" + awardNumber2 + "].finalExpirationDate")
 			  			+"</td><td style=\"border: 1px solid rgb(153, 153, 153); text-align: right; width: 112px; align:right; left: 1116px; border-collapse: collapse; font-weight: bold; background-color: rgb(195, 195, 195);\">  Distributed: </td>" 
 			  			+"<td style=\"border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; align:right; border-collapse: collapse; \">" +text9 + "</td>"
 			  			+"<td style=\"border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; align:right; border-collapse: collapse; \">" +text10 + "</td>"
@@ -293,26 +295,34 @@ function openPreviousAwards(requestTracker) {
 			        	if(jQuery("#inSingleNodeHierarchy").attr("value") == 1){
 			        		var abc = "<table style=\"border: medium none ; padding: 0px; border-collapse: collapse;\"><tbody><tr><td style=\"border: medium none ; border-collapse: collapse; vertical-align: top\">"+txtImage+"&nbsp;"+text1+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; align:right; border-collapse: collapse; \">"
 			        		+"<input type='hidden' name='awardHierarchyNodeItems[" + awardNumber2 + "].populatedFromClient' id='awardHierarchyNodeItems[" + awardNumber2 + "].populatedFromClient'"+ " value='true'/>"
-				  			+"<input type=\"text\" class = 'datepicker' name=\"awardHierarchyNodeItems[" + awardNumber2 + "].currentFundEffectiveDate\" id=\"awardHierarchyNodeItems[" + awardNumber2 + "].currentFundEffectiveDate\""+ " value=\"" +text2 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; align:right; left: border-collapse: collapse; \">"
-				  			+"<input type=\"text\" class = 'datepicker' name=\"awardHierarchyNodeItems[" + awardNumber2 + "].obligationExpirationDate\" id=\"awardHierarchyNodeItems[" + awardNumber2 + "].obligationExpirationDate\""+ " value=\"" +text3 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 110px; align:right; left: border-collapse: collapse; \">"
-				  			+"<input type=\"text\" class = 'datepicker' name=\"awardHierarchyNodeItems[" + awardNumber2 + "].finalExpirationDate\" id=\"awardHierarchyNodeItems[" + awardNumber2 + "].finalExpirationDate\""+ " value=\"" +text4 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"+
-				  			"</td>" +
-				  			"<td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; align:right; border-collapse: collapse; \">"			  			
-				  			+"<input type=\"text\" class = 'input' name=\"awardHierarchyNodeItems[" + awardNumber2 + "].obligatedTotalDirect\" id=\"awardHierarchyNodeItems[" + awardNumber2 + "].obligatedTotalDirect\""+ " value=\"" +text12 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"+"</td>" +
-				  			"<td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; align:right; border-collapse: collapse; \">"			  			
-				  			+"<input type=\"text\" class = 'input' name=\"awardHierarchyNodeItems[" + awardNumber2 + "].obligatedTotalIndirect\" id=\"awardHierarchyNodeItems[" + awardNumber2 + "].obligatedTotalIndirect\""+ " value=\"" +text13 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"+"</td>" +
-				  			"<td style=\"border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; align:right; border-collapse: collapse;\">"+text5+"</td>" +
-				  			"<td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; align:right; border-collapse: collapse; \">"	
-				  			+"<input type=\"text\" class = 'input' name=\"awardHierarchyNodeItems[" + awardNumber2 + "].anticipatedTotalDirect\" id=\"awardHierarchyNodeItems[" + awardNumber2 + "].anticipatedTotalDirect\""+ " value=\"" +text14 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"+"</td>" +
-				  			"<td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; align:right; border-collapse: collapse; \">"	
-				  			+"<input type=\"text\" class = 'input' name=\"awardHierarchyNodeItems[" + awardNumber2 + "].anticipatedTotalIndirect\" id=\"awardHierarchyNodeItems[" + awardNumber2 + "].anticipatedTotalIndirect\""+ " value=\"" +text15 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"+"</td>"
-				  			+"<td style=\"border: 1px solid rgb(153, 153, 153); text-align: center; width: 110px; align:right; left: 1335px; border-collapse: collapse;\">"+text6+"</td>"
+				  			+"<input type=\"text\" class = 'datepicker' name=\"awardHierarchyNodeItems[" + awardNumber2 + "].currentFundEffectiveDate\" id=\"awardHierarchyNodeItems[" + awardNumber2 + "].currentFundEffectiveDate\""+ " value=\"" +text2 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"
+        		            + displayErrorIconAsNeeded("awardHierarchyNodeItems[" + awardNumber2 + "].currentFundEffectiveDate")
+                		    +"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; align:right; left: border-collapse: collapse; \">"
+				  			+"<input type=\"text\" class = 'datepicker' name=\"awardHierarchyNodeItems[" + awardNumber2 + "].obligationExpirationDate\" id=\"awardHierarchyNodeItems[" + awardNumber2 + "].obligationExpirationDate\""+ " value=\"" +text3 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"
+		                    + displayErrorIconAsNeeded("awardHierarchyNodeItems[" + awardNumber2 + "].obligationExpirationDate")
+        		            +"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 110px; align:right; left: border-collapse: collapse; \">"
+				  			+"<input type=\"text\" class = 'datepicker' name=\"awardHierarchyNodeItems[" + awardNumber2 + "].finalExpirationDate\" id=\"awardHierarchyNodeItems[" + awardNumber2 + "].finalExpirationDate\""+ " value=\"" +text4 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"
+                		    + displayErrorIconAsNeeded("awardHierarchyNodeItems[" + awardNumber2 + "].finalExpirationDate")
+		                    +"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; align:right; border-collapse: collapse; \">"			  			
+				  			+"<input type=\"text\" class = 'input' name=\"awardHierarchyNodeItems[" + awardNumber2 + "].obligatedTotalDirect\" id=\"awardHierarchyNodeItems[" + awardNumber2 + "].obligatedTotalDirect\""+ " value=\"" +text12 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>" 
+        		            +"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; align:right; border-collapse: collapse; \">"			  			
+				  			+"<input type=\"text\" class = 'input' name=\"awardHierarchyNodeItems[" + awardNumber2 + "].obligatedTotalIndirect\" id=\"awardHierarchyNodeItems[" + awardNumber2 + "].obligatedTotalIndirect\""+ " value=\"" +text13 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"
+				  			+"</td><td style=\"border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; align:right; border-collapse: collapse;\">"+text5+"</td>"
+				  			+"<td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; align:right; border-collapse: collapse; \">"	
+				  			+"<input type=\"text\" class = 'input' name=\"awardHierarchyNodeItems[" + awardNumber2 + "].anticipatedTotalDirect\" id=\"awardHierarchyNodeItems[" + awardNumber2 + "].anticipatedTotalDirect\""+ " value=\"" +text14 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"
+				  			+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; align:right; border-collapse: collapse; \">"	
+				  			+"<input type=\"text\" class = 'input' name=\"awardHierarchyNodeItems[" + awardNumber2 + "].anticipatedTotalIndirect\" id=\"awardHierarchyNodeItems[" + awardNumber2 + "].anticipatedTotalIndirect\""+ " value=\"" +text15 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"
+				  			+"</td><td style=\"border: 1px solid rgb(153, 153, 153); text-align: center; width: 110px; align:right; left: 1335px; border-collapse: collapse;\">"+text6+"</td>"
 				  			+"</tr></tbody></table>";	
 			        	}else {
 			    			var abc = "<table style=\"border: medium none ; padding: 0px; border-collapse: collapse;\"><tbody><tr><td style=\"border: medium none ; border-collapse: collapse; vertical-align: top\">"+txtImage+"&nbsp;"+text1+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; align:right; border-collapse: collapse; \">"
 			    			+"<input type='hidden' name='awardHierarchyNodeItems[" + awardNumber2 + "].populatedFromClient' id='awardHierarchyNodeItems[" + awardNumber2 + "].populatedFromClient'"+ " value='true'/>"
-				  			+"<input type=\"text\" class = 'datepicker' name=\"awardHierarchyNodeItems[" + awardNumber2 + "].currentFundEffectiveDate\" id=\"awardHierarchyNodeItems[" + awardNumber2 + "].currentFundEffectiveDate\""+ " value=\"" +text2 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; align:right; border-collapse: collapse; \">"
-				  			+"<input type=\"text\" class = 'datepicker' name=\"awardHierarchyNodeItems[" + awardNumber2 + "].obligationExpirationDate\" id=\"awardHierarchyNodeItems[" + awardNumber2 + "].obligationExpirationDate\""+ " value=\"" +text3 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 110px; align:right; border-collapse: collapse; \">"
+				  			+"<input type=\"text\" class = 'datepicker' name=\"awardHierarchyNodeItems[" + awardNumber2 + "].currentFundEffectiveDate\" id=\"awardHierarchyNodeItems[" + awardNumber2 + "].currentFundEffectiveDate\""+ " value=\"" +text2 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"
+                		    + displayErrorIconAsNeeded("awardHierarchyNodeItems[" + awardNumber2 + "].currentFundEffectiveDate")
+		                    +"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; align:right; border-collapse: collapse; \">"
+				  			+"<input type=\"text\" class = 'datepicker' name=\"awardHierarchyNodeItems[" + awardNumber2 + "].obligationExpirationDate\" id=\"awardHierarchyNodeItems[" + awardNumber2 + "].obligationExpirationDate\""+ " value=\"" +text3 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"
+        		            + displayErrorIconAsNeeded("awardHierarchyNodeItems[" + awardNumber2 + "].obligationExpirationDate")
+                		    +"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 110px; align:right; border-collapse: collapse; \">"
 				  			+"<input type=\"text\" class = 'datepicker' name=\"awardHierarchyNodeItems[" + awardNumber2 + "].finalExpirationDate\" id=\"awardHierarchyNodeItems[" + awardNumber2 + "].finalExpirationDate\""+ " value=\"" +text4 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"+"</td>"
 				  			+"<td style=\"border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; align:right; border-collapse: collapse;\">"+text12+"</td>"
 				  			+"<td style=\"border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; align:right; border-collapse: collapse;\">"+text13+"</td>"
@@ -325,26 +335,33 @@ function openPreviousAwards(requestTracker) {
 		        		if(jQuery("#inSingleNodeHierarchy").attr("value") == 1){
 			        		var abc = "<table style=\"border: medium none ; padding: 0px; border-collapse: collapse;\"><tbody><tr><td style=\"border: medium none ; border-collapse: collapse; vertical-align: top\">"+txtImage+"&nbsp;"+text1+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; align:right; border-collapse: collapse; \">"
 			        		+"<input type='hidden' name='awardHierarchyNodeItems[" + awardNumber2 + "].populatedFromClient' id='awardHierarchyNodeItems[" + awardNumber2 + "].populatedFromClient'"+ " value='true'/>"
-				  			+"<input type=\"text\" class = 'datepicker' name=\"awardHierarchyNodeItems[" + awardNumber2 + "].currentFundEffectiveDate\" id=\"awardHierarchyNodeItems[" + awardNumber2 + "].currentFundEffectiveDate\""+ " value=\"" +text2 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"
+				  			+"<input type=\"text\" class = 'datepicker' name=\"awardHierarchyNodeItems[" + awardNumber2 + "].currentFundEffectiveDate\" id=\"awardHierarchyNodeItems[" + awardNumber2 + "].currentFundEffectiveDate\" value=\"" +text2 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"
 				  			+ displayErrorIconAsNeeded("awardHierarchyNodeItems[" + awardNumber2 + "].currentFundEffectiveDate")
 				  			+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; align:right; left: border-collapse: collapse; \">"
-				  			+"<input type=\"text\" class = 'datepicker' name=\"awardHierarchyNodeItems[" + awardNumber2 + "].obligationExpirationDate\" id=\"awardHierarchyNodeItems[" + awardNumber2 + "].obligationExpirationDate\""+ " value=\"" +text3 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"
+				  			+"<input type=\"text\" class = 'datepicker' name=\"awardHierarchyNodeItems[" + awardNumber2 + "].obligationExpirationDate\" id=\"awardHierarchyNodeItems[" + awardNumber2 + "].obligationExpirationDate\" value=\"" +text3 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"
 				  			+ displayErrorIconAsNeeded("awardHierarchyNodeItems[" + awardNumber2 + "].obligationExpirationDate")
 				  			+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 110px; align:right; left: border-collapse: collapse; \">"
-				  			+"<input type=\"text\" class = 'datepicker' name=\"awardHierarchyNodeItems[" + awardNumber2 + "].finalExpirationDate\" id=\"awardHierarchyNodeItems[" + awardNumber2 + "].finalExpirationDate\""+ " value=\"" +text4 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"
+				  			+"<input type=\"text\" class = 'datepicker' name=\"awardHierarchyNodeItems[" + awardNumber2 + "].finalExpirationDate\" id=\"awardHierarchyNodeItems[" + awardNumber2 + "].finalExpirationDate\" value=\"" +text4 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"
 				  			+ displayErrorIconAsNeeded("awardHierarchyNodeItems[" + awardNumber2 + "].finalExpirationDate")
 				  			+"</td>" + "<td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; align:right; border-collapse: collapse; \">"
-				  			+"<input type=\"text\" class = 'input' name=\"awardHierarchyNodeItems[" + awardNumber2 + "].amountObligatedToDate\" id=\"awardHierarchyNodeItems[" + awardNumber2 + "].amountObligatedToDate\""+ " value=\"" +text5 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"+"</td>" +
+				  			+"<input type=\"text\" class = 'input' name=\"awardHierarchyNodeItems[" + awardNumber2 + "].amountObligatedToDate\" id=\"awardHierarchyNodeItems[" + awardNumber2 + "].amountObligatedToDate\" value=\"" +text5 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/></td>" +
 				  			"<td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; align:right; border-collapse: collapse; \">"
-				  			+"<input type=\"text\" class = 'input' name=\"awardHierarchyNodeItems[" + awardNumber2 + "].anticipatedTotalAmount\" id=\"awardHierarchyNodeItems[" + awardNumber2 + "].anticipatedTotalAmount\""+ " value=\"" +text6 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"+"</td>"
+				  			+"<input type=\"text\" class = 'input' name=\"awardHierarchyNodeItems[" + awardNumber2 + "].anticipatedTotalAmount\" id=\"awardHierarchyNodeItems[" + awardNumber2 + "].anticipatedTotalAmount\" value=\"" +text6 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/></td>"
 				  			+"</tr></tbody></table>";	
 			        	}else {
 			        		//need this one without inputs for date fields for KRACOEUS-4664
 			    			var abc = "<table style=\"border: medium none ; padding: 0px; border-collapse: collapse;\"><tbody><tr><td style=\"border: medium none ; border-collapse: collapse; vertical-align: top\">"+txtImage+"&nbsp;"+text1+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; align:right; border-collapse: collapse; \">"
 			    			+"<input type='hidden' name='awardHierarchyNodeItems[" + awardNumber2 + "].populatedFromClient' id='awardHierarchyNodeItems[" + awardNumber2 + "].populatedFromClient'"+ " value='true'/>"
-				  			+"<input type=\"text\" class = 'datepicker' name=\"awardHierarchyNodeItems[" + awardNumber2 + "].currentFundEffectiveDate\" id=\"awardHierarchyNodeItems[" + awardNumber2 + "].currentFundEffectiveDate\""+ " value=\"" +text2 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; align:right; border-collapse: collapse; \">"
-				  			+"<input type=\"text\" class = 'datepicker' name=\"awardHierarchyNodeItems[" + awardNumber2 + "].obligationExpirationDate\" id=\"awardHierarchyNodeItems[" + awardNumber2 + "].obligationExpirationDate\""+ " value=\"" +text3 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 110px; align:right; border-collapse: collapse; \">"
-				  			+"<input type=\"text\" class = 'datepicker' name=\"awardHierarchyNodeItems[" + awardNumber2 + "].finalExpirationDate\" id=\"awardHierarchyNodeItems[" + awardNumber2 + "].finalExpirationDate\""+ " value=\"" +text4 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"+"</td><td style=\"border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; align:right; border-collapse: collapse;\">"
+				  			+"<input type=\"text\" class = 'datepicker' name=\"awardHierarchyNodeItems[" + awardNumber2 + "].currentFundEffectiveDate\" id=\"awardHierarchyNodeItems[" + awardNumber2 + "].currentFundEffectiveDate\" value=\"" +text2 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"
+		                    + displayErrorIconAsNeeded("awardHierarchyNodeItems[" + awardNumber2 + "].currentFundEffectiveDate")
+                		    +"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; align:right; border-collapse: collapse; \">"
+				  			+"<input type=\"text\" class = 'datepicker' name=\"awardHierarchyNodeItems[" + awardNumber2 + "].obligationExpirationDate\" id=\"awardHierarchyNodeItems[" + awardNumber2 + "].obligationExpirationDate\" value=\"" +text3 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"
+        		            + displayErrorIconAsNeeded("awardHierarchyNodeItems[" + awardNumber2 + "].obligationExpirationDate")
+		                    +"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 110px; align:right; border-collapse: collapse; \">"
+				  			+"<input type=\"text\" class = 'datepicker' name=\"awardHierarchyNodeItems[" + awardNumber2 + "].finalExpirationDate\" id=\"awardHierarchyNodeItems[" + awardNumber2 + "].finalExpirationDate\" value=\"" +text4 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"
+		                    + displayErrorIconAsNeeded("awardHierarchyNodeItems[" + awardNumber2 + "].finalExpirationDate")
+        		            +"</td>" 
+                		    +"<td style=\"border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; align:right; border-collapse: collapse;\">"
 				  			+text5+"</td><td style=\"border: 1px solid rgb(153, 153, 153); text-align: center; width: 110px; align:right; left: 1335px; border-collapse: collapse;\">"
 				  			+text6+"</td>"
 				  			+"</tr></tbody></table>";
@@ -359,6 +376,7 @@ function openPreviousAwards(requestTracker) {
     function displayErrorIconAsNeeded(propertyFieldName) {
     	var errorImage = "<img src=\"kr/images/errormark.gif\" alt=\"Error\" title=\"Error\" />";
     	var fieldsInErrorElement = document.getElementById('formFieldsInError');
+alert("displayErrorIconAsNeeded: property = " + propertyFieldName + ", fields in error = " + fieldsInErrorElement.value);    	
     	if (fieldsInErrorElement.value.toLowerCase().indexOf(propertyFieldName.toLowerCase()) >= 0){
     		return errorImage;
     	} else {
@@ -371,3 +389,4 @@ function openPreviousAwards(requestTracker) {
 		buttons[0].click();
 	}
     
+
