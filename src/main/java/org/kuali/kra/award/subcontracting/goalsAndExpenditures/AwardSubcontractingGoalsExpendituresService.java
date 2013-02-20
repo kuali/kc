@@ -15,11 +15,16 @@
  */
 package org.kuali.kra.award.subcontracting.goalsAndExpenditures;
 
+import org.kuali.kra.award.subcontracting.reporting.SubcontractingExpenditureCategoryAmounts;
+
 public interface AwardSubcontractingGoalsExpendituresService {
     
     // return the existing BO instance for the award number if found in the data store, or else return a 'fresh' instance of the BO
-    public AwardSubcontractingGoalsExpenditures getGoalsExpendituresBOForAward(String awardNumber);
+    public AwardSubcontractingBudgetedGoals getBudgetedGoalsBOForAward(String awardNumber);
+   
+    public void saveBudgetedGoalsBO(AwardSubcontractingBudgetedGoals goalsExpendituresBO);
+
     
-    
-    public void saveGoalsExpendituresBO(AwardSubcontractingGoalsExpenditures goalsExpendituresBO);
+    // return the existing BO instance for the award number if found in the data store, or else return a 'fresh' instance of the BO
+    public SubcontractingExpenditureCategoryAmounts getExpenditureAmountsBOForAward(String awardNumber);
 }

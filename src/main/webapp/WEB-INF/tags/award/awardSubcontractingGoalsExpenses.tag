@@ -19,14 +19,15 @@
 
 <div class="tab-container" align="center" id="goalsExpensesDetailsPanel">
 
-	<c:set var="goalsAndExpendituresAttributes" value="${DataDictionary.AwardSubcontractingGoalsExpenditures.attributes}" />
+	<c:set var="budgetedGoalsAttributes" value="${DataDictionary.AwardSubcontractingBudgetedGoals.attributes}" />
+	<c:set var="expenditureDataNotFound" value="${KualiForm.subcontractingExpenditureCategoryAmounts.fresh}" />
 	
-	<html:hidden property="awardSubcontractingGoalsExpenditures.awardNumber" />
-	<html:hidden property="awardSubcontractingGoalsExpenditures.fresh" />
+	<html:hidden property="awardSubcontractingBudgetedGoals.awardNumber" />
+	<html:hidden property="awardSubcontractingBudgetedGoals.fresh" />
 	
 	<h3>
 		<span class="subhead-left">
-			Budgeted Amounts for Award <c:out value="${KualiForm.awardSubcontractingGoalsExpenditures.awardNumber}" />
+			Budgeted Amounts for Award <c:out value="${KualiForm.awardSubcontractingBudgetedGoals.awardNumber}" />
 		</span> 
 	</h3>
 	
@@ -40,14 +41,24 @@
 		
 		<tr>
 			<td> <div align="right"><label>Large Business</label></div></td>
-			<td> <div align="center"> <kul:htmlControlAttribute property="awardSubcontractingGoalsExpenditures.largeBusinessGoalAmount" attributeEntry="${goalsAndExpendituresAttributes.largeBusinessGoalAmount}" styleClass="amount" /></div></td>
-			<td> <div align="center"> <kul:htmlControlAttribute property="awardSubcontractingGoalsExpenditures.largeBusinessExpenditureAmount" attributeEntry="${goalsAndExpendituresAttributes.largeBusinessExpenditureAmount}" styleClass="amount" /></div></td>
+			<td> <div align="center"> <kul:htmlControlAttribute property="awardSubcontractingBudgetedGoals.largeBusinessGoalAmount" attributeEntry="${budgetedGoalsAttributes.largeBusinessGoalAmount}" styleClass="amount" /></div></td>
+			<td> <div align="center">
+					<c:if test="${!expenditureDataNotFound}">  
+						<fmt:formatNumber value="${KualiForm.subcontractingExpenditureCategoryAmounts.largeBusinessExpenditureAmount}" type="currency" currencySymbol="$" maxFractionDigits="2" />
+					</c:if>
+				</div>
+			</td>
 		</tr>
 		
 		<tr>
 			<td> <div align="right"><label>Small Business</label></div></td>
-			<td> <div align="center"> <kul:htmlControlAttribute property="awardSubcontractingGoalsExpenditures.smallBusinessGoalAmount" attributeEntry="${goalsAndExpendituresAttributes.smallBusinessGoalAmount}" styleClass="amount" /></div></td>
-			<td> <div align="center"> <kul:htmlControlAttribute property="awardSubcontractingGoalsExpenditures.smallBusinessExpenditureAmount" attributeEntry="${goalsAndExpendituresAttributes.smallBusinessExpenditureAmount}" styleClass="amount" /></div></td>
+			<td> <div align="center"> <kul:htmlControlAttribute property="awardSubcontractingBudgetedGoals.smallBusinessGoalAmount" attributeEntry="${budgetedGoalsAttributes.smallBusinessGoalAmount}" styleClass="amount" /></div></td>
+			<td> <div align="center"> 
+					<c:if test="${!expenditureDataNotFound}">
+						<fmt:formatNumber value="${KualiForm.subcontractingExpenditureCategoryAmounts.smallBusinessExpenditureAmount}" type="currency" currencySymbol="$" maxFractionDigits="2" />
+				    </c:if>
+				</div>
+			</td>
 		</tr>		
 		
 		<tr>
@@ -55,49 +66,96 @@
 				<c:if test="${!readOnly}"> 
 					<br/> <html:image property="methodToCall.recalculateBusinessTotals" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-recalculate.gif' styleClass="tinybutton" styleId="recalculateBusinessTotals"/></div></td>
 				</c:if>
-			<td> <div align="center"> <fmt:formatNumber value="${KualiForm.awardSubcontractingGoalsExpenditures.totalBusinessGoalAmount}" type="currency" currencySymbol="$" maxFractionDigits="2" /> </div></td>
-			<td> <div align="center"> <fmt:formatNumber value="${KualiForm.awardSubcontractingGoalsExpenditures.totalBusinessExpenditureAmount}" type="currency" currencySymbol="$" maxFractionDigits="2" /></div></td>
+			<td> <div align="center"> <fmt:formatNumber value="${KualiForm.awardSubcontractingBudgetedGoals.totalBusinessGoalAmount}" type="currency" currencySymbol="$" maxFractionDigits="2" /> </div></td>
+			<td> <div align="center">
+					<c:if test="${!expenditureDataNotFound}"> 
+						<fmt:formatNumber value="${KualiForm.subcontractingExpenditureCategoryAmounts.totalBusinessExpenditureAmount}" type="currency" currencySymbol="$" maxFractionDigits="2" />
+				    </c:if>
+			     </div>
+			</td>
 		</tr>
 		
 		<tr>
-			<td> <div align="right"><label>A8 Disadvantage</label></div></td>
-			<td> <div align="center"> <kul:htmlControlAttribute property="awardSubcontractingGoalsExpenditures.a8DisadvantageGoalAmount" attributeEntry="${goalsAndExpendituresAttributes.a8DisadvantageGoalAmount}" styleClass="amount" /></div></td>
-			<td> <div align="center"> <kul:htmlControlAttribute property="awardSubcontractingGoalsExpenditures.a8DisadvantageExpenditureAmount" attributeEntry="${goalsAndExpendituresAttributes.a8DisadvantageExpenditureAmount}" styleClass="amount" /></div></td>
+			<td> <div align="right"><label>Woman Owned</label></div></td>
+			<td> <div align="center"> <kul:htmlControlAttribute property="awardSubcontractingBudgetedGoals.womanOwnedGoalAmount" attributeEntry="${budgetedGoalsAttributes.womanOwnedGoalAmount}" styleClass="amount" /></div></td>
+			<td> 
+				<div align="center">
+					<c:if test="${!expenditureDataNotFound}">
+						<fmt:formatNumber value="${KualiForm.subcontractingExpenditureCategoryAmounts.womanOwnedExpenditureAmount}" type="currency" currencySymbol="$" maxFractionDigits="2" />
+					</c:if>
+				</div>
+			</td>
+		</tr>
+		
+		<tr>
+			<td> <div align="right"><label>8A Disadvantage</label></div></td>
+			<td> <div align="center"> <kul:htmlControlAttribute property="awardSubcontractingBudgetedGoals.eightADisadvantageGoalAmount" attributeEntry="${budgetedGoalsAttributes.eightADisadvantageGoalAmount}" styleClass="amount" /></div></td>
+			<td> 
+				<div align="center">
+					<c:if test="${!expenditureDataNotFound}">
+						<fmt:formatNumber value="${KualiForm.subcontractingExpenditureCategoryAmounts.eightADisadvantageExpenditureAmount}" type="currency" currencySymbol="$" maxFractionDigits="2" />
+					</c:if>
+				</div>
+			</td>		
 		</tr>
 		
 		<tr>
 			<td> <div align="right"><label>Hub Zone</label></div></td>
-			<td> <div align="center"> <kul:htmlControlAttribute property="awardSubcontractingGoalsExpenditures.hubZoneGoalAmount" attributeEntry="${goalsAndExpendituresAttributes.hubZoneGoalAmount}" styleClass="amount" /></div></td>
-			<td> <div align="center"> <kul:htmlControlAttribute property="awardSubcontractingGoalsExpenditures.hubZoneExpenditureAmount" attributeEntry="${goalsAndExpendituresAttributes.hubZoneExpenditureAmount}" styleClass="amount" /></div></td>
+			<td> <div align="center"> <kul:htmlControlAttribute property="awardSubcontractingBudgetedGoals.hubZoneGoalAmount" attributeEntry="${budgetedGoalsAttributes.hubZoneGoalAmount}" styleClass="amount" /></div></td>
+			<td> 
+				<div align="center">
+					<c:if test="${!expenditureDataNotFound}">
+						<fmt:formatNumber value="${KualiForm.subcontractingExpenditureCategoryAmounts.hubZoneExpenditureAmount}" type="currency" currencySymbol="$" maxFractionDigits="2" />
+					</c:if>
+				</div>
+			</td>		
 		</tr>
 		
 		<tr>
 			<td> <div align="right"><label>Veteran Owned</label></div></td>
-			<td> <div align="center"> <kul:htmlControlAttribute property="awardSubcontractingGoalsExpenditures.veteranOwnedGoalAmount" attributeEntry="${goalsAndExpendituresAttributes.veteranOwnedGoalAmount}" styleClass="amount" /></div></td>
-			<td> <div align="center"> <kul:htmlControlAttribute property="awardSubcontractingGoalsExpenditures.veteranOwnedExpenditureAmount" attributeEntry="${goalsAndExpendituresAttributes.veteranOwnedExpenditureAmount}" styleClass="amount" /></div></td>
+			<td> <div align="center"> <kul:htmlControlAttribute property="awardSubcontractingBudgetedGoals.veteranOwnedGoalAmount" attributeEntry="${budgetedGoalsAttributes.veteranOwnedGoalAmount}" styleClass="amount" /></div></td>
+			<td> 
+				<div align="center">
+					<c:if test="${!expenditureDataNotFound}">
+						<fmt:formatNumber value="${KualiForm.subcontractingExpenditureCategoryAmounts.veteranOwnedExpenditureAmount}" type="currency" currencySymbol="$" maxFractionDigits="2" />
+					</c:if>
+				</div>
+			</td>		
 		</tr>
 		
 		<tr>
 			<td> <div align="right"><label>Service Disabled Veteran Owned</label></div></td>
-			<td> <div align="center"> <kul:htmlControlAttribute property="awardSubcontractingGoalsExpenditures.serviceDisabledVeteranOwnedGoalAmount" attributeEntry="${goalsAndExpendituresAttributes.serviceDisabledVeteranOwnedGoalAmount}" styleClass="amount" /></div></td>
-			<td> <div align="center"> <kul:htmlControlAttribute property="awardSubcontractingGoalsExpenditures.serviceDisabledVeteranOwnedExpenditureAmount" attributeEntry="${goalsAndExpendituresAttributes.serviceDisabledVeteranOwnedExpenditureAmount}" styleClass="amount" /></div></td>
+			<td> <div align="center"> <kul:htmlControlAttribute property="awardSubcontractingBudgetedGoals.serviceDisabledVeteranOwnedGoalAmount" attributeEntry="${budgetedGoalsAttributes.serviceDisabledVeteranOwnedGoalAmount}" styleClass="amount" /></div></td>
+			<td> 
+				<div align="center">
+					<c:if test="${!expenditureDataNotFound}">
+						<fmt:formatNumber value="${KualiForm.subcontractingExpenditureCategoryAmounts.serviceDisabledVeteranOwnedExpenditureAmount}" type="currency" currencySymbol="$" maxFractionDigits="2" />
+					</c:if>
+				</div>
+			</td>		
 		</tr>
 		
 		<tr>
 			<td> <div align="right"><label>Historical Black College</label></div></td>
-			<td> <div align="center"> <kul:htmlControlAttribute property="awardSubcontractingGoalsExpenditures.historicalBlackCollegeGoalAmount" attributeEntry="${goalsAndExpendituresAttributes.historicalBlackCollegeGoalAmount}" styleClass="amount" /></div></td>
-			<td> <div align="center"> <kul:htmlControlAttribute property="awardSubcontractingGoalsExpenditures.historicalBlackCollegeExpenditureAmount" attributeEntry="${goalsAndExpendituresAttributes.historicalBlackCollegeExpenditureAmount}" styleClass="amount" /></div></td>
+			<td> <div align="center"> <kul:htmlControlAttribute property="awardSubcontractingBudgetedGoals.historicalBlackCollegeGoalAmount" attributeEntry="${budgetedGoalsAttributes.historicalBlackCollegeGoalAmount}" styleClass="amount" /></div></td>
+			<td> 
+				<div align="center">
+					<c:if test="${!expenditureDataNotFound}">
+						<fmt:formatNumber value="${KualiForm.subcontractingExpenditureCategoryAmounts.historicalBlackCollegeExpenditureAmount}" type="currency" currencySymbol="$" maxFractionDigits="2" />
+					</c:if>
+				</div>
+			</td>		
 		</tr>	
 		
 		<tr>
 			<td>
 				<div align="right">
-                	<kul:htmlAttributeLabel attributeEntry="${goalsAndExpendituresAttributes.comments}" noColon="true"/>
+                	<kul:htmlAttributeLabel attributeEntry="${budgetedGoalsAttributes.comments}" noColon="true"/>
                 </div>
             </td>
             <td colspan="2"> 
             	<div align="center">
-                	<kul:htmlControlAttribute property="awardSubcontractingGoalsExpenditures.comments" attributeEntry="${goalsAndExpendituresAttributes.comments}" />
+                	<kul:htmlControlAttribute property="awardSubcontractingBudgetedGoals.comments" attributeEntry="${budgetedGoalsAttributes.comments}" />
                 </div> 
             </td>
        </tr>

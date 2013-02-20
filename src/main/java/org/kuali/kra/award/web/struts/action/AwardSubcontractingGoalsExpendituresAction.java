@@ -25,10 +25,11 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kra.award.subcontracting.goalsAndExpenditures.AwardSubcontractingGoalsExpenditures;
+import org.kuali.kra.award.subcontracting.goalsAndExpenditures.AwardSubcontractingBudgetedGoals;
 import org.kuali.kra.award.subcontracting.goalsAndExpenditures.AwardSubcontractingGoalsExpendituresForm;
 import org.kuali.kra.award.subcontracting.goalsAndExpenditures.AwardSubcontractingGoalsExpendituresRule;
 import org.kuali.kra.award.subcontracting.goalsAndExpenditures.AwardSubcontractingGoalsExpendituresService;
+import org.kuali.kra.award.subcontracting.reporting.SubcontractingExpenditureCategoryAmounts;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -43,7 +44,7 @@ public class AwardSubcontractingGoalsExpendituresAction extends KualiAction {
     private static final String RELOAD = "reload";
     private static final String REFRESH = "refresh";
     private static final String CLEAR = "clear";
-    private static final String PREFIX = "awardSubcontractingGoalsExpenditures";
+    private static final String PREFIX = "awardSubcontractingBudgetedGoals";
 
     
     
@@ -81,9 +82,9 @@ public class AwardSubcontractingGoalsExpendituresAction extends KualiAction {
         // invoke the rule to validate the award number that was either lookup returned or user entered
         AwardSubcontractingGoalsExpendituresRule rule = new AwardSubcontractingGoalsExpendituresRule();                
         if(rule.validateAwardNumber(awardNumber)) {
-            // use the service to obtain the BO for the given award number, and set the BO on the form for display
-            AwardSubcontractingGoalsExpenditures goalsAndExpendituresBO = getGoalsExpendituresServiceImpl().getGoalsExpendituresBOForAward(awardNumber);
-            awardGoalsExpendituresForm.setAwardSubcontractingGoalsExpenditures(goalsAndExpendituresBO);
+            // use the service to obtain the goals BO for the given award number and set the BO on the form for display
+            AwardSubcontractingBudgetedGoals budgetedGoalsBO = getGoalsExpendituresServiceImpl().getBudgetedGoalsBOForAward(awardNumber);
+            awardGoalsExpendituresForm.setAwardSubcontractingBudgetedGoals(budgetedGoalsBO);
         }
         else {
             // set the flag on the form to not display the details since we don't have a valid PK 
@@ -92,6 +93,7 @@ public class AwardSubcontractingGoalsExpendituresAction extends KualiAction {
         
         // set the award Id on the form irrespective of the rule validation result; if validation failed an empty string will be set
         awardGoalsExpendituresForm.setAwardId(rule.getAwardId());
+        setExpenditureAmountsOnForm(awardGoalsExpendituresForm);
         return mapping.findForward(Constants.MAPPING_BASIC);        
     }
     
@@ -102,8 +104,8 @@ public class AwardSubcontractingGoalsExpendituresAction extends KualiAction {
         if(GlobalVariables.getMessageMap().hasNoErrors()) {
             // set the display message
             AwardSubcontractingGoalsExpendituresForm awardGoalsExpendituresForm = (AwardSubcontractingGoalsExpendituresForm) form;
-            String awardNumber = awardGoalsExpendituresForm.getAwardSubcontractingGoalsExpenditures().getAwardNumber();
-            KNSGlobalVariables.getMessageList().add(KeyConstants.AWARD_GOALS_EXPENDITURES_RELOADED, new String[]{awardNumber});
+            String awardNumber = awardGoalsExpendituresForm.getAwardSubcontractingBudgetedGoals().getAwardNumber();
+            KNSGlobalVariables.getMessageList().add(KeyConstants.AWARD_GOALS_RELOADED, new String[]{awardNumber});
         }
         return forward;
     }
@@ -114,8 +116,8 @@ public class AwardSubcontractingGoalsExpendituresAction extends KualiAction {
         ActionForward forward = refresh(mapping, form, request, response);
         // set the display message
         AwardSubcontractingGoalsExpendituresForm awardGoalsExpendituresForm = (AwardSubcontractingGoalsExpendituresForm) form;
-        String awardNumber = awardGoalsExpendituresForm.getAwardSubcontractingGoalsExpenditures().getAwardNumber();
-        KNSGlobalVariables.getMessageList().add(KeyConstants.AWARD_GOALS_EXPENDITURES_CLEARED, new String[]{awardNumber});
+        String awardNumber = awardGoalsExpendituresForm.getAwardSubcontractingBudgetedGoals().getAwardNumber();
+        KNSGlobalVariables.getMessageList().add(KeyConstants.AWARD_GOALS_CLEARED, new String[]{awardNumber});
         return forward;
     }
     
@@ -124,14 +126,14 @@ public class AwardSubcontractingGoalsExpendituresAction extends KualiAction {
         AwardSubcontractingGoalsExpendituresForm awardGoalsExpendituresForm = (AwardSubcontractingGoalsExpendituresForm) form;
         // first check if the default validation went OK
         if(GlobalVariables.getMessageMap().hasNoErrors()) {
-            AwardSubcontractingGoalsExpenditures goalsExpendituresBO = awardGoalsExpendituresForm.getAwardSubcontractingGoalsExpenditures();
+            AwardSubcontractingBudgetedGoals budgetedGoalsBO = awardGoalsExpendituresForm.getAwardSubcontractingBudgetedGoals();
             // then validate the supplied award number from the BO
-            String awardNumber = goalsExpendituresBO.getAwardNumber();
+            String awardNumber = budgetedGoalsBO.getAwardNumber();
             if((new AwardSubcontractingGoalsExpendituresRule()).validateAwardNumber(awardNumber)) {
                 // use the service to save the BO
-                getGoalsExpendituresServiceImpl().saveGoalsExpendituresBO(goalsExpendituresBO);                
+                getGoalsExpendituresServiceImpl().saveBudgetedGoalsBO(budgetedGoalsBO);                
                 // add the successful save message for display 
-                KNSGlobalVariables.getMessageList().add(KeyConstants.AWARD_GOALS_EXPENDITURES_SAVED, new String[]{awardNumber});
+                KNSGlobalVariables.getMessageList().add(KeyConstants.AWARD_GOALS_SAVED, new String[]{awardNumber});
                 // reset the unsaved changes flag
                 awardGoalsExpendituresForm.setContainingUnsavedChanges(false);
             }
@@ -140,6 +142,7 @@ public class AwardSubcontractingGoalsExpendituresAction extends KualiAction {
                 awardGoalsExpendituresForm.setDisplayGoalsExpendituresDetails(false);
             }
         }
+        setExpenditureAmountsOnForm(awardGoalsExpendituresForm);
         return mapping.findForward(Constants.MAPPING_BASIC);
     }    
     
@@ -148,18 +151,27 @@ public class AwardSubcontractingGoalsExpendituresAction extends KualiAction {
         AwardSubcontractingGoalsExpendituresForm awardGoalsExpendituresForm = (AwardSubcontractingGoalsExpendituresForm) form;
         // first check if the default validation went OK 
         if(GlobalVariables.getMessageMap().hasNoErrors()) {
-            // then validate the supplied award number from the BO (just in case there was some inadvertent spoofing?)            
-            if((new AwardSubcontractingGoalsExpendituresRule()).validateAwardNumber(awardGoalsExpendituresForm.getAwardSubcontractingGoalsExpenditures().getAwardNumber())) {
-                //do nothing, the totals will be computed in the getters invoked from the tag during display of details
+            // then validate the supplied award number from the BO (just in case there was some inadvertent spoofing?)
+            String awardNumber = awardGoalsExpendituresForm.getAwardSubcontractingBudgetedGoals().getAwardNumber();
+            if((new AwardSubcontractingGoalsExpendituresRule()).validateAwardNumber(awardNumber)) {
+                //the totals will be computed in the getters invoked from the tag during display of details
+                                
             }
             else {
                 // set the flag on the form to not display the details, since somehow (spoofing?) a bad PK was sent in
                 awardGoalsExpendituresForm.setDisplayGoalsExpendituresDetails(false);
             }
         }
+        setExpenditureAmountsOnForm(awardGoalsExpendituresForm);
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
+    private void setExpenditureAmountsOnForm(AwardSubcontractingGoalsExpendituresForm awardGoalsExpendituresForm) {
+        // use the service to obtain the expenditure BO for the given award number and set the BO on the form for display
+        String awardNumber = awardGoalsExpendituresForm.getAwardSubcontractingBudgetedGoals().getAwardNumber();
+        SubcontractingExpenditureCategoryAmounts expenditureAmountsBO = getGoalsExpendituresServiceImpl().getExpenditureAmountsBOForAward(awardNumber);
+        awardGoalsExpendituresForm.setSubcontractingExpenditureCategoryAmounts(expenditureAmountsBO);
+    }
     
     public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         return mapping.findForward(KRADConstants.MAPPING_PORTAL);
@@ -180,7 +192,7 @@ public class AwardSubcontractingGoalsExpendituresAction extends KualiAction {
         properties = GlobalVariables.getMessageMap().getAllPropertiesWithWarnings();
         propertiesForIteration = new HashSet<String>(properties);
         for(String property: propertiesForIteration) {
-            // remove warning messages for property names that begin with lower-cased BO class name
+            // remove warning messages for property names that begin with (lower-cased) BO class name
             if(property.startsWith(PREFIX)) {
                 GlobalVariables.getMessageMap().removeAllWarningMessagesForProperty(property);
             }

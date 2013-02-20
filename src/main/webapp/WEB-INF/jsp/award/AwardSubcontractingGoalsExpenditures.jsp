@@ -25,20 +25,20 @@
           renderMultipart="false" 
           htmlFormAction="awardSubcontractingGoalsExpenditures">
 
-    <div id="workarea">
+ <div id="workarea">
 
 	<kul:tab tabTitle="Subcontracting Goals"
 	         defaultOpen="true"
 	         alwaysOpen="true"
 	         transparentBackground="true" 
 	         useCurrentTabIndexAsKey="true"
-	         tabErrorKey="awardSubcontractingGoalsExpenditures.*, awardNumber*">
-	         
-		<kra-a:awardSubcontractingAwardNumberLookup />
-	    
-	    <c:if test="${KualiForm.displayGoalsExpendituresDetails}">
-		    <kra-a:awardSubcontractingGoalsExpenses />
-	    </c:if>    
+	         tabErrorKey="awardSubcontractingBudgetedGoals.*, awardNumber*">
+	             
+			<kra-a:awardSubcontractingAwardNumberLookup />
+		    
+		    <c:if test="${KualiForm.displayGoalsExpendituresDetails}">
+			    <kra-a:awardSubcontractingGoalsExpenses />
+		    </c:if>    
 	</kul:tab>
 
 	<kul:panelFooter />
@@ -49,7 +49,7 @@
 	        	<html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_save.gif" styleClass="globalbuttons" property="methodToCall.save" styleId="save" title="save" alt="save"/>
 	    	</c:if>
 	    	<c:choose>
-    	       	<c:when test="${KualiForm.awardSubcontractingGoalsExpenditures.fresh}">
+    	       	<c:when test="${KualiForm.awardSubcontractingBudgetedGoals.fresh}">
     	      		<c:if test="${!readOnly}">
 	        			<html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_clear.gif" styleClass="globalbuttons" property="methodToCall.clear" title="clear" alt="clear" onclick="excludeSubmitRestriction=true"/>
 	    			</c:if>
@@ -64,5 +64,7 @@
 	    
 	</div>
 	<hr>
+	
+ </div>	
 
 </kul:page>
