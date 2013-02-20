@@ -52,12 +52,12 @@ public class AwardSubcontractingGoalsExpendituresServiceTest {
         fieldValues.put(AWARD_NUMBER, awardNumber);
         
         context.checking(new Expectations() {{
-          one(serviceImpl.getBusinessObjectService()).findByPrimaryKey(AwardSubcontractingGoalsExpenditures.class, fieldValues);
+          one(serviceImpl.getBusinessObjectService()).findByPrimaryKey(AwardSubcontractingBudgetedGoals.class, fieldValues);
           will(returnValue(null));
         }});
         
         // invoke the service method
-        AwardSubcontractingGoalsExpenditures actualBO = this.serviceImpl.getGoalsExpendituresBOForAward(awardNumber);
+        AwardSubcontractingBudgetedGoals actualBO = this.serviceImpl.getBudgetedGoalsBOForAward(awardNumber);
         
         Assert.assertNotNull(actualBO);
         Assert.assertTrue(actualBO.isFresh());
@@ -70,16 +70,16 @@ public class AwardSubcontractingGoalsExpendituresServiceTest {
         final String awardNumber = PRESTORED_BO_NUMBER;
         final Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put(AWARD_NUMBER, awardNumber);
-        final AwardSubcontractingGoalsExpenditures returnBO = new AwardSubcontractingGoalsExpenditures();
+        final AwardSubcontractingBudgetedGoals returnBO = new AwardSubcontractingBudgetedGoals();
         returnBO.setAwardNumber(awardNumber);
         
         context.checking(new Expectations() {{          
-          one(serviceImpl.getBusinessObjectService()).findByPrimaryKey(AwardSubcontractingGoalsExpenditures.class, fieldValues);
+          one(serviceImpl.getBusinessObjectService()).findByPrimaryKey(AwardSubcontractingBudgetedGoals.class, fieldValues);
           will(returnValue(returnBO));
         }});
         
         // invoke the service method
-        AwardSubcontractingGoalsExpenditures actualBO = this.serviceImpl.getGoalsExpendituresBOForAward(awardNumber);
+        AwardSubcontractingBudgetedGoals actualBO = this.serviceImpl.getBudgetedGoalsBOForAward(awardNumber);
         
         Assert.assertNotNull(actualBO);
         Assert.assertFalse(actualBO.isFresh());
@@ -91,14 +91,14 @@ public class AwardSubcontractingGoalsExpendituresServiceTest {
     @Test
     public void testSaveGoalsExpendituresBO() {
         // create a 'fresh' BO for saving (the non-default BO constructor ensures fresh flag is set).
-        final AwardSubcontractingGoalsExpenditures toBeSavedBO = new AwardSubcontractingGoalsExpenditures(SAVE_BO_NUMBER);
+        final AwardSubcontractingBudgetedGoals toBeSavedBO = new AwardSubcontractingBudgetedGoals(SAVE_BO_NUMBER);
         
         context.checking(new Expectations() {{          
             one(serviceImpl.getBusinessObjectService()).save(toBeSavedBO);
         }});        
         // invoke the service method
         Assert.assertTrue(toBeSavedBO.isFresh());
-        this.serviceImpl.saveGoalsExpendituresBO(toBeSavedBO);
+        this.serviceImpl.saveBudgetedGoalsBO(toBeSavedBO);
         Assert.assertFalse(toBeSavedBO.isFresh());
         
         
@@ -107,7 +107,7 @@ public class AwardSubcontractingGoalsExpendituresServiceTest {
             one(serviceImpl.getBusinessObjectService()).save(toBeSavedBO);
         }});        
         // invoke the service method
-        this.serviceImpl.saveGoalsExpendituresBO(toBeSavedBO);
+        this.serviceImpl.saveBudgetedGoalsBO(toBeSavedBO);
         Assert.assertFalse(toBeSavedBO.isFresh());
     }
     
