@@ -90,10 +90,19 @@ public class OpportunitySchemaParser {
             LOG.error(S2SConstants.ERROR_MESSAGE, e);
             throw new S2SException(KeyConstants.ERROR_GRANTSGOV_FORM_SCHEMA_NOT_FOUND,e.getMessage(),schema);
         }
-
+        
         Element schemaElement = document.getDocumentElement();
         NodeList importList = document.getElementsByTagNameNS(XSD_NS, IMPORT);
         Node allForms = document.getElementsByTagNameNS(XSD_NS, ALL).item(0);
+        
+        // If there is no "Forms" element, it's probably because this is an NIH complex project
+        if(allForms == null) {
+            Node topElementName = schemaElement.getElementsByTagNameNS(XSD_NS, ELEMENT).item(0).getAttributes().item(0);
+            if(topElementName.getNodeName().equals("name") && !topElementName.getNodeValue().equals("GrantApplication")) {
+                throw new S2SException(KeyConstants.ERROR_GRANTSGOV_NO_FORM_ELEMENT, "", "");
+            }
+        }
+        
         NodeList formsList = ((Element) allForms).getElementsByTagNameNS(XSD_NS, ELEMENT);
         String[] formNames = new String[formsList.getLength()];
 
