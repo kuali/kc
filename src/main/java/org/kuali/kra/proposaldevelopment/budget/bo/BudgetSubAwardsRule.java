@@ -128,7 +128,6 @@ public class BudgetSubAwardsRule {
                 success = false;
             } else {
                 if(budgetSubAwards.getBudgetSubAwardFiles().isEmpty() || budgetSubAwards.getBudgetSubAwardFiles().get(0).getSubAwardXmlFileData()==null){
-                    GlobalVariables.getMessageMap().putError(Constants.SUBAWARD_FILE_FIELD_NAME, Constants.SUBAWARD_FILE_NOT_EXTRACTED);
                     success = false;
                 }
             }

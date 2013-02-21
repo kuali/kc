@@ -210,16 +210,18 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
         newBudgetSubAward.setSubAwardNumber(generateSubAwardNumber(budgetDocument));
         newBudgetSubAward.setBudgetVersionNumber(budgetDocument.getBudget().getBudgetVersionNumber());
         newBudgetSubAward.setSubAwardStatusCode(1);
+        newBudgetSubAward.getBudgetSubAwardPeriodDetails().clear();
         for (BudgetPeriod period : budgetDocument.getBudget().getBudgetPeriods()) {
             newBudgetSubAward.getBudgetSubAwardPeriodDetails().add(new BudgetSubAwardPeriodDetail(newBudgetSubAward, period));
         }
         boolean success = true;
-        if (newBudgetSubAward.getNewSubAwardFile() != null && StringUtils.isNotBlank(newBudgetSubAward.getNewSubAwardFile().getFileName())) {
+        if (newBudgetSubAward.getNewSubAwardFile() != null) {
             String fileName = newBudgetSubAward.getNewSubAwardFile().getFileName();
             byte[] fileData = newBudgetSubAward.getNewSubAwardFile().getFileData(); 
             success = updateBudgetAttachment(budgetDocument.getBudget(), newBudgetSubAward, fileName, fileData, "newSubAward");
         }
-        if (success) {
+        String contentType = newBudgetSubAward.getNewSubAwardFile().getContentType();
+        if (success && contentType.equalsIgnoreCase(Constants.PDF_REPORT_CONTENT_TYPE)) {
             budgetForm.setNewSubAward(new BudgetSubAwards());
             budgetDocument.getBudget().getBudgetSubAwards().add(newBudgetSubAward);
         }
@@ -241,7 +243,7 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
     
     public ActionForward viewXML(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetSubAwards subAward = getSelectedBudgetSubAward(form, request);
-        subAward.refreshReferenceObject("budgetSubAwardFiles");
+        subAward.refreshNonUpdateableReferences();
         if(!subAward.getBudgetSubAwardFiles().isEmpty()){
             BudgetSubAwardFiles subAwardFiles = subAward.getBudgetSubAwardFiles().get(0);
             downloadFile(form, request, response, subAwardFiles.getSubAwardXmlFileData().getBytes(), createXMLFileName(subAward), CONTENT_TYPE_XML);
@@ -304,7 +306,14 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
     
     protected boolean updateSubAwardBudgetDetails(Budget budget, BudgetSubAwards subAward) throws Exception {
         List<String[]> errorMessages = new ArrayList<String[]>();
-        boolean success = getBudgetSubAwardService().updateSubAwardBudgetDetails(budget, subAward, errorMessages);
+        BudgetSubAwardsRule rule = new BudgetSubAwardsRule(subAward);
+        boolean success = true;
+        if (subAward.getNewSubAwardFile().getFileData().length == 0) {
+            success = false;
+            }
+        if (rule.processXFDAttachment()) {
+            success = getBudgetSubAwardService().updateSubAwardBudgetDetails(budget, subAward, errorMessages);
+        }
         if (!errorMessages.isEmpty()) {
             for (String[] message : errorMessages) {
                 String[] messageParameters = null;
@@ -318,7 +327,7 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
                 }
             }
         }
-        if (success && errorMessages.isEmpty()) {
+        if (success && errorMessages.isEmpty() && rule.processNonXFDAttachment()) {
             GlobalVariables.getMessageMap().putInfo(Constants.SUBAWARD_FILE_FIELD_NAME, Constants.SUBAWARD_FILE_DETAILS_UPDATED);
         }
         return success;
@@ -327,7 +336,12 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
     protected boolean updateBudgetAttachment(Budget budget, BudgetSubAwards subAward, String fileName, byte[] fileData, String errorPath) throws Exception {
 
         GlobalVariables.getMessageMap().addToErrorPath(errorPath);
-        getBudgetSubAwardService().populateBudgetSubAwardFiles(budget, subAward, fileName, fileData);
+        subAward.setSubAwardXmlFileData(null);
+        subAward.setFormName(null);
+        subAward.setNamespace(null);
+        if (subAward.getNewSubAwardFile().getContentType().equalsIgnoreCase(Constants.PDF_REPORT_CONTENT_TYPE)) {
+            getBudgetSubAwardService().populateBudgetSubAwardFiles(budget, subAward, fileName, fileData);
+        }
         boolean success = updateSubAwardBudgetDetails(budget, subAward);
         BudgetSubAwardsRule rule = new BudgetSubAwardsRule(subAward);
         success &= rule.processXFDAttachment();
@@ -339,6 +353,9 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
             }
         }
         GlobalVariables.getMessageMap().removeFromErrorPath(errorPath);
+        if(rule.processNonXFDAttachment()){
+             success = rule.processNonXFDAttachment();
+        }
         return success;
     }
     

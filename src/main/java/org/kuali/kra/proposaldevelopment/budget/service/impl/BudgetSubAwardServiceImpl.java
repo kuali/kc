@@ -53,6 +53,7 @@ import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwardAttachment;
 import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwardFiles;
 import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwardPeriodDetail;
 import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwards;
+import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwardsRule;
 import org.kuali.kra.proposaldevelopment.budget.service.BudgetSubAwardService;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.rules.ErrorReporter;
@@ -309,7 +310,7 @@ public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
         XfaForm xfaForm = reader.getAcroFields().getXfa();
         Node domDocument = xfaForm.getDomDocument();
         if(domDocument==null)
-            throw new Exception("Not a valid pdf form");
+            return null;
         Element documentElement = ((Document) domDocument).getDocumentElement();
 
         Element datasetsElement = (Element) documentElement.getElementsByTagNameNS(XFA_NS, "datasets").item(0);
@@ -440,6 +441,9 @@ public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
         }
         PdfReader reader = new PdfReader(budgetSubAward.getSubAwardXfdFileData());
         byte[] xmlContents = getXMLFromPDF(reader);
+        if (xmlContents == null) {
+            return false;
+        }
         javax.xml.parsers.DocumentBuilderFactory domParserFactory = javax.xml.parsers.DocumentBuilderFactory.newInstance();
         javax.xml.parsers.DocumentBuilder domParser = domParserFactory.newDocumentBuilder();
         ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(xmlContents);
