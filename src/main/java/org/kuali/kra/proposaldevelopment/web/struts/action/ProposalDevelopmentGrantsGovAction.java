@@ -155,6 +155,9 @@ public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentActio
                 }            
             }
         }catch(S2SException ex){
+            if(ex.getErrorKey().equals(KeyConstants.ERROR_GRANTSGOV_NO_FORM_ELEMENT)) {
+                ex.setMessage(s2sOpportunity.getOpportunityId());
+            }
             GlobalVariables.getMessageMap().putError(Constants.NO_FIELD, ex.getErrorKey(),ex.getMessageWithParams());
             proposalDevelopmentDocument.getDevelopmentProposal().setS2sOpportunity(new S2sOpportunity());
             return mapping.findForward(Constants.MAPPING_BASIC);
