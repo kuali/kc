@@ -40,6 +40,12 @@ window.hasFormAlreadyBeenSubmitted = function(){
 	}
 
     createLoading(true);
+    if (excludeSubmitRestriction) {
+        timeout = setTimeout(function() {
+ 	      excludeSubmitRestriction = false;
+          createLoading(false);
+        }, 500);
+    }
 }
 
 
