@@ -130,7 +130,7 @@
 									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-syncfromPDF.gif' styleClass="tinybutton"/>									
 							    </c:when>
 							    <c:when test="${not empty KualiForm.document.budget.budgetSubAwards[status.index].subAwardXfdFileData}">
-							        <html:image property="methodToCall.view.line${status.index}.anchor${currentTabIndex}"
+							        <html:image property="methodToCall.viewXFD.line${status.index}.anchor${currentTabIndex}"
                                     src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' styleClass="tinybutton" onclick="excludeSubmitRestriction=true"/>
                                 </c:when>
                             </c:choose>
