@@ -62,13 +62,22 @@
     
     var $j = jQuery.noConflict();
 
+	var timeout;
+    
     // this is bound to onbeforeunload 
     function warnAboutUnsavedChanges() {
         if(changed && !(override)) {
+            timeout = setTimeout(function() {
+                createLoading(false);
+            }, 100);
            return "You have unsaved changes!";
         }
     }
     
+    function noTimeout() {
+        clearTimeout(timeout);
+    }
+
     // this will set the changed flag and also disable the award number lookup
     // if it has not already been done
     function setChangedAndSuppressAwardNumberLookup() {
@@ -96,7 +105,8 @@
     // on ready
    	$j(function(){
 	   	window.onbeforeunload = warnAboutUnsavedChanges;
-	
+	   	window.unload = noTimeout;
+
 	   	// check for the hidden form field used to persist unsaved data indicator across unsuccessful save submissions
 	   	if($j("#containingUnsavedChanges").prop("value") == "Yes") {
 	   		setChangedAndSuppressAwardNumberLookup();
