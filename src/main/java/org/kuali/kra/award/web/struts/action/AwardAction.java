@@ -734,12 +734,11 @@ public class AwardAction extends BudgetParentActionBase {
         boolean previousVersionHasBeenEditedInTandMDocument = false;
         // what we really want to do is check to see if latest version of Awards has a T&M doc associated with it.
         // If it's versioned, that's OK, we still want to allow editing of the amounts and dates.
-        List<Award> awards = getAwardVersions(award.getAwardNumber());
-        if (awards.size() > 0) {
-            Award latestAward = awards.get(awards.size()-1);
-            if (latestAward.getSequenceNumber() == 1 && latestAward.getAwardAmountInfos().size() > 2) {
+        List<VersionHistory> awardHistory = getVersionHistoryService().findVersionHistory(Award.class, award.getAwardNumber());
+        if(awardHistory.size() > 1) {
+            if (award.getSequenceNumber() == 1 && award.getAwardAmountInfos().size() > 2) {
                 previousVersionHasBeenEditedInTandMDocument = true;
-            } else if (latestAward.getSequenceNumber() > 1 && latestAward.getAwardAmountInfos().size() > 1) {
+            } else if (award.getSequenceNumber() > 1 && award.getAwardAmountInfos().size() > 1) {
                 previousVersionHasBeenEditedInTandMDocument = true;
             }
         }
