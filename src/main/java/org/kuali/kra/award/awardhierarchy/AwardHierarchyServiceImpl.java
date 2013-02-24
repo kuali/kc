@@ -19,21 +19,17 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Queue;
-import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.award.AwardAmountInfoService;
 import org.kuali.kra.award.AwardNumberService;
-import org.kuali.kra.award.customdata.AwardCustomData;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
@@ -48,7 +44,6 @@ import org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.Awar
 import org.kuali.kra.award.paymentreports.specialapproval.foreigntravel.AwardApprovedForeignTravel;
 import org.kuali.kra.award.specialreview.AwardSpecialReview;
 import org.kuali.kra.award.version.service.AwardVersionService;
-import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.infrastructure.Constants;
@@ -61,6 +56,8 @@ import org.kuali.kra.service.impl.ObjectCopyUtils;
 import org.kuali.kra.timeandmoney.AwardHierarchyNode;
 import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.kra.timeandmoney.service.ActivePendingTransactionsService;
+import org.kuali.kra.timeandmoney.transactions.PendingTransaction;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -728,15 +725,31 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
             awardHierarchyNode.setPrincipalInvestigatorName(award.getPrincipalInvestigatorName());
             awardHierarchyNode.setAccountNumber(award.getAccountNumber());
             awardHierarchyNode.setAwardStatusCode(award.getStatusCode());
-//            following will be set below, as we now need to include current value changes as transactions
             awardHierarchyNode.setObliDistributableAmount(awardAmountInfo.getObliDistributableAmount());
             awardHierarchyNode.setAntDistributableAmount(awardAmountInfo.getAntDistributableAmount());
-            awardHierarchyNode.setAmountObligatedToDate(awardAmountInfo.getAmountObligatedToDate());
-            awardHierarchyNode.setObligatedTotalDirect(awardAmountInfo.getObligatedTotalDirect());
-            awardHierarchyNode.setObligatedTotalIndirect(awardAmountInfo.getObligatedTotalIndirect());
-            awardHierarchyNode.setAnticipatedTotalAmount(awardAmountInfo.getAnticipatedTotalAmount());
-            awardHierarchyNode.setAnticipatedTotalDirect(awardAmountInfo.getAnticipatedTotalDirect());
-            awardHierarchyNode.setAnticipatedTotalIndirect(awardAmountInfo.getAnticipatedTotalIndirect());
+            // we need to add in the pending transactions that are a result of changing totals in single-node view
+            KualiDecimal obligatedTotal = awardAmountInfo.getAmountObligatedToDate();
+            KualiDecimal obligatedTotalDirect = awardAmountInfo.getObligatedTotalDirect();
+            KualiDecimal obligatedTotalIndirect = awardAmountInfo.getObligatedTotalIndirect();
+            KualiDecimal anticipatedTotalAmount = awardAmountInfo.getAnticipatedTotalAmount();
+            KualiDecimal anticipatedTotalDirect = awardAmountInfo.getAnticipatedTotalDirect();
+            KualiDecimal anticipatedTotalIndirect = awardAmountInfo.getAnticipatedTotalIndirect();
+            for (PendingTransaction pendingTransaction: timeAndMoneyDocument.getPendingTransactions()){
+                if (pendingTransaction.getProcessedFlag() == false && pendingTransaction.isCurrentValueTransaction()) {
+                    obligatedTotal = obligatedTotal.add(pendingTransaction.getObligatedAmount());
+                    obligatedTotalDirect = obligatedTotalDirect.add(pendingTransaction.getObligatedDirectAmount());
+                    obligatedTotalIndirect = obligatedTotalIndirect.add(pendingTransaction.getObligatedIndirectAmount());
+                    anticipatedTotalAmount = anticipatedTotalAmount.add(pendingTransaction.getAnticipatedAmount());
+                    anticipatedTotalDirect = anticipatedTotalDirect.add(pendingTransaction.getAnticipatedDirectAmount());
+                    anticipatedTotalIndirect = anticipatedTotalIndirect.add(pendingTransaction.getAnticipatedIndirectAmount());
+                }
+            }
+            awardHierarchyNode.setAmountObligatedToDate(obligatedTotal);
+            awardHierarchyNode.setObligatedTotalDirect(obligatedTotalDirect);
+            awardHierarchyNode.setObligatedTotalIndirect(obligatedTotalIndirect);
+            awardHierarchyNode.setAnticipatedTotalAmount(anticipatedTotalAmount);
+            awardHierarchyNode.setAnticipatedTotalDirect(anticipatedTotalDirect);
+            awardHierarchyNode.setAnticipatedTotalIndirect(anticipatedTotalIndirect);
             awardHierarchyNode.setCurrentFundEffectiveDate(award.getAwardEffectiveDate());
             awardHierarchyNode.setObligationExpirationDate(awardAmountInfo.getObligationExpirationDate());
             awardHierarchyNode.setProjectStartDate(award.getAwardEffectiveDate());
