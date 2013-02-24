@@ -155,7 +155,6 @@ public class AwardHierarchyNode extends AwardHierarchy {
      * @return Returns the amountObligatedToDate.
      */
     public KualiDecimal getAmountObligatedToDate() {
-System.out.println("\n\nOOOTTT get obligated to date = " + amountObligatedToDate + "\n\n");        
         if(amountObligatedToDate == null){
             setAmountObligatedToDate(new KualiDecimal(0));
         }
@@ -167,7 +166,6 @@ System.out.println("\n\nOOOTTT get obligated to date = " + amountObligatedToDate
      * @param amountObligatedToDate The amountObligatedToDate to set.
      */
     public void setAmountObligatedToDate(KualiDecimal amountObligatedToDate) {
-System.out.println("\n\nOOOTTT set obligated to date = " + amountObligatedToDate + "\n\n");
         this.amountObligatedToDate = amountObligatedToDate;
     }
 
@@ -176,7 +174,6 @@ System.out.println("\n\nOOOTTT set obligated to date = " + amountObligatedToDate
      * @return Returns the obliDistributableAmount.
      */
     public KualiDecimal getObliDistributableAmount() {
-System.out.println("\n\nOOOTTT get obligated distributable = " + obliDistributableAmount + "\n\n");        
         if(obliDistributableAmount == null){
             setObliDistributableAmount(new KualiDecimal(0));
         }
@@ -189,7 +186,6 @@ System.out.println("\n\nOOOTTT get obligated distributable = " + obliDistributab
      * @param obliDistributableAmount The obliDistributableAmount to set.
      */
     public void setObliDistributableAmount(KualiDecimal obliDistributableAmount) {
-System.out.println("\n\nOOOTTT set obligated distributable = " + obliDistributableAmount + "\n\n");        
         this.obliDistributableAmount = obliDistributableAmount;
     }
 
@@ -312,7 +308,6 @@ System.out.println("\n\nOOOTTT set obligated distributable = " + obliDistributab
      * @return Returns the obligatedTotalDirect.
      */
     public KualiDecimal getObligatedTotalDirect() {
-System.out.println("\n\nOOOTTT get obligated total direct = " + obligatedTotalDirect + "\n\n");        
         return (obligatedTotalDirect != null) ? obligatedTotalDirect : new KualiDecimal(0.0);
     }
 
@@ -321,7 +316,6 @@ System.out.println("\n\nOOOTTT get obligated total direct = " + obligatedTotalDi
      * @param obligatedTotalDirect The obligatedTotalDirect to set.
      */
     public void setObligatedTotalDirect(KualiDecimal obligatedTotalDirect) {
-System.out.println("\n\nOOOTTT set obligated total direct = " + obligatedTotalDirect + "\n\n");        
         this.obligatedTotalDirect = obligatedTotalDirect;
     }
 
@@ -330,7 +324,6 @@ System.out.println("\n\nOOOTTT set obligated total direct = " + obligatedTotalDi
      * @return Returns the obligatedTotalIndirect.
      */
     public KualiDecimal getObligatedTotalIndirect() {
-System.out.println("\n\nOOOTTT get obligated total indirect = " + obligatedTotalIndirect + "\n\n");        
         return (obligatedTotalIndirect != null) ? obligatedTotalIndirect : new KualiDecimal(0.0);
     }
 
@@ -339,7 +332,6 @@ System.out.println("\n\nOOOTTT get obligated total indirect = " + obligatedTotal
      * @param obligatedTotalIndirect The obligatedTotalIndirect to set.
      */
     public void setObligatedTotalIndirect(KualiDecimal obligatedTotalIndirect) {
-System.out.println("\n\nOOOTTT set obligated total indirect = " + obligatedTotalIndirect + "\n\n");        
         this.obligatedTotalIndirect = obligatedTotalIndirect;
     }
 

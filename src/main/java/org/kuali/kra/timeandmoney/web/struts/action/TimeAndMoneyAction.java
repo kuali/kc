@@ -207,8 +207,8 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
                 pendingTransaction.setDocumentNumber(timeAndMoneyDocument.getDocumentNumber());
                 timeAndMoneyDocument.getPendingTransactions().add(pendingTransaction);
                 getBusinessObjectService().save(timeAndMoneyDocument.getPendingTransactions());//need pending transaction to have a primarykey value
-                getActivePendingTransactionsService().processSingleNodeMoneyTransaction(timeAndMoneyDocument, timeAndMoneyDocument.getAwardAmountTransactions().get(0),
-                    awardAmountTransactionItems, awardItems, moneyTransactionDetailItems);
+//not needed    getActivePendingTransactionsService().processSingleNodeMoneyTransaction(timeAndMoneyDocument, timeAndMoneyDocument.getAwardAmountTransactions().get(0),
+//                    awardAmountTransactionItems, awardItems, moneyTransactionDetailItems);
                 timeAndMoneyForm.setCurrentOrPendingView(PENDING_VIEW);
                 result = true;
             }else {
