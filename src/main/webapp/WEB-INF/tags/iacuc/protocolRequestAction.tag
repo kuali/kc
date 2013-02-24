@@ -182,12 +182,11 @@
                                           beanName="iacucProtocolLiftHoldRequestBean"
                                           actionTypeCode="108"
                                           tabTitle="Request to Lift Hold"/>
-                                      
             <kra-iacuc-action:requestAction bean="${KualiForm.actionHelper.iacucProtocolSuspendRequestBean}"
                                           permission="${KualiForm.actionHelper.canRequestSuspend}"
                                           beanName="iacucProtocolSuspendRequestBean"
                                           taskName="iacucProtocolRequestSuspension"
-                                          actionTypeCode="113"
+                                          actionTypeCode="311"
                                           tabTitle="Request for Suspension"/>
 <%--             <kra-iacuc-action:requestAction bean="${KualiForm.actionHelper.protocolTerminateRequestBean}"
                                           permission="${KualiForm.actionHelper.canRequestTerminate}"
@@ -465,6 +464,11 @@
 					                                         reason="Protocol status must be Active, Active - On Hold.
 					                                         		<p/>
 					                                         		Submission Type must not be Request To Deactivate" />
+					                                         		
+		            <kra-iacuc-action:genericUnavailableAction tabTitle="Request for Suspension"
+		                                                     canPerformAction="${KualiForm.actionHelper.canRequestSuspendUnavailable}"
+					                                         reason="Protocol status must be Active - On Hold, Administratively Approved, Administratively Withdrawn, or Administratively Deactivatd." />
+					                                         		
 	            	<kra-iacuc-action:genericUnavailableAction tabTitle="Request for Termination"
 	                	                                     canPerformAction="${KualiForm.actionHelper.canRequestTerminateUnavailable}"
 				        	                                 reason="Protocol can not be an amendment or renewal.
