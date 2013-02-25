@@ -629,7 +629,7 @@
 
 
 
-	<class-descriptor class="org.kuali.kra.bo.Sponsor" table="SPONSOR" row-reader="org.kuali.kra.infrastructure.SponsorRowReaderImpl">
+	<class-descriptor class="org.kuali.kra.bo.Sponsor" table="SPONSOR">
 		<field-descriptor id="1" name="sponsorCode" column="SPONSOR_CODE" jdbc-type="CHAR" primarykey="true" sequence-name="SEQ_SPONSOR_CODE" autoincrement="true" />
 		<field-descriptor name="acronym" column="ACRONYM" jdbc-type="VARCHAR"/>
 		<field-descriptor name="auditReportSentForFy" column="AUDIT_REPORT_SENT_FOR_FY" jdbc-type="CHAR"/>
