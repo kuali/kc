@@ -16,20 +16,14 @@
 package org.kuali.kra.krms;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.kuali.kra.dao.ojb.StoredFunctionDao;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.krms.service.KcKrmsJavaFunctionTermService;
-import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
-import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krms.api.engine.TermResolutionException;
-import org.kuali.rice.krms.api.engine.TermResolver;
+import org.kuali.rice.krms.api.repository.function.FunctionDefinition;
 
 /**
  * This class is for resolving terms for StoredFuncions. It extract values from prerequisites, execute Stored Function 
@@ -37,31 +31,35 @@ import org.kuali.rice.krms.api.engine.TermResolver;
  * @param <Object>
  */
 public class JavaFunctionResolver extends FunctionTermResolver{
+    
+    protected final Log LOG = LogFactory.getLog(JavaFunctionResolver.class);
 
-    public JavaFunctionResolver(List<String> orderedInputParams, Set<String> parameterNames, String output) {
+    public JavaFunctionResolver(List<String> orderedInputParams, Set<String> parameterNames, String output,FunctionDefinition functionTerm) {
         super(orderedInputParams, parameterNames, output);
+        setFunctionTerm(functionTerm);
     }
 
-    protected String executeFunction(Map<String, Object> resolvedPrereqs,Map<String,String> resolvedParameters) {
-        String methodName = getOutput();
+    protected String executeFunction(String serviceName,String methodName,Map<String, Object> resolvedPrereqs,Map<String,String> resolvedParameters) {
         List<Object> orderedParamValues = extractParamValues(resolvedPrereqs,resolvedParameters);
-        return callFunction(methodName,orderedParamValues);
+        if(serviceName==null)
+            throw new RuntimeException("Service name is not defined for the term:"+getOutput());
+        return callFunction(serviceName,methodName,orderedParamValues);
     }
     
     @SuppressWarnings("rawtypes")
-    private String callFunction(String methodName,List<Object> orderedParamValues) {
+    private String callFunction(String serviceName, String methodName,List<Object> orderedParamValues) {
         try {
             Class[] classtypes = new Class[orderedParamValues.size()];
             for (int i = 0; i < orderedParamValues.size(); i++) {
                 Object objValue = orderedParamValues.get(i);
                 classtypes[i] = objValue.getClass();
             }
-            Object javaFucntionService = KraServiceLocator.getService(KcKrmsJavaFunctionTermService.class);
+            Object javaFucntionService = KraServiceLocator.getService(serviceName);
             Class javaFucntionServiceClass = javaFucntionService.getClass();
             Method method = javaFucntionServiceClass.getMethod(methodName, classtypes);
             return (String)method.invoke(javaFucntionService,orderedParamValues.toArray());
         }catch (Exception e) {
-            e.printStackTrace();
+            LOG.error(e.getMessage(), e);
             throw new RuntimeException(e);
         }
     }
