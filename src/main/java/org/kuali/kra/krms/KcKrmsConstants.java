@@ -23,6 +23,7 @@ public final class KcKrmsConstants {
     public static final String MESSAGE_SEPARATOR = ":";
     public static final String MESSAGE_TYPE_ERROR = "E";
     public static final String MESSAGE_TYPE_WARNING = "W";
+    public static final String KC_KRMS_FUNCTION_RESOLVER_SERVICE_NAME="KC KRMS Function Resolver Service Name";
     
     /**
      * private utility class ctor.
@@ -35,6 +36,8 @@ public final class KcKrmsConstants {
     public static final class ProposalDevelopment {
         
         public static final String PROPOSAL_DEVELOPMENT_CONTEXT = "KC Proposal Development Context";
+
+        public static final String PROPOSAL_DEVELOPMENT_CONTEXT_ID = "KC-PD-CONTEXT";
         
         public static final String TOTAL_COST = "totalCost";
         
@@ -49,7 +52,7 @@ public final class KcKrmsConstants {
         public static final String TOTAL_COST_INITIAL = "totalCostInitial";
         
         public static final String TOTAL_DIRECT_COST_LIMIT = "totalDirectCostLimit";
-        
+         
         public static final String CFDA_NUMBER = "cfdaNumber";
         
         public static final String OPPORTUNITY_ID = "opportunityId";
