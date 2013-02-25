@@ -1,4 +1,12 @@
 DELIMITER /
+update KRMS_TYP_T set SRVC_NM='{http://kc.kuali.org/core/v5_0}javaFunctionTermResolverTypeService' where SRVC_NM = 'functionTermResolverTypeService'
+/
+insert into KRMS_TYP_T values ('KC1005','Stored Function Term Resolver Type Service','KC-PD','{http://kc.kuali.org/core/v5_0}storedFunctionTermResolverTypeService','Y',1)
+/
+insert into KRMS_TYP_T values ('KC1006','ProposalDevelopment Java Function Term Service','KC-PD','krmsPropDevJavaFunctionTermService','Y',1)
+/
+insert into KRMS_TYP_T values ('KC1007','IRB Java Function Term Service','KC-PD','krmsIrbJavaFunctionTermService','Y',1)
+/
 insert into KRMS_FUNC_T (FUNC_ID,NM,DESC_TXT,RTRN_TYP,VER_NBR,ACTV,TYP_ID,NMSPC_CD) values ('KC1001','IS_SPONSOR_FEDERAL','Is Sponsor Federal','java.lang.String',1,'Y','KC1005','KC-PD')
 /
 insert into KRMS_FUNC_T (FUNC_ID,NM,DESC_TXT,RTRN_TYP,VER_NBR,ACTV,TYP_ID,NMSPC_CD) values ('KC1002','specifiedGGForm','Specified GG Form','java.lang.String',1,'Y','KC1006','KC-PD')
