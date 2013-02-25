@@ -21,7 +21,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.kuali.rice.krms.api.KrmsApiServiceLocator;
 import org.kuali.rice.krms.api.engine.TermResolver;
+import org.kuali.rice.krms.api.repository.function.FunctionDefinition;
+import org.kuali.rice.krms.api.repository.type.KrmsTypeDefinition;
 
 /**
  * This class is for resolving terms for StoredFuncions. It extract values from prerequisites, execute Stored Function 
@@ -31,17 +34,18 @@ import org.kuali.rice.krms.api.engine.TermResolver;
 public abstract class FunctionTermResolver implements TermResolver<Object> {
 
     private List<String> orderedInputParams;
-    public List<String> getOrderedInputParams() {
-        return orderedInputParams;
-    }
     private String output;
     private Set<String> parameterNames;
+    private FunctionDefinition functionTerm;
     public FunctionTermResolver(List<String> orderedInputParams,Set<String> parameterNames,String output){
         this.orderedInputParams = orderedInputParams;
         this.parameterNames = parameterNames;
         this.output = output;
     }
     
+    public List<String> getOrderedInputParams() {
+        return orderedInputParams;
+    }
     @Override
     public Set<String> getPrerequisites() {
         Set<String> prereqs = new HashSet<String>();
@@ -78,7 +82,14 @@ public abstract class FunctionTermResolver implements TermResolver<Object> {
      */
     @Override
     public String resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) {
-        String result = executeFunction(resolvedPrereqs,parameters);
+        String krmsTypeId = getFunctionTerm().getTypeId();
+        String serviceName = null;
+        if(krmsTypeId!=null){
+            KrmsTypeDefinition typeDefinition = KrmsApiServiceLocator.getKrmsTypeRepositoryService().getTypeById(krmsTypeId);
+            serviceName = typeDefinition.getServiceName();
+        }
+        String methodName = getFunctionTerm().getName();
+        String result = executeFunction(serviceName,methodName,resolvedPrereqs,parameters);
         return result;
     }
     /**
@@ -87,7 +98,7 @@ public abstract class FunctionTermResolver implements TermResolver<Object> {
      * @param resolvedPrereqs
      * @return
      */
-    protected abstract String executeFunction(Map<String, Object> resolvedPrereqs,Map<String,String> resolvedParameters);
+    protected abstract String executeFunction(String serviceName,String methodName,Map<String, Object> resolvedPrereqs,Map<String,String> resolvedParameters);
     
     protected List<Object> extractParamValues(Map<String, Object> resolvedPrereqs,Map<String,String> resolvedParameters) {
         List<String> parameters = getOrderedInputParams();
@@ -100,6 +111,20 @@ public abstract class FunctionTermResolver implements TermResolver<Object> {
         }
         return extractedParams;
     }
-    
-    
+
+    /**
+     * Gets the functionTerm attribute. 
+     * @return Returns the functionTerm.
+     */
+    public FunctionDefinition getFunctionTerm() {
+        return functionTerm;
+    }
+
+    /**
+     * Sets the functionTerm attribute value.
+     * @param functionTerm The functionTerm to set.
+     */
+    public void setFunctionTerm(FunctionDefinition functionTerm) {
+        this.functionTerm = functionTerm;
+    }
 }
