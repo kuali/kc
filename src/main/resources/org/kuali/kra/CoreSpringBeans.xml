@@ -269,6 +269,14 @@
         <property name="serviceName" value="multiCampusIdentityService" />
     </bean>
     
+    <bean id="functionRepositoryService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="functionRepositoryService" />
+    </bean>
+
+    <bean id="termRepositoryService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="termRepositoryService" />
+    </bean>
+
     <bean id="parentLookupableHelperService" abstract="true">
         <property name="persistenceStructureService" ref="persistenceStructureService" />
         <property name="businessObjectDictionaryService" ref="businessObjectDictionaryService" />
@@ -906,21 +914,34 @@
     
     <bean id="unitAgendaTypeService" class="org.kuali.kra.krms.UnitAgendaTypeService">
     </bean>
+    <bean id="unitAgendaTypeServiceCallback" parent="kcCallbackService"
+      p:callbackService-ref="unitAgendaTypeService"
+      p:localServiceName="unitAgendaTypeService"
+      p:serviceInterface="org.kuali.rice.krms.framework.type.AgendaTypeService"/>
+    
 
-    <bean id="functionTermResolverTypeService" class="org.kuali.kra.krms.service.impl.FunctionTermResolverTypeServiceImpl">
+    <bean id="functionTermResolverTypeService" class="org.kuali.kra.krms.service.impl.FunctionTermResolverTypeServiceBase" abstract="true">
         <property name="businessObjectService" ref="businessObjectService" />
     </bean>
-
+    <bean id="storedFunctionTermResolverTypeService" class="org.kuali.kra.krms.service.impl.StoredFunctionTermResolverTypeServiceImpl" 
+    	parent="functionTermResolverTypeService"/>
+    <bean id="javaFunctionTermResolverTypeService" class="org.kuali.kra.krms.service.impl.JavaFunctionTermResolverTypeServiceImpl" 
+    		parent="functionTermResolverTypeService"/>
+    
+    <bean id="storedFunctionTermResolverTypeServiceCallback" parent="kcCallbackService"
+      p:callbackService-ref="storedFunctionTermResolverTypeService"
+      p:localServiceName="storedFunctionTermResolverTypeService"
+      p:serviceInterface="org.kuali.rice.krms.framework.type.TermResolverTypeService"/>
+    
+    <bean id="javaFunctionTermResolverTypeServiceCallback" parent="kcCallbackService"
+      p:callbackService-ref="javaFunctionTermResolverTypeService"
+      p:localServiceName="javaFunctionTermResolverTypeService"
+      p:serviceInterface="org.kuali.rice.krms.framework.type.TermResolverTypeService"/>
+    
     <bean id="storedFunctionDao" class="org.kuali.kra.dao.ojb.StoredFunctionDao">
         <property name="dataSource" ref="dataSource" />
     </bean>
-    <bean id="kcKrmsJavaFunctionTermService" class="org.kuali.kra.krms.service.impl.KcKrmsJavaFunctionTermServiceImpl">
-    	<property name="businessObjectService" ref="businessObjectService" />
-    	<property name="unitService" ref="unitService" />
-    	<property name="parameterService" ref="parameterService" />
-    	<property name="documentService" ref="documentService" />
-    </bean>
-<!--    <bean id="kcKrmsJavaFunctionTermService" class="org.kuali.kra.krms.service.impl.KcKrmsJavaFunctionTermServiceBase" abstract="true">
+    <bean id="kcKrmsJavaFunctionTermService" class="org.kuali.kra.krms.service.impl.KcKrmsJavaFunctionTermServiceBase" abstract="true">
     	<property name="businessObjectService" ref="businessObjectService" />
     	<property name="unitService" ref="unitService" />
     	<property name="parameterService" ref="parameterService" />
@@ -931,12 +952,16 @@
     </bean>
     <bean id="krmsIrbJavaFunctionTermService" class="org.kuali.kra.irb.KrmsIrbJavaFunctionTermServiceImpl"
     																	parent="kcKrmsJavaFunctionTermService">
-    </bean>-->
+    </bean>
+    <bean id="krmsPropDevJavaFunctionTermServiceCallback" parent="kcCallbackService"
+      p:callbackService-ref="krmsPropDevJavaFunctionTermService"
+      p:localServiceName="krmsPropDevJavaFunctionTermService"
+      p:serviceInterface="org.kuali.rice.krms.framework.type.TermResolverTypeService"/>
     
-    <bean id="unitAgendaTypeServiceCallback" parent="kcCallbackService"
-      p:callbackService-ref="unitAgendaTypeService"
-      p:localServiceName="unitAgendaTypeService"
-      p:serviceInterface="org.kuali.rice.krms.framework.type.AgendaTypeService"/>
+    <bean id="krmsIrbJavaFunctionTermServiceCallback" parent="kcCallbackService"
+      p:callbackService-ref="krmsIrbJavaFunctionTermService"
+      p:localServiceName="krmsIrbJavaFunctionTermService"
+      p:serviceInterface="org.kuali.rice.krms.framework.type.TermResolverTypeService"/>
     
     <bean id="kcPeopleFlowTypeService" class="org.kuali.kra.krms.service.KcPeopleFlowTypeService">
     </bean>
