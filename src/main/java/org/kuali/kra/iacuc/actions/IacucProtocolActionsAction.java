@@ -37,6 +37,7 @@ import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinuteBase;
 import org.kuali.kra.common.committee.meeting.MinuteEntryType;
 import org.kuali.kra.common.committee.service.CommitteeServiceBase;
+import org.kuali.kra.common.notification.bo.NotificationType;
 import org.kuali.kra.common.notification.bo.NotificationTypeRecipient;
 import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.iacuc.IacucProtocol;
@@ -4344,7 +4345,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         IacucProtocol protocol = (IacucProtocol)protocolForm.getProtocolDocument().getProtocol();
         
         IacucProtocolNotificationRenderer renderer = new IacucProtocolNotificationRenderer(protocol);
-        IacucProtocolNotificationContext context = new IacucProtocolNotificationContext(protocol, null, "Ad-Hoc Notification", renderer);
+        IacucProtocolNotificationContext context = new IacucProtocolNotificationContext(protocol, NotificationType.AD_HOC_NOTIFICATION_TYPE, NotificationType.AD_HOC_CONTEXT, renderer);
         
         protocolForm.getNotificationHelper().initializeDefaultValues(context);
         
