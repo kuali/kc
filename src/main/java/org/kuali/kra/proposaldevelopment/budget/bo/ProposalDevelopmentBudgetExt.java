@@ -26,4 +26,14 @@ public class ProposalDevelopmentBudgetExt extends Budget {
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 8234453927894053540L;
+    
+    private Integer hierarchyLastSyncHashCode;
+
+    public Integer getHierarchyLastSyncHashCode() {
+        return hierarchyLastSyncHashCode;
+    }
+
+    public void setHierarchyLastSyncHashCode(Integer hierarchyLastSyncHashCode) {
+        this.hierarchyLastSyncHashCode = hierarchyLastSyncHashCode;
+    }
 }

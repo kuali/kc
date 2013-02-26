@@ -141,7 +141,7 @@ public class BudgetForm extends BudgetVersionFormBase implements CostShareFuncti
     
     private BudgetFormulatedCostDetail newBudgetFormulatedCost;
     
-    private ProposalHierarchyService proposalHierarchyService;
+    private transient ProposalHierarchyService proposalHierarchyService;
     
     /**
      * Gets the selectedToPrintComment attribute. 
