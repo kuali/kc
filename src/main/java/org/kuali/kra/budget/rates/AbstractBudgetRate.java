@@ -199,7 +199,6 @@ public abstract class AbstractBudgetRate extends AbstractInstituteRate implement
         int result = super.hashCode();
         result = prime * result + ((affectedBudgetPeriod == null) ? 0 : affectedBudgetPeriod.hashCode());
         result = prime * result + ((applicableRate == null) ? 0 : applicableRate.hashCode());
-        result = prime * result + ((budget == null) ? 0 : budget.hashCode());
         result = prime * result + ((budgetId == null) ? 0 : budgetId.hashCode());
         result = prime * result + ((budgetPeriod == null) ? 0 : budgetPeriod.hashCode());
         result = prime * result + (displayLocation ? 1231 : 1237);

@@ -31,6 +31,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.budget.bo.ProposalDevelopmentBudgetExt;
+import org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService;
 import org.kuali.kra.proposaldevelopment.service.ProposalStatusService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -42,6 +43,8 @@ public class ProposalDevelopmentHierarchyAction extends ProposalDevelopmentActio
 
     private static final String FORWARD_PROPOSAL_SUMMARY = "ajaxProposalSummary";
     private static final String FORWARD_BUDGET_SUMMARY = "ajaxBudgetSummary";
+    
+    private transient ProposalHierarchyService proposalHierarchyService;
     
     /**
      * 
@@ -60,6 +63,7 @@ public class ProposalDevelopmentHierarchyAction extends ProposalDevelopmentActio
             }
         }
         pdForm.setProposalToSummarize(proposal);
+        pdForm.setProposalSummary(getProposalHierarchyService().getProposalSummary(proposalNumber));
         
         return mapping.findForward(FORWARD_PROPOSAL_SUMMARY);
     }
@@ -104,6 +108,17 @@ public class ProposalDevelopmentHierarchyAction extends ProposalDevelopmentActio
         pdForm.setProposalHierarchyIndirectObjectCode(getParameterService().getParameterValueAsString(BudgetDocument.class, "proposalHierarchySubProjectIndirectCostElement"));
 
         return mapping.findForward(FORWARD_BUDGET_SUMMARY);
+    }
+
+    public ProposalHierarchyService getProposalHierarchyService() {
+        if (proposalHierarchyService == null) {
+            proposalHierarchyService = KraServiceLocator.getService(ProposalHierarchyService.class);
+        }
+        return proposalHierarchyService;
+    }
+
+    public void setProposalHierarchyService(ProposalHierarchyService proposalHierarchyService) {
+        this.proposalHierarchyService = proposalHierarchyService;
     }    
 
 }

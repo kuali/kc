@@ -22,6 +22,7 @@ import org.apache.struts.upload.FormFile;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.personnel.HierarchyPersonnelSummary;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
+import org.kuali.kra.proposaldevelopment.budget.bo.ProposalDevelopmentBudgetExt;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyErrorDto;
 import org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyException;
@@ -107,7 +108,7 @@ public interface ProposalHierarchyService {
      * @param childProposal
      * @throws ProposalHierarchyException
      */
-    public void synchronizeChildProposalBudget(DevelopmentProposal childProposal) throws ProposalHierarchyException;  
+    public void synchronizeChildProposalBudget(ProposalDevelopmentBudgetExt budget, DevelopmentProposal childProposal) throws ProposalHierarchyException;  
     
     /**
      * This method synchronizes the contents of all children into the hierarchy.  If any child has changed since its last synchronization, the parent is reaggregated.
@@ -215,5 +216,7 @@ public interface ProposalHierarchyService {
      * @return
      * @throws ProposalHierarchyException
      */
-    public BudgetDocument<DevelopmentProposal> getSyncableBudget(DevelopmentProposal childProposal) throws ProposalHierarchyException;    
+    public BudgetDocument<DevelopmentProposal> getSyncableBudget(DevelopmentProposal childProposal) throws ProposalHierarchyException;
+    
+    public HierarchyProposalSummary getProposalSummary(String proposalNumber) throws ProposalHierarchyException; 
 }

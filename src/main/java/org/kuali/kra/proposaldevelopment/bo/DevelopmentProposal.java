@@ -237,6 +237,8 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
     private Integer hierarchyLastSyncHashCode;
 
     private String hierarchyBudgetType;
+    
+    private String lastSyncedBudgetDocumentNumber;
 
     private transient ParameterService parameterService;
 
@@ -2259,6 +2261,14 @@ public List<BudgetChangedData> getBudgetChangedDataList() {
 
 public KrmsRulesContext getKrmsRulesContext() {
     return (KrmsRulesContext) getProposalDocument();
+}
+
+public String getLastSyncedBudgetDocumentNumber() {
+    return lastSyncedBudgetDocumentNumber;
+}
+
+public void setLastSyncedBudgetDocumentNumber(String lastSyncedBudgetDocumentNumber) {
+    this.lastSyncedBudgetDocumentNumber = lastSyncedBudgetDocumentNumber;
 }
 
 }
