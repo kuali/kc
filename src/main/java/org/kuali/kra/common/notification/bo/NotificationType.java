@@ -29,6 +29,9 @@ public class NotificationType extends KraPersistableBusinessObjectBase implement
 
     private static final long serialVersionUID = 1777340179839083316L;
     
+    public static final String AD_HOC_CONTEXT = "Ad-Hoc Notification";
+    public static final String AD_HOC_NOTIFICATION_TYPE = "999";
+    
     private Long notificationTypeId;
     private String moduleCode;
     private String actionCode;
