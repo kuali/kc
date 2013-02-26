@@ -748,12 +748,12 @@ public abstract class ActionHelperBase implements Serializable {
      * @throws Exception
      */
     public void initAmendmentBeans(boolean forceReset) throws Exception {
-//      if (protocolAmendmentBean == null || forceReset) {
+      if (protocolAmendmentBean == null || forceReset) {
             protocolAmendmentBean = createAmendmentBean();
-//      }
-//      if (protocolRenewAmendmentBean == null || forceReset) {
+      }
+      if (protocolRenewAmendmentBean == null || forceReset) {
             protocolRenewAmendmentBean = createAmendmentBean();
-//      }
+      }
     }
     
     protected ProtocolAmendmentBean createAmendmentBean() throws Exception {
