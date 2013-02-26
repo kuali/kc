@@ -37,6 +37,7 @@ import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.service.CommitteeService;
+import org.kuali.kra.common.notification.bo.NotificationType;
 import org.kuali.kra.common.notification.bo.NotificationTypeRecipient;
 import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.infrastructure.Constants;
@@ -3914,7 +3915,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         Protocol protocol = protocolForm.getProtocolDocument().getProtocol();
         
         IRBNotificationRenderer renderer = new IRBNotificationRenderer(protocol);
-        IRBNotificationContext context = new IRBNotificationContext(protocol, null, "Ad-Hoc Notification", renderer);
+        IRBNotificationContext context = new IRBNotificationContext(protocol, NotificationType.AD_HOC_NOTIFICATION_TYPE, NotificationType.AD_HOC_CONTEXT, renderer);
         
         protocolForm.getNotificationHelper().initializeDefaultValues(context);
         
