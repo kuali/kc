@@ -188,6 +188,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     private String newHierarchyBudgetTypeCode;
     private List<HierarchyProposalSummary> hierarchyProposalSummaries;
     private DevelopmentProposal proposalToSummarize;
+    private HierarchyProposalSummary proposalSummary;
     private Budget budgetToSummarize;
     private String proposalNumberToSummarize;
     private String budgetNumberToSummarize;
@@ -2079,6 +2080,14 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
 
     public void setCustomDataHelper(ProposalDevelopmentCustomDataHelper customDataHelper) {
         this.customDataHelper = customDataHelper;
+    }
+
+    public HierarchyProposalSummary getProposalSummary() {
+        return proposalSummary;
+    }
+
+    public void setProposalSummary(HierarchyProposalSummary proposalSummary) {
+        this.proposalSummary = proposalSummary;
     }
    
 }
