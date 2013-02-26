@@ -49,6 +49,7 @@ import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
+import org.kuali.kra.proposaldevelopment.budget.bo.ProposalDevelopmentBudgetExt;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.hierarchy.bo.HierarchyProposalSummary;
 import org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService;
@@ -118,11 +119,11 @@ public class ProposalHierarcyActionHelper {
         }
     }
     
-    public void syncBudgetToParent(DevelopmentProposal childProposal, boolean allowEndDateChange) {
+    public void syncBudgetToParent(ProposalDevelopmentBudgetExt budget, DevelopmentProposal childProposal, boolean allowEndDateChange) {
         DevelopmentProposal hierarchy = getProposalHierarchyService().getDevelopmentProposal(childProposal.getHierarchyParentProposalNumber());
         if (validateChildForSync(childProposal, hierarchy, allowEndDateChange)) {
             try {
-                getProposalHierarchyService().synchronizeChildProposalBudget(childProposal);
+                getProposalHierarchyService().synchronizeChildProposalBudget(budget, childProposal);
                 KNSGlobalVariables.getMessageList().add(MESSAGE_SYNC_SUCCESS);
     
             }

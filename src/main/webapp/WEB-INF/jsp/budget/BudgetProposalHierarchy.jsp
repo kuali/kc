@@ -40,7 +40,7 @@
 		</c:when>
 		<c:otherwise>
 			<c:choose>
-				<c:when test="${KualiForm.hierarchyProposalSummaries[status.index].synced}">
+				<c:when test="${summary.synced && summary.budgetSynced}">
 					<c:set var="syncLabel" value="Synced" />
 				</c:when>
 				<c:otherwise>

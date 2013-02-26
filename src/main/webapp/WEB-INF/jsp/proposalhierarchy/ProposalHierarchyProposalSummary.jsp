@@ -23,11 +23,12 @@ http://www.osedu.org/licenses/ECL-2.0
 	<c:otherwise>
 
 <c:set var="proposal" value="${ KualiForm.proposalToSummarize }" />
+<c:set var="hierarchySummary" value="${KualiForm.proposalSummary}"/>
 <c:set var="parentTabTitle" value="${proposal.hierarchyStatusName} (Proposal # ${proposal.proposalNumber})"/>
 <c:set var="budgetAttributes" value="${DataDictionary.Budget.attributes}" />
 <c:set var="proposalDevelopmentAttributes" value="${DataDictionary.DevelopmentProposal.attributes}" />
 <c:set var="budgetVersionOverviewAttributes" value="${DataDictionary.BudgetVersionOverview.attributes}" />
-	<h3><span class="subhead-left">Proposal Summary</span><span class="subhead-right"><!-- "Open Proposal" button here? --></span></h3>
+	<h3><span class="subhead-left">Proposal Summary - ${hierarchySummary.synced ? "Synced" : "Not synced"}</span><span class="subhead-right"><!-- "Open Proposal" button here? --></span></h3>
 	<kul:innerTab parentTab="${parentTabTitle}" tabTitle="Overview" tabDescription="Overview" defaultOpen="false">
 		<div class="innerTab-container" align="left">
 			<table cellpadding=0 cellspacing=0 summary="">
@@ -96,7 +97,14 @@ http://www.osedu.org/licenses/ECL-2.0
 
 	<c:forEach var="budgetDocumentVersion" items="${proposal.proposalDocument.budgetDocumentVersions}"  varStatus="status">
 		<c:set var="budgetOverview" value="${budgetDocumentVersion.budgetVersionOverview }" />
-		<kul:innerTab parentTab="${parentTabTitle}" tabTitle="${budgetOverview.documentDescription}" tabDescription="${budgetOverview.documentDescription}" defaultOpen="false">
+		<c:choose><c:when test="${!proposal.parent && hierarchySummary.syncableBudgetDocumentNumber eq budgetDocumentVersion.documentNumber}">
+			<c:choose>
+				<c:when test="${hierarchySummary.budgetSynced}"><c:set var="syncLabel" value="${budgetOverview.documentDescription} - Synced" /></c:when>
+				<c:otherwise><c:set var="syncLabel" value="${budgetOverview.documentDescription} - Not synced" /></c:otherwise>
+			</c:choose>
+		</c:when><c:otherwise><c:set var="syncLabel" value="${budgetOverview.documentDescription}"/>
+		</c:otherwise></c:choose>
+		<kul:innerTab parentTab="${parentTabTitle}" tabTitle="${syncLabel}" tabDescription="${syncLabel}" defaultOpen="false">
 			<div class="innerTab-container" align="center" id="budgetNumber-${budgetOverview.budgetId}">
 				<!-- Summary Not Loaded -->
 			</div>
