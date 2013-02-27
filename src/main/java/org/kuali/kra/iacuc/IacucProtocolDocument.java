@@ -194,10 +194,12 @@ public class IacucProtocolDocument extends ProtocolDocumentBase {
     @Override
     protected ProtocolActionBase getNewProtocolActionInstanceHook(ProtocolBase protocol, ProtocolSubmissionBase protocolSubmission, String protocolStatusCode) {
         String protocolActionTypeCode = IacucProtocolActionType.RENEWAL_CREATED; 
-        if(protocolStatusCode.equals(IacucProtocolStatus.AMENDMENT_MERGED)) {
+        if (protocolStatusCode.equals(IacucProtocolStatus.AMENDMENT_MERGED)) {
             protocolActionTypeCode = IacucProtocolActionType.AMENDMENT_CREATED;
-        }else if(protocolStatusCode.equals(IacucProtocolStatus.CONTINUATION_MERGED)) {
+        } else if (protocolStatusCode.equals(IacucProtocolStatus.CONTINUATION_MERGED)) {
             protocolActionTypeCode = IacucProtocolActionType.CONTINUATION;
+        } else if (protocolStatusCode.equals(IacucProtocolActionType.ADMINISTRATIVE_CORRECTION)) {
+            protocolActionTypeCode = IacucProtocolActionType.ADMINISTRATIVE_CORRECTION;
         }
         return new IacucProtocolAction((IacucProtocol) protocol, (IacucProtocolSubmission) protocolSubmission, protocolActionTypeCode);
     }
