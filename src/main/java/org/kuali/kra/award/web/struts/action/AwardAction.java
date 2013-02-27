@@ -281,7 +281,7 @@ public class AwardAction extends BudgetParentActionBase {
             AwardHierarchy tempAwardNode = awardHierarchyNodes.get(str);
             sb1.append(tempAwardNode.getAwardNumber());
             sb1.append(KRADConstants.BLANK_SPACE).append("%3A");
-            if(true) {//tempAwardNode.isAwardDocumentFinalStatus()) {
+            if (getVersionHistoryService().findActiveVersion(Award.class, tempAwardNode.getAwardNumber()) != null) {
                 sb2.append(tempAwardNode.getAwardNumber());
                 sb2.append(KRADConstants.BLANK_SPACE).append("%3A");
             }
