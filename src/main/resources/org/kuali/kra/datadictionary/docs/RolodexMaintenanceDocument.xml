@@ -49,7 +49,7 @@
         <bean parent="MaintainableFieldDefinition" p:name="firstName"/>
         <bean parent="MaintainableFieldDefinition" p:name="middleName"/>
         <bean parent="MaintainableFieldDefinition" p:name="lastName"/>
-        <bean parent="MaintainableFieldDefinition" p:name="organization" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="organizationName.sponsorName" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="ownedByUnit" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="phoneNumber"/>
         <bean parent="MaintainableFieldDefinition" p:name="postalCode"/>
