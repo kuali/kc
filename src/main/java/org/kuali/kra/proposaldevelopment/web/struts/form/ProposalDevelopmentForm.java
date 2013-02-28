@@ -2071,7 +2071,7 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
     }
     
     public boolean isHidePropDevDocDescriptionPanel() {
-        return getParameterService().getParameterValueAsBoolean(ProposalDevelopmentDocument.class, Constants.HIDE_AND_DEFAULT_PROP_DEV_DOC_DESC_PARAM);
+        return getProposalDevelopmentDocument().isDefaultDocumentDescription();
     }
 
     public ProposalDevelopmentCustomDataHelper getCustomDataHelper() {
