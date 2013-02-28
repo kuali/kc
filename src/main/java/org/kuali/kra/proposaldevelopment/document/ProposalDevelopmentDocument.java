@@ -623,4 +623,17 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
     public void setSaveXmlFolderName(String saveXmlFolderName) {
         this.saveXmlFolderName = saveXmlFolderName;
     }
+    
+    public boolean isDefaultDocumentDescription() {
+        return getParameterService().getParameterValueAsBoolean(ProposalDevelopmentDocument.class, Constants.HIDE_AND_DEFAULT_PROP_DEV_DOC_DESC_PARAM);
+    }
+    
+    @Override
+    public String getDocumentTitle() {
+        if (isDefaultDocumentDescription()) {
+            return this.getDocumentHeader().getDocumentDescription();
+        } else {
+            return super.getDocumentTitle();
+        }
+    }    
 }
