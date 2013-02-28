@@ -624,7 +624,7 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
      * @see org.kuali.kra.budget.core.BudgetService#copyBudgetVersion(org.kuali.kra.budget.document.BudgetDocument)
      */
     @SuppressWarnings("unchecked")
-    public BudgetDocument copyBudgetVersion(BudgetDocument budgetDocument) throws WorkflowException {
+    public BudgetDocument copyBudgetVersion(BudgetDocument budgetDocument, boolean onlyOnePeriod) throws WorkflowException {
         String parentDocumentNumber = budgetDocument.getParentDocument().getDocumentNumber();
         budgetDocument.toCopy();
         budgetDocument.getParentDocument().getDocumentHeader().setDocumentNumber(parentDocumentNumber);
@@ -632,6 +632,22 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
         if(budgetDocument.getBudgets().isEmpty()) 
             throw new RuntimeException("Not able to find any Budget Version associated with this document");
         Budget budget = budgetDocument.getBudget();
+        
+        if (onlyOnePeriod) {
+            //Copy full first version, then include empty periods for remainder
+            List<BudgetPeriod> oldBudgetPeriods = budget.getBudgetPeriods(); 
+            for ( int i = 1 ; i < oldBudgetPeriods.size(); i++ ) {
+                BudgetPeriod period = oldBudgetPeriods.get(i);
+                period.getBudgetLineItems().clear();
+                period.setCostSharingAmount(new BudgetDecimal(0.0));
+                period.setExpenseTotal(new BudgetDecimal(0.0));
+                period.setTotalCost(new BudgetDecimal(0.0));
+                period.setTotalCostLimit(new BudgetDecimal(0.0));
+                period.setTotalDirectCost(new BudgetDecimal(0.0));
+                period.setTotalIndirectCost(new BudgetDecimal(0.0));
+                period.setUnderrecoveryAmount(new BudgetDecimal(0.0));
+            }            
+        }
         
         budget.setBudgetVersionNumber(budgetDocument.getParentDocument().getNextBudgetVersionNumber());
         try {
@@ -659,8 +675,6 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
             fixProperty(budgetDocument, "setFinalVersionFlag", Boolean.class, Boolean.FALSE, objectMap);
             objectMap.clear();
             
-//            budgetDocument = (BudgetDocument)getDeepCopyPostProcessor().processDeepCopyIgnoreAnnotation(budgetDocument);
-//            budget.setBudgetDocument(budgetDocument);
             ObjectUtils.materializeAllSubObjects(budgetDocument);
         }catch (Exception e) {
             LOG.error(e.getMessage(), e);

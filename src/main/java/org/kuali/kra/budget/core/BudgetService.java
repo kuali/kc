@@ -173,10 +173,11 @@ public interface BudgetService<T extends BudgetParent>  {
     /**
      * Returns a new finalized BudgetDocument with the data from the given BudgetDocument copied over.
      * @param budgetDocument
+     * @param onlyOnePeriod
      * @return BudgetDocument
      * @throws WorkflowException
-     */
-    public BudgetDocument<T> copyBudgetVersion(BudgetDocument<T> budgetDocument) throws WorkflowException;
+     */    
+    public BudgetDocument<T> copyBudgetVersion(BudgetDocument<T> budgetDocument, boolean onlyOnePeriod) throws WorkflowException;
     
     
     public String populateBudgetPersonSalaryDetailsInPeriods(String budgetId, String personSequenceNumber, String personId);

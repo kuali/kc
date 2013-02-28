@@ -125,14 +125,9 @@ public class BudgetParentActionBase extends KraTransactionalDocumentActionBase {
         DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
         BudgetDocument budgetDocToCopy = (BudgetDocument) documentService.getByDocumentHeaderId(budgetToCopy.getDocumentNumber());
         Budget budget = budgetDocToCopy.getBudget();
-        if (copyPeriodOneOnly) {
-            BudgetPeriod firstPeriod = budget.getBudgetPeriods().get(0);
-            List<BudgetPeriod> newBudgetPeriods = new ArrayList<BudgetPeriod>();
-            newBudgetPeriods.add(firstPeriod);
-            budget.setBudgetPeriods(newBudgetPeriods);
-        }
+
         BudgetCommonService<BudgetParent> budgetService = getBudgetCommonService(budgetParentDocument);
-        BudgetDocument newBudgetDoc = budgetService.copyBudgetVersion(budgetDocToCopy);
+        BudgetDocument newBudgetDoc = budgetService.copyBudgetVersion(budgetDocToCopy, copyPeriodOneOnly);
         budgetParentDocument.refreshBudgetDocumentVersions();
         List<BudgetDocumentVersion> budgetVersions = budgetParentDocument.getBudgetDocumentVersions();
         for (BudgetDocumentVersion budgetDocumentVersion : budgetVersions) {

@@ -605,13 +605,16 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
      * @see org.kuali.kra.budget.core.BudgetCommonService#copyBudgetVersion(org.kuali.kra.budget.document.BudgetDocument)
      */
     public BudgetDocument<Award> copyBudgetVersion(BudgetDocument<Award> budgetDocument) throws WorkflowException {
-        
+        return copyBudgetVersion(budgetDocument, false);
+    }
+    
+    public BudgetDocument<Award> copyBudgetVersion(BudgetDocument<Award> budgetDocument, boolean onlyOnePeriod) throws WorkflowException {
         //clear awardbudgetlimits before copy as they should always be copied from
         //award document
         ((AwardBudgetExt) budgetDocument.getBudget()).getAwardBudgetLimits().clear();
-        BudgetDocument<Award> newBudgetDocument = getBudgetService().copyBudgetVersion(budgetDocument);
+        BudgetDocument<Award> newBudgetDocument = getBudgetService().copyBudgetVersion(budgetDocument, onlyOnePeriod);
         setBudgetLimits((AwardBudgetDocument) newBudgetDocument, (AwardDocument) newBudgetDocument.getParentDocument());
-        return newBudgetDocument;
+        return newBudgetDocument;        
     }
 
     /**
