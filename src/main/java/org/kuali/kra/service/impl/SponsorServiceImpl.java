@@ -542,4 +542,12 @@ public class SponsorServiceImpl implements SponsorService, Constants {
        Collections.sort(result);
        return result;
     }
+    
+    public boolean validateSponsor(Sponsor sponsor) {
+        boolean valid = true;
+        if (sponsor == null || !sponsor.isActive()) {
+            valid = false;
+        }
+        return valid;
+    }
 }

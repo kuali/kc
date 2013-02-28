@@ -26,6 +26,7 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TimeFormatter;
 import org.kuali.kra.institutionalproposal.InstitutionalProposalConstants;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
+import org.kuali.kra.service.SponsorService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.rules.MaintenanceDocumentRule;
@@ -126,11 +127,20 @@ public class ProposalLogMaintenanceDocumentRules extends MaintenanceDocumentRule
         boolean valid = true;
         ProposalLog proposalLog = (ProposalLog) document.getNewMaintainableObject().getDataObject();
         if (!StringUtils.isBlank(proposalLog.getSponsorCode())) {
+            
             proposalLog.refreshReferenceObject("sponsor");
+            if (!this.getSponsorService().validateSponsor(proposalLog.getSponsor())) {
+                GlobalVariables.getMessageMap().putError(SPONSOR_CODE, KeyConstants.ERROR_INVALID_SPONSOR_CODE);
+                valid = false;
+            }
+            
+            /*
             if (proposalLog.getSponsor() == null) {
                 GlobalVariables.getMessageMap().putError(SPONSOR_CODE, KeyConstants.ERROR_INVALID_SPONSOR_CODE);
                 valid = false;
             }
+            */
+            
         }
         if (proposalLog.getDeadlineTime() != null) {
             TimeFormatter formatter = new TimeFormatter();
@@ -175,6 +185,10 @@ public class ProposalLogMaintenanceDocumentRules extends MaintenanceDocumentRule
                 InstitutionalProposalConstants.INSTITUTIONAL_PROPOSAL_NAMESPACE, 
                 KraAuthorizationConstants.PERMISSION_SUBMIT_PROPOSAL_LOG, 
                 qualifications);
+    }
+
+    public SponsorService getSponsorService() {
+        return KraServiceLocator.getService(SponsorService.class);
     }
     
 }
