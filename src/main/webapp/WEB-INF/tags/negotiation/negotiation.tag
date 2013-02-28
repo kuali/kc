@@ -145,7 +145,7 @@
 					      	</c:when>
 					      	<c:when test="${KualiForm.displaySubAward}">
 						      		<kul:lookup boClassName="org.kuali.kra.subaward.bo.SubAward" 
-						        		fieldConversions="subAwardId:document.negotiationList[0].associatedDocumentId" /> 
+						        		fieldConversions="subAwardCode:document.negotiationList[0].associatedDocumentId" /> 
 					      	</c:when>
 					      	<c:when test="${KualiForm.displayProposalLog}">
 					        	<kul:lookup boClassName="org.kuali.kra.institutionalproposal.proposallog.ProposalLog" 

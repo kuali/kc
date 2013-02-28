@@ -29,6 +29,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.budget.AwardBudgetService;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.KcPerson;
+import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
@@ -48,6 +49,7 @@ import org.kuali.kra.negotiations.bo.NegotiationUnassociatedDetail;
 import org.kuali.kra.negotiations.document.NegotiationDocument;
 import org.kuali.kra.negotiations.notifications.NegotiationNotification;
 import org.kuali.kra.service.KcPersonService;
+import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
@@ -66,6 +68,7 @@ public class NegotiationServiceImpl implements NegotiationService {
     private InstitutionalProposalService institutionalProposalService;
     private UnitAdministratorDerivedRoleTypeServiceImpl unitAdministratorDerivedRoleTypeServiceImpl;
     private KcPersonService kcPersonService;
+    private VersionHistoryService versionHistoryService;
     
     private BusinessObjectService businessObjectService;
     
@@ -150,10 +153,12 @@ public class NegotiationServiceImpl implements NegotiationService {
     }
     
     private SubAward getSubAward(String subAwardId) {
-        Map<String, String> primaryKeys = new HashMap<String, String>();
-        primaryKeys.put("SUBAWARD_ID", subAwardId);
-        SubAward sa = (SubAward) this.getBusinessObjectService().findByPrimaryKey(SubAward.class, primaryKeys);
-        return sa;
+        VersionHistory versionHistory = getVersionHistoryService().getActiveOrNewestVersion(SubAward.class, subAwardId);
+        if (versionHistory != null) {
+            return (SubAward) versionHistory.getSequenceOwner();
+        } else {
+            return null;
+        }
     }
     
     private InstitutionalProposal getInstitutionalProposal(String proposalNumber) {
@@ -455,6 +460,14 @@ public class NegotiationServiceImpl implements NegotiationService {
 
     public void setKcPersonService(KcPersonService kcPersonService) {
         this.kcPersonService = kcPersonService;
+    }
+
+    public VersionHistoryService getVersionHistoryService() {
+        return versionHistoryService;
+    }
+
+    public void setVersionHistoryService(VersionHistoryService versionHistoryService) {
+        this.versionHistoryService = versionHistoryService;
     }
     
     
