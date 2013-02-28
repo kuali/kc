@@ -41,6 +41,8 @@ public interface BudgetCommonService<T extends BudgetParent> {
      */
     public BudgetDocument<T> copyBudgetVersion(BudgetDocument<T> budgetDocument) throws WorkflowException;
     
+    public BudgetDocument<T> copyBudgetVersion(BudgetDocument<T> budgetDocument, boolean onlyOnePeriod) throws WorkflowException;
+    
     /**
      * This method is to check whether Budget Summary calculated amounts for a BudgetPeriod 
      * have been modified on AwardBudgetSummary screen

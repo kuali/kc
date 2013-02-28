@@ -132,7 +132,11 @@ public class ProposalBudgetServiceImpl implements ProposalBudgetService {
     }
     public BudgetDocument<DevelopmentProposal> copyBudgetVersion(BudgetDocument<DevelopmentProposal> budgetDocument)
             throws WorkflowException {
-        return getBudgetService().copyBudgetVersion(budgetDocument);
+        return copyBudgetVersion(budgetDocument, false);
+    }
+    public BudgetDocument<DevelopmentProposal> copyBudgetVersion(BudgetDocument<DevelopmentProposal> budgetDocument, boolean onlyOnePeriod)
+            throws WorkflowException {
+        return getBudgetService().copyBudgetVersion(budgetDocument, onlyOnePeriod);
     }
     /**
      * Sets the budgetService attribute value.
