@@ -27,6 +27,7 @@
         <ref bean="Rolodex-middleName"/>
         <ref bean="Rolodex-fullName"/>
         <ref bean="Rolodex-organization"/>
+        <ref bean="Rolodex-organizationName.sponsorName"/>
         <ref bean="Rolodex-ownedByUnit"/>
         <ref bean="Rolodex-unit.unitName"/>
         <ref bean="Rolodex-phoneNumber"/>
@@ -71,7 +72,20 @@
             <list>
               <bean p:identifier="true" p:sourceName="sponsor.sponsorName" p:targetName="sponsorName" parent="SupportAttributeDefinition"/>
             </list>
+          </property> 
+        </bean>
+        <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="organizationName"/>
+          <property name="primitiveAttributes">
+            <list>
+              <bean p:sourceName="organization" p:targetName="sponsorCode" parent="PrimitiveAttributeDefinition"/>
+            </list>
           </property>
+          <property name="supportAttributes">
+            <list>
+              <bean p:identifier="true" p:sourceName="organizationName.sponsorName" p:targetName="sponsorName" parent="SupportAttributeDefinition"/>
+            </list>
+          </property> 
         </bean>
       </list>
     </property>
@@ -276,12 +290,20 @@
       <bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/>
     </property>
     <property name="control">
-      <bean parent="TextareaControlDefinition" 
-            p:rows="5"
-            p:cols="40" />
+      <bean p:size="40" parent="TextControlDefinition"/> 
     </property>
     <property name="summary" value="Organization"/>
     <property name="description" value="Organization"/>
+  </bean>
+  <bean id="Rolodex-organizationName.sponsorName" parent="Rolodex-organizationName.sponsorName-parentBean"/>
+
+  <bean abstract="true" id="Rolodex-organizationName.sponsorName-parentBean" parent="Sponsor-sponsorName">
+    <property name="name" value="organizationName.sponsorName"/>
+    <property name="label" value="Organization"/>
+    <property name="shortLabel" value="Organization"/>
+    <property name="control">
+      <bean p:size="40" parent="TextControlDefinition"/> 
+    </property>
   </bean>
   <bean id="Rolodex-ownedByUnit" parent="Rolodex-ownedByUnit-parentBean"/>
 
@@ -491,7 +513,8 @@
               <bean p:attributeName="lastName" parent="FieldDefinition"/>
               <bean p:attributeName="middleName" parent="FieldDefinition"/>
               <bean p:attributeName="fullName" parent="FieldDefinition"/>
-              <bean p:attributeName="organization" parent="FieldDefinition"/>
+              <bean p:attributeName="organization" parent="FieldDefinition" />
+              <bean p:attributeName="organizationName.sponsorName" parent="FieldDefinition" />
               <bean p:attributeName="unit.unitName" parent="FieldDefinition"/>
               <bean p:attributeName="phoneNumber" parent="FieldDefinition"/>
               <bean p:attributeName="postalCode" parent="FieldDefinition"/>
@@ -515,6 +538,7 @@
 
   <bean abstract="true" id="Rolodex-lookupDefinition-parentBean" parent="LookupDefinition">
     <property name="title" value="Address Book Lookup"/>
+    <property name="lookupableID" value="rolodexLookupable" />
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;"/>
 
     <property name="defaultSort">
@@ -526,7 +550,8 @@
         <bean p:attributeName="rolodexId" parent="FieldDefinition"/>
         <bean p:attributeName="sponsorCode" parent="FieldDefinition"/>
         <bean p:attributeName="sponsor.sponsorName" parent="FieldDefinition"/>
-        <bean p:attributeName="organization" parent="FieldDefinition"/>
+        <bean p:attributeName="organization" parent="FieldDefinition" p:hidden="true"/>
+      	<bean p:attributeName="organizationName.sponsorName" parent="FieldDefinition"/>
         <bean p:attributeName="lastName" parent="FieldDefinition"/>
         <bean p:attributeName="firstName" parent="FieldDefinition"/>
         <bean p:attributeName="middleName" parent="FieldDefinition"/>
