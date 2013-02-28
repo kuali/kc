@@ -134,13 +134,6 @@ public class ProposalLogMaintenanceDocumentRules extends MaintenanceDocumentRule
                 valid = false;
             }
             
-            /*
-            if (proposalLog.getSponsor() == null) {
-                GlobalVariables.getMessageMap().putError(SPONSOR_CODE, KeyConstants.ERROR_INVALID_SPONSOR_CODE);
-                valid = false;
-            }
-            */
-            
         }
         if (proposalLog.getDeadlineTime() != null) {
             TimeFormatter formatter = new TimeFormatter();

@@ -28,6 +28,7 @@ import org.kuali.kra.negotiations.service.NegotiationService;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 import org.kuali.kra.rule.event.SaveCustomDataEvent;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.kra.service.SponsorService;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.document.Document;
@@ -49,6 +50,7 @@ public class NegotiationDocumentRule extends ResearchDocumentRuleBase {
     
     private NegotiationService negotiationService;
     private DataDictionaryService dataDictionaryService;
+    private SponsorService sponsorService;
     
     /**
      * 
@@ -181,24 +183,28 @@ public class NegotiationDocumentRule extends ResearchDocumentRuleBase {
                 && negotiation.getUnAssociatedDetail() != null) {
             NegotiationUnassociatedDetail detail = negotiation.getUnAssociatedDetail();
             valid &= getDictionaryValidationService().isBusinessObjectValid(detail);
+            
             detail.refreshReferenceObject("sponsor");
-            if (detail.getSponsorCode() != null && detail.getSponsor() == null) {
+            if (detail.getSponsorCode() != null && !this.getSponsorService().validateSponsor(detail.getSponsor())) {
                 valid = false;
                 getErrorReporter().reportError("sponsorCode", KeyConstants.ERROR_MISSING, getDataDictionaryService().getAttributeErrorLabel(
                         NegotiationUnassociatedDetail.class, "sponsorCode"));
             }
+            
             detail.refreshReferenceObject("leadUnit");
             if (detail.getLeadUnitNumber() != null && detail.getLeadUnit() == null) {
                 valid = false;
                 getErrorReporter().reportError("leadUnitNumber", KeyConstants.ERROR_MISSING, getDataDictionaryService().getAttributeErrorLabel(
                         NegotiationUnassociatedDetail.class, "leadUnitNumber"));
             }
+            
             detail.refreshReferenceObject("primeSponsor");
-            if (detail.getPrimeSponsorCode() != null && detail.getPrimeSponsor() == null) {
+            if (detail.getPrimeSponsorCode() != null && !this.getSponsorService().validateSponsor(detail.getPrimeSponsor())) {
                 valid = false;
                 getErrorReporter().reportError("primeSponsorCode", KeyConstants.ERROR_MISSING, getDataDictionaryService().getAttributeErrorLabel(
                         NegotiationUnassociatedDetail.class, "primeSponsorCode"));
             }
+            
             detail.refreshReferenceObject("subAwardOrganization");
             if (detail.getSubAwardOrganizationId() != null && detail.getSubAwardOrganization() == null) {
                 valid = false;
@@ -285,6 +291,17 @@ public class NegotiationDocumentRule extends ResearchDocumentRuleBase {
 
     public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
         this.dataDictionaryService = dataDictionaryService;
+    }
+
+    public SponsorService getSponsorService() {
+        if (sponsorService == null) {
+            sponsorService = KraServiceLocator.getService(SponsorService.class);
+        }
+        return sponsorService;
+    }
+
+    public void setSponsorService(SponsorService sponsorService) {
+        this.sponsorService = sponsorService;
     }
 
 }
