@@ -85,4 +85,12 @@ public interface VersionHistoryService {
      * @param versionHistory
      */
     void loadSequenceOwner(Class<? extends SequenceOwner> klass,VersionHistory versionHistory);
+    
+    /**
+     * Finds the active(current FINAL version) or the newest version of the sequence owner if an active version does not exist.
+     * @param klass
+     * @param versionName
+     * @return
+     */
+    VersionHistory getActiveOrNewestVersion(Class<? extends SequenceOwner> klass, String versionName);
 }
