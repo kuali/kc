@@ -17,7 +17,9 @@ package org.kuali.kra.bo;
 
 import java.io.Serializable;
 
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 public class Rolodex extends KraPersistableBusinessObjectBase implements Contactable, MutableInactivatable {
 
@@ -75,8 +77,12 @@ public class Rolodex extends KraPersistableBusinessObjectBase implements Contact
 
     private Sponsor sponsor;
 
+    private Sponsor organizationName;
+    
+    private String sponsorId;
+    
     private String createUser;
-
+    
     private boolean active;
 
     // = Boolean.TRUE; 
@@ -103,7 +109,11 @@ public class Rolodex extends KraPersistableBusinessObjectBase implements Contact
     }
 
     public String getAddressLine1() {
-        return addressLine1;
+        if (organizationName != null && organizationName.getPostalCode() != null) {
+            return organizationName.getPostalCode();
+        } else {
+            return addressLine1;
+        }
     }
 
     public void setAddressLine1(String addressLine1) {
@@ -111,7 +121,11 @@ public class Rolodex extends KraPersistableBusinessObjectBase implements Contact
     }
 
     public String getAddressLine2() {
-        return addressLine2;
+        if (organizationName != null && organizationName.getState() != null) {
+            return organizationName.getState();
+        } else {
+            return addressLine2;
+        }
     }
 
     public void setAddressLine2(String addressLine2) {
@@ -119,7 +133,11 @@ public class Rolodex extends KraPersistableBusinessObjectBase implements Contact
     }
 
     public String getAddressLine3() {
-        return addressLine3;
+        if (organizationName != null && organizationName.getCountryCode() != null) {
+            return organizationName.getCountryCode();
+        } else {
+            return addressLine3;
+        }
     }
 
     public void setAddressLine3(String addressLine3) {
@@ -213,7 +231,7 @@ public class Rolodex extends KraPersistableBusinessObjectBase implements Contact
     public void setOrganization(String organization) {
         this.organization = organization;
     }
-
+    
     public String getOwnedByUnit() {
         return ownedByUnit;
     }
@@ -321,6 +339,47 @@ public class Rolodex extends KraPersistableBusinessObjectBase implements Contact
     public Sponsor getSponsor() {
         return sponsor;
     }
+
+    /**
+     * Gets the organizationName attribute. 
+     * @return Returns the organizationName.
+     */
+    public Sponsor getOrganizationName() {
+        if (organizationName != null) {
+            return organizationName;
+        } else if (sponsorId != null) {
+            Sponsor organizationName = KraServiceLocator.getService(BusinessObjectService.class).findBySinglePrimaryKey(Sponsor.class, sponsorId);            
+            return organizationName;
+        } else {
+            return organizationName;
+        }
+    }
+
+    /**
+     * Sets the organizationName attribute value.
+     * @param organizationName The organizationName to set.
+     */
+    public void setOrganizationName(Sponsor organizationName) {
+        this.organizationName = organizationName;
+    }
+
+    public void setSponsorId(String sponsorId) {
+        this.sponsorId = sponsorId;
+    }
+
+    public String getSponsorId() {
+        if (organizationName != null) {
+            return organizationName.getSponsorCode();
+
+        } else {
+            return sponsorId;
+        }
+    }
+
+    /**
+     * Gets the organizationName attribute. 
+     * @return Returns the organizationName.
+     */
 
     public boolean isActive() {
         return active;
