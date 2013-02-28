@@ -281,4 +281,21 @@ public class VersionHistoryServiceImpl implements VersionHistoryService {
             versionHistory.setSequenceOwner(sequenceOwner);
         }
     }
+    
+    public VersionHistory getActiveOrNewestVersion(Class<? extends SequenceOwner> klass, String versionName) {
+        List<VersionHistory> versions = findVersionHistory(klass, versionName);
+        VersionHistory history = null;
+        for (VersionHistory version : versions) {
+            if (history == null) {
+                history = version;
+            } else if (version.isActiveVersion()) {
+                history = version;
+            } else if (!history.isActiveVersion() 
+                    && version.getSequenceOwnerSequenceNumber() > history.getSequenceOwnerSequenceNumber()
+                    && version.getStatus() != VersionStatus.CANCELED) {
+                history = version;
+            }
+        }
+        return history;
+    }
 }

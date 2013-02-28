@@ -1162,7 +1162,7 @@ implements Permissionable, SequenceOwner<SubAward>, Negotiable {
 
     @Override
     public String getAssociatedDocumentId() {
-        return this.getSubAwardId().toString();
+        return this.getSubAwardCode();
     }
 
     @Override
