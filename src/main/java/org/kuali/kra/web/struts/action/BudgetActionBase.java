@@ -149,24 +149,8 @@ public class BudgetActionBase extends KraTransactionalDocumentActionBase {
         DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
         BudgetDocument budgetDocToCopy = (BudgetDocument) documentService.getByDocumentHeaderId(budgetToCopy.getDocumentNumber());
         Budget budget = budgetDocToCopy.getBudget();
-        if (copyPeriodOneOnly) {
-            //Copy full first version, then include empty periods for remainder
-            List<BudgetPeriod> oldBudgetPeriods = budget.getBudgetPeriods(); 
-            BudgetPeriod firstPeriod = oldBudgetPeriods.get(0);
-            for ( int i = 1 ; i < oldBudgetPeriods.size(); i++ ) {
-                BudgetPeriod period = oldBudgetPeriods.get(i);
-                period.getBudgetLineItems().clear();
-                period.setCostSharingAmount(new BudgetDecimal(0.0));
-                period.setExpenseTotal(new BudgetDecimal(0.0));
-                period.setTotalCost(new BudgetDecimal(0.0));
-                period.setTotalCostLimit(new BudgetDecimal(0.0));
-                period.setTotalDirectCost(new BudgetDecimal(0.0));
-                period.setTotalIndirectCost(new BudgetDecimal(0.0));
-                period.setUnderrecoveryAmount(new BudgetDecimal(0.0));
-            }
-        }
         BudgetCommonService<BudgetParent> budgetService = getBudgetCommonService(budgetParentDocument);
-        BudgetDocument newBudgetDoc = budgetService.copyBudgetVersion(budgetDocToCopy);
+        BudgetDocument newBudgetDoc = budgetService.copyBudgetVersion(budgetDocToCopy, copyPeriodOneOnly);
         budgetParentDocument.refreshBudgetDocumentVersions();
         List<BudgetDocumentVersion> budgetVersions = budgetParentDocument.getBudgetDocumentVersions();
         for (BudgetDocumentVersion budgetDocumentVersion : budgetVersions) {
@@ -177,8 +161,6 @@ public class BudgetActionBase extends KraTransactionalDocumentActionBase {
                                                         + budgetToCopy.getBudgetVersionNumber() + " copy");
             }
         }
-//        budgetParentDocument.addNewBudgetVersion(newBudgetDoc, budgetToCopy.getDocumentDescription() + " " 
-//                                                        + budgetToCopy.getBudgetVersionNumber() + " copy", true);
     }
     /**
      * 
