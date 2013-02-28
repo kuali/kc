@@ -176,4 +176,12 @@ public interface SponsorService {
      * @return
      */
     List<String> getUniqueGroupingNames(String hierarchyName, Integer level);
+    
+    /**
+     * 
+     * This method returns true if the passed in Sponsor is valid, returns false if it is not.
+     * @param sponsor
+     * @return
+     */
+    public boolean validateSponsor(Sponsor sponsor);
 }
