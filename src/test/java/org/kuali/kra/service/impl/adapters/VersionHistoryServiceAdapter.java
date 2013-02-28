@@ -51,6 +51,12 @@ public class VersionHistoryServiceAdapter implements VersionHistoryService {
     public VersionHistory updateVersionHistory(SequenceOwner<? extends SequenceOwner<?>> sequenceOwner,
             VersionStatus versionStatus, String userId) {
         return null;
+    }
+
+    @Override
+    public VersionHistory getActiveOrNewestVersion(Class<? extends SequenceOwner> klass, String versionName) {
+        // TODO Auto-generated method stub
+        return null;
     }   
     
     
