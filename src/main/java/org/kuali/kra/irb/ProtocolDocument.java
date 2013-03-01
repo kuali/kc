@@ -33,11 +33,14 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.ProtocolStatus;
+import org.kuali.kra.irb.actions.notification.ProtocolDisapprovedNotificationRenderer;
 import org.kuali.kra.irb.actions.submit.ProtocolActionService;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
 import org.kuali.kra.irb.correspondence.ProtocolCorrespondence;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentStatus;
+import org.kuali.kra.irb.notification.IRBNotificationContext;
+import org.kuali.kra.irb.notification.IRBProtocolNotification;
 import org.kuali.kra.irb.protocol.location.ProtocolLocationService;
 import org.kuali.kra.irb.protocol.research.ProtocolResearchAreaService;
 import org.kuali.kra.irb.rules.IrbProtocolFactBuilderService;
@@ -45,11 +48,15 @@ import org.kuali.kra.krms.KcKrmsConstants;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;
+import org.kuali.kra.protocol.actions.genericactions.ProtocolGenericActionService;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentProtocolBase;
+import org.kuali.kra.protocol.notification.ProtocolNotification;
+import org.kuali.kra.protocol.notification.ProtocolNotificationContextBase;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.COMPONENT;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.NAMESPACE;
+import org.kuali.rice.kew.actiontaken.ActionTakenValue;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -65,6 +72,7 @@ import org.kuali.rice.krms.api.engine.Facts.Builder;
  * Also we have provided convenient getter and setter methods so that to the outside world;
  * Protocol and ProtocolDocument can have a 1:1 relationship.
  */
+@SuppressWarnings("unchecked")
 @NAMESPACE(namespace=Constants.MODULE_NAMESPACE_PROTOCOL)
 @COMPONENT(component=ParameterConstants.DOCUMENT_COMPONENT)
 public class ProtocolDocument extends ProtocolDocumentBase { 
@@ -83,12 +91,18 @@ public class ProtocolDocument extends ProtocolDocumentBase {
 //    private static final String OLR_DOC_ID_PARAM = "&olrDocId=";
    
     
+    @SuppressWarnings("unused")
     private static final String APPROVED_COMMENT = "Approved";
+    @SuppressWarnings("unused")
     private static final String DISAPPROVED_COMMENT = "Disapproved";
     private static final String listOfStatiiEligibleForMerging = ProtocolStatus.SUBMITTED_TO_IRB + " " + ProtocolStatus.SPECIFIC_MINOR_REVISIONS_REQUIRED + " " + 
                                                                  ProtocolStatus.DEFERRED + " " + ProtocolStatus.SUBSTANTIVE_REVISIONS_REQUIRED + " " +  
                                                                  ProtocolStatus.AMENDMENT_IN_PROGRESS + " " + ProtocolStatus.RENEWAL_IN_PROGRESS + " " + 
                                                                  ProtocolStatus.SUSPENDED_BY_PI + " " + ProtocolStatus.DELETED + " " + ProtocolStatus.WITHDRAWN;
+
+    private static final String DEPT_RVW_NODE_NAME = "DepartmentReview";
+
+    private static final String DISAPPROVED_CONTEXT_NAME = "Disapproved";
     
     private List<CustomAttributeDocValue> customDataList;
     
@@ -758,6 +772,53 @@ public class ProtocolDocument extends ProtocolDocumentBase {
 
     public void setCustomDataList(List<CustomAttributeDocValue> customDataList) {
         this.customDataList = customDataList;
+    }
+
+    @Override
+    protected Class<? extends ProtocolGenericActionService> getProtocolGenericActionServiceClassHook() {
+        return ProtocolGenericActionService.class;
+    }
+
+    private boolean isDeptReviewNode(String currentNodeName) {
+        boolean retVal = false;
+        if(StringUtils.equals(currentNodeName, DEPT_RVW_NODE_NAME)) {
+            retVal = true;
+        }
+        return retVal;
+    }
+    
+    @Override
+    // perform versionining for non-superuser disapprovals at department pre-review node (as well as for superuser disapprovals)
+    protected boolean allowProtocolVersioningHook(String currentNodeName, ActionTakenValue latestCurrentActionTakenVal) {
+        boolean retVal = false;
+        if(super.allowProtocolVersioningHook(currentNodeName, latestCurrentActionTakenVal) 
+                || isDeptReviewNode(currentNodeName)) {
+            retVal = true;
+        }
+        return retVal;
+    }
+
+    
+    @Override
+    protected boolean forceActionAdditionAndStatusUpdatesAndNotificationsHook(String currentNodeName, ActionTakenValue latestCurrentActionTakenVal) {
+        boolean retVal = false;
+        if(isDeptReviewNode(currentNodeName)) {
+            retVal = true;
+        }
+        return retVal;
+    }
+
+    @Override
+    protected ProtocolNotification getNewProtocolNotificationInstanceHook() {
+        return new IRBProtocolNotification();
+    }
+
+    @Override
+    protected ProtocolNotificationContextBase getDisapproveNotificationContextHook(ProtocolBase protocol) {
+        return new IRBNotificationContext( (Protocol) protocol, 
+                                            ProtocolActionType.DISAPPROVED, 
+                                            DISAPPROVED_CONTEXT_NAME, 
+                                            new ProtocolDisapprovedNotificationRenderer( (Protocol) protocol));
     }
 
 // TODO ********************** commented out during IRB backfit ************************    
