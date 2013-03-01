@@ -17,9 +17,13 @@ package org.kuali.kra.protocol.actions.genericactions;
 
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
+import org.kuali.rice.kew.actiontaken.ActionTakenValue;
 
 /**
  * Defines the functions needed for the generic action service functions.
+ */
+/**
+ * This class...
  */
 public interface ProtocolGenericActionService {
     
@@ -48,6 +52,27 @@ public interface ProtocolGenericActionService {
 //     * @throws Exception if there was a general problem performing the action
 //     */
 //    ProtocolDocumentBase defer(ProtocolBase protocol, ProtocolGenericActionBean actionBean) throws Exception;
+    
+    
+    
+    /**
+     * Handles the versioning of the protocol following its disapproval. It will reset the status of the new
+     * copy of the protocol to be 'pending/in progress', and change the submission status to 'disapproved'.
+     * @param protocol ProtocolBase object
+     * @return the newly versioned ProtocolBase document
+     * @throws Exception if there was a general problem performing the action
+     */
+    ProtocolDocumentBase versionAfterDisapproval(ProtocolBase protocol) throws Exception;
+    
+    
+    /**
+     * This method will insert the disapproved action into the given protocol's action list using the 
+     * annotation and date data from the actionTakenVal argument. It will then update the protocol's 
+     * status and its submission status to 'disapproved' and save the protocol. 
+     * @param protocol
+     * @param actionTakenVal
+     */
+    public void addDisapprovalActionToActionListAndUpdateStatuses(ProtocolBase protocol, ActionTakenValue actionTakenVal);
     
     /**
      * Disapproves a protocol.

@@ -17,6 +17,7 @@ package org.kuali.kra.protocol.actions.genericactions;
 
 import java.sql.Timestamp;
 import org.kuali.kra.common.notification.service.KcNotificationService;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
@@ -28,6 +29,7 @@ import org.kuali.kra.protocol.actions.correspondence.ProtocolActionsCorresponden
 import org.kuali.kra.protocol.actions.submit.ProtocolActionService;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewService;
+import org.kuali.rice.kew.actiontaken.ActionTakenValue;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
@@ -38,6 +40,7 @@ import org.kuali.rice.krad.service.DocumentService;
  */
 public abstract class ProtocolGenericActionServiceImplBase implements ProtocolGenericActionService {
     
+    private static final String PROTOCOL_SUBMISSION = "protocolSubmission";
     private ProtocolActionService protocolActionService;
     private DocumentService documentService;
       
@@ -265,6 +268,54 @@ public abstract class ProtocolGenericActionServiceImplBase implements ProtocolGe
     }
     
     
+
+
+    @Override
+    public void addDisapprovalActionToActionListAndUpdateStatuses(ProtocolBase protocol, ActionTakenValue actionTakenVal) {
+        // add the action to the action history
+        ProtocolActionBase protocolAction = getNewDisapprovalProtocolActionInstanceHook(protocol);
+        protocolAction.setComments(actionTakenVal.getAnnotation());
+        protocolAction.setActionDate(actionTakenVal.getActionDate());
+        protocol.getProtocolActions().add(protocolAction);
+        // update the statuses and persist the protocol
+        protocol.setProtocolStatusCode(getDisapprovedProtocolStatusCodeHook());
+        protocol.refreshReferenceObject(Constants.PROPERTY_PROTOCOL_STATUS);
+        protocol.getProtocolSubmission().setSubmissionStatusCode(getProtocolSubmissionStatusCodeDisapprovedHook());
+        protocol.refreshReferenceObject(PROTOCOL_SUBMISSION);
+        this.getBusinessObjectService().save(protocol);
+    }
+    
+    protected abstract String getProtocolSubmissionStatusCodeDisapprovedHook();
+
+    protected abstract String getDisapprovedProtocolStatusCodeHook();
+
+    protected abstract ProtocolActionBase getNewDisapprovalProtocolActionInstanceHook(ProtocolBase protocol);
+
+
+    @Override
+    public ProtocolDocumentBase versionAfterDisapproval(ProtocolBase oldProtocol) throws Exception {
+        // the new document version will be persisted along with the new version of the old protocol instance
+        ProtocolDocumentBase newDocument = getVersionedDocument(oldProtocol);
+        
+        // set the 'pending/in progress' status for the new protocol 
+        ProtocolBase newProtocol = newDocument.getProtocol();
+        newProtocol.setProtocolStatusCode(getProtocolPendingInProgressStatusCodeHook());
+        newProtocol.refreshReferenceObject(Constants.PROPERTY_PROTOCOL_STATUS);
+        
+        // set the submission status to disapproved
+        newProtocol.getProtocolSubmission().setSubmissionStatusCode(getProtocolSubmissionStatusCodeDisapprovedHook());
+        newProtocol.refreshReferenceObject(PROTOCOL_SUBMISSION);
+        // finally save the protocol (and its submission)
+        this.getBusinessObjectService().save(newProtocol);
+        documentService.saveDocument(newDocument);
+        
+        return newDocument;
+    }
+    
+
+    protected abstract String getProtocolPendingInProgressStatusCodeHook();
+
+
     
     protected ProtocolDocumentBase getVersionedDocument(ProtocolBase protocol) throws Exception {
         ProtocolDocumentBase newDocument = protocolVersionService.versionProtocolDocument(protocol.getProtocolDocument());
@@ -274,9 +325,9 @@ public abstract class ProtocolGenericActionServiceImplBase implements ProtocolGe
         newDocument.getProtocol().setLastApprovalDate(null);
         newDocument.getProtocol().setExpirationDate(null);
         
-        newDocument.getProtocol().refreshReferenceObject("protocolStatus");
+        newDocument.getProtocol().refreshReferenceObject(Constants.PROPERTY_PROTOCOL_STATUS);
      // TODO ********************** added or modified during IRB backfit merge BEGIN ********************** 
-        newDocument.getProtocol().refreshReferenceObject("protocolSubmission");
+        newDocument.getProtocol().refreshReferenceObject(PROTOCOL_SUBMISSION);
      // TODO ********************** added or modified during IRB backfit merge END ************************
         documentService.saveDocument(newDocument);
         
