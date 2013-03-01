@@ -48,7 +48,7 @@
           	
           	<%-- The input controls for adding a new abstract. --%>
           	<kra:section permission="modifyProposal">   
-            <tr> 
+            <tr class="addline"> 
 				<th class="infoline">
 					<c:out value="Add:" />
 				</th>
@@ -69,7 +69,7 @@
 				<td>
 					<div align="center">
 						<html:image property="methodToCall.addAbstract.anchor${tabKey}"
-						            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton"/>
+						            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton addButton"/>
 					</div>
                 </td>
             </tr>

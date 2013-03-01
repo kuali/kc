@@ -89,7 +89,7 @@
                 </tr>
 				<html:hidden property="newNote.noteTypeCode" value="${noteType.code}"/>
 				<c:if test="${ ((not empty attachmentTypesValuesFinderClass) and (allowsNoteAttachments eq true)) || kfunc:canAddNoteAttachment(KualiForm.document)}" >
-                  <tr>
+                  <tr class="addline">
                       <kul:htmlAttributeHeaderCell literalLabel="add:" scope="row"/>
                       <td class="infoline">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                       <td class="infoline">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
@@ -123,7 +123,7 @@
                      <c:if test="${allowsNoteFYI}" >
                       <td>&nbsp;</td>
                      </c:if>
-                     <td class="infoline"><div align="center"><html:image property="methodToCall.insertBONote" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" alt="Add a Note" title="Add a Note" styleClass="tinybutton"/></div></td>	 
+                     <td class="infoline"><div align="center"><html:image property="methodToCall.insertBONote" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" alt="Add a Note" title="Add a Note" styleClass="tinybutton addButton"/></div></td>	 
 			       </tr>
 			   </c:if>   
 

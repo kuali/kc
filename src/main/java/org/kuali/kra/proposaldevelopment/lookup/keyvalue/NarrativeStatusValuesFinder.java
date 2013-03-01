@@ -49,6 +49,7 @@ public class NarrativeStatusValuesFinder extends KeyValuesBase {
         KeyValuesService keyValuesService = (KeyValuesService) KraServiceLocator.getService("keyValuesService");
         Collection<NarrativeStatus> statuses = keyValuesService.findAll(NarrativeStatus.class);
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
+        keyValues.add(new ConcreteKeyValue("", "select"));
         for (NarrativeStatus status : statuses) {
              keyValues.add(new ConcreteKeyValue(status.getNarrativeStatusCode(), status.getDescription()));
       

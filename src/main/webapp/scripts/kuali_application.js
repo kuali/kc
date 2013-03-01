@@ -3702,3 +3702,96 @@ function addErrorForItem(item, errorMsg) {
 	}
 	lastErrorMessage.after('<div style="display:list-item;margin-left:20px;" class="addedByRequireOnAdd">' + errorMsg + '</div>');
 }
+
+var WarningOnAddRow = (function($) {
+	return {
+		inputs: '.addline input, .addline select, .addline textarea',
+		elementsToIgnore: ['input[name="multiSelectToReset"]'],
+		asterisk: $('<img class="changedNotice changedAsterisk" src="static/images/asterisk_orange.png"/>'),
+		resetBtn: $('<img class="changedNotice changedResetBtn" src="static/images/tinybutton-reset1.gif"/>'),
+		pageNotice: $('<div class="changedNotice changedPageNotice">Unsaved changes will be lost.</div>'),
+		init: function() {
+			this.checkModification = this.checkModification.bind(this);
+			this.valueChanged = this.valueChanged.bind(this);
+			this.rowChanged = this.rowChanged.bind(this);
+			this.resetRow = this.resetRow.bind(this);
+			this.panelChanged = this.panelChanged.bind(this);
+			this.pageChanged = this.pageChanged.bind(this);
+			//if the page reloads and there is input in the add line then mark it as such, then after monitor for changes.
+			$(this.inputs).each(this.checkModification);
+			$(this.inputs).change(this.valueChanged);
+			$(this.inputs).keyup(this.valueChanged);
+		},
+		checkModification : function(idx, element) {
+			var addLine = $(element).parents('.addline').first();
+			if ($(element).val() != undefined && $(element).val().length > 0
+					&& !this.isIgnoredElement(element)) {
+				console.log('Found change in ' + element.name);
+				$(element).addClass('changed');
+			} else {
+				$(element).removeClass('changed');
+			}
+			this.rowChanged($(element).parents('.addline').first());
+		},
+		valueChanged: function(event) {
+			var element = event.target;
+			this.checkModification(0, element);
+		},
+		rowChanged: function(row) {
+			if ($(row).find('input.changed, select.changed, textarea.changed').length > 0) {
+				if (!$(row).is('.changed')) {
+					$(row).addClass('changed');
+					$(row).find('.addButton').before(this.asterisk.clone());
+					$(row).find('.addButton').after(this.resetBtn.clone());
+					$(row).find('.changedResetBtn').click(this.resetRow);
+				}
+			} else {
+				$(row).removeClass('changed');
+				$(row).find('.changedNotice').remove();
+			}
+			this.panelChanged($(row).parents('div[id^="tab-"]').first());
+		},
+		panelChanged: function(panelDiv) {
+			if (typeof panelDiv !== "undefined") {
+				if ($(panelDiv).find(this.inputs).filter('.changed').length > 0) {
+					if (!$(panelDiv).is('.changed')) {
+						$(panelDiv).addClass('changed');
+						$(panelDiv).prev('table.tab').find('h2').append(this.asterisk.clone());
+					}
+				} else {
+					$(panelDiv).removeClass('changed');
+					$(panelDiv).prev('table.tab').find('.changedNotice').remove();
+				}
+			}
+			this.pageChanged();
+		},
+		pageChanged: function() {
+			if ($('#workarea').find(this.inputs).filter('.changed').length > 0) {
+				if (!$('#workarea').is('.changed')) {
+					$('#workarea').addClass('changed');
+					$('div.msg-excol div.left-errmsg').append(this.pageNotice.clone().prepend(this.asterisk.clone()));
+				} 
+			} else {
+					$('#workarea').removeClass('changed');
+					$('div.msg-excol div.left-errmsg').find('.changedNotice').remove();					
+			}
+		},
+		resetRow: function(event) {
+			var row = $(event.target).parents('.addline').first();
+			$(row).find('.changed option:selected').removeAttr('selected');
+			$(row).find('.changed').val('');
+			$(row).find('.changed').trigger('change');
+			$(row).find('.changedClearOnReset').html('');
+		},
+		isIgnoredElement: function(element) {
+			for (idx in this.elementsToIgnore) {
+				if ($(element).is(this.elementsToIgnore[idx])) {
+					return true;
+				}
+			}
+			return false;
+		},
+		
+	}
+}(jQuery));
+jQuery(document).ready(function() {WarningOnAddRow.init();});

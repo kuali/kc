@@ -30,7 +30,7 @@
     <c:set var="locationNameEditable" value="true"/>
 </c:if>
 
-<tr>
+<tr class="addline">
     <th class="infoline" width="10%">
         <c:set var="class" value="infoline" />
         Add:
@@ -54,13 +54,15 @@
         <%-- Code for Rolodex lookup enabled sites follows --%>
         <c:if test="${locationType == 'rolo'}">
             <%-- Site name --%>
-      		<input type = "hidden" value = "${newProposalSite.rolodexId}" name = "${newProposalSiteField}.rolodexId"/>
+            <c:set var="fieldName" value="${newProposalSiteField}.rolodexId"/>
+            ${kfunc:registerEditableProperty(KualiForm, fieldName)}
+      		<input type = "hidden" value = "${newProposalSite.rolodexId}" name = "${fieldName}"/>
             <c:choose>
                 <c:when test="${empty newProposalSite.rolodexId}">
                     <c:out value="(Select)" />
                 </c:when>
                 <c:otherwise>
-                    <c:out value="${newProposalSite.rolodex.organization}" />
+                    <span class="changedClearOnReset"><c:out value="${newProposalSite.rolodex.organization}" /></span>
                 </c:otherwise>
             </c:choose>
             
@@ -82,6 +84,7 @@
             </kra:section>
             
             <%-- Site address --%>
+            <span class="changedClearOnReset">
             <c:if test="${!empty newProposalSite.rolodex.addressLine1}">
                 <c:out value="${newProposalSite.rolodex.addressLine1}" />
                 <br/>
@@ -100,6 +103,7 @@
                 <c:out value="${newProposalSite.rolodex.postalCode}" />
             </c:if>
         </c:if>
+        </span>
         
         <%-- Code for non-Rolodex sites follows (uses the organization field, does a organization lookup) --%>
         <c:if test="${locationType == 'org'}">
@@ -110,7 +114,7 @@
                     <c:out value="(Select)" />
                 </c:when>
                 <c:otherwise>
-                    <c:out value="${newProposalSite.organization.organizationName}" />
+                    <span class="changedClearOnReset"><c:out value="${newProposalSite.organization.organizationName}" /></span>
                 </c:otherwise>
             </c:choose>
             
@@ -131,7 +135,9 @@
             <br/>
             
             <%-- Site address --%>
+            <span class="changedClearOnReset">
             <c:out value="${newProposalSite.organization.address}"/>
+            </span>
         </c:if>
     </td>
 
@@ -139,7 +145,7 @@
     <td class="${class}" width="25%">
         <div align=center>
             <html:image property="methodToCall.${addMethodToCall}.anchor${currentTabIndex}"
-            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton"/>
+            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton addButton"/>
         </div>
     </td>
 </tr>

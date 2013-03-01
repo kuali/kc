@@ -47,7 +47,7 @@
           	<%-- The input controls for adding a new user. --%>
 
           	<kra:section permission="modifyPermissions">
-	            <tr> 
+	            <tr class="addline"> 
 					<th class="infoline">
 						<c:out value="Add:" />
 					</th>
@@ -74,7 +74,7 @@
 					<td>
 						<div align="center">
 							<html:image property="methodToCall.addProposalUser.anchor${tabKey}"
-								        src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton"/>
+								        src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton addButton"/>
 						</div>
 		            </td>
 	            </tr>

@@ -120,6 +120,7 @@ public class ProposalSite extends KraPersistableBusinessObjectBase {
             congressionalDistricts.clear();
         }
         this.rolodexId = rolodexId;
+        this.refreshReferenceObject("rolodex");
     }
 
     public Integer getRolodexId() {
