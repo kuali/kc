@@ -101,6 +101,7 @@ public class ProposalNarrativeTypeValuesFinder extends PersistableBusinessObject
 
     private List<KeyValue> buildKeyValuesCollection(Collection<NarrativeType> narrativeTypes) {
         List<KeyValue> KeyValues = new ArrayList<KeyValue>();
+        KeyValues.add(new ConcreteKeyValue("", "select"));
         for (NarrativeType narrativeType : narrativeTypes) {
             String key = narrativeType.getNarrativeTypeCode();
             String label = narrativeType.getDescription();

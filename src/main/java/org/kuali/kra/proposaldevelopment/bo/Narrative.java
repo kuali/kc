@@ -94,7 +94,6 @@ public class Narrative extends KraPersistableBusinessObjectBase implements Hiera
     public Narrative() {
         narrativeAttachmentList = new ArrayList<NarrativeAttachment>(1);
         narrativeUserRights = new ArrayList<NarrativeUserRights>();
-        setModuleStatusCode("I");
     }
 
     protected String findLoggedInUserPersonId() {
