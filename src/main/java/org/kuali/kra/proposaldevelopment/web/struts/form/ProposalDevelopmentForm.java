@@ -872,20 +872,19 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
         
         Collection<Role> roles = getKimProposalRoles();
         
-        PermissionService permissionService = KimApiServiceLocator.getPermissionService();
+        
         QueryByCriteria.Builder queryBuilder = QueryByCriteria.Builder.create();
         List<Predicate> predicates = new ArrayList<Predicate>();
         PermissionQueryResults permissionResults = null;
         
         for (Role role : roles) {
             if (!StringUtils.equals(role.getName(), RoleConstants.UNASSIGNED)) {
-                predicates.add(PredicateFactory.equal("assignedToRole.roleName", role.getName()));
-                predicates.add(PredicateFactory.equal("assignedToRoleNamespaceForLookup", role.getNamespaceCode()));
+                predicates.add(PredicateFactory.equal("rolePermissions.roleId", role.getId()));
                 queryBuilder.setPredicates(PredicateFactory.and(predicates.toArray(new Predicate[] {})));
-                permissionResults = permissionService.findPermissions(queryBuilder.build());
-                if(permissionResults != null && permissionResults.getTotalRowCount() > 0) {
+                permissionResults = getKimPermissionService().findPermissions(queryBuilder.build());
+                if (permissionResults != null && permissionResults.getResults().size() > 0) {
                     returnRoleBeans.add(new org.kuali.kra.common.permissions.web.bean.Role(
-                            role.getName(), role.getDescription(), permissionResults.getResults()));   
+                    		role.getName(), role.getDescription(),permissionResults.getResults()));
                 }
                 predicates.clear();
                 queryBuilder = QueryByCriteria.Builder.create();
@@ -2088,6 +2087,10 @@ public class ProposalDevelopmentForm extends BudgetVersionFormBase implements Re
 
     public void setProposalSummary(HierarchyProposalSummary proposalSummary) {
         this.proposalSummary = proposalSummary;
+    }
+    
+    protected PermissionService getKimPermissionService() {
+        return KraServiceLocator.getService("kimPermissionService");
     }
    
 }
