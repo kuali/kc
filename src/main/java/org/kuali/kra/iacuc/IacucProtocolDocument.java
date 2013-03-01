@@ -27,9 +27,13 @@ import org.kuali.kra.bo.ResearchAreaBase;
 import org.kuali.kra.iacuc.actions.IacucProtocolAction;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
 import org.kuali.kra.iacuc.actions.IacucProtocolStatus;
+import org.kuali.kra.iacuc.actions.genericactions.IacucProtocolGenericActionService;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolActionService;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionStatus;
+import org.kuali.kra.iacuc.notification.IacucProtocolNotification;
+import org.kuali.kra.iacuc.notification.IacucProtocolNotificationContext;
+import org.kuali.kra.iacuc.notification.IacucProtocolNotificationRenderer;
 import org.kuali.kra.iacuc.protocol.location.IacucProtocolLocationService;
 import org.kuali.kra.iacuc.protocol.research.IacucProtocolResearchAreaService;
 import org.kuali.kra.iacuc.rules.IacucProtocolFactBuilderService;
@@ -40,11 +44,12 @@ import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.protocol.ProtocolFinderDao;
 import org.kuali.kra.protocol.ProtocolVersionService;
-import org.kuali.kra.protocol.ProtocolDocumentBase.ProtocolMergeException;
-import org.kuali.kra.protocol.ProtocolDocumentBase.ProtocolWorkflowType;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;
+import org.kuali.kra.protocol.actions.genericactions.ProtocolGenericActionService;
 import org.kuali.kra.protocol.actions.submit.ProtocolActionService;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
+import org.kuali.kra.protocol.notification.ProtocolNotification;
+import org.kuali.kra.protocol.notification.ProtocolNotificationContextBase;
 import org.kuali.kra.protocol.protocol.location.ProtocolLocationService;
 import org.kuali.kra.protocol.protocol.research.ProtocolResearchAreaService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
@@ -65,6 +70,7 @@ import org.kuali.rice.krms.api.engine.Facts.Builder;
  * Also we have provided convenient getter and setter methods so that to the outside world;
  * ProtocolBase and ProtocolDocumentBase can have a 1:1 relationship.
  */
+@SuppressWarnings("unchecked")
 @NAMESPACE(namespace=Constants.MODULE_NAMESPACE_IACUC)
 @COMPONENT(component=ParameterConstants.DOCUMENT_COMPONENT)
 public class IacucProtocolDocument extends ProtocolDocumentBase { 
@@ -72,10 +78,13 @@ public class IacucProtocolDocument extends ProtocolDocumentBase {
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = -1014286912251147390L;
+    @SuppressWarnings("unused")
     private static final Log LOG = LogFactory.getLog(IacucProtocolDocument.class);
     public static final String DOCUMENT_TYPE_CODE = "ICPR";
     
     private static final String CONTINUATION_KEY = "C";
+    
+    private static final String DISAPPROVED_CONTEXT_NAME = "Disapproved";
 	
     /**
      * Constructs a ProtocolDocumentBase object.
@@ -370,5 +379,23 @@ public class IacucProtocolDocument extends ProtocolDocumentBase {
         return getIacucProtocol().getIacucProtocolCustomDataList();
     }
 
+    @Override
+    protected Class<? extends ProtocolGenericActionService> getProtocolGenericActionServiceClassHook() {
+        return IacucProtocolGenericActionService.class;
+    }
+
+    @Override
+    protected ProtocolNotification getNewProtocolNotificationInstanceHook() {
+        return new IacucProtocolNotification();
+    }
+
+    @Override
+    protected ProtocolNotificationContextBase getDisapproveNotificationContextHook(ProtocolBase protocol) {        
+        return new IacucProtocolNotificationContext((IacucProtocol) protocol, 
+                                                     IacucProtocolActionType.IACUC_DISAPPROVED, 
+                                                     DISAPPROVED_CONTEXT_NAME,
+                                                     new IacucProtocolNotificationRenderer((IacucProtocol) protocol)
+                                                    );
+    }
 
 }

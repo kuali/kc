@@ -26,20 +26,26 @@ import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.ResearchAreaBase;
 import org.kuali.kra.bo.RolePersons;
+import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.krms.KcKrmsConstants;
 import org.kuali.kra.krms.KrmsRulesContext;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;
+import org.kuali.kra.protocol.actions.genericactions.ProtocolGenericActionService;
 import org.kuali.kra.protocol.actions.submit.ProtocolActionService;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentProtocolBase;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentStatusBase;
+import org.kuali.kra.protocol.notification.ProtocolNotification;
+import org.kuali.kra.protocol.notification.ProtocolNotificationContextBase;
 import org.kuali.kra.protocol.protocol.location.ProtocolLocationService;
 import org.kuali.kra.protocol.protocol.research.ProtocolResearchAreaService;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.KraAuthorizationService;
+import org.kuali.rice.kew.actiontaken.ActionTakenValue;
 import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kew.routeheader.service.RouteHeaderService;
@@ -60,8 +66,10 @@ public abstract class ProtocolDocumentBase extends ResearchDocumentBase implemen
 // TODO *********commented the code below during IACUC refactoring*********     
 //    private static final Log LOG = LogFactory.getLog(ProtocolDocumentBase.class);
 //    public static final String DOCUMENT_TYPE_CODE = "PROT";
+    
     private static final String AMENDMENT_KEY = "A";
     private static final String RENEWAL_KEY = "R";
+    @SuppressWarnings("unused")
     private static final String OLR_DOC_ID_PARAM = "&olrDocId=";
 
     /**
@@ -160,7 +168,7 @@ public abstract class ProtocolDocumentBase extends ResearchDocumentBase implemen
     /**
      * @see org.kuali.core.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     @Override
     public List buildListOfDeletionAwareLists() {
         List managedLists = super.buildListOfDeletionAwareLists();
@@ -193,7 +201,6 @@ public abstract class ProtocolDocumentBase extends ResearchDocumentBase implemen
     public void setProtocolWorkflowType(ProtocolWorkflowType protocolWorkflowType) {
         this.protocolWorkflowType = protocolWorkflowType.getName();
     }
-    
     
     /**
      * @see org.kuali.rice.krad.document.DocumentBase#doRouteStatusChange(org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange)
@@ -231,9 +238,136 @@ public abstract class ProtocolDocumentBase extends ResearchDocumentBase implemen
                 this.getProtocol().setActive(false);
                 getBusinessObjectService().save(this);
             }
+            try {
+                // create editable copy of protocol and document if appropriate in this disapproval context            
+                performPostProcessorOperationsOnProtocolAfterDisapproval();
+            }
+            catch (Exception e) {
+                // TODO Need to figure out what to do if the versioning throws exceptions
+                e.printStackTrace();
+            }
         }
     }
     
+    /*
+     * Depending on the hook's return values, this method will add the disapproval action to the protocol history list, 
+     * version the protocol/document and finally send out notifications. 
+     * The behavior this method can be customized by overridding two hook methods: 
+     * One hook allows subclases to force the addition of disapproval action to the history list, 
+     * the updating of the protocol statuses to disapproved, and the sending of notifications. 
+     * The other hook can be used to either suppress or allow the versioning of the protocol and document i.e. the creation
+     * of a new editable copy of the disapproved protocol.
+     *  
+     * The following context information is passed to these two hooks:
+     * (1) the current node name at which the disapproval happened, and 
+     * (2) the most recent action in the action list.
+     * 
+     * Note that both these hooks are non-abstract i.e. they have default implementations, see below.
+     */
+    protected void performPostProcessorOperationsOnProtocolAfterDisapproval() throws Exception {
+        ActionTakenValue latestCurrentActionTakenVal = getLatestCurrentActionTakenValue();
+        String currentNodeName = getCurrentNodeName();
+        boolean doActionAdditionAndStatusUpdatesAndNotifications = isSuperUserDisapproved(latestCurrentActionTakenVal) || 
+                                    forceActionAdditionAndStatusUpdatesAndNotificationsHook(currentNodeName, latestCurrentActionTakenVal);
+        
+        ProtocolBase oldProtocol = this.getProtocol();
+        if (doActionAdditionAndStatusUpdatesAndNotifications) {
+            // use the protocol generic action service to attach the 'disapprove' action to the action history
+            getProtocolGenericActionService().addDisapprovalActionToActionListAndUpdateStatuses(oldProtocol, latestCurrentActionTakenVal);
+        }
+        
+        // pass the retrieved current node name and the last action value to hook so
+        // subclasses can decide if they want to allow post-processor versioning for this disapproval
+        ProtocolDocumentBase newDocument = null;
+        if (allowProtocolVersioningHook(currentNodeName, latestCurrentActionTakenVal)) {
+            // use the protocol generic action service to version the document (and the contained protocol)
+            newDocument = getProtocolGenericActionService().versionAfterDisapproval(oldProtocol);
+        }
+            
+        if (doActionAdditionAndStatusUpdatesAndNotifications) {
+            ProtocolBase protocol = oldProtocol;
+            // switch to newly versioned protocol if versioning was done
+            if(newDocument != null) {
+                protocol =  newDocument.getProtocol();
+            }
+            // use the kc notification service to send notifications: first call hooks to customize the notifications
+            ProtocolNotificationContextBase context = getDisapproveNotificationContextHook(protocol);
+            ProtocolNotification notification = getNewProtocolNotificationInstanceHook();
+            getNotificationService().sendNotificationAndPersist(context, notification, protocol);
+        }
+    }
+
+    // non-abstract hook: this default implementation returns false
+    protected boolean forceActionAdditionAndStatusUpdatesAndNotificationsHook(String currentNodeName, ActionTakenValue latestCurrentActionTakenVal) {
+        return false;
+    }   
+    
+    // non-abstract hook: this default implementation returns true if the latest current action was a superuser disapprove 
+    protected boolean allowProtocolVersioningHook(String currentNodeName, ActionTakenValue latestCurrentActionTakenVal) {
+        boolean retVal = false;        
+        if(isSuperUserDisapproved(latestCurrentActionTakenVal)) {
+            retVal = true;
+        }
+        return retVal;
+    }
+    
+    protected abstract ProtocolNotification getNewProtocolNotificationInstanceHook();
+
+    protected abstract ProtocolNotificationContextBase getDisapproveNotificationContextHook(ProtocolBase protocol);
+
+    protected abstract Class<? extends ProtocolGenericActionService> getProtocolGenericActionServiceClassHook();
+    
+    
+    
+    // gets the current node that the document is sitting at in the workflow
+    protected final String getCurrentNodeName() {
+        String retVal = "";
+        List<String> currentNodeNames = KewApiServiceLocator.getWorkflowDocumentService().getCurrentRouteNodeNames(getDocumentHeader().getWorkflowDocument().getDocumentId());
+        if(!currentNodeNames.isEmpty()) {
+            retVal = currentNodeNames.get(0);
+        }
+        return retVal;
+    }
+
+    // get the most recent current action instance from the action list
+    protected final ActionTakenValue getLatestCurrentActionTakenValue() {
+        ActionTakenValue latestCurrentActionTakenVal = null;
+        DocumentRouteHeaderValue routeHeaderValue = getRouteHeaderService().getRouteHeader(this.getDocumentHeader().getWorkflowDocument().getDocumentId());
+        List<ActionTakenValue> actionsTakenList = routeHeaderValue.getActionsTaken();         
+        for(ActionTakenValue actionTakenVal: actionsTakenList) {
+            if(actionTakenVal.getCurrentIndicator() && 
+                    ( (latestCurrentActionTakenVal == null) || (actionTakenVal.getActionDate().after(latestCurrentActionTakenVal.getActionDate())) )) {
+                latestCurrentActionTakenVal = actionTakenVal; 
+            }
+        }
+        return latestCurrentActionTakenVal;
+    }
+    
+    // returns true if the given action value represents a super user disapproval
+    protected final boolean isSuperUserDisapproved(ActionTakenValue latestCurrentActionTakenVal) {
+        boolean retVal = false;        
+        if(latestCurrentActionTakenVal != null && latestCurrentActionTakenVal.isSuperUserAction() && 
+           KewApiConstants.ACTION_TAKEN_SU_DISAPPROVED_CD.equals(latestCurrentActionTakenVal.getActionTaken())) {
+            retVal = true;
+        }
+        return retVal;
+    }
+    
+    protected RouteHeaderService getRouteHeaderService() {
+        return KraServiceLocator.getService(RouteHeaderService.class);
+    }
+    
+    protected KcNotificationService getNotificationService() {
+        return KraServiceLocator.getService(KcNotificationService.class);
+    }
+    
+    protected ProtocolGenericActionService getProtocolGenericActionService() {
+        return KraServiceLocator.getService(getProtocolGenericActionServiceClassHook());
+    }
+    
+    
+        
+
     protected abstract void mergeProtocolAmendment();
     
     /**
@@ -422,12 +556,18 @@ public abstract class ProtocolDocumentBase extends ResearchDocumentBase implemen
      * @param statusChangeEvent
      * @return
      */
+    @SuppressWarnings("unused")
     private boolean isComplete(DocumentRouteStatusChange statusChangeEvent) {
         return (StringUtils.equals(KewApiConstants.ROUTE_HEADER_ENROUTE_CD, statusChangeEvent.getNewRouteStatus()) && 
                 StringUtils.equals(KewApiConstants.ROUTE_HEADER_SAVED_CD, statusChangeEvent.getOldRouteStatus()));
     }
 
     public static class ProtocolMergeException extends RuntimeException {
+        /**
+         * Comment for <code>serialVersionUID</code>
+         */
+        private static final long serialVersionUID = 8370108752465881796L;
+
         public ProtocolMergeException(Throwable t) {
             super(t);
         }
@@ -599,8 +739,9 @@ public abstract class ProtocolDocumentBase extends ResearchDocumentBase implemen
      * This method returns the doc number of the current active protocol
      * @return documentNumber
      */
+    @SuppressWarnings("unchecked")
     protected String getNewProtocolDocId() {
-        Map keyMap = new HashMap(); 
+        Map<String, String> keyMap = new HashMap<String, String>(); 
         keyMap.put("protocolNumber", getProtocol().getAmendedProtocolNumber());
         keyMap.put("active", "Y");
         BusinessObjectService boService = KraServiceLocator.getService(BusinessObjectService.class);        
@@ -614,5 +755,9 @@ public abstract class ProtocolDocumentBase extends ResearchDocumentBase implemen
     public void populateAgendaQualifiers(Map<String, String> qualifiers) {
         qualifiers.put(KcKrmsConstants.UNIT_NUMBER, getProtocol().getLeadUnitNumber());
     }
+    
+    
+    
+    
     
 }

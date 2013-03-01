@@ -259,6 +259,26 @@ public class ProtocolGenericActionServiceImpl extends ProtocolGenericActionServi
         
         return (ProtocolDocument) getVersionedDocument(protocol);
     }
+
+    @Override
+    protected String getProtocolPendingInProgressStatusCodeHook() {
+        return ProtocolStatus.IN_PROGRESS;
+    }
+
+    @Override
+    protected String getProtocolSubmissionStatusCodeDisapprovedHook() {
+        return ProtocolSubmissionStatus.DISAPPROVED;
+    }
+
+    @Override
+    protected ProtocolActionBase getNewDisapprovalProtocolActionInstanceHook(ProtocolBase protocol) {
+        return new ProtocolAction( (Protocol) protocol, null, ProtocolActionType.DISAPPROVED);
+    }
+
+    @Override
+    protected String getDisapprovedProtocolStatusCodeHook() {
+        return ProtocolStatus.DISAPPROVED;
+    }
     
     
     
