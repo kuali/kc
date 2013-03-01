@@ -79,6 +79,7 @@ internal attachements.  We are just going to loop through the narratives and see
         </kra:section>
         <table cellpadding=0 cellspacing=0 summary="">
             <kra:section permission="addNarratives">
+            	<tbody class="addline">
 	           	<tr>
 	         		<th><div align="right"><kul:htmlAttributeLabel attributeEntry="${narrativeAttributes.narrativeTypeCode}"/></div></th>
 	                <td align="left" valign="middle">
@@ -132,10 +133,11 @@ internal attachements.  We are just going to loop through the narratives and see
 						<div align="center">
 							<html:image property="methodToCall.addProposalAttachment"
 							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' 
-							onclick="return requirePropertiesOnAdd(PropDevNarrative.buildListOfRequiredPropertiesForNarrative('newNarrative'));" styleClass="tinybutton"/>
+							onclick="return requirePropertiesOnAdd(PropDevNarrative.buildListOfRequiredPropertiesForNarrative('newNarrative'));" styleClass="tinybutton addButton"/>
 						</div>
 	                </td>
 	            </tr>
+	            </tbody>
             </kra:section>
             
  

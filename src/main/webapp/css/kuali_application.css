@@ -93,3 +93,19 @@ span.subhead-left-black
 	padding-left: 20px;
 	width: auto;
 }
+
+#workarea .changed td {
+	background-color: fcf0e1;
+	background-image: none;
+}
+
+.changedAsterisk {
+	margin: 0 5px 0 5px;
+}
+
+.changedResetBtn {
+	margin: 0 5px 0 5px;
+}
+.changedResetBtn:hover {
+	cursor: pointer;
+}
