@@ -183,7 +183,8 @@ jQuery(document).ready(function() {
           	    </c:if>
           	</tr>     
 
-            <c:if test="${canModify}"> 
+            <c:if test="${canModify}">
+            	<tbody class="addline">
                 <tr>
                     <c:set var="protocolLinkingReadOnly" value="${(enableIrbProtocolLinking && KualiForm.specialReviewHelper.newSpecialReview.specialReviewTypeCode == '1') || (enableIacucProtocolLinking && KualiForm.specialReviewHelper.newSpecialReview.specialReviewTypeCode == '2')}" />
                     <c:choose>
@@ -257,7 +258,7 @@ jQuery(document).ready(function() {
 					<td class="infoline" rowspan="1"><div align="center">
 						<html:image property="methodToCall.addSpecialReview.anchor${tabKey}" 
 						            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' 
-						            styleClass="tinybutton"/>
+						            styleClass="tinybutton addButton"/>
 
 					            <c:if test="${canCreateIrbProtocol || canCreateIacucProtocol}">
 		                            <html:image property="methodToCall.createProtocol.anchor${tabKey}"
@@ -274,7 +275,8 @@ jQuery(document).ready(function() {
 	            		<kul:htmlControlAttribute property="specialReviewHelper.newSpecialReview.comments" 
 	            		                          attributeEntry="${attributes.comments}" />
 	            	</td>  
-	            </tr>      
+	            </tr>
+	            </tbody>     
             </c:if>
             
         	<c:forEach var="specialReview" items="${collectionReference}" varStatus="status">

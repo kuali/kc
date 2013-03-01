@@ -158,7 +158,7 @@
 			</tr>
 			
 			<kra:section permission="addBudget">
-			<tr>
+			<tr class="addline">
             	<th width="50" align="right" scope="row"><div align="right">Add:</div></th>
             	<td class="infoline"><label><html:text name="KualiForm" property="newBudgetVersionName" size="16"/></label></td>
 	            <td class="infoline">&nbsp;</td>
@@ -171,10 +171,10 @@
             		<div align=center>
             		<c:choose>
     					<c:when test="${proposalBudgetFlag}">
-            				<html:image property="methodToCall.addBudgetVersion" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' />
+            				<html:image property="methodToCall.addBudgetVersion" styleClass="addButton" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' />
             			</c:when>
 						<c:otherwise>
-    				    	<html:image property="methodToCall.addBudgetVersion" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-new38.gif' />
+    				    	<html:image property="methodToCall.addBudgetVersion" styleClass="addButton" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-new38.gif' />
     				    	<%-- <html:image property="methodToCall.rebudget" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-rebudget.gif' /> --%>
     					</c:otherwise>
 					</c:choose>

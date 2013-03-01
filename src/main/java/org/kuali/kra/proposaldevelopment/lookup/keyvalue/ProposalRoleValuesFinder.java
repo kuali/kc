@@ -44,6 +44,7 @@ public class ProposalRoleValuesFinder extends KeyValuesBase {
         List<Role> proposalRoles = proposalRoleService.getRolesForDisplay();
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
 
+        keyValues.add(new ConcreteKeyValue("", "select"));
         for (Role role : proposalRoles) {
             KeyValue pair = new ConcreteKeyValue(role.getName(), role.getName());
             keyValues.add(pair);
