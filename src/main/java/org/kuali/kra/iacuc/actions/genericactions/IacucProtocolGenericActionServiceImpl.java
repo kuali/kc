@@ -21,8 +21,8 @@ import org.kuali.kra.iacuc.actions.IacucProtocolAction;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
 import org.kuali.kra.iacuc.actions.IacucProtocolStatus;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
+import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionStatus;
 import org.kuali.kra.iacuc.correspondence.IacucProtocolActionsCorrespondence;
-import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;
@@ -115,6 +115,26 @@ public class IacucProtocolGenericActionServiceImpl extends ProtocolGenericAction
     @Override
     protected ProtocolActionsCorrespondenceBase getNewProtocolActionsCorrespondenceHook(String protocolActionType) {
         return new IacucProtocolActionsCorrespondence(protocolActionType);
+    }
+
+    @Override
+    protected String getProtocolPendingInProgressStatusCodeHook() {
+        return IacucProtocolStatus.IN_PROGRESS;
+    }
+
+    @Override
+    protected String getProtocolSubmissionStatusCodeDisapprovedHook() {
+        return IacucProtocolSubmissionStatus.DISAPPROVED;
+    }
+
+    @Override
+    protected ProtocolActionBase getNewDisapprovalProtocolActionInstanceHook(ProtocolBase protocol) {
+        return new IacucProtocolAction( (IacucProtocol) protocol, null, IacucProtocolActionType.IACUC_DISAPPROVED);
+    }
+
+    @Override
+    protected String getDisapprovedProtocolStatusCodeHook() {
+        return IacucProtocolStatus.DISAPPROVED;
     }
     
 }
