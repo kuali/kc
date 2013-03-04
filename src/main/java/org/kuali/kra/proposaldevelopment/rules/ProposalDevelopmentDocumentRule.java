@@ -140,7 +140,7 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
         valid &= processProposalGrantsGovBusinessRule(proposalDevelopmentDocument);
         valid &= processSponsorProgramBusinessRule(proposalDevelopmentDocument);
         valid &= processKeywordBusinessRule(proposalDevelopmentDocument);
-        valid &= proccessValidateSponsor(proposalDevelopmentDocument);
+        //valid &= proccessValidateSponsor(proposalDevelopmentDocument);
         GlobalVariables.getMessageMap().removeFromErrorPath("document.developmentProposalList[0]");
      
         return valid;
