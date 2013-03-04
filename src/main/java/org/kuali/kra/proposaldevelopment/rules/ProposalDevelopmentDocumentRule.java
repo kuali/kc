@@ -140,8 +140,28 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
         valid &= processProposalGrantsGovBusinessRule(proposalDevelopmentDocument);
         valid &= processSponsorProgramBusinessRule(proposalDevelopmentDocument);
         valid &= processKeywordBusinessRule(proposalDevelopmentDocument);
+        valid &= proccessValidateSponsor(proposalDevelopmentDocument);
         GlobalVariables.getMessageMap().removeFromErrorPath("document.developmentProposalList[0]");
      
+        return valid;
+    }
+    
+    private boolean proccessValidateSponsor(ProposalDevelopmentDocument proposalDevelopmentDocument) {
+        boolean valid = true;
+        DataDictionaryService dataDictionaryService = KraServiceLocator.getService(DataDictionaryService.class);
+        if (!this.getSponsorService().validateSponsor(proposalDevelopmentDocument.getDevelopmentProposal().getSponsor())) {
+            valid = false;
+            //this.reportError("document.developmentProposalList[0].sponsorCode", KeyConstants.ERROR_INVALID_SPONSOR_CODE, "");
+            //GlobalVariables.getMessageMap().putError("document.developmentProposalList[0].sponsorCode", KeyConstants.ERROR_INVALID_SPONSOR_CODE, "");
+            GlobalVariables.getMessageMap().putError("sponsorCode", KeyConstants.ERROR_MISSING, dataDictionaryService.getAttributeErrorLabel(DevelopmentProposal.class, "sponsorCode"));
+        }
+        if (!StringUtils.isEmpty(proposalDevelopmentDocument.getDevelopmentProposal().getPrimeSponsorCode()) && 
+                !this.getSponsorService().validateSponsor(proposalDevelopmentDocument.getDevelopmentProposal().getPrimeSponsor())) {
+            valid = false;
+            //this.reportError("document.developmentProposalList[0].primeSponsorCode", KeyConstants.ERROR_INVALID_SPONSOR_CODE, "");
+            GlobalVariables.getMessageMap().putError("primeSponsorCode", KeyConstants.ERROR_MISSING, dataDictionaryService.getAttributeErrorLabel(DevelopmentProposal.class, "primeSponsorCode"));
+            
+        }
         return valid;
     }
     
@@ -248,7 +268,8 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
 
         MessageMap errorMap = GlobalVariables.getMessageMap();
         DataDictionaryService dataDictionaryService = KraServiceLocator.getService(DataDictionaryService.class);
-
+        
+        /*
         proposalDevelopmentDocument.getDevelopmentProposal().refreshReferenceObject("sponsor");
         if (proposalDevelopmentDocument.getDevelopmentProposal().getSponsorCode() != null
                 && proposalDevelopmentDocument.getDevelopmentProposal().getSponsor() == null) {
@@ -256,6 +277,7 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
             errorMap.putError("sponsorCode", KeyConstants.ERROR_MISSING, dataDictionaryService.getAttributeErrorLabel(
                     DevelopmentProposal.class, "sponsorCode"));
         }
+        */
         
         //if either is missing, it should be caught on the DD validation.
         if (proposalDevelopmentDocument.getDevelopmentProposal().getRequestedStartDateInitial() != null
@@ -584,6 +606,10 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
         boolean retVal = false;
         retVal = event.getRule().processRules(event);
         return retVal;
+    }
+    
+    private SponsorService getSponsorService() {
+        return KraServiceLocator.getService(SponsorService.class);
     }
 
 }
