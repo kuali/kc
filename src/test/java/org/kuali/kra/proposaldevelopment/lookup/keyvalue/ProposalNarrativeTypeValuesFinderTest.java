@@ -26,10 +26,11 @@ import org.junit.Test;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeType;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 
-public class ProposalNarrativeTypeValuesFinderTest {
+public class ProposalNarrativeTypeValuesFinderTest extends KcUnitTestBase {
 
     private static final String QUICKSTART = "quickstart";
     private static final String NO = "N";
@@ -58,15 +59,15 @@ public class ProposalNarrativeTypeValuesFinderTest {
     @Test
     public void testFindingNarrativeValues() throws Exception {
         document.getDevelopmentProposal().getNarratives().add(createNarrative(proposalNarrativeType));
-        Assert.assertEquals(2, finder.getFilteredKeyValues(copyMasterNarrativeTypeList()).size());
+        Assert.assertEquals(3, finder.getFilteredKeyValues(copyMasterNarrativeTypeList()).size());
         document.getDevelopmentProposal().getNarratives().clear();
         
         document.getDevelopmentProposal().getNarratives().add(createNarrative(bioNarrativeType));
-        Assert.assertEquals(2, finder.getFilteredKeyValues(copyMasterNarrativeTypeList()).size());
+        Assert.assertEquals(3, finder.getFilteredKeyValues(copyMasterNarrativeTypeList()).size());
         document.getDevelopmentProposal().getNarratives().clear();
         
         document.getDevelopmentProposal().getNarratives().add(createNarrative(otherNarrativeType));
-        Assert.assertEquals(3, finder.getFilteredKeyValues(copyMasterNarrativeTypeList()).size());
+        Assert.assertEquals(4, finder.getFilteredKeyValues(copyMasterNarrativeTypeList()).size());
         document.getDevelopmentProposal().getNarratives().clear();
     }
 
