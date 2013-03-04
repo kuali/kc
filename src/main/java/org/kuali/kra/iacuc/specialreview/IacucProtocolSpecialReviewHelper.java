@@ -57,22 +57,23 @@ public class IacucProtocolSpecialReviewHelper extends ProtocolSpecialReviewHelpe
     }
 
     @Override
-    public boolean isCanCreateIacucProtocol() {
-        return false;
-    }
-    @Override
     protected boolean isIacucProtocolLinkingEnabledForModule() {
-        return true;
+        return false;
     }
 
     @Override
     protected boolean isIrbProtocolLinkingEnabledForModule() {
-        return true;
+        return false;
     }
 
     @Override
-    protected boolean isCanCreateIrbProtocol() {
+    public boolean isCanCreateIrbProtocol() {
         return false;
+    }
+
+    @Override
+    public boolean isCanCreateIacucProtocol() {
+        return true;
     }
 
 }
