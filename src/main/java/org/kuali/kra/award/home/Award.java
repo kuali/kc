@@ -2244,7 +2244,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
      */
 
     public Sponsor getSponsor() {
-        if (sponsor == null && !StringUtils.isEmpty(sponsorCode)) {
+        if (!StringUtils.isEmpty(sponsorCode)) {
             this.refreshReferenceObject("sponsor");
         }
         return sponsor;
@@ -2321,7 +2321,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     // Note: following the pattern of Sponsor, this getter indirectly calls a service.
     // Is there a better way?
     public Sponsor getPrimeSponsor() {
-        if (primeSponsor == null && !StringUtils.isEmpty(getPrimeSponsorCode())) {
+        if (!StringUtils.isEmpty(getPrimeSponsorCode())) {
             this.refreshReferenceObject("primeSponsor");
         }
         return primeSponsor;
