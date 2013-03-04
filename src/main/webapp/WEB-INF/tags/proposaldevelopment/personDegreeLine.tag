@@ -21,6 +21,8 @@
 <c:set var="actionImage" value="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif"/>
 <c:set var="actionMethod" value="insertDegree.${proposalPerson}.line${status.index}" />
 <c:set var="actionTitle" value="Add a Degree" />
+<c:set var="actionStyle" value="addButton"/>
+<c:set var="rowStyle" value="addline"/>
 <c:set var="degreeIndexHeader" value="Add:" />
 <c:set var="degreeCodeProperty" value="${degree}.degreeCode" />
 <c:set var="degreeCodeAttribute" value="${DataDictionary.ProposalPersonDegree.attributes.degreeCode}" />
@@ -32,11 +34,13 @@
   <c:set var="actionTitle" value="Remove a Degree" />
   <c:set var="actionMethod" value="deleteDegree.${proposalPerson}.line${index}" />
   <c:set var="actionImage" value="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif"/>
+  <c:set var="actionStyle" value=""/>
+  <c:set var="rowStyle" value=""/>
   <c:set var="degreeCodeProperty" value="${degree}.degreeType.description" />
   <c:set var="degreeCodeAttribute" value="${DataDictionary.DegreeType.attributes.description}" />
 <c:set var="tdClass" value="" />
 </c:if>
-                  <tr class="addline">
+                  <tr class="${rowStyle}">
                     <th scope="row" align="center">${degreeIndexHeader}</th>
 
                     <td class="${tdClass}"><div align=left><span class="copy">
@@ -56,7 +60,7 @@
                     <div align=center>&nbsp;
                     <kra:section permission="modifyProposal">
                     <c:if test="${ not isParent }">
-                    	<html:image property="methodToCall.${actionMethod}" src="${actionImage}" title="${actionTitle}" alt="${actionTitle}" styleClass="tinybutton addButton"/>
+                    	<html:image property="methodToCall.${actionMethod}" src="${actionImage}" title="${actionTitle}" alt="${actionTitle}" styleClass="tinybutton ${actionStyle}"/>
                     </c:if>
                     </kra:section>
                     </div>
