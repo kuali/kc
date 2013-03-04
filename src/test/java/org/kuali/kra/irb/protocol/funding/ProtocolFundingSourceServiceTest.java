@@ -31,6 +31,7 @@ import org.kuali.kra.award.home.AwardService;
 import org.kuali.kra.bo.FundingSourceType;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
 import org.kuali.kra.irb.ProtocolDocument;
@@ -56,10 +57,12 @@ public class ProtocolFundingSourceServiceTest extends KcUnitTestBase {
 
     private final String emptyNumber = "";
     
-    private final String sponsorNumberAirForce = "000100";
-    private final String sponsorNameAirForce = "Air Force";
+    //private final String sponsorNumberAirForce = "000100";
+    //private final String sponsorNameAirForce = "Air Force";
     private final String sponsorNumberBad = "-1";
     private Sponsor sponsorGood;
+    private final String sponsorNumberAirForce = "000108";
+    private String sponsorNameAirForce;
     
     private final String unitNumberGood = "000001";
     private final String unitNameGood = "University";
@@ -134,9 +137,11 @@ public class ProtocolFundingSourceServiceTest extends KcUnitTestBase {
         fundingAwardSourceType.setFundingSourceTypeFlag(true);
         fundingAwardSourceType.setDescription("Award");
         
-        sponsorGood = new Sponsor();
-        sponsorGood.setSponsorName(sponsorNameAirForce);
-        sponsorGood.setSponsorCode(sponsorNumberAirForce);
+        //sponsorGood = new Sponsor();
+        //sponsorGood.setSponsorName(sponsorNameAirForce);
+        //sponsorGood.setSponsorCode(sponsorNumberAirForce);
+        sponsorGood = KraServiceLocator.getService(SponsorService.class).getSponsor(sponsorNumberAirForce);
+        sponsorNameAirForce = sponsorGood.getSponsorName();
         
         devProposalGood = new DevelopmentProposal();
         devProposalGood.setTitle(devProposalTitleGood);
