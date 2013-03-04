@@ -93,11 +93,13 @@ import org.kuali.kra.common.permissions.web.bean.User;
 import org.kuali.kra.common.specialreview.rule.event.SaveSpecialReviewEvent;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 import org.kuali.kra.rule.event.SaveCustomDataEvent;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.kra.rules.SaveCustomDataRule;
+import org.kuali.kra.service.SponsorService;
 import org.kuali.kra.timeandmoney.TimeAndMoneyForm;
 import org.kuali.kra.timeandmoney.rule.event.TimeAndMoneyAwardDateSaveEvent;
 import org.kuali.kra.timeandmoney.rules.TimeAndMoneyAwardDateSaveRuleImpl;
@@ -316,8 +318,24 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         retval &= processAwardDetailsAndDatesSaveRules(document);
         retval &= processDateBusinessRule(errorMap, awardDocument);
         retval &=processKeywordBusinessRule(awardDocument);
+        //retval &= validateSponsors(errorMap, awardDocument);
         
         return retval;
+    }
+    
+    private boolean validateSponsors(MessageMap errorMap, AwardDocument awardDocument) {
+        boolean valid = true;
+        SponsorService ss = this.getSponsorService();
+        if (!ss.validateSponsor(awardDocument.getAward().getSponsor())) {
+            errorMap.putError("document.awardList[0].sponsorCode", KeyConstants.ERROR_INVALID_SPONSOR_CODE);
+            valid = false;
+        }
+        if (!StringUtils.isEmpty(awardDocument.getAward().getPrimeSponsorCode()) &&
+                !ss.validateSponsor(awardDocument.getAward().getPrimeSponsor())) {
+            errorMap.putError("document.awardList[0].primeSponsorCode", KeyConstants.ERROR_INVALID_SPONSOR_CODE);
+            valid = false;
+        }
+        return valid;
     }
 
     private boolean skipRuleProcessing(Document document) {
@@ -903,5 +921,9 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         if (auditWarnings.size() > 0) {
             KNSGlobalVariables.getAuditErrorMap().put("homePageAuditWarnings", new AuditCluster(Constants.MAPPING_AWARD_HOME_DETAILS_AND_DATES_PAGE_NAME, auditWarnings, Constants.AUDIT_WARNINGS));            
         }
+    }
+    
+    private SponsorService getSponsorService() {
+        return KraServiceLocator.getService(SponsorService.class);
     }
 }
