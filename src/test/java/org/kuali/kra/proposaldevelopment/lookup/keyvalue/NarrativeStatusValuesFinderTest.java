@@ -36,6 +36,7 @@ public class NarrativeStatusValuesFinderTest extends ValuesFinderTestBase {
     protected List<KeyValue> getKeyValues() {
         final List<KeyValue> keylabel = new ArrayList<KeyValue>();
         
+        keylabel.add(new ConcreteKeyValue("", "select"));
         keylabel.add(new ConcreteKeyValue("I","Incomplete"));
         keylabel.add(new ConcreteKeyValue("C","Complete"));
         
