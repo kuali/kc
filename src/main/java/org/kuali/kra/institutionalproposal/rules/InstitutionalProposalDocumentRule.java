@@ -24,6 +24,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.common.specialreview.rule.event.SaveSpecialReviewEvent;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalCreditSplitBean;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPersonAuditRule;
@@ -39,6 +40,7 @@ import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 import org.kuali.kra.rule.event.SaveCustomDataEvent;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.kra.service.SponsorService;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -88,6 +90,7 @@ public class InstitutionalProposalDocumentRule extends ResearchDocumentRuleBase 
         retval &= processKeywordBusinessRule(document);
         retval &= processAccountIdBusinessRule(document);
         retval &= processCostShareRules(document);
+        retval &= validateSponsors(document);
         return retval;
     }    
     
@@ -100,6 +103,23 @@ public class InstitutionalProposalDocumentRule extends ResearchDocumentRuleBase 
     private boolean processSaveInstitutionalProposalCustomDataBusinessRules(Document document) {
         InstitutionalProposalDocument institutionalProposalDocument = (InstitutionalProposalDocument) document;
         return processRules(new SaveCustomDataEvent(institutionalProposalDocument));
+    }
+    
+    private boolean validateSponsors(Document document) {
+        boolean valid = true;
+        MessageMap errorMap = GlobalVariables.getMessageMap();
+        InstitutionalProposalDocument institutionalProposalDocument = (InstitutionalProposalDocument) document;
+        SponsorService ss = this.getSponsorService();
+        if (!ss.validateSponsor(institutionalProposalDocument.getInstitutionalProposal().getSponsor())) {
+            errorMap.putError("document.institutionalProposalList[0].sponsorCode", KeyConstants.ERROR_INVALID_SPONSOR_CODE);
+            valid = false;
+        }
+        if (!StringUtils.isEmpty(institutionalProposalDocument.getInstitutionalProposal().getPrimeSponsorCode()) &&
+                !ss.validateSponsor(institutionalProposalDocument.getInstitutionalProposal().getPrimeSponsor())) {
+            errorMap.putError("document.institutionalProposalList[0].primeSponsorCode", KeyConstants.ERROR_INVALID_SPONSOR_CODE);
+            valid = false;
+        }
+        return valid;
     }
     
     /**
@@ -277,5 +297,7 @@ public class InstitutionalProposalDocumentRule extends ResearchDocumentRuleBase 
         return valid;
     }
     
-
+    private SponsorService getSponsorService() {
+        return KraServiceLocator.getService(SponsorService.class);
+    }
 }
