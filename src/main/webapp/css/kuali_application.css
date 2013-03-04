@@ -94,7 +94,7 @@ span.subhead-left-black
 	width: auto;
 }
 
-#workarea .changed td {
+#workarea .addline.changed td {
 	background-color: fcf0e1;
 	background-image: none;
 }
