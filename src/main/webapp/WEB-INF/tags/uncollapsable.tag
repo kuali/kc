@@ -20,6 +20,7 @@
 <%@ attribute name="auditCluster" required="false" %>
 <%@ attribute name="tabAuditKey" required="false" %>
 <%@ attribute name="tabItemCount" required="false" %>
+<%@ attribute name="styleClass" required="false" %>
 
 <%-- Copied from tab.tag, these are currently not used 
 <%@ attribute name="leftSideHtmlProperty" required="false" %>
@@ -63,9 +64,9 @@
   <c:set var="rightTabImage" value="${ConfigProperties.kr.externalizable.images.url}annotate-tr1.gif" />
 </c:if>
 
-  <table width="100%" cellpadding="0" cellspacing="0">
+  <table style="width:100%;" cellpadding="0" cellspacing="0" class="${styleClass}">
     <tr>      
-      <td><table width="100%" cellpadding="0"  cellspacing="0" class="annotate-top" summary="">
+      <td><table style="width:100%;" cellpadding="0"  cellspacing="0" class="annotate-top" summary="">
           <tr>
             <td class="annotate-t"><img src="${leftTabImage}" alt="asdf" width=12 height=24 align="absmiddle" class="annotate-t">${tabTitle}</td>
             <td class="annotate-t"><div align="right"><img src="${rightTabImage}" alt="asdf" width=12 height=24 align="absmiddle"></div></td>
@@ -101,14 +102,12 @@
       
 
         </div>
-        <table width="100%" cellpadding="0"  cellspacing="0" class="annotate-top" summary="">
+        <table style="width:100%;" cellpadding="0"  cellspacing="0" class="annotate-top" summary="">
           <tr>
             <td class="annotate-b"><img src="${ConfigProperties.kr.externalizable.images.url}annotate-bl1.gif" alt="asdf" width=12 height=24></td>
             <td class="annotate-b"><div align="right"><img src="${ConfigProperties.kr.externalizable.images.url}annotate-br1.gif" alt="asdf" width=12 height=24></div></td>
           </tr>
         </table>
-        <div id="workarea">
-        </div>
         </td>
       </tr>
     </table>
