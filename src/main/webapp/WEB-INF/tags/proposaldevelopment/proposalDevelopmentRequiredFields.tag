@@ -23,7 +23,9 @@
 <c:set var="action" value="proposalDevelopmentProposal" />
 <c:set var="className" value="org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument" />
 
-<kul:tab tabTitle="Required Fields for Saving Document" defaultOpen="true" transparentBackground="${transparent}" tabErrorKey="document.developmentProposalList[0].currentAwardNumber*,document.developmentProposalList[0].continuedFrom,document.developmentProposalList[0].sponsorCode*,document.developmentProposalList[0].proposalTypeCode*,document.developmentProposalList[0].requestedStartDateInitial*,document.developmentProposalList[0].ownedByUnit*,document.developmentProposalList[0].requestedEndDateInitial*,document.developmentProposalList[0].activityTypeCode*,document.developmentProposalList[0].title" auditCluster="requiredFieldsAuditErrors" tabAuditKey="document.developmentProposalList[0].title,document.developmentProposalList[0].continuedFrom" useRiceAuditMode="true">
+<kul:tab tabTitle="Required Fields for Saving Document" defaultOpen="true" transparentBackground="${transparent}" 
+	tabErrorKey="document.developmentProposalList[0].sponsorCode,document.developmentProposalList[0].currentAwardNumber*,document.developmentProposalList[0].continuedFrom,document.developmentProposalList[0].sponsorCode*,document.developmentProposalList[0].proposalTypeCode*,document.developmentProposalList[0].requestedStartDateInitial*,document.developmentProposalList[0].ownedByUnit*,document.developmentProposalList[0].requestedEndDateInitial*,document.developmentProposalList[0].activityTypeCode*,document.developmentProposalList[0].title" 
+	auditCluster="requiredFieldsAuditErrors" tabAuditKey="document.developmentProposalList[0].title,document.developmentProposalList[0].continuedFrom" useRiceAuditMode="true">
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left">Required Fields for Saving Document</span>
