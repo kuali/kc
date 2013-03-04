@@ -36,7 +36,7 @@
   <c:set var="degreeCodeAttribute" value="${DataDictionary.DegreeType.attributes.description}" />
 <c:set var="tdClass" value="" />
 </c:if>
-                  <tr>
+                  <tr class="addline">
                     <th scope="row" align="center">${degreeIndexHeader}</th>
 
                     <td class="${tdClass}"><div align=left><span class="copy">
@@ -56,7 +56,7 @@
                     <div align=center>&nbsp;
                     <kra:section permission="modifyProposal">
                     <c:if test="${ not isParent }">
-                    	<html:image property="methodToCall.${actionMethod}" src="${actionImage}" title="${actionTitle}" alt="${actionTitle}" styleClass="tinybutton"/>
+                    	<html:image property="methodToCall.${actionMethod}" src="${actionImage}" title="${actionTitle}" alt="${actionTitle}" styleClass="tinybutton addButton"/>
                     </c:if>
                     </kra:section>
                     </div>
