@@ -3717,16 +3717,18 @@ var WarningOnAddRow = (function($) {
 			this.resetRow = this.resetRow.bind(this);
 			this.panelChanged = this.panelChanged.bind(this);
 			this.pageChanged = this.pageChanged.bind(this);
+			this.recursePanelChanged = this.recursePanelChanged.bind(this);
 			//if the page reloads and there is input in the add line then mark it as such, then after monitor for changes.
 			$(this.inputs).each(this.checkModification);
 			$(this.inputs).change(this.valueChanged);
+			//will cause to be caused twice in many cases, but required for date picker changes.
+			$(this.inputs).attr('onchange', "WarningOnAddRow.checkModification(0, this);");
 			$(this.inputs).keyup(this.valueChanged);
 		},
 		checkModification : function(idx, element) {
 			var addLine = $(element).parents('.addline').first();
-			if ($(element).val() != undefined && $(element).val().length > 0
+			if ($(element).val() != undefined && $(element).val().length > 0 && $(element).val() !== ' '
 					&& !this.isIgnoredElement(element)) {
-				console.log('Found change in ' + element.name);
 				$(element).addClass('changed');
 			} else {
 				$(element).removeClass('changed');
@@ -3752,18 +3754,24 @@ var WarningOnAddRow = (function($) {
 			this.panelChanged($(row).parents('div[id^="tab-"]').first());
 		},
 		panelChanged: function(panelDiv) {
-			if (typeof panelDiv !== "undefined") {
+			this.recursePanelChanged(panelDiv);
+			this.pageChanged();
+		},
+		recursePanelChanged: function(panelDiv) {
+			if (typeof panelDiv !== "undefined" && panelDiv.length > 0) {
 				if ($(panelDiv).find(this.inputs).filter('.changed').length > 0) {
 					if (!$(panelDiv).is('.changed')) {
 						$(panelDiv).addClass('changed');
-						$(panelDiv).prev('table.tab').find('h2').append(this.asterisk.clone());
+						$(panelDiv).prev('table.tab').find('.tabtable1-left').append(this.asterisk.clone());
+						$(panelDiv).prev('.innerTab-head').append(this.asterisk.clone());
 					}
 				} else {
 					$(panelDiv).removeClass('changed');
 					$(panelDiv).prev('table.tab').find('.changedNotice').remove();
+					$(panelDiv).prev('.innerTab-head').find('.changedNotice').remove();
 				}
+				this.recursePanelChanged($(panelDiv).parents('div[id^="tab-"]').first());
 			}
-			this.pageChanged();
 		},
 		pageChanged: function() {
 			if ($('#workarea').find(this.inputs).filter('.changed').length > 0) {
@@ -3778,8 +3786,8 @@ var WarningOnAddRow = (function($) {
 		},
 		resetRow: function(event) {
 			var row = $(event.target).parents('.addline').first();
-			$(row).find('.changed option:selected').removeAttr('selected');
 			$(row).find('.changed').val('');
+			$(row).find('.changed option:selected').removeAttr('selected');
 			$(row).find('.changed').trigger('change');
 			$(row).find('.changedClearOnReset').html('');
 		},

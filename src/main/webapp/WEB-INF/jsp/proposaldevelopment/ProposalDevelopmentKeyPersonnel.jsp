@@ -40,14 +40,33 @@
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="keyPersonnel">
   	
+  	<div id="workarea">
+  	<style>
+  		#addPersonDiv table {
+  			border-right: 0;
+  			display: table;
+  			width: auto;
+  		}
+  		#addPersonDiv td {
+  			padding: 0;
+  			border-left: 0;
+  			border-bottom: 0;
+  		}
+  		#addPersonDiv td.grid {
+  			border-bottom: 1px solid #999999;
+  			border-left: 1px solid #999999;
+  			padding: 2px;
+  		}
+  	</style>
   	<div align="right"><kul:help documentTypeName="ProposalDevelopmentDocument" pageName="Key Personnel" /></div>
 
 <c:set var="viewOnly" value="${not KualiForm.editingMode['modifyProposal']}" />
 <kra:section permission="modifyProposal">
 <c:if test="${not isHierarchyParent}">
-    <kra:uncollapsable tabTitle="Add Key Person" tabErrorKey="newProposalPerson*" auditCluster="keyPersonnelAuditErrors" tabAuditKey="newProposalPerson*">
+	<div id="addPersonDiv">
+    <kra:uncollapsable tabTitle="Add Key Person" tabErrorKey="newProposalPerson*" auditCluster="keyPersonnelAuditErrors" tabAuditKey="newProposalPerson*" styleClass="addline">
           <div align="center">
-            <table  cellpadding="0" cellspacing="0" class="grid" summary="">
+            <table  cellpadding="0" cellspacing="0" class="grid" summary="" style="border-right: 1px solid #999999;">
               <tr>
                 <th class="grid"><div align="right">*Person:</div></th>
 <c:choose>                  
@@ -113,7 +132,7 @@
            
             <br>
             <html:image property="methodToCall.clearProposalPerson" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-clear1.gif" title="Clear Fields" alt="Clear Fields" styleClass="tinybutton"/>
-            <html:image property="methodToCall.insertProposalPerson" src="${ConfigProperties.kra.externalizable.images.url}tinybutton-addperson.gif" title="Add Proposal Person" alt="Add Proposal Person" styleClass="tinybutton"/>
+            <html:image property="methodToCall.insertProposalPerson" src="${ConfigProperties.kra.externalizable.images.url}tinybutton-addperson.gif" title="Add Proposal Person" alt="Add Proposal Person" styleClass="tinybutton addButton"/>
             <c:choose>
             <c:when test="${KualiForm.document.developmentProposalList[0].sponsorNihMultiplePi}">
             <br>
@@ -130,6 +149,7 @@
           </div>
     </kra:uncollapsable>
 </c:if>
+</div>
 </kra:section>
 
     <br/>
@@ -211,5 +231,5 @@ var kualiElements = kualiForm.elements;
 		
 	-->
 </script>
-
+</div>
 </kul:documentPage>
