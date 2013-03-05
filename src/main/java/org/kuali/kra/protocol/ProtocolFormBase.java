@@ -41,6 +41,7 @@ import org.kuali.kra.protocol.protocol.reference.ProtocolReferenceBeanBase;
 import org.kuali.kra.protocol.questionnaire.QuestionnaireHelperBase;
 import org.kuali.kra.protocol.specialreview.ProtocolSpecialReviewHelperBase;
 import org.kuali.kra.questionnaire.QuestionableFormInterface;
+import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.web.struts.form.Auditable;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
@@ -86,6 +87,8 @@ public abstract class ProtocolFormBase extends KraTransactionalDocumentFormBase 
     private transient NotesAttachmentsHelperBase notesAttachmentsHelper;
     private boolean auditActivated;
     
+    private transient KcPersonService kcPersonService;
+
     private ProtocolReferenceBeanBase newProtocolReferenceBean;
     private MedusaBean medusaBean;
     
@@ -525,5 +528,12 @@ public abstract class ProtocolFormBase extends KraTransactionalDocumentFormBase 
     public void setMedusaBean(MedusaBean medusaBean) {
         this.medusaBean = medusaBean;
     }
-    
+
+    protected KcPersonService getKcPersonService() {
+        if (this.kcPersonService == null) {
+            this.kcPersonService = KraServiceLocator.getService(KcPersonService.class);
+        }
+        return this.kcPersonService;
+    }
+
 }
