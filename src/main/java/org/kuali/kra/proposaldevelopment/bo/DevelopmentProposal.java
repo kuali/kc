@@ -1228,6 +1228,9 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
      * @return Returns the sponsor.
      */
     public Sponsor getSponsor() {
+        if (!StringUtils.isEmpty(sponsorCode)) {
+            this.refreshReferenceObject("sponsor");
+        }
         return sponsor;
     }
 
