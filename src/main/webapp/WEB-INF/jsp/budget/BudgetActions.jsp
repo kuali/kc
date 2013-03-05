@@ -52,9 +52,19 @@
 	    	<kra-b:proposalHierarchyBudget />
 			<kra-b:budgetSubAwardsBudget />
 	    </c:if>
-	    <c:if test="${not proposalBudgetFlag}">
+	    
+	    <c:choose>
+	    	<c:when test="${KualiForm.editingMode['printProposal']}">
+	    		<kra:dataValidation auditActivated="${KualiForm.auditActivated}" topTab="false"  helpParameterNamespace="KC-B" helpParameterName="budgetActionsHelp" helpParameterDetailType="Document"/>
+	    	</c:when>
+	    	<c:otherwise>
+	    		<kra:dataValidation auditActivated="${KualiForm.auditActivated}" topTab="false"  helpParameterNamespace="KC-AB" helpParameterName="awardBudgetDataValidationHelpUrl" helpParameterDetailType="Document"/>
+	    	</c:otherwise>
+	    </c:choose>
+	    
+	    <%--<c:if test="${not proposalBudgetFlag}">
              <kra:dataValidation auditActivated="${KualiForm.auditActivated}" topTab="false"  helpParameterNamespace="KC-AB" helpParameterName="awardBudgetDataValidationHelpUrl" helpParameterDetailType="Document"/>
-        </c:if>
+        </c:if> --%>
         <kul:adHocRecipients />
 	    <c:if test="${not proposalBudgetFlag}">
             <kul:routeLog /> 
