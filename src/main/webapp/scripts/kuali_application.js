@@ -14,7 +14,37 @@
  * limitations under the License.
  */
 
+if (!Function.prototype.bind) {
+  Function.prototype.bind = function (oThis) {
+    if (typeof this !== "function") {
+      // closest thing possible to the ECMAScript 5 internal IsCallable function
+      throw new TypeError("Function.prototype.bind - what is trying to be bound is not callable");
+    }
+ 
+    var aArgs = Array.prototype.slice.call(arguments, 1), 
+        fToBind = this, 
+        fNOP = function () {},
+        fBound = function () {
+          return fToBind.apply(this instanceof fNOP && oThis
+                                 ? this
+                                 : oThis,
+                               aArgs.concat(Array.prototype.slice.call(arguments)));
+        };
+ 
+    fNOP.prototype = this.prototype;
+    fBound.prototype = new fNOP();
+ 
+    return fBound;
+  };
+}
 
+//override callHandler to support WarningOnAddRow functionality for date pickers
+Calendar.prototype.callHandler = function () {
+	if (this.onSelected) {
+		this.onSelected(this, this.date.print(this.dateFormat));
+	}
+	jQuery(this.params.inputField).trigger('change');
+};
 
 //Fix rice ids for use with jquery
 //Takes an id and escapes the . : ] and [ and adds #
@@ -60,7 +90,7 @@ window.hasFormAlreadyBeenSubmitted = function(){
  */
 function createLoading(showLoading) {
 	//var jq = jQuery.noConflict();
-    var processingMessage = '<h1><img src="' + "krad/images/" + 'loading.gif" alt="working..." />Page is being processed by the server....</h1>';
+    var processingMessage = '<h1><img src="' + "krad/images/" + 'loading.gif" alt="working..." />Page is being processed by the server....</h1><script>timeout = setTimeout(function() {jQuery.unblockUI();}, 500);</script>';
     
         if (showLoading) {
             getContext().blockUI({message: processingMessage});
@@ -3722,8 +3752,6 @@ var WarningOnAddRow = (function($) {
 			//if the page reloads and there is input in the add line then mark it as such, then after monitor for changes.
 			$(this.inputs).each(this.checkModification);
 			$(this.inputs).change(this.valueChanged);
-			//will cause to be caused twice in many cases, but required for date picker changes.
-			$(this.inputs).attr('onchange', "WarningOnAddRow.checkModification(0, this);");
 			$(this.inputs).keyup(this.valueChanged);
 		},
 		checkModification : function(idx, element) {
@@ -3742,14 +3770,14 @@ var WarningOnAddRow = (function($) {
 		},
 		rowChanged: function(row) {
 			if ($(row).find('input.changed, select.changed, textarea.changed').length > 0) {
-				if (!$(row).is('.changed')) {
-					$(row).addClass('changed');
+				if (!$(row).is('.changedRow')) {
+					$(row).addClass('changedRow');
 					$(row).find('.addButton').before(this.asterisk.clone());
 					$(row).find('.addButton').after(this.resetBtn.clone());
 					$(row).find('.changedResetBtn').click(this.resetRow);
 				}
 			} else {
-				$(row).removeClass('changed');
+				$(row).removeClass('changedRow');
 				$(row).find('.changedNotice').remove();
 			}
 			this.panelChanged($(row).parents('div[id^="tab-"]').first());
@@ -3799,7 +3827,7 @@ var WarningOnAddRow = (function($) {
 				}
 			}
 			return false;
-		},
+		}
 		
 	}
 }(jQuery));
