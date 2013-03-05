@@ -1050,7 +1050,7 @@
 													<fo:table-cell border="solid 1pt gray" padding="0" display-align="center">
 														<fo:block>
 															<fo:inline font-family="Arial" font-size="10pt" font-weight="bold">
-																<xsl:text>Role</xsl:text>
+																<xsl:text>Title</xsl:text>
 															</fo:inline>
 														</fo:block>
 													</fo:table-cell>
@@ -1193,18 +1193,10 @@
 									</fo:inline-container>
 									<xsl:if test="n1:Protocol/n1:Correspondent">
 										<fo:table table-layout="fixed" width="100%" border="solid 1pt gray" border-spacing="-1pt">
-											<fo:table-column column-width="25%"/>
-											<fo:table-column column-width="25%"/>
 											<fo:table-column column-width="50%"/>
+											<fo:table-column column-width="50%"/>											
 											<fo:table-header start-indent="0pt">
 												<fo:table-row font-family="Arial" font-size="9pt" font-weight="bold">
-													<fo:table-cell border="solid 1pt gray" padding="0" display-align="center">
-														<fo:block>
-															<fo:inline font-family="Arial" font-size="10pt">
-																<xsl:text>Type</xsl:text>
-															</fo:inline>
-														</fo:block>
-													</fo:table-cell>
 													<fo:table-cell border="solid 1pt gray" padding="0" display-align="center">
 														<fo:block>
 															<fo:inline>
@@ -1225,27 +1217,6 @@
 												<xsl:for-each select="n1:Protocol">
 													<xsl:for-each select="n1:Correspondent">
 														<fo:table-row font-family="Arial" font-size="9pt">
-															<fo:table-cell border="solid 1pt gray" padding="0" display-align="center">
-																<fo:block>
-																	<xsl:for-each select="n1:CorrespondentTypeDesc">
-																		<xsl:variable name="value-of-template">
-																			<xsl:apply-templates/>
-																		</xsl:variable>
-																		<xsl:choose>
-																			<xsl:when test="contains(string($value-of-template),'&#x2029;')">
-																				<fo:block>
-																					<xsl:copy-of select="$value-of-template"/>
-																				</fo:block>
-																			</xsl:when>
-																			<xsl:otherwise>
-																				<fo:inline>
-																					<xsl:copy-of select="$value-of-template"/>
-																				</fo:inline>
-																			</xsl:otherwise>
-																		</xsl:choose>
-																	</xsl:for-each>
-																</fo:block>
-															</fo:table-cell>
 															<fo:table-cell border="solid 1pt gray" padding="0" display-align="center">
 																<fo:block>
 																	<xsl:for-each select="n1:Person">
@@ -1791,53 +1762,32 @@
 															</fo:block>
 														</fo:table-cell>
 													</fo:table-row>
-													<fo:table-row>
-														<fo:table-cell font-weight="bold" padding="2pt" text-align="left" display-align="center">
-															<fo:block>
-																<fo:inline>
-																	<xsl:text>Exception:</xsl:text>
-																</fo:inline>
-															</fo:block>
-														</fo:table-cell>
-														<fo:table-cell padding="2pt" display-align="center">
-															<fo:block>
-																<xsl:for-each select="n1:ExceptionPresent">
-																	<xsl:variable name="value-of-template">
-																		<xsl:apply-templates/>
-																	</xsl:variable>
-																	<xsl:choose>
-																		<xsl:when test="contains(string($value-of-template),'&#x2029;')">
-																			<fo:block>
-																				<xsl:copy-of select="$value-of-template"/>
-																			</fo:block>
-																		</xsl:when>
-																		<xsl:otherwise>
-																			<fo:inline>
-																				<xsl:copy-of select="$value-of-template"/>
-																			</fo:inline>
-																		</xsl:otherwise>
-																	</xsl:choose>
-																</xsl:for-each>
-															</fo:block>
-														</fo:table-cell>
-													</fo:table-row>
 												</fo:table-body>
 											</fo:table>
 											<fo:inline-container>
 												<fo:block>
 													<xsl:text>&#x2029;</xsl:text>
 												</fo:block>
+												<fo:block></fo:block>
 											</fo:inline-container>
-											<fo:table table-layout="fixed" width="100%" border-spacing="2pt">
+										</xsl:for-each>
+									</xsl:for-each>
+								</xsl:if>
+							</xsl:if>
+							<fo:block/>
+							<fo:block>
+							   <xsl:if test="count(n1:Protocol/n1:Species)  &gt; 0">
+								<xsl:if test="n1:Protocol/n1:PrintRequirement/n1:ExceptionsRequired = 1">
+									<fo:table table-layout="fixed" width="100%" border-spacing="2pt">
 												<fo:table-column column-width="5%"/>
 												<fo:table-column column-width="proportional-column-width(1)"/>
 												<fo:table-body start-indent="0pt">
 													<fo:table-row font-weight="bold">
 														<fo:table-cell padding="2pt" display-align="center">
 															<fo:block>
-																<xsl:if test="count(  n1:Exception  )  &gt; 0">
-																	<fo:inline font-family="Arial" font-size="10pt" font-weight="bold">
-																		<xsl:text>Exceptions: </xsl:text>
+																<xsl:if test="count(n1:Protocol/n1:Species/n1:Exception)  &gt; 0">
+																	<fo:inline font-family="Arial" font-size="12pt" font-weight="bold">
+																		<xsl:text>Exceptions</xsl:text>
 																	</fo:inline>
 																</xsl:if>
 															</fo:block>
@@ -1857,7 +1807,7 @@
 																		<xsl:text>&#x2029;</xsl:text>
 																	</fo:block>
 																</fo:inline-container>
-																<xsl:if test="n1:Exception">
+																<xsl:if test="n1:Protocol/n1:Species/n1:Exception">
 																	<fo:table font-family="Arial" font-size="9pt" table-layout="fixed" width="100%" border="solid 1pt gray" border-spacing="-1pt">
 																		<fo:table-column column-width="25%"/>
 																		<fo:table-column column-width="75%"/>
@@ -1880,7 +1830,7 @@
 																			</fo:table-row>
 																		</fo:table-header>
 																		<fo:table-body start-indent="0pt">
-																			<xsl:for-each select="n1:Exception">
+																			<xsl:for-each select="n1:Protocol/n1:Species[1]/n1:Exception">
 																				<fo:table-row>
 																					<fo:table-cell border="solid 1pt gray" padding="0" display-align="center">
 																						<fo:block>
@@ -1934,11 +1884,9 @@
 													</fo:table-row>
 												</fo:table-body>
 											</fo:table>
-										</xsl:for-each>
-									</xsl:for-each>
+										</xsl:if>
 								</xsl:if>
-							</xsl:if>
-							<fo:block/>
+							</fo:block>
 							<xsl:if test="n1:Protocol/n1:PrintRequirement/n1:ProceduresRequired  =1">
 								<fo:block/>
 								<fo:block>
@@ -2609,7 +2557,7 @@
 										<fo:block/>
 									</fo:block>
 									<fo:inline font-family="Arial" font-size="12pt" font-weight="bold">
-										<xsl:text>Scientific Justification </xsl:text>
+										<xsl:text>Three R's</xsl:text>
 									</fo:inline>
 									<fo:block/>
 									<xsl:for-each select="n1:Protocol">
