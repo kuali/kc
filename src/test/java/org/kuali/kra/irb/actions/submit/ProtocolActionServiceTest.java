@@ -714,7 +714,7 @@ public class ProtocolActionServiceTest extends ProtocolActionServiceTestBase {
         assertTrue(protocolActionService.canPerformAction("102", protocol));
 
         protocol.setProtocolStatusCode("203");
-        assertFalse(protocolActionService.canPerformAction("102", protocol));
+        assertTrue(protocolActionService.canPerformAction("102", protocol));
 
         protocol.setProtocolStatusCode("300");
         assertTrue(protocolActionService.canPerformAction("102", protocol));
