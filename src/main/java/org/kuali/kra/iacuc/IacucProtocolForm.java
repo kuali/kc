@@ -23,6 +23,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.bo.CoeusModule;
+import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.common.notification.web.struts.form.NotificationHelper;
 import org.kuali.kra.iacuc.actions.IacucActionHelper;
 import org.kuali.kra.iacuc.customdata.IacucProtocolCustomDataHelper;
@@ -235,10 +236,10 @@ public class IacucProtocolForm extends ProtocolFormBase {
         }
         
         if(getDocInfo().size() > 2) {
-            HeaderField initiatorField = getDocInfo().get(2);
-            String modifiedInitiatorFieldStr = initiatorField.getDisplayValue();
+            KcPerson initiator = getKcPersonService().getKcPersonByPersonId(pd.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId());
+            String modifiedInitiatorFieldStr = initiator == null ? "" : initiator.getUserName();
             if(StringUtils.isNotBlank(lastUpdatedDateStr)) {
-                modifiedInitiatorFieldStr = modifiedInitiatorFieldStr + " : " + lastUpdatedDateStr;
+                modifiedInitiatorFieldStr += (" : " + lastUpdatedDateStr);
             }
             getDocInfo().set(2, new HeaderField("DataDictionary.IacucProtocol.attributes.initiatorLastUpdated", modifiedInitiatorFieldStr));
         }
