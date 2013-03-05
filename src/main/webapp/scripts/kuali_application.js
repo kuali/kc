@@ -90,7 +90,7 @@ window.hasFormAlreadyBeenSubmitted = function(){
  */
 function createLoading(showLoading) {
 	//var jq = jQuery.noConflict();
-    var processingMessage = '<h1><img src="' + "krad/images/" + 'loading.gif" alt="working..." />Page is being processed by the server....</h1><script>timeout = setTimeout(function() {jQuery.unblockUI();}, 500);</script>';
+    var processingMessage = '<h1><img src="' + "krad/images/" + 'loading.gif" alt="working..." />Page is being processed by the server....</h1>';
     
         if (showLoading) {
             getContext().blockUI({message: processingMessage});
