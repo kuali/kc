@@ -413,7 +413,7 @@
 					                                         canPerformAction="${KualiForm.actionHelper.canNotifyIacucUnavailable}"
 				    	                                     reason="Protocol can not be an amendment or renewal.
 				        	                                         <p>
-				            	                                     Protocol status is In Progress, Submitted To IACUC, Minor Revisions Required, Deferred, Amendment In Progress, Administratively Approved or Renewal In Progress." />
+				            	                                     Protocol status is Withdrawn, Active, Active On Hold, Administratively Approved, Review Not Required, Administratively Withdrawn, Disapproved, Suspended, Deactivated, Administratively Deactivated, Terminated, or Expired." />
 		            <kra-iacuc-action:genericUnavailableAction tabTitle="Notify Committee"
 					                                         canPerformAction="${KualiForm.actionHelper.canNotifyCommitteeUnavailable}"
 					                                         reason="Protocol review type must be Expedited.

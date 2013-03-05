@@ -21,23 +21,21 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewType;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionQualifierType;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionType;
 import org.kuali.kra.iacuc.actions.submit.IacucValidProtoSubRevType;
 import org.kuali.kra.irb.actions.IrbActionsKeyValuesBase;
-import org.kuali.kra.irb.actions.submit.ProtocolReviewType;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmissionQualifierType;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
-import org.kuali.kra.irb.actions.submit.ValidProtoSubRevType;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 
 public class SubmissionReviewTypeValuesFinder extends IrbActionsKeyValuesBase {
     
+    private static final long serialVersionUID = 1525606389532878075L;
+
     /**
      * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
      */
-    @SuppressWarnings("unchecked")
     public List<KeyValue> getKeyValues() {
        
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
@@ -46,9 +44,9 @@ public class SubmissionReviewTypeValuesFinder extends IrbActionsKeyValuesBase {
         List<IacucValidProtoSubRevType> validProtoSubRevTypes = (List<IacucValidProtoSubRevType>) getBusinessObjectService().findMatching(
                 IacucValidProtoSubRevType.class, fieldValues);
         if (validProtoSubRevTypes.isEmpty()) {
-            List<ProtocolReviewType> reviewTypes = (List<ProtocolReviewType>) getBusinessObjectService().findAll(
-                    ProtocolReviewType.class);
-            for (ProtocolReviewType reviewType : reviewTypes) {
+            List<IacucProtocolReviewType> reviewTypes = (List<IacucProtocolReviewType>) getBusinessObjectService().findAll(
+                    IacucProtocolReviewType.class);
+            for (IacucProtocolReviewType reviewType : reviewTypes) {
                 keyValues.add(new ConcreteKeyValue(reviewType.getReviewTypeCode(), 
                         reviewType.getDescription()));
             }
