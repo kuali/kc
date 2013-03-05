@@ -139,9 +139,9 @@
                         </td>
                         <td>
                            <div align="left">
-                                <kul:htmlControlAttribute property="actionHelper.protocolPrintOption.riskLevel" 
+                                <kul:htmlControlAttribute property="actionHelper.protocolPrintOption.exception" 
                                                           attributeEntry="${kraAttributeReferenceDummyAttributes.checkBox}" 
-                                                          readOnly="false" styleClass="printOptions"/>Risk Levels
+                                                          readOnly="false" styleClass="printOptions"/>Exemption
                             </div>
                         </td>
                            <kra:section permission="${canViewReviewComments}">
@@ -177,6 +177,17 @@
 	                                                          readOnly="false" styleClass="printOptions"/>Three R's
 	                            </div>
                         </td>
+                    </tr>
+                    <tr>
+                    	<td>
+                    		<div align="left">
+	                                <kul:htmlControlAttribute property="actionHelper.protocolPrintOption.protocolDetails" 
+	                                                          attributeEntry="${kraAttributeReferenceDummyAttributes.checkBox}" 
+	                                                          readOnly="false" styleClass="printOptions"/>Protocol Required Fields
+	                            </div>
+                    	</td>
+                    	<td></td>
+                    	<td></td>
                     </tr>
                    <%-- kcirb-1159 is closed (not fix, so comment out this       
                     <tr>
