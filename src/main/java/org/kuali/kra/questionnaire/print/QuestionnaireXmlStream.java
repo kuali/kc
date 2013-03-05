@@ -45,6 +45,7 @@ import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.document.ResearchDocumentBase;
+import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.maintenance.KraMaintenanceDocument;
@@ -413,6 +414,22 @@ public class QuestionnaireXmlStream implements XmlStream {
                     moduleSubItemCode = (String)params.get("moduleSubItemCode");
                 }
             }
+        } else if(printableBusinessObject instanceof IacucProtocol){
+            IacucProtocol protocol = (IacucProtocol)printableBusinessObject;
+            moduleItemCode = CoeusModule.IACUC_PROTOCOL_MODULE_CODE;
+            moduleSubItemCode = getIacucProtocolSubItemCode(protocol);
+            if (params.get("protocolNumber") != null && params.get("submissionNumber") != null) {
+                moduleItemKey = (String)params.get("protocolNumber");
+                moduleSubItemKey = (String)params.get("submissionNumber");
+                moduleSubItemCode = CoeusSubModule.PROTOCOL_SUBMISSION;
+            } else {
+                moduleItemKey = protocol.getProtocolNumber();
+                moduleSubItemKey = protocol.getSequenceNumber().toString();
+                if (params.get("moduleSubItemCode") != null) {
+                    // for amendquestionnaire
+                    moduleSubItemCode = (String)params.get("moduleSubItemCode");
+                }
+            }
         } else if(printableBusinessObject instanceof DevelopmentProposal){
             DevelopmentProposal developmentProposal = (DevelopmentProposal)printableBusinessObject;
             moduleItemCode = CoeusModule.PROPOSAL_DEVELOPMENT_MODULE_CODE;
@@ -436,6 +453,15 @@ public class QuestionnaireXmlStream implements XmlStream {
     }
 
     private String getProtocolSubItemCode(Protocol protocol) {
+        // For now check renewal/amendment.  will add 'Protocol Submission' when it is cleared
+            String subModuleCode = "0";
+            if (protocol.isAmendment() || protocol.isRenewal()) {
+                subModuleCode = "1";
+            }
+            return subModuleCode;
+        }
+    
+    private String getIacucProtocolSubItemCode(IacucProtocol protocol) {
         // For now check renewal/amendment.  will add 'Protocol Submission' when it is cleared
             String subModuleCode = "0";
             if (protocol.isAmendment() || protocol.isRenewal()) {
