@@ -671,13 +671,27 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
     /** {@inheritDoc} */
     public ActionForward activate(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
             HttpServletResponse response) throws Exception {
-        return new AuditActionHelper().setAuditMode(mapping, (AwardBudgetForm) form, true);
+        //return new AuditActionHelper().setAuditMode(mapping, (AwardBudgetForm) form, true);
+        ActionForward forward;
+        if (form instanceof AwardBudgetForm) {
+            forward = new AuditActionHelper().setAuditMode(mapping, (AwardBudgetForm) form, true);
+        } else {
+            forward = new AuditActionHelper().setAuditMode(mapping, (BudgetForm) form, true);
+        }
+        return forward;
     }
 
     /** {@inheritDoc} */
     public ActionForward deactivate(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
             HttpServletResponse response) throws Exception {
-        return new AuditActionHelper().setAuditMode(mapping, (AwardBudgetForm) form, false);
+        //return new AuditActionHelper().setAuditMode(mapping, (AwardBudgetForm) form, false);
+        ActionForward forward;
+        if (form instanceof AwardBudgetForm) {
+            forward = new AuditActionHelper().setAuditMode(mapping, (AwardBudgetForm) form, false);
+        } else {
+            forward = new AuditActionHelper().setAuditMode(mapping, (BudgetForm) form, false);
+        }
+        return forward;
     }
 
     /**
@@ -767,6 +781,25 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
 
     public void setBudgetSubAwardService(BudgetSubAwardService budgetSubAwardService) {
         this.budgetSubAwardService = budgetSubAwardService;
-    }    
+    }  
+    
+    public ActionForward budgetVersions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        //final ProposalDevelopmentForm pdForm = (ProposalDevelopmentForm) form;
+        final BudgetForm budgetForm = (BudgetForm) form;
+        final String headerTabCall = getHeaderTabDispatch(request);
+        if(StringUtils.isEmpty(headerTabCall)) {
+            budgetForm.getDocument().refreshPessimisticLocks();
+        }  
+        /*
+        pdForm.setFinalBudgetVersion(getFinalBudgetVersion(pdForm.getProposalDevelopmentDocument().getBudgetDocumentVersions()));
+        setBudgetStatuses(pdForm.getProposalDevelopmentDocument());
+        */
+        
+        final BudgetTDCValidator tdcValidator = new BudgetTDCValidator(request);
+        
+        //tdcValidator.validateGeneratingWarnings(pdForm.getProposalDevelopmentDocument());
+        
+        return mapping.findForward(Constants.BUDGET_VERSIONS_PAGE);
+    }
     
 }
