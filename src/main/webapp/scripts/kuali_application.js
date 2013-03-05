@@ -3020,7 +3020,7 @@ function previousPeriodSet() {
 }
 
 function nextPeriodSet() {
-	document.forms[0].action=extractUrlBase()+ "/budgetSummaryTotals.do?methodToCall=nextPeriodSet;
+	document.forms[0].action=extractUrlBase()+ "/budgetSummaryTotals.do?methodToCall=nextPeriodSet";
 	document.forms[0].submit();
 }
 
