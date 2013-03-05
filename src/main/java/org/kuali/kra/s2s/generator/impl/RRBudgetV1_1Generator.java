@@ -89,7 +89,7 @@ import org.kuali.kra.s2s.util.S2SConstants;
  */
 public class RRBudgetV1_1Generator extends RRBudgetBaseGenerator {
 
-	private static final Log LOG = LogFactory.getLog(RRBudgetV1_0Generator.class);
+	private static final Log LOG = LogFactory.getLog(RRBudgetV1_1Generator.class);
 
 	/**
 	 * This method returns RRBudgetDocument object based on proposal development
