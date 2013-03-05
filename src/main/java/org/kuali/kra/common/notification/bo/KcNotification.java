@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.common.notification.bo;
 
+import java.text.SimpleDateFormat;
+
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -91,6 +93,9 @@ public class KcNotification extends KraPersistableBusinessObjectBase {
     }
 
     public NotificationType getNotificationType() {
+        if (notificationType == null) {
+            this.refreshReferenceObject("notificationType");
+        }
         return notificationType;
     }
 
@@ -104,6 +109,11 @@ public class KcNotification extends KraPersistableBusinessObjectBase {
 
     public void setOwningDocumentIdFk(Long owningDocumentIdFk) {
         this.owningDocumentIdFk = owningDocumentIdFk;
+    }
+    
+    public String getUpdateTimestampString() {
+        final SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
+        return (getUpdateTimestamp() == null ? "" : dateFormat.format(getUpdateTimestamp()));
     }
 
     public void persistOwningObject(KraPersistableBusinessObjectBase object) {
