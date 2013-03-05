@@ -15,9 +15,8 @@
  */
 package org.kuali.kra.iacuc.auth;
 
-import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
-import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.protocol.ProtocolBase;
 
@@ -30,6 +29,8 @@ public class IacucAcknowledgeAuthorizer extends IacucProtocolAuthorizer {
     @Override
     public boolean isAuthorized(String username, IacucProtocolTask task) {
         ProtocolBase protocol = task.getProtocol();
+System.out.println("\n\nAAAAA isAuthorized, protocol status = " + protocol.getProtocolStatusCode() + ", sub status = " + ((IacucProtocol)protocol).getProtocolSubmission().getSubmissionStatusCode() +
+ ", submission type = " + ((IacucProtocol)protocol).getProtocolSubmission().getSubmissionTypeCode());        
         return canExecuteAction(protocol, IacucProtocolActionType.IACUC_ACKNOWLEDGEMENT)
                 && hasPermission(username, protocol, PermissionConstants.PERFORM_IACUC_ACTIONS_ON_PROTO);
     }
