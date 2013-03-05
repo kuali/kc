@@ -17,6 +17,7 @@ package org.kuali.kra.iacuc.committee.print;
 
 import java.math.BigInteger;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -350,21 +351,17 @@ public class IacucScheduleXmlStream extends PrintBaseXmlStream {
 
     private void setProtocolSubmissionReviewers(org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase protocolSubmission,
             SubmissionDetailsType protocolSubmissionDetail) {
-        
-        
-        // TODO IRB specific should go in subclassed IRB - commented as part of code lifted for base
-        /*
         List<ProtocolReviewer> vecReviewers = protocolSubmission.getProtocolReviewers();
+        List<ProtocolReviewerType> protocolReviewerTypeList = new ArrayList<ProtocolReviewerType>();
         for (ProtocolReviewer protocolReviewer : vecReviewers) {
             protocolReviewer.refreshNonUpdateableReferences();
-            edu.mit.irb.irbnamespace.ProtocolReviewerDocument.ProtocolReviewer protocolReviewerType = protocolSubmissionDetail
-                    .addNewProtocolReviewer();
+            ProtocolReviewerType protocolReviewerType = ProtocolReviewerType.Factory.newInstance();
             setPerson(protocolReviewer, protocolReviewerType);
             protocolReviewerType.setReviewerTypeDesc(protocolReviewer.getProtocolReviewerType().getDescription());
             protocolReviewerType.setReviewerTypeCode(new BigInteger(String.valueOf(protocolReviewer.getReviewerTypeCode())));
+            protocolReviewerTypeList.add(protocolReviewerType);
         }
-        */
-        
+        protocolSubmissionDetail.setProtocolReviewerArray(protocolReviewerTypeList.toArray(new ProtocolReviewerType[0]));
     }
 
     private void setPerson(ProtocolReviewer protocolReviewer,
