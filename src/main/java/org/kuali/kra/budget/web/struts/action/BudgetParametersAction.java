@@ -34,6 +34,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.award.budget.AwardBudgetForm;
 import org.kuali.kra.award.budget.AwardBudgetService;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.Budget;
@@ -53,6 +54,7 @@ import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
 import org.kuali.rice.kns.lookup.LookupResultsService;
 import org.kuali.rice.krad.bo.BusinessObject;
@@ -107,8 +109,8 @@ public class BudgetParametersAction extends BudgetAction {
         BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
         Budget budget = budgetDocument.getBudget();
         
-        boolean rulePassed = getKualiRuleService().applyRules(
-            new SaveBudgetPeriodEvent(Constants.EMPTY_STRING, budgetForm.getBudgetDocument()));
+        boolean rulePassed = getKualiRuleService().applyRules(new SaveBudgetPeriodEvent(Constants.EMPTY_STRING, budgetForm.getBudgetDocument()));
+        
         if (isRateTypeChanged(budgetForm)) {
             if (isBudgetPeriodDateChanged(budget) && isLineItemErrorOnly()) {
                 GlobalVariables.setMessageMap(new MessageMap());
@@ -153,12 +155,23 @@ public class BudgetParametersAction extends BudgetAction {
                 if (valid) {
                     updateBudgetPeriodDbVersion(budget);
                     return super.save(mapping, form, request, response);
-                }
-                else {
+                } else {
+                    //HERE, redirect to actions tab, set logging to true;
                     String budgetStatusIncompleteCode = this.getParameterService().getParameterValueAsString(
                             BudgetDocument.class, Constants.BUDGET_STATUS_INCOMPLETE_CODE);
                     budget.setBudgetStatus(budgetStatusIncompleteCode);
-                    mapping.findForward(Constants.MAPPING_BASIC);
+                    //mapping.findForward(Constants.MAPPING_BASIC);
+                    
+                    //mapping.findForward(Constants.BUDGET_ACTIONS_PAGE);
+                    if (form instanceof AwardBudgetForm) {
+                        //forward = new AuditActionHelper().setAuditMode(mapping, (AwardBudgetForm) form, true);
+                        new AuditActionHelper().setAuditMode(mapping, (AwardBudgetForm) form, true);
+                    } else {
+                        //forward = new AuditActionHelper().setAuditMode(mapping, (BudgetForm) form, true);
+                        new AuditActionHelper().setAuditMode(mapping, (BudgetForm) form, true);
+                    }
+                    
+                    return mapping.findForward(Constants.BUDGET_ACTIONS_PAGE);
                 }
             }
         }
