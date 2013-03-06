@@ -63,5 +63,6 @@ public class IacucProtocolSubmissionStatus extends ProtocolSubmissionStatusBase 
 
     public static final String ADMINISTRATIVELY_INCOMPLETE = "214";
     
+    public static final String REJECTED_IN_ROUTING = "401";
 
 }

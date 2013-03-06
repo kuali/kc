@@ -52,6 +52,8 @@ public class ProtocolSubmissionStatus extends ProtocolSubmissionStatusBase {
     public static final String IRB_ACKNOWLEDGEMENT = "212";
     
     public static final String RETURNED_TO_PI = "213";
+    
+    public static final String REJECTED_IN_ROUTING = "405";
 
     private String protocolSubmissionStatusCode;
 

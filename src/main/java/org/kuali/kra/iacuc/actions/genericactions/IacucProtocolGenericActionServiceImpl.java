@@ -123,8 +123,8 @@ public class IacucProtocolGenericActionServiceImpl extends ProtocolGenericAction
     }
 
     @Override
-    protected String getProtocolSubmissionStatusCodeDisapprovedHook() {
-        return IacucProtocolSubmissionStatus.DISAPPROVED;
+    protected String getProtocolSubmissionStatusRejectedInRoutingCodeHook() {
+        return IacucProtocolSubmissionStatus.REJECTED_IN_ROUTING;
     }
 
     @Override
