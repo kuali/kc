@@ -280,12 +280,7 @@ public class BudgetAction extends BudgetActionBase {
         }
 
         if (budgetForm.getMethodToCall().equals("save") && budgetForm.isAuditActivated()) {
-            if (Boolean.valueOf(savedBudgetDoc.getParentDocument().getProposalBudgetFlag())) {
-                forward = this.getReturnToProposalForward(budgetForm);
-            }
-            else {
-                forward = mapping.findForward("budgetActions");
-            }
+            forward = mapping.findForward("budgetActions");
         }
 
         return forward;
