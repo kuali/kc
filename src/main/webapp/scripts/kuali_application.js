@@ -3046,11 +3046,12 @@ function resetGrpNameTextbox() {
 }
 
 function previousPeriodSet() {
+	document.forms[0].methodToCall.value = "previousPeriodSet";
 	document.forms[0].submit();
 }
 
 function nextPeriodSet() {
-	document.forms[0].action=extractUrlBase()+ "/budgetSummaryTotals.do?methodToCall=nextPeriodSet";
+	document.forms[0].methodToCall.value = "nextPeriodSet";
 	document.forms[0].submit();
 }
 
