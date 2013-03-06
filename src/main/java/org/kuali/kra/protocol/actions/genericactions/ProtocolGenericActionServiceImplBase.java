@@ -280,12 +280,12 @@ public abstract class ProtocolGenericActionServiceImplBase implements ProtocolGe
         // update the statuses and persist the protocol
         protocol.setProtocolStatusCode(getDisapprovedProtocolStatusCodeHook());
         protocol.refreshReferenceObject(Constants.PROPERTY_PROTOCOL_STATUS);
-        protocol.getProtocolSubmission().setSubmissionStatusCode(getProtocolSubmissionStatusCodeDisapprovedHook());
+        protocol.getProtocolSubmission().setSubmissionStatusCode(getProtocolSubmissionStatusRejectedInRoutingCodeHook());
         protocol.refreshReferenceObject(PROTOCOL_SUBMISSION);
         this.getBusinessObjectService().save(protocol);
     }
     
-    protected abstract String getProtocolSubmissionStatusCodeDisapprovedHook();
+    protected abstract String getProtocolSubmissionStatusRejectedInRoutingCodeHook();
 
     protected abstract String getDisapprovedProtocolStatusCodeHook();
 
@@ -303,7 +303,7 @@ public abstract class ProtocolGenericActionServiceImplBase implements ProtocolGe
         newProtocol.refreshReferenceObject(Constants.PROPERTY_PROTOCOL_STATUS);
         
         // set the submission status to disapproved
-        newProtocol.getProtocolSubmission().setSubmissionStatusCode(getProtocolSubmissionStatusCodeDisapprovedHook());
+        newProtocol.getProtocolSubmission().setSubmissionStatusCode(getProtocolSubmissionStatusRejectedInRoutingCodeHook());
         newProtocol.refreshReferenceObject(PROTOCOL_SUBMISSION);
         // finally save the protocol (and its submission)
         this.getBusinessObjectService().save(newProtocol);
