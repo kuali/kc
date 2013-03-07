@@ -38,6 +38,7 @@ import org.kuali.kra.award.awardhierarchy.AwardHierarchyService;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
+import org.kuali.kra.award.timeandmoney.AwardDirectFandADistribution;
 import org.kuali.kra.award.version.service.AwardVersionService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -322,9 +323,11 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
                 //must use documentService to save the award document. businessObjectService.save() builds deletion award list on T&M doc and we
                 //need it to be wired up on AwardDocument so that any deletes from collection will be caught and persisted correctly.
                 AwardDocument awardDocument = (AwardDocument) documentService.getByDocumentHeaderId(award.getAwardDocument().getDocumentNumber());
-                awardDocument.getAward().setAwardDirectFandADistributions(timeAndMoneyDocument.getAward().getAwardDirectFandADistributions());
-                documentService.saveDocument(awardDocument);
-                needToSaveAward = true;
+                if (mustSetFandADistributions(awardDocument.getAward().getAwardDirectFandADistributions(),timeAndMoneyDocument.getAward().getAwardDirectFandADistributions())) {
+                    awardDocument.getAward().setAwardDirectFandADistributions(timeAndMoneyDocument.getAward().getAwardDirectFandADistributions());
+                    documentService.saveDocument(awardDocument);
+                    needToSaveAward = true;
+                }
             }
             if (needToSaveAward) {
                 getBusinessObjectService().save(award);
@@ -474,6 +477,24 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
       return needToSave;
     }
     
+    /* 
+     * check for changes to Direct F and A Distribution lists, if any differences, then we need to save them in the current Award.
+     */
+    private boolean mustSetFandADistributions(List<AwardDirectFandADistribution> awardFandADistributions, List<AwardDirectFandADistribution> tAndMFandADistributions) {
+        boolean needToSave = false;
+         for (AwardDirectFandADistribution awardDistribution: awardFandADistributions) {
+             boolean found = false;
+             for (AwardDirectFandADistribution tAndMDistribution: tAndMFandADistributions) {
+                 if (awardDistribution.equals(tAndMDistribution)) {
+                     found = true;
+                 }
+             }
+             if (!found) {
+                 needToSave = true;
+             }
+         }
+         return needToSave;
+     }
     
     /*
      * 
