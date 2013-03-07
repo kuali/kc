@@ -336,7 +336,7 @@
         <field-descriptor name="speciesStudyGroupIndicator" column="SPECIES_STUDY_GROUP_INDICATOR" jdbc-type="VARCHAR" />
         <field-descriptor name="alternativeSearchIndicator" column="ALTERNATIVE_SEARCH_INDICATOR" jdbc-type="VARCHAR" />
         <field-descriptor name="scientificJustifIndicator" column="SCIENTIFIC_JUSTIF_INDICATOR" jdbc-type="VARCHAR" />
-        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
         
         <reference-descriptor name="protocolDocument" class-ref="org.kuali.kra.iacuc.IacucProtocolDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
@@ -477,7 +477,7 @@
         <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
         <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
         <field-descriptor name="actionDate" column="ACTION_DATE" jdbc-type="TIMESTAMP" />
-        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="protocolId" column="PROTOCOL_ID" jdbc-type="BIGINT" />
         <field-descriptor name="submissionIdFk" column="SUBMISSION_ID_FK" jdbc-type="BIGINT" />
@@ -672,7 +672,7 @@
         <field-descriptor name="votingComments" column="VOTING_COMMENTS" jdbc-type="VARCHAR" />
         <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
         <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
-        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="billable" column="IS_BILLABLE" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
         
