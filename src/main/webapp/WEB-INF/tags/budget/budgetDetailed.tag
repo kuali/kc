@@ -156,7 +156,7 @@
           	</tr>    
           	
           	<kra:section permission="modifyBudgets">    
-	            <tr>
+	            <tr class="addline">
 					<th class="darkInfoline">
 						<c:out value="Add:" />
 					</th>
@@ -202,7 +202,7 @@
 						<c:if test="${!readOnly}" >
 						<div align="center">
 							<html:image property="methodToCall.addBudgetLineItem.budgetCategoryTypeCode${budgetCategoryTypeCodeKey}.catTypeIndex${catCodes}.anchor${tabKey}"
-							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton" />
+							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton addButton" />
 						</div>
 						</c:if>	
 	                </td>			
