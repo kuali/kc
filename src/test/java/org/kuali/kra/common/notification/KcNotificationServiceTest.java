@@ -67,11 +67,11 @@ public class KcNotificationServiceTest extends KcUnitTestBase {
     private static final Long NOTIFICATION_TYPE_ID_VALUE = 1L;
     private static final String SUBJECT_VALUE = "Message Subject";
     private static final String MESSAGE_VALUE = "Message Text";
-    private static final String PRINCIPAL_ID_VALUE_QUICKSTART = "10000000001";
+    private static final String PRINCIPAL_ID_VALUE_CHEW = "10000000005";
     private static final String PRINCIPAL_NAME_VALUE_JTESTER = "jtester";
     private static final String PRINCIPAL_NAME_VALUE_MAJORS = "majors";
     private static final String ROLODEX_ID_VALUE_UNIVERSITY = "1";
-    private static final String EMAIL_ADDRESS_VALUE_QUICKSTART = "kcnotification@gmail.com";
+    private static final String EMAIL_ADDRESS_VALUE_CHEW = "kcnotification@gmail.com";
     private static final String EMAIL_ADDRESS_VALUE_JTESTER = "kcnotification@gmail.com";
     private static final String EMAIL_ADDRESS_VALUE_MAJORS = "kcnotification@gmail.com";
     private static final String EMAIL_ADDRESS_VALUE_APP_ADMIN = "kcnotification@gmail.com";
@@ -172,7 +172,7 @@ public class KcNotificationServiceTest extends KcUnitTestBase {
     public void testSendNotificationFromContext() throws Exception {
         Set<String> personEmailAddresses = new HashSet<String>();
         personEmailAddresses.add(EMAIL_ADDRESS_VALUE_APP_ADMIN);
-        personEmailAddresses.add(EMAIL_ADDRESS_VALUE_QUICKSTART);
+        personEmailAddresses.add(EMAIL_ADDRESS_VALUE_CHEW);
         
         service.setBusinessObjectService(getMockSearchBusinessObjectService(MODULE_CODE_VALUE, ACTION_TYPE_CODE_VALUE_101));
         service.setParameterService(getParameterService());
@@ -193,7 +193,7 @@ public class KcNotificationServiceTest extends KcUnitTestBase {
     public void testSendNotificationFromContextWithRecipients() throws Exception {
         Set<String> personEmailAddresses = new HashSet<String>();
         personEmailAddresses.add(EMAIL_ADDRESS_VALUE_APP_ADMIN);
-        personEmailAddresses.add(EMAIL_ADDRESS_VALUE_QUICKSTART);
+        personEmailAddresses.add(EMAIL_ADDRESS_VALUE_CHEW);
         
         Set<String> rolodexEmailAddresses = new HashSet<String>();
         rolodexEmailAddresses.add(EMAIL_ADDRESS_UNIVERSITY);
@@ -214,7 +214,7 @@ public class KcNotificationServiceTest extends KcUnitTestBase {
         
         List<NotificationTypeRecipient> notificationTypeRecipients = new ArrayList<NotificationTypeRecipient>();
         NotificationTypeRecipient person = new NotificationTypeRecipient();
-        person.setPersonId(PRINCIPAL_ID_VALUE_QUICKSTART);
+        person.setPersonId(PRINCIPAL_ID_VALUE_CHEW);
         notificationTypeRecipients.add(person);
         NotificationTypeRecipient rolodex = new NotificationTypeRecipient();
         rolodex.setRolodexId(ROLODEX_ID_VALUE_UNIVERSITY);
@@ -249,7 +249,7 @@ public class KcNotificationServiceTest extends KcUnitTestBase {
     public void testSendEmailNotification() throws Exception {
         Set<String> personEmailAddresses = new HashSet<String>();
         personEmailAddresses.add(EMAIL_ADDRESS_VALUE_APP_ADMIN);
-        personEmailAddresses.add(EMAIL_ADDRESS_VALUE_QUICKSTART);
+        personEmailAddresses.add(EMAIL_ADDRESS_VALUE_CHEW);
         
         service.setBusinessObjectService(getMockSearchBusinessObjectService(MODULE_CODE_VALUE, ACTION_TYPE_CODE_VALUE_101));
         service.setParameterService(getParameterService());
