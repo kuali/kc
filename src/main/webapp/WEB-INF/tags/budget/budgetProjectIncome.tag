@@ -43,14 +43,10 @@
 				</tr>
 				
 				<kra:section permission="modifyBudgets">
-					<tr>
+					<tr class="addline">
 		            	<th width="50" align="right"><div align="right">Add:</div></th>
 						<td class="infoline"><div align="center">
-							<html:select property="newBudgetProjectIncome.budgetPeriodNumber">
-		                    	<html:option value="0">Select</html:option>  		                    	
-		                    	<c:set var="budgetPeriods" value="${KualiForm.document.budget.budgetPeriods}"/>
-	    		            	<html:options collection="budgetPeriods" property="budgetPeriod" labelProperty="label"/>
-	  			        	</html:select>						
+							<kul:htmlControlAttribute property="newBudgetProjectIncome.budgetPeriodNumber" attributeEntry="${budgetProjectIncomeAttributes.budgetPeriodNumber}"/>					
 		    			</div></td>
 						<td class="infoline"><div align="center">
 		        			<kul:htmlControlAttribute property="newBudgetProjectIncome.projectIncome" attributeEntry="${budgetProjectIncomeAttributes.projectIncome}" styleClass="amount" />
@@ -60,7 +56,7 @@
 		        		</div></td>
 		                <td class="infoline">
 		            		<div align=center>
-		            			<html:image property="methodToCall.addProjectIncome" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton"/>
+		            			<html:image property="methodToCall.addProjectIncome" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton addButton"/>
 							</div>
 						</td>
 		          	</tr>

@@ -54,7 +54,7 @@
 						</tr>
 						
 						<kra:section permission="modifyBudgets">
-						<tr>
+						<tr class="addline">
 			            	<th width="50" align="right"><div align="right">Add:</div></th>
 							<td class="infoline"><div align="center">
 			        			<kul:htmlControlAttribute property="newBudgetCostShare.projectPeriod" attributeEntry="${budgetCostShareAttributes.projectPeriod}" />
@@ -70,7 +70,7 @@
 			        		</div></td>	        		
 			                <td class="infoline">
 			            		<div align=center>
-			            			<html:image property="methodToCall.addCostShare" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton"/>
+			            			<html:image property="methodToCall.addCostShare" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton addButton"/>
 								</div>
 							</td>
 			          	</tr>
