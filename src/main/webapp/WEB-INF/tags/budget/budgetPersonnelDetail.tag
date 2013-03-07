@@ -107,7 +107,7 @@
           	</tr>    
           	
           	<kra:section permission="modifyBudgets">    
-	            <tr>
+	            <tr class="addline">
 					<td valign="middle" nowrap="true">
 	                	<div align="center">
 	                	<kul:htmlControlAttribute property="newBudgetPersonnelDetails.personSequenceNumber" attributeEntry="${budgetPersonnelDetailsAttributes.personSequenceNumber}"  onchange="updateCostElement('${KualiForm.document.budget.budgetId}', 'newBudgetLineItems[${catCodes}].costElement', this, '${budgetCategoryTypeCodeKey}', updateCostElement_Callback);" />
@@ -162,7 +162,7 @@
 						<c:if test="${!readOnly}" >
 						<div align=center>
 							<html:image property="methodToCall.addPersonnelLineItem.budgetCategoryTypeCode${budgetCategoryTypeCodeKey}.catTypeIndex${catCodes}.anchor${tabKey}"
-							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' onclick="javascript:resetGrpNameTextbox();return;" />
+							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' onclick="javascript:resetGrpNameTextbox();return;" styleClass="addButton"/>
 						</div>
 						</c:if>	
 	                </td>			

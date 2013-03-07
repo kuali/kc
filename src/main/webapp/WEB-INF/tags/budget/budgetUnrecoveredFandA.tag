@@ -53,7 +53,7 @@
 						</tr>
 						
 						<kra:section permission="modifyBudgets">
-							<tr>
+							<tr class="addline">
 				            	<th align="right"><div align="right">Add:</div></th>
 								<td class="infoline">
 									<div align="center">
@@ -86,7 +86,7 @@
 				        		</td>
 				                <td class="infoline">
 				            		<div align=center>
-				            			<html:image property="methodToCall.addUnrecoveredFandA" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton"/>
+				            			<html:image property="methodToCall.addUnrecoveredFandA" src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton addButton"/>
 									</div>
 								</td>
 				          	</tr>

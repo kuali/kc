@@ -36,7 +36,7 @@
               	<kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col"/>
           	</tr>
 			<c:if test="${!readOnly}" >
-          	<tr>
+          	<tr class="addline">
 					<th class="infoline">
 						<c:out value="Add:" />
 					</th>
@@ -45,7 +45,7 @@
 	                	<kul:htmlControlAttribute property="newSubAward.organizationId" attributeEntry="${budgetSubAwardsAttributes.organizationId}" onblur="loadOrganizationName('newSubAward.organizationId', 'newSubAward.organizationName')" readOnly="${readOnly}"/>
 	                		<kul:lookup boClassName="org.kuali.kra.bo.Organization" fieldConversions="organizationId:newSubAward.organizationId,organizationName:newSubAward.organizationName" anchor="${tabKey}" lookupParameters="newSubAward.organizationId:organizationId"/>
 	                	${kfunc:registerEditableProperty(KualiForm, 'newSubAward.organizationName')}
-	                	<html:hidden styleId="newSubAward.organizationName" property="newSubAward.organizationName"/><div id="newSubAward.organizationName.div"></div>	                	                	
+	                	<html:hidden styleId="newSubAward.organizationName" property="newSubAward.organizationName"/><div class="changedClearOnReset" id="newSubAward.organizationName.div"></div>	                	                	
 	                	</div>
 					</td>
 					<td valign="middle" class="infoline">
@@ -66,7 +66,7 @@
 					<td class="infoline">
 						<div align=center>
 							<html:image property="methodToCall.addSubAward.anchor${tabKey}"
-							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton"/>
+							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton addButton"/>
 						</div>
 	                </td>
             </tr>

@@ -60,7 +60,7 @@
           	</tr> 
           	
           	<kra:section permission="modifyBudgets">       
-             <tr>
+             <tr class="addline">
 				<th width="5%" class="infoline">
 					<c:out value="Add:" />
 				</th>
@@ -116,7 +116,7 @@
 				<td class="infoline">
 					<div width="7%" align="center">
 						<html:image property="methodToCall.addBudgetPeriod.anchor${tabKey}"
-						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton" />
+						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton addButton" />
 					</div>
                 </td>
             </tr>

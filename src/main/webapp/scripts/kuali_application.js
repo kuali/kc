@@ -3737,8 +3737,9 @@ function addErrorForItem(item, errorMsg) {
 
 var WarningOnAddRow = (function($) {
 	return {
+		emptyValues: [' ', '0.00', '(new group)'],
 		inputs: '.addline input, .addline select, .addline textarea',
-		elementsToIgnore: ['input[name="multiSelectToReset"]'],
+		elementsToIgnore: ['input[name="multiSelectToReset"]', 'input[name^="document.budget.budgetCategoryType["]'],
 		asterisk: $('<img class="changedNotice changedAsterisk" src="static/images/asterisk_orange.png"/>'),
 		resetBtn: $('<img class="changedNotice changedResetBtn" src="static/images/tinybutton-reset1.gif"/>'),
 		pageNotice: $('<div class="changedNotice changedPageNotice">Unsaved changes will be lost.</div>'),
@@ -3750,14 +3751,23 @@ var WarningOnAddRow = (function($) {
 			this.panelChanged = this.panelChanged.bind(this);
 			this.pageChanged = this.pageChanged.bind(this);
 			this.recursePanelChanged = this.recursePanelChanged.bind(this);
+			this.isEmptyValue = this.isEmptyValue.bind(this);
 			//if the page reloads and there is input in the add line then mark it as such, then after monitor for changes.
 			$(this.inputs).each(this.checkModification);
 			$(this.inputs).change(this.valueChanged);
 			$(this.inputs).keyup(this.valueChanged);
 		},
+		isEmptyValue : function(value) {
+			for (var i = 0; i < this.emptyValues.length; i++) {
+				if (this.emptyValues[i] === value) {
+					return true;
+				}
+			}
+			return false;
+		},
 		checkModification : function(idx, element) {
 			var addLine = $(element).parents('.addline').first();
-			if ($(element).val() != undefined && $(element).val().length > 0 && $(element).val() !== ' '
+			if ($(element).val() != undefined && $(element).val().length > 0 && !this.isEmptyValue($(element).val())
 					&& !this.isIgnoredElement(element)) {
 				$(element).addClass('changed');
 			} else {
