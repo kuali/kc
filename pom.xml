@@ -197,6 +197,20 @@
 			                <goal>run</goal>
 			            </goals>
 			        </execution>
+			        <!-- hack to replace rice content with our own. This needs to be fixed. -->
+			        <execution>
+			            <id>copy-resize-intermediate</id>
+			            <phase>generate-sources</phase>
+			            <configuration>
+			                <tasks>
+			                    <copy file="src/main/webapp/scripts/easyXDM/resize_intermediate.html" 
+			                    		tofile="src/main/webapp/rice-portal/scripts/easyXDM/resize_intermediate.html"/>
+			                </tasks>
+			            </configuration>
+			            <goals>
+			                <goal>run</goal>
+			            </goals>
+			        </execution>
 			    </executions>
 			</plugin>
 			<plugin>
@@ -1649,6 +1663,8 @@
     	<default.context.path>/kc-${build.environment}</default.context.path>
 
     	<rice.web.excludes>
+    		<!-- Exclude for the time being to use local file -->
+    		rice-portal/scripts/easyXDM/resize_intermediate.html,
 			META-INF/,
           	WEB-INF/classes/,
           	WEB-INF/lib/,
