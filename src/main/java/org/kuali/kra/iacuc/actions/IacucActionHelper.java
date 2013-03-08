@@ -384,6 +384,7 @@ public class IacucActionHelper extends ActionHelperBase {
         
 
         initSummaryDetails();
+        initFilterDatesView();
 
     }
  
