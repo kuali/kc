@@ -129,7 +129,7 @@ public class ProtocolRouteTest extends KcUnitTestBase {
         assertTrue(getWorkflowDocument(protocolDocument).isDisapproved());
         //assertEquals(protocolDocument.getProtocol().getProtocolStatusCode(), ProtocolStatus.DISAPPROVED);
         
-        assertTrue(protocolDocument.getProtocol().isActive());
+        //assertTrue(protocolDocument.getProtocol().isActive());
         
         //verifyProtocolAction(protocolDocument.getProtocol().getProtocolId(), ProtocolActionType.DISAPPROVED);
     }
