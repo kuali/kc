@@ -271,11 +271,11 @@ public abstract class ProtocolGenericActionServiceImplBase implements ProtocolGe
 
 
     @Override
-    public void addDisapprovalActionToActionListAndUpdateStatuses(ProtocolBase protocol, ActionTakenValue actionTakenVal) {
+    public void recordDisapprovedInRoutingActionAndUpdateStatuses(ProtocolBase protocol, ActionTakenValue latestCurrentActionTakenVal) {
         // add the action to the action history
-        ProtocolActionBase protocolAction = getNewDisapprovalProtocolActionInstanceHook(protocol);
-        protocolAction.setComments(actionTakenVal.getAnnotation());
-        protocolAction.setActionDate(actionTakenVal.getActionDate());
+        ProtocolActionBase protocolAction = getNewDisapprovedInRoutingProtocolActionInstanceHook(protocol);
+        protocolAction.setComments(latestCurrentActionTakenVal.getAnnotation());
+        protocolAction.setActionDate(latestCurrentActionTakenVal.getActionDate());
         protocol.getProtocolActions().add(protocolAction);
         // update the statuses and persist the protocol
         protocol.setProtocolStatusCode(getDisapprovedProtocolStatusCodeHook());
@@ -289,11 +289,11 @@ public abstract class ProtocolGenericActionServiceImplBase implements ProtocolGe
 
     protected abstract String getDisapprovedProtocolStatusCodeHook();
 
-    protected abstract ProtocolActionBase getNewDisapprovalProtocolActionInstanceHook(ProtocolBase protocol);
+    protected abstract ProtocolActionBase getNewDisapprovedInRoutingProtocolActionInstanceHook(ProtocolBase protocol);
 
 
     @Override
-    public ProtocolDocumentBase versionAfterDisapproval(ProtocolBase oldProtocol) throws Exception {
+    public ProtocolDocumentBase versionAfterDisapprovalInRouting(ProtocolBase oldProtocol) throws Exception {
         // the new document version will be persisted along with the new version of the old protocol instance
         ProtocolDocumentBase newDocument = getVersionedDocument(oldProtocol);
         
@@ -302,7 +302,7 @@ public abstract class ProtocolGenericActionServiceImplBase implements ProtocolGe
         newProtocol.setProtocolStatusCode(getProtocolPendingInProgressStatusCodeHook());
         newProtocol.refreshReferenceObject(Constants.PROPERTY_PROTOCOL_STATUS);
         
-        // set the submission status to disapproved
+        // set the submission status to disapproved in routing
         newProtocol.getProtocolSubmission().setSubmissionStatusCode(getProtocolSubmissionStatusRejectedInRoutingCodeHook());
         newProtocol.refreshReferenceObject(PROTOCOL_SUBMISSION);
         // finally save the protocol (and its submission)

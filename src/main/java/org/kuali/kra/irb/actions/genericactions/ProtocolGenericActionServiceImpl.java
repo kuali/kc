@@ -271,8 +271,8 @@ public class ProtocolGenericActionServiceImpl extends ProtocolGenericActionServi
     }
 
     @Override
-    protected ProtocolActionBase getNewDisapprovalProtocolActionInstanceHook(ProtocolBase protocol) {
-        return new ProtocolAction( (Protocol) protocol, null, ProtocolActionType.DISAPPROVED);
+    protected ProtocolActionBase getNewDisapprovedInRoutingProtocolActionInstanceHook(ProtocolBase protocol) {
+        return new ProtocolAction( (Protocol) protocol, null, ProtocolActionType.REJECTED_IN_ROUTING);
     }
 
     @Override

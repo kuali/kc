@@ -56,13 +56,13 @@ public interface ProtocolGenericActionService {
     
     
     /**
-     * Handles the versioning of the protocol following its disapproval. It will reset the status of the new
+     * Handles the versioning of the protocol following its disapproval in routing. It will reset the status of the new
      * copy of the protocol to be 'pending/in progress', and change the submission status to 'disapproved'.
      * @param protocol ProtocolBase object
      * @return the newly versioned ProtocolBase document
      * @throws Exception if there was a general problem performing the action
      */
-    ProtocolDocumentBase versionAfterDisapproval(ProtocolBase protocol) throws Exception;
+    ProtocolDocumentBase versionAfterDisapprovalInRouting(ProtocolBase protocol) throws Exception;
     
     
     /**
@@ -72,7 +72,7 @@ public interface ProtocolGenericActionService {
      * @param protocol
      * @param actionTakenVal
      */
-    public void addDisapprovalActionToActionListAndUpdateStatuses(ProtocolBase protocol, ActionTakenValue actionTakenVal);
+    void recordDisapprovedInRoutingActionAndUpdateStatuses(ProtocolBase protocol, ActionTakenValue latestCurrentActionTakenVal);
     
     /**
      * Disapproves a protocol.
@@ -169,5 +169,6 @@ public interface ProtocolGenericActionService {
      * @throws Exception if there was a general problem performing the action
      */
     void terminate(ProtocolBase protocol, ProtocolGenericActionBean actionBean) throws Exception;
+
     
 }
