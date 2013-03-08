@@ -144,7 +144,7 @@ end
 rule "Request to Lift Hold"
 salience 100
 when
-    protocolAction : IacucProtocolActionMapping(actionTypeCode == "108", protocolStatusCode == "201")
+    protocolAction : IacucProtocolActionMapping(actionTypeCode == "108", protocolStatusCode == "201", submissionTypeCode != "103")
 then    
     setAction(protocolAction, true);
 end
