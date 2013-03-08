@@ -32,7 +32,7 @@ public class CopyCustomActionListAttribute implements CustomActionListAttribute 
      */
     @Override
     public DisplayParameters getDocHandlerDisplayParameters(String principalId, ActionItem actionItem) throws Exception {
-    	DisplayParameters dp = DisplayParameters.Builder.create(new Integer(30)).build();
+    	DisplayParameters dp = DisplayParameters.Builder.create(new Integer(400)).build();
     	return dp;
     }
 
