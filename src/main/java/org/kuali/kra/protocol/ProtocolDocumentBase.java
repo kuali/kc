@@ -239,8 +239,8 @@ public abstract class ProtocolDocumentBase extends ResearchDocumentBase implemen
                 getBusinessObjectService().save(this);
             }
             try {
-                // create editable copy of protocol and document if appropriate in this disapproval context            
-                performPostProcessorOperationsOnProtocolAfterDisapproval();
+                // create editable version of protocol and document if appropriate in this disapproval context            
+                performVersioningOperationsOnProtocolAfterDisapproval();
             }
             catch (Exception e) {
                 // TODO Need to figure out what to do if the versioning throws exceptions
@@ -249,86 +249,34 @@ public abstract class ProtocolDocumentBase extends ResearchDocumentBase implemen
         }
     }
     
-    /*
-     * Depending on the hook's return values, this method will add the disapproval action to the protocol history list, 
-     * version the protocol/document and finally send out notifications. 
-     * The behavior this method can be customized by overridding two hook methods: 
-     * One hook allows subclases to force the addition of disapproval action to the history list, 
-     * the updating of the protocol statuses to disapproved, and the sending of notifications. 
-     * The other hook can be used to either suppress or allow the versioning of the protocol and document i.e. the creation
-     * of a new editable copy of the disapproved protocol.
-     *  
-     * The following context information is passed to these two hooks:
-     * (1) the current node name at which the disapproval happened, and 
-     * (2) the most recent action in the action list.
-     * 
-     * Note that both these hooks are non-abstract i.e. they have default implementations, see below.
-     */
-    protected void performPostProcessorOperationsOnProtocolAfterDisapproval() throws Exception {
-        ActionTakenValue latestCurrentActionTakenVal = getLatestCurrentActionTakenValue();
-        String currentNodeName = getCurrentNodeName();
-        boolean doActionAdditionAndStatusUpdatesAndNotifications = isSuperUserDisapproved(latestCurrentActionTakenVal) || 
-                                    forceActionAdditionAndStatusUpdatesAndNotificationsHook(currentNodeName, latestCurrentActionTakenVal);
-        
-        ProtocolBase oldProtocol = this.getProtocol();
-        if (doActionAdditionAndStatusUpdatesAndNotifications) {
-            // use the protocol generic action service to attach the 'disapprove' action to the action history
-            getProtocolGenericActionService().addDisapprovalActionToActionListAndUpdateStatuses(oldProtocol, latestCurrentActionTakenVal);
-        }
-        
-        // pass the retrieved current node name and the last action value to hook so
-        // subclasses can decide if they want to allow post-processor versioning for this disapproval
-        ProtocolDocumentBase newDocument = null;
-        if (allowProtocolVersioningHook(currentNodeName, latestCurrentActionTakenVal)) {
+  
+    // we will  record actions, update statuses, version protocol doc/bo and send out notifications only for 
+    // non-committee disapprovals, i.e. those that happen in routing or via superuser actions
+    protected void performVersioningOperationsOnProtocolAfterDisapproval() throws Exception {
+       ProtocolBase protocol = this.getProtocol();
+       // check to ensure that its not a committee disapproval
+       if( !StringUtils.equals(getCommitteeDisapprovedStatusCodeHook(), protocol.getProtocolStatusCode()) ) {     
+            // use the protocol generic action service to attach the 'rejected in routing' action to the action history
+            getProtocolGenericActionService().recordDisapprovedInRoutingActionAndUpdateStatuses(protocol, getLatestCurrentActionTakenValue());
             // use the protocol generic action service to version the document (and the contained protocol)
-            newDocument = getProtocolGenericActionService().versionAfterDisapproval(oldProtocol);
-        }
-            
-        if (doActionAdditionAndStatusUpdatesAndNotifications) {
-            ProtocolBase protocol = oldProtocol;
-            // switch to newly versioned protocol if versioning was done
-            if(newDocument != null) {
-                protocol =  newDocument.getProtocol();
-            }
-            // use the kc notification service to send notifications: first call hooks to customize the notifications
+            ProtocolDocumentBase newDocument = getProtocolGenericActionService().versionAfterDisapprovalInRouting(protocol);
+            // switch to newly versioned protocol and use the kc notification service to send notifications: 
+            // first call hooks to customize the notifications
+            protocol =  newDocument.getProtocol();
             ProtocolNotificationContextBase context = getDisapproveNotificationContextHook(protocol);
             ProtocolNotification notification = getNewProtocolNotificationInstanceHook();
             getNotificationService().sendNotificationAndPersist(context, notification, protocol);
         }
     }
 
-    // non-abstract hook: this default implementation returns false
-    protected boolean forceActionAdditionAndStatusUpdatesAndNotificationsHook(String currentNodeName, ActionTakenValue latestCurrentActionTakenVal) {
-        return false;
-    }   
-    
-    // non-abstract hook: this default implementation returns true if the latest current action was a superuser disapprove 
-    protected boolean allowProtocolVersioningHook(String currentNodeName, ActionTakenValue latestCurrentActionTakenVal) {
-        boolean retVal = false;        
-        if(isSuperUserDisapproved(latestCurrentActionTakenVal)) {
-            retVal = true;
-        }
-        return retVal;
-    }
-    
+    protected abstract String getCommitteeDisapprovedStatusCodeHook();
+
     protected abstract ProtocolNotification getNewProtocolNotificationInstanceHook();
 
     protected abstract ProtocolNotificationContextBase getDisapproveNotificationContextHook(ProtocolBase protocol);
 
-    protected abstract Class<? extends ProtocolGenericActionService> getProtocolGenericActionServiceClassHook();
     
     
-    
-    // gets the current node that the document is sitting at in the workflow
-    protected final String getCurrentNodeName() {
-        String retVal = "";
-        List<String> currentNodeNames = KewApiServiceLocator.getWorkflowDocumentService().getCurrentRouteNodeNames(getDocumentHeader().getWorkflowDocument().getDocumentId());
-        if(!currentNodeNames.isEmpty()) {
-            retVal = currentNodeNames.get(0);
-        }
-        return retVal;
-    }
-
     // get the most recent current action instance from the action list
     protected final ActionTakenValue getLatestCurrentActionTakenValue() {
         ActionTakenValue latestCurrentActionTakenVal = null;
@@ -343,16 +291,6 @@ public abstract class ProtocolDocumentBase extends ResearchDocumentBase implemen
         return latestCurrentActionTakenVal;
     }
     
-    // returns true if the given action value represents a super user disapproval
-    protected final boolean isSuperUserDisapproved(ActionTakenValue latestCurrentActionTakenVal) {
-        boolean retVal = false;        
-        if(latestCurrentActionTakenVal != null && latestCurrentActionTakenVal.isSuperUserAction() && 
-           KewApiConstants.ACTION_TAKEN_SU_DISAPPROVED_CD.equals(latestCurrentActionTakenVal.getActionTaken())) {
-            retVal = true;
-        }
-        return retVal;
-    }
-    
     protected RouteHeaderService getRouteHeaderService() {
         return KraServiceLocator.getService(RouteHeaderService.class);
     }
@@ -365,6 +303,7 @@ public abstract class ProtocolDocumentBase extends ResearchDocumentBase implemen
         return KraServiceLocator.getService(getProtocolGenericActionServiceClassHook());
     }
     
+    protected abstract Class<? extends ProtocolGenericActionService> getProtocolGenericActionServiceClassHook();
     
         
 
