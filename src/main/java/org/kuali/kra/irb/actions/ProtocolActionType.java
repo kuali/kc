@@ -116,6 +116,9 @@ public class ProtocolActionType extends ProtocolActionTypeBase {
 
     //No corresponding actionTypeCode for this in Coeus  
     public static final String MODIFY_PROTOCOL_SUBMISISON = "309";
+    
+    // action type to be used only by workflow disapproval post-processpor
+    public static final String REJECTED_IN_ROUTING = "404";
 
     public static final String ASSIGN_REVIEWER = "901";
     public static final String REVIEW_COMPLETE = "902";
