@@ -128,8 +128,8 @@ public class IacucProtocolGenericActionServiceImpl extends ProtocolGenericAction
     }
 
     @Override
-    protected ProtocolActionBase getNewDisapprovalProtocolActionInstanceHook(ProtocolBase protocol) {
-        return new IacucProtocolAction( (IacucProtocol) protocol, null, IacucProtocolActionType.IACUC_DISAPPROVED);
+    protected ProtocolActionBase getNewDisapprovedInRoutingProtocolActionInstanceHook(ProtocolBase protocol) {
+        return new IacucProtocolAction( (IacucProtocol) protocol, null, IacucProtocolActionType.REJECTED_IN_ROUTING);
     }
 
     @Override

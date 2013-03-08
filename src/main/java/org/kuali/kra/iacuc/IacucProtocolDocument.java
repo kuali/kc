@@ -398,4 +398,9 @@ public class IacucProtocolDocument extends ProtocolDocumentBase {
                                                     );
     }
 
+    @Override
+    protected String getCommitteeDisapprovedStatusCodeHook() {
+        return IacucProtocolStatus.DISAPPROVED;
+    }
+
 }

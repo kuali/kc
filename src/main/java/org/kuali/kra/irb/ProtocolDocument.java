@@ -100,8 +100,6 @@ public class ProtocolDocument extends ProtocolDocumentBase {
                                                                  ProtocolStatus.AMENDMENT_IN_PROGRESS + " " + ProtocolStatus.RENEWAL_IN_PROGRESS + " " + 
                                                                  ProtocolStatus.SUSPENDED_BY_PI + " " + ProtocolStatus.DELETED + " " + ProtocolStatus.WITHDRAWN;
 
-    private static final String DEPT_RVW_NODE_NAME = "DepartmentReview";
-
     private static final String DISAPPROVED_CONTEXT_NAME = "Disapproved";
     
     private List<CustomAttributeDocValue> customDataList;
@@ -778,35 +776,8 @@ public class ProtocolDocument extends ProtocolDocumentBase {
     protected Class<? extends ProtocolGenericActionService> getProtocolGenericActionServiceClassHook() {
         return ProtocolGenericActionService.class;
     }
-
-    private boolean isDeptReviewNode(String currentNodeName) {
-        boolean retVal = false;
-        if(StringUtils.equals(currentNodeName, DEPT_RVW_NODE_NAME)) {
-            retVal = true;
-        }
-        return retVal;
-    }
+   
     
-    @Override
-    // perform versionining for non-superuser disapprovals at department pre-review node (as well as for superuser disapprovals)
-    protected boolean allowProtocolVersioningHook(String currentNodeName, ActionTakenValue latestCurrentActionTakenVal) {
-        boolean retVal = false;
-        if(super.allowProtocolVersioningHook(currentNodeName, latestCurrentActionTakenVal) 
-                || isDeptReviewNode(currentNodeName)) {
-            retVal = true;
-        }
-        return retVal;
-    }
-
-    
-    @Override
-    protected boolean forceActionAdditionAndStatusUpdatesAndNotificationsHook(String currentNodeName, ActionTakenValue latestCurrentActionTakenVal) {
-        boolean retVal = false;
-        if(isDeptReviewNode(currentNodeName)) {
-            retVal = true;
-        }
-        return retVal;
-    }
 
     @Override
     protected ProtocolNotification getNewProtocolNotificationInstanceHook() {
@@ -819,6 +790,11 @@ public class ProtocolDocument extends ProtocolDocumentBase {
                                             ProtocolActionType.DISAPPROVED, 
                                             DISAPPROVED_CONTEXT_NAME, 
                                             new ProtocolDisapprovedNotificationRenderer( (Protocol) protocol));
+    }
+
+    @Override
+    protected String getCommitteeDisapprovedStatusCodeHook() {
+        return ProtocolStatus.DISAPPROVED;
     }
 
 // TODO ********************** commented out during IRB backfit ************************    
