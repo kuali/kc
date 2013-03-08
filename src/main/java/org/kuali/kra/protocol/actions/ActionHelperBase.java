@@ -966,7 +966,7 @@ public abstract class ActionHelperBase implements Serializable {
         
 // TODO *********commented the code below during IACUC refactoring*********         
 //        setAmendmentDetails();
-//        initFilterDatesView();
+        initFilterDatesView();
         initAmendmentBeans(false);
         initPrintQuestionnaire();
     }
