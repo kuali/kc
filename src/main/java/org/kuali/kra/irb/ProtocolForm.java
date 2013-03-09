@@ -26,6 +26,7 @@ import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.common.notification.web.struts.form.NotificationHelper;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.actions.ActionHelper;
 import org.kuali.kra.irb.actions.ProtocolStatus;
@@ -67,6 +68,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
  * This class...
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
+@SuppressWarnings("deprecation")
 public class ProtocolForm extends ProtocolFormBase {
     
     private static final long serialVersionUID = 3736148760520952504L;
@@ -558,6 +560,7 @@ public class ProtocolForm extends ProtocolFormBase {
 
 
 
+    @SuppressWarnings("rawtypes")
     @Override
     protected ProtocolCustomDataHelperBase createNewCustomDataHelperInstanceHook(ProtocolFormBase protocolForm) {
         return new CustomDataHelper((ProtocolForm) protocolForm);
@@ -603,6 +606,15 @@ public class ProtocolForm extends ProtocolFormBase {
     @Override
     protected NotesAttachmentsHelperBase createNewNotesAttachmentsHelperInstanceHook(ProtocolFormBase protocolForm) {
         return new NotesAttachmentsHelper((ProtocolForm) protocolForm);
+    }
+
+
+
+    @Override
+    protected List<String> getTerminalNodeNamesHook() {
+        List<String> retVal = new ArrayList<String>();
+        retVal.add(Constants.PROTOCOL_IRBREVIEW_ROUTE_NODE_NAME);
+        return retVal;
     }
     
 
