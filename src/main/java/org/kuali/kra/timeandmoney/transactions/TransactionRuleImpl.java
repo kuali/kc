@@ -81,9 +81,6 @@ public class TransactionRuleImpl extends ResearchDocumentRuleBase implements Tra
         if (requiredFieldsComplete) {
             event.getTimeAndMoneyDocument().add(event.getPendingTransactionItemForValidation());
             List<Award> awards = processTransactions(event.getTimeAndMoneyDocument());
-            // need to remove the following, but do it after we processTransactions() since that
-            // method depends on a complete list of pending transactions to determine which awards
-            // are affected by this new transaction.
             event.getTimeAndMoneyDocument().getPendingTransactions().remove(event.getPendingTransactionItemForValidation());
             Award award = getLastSourceAwardReferenceInAwards(awards, event.getPendingTransactionItemForValidation().getSourceAwardNumber());
             //if source award is "External, the award will be null and we don't need to validate these amounts.
@@ -91,8 +88,8 @@ public class TransactionRuleImpl extends ResearchDocumentRuleBase implements Tra
             boolean validAnticipatedFunds = true;
             boolean validTotalCostLimit = true;
             if(!(award == null)) {
-                validObligatedFunds = validateSourceObligatedFunds(event.getTimeAndMoneyDocument().getPendingTransactions(), award);
-                validAnticipatedFunds = validateSourceAnticipatedFunds(event.getTimeAndMoneyDocument().getPendingTransactions(), award);
+                validObligatedFunds = validateSourceObligatedFunds(event.getPendingTransactionItemForValidation(), award);
+                validAnticipatedFunds = validateSourceAnticipatedFunds(event.getPendingTransactionItemForValidation(), award);
                 validTotalCostLimit = validateAwardTotalCostLimit(event.getPendingTransactionItemForValidation(), award);
                 //need to remove the award amount info created from this process transactions call so there won't be a double entry in collection.
                 award.refreshReferenceObject("awardAmountInfos");
@@ -161,22 +158,10 @@ public class TransactionRuleImpl extends ResearchDocumentRuleBase implements Tra
         event.getTimeAndMoneyDocument().add(event.getPendingTransactionItemForValidation());
         for (Award award : awards) {
             Award activeAward = getAwardVersionService().getWorkingAwardVersion(award.getAwardNumber());
-            AwardAmountInfo awardAmountInfo = activeAward.getAwardAmountInfos().get(activeAward.getAwardAmountInfos().size() -1);
-            KualiDecimal anticipatedTotal = awardAmountInfo.getAnticipatedTotalAmount();
-            KualiDecimal obligatedTotal = awardAmountInfo.getAmountObligatedToDate();
-            for (PendingTransaction pendingTransaction: event.getTimeAndMoneyDocument().getPendingTransactions()) {
-                if (StringUtils.equals(pendingTransaction.getSourceAwardNumber(), awardAmountInfo.getAwardNumber())) {
-                    anticipatedTotal = anticipatedTotal.subtract(pendingTransaction.getAnticipatedAmount());
-                    obligatedTotal = obligatedTotal.subtract(pendingTransaction.getObligatedAmount());
-                }
-                if (StringUtils.equals(pendingTransaction.getDestinationAwardNumber(), award.getAwardNumber())) {
-                    anticipatedTotal = anticipatedTotal.add(pendingTransaction.getAnticipatedAmount());
-                    obligatedTotal = obligatedTotal.add(pendingTransaction.getObligatedAmount());
-                }
-                if (anticipatedTotal.isLessThan(obligatedTotal)) {
-                    reportError(OBLIGATED_AMOUNT_PROPERTY, KeyConstants.ERROR_TOTAL_AMOUNT_INVALID, activeAward.getAwardNumber());
-                    valid = false;
-                }
+            AwardAmountInfo awardAmountInfo = activeAward.getLastAwardAmountInfo();
+            if (awardAmountInfo.getAnticipatedTotalAmount().subtract(awardAmountInfo.getAmountObligatedToDate()).isNegative()) {
+                reportError(OBLIGATED_AMOUNT_PROPERTY, KeyConstants.ERROR_TOTAL_AMOUNT_INVALID, activeAward.getAwardNumber());
+                valid = false;
             }
             award.refreshReferenceObject("awardAmountInfos");
         }
@@ -249,28 +234,20 @@ public class TransactionRuleImpl extends ResearchDocumentRuleBase implements Tra
         return returnAward;
     }
     
-    private boolean validateSourceObligatedFunds (List<PendingTransaction> pendingTransactions, Award award) {
+    private boolean validateSourceObligatedFunds (PendingTransaction pendingTransaction, Award award) {
         AwardAmountInfo awardAmountInfo = award.getAwardAmountInfos().get(award.getAwardAmountInfos().size() -1);
         boolean valid = true;        
-        KualiDecimal oblTotal = new KualiDecimal(0);
-        for (PendingTransaction pt: pendingTransactions) {
-            oblTotal.add(pt.getObligatedAmount());
-        }
-        if (awardAmountInfo.getObliDistributableAmount().subtract(oblTotal).isNegative()) {
+        if (awardAmountInfo.getObliDistributableAmount().subtract(pendingTransaction.getObligatedAmount()).isNegative()) {
             reportError(OBLIGATED_AMOUNT_PROPERTY, KeyConstants.ERROR_OBLIGATED_AMOUNT_INVALID);
             valid = false;
         }
         return valid;
     }
     
-    private boolean validateSourceAnticipatedFunds (List<PendingTransaction> pendingTransactions, Award award) {
+    private boolean validateSourceAnticipatedFunds (PendingTransaction pendingTransaction, Award award) {
         AwardAmountInfo awardAmountInfo = award.getAwardAmountInfos().get(award.getAwardAmountInfos().size() -1);
         boolean valid = true;
-        KualiDecimal antTotal = new KualiDecimal(0);
-        for (PendingTransaction pt: pendingTransactions) {
-            antTotal.add(pt.getObligatedAmount());
-        }
-        if (awardAmountInfo.getAntDistributableAmount().subtract(antTotal).isNegative()) {
+        if (awardAmountInfo.getAntDistributableAmount().subtract(pendingTransaction.getAnticipatedAmount()).isNegative()) {
             reportError(ANTICIPATED_AMOUNT_PROPERTY, KeyConstants.ERROR_ANTICIPATED_AMOUNT_INVALID);
             valid = false;
         }
