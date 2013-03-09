@@ -99,7 +99,8 @@ public class AttachmentSummary implements Serializable {
             fileTypeChanged = (!StringUtils.equals(fileType, otherAttachment.getFileType()));
             attachmentTypeChanged = (!StringUtils.equals(attachmentType, otherAttachment.getAttachmentType()));
             descriptionChanged = (!StringUtils.equals(description, otherAttachment.getDescription()));
-            dateChanged = (!updateTimestamp.equals(otherAttachment.getUpdateTimestamp()));
+            dateChanged = !((updateTimestamp == otherAttachment.getUpdateTimestamp()) ||
+                            (updateTimestamp != null && updateTimestamp.equals(otherAttachment.getUpdateTimestamp())));
             userChanged = (!StringUtils.equals(updateUser, otherAttachment.getUpdateUser()));
         }
     }
