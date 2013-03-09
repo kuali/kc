@@ -42,6 +42,7 @@ import org.kuali.kra.iacuc.specialreview.IacucProtocolSpecialReviewHelper;
 import org.kuali.kra.iacuc.species.IacucProtocolSpeciesHelper;
 import org.kuali.kra.iacuc.species.exception.IacucProtocolExceptionHelper;
 import org.kuali.kra.iacuc.threers.IacucAlternateSearchHelper;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.ProtocolFormBase;
 import org.kuali.kra.protocol.actions.ActionHelperBase;
@@ -55,6 +56,7 @@ import org.kuali.kra.protocol.protocol.reference.ProtocolReferenceBeanBase;
 import org.kuali.kra.protocol.questionnaire.QuestionnaireHelperBase;
 import org.kuali.kra.protocol.specialreview.ProtocolSpecialReviewHelperBase;
 import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.action.ActionRequest;
 import org.kuali.rice.kns.datadictionary.HeaderNavigation;
 import org.kuali.rice.kns.util.ActionFormUtilMap;
 import org.kuali.rice.kns.web.ui.HeaderField;
@@ -367,6 +369,14 @@ public class IacucProtocolForm extends ProtocolFormBase {
 
     public void setDefaultOpenCopyTab(boolean defaultOpenCopyTab) {
         this.defaultOpenCopyTab = defaultOpenCopyTab;
+    }
+
+
+    @Override
+    protected List<String> getTerminalNodeNamesHook() {
+        List<String> retVal = new ArrayList<String>();
+        retVal.add(Constants.IACUC_PROTOCOL_IRBREVIEW_ROUTE_NODE_NAME);
+        return retVal;
     }
    
 }
