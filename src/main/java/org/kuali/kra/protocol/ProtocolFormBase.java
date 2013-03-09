@@ -17,11 +17,13 @@ package org.kuali.kra.protocol;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.common.notification.web.struts.form.NotificationHelper;
 import org.kuali.kra.common.permissions.web.struts.form.PermissionsForm;
@@ -47,11 +49,17 @@ import org.kuali.kra.web.struts.form.Auditable;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.WorkflowDocumentFactory;
+import org.kuali.rice.kew.api.action.ActionRequest;
+import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.web.ui.ExtraButton;
 import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * This class...
@@ -536,4 +544,77 @@ public abstract class ProtocolFormBase extends KraTransactionalDocumentFormBase 
         return this.kcPersonService;
     }
 
+    
+    // superuser should never be allowed to perform approve doc on protocol docs since 
+    // that bypasses the usual committee voting process for protocol approval, and makes the doc FINAL
+    public boolean isSuperUserApproveDocumentAuthorized() {
+        return false;
+    }
+    
+    
+    // for terminal nodes we will restrict the super user to carry out only ad-hoc requests or exception requests,
+    // since carrying out machine-generated approve requests at a terminal (review) node 
+    // will bypass the committee voting process and make the document status final.
+    // At non-terminal nodes however we will not restrict the list of available requested actions in any way.
+    @SuppressWarnings("deprecation")
+    public List<ActionRequest> getActionRequests() {
+        List<ActionRequest> retVal;
+        List<ActionRequest> allAvailableRequests = super.getActionRequests(); 
+        if(!isDocumentAtTerminalNode()) {
+            retVal = allAvailableRequests;
+        }
+        // otherwise keep only the ad-hoc and exception requests
+        else {
+            retVal = new ArrayList<ActionRequest>();
+            for(ActionRequest request: allAvailableRequests) {
+                if(request.isAdHocRequest() || request.isExceptionRequest()) {
+                    retVal.add(request);
+                }
+            }
+        }
+        return retVal;
+    }
+    
+    @SuppressWarnings("deprecation")
+    private boolean isDocumentAtTerminalNode() {
+        boolean retVal = false;
+        List<String> terminalNodeNames = getTerminalNodeNamesHook();
+        List<String> currentNodes = 
+            KewApiServiceLocator.getWorkflowDocumentService().getCurrentRouteNodeNames(this.getDocument().getDocumentHeader().getWorkflowDocument().getDocumentId());
+        for(String terminalNodeName: terminalNodeNames) {
+            if(currentNodes.contains(terminalNodeName)) {
+                retVal = true;
+                break;
+            }
+        }
+        return retVal;
+    } 
+
+    // hook methods for subclasses to provide their specific list of terminal nodes (usually only a list of one element)
+    protected abstract List<String> getTerminalNodeNamesHook();
+
+
+    @SuppressWarnings("deprecation")
+    public boolean isSuperUserActionAvaliable() {
+        boolean retVal = false; 
+        if(!isDocumentStatusSaved()) {
+            retVal = super.isSuperUserActionAvaliable();
+        }
+        return retVal;
+    }
+
+
+    @SuppressWarnings("deprecation")
+    private boolean isDocumentStatusSaved() {
+        DocumentStatus status = null;
+        WorkflowDocument document = WorkflowDocumentFactory.loadDocument(GlobalVariables.getUserSession().getPrincipalId(),
+            this.getDocument().getDocumentHeader().getWorkflowDocument().getDocumentId());
+        if (ObjectUtils.isNotNull(document)) {
+            status = document.getStatus();
+        } else {
+            status = this.getDocument().getDocumentHeader().getWorkflowDocument().getStatus();
+        }
+        return StringUtils.equals(status.getCode(), DocumentStatus.SAVED.getCode());
+    }
+    
 }
