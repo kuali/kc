@@ -1630,4 +1630,50 @@
     	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
 	</class-descriptor>
 	
+	<class-descriptor class="org.kuali.kra.reporting.bo.CustReportDetails" table="CUST_REPORT_DETAILS">
+		<field-descriptor name="reportId" column="REPORT_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="SEQ_REPORT_ID" autoincrement="true"/>
+		<field-descriptor name="reportLabel" column="REPORT_LABEL" jdbc-type="VARCHAR" />
+		<field-descriptor name="reportDescription" column="REPORT_DESCRIPTION" jdbc-type="VARCHAR" />
+		<field-descriptor name="reportTypeCode" column="REPORT_TYPE_CODE" jdbc-type="INTEGER" /> 
+		<field-descriptor name="rightRequired" column="RIGHT_REQUIRED" jdbc-type="VARCHAR" />
+		<field-descriptor name="attachmentContent" column="REPORT_DESIGN" jdbc-type="CLOB" conversion="org.kuali.kra.infrastructure.OjbBlobClobFieldConersion"/>
+		<field-descriptor name="fileName" column="FILE_NAME" jdbc-type="VARCHAR" />
+		<field-descriptor name="contentType" column="CONTENT_TYPE" jdbc-type="VARCHAR" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<reference-descriptor name="custReportType" class-ref="org.kuali.kra.reporting.bo.CustReportType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="reportTypeCode"/> 
+		</reference-descriptor>
+	</class-descriptor>
+	
+	 <class-descriptor class="org.kuali.kra.reporting.bo.CustReportType" table="CUST_REPORT_TYPE">
+		<field-descriptor name="reportTypeCode" column="REPORT_TYPE_CODE" jdbc-type="INTEGER" primarykey="true" />
+		<field-descriptor name="reportTypeDesc" column="REPORT_TYPE_DESC" jdbc-type="VARCHAR" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+	</class-descriptor>
+	
+	<class-descriptor class="org.kuali.kra.reporting.bo.CustRptDefaultParms" table="CUST_RPT_DEFAULT_PARMS">
+		<field-descriptor name="parameterName" column="PARAMETER_NAME" jdbc-type="VARCHAR" primarykey="true"/>
+		<field-descriptor name="reportTypeCode" column="REPORT_TYPE_CODE" jdbc-type="INTEGER" primarykey="true"/>
+		<field-descriptor name="className" column="CLASS_NAME" jdbc-type="VARCHAR" primarykey="true"/>
+		<field-descriptor name="javaStatements" column="JAVA_STATEMENTS" jdbc-type="VARCHAR" />
+		<field-descriptor name="unitForAuthCheck" column="UNIT_FOR_AUTH_CHECK" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<reference-descriptor name="custReportType" class-ref="org.kuali.kra.reporting.bo.CustReportType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="reportTypeCode"/> 
+		</reference-descriptor>
+	</class-descriptor> 
+	
+ 	<class-descriptor class="org.kuali.kra.reporting.bo.CustRptTypeDocument" table="CUST_RPT_TYPE_DOCUMENT">
+		<field-descriptor name="reportTypeCode" column="REPORT_TYPE_CODE" jdbc-type="INTEGER" primarykey="true" />
+		<field-descriptor name="documentName" column="DOCUMENT_NAME" jdbc-type="VARCHAR" primarykey="true" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<reference-descriptor name="custReportType" class-ref="org.kuali.kra.reporting.bo.CustReportType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="reportTypeCode"/> 
+		</reference-descriptor>
+	</class-descriptor>	  
+	
 </descriptor-repository>
