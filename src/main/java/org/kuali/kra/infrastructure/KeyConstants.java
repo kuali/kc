@@ -1144,6 +1144,9 @@ public final class KeyConstants {
     
     public static final String WARNING_DOCUMENT_RELOAD_CONFIRMATION = "warning.document.reload.confirmation";
     
+    // Birt Errors
+    public static final String ERROR_BIRT_REPORT_INPUT_MISSING = "error.missing.report.inputparameters";
+    
     /**
      * private utility class ctor.
      * @throws UnsupportedOperationException if called.
