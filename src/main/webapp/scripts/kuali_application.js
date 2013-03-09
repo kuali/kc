@@ -114,6 +114,20 @@ function getContext(){
         return jq;
     }
 }
+function generateInputParams(reportSelect) {	
+	
+	var reportId = dwr.util.getValue(reportSelect);
+	var reportLabel = reportSelect.options[reportSelect.selectedIndex].text;
+	if(reportId > 0) {
+	document.forms[0].action=extractUrlBase()+ "/reporting.do?methodToCall=getReportParametersFromDesign&reportId="+reportId+"&reportLabel="+reportLabel;
+	document.forms[0].submit();
+	}
+}
+
+function resetBirtSelectDiv() {
+	document.getElementById("custReportDetails.reportLabelDisplay").selectedIndex =0;
+	
+}
 
 /**
  * Check if portal should be used for context

@@ -56,6 +56,10 @@
 			<include method="getUnitName" />
 			<include method="getSubUnitsForTreeView" />
 		</create>
+		<create creator="spring" javascript="BirtReportService">
+			<param name="beanName" value="birtReportService" />
+			<include method="getInputParametersFromTemplateFile" />			
+		</create>
 		<create creator="spring" javascript="KraPersonService">
 			<param name="beanName" value="kcPersonService" />
 			<include method="getKcPersonByUserName" />
