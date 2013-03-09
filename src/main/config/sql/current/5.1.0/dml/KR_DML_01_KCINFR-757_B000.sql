@@ -6,7 +6,9 @@ update KRIM_TYP_T set SRVC_NM = '{http://kc.kuali.org/core/v5_0}'||SRVC_NM where
 /
 update KRIM_TYP_T set SRVC_NM = '{http://kc.kuali.org/core/v5_0}'||SRVC_NM where SRVC_NM = 'protocolApproverRoleTypeService'
 /
-update KRMS_TYP_T set SRVC_NM = '{http://kc.kuali.org/core/v5_0}'||SRVC_NM where NMSPC_CD like '%KC-KRMS%'
+update KRMS_TYP_T set SRVC_NM = '{http://kc.kuali.org/core/v5_0}'||SRVC_NM where NM= 'Unit Agenda'
+/
+update KRMS_TYP_T set SRVC_NM = '{http://kc.kuali.org/core/v5_0}'||SRVC_NM where NM= 'Question Term Resolver Type Service'
 /
 update KREW_TYP_T set SRVC_NM = '{http://kc.kuali.org/core/v5_0}'||SRVC_NM where NMSPC_CD like '%KC-%'
 /
