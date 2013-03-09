@@ -82,11 +82,7 @@
 		</property>
 		<property name="required" value="false" />
 		<property name="control">
-				<bean parent="SelectControlDefinition" p:businessObjectClass="org.kuali.kra.reporting.bo.CustReportDetails"
-				p:valuesFinderClass="org.kuali.kra.reporting.lookup.keyvalue.CustomReportDetailsValueFinder"
-				p:includeKeyInLabel="false" p:keyAttribute="reportId"
-				p:labelAttribute="reportLabel"
-				p:script="generateInputParams(this,generateInputParams_Callback)"/>
+			<bean parent="TextControlDefinition" p:size="30" />
 		</property>
 		<property name="summary" value="Report Label" />
 		<property name="description" value="Report Label" />
