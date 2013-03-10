@@ -86,7 +86,7 @@ htmlFormAction="reporting">
 						<c:if test="${not empty KualiForm.reportId}">						
 									<html:image
 											property="methodToCall.printReport.KualiForm.reportName"
-											src='${ConfigProperties.kr.externalizable.images.url}buttonsmall_report.gif' onclick="excludeSubmitRestriction=true" />
+											src='${ConfigProperties.kra.externalizable.images.url}buttonsmall_report.gif' onclick="excludeSubmitRestriction=true" />
 									</c:if>		
 									<html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_cancel.gif" styleClass="globalbuttons" title="cancel" alt="cancel" onclick="resetBirtSelectDiv();"/>
 													
