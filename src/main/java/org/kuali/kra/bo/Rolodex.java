@@ -63,7 +63,7 @@ public class Rolodex extends KraPersistableBusinessObjectBase implements Contact
 
     private String prefix;
 
-    private Boolean sponsorAddressFlag = false;
+    private Boolean sponsorAddressFlag = true;
 
     private String sponsorCode;
 
