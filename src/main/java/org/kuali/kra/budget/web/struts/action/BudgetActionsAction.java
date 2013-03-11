@@ -788,7 +788,8 @@ public class BudgetActionsAction extends BudgetAction implements AuditModeAction
             budgetForm.getDocument().refreshPessimisticLocks();
         }  
         final BudgetTDCValidator tdcValidator = new BudgetTDCValidator(request);
-        return mapping.findForward(Constants.BUDGET_PERIOD_PAGE);
+        //return mapping.findForward(Constants.BUDGET_PERIOD_PAGE);
+        return mapping.findForward(Constants.BUDGET_VERSIONS_PAGE);
         //return mapping.findForward("parameters");
     }
     

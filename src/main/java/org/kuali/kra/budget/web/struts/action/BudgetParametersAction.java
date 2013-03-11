@@ -156,7 +156,6 @@ public class BudgetParametersAction extends BudgetAction {
                     updateBudgetPeriodDbVersion(budget);
                     return super.save(mapping, form, request, response);
                 } else {
-                    //HERE, redirect to actions tab, set logging to true;
                     String budgetStatusIncompleteCode = this.getParameterService().getParameterValueAsString(
                             BudgetDocument.class, Constants.BUDGET_STATUS_INCOMPLETE_CODE);
                     budget.setBudgetStatus(budgetStatusIncompleteCode);
