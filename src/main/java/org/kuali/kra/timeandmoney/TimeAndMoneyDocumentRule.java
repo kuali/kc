@@ -88,7 +88,7 @@ public class TimeAndMoneyDocumentRule extends ResearchDocumentRuleBase implement
     
     /**
      * 
-     * This method reports a warning when a change occured that might change report tracking.
+     * This method reports a warning when a change occurred that might change report tracking.
      * @param document
      */
     protected void reportAwardReportTrackingError(Document document) {

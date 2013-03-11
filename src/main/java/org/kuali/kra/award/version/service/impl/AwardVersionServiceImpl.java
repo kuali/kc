@@ -58,7 +58,8 @@ public class AwardVersionServiceImpl implements AwardVersionService {
     @Override
     public Award getActiveAwardVersion(String awardNumber) {
         List<VersionHistory> versions = versionHistoryService.findVersionHistory(Award.class, awardNumber);
-        return (Award) getActiveVersionHistory(versions).getSequenceOwner();
+        VersionHistory result = getActiveVersionHistory(versions);
+        return (result == null) ? null : (Award) result.getSequenceOwner();
     }
 
 
@@ -66,7 +67,8 @@ public class AwardVersionServiceImpl implements AwardVersionService {
     @Override
     public Award getPendingAwardVersion(String awardNumber) {
         List<VersionHistory> versions = versionHistoryService.findVersionHistory(Award.class, awardNumber);
-        return (Award) getPendingVersionHistory(versions).getSequenceOwner();
+        VersionHistory result = getPendingVersionHistory(versions);
+        return (result == null) ? null : (Award) result.getSequenceOwner();
     }
 
 

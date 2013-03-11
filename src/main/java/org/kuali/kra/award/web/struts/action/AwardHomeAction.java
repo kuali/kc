@@ -257,8 +257,21 @@ public class AwardHomeAction extends AwardAction {
         
       //if award is a root Award and direct/indirect view is enabled, then we need to sum the obligated and anticipated totals until we create
         //initial T&M doc.
-        if(awardDocument.getAward().getAwardNumber().endsWith("-00001") && isDirectIndirectViewEnabled()) {
-            setTotalsOnAward(awardDocument.getAward());
+        if(awardDocument.getAward().getAwardNumber().endsWith("-00001")) {
+            if (isDirectIndirectViewEnabled()) {
+                setTotalsOnAward(awardDocument.getAward());
+            }
+            Award oldAward = getAwardVersionService().getActiveAwardVersion(awardDocument.getAward().getAwardNumber());
+            if (oldAward != null) {
+                AwardAmountInfo aaiNew = awardDocument.getAward().getLastAwardAmountInfo();
+                AwardAmountInfo aaiOld = oldAward.getLastAwardAmountInfo();
+                aaiNew.setObligatedChange(aaiNew.getAmountObligatedToDate().subtract(aaiOld.getAmountObligatedToDate()));
+                aaiNew.setObligatedChangeDirect(aaiNew.getObligatedTotalDirect().subtract(aaiOld.getObligatedTotalDirect()));
+                aaiNew.setObligatedChangeIndirect(aaiNew.getObligatedTotalIndirect().subtract(aaiOld.getObligatedTotalIndirect()));
+                aaiNew.setAnticipatedChange(aaiNew.getAnticipatedTotalAmount().subtract(aaiOld.getAnticipatedTotalAmount()));
+                aaiNew.setAnticipatedChangeDirect(aaiNew.getAnticipatedTotalDirect().subtract(aaiOld.getAnticipatedTotalDirect()));
+                aaiNew.setAnticipatedChangeIndirect(aaiNew.getAnticipatedTotalIndirect().subtract(aaiOld.getAnticipatedTotalIndirect()));
+            }
         }
         
         /**
