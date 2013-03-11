@@ -45,9 +45,6 @@
 	<!-- Save Xml Configuration -->
 	<param name="print.xml.directory">directory path</param>
 	
-	<!-- BIRT ODA driver class Configuration -->
-	<param name="oda.driver.class">oracle.jdbc.driver.OracleDriver</param>
-	
 	<!-- Financial System WSDL Service URL -->
 	<param name="fin.system.integration.service.url">financial system service url</param>
 	
