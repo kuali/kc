@@ -232,7 +232,7 @@ buffer := 'roperty>
             </list-property>
             <xml-property name="queryText"><![CDATA[select  		
         p.PROPOSAL_NUMBER,
-        pi.person_name,
+        pi.FULL_NAME,
         p.TITLE,
         u.UNIT_NAME, 
         NULL COLLEGE_NAME,
@@ -672,7 +672,7 @@ buffer := 'roperty>
                             <structure>
                                 <property name="name">PERSON_NAME</property>
                                 <property name="displayName">PNAME</property>
-                                <expression name="expression">dataSetRow["PERSON_NAME"]</expression>
+                                <expression name="expression">dataSetRow["FULL_NAME"]</expression>
                                 <property name="dataType">string</property>
                             </structure>
                             <structure>
