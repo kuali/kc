@@ -213,7 +213,7 @@ public class TimeAndMoneyHistoryServiceImpl implements TimeAndMoneyHistoryServic
         //we don't want canceled docs to show in history.
         removeCanceledDocs(docs);
         for(Award award : awardVersionList) {
-            AwardVersionHistory awardVersionHistory = new AwardVersionHistory();
+            AwardVersionHistory awardVersionHistory = new AwardVersionHistory(award);
             awardVersionHistory.setDocumentUrl(buildForwardUrl(award.getAwardDocument().getDocumentNumber()));
             awardVersionHistory.setAwardDescriptionLine(buildNewAwardDescriptionLine(award));
             awardVersionHistory.setTimeAndMoneyDocumentHistoryList(getDocHistoryAndValidInfosAssociatedWithAwardVersion(docs, award.getAwardAmountInfos(), award));
