@@ -41,8 +41,9 @@ public class RolodexMaintainableImpl extends KraMaintainableImpl {
     public static final String AUTO_GEN_ROLODEX_ID_PARM = "AUTO_GENERATE_NON_EMPLOYEE_ID";
     public static final String SECTION_ID = "Edit Address Book";
     public static final String ROLODEX_ID_NAME = "rolodexId";
-    public static final String ORGANIZATION_NAME = "organizationName.sponsorName";
-    
+    public static final String SPONSOR__NAME = "organizationName.sponsorName";
+    public static final String ORGANIZATION_NAME = "orgName.organizationName";
+    public static final String ORGANIZATION = "organization";
     
     private transient ParameterService parameterService;
     private transient SequenceAccessorService sequenceAccessorService;
@@ -74,6 +75,7 @@ public class RolodexMaintainableImpl extends KraMaintainableImpl {
     }
     
     protected void disableRolodexId(List<Section> sections) {
+        Rolodex rolodex = (Rolodex) getBusinessObject();
         for (Section section : sections) {
             if (StringUtils.equals(section.getSectionId(), SECTION_ID)) {
                 for (Row row : section.getRows()) {
@@ -81,8 +83,14 @@ public class RolodexMaintainableImpl extends KraMaintainableImpl {
                         if (StringUtils.equals(field.getPropertyName(), ROLODEX_ID_NAME)) {
                             field.setReadOnly(true);
                         }
+                        if (StringUtils.equals(field.getPropertyName(), SPONSOR__NAME)) {
+                            field.setFieldDirectInquiryEnabled(false);
+                        }
                         if (StringUtils.equals(field.getPropertyName(), ORGANIZATION_NAME)) {
                             field.setFieldDirectInquiryEnabled(false);
+                        }
+                        if (StringUtils.equals(field.getPropertyName(), ORGANIZATION)) {
+                            field.setReadOnly(true);
                         }
                     }
                 }
@@ -127,9 +135,13 @@ public class RolodexMaintainableImpl extends KraMaintainableImpl {
     public void prepareForSave() {
         super.prepareForSave();
         Rolodex rolodex = (Rolodex) getBusinessObject();
-        if (rolodex != null && rolodex.getOrganizationName() != null) {
+        if (rolodex != null && rolodex.getOrganizationName() != null && rolodex.getOrganizationName().getSponsorName() != null) {
             rolodex.setOrganization(rolodex.getOrganizationName().getSponsorName());
             rolodex.setSponsorId(rolodex.getOrganizationName().getSponsorCode());
+        }
+        if(rolodex !=null && rolodex.getOrgName() != null && rolodex.getOrgName().getOrganizationName() != null){
+            rolodex.setOrganization(rolodex.getOrgName().getOrganizationName());
+            rolodex.setOrganizationId(rolodex.getOrgName().getOrganizationId());
         }
     }
     

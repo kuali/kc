@@ -49,12 +49,14 @@
         <bean parent="MaintainableFieldDefinition" p:name="firstName"/>
         <bean parent="MaintainableFieldDefinition" p:name="middleName"/>
         <bean parent="MaintainableFieldDefinition" p:name="lastName"/>
-        <bean parent="MaintainableFieldDefinition" p:name="organizationName.sponsorName" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="sponsorAddressFlag" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="organization" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="organizationName.sponsorName"/>
+        <bean parent="MaintainableFieldDefinition" p:name="orgName.organizationName"/>
         <bean parent="MaintainableFieldDefinition" p:name="ownedByUnit" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="phoneNumber"/>
         <bean parent="MaintainableFieldDefinition" p:name="postalCode"/>
         <bean parent="MaintainableFieldDefinition" p:name="prefix"/>
-        <bean parent="MaintainableFieldDefinition" p:name="sponsorAddressFlag" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="sponsorCode"/>
         <bean parent="MaintainableFieldDefinition" p:name="state"/>
         <bean parent="MaintainableFieldDefinition" p:name="suffix"/>
