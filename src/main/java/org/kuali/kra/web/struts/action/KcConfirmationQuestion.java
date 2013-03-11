@@ -34,6 +34,6 @@ public class KcConfirmationQuestion extends QuestionBase {
         super("Are you sure you want to cancel?", new ArrayList(3));
         this.getButtons().add("Yes");
         this.getButtons().add("No");
-        this.getButtons().add("cancel");
+        this.getButtons().add("returntodocument");
     }
 }
