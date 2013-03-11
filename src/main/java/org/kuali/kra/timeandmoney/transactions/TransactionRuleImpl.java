@@ -237,7 +237,8 @@ public class TransactionRuleImpl extends ResearchDocumentRuleBase implements Tra
     private boolean validateSourceObligatedFunds (PendingTransaction pendingTransaction, Award award) {
         AwardAmountInfo awardAmountInfo = award.getLastAwardAmountInfo();
         boolean valid = true;        
-        if (awardAmountInfo.getObliDistributableAmount().subtract(pendingTransaction.getObligatedAmount()).isNegative()) {
+// this has already been done... if (awardAmountInfo.getObliDistributableAmount().subtract(pendingTransaction.getObligatedAmount()).isNegative()) {
+        if (awardAmountInfo.getObliDistributableAmount().isNegative()) {
             reportError(OBLIGATED_AMOUNT_PROPERTY, KeyConstants.ERROR_OBLIGATED_AMOUNT_INVALID);
             valid = false;
         }
@@ -247,7 +248,8 @@ public class TransactionRuleImpl extends ResearchDocumentRuleBase implements Tra
     private boolean validateSourceAnticipatedFunds (PendingTransaction pendingTransaction, Award award) {
         AwardAmountInfo awardAmountInfo = award.getLastAwardAmountInfo();
         boolean valid = true;
-        if (awardAmountInfo.getAntDistributableAmount().subtract(pendingTransaction.getAnticipatedAmount()).isNegative()) {
+// this has already been done...        if (awardAmountInfo.getAntDistributableAmount().subtract(pendingTransaction.getAnticipatedAmount()).isNegative()) {
+        if (awardAmountInfo.getAntDistributableAmount().isNegative()) {
             reportError(ANTICIPATED_AMOUNT_PROPERTY, KeyConstants.ERROR_ANTICIPATED_AMOUNT_INVALID);
             valid = false;
         }
