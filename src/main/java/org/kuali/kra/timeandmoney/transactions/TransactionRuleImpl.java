@@ -80,8 +80,8 @@ public class TransactionRuleImpl extends ResearchDocumentRuleBase implements Tra
         boolean requiredFieldsComplete = areRequiredFieldsComplete(event.getPendingTransactionItemForValidation());
         if (requiredFieldsComplete) {
             event.getTimeAndMoneyDocument().add(event.getPendingTransactionItemForValidation());
-            List<Award> awards = processTransactions(event.getTimeAndMoneyDocument());
             event.getTimeAndMoneyDocument().getPendingTransactions().remove(event.getPendingTransactionItemForValidation());
+            List<Award> awards = processTransactions(event.getTimeAndMoneyDocument());
             Award award = getLastSourceAwardReferenceInAwards(awards, event.getPendingTransactionItemForValidation().getSourceAwardNumber());
             //if source award is "External, the award will be null and we don't need to validate these amounts.
             boolean validObligatedFunds = true;
