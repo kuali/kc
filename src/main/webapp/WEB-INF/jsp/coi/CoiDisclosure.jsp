@@ -296,6 +296,7 @@
 	<kra-coi:updateDisclosureProjects/>
 </c:if>
 
+<kra-coi:coiNotifications/>
 
 <kra-coi:coiNoteAndAttachment/>
 
