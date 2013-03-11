@@ -68,11 +68,12 @@ public class UnitAclLoadServiceImpl implements UnitAclLoadService {
         for (RoleMembership kraRoleTemplate : kraRoleTemplates) {
             String personId = kraRoleTemplate.getMemberId();
             if (personId != null && !StringUtils.equals(personId, creatorUserId)) {
-                if(StringUtils.isEmpty(roleIdMap.get(kraRoleTemplate.getRoleId()))){
+                String key = kraRoleTemplate.getRoleId() + "|" + personId;
+                if (StringUtils.isEmpty(roleIdMap.get(key))) {
                     role = roleManagementService.getRole(kraRoleTemplate.getRoleId());
-                    roleIdMap.put(kraRoleTemplate.getRoleId(), role.getName());
+                    roleIdMap.put(key, role.getName());
+                    kraAuthorizationService.addRole(personId, role.getName(), permissionable); 
                 }
-                kraAuthorizationService.addRole(personId, roleIdMap.get(kraRoleTemplate.getRoleId()), permissionable); 
             }
         }
     }
