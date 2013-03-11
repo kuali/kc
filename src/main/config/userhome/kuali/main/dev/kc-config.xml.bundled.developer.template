@@ -12,9 +12,6 @@
 	<!-- Save Xml Configuration -->
 	<param name="print.xml.directory">directory path</param>
 	
-	<!-- BIRT ODA driver class Configuration -->
-	<param name="oda.driver.class">oracle.jdbc.driver.OracleDriver</param>
-	
 	<!--
 	<param name="datasource.url">jdbc:mysql://localhost:3306/KCBND</param>
 	<param name="datasource.username">KCBND</param>
