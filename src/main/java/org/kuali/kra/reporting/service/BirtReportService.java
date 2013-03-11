@@ -16,6 +16,7 @@
 package org.kuali.kra.reporting.service;
 
 import java.io.InputStream;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,6 +37,6 @@ public interface BirtReportService {
 
     public List<CustReportDetails> getReportDetails();
     
-    public IReportRunnable buildDataSource (IReportRunnable iReportRunnable) throws SemanticException;
+    public IReportRunnable buildDataSource (IReportRunnable iReportRunnable) throws SemanticException,SQLException;
 
 }

@@ -17,6 +17,7 @@ package org.kuali.kra.reporting.service.impl;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -37,6 +38,7 @@ import org.kuali.kra.reporting.service.BirtReportService;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.UnitAuthorizationService;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.framework.persistence.jdbc.datasource.XAPoolDataSource;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
@@ -94,20 +96,22 @@ public ArrayList<BirtParameterBean> getInputParametersFromTemplateFile(String re
     }
     
     @Override
-    public IReportRunnable buildDataSource(IReportRunnable iReportRunnable) throws SemanticException {
+    public IReportRunnable buildDataSource(IReportRunnable iReportRunnable) throws SemanticException, SQLException {
         ElementFactory designFactory = null;
         
         ConfigurationService configurationService = KraServiceLocator.getService(ConfigurationService.class);
         String odaURL = configurationService.getPropertyValueAsString(Constants.ODA_URL);
         String odaUser =  configurationService.getPropertyValueAsString(Constants.ODA_USER);
         String odaPassword =  configurationService.getPropertyValueAsString(Constants.ODA_PASSWORD);
-        String odaDriverClass = KraServiceLocator.getService(ConfigurationService.class).getPropertyValueAsString(Constants.ODA_DRIVER_CLASS);
         
         ReportDesignHandle reportDesignHandle = (ReportDesignHandle) iReportRunnable.getDesignHandle();
         reportDesignHandle.getElementFactory();        
         designFactory = reportDesignHandle.getElementFactory();
         OdaDataSourceHandle odaDataSourceHandle = designFactory.newOdaDataSource("Data Source", "org.eclipse.birt.report.data.oda.jdbc");
-        odaDataSourceHandle.setProperty("odaDriverClass", odaDriverClass);
+        XAPoolDataSource xAPoolDataSource =  KraServiceLocator.getService("dataSourceXAPool");
+        
+        String odaDriverClassName = xAPoolDataSource.getDriverClassName();
+        odaDataSourceHandle.setProperty("odaDriverClass", odaDriverClassName);
         odaDataSourceHandle.setProperty("odaURL", odaURL);
         odaDataSourceHandle.setProperty("odaUser", odaUser);
         odaDataSourceHandle.setProperty("odaPassword", odaPassword);
