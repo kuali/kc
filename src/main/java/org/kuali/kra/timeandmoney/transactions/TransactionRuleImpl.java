@@ -80,8 +80,8 @@ public class TransactionRuleImpl extends ResearchDocumentRuleBase implements Tra
         boolean requiredFieldsComplete = areRequiredFieldsComplete(event.getPendingTransactionItemForValidation());
         if (requiredFieldsComplete) {
             event.getTimeAndMoneyDocument().add(event.getPendingTransactionItemForValidation());
-            event.getTimeAndMoneyDocument().getPendingTransactions().remove(event.getPendingTransactionItemForValidation());
             List<Award> awards = processTransactions(event.getTimeAndMoneyDocument());
+            event.getTimeAndMoneyDocument().getPendingTransactions().remove(event.getPendingTransactionItemForValidation());
             Award award = getLastSourceAwardReferenceInAwards(awards, event.getPendingTransactionItemForValidation().getSourceAwardNumber());
             //if source award is "External, the award will be null and we don't need to validate these amounts.
             boolean validObligatedFunds = true;
@@ -235,7 +235,7 @@ public class TransactionRuleImpl extends ResearchDocumentRuleBase implements Tra
     }
     
     private boolean validateSourceObligatedFunds (PendingTransaction pendingTransaction, Award award) {
-        AwardAmountInfo awardAmountInfo = award.getAwardAmountInfos().get(award.getAwardAmountInfos().size() -1);
+        AwardAmountInfo awardAmountInfo = award.getLastAwardAmountInfo();
         boolean valid = true;        
         if (awardAmountInfo.getObliDistributableAmount().subtract(pendingTransaction.getObligatedAmount()).isNegative()) {
             reportError(OBLIGATED_AMOUNT_PROPERTY, KeyConstants.ERROR_OBLIGATED_AMOUNT_INVALID);
@@ -245,7 +245,7 @@ public class TransactionRuleImpl extends ResearchDocumentRuleBase implements Tra
     }
     
     private boolean validateSourceAnticipatedFunds (PendingTransaction pendingTransaction, Award award) {
-        AwardAmountInfo awardAmountInfo = award.getAwardAmountInfos().get(award.getAwardAmountInfos().size() -1);
+        AwardAmountInfo awardAmountInfo = award.getLastAwardAmountInfo();
         boolean valid = true;
         if (awardAmountInfo.getAntDistributableAmount().subtract(pendingTransaction.getAnticipatedAmount()).isNegative()) {
             reportError(ANTICIPATED_AMOUNT_PROPERTY, KeyConstants.ERROR_ANTICIPATED_AMOUNT_INVALID);
@@ -255,7 +255,7 @@ public class TransactionRuleImpl extends ResearchDocumentRuleBase implements Tra
     }
     
     private boolean validateAwardTotalCostLimit(PendingTransaction pendingTransaction, Award award) {
-        AwardAmountInfo awardAmountInfo = award.getAwardAmountInfos().get(award.getAwardAmountInfos().size() -1);
+        AwardAmountInfo awardAmountInfo = award.getLastAwardAmountInfo();
         KualiDecimal obliDistributableAmount = awardAmountInfo.getObliDistributableAmount().subtract(pendingTransaction.getObligatedAmount());
         if (award.getTotalCostBudgetLimit() != null
                 && award.getTotalCostBudgetLimit().isGreaterThan(obliDistributableAmount)) {
@@ -275,10 +275,10 @@ public class TransactionRuleImpl extends ResearchDocumentRuleBase implements Tra
         boolean valid = true;
         if(pendingTransactionItem.getAnticipatedAmount().isNegative() ||
                 pendingTransactionItem.getObligatedAmount().isNegative() ||
-                    pendingTransactionItem.getAnticipatedDirectAmount().isNegative() ||
-                        pendingTransactionItem.getAnticipatedIndirectAmount().isNegative() ||
-                            pendingTransactionItem.getObligatedDirectAmount().isNegative() ||
-                                pendingTransactionItem.getObligatedIndirectAmount().isNegative()) {
+                pendingTransactionItem.getAnticipatedDirectAmount().isNegative() ||
+                pendingTransactionItem.getAnticipatedIndirectAmount().isNegative() ||
+                pendingTransactionItem.getObligatedDirectAmount().isNegative() ||
+                pendingTransactionItem.getObligatedIndirectAmount().isNegative()) {
             reportError(TIME_AND_MONEY_TRANSACTION, KeyConstants.ERROR_TRANSACTION_AMOUNTS_NEGATIVE);
             valid = false;
         }
