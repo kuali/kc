@@ -180,6 +180,7 @@
 	<!-- image overrides -->
 	<param name="application.custom.image.url.copyoneper">/${app.context.name}/static/images/buttonsmall_copyallperiods.gif</param>
 	<param name="application.custom.image.url.copyallperiods">/${app.context.name}/static/images/buttonsmall_copyoneper.gif</param>
+	<param name="application.custom.image.url.returntodocument">/${app.context.name}/static/images/buttonsmall_returntodocument.gif</param>
 	
 	<param name="rice.logging.configure">true</param>
 	<param name="kim.show.blank.qualifiers">false</param>
