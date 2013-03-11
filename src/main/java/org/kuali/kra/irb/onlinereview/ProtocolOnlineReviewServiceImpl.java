@@ -524,16 +524,6 @@ public class ProtocolOnlineReviewServiceImpl extends ProtocolOnlineReviewService
 //        }
 //    }
     
-    /**
-     * @see org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService#finalizeOnlineReviews(org.kuali.kra.irb.actions.submit.ProtocolSubmission)
-     */
-    public void finalizeOnlineReviews(ProtocolSubmissionBase submission, String annotation) {
-        //get the online reviews, loop through them and finalize them if necessary.
-        for(ProtocolOnlineReviewBase review : submission.getProtocolOnlineReviews()) {
-//            review.addActionPerformed("Finalize:"+review.getProtocolOnlineReviewDocument().getDocumentHeader().getWorkflowDocument().getStatus().getCode()+":"+review.getProtocolOnlineReviewStatusCode());
-            finalizeOnlineReviewDocument(review.getProtocolOnlineReviewDocument(), submission, annotation);
-        }
-    }
 
     @Override
     protected ProtocolOnlineReviewDocumentBase getNewProtocolOnlineReviewDocumentInstanceHook() {
