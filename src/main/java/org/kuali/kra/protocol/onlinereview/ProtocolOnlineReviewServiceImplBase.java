@@ -581,7 +581,7 @@ public abstract class ProtocolOnlineReviewServiceImplBase implements ProtocolOnl
     public void finalizeOnlineReviews(ProtocolSubmissionBase submission, String annotation) {
         //get the online reviews, loop through them and finalize them if necessary.
         for(ProtocolOnlineReviewBase review : submission.getProtocolOnlineReviews()) {
-            review.addActionPerformed("Finalize:"+review.getProtocolOnlineReviewDocument().getDocumentHeader().getWorkflowDocument().getStatus().getCode()+":"+review.getProtocolOnlineReviewStatusCode());
+//            review.addActionPerformed("Finalize:"+review.getProtocolOnlineReviewDocument().getDocumentHeader().getWorkflowDocument().getStatus().getCode()+":"+review.getProtocolOnlineReviewStatusCode());
             finalizeOnlineReviewDocument(review.getProtocolOnlineReviewDocument(), submission, annotation);
         }
     }
