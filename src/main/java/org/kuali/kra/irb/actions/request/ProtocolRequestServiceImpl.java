@@ -35,6 +35,7 @@ import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
 import org.kuali.kra.irb.notification.IRBNotificationContext;
 import org.kuali.kra.irb.notification.IRBNotificationRenderer;
+import org.kuali.kra.irb.notification.IRBProtocolNotification;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -171,7 +172,7 @@ public class ProtocolRequestServiceImpl implements ProtocolRequestService {
         
         IRBNotificationRenderer renderer = new IRBNotificationRenderer(protocol);
         IRBNotificationContext context = new IRBNotificationContext(protocol, protocolActionTypeCode, description, renderer);
-        kcNotificationService.sendNotification(context);
+        kcNotificationService.sendNotificationAndPersist(context, new IRBProtocolNotification(), protocol);
     }
 
 
