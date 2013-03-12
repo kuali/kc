@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.iacuc.actions;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -41,6 +40,7 @@ import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 
+@SuppressWarnings("deprecation")
 public class IacucProtocolNotificationEditorAction extends IacucProtocolAction {
     private static final String PROTOCOL_ACTIONS_TAB = "iacucProtocolActions";
     
@@ -142,6 +142,7 @@ public class IacucProtocolNotificationEditorAction extends IacucProtocolAction {
                 actionForward = mapping.findForward(PROTOCOL_ACTIONS_TAB);
             }
         }
+        @SuppressWarnings("unused")
         Object notificationRequestBeans = GlobalVariables.getUserSession().retrieveObject("removeReviewer");
 //TODO: must revisit for IACUC development
 //        if (notificationRequestBeans != null) {
@@ -244,6 +245,7 @@ public class IacucProtocolNotificationEditorAction extends IacucProtocolAction {
 //        }
 //    }
 
+    @SuppressWarnings("unused")
     private KcNotificationService getKcNotificationService() {
         return KraServiceLocator.getService(KcNotificationService.class);
     }
@@ -272,9 +274,11 @@ public class IacucProtocolNotificationEditorAction extends IacucProtocolAction {
         // use this doc id for holding action to check if online review document is complete and return to online review tab
         returnLocation += "&" + "olrDocId=" + olrDocId + "&" + "olrEvent=" + olrEvent;
         ActionForward basicForward = mapping.findForward(KRADConstants.MAPPING_PORTAL);
-        //ActionForward holdingPageForward = mapping.findForward(Constants.MAPPING_HOLDING_PAGE);
-        ActionForward holdingPageForward = mapping.findForward(Constants.MAPPING_IRB_HOLDING_PAGE);
+        ActionForward holdingPageForward = mapping.findForward(Constants.MAPPING_HOLDING_PAGE);
+        //ActionForward holdingPageForward = mapping.findForward(Constants.MAPPING_IRB_HOLDING_PAGE);
         GlobalVariables.getUserSession().addObject(Constants.HOLDING_PAGE_DOCUMENT_ID, (Object)olrDocId);
+        // add that alternate session key to the session (for double indirection later in the holding page action)
+        GlobalVariables.getUserSession().addObject(Constants.ALTERNATE_DOC_ID_SESSION_KEY, (Object)Constants.HOLDING_PAGE_DOCUMENT_ID);
         
         return routeToHoldingPage(basicForward, basicForward, holdingPageForward, returnLocation);
 
