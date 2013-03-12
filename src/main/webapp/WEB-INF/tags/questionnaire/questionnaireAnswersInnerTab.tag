@@ -22,6 +22,7 @@
 <%@ attribute name="parentTab" required="true" %>
 <%@ attribute name="readOnly" required="false" %>
 <%@ attribute name="printLineIndex" required="false" %>
+<%@ attribute name="overrideDivClass" required="false" %>
 
 <c:if test = "${empty forceNonTransparent}">
 	<c:set var = "forceNonTransparent" value = "false"/>
@@ -67,7 +68,8 @@
 			         tabDescription=""
 			         defaultOpen="${showQuestions}" 
 					 useCurrentTabIndexAsKey="true"
-			         parentTab="${parentTabName}">
+			         parentTab="${parentTabName}"
+			         overrideDivClass="${overrideDivClass}">
 			         
 	<div class="tab-container" align="center">
 		<kra-questionnaire:questionnaireAnswersBody  answerHeaderIndex="${answerHeaderIndex}" bean="${bean}" 

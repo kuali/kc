@@ -34,6 +34,7 @@ import org.kuali.kra.protocol.ProtocolAssociateBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondence;
 import org.kuali.kra.protocol.notification.ProtocolNotification;
+import org.kuali.kra.protocol.questionnaire.ProtocolSubmissionQuestionnaireHelper;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -90,7 +91,7 @@ public abstract class ProtocolActionBase extends ProtocolAssociateBase {
 
     private transient boolean isInFilterView = true;
 
-    private transient int answerHeadersCount = 0;
+    private ProtocolSubmissionQuestionnaireHelper questionnaireHelper;
 
 // TODO *********commented the code below during IACUC refactoring*********     
 //    private transient QuestionnairePrintOption questionnairePrintOption;
@@ -507,14 +508,6 @@ public abstract class ProtocolActionBase extends ProtocolAssociateBase {
     public BusinessObjectService getBusinessObjectService() {
         return KraServiceLocator.getService(BusinessObjectService.class);
     }
-
-    public int getAnswerHeadersCount() {
-        return answerHeadersCount;
-    }
-
-    public void setAnswerHeadersCount(int answerHeadersCount) {
-        this.answerHeadersCount = answerHeadersCount;
-    }
     
     // TODO : this might be a concern if the protocol has lots of correspondence, and we have to verify
     // for every single one.  We can't use a general check for this protocol because there is timing issue
@@ -586,9 +579,23 @@ public abstract class ProtocolActionBase extends ProtocolAssociateBase {
     }   
     
     protected abstract String getCoeusModule();
+    
+    protected abstract ProtocolSubmissionQuestionnaireHelper getProtocolSubmissionQuestionnaireHelperHook(ProtocolBase protocol, String actionTypeCode, String submissionNumber);
 
     public void addNotification(KcNotification notification) {
         getProtocolNotifications().add(notification);       
+    }
+
+    public ProtocolSubmissionQuestionnaireHelper getQuestionnaireHelper() {
+        if (questionnaireHelper == null) {
+            setQuestionnaireHelper(getProtocolSubmissionQuestionnaireHelperHook(getProtocol(), protocolActionTypeCode, submissionNumber == null ? null : submissionNumber.toString()));
+            getQuestionnaireHelper().populateAnswers();
+        }
+        return questionnaireHelper;
+    }
+
+    public void setQuestionnaireHelper(ProtocolSubmissionQuestionnaireHelper questionnaireHelper) {
+        this.questionnaireHelper = questionnaireHelper;
     }
     
 }

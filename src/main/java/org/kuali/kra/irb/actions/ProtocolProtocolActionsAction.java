@@ -285,16 +285,16 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
-        if (StringUtils.isNotBlank(((ProtocolForm) form).getQuestionnaireHelper().getSubmissionActionTypeCode())) {
-            //    && StringUtils.isBlank(getSubmitActionType(request))) {
-            // questionnaire is already loaded for this action.
-            ProtocolSubmissionBeanBase submissionBean = getSubmissionBean(form, protocolForm.getQuestionnaireHelper()
-                    .getSubmissionActionTypeCode());
-            if (!CollectionUtils.isEmpty(protocolForm.getQuestionnaireHelper().getAnswerHeaders())) {
-                setQnCompleteStatus(protocolForm.getQuestionnaireHelper().getAnswerHeaders());
-                submissionBean.setAnswerHeaders(protocolForm.getQuestionnaireHelper().getAnswerHeaders());
-            } 
-        }
+//        if (StringUtils.isNotBlank(((ProtocolForm) form).getQuestionnaireHelper().getSubmissionActionTypeCode())) {
+//            //    && StringUtils.isBlank(getSubmitActionType(request))) {
+//            // questionnaire is already loaded for this action.
+//            ProtocolSubmissionBeanBase submissionBean = getSubmissionBean(form, protocolForm.getQuestionnaireHelper()
+//                    .getSubmissionActionTypeCode());
+//            if (!CollectionUtils.isEmpty(protocolForm.getQuestionnaireHelper().getAnswerHeaders())) {
+//                setQnCompleteStatus(protocolForm.getQuestionnaireHelper().getAnswerHeaders());
+//                submissionBean.setAnswerHeaders(protocolForm.getQuestionnaireHelper().getAnswerHeaders());
+//            } 
+//        }
         ActionForward actionForward = super.execute(mapping, form, request, response);
         protocolForm.getActionHelper().prepareView();
         // submit action may change "submission details", so re-initializa it
@@ -610,7 +610,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             HttpServletResponse response) throws Exception {
 
         ProtocolForm protocolForm = (ProtocolForm) form;
-        protocolForm.getActionHelper().getProtocolNotifyIrbBean().setAnswerHeaders(getAnswerHeaders(form, ProtocolActionType.NOTIFY_IRB));
+        protocolForm.getActionHelper().preSaveSubmissionQuestionnaires();
         if (isMandatoryQuestionnaireComplete(protocolForm.getActionHelper().getProtocolNotifyIrbBean(), "actionHelper.protocolNotifyIrbBean.datavalidation")) {
             getProtocolNotifyIrbService().submitIrbNotification(protocolForm.getProtocolDocument().getProtocol(),
                     protocolForm.getActionHelper().getProtocolNotifyIrbBean());
@@ -652,24 +652,14 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_ACTIONS_TAB), protocolForm, newNotificationBean);
         }
     }
-
-    /*
-     * get the saved answer headers
-     */
-    private List<AnswerHeader> getAnswerHeaders(ActionForm form, String actionTypeCode) {
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        ModuleQuestionnaireBean moduleQuestionnaireBean = new ProtocolModuleQuestionnaireBean(CoeusModule.IRB_MODULE_CODE, protocolForm.getProtocolDocument().getProtocol().getProtocolNumber() + "T", CoeusSubModule.PROTOCOL_SUBMISSION, actionTypeCode, false);
-        return getQuestionnaireAnswerService().getQuestionnaireAnswer(moduleQuestionnaireBean);
-
-    }
     
     /*
      * check if the mandatory submission questionnaire is complete before submit a request/notify irb action
      */
-    private boolean isMandatoryQuestionnaireComplete(ProtocolSubmissionBeanBase submissionBean, String errorKey) {
+    private boolean isMandatoryQuestionnaireComplete(ProtocolRequestBean submissionBean, String errorKey) {
         boolean valid = true;
         ProtocolQuestionnaireAuditRule auditRule = new ProtocolQuestionnaireAuditRule();
-        if (!auditRule.isMandatorySubmissionQuestionnaireComplete(submissionBean.getAnswerHeaders())) {
+        if (!auditRule.isMandatorySubmissionQuestionnaireComplete(submissionBean.getQuestionnaireHelper().getAnswerHeaders())) {
             GlobalVariables.getMessageMap().clearErrorMessages();
             GlobalVariables.getMessageMap().putError(errorKey, KeyConstants.ERROR_MANDATORY_QUESTIONNAIRE);
             valid = false;
@@ -1914,13 +1904,14 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         Protocol protocol = document.getProtocol();
         String taskName = getTaskName(request);
         
+        protocolForm.getActionHelper().preSaveSubmissionQuestionnaires();
+        
         if (StringUtils.isNotBlank(taskName) && isAuthorized(new ProtocolTask(taskName, protocol))) {
             ProtocolRequestAction requestAction = ProtocolRequestAction.valueOfTaskName(taskName);
             ProtocolRequestBean requestBean = getProtocolRequestBean(form, request);
             
             if (requestBean != null) {
                 boolean valid = applyRules(new ProtocolRequestEvent<ProtocolRequestRule>(document, requestAction.getErrorPath(), requestBean));
-                requestBean.setAnswerHeaders(getAnswerHeaders(form, requestAction.getActionTypeCode()));
                 valid &= isMandatoryQuestionnaireComplete(requestBean, "actionHelper." + requestAction.getBeanName() + ".datavalidation");
                 if (valid) {
                     getProtocolRequestService().submitRequest(protocolForm.getProtocolDocument().getProtocol(), requestBean);            
@@ -3460,24 +3451,6 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
-       
-
-    public ActionForward submissionQuestionnaire(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-
-        ((ProtocolForm)form).getQuestionnaireHelper().prepareView();
-        ((ProtocolForm)form).getQuestionnaireHelper().setSubmissionActionTypeCode(getSubmitActionType(request));
-        // TODO : if questionnaire is already populated, then don't need to do it
-            ProtocolSubmissionBeanBase submissionBean = getSubmissionBean(form, ((ProtocolForm)form).getQuestionnaireHelper().getSubmissionActionTypeCode());
-            if (CollectionUtils.isEmpty(submissionBean.getAnswerHeaders())) {
-                ((ProtocolForm)form).getQuestionnaireHelper().populateAnswers();
-                submissionBean.setAnswerHeaders(((ProtocolForm)form).getQuestionnaireHelper().getAnswerHeaders());
-            } else {
-                ((ProtocolForm)form).getQuestionnaireHelper().setAnswerHeaders(submissionBean.getAnswerHeaders());
-            }
-        
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-
 
     /*
      * confirmation question for followup action

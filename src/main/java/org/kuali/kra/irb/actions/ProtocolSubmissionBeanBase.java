@@ -31,7 +31,6 @@ public abstract class ProtocolSubmissionBeanBase extends ProtocolActionBean impl
     private String committeeId;
     private ProtocolActionAttachment newActionAttachment;
     private List<ProtocolActionAttachment> actionAttachments = new ArrayList<ProtocolActionAttachment>();
-    private List<AnswerHeader> answerHeaders;
 
     public ProtocolSubmissionBeanBase(ActionHelper actionHelper) {
         super(actionHelper);
@@ -59,14 +58,6 @@ public abstract class ProtocolSubmissionBeanBase extends ProtocolActionBean impl
 
     public void setActionAttachments(List<org.kuali.kra.protocol.actions.notify.ProtocolActionAttachment> actionAttachments) {
         this.actionAttachments = actionAttachments;
-    }
-
-    public List<AnswerHeader> getAnswerHeaders() {
-        return answerHeaders;
-    }
-
-    public void setAnswerHeaders(List<AnswerHeader> answerHeaders) {
-        this.answerHeaders = answerHeaders;
     }
 
 }

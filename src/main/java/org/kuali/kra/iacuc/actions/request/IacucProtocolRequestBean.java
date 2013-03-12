@@ -15,11 +15,11 @@
  */
 package org.kuali.kra.iacuc.actions.request;
 
-import java.io.Serializable;
-
 import org.kuali.kra.iacuc.actions.IacucActionHelper;
 import org.kuali.kra.iacuc.actions.IacucProtocolSubmissionBeanBase;
+import org.kuali.kra.iacuc.questionnaire.IacucSubmissionQuestionnaireHelper;
 import org.kuali.kra.protocol.actions.request.ProtocolRequestBean;
+import org.kuali.kra.protocol.questionnaire.ProtocolSubmissionQuestionnaireHelper;
 
 /**
  * The ProtocolRequestBean is used for some of the common, yet simple,
@@ -43,6 +43,7 @@ public class IacucProtocolRequestBean extends IacucProtocolSubmissionBeanBase im
     private String submissionTypeCode;
     private String reason = "";
     private String beanName;
+    private ProtocolSubmissionQuestionnaireHelper questionnaireHelper;
 
     /**
      * Constructs a ProtocolRequestBean.
@@ -57,6 +58,7 @@ public class IacucProtocolRequestBean extends IacucProtocolSubmissionBeanBase im
         this.protocolActionTypeCode = protocolActionTypeCode;
         this.submissionTypeCode = submissionTypeCode;
         this.beanName = beanName;
+        questionnaireHelper = new IacucSubmissionQuestionnaireHelper(actionHelper.getProtocol(), protocolActionTypeCode, null, false);
     }
 
     public void setReason(String reason) {
@@ -81,6 +83,14 @@ public class IacucProtocolRequestBean extends IacucProtocolSubmissionBeanBase im
 
     public void setBeanName(String beanName) {
         this.beanName = beanName;
+    }
+
+    public ProtocolSubmissionQuestionnaireHelper getQuestionnaireHelper() {
+        return questionnaireHelper;
+    }
+
+    public void setQuestionnaireHelper(ProtocolSubmissionQuestionnaireHelper questionnaireHelper) {
+        this.questionnaireHelper = questionnaireHelper;
     }
     
 }
