@@ -51,9 +51,6 @@ import org.kuali.rice.krad.document.Document;
 public class ProtocolQuestionnaireAction extends ProtocolAction {
     private static final String PROTOCOL_NUMBER = "protocolNumber";
     private static final String SEQUENCE_NUMBER = "sequenceNumber";
-    private static final String SUBMISSION_NUMBER = "submissionNumber";
-    private static final String SUBMISSION_QUESTIONNAIRE = "submissionQuestionnaire";
-    private static final String SUFFIX_T = "T";
     /**
      * {@inheritDoc}
      * @see org.kuali.kra.irb.ProtocolAction#preSave(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, 
@@ -108,21 +105,14 @@ public class ProtocolQuestionnaireAction extends ProtocolAction {
                 }
             }
         }
-        if (StringUtils.isBlank(((ProtocolForm) form).getDocId())) {
-            // lookup return to submission questionnaire popup
-            forward = mapping.findForward(SUBMISSION_QUESTIONNAIRE);
-            ((ProtocolForm) form).getQuestionnaireHelper().resetHeaderLabels();
-        }
         return forward;
     }
 
     @Override
     public ActionForward reload(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         // TODO : reload should reload the action page too, so this submissionquestionnaire may not needed ?
-        String submissionActionTypeCode = ((ProtocolForm)form).getQuestionnaireHelper().getSubmissionActionTypeCode();
         ActionForward actionForward = super.reload(mapping, form, request, response);
         ((ProtocolForm)form).getQuestionnaireHelper().prepareView();
-        ((ProtocolForm)form).getQuestionnaireHelper().setSubmissionActionTypeCode(submissionActionTypeCode);
         ((ProtocolForm)form).getQuestionnaireHelper().populateAnswers();
         ((ProtocolForm)form).getQuestionnaireHelper().setQuestionnaireActiveStatuses();
         return actionForward;
@@ -172,42 +162,6 @@ public class ProtocolQuestionnaireAction extends ProtocolAction {
         return forward;
     }
 
-    /**
-     * 
-     * This method is to edit or view submission questionnaire
-     * suffix "T" at the end of protocol# to indicate that it is saved before submission
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
-    public ActionForward submissionQuestionnairePop(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        ActionForward forward;
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        String submissionNumber = request.getParameter(SUBMISSION_NUMBER);
-        String protocolNumber = request.getParameter(PROTOCOL_NUMBER);
-        ModuleQuestionnaireBean moduleQuestionnaireBean = new ProtocolModuleQuestionnaireBean(CoeusModule.IRB_MODULE_CODE, protocolNumber, CoeusSubModule.PROTOCOL_SUBMISSION, submissionNumber, !protocolNumber.endsWith(SUFFIX_T));
-        protocolForm.getQuestionnaireHelper().setAnswerHeaders(
-                getQuestionnaireAnswerService().getQuestionnaireAnswer(moduleQuestionnaireBean));
-        if (protocolNumber.endsWith(SUFFIX_T)) {
-            if (!CollectionUtils.isEmpty(protocolForm.getQuestionnaireHelper().getAnswerHeaders())) {
-                protocolForm.getQuestionnaireHelper().setProtocolNumber(protocolNumber);
-                protocolForm.getQuestionnaireHelper().setSubmissionNumber(submissionNumber);
-            }
-            forward = mapping.findForward(SUBMISSION_QUESTIONNAIRE);
-
-        } else {
-            protocolForm.getQuestionnaireHelper().setAnswerHeaders(getAnsweredQuestionnaire(protocolForm.getQuestionnaireHelper().getAnswerHeaders()));
-            forward =  mapping.findForward("viewQuestionnaire");
-        }
-        protocolForm.getQuestionnaireHelper().resetHeaderLabels();
-        protocolForm.getQuestionnaireHelper().setQuestionnaireActiveStatuses();
-        return forward;
-    }
-
     public ActionForward summaryQuestionnairePop(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         ActionForward forward;
@@ -224,31 +178,6 @@ public class ProtocolQuestionnaireAction extends ProtocolAction {
                 getAnsweredQuestionnaire(protocolForm.getQuestionnaireHelper().getAnswerHeaders()));
         forward = mapping.findForward("viewQuestionnaire");
 
-        protocolForm.getQuestionnaireHelper().resetHeaderLabels();
-        protocolForm.getQuestionnaireHelper().setQuestionnaireActiveStatuses();
-        return forward;
-    }
-
-    public ActionForward submissionQuestionnaireAjax(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        ActionForward forward;
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        String submissionNumber = request.getParameter(SUBMISSION_NUMBER);
-        String protocolNumber = request.getParameter(PROTOCOL_NUMBER);
-        ModuleQuestionnaireBean moduleQuestionnaireBean = new ProtocolModuleQuestionnaireBean(CoeusModule.IRB_MODULE_CODE, protocolNumber, CoeusSubModule.PROTOCOL_SUBMISSION, submissionNumber, !protocolNumber.endsWith(SUFFIX_T));
-        protocolForm.getQuestionnaireHelper().setAnswerHeaders(
-                getQuestionnaireAnswerService().getQuestionnaireAnswer(moduleQuestionnaireBean));
-        if (protocolNumber.endsWith(SUFFIX_T)) {
-            if (!CollectionUtils.isEmpty(protocolForm.getQuestionnaireHelper().getAnswerHeaders())) {
-                protocolForm.getQuestionnaireHelper().setProtocolNumber(protocolNumber);
-                protocolForm.getQuestionnaireHelper().setSubmissionNumber(submissionNumber);
-            }
-            forward = mapping.findForward(SUBMISSION_QUESTIONNAIRE);
-
-        } else {
-            protocolForm.getQuestionnaireHelper().setAnswerHeaders(getAnsweredQuestionnaire(protocolForm.getQuestionnaireHelper().getAnswerHeaders()));
-            forward =  mapping.findForward("ajaxQuestionnaire");
-        }
         protocolForm.getQuestionnaireHelper().resetHeaderLabels();
         protocolForm.getQuestionnaireHelper().setQuestionnaireActiveStatuses();
         return forward;
@@ -313,31 +242,6 @@ public class ProtocolQuestionnaireAction extends ProtocolAction {
             }
         }
         return savedHeaders;
-    }
-    
-    /**
-     * 
-     * This method is to save the submission questionnaire answer from the pop up window
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
-    public ActionForward saveSubmissionQuestionnaire(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        
-        ProtocolForm protocolForm = (ProtocolForm) form;
-        List<AnswerHeader> answerHeaders = protocolForm.getQuestionnaireHelper().getAnswerHeaders();
-        SaveQuestionnaireAnswerRule rule = new SaveQuestionnaireAnswerRule();
-        if (rule.processRules(new SaveQuestionnaireAnswerEvent(null, answerHeaders))) {
-            protocolForm.getQuestionnaireHelper().preSave();
-            getBusinessObjectService().save(answerHeaders);
-            
-        }
-        protocolForm.getQuestionnaireHelper().resetHeaderLabels();
-        
-        return mapping.findForward(SUBMISSION_QUESTIONNAIRE);
     }
 
     private QuestionnaireAnswerService getQuestionnaireAnswerService() {

@@ -51,6 +51,7 @@ import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitAction;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitActionService;
+import org.kuali.kra.irb.questionnaire.IrbSubmissionQuestionnaireHelper;
 import org.kuali.kra.irb.test.ProtocolFactory;
 import org.kuali.kra.protocol.actions.notify.ProtocolActionAttachment;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
@@ -457,6 +458,8 @@ public class UndoLastActionServiceTest extends KcUnitTestBase {
     
     private ProtocolRequestBean getMockProtocolRequestBean(final String protocolActionTypeCode, final String submissionTypeCode, final String beanName) {
         final ProtocolRequestBean bean = context.mock(ProtocolRequestBean.class);
+        final Protocol protocol = new Protocol();
+        protocol.setProtocolNumber("13049581");
         
         context.checking(new Expectations() {{
             allowing(bean).getProtocolActionTypeCode();
@@ -476,9 +479,9 @@ public class UndoLastActionServiceTest extends KcUnitTestBase {
             
             allowing(bean).getActionAttachments();
             will(returnValue(new ArrayList<ProtocolActionAttachment>()));
-
-            allowing(bean).getAnswerHeaders();
-            will(returnValue(new ArrayList<AnswerHeader>()));
+            
+            allowing(bean).getQuestionnaireHelper();
+            will(returnValue(new IrbSubmissionQuestionnaireHelper(protocol, protocolActionTypeCode, null, false)));
         }});
         
         return bean;

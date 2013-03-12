@@ -154,13 +154,19 @@
                     
                 </table>
 
-          <kra-iacuc-action:requestQuestionnaire actionTypeCode="${actionTypeCode}" altLabel="Request Submission Questionnaire"/>
+          	<c:forEach var="answerHeader" items="${bean.questionnaireHelper.answerHeaders}" varStatus="status">
+				<kra-questionnaire:questionnaireAnswersInnerTab 
+				parentTab="${tabTitle}" 
+				bean="${bean.questionnaireHelper}" 
+				answerHeaderIndex="${status.index}" 
+				property="actionHelper.${beanName}.questionnaireHelper"/>
+			</c:forEach>
                                                 
             <table cellpadding="0" cellspacing="0" summary="">                 
                  <tr>
 					<td align="center" colspan="4">
 						<div align="center">
-							<html:image property="methodToCall.requestAction.taskName${taskName}.anchor${tabKey}"  onclick="closeQuestionnairePop()"
+							<html:image property="methodToCall.requestAction.taskName${taskName}.anchor${tabKey}" 
 							            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-submit.gif' styleClass="tinybutton"/>
 						</div>
 	                </td>

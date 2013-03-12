@@ -173,7 +173,13 @@
                     
                 </table>
                 
-           <%--<kra-irb-action:requestQuestionnaire actionTypeCode="116" altLabel="Notify Iacuc Questionnaire"/>--%>
+           	<c:forEach var="answerHeader" items="${KualiForm.actionHelper.iacucProtocolNotifyIacucBean.questionnaireHelper.answerHeaders}" varStatus="status">
+				<kra-questionnaire:questionnaireAnswersInnerTab 
+				parentTab="Notify IACUC" 
+				bean="${KualiForm.actionHelper.iacucProtocolNotifyIacucBean.questionnaireHelper}" 
+				answerHeaderIndex="${status.index}" 
+				property="actionHelper.iacucProtocolNotifyIacucBean.questionnaireHelper"/>
+			</c:forEach>
                 
                 
             <table cellpadding="0" cellspacing="0" summary="">

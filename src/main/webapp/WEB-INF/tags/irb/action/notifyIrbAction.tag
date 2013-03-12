@@ -176,8 +176,14 @@
 			        </c:forEach>
                     
                 </table>
-                
-           <kra-irb-action:requestQuestionnaire actionTypeCode="116" altLabel="Notify Irb Questionnaire"/>
+           
+			<c:forEach var="answerHeader" items="${KualiForm.actionHelper.protocolNotifyIrbBean.questionnaireHelper.answerHeaders}" varStatus="status">          
+				<kra-questionnaire:questionnaireAnswersInnerTab parentTab="Notify IRB" 
+				bean="${KualiForm.actionHelper.protocolNotifyIrbBean.questionnaireHelper}" 
+				answerHeaderIndex="${status.index}" 
+				property="actionHelper.protocolNotifyIrbBean.questionnaireHelper"
+				overrideDivClass="inner-subhead"/>
+			</c:forEach>
                 
                 
             <table cellpadding="0" cellspacing="0" summary="">
@@ -185,7 +191,7 @@
                 <tr>
 					<td align="center" colspan="4">
 						<div align="center">
-							<html:image property="methodToCall.notifyIrbProtocol.anchor${tabKey}" onclick="closeQuestionnairePop()"
+							<html:image property="methodToCall.notifyIrbProtocol.anchor${tabKey}"
 							            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-submit.gif' styleClass="tinybutton"/>
 						</div>
 	                </td>

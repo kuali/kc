@@ -33,7 +33,7 @@ public class ProtocolModuleQuestionnaireBean extends ProtocolModuleQuestionnaire
 
     public ProtocolModuleQuestionnaireBean(Protocol protocol) {
         super(CoeusModule.IRB_MODULE_CODE, protocol.getProtocolNumber(), "0", protocol.getSequenceNumber().toString(), 
-                                protocol.getProtocolDocument().getDocumentHeader().getWorkflowDocument().isApproved());
+                                protocol.getProtocolDocument().getDocumentHeader().hasWorkflowDocument() ? protocol.getProtocolDocument().getDocumentHeader().getWorkflowDocument().isApproved() : false);
         setProtocolSubItemCode(protocol) ;
     }
     

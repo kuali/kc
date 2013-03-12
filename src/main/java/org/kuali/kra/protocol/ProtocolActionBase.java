@@ -22,6 +22,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.beanutils.BeanUtilsBean;
+import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
@@ -33,11 +35,12 @@ import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.krms.service.KrmsRulesExecutionService;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.protocol.actions.ProtocolSubmissionBeanBase;
 import org.kuali.kra.protocol.auth.ProtocolTaskBase;
 import org.kuali.kra.protocol.personnel.ProtocolPersonTrainingService;
 import org.kuali.kra.protocol.personnel.ProtocolPersonnelService;
+import org.kuali.kra.questionnaire.QuestionnaireHelperBase;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.print.QuestionnairePrintingService;
 import org.kuali.kra.service.KraAuthorizationService;
@@ -135,19 +138,7 @@ public abstract class ProtocolActionBase extends KraTransactionalDocumentActionB
     public ActionForward questionnaire(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
 
         ((ProtocolFormBase)form).getQuestionnaireHelper().prepareView();
-        ((ProtocolFormBase)form).getQuestionnaireHelper().setSubmissionActionTypeCode(getSubmitActionType(request));
-        // TODO : if questionnaire is already populated, then don't need to do it
-        if (StringUtils.isBlank(((ProtocolFormBase)form).getQuestionnaireHelper().getSubmissionActionTypeCode()) || CollectionUtils.isEmpty(((ProtocolFormBase)form).getQuestionnaireHelper().getAnswerHeaders())) {
-            ((ProtocolFormBase)form).getQuestionnaireHelper().populateAnswers();
-        } else {
-            ProtocolSubmissionBeanBase submissionBean = getSubmissionBean(form, ((ProtocolFormBase)form).getQuestionnaireHelper().getSubmissionActionTypeCode());
-            if (CollectionUtils.isEmpty(submissionBean.getAnswerHeaders())) {
-                ((ProtocolFormBase)form).getQuestionnaireHelper().populateAnswers();
-                submissionBean.setAnswerHeaders(((ProtocolFormBase)form).getQuestionnaireHelper().getAnswerHeaders());
-            } else {
-                ((ProtocolFormBase)form).getQuestionnaireHelper().setAnswerHeaders(submissionBean.getAnswerHeaders());
-            }
-        }
+        ((ProtocolFormBase)form).getQuestionnaireHelper().populateAnswers();
         ((ProtocolFormBase)form).getQuestionnaireHelper().setQuestionnaireActiveStatuses();
         return mapping.findForward(getQuestionnaireForwardNameHook());
     }
@@ -670,5 +661,60 @@ public abstract class ProtocolActionBase extends KraTransactionalDocumentActionB
         KrmsRulesExecutionService rulesService = KraServiceLocator.getService(KrmsRulesExecutionService.class);
         return rulesService.processUnitValidations(protocolDoc.getProtocol().getLeadUnitNumber(), protocolDoc);
     }
+    
+    public ActionForward printQuestionnaireAnswer(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        // TODO : this is only available after questionnaire is saved ?
+        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
+        Map<String, Object> reportParameters = new HashMap<String, Object>();
+        ProtocolFormBase protocolForm = (ProtocolFormBase) form;
+        ProtocolBase protocol = protocolForm.getActionHelper().getProtocol();
+        final int answerHeaderIndex = this.getSelectedLine(request);
+        String methodToCall = (String) request.getAttribute(KRADConstants.METHOD_TO_CALL_ATTRIBUTE);
+        String formProperty = StringUtils.substringBetween(methodToCall, ".printQuestionnaireAnswer.", ".line");
+        QuestionnaireHelperBase helper = (QuestionnaireHelperBase) BeanUtilsBean.getInstance().getPropertyUtils().getProperty(form, formProperty);
+        AnswerHeader answerHeader = helper.getAnswerHeaders().get(answerHeaderIndex);
+        // TODO : a flag to check whether to print answer or not
+        // for release 3 : if questionnaire questions has answer, then print answer. 
+        reportParameters.put("questionnaireId",
+                answerHeader.getQuestionnaire()
+                        .getQuestionnaireIdAsInteger());
+        reportParameters.put("template",
+                answerHeader.getQuestionnaire()
+                        .getTemplate());
+        reportParameters.put("coeusModuleSubItemCode", answerHeader.getModuleSubItemCode());
+        
+        AttachmentDataSource dataStream = getQuestionnairePrintingService().printQuestionnaireAnswer(protocol, reportParameters);
+        if (dataStream.getContent() != null) {
+            streamToResponse(dataStream, response);
+            forward = null;
+        }
+        return forward;
+    }
+    
+    /**
+     * 
+     * This method is for the 'update' button to update questionnaire answer to new version
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward updateAnswerToNewVersion(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        String methodToCallStart = "methodToCall.updateAnswerToNewVersion.";
+        String methodToCallEnd = ".line";
+        String methodToCall = ((String) request.getAttribute(KRADConstants.METHOD_TO_CALL_ATTRIBUTE));
+        String questionnaireHelperPath = methodToCall.substring(methodToCallStart.length(), methodToCall.indexOf(methodToCallEnd));
+        QuestionnaireHelperBase helper = (QuestionnaireHelperBase) PropertyUtils.getNestedProperty(form, questionnaireHelperPath);
+        helper.updateQuestionnaireAnswer(getLineToDelete(request));
+        getBusinessObjectService().save(helper.getAnswerHeaders());
+        return mapping.findForward(Constants.MAPPING_BASIC);
+
+    }    
+    
 
 }

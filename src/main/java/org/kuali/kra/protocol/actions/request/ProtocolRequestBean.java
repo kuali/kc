@@ -19,6 +19,7 @@ import java.io.Serializable;
 
 import org.kuali.kra.protocol.actions.ActionHelperBase;
 import org.kuali.kra.protocol.actions.ProtocolSubmissionBeanBase;
+import org.kuali.kra.protocol.questionnaire.ProtocolSubmissionQuestionnaireHelper;
 
 /**
  * The ProtocolRequestBean is used for some of the common, yet simple,
@@ -50,4 +51,5 @@ public interface ProtocolRequestBean extends ProtocolSubmissionBeanBase, Seriali
 
     public void setBeanName(String beanName);
     
+    public ProtocolSubmissionQuestionnaireHelper getQuestionnaireHelper();
 }

@@ -69,6 +69,7 @@ import org.kuali.kra.iacuc.committee.service.IacucCommitteeService;
 import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReview;
 import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReviewService;
 import org.kuali.kra.iacuc.questionnaire.IacucProtocolModuleQuestionnaireBean;
+import org.kuali.kra.iacuc.questionnaire.IacucSubmissionQuestionnaireHelper;
 import org.kuali.kra.iacuc.summary.IacucProtocolSummary;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -112,6 +113,7 @@ import org.kuali.kra.protocol.auth.ProtocolTaskBase;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondence;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.kra.protocol.questionnaire.ProtocolModuleQuestionnaireBeanBase;
+import org.kuali.kra.protocol.questionnaire.ProtocolSubmissionQuestionnaireHelper;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.kra.rules.ErrorReporter;
@@ -207,7 +209,7 @@ public class IacucActionHelper extends ActionHelperBase {
         protocolAssignCmtBean = new IacucProtocolAssignCmtBean(this);
         iacucProtocolTableBean = new IacucProtocolTableBean(this);
         iacucProtocolModifySubmissionBean = new IacucProtocolModifySubmissionBean(this);
-        iacucProtocolNotifyIacucBean = new IacucProtocolNotifyIacucBean(this);
+        iacucProtocolNotifyIacucBean = new IacucProtocolNotifyIacucBean(this, "iacucProtocolNotifyIacucBean");
         iacucProtocolDeactivateBean = this.buildProtocolGenericActionBean(IacucProtocolActionType.DEACTIVATED, Constants.IACUC_DEACTIVATE_ACTION_PROPERTY_KEY);
         iacucAcknowledgeBean = new IacucProtocolGenericActionBean(this, "actionHelper.iacucAcknowledgeBean");
         iacucProtocolHoldBean = new IacucProtocolGenericActionBean(this, "actionHelper.iacucProtocolHoldBean");
@@ -446,19 +448,9 @@ public class IacucActionHelper extends ActionHelperBase {
     public void setIacucProtocolDeactivateBean(IacucProtocolGenericActionBean iacucProtocolDeactivateBean) {
         this.iacucProtocolDeactivateBean = iacucProtocolDeactivateBean;
     }
-
-    /*
-     * This will check whether there is submission questionnaire.
-     * When business rule is implemented, this will become more complicated because
-     * each request action may have different set of questionnaire, so this has to be changed.
-     */
-    private boolean hasSubmissionQuestionnaire() {
-        ModuleQuestionnaireBean moduleQuestionnaireBean = new IacucProtocolModuleQuestionnaireBean(CoeusModule.IACUC_PROTOCOL_MODULE_CODE, this.getProtocolForm().getProtocolDocument().getProtocol().getProtocolNumber() + "T", CoeusSubModule.PROTOCOL_SUBMISSION, "999", false);
-        return CollectionUtils.isNotEmpty(getQuestionnaireAnswerService().getQuestionnaireAnswer(moduleQuestionnaireBean));
-    }
-
-    private QuestionnaireAnswerService getQuestionnaireAnswerService() {
-        return KraServiceLocator.getService(QuestionnaireAnswerService.class);
+    
+    protected ModuleQuestionnaireBean getQuestionnaireBean(String moduleCode, String moduleKey, String subModuleCode, String subModuleKey, boolean finalDoc) {
+        return new IacucProtocolModuleQuestionnaireBean(moduleCode, moduleKey, subModuleCode, subModuleKey, finalDoc);
     }
 
 
@@ -1539,6 +1531,13 @@ public class IacucActionHelper extends ActionHelperBase {
     @Override
     protected Class<? extends ProtocolDocumentBase> getProtocolDocumentBOClassHook() {
         return IacucProtocolDocument.class;
+    }
+
+
+    @Override
+    protected ProtocolSubmissionQuestionnaireHelper getProtocolSubmissionQuestionnaireHelperHook(ProtocolBase protocol,
+            String actionTypeCode, String submissionNumber, boolean finalDoc) {
+        return new IacucSubmissionQuestionnaireHelper(protocol, actionTypeCode, submissionNumber, finalDoc);
     }
 
 }

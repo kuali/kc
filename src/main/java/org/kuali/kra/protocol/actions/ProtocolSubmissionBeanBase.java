@@ -39,10 +39,6 @@ public interface ProtocolSubmissionBeanBase extends ProtocolActionBean {
     public List<ProtocolActionAttachment> getActionAttachments();
 
     public void setActionAttachments(List<ProtocolActionAttachment> actionAttachments);
-
-    public List<AnswerHeader> getAnswerHeaders();
-
-    public void setAnswerHeaders(List<AnswerHeader> answerHeaders);
     
     /*private String committeeId;
     private ProtocolActionAttachment newActionAttachment;

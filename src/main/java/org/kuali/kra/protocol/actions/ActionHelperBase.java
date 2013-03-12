@@ -72,6 +72,7 @@ import org.kuali.kra.protocol.auth.ProtocolTaskBase;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondence;
 import org.kuali.kra.protocol.onlinereview.ProtocolReviewAttachmentBase;
 import org.kuali.kra.protocol.questionnaire.ProtocolModuleQuestionnaireBeanBase;
+import org.kuali.kra.protocol.questionnaire.ProtocolSubmissionQuestionnaireHelper;
 import org.kuali.kra.protocol.summary.ProtocolSummary;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
@@ -93,6 +94,7 @@ public abstract class ActionHelperBase implements Serializable {
 
     protected static final long ONE_DAY = 1000L * 60L * 60L * 24L;
     protected static final String NAMESPACE = "KC-UNT";
+    protected transient QuestionnaireAnswerService questionnaireAnswerService;
 
 // TODO *********commented the code below during IACUC refactoring*********     
 //    private static final List<String> ACTION_TYPE_SUBMISSION_DOC;  
@@ -379,8 +381,12 @@ public abstract class ActionHelperBase implements Serializable {
     protected boolean hideReviewerNameForAttachment;
     protected ProtocolCorrespondence protocolCorrespondence;
     
-    
-    
+    // indicator for whether there is submission questionnaire answer exist.
+    // ie, questionnaire has been saved for a request/notify irb action
+    protected boolean submissionQuestionnaireExist;
+    // check if there is submission questionnaire to answer
+    protected boolean toAnswerSubmissionQuestionnaire;
+    protected ProtocolSubmissionQuestionnaireHelper protocolSubmissionQuestionnaireHelper;
    
 
     /**
@@ -2797,10 +2803,12 @@ public abstract class ActionHelperBase implements Serializable {
         setAbstainees(getCommitteeDecisionService().getAbstainers(getProtocol().getProtocolNumber(), currentSubmissionNumber));
         setRecusers(getCommitteeDecisionService().getRecusers(getProtocol().getProtocolNumber(), currentSubmissionNumber));
 
-// TODO *********commented the code below during IACUC refactoring*********         
-//        setSubmissionQuestionnaireExist(hasAnsweredQuestionnaire(CoeusSubModule.PROTOCOL_SUBMISSION, Integer.toString(currentSubmissionNumber)));
+        protocolSubmissionQuestionnaireHelper = getProtocolSubmissionQuestionnaireHelperHook(this.getProtocol(), null, Integer.toString(currentSubmissionNumber), true);
+        protocolSubmissionQuestionnaireHelper.populateAnswers();
+        setSubmissionQuestionnaireExist(!protocolSubmissionQuestionnaireHelper.getAnswerHeaders().isEmpty());
     }
     
+    protected abstract ProtocolSubmissionQuestionnaireHelper getProtocolSubmissionQuestionnaireHelperHook(ProtocolBase protocol, String actionTypeCode, String submissionNumber, boolean finalDoc);
     
     public void setCurrentTask(String currentTaskName) {
         this.currentTaskName = currentTaskName;
@@ -2870,8 +2878,6 @@ public abstract class ActionHelperBase implements Serializable {
         return null;
     }
     
-    
-    
     protected boolean hasAnsweredQuestionnaire(String moduleSubItemCode, String moduleSubItemKey) {
         return getAnswerHeaderCount(moduleSubItemCode, moduleSubItemKey) > 0;
     }
@@ -2888,18 +2894,23 @@ public abstract class ActionHelperBase implements Serializable {
     
     protected abstract String getCoeusModule();
     
-//    /*
-//     * This will check whether there is submission questionnaire.
-//     * When business rule is implemented, this will become more complicated because
-//     * each request action may have different set of questionnaire, so this has to be changed.
-//     */
-//    private boolean hasSubmissionQuestionnaire() {
-//        ModuleQuestionnaireBean moduleQuestionnaireBean = new ModuleQuestionnaireBean(CoeusModule.IRB_MODULE_CODE, this.getProtocolForm().getProtocolDocument().getProtocol().getProtocolNumber() + "T", CoeusSubModule.PROTOCOL_SUBMISSION, "999", false);
-//        return CollectionUtils.isNotEmpty(getQuestionnaireAnswerService().getQuestionnaireAnswer(moduleQuestionnaireBean));
-//    }
+    protected abstract ModuleQuestionnaireBean getQuestionnaireBean(String moduleCode, String moduleKey, String subModuleCode, String subModuleKey, boolean finalDoc);
+    
+    /*
+     * This will check whether there is submission questionnaire.
+     * When business rule is implemented, this will become more complicated because
+     * each request action may have different set of questionnaire, so this has to be changed.
+     */
+    protected boolean hasSubmissionQuestionnaire() {
+        ModuleQuestionnaireBean moduleQuestionnaireBean = getQuestionnaireBean(getCoeusModule(), this.getProtocolForm().getProtocolDocument().getProtocol().getProtocolNumber(), CoeusSubModule.PROTOCOL_SUBMISSION, "999", true);
+        return CollectionUtils.isNotEmpty(getQuestionnaireAnswerService().getQuestionnaireAnswer(moduleQuestionnaireBean));
+    }
 
-    private QuestionnaireAnswerService getQuestionnaireAnswerService() {
-        return KraServiceLocator.getService(QuestionnaireAnswerService.class);
+    protected QuestionnaireAnswerService getQuestionnaireAnswerService() {
+        if (questionnaireAnswerService == null) {
+            questionnaireAnswerService = KraServiceLocator.getService(QuestionnaireAnswerService.class);
+        } 
+        return questionnaireAnswerService;
     }
 
     /**
@@ -3388,4 +3399,59 @@ public abstract class ActionHelperBase implements Serializable {
     public int getDefaultExpirationDateDifference() {
         return 1;
     }
+
+
+    public void setQuestionnaireAnswerService(QuestionnaireAnswerService questionnaireAnswerService) {
+        this.questionnaireAnswerService = questionnaireAnswerService;
+    }
+
+
+    public boolean isSubmissionQuestionnaireExist() {
+        return submissionQuestionnaireExist;
+    }
+
+
+    public void setSubmissionQuestionnaireExist(boolean submissionQuestionnaireExist) {
+        this.submissionQuestionnaireExist = submissionQuestionnaireExist;
+    }
+
+
+    public boolean isToAnswerSubmissionQuestionnaire() {
+        return toAnswerSubmissionQuestionnaire;
+    }
+
+
+    public void setToAnswerSubmissionQuestionnaire(boolean toAnswerSubmissionQuestionnaire) {
+        this.toAnswerSubmissionQuestionnaire = toAnswerSubmissionQuestionnaire;
+    }
+
+
+    public ProtocolSubmissionQuestionnaireHelper getProtocolSubmissionQuestionnaireHelper() {
+        return protocolSubmissionQuestionnaireHelper;
+    }
+
+
+    public void setProtocolSubmissionQuestionnaireHelper(ProtocolSubmissionQuestionnaireHelper protocolSubmissionQuestionnaireHelper) {
+        this.protocolSubmissionQuestionnaireHelper = protocolSubmissionQuestionnaireHelper;
+    }
+    
+    public void populateSubmissionQuestionnaires() {
+        for (Map.Entry<String, ProtocolActionBean> entry: actionBeanTaskMap.entrySet()) {
+            if (entry.getValue() instanceof ProtocolRequestBean) {
+                ProtocolRequestBean bean = (ProtocolRequestBean) entry.getValue();
+                bean.getQuestionnaireHelper().populateAnswers();
+                bean.getQuestionnaireHelper().resetHeaderLabels();
+            }
+        }
+    }
+    
+    public void preSaveSubmissionQuestionnaires() {
+        for (Map.Entry<String, ProtocolActionBean> entry: actionBeanTaskMap.entrySet()) {
+            if (entry.getValue() instanceof ProtocolRequestBean) {
+                ProtocolRequestBean bean = (ProtocolRequestBean) entry.getValue();
+                bean.getQuestionnaireHelper().preSave();
+                getBusinessObjectService().save(bean.getQuestionnaireHelper().getAnswerHeaders());
+            }
+        }
+    }    
 }

@@ -15,10 +15,10 @@
  */
 package org.kuali.kra.irb.actions.request;
 
-import java.io.Serializable;
-
 import org.kuali.kra.irb.actions.ActionHelper;
 import org.kuali.kra.irb.actions.ProtocolSubmissionBeanBase;
+import org.kuali.kra.irb.questionnaire.IrbSubmissionQuestionnaireHelper;
+import org.kuali.kra.protocol.questionnaire.ProtocolSubmissionQuestionnaireHelper;
 
 /**
  * The ProtocolRequestBean is used for some of the common, yet simple,
@@ -42,6 +42,7 @@ public class ProtocolRequestBean extends ProtocolSubmissionBeanBase implements o
     private String submissionTypeCode;
     private String reason = "";
     private String beanName;
+    private ProtocolSubmissionQuestionnaireHelper questionnaireHelper;
 
     /**
      * Constructs a ProtocolRequestBean.
@@ -56,6 +57,8 @@ public class ProtocolRequestBean extends ProtocolSubmissionBeanBase implements o
         this.protocolActionTypeCode = protocolActionTypeCode;
         this.submissionTypeCode = submissionTypeCode;
         this.beanName = beanName;
+        questionnaireHelper = new IrbSubmissionQuestionnaireHelper(actionHelper.getProtocol(), protocolActionTypeCode, null, false);
+
     }
 
     public void setReason(String reason) {
@@ -80,6 +83,14 @@ public class ProtocolRequestBean extends ProtocolSubmissionBeanBase implements o
 
     public void setBeanName(String beanName) {
         this.beanName = beanName;
+    }
+
+    public ProtocolSubmissionQuestionnaireHelper getQuestionnaireHelper() {
+        return questionnaireHelper;
+    }
+
+    public void setQuestionnaireHelper(ProtocolSubmissionQuestionnaireHelper questionnaireHelper) {
+        this.questionnaireHelper = questionnaireHelper;
     }
     
 }
