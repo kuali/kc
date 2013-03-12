@@ -89,6 +89,7 @@
     		
     	</tr>
     </table>
+    <input type="hidden" name="currentOrPendingViewValue" id="currentOrPendingViewValue" value="${KualiForm.currentOrPendingView}" />						
 	<c:if test="${KualiForm.inMultipleNodeHierarchy}" >
 			
   			<table cellpadding="0" cellspacing="0" summary="">	

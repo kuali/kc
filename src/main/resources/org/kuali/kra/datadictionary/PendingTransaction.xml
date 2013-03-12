@@ -47,6 +47,7 @@
                 <ref bean="PendingTransaction-comments" />
                 <ref bean="PendingTransaction-versionNumber" />
                 <ref bean="PendingTransaction-processedFlag" />
+                <ref bean="PendingTransaction-singleNodeTransaction" />
             </list>
         </property>
     </bean>
@@ -281,6 +282,15 @@
         <property name="description" value="Processed Flag" />
     </bean>
 
+    <bean id="PendingTransaction-singleNodeTransaction" parent="PendingTransaction-singleNodeTransaction-parentBean" />
+    <bean id="PendingTransaction-singleNodeTransaction-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean" >
+        <property name="name" value="singleNodeTransaction" />
+        <property name="label" value="Single Node Transaction" />
+        <property name="shortLabel" value="Single Node Transaction" />
+        <property name="summary" value="Single Node Transaction" />
+        <property name="description" value="Single Node Transaction" />
+    </bean>
+
     <bean id="PendingTransaction-versionNumber" parent="PendingTransaction-versionNumber-parentBean" />
     <bean id="PendingTransaction-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
     </bean>
@@ -319,6 +329,8 @@
                                 p:attributeName="comments" />
                             <bean parent="FieldDefinition"
                                 p:attributeName="processedFlag" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="singleNodeTransaction" />
                         </list>
                     </property>
                 </bean>
@@ -361,6 +373,8 @@
                     p:attributeName="comments" />
                 <bean parent="FieldDefinition"
                     p:attributeName="processedFlag" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="singleNodeTransaction" />
             </list>
         </property>
         <property name="resultFields" >
@@ -388,6 +402,8 @@
                     p:attributeName="comments" />
                 <bean parent="FieldDefinition"
                     p:attributeName="processedFlag" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="singleNodeTransaction" />
             </list>
         </property>
     </bean>
