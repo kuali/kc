@@ -49,6 +49,7 @@ import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwardAttachment;
 import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwardFiles;
 import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwardPeriodDetail;
@@ -187,7 +188,7 @@ public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
                 item.setSubAwardNumber(subAward.getSubAwardNumber());
                 item.setLineItemDescription(subAward.getOrganizationName());
             }
-            if (BudgetDecimal.returnZeroIfNull(detail.getDirectCost()).isNonZero()) {
+            if (BudgetDecimal.returnZeroIfNull(detail.getDirectCost()).isNonZero() || hasBeenChanged(detail, true)) {
                 BudgetDecimal ltValue = lesserValue(detail.getDirectCost(), amountChargeFA);
                 BudgetDecimal gtValue = detail.getDirectCost().subtract(ltValue);
                 BudgetLineItem lt = findOrCreateLineItem(currentLineItems, detail, subAward, budgetPeriod, directLtCostElement);
@@ -196,7 +197,7 @@ public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
                 gt.setLineItemCost(gtValue);
                 amountChargeFA = amountChargeFA.subtract(ltValue);
             }
-            if (BudgetDecimal.returnZeroIfNull(detail.getIndirectCost()).isNonZero()) {
+            if (BudgetDecimal.returnZeroIfNull(detail.getIndirectCost()).isNonZero() || hasBeenChanged(detail, false)) {
                 BudgetDecimal ltValue = lesserValue(detail.getIndirectCost(), amountChargeFA);
                 BudgetDecimal gtValue = detail.getIndirectCost().subtract(ltValue);
                 BudgetLineItem lt = findOrCreateLineItem(currentLineItems, detail, subAward, budgetPeriod, inDirectLtCostElement);
@@ -226,6 +227,29 @@ public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
                 currentLineItems.get(0).setCostSharingAmount(detail.getCostShare());
             }
         }
+    }
+    
+    /**
+     * 
+     * This method checks to see if the BudgetSubAwardPeriodDetail has changed from the database version.  If checkDirect is true then it checks on the value of direct cost.
+     * If checkDirect is false, it is checked based on the value of indirect cost.
+     * @param detail
+     * @param checkDirect
+     * @return
+     */
+    private boolean hasBeenChanged(BudgetSubAwardPeriodDetail detail, boolean checkDirect) {
+        boolean changed = false;
+        if (detail != null && detail.getBudgetSubAwardDetailId() != null) {
+            Map primaryKeys = new HashMap();
+            primaryKeys.put("SUBAWARD_PERIOD_DETAIL_ID", detail.getBudgetSubAwardDetailId());
+            BudgetSubAwardPeriodDetail dbDetail = KraServiceLocator.getService(BusinessObjectService.class).findByPrimaryKey(BudgetSubAwardPeriodDetail.class, primaryKeys);
+            if (checkDirect) {
+                changed = !BudgetDecimal.returnZeroIfNull(detail.getDirectCost()).equals(BudgetDecimal.returnZeroIfNull(dbDetail.getDirectCost()));
+            } else {
+                changed = !BudgetDecimal.returnZeroIfNull(detail.getIndirectCost()).equals(BudgetDecimal.returnZeroIfNull(dbDetail.getIndirectCost()));
+            }
+        }
+        return changed;
     }
     
     protected BudgetPeriod findBudgetPeriod(BudgetSubAwardPeriodDetail detail, Budget budget) {
