@@ -82,6 +82,14 @@ public class ProtocolSubmissionLookupableHelperServiceImpl extends ProtocolSubmi
         return "ProtocolDocument";
     }
 
+    public ProtocolSubmitActionService getProtocolSubmitActionService() {
+        return protocolSubmitActionService;
+    }
+
+    public void setProtocolSubmitActionService(ProtocolSubmitActionService protocolSubmitActionService) {
+        this.protocolSubmitActionService = protocolSubmitActionService;
+    }
+
   
  // TODO ********************** commented out during IRB backfit ************************
 //    private static final String COMMITTEE_ID = "committeeId";
