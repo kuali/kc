@@ -79,9 +79,9 @@ public class ProtocolNotifyIrbServiceImpl implements ProtocolNotifyIrbService {
         protocol.getProtocolActions().add(protocolAction);
         protocolActionService.updateProtocolStatus(protocolAction, protocol);
 //        businessObjectService.save(protocol.getProtocolDocument());
-        if (!CollectionUtils.isEmpty(notifyIrbBean.getAnswerHeaders())) {
+        if (!CollectionUtils.isEmpty(notifyIrbBean.getQuestionnaireHelper().getAnswerHeaders())) {
             saveQuestionnaire(notifyIrbBean, submission.getSubmissionNumber());
-            notifyIrbBean.setAnswerHeaders(new ArrayList<AnswerHeader>());
+            notifyIrbBean.getQuestionnaireHelper().setAnswerHeaders(new ArrayList<AnswerHeader>());
         }
         cleanUnreferencedQuestionnaire(protocol.getProtocolNumber());
         documentService.saveDocument(protocol.getProtocolDocument());
@@ -97,11 +97,14 @@ public class ProtocolNotifyIrbServiceImpl implements ProtocolNotifyIrbService {
     
     private void saveQuestionnaire(ProtocolNotifyIrbBean notifyIrbBean, Integer submissionNumber) {
         List<AnswerHeader> saveHeaders = new ArrayList<AnswerHeader>();
-        for (AnswerHeader answerHeader : notifyIrbBean.getAnswerHeaders()) {
+        for (AnswerHeader answerHeader : notifyIrbBean.getQuestionnaireHelper().getAnswerHeaders()) {
             if (answerHeader.getAnswerHeaderId() != null) {
                 answerHeader.setModuleSubItemKey(submissionNumber.toString());
-                answerHeader.setModuleItemKey(answerHeader.getModuleItemKey().substring(0,
-                        answerHeader.getModuleItemKey().length() - 1));
+                //remove any trailing characters from the protocol number to avoid linking to an amendment or renewal or whatever T means.
+                if (answerHeader.getModuleItemKey().matches(".*[A-Z]$")) {
+                    answerHeader.setModuleItemKey(answerHeader.getModuleItemKey().substring(0,
+                            answerHeader.getModuleItemKey().length() - 1));
+                }
                 saveHeaders.add(answerHeader);
             }
         }

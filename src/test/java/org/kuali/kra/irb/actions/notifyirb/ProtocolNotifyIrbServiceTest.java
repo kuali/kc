@@ -50,6 +50,7 @@ import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionQualifierType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
+import org.kuali.kra.irb.questionnaire.IrbSubmissionQuestionnaireHelper;
 import org.kuali.kra.irb.test.ProtocolFactory;
 import org.kuali.kra.protocol.actions.notify.ProtocolActionAttachment;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
@@ -236,6 +237,8 @@ public class ProtocolNotifyIrbServiceTest extends KcUnitTestBase {
     
     private ProtocolNotifyIrbBean getMockProtocolNotifyIrbBean(final String committeeId, final ProtocolActionAttachment... attachments) {
         final ProtocolNotifyIrbBean bean = context.mock(ProtocolNotifyIrbBean.class);
+        final Protocol protocol = new Protocol();
+        protocol.setProtocolNumber("13049581");
         
         context.checking(new Expectations() {{
             allowing(bean).getSubmissionQualifierTypeCode();
@@ -253,8 +256,8 @@ public class ProtocolNotifyIrbServiceTest extends KcUnitTestBase {
             allowing(bean).getActionAttachments();
             will(returnValue(Arrays.asList(attachments)));
             
-            allowing(bean).getAnswerHeaders();
-            will(returnValue(new ArrayList<AnswerHeader>()));
+            allowing(bean).getQuestionnaireHelper();
+            will(returnValue(new IrbSubmissionQuestionnaireHelper(protocol, ProtocolActionType.NOTIFY_IRB, null, false)));
         }});
         
         return bean;
