@@ -54,6 +54,7 @@ import org.kuali.kra.irb.actions.submit.ProtocolReviewerBean;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.notification.IRBNotificationContext;
 import org.kuali.kra.irb.notification.IRBNotificationRenderer;
+import org.kuali.kra.irb.notification.IRBProtocolNotification;
 import org.kuali.kra.irb.onlinereview.event.AddProtocolOnlineReviewAttachmentEvent;
 import org.kuali.kra.irb.onlinereview.event.DeleteProtocolOnlineReviewEvent;
 import org.kuali.kra.irb.onlinereview.event.RejectProtocolOnlineReviewCommentEvent;
@@ -385,9 +386,9 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
                 context.setForwardName(forward.getName());
             }
             protocolForm.getNotificationHelper().initializeDefaultValues(context);
-             return mapping.findForward("protocolNotificationEditor");
+            return mapping.findForward("protocolNotificationEditor");
         } else {
-            getNotificationService().sendNotification(context);
+            getNotificationService().sendNotificationAndPersist(context, new IRBProtocolNotification(), protocolForm.getProtocolDocument().getProtocol());
             if (forward == null) {
               return routeProtocolOLRToHoldingPage(mapping, protocolForm, notificationRequestBean.getDocNumber(), notificationRequestBean.getOlrEvent());
             } else {
@@ -405,9 +406,9 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
         if (protocolForm.getNotificationHelper().getPromptUserForNotificationEditor(context)) {
             context.setForwardName(forward.getName());
             protocolForm.getNotificationHelper().initializeDefaultValues(context);
-             return mapping.findForward("protocolNotificationEditor");
+            return mapping.findForward("protocolNotificationEditor");
         } else {
-            getNotificationService().sendNotification(context);
+            getNotificationService().sendNotificationAndPersist(context, new IRBProtocolNotification(), protocolForm.getProtocolDocument().getProtocol());            
             return forward;
         }
     }
