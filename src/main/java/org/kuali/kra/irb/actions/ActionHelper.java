@@ -75,6 +75,7 @@ import org.kuali.kra.irb.actions.withdraw.ProtocolAdministrativelyWithdrawBean;
 import org.kuali.kra.irb.actions.withdraw.ProtocolWithdrawBean;
 import org.kuali.kra.irb.auth.GenericProtocolAuthorizer;
 import org.kuali.kra.irb.auth.ProtocolTask;
+import org.kuali.kra.irb.questionnaire.IrbSubmissionQuestionnaireHelper;
 import org.kuali.kra.irb.questionnaire.ProtocolModuleQuestionnaireBean;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
 import org.kuali.kra.protocol.ProtocolBase;
@@ -88,8 +89,8 @@ import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewalBase;
 import org.kuali.kra.protocol.actions.notify.ProtocolActionAttachment;
 import org.kuali.kra.protocol.auth.ProtocolTaskBase;
 import org.kuali.kra.protocol.questionnaire.ProtocolModuleQuestionnaireBeanBase;
+import org.kuali.kra.protocol.questionnaire.ProtocolSubmissionQuestionnaireHelper;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
-import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.kra.rules.ErrorReporter;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.util.DateUtils;
@@ -381,12 +382,6 @@ public class ActionHelper extends ActionHelperBase {
 //    private int currentSubmissionNumber;
 //    private String renewalSummary;
     
-    // indicator for whether there is submission questionnaire answer exist.
-    // ie, questionnaire has been saved for a request/notify irb action
-    private boolean submissionQuestionnaireExist;
-    // check if there is submission questionnaire to answer
-    private boolean toAnswerSubmissionQuestionnaire;
-    
 // TODO ********************** commented out during IRB backfit ************************
 //    private transient CommitteeScheduleService committeeScheduleService;
 //    private transient KcPersonService kcPersonService;
@@ -422,7 +417,7 @@ public class ActionHelper extends ActionHelperBase {
 //        protocolWithdrawBean = new ProtocolWithdrawBean(this);
         
         
-        protocolNotifyIrbBean = new ProtocolNotifyIrbBean(this);
+        protocolNotifyIrbBean = new ProtocolNotifyIrbBean(this, "protocolNotifyIrbBean");
         // setting the attachment here so new files can be attached to newActionAttachment
         protocolNotifyIrbBean.setNewActionAttachment(new ProtocolActionAttachment());
         
@@ -1075,6 +1070,8 @@ public class ActionHelper extends ActionHelperBase {
 // TODO ********************** commented out during IRB backfit ************************        
 //        initAmendmentBeans(false);
 //        initPrintQuestionnaire();
+        
+        this.populateSubmissionQuestionnaires();
     }
     
     
@@ -2748,7 +2745,10 @@ public class ActionHelper extends ActionHelperBase {
                 currentSubmissionNumber));
         setAbstainees((List)getCommitteeDecisionService().getAbstainers(getProtocol().getProtocolNumber(), currentSubmissionNumber));
         setRecusers((List)getCommitteeDecisionService().getRecusers(getProtocol().getProtocolNumber(), currentSubmissionNumber));
-        setSubmissionQuestionnaireExist(hasAnsweredQuestionnaire(CoeusSubModule.PROTOCOL_SUBMISSION, Integer.toString(currentSubmissionNumber)));
+        
+        protocolSubmissionQuestionnaireHelper = new IrbSubmissionQuestionnaireHelper(this.getProtocol(), null, Integer.toString(currentSubmissionNumber), true);
+        protocolSubmissionQuestionnaireHelper.populateAnswers();
+        setSubmissionQuestionnaireExist(!protocolSubmissionQuestionnaireHelper.getAnswerHeaders().isEmpty());
     }
    
     
@@ -2861,23 +2861,12 @@ public class ActionHelper extends ActionHelperBase {
         return CoeusModule.IRB_MODULE_CODE;
     }
     
+    protected ModuleQuestionnaireBean getQuestionnaireBean(String moduleCode, String moduleKey, String subModuleCode, String subModuleKey, boolean finalDoc) {
+        return new ProtocolModuleQuestionnaireBean(moduleCode, moduleKey, subModuleCode, subModuleKey, finalDoc);
+    }
     
     
-    /*
-     * This will check whetehr there is submission questionnaire.
-     * When business rule is implemented, this will become more complicated because
-     * each request action may have different set of questionnaire, so this has to be changed.
-     */
-    private boolean hasSubmissionQuestionnaire() {
-        ModuleQuestionnaireBean moduleQuestionnaireBean = new ProtocolModuleQuestionnaireBean(CoeusModule.IRB_MODULE_CODE, this.getProtocolForm().getProtocolDocument().getProtocol().getProtocolNumber() + "T", CoeusSubModule.PROTOCOL_SUBMISSION, "999", false);
-        return CollectionUtils.isNotEmpty(getQuestionnaireAnswerService().getQuestionnaireAnswer(moduleQuestionnaireBean));
-    }
-
-
-    private QuestionnaireAnswerService getQuestionnaireAnswerService() {
-        return KraServiceLocator.getService(QuestionnaireAnswerService.class);
-    }
-
+    
     
  // TODO ********************** commented out during IRB backfit ************************        
 //    
@@ -3766,6 +3755,11 @@ public class ActionHelper extends ActionHelperBase {
         // do nothing
     }
 
+    @Override
+    protected ProtocolSubmissionQuestionnaireHelper getProtocolSubmissionQuestionnaireHelperHook(ProtocolBase protocol,
+            String actionTypeCode, String submissionNumber, boolean finalDoc) {
+        return new IrbSubmissionQuestionnaireHelper(protocol, actionTypeCode, submissionNumber, finalDoc);
+    }
     
 // TODO ********************** commented out during IRB backfit ************************    
 //    protected KraAuthorizationService getKraAuthorizationService() {

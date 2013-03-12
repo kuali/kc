@@ -101,9 +101,9 @@ public class ProtocolRequestServiceImpl implements ProtocolRequestService {
         protocol.getProtocolActions().add(protocolAction);
         
         protocolActionService.updateProtocolStatus(protocolAction, protocol);
-        if (!CollectionUtils.isEmpty(requestBean.getAnswerHeaders())) {
+        if (!CollectionUtils.isEmpty(requestBean.getQuestionnaireHelper().getAnswerHeaders())) {
             saveQuestionnaire(requestBean, submission.getSubmissionNumber());
-            requestBean.setAnswerHeaders(new ArrayList<AnswerHeader>());
+            requestBean.getQuestionnaireHelper().setAnswerHeaders(new ArrayList<AnswerHeader>());
         }
         cleanUnreferencedQuestionnaire(protocol.getProtocolNumber());
 //        businessObjectService.save(protocol.getProtocolDocument());
@@ -117,11 +117,14 @@ public class ProtocolRequestServiceImpl implements ProtocolRequestService {
     
     private void saveQuestionnaire(ProtocolRequestBean requestBean, Integer submissionNumber) {
         List<AnswerHeader> saveHeaders = new ArrayList<AnswerHeader>();
-        for (AnswerHeader answerHeader : requestBean.getAnswerHeaders()) {
+        for (AnswerHeader answerHeader : requestBean.getQuestionnaireHelper().getAnswerHeaders()) {
             if (answerHeader.getAnswerHeaderId() != null) {
                 answerHeader.setModuleSubItemKey(submissionNumber.toString());
-                answerHeader.setModuleItemKey(answerHeader.getModuleItemKey().substring(0,
-                        answerHeader.getModuleItemKey().length() - 1));
+                //remove any trailing characters from the protocol number to avoid linking to an amendment or renewal or whatever T means.
+                if (answerHeader.getModuleItemKey().matches(".*[A-Z]$")) {
+                    answerHeader.setModuleItemKey(answerHeader.getModuleItemKey().substring(0,
+                            answerHeader.getModuleItemKey().length() - 1));
+                }
                 saveHeaders.add(answerHeader);
             }
         }

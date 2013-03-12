@@ -20,7 +20,10 @@ import org.kuali.kra.common.committee.service.CommitteeServiceBase;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmission;
 import org.kuali.kra.iacuc.committee.service.IacucCommitteeService;
+import org.kuali.kra.iacuc.questionnaire.IacucSubmissionQuestionnaireHelper;
+import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;
+import org.kuali.kra.protocol.questionnaire.ProtocolSubmissionQuestionnaireHelper;
 
 /**
  * 
@@ -58,6 +61,12 @@ public class IacucProtocolAction extends ProtocolActionBase {
     @Override
     protected Class<? extends CommitteeServiceBase> getCommitteeServiceClassHook() {
         return IacucCommitteeService.class;
+    }
+
+    @Override
+    protected ProtocolSubmissionQuestionnaireHelper getProtocolSubmissionQuestionnaireHelperHook(ProtocolBase protocol, String actionTypeCode,
+            String submissionNumber) {
+        return new IacucSubmissionQuestionnaireHelper(protocol, actionTypeCode, submissionNumber, true);
     }
     
 }

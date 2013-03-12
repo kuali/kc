@@ -156,7 +156,13 @@
                     
                 </table>
 
-          <kra-irb-action:requestQuestionnaire actionTypeCode="${actionTypeCode}" altLabel="Request Submission Questionnaire"/>
+			<c:forEach var="answerHeader" items="${bean.questionnaireHelper.answerHeaders}" varStatus="status">
+				<kra-questionnaire:questionnaireAnswersInnerTab 
+				parentTab="${tabTitle}" 
+				bean="${bean.questionnaireHelper}" 
+				answerHeaderIndex="${status.index}" 
+				property="actionHelper.${beanName}.questionnaireHelper"/>
+			</c:forEach>
                                                 
             <table cellpadding="0" cellspacing="0" summary="">                 
                  <tr>

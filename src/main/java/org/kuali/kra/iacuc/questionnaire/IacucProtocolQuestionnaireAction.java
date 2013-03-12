@@ -121,10 +121,8 @@ public class IacucProtocolQuestionnaireAction extends IacucProtocolAction {
     @Override
     public ActionForward reload(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         // TODO : reload should reload the action page too, so this submissionquestionnaire may not needed ?
-        String submissionActionTypeCode = ((IacucProtocolForm)form).getQuestionnaireHelper().getSubmissionActionTypeCode();
         ActionForward actionForward = super.reload(mapping, form, request, response);
         ((IacucProtocolForm)form).getQuestionnaireHelper().prepareView();
-        ((IacucProtocolForm)form).getQuestionnaireHelper().setSubmissionActionTypeCode(submissionActionTypeCode);
         ((IacucProtocolForm)form).getQuestionnaireHelper().populateAnswers();
         ((IacucProtocolForm)form).getQuestionnaireHelper().setQuestionnaireActiveStatuses();
         return actionForward;
@@ -174,42 +172,6 @@ public class IacucProtocolQuestionnaireAction extends IacucProtocolAction {
         return forward;
     }
 
-    /**
-     * 
-     * This method is to edit or view submission questionnaire
-     * suffix "T" at the end of protocol# to indicate that it is saved before submission
-     * @param mapping
-     * @param form
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
-    public ActionForward submissionQuestionnairePop(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        ActionForward forward;
-        IacucProtocolForm protocolForm = (IacucProtocolForm) form;
-        String submissionNumber = request.getParameter(SUBMISSION_NUMBER);
-        String protocolNumber = request.getParameter(PROTOCOL_NUMBER);
-        ModuleQuestionnaireBean moduleQuestionnaireBean = new IacucProtocolModuleQuestionnaireBean(CoeusModule.IACUC_PROTOCOL_MODULE_CODE, protocolNumber, CoeusSubModule.PROTOCOL_SUBMISSION, submissionNumber, !protocolNumber.endsWith(SUFFIX_T));
-        protocolForm.getQuestionnaireHelper().setAnswerHeaders(
-                getQuestionnaireAnswerService().getQuestionnaireAnswer(moduleQuestionnaireBean));
-        if (protocolNumber.endsWith(SUFFIX_T)) {
-            if (!CollectionUtils.isEmpty(protocolForm.getQuestionnaireHelper().getAnswerHeaders())) {
-                protocolForm.getQuestionnaireHelper().setProtocolNumber(protocolNumber);
-                protocolForm.getQuestionnaireHelper().setSubmissionNumber(submissionNumber);
-            }
-            forward = mapping.findForward(SUBMISSION_QUESTIONNAIRE);
-
-        } else {
-            protocolForm.getQuestionnaireHelper().setAnswerHeaders(getAnsweredQuestionnaire(protocolForm.getQuestionnaireHelper().getAnswerHeaders()));
-            forward =  mapping.findForward("viewQuestionnaire");
-        }
-        protocolForm.getQuestionnaireHelper().resetHeaderLabels();
-        protocolForm.getQuestionnaireHelper().setQuestionnaireActiveStatuses();
-        return forward;
-    }
-
     public ActionForward summaryQuestionnairePop(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         ActionForward forward;
@@ -226,31 +188,6 @@ public class IacucProtocolQuestionnaireAction extends IacucProtocolAction {
                 getAnsweredQuestionnaire(protocolForm.getQuestionnaireHelper().getAnswerHeaders()));
         forward = mapping.findForward("viewQuestionnaire");
 
-        protocolForm.getQuestionnaireHelper().resetHeaderLabels();
-        protocolForm.getQuestionnaireHelper().setQuestionnaireActiveStatuses();
-        return forward;
-    }
-
-    public ActionForward submissionQuestionnaireAjax(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        ActionForward forward;
-        IacucProtocolForm protocolForm = (IacucProtocolForm) form;
-        String submissionNumber = request.getParameter(SUBMISSION_NUMBER);
-        String protocolNumber = request.getParameter(PROTOCOL_NUMBER);
-        ModuleQuestionnaireBean moduleQuestionnaireBean = new IacucProtocolModuleQuestionnaireBean(CoeusModule.IACUC_PROTOCOL_MODULE_CODE, protocolNumber, CoeusSubModule.PROTOCOL_SUBMISSION, submissionNumber, !protocolNumber.endsWith(SUFFIX_T));
-        protocolForm.getQuestionnaireHelper().setAnswerHeaders(
-                getQuestionnaireAnswerService().getQuestionnaireAnswer(moduleQuestionnaireBean));
-        if (protocolNumber.endsWith(SUFFIX_T)) {
-            if (!CollectionUtils.isEmpty(protocolForm.getQuestionnaireHelper().getAnswerHeaders())) {
-                protocolForm.getQuestionnaireHelper().setProtocolNumber(protocolNumber);
-                protocolForm.getQuestionnaireHelper().setSubmissionNumber(submissionNumber);
-            }
-            forward = mapping.findForward(SUBMISSION_QUESTIONNAIRE);
-
-        } else {
-            protocolForm.getQuestionnaireHelper().setAnswerHeaders(getAnsweredQuestionnaire(protocolForm.getQuestionnaireHelper().getAnswerHeaders()));
-            forward =  mapping.findForward("ajaxQuestionnaire");
-        }
         protocolForm.getQuestionnaireHelper().resetHeaderLabels();
         protocolForm.getQuestionnaireHelper().setQuestionnaireActiveStatuses();
         return forward;

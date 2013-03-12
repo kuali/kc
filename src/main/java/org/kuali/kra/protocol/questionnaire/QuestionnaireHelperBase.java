@@ -48,9 +48,7 @@ public abstract class QuestionnaireHelperBase extends org.kuali.kra.questionnair
      */
     private ProtocolFormBase form;
 
-    private String submissionActionTypeCode;
     private String protocolNumber;
-    private String submissionNumber; 
     
     /**
      * 
@@ -92,12 +90,6 @@ public abstract class QuestionnaireHelperBase extends org.kuali.kra.questionnair
     public ModuleQuestionnaireBean getModuleQnBean() {
         //return new ModuleQuestionnaireBean(getModuleCode(), getProtocol());
         ProtocolModuleQuestionnaireBeanBase moduleQuestionnaireBean = getProtocolModuleQuestionnaireBeanHook(getProtocol());
-        if (StringUtils.isNotBlank(getSubmissionActionTypeCode())) {
-            // TODO : need to figure out a way to set subitemkey which is submissionnumber.
-            // however, submissionnumber will not be available until it is submitted
-            moduleQuestionnaireBean.setModuleSubItemCode("2");
-            moduleQuestionnaireBean.setModuleSubItemKey(getNextSubmissionNumber(getProtocol()).toString());
-        }
         return moduleQuestionnaireBean;
 
     }
@@ -244,14 +236,6 @@ public abstract class QuestionnaireHelperBase extends org.kuali.kra.questionnair
         return propNextValue;
     }
 
-    public String getSubmissionActionTypeCode() {
-        return submissionActionTypeCode;
-    }
-
-    public void setSubmissionActionTypeCode(String submissionActionTypeCode) {
-        this.submissionActionTypeCode = submissionActionTypeCode;
-    }
-
     public String getProtocolNumber() {
         return protocolNumber;
     }
@@ -260,11 +244,4 @@ public abstract class QuestionnaireHelperBase extends org.kuali.kra.questionnair
         this.protocolNumber = protocolNumber;
     }
 
-    public String getSubmissionNumber() {
-        return submissionNumber;
-    }
-
-    public void setSubmissionNumber(String submissionNumber) {
-        this.submissionNumber = submissionNumber;
-    }
 }

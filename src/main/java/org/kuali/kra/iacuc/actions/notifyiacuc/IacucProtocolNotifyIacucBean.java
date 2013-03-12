@@ -18,12 +18,15 @@ package org.kuali.kra.iacuc.actions.notifyiacuc;
 import java.io.Serializable;
 
 import org.kuali.kra.iacuc.actions.IacucActionHelper;
+import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
 import org.kuali.kra.iacuc.actions.IacucProtocolSubmissionBeanBase;
+import org.kuali.kra.iacuc.actions.request.IacucProtocolRequestBean;
+import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionType;
 
 /**
  * This class is really just a "form" for notifying the IRB.
  */
-public class IacucProtocolNotifyIacucBean extends  IacucProtocolSubmissionBeanBase implements Serializable {
+public class IacucProtocolNotifyIacucBean extends  IacucProtocolRequestBean implements Serializable {
     
     private static final long serialVersionUID = -1572148230502384077L;
     private String submissionQualifierTypeCode;
@@ -34,8 +37,8 @@ public class IacucProtocolNotifyIacucBean extends  IacucProtocolSubmissionBeanBa
      * Constructs a ProtocolNotifyIrbBean.
      * @param actionHelper Reference back to the action helper for this bean
      */
-    public IacucProtocolNotifyIacucBean(IacucActionHelper actionHelper) {
-        super(actionHelper);
+    public IacucProtocolNotifyIacucBean(IacucActionHelper actionHelper, String beanName) {
+        super(actionHelper, IacucProtocolActionType.NOTIFY_IACUC, IacucProtocolSubmissionType.NOTIFY_IACUC, beanName);
         setCommitteeId(actionHelper.getProtocol().getProtocolSubmission().getCommitteeId());
     }
 

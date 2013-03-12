@@ -51,6 +51,7 @@ import org.kuali.kra.irb.actions.submit.ProtocolReviewType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
+import org.kuali.kra.irb.questionnaire.IrbSubmissionQuestionnaireHelper;
 import org.kuali.kra.irb.test.ProtocolFactory;
 import org.kuali.kra.protocol.actions.notify.ProtocolActionAttachment;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
@@ -280,6 +281,8 @@ public class ProtocolRequestServiceTest extends KcUnitTestBase {
             final String beanName, final ProtocolActionAttachment... attachments) {
         
         final ProtocolRequestBean bean = context.mock(ProtocolRequestBean.class);
+        final Protocol protocol = new Protocol();
+        protocol.setProtocolNumber("13049581");
         
         context.checking(new Expectations() {{
             allowing(bean).getProtocolActionTypeCode();
@@ -300,8 +303,8 @@ public class ProtocolRequestServiceTest extends KcUnitTestBase {
             allowing(bean).getActionAttachments();
             will(returnValue(Arrays.asList(attachments)));
             
-            allowing(bean).getAnswerHeaders();
-            will(returnValue(new ArrayList<AnswerHeader>()));
+            allowing(bean).getQuestionnaireHelper();
+            will(returnValue(new IrbSubmissionQuestionnaireHelper(protocol, protocolActionTypeCode, null, false)));
         }});
         
         return bean;

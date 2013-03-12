@@ -18,12 +18,14 @@ package org.kuali.kra.irb.actions.notifyirb;
 import java.io.Serializable;
 
 import org.kuali.kra.irb.actions.ActionHelper;
-import org.kuali.kra.irb.actions.ProtocolSubmissionBeanBase;
+import org.kuali.kra.irb.actions.ProtocolActionType;
+import org.kuali.kra.irb.actions.request.ProtocolRequestBean;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmissionType;
 
 /**
  * This class is really just a "form" for notifying the IRB.
  */
-public class ProtocolNotifyIrbBean extends ProtocolSubmissionBeanBase implements Serializable {
+public class ProtocolNotifyIrbBean extends ProtocolRequestBean implements Serializable {
     
     private static final long serialVersionUID = -1572148230502384077L;
     private String submissionQualifierTypeCode;
@@ -34,8 +36,8 @@ public class ProtocolNotifyIrbBean extends ProtocolSubmissionBeanBase implements
      * Constructs a ProtocolNotifyIrbBean.
      * @param actionHelper Reference back to the action helper for this bean
      */
-    public ProtocolNotifyIrbBean(ActionHelper actionHelper) {
-        super(actionHelper);
+    public ProtocolNotifyIrbBean(ActionHelper actionHelper, String beanName) {
+        super(actionHelper, ProtocolActionType.NOTIFY_IRB, ProtocolSubmissionType.NOTIFY_IRB, beanName);
     }
 
     public String getSubmissionQualifierTypeCode() {
