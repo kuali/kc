@@ -158,6 +158,11 @@ function openPreviousAwards(requestTracker) {
         
         var index = awardNumber.indexOf("-");
         var awardNumber2 = parseInt(awardNumber.substring(index+1), 10);
+
+        var disabledText='';
+        if (document.getElementById("currentOrPendingViewValue").value=='1') {
+            disabledText=' disabled ';
+        }
         
         if(jQuery("#cancelOrFinalStatus").attr("value") == 1){
         	
@@ -206,14 +211,14 @@ function openPreviousAwards(requestTracker) {
 				  			"<td style=\"border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; align:right; border-collapse: collapse;\">"+text3+"</td>" +
 				  			"<td style=\"border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; align:right; border-collapse: collapse;\">"+text4+"</td>" +
 				  			"<td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; align:right; border-collapse: collapse; \">"			  			
-				  			+"<input type=\"text\" class = 'input' name=\"awardHierarchyNodeItems[" + awardNumber2 + "].obligatedTotalDirect\" id=\"awardHierarchyNodeItems[" + awardNumber2 + "].obligatedTotalDirect\""+ " value=\"" +text12 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"+"</td>" +
+				  			+"<input type=\"text\" class = 'input' name=\"awardHierarchyNodeItems[" + awardNumber2 + "].obligatedTotalDirect\" id=\"awardHierarchyNodeItems[" + awardNumber2 + "].obligatedTotalDirect\""+ " value=\"" +text12 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\""+disabledText+"/>"+"</td>" +
 				  			"<td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; align:right; border-collapse: collapse; \">"			  			
-				  			+"<input type=\"text\" class = 'input' name=\"awardHierarchyNodeItems[" + awardNumber2 + "].obligatedTotalIndirect\" id=\"awardHierarchyNodeItems[" + awardNumber2 + "].obligatedTotalIndirect\""+ " value=\"" +text13 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"+"</td>" +
+				  			+"<input type=\"text\" class = 'input' name=\"awardHierarchyNodeItems[" + awardNumber2 + "].obligatedTotalIndirect\" id=\"awardHierarchyNodeItems[" + awardNumber2 + "].obligatedTotalIndirect\""+ " value=\"" +text13 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\""+disabledText+"/>"+"</td>" +
 				  			"<td style=\"border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; align:right; border-collapse: collapse;\">"+text5+"</td>" +
 				  			"<td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; align:right; border-collapse: collapse; \">"	
-				  			+"<input type=\"text\" class = 'input' name=\"awardHierarchyNodeItems[" + awardNumber2 + "].anticipatedTotalDirect\" id=\"awardHierarchyNodeItems[" + awardNumber2 + "].anticipatedTotalDirect\""+ " value=\"" +text14 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"+"</td>" +
+				  			+"<input type=\"text\" class = 'input' name=\"awardHierarchyNodeItems[" + awardNumber2 + "].anticipatedTotalDirect\" id=\"awardHierarchyNodeItems[" + awardNumber2 + "].anticipatedTotalDirect\""+ " value=\"" +text14 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\""+disabledText+"/>"+"</td>" +
 				  			"<td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; align:right; border-collapse: collapse; \">"	
-				  			+"<input type=\"text\" class = 'input' name=\"awardHierarchyNodeItems[" + awardNumber2 + "].anticipatedTotalIndirect\" id=\"awardHierarchyNodeItems[" + awardNumber2 + "].anticipatedTotalIndirect\""+ " value=\"" +text15 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"+"</td>"
+				  			+"<input type=\"text\" class = 'input' name=\"awardHierarchyNodeItems[" + awardNumber2 + "].anticipatedTotalIndirect\" id=\"awardHierarchyNodeItems[" + awardNumber2 + "].anticipatedTotalIndirect\""+ " value=\"" +text15 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\""+disabledText+"/>"+"</td>"
 				  			+"<td style=\"border: 1px solid rgb(153, 153, 153); text-align: center; width: 110px; align:right; left: 1335px; border-collapse: collapse;\">"+text6+"</td>"
 				  			+"</tr></tbody></table>";	
 			        	}else {
@@ -235,9 +240,9 @@ function openPreviousAwards(requestTracker) {
 				  			"<td style=\"border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; align:right; border-collapse: collapse;\">"+text3+"</td>" +
 				  			"<td style=\"border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; align:right; border-collapse: collapse;\">"+text4+"</td>" +
 				  			"<td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; align:right; border-collapse: collapse; \">"
-				  			+"<input type=\"text\" class = 'input' name=\"awardHierarchyNodeItems[" + awardNumber2 + "].amountObligatedToDate\" id=\"awardHierarchyNodeItems[" + awardNumber2 + "].amountObligatedToDate\""+ " value=\"" +text5 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"+"</td>" +
+				  			+"<input type=\"text\" class = 'input' name=\"awardHierarchyNodeItems[" + awardNumber2 + "].amountObligatedToDate\" id=\"awardHierarchyNodeItems[" + awardNumber2 + "].amountObligatedToDate\""+ " value=\"" +text5 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\""+disabledText+"/>"+"</td>" +
 				  			"<td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; align:right; border-collapse: collapse; \">"
-				  			+"<input type=\"text\" class = 'input' name=\"awardHierarchyNodeItems[" + awardNumber2 + "].anticipatedTotalAmount\" id=\"awardHierarchyNodeItems[" + awardNumber2 + "].anticipatedTotalAmount\""+ " value=\"" +text6 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"+"</td>"
+				  			+"<input type=\"text\" class = 'input' name=\"awardHierarchyNodeItems[" + awardNumber2 + "].anticipatedTotalAmount\" id=\"awardHierarchyNodeItems[" + awardNumber2 + "].anticipatedTotalAmount\""+ " value=\"" +text6 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\""+disabledText+"/>"+"</td>"
 				  			+"</tr></tbody></table>";	
 			        	}else {
 			        		//need this one without inputs for date fields for KRACOEUS-4664
@@ -304,14 +309,14 @@ function openPreviousAwards(requestTracker) {
 				  			+"<input type=\"text\" class = 'datepicker' name=\"awardHierarchyNodeItems[" + awardNumber2 + "].finalExpirationDate\" id=\"awardHierarchyNodeItems[" + awardNumber2 + "].finalExpirationDate\""+ " value=\"" +text4 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"
                 		    + displayErrorIconAsNeeded("awardHierarchyNodeItems[" + awardNumber2 + "].finalExpirationDate")
 		                    +"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; align:right; border-collapse: collapse; \">"			  			
-				  			+"<input type=\"text\" class = 'input' name=\"awardHierarchyNodeItems[" + awardNumber2 + "].obligatedTotalDirect\" id=\"awardHierarchyNodeItems[" + awardNumber2 + "].obligatedTotalDirect\""+ " value=\"" +text12 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>" 
+				  			+"<input type=\"text\" class = 'input' name=\"awardHierarchyNodeItems[" + awardNumber2 + "].obligatedTotalDirect\" id=\"awardHierarchyNodeItems[" + awardNumber2 + "].obligatedTotalDirect\""+ " value=\"" +text12 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\""+disabledText+"/>" 
         		            +"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; align:right; border-collapse: collapse; \">"			  			
-				  			+"<input type=\"text\" class = 'input' name=\"awardHierarchyNodeItems[" + awardNumber2 + "].obligatedTotalIndirect\" id=\"awardHierarchyNodeItems[" + awardNumber2 + "].obligatedTotalIndirect\""+ " value=\"" +text13 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"
+				  			+"<input type=\"text\" class = 'input' name=\"awardHierarchyNodeItems[" + awardNumber2 + "].obligatedTotalIndirect\" id=\"awardHierarchyNodeItems[" + awardNumber2 + "].obligatedTotalIndirect\""+ " value=\"" +text13 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\""+disabledText+"/>"
 				  			+"</td><td style=\"border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; align:right; border-collapse: collapse;\">"+text5+"</td>"
 				  			+"<td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; align:right; border-collapse: collapse; \">"	
-				  			+"<input type=\"text\" class = 'input' name=\"awardHierarchyNodeItems[" + awardNumber2 + "].anticipatedTotalDirect\" id=\"awardHierarchyNodeItems[" + awardNumber2 + "].anticipatedTotalDirect\""+ " value=\"" +text14 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"
+				  			+"<input type=\"text\" class = 'input' name=\"awardHierarchyNodeItems[" + awardNumber2 + "].anticipatedTotalDirect\" id=\"awardHierarchyNodeItems[" + awardNumber2 + "].anticipatedTotalDirect\""+ " value=\"" +text14 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\""+disabledText+"/>"
 				  			+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; align:right; border-collapse: collapse; \">"	
-				  			+"<input type=\"text\" class = 'input' name=\"awardHierarchyNodeItems[" + awardNumber2 + "].anticipatedTotalIndirect\" id=\"awardHierarchyNodeItems[" + awardNumber2 + "].anticipatedTotalIndirect\""+ " value=\"" +text15 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"
+				  			+"<input type=\"text\" class = 'input' name=\"awardHierarchyNodeItems[" + awardNumber2 + "].anticipatedTotalIndirect\" id=\"awardHierarchyNodeItems[" + awardNumber2 + "].anticipatedTotalIndirect\""+ " value=\"" +text15 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\""+disabledText+"/>"
 				  			+"</td><td style=\"border: 1px solid rgb(153, 153, 153); text-align: center; width: 110px; align:right; left: 1335px; border-collapse: collapse;\">"+text6+"</td>"
 				  			+"</tr></tbody></table>";	
 			        	}else {
@@ -344,9 +349,9 @@ function openPreviousAwards(requestTracker) {
 				  			+"<input type=\"text\" class = 'datepicker' name=\"awardHierarchyNodeItems[" + awardNumber2 + "].finalExpirationDate\" id=\"awardHierarchyNodeItems[" + awardNumber2 + "].finalExpirationDate\" value=\"" +text4 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"
 				  			+ displayErrorIconAsNeeded("awardHierarchyNodeItems[" + awardNumber2 + "].finalExpirationDate")
 				  			+"</td>" + "<td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; align:right; border-collapse: collapse; \">"
-				  			+"<input type=\"text\" class = 'input' name=\"awardHierarchyNodeItems[" + awardNumber2 + "].amountObligatedToDate\" id=\"awardHierarchyNodeItems[" + awardNumber2 + "].amountObligatedToDate\" value=\"" +text5 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/></td>" +
+				  			+"<input type=\"text\" class = 'input' name=\"awardHierarchyNodeItems[" + awardNumber2 + "].amountObligatedToDate\" id=\"awardHierarchyNodeItems[" + awardNumber2 + "].amountObligatedToDate\" value=\"" +text5 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\""+disabledText+"/></td>" +
 				  			"<td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; align:right; border-collapse: collapse; \">"
-				  			+"<input type=\"text\" class = 'input' name=\"awardHierarchyNodeItems[" + awardNumber2 + "].anticipatedTotalAmount\" id=\"awardHierarchyNodeItems[" + awardNumber2 + "].anticipatedTotalAmount\" value=\"" +text6 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/></td>"
+				  			+"<input type=\"text\" class = 'input' name=\"awardHierarchyNodeItems[" + awardNumber2 + "].anticipatedTotalAmount\" id=\"awardHierarchyNodeItems[" + awardNumber2 + "].anticipatedTotalAmount\" value=\"" +text6 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\""+disabledText+"/></td>"
 				  			+"</tr></tbody></table>";	
 			        	}else {
 			        		//need this one without inputs for date fields for KRACOEUS-4664
