@@ -148,7 +148,7 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
         KualiDecimal currentAnticipatedDirect = aai.getAnticipatedTotalDirect();
         KualiDecimal currentAnticipatedIndirect = aai.getAnticipatedTotalIndirect();
         for(PendingTransaction penTran : timeAndMoneyDocument.getPendingTransactions()) {
-            if (penTran.isCurrentValueTransaction()) {
+            if (penTran.isSingleNodeTransaction()) {
                 currentObligatedDirect = currentObligatedDirect.add(penTran.getObligatedDirectAmount());
                 currentObligatedIndirect = currentObligatedIndirect.add(penTran.getObligatedIndirectAmount());
                 currentAnticipatedDirect = currentAnticipatedDirect.add(penTran.getAnticipatedDirectAmount());
@@ -204,7 +204,7 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
                 pendingTransaction.setAnticipatedAmount((anticipatedChangeDirect.add(anticipatedChangeIndirect)).abs());
                 pendingTransaction.setDocumentNumber(timeAndMoneyDocument.getDocumentNumber());
                 pendingTransaction.setProcessedFlag(false);
-                pendingTransaction.setCurrentValueTransaction(true);
+                pendingTransaction.setSingleNodeTransaction(true);
                 pendingTransaction.setDocumentNumber(timeAndMoneyDocument.getDocumentNumber());
                 timeAndMoneyDocument.getPendingTransactions().add(pendingTransaction);
                 getBusinessObjectService().save(timeAndMoneyDocument.getPendingTransactions());//need pending transaction to have a primarykey value
@@ -233,12 +233,12 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
         transactionRuleImpl = new TransactionRuleImpl();
         PendingTransaction pendingTransaction = new PendingTransaction();
         pendingTransaction.setComments("Single Node Money Transaction");
-        pendingTransaction.setCurrentValueTransaction(true);
+        pendingTransaction.setSingleNodeTransaction(true);
         // total up "current values" from transactions against current values
         KualiDecimal currentObligated = aai.getAmountObligatedToDate();
         KualiDecimal currentAnticipated = aai.getAnticipatedTotalAmount();
         for(PendingTransaction penTran : timeAndMoneyDocument.getPendingTransactions()) {
-            if (penTran.isCurrentValueTransaction()) {
+            if (penTran.isSingleNodeTransaction()) {
                 currentObligated = currentObligated.add(penTran.getObligatedAmount());
                 currentAnticipated = currentAnticipated.add(penTran.getAnticipatedAmount());
             }

@@ -735,7 +735,7 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
             KualiDecimal anticipatedTotalDirect = awardAmountInfo.getAnticipatedTotalDirect();
             KualiDecimal anticipatedTotalIndirect = awardAmountInfo.getAnticipatedTotalIndirect();
             for (PendingTransaction pendingTransaction: timeAndMoneyDocument.getPendingTransactions()){
-                if (pendingTransaction.getProcessedFlag() == false && pendingTransaction.isCurrentValueTransaction()) {
+                if (pendingTransaction.getProcessedFlag() == false && pendingTransaction.isSingleNodeTransaction()) {
                     obligatedTotal = obligatedTotal.add(pendingTransaction.getObligatedAmount());
                     obligatedTotalDirect = obligatedTotalDirect.add(pendingTransaction.getObligatedDirectAmount());
                     obligatedTotalIndirect = obligatedTotalIndirect.add(pendingTransaction.getObligatedIndirectAmount());
