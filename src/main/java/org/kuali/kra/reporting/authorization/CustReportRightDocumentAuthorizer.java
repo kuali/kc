@@ -26,13 +26,15 @@ public class CustReportRightDocumentAuthorizer extends MaintenanceDocumentAuthor
     
     private static final long serialVersionUID = 1L;
     
+    public static final String PERMISSION_NAME = "MAINTAIN CUSTOM REPORTS";
+    public static final String NAME_SPACE = "KC-UNT";
     private UnitAuthorizationService unitAuthorizationService;
     
     @Override
     public boolean canCreate(Class boClass, Person user) {
         boolean retVal = super.canCreate(boClass, user);
         String userId = GlobalVariables.getUserSession().getPrincipalId();
-        retVal = getUnitAuthorizationService().hasPermission(userId, "KC-UNT", "RUN GLOBAL REPORTS");
+        retVal = getUnitAuthorizationService().hasPermission(userId, NAME_SPACE, PERMISSION_NAME);
         return retVal;
     }
 
@@ -40,7 +42,7 @@ public class CustReportRightDocumentAuthorizer extends MaintenanceDocumentAuthor
     public boolean canEdit(Document document, Person user) {
         boolean retVal = super.canEdit(document, user);
         String userId = GlobalVariables.getUserSession().getPrincipalId();
-        retVal = getUnitAuthorizationService().hasPermission(userId, "KC-UNT", "RUN GLOBAL REPORTS");
+        retVal = getUnitAuthorizationService().hasPermission(userId, NAME_SPACE, PERMISSION_NAME);
         return retVal;
     }
 
@@ -48,7 +50,7 @@ public class CustReportRightDocumentAuthorizer extends MaintenanceDocumentAuthor
     public boolean canMaintain(Object dataObject, Person user) {
         boolean retVal = super.canMaintain(dataObject, user);
         String userId = GlobalVariables.getUserSession().getPrincipalId();
-        retVal = getUnitAuthorizationService().hasPermission(userId, "KC-UNT", "RUN GLOBAL REPORTS");
+        retVal = getUnitAuthorizationService().hasPermission(userId, NAME_SPACE, PERMISSION_NAME);
         return retVal;
     }
 

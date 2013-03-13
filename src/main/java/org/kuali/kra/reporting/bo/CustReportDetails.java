@@ -17,6 +17,7 @@ package org.kuali.kra.reporting.bo;
 
 import org.apache.struts.upload.FormFile;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.rice.kim.impl.permission.PermissionBo;
 import org.kuali.rice.krad.bo.PersistableAttachment;
 
 public class CustReportDetails extends KraPersistableBusinessObjectBase implements PersistableAttachment{ 
@@ -33,7 +34,9 @@ public class CustReportDetails extends KraPersistableBusinessObjectBase implemen
     
     private Integer reportTypeCode; 
     
-    private String rightRequired; 
+    private String name;
+    
+    private PermissionBo permissionBo;
     
     private String fileName;
     
@@ -121,24 +124,37 @@ public class CustReportDetails extends KraPersistableBusinessObjectBase implemen
         this.reportTypeCode = reportTypeCode;
     }
 
-
     /**
-     * Gets the rightRequired attribute. 
-     * @return Returns the rightRequired.
+     * Gets the name attribute. 
+     * @return Returns the name.
      */
-    public String getRightRequired() {
-        return rightRequired;
+    public String getName() {
+        return name;
     }
 
-
     /**
-     * Sets the rightRequired attribute value.
-     * @param rightRequired The rightRequired to set.
+     * Sets the name attribute value.
+     * @param name The name to set.
      */
-    public void setRightRequired(String rightRequired) {
-        this.rightRequired = rightRequired;
+    public void setName(String name) {
+        this.name = name;
     }
 
+    /**
+     * Gets the permissionBo attribute. 
+     * @return Returns the permissionBo.
+     */
+    public PermissionBo getPermissionBo() {
+        return permissionBo;
+    }
+
+    /**
+     * Sets the permissionBo attribute value.
+     * @param permissionBo The permissionBo to set.
+     */
+    public void setPermissionBo(PermissionBo permissionBo) {
+        this.permissionBo = permissionBo;
+    }
 
     /**
      * Gets the fileName attribute. 

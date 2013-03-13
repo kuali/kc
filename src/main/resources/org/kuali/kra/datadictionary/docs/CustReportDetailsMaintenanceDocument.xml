@@ -44,7 +44,7 @@
 					p:required="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="reportTypeCode"
 					p:required="true" />
-				<bean parent="MaintainableFieldDefinition" p:name="rightRequired"
+				<bean parent="MaintainableFieldDefinition" p:name="name"
 					p:required="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="templateFile"
 					p:required="true" />
