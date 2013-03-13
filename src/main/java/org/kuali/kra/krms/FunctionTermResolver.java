@@ -81,7 +81,7 @@ public abstract class FunctionTermResolver implements TermResolver<Object> {
      * @see org.kuali.rice.krms.api.engine.TermResolver#resolve(java.util.Map, java.util.Map)
      */
     @Override
-    public String resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) {
+    public Object resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) {
         String krmsTypeId = getFunctionTerm().getTypeId();
         String serviceName = null;
         if(krmsTypeId!=null){
@@ -89,7 +89,7 @@ public abstract class FunctionTermResolver implements TermResolver<Object> {
             serviceName = typeDefinition.getServiceName();
         }
         String methodName = getFunctionTerm().getName();
-        String result = executeFunction(serviceName,methodName,resolvedPrereqs,parameters);
+        Object result = executeFunction(serviceName,methodName,resolvedPrereqs,parameters);
         return result;
     }
     /**
@@ -98,7 +98,7 @@ public abstract class FunctionTermResolver implements TermResolver<Object> {
      * @param resolvedPrereqs
      * @return
      */
-    protected abstract String executeFunction(String serviceName,String methodName,Map<String, Object> resolvedPrereqs,Map<String,String> resolvedParameters);
+    protected abstract Object executeFunction(String serviceName,String methodName,Map<String, Object> resolvedPrereqs,Map<String,String> resolvedParameters);
     
     protected List<Object> extractParamValues(Map<String, Object> resolvedPrereqs,Map<String,String> resolvedParameters) {
         List<String> parameters = getOrderedInputParams();
