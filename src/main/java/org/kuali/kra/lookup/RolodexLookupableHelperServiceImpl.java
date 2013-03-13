@@ -26,8 +26,8 @@ import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.util.KRADConstants;
 
 public class RolodexLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl{
-    private static final String ORGANIZATION_NAME = "organizationName.sponsorName";
-    private static final String NAME_FOR_ORGANIZATION = "orgName.organizationName";
+    private static final String ORGANIZATION_NAME = "sponsorName.sponsorName";
+    private static final String NAME_FOR_ORGANIZATION = "organizationName.organizationName";
     private static final String SPONSOR_NAME = "sponsor.sponsorName";
     private static final String ORGANIZATION_ID = "organization";
 
@@ -36,8 +36,8 @@ public class RolodexLookupableHelperServiceImpl extends KualiLookupableHelperSer
         setBackLocation(fieldValues.get(KRADConstants.BACK_LOCATION));
         setDocFormKey(fieldValues.get(KRADConstants.DOC_FORM_KEY));
         setReferencesToRefresh(fieldValues.get(KRADConstants.REFERENCES_TO_REFRESH));
-        String organizationName = fieldValues.get(ORGANIZATION_NAME);
-        String orgName = fieldValues.get(NAME_FOR_ORGANIZATION);
+        String sponsorName = fieldValues.get(ORGANIZATION_NAME);
+        String organizationName = fieldValues.get(NAME_FOR_ORGANIZATION);
         fieldValues.remove(ORGANIZATION_NAME);
         fieldValues.remove(SPONSOR_NAME);
         fieldValues.remove(ORGANIZATION_ID);
@@ -46,24 +46,24 @@ public class RolodexLookupableHelperServiceImpl extends KualiLookupableHelperSer
             (List<Rolodex>) super.getSearchResultsUnbounded(fieldValues);
         List<Rolodex> returnResults = new ArrayList<Rolodex>();
         try {
-            returnResults = filterForRolodex(unboundedResults, organizationName, orgName);
+            returnResults = filterForRolodex(unboundedResults, sponsorName, organizationName);
         } catch (WorkflowException e) {
             e.printStackTrace();
         }
         return returnResults;
     }
 
-    protected List<Rolodex> filterForRolodex(List<Rolodex> collectionByQuery, String organizationName, String orgName) throws WorkflowException{
+    protected List<Rolodex> filterForRolodex(List<Rolodex> collectionByQuery, String sponsorName, String organizationName) throws WorkflowException{
         List<Rolodex> filterRolodexList = new ArrayList<Rolodex>();
 
-        if (organizationName != null && !organizationName.isEmpty()) {
+        if (sponsorName != null && !sponsorName.isEmpty()) {
         for (Rolodex rolodex : collectionByQuery) {           
-                if (rolodex.getOrganization().equalsIgnoreCase(organizationName)) {
+                if (rolodex.getOrganization().equalsIgnoreCase(sponsorName)) {
                     filterRolodexList.add(rolodex);
                 } else {
-                    String subRecName = organizationName.replace("*", ".*").replace("?", ".");
-                    subRecName = subRecName.toLowerCase();
-                    if (rolodex.getOrganization().toLowerCase().matches(subRecName)) {
+                    String subSponsorName = sponsorName.replace("*", ".*").replace("?", ".");
+                    subSponsorName = subSponsorName.toLowerCase();
+                    if (rolodex.getOrganization().toLowerCase().matches(subSponsorName)) {
                         filterRolodexList.add(rolodex);
                     }
 
@@ -72,17 +72,17 @@ public class RolodexLookupableHelperServiceImpl extends KualiLookupableHelperSer
         } else {
             for (Rolodex rolodex : collectionByQuery) {
                 filterRolodexList.add(rolodex);
-            }
+            }          
         }
         List<Rolodex> filteredRolodexList = new ArrayList<Rolodex>(); 
-        if (orgName != null && !orgName.isEmpty()) {
+        if (organizationName != null && !organizationName.isEmpty()) {
             for (Rolodex rolodex : filterRolodexList) {
-                if (rolodex.getOrganization().equalsIgnoreCase(orgName)) {
+                if (rolodex.getOrganization().equalsIgnoreCase(organizationName)) {
                     filteredRolodexList.add(rolodex);
                 } else {
-                    String subOrgName = organizationName.replace("*", ".*").replace("?", ".");
-                    subOrgName = subOrgName.toLowerCase();
-                    if(rolodex.getOrganization().toLowerCase().matches(subOrgName)) {
+                    String subOrganizationName = organizationName.replace("*", ".*").replace("?", ".");
+                    subOrganizationName = subOrganizationName.toLowerCase();
+                    if(rolodex.getOrganization().toLowerCase().matches(subOrganizationName)) {
                         filteredRolodexList.add(rolodex);
                     }
                 }
@@ -93,7 +93,7 @@ public class RolodexLookupableHelperServiceImpl extends KualiLookupableHelperSer
                 filteredRolodexList.add(rolodex);
             }
         }
-       
+
         return filteredRolodexList;
     }
 

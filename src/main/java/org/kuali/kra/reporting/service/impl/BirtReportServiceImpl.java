@@ -39,6 +39,7 @@ import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.UnitAuthorizationService;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.framework.persistence.jdbc.datasource.XAPoolDataSource;
+import org.kuali.rice.kim.impl.permission.PermissionBo;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
@@ -48,6 +49,8 @@ public class BirtReportServiceImpl implements BirtReportService{
     private BirtHelper birtHelper;
     private KraAuthorizationService kraAuthorizationService;
     private UnitAuthorizationService unitAuthorizationService;
+    
+    public static final String PERMISSION_NAME = "RUN GLOBAL REPORTS";
 
     @Override
 public ArrayList<BirtParameterBean> getInputParametersFromTemplateFile(String reportId) throws Exception {
@@ -86,10 +89,15 @@ public ArrayList<BirtParameterBean> getInputParametersFromTemplateFile(String re
                 BusinessObjectService.class).findAll(CustReportDetails.class);
         List<CustReportDetails> custReportDetails = new ArrayList<CustReportDetails>();
         for (CustReportDetails custReportDetail : custreportDetailsList) {
-            boolean hasPermission = getUnitAuthorizationService().hasPermission(principalId, departmentCode,
-                    RoleConstants.DEPARTMENT_ROLE_TYPE, custReportDetail.getRightRequired());
-            if (hasPermission) {
-                custReportDetails.add(custReportDetail);
+            if(custReportDetail.getName() != null) {
+                PermissionBo permission = KraServiceLocator.getService(BusinessObjectService.class).findBySinglePrimaryKey(PermissionBo.class, custReportDetail.getName());
+                if(permission.getName().equalsIgnoreCase(PERMISSION_NAME)) {
+                    boolean hasPermission = getUnitAuthorizationService().hasPermission(principalId, departmentCode,
+                            RoleConstants.DEPARTMENT_ROLE_TYPE, permission.getName());
+                    if (hasPermission) {
+                        custReportDetails.add(custReportDetail);
+                    }
+                }
             }
         }
         return custReportDetails;
