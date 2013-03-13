@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.irb.rules;
+package org.kuali.kra.coi;
 
 import java.io.ByteArrayInputStream;
 
@@ -21,8 +21,12 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 
 import org.kuali.kra.bo.CoeusModule;
-import org.kuali.kra.irb.ProtocolDocument;
+import org.kuali.kra.coi.CoiDisclosure;
+import org.kuali.kra.coi.CoiDisclosureDocument;
+import org.kuali.kra.document.ResearchDocumentBase;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.krms.KcKrmsConstants;
+import org.kuali.kra.krms.service.impl.KcKrmsFactBuilderServiceHelper;
 import org.kuali.rice.core.api.exception.RiceRuntimeException;
 import org.kuali.rice.core.api.util.xml.XmlHelper;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -30,9 +34,10 @@ import org.kuali.rice.kew.rule.xmlrouting.XPathHelper;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krms.api.engine.Facts;
+import org.kuali.rice.krms.api.engine.Facts.Builder;
 import org.w3c.dom.Document;
 
-public class IrbProtocolFactBuilderServiceImpl implements IrbProtocolFactBuilderService {
+public class CoiDisclosureFactBuilderServiceImpl extends KcKrmsFactBuilderServiceHelper {
     
     private BusinessObjectService businessObjectService;
     private DocumentService documentService;;
@@ -40,50 +45,26 @@ public class IrbProtocolFactBuilderServiceImpl implements IrbProtocolFactBuilder
     public void addFacts(Facts.Builder factsBuilder, String docContent) {
         String documentNumber = getElementValue(docContent, "//documentNumber");
         try {
-            ProtocolDocument protocolDocument = (ProtocolDocument) getDocumentService().getByDocumentHeaderId(documentNumber);
-            addFacts(factsBuilder, protocolDocument);
+            CoiDisclosureDocument disclosureDocument = (CoiDisclosureDocument) getDocumentService().getByDocumentHeaderId(documentNumber);
+            addFacts(factsBuilder, disclosureDocument);
         }catch (WorkflowException e) {
             throw new RuntimeException(e);
         }
     }
     
-    public void addFacts(Facts.Builder factsBuilder, ProtocolDocument protocolDocument) {
-        factsBuilder.addFact(KcKrmsConstants.IrbProtocol.PROTOCOL_REFERENCE_NUMBER_1, protocolDocument.getProtocol().getReferenceNumber1());
-        factsBuilder.addFact(KcKrmsConstants.IrbProtocol.PROTOCOL_REFERENCE_NUMBER_2, protocolDocument.getProtocol().getReferenceNumber2());
-        factsBuilder.addFact(KcKrmsConstants.IrbProtocol.FDA_APPLICATION_NUMBER, protocolDocument.getProtocol().getFdaApplicationNumber());
-        
-        // This special function hardcoded as 1 to enable routing/notification in any case.
-        factsBuilder.addFact(KcKrmsConstants.IrbProtocol.ALL_PROTOCOLS, "1");
-        
+    public void addFacts(Builder factsBuilder, ResearchDocumentBase document){
+        CoiDisclosureDocument disclosureDocument = (CoiDisclosureDocument)document;
+        CoiDisclosure coiDisclosure = disclosureDocument.getCoiDisclosure();
+        addObjectMembersAsFacts(factsBuilder,coiDisclosure,KcKrmsConstants.CoiDisclosure.COI_DISCLOSURE_CONTEXT_ID,Constants.MODULE_NAMESPACE_COIDISCLOSURE);
+        factsBuilder.addFact(KcKrmsConstants.CoiDisclosure.COI_DISCLOSURE, coiDisclosure);
+
         // Functions
-        // All persons training completed
-        // All Protocols
-        // Application date
-        // Areas of research - do areas of research contain specified?  user input 1 area of research
-        // Expiration date
-        // Funding source sponsor
-        // Funding source unit
-        // Is amendment
-        // Is renewal
-        // PI training complete
-        // Protocol campus
-        // Protocol document type
-        // Protocol lead unit
-        // Protocol lead unit below
-        // Protocol non-faculty PI
-        // Protocol organization
-        // Protocol organization changed
-        // Protocol PI changed
-        // Protocol PI is specified
-        // Protocol special review type
-        // Protocol submission type
-        // Protocol submitted by PI
-        // Protocol type
-        // Subject type
+        // Is person under campus code
+        // Person campus code
     
         // Questionnaire Prereqs
-        factsBuilder.addFact("moduleCode", CoeusModule.IRB_MODULE_CODE);
-        factsBuilder.addFact("moduleItemKey", protocolDocument.getProtocol().getProtocolNumber());
+        factsBuilder.addFact("moduleCode", CoeusModule.COI_DISCLOSURE_MODULE_CODE);
+        factsBuilder.addFact("moduleItemKey", coiDisclosure.getCoiDisclosureNumber());
     }
     
     protected String getElementValue(String docContent, String xpathExpression) {

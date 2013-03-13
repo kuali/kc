@@ -27,7 +27,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.authorization.Task;
-import org.kuali.kra.award.AwardFactBuilderService;
 import org.kuali.kra.award.awardhierarchy.sync.service.AwardSyncService;
 import org.kuali.kra.award.budget.AwardBudgetService;
 import org.kuali.kra.award.budget.AwardBudgetVersionOverviewExt;
@@ -62,6 +61,7 @@ import org.kuali.kra.institutionalproposal.home.InstitutionalProposalBoLite;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
 import org.kuali.kra.krms.KcKrmsConstants;
 import org.kuali.kra.krms.KrmsRulesContext;
+import org.kuali.kra.krms.service.KcKrmsFactBuilderService;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.KraWorkflowService;
 import org.kuali.kra.service.ResearchDocumentService;
@@ -695,7 +695,7 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
     }
     
     public void addFacts(Facts.Builder factsBuilder) {
-        AwardFactBuilderService fbService = KraServiceLocator.getService(AwardFactBuilderService.class);
+        KcKrmsFactBuilderService fbService = KraServiceLocator.getService("awardFactBuilderService");
         fbService.addFacts(factsBuilder, this);
     }
 
