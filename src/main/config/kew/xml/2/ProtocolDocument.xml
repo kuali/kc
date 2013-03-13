@@ -54,7 +54,7 @@
 				</start>
 				<requests name="PeopleFlows">
                     <activationType>R</activationType>
-                    <rulesEngine executorClass="org.kuali.kra.irb.rules.IrbProtocolRulesEngineExecutorImpl"/>
+                    <rulesEngine executorClass="org.kuali.kra.irb.IrbProtocolRulesEngineExecutorImpl"/>
                 </requests>
 				<requests name="DepartmentReview">
 					<!-- <qualifierResolver>UnitRouting-XPathQualifierResolver</qualifierResolver> -->

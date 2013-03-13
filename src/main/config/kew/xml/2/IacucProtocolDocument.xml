@@ -49,7 +49,7 @@
                 </start>
                 <requests name="PeopleFlows">
                     <activationType>R</activationType>
-                    <rulesEngine executorClass="org.kuali.kra.iacuc.rules.IacucProtocolRulesEngineExecutorImpl"/>
+                    <rulesEngine executorClass="org.kuali.kra.iacuc.IacucProtocolRulesEngineExecutorImpl"/>
                 </requests>
                  <role name="IACUCReview">
 					<qualifierResolver>IACUC ProtocolApprover-XPathQualifierResolver</qualifierResolver> 
