@@ -77,9 +77,9 @@ public class Rolodex extends KraPersistableBusinessObjectBase implements Contact
 
     private Sponsor sponsor;
 
-    private Sponsor organizationName;
+    private Sponsor sponsorName;
     
-    private Organization orgName;
+    private Organization organizationName;
     
     private String sponsorId;
     
@@ -115,17 +115,20 @@ public class Rolodex extends KraPersistableBusinessObjectBase implements Contact
     public String getAddressLine1() {
         if(this.sponsorAddressFlag != null) {
             if(this.sponsorAddressFlag){
-                if (organizationName != null && organizationName.getPostalCode() != null)
+                if(sponsor != null && sponsor.getPostalCode() != null) {
+                    return sponsor.getPostalCode();
+                }
+                else if (sponsorName != null && sponsorName.getPostalCode() != null)
                 {
-                    return organizationName.getPostalCode();
+                    return sponsorName.getPostalCode();
                 }
             }
             if(!this.sponsorAddressFlag) {
-                if(orgName != null && orgName.getAddress() != null) {
-                    return orgName.getAddress();
+                if(organizationName != null && organizationName.getAddress() != null) {
+                    return organizationName.getAddress();
                 } 
             }
-        }
+        } 
         return addressLine1;
     }
 
@@ -134,18 +137,21 @@ public class Rolodex extends KraPersistableBusinessObjectBase implements Contact
     }
 
     public String getAddressLine2() {
-     if(this.sponsorAddressFlag != null) {
+        if(this.sponsorAddressFlag != null) {
             if(this.sponsorAddressFlag) {
-                if (organizationName != null && organizationName.getState() != null)
+                if(sponsor != null && sponsor.getState() != null) {
+                    return sponsor.getState();
+                }
+                else if (sponsorName != null && sponsorName.getState() != null)
                 {
-                    return organizationName.getState();
+                    return sponsorName.getState();
                 }
             }if(!this.sponsorAddressFlag) {
-                if(orgName != null) {
+                if(organizationName != null) {
                     return null; 
                 }
             }
-        }
+        } 
         return addressLine2;
 
     }
@@ -157,15 +163,18 @@ public class Rolodex extends KraPersistableBusinessObjectBase implements Contact
     public String getAddressLine3() {
         if(this.sponsorAddressFlag != null) {
             if(this.sponsorAddressFlag) {
-                if (organizationName != null && organizationName.getCountryCode() != null) {
-                    return organizationName.getCountryCode();
+                if(sponsor != null && sponsor.getCountryCode() != null) {
+                    return sponsor.getCountryCode();
+                }
+                else if (sponsorName != null && sponsorName.getCountryCode() != null) {
+                    return sponsorName.getCountryCode();
                 }
             }if(!this.sponsorAddressFlag) {
-                if(orgName != null){
+                if(organizationName != null){
                     return null; 
                 }
             }
-        }
+        } 
         return addressLine3;
     }
 
@@ -254,6 +263,25 @@ public class Rolodex extends KraPersistableBusinessObjectBase implements Contact
     }
 
     public String getOrganization() {
+        if(this.sponsorAddressFlag != null) {
+            if(this.sponsorAddressFlag){
+                if(sponsor != null && sponsor.getSponsorName() != null) {
+                    return sponsor.getSponsorName();
+                } else if(sponsorName != null){
+                    return organization;
+                }
+                else {
+                    return null;
+                }
+            }
+            if(!this.sponsorAddressFlag) {
+                if(organizationName != null && organizationName.getOrganizationName() != null) {
+                    return organization;
+                } else {
+                    return null;
+                }
+            }
+        }
         return organization;
     }
 
@@ -370,48 +398,50 @@ public class Rolodex extends KraPersistableBusinessObjectBase implements Contact
     }
     
      /**
-     * Sets the organizationName attribute value.
-     * @param organizationName The organizationName to set.
+     * Sets the sponsorName attribute value.
+     * @param sponsorName The sponsorName to set.
      */
-    public void setOrganizationName(Sponsor organizationName) {
-        this.organizationName = organizationName;       
+    public void setSponsorName(Sponsor sponsorName) {
+        this.sponsorName = sponsorName;       
     }
     
     /**
      * Gets the organizationName attribute. 
      * @return Returns the organizationName.
      */
-    public Sponsor getOrganizationName() {
+    public Sponsor getSponsorName() {
         if(this.sponsorAddressFlag != null) {
             if(this.sponsorAddressFlag){
-
-                if (organizationName != null) {
-                    return organizationName; 
-                } else if (sponsorId != null) {
-                    Sponsor organizationName = KraServiceLocator.getService(BusinessObjectService.class).findBySinglePrimaryKey(Sponsor.class, sponsorId);            
-                    return organizationName; 
+                if(sponsor != null){
+                    return sponsor;
                 }
-                return organizationName;
+                else if (sponsorName != null) {
+                    return sponsorName; 
+                } else if (sponsorId != null) {
+                    Sponsor sponsorName = KraServiceLocator.getService(BusinessObjectService.class).findBySinglePrimaryKey(Sponsor.class, sponsorId);            
+                    return sponsorName; 
+                } 
+                return sponsorName;
             }
             else{
                 return null;
             }
-        }
+        } 
         return null;
     }
-    
-    public void setOrgName(Organization orgName) { 
-        this.orgName = orgName;
+
+    public void setOrganizationName(Organization organizationName) { 
+        this.organizationName = organizationName;
     }
     
-    public Organization getOrgName() {
+    public Organization getOrganizationName() {
         if(this.sponsorAddressFlag != null) {
             if(!this.sponsorAddressFlag){
-                if (orgName != null) {
-                    return orgName;
+                if (organizationName != null) {
+                    return organizationName;
                 } else if (organizationId != null) {
-                    Organization orgName = KraServiceLocator.getService(BusinessObjectService.class).findBySinglePrimaryKey(Organization.class, organizationId);            
-                    return orgName;
+                    Organization organizationName = KraServiceLocator.getService(BusinessObjectService.class).findBySinglePrimaryKey(Organization.class, organizationId);            
+                    return organizationName;
                 } 
             }
             else{
@@ -426,8 +456,8 @@ public class Rolodex extends KraPersistableBusinessObjectBase implements Contact
     }
 
     public String getSponsorId() {
-        if (organizationName != null) {
-            return organizationName.getSponsorCode();
+        if (sponsorName != null) {
+            return sponsorName.getSponsorCode();
 
         } else {
             return sponsorId;
@@ -439,8 +469,8 @@ public class Rolodex extends KraPersistableBusinessObjectBase implements Contact
      * @return Returns the organizationId.
      */
     public String getOrganizationId() {
-        if(orgName != null){
-            return orgName.getOrganizationName();
+        if(organizationName != null){
+            return organizationName.getOrganizationName();
         }
         return organizationId;
     }
@@ -452,11 +482,6 @@ public class Rolodex extends KraPersistableBusinessObjectBase implements Contact
     public void setOrganizationId(String organizationId) {
         this.organizationId = organizationId;
     }
-
-    /**
-     * Gets the organizationName attribute. 
-     * @return Returns the organizationName.
-     */
 
     public boolean isActive() {
         return active;
