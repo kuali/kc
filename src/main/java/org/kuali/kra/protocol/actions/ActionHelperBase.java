@@ -3439,6 +3439,8 @@ public abstract class ActionHelperBase implements Serializable {
         for (Map.Entry<String, ProtocolActionBean> entry: actionBeanTaskMap.entrySet()) {
             if (entry.getValue() instanceof ProtocolRequestBean) {
                 ProtocolRequestBean bean = (ProtocolRequestBean) entry.getValue();
+                //set the protocol in case the request bean had an old protocol without the protocol number
+                bean.getQuestionnaireHelper().setProtocol(getProtocol());
                 bean.getQuestionnaireHelper().populateAnswers();
                 bean.getQuestionnaireHelper().resetHeaderLabels();
             }
