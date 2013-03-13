@@ -13,15 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.proposaldevelopment.service;
+package org.kuali.kra.krms.service;
 
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+
+import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.rice.krms.api.engine.Facts;
 
-public interface ProposalDevelopmentFactBuilderService {
+public interface KcKrmsFactBuilderService {
     
     public void addFacts(Facts.Builder factsBuilder, String docContent);
     
-    public void addFacts(Facts.Builder factsBuilder, ProposalDevelopmentDocument proposalDevelopmentDocument);
+    public void addFacts(Facts.Builder factsBuilder, ResearchDocumentBase document);
 
 }

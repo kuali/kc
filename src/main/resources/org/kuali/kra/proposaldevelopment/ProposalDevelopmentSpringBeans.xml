@@ -215,6 +215,9 @@
     <bean id="ynqService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="ynqService" />
     </bean>
+    <bean id="kcKrmsJavaFunctionTermService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="kcKrmsJavaFunctionTermService"/>
+    </bean>
     
     <bean id="parentLookupableHelperService" abstract="true">
         <property name="persistenceStructureService" ref="persistenceStructureService" />
@@ -844,10 +847,14 @@
 	</bean>
 	
 	<bean id="proposalDevelopmentFactBuilderService" class="org.kuali.kra.proposaldevelopment.service.impl.ProposalDevelopmentFactBuilderServiceImpl">
-		 <property name="businessObjectService" ref="businessObjectService" />
-		  <property name="argValueLookupService" ref="argValueLookupService" />
 		  <property name="documentService" ref="documentService" />
 	</bean>
+    <bean id="propDevJavaFunctionKrmsTermService" class="org.kuali.kra.proposaldevelopment.service.impl.PropDevJavaFunctionKrmsTermServiceImpl">
+    	<property name="businessObjectService" ref="businessObjectService" />
+    	<property name="unitService" ref="unitService" />
+    	<property name="parameterService" ref="parameterService" />
+    	<property name="documentService" ref="documentService" />
+    </bean>
 
     <bean id="countryService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="countryService" />

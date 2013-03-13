@@ -276,6 +276,9 @@
     <bean id="termRepositoryService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="termRepositoryService" />
     </bean>
+    <bean id="krmsCacheAdminService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="krmsCacheAdminService" />
+    </bean>
 
     <bean id="parentLookupableHelperService" abstract="true">
         <property name="persistenceStructureService" ref="persistenceStructureService" />
@@ -949,27 +952,6 @@
     <bean id="storedFunctionDao" class="org.kuali.kra.dao.ojb.StoredFunctionDao">
         <property name="dataSource" ref="dataSource" />
     </bean>
-    <bean id="kcKrmsJavaFunctionTermService" class="org.kuali.kra.krms.service.impl.KcKrmsJavaFunctionTermServiceBase" abstract="true">
-    	<property name="businessObjectService" ref="businessObjectService" />
-    	<property name="unitService" ref="unitService" />
-    	<property name="parameterService" ref="parameterService" />
-    	<property name="documentService" ref="documentService" />
-    </bean>
-    <bean id="krmsPropDevJavaFunctionTermService" class="org.kuali.kra.proposaldevelopment.service.impl.KrmsPropDevJavaFunctionTermServiceImpl"
-    																	parent="kcKrmsJavaFunctionTermService">
-    </bean>
-    <bean id="krmsIrbJavaFunctionTermService" class="org.kuali.kra.irb.KrmsIrbJavaFunctionTermServiceImpl"
-    																	parent="kcKrmsJavaFunctionTermService">
-    </bean>
-    <bean id="krmsPropDevJavaFunctionTermServiceCallback" parent="kcCallbackService"
-      p:callbackService-ref="krmsPropDevJavaFunctionTermService"
-      p:localServiceName="krmsPropDevJavaFunctionTermService"
-      p:serviceInterface="org.kuali.rice.krms.framework.type.TermResolverTypeService"/>
-    
-    <bean id="krmsIrbJavaFunctionTermServiceCallback" parent="kcCallbackService"
-      p:callbackService-ref="krmsIrbJavaFunctionTermService"
-      p:localServiceName="krmsIrbJavaFunctionTermService"
-      p:serviceInterface="org.kuali.rice.krms.framework.type.TermResolverTypeService"/>
     
     <bean id="kcPeopleFlowTypeService" class="org.kuali.kra.krms.service.KcPeopleFlowTypeService">
     </bean>

@@ -970,10 +970,6 @@
         <property name="questionnaireAnswerService" ref="questionnaireAnswerService" />
     </bean>
     
-    <bean id="iacucProtocolFactBuilderService" class="org.kuali.kra.iacuc.rules.IacucProtocolFactBuilderServiceImpl">
-         <property name="businessObjectService" ref="businessObjectService" />
-          <property name="documentService" ref="documentService" />
-    </bean>
     <bean id="iacucProtocolActionTypeToCorrespondenceTemplateService" class="org.kuali.kra.iacuc.actions.correspondence.IacucProtocolActionTypeToCorrespondenceTemplateServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
     </bean>
@@ -1146,5 +1142,17 @@
          <property name="protocolXmlStream" ref="iacucProtocolXmlStream" />
          <property name="committeeXmlStream" ref="iacucCommitteeXmlStream" />
     </bean>
+
+ 	<bean id="iacucProtocolFactBuilderService" class="org.kuali.kra.iacuc.IacucProtocolFactBuilderServiceImpl">
+          <property name="documentService" ref="documentService" />
+    </bean>
+    <bean id="iacucJavaFunctionKrmsTermService" class="org.kuali.kra.iacuc.IacucJavaFunctionKrmsTermServiceImpl">
+    	<property name="businessObjectService" ref="businessObjectService" />
+    	<property name="unitService" ref="unitService" />
+    	<property name="parameterService" ref="parameterService" />
+    	<property name="documentService" ref="documentService" />
+        <property name="kcPersonService" ref="kcPersonService" />
+    </bean>
+
 
 </beans>

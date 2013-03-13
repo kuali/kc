@@ -1018,10 +1018,19 @@
 		p:callbackService-ref="irbCorrespondentDerivedRoleTypeService" 
 		p:localServiceName="irbCorrespondentDerivedRoleTypeService" 
 		p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService"/>
-	
-	<bean id="irbProtocolFactBuilderService" class="org.kuali.kra.irb.rules.IrbProtocolFactBuilderServiceImpl">
-         <property name="businessObjectService" ref="businessObjectService" />
+		
+		
+    <bean id="protocolJavaFunctionKrmsTermService" class="org.kuali.kra.protocol.ProtocolJavaFunctionKrmsTermServiceBase" abstract="true">
+    	<property name="businessObjectService" ref="businessObjectService" />
+    	<property name="unitService" ref="unitService" />
+    	<property name="parameterService" ref="parameterService" />
+    	<property name="documentService" ref="documentService" />
+        <property name="kcPersonService" ref="kcPersonService" />
+    </bean>
+	<bean id="irbProtocolFactBuilderService" class="org.kuali.kra.irb.IrbProtocolFactBuilderServiceImpl">
           <property name="documentService" ref="documentService" />
+    </bean>
+    <bean id="irbJavaFunctionKrmsTermService" class="org.kuali.kra.irb.IrbJavaFunctionKrmsTermServiceImpl" parent="protocolJavaFunctionKrmsTermService">
     </bean>
 
     <bean id="protocolProposalDevelopmentDocumentService" class="org.kuali.kra.irb.protocol.funding.impl.ProtocolProposalDevelopmentDocumentServiceImpl">
