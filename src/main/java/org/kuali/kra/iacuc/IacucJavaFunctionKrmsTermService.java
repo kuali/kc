@@ -13,14 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.iacuc.rules;
+package org.kuali.kra.iacuc;
 
-import org.kuali.kra.iacuc.IacucProtocolDocument;
-import org.kuali.kra.krms.service.KcFactBuilderService;
-import org.kuali.rice.krms.api.engine.Facts;
+import org.kuali.kra.protocol.ProtocolJavaFunctionKrmsTermService;
 
-public interface IacucProtocolFactBuilderService extends KcFactBuilderService {
-    
-    void addFacts(Facts.Builder factsBuilder, IacucProtocolDocument protocolDocument);
+
+public interface IacucJavaFunctionKrmsTermService extends ProtocolJavaFunctionKrmsTermService{
 
 }

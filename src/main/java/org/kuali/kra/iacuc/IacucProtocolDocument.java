@@ -36,10 +36,10 @@ import org.kuali.kra.iacuc.notification.IacucProtocolNotificationContext;
 import org.kuali.kra.iacuc.notification.IacucProtocolNotificationRenderer;
 import org.kuali.kra.iacuc.protocol.location.IacucProtocolLocationService;
 import org.kuali.kra.iacuc.protocol.research.IacucProtocolResearchAreaService;
-import org.kuali.kra.iacuc.rules.IacucProtocolFactBuilderService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.krms.KcKrmsConstants;
+import org.kuali.kra.krms.service.KcKrmsFactBuilderService;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.protocol.ProtocolFinderDao;
@@ -196,7 +196,7 @@ public class IacucProtocolDocument extends ProtocolDocumentBase {
 
     @Override
     public void addFacts(Builder factsBuilder) {
-        IacucProtocolFactBuilderService fbService = KraServiceLocator.getService(IacucProtocolFactBuilderService.class);
+        KcKrmsFactBuilderService fbService = KraServiceLocator.getService("iacucProtocolFactBuilderService");
         fbService.addFacts(factsBuilder, this);
     }
 
