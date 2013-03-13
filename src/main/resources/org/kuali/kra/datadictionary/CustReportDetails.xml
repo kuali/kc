@@ -23,7 +23,7 @@
 				<ref bean="CustReportDetails-reportDescription" />
 				<ref bean="CustReportDetails-reportTypeCode" />
 				<ref bean="CustReportDetails-custReportType.reportTypeCode" />
-				<ref bean="CustReportDetails-rightRequired" />
+				<ref bean="CustReportDetails-permissionBo.name" />
 				<ref bean="CustReportDetails-templateFile" />
 			</list>
 		</property>
@@ -130,24 +130,12 @@
 		<property name="description" value="Report Type Code" />
 	</bean>
 
-	<bean id="CustReportDetails-rightRequired" parent="CustReportDetails-rightRequired-parentBean" />
-	<bean id="CustReportDetails-rightRequired-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="name" value="rightRequired" />
-		<property name="forceUppercase" value="false" />
-		<property name="label" value="Right Required" />
-		<property name="shortLabel" value="Right Required" />
-		<property name="maxLength" value="30" />
-		<property name="validationPattern">
-			<bean parent="AlphaNumericValidationPattern" p:allowWhitespace="true" />
+<bean id="CustReportDetails-permissionBo.name" parent="CustReportDetails-permissionBo.name-parentBean" />
+	<bean id="CustReportDetails-permissionBo.name-parentBean" abstract="true" parent="PermissionBo-name"
+		p:name="name" p:label="Permission Name" p:shortLabel="Permission Name">
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="40" />
 		</property>
-		<property name="required" value="false" />
-		<property name="control" >
-      <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kra.reporting.lookup.keyvalue.CustReportRightRequiredValuesFinder" />
-    </property>
-		<property name="summary" value="Right Required" />
-		<property name="description" value="Right Required" />
 	</bean>
 
 	<bean id="FileControlDefinition"
@@ -198,8 +186,8 @@
 							<bean parent="FieldDefinition" p:attributeName="custReportType.reportTypeCode"
 								p:forceInquiry="true" />
 							<bean parent="FieldDefinition" p:attributeName="reportTypeCode" />
-
-							<bean parent="FieldDefinition" p:attributeName="rightRequired" />
+							<bean p:attributeName="permissionBo.name" parent="FieldDefinition"
+					p:forceInquiry="true" />
 						</list>
 					</property>
 				</bean>
@@ -228,8 +216,8 @@
 					p:forceInquiry="false" />
 				<bean p:attributeName="reportTypeCode" parent="FieldDefinition"
 					p:forceInquiry="true" />
-				<bean p:attributeName="rightRequired" parent="FieldDefinition"
-					p:forceInquiry="false" />
+				<bean p:attributeName="name" parent="FieldDefinition"
+					p:forceInquiry="false" /> 
 			</list>
 		</property>
 		<property name="resultFields">
@@ -240,8 +228,8 @@
 					p:forceInquiry="false" />
 				<bean p:attributeName="reportTypeCode" parent="FieldDefinition"
 					p:forceInquiry="true" />
-				<bean p:attributeName="rightRequired" parent="FieldDefinition"
-					p:forceInquiry="false" />
+				 <bean p:attributeName="name" parent="FieldDefinition"
+					p:forceInquiry="false" /> 
 			</list>
 		</property>
 		<property name="resultSetLimit" value="50" />

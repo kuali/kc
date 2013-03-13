@@ -41,8 +41,8 @@ public class RolodexMaintainableImpl extends KraMaintainableImpl {
     public static final String AUTO_GEN_ROLODEX_ID_PARM = "AUTO_GENERATE_NON_EMPLOYEE_ID";
     public static final String SECTION_ID = "Edit Address Book";
     public static final String ROLODEX_ID_NAME = "rolodexId";
-    public static final String SPONSOR__NAME = "organizationName.sponsorName";
-    public static final String ORGANIZATION_NAME = "orgName.organizationName";
+    public static final String SPONSOR__NAME = "sponsorName.sponsorName";
+    public static final String ORGANIZATION_NAME = "organizationName.organizationName";
     public static final String ORGANIZATION = "organization";
     
     private transient ParameterService parameterService;
@@ -135,13 +135,13 @@ public class RolodexMaintainableImpl extends KraMaintainableImpl {
     public void prepareForSave() {
         super.prepareForSave();
         Rolodex rolodex = (Rolodex) getBusinessObject();
-        if (rolodex != null && rolodex.getOrganizationName() != null && rolodex.getOrganizationName().getSponsorName() != null) {
-            rolodex.setOrganization(rolodex.getOrganizationName().getSponsorName());
-            rolodex.setSponsorId(rolodex.getOrganizationName().getSponsorCode());
+        if (rolodex != null && rolodex.getSponsorName() != null && rolodex.getSponsorName().getSponsorName() != null) {
+            rolodex.setOrganization(rolodex.getSponsorName().getSponsorName());
+            rolodex.setSponsorId(rolodex.getSponsorName().getSponsorCode());
         }
-        if(rolodex !=null && rolodex.getOrgName() != null && rolodex.getOrgName().getOrganizationName() != null){
-            rolodex.setOrganization(rolodex.getOrgName().getOrganizationName());
-            rolodex.setOrganizationId(rolodex.getOrgName().getOrganizationId());
+        if(rolodex !=null && rolodex.getOrganizationName() != null && rolodex.getOrganizationName().getOrganizationName() != null){
+            rolodex.setOrganization(rolodex.getOrganizationName().getOrganizationName());
+            rolodex.setOrganizationId(rolodex.getOrganizationName().getOrganizationId());
         }
     }
     
