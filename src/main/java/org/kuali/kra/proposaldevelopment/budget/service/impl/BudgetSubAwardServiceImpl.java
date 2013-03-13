@@ -493,8 +493,12 @@ public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
                     directCostNode = XPathAPI.selectSingleNode(budgetYear, "DirectCosts");
                     indirectCostNode = XPathAPI.selectSingleNode(budgetYear, "IndirectCosts/TotalIndirectCosts");
                 }
-                periodDetail.setDirectCost(new BudgetDecimal(Float.parseFloat(directCostNode.getTextContent())));
-                periodDetail.setIndirectCost(new BudgetDecimal(Float.parseFloat(indirectCostNode.getTextContent())));
+                if (directCostNode != null) {
+                    periodDetail.setDirectCost(new BudgetDecimal(Float.parseFloat(directCostNode.getTextContent())));
+                }
+                if (indirectCostNode != null) {
+                    periodDetail.setIndirectCost(new BudgetDecimal(Float.parseFloat(indirectCostNode.getTextContent())));
+                }
                 if (costShareNode != null) {
                     periodDetail.setCostShare(new BudgetDecimal(Float.parseFloat(costShareNode.getTextContent())));
                 } else {
