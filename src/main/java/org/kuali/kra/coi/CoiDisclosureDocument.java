@@ -21,12 +21,12 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.DocumentCustomData;
-import org.kuali.kra.coi.rules.CoiDisclosureFactBuilderService;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.krms.KcKrmsConstants;
 import org.kuali.kra.krms.KrmsRulesContext;
+import org.kuali.kra.krms.service.KcKrmsFactBuilderService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.COMPONENT;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.NAMESPACE;
@@ -131,7 +131,7 @@ public class CoiDisclosureDocument extends ResearchDocumentBase implements Copya
     }
     
     public void addFacts(Facts.Builder factsBuilder) {
-        CoiDisclosureFactBuilderService fbService = KraServiceLocator.getService(CoiDisclosureFactBuilderService.class);
+        KcKrmsFactBuilderService fbService = KraServiceLocator.getService("coiDisclosureFactBuilderService");
         fbService.addFacts(factsBuilder, this);
     }
     

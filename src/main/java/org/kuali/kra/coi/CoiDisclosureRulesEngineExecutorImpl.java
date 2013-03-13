@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.iacuc.rules;
+package org.kuali.kra.coi;
 
 import java.io.ByteArrayInputStream;
 import java.util.Collections;
@@ -26,6 +26,7 @@ import javax.xml.xpath.XPathConstants;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.krms.KcKrmsConstants;
+import org.kuali.kra.krms.service.KcKrmsFactBuilderService;
 import org.kuali.rice.core.api.exception.RiceRuntimeException;
 import org.kuali.rice.core.api.util.xml.XmlHelper;
 import org.kuali.rice.kew.engine.RouteContext;
@@ -37,21 +38,21 @@ import org.kuali.rice.krms.api.engine.Facts;
 import org.kuali.rice.krms.api.engine.SelectionCriteria;
 import org.w3c.dom.Document;
 
-public class IacucProtocolRulesEngineExecutorImpl implements RulesEngineExecutor {
+public class CoiDisclosureRulesEngineExecutorImpl implements RulesEngineExecutor {
     
     public EngineResults execute(RouteContext routeContext, Engine engine) {
         Map<String, String> contextQualifiers = new HashMap<String, String>();
-        contextQualifiers.put("namespaceCode", Constants.MODULE_NAMESPACE_IACUC);
-        contextQualifiers.put("name", KcKrmsConstants.IacucProtocol.IACUC_PROTOCOL_CONTEXT);
+        contextQualifiers.put("namespaceCode", Constants.MODULE_NAMESPACE_COIDISCLOSURE);
+        contextQualifiers.put("name", KcKrmsConstants.CoiDisclosure.COI_DISCLOSURE_CONTEXT);
 
         // extract facts from routeContext
         String docContent = routeContext.getDocument().getDocContent();
-        String unitNumber = getElementValue(docContent, "//leadUnitNumber");
+        String unitNumber = getElementValue(docContent, "//document/coiDisclosureList[1]/org.kuali.kra.coi.CoiDisclosure[1]/disclosurePersons[1]/org.kuali.kra.coi.disclosure.DisclosurePerson[1]/disclosurePersonUnits[1]/org.kuali.kra.coi.disclosure.DisclosurePersonUnit[1]/unitNumber[1]");
         
         SelectionCriteria selectionCriteria = SelectionCriteria.createCriteria(null, contextQualifiers,
                 Collections.singletonMap("Unit Number", unitNumber));
 
-        IacucProtocolFactBuilderService fbService = KraServiceLocator.getService(IacucProtocolFactBuilderService.class);
+        KcKrmsFactBuilderService fbService = KraServiceLocator.getService("coiDisclosureFactBuilderService");
         Facts.Builder factsBuilder = Facts.Builder.create();
         fbService.addFacts(factsBuilder, docContent);
         EngineResults results = engine.execute(selectionCriteria, factsBuilder.build(), null);

@@ -13,14 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.irb.rules;
+package org.kuali.kra.irb;
 
-import org.kuali.kra.irb.ProtocolDocument;
-import org.kuali.kra.krms.service.KcFactBuilderService;
-import org.kuali.rice.krms.api.engine.Facts;
+import org.kuali.kra.protocol.ProtocolJavaFunctionKrmsTermService;
 
-public interface IrbProtocolFactBuilderService extends KcFactBuilderService {
+
+public interface IrbJavaFunctionKrmsTermService extends ProtocolJavaFunctionKrmsTermService{
+
+    /**
+     * 
+     * This method check if the protocol subject types contains a specified subject type.
+     * @param irbProtocol
+     * @param subjectTypeCode
+     * @return
+     */
+    public Boolean hasProtocolContainsSubjectType(Protocol irbProtocol,String subjectTypeCode);
     
-    void addFacts(Facts.Builder factsBuilder, ProtocolDocument protocolDocument);
-
 }

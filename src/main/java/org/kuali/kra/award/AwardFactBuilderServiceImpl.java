@@ -21,19 +21,22 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 
 import org.kuali.kra.award.document.AwardDocument;
+import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.CoeusModule;
+import org.kuali.kra.document.ResearchDocumentBase;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.krms.KcKrmsConstants;
+import org.kuali.kra.krms.service.impl.KcKrmsFactBuilderServiceHelper;
 import org.kuali.rice.core.api.exception.RiceRuntimeException;
 import org.kuali.rice.core.api.util.xml.XmlHelper;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.rule.xmlrouting.XPathHelper;
-import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krms.api.engine.Facts;
 import org.w3c.dom.Document;
 
-public class AwardFactBuilderServiceImpl implements AwardFactBuilderService {
+public class AwardFactBuilderServiceImpl extends KcKrmsFactBuilderServiceHelper {
     
-    private BusinessObjectService businessObjectService;
     private DocumentService documentService;
     
     public void addFacts(Facts.Builder factsBuilder, String docContent) {
@@ -46,15 +49,14 @@ public class AwardFactBuilderServiceImpl implements AwardFactBuilderService {
         }
     }
     
-    public void addFacts(Facts.Builder factsBuilder, AwardDocument awardDocument) {
-        
-        // Functions
-        // Award document type
-        // Signature required
-    
+    public void addFacts(Facts.Builder factsBuilder, ResearchDocumentBase researchDocument) {
+        AwardDocument awardDocument = (AwardDocument)researchDocument;
+        Award award = awardDocument.getAward();
+        addObjectMembersAsFacts(factsBuilder,award,KcKrmsConstants.Award.AWARD_CONTEXT_ID,Constants.MODULE_NAMESPACE_AWARD);
+        factsBuilder.addFact(KcKrmsConstants.Award.AWARD, award);
         // Questionnaire Prereqs
         factsBuilder.addFact("moduleCode", CoeusModule.AWARD_MODULE_CODE);
-        factsBuilder.addFact("moduleItemKey", awardDocument.getAward().getAwardNumber());
+        factsBuilder.addFact("moduleItemKey", award.getAwardNumber());
     }
     
     protected String getElementValue(String docContent, String xpathExpression) {
@@ -67,16 +69,8 @@ public class AwardFactBuilderServiceImpl implements AwardFactBuilderService {
             return value;
 
         } catch (Exception e) {
-            throw new RiceRuntimeException();
+            throw new RiceRuntimeException(e);
         }
-    }
-
-    public BusinessObjectService getBusinessObjectService() {
-        return businessObjectService;
-    }
-
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
     }
 
     public DocumentService getDocumentService() {
