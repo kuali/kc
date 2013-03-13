@@ -284,6 +284,15 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
         }
         return null;
     }
+    
+    public String getFinalrateClassCode() {
+        String retVal = "";
+        Budget finalBudget =  getFinalBudgetForThisProposal();
+        if (finalBudget != null && finalBudget.getRateClass().getRateClassCode() != null) {
+            retVal = finalBudget.getRateClass().getRateClassCode();
+        }
+        return retVal;
+    }
 
 
     public String getDocumentTypeCode() {
