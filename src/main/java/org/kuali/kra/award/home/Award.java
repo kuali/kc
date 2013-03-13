@@ -2516,7 +2516,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
      * @see org.kuali.kra.common.permissions.Permissionable#getDocumentNumberForPermission()
      */
     public String getDocumentNumberForPermission() {
-        return awardNumber;
+        return awardId != null ? awardId.toString() : "";
     }
 
     /**

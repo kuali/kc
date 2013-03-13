@@ -45,38 +45,8 @@ public class UnitHierarchyRoleTypeServiceImpl extends RoleTypeServiceBase {
         this.unitService = unitService;
     }
     
-    protected boolean roleQualifiedByAwardKey(Map<String,String> roleQualifier) {
-        return roleQualifier.containsKey(KcKimAttributes.AWARD);
-    }
-    
-    protected boolean roleQualifiedByTimeAndMoneyKey(Map<String,String> roleQualifier) {
-        return roleQualifier.containsKey(KcKimAttributes.TIMEANDMONEY);
-    }
-
-    protected boolean performWildCardAwardMatching(Map<String,String> qualification, Map<String,String> roleQualifier) {
-        String awardKeyFromroleQualifier = roleQualifier.get(KcKimAttributes.AWARD);
-        String awardKeyFromroleQualification = qualification.get(KcKimAttributes.AWARD);
-        
-        if(StringUtils.isNotEmpty(awardKeyFromroleQualification) && awardKeyFromroleQualifier.startsWith(awardKeyFromroleQualification)) {
-            return true;
-        }
-        //If necessary, we can include logic for other pattern matching later.
-        //Not found necessary at this time.
-        return false;
-    }
-    
     @Override
-    public boolean performMatch(Map<String,String> qualification, Map<String,String> roleQualifier) {
-        //Temp AuthZ fix for Awards Module
-        if(roleQualifiedByAwardKey(roleQualifier)) {
-            return (qualification.containsKey(KcKimAttributes.AWARD) && StringUtils.equals(qualification.get(KcKimAttributes.AWARD), 
-                    roleQualifier.get(KcKimAttributes.AWARD)) || performWildCardAwardMatching(qualification, roleQualifier)); 
-        } else if(roleQualifiedByTimeAndMoneyKey(roleQualifier)) {
-            return (qualification.containsKey(KcKimAttributes.TIMEANDMONEY) && StringUtils.equals(qualification.get(KcKimAttributes.TIMEANDMONEY), 
-                    roleQualifier.get(KcKimAttributes.TIMEANDMONEY)));
-        } 
-       //Temp AuthZ fix Ends here
-        
+    public boolean performMatch(Map<String,String> qualification, Map<String,String> roleQualifier) {        
         if (roleQualifiedByUnitHierarchy(roleQualifier) && qualification.containsKey(KcKimAttributes.UNIT_NUMBER)) {
             return (performWildCardMatching(qualification, roleQualifier) || unitQualifierMatches(qualification, roleQualifier) || unitQualifierMatchesHierarchy(qualification, roleQualifier));
         }
@@ -87,9 +57,7 @@ public class UnitHierarchyRoleTypeServiceImpl extends RoleTypeServiceBase {
     @Override
     public List<RemotableAttributeError> validateAttributes(String kimTypeId, Map<String, String> attributes) { 
         List<RemotableAttributeError> validationErrors = new ArrayList<RemotableAttributeError>();
-        if(roleQualifiedByAwardKey(attributes) || roleQualifiedByTimeAndMoneyKey(attributes)) {
-            return validationErrors;
-        } else if(roleQualifiedByUnitHierarchy(attributes) && attributes.containsKey(KcKimAttributes.UNIT_NUMBER)) {
+        if(roleQualifiedByUnitHierarchy(attributes) && attributes.containsKey(KcKimAttributes.UNIT_NUMBER)) {
             validationErrors = super.validateAttributes(kimTypeId, attributes);
         }
         
