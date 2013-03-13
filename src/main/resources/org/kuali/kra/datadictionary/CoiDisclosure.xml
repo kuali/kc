@@ -198,13 +198,13 @@
         <property name="forceUppercase" value="false" />
         <property name="label" value="Certified By" />
         <property name="shortLabel" value="Certified By" />
-        <property name="maxLength" value="20" />
+        <property name="maxLength" value="200" />
         <property name="validationPattern" >
             <bean parent="AlphaNumericValidationPattern" />
         </property>
         <property name="control" >
             <bean parent="TextControlDefinition"
-                p:size="10" />
+                p:size="20" />
         </property>
         <property name="summary" value="Certified By" />
         <property name="description" value="Certified By" />
