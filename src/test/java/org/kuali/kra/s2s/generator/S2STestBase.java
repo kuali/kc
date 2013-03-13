@@ -68,7 +68,9 @@ public abstract class S2STestBase<T> extends KcUnitTestBase {
         generatorObject.setAttachments(new ArrayList<AttachmentData>());
         XmlObject object=generatorObject.getFormObject(document);
         getService(S2SValidatorService.class).validate(generatorObject.getFormObject(document), errors);
-        assertTrue(errors.isEmpty());
+        for (AuditError auditError : errors) {
+            assertNotNull(auditError.getMessageKey()+":"+auditError.getErrorKey(),auditError.getErrorKey());
+        }
     }
 
     private void saveProposalDocument(ProposalDevelopmentDocument pd) throws Exception {
