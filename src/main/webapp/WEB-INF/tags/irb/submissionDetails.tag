@@ -44,7 +44,9 @@
 
                                             <td align="left" valign="middle" width="80%">
                                                 <div align="left">
-                                                    <kul:htmlControlAttribute property="actionHelper.selectedSubmission.committee.committeeName" attributeEntry="${committeeAttributes.committeeName}" readOnly="true"/>
+                                                	<c:if test="${KualiForm.actionHelper.selectedSubmission.committee != null}">
+                                                    	<kul:htmlControlAttribute property="actionHelper.selectedSubmission.committee.committeeName" attributeEntry="${committeeAttributes.committeeName}" readOnly="true"/>
+                                                    </c:if>&nbsp;
                                                 </div>
                                             </td>
                                         </tr>
@@ -55,7 +57,9 @@
 
                                             <td align="left" valign="middle" width="80%">
                                                 <div align="left">
-                                                    <kul:htmlControlAttribute property="actionHelper.selectedSubmission.committeeSchedule.scheduledDate" attributeEntry="${committeeScheduleAttributes.scheduledDate}" readOnly="true"/>
+                                                	<c:if test="${KualiForm.actionHelper.selectedSubmission.committeeSchedule != null}">
+                                                    	<kul:htmlControlAttribute property="actionHelper.selectedSubmission.committeeSchedule.scheduledDate" attributeEntry="${committeeScheduleAttributes.scheduledDate}" readOnly="true"/>
+                                                    </c:if>&nbsp;
                                                 </div>
                                             </td>
                                         </tr>
