@@ -16,7 +16,8 @@
 			<routingVersion>2</routingVersion>
 			<routePaths>
 				<routePath>
-					<start name="Initiated" nextNode="COIReview" />
+					<start name="Initiated" nextNode="PeopleFlows" />
+                    <requests name="PeopleFlows" nextNode="COIReview" />
 					<requests name="COIReview" /> 
 				</routePath>
 			</routePaths>
@@ -26,6 +27,10 @@
 					<mandatoryRoute>false</mandatoryRoute>
 					<finalApproval>false</finalApproval>
 				</start>
+                <requests name="PeopleFlows">
+                    <activationType>R</activationType>
+                    <rulesEngine executorClass="org.kuali.kra.coi.CoiDisclosureRulesEngineExecutorImpl"/>
+                </requests>
 				<role name="COIReview">
 					<qualifierResolver>CoiDisclosureApprover-XPathQualifierResolver</qualifierResolver>
                     <activationType>P</activationType>
