@@ -20,8 +20,7 @@ import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 /**
  * This interface is to declare all methods which are used as KRMS Terms in KC
  */
-public interface KrmsPropDevJavaFunctionTermService {
-    public String specifiedGGForm(DevelopmentProposal developmentProposal,String formName);
+public interface PropDevJavaFunctionKrmsTermService {
     public String multiplePI(DevelopmentProposal developmentProposal);
     public String s2sBudgetRule(DevelopmentProposal developmentProposal, String formNames);
     public String monitoredSponsorRule(DevelopmentProposal developmentProposal, String monitoredSponsorHirearchies);
@@ -39,7 +38,13 @@ public interface KrmsPropDevJavaFunctionTermService {
     public String proposalLeadUnitInHierarchy(DevelopmentProposal developmentProposal, String unitNumberToCheck);
     public String s2sSubawardRule(DevelopmentProposal developmentProposal, String rrFormNames, String phsFromNames);
     public String proposalGrantsRule(DevelopmentProposal developmentProposal);
-    public String narrativeTypeRule(DevelopmentProposal developmentProposal);    
+    public String narrativeTypeRule(DevelopmentProposal developmentProposal,String narrativeTypeCode);
+    public String s2s398CoverRule(DevelopmentProposal developmentProposal, String PHSCoverLetters, String narrativeTypeCode);
+    public String narrativeFileName(DevelopmentProposal developmentProposal);
+    public String costElementInVersion(DevelopmentProposal developmentProposal, String versionNumber, String costElement);
+    public String investigatorKeyPersonCertificationRule(DevelopmentProposal developmentProposal);
+    
+    public Boolean specifiedGGForm(DevelopmentProposal developmentProposal,String formName);
     public String leadUnitRule(DevelopmentProposal developmentProposal, String unitNumber);
     public String sponsorGroupRule(DevelopmentProposal developmentProposal, String sponsorGroup);
     public String proposalAwardTypeRule(DevelopmentProposal developmentProposal, Integer awardTypeCode);
@@ -62,9 +67,5 @@ public interface KrmsPropDevJavaFunctionTermService {
     public String attachmentFileNameRule(DevelopmentProposal developmentProposal);
     public String mtdcDeviationInVersion(DevelopmentProposal developmentProposal, String versionNumber);
     public String proposalTypeRule(DevelopmentProposal developmentProposal, String proposalTypeCode);
-    public String s2s398CoverRule(DevelopmentProposal developmentProposal, String PHSCoverLetters, String narrativeTypeCode);
-    public String narrativeFileName(DevelopmentProposal developmentProposal);
-    public String costElementInVersion(DevelopmentProposal developmentProposal, String versionNumber, String costElement);
-    public String investigatorKeyPersonCertificationRule(DevelopmentProposal developmentProposal);
     public String incompleteNarrativeRule(DevelopmentProposal developmentProposal);
 }

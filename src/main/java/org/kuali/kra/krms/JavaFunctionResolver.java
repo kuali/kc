@@ -39,7 +39,7 @@ public class JavaFunctionResolver extends FunctionTermResolver{
         setFunctionTerm(functionTerm);
     }
 
-    protected String executeFunction(String serviceName,String methodName,Map<String, Object> resolvedPrereqs,Map<String,String> resolvedParameters) {
+    protected Object executeFunction(String serviceName,String methodName,Map<String, Object> resolvedPrereqs,Map<String,String> resolvedParameters) {
         List<Object> orderedParamValues = extractParamValues(resolvedPrereqs,resolvedParameters);
         if(serviceName==null)
             throw new RuntimeException("Service name is not defined for the term:"+getOutput());
@@ -47,7 +47,7 @@ public class JavaFunctionResolver extends FunctionTermResolver{
     }
     
     @SuppressWarnings("rawtypes")
-    private String callFunction(String serviceName, String methodName,List<Object> orderedParamValues) {
+    private Object callFunction(String serviceName, String methodName,List<Object> orderedParamValues) {
         try {
             Class[] classtypes = new Class[orderedParamValues.size()];
             for (int i = 0; i < orderedParamValues.size(); i++) {
@@ -57,7 +57,7 @@ public class JavaFunctionResolver extends FunctionTermResolver{
             Object javaFucntionService = KraServiceLocator.getService(serviceName);
             Class javaFucntionServiceClass = javaFucntionService.getClass();
             Method method = javaFucntionServiceClass.getMethod(methodName, classtypes);
-            return (String)method.invoke(javaFucntionService,orderedParamValues.toArray());
+            return method.invoke(javaFucntionService,orderedParamValues.toArray());
         }catch (Exception e) {
             LOG.error(e.getMessage(), e);
             throw new RuntimeException(e);
