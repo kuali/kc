@@ -392,7 +392,7 @@
         scope="prototype" parent="parentLookupableHelperService">
     </bean>
     
-    <bean id="coiDisclosureFactBuilderService" class="org.kuali.kra.coi.rules.CoiDisclosureFactBuilderServiceImpl">
+    <bean id="coiDisclosureFactBuilderService" class="org.kuali.kra.coi.CoiDisclosureFactBuilderServiceImpl">
          <property name="businessObjectService" ref="businessObjectService" />
           <property name="documentService" ref="documentService" />
     </bean>

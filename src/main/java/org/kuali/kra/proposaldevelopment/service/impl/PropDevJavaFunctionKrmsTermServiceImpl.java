@@ -16,7 +16,7 @@
 package org.kuali.kra.proposaldevelopment.service.impl;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,21 +43,15 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.questionnaire.ProposalPersonModuleQuestionnaireBean;
-import org.kuali.kra.proposaldevelopment.service.KrmsPropDevJavaFunctionTermService;
+import org.kuali.kra.proposaldevelopment.service.PropDevJavaFunctionKrmsTermService;
 import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
 import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwards;
-import org.kuali.kra.questionnaire.answer.Answer;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.kra.s2s.bo.S2sOppForms;
-import org.kuali.kra.service.UnitService;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.service.DocumentService;
 
-import com.google.common.collect.Lists;
 
-public class KrmsPropDevJavaFunctionTermServiceImpl extends KcKrmsJavaFunctionTermServiceBase implements KrmsPropDevJavaFunctionTermService {
+public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTermServiceBase implements PropDevJavaFunctionKrmsTermService {
     /**
      * 
      * This method checks if the formName is included in the given proposal
@@ -65,7 +59,7 @@ public class KrmsPropDevJavaFunctionTermServiceImpl extends KcKrmsJavaFunctionTe
      * @return 'true' if true
      */
     @Override
-    public String specifiedGGForm(DevelopmentProposal developmentProposal, String formNames) {
+    public Boolean specifiedGGForm(DevelopmentProposal developmentProposal, String formNames) {
         String[] formNamesArray = buildArrayFromCommaList(formNames);
         developmentProposal.refreshReferenceObject("s2sOppForms");
         List<S2sOppForms> s2sOppForms = developmentProposal.getS2sOppForms();
@@ -73,11 +67,11 @@ public class KrmsPropDevJavaFunctionTermServiceImpl extends KcKrmsJavaFunctionTe
             String formName = formNamesArray[i].trim();
             for (S2sOppForms s2sOppForm : s2sOppForms) {
                 if(s2sOppForm.getInclude() && s2sOppForm.getFormName().equals(formName)){
-                    return TRUE;
+                    return Boolean.TRUE;
                 }
             }
         }
-        return FALSE;
+        return Boolean.FALSE;
     }
     
     /**
@@ -473,8 +467,14 @@ public class KrmsPropDevJavaFunctionTermServiceImpl extends KcKrmsJavaFunctionTe
      * @return 'true' if there an activity type, otherwise returns 'false'.
      */
     @Override
-    public String narrativeTypeRule(DevelopmentProposal developmentProposal) {
-        return StringUtils.isEmpty(developmentProposal.getActivityTypeCode()) ? FALSE : TRUE;
+    public String narrativeTypeRule(DevelopmentProposal developmentProposal,String narrativeTypeCode) {
+        List<Narrative> narratives = developmentProposal.getNarratives();
+        for (Narrative narrative : narratives) {
+            if(narrative.getNarrativeTypeCode().equals(narrativeTypeCode)){
+                return TRUE;
+            }
+        }
+        return FALSE;
     }
 
     @Override
@@ -710,7 +710,7 @@ public class KrmsPropDevJavaFunctionTermServiceImpl extends KcKrmsJavaFunctionTe
 
     @Override
     public String s2sModularBudgetRule(DevelopmentProposal developmentProposal) {
-        List<String> allowedForms = Lists.newArrayList(new String[]{"PHS398 Modular Budget V1-1", "PHS398 Modular Budget V1-2"});
+        List<String> allowedForms = Arrays.asList(new String[]{"PHS398 Modular Budget V1-1", "PHS398 Modular Budget V1-2"});
         boolean s2sProp = (developmentProposal.getS2sOpportunity() != null);
         Budget finalBudgetVersion = developmentProposal.getProposalDocument().getFinalBudgetForThisProposal();
         if (s2sProp && finalBudgetVersion != null && finalBudgetVersion.getModularBudgetFlag()) {

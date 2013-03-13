@@ -26,7 +26,7 @@ import javax.xml.xpath.XPathConstants;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.krms.KcKrmsConstants;
-import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentFactBuilderService;
+import org.kuali.kra.krms.service.impl.KcKrmsFactBuilderServiceHelper;
 import org.kuali.rice.core.api.exception.RiceRuntimeException;
 import org.kuali.rice.core.api.util.xml.XmlHelper;
 import org.kuali.rice.kew.engine.RouteContext;
@@ -52,7 +52,7 @@ public class ProposalDevelopmentRulesEngineExecutorImpl implements RulesEngineEx
         SelectionCriteria selectionCriteria = SelectionCriteria.createCriteria(null, contextQualifiers,
                 Collections.singletonMap("Unit Number", unitNumber));
 
-        ProposalDevelopmentFactBuilderService fbService = KraServiceLocator.getService(ProposalDevelopmentFactBuilderService.class);
+        KcKrmsFactBuilderServiceHelper fbService = KraServiceLocator.getService("proposalDevelopmentFactBuilderService");
         Facts.Builder factsBuilder = Facts.Builder.create();
         fbService.addFacts(factsBuilder, docContent);
         EngineResults results = engine.execute(selectionCriteria, factsBuilder.build(), null);
