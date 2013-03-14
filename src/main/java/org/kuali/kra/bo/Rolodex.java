@@ -270,16 +270,12 @@ public class Rolodex extends KraPersistableBusinessObjectBase implements Contact
                 } else if(sponsorName != null){
                     return organization;
                 }
-                else {
-                    return null;
-                }
+                
             }
             if(!this.sponsorAddressFlag) {
                 if(organizationName != null && organizationName.getOrganizationName() != null) {
                     return organization;
-                } else {
-                    return null;
-                }
+                } 
             }
         }
         return organization;
