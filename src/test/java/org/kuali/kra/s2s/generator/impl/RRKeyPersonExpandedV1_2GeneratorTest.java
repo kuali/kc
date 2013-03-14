@@ -135,7 +135,7 @@ public class RRKeyPersonExpandedV1_2GeneratorTest extends
 		keyPerson.setOptInCertificationStatus("Y");
 		keyPerson.setOptInUnitStatus("Y");
 		keyPerson.setProposalPersonNumber(1002);
-		keyPerson.setRolodexId(2);
+		keyPerson.setRolodexId(1);
 
 		ProposalPersonBiography kpBiography = new ProposalPersonBiography();
 		kpBiography.setBiographyNumber(1);
