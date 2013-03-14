@@ -2,7 +2,7 @@ delete from CUST_REPORT_DETAILS
 /
 commit
 /
-INSERT INTO CUST_REPORT_DETAILS(REPORT_ID,REPORT_LABEL,REPORT_DESCRIPTION,REPORT_TYPE_CODE,RIGHT_REQUIRED,REPORT_DESIGN,FILE_NAME,CONTENT_TYPE,UPDATE_TIMESTAMP,UPDATE_USER,VER_NBR,OBJ_ID) values (SEQ_REPORT_ID.NEXTVAL,'proposalbycollege','proposalbycollege',(SELECT REPORT_TYPE_CODE FROM CUST_REPORT_TYPE WHERE REPORT_TYPE_DESC = 'Global'),'Run Global Reports',EMPTY_CLOB(),'proposalbycollege.rptdesign','application/octet-stream',SYSDATE,'admin',1,SYS_GUID())
+INSERT INTO CUST_REPORT_DETAILS(REPORT_ID,REPORT_LABEL,REPORT_DESCRIPTION,REPORT_TYPE_CODE,RIGHT_REQUIRED,REPORT_DESIGN,FILE_NAME,CONTENT_TYPE,UPDATE_TIMESTAMP,UPDATE_USER,VER_NBR,OBJ_ID) values (SEQ_REPORT_ID.NEXTVAL,'proposalbycollege','proposalbycollege',(SELECT REPORT_TYPE_CODE FROM CUST_REPORT_TYPE WHERE REPORT_TYPE_DESC = 'Global'),(SELECT PERM_ID FROM KRIM_PERM_T WHERE NM = 'RUN GLOBAL REPORTS'),EMPTY_CLOB(),'proposalbycollege.rptdesign','application/octet-stream',SYSDATE,'admin',1,SYS_GUID())
 /
 DECLARE data CLOB; buffer VARCHAR2(30000);
 BEGIN
@@ -245,7 +245,7 @@ buffer := 'roperty>
         (p.TOTAL_DIRECT_COST_TOTAL + p.TOTAL_INDIRECT_COST_TOTAL) TOTAL_AMOUNT,
         (pc.CREDIT) PI_SHARE	
         from PROPOSAL p inner join PROPOSAL_PERSONS pi on p.PROPOSAL_NUMBER= pi.PROPOSAL_NUMBER and pi.SEQUENCE_NUMBER=(select max(SEQUENCE_NUMBER) from PROPOSAL where proposal_number=p.PROPOSAL_NUMBER)
-                            left join PROPOSAL_UNITS pu on p.PROPOSAL_NUMBER= pu.PROPOSAL_NUMBER and pu.SEQUENCE_NUMBER=p.SEQUENCE_NUMBER and pu.PERSON_ID=pi.PERSON_ID
+                            left join PROPOSAL_PERSON_UNITS pu on p.PROPOSAL_NUMBER=(select PROPOSAL_NUMBER from PROPOSAL_PERSONS pp where pp.proposal_person_id = pu.proposal_person_id) and (select SEQUENCE_NUMBER from PROPOSAL_PERSONS pp where pp.proposal_person_id = pu.proposal_person_id)=p.SEQUENCE_NUMBER and (select PERSON_ID from PROPOSAL_PERSONS pp where pp.proposal_person_id = pu.proposal_person_id)=pi.PERSON_ID
                             inner join UNIT u on u.UNIT_NUMBER=pu.UNIT_NUMBER 
                             inner join SPONSOR s ON s.SPONSOR_CODE = p.SPONSOR_CODE
                             left join PROPOSAL_PER_CREDIT_SPLIT pc on p.PROPOSAL_NUMBER= (select PROPOSAL_NUMBER from PROPOSAL_PERSONS pp where pp.proposal_person_id = pc.proposal_pe';
