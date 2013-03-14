@@ -26,6 +26,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.krms.KcKrmsConstants;
 import org.kuali.kra.krms.KrmsRulesContext;
+import org.kuali.kra.krms.service.KcKrmsCacheManager;
 import org.kuali.kra.krms.service.KrmsRulesExecutionService;
 import org.kuali.rice.krms.api.KrmsApiServiceLocator;
 import org.kuali.rice.krms.api.engine.Engine;
@@ -37,8 +38,9 @@ import org.kuali.rice.krms.framework.type.ValidationActionTypeService;
 public class KrmsRulesExecutionServiceImpl implements KrmsRulesExecutionService {
     
     protected final Log LOG = LogFactory.getLog(KrmsRulesExecutionServiceImpl.class);
-    
+    private KcKrmsCacheManager kcKrmsCacheManager;
     public List<String> processUnitValidations(String unitNumber, KrmsRulesContext rulesContext) {
+        kcKrmsCacheManager.clearCache();
         Map<String, String> contextQualifiers = new HashMap<String, String>();
         rulesContext.populateContextQualifiers(contextQualifiers);
         SelectionCriteria selectionCriteria = SelectionCriteria.createCriteria(null, contextQualifiers,
@@ -65,5 +67,19 @@ public class KrmsRulesExecutionServiceImpl implements KrmsRulesExecutionService 
             }
         }
         return Collections.emptyList();
+    }
+    /**
+     * Gets the kcKrmsCacheManager attribute. 
+     * @return Returns the kcKrmsCacheManager.
+     */
+    public KcKrmsCacheManager getKcKrmsCacheManager() {
+        return kcKrmsCacheManager;
+    }
+    /**
+     * Sets the kcKrmsCacheManager attribute value.
+     * @param kcKrmsCacheManager The kcKrmsCacheManager to set.
+     */
+    public void setKcKrmsCacheManager(KcKrmsCacheManager kcKrmsCacheManager) {
+        this.kcKrmsCacheManager = kcKrmsCacheManager;
     }
 }
