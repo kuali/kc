@@ -45,6 +45,7 @@ import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class ActivePendingTransactionsServiceImpl implements ActivePendingTransactionsService {
     
@@ -1293,9 +1294,12 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
      */
     protected UserSession replaceSessionWithRoutedBy(TimeAndMoneyDocument doc) {
         String routedByUserId = doc.getDocumentHeader().getWorkflowDocument().getRoutedByPrincipalId();
-        Person person = getPersonService().getPerson(routedByUserId);
         UserSession oldSession = GlobalVariables.getUserSession();
-        GlobalVariables.setUserSession(new UserSession(person.getPrincipalName()));
+
+        if (ObjectUtils.isNotNull(routedByUserId)) {
+            Person person = getPersonService().getPerson(routedByUserId);
+            GlobalVariables.setUserSession(new UserSession(person.getPrincipalName()));
+        }
         return oldSession;
     }
     
