@@ -828,6 +828,7 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
             || form instanceof ProtocolForm || form instanceof CommitteeForm || form instanceof IacucCommitteeForm || form instanceof TimeAndMoneyForm || form instanceof SubAwardForm) {
             ActionForward basicForward = mapping.findForward(Constants.MAPPING_BASIC);
             if (StringUtils.equals(forward.getPath(), basicForward.getPath())) {
+                setupDocumentExit();
                 forward = mapping.findForward(KRADConstants.MAPPING_PORTAL);
             }
         }
