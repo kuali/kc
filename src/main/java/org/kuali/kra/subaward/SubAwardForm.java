@@ -18,22 +18,19 @@ package org.kuali.kra.subaward;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.struts.upload.FormFile;
 import org.kuali.kra.web.struts.form.Auditable;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.versioning.VersionHistory;
-import org.kuali.kra.budget.document.BudgetDocument;
+import org.kuali.kra.common.notification.web.struts.form.NotificationHelper;
 import org.kuali.kra.common.permissions.web.struts.form.PermissionsForm;
 import org.kuali.kra.common.permissions.web.struts.form.PermissionsHelperBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.medusa.MedusaBean;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.kra.subaward.bo.SubAward;
@@ -45,6 +42,7 @@ import org.kuali.kra.subaward.bo.SubAwardFundingSource;
 import org.kuali.kra.subaward.customdata.CustomDataHelper;
 import org.kuali.kra.subaward.document.SubAwardDocument;
 import org.kuali.kra.subaward.document.authorization.SubAwardTask;
+import org.kuali.kra.subaward.notification.SubAwardNotificationContext;
 import org.kuali.kra.subaward.service.SubAwardService;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kew.api.KewApiConstants;
@@ -71,6 +69,7 @@ implements PermissionsForm, Auditable {
     private SubAwardContact newSubAwardContact;
     private SubAwardAmountReleased newSubAwardAmountReleased;
     private CustomDataHelper customDataHelper = new CustomDataHelper(this);
+    private NotificationHelper<SubAwardNotificationContext> notificationHelper;
     private boolean auditActivated;
     private MedusaBean medusaBean;
     private FormFile newFile;
@@ -175,7 +174,20 @@ implements PermissionsForm, Auditable {
 		this.customDataHelper = customDataHelper;
 	}
 
-	/**
+	
+	public NotificationHelper<SubAwardNotificationContext> getNotificationHelper() {
+        return notificationHelper;
+    }
+
+    public void setNotificationHelper(NotificationHelper<SubAwardNotificationContext> notificationHelper) {
+        this.notificationHelper = notificationHelper;
+    }
+
+    public void setSubAward(SubAward subAward) {
+        this.subAward = subAward;
+    }
+
+    /**
 	 * Constructs a SubAwardForm.java.
 	 */
 	public SubAwardForm() {
@@ -200,6 +212,8 @@ implements PermissionsForm, Auditable {
         newSubAwardCloseout = new SubAwardCloseout();
         newSubAwardAmountReleased = new SubAwardAmountReleased();
         newSubAwardAmountInfo = new SubAwardAmountInfo();
+        notificationHelper = new NotificationHelper<SubAwardNotificationContext>();
+        
     }
 
     /**
