@@ -355,7 +355,8 @@ public class SpecialReviewServiceImpl implements SpecialReviewService {
     private void deleteInstitutionalProposalSpecialReview(InstitutionalProposal institutionalProposal, String protocolNumber) {
         if (institutionalProposal != null) {
             List<InstitutionalProposalSpecialReview> deletedSpecialReviews = new ArrayList<InstitutionalProposalSpecialReview>();
-            
+            institutionalProposal.refreshReferenceObject("specialReviews");
+
             for (InstitutionalProposalSpecialReview specialReview : institutionalProposal.getSpecialReviews()) {
                 if (StringUtils.equals(specialReview.getProtocolNumber(), protocolNumber)) {
                     deletedSpecialReviews.add(specialReview);
