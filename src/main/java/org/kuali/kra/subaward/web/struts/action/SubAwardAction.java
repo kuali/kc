@@ -22,6 +22,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.bo.versioning.VersionStatus;
+import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -31,6 +32,7 @@ import org.kuali.kra.subaward.SubAwardForm;
 import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.kra.subaward.customdata.SubAwardCustomData;
 import org.kuali.kra.subaward.document.SubAwardDocument;
+import org.kuali.kra.subaward.notification.SubAwardNotificationContext;
 import org.kuali.kra.subaward.service.SubAwardService;
 import org.kuali.kra.subaward.subawardrule.SubAwardDocumentRule;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
@@ -40,7 +42,9 @@ import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
+import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
+import org.kuali.rice.krad.service.KualiRuleService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 
@@ -373,30 +377,27 @@ protected void checkSubAwardCode(SubAward subAward){
 }
 
 @Override
-public ActionForward route(ActionMapping mapping,
-	ActionForm form, HttpServletRequest request,
-	HttpServletResponse response) throws Exception {
+public ActionForward route(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
     SubAwardForm subAwardForm = (SubAwardForm) form;
     ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
 
-    subAwardForm.setAuditActivated(true);
-    ValidationState status = new AuditActionHelper()
-    .isValidSubmission(subAwardForm, true);
-
+    subAwardForm.setAuditActivated(false);
+    ValidationState status = new AuditActionHelper().isValidSubmission(subAwardForm, true);
     if ((status == ValidationState.OK) || (status == ValidationState.WARNING)) {
-
-        return forward = super.route(mapping, form, request, response);
+        super.route(mapping, form, request, response);
+        return sendNotification(mapping, forward, subAwardForm, SubAward.NOTIFICATION_TYPE_SUBMIT, "Submit SubAward");
     } else {
         GlobalVariables.getMessageMap().clearErrorMessages();
         GlobalVariables.getMessageMap().
-        putError("datavalidation", KeyConstants.ERROR_WORKFLOW_SUBMISSION,
-        new String[] {});
-
+        putError("datavalidation", KeyConstants.ERROR_WORKFLOW_SUBMISSION, new String[] {});
+        subAwardForm.setAuditActivated(true);   
         return forward;
     }
 
 }
+
+
 
 @Override
 public ActionForward blanketApprove(ActionMapping mapping,
@@ -405,19 +406,17 @@ public ActionForward blanketApprove(ActionMapping mapping,
     SubAwardForm subAwardForm = (SubAwardForm) form;
     ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
 
-    subAwardForm.setAuditActivated(true);
+    subAwardForm.setAuditActivated(false);
     ValidationState status = new AuditActionHelper().
     isValidSubmission(subAwardForm, true);
     if ((status == ValidationState.OK) || (status == ValidationState.WARNING)) {
-
-        return forward = super.blanketApprove(mapping,
-        		form, request, response);
+        super.blanketApprove(mapping, form, request, response);
+        return sendNotification(mapping, forward, subAwardForm, SubAward.NOTIFICATION_TYPE_SUBMIT, "Submit SubAward");
     } else {
         GlobalVariables.getMessageMap().clearErrorMessages();
         GlobalVariables.getMessageMap().
-        putError("datavalidation", KeyConstants.
-        ERROR_WORKFLOW_SUBMISSION,  new String[] {});
-
+        putError("datavalidation", KeyConstants.ERROR_WORKFLOW_SUBMISSION,  new String[] {});
+        subAwardForm.setAuditActivated(true);
         return forward;
     }
 }
@@ -444,31 +443,54 @@ public ActionForward blanketApprove(ActionMapping mapping,
   }
 
 
- /**
- * This method is for medusa
- * This method is for @throws Exception...
- * @param mapping the ActionMapping
- * @param form the ActionForm
- * @param request the Request
- * @param response the Response
- * @return ActionForward
- * @throws Exception
- */
-public ActionForward medusa(ActionMapping mapping,
-		 ActionForm form, HttpServletRequest request,
-		 HttpServletResponse response) throws Exception {
-       SubAwardForm subAwardForm = (SubAwardForm) form;
-         if (subAwardForm.getDocument().getDocumentNumber() == null) {
-                loadDocumentInForm(request, subAwardForm);
-            }
-            subAwardForm.getMedusaBean().setMedusaViewRadio("0");
-            subAwardForm.getMedusaBean().setModuleName("subaward");
-            subAwardForm.getMedusaBean().setModuleIdentifier(
-            subAwardForm.getSubAwardDocument().getSubAward().
-            getSubAwardId());
-            subAwardForm.getMedusaBean().generateParentNodes();
-            return mapping.findForward(Constants.MAPPING_AWARD_MEDUSA_PAGE);
-            }
+  /**
+   * This method is for medusa
+   * This method is for @throws Exception...
+   * @param mapping the ActionMapping
+   * @param form the ActionForm
+   * @param request the Request
+   * @param response the Response
+   * @return ActionForward
+   * @throws Exception
+   */
+  public ActionForward medusa(ActionMapping mapping,
+          ActionForm form, HttpServletRequest request,
+          HttpServletResponse response) throws Exception {
+      SubAwardForm subAwardForm = (SubAwardForm) form;
+      if (subAwardForm.getDocument().getDocumentNumber() == null) {
+          loadDocumentInForm(request, subAwardForm);
+      }
+      subAwardForm.getMedusaBean().setMedusaViewRadio("0");
+      subAwardForm.getMedusaBean().setModuleName("subaward");
+      subAwardForm.getMedusaBean().setModuleIdentifier(subAwardForm.getSubAwardDocument().getSubAward().getSubAwardId());
+      subAwardForm.getMedusaBean().generateParentNodes();
+      return mapping.findForward(Constants.MAPPING_AWARD_MEDUSA_PAGE);
+  }
 
+  /**
+   * Use the Kuali Rule Service to apply the rules for the given event.
+   * @param event the event to process
+   * @return true if success; false if there was a validation error
+   */
+  protected final boolean applyRules(KualiDocumentEvent event) {
+      return KraServiceLocator.getService(KualiRuleService.class).applyRules(event);
+  }
+
+  public ActionForward sendNotification(ActionMapping mapping, ActionForward forward, SubAwardForm subAwardForm, 
+                                        String notificationType, String notificationString) {
+      SubAward subAward = subAwardForm.getSubAwardDocument().getSubAward();
+      SubAwardNotificationContext context = new SubAwardNotificationContext(subAward, notificationType, notificationString, Constants.MAPPING_SUBAWARD_PAGE);
+      if (subAwardForm.getNotificationHelper().getPromptUserForNotificationEditor(context)) {
+          subAwardForm.getNotificationHelper().initializeDefaultValues(context);
+          return mapping.findForward("notificationEditor");
+      } else {
+          getNotificationService().sendNotification(context);
+      }
+      return forward;
+  }
+
+  protected KcNotificationService getNotificationService() {
+      return KraServiceLocator.getService(KcNotificationService.class);
+  }
 
 }

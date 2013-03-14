@@ -54,7 +54,8 @@ implements Permissionable, SequenceOwner<SubAward>, Negotiable {
 
     private static final long serialVersionUID = 1L;
     private static final String ROLODEX_ID_FIELD_NAME = "rolodexId";
-
+    public static final String NOTIFICATION_TYPE_SUBMIT = "501";
+ 
     private Long subAwardId;
     private String subAwardCode;
 
