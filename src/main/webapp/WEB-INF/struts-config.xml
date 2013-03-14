@@ -624,6 +624,7 @@
           <forward name="financial" path="/WEB-INF/jsp/subaward/SubAwardFinancial.jsp" />
           <forward name="customData" path="/WEB-INF/jsp/subaward/SubAwardCustomData.jsp" /> 
           <forward name="subAwardActions" path="/WEB-INF/jsp/subaward/SubAwardActions.jsp" />
+          <forward name="notificationEditor" path="/WEB-INF/jsp/subaward/SubAwardNotificationEditor.jsp" />
           <forward name="medusa" path="/WEB-INF/jsp/subaward/SubAwardMedusa.jsp" />
       </action>
 <!-- end -->
