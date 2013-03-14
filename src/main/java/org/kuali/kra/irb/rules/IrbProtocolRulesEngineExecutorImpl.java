@@ -15,33 +15,24 @@
  */
 package org.kuali.kra.irb.rules;
 
-import java.io.ByteArrayInputStream;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
-
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.krms.KcKrmsConstants;
+import org.kuali.kra.krms.KcRulesEngineExecuter;
 import org.kuali.kra.krms.service.KcKrmsFactBuilderService;
-import org.kuali.kra.krms.service.impl.KcKrmsFactBuilderServiceHelper;
-import org.kuali.rice.core.api.exception.RiceRuntimeException;
-import org.kuali.rice.core.api.util.xml.XmlHelper;
 import org.kuali.rice.kew.engine.RouteContext;
-import org.kuali.rice.kew.framework.support.krms.RulesEngineExecutor;
-import org.kuali.rice.kew.rule.xmlrouting.XPathHelper;
 import org.kuali.rice.krms.api.engine.Engine;
 import org.kuali.rice.krms.api.engine.EngineResults;
 import org.kuali.rice.krms.api.engine.Facts;
 import org.kuali.rice.krms.api.engine.SelectionCriteria;
-import org.w3c.dom.Document;
 
-public class IrbProtocolRulesEngineExecutorImpl implements RulesEngineExecutor {
+public class IrbProtocolRulesEngineExecutorImpl  extends KcRulesEngineExecuter {
     
-    public EngineResults execute(RouteContext routeContext, Engine engine) {
+    public EngineResults performExecute(RouteContext routeContext, Engine engine) {
         Map<String, String> contextQualifiers = new HashMap<String, String>();
         contextQualifiers.put("namespaceCode", Constants.MODULE_NAMESPACE_PROTOCOL);
         contextQualifiers.put("name", KcKrmsConstants.IrbProtocol.IRB_PROTOCOL_CONTEXT);
@@ -58,20 +49,6 @@ public class IrbProtocolRulesEngineExecutorImpl implements RulesEngineExecutor {
         fbService.addFacts(factsBuilder, docContent);
         EngineResults results = engine.execute(selectionCriteria, factsBuilder.build(), null);
         return results;
-    }
-    
-    private String getElementValue(String docContent, String xpathExpression) {
-        try {
-            Document document = XmlHelper.trimXml(new ByteArrayInputStream(docContent.getBytes()));
-
-            XPath xpath = XPathHelper.newXPath();
-            String value = (String) xpath.evaluate(xpathExpression, document, XPathConstants.STRING);
-
-            return value;
-
-        } catch (Exception e) {
-            throw new RiceRuntimeException();
-        }
     }
 
 }
