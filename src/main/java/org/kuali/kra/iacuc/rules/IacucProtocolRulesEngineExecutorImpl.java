@@ -16,10 +16,8 @@
 package org.kuali.kra.iacuc.rules;
 
 import java.io.ByteArrayInputStream;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.xml.xpath.XPath;
@@ -28,27 +26,23 @@ import javax.xml.xpath.XPathConstants;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.krms.KcKrmsConstants;
+import org.kuali.kra.krms.KcRulesEngineExecuter;
+import org.kuali.kra.krms.service.KcKrmsCacheManager;
 import org.kuali.kra.krms.service.KcKrmsFactBuilderService;
-import org.kuali.kra.krms.service.KrmsRulesExecutionService;
-import org.kuali.rice.core.api.cache.CacheAdminService;
 import org.kuali.rice.core.api.exception.RiceRuntimeException;
 import org.kuali.rice.core.api.util.xml.XmlHelper;
 import org.kuali.rice.kew.engine.RouteContext;
 import org.kuali.rice.kew.framework.support.krms.RulesEngineExecutor;
 import org.kuali.rice.kew.rule.xmlrouting.XPathHelper;
-import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krms.api.engine.Engine;
 import org.kuali.rice.krms.api.engine.EngineResults;
 import org.kuali.rice.krms.api.engine.Facts;
 import org.kuali.rice.krms.api.engine.SelectionCriteria;
-import org.kuali.rice.krms.impl.repository.AgendaBo;
-import org.kuali.rice.krms.impl.repository.KrmsRepositoryServiceLocator;
-import org.kuali.rice.krms.impl.util.KRMSServiceLocatorInternal;
 import org.w3c.dom.Document;
 
-public class IacucProtocolRulesEngineExecutorImpl implements RulesEngineExecutor {
+public class IacucProtocolRulesEngineExecutorImpl extends KcRulesEngineExecuter {
     
-    public EngineResults execute(RouteContext routeContext, Engine engine) {
+    public EngineResults performExecute(RouteContext routeContext, Engine engine) {
         Map<String, String> contextQualifiers = new HashMap<String, String>();
         contextQualifiers.put("namespaceCode", Constants.MODULE_NAMESPACE_IACUC);
         contextQualifiers.put("name", KcKrmsConstants.IacucProtocol.IACUC_PROTOCOL_CONTEXT);
@@ -67,18 +61,4 @@ public class IacucProtocolRulesEngineExecutorImpl implements RulesEngineExecutor
         return results;
     }
     
-    private String getElementValue(String docContent, String xpathExpression) {
-        try {
-            Document document = XmlHelper.trimXml(new ByteArrayInputStream(docContent.getBytes()));
-
-            XPath xpath = XPathHelper.newXPath();
-            String value = (String) xpath.evaluate(xpathExpression, document, XPathConstants.STRING);
-
-            return value;
-
-        } catch (Exception e) {
-            throw new RiceRuntimeException();
-        }
-    }
-
 }
