@@ -54,68 +54,45 @@ SubAwardAction implements AuditModeAction {
     }
     /** {@inheritDoc} */
     public ActionForward deactivate(ActionMapping mapping,
-    ActionForm form, HttpServletRequest request,
-    HttpServletResponse response)
-    throws Exception {
-        return new AuditActionHelper().
-        setAuditMode(mapping, (SubAwardForm) form, false);
+    ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        return new AuditActionHelper().setAuditMode(mapping, (SubAwardForm) form, false);
     }
     @Override
-    public ActionForward blanketApprove(ActionMapping mapping,
-    ActionForm form, HttpServletRequest request,
-    HttpServletResponse response)
+    public ActionForward blanketApprove(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
         throws Exception {
-       ActionForward returnForward = super.
-        blanketApprove(mapping, form, request, response);
+        ActionForward returnForward = super.blanketApprove(mapping, form, request, response);
 
-        String routeHeaderId = ((
-        SubAwardForm) form).getDocument().getDocumentNumber();
-        String returnLocation = buildActionUrl(
-        routeHeaderId, Constants.MAPPING_SUBAWARD_ACTION_PAGE,
-        "SubAwardDocument");
-        ActionForward forward = mapping.
-        findForward(KRADConstants.MAPPING_PORTAL);
-        ActionForward holdingPageForward = mapping.
-        findForward(Constants.MAPPING_HOLDING_PAGE);
-        return routeToHoldingPage(forward, returnForward,
-        holdingPageForward, returnLocation);
+        String routeHeaderId = ((SubAwardForm) form).getDocument().getDocumentNumber();
+        String returnLocation = buildActionUrl(routeHeaderId, Constants.MAPPING_SUBAWARD_ACTION_PAGE, "SubAwardDocument");
+        ActionForward forward = mapping.findForward(KRADConstants.MAPPING_PORTAL);
+        ActionForward holdingPageForward = mapping.findForward(Constants.MAPPING_HOLDING_PAGE);
+        return routeToHoldingPage(forward, returnForward, holdingPageForward, returnLocation);
     }
     @Override
     public ActionForward route(ActionMapping mapping, ActionForm form,
     HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        ActionForward   returnForward = super.
-        route(mapping, form, request, response);
-        String routeHeaderId = ((SubAwardForm) form)
-        .getDocument().getDocumentNumber();
+        ActionForward returnForward = super.route(mapping, form, request, response);
+        String routeHeaderId = ((SubAwardForm) form).getDocument().getDocumentNumber();
         String returnLocation = buildActionUrl(routeHeaderId,
         Constants.MAPPING_SUBAWARD_ACTION_PAGE, "SubAwardDocument");
 
-        ActionForward forward = mapping.
-        findForward(KRADConstants.MAPPING_PORTAL);
-        ActionForward holdingPageForward = mapping.
-        findForward(Constants.MAPPING_HOLDING_PAGE);
-        return routeToHoldingPage(forward, returnForward,
-        holdingPageForward, returnLocation);
+        ActionForward forward = mapping.findForward(KRADConstants.MAPPING_PORTAL);
+        ActionForward holdingPageForward = mapping.findForward(Constants.MAPPING_HOLDING_PAGE);
+        return routeToHoldingPage(forward, returnForward, holdingPageForward, returnLocation);
     }
 
     @Override
     public ActionForward approve(ActionMapping mapping,
     ActionForm form, HttpServletRequest request,
     HttpServletResponse response) throws Exception {
-        ActionForward   returnForward = super.
-        approve(mapping, form, request, response);
-        String routeHeaderId = ((SubAwardForm) form).
-        getDocument().getDocumentNumber();
-        String returnLocation = buildActionUrl(routeHeaderId,
-        Constants.MAPPING_SUBAWARD_ACTION_PAGE, "SubAwardDocument");
+        ActionForward   returnForward = super.approve(mapping, form, request, response);
+        String routeHeaderId = ((SubAwardForm) form).getDocument().getDocumentNumber();
+        String returnLocation = buildActionUrl(routeHeaderId, Constants.MAPPING_SUBAWARD_ACTION_PAGE, "SubAwardDocument");
 
-        ActionForward forward = mapping.
-        findForward(KRADConstants.MAPPING_PORTAL);
-        ActionForward holdingPageForward = mapping.
-        findForward(Constants.MAPPING_HOLDING_PAGE);
-        return routeToHoldingPage(forward, returnForward,
-        holdingPageForward, returnLocation);
+        ActionForward forward = mapping.findForward(KRADConstants.MAPPING_PORTAL);
+        ActionForward holdingPageForward = mapping.findForward(Constants.MAPPING_HOLDING_PAGE);
+        return routeToHoldingPage(forward, returnForward,holdingPageForward, returnLocation);
     }
 
 }
