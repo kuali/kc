@@ -276,8 +276,8 @@
     <bean id="termRepositoryService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="termRepositoryService" />
     </bean>
-    <bean id="krmsCacheAdminService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
-        <property name="serviceName" value="krmsCacheAdminService" />
+    <bean id="krmsDistributedCacheManager" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="krmsDistributedCacheManager" />
     </bean>
 
     <bean id="parentLookupableHelperService" abstract="true">
@@ -919,6 +919,7 @@
     </bean>       
     
     <bean id="krmsRulesExecutionService" class="org.kuali.kra.krms.service.impl.KrmsRulesExecutionServiceImpl">
+        <property name="kcKrmsCacheManager" ref="kcKrmsCacheManager" /> 
     </bean>
     <bean id="unitNumberTermResolverTypeService" class="org.kuali.kra.krms.service.impl.UnitNumberTermResolverTypeServiceImpl">
     </bean>
@@ -968,6 +969,10 @@
       p:callbackService-ref="questionResolverTypeService"
       p:localServiceName="questionResolverTypeService"
       p:serviceInterface="org.kuali.rice.krms.framework.type.TermResolverTypeService"/>
+
+     <bean id="kcKrmsCacheManager" class="org.kuali.kra.krms.service.impl.KcKrmsCacheManagerImpl">
+<!--         <property name="krmsDistributedCacheManager" ref="krmsDistributedCacheManager" /> -->
+    </bean>
 
     <bean id="kcConfirmationQuestion" class="org.kuali.kra.web.struts.action.KcConfirmationQuestion">
     </bean>
