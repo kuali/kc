@@ -136,7 +136,7 @@ public class SubmissionTypeValuesFinder extends IrbActionsKeyValuesBase {
     }
     
     private boolean displayResubmission(String currentStatus) {
-        String validStatuses[] = {ProtocolStatus.WITHDRAWN, ProtocolStatus.SUBMITTED_TO_IRB, ProtocolStatus.RETURN_TO_PI};
+        String validStatuses[] = {ProtocolStatus.WITHDRAWN, ProtocolStatus.SUBMITTED_TO_IRB, ProtocolStatus.RETURN_TO_PI, ProtocolStatus.RECALLED_IN_ROUTING};
         return validateCurrentStatus(currentStatus, validStatuses);
     }
     

@@ -33,6 +33,6 @@ public class RecallAuthorizer extends ProposalAuthorizer {
     public boolean isAuthorized(String userId, ProposalTask task) {
         ProposalDevelopmentDocument doc = task.getDocument();
         return doc.getDocumentHeader().hasWorkflowDocument() && doc.getDocumentHeader().getWorkflowDocument().isEnroute()
-                && hasProposalPermission(userId, doc, PermissionConstants.RECALL_PROPOSAL_DOCUMENT);
+                && hasProposalPermission(userId, doc, PermissionConstants.RECALL_DOCUMENT);
     }
 }
