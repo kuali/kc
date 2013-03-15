@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.krms.FunctionParamComparator;
 import org.kuali.kra.krms.FunctionTermResolver;
 import org.kuali.rice.core.api.exception.RiceRuntimeException;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -62,18 +63,11 @@ public abstract class FunctionTermResolverTypeServiceBase implements TermResolve
     private List<String> getFunctionParameters(FunctionDefinition functionTerm) {
         List<FunctionParameterDefinition> functionParams = functionTerm.getParameters();
         List<FunctionParameterDefinition> modifiableParams = new ArrayList<FunctionParameterDefinition>(functionParams);
-        Collections.sort(modifiableParams, new ParamComparator());
+        Collections.sort(modifiableParams, new FunctionParamComparator());
         List<String> params = new ArrayList<String>();
         for (FunctionParameterDefinition termResolverFunctionParamDefinition : modifiableParams) {
             params.add(termResolverFunctionParamDefinition.getName());
         }
         return params;
-    }
-    class  ParamComparator implements Comparator<FunctionParameterDefinition> {
-        @Override
-        public int compare(FunctionParameterDefinition param1, FunctionParameterDefinition param2) {
-            return param1.getSequenceNumber().compareTo(param2.getSequenceNumber());
-        }
-
     }
 }
