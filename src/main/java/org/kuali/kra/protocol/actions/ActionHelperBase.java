@@ -47,7 +47,6 @@ import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewalBase;
 import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendmentBean;
 import org.kuali.kra.protocol.actions.approve.ProtocolApproveBean;
 import org.kuali.kra.protocol.actions.assignagenda.ProtocolAssignToAgendaBean;
-import org.kuali.kra.protocol.actions.assignreviewers.ProtocolAssignReviewersBean;
 import org.kuali.kra.protocol.actions.correction.AdminCorrectionBean;
 import org.kuali.kra.protocol.actions.decision.CommitteeDecision;
 import org.kuali.kra.protocol.actions.decision.CommitteeDecisionService;
@@ -70,6 +69,7 @@ import org.kuali.kra.protocol.actions.withdraw.ProtocolAdministrativelyWithdrawB
 import org.kuali.kra.protocol.actions.withdraw.ProtocolWithdrawBean;
 import org.kuali.kra.protocol.auth.ProtocolTaskBase;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondence;
+import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewBase;
 import org.kuali.kra.protocol.onlinereview.ProtocolReviewAttachmentBase;
 import org.kuali.kra.protocol.questionnaire.ProtocolModuleQuestionnaireBeanBase;
 import org.kuali.kra.protocol.questionnaire.ProtocolSubmissionQuestionnaireHelper;
@@ -388,7 +388,14 @@ public abstract class ActionHelperBase implements Serializable {
     protected boolean toAnswerSubmissionQuestionnaire;
     protected ProtocolSubmissionQuestionnaireHelper protocolSubmissionQuestionnaireHelper;
    
+    // the reviewers for the currently selected submission
+    protected List<ProtocolReviewer> currentReviewers = new ArrayList<ProtocolReviewer>();
 
+    // mapping for current online reviews keyed by the current reviewer id
+    private HashMap<String, ProtocolOnlineReviewBase> onlineReviewsMap = new HashMap<String, ProtocolOnlineReviewBase>(); 
+    
+    
+    
     /**
      * Constructs an ActionHelperBase.
      * @param form the protocol form
@@ -975,9 +982,30 @@ public abstract class ActionHelperBase implements Serializable {
         //initFilterDatesView();
         initAmendmentBeans(false);
         initPrintQuestionnaire();
+        
+        populateReviewersAndOnlineReviewsMap();
     }
     
     
+    
+    private void populateReviewersAndOnlineReviewsMap() {
+        ProtocolSubmissionBase submission = this.getSelectedSubmission();
+        if(submission != null) {
+            // populate the reviewers
+            this.currentReviewers = submission.getProtocolReviewers();
+            // populate the online reviews map
+            List<ProtocolOnlineReviewBase> reviews = submission.getProtocolOnlineReviews();
+            if (reviews != null) {
+                for (ProtocolOnlineReviewBase review : reviews) {
+                    if (review.isActive()) {
+                        this.getOnlineReviewsMap().put(review.getProtocolReviewer().getProtocolReviewerId().toString(), review);
+                    }
+                }
+            }
+        }
+    }
+
+
     private boolean hasAdministrativelyApprovePermission() {
         ProtocolTaskBase task = getNewAdminApproveProtocolTaskInstanceHook(getProtocol());
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
@@ -3455,5 +3483,16 @@ public abstract class ActionHelperBase implements Serializable {
                 getBusinessObjectService().save(bean.getQuestionnaireHelper().getAnswerHeaders());
             }
         }
+    }
+
+
+    public List<ProtocolReviewer> getCurrentReviewers() {
+        return currentReviewers;
+    }
+
+    public HashMap<String, ProtocolOnlineReviewBase> getOnlineReviewsMap() {
+        return onlineReviewsMap;
     }    
+
+    
 }
