@@ -70,7 +70,7 @@ public class JavaFunctionResolver extends FunctionTermResolver{
             Collections.sort(modifiableParams, new FunctionParamComparator());
             Class[] classtypes = new Class[orderedParamValues.size()];
             for (int i = 0; i < orderedParamValues.size(); i++) {
-                Object objValue = orderedParamValues.get(i);
+                Object objValue = modifiableParams.get(i);
                 String paramClassType = functionParams.get(i).getParameterType();
                 Class paramClass = Class.forName(paramClassType);
 //                if(ClassUtils.isAssignable(objValue.getClass(),paramClass)){
