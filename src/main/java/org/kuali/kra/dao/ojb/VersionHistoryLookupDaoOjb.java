@@ -17,6 +17,7 @@ package org.kuali.kra.dao.ojb;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -27,9 +28,12 @@ import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.dao.VersionHistoryLookupDao;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.lookup.LookupUtils;
+import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.dao.LookupDao;
 import org.kuali.rice.krad.dao.impl.LookupDaoOjb;
 import org.kuali.rice.krad.lookup.CollectionIncomplete;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -76,6 +80,31 @@ public class VersionHistoryLookupDaoOjb extends LookupDaoOjb  implements Version
         retval.addAndCriteria(orCriteria);
         return retval;
     }
+    
+    private Criteria getCollectionCriteriaFromMap(PersistableBusinessObject businessObject, Map formProps) {
+        Criteria criteria = new Criteria();
+        Iterator propsIter = formProps.keySet().iterator();
+        LookupDao lookupDao = KraServiceLocator.getService(LookupDao.class);
+        while (propsIter.hasNext()) {
+            String propertyName = (String) propsIter.next();
+            if (formProps.get(propertyName) instanceof Collection) {
+                Iterator iter = ((Collection) formProps.get(propertyName)).iterator();
+                while (iter.hasNext()) {
+                    
+                    if (!lookupDao.createCriteria(businessObject, (String) iter.next(), propertyName, 
+                            isCaseSensitive(businessObject,  propertyName), false, criteria)) {
+                        throw new RuntimeException("Invalid value in Collection");
+                    }
+                }
+            } else {
+                if (!lookupDao.createCriteria(businessObject, (String) formProps.get(propertyName), propertyName, 
+                        isCaseSensitive(businessObject,  propertyName), false, criteria)) {
+                    continue;
+                }
+            }
+        }
+        return criteria;
+    }
     private PersistableBusinessObject checkBusinessObjectClass(Class businessObjectClass) {
         if (businessObjectClass == null) {
             throw new IllegalArgumentException("BusinessObject class passed to VersionHistoryLookupDaoOjb findCollectionBySearchHelper... method was null");
@@ -89,6 +118,18 @@ public class VersionHistoryLookupDaoOjb extends LookupDaoOjb  implements Version
             throw new RuntimeException("VersionHistoryLookupDaoOjb could not get instance of " + businessObjectClass.getName(), e);
         }
         return businessObject;
+    }
+    /*
+     * extract method for casesensitive in method getCollectionCriteriaFromMap
+     */
+    private boolean isCaseSensitive(PersistableBusinessObject persistBo, String  propertyName) {
+        
+        boolean caseInsensitive = false;
+        DataDictionaryService dataDictionaryService = KraServiceLocator.getService(DataDictionaryService.class);
+        if (dataDictionaryService.isAttributeDefined(persistBo.getClass(), propertyName)) {
+            caseInsensitive = !dataDictionaryService.getAttributeForceUppercase(persistBo.getClass(), propertyName);
+        }
+        return caseInsensitive;
     }
 
 }
