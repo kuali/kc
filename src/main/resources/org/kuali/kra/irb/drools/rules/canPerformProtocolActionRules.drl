@@ -12,7 +12,7 @@ function void setAction(ProtocolActionMapping protocolAction, boolean flag) {
 rule "Submit for Review"
 salience 100
 when
-	protocolAction : ProtocolActionMapping(actionTypeCode == "101", protocolStatusCode in ("100", "102", "103", "104", "105", "106", "107", "304"))
+	protocolAction : ProtocolActionMapping(actionTypeCode == "101", protocolStatusCode in ("100", "102", "103", "104", "105", "106", "107", "304", "402"))
 then	
 	setAction(protocolAction, true);
 end
@@ -84,7 +84,7 @@ end
 rule "Close Protocol 1"
 salience 100
 when
-	protocolAction : ProtocolActionMapping(actionTypeCode == "300", protocolStatusCode in ("100", "102", "104", "105", "106", "200", "201", "202", "203", "302", "308",  "304", "311"), submissionCount == true)
+	protocolAction : ProtocolActionMapping(actionTypeCode == "300", protocolStatusCode in ("100", "102", "104", "105", "106", "200", "201", "202", "203", "302", "308",  "304", "311", "402"), submissionCount == true)
 then	
 	setAction(protocolAction, true);
 end
@@ -382,7 +382,7 @@ rule "Notify IRB"
 salience 100
 when
 	protocolAction : ProtocolActionMapping(actionTypeCode == "116",
-	  protocolStatusCode not in ("100", "101", "102", "103", "105", "106", "313"))
+	  protocolStatusCode not in ("100", "101", "102", "103", "105", "106", "313", "402"))
 then	
 	setAction(protocolAction, true);
 end
@@ -399,7 +399,7 @@ end
 rule "Make Administrative Correction"
 salience 100
 when
-	protocolAction : ProtocolActionMapping(actionTypeCode == "113", protocolStatusCode not in ("100", "102", "103", "104", "304", "306", "313"))
+	protocolAction : ProtocolActionMapping(actionTypeCode == "113", protocolStatusCode not in ("100", "102", "103", "104", "304", "306", "313", "402"))
 then	
 	setAction(protocolAction, true);
 end

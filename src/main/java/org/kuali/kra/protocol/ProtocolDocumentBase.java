@@ -29,6 +29,8 @@ import org.kuali.kra.bo.RolePersons;
 import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.irb.actions.ProtocolAction;
+import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.krms.KcKrmsConstants;
 import org.kuali.kra.krms.KrmsRulesContext;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;
@@ -246,6 +248,8 @@ public abstract class ProtocolDocumentBase extends ResearchDocumentBase implemen
                 // TODO Need to figure out what to do if the versioning throws exceptions
                 e.printStackTrace();
             }
+        } else if (isRecall(statusChangeEvent)) {
+            getProtocolGenericActionService().recall(getProtocol());
         }
     }
     
@@ -274,7 +278,6 @@ public abstract class ProtocolDocumentBase extends ResearchDocumentBase implemen
     protected abstract ProtocolNotification getNewProtocolNotificationInstanceHook();
 
     protected abstract ProtocolNotificationContextBase getDisapproveNotificationContextHook(ProtocolBase protocol);
-
     
     
     // get the most recent current action instance from the action list
@@ -460,6 +463,11 @@ public abstract class ProtocolDocumentBase extends ResearchDocumentBase implemen
      */
     protected boolean isDisapproved(DocumentRouteStatusChange statusChangeEvent) {
         return StringUtils.equals(KewApiConstants.ROUTE_HEADER_DISAPPROVED_CD, statusChangeEvent.getNewRouteStatus());
+    }
+    
+    protected boolean isRecall(DocumentRouteStatusChange statusChangeEvent) {
+        return !StringUtils.equals(KewApiConstants.ROUTE_HEADER_INITIATED_CD, statusChangeEvent.getOldRouteStatus()) 
+                && StringUtils.equals(KewApiConstants.ROUTE_HEADER_SAVED_CD, statusChangeEvent.getNewRouteStatus());
     }
    
     

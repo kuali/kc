@@ -107,7 +107,7 @@ public class PermissionAttributes {
         
         attributes = new HashMap<String, String>(); 
         attributes.put(ATTR_DOCUMENT_TYPE_NAME, DOC_TYPE_PROPOSAL_DEVELOPMENT); 
-        tempAttributesMap.put(PermissionConstants.RECALL_PROPOSAL_DOCUMENT, attributes);
+        tempAttributesMap.put(PermissionConstants.RECALL_DOCUMENT, attributes);
 
         attributes = new HashMap<String, String>();
         attributes.put(ATTR_DOCUMENT_TYPE_NAME, DOC_TYPE_PROPOSAL_DEVELOPMENT); 

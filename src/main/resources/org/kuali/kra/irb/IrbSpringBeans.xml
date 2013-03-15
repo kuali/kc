@@ -525,6 +525,9 @@
                 <bean class="org.kuali.kra.irb.auth.ProtocolReturnToPIUnavailableAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="protocolReturnToPIUnavailable" />
                 </bean>
+                <bean class="org.kuali.kra.irb.auth.RecallProtocolAuthorizer" parent="parentProtocolAuthorizer">
+                    <property name="taskName" value="recallProtocol" />
+                </bean>
             </list>
         </property>
     </bean>

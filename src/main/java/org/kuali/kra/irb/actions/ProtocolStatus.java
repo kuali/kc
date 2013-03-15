@@ -73,6 +73,8 @@ public class ProtocolStatus extends ProtocolStatusBase {
     public static final String AMENDMENT_MERGED = "400";
 
     public static final String RENEWAL_MERGED = "401";
+    
+    public static final String RECALLED_IN_ROUTING = "402";
 
 // TODO ********************** commented out during IRB backfit ************************    
 //    private String protocolStatusCode;

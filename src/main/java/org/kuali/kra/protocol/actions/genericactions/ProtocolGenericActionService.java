@@ -169,6 +169,13 @@ public interface ProtocolGenericActionService {
      * @throws Exception if there was a general problem performing the action
      */
     void terminate(ProtocolBase protocol, ProtocolGenericActionBean actionBean) throws Exception;
+    
+    /**
+     * Recalls the proposal
+     * @param protocol
+     * @throws Exception
+     */
+    void recall(ProtocolBase protocol);
 
     
 }
