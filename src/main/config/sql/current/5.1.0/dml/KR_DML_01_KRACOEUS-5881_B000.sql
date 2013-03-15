@@ -48,7 +48,7 @@ insert into KRMS_FUNC_T (FUNC_ID,NM,DESC_TXT,RTRN_TYP,VER_NBR,ACTV,TYP_ID,NMSPC_
 /
 insert into KRMS_FUNC_PARM_T (FUNC_PARM_ID,FUNC_ID,NM,DESC_TXT,TYP,SEQ_NO) 
 	values ('KC0095',(select FUNC_ID from KRMS_FUNC_T where  NM='isProtocolAmendment' and NMSPC_CD='KC-PROTOCOL'),
-				'IrbProtocol','Irb Protocol BO','org.kuali.kra.irb.Protocol',1)
+				'IrbProtocol','Irb Protocol BO','org.kuali.kra.protocol.ProtocolBase',1)
 /
 insert into KRMS_TERM_SPEC_T (TERM_SPEC_ID, NMSPC_CD, NM, DESC_TXT, TYP, ACTV, VER_NBR) 
 	values ('KC2050','KC-PROTOCOL',(select FUNC_ID from KRMS_FUNC_T where  NM='isProtocolAmendment' and NMSPC_CD='KC-PROTOCOL'),
@@ -83,7 +83,7 @@ insert into KRMS_FUNC_T (FUNC_ID,NM,DESC_TXT,RTRN_TYP,VER_NBR,ACTV,TYP_ID,NMSPC_
 /
 insert into KRMS_FUNC_PARM_T (FUNC_PARM_ID,FUNC_ID,NM,DESC_TXT,TYP,SEQ_NO) 
 	values ('KC0096',(select FUNC_ID from KRMS_FUNC_T where  NM='isProtocolRenewal' and NMSPC_CD='KC-PROTOCOL'),
-				'IrbProtocol','Irb Protocol BO','org.kuali.kra.irb.Protocol',1)
+				'IrbProtocol','Irb Protocol BO','org.kuali.kra.protocol.ProtocolBase',1)
 /
 insert into KRMS_TERM_SPEC_T (TERM_SPEC_ID, NMSPC_CD, NM, DESC_TXT, TYP, ACTV, VER_NBR) 
 	values ('KC2051','KC-PROTOCOL',(select FUNC_ID from KRMS_FUNC_T where  NM='isProtocolRenewal' and NMSPC_CD='KC-PROTOCOL'),
@@ -118,7 +118,7 @@ insert into KRMS_FUNC_T (FUNC_ID,NM,DESC_TXT,RTRN_TYP,VER_NBR,ACTV,TYP_ID,NMSPC_
 /
 insert into KRMS_FUNC_PARM_T (FUNC_PARM_ID,FUNC_ID,NM,DESC_TXT,TYP,SEQ_NO) 
 	values ('KC0097',(select FUNC_ID from KRMS_FUNC_T where  NM='isProtocolLeadUnitBelow' and NMSPC_CD='KC-PROTOCOL'),
-				'IrbProtocol','Irb Protocol BO','org.kuali.kra.irb.Protocol',1)
+				'IrbProtocol','Irb Protocol BO','org.kuali.kra.protocol.ProtocolBase',1)
 /
 insert into KRMS_FUNC_PARM_T (FUNC_PARM_ID,FUNC_ID,NM,DESC_TXT,TYP,SEQ_NO) 
 	values ('KC0098',(select FUNC_ID from KRMS_FUNC_T where  NM='isProtocolLeadUnitBelow' and NMSPC_CD='KC-PROTOCOL'),
@@ -157,7 +157,7 @@ insert into KRMS_FUNC_T (FUNC_ID,NM,DESC_TXT,RTRN_TYP,VER_NBR,ACTV,TYP_ID,NMSPC_
 /
 insert into KRMS_FUNC_PARM_T (FUNC_PARM_ID,FUNC_ID,NM,DESC_TXT,TYP,SEQ_NO) 
 	values ('KC0099',(select FUNC_ID from KRMS_FUNC_T where  NM='hasProtocolContainsOrganization' and NMSPC_CD='KC-PROTOCOL'),
-				'IrbProtocol','Irb Protocol BO','org.kuali.kra.irb.Protocol',1)
+				'IrbProtocol','Irb Protocol BO','org.kuali.kra.protocol.ProtocolBase',1)
 /
 insert into KRMS_FUNC_PARM_T (FUNC_PARM_ID,FUNC_ID,NM,DESC_TXT,TYP,SEQ_NO) 
 	values ('KC0100',(select FUNC_ID from KRMS_FUNC_T where  NM='hasProtocolContainsOrganization' and NMSPC_CD='KC-PROTOCOL'),
@@ -196,7 +196,7 @@ insert into KRMS_FUNC_T (FUNC_ID,NM,DESC_TXT,RTRN_TYP,VER_NBR,ACTV,TYP_ID,NMSPC_
 /
 insert into KRMS_FUNC_PARM_T (FUNC_PARM_ID,FUNC_ID,NM,DESC_TXT,TYP,SEQ_NO) 
 	values ('KC0101',(select FUNC_ID from KRMS_FUNC_T where  NM='hasFundingSourceContainsSponsor' and NMSPC_CD='KC-PROTOCOL'),
-				'IrbProtocol','Irb Protocol BO','org.kuali.kra.irb.Protocol',1)
+				'IrbProtocol','Irb Protocol BO','org.kuali.kra.protocol.ProtocolBase',1)
 /
 insert into KRMS_FUNC_PARM_T (FUNC_PARM_ID,FUNC_ID,NM,DESC_TXT,TYP,SEQ_NO) 
 	values ('KC0102',(select FUNC_ID from KRMS_FUNC_T where  NM='hasFundingSourceContainsSponsor' and NMSPC_CD='KC-PROTOCOL'),
@@ -235,7 +235,7 @@ insert into KRMS_FUNC_T (FUNC_ID,NM,DESC_TXT,RTRN_TYP,VER_NBR,ACTV,TYP_ID,NMSPC_
 /
 insert into KRMS_FUNC_PARM_T (FUNC_PARM_ID,FUNC_ID,NM,DESC_TXT,TYP,SEQ_NO) 
 	values ('KC0103',(select FUNC_ID from KRMS_FUNC_T where  NM='hasFundingSourceContainsUnit' and NMSPC_CD='KC-PROTOCOL'),
-				'IrbProtocol','Irb Protocol BO','org.kuali.kra.irb.Protocol',1)
+				'IrbProtocol','Irb Protocol BO','org.kuali.kra.protocol.ProtocolBase',1)
 /
 insert into KRMS_FUNC_PARM_T (FUNC_PARM_ID,FUNC_ID,NM,DESC_TXT,TYP,SEQ_NO) 
 	values ('KC0104',(select FUNC_ID from KRMS_FUNC_T where  NM='hasFundingSourceContainsUnit' and NMSPC_CD='KC-PROTOCOL'),
@@ -274,7 +274,7 @@ insert into KRMS_FUNC_T (FUNC_ID,NM,DESC_TXT,RTRN_TYP,VER_NBR,ACTV,TYP_ID,NMSPC_
 /
 insert into KRMS_FUNC_PARM_T (FUNC_PARM_ID,FUNC_ID,NM,DESC_TXT,TYP,SEQ_NO) 
 	values ('KC0105',(select FUNC_ID from KRMS_FUNC_T where  NM='hasProtocolContainsAreaOfResearch' and NMSPC_CD='KC-PROTOCOL'),
-				'IrbProtocol','Irb Protocol BO','org.kuali.kra.irb.Protocol',1)
+				'IrbProtocol','Irb Protocol BO','org.kuali.kra.protocol.ProtocolBase',1)
 /
 insert into KRMS_FUNC_PARM_T (FUNC_PARM_ID,FUNC_ID,NM,DESC_TXT,TYP,SEQ_NO) 
 	values ('KC0106',(select FUNC_ID from KRMS_FUNC_T where  NM='hasProtocolContainsAreaOfResearch' and NMSPC_CD='KC-PROTOCOL'),
@@ -312,7 +312,7 @@ insert into KRMS_FUNC_T (FUNC_ID,NM,DESC_TXT,RTRN_TYP,VER_NBR,ACTV,TYP_ID,NMSPC_
 /
 insert into KRMS_FUNC_PARM_T (FUNC_PARM_ID,FUNC_ID,NM,DESC_TXT,TYP,SEQ_NO) 
 	values ('KC0107',(select FUNC_ID from KRMS_FUNC_T where  NM='isSubmitUserProtocolPi' and NMSPC_CD='KC-PROTOCOL'),
-				'IrbProtocol','Irb Protocol BO','org.kuali.kra.irb.Protocol',1)
+				'IrbProtocol','Irb Protocol BO','org.kuali.kra.protocol.ProtocolBase',1)
 /
 insert into KRMS_FUNC_PARM_T (FUNC_PARM_ID,FUNC_ID,NM,DESC_TXT,TYP,SEQ_NO) 
 	values ('KC0108',(select FUNC_ID from KRMS_FUNC_T where  NM='isSubmitUserProtocolPi' and NMSPC_CD='KC-PROTOCOL'),
@@ -350,7 +350,7 @@ insert into KRMS_FUNC_T (FUNC_ID,NM,DESC_TXT,RTRN_TYP,VER_NBR,ACTV,TYP_ID,NMSPC_
 /
 insert into KRMS_FUNC_PARM_T (FUNC_PARM_ID,FUNC_ID,NM,DESC_TXT,TYP,SEQ_NO) 
 	values ('KC0109',(select FUNC_ID from KRMS_FUNC_T where  NM='isLeadUnitProtocolCampus' and NMSPC_CD='KC-PROTOCOL'),
-				'IrbProtocol','Irb Protocol BO','org.kuali.kra.irb.Protocol',1)
+				'IrbProtocol','Irb Protocol BO','org.kuali.kra.protocol.ProtocolBase',1)
 /
 insert into KRMS_FUNC_PARM_T (FUNC_PARM_ID,FUNC_ID,NM,DESC_TXT,TYP,SEQ_NO) 
 	values ('KC0110',(select FUNC_ID from KRMS_FUNC_T where  NM='isLeadUnitProtocolCampus' and NMSPC_CD='KC-PROTOCOL'),
@@ -388,7 +388,7 @@ insert into KRMS_FUNC_T (FUNC_ID,NM,DESC_TXT,RTRN_TYP,VER_NBR,ACTV,TYP_ID,NMSPC_
 /
 insert into KRMS_FUNC_PARM_T (FUNC_PARM_ID,FUNC_ID,NM,DESC_TXT,TYP,SEQ_NO) 
 	values ('KC0111',(select FUNC_ID from KRMS_FUNC_T where  NM='hasProtocolContainsDocumentType' and NMSPC_CD='KC-PROTOCOL'),
-				'IrbProtocol','Irb Protocol BO','org.kuali.kra.irb.Protocol',1)
+				'IrbProtocol','Irb Protocol BO','org.kuali.kra.protocol.ProtocolBase',1)
 /
 insert into KRMS_FUNC_PARM_T (FUNC_PARM_ID,FUNC_ID,NM,DESC_TXT,TYP,SEQ_NO) 
 	values ('KC0112',(select FUNC_ID from KRMS_FUNC_T where  NM='hasProtocolContainsDocumentType' and NMSPC_CD='KC-PROTOCOL'),
@@ -426,7 +426,7 @@ insert into KRMS_FUNC_T (FUNC_ID,NM,DESC_TXT,RTRN_TYP,VER_NBR,ACTV,TYP_ID,NMSPC_
 /
 insert into KRMS_FUNC_PARM_T (FUNC_PARM_ID,FUNC_ID,NM,DESC_TXT,TYP,SEQ_NO) 
 	values ('KC0113',(select FUNC_ID from KRMS_FUNC_T where  NM='isProtocolInSubmission' and NMSPC_CD='KC-PROTOCOL'),
-				'IrbProtocol','Irb Protocol BO','org.kuali.kra.irb.Protocol',1)
+				'IrbProtocol','Irb Protocol BO','org.kuali.kra.protocol.ProtocolBase',1)
 /
 insert into KRMS_FUNC_PARM_T (FUNC_PARM_ID,FUNC_ID,NM,DESC_TXT,TYP,SEQ_NO) 
 	values ('KC0114',(select FUNC_ID from KRMS_FUNC_T where  NM='isProtocolInSubmission' and NMSPC_CD='KC-PROTOCOL'),
@@ -464,15 +464,15 @@ insert into KRMS_FUNC_T (FUNC_ID,NM,DESC_TXT,RTRN_TYP,VER_NBR,ACTV,TYP_ID,NMSPC_
 /
 insert into KRMS_FUNC_PARM_T (FUNC_PARM_ID,FUNC_ID,NM,DESC_TXT,TYP,SEQ_NO) 
 	values ('KC0115',(select FUNC_ID from KRMS_FUNC_T where  NM='hasProtocolContainsNotifySubmissionQualifierType' and NMSPC_CD='KC-PROTOCOL'),
-				'IrbProtocol','Irb Protocol BO','org.kuali.kra.irb.Protocol',1)
+				'IrbProtocol','Irb Protocol BO','org.kuali.kra.protocol.ProtocolBase',1)
 /
 insert into KRMS_FUNC_PARM_T (FUNC_PARM_ID,FUNC_ID,NM,DESC_TXT,TYP,SEQ_NO) 
 	values ('KC0116',(select FUNC_ID from KRMS_FUNC_T where  NM='hasProtocolContainsNotifySubmissionQualifierType' and NMSPC_CD='KC-PROTOCOL'),
-				'Submission number','Submission number','java.lang.String',2)
+				'Submission number','Submission number','java.lang.Integer',2)
 /
 insert into KRMS_FUNC_PARM_T (FUNC_PARM_ID,FUNC_ID,NM,DESC_TXT,TYP,SEQ_NO) 
 	values ('KC0117',(select FUNC_ID from KRMS_FUNC_T where  NM='hasProtocolContainsNotifySubmissionQualifierType' and NMSPC_CD='KC-PROTOCOL'),
-				'Submission qualifier type code','Submission qualifier type code','java.lang.Integer',3)
+				'Submission qualifier type code','Submission qualifier type code','java.lang.String',3)
 /
 insert into KRMS_TERM_SPEC_T (TERM_SPEC_ID, NMSPC_CD, NM, DESC_TXT, TYP, ACTV, VER_NBR) 
 	values ('KC2061','KC-PROTOCOL',(select FUNC_ID from KRMS_FUNC_T where  NM='hasProtocolContainsNotifySubmissionQualifierType' and NMSPC_CD='KC-PROTOCOL'),
@@ -510,15 +510,15 @@ insert into KRMS_FUNC_T (FUNC_ID,NM,DESC_TXT,RTRN_TYP,VER_NBR,ACTV,TYP_ID,NMSPC_
 /
 insert into KRMS_FUNC_PARM_T (FUNC_PARM_ID,FUNC_ID,NM,DESC_TXT,TYP,SEQ_NO) 
 	values ('KC0118',(select FUNC_ID from KRMS_FUNC_T where  NM='hasSubmissionType' and NMSPC_CD='KC-PROTOCOL'),
-				'IrbProtocol','Irb Protocol BO','org.kuali.kra.irb.Protocol',1)
+				'IrbProtocol','Irb Protocol BO','org.kuali.kra.protocol.ProtocolBase',1)
 /
 insert into KRMS_FUNC_PARM_T (FUNC_PARM_ID,FUNC_ID,NM,DESC_TXT,TYP,SEQ_NO) 
 	values ('KC0119',(select FUNC_ID from KRMS_FUNC_T where  NM='hasSubmissionType' and NMSPC_CD='KC-PROTOCOL'),
-				'Submission number','Submission number','java.lang.String',2)
+				'Submission number','Submission number','java.lang.Integer',2)
 /
 insert into KRMS_FUNC_PARM_T (FUNC_PARM_ID,FUNC_ID,NM,DESC_TXT,TYP,SEQ_NO) 
 	values ('KC0120',(select FUNC_ID from KRMS_FUNC_T where  NM='hasSubmissionType' and NMSPC_CD='KC-PROTOCOL'),
-				'Submission type code','Submission type code','java.lang.Integer',3)
+				'Submission type code','Submission type code','java.lang.String',3)
 /
 insert into KRMS_TERM_SPEC_T (TERM_SPEC_ID, NMSPC_CD, NM, DESC_TXT, TYP, ACTV, VER_NBR) 
 	values ('KC2062','KC-PROTOCOL',(select FUNC_ID from KRMS_FUNC_T where  NM='hasSubmissionType' and NMSPC_CD='KC-PROTOCOL'),
@@ -556,7 +556,7 @@ insert into KRMS_FUNC_T (FUNC_ID,NM,DESC_TXT,RTRN_TYP,VER_NBR,ACTV,TYP_ID,NMSPC_
 /
 insert into KRMS_FUNC_PARM_T (FUNC_PARM_ID,FUNC_ID,NM,DESC_TXT,TYP,SEQ_NO) 
 	values ('KC0121',(select FUNC_ID from KRMS_FUNC_T where  NM='isPINotFaculty' and NMSPC_CD='KC-PROTOCOL'),
-				'IrbProtocol','Irb Protocol BO','org.kuali.kra.irb.Protocol',1)
+				'IrbProtocol','Irb Protocol BO','org.kuali.kra.protocol.ProtocolBase',1)
 /
 insert into KRMS_TERM_SPEC_T (TERM_SPEC_ID, NMSPC_CD, NM, DESC_TXT, TYP, ACTV, VER_NBR) 
 	values ('KC2063','KC-PROTOCOL',(select FUNC_ID from KRMS_FUNC_T where  NM='isPINotFaculty' and NMSPC_CD='KC-PROTOCOL'),
@@ -591,7 +591,7 @@ insert into KRMS_FUNC_T (FUNC_ID,NM,DESC_TXT,RTRN_TYP,VER_NBR,ACTV,TYP_ID,NMSPC_
 /
 insert into KRMS_FUNC_PARM_T (FUNC_PARM_ID,FUNC_ID,NM,DESC_TXT,TYP,SEQ_NO) 
 	values ('KC0122',(select FUNC_ID from KRMS_FUNC_T where  NM='isSpecialReviewExists' and NMSPC_CD='KC-PROTOCOL'),
-				'IrbProtocol','Irb Protocol BO','org.kuali.kra.irb.Protocol',1)
+				'IrbProtocol','Irb Protocol BO','org.kuali.kra.protocol.ProtocolBase',1)
 /
 insert into KRMS_TERM_SPEC_T (TERM_SPEC_ID, NMSPC_CD, NM, DESC_TXT, TYP, ACTV, VER_NBR) 
 	values ('KC2064','KC-PROTOCOL',(select FUNC_ID from KRMS_FUNC_T where  NM='isSpecialReviewExists' and NMSPC_CD='KC-PROTOCOL'),
@@ -626,7 +626,7 @@ insert into KRMS_FUNC_T (FUNC_ID,NM,DESC_TXT,RTRN_TYP,VER_NBR,ACTV,TYP_ID,NMSPC_
 /
 insert into KRMS_FUNC_PARM_T (FUNC_PARM_ID,FUNC_ID,NM,DESC_TXT,TYP,SEQ_NO) 
 	values ('KC0123',(select FUNC_ID from KRMS_FUNC_T where  NM='hasAllPersonsCompletedTraining' and NMSPC_CD='KC-PROTOCOL'),
-				'IrbProtocol','Irb Protocol BO','org.kuali.kra.irb.Protocol',1)
+				'IrbProtocol','Irb Protocol BO','org.kuali.kra.protocol.ProtocolBase',1)
 /
 insert into KRMS_TERM_SPEC_T (TERM_SPEC_ID, NMSPC_CD, NM, DESC_TXT, TYP, ACTV, VER_NBR) 
 	values ('KC2065','KC-PROTOCOL',(select FUNC_ID from KRMS_FUNC_T where  NM='hasAllPersonsCompletedTraining' and NMSPC_CD='KC-PROTOCOL'),
@@ -661,7 +661,7 @@ insert into KRMS_FUNC_T (FUNC_ID,NM,DESC_TXT,RTRN_TYP,VER_NBR,ACTV,TYP_ID,NMSPC_
 /
 insert into KRMS_FUNC_PARM_T (FUNC_PARM_ID,FUNC_ID,NM,DESC_TXT,TYP,SEQ_NO) 
 	values ('KC0124',(select FUNC_ID from KRMS_FUNC_T where  NM='isPiChangedInAmendmentOrRenewal' and NMSPC_CD='KC-PROTOCOL'),
-				'IrbProtocol','Irb Protocol BO','org.kuali.kra.irb.Protocol',1)
+				'IrbProtocol','Irb Protocol BO','org.kuali.kra.protocol.ProtocolBase',1)
 /
 insert into KRMS_TERM_SPEC_T (TERM_SPEC_ID, NMSPC_CD, NM, DESC_TXT, TYP, ACTV, VER_NBR) 
 	values ('KC2066','KC-PROTOCOL',(select FUNC_ID from KRMS_FUNC_T where  NM='isPiChangedInAmendmentOrRenewal' and NMSPC_CD='KC-PROTOCOL'),
@@ -696,7 +696,7 @@ insert into KRMS_FUNC_T (FUNC_ID,NM,DESC_TXT,RTRN_TYP,VER_NBR,ACTV,TYP_ID,NMSPC_
 /
 insert into KRMS_FUNC_PARM_T (FUNC_PARM_ID,FUNC_ID,NM,DESC_TXT,TYP,SEQ_NO) 
 	values ('KC0125',(select FUNC_ID from KRMS_FUNC_T where  NM='isOrganizationChangedInAmendmentOrRenewal' and NMSPC_CD='KC-PROTOCOL'),
-				'IrbProtocol','Irb Protocol BO','org.kuali.kra.irb.Protocol',1)
+				'IrbProtocol','Irb Protocol BO','org.kuali.kra.protocol.ProtocolBase',1)
 /
 insert into KRMS_TERM_SPEC_T (TERM_SPEC_ID, NMSPC_CD, NM, DESC_TXT, TYP, ACTV, VER_NBR) 
 	values ('KC2067','KC-PROTOCOL',(select FUNC_ID from KRMS_FUNC_T where  NM='isOrganizationChangedInAmendmentOrRenewal' and NMSPC_CD='KC-PROTOCOL'),
@@ -731,7 +731,7 @@ insert into KRMS_FUNC_T (FUNC_ID,NM,DESC_TXT,RTRN_TYP,VER_NBR,ACTV,TYP_ID,NMSPC_
 /
 insert into KRMS_FUNC_PARM_T (FUNC_PARM_ID,FUNC_ID,NM,DESC_TXT,TYP,SEQ_NO) 
 	values ('KC0126',(select FUNC_ID from KRMS_FUNC_T where  NM='isProtocolRenewalWithAmendment' and NMSPC_CD='KC-PROTOCOL'),
-				'IrbProtocol','Irb Protocol BO','org.kuali.kra.irb.Protocol',1)
+				'IrbProtocol','Irb Protocol BO','org.kuali.kra.protocol.ProtocolBase',1)
 /
 insert into KRMS_TERM_SPEC_T (TERM_SPEC_ID, NMSPC_CD, NM, DESC_TXT, TYP, ACTV, VER_NBR) 
 	values ('KC2068','KC-PROTOCOL',(select FUNC_ID from KRMS_FUNC_T where  NM='isProtocolRenewalWithAmendment' and NMSPC_CD='KC-PROTOCOL'),
@@ -758,4 +758,42 @@ insert into KRMS_TERM_RSLVR_T (TERM_RSLVR_ID, NMSPC_CD, NM, TYP_ID, OUTPUT_TERM_
 				(select TERM_SPEC_ID from KRMS_TERM_SPEC_T where NMSPC_CD='KC-PROTOCOL' and 
 					NM=(select FUNC_ID from KRMS_FUNC_T where  NM='isProtocolRenewalWithAmendment' and NMSPC_CD='KC-PROTOCOL')),
 					'Y',1)
+/
+--    public Boolean hasProtocolContainsSubjectType(Protocol protocol, String subjectTypeCode);
+insert into KRMS_FUNC_T (FUNC_ID,NM,DESC_TXT,RTRN_TYP,VER_NBR,ACTV,TYP_ID,NMSPC_CD) 
+	values ('KC1068','hasProtocolContainsSubjectType','Check Protocol has passed in Subject Type','java.lang.Boolean',1,'Y',
+			(select TYP_ID from KRMS_TYP_T where NM='IRB Java Function Term Service' and NMSPC_CD='KC-PROTOCOL'),'KC-PROTOCOL')
+/
+insert into KRMS_FUNC_PARM_T (FUNC_PARM_ID,FUNC_ID,NM,DESC_TXT,TYP,SEQ_NO) 
+	values ('KC0127',(select FUNC_ID from KRMS_FUNC_T where  NM='hasProtocolContainsSubjectType' and NMSPC_CD='KC-PROTOCOL'),
+				'IrbProtocol','Irb Protocol BO','org.kuali.kra.irb.Protocol',1)
+/
+insert into KRMS_FUNC_PARM_T (FUNC_PARM_ID,FUNC_ID,NM,DESC_TXT,TYP,SEQ_NO) 
+	values ('KC0128',(select FUNC_ID from KRMS_FUNC_T where  NM='hasProtocolContainsSubjectType' and NMSPC_CD='KC-PROTOCOL'),
+				'Subject Type Code','Subject Type Code','java.lang.String',2)
+/
+insert into KRMS_TERM_SPEC_T (TERM_SPEC_ID, NMSPC_CD, NM, DESC_TXT, TYP, ACTV, VER_NBR) 
+	values ('KC2069','KC-PROTOCOL',(select FUNC_ID from KRMS_FUNC_T where  NM='hasProtocolContainsSubjectType' and NMSPC_CD='KC-PROTOCOL'),
+				'Check Protocol has subject type','java.lang.Boolean','Y',1)
+/
+insert into KRMS_CNTXT_VLD_TERM_SPEC_T (CNTXT_TERM_SPEC_PREREQ_ID, CNTXT_ID, TERM_SPEC_ID, PREREQ) 
+	values ('KC2069','KC-PROTOCOL-CONTEXT',(select TERM_SPEC_ID from KRMS_TERM_SPEC_T where NMSPC_CD='KC-PROTOCOL' and 
+					NM=(select FUNC_ID from KRMS_FUNC_T where  NM='hasProtocolContainsSubjectType' and NMSPC_CD='KC-PROTOCOL')),
+					'Y')
+/
+insert into KRMS_TERM_SPEC_CTGRY_T (TERM_SPEC_ID, CTGRY_ID) 
+	values ((select TERM_SPEC_ID from KRMS_TERM_SPEC_T where NMSPC_CD='KC-PROTOCOL' and 
+					NM=(select FUNC_ID from KRMS_FUNC_T where  NM='hasProtocolContainsSubjectType' and NMSPC_CD='KC-PROTOCOL')), 
+			(select CTGRY_ID from KRMS_CTGRY_T where NMSPC_CD='KC-PROTOCOL' and NM='Function'))
+/
+insert into KRMS_TERM_RSLVR_T (TERM_RSLVR_ID, NMSPC_CD, NM, TYP_ID, OUTPUT_TERM_SPEC_ID, ACTV, VER_NBR) 
+	values ('KC2065','KC-PROTOCOL','Protocol subject type check Resolver',
+			(select TYP_ID from KRMS_TYP_T where NM='Function Term Resolver Type Service' and NMSPC_CD='KC-KRMS'),
+				(select TERM_SPEC_ID from KRMS_TERM_SPEC_T where NMSPC_CD='KC-PROTOCOL' and 
+					NM=(select FUNC_ID from KRMS_FUNC_T where  NM='hasProtocolContainsSubjectType' and NMSPC_CD='KC-PROTOCOL')),
+					'Y',1)
+/
+insert into KRMS_TERM_RSLVR_PARM_SPEC_T (TERM_RSLVR_PARM_SPEC_ID, TERM_RSLVR_ID, NM, VER_NBR) 
+	values ('KC2056', (select TERM_RSLVR_ID from KRMS_TERM_RSLVR_T where NM='Protocol subject type check Resolver' and NMSPC_CD='KC-PROTOCOL'), 
+			'Subject Type Code', 1)
 /
