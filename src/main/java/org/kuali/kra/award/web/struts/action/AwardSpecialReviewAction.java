@@ -27,6 +27,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.document.AwardDocument;
+import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.notification.AwardNotificationContext;
 import org.kuali.kra.award.specialreview.AwardSpecialReview;
 import org.kuali.kra.bo.SpecialReviewType;
@@ -119,9 +120,15 @@ public class AwardSpecialReviewAction extends AwardAction {
             if (specialReview.getSpecialReviewType() == null) {
                 specialReview.refreshReferenceObject("specialReviewType");
             }
+            AwardNotificationContext context = null; 
             if (StringUtils.equals(specialReview.getSpecialReviewType().getSpecialReviewTypeCode(), SpecialReviewType.HUMAN_SUBJECTS)) {
-                AwardNotificationContext context = 
-                    new AwardNotificationContext(document.getAward(), "552", "Special Review Inserted", Constants.MAPPING_AWARD_SPECIAL_REVIEW_PAGE);
+                context = new AwardNotificationContext(document.getAward(), Award.NOTIFICATION_IRB_SPECIAL_REVIEW_LINK_ADDED, "Special Review Inserted", 
+                                                       Constants.MAPPING_AWARD_SPECIAL_REVIEW_PAGE);
+            } else if (StringUtils.equals(specialReview.getSpecialReviewType().getSpecialReviewTypeCode(), SpecialReviewType.ANIMAL_USAGE)) {
+                context = new AwardNotificationContext(document.getAward(), Award.NOTIFICATION_IACUC_SPECIAL_REVIEW_LINK_ADDED, "Special Review Inserted", 
+                        Constants.MAPPING_AWARD_SPECIAL_REVIEW_PAGE);
+            }
+            if (context != null) {
                 if (awardForm.getNotificationHelper().getPromptUserForNotificationEditor(context)) {
                     awardForm.getNotificationHelper().initializeDefaultValues(context);
                     forward = mapping.findForward("notificationEditor");
@@ -175,9 +182,15 @@ public class AwardSpecialReviewAction extends AwardAction {
             if (specialReview.getSpecialReviewType() == null) {
                 specialReview.refreshReferenceObject("specialReviewType");
             }
+            AwardNotificationContext context = null; 
             if (StringUtils.equals(specialReview.getSpecialReviewType().getSpecialReviewTypeCode(), SpecialReviewType.HUMAN_SUBJECTS)) {
-                AwardNotificationContext context = 
-                    new AwardNotificationContext(document.getAward(), "553", "Special Review Deleted", Constants.MAPPING_AWARD_SPECIAL_REVIEW_PAGE);
+                    context = new AwardNotificationContext(document.getAward(), Award.NOTIFICATION_IRB_SPECIAL_REVIEW_LINK_DELETED, "Special Review Deleted", 
+                                                           Constants.MAPPING_AWARD_SPECIAL_REVIEW_PAGE);
+            } else if (StringUtils.equals(specialReview.getSpecialReviewType().getSpecialReviewTypeCode(), SpecialReviewType.ANIMAL_USAGE)) {
+                    context = new AwardNotificationContext(document.getAward(), Award.NOTIFICATION_IACUC_SPECIAL_REVIEW_LINK_DELETED, "Special Review Deleted", 
+                                                           Constants.MAPPING_AWARD_SPECIAL_REVIEW_PAGE);
+            }
+            if (context != null) {
                 if (awardForm.getNotificationHelper().getPromptUserForNotificationEditor(context)) {
                     awardForm.getNotificationHelper().initializeDefaultValues(context);
                     forward = mapping.findForward("notificationEditor");
