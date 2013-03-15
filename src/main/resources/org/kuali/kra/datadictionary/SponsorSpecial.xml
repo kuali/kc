@@ -7,7 +7,7 @@
     <bean id="SponsorSpecial" parent="SponsorSpecial-parentBean" />
     <bean id="SponsorSpecial-parentBean" abstract="true" parent="Sponsor-parentBean">
     	<property name="businessObjectClass" value="org.kuali.kra.bo.SponsorSpecial" />
-    	<property name="objectLabel" value="Sponsor Special" />
+    	<property name="objectLabel" value="Sponsor Maintenance" />
     	<property name="inquiryDefinition" >
 	      <ref bean="SponsorSpecial-inquiryDefinition" />
 	    </property>
@@ -19,11 +19,11 @@
     
     <bean id="SponsorSpecial-inquiryDefinition" parent="SponsorSpecial-inquiryDefinition-parentBean" />
   	<bean id="SponsorSpecial-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    	<property name="title" value="Sponsor Special" />
+    	<property name="title" value="Sponsor Maintenance" />
     	<property name="inquirySections" >
 	      	<list>
 	        	<bean parent="InquirySectionDefinition">
-		          	<property name="title" value="Sponsor Special" />
+		          	<property name="title" value="Sponsor Maintenance" />
 		          	<property name="numberOfColumns" value="1" />
 		          	<property name="inquiryFields" >
 			            <list>
@@ -53,7 +53,7 @@
 
 	<bean id="SponsorSpecial-lookupDefinition" parent="SponsorSpecial-lookupDefinition-parentBean" />
   	<bean id="SponsorSpecial-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    	<property name="title" value="Sponsor Special Lookup" />
+    	<property name="title" value="Sponsor Maintenance Lookup" />
     	<property name="lookupableID" value="sponsorLookupable" />
     	<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
 

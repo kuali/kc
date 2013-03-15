@@ -46,8 +46,8 @@
 	
 	<bean id="SponsorSpecialMaintenanceDocument-EditSponsorSpecial" parent="SponsorSpecialMaintenanceDocument-EditSponsorSpecial-parentBean"/>
 	<bean id="SponsorSpecialMaintenanceDocument-EditSponsorSpecial-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-		<property name="id" value="Edit Sponsor Special"/>
-    <property name="title" value="Edit Sponsor Special"/>
+		<property name="id" value="Edit Sponsor Maintenance"/>
+    <property name="title" value="Edit Sponsor Maintenance"/>
     <property name="maintainableItems">
       <list>
         <bean parent="MaintainableFieldDefinition" p:name="sponsorCode" p:required="true"/>
