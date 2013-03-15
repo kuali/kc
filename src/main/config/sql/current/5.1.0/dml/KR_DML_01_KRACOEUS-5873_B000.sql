@@ -98,3 +98,14 @@ insert into KRMS_FUNC_T (FUNC_ID,NM,DESC_TXT,RTRN_TYP,VER_NBR,ACTV,TYP_ID,NMSPC_
 /
 insert into KRMS_FUNC_T (FUNC_ID,NM,DESC_TXT,RTRN_TYP,VER_NBR,ACTV,TYP_ID,NMSPC_CD) values ('KC1047','investigatorKeyPersonCertificationRule','verify that each investigator and key person are certified.','java.lang.String',1,'Y','KC1006','KC-PD')
 /
+update KRMS_TERM_SPEC_T A set NM = (select FUNC_ID from KRMS_FUNC_T B where B.NM=A.NM) 
+  where exists (select FUNC_ID from KRMS_FUNC_T C where C.NM=A.NM)
+/
+update krms_term_t set desc_txt = 
+    (select krms_term_spec_t.desc_txt||'('||krms_term_t.desc_txt||')' from krms_term_spec_t
+          where krms_term_spec_t.term_spec_id=krms_term_t.term_spec_id 
+          		and krms_term_spec_t.nm in (select func_id from krms_func_t))
+where exists  (select krms_term_spec_t.desc_txt||'('||krms_term_t.desc_txt||')' from krms_term_spec_t 
+          where krms_term_spec_t.term_spec_id=krms_term_t.term_spec_id 
+          		and krms_term_spec_t.nm in (select func_id from krms_func_t))
+/
