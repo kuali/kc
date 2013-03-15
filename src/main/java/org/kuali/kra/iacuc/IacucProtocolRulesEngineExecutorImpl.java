@@ -13,32 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.iacuc.rules;
+package org.kuali.kra.iacuc;
 
-import java.io.ByteArrayInputStream;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
 
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.krms.KcKrmsConstants;
 import org.kuali.kra.krms.KcRulesEngineExecuter;
-import org.kuali.kra.krms.service.KcKrmsCacheManager;
 import org.kuali.kra.krms.service.KcKrmsFactBuilderService;
-import org.kuali.rice.core.api.exception.RiceRuntimeException;
-import org.kuali.rice.core.api.util.xml.XmlHelper;
 import org.kuali.rice.kew.engine.RouteContext;
-import org.kuali.rice.kew.framework.support.krms.RulesEngineExecutor;
-import org.kuali.rice.kew.rule.xmlrouting.XPathHelper;
 import org.kuali.rice.krms.api.engine.Engine;
 import org.kuali.rice.krms.api.engine.EngineResults;
 import org.kuali.rice.krms.api.engine.Facts;
 import org.kuali.rice.krms.api.engine.SelectionCriteria;
-import org.w3c.dom.Document;
 
 public class IacucProtocolRulesEngineExecutorImpl extends KcRulesEngineExecuter {
     
