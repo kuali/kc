@@ -372,7 +372,7 @@ private static final String SUBAWARD_VERSION_EDITPENDING_PROMPT_KEY = "message.s
         getSubAwardContactsList().get(selectedLineNumber);
         subAwardDocument.getSubAward().
         getSubAwardContactsList().remove(selectedLineNumber);
-        this.getBusinessObjectService().delete(subAwardContact);
+//      this.getBusinessObjectService().delete(subAwardContact); // let save() do this
         return mapping.findForward(Constants.MAPPING_SUBAWARD_PAGE);
     }
 
@@ -441,7 +441,7 @@ public ActionForward deleteCloseout(ActionMapping mapping,
         getSubAward().getSubAwardCloseoutList().get(selectedLineNumber);
         subAwardDocument.getSubAward().
         getSubAwardCloseoutList().remove(selectedLineNumber);
-        this.getBusinessObjectService().delete(subAwardCloseout);
+//        this.getBusinessObjectService().delete(subAwardCloseout); // let save() do this
         return mapping.findForward(Constants.MAPPING_SUBAWARD_PAGE);
     }
 
