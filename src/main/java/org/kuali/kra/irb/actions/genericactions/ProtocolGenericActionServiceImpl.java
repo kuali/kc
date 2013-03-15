@@ -279,8 +279,11 @@ public class ProtocolGenericActionServiceImpl extends ProtocolGenericActionServi
     protected String getDisapprovedProtocolStatusCodeHook() {
         return ProtocolStatus.DISAPPROVED;
     }
-    
-    
+
+    @Override
+    protected String getRecallProtocolActionTypeCodeHook() {
+        return ProtocolActionType.RECALLED_IN_ROUTING;
+    }
     
     
 // TODO ********************** commented out during IRB backfit ************************    
