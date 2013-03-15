@@ -21,7 +21,6 @@ import java.io.IOException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.fop.pdf.PDFText;
 import org.kuali.kra.printing.service.WatermarkService;
 import org.kuali.kra.util.watermark.WatermarkBean;
 import org.kuali.kra.util.watermark.WatermarkConstants;
@@ -30,10 +29,7 @@ import com.lowagie.text.BadElementException;
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
 import com.lowagie.text.Element;
-import com.lowagie.text.Font;
-import com.lowagie.text.HeaderFooter;
 import com.lowagie.text.Image;
-import com.lowagie.text.Phrase;
 import com.lowagie.text.Rectangle;
 import com.lowagie.text.pdf.PdfContentByte;
 import com.lowagie.text.pdf.PdfGState;
@@ -93,10 +89,10 @@ public class WatermarkServiceImpl implements WatermarkService {
         PdfReader pdfReader;
         PdfReader reader;
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        ByteArrayOutputStream copyByteArrayOutputStream = new ByteArrayOutputStream();
         PdfStamper pdfStamp;
         Document document = null;
         PdfWriter writer = null;
-    
         int nop;
         try {
             reader = new PdfReader(pdfContent);
@@ -106,45 +102,11 @@ public class WatermarkServiceImpl implements WatermarkService {
                     .getPageSizeWithRotation(1))
                     : new com.lowagie.text.Document();
             writer = PdfWriter.getInstance(document, byteArrayOutputStream);
-            Font bf_courier=new Font(Font.TIMES_ROMAN, watermarkBean.getPositionFont().getSize(), Font.BOLD, watermarkBean.getFont().getColor());
-            if(watermarkBean.getPosition().equals(WatermarkConstants.WATERMARK_POSITION_FOOTER)){
-             HeaderFooter footer = new HeaderFooter(new Phrase(watermarkBean.getText(), new Font(bf_courier)), false);
-             footer.setBorder(Rectangle.NO_BORDER);
-            footer.setBorderColor(watermarkBean.getFont().getColor());
-            if(watermarkBean.getAlignment().equals(WatermarkConstants.ALIGN_CENTER)){
-           footer.setAlignment(Element.ALIGN_CENTER);}
-            else if(watermarkBean.getAlignment().equals(WatermarkConstants.ALIGN_RIGHT)){
-                footer.setAlignment(Element.ALIGN_RIGHT); 
-            }
-            else if(watermarkBean.getAlignment().equals(WatermarkConstants.ALIGN_LEFT)){
-                footer.setAlignment(Element.ALIGN_LEFT); 
-            }
-             document.setFooter(footer);
-             watermarkPageDocument(document,writer,reader);
-           }
-            else if(watermarkBean.getPosition().equals(WatermarkConstants.WATERMARK_POSITION_HEADER))
-            {
-              HeaderFooter header = new HeaderFooter(
-                         new Phrase(watermarkBean.getText(), new Font(bf_courier)), false);
-             header.setBorder(Rectangle.NO_BORDER);
-             if(watermarkBean.getAlignment().equals(WatermarkConstants.ALIGN_CENTER)){
-                 header.setAlignment(Element.ALIGN_CENTER);}
-                else if(watermarkBean.getAlignment().equals(WatermarkConstants.ALIGN_RIGHT)){
-                    header.setAlignment(Element.ALIGN_RIGHT); 
-                }
-                else if(watermarkBean.getAlignment().equals(WatermarkConstants.ALIGN_LEFT)){
-                    header.setAlignment(Element.ALIGN_LEFT); 
-                }
-               document.setHeader(header);
-               watermarkPageDocument(document,writer,reader);
-             }
-            else if(watermarkBean.getPosition().equals(WatermarkConstants.WATERMARK_POSITION_DIAGONAL)){
-                watermarkPageDocument(document,writer,reader);
-                byte[] bs = byteArrayOutputStream.toByteArray();
-                pdfReader = new PdfReader(bs);
-                pdfStamp = new PdfStamper(pdfReader, byteArrayOutputStream);
-                decorateWatermark(pdfStamp, watermarkBean);
-            }
+            watermarkPageDocument(document, writer, reader);
+            byte[] bs = byteArrayOutputStream.toByteArray();
+            pdfReader = new PdfReader(bs);
+            pdfStamp = new PdfStamper(pdfReader, copyByteArrayOutputStream);
+            decorateWatermark(pdfStamp, watermarkBean);
         }
         catch (IOException decorateWatermark) {
             LOG.error("Exception occured in WatermarkServiceImpl. Water mark Exception: " + decorateWatermark.getMessage());
@@ -152,7 +114,7 @@ public class WatermarkServiceImpl implements WatermarkService {
         catch (DocumentException documentException) {
             LOG.error("Exception occured in WatermarkServiceImpl. Water mark Exception: " + documentException.getMessage());
         }
-        return byteArrayOutputStream;
+        return copyByteArrayOutputStream;
     }
 
 
@@ -164,6 +126,7 @@ public class WatermarkServiceImpl implements WatermarkService {
      *        for decoration
      */
     private void decorateWatermark(PdfStamper watermarkPdfStamper, WatermarkBean watermarkBean) {
+        watermarkPdfStamper.setFormFlattening(true);  
         PdfReader pdfReader = watermarkPdfStamper.getReader();
         int pageCount = pdfReader.getNumberOfPages();
         int pdfPageNumber = 0;
@@ -175,12 +138,12 @@ public class WatermarkServiceImpl implements WatermarkService {
             pdfContents = watermarkPdfStamper.getOverContent(pdfPageNumber);
             rectangle = pdfReader.getPageSizeWithRotation(pdfPageNumber);
             if (watermarkBean.getType().equalsIgnoreCase(WatermarkConstants.WATERMARK_TYPE_IMAGE)) {  
-                decoratePdfWatermarkImage(pdfContents, (int) rectangle.getHeight(), (int) rectangle.getHeight(), watermarkBean);
+                decoratePdfWatermarkImage(pdfContents, (int) rectangle.getWidth(), (int) rectangle.getHeight(), watermarkBean);
             }
             if (watermarkBean.getType().equalsIgnoreCase(WatermarkConstants.WATERMARK_TYPE_TEXT)) {    
-                decoratePdfWatermarkText(pdfContents, (int) rectangle.getHeight(), (int) rectangle.getHeight(), watermarkBean);
+                decoratePdfWatermarkText(pdfContents, rectangle, watermarkBean);
             }
-            watermarkPdfStamper.setFormFlattening(true);    
+            watermarkPdfStamper.setFormFlattening(true);
         }
         try {
             watermarkPdfStamper.close();
@@ -202,37 +165,79 @@ public class WatermarkServiceImpl implements WatermarkService {
      * @param pageHeight
      * @param watermarkBean
      */
-    private void decoratePdfWatermarkText(PdfContentByte pdfContentByte, int pageWidth, int pageHeight, WatermarkBean watermarkBean) {
+    private void decoratePdfWatermarkText(PdfContentByte pdfContentByte, Rectangle rectangle, WatermarkBean watermarkBean) {
         float x, y, x1, y1, angle;
         final float OPACITY = 0.3f;
         PdfGState pdfGState = new PdfGState();
         pdfGState.setFillOpacity(OPACITY);
+        int pageWidth = (int) rectangle.getWidth();
+        int pageHeight = (int) rectangle.getHeight();
         try {
             if (watermarkBean.getType().equalsIgnoreCase(WatermarkConstants.WATERMARK_TYPE_TEXT)) {
                 pdfContentByte.beginText();
                 pdfContentByte.setGState(pdfGState);
-                pdfContentByte.setFontAndSize(watermarkBean.getFont().getBaseFont(), watermarkBean.getFont().getSize());
                 Color fillColor = watermarkBean.getFont().getColor() == null ? WatermarkConstants.DEFAULT_WATERMARK_COLOR
                         : watermarkBean.getFont().getColor();
                 pdfContentByte.setColorFill(fillColor);
-                int textWidth = (int) pdfContentByte.getEffectiveStringWidth(watermarkBean.getText(), false);
-                int diagonal = (int) Math.sqrt((pageWidth * pageWidth) + (pageHeight * pageHeight));
-                int pivotPoint = (diagonal - textWidth) / 2;
 
-                angle = (float) Math.atan((float) pageHeight / pageWidth);
+                if (watermarkBean.getPosition().equals(WatermarkConstants.WATERMARK_POSITION_FOOTER)) {
 
-                x = (float) (pivotPoint * pageWidth) / diagonal;
-                y = (float) (pivotPoint * pageHeight) / diagonal;
+                    pdfContentByte.setFontAndSize(watermarkBean.getFont().getBaseFont(), watermarkBean.getPositionFont().getSize());
+                    if (watermarkBean.getAlignment().equals(WatermarkConstants.ALIGN_CENTER)) {
+                        pdfContentByte.showTextAligned(Element.ALIGN_CENTER, watermarkBean.getText(), (rectangle.getLeft(rectangle
+                                .getBorderWidthLeft()) + rectangle.getRight(rectangle.getBorderWidthRight())) / 2, rectangle
+                                .getBottom(rectangle.getBorderWidthBottom() + watermarkBean.getPositionFont().getSize()), 0);
+                    }
+                    else if (watermarkBean.getAlignment().equals(WatermarkConstants.ALIGN_RIGHT)) {
+                        pdfContentByte.showTextAligned(Element.ALIGN_RIGHT, watermarkBean.getText(),
+                                rectangle.getRight(rectangle.getBorderWidthRight()),
+                                rectangle.getBottom(rectangle.getBorderWidthBottom() + watermarkBean.getPositionFont().getSize()),
+                                0);
+                    }
+                    else if (watermarkBean.getAlignment().equals(WatermarkConstants.ALIGN_LEFT)) {
+                        pdfContentByte.showTextAligned(Element.ALIGN_LEFT, watermarkBean.getText(),
+                                rectangle.getLeft(rectangle.getBorderWidthLeft()),
+                                rectangle.getBottom(rectangle.getBorderWidthBottom() + watermarkBean.getPositionFont().getSize()),
+                                0);
+                    }
+                }
+                else if (watermarkBean.getPosition().equals(WatermarkConstants.WATERMARK_POSITION_HEADER)) {
+                    pdfContentByte.setFontAndSize(watermarkBean.getFont().getBaseFont(), watermarkBean.getPositionFont().getSize());
+                    if (watermarkBean.getAlignment().equals(WatermarkConstants.ALIGN_CENTER)) {
+                        pdfContentByte.showTextAligned(Element.ALIGN_CENTER, watermarkBean.getText(), (rectangle.getLeft(rectangle
+                                .getBorderWidthLeft()) + rectangle.getRight(rectangle.getBorderWidthRight())) / 2, rectangle
+                                .getTop(rectangle.getBorderWidthTop() + watermarkBean.getPositionFont().getSize()), 0);
+                    }
+                    else if (watermarkBean.getAlignment().equals(WatermarkConstants.ALIGN_RIGHT)) {
+                        pdfContentByte.showTextAligned(Element.ALIGN_RIGHT, watermarkBean.getText(),
+                                rectangle.getRight(rectangle.getBorderWidthRight()),
+                                rectangle.getTop(rectangle.getBorderWidthTop() + watermarkBean.getPositionFont().getSize()), 0);
+                    }
+                    else if (watermarkBean.getAlignment().equals(WatermarkConstants.ALIGN_LEFT)) {
+                        pdfContentByte.showTextAligned(Element.ALIGN_LEFT, watermarkBean.getText(),
+                                rectangle.getLeft(rectangle.getBorderWidthLeft()),
+                                rectangle.getTop(rectangle.getBorderWidthTop() + watermarkBean.getPositionFont().getSize()), 0);
+                    }
+                }
+                else {
+                    pdfContentByte.setFontAndSize(watermarkBean.getFont().getBaseFont(), watermarkBean.getFont().getSize());
+                    int textWidth = (int) pdfContentByte.getEffectiveStringWidth(watermarkBean.getText(), false);
+                    int diagonal = (int) Math.sqrt((pageWidth * pageWidth) + (pageHeight * pageHeight));
+                    int pivotPoint = (diagonal - textWidth) / 2;
 
-                x1 = (float) (((float) watermarkBean.getFont().getSize() / 2) * Math.sin(angle));
-                y1 = (float) (((float) watermarkBean.getFont().getSize() / 2) * Math.cos(angle));
+                    angle = (float) Math.atan((float) pageHeight / pageWidth);
 
-                pdfContentByte.showTextAligned(Element.ALIGN_LEFT, watermarkBean.getText(), x + x1, y - y1, (float) Math
-                        .toDegrees(angle));
+                    x = (float) (pivotPoint * pageWidth) / diagonal;
+                    y = (float) (pivotPoint * pageHeight) / diagonal;
+
+                    x1 = (float) (((float) watermarkBean.getFont().getSize() / 2) * Math.sin(angle));
+                    y1 = (float) (((float) watermarkBean.getFont().getSize() / 2) * Math.cos(angle));
+
+                    pdfContentByte.showTextAligned(Element.ALIGN_LEFT, watermarkBean.getText(), x + x1, y - y1,
+                            (float) Math.toDegrees(angle));
+                }
                 pdfContentByte.endText();
-                
             }
-
         }
         catch (Exception exception) {
             LOG.error("Exception occured in WatermarkServiceImpl. Water mark Exception: " + exception.getMessage());
@@ -240,6 +245,7 @@ public class WatermarkServiceImpl implements WatermarkService {
 
 
     }
+   
     /**
      * This method is for setting the page properties of the document.
      * 
