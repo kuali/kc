@@ -14,6 +14,7 @@
 			<defaultExceptionWorkgroupName>KC-WKFLW:IRBAdmin</defaultExceptionWorkgroupName>
 			<docHandler>${kuali.docHandler.url.prefix}/protocolProtocol.do?methodToCall=docHandler</docHandler>
             <helpDefinitionURL>default.htm?turl=Documents/protocol.htm</helpDefinitionURL>
+            <authorizer>org.kuali.kra.irb.auth.ProtocolWorkflowDocumentAuthorizer</authorizer>
 			<active>true</active>
 			<policies>
 				<policy>

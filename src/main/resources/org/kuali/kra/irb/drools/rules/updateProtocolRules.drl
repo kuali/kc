@@ -472,3 +472,13 @@ then
 	setProtocolSubmissionStatusCode(protocolAction, "213");
 	setProtocolStatusCode(protocolAction, "107");
 end
+
+rule "fn_recall: Submission Status = 406 (Recalled in Routing); Protocol Status = 402 (Recalled in Routing)" 
+salience 100
+when
+	protocolAction : ProtocolActionUpdateMapping( actionTypeCode == "405")
+then	
+	createAuditTrail(protocolAction);
+	setProtocolSubmissionStatusCode(protocolAction, "406");
+	setProtocolStatusCode(protocolAction, "402");
+end

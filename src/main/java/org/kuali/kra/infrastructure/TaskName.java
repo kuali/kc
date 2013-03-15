@@ -169,6 +169,7 @@ public interface TaskName {
     public static final String PROTOCOL_MANAGE_NOTES = "protocolManageNotes";
     public static final String PROTOCOL_MANAGE_NOTES_UNAVAILABLE = "protocolManageNotesUnavailable";
     public static final String ABANDON_PROTOCOL = "protocolAbandon";
+    public static final String RECALL_PROTOCOL = "recallProtocol";
     
     public static final String ADMIN_APPROVE_PROTOCOL = "adminApproveProtocol"; 
     public static final String ADMIN_APPROVE_PROTOCOL_UNAVAILABLE = "adminApproveProtocolUnavailable"; 

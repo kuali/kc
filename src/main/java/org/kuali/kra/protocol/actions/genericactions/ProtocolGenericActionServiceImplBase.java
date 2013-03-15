@@ -333,6 +333,15 @@ public abstract class ProtocolGenericActionServiceImplBase implements ProtocolGe
         
         return newDocument;
     }
+    
+    protected abstract String getRecallProtocolActionTypeCodeHook();
+    
+    public void recall(ProtocolBase protocol) {
+        ProtocolActionBase protocolAction = getNewProtocolActionInstanceHook(protocol, null, getRecallProtocolActionTypeCodeHook());
+        protocolAction.setComments("Recalled in Routing");
+        protocol.getProtocolActions().add(protocolAction);
+        getProtocolActionService().updateProtocolStatus(protocolAction, protocol);
+    }
 
     public void setProtocolActionService(ProtocolActionService protocolActionService) {
         this.protocolActionService = protocolActionService;

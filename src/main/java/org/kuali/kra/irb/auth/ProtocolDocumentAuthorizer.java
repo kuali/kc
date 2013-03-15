@@ -29,6 +29,7 @@ import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.actions.ProtocolStatus;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewService;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.kim.api.identity.Person;
@@ -211,5 +212,11 @@ public class ProtocolDocumentAuthorizer extends KcTransactionalDocumentAuthorize
     public boolean canFyi(Document document, Person user) {
         return false;
     }
+    
+    @Override
+    public boolean canRecall(Document document, Person user) {
+        return canExecuteProtocolTask(user.getPrincipalId(), (ProtocolDocument)document, TaskName.RECALL_PROTOCOL);
+    }
+
     
 }

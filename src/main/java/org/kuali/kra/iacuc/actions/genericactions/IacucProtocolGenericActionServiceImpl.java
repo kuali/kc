@@ -136,5 +136,11 @@ public class IacucProtocolGenericActionServiceImpl extends ProtocolGenericAction
     protected String getDisapprovedProtocolStatusCodeHook() {
         return IacucProtocolStatus.DISAPPROVED;
     }
+
+    @Override
+    protected String getRecallProtocolActionTypeCodeHook() {
+        //not supported action type
+        return null;
+    }
     
 }

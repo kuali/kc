@@ -119,6 +119,7 @@ public class ProtocolActionType extends ProtocolActionTypeBase {
     
     // action type to be used only by workflow disapproval post-processpor
     public static final String REJECTED_IN_ROUTING = "404";
+    public static final String RECALLED_IN_ROUTING = "405";
 
     public static final String ASSIGN_REVIEWER = "901";
     public static final String REVIEW_COMPLETE = "902";
