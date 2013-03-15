@@ -16,14 +16,18 @@
 package org.kuali.kra.krms;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.lang.ClassUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.krms.api.repository.function.FunctionDefinition;
+import org.kuali.rice.krms.api.repository.function.FunctionParameterDefinition;
 
 /**
  * This class is for resolving terms for StoredFuncions. It extract values from prerequisites, execute Stored Function 
@@ -46,21 +50,65 @@ public class JavaFunctionResolver extends FunctionTermResolver{
         return callFunction(serviceName,methodName,orderedParamValues);
     }
     
+    private static HashSet<Class<?>> getWrapperTypes()
+    {
+        HashSet<Class<?>> ret = new HashSet<Class<?>>();
+        ret.add(Boolean.class);
+        ret.add(Integer.class);
+        ret.add(Long.class);
+        ret.add(Float.class);
+        ret.add(Double.class);
+        return ret;
+    }
+    private static final HashSet<Class<?>> WRAPPER_TYPES = getWrapperTypes();
     @SuppressWarnings("rawtypes")
     private Object callFunction(String serviceName, String methodName,List<Object> orderedParamValues) {
         try {
+            List<Object> functionParamObjects = new ArrayList<Object>();
+            List<FunctionParameterDefinition> functionParams = getFunctionTerm().getParameters();
             Class[] classtypes = new Class[orderedParamValues.size()];
             for (int i = 0; i < orderedParamValues.size(); i++) {
                 Object objValue = orderedParamValues.get(i);
-                classtypes[i] = objValue.getClass();
+                String paramClassType = functionParams.get(i).getParameterType();
+                Class paramClass = Class.forName(paramClassType);
+                if(ClassUtils.isAssignable(objValue.getClass(),paramClass)){
+                    classtypes[i] = paramClass;
+                    functionParamObjects.add(objValue);
+                }else if(WRAPPER_TYPES.contains(paramClass)){
+                    Object convertedObject = wrapValue(objValue,paramClassType);
+                    classtypes[i] = paramClass;
+                    functionParamObjects.add(convertedObject);
+                }else{
+                    throw new RuntimeException(paramClassType+" in "+serviceName+"."+methodName+" not defined properly");
+                }
+                
             }
             Object javaFucntionService = KraServiceLocator.getService(serviceName);
             Class javaFucntionServiceClass = javaFucntionService.getClass();
             Method method = javaFucntionServiceClass.getMethod(methodName, classtypes);
-            return method.invoke(javaFucntionService,orderedParamValues.toArray());
+            return method.invoke(javaFucntionService,functionParamObjects.toArray());
         }catch (Exception e) {
             LOG.error(e.getMessage(), e);
             throw new RuntimeException(e);
         }
+    }
+
+    private Object wrapValue(Object objValue, String paramClassType) {
+        Object retObj = objValue;
+        if(objValue==null){
+            return null;
+        }
+        if(paramClassType.equals("java.lang.Integer")){
+            retObj = new Integer(objValue.toString());
+        }else if(paramClassType.equals("java.lang.Long")){
+            retObj = new Long(objValue.toString());
+        }else if(paramClassType.equals("java.lang.Boolean")){
+            retObj = new Boolean(objValue.toString());
+        }else if(paramClassType.equals("java.lang.Float")){
+            retObj = new Float(objValue.toString());
+        }else if(paramClassType.equals("java.lang.Double")){
+            retObj = new Double(objValue.toString());
+        }
+        return retObj;
     }
 }
