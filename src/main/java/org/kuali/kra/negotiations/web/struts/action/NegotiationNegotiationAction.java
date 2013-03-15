@@ -130,7 +130,8 @@ public class NegotiationNegotiationAction extends NegotiationAction {
         NegotiationForm negotiationForm = (NegotiationForm) form;
         negotiationForm.getCustomDataHelper().prepareCustomData();
         loadCodeObjects(negotiationForm.getNegotiationDocument().getNegotiation());
-        docHandler(mapping, form, request, response);
+        prepareNegotiation(negotiationForm);
+        //docHandler(mapping, form, request, response);
         return actionForward;
     }
     

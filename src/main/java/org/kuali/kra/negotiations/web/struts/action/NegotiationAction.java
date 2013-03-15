@@ -57,10 +57,17 @@ public class NegotiationAction extends KraTransactionalDocumentActionBase {
             HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward forward = super.docHandler(mapping, form, request, response);
         NegotiationForm negotiationForm = (NegotiationForm) form;
+//        negotiationForm.getCustomDataHelper().prepareCustomData();
+//        Negotiation negotiation = negotiationForm.getNegotiationDocument().getNegotiation();
+//        getNegotiationService().checkForPropLogPromotion(negotiation);
+        prepareNegotiation(negotiationForm);
+        return forward;
+    }
+    
+    protected void prepareNegotiation(NegotiationForm negotiationForm) {
         negotiationForm.getCustomDataHelper().prepareCustomData();
         Negotiation negotiation = negotiationForm.getNegotiationDocument().getNegotiation();
         getNegotiationService().checkForPropLogPromotion(negotiation);
-        return forward;
     }
             
     /**
