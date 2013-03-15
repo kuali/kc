@@ -761,23 +761,23 @@ insert into KRMS_TERM_RSLVR_T (TERM_RSLVR_ID, NMSPC_CD, NM, TYP_ID, OUTPUT_TERM_
 /
 --    public Boolean hasProtocolContainsSubjectType(Protocol protocol, String subjectTypeCode);
 insert into KRMS_FUNC_T (FUNC_ID,NM,DESC_TXT,RTRN_TYP,VER_NBR,ACTV,TYP_ID,NMSPC_CD) 
-	values ('KC1068','hasProtocolContainsSubjectType','Check Protocol has passed in Subject Type','java.lang.Boolean',1,'Y',
+	values ('KC1088','hasProtocolContainsSubjectType','Check Protocol has passed in Subject Type','java.lang.Boolean',1,'Y',
 			(select TYP_ID from KRMS_TYP_T where NM='IRB Java Function Term Service' and NMSPC_CD='KC-PROTOCOL'),'KC-PROTOCOL')
 /
 insert into KRMS_FUNC_PARM_T (FUNC_PARM_ID,FUNC_ID,NM,DESC_TXT,TYP,SEQ_NO) 
-	values ('KC0127',(select FUNC_ID from KRMS_FUNC_T where  NM='hasProtocolContainsSubjectType' and NMSPC_CD='KC-PROTOCOL'),
+	values ('KC0159',(select FUNC_ID from KRMS_FUNC_T where  NM='hasProtocolContainsSubjectType' and NMSPC_CD='KC-PROTOCOL'),
 				'IrbProtocol','Irb Protocol BO','org.kuali.kra.irb.Protocol',1)
 /
 insert into KRMS_FUNC_PARM_T (FUNC_PARM_ID,FUNC_ID,NM,DESC_TXT,TYP,SEQ_NO) 
-	values ('KC0128',(select FUNC_ID from KRMS_FUNC_T where  NM='hasProtocolContainsSubjectType' and NMSPC_CD='KC-PROTOCOL'),
+	values ('KC0160',(select FUNC_ID from KRMS_FUNC_T where  NM='hasProtocolContainsSubjectType' and NMSPC_CD='KC-PROTOCOL'),
 				'Subject Type Code','Subject Type Code','java.lang.String',2)
 /
 insert into KRMS_TERM_SPEC_T (TERM_SPEC_ID, NMSPC_CD, NM, DESC_TXT, TYP, ACTV, VER_NBR) 
-	values ('KC2069','KC-PROTOCOL',(select FUNC_ID from KRMS_FUNC_T where  NM='hasProtocolContainsSubjectType' and NMSPC_CD='KC-PROTOCOL'),
+	values ('KC2089','KC-PROTOCOL',(select FUNC_ID from KRMS_FUNC_T where  NM='hasProtocolContainsSubjectType' and NMSPC_CD='KC-PROTOCOL'),
 				'Check Protocol has subject type','java.lang.Boolean','Y',1)
 /
 insert into KRMS_CNTXT_VLD_TERM_SPEC_T (CNTXT_TERM_SPEC_PREREQ_ID, CNTXT_ID, TERM_SPEC_ID, PREREQ) 
-	values ('KC2069','KC-PROTOCOL-CONTEXT',(select TERM_SPEC_ID from KRMS_TERM_SPEC_T where NMSPC_CD='KC-PROTOCOL' and 
+	values ('KC2089','KC-PROTOCOL-CONTEXT',(select TERM_SPEC_ID from KRMS_TERM_SPEC_T where NMSPC_CD='KC-PROTOCOL' and 
 					NM=(select FUNC_ID from KRMS_FUNC_T where  NM='hasProtocolContainsSubjectType' and NMSPC_CD='KC-PROTOCOL')),
 					'Y')
 /
@@ -787,13 +787,13 @@ insert into KRMS_TERM_SPEC_CTGRY_T (TERM_SPEC_ID, CTGRY_ID)
 			(select CTGRY_ID from KRMS_CTGRY_T where NMSPC_CD='KC-PROTOCOL' and NM='Function'))
 /
 insert into KRMS_TERM_RSLVR_T (TERM_RSLVR_ID, NMSPC_CD, NM, TYP_ID, OUTPUT_TERM_SPEC_ID, ACTV, VER_NBR) 
-	values ('KC2065','KC-PROTOCOL','Protocol subject type check Resolver',
+	values ('KC2085','KC-PROTOCOL','Protocol subject type check Resolver',
 			(select TYP_ID from KRMS_TYP_T where NM='Function Term Resolver Type Service' and NMSPC_CD='KC-KRMS'),
 				(select TERM_SPEC_ID from KRMS_TERM_SPEC_T where NMSPC_CD='KC-PROTOCOL' and 
 					NM=(select FUNC_ID from KRMS_FUNC_T where  NM='hasProtocolContainsSubjectType' and NMSPC_CD='KC-PROTOCOL')),
 					'Y',1)
 /
 insert into KRMS_TERM_RSLVR_PARM_SPEC_T (TERM_RSLVR_PARM_SPEC_ID, TERM_RSLVR_ID, NM, VER_NBR) 
-	values ('KC2056', (select TERM_RSLVR_ID from KRMS_TERM_RSLVR_T where NM='Protocol subject type check Resolver' and NMSPC_CD='KC-PROTOCOL'), 
+	values ('KC2069', (select TERM_RSLVR_ID from KRMS_TERM_RSLVR_T where NM='Protocol subject type check Resolver' and NMSPC_CD='KC-PROTOCOL'), 
 			'Subject Type Code', 1)
 /
