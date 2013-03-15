@@ -17,14 +17,12 @@ package org.kuali.kra.krms.service.impl;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.krms.FunctionParamComparator;
 import org.kuali.kra.krms.FunctionTermResolver;
-import org.kuali.rice.core.api.exception.RiceRuntimeException;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krms.api.engine.TermResolver;
 import org.kuali.rice.krms.api.repository.function.FunctionDefinition;
