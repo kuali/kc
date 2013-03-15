@@ -17,12 +17,12 @@ package org.kuali.kra.krms;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.lang.ClassUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -66,6 +66,8 @@ public class JavaFunctionResolver extends FunctionTermResolver{
         try {
             List<Object> functionParamObjects = new ArrayList<Object>();
             List<FunctionParameterDefinition> functionParams = getFunctionTerm().getParameters();
+            List<FunctionParameterDefinition> modifiableParams = new ArrayList<FunctionParameterDefinition>(functionParams);
+            Collections.sort(modifiableParams, new FunctionParamComparator());
             Class[] classtypes = new Class[orderedParamValues.size()];
             for (int i = 0; i < orderedParamValues.size(); i++) {
                 Object objValue = orderedParamValues.get(i);
