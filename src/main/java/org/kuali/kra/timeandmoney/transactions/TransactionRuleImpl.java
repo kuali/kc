@@ -77,37 +77,28 @@ public class TransactionRuleImpl extends ResearchDocumentRuleBase implements Tra
      * @return
      */
     public boolean processAddPendingTransactionBusinessRules(AddTransactionRuleEvent event) {
-        boolean requiredFieldsComplete = areRequiredFieldsComplete(event.getPendingTransactionItemForValidation());
-        if (requiredFieldsComplete) {
+        boolean valid = areRequiredFieldsComplete(event.getPendingTransactionItemForValidation());
+        if (valid) {
             event.getTimeAndMoneyDocument().add(event.getPendingTransactionItemForValidation());
             List<Award> awards = processTransactions(event.getTimeAndMoneyDocument());
             event.getTimeAndMoneyDocument().getPendingTransactions().remove(event.getPendingTransactionItemForValidation());
             Award award = getLastSourceAwardReferenceInAwards(awards, event.getPendingTransactionItemForValidation().getSourceAwardNumber());
-            //if source award is "External, the award will be null and we don't need to validate these amounts.
-            boolean validObligatedFunds = true;
-            boolean validAnticipatedFunds = true;
-            boolean validTotalCostLimit = true;
+            //if source award is External, the award will be null and we don't need to validate these amounts.
             if(!(award == null)) {
-                validObligatedFunds = validateSourceObligatedFunds(event.getPendingTransactionItemForValidation(), award);
-                validAnticipatedFunds = validateSourceAnticipatedFunds(event.getPendingTransactionItemForValidation(), award);
-                validTotalCostLimit = validateAwardTotalCostLimit(event.getPendingTransactionItemForValidation(), award);
+                valid &= validateSourceObligatedFunds(event.getPendingTransactionItemForValidation(), award);
+                valid &= validateSourceAnticipatedFunds(event.getPendingTransactionItemForValidation(), award);
+                valid &= validateAwardTotalCostLimit(event.getPendingTransactionItemForValidation(), award);
+                boolean validSourceAwardDestinationAward = processCommonValidations(event);
+                valid &= validSourceAwardDestinationAward;
+                if (validSourceAwardDestinationAward){
+                    valid &= validateAnticipatedGreaterThanObligated (event, award);
+                    valid &= validateObligatedDateIsSet(event, award);
+                }
                 //need to remove the award amount info created from this process transactions call so there won't be a double entry in collection.
                 award.refreshReferenceObject("awardAmountInfos");
             }
-            
-            boolean validFunds = false;
-            boolean validDates = false;
-            boolean validSourceAwardDestinationAward = false;
-            validSourceAwardDestinationAward = processCommonValidations(event);
-            if(validSourceAwardDestinationAward){
-                validFunds = validateAnticipatedGreaterThanObligated (event, awards);
-                validDates = validateObligatedDateIsSet(event, awards);
-            }
-            return requiredFieldsComplete && validSourceAwardDestinationAward && validObligatedFunds  
-            && validAnticipatedFunds && validFunds && validDates && validTotalCostLimit ;                    
-        } else {
-            return false;
         }
+        return valid;                    
     }
     
     /**
@@ -152,46 +143,32 @@ public class TransactionRuleImpl extends ResearchDocumentRuleBase implements Tra
     }
     
     
-    private boolean validateAnticipatedGreaterThanObligated (AddTransactionRuleEvent event, List<Award> awards) {
+    private boolean validateAnticipatedGreaterThanObligated (AddTransactionRuleEvent event, Award activeAward) {
         boolean valid = true;
-        //add the transaction to the document so we can simulate processing the transaction.
-        event.getTimeAndMoneyDocument().add(event.getPendingTransactionItemForValidation());
-        for (Award award : awards) {
-            Award activeAward = getAwardVersionService().getWorkingAwardVersion(award.getAwardNumber());
-            AwardAmountInfo awardAmountInfo = activeAward.getLastAwardAmountInfo();
-            if (awardAmountInfo.getAnticipatedTotalAmount().subtract(awardAmountInfo.getAmountObligatedToDate()).isNegative()) {
-                reportError(OBLIGATED_AMOUNT_PROPERTY, KeyConstants.ERROR_TOTAL_AMOUNT_INVALID, activeAward.getAwardNumber());
-                valid = false;
-            }
-            award.refreshReferenceObject("awardAmountInfos");
+        AwardAmountInfo awardAmountInfo = activeAward.getLastAwardAmountInfo();
+        if (awardAmountInfo.getAnticipatedTotalAmount().subtract(awardAmountInfo.getAmountObligatedToDate()).isNegative()) {
+            reportError(OBLIGATED_AMOUNT_PROPERTY, KeyConstants.ERROR_TOTAL_AMOUNT_INVALID, activeAward.getAwardNumber());
+            valid = false;
         }
-        //remove the Transaction from the document.
-        event.getTimeAndMoneyDocument().getPendingTransactions().remove(event.getTimeAndMoneyDocument().getPendingTransactions().size() - 1);
         return valid;
     }
     
     
-    private boolean validateObligatedDateIsSet (AddTransactionRuleEvent event, List<Award> awards) {
+    private boolean validateObligatedDateIsSet (AddTransactionRuleEvent event, Award activeAward) {
         boolean valid = true;
-        //add the transaction to the document so we can simulate processing the transaction.
-        event.getTimeAndMoneyDocument().add(event.getPendingTransactionItemForValidation());
-        for (Award award : awards) {
-            Award activeAward = getAwardVersionService().getWorkingAwardVersion(award.getAwardNumber());
-            AwardAmountInfo awardAmountInfo = activeAward.getAwardAmountInfos().get(activeAward.getAwardAmountInfos().size() -1);
-            if (awardAmountInfo.getAmountObligatedToDate().isPositive() && 
+        AwardAmountInfo awardAmountInfo = activeAward.getAwardAmountInfos().get(activeAward.getAwardAmountInfos().size() -1);
+        if (awardAmountInfo.getAmountObligatedToDate().isPositive() && 
                     (awardAmountInfo.getCurrentFundEffectiveDate() == null || awardAmountInfo.getObligationExpirationDate() == null)) {
-                reportError(CURRENT_FUND_EFFECTIVE_DATE, KeyConstants.ERROR_DATE_NOT_SET, activeAward.getAwardNumber());
-                valid = false;
-            }
-            award.refreshReferenceObject("awardAmountInfos");
+            reportError(CURRENT_FUND_EFFECTIVE_DATE, KeyConstants.ERROR_DATE_NOT_SET, activeAward.getAwardNumber());
+            valid = false;
         }
-        //remove the Transaction from the document.
-        event.getTimeAndMoneyDocument().getPendingTransactions().remove(event.getTimeAndMoneyDocument().getPendingTransactions().size() - 1);
         return valid;
     }
     
     
+/* apparently this is no longer used...
     private Award findUpdatedRootAward(List<Award> awards, String rootAwardNumber) {
+
         Award returnAward = null;
         for (Award award : awards) {
             if (award.getAwardNumber() == rootAwardNumber) {
@@ -206,6 +183,7 @@ public class TransactionRuleImpl extends ResearchDocumentRuleBase implements Tra
         }
         return returnAward;
     }
+*/    
     
     private List<Award> processTransactions(TimeAndMoneyDocument timeAndMoneyDocument) {
         Map<String, AwardAmountTransaction> awardAmountTransactionItems = new HashMap<String, AwardAmountTransaction>();
