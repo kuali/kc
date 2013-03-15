@@ -71,15 +71,17 @@ public class JavaFunctionResolver extends FunctionTermResolver{
                 Object objValue = orderedParamValues.get(i);
                 String paramClassType = functionParams.get(i).getParameterType();
                 Class paramClass = Class.forName(paramClassType);
-                if(ClassUtils.isAssignable(objValue.getClass(),paramClass)){
-                    classtypes[i] = paramClass;
-                    functionParamObjects.add(objValue);
-                }else if(WRAPPER_TYPES.contains(paramClass)){
+//                if(ClassUtils.isAssignable(objValue.getClass(),paramClass)){
+                    
+//                }else
+                if(WRAPPER_TYPES.contains(paramClass)){
                     Object convertedObject = wrapValue(objValue,paramClassType);
                     classtypes[i] = paramClass;
                     functionParamObjects.add(convertedObject);
                 }else{
-                    throw new RuntimeException(paramClassType+" in "+serviceName+"."+methodName+" not defined properly");
+                    classtypes[i] = paramClass;
+                    functionParamObjects.add(objValue);
+//                    throw new RuntimeException(paramClassType+" in "+serviceName+"."+methodName+" not defined properly");
                 }
                 
             }
