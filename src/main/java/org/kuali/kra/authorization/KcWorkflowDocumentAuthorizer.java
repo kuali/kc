@@ -32,11 +32,15 @@ import org.kuali.rice.kew.doctype.bo.DocumentType;
 import org.kuali.rice.kew.doctype.service.impl.KimDocumentTypeAuthorizer;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 
-public class KcWorkflowDocumentAuthorizer extends KimDocumentTypeAuthorizer {
+public abstract class KcWorkflowDocumentAuthorizer extends KimDocumentTypeAuthorizer {
     
-    private static final Log LOG = LogFactory.getLog(KcWorkflowDocumentAuthorizer.class);
+    protected static final Log LOG = LogFactory.getLog(KcWorkflowDocumentAuthorizer.class);
+    
+    private transient DocumentService documentService;
+    private transient BusinessObjectService businessObjectService;
 
     /**
      * Implements {@link org.kuali.rice.kew.doctype.service.DocumentTypePermissionService#canRecall(String, org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue)}
@@ -83,24 +87,43 @@ public class KcWorkflowDocumentAuthorizer extends KimDocumentTypeAuthorizer {
         List<Map<String, String>> result = new ArrayList<Map<String, String>>();
         Map<String, String> defaultQualifications = buildDocumentRoleQualifiers(document, routeNodeName);
         result.add(defaultQualifications);
-        try {
-            Document doc = KraServiceLocator.getService(DocumentService.class).getByDocumentHeaderId(document.getDocumentId());
-            if (doc != null && doc instanceof Permissionable) {
-                Permissionable permissionable = (Permissionable) doc;
-                Map<String, String> docNbrQualifiers = new HashMap<String, String>();
-                docNbrQualifiers.put(permissionable.getDocumentKey(), permissionable.getDocumentNumberForPermission());
-                docNbrQualifiers.putAll(defaultQualifications);
-                result.add(docNbrQualifiers);
-                
-                Map<String, String> unitNumberQualifiers = new HashMap<String, String>();
-                unitNumberQualifiers.put(KcKimAttributes.UNIT_NUMBER, permissionable.getLeadUnitNumber());
-                unitNumberQualifiers.putAll(defaultQualifications);
-                result.add(unitNumberQualifiers);
-            }
-        } catch (WorkflowException e) {
-            LOG.warn(e);
+        Permissionable permissionable = getPermissionable(document.getDocumentId());
+        if (permissionable != null) {
+            Map<String, String> docNbrQualifiers = new HashMap<String, String>();
+            docNbrQualifiers.put(permissionable.getDocumentKey(), permissionable.getDocumentNumberForPermission());
+            docNbrQualifiers.putAll(defaultQualifications);
+            result.add(docNbrQualifiers);
+            
+            Map<String, String> unitNumberQualifiers = new HashMap<String, String>();
+            unitNumberQualifiers.put(KcKimAttributes.UNIT_NUMBER, permissionable.getLeadUnitNumber());
+            unitNumberQualifiers.putAll(defaultQualifications);
+            result.add(unitNumberQualifiers);
         }
         return result;
+    }
+    
+    protected abstract Permissionable getPermissionable(String documentId);
+
+    public DocumentService getDocumentService() {
+        if (documentService == null) {
+            documentService = KraServiceLocator.getService(DocumentService.class);
+        }
+        return documentService;
+    }
+
+    public void setDocumentService(DocumentService documentService) {
+        this.documentService = documentService;
+    }
+
+    public BusinessObjectService getBusinessObjectService() {
+        if (businessObjectService == null) {
+            businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+        }
+        return businessObjectService;
+    }
+
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
     }
 }
 
