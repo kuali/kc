@@ -162,4 +162,18 @@ implements  Copyable, SessionDocument {
     public List<? extends DocumentCustomData> getDocumentCustomData() {
         return getSubAward().getSubAwardCustomDataList();
     }
+    
+    /**
+     * 
+     * @see org.kuali.core.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
+     */
+    @SuppressWarnings("unchecked")
+    @Override
+    public List buildListOfDeletionAwareLists() {
+        List managedLists = super.buildListOfDeletionAwareLists();
+        SubAward subAward = getSubAward();
+        managedLists.add(subAward.getSubAwardFundingSourceList());
+        return managedLists;
+    }
+
 }
