@@ -39,7 +39,7 @@ insert into KRMS_FUNC_T (FUNC_ID,NM,DESC_TXT,RTRN_TYP,VER_NBR,ACTV,TYP_ID,NMSPC_
 /
 insert into KRMS_FUNC_PARM_T (FUNC_PARM_ID,FUNC_ID,NM,DESC_TXT,TYP,SEQ_NO) 
 	values ('KC0127',(select FUNC_ID from KRMS_FUNC_T where  NM='isProtocolAmendment' and NMSPC_CD='KC-IACUC'),
-				'IacucProtocol','Iacuc Protocol BO','org.kuali.kra.iacuc.IacucProtocol',1)
+				'IacucProtocol','Iacuc Protocol BO','org.kuali.kra.protocol.ProtocolBase',1)
 /
 insert into KRMS_TERM_SPEC_T (TERM_SPEC_ID, NMSPC_CD, NM, DESC_TXT, TYP, ACTV, VER_NBR) 
 	values ('KC2070','KC-IACUC',(select FUNC_ID from KRMS_FUNC_T where  NM='isProtocolAmendment' and NMSPC_CD='KC-IACUC'),
@@ -74,7 +74,7 @@ insert into KRMS_FUNC_T (FUNC_ID,NM,DESC_TXT,RTRN_TYP,VER_NBR,ACTV,TYP_ID,NMSPC_
 /
 insert into KRMS_FUNC_PARM_T (FUNC_PARM_ID,FUNC_ID,NM,DESC_TXT,TYP,SEQ_NO) 
 	values ('KC0128',(select FUNC_ID from KRMS_FUNC_T where  NM='isProtocolRenewal' and NMSPC_CD='KC-IACUC'),
-				'IacucProtocol','Iacuc Protocol BO','org.kuali.kra.iacuc.IacucProtocol',1)
+				'IacucProtocol','Iacuc Protocol BO','org.kuali.kra.protocol.ProtocolBase',1)
 /
 insert into KRMS_TERM_SPEC_T (TERM_SPEC_ID, NMSPC_CD, NM, DESC_TXT, TYP, ACTV, VER_NBR) 
 	values ('KC2071','KC-IACUC',(select FUNC_ID from KRMS_FUNC_T where  NM='isProtocolRenewal' and NMSPC_CD='KC-IACUC'),
@@ -109,7 +109,7 @@ insert into KRMS_FUNC_T (FUNC_ID,NM,DESC_TXT,RTRN_TYP,VER_NBR,ACTV,TYP_ID,NMSPC_
 /
 insert into KRMS_FUNC_PARM_T (FUNC_PARM_ID,FUNC_ID,NM,DESC_TXT,TYP,SEQ_NO) 
 	values ('KC0129',(select FUNC_ID from KRMS_FUNC_T where  NM='isProtocolLeadUnitBelow' and NMSPC_CD='KC-IACUC'),
-				'IacucProtocol','Iacuc Protocol BO','org.kuali.kra.iacuc.IacucProtocol',1)
+				'IacucProtocol','Iacuc Protocol BO','org.kuali.kra.protocol.ProtocolBase',1)
 /
 insert into KRMS_FUNC_PARM_T (FUNC_PARM_ID,FUNC_ID,NM,DESC_TXT,TYP,SEQ_NO) 
 	values ('KC0130',(select FUNC_ID from KRMS_FUNC_T where  NM='isProtocolLeadUnitBelow' and NMSPC_CD='KC-IACUC'),
@@ -147,7 +147,7 @@ insert into KRMS_FUNC_T (FUNC_ID,NM,DESC_TXT,RTRN_TYP,VER_NBR,ACTV,TYP_ID,NMSPC_
 /
 insert into KRMS_FUNC_PARM_T (FUNC_PARM_ID,FUNC_ID,NM,DESC_TXT,TYP,SEQ_NO) 
 	values ('KC0131',(select FUNC_ID from KRMS_FUNC_T where  NM='hasProtocolContainsOrganization' and NMSPC_CD='KC-IACUC'),
-				'IacucProtocol','Iacuc Protocol BO','org.kuali.kra.iacuc.IacucProtocol',1)
+				'IacucProtocol','Iacuc Protocol BO','org.kuali.kra.protocol.ProtocolBase',1)
 /
 insert into KRMS_FUNC_PARM_T (FUNC_PARM_ID,FUNC_ID,NM,DESC_TXT,TYP,SEQ_NO) 
 	values ('KC0132',(select FUNC_ID from KRMS_FUNC_T where  NM='hasProtocolContainsOrganization' and NMSPC_CD='KC-IACUC'),
@@ -185,7 +185,7 @@ insert into KRMS_FUNC_T (FUNC_ID,NM,DESC_TXT,RTRN_TYP,VER_NBR,ACTV,TYP_ID,NMSPC_
 /
 insert into KRMS_FUNC_PARM_T (FUNC_PARM_ID,FUNC_ID,NM,DESC_TXT,TYP,SEQ_NO) 
 	values ('KC0133',(select FUNC_ID from KRMS_FUNC_T where  NM='hasFundingSourceContainsSponsor' and NMSPC_CD='KC-IACUC'),
-				'IacucProtocol','Iacuc Protocol BO','org.kuali.kra.iacuc.IacucProtocol',1)
+				'IacucProtocol','Iacuc Protocol BO','org.kuali.kra.protocol.ProtocolBase',1)
 /
 insert into KRMS_FUNC_PARM_T (FUNC_PARM_ID,FUNC_ID,NM,DESC_TXT,TYP,SEQ_NO) 
 	values ('KC0134',(select FUNC_ID from KRMS_FUNC_T where  NM='hasFundingSourceContainsSponsor' and NMSPC_CD='KC-IACUC'),
@@ -223,7 +223,7 @@ insert into KRMS_FUNC_T (FUNC_ID,NM,DESC_TXT,RTRN_TYP,VER_NBR,ACTV,TYP_ID,NMSPC_
 /
 insert into KRMS_FUNC_PARM_T (FUNC_PARM_ID,FUNC_ID,NM,DESC_TXT,TYP,SEQ_NO) 
 	values ('KC0135',(select FUNC_ID from KRMS_FUNC_T where  NM='hasFundingSourceContainsUnit' and NMSPC_CD='KC-IACUC'),
-				'IacucProtocol','Iacuc Protocol BO','org.kuali.kra.iacuc.IacucProtocol',1)
+				'IacucProtocol','Iacuc Protocol BO','org.kuali.kra.protocol.ProtocolBase',1)
 /
 insert into KRMS_FUNC_PARM_T (FUNC_PARM_ID,FUNC_ID,NM,DESC_TXT,TYP,SEQ_NO) 
 	values ('KC0136',(select FUNC_ID from KRMS_FUNC_T where  NM='hasFundingSourceContainsUnit' and NMSPC_CD='KC-IACUC'),
@@ -261,7 +261,7 @@ insert into KRMS_FUNC_T (FUNC_ID,NM,DESC_TXT,RTRN_TYP,VER_NBR,ACTV,TYP_ID,NMSPC_
 /
 insert into KRMS_FUNC_PARM_T (FUNC_PARM_ID,FUNC_ID,NM,DESC_TXT,TYP,SEQ_NO) 
 	values ('KC0137',(select FUNC_ID from KRMS_FUNC_T where  NM='hasProtocolContainsAreaOfResearch' and NMSPC_CD='KC-IACUC'),
-				'IacucProtocol','Iacuc Protocol BO','org.kuali.kra.iacuc.IacucProtocol',1)
+				'IacucProtocol','Iacuc Protocol BO','org.kuali.kra.protocol.ProtocolBase',1)
 /
 insert into KRMS_FUNC_PARM_T (FUNC_PARM_ID,FUNC_ID,NM,DESC_TXT,TYP,SEQ_NO) 
 	values ('KC0138',(select FUNC_ID from KRMS_FUNC_T where  NM='hasProtocolContainsAreaOfResearch' and NMSPC_CD='KC-IACUC'),
@@ -299,7 +299,7 @@ insert into KRMS_FUNC_T (FUNC_ID,NM,DESC_TXT,RTRN_TYP,VER_NBR,ACTV,TYP_ID,NMSPC_
 /
 insert into KRMS_FUNC_PARM_T (FUNC_PARM_ID,FUNC_ID,NM,DESC_TXT,TYP,SEQ_NO) 
 	values ('KC0139',(select FUNC_ID from KRMS_FUNC_T where  NM='isSubmitUserProtocolPi' and NMSPC_CD='KC-IACUC'),
-				'IacucProtocol','Iacuc Protocol BO','org.kuali.kra.iacuc.IacucProtocol',1)
+				'IacucProtocol','Iacuc Protocol BO','org.kuali.kra.protocol.ProtocolBase',1)
 /
 insert into KRMS_FUNC_PARM_T (FUNC_PARM_ID,FUNC_ID,NM,DESC_TXT,TYP,SEQ_NO) 
 	values ('KC0140',(select FUNC_ID from KRMS_FUNC_T where  NM='isSubmitUserProtocolPi' and NMSPC_CD='KC-IACUC'),
@@ -337,7 +337,7 @@ insert into KRMS_FUNC_T (FUNC_ID,NM,DESC_TXT,RTRN_TYP,VER_NBR,ACTV,TYP_ID,NMSPC_
 /
 insert into KRMS_FUNC_PARM_T (FUNC_PARM_ID,FUNC_ID,NM,DESC_TXT,TYP,SEQ_NO) 
 	values ('KC0141',(select FUNC_ID from KRMS_FUNC_T where  NM='isLeadUnitProtocolCampus' and NMSPC_CD='KC-IACUC'),
-				'IacucProtocol','Iacuc Protocol BO','org.kuali.kra.iacuc.IacucProtocol',1)
+				'IacucProtocol','Iacuc Protocol BO','org.kuali.kra.protocol.ProtocolBase',1)
 /
 insert into KRMS_FUNC_PARM_T (FUNC_PARM_ID,FUNC_ID,NM,DESC_TXT,TYP,SEQ_NO) 
 	values ('KC0142',(select FUNC_ID from KRMS_FUNC_T where  NM='isLeadUnitProtocolCampus' and NMSPC_CD='KC-IACUC'),
@@ -375,7 +375,7 @@ insert into KRMS_FUNC_T (FUNC_ID,NM,DESC_TXT,RTRN_TYP,VER_NBR,ACTV,TYP_ID,NMSPC_
 /
 insert into KRMS_FUNC_PARM_T (FUNC_PARM_ID,FUNC_ID,NM,DESC_TXT,TYP,SEQ_NO) 
 	values ('KC0143',(select FUNC_ID from KRMS_FUNC_T where  NM='hasProtocolContainsDocumentType' and NMSPC_CD='KC-IACUC'),
-				'IacucProtocol','Iacuc Protocol BO','org.kuali.kra.iacuc.IacucProtocol',1)
+				'IacucProtocol','Iacuc Protocol BO','org.kuali.kra.protocol.ProtocolBase',1)
 /
 insert into KRMS_FUNC_PARM_T (FUNC_PARM_ID,FUNC_ID,NM,DESC_TXT,TYP,SEQ_NO) 
 	values ('KC0144',(select FUNC_ID from KRMS_FUNC_T where  NM='hasProtocolContainsDocumentType' and NMSPC_CD='KC-IACUC'),
@@ -413,7 +413,7 @@ insert into KRMS_FUNC_T (FUNC_ID,NM,DESC_TXT,RTRN_TYP,VER_NBR,ACTV,TYP_ID,NMSPC_
 /
 insert into KRMS_FUNC_PARM_T (FUNC_PARM_ID,FUNC_ID,NM,DESC_TXT,TYP,SEQ_NO) 
 	values ('KC0145',(select FUNC_ID from KRMS_FUNC_T where  NM='isProtocolInSubmission' and NMSPC_CD='KC-IACUC'),
-				'IacucProtocol','Iacuc Protocol BO','org.kuali.kra.iacuc.IacucProtocol',1)
+				'IacucProtocol','Iacuc Protocol BO','org.kuali.kra.protocol.ProtocolBase',1)
 /
 insert into KRMS_FUNC_PARM_T (FUNC_PARM_ID,FUNC_ID,NM,DESC_TXT,TYP,SEQ_NO) 
 	values ('KC0146',(select FUNC_ID from KRMS_FUNC_T where  NM='isProtocolInSubmission' and NMSPC_CD='KC-IACUC'),
@@ -451,15 +451,15 @@ insert into KRMS_FUNC_T (FUNC_ID,NM,DESC_TXT,RTRN_TYP,VER_NBR,ACTV,TYP_ID,NMSPC_
 /
 insert into KRMS_FUNC_PARM_T (FUNC_PARM_ID,FUNC_ID,NM,DESC_TXT,TYP,SEQ_NO) 
 	values ('KC0147',(select FUNC_ID from KRMS_FUNC_T where  NM='hasProtocolContainsNotifySubmissionQualifierType' and NMSPC_CD='KC-IACUC'),
-				'IacucProtocol','Iacuc Protocol BO','org.kuali.kra.iacuc.IacucProtocol',1)
+				'IacucProtocol','Iacuc Protocol BO','org.kuali.kra.protocol.ProtocolBase',1)
 /
 insert into KRMS_FUNC_PARM_T (FUNC_PARM_ID,FUNC_ID,NM,DESC_TXT,TYP,SEQ_NO) 
 	values ('KC0148',(select FUNC_ID from KRMS_FUNC_T where  NM='hasProtocolContainsNotifySubmissionQualifierType' and NMSPC_CD='KC-IACUC'),
-				'Submission number','Submission number','java.lang.String',2)
+				'Submission number','Submission number','java.lang.Integer',2)
 /
 insert into KRMS_FUNC_PARM_T (FUNC_PARM_ID,FUNC_ID,NM,DESC_TXT,TYP,SEQ_NO) 
 	values ('KC0149',(select FUNC_ID from KRMS_FUNC_T where  NM='hasProtocolContainsNotifySubmissionQualifierType' and NMSPC_CD='KC-IACUC'),
-				'Submission qualifier type code','Submission qualifier type code','java.lang.Integer',3)
+				'Submission qualifier type code','Submission qualifier type code','java.lang.String',3)
 /
 insert into KRMS_TERM_SPEC_T (TERM_SPEC_ID, NMSPC_CD, NM, DESC_TXT, TYP, ACTV, VER_NBR) 
 	values ('KC2081','KC-IACUC',(select FUNC_ID from KRMS_FUNC_T where  NM='hasProtocolContainsNotifySubmissionQualifierType' and NMSPC_CD='KC-IACUC'),
@@ -497,15 +497,15 @@ insert into KRMS_FUNC_T (FUNC_ID,NM,DESC_TXT,RTRN_TYP,VER_NBR,ACTV,TYP_ID,NMSPC_
 /
 insert into KRMS_FUNC_PARM_T (FUNC_PARM_ID,FUNC_ID,NM,DESC_TXT,TYP,SEQ_NO) 
 	values ('KC0150',(select FUNC_ID from KRMS_FUNC_T where  NM='hasSubmissionType' and NMSPC_CD='KC-IACUC'),
-				'IacucProtocol','Iacuc Protocol BO','org.kuali.kra.iacuc.IacucProtocol',1)
+				'IacucProtocol','Iacuc Protocol BO','org.kuali.kra.protocol.ProtocolBase',1)
 /
 insert into KRMS_FUNC_PARM_T (FUNC_PARM_ID,FUNC_ID,NM,DESC_TXT,TYP,SEQ_NO) 
 	values ('KC0151',(select FUNC_ID from KRMS_FUNC_T where  NM='hasSubmissionType' and NMSPC_CD='KC-IACUC'),
-				'Submission number','Submission number','java.lang.String',2)
+				'Submission number','Submission number','java.lang.Integer',2)
 /
 insert into KRMS_FUNC_PARM_T (FUNC_PARM_ID,FUNC_ID,NM,DESC_TXT,TYP,SEQ_NO) 
 	values ('KC0152',(select FUNC_ID from KRMS_FUNC_T where  NM='hasSubmissionType' and NMSPC_CD='KC-IACUC'),
-				'Submission type code','Submission type code','java.lang.Integer',3)
+				'Submission type code','Submission type code','java.lang.String',3)
 /
 insert into KRMS_TERM_SPEC_T (TERM_SPEC_ID, NMSPC_CD, NM, DESC_TXT, TYP, ACTV, VER_NBR) 
 	values ('KC2082','KC-IACUC',(select FUNC_ID from KRMS_FUNC_T where  NM='hasSubmissionType' and NMSPC_CD='KC-IACUC'),
@@ -543,7 +543,7 @@ insert into KRMS_FUNC_T (FUNC_ID,NM,DESC_TXT,RTRN_TYP,VER_NBR,ACTV,TYP_ID,NMSPC_
 /
 insert into KRMS_FUNC_PARM_T (FUNC_PARM_ID,FUNC_ID,NM,DESC_TXT,TYP,SEQ_NO) 
 	values ('KC0153',(select FUNC_ID from KRMS_FUNC_T where  NM='isPINotFaculty' and NMSPC_CD='KC-IACUC'),
-				'IacucProtocol','Iacuc Protocol BO','org.kuali.kra.iacuc.IacucProtocol',1)
+				'IacucProtocol','Iacuc Protocol BO','org.kuali.kra.protocol.ProtocolBase',1)
 /
 insert into KRMS_TERM_SPEC_T (TERM_SPEC_ID, NMSPC_CD, NM, DESC_TXT, TYP, ACTV, VER_NBR) 
 	values ('KC2083','KC-IACUC',(select FUNC_ID from KRMS_FUNC_T where  NM='isPINotFaculty' and NMSPC_CD='KC-IACUC'),
@@ -578,7 +578,7 @@ insert into KRMS_FUNC_T (FUNC_ID,NM,DESC_TXT,RTRN_TYP,VER_NBR,ACTV,TYP_ID,NMSPC_
 /
 insert into KRMS_FUNC_PARM_T (FUNC_PARM_ID,FUNC_ID,NM,DESC_TXT,TYP,SEQ_NO) 
 	values ('KC0154',(select FUNC_ID from KRMS_FUNC_T where  NM='isSpecialReviewExists' and NMSPC_CD='KC-IACUC'),
-				'IacucProtocol','Iacuc Protocol BO','org.kuali.kra.iacuc.IacucProtocol',1)
+				'IacucProtocol','Iacuc Protocol BO','org.kuali.kra.protocol.ProtocolBase',1)
 /
 insert into KRMS_TERM_SPEC_T (TERM_SPEC_ID, NMSPC_CD, NM, DESC_TXT, TYP, ACTV, VER_NBR) 
 	values ('KC2084','KC-IACUC',(select FUNC_ID from KRMS_FUNC_T where  NM='isSpecialReviewExists' and NMSPC_CD='KC-IACUC'),
@@ -613,7 +613,7 @@ insert into KRMS_FUNC_T (FUNC_ID,NM,DESC_TXT,RTRN_TYP,VER_NBR,ACTV,TYP_ID,NMSPC_
 /
 insert into KRMS_FUNC_PARM_T (FUNC_PARM_ID,FUNC_ID,NM,DESC_TXT,TYP,SEQ_NO) 
 	values ('KC0155',(select FUNC_ID from KRMS_FUNC_T where  NM='hasAllPersonsCompletedTraining' and NMSPC_CD='KC-IACUC'),
-				'IacucProtocol','Iacuc Protocol BO','org.kuali.kra.iacuc.IacucProtocol',1)
+				'IacucProtocol','Iacuc Protocol BO','org.kuali.kra.protocol.ProtocolBase',1)
 /
 insert into KRMS_TERM_SPEC_T (TERM_SPEC_ID, NMSPC_CD, NM, DESC_TXT, TYP, ACTV, VER_NBR) 
 	values ('KC2085','KC-IACUC',(select FUNC_ID from KRMS_FUNC_T where  NM='hasAllPersonsCompletedTraining' and NMSPC_CD='KC-IACUC'),
@@ -648,7 +648,7 @@ insert into KRMS_FUNC_T (FUNC_ID,NM,DESC_TXT,RTRN_TYP,VER_NBR,ACTV,TYP_ID,NMSPC_
 /
 insert into KRMS_FUNC_PARM_T (FUNC_PARM_ID,FUNC_ID,NM,DESC_TXT,TYP,SEQ_NO) 
 	values ('KC0156',(select FUNC_ID from KRMS_FUNC_T where  NM='isPiChangedInAmendmentOrRenewal' and NMSPC_CD='KC-IACUC'),
-				'IacucProtocol','Iacuc Protocol BO','org.kuali.kra.iacuc.IacucProtocol',1)
+				'IacucProtocol','Iacuc Protocol BO','org.kuali.kra.protocol.ProtocolBase',1)
 /
 insert into KRMS_TERM_SPEC_T (TERM_SPEC_ID, NMSPC_CD, NM, DESC_TXT, TYP, ACTV, VER_NBR) 
 	values ('KC2086','KC-IACUC',(select FUNC_ID from KRMS_FUNC_T where  NM='isPiChangedInAmendmentOrRenewal' and NMSPC_CD='KC-IACUC'),
@@ -683,7 +683,7 @@ insert into KRMS_FUNC_T (FUNC_ID,NM,DESC_TXT,RTRN_TYP,VER_NBR,ACTV,TYP_ID,NMSPC_
 /
 insert into KRMS_FUNC_PARM_T (FUNC_PARM_ID,FUNC_ID,NM,DESC_TXT,TYP,SEQ_NO) 
 	values ('KC0157',(select FUNC_ID from KRMS_FUNC_T where  NM='isOrganizationChangedInAmendmentOrRenewal' and NMSPC_CD='KC-IACUC'),
-				'IacucProtocol','Iacuc Protocol BO','org.kuali.kra.iacuc.IacucProtocol',1)
+				'IacucProtocol','Iacuc Protocol BO','org.kuali.kra.protocol.ProtocolBase',1)
 /
 insert into KRMS_TERM_SPEC_T (TERM_SPEC_ID, NMSPC_CD, NM, DESC_TXT, TYP, ACTV, VER_NBR) 
 	values ('KC2087','KC-IACUC',(select FUNC_ID from KRMS_FUNC_T where  NM='isOrganizationChangedInAmendmentOrRenewal' and NMSPC_CD='KC-IACUC'),
@@ -718,7 +718,7 @@ insert into KRMS_FUNC_T (FUNC_ID,NM,DESC_TXT,RTRN_TYP,VER_NBR,ACTV,TYP_ID,NMSPC_
 /
 insert into KRMS_FUNC_PARM_T (FUNC_PARM_ID,FUNC_ID,NM,DESC_TXT,TYP,SEQ_NO) 
 	values ('KC0158',(select FUNC_ID from KRMS_FUNC_T where  NM='isProtocolRenewalWithAmendment' and NMSPC_CD='KC-IACUC'),
-				'IacucProtocol','Iacuc Protocol BO','org.kuali.kra.iacuc.IacucProtocol',1)
+				'IacucProtocol','Iacuc Protocol BO','org.kuali.kra.protocol.ProtocolBase',1)
 /
 insert into KRMS_TERM_SPEC_T (TERM_SPEC_ID, NMSPC_CD, NM, DESC_TXT, TYP, ACTV, VER_NBR) 
 	values ('KC2088','KC-IACUC',(select FUNC_ID from KRMS_FUNC_T where  NM='isProtocolRenewalWithAmendment' and NMSPC_CD='KC-IACUC'),
