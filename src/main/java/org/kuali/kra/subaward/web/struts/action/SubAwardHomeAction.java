@@ -29,7 +29,6 @@ import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.subaward.SubAwardForm;
 import org.kuali.kra.subaward.bo.SubAward;
-import org.kuali.kra.subaward.bo.SubAwardAmountInfo;
 import org.kuali.kra.subaward.bo.SubAwardCloseout;
 import org.kuali.kra.subaward.bo.SubAwardContact;
 import org.kuali.kra.subaward.bo.SubAwardFundingSource;
@@ -305,7 +304,7 @@ private static final String SUBAWARD_VERSION_EDITPENDING_PROMPT_KEY = "message.s
 
         subAwardDocument.getSubAward().
         getSubAwardFundingSourceList().remove(selectedLineNumber);
-        this.getBusinessObjectService().delete(subAwardFundingSource);
+//      this.getBusinessObjectService().delete(subAwardFundingSource); // let save() do this
         return mapping.findForward(Constants.MAPPING_SUBAWARD_PAGE);
     }
 
