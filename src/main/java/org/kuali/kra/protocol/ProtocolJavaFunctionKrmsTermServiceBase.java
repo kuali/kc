@@ -32,7 +32,6 @@ import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceBase;
 import org.kuali.kra.protocol.protocol.location.ProtocolLocationBase;
 import org.kuali.kra.protocol.protocol.research.ProtocolResearchAreaBase;
 import org.kuali.kra.service.KcPersonService;
-import org.kuali.kra.service.UnitService;
 
 public abstract class ProtocolJavaFunctionKrmsTermServiceBase extends KcKrmsJavaFunctionTermServiceBase implements ProtocolJavaFunctionKrmsTermService {
 
@@ -86,7 +85,7 @@ public abstract class ProtocolJavaFunctionKrmsTermServiceBase extends KcKrmsJava
 
     @Override
     public Boolean isPINotFaculty(ProtocolBase protocol) {
-        return protocol.getPrincipalInvestigator().getAffiliationTypeCode().equals(new Integer(NON_FACULTY));
+        return new Integer(NON_FACULTY).equals(protocol.getPrincipalInvestigator().getAffiliationTypeCode());
     }
 
     @Override
@@ -99,7 +98,7 @@ public abstract class ProtocolJavaFunctionKrmsTermServiceBase extends KcKrmsJava
         boolean result = false;
         List<ProtocolLocationBase> locations = protocol.getProtocolLocations();
         for (ProtocolLocationBase protocolLocation : locations) {
-            if(protocolLocation.getOrganizationId().equals(organizationId)){
+            if(organizationId!=null && organizationId.equals(protocolLocation.getOrganizationId())){
                 result = true;
                 break;
             }
