@@ -115,6 +115,11 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     private static final int MAX_NBR_AWD_HIERARCHY_TEMP_OBJECTS = 100;
     private static final String DEFAULT_GROUP_CODE_FOR_CENTRAL_ADMIN_CONTACTS = "C";
 
+    public static final String NOTIFICATION_IRB_SPECIAL_REVIEW_LINK_ADDED = "552";
+    public static final String NOTIFICATION_IRB_SPECIAL_REVIEW_LINK_DELETED = "553";
+    public static final String NOTIFICATION_IACUC_SPECIAL_REVIEW_LINK_ADDED = "554";
+    public static final String NOTIFICATION_IACUC_SPECIAL_REVIEW_LINK_DELETED = "555";
+    
     private static final long serialVersionUID = 3797220122448310165L;
     private Long awardId;
     private AwardDocument awardDocument;
