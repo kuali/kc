@@ -587,6 +587,10 @@
 	                    <artifactId>org.apache.xml.serializer</artifactId>
 	                    <groupId>org.eclipse.birt.runtime.3_7_1</groupId>
 	                </exclusion>
+	                <exclusion>
+	                    <artifactId>org.mozilla.javascript</artifactId>
+	                    <groupId>org.eclipse.birt.runtime.3_7_1</groupId>
+	                </exclusion>
 		    	<exclusion>
 	                    <artifactId>org.apache.batik.bridge</artifactId>
 	                    <groupId>org.eclipse.birt.runtime.3_7_1</groupId>
