@@ -385,6 +385,25 @@ public abstract class ProtocolActionBase extends ProtocolAssociateBase {
         this.protocolNotifications = notifications;
     }
 
+    public List<KcNotification> getFilteredProtocolNotifications() {
+        List<KcNotification>unfilteredList = getProtocolNotifications();
+        String currentUser = GlobalVariables.getUserSession().getPrincipalName().trim();
+        if (!this.getProtocol().isUserNamedInProtocol(currentUser)) {
+            return unfilteredList;
+        } else {
+            List<KcNotification>filteredList = new ArrayList<KcNotification>();
+            for (KcNotification notification: unfilteredList) {
+                for (String recipient: notification.getRecipients().split(",")) {
+                    if (currentUser.equals(recipient.trim())) {
+                        filteredList.add(notification);
+                        break;
+                    }
+                }
+            }
+            return filteredList;
+        }
+    }
+    
     public void addProtocolNotification(KcNotification notification) {
         this.getProtocolNotifications().add(notification);
     }
