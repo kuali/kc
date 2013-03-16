@@ -170,11 +170,11 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.selectedHistoryItem")}
 	            			</tr>
 	            		</c:if>
 	
-		            	<c:if test="${fn:length(protocolAction.protocolNotifications) > 0}">
+		            	<c:if test="${fn:length(protocolAction.filteredProtocolNotifications) > 0}">
 	            			<tr>
 	            				<td class="infoline">&nbsp;</td>
 	            		        <td colspan="4">
-	            		        	<kul:innerTab tabTitle="Notifications" tabItemCount="${fn:length(protocolAction.protocolNotifications)}" parentTab="attachment${status.index}" defaultOpen="false" tabErrorKey="">
+	            		        	<kul:innerTab tabTitle="Notifications" tabItemCount="${fn:length(protocolAction.filteredProtocolNotifications)}" parentTab="attachment${status.index}" defaultOpen="false" tabErrorKey="">
 	            		        		<div class="innerTab-container" align="left">
 		                                    <table class="tab" cellpadding="0" cellspacing="0" summary="">
 		                                        <tbody>
@@ -184,7 +184,7 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.selectedHistoryItem")}
 		                                               <th style="text-align:center">Subject</th>
                                                        <th style="text-align:center">Message</th>
 		                                            </tr>
-		           		                            <c:forEach items="${protocolAction.protocolNotifications}" var="notification" varStatus="notificationStatus">
+		           		                            <c:forEach items="${protocolAction.filteredProtocolNotifications}" var="notification" varStatus="notificationStatus">
 		           		    	                        <tr>
 															<td>
 																<div align="center"><fmt:formatDate value="${notification.updateTimestamp}" pattern="MM/dd/yyyy KK:mm a" /> 

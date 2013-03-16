@@ -2297,4 +2297,16 @@ public abstract class ProtocolBase extends KraPersistableBusinessObjectBase impl
         return CollectionUtils.isEmpty(getProtocolResearchAreas());
     }
 
+    /*
+     * determine if current user is named on the protocol.
+     */
+    public boolean isUserNamedInProtocol(String principalName) {
+        boolean result = false;
+        for (ProtocolPersonBase protocolPerson: getProtocolPersons()) {
+            if (principalName.equals(protocolPerson.getUserName())) {
+                result = true;
+            }
+        }
+        return result;
+    }
 }
