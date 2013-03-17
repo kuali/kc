@@ -27,7 +27,7 @@
 				<th align="left">Subject</th>
 				<th align="left">Date Sent</th>
 			</tr>
-			<c:forEach var="disclosureNotification" items="${KualiForm.document.coiDisclosure.notificationsByDocId}" varStatus="status">
+			<c:forEach var="disclosureNotification" items="${KualiForm.document.coiDisclosure.filteredNotificationsByDocId}" varStatus="status">
     			<tr>
     				<td>
 	                    <a class="viewNotification" id="viewNotification${status.index}" title="${disclosureNotification.notificationType.description}" href="${pageContext.request.contextPath}/coiDisclosure.do?methodToCall=viewDisclosureNotification&notificationId=${disclosureNotification.notificationId}" scrolling="no" noresize>
