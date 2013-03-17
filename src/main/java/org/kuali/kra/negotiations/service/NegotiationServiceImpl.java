@@ -188,8 +188,10 @@ public class NegotiationServiceImpl implements NegotiationService {
         } else if (bo instanceof Award) {
             Award award = (Award) bo;
             return new ArrayList(getAssociatedNegotiations(award.getAwardNumber(), NegotiationAssociationType.AWARD_ASSOCIATION));            
+        } else if (bo instanceof SubAward) {
+            SubAward subAward = (SubAward) bo;
+            return new ArrayList(getAssociatedNegotiations(subAward.getSubAwardCode(), NegotiationAssociationType.SUB_AWARD_ASSOCIATION));
         }
-        //TODO: subaward links to be implemented here when subaward is implemented.
         return result;
     }  
     
