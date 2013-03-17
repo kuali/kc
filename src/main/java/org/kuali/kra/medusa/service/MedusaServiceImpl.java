@@ -322,6 +322,10 @@ public class MedusaServiceImpl implements MedusaService {
         for (Award award : awards) {
             addToGraph(graph, award, subAward);
         }
+        Collection<Negotiation> negotiations = getNegotiations(subAward);
+        for (Negotiation negotiation : negotiations) {
+            addToGraph(graph, negotiation, subAward);
+        }        
     }
     
     protected void buildGraph(HashMap<BusinessObject, List<BusinessObject>> graph, Protocol protocol) {
