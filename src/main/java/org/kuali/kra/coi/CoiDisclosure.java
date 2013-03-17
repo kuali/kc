@@ -43,7 +43,6 @@ import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
-import org.kuali.kra.questionnaire.QuestionnaireUsage;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.util.DateUtils;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
@@ -888,13 +887,38 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
         return disclosureNotifications;
     }
 
+    public List<CoiNotification> getFilteredDisclosureNotifications() {
+        return filterNotifications(getDisclosureNotifications());
+    }
+    
+    public List<CoiNotification> filterNotifications(List<CoiNotification>unfilteredList) {
+        String currentUser = GlobalVariables.getUserSession().getPrincipalName().trim();
+        if (!(StringUtils.equals(currentUser, getPersonId()) || StringUtils.equals(currentUser, getCertifiedBy()))) {
+            return unfilteredList;
+        } else {
+            List<CoiNotification>filteredList = new ArrayList<CoiNotification>();
+            for (CoiNotification notification: unfilteredList) {
+                for (String recipient: notification.getRecipients().split(",")) {
+                    if (currentUser.equals(recipient.trim())) {
+                        filteredList.add(notification);
+                        break;
+                    }
+                }
+            }
+            return filteredList;
+        }
+    }
+    
     public List<CoiNotification> getNotificationsByDocId() {
-System.out.println("NNNNNNN, disclosure id = " + this.coiDisclosureNumber + ", document # = " + getCoiDisclosureDocument().getDocumentNumber());
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put("documentNumber", getCoiDisclosureDocument().getDocumentNumber());
         return (List<CoiNotification>) getBusinessObjectService().findMatching(CoiNotification.class, fieldValues);
     }
 
+    public List<CoiNotification> getFilteredNotificationsByDocId() {
+        return filterNotifications(getNotificationsByDocId());
+    }
+    
     public void setDisclosureNotifications(List<CoiNotification> disclosureNotifications) {
         this.disclosureNotifications = disclosureNotifications;
     }
