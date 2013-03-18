@@ -48,7 +48,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 /**
  * Validates the rules for a Custom Attribute save action.
  */
-public class SaveCustomDataRule extends ResearchDocumentRuleBase implements BusinessRuleInterface<SaveCustomDataEvent> {
+public class CustomDataRule extends ResearchDocumentRuleBase implements BusinessRuleInterface<SaveCustomDataEvent> {
 
     private static final String STRING = "String";
     private static final String DATE = "Date";
@@ -106,11 +106,11 @@ public class SaveCustomDataRule extends ResearchDocumentRuleBase implements Busi
                 }
 
                 if (customAttributeDataType != null) {
-                    rulePassed &= validateAttributeFormat(customAttribute, errorKey);
+                    rulePassed &= validateAttributeFormat(customAttribute, errorKey, event);
                 }
             }
             if (event.isValidateRequiredFields() && customAttributeDocument.isRequired() && StringUtils.isBlank(customAttribute.getValue())) {
-                GlobalVariables.getMessageMap().putError(errorKey, RiceKeyConstants.ERROR_REQUIRED, 
+                event.reportError(customAttribute, errorKey, RiceKeyConstants.ERROR_REQUIRED, 
                         customAttribute.getLabel(),customAttribute.getValue(), getValidFormat(customAttribute.getCustomAttributeDataType().getDescription()));
                  rulePassed = false;
             }
@@ -129,7 +129,7 @@ public class SaveCustomDataRule extends ResearchDocumentRuleBase implements Busi
      * @return
      */
     @SuppressWarnings("unchecked")
-    protected boolean validateAttributeFormat(CustomAttribute customAttribute, String errorKey) {
+    protected boolean validateAttributeFormat(CustomAttribute customAttribute, String errorKey, SaveCustomDataEvent event) {
 
         boolean isValid = true;
         CustomAttributeDataType customAttributeDataType = customAttribute.getCustomAttributeDataType();
@@ -141,7 +141,7 @@ public class SaveCustomDataRule extends ResearchDocumentRuleBase implements Busi
         if (customAttributeDataType != null) {
             Integer maxLength = customAttribute.getDataLength();
             if ((maxLength != null) && (maxLength.intValue() < attributeValue.length())) {
-                reportError(errorKey, RiceKeyConstants.ERROR_MAX_LENGTH, customAttribute.getLabel(), maxLength.toString());
+                event.reportError(customAttribute, errorKey, RiceKeyConstants.ERROR_MAX_LENGTH, customAttribute.getLabel(), maxLength.toString());
                 isValid = false;
             }
                 
@@ -149,19 +149,19 @@ public class SaveCustomDataRule extends ResearchDocumentRuleBase implements Busi
             String validFormat = getValidFormat(customAttributeDataType.getDescription());
             if (validationPattern != null) {
                 if (!validationPattern.matches(attributeValue)) {
-                    reportError(errorKey, KeyConstants.ERROR_INVALID_FORMAT_WITH_FORMAT, customAttribute.getLabel(), attributeValue, validFormat);
+                    event.reportError(customAttribute, errorKey, KeyConstants.ERROR_INVALID_FORMAT_WITH_FORMAT, customAttribute.getLabel(), attributeValue, validFormat);
                     isValid = false;
                 }
             } else if (DATE.equals(customAttributeDataType.getDescription())) {
                 if (attributeValue != null && !attributeValue.matches(DATE_REGEX)) {
-                    reportError(errorKey, RiceKeyConstants.ERROR_INVALID_FORMAT, customAttribute.getLabel(), attributeValue, validFormat);
+                    event.reportError(customAttribute, errorKey, RiceKeyConstants.ERROR_INVALID_FORMAT, customAttribute.getLabel(), attributeValue, validFormat);
                     isValid = false;
                 } else {
                     try {
                         dateFormat.parse(attributeValue);
                     }
                     catch (ParseException e) {
-                        reportError(errorKey, KeyConstants.ERROR_DATE, attributeValue, customAttribute.getLabel());
+                        event.reportError(customAttribute, errorKey, KeyConstants.ERROR_DATE, attributeValue, customAttribute.getLabel());
                         isValid = false;
                     }
                 }
@@ -178,7 +178,7 @@ public class SaveCustomDataRule extends ResearchDocumentRuleBase implements Busi
                     KcPerson customPerson = kps.getKcPersonByUserName(customAttribute.getValue());
                     if (customPerson == null)
                     {
-                        reportError(errorKey, RiceKeyConstants.ERROR_EXISTENCE, 
+                        event.reportError(customAttribute, errorKey, RiceKeyConstants.ERROR_EXISTENCE, 
                             customAttribute.getLabel(), attributeValue, validFormat);
                         isValid = false;
                     }
@@ -201,7 +201,7 @@ public class SaveCustomDataRule extends ResearchDocumentRuleBase implements Busi
                     }
                     if (!found) {
                         validFormat = getValidFormat(customAttributeDataType.getDescription());
-                        reportError(errorKey, RiceKeyConstants.ERROR_EXISTENCE, 
+                        event.reportError(customAttribute, errorKey, RiceKeyConstants.ERROR_EXISTENCE, 
                               customAttribute.getLabel(), attributeValue, validFormat);
                         isValid = false;
                     }
@@ -219,7 +219,7 @@ public class SaveCustomDataRule extends ResearchDocumentRuleBase implements Busi
                 if (isInvalid(boClass, keyValue(customAttribute.getLookupReturn(), customAttribute.getValue() ) ) )         
                 {
                     validFormat = getValidFormat(customAttributeDataType.getDescription());
-                    reportError(errorKey, RiceKeyConstants.ERROR_EXISTENCE, 
+                    event.reportError(customAttribute, errorKey, RiceKeyConstants.ERROR_EXISTENCE, 
                              customAttribute.getLabel(), attributeValue, validFormat);
                     return false;
                 }

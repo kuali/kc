@@ -20,6 +20,7 @@ import java.util.Map;
 
 import org.apache.struts.upload.FormFile;
 import org.kuali.kra.web.struts.form.Auditable;
+import org.kuali.kra.web.struts.form.CustomDataDocumentForm;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.Rolodex;
@@ -55,7 +56,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
  * This class represents the SubAward Form Struts class....
  */
 public class SubAwardForm extends KraTransactionalDocumentFormBase
-implements PermissionsForm, Auditable {
+implements PermissionsForm, Auditable, CustomDataDocumentForm {
 
     private static final long serialVersionUID = -1452575757578523254L;
 

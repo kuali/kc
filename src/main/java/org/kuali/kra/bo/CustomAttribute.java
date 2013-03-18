@@ -149,10 +149,6 @@ public class CustomAttribute extends KraPersistableBusinessObjectBase {
      * @return Returns the value.
      */
     public String getValue() {
-        if (value == null) {
-            return defaultValue;
-        } else {
-            return value;
-        }
+        return value;
     }
 }

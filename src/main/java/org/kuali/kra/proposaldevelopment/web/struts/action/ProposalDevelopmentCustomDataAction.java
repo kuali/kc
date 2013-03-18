@@ -26,41 +26,35 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
+import org.kuali.kra.rule.event.SaveCustomDataEvent;
+import org.kuali.kra.rules.CustomDataRule;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
 public class ProposalDevelopmentCustomDataAction extends ProposalDevelopmentAction {
 
     private static final String CUSTOM_ATTRIBUTE_NAME = "CustomDataAttribute";
-
-    @Override
-    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
-            throws Exception {
-
-        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
-
-        return super.execute(mapping, form, request, response);
-    }
-
-    @Override
-    public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        super.refresh(mapping, form, request, response);
-        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
-        //proposalDevelopmentForm.getCustomDataHelper().prepareCustomData();
-
-        return mapping.findForward(Constants.MAPPING_BASIC);
-    }
     
     @Override
     public ActionForward reload(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         super.reload(mapping, form, request, response);
         ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
-        ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
         proposalDevelopmentForm.getCustomDataHelper().prepareCustomData();
 
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
+    
+    @Override
+    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ProposalDevelopmentForm proposalDevelopmentForm = (ProposalDevelopmentForm) form;
+        //have to do the custom data validation here, separate from the document save, as invalid default values could cause the
+        //document to be unusable.
+        if (new CustomDataRule().processRules(new SaveCustomDataEvent(proposalDevelopmentForm.getProposalDevelopmentDocument()))) {
+            return super.save(mapping, form, request, response);   
+        } else {
+            return mapping.findForward(Constants.MAPPING_BASIC);
+        }
+    }
+    
     
     /**
      * {@inheritDoc}

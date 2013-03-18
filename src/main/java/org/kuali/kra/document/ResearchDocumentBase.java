@@ -63,11 +63,10 @@ public abstract class ResearchDocumentBase extends TransactionalDocumentBase {
     public ResearchDocumentBase() {
         super();
         documentNextvalues = new ArrayList<DocumentNextvalue>();
-        customAttributeDocuments = new HashMap<String, CustomAttributeDocument>();
     }
 
     public void initialize() {
-        populateCustomAttributes();
+
     }
 
     @Override
@@ -97,7 +96,6 @@ public abstract class ResearchDocumentBase extends TransactionalDocumentBase {
     @Override
     public void processAfterRetrieve() {
         super.processAfterRetrieve();
-        populateCustomAttributes();
     }
 
     /**
@@ -128,10 +126,12 @@ public abstract class ResearchDocumentBase extends TransactionalDocumentBase {
     /**
      * This method populates the customAttributes for this document.
      */
-    public void populateCustomAttributes() {
-        CustomAttributeService customAttributeService = KraServiceLocator.getService(CustomAttributeService.class);
-        Map<String, CustomAttributeDocument> customAttributeDocuments = customAttributeService.getDefaultCustomAttributeDocuments(getDocumentTypeCode(), getDocumentCustomData());
-        setCustomAttributeDocuments(customAttributeDocuments);
+    public Map<String, CustomAttributeDocument> getCustomAttributeDocuments() {
+        if (customAttributeDocuments == null) {
+            CustomAttributeService customAttributeService = KraServiceLocator.getService(CustomAttributeService.class);
+            customAttributeDocuments = customAttributeService.getDefaultCustomAttributeDocuments(getDocumentTypeCode(), getDocumentCustomData());
+        }
+        return customAttributeDocuments;
     }
     
     public abstract List<? extends DocumentCustomData> getDocumentCustomData();
@@ -199,22 +199,6 @@ public abstract class ResearchDocumentBase extends TransactionalDocumentBase {
      */
     public void setCustomAttributeDocuments(Map<String, CustomAttributeDocument> customAttributeDocuments) {
         this.customAttributeDocuments = customAttributeDocuments;
-    }
-
-    /**
-     * Gets the customAttributeDocuments attribute.
-     * @return Returns the customAttributeDocuments.
-     */
-    public Map<String, CustomAttributeDocument> getCustomAttributeDocuments() {
-        return customAttributeDocuments;
-    }
-
-    /**
-     * Gets the customAttributeDocuments attribute.
-     * @return Returns the customAttributeDocuments.
-     */
-    public CustomAttributeDocument getCustomAttributeDocuments(String key) {
-        return customAttributeDocuments.get(key);
     }
 
     /**

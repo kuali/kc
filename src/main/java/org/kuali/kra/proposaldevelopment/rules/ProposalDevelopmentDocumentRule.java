@@ -131,7 +131,6 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
             document, getMaxDictionaryValidationDepth(), VALIDATION_REQUIRED, CHOMP_LAST_LETTER_S_FROM_COLLECTION_NAME);
         GlobalVariables.getMessageMap().removeFromErrorPath(DOCUMENT_ERROR_PATH);
         
-        valid &= processCustomDataBusinessRules(proposalDevelopmentDocument);
         GlobalVariables.getMessageMap().addToErrorPath("document.developmentProposalList[0]");
         valid &= processProposalRequiredFieldsBusinessRule(proposalDevelopmentDocument);
         
@@ -167,12 +166,6 @@ public class ProposalDevelopmentDocumentRule extends ResearchDocumentRuleBase im
         }
         System.err.println("  returning: " +  (valid));
         return valid;
-    }
-    
-    private boolean processCustomDataBusinessRules(ProposalDevelopmentDocument document) {
-        return processRules(new SaveCustomDataEvent("customDataHelper.customDataList", document,
-                document.getCustomDataList(),
-                document.getCustomAttributeDocuments()));
     }
 
     public boolean processDeleteProposalSiteRules(BasicProposalSiteEvent proposalSiteEvent) {
