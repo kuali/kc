@@ -733,4 +733,8 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
         return getAward().getAwardCustomDataList();
     }
 
+    public boolean isCanceled() {
+        WorkflowDocument workflow = getDocumentHeader().getWorkflowDocument();
+        return workflow.isCanceled();
+    }
 }
