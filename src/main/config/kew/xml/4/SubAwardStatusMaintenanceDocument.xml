@@ -3,8 +3,8 @@
 	<documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
 		<documentType>
 			<name>SubAwardStatusMaintenanceDocument</name>
-			<description>Document used to create or update SubAward Status business objects.</description>
-			<label>SubAward Status Maintenance Document</label>
+			<description>Document used to create or update Subaward Status business objects.</description>
+			<label>Subaward Status Maintenance Document</label>
 			<parent>KcSharedMaintenanceDocument</parent>
 			<helpDefinitionURL>default.htm?turl=Documents/subawardstatus.htm</helpDefinitionURL>
 			</documentType>

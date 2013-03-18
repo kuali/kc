@@ -55,8 +55,8 @@
   <bean id="SubAwardAmountInfo-subAwardAmountInfoId-parentBean" abstract="true" parent="AttributeDefinition">
        <property name="name" value="subAwardAmountInfoId" />
     <property name="forceUppercase" value="false" />
-    <property name="label" value="SubAward Amount Info Id" />
-    <property name="shortLabel" value="SubAward Amount Info Id" />
+    <property name="label" value="Subaward Amount Info Id" />
+    <property name="shortLabel" value="Subaward Amount Info Id" />
     <property name="maxLength" value="22" />
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
@@ -66,16 +66,16 @@
       <bean parent="TextControlDefinition"
             p:size="10" />
     </property>
-    <property name="summary" value="SubAward Amount Info Id" />
-    <property name="description" value="SubAward Amount Info Id" />    
+    <property name="summary" value="Subaward Amount Info Id" />
+    <property name="description" value="Subaward Amount Info Id" />    
   </bean>
       
    <bean id="SubAwardAmountInfo-subAwardId" parent="SubAwardAmountInfo-subAwardId-parentBean" />
   <bean id="SubAwardAmountInfo-subAwardId-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="subAwardId" />
     <property name="forceUppercase" value="false" />
-    <property name="label" value="SubAward Id" />
-    <property name="shortLabel" value="SubAward Id" />
+    <property name="label" value="Subaward Id" />
+    <property name="shortLabel" value="Subaward Id" />
     <property name="maxLength" value="22" />
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
@@ -85,8 +85,8 @@
       <bean parent="TextControlDefinition"
             p:size="10" />
     </property>
-    <property name="summary" value="SubAward Id" />
-    <property name="description" value="SubAward Id" />    
+    <property name="summary" value="Subaward Id" />
+    <property name="description" value="Subaward Id" />    
   </bean> 
   
   
@@ -277,7 +277,7 @@
  <bean id="SubAwardAmountInfo-inquiryDefinition" parent="SubAwardAmountInfo-inquiryDefinition-parentBean" />
 
   <bean id="SubAwardAmountInfo-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="SubAward Amount Info" />
+    <property name="title" value="Subaward Amount Info" />
     <property name="inquirySections" >
       <list>
         <bean parent="InquirySectionDefinition">
@@ -300,7 +300,7 @@
   <bean id="SubAwardAmountInfo-lookupDefinition" parent="SubAwardAmountInfo-lookupDefinition-parentBean" />
 
   <bean id="SubAwardAmountInfo-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="SubAward Amount Info Lookup" />
+    <property name="title" value="Subaward Amount Info Lookup" />
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
 
     <property name="defaultSort" >
@@ -327,21 +327,3 @@
   </bean>
  
 </beans>
-
-
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-            

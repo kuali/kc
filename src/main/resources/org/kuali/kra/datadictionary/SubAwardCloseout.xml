@@ -38,8 +38,8 @@
   <bean id="SubAwardCloseout-subAwardCloseoutId-parentBean" abstract="true" parent="AttributeDefinition">
        <property name="name" value="subAwardCloseoutId" />
     <property name="forceUppercase" value="false" />
-    <property name="label" value="SubAward Closeout Id" />
-    <property name="shortLabel" value="SubAward Closeout Id" />
+    <property name="label" value="Subaward Closeout Id" />
+    <property name="shortLabel" value="Subaward Closeout Id" />
     <property name="maxLength" value="22" />
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
@@ -49,16 +49,16 @@
       <bean parent="TextControlDefinition"
             p:size="10" />
     </property>
-    <property name="summary" value="SubAward Closeout Id" />
-    <property name="description" value="SubAward Closeout Id" />    
+    <property name="summary" value="Subaward Closeout Id" />
+    <property name="description" value="Subaward Closeout Id" />    
   </bean>
   
     <bean id="SubAwardCloseout-subAwardId" parent="SubAwardCloseout-subAwardId-parentBean" />
   <bean id="SubAwardCloseout-subAwardId-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="name" value="subAwardId" />
     <property name="forceUppercase" value="false" />
-    <property name="label" value="SubAward Id" />
-    <property name="shortLabel" value="SubAward Id" />
+    <property name="label" value="Subaward Id" />
+    <property name="shortLabel" value="Subaward Id" />
     <property name="maxLength" value="22" />
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
@@ -68,8 +68,8 @@
       <bean parent="TextControlDefinition"
             p:size="10" />
     </property>
-    <property name="summary" value="SubAward Id" />
-    <property name="description" value="SubAward Id" />    
+    <property name="summary" value="Subaward Id" />
+    <property name="description" value="Subaward Id" />    
   </bean> 
   
   
@@ -201,11 +201,11 @@
  <bean id="SubAwardCloseout-inquiryDefinition" parent="SubAwardCloseout-inquiryDefinition-parentBean" />
 
   <bean id="SubAwardCloseout-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="SubAward Closeout" />
+    <property name="title" value="Subaward Closeout" />
     <property name="inquirySections" >
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="SubAward Closeout" />
+          <property name="title" value="Subaward Closeout" />
           <property name="numberOfColumns" value="1" />
           <property name="inquiryFields" >
             <list>
@@ -224,7 +224,7 @@
   <bean id="SubAwardCloseout-lookupDefinition" parent="SubAwardCloseout-lookupDefinition-parentBean" />
 
   <bean id="SubAwardCloseout-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="SubAward Closeout Lookup" />
+    <property name="title" value="SubAaard Closeout Lookup" />
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
 
     <property name="defaultSort" >
