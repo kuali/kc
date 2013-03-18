@@ -8,7 +8,7 @@
 
   <bean id="SubAward-parentBean" abstract="true" parent="BusinessObjectEntry">
     <property name="businessObjectClass" value="org.kuali.kra.subaward.bo.SubAward" />
-		<property name="objectLabel" value="SubAward" />
+		<property name="objectLabel" value="Subaward" />
     <property name="inquiryDefinition" >
       <ref bean="SubAward-inquiryDefinition" />
     </property>
@@ -68,8 +68,8 @@
       <bean parent="TextControlDefinition"
             p:size="10" />
     </property>
-    <property name="summary" value="SubAward ID" />
-    <property name="description" value="SubAward ID" />    
+    <property name="summary" value="Subaward ID" />
+    <property name="description" value="Subaward ID" />    
   </bean>
     
   <bean id="SubAward-subAwardCode" parent="SubAward-subAwardCode-parentBean" />
@@ -572,8 +572,8 @@
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="10" />
 		</property>
-		<property name="summary" value="Label for SubAward header fields" />
-		<property name="description" value="Label for SubAward header fields" />
+		<property name="summary" value="Label for Subaward header fields" />
+		<property name="description" value="Label for Subaward header fields" />
 	</bean>
 	
 	<bean id="SubAward-lastUpdate" parent="SubAward-lastUpdate-parentBean" />
@@ -587,19 +587,19 @@
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="10" />
 		</property>
-		<property name="summary" value="Label for SubAward header fields" />
-		<property name="description" value="Label for SubAward header fields" />
+		<property name="summary" value="Label for Subaward header fields" />
+		<property name="description" value="Label for Subaward header fields" />
 	</bean>
 	
   <!-- Business Object Inquiry Definition -->
   <bean id="SubAward-inquiryDefinition" parent="SubAward-inquiryDefinition-parentBean" />
 
   <bean id="SubAward-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="SubAward" />
+    <property name="title" value="Subaward" />
     <property name="inquirySections" >
       <list>
         <bean parent="InquirySectionDefinition">
-          <property name="title" value="SubAward" />
+          <property name="title" value="Subaward" />
           <property name="numberOfColumns" value="1" />
           <property name="inquiryFields" >
             <list>

@@ -27,11 +27,9 @@ import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.WorkflowDocument;
-import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.krad.document.Copyable;
 import org.kuali.rice.krad.document.SessionDocument;
-import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
@@ -173,7 +171,8 @@ implements  Copyable, SessionDocument {
         List managedLists = super.buildListOfDeletionAwareLists();
         SubAward subAward = getSubAward();
         managedLists.add(subAward.getSubAwardFundingSourceList());
+        managedLists.add(subAward.getSubAwardContactsList());
+        managedLists.add(subAward.getSubAwardCloseoutList());
         return managedLists;
     }
-
 }

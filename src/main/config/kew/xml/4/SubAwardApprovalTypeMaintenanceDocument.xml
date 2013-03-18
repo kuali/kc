@@ -3,8 +3,8 @@
 	<documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
 		<documentType>
 			<name>SubAwardApprovalTypeMaintenanceDocument</name>
-			<description>Document used to create or update SubAward Approval Type business objects.</description>
-			<label>SubAward Approval Type Maintenance Document</label>
+			<description>Document used to create or update Subaward Approval Type business objects.</description>
+			<label>Subaward Approval Type Maintenance Document</label>
 			<parent>KcSharedMaintenanceDocument</parent>
 			</documentType>
 	</documentTypes>	

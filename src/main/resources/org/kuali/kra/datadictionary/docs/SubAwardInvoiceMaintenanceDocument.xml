@@ -31,8 +31,8 @@
   <bean id="SubAwardInvoiceMaintenanceDocument-SubAwardSummary" parent="SubAwardInvoiceMaintenanceDocument-SubAwardSummary-parentBean"/>
 
   <bean id="SubAwardInvoiceMaintenanceDocument-SubAwardSummary-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="SubAward Summary"/>
-    <property name="title" value="SubAward Summary"/>
+    <property name="id" value="Subaward Summary"/>
+    <property name="title" value="Subaward Summary"/>
     <property name="maintainableItems">
       <list>
         <bean parent="MaintainableFieldDefinition" p:name="subAwardCode" p:required="false" p:unconditionallyReadOnly="true"/>
@@ -50,8 +50,8 @@
   <bean id="SubAwardInvoiceMaintenanceDocument-SubAwardAmounts" parent="SubAwardInvoiceMaintenanceDocument-SubAwardAmounts-parentBean"/>
 
   <bean id="SubAwardInvoiceMaintenanceDocument-SubAwardAmounts-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="SubAward Amounts"/>
-    <property name="title" value="SubAward Amounts"/>
+    <property name="id" value="Subaward Amounts"/>
+    <property name="title" value="Subaward Amounts"/>
     <property name="maintainableItems">
       <list>
         <bean parent="MaintainableFieldDefinition" p:name="subAward.totalObligatedAmount" p:required="false" p:unconditionallyReadOnly="true"/>
@@ -64,8 +64,8 @@
   <bean id="SubAwardInvoiceMaintenanceDocument-SubAwardInvoice" parent="SubAwardInvoiceMaintenanceDocument-SubAwardInvoice-parentBean"/>
 
   <bean id="SubAwardInvoiceMaintenanceDocument-SubAwardInvoice-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="id" value="SubAward Invoice"/>
-    <property name="title" value="SubAward Invoice"/>
+    <property name="id" value="Subaward Invoice"/>
+    <property name="title" value="Subaward Invoice"/>
     <property name="maintainableItems">
       <list>
         <bean parent="MaintainableFieldDefinition" p:name="invoiceNumber" p:required="true"/>
