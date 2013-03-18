@@ -1,16 +1,16 @@
-update KRMS_TERM_SPEC_T set NMSPC_CD='KC-B',TYP='java.math.BudgetDecimal' where NM='totalCost'
+update KRMS_TERM_SPEC_T set NMSPC_CD='KC-B',TYP='java.math.BigDecimal' where NM='totalCost'
 /
-update KRMS_TERM_SPEC_T set NMSPC_CD='KC-B',TYP='java.math.BudgetDecimal' where NM='totalDirectCost'
+update KRMS_TERM_SPEC_T set NMSPC_CD='KC-B',TYP='java.math.BigDecimal' where NM='totalDirectCost'
 /
-update KRMS_TERM_SPEC_T set NMSPC_CD='KC-B',TYP='java.math.BudgetDecimal' where NM='totalIndirectCost'
+update KRMS_TERM_SPEC_T set NMSPC_CD='KC-B',TYP='java.math.BigDecimal' where NM='totalIndirectCost'
 /
-update KRMS_TERM_SPEC_T set NMSPC_CD='KC-B',TYP='java.math.BudgetDecimal' where NM='costShareAmount'
+update KRMS_TERM_SPEC_T set NMSPC_CD='KC-B',TYP='java.math.BigDecimal' where NM='costShareAmount'
 /
-update KRMS_TERM_SPEC_T set NMSPC_CD='KC-B',TYP='java.math.BudgetDecimal' where NM='underrecoveryAmount'
+update KRMS_TERM_SPEC_T set NMSPC_CD='KC-B',TYP='java.math.BigDecimal' where NM='underrecoveryAmount'
 /
-update KRMS_TERM_SPEC_T set NMSPC_CD='KC-B',TYP='java.math.BudgetDecimal' where NM='totalCostInitial'
+update KRMS_TERM_SPEC_T set NMSPC_CD='KC-B',TYP='java.math.BigDecimal' where NM='totalCostInitial'
 /
-update KRMS_TERM_SPEC_T set NMSPC_CD='KC-B',TYP='java.math.BudgetDecimal' where NM='totalDirectCostLimit'
+update KRMS_TERM_SPEC_T set NMSPC_CD='KC-B',TYP='java.math.BigDecimal' where NM='totalDirectCostLimit'
 /
 update KRMS_TERM_SPEC_T set NM='programAnnouncementNumber' where NM='opportunityId'
 /
