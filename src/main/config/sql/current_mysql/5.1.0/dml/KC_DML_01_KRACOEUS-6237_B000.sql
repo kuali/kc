@@ -2,7 +2,7 @@ DELIMITER /
 INSERT INTO SEQ_NOTIFICATION_TYPE_ID VALUES(NULL)
 /
 INSERT INTO NOTIFICATION_TYPE (NOTIFICATION_TYPE_ID, MODULE_CODE, ACTION_CODE, DESCRIPTION, SUBJECT, MESSAGE, PROMPT_USER, SEND_NOTIFICATION, UPDATE_USER, UPDATE_TIMESTAMP, VER_NBR, OBJ_ID)
-   VALUES((SELECT (MAX(ID)) FROM SEQ_NOTIFICATION_TYPE_ID), 1,'501', 'SubAward submitted','SubAward {SUBAWARD_ID} Submitted','SubAward <a title="" target="_self" href="{DOCUMENT_PREFIX}/kew/DocHandler.do?command=displayDocSearchView&amp;docId={DOCUMENT_NUMBER}">{SUBAWARD_ID}</a> has been submitted by {USER_FULLNAME}','N','Y','admin',NOW(),1,uuid())
+   VALUES((SELECT (MAX(ID)) FROM SEQ_NOTIFICATION_TYPE_ID), 1,'501', 'Subaward submitted','Subaward {SUBAWARD_ID} Submitted','Subaward <a title="" target="_self" href="{DOCUMENT_PREFIX}/kew/DocHandler.do?command=displayDocSearchView&amp;docId={DOCUMENT_NUMBER}">{SUBAWARD_ID}</a> has been submitted by {USER_FULLNAME}','N','Y','admin',NOW(),1,uuid())
 /
 INSERT INTO SEQ_NOTIFICATION_TYPE_ID VALUES(NULL)
 /
