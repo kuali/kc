@@ -46,6 +46,7 @@ import org.kuali.kra.questionnaire.QuestionableFormInterface;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.web.struts.form.Auditable;
+import org.kuali.kra.web.struts.form.CustomDataDocumentForm;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
@@ -65,7 +66,8 @@ import org.kuali.rice.krad.util.ObjectUtils;
  * This class...
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public abstract class ProtocolFormBase extends KraTransactionalDocumentFormBase implements PermissionsForm, Auditable, QuestionableFormInterface {
+public abstract class ProtocolFormBase extends KraTransactionalDocumentFormBase implements PermissionsForm, Auditable, QuestionableFormInterface,
+                                                                                        CustomDataDocumentForm {
     
     private static final long serialVersionUID = 4646326030098259702L;
     

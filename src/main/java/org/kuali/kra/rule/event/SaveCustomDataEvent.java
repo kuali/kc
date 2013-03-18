@@ -18,12 +18,14 @@ package org.kuali.kra.rule.event;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.kra.bo.CustomAttribute;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.bo.DocumentCustomData;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.rule.BusinessRuleInterface;
-import org.kuali.kra.rules.SaveCustomDataRule;
+import org.kuali.kra.rules.ErrorReporter;
+import org.kuali.kra.rules.CustomDataRule;
 import org.kuali.rice.krad.document.Document;
 
 /**
@@ -34,6 +36,7 @@ public class SaveCustomDataEvent extends KraDocumentEventBaseExtension {
     private boolean validateRequiredFields = false;
     private List<? extends DocumentCustomData> customDataList;
     private Map<String, CustomAttributeDocument> customAttributeDocuments;
+    protected ErrorReporter errorReporter = new ErrorReporter();
     
     /**
      * Constructs a SaveCustomAttributeEvent.
@@ -62,7 +65,7 @@ public class SaveCustomDataEvent extends KraDocumentEventBaseExtension {
     @Override
     @SuppressWarnings("unchecked")
     public BusinessRuleInterface getRule() {
-        return new SaveCustomDataRule();
+        return new CustomDataRule();
     }
 
     public boolean isValidateRequiredFields() {
@@ -87,6 +90,10 @@ public class SaveCustomDataEvent extends KraDocumentEventBaseExtension {
 
     public void setCustomAttributeDocuments(Map<String, CustomAttributeDocument> customAttributeDocuments) {
         this.customAttributeDocuments = customAttributeDocuments;
+    }
+    
+    public void reportError(CustomAttribute customAttribute, String propertyName, String errorKey, String... errorParams) {
+        errorReporter.reportError(propertyName, errorKey, errorParams);
     }
 
 }

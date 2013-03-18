@@ -133,7 +133,6 @@ public abstract class ProtocolDocumentRuleBase<CD extends CommitteeDecision<? ex
         valid &= processLeadUnitBusinessRules((ProtocolDocumentBase) document);
         valid &= processProtocolLocationBusinessRules((ProtocolDocumentBase) document);            
         valid &= processProtocolPersonnelBusinessRules((ProtocolDocumentBase) document);
-        valid &= processProtocolCustomDataBusinessRules((ProtocolDocumentBase) document);
         
 // TODO *********commented the code below during IACUC refactoring*********        
 //        valid &= processProtocolSpecialReviewBusinessRules((ProtocolDocumentBase) document);
@@ -253,9 +252,6 @@ public abstract class ProtocolDocumentRuleBase<CD extends CommitteeDecision<? ex
 
 // TODO *********uncomment the code below in increments as needed during refactoring*********         
 //    
-    private boolean processProtocolCustomDataBusinessRules(ProtocolDocumentBase document) {
-        return processRules(new SaveCustomDataEvent(document));
-    }
 //    
 //    private boolean processProtocolSpecialReviewBusinessRules(ProtocolDocumentBase document) {
 //        List<ProtocolSpecialReviewBase> specialReviews = document.getProtocol().getSpecialReviews();

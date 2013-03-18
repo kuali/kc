@@ -15,32 +15,18 @@
  */
 package org.kuali.kra.iacuc.customdata;
 
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-//import org.drools.core.util.StringUtils;
-import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.bo.CustomAttribute;
-import org.kuali.kra.bo.CustomAttributeDocument;
-import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.IacucProtocolAction;
-import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.IacucProtocolForm;
-import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.irb.customdata.CustomDataHelper;
-import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.protocol.ProtocolFormBase;
-import org.kuali.kra.protocol.customdata.ProtocolCustomDataHelperBase;
-import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.kra.rule.event.SaveCustomDataEvent;
+import org.kuali.kra.rules.CustomDataRule;
+import org.kuali.rice.krad.exception.ValidationException;
 
 /**
  * This class...
@@ -73,5 +59,16 @@ public class IacucProtocolCustomDataAction extends IacucProtocolAction {
         protocolForm.getCustomDataHelper().prepareCustomData();
         return mapping.findForward("iacucCustomData");    
     }
+    
+    @Override
+    public void preSave(ActionMapping mapping, ActionForm form, 
+            HttpServletRequest request, HttpServletResponse response) throws Exception { 
+        IacucProtocolForm protocolForm = (IacucProtocolForm) form;
+        //have to do the custom data validation here, separate from the document save, as invalid default values could cause the
+        //document to be unusable.
+        if (!new CustomDataRule().processRules(new SaveCustomDataEvent(protocolForm.getProtocolDocument()))) {
+            throw new ValidationException("Custom data rule processing failed.");
+        }
+    }    
 
 }

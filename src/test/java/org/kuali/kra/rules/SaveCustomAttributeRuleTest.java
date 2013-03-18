@@ -46,14 +46,14 @@ import org.springframework.util.AutoPopulatingList;
 // TODO : temporary extends ProposalDevelopmentRuleTestBase to test proposal document custom data 
 // need more generic class for extension, so we can test other modules, such as budget too
 public class SaveCustomAttributeRuleTest extends ProposalDevelopmentRuleTestBase {
-    private SaveCustomDataRule rule = null;
+    private CustomDataRule rule = null;
     private BusinessObjectService bos;
 
     @Override
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        rule = new SaveCustomDataRule();
+        rule = new CustomDataRule();
         bos = KraServiceLocator.getService(BusinessObjectService.class);
     }
 

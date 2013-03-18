@@ -25,6 +25,7 @@ import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.bo.DocumentCustomData;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.rule.event.AuditCustomDataEvent;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.kns.util.AuditCluster;
 import org.kuali.rice.kns.util.AuditError;
@@ -45,35 +46,7 @@ public class ResearchDocumentBaseAuditRule implements DocumentAuditRule {
         boolean valid = true;
 
         if (document instanceof ResearchDocumentBase) {
-            Map<String, CustomAttributeDocument> customAttributeDocuments = ((ResearchDocumentBase)document).getCustomAttributeDocuments();
-
-            for (Map.Entry<String, CustomAttributeDocument> customAttributeDocumentEntry: customAttributeDocuments.entrySet()) {
-                CustomAttributeDocument customAttributeDocument = customAttributeDocumentEntry.getValue();
-                CustomAttribute customAttribute = customAttributeDocument.getCustomAttribute();
-                List<? extends DocumentCustomData> customDataList = ((ResearchDocumentBase)document).getDocumentCustomData();
-                int index = 0;
-                for (DocumentCustomData data : customDataList) {
-                    if (data.getCustomAttributeId() == customAttribute.getId().longValue()) {
-                        customAttribute.setValue(data.getValue());
-                        break;
-                    }
-                    index++;
-                }
-                if (customAttributeDocument.isRequired() && StringUtils.isEmpty(customAttribute.getValue())) {
-                    valid = false;
-                    String key = "CustomData" + StringUtils.deleteWhitespace(customAttribute.getGroupName()) + "Errors";
-                    AuditCluster auditCluster = (AuditCluster) KNSGlobalVariables.getAuditErrorMap().get(key);
-                    if (auditCluster == null) {
-                        List<AuditError> auditErrors = new ArrayList<AuditError>();
-                        //auditCluster = new AuditCluster("Custom Data: " + customAttribute.getGroupName(), auditErrors, Constants.AUDIT_ERRORS);
-                        auditCluster = new AuditCluster(customAttribute.getGroupName(), auditErrors, Constants.AUDIT_ERRORS);
-                        KNSGlobalVariables.getAuditErrorMap().put(key, auditCluster);
-                    }
-                    List<AuditError> auditErrors = auditCluster.getAuditErrorList();
-                    auditErrors.add(new AuditError("customDataHelper.customDataList["+index+"].value", RiceKeyConstants.ERROR_REQUIRED, StringUtils.deleteWhitespace(Constants.CUSTOM_ATTRIBUTES_PAGE + "." + customAttribute.getGroupName()), new String[]{customAttribute.getLabel()}));
-                }
-            }
-
+            valid = new CustomDataRule().processRules(new AuditCustomDataEvent((ResearchDocumentBase)document));
         }
 
         return valid;

@@ -355,23 +355,9 @@ SubAwardFundingSourceRule {
                VALIDATION_REQUIRED, CHOMP_LAST_LETTER_S_FROM_COLLECTION_NAME);
         errorMap.removeFromErrorPath(DOCUMENT_ERROR_PATH);
 
-        boolean valid = true;
-        
-        valid &= processSaveAwardCustomDataBusinessRules((SubAwardDocument) document);
-       
-        return valid;
+        return true;
     }
     
-    /**
-    *
-    * process save Custom Data Business Rules.
-    * @param subawardDocument
-    * @return
-    */
-    public boolean processSaveAwardCustomDataBusinessRules(Document document) {
-        SubAwardDocument subAwardDocument = (SubAwardDocument) document;
-        return processRules(new SaveCustomDataEvent(subAwardDocument));
-    }
     /**
      * @see org.kuali.kra.rule.BusinessRuleInterface#processRules(org.kuali.kra.rule.event.KraDocumentEventBaseExtension)
      */

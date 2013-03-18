@@ -58,7 +58,6 @@ public class NegotiationDocument extends ResearchDocumentBase implements Seriali
     public NegotiationDocument() {
         negotiationList = new ArrayList<Negotiation>();
         negotiationList.add(new Negotiation());
-        populateCustomAttributes();
     }
     
     /**

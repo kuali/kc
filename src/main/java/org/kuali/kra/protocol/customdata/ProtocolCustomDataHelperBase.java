@@ -87,8 +87,6 @@ public abstract class ProtocolCustomDataHelperBase<T extends DocumentCustomData>
         return documents.size() > 0;
     }
     
-    protected abstract String getDocumentTypeCode();
-    
 //TODO: Must be reworked when IACUC and IRB are merged    
 //    public void prepareView(ProtocolDocumentBase protocolDocument) {
 //        initializePermissions();
@@ -213,6 +211,10 @@ public abstract class ProtocolCustomDataHelperBase<T extends DocumentCustomData>
             taskAuthorizationService =  KraServiceLocator.getService(TaskAuthorizationService.class);
         }
         return taskAuthorizationService;
+    }
+    
+    protected String getDocumentTypeCode() {
+        return form.getProtocolDocument().getDocumentTypeCode();
     }
 
 // TODO ********************** commented out during IRB backfit ************************    

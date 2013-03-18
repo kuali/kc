@@ -78,7 +78,6 @@ public class InstitutionalProposalDocumentRule extends ResearchDocumentRuleBase 
         errorMap.removeFromErrorPath(DOCUMENT_ERROR_PATH);
         
         
-        retval &= processSaveInstitutionalProposalCustomDataBusinessRules(document);
         retval &= processUnrecoveredFandABusinessRules(document);
         retval &= processSponsorProgramBusinessRule(document);
         retval &= processInstitutionalProposalBusinessRules(document);
@@ -93,18 +92,7 @@ public class InstitutionalProposalDocumentRule extends ResearchDocumentRuleBase 
         retval &= validateSponsors(document);
         return retval;
     }    
-    
-    /**
-    *
-    * process save Custom Data Business Rules.
-    * @param institutionalProposalDocument
-    * @return
-    */
-    private boolean processSaveInstitutionalProposalCustomDataBusinessRules(Document document) {
-        InstitutionalProposalDocument institutionalProposalDocument = (InstitutionalProposalDocument) document;
-        return processRules(new SaveCustomDataEvent(institutionalProposalDocument));
-    }
-    
+        
     private boolean validateSponsors(Document document) {
         boolean valid = true;
         MessageMap errorMap = GlobalVariables.getMessageMap();

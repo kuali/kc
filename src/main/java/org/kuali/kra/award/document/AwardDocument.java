@@ -310,7 +310,6 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
         awardList.add(new Award());
         budgetDocumentVersions = new ArrayList<BudgetDocumentVersion>();
         actualBudgetDocumentVersions = new ArrayList<BudgetDocumentVersion>();
-        populateCustomAttributes();
     }
     
     @Override

@@ -1307,9 +1307,7 @@ public class AwardAction extends BudgetParentActionBase {
         } else {
             forward = super.docHandler(mapping, form, request, response);
         }
-        
-        awardForm.getAwardDocument().populateCustomAttributes();
-        
+
         if (Constants.MAPPING_AWARD_ACTIONS_PAGE.equals(command)) {
             forward = awardActions(mapping, awardForm, request, response);
         }
