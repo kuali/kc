@@ -101,7 +101,7 @@ public class SubmissionTypeValuesFinder extends IrbActionsKeyValuesBase {
     
     private boolean displayInitialSubmission(String currentStatus) {
         String validStatuses[] = { ProtocolStatus.IN_PROGRESS,
-                ProtocolStatus.WITHDRAWN, ProtocolStatus.SUBMITTED_TO_IRB};
+                ProtocolStatus.WITHDRAWN, ProtocolStatus.SUBMITTED_TO_IRB, ProtocolStatus.RECALLED_IN_ROUTING};
         return validateCurrentStatus(currentStatus, validStatuses);
     }
     
@@ -136,7 +136,7 @@ public class SubmissionTypeValuesFinder extends IrbActionsKeyValuesBase {
     }
     
     private boolean displayResubmission(String currentStatus) {
-        String validStatuses[] = {ProtocolStatus.WITHDRAWN, ProtocolStatus.SUBMITTED_TO_IRB, ProtocolStatus.RETURN_TO_PI, ProtocolStatus.RECALLED_IN_ROUTING};
+        String validStatuses[] = {ProtocolStatus.WITHDRAWN, ProtocolStatus.SUBMITTED_TO_IRB, ProtocolStatus.RETURN_TO_PI};
         return validateCurrentStatus(currentStatus, validStatuses);
     }
     
