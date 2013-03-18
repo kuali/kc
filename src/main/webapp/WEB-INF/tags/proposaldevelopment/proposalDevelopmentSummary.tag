@@ -127,10 +127,10 @@
 <div id="approver_bottom">
 <table>
 <tr>
-	<a href="${ConfigProperties.application.url}/kew/DocHandler.do?docId=${KualiForm.docId}&command=displayActionListView"  target="_parent">
+	<a href="${ConfigProperties.rice.server.url}/kew/DocHandler.do?docId=${KualiForm.docId}&command=displayActionListView"  target="_parent">
     <img title="Open Proposal" 
           alt="Open Proposal" style="border: medium none ;" 
-          src="${ConfigProperties.rice.server.url}/static/images/tinybutton-openproposal.gif"/>
+          src="${ConfigProperties.application.url}/static/images/tinybutton-openproposal.gif"/>
 	  </a>
 </tr>
 </table>
