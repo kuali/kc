@@ -3,8 +3,8 @@
 	<documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
 		<documentType>
 			<name>SubAwardInvoiceMaintenanceDocument</name>
-			<description>Create a SubAward Invoice</description>
-			<label>SubAward Invoice</label>
+			<description>Create a Subaward Invoice</description>
+			<label>Subaward Invoice</label>
 			<parent>KcSharedMaintenanceDocument</parent>
             <routePaths>
                 <routePath>

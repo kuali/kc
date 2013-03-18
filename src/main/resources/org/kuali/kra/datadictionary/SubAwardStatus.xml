@@ -31,8 +31,8 @@
   <bean id="SubAwardStatus-subAwardStatusCode-parentBean" abstract="true" parent="AttributeDefinition">
        <property name="name" value="subAwardStatusCode" />
     <property name="forceUppercase" value="false" />
-    <property name="label" value="SubAward Status Code" />
-    <property name="shortLabel" value="SubAward Status Code" />
+    <property name="label" value="Subaward Status Code" />
+    <property name="shortLabel" value="Subaward Status Code" />
     <property name="maxLength" value="22" />
     <property name="validationPattern" >
       <bean parent="NumericValidationPattern" />
@@ -42,8 +42,8 @@
       <bean parent="TextControlDefinition"
             p:size="10" />
     </property>
-    <property name="summary" value="SubAward Status Code" />
-    <property name="description" value="SubAward Status Code" />    
+    <property name="summary" value="Subaward Status Code" />
+    <property name="description" value="Subaward Status Code" />    
   </bean>
   
    <bean id="SubAwardStatus-description" parent="SubAwardStatus-description-parentBean" />
@@ -58,7 +58,7 @@
  <bean id="SubAwardStatus-inquiryDefinition" parent="SubAwardStatus-inquiryDefinition-parentBean" />
 
   <bean id="SubAwardStatus-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
-    <property name="title" value="SubAward Status" />
+    <property name="title" value="Subaward Status" />
     <property name="inquirySections" >
       <list>
         <bean parent="InquirySectionDefinition">
@@ -81,7 +81,7 @@
   <bean id="SubAwardStatus-lookupDefinition" parent="SubAwardStatus-lookupDefinition-parentBean" />
 
   <bean id="SubAwardStatus-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="title" value="SubAward Status Lookup" />
+    <property name="title" value="Subaward Status Lookup" />
     <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
 
     <property name="defaultSort" >
