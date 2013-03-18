@@ -42,6 +42,7 @@ import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.web.struts.form.Auditable;
+import org.kuali.kra.web.struts.form.CustomDataDocumentForm;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 import org.kuali.kra.web.struts.form.MultiLookupFormBase;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
@@ -58,7 +59,8 @@ import org.kuali.rice.krad.util.KRADConstants;
  * This class...
  */
 public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase implements Auditable,
-                                                                        MultiLookupFormBase, ReportHelperBeanContainer {
+                                                                        MultiLookupFormBase, ReportHelperBeanContainer,
+                                                                        CustomDataDocumentForm {
 
     /**
      * Comment for <code>serialVersionUID</code>

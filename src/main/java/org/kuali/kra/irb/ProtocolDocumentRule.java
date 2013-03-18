@@ -65,7 +65,6 @@ import org.kuali.kra.protocol.personnel.SaveProtocolPersonnelEventBase;
 import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceAuditRuleBase;
 import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceRuleBase;
 import org.kuali.kra.protocol.specialreview.ProtocolSpecialReviewBase;
-import org.kuali.kra.rule.event.SaveCustomDataEvent;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.util.GlobalVariables;
 
@@ -152,7 +151,6 @@ public class ProtocolDocumentRule extends ProtocolDocumentRuleBase<CommitteeDeci
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
         boolean valid = super.processCustomSaveDocumentBusinessRules(document);
-        valid &= processProtocolCustomDataBusinessRules((ProtocolDocument) document);
         valid &= processProtocolSpecialReviewBusinessRules((ProtocolDocument) document);
         return valid;
     }
@@ -261,9 +259,6 @@ public class ProtocolDocumentRule extends ProtocolDocumentRuleBase<CommitteeDeci
 //        return processRules(new SaveProtocolPersonnelEvent(Constants.EMPTY_STRING, document));
 //    }
     
-    private boolean processProtocolCustomDataBusinessRules(ProtocolDocument document) {
-        return processRules(new SaveCustomDataEvent(document));
-    }
     
     private boolean processProtocolSpecialReviewBusinessRules(ProtocolDocument document) {
         List<ProtocolSpecialReviewBase> specialReviews = document.getProtocol().getSpecialReviews();

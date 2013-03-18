@@ -25,6 +25,8 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.rule.event.SaveCustomDataEvent;
+import org.kuali.kra.rules.CustomDataRule;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 
 /**
@@ -60,11 +62,14 @@ public class AwardCustomDataAction extends AwardAction {
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        AwardForm awardForm = (AwardForm) form;  
-        //awardForm.getCustomDataHelper().copyCustomDataToDocument();
-        ActionForward forward = super.save(mapping, form, request, response);
-        
-        return forward;
+        AwardForm awardForm = (AwardForm) form;
+        //have to do the custom data validation here, separate from the document save, as invalid default values could cause the
+        //document to be unusable.
+        if (new CustomDataRule().processRules(new SaveCustomDataEvent(awardForm.getAwardDocument()))) {
+            return super.save(mapping, form, request, response);   
+        } else {
+            return mapping.findForward(Constants.MAPPING_BASIC);
+        }
     }
     
     /**

@@ -101,6 +101,7 @@ import org.kuali.kra.service.KraWorkflowService;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.service.UnitService;
 import org.kuali.kra.web.struts.form.BudgetVersionFormBase;
+import org.kuali.kra.web.struts.form.CustomDataDocumentForm;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
@@ -133,7 +134,8 @@ import org.springframework.util.AutoPopulatingList;
 /**
  * This class is the Struts form bean for DevelopmentProposal
  */
-public class ProposalDevelopmentForm extends BudgetVersionFormBase implements ReportHelperBeanContainer, MultiQuestionableFormInterface {
+public class ProposalDevelopmentForm extends BudgetVersionFormBase implements ReportHelperBeanContainer, MultiQuestionableFormInterface, 
+                                                                        CustomDataDocumentForm {
     
     private static final long serialVersionUID = 7928293162992415894L;
     private static final String MISSING_PARAM_MSG = "Couldn't find parameter ";
