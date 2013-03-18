@@ -39,7 +39,7 @@ htmlFormAction="reporting">
 			</h3>
 			 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 				<tr>
-					<th align="right" valign="middle"><kul:htmlAttributeLabel
+					<th align="right" valign="center" width="44%"><kul:htmlAttributeLabel
 							attributeEntry="${custReportDetailsAttributes.reportLabelDisplay}" />
 					</th>
 					<td><kul:htmlControlAttribute
