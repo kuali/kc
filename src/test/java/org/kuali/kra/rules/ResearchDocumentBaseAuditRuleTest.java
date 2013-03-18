@@ -137,7 +137,9 @@ public class ResearchDocumentBaseAuditRuleTest extends KcUnitTestBase {
             CustomAttributeDocument customAttributeDocument = customAttributeDocumentEntry.getValue();
             CustomAttribute customAttribute = customAttributeDocument.getCustomAttribute();
             if (customAttributeDocument.isRequired()) {
-                customAttribute.setValue("value");
+                //setting the value to a number since one of the required fields is an numeric field
+                //and the audit rule now checks the fields type as well.
+                customAttribute.setValue("5");
             }
         }
 
