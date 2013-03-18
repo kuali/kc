@@ -76,6 +76,7 @@ import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.subaward.SubAwardForm;
 import org.kuali.kra.timeandmoney.TimeAndMoneyForm;
 import org.kuali.kra.web.struts.authorization.WebAuthorizationService;
+import org.kuali.kra.web.struts.form.CustomDataDocumentForm;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.RiceConstants;
@@ -1126,6 +1127,15 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
 
     public ActionForward reloadWithoutWarning(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         return super.reload(mapping, form, request, response);
+    }
+    
+    @Override
+    public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ActionForward forward = super.docHandler(mapping, form, request, response);
+        if (form instanceof CustomDataDocumentForm) {
+            ((CustomDataDocumentForm) form).getCustomDataHelper().prepareCustomData();
+        }
+        return forward;
     }
 
     @Override

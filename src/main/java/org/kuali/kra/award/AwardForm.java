@@ -78,6 +78,7 @@ import org.kuali.kra.service.AwardHierarchyUIService;
 import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.kra.web.struts.form.Auditable;
 import org.kuali.kra.web.struts.form.BudgetVersionFormBase;
+import org.kuali.kra.web.struts.form.CustomDataDocumentForm;
 import org.kuali.kra.web.struts.form.MultiLookupFormBase;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
@@ -101,7 +102,8 @@ import org.kuali.rice.krad.util.KRADConstants;
 public class AwardForm extends BudgetVersionFormBase 
                                         implements MultiLookupFormBase,
                                                     Auditable,
-                                                    PermissionsForm {
+                                                    PermissionsForm,
+                                                    CustomDataDocumentForm {
 
     public static final String SAVE = "save";
     public static final String RELOAD = "reload";

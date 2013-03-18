@@ -98,7 +98,7 @@ import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 import org.kuali.kra.rule.event.SaveCustomDataEvent;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
-import org.kuali.kra.rules.SaveCustomDataRule;
+import org.kuali.kra.rules.CustomDataRule;
 import org.kuali.kra.service.SponsorService;
 import org.kuali.kra.timeandmoney.TimeAndMoneyForm;
 import org.kuali.kra.timeandmoney.rule.event.TimeAndMoneyAwardDateSaveEvent;
@@ -313,7 +313,6 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         retval &= processApprovedForeignTravelBusinessRules(errorMap, awardDocument);
 //        retval &= processAwardReportTermBusinessRules(document);
         retval &= processSaveAwardProjectPersonsBusinessRules(errorMap, awardDocument);
-        retval &= processSaveAwardCustomDataBusinessRules(awardDocument);
         retval &= processAwardCommentsBusinessRules(awardDocument);
         retval &= processAwardDetailsAndDatesSaveRules(document);
         retval &= processDateBusinessRule(errorMap, awardDocument);
@@ -447,18 +446,6 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         errorMap.removeFromErrorPath(AWARD_ERROR_PATH);
         errorMap.removeFromErrorPath(DOCUMENT_ERROR_PATH);
         return valid;
-    }
-    
-
-    /**
-    *
-    * process save Custom Data Business Rules.
-    * @param awardDocument
-    * @return
-    */
-    private boolean processSaveAwardCustomDataBusinessRules(Document document) {
-        AwardDocument awardDocument = (AwardDocument) document;
-        return processRules(new SaveCustomDataEvent(awardDocument));
     }
     
     /**

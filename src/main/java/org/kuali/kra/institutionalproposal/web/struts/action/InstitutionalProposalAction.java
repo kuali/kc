@@ -313,7 +313,6 @@ public class InstitutionalProposalAction extends KraTransactionalDocumentActionB
     ActionForward handleDocument(ActionMapping mapping, ActionForm form, HttpServletRequest request,
                                   HttpServletResponse response, InstitutionalProposalForm institutionalProposalForm) throws Exception {       
         ActionForward forward = super.docHandler(mapping, form, request, response);
-        institutionalProposalForm.getInstitutionalProposalDocument().populateCustomAttributes();
         return forward;
     }
     

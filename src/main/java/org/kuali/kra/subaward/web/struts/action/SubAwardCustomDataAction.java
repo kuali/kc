@@ -24,6 +24,9 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.bo.CustomAttribute;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.rule.event.SaveCustomDataEvent;
+import org.kuali.kra.rules.CustomDataRule;
 import org.kuali.kra.subaward.SubAwardForm;
 import org.kuali.kra.subaward.customdata.SubAwardCustomData;
 
@@ -41,4 +44,17 @@ public class SubAwardCustomDataAction extends SubAwardAction {
         subAwardForm.getCustomDataHelper().prepareCustomData();
         return forward;
     }
+    
+    @Override
+    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        SubAwardForm subAwardForm = (SubAwardForm) form;
+        //have to do the custom data validation here, separate from the document save, as invalid default values could cause the
+        //document to be unusable.
+        if (new CustomDataRule().processRules(new SaveCustomDataEvent(subAwardForm.getSubAwardDocument()))) {
+            return super.save(mapping, form, request, response);   
+        } else {
+            return mapping.findForward(Constants.MAPPING_BASIC);
+        }
+    }
+    
 }

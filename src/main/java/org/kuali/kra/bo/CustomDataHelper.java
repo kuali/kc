@@ -43,14 +43,20 @@ public class CustomDataHelper extends CustomDataHelperBase<PersonCustomData> imp
 
     @Override
     public List<PersonCustomData> getCustomDataList() {
-        return ((KcPersonExtendedAttributes) maintainableImpl.getDataObject()).getPersonCustomDataList();
+        if (maintainableImpl.getDataObject() != null) {
+            return ((KcPersonExtendedAttributes) maintainableImpl.getDataObject()).getPersonCustomDataList();
+        } else {
+            return new ArrayList<PersonCustomData>();
+        }
     }
 
-    @Override
     public Map<String, CustomAttributeDocument> getCustomAttributeDocuments() {
         return customAttributeDocuments;
     }
+
+    public void setCustomAttributeDocuments(Map<String, CustomAttributeDocument> customAttributeDocuments) {
+        this.customAttributeDocuments = customAttributeDocuments;
+    }
     
-
-
+    
 }

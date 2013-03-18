@@ -128,7 +128,6 @@ public class InstitutionalProposalDocument extends ResearchDocumentBase {
     protected void init() {
         institutionalProposalList = new ArrayList<InstitutionalProposal>();
         institutionalProposalList.add(new InstitutionalProposal());
-        populateCustomAttributes();
     }
     
     /**

@@ -25,9 +25,13 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.irb.ProtocolAction;
 import org.kuali.kra.irb.ProtocolForm;
+import org.kuali.kra.rule.event.SaveCustomDataEvent;
+import org.kuali.kra.rules.CustomDataRule;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
+import org.kuali.rice.krad.exception.ValidationException;
 import org.kuali.rice.krad.util.KRADConstants;
 
 /**
@@ -59,6 +63,18 @@ public class ProtocolCustomDataAction extends ProtocolAction {
         ((ProtocolForm)form).getCustomDataHelper().prepareCustomData();
         return mapping.findForward("customData");    
     }
+
+    @Override
+    public void preSave(ActionMapping mapping, ActionForm form, 
+            HttpServletRequest request, HttpServletResponse response) throws Exception { 
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        //have to do the custom data validation here, separate from the document save, as invalid default values could cause the
+        //document to be unusable.
+        if (!new CustomDataRule().processRules(new SaveCustomDataEvent(protocolForm.getProtocolDocument()))) {
+            throw new ValidationException("Custom data rule processing failed.");
+        }
+    }
+    
 
     /**
      * @see org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase#postDocumentSave(org.kuali.core.web.struts.form.KualiDocumentFormBase)
