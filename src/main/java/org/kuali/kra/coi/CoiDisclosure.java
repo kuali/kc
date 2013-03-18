@@ -898,10 +898,14 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
         } else {
             List<CoiNotification>filteredList = new ArrayList<CoiNotification>();
             for (CoiNotification notification: unfilteredList) {
-                for (String recipient: notification.getRecipients().split(",")) {
-                    if (currentUser.equals(recipient.trim())) {
-                        filteredList.add(notification);
-                        break;
+                if (currentUser.equals(notification.getUpdateUser())) {
+                    filteredList.add(notification);
+                } else {
+                    for (String recipient: notification.getRecipients().split(",")) {
+                        if (currentUser.equals(recipient.trim())) {
+                            filteredList.add(notification);
+                            break;
+                        }
                     }
                 }
             }
