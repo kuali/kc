@@ -1282,7 +1282,7 @@ public class AwardForm extends BudgetVersionFormBase
     }
     
     public boolean getDisplayEditButton() {
-        boolean displayEditButton = !isViewOnly();
+        boolean displayEditButton = !isViewOnly() && !getAwardDocument().isCanceled();
         if (isDocOpenedFromAwardSearch() || getAwardDocument().isPlaceHolderDocument()) {
             displayEditButton = true;
         }
