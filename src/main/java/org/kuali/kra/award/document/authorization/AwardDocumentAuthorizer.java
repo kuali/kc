@@ -78,7 +78,8 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
             }
         }
         else {
-            if (canExecuteAwardTask(user.getPrincipalId(), awardDocument, AwardTaskNames.MODIFY_AWARD.getAwardTaskName())) {  
+            boolean isCanceled = awardDocument.isCanceled();
+            if (!awardDocument.isCanceled() && canExecuteAwardTask(user.getPrincipalId(), awardDocument, AwardTaskNames.MODIFY_AWARD.getAwardTaskName())) {  
                 editModes.add(AuthorizationConstants.EditMode.FULL_ENTRY);
             }
             else if (canExecuteAwardTask(user.getPrincipalId(), awardDocument, AwardTaskNames.VIEW_AWARD.getAwardTaskName())) {
@@ -88,7 +89,7 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
                 editModes.add(AuthorizationConstants.EditMode.UNVIEWABLE);
             }
             
-            if (canExecuteAwardTask(user.getPrincipalId(), awardDocument, TaskName.ADD_BUDGET)) {
+            if (!isCanceled && canExecuteAwardTask(user.getPrincipalId(), awardDocument, TaskName.ADD_BUDGET)) {
                 editModes.add("addBudget");
             }
                     
@@ -96,7 +97,7 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
                 editModes.add("openBudgets");
             }
                     
-            if (canExecuteAwardTask(user.getPrincipalId(), awardDocument, TaskName.MODIFY_BUDGET)) {
+            if (!isCanceled && canExecuteAwardTask(user.getPrincipalId(), awardDocument, TaskName.MODIFY_BUDGET)) {
                 editModes.add("modifyAwardBudget");
             }
             
@@ -208,7 +209,8 @@ public class AwardDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBa
      */
     @Override
     public boolean canEdit(Document document, Person user) {
-        return canExecuteAwardTask(user.getPrincipalId(), (AwardDocument) document, AwardTaskNames.MODIFY_AWARD.getAwardTaskName());
+        boolean isCanceled = ((AwardDocument)document).isCanceled();
+        return !isCanceled && canExecuteAwardTask(user.getPrincipalId(), (AwardDocument) document, AwardTaskNames.MODIFY_AWARD.getAwardTaskName());
     }
     
     /**
