@@ -393,10 +393,14 @@ public abstract class ProtocolActionBase extends ProtocolAssociateBase {
         } else {
             List<KcNotification>filteredList = new ArrayList<KcNotification>();
             for (KcNotification notification: unfilteredList) {
-                for (String recipient: notification.getRecipients().split(",")) {
-                    if (currentUser.equals(recipient.trim())) {
-                        filteredList.add(notification);
-                        break;
+                if (currentUser.equals(notification.getUpdateUser())) {
+                    filteredList.add(notification);
+                } else {
+                    for (String recipient: notification.getRecipients().split(",")) {
+                        if (currentUser.equals(recipient.trim())) {
+                            filteredList.add(notification);
+                            break;
+                        }
                     }
                 }
             }
