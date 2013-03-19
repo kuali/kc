@@ -1395,10 +1395,10 @@ function loadContactPersonName(usernameFieldName, fullnameElementId,
 						if ( data != null ) {							
 						    if ( data.fullName != null ) {
 							    fullNameElement.innerHTML = data.fullName;
-							} else if (data.organizationName == undefined) {
+							} else if (data.organization == undefined) {
 							    fullNameElement.innerHTML = wrapError( "not found" );
 							} else {
-							    fullNameElement.innerHTML = data.organizationName;
+							    fullNameElement.innerHTML = data.organization;
 							}
 							rolodexIdElement.value = data.rolodexId;
 							
