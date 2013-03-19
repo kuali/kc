@@ -50,8 +50,21 @@
           			  </c:if>			
           			  	<kul:directInquiry boClassName="org.kuali.kra.bo.NonOrganizationalRolodex" inquiryParameters="document.subAwardList[0].siteInvestigator:rolodexId" anchor="${tabKey}" />
           			  
-          			           			  
-          			  <div id="sub.fullName.div">${KualiForm.document.subAwardList[0].rolodex.fullName}&nbsp;</div> 
+          			  <div id="sub.fullName.div">
+          			      &nbsp; 
+          			      <c:if test="${!empty KualiForm.document.subAwardList[0].siteInvestigatorId}">
+					          <c:if test="${!empty KualiForm.document.subAwardList[0].rolodex}">
+						          <c:choose>
+						              <c:when test="${empty KualiForm.document.subAwardList[0].rolodex.fullName}">
+						                  <c:out value="${KualiForm.document.subAwardList[0].rolodex.organization}"/>
+                                      </c:when>
+                                      <c:otherwise>						                      
+							              <c:out value="${KualiForm.document.subAwardList[0].rolodex.fullName}" />
+							          </c:otherwise>
+							      </c:choose>
+				              </c:if>
+				          </c:if>
+				      </div>
           			  <html:hidden styleId ="sub.siteInvestigatorId.div" property="document.subAwardList[0].siteInvestigator" />  
           			   ${kfunc:registerEditableProperty(KualiForm, "document.subAwardList[0].siteInvestigator")} 
                 </td>

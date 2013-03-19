@@ -1393,7 +1393,13 @@ function loadContactPersonName(usernameFieldName, fullnameElementId,
 			var dwrReply = {
 					callback:function(data) {
 						if ( data != null ) {							
-							fullNameElement.innerHTML = data.fullName;
+						    if ( data.fullName != null ) {
+							    fullNameElement.innerHTML = data.fullName;
+							} else if (data.organizationName == undefined) {
+							    fullNameElement.innerHTML = wrapError( "not found" );
+							} else {
+							    fullNameElement.innerHTML = data.organizationName;
+							}
 							rolodexIdElement.value = data.rolodexId;
 							
 						} else {							
