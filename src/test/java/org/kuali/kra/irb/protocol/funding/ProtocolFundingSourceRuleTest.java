@@ -25,8 +25,9 @@ import org.junit.Test;
 import org.kuali.kra.bo.FundingSourceType;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.rules.TemplateRuleTest;
+import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 
-public class ProtocolFundingSourceRuleTest {
+public class ProtocolFundingSourceRuleTest extends KcUnitTestBase {
     
     private Mockery context = new JUnit4Mockery();
 
@@ -55,7 +56,7 @@ public class ProtocolFundingSourceRuleTest {
         fundingSponsorSourceType.setFundingSourceTypeFlag(true);
         fundingSponsorSourceType.setDescription("Sponsor");
         
-        goodFundingSource = new ProtocolFundingSource("123", FundingSourceType.SPONSOR, "NAME", "TITLE");
+        goodFundingSource = new ProtocolFundingSource("000108", FundingSourceType.SPONSOR, "NAME", "TITLE");
         badFundingSourceNoId = new ProtocolFundingSource("", FundingSourceType.SPONSOR, "123", null);
         badFundingSourceNoName = new ProtocolFundingSource("123", FundingSourceType.SPONSOR, "", null);
         badFundingSourceNoType = new ProtocolFundingSource("123", null, "123", null);
