@@ -1394,11 +1394,11 @@ function loadContactPersonName(usernameFieldName, fullnameElementId,
 					callback:function(data) {
 						if ( data != null ) {							
 						    if ( data.fullName != null ) {
-							    fullNameElement.innerHTML = data.fullName;
+							    fullNameElement.innerHTML = "&nbsp;&nbsp;" + data.fullName;
 							} else if (data.organization == undefined) {
 							    fullNameElement.innerHTML = wrapError( "not found" );
 							} else {
-							    fullNameElement.innerHTML = data.organization;
+							    fullNameElement.innerHTML = "&nbsp;&nbsp;" + data.organization;
 							}
 							rolodexIdElement.value = data.rolodexId;
 							
