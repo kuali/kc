@@ -26,76 +26,36 @@ import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.util.KRADConstants;
 
 public class RolodexLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl{
-    private static final String ORGANIZATION_NAME = "sponsorName.sponsorName";
-    private static final String NAME_FOR_ORGANIZATION = "organizationName.organizationName";
+
+    private static final String IS_SPONSOR_ADDRESS = "isSponsorAddress";
     private static final String SPONSOR_NAME = "sponsor.sponsorName";
-    private static final String ORGANIZATION_ID = "organization";
 
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
 
         setBackLocation(fieldValues.get(KRADConstants.BACK_LOCATION));
         setDocFormKey(fieldValues.get(KRADConstants.DOC_FORM_KEY));
         setReferencesToRefresh(fieldValues.get(KRADConstants.REFERENCES_TO_REFRESH));
-        String sponsorName = fieldValues.get(ORGANIZATION_NAME);
-        String organizationName = fieldValues.get(NAME_FOR_ORGANIZATION);
-        fieldValues.remove(ORGANIZATION_NAME);
+        String isAddressFlagValue = fieldValues.get(IS_SPONSOR_ADDRESS);
+        fieldValues.remove(IS_SPONSOR_ADDRESS);
         fieldValues.remove(SPONSOR_NAME);
-        fieldValues.remove(ORGANIZATION_ID);
-        fieldValues.remove(NAME_FOR_ORGANIZATION);
         List<Rolodex> unboundedResults =
             (List<Rolodex>) super.getSearchResultsUnbounded(fieldValues);
         List<Rolodex> returnResults = new ArrayList<Rolodex>();
         try {
-            returnResults = filterForRolodex(unboundedResults, sponsorName, organizationName);
+            returnResults = filterForRolodex(unboundedResults);
         } catch (WorkflowException e) {
             e.printStackTrace();
         }
         return returnResults;
     }
 
-    protected List<Rolodex> filterForRolodex(List<Rolodex> collectionByQuery, String sponsorName, String organizationName) throws WorkflowException{
+    protected List<Rolodex> filterForRolodex(List<Rolodex> collectionByQuery) throws WorkflowException{
         List<Rolodex> filterRolodexList = new ArrayList<Rolodex>();
-
-        if (sponsorName != null && !sponsorName.isEmpty()) {
-        for (Rolodex rolodex : collectionByQuery) {           
-                if (rolodex.getOrganization().equalsIgnoreCase(sponsorName)) {
-                    filterRolodexList.add(rolodex);
-                } else {
-                    String subSponsorName = sponsorName.replace("*", ".*").replace("?", ".");
-                    subSponsorName = subSponsorName.toLowerCase();
-                    if (rolodex.getOrganization().toLowerCase().matches(subSponsorName)) {
-                        filterRolodexList.add(rolodex);
-                    }
-
-                }
-            }
-        } else {
             for (Rolodex rolodex : collectionByQuery) {
                 filterRolodexList.add(rolodex);
-            }          
-        }
-        List<Rolodex> filteredRolodexList = new ArrayList<Rolodex>(); 
-        if (organizationName != null && !organizationName.isEmpty()) {
-            for (Rolodex rolodex : filterRolodexList) {
-                if (rolodex.getOrganization().equalsIgnoreCase(organizationName)) {
-                    filteredRolodexList.add(rolodex);
-                } else {
-                    String subOrganizationName = organizationName.replace("*", ".*").replace("?", ".");
-                    subOrganizationName = subOrganizationName.toLowerCase();
-                    if(rolodex.getOrganization().toLowerCase().matches(subOrganizationName)) {
-                        filteredRolodexList.add(rolodex);
-                    }
-                }
             }
-        }
-        else {
-            for (Rolodex rolodex : filterRolodexList) {
-                filteredRolodexList.add(rolodex);
-            }
-        }
-
-        return filteredRolodexList;
+      
+        return filterRolodexList;
     }
-
 }
 
