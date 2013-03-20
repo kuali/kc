@@ -22,8 +22,10 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.kra.service.SponsorService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
@@ -33,6 +35,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 public class SaveFinancialEntityRule extends ResearchDocumentRuleBase implements BusinessRuleInterface<SaveFinancialEntityEvent> {
     
     private static final String SPONSOR_CODE = "sponsorCode";
+    private SponsorService sponsorService;
     /**
      * {@inheritDoc}
      * @see org.kuali.kra.rule.BusinessRuleInterface#processRules(org.kuali.kra.rule.event.KraDocumentEventBaseExtension)
@@ -51,12 +54,21 @@ public class SaveFinancialEntityRule extends ResearchDocumentRuleBase implements
         if(StringUtils.isNotBlank(event.getPersonFinIntDisclosure().getSponsorCode())) {
             Map<String, Object> fieldValues = new HashMap<String, Object>();
             fieldValues.put(SPONSOR_CODE, event.getPersonFinIntDisclosure().getSponsorCode());
+            Sponsor sp = this.getBusinessObjectService().findByPrimaryKey(Sponsor.class, fieldValues);
+            if (!this.getSponsorService().validateSponsor(sp)) {
+                GlobalVariables.getMessageMap().addToErrorPath(event.getPropertyName());
+                GlobalVariables.getMessageMap().putError(SPONSOR_CODE, KeyConstants.ERROR_INVALID_SPONSOR_CODE);
+                isValid = false;
+                GlobalVariables.getMessageMap().removeFromErrorPath(event.getPropertyName());
+            }
+            /*
             if(getBusinessObjectService().countMatching(Sponsor.class, fieldValues) == 0) {
                 GlobalVariables.getMessageMap().addToErrorPath(event.getPropertyName());
                 GlobalVariables.getMessageMap().putError(SPONSOR_CODE, KeyConstants.ERROR_INVALID_SPONSOR_CODE);
                 isValid = false;
                 GlobalVariables.getMessageMap().removeFromErrorPath(event.getPropertyName());
             }
+            */
         }
 
         return isValid;
@@ -96,6 +108,17 @@ public class SaveFinancialEntityRule extends ResearchDocumentRuleBase implements
 
         return true;
 
+    }
+
+    public SponsorService getSponsorService() {
+        if (sponsorService == null) {
+            sponsorService = KraServiceLocator.getService(SponsorService.class);
+        }
+        return sponsorService;
+    }
+
+    public void setSponsorService(SponsorService sponsorService) {
+        this.sponsorService = sponsorService;
     }
 
 }
