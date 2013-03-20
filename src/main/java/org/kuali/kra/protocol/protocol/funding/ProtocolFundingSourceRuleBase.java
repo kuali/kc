@@ -15,15 +15,19 @@
  */
 package org.kuali.kra.protocol.protocol.funding;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.FundingSourceType;
+import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
+import org.kuali.kra.service.SponsorService;
 
 /**
  * 
@@ -86,6 +90,15 @@ public abstract class ProtocolFundingSourceRuleBase extends ResearchDocumentRule
             isValid = false;
             reportError(Constants.PROTOCOL_FUNDING_SOURCE_NAME_FIELD, KeyConstants.ERROR_PROTOCOL_FUNDING_SOURCE_NAME_NOT_FOUND);         
         }
+        if (StringUtils.equalsIgnoreCase(fundingSource.getFundingSourceTypeCode(), FundingSourceType.SPONSOR)) {
+            Map<String, Object> fieldValues = new HashMap<String, Object>();
+            fieldValues.put("sponsorCode", fundingSource.getFundingSourceNumber());
+            Sponsor sp = this.getBusinessObjectService().findByPrimaryKey(Sponsor.class, fieldValues);
+            if (!this.getSponsorService().validateSponsor(sp)) {
+                isValid = false;
+                reportError(Constants.PROTOCOL_FUNDING_SOURCE_NUMBER_FIELD, KeyConstants.ERROR_INVALID_SPONSOR_CODE);
+            }
+        }
 
         return isValid;
     }
@@ -120,6 +133,10 @@ public abstract class ProtocolFundingSourceRuleBase extends ResearchDocumentRule
      */
     public void setProtocolFundingSourceService(ProtocolFundingSourceService protocolFundingSourceService) {
         this.protocolFundingSourceService = protocolFundingSourceService;
+    }
+    
+    private SponsorService getSponsorService() {
+        return KraServiceLocator.getService(SponsorService.class);
     }
     
 }
