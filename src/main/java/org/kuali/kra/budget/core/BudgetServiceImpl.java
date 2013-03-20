@@ -64,6 +64,7 @@ import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwardPeriodDetail;
 import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModular;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.generator.bo.KeyPersonInfo;
@@ -629,8 +630,9 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
         budgetDocument.toCopy();
         budgetDocument.getParentDocument().getDocumentHeader().setDocumentNumber(parentDocumentNumber);
         budgetDocument.getParentDocument().setDocumentNumber(parentDocumentNumber);
-        if(budgetDocument.getBudgets().isEmpty()) 
+        if(budgetDocument.getBudgets().isEmpty()) { 
             throw new RuntimeException("Not able to find any Budget Version associated with this document");
+        }
         Budget budget = budgetDocument.getBudget();
         
         if (onlyOnePeriod) {
@@ -647,6 +649,22 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
                 period.setTotalIndirectCost(new BudgetDecimal(0.0));
                 period.setUnderrecoveryAmount(new BudgetDecimal(0.0));
             }            
+            
+            /**
+             * KRACOEUS-6312
+             * Zero out any applicable BudgetSubAwardPeriodDetail lines.
+             */
+            if (budget.getBudgetSubAwards() != null && budget.getBudgetSubAwards().size() > 0) {
+                List<BudgetSubAwardPeriodDetail> budetSubawardPeriodDetail = budget.getBudgetSubAwards().get(0).getBudgetSubAwardPeriodDetails();
+                for ( int i = 1 ; i < budetSubawardPeriodDetail.size(); i++ ) {
+                    BudgetSubAwardPeriodDetail period = budetSubawardPeriodDetail.get(i);
+                    period.setAmountsModified(true);
+                    period.setCostShare(new BudgetDecimal(0.0));
+                    period.setDirectCost(new BudgetDecimal(0.0));
+                    period.setIndirectCost(new BudgetDecimal(0.0));
+                    period.setTotalCost(new BudgetDecimal(0.0));
+                }
+            }
         }
         
         budget.setBudgetVersionNumber(budgetDocument.getParentDocument().getNextBudgetVersionNumber());
