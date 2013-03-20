@@ -435,11 +435,7 @@
         	<foreignkey field-ref="ownedByUnit" />
     	</reference-descriptor>
     	
-		<reference-descriptor name="sponsorName" class-ref="org.kuali.kra.bo.Sponsor" auto-retrieve="true" auto-update="none" auto-delete="none">
-        	<foreignkey field-ref="organization" />
-    	</reference-descriptor>
-    	
-    	<reference-descriptor name="organizationName" class-ref="org.kuali.kra.bo.Organization" auto-retrieve="true" auto-update="none" auto-delete="none">
+    	<reference-descriptor name="organizations" class-ref="org.kuali.kra.bo.Organization" auto-retrieve="true" auto-update="none" auto-delete="none">
         	<foreignkey field-ref="organization" />
     	</reference-descriptor>
     	

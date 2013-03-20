@@ -63,7 +63,9 @@ public class Rolodex extends KraPersistableBusinessObjectBase implements Contact
 
     private String prefix;
 
-    private Boolean sponsorAddressFlag = true;
+    private Boolean sponsorAddressFlag;
+
+    private String isSponsorAddress = "N";
 
     private String sponsorCode;
 
@@ -77,13 +79,7 @@ public class Rolodex extends KraPersistableBusinessObjectBase implements Contact
 
     private Sponsor sponsor;
 
-    private Sponsor sponsorName;
-    
-    private Organization organizationName;
-    
-    private String sponsorId;
-    
-    private String organizationId;
+    private Organization organizations;
     
     private String createUser;
     
@@ -113,22 +109,18 @@ public class Rolodex extends KraPersistableBusinessObjectBase implements Contact
     }
 
     public String getAddressLine1() {
-        if(this.sponsorAddressFlag != null) {
-            if(this.sponsorAddressFlag){
+        if(this.isSponsorAddress != null) {
+            if(this.isSponsorAddress.equalsIgnoreCase("Y")){
                 if(sponsor != null && sponsor.getPostalCode() != null) {
                     return sponsor.getPostalCode();
                 }
-                else if (sponsorName != null && sponsorName.getPostalCode() != null)
-                {
-                    return sponsorName.getPostalCode();
-                }
             }
-            if(!this.sponsorAddressFlag) {
-                if(organizationName != null && organizationName.getAddress() != null) {
-                    return organizationName.getAddress();
+            if(this.isSponsorAddress.equalsIgnoreCase("N")) {
+                if(organizations != null && organizations.getAddress() != null) {
+                    return organizations.getAddress();
                 } 
             }
-        } 
+        }
         return addressLine1;
     }
 
@@ -137,21 +129,17 @@ public class Rolodex extends KraPersistableBusinessObjectBase implements Contact
     }
 
     public String getAddressLine2() {
-        if(this.sponsorAddressFlag != null) {
-            if(this.sponsorAddressFlag) {
+        if(this.isSponsorAddress != null) {
+            if(this.isSponsorAddress.equalsIgnoreCase("Y")) {
                 if(sponsor != null && sponsor.getState() != null) {
                     return sponsor.getState();
                 }
-                else if (sponsorName != null && sponsorName.getState() != null)
-                {
-                    return sponsorName.getState();
-                }
-            }if(!this.sponsorAddressFlag) {
-                if(organizationName != null) {
+            }if(this.isSponsorAddress.equalsIgnoreCase("N")) {
+                if(organizations != null) {
                     return null; 
                 }
             }
-        } 
+        }
         return addressLine2;
 
     }
@@ -161,20 +149,18 @@ public class Rolodex extends KraPersistableBusinessObjectBase implements Contact
     }
 
     public String getAddressLine3() {
-        if(this.sponsorAddressFlag != null) {
-            if(this.sponsorAddressFlag) {
+        if(this.isSponsorAddress != null) {
+            if(this.isSponsorAddress.equalsIgnoreCase("Y")) {
                 if(sponsor != null && sponsor.getCountryCode() != null) {
                     return sponsor.getCountryCode();
                 }
-                else if (sponsorName != null && sponsorName.getCountryCode() != null) {
-                    return sponsorName.getCountryCode();
-                }
-            }if(!this.sponsorAddressFlag) {
-                if(organizationName != null){
+            }
+            if(this.isSponsorAddress.equalsIgnoreCase("N")) {
+                if(organizations != null){
                     return null; 
                 }
             }
-        } 
+        }
         return addressLine3;
     }
 
@@ -263,19 +249,16 @@ public class Rolodex extends KraPersistableBusinessObjectBase implements Contact
     }
 
     public String getOrganization() {
-        if(this.sponsorAddressFlag != null) {
-            if(this.sponsorAddressFlag){
+        if(this.isSponsorAddress != null) {
+            if(this.isSponsorAddress.equalsIgnoreCase("Y")) {
                 if(sponsor != null && sponsor.getSponsorName() != null) {
                     return sponsor.getSponsorName();
-                } else if(sponsorName != null){
-                    return organization;
                 }
-                
             }
-            if(!this.sponsorAddressFlag) {
-                if(organizationName != null && organizationName.getOrganizationName() != null) {
-                    return organization;
-                } 
+            if(this.isSponsorAddress.equalsIgnoreCase("N")) {
+                if(organizations != null && organizations.getOrganizationName() != null) {
+                    return organizations.getOrganizationName();
+                }
             }
         }
         return organization;
@@ -323,6 +306,22 @@ public class Rolodex extends KraPersistableBusinessObjectBase implements Contact
 
     public void setSponsorAddressFlag(Boolean sponsorAddressFlag) {
         this.sponsorAddressFlag = sponsorAddressFlag;
+    }
+
+    /**
+     * Gets the isSponsorAddress attribute. 
+     * @return Returns the isSponsorAddress.
+     */
+    public String getIsSponsorAddress() {
+        return isSponsorAddress;
+    }
+
+    /**
+     * Sets the isSponsorAddress attribute value.
+     * @param isSponsorAddress The isSponsorAddress to set.
+     */
+    public void setIsSponsorAddress(String isSponsorAddress) {
+        this.isSponsorAddress = isSponsorAddress;
     }
 
     public String getSponsorCode() {
@@ -393,91 +392,15 @@ public class Rolodex extends KraPersistableBusinessObjectBase implements Contact
         return sponsor;
     }
     
-     /**
-     * Sets the sponsorName attribute value.
-     * @param sponsorName The sponsorName to set.
-     */
-    public void setSponsorName(Sponsor sponsorName) {
-        this.sponsorName = sponsorName;       
+
+    public void setOrganizations(Organization organizations) { 
+        this.organizations = organizations;
     }
     
-    /**
-     * Gets the organizationName attribute. 
-     * @return Returns the organizationName.
-     */
-    public Sponsor getSponsorName() {
-        if(this.sponsorAddressFlag != null) {
-            if(this.sponsorAddressFlag){
-                if(sponsor != null){
-                    return sponsor;
-                }
-                else if (sponsorName != null) {
-                    return sponsorName; 
-                } else if (sponsorId != null) {
-                    Sponsor sponsorName = KraServiceLocator.getService(BusinessObjectService.class).findBySinglePrimaryKey(Sponsor.class, sponsorId);            
-                    return sponsorName; 
-                } 
-                return sponsorName;
-            }
-            else{
-                return null;
-            }
-        } 
-        return null;
+    public Organization getOrganizations() {
+       return organizations;
     }
 
-    public void setOrganizationName(Organization organizationName) { 
-        this.organizationName = organizationName;
-    }
-    
-    public Organization getOrganizationName() {
-        if(this.sponsorAddressFlag != null) {
-            if(!this.sponsorAddressFlag){
-                if (organizationName != null) {
-                    return organizationName;
-                } else if (organizationId != null) {
-                    Organization organizationName = KraServiceLocator.getService(BusinessObjectService.class).findBySinglePrimaryKey(Organization.class, organizationId);            
-                    return organizationName;
-                } 
-            }
-            else{
-                return null;
-            }
-        }
-        return null;
-    }
-
-    public void setSponsorId(String sponsorId) {
-        this.sponsorId = sponsorId;
-    }
-
-    public String getSponsorId() {
-        if (sponsorName != null) {
-            return sponsorName.getSponsorCode();
-
-        } else {
-            return sponsorId;
-        }
-    }
-
-    /**
-     * Gets the organizationId attribute. 
-     * @return Returns the organizationId.
-     */
-    public String getOrganizationId() {
-        if(organizationName != null){
-            return organizationName.getOrganizationName();
-        }
-        return organizationId;
-    }
-
-    /**
-     * Sets the organizationId attribute value.
-     * @param organizationId The organizationId to set.
-     */
-    public void setOrganizationId(String organizationId) {
-        this.organizationId = organizationId;
-    }
 
     public boolean isActive() {
         return active;

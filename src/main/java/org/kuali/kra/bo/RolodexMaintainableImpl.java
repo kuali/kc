@@ -41,9 +41,9 @@ public class RolodexMaintainableImpl extends KraMaintainableImpl {
     public static final String AUTO_GEN_ROLODEX_ID_PARM = "AUTO_GENERATE_NON_EMPLOYEE_ID";
     public static final String SECTION_ID = "Edit Address Book";
     public static final String ROLODEX_ID_NAME = "rolodexId";
-    public static final String SPONSOR__NAME = "sponsorName.sponsorName";
-    public static final String ORGANIZATION_NAME = "organizationName.organizationName";
     public static final String ORGANIZATION = "organization";
+    private static final String YES = "Y";
+    private static final String NO = "N";
     
     private transient ParameterService parameterService;
     private transient SequenceAccessorService sequenceAccessorService;
@@ -81,15 +81,6 @@ public class RolodexMaintainableImpl extends KraMaintainableImpl {
                 for (Row row : section.getRows()) {
                     for (Field field : row.getFields()) {
                         if (StringUtils.equals(field.getPropertyName(), ROLODEX_ID_NAME)) {
-                            field.setReadOnly(true);
-                        }
-                        if (StringUtils.equals(field.getPropertyName(), SPONSOR__NAME)) {
-                            field.setFieldDirectInquiryEnabled(false);
-                        }
-                        if (StringUtils.equals(field.getPropertyName(), ORGANIZATION_NAME)) {
-                            field.setFieldDirectInquiryEnabled(false);
-                        }
-                        if (StringUtils.equals(field.getPropertyName(), ORGANIZATION)) {
                             field.setReadOnly(true);
                         }
                     }
@@ -135,13 +126,12 @@ public class RolodexMaintainableImpl extends KraMaintainableImpl {
     public void prepareForSave() {
         super.prepareForSave();
         Rolodex rolodex = (Rolodex) getBusinessObject();
-        if (rolodex != null && rolodex.getSponsorName() != null && rolodex.getSponsorName().getSponsorName() != null) {
-            rolodex.setOrganization(rolodex.getSponsorName().getSponsorName());
-            rolodex.setSponsorId(rolodex.getSponsorName().getSponsorCode());
-        }
-        if(rolodex !=null && rolodex.getOrganizationName() != null && rolodex.getOrganizationName().getOrganizationName() != null){
-            rolodex.setOrganization(rolodex.getOrganizationName().getOrganizationName());
-            rolodex.setOrganizationId(rolodex.getOrganizationName().getOrganizationId());
+        if(rolodex != null) {
+            if(rolodex.getIsSponsorAddress() != null && rolodex.getIsSponsorAddress().equalsIgnoreCase(YES)) {
+                rolodex.setSponsorAddressFlag(true);
+            }else if(rolodex.getIsSponsorAddress() != null && rolodex.getIsSponsorAddress().equalsIgnoreCase(NO)) {
+                rolodex.setSponsorAddressFlag(false);
+            }
         }
     }
     

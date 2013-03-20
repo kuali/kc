@@ -27,13 +27,12 @@
         <ref bean="Rolodex-middleName"/>
         <ref bean="Rolodex-fullName"/>
         <ref bean="Rolodex-organization"/>
-        <ref bean="Rolodex-sponsorName.sponsorName"/>
-        <ref bean="Rolodex-organizationName.organizationName"/>
         <ref bean="Rolodex-ownedByUnit"/>
         <ref bean="Rolodex-unit.unitName"/>
         <ref bean="Rolodex-phoneNumber"/>
         <ref bean="Rolodex-postalCode"/>
         <ref bean="Rolodex-prefix"/>
+        <ref bean="Rolodex-isSponsorAddress"/>
         <ref bean="Rolodex-sponsorAddressFlag"/>
         <ref bean="Rolodex-sponsorCode"/>
         <ref bean="Rolodex-sponsor.sponsorName"/>
@@ -72,32 +71,6 @@
           <property name="supportAttributes">
             <list>
               <bean p:identifier="true" p:sourceName="sponsor.sponsorName" p:targetName="sponsorName" parent="SupportAttributeDefinition"/>
-            </list>
-          </property> 
-        </bean>
-        <bean parent="RelationshipDefinition">
-          <property name="objectAttributeName" value="sponsorName"/>
-          <property name="primitiveAttributes">
-            <list>
-              <bean p:sourceName="organization" p:targetName="sponsorCode" parent="PrimitiveAttributeDefinition"/>
-            </list>
-          </property>
-          <property name="supportAttributes">
-            <list>
-              <bean p:identifier="true" p:sourceName="sponsorName.sponsorName" p:targetName="sponsorName" parent="SupportAttributeDefinition"/>
-            </list>
-          </property> 
-        </bean>
-         <bean parent="RelationshipDefinition">
-          <property name="objectAttributeName" value="organizationName"/>
-          <property name="primitiveAttributes">
-            <list>
-              <bean p:sourceName="organization" p:targetName="organizationId" parent="PrimitiveAttributeDefinition"/>
-            </list>
-          </property>
-          <property name="supportAttributes">
-            <list>
-              <bean p:identifier="true" p:sourceName="organizationName.organizationName" p:targetName="organizationName" parent="SupportAttributeDefinition"/>
             </list>
           </property> 
         </bean>
@@ -309,26 +282,6 @@
     <property name="summary" value="Organization"/>
     <property name="description" value="Organization"/>
   </bean>
-  <bean id="Rolodex-sponsorName.sponsorName" parent="Rolodex-sponsorName.sponsorName-parentBean"/>
-
-  <bean abstract="true" id="Rolodex-sponsorName.sponsorName-parentBean" parent="Sponsor-sponsorName">
-    <property name="name" value="sponsorName.sponsorName"/>
-    <property name="label" value="Organization for Sponsor"/>
-    <property name="shortLabel" value="Organization for Sponsor"/>
-    <property name="control">
-      <bean p:size="40" parent="TextControlDefinition"/> 
-    </property>
-  </bean>
-  <bean id="Rolodex-organizationName.organizationName" parent="Rolodex-organizationName.organizationName-parentBean"/>
-
-  <bean abstract="true" id="Rolodex-organizationName.organizationName-parentBean" parent="Organization-organizationName">
-    <property name="name" value="organizationName.organizationName"/>
-    <property name="label" value="Organization for Organization"/>
-    <property name="shortLabel" value="Organization for Organization"/>
-    <property name="control">
-      <bean p:size="40" parent="TextControlDefinition"/> 
-    </property>
-  </bean>
   <bean id="Rolodex-ownedByUnit" parent="Rolodex-ownedByUnit-parentBean"/>
 
   <bean abstract="true" id="Rolodex-ownedByUnit-parentBean" parent="AttributeDefinition">
@@ -401,6 +354,25 @@
     </property>
     <property name="summary" value="Prefix"/>
     <property name="description" value="Prefix"/>
+  </bean>
+  <bean id="Rolodex-isSponsorAddress" parent="Rolodex-isSponsorAddress-parentBean"/>
+
+  <bean abstract="true" id="Rolodex-isSponsorAddress-parentBean" parent="AttributeDefinition">
+    <property name="name" value="isSponsorAddress"/>
+    <property name="forceUppercase" value="false"/>
+    <property name="label" value="Sponsor Address Flag"/>
+    <property name="shortLabel" value="Sponsor Address Flag"/>
+    <property name="maxLength" value="1"/>
+    <property name="validationPattern">
+      <bean parent="AlphaNumericValidationPattern"/>
+    </property>
+    <property name="control">
+      <bean parent="SelectControlDefinition" 
+      p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.RolodexAddressFlagValuesFinder"
+      p:script="updateOrganizationLookupReturn(this)"/>
+    </property>
+    <property name="summary" value="Sponsor Address Flag"/>
+    <property name="description" value="Sponsor Address Flag"/>
   </bean>
   <bean id="Rolodex-sponsorAddressFlag" parent="Rolodex-sponsorAddressFlag-parentBean"/>
 
@@ -539,8 +511,6 @@
               <bean p:attributeName="fullName" parent="FieldDefinition"/>
               <bean p:attributeName="sponsorAddressFlag" parent="FieldDefinition"/>
               <bean p:attributeName="organization" parent="FieldDefinition" />
-              <bean p:attributeName="sponsorName.sponsorName" parent="FieldDefinition" />
-              <bean p:attributeName="organizationName.organizationName" parent="FieldDefinition" />
               <bean p:attributeName="unit.unitName" parent="FieldDefinition"/>
               <bean p:attributeName="phoneNumber" parent="FieldDefinition"/>
               <bean p:attributeName="postalCode" parent="FieldDefinition"/>
@@ -575,10 +545,8 @@
         <bean p:attributeName="rolodexId" parent="FieldDefinition"/>
         <bean p:attributeName="sponsorCode" parent="FieldDefinition"/>
         <bean p:attributeName="sponsor.sponsorName" parent="FieldDefinition"/>
-        <bean p:attributeName="sponsorAddressFlag" parent="FieldDefinition"/>
-        <bean p:attributeName="organization" parent="FieldDefinition" p:hidden="true"/>
-      	<bean p:attributeName="sponsorName.sponsorName" parent="FieldDefinition"/>
-      	<bean p:attributeName="organizationName.organizationName" parent="FieldDefinition"/>
+        <bean p:attributeName="isSponsorAddress" parent="FieldDefinition"/>
+        <bean p:attributeName="organization" parent="FieldDefinition"/>
         <bean p:attributeName="lastName" parent="FieldDefinition"/>
         <bean p:attributeName="firstName" parent="FieldDefinition"/>
         <bean p:attributeName="middleName" parent="FieldDefinition"/>
