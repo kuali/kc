@@ -101,9 +101,8 @@ http://www.osedu.org/licenses/ECL-2.0
 		<c:if test="${hierarchyStatus != hierarchyChildStatus}">
 			<kul:routeLog />
 			<kul:adHocRecipients />
-			<%-- Commenting out to keep document from not loading when recall from routing authorizer is enabled
 			<kul:superUserActions showTab="false"/>
-			--%>
+			
 		</c:if>
 	
 		<kul:panelFooter />

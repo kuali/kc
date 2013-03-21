@@ -57,8 +57,7 @@
 <kul:routeLog /> 
 <c:if test="${showActions}" >
 <kul:adHocRecipients />
-<%--Commented out to avoid problems with new workflow authorizer in use for recall.
-<kul:superUserActions showTab="false"/>--%>			
+<kul:superUserActions showTab="false"/>	
 </c:if>
 <kul:panelFooter />
 	            
