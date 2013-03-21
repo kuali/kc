@@ -390,7 +390,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         ProtocolTask task = new ProtocolTask(TaskName.SUBMIT_PROTOCOL, (Protocol) protocolDocument.getProtocol());
         if (isAuthorized(task)) {
             ProtocolSubmitAction submitAction = (ProtocolSubmitAction) protocolForm.getActionHelper().getProtocolSubmitAction();            
-            if (applyRules(new ProtocolSubmitActionEvent(protocolDocument, submitAction))) {
+            if (applyRules(protocolForm,new ProtocolSubmitActionEvent(protocolDocument, submitAction))) {
                 AuditActionHelper auditActionHelper = new AuditActionHelper();
                 if (auditActionHelper.auditUnconditionally(protocolDocument)) {
                     if (isCommitteeMeetingAssignedMaxProtocols(submitAction.getNewCommitteeId(), submitAction.getNewScheduleId())) {
