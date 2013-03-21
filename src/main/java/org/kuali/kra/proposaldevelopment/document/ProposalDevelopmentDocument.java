@@ -642,5 +642,6 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
         } else {
             return super.getDocumentTitle();
         }
-    }    
+    }
+
 }
