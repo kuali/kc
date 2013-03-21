@@ -386,7 +386,7 @@ public class AwardCreditSplitBean implements Serializable {
      * @return
      */
     private String getPersonKey(AwardPerson projectPerson) {
-        return projectPerson.getFullName().toString();
+        return projectPerson.getFullName();
     }
 
     /*
