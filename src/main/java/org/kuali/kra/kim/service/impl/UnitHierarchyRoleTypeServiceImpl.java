@@ -85,11 +85,17 @@ public class UnitHierarchyRoleTypeServiceImpl extends RoleTypeServiceBase {
             if (parentUnitNumber == null) {
                 break;
             }
-            qualifierMatches = ( StringUtils.equals(parentUnitNumber, roleQualifier.get(KcKimAttributes.UNIT_NUMBER)) && StringUtils.equalsIgnoreCase("Y", roleQualifier.get(KcKimAttributes.SUBUNITS)));
+            qualifierMatches = ( StringUtils.equals(parentUnitNumber, roleQualifier.get(KcKimAttributes.UNIT_NUMBER)) && descendsSubunits(roleQualifier));
             unitNumber = parentUnitNumber;
         }
         
         return qualifierMatches;
+    }
+    
+    
+    protected boolean descendsSubunits(Map<String,String> roleQualifier) {
+        return StringUtils.equalsIgnoreCase("Y", roleQualifier.get(KcKimAttributes.SUBUNITS)) ||
+                StringUtils.equalsIgnoreCase("Yes", roleQualifier.get(KcKimAttributes.SUBUNITS));
     }
     
     protected boolean performWildCardMatching(Map<String,String> qualification, Map<String,String> roleQualifier) {
