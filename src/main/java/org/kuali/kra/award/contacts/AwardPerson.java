@@ -385,4 +385,8 @@ public class AwardPerson extends AwardContact implements PersonRolodex, Comparab
         }
         return firstName;
     }
+    
+    public boolean getIsRolodexPerson() {
+        return this.getRolodex() != null;
+    }
 }
