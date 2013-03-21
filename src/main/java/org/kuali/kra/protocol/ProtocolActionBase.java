@@ -32,6 +32,8 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.common.permissions.Permissionable;
+import org.kuali.kra.iacuc.IacucProtocolForm;
+import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmitActionEvent;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.krms.service.KrmsRulesExecutionService;
@@ -716,5 +718,8 @@ public abstract class ProtocolActionBase extends KraTransactionalDocumentActionB
 
     }    
     
+    protected boolean applyRules(ProtocolFormBase protocolForm, KualiDocumentEvent event) {
+        return applyRules(event) & !protocolForm.isUnitRulesErrorsExist();
+    }
 
 }
