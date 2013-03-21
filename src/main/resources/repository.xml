@@ -1646,9 +1646,6 @@
 		<reference-descriptor name="custReportType" class-ref="org.kuali.kra.reporting.bo.CustReportType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
 			<foreignkey field-ref="reportTypeCode"/> 
 		</reference-descriptor>
-		<reference-descriptor name="permissionBo" class-ref="org.kuali.rice.kim.impl.permission.PermissionBo" auto-retrieve="true" auto-update="none" auto-delete="none"> 
-			<foreignkey field-ref="name"/> 
-		</reference-descriptor>
 	</class-descriptor>
 	
 	 <class-descriptor class="org.kuali.kra.reporting.bo.CustReportType" table="CUST_REPORT_TYPE">
