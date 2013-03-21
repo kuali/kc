@@ -51,7 +51,14 @@
                     <%-- ... show full name --%>
                     <td nowrap class="tab-subhead">
                         <strong>
-                            <kul:htmlControlAttribute property="${projectPersonProperty}.fullName" attributeEntry="${contactAttributes.fullName}" readOnly="true" />
+                        	<c:choose>
+                        		<c:when test="${projectPerson.isRolodexPerson}">
+                        			<c:out value="${projectPerson.rolodex.organization}"/>
+                        		</c:when>
+                        		<c:otherwise>
+                        			<kul:htmlControlAttribute property="${projectPersonProperty}.fullName" attributeEntry="${contactAttributes.fullName}" readOnly="true" />
+                        		</c:otherwise>
+                        	</c:choose>
                         </strong>
                     </td>
                     
