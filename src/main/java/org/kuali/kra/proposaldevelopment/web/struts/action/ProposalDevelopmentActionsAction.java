@@ -197,7 +197,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         proposalDevelopmentForm.setAuditActivated(true);        
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         boolean forwardToSubmitToSponsor = false;
-        int status = isValidSubmission(pdDoc);
+        int status = isValidSubmission(proposalDevelopmentForm);
 
         if (status == ERROR) {
             GlobalVariables.getMessageMap().clearErrorMessages(); // clear error from isValidSubmission()    
@@ -638,7 +638,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         String methodToCall = ((KualiForm) form).getMethodToCall();
         
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
-        int status = isValidSubmission(pdDoc);
+        int status = isValidSubmission(proposalDevelopmentForm);
         boolean userSaysOk = false;
 
        //if((map.size()==1) &&  map.containsKey("sponsorProgramInformationAuditWarnings"))
@@ -723,7 +723,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         proposalDevelopmentForm.setAuditActivated(true);
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         
-        int status = isValidSubmission(proposalDevelopmentDocument);
+        int status = isValidSubmission(proposalDevelopmentForm);
         
         Object question = request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME);
         Object buttonClicked = request.getParameter(KRADConstants.QUESTION_CLICKED_BUTTON);
@@ -806,7 +806,8 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
      * @param proposalDevelopmentDocument
      * @return OK, WARNING or ERROR
      */
-    private int isValidSubmission(ProposalDevelopmentDocument proposalDevelopmentDocument) {
+    private int isValidSubmission(ProposalDevelopmentForm proposalDevelopmentForm) {
+        ProposalDevelopmentDocument proposalDevelopmentDocument = proposalDevelopmentForm.getProposalDevelopmentDocument();
         int state = OK;
         
         /*
@@ -816,7 +817,9 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         if ((proposalDevelopmentDocument.getDevelopmentProposal().getContinuedFrom() != null) && isNewProposalType(proposalDevelopmentDocument) && isSubmissionApplication(proposalDevelopmentDocument)) {
             state = ERROR;
             //GlobalVariables.getMessageMap().putError("someKey", KeyConstants.ERROR_RESUBMISSION_INVALID_PROPOSALTYPE_SUBMISSIONTYPE);
-        } else {
+        } else if(proposalDevelopmentForm.isUnitRulesErrorsExist()){
+            state = ERROR;
+        }else{
             /* 
              * Don't know what to do about the Audit Rules.  The parent class invokes the Audit rules
              * from its execute() method.  It will stay this way for the time being because I this is
@@ -1890,7 +1893,7 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
         
         if (!pdDoc.getDocumentHeader().getWorkflowDocument().isEnroute()) {
             proposalDevelopmentForm.setAuditActivated(true);
-            int status = isValidSubmission(pdDoc);
+            int status = isValidSubmission(proposalDevelopmentForm);
             boolean userSaysOk = false;
 
             if (status == WARNING) {
