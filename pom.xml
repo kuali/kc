@@ -587,10 +587,6 @@
 	                    <artifactId>org.apache.xml.serializer</artifactId>
 	                    <groupId>org.eclipse.birt.runtime.3_7_1</groupId>
 	                </exclusion>
-	                <exclusion>
-	                    <artifactId>org.mozilla.javascript</artifactId>
-	                    <groupId>org.eclipse.birt.runtime.3_7_1</groupId>
-	                </exclusion>
 		    	<exclusion>
 	                    <artifactId>org.apache.batik.bridge</artifactId>
 	                    <groupId>org.eclipse.birt.runtime.3_7_1</groupId>
@@ -645,13 +641,6 @@
 	              </exclusion>	                 
 	           </exclusions>
 	   </dependency>
-	   <dependency>
-		<groupId>org.eclipse.birt.runtime.3_7_1</groupId>
-		<artifactId>org.mozilla.javascript</artifactId>
-		<version>1.7.2</version>
-		<scope>runtime</scope>
-	   </dependency>
-            
 	   
     	<!-- Rice also uses beanutils so we should either use it transitively or atleast add an exclusion to this in our pom so we do not have 
     	clashes with Rice's version. Best to use transitively -->
@@ -920,6 +909,10 @@
 				<exclusion>
 		    		<groupId>commons-logging</groupId>
 		    		<artifactId>commons-logging</artifactId>
+		    	</exclusion>
+				<exclusion>
+		    		<groupId>rhino</groupId>
+		    		<artifactId>js</artifactId>
 		    	</exclusion>
 			</exclusions>
 		</dependency>
