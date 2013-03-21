@@ -29,10 +29,7 @@ htmlFormAction="reporting">
 		<script language="JavaScript" type="text/javascript" src="dwr/util.js"></script>
         <script language="javascript" src="dwr/interface/BirtReportService.js"></script>
 
-<!-- <a href="#test" id="1234"></a> -->
-<!-- <div id="reportDisablingDiv" style="z-index: 998;width: 100%;height: 100%;background: transparent;position:absolute;display: none"></div> -->
-	<kul:tabTop tabTitle="Generate Report" defaultOpen="true"
-		>
+	<kul:tabTop tabTitle="Generate Report" defaultOpen="true">
 		 <div class="tab-container" align="center">
 			<h3>
 				<span class="subhead-left">Generate Report</span>
@@ -82,15 +79,6 @@ htmlFormAction="reporting">
 								<html:option value="HTML" />
 								<html:option value="EXCEL" />
 							</html:select></td>
-							<th>	<div align="center">	
-						<c:if test="${not empty KualiForm.reportId}">						
-									<html:image
-											property="methodToCall.printReport.KualiForm.reportName"
-											src='${ConfigProperties.kra.externalizable.images.url}buttonsmall_report.gif' onclick="excludeSubmitRestriction=true" />
-									</c:if>		
-									<html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_cancel.gif" styleClass="globalbuttons" title="cancel" alt="cancel" onclick="resetBirtSelectDiv();"/>
-													
-					</div></th>
 					</tr>
 					</c:if>
 		</table>
@@ -99,12 +87,14 @@ htmlFormAction="reporting">
 	<kul:panelFooter />
 	<br><br>
 		<div align="center">		
-	<html:image property="methodToCall.close" src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_close.gif" styleClass="globalbuttons" title="close" alt="close" />
-	</div>												
-						
-					
+			<c:if test="${not empty KualiForm.reportId}">						
+				<html:image
+						property="methodToCall.printReport.KualiForm.reportName"
+						src='${ConfigProperties.kra.externalizable.images.url}buttonsmall_report.gif' onclick="excludeSubmitRestriction=true" />
+				<html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_cancel.gif" styleClass="globalbuttons" 
+								title="cancel" alt="cancel" onclick="resetBirtSelectDiv();"/>
+			</c:if>		
+			<html:image property="methodToCall.close" src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_close.gif" 
+								styleClass="globalbuttons" title="close" alt="close" />
+		</div>												
     </kul:page>
-
-
-
-
