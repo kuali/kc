@@ -17,8 +17,10 @@ package org.kuali.kra.reporting.bo;
 
 import org.apache.struts.upload.FormFile;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kim.impl.permission.PermissionBo;
 import org.kuali.rice.krad.bo.PersistableAttachment;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 public class CustReportDetails extends KraPersistableBusinessObjectBase implements PersistableAttachment{ 
     
@@ -35,6 +37,10 @@ public class CustReportDetails extends KraPersistableBusinessObjectBase implemen
     private Integer reportTypeCode; 
     
     private String name;
+    
+    private String permissionName;
+    
+    private String id;
     
     private PermissionBo permissionBo;
     
@@ -137,7 +143,50 @@ public class CustReportDetails extends KraPersistableBusinessObjectBase implemen
      * @param name The name to set.
      */
     public void setName(String name) {
-        this.name = name;
+        PermissionBo permission= null;
+        if(name != null){
+            permission = KraServiceLocator.getService(BusinessObjectService.class).findBySinglePrimaryKey(PermissionBo.class, name);
+            if(permission != null){
+                this.name = permission.getName();
+            } 
+        }
+        else {
+            this.name = name;
+        }
+
+    }
+
+
+    /**
+     * Gets the permissionName attribute. 
+     * @return Returns the permissionName.
+     */
+    public String getPermissionName() {
+        return getName();
+    }
+
+    /**
+     * Sets the permissionName attribute value.
+     * @param permissionName The permissionName to set.
+     */
+    public void setPermissionName(String permissionName) {
+        this.permissionName = permissionName;
+    }
+
+    /**
+     * Gets the id attribute. 
+     * @return Returns the id.
+     */
+    public String getId() {
+        return id;
+    }
+
+    /**
+     * Sets the id attribute value.
+     * @param id The id to set.
+     */
+    public void setId(String id) {
+        this.id = id;
     }
 
     /**

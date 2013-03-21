@@ -9,7 +9,7 @@
 		abstract="true" parent="MaintenanceDocumentEntry">
 		<property name="businessObjectClass" value="org.kuali.kra.reporting.bo.CustReportDetails" />
 		<property name="maintainableClass"
-			value="org.kuali.kra.maintenance.KraMaintainableImpl" />
+			value="org.kuali.kra.reporting.bo.CustReportDetailsMaintainableImpl" />
 		<property name="maintainableSections">
 			<list>
 				<ref bean="CustReportDetailsMaintenanceDocument-EditActivityTypes" />

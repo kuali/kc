@@ -32,4 +32,12 @@
         <property name="serviceName" value="businessObjectService" />
     </bean>
     
+    <bean id="CustReportLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+  		<property name="lookupableHelperService" ref="CustReportLookupableHelperService" />  
+	</bean>
+	
+	<bean id="CustReportLookupableHelperService" class="org.kuali.kra.reporting.lookup.CustReportLookupableHelperServiceImpl" parent="parentLookupableHelperService" 
+	      scope="prototype">
+  	</bean>
+    
     </beans>
