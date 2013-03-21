@@ -277,7 +277,8 @@
         <property name="serviceName" value="termRepositoryService" />
     </bean>
     <bean id="krmsDistributedCacheManager" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
-        <property name="serviceName" value="krmsDistributedCacheManager" />
+        <property name="serviceName" value="krmsCacheAdminService" />
+        <property name="serviceNamespace" value="http://rice.kuali.org/krms/v2_0"/>
     </bean>
 
     <bean id="parentLookupableHelperService" abstract="true">
@@ -971,7 +972,7 @@
       p:serviceInterface="org.kuali.rice.krms.framework.type.TermResolverTypeService"/>
 
      <bean id="kcKrmsCacheManager" class="org.kuali.kra.krms.service.impl.KcKrmsCacheManagerImpl">
-<!--         <property name="krmsDistributedCacheManager" ref="krmsDistributedCacheManager" /> -->
+         <property name="krmsDistributedCacheManager" ref="krmsDistributedCacheManager" /> 
     </bean>
 
     <bean id="kcConfirmationQuestion" class="org.kuali.kra.web.struts.action.KcConfirmationQuestion">

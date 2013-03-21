@@ -15,34 +15,42 @@
  */
 package org.kuali.kra.krms.service.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.kuali.kra.krms.service.KcKrmsCacheManager;
-import org.kuali.rice.core.impl.cache.DistributedCacheManagerDecorator;
+import org.kuali.rice.core.api.cache.CacheAdminService;
+import org.kuali.rice.core.api.cache.CacheTarget;
 import org.kuali.rice.krms.api.repository.agenda.AgendaDefinition;
 import org.kuali.rice.krms.api.repository.proposition.PropositionDefinition;
 import org.kuali.rice.krms.api.repository.rule.RuleDefinition;
 
 public class KcKrmsCacheManagerImpl implements KcKrmsCacheManager {
-    private DistributedCacheManagerDecorator krmsDistributedCacheManager;
+    private CacheAdminService krmsDistributedCacheManager;
+    static final List<CacheTarget> cacheTargets= new ArrayList<CacheTarget>();
+    static{
+        cacheTargets.add(CacheTarget.entireCache(AgendaDefinition.Cache.NAME));
+        cacheTargets.add(CacheTarget.entireCache(RuleDefinition.Cache.NAME));
+        cacheTargets.add(CacheTarget.entireCache(PropositionDefinition.Cache.NAME));
+    }
     @Override
     public void clearCache() {
         if(krmsDistributedCacheManager!=null){
-            krmsDistributedCacheManager.getCache(AgendaDefinition.Cache.NAME).clear();
-            krmsDistributedCacheManager.getCache(RuleDefinition.Cache.NAME).clear();
-            krmsDistributedCacheManager.getCache(PropositionDefinition.Cache.NAME).clear();
+            krmsDistributedCacheManager.flush(cacheTargets);   
         }
     }
     /**
      * Gets the krmsDistributedCacheManager attribute. 
      * @return Returns the krmsDistributedCacheManager.
      */
-    public DistributedCacheManagerDecorator getKrmsDistributedCacheManager() {
+    public CacheAdminService getKrmsDistributedCacheManager() {
         return krmsDistributedCacheManager;
     }
     /**
      * Sets the krmsDistributedCacheManager attribute value.
      * @param krmsDistributedCacheManager The krmsDistributedCacheManager to set.
      */
-    public void setKrmsDistributedCacheManager(DistributedCacheManagerDecorator krmsDistributedCacheManager) {
+    public void setKrmsDistributedCacheManager(CacheAdminService krmsDistributedCacheManager) {
         this.krmsDistributedCacheManager = krmsDistributedCacheManager;
     }
 
