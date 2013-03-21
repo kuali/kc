@@ -97,27 +97,27 @@ public class KraAuthorizationServiceImplTest extends KcUnitTestBase {
         assertTrue(usernames.contains("chew"));
     }
 
-//    @Test
-//    public void testRemoveRole() throws Exception {
-//        ProposalDevelopmentDocument  currentDoc = createProposal("Proposal-3", "000001");
-//        kraAuthService.removeRole(GlobalVariables.getUserSession().getPrincipalId(), RoleConstants.AGGREGATOR, currentDoc);
-//        List<String> names = kraAuthService.getUserNames(currentDoc, RoleConstants.AGGREGATOR);
-//        assertTrue(names.size() == 0);  
-//    }
+    @Test
+    public void testRemoveRole() throws Exception {
+        ProposalDevelopmentDocument  currentDoc = createProposal("Proposal-3", "000001");
+        kraAuthService.removeRole(GlobalVariables.getUserSession().getPrincipalId(), RoleConstants.AGGREGATOR, currentDoc);
+        List<String> names = kraAuthService.getUserNames(currentDoc, RoleConstants.AGGREGATOR);
+        assertTrue(names.size() == 0);  
+    }
     
-//    @Test
-//    public void testRemoveNarrativeWriterRole() throws Exception {
-//        PrincipalContract userChew = identityManagementService.getPrincipalByPrincipalName("chew");
-//        ProposalDevelopmentDocument  currentDoc = createProposal("Proposal-3", "000001");
-//        kraAuthService.addRole(userChew.getPrincipalId(), RoleConstants.NARRATIVE_WRITER, currentDoc);
-//        List<String> usernames = kraAuthService.getUserNames(currentDoc, RoleConstants.NARRATIVE_WRITER);
-//        assertTrue(usernames.size() == 1);
-//        assertTrue(usernames.contains("chew"));
-//        
-//        kraAuthService.removeRole(userChew.getPrincipalId(), RoleConstants.NARRATIVE_WRITER, currentDoc);
-//        List<String> names = kraAuthService.getUserNames(currentDoc, RoleConstants.NARRATIVE_WRITER);
-//        assertTrue(names.size() == 0);
-//    }
+    @Test
+    public void testRemoveNarrativeWriterRole() throws Exception {
+        PrincipalContract userChew = identityManagementService.getPrincipalByPrincipalName("chew");
+        ProposalDevelopmentDocument  currentDoc = createProposal("Proposal-3", "000001");
+        kraAuthService.addRole(userChew.getPrincipalId(), RoleConstants.NARRATIVE_WRITER, currentDoc);
+        List<String> usernames = kraAuthService.getUserNames(currentDoc, RoleConstants.NARRATIVE_WRITER);
+        assertTrue(usernames.size() == 1);
+        assertTrue(usernames.contains("chew"));
+        
+        kraAuthService.removeRole(userChew.getPrincipalId(), RoleConstants.NARRATIVE_WRITER, currentDoc);
+        List<String> names = kraAuthService.getUserNames(currentDoc, RoleConstants.NARRATIVE_WRITER);
+        assertTrue(names.size() == 0);
+    }
     
     /**
      * Test the hasPermission() service method.
