@@ -42,7 +42,7 @@ public class CustReportDetails extends KraPersistableBusinessObjectBase implemen
     
     private String id;
     
-    private PermissionBo permissionBo;
+//    private PermissionBo permissionBo;
     
     private String fileName;
     
@@ -193,17 +193,17 @@ public class CustReportDetails extends KraPersistableBusinessObjectBase implemen
      * Gets the permissionBo attribute. 
      * @return Returns the permissionBo.
      */
-    public PermissionBo getPermissionBo() {
-        return permissionBo;
-    }
-
-    /**
-     * Sets the permissionBo attribute value.
-     * @param permissionBo The permissionBo to set.
-     */
-    public void setPermissionBo(PermissionBo permissionBo) {
-        this.permissionBo = permissionBo;
-    }
+//    public PermissionBo getPermissionBo() {
+//        return permissionBo;
+//    }
+//
+//    /**
+//     * Sets the permissionBo attribute value.
+//     * @param permissionBo The permissionBo to set.
+//     */
+//    public void setPermissionBo(PermissionBo permissionBo) {
+//        this.permissionBo = permissionBo;
+//    }
 
     /**
      * Gets the fileName attribute. 
