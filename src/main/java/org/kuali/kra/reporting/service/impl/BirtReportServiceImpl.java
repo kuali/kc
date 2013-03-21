@@ -90,10 +90,9 @@ public ArrayList<BirtParameterBean> getInputParametersFromTemplateFile(String re
         List<CustReportDetails> custReportDetails = new ArrayList<CustReportDetails>();
         for (CustReportDetails custReportDetail : custreportDetailsList) {
             if(custReportDetail.getName() != null) {
-                PermissionBo permission = KraServiceLocator.getService(BusinessObjectService.class).findBySinglePrimaryKey(PermissionBo.class, custReportDetail.getName());
-                if(permission.getName().equalsIgnoreCase(PERMISSION_NAME)) {
+                if(custReportDetail.getName().equalsIgnoreCase(PERMISSION_NAME)) {
                     boolean hasPermission = getUnitAuthorizationService().hasPermission(principalId, departmentCode,
-                            RoleConstants.DEPARTMENT_ROLE_TYPE, permission.getName());
+                            RoleConstants.DEPARTMENT_ROLE_TYPE, custReportDetail.getName());
                     if (hasPermission) {
                         custReportDetails.add(custReportDetail);
                     }
