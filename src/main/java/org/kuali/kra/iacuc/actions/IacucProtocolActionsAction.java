@@ -371,7 +371,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         IacucProtocolTask task = new IacucProtocolTask(TaskName.SUBMIT_IACUC_PROTOCOL, protocolDocument.getIacucProtocol());
         if (isAuthorized(task)) {
             IacucProtocolSubmitAction submitAction = (IacucProtocolSubmitAction) protocolForm.getActionHelper().getProtocolSubmitAction();            
-            if (applyRules(new IacucProtocolSubmitActionEvent(protocolDocument, submitAction))) {
+            if (applyRules(protocolForm,new IacucProtocolSubmitActionEvent(protocolDocument, submitAction))) {
                 AuditActionHelper auditActionHelper = new AuditActionHelper();
                 if (auditActionHelper.auditUnconditionally(protocolDocument)) {
                     
@@ -390,6 +390,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         return forward;
     }
     
+
     public ActionForward assignCommittee(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
