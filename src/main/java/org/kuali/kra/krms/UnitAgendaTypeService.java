@@ -132,21 +132,27 @@ public class UnitAgendaTypeService extends AgendaTypeServiceBase  {
             return null;
         }
         
-        return new UnitAgenda(agendaDefinition.getAttributes(), new LazyAgendaTree(agendaDefinition, repositoryToEngineTranslator), agendaDefinition.getTypeId());
+        return new UnitAgenda(agendaDefinition.getAttributes(), new LazyAgendaTree(agendaDefinition, repositoryToEngineTranslator), 
+                                            agendaDefinition.getTypeId(),agendaDefinition.isActive());
     }
     
     private static class UnitAgenda extends BasicAgenda {
         
         private Map<String, String> qualifiers;
-    
-        public UnitAgenda(Map<String, String> qualifiers, AgendaTree agendaTree, String agendaTypeId) {
+        private boolean isActive;
+        
+        public UnitAgenda(Map<String, String> qualifiers, AgendaTree agendaTree, String agendaTypeId,boolean isActive) {
             super(qualifiers, agendaTree);
+            this.isActive = isActive;
             this.qualifiers = new HashMap<String, String>(qualifiers);
             this.qualifiers.put("typeId", agendaTypeId);
         }
         
         @Override
         public boolean appliesTo(ExecutionEnvironment environment) {
+            if(!isActive){
+                return false;
+            }
             for (Map.Entry<String, String> agendaQualifier : environment.getSelectionCriteria().getAgendaQualifiers().entrySet()) {
                 String agendaQualifierValue = qualifiers.get(agendaQualifier.getKey());
                 String environmentQualifierValue = agendaQualifier.getValue();
