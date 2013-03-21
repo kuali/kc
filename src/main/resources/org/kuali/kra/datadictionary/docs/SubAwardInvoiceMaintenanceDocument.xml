@@ -24,7 +24,30 @@
     <property name="documentPresentationControllerClass" value="org.kuali.kra.subaward.document.authorization.SubAwardInvoiceDocumentPresentationController" />
     <property name="documentAuthorizerClass" value="org.kuali.kra.subaward.document.authorizer.SubAwardInvoiceMaintenanceDocumentAuthorizer"/>
     
+    
+    <property name="workflowProperties">
+    	<ref bean="SubAwardInvoiceMaintenanceDocument-workflowProperties"/>
+    </property>
+    
   </bean>
+
+  <bean id="SubAwardInvoiceMaintenanceDocument-workflowProperties" parent="SubAwardInvoiceMaintenanceDocument-workflowProperties-parentBean" />
+
+  <bean id="SubAwardInvoiceMaintenanceDocument-workflowProperties-parentBean" abstract="true" parent="WorkflowProperties">
+	<property name="workflowPropertyGroups">
+		<list>
+			<bean parent="WorkflowPropertyGroup">
+				<property name="workflowProperties">
+					<list>
+						<bean parent="WorkflowProperty" p:path="documentHeader" />
+						<bean parent="WorkflowProperty" p:path="newMaintainableObject.businessObject.subAwardId" />
+					</list>
+				</property>
+			</bean>
+		</list>
+	</property>
+  </bean>
+
 
 <!-- Maintenance Section Definitions -->
 
