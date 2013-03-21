@@ -605,6 +605,12 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
                 }
             }
         }
+        
+        //if the budget is considered valid, then any resulting audit errors or warnings do not matter
+        //for the purposes of checking if the budget is valid to save.
+        if (valid) {
+            KNSGlobalVariables.getAuditErrorMap().clear();
+        }
 
         return valid;
     }
