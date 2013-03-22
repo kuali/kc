@@ -155,6 +155,26 @@
     </bean>
     
     <!-- SubAward Services -->
+    <bean id="subAwardPrintingService" class="org.kuali.kra.subawardReporting.printing.service.impl.SubAwardPrintingServiceImpl">
+    	<property name="subAwardSF294Print" ref="subAwardSF294Print" />
+    	<property name="subAwardSF295Print" ref="subAwardSF295Print" />
+    	<property name="printingService" ref="printingService" />    	
+    </bean>
+    
+    <bean id="subAwardSF294Print" class="org.kuali.kra.subawardReporting.printing.print.SubAwardSF294Print">
+        <property name="xmlStream" ref="subawardXmlStream" />
+    </bean>
+    <bean id="subAwardSF295Print" class="org.kuali.kra.subawardReporting.printing.print.SubAwardSF295Print">
+        <property name="xmlStream" ref="subawardXmlStream" />
+    </bean>
+    
+    <bean id="subawardXmlStream" class="org.kuali.kra.subawardReporting.printing.xmlstream.SubawardXmlStream">
+        <property name="businessObjectService" ref="businessObjectService" />
+    </bean>
+    
+    <bean id="printingService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="printingService" />
+    </bean>
     
     <bean id="subAwardService" class="org.kuali.kra.subaward.service.impl.SubAwardServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
