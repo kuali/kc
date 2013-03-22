@@ -25,6 +25,7 @@ import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.common.notification.bo.KcNotification;
 import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.iacuc.actions.IacucProtocolStatus;
 import org.kuali.kra.iacuc.actions.amendrenew.IacucProtocolModule;
@@ -663,6 +664,11 @@ public class IacucProtocol extends ProtocolBase {
                 protocolAction.setComments(type + "-" + index + ": " + protocolAction.getComments());
             } else {
                 protocolAction.setComments(type + "-" + index + ": ");
+            }
+            // reset persistence state for copied notifications so they break ties with old document
+            for (KcNotification notification: protocolAction.getProtocolNotifications()) {
+                notification.setDocumentNumber(getProtocolDocument().getDocumentNumber());
+                notification.setNotificationId(null);
             }
             this.getProtocolActions().add(protocolAction);
         }
