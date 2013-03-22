@@ -107,8 +107,6 @@ public class IacucProtocolSubmissionBuilder {
             // need to investigate if this is good for app.
             // comment scheduleid&scheduleidfk.  this will cause confusing if selected a different committee (or no committee)
             // then this schedule will not match the selected committee
-            //protocolSubmission.setScheduleId(oldSubmission.getScheduleId());
-            //protocolSubmission.setScheduleIdFk(oldSubmission.getScheduleIdFk());
             protocolSubmission.setSubmissionTypeQualifierCode(oldSubmission.getSubmissionTypeQualifierCode());
             protocolSubmission.setComments(oldSubmission.getComments());
             protocolSubmission.setYesVoteCount(oldSubmission.getYesVoteCount());
@@ -210,74 +208,6 @@ public class IacucProtocolSubmissionBuilder {
         protocolSubmission.setScheduleIdFk(null);
         protocolSubmission.setCommitteeSchedule(null); 
     }
-
-//TODO: Must implement for IACUC    
-//    /**
-//     * Add an exempt studies check list item to the submission.
-//     * @param exemptStudiesCheckListCode
-//     */
-//    public void addExemptStudiesCheckListItem(String exemptStudiesCheckListCode) {
-//        protocolSubmission.getExemptStudiesCheckList().add(createProtocolExemptStudiesCheckListItem(exemptStudiesCheckListCode));
-//    }
-//    
-//    /**
-//     * Create an exempt studies check list item.
-//     * @param exemptStudiesCheckListCode
-//     * @return
-//     */
-//    private ProtocolExemptStudiesCheckListItem createProtocolExemptStudiesCheckListItem(String exemptStudiesCheckListCode) {
-//        ProtocolExemptStudiesCheckListItem chkLstItem = new ProtocolExemptStudiesCheckListItem();
-//        chkLstItem.setProtocolId(protocolSubmission.getProtocolId());
-//        chkLstItem.setSubmissionIdFk(protocolSubmission.getSubmissionId());
-//        chkLstItem.setProtocolNumber(protocolSubmission.getProtocolNumber());
-//        chkLstItem.setSequenceNumber(protocolSubmission.getSequenceNumber());
-//        chkLstItem.setSubmissionNumber(protocolSubmission.getSubmissionNumber());
-//        chkLstItem.setExemptStudiesCheckListCode(exemptStudiesCheckListCode);
-//        return chkLstItem;
-//    }
-//    
-//    /**
-//     * Add an expedited review check list item to the submission.
-//     * @param expeditedReviewCheckListCode
-//     */
-//    public void addExpeditedReviewCheckListItem(String expeditedReviewCheckListCode) {
-//        protocolSubmission.getExpeditedReviewCheckList().add(createProtocolExpeditedReviewCheckListItem(expeditedReviewCheckListCode));
-//    }
-//    
-//    /**
-//     * Create an expedited review check list item.
-//     * @param expeditedReviewCheckListCode
-//     * @return
-//     */
-//    private ProtocolExpeditedReviewCheckListItem createProtocolExpeditedReviewCheckListItem(String expeditedReviewCheckListCode) {
-//        ProtocolExpeditedReviewCheckListItem chkLstItem = new ProtocolExpeditedReviewCheckListItem();
-//        chkLstItem.setProtocolId(protocolSubmission.getProtocolId());
-//        chkLstItem.setSubmissionIdFk(protocolSubmission.getSubmissionId());
-//        chkLstItem.setProtocolNumber(protocolSubmission.getProtocolNumber());
-//        chkLstItem.setSequenceNumber(protocolSubmission.getSequenceNumber());
-//        chkLstItem.setSubmissionNumber(protocolSubmission.getSubmissionNumber());
-//        chkLstItem.setExpeditedReviewCheckListCode(expeditedReviewCheckListCode);
-//        return chkLstItem;
-//    }
-    
-    /**
-     * Add an attachment to the submission.
-     * @param file
-     */
-//    public void addAttachment(FormFile file) {
-//        if (file != null) {
-//            attachments.add(file);
-//        }
-//    }
-    
-    /**
-     * Save the attachments to the database.
-     */
-//    private void saveAttachments() {
-//        for (FormFile file : attachments) {
-//            saveAttachment(file, "");
-//        }
-//    }
     
     /*
      * save notify irb attachments.

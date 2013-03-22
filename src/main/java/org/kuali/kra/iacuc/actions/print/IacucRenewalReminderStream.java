@@ -96,14 +96,7 @@ public class IacucRenewalReminderStream extends RenewalReminderStreamBase {
     }
 
     private void setActionDate(ProtocolBase protocol) {
-// TODO : verify as part of code refactor        
-//       for (ProtocolAction action : protocol.getProtocolActions()) {
-//           if (ProtocolActionType.SPECIFIC_MINOR_REVISIONS_REQUIRED.equals(action.getProtocolActionTypeCode()) ||
-//                   ProtocolActionType.SUBSTANTIVE_REVISIONS_REQUIRED.equals(action.getProtocolActionTypeCode())) {
-//               protocol.setExpirationDate(new Date(action.getActionDate().getTime()));
-//           }
-//           
-//       }
+
     }
     
     public void setProtocolXmlStream(ProtocolXmlStreamBase protocolXmlStream) {

@@ -28,7 +28,6 @@ public class IacucAlternateSearch extends ProtocolAssociateBase {
     private static final long serialVersionUID = -7711644839097962481L;
     
     private Integer iacucAltSearchId;
-//    private String searchRequired;   ** moved to IacucPrinciples **
     private Date searchDate;
     private List<IacucProtocolAlternateSearchDatabase> databases;
     private String yearsSearched;
@@ -47,14 +46,6 @@ public class IacucAlternateSearch extends ProtocolAssociateBase {
     public void setIacucAltSearchId(Integer iacucAltSearchId) {
         this.iacucAltSearchId = iacucAltSearchId;
     }
-
-//    public String getSearchRequired() {
-//        return searchRequired;
-//    }
-
-//    public void setSearchRequired(String searchRequired) {
-//        this.searchRequired = searchRequired;
-//    }
 
     public Date getSearchDate() {
         return searchDate;

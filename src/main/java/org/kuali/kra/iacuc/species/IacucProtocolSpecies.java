@@ -182,16 +182,6 @@ public class IacucProtocolSpecies extends ProtocolAssociateBase {
         this.iacucProtocolExceptions = iacucProtocolExceptions;
     }
 
-    /*
-    public IacucProtocolExceptions getIacucProtocolExceptions() {
-        return iacucProtocolExceptions;
-    }
-
-    public void setIacucProtocolExceptions(IacucProtocolExceptions iacucProtocolExceptions) {
-        this.iacucProtocolExceptions = iacucProtocolExceptions;
-    }
-    */
-
     public String getSpeciesName() {
         if (iacucSpecies == null) {
             refreshReferenceObject("speciesCode");

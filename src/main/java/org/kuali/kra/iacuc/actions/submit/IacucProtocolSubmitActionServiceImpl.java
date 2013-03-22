@@ -51,7 +51,6 @@ public class IacucProtocolSubmitActionServiceImpl implements IacucProtocolSubmit
     private ProtocolActionService protocolActionService;
     private IacucProtocolFinderDao protocolFinderDao;
     private BusinessObjectService businessObjectService;
-//    private ProtocolAssignReviewersService protocolAssignReviewersService;
     
     /**
      * Set the Document Service.
@@ -84,16 +83,7 @@ public class IacucProtocolSubmitActionServiceImpl implements IacucProtocolSubmit
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
-    
-    /**
-     * Set the ProtocolBase Assign Reviewers Service.
-     * @param protocolAssignReviewersService
-     */
-//    public void setProtocolAssignReviewersService(ProtocolAssignReviewersService protocolAssignReviewersService) {
-//        this.protocolAssignReviewersService = protocolAssignReviewersService;
-//    }
-//    
-    
+
     /**
      * {@inheritDoc}
      * @see org.kuali.kra.protocol.actions.submit.ProtocolSubmitActionService#getTotalSubmissions(java.lang.String)
@@ -146,57 +136,10 @@ public class IacucProtocolSubmitActionServiceImpl implements IacucProtocolSubmit
 
     private List<IacucProtocolSubmission> getProtocolSubmissionsLookupList(String protocolNumber,List<IacucProtocolSubmission> protocolSubmissionList) throws Exception{
            Collection<IacucProtocolSubmission> submissions = protocolSubmissionList;
-           List<IacucProtocolSubmission> protocolSubmissionLookupDataList = new ArrayList<IacucProtocolSubmission>();
-//           for (IacucProtocolSubmission protocolSubmissionData : submissions) {
-//               if(protocolNumber.equals(protocolSubmissionData.getProtocolNumber())){
-//                  protocolSubmissionLookupDataList.add(protocolSubmissionData);}
-//           }               
-//           Set<Integer> submissionNumberList = new HashSet<Integer>();         
+           List<IacucProtocolSubmission> protocolSubmissionLookupDataList = new ArrayList<IacucProtocolSubmission>();      
            List<IacucProtocolSubmission> protocolSubmissionLookupResult = new ArrayList<IacucProtocolSubmission>();
-//           for (IacucProtocolSubmission protocolSubmissionResult : protocolSubmissionLookupDataList) {
-//               submissionNumberList.add(protocolSubmissionResult.getSubmissionNumber());
-//           }        
-//           for(Integer submissionNumber : submissionNumberList){
-//               List<IacucProtocolSubmission> submissionList=null;
-//               int submissionSequenceNumber=0;
-//               for (IacucProtocolSubmission protocolsubmissionData : protocolSubmissionLookupDataList) {
-//                   if(protocolsubmissionData.getSubmissionNumber().equals(submissionNumber)){
-//                       if (protocolsubmissionData.getSequenceNumber() >= submissionSequenceNumber) {
-//                           submissionSequenceNumber=protocolsubmissionData.getSequenceNumber(); 
-//                           submissionList=new ArrayList<IacucProtocolSubmission>(); 
-//                           submissionList.add(protocolsubmissionData);
-//                       }                       
-//                   }
-//               } 
-//               if(submissionList!=null){
-//                   protocolSubmissionLookupResult.add(submissionList.get(0));
-//               }
-//           }
            return new ArrayList<IacucProtocolSubmission>(protocolSubmissionLookupResult);
        }
-    
-//    /**
-//     * 
-//     * @see org.kuali.kra.protocol.actions.submit.ProtocolSubmitActionService#getProtocolSubmissionsLookupData(java.util.List)
-//     */
-//    public List<IacucProtocolSubmission> getProtocolSubmissionsLookupData(List<IacucProtocolSubmission> protocolSubmissionList) throws Exception{        
-//        Collection<IacucProtocolSubmission> submissions = protocolSubmissionList;
-//        List<IacucProtocolSubmission> protocolSubmissionsLookupResult = new ArrayList<IacucProtocolSubmission>();
-//        Set<String> submissionProtocolNumberList = new HashSet<String>();       
-//        
-//        for (IacucProtocolSubmission protocolSubmissionData : submissions) {
-//            submissionProtocolNumberList.add(protocolSubmissionData.getProtocolNumber());
-//        }        
-//        for(String submissionProtocolNumber : submissionProtocolNumberList){
-//            List<IacucProtocolSubmission> protocolSubmissionLookupList=null;
-//            protocolSubmissionLookupList = getProtocolSubmissionsLookupList(submissionProtocolNumber,protocolSubmissionList);
-//           
-//            if((protocolSubmissionLookupList!=null)&&(protocolSubmissionLookupList.size()>0)){
-//                protocolSubmissionsLookupResult.addAll(protocolSubmissionLookupList);
-//            }
-//        }
-//        return new ArrayList<IacucProtocolSubmission>(protocolSubmissionsLookupResult);
-//    }
     
     /**
      * When a protocol is submitted for review, an action entry must be added to the protocol. 
@@ -225,8 +168,6 @@ public class IacucProtocolSubmitActionServiceImpl implements IacucProtocolSubmit
         if (protocol.getInitialSubmissionDate() == null) {
             protocol.setInitialSubmissionDate(new Date(submission.getSubmissionDate().getTime()));
         }
-        
-//TODO        protocolAssignReviewersService.assignReviewers(submission, submitAction.getReviewers());
         
         IacucProtocolAction protocolAction = new IacucProtocolAction(protocol, submission, IacucProtocolActionType.SUBMITTED_TO_IACUC);
         protocolAction.setComments(SUBMITTED_TO_IACUC);
@@ -287,9 +228,6 @@ public class IacucProtocolSubmitActionServiceImpl implements IacucProtocolSubmit
         protocolAction.setSubmissionNumber(submissionNumber);
         protocol.getProtocolActions().add(protocolAction);
         businessObjectService.save(protocol);
-        // do following will get null workflow exception
-        //documentService.saveDocument(protocol.getProtocolDocument());
-
     }
 
     /**
@@ -303,10 +241,7 @@ public class IacucProtocolSubmitActionServiceImpl implements IacucProtocolSubmit
         submissionBuilder.setSubmissionTypeQualifierCode(submitAction.getSubmissionQualifierTypeCode());
         submissionBuilder.setProtocolReviewTypeCode(submitAction.getProtocolReviewTypeCode());
         setSubmissionStatus(submissionBuilder, submitAction);
-//TODO: Must implement the following for IACUC work
         setCommittee(submissionBuilder, submitAction);
-//        setSchedule(submissionBuilder, submitAction);
-//        addCheckLists(submissionBuilder, submitAction);
         return submissionBuilder.create();
     }
     
@@ -328,68 +263,6 @@ public class IacucProtocolSubmitActionServiceImpl implements IacucProtocolSubmit
     protected void setCommittee(IacucProtocolSubmissionBuilder submissionBuilder, IacucProtocolSubmitAction submitAction) {
         submissionBuilder.setCommittee(submitAction.getNewCommitteeId());
     }
-    
-//    /**
-//     * Set schedule for the submission.
-//     * @param submissionBuilder the submission builder
-//     * @param submitAction the submission data
-//     */
-//    protected void setSchedule(IacucProtocolSubmissionBuilder submissionBuilder, IacucProtocolSubmitAction submitAction) {
-//        submissionBuilder.setSchedule(submitAction.getNewScheduleId());
-//    }
-//    
-//    /**
-//     * Add an optional Check List to the submission.  Exempt Studies and Expedited Reviews each
-//     * require a check list to be added to the submission.  Other protocol review types do not
-//     * have a check list.
-//     * @param submission the submission
-//     * @param submitAction the submission data
-//     */
-////TODO: Rework for IACUC refactor
-////    protected void addCheckLists(IacucProtocolSubmissionBuilder submissionBuilder, IacucProtocolSubmitAction submitAction) {
-////        if (isProtocolReviewType(submitAction, IacucProtocolReviewType.EXEMPT_STUDIES_REVIEW_TYPE_CODE)) {
-////            addExemptStudiesCheckList(submissionBuilder, submitAction);
-////        }
-////        else if (isProtocolReviewType(submitAction, IacucProtocolReviewType.EXPEDITED_REVIEW_TYPE_CODE)) {
-////            addExpeditedReviewCheckList(submissionBuilder, submitAction);
-////        }
-////    }
-//    
-//    /**
-//     * Is the submission of a certain protocol review type?
-//     * @param submitAction the submit action
-//     * @param protocolReviewTypeCode the protocol review type to compare against
-//     * @return true if the submission uses the given protocol review type; otherwise false
-//     */
-//    protected boolean isProtocolReviewType(IacucProtocolSubmitAction submitAction, String protocolReviewTypeCode) {
-//        return (StringUtils.equals(submitAction.getProtocolReviewTypeCode(), protocolReviewTypeCode));
-//    }
-//
-//    /**
-//     * Add the Exempt Studies Check List items to the submission.
-//     * @param submission the submission
-//     * @param submitAction the submission data
-//     */
-//    protected void addExemptStudiesCheckList(IacucProtocolSubmissionBuilder submissionBuilder, IacucProtocolSubmitAction submitAction) {
-//        for (ExemptStudiesCheckListItem item : submitAction.getExemptStudiesCheckList()) {
-//            if (item.getChecked()) {
-//                submissionBuilder.addExemptStudiesCheckListItem(item.getExemptStudiesCheckListCode());
-//            }
-//        }
-//    }
-//    
-//    /**
-//     * Add the Expedited Review Check List items to the submission.
-//     * @param submission the submission
-//     * @param submitAction the submission data
-//     */
-//    protected void addExpeditedReviewCheckList(IacucProtocolSubmissionBuilder submissionBuilder, IacucProtocolSubmitAction action) {
-//        for (ExpeditedReviewCheckListItem item : action.getExpeditedReviewCheckList()) {
-//            if (item.getChecked()) {
-//                submissionBuilder.addExpeditedReviewCheckListItem(item.getExpeditedReviewCheckListCode());
-//            }
-//        }
-//    }
     
     /**
      * @TODO when this gets implemented, see IacucProtocolSubmissionLookupableHelperServiceImpl.getSearchResults ..... that function orginally called this function, but now that it returns null, it had broken the search, so that call is commented out.

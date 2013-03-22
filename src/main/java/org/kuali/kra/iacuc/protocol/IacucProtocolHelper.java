@@ -182,9 +182,6 @@ public class IacucProtocolHelper extends ProtocolHelperBase {
         return Constants.PARAMETER_MODULE_IACUC_PROTOCOL_BILLABLE;
     }
 
-    /*
-     * here as a placeholder for now, for when we must call specific IACUC prepareView().
-     */
     @Override
     public void prepareView() {
         super.prepareView();    

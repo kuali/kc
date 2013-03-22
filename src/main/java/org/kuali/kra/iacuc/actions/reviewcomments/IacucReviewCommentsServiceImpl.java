@@ -45,11 +45,6 @@ public class IacucReviewCommentsServiceImpl extends ReviewCommentsServiceImplBas
     public void saveReviewAttachments(List<IacucProtocolReviewAttachment> reviewAttachments, List<IacucProtocolReviewAttachment> deletedReviewAttachments) {
         for (ProtocolReviewAttachmentBase reviewAttachment : reviewAttachments) {
             boolean doUpdate = true;
-            // if (reviewAttachment.getReviewerAttachmentId() != null) {
-            // ProtocolOnlineReviewAttachment existing =
-            // committeeScheduleService.getCommitteeScheduleMinute(reviewAttachment.getCommScheduleMinutesId());
-            // doUpdate = !reviewAttachment.equals(existing);
-            // }
             if (doUpdate) {
                 reviewAttachment.setPrivateFlag(!reviewAttachment.isProtocolPersonCanView());
                 businessObjectService.save(reviewAttachment);
@@ -57,9 +52,6 @@ public class IacucReviewCommentsServiceImpl extends ReviewCommentsServiceImplBas
         }
 
         if (!deletedReviewAttachments.isEmpty()) {
-            // for (ProtocolReviewAttachmentBase reviewAttachment : deletedReviewAttachments) {
-            // businessObjectService.delete((IacucProtocolReviewAttachment)reviewAttachment);
-            // }
             // TODO : bos expecting the object defined in repository
             businessObjectService.delete(deletedReviewAttachments);
         }

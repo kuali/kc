@@ -203,59 +203,10 @@ public class IacucProtocolPersonnelAction extends IacucProtocolAction {
         }
         final AttachmentFile file = attachment.getFile();
        
-       /* byte[] attachmentFile =null;
-        String attachmentFileType=file.getType().replace("\"", "");
-        if(attachmentFileType.equalsIgnoreCase(WatermarkConstants.ATTACHMENT_TYPE_PDF)){
-            attachmentFile=getProtocolAttachmentFile(form,attachment);
-            if(attachmentFile!=null){          
-                this.streamToResponse(attachmentFile, getValidHeaderString(file.getName()), getValidHeaderString(file.getType()), response);    }
-            else{
-                this.streamToResponse(file.getData(), getValidHeaderString(file.getName()), getValidHeaderString(file.getType()), response);    }
-            return RESPONSE_ALREADY_HANDLED;
-        }*/
-        
         this.streamToResponse(file.getData(), getValidHeaderString(file.getName()), getValidHeaderString(file.getType()), response);
         return RESPONSE_ALREADY_HANDLED;
     }
-//    /**
-//     * 
-//     * This method for set the attachment with the watermark which selected  by the client .
-//     * @param protocolForm form
-//     * @param protocolAttachmentBase attachment
-//     * @return attachment file
-//     */
-//      
-//    private byte[] getProtocolAttachmentFile(ProtocolFormBase form,ProtocolAttachmentBase attachment){
-//        
-//        byte[] attachmentFile =null;
-//        final AttachmentFile file = attachment.getFile();
-//        Printable printableArtifacts= getProtocolPrintingService().getProtocolPrintArtifacts(form.getProtocolDocument().getProtocol());
-//        
-//        try {
-//            if(printableArtifacts.isWatermarkEnabled()){
-//            Integer attachmentDocumentId =attachment.getDocumentId();
-//            List<ProtocolAttachmentProtocol> protocolAttachmentList=form.getProtocolDocument().getProtocol().getAttachmentProtocols();
-//            if(protocolAttachmentList.size()>0){
-//                for (ProtocolAttachmentProtocol personnelAttachment : protocolAttachmentList) {
-//                    if(attachmentDocumentId.equals(personnelAttachment.getDocumentId()) && 
-//                            ProtocolAttachmentProtocol.COMPLETE_STATUS_CODE.equals(personnelAttachment.getStatusCode())) {
-//                        if(getProtocolAttachmentService().isNewAttachmentVersion(personnelAttachment)){
-//                            attachmentFile = getWatermarkService().applyWatermark(file.getData(),printableArtifacts.getWatermarkable().getWatermark());
-//                        }else{
-//                            attachmentFile = getWatermarkService().applyWatermark(file.getData(),printableArtifacts.getWatermarkable().getInvalidWatermark());
-//                            LOG.info(INVALID_ATTACHMENT + attachmentDocumentId);
-//                        }
-//                    }
-//                }
-//            }else{
-//                attachmentFile = getWatermarkService().applyWatermark(file.getData(),printableArtifacts.getWatermarkable().getWatermark()); }
-//            }
-//        }
-//        catch (Exception e) {
-//            LOG.error("Exception Occured in ProtocolNoteAndAttachmentAction. : ",e);    
-//        }        
-//        return attachmentFile;
-//    }
+
     /**
      * Method called when deleting an attachment from a person.
      * 
@@ -372,23 +323,6 @@ public class IacucProtocolPersonnelAction extends IacucProtocolAction {
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
-//
-//    /**
-//     * This method for Watermark Service. 
-//     */
-//    private WatermarkService getWatermarkService() {
-//        return  KraServiceLocator.getService(WatermarkService.class);  
-//    }
-//    
-//    /**
-//     * 
-//     * This method for get ProtocolBase Service.
-//     * @return
-//     */
-//    private ProtocolPrintingService getProtocolPrintingService() {
-//        return KraServiceLocator.getService(ProtocolPrintingService.class);
-//    }
-    
     /**
      * This method is to get selected person index.
      * Each person data is displayed in individual panel.

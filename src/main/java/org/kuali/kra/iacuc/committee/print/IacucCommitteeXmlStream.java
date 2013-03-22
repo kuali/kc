@@ -200,7 +200,6 @@ public class IacucCommitteeXmlStream extends PrintBaseXmlStream {
     }
 
     public void setCommitteeMasterData(CommitteeBase committee,CommitteeMasterDataType committeeMasterDataType){
-//      committee.refreshNonUpdateableReferences();
       committeeMasterDataType.setCommitteeId(committee.getCommitteeId()) ;
       committeeMasterDataType.setCommitteeName(committee.getCommitteeName()) ;
       committeeMasterDataType.setHomeUnitNumber(committee.getHomeUnitNumber()) ;

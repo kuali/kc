@@ -36,11 +36,7 @@ public class IacucProtocolActionMapping extends ProtocolActionMappingBase {
     
     private static final Map<String, String> ACTION_TYPE_SUBMISSION_TYPE_MAP;
     static {
-        final Map<String, String> codeMap = new HashMap<String, String>();        
-//TODO: More to do here for IACUC.
-//TODO:IACUC        codeMap.put(IacucProtocolActionType.SUSPENDED, IacucProtocolSubmissionType.REQUEST_FOR_SUSPENSION);
-//        codeMap.put(IacucProtocolActionType.CLOSED_ADMINISTRATIVELY_CLOSED, IacucProtocolSubmissionType.REQUEST_TO_CLOSE);
-//        codeMap.put(IacucProtocolActionType.TERMINATED, IacucProtocolSubmissionType.REQUEST_FOR_TERMINATION);        
+        final Map<String, String> codeMap = new HashMap<String, String>();              
         ACTION_TYPE_SUBMISSION_TYPE_MAP = Collections.unmodifiableMap(codeMap);
     }
 
@@ -48,9 +44,6 @@ public class IacucProtocolActionMapping extends ProtocolActionMappingBase {
     static {
         final List<String> codes = new ArrayList<String>();     
         codes.add(IacucProtocolActionType.IACUC_APPROVED);
-//TODO: More here to do for IACUC. Must include "designated member approval" and any other similar approvals.
-//        codes.add(IacucProtocolActionType.EXPEDITE_APPROVAL);
-//        codes.add(IacucProtocolActionType.GRANT_EXEMPTION);
         APPROVE_ACTION_TYPES = codes;
     }
 

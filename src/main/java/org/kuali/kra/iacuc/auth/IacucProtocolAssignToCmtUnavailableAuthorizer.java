@@ -54,7 +54,6 @@ public class IacucProtocolAssignToCmtUnavailableAuthorizer extends IacucProtocol
     public boolean isAuthorized(String userId, IacucProtocolTask task) {
         ProtocolBase protocol = task.getProtocol();
         return (!kraWorkflowService.isInWorkflow(protocol.getProtocolDocument()) ||
-              //  !isPendingOrSubmittedToCommittee(protocol)) &&
                 !canExecuteAction(task.getProtocol(), IacucProtocolActionType.NOTIFIED_COMMITTEE)) &&
                hasPermission(userId, protocol, PermissionConstants.PERFORM_IACUC_ACTIONS_ON_PROTO);
     
