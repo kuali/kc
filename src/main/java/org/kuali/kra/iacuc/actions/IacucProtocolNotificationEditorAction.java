@@ -144,107 +144,10 @@ public class IacucProtocolNotificationEditorAction extends IacucProtocolAction {
         }
         @SuppressWarnings("unused")
         Object notificationRequestBeans = GlobalVariables.getUserSession().retrieveObject("removeReviewer");
-//TODO: must revisit for IACUC development
-//        if (notificationRequestBeans != null) {
-//            // This is specifically for 'assign reviewers" where it is possible that add/remove in the same action
-//            GlobalVariables.getUserSession().removeObject("removeReviewer");
-//            actionForward = checkToSendNotification(mapping, mapping.findForward(PROTOCOL_ACTIONS_TAB), protocolForm,  (List<IacucProtocolNotificationRequestBean>)notificationRequestBeans);                            
-//        }
         return actionForward;
     }
 
     
-//TODO: must revisit for IACUC development
-//    /*
-//     * This is for assign reviewer (remove portion).  The notificationRequestBeans contains all 'added' or 'removed'
-//     * reviewers.  All the roles recipient will be merged, then forward to protocolnotificationeditor for ad hoc notification 
-//     * process. This is needed if 'add' and remove in the same submit, but specifically for 'remove'; add is done in protocolprotocolactionsaction
-//     */
-//    private ActionForward checkToSendNotification(ActionMapping mapping, ActionForward forward, IacucProtocolForm protocolForm,
-//            List<IacucProtocolNotificationRequestBean> notificationRequestBeans) {
-//
-//        AssignReviewerNotificationRenderer renderer = new AssignReviewerNotificationRenderer(notificationRequestBeans.get(0)
-//                .getProtocol(), "removed");
-//        IRBNotificationContext context = new IRBNotificationContext(notificationRequestBeans.get(0).getProtocol(),
-//            notificationRequestBeans.get(0).getProtocolOnlineReview(), notificationRequestBeans.get(0).getActionType(),
-//            notificationRequestBeans.get(0).getDescription(), renderer);
-//
-//        if (protocolForm.getNotificationHelper().getPromptUserForNotificationEditor(context)) {
-//            context.setForwardName(forward.getName());
-//            context.setPopulateRole(true);
-//           protocolForm.getNotificationHelper().initializeDefaultValues(context);
-//            List<NotificationTypeRecipient> notificationRecipients = protocolForm.getNotificationHelper()
-//                    .getNotificationRecipients();
-//            List<NotificationTypeRecipient> allRecipients = new ArrayList<NotificationTypeRecipient>();
-//            for (NotificationTypeRecipient recipient : notificationRecipients) {
-//                try {
-//                    NotificationTypeRecipient copiedRecipient = (NotificationTypeRecipient) ObjectUtils.deepCopy(recipient);
-//                    context.populateRoleQualifiers(copiedRecipient);
-//                    allRecipients.add(copiedRecipient);
-//                }
-//                catch (Exception e) {
-//                    // TODO
-//                }
-//            }
-//            int i = 1;
-//            // add all new reviewer to recipients
-//            while (notificationRequestBeans.size() > i) {
-//                context = new IRBNotificationContext(notificationRequestBeans.get(i).getProtocol(), notificationRequestBeans.get(i)
-//                        .getProtocolOnlineReview(), notificationRequestBeans.get(i).getActionType(), notificationRequestBeans
-//                        .get(i).getDescription(), renderer);
-//                // protocolForm.getNotificationHelper().setNotificationRecipients(new ArrayList<NotificationTypeRecipient>());
-//                context.setPopulateRole(true);
-//                protocolForm.getNotificationHelper().initializeDefaultValues(context);
-//                List<NotificationTypeRecipient> recipients = protocolForm.getNotificationHelper().getNotificationRecipients();
-//
-//                for (NotificationTypeRecipient recipient : recipients) {
-//                    try {
-//                        // note : need to deepcopy here. If I don't do that, then all reviewer role will have same
-//                        // notificationrecipient object returned from service call
-//                        // probably the object service/ojb has a cache ?
-//                        NotificationTypeRecipient copiedRecipient = (NotificationTypeRecipient) ObjectUtils.deepCopy(recipient);
-//                        context.populateRoleQualifiers(copiedRecipient);
-//                        allRecipients.add(copiedRecipient);
-//                    }
-//                    catch (Exception e) {
-//                        // TODO
-//                    }
-//                }
-//                i++;
-//            }
-//            protocolForm.getNotificationHelper().setNotificationRecipients(allRecipients);
-//            return mapping.findForward("protocolNotificationEditor");
-//        }
-//        else {
-//            // should not need this 'no prompt' here because it is processed in service.
-//            int i = 0;
-////            while (notificationRequestBeans.size() > i) {
-////                context = new IRBNotificationContext(notificationRequestBeans.get(i).getProtocol(), notificationRequestBeans.get(i)
-////                        .getProtocolOnlineReview(), notificationRequestBeans.get(i).getActionType(), notificationRequestBeans
-////                        .get(i).getDescription(), renderer);
-////                protocolForm.getNotificationHelper().initializeDefaultValues(context);
-////                List<NotificationTypeRecipient> recipients = protocolForm.getNotificationHelper().getNotificationRecipients();
-////                List<NotificationTypeRecipient> allRecipients = new ArrayList<NotificationTypeRecipient>();
-////                for (NotificationTypeRecipient recipient : recipients) {
-////                    try {
-////                        // note : need to deepcopy here. If I don't do that, then all reviewer role will have same
-////                        // notificationrecipient object returned from service call
-////                        // probably the object service/ojb has a cache ?
-////                        NotificationTypeRecipient copiedRecipient = (NotificationTypeRecipient) ObjectUtils.deepCopy(recipient);
-////                        context.populateRoleQualifiers(copiedRecipient);
-////                        allRecipients.add(copiedRecipient);
-////                    } catch (Exception e) {
-////                        
-////                    }
-////                }
-////                protocolForm.getNotificationHelper().setNotificationRecipients(allRecipients);
-////                getNotificationService().sendNotification(context);
-////                i++;
-////            }
-//            return forward;
-//        }
-//    }
-
     @SuppressWarnings("unused")
     private KcNotificationService getKcNotificationService() {
         return KraServiceLocator.getService(KcNotificationService.class);
@@ -275,7 +178,6 @@ public class IacucProtocolNotificationEditorAction extends IacucProtocolAction {
         returnLocation += "&" + "olrDocId=" + olrDocId + "&" + "olrEvent=" + olrEvent;
         ActionForward basicForward = mapping.findForward(KRADConstants.MAPPING_PORTAL);
         ActionForward holdingPageForward = mapping.findForward(Constants.MAPPING_HOLDING_PAGE);
-        //ActionForward holdingPageForward = mapping.findForward(Constants.MAPPING_IRB_HOLDING_PAGE);
         GlobalVariables.getUserSession().addObject(Constants.HOLDING_PAGE_DOCUMENT_ID, (Object)olrDocId);
         // add that alternate session key to the session (for double indirection later in the holding page action)
         GlobalVariables.getUserSession().addObject(Constants.ALTERNATE_DOC_ID_SESSION_KEY, (Object)Constants.HOLDING_PAGE_DOCUMENT_ID);

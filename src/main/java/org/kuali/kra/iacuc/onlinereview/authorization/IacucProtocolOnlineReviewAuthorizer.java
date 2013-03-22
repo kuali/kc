@@ -34,9 +34,6 @@ public abstract class IacucProtocolOnlineReviewAuthorizer extends TaskAuthorizer
         return isAuthorized(userId, (IacucProtocolOnlineReviewTask) task);
     }
 
-//    public final boolean isAuthorized(String userId, IacucProtocolOnlineReviewTask task) {
-//        return isAuthorized(userId, task);
-//    }
     public abstract boolean isAuthorized(String userId, IacucProtocolOnlineReviewTask task);
 
         /**

@@ -139,25 +139,6 @@ implements AddOnlineReviewCommentRule,
         GlobalVariables.getMessageMap().addToErrorPath(
                 String.format(ONLINE_REVIEW_COMMENTS_ERROR_PATH, event.getOnlineReviewIndex()));
 
-        // KCIRB-1315 : no final check for approve
-        // check to see if it is on the
-        // boolean isOnReviewerApproveNode = getKraWorkflowService().isDocumentOnNode(event.getProtocolOnlineReviewDocument(),
-        // REVIEWER_APPROVAL_NODE_NAME);
-        //
-        // if (isOnReviewerApproveNode) {
-        // //we only enforce "all comments must be final" if we are moving off of the reviewers approval node.
-        // int commentIndex = 0;
-        //
-        // for (CommitteeScheduleMinuteBase minute : event.getMinutes()) {
-        // if (!minute.isFinalFlag()) {
-        // GlobalVariables.getMessageMap().putError(String.format("reviewComments[%s].finalFlag", commentIndex),
-        // KeyConstants.ERROR_ONLINE_REVIEW_COMMENTS_FINAL_AFTER_REVIEWER_ROUTE);
-        // valid = false;
-        //
-        // }
-        // commentIndex++;
-        // }
-        // }
         return valid;
     }
 

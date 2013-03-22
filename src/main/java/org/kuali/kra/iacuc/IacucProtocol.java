@@ -86,7 +86,6 @@ public class IacucProtocol extends ProtocolBase {
      */
     private static final long serialVersionUID = 7380281405644745576L;
     
-//    private Date applicationDate;
     private boolean isBillable;
     private String layStatement1; 
     private String layStatement2;
@@ -173,14 +172,6 @@ public class IacucProtocol extends ProtocolBase {
     public IacucProtocolSubmission getIacucProtocolSubmission() {
         return (IacucProtocolSubmission)getProtocolSubmission();
     }
-    
-//    public Date getApplicationDate() {
-//        return applicationDate;
-//    }
-//
-//    public void setApplicationDate(Date applicationDate) {
-//        this.applicationDate = applicationDate;
-//    }
 
     public boolean getIsBillable() {
         return isBillable;
@@ -602,10 +593,6 @@ public class IacucProtocol extends ProtocolBase {
         else if (StringUtils.equals(protocolModuleTypeCode, IacucProtocolModule.SPECIAL_REVIEW)) {
             mergeSpecialReview(amendment);
         }
-// TODO ********************** commented out during IRB backfit ************************ PUSHED DOWN INTO IRB, NOT RELEVANT FOR IACUC        
-//        else if (StringUtils.equals(protocolModuleTypeCode, IacucProtocolModule.SUBJECTS)) {
-//            mergeSubjects(amendment);
-//        }
         else if (StringUtils.equals(protocolModuleTypeCode, IacucProtocolModule.OTHERS)) {
             mergeOthers(amendment);
         }
@@ -689,15 +676,11 @@ public class IacucProtocol extends ProtocolBase {
     }
 
     protected void mergeProtocolSpeciesAndGroups(ProtocolBase amendment) {
-        // TODO ********************** added or modified during IRB backfit merge BEGIN ********************** 
         getProtocolCopyService().mergeProtocolSpeciesAndGroups((IacucProtocol)amendment, this);
-        // TODO ********************** added or modified during IRB backfit merge END ************************
     }
     
     protected void mergeProtocolProcedures(ProtocolBase amendment) {
-        // TODO ********************** added or modified during IRB backfit merge BEGIN ********************** 
         getProtocolCopyService().mergeProtocolProcedures((IacucProtocol)amendment, this);
-        // TODO ********************** added or modified during IRB backfit merge END ************************
     }
 
     protected void mergeProtocolExceptions(ProtocolBase amendment) {

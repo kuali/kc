@@ -54,9 +54,6 @@ public class IacucCommitteeDecisionServiceImpl extends CommitteeDecisionServiceI
         ProtocolSubmissionBase protocolSubmission = null;
         for (ProtocolSubmissionBase submission : protocol.getProtocolSubmissions()) {
             if (StringUtils.equals(submission.getSubmissionStatusCode(), IacucProtocolSubmissionStatus.IN_AGENDA)) {
-            
-//                    || 
-//              StringUtils.equals(submission.getSubmissionStatusCode(), IacucProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE))
                 protocolSubmission = submission;
             }
         }
@@ -67,7 +64,6 @@ public class IacucCommitteeDecisionServiceImpl extends CommitteeDecisionServiceI
     protected Map<String, Object> getFieldValuesMap(Long protocolId, Long scheduleIdFk, String personId, Integer rolodexId, Long submissionIdFk) {
       Map<String, Object> fieldValues = new HashMap<String, Object>();
       fieldValues.put("protocolIdFk", protocolId.toString());
-      //fieldValues.put("SCHEDULE_ID_FK", scheduleIdFk.toString());
       fieldValues.put("personId", personId);
       fieldValues.put("rolodexId", rolodexId);
       fieldValues.put("submissionIdFk", submissionIdFk.toString());

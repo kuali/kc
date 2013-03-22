@@ -79,7 +79,6 @@ public class IacucBatchCorrespondenceNotificationRenderer extends IacucProtocolN
         Map<String, String> params = super.getDefaultReplacementParameters();
         params.put("{DETAIL_ID}", detailId.toString());
         params.put("{PROTOCOL_CORRESPONDENCE_TYPE}", protocolCorrespondenceType);
-        //params.put("{USER_FULLNAME}", userFullName);
         return params;
     }
 

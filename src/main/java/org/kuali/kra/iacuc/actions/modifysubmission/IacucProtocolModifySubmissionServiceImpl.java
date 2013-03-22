@@ -106,7 +106,6 @@ public class IacucProtocolModifySubmissionServiceImpl extends IacucProtocolProce
         ProtocolActionBase lastAction = protocol.getLastProtocolAction();
         ProtocolActionBase newAction = new IacucProtocolAction();
         // deep copy will replaced the last action with the new one after save
-       // ProtocolActionBase newAction = (ProtocolActionBase)ObjectUtils.deepCopy(protocol.getLastProtocolAction());
         newAction.setActionId(protocol.getNextValue(NEXT_ACTION_ID_KEY));
         newAction.setActualActionDate(new Timestamp(System.currentTimeMillis()));
         newAction.setActionDate(new Timestamp(System.currentTimeMillis()));
@@ -152,7 +151,6 @@ public class IacucProtocolModifySubmissionServiceImpl extends IacucProtocolProce
     protected void updateDefaultSchedule(ProtocolSubmissionBase submission) {
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put("protocolIdFk", submission.getProtocolId().toString());
-//        fieldValues.put("scheduleIdFk", CommitteeScheduleBase.DEFAULT_SCHEDULE_ID.toString());
         List<IacucCommitteeScheduleMinute> minutes = (List<IacucCommitteeScheduleMinute>) businessObjectService.findMatching(IacucCommitteeScheduleMinute.class, fieldValues);
         if (!minutes.isEmpty()) {
             for (CommitteeScheduleMinuteBase minute : minutes) {

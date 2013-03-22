@@ -291,12 +291,6 @@ public class IacucProtocolForm extends ProtocolFormBase {
                 if (onlineReviewTabEnabled || ((!onlineReviewTabEnabled) && (!HIDE_ONLINE_REVIEW_WHEN_DISABLED))) {
                     resultList.add(nav);
                 }
-//            } else if (StringUtils.equals(nav.getHeaderTabNavigateTo(),CUSTOM_DATA_NAV_TO)) {
-//                boolean displayTab = this.getCustomDataHelper().canDisplayCustomDataTab();
-//                nav.setDisabled(!displayTab);
-//                if (displayTab) {
-//                    resultList.add(nav);
-//                }
             } else {
                 resultList.add(nav);
             }

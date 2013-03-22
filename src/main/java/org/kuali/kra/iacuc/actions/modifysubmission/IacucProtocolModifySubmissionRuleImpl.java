@@ -81,11 +81,6 @@ public class IacucProtocolModifySubmissionRuleImpl extends ResearchDocumentRuleB
         int totalValidReviewers = 0;
                 
         List<ProtocolReviewerBeanBase> reviewers = actionBean.getReviewers();
-        
-//        // Cannot have assigned reviewers with no schedule
-//        if (StringUtils.isBlank(actionBean.getScheduleId()) &&  reviewers != null && reviewers.size() > 0) {
-//            isValid=false;
-//        }
 
         List<ProtocolOnlineReviewDocumentBase> protocolOnlineReviewDocuments = getProtocolOnlineReviewService().getProtocolReviewDocumentsForCurrentSubmission(document.getProtocol()); 
         for (int i = 0; i < reviewers.size(); i++) {
@@ -103,7 +98,6 @@ public class IacucProtocolModifySubmissionRuleImpl extends ResearchDocumentRuleB
                     if (reviewer.isProtocolReviewerBeanForReviewer(pDocument.getProtocolOnlineReview().getProtocolReviewer())) {
                         //the review exists and the user is asking to remove it...
                         isValid &= isValidRemovalRequest(pDocument, reviewer, i);
-                       // break;
                     }
                 }
             }

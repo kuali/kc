@@ -39,7 +39,6 @@ public class IacucProtocolReviewNotRequiredBean extends IacucProtocolActionBean 
      */
     public IacucProtocolReviewNotRequiredBean(ActionHelperBase actionHelper) {
         super(actionHelper);
-//        this.actionHelper = actionHelper;
     }
 
     public IacucProtocol getIacucProtocol() {
@@ -69,24 +68,5 @@ public class IacucProtocolReviewNotRequiredBean extends IacucProtocolActionBean 
 
     public void setDecisionDate(Date decisionDate) {
         this.decisionDate = decisionDate;
-    }
-
-//    public ProtocolBase getProtocol() {
-//        return protocol;
-//    }
-//    
-//    public void setProtocol(ProtocolBase protocol) {
-//        this.protocol = protocol;
-//    }
-//    
-//    public ActionHelperBase getActionHelper() {
-//        return actionHelper;
-//    }
-//
-//    @Override
-//    public void setActionHelper(ActionHelperBase actionHelper) {
-//        this.actionHelper = actionHelper;
-//        this.protocol = actionHelper.getProtocol();
-//    }
-    
+    }    
 }

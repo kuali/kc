@@ -57,14 +57,6 @@ public class IacucProtocolReviewerValuesFinder extends IacucActionsKeyValuesBase
         return keyValues;
     }
 
-//    private String getPersonName(ProtocolReviewer reviewer) {
-//        if (reviewer.getNonEmployeeFlag()) {
-//            return getRolodexService().getRolodex(reviewer.getRolodexId()).getFullName();            
-//        } else {
-//           return getKcPersonService().getKcPersonByPersonId(reviewer.getPersonId()).getFullName();
-//        }
-//    }
-
     private ProtocolSubmissionBase getCurrentSubmission(ProtocolBase protocol) {
         for (ProtocolSubmissionBase submission : protocol.getProtocolSubmissions()) {
             if (StringUtils.equals(submission.getSubmissionStatusCode(), IacucProtocolSubmissionStatus.IN_AGENDA) ||

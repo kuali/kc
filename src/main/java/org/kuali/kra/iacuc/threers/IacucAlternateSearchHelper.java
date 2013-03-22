@@ -52,8 +52,6 @@ public class IacucAlternateSearchHelper implements Serializable {
     }
     
     public void prepareView() {
-//        newAlternateSearch = new IacucAlternateSearch();
-//        newDatabases = new ArrayList<String>();
     }
     
     public IacucProtocolForm getForm() {

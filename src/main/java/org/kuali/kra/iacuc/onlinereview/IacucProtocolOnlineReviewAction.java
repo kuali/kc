@@ -105,7 +105,6 @@ public class IacucProtocolOnlineReviewAction extends IacucProtocolAction {
             
             String principalId = bean.getPersonId();
             boolean nonEmployeeFlag = bean.getNonEmployeeFlag();
-            //String reviewerTypeCode = StringUtils.isEmpty(bean.getReviewerTypeCode()) ? ProtocolReviewerType.PRIMARY : bean.getReviewerTypeCode();
             String reviewerTypeCode = onlineReviewHelper.getNewReviewerTypeCode();
             ProtocolSubmissionBase submission = protocolForm.getProtocolDocument().getProtocol().getProtocolSubmission();
             ProtocolReviewer reviewer = getProtocolOnlineReviewService().createProtocolReviewer(principalId, nonEmployeeFlag, reviewerTypeCode, submission);
@@ -121,11 +120,6 @@ public class IacucProtocolOnlineReviewAction extends IacucProtocolAction {
             //send notification now that the online review has been created.
             ProtocolBase protocol = submission.getProtocol();
             ProtocolOnlineReviewBase protocolOnlineReview = document.getProtocolOnlineReview();
-            // TODO : IACUC
-        //    AssignReviewerNotificationRenderer renderer = new AssignReviewerNotificationRenderer(protocol, "added");
-//            IRBNotificationContext context = new IRBNotificationContext(protocol, protocolOnlineReview, ProtocolActionType.ASSIGN_REVIEWER, "Assign Reviewer", renderer);
-//            getKcNotificationService().sendNotification(context);
-//            return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_OLR_TAB), protocolForm, renderer, new ProtocolNotificationRequestBean(protocol, protocolOnlineReview, ProtocolActionType.ASSIGN_REVIEWER, "Assign Reviewer", null, null));
         }
         
         return mapping.findForward(Constants.MAPPING_BASIC);
@@ -174,11 +168,9 @@ public class IacucProtocolOnlineReviewAction extends IacucProtocolAction {
             getReviewCommentsService().saveReviewComments(reviewComments, deletedReviewComments);
             getDocumentService().saveDocument(document);
             
-            // TODO : is there an IACUC protocol review comment ?
             reviewCommentsBean.setNewReviewComment(new IacucCommitteeScheduleMinute(MinuteEntryType.PROTOCOL_REVIEWER_COMMENT));
         }
         
-        //protocolForm.getOnlineReviewsActionHelper().init(true);
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }    
 
@@ -263,24 +255,19 @@ public class IacucProtocolOnlineReviewAction extends IacucProtocolAction {
         long documentIndex = actionHelper.getIndexByDocumentNumber(documentNumber);
         
         if (applyRules(new AddProtocolOnlineReviewAttachmentEvent(document, reviewAttachmentsBean.getErrorPropertyName()+"s["+documentIndex+"].", reviewAttachmentsBean.getNewReviewAttachment()))) {
-//                && applyRules(new SaveProtocolOnlineReviewEvent(document, reviewAttachmentsBean.getReviewAttachments(), documentIndex))) {
-//                if (applyRules(new ProtocolAddReviewAttachmentEvent(document, errorPropertyName, newReviewAttachment))) {
             ProtocolReviewAttachmentBase newReviewAttachment = reviewAttachmentsBean.getNewReviewAttachment();
             List<ProtocolReviewAttachmentBase> reviewAttachments = reviewAttachmentsBean.getReviewAttachments();
             List<ProtocolReviewAttachmentBase> deletedReviewAttachments = reviewAttachmentsBean.getDeletedReviewAttachments();
             if (protocolForm.getEditingMode().get(TaskName.MAINTAIN_PROTOCOL_ONLINEREVIEWS) == null) {
-               // newReviewAttachment.setPrivateFlag(true);
                 newReviewAttachment.setProtocolPersonCanView(false);
             }
             getReviewCommentsService().addReviewAttachment(newReviewAttachment, reviewAttachments, document.getProtocolOnlineReview().getProtocol());
- //           addReviewAttachment(newReviewAttachment, reviewAttachments, document.getProtocolOnlineReview());
             getReviewCommentsService().saveReviewAttachments(reviewAttachments, deletedReviewAttachments);
             getDocumentService().saveDocument(document);
             
             reviewAttachmentsBean.setNewReviewAttachment(new IacucProtocolReviewAttachment());
         }
         
-        //protocolForm.getOnlineReviewsActionHelper().init(true);
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }    
 
@@ -302,7 +289,6 @@ public class IacucProtocolOnlineReviewAction extends IacucProtocolAction {
             List<ProtocolReviewAttachmentBase> reviewAttachments = document.getProtocolOnlineReview().getReviewAttachments();
             List<ProtocolReviewAttachmentBase> deletedReviewAttachments = reviewCommentsBean.getDeletedReviewAttachments();
 
-            // deleteReviewAttachment(reviewAttachments, attachmentIndex, deletedReviewAttachments);
             getReviewCommentsService().deleteReviewAttachment(reviewAttachments, attachmentIndex, deletedReviewAttachments);
             getReviewCommentsService().saveReviewAttachments(reviewAttachments, deletedReviewAttachments);
             actionHelper.getReviewAttachmentsBeanFromHelperMap(documentNumber).setReviewAttachments(reviewAttachments);
@@ -534,7 +520,6 @@ public class IacucProtocolOnlineReviewAction extends IacucProtocolAction {
         // use this doc id for holding action to check if online review document is complete and return to online review tab
         returnLocation += "&" + "olrDocId=" + olrDocId + "&" + "olrEvent=" + olrEvent;
         ActionForward basicForward = mapping.findForward(KRADConstants.MAPPING_PORTAL);
-        //ActionForward holdingPageForward = mapping.findForward(Constants.MAPPING_HOLDING_PAGE);
         ActionForward holdingPageForward = mapping.findForward(Constants.MAPPING_HOLDING_PAGE);
         GlobalVariables.getUserSession().addObject(Constants.HOLDING_PAGE_DOCUMENT_ID, (Object)olrDocId);
         // add that alternate session key to the session (for double indirection later in the holding page action)
@@ -616,11 +601,7 @@ public class IacucProtocolOnlineReviewAction extends IacucProtocolAction {
                 
                 ProtocolOnlineReviewBase protocolOnlineReview = prDoc.getProtocolOnlineReview();
                 ProtocolBase protocol = protocolForm.getProtocolDocument().getProtocol();
-                // TODO : IACUC notification
-//                DeleteReviewNotificationRenderer renderer = new DeleteReviewNotificationRenderer(protocol, reason);
-//                IRBNotificationContext context = new IRBNotificationContext(protocol, protocolOnlineReview, ProtocolActionType.REVIEW_DELETED, "Review Deleted", renderer);
-//                getKcNotificationService().sendNotification(context);
-
+                
                 prDoc.getProtocolOnlineReview().addActionPerformed("Delete");
                 KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase)protocolForm.getOnlineReviewsActionHelper().getDocumentHelperMap().get(onlineReviewDocumentNumber).get(OnlineReviewsActionHelperBase.FORM_MAP_KEY);
                 doProcessingAfterPost( kualiDocumentFormBase, request );
@@ -634,12 +615,6 @@ public class IacucProtocolOnlineReviewAction extends IacucProtocolAction {
                 kualiDocumentFormBase.setAnnotation("");
                 protocolForm.getOnlineReviewsActionHelper().init(true);
                 recordOnlineReviewActionSuccess("deleted", prDoc);
-                // TODO IACUC Notification
-//                return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_OLR_TAB), protocolForm, renderer, new ProtocolNotificationRequestBean(protocol, protocolOnlineReview, ProtocolActionType.REVIEW_DELETED, "Review Deleted", null, null));
-                
-//                if (!protocolForm.getEditingMode().containsKey("maintainProtocolOnlineReviews")) {
-//                    return mapping.findForward(KNSConstants.MAPPING_PORTAL);
-//                }
              }
         }
         
@@ -688,16 +663,6 @@ public class IacucProtocolOnlineReviewAction extends IacucProtocolAction {
                 
                 ProtocolBase protocol = protocolForm.getProtocolDocument().getProtocol();
                 ProtocolOnlineReviewBase protocolOnlineReview = prDoc.getProtocolOnlineReview();
-                // TODO : IACUC notification here
-//                RejectReviewNotificationRenderer renderer = new RejectReviewNotificationRenderer(protocol, reason);
-////                IRBNotificationContext context = new IRBNotificationContext(protocol, protocolOnlineReview, ProtocolActionType.REVIEW_REJECTED, "Return to Reviewer", renderer);
-////                getKcNotificationService().sendNotification(context);
-//                
-//                protocolForm.getOnlineReviewsActionHelper().init(true);
-//                recordOnlineReviewActionSuccess("returned to reviewer", prDoc);   
-//                return checkToSendNotificationWithHoldingPage(mapping, null, protocolForm, renderer, new ProtocolNotificationRequestBean(protocol, protocolOnlineReview, ProtocolActionType.REVIEW_REJECTED, "Return to Reviewer", prDoc.getDocumentNumber(), "Reject"));
-////                return routeProtocolOLRToHoldingPage(mapping, protocolForm, prDoc.getDocumentNumber(), "Reject");
-
             }
         }
         return mapping.findForward(Constants.MAPPING_BASIC);

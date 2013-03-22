@@ -101,8 +101,6 @@ public class IacucProtocolXmlStream extends ProtocolXmlStreamBase {
         addProtocolPersons(protocolInfoBean, protocolType);
         addResearchArea(protocolInfoBean, protocolType);
         addFundingSource(protocolInfoBean, protocolType);
-// TODO ********************** commented out during IRB backfit ************************ PUSHED TO IRB, NOT RELEVANT FOR IACUC        
-//        addVulnerableSubject(protocolInfoBean, protocolType);
         addSpecialReview(protocolInfoBean, protocolType);
         addSubmissionDetails(protocolInfoBean,protocolType,submissionNumber, "Yes");
         Integer parentSubmissionNumber = getParentSubmissionNumber(protocolInfoBean, submissionNumber);
@@ -122,8 +120,6 @@ public class IacucProtocolXmlStream extends ProtocolXmlStreamBase {
         addProtocolPersons(protocol, protocolType);
         addResearchArea(protocol, protocolType);
         addFundingSource(protocol, protocolType);
-// TODO ********************** commented out during IRB backfit ************************ PUSHED TO IRB, NOT RELEVANT FOR IACUC         
-//        addVulnerableSubject(protocol, protocolType);
         addSpecialReview(protocol, protocolType);
         addSubmissionDetails(protocol, protocolType);
         addRiskLevels(protocol, protocolType);
@@ -132,39 +128,6 @@ public class IacucProtocolXmlStream extends ProtocolXmlStreamBase {
 
     private void addRiskLevels(IacucProtocol protocol, ProtocolType protocolType) {
 
-// TODO IRB specific code should go in subclassed IRB        
-//        List<ProtocolRiskLevel> cvRiskLevels = protocol.getProtocolRiskLevels();
-//        for (ProtocolRiskLevel protocolRiskLevelBean : cvRiskLevels) {
-//            protocolRiskLevelBean.refreshNonUpdateableReferences();
-//            RiskLevels riskLevelsType = protocolType.addNewRiskLevels();
-//            if (protocolRiskLevelBean.getRiskLevelCode() != null) {
-//                riskLevelsType.setRiskLevelCode(new BigInteger(protocolRiskLevelBean.getRiskLevelCode()));
-//                riskLevelsType.setRiskLevelDescription(protocolRiskLevelBean.getRiskLevel().getDescription());
-//            }
-//            if (protocolRiskLevelBean.getComments() != null) {
-//                riskLevelsType.setComments(protocolRiskLevelBean.getComments());
-//            }
-//            if (protocolRiskLevelBean.getDateAssigned() != null) {
-//                riskLevelsType.setDateAssigned(getDateTimeService().getCalendar(protocolRiskLevelBean.getDateAssigned()));
-//            }
-//            if (protocolRiskLevelBean.getUpdateTimestamp() != null) {
-//                riskLevelsType.setDateUpdated(getDateTimeService().getCalendar(protocolRiskLevelBean.getUpdateTimestamp()));
-//            }
-//            if (protocolRiskLevelBean.getStatus() != null) {
-//                if (protocolRiskLevelBean.getStatus().equalsIgnoreCase("A")) {
-//                    riskLevelsType.setStatus("Active");
-//                }
-//                else if (protocolRiskLevelBean.getStatus().equalsIgnoreCase("I")) {
-//                    riskLevelsType.setStatus("Inactive");
-//                }
-//            }
-//            if (protocolRiskLevelBean.getUpdateUser() != null) {
-//                riskLevelsType.setUpdateUser(protocolRiskLevelBean.getUpdateUser());
-//            }
-//            if (protocolRiskLevelBean.getUpdateTimestamp() != null) {
-//                riskLevelsType.setUpdateTimestamp(getDateTimeService().getCalendar(protocolRiskLevelBean.getUpdateTimestamp()));
-//            }
-//        }
     }
 
     private void addSubmissionDetails(IacucProtocol protocol, ProtocolType protocolType) {
@@ -238,18 +201,6 @@ public class IacucProtocolXmlStream extends ProtocolXmlStreamBase {
         KraServiceLocator.getService(IacucPrintXmlUtilService.class).setSubmissionCheckListinfo(submissionInfoBean, submissionDetail);
         submission.setCurrentSubmissionFlag(currentFlag);
         setMinutes(submissionInfoBean, submission);
-        /*if (submissionInfoBean.getCommitteeId() != null) {
-            Committee committee = submissionInfoBean.getCommittee();            
-            getCommitteeXmlStream().setCommitteeMasterData(committee, submission.addNewCommitteeMasterData());
-            getCommitteeXmlStream().setCommitteeMembers(committee, submission);
-        }
-
-        if (submissionInfoBean.getScheduleId() != null) {
-            CommitteeScheduleBase committeeSchedule = submissionInfoBean.getCommitteeSchedule();
-            getScheduleXmlStream().setScheduleMasterData(committeeSchedule, submission.addNewScheduleMasterData());
-            ScheduleSummaryType nextSchedule = submission.addNewNextSchedule();
-            getScheduleXmlStream().setNextSchedule(committeeSchedule, nextSchedule.addNewScheduleMasterData());
-        }*/
     }
 
     /**
@@ -307,26 +258,6 @@ public class IacucProtocolXmlStream extends ProtocolXmlStreamBase {
             }
         }
     }
-
-// TODO ********************** commented out during IRB backfit ************************ PUSHED TO IRB, NOT RELEVANT FOR IACUC   
-//    private void addVulnerableSubject(IacucProtocol protocol, ProtocolType protocolType) {
-//        List<ProtocolParticipant> protocolParticipants = protocol.getProtocolParticipants();
-//        for (ProtocolParticipant protocolParticipant : protocolParticipants) {
-//            protocolParticipant.refreshNonUpdateableReferences();
-//            // VulnerableSubject vulnerableSubject = protocolType.addNewVulnerableSubject();
-//            // if(protocolVulnerableSubListsBean.getSubjectCount() == null){
-//            // vulnerableSubject.setVulnerableSubjectCount(new BigInteger("0")) ;
-//            // }else{
-//            // vulnerableSubject.setVulnerableSubjectCount(new
-//            // BigInteger(String.valueOf(protocolVulnerableSubListsBean.getSubjectCount()))) ;
-//            // }
-//            // if (protocolParticipant.getParticipantType() != null) {
-//            //    vulnerableSubject.setVulnerableSubjectTypeCode(new BigInteger(protocolParticipant.getParticipantTypeCode()));
-//            //    vulnerableSubject.setVulnerableSubjectTypeDesc(protocolParticipant.getParticipantType().getDescription());
-//            // }
-//        }
-//
-//    }
 
     private void addFundingSource(IacucProtocol protocol, ProtocolType protocolType) {
         int fundingSourceTypeCode;
@@ -421,17 +352,6 @@ public class IacucProtocolXmlStream extends ProtocolXmlStreamBase {
                 correspondent.setCorrespondentTypeDesc(protocolPerson.getProtocolPersonRole().getDescription());
                 KraServiceLocator.getService(IacucPrintXmlUtilService.class).setPersonRolodexType(protocolPerson, correspondent.addNewPerson());
             }
-
-            // TODO : verify code - Code refactor
-            //            
-            //            else if (protocolPerson.getProtocolPersonRoleId().equals(ProtocolPersonRole.ROLE_CORRESPONDENT_CRC)
-            //                    || (protocolPerson.getProtocolPersonRoleId().equals(ProtocolPersonRole.ROLE_CORRESPONDENT_ADMINISTRATOR))) {
-            //                Correspondent correspondent = protocolType.addNewCorrespondent();
-            //                // not sure where the comments should come from
-            //                // correspondent.setCorrespondentComments(protocolPerson.getComments()) ;
-            //                correspondent.setTypeOfCorrespondent(protocolPerson.getProtocolPersonRole().getDescription());
-            //                getPrintXmlUtilService().setPersonRolodexType(protocolPerson, correspondent.addNewPerson());
-            //            }
         }
 
     }

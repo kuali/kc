@@ -178,16 +178,12 @@ public class IacucProtocolDocumentAuthorizer extends KcTransactionalDocumentAuth
      * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#canOpen(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
      */
     public boolean canOpen(Document document, Person user) {
-        // TODO : this is temporarily return 'true' because the required fields are not done.  unit number is not saved.
-        // so, the permission check can't be done properly.
         IacucProtocolDocument protocolDocument = (IacucProtocolDocument) document;
         if (protocolDocument.getProtocol().getProtocolId() == null) {
             return canCreateIacucProtocol(user);
         }
         return canExecuteIacucProtocolTask(user.getPrincipalId(), (IacucProtocolDocument) document, TaskName.VIEW_IACUC_PROTOCOL);
-
-//          return true;
-        }
+    }
     
     /**
      * Does the user have permission to create a Iacuc Protocol?
@@ -208,7 +204,6 @@ public class IacucProtocolDocumentAuthorizer extends KcTransactionalDocumentAuth
      * @return true if has permission; otherwise false
      */
     private boolean canExecuteIacucProtocolTask(String userId, IacucProtocolDocument doc, String taskName) {
-        // TODO : to be implemented later
         IacucProtocolTask task = new IacucProtocolTask(taskName, doc.getIacucProtocol());       
         TaskAuthorizationService taskAuthenticationService = KraServiceLocator.getService(TaskAuthorizationService.class);
         return taskAuthenticationService.isAuthorized(userId, task);

@@ -96,7 +96,6 @@ public class IacucMeetingActionsAction extends MeetingActionsActionBase {
 
     public ActionForward regenerateCorrespondence(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        // final int selection = this.getSelectedLine(request);
         MeetingHelperBase meetingHelper = ((MeetingFormBase) form).getMeetingHelper();
         meetingHelper.setRegeneratedCorrespondences(new ArrayList<ProtocolCorrespondence>());
         for (ProtocolCorrespondence protocolCorrespondence : meetingHelper.getCorrespondences()) {

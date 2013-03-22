@@ -228,7 +228,6 @@ public class IacucProtocolQuestionnaireAction extends IacucProtocolAction {
                 protocolForm.getQuestionnaireHelper().getAnswerHeaders().addAll(answerHeaders);
             }
         }
-      // protocolForm.getQuestionnaireHelper().populateAnswers();
 
         protocolForm.getQuestionnaireHelper().setAnswerHeaders(
                 getAnsweredQuestionnaire(protocolForm.getQuestionnaireHelper().getAnswerHeaders()));
