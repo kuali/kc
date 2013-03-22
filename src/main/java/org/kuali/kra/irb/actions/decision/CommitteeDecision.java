@@ -79,8 +79,6 @@ public class CommitteeDecision extends ProtocolActionBean implements org.kuali.k
         // getSubmission(protocol) is not necessary the most recent one.
         // this may cause problem later if the most recent submission does not have schedule, then
         // npe when try to getavailable member
-        // TODO : check with Jay
-        //ProtocolSubmission submission = getSubmission(protocol);
         ProtocolSubmission submission = (ProtocolSubmission) getProtocol().getProtocolSubmission();
         if (submission != null) {
             this.motionTypeCode = submission.getCommitteeDecisionMotionTypeCode();
@@ -101,7 +99,6 @@ public class CommitteeDecision extends ProtocolActionBean implements org.kuali.k
     }
     
     public Integer getRecusedCount() {
-        //return recusedCount;
         return this.getRecused().size();
     }
 
@@ -188,7 +185,6 @@ public class CommitteeDecision extends ProtocolActionBean implements org.kuali.k
     }
 
     public Integer getAbstainCount() {
-        //return abstainCount;
         return this.getAbstainers().size();
     }
 

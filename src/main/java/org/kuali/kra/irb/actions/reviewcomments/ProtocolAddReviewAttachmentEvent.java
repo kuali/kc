@@ -34,45 +34,4 @@ public class ProtocolAddReviewAttachmentEvent extends ProtocolAddReviewAttachmen
     protected ProtocolAddReviewAttachmentRule getNewProtocolAddReviewAttachmentRuleInstancehook() {
         return new ProtocolAddReviewAttachmentRule();
     }
-    
-    
-    
-// TODO ********************** commented out during IRB backfit ************************    
-//    // TODO : technically, this can be refactored to share with ProtocolAddReviewCommentEvent/rule
-//    // Since, we are waiting for KRMS, so probably just live with this for now.
-//    private String propertyName;
-//    private ProtocolReviewAttachment reviewAttachment;
-//
-//    /**
-//     * Constructs a ProtocolAddReviewAttachmentEvent.
-//     * 
-//     * @param document The document to validate
-//     * @param propertyName The error path property prefix
-//     * @param reviewAttachment The added Reviewer Attachment
-//     */
-//    public ProtocolAddReviewAttachmentEvent(ProtocolDocument document, String propertyName, ProtocolReviewAttachment reviewAttachment) {
-//        super("Enter reviewer attachment", "", document);
-//        this.propertyName = propertyName;
-//        this.reviewAttachment = reviewAttachment;
-//    }
-//    
-//    public ProtocolDocument getProtocolDocument() {
-//        return (ProtocolDocument) getDocument();
-//    }
-//    
-//    public String getPropertyName() {
-//        return propertyName;
-//    }
-//    
-//    public ProtocolReviewAttachment getReviewAttachment() {
-//        return reviewAttachment;
-//    }
-//
-//    @Override
-//    @SuppressWarnings("unchecked")
-//    public BusinessRuleInterface getRule() {
-//        return new ProtocolAddReviewAttachmentRule();
-//    }
-
-
 }

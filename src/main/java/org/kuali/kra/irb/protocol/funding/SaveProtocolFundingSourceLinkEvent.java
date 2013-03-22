@@ -27,48 +27,4 @@ public class SaveProtocolFundingSourceLinkEvent extends org.kuali.kra.protocol.p
     public SaveProtocolFundingSourceLinkEvent(Document document, List<ProtocolFundingSource> protocolFundingSources, List<ProtocolFundingSource> deletedProtocolFundingSources) {
         super(document, (List) protocolFundingSources, (List) deletedProtocolFundingSources);
     }
-    
-
-    
-// TODO ********************** commented out during IRB backfit ************************    
-//    private List<ProtocolFundingSource> protocolFundingSources;
-//    
-//    private List<ProtocolFundingSource> deletedProtocolFundingSources;
-//    
-//    /**
-//     * Constructs a SaveProtocolFundingSourceEvent.
-//     * 
-//     * @param errorPathPrefix
-//     * @param document
-//     * @param protocolFundingSources
-//     */
-//    public SaveProtocolFundingSourceLinkEvent(Document document, List<ProtocolFundingSource> protocolFundingSources, 
-//        List<ProtocolFundingSource> deletedProtocolFundingSources) {
-//        
-//        super("saving protocol funding sources to document " + getDocumentId(document), Constants.EMPTY_STRING, document);
-//        this.protocolFundingSources = protocolFundingSources;
-//        this.deletedProtocolFundingSources = deletedProtocolFundingSources;
-//    }
-//
-//    public List<ProtocolFundingSource> getProtocolFundingSources() {
-//        return protocolFundingSources;
-//    }
-//
-//    public void setProtocolFundingSources(List<ProtocolFundingSource> protocolFundingSources) {
-//        this.protocolFundingSources = protocolFundingSources;
-//    }
-//
-//    public List<ProtocolFundingSource> getDeletedProtocolFundingSources() {
-//        return deletedProtocolFundingSources;
-//    }
-//
-//    public void setDeletedProtocolFundingSources(List<ProtocolFundingSource> deletedProtocolFundingSources) {
-//        this.deletedProtocolFundingSources = deletedProtocolFundingSources;
-//    }
-//
-//    @Override
-//    public BusinessRuleInterface<SaveProtocolFundingSourceLinkEvent> getRule() {
-//        return new SaveProtocolFundingSourceLinkRule();
-//    }
-    
 }

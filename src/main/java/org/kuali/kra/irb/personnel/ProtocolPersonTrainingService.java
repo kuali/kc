@@ -23,22 +23,4 @@ package org.kuali.kra.irb.personnel;
  */
 public interface ProtocolPersonTrainingService extends org.kuali.kra.protocol.personnel.ProtocolPersonTrainingService {
 
-// TODO ********************** commented out during IRB backfit ************************    
-//    /**
-//     * This method is to set trained flag for each person
-//     * This method is invoked while navigating to personnel page to set the trained flag for 
-//     * each person in the list.
-//     * Hook this service method to external / other training session as required. 
-//     * @param protocolPersons
-//     */
-//    public void updatePersonTrained(List<ProtocolPerson> protocolPersons);
-//    
-//    /**
-//     * This method is to set trained flag for a person
-//     * Set true / false
-//     * This method is invoked from isPersonTrained and while adding a new person to the list.
-//     * @param protocolPerson
-//     */
-//    public void setTrainedFlag(ProtocolPerson protocolPerson);
-
 }

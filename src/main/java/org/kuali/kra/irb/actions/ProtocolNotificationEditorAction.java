@@ -135,11 +135,7 @@ public class ProtocolNotificationEditorAction extends ProtocolAction {
         List<NotificationTypeRecipient> notificationRecipients = protocolForm.getNotificationHelper().getNotificationRecipients();
         
         if (applyRules(new SendNotificationEvent(document, notification, notificationRecipients))) {
-        
-// TODO ********************** added or modified during IRB backfit merge BEGIN ************************             
-            protocolForm.getNotificationHelper().sendNotificationAndPersist(new IRBProtocolNotification(), document.getProtocol());
-// TODO ********************** added or modified during IRB backfit merge END ************************                 
-            
+            protocolForm.getNotificationHelper().sendNotificationAndPersist(new IRBProtocolNotification(), document.getProtocol());                 
             String forwardName = protocolForm.getNotificationHelper().getNotificationContext().getForwardName();
             protocolForm.getNotificationHelper().setNotificationContext(null);
             if (StringUtils.isNotBlank(forwardName)) {
@@ -232,44 +228,14 @@ public class ProtocolNotificationEditorAction extends ProtocolAction {
             // should not need this 'no prompt' here because it is processed in service.
             @SuppressWarnings("unused")
             int i = 0;
-//            while (notificationRequestBeans.size() > i) {
-//                context = new IRBNotificationContext(notificationRequestBeans.get(i).getProtocol(), notificationRequestBeans.get(i)
-//                        .getProtocolOnlineReview(), notificationRequestBeans.get(i).getActionType(), notificationRequestBeans
-//                        .get(i).getDescription(), renderer);
-//                protocolForm.getNotificationHelper().initializeDefaultValues(context);
-//                List<NotificationTypeRecipient> recipients = protocolForm.getNotificationHelper().getNotificationRecipients();
-//                List<NotificationTypeRecipient> allRecipients = new ArrayList<NotificationTypeRecipient>();
-//                for (NotificationTypeRecipient recipient : recipients) {
-//                    try {
-//                        // note : need to deepcopy here. If I don't do that, then all reviewer role will have same
-//                        // notificationrecipient object returned from service call
-//                        // probably the object service/ojb has a cache ?
-//                        NotificationTypeRecipient copiedRecipient = (NotificationTypeRecipient) ObjectUtils.deepCopy(recipient);
-//                        context.populateRoleQualifiers(copiedRecipient);
-//                        allRecipients.add(copiedRecipient);
-//                    } catch (Exception e) {
-//                        
-//                    }
-//                }
-//                protocolForm.getNotificationHelper().setNotificationRecipients(allRecipients);
-  
-// TODO ********************** added or modified during IRB backfit merge BEGIN ************************             
-//                getKcNotificationService().sendNotification(context);
-// TODO ********************** added or modified during IRB backfit merge END ************************ 
-            
-//                i++;
-//            }
             return forward;
         }
     }
-
-// TODO ********************** added or modified during IRB backfit merge BEGIN ************************     
+     
     @SuppressWarnings("unused")
     private KcNotificationService getKcNotificationService() {
         return KraServiceLocator.getService(KcNotificationService.class);
-    }
-// TODO ********************** added or modified during IRB backfit merge END ************************
-    
+    }    
     
     /**
      * Cancels a Notification.
@@ -296,7 +262,6 @@ public class ProtocolNotificationEditorAction extends ProtocolAction {
         returnLocation += "&" + "olrDocId=" + olrDocId + "&" + "olrEvent=" + olrEvent;
         ActionForward basicForward = mapping.findForward(KRADConstants.MAPPING_PORTAL);
         ActionForward holdingPageForward = mapping.findForward(Constants.MAPPING_HOLDING_PAGE);
-        //ActionForward holdingPageForward = mapping.findForward(Constants.MAPPING_IRB_HOLDING_PAGE);
         GlobalVariables.getUserSession().addObject(Constants.HOLDING_PAGE_DOCUMENT_ID, (Object)olrDocId);
         // add that alternate session key to the session (for double indirection later in the holding page action)
         GlobalVariables.getUserSession().addObject(Constants.ALTERNATE_DOC_ID_SESSION_KEY, (Object)Constants.HOLDING_PAGE_DOCUMENT_ID);

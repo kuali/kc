@@ -26,25 +26,6 @@ public class ReviewAttachmentsBean extends ReviewAttachmentsBeanBase<ProtocolRev
 
     private static final long serialVersionUID = -5330578993055642005L;
 
-// TODO ********************** commented out during IRB backfit ************************    
-//    private String errorPropertyKey;
-//    
-//    private ProtocolReviewAttachment newReviewAttachment;
-//    private List<ProtocolReviewAttachment> reviewAttachments;
-//    private List<ProtocolReviewAttachment> deletedReviewAttachments;
-//    // flag to hide reviewer name for this bean.
-//    private boolean hideReviewerName;
-//    /**
-//     * Constructs a ReviewerAttachmentsBean.
-//     */
-//    public ReviewAttachmentsBean(String errorPropertyKey) {
-//        this.errorPropertyKey = errorPropertyKey + ".reviewAttachmentsBean";
-//        
-//        this.newReviewAttachment = new ProtocolReviewAttachment();
-//        this.reviewAttachments = new ArrayList<ProtocolReviewAttachment>();
-//        this.deletedReviewAttachments = new ArrayList<ProtocolReviewAttachment>();
-//    }
-
     public ReviewAttachmentsBean(String errorPropertyKey) {
         super(errorPropertyKey);
     }
@@ -53,44 +34,4 @@ public class ReviewAttachmentsBean extends ReviewAttachmentsBeanBase<ProtocolRev
     protected ProtocolReviewAttachment getNewProtocolReviewAttachmentInstanceHook() {
         return new ProtocolReviewAttachment();
     }
-    
-    
-// TODO ********************** commented out during IRB backfit ************************    
-//    public String getErrorPropertyName() {
-//        return errorPropertyKey;
-//    }
-//    
-//
-//    public boolean isHideReviewerName() {
-//        return hideReviewerName;
-//    }
-//
-//    public void setHideReviewerName(boolean hideReviewerName) {
-//        this.hideReviewerName = hideReviewerName;
-//    }
-//    
-//    public ProtocolReviewAttachment getNewReviewAttachment() {
-//        return newReviewAttachment;
-//    }
-//
-//    public void setNewReviewAttachment(ProtocolReviewAttachment newReviewAttachment) {
-//        this.newReviewAttachment = newReviewAttachment;
-//    }
-//
-//    public List<ProtocolReviewAttachment> getReviewAttachments() {
-//        return reviewAttachments;
-//    }
-//
-//    public void setReviewAttachments(List<ProtocolReviewAttachment> reviewAttachments) {
-//        this.reviewAttachments = reviewAttachments;
-//    }
-//
-//    public List<ProtocolReviewAttachment> getDeletedReviewAttachments() {
-//        return deletedReviewAttachments;
-//    }
-//
-//    public void setDeletedReviewAttachments(List<ProtocolReviewAttachment> deletedReviewAttachments) {
-//        this.deletedReviewAttachments = deletedReviewAttachments;
-//    }
-    
 }

@@ -32,34 +32,4 @@ public class ModifyAmendmentSectionsEvent extends ModifyAmendmentSectionsEventBa
     public ModifyAmendmentSectionsRule getRule() {
         return new ModifyAmendmentSectionsRule();
     }
-
-
-// TODO ********************** commented out during IRB backfit ************************    
-//    private ProtocolAmendmentBean amendmentBean;
-//    private String propertyName;
-//    private boolean amendment;
-//
-//    public ModifyAmendmentSectionsEvent(ProtocolDocument document, String propertyName, ProtocolAmendmentBean amendmentBean) {
-//        super("Modify Amendment Sections", "", document);
-//        this.propertyName = propertyName;
-//        this.amendmentBean = amendmentBean;
-//        this.amendment = getProtocolDocument().getProtocol().isAmendment();
-//    }
-//    
-//    public ProtocolDocument getProtocolDocument() {
-//        return (ProtocolDocument) getDocument();
-//    }
-//    
-//    public String getPropertyName() {
-//        return propertyName;
-//    }
-//    
-//    public ProtocolAmendmentBean getAmendmentBean() {
-//        return amendmentBean;
-//    }
-//    
-//    public boolean isAmendment() {
-//        return amendment;
-//    }
-    
 }

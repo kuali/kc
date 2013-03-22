@@ -33,15 +33,4 @@ public class ProtocolHistoryPrint extends ProtocolHistoryPrintBase {
     protected ProtocolPrintWatermarkBase getNewProtocolPrintWatermarkInstanceHook() {
         return new ProtocolPrintWatermark();
     }
-
-    
-// TODO ********************** commented out during IRB backfit ************************    
-//    /**
-//     * 
-//     * @see org.kuali.kra.irb.actions.print.ProtocolReportPrint#getProtocolPrintType()
-//     */
-//    public String getProtocolPrintType() {
-//        return ProtocolPrintType.PROTOCOL_PROTOCOL_HISTORY_REPORT.getProtocolPrintType();
-//    }
-
 }

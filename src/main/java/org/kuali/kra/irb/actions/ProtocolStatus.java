@@ -75,28 +75,4 @@ public class ProtocolStatus extends ProtocolStatusBase {
     public static final String RENEWAL_MERGED = "401";
     
     public static final String RECALLED_IN_ROUTING = "402";
-
-// TODO ********************** commented out during IRB backfit ************************    
-//    private String protocolStatusCode;
-//
-//    private String description;
-//
-//    public ProtocolStatus() {
-//    }
-//
-//    public String getProtocolStatusCode() {
-//        return protocolStatusCode;
-//    }
-//
-//    public void setProtocolStatusCode(String protocolStatusCode) {
-//        this.protocolStatusCode = protocolStatusCode;
-//    }
-//
-//    public String getDescription() {
-//        return description;
-//    }
-//
-//    public void setDescription(String description) {
-//        this.description = description;
-//    }
 }

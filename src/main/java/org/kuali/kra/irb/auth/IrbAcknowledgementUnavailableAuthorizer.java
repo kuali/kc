@@ -69,7 +69,6 @@ public class IrbAcknowledgementUnavailableAuthorizer extends ProtocolAuthorizer 
     private boolean isFYIReview(String reviewTypeCode) {
         // in coeus 4.4, it does not check whether its FYI or not.
         return StringUtils.isNotBlank(reviewTypeCode);
-       // return StringUtils.isNotBlank(reviewTypeCode) && ProtocolReviewType.FYI_TYPE_CODE.equals(reviewTypeCode);
     }
 
     private boolean isStatusValid(String submissionStatusCode) {

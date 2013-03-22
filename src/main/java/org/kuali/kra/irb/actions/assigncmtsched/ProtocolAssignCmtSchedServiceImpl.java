@@ -128,7 +128,6 @@ public class ProtocolAssignCmtSchedServiceImpl implements ProtocolAssignCmtSched
         ProtocolAction lastAction = (ProtocolAction)protocol.getLastProtocolAction();
         ProtocolAction newAction = new ProtocolAction();
         // deep copy will replaced the last action with the new one after save
-       // ProtocolAction newAction = (ProtocolAction)ObjectUtils.deepCopy(protocol.getLastProtocolAction());
         newAction.setActionId(protocol.getNextValue(NEXT_ACTION_ID_KEY));
         newAction.setActualActionDate(new Timestamp(System.currentTimeMillis()));
         newAction.setActionDate(new Timestamp(System.currentTimeMillis()));
@@ -198,7 +197,6 @@ public class ProtocolAssignCmtSchedServiceImpl implements ProtocolAssignCmtSched
     protected void updateDefaultSchedule(ProtocolSubmission submission) {
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put("protocolIdFk", submission.getProtocolId().toString());
-//        fieldValues.put("scheduleIdFk", CommitteeSchedule.DEFAULT_SCHEDULE_ID.toString());
         List<CommitteeScheduleMinute> minutes = (List<CommitteeScheduleMinute>) businessObjectService.findMatching(CommitteeScheduleMinute.class, fieldValues);
         if (!minutes.isEmpty()) {
             for (CommitteeScheduleMinute minute : minutes) {

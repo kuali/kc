@@ -21,17 +21,4 @@ package org.kuali.kra.irb.actions.correspondence;
  */
 public interface ProtocolActionCorrespondenceGenerationService extends org.kuali.kra.protocol.actions.correspondence.ProtocolActionCorrespondenceGenerationService {
 
-// TODO ********************** commented out during IRB backfit ************************    
-//    /**
-//     * 
-//     * This method attaches an appropriate template based PDF document to the protocol and saves it.
-//     * @param printableCorrespondence an implementation of AbstractProtocolActionsCorrespondence.
-//     * @throws PrintingException
-//     */
-//    void generateCorrespondenceDocumentAndAttach(AbstractProtocolActionsCorrespondence printableCorrespondence) throws PrintingException;
-//    
-//    List<ProtocolCorrespondenceTemplate> getCorrespondenceTemplates(String actionType);
-//    
-//    AttachmentDataSource reGenerateCorrespondenceDocument(AbstractProtocolActionsCorrespondence printableCorrespondence) throws PrintingException ; 
-
 }

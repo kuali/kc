@@ -108,8 +108,6 @@ public class ProtocolSubmissionBuilder {
             // need to investigate if this is good for app.
             // comment scheduleid&scheduleidfk.  this will cause confusing if selected a different committee (or no committee)
             // then this schedule will not match the selected committee
-            //protocolSubmission.setScheduleId(oldSubmission.getScheduleId());
-            //protocolSubmission.setScheduleIdFk(oldSubmission.getScheduleIdFk());
             protocolSubmission.setSubmissionTypeQualifierCode(oldSubmission.getSubmissionTypeQualifierCode());
             protocolSubmission.setComments(oldSubmission.getComments());
             protocolSubmission.setYesVoteCount(oldSubmission.getYesVoteCount());
@@ -135,11 +133,7 @@ public class ProtocolSubmissionBuilder {
         protocolSubmission.setSubmissionDate(new Date(System.currentTimeMillis()));
         getBusinessObjectService().save(protocolSubmission);
         protocolSubmission.getProtocol().getProtocolSubmissions().add(protocolSubmission);
-//        if (ProtocolSubmissionType.NOTIFY_IRB.equals(protocolSubmission.getSubmissionTypeCode())) {
-            saveAttachments();
-//        } else {
-//            saveAttachments();
-//        }
+        saveAttachments();
         return protocolSubmission;
     }
     
@@ -263,26 +257,7 @@ public class ProtocolSubmissionBuilder {
         chkLstItem.setExpeditedReviewCheckListCode(expeditedReviewCheckListCode);
         return chkLstItem;
     }
-    
-    /**
-     * Add an attachment to the submission.
-     * @param file
-     */
-//    public void addAttachment(FormFile file) {
-//        if (file != null) {
-//            attachments.add(file);
-//        }
-//    }
-    
-    /**
-     * Save the attachments to the database.
-     */
-//    private void saveAttachments() {
-//        for (FormFile file : attachments) {
-//            saveAttachment(file, "");
-//        }
-//    }
-    
+        
     /*
      * save notify irb attachments.
      */

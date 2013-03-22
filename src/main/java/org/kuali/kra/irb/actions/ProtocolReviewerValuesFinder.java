@@ -56,14 +56,6 @@ public class ProtocolReviewerValuesFinder extends IrbActionsKeyValuesBase {
         return keyValues;
     }
 
-//    private String getPersonName(ProtocolReviewer reviewer) {
-//        if (reviewer.getNonEmployeeFlag()) {
-//            return getRolodexService().getRolodex(reviewer.getRolodexId()).getFullName();            
-//        } else {
-//           return getKcPersonService().getKcPersonByPersonId(reviewer.getPersonId()).getFullName();
-//        }
-//    }
-
     @SuppressWarnings("unchecked")
     private ProtocolSubmission getCurrentSubmission(Protocol protocol) {
         List<ProtocolSubmission> protocolSubmissions = (List)protocol.getProtocolSubmissions();

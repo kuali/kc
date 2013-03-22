@@ -152,17 +152,6 @@ public class ProtocolProtocolAction extends ProtocolAction {
         
     }
     
-    
-    /**
-     * @see org.kuali.kra.irb.ProtocolAction#processMultipleLookupResults(org.kuali.kra.irb.ProtocolDocument, java.lang.Class,
-     *      java.util.Collection)
-     */
-/*    @Override
-    protected <T extends ResearchArea> void processMultipleLookupResults(ProtocolDocument protocolDocument, Class<T> lookupResultsBOClass,
-            Collection<T> selectedBOs) {
-
-    }*/
-
     /**
      * 
      * This method adds an <code>ProtocolParticipant</code> business object to the list of <code>ProtocolParticipants</code>
@@ -253,7 +242,6 @@ public class ProtocolProtocolAction extends ProtocolAction {
 
             service.addProtocolReference(protocolForm.getProtocolDocument().getProtocol(), ref);
             
-            //protocolForm.getProtocolDocument().getProtocol().getProtocolReferences().add(ref);
             protocolForm.setNewProtocolReferenceBean(new ProtocolReferenceBean());
         }
         
@@ -671,26 +659,38 @@ public class ProtocolProtocolAction extends ProtocolAction {
             String fundingType = "'" + fundingSource.getFundingSourceType().getDescription() + "': " + fundingSource.getFundingSourceNumber();
             FundingSourceNotificationRenderer renderer = new FundingSourceNotificationRenderer(protocol, fundingType, "linked to");
             IRBNotificationContext context = new IRBNotificationContext(protocol, ProtocolActionType.FUNDING_SOURCE, "Funding Source", renderer);
-            
-// TODO ********************** added or modified during IRB backfit merge BEGIN ************************             
             getKcNotificationService().sendNotificationAndPersist(context, new IRBProtocolNotification(), protocol);
-// TODO ********************** added or modified during IRB backfit merge END ************************             
-
         }
         for (ProtocolFundingSourceBase fundingSource : protocolForm.getDeletedProtocolFundingSources()) {
             if (fundingSource.getProtocolFundingSourceId() != null) {
                 String fundingType = "'" + fundingSource.getFundingSourceType().getDescription() + "': " + fundingSource.getFundingSourceNumber();
                 FundingSourceNotificationRenderer renderer = new FundingSourceNotificationRenderer(protocol, fundingType, "removed from");
                 IRBNotificationContext context = new IRBNotificationContext(protocol, ProtocolActionType.FUNDING_SOURCE, "Funding Source", renderer);
-             
-// TODO ********************** added or modified during IRB backfit merge BEGIN ************************                 
                 getKcNotificationService().sendNotificationAndPersist(context, new IRBProtocolNotification(), protocol);
-// TODO ********************** added or modified during IRB backfit merge END ************************ 
-                
             }
 
         }
     }
+
+    /**
+     * 
+     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#recall(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward recall(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        
+        ActionForward forward = super.recall(mapping, form, request, response);       
+        ActionForward basicForward = mapping.findForward(Constants.MAPPING_BASIC);
+        //if recall is returning back to basic path then we should return to the portal to avoid
+        //problems with workflow routing changes to the document. This should eventually return to the holding page,
+        //but currently waiting on KCINFR-760.
+        if (StringUtils.equals(basicForward.getPath(), forward.getPath())) {
+            return mapping.findForward(KRADConstants.MAPPING_PORTAL);
+        } else {
+            return forward;
+        }
+    }
+    
     
     private KcNotificationService getKcNotificationService() {
         return KraServiceLocator.getService(KcNotificationService.class);

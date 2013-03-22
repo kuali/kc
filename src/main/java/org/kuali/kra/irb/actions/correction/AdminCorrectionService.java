@@ -17,7 +17,5 @@ package org.kuali.kra.irb.actions.correction;
 
 
 public interface AdminCorrectionService extends org.kuali.kra.protocol.actions.correction.AdminCorrectionService {
-	// TODO ********************** commented out during IRB backfit ************************
-    
-//    void sendCorrectionNotification(Protocol protocol, AdminCorrectionBean adminCorrectionBean) throws Exception;
+
 }

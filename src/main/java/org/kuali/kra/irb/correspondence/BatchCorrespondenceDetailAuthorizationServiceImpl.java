@@ -28,39 +28,4 @@ public class BatchCorrespondenceDetailAuthorizationServiceImpl extends BatchCorr
         return "KC-PROTOCOL";
     }
 
- // TODO ********************** commented out during IRB backfit ************************
-//    private UnitAuthorizationService unitAuthorizationService;
-//    private KcPersonService kcPersonService;
-//
-//    /**
-//     * 
-//     * @see org.kuali.kra.irb.correspondence.BatchCorrespondenceDetailAuthorizationService#hasPermission(java.lang.String)
-//     */
-//    public boolean hasPermission(String permissionName){
-//        KcPerson person = kcPersonService.getKcPersonByUserName(getUserName());       
-//        return unitAuthorizationService.hasPermission(person.getPersonId(), "KC-PROTOCOL", permissionName);
-//
-//    }
-//    protected String getUserName() {
-//        return GlobalVariables.getUserSession().getPerson().getPrincipalName();
-//    }
-//    
-//    /**
-//     * 
-//     * This method inject UnitAuthorizationService
-//     * @param unitAuthorizationService
-//     */
-//    public void setUnitAuthorizationService(UnitAuthorizationService unitAuthorizationService) {
-//        this.unitAuthorizationService = unitAuthorizationService;
-//    }
-//
-//    /**
-//     * 
-//     * This method inject KcPersonService
-//     * @param kcPersonService
-//     */
-//    public void setKcPersonService(KcPersonService kcPersonService) {
-//        this.kcPersonService = kcPersonService;
-//    }
-//    
 }

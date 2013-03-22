@@ -35,16 +35,6 @@ import org.kuali.rice.kew.api.WorkflowDocument;
  */
 public class ProtocolGenericActionServiceImpl extends ProtocolGenericActionServiceImplBase implements ProtocolGenericActionService {
     
-// TODO ********************** commented out during IRB backfit ************************    
-//    private ProtocolActionService protocolActionService;
-//    private DocumentService documentService;
-//    private ProtocolActionCorrespondenceGenerationService protocolActionCorrespondenceGenerationService;
-//    private ProtocolOnlineReviewService protocolOnlineReviewService;
-//    private ProtocolVersionService protocolVersionService;
-//    private ProtocolAssignToAgendaService protocolAssignToAgendaService;
-//    private BusinessObjectService businessObjectService;
-//    private KcNotificationService kcNotificationService;
-    
     /**{@inheritDoc}**/
     public void close(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception {
         if (ProtocolActionType.REQUEST_TO_CLOSE.equals(protocol.getLastProtocolAction().getProtocolActionType().getProtocolActionTypeCode())) {
@@ -64,11 +54,6 @@ public class ProtocolGenericActionServiceImpl extends ProtocolGenericActionServi
     /**{@inheritDoc}**/
     public ProtocolDocument defer(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception {
         performGenericAction(protocol, actionBean, ProtocolActionType.DEFERRED, ProtocolStatus.DEFERRED);
-//        IRBNotificationRenderer renderer = new IRBNotificationRenderer(protocol);
-//        IRBNotificationContext context = new IRBNotificationContext(protocol, ProtocolActionType.DEFERRED, "Deferred", renderer);
-//        if (!isPromptUserForNotification) {
-//            kcNotificationService.sendNotification(context);
-//        }
         
         return getDeferredVersionedDocument(protocol);
     }
@@ -87,9 +72,6 @@ public class ProtocolGenericActionServiceImpl extends ProtocolGenericActionServi
     /**{@inheritDoc}**/
     public void irbAcknowledgement(Protocol protocol, ProtocolGenericActionBean actionBean) throws Exception {
         performGenericAction(protocol, actionBean, ProtocolActionType.IRB_ACKNOWLEDGEMENT);
-//        IRBNotificationRenderer renderer = new IRBNotificationRenderer(protocol);
-//        IRBNotificationContext context = new IRBNotificationContext(protocol, ProtocolActionType.IRB_ACKNOWLEDGEMENT, "IRB Acknowledgement", renderer);
-//        kcNotificationService.sendNotification(context);
     }
 
     /**{@inheritDoc}**/
@@ -105,20 +87,12 @@ public class ProtocolGenericActionServiceImpl extends ProtocolGenericActionServi
     /**{@inheritDoc}**/
     public ProtocolDocument returnForSMR(ProtocolBase protocol, org.kuali.kra.protocol.actions.genericactions.ProtocolGenericActionBean actionBean) throws Exception {
         performGenericAction(protocol, actionBean, ProtocolActionType.SPECIFIC_MINOR_REVISIONS_REQUIRED, ProtocolStatus.SPECIFIC_MINOR_REVISIONS_REQUIRED);
-//        IRBNotificationRenderer renderer = new IRBNotificationRenderer(protocol);
-//        IRBNotificationContext context = new IRBNotificationContext(protocol, ProtocolActionType.SPECIFIC_MINOR_REVISIONS_REQUIRED, "Specific Minor Revisions Required", renderer);
-//        kcNotificationService.sendNotification(context);
-
         return getReturnedVersionedDocument(protocol);
     }
     
     /**{@inheritDoc}**/
     public ProtocolDocument returnForSRR(ProtocolBase protocol, org.kuali.kra.protocol.actions.genericactions.ProtocolGenericActionBean actionBean) throws Exception {
         performGenericAction(protocol, actionBean, ProtocolActionType.SUBSTANTIVE_REVISIONS_REQUIRED, ProtocolStatus.SUBSTANTIVE_REVISIONS_REQUIRED);
-//        IRBNotificationRenderer renderer = new IRBNotificationRenderer(protocol);
-//        IRBNotificationContext context = new IRBNotificationContext(protocol, ProtocolActionType.SUBSTANTIVE_REVISIONS_REQUIRED, "Substantive Revisions Required", renderer);
-//        kcNotificationService.sendNotification(context);
-
         return getReturnedVersionedDocument(protocol);
     }
     
@@ -148,29 +122,7 @@ public class ProtocolGenericActionServiceImpl extends ProtocolGenericActionServi
     public void terminate(ProtocolBase protocol, org.kuali.kra.protocol.actions.genericactions.ProtocolGenericActionBean actionBean) throws Exception {
         performGenericAction(protocol, actionBean, ProtocolActionType.TERMINATED, ProtocolStatus.TERMINATED_BY_IRB);
     }
-    
-    
-// TODO ********************** commented out during IRB backfit ************************    
-//    /**
-//     * Performs the generic action, which includes a state change, action date, and a comment, that's it!
-//     * @param protocol
-//     * @param actionBean
-//     * @param protocolActionType
-//     * @param newProtocolStatus
-//     * @throws Exception
-//     */
-//    private void performGenericAction(Protocol protocol, ProtocolGenericActionBean actionBean, String protocolActionType, String newProtocolStatus) 
-//        throws Exception {
-//        
-//        ProtocolAction protocolAction = createProtocolActionAndAttach(protocol, actionBean, protocolActionType);
-//        
-//        protocolActionService.updateProtocolStatus(protocolAction, protocol);
-//        protocol.setProtocolStatusCode(newProtocolStatus);
-//        protocol.refreshReferenceObject("protocolStatus");
-//        documentService.saveDocument(protocol.getProtocolDocument());
-//        createCorrespondenceAndAttach(protocol, protocolActionType);
-//    }
-    
+        
     private void performGenericAction(Protocol protocol, ProtocolGenericActionBean actionBean, String protocolActionType) throws Exception {
         ProtocolAction protocolAction = (ProtocolAction) createProtocolActionAndAttach(protocol, actionBean, protocolActionType);
         
@@ -184,33 +136,11 @@ public class ProtocolGenericActionServiceImpl extends ProtocolGenericActionServi
             }
         }
         
-        protocol.refreshReferenceObject("protocolStatus");
-     // TODO ********************** added or modified during IRB backfit merge BEGIN ********************** 
+        protocol.refreshReferenceObject("protocolStatus"); 
         protocol.refreshReferenceObject("protocolSubmission");
-     // TODO ********************** added or modified during IRB backfit merge END ************************
-
         getDocumentService().saveDocument(protocol.getProtocolDocument());
     }
-    
-    
-// TODO ********************** commented out during IRB backfit ************************    
-//    private ProtocolAction createProtocolActionAndAttach(Protocol protocol, ProtocolGenericActionBean actionBean, String protocolActionType) {
-//        ProtocolAction protocolAction = new ProtocolAction(protocol, null, protocolActionType);
-//        protocolAction.setComments(actionBean.getComments());
-//        protocolAction.setActionDate(new Timestamp(actionBean.getActionDate().getTime()));
-//        protocol.getProtocolActions().add(protocolAction);
-//        
-//        return protocolAction;
-//    }
-//    
-//    private void createCorrespondenceAndAttach(Protocol protocol, String protocolActionType) throws PrintingException {
-//        ProtocolGenericCorrespondence correspondence = new ProtocolGenericCorrespondence(protocolActionType);
-//        correspondence.setPrintableBusinessObject(protocol);
-//        correspondence.setProtocol(protocol);
-//        protocolActionCorrespondenceGenerationService.generateCorrespondenceDocumentAndAttach(correspondence);
-//    }
         
-    
     protected ProtocolActionBase getNewProtocolActionInstanceHook(ProtocolBase protocol, ProtocolSubmissionBase submission, String protocolActionType) {
         return new ProtocolAction( (Protocol) protocol, (ProtocolSubmission) submission, protocolActionType);
     }
@@ -219,8 +149,6 @@ public class ProtocolGenericActionServiceImpl extends ProtocolGenericActionServi
         return new ProtocolGenericCorrespondence(protocolActionType);
     }
     
-    
-// TODO ********************** OVERRIDDEN during IRB backfit ************************     
     protected void performDisapprove(ProtocolBase protocol) throws Exception {
         if (protocol.getProtocolDocument() != null) {
             WorkflowDocument currentWorkflowDocument = protocol.getProtocolDocument().getDocumentHeader().getWorkflowDocument();
@@ -247,11 +175,7 @@ public class ProtocolGenericActionServiceImpl extends ProtocolGenericActionServi
         
         return newDocument;
     }
-
     
-    
-    
- // TODO ********************** OVERRIDDEN during IRB backfit ************************    
     protected ProtocolDocument getReturnedVersionedDocument(ProtocolBase protocol) throws Exception {
         getDocumentService().cancelDocument(protocol.getProtocolDocument(), "Protocol document cancelled - protocol has been returned for revisions.");
         getProtocolOnlineReviewService().finalizeOnlineReviews(protocol.getProtocolSubmission(), 
@@ -284,54 +208,4 @@ public class ProtocolGenericActionServiceImpl extends ProtocolGenericActionServi
     protected String getRecallProtocolActionTypeCodeHook() {
         return ProtocolActionType.RECALLED_IN_ROUTING;
     }
-    
-    
-// TODO ********************** commented out during IRB backfit ************************    
-//    private ProtocolDocument getVersionedDocument(Protocol protocol) throws Exception {
-//        ProtocolDocument newDocument = (ProtocolDocument) protocolVersionService.versionProtocolDocument(protocol.getProtocolDocument());
-////        protocolOnlineReviewService.moveOnlineReviews(protocol.getProtocolSubmission(), newDocument.getProtocol().getProtocolSubmission());
-//        newDocument.getProtocol().setProtocolSubmission(null);
-//        newDocument.getProtocol().setApprovalDate(null);
-//        newDocument.getProtocol().setLastApprovalDate(null);
-//        newDocument.getProtocol().setExpirationDate(null);
-//        
-//        newDocument.getProtocol().refreshReferenceObject("protocolStatus");
-//        documentService.saveDocument(newDocument);
-//        
-//        return newDocument;
-//    }
-//
-//    
-//    public void setProtocolActionService(ProtocolActionService protocolActionService) {
-//        this.protocolActionService = protocolActionService;
-//    }
-//
-//    public void setDocumentService(DocumentService documentService) {
-//        this.documentService = documentService;
-//    }
-//
-//    public void setProtocolActionCorrespondenceGenerationService(ProtocolActionCorrespondenceGenerationService protocolActionCorrespondenceGenerationService) {
-//        this.protocolActionCorrespondenceGenerationService = protocolActionCorrespondenceGenerationService;
-//    }
-//
-//    public void setProtocolOnlineReviewService(ProtocolOnlineReviewService protocolOnlineReviewService) {
-//        this.protocolOnlineReviewService = protocolOnlineReviewService;
-//    }
-//
-//    public void setProtocolVersionService(ProtocolVersionService protocolVersionService) {
-//        this.protocolVersionService = protocolVersionService;
-//    }
-//
-//    public void setProtocolAssignToAgendaService(ProtocolAssignToAgendaService protocolAssignToAgendaService) {
-//        this.protocolAssignToAgendaService = protocolAssignToAgendaService;
-//    }
-//
-//    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-//        this.businessObjectService = businessObjectService;
-//    }
-//    
-//    public void setKcNotificationService(KcNotificationService kcNotificationService) {
-//        this.kcNotificationService = kcNotificationService;
-//    }
-
 }

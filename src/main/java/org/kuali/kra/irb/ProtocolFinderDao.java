@@ -20,7 +20,6 @@ package org.kuali.kra.irb;
  */
 public interface ProtocolFinderDao extends org.kuali.kra.protocol.ProtocolFinderDao {
 
-// TODO ********************** commented out during IRB backfit ************************    
     /**
      * This method is invoking the super, opened this to reduce the number of cast in
      * individual class files.
@@ -30,22 +29,4 @@ public interface ProtocolFinderDao extends org.kuali.kra.protocol.ProtocolFinder
      * @return the protocol or null if not found
      */
     Protocol findCurrentProtocolByNumber(String protocolNumber);
-//    
-//    /**
-//     * 
-//     * This method all protocol submission belong to this protocolNumber.  also include amendment and renewal of this protocol.
-//     * @param protocolNumber
-//     * @param submissionNumber
-//     * @return
-//     */
-//    List<ProtocolSubmission> findProtocolSubmissions(String protocolNumber, int submissionNumber);
-//
-//    /**
-//     * 
-//     * This method is to find all the versioned protocols, amendments, renewals with this protocolNumber.
-//     * @param protocolNumber
-//     * @return
-//     */
-//    List<Protocol> findProtocols(String protocolNumber);
-    
 }

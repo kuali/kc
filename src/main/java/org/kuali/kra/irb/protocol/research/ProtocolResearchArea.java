@@ -21,43 +21,4 @@ public class ProtocolResearchArea extends ProtocolResearchAreaBase {
 
     private static final long serialVersionUID = -1522011425745031200L;
 
-// TODO ********************** commented out during IRB backfit ************************    
-//    private Long id;
-//
-//    private String researchAreaCode;
-//
-//    private ResearchArea researchAreas;
-//
-//    public ProtocolResearchArea() {
-//    }
-//
-//    public Long getId() {
-//        return id;
-//    }
-//
-//    public void setId(Long id) {
-//        this.id = id;
-//    }
-//
-//    public String getResearchAreaCode() {
-//        return researchAreaCode;
-//    }
-//
-//    public void setResearchAreaCode(String researchAreaCode) {
-//        this.researchAreaCode = researchAreaCode;
-//    }
-//
-//    public ResearchArea getResearchAreas() {
-//        return researchAreas;
-//    }
-//
-//    public void setResearchAreas(ResearchArea researchAreas) {
-//        this.researchAreas = researchAreas;
-//    }
-//
-//    /** {@inheritDoc} */
-//    public void resetPersistenceState() {
-//        this.setId(null);
-//    }
-    
 }

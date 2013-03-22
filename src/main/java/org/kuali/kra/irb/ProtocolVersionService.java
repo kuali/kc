@@ -20,20 +20,5 @@ package org.kuali.kra.irb;
  * The Protocol Version Service.
  */
 public interface ProtocolVersionService extends org.kuali.kra.protocol.ProtocolVersionService {
- // TODO ********************** commented out during IRB backfit ************************
-//    /**
-//     * Create a new version of a protocol document. 
-//     * @param protocolDocument the protocol document to version
-//     * @return the new versioned protocol document
-//     * @throws Exception
-//     */
-//    public ProtocolDocument versionProtocolDocument(ProtocolDocument protocolDocument) throws Exception;
-//    
-//    /**
-//     * Get a particular version of a protocol.
-//     * @param protocolNumber
-//     * @param sequenceNumber
-//     * @return
-//     */
-//    public Protocol getProtocolVersion(String protocolNumber, Integer sequenceNumber);
+
 }

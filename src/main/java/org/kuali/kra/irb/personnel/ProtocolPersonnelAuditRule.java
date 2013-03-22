@@ -25,52 +25,6 @@ import org.kuali.kra.protocol.personnel.ProtocolPersonnelAuditRuleBase;
  */
 public class ProtocolPersonnelAuditRule extends ProtocolPersonnelAuditRuleBase {
     
-// TODO ********************** commented out during IRB backfit ************************    
-//    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProtocolPersonnelAuditRule.class);
-//    private List<AuditError> auditErrors;
-//    private static final String PERSONNEL_AUDIT_ERRORS = "personnelAuditErrors";
-//    
-//    /**
-//     * 
-//     * @see org.kuali.core.rule.DocumentAuditRule#processRunAuditBusinessRules(org.kuali.core.document.Document)
-//     */
-//    public boolean processRunAuditBusinessRules(Document document) {
-//        boolean isValid = true;
-//        ProtocolDocument protocolDocument = (ProtocolDocument)document;
-//        auditErrors = new ArrayList<AuditError>();
-//        isValid = getProtocolPersonnelService().isValidStudentFacultyMatch(protocolDocument.getProtocol().getProtocolPersons());
-//
-//        if (!isValid) {
-//            for (Integer errorIndex: getProtocolPersonnelService().getAffiliationStudentMap(protocolDocument.getProtocol().getProtocolPersons())) {
-//                addErrorToAuditErrors(errorIndex.intValue());
-//            }
-//        }
-//        reportAndCreateAuditCluster();
-//        
-//        return isValid;
-//
-//    }
-//       
-//    /**
-//     * This method creates and adds the Audit Error to the <code>{@link List<AuditError>}</code> auditError.
-//     */
-//    protected void addErrorToAuditErrors(int personIndex) {
-//        String label = Constants.PROTOCOL_FROM_DOCUMENT + ".protocolPersons[" + personIndex + "].protocolPersonRoleId"; 
-//        String cat = Constants.PROTOCOL_PERSONNEL_PAGE + "." + Constants.PROTOCOL_PERSONNEL_PANEL_ANCHOR;
-//        auditErrors.add(new AuditError(label, KeyConstants.ERROR_PROTOCOL_INVESTIGATOR_INVALID, cat));   
-//    }
-//
-//    /**
-//     * This method creates and adds the AuditCluster to the Global AuditErrorMap.
-//     */
-//    @SuppressWarnings("unchecked")
-//    protected void reportAndCreateAuditCluster() {
-//        if (auditErrors.size() > 0) {
-//            KNSGlobalVariables.getAuditErrorMap().put(PERSONNEL_AUDIT_ERRORS, new AuditCluster(Constants.PROTOCOL_PERSONNEL_PANEL_NAME,
-//                                                                                          auditErrors, Constants.AUDIT_ERRORS));
-//        }
-//    }
-//    
     /**
      * This method is to get personnel sevice
      * @return ProtocolPersonnelService

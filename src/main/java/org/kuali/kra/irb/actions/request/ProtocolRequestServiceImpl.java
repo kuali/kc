@@ -106,13 +106,7 @@ public class ProtocolRequestServiceImpl implements ProtocolRequestService {
             requestBean.getQuestionnaireHelper().setAnswerHeaders(new ArrayList<AnswerHeader>());
         }
         cleanUnreferencedQuestionnaire(protocol.getProtocolNumber());
-//        businessObjectService.save(protocol.getProtocolDocument());
         documentService.saveDocument(protocol.getProtocolDocument());
-//        try {
-//            sendRequestNotification(protocol, requestBean);
-//        } catch (Exception e) {
-//            LOG.info("Request notification exception " + e.getStackTrace());
-//        }
     }
     
     private void saveQuestionnaire(ProtocolRequestBean requestBean, Integer submissionNumber) {
@@ -138,7 +132,6 @@ public class ProtocolRequestServiceImpl implements ProtocolRequestService {
      * Once, one of them is submitted, then the others should be removed.
      */
     private void cleanUnreferencedQuestionnaire(String protocolNumber) {
-        // TODO : make this a shared 
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put(MODULE_ITEM_CODE, CoeusModule.IRB_MODULE_CODE);
         fieldValues.put(MODULE_ITEM_KEY, protocolNumber + "T");
@@ -160,7 +153,6 @@ public class ProtocolRequestServiceImpl implements ProtocolRequestService {
         submissionBuilder.setProtocolReviewTypeCode(ProtocolReviewType.FULL_TYPE_CODE);
         submissionBuilder.setSubmissionStatus(ProtocolSubmissionStatus.PENDING);
         submissionBuilder.setCommittee(requestBean.getCommitteeId());
-       // submissionBuilder.addAttachment(requestBean.getFile());
         submissionBuilder.setActionAttachments(requestBean.getActionAttachments());
         return submissionBuilder.create();
     }

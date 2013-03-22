@@ -29,24 +29,6 @@ import org.kuali.rice.kns.util.AuditError;
  */
 class ProtocolAttachmentProtocolRuleHelper extends ProtocolAttachmentProtocolRuleHelperBase {
    
-// TODO ********************** commented out during IRB backfit ************************    
-//    //FIXME: probably should find a better place for these constants
-//    private static final String NOTES_ATTACHMENTS_CLUSTER_LABEL = "Notes & Attachments";
-//    private static final String NOTES_AND_ATTACHMENT_AUDIT_ERRORS_KEY = "NoteAndAttachmentAuditErrors";
-//    private static final String NOTE_AND_ATTACHMENT_LINK = "noteAndAttachment";
-//    
-//    private final ProtocolAttachmentService attachmentService;
-//    private final ErrorReporter errorReporter = new ErrorReporter();
-//    private String propertyPrefix;
-//    
-//    /**
-//     * Creates helper deferring the setting of the prefix to later.
-//     */
-//    ProtocolAttachmentProtocolRuleHelper() {
-//        this(KraServiceLocator.getService(ProtocolAttachmentService.class));
-//    }
-
-    
     /**
      * Creates helper using prefix provided.
      *  
@@ -67,24 +49,6 @@ class ProtocolAttachmentProtocolRuleHelper extends ProtocolAttachmentProtocolRul
         super(attachmentService);
     }
     
-
- // TODO ********************** commented out during IRB backfit ************************    
-    
-//    /**
-//     * Resets the property prefix.
-//     * @param aPropertyPrefix the prefix (ex: notesAttachmentsHelper.newAttachmentProtocol)
-//     * @throws IllegalArgumentException if the propertyPrefix is null
-//     */
-//    void resetPropertyPrefix(final String aPropertyPrefix) {
-//        if (aPropertyPrefix == null) {
-//            throw new IllegalArgumentException("propertyPrefix is null");
-//        }
-//
-//        this.propertyPrefix = aPropertyPrefix;
-//    }
-      
-    
-// TODO ********************** OVERRIDEN during IRB backfit ************************ Status codes are inverted for complete/incomplete in parent class and IRB subclass    
     /**
      * Checks that the status is marked complete. Creates an audit error.
      * @param attachmentProtocol the attachment.
@@ -101,26 +65,4 @@ class ProtocolAttachmentProtocolRuleHelper extends ProtocolAttachmentProtocolRul
         }
         return true;
     }
-    
-//    /**
-//     * Validates that the selected status exists in the system (is valid).
-//     * Currently always returns true because status is not required.
-//     * @param attachment the attachment.
-//     * @return true if valid.
-//     */
-//    boolean validStatus(final ProtocolAttachmentProtocol attachment) {
-//        
-//        //This assumes that the status object has been refreshed from the DB
-//        //and if not found the refresh action set the person to null.
-//        //This is an artifact of using anon keys
-//        
-//        //this got much more complex using anon keys
-//        if (attachment.getStatus() == null
-//            || StringUtils.isBlank(attachment.getStatus().getCode())) {
-//            //status not a required field
-//            return true;
-//        }
-//        return true;
-//    }
-    
 }

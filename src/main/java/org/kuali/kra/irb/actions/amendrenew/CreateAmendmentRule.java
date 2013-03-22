@@ -26,22 +26,4 @@ import org.kuali.kra.protocol.actions.amendrenew.CreateAmendmentRuleBase;
 @SuppressWarnings("unchecked")
 public class CreateAmendmentRule extends CreateAmendmentRuleBase {
 
-// TODO ********************** commented out during IRB backfit ************************    
-//    public boolean processRules(CreateAmendmentEvent event) {
-//        
-//        boolean valid = true;
-//        
-//        if (StringUtils.isBlank(event.getAmendmentBean().getSummary())) {
-//            valid = false;
-//            reportError(event.getPropertyName(), KeyConstants.ERROR_PROTOCOL_SUMMARY_IS_REQUIRED);
-//        }
-//        
-//        if (!event.getAmendmentBean().isSomeSelected()) {
-//            valid = false;
-//            reportError(event.getPropertyName(), KeyConstants.ERROR_PROTOCOL_SELECT_MODULE);
-//        }
-//        
-//        return valid;
-//    }
-    
 }
