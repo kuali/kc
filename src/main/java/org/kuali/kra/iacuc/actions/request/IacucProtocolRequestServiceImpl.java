@@ -80,9 +80,6 @@ public class IacucProtocolRequestServiceImpl implements IacucProtocolRequestServ
          * The submission is created first so that its new primary key can be added
          * to the protocol action entry.
          */
-        // if doing request following 'Approve' immediately, it may get OLE issue, which is caused by saving documentheader
-        // refresh ProtodolDocument to keep it uptodate
-//        protocol.refreshReferenceObject("protocolDocument");
         String prevSubmissionStatusCode = protocol.getProtocolSubmission().getSubmissionStatusCode();
 
         IacucProtocolSubmission submission = createProtocolSubmission(protocol, requestBean);
@@ -107,13 +104,7 @@ public class IacucProtocolRequestServiceImpl implements IacucProtocolRequestServ
             requestBean.setAnswerHeaders(new ArrayList<AnswerHeader>());
         }
         cleanUnreferencedQuestionnaire(protocol.getProtocolNumber());
-//        businessObjectService.save(protocol.getProtocolDocument());
         documentService.saveDocument(protocol.getProtocolDocument());
-//        try {
-//            sendRequestNotification(protocol, requestBean);
-//        } catch (Exception e) {
-//            LOG.info("Request notification exception " + e.getStackTrace());
-//        }
     }
     
     private void saveQuestionnaire(IacucProtocolRequestBean requestBean, Integer submissionNumber) {
@@ -158,7 +149,6 @@ public class IacucProtocolRequestServiceImpl implements IacucProtocolRequestServ
         submissionBuilder.setProtocolReviewTypeCode(IacucProtocolReviewType.FULL_COMMITTEE_REVIEW);
         submissionBuilder.setSubmissionStatus(IacucProtocolSubmissionStatus.PENDING);
         submissionBuilder.setCommittee(requestBean.getCommitteeId());
-       // submissionBuilder.addAttachment(requestBean.getFile());
         submissionBuilder.setActionAttachments(requestBean.getActionAttachments());
         return submissionBuilder.create();
     }

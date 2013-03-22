@@ -28,9 +28,5 @@ public class IacucGenericProtocolUnavailableAuthorizer extends IacucGenericProto
     @Override
     public boolean isAuthorized(String userId, ProtocolTaskBase task) {
         return !super.isAuthorized(userId, task) && hasPermission(userId, task.getProtocol(), PermissionConstants.MAINTAIN_IACUC_PROTOCOL_SUBMISSIONS);
-        /*
-        return !canExecuteAction(task.getProtocol(), super.convertGenericTaskNameToProtocolActionType()) 
-            && hasPermission(userId, task.getProtocol(), PermissionConstants.MAINTAIN_IACUC_PROTOCOL_SUBMISSIONS);
-            */
     }    
 }

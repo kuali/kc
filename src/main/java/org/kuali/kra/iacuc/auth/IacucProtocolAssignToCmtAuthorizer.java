@@ -30,8 +30,6 @@ public class IacucProtocolAssignToCmtAuthorizer extends IacucProtocolAuthorizer 
                 // this is where the drools are used, in the protocolActionService
                canExecuteAction(task.getProtocol(), IacucProtocolActionType.NOTIFIED_COMMITTEE) &&
                !StringUtils.equals(IacucProtocolSubmissionStatus.APPROVED, protocol.getProtocolSubmission().getSubmissionStatusCode()) &&
-               // iacuc does not have an exempt??
-              // !StringUtils.equals(IacucProtocolSubmissionStatus.EXEMPT, protocol.getProtocolSubmission().getSubmissionStatusCode()) &&
                hasPermission(userId, protocol, PermissionConstants.PERFORM_IACUC_ACTIONS_ON_PROTO);
    
     }

@@ -28,7 +28,6 @@ public class WithdrawIacucProtocolAuthorizer extends IacucProtocolAuthorizer {
      * @see org.kuali.kra.irb.auth.ProtocolAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.irb.auth.ProtocolTask)
      */
     public boolean isAuthorized(String userId, IacucProtocolTask task) {
-      //  return !isAmendmentOrRenewal(task.getProtocol()) &&
         return kraWorkflowService.isInWorkflow(task.getProtocol().getProtocolDocument()) &&
                kraWorkflowService.isDocumentOnNode(task.getProtocol().getProtocolDocument(), Constants.PROTOCOL_IACUCREVIEW_ROUTE_NODE_NAME) &&
                canExecuteAction(task.getProtocol(), IacucProtocolActionType.IACUC_WITHDRAWN) &&

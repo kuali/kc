@@ -25,21 +25,6 @@ import org.kuali.rice.kew.api.exception.WorkflowException;
 
 public interface IacucProtocolOnlineReviewService extends ProtocolOnlineReviewService{
     String IACUC_PROTOCOL_ONLINE_REVIEW_DOCUMENT_TYPE = "IacucProtocolOnlineReviewDocument";
-//    static final String ONLINE_REVIEW_DOCUMENT_DESCRIPTION_FORMAT = "%s/Protocol# %s";
-//    
-//    /**
-//     * Document type code for online review.
-//     */
-//    String PROTOCOL_ONLINE_REVIEW_DOCUMENT_TYPE_CODE = "PTRV";
-//    
-//    /**
-//     * Name of the online review document.
-//     */
-//    String PROTOCOL_ONLINE_REVIEW_DOCUMENT_TYPE = "ProtocolOnlineReviewDocumentBase";
-//
-//    List<CommitteeMembership> getAvailableCommitteeMembersForCurrentSubmission(Protocol protocol);
-//    List<ProtocolOnlineReviewDocumentBase> getProtocolReviewDocumentsForCurrentSubmission(Protocol protocol);
-//    String getProtocolOnlineReviewDocumentDescription( String protocolNumber, String piName );
 
     public ProtocolOnlineReviewDocumentBase createProtocolOnlineReviewDocument(ProtocolSubmissionBase protocolSubmission,
             ProtocolReviewer protocolReviewer, String documentDescription, String documentExplanation,

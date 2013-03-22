@@ -319,7 +319,6 @@ public class IacucProtocolNoteAndAttachmentAction extends IacucProtocolAction {
         
         byte[] attachmentFile =null;
         final AttachmentFile file = attachment.getFile();
-// TODO *********commented the code below during IACUC refactoring*********
         Printable printableArtifacts = getProtocolPrintingService().getProtocolPrintArtifacts(form.getProtocolDocument().getProtocol());
         ProtocolBase protocolCurrent = form.getProtocolDocument().getProtocol();
         int currentProtoSeqNumber= protocolCurrent.getSequenceNumber();
@@ -463,7 +462,6 @@ public class IacucProtocolNoteAndAttachmentAction extends IacucProtocolAction {
      * This method is to get protocol printing service.
      * 
      */
-// TODO *********commented the code below during IACUC refactoring*********
     private IacucProtocolPrintingService getProtocolPrintingService() {
         return KraServiceLocator.getService(IacucProtocolPrintingService.class);
     }

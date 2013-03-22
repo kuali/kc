@@ -94,7 +94,6 @@ public class IacucCommitteeBatchCorrespondenceServiceImpl extends CommitteeBatch
                      
                      Long detailId = batchCorrespondenceDetail.getCommitteeBatchCorrespondenceDetailId();
                      String description = protocolCorrespondenceType.getDescription();
-                     //String userFullName = kcPersonService.getKcPersonByPersonId(GlobalVariables.getUserSession().getPrincipalId()).getFullName();
                      String userFullName = Constants.EMPTY_STRING;
                  
                      IacucBatchCorrespondenceNotificationRenderer renderer 

@@ -133,19 +133,7 @@ public class IacucProtocolModifySubmissionBean extends IacucProtocolActionBean i
                 }
             }
         }
-    }
-    
-   /* public void init() {
-        String committeeId = getProtocolAssignCmtService().getAssignedCommitteeId(getProtocol());
-        if (committeeId != null) {
-            this.committeeId = committeeId;
-            String scheduleId = getProtocolModifySubmissionService().getAssignedScheduleId(getProtocol());
-            if (scheduleId != null) {
-                this.scheduleId = scheduleId;
-            }
-        }
-    }*/
-    
+    }    
     
     public void setReviewers(List<ProtocolReviewerBeanBase> reviewers) {
         this.reviewers = reviewers;

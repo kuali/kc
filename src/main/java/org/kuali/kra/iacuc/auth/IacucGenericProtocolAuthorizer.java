@@ -33,7 +33,6 @@ public class IacucGenericProtocolAuthorizer extends GenericProtocolAuthorizer {
     /**
      * deactivate protocol generic action.
      */
-    //public static final String DEACTIVATE_PROTOCOL = "iacucProtocolDeactivate";
     public static final String EXPIRE_PROTOCOL = "iacucProtocolExpire";
     public static final String EXPIRE_UNAVAILABLE_PROTOCOL = "iacucProtocolExpireUnavailable";
     public static final String SUSPEND_PROTOCOL = "iacucProtocolSuspend";
@@ -43,8 +42,6 @@ public class IacucGenericProtocolAuthorizer extends GenericProtocolAuthorizer {
 
     protected static final Map<String, String> TASK_NAME_TO_ACTION_TYPE_MAP = new HashMap<String,String>();
     static {
-        
-        //TASK_NAME_TO_ACTION_TYPE_MAP.put(DEACTIVATE_PROTOCOL, IacucProtocolActionType.DEACTIVATED);
         TASK_NAME_TO_ACTION_TYPE_MAP.put(EXPIRE_PROTOCOL, IacucProtocolActionType.EXPIRED);
         TASK_NAME_TO_ACTION_TYPE_MAP.put(EXPIRE_UNAVAILABLE_PROTOCOL, IacucProtocolActionType.EXPIRED);
         TASK_NAME_TO_ACTION_TYPE_MAP.put(SUSPEND_PROTOCOL, IacucProtocolActionType.SUSPENDED);
@@ -55,7 +52,6 @@ public class IacucGenericProtocolAuthorizer extends GenericProtocolAuthorizer {
     
     protected static final Map<String, String> TASK_NAME_TO_ROLE_NAME_MAP = new HashMap<String,String>();
     static {
-        //TASK_NAME_TO_ROLE_NAME_MAP.put(DEACTIVATE_PROTOCOL, IacucProtocolActionType.DEACTIVATED);
         TASK_NAME_TO_ROLE_NAME_MAP.put(EXPIRE_PROTOCOL, PermissionConstants.PERFORM_IACUC_ACTIONS_ON_PROTO);
         TASK_NAME_TO_ROLE_NAME_MAP.put(EXPIRE_UNAVAILABLE_PROTOCOL, PermissionConstants.PERFORM_IACUC_ACTIONS_ON_PROTO);
         TASK_NAME_TO_ROLE_NAME_MAP.put(SUSPEND_PROTOCOL, PermissionConstants.PERFORM_IACUC_ACTIONS_ON_PROTO);

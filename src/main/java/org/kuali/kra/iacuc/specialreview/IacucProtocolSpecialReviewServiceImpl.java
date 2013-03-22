@@ -41,10 +41,6 @@ public class IacucProtocolSpecialReviewServiceImpl extends ProtocolSpecialReview
     @Override
     protected void setProtocolExemptStudiesCheckListItemHook(ProtocolBase protocol, SpecialReview specialReview) {
         List<String> exemptionTypeCodes = new ArrayList<String>();
-        // No ProtocolExemptStudiesCheckListItem
-//      for (ProtocolExemptStudiesCheckListItem checkListItem : protocol.getProtocolSubmission().getExemptStudiesCheckList()) {
-//      exemptionTypeCodes.add(checkListItem.getExemptStudiesCheckListCode());
-//  }
         specialReview.setExemptionTypeCodes(exemptionTypeCodes);
 
     }

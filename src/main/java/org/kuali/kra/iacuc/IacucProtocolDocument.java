@@ -334,7 +334,6 @@ public class IacucProtocolDocument extends ProtocolDocumentBase {
         getProtocol().setProtocolStatusCode(protocolStatusCode);
         
         ProtocolActionBase action = getNewProtocolActionInstanceHook(newProtocolDocument.getProtocol(), null, getProtocolActionTypeApprovedHook()); 
-            //new ProtocolActionBase(newProtocolDocument.getProtocol(), null, getProtocolActionTypeApprovedHook());
         action.setComments(type + "-" + getProtocolNumberIndex() + ": Approved");
         newProtocolDocument.setProtocolWorkflowType(ProtocolWorkflowType.APPROVED);
         newProtocolDocument.getProtocol().getProtocolActions().add(action);
@@ -356,7 +355,6 @@ public class IacucProtocolDocument extends ProtocolDocumentBase {
             String status = otherProtocol.getProtocolStatus().getProtocolStatusCode();
             if (isEligibleForMerging(status, otherProtocol)) {
                 // then this protocol version is being amended so push changes to it
-                //LOG.info("Merging amendment " + this.getProtocol().getProtocolNumber() + " into editable protocol " + otherProtocol.getProtocolNumber());
                 otherProtocol.merge(getProtocol(), false);
                 action = getNewProtocolActionInstanceHook(otherProtocol, null, protocolStatusCode);
                 action.setComments(type + "-" + getProtocolNumberIndex() + ": Merged");

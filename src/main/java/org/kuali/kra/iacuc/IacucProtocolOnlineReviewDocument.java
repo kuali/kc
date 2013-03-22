@@ -147,7 +147,6 @@ public class IacucProtocolOnlineReviewDocument  extends ProtocolOnlineReviewDocu
     protected List<RolePersons> getAllRolePersons() {
         KraAuthorizationService kraAuthService = 
                (KraAuthorizationService) KraServiceLocator.getService(KraAuthorizationService.class); 
-        //return kraAuthService.getAllRolePersons(getProtocolOnlineReview());
         return new ArrayList<RolePersons>();
     }
     
@@ -167,17 +166,7 @@ public class IacucProtocolOnlineReviewDocument  extends ProtocolOnlineReviewDocu
             if (LOG.isDebugEnabled()) {
                 LOG.debug(String.format("ProtocolBase Online Review Document %s has been cancelled, deleting associated review comments.", getDocumentNumber()));
             }
-//            getProtocolOnlineReview().getProtocolSubmission().getProtocolReviewers().remove(getProtocolOnlineReview().getProtocolReviewer());
-//            
-//            List<CommitteeScheduleMinute> reviewComments = getProtocolOnlineReview().getCommitteeScheduleMinutes();
-//            List<CommitteeScheduleMinute> deletedReviewComments = new ArrayList<CommitteeScheduleMinute>();
-//            getReviewerCommentsService().deleteAllReviewComments(reviewComments, deletedReviewComments);
-//            getReviewerCommentsService().saveReviewComments(reviewComments, deletedReviewComments);
-//
-//            List<ProtocolReviewAttachmentBase> reviewAttachments = getProtocolOnlineReview().getReviewAttachments();
             List<ProtocolReviewAttachmentBase> deletedReviewAttachments = new ArrayList<ProtocolReviewAttachmentBase>();
-//            getReviewerCommentsService().deleteAllReviewAttachments(reviewAttachments, deletedReviewAttachments);
-//            getReviewerCommentsService().saveReviewAttachments(reviewAttachments, deletedReviewAttachments);
 
             getProtocolOnlineReview().setProtocolOnlineReviewStatusCode(IacucProtocolOnlineReviewStatus.REMOVED_CANCELLED_STATUS_CD);
             getBusinessObjectService().save(getProtocolOnlineReview());

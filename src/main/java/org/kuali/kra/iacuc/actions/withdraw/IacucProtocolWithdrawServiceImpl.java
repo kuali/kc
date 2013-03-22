@@ -89,10 +89,6 @@ public class IacucProtocolWithdrawServiceImpl extends ProtocolWithdrawServiceImp
             submission.setSubmissionDate(new Date(System.currentTimeMillis()));
             submission.setSubmissionStatusCode(protocolWithdrawnSubmissionStatusCode);
             // need to finalize any outstanding review documents.
-            
-// TODO *********commented the code below during IACUC refactoring*********             
-//            protocolOnlineReviewService.finalizeOnlineReviews(submission, WITHDRAW_FINALIZE_OLR_ANNOTATION);
-            
         }
         businessObjectService.save(protocol.getProtocolDocument());
  
@@ -117,15 +113,6 @@ public class IacucProtocolWithdrawServiceImpl extends ProtocolWithdrawServiceImp
             newProtocolDocument.getProtocol().refreshReferenceObject("protocolStatus");
             documentService.saveDocument(newProtocolDocument);
 
-            // if there is an assign to agenda protocol action, remove it.
-// TODO *********commented the code below during IACUC refactoring*********             
-//            ProtocolActionBase assignToAgendaProtocolAction = protocolAssignToAgendaService
-//                    .getAssignedToAgendaProtocolAction(newProtocolDocument.getProtocol());
-//            if (assignToAgendaProtocolAction != null) {
-//                newProtocolDocument.getProtocol().getProtocolActions().remove(assignToAgendaProtocolAction);
-//                businessObjectService.delete(assignToAgendaProtocolAction);
-//            }
-            
             newProtocolDocument.getProtocol().refreshReferenceObject("protocolStatus");
             documentService.saveDocument(newProtocolDocument);             
             generateCorrespondenceDocumentAndAttach(newProtocolDocument.getProtocol(), withdrawBean);

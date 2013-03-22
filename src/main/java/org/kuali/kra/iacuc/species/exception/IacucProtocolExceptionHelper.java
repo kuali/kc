@@ -44,7 +44,6 @@ public class IacucProtocolExceptionHelper implements Serializable{
     }    
     
     public void prepareView() {
-        //getForm().populateEditableFields();
 
     }
 

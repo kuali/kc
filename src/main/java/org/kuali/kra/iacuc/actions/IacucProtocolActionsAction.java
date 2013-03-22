@@ -214,25 +214,9 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         ProtocolFormBase protocolForm = (ProtocolFormBase) form;
         IacucProtocol protocol = (IacucProtocol) protocolForm.getProtocolDocument().getProtocol();
         final String callerString = "assignCommitteeSchedule";
-        //ProtocolTaskBase task = new ProtocolTaskBase(TaskName.ASSIGN_TO_COMMITTEE_SCHEDULE, protocolForm.getProtocolDocument().getProtocol());
-        
-        /*if (!hasDocumentStateChanged(protocolForm)) {
-        
-        } else {
-            
-        }*/
+ 
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
-
-
-// TODO *********commented the code below during IACUC refactoring*********     
-//    private static final Map<String, String> PRINTTAG_MAP = new HashMap<String, String>() {
-//        {
-//            put("summary", "PROTOCOL_SUMMARY_VIEW_REPORT");
-//            put("full", "PROTOCOL_FULL_PROTOCOL_REPORT");
-//            put("history", "PROTOCOL_PROTOCOL_HISTORY_REPORT");
-//            put("comments", "PROTOCOL_REVIEW_COMMENTS_REPORT");
-//    }};
 
     // map to decide the followup action page to open.  "value" part is the action tab "title"
     private static Map<String, String> motionTypeMap = new HashMap<String, String>() {
@@ -256,16 +240,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
             protocolForm.setDocument(ipd);
             protocolForm.setDefaultOpenCopyTab(true);
         }
-//        if (StringUtils.isNotBlank(((ProtocolFormBase) form).getQuestionnaireHelper().getSubmissionActionTypeCode())) {
-//            //    && StringUtils.isBlank(getSubmitActionType(request))) {
-//            // questionnaire is already loaded for this action.
-//            ProtocolSubmissionBeanBase submissionBean = getSubmissionBean(form, protocolForm.getQuestionnaireHelper()
-//                    .getSubmissionActionTypeCode());
-//            if (!CollectionUtils.isEmpty(protocolForm.getQuestionnaireHelper().getAnswerHeaders())) {
-//                setQnCompleteStatus(protocolForm.getQuestionnaireHelper().getAnswerHeaders());
-//                submissionBean.setAnswerHeaders(protocolForm.getQuestionnaireHelper().getAnswerHeaders());
-//            } 
-//        }
+
         ActionForward actionForward = super.execute(mapping, form, request, response);
         protocolForm.getActionHelper().prepareView();
         protocolForm.getActionHelper().initFilterDatesView();
@@ -308,18 +283,12 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
             protocolForm.getActionHelper().setCurrentSubmissionNumber(-1);
             protocolForm.getProtocolHelper().prepareView();
             
-// TODO *********commented the code below during IACUC refactoring*********             
-//            protocolForm.getActionHelper().prepareCommentsView();
-
             return mapping.findForward(PROTOCOL_TAB);
         }
 
         return mapping.findForward(Constants.MAPPING_BASIC);
-    }
-    
+    }    
 
-    
-    // TODO *********commented the code below during IACUC refactoring*********
     /** {@inheritDoc} */
     public ActionForward activate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
@@ -419,21 +388,9 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
     protected IacucProtocolAssignCmtService getAssignToCmtService() {
         return KraServiceLocator.getService(IacucProtocolAssignCmtService.class);
     }
-   
-
- // TODO *********commented the code below during IACUC refactoring*********   
+      
     private boolean isCommitteeMeetingAssignedMaxProtocols(String committeeId, String scheduleId) {
         boolean isMax = false;
-        
-//        Committee committee = getCommitteeService().getCommitteeById(committeeId);
-//        if (committee != null) {
-//            CommitteeSchedule schedule = getCommitteeService().getCommitteeSchedule(committee, scheduleId);
-//            if (schedule != null) {
-//                int currentSubmissionCount = (schedule.getProtocolSubmissions() == null) ? 0 : activeSubmissionCount(schedule.getProtocolSubmissions());
-//                int maxSubmissionCount = schedule.getMaxProtocols();
-//                isMax = currentSubmissionCount >= maxSubmissionCount;
-//            }
-//        }
         
         return isMax;
     }
@@ -503,10 +460,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
     IacucProtocolSubmitAction submitAction = (IacucProtocolSubmitAction) protocolForm.getActionHelper().getProtocolSubmitAction();
     
     getProtocolSubmitActionService().submitToIacucForReview(protocol, submitAction);
-    
-// TODO *********commented the code below during IACUC refactoring*********         
-//    protocolForm.getActionHelper().getAssignCmtSchedBean().init();
-    
+     
     super.route(mapping, protocolForm, request, response);
     
     // first, send out notification that protocol has been submitted
@@ -514,20 +468,6 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
     IacucProtocolNotificationContext submitContext = new IacucProtocolNotificationContext(protocol, null, 
                                                 IacucProtocolActionType.SUBMITTED_TO_IACUC, "Submit", submitRenderer);
     getNotificationService().sendNotificationAndPersist(submitContext, new IacucProtocolNotification(), protocol);
-    // next send out notification that reviewers have been assigned
-// TODO *********commented the code below during IACUC refactoring********* 
-//    AssignReviewerNotificationRenderer renderer = new AssignReviewerNotificationRenderer(protocolForm.getProtocolDocument().getProtocol(), "added");
-//    List<ProtocolNotificationRequestBeanBase> addReviewerNotificationBeans = getNotificationRequestBeans(submitAction.getReviewers(),ProtocolReviewerBeanBase.CREATE);
-//    if (!CollectionUtils.isEmpty(addReviewerNotificationBeans)) {
-//        ProtocolNotificationRequestBeanBase notificationBean = addReviewerNotificationBeans.get(0);
-//        IACUCNotificationContext context = new IACUCNotificationContext(notificationBean.getProtocol(),
-//                notificationBean.getProtocolOnlineReview(), notificationBean.getActionType(),
-//                notificationBean.getDescription(), renderer);
-//        if (protocolForm.getNotificationHelper().getPromptUserForNotificationEditor(context)) {
-//            return checkToSendNotification(mapping, null, protocolForm, renderer, addReviewerNotificationBeans);
-//        }
-//    }
-    
     return routeProtocolToHoldingPage(mapping, protocolForm);
 }
     
@@ -679,14 +619,10 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
-    
-// TODO *********commented the code below during IACUC refactoring********* 
     private IacucProtocolCorrespondence getProtocolCorrespondence (ProtocolFormBase protocolForm, String forwardName, ProtocolNotificationRequestBeanBase notificationRequestBean, boolean holdingPage) {
         boolean result = false;
         
         Map<String,Object> keyValues = new HashMap<String, Object>();
-//        keyValues.put("protocolId", protocolForm.getProtocolDocument().getProtocol().getProtocolId());
-        // actionid <-> action.actionid  actionidfk<->action.protocolactionid
         keyValues.put("actionIdFk", protocolForm.getProtocolDocument().getProtocol().getLastProtocolAction().getProtocolActionId());
         List<IacucProtocolCorrespondence> correspondences = (List<IacucProtocolCorrespondence>)getBusinessObjectService().findMatching(IacucProtocolCorrespondence.class, keyValues);
         if (correspondences.isEmpty()) {
@@ -733,37 +669,6 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         return KraServiceLocator.getService(IacucProtocolNotifyIacucService.class);
     }    
 
-    //
-//    /**
-//     * Notify the IACUC committee.
-//     * 
-//     * @param mapping
-//     * @param form
-//     * @param request
-//     * @param response
-//     * @return
-//     * @throws Exception
-//     */
-//    public ActionForward notifyCommitteeProtocol(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-//            HttpServletResponse response) throws Exception {
-//
-//        ProtocolFormBase protocolForm = (ProtocolFormBase) form;
-//        ProtocolBase protocol = protocolForm.getProtocolDocument().getProtocol();
-//        ActionHelper actionHelper = protocolForm.getActionHelper();
-//        getProtocolNotifyCommitteeService().submitCommitteeNotification(protocol, actionHelper.getProtocolNotifyCommitteeBean());
-//        recordProtocolActionSuccess("Notify Committee");
-//
-//        ProtocolNotificationRequestBeanBase newNotificationBean = new ProtocolNotificationRequestBeanBase(protocol, ProtocolActionType.NOTIFIED_COMMITTEE, "Notify Committee");
-//        newNotificationBean.setCommitteeName(actionHelper.getProtocolNotifyCommitteeBean().getCommitteeName());
-//        protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, PROTOCOL_ACTIONS_TAB, newNotificationBean, false));
-//
-//        if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
-//            return mapping.findForward(CORRESPONDENCE);
-//        } else {
-//            return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_ACTIONS_TAB), protocolForm, newNotificationBean);
-//        }
-//    }
-//
     /*
      * get the saved answer headers
      */
@@ -1191,103 +1096,12 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
 
     }
 
-    
-//    /**
-//     * 
-//     * This method is to print protocol reports
-//     * @param mapping
-//     * @param form
-//     * @param request
-//     * @param response
-//     * @return
-//     * @throws Exception
-//     */
-//    public ActionForward printProtocolDocument(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-//            HttpServletResponse response) throws Exception {
-//        ProtocolFormBase protocolForm = (ProtocolFormBase) form;
-//        ProtocolBase protocol = protocolForm.getProtocolDocument().getProtocol();
-//        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
-//        ActionHelper actionHelper = protocolForm.getActionHelper();
-//        StringBuffer fileName = new StringBuffer().append("ProtocolBase-");
-//        if (applyRules(new ProtocolActionPrintEvent(protocolForm.getProtocolDocument(), actionHelper.getSummaryReport(),
-//            actionHelper.getFullReport(), actionHelper.getHistoryReport(), actionHelper.getReviewCommentsReport()))) {
-//            ProtocolPrintType printType = ProtocolPrintType.PROTOCOL_FULL_PROTOCOL_REPORT;
-//            String reportName = protocol.getProtocolNumber()+"-"+printType.getReportName();
-//            AttachmentDataSource dataStream = getProtocolPrintingService().print(reportName,getPrintReportArtifacts(protocolForm, fileName));
-//            if (dataStream.getContent() != null) {
-//                dataStream.setFileName(fileName.toString());
-//                PrintingUtils.streamToResponse(dataStream, response);
-//                forward = null;
-//            }
-//        }
-//
-//
-//        return forward;
-//    }
-//    private Map<Class,Object> getReportOptions(ProtocolFormBase protocolForm, ProtocolPrintType printType) {
-//        Map<Class,Object> reportParameters = new HashMap<Class, Object>();
-//        ProtocolSummaryPrintOptions summaryOptions = protocolForm.getActionHelper().getProtocolSummaryPrintOptions();
-//        if(printType.equals(ProtocolPrintType.PROTOCOL_FULL_PROTOCOL_REPORT)){
-//            summaryOptions.setActions(true);
-//            summaryOptions.setAmendmentRenewalHistory(true);
-//            summaryOptions.setAmmendmentRenewalSummary(true);
-//            summaryOptions.setAreaOfResearch(true);
-//            summaryOptions.setAttachments(true);
-//            summaryOptions.setCorrespondents(true);
-//            summaryOptions.setDocuments(true);
-//            summaryOptions.setFundingSource(true);
-//            summaryOptions.setInvestigator(true);
-//            summaryOptions.setNotes(true);
-//            summaryOptions.setOrganizaition(true);
-//            summaryOptions.setProtocolDetails(true);
-//            summaryOptions.setReferences(true);
-//            summaryOptions.setRiskLevel(true);
-//            summaryOptions.setRoles(true);
-//            summaryOptions.setSpecialReview(true);
-//            summaryOptions.setStudyPersonnels(true);
-//            summaryOptions.setSubjects(true);
-//        }
-//        reportParameters.put(ProtocolSummaryPrintOptions.class, summaryOptions);
-//        return reportParameters;
-//    }
-//
-//    /**
-//     * 
-//     * This method is to print the sections selected.  This is more like coeus implementation.
-//     * @param mapping
-//     * @param form
-//     * @param request
-//     * @param response
-//     * @return
-//     * @throws Exception
-//     */
-//    public ActionForward printProtocolSelectedItems(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-//            HttpServletResponse response) throws Exception {
-//        ProtocolFormBase protocolForm = (ProtocolFormBase) form;
-//        ProtocolBase protocol = protocolForm.getProtocolDocument().getProtocol();
-//        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
-//        String fileName = "Protocol_Summary_Report.pdf";
-//        ProtocolPrintType printType = ProtocolPrintType.PROTOCOL_FULL_PROTOCOL_REPORT;
-//        String reportName = protocol.getProtocolNumber() + "-" + printType.getReportName();
-//        AttachmentDataSource dataStream = getProtocolPrintingService().print(reportName, getPrintArtifacts(protocolForm));
-//        if (dataStream.getContent() != null) {
-//            dataStream.setFileName(fileName.toString());
-//            PrintingUtils.streamToResponse(dataStream, response);
-//            forward = null;
-//        }
-//
-//
-//        return forward;
-//    }
-//
-    
     public ActionForward printProtocolQuestionnaires(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
         IacucProtocol protocol = protocolForm.getIacucProtocolDocument().getIacucProtocol();
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         String fileName = "Protocol_questionnaire_Report.pdf";
-//        Integer selectedQid = getSelectedLine(request);
         String reportName = protocol.getProtocolNumber() + "-" + "ProtocolQuestionnaires";
         AttachmentDataSource dataStream = getProtocolPrintingService().print(reportName, getIacucQuestionnairePrintingService().getQuestionnairePrintable(protocol, protocolForm.getActionHelper().getQuestionnairesToPrints()));
         if (dataStream.getContent() != null) {
@@ -1301,86 +1115,6 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
     protected IacucQuestionnairePrintingService getIacucQuestionnairePrintingService() {
         return KraServiceLocator.getService(IacucQuestionnairePrintingService.class);
     }
-    
-
-//    /*
-//     * get printables for protocol & questionnaires.
-//     * ProtocolBase only has one printable and each questionnaire has its own printable.
-//     */
-//    private List<Printable> getPrintArtifacts(ActionForm form) {
-//        ProtocolFormBase protocolForm = (ProtocolFormBase) form;
-//        List<Printable> printableArtifactList = new ArrayList<Printable>();
-//        ProtocolPrintType printType = ProtocolPrintType.valueOf(PRINTTAG_MAP.get("full"));
-//
-//        AbstractPrint printable = (AbstractPrint)getProtocolPrintingService().getProtocolPrintable(printType);
-//        printable.setPrintableBusinessObject(protocolForm.getProtocolDocument().getProtocol());
-//     //   Map reportParameters = getReportOptions(protocolForm,ProtocolPrintType.PROTOCOL_FULL_PROTOCOL_REPORT);
-//        Map reportParameters = new HashMap();
-//        ProtocolSummaryPrintOptions summaryOptions = protocolForm.getActionHelper().getProtocolPrintOption();
-//        
-//        reportParameters.put(ProtocolSummaryPrintOptions.class, summaryOptions);
-//
-//        printable.setReportParameters(reportParameters);
-//        printableArtifactList.add(printable);
-//        if (summaryOptions.isReviewComments()) {
-//            Map reportParameters1 = getReportOptions(protocolForm,ProtocolPrintType.PROTOCOL_REVIEW_COMMENTS_REPORT);
-//            AbstractPrint printable1 = (AbstractPrint)getProtocolPrintingService().getProtocolPrintable(ProtocolPrintType.valueOf(PRINTTAG_MAP.get("comments")));
-//            printable1.setPrintableBusinessObject(protocolForm.getProtocolDocument().getProtocol());
-//            printable1.setReportParameters(reportParameters1);
-//            printableArtifactList.add(printable1);
-//            
-//        }
-//        /** kcirb-1159 is closed for not fixing
-//        if (summaryOptions.isProtocolHistory()) {
-//            Map reportParameters1 = getReportOptions(protocolForm,ProtocolPrintType.PROTOCOL_PROTOCOL_HISTORY_REPORT);
-//            AbstractPrint printable1 = (AbstractPrint)getProtocolPrintingService().getProtocolPrintable(ProtocolPrintType.valueOf(PRINTTAG_MAP.get("history")));
-//            printable1.setPrintableBusinessObject(protocolForm.getProtocolDocument().getProtocol());
-//            printable1.setReportParameters(reportParameters1);
-//            printableArtifactList.add(printable1);
-//            
-//        }
-//        **/
-////        printableArtifactList.addAll(getQuestionnairePrintingService().getQuestionnairePrintable(protocolForm.getProtocolDocument().getProtocol(), protocolForm.getActionHelper().getQuestionnairesToPrints()));
-//
-//        return printableArtifactList;
-//    }
-//
-//    
-//    /*
-//     * set up all artifacts and filename
-//     */
-//    private List<Printable> getPrintReportArtifacts(ActionForm form, StringBuffer fileName) {
-//        ProtocolFormBase protocolForm = (ProtocolFormBase) form;
-//        Boolean printSummary = protocolForm.getActionHelper().getSummaryReport();
-//        Boolean printFull = protocolForm.getActionHelper().getFullReport();
-//        Boolean printHistory = protocolForm.getActionHelper().getHistoryReport();
-//        Boolean printReviewComments = protocolForm.getActionHelper().getReviewCommentsReport();
-//        List<Printable> printableArtifactList = new ArrayList<Printable>();
-//        if (printSummary) {
-//            Map reportParameters = getReportOptions(protocolForm,ProtocolPrintType.PROTOCOL_SUMMARY_VIEW_REPORT);
-//            printableArtifactList.add(getPrintableArtifacts(protocolForm.getProtocolDocument().getProtocol(), "summary", fileName,reportParameters));
-//            protocolForm.getActionHelper().setSummaryReport(false);
-//        }
-//        if (printFull) {
-//            Map reportParameters = getReportOptions(protocolForm,ProtocolPrintType.PROTOCOL_FULL_PROTOCOL_REPORT);
-//            printableArtifactList.add(getPrintableArtifacts(protocolForm.getProtocolDocument().getProtocol(), "full", fileName,reportParameters));
-//            protocolForm.getActionHelper().setFullReport(false);
-//        }
-//        if (printHistory) {
-//            Map reportParameters = getReportOptions(protocolForm,ProtocolPrintType.PROTOCOL_PROTOCOL_HISTORY_REPORT);
-//            printableArtifactList.add(getPrintableArtifacts(protocolForm.getProtocolDocument().getProtocol(), "history", fileName,reportParameters));
-//            protocolForm.getActionHelper().setHistoryReport(false);
-//        }
-//        if (printReviewComments) {
-//            Map reportParameters = getReportOptions(protocolForm,ProtocolPrintType.PROTOCOL_REVIEW_COMMENTS_REPORT);
-//            printableArtifactList
-//                    .add(getPrintableArtifacts(protocolForm.getProtocolDocument().getProtocol(), "comments", fileName,reportParameters));
-//            protocolForm.getActionHelper().setReviewCommentsReport(false);
-//        }
-//        fileName.append("report.pdf");
-//        return printableArtifactList;
-//    }
-//    
     
     /*
      * This is to view attachment if attachment is selected in print panel.
@@ -1403,9 +1137,6 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
             return RESPONSE_ALREADY_HANDLED;
         }
         this.streamToResponse(file.getData(), getValidHeaderString(file.getName()), getValidHeaderString(file.getType()), response);
-//        byte[] watermarkedFile = KraServiceLocator.getService(WatermarkService.class).applyWatermark( file.getData(),getProtocolWatermarkBeanObject("199"));
-//        this.streamToResponse(watermarkedFile, getValidHeaderString(file.getName()), getValidHeaderString(file.getType()), response);
-
         return RESPONSE_ALREADY_HANDLED;
     }
 
@@ -1718,7 +1449,6 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
                 getProtocolAssignToAgendaService().removeFromAgenda(protocol, actionBean);
                 saveReviewComments(protocolForm, (IacucReviewCommentsBean) actionBean.getReviewCommentsBean());
                 recordProtocolActionSuccess("Removed Agenda");
-                //actionHelper.setIacucProtocolRemoveFromAgendaBean(new IacucProtocolGenericActionBean(actionHelper, "actionHelper.iacucProtocolRemoveFromAgendaBean"));
             
                 IacucProtocolGenericActionNotificationRenderer renderer = new IacucProtocolGenericActionNotificationRenderer(protocol,actionBean.getActionDate());
                 IacucProtocolNotificationContext context = new IacucProtocolNotificationContext(protocol, IacucProtocolActionType.REMOVE_FROM_AGENDA, actionBean.getComments(), renderer);
@@ -1765,240 +1495,6 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
-//    /**
-//     * Assign a protocol to a committee/schedule.
-//     * @param mapping
-//     * @param form
-//     * @param request
-//     * @param response
-//     * @return
-//     * @throws Exception
-//     */
-//    public ActionForward assignCommitteeSchedule(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-//            HttpServletResponse response) throws Exception {
-//        ProtocolFormBase protocolForm = (ProtocolFormBase) form;
-//        final String callerString = "assignCommitteeSchedule";
-//        ProtocolTaskBase task = new ProtocolTaskBase(TaskName.ASSIGN_TO_COMMITTEE_SCHEDULE, protocolForm.getProtocolDocument().getProtocol());
-//        
-//        if (!hasDocumentStateChanged(protocolForm)) {
-//            if (isAuthorized(task)) {
-//                ProtocolAssignCmtSchedBean actionBean = protocolForm.getActionHelper().getAssignCmtSchedBean();
-//                if (applyRules(new ProtocolAssignCmtSchedEvent(protocolForm.getProtocolDocument(), actionBean))) {
-//                    
-//                    if( protocolForm.getProtocolDocument().getProtocol().getProtocolSubmission() != null) {
-//                        boolean performAssignment = false;
-//                        Object question = request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME);
-//                        Object buttonClicked = request.getParameter(KRADConstants.QUESTION_CLICKED_BUTTON);
-//    
-//                    
-//                        if (isCommitteeMeetingAssignedMaxProtocols(actionBean.getNewCommitteeId(), actionBean.getNewScheduleId())) {
-//                            //There are existing reviews and we are changing schedules
-//                            //need to verify with the user that they want to remove the existing reviews before proceeding.
-//                            if (question==null || !CONFIRM_ASSIGN_CMT_SCHED_KEY.equals(question)) {
-//                                return performQuestionWithoutInput(mapping, form, request, response, CONFIRM_ASSIGN_CMT_SCHED_KEY,
-//                                        getKualiConfigurationService().getPropertyValueAsString(KeyConstants.QUESTION_PROTOCOL_CONFIRM_SUBMIT_FOR_REVIEW), KRADConstants.CONFIRMATION_QUESTION, callerString, "" );
-//                            } else if (ConfirmationQuestion.YES.equals(buttonClicked)) {
-//                                performAssignment = true;
-//                            } else {
-//                                //nothing to do, answered no.
-//                            }
-//                        } else {
-//                            performAssignment = true;
-//                        }
-//        
-//                        if (performAssignment) {
-//                            getProtocolAssignCmtSchedService().assignToCommitteeAndSchedule(protocolForm.getProtocolDocument().getProtocol(), actionBean);
-//                            recordProtocolActionSuccess("Assign to Committee and Schedule");
-//                        }
-//                        ((ProtocolFormBase)form).getActionHelper().prepareView();
-//                    }
-//                }
-//            }
-//        } else {
-//            GlobalVariables.getMessageMap().clearErrorMessages();
-//            GlobalVariables.getMessageMap().putError("documentstatechanged", KeyConstants.ERROR_PROTOCOL_DOCUMENT_STATE_CHANGED,  new String[] {}); 
-//        }
-//
-//        return mapping.findForward(Constants.MAPPING_BASIC);
-//    }
-//    
-//     /**
-//     * 
-//     * Builds the confirmation question to verify if the user wants to assign the protocol to the committee.
-//     * @param mapping
-//     * @param form
-//     * @param request
-//     * @param response
-//     * @return
-//     * @throws Exception
-//     */
-//    private StrutsConfirmation buildAssignToAgendaConfirmationQuestion(ActionMapping mapping, ActionForm form,
-//            HttpServletRequest request, HttpServletResponse response) throws Exception {
-//        return buildParameterizedConfirmationQuestion(mapping, form, request, response, CONFIRM_ASSIGN_TO_AGENDA_KEY,
-//                KeyConstants.QUESTION_PROTOCOL_CONFIRM_SUBMIT_FOR_REVIEW);
-//    }
-//   
-//    public ActionForward confirmAssignToAgenda(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-//            HttpServletResponse response) throws Exception {
-//        Object question = request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME);
-//
-//        if (CONFIRM_ASSIGN_TO_AGENDA_KEY.equals(question)) {
-//            ProtocolFormBase protocolForm = (ProtocolFormBase) form;
-//            ProtocolAssignToAgendaBean actionBean = protocolForm.getActionHelper().getAssignToAgendaBean();
-//            getProtocolAssignToAgendaService().assignToAgenda(protocolForm.getProtocolDocument().getProtocol(), actionBean);
-//        }
-//
-//        return mapping.findForward(Constants.MAPPING_BASIC);
-//    }
-//    
-//    /**
-//     * Assign a protocol to some reviewers.
-//     * @param mapping
-//     * @param form
-//     * @param request
-//     * @param response
-//     * @return
-//     * @throws Exception
-//     */
-//    public ActionForward assignReviewers(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-//            HttpServletResponse response) throws Exception {
-//        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
-//        ProtocolFormBase protocolForm = (ProtocolFormBase) form;
-//        ProtocolTaskBase task = new ProtocolTaskBase(TaskName.ASSIGN_REVIEWERS, protocolForm.getProtocolDocument().getProtocol());
-//        String callerString = String.format("assignReviewers");
-//        Object question = request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME);
-//        
-//        if (!hasDocumentStateChanged(protocolForm)) {
-//            if (isAuthorized(task)) {
-//                ProtocolAssignReviewersBean actionBean = protocolForm.getActionHelper().getProtocolAssignReviewersBean();
-//                if (applyRules(new ProtocolAssignReviewersEvent(protocolForm.getProtocolDocument(), actionBean))) {
-//                    boolean processRequest = true;
-//                    
-//                    if (GlobalVariables.getMessageMap().hasWarnings()) {
-//                        if (question == null) {
-//                            // ask question if not already asked
-//                            forward = performQuestionWithoutInput(mapping, form, request, response, 
-//                                                                    CONIFRM_REMOVE_REVIEWER_KEY, 
-//                                                                    getKualiConfigurationService().getPropertyValueAsString(KeyConstants.MESSAGE_REMOVE_REVIEWERS_WITH_COMMENTS), 
-//                                                                    KRADConstants.CONFIRMATION_QUESTION, 
-//                                                                    callerString, 
-//                                                                    "");
-//                            processRequest = false;
-//                        }
-//                        else {
-//                            Object buttonClicked = request.getParameter(KRADConstants.QUESTION_CLICKED_BUTTON);
-//                            if ((KRADConstants.DOCUMENT_DISAPPROVE_QUESTION.equals(question)) && ConfirmationQuestion.NO.equals(buttonClicked)) {
-//                                // if no button clicked just reload the doc
-//                                processRequest = false;
-//                                if (LOG.isDebugEnabled()) {
-//                                    LOG.debug("User declined to confirm the request, not processing.");
-//                                }
-//                            }
-//                        }
-//                    
-//                    }
-//                    
-//                    if (processRequest) {
-//                        ProtocolSubmission submission = protocolForm.getProtocolDocument().getProtocol().getProtocolSubmission();
-//                        List<ProtocolReviewerBeanBase> beans = actionBean.getReviewers();
-//                        getProtocolAssignReviewersService().assignReviewers(submission, beans);
-//                        //clear the warnings before rendering the page.
-//                        GlobalVariables.getMessageMap().getWarningMessages().clear();
-//                        
-//                        recordProtocolActionSuccess("Assign Reviewers");
-//                        AssignReviewerNotificationRenderer renderer = new AssignReviewerNotificationRenderer(protocolForm
-//                                .getProtocolDocument().getProtocol(), "added");
-//                        List<ProtocolNotificationRequestBeanBase> addReviewerNotificationBeans = getNotificationRequestBeans(beans,
-//                                ProtocolReviewerBeanBase.CREATE);
-//                        List<ProtocolNotificationRequestBeanBase> removeReviewerNotificationBeans = getNotificationRequestBeans(beans,
-//                                ProtocolReviewerBeanBase.REMOVE);
-//                        if (!CollectionUtils.isEmpty(addReviewerNotificationBeans)) {
-//                            ProtocolNotificationRequestBeanBase notificationBean = addReviewerNotificationBeans.get(0);
-//                            IACUCNotificationContext context = new IACUCNotificationContext(notificationBean.getProtocol(),
-//                                notificationBean.getProtocolOnlineReview(), notificationBean.getActionType(),
-//                                notificationBean.getDescription(), renderer);
-//                            if (protocolForm.getNotificationHelper().getPromptUserForNotificationEditor(context)) {
-//                                forward = checkToSendNotification(mapping, mapping.findForward(PROTOCOL_ACTIONS_TAB), protocolForm,
-//                                        renderer, addReviewerNotificationBeans);
-//                                if (!CollectionUtils.isEmpty(removeReviewerNotificationBeans)) {
-//                                    GlobalVariables.getUserSession().addObject("removeReviewer", removeReviewerNotificationBeans);
-//                                }
-//                            }
-//                        }
-//                        else {
-//                            if (!CollectionUtils.isEmpty(removeReviewerNotificationBeans)) {
-//                                renderer = new AssignReviewerNotificationRenderer(protocolForm.getProtocolDocument().getProtocol(),
-//                                    "removed");
-//                                ProtocolNotificationRequestBeanBase notificationBean = removeReviewerNotificationBeans.get(0);
-//                                IACUCNotificationContext context = new IACUCNotificationContext(notificationBean.getProtocol(),
-//                                    notificationBean.getProtocolOnlineReview(), notificationBean.getActionType(),
-//                                    notificationBean.getDescription(), renderer);
-//                                if (protocolForm.getNotificationHelper().getPromptUserForNotificationEditor(context)) {
-//                                    forward = checkToSendNotification(mapping, mapping.findForward(PROTOCOL_ACTIONS_TAB),
-//                                            protocolForm, renderer, removeReviewerNotificationBeans);
-//                                }
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//        else {
-//            GlobalVariables.getMessageMap().clearErrorMessages();
-//            GlobalVariables.getMessageMap().putError("documentstatechanged", KeyConstants.ERROR_PROTOCOL_DOCUMENT_STATE_CHANGED,
-//                    new String[] {});
-//        }
-//            
-//        return forward;
-//    }
-//    
-//    private List<ProtocolNotificationRequestBeanBase> getNotificationRequestBeans(List<ProtocolReviewerBeanBase> beans, String actionFlag) {
-//        List<ProtocolNotificationRequestBeanBase> notificationRequestBeans = new ArrayList<ProtocolNotificationRequestBeanBase>();
-//        for (ProtocolReviewerBeanBase bean : beans) {
-//            if (StringUtils.equals(actionFlag, bean.getActionFlag())) {
-//                notificationRequestBeans.add(bean.getNotificationRequestBean());
-//            }
-//        }
-//        return notificationRequestBeans;
-//    }
-//    
-//    /**
-//     * Grant an exemption to a protocol.
-//     * @param mapping
-//     * @param form
-//     * @param request
-//     * @param response
-//     * @return
-//     * @throws Exception
-//     */
-//    public ActionForward grantExemption(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-//        ProtocolFormBase protocolForm = (ProtocolFormBase) form;
-//        ProtocolDocumentBase document = protocolForm.getProtocolDocument();
-//        ProtocolBase protocol = document.getProtocol();
-//        ProtocolGrantExemptionBean actionBean = protocolForm.getActionHelper().getProtocolGrantExemptionBean();
-//        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
-//        if (hasPermission(TaskName.GRANT_EXEMPTION, protocol)) {
-//            if (applyRules(new ProtocolGrantExemptionEvent(document, actionBean))) {
-//                getProtocolGrantExemptionService().grantExemption(protocol, actionBean);
-//                saveReviewComments(protocolForm, actionBean.getReviewCommentsBean());                
-//                recordProtocolActionSuccess("Grant Exemption");
-//                forward = confirmFollowupAction(mapping, form, request, response, Constants.MAPPING_BASIC);
-//           }
-//        }
-//        if (request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME) != null) {
-//            forward = confirmFollowupAction(mapping, form, request, response, Constants.MAPPING_BASIC);
-//            ProtocolNotificationRequestBeanBase notificationBean = new ProtocolNotificationRequestBeanBase(protocolForm.getProtocolDocument().getProtocol(), ProtocolActionType.GRANT_EXEMPTION, "Exemption Granted");
-//            protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, PROTOCOL_TAB, notificationBean, false));
-//            if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
-//                return mapping.findForward(CORRESPONDENCE);
-//            } else {
-//                return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_TAB), protocolForm, notificationBean);
-//            }
-//        }
-//        
-//        return forward;
-//    }
-    
     /**
      * Perform Full Approve Action - maps to IACUCReview RouteNode.
      * @param mapping
@@ -2023,10 +1519,6 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
                 forward = super.approve(mapping, protocolForm, request, response);
                 getProtocolApproveService().grantFullApproval(protocol, actionBean);
                 saveReviewComments(protocolForm, (IacucReviewCommentsBean) actionBean.getReviewCommentsBean());
-//                if (document.getProtocol().isAmendment() || document.getProtocol().isRenewal()) {
-//                    forward = mapping.findForward(KRADConstants.MAPPING_PORTAL);
-//                }
-//                forward = routeProtocolToHoldingPage(mapping, protocolForm);
                 IacucProtocolSubmission submission = (IacucProtocolSubmission)protocol.getProtocolSubmission();
 
                 IacucProtocolNotificationRequestBean notificationBean;
@@ -2049,8 +1541,6 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
                 // somehow docforkey is not in session for this case ?
                 // hack this for now
                 protocolForm.getProtocolHelper().prepareView();
-//                protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, PROTOCOL_TAB, notificationBean, false));
-//                GlobalVariables.getUserSession().addObject("approvalCorrespondence", protocolForm);
                 if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
                     // TODO : this is hack
                     // may need to add it back when save/close corr ?
@@ -2058,7 +1548,6 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
                     GlobalVariables.getUserSession().addObject("approvalComplCorrespondence", GlobalVariables.getUserSession().retrieveObject(DocumentAuthorizerBase.USER_SESSION_METHOD_TO_CALL_COMPLETE_OBJECT_KEY));
                     // temporarily remove this key which is generated by super.approve
                     GlobalVariables.getUserSession().removeObject(DocumentAuthorizerBase.USER_SESSION_METHOD_TO_CALL_COMPLETE_OBJECT_KEY);
-//                    request.removeAttribute(DocumentAuthorizerBase.USER_SESSION_METHOD_TO_CALL_COMPLETE_OBJECT_KEY);
                     return mapping.findForward(CORRESPONDENCE);
                 } else {
                     IacucProtocolNotificationRenderer renderer = new IacucProtocolNotificationRenderer((IacucProtocol) document.getProtocol());
@@ -2072,50 +1561,6 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         return forward;
     }
     
-//    /**
-//     * Perform Expedited Approve Action.
-//     * @param mapping
-//     * @param form
-//     * @param request
-//     * @param response
-//     * @return
-//     * @throws Exception
-//     */
-//    public ActionForward grantExpeditedApproval(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
-//        throws Exception {
-//        
-//        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
-//        
-//        ProtocolFormBase protocolForm = (ProtocolFormBase) form;
-//        ProtocolDocumentBase document = protocolForm.getProtocolDocument();
-//        ProtocolApproveBean actionBean = protocolForm.getActionHelper().getProtocolExpeditedApprovalBean();
-//        
-//        if (hasPermission(TaskName.EXPEDITE_APPROVAL, document.getProtocol())) {
-//            if (applyRules(new ProtocolApproveEvent(document, actionBean))) {
-//                getProtocolApproveService().grantExpeditedApproval(protocolForm.getProtocolDocument().getProtocol(), actionBean);
-//                saveReviewComments(protocolForm, actionBean.getReviewCommentsBean());
-//                recordProtocolActionSuccess("Expedited Approval");
-//                forward = confirmFollowupAction(mapping, form, request, response, KRADConstants.MAPPING_PORTAL);
-//            }
-//        }
-//        // Question frame work will execute method twice.  so, need to be aware that service will not be executed twice.
-//        if (request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME) != null) {
-//            confirmFollowupAction(mapping, form, request, response, KRADConstants.MAPPING_PORTAL);
-//            //forward = mapping.findForward(KRADConstants.MAPPING_PORTAL);                                    
-////            forward = routeProtocolToHoldingPage(mapping, protocolForm);                                    
-//            protocolForm.getProtocolHelper().prepareView();
-//
-//            ProtocolNotificationRequestBeanBase notificationBean = new ProtocolNotificationRequestBeanBase(protocolForm.getProtocolDocument().getProtocol(), ProtocolActionType.EXPEDITE_APPROVAL, "Expedited Approval Granted");
-//            protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, PROTOCOL_TAB, notificationBean, false));
-//            if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
-//                return mapping.findForward(CORRESPONDENCE);
-//            } else {
-//                forward = routeProtocolToHoldingPage(mapping, protocolForm);                                    
-//            }
-//        }
-//        return forward;
-//    }
-//    
     /**
      * Perform Response Approve Action.
      * @param mapping
@@ -2229,15 +1674,11 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         IacucProtocol protocol = document.getIacucProtocol();
         String taskName = getTaskName(request);
         if (StringUtils.isNotBlank(taskName) && isAuthorized(new IacucProtocolTask(taskName, protocol))) {
-            //IacucProtocolRequestAction requestAction = IacucProtocolRequestAction.valueOfTaskName(taskName);
             IacucProtocolRequestBean requestBean = getProtocolRequestBean(form, request);
             int lineNumber = getSelectedLine(request);
             ProtocolActionAttachment actionAttachment = requestBean.getActionAttachments().get(lineNumber);
             if (actionAttachment.getFile() != null) {
-                System.err.println("actionAttachment.getFile().getContentType(): " + actionAttachment.getFile().getContentType());
-                //this.streamToResponse(actionAttachment.getFile().getFileData(), getValidHeaderString(actionAttachment.getFileName()),  
-                  //      getValidHeaderString(actionAttachment.getFile().getContentType()), response);
-                
+                System.err.println("actionAttachment.getFile().getContentType(): " + actionAttachment.getFile().getContentType());                
                 this.streamToResponse(actionAttachment.getFile().getFileData(), actionAttachment.getFileName(), actionAttachment.getFile().getContentType(), response);
                 return RESPONSE_ALREADY_HANDLED;
             }
@@ -2279,125 +1720,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         
         return protocolRequestBean;
     }
-//    
-//    /**
-//     * Closes this ProtocolBase.
-//     * @param mapping
-//     * @param form
-//     * @param request
-//     * @param response
-//     * @return
-//     * @throws Exception
-//     */
-//    public ActionForward closeProtocol(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-//        ProtocolFormBase protocolForm = (ProtocolFormBase) form;
-//        ProtocolDocumentBase document = protocolForm.getProtocolDocument();
-//        ProtocolBase protocol = document.getProtocol();
-//        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolCloseBean();
-//        
-//        if (hasGenericPermission(GenericProtocolAuthorizer.CLOSE_PROTOCOL, protocol)) {
-//            if (applyRules(new ProtocolGenericActionEvent(document, actionBean))) {
-//                getProtocolGenericActionService().close(protocol, actionBean);
-//                saveReviewComments(protocolForm, actionBean.getReviewCommentsBean());
-//                
-//                recordProtocolActionSuccess("Close");
-//
-//                ProtocolNotificationRequestBeanBase notificationBean = null;
-//                if (ProtocolStatus.CLOSED_ADMINISTRATIVELY.equals(protocol.getProtocolStatus())) {
-//                    notificationBean = new ProtocolNotificationRequestBeanBase(protocol, ProtocolActionType.CLOSED_ADMINISTRATIVELY_CLOSED, "Closed By Administrator");
-//                } else {
-//                    notificationBean = new ProtocolNotificationRequestBeanBase(protocol, ProtocolActionType.CLOSED_ADMINISTRATIVELY_CLOSED, "Closed By Investigator");
-//                }
-//                    
-//                protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, PROTOCOL_TAB, notificationBean, false));
-//                if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
-//                    return mapping.findForward(CORRESPONDENCE);
-//                } else {
-//                    return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_TAB), protocolForm, notificationBean);
-//                }
-//            }
-//        }
-//        
-//        return mapping.findForward(Constants.MAPPING_BASIC);
-//    }
-//
-//    /**
-//     * Closes enrollment for this ProtocolBase.
-//     * @param mapping
-//     * @param form
-//     * @param request
-//     * @param response
-//     * @return
-//     * @throws Exception
-//     */
-//    public ActionForward closeEnrollment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-//        ProtocolFormBase protocolForm = (ProtocolFormBase) form;
-//        ProtocolDocumentBase document = protocolForm.getProtocolDocument();
-//        ProtocolBase protocol = document.getProtocol();
-//        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolCloseEnrollmentBean();
-//        
-//        if (hasGenericPermission(GenericProtocolAuthorizer.CLOSE_ENROLLMENT_PROTOCOL, protocol)) {
-//            if (applyRules(new ProtocolGenericActionEvent(document, actionBean))) {
-//                getProtocolGenericActionService().closeEnrollment(protocol, actionBean);
-//                saveReviewComments(protocolForm, actionBean.getReviewCommentsBean());
-//            
-//                recordProtocolActionSuccess("Close Enrollment");
-//            }
-//        }
-//        
-//        return mapping.findForward(Constants.MAPPING_BASIC);
-//    }
-//    
-//    /**
-//     * Defers this ProtocolBase to a later meeting.
-//     * @param mapping
-//     * @param form
-//     * @param request
-//     * @param response
-//     * @return
-//     * @throws Exception
-//     */
-//    public ActionForward defer(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-//        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
-//        
-//        ProtocolFormBase protocolForm = (ProtocolFormBase) form;
-//        ProtocolDocumentBase document = protocolForm.getProtocolDocument();
-//        ProtocolBase protocol = document.getProtocol();
-//        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolDeferBean();
-//        
-//        if (!hasDocumentStateChanged(protocolForm)) {
-//            if (hasPermission(TaskName.DEFER_PROTOCOL, protocol)) {
-//                if (applyRules(new ProtocolGenericActionEvent(document, actionBean))) {
-//                    ProtocolDocumentBase newDocument = getProtocolGenericActionService().defer(protocol, actionBean);
-//                    saveReviewComments(protocolForm, actionBean.getReviewCommentsBean());
-//                    
-//                    protocolForm.setDocId(newDocument.getDocumentNumber());
-//                    loadDocument(protocolForm);
-//                    protocolForm.getProtocolHelper().prepareView();
-//                    
-//                    recordProtocolActionSuccess("Defer");
-//                    
-//                    protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, PROTOCOL_TAB, new ProtocolNotificationRequestBeanBase(protocolForm.getProtocolDocument().getProtocol(),ProtocolActionType.DEFERRED, "Deferred"), false));
-//
-//                    if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
-//                        return mapping.findForward(CORRESPONDENCE);
-//                    } else {
-//                        forward = checkToSendNotification(mapping, mapping.findForward(PROTOCOL_TAB), protocolForm, new ProtocolNotificationRequestBeanBase(protocolForm.getProtocolDocument().getProtocol(),ProtocolActionType.DEFERRED, "Deferred"));                                    
-//                    }
-//                    
-////                    forward = checkToSendNotification(mapping, mapping.findForward(PROTOCOL_TAB), protocolForm, new ProtocolNotificationRequestBeanBase(protocolForm.getProtocolDocument().getProtocol(),ProtocolActionType.DEFERRED, "Deferred"));
-////                    forward = mapping.findForward(PROTOCOL_TAB);
-//                }
-//            }
-//        } else {
-//            GlobalVariables.getMessageMap().clearErrorMessages();
-//            GlobalVariables.getMessageMap().putError("documentstatechanged", KeyConstants.ERROR_PROTOCOL_DOCUMENT_STATE_CHANGED,  new String[] {}); 
-//        }
-//        
-//        return forward;
-//    }
 
-    
     /**
      * Disapproves this ProtocolBase.
      * @param mapping
@@ -2598,66 +1921,6 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         
         return mapping.findForward(Constants.MAPPING_BASIC);
     }    
-//
-//    /**
-//     * Permits data analysis only on this ProtocolBase.
-//     * @param mapping
-//     * @param form
-//     * @param request
-//     * @param response
-//     * @return
-//     * @throws Exception
-//     */
-//    public ActionForward permitDataAnalysis(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-//        ProtocolFormBase protocolForm = (ProtocolFormBase) form;
-//        ProtocolDocumentBase document = protocolForm.getProtocolDocument();
-//        ProtocolBase protocol = document.getProtocol();
-//        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolPermitDataAnalysisBean();
-//        
-//        if (hasGenericPermission(GenericProtocolAuthorizer.PERMIT_DATA_ANALYSIS, protocol)) {
-//            if (applyRules(new ProtocolGenericActionEvent(document, actionBean))) {
-//                getProtocolGenericActionService().permitDataAnalysis(protocol, actionBean);
-//                saveReviewComments(protocolForm, actionBean.getReviewCommentsBean());
-//                
-//                recordProtocolActionSuccess("Permit Data Analysis Only");
-//            }
-//        }
-//        
-//        return mapping.findForward(Constants.MAPPING_BASIC);
-//    }
-//
-//    /**
-//     * Reopens enrollment for this ProtocolBase.
-//     * This method...
-//     * @param mapping
-//     * @param form
-//     * @param request
-//     * @param response
-//     * @return
-//     * @throws Exception
-//     */
-//    public ActionForward reopenEnrollment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-//        ProtocolFormBase protocolForm = (ProtocolFormBase) form;
-//        ProtocolDocumentBase document = protocolForm.getProtocolDocument();
-//        ProtocolBase protocol = document.getProtocol();
-//        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolReopenEnrollmentBean();
-//        
-//        if (hasGenericPermission(GenericProtocolAuthorizer.REOPEN_PROTOCOL, protocol)) {
-//            if (applyRules(new ProtocolGenericActionEvent(document, actionBean))) {
-//                getProtocolGenericActionService().reopenEnrollment(protocol, actionBean);
-//                saveReviewComments(protocolForm, actionBean.getReviewCommentsBean());
-//                
-//                recordProtocolActionSuccess("Re-open Enrollment");
-//            }
-//        }
-//        
-//        return mapping.findForward(Constants.MAPPING_BASIC);
-//    }
-    
-    
-    
-    
-    
     
     /**
      * Returns the protocol to the PI for specific minor revisions.
@@ -2831,44 +2094,6 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         return forward;
     }
     
-
-//    /**
-//     * Suspends this ProtocolBase by DSMB.
-//     * @param mapping
-//     * @param form
-//     * @param request
-//     * @param response
-//     * @return
-//     * @throws Exception
-//     */
-//    public ActionForward suspendByDsmb(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-//        ProtocolFormBase protocolForm = (ProtocolFormBase) form;
-//        ProtocolDocumentBase document = protocolForm.getProtocolDocument();
-//        ProtocolBase protocol = document.getProtocol();
-//        ProtocolGenericActionBean actionBean = protocolForm.getActionHelper().getProtocolSuspendByDsmbBean();
-//        
-//        if (hasGenericPermission(GenericProtocolAuthorizer.SUSPEND_PROTOCOL_BY_DSMB, protocol)) {
-//            if (applyRules(new ProtocolGenericActionEvent(document, actionBean))) {
-//                getProtocolGenericActionService().suspendByDsmb(protocol, actionBean);
-//                saveReviewComments(protocolForm, actionBean.getReviewCommentsBean());
-//                
-//                recordProtocolActionSuccess("Suspend by DSMB");
-//                ProtocolNotificationRequestBeanBase notificationBean = new ProtocolNotificationRequestBeanBase(protocolForm.getProtocolDocument().getProtocol(), ProtocolActionType.SUSPENDED_BY_DSMB, "Suspended by DSMB");
-//                protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, PROTOCOL_TAB, notificationBean, false));
-//
-//                if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
-//                    return mapping.findForward(CORRESPONDENCE);
-//                } else {
-//                    return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_TAB), protocolForm, notificationBean);                                   
-//                } 
-//            }
-//        }
-//        
-//        return mapping.findForward(Constants.MAPPING_BASIC);
-//    }
-//    
-
-    
     public ActionForward manageComments(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         
@@ -2934,49 +2159,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         } 
         
         return forward;  
-    }
-    
-    
-    
-//    public ActionForward undoLastAction(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-//            HttpServletResponse response) throws Exception {
-//
-//        ProtocolFormBase protocolForm = (ProtocolFormBase) form;
-//        
-//        if (!hasDocumentStateChanged(protocolForm)) {
-//            ProtocolDocumentBase protocolDocument = protocolForm.getProtocolDocument();
-//            UndoLastActionBean undoLastActionBean = protocolForm.getActionHelper().getUndoLastActionBean();
-//            String lastActionType = undoLastActionBean.getLastPerformedAction().getProtocolActionTypeCode();
-//            
-//            UndoLastActionService undoLastActionService = KraServiceLocator.getService(UndoLastActionService.class);
-//            ProtocolDocumentBase updatedDocument = undoLastActionService.undoLastAction(protocolDocument, undoLastActionBean);
-//                       
-//    
-//            recordProtocolActionSuccess("Undo Last Action");
-//    
-//            if (!updatedDocument.getDocumentNumber().equals(protocolForm.getDocId())) {
-//                protocolForm.setDocId(updatedDocument.getDocumentNumber());
-//                loadDocument(protocolForm);
-//                protocolForm.getProtocolHelper().prepareView();
-//                return mapping.findForward(PROTOCOL_TAB);
-//            }
-//            if (ProtocolActionType.SPECIFIC_MINOR_REVISIONS_REQUIRED.equals(lastActionType)
-//                    || ProtocolActionType.SUBSTANTIVE_REVISIONS_REQUIRED.equals(lastActionType)) {
-//                // undo SMR/SRR may need to create & route onln revw document,
-//                // this will need some time.   also, some change in db may not be viewable 
-//                // before document is routed.  so, add this holding page for undo SMR/SRR.
-//                //            protocolForm.setActionHelper(new ActionHelper(protocolForm));
-//                //
-//                //            protocolForm.getActionHelper().prepareView();
-//                return routeProtocolToHoldingPage(mapping, protocolForm);
-//            }
-//        } else {
-//            GlobalVariables.getMessageMap().clearErrorMessages();
-//            GlobalVariables.getMessageMap().putError("documentstatechanged", KeyConstants.ERROR_PROTOCOL_DOCUMENT_STATE_CHANGED,  new String[] {}); 
-//        }
-//        return mapping.findForward(Constants.MAPPING_BASIC);
-//
-//    }
+    }    
     
     public ActionForward submitCommitteeDecision(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
@@ -3054,120 +2237,10 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
-
-    
-    
-//    private Printable getPrintableArtifacts(ProtocolBase protocol, String reportType, StringBuffer fileName,Map reportParameters) {
-//        ProtocolPrintType printType = ProtocolPrintType.valueOf(PRINTTAG_MAP.get(reportType));
-//
-//        AbstractPrint printable = (AbstractPrint)getProtocolPrintingService().getProtocolPrintable(printType);
-//        printable.setPrintableBusinessObject(protocol);
-//        printable.setReportParameters(reportParameters);
-//        fileName.append(reportType).append("-");
-//        return printable;
-//    }
-//
     
     private IacucProtocolPrintingService getProtocolPrintingService() {
         return KraServiceLocator.getService(IacucProtocolPrintingService.class);
     }
-    
-//
-//    /**
-//     * Adds a risk level to the bean indicated by the task name in the request.
-//     * 
-//     * @param mapping The mapping associated with this action.
-//     * @param form The ProtocolBase form.
-//     * @param request The HTTP request
-//     * @param response The HTTP response
-//     * @return the forward to the current page
-//     */
-//    public ActionForward addRiskLevel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-//        ProtocolFormBase protocolForm = (ProtocolFormBase) form;
-//        ProtocolDocumentBase document = protocolForm.getProtocolDocument();
-//        ProtocolRiskLevelBean protocolRiskLevelBean = getProtocolRiskLevelBean(mapping, form, request, response);
-//        
-//        if (protocolRiskLevelBean != null) {
-//            String errorPropertyName = protocolRiskLevelBean.getErrorPropertyKey();
-//            ProtocolRiskLevel newProtocolRiskLevel = protocolRiskLevelBean.getNewProtocolRiskLevel();
-//            ProtocolBase protocol = document.getProtocol();
-//            
-//            if (applyRules(new ProtocolAddRiskLevelEvent(document, errorPropertyName, newProtocolRiskLevel))) {
-//                getProtocolRiskLevelService().addRiskLevel(newProtocolRiskLevel, protocol);
-//                
-//                protocolRiskLevelBean.setNewProtocolRiskLevel(new ProtocolRiskLevel());
-//            }
-//        }
-//        
-//        return mapping.findForward(Constants.MAPPING_BASIC);
-//    }
-//
-//    /**
-//     * Updates a persisted risk level in the bean indicated by the task name in the request, moving the persisted risk level to Inactive status and adding a 
-//     * new Active status risk level.
-//     * 
-//     * @param mapping The mapping associated with this action.
-//     * @param form The ProtocolBase form.
-//     * @param request The HTTP request
-//     * @param response The HTTP response
-//     * @return the forward to the current page
-//     */
-//    public ActionForward updateRiskLevel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-//        ProtocolFormBase protocolForm = (ProtocolFormBase) form;
-//        ProtocolDocumentBase document = protocolForm.getProtocolDocument();
-//        ProtocolRiskLevelBean protocolRiskLevelBean = getProtocolRiskLevelBean(mapping, form, request, response);
-//        
-//        if (protocolRiskLevelBean != null) {
-//            int lineNumber = getSelectedLine(request);
-//            ProtocolRiskLevel currentProtocolRiskLevel = document.getProtocol().getProtocolRiskLevels().get(lineNumber);
-//            ProtocolRiskLevel newProtocolRiskLevel = protocolRiskLevelBean.getNewProtocolRiskLevel();
-//            
-//            if (applyRules(new ProtocolUpdateRiskLevelEvent(document, lineNumber))) {
-//                getProtocolRiskLevelService().updateRiskLevel(currentProtocolRiskLevel, newProtocolRiskLevel);
-//            }
-//        }
-//        
-//        return mapping.findForward(Constants.MAPPING_BASIC);
-//    }
-//    
-//    /**
-//     * Deletes a risk level from the bean indicated by the task name in the request.
-//     * 
-//     * @param mapping The mapping associated with this action.
-//     * @param form The ProtocolBase form.
-//     * @param request The HTTP request
-//     * @param response The HTTP response
-//     * @return the forward to the current page
-//     */
-//    public ActionForward deleteRiskLevel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-//        ProtocolFormBase protocolForm = (ProtocolFormBase) form;
-//        ProtocolDocumentBase document = protocolForm.getProtocolDocument();
-//        ProtocolRiskLevelBean protocolRiskLevelBean = getProtocolRiskLevelBean(mapping, form, request, response);
-//        
-//        if (protocolRiskLevelBean != null) {
-//            int lineNumber = getSelectedLine(request);
-//            ProtocolBase protocol = document.getProtocol();
-//            
-//            getProtocolRiskLevelService().deleteRiskLevel(lineNumber, protocol);
-//        }
-//        
-//        return mapping.findForward(Constants.MAPPING_BASIC);
-//    }
-//    
-//    private ProtocolRiskLevelBean getProtocolRiskLevelBean(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-//        ProtocolRiskLevelBean protocolRiskLevelBean = null;
-//        
-//        ProtocolActionBean protocolActionBean = getActionBean(form, request);
-//        if (protocolActionBean != null && protocolActionBean instanceof ProtocolRiskLevelCommentable) {
-//            protocolRiskLevelBean = ((ProtocolRiskLevelCommentable) protocolActionBean).getProtocolRiskLevelBean();
-//        }
-//        
-//        return protocolRiskLevelBean;
-//    }
-
-    
-    
-    
     
     /**
      * Adds a review comment to the bean indicated by the task name in the request.
@@ -3432,14 +2505,6 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         return KraServiceLocator.getService(IacucProtocolAssignToAgendaService.class);
     }
     
-//    private ProtocolAssignReviewersService getProtocolAssignReviewersService() {
-//        return KraServiceLocator.getService(ProtocolAssignReviewersService.class);
-//    }
-//    
-//    private ProtocolGrantExemptionService getProtocolGrantExemptionService() {
-//        return KraServiceLocator.getService(ProtocolGrantExemptionService.class);
-//    }
-    
     private IacucProtocolApproveService getProtocolApproveService() {
         return KraServiceLocator.getService(IacucProtocolApproveService.class);
     }
@@ -3451,16 +2516,11 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
     private IacucCommitteeDecisionService getCommitteeDecisionService() {
         return KraServiceLocator.getService(IacucCommitteeDecisionService.class);
     }
-    
-//    private ProtocolRiskLevelService getProtocolRiskLevelService() {
-//        return KraServiceLocator.getService(ProtocolRiskLevelService.class);
-//    }
  
     private IacucReviewCommentsService getReviewCommentsService() {
         return KraServiceLocator.getService(IacucReviewCommentsService.class);
     }
-    
-//    
+        
     /**
      * 
      * This method is to add a file to notify iacuc 
@@ -3664,239 +2724,18 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         }
 
         return selectedAttachment;
-    }
-//    
-//    /**
-//     * 
-//     * This method is to add attachment for several request actions.
-//     * @param mapping
-//     * @param form
-//     * @param request
-//     * @param response
-//     * @return
-//     * @throws Exception
-//     */
-//    public ActionForward addRequestAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
-//        throws Exception {
-//        
-//        ProtocolFormBase protocolForm = (ProtocolFormBase) form;
-//        ProtocolRequestBean requestBean = getProtocolRequestBean(form, request);
-//        
-//        if (protocolForm.getActionHelper().validFile(requestBean.getNewActionAttachment(), requestBean.getBeanName())) {
-//            // add this log to trace if there is any further issue
-//            LOG.info("addRequestAttachment " + requestBean.getProtocolActionTypeCode() + " " + requestBean.getNewActionAttachment().getFile().getFileName()
-//                    + protocolForm.getProtocolDocument().getDocumentNumber());
-//            
-//            requestBean.getActionAttachments().add(requestBean.getNewActionAttachment());
-//            requestBean.setNewActionAttachment(new ProtocolActionAttachment());
-//        }
-//        
-//        return mapping.findForward(Constants.MAPPING_BASIC);
-//    }
-//
-//    /**
-//     * 
-//     * This method view the selected attachment from the request action panel
-//     * @param mapping
-//     * @param form
-//     * @param request
-//     * @param response
-//     * @return
-//     * @throws Exception
-//     */
-//    public ActionForward viewRequestAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
-//        throws Exception {
-//
-//        ProtocolRequestBean requestBean = getProtocolRequestBean(form, request);
-//        int selection = getSelectedLine(request);
-//        
-//        if (requestBean != null) {
-//            ProtocolActionAttachment attachment = requestBean.getActionAttachments().get(selection);
-//    
-//            if (attachment == null) {
-//                LOG.info(NOT_FOUND_SELECTION + selection);
-//                // may want to tell the user the selection was invalid.
-//                return mapping.findForward(Constants.MAPPING_BASIC);
-//            }
-//    
-//            this.streamToResponse(attachment.getFile().getFileData(), getValidHeaderString(attachment.getFile().getFileName()),
-//                    getValidHeaderString(attachment.getFile().getContentType()), response);
-//        }
-//        
-//        return RESPONSE_ALREADY_HANDLED;
-//    }
-//
-//    /**
-//     * 
-//     * This method is to delete the selected request action attachment
-//     * @param mapping
-//     * @param form
-//     * @param request
-//     * @param response
-//     * @return
-//     * @throws Exception
-//     */
-//    public ActionForward deleteRequestAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
-//        throws Exception {
-//        
-//        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
-//        
-//        ProtocolRequestBean requestBean = getProtocolRequestBean(form, request);
-//        if (requestBean != null) {
-//            forward = confirmDeleteAttachment(mapping, (ProtocolFormBase) form, request, response, requestBean.getActionAttachments());
-//        }
-//        
-//        return forward;
-//    }
-//   
+    }   
     
     private void recordProtocolActionSuccess(String protocolActionName) {
         KNSGlobalVariables.getMessageList().add(KeyConstants.MESSAGE_PROTOCOL_ACTION_SUCCESSFULLY_COMPLETED, protocolActionName);
     }
     
-//    
-//    /**
-//     * Method called when adding a protocol note.
-//     * 
-//     * @param mapping the action mapping
-//     * @param form the form.
-//     * @param request the request.
-//     * @param response the response.
-//     * @return an action forward.
-//     * @throws Exception if there is a problem executing the request.
-//     */
-//    public ActionForward addNote(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
-//            HttpServletResponse response) throws Exception {
-//        ProtocolFormBase protocolForm = (ProtocolFormBase) form;
-//        if (protocolForm.getActionHelper().getCanManageNotes()) {
-//            protocolForm.getNotesAttachmentsHelper().addNewNote();
-//            protocolForm.getNotesAttachmentsHelper().setManageNotesOpen(true);
-//        }
-//        return mapping.findForward(Constants.MAPPING_BASIC);
-//    }
-//    
-//    /**
-//     * Method called when modifying an existing protocol note.
-//     * 
-//     * @param mapping the action mapping
-//     * @param form the form.
-//     * @param request the request.
-//     * @param response the response.
-//     * @return an action forward.
-//     * @throws Exception if there is a problem executing the request.
-//     */
-//    public ActionForward editNote(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
-//            HttpServletResponse response) throws Exception {
-//        ProtocolFormBase protocolForm = (ProtocolFormBase) form;
-//        if (protocolForm.getActionHelper().getCanManageNotes()) {
-//            int selection = this.getSelectedLine(request);
-//            protocolForm.getNotesAttachmentsHelper().modifyNote(selection);
-//            protocolForm.getNotesAttachmentsHelper().setManageNotesOpen(true);
-//        }
-//        return mapping.findForward(Constants.MAPPING_BASIC);
-//    }
-//    
-//    /**
-//     * Method called when deleting an existing protocol note.
-//     * 
-//     * @param mapping the action mapping
-//     * @param form the form.
-//     * @param request the request.
-//     * @param response the response.
-//     * @return an action forward.
-//     * @throws Exception if there is a problem executing the request.
-//     */
-//    public ActionForward deleteNote(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
-//            HttpServletResponse response) throws Exception {
-//        ProtocolFormBase protocolForm = (ProtocolFormBase) form;
-//        
-//        if (protocolForm.getActionHelper().getCanManageNotes()) {
-//            if (protocolForm.getActionHelper().getCanManageNotes()) {
-//                int noteToDelete = getLineToDelete(request);
-//                protocolForm.getNotesAttachmentsHelper().deleteNote(noteToDelete);
-//                protocolForm.getNotesAttachmentsHelper().setManageNotesOpen(false);
-//            }
-//        }
-//        return mapping.findForward(Constants.MAPPING_BASIC);
-//    }
-//    
-//    /**
-//     * 
-//     * This method...
-//     * @param mapping
-//     * @param form
-//     * @param request
-//     * @param response
-//     * @return
-//     * @throws Exception
-//     */
-//    public ActionForward saveNotes(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
-//            HttpServletResponse response) throws Exception {
-//        ProtocolFormBase protocolForm = (ProtocolFormBase) form;
-//        ProtocolBase protocol = protocolForm.getProtocolDocument().getProtocol();
-//            
-//        if (!hasDocumentStateChanged(protocolForm)) {
-//            if (protocolForm.getActionHelper().getCanManageNotes()) {
-//                
-//                final AddProtocolNotepadRule rule = new AddProtocolNotepadRuleImpl();
-//                    
-//                //final AddProtocolNotepadEvent event = new AddProtocolNotepadEvent(this.form.getDocument(), this.newProtocolNotepad);
-//                boolean validNotes = true;
-//                //validate all of them first
-//                for (ProtocolNotepad note : protocol.getNotepads()) {
-//                    if (note.isEditable()) {
-//                        AddProtocolNotepadEvent event = new AddProtocolNotepadEvent(protocol.getProtocolDocument(), note);
-//                        if (!rule.processAddProtocolNotepadRules(event)) {
-//                            validNotes = false;
-//                        }
-//                    }
-//                }
-//                
-//                if (validNotes) {
-//                    for (ProtocolNotepad note : protocol.getNotepads()) {
-//                        if (StringUtils.isBlank(note.getUpdateUserFullName())) {
-//                            note.setUpdateUserFullName(GlobalVariables.getUserSession().getPerson().getName());
-//                            note.setUpdateTimestamp(KraServiceLocator.getService(DateTimeService.class).getCurrentTimestamp());
-//                        }
-//                        note.setEditable(false);
-//                    }
-//                    getBusinessObjectService().save(protocol.getNotepads());
-//                    recordProtocolActionSuccess("Manage Notes");
-//                }
-//            }
-//        } else {
-//            GlobalVariables.getMessageMap().clearErrorMessages();
-//            GlobalVariables.getMessageMap().putError("documentstatechanged", KeyConstants.ERROR_PROTOCOL_DOCUMENT_STATE_CHANGED,  new String[] {}); 
-//        }
-//        
-//        return mapping.findForward(Constants.MAPPING_BASIC);
-//    }
-//       
-//
-//    public ActionForward submissionQuestionnaire(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-//
-//        ((ProtocolFormBase)form).getQuestionnaireHelper().prepareView();
-//        ((ProtocolFormBase)form).getQuestionnaireHelper().setSubmissionActionTypeCode(getSubmitActionType(request));
-//        // TODO : if questionnaire is already populated, then don't need to do it
-//            ProtocolSubmissionBeanBase submissionBean = getSubmissionBean(form, ((ProtocolFormBase)form).getQuestionnaireHelper().getSubmissionActionTypeCode());
-//            if (CollectionUtils.isEmpty(submissionBean.getAnswerHeaders())) {
-//                ((ProtocolFormBase)form).getQuestionnaireHelper().populateAnswers();
-//                submissionBean.setAnswerHeaders(((ProtocolFormBase)form).getQuestionnaireHelper().getAnswerHeaders());
-//            } else {
-//                ((ProtocolFormBase)form).getQuestionnaireHelper().setAnswerHeaders(submissionBean.getAnswerHeaders());
-//            }
-//        
-//        return mapping.findForward(Constants.MAPPING_BASIC);
-//    }
-//
-
     /*
      * confirmation question for followup action
      */
     private ActionForward confirmFollowupAction(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response, String forward) throws Exception {
 
-        //List<ValidProtocolActionAction> validFollowupActions = getFollowupActionService().getFollowupsForProtocol(((ProtocolFormBase)form).getProtocolDocument().getProtocol());
         List<IacucValidProtocolActionAction> validFollowupActions = getFollowupActionService().getFollowupsForProtocol(((ProtocolFormBase)form).getProtocolDocument().getProtocol());
 
         if (validFollowupActions.isEmpty()) {
@@ -3938,12 +2777,6 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         getBusinessObjectService().save(protocol.getLastProtocolAction());
     }
 
-//    private void setQnCompleteStatus(List<AnswerHeader> answerHeaders) {
-//        for (AnswerHeader answerHeader : answerHeaders) {
-//            answerHeader.setCompleted(getQuestionnaireAnswerService().isQuestionnaireAnswerComplete(answerHeader.getAnswers()));
-//        }
-//    }
-//    
     private QuestionnaireAnswerService getQuestionnaireAnswerService() {
         return KraServiceLocator.getService(QuestionnaireAnswerService.class);
     }
@@ -4201,21 +3034,6 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
               
               if (StringUtils.equals(IacucProtocolActionType.NOTIFY_IACUC, notificationRequestBean.getActionType())) {
                   renderer = new NotifyIacucNotificationRenderer(protocol, ((IacucActionHelper)protocolForm.getActionHelper()).getIacucProtocolNotifyIacucBean().getComment());
-//              } else if (StringUtils.equals(IacucProtocolActionType.NOTIFIED_COMMITTEE, notificationRequestBean.getActionType())) {
-//                  renderer = new NotifyCommitteeNotificationRenderer(notificationRequestBean.getProtocol(), 
-//                          protocolForm.getActionHelper().getProtocolNotifyCommitteeBean().getCommitteeName(), 
-//                          protocolForm.getActionHelper().getProtocolNotifyCommitteeBean().getComment(), 
-//                          protocolForm.getActionHelper().getProtocolNotifyCommitteeBean().getActionDate());
-//              } else if (StringUtils.equals(IacucProtocolActionType.TERMINATED, notificationRequestBean.getActionType())) {
-//                  renderer = new ProtocolTerminatedNotificationRenderer(protocol, protocolForm.getActionHelper().getProtocolTerminateRequestBean().getReason());
-//              } else if (StringUtils.equals(IacucProtocolActionType.EXPIRED, notificationRequestBean.getActionType())) {
-//                  renderer = new ProtocolExpiredNotificationRenderer(protocol);
-//              } else if (StringUtils.equals(IacucProtocolActionType.IACUC_DISAPPROVED, notificationRequestBean.getActionType())) {
-//                  renderer = new ProtocolDisapprovedNotificationRenderer(protocol);
-//              } else if (StringUtils.equals(IacucProtocolActionType.SUSPENDED, notificationRequestBean.getActionType())) {
-//                  renderer = new ProtocolSuspendedNotificationRenderer(protocol);
-//              } else if (StringUtils.equals(IacucProtocolActionType.CLOSED_ADMINISTRATIVELY_CLOSED, notificationRequestBean.getActionType())) {
-//                  renderer = new ProtocolClosedNotificationRenderer(protocol, notificationRequestBean);
               } else if (StringUtils.equals(IacucProtocolActionType.IACUC_DELETED, notificationRequestBean.getActionType()) ||
                          StringUtils.equals(IacucProtocolActionType.IACUC_WITHDRAWN, notificationRequestBean.getActionType())) {
                   renderer = new IacucProtocolWithReasonNotificationRenderer(protocol, protocolForm.getActionHelper().getProtocolDeleteBean());
@@ -4240,106 +3058,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
                   getNotificationService().sendNotificationAndPersist(context, new IacucProtocolNotification(), protocol);
                   return forward;
               }
-          }
-    
-    
-    
-// TODO *********commented the code below during IACUC refactoring********* 
-//    /*
-//     * This is for assign reviewer and submit for review.  The notificationRequestBeans contains all 'added' or 'removed'
-//     * reviewers.  All the roles recipient will be merged, then forward to protocolnotificationeditor for ad hoc notification 
-//     * process.
-//     */
-//    private ActionForward checkToSendNotification(ActionMapping mapping, ActionForward forward, ProtocolFormBase protocolForm,
-//            IRBNotificationRenderer renderer, List<ProtocolNotificationRequestBeanBase> notificationRequestBeans) {
-//
-//        // AssignReviewerNotificationRenderer renderer = new AssignReviewerNotificationRenderer(protocol, "added");
-//        IRBNotificationContext context = new IRBNotificationContext(notificationRequestBeans.get(0).getProtocol(),
-//            notificationRequestBeans.get(0).getProtocolOnlineReview(), notificationRequestBeans.get(0).getActionType(),
-//            notificationRequestBeans.get(0).getDescription(), renderer);
-//        context.setPopulateRole(true);
-//        if (protocolForm.getNotificationHelper().getPromptUserForNotificationEditor(context)) {
-////            context.setForwardName(forward.getName());
-//            protocolForm.getNotificationHelper().initializeDefaultValues(context);
-//            List<NotificationTypeRecipient> notificationRecipients = protocolForm.getNotificationHelper()
-//                    .getNotificationRecipients();
-//            List<NotificationTypeRecipient> allRecipients = new ArrayList<NotificationTypeRecipient>();
-//            for (NotificationTypeRecipient recipient : notificationRecipients) {
-//                try {
-//                    NotificationTypeRecipient copiedRecipient = (NotificationTypeRecipient) ObjectUtils.deepCopy(recipient);
-//                    // populate role qualifier with proper context
-//                    context.populateRoleQualifiers(copiedRecipient);
-//                    allRecipients.add(copiedRecipient);
-//                }
-//                catch (Exception e) {
-//                    // TODO
-//                }
-//            }
-//            int i = 1;
-//            // add all new reviewer to recipients
-//            while (notificationRequestBeans.size() > i) {
-//                context = new IRBNotificationContext(notificationRequestBeans.get(i).getProtocol(), 
-//                                                     notificationRequestBeans.get(i).getProtocolOnlineReview(), 
-//                                                     notificationRequestBeans.get(i).getActionType(), 
-//                                                     notificationRequestBeans.get(i).getDescription(), renderer);
-//                context.setPopulateRole(true);
-//                // protocolForm.getNotificationHelper().setNotificationRecipients(new ArrayList<NotificationTypeRecipient>());
-//                protocolForm.getNotificationHelper().initializeDefaultValues(context);
-//                List<NotificationTypeRecipient> recipients = protocolForm.getNotificationHelper().getNotificationRecipients();
-//
-//                for (NotificationTypeRecipient recipient : recipients) {
-//                    try {
-//                        // note : need to deepcopy here. If I don't do that, then all reviewer role will have same
-//                        // notificationrecipient object returned from service call
-//                        // probably the object service/ojb has a cache ?
-//                        NotificationTypeRecipient copiedRecipient = (NotificationTypeRecipient) ObjectUtils.deepCopy(recipient);
-//                        context.populateRoleQualifiers(copiedRecipient);
-//                        allRecipients.add(copiedRecipient);
-//                    }
-//                    catch (Exception e) {
-//                        // TODO
-//                    }
-//                }
-//                // allRecipients.addAll(recipients);
-//                i++;
-//            }
-//            protocolForm.getNotificationHelper().setNotificationRecipients(allRecipients);
-//            if (forward == null) {
-//                context.setForwardName("holdingPage");
-//            } else {
-//                context.setForwardName(forward.getName());
-//            }
-//        return mapping.findForward("protocolNotificationEditor");
-//        }
-//        else {
-////            int i = 0;
-////            while (notificationRequestBeans.size() > i) {
-////                context = new IRBNotificationContext(notificationRequestBeans.get(i).getProtocol(), notificationRequestBeans.get(i)
-////                        .getProtocolOnlineReview(), notificationRequestBeans.get(i).getActionType(), notificationRequestBeans
-////                        .get(i).getDescription(), renderer);
-////                protocolForm.getNotificationHelper().initializeDefaultValues(context);
-////                List<NotificationTypeRecipient> recipients = protocolForm.getNotificationHelper().getNotificationRecipients();
-////
-////                List<NotificationTypeRecipient> allRecipients = new ArrayList<NotificationTypeRecipient>();
-////                for (NotificationTypeRecipient recipient : recipients) {
-////                    try {
-////                        // note : need to deepcopy here. If I don't do that, then all reviewer role will have same
-////                        // notificationrecipient object returned from service call
-////                        // probably the object service/ojb has a cache ?
-////                        NotificationTypeRecipient copiedRecipient = (NotificationTypeRecipient) ObjectUtils.deepCopy(recipient);
-////                        context.populateRoleQualifiers(copiedRecipient);
-////                        allRecipients.add(copiedRecipient);
-////                    } catch (Exception e) {
-////                        
-////                    }
-////                }
-////                protocolForm.getNotificationHelper().setNotificationRecipients(allRecipients);
-////                getNotificationService().sendNotification(context);
-////                i++;
-////            }
-//            return forward;
-//        }
-//    }
+          }    
     
     public ActionForward sendNotification(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
@@ -4407,7 +3126,6 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
     }
 
     private ActionForward correspondenceAction(ActionMapping mapping, ActionForm form, boolean saveAction) {
-        // final int selection = this.getSelectedLine(request);
         IacucProtocolForm protocolForm = ((IacucProtocolForm) form);
         IacucActionHelper actionHelper = (IacucActionHelper) protocolForm.getActionHelper();
         ProtocolCorrespondence correspondence = actionHelper.getProtocolCorrespondence();
@@ -4524,15 +3242,9 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
          */
         IacucProtocolDocument ipd = (IacucProtocolDocument)this.getDocumentService().getByDocumentHeaderId(protocolForm.getDocId());
         protocolForm.setDocument(ipd);
-        //IacucProtocol protocol = protocolForm.getIacucProtocolDocument().getIacucProtocol();
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
-        //String fileName = "Protocol_Summary_Report.pdf";
-        //ProtocolPrintType printType = ProtocolPrintType.PROTOCOL_FULL_PROTOCOL_REPORT;
-        //String reportName = protocol.getProtocolNumber() + "-" + printType.getReportName();
-        //AttachmentDataSource dataStream = getIacucProtocolPrintingService().print(reportName, getPrintArtifacts(protocolForm));
         AttachmentDataSource dataStream = getIacucProtocolPrintingService().printProtocolSelectedItems(protocolForm);
         if (dataStream.getContent() != null) {
-            //dataStream.setFileName(fileName.toString());
             PrintingUtils.streamToResponse(dataStream, response);
             forward = null;
         }
@@ -4554,24 +3266,14 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
     public ActionForward printProtocolDocument(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
-        //IacucProtocol protocol = protocolForm.getIacucProtocolDocument().getIacucProtocol();
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         
         IacucActionHelper actionHelper = (IacucActionHelper)protocolForm.getActionHelper();
         
-        
-        
-        //StringBuffer fileName = new StringBuffer().append("ProtocolBase-");
-
         if (applyRules(new ProtocolActionPrintEvent(protocolForm.getProtocolDocument(), actionHelper.getSummaryReport(),
             actionHelper.getFullReport(), actionHelper.getHistoryReport(), actionHelper.getReviewCommentsReport()))) {
-            //ProtocolPrintType printType = ProtocolPrintType.PROTOCOL_FULL_PROTOCOL_REPORT;
-            //String reportName = protocol.getProtocolNumber()+"-"+printType.getReportName();
-            //AttachmentDataSource dataStream = getIacucProtocolPrintingService().print(reportName,getPrintReportArtifacts(protocolForm, fileName));
             AttachmentDataSource dataStream = getIacucProtocolPrintingService().printProtocolDocument(protocolForm);
-            //(reportName,getPrintReportArtifacts(protocolForm, fileName));
             if (dataStream.getContent() != null) {
-                //dataStream.setFileName(fileName.toString());
                 PrintingUtils.streamToResponse(dataStream, response);
                 forward = null;
             }
@@ -4668,7 +3370,6 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
             if (ObjectUtils.isNotNull(personId)) {
                 IacucProtocolReviewerBean bean = new IacucProtocolReviewerBean();
                 bean.setFullName(fullName); 
-                //bean.setNonEmployeeFlag(nonEmployeeFlag); 
                 bean.setPersonId(personId); 
                 bean.setReviewerTypeCode(reviewerTypeCode);
                 bean.setActionFlag(IacucProtocolReviewerBean.CREATE);
@@ -4727,7 +3428,6 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
  private ActionForward checkToSendNotification(ActionMapping mapping, ActionForward forward, ProtocolFormBase protocolForm,
          IacucProtocolNotificationRenderer renderer, List<ProtocolNotificationRequestBeanBase> notificationRequestBeans) {
 
-     // AssignReviewerNotificationRenderer renderer = new AssignReviewerNotificationRenderer(protocol, "added");
      IacucProtocolNotificationContext context = new IacucProtocolNotificationContext((IacucProtocol) notificationRequestBeans.get(0).getProtocol(),
          (IacucProtocolOnlineReview)notificationRequestBeans.get(0).getProtocolOnlineReview(), notificationRequestBeans.get(0).getActionType(),
          notificationRequestBeans.get(0).getDescription(), renderer);
@@ -4756,7 +3456,6 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
                                                   notificationRequestBeans.get(i).getActionType(), 
                                                   notificationRequestBeans.get(i).getDescription(), renderer);
              context.setPopulateRole(true);
-             // protocolForm.getNotificationHelper().setNotificationRecipients(new ArrayList<NotificationTypeRecipient>());
              protocolForm.getNotificationHelper().initializeDefaultValues(context);
              List<NotificationTypeRecipient> recipients = protocolForm.getNotificationHelper().getNotificationRecipients();
 
@@ -4773,7 +3472,6 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
                      // TODO
                  }
              }
-             // allRecipients.addAll(recipients);
              i++;
          }
          protocolForm.getNotificationHelper().setNotificationRecipients(allRecipients);
@@ -4873,9 +3571,6 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
                 // undo SMR/SRR may need to create & route onln revw document,
                 // this will need some time.   also, some change in db may not be viewable 
                 // before document is routed.  so, add this holding page for undo SMR/SRR.
-                //            protocolForm.setActionHelper(new ActionHelper(protocolForm));
-                //
-                //            protocolForm.getActionHelper().prepareView();
                 return routeProtocolToHoldingPage(mapping, protocolForm);
             }
         } else {
