@@ -33,7 +33,6 @@ public class ProtocolAssignCmtSchedUnavailableAuthorizer extends ProtocolAuthori
     public boolean isAuthorized(String username, ProtocolTaskBase task) {
         ProtocolBase protocol = task.getProtocol();
         return (!kraWorkflowService.isInWorkflow(protocol.getProtocolDocument()) ||
-              //  !isPendingOrSubmittedToCommittee(protocol)) &&
                 !canExecuteAction(task.getProtocol(), ProtocolActionType.NOTIFIED_COMMITTEE)) &&
                hasPermission(username, protocol, PermissionConstants.PERFORM_IRB_ACTIONS_ON_PROTO);
     }

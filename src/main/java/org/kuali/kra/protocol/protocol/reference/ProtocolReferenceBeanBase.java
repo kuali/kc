@@ -124,7 +124,6 @@ public abstract class ProtocolReferenceBeanBase implements Serializable {
         sb.append("protocolReferenceId: ").append(this.protocolReferenceId).append(newLine);
         sb.append("protocolReferenceNumber: ").append(this.protocolReferenceNumber).append(newLine);
         sb.append("protocolReferenceTypeCode: ").append(this.protocolReferenceTypeCode).append(newLine);
-        //sb.append("protocolReferenceTypeCodeDescription: ").append(this.protocolReferenceTypeCodeDescription).append(newLine);
         sb.append("referenceKey: ").append(this.referenceKey).append(newLine);
         sb.append("applicationDate: ").append(this.applicationDate).append(newLine);
         sb.append("approvalDate: ").append(this.approvalDate).append(newLine);

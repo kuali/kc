@@ -49,7 +49,6 @@ public abstract class ProtocolReportPrintBase extends AbstractPrint {
      * @return {@link ArrayList} of {@link Source} XSLs
      */
     public List<Source> getXSLTemplates() {
-        //ArrayList<Source> sourceList = PrintingUtils.getXSLTforReport(getProtocolPrintType());
         if(StringUtils.isEmpty(getPrintHelper().getTemplate())) {
             throw new IllegalArgumentException(ERROR_MESSAGE);
         }

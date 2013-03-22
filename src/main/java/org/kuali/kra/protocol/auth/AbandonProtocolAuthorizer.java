@@ -46,8 +46,6 @@ public class AbandonProtocolAuthorizer extends ProtocolAuthorizerBase {
     public boolean isAuthorized(String userId, ProtocolTaskBase task) {
         // TODO : permission : PI and protocol has never been approved. protocol status is SRR/SMR
         return canExecuteAction(task.getProtocol(), ProtocolActionType.ABANDON_PROTOCOL) 
-            //&& isInitialProtocol(task.getProtocol())
-            //&& isPrincipalInvestigator(task.getProtocol()) ;
             && (hasPermission(userId, task.getProtocol(), PermissionConstants.SUBMIT_PROTOCOL)
                     || hasPermission(userId, task.getProtocol(), PermissionConstants.MODIFY_ANY_PROTOCOL));
     }
@@ -57,15 +55,6 @@ public class AbandonProtocolAuthorizer extends ProtocolAuthorizerBase {
      */
     private boolean isInitialProtocol(ProtocolBase protocol) {
         boolean initialProtocol = true;
-        
-        /* -- commented as part of GENERATED CODE need to verify
-        for (ProtocolActionBase action : protocol.getProtocolActions()) {
-            if (APPROVE_ACTION_TYPES.contains(action.getProtocolActionTypeCode())) {
-                initialProtocol = false;
-                break;
-            }
-        }
-        */
         return initialProtocol;
     }
     

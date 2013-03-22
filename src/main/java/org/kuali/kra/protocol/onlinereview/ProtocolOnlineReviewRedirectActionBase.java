@@ -56,10 +56,6 @@ public abstract class ProtocolOnlineReviewRedirectActionBase extends KraTransact
                     .getProtocolId());
             ProtocolBase protocol = (ProtocolBase) getBusinessObjectService().findByPrimaryKey(getProtocolClass(), keymap);
             if (isOnlineReviewEnabled(form, protocol)) {
-             // commented out and replaced with ActionDirect below in order to deal with a rice change that assumes that all action methods will return non-null ActionForward instances.                
-             //   response.sendRedirect(String.format("iacucProtocolOnlineReview.do?methodToCall=startProtocolOnlineReview&%s=%s",
-             //           PROTOCOL_DOCUMENT_NUMBER, protocol.getProtocolDocument().getDocumentNumber()));
-            
              return new ActionRedirect(String.format(getProtocolOnlineReviewActionIdHook() + ".do?methodToCall=startProtocolOnlineReview&%s=%s", PROTOCOL_DOCUMENT_NUMBER, protocol.getProtocolDocument().getDocumentNumber()));   
                 
             }
@@ -77,11 +73,6 @@ public abstract class ProtocolOnlineReviewRedirectActionBase extends KraTransact
 
 
     protected abstract Class<? extends ProtocolBase> getProtocolClass();
-    
-// TODO *********commented the code below during IACUC refactoring*********     
-//    protected Class getProtocolClass() {
-//        return ProtocolBase.class;    
-//    }
     
     private boolean isOnlineReviewEnabled(ActionForm form, ProtocolBase protocol) { 
         String principalId = GlobalVariables.getUserSession().getPrincipalId();
@@ -123,9 +114,6 @@ public abstract class ProtocolOnlineReviewRedirectActionBase extends KraTransact
     @Override
     public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-        // TODO Auto-generated method stub
-      //  return super.close(mapping, form, request, response);
-        
         return mapping.findForward(KRADConstants.MAPPING_PORTAL);
     }
     

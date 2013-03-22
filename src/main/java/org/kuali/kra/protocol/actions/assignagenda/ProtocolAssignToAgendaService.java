@@ -71,9 +71,6 @@ public interface ProtocolAssignToAgendaService {
      */
     void assignToAgenda(ProtocolBase protocol, ProtocolAssignToAgendaBean actionBean) throws Exception;
 
-// TODO *********commented the code below during IACUC refactoring*********     
-//    void assignToAgenda(ProtocolBase protocol, ProtocolExpeditedApproveBean actionBean) throws Exception;
-
     /**
      * 
      * This method returns the protocol action that assigned the passed in protocol to a committee agenda.

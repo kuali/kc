@@ -27,9 +27,7 @@ import org.kuali.kra.protocol.ProtocolDocumentBase;
 public abstract class SubmitProtocolAttachmentProtocolRuleImplBase {
 
     protected ProtocolAttachmentProtocolRuleHelperBase protocolHelper;
-// TODO *********commented the code below during IACUC refactoring********* 
-//    private final ProtocolAttachmentProtocolRuleHelperBase protocolHelper = new ProtocolAttachmentProtocolRuleHelperBase();
-    
+
     /**
      * Executes the rules related to {@link ProtocolAttachmentProtocolBase ProtocolAttachmentProtocolBase} when saving a ProtocolDocumentBase.
      * @param document the document

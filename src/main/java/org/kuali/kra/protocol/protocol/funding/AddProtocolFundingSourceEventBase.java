@@ -69,11 +69,6 @@ public abstract class AddProtocolFundingSourceEventBase extends ProtocolEventBas
         return fundingSource;
     }
 
-// TODO *********commented the code below during IACUC refactoring*********     
-//    @Override
-//    public ProtocolFundingSourceRuleBase getRule() {
-//        return new ProtocolFundingSourceRuleBase();
-//    }  
     public abstract ProtocolFundingSourceRuleBase getRule();
 
     public List<ProtocolFundingSourceBase> getProtocolFundingSources() {

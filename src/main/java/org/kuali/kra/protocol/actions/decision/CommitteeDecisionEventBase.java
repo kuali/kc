@@ -27,10 +27,6 @@ import org.kuali.rice.krad.rules.rule.BusinessRule;
  */
 public abstract class CommitteeDecisionEventBase<CD extends CommitteeDecision<?>> extends KraDocumentEventBase {
     
-// TODO *********commented the code below during IACUC refactoring*********     
-//    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory
-//    .getLog(CommitteeDecisionEventBase.class);
-    
     private CD actionBean;
     
     /**

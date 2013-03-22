@@ -27,34 +27,6 @@ import org.kuali.rice.kew.actiontaken.ActionTakenValue;
  */
 public interface ProtocolGenericActionService {
     
-// TODO *********commented the code below during IACUC refactoring*********     
-//    /**
-//     * Close a protocol.
-//     * @param protocol ProtocolBase object
-//     * @param actionBean ProtocolGenericActionBean object
-//     * @throws Exception if there was a general problem performing the action
-//     */
-//    void close(ProtocolBase protocol, ProtocolGenericActionBean actionBean) throws Exception;
-//    
-//    /**
-//     * Close enrollment for a protocol.
-//     * @param protocol ProtocolBase object
-//     * @param actionBean ProtocolGenericActionBean object
-//     * @throws Exception if there was a general problem performing the action
-//     */
-//    void closeEnrollment(ProtocolBase protocol, ProtocolGenericActionBean actionBean) throws Exception;
-//
-//    /**
-//     * Defer a protocol.
-//     * @param protocol ProtocolBase object
-//     * @param actionBean ProtocolGenericActionBean object
-//     * @return the newly versioned ProtocolBase document
-//     * @throws Exception if there was a general problem performing the action
-//     */
-//    ProtocolDocumentBase defer(ProtocolBase protocol, ProtocolGenericActionBean actionBean) throws Exception;
-    
-    
-    
     /**
      * Handles the versioning of the protocol following its disapproval in routing. It will reset the status of the new
      * copy of the protocol to be 'pending/in progress', and change the submission status to 'disapproved'.
@@ -89,32 +61,6 @@ public interface ProtocolGenericActionService {
      * @throws Exception if there was a general problem performing the action
      */
     void expire(ProtocolBase protocol, ProtocolGenericActionBean actionBean) throws Exception;
-    
-    
-// TODO *********commented the code below during IACUC refactoring*********     
-//    /**
-//     * Record IRB Acknowledgement for a protocol.
-//     * @param protocol ProtocolBase object
-//     * @param actionBean ProtocolGenericActionBean object
-//     * @throws Exception if there was a general problem performing the action
-//     */
-//    void irbAcknowledgement(ProtocolBase protocol, ProtocolGenericActionBean actionBean) throws Exception;
-//    
-//    /**
-//     * Permit Data Analysis.
-//     * @param protocol ProtocolBase object
-//     * @param actionBean ProtocolGenericActionBean object
-//     * @throws Exception if there was a general problem performing the action
-//     */
-//    void permitDataAnalysis(ProtocolBase protocol, ProtocolGenericActionBean actionBean) throws Exception;
-//    
-//    /**
-//     * Reopen a protocol for enrollment.
-//     * @param protocol ProtocolBase object
-//     * @param actionBean ProtocolGenericActionBean object
-//     * @throws Exception if there was a general problem performing the action
-//     */
-//    void reopenEnrollment(ProtocolBase protocol, ProtocolGenericActionBean actionBean) throws Exception;
     
     /**
      * Returns the protocol to the PI for specific minor revisions.
@@ -153,15 +99,6 @@ public interface ProtocolGenericActionService {
      */
     void suspend(ProtocolBase protocol, ProtocolGenericActionBean actionBean) throws Exception;
 
-// TODO *********commented the code below during IACUC refactoring*********     
-//    /**
-//     * Suspend the protocol by DSMB.
-//     * @param protocol ProtocolBase object
-//     * @param actionBean ProtocolGenericActionBean object
-//     * @throws Exception if there was a general problem performing the action
-//     */
-//    void suspendByDsmb(ProtocolBase protocol, ProtocolGenericActionBean actionBean) throws Exception;
-    
     /**
      * Terminate a protocol.
      * @param protocol ProtocolBase object

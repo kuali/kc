@@ -70,24 +70,13 @@ public abstract class ProtocolCorrespondenceTemplateServiceImpl implements Proto
     }
     
     public ProtocolCorrespondenceTemplateBase getProtocolCorrespondenceTemplate (String committeeId, String protoCorrespTypeCode) {
-
-        // TODO : ProtocolCorrespondenceTemplateBase is using 'committeeId' not the pk (id) of committee
-        // is this ok ?
         Map fieldValues = new HashMap();
         fieldValues.put("committeeId", committeeId);
         fieldValues.put("protoCorrespTypeCode", protoCorrespTypeCode);
-        ProtocolCorrespondenceTemplateBase protocolCorrespondenceTemplate = null;
-        
-// TODO *********commented the code below during IACUC refactoring*********         
-//        List<ProtocolCorrespondenceTemplateBase> templates = (List<ProtocolCorrespondenceTemplateBase>)businessObjectService.findMatching(ProtocolCorrespondenceTemplateBase.class, fieldValues);
-        
+        ProtocolCorrespondenceTemplateBase protocolCorrespondenceTemplate = null;        
         List<ProtocolCorrespondenceTemplateBase> templates = (List<ProtocolCorrespondenceTemplateBase>)businessObjectService.findMatching(getProtocolCorrespondenceTemplateBOClassHook(), fieldValues);
         if (templates.isEmpty()) {
             fieldValues.put("committeeId", "DEFAULT");
-            
-// TODO *********commented the code below during IACUC refactoring*********             
-//            templates = (List<ProtocolCorrespondenceTemplateBase>)businessObjectService.findMatching(ProtocolCorrespondenceTemplateBase.class, fieldValues);
-            
             templates = (List<ProtocolCorrespondenceTemplateBase>)businessObjectService.findMatching(getProtocolCorrespondenceTemplateBOClassHook(), fieldValues);
             if (!templates.isEmpty()) {
                 protocolCorrespondenceTemplate = templates.get(0);

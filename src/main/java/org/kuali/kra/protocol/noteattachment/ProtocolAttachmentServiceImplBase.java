@@ -85,27 +85,6 @@ public abstract class ProtocolAttachmentServiceImplBase implements ProtocolAttac
         return this.getCodeType(getProtocolAttachmentTypeClassHook(), code);
     }
 
-// TODO *********commented the code below during IACUC refactoring*********         
-//    /** {@inheritDoc} */
-//    public Collection<ProtocolAttachmentType> getTypesForGroup(String code) {
-//        if (code == null) {
-//            throw new IllegalArgumentException("the code is null");
-//        }
-//        
-//        @SuppressWarnings("unchecked")
-//        final Collection<ProtocolAttachmentTypeGroup> typeGroups
-//            = this.boService.findMatching(ProtocolAttachmentTypeGroup.class, Collections.singletonMap("groupCode", code));
-//        if (typeGroups == null) {
-//            return new ArrayList<ProtocolAttachmentType>();
-//        }
-//        
-//        final Collection<ProtocolAttachmentType> types = new ArrayList<ProtocolAttachmentType>();
-//        for (final ProtocolAttachmentTypeGroup typeGroup : typeGroups) {
-//            types.add(typeGroup.getType());
-//        }
-//        
-//        return types;
-//    }
     public abstract Collection<ProtocolAttachmentTypeBase> getTypesForGroup(String code);
     
     /** {@inheritDoc} */
@@ -123,17 +102,6 @@ public abstract class ProtocolAttachmentServiceImplBase implements ProtocolAttac
         if (attachment == null) {
             throw new IllegalArgumentException("the attachment is null");
         }
-//        if (attachment instanceof ProtocolAttachmentPersonnelBase) {
-//            int idx = 0;
-//            for (ProtocolAttachmentPersonnelBase attachmentPersonnel : ((ProtocolAttachmentPersonnelBase) attachment).getPerson().getAttachmentPersonnels()) {
-//                if (attachmentPersonnel.getId().equals(attachment.getId())) {
-//                    break;
-//                }
-//                idx++;
-//            }
-//            ((ProtocolAttachmentPersonnelBase) attachment).getPerson().getAttachmentPersonnels().remove(idx);
-//        }
-        
         this.boService.delete(attachment);
     }
     

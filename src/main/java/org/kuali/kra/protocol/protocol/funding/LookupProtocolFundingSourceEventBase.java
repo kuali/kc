@@ -38,10 +38,6 @@ public abstract class LookupProtocolFundingSourceEventBase extends ProtocolEvent
         this(errorPathPrefix, (ProtocolDocumentBase) document, fundingSourceTypeCode, type);
     }
     
-//    public LookupProtocolFundingSourceRule getRule() {
-//        return new LookupProtocolFundingSourceRule();
-//    }
-    
     public abstract LookupProtocolFundingSourceRule getRule();
     
     

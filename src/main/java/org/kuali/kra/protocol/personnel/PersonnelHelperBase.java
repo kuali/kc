@@ -137,22 +137,12 @@ public abstract class PersonnelHelperBase implements Serializable {
     }
 
     protected abstract void initializeTrainingSection();
-// TODO *********commented the code below during IACUC refactoring*********      
-    /*
-    private void initializeTrainingSection() {
-        setPersonTrainingSectionRequired(Boolean.parseBoolean(getParameterValue(Constants.PARAMETER_PROTOCOL_PERSON_TRAINING_SECTION)));
-    }
-    */
 
     /**
      * This method is to get parameter value
      * @return parameter value
      */
     protected String getParameterValue(String parameterName) {
-        
-// TODO *********commented the code below during IACUC refactoring********* 
-//        return this.getParameterService().getParameterValueAsString(ProtocolDocumentBase.class, parameterName);
-        
         return this.getParameterService().getParameterValueAsString(getProtocolDocumentBOClassHook(), parameterName);        
     }
 

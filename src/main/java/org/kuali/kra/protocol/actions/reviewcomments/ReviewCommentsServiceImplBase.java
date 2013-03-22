@@ -60,15 +60,6 @@ import org.kuali.rice.krad.util.GlobalVariables;
 
 public abstract class ReviewCommentsServiceImplBase<PRA extends ProtocolReviewAttachmentBase> implements ReviewCommentsService<PRA> {
 
-// TODO *********commented the code below during IACUC refactoring*********    
-//    private static final String[] PROTOCOL_SUBMISSION_COMPLETE_STATUSES = { ProtocolSubmissionStatus.APPROVED,
-//                                                                            ProtocolSubmissionStatus.EXEMPT, 
-//                                                                            ProtocolSubmissionStatus.SPECIFIC_MINOR_REVISIONS_REQUIRED,
-//                                                                            ProtocolSubmissionStatus.SUBSTANTIVE_REVISIONS_REQUIRED, 
-//                                                                            ProtocolSubmissionStatus.DEFERRED,
-//                                                                            ProtocolSubmissionStatus.DISAPPROVED };
-    
-    
     private static final String HIDE = "0";  
     private static final String DISPLAY = "1";
     protected BusinessObjectService businessObjectService;
@@ -153,11 +144,6 @@ public abstract class ReviewCommentsServiceImplBase<PRA extends ProtocolReviewAt
                 fieldValues.put("protocolIdFk", protocolSubmission.getProtocolId());
                 fieldValues.put("submissionIdFk", protocolSubmission.getSubmissionId());
                 
-// TODO *********commented the code below during IACUC refactoring********* 
-//                List<CommitteeScheduleMinuteBase> reviewComments1 = (List<CommitteeScheduleMinuteBase>) businessObjectService
-//                .findMatchingOrderBy(CommitteeScheduleMinuteBase.class, fieldValues, "commScheduleMinutesId", false);
-                
-
                 List<CommitteeScheduleMinuteBase> reviewComments1 = (List<CommitteeScheduleMinuteBase>) businessObjectService
                         .findMatchingOrderBy(getCommitteeScheduleMinuteBOClassHook(), fieldValues, "commScheduleMinutesId", false);
                 for (CommitteeScheduleMinuteBase minute : reviewComments1) {
@@ -463,24 +449,6 @@ public abstract class ReviewCommentsServiceImplBase<PRA extends ProtocolReviewAt
     
     protected abstract ProtocolSubmissionBase getSubmission(ProtocolBase protocol);
     
-//    /*
-//     * if this is IRB acknowledgement and loaded from protocol submission or notification.
-//     */
-//    protected ProtocolSubmissionBase getSubmission(ProtocolBase protocol) {
-//        ProtocolSubmissionBase protocolSubmission = protocol.getProtocolSubmission();
-//        if (protocol.getNotifyIrbSubmissionId() != null) {
-//            // not the current submission, then check programically
-//            for (ProtocolSubmissionBase submission : protocol.getProtocolSubmissions()) {
-//                if (submission.getSubmissionId().equals(protocol.getNotifyIrbSubmissionId())) {
-//                    protocolSubmission = submission;
-//                    break;
-//                }
-//            }
-//        }
-//        return protocolSubmission;
-//
-//    }
-//
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
@@ -529,10 +497,6 @@ public abstract class ReviewCommentsServiceImplBase<PRA extends ProtocolReviewAt
      * retrieve Display reviewer name parameter and compre with 'HIDE'
      */
     private boolean isDisplayReviewerName(String paramName) {
-
-// TODO *********commented the code below during IACUC refactoring*********         
-//        String param = parameterService.getParameterValueAsString(ProtocolDocumentBase.class, paramName);
-        
         String param = parameterService.getParameterValueAsString(getProtocolDocumentBOClassHook(), paramName);
         return !StringUtils.equals(HIDE, param);
     }
@@ -555,7 +519,6 @@ public abstract class ReviewCommentsServiceImplBase<PRA extends ProtocolReviewAt
     public boolean setHideReviewerName(List<? extends ProtocolReviewableBase> reviewComments) {
         boolean isHide = true;
         setReviewerIds(reviewerIds);
-        // hideReviewerName = isHideReviewerName();
         getReviewerNameParams();
         for (ProtocolReviewableBase reviewComment : reviewComments) {
             if (canViewName(reviewComment)) {
@@ -583,11 +546,9 @@ public abstract class ReviewCommentsServiceImplBase<PRA extends ProtocolReviewAt
     private boolean canViewName(ProtocolReviewableBase reviewComment) {
         boolean canViewName = false;
         Person person = GlobalVariables.getUserSession().getPerson();
-        // if (hideReviewerName) {
         if (isAdmin(person.getPrincipalId()) || isCreator(reviewComment, person.getPrincipalName())) {
             canViewName = true;
         }
-        // }
         else {
             // if protocol personnel, then only if display to personnel is set to true
             if (isProtocolPersonnelOrHasProtocolRole(reviewComment)) {
@@ -911,14 +872,14 @@ public abstract class ReviewCommentsServiceImplBase<PRA extends ProtocolReviewAt
         this.displayReviewerNameToActiveMembers = displayReviewerNameToActiveMembers;
     }
 
-//    /**
-//     * 
-//     * This method determines if the current user is an active committee member
-//     * 
-//     * @param minute
-//     * @param principalId
-//     * @return true if and active committee member, false otherwise.
-//     */
+    /**
+     * 
+     * This method determines if the current user is an active committee member
+     * 
+     * @param minute
+     * @param principalId
+     * @return true if and active committee member, false otherwise.
+     */
     private boolean isActiveCommitteeMember(ProtocolReviewableBase minute, String principalId) {
         boolean result = false;
         List<CommitteeMembershipBase> committeeMembers = committeeService.getAvailableMembers(minute.getCommitteeSchedule()
@@ -996,37 +957,9 @@ public abstract class ReviewCommentsServiceImplBase<PRA extends ProtocolReviewAt
                 deletedReviewAttachments.add(reviewAttachment);
             }
             reviewAttachments.remove(index);
-
-            // for (int i = index; i < reviewAttachments.size(); i++) {
-            // reviewAttachments.get(i).setEntryNumber(i);
-            // }
         }
     }
 
-//    
-// TODO *********commented the code below during IACUC refactoring********* 
-//    This method is being pushed down to subclasses
-//  
-//    public void saveReviewAttachments(List<PRA> reviewAttachments,
-//            List<PRA> deletedReviewAttachments) {
-//        for (PRA reviewAttachment : reviewAttachments) {
-//            boolean doUpdate = true;
-//            // if (reviewAttachment.getReviewerAttachmentId() != null) {
-//            // ProtocolOnlineReviewAttachment existing =
-//            // committeeScheduleService.getCommitteeScheduleMinute(reviewAttachment.getCommScheduleMinutesId());
-//            // doUpdate = !reviewAttachment.equals(existing);
-//            // }
-//            if (doUpdate) {
-//                reviewAttachment.setPrivateFlag(!reviewAttachment.isProtocolPersonCanView());
-//                businessObjectService.save(reviewAttachment);
-//            }
-//        }
-//
-//        if (!deletedReviewAttachments.isEmpty()) {
-//            businessObjectService.delete(deletedReviewAttachments);
-//        }
-//    }
-    
     public abstract void saveReviewAttachments(List<PRA> reviewAttachments, List<PRA> deletedReviewAttachments);
     
     

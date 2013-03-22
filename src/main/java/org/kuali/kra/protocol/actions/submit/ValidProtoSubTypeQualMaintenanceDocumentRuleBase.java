@@ -69,12 +69,7 @@ public abstract class ValidProtoSubTypeQualMaintenanceDocumentRuleBase extends K
         boolean valid = true;
         if (StringUtils.isNotBlank(validProtoSubTypeQual.getSubmissionTypeCode())) {
             Map<String, String> fieldValues = new HashMap<String, String>();
-            fieldValues.put("submissionTypeCode", validProtoSubTypeQual.getSubmissionTypeCode());
-            
-// TODO *********commented the code below during IACUC refactoring*********             
-//            List<ProtocolSubmissionTypeBase> submissionTypes = (List<ProtocolSubmissionTypeBase>) boService.findMatching(
-//                    ProtocolSubmissionTypeBase.class, fieldValues);
-            
+            fieldValues.put("submissionTypeCode", validProtoSubTypeQual.getSubmissionTypeCode());            
             List<ProtocolSubmissionTypeBase> submissionTypes = (List<ProtocolSubmissionTypeBase>) boService.findMatching(getProtocolSubmissionTypeBOClassHook(), fieldValues);
             if (submissionTypes.isEmpty()) {
                 GlobalVariables.getMessageMap().putError("document.newMaintainableObject.submissionTypeCode",
@@ -95,11 +90,6 @@ public abstract class ValidProtoSubTypeQualMaintenanceDocumentRuleBase extends K
         if (StringUtils.isNotBlank(validProtoSubTypeQual.getSubmissionTypeQualCode())) {
             Map<String, String> fieldValues = new HashMap<String, String>();
             fieldValues.put("submissionQualifierTypeCode", validProtoSubTypeQual.getSubmissionTypeQualCode());
-            
-// TODO *********commented the code below during IACUC refactoring*********             
-//            List<ProtocolSubmissionQualifierTypeBase> typeQualifiers = (List<ProtocolSubmissionQualifierTypeBase>) boService.findMatching(ProtocolSubmissionQualifierTypeBase.class,
-//                    fieldValues);
-            
             List<ProtocolSubmissionQualifierTypeBase> typeQualifiers = (List<ProtocolSubmissionQualifierTypeBase>) boService.findMatching(getProtocolSubmissionQualifierTypeBOClassHook(), fieldValues);
             if (typeQualifiers.isEmpty()) {
                 GlobalVariables.getMessageMap().putError("document.newMaintainableObject.submissionTypeQualCode",

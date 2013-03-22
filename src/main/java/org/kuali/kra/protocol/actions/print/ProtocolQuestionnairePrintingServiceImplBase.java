@@ -113,7 +113,6 @@ public abstract class ProtocolQuestionnairePrintingServiceImplBase implements Pr
         List<QuestionnaireUsage> usages = answerHeader.getQuestionnaire().getQuestionnaireUsages();
         if (CollectionUtils.isNotEmpty(usages) && usages.size() > 1) {
             Collections.sort((List<QuestionnaireUsage>) usages);
-           // Collections.reverse((List<QuestionnaireUsage>) usages);
         }
         for (QuestionnaireUsage usage : usages) {
             if (getCoeusModuleCode().equals(usage.getModuleItemCode()) && answerHeader.getModuleSubItemCode().equals(usage.getModuleSubItemCode())) {
@@ -124,10 +123,6 @@ public abstract class ProtocolQuestionnairePrintingServiceImplBase implements Pr
                     keyValues.put("protocolNumber", answerHeader.getModuleItemKey());
                     keyValues.put("submissionNumber", answerHeader.getModuleSubItemKey());
                     
-// TODO *********commented the code below during IACUC refactoring*********                     
-//                    List<ProtocolSubmissionBase> submissions = ((List<ProtocolSubmissionBase>) getBusinessObjectService().findMatchingOrderBy(ProtocolSubmissionBase.class, keyValues,
-//                            "submissionId", false));
-                    
                     List<ProtocolSubmissionBase> submissions = ((List<ProtocolSubmissionBase>) getBusinessObjectService().findMatchingOrderBy(getProtocolSubmissionBOClassHook(), keyValues,
                             "submissionId", false));
                     if (submissions.isEmpty()) {
@@ -137,12 +132,6 @@ public abstract class ProtocolQuestionnairePrintingServiceImplBase implements Pr
                         keyValues.clear();
                         keyValues.put("protocolId", submissions.get(0).getProtocolId());
                         keyValues.put("submissionNumber", answerHeader.getModuleSubItemKey());
-                        // keyValues.put("submissionIdFk", submission.getSubmissionId());
-                        
-                        
-// TODO *********commented the code below during IACUC refactoring*********                         
-//                        ProtocolActionBase protocolAction = ((List<ProtocolActionBase>) getBusinessObjectService().findMatching(
-//                                ProtocolActionBase.class, keyValues)).get(0);
                         
                         ProtocolActionBase protocolAction = ((List<ProtocolActionBase>) getBusinessObjectService().findMatching(getProtocolActionBOClassHook(), keyValues)).get(0);
                         label = usage.getQuestionnaireLabel() + " - " + protocolAction.getProtocolActionType().getDescription()
@@ -176,14 +165,8 @@ public abstract class ProtocolQuestionnairePrintingServiceImplBase implements Pr
         if ((getProtocol().isAmendment() || getProtocol().isRenewal()) && !answerHeader.getModuleItemKey().equals(getProtocol().getProtocolNumber())) {
             Map keyValues = new HashMap();
             keyValues.put("protocolNumber", answerHeader.getModuleItemKey());
-          //  keyValues.put("protocolNumber", getProtocol().getProtocolNumber());
             ProtocolBase prevProtocol = null;
-            // if this is an A/R protocol, then need to find the original protocol that the A/R first merged into.
-            
-// TODO *********commented the code below during IACUC refactoring*********             
-//            for (ProtocolBase protocol : ((List<ProtocolBase>) getBusinessObjectService().findMatchingOrderBy(ProtocolBase.class, keyValues,
-//                    "sequenceNumber", true))) {
-            
+            // if this is an A/R protocol, then need to find the original protocol that the A/R first merged into.            
             for (ProtocolBase protocol : ((List<ProtocolBase>) getBusinessObjectService().findMatchingOrderBy(getProtocolBOClassHook(), keyValues, "sequenceNumber", true))) {
                 isCurrentQn = answerHeader.getModuleSubItemKey().equals(protocol.getSequenceNumber().toString())
                         && !CollectionUtils.isEmpty(getProtocol().getProtocolSubmissions())
@@ -240,10 +223,6 @@ public abstract class ProtocolQuestionnairePrintingServiceImplBase implements Pr
             Map keyValues = new HashMap();
             keyValues.put("protocolNumber", answerHeader.getModuleItemKey());
             
-// TODO *********commented the code below during IACUC refactoring*********             
-//            ProtocolBase protocol = ((List<ProtocolBase>) getBusinessObjectService().findMatchingOrderBy(ProtocolBase.class, keyValues,
-//                    "sequenceNumber", false)).get(0);
-
             ProtocolBase protocol = ((List<ProtocolBase>) getBusinessObjectService().findMatchingOrderBy(getProtocolBOClassHook(), keyValues, "sequenceNumber", false)).get(0);
 
             isCurrentQn = answerHeader.getModuleSubItemKey().equals(protocol.getSequenceNumber().toString())

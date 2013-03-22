@@ -657,15 +657,9 @@ public abstract class ProtocolFundingSourceServiceImplBase implements ProtocolFu
         
         boolean isLinkEnabled = false;
         
-// TODO *********commented the code below during IACUC refactoring*********         
-//        if (!parameterService.parameterExists(ProtocolDocumentBase.class, link)) {
-        
         if (!parameterService.parameterExists(getProtocolDocumentBOClassHook(), link)) {
             isLinkEnabled = true;
         } else {
-            
-// TODO *********commented the code below during IACUC refactoring*********             
-//            isLinkEnabled = parameterService.getParameterValueAsBoolean(ProtocolDocumentBase.class, link);
             
             isLinkEnabled = parameterService.getParameterValueAsBoolean(getProtocolDocumentBOClassHook(), link);
         }

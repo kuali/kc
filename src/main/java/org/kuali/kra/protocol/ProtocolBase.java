@@ -91,9 +91,6 @@ public abstract class ProtocolBase extends KraPersistableBusinessObjectBase impl
     protected static final CharSequence AMENDMENT_LETTER = "A";
     protected static final CharSequence RENEWAL_LETTER = "R";
     
-// TODO *********commented the code below during IACUC refactoring*********     
-//    private static final String DEFAULT_PROTOCOL_TYPE_CODE = "1";
-    
     protected static final String NEXT_ACTION_ID_KEY = "actionId";
      
     
@@ -116,11 +113,6 @@ public abstract class ProtocolBase extends KraPersistableBusinessObjectBase impl
     
     private String specialReviewIndicator = "Y";
     
- 
-// TODO ********************** commented out during IRB backfit ************************ PUSHED DOWN    
-//    private String vulnerableSubjectIndicator;
-     
-    
     private String keyStudyPersonIndicator; 
     private String fundingSourceIndicator; 
     private String correspondentIndicator; 
@@ -132,12 +124,6 @@ public abstract class ProtocolBase extends KraPersistableBusinessObjectBase impl
     
     private ProtocolStatusBase protocolStatus;  
     private ProtocolTypeBase protocolType; 
-
-// TODO *********commented the code below during IACUC refactoring********* 
-//    private List<ProtocolRiskLevel> protocolRiskLevels;
-    
-// TODO ********************** commented out during IRB backfit ************************ PUSHED DOWN
-//    private List<ProtocolParticipant> protocolParticipants;
     
     private List<ProtocolResearchAreaBase> protocolResearchAreas;
     
@@ -185,9 +171,7 @@ public abstract class ProtocolBase extends KraPersistableBusinessObjectBase impl
   
     private ProtocolSubmissionBase protocolSubmission;
     private transient List<ProtocolActionBase> sortedActions;
- 
-
-     
+      
     /*
      * There should only be zero or one entry in the protocolAmendRenewals
      * list.  It is because of OJB that a list is used instead of a single item.
@@ -215,8 +199,6 @@ public abstract class ProtocolBase extends KraPersistableBusinessObjectBase impl
     private transient boolean lookupPendingPIActionProtocol;
     private transient boolean lookupActionAmendRenewProtocol;
  
-// TODO ********************** commented out during IRB backfit ************************ PUSHED DOWN    
-//    private transient boolean lookupActionNotifyIRBProtocol;
     private transient boolean lookupActionRequestProtocol;
     private transient boolean lookupProtocolPersonId;
     private transient boolean mergeAmendment;
@@ -238,15 +220,7 @@ public abstract class ProtocolBase extends KraPersistableBusinessObjectBase impl
      */
     public ProtocolBase() {
         super();
-        sequenceNumber = new Integer(0);  
-        //billable = false;
-        
-// TODO *********commented the code below during IACUC refactoring*********         
-//        protocolRiskLevels = new ArrayList<ProtocolRiskLevel>();
-        
-// TODO ********************** commented out during IRB backfit ************************ PUSHED DOWN        
-//        protocolParticipants = new ArrayList<ProtocolParticipant>();
-        
+        sequenceNumber = new Integer(0);          
         protocolResearchAreas = new ArrayList<ProtocolResearchAreaBase>();
         protocolReferences = new ArrayList<ProtocolReferenceBase>(); 
         newDescription = getDefaultNewDescription();
@@ -431,18 +405,6 @@ public abstract class ProtocolBase extends KraPersistableBusinessObjectBase impl
         this.specialReviewIndicator = specialReviewIndicator;
     }
 
-    
-// TODO ********************** commented out during IRB backfit ************************ PUSHED DOWN    
-//    public String getVulnerableSubjectIndicator() {
-//        return vulnerableSubjectIndicator;
-//    }
-//
-//    public void setVulnerableSubjectIndicator(String vulnerableSubjectIndicator) {
-//        this.vulnerableSubjectIndicator = vulnerableSubjectIndicator;
-//    }
-     
-
-    
     public String getKeyStudyPersonIndicator() {
         return keyStudyPersonIndicator;
     }
@@ -513,40 +475,6 @@ public abstract class ProtocolBase extends KraPersistableBusinessObjectBase impl
     public void setProtocolType(ProtocolTypeBase protocolType) {
         this.protocolType = protocolType;
     }
-
-//    public List<ProtocolRiskLevel> getProtocolRiskLevels() {
-//        return protocolRiskLevels;
-//    }
-
-//    public void setProtocolRiskLevels(List<ProtocolRiskLevel> protocolRiskLevels) {
-//        this.protocolRiskLevels = protocolRiskLevels;
-//        for (ProtocolRiskLevel riskLevel : protocolRiskLevels) {
-//            riskLevel.init(this);
-//        }
-//    }
-    
-    
-// TODO ********************** commented out during IRB backfit ************************ PUSHED DOWN    
-//    public List<ProtocolParticipant> getProtocolParticipants() {
-//        return protocolParticipants;
-//    }
-//
-//    public void setProtocolParticipants(List<ProtocolParticipant> protocolParticipants) {
-//        this.protocolParticipants = protocolParticipants;
-//        for (ProtocolParticipant participant : protocolParticipants) {
-//            participant.init(this);
-//        }
-//    }
-//    
-//    /**
-//     * Gets index i from the protocol participant list.
-//     * 
-//     * @param index
-//     * @return protocol participant at index i
-//     */
-//    public ProtocolParticipant getProtocolParticipant(int index) {
-//        return getProtocolParticipants().get(index);
-//    }
 
     public String getNewDescription() {
         return newDescription;
@@ -622,13 +550,6 @@ public abstract class ProtocolBase extends KraPersistableBusinessObjectBase impl
         managedLists.add(this.protocolReferences);
         managedLists.add(getProtocolFundingSources());
         managedLists.add(getProtocolLocations());
-        
-// TODO *********commented the code below during IACUC refactoring*********         
-//        managedLists.add(getProtocolRiskLevels());
- 
-// TODO ********************** commented out during IRB backfit ************************ PUSHED DOWN        
-//        managedLists.add(getProtocolParticipants());
-        
         managedLists.add(getProtocolAttachmentPersonnel());
         managedLists.add(getProtocolUnits());
         managedLists.add(getAttachmentProtocols());
@@ -731,14 +652,6 @@ public abstract class ProtocolBase extends KraPersistableBusinessObjectBase impl
                 if (StringUtils.isNotBlank(principalInvestigator.getPersonId())) {
                     setPrincipalInvestigatorId(principalInvestigator.getPersonId());
                 } else {
-                    //ProtocolUnitBase leadUnit = new ProtocolUnitBase();
-                    //leadUnit.setUnitNumber(leadUnitNumber);
-                    //leadUnit.setPersonId(getPrincipalInvestigator().getPersonId());  
-                    //leadUnit.setLeadUnitFlag(true); 
-                    // TODO : rice upgrade temp fix
-                    //leadUnit.setProtocolNumber("0");
-                    //leadUnit.setSequenceNumber(0);
-                    //getPrincipalInvestigator().getProtocolUnits().add(leadUnit);
                     if (principalInvestigator.getRolodexId() != null) {
                         setPrincipalInvestigatorId(principalInvestigator.getRolodexId().toString());
                     }
@@ -1035,79 +948,8 @@ public abstract class ProtocolBase extends KraPersistableBusinessObjectBase impl
     public void setInvestigator(String investigator) {
         this.investigator = investigator;
     }
-
-    
-// TODO *********commented the code below during IACUC refactoring*********     
-//    /* TODO : why this temp method is in ProtocolBase method */
-//    private void populateTempViewDate() {
-//        this.protocolSubmission = new ProtocolSubmissionBase();
-//        
-//        Committee committee = new Committee();
-//        committee.setId(1L);
-//        committee.setCommitteeId("Comm-1");
-//        committee.setCommitteeName("Test By Kiltesh");
-//        this.protocolSubmission.setCommittee(committee);
-//        
-//        this.protocolSubmission.setSubmissionNumber(1);
-//        this.protocolSubmission.setSubmissionDate(new Date(System.currentTimeMillis()));
-//        this.protocolSubmission.setSubmissionStatusCode("100");
-//        
-//        ProtocolSubmissionType submissionType = new ProtocolSubmissionType();
-//        submissionType.setDescription("Initial ProtocolBase Application for Approval ");
-//        this.protocolSubmission.setProtocolSubmissionType(submissionType);
-//        
-//        ProtocolReviewType review = new ProtocolReviewType();
-//        review.setDescription("Full");
-//        this.protocolSubmission.setProtocolReviewType(review);
-//        
-//        ProtocolSubmissionQualifierType qual = new ProtocolSubmissionQualifierType();
-//        qual.setDescription("Lorem Ipsum Dolor ");
-//        this.protocolSubmission.setProtocolSubmissionQualifierType(qual);
-//        
-//        ProtocolSubmissionStatus substatus = new ProtocolSubmissionStatus();
-//        substatus.setDescription("Approved");
-//        this.protocolSubmission.setSubmissionStatus(substatus);
-//        
-//        CommitteeMembershipType committeeMembershipType1 = new CommitteeMembershipType();
-//        committeeMembershipType1.setDescription("Primary");
-//        CommitteeMembershipType committeeMembershipType2 = new CommitteeMembershipType();
-//        committeeMembershipType2.setDescription("Secondary");
-//        
-//        CommitteeMembershipBase committeeMembership1 = new CommitteeMembershipBase();
-//        committeeMembership1.setPersonName("Bryan Hutchinson");
-//        committeeMembership1.setMembershipType(committeeMembershipType1);
-//        CommitteeMembershipBase committeeMembership2 = new CommitteeMembershipBase();
-//        committeeMembership2.setPersonName("Kiltesh Patel");
-//        committeeMembership2.setMembershipType(committeeMembershipType2);
-//        
-//        List<CommitteeMembershipBase>  list = new ArrayList<CommitteeMembershipBase>();
-//        list.add(committeeMembership1);
-//        list.add(committeeMembership2);
-//        
-//        committee.setCommitteeMemberships(list);
-//        
-//        this.protocolSubmission.setYesVoteCount(2);
-//        this.protocolSubmission.setNoVoteCount(3);
-//        this.protocolSubmission.setAbstainerCount(1);
-//        this.protocolSubmission.setVotingComments("Lorem ipsum dolor sit amet, consectetur adipiscing elit. " +
-//                "Suspendisse purus. Nullam et justo. In volutpat odio sit amet pede. Pellentesque ipsum dui, convallis in, mollis a, lacinia vel, diam. " +
-//                "Phasellus molestie neque at sapien condimentum massa nunc" +
-//                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. " +
-//                "Suspendisse purus. Nullam et justo. In volutpat odio sit amet pede. Pellentesque ipsum dui, convallis in, mollis a, lacinia vel, diam. " +
-//                "Phasellus molestie neque at sapien condimentum massa nunc");
-//        
-//        CommitteeSchedule committeeSchedule= new CommitteeSchedule();        
-//        CommitteeScheduleAttendance committeeScheduleAttendance = new CommitteeScheduleAttendance();        
-//        List<CommitteeScheduleAttendance> cslist = new ArrayList<CommitteeScheduleAttendance>();
-//        cslist.add(committeeScheduleAttendance);
-//        committeeSchedule.setCommitteeScheduleAttendances(cslist);        
-//        this.protocolSubmission.setCommitteeSchedule(committeeSchedule);
-//    }
     
     public ProtocolSubmissionBase getProtocolSubmission() {
-        // TODO : this is a fix to remove 'populateTempViewDate'
-
-        // if (protocolSubmission == null) {
         if (!protocolSubmissions.isEmpty()) {
             // sorted by ojb
             if (protocolSubmission == null
@@ -1116,13 +958,6 @@ public abstract class ProtocolBase extends KraPersistableBusinessObjectBase impl
                             .getSubmissionNumber()) {
                 protocolSubmission = protocolSubmissions.get(protocolSubmissions.size() - 1);
             }
-            // for (ProtocolSubmissionBase submission : protocolSubmissions) {
-            // if (protocolSubmission == null || protocolSubmission.getSubmissionNumber() == null
-            // || submission.getSubmissionNumber() > protocolSubmission.getSubmissionNumber()) {
-            // protocolSubmission = submission;
-            // }
-            // }
-
         }
         else {
             protocolSubmission = getProtocolSubmissionNewInstanceHook();
@@ -1291,14 +1126,10 @@ public abstract class ProtocolBase extends KraPersistableBusinessObjectBase impl
             merge(amendment, getProtocolModuleAddModifyAttachmentCodeHook());
         }
 
-// TODO ********************** added or modified during IRB backfit merge BEGIN **********************        
-      //mergeProtocolSubmission(amendment);
         if (mergeActions) {
             mergeProtocolSubmission(amendment);
             mergeProtocolAction(amendment);
-        }
-// TODO ********************** added or modified during IRB backfit merge END ************************         
-        
+        }        
     }
     
     protected abstract String getProtocolModuleAddModifyAttachmentCodeHook();
@@ -1377,57 +1208,12 @@ public abstract class ProtocolBase extends KraPersistableBusinessObjectBase impl
             submission.setSubmissionId(null);
             submission.setSequenceNumber(sequenceNumber);
             submission.setProtocolId(this.getProtocolId());
-          //  submission.setSubmissionNumber(this.getProtocolSubmissions().size() + 1);
             this.getProtocolSubmissions().add(submission);
-            //how about meting data
-            // online review data
         }
     }
     
     
-    protected abstract void mergeProtocolAction(ProtocolBase amendment);
-
-// TODO ********************** commented out during IRB backfit ************************ PUSHED DOWN TO SUBCLASSES    
-//    /*
-//     * merge amendment/renewal protocol action to original protocol when A/R is approved
-//     */
-//    @SuppressWarnings("unchecked")
-//    protected void mergeProtocolAction(ProtocolBase amendment) {
-//        List<ProtocolActionBase> protocolActions = (List<ProtocolActionBase>) deepCopy(amendment.getProtocolActions());  
-//        Collections.sort(protocolActions, new Comparator<ProtocolActionBase>() {
-//            public int compare(ProtocolActionBase action1, ProtocolActionBase action2) {
-//                return action1.getActionId().compareTo(action2.getActionId());
-//            }
-//        });
-//        // the first 1 'protocol created is already added to original protocol
-//        // the last one is 'approve'
-//        protocolActions.remove(0);
-//        protocolActions.remove(protocolActions.size() - 1);
-//        for (ProtocolActionBase protocolAction : protocolActions) {
-//            protocolAction.setProtocolNumber(this.getProtocolNumber());
-//            protocolAction.setProtocolActionId(null);
-//            protocolAction.setSequenceNumber(sequenceNumber);
-//            protocolAction.setProtocolId(this.getProtocolId());
-//            String index = amendment.getProtocolNumber().substring(11);
-//            protocolAction.setActionId(getNextValue(NEXT_ACTION_ID_KEY));
-//            String type = getProtocolMergeType(amendment);
-//            /*
-//            String type = "Amendment";
-//            if (amendment.isRenewal()) {
-//                type = "Renewal";
-//            }
-//            */
-//            if (StringUtils.isNotBlank(protocolAction.getComments())) {
-//                protocolAction.setComments(type + "-" + index + ": " + protocolAction.getComments());
-//            } else {
-//                protocolAction.setComments(type + "-" + index + ": ");
-//            }
-//            this.getProtocolActions().add(protocolAction);
-//        }
-//    }
-//    
-//    protected abstract String getProtocolMergeType(ProtocolBase amendment);
-    
+    protected abstract void mergeProtocolAction(ProtocolBase amendment);    
     
     protected void mergeGeneralInfo(ProtocolBase amendment) {
         this.protocolTypeCode = amendment.getProtocolTypeCode();
@@ -1435,10 +1221,8 @@ public abstract class ProtocolBase extends KraPersistableBusinessObjectBase impl
         this.initialSubmissionDate = amendment.getInitialSubmissionDate();
         this.approvalDate = amendment.getApprovalDate(); 
         this.expirationDate = amendment.getExpirationDate(); 
-//*moved* this.lastApprovalDate = amendment.getLastApprovalDate();
         this.description = amendment.getDescription();
         this.fdaApplicationNumber = amendment.getFdaApplicationNumber();
-        //this.billable = amendment.isBillable();
         this.referenceNumber1 = amendment.getReferenceNumber1();
         this.referenceNumber2 = amendment.getReferenceNumber2();
     }
@@ -1467,12 +1251,6 @@ public abstract class ProtocolBase extends KraPersistableBusinessObjectBase impl
     protected void mergeOrganizations(ProtocolBase amendment) {
         setProtocolLocations((List<ProtocolLocationBase>) deepCopy(amendment.getProtocolLocations()));
     }
-    
-// TODO ********************** commented out during IRB backfit ************************ PUSHED DOWN    
-//    @SuppressWarnings("unchecked")
-//    protected void mergeSubjects(ProtocolBase amendment) {
-//        setProtocolParticipants((List<ProtocolParticipant>) deepCopy(amendment.getProtocolParticipants()));
-//    }
     
     @SuppressWarnings("unchecked")
     protected void mergeAttachments(ProtocolBase amendment) {
@@ -1663,25 +1441,10 @@ public abstract class ProtocolBase extends KraPersistableBusinessObjectBase impl
     }
     
     public abstract ProtocolSummary getProtocolSummary();
-    
-// TODO ********************** commented out during IRB backfit ************************ PUSHED DOWN    
-//    public ProtocolSummary getProtocolSummary() {
-//        ProtocolSummary protocolSummary = createProtocolSummary();
-//        addPersonnelSummaries(protocolSummary);
-//        addResearchAreaSummaries(protocolSummary);
-//        addAttachmentSummaries(protocolSummary);
-//        addFundingSourceSummaries(protocolSummary);
-//        addParticipantSummaries(protocolSummary);
-//        addOrganizationSummaries(protocolSummary);
-//        addSpecialReviewSummaries(protocolSummary);
-//        addAdditionalInfoSummary(protocolSummary);
-//        return protocolSummary;
-//    }
-    
+        
     protected void addAdditionalInfoSummary(ProtocolSummary protocolSummary) {
         AdditionalInfoSummary additionalInfoSummary = new AdditionalInfoSummary();
         additionalInfoSummary.setFdaApplicationNumber(this.getFdaApplicationNumber());
-        //additionalInfoSummary.setBillable(isBillable());
         additionalInfoSummary.setReferenceId1(this.getReferenceNumber1());
         additionalInfoSummary.setReferenceId2(this.getReferenceNumber2());
         additionalInfoSummary.setDescription(getDescription());
@@ -1725,16 +1488,6 @@ public abstract class ProtocolBase extends KraPersistableBusinessObjectBase impl
              protocolSummary.add(organizationSummary);
         }
     }
-
-// TODO ********************** commented out during IRB backfit ************************ PUSHED DOWN    
-//    protected void addParticipantSummaries(ProtocolSummary protocolSummary) {
-//        for (ProtocolParticipant participant : this.getProtocolParticipants()) {
-//            ParticipantSummary participantSummary = new ParticipantSummary();
-//            participantSummary.setDescription(participant.getParticipantType().getDescription());
-//            participantSummary.setCount(participant.getParticipantCount());
-//            protocolSummary.add(participantSummary);
-//        }
-//    }
 
     protected void addFundingSourceSummaries(ProtocolSummary protocolSummary) {
         for (ProtocolFundingSourceBase source : getProtocolFundingSources()) {
@@ -1812,34 +1565,6 @@ public abstract class ProtocolBase extends KraPersistableBusinessObjectBase impl
 
     protected abstract ProtocolSummary createProtocolSummary();
     
-// TODO *********commented the code below during IACUC refactoring*********     
-//    protected ProtocolSummary createProtocolSummary() {
-//        ProtocolSummary summary = new ProtocolSummary();
-//        
-//        summary.setLastProtocolAction(getLastProtocolAction());
-//        
-//        
-//        summary.setProtocolNumber(getProtocolNumber().toString());
-//        summary.setPiName(getPrincipalInvestigator().getPersonName());
-//        summary.setPiProtocolPersonId(getPrincipalInvestigator().getProtocolPersonId());
-//        summary.setInitialSubmissionDate(getInitialSubmissionDate());
-//        summary.setApprovalDate(getApprovalDate());
-//        summary.setLastApprovalDate(getLastApprovalDate());
-//        summary.setExpirationDate(getExpirationDate());
-//        if (getProtocolType() == null) {
-//            refreshReferenceObject("protocolType");
-//        }
-//        summary.setType(getProtocolType().getDescription());
-//        if (getProtocolStatus() == null) {
-//            refreshReferenceObject("protocolStatus");
-//        }
-//        summary.setStatus(getProtocolStatus().getDescription());
-//        summary.setTitle(getTitle());
-//        return summary;
-//    }
- 
-    
-
     /**
      * 
      * @see org.kuali.kra.common.permissions.Permissionable#getDocumentKey()
@@ -1859,17 +1584,6 @@ public abstract class ProtocolBase extends KraPersistableBusinessObjectBase impl
      * @see org.kuali.kra.common.permissions.Permissionable#getRoleNames()
      */
     public abstract List<String> getRoleNames();
-// TODO *********commented the code below during IACUC refactoring*********      
-//    public List<String> getRoleNames() {
-//        List<String> roleNames = new ArrayList<String>();
-
-//        roleNames.add(RoleConstants.PROTOCOL_AGGREGATOR);
-//        roleNames.add(RoleConstants.PROTOCOL_VIEWER);
-
-//        return roleNames;
-//    }
-    
-    
     
     public void resetForeignKeys() {
         for (ProtocolActionBase action : protocolActions) {
@@ -1880,11 +1594,7 @@ public abstract class ProtocolBase extends KraPersistableBusinessObjectBase impl
     
     
     public abstract String getNamespace();    
-// TODO *********commented the code below during IACUC refactoring*********       
-//    public String getNamespace() {
-//        return Constants.MODULE_NAMESPACE_PROTOCOL;
-//    }
-    
+
     /**
      * 
      * @see org.kuali.kra.UnitAclLoadable#getUnitNumberOfDocument()
@@ -1898,10 +1608,6 @@ public abstract class ProtocolBase extends KraPersistableBusinessObjectBase impl
      * @see org.kuali.kra.UnitAclLoadable#getDocumentRoleTypeCode()
      */
      public abstract String getDocumentRoleTypeCode();
-// TODO *********commented the code below during IACUC refactoring*********      
-//    public String getDocumentRoleTypeCode() {
-//        return RoleConstants.PROTOCOL_ROLE_TYPE;
-//    }
 
     public void populateAdditionalQualifiedRoleAttributes(Map<String, String> qualifiedRoleAttributes) {
         return;
@@ -1915,12 +1621,9 @@ public abstract class ProtocolBase extends KraPersistableBusinessObjectBase impl
     }
     
    
-// TODO ********************** added or modified during IRB backfit merge BEGIN **********************    
     public boolean isAmendment() {
         return protocolNumber != null && protocolNumber.contains(AMENDMENT_LETTER);
     }
-// TODO ********************** added or modified during IRB backfit merge END ************************ 
-    
     
     public boolean isRenewal() {
         return protocolNumber.contains(RENEWAL_LETTER);
@@ -2078,15 +1781,6 @@ public abstract class ProtocolBase extends KraPersistableBusinessObjectBase impl
         this.lookupActionAmendRenewProtocol = lookupActionAmendRenewProtocol;
     }
 
-// TODO ********************** commented out during IRB backfit ************************ PUSHED DOWN    
-//    public boolean isLookupActionNotifyIRBProtocol() {
-//        return lookupActionNotifyIRBProtocol;
-//    }
-//
-//    public void setLookupActionNotifyIRBProtocol(boolean lookupActionNotifyIRBProtocol) {
-//        this.lookupActionNotifyIRBProtocol = lookupActionNotifyIRBProtocol;
-//    }
-
     public boolean isLookupActionRequestProtocol() {
         return lookupActionRequestProtocol;
     }
@@ -2157,20 +1851,6 @@ public abstract class ProtocolBase extends KraPersistableBusinessObjectBase impl
         return filteredAttachments;
     }
 
-// TODO *********commented the code below during IACUC refactoring*********         
-//    public void initializeProtocolAttachmentFilter() {
-//        protocolAttachmentFilter = new ProtocolAttachmentFilterBase();
-//        
-//        //Lets see if there is a default set for the attachment sort
-//        try {
-//            String defaultSortBy = getParameterService().getParameterValueAsString(ProtocolDocumentBase.class, Constants.PARAMETER_PROTOCOL_ATTACHMENT_DEFAULT_SORT);
-//            if (StringUtils.isNotBlank(defaultSortBy)) {
-//                protocolAttachmentFilter.setSortBy(defaultSortBy);
-//            }
-//        } catch (Exception e) {
-//            //No default found, do nothing.
-//        }        
-//    }
     public abstract void initializeProtocolAttachmentFilter();
     
     public ParameterService getParameterService() {
@@ -2262,13 +1942,11 @@ public abstract class ProtocolBase extends KraPersistableBusinessObjectBase impl
 
     @Override
     public String getProjectName() {
-        // TODO Auto-generated method stub
         return getTitle();
     }
 
     @Override
     public String getProjectId() {
-        // TODO Auto-generated method stub
         return getProtocolNumber();
     }
  

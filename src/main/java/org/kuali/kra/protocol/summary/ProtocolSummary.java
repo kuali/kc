@@ -48,9 +48,6 @@ public class ProtocolSummary implements Serializable {
     private List<AttachmentSummary> attachments = new ArrayList<AttachmentSummary>();
     private List<FundingSourceSummary> fundingSources = new ArrayList<FundingSourceSummary>();
  
-// TODO ********************** commented out during IRB backfit ************************ PUSHED DOWN    
-//    private List<ParticipantSummary> participants = new ArrayList<ParticipantSummary>();
-    
     private List<OrganizationSummary> organizations = new ArrayList<OrganizationSummary>();
     private List<SpecialReviewSummary> specialReviews = new ArrayList<SpecialReviewSummary>();
     private AdditionalInfoSummary additionalInfoSummary;
@@ -199,15 +196,6 @@ public class ProtocolSummary implements Serializable {
         fundingSources.add(fundingSourceSummary);
     }
 
-// TODO ********************** commented out during IRB backfit ************************ PUSHED DOWN    
-//    public List<ParticipantSummary> getParticipants() {
-//        return participants;
-//    }
-//    
-//    public void add(ParticipantSummary participantSummary) {
-//        participants.add(participantSummary);
-//    }
-
     public List<OrganizationSummary> getOrganizations() {
         return organizations;
     }
@@ -246,9 +234,6 @@ public class ProtocolSummary implements Serializable {
         comparePersonnel(other);
         compareResearchAreas(other);
   
-// TODO ********************** commented out during IRB backfit ************************ PUSHED DOWN        
-//        compareParticipants(other);
-        
         compareSpecialReviews(other);
         compareFundingSources(other);
         compareOrganizations(other);
@@ -292,13 +277,6 @@ public class ProtocolSummary implements Serializable {
             researchArea.compare(other);
         }
     }
-
-// TODO ********************** commented out during IRB backfit ************************ PUSHED DOWN    
-//    private void compareParticipants(ProtocolSummary other) {
-//        for (ParticipantSummary participant : participants) {
-//            participant.compare(other);
-//        }
-//    }
     
     public boolean isProtocolNumberChanged() {
         return protocolNumberChanged;
@@ -353,16 +331,6 @@ public class ProtocolSummary implements Serializable {
         }
         return null;
     }
-
-// TODO ********************** commented out during IRB backfit ************************ PUSHED DOWN    
-//    public ParticipantSummary findParticipant(String description) {
-//        for (ParticipantSummary participant : participants) {
-//            if (StringUtils.equals(participant.getDescription(), description)) {
-//                return participant;
-//            }
-//        }
-//        return null;
-//    }
 
     public SpecialReviewSummary findSpecialReview(String type, String approvalStatus) {
         for (SpecialReviewSummary specialReview : specialReviews) {

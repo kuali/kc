@@ -61,17 +61,6 @@ public abstract class ProtocolAttachmentVersioningUtilityBase {
     protected ProtocolDocumentBase newDocumentVersion;
     
     /**
-     * Constructs a versioning util setting the dependencies to default values.
-     * @param form the form
-     * @throws IllegalArgumentException if the form is null
-     */
-// TODO *********commented the code below during IACUC refactoring*********      
-//    protected ProtocolAttachmentVersioningUtilityBase(final ProtocolFormBase form) {
-//        this(form, KraServiceLocator.getService(ProtocolAttachmentService.class),
-//            KraServiceLocator.getService(VersioningService.class), KraServiceLocator.getService(DocumentService.class));
-//    }
-    
-    /**
      * Constructs a versioning util.
      * @param form the form
      * @param notesService the notesService
@@ -212,8 +201,6 @@ public abstract class ProtocolAttachmentVersioningUtilityBase {
 
         }
         attachments.addAll(attachmentProtocols);
-        // TODO : can't do this remove because it will delete "file", then subsequently the attachments reference this file
-        // attachments.removeAll(removeAttachmentProtocols);
         return createVersion;
     }
     
@@ -277,8 +264,7 @@ public abstract class ProtocolAttachmentVersioningUtilityBase {
         assert attachment != null : "the attachment is null";
         
         ProtocolAttachmentBase newAttachment = this.createFileVersionOnAttachment(attachment, false);
-        //FIXME: temp until I figure out how to display deletes
-        //attachment.getFile().setName("DELETED VERSION - " + attachment.getFile().getName());
+
         return newAttachment;
     }
     

@@ -171,9 +171,6 @@ public abstract class ProtocolCopyServiceImplBase<GenericProtocolDocument extend
         protocolAction.setComments(PROTOCOL_CREATED);
         newDoc.getProtocol().getProtocolActions().add(protocolAction);
         
-        //newDoc.getDocumentHeader().setDocumentTemplateNumber(srcDoc.getDocumentNumber());
-        //Long nextProtocolId = sequenceAccessorService.getNextAvailableSequenceNumber(getSequenceNumberNameHook());
-        //newDoc.getProtocol().setProtocolId(nextProtocolId);
         if (!isAmendmentRenewal) {
             newDoc.getProtocol().setAttachmentProtocols(new ArrayList<ProtocolAttachmentProtocolBase>());
             newDoc.getProtocol().setNotepads(new ArrayList<ProtocolNotepadBase>());
@@ -187,7 +184,6 @@ public abstract class ProtocolCopyServiceImplBase<GenericProtocolDocument extend
         }
         documentService.saveDocument(newDoc); 
         if (isAmendmentRenewal) {
-            // :TODO : verify if really need this 
             refreshAttachmentsPersonnels(newDoc.getProtocol());
         }
         
@@ -280,9 +276,6 @@ public abstract class ProtocolCopyServiceImplBase<GenericProtocolDocument extend
         destDoc.getProtocol().setReferenceNumber2(srcDoc.getProtocol().getReferenceNumber2());
         destDoc.getProtocol().setDescription(srcDoc.getProtocol().getDescription());
         
-// TODO ********************** commented out during IRB backfit ************************  PUSHED DOWN TO IRB        
-//        destDoc.getProtocol().setVulnerableSubjectIndicator(srcDoc.getProtocol().getVulnerableSubjectIndicator());
-        
         destDoc.getProtocol().setCorrespondentIndicator(srcDoc.getProtocol().getCorrespondentIndicator());
         destDoc.getProtocol().setFundingSourceIndicator(srcDoc.getProtocol().getFundingSourceIndicator());
         destDoc.getProtocol().setKeyStudyPersonIndicator(srcDoc.getProtocol().getKeyStudyPersonIndicator());
@@ -326,10 +319,6 @@ public abstract class ProtocolCopyServiceImplBase<GenericProtocolDocument extend
     protected void copyProtocolLists(GenericProtocolDocument srcDoc, GenericProtocolDocument destDoc) {
         ProtocolBase srcProtocol = srcDoc.getProtocol();
         ProtocolBase destProtocol = destDoc.getProtocol();
-        //destProtocol.setProtocolRiskLevels((List<ProtocolRiskLevel>) deepCopy(srcProtocol.getProtocolRiskLevels()));
-        
-// TODO ********************** commented out during IRB backfit ************************  PUSHED DOWN TO IRB        
-        // destProtocol.setProtocolParticipants((List<ProtocolParticipant>) deepCopy(srcProtocol.getProtocolParticipants()));
         
         destProtocol.setProtocolResearchAreas((List<ProtocolResearchAreaBase>) deepCopy(srcProtocol.getProtocolResearchAreas()));
         destProtocol.setProtocolReferences((List<ProtocolReferenceBase>) deepCopy(srcProtocol.getProtocolReferences()));
