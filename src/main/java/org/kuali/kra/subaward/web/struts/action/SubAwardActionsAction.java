@@ -27,6 +27,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.subaward.SubAwardForm;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.rice.kns.web.struts.action.AuditModeAction;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 
 /**.
@@ -60,22 +61,34 @@ SubAwardAction implements AuditModeAction {
     @Override
     public ActionForward blanketApprove(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
         throws Exception {
-        super.blanketApprove(mapping, form, request, response);
-        return routeSubAwardToHoldingPage(mapping, (SubAwardForm) form);
+        ActionForward forward = super.blanketApprove(mapping, form, request, response);
+        if(!GlobalVariables.getMessageMap().getErrorMessages().isEmpty()) {
+            return forward;
+        }else {
+            return routeSubAwardToHoldingPage(mapping, (SubAwardForm) form);
+        }
     }
     @Override
     public ActionForward route(ActionMapping mapping, ActionForm form,
     HttpServletRequest request, HttpServletResponse response) throws Exception {
-        super.route(mapping, form, request, response);
-        return routeSubAwardToHoldingPage(mapping, (SubAwardForm) form);
+        ActionForward forward = super.route(mapping, form, request, response);
+        if(!GlobalVariables.getMessageMap().getErrorMessages().isEmpty()) {
+            return forward;
+        }else {
+            return routeSubAwardToHoldingPage(mapping, (SubAwardForm) form);
+        }
     }
 
     @Override
     public ActionForward approve(ActionMapping mapping,
     ActionForm form, HttpServletRequest request,
     HttpServletResponse response) throws Exception {
-        super.approve(mapping, form, request, response);
-        return routeSubAwardToHoldingPage(mapping, (SubAwardForm) form);
+        ActionForward forward = super.approve(mapping, form, request, response);
+        if(!GlobalVariables.getMessageMap().getErrorMessages().isEmpty()) {
+            return forward;
+        }else {
+            return routeSubAwardToHoldingPage(mapping, (SubAwardForm) form);
+        }
     }
 
     private ActionForward routeSubAwardToHoldingPage(ActionMapping mapping, SubAwardForm subAwardForm) {
