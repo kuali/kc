@@ -20,12 +20,4 @@ package org.kuali.kra.irb.actions.assignreviewers;
  */
 public interface ProtocolAssignReviewersService extends org.kuali.kra.protocol.actions.assignreviewers.ProtocolAssignReviewersService {
 
-// TODO ********************** commented out during IRB backfit ************************    
-//    /**
-//     * Assigns the reviewers to the protocol.
-//     * @param protocolSubmission the protocol submission
-//     * @param reviewerBeans the list of reviewers
-//     */
-//    void assignReviewers(ProtocolSubmission protocolSubmission, List<ProtocolReviewerBean> reviewerBeans) throws Exception;
-    
 }

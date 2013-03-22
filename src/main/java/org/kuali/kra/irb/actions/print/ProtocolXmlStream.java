@@ -308,12 +308,6 @@ public class ProtocolXmlStream extends ProtocolXmlStreamBase {
         for (ProtocolParticipant protocolParticipant : protocolParticipants) {
             protocolParticipant.refreshNonUpdateableReferences();
             VulnerableSubject vulnerableSubject = protocolType.addNewVulnerableSubject();
-            // if(protocolVulnerableSubListsBean.getSubjectCount() == null){
-            // vulnerableSubject.setVulnerableSubjectCount(new BigInteger("0")) ;
-            // }else{
-            // vulnerableSubject.setVulnerableSubjectCount(new
-            // BigInteger(String.valueOf(protocolVulnerableSubListsBean.getSubjectCount()))) ;
-            // }
             if (protocolParticipant.getParticipantType() != null) {
                 vulnerableSubject.setVulnerableSubjectTypeCode(new BigInteger(protocolParticipant.getParticipantTypeCode()));
                 vulnerableSubject.setVulnerableSubjectTypeDesc(protocolParticipant.getParticipantType().getDescription());
@@ -392,8 +386,6 @@ public class ProtocolXmlStream extends ProtocolXmlStreamBase {
             else if (protocolPerson.getProtocolPersonRoleId().equals(ProtocolPersonRole.ROLE_CORRESPONDENT_CRC)
                     || (protocolPerson.getProtocolPersonRoleId().equals(ProtocolPersonRole.ROLE_CORRESPONDENT_ADMINISTRATOR))) {
                 Correspondent correspondent = protocolType.addNewCorrespondent();
-                // not sure where the comments should come from
-                // correspondent.setCorrespondentComments(protocolPerson.getComments()) ;
                 correspondent.setTypeOfCorrespondent(protocolPerson.getProtocolPersonRole().getDescription());
                 getIrbPrintXmlUtilService().setPersonRolodexType(protocolPerson, correspondent.addNewPerson());
             }
@@ -405,7 +397,6 @@ public class ProtocolXmlStream extends ProtocolXmlStreamBase {
         ProtocolMasterData protocolMaster = protocolType.addNewProtocolMasterData();
         if (protocol == null)
             return;
-//        protocol.refreshNonUpdateableReferences();
         protocolMaster.setProtocolNumber(protocol.getProtocolNumber());
         protocolMaster.setSequenceNumber(BigInteger.valueOf(protocol.getSequenceNumber()));
         protocolMaster.setProtocolTitle(protocol.getTitle());

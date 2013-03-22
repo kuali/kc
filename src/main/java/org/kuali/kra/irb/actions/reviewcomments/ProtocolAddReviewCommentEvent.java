@@ -35,40 +35,4 @@ public class ProtocolAddReviewCommentEvent extends ProtocolAddReviewCommentEvent
     protected ProtocolAddReviewCommentRuleBase<?> getNewProtocolAddReviewCommentRuleInstanceHook() {
         return new ProtocolAddReviewCommentRule();
     }
-
-// TODO ********************** commented out during IRB backfit ************************    
-//    private String propertyName;
-//    private CommitteeScheduleMinute reviewComment;
-//
-//    /**
-//     * Constructs a ProtocolAddReviewerCommentEvent.
-//     * 
-//     * @param document The document to validate
-//     * @param propertyName The error path property prefix
-//     * @param reviewComment The added Reviewer Comment
-//     */
-//    public ProtocolAddReviewCommentEvent(ProtocolDocument document, String propertyName, CommitteeScheduleMinute reviewComment) {
-//        super("Enter reviewer comment", "", document);
-//        this.propertyName = propertyName;
-//        this.reviewComment = reviewComment;
-//    }
-//    
-//    public ProtocolDocument getProtocolDocument() {
-//        return (ProtocolDocument) getDocument();
-//    }
-//    
-//    public String getPropertyName() {
-//        return propertyName;
-//    }
-//    
-//    public CommitteeScheduleMinute getReviewComment() {
-//        return reviewComment;
-//    }
-//
-//    @Override
-//    @SuppressWarnings("unchecked")
-//    public BusinessRuleInterface getRule() {
-//        return new ProtocolAddReviewCommentRule();
-//    }
-
 }

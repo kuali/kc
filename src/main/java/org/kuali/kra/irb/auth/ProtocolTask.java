@@ -42,31 +42,4 @@ public final class ProtocolTask extends ProtocolTaskBase {
     public Protocol getProtocol() {
         return (Protocol)super.getProtocol();
     }
-    
-    
- // TODO ********************** commented out during IRB backfit ************************    
-//    private Protocol protocol;
-//
-//    /**
-//     * Constructs a ProtocolTask.
-//     * @param taskName the name of the task
-//     * @param protocol the Protocol
-//     */
-//    public ProtocolTask(String taskName, Protocol protocol) {
-//        super(TaskGroupName.PROTOCOL, taskName);
-//        this.protocol = protocol;
-//    }
-//    
-//    public ProtocolTask(String taskName, Protocol protocol, String genericTaskName) {
-//        super(TaskGroupName.PROTOCOL, taskName, genericTaskName);
-//        this.protocol = protocol;
-//    }
-//
-//    /**
-//     * Get the Protocol.
-//     * @return the Protocol
-//     */
-//    public Protocol getProtocol() {
-//        return protocol;
-//    }
 }

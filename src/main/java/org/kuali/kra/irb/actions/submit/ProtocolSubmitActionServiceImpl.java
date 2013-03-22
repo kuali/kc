@@ -244,14 +244,6 @@ public class ProtocolSubmitActionServiceImpl implements ProtocolSubmitActionServ
         
         protocolActionService.updateProtocolStatus(protocolAction, protocol);
         
-// now usine mergeprotocolaction when A/R is approved
-//        if (protocol.isAmendment()) {
-//            addActionToOriginalProtocol(AMENDMENT, protocol.getProtocolNumber(), protocolAction.getSubmissionNumber());
-//        }
-//        else if (protocol.isRenewal()) {
-//            addActionToOriginalProtocol(RENEWAL, protocol.getProtocolNumber(), protocolAction.getSubmissionNumber());
-//        }
-        
         if (submission.getScheduleIdFk() != null) {
             updateDefaultSchedule(submission);
         }
@@ -294,9 +286,6 @@ public class ProtocolSubmitActionServiceImpl implements ProtocolSubmitActionServ
         protocolAction.setSubmissionNumber(submissionNumber);
         protocol.getProtocolActions().add(protocolAction);
         businessObjectService.save(protocol);
-        // do following will get null workflow exception
-        //documentService.saveDocument(protocol.getProtocolDocument());
-
     }
 
     /**

@@ -34,16 +34,6 @@ public class SaveProtocolPersonnelEvent extends SaveProtocolPersonnelEventBase {
     }
     
 
-// TODO ********************** commented out during IRB backfit ************************    
-//    /**
-//     * Constructs an SaveProtocolPersonnelEvent.
-//     * @param errorPathPrefix The error path prefix
-//     * @param document The document to validate
-//     */
-//    public SaveProtocolPersonnelEvent(String errorPathPrefix, ProtocolDocument document) {
-//        super("Saving protocol personnel on document " + getDocumentId(document), errorPathPrefix, document);
-//    }
-
     @Override
     @SuppressWarnings("unchecked")
     public BusinessRuleInterface getRule() {

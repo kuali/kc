@@ -25,26 +25,6 @@ import org.kuali.kra.protocol.auth.ProtocolTaskBase;
  */
 public abstract class ProtocolAuthorizer extends ProtocolAuthorizerBase {
   
-// TODO ********************** commented out during IRB backfit ************************    
-//    private KraAuthorizationService kraAuthorizationService;
-//    private ProtocolActionService protocolActionService;
-//    
-//    /**
-//     * Set the Protocol Action Service.
-//     * @param protocolActionService
-//     */
-//    public final void setProtocolActionService(ProtocolActionService protocolActionService) {
-//        this.protocolActionService = protocolActionService;
-//    }
-//
-//    /**
-//     * @see org.kuali.kra.authorization.TaskAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.authorization.Task)
-//     */
-//    public final boolean isAuthorized(String userId, Task task) {
-//        return isAuthorized(userId, (ProtocolTask) task);
-//    }
-    
-    
     public final boolean isAuthorized(String userId, ProtocolTaskBase task) {
         return isAuthorized(userId, (ProtocolTask) task);
     }
@@ -57,77 +37,8 @@ public abstract class ProtocolAuthorizer extends ProtocolAuthorizerBase {
      * @return true if the user is authorized; otherwise false
      */
     public abstract boolean isAuthorized(String userId, ProtocolTask task);
-    
-//    /**
-//     * Set the Kra Authorization Service.  Usually injected by the Spring Framework.
-//     * @param kraAuthorizationService
-//     */
-//    public void setKraAuthorizationService(KraAuthorizationService kraAuthorizationService) {
-//        this.kraAuthorizationService = kraAuthorizationService;
-//    }
-//    
-//    /**
-//     * Does the given user has the permission for this protocol?
-//     * @param username the unique username of the user
-//     * @param protocol the protocol
-//     * @param permissionName the name of the permission
-//     * @return true if the person has the permission; otherwise false
-//     */
-//    protected final boolean hasPermission(String userId, Protocol protocol, String permissionName) {
-//        return kraAuthorizationService.hasPermission(userId, protocol, permissionName);
-//    }
-//    
-//    /**
-//     * Is the protocol an amendment protocol? 
-//     * @param protocol the protocol
-//     * @return true if the protocol is an amendment; otherwise false
-//     */
-//    protected final boolean isAmendment(Protocol protocol) {
-//        return protocol.getProtocolNumber() != null &&
-//               protocol.getProtocolNumber().contains("A");
-//    }
-//
-//    /**
-//     * Is the protocol an amendment or renewal protocol? 
-//     * @param protocol the protocol
-//     * @return true if the protocol is an amendment or renewal; otherwise false
-//     */
-//    protected final boolean isAmendmentOrRenewal(Protocol protocol) {
-//        return protocol.getProtocolNumber() != null &&
-//               (protocol.getProtocolNumber().contains("A") ||
-//                protocol.getProtocolNumber().contains("R"));
-//    }
-//    
-//    protected final boolean isAdminCorrection(ProtocolTask task) {
-//        return TaskName.PROTOCOL_ADMIN_CORRECTION.equals(task.getTaskName());
-//    }
-//    
-//    /**
-//     * Can the user on the current thread execute the given action for the given protocol?
-//     * @param protocol
-//     * @param protocolActionTypeCode
-//     * @return true if the action can be executed; otherwise false
-//     */
-//    protected final boolean canExecuteAction(Protocol protocol, String protocolActionTypeCode) {
-//        return protocol.isActive() &&
-//               !protocol.getProtocolDocument().isViewOnly() &&
-//               protocolActionService.isActionAllowed(protocolActionTypeCode, protocol);
-//    }
-    
+        
     protected final boolean hasCommitteeId(Protocol protocol) {
         return protocol.getProtocolSubmission().getCommitteeId() != null;
     }
-
-// TODO ********************** commented out during IRB backfit ************************    
-//    protected boolean isPessimisticLocked(Document document) {
-//        boolean isLocked = false;
-//        for (PessimisticLock lock : document.getPessimisticLocks()) {
-//            // if lock is owned by current user, do not display message for it
-//            if (!lock.isOwnedByUser(GlobalVariables.getUserSession().getPerson())) {
-//                isLocked = true;
-//            }
-//        }
-//        return isLocked;
-//    }
-
 }

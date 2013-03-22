@@ -36,43 +36,4 @@ public class CommitteeDecisionEvent extends CommitteeDecisionEventBase {
     protected Log getLOGHook() {
         return LOG;
     }
-
-    
-// TODO ********************** commented out during IRB backfit ************************
-//    private CommitteeDecision actionBean;
-//    
-//    /**
-//     * 
-//     * Constructs a CommitteeDecisionEvent.java.
-//     * @param document
-//     * @param decision
-//     */
-//    public CommitteeDecisionEvent(ProtocolDocument document, CommitteeDecision decision) {
-//        super("Recording Committee Decision " + getDocumentId(document), "", document);
-//        this.actionBean = decision;
-//    }
-//    @Override
-//    protected void logEvent() {
-//        StringBuffer logMessage = new StringBuffer(StringUtils.substringAfterLast(this.getClass().getName(), "."));
-//        logMessage.append(" with ");
-//
-//        // vary logging detail as needed
-//        if (this.actionBean == null) {
-//            logMessage.append("null actionBean");
-//        } else {
-//            logMessage.append(actionBean.toString());
-//        }
-//
-//        LOG.debug(logMessage);
-//    }
-//    
-//    public Class<ExecuteCommitteeDecisionRule> getRuleInterfaceClass() {
-//        return ExecuteCommitteeDecisionRule.class;
-//    }
-//
-//    public boolean invokeRuleMethod(BusinessRule rule) {
-//        return ((ExecuteCommitteeDecisionRule) rule).proccessCommitteeDecisionRule((ProtocolDocument) this.getDocument(),
-//                this.actionBean);
-//    }
-
 }

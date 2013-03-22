@@ -22,14 +22,4 @@ package org.kuali.kra.irb.actions.abandon;
  */
 public interface ProtocolAbandonService extends org.kuali.kra.protocol.actions.abandon.ProtocolAbandonService {
 
- // TODO ********************** commented out during IRB backfit ************************
-//    /**
-//     * 
-//     * This method is to abandon protocol which is SRR or SMR.
-//     * @param protocol
-//     * @param protocolAbandonBean
-//     * @throws WorkflowException
-//     */
-//    public void abandonProtocol(Protocol protocol, ProtocolGenericActionBean protocolAbandonBean) throws WorkflowException ;
-
 }

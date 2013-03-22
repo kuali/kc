@@ -20,28 +20,4 @@ package org.kuali.kra.irb.actions.decision;
  */
 public interface CommitteeDecisionService extends org.kuali.kra.protocol.actions.decision.CommitteeDecisionService<CommitteeDecision> {
 
-// TODO ********************** commented out during IRB backfit ************************    
-//    /**
-//     * Record the committee's decision.
-//     * @param protocol
-//     * @param committeeDecision
-//     */
-//    void processCommitteeDecision(Protocol protocol, CommitteeDecision committeeDecision) throws Exception;
-//    
-//    /**
-//     * Finds all of the abstainer votes for the given protocolNumber and submissionNumber.
-//     * @param protocolNumber The human-readable protocol number
-//     * @param submissionNumber The submission number
-//     * @return the list of abstainee votes for the given protocolNumber
-//     */
-//    List<ProtocolVoteAbstainee> getAbstainers(String protocolNumber, int submissionNumber);
-//    
-//    /**
-//     * Finds all of the recused votes for the given protocolNumber and submissionNumber.
-//     * @param protocolNumber The human-readable protocol number
-//     * @param submissionNumber The submission number
-//     * @return the list of recused votes for the given protocolNumber
-//     */
-//    List<ProtocolVoteRecused> getRecusers(String protocolNumber, int submissionNumber);
-    
 }

@@ -47,28 +47,4 @@ public class ProtocolModule extends ProtocolModuleBase {
     public static final String PROTOCOL_PERMISSIONS = "025";
 
     public static final String QUESTIONNAIRE = "026";
-
-//    private String protocolModuleCode;
-//
-//    private String description;
-//
-//    public ProtocolModule() {
-//    }
-//
-//    public String getProtocolModuleCode() {
-//        return protocolModuleCode;
-//    }
-//
-//    public void setProtocolModuleCode(String protocolModuleCode) {
-//        this.protocolModuleCode = protocolModuleCode;
-//    }
-//
-//    public String getDescription() {
-//        return description;
-//    }
-//
-//    public void setDescription(String description) {
-//        this.description = description;
-//    }
-    
 }

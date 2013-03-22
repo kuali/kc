@@ -24,22 +24,4 @@ import org.kuali.kra.protocol.actions.amendrenew.ModifyAmendmentSectionsRuleBase
 
 public class ModifyAmendmentSectionsRule extends ModifyAmendmentSectionsRuleBase {
 
-// TODO ********************** commented out during IRB backfit ************************    
-//    public boolean processRules(ModifyAmendmentSectionsEvent event) {
-//        
-//        boolean valid = true;
-//        
-//        if (StringUtils.isBlank(event.getAmendmentBean().getSummary())) {
-//            valid = false;
-//            reportError(event.getPropertyName(), KeyConstants.ERROR_PROTOCOL_SUMMARY_IS_REQUIRED);
-//        }
-//        
-//        if (event.isAmendment() && !event.getAmendmentBean().isSomeSelected()) {
-//            valid = false;
-//            reportError(event.getPropertyName(), KeyConstants.ERROR_PROTOCOL_SELECT_MODULE);
-//        }
-//        
-//        return valid;
-//    }
-    
 }

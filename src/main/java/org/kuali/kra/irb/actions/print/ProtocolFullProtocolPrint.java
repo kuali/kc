@@ -33,16 +33,5 @@ public class ProtocolFullProtocolPrint extends ProtocolFullProtocolPrintBase {
     @Override
     protected ProtocolPrintWatermarkBase getNewProtocolPrintWatermarkInstanceHook() {
         return new ProtocolPrintWatermark();
-    }
-
-// TODO ********************** commented out during IRB backfit ************************    
-//    /**
-//     * 
-//     * @see org.kuali.kra.irb.actions.print.ProtocolReportPrint#getProtocolPrintType()
-//     */
-//    public String getProtocolPrintType() {
-//        return ProtocolPrintType.PROTOCOL_FULL_PROTOCOL_REPORT.getProtocolPrintType();
-//    }
-
-    
+    }    
 }

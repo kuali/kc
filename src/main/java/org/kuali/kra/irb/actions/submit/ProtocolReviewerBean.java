@@ -33,33 +33,6 @@ public class ProtocolReviewerBean extends ProtocolReviewerBeanBase {
      */
     private static final long serialVersionUID = 647867490941129499L;
 
-//    public static final String CREATE = "create";
-//    public static final String UPDATE = "update";
-//    public static final String REMOVE = "remove";
-//    private String personId;
-//    private String fullName;
-//    private String reviewerTypeCode;
-//    private boolean nonEmployeeFlag;
-//    // create/update/remove
-//    private String actionFlag;
-//    private ProtocolNotificationRequestBean notificationRequestBean;
-//    
-//    public ProtocolReviewerBean() {
-//        
-//    }
-//    
-//    public ProtocolReviewerBean(CommitteeMembership member) {
-//        if (!StringUtils.isBlank(member.getPersonId())) {
-//            this.setPersonId(member.getPersonId());
-//            this.setNonEmployeeFlag(false);
-//        }
-//        else {
-//            this.setPersonId(member.getRolodexId().toString());
-//            this.setNonEmployeeFlag(true);
-//        }
-//        this.setFullName(member.getPersonName());
-//    }
-    
     public ProtocolReviewerBean() {
         super();
     }
@@ -68,71 +41,4 @@ public class ProtocolReviewerBean extends ProtocolReviewerBeanBase {
         super(member);
     }
 
-//    public String getPersonId() {
-//        return personId;
-//    }
-//    
-//    public void setPersonId(String personId) {
-//        this.personId = personId;
-//    }
-//    
-//    public String getFullName() {
-//        return fullName;
-//    }
-//    
-//    public void setFullName(String fullName) {
-//        this.fullName = fullName;
-//    }
-//    
-//    public String getReviewerTypeCode() {
-//        return reviewerTypeCode;
-//    }
-//    
-//    public void setReviewerTypeCode(String reviewerTypeCode) {
-//        this.reviewerTypeCode = reviewerTypeCode;
-//    }
-//    
-//    public boolean getNonEmployeeFlag() {
-//        return nonEmployeeFlag;
-//    }
-//    
-//    public void setNonEmployeeFlag(boolean nonEmployeeFlag) {
-//        this.nonEmployeeFlag = nonEmployeeFlag;
-//    }
-//
-//    public void refresh() {
-//       
-//    }
-//    
-//    public boolean isProtocolReviewerBeanForReviewer( ProtocolReviewer reviewer ) {
-//        boolean result = ( reviewer.getNonEmployeeFlag() && reviewer.getRolodexId()!=null && StringUtils.equals(this.getPersonId(), reviewer.getRolodexId().toString()))
-//                         ||
-//                         ( !reviewer.getNonEmployeeFlag() && reviewer.getPersonId()!=null && StringUtils.equals(reviewer.getPersonId(), this.getPersonId()));
-//        return result;
-//    }   
-//    
-//    public boolean isProtocolReviewerBeanForCommitteeMembership( CommitteeMembership membership ) {
-//        boolean result = ( membership.getPersonId()==null && membership.getRolodexId()!=null && StringUtils.equals(this.getPersonId(), membership.getRolodexId().toString() ))
-//                         ||
-//                         ( membership.getPersonId()!=null && membership.getPersonId()!=null && StringUtils.equals(membership.getPersonId(), this.getPersonId()));
-//        return result;
-//    }   
-//    
-//    public String getActionFlag() {
-//        return actionFlag;
-//    }
-//
-//    public void setActionFlag(String actionFlag) {
-//        this.actionFlag = actionFlag;
-//    }
-//
-//    public ProtocolNotificationRequestBeanBase getNotificationRequestBean() {
-//        return notificationRequestBean;
-//    }
-//
-//    public void setNotificationRequestBean(ProtocolNotificationRequestBeanBase notificationRequestBean) {
-//        this.notificationRequestBean = notificationRequestBean;
-//    }   
-    
-    
 }

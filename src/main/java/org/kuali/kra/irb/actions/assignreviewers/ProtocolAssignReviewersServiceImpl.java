@@ -88,10 +88,7 @@ public class ProtocolAssignReviewersServiceImpl implements ProtocolAssignReviewe
             AssignReviewerNotificationRenderer renderer = new AssignReviewerNotificationRenderer(protocol, "removed");
             IRBNotificationContext context = new IRBNotificationContext(protocol, protocolOnlineReview, ProtocolActionType.ASSIGN_REVIEWER, "Assign Reviewer", renderer);
             if (!getPromptUserForNotificationEditor(context)) {
-             // TODO ********************** added or modified during IRB backfit merge BEGIN ********************** 
                 kcNotificationService.sendNotificationAndPersist(context, new IRBProtocolNotification(), protocol);
-             // TODO ********************** added or modified during IRB backfit merge END ************************
-
             }
         }
         
@@ -137,9 +134,7 @@ public class ProtocolAssignReviewersServiceImpl implements ProtocolAssignReviewe
         AssignReviewerNotificationRenderer renderer = new AssignReviewerNotificationRenderer(protocol, "added");
         IRBNotificationContext context = new IRBNotificationContext(protocol, protocolOnlineReview, ProtocolActionType.ASSIGN_REVIEWER, "Assign Reviewer", renderer);
         if (!getPromptUserForNotificationEditor(context)) {
-            // TODO ********************** added or modified during IRB backfit merge BEGIN ********************** 
             kcNotificationService.sendNotificationAndPersist(context, new IRBProtocolNotification(), protocol);
-            // TODO ********************** added or modified during IRB backfit merge END ************************
         }
     }
     

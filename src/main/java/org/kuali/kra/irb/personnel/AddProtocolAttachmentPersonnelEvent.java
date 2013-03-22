@@ -24,20 +24,4 @@ public class AddProtocolAttachmentPersonnelEvent extends org.kuali.kra.protocol.
         super(errorPathPrefix, document, protocolAttachmentPersonnel, personIndex);
     }
 
-
-// TODO ********************** commented out during IRB backfit ************************    
-//    protected AddProtocolAttachmentPersonnelEvent(String errorPathPrefix, Document document,
-//            ProtocolAttachmentPersonnel protocolAttachmentPersonnel, int personIndex) {
-//        super("adding ProtocolAttachmentPeronnel to document " + getDocumentId(document), errorPathPrefix, document,
-//                protocolAttachmentPersonnel, personIndex);
-//    }
-//
-//    public Class getRuleInterfaceClass() {
-//        return AddProtocolAttachmentPersonnelRule.class;
-//    }
-//
-//    public boolean invokeRuleMethod(BusinessRule rule) {
-//        return ((AddProtocolAttachmentPersonnelRule) rule).processAddProtocolAttachmentPersonnelRules(this);
-//    }
-
 }

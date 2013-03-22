@@ -37,44 +37,4 @@ public class CommitteeDecisionAbstainerEvent extends CommitteeDecisionAbstainerE
     protected Log getLOGHook() {
         return LOG;
     }
-    
-// TODO ********************** commented out during IRB backfit ************************    
-//    private CommitteeDecision actionBean;
-//    
-//    /**
-//     * 
-//     * Constructs a CommitteeDecisionAbstainerEvent.java.
-//     * @param document
-//     * @param decision
-//     */
-//    public CommitteeDecisionAbstainerEvent(ProtocolDocument document, CommitteeDecision decision) {
-//        super("Recording Committee Decision " + getDocumentId(document), "", document);
-//        this.actionBean = decision;
-//    }
-//
-//    @Override
-//    protected void logEvent() {
-//        StringBuffer logMessage = new StringBuffer(StringUtils.substringAfterLast(this.getClass().getName(), "."));
-//        logMessage.append(" with ");
-//
-//        // vary logging detail as needed
-//        if (this.actionBean == null) {
-//            logMessage.append("null actionBean");
-//        } else {
-//            logMessage.append(actionBean.toString());
-//        }
-//
-//        LOG.debug(logMessage);
-//
-//    }
-//
-//    public Class<ExecuteCommitteeDecisionAbstainerRule> getRuleInterfaceClass() {
-//        return ExecuteCommitteeDecisionAbstainerRule.class;
-//    }
-//
-//    public boolean invokeRuleMethod(BusinessRule rule) {
-//        return ((ExecuteCommitteeDecisionAbstainerRule) rule).proccessCommitteeDecisionAbstainerRule((ProtocolDocument) this.getDocument(),
-//                this.actionBean);
-//    }
-
 }

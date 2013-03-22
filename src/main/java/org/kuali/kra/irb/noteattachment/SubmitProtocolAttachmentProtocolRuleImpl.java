@@ -31,39 +31,4 @@ public class SubmitProtocolAttachmentProtocolRuleImpl extends SubmitProtocolAtta
         // TODO : temporarily plugin this propertyprefix.  need to rework to have correct prefix
         protocolHelper = new ProtocolAttachmentProtocolRuleHelper("notesAttachmentsHelper.newAttachmentProtocol");
     }
-
-// TODO ********************** commented out during IRB backfit ************************    
-//    private final ProtocolAttachmentProtocolRuleHelper protocolHelper = new ProtocolAttachmentProtocolRuleHelper();
-//    
-//    /**
-//     * Executes the rules related to {@link ProtocolAttachmentProtocol ProtocolAttachmentProtocol} when saving a ProtocolDocument.
-//     * @param document the document
-//     * @return true if valid  
-//     */
-//    public boolean processSubmitProtocolAttachmentProtocolRules(final ProtocolDocument document) {      
-//        
-//        if (document == null) {
-//            throw new IllegalArgumentException("the document was null");
-//        }
-//        boolean valid = true;
-//        
-//        final List<ProtocolAttachmentProtocol> attachments = document.getProtocol().getAttachmentProtocols();
-//        
-//        for (int i = 0; i < attachments.size(); i++) {
-//            final ProtocolAttachmentProtocol attachment = attachments.get(i);
-//            this.setPropertyPrefixes(NoteAndAttachmentPrefix.ATTACHMENT_PROTOCOL.getIndexedPrefix(i));
-//
-//            valid &= this.protocolHelper.validStatusForSubmission(attachment);
-//        }
-//        return valid;
-//    }
-//    
-//    /**
-//     * Resets the PropertyPrefixes on the used helpers.
-//     * @param prefix the prefix.
-//     */
-//    private void setPropertyPrefixes(String prefix) {
-//        this.protocolHelper.resetPropertyPrefix(prefix);
-//    }
-    
 }

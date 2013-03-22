@@ -34,23 +34,4 @@ public interface ProtocolPrintingService extends org.kuali.kra.protocol.actions.
      */
     Printable getProtocolPrintable(ProtocolPrintType reportType);
 
-// TODO ********************** commented out during IRB backfit ************************    
-//    /**
-//     * 
-//     * This method to print the report.  Actually this service is just use PrintingService's print
-//     * But need to be defined here.
-//     * @param printableArtifactList
-//     * @return
-//     * @throws PrintingException
-//     */
-//    AttachmentDataSource print(String reportName, List<Printable> printableArtifactList) throws PrintingException;
-//    
-//    /**
-//     * 
-//     * This method is to get the printable Artifacts for the selected protocol.
-//     * @param protocol
-//     * @return
-//     */
-//    Printable getProtocolPrintArtifacts(Protocol protocol) ; 
-   
 }

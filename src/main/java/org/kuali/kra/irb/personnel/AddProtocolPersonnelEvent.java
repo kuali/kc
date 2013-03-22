@@ -35,25 +35,6 @@ public class AddProtocolPersonnelEvent extends AddProtocolPersonnelEventBase {
         super(errorPathPrefix, document, protocolPerson);
     }
 
-// TODO ********************** commented out during IRB backfit ************************    
-//    private ProtocolPerson protocolPerson;
-//    
-//    /**
-//     * Constructs a AddProtocolPersonnelEvent.
-//     * @param errorPathPrefix The error path prefix
-//     * @param document The document to validate
-//     * @param protocolPerson the person to add
-//     */
-//    public AddProtocolPersonnelEvent(String errorPathPrefix, ProtocolDocument document, ProtocolPerson protocolPerson) {
-//        super("Adding ProtocolPerson to document " + getDocumentId(document), errorPathPrefix, document);
-//    
-//        this.protocolPerson = (ProtocolPerson) ObjectUtils.deepCopy(protocolPerson);
-//    }
-//    
-//    public ProtocolPerson getProtocolPerson() {
-//        return protocolPerson;
-//    }
-
     @Override
     @SuppressWarnings("unchecked")
     public BusinessRuleInterface getRule() {

@@ -34,27 +34,4 @@ public class CreateAmendmentEvent extends CreateAmendmentEventBase {
     public BusinessRuleInterface getRule() {
         return new CreateAmendmentRule();
     }
-
-    
-// TODO ********************** commented out during IRB backfit ************************    
-//    private ProtocolAmendmentBean amendmentBean;
-//    private String propertyName;
-//
-//    public CreateAmendmentEvent(ProtocolDocument document, String propertyName, ProtocolAmendmentBean amendmentBean) {
-//        super("Create Amendment", "", document);
-//        this.propertyName = propertyName;
-//        this.amendmentBean = amendmentBean;
-//    }
-//    
-//    public ProtocolDocument getProtocolDocument() {
-//        return (ProtocolDocument) getDocument();
-//    }
-//    
-//    public String getPropertyName() {
-//        return propertyName;
-//    }
-//    
-//    public ProtocolAmendmentBean getAmendmentBean() {
-//        return amendmentBean;
-//    }
 }

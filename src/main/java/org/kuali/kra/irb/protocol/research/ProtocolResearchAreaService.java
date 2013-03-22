@@ -18,21 +18,4 @@ package org.kuali.kra.irb.protocol.research;
 
 public interface ProtocolResearchAreaService extends org.kuali.kra.protocol.protocol.research.ProtocolResearchAreaService {
 
-// TODO ********************** commented out during IRB backfit ************************    
-//    /**
-//     * When a multi-lookup returns for a set of Research Areas, we must add them to the Protocol Document.
-//     * Note that we don't add duplicate research areas.
-//     * NOTE: This should be moved to a service since it is business logic.
-//     * @param protocolDocument the Protocol Document
-//     * @param selectedBOs the selected BOs (Research Areas)
-//     */
-//    public abstract void addProtocolResearchArea(Protocol protocol, Collection<ResearchArea> selectedBOs);
-//    
-//    /**
-//     * Checks to see if the list of research areas in the given protocol is empty.
-//     * @param protocol The protocol with the list of research areas
-//     * @return True if there are no research areas in this protocol, false otherwise
-//     */
-//    boolean isEmptyProtocolResearchAreas(Protocol protocol);
-    
 }

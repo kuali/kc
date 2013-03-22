@@ -21,27 +21,4 @@ package org.kuali.kra.irb.actions.reviewcomments;
  */
 public class ProtocolAddReviewAttachmentRule extends org.kuali.kra.protocol.actions.reviewcomments.ProtocolAddReviewAttachmentRule<ProtocolAddReviewAttachmentEvent> {
 
-    
-// TODO ********************** commented out during IRB backfit ************************    
-//    /**
-//     * {@inheritDoc}
-//     * @see org.kuali.kra.rule.BusinessRuleInterface#processRules(org.kuali.kra.rule.event.KraDocumentEventBaseExtension)
-//     */
-//    public boolean processRules(ProtocolAddReviewAttachmentEvent event) {
-//        boolean isValid = true;
-//        
-//        String errorPathKey = event.getPropertyName() + ".newReviewAttachment";
-//        GlobalVariables.getMessageMap().addToErrorPath(errorPathKey);
-//        getDictionaryValidationService().validateBusinessObject(event.getReviewAttachment());
-//        if (event.getReviewAttachment().getNewFile() == null || StringUtils.isBlank(event.getReviewAttachment().getNewFile().getFileName())) {
-//            GlobalVariables.getMessageMap().putError("newFile",
-//            KeyConstants.ERROR_PROTOCOL_ATTACHMENT_MISSING_FILE);
-//        }
-//        GlobalVariables.getMessageMap().removeFromErrorPath(errorPathKey);
-//        
-//        isValid &= GlobalVariables.getMessageMap().hasNoErrors();
-//        
-//        return isValid;
-//    }
-
 }
