@@ -74,6 +74,10 @@ public class KraHoldingPageAction extends AbstractHoldingPageAction {
             // clean up the session and also remove the messages meant for the return page
             cleanupUserSession(alternateDocIdSessionKey);
             GlobalVariables.getUserSession().removeObject(Constants.HOLDING_PAGE_MESSAGES);
+        } else if(GlobalVariables.getUserSession().retrieveObject(Constants.FORCE_HOLDING_PAGE_FOR_ACTION_LIST) != null) {
+            // this is a temporary solution
+            // introduced to unload the block ui in embedded mode
+            GlobalVariables.getUserSession().removeObject(Constants.FORCE_HOLDING_PAGE_FOR_ACTION_LIST); 
         }
         else if (isDocumentPostprocessingComplete(document)) {
             // get the return location and clean up session
