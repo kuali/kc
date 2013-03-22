@@ -59,7 +59,6 @@ public abstract class OnlineReviewsActionHelperBase implements Serializable {
     public static final String REVIEWER_COMMENTS_MAP_KEY = "reviewerComments";
     public static final String REVIEWER_ATTACHMENTS_MAP_KEY = "reviewerAttachments";
     public static final String DOCUMENT_MAP_KEY = "document";
-    //public static final String REVIEWER_PERSON_MAP_KEY = "reviewerPerson";
     public static final String FORM_MAP_KEY = "kualiForm";
     
     private static final long serialVersionUID = 1L;
@@ -79,7 +78,6 @@ public abstract class OnlineReviewsActionHelperBase implements Serializable {
     private List<ProtocolOnlineReviewDocumentBase> protocolOnlineReviewDocuments;
     private List<ReviewCommentsBeanBase> reviewCommentsBeans;
     private List<ReviewAttachmentsBeanBase> reviewAttachmentsBeans;
-    //private List<Object> reviewerPersons;
     private boolean initComplete = false;
 
     private transient KcPersonService kcPersonService;
@@ -137,13 +135,11 @@ public abstract class OnlineReviewsActionHelperBase implements Serializable {
                    
                     ReviewCommentsBeanBase commentsBean = getNewReviewCommentsBeanInstanceHook(Constants.EMPTY_STRING);
                     commentsBean.setReviewComments(pDoc.getProtocolOnlineReview().getCommitteeScheduleMinutes());
-                  //  commentsBean.setHideReviewerName(getReviewerCommentsService().setHideReviewerName(commentsBean.getReviewComments()));
                     pDocMap.put(REVIEWER_COMMENTS_MAP_KEY, commentsBean);
                     reviewCommentsBeans.add(commentsBean);
                     
                     ReviewAttachmentsBeanBase attachmentsBean = getNewReviewAttachmentsBeanHook("onlineReviewsActionHelper");                    
                     attachmentsBean.setReviewAttachments(pDoc.getProtocolOnlineReview().getReviewAttachments());                   
-                  //  commentsBean.setHideReviewerName(getReviewerCommentsService().setHideReviewerName(commentsBean.getReviewComments()));
                     pDocMap.put(REVIEWER_ATTACHMENTS_MAP_KEY, attachmentsBean);
                     reviewAttachmentsBeans.add(attachmentsBean);
                 }
@@ -207,14 +203,6 @@ public abstract class OnlineReviewsActionHelperBase implements Serializable {
         return protocolOnlineReviewDocuments;
     }
     
-    /**
-     * This method...
-     * @return
-     */
-//    public List<ProtocolOnlineReviewFormBase> getProtocolOnlineReviewFormsForCurrentSubmission() throws Exception {
-//        return protocolOnlineReviewForms;
-//    }
-
     /**
      * Gets the newReviewOrganizationDocumentNumber attribute. 
      * @return Returns the newReviewOrganizationDocumentNumber.

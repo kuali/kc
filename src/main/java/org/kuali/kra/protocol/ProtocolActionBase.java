@@ -94,7 +94,7 @@ public abstract class ProtocolActionBase extends KraTransactionalDocumentActionB
 
 
     
-    // TODO invoke these hooks at appropriate points in action methods to get the actual forward name from the subclasses
+    //invoke these hooks at appropriate points in action methods to get the actual forward name from the subclasses
     protected abstract String getProtocolForwardNameHook();
     
     protected abstract String getQuestionnaireForwardNameHook();
@@ -147,12 +147,6 @@ public abstract class ProtocolActionBase extends KraTransactionalDocumentActionB
     
     protected ProtocolSubmissionBeanBase getSubmissionBean(ActionForm form,String submissionActionType) {
         ProtocolSubmissionBeanBase submissionBean = null;
-// TODO *********commented the code below during IACUC refactoring*********         
-//        if (ProtocolActionType.NOTIFY_IRB.equals(submissionActionType)) {
-//            submissionBean = ((ProtocolFormBase) form).getActionHelper().getProtocolNotifyIrbBean();
-//        } else {
-//            submissionBean = ((ProtocolFormBase) form).getActionHelper().getRequestBean(submissionActionType);
-//        }
         return submissionBean;
     }
 
@@ -305,10 +299,6 @@ public abstract class ProtocolActionBase extends KraTransactionalDocumentActionB
       ProtocolDocumentBase doc = protocolForm.getProtocolDocument();
       String userId = GlobalVariables.getUserSession().getPrincipalId();
       
-//    TODO *********commented the code below during IACUC refactoring*********         
-//    KraAuthorizationService kraAuthService = KraServiceLocator.getService(KraAuthorizationService.class);
-//    kraAuthService.addRole(userId, RoleConstants.PROTOCOL_AGGREGATOR, doc.getProtocol());
-//    kraAuthService.addRole(userId, RoleConstants.PROTOCOL_APPROVER, doc.getProtocol());       
       initialDocumentSaveAddRolesHook(userId, doc.getProtocol());
       
       // Add the users defined in the access control list for the protocol's lead unit
@@ -409,23 +399,11 @@ public abstract class ProtocolActionBase extends KraTransactionalDocumentActionB
         String command = protocolForm.getCommand();
         String detailId;
           
-        if (command.startsWith(KewApiConstants.DOCSEARCH_COMMAND+"detailId")) {
-// TODO *********commented the code below during IACUC refactoring*********     
-//            detailId = command.substring((KewApiConstants.DOCSEARCH_COMMAND+"detailId").length());
-//            protocolForm.setDetailId(detailId);
-//            viewBatchCorrespondence(mapping, protocolForm, request, response);
-//            return RESPONSE_ALREADY_HANDLED;
-////            protocolForm.setCommand(KewApiConstants.DOCSEARCH_COMMAND);
-////            command = KewApiConstants.DOCSEARCH_COMMAND;
+        if (command.startsWith(KewApiConstants.DOCSEARCH_COMMAND+"detailId")) { 
+            
         }
         if (KewApiConstants.ACTIONLIST_INLINE_COMMAND.equals(command)) {
-// TODO *********commented the code below during IACUC refactoring*********             
-//            String docIdRequestParameter = request.getParameter(KRADConstants.PARAMETER_DOC_ID);
-//            Document retrievedDocument = KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderId(docIdRequestParameter);
-//            protocolForm.setDocument(retrievedDocument);
-//            request.setAttribute(KRADConstants.PARAMETER_DOC_ID, docIdRequestParameter);
-//            forward = mapping.findForward(Constants.MAPPING_COPY_PROPOSAL_PAGE);
-//            forward = new ActionForward(forward.getPath()+ "?" + KRADConstants.PARAMETER_DOC_ID + "=" + docIdRequestParameter);  
+            
         } else if (getProtocolActionsMappingNameHoook().equals(command) || getProtocolOnlineReviewMappingNameHoook().equals(command)) {       
             String docIdRequestParameter = request.getParameter(KRADConstants.PARAMETER_DOC_ID);
             Document retrievedDocument = KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderId(docIdRequestParameter);
@@ -478,32 +456,6 @@ public abstract class ProtocolActionBase extends KraTransactionalDocumentActionB
         return getKualiRuleService().applyRules(event);
     }
 
-// TODO *********commented the code below during IACUC refactoring*********     
-//    /**
-//     * This method is to get protocol personnel training service
-//     * @return ProtocolPersonTrainingService
-//     */
-//    private ProtocolPersonTrainingService getProtocolPersonTrainingService() {
-//        return (ProtocolPersonTrainingService)KraServiceLocator.getService("protocolPersonTrainingService");
-//    }
-//    
-//    /**
-//     * This method is to get protocol personnel service
-//     * @return ProtocolPersonnelService
-//     */
-//    private ProtocolPersonnelService getProtocolPersonnelService() {
-//        return (ProtocolPersonnelService)KraServiceLocator.getService("protocolPersonnelService");
-//    }
-//    
-//    /*
-//     * Get the ProtocolOnlineReviewService
-//     * @return ProtocolOnlineReviewService
-//     */
-//    
-//    protected ProtocolOnlineReviewService getProtocolOnlineReviewService() {
-//        return KraServiceLocator.getService(ProtocolOnlineReviewService.class);
-//    }
-//    
     /**
      * This method gets called upon navigation to Online Review tab.
      * @param mapping the Action Mapping
@@ -516,49 +468,7 @@ public abstract class ProtocolActionBase extends KraTransactionalDocumentActionB
             , HttpServletRequest request, HttpServletResponse response) {        
         return mapping.findForward(getProtocolOnlineReviewForwardNameHook());
     }
-    
-// TODO *********commented the code below during IACUC refactoring*********     
-//    
-//    
-//    /**
-//     * 
-//     * This method is to print submission questionnaire answer
-//     * @param mapping
-//     * @param form
-//     * @param request
-//     * @param response
-//     * @return
-//     * @throws Exception
-//     */                  
-//    public ActionForward printSubmissionQuestionnaireAnswer(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-//            HttpServletResponse response) throws Exception {
-//        ActionForward forward = mapping.findForward(MAPPING_BASIC);
-//        Map<String, Object> reportParameters = new HashMap<String, Object>();
-//        AnswerHeader answerHeader = getAnswerHeader(request);
-//        // for release 3 : if questionnaire questions has answer, then print answer.
-//        reportParameters.put("questionnaireId", answerHeader.getQuestionnaire().getQuestionnaireIdAsInteger());
-//        reportParameters.put("template", answerHeader.getQuestionnaire().getTemplate());
-//        ProtocolBase protocol;
-//        if (CoeusSubModule.PROTOCOL_SUBMISSION.equals(answerHeader.getModuleSubItemCode())) {
-//            reportParameters.put(PROTOCOL_NUMBER, answerHeader.getModuleItemKey());
-//            reportParameters.put(SUBMISSION_NUMBER, answerHeader.getModuleSubItemKey());
-//            protocol = getProtocolFinder().findCurrentProtocolByNumber(getProtocolNumber(answerHeader));
-//        } else {
-//            Map keyValues= new HashMap();
-//            keyValues.put(PROTOCOL_NUMBER, answerHeader.getModuleItemKey());
-//            keyValues.put("sequenceNumber", answerHeader.getModuleSubItemKey());
-//            protocol = ((List<ProtocolBase>)getBusinessObjectService().findMatching(ProtocolBase.class, keyValues)).get(0);
-//        }
-//
-//        AttachmentDataSource dataStream = getQuestionnairePrintingService().printQuestionnaireAnswer(
-//                protocol, reportParameters);
-//        if (dataStream.getContent() != null) {
-//            streamToResponse(dataStream, response);
-//            forward = null;
-//        }
-//        return forward;
-//    }
-    
+        
     /*
      * This is to retrieve answer header based on answerheaderid
      */
@@ -568,11 +478,6 @@ public abstract class ProtocolActionBase extends KraTransactionalDocumentActionB
         fieldValues.put("answerHeaderId", Integer.toString(this.getSelectedLine(request)));
         return  (AnswerHeader)getBusinessObjectService().findByPrimaryKey(AnswerHeader.class, fieldValues);
     }
-
-// TODO *********commented the code below during IACUC refactoring*********     
-//    protected QuestionnairePrintingService getQuestionnairePrintingService() {
-//        return KraServiceLocator.getService(QuestionnairePrintingService.class);
-//    }
 
     /*
      * get protocolnumber for answerheader moduleitemkey
@@ -585,49 +490,6 @@ public abstract class ProtocolActionBase extends KraTransactionalDocumentActionB
         }
         return protocolNumber;
     }
-
-    
-// TODO *********commented the code below during IACUC refactoring*********     
-//    private ProtocolFinderDao getProtocolFinder() {
-//        return KraServiceLocator.getService(ProtocolFinderDao.class);
-//    }
-//
-//    private void viewBatchCorrespondence(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-//            HttpServletResponse response) throws Exception {
-//
-//        ProtocolFormBase protocolForm = (ProtocolFormBase) form;
-//        Map primaryKeys = new HashMap();
-//        primaryKeys.put("committeeBatchCorrespondenceDetailId", protocolForm.getDetailId());
-//        CommitteeBatchCorrespondenceDetail batchCorrespondenceDetail = (CommitteeBatchCorrespondenceDetail) getBusinessObjectService()
-//                .findByPrimaryKey(CommitteeBatchCorrespondenceDetail.class, primaryKeys);
-//        primaryKeys.clear();
-//        primaryKeys.put("id", batchCorrespondenceDetail.getProtocolCorrespondenceId());
-//        ProtocolCorrespondence attachment = (ProtocolCorrespondence) getBusinessObjectService().findByPrimaryKey(
-//                ProtocolCorrespondence.class, primaryKeys);
-//
-//        if (attachment == null) {
-//            LOG.info(NOT_FOUND_SELECTION + "detailID: " + protocolForm.getDetailId());
-//            // may want to tell the user the selection was invalid.
-//            // return mapping.findForward(Constants.MAPPING_BASIC);
-//        }
-//        else {
-//
-//            this.streamToResponse(attachment.getCorrespondence(), StringUtils.replace(attachment.getProtocolCorrespondenceType()
-//                    .getDescription(), " ", "")
-//                    + ".pdf", Constants.PDF_REPORT_CONTENT_TYPE, response);
-//        }
-//        // return RESPONSE_ALREADY_HANDLED;
-//    }
-//
-//    private void sendNotification(ProtocolFormBase protocolForm) {
-//        
-//        ProtocolBase protocol = protocolForm.getProtocolDocument().getProtocol();
-//        IRBNotificationRenderer renderer = new IRBNotificationRenderer(protocol);
-//        IRBNotificationContext context = new IRBNotificationContext(protocol, ProtocolActionType.PROTOCOL_CREATED_NOTIFICATION, "Created", renderer);
-//        KraServiceLocator.getService(KcNotificationService.class).sendNotification(context);
-//    }
-
-
     
     protected KraAuthorizationService getKraAuthorizationService() {
         return KraServiceLocator.getService(KraAuthorizationService.class);

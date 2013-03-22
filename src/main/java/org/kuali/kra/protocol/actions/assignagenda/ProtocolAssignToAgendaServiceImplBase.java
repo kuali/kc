@@ -36,13 +36,6 @@ public abstract class ProtocolAssignToAgendaServiceImplBase implements ProtocolA
 
     private DocumentService documentService;
     private ProtocolActionService protocolActionService;
-
-    
-    
-// TODO *********commented the code below during IACUC refactoring*********     
-//    private ProtocolAssignCmtSchedService protocolAssignCmtSchedService;
-    
-    
     
     private CommitteeServiceBase committeeService;
 
@@ -65,21 +58,10 @@ public abstract class ProtocolAssignToAgendaServiceImplBase implements ProtocolA
     public ProtocolActionService getProtocolActionService() {
         return this.protocolActionService;
     }
- 
-    
-    
-// TODO *********commented the code below during IACUC refactoring*********     
-//    public void setProtocolAssignCmtSchedService(ProtocolAssignCmtSchedService protocolAssignCmtSchedService) {
-//        this.protocolAssignCmtSchedService = protocolAssignCmtSchedService;        
-//    }
-    
-    
     
     public void setCommitteeService(CommitteeServiceBase committeeService) {
         this.committeeService = committeeService;        
-    }
-
-    
+    }    
     
     protected ProtocolSubmissionBase findSubmission(ProtocolBase protocol) {
         ProtocolSubmissionBase returnSubmission = null;
@@ -158,35 +140,6 @@ public abstract class ProtocolAssignToAgendaServiceImplBase implements ProtocolA
 
     protected abstract String getProtocolActionTypeAssignToAgendaCodeHook();
     
-    
-// TODO *********commented the code below during IACUC refactoring*********     
-//    protected ProtocolActionBase getSubmitToIrbProtocolAction(ProtocolBase protocol) {
-//        Iterator<ProtocolActionBase> i = protocol.getProtocolActions().iterator();
-//        ProtocolActionBase returnAction = null;
-//        while (i.hasNext()) {
-//            ProtocolActionBase pa = i.next();
-//            if (pa.getProtocolActionType().getProtocolActionTypeCode().equals(ProtocolActionType.SUBMIT_TO_IRB) 
-//                    && (returnAction == null || returnAction.getSequenceNumber().intValue() < pa.getSequenceNumber().intValue() )) {
-//                returnAction = pa;
-//            }else if(pa.getProtocolActionType().getProtocolActionTypeCode().equals(ProtocolActionType.WITHDRAWN)){
-//                returnAction = null;
-//            }
-//        }
-//        // no proper protocol action found, return null
-//        return returnAction;
-//    }
-
-    
-    
-// TODO *********commented the code below during IACUC refactoring*********     
-//    /** {@inheritDoc} */
-//    public String getAssignedCommitteeId(ProtocolBase protocol) {
-//        String committeeID = this.protocolAssignCmtSchedService.getAssignedCommitteeId(protocol);
-//        return committeeID;
-//    }
-
-    
-    
     /** {@inheritDoc} */
     public String getAssignedCommitteeName(ProtocolBase protocol) {
         String committeeID = getAssignedCommitteeId(protocol);
@@ -199,20 +152,4 @@ public abstract class ProtocolAssignToAgendaServiceImplBase implements ProtocolA
         }
         return null;
     }
-
-    
-    
-// TODO *********commented the code below during IACUC refactoring*********     
-//    /** {@inheritDoc} */
-//    public String getAssignedScheduleDate(ProtocolBase protocol) {
-//        String scheduleId = this.protocolAssignCmtSchedService.getAssignedScheduleId(protocol);
-//        List<KeyValue> keyPair = this.committeeService.getAvailableCommitteeDates(getAssignedCommitteeId(protocol));
-//        for (KeyValue kp : keyPair) {
-//            if (kp.getKey().equals(scheduleId)) {
-//                return kp.getValue();
-//            }
-//        }
-//        return null;
-//    }
-
 }

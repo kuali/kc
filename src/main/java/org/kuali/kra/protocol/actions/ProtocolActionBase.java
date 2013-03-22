@@ -93,9 +93,6 @@ public abstract class ProtocolActionBase extends ProtocolAssociateBase {
 
     private ProtocolSubmissionQuestionnaireHelper questionnaireHelper;
 
-// TODO *********commented the code below during IACUC refactoring*********     
-//    private transient QuestionnairePrintOption questionnairePrintOption;
-    
     private transient CommitteeServiceBase committeeService;
 
     public ProtocolActionBase() {
@@ -436,55 +433,6 @@ public abstract class ProtocolActionBase extends ProtocolAssociateBase {
         this.followupActionCode = followupActionCode;
     }
 
-// TODO *********commented the code below during IACUC refactoring*********     
-//    public QuestionnairePrintOption getQuestionnairePrintOption() {
-//        return questionnairePrintOption;
-//    }
-//
-//    public void setQuestionnairePrintOption(QuestionnairePrintOption questionnairePrintOption) {
-//        this.questionnairePrintOption = questionnairePrintOption;
-//    }
-//
-//    public void setQuestionnairePrintOptionFromHelper(ActionHelperBase actionHelper) {
-//        if (getSubmissionNumber() != null
-//                && !ProtocolActionType.SUBMIT_TO_IRB.equals(getProtocolActionTypeCode())) {
-//            setAnswerHeadersCount(actionHelper.getAnswerHeaderCount(CoeusSubModule.PROTOCOL_SUBMISSION, Integer.toString(getSubmissionNumber())));
-//            if (getAnswerHeadersCount() > 0) {
-//                setQuestionnairePrintOption(getQnPrintOptionForAction(getProtocolNumber(),
-//                                getSubmissionNumber().toString(), CoeusSubModule.PROTOCOL_SUBMISSION, this));
-//            }
-//        } else if (ProtocolActionType.SUBMIT_TO_IRB.equals(getProtocolActionTypeCode())
-//                && ("Submitted to IRB").equals(getComments())) {
-//            if (getProtocol().isAmendment() || getProtocol().isRenewal()) {
-//                setQuestionnairePrintOption(getQnPrintOptionForAction(getProtocolNumber(),
-//                                getSequenceNumber().toString(), CoeusSubModule.AMENDMENT_RENEWAL, this));
-//
-//            } else {
-//                setQuestionnairePrintOption(getQnPrintOptionForAction(getProtocolNumber(),
-//                                getInitialSequence(this, ""), CoeusSubModule.ZERO_SUBMODULE, this));
-//            }
-//        } else if (ProtocolActionType.SUBMIT_TO_IRB.equals(getProtocolActionTypeCode()) && StringUtils.isNotBlank(getComments())
-//                                                            && (getComments().startsWith("Amendment-") || getComments().startsWith("Renewal-"))) {
-//            String amendmentRenewalNumber = getAmendmentRenewalNumber(getComments());
-//            setQuestionnairePrintOption(getQnPrintOptionForAction(getProtocolNumber() + amendmentRenewalNumber, 
-//                                        getInitialSequence(this, amendmentRenewalNumber), CoeusSubModule.AMENDMENT_RENEWAL, this));
-//        }
-//    }
-//    
-//    private QuestionnairePrintOption getQnPrintOptionForAction(String itemKey, String subItemKey, String subItemCode, ProtocolActionBase protocolAction) {
-//
-//        protocolAction.setAnswerHeadersCount(getAnswerHeaderCount(subItemCode, itemKey, subItemKey));
-//        if (protocolAction.getAnswerHeadersCount() > 0) {
-//            QuestionnairePrintOption qnPrintOption = new QuestionnairePrintOption();
-//            qnPrintOption.setItemKey(itemKey);
-//            qnPrintOption.setSubItemCode(subItemCode);
-//            qnPrintOption.setSubItemKey(subItemKey);
-//            return qnPrintOption;
-//        } else {
-//            return null;
-//        }
-//    }
-
     public int getAnswerHeaderCount(String moduleSubItemCode, String moduleItemKey, String moduleSubItemKey) {
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put("moduleItemCode", getCoeusModule());
@@ -508,26 +456,6 @@ public abstract class ProtocolActionBase extends ProtocolAssociateBase {
         return retVal;
     }
     
-
-// TODO *********commented the code below during IACUC refactoring*********     
-//    /*
-//     * get the sequence number of the protocol that the action initially created
-//     */
-//    private String getInitialSequence(ProtocolActionBase protocolAction, String amendmentRenewalNumber) {
-//        Map<String, String> fieldValues = new HashMap<String, String>();
-//        fieldValues.put("protocolNumber", protocolAction.getProtocolNumber() + amendmentRenewalNumber);
-//        if (StringUtils.isBlank(amendmentRenewalNumber)) {
-//            fieldValues.put("actionId", protocolAction.getActionId().toString());
-//        }
-//        else {
-//            fieldValues.put("submissionNumber", protocolAction.getSubmissionNumber().toString());
-//        }
-//        fieldValues.put("protocolActionTypeCode", ProtocolActionType.SUBMIT_TO_IRB);
-//        return ((List<ProtocolActionBase>) getBusinessObjectService().findMatchingOrderBy(ProtocolActionBase.class, fieldValues,
-//                "protocolActionId", true)).get(0).getProtocol().getSequenceNumber().toString();
-//    }
-    
-
     public BusinessObjectService getBusinessObjectService() {
         return KraServiceLocator.getService(BusinessObjectService.class);
     }
@@ -559,13 +487,6 @@ public abstract class ProtocolActionBase extends ProtocolAssociateBase {
         if (protocolSubmission != null) {
             submission = protocolSubmission;
         } else {
-            //  sort it by descending actionid
-            // this sort 'protocol.getProtocolActions' messed up viewhistory. because the viewhistory is coming from action.
-//            Collections.sort(getProtocol().getProtocolActions(), new Comparator<ProtocolActionBase>() {
-//                public int compare(ProtocolActionBase action1, ProtocolActionBase action2) {
-//                    return action1.getActionId().compareTo(action2.getActionId());
-//                }
-//            });
             for (ProtocolActionBase action : this.getProtocol().getSortedActions()) {
                 if (action.getActionId() < this.actionId && action.getSubmissionNumber() != null) {
                     submission = getSubmissionForAction(action.getSubmissionNumber());

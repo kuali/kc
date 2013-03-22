@@ -33,7 +33,6 @@ public class ProtocolAssignCmtSchedAuthorizer extends ProtocolAuthorizerBase {
     public boolean isAuthorized(String username, ProtocolTaskBase task) {
         ProtocolBase protocol = task.getProtocol();
         return kraWorkflowService.isInWorkflow(protocol.getProtocolDocument()) &&
-               //isPendingOrSubmittedToCommittee(protocol) &&
                canExecuteAction(task.getProtocol(), ProtocolActionType.NOTIFIED_COMMITTEE) &&
                !StringUtils.equals(ProtocolSubmissionStatus.APPROVED, protocol.getProtocolSubmission().getSubmissionStatusCode()) &&
                !StringUtils.equals(ProtocolSubmissionStatus.EXEMPT, protocol.getProtocolSubmission().getSubmissionStatusCode()) &&

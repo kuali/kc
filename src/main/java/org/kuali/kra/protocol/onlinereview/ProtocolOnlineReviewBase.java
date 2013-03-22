@@ -83,7 +83,6 @@ public abstract class ProtocolOnlineReviewBase extends KraPersistableBusinessObj
     private ProtocolOnlineReviewDocumentBase protocolOnlineReviewDocument;
 
     //lookup fields  
-    //private transient String lookupProtocolNumber;  
     private transient ProtocolBase lookupProtocol;
 
     private transient Integer lookupReviewerRolodexId;
@@ -391,21 +390,6 @@ public abstract class ProtocolOnlineReviewBase extends KraPersistableBusinessObj
         this.protocolOnlineReviewId = null;
     }
 
-    //    /**  
-    //     * Gets the lookupProtocolNumber attribute.   
-    //     * @return Returns the lookupProtocolNumber.  
-    //     */  
-    //    public String getLookupProtocolNumber() {  
-    //        return protocol.getProtocolNumber();  
-    //    }  
-    //  
-    //    /**  
-    //     * Sets the lookupProtocolNumber attribute value.  
-    //     * @param lookupProtocolNumber The lookupProtocolNumber to set.  
-    //     */  
-    //    public void setLookupProtocolNumber(String lookupProtocolNumber) {  
-    //        this.lookupProtocolNumber = lookupProtocolNumber;  
-    //    }  
     /**
      * Gets the lookupReviewerRolodexId attribute. 
      * @return Returns the lookupReviewerRolodexId.
@@ -548,14 +532,7 @@ public abstract class ProtocolOnlineReviewBase extends KraPersistableBusinessObj
             this.actionsPerformed = this.actionsPerformed + Constants.SEMI_COLON + action + Constants.COLON + GlobalVariables.getUserSession().getPrincipalName();
         }
     }
-
-    //    public boolean isLastActionReviewerApproved() {  
-    //        return isStatusMatched(KewApiConstants.ROUTE_HEADER_ENROUTE_CD);  
-    //    }  
-    //      
-    //    public boolean isLastActionAdminApproved() {  
-    //        return isStatusMatched(KewApiConstants.ROUTE_HEADER_FINAL_CD);  
-    //    }  
+  
     public boolean isReviewerApproved() {
         return reviewerApproved;
     }

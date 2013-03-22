@@ -76,25 +76,7 @@ public abstract class NotesAttachmentsHelperBase {
     protected boolean viewRestricted;
     
     protected boolean manageNotesOpen;
-    
 
-
-    /**
-     * Constructs a helper setting the dependencies to default values.
-     * @param form the form
-     * @throws IllegalArgumentException if the form is null
-     */
-// TODO *********commented the code below during IACUC refactoring*********    
-//    protected NotesAttachmentsHelperBase(final ProtocolFormBase form) {
-//        this(form, KraServiceLocator.getService(ProtocolAttachmentService.class), 
-//                   KraServiceLocator.getService(TaskAuthorizationService.class),
-//                   KraServiceLocator.getService(KraAuthorizationService.class),
-//                   KraServiceLocator.getService(DateTimeService.class),
-//                   KraServiceLocator.getService(ProtocolNotepadService.class),
-//                   KraServiceLocator.getService(ParameterService.class),
-//                   new ProtocolAttachmentVersioningUtilityBase(form));
-//    }
-    
     /**
      * Constructs a helper.
      * @param form the form
@@ -178,11 +160,6 @@ public abstract class NotesAttachmentsHelperBase {
      * Checks if ProtocolBase Attachments can be modified.
      * @return true if can be modified false if cannot
      */
-// TODO *********commented the code below during IACUC refactoring*********    
-//    private boolean canEditProtocolAttachments() {
-//        final ProtocolTaskBase task = new ProtocolTaskBase(TaskName.MODIFY_PROTOCOL_ATTACHMENTS, this.getProtocol());
-//        return this.authService.isAuthorized(this.getUserIdentifier(), task);
-//    }
     public abstract boolean canEditProtocolAttachments();
     
     /**
@@ -327,11 +304,7 @@ public abstract class NotesAttachmentsHelperBase {
      */
     public void addNewProtocolAttachmentProtocol() {
         this.refreshAttachmentReferences(Collections.singletonList(this.getNewAttachmentProtocol()));
-        this.syncNewFiles(Collections.singletonList(this.getNewAttachmentProtocol()));
-        
-//        this.assignDocumentId(Collections.singletonList(this.getNewAttachmentProtocol()),
-//                this.createTypeToMaxDocNumber(this.getProtocol().getAttachmentProtocols()));
-        
+        this.syncNewFiles(Collections.singletonList(this.getNewAttachmentProtocol()));        
         /*
          * Since this event isn't created by the framework and this rule isn't executed by the framework,
          * is it necessary to even create a event?  Does the rule have to implement BusinessRule?  There
@@ -436,7 +409,6 @@ public abstract class NotesAttachmentsHelperBase {
         if (this.versioningUtil.versioningRequired() && attachments.get(index).supportsVersioning()) {
             ProtocolAttachmentBase attachment = attachments.get(index);
             if (attachment instanceof ProtocolAttachmentProtocolBase && "1".equals(((ProtocolAttachmentProtocolBase)attachment).getDocumentStatusCode())) {
-               // attachments.remove(index);
                 ((ProtocolAttachmentProtocolBase)attachment).setDocumentStatusCode("3");
                 ((ProtocolAttachmentProtocolBase)attachment).setChanged(true);
             } else {
@@ -445,7 +417,6 @@ public abstract class NotesAttachmentsHelperBase {
         } else {
             // personnelattachment will reach here
             attachments.remove(index);
-            //this.notesService.deleteAttatchment(attachments.remove(index));
         }
         
         return true;
@@ -469,7 +440,6 @@ public abstract class NotesAttachmentsHelperBase {
             this.versioningUtil.versionNewAttachment(attachment);
         } else {
             this.getProtocol().addAttachmentsByType(attachment);
-//            this.notesService.saveAttatchment(attachment);
         }      
     }
     
@@ -640,22 +610,12 @@ public abstract class NotesAttachmentsHelperBase {
      * Checks if ProtocolBase Notepads can be modified.
      * @return true if can be modified false if cannot
      */
-// TODO *********commented the code below during IACUC refactoring*********    
-//    private boolean canAddProtocolNotepads() {
-//        final ProtocolTaskBase task = new ProtocolTaskBase(TaskName.ADD_PROTOCOL_NOTES, this.getProtocol());
-//        return this.authService.isAuthorized(this.getUserIdentifier(), task);
-//    }
     public abstract boolean canAddProtocolNotepads();
     
     /**
      * Checks if restricted ProtocolBase Notepads can be viewed.
      * @return true if can be modified false if cannot
      */
-// TODO *********commented the code below during IACUC refactoring*********    
-//    private boolean canViewRestrictedProtocolNotepads() {
-//        final ProtocolTaskBase task = new ProtocolTaskBase(TaskName.VIEW_RESTRICTED_NOTES, this.getProtocol());
-//        return this.authService.isAuthorized(this.getUserIdentifier(), task);
-//    }
     public abstract boolean canViewRestrictedProtocolNotepads();
 
     /**
@@ -712,10 +672,6 @@ public abstract class NotesAttachmentsHelperBase {
         this.viewRestricted = viewRestricted;
     }
     
-// TODO *********commented the code below during IACUC refactoring*********    
-//    public boolean isIrbAdmin() {
-//        return this.kraAuthorizationService.hasRole(GlobalVariables.getUserSession().getPrincipalId(), NAMESPACE, RoleConstants.IRB_ADMINISTRATOR);
-//    }
 // Note: Changing the name to make this more generic to work with both irb and iacuc.
 //       Pushing this method down to return true for its respective admin.  This flag
 //       is specifically used in the protocolNotes.tag file to determine if something 

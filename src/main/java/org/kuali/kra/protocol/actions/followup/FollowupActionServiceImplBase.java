@@ -33,10 +33,6 @@ public abstract class FollowupActionServiceImplBase<T extends ValidProtocolActio
     private static final String PROTOCOL_ACTION_TYPE_CODE = "protocolActionTypeCode"; 
     private static final String COMMITTEE_MOTION_TYPE_CODE = "motionTypeCode";
   
-// TODO *********commented the code below during IACUC refactoring*********     
-//    private static final Log LOG = LogFactory.getLog(FollowupActionServiceImplBase.class);
-    
-    
     /**
      * @see org.kuali.kra.irb.actions.followup.FollowupActionService#getFollowupsForActionTypeAndMotionType(java.lang.String, java.lang.String)
      */
@@ -95,7 +91,6 @@ public abstract class FollowupActionServiceImplBase<T extends ValidProtocolActio
      * @see org.kuali.kra.irb.actions.followup.FollowupActionService#isActionOpenForFollowup(java.lang.String, org.kuali.kra.irb.ProtocolBase)
      */
     public boolean isActionOpenForFollowup(String protocolActionTypeCode, ProtocolBase protocol) {
-        // TODO Auto-generated method stub
         if (getLogHook().isDebugEnabled()) {
             getLogHook().debug("**********************************");
             getLogHook().debug(String.format("isActionOpenForFollowup called for action type code %s, on protocol %s",protocolActionTypeCode,protocol.getProtocolNumber()));

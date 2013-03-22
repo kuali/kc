@@ -84,7 +84,6 @@ public abstract class ProtocolPersonnelServiceImplBase implements ProtocolPerson
     public void addProtocolPerson(ProtocolBase protocol, ProtocolPersonBase protocolPerson) {
 
         Integer nextPersonId = getSequenceAccessorService().getNextAvailableSequenceNumber(getSequenceNumberNameHook()).intValue();
-        //Integer nextPersonId = getSequenceAccessorService().getNextAvailableSequenceNumber("SEQ_PROTOCOL_ID").intValue();
         protocolPerson.setProtocolPersonId(nextPersonId);
         //TODO - How to handle protocol number and sequence number
         protocolPerson.setProtocolNumber(protocol.getProtocolNumber());
@@ -215,7 +214,6 @@ public abstract class ProtocolPersonnelServiceImplBase implements ProtocolPerson
         if(protocolUnit.getLeadUnitFlag()) {
             selectedPerson.setSelectedUnit(RESET_SELECTED_UNIT_FOR_PERSON);
         }
-//        selectedPerson.getProtocolUnits().remove(protocolUnit);
         selectedPerson.getProtocolUnits().remove(lineNumber);
     }
     
@@ -521,41 +519,6 @@ public abstract class ProtocolPersonnelServiceImplBase implements ProtocolPerson
         return isCoI;
         
     }
-
-    
-    
-// TODO ********************** commented out during IRB backfit ************************ PUSHED DOWN TO SUBCLASSES    
-//    /**
-//     * {@inheritDoc}
-//     * @see org.kuali.kra.protocol.personnel.ProtocolPersonnelService#setPrincipalInvestigator(org.kuali.kra.protocol.personnel.ProtocolPersonBase, 
-//     *                                                                                    org.kuali.kra.protocol.ProtocolBase)
-//     */
-//    public void setPrincipalInvestigator(ProtocolPersonBase newPrincipalInvestigator, ProtocolBase protocol) {
-//        if (protocol != null) {
-//            ProtocolPersonBase currentPrincipalInvestigator = getPrincipalInvestigator(protocol.getProtocolPersons());
-//            
-//            if (newPrincipalInvestigator != null) {
-//                newPrincipalInvestigator.setProtocolPersonRoleId(getPrincipalInvestigatorRole());
-//                if (currentPrincipalInvestigator == null) {
-//                    protocol.getProtocolPersons().add(newPrincipalInvestigator);
-//                } else if (!isDuplicatePerson(protocol.getProtocolPersons(), newPrincipalInvestigator)) {
-//                    protocol.getProtocolPersons().remove(currentPrincipalInvestigator);
-//                    protocol.getProtocolPersons().add(newPrincipalInvestigator);
-//                }
-//                
-//                // Assign the PI the AGGREGATOR role if PI has a personId.
-//                if (newPrincipalInvestigator.getPersonId() != null) {
-//                    personEditableService.populateContactFieldsFromPersonId(newPrincipalInvestigator);
-//                    KraAuthorizationService kraAuthService = KraServiceLocator.getService(KraAuthorizationService.class);
-//                    kraAuthService.addRole(newPrincipalInvestigator.getPersonId(), RoleConstants.IACUC_PROTOCOL_AGGREGATOR, protocol);
-//                    kraAuthService.addRole(newPrincipalInvestigator.getPersonId(), RoleConstants.IACUC_PROTOCOL_APPROVER, protocol);
-//                } else {
-//                    personEditableService.populateContactFieldsFromRolodexId(newPrincipalInvestigator);
-//                }
-//            }
-//        }
-//    }
-
     
     /**
      * {@inheritDoc}

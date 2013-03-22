@@ -31,16 +31,6 @@ public interface ProtocolApproveService {
      */
     void grantFullApproval(ProtocolBase protocol, ProtocolApproveBean actionBean) throws Exception;
 
-// TODO *********commented the code below during IACUC refactoring********* 
- // This method does not seem relevant for IACUC, so push it down only to IRB and declare it only in the IRB service interface    
-//    /**
-//     * Approves an expedited submission to a ProtocolBase.
-//     * @param protocol the current ProtocolBase
-//     * @param actionBean the bean that contains the comments and dates
-//     * @throws Exception
-//     */
-//    void grantExpeditedApproval(ProtocolBase protocol, ProtocolApproveBean actionBean) throws Exception;
-    
     /**
      * Approves a response submission to a ProtocolBase.
      * @param protocol the current ProtocolBase

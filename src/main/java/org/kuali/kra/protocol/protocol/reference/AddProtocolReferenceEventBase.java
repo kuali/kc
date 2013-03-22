@@ -24,17 +24,6 @@ import org.kuali.rice.krad.rules.rule.BusinessRule;
  */
 public abstract class AddProtocolReferenceEventBase extends ProtocolReferenceEventBase {
 
-    /*
-
-    public AddProtocolReferenceEventBase(String errorPathPrefix, ProtocolDocumentBase document, ProtocolReferenceBase protocolReference) {
-        super("adding ProtocolReferenceBase to document " + getDocumentId(document), errorPathPrefix, document, protocolReference);
-    }
-
-    public AddProtocolReferenceEventBase(String errorPathPrefix, Document document, ProtocolReferenceBase protocolReference) {
-        this(errorPathPrefix, (ProtocolDocumentBase)document, protocolReference);
-    }
-    */   
-    
     /**
      * 
      * Constructs a AddProtocolReferenceEventBase.java.

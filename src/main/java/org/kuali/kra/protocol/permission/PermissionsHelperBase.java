@@ -60,19 +60,6 @@ public abstract class PermissionsHelperBase extends org.kuali.kra.common.permiss
     //in the permissions page.
     protected Collection<String> excludeRoles;
     
- // TODO *********commented the code below during IACUC refactoring*********      
-    /* old way of initializing excluded roles
-    static {
-        excludeRoles = new HashSet<String>();
-        excludeRoles.add(RoleConstants.IRB_PROTOCOL_ONLINE_REVIEWER);
-        excludeRoles.add(RoleConstants.ACTIVE_COMMITTEE_MEMBER);
-        excludeRoles.add(RoleConstants.ACTIVE_COMMITTEE_MEMBER_SCHEDULED_DATE);
-        excludeRoles.add(RoleConstants.PROTOCOL_APPROVER);
-        excludeRoles.add(RoleConstants.ACTIVE_COMMITTEE_MEMBER_ON_PROTOCOL);
-    }
-    */
-    
-    
     /**
      * Each Helper must contain a reference to its document form
      * so that it can access the document.
@@ -91,7 +78,6 @@ public abstract class PermissionsHelperBase extends org.kuali.kra.common.permiss
      * @param form the form
      */
     public PermissionsHelperBase(ProtocolFormBase form, String roleType) {
-        //super(RoleConstants.PROTOCOL_ROLE_TYPE);
         super(roleType);
         this.roleType = roleType;
         this.form = form;        
@@ -108,17 +94,6 @@ public abstract class PermissionsHelperBase extends org.kuali.kra.common.permiss
      * Build the mapping of role names to display.
      */
     protected abstract void buildDisplayNameMap();
-// TODO *********commented the code below during IACUC refactoring*********      
-    /*
-    private void buildDisplayNameMap() {
-        if (displayNameMap == null) {
-            displayNameMap = new HashMap<String, String>();
-            displayNameMap.put(RoleConstants.PROTOCOL_AGGREGATOR, AGGREGATOR_NAME);
-            displayNameMap.put(RoleConstants.PROTOCOL_VIEWER, VIEWER_NAME);
-            displayNameMap.put(RoleConstants.PROTOCOL_UNASSIGNED, UNASSIGNED_NAME);
-        }
-    }
-    */
 
     @Override
     /*

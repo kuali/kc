@@ -19,34 +19,6 @@ import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 public abstract class ProtocolSubmissionTypeBase extends KraPersistableBusinessObjectBase {
 
-// TODO *********commented the code below during IACUC refactoring*********     
-//    public static final String INITIAL_SUBMISSION = "100";
-//
-//    public static final String CONTINUATION = "101";
-//
-//    public static final String AMENDMENT = "102";
-//
-//    public static final String RESPONSE_TO_PREV_IRB_NOTIFICATION = "103";
-//
-//    public static final String REQUEST_TO_CLOSE = "109";
-//
-//    public static final String CONTINUATION_WITH_AMENDMENT = "115";
-//
-//    public static final String REQUEST_FOR_SUSPENSION = "110";
-//
-//    public static final String REQUEST_TO_CLOSE_ENROLLMENT = "111";
-//
-//    public static final String REQUEST_TO_REOPEN_ENROLLMENT = "114";
-//
-//    public static final String REQUEST_FOR_DATA_ANALYSIS_ONLY = "113";
-//
-//    public static final String NOTIFY_IRB = "112";
-//
-//    // also known as FYI  
-//    public static final String REQUEST_FOR_TERMINATION = "108";
-//
-//    public static final String RESUBMISSION = "116";
-
     /**
      * Comment for <code>serialVersionUID</code>
      */

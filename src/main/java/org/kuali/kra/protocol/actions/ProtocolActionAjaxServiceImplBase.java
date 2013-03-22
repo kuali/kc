@@ -34,26 +34,6 @@ public abstract class ProtocolActionAjaxServiceImplBase implements ProtocolActio
 
     public abstract String getReviewers(String protocolId, String committeeId, String scheduleId);
 
-//    public String getReviewers(String protocolId, String committeeId, String scheduleId) {
-//        StringBuffer ajaxList = new StringBuffer();
-//
-//        HashMap<String, String> criteria = new HashMap<String, String>();
-//        criteria.put("protocolId", protocolId);
-//        ProtocolBase protocol = (ProtocolBase) (businessObjectService.findMatching(getProtocolClassHook(), criteria).toArray())[0];
-//        // filter out the protocol personnel; they cannot be reviewers on their own protocol
-//        List<CommitteeMembershipBase> filteredMembers = protocol.filterOutProtocolPersonnel(committeeService.getAvailableMembers(
-//                committeeId, scheduleId));
-//        
-//        for (CommitteeMembershipBase filteredMember : filteredMembers) {
-//            if (StringUtils.isNotBlank(filteredMember.getPersonId())) {
-//                ajaxList.append(filteredMember.getPersonId() + ";" + filteredMember.getPersonName() + ";N;");
-//            } else {
-//                ajaxList.append(filteredMember.getRolodexId() + ";" + filteredMember.getPersonName() + ";Y;");
-//            }
-//        }
-//        return clipLastChar(ajaxList);
-//    }
-    
     public String getReviewerTypes() {
         StringBuffer ajaxList = new StringBuffer();
         Collection<ProtocolReviewerType> reviewerTypes = getReviewerTypesFromDatabase();

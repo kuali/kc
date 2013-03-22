@@ -70,12 +70,7 @@ public abstract class ValidProtoSubRevTypeMaintenanceDocumentRuleBase extends Kr
         boolean valid = true;
         if (StringUtils.isNotBlank(validProtoSubRevType.getSubmissionTypeCode())) {
             Map<String, String> fieldValues = new HashMap<String, String>();
-            fieldValues.put("submissionTypeCode", validProtoSubRevType.getSubmissionTypeCode());
-            
-// TODO *********commented the code below during IACUC refactoring********* 
-//            List<ProtocolSubmissionTypeBase> submissionTypes = (List<ProtocolSubmissionTypeBase>) boService.findMatching(
-//                    ProtocolSubmissionTypeBase.class, fieldValues);
-            
+            fieldValues.put("submissionTypeCode", validProtoSubRevType.getSubmissionTypeCode());            
             List<ProtocolSubmissionTypeBase> submissionTypes = (List<ProtocolSubmissionTypeBase>) boService.findMatching(getProtocolSubmissionTypeBOClassHook(), fieldValues);
             if (submissionTypes.isEmpty()) {
                 GlobalVariables.getMessageMap().putError("document.newMaintainableObject.submissionTypeCode",
@@ -96,10 +91,6 @@ public abstract class ValidProtoSubRevTypeMaintenanceDocumentRuleBase extends Kr
         if (StringUtils.isNotBlank(validProtoSubRevType.getProtocolReviewTypeCode())) {
             Map<String, String> fieldValues = new HashMap<String, String>();
             fieldValues.put("reviewTypeCode", validProtoSubRevType.getProtocolReviewTypeCode());
-            
-// TODO *********commented the code below during IACUC refactoring*********             
-//            List<ProtocolReviewTypeBase> reviewTypes = (List<ProtocolReviewTypeBase>) boService.findMatching(ProtocolReviewTypeBase.class,
-//                    fieldValues);
             List<ProtocolReviewTypeBase> reviewTypes = (List<ProtocolReviewTypeBase>) boService.findMatching(getProtocolReviewTypeBOClassHook(), fieldValues);
             if (reviewTypes.isEmpty()) {
                 GlobalVariables.getMessageMap().putError("document.newMaintainableObject.protocolReviewTypeCode",

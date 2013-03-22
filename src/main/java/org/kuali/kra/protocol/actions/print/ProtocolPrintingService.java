@@ -28,14 +28,6 @@ import org.kuali.kra.protocol.ProtocolFormBase;
  * This class is for ProtocolBase print in protocol actions page
  */
 public interface ProtocolPrintingService {
-   
-    /**
-     * 
-     * This method is to get the printable for the selected report.
-     * @param reportType
-     * @return
-     */
-    //Printable getProtocolPrintable(ProtocolPrintType reportType);
     
     /**
      * 

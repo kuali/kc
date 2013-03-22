@@ -121,9 +121,5 @@ public abstract class ProtocolAttachmentPersonnelRuleBase extends ResearchDocume
      * This method is to get protocol attachment service
      * @return ProtocolAttachmentService
      */
-// TODO *********commented the code below during IACUC refactoring*********    
-//    private ProtocolAttachmentService getProtocolAttachmentService() {
-//        return KraServiceLocator.getService(ProtocolAttachmentService.class);
-//    }
     protected abstract ProtocolAttachmentService getProtocolAttachmentService();
 }

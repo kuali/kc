@@ -249,7 +249,6 @@ public abstract class ProtocolPrintingServiceImplBase extends PrintingServiceImp
 
     public AttachmentDataSource printProtocolSelectedItems(ProtocolFormBase protocolForm) throws PrintingException {
         ProtocolBase protocol = protocolForm.getProtocolDocument().getProtocol();
-        //String reportName = protocol.getProtocolNumber() + "-" + getProtocolPrintHelperHook().getReportName();
         ProtocolPrintHelper printHelper = getProtocolPrintHelper(ProtocolPrintType.PROTOCOL_FULL_PROTOCOL_REPORT);
         String reportName = protocol.getProtocolNumber() + "-" + printHelper.getReportName();
         AttachmentDataSource dataSource = print(reportName, getPrintArtifacts(protocolForm));

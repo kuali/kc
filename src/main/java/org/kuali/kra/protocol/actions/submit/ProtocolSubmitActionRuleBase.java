@@ -59,8 +59,6 @@ public abstract class ProtocolSubmitActionRuleBase extends ResearchDocumentRuleB
             isValid &= validateCommittee(submitAction);
             isValid &= validateSchedule(submitAction);
         }
-//TODO: Not sure if following will be needed for IACUC.    
-//        isValid &= validateCheckLists(submitAction);
         isValid &= validateReviewers(submitAction);
         isValid &= checkNoSpoofing(submitAction);
 
@@ -94,16 +92,6 @@ public abstract class ProtocolSubmitActionRuleBase extends ResearchDocumentRuleB
         }
         return valid;
     }
-
-// TODO *********commented the code below during IACUC refactoring*********     
-//    private boolean isSubmissionTypeInvalidForProtocolStatus(ProtocolDocumentBase document, String submissionTypeCode) {
-//        String protocolStatusCode = document.getProtocol().getProtocolStatusCode();
-//        return (StringUtils.isNotBlank(protocolStatusCode)
-//                && (StringUtils.equals(IacucProtocolStatus.MINOR_REVISIONS_REQUIRED, protocolStatusCode) || StringUtils.equals(
-//                        IacucProtocolStatus.MAJOR_REVISIONS_REQUIRED, protocolStatusCode)) && !(StringUtils.equals(
-//                IacucProtocolSubmissionType.RESPONSE_TO_PREV_IACUC_NOTIFICATION, submissionTypeCode) || StringUtils.equals(
-//                IacucProtocolSubmissionType.CONTINUATION, submissionTypeCode)));
-//    }
 
     /**
      * Validate the Submission Type.
@@ -145,56 +133,15 @@ public abstract class ProtocolSubmitActionRuleBase extends ResearchDocumentRuleB
         return isValid;
     }
 
-// TODO *********commented the code below during IACUC refactoring*********     
-//    /**
-//     * Validate the checklist. There must be at least one check list item selected if the review type is exempt or expedited.
-//     */
-//    private boolean validateCheckLists(IacucProtocolSubmitAction submitAction) {
-//        String protocolReviewTypeCode = submitAction.getProtocolReviewTypeCode();
-//        if (StringUtils.equals(protocolReviewTypeCode, IacucProtocolReviewType.EXEMPT_STUDIES_REVIEW_TYPE_CODE)) {
-//            List<ExemptStudiesCheckListItem> checkList = submitAction.getExemptStudiesCheckList();
-//            for (ExemptStudiesCheckListItem item : checkList) {
-//                if (item.getChecked()) {
-//                    return true;
-//                }
-//            }
-//            reportError(Constants.PROTOCOL_SUBMIT_ACTION_PROPERTY_KEY, KeyConstants.ERROR_PROTOCOL_AT_LEAST_ONE_CHECKLIST_ITEM);
-//            return false;
-//        }
-//        else if (StringUtils.equals(protocolReviewTypeCode, IacucProtocolReviewType.EXPEDITED_REVIEW_TYPE_CODE)) {
-//            List<ExpeditedReviewCheckListItem> checkList = submitAction.getExpeditedReviewCheckList();
-//            for (ExpeditedReviewCheckListItem item : checkList) {
-//                if (item.getChecked()) {
-//                    return true;
-//                }
-//            }
-//            reportError(Constants.PROTOCOL_SUBMIT_ACTION_PROPERTY_KEY, KeyConstants.ERROR_PROTOCOL_AT_LEAST_ONE_CHECKLIST_ITEM);
-//            return false;
-//        }
-//        return true;
-//    }
-
-
-//TODO: Must do following for IACUC work.    
     /**
      * Validate the reviewers.
      */
     private boolean validateReviewers(ProtocolSubmitAction submitAction) {
         boolean isValid = true;
-// TODO *********commented the code below during IACUC refactoring*********         
-//        List<ProtocolReviewerBeanBase> reviewers = submitAction.getReviewers();
-//
-//        for (int i = 0; i < reviewers.size(); i++) {
-//            ProtocolReviewerBeanBase reviewer = reviewers.get(i);
-//            if (!isReviewerValid(reviewer, i)) {
-//                isValid = false;
-//            }
-//        }
         return isValid;
     }
 
 
-//TODO: Must do following for IACUC work.    
     /**
      * 
      * This method checks to make sure that the reviewers list submitted is actually the same as that made available for that
@@ -205,106 +152,14 @@ public abstract class ProtocolSubmitActionRuleBase extends ResearchDocumentRuleB
      */
     public boolean checkNoSpoofing(ProtocolSubmitAction submitAction) {
         boolean isValid = true;
-// TODO *********commented the code below during IACUC refactoring*********         
-//        List<ProtocolReviewerBeanBase> submittedReviewers = submitAction.getReviewers();
-//        if (null != submittedReviewers && submittedReviewers.size() > 0) {
-//            if (StringUtils.isBlank(submitAction.getCommitteeId()) || StringUtils.isBlank(submitAction.getScheduleId())) {
-//                isValid = false;
-//            }
-//            else {
-//                List<CommitteeMembership> actualReviewers = submitAction.getProtocol().filterOutProtocolPersonnel(
-//                        getCommitteeService().getAvailableMembers(submitAction.getCommitteeId(), submitAction.getScheduleId()));
-//                for (int i = 0; i < submittedReviewers.size(); i++) {
-//                    ProtocolReviewerBeanBase reviewer = submittedReviewers.get(i);
-//                    if (!isReviewerInList(reviewer, actualReviewers, i)) {
-//                        isValid = false;
-//                    }
-//                }
-//            }
-//        }
         return isValid;
     }
-
-
-// TODO *********commented the code below during IACUC refactoring*********   
-//    private boolean isReviewerInList(ProtocolReviewerBeanBase reviewer, List<CommitteeMembership> actualReviewers, int reviewerIndex) {
-//        boolean valid = false;
-//        for (CommitteeMembership member : actualReviewers) {
-//            if (!StringUtils.isBlank(member.getPersonId())) {
-//                if (StringUtils.equals(reviewer.getPersonId(), member.getPersonId())) {
-//                    valid = true;
-//                    break;
-//                }
-//            }
-//            else {
-//                if (StringUtils.equals(reviewer.getPersonId(), member.getRolodexId().toString())) {
-//                    valid = true;
-//                    break;
-//                }
-//            }
-//        }
-//
-//        if (!valid) {
-//            String parameterName = Constants.PROTOCOL_SUBMIT_ACTION_PROPERTY_KEY + ".reviewer[" + reviewerIndex
-//                    + "].reviewerUnavailable";
-//            this.reportError(parameterName, KeyConstants.ERROR_PROTOCOL_REVIEWER_NOT_AVAILABLE, reviewer.getFullName());
-//        }
-//
-//        return valid;
-//    }
-
-
-// TODO *********commented the code below during IACUC refactoring*********     
-//    /**
-//     * This method tests if the fields for a given reviewer have legal values.
-//     * 
-//     * @param reviewer
-//     * @param reviewerIndex - the index of the reviewer in the list of reviewers that was sent to the client
-//     */
-//    private boolean isReviewerValid(ProtocolReviewerBeanBase reviewer, int reviewerIndex) {
-//        boolean isValid = true;
-//        String reviewerTypeCode = reviewer.getReviewerTypeCode();
-//
-//        String parameterName = Constants.PROTOCOL_SUBMIT_ACTION_PROPERTY_KEY + ".reviewer[" + reviewerIndex + "].reviewerTypeCode";
-//
-//        // test if type code is valid
-//        if (!StringUtils.isBlank(reviewerTypeCode) && isReviewerTypeInvalid(reviewerTypeCode)) {
-//            isValid = false;
-//            this.reportError(parameterName, KeyConstants.ERROR_PROTOCOL_REVIEWER_TYPE_INVALID, reviewer.getFullName());
-//        }
-//
-//        return isValid;
-//    }
 
     private boolean isValidSubmReviewType(ProtocolSubmitAction submitAction) {
         boolean valid = true;
         if (StringUtils.isNotBlank(submitAction.getSubmissionTypeCode())
-                && StringUtils.isNotBlank(submitAction.getProtocolReviewTypeCode())) {
+                && StringUtils.isNotBlank(submitAction.getProtocolReviewTypeCode())) {            
             
-// TODO *********commented the code below during IACUC refactoring*********             
-//            Map<String, String> fieldValues = new HashMap<String, String>();
-//            fieldValues.put("submissionTypeCode", submitAction.getSubmissionTypeCode());
-//            List<ValidProtoSubRevType> validProtoSubRevTypes = (List<ValidProtoSubRevType>) getBusinessObjectService()
-//                    .findMatching(ValidProtoSubRevType.class, fieldValues);
-//            if (!validProtoSubRevTypes.isEmpty()) {
-//                List<String> reviewTypes = new ArrayList<String>();
-//                for (ValidProtoSubRevType validProtoSubRevType : validProtoSubRevTypes) {
-//                    reviewTypes.add(validProtoSubRevType.getProtocolReviewTypeCode());
-//                }
-//                if (!reviewTypes.contains(submitAction.getProtocolReviewTypeCode())
-//                        && !isReviewTypeInvalid(submitAction.getProtocolReviewTypeCode())) {
-//                    GlobalVariables.getMessageMap().putError(
-//                            Constants.PROTOCOL_SUBMIT_ACTION_PROPERTY_KEY + ".protocolReviewTypeCode",
-//                            KeyConstants.INVALID_SUBMISSION_REVIEW_TYPE,
-//                            new String[] {
-//                                    ((IacucProtocolSubmissionType) getBo(IacucProtocolSubmissionType.class, "submissionTypeCode",
-//                                            submitAction.getSubmissionTypeCode())).getDescription(),
-//                                    ((IacucProtocolReviewType) getBo(IacucProtocolReviewType.class, "reviewTypeCode",
-//                                            submitAction.getProtocolReviewTypeCode())).getDescription() });
-//                    valid = false;
-//                }
-//
-//            }
         }
         return valid;
     }
@@ -314,34 +169,6 @@ public abstract class ProtocolSubmitActionRuleBase extends ResearchDocumentRuleB
         if (StringUtils.isNotBlank(submitAction.getSubmissionTypeCode())) {
             Map<String, String> fieldValues = new HashMap<String, String>();
             fieldValues.put("submissionTypeCode", submitAction.getSubmissionTypeCode());
-            
-// TODO *********commented the code below during IACUC refactoring*********             
-//            List<ValidProtoSubTypeQual> validProtoSubTypeQuals = (List<ValidProtoSubTypeQual>) getBusinessObjectService()
-//                    .findMatching(ValidProtoSubTypeQual.class, fieldValues);
-//            if (!validProtoSubTypeQuals.isEmpty()) {
-//                List<String> typeQuals = new ArrayList<String>();
-//                for (ValidProtoSubTypeQual validProtoSubTypeQual : validProtoSubTypeQuals) {
-//                    typeQuals.add(validProtoSubTypeQual.getSubmissionTypeQualCode());
-//                }
-//                if (StringUtils.isBlank(submitAction.getSubmissionQualifierTypeCode())
-//                        || !typeQuals.contains(submitAction.getSubmissionQualifierTypeCode())) {
-//                    String desc = "";
-//                    ProtocolSubmissionQualifierType typeQual = (ProtocolSubmissionQualifierType) getBo(
-//                            ProtocolSubmissionQualifierType.class, "submissionQualifierTypeCode",
-//                            submitAction.getSubmissionQualifierTypeCode());
-//                    if (typeQual != null) {
-//                        desc = typeQual.getDescription();
-//                    }
-//                    GlobalVariables.getMessageMap().putError(
-//                            Constants.PROTOCOL_SUBMIT_ACTION_PROPERTY_KEY + ".submissionQualifierTypeCode",
-//                            KeyConstants.INVALID_SUBMISSION_TYPE_QUALIFIER,
-//                            new String[] {
-//                                    ((IacucProtocolSubmissionType) getBo(IacucProtocolSubmissionType.class, "submissionTypeCode",
-//                                            submitAction.getSubmissionTypeCode())).getDescription(), desc });
-//                    valid = false;
-//                }
-//            }
-            
         }
         return valid;
     }
@@ -358,15 +185,6 @@ public abstract class ProtocolSubmitActionRuleBase extends ResearchDocumentRuleB
     }
     
     protected abstract Class<? extends ProtocolReviewTypeBase> getProtocolReviewTypeClassHook();
-
-
-// TODO *********commented the code below during IACUC refactoring*********    
-//    private boolean isReviewerTypeInvalid(String reviewerTypeCode) {
-//        return !existsUnique(ProtocolReviewerType.class, "reviewerTypeCode", reviewerTypeCode);
-//    }
-
-   
-
 
     /**
      * Returns true if exactly one instance of a given business object type exists in the Database; false otherwise.

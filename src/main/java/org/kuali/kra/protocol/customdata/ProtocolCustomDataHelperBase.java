@@ -87,37 +87,6 @@ public abstract class ProtocolCustomDataHelperBase<T extends DocumentCustomData>
         return documents.size() > 0;
     }
     
-//TODO: Must be reworked when IACUC and IRB are merged    
-//    public void prepareView(ProtocolDocumentBase protocolDocument) {
-//        initializePermissions();
-//       
-//        Map<String, CustomAttributeDocument> customAttributeDocuments = protocolDocument.getCustomAttributeDocuments();
-//        String documentNumber = protocolDocument.getDocumentNumber();
-//        for(Map.Entry<String, CustomAttributeDocument> customAttributeDocumentEntry:customAttributeDocuments.entrySet()) {
-//            CustomAttributeDocument customAttributeDocument = customAttributeDocumentEntry.getValue();
-//            Map<String, Object> primaryKeys = new HashMap<String, Object>();
-//            primaryKeys.put(KRADPropertyConstants.DOCUMENT_NUMBER, documentNumber);
-//            primaryKeys.put(Constants.CUSTOM_ATTRIBUTE_ID, customAttributeDocument.getCustomAttributeId());
-//
-//            CustomAttributeDocValue customAttributeDocValue = (CustomAttributeDocValue) KraServiceLocator.getService(BusinessObjectService.class).findByPrimaryKey(CustomAttributeDocValue.class, primaryKeys);
-//            if (customAttributeDocValue != null) {
-//                customAttributeDocument.getCustomAttribute().setValue(customAttributeDocValue.getValue());
-//                getCustomAttributeValues().put("id" + customAttributeDocument.getCustomAttributeId().toString(), new String[]{customAttributeDocValue.getValue()});
-//            }
-//
-//            String customAttrGroupName = getValidCustomAttributeGroupName(customAttributeDocument.getCustomAttribute().getGroupName());
-//            List<CustomAttributeDocument> customAttributeDocumentList = getCustomAttributeGroups().get(customAttrGroupName);
-//
-//            if (customAttributeDocumentList == null) {
-//                customAttributeDocumentList = new ArrayList<CustomAttributeDocument>();
-//                getCustomAttributeGroups().put(customAttrGroupName, customAttributeDocumentList);
-//            }
-//            customAttributeDocumentList.add(customAttributeDocument);
-//        }
-//
-//        setCustomAttributeGroups((SortedMap<String, List>) getCustomAttributeGroups());
-//    }
-
     protected BusinessObjectService getBusinessObjectService() {
         if (businessObjectService == null) {
             businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
@@ -125,86 +94,11 @@ public abstract class ProtocolCustomDataHelperBase<T extends DocumentCustomData>
         return businessObjectService;
     }
 
-// TODO ********************** commented out during IRB backfit ************************    
-//    /**
-//     * 
-//     * This method takes in a groupName from the data entry and return a valid string to use in the Map functions later.
-//     * Note, data entry may create a null group name, which is invalid with the Map functions.
-//     * @param groupName
-//     * @return
-//     */
-//    public String getValidCustomAttributeGroupName(String groupName) {
-//        return groupName != null ? groupName : "Custom Data Group";
-//    }
-//    
-//    /**
-//     * Get the userName of the user for the current session.
-//     * @return the current session's userName
-//     */
-//    protected String getUserIdentifier() {
-//         return GlobalVariables.getUserSession().getPrincipalId();
-//    }
-//    
-//    /**
-//     * Initialize the permissions for viewing/editing the Custom Data web page.
-//     */
-//    public void initializePermissions() {
-//        modifyCustomData = canModifyCustomData();
-//    }
-
     /**
      * Can the current user modify the custom data values?
      * @return true if can modify the custom data; otherwise false
      */
     public abstract boolean canModifyCustomData();
-
-//TODO: Must be reworked when IACUC and IRB are merged    
-//    public ActionForward getCustomDataAction(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response, String mappingName) {
-//        SortedMap<String, List> customAttributeGroups = new TreeMap<String, List>();
-//
-//        ProtocolFormBase protocolForm = (ProtocolFormBase) form;
-//        ResearchDocumentBase doc = (ResearchDocumentBase) protocolForm.getDocument();
-//
-//        Map<String, CustomAttributeDocument> customAttributeDocuments = doc.getCustomAttributeDocuments();
-//        String documentNumber = doc.getDocumentNumber();
-//        for(Map.Entry<String, CustomAttributeDocument> customAttributeDocumentEntry:customAttributeDocuments.entrySet()) {
-//            CustomAttributeDocument customAttributeDocument = customAttributeDocumentEntry.getValue();
-//            CustomAttributeDocValue customAttributeDocValue = 
-//                getCustomAttributeDocValue(documentNumber, customAttributeDocument.getCustomAttributeId());
-//            if (customAttributeDocValue != null) {
-//                customAttributeDocument.getCustomAttribute().setValue(customAttributeDocValue.getValue());
-//                protocolForm.getProtocolCustomDataHelper().getCustomAttributeValues()
-//                .put("id" + customAttributeDocument.getCustomAttributeId().toString(), 
-//                        new String[]{customAttributeDocValue.getValue()});
-//            }
-//
-//            String groupName = protocolForm.getProtocolCustomDataHelper().getValidCustomAttributeGroupName(customAttributeDocument.getCustomAttribute().getGroupName());
-//            List<CustomAttributeDocument> customAttributeDocumentList = customAttributeGroups.get(groupName);
-//
-//            if (customAttributeDocumentList == null) {
-//                customAttributeDocumentList = new ArrayList<CustomAttributeDocument>();
-//                customAttributeGroups.put(groupName, customAttributeDocumentList);
-//            }
-//            customAttributeDocumentList.add(customAttributeDocument);
-//        }
-//
-//        protocolForm.getProtocolCustomDataHelper().setCustomAttributeGroups(customAttributeGroups);
-//        return mapping.findForward(mappingName);
-//    }    
-
-//TODO: Must be reworked when IACUC and IRB are merged (must change to use protocol BO instead of protocol document    
-//    /**
-//     * Get the Custom Attribute Doc value.
-//     * @param documentNumber
-//     * @param customAttributeId
-//     * @return
-//     */
-//    private CustomAttributeDocValue getCustomAttributeDocValue(String documentNumber, Integer customAttributeId) {
-//        Map<String, Object> primaryKeys = new HashMap<String, Object>();
-//        primaryKeys.put(KRADPropertyConstants.DOCUMENT_NUMBER, documentNumber);
-//        primaryKeys.put(Constants.CUSTOM_ATTRIBUTE_ID, customAttributeId);
-//        return (CustomAttributeDocValue) getBusinessObjectService().findByPrimaryKey(CustomAttributeDocValue.class, primaryKeys);
-//    }    
 
     protected TaskAuthorizationService getTaskAuthorizationService() {
         if (taskAuthorizationService == null) {
@@ -216,22 +110,4 @@ public abstract class ProtocolCustomDataHelperBase<T extends DocumentCustomData>
     protected String getDocumentTypeCode() {
         return form.getProtocolDocument().getDocumentTypeCode();
     }
-
-// TODO ********************** commented out during IRB backfit ************************    
-//    /**
-//     * Clears the custom attribute value for the specified customAttributeId.
-//     * @param customAttributeId The customAttributeId to clear
-//     */
-//    public void clearCustomAttributeValue(String customAttributeId) {
-//        customAttributeValues.put("id" + customAttributeId, new String[]{""});
-//    }
-//
-//    public boolean isModifyCustomData() {
-//        return modifyCustomData;
-//    }
-//
-//    public void setModifyCustomData(boolean modifyCustomData) {
-//        this.modifyCustomData = modifyCustomData;
-//    }
-    
 }

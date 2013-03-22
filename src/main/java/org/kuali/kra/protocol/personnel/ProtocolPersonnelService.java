@@ -22,8 +22,7 @@ import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentPersonnelBase;
 
 
 public interface ProtocolPersonnelService {
-
-// TODO *********uncomment the code below in increments as needed during refactoring********* 
+ 
     /**
      * This method adds ProtocolPersonBase to the List of ProtocolPersons.
      * @param protocol which contains list of ProtocolPersons.
@@ -86,9 +85,7 @@ public interface ProtocolPersonnelService {
      * @param protocolPersons
      * @return true / false
      */
-    public boolean isPIExists(List<ProtocolPersonBase> protocolPersons);
-// TODO **********************end************************
-    
+    public boolean isPIExists(List<ProtocolPersonBase> protocolPersons);    
     
     
     /**
@@ -146,8 +143,7 @@ public interface ProtocolPersonnelService {
      */
     public void setLeadUnit(ProtocolUnitBase newLeadUnit, ProtocolPersonBase principalInvestigator, ProtocolBase protocol);
 
-    
-// TODO *********uncomment the code below in increments as needed during refactoring*********     
+         
     /**
      * This method is to see if there is any change in the protocol person role.
      * swapping Investigator and Co-Investigator role is permitted.
@@ -218,6 +214,5 @@ public interface ProtocolPersonnelService {
      * @return affiliatedStudents
      */
     public List<Integer>getAffiliationStudentMap(List<ProtocolPersonBase> protocolPersons);
-// TODO **********************end************************    
     
 }

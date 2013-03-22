@@ -34,9 +34,6 @@ boolean result = isStatusValid(task.getProtocol()) &&
                  canExecuteAction(task.getProtocol(), ProtocolActionType.NOTIFIED_COMMITTEE) &&
                  hasPermission(userId, task.getProtocol(), PermissionConstants.PERFORM_IRB_ACTIONS_ON_PROTO);
 return result;
-//        return isStatusValid(task.getProtocol()) &&
-//        canExecuteAction(task.getProtocol(), ProtocolActionType.NOTIFIED_COMMITTEE) &&
-//        hasPermission(userId, task.getProtocol(), PermissionConstants.PERFORM_IRB_ACTIONS_ON_PROTO);
     }
     
     private boolean isStatusValid(ProtocolBase protocol) {

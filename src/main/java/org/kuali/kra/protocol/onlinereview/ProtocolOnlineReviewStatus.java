@@ -24,13 +24,6 @@ public class ProtocolOnlineReviewStatus extends KraPersistableBusinessObjectBase
      */
     private static final long serialVersionUID = -8024835571051350950L;
 
-// TODO *********commented the code below during IACUC refactoring*********     
-//    public static final String FINAL_STATUS_CD = "F";
-//
-//    public static final String SAVED_STATUS_CD = "S";
-//
-//    public static final String REMOVED_CANCELLED_STATUS_CD = "X";
-
     private String statusCode;
 
     private String description;
