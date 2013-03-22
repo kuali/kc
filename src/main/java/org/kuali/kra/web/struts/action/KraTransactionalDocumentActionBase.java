@@ -1033,7 +1033,25 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
                 return mapping.findForward(Constants.MAPPING_CLOSE_PAGE);
             }
         }
-        return superForward;
+        
+        if(form.isReturnToActionList()) {
+            // temporary fix to unload block ui in embedded mode
+            // here we are forcing to route through holding page when an action is performed through action list
+            // and we need to send the user back to action list.
+            GlobalVariables.getUserSession().addObject(Constants.FORCE_HOLDING_PAGE_FOR_ACTION_LIST, true);
+            return routeActionListToHoldingPage(mapping, superForward);
+        }else {
+            
+            return superForward;
+        }
+        
+    }
+    
+    private ActionForward routeActionListToHoldingPage(ActionMapping mapping, ActionForward actionForward) {
+        String returnLocation = actionForward.getPath();
+        ActionForward basicForward = mapping.findForward(KRADConstants.MAPPING_PORTAL);
+        ActionForward holdingPageForward = mapping.findForward(Constants.MAPPING_HOLDING_PAGE);
+        return routeToHoldingPage(basicForward, basicForward, holdingPageForward, returnLocation);
     }
     
     /**
