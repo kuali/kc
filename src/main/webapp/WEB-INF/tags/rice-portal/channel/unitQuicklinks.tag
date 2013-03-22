@@ -27,6 +27,7 @@
     <li><portal:portalLink displayTitle="true" title="Keyword Lookup" url="${ConfigProperties.application.url}/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.bo.ScienceKeyword&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
   
     <li><portal:portalLink displayTitle="false" title="Perform Person Mass Change" url="${ConfigProperties.application.url}/personMassChangeHome.do?methodToCall=docHandler&command=initiate&docTypeName=PersonMassChangeDocument">Perform Person Mass Change</portal:portalLink></li>
+  	<li><portal:portalLink displayTitle="false" title="ISR/SSR  Reporting" url="${ConfigProperties.application.url}/isrSsrReporting.do?methodToCall=docHandler">ISR/SSR Reporting</portal:portalLink></li>
   </ul>
 </div>
 <channel:portalChannelBottom />
