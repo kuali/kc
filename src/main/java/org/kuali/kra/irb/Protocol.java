@@ -393,5 +393,13 @@ public class Protocol extends ProtocolBase {
     protected Class<? extends ProtocolAttachmentProtocolBase> getProtocolAttachmentProtocolClassHook() {
         return ProtocolAttachmentProtocol.class;
     }
+
+    public boolean isLookupActionNotifyIRBProtocol() {
+        return lookupActionNotifyIRBProtocol;
+    }
+
+    public void setLookupActionNotifyIRBProtocol(boolean lookupActionNotifyIRBProtocol) {
+        this.lookupActionNotifyIRBProtocol = lookupActionNotifyIRBProtocol;
+    }
     
 }
