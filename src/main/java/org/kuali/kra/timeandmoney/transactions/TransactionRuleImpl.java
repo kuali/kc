@@ -83,8 +83,11 @@ public class TransactionRuleImpl extends ResearchDocumentRuleBase implements Tra
             List<Award> awards = processTransactions(event.getTimeAndMoneyDocument());
             event.getTimeAndMoneyDocument().getPendingTransactions().remove(event.getPendingTransactionItemForValidation());
             Award award = getLastSourceAwardReferenceInAwards(awards, event.getPendingTransactionItemForValidation().getSourceAwardNumber());
-            //if source award is External, the award will be null and we don't need to validate these amounts.
-            if(!(award == null)) {
+            //if source award is External, then check values against target award.
+            if (award == null) {
+                award = getLastTargetAwardReferenceInAwards(awards, event.getPendingTransactionItemForValidation().getDestinationAwardNumber());
+            }
+            if (award != null) {
                 valid &= validateSourceObligatedFunds(event.getPendingTransactionItemForValidation(), award);
                 valid &= validateSourceAnticipatedFunds(event.getPendingTransactionItemForValidation(), award);
                 valid &= validateAwardTotalCostLimit(event.getPendingTransactionItemForValidation(), award);
@@ -212,6 +215,19 @@ public class TransactionRuleImpl extends ResearchDocumentRuleBase implements Tra
         return returnAward;
     }
     
+    private Award getLastTargetAwardReferenceInAwards (List<Award> awards, String targetAwardNumber) {
+        Award returnAward = null;
+        for (Award award : awards) {
+            if (award.getAwardNumber() == targetAwardNumber) {
+                returnAward = award;
+            }
+        }
+        if(returnAward == null) {
+            returnAward = getAwardVersionService().getWorkingAwardVersion(targetAwardNumber);
+        }
+        return returnAward;
+    }
+
     private boolean validateSourceObligatedFunds (PendingTransaction pendingTransaction, Award award) {
         AwardAmountInfo awardAmountInfo = award.getLastAwardAmountInfo();
         boolean valid = true;        
