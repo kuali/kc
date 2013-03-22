@@ -23,47 +23,4 @@ import org.kuali.kra.protocol.protocol.reference.ProtocolReferenceRuleBase;
  */
 public class ProtocolReferenceRule extends ProtocolReferenceRuleBase {
 
-
-// TODO ********************** commented out during IRB backfit ************************    
-//    /**
-//     * @see org.kuali.kra.irb.protocol.reference.AddProtocolReferenceRule#processAddProtocolReferenceBusinessRules(org.kuali.kra.irb.protocol.reference.AddProtocolReferenceEvent)
-//     */
-//    public boolean processAddProtocolReferenceBusinessRules(AddProtocolReferenceEvent addProtocolReferenceEvent) {
-//        
-//        boolean rulePassed = true;
-//        
-//        if (null == addProtocolReferenceEvent.getProtocolReferenceBean().getProtocolReferenceTypeCode()) {
-//            rulePassed = false;
-//            reportError("newProtocolReferenceBean"+".protocolReferenceTypeCode", KeyConstants.ERROR_PROTOCOLREFERENCE_PROTOCOLREFERENCETYPECODE, "Type");
-//        }
-//         
-//        if (StringUtils.isBlank(addProtocolReferenceEvent.getProtocolReferenceBean().getReferenceKey())) {
-//            rulePassed = false;
-//            reportError("newProtocolReferenceBean"+".referenceKey", KeyConstants.ERROR_PROTOCOLREFERENCE_PROTOCOLREFERENCEKEY, "Other Identifier");
-//        }
-//        
-//        if (!validateDate(addProtocolReferenceEvent.getProtocolReferenceBean().getApplicationDate())){
-//            rulePassed = false;
-//            reportError("newProtocolReferenceBean"+".applicationDate", KeyConstants.ERROR_PROTOCOLREFERENCE_INVALID_DATE, "Application Date");
-//        }
-//        
-//        if (!validateDate(addProtocolReferenceEvent.getProtocolReferenceBean().getApprovalDate())){
-//            rulePassed = false;
-//            reportError("newProtocolReferenceBean"+".approvalDate", KeyConstants.ERROR_PROTOCOLREFERENCE_INVALID_DATE, "Approval Date");
-//        }
-//            
-//        return rulePassed;
-//    }
-//    
-//    private boolean validateDate(String stringDate) {
-//        try {
-//            if (!StringUtils.isBlank(stringDate)) {
-//                Date date = new Date(DateFormat.getDateInstance(DateFormat.SHORT).parse(stringDate).getTime());
-//            }
-//        } catch (ParseException e) {
-//            return false;
-//        }
-//        return true;
-//    }
-
 }

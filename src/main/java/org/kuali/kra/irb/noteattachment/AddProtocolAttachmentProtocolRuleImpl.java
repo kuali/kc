@@ -30,20 +30,4 @@ public class AddProtocolAttachmentProtocolRuleImpl extends AddProtocolAttachment
         baseHelper = new ProtocolAttachmentBaseRuleHelper(NoteAndAttachmentPrefix.NEW_ATTACHMENT_PROTOCOL.getPrefixName());
         protocolHelper = new ProtocolAttachmentProtocolRuleHelper(NoteAndAttachmentPrefix.NEW_ATTACHMENT_PROTOCOL.getPrefixName());
     }
-    
-// TODO ********************** commented out during IRB backfit ************************    
-//    /** {@inheritDoc} */
-//    public boolean processAddProtocolAttachmentProtocolRules(AddProtocolAttachmentProtocolEvent event) {      
-//        
-//        final ProtocolAttachmentProtocol newAttachmentProtocol = event.getNewAttachmentProtocol();
-//        
-//        boolean valid = this.baseHelper.validPrimitiveFields(newAttachmentProtocol);
-//        valid &= this.baseHelper.validTypeForGroup(newAttachmentProtocol);
-//        valid &= this.baseHelper.validDescriptionWhenRequired(newAttachmentProtocol);
-//        valid &= this.protocolHelper.validStatus(newAttachmentProtocol);
-//        valid &= this.baseHelper.validFile(newAttachmentProtocol);
-//        
-//        return valid;
-//    }
-    
 }

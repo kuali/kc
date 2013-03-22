@@ -20,13 +20,4 @@ package org.kuali.kra.irb.actions.delete;
  */
 public interface ProtocolDeleteService extends org.kuali.kra.protocol.actions.delete.ProtocolDeleteService {
 
-// TODO ********************** commented out during IRB backfit ************************    
-//    /**
-//     * Delete a protocol/amendment/renewal.
-//     * @param protocol the protocol/amendment/renewal
-//     * @param deleteBean the required data for performing a withdrawal
-//     * @throws WorkflowException 
-//     */
-//    public void delete(Protocol protocol, ProtocolDeleteBean deleteBean) throws WorkflowException;
-    
 }

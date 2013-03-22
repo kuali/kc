@@ -47,8 +47,6 @@ public class AbandonProtocolAuthorizer extends ProtocolAuthorizer {
     public boolean isAuthorized(String userId, ProtocolTask task) {
         // TODO : permission : PI and protocol has never been approved. protocol status is SRR/SMR
         return canExecuteAction(task.getProtocol(), ProtocolActionType.ABANDON_PROTOCOL) 
-            //&& isInitialProtocol(task.getProtocol())
-            //&& isPrincipalInvestigator(task.getProtocol()) ;
             && (hasPermission(userId, task.getProtocol(), PermissionConstants.SUBMIT_PROTOCOL)
                     || hasPermission(userId, task.getProtocol(), PermissionConstants.MODIFY_ANY_PROTOCOL));
     }

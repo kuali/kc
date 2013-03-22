@@ -18,26 +18,4 @@ package org.kuali.kra.irb.protocol.location;
 
 public interface ProtocolLocationService extends org.kuali.kra.protocol.protocol.location.ProtocolLocationService {
 
-// TODO ********************** commented out during IRB backfit ************************    
-//    /**
-//     * This method adds ProtocolLocation to the List of ProtocolLocations.
-//     * @param protocol which contains list of ProtocolLocations.
-//     * @param ProtocolLocation object is added to ProtocolLocations list.
-//     */
-//    public abstract void addProtocolLocation(Protocol protocol, ProtocolLocation protocolLocation);
-//    
-//    /**
-//     * This method adds a default ProtocolLocation to the List of ProtocolLocations.
-//     * i.e. Initialize protocol location with a default organization
-//     * @param protocol which contains list of ProtocolLocations.
-//     */
-//    public abstract void addDefaultProtocolLocation(Protocol protocol);
-//
-//    /**
-//     * This method will clear ProtocolLocation address from the List at specified position(lineNumber)
-//     * @param protocol which contains list of ProtocolLocations
-//     * @param lineNumber to clear location address
-//     */
-//    public abstract void clearProtocolLocationAddress(Protocol protocol, int lineNumber);
-
 }

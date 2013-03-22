@@ -18,11 +18,5 @@ package org.kuali.kra.irb.specialreview;
 
 
 public interface ProtocolSpecialReviewService extends org.kuali.kra.protocol.specialreview.ProtocolSpecialReviewService{
- // TODO ********************** commented out during IRB backfit ************************
-
-//    public static final String AMENDMENT_KEY = "A";
-//    public static final String RENEWAL_KEY = "R";
-//
-//    public void populateSpecialReview(SpecialReview specialReview);
 
 }

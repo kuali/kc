@@ -201,17 +201,6 @@ public class ProtocolPersonnelAction extends ProtocolAction {
         }
         final AttachmentFile file = attachment.getFile();
        
-       /* byte[] attachmentFile =null;
-        String attachmentFileType=file.getType().replace("\"", "");
-        if(attachmentFileType.equalsIgnoreCase(WatermarkConstants.ATTACHMENT_TYPE_PDF)){
-            attachmentFile=getProtocolAttachmentFile(form,attachment);
-            if(attachmentFile!=null){          
-                this.streamToResponse(attachmentFile, getValidHeaderString(file.getName()), getValidHeaderString(file.getType()), response);    }
-            else{
-                this.streamToResponse(file.getData(), getValidHeaderString(file.getName()), getValidHeaderString(file.getType()), response);    }
-            return RESPONSE_ALREADY_HANDLED;
-        }*/
-        
         this.streamToResponse(file.getData(), getValidHeaderString(file.getName()), getValidHeaderString(file.getType()), response);
         return RESPONSE_ALREADY_HANDLED;
     }
@@ -368,15 +357,6 @@ public class ProtocolPersonnelAction extends ProtocolAction {
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
-// TODO ********************** commented out during IRB backfit ************************    
-//    /**
-//     * This method is to get protocol personnel service
-//     * @return ProtocolPersonnelService
-//     */
-//    protected ProtocolPersonnelService getProtocolPersonnelService() {
-//        return (ProtocolPersonnelService)KraServiceLocator.getService("protocolPersonnelService");
-//    }
-
     /**
      * This method for Watermark Service. 
      */
@@ -437,8 +417,6 @@ public class ProtocolPersonnelAction extends ProtocolAction {
                     KraAuthorizationService kraAuthService = KraServiceLocator.getService(KraAuthorizationService.class);
                     kraAuthService.addRole(protocolPerson.getPersonId(), RoleConstants.PROTOCOL_AGGREGATOR, protocol);
                     kraAuthService.addRole(protocolPerson.getPersonId(), RoleConstants.PROTOCOL_APPROVER, protocol);
-                    
-// TODO *********TEMPORARILY COMMENTED OUT DURING IRB BACKFITTING*********                     
                     protocolForm.getPermissionsHelper().resetUserStates();
                     
                 }
@@ -449,9 +427,7 @@ public class ProtocolPersonnelAction extends ProtocolAction {
                 if (protocolPerson.getPersonId() != null) {
                     // Assign the Other Role To Viewer the AGGREGATOR role.
                     KraAuthorizationService kraAuthService = KraServiceLocator.getService(KraAuthorizationService.class);
-                    kraAuthService.addRole(protocolPerson.getPersonId(), RoleConstants.PROTOCOL_VIEWER, protocol);
-                    
-// TODO *********TEMPORARILY COMMENTED OUT DURING IRB BACKFITTING*********                     
+                    kraAuthService.addRole(protocolPerson.getPersonId(), RoleConstants.PROTOCOL_VIEWER, protocol);                    
                     protocolForm.getPermissionsHelper().resetUserStates();
                 }
             }
@@ -473,9 +449,8 @@ public class ProtocolPersonnelAction extends ProtocolAction {
             if (!attachmentIds.contains(attachment.getId()) && !getProtocolAttachmentService().isSharedFile(attachment)) {
                 filesToDelete.add(attachment.getFile());
             }
-        }
-        
-// TODO *********TEMPORARILY COMMENTED OUT DURING IRB BACKFITTING*********         
+        }        
+         
         protocolForm.getNotesAttachmentsHelper().setFilesToDelete(filesToDelete);
         
     }
@@ -492,8 +467,6 @@ public class ProtocolPersonnelAction extends ProtocolAction {
     public void postSave(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         super.postSave(mapping, form, request, response);
- 
-// TODO *********TEMPORARILY COMMENTED OUT DURING IRB BACKFITTING*********         
         if (!((ProtocolForm) form).getNotesAttachmentsHelper().getFilesToDelete().isEmpty()) {
             getBusinessObjectService().delete(((ProtocolForm) form).getNotesAttachmentsHelper().getFilesToDelete());
             ((ProtocolForm) form).getNotesAttachmentsHelper().getFilesToDelete().clear();

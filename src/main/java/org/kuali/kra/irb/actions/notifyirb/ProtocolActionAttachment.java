@@ -23,37 +23,4 @@ public class ProtocolActionAttachment extends org.kuali.kra.protocol.actions.not
     
     private static final long serialVersionUID = -2626638393031365683L;
     
-// TODO ********************** commented out during IRB backfit ************************    
-//    private String fileName;
-//    private transient FormFile file;
-//    private String description;
-//
-//    public ProtocolActionAttachment() {
-//        
-//    }
-//
-//    public String getFileName() {
-//        return fileName;
-//    }
-//
-//    public void setFileName(String fileName) {
-//        this.fileName = fileName;
-//    }
-//
-//    public FormFile getFile() {
-//        return file;
-//    }
-//
-//    public void setFile(FormFile file) {
-//        this.file = file;
-//    }
-//
-//    public String getDescription() {
-//        return description;
-//    }
-//
-//    public void setDescription(String description) {
-//        this.description = description;
-//    }
-
 }

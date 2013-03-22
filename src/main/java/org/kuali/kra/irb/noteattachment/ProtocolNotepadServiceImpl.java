@@ -17,39 +17,4 @@ package org.kuali.kra.irb.noteattachment;
 
 public class ProtocolNotepadServiceImpl extends org.kuali.kra.protocol.noteattachment.ProtocolNotepadServiceImpl implements ProtocolNotepadService {
 
-// TODO ********************** commented out during IRB backfit ************************    
-//    private PersonService personService;
-//    
-//    protected final Log LOG = LogFactory.getLog(getClass()); 
-//    private static final String PERSON_NOT_FOUND_FORMAT_STRING = "%s (not found)";
-//   
-//    /**
-//     * @see org.kuali.kra.irb.noteattachment.ProtocolNotepadService#setProtocolNotepadUpdateUsersName(java.util.List)
-//     */
-//    public void setProtocolNotepadUpdateUsersName(List<ProtocolNotepad> protocolNotepads) {
-//        for (ProtocolNotepad pnp : protocolNotepads) {
-//            if (LOG.isDebugEnabled()) { 
-//                LOG.debug(String.format("Looking up person for update user %s.", pnp.getUpdateUser()));
-//            }
-//            Person person = personService.getPersonByPrincipalName(pnp.getUpdateUser());
-//            pnp.setUpdateUserFullName(person==null?String.format(PERSON_NOT_FOUND_FORMAT_STRING, pnp.getUpdateUser()):person.getName());
-//        }
-//    }
-//
-//    /**
-//     * Gets the personService attribute. 
-//     * @return Returns the personService.
-//     */
-//    public PersonService getPersonService() {
-//        return personService;
-//    }
-//
-//    /**
-//     * Sets the personService attribute value.
-//     * @param personService The personService to set.
-//     */
-//    public void setPersonService(PersonService personService) {
-//        this.personService = personService;
-//    }
-
 }

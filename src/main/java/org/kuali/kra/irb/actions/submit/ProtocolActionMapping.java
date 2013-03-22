@@ -34,11 +34,6 @@ import org.kuali.kra.protocol.actions.submit.ProtocolActionMappingBase;
  */
 public class ProtocolActionMapping extends ProtocolActionMappingBase {
     
-// TODO ********************** commented out during IRB backfit ************************
-//    private static final String PROTOCOL_NUMBER = "protocolNumber";
-//    private static final String SEQUENCE_NUMBER = "sequenceNumber";
-//    private static final String SUBMISSION_NUMBER = "submissionNumber";
-    
     private static final Map<String, String> ACTION_TYPE_SUBMISSION_TYPE_MAP;
     static {
         final Map<String, String> codeMap = new HashMap<String, String>();        
@@ -64,80 +59,7 @@ public class ProtocolActionMapping extends ProtocolActionMappingBase {
     
     public ProtocolActionMapping(String actionTypeCode, String submissionStatusCode, String submissionTypeCode, String protocolReviewTypeCode, String protocolStatusCode, String scheduleId, Integer submissionNumber) {
         super(actionTypeCode, submissionStatusCode, submissionTypeCode, protocolReviewTypeCode, protocolStatusCode, scheduleId, submissionNumber);
-    }
-    
-
-// TODO ********************** commented out during IRB backfit ************************
-//    private BusinessObjectService businessObjectService;
-//    
-//    private ProtocolDao dao;
-//    
-//    String submissionStatusCode;
-//    
-//    String submissionTypeCode;
-//    
-//    String protocolReviewTypeCode;
-//    
-//    String actionTypeCode;
-//    
-//    String protocolStatusCode;
-//    
-//    String scheduleId;
-//    
-//    Protocol protocol;
-//    
-//    Integer submissionNumber;
-//
-//    boolean allowed = false;
-//
-//    public ProtocolActionMapping(String actionTypeCode, String submissionStatusCode, String submissionTypeCode, String protocolReviewTypeCode, String protocolStatusCode, String scheduleId, Integer submissionNumber) {
-//        super();
-//        this.actionTypeCode = actionTypeCode;
-//        this.submissionStatusCode = submissionStatusCode;        
-//        this.submissionTypeCode = submissionTypeCode;
-//        this.protocolReviewTypeCode = protocolReviewTypeCode;
-//        this.protocolStatusCode = protocolStatusCode;
-//        this.scheduleId = scheduleId;
-//        this.submissionNumber = submissionNumber;
-//    }
-//    
-//    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-//        this.businessObjectService = businessObjectService;
-//    }
-//    
-//    public void setDao(ProtocolDao dao) {
-//        this.dao = dao;
-//    }
-//
-//    public void setProtocol(Protocol protocol) {
-//        this.protocol = protocol;
-//    }
-//    
-//    @SuppressWarnings("unchecked")
-//    public String getProtocolSubmissionScheduleId() {
-//        // TODO : should not need to retrieve from DB because protocol.getProtocolSubmission() is
-//        // the same as the one retrieved.  The positiveFieldValues are the pk in coeus.
-//        // this is used in rule for null check.
-//        
-//        if (protocol.getProtocolSubmission() == null) {
-//            return null;
-//        } else {
-//            return protocol.getProtocolSubmission().getScheduleId();
-//        }        
-//    }
-//    
-//    /**
-//     * 
-//     * This method if this submission has committee schedule minutes
-//     * @return
-//     */
-//    public boolean getMinutesCount() {
-//        Map<String, Object> fieldValues = new HashMap<String, Object>();
-//        fieldValues.put(PROTOCOL_NUMBER, protocol.getProtocolNumber());
-//        fieldValues.put(SUBMISSION_NUMBER, protocol.getProtocolSubmission().getSubmissionNumber());
-//        return businessObjectService.countMatching(CommitteeScheduleMinute.class, fieldValues) > 0;
-//    }
-    
+    }    
        
     protected Class<? extends CommitteeScheduleMinuteBase> getCommitteeScheduleMinuteBOClassHook() {
         return CommitteeScheduleMinute.class;
@@ -174,18 +96,7 @@ public class ProtocolActionMapping extends ProtocolActionMappingBase {
         
         return businessObjectService.countMatching(ProtocolSubmission.class, positiveFieldValues) == 0;
     }
-    
-    
-// TODO ********************** commented out during IRB backfit ************************    
-//    /**
-//     * 
-//     * This method Check if there are any pending amendmends/renewals for this protocols
-//     * @return
-//     */
-//    public boolean getSubmissionCountCond3() {
-//        return dao.getProtocolSubmissionCountFromProtocol(protocol.getProtocolNumber());
-//    }
-    
+        
     /**
      * 
      * This method check to see if there is pending submission with one of the following submission type
@@ -224,20 +135,6 @@ public class ProtocolActionMapping extends ProtocolActionMappingBase {
 
     }
     
-    /*
-     * select count(protocol_number)
-                                    into li_SubmissionCount
-                                    from osp$protocol_submission
-                                    where protocol_number = as_protocol_number and
-                                    sequence_number = as_sequence_number and
-                                    submission_status_code in (100, 101, 102) and
-                                    submission_number = (select max(a.submission_number)
-                                                 from osp$protocol_submission a
-                                                 where osp$protocol_submission.protocol_number = a.protocol_number and
-                                                 osp$protocol_submission.sequence_number = a.sequence_number);
-     * 
-     */
-    
     /**
      * check if there are any other pending submissions.
      * Basically, check the matching protocol submission with the highest submission# does not have
@@ -269,86 +166,6 @@ public class ProtocolActionMapping extends ProtocolActionMappingBase {
         
     }
     
-
-    
-// TODO ********************** commented out during IRB backfit ************************    
-//    /**
-//     * This method finds number of reviewers tied to protocol submission. Implementation in lieu of following query 
-//     *           SELECT count(OSP$PROTOCOL_REVIEWERS.PERSON_ID)
-//     *           INTO li_PersonCnt
-//     *           FROM OSP$PROTOCOL_REVIEWERS
-//     *           WHERE OSP$PROTOCOL_REVIEWERS.PROTOCOL_NUMBER = AS_PROTOCOL_NUMBER
-//     *           AND OSP$PROTOCOL_REVIEWERS.SUBMISSION_NUMBER = AS_SUBMISSION_NUMBER; 
-//     * @return
-//     */
-//    public boolean getProtocolReviewerCountCond1() {       
-//        return protocol.getProtocolSubmission().getProtocolReviewers().size() > 0;
-//    }
-//    
-//    public String getActionTypeCode() {
-//        return actionTypeCode;
-//    }
-//
-//    public void setActionTypeCode(String actionTypeCode) {
-//        this.actionTypeCode = actionTypeCode;
-//    }
-//
-//    public String getSubmissionStatusCode() {
-//        return submissionStatusCode;
-//    }
-//
-//    public void setSubmissionStatusCode(String submissionStatusCode) {
-//        this.submissionStatusCode = submissionStatusCode;
-//    }
-//
-//    public String getSubmissionTypeCode() {
-//        return submissionTypeCode;
-//    }
-//
-//    public void setSubmissionTypeCode(String submissionTypeCode) {
-//        this.submissionTypeCode = submissionTypeCode;
-//    }
-//
-//    public String getProtocolReviewTypeCode() {
-//        return protocolReviewTypeCode;
-//    }
-//
-//    public void setProtocolReviewTypeCode(String protocolReviewTypeCode) {
-//        this.protocolReviewTypeCode = protocolReviewTypeCode;
-//    }
-//    
-//    public String getProtocolStatusCode() {
-//        return protocolStatusCode;
-//    }
-//
-//    public void setProtocolStatusCode(String protocolStatusCode) {
-//        this.protocolStatusCode = protocolStatusCode;
-//    }    
-//    
-//    public String getScheduleId() {
-//        return scheduleId;
-//    }
-//
-//    public void setScheduleId(String scheduleId) {
-//        this.scheduleId = scheduleId;
-//    }
-//
-//    public Integer getSubmissionNumber() {
-//        return submissionNumber;
-//    }
-//
-//    public void setSubmissionNumber(Integer submissionNumber) {
-//        this.submissionNumber = submissionNumber;
-//    }
-//
-//    public boolean isAllowed() {
-//        return allowed;
-//    }
-//
-//    public void setAllowed(boolean allowed) {
-//        this.allowed = allowed;
-//    }
-    
     /**
      * check if this protocol has not been approved
      */
@@ -362,20 +179,6 @@ public class ProtocolActionMapping extends ProtocolActionMappingBase {
         }
         return initialProtocol;
     }
-
-    
-// TODO ********************** commented out during IRB backfit ************************    
-//    /**
-//     * check if user is PI
-//     */
-//    public boolean isPrincipalInvestigator() {
-//        Person user = GlobalVariables.getUserSession().getPerson();
-//        boolean isPi = false;
-//        if (user.getPrincipalId().equals(protocol.getPrincipalInvestigator().getPersonId())) {
-//            isPi = true;
-//        }
-//        return isPi;
-//    }
 
     /**
      * check if this submission is protocol is just SRR/SMR

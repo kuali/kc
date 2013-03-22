@@ -23,40 +23,5 @@ public class ProtocolReferenceType extends ProtocolReferenceTypeBase {
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 6127401095168093096L;
-    
-    
-// TODO ********************** commented out during IRB backfit ************************
-//    private Integer protocolReferenceTypeCode;
-//
-//    private String description;
-//
-//    private boolean active;
-//
-//    public ProtocolReferenceType() {
-//    }
-//
-//    public Integer getProtocolReferenceTypeCode() {
-//        return protocolReferenceTypeCode;
-//    }
-//
-//    public void setProtocolReferenceTypeCode(Integer protocolReferenceTypeCode) {
-//        this.protocolReferenceTypeCode = protocolReferenceTypeCode;
-//    }
-//
-//    public String getDescription() {
-//        return description;
-//    }
-//
-//    public void setDescription(String description) {
-//        this.description = description;
-//    }
-//
-//    public boolean isActive() {
-//        return active;
-//    }
-//
-//    public void setActive(boolean active) {
-//        this.active = active;
-//    }
-    
+
 }

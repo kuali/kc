@@ -21,31 +21,4 @@ package org.kuali.kra.irb.actions.reviewcomments;
  */
 public class ProtocolManageReviewAttachmentRule extends org.kuali.kra.protocol.actions.reviewcomments.ProtocolManageReviewAttachmentRule<ProtocolManageReviewAttachmentEvent> {
 
-    
-// TODO ********************** commented out during IRB backfit ************************    
-//    /**
-//     * {@inheritDoc}
-//     * 
-//     * @see org.kuali.kra.rule.BusinessRuleInterface#processRules(org.kuali.kra.rule.event.KraDocumentEventBaseExtension)
-//     */
-//    public boolean processRules(ProtocolManageReviewAttachmentEvent event) {
-//        boolean isValid = true;
-//
-//
-//        GlobalVariables.getMessageMap().clearErrorPath();
-//        GlobalVariables.getMessageMap().addToErrorPath(event.getPropertyName());
-//        int index = 0;
-//
-//        for (ProtocolReviewAttachment reviewAttachment : event.getReviewAttachments()) {
-//            if (StringUtils.isEmpty(reviewAttachment.getDescription())) {
-//                isValid = false;
-//                GlobalVariables.getMessageMap().putError(String.format("reviewAttachments[%s].description", index),
-//                        KeyConstants.ERROR_ONLINE_REVIEW_ATTACHMENT_DESCRIPTION_REQUIRED);
-//            }
-//            index++;
-//        }
-//
-//        return isValid;
-//    }
-    
 }

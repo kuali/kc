@@ -23,15 +23,6 @@ import org.kuali.kra.irb.Protocol;
  */
 public interface ProtocolApproveService extends org.kuali.kra.protocol.actions.approve.ProtocolApproveService {
 
-// TODO ********************** commented out during IRB backfit ************************    
-//    /**
-//     * Approves a full submission to a Protocol.
-//     * @param protocol the current Protocol
-//     * @param actionBean the bean that contains the comments and dates
-//     * @throws Exception
-//     */
-//    void grantFullApproval(Protocol protocol, ProtocolApproveBean actionBean) throws Exception;
-
     /**
      * Approves an expedited submission to a Protocol.
      * @param protocol the current Protocol
@@ -39,14 +30,4 @@ public interface ProtocolApproveService extends org.kuali.kra.protocol.actions.a
      * @throws Exception
      */
     void grantExpeditedApproval(Protocol protocol, ProtocolApproveBean actionBean) throws Exception;
-
-// TODO ********************** commented out during IRB backfit ************************    
-//    /**
-//     * Approves a response submission to a Protocol.
-//     * @param protocol the current Protocol
-//     * @param actionBean the bean that contains the comments and dates
-//     * @throws Exception
-//     */
-//    void grantResponseApproval(Protocol protocol, ProtocolApproveBean actionBean) throws Exception;
-
 }

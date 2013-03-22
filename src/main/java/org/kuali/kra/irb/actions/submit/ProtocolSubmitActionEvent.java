@@ -33,38 +33,4 @@ public class ProtocolSubmitActionEvent extends ProtocolSubmitActionEventBase {
         return LOG;
     }
     
-// TODO ********************** commented out during IRB backfit ************************    
-//    private ProtocolSubmitAction submitAction;
-//    
-//    public ProtocolSubmitActionEvent(ProtocolDocument document, ProtocolSubmitAction submitAction) {
-//        super("Submitting for review for document " + getDocumentId(document), "", document);
-//        this.submitAction = submitAction;
-//        logEvent();
-//    }
-//
-//    @Override
-//    protected void logEvent() {
-//        StringBuffer logMessage = new StringBuffer(StringUtils.substringAfterLast(this.getClass().getName(), "."));
-//        logMessage.append(" with ");
-//
-//        // vary logging detail as needed
-//        if (this.submitAction == null) {
-//            logMessage.append("null submitAction");
-//        }
-//        else {
-//            logMessage.append(this.submitAction.toString());
-//        }
-//
-//        LOG.debug(logMessage);
-//    }
-//
-//    public Class getRuleInterfaceClass() {
-//        return ExecuteProtocolSubmitActionRule.class;
-//    }
-//
-//    public boolean invokeRuleMethod(BusinessRule rule) {
-//        return ((ExecuteProtocolSubmitActionRule) rule).processSubmitAction((ProtocolDocument) getDocument(), submitAction);
-//    }
-    
-    
 }

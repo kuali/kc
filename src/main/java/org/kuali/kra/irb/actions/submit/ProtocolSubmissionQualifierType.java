@@ -49,31 +49,4 @@ public class ProtocolSubmissionQualifierType extends ProtocolSubmissionQualifier
     public static final String DSMB_REPORT = "13";
 
     public static final String ANNUAL_REPORT = "14";
-
-    
-// TODO ********************** commented out during IRB backfit ************************    
-//    private String submissionQualifierTypeCode;
-//
-//    private String description;
-//
-//    
-//    public ProtocolSubmissionQualifierType() {
-//    }
-//
-//    public String getSubmissionQualifierTypeCode() {
-//        return submissionQualifierTypeCode;
-//    }
-//
-//    public void setSubmissionQualifierTypeCode(String submissionQualifierTypeCode) {
-//        this.submissionQualifierTypeCode = submissionQualifierTypeCode;
-//    }
-//
-//    public String getDescription() {
-//        return description;
-//    }
-//
-//    public void setDescription(String description) {
-//        this.description = description;
-//    }
-    
 }

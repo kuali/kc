@@ -21,14 +21,4 @@ package org.kuali.kra.irb.actions.withdraw;
  */
 public interface ProtocolWithdrawService extends org.kuali.kra.protocol.actions.withdraw.ProtocolWithdrawService{
 
-//    /**
-//     * Perform the task of withdrawing a protocol.  A new protocol document will be created
-//     * so that it can be re-submitted into workflow at a later time.
-//     * @param protocol the protocol
-//     * @param withdrawBean the required data for performing a withdrawal
-//     * @return new protocol document 
-//     * @throws Exception 
-//     */
-//    public ProtocolDocument withdraw(Protocol protocol, ProtocolWithdrawBean withdrawBean) throws Exception;
-
 }

@@ -35,16 +35,5 @@ public class ProtocolReviewCommentsPrint extends ProtocolReviewCommentsPrintBase
     protected ProtocolPrintWatermarkBase getNewProtocolPrintWatermarkInstanceHook() {
         return new ProtocolPrintWatermark();
     }
-    
-// TODO ********************** commented out during IRB backfit ************************    
-//    /**
-//     * 
-//     * @see org.kuali.kra.irb.actions.print.ProtocolReportPrint#getProtocolPrintType()
-//     */
-//    public String getProtocolPrintType() {
-//        return ProtocolPrintType.PROTOCOL_REVIEW_COMMENTS_REPORT.getProtocolPrintType();
-//    }
-
-
 }
 

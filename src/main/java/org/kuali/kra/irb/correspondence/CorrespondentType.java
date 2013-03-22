@@ -22,40 +22,4 @@ public class CorrespondentType extends org.kuali.kra.protocol.correspondence.Cor
      */
     private static final long serialVersionUID = 2100602098262171740L;
 
-// TODO ********************** commented out during IRB backfit ************************    
-//    private static final long serialVersionUID = 1L;
-//
-//    private String correspondentTypeCode;
-//
-//    private String description;
-//
-//    private String qualifier;
-//
-//    public CorrespondentType() {
-//    }
-//
-//    public String getCorrespondentTypeCode() {
-//        return correspondentTypeCode;
-//    }
-//
-//    public void setCorrespondentTypeCode(String correspondentTypeCode) {
-//        this.correspondentTypeCode = correspondentTypeCode;
-//    }
-//
-//    public String getDescription() {
-//        return description;
-//    }
-//
-//    public void setDescription(String description) {
-//        this.description = description;
-//    }
-//
-//    public String getQualifier() {
-//        return qualifier;
-//    }
-//
-//    public void setQualifier(String qualifier) {
-//        this.qualifier = qualifier;
-//    }
-    
 }

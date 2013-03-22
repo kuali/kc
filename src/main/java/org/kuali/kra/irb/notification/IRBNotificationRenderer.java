@@ -127,12 +127,6 @@ public class IRBNotificationRenderer extends ProtocolNotificationRendererBase {
                     params.put(key, getSafeMessage(key, getProtocolReviewTypeDescription(protocol.getProtocolSubmission().getProtocolReviewTypeCode())));
                 }
             } 
-// TODO ********************** commented out during IRB backfit ************************            
-//            else if (StringUtils.equals(key, IRBReplacementParameters.COMMITTEE_NAME)) {
-//                if (protocol.getProtocolSubmission() != null) {
-//                    params.put(key, getSafeMessage(key, getCommitteeName(protocol.getProtocolSubmission().getCommitteeId())));
-//                }
-//            } 
             else if (StringUtils.equals(key, IRBReplacementParameters.PROTOCOL_INITIAL_APPROVAL_DATE)) {
                 if ( (protocol.getProtocolSubmission() != null) && (protocol.getApprovalDate() != null) ) {
                     params.put(key, getSafeMessage(key, (new SimpleDateFormat("d'-'MMM'-'yyyy")).format(protocol.getApprovalDate())));
@@ -237,18 +231,4 @@ public class IRBNotificationRenderer extends ProtocolNotificationRendererBase {
     protected Class<? extends CommitteeBase> getCommonCommitteeBOClassHook() {
         return Committee.class;
     }
- 
-// TODO ********************** commented out during IRB backfit ************************    
-//    private String getCommitteeName(String committeeId) {
-//        String result = null;
-//        Map<String, String> fieldValues = new HashMap<String, String>();
-//        fieldValues.put("committeeId", committeeId);
-//        List<Committee> committees = 
-//            (List<Committee>) getBusinessObjectService().findMatching(Committee.class, fieldValues);
-//        if (CollectionUtils.isNotEmpty(committees)) {
-//            result = committees.get(0).getCommitteeName();
-//        }        
-//        return result;        
-//    }
-    
 }
