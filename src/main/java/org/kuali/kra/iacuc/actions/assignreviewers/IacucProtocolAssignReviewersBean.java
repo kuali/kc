@@ -65,10 +65,6 @@ public class IacucProtocolAssignReviewersBean extends IacucProtocolActionBean im
                 currentScheduleId = scheduleId;
                 reviewers.clear();
                 
-// TODO *********commented the code below during IACUC refactoring*********
-// are expedited submissions relevant for IACUC?                 
-//                if (!StringUtils.isBlank(committeeId) && (!StringUtils.isBlank(scheduleId) || isExpeditedSubmission(submission))) {
-                
                 if (!StringUtils.isBlank(committeeId) && !StringUtils.isBlank(scheduleId)) {
                     List<CommitteeMembershipBase> members = getProtocol().filterOutProtocolPersonnel(getCommitteeService().getAvailableMembers(committeeId, scheduleId));
                     for (CommitteeMembershipBase member : members) {
@@ -127,12 +123,4 @@ public class IacucProtocolAssignReviewersBean extends IacucProtocolActionBean im
         }
         return rightReviewers;
     }
-    
-// TODO *********commented the code below during IACUC refactoring*********     
-// not relevant for IACUC? 
-//    private boolean isExpeditedSubmission(ProtocolSubmissionBase submission) {
-//        return submission != null && IacucProtocolReviewType.EXPEDITED_REVIEW_TYPE_CODE.equals(submission.getProtocolReviewTypeCode());
-//    }
-    
-    
 }

@@ -57,7 +57,6 @@ public class IacucProtocolProceduresHelper implements Serializable{
     
     
     public void prepareView() {
-        //getForm().populateEditableFields();
         initializeIncludedProceduresAndCategories();
     }
     

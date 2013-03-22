@@ -111,7 +111,6 @@ public class IacucPrintXmlUtilServiceImpl implements IacucPrintXmlUtilService {
         personType.setAddressLine3(rolodex.getAddressLine3() != null ? rolodex.getAddressLine3() : null);
         personType.setCity(rolodex.getCity() != null ? rolodex.getCity() : null);
         personType.setState(rolodex.getState() != null ? rolodex.getState() : null);
-        // person.setCountry(rolodexBean.getCountryName()!= null? rolodexBean.getCountryName() : null);
         personType.setCountryCode(rolodex.getCountryCode() != null ? rolodex.getCountryCode() : null);
         personType.setPostalCode(rolodex.getPostalCode() != null ? rolodex.getPostalCode() : null);
         personType.setFaxNumber(rolodex.getFaxNumber() != null ? rolodex.getFaxNumber() : null);
@@ -155,36 +154,9 @@ public class IacucPrintXmlUtilServiceImpl implements IacucPrintXmlUtilService {
             SubmissionDetailsType protocolSubmissionDetail) {
         edu.mit.coeus.xml.iacuc.SubmissionDetailsType.SubmissionChecklistInfo submissionChecklistInfo = protocolSubmissionDetail.addNewSubmissionChecklistInfo();
         String formattedCode = new String();
-
-// TODO verify code for refactor        
-//        List<ProtocolExemptStudiesCheckListItem> protocolExemptCheckList = protocolSubmission.getExemptStudiesCheckList();
-//        for (ProtocolExemptStudiesCheckListItem protocolExemptStudiesCheckListBean : protocolExemptCheckList) {
-//            Checklists checkListItem = submissionChecklistInfo.addNewChecklists();
-//            checkListItem.setChecklistCode(protocolExemptStudiesCheckListBean.getExemptStudiesCheckListCode());
-//            checkListItem.setChecklistDescription(protocolExemptStudiesCheckListBean.getExemptStudiesCheckListItem()
-//                    .getDescription());
-//            formattedCode = formattedCode + "(" + protocolExemptStudiesCheckListBean.getExemptStudiesCheckListCode() + ") ";
-//        }
-//        if (formattedCode.length() > 0) {
-//            submissionChecklistInfo.setChecklistCodesFormatted(formattedCode); // this will have format (3) (7) like that...
-//        }
-//
-//        List<ProtocolExpeditedReviewCheckListItem> vecExpeditedCheckList = protocolSubmission.getExpeditedReviewCheckList();
-//        for (ProtocolExpeditedReviewCheckListItem protocolReviewTypeCheckListBean : vecExpeditedCheckList) {
-//            Checklists checkListItem = submissionChecklistInfo.addNewChecklists();
-//            checkListItem.setChecklistCode(protocolReviewTypeCheckListBean.getExpeditedReviewCheckListCode());
-//            checkListItem.setChecklistDescription(protocolReviewTypeCheckListBean.getExpeditedReviewCheckListItem()
-//                    .getDescription());
-//            formattedCode = formattedCode + "(" + protocolReviewTypeCheckListBean.getExpeditedReviewCheckListCode() + ") ";
-//        }
-//
-//        if (formattedCode.length() > 0) {
-//            submissionChecklistInfo.setChecklistCodesFormatted(formattedCode); // this will have format (3) (7) like that...
-//        }
     }
 
     public void setMinutes(CommitteeScheduleBase scheduleDetailsBean, ScheduleType schedule) {
-// TODO verify refactor code        
         List<CommitteeScheduleMinuteBase> vecMinutes = scheduleDetailsBean.getCommitteeScheduleMinutes();
         if (!vecMinutes.isEmpty()) {
             for (CommitteeScheduleMinuteBase minuteEntryInfoBean : vecMinutes) {
@@ -192,7 +164,6 @@ public class IacucPrintXmlUtilServiceImpl implements IacucPrintXmlUtilService {
                         !minuteEntryInfoBean.getPrivateCommentFlag()) {
                     if (reviewCommentsService.getReviewerCommentsView(minuteEntryInfoBean)){
                         if(!minuteEntryInfoBean.getPrivateCommentFlag()&& minuteEntryInfoBean.isFinalFlag()){
-                            //addMinute(scheduleDetailsBean, minuteEntryInfoBean, schedule.addNewMinutes());
                             MinuteType mt = schedule.insertNewMinutes(schedule.getMinutesArray().length);
                             addMinute(scheduleDetailsBean, minuteEntryInfoBean, mt);
                         }

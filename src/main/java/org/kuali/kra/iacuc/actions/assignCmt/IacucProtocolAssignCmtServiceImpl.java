@@ -71,7 +71,6 @@ public class IacucProtocolAssignCmtServiceImpl implements IacucProtocolAssignCmt
         ProtocolActionBase lastAction = protocol.getLastProtocolAction();
         ProtocolActionBase newAction = new IacucProtocolAction();
         // deep copy will replace the last action with the new one after save
-       // ProtocolActionBase newAction = (ProtocolActionBase)ObjectUtils.deepCopy(protocol.getLastProtocolAction());
         newAction.setComments("AssignedToCommittee");
         newAction.setActionId(protocol.getNextValue(NEXT_ACTION_ID_KEY));
         newAction.setActualActionDate(new Timestamp(System.currentTimeMillis()));

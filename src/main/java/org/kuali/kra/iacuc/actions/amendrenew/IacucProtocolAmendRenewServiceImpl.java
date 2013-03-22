@@ -126,10 +126,7 @@ public class IacucProtocolAmendRenewServiceImpl extends ProtocolAmendRenewServic
         if (amendmentBean.getQuestionnaire()) {
             amendmentEntry.addModule(createModule(amendmentEntry, IacucProtocolModule.QUESTIONNAIRE));
         } else {
-            // TODO : need further work for merge
             removeEditedQuestionaire(protocol);
-            // protocol.merge(protocolFinderDao.findCurrentProtocolByNumber(protocol.getAmendedProtocolNumber()),
-            // IacucProtocolModule.QUESTIONNAIRE);
             amendmentEntry.removeModule(IacucProtocolModule.QUESTIONNAIRE);
         }
         if (((IacucProtocolAmendmentBean)amendmentBean).getThreers()) {

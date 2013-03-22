@@ -46,40 +46,6 @@ public class IacucProtocolOnlineReviewServiceImpl extends ProtocolOnlineReviewSe
     private static final Log LOG = LogFactory.getLog(IacucProtocolOnlineReviewServiceImpl.class);
     private KraWorkflowService kraWorkflowService;
   
-
-
-//    @Override
-//    public List<CommitteeMembershipBase> getAvailableCommitteeMembersForCurrentSubmission(ProtocolBase protocol) {
-//        List<CommitteeMembershipBase> results = new ArrayList<CommitteeMembershipBase>();
-//
-//        ProtocolSubmissionBase submission = protocol.getProtocolSubmission();
-//        submission.refreshReferenceObject("protocolOnlineReviews");
-//        if (LOG.isDebugEnabled()) {
-//            LOG.debug(String.format("Fetching available committee members for protocol %s, submission %s",
-//                    protocol.getProtocolNumber(), submission.getSubmissionNumber()));
-//        }
-//
-//        List<ProtocolOnlineReviewBase> currentReviews = submission.getProtocolOnlineReviews();
-//        List<CommitteeMembershipBase> committeeMembers = committeeService.getAvailableMembers(submission.getCommitteeId(),
-//                submission.getScheduleId());
-//        // TODO: Make this better.
-//            for (CommitteeMembershipBase member : committeeMembers) {
-//                boolean found = false;
-//                for (ProtocolOnlineReviewBase review : currentReviews) {
-//                    if (review.getProtocolReviewer().isProtocolReviewerFromCommitteeMembership(member) && review.isActive()) {
-//                        found = true;
-//                        break;
-//                    }
-//                }
-//                if (!found && !isProtocolPersonnel(protocol, member)) {
-//                    results.add(member);
-//                }
-//            }
-//        return results;
-//    }
-
-
-
     public boolean isProtocolInStateToBeReviewed(ProtocolBase protocol) {
         boolean isReviewable = false;
         ProtocolSubmissionBase submission = protocol.getProtocolSubmission();
@@ -226,14 +192,6 @@ public class IacucProtocolOnlineReviewServiceImpl extends ProtocolOnlineReviewSe
             reviewCommentsService.deleteAllReviewComments(reviewComments, deletedReviewComments);
             reviewCommentsService.saveReviewComments(reviewComments, deletedReviewComments);
             
-//            for (ProtocolReviewer reviewer : submission.getProtocolReviewers()) {
-//                if (protocolOnlineReviewDocument.getProtocolOnlineReview().getProtocolReviewer().getProtocolReviewerId().equals(reviewer.getProtocolReviewerId())) {
-//                    submissionsProtocolOnlineReview.getProtocolReviewer().setSubmissionIdFk(null);
-//                    boolean success = submission.getProtocolReviewers().remove(reviewer);
-//                    LOG.info(success);
-//                }
-//            }
-//            
             businessObjectService.save(submissionsProtocolOnlineReview);
         
         } else {

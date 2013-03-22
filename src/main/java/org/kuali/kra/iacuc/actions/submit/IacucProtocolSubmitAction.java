@@ -56,10 +56,6 @@ public class IacucProtocolSubmitAction extends IacucProtocolActionBean implement
      */
     protected List<ProtocolReviewerBeanBase> reviewers = new AutoPopulatingList<ProtocolReviewerBeanBase>(IacucProtocolReviewerBean.class);
     
-// TODO *********commented the code below during IACUC refactoring*********     
-//    private List<ExpeditedReviewCheckListItem> expeditedReviewCheckList = null;
-//    private List<ExemptStudiesCheckListItem> exemptStudiesCheckList = null;
-    
     private String newCommitteeId = "";
     private String newScheduleId = "";
 
@@ -92,7 +88,6 @@ public class IacucProtocolSubmitAction extends IacucProtocolActionBean implement
             if ((!StringUtils.isBlank(this.committeeId)) && (!this.committeeIdChanged) && (!StringUtils.isBlank(this.scheduleId))) {
                 if (this.scheduleIdChanged) {
                     reviewers.clear();
-                   // buildReviewers();
                 }
             }
             else {
@@ -243,20 +238,4 @@ public class IacucProtocolSubmitAction extends IacucProtocolActionBean implement
     public IacucProtocolSubmitAction(IacucActionHelper actionHelper) {
         super(actionHelper);
     }
-
-    
-    /**
-     * Create the list of reviewers based upon the currently selected committee and schedule.
-     */
-   /* private void buildReviewers() {
-        this.reviewerListAvailable = true;
-        List<CommitteeMembership> members = getProtocol().filterOutProtocolPersonnel(
-                getCommitteeService().getAvailableMembers(this.committeeId, this.scheduleId));
-        for (CommitteeMembership member : members) {
-            ProtocolReviewerBeanBase reviewer = new ProtocolReviewerBeanBase(member);
-            reviewers.add(reviewer);
-        }
-    }*/
-    
-
 }

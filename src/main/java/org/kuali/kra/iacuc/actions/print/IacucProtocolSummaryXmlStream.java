@@ -649,17 +649,6 @@ public class IacucProtocolSummaryXmlStream extends ProtocolSummaryXmlStreamBase 
                 correspondent.setComments(protocolPerson.getComments());
                 getPrintXmlUtilService().setPersonRolodexType(protocolPerson, correspondent.addNewPerson());
             }
-
-            // TODO : verify code - Code refactor
-            //            
-            //            else if (protocolPerson.getProtocolPersonRoleId().equals(ProtocolPersonRole.ROLE_CORRESPONDENT_CRC)
-            //                    || (protocolPerson.getProtocolPersonRoleId().equals(ProtocolPersonRole.ROLE_CORRESPONDENT_ADMINISTRATOR))) {
-            //                Correspondent correspondent = protocolType.addNewCorrespondent();
-            //                // not sure where the comments should come from
-            //                // correspondent.setCorrespondentComments(protocolPerson.getComments()) ;
-            //                correspondent.setTypeOfCorrespondent(protocolPerson.getProtocolPersonRole().getDescription());
-            //                getPrintXmlUtilService().setPersonRolodexType(protocolPerson, correspondent.addNewPerson());
-            //            }
         }
     }
 

@@ -120,8 +120,6 @@ public class IacucScheduleXmlStream extends PrintBaseXmlStream {
         List<org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase> submissions
         = committeeSchedule.getLatestProtocolSubmissions();
         for (org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase protocolSubmission : submissions) {
-        	
-//            protocolSubmission.refreshNonUpdateableReferences();
             ProtocolSubmissionType protocolSubmissionType =
             	schedule.addNewProtocolSubmission();
             
@@ -150,15 +148,9 @@ public class IacucScheduleXmlStream extends PrintBaseXmlStream {
                 continue;
             } 
 
-//            protocol.refreshNonUpdateableReferences();
             protocolMaster.setProtocolNumber(protocol.getProtocolNumber());
             protocolMaster.setSequenceNumber(new BigInteger(String.valueOf(protocol.getSequenceNumber())));
             protocolMaster.setProtocolTitle(protocol.getTitle());
-            // where is applicationDate?
-            // if (protocol.getApplicationDate() != null)
-            // {
-            // protocolMaster.setApplicationDate() ;
-            // }
             protocolMaster.setProtocolStatusCode(new BigInteger(String.valueOf(protocol.getProtocolStatusCode())));
             protocolMaster.setProtocolStatusDesc(protocol.getProtocolStatus().getDescription());
             protocolMaster.setProtocolTypeCode(new BigInteger(String.valueOf(protocol.getProtocolTypeCode())));
@@ -175,8 +167,6 @@ public class IacucScheduleXmlStream extends PrintBaseXmlStream {
             if (protocol.getExpirationDate() != null) {
                 protocolMaster.setExpirationDate(getDateTimeService().getCalendar(protocol.getExpirationDate()));
             }
-            // where is
-            // protocolMaster.setBillableFlag(protocol.isBillableFlag()) ;
 
             if (protocol.getFdaApplicationNumber() != null) {
                 protocolMaster.setFdaApplicationNumber(protocol.getFdaApplicationNumber());
@@ -386,37 +376,6 @@ public class IacucScheduleXmlStream extends PrintBaseXmlStream {
             SubmissionDetailsType protocolSubmissionDetail) {
         SubmissionChecklistInfo submissionChecklistInfo = protocolSubmissionDetail.addNewSubmissionChecklistInfo();
         String formattedCode = new String();
-
-        
-        
-        // TODO IRB specific should go in subclassed IRB - commented as part of code lifted for base
-        /*
-        List<ProtocolExemptStudiesCheckListItem> protocolExemptCheckList = protocolSubmission.getExemptStudiesCheckList();
-        for (ProtocolExemptStudiesCheckListItem protocolExemptStudiesCheckListBean : protocolExemptCheckList) {
-            Checklists checkListItem = submissionChecklistInfo.addNewChecklists();
-            checkListItem.setChecklistCode(protocolExemptStudiesCheckListBean.getExemptStudiesCheckListCode());
-            checkListItem.setChecklistDescription(protocolExemptStudiesCheckListBean.getExemptStudiesCheckListItem()
-                    .getDescription());
-            formattedCode = formattedCode + "(" + protocolExemptStudiesCheckListBean.getExemptStudiesCheckListCode() + ") ";
-        }
-        if (formattedCode.length() > 0) {
-            submissionChecklistInfo.setChecklistCodesFormatted(formattedCode); // this will have format (3) (7) like that...
-        }
-
-        List<ProtocolExpeditedReviewCheckListItem> vecExpeditedCheckList = protocolSubmission.getExpeditedReviewCheckList();
-        for (ProtocolExpeditedReviewCheckListItem protocolReviewTypeCheckListBean : vecExpeditedCheckList) {
-            Checklists checkListItem = submissionChecklistInfo.addNewChecklists();
-            checkListItem.setChecklistCode(protocolReviewTypeCheckListBean.getExpeditedReviewCheckListCode());
-            checkListItem.setChecklistDescription(protocolReviewTypeCheckListBean.getExpeditedReviewCheckListItem()
-                    .getDescription());
-            formattedCode = formattedCode + "(" + protocolReviewTypeCheckListBean.getExpeditedReviewCheckListCode() + ") ";
-        }
-
-        if (formattedCode.length() > 0) {
-            submissionChecklistInfo.setChecklistCodesFormatted(formattedCode); // this will have format (3) (7) like that...
-        }
-        */
-        
     }
 
 
@@ -428,11 +387,6 @@ public class IacucScheduleXmlStream extends PrintBaseXmlStream {
             }
         }
         return null;
-//        Map<String, Object> param = new HashMap<String, Object>();
-//        param.put("scheduleIdFk", protocolSubmission.getScheduleIdFk());
-//        List<ProtocolActionBase> actions = (List) getBusinessObjectService().findMatchingOrderBy(ProtocolActionBase.class, param,
-//                "actionId", true);
-//        return actions.isEmpty() ? null : actions.get(0);
     }
 
     private void setAttendance(CommitteeScheduleBase committeeSchedule, ScheduleType schedule) {

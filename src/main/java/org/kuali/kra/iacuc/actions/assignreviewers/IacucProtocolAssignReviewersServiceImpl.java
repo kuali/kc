@@ -77,30 +77,11 @@ public class IacucProtocolAssignReviewersServiceImpl implements IacucProtocolAss
         if (onlineReviewDocument != null) {   
             ProtocolBase protocol = protocolSubmission.getProtocol();
             ProtocolOnlineReviewBase protocolOnlineReview = onlineReviewDocument.getProtocolOnlineReview();
-            // TODO : implement needed for IACUC
-//            protocolReviewBean.setNotificationRequestBean(new ProtocolNotificationRequestBean(protocol, protocolOnlineReview, ProtocolActionType.ASSIGN_REVIEWER, "Assign Reviewer", null, null));
-//            protocolReviewBean.setActionFlag(ProtocolReviewerBeanBase.REMOVE);
-//            AssignReviewerNotificationRenderer renderer = new AssignReviewerNotificationRenderer(protocol, "removed");
-//            IRBNotificationContext context = new IRBNotificationContext(protocol, protocolOnlineReview, ProtocolActionType.ASSIGN_REVIEWER, "Assign Reviewer", renderer);
-//            if (!getPromptUserForNotificationEditor(context)) {
-//            kcNotificationService.sendNotification(context);
-//        }
         }
         
         protocolOnlineReviewService.removeOnlineReviewDocument(protocolReviewBean.getPersonId(), protocolReviewBean.getNonEmployeeFlag(), protocolSubmission, annotation);
     }
     
-//    private boolean getPromptUserForNotificationEditor(IRBNotificationContext context) {
-//        boolean promptUser = false;
-//        
-//        NotificationType notificationType = kcNotificationService.getNotificationType(context);
-//        if (notificationType != null && notificationType.isActive() && notificationType.getPromptUser()) {
-//            promptUser = true;
-//        }
-//        
-//        return promptUser;
-//    }
-
     protected void createReviewer(ProtocolSubmissionBase protocolSubmission, ProtocolReviewerBeanBase protocolReviewerBean) {
         String principalId = protocolReviewerBean.getPersonId();
         boolean nonEmployeeFlag = protocolReviewerBean.getNonEmployeeFlag();
@@ -124,14 +105,6 @@ public class IacucProtocolAssignReviewersServiceImpl implements IacucProtocolAss
         //send notification now that the online review has been created.
         ProtocolBase protocol = protocolSubmission.getProtocol();
         ProtocolOnlineReviewBase protocolOnlineReview = document.getProtocolOnlineReview();
-        // TODO IACUC needs following
-//        protocolReviewerBean.setNotificationRequestBean(new ProtocolNotificationRequestBean(protocol, protocolOnlineReview, ProtocolActionType.ASSIGN_REVIEWER, "Assign Reviewer", null, null));
-//        protocolReviewerBean.setActionFlag(ProtocolReviewerBeanBase.CREATE);
-//        AssignReviewerNotificationRenderer renderer = new AssignReviewerNotificationRenderer(protocol, "added");
-//        IRBNotificationContext context = new IRBNotificationContext(protocol, protocolOnlineReview, ProtocolActionType.ASSIGN_REVIEWER, "Assign Reviewer", renderer);
-//        if (!getPromptUserForNotificationEditor(context)) {
-//            kcNotificationService.sendNotification(context);
-//        }
     }
     
     protected void updateReviewer(ProtocolSubmissionBase protocolSubmission, ProtocolReviewerBeanBase protocolReviewerBean) {

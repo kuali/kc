@@ -149,7 +149,6 @@ public class IacucProtocolOnlineReviewDocumentAuthorizer extends KcTransactional
         IacucProtocolOnlineReviewTask task = new IacucProtocolOnlineReviewTask(taskName, doc.getProtocolOnlineReview());       
         TaskAuthorizationService taskAuthenticationService = KraServiceLocator.getService(TaskAuthorizationService.class);
         return taskAuthenticationService.isAuthorized(userId, task);
-//          return true;
     }
     
     /**
@@ -159,7 +158,6 @@ public class IacucProtocolOnlineReviewDocumentAuthorizer extends KcTransactional
     public boolean canEdit(Document document, Person user) {
         return canExecuteProtocolOnlineReviewTask(user.getPrincipalId(), (IacucProtocolOnlineReviewDocument) document, TaskName.MODIFY_IACUC_PROTOCOL_ONLINEREVIEW) 
                || canExecuteProtocolOnlineReviewTask(user.getPrincipalId(), (IacucProtocolOnlineReviewDocument) document, TaskName.MAINTAIN_IACUC_PROTOCOL_ONLINEREVIEWS); 
-//        return true;
     }
     
     /**
@@ -207,7 +205,6 @@ public class IacucProtocolOnlineReviewDocumentAuthorizer extends KcTransactional
         boolean result = super.canDisapprove(document, user);
         result &= canExecuteProtocolOnlineReviewTask(user.getPrincipalId(), (IacucProtocolOnlineReviewDocument) document, TaskName.MAINTAIN_IACUC_PROTOCOL_ONLINEREVIEWS); 
         return result;
-//         return true;
     }
     
     private KraWorkflowService getKraWorkflowService() {

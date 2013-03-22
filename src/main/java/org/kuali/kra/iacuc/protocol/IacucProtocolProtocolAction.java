@@ -97,22 +97,6 @@ public class IacucProtocolProtocolAction extends IacucProtocolAction {
         ProtocolFormBase protocolForm = (ProtocolFormBase) form;
         String commandParam = request.getParameter(KRADConstants.PARAMETER_COMMAND);
         
-// TODO *********commented the code below during IACUC refactoring*********         
-//        if (StringUtils.isNotBlank(commandParam) && commandParam.equals(KewApiConstants.DOCSEARCH_COMMAND)
-//                && StringUtils.isNotBlank(request.getParameter("submissionId"))) {
-//            // protocolsubmission lookup
-//            for (ProtocolSubmission protocolSubmission : protocolForm.getProtocolDocument().getProtocol().getProtocolSubmissions()) {
-//                if (StringUtils.isNotBlank(request.getParameter("submissionId"))) {
-//                    protocolForm.getProtocolDocument().getProtocol().setNotifyIrbSubmissionId(Long.parseLong(request.getParameter("submissionId")));
-//                }
-//                if (request.getParameter("submissionId").equals(protocolSubmission.getSubmissionId().toString())) {
-//                    protocolForm.getProtocolDocument().getProtocol().setProtocolSubmission(protocolSubmission);
-//                    break;
-//                }
-//            }
-//        }
-
-       
         protocolForm.getProtocolHelper().prepareView();
 
         return actionForward;
@@ -168,7 +152,6 @@ public class IacucProtocolProtocolAction extends IacucProtocolAction {
 
             service.addProtocolReference(iacucProtocolDoc.getIacucProtocol(), ref);
             
-            //protocolForm.getProtocolDocument().getProtocol().getProtocolReferences().add(ref);
             iacucProtocolForm.setNewProtocolReferenceBean(new IacucProtocolReferenceBean());
         }
         
@@ -579,16 +562,6 @@ public class IacucProtocolProtocolAction extends IacucProtocolAction {
         return forward;
     }
 
-    
-// TODO *********commented the code below during IACUC refactoring*********     
-//    public ActionForward performProtocolAction(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-//            HttpServletResponse response) throws Exception {
-//        super.docHandler(mapping, form, request, response);
-//        
-//        return super.protocolActions(mapping, form, request, response);
-//    }
-//
-    
     @Override
     public void postSave(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {

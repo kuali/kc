@@ -123,7 +123,6 @@ public class IacucProtocolProceduresAction extends IacucProtocolAction {
         IacucProtocolStudyGroupDetailBean selectedProcedureDetailBean = getSelectedProcedureDetailBean(request, protocolForm.getIacucProtocolDocument());
         IacucProcedurePersonResponsible selectedPersonResponsible = getSelectedProcedurePerson(request, protocolForm.getIacucProtocolDocument());
         getIacucProtocolProcedureService().deleteProcedurePersonResponsible(selectedProcedureDetailBean, selectedPersonResponsible, getIacucProtocol(form));
-        //selectedProcedureDetailBean.getIacucProcedurePersonsResponsible().remove(getSelectedProcedurePersonIndex(request));
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
@@ -132,7 +131,6 @@ public class IacucProtocolProceduresAction extends IacucProtocolAction {
         IacucProtocolStudyGroupDetailBean selectedProcedureDetailBean = getSelectedProcedureDetailBean(request, protocolForm.getIacucProtocolDocument());
         IacucProtocolStudyGroupLocation selectedStudyGroupLocation = getSelectedProcedureLocation(request, protocolForm.getIacucProtocolDocument());
         getIacucProtocolProcedureService().deleteStudyGroupLocation(selectedProcedureDetailBean, selectedStudyGroupLocation, getIacucProtocol(form));
-        //selectedProcedureDetailBean.getIacucProcedurePersonsResponsible().remove(getSelectedProcedurePersonIndex(request));
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 

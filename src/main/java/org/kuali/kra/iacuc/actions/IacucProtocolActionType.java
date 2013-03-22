@@ -100,6 +100,5 @@ public class IacucProtocolActionType extends ProtocolActionTypeBase {
     public static final String REVIEW_DELETED = "905";
     public static final String REVIEW_TYPE_DETERMINATION = "908";
     public static final String RENEWAL_WITH_AMENDMENT_CREATED = "909";
-    //public static final String CONTINUATION_WITH_AMENDMENT_CREATED = "910";
 
 }

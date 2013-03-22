@@ -26,7 +26,6 @@ public class IacucModifyPermissionsAuthorizer extends IacucProtocolAuthorizer {
         boolean hasPermission = !protocol.getIacucProtocolDocument().isViewOnly() && 
                 !isPessimisticLocked(protocol.getIacucProtocolDocument()) &&
                 (!kraWorkflowService.isInWorkflow(protocol.getIacucProtocolDocument())) &&
-//                        (!kraWorkflowService.isInWorkflow(protocol.getIacucProtocolDocument()) || protocol.isCorrectionMode()) &&
                 hasPermission(userId, protocol, PermissionConstants.MODIFY_IACUC_PROTOCOL);
         return hasPermission;
     }
