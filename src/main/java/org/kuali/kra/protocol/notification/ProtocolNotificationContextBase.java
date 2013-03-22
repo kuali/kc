@@ -70,19 +70,8 @@ public abstract class ProtocolNotificationContextBase extends NotificationContex
         this.actionTypeCode = actionTypeCode;
         this.contextName = contextName;
         
-//      setNotificationService(KraServiceLocator.getService(ProtocolNotificationService.class));
         setNotificationModuleRoleService(KraServiceLocator.getService(KcNotificationModuleRoleService.class));
-// following demoted to IACUC constructor
-//        setNotificationRoleQualifierService(KraServiceLocator.getService(getProtocolNotificationRoleQualifierServiceClassHook()));
-//        ((ProtocolNotificationRoleQualifierService) getNotificationRoleQualifierService()).setProtocol(protocol);
     }
-//    /**
-//     * {@inheritDoc}
-//     * @see org.kuali.kra.common.notification.NotificationContextBase#getModuleCode()
-//     */
-//    public String getModuleCode() {
-//        return CoeusModule.IRB_MODULE_CODE;
-//    }
     
     /**
      * {@inheritDoc}

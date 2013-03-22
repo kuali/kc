@@ -82,9 +82,6 @@ public abstract class ProtocolHelperBase implements Serializable {
     private String organizationName;
     private ProtocolFundingSourceBase newFundingSource;
     
-// TODO ********************** commented out during IRB backfit ************************ PUSHED DOWN TO IRB    
-//    private ProtocolParticipant newProtocolParticipant;
-    
     private boolean editProtocolFundingSourceName = false;
     private List<ProtocolFundingSourceBase> deletedProtocolFundingSources;
     
@@ -92,9 +89,6 @@ public abstract class ProtocolHelperBase implements Serializable {
     private boolean modifyFundingSource = false;
     private boolean modifyReferences = false;
     private boolean modifyOrganizations = false;
-   
-// TODO ********************** commented out during IRB backfit ************************ PUSHED DOWN TO IRB    
-//    private boolean modifySubjects = false;
     
     private boolean modifyAreasOfResearch = false;
     private boolean canCreateProposalDevelopment = false;
@@ -168,11 +162,7 @@ public abstract class ProtocolHelperBase implements Serializable {
         this.form = form;
         setNewProtocolLocation(getNewProtocolLocationInstanceHook());
         setDeletedProtocolFundingSources(new ArrayList<ProtocolFundingSourceBase>());
-        setNewFundingSource(getNewProtocolFundingSourceInstanceHook());        
-        
-// TODO *********commented the code below during IACUC refactoring*********          
-//        setNewProtocolParticipant(new ProtocolParticipant());        
-        
+        setNewFundingSource(getNewProtocolFundingSourceInstanceHook());                
         setNewProtocolFundingSources(new ArrayList<ProtocolFundingSourceBase>());
     }    
     
@@ -229,11 +219,7 @@ public abstract class ProtocolHelperBase implements Serializable {
         initializeModifyGeneralInfoPermission(protocol);
         initializeModifyFundingSourcePermission(protocol);        
         initializeModifyReferencesPermission(protocol);
-        initializeModifyOrganizationsPermission(protocol);
-
-// TODO *********commented the code below during IACUC refactoring*********                 
-//        initializeModifySubjectsPermission(protocol);
-        
+        initializeModifyOrganizationsPermission(protocol);        
         initializeModifyAreasOfResearchPermission(protocol);
         initializeProtocolProposalDevelopmentLinking();
         initializeCreateProposalDevelopmentPermission(protocol);
@@ -288,13 +274,6 @@ public abstract class ProtocolHelperBase implements Serializable {
     }
     
     protected abstract ProtocolTaskBase getNewInstanceModifyProtocolOrganizationsTaskHook(ProtocolBase protocol);
-    
-    
-// TODO *********commented the code below during IACUC refactoring*********     
-//    private void initializeModifySubjectsPermission(ProtocolBase protocol) {
-//        ProtocolTaskBase task = new ProtocolTaskBase(TaskName.MODIFY_PROTOCOL_SUBJECTS, protocol);
-//        modifySubjects = getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-//    }
     
     private void initializeModifyAreasOfResearchPermission(ProtocolBase protocol) {
         ProtocolTaskBase task = getNewInstanceModifyProtocolResearchAreasTaskHook(protocol);
@@ -535,44 +514,7 @@ public abstract class ProtocolHelperBase implements Serializable {
     
     
     public abstract void syncSpecialReviewsWithFundingSources() throws WorkflowException;
-
     
-// TODO ********************** commented out during IRB backfit ************************ PUSHED DOWN TO IRB    
-//    /**
-//     * Synchronizes the information between this ProtocolBase's Funding Sources and any Institutional Proposal or Award Special Review entries.
-//     */
-//    public void syncSpecialReviewsWithFundingSources() throws WorkflowException {
-//
-//        for (ProtocolFundingSourceBase protocolFundingSource : getProtocol().getProtocolFundingSources()) {
-//            String fundingSourceNumber = protocolFundingSource.getFundingSourceNumber();
-//            String fundingSourceTypeCode = protocolFundingSource.getFundingSourceTypeCode();
-//            String protocolNumber = getProtocol().getProtocolNumber();
-//            
-//            if (!getSpecialReviewService().isLinkedToSpecialReview(fundingSourceNumber, fundingSourceTypeCode, protocolNumber)) {
-//                Date applicationDate = getProtocol().getProtocolSubmission().getSubmissionDate();
-//                Date approvalDate = getProtocol().getLastApprovalDate() == null ? getProtocol().getApprovalDate() : getProtocol().getLastApprovalDate();
-//                Date expirationDate = getProtocol().getExpirationDate();
-//                List<String> exemptionTypeCodes = new ArrayList<String>();
-//                for (ProtocolExemptStudiesCheckListItem checkListItem : getProtocol().getProtocolSubmission().getExemptStudiesCheckList()) {
-//                    exemptionTypeCodes.add(checkListItem.getExemptStudiesCheckListCode());
-//                }
-//                getSpecialReviewService().addSpecialReviewForProtocolFundingSource(
-//                    fundingSourceNumber, fundingSourceTypeCode, protocolNumber, applicationDate, approvalDate, expirationDate, exemptionTypeCodes);
-//            }
-//        }
-//        
-//        for (ProtocolFundingSourceBase protocolFundingSource : deletedProtocolFundingSources) {
-//            String fundingSourceNumber = protocolFundingSource.getFundingSourceNumber();
-//            String fundingSourceTypeCode = String.valueOf(protocolFundingSource.getFundingSourceTypeCode());
-//            String protocolNumber = getProtocol().getProtocolNumber();
-//            
-//            getSpecialReviewService().deleteSpecialReviewForProtocolFundingSource(fundingSourceNumber, fundingSourceTypeCode, protocolNumber);
-//        }
-//        
-//        deletedProtocolFundingSources.clear();
-//    }
-
-
     protected abstract ProtocolNumberServiceBase getProtocolNumberService();
  
     private KcPersonService getPersonService() {
@@ -738,15 +680,6 @@ public abstract class ProtocolHelperBase implements Serializable {
         this.newFundingSource = newFundingSource;
     }
     
-// TODO ********************** commented out during IRB backfit ************************ PUSHED DOWN    
-//    public ProtocolParticipant getNewProtocolParticipant() {
-//        return newProtocolParticipant;
-//    }
-//
-//    public void setNewProtocolParticipant(ProtocolParticipant newProtocolParticipant) {
-//        this.newProtocolParticipant = newProtocolParticipant;
-//    }
-    
     public boolean getModifyFundingSource() {
         return modifyFundingSource;
     }
@@ -762,11 +695,6 @@ public abstract class ProtocolHelperBase implements Serializable {
     public boolean getModifyOrganizations() {
         return modifyOrganizations;
     }
-
-// TODO ********************** commented out during IRB backfit ************************ PUSHED DOWN TO IRB
-//    public boolean getModifySubjects() {
-//        return modifySubjects;
-//    }
 
     public boolean getModifyAreasOfResearch() {
         return modifyAreasOfResearch;
@@ -792,17 +720,6 @@ public abstract class ProtocolHelperBase implements Serializable {
             return true;
         }
     }
-    
-// TODO ********************** commented out during IRB backfit ************************ PUSHED DOWN TO IRB    
-//    public boolean isRoleIRBAdmin() {
-//        Role roleInfo = getRoleService().getRoleByNamespaceCodeAndName(RoleConstants.DEPARTMENT_ROLE_TYPE, RoleConstants.IRB_ADMINISTRATOR);
-//        List<String> roleIds = new ArrayList<String>();
-//        roleIds.add(roleInfo.getId());
-//        Map<String, String> qualifiedRoleAttributes = new HashMap<String, String>();
-//        qualifiedRoleAttributes.put(KcKimAttributes.UNIT_NUMBER, "*");
-//        Map<String,String> qualifications =new HashMap<String,String>(qualifiedRoleAttributes);
-//        return getRoleService().principalHasRole(getUserIdentifier(), roleIds, qualifications);
-//    }
     
     /**
      * Quick method to get the RoleService

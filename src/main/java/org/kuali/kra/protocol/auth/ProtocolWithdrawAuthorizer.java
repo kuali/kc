@@ -28,7 +28,6 @@ public class ProtocolWithdrawAuthorizer extends ProtocolAuthorizerBase {
      * @see org.kuali.kra.protocol.auth.ProtocolAuthorizerBase#isAuthorized(java.lang.String, org.kuali.kra.protocol.auth.ProtocolTaskBase)
      */
     public boolean isAuthorized(String userId, ProtocolTaskBase task) {
-      //  return !isAmendmentOrRenewal(task.getProtocol()) &&
         return kraWorkflowService.isInWorkflow(task.getProtocol().getProtocolDocument()) &&
                kraWorkflowService.isDocumentOnNode(task.getProtocol().getProtocolDocument(), Constants.PROTOCOL_IRBREVIEW_ROUTE_NODE_NAME) &&
                canExecuteAction(task.getProtocol(), ProtocolActionType.WITHDRAWN) &&

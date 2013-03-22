@@ -141,10 +141,8 @@ public abstract class UndoLastActionServiceImplBase implements UndoLastActionSer
             resetProtocolStatus(protocolDocument.getProtocol());
         } else if(currentWorkflowDocument != null && currentWorkflowDocument.isFinal() && lastPerformedAction != null 
                   && isApprovedActionTypeCode(lastPerformedAction.getProtocolActionTypeCode())) {
-            //currentWorkflowDocument.returnToPreviousRouteLevel("Undo Last Action", currentWorkflowDocument.getDocRouteLevel() - 1);
             ProtocolSubmissionBase oldSubmission = protocolDocument.getProtocol().getProtocolSubmission();
             protocolDocument = protocolVersionService.versionProtocolDocument(protocolDocument);
-//            protocolOnlineReviewService.moveOnlineReviews(oldSubmission, protocolDocument.getProtocol().getProtocolSubmission());
             protocolDocument.getProtocol().refreshReferenceObject("protocolStatus");
             
             // to force it to retrieve from list.
@@ -215,8 +213,6 @@ public abstract class UndoLastActionServiceImplBase implements UndoLastActionSer
                 if (isAsyncComplete(document.getDocumentNumber())) {
                     documentService.saveDocument(document);
                 }
-                // updateOlrComments(onlineReview.getProtocolOnlineReviewId(), copiedReview.getProtocolOnlineReviewId(),
-                // protocol.getProtocolId());
                 resetOnlineReviewStatus(oldDoc, document);
                 protocolSubmission.getProtocolOnlineReviews().add(document.getProtocolOnlineReview());
             }
@@ -252,7 +248,6 @@ public abstract class UndoLastActionServiceImplBase implements UndoLastActionSer
      * try to check if async wkflw process is completely.  Mainly, route olr doc in this case.
      */
     protected boolean isAsyncComplete(String docId) {
-        // try {
         boolean isComplete = false;
         int numberOfWaits = 0;
         while (numberOfWaits++ < 20 && !isComplete) {

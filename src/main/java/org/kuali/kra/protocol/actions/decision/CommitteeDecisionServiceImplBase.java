@@ -116,16 +116,9 @@ public abstract class CommitteeDecisionServiceImplBase<CD extends CommitteeDecis
                         //check to see if it is already been persisted
                         Map fieldValues = getFieldValuesMap(protocol.getProtocolId(), scheduleIdFk, membership.getPersonId(), membership.getRolodexId(), submissionIdFk);
                         
-// TODO *********commented the code below during IACUC refactoring********* 
-//                        if (businessObjectService.findMatching(ProtocolVoteAbstaineeBase.class, fieldValues).size() == 0) {                            
-  
                         if (businessObjectService.findMatching(getProtocolVoteAbstaineeBOClassHook(), fieldValues).size() == 0) {
                             //we found a match, and has not been saved, lets make a ProtocolVoteAbstaineeBase and save it
                             saveProtocolMeetingVoter(getNewProtocolVoteAbstaineeInstanceHook(), protocol, scheduleIdFk, membership.getPersonId(), membership.getRolodexId(), submissionIdFk);
-                            
-// TODO *********commented the code below during IACUC refactoring*********                       
-//                            saveProtocolMeetingVoter(new ProtocolVoteAbstaineeBase(), protocol, scheduleIdFk, membership.getPersonId(), membership.getRolodexId(), submissionIdFk);
-                            
                         }
                         break;
                     }
@@ -137,10 +130,6 @@ public abstract class CommitteeDecisionServiceImplBase<CD extends CommitteeDecis
                 for (CommitteeMembershipBase membership : committeeMemberships) {
                     if (membership.getCommitteeMembershipId().equals(person.getMembershipId())) {
                         Map fieldValues = getFieldValuesMap(protocol.getProtocolId(), scheduleIdFk, membership.getPersonId(), membership.getRolodexId(), submissionIdFk);
-                        
-// TODO *********commented the code below during IACUC refactoring*********                         
-//                        businessObjectService.deleteMatching(ProtocolVoteAbstaineeBase.class, fieldValues);
-                        
                         businessObjectService.deleteMatching(getProtocolVoteAbstaineeBOClassHook(), fieldValues);
                     }
                 }
@@ -165,17 +154,10 @@ public abstract class CommitteeDecisionServiceImplBase<CD extends CommitteeDecis
                 for (CommitteeMembershipBase membership : committeeMemberships) {
                     if (membership.getCommitteeMembershipId().equals(person.getMembershipId())) {
                         //check to see if it is already been persisted
-                        Map fieldValues = getFieldValuesMap(protocol.getProtocolId(), scheduleIdFk, membership.getPersonId(), membership.getRolodexId(), submissionIdFk);
-                        
-// TODO *********commented the code below during IACUC refactoring********* 
-//                        if (businessObjectService.findMatching(ProtocolVoteRecusedBase.class, fieldValues).size() == 0) {
-                        
+                        Map fieldValues = getFieldValuesMap(protocol.getProtocolId(), scheduleIdFk, membership.getPersonId(), membership.getRolodexId(), submissionIdFk);                        
                         if (businessObjectService.findMatching(getProtocolVoteRecusedBOClassHook(), fieldValues).size() == 0) {
                             //we found a match, and has not been saved, lets make a ProtocolVoteAbstaineeBase and save it
                             saveProtocolMeetingVoter(getNewProtocolVoteRecusedInstanceHook(), protocol, scheduleIdFk, membership.getPersonId(), membership.getRolodexId(), submissionIdFk);
-                            
-// TODO *********commented the code below during IACUC refactoring********* 
-//                            saveProtocolMeetingVoter(new ProtocolVoteRecusedBase(), protocol, scheduleIdFk, membership.getPersonId(), membership.getRolodexId(), submissionIdFk);
                         }
                         break;
                     }
@@ -188,10 +170,6 @@ public abstract class CommitteeDecisionServiceImplBase<CD extends CommitteeDecis
                 for (CommitteeMembershipBase membership : committeeMemberships) {
                     if (membership.getCommitteeMembershipId().equals(person.getMembershipId())) {
                         Map fieldValues = getFieldValuesMap(protocol.getProtocolId(), scheduleIdFk, membership.getPersonId(), membership.getRolodexId(),submissionIdFk);
-                        
-// TODO *********commented the code below during IACUC refactoring*********                         
-//                        businessObjectService.deleteMatching(ProtocolVoteRecusedBase.class, fieldValues);
-                        
                         businessObjectService.deleteMatching(getProtocolVoteRecusedBOClassHook(), fieldValues);
                     }
                 }
@@ -220,34 +198,7 @@ public abstract class CommitteeDecisionServiceImplBase<CD extends CommitteeDecis
 
     protected abstract Map<String, Object> getFieldValuesMap(Long protocolId, Long scheduleIdFk, String personId, Integer rolodexId, Long submissionIdFk);
     
-// TODO *********commented the code below during IACUC refactoring*********     
-//    protected Map<String, Object> getFieldValuesMap(Long protocolId, Long scheduleIdFk, String personId, Integer rolodexId, Long submissionIdFk) {
-//        Map<String, Object> fieldValues = new HashMap<String, Object>();
-//        fieldValues.put("PROTOCOL_ID_FK", protocolId.toString());
-//        //fieldValues.put("SCHEDULE_ID_FK", scheduleIdFk.toString());
-//        fieldValues.put("PERSON_ID", personId);
-//        fieldValues.put("ROLODEX_ID", rolodexId);
-//        fieldValues.put("SUBMISSION_ID_FK", submissionIdFk.toString());
-//        return fieldValues;
-//    }
-
-    
     protected abstract ProtocolSubmissionBase getSubmission(ProtocolBase protocol);
-    
-// TODO *********commented the code below during IACUC refactoring*********     
-//    protected ProtocolSubmissionBase getSubmission(ProtocolBase protocol) {
-//        // There are 'findCommission' in other classes.  Consider to create a utility static method for this
-//        // need to loop thru to find the last submission.
-//        // it may have submit/Wd/notify irb/submit, and this will cause problem if don't loop thru.
-//        ProtocolSubmissionBase protocolSubmission = null;
-//        for (ProtocolSubmissionBase submission : protocol.getProtocolSubmissions()) {
-//            if (StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.IN_AGENDA)
-//                    || StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE)) {
-//                protocolSubmission = submission;
-//            }
-//        }
-//        return protocolSubmission;
-//    }
     
     protected void addReviewComments(ProtocolSubmissionBase submission, ReviewCommentsBeanBase reviewCommentsBean) {
         int nextEntryNumber = 0;

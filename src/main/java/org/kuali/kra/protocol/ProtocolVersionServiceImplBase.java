@@ -193,7 +193,6 @@ public abstract class ProtocolVersionServiceImplBase implements ProtocolVersionS
                 }
             }
             protocol.setAttachmentProtocols(attachments);
-          //  protocol.getAttachmentProtocols().addAll(attachments);
         }
     }
 

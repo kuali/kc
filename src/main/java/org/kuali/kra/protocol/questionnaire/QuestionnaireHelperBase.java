@@ -79,16 +79,10 @@ public abstract class QuestionnaireHelperBase extends org.kuali.kra.questionnair
     protected abstract ProtocolTaskBase getModifyQnnrTaskHook(ProtocolBase protocol);
     
     
-// TODO *********commented the code below during IACUC refactoring*********     
-//    public String getModuleCode() {
-//        return CoeusModule.IRB_MODULE_CODE;
-//    }
-    
     public abstract String getModuleCode();
 
 
     public ModuleQuestionnaireBean getModuleQnBean() {
-        //return new ModuleQuestionnaireBean(getModuleCode(), getProtocol());
         ProtocolModuleQuestionnaireBeanBase moduleQuestionnaireBean = getProtocolModuleQuestionnaireBeanHook(getProtocol());
         return moduleQuestionnaireBean;
 
@@ -112,12 +106,6 @@ public abstract class QuestionnaireHelperBase extends org.kuali.kra.questionnair
             } 
             if (!answerHeaders.isEmpty()) {
                 for (AnswerHeader answerHeader : answerHeaders) {
-                    // we now display inactive qnnrs after amendment
-                    /*
-                    if (answerHeader.isActiveQuestionnaire()) {
-                       getAnswerHeaders().add(answerHeader);
-                    }
-                    */
                     getAnswerHeaders().add(answerHeader);
                 }
                 resetHeaderLabels();

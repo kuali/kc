@@ -65,10 +65,6 @@ import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
 
 public abstract class ProtocolDocumentBase extends ResearchDocumentBase implements Copyable, SessionDocument, KrmsRulesContext {
 
-// TODO *********commented the code below during IACUC refactoring*********     
-//    private static final Log LOG = LogFactory.getLog(ProtocolDocumentBase.class);
-//    public static final String DOCUMENT_TYPE_CODE = "PROT";
-    
     private static final String AMENDMENT_KEY = "A";
     private static final String RENEWAL_KEY = "R";
     @SuppressWarnings("unused")
@@ -78,15 +74,6 @@ public abstract class ProtocolDocumentBase extends ResearchDocumentBase implemen
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 6493566444038807312L;
-    
-// TODO *********commented the code below during IACUC refactoring*********     
-//    private static final String APPROVED_COMMENT = "Approved";
-//    private static final String DISAPPROVED_COMMENT = "Disapproved";
-//    private static final String listOfStatiiEligibleForMerging = ProtocolStatusBase.SUBMITTED_TO_IRB + " " + ProtocolStatusBase.SPECIFIC_MINOR_REVISIONS_REQUIRED + " " + 
-//                                                                 ProtocolStatusBase.DEFERRED + " " + ProtocolStatusBase.SUBSTANTIVE_REVISIONS_REQUIRED + " " +  
-//                                                                 ProtocolStatusBase.AMENDMENT_IN_PROGRESS + " " + ProtocolStatusBase.RENEWAL_IN_PROGRESS + " " + 
-//                                                                 ProtocolStatusBase.SUSPENDED_BY_PI + " " + ProtocolStatusBase.DELETED + " " + ProtocolStatusBase.WITHDRAWN;
-
     
     private List<ProtocolBase> protocolList;
     private String protocolWorkflowType;
@@ -333,69 +320,6 @@ public abstract class ProtocolDocumentBase extends ResearchDocumentBase implemen
     
     protected abstract Class<? extends ProtocolActionService> getProtocolActionServiceClassHook();
     
-// TODO ********************** commented out during IRB backfit ************************, pushed to IACUC subclass    
-//    /**
-//     * Merge the amendment into the original protocol.  Actually, we must first make a new
-//     * version of the original and then merge the amendment into that new version.
-//     * Also merge changes into any versions of the protocol that are being amended/renewed.
-//     * @param protocolStatusCode
-//     * @throws Exception
-//     */
-//    protected void mergeAmendment(String protocolStatusCode, String type) {
-//        ProtocolBase currentProtocol = getProtocolFinderDaoHook().findCurrentProtocolByNumber(getOriginalProtocolNumber());
-//        final ProtocolDocumentBase newProtocolDocument;
-//        try {
-//            // workflowdocument is null, so need to use documentservice to retrieve it
-//            currentProtocol.setProtocolDocument((ProtocolDocumentBase)getDocumentService().getByDocumentHeaderId(currentProtocol.getProtocolDocument().getDocumentNumber()));
-//            currentProtocol.setMergeAmendment(true);
-//            newProtocolDocument = getProtocolVersionServiceHook().versionProtocolDocument(currentProtocol.getProtocolDocument());
-//        } catch (Exception e) {
-//            throw new ProtocolMergeException(e);
-//        }
-//        
-//        newProtocolDocument.getProtocol().merge(getProtocol());
-//        getProtocol().setProtocolStatusCode(protocolStatusCode);
-//        
-//        ProtocolActionBase action = getNewProtocolActionInstanceHook(newProtocolDocument.getProtocol(), null, getProtocolActionTypeApprovedHook()); 
-//            //new ProtocolActionBase(newProtocolDocument.getProtocol(), null, getProtocolActionTypeApprovedHook());
-//        action.setComments(type + "-" + getProtocolNumberIndex() + ": Approved");
-//        newProtocolDocument.setProtocolWorkflowType(ProtocolWorkflowType.APPROVED);
-//        newProtocolDocument.getProtocol().getProtocolActions().add(action);
-//        if (!currentProtocol.getProtocolStatusCode().equals(getProtocolStatusExemptHook())) {
-//            newProtocolDocument.getProtocol().setProtocolStatusCode(getProtocolStatusActiveOpenToEnrollmentHook());
-//        }
-//        try {
-//            getDocumentService().saveDocument(newProtocolDocument);
-//            // blanket approve to make the new protocol document 'final'
-//            newProtocolDocument.getDocumentHeader().getWorkflowDocument().route(type + "-" + getProtocolNumberIndex() + ": merged");
-//        } catch (WorkflowException e) {
-//            throw new ProtocolMergeException(e);
-//        }
-//        
-//        this.getProtocol().setActive(false);
-//        
-//        // now that we've updated the approved protocol, we must find all others under modification and update them too.
-//        for (ProtocolBase otherProtocol: getProtocolFinderDaoHook().findProtocols(getOriginalProtocolNumber())) {
-//            String status = otherProtocol.getProtocolStatus().getProtocolStatusCode();
-//            if (isEligibleForMerging(status, otherProtocol)) {
-//                // then this protocol version is being amended so push changes to it
-//                //LOG.info("Merging amendment " + this.getProtocol().getProtocolNumber() + " into editable protocol " + otherProtocol.getProtocolNumber());
-//                otherProtocol.merge(getProtocol(), false);
-//                action = getNewProtocolActionInstanceHook(otherProtocol, null, protocolStatusCode);
-//                action.setComments(type + "-" + getProtocolNumberIndex() + ": Merged");
-//                otherProtocol.getProtocolActions().add(action);
-//                getBusinessObjectService().save(otherProtocol);
-//            }
-//        }
-//
-//        finalizeAttachmentProtocol(this.getProtocol());
-//        getBusinessObjectService().save(this);
-//    }
-//    
-//    protected boolean isEligibleForMerging(String status, ProtocolBase otherProtocol) {
-//        return getListOfStatusEligibleForMergingHook().contains(status) && !StringUtils.equals(this.getProtocol().getProtocolNumber(), otherProtocol.getProtocolNumber());
-//    }
-
     /*
      * This method is to make the document status of the attachment protocol to "finalized" 
      */
@@ -408,27 +332,10 @@ public abstract class ProtocolDocumentBase extends ResearchDocumentBase implemen
         }
     }
 
-
-//    private ProtocolVersionService getProtocolVersionService() {
-//        return KraServiceLocator.getService(ProtocolVersionService.class);
-//    }
-//
     protected String getProtocolNumberIndex() {
         return this.getProtocol().getProtocolNumber().substring(11);
     }
-//
-//    private ProtocolFinderDao getProtocolFinder() {
-//        return KraServiceLocator.getService(ProtocolFinderDao.class);
-//    }
-    
-//    protected abstract ProtocolFinderDao getProtocolFinderDaoHook();
-//    protected abstract ProtocolVersionService getProtocolVersionServiceHook();
-//    protected abstract String getProtocolActionTypeApprovedHook();
-//    protected abstract String getProtocolStatusExemptHook();
-//    protected abstract String getProtocolStatusActiveOpenToEnrollmentHook();
-//    protected abstract String getListOfStatusEligibleForMergingHook();
 
-    
     protected DocumentService getDocumentService() {
         return KraServiceLocator.getService(DocumentService.class);
     }
@@ -611,76 +518,7 @@ public abstract class ProtocolDocumentBase extends ResearchDocumentBase implemen
     
     protected WorkflowDocumentService getWorkflowDocumentService() {
         return KRADServiceLocatorWeb.getWorkflowDocumentService();
-    }    
-    
-    
-
-// TODO *********commented the code below during IACUC refactoring*********     
-//    /**
-//     * 
-//     * This method is to check whether rice async routing is ok now.   
-//     * Close to hack.  called by holdingpageaction
-//     * Different document type may have different routing set up, so each document type
-//     * can implement its own isProcessComplete
-//     * @return
-//     * @throws WorkflowException 
-//     */
-//    public boolean isProcessComplete() {
-//        boolean isComplete = true;
-//        
-//        /*
-//         * This happens when you submit your protocol to IRB, the current route node is Initiated
-//         */
-//        if (this.getProtocol().getProtocolStatusCode().equals(ProtocolStatusBase.SUBMITTED_TO_IRB)) {
-//            if (getWorkflowDocumentService().getCurrentRouteNodeNames(getDocumentHeader().getWorkflowDocument()).equalsIgnoreCase(Constants.PROTOCOL_INITIATED_ROUTE_NODE_NAME)) { 
-//                isComplete = false;
-//            }     
-//            // while submitting an amendment for IRB review, the amendment moves from node Initiated to node IRBReview, 
-//            //so need to check if protocolSubmissionStatus is "InAgenda" to avoid the processing page from not going away at all when 
-//            // an amendment is submitted for review
-//            // Added for KCIRB-1515 & KCIRB-1528
-//            getProtocol().getProtocolSubmission().refreshReferenceObject("submissionStatus"); 
-//            String status = getProtocol().getProtocolSubmission().getSubmissionStatusCode();
-//            if (isAmendment() || isRenewal()) {
-//                if (status.equals(ProtocolSubmissionStatus.APPROVED) 
-//                    && getWorkflowDocumentService().getCurrentRouteNodeNames(getDocumentHeader().getWorkflowDocument()).equalsIgnoreCase(Constants.PROTOCOL_IRBREVIEW_ROUTE_NODE_NAME)) {
-//                        isComplete = false;
-//               }
-//            }
-//               
-//        } else {
-//            /*
-//             * If amendment has been merged, need to redirect to the newly created active protocol
-//             * Wait for the new active protocol to be created before redirecting to it.
-//             */
-//            if (getProtocol().getProtocolStatusCode().equals(ProtocolStatusBase.AMENDMENT_MERGED) || 
-//                getProtocol().getProtocolStatusCode().equals(ProtocolStatusBase.RENEWAL_MERGED)) {
-//                String protocolId = getNewProtocolDocId();               
-//                if (ObjectUtils.isNull(protocolId)) {
-//                    isComplete = false;
-//                } else {
-//                    /*
-//                     * The new protocol document is only available after the amendment has been merged. So, once the amendment is merged,
-//                     * find the active protocol available and change the return link to point to that.
-//                     */
-//                    String oldLocation = (String) GlobalVariables.getUserSession().retrieveObject(Constants.HOLDING_PAGE_RETURN_LOCATION);
-//                    String oldDocNbr = getProtocol().getProtocolDocument().getDocumentNumber();
-//                    String returnLocation = oldLocation.replaceFirst(oldDocNbr, protocolId);
-//                    GlobalVariables.getUserSession().addObject(Constants.HOLDING_PAGE_RETURN_LOCATION, (Object) returnLocation);
-//                }
-//            }         
-//            // approve/expedited approve/response approve
-//            if (!getDocumentHeader().getWorkflowDocument().isFinal()) {
-//                isComplete = false;
-//            } 
-//        }
-//
-//
-//        return isComplete;
-//    }
-
-    
-    
+    }
     
     /**
      * This method returns the doc number of the current active protocol
@@ -702,9 +540,4 @@ public abstract class ProtocolDocumentBase extends ResearchDocumentBase implemen
     public void populateAgendaQualifiers(Map<String, String> qualifiers) {
         qualifiers.put(KcKrmsConstants.UNIT_NUMBER, getProtocol().getLeadUnitNumber());
     }
-    
-    
-    
-    
-    
 }

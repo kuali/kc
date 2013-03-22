@@ -46,11 +46,4 @@ public abstract class ProtocolAssignToAgendaEventBase extends KraDocumentEventBa
     
     public abstract BusinessRuleInterface getRule();
 
-// TODO *********commented the code below during IACUC refactoring*********     
-//    @Override
-//    @SuppressWarnings("unchecked")
-//    public BusinessRuleInterface getRule() {
-//        return getnew ProtocolAssignToAgendaRuleBase();
-//    }
-    
 }

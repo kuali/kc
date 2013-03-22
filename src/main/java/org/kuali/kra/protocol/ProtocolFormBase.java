@@ -157,63 +157,7 @@ public abstract class ProtocolFormBase extends KraTransactionalDocumentFormBase 
     protected abstract PersonnelHelperBase createNewPersonnelHelperInstanceHook(ProtocolFormBase protocolForm);
     protected abstract QuestionnaireHelperBase createNewQuestionnaireHelper(ProtocolFormBase protocolForm);
     protected abstract NotesAttachmentsHelperBase createNewNotesAttachmentsHelperInstanceHook(ProtocolFormBase protocolForm);
-    
-    
-    
-    
-// TODO *********uncomment the code below in increments as needed during refactoring*********     
-//    /**
-//     * @see org.kuali.rice.kns.web.struts.form.KualiForm#getHeaderNavigationTabs()
-//     * 
-//     * We only enable the Online Review tab if the protocol is in a state to be reviewed and
-//     * the user has the IRB Admin role or the user has an Online Review. 
-//     * 
-//     * If HIDE_ONLINE_REVIEW_WHEN_DISABLED is true, then the tab will be removed from the tabs 
-//     * List if it is disabled.
-//     * 
-//     */
-//    @Override
-//    public HeaderNavigation[] getHeaderNavigationTabs() {
-//        
-//        HeaderNavigation[] navigation = super.getHeaderNavigationTabs();
-//        
-//        ProtocolOnlineReviewService onlineReviewService = getProtocolOnlineReviewService();
-//        List<HeaderNavigation> resultList = new ArrayList<HeaderNavigation>();
-//        boolean onlineReviewTabEnabled = false;
-//
-//        if (getProtocolDocument() != null && getProtocolDocument().getProtocol() != null) {
-//            String principalId = GlobalVariables.getUserSession().getPrincipalId();
-//            ProtocolSubmissionBase submission = getProtocolDocument().getProtocol().getProtocolSubmission();
-//            boolean isUserOnlineReviewer = onlineReviewService.isProtocolReviewer(principalId, false, submission);
-//            boolean isUserIrbAdmin = getKraAuthorizationService().hasRole(GlobalVariables.getUserSession().getPrincipalId(), "KC-UNT", "IRB Administrator"); 
-//            onlineReviewTabEnabled = (isUserOnlineReviewer || isUserIrbAdmin) 
-//                    && onlineReviewService.isProtocolInStateToBeReviewed(getProtocolDocument().getProtocol());
-//        }
-//        
-//            //We have to copy the HeaderNavigation elements into a new collection as the 
-//            //List returned by DD is it's cached copy of the header navigation list.
-//        for (HeaderNavigation nav : navigation) {
-//            if (StringUtils.equals(nav.getHeaderTabNavigateTo(),ONLINE_REVIEW_NAV_TO)) {
-//                nav.setDisabled(!onlineReviewTabEnabled);
-//                if (onlineReviewTabEnabled || ((!onlineReviewTabEnabled) && (!HIDE_ONLINE_REVIEW_WHEN_DISABLED))) {
-//                    resultList.add(nav);
-//                }
-////            } else if (StringUtils.equals(nav.getHeaderTabNavigateTo(),CUSTOM_DATA_NAV_TO)) {
-////                boolean displayTab = this.getCustomDataHelper().canDisplayCustomDataTab();
-////                nav.setDisabled(!displayTab);
-////                if (displayTab) {
-////                    resultList.add(nav);
-////                }
-//            } else {
-//                resultList.add(nav);
-//            }
-//        }
-//        
-//        HeaderNavigation[] result = new HeaderNavigation[resultList.size()];
-//        resultList.toArray(result);
-//        return result;
-//    }
-    
+
     /**
      * 
      * This method is a wrapper method for getting DataDictionary Service using the Service Locator.
@@ -222,48 +166,6 @@ public abstract class ProtocolFormBase extends KraTransactionalDocumentFormBase 
     protected DataDictionaryService getDataDictionaryService(){
         return (DataDictionaryService) KraServiceLocator.getService(Constants.DATA_DICTIONARY_SERVICE_NAME);
     }
-
-// TODO *********commented the code below during IACUC refactoring********* 
-//    /**
-//     * 
-//     * This method is a wrapper method for getting ProtocolOnlineReviewerService service.
-//     * @return
-//     */
-//    protected ProtocolOnlineReviewService getProtocolOnlineReviewService() {
-//        return KraServiceLocator.getService(ProtocolOnlineReviewService.class);
-//    }
-//
-//    
-//    
-//    @Override
-//    public void populate(HttpServletRequest request) { 
-//        initAnswerList(request);
-//        super.populate(request);
-//        
-//        // Temporary hack for KRACOEUS-489
-//        if (getActionFormUtilMap() instanceof ActionFormUtilMap) {
-//            ((ActionFormUtilMap) getActionFormUtilMap()).clear();
-//        }
-//    }
-//    
-//    /*
-//     * For submission questionnaire, it is a popup and not a session document.
-//     * so, it has to be retrieved, then populate with the new data.
-//     */
-//    private void initAnswerList(HttpServletRequest request) {
-//        
-//        String protocolNumber = request.getParameter("questionnaireHelper.protocolNumber");
-//        String submissionNumber = request.getParameter("questionnaireHelper.submissionNumber");
-//        if (StringUtils.isNotBlank(protocolNumber) && protocolNumber.endsWith("T")) {
-//            ModuleQuestionnaireBean moduleQuestionnaireBean = new ModuleQuestionnaireBean(CoeusModule.IRB_MODULE_CODE, protocolNumber, CoeusSubModule.PROTOCOL_SUBMISSION, submissionNumber, false);
-//            this.getQuestionnaireHelper().setAnswerHeaders(
-//                    getQuestionnaireAnswerService().getQuestionnaireAnswer(moduleQuestionnaireBean));
-//        }
-//    }
-//
-//    private QuestionnaireAnswerService getQuestionnaireAnswerService() {
-//        return KraServiceLocator.getService(QuestionnaireAnswerService.class);
-//}
 
     @SuppressWarnings("deprecation")
     @Override
@@ -441,39 +343,10 @@ public abstract class ProtocolFormBase extends KraTransactionalDocumentFormBase 
         this.protocolNotificationHelper = notificationHelper;
     }
 
-   
-
-// TODO *********commented the code below during IACUC refactoring*********     
-//    @Override
-//    public boolean isPropertyEditable(String propertyName) {
-//        if (propertyName.startsWith("actionHelper.protocolSubmitAction.reviewer") ||
-//                propertyName.startsWith("methodToCall.printSubmissionQuestionnaireAnswer.line")
-//                || propertyName.startsWith("methodToCall.saveCorrespondence")
-//                || propertyName.startsWith("methodToCall.closeCorrespondence")) {
-//            return true;
-//        } else {
-//            return super.isPropertyEditable(propertyName);
-//        }
-//    }
-    
     public KraAuthorizationService getKraAuthorizationService() {
         return KraServiceLocator.getService(KraAuthorizationService.class);
     }
 
-// TODO ********************** commented out during IRB backfit ************************ PUSHED DOWN TO IRB    
-//    /**
-//     * 
-//     * This method returns true if the risk level panel should be displayed.
-//     * @return
-//     */
-//    public boolean getDisplayRiskLevelPanel() {
-//        return true;
-//// TODO *********commented the code below during IACUC refactoring*********        
-////        return this.getProtocolDocument().getProtocol().getProtocolRiskLevels() != null 
-////            && this.getProtocolDocument().getProtocol().getProtocolRiskLevels().size() > 0;
-//        
-//    }
-    
     public List<ExtraButton> getExtraActionsButtons() {
         // clear out the extra buttons array
         extraButtons.clear();
@@ -495,13 +368,7 @@ public abstract class ProtocolFormBase extends KraTransactionalDocumentFormBase 
     }
      
     public abstract String getModuleCode();
-// TODO *********commented the code below during IACUC refactoring*********       
-//    public String getModuleCode() {
-//        return CoeusModule.IRB_MODULE_CODE;
-//    }
 
-      
-    
     public String getDetailId() {
         return detailId;
     }

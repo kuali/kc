@@ -70,14 +70,6 @@ public abstract class ProtocolSpecialReviewBase extends SpecialReview<ProtocolSp
 
     public abstract ProtocolSpecialReviewExemption createSpecialReviewExemption(String exemptionTypeCode);
     
-//    @Override
-//    public ProtocolSpecialReviewExemption createSpecialReviewExemption(String exemptionTypeCode) {
-//        ProtocolSpecialReviewExemption protocolSpecialReviewExemption = new ProtocolSpecialReviewExemption();
-//        protocolSpecialReviewExemption.setExemptionTypeCode(exemptionTypeCode);
-//        protocolSpecialReviewExemption.setProtocolSpecialReview(this);
-//        return protocolSpecialReviewExemption;
-//    }
-
     @Override
     public int hashCode() {
         final int prime = 31;

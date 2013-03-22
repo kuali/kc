@@ -76,18 +76,9 @@ public abstract class ProtocolDocumentRuleBase<CD extends CommitteeDecision<? ex
                                                                                 AddProtocolUnitRule,
                                                                                 BusinessRuleInterface,                                                                                 
                                                                                 ExecuteProtocolSubmitActionRule,
-// TODO *********commented the code below during IACUC refactoring*********                                                                                 
-//                                                                                ExecuteProtocolAssignCmtSchedRule, 
-//                                                                                ExecuteProtocolAssignReviewersRule, 
-//                                                                                ExecuteProtocolAdminCorrectionRule,
-                                                                                
                                                                                 ExecuteCommitteeDecisionRule<CD>,                                                                                
                                                                                 ExecuteCommitteeDecisionAbstainerRule<CD>, 
                                                                                 ExecuteCommitteeDecisionRecuserRule<CD>
-                                                                                
-//                                                                                ExecuteProtocolModifySubmissionRule, 
-//                                                                                ExecuteProtocolReviewNotRequiredRule, 
-//                                                                                PermissionsRule 
                                                                                                     {
 
     private static final String PROTOCOL_LUN_FORM_ELEMENT="protocolHelper.leadUnitNumber";
@@ -133,11 +124,6 @@ public abstract class ProtocolDocumentRuleBase<CD extends CommitteeDecision<? ex
         valid &= processLeadUnitBusinessRules((ProtocolDocumentBase) document);
         valid &= processProtocolLocationBusinessRules((ProtocolDocumentBase) document);            
         valid &= processProtocolPersonnelBusinessRules((ProtocolDocumentBase) document);
-        
-// TODO *********commented the code below during IACUC refactoring*********        
-//        valid &= processProtocolSpecialReviewBusinessRules((ProtocolDocumentBase) document);
-        
-        
         return valid;
     }
 
@@ -186,10 +172,6 @@ public abstract class ProtocolDocumentRuleBase<CD extends CommitteeDecision<? ex
         retval &= getNewProtocolResearchAreaAuditRuleInstanceHook().processRunAuditBusinessRules((ProtocolDocumentBase) document);
         retval &= getNewProtocolPersonnelAuditRuleInstanceHook().processRunAuditBusinessRules(document);
         retval &= this.processNoteAndAttachmentAuditRules((ProtocolDocumentBase) document);
-
-// TODO *********commented the code below during IACUC refactoring*********         
-//        retval &= new ProtocolQuestionnaireAuditRuleBase().processRunAuditBusinessRules((ProtocolDocumentBase) document);
-        
         return retval;
     }
     
@@ -250,14 +232,6 @@ public abstract class ProtocolDocumentRuleBase<CD extends CommitteeDecision<? ex
     
     protected abstract KraDocumentEventBaseExtension getSaveProtocolPersonnelEventHook(ProtocolDocumentBase document);
 
-// TODO *********uncomment the code below in increments as needed during refactoring*********         
-//    
-//    
-//    private boolean processProtocolSpecialReviewBusinessRules(ProtocolDocumentBase document) {
-//        List<ProtocolSpecialReviewBase> specialReviews = document.getProtocol().getSpecialReviews();
-//        return processRules(new SaveSpecialReviewEvent<ProtocolSpecialReviewBase>(SAVE_SPECIAL_REVIEW_FIELD, document, specialReviews, false));
-//    }
-
     public boolean processAddProtocolReferenceBusinessRules(AddProtocolReferenceEventBase addProtocolReferenceEvent) {
         return getNewProtocolReferenceRuleInstanceHook().processAddProtocolReferenceBusinessRules(addProtocolReferenceEvent);        
     }
@@ -290,29 +264,6 @@ public abstract class ProtocolDocumentRuleBase<CD extends CommitteeDecision<? ex
       return new ProtocolPermissionsRule().processAddPermissionsUserBusinessRules(document, users, newUser);
   }  
     
-// TODO *********commented the code below during IACUC refactoring*********    
-//    /**
-//     * @see org.kuali.kra.common.permissions.rule.PermissionsRule#processAddPermissionsUserBusinessRules(org.kuali.core.document.Document, java.util.List, org.kuali.kra.common.permissions.bo.PermissionsUser)
-//     */
-//    public boolean processAddPermissionsUserBusinessRules(Document document, List<User> users, PermissionsUser newUser) {
-//        return new ProtocolPermissionsRule().processAddPermissionsUserBusinessRules(document, users, newUser);
-//    }
-//
-//    /**
-//     * @see org.kuali.kra.common.permissions.rule.PermissionsRule#processDeletePermissionsUserBusinessRules(org.kuali.core.document.Document, java.util.List, int)
-//     */
-//    public boolean processDeletePermissionsUserBusinessRules(Document document, List<User> users, int index) {
-//        return new ProtocolPermissionsRule().processDeletePermissionsUserBusinessRules(document, users, index);     
-//    }
-//
-//    /**
-//     * @see org.kuali.kra.common.permissions.rule.PermissionsRule#processEditPermissionsUserRolesBusinessRules(org.kuali.core.document.Document, java.util.List, org.kuali.kra.common.permissions.bo.PermissionsUserEditRoles)
-//     */
-//    public boolean processEditPermissionsUserRolesBusinessRules(Document document, List<User> users,
-//            PermissionsUserEditRoles editRoles) {
-//        return new ProtocolPermissionsRule().processEditPermissionsUserRolesBusinessRules(document, users, editRoles);
-//    }
-
     public boolean processAddProtocolAttachmentPersonnelRules(AddProtocolAttachmentPersonnelEvent addProtocolAttachmentPersonnelEvent) {
         return getProtocolAttachmentPersonnelRuleInstanceHook().processAddProtocolAttachmentPersonnelRules(addProtocolAttachmentPersonnelEvent);
     }
@@ -367,25 +318,6 @@ public abstract class ProtocolDocumentRuleBase<CD extends CommitteeDecision<? ex
 
     protected abstract ExecuteProtocolSubmitActionRule newProtocolSubmitActionRuleInstanceHook();
 
-// TODO *********commented the code below during IACUC refactoring*********     
-//    /**
-//     * @see org.kuali.kra.irb.actions.assigncmtsched.ExecuteProtocolAssignCmtSchedRule#processAssignToCommitteeSchedule(org.kuali.kra.irb.ProtocolDocumentBase, org.kuali.kra.irb.actions.assigncmtsched.ProtocolAssignCmtSchedBean)
-//     */
-//    public boolean processAssignToCommitteeSchedule(ProtocolDocumentBase document, ProtocolAssignCmtSchedBean actionBean) {
-//        return new ProtocolAssignCmtSchedRule().processAssignToCommitteeSchedule(document, actionBean);
-//    }
-//
-//    /**
-//     * @see org.kuali.kra.irb.actions.assignreviewers.ExecuteProtocolAssignReviewersRule#processAssignReviewers(org.kuali.kra.irb.ProtocolDocumentBase, org.kuali.kra.irb.actions.assignreviewers.ProtocolAssignReviewersBean)
-//     */
-//    public boolean processAssignReviewers(ProtocolDocumentBase document, ProtocolAssignReviewersBean actionBean) {
-//        return new ProtocolAssignReviewersRule().processAssignReviewers(document, actionBean);
-//    }
-//    
-//    public boolean processAdminCorrectionRule(ProtocolDocumentBase document, AdminCorrectionBean actionBean) {
-//        return new ProtocolAdminCorrectionRuleBase().processAdminCorrectionRule(document, actionBean);
-//    }
-    
     /**
      * @see org.kuali.kra.irb.actions.decision.ExecuteCommitteeDecisionRule#proccessCommitteeDecisionRule(org.kuali.kra.irb.ProtocolDocumentBase, org.kuali.kra.irb.actions.decision.CommitteeDecision)
      */
@@ -395,11 +327,6 @@ public abstract class ProtocolDocumentRuleBase<CD extends CommitteeDecision<? ex
 
     protected abstract CommitteeDecisionRuleBase<CD> newCommitteeDecisionRuleInstanceHook();
 
-// TODO *********commented the code below during IACUC refactoring*********     
-//    public boolean processModifySubmissionRule(ProtocolDocumentBase document, ProtocolModifySubmissionBean actionBean) {
-//        return new ProtocolModifySubmissionRule().processModifySubmissionRule(document, actionBean);
-//    }
-//    
     /**
      * 
      * @see org.kuali.kra.irb.actions.decision.ExecuteCommitteeDecisionAbstainerRule#proccessCommitteeDecisionAbstainerRule(org.kuali.kra.irb.ProtocolDocumentBase, org.kuali.kra.irb.actions.decision.CommitteeDecision)
@@ -425,12 +352,4 @@ public abstract class ProtocolDocumentRuleBase<CD extends CommitteeDecision<? ex
     private UnitService getUnitService() {
         return KraServiceLocator.getService(UnitService.class);
     }
-
-
-// TODO *********commented the code below during IACUC refactoring*********     
-//    public boolean processReviewNotRequiredRule(ProtocolDocumentBase document, ProtocolReviewNotRequiredBean actionBean) {
-//        return new ProtocolReviewNotRequiredRuleBase().processReviewNotRequiredRule(document, actionBean);
-//    }
-    
-    
 }

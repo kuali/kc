@@ -23,13 +23,7 @@ public abstract class AddProtocolAttachmentProtocolRuleImplBase implements AddPr
 
     protected ProtocolAttachmentBaseRuleHelper baseHelper;
     protected ProtocolAttachmentProtocolRuleHelperBase protocolHelper;
-// TODO *********commented the code below during IACUC refactoring*********     
-//    private final ProtocolAttachmentBaseRuleHelper baseHelper
-//        = new ProtocolAttachmentBaseRuleHelper(NoteAndAttachmentPrefix.NEW_ATTACHMENT_PROTOCOL.getPrefixName());
-//    
-//    private final ProtocolAttachmentProtocolRuleHelperBase protocolHelper
-//    = new ProtocolAttachmentProtocolRuleHelperBase(NoteAndAttachmentPrefix.NEW_ATTACHMENT_PROTOCOL.getPrefixName());
-    
+
     /** {@inheritDoc} */
     public boolean processAddProtocolAttachmentProtocolRules(AddProtocolAttachmentProtocolEvent event) {      
         
