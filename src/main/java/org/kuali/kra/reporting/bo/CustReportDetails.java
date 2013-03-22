@@ -38,12 +38,6 @@ public class CustReportDetails extends KraPersistableBusinessObjectBase implemen
     
     private String name;
     
-    private String permissionName;
-    
-    private String id;
-    
-//    private PermissionBo permissionBo;
-    
     private String fileName;
     
     private String contentType;
@@ -143,67 +137,8 @@ public class CustReportDetails extends KraPersistableBusinessObjectBase implemen
      * @param name The name to set.
      */
     public void setName(String name) {
-        PermissionBo permission= null;
-        if(name != null){
-            permission = KraServiceLocator.getService(BusinessObjectService.class).findBySinglePrimaryKey(PermissionBo.class, name);
-            if(permission != null){
-                this.name = permission.getName();
-            } 
-        }
-        else {
             this.name = name;
-        }
-
     }
-
-
-    /**
-     * Gets the permissionName attribute. 
-     * @return Returns the permissionName.
-     */
-    public String getPermissionName() {
-        return getName();
-    }
-
-    /**
-     * Sets the permissionName attribute value.
-     * @param permissionName The permissionName to set.
-     */
-    public void setPermissionName(String permissionName) {
-        this.permissionName = permissionName;
-    }
-
-    /**
-     * Gets the id attribute. 
-     * @return Returns the id.
-     */
-    public String getId() {
-        return id;
-    }
-
-    /**
-     * Sets the id attribute value.
-     * @param id The id to set.
-     */
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    /**
-     * Gets the permissionBo attribute. 
-     * @return Returns the permissionBo.
-     */
-//    public PermissionBo getPermissionBo() {
-//        return permissionBo;
-//    }
-//
-//    /**
-//     * Sets the permissionBo attribute value.
-//     * @param permissionBo The permissionBo to set.
-//     */
-//    public void setPermissionBo(PermissionBo permissionBo) {
-//        this.permissionBo = permissionBo;
-//    }
 
     /**
      * Gets the fileName attribute. 

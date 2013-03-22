@@ -24,9 +24,6 @@
 				<ref bean="CustReportDetails-reportTypeCode" />
 				<ref bean="CustReportDetails-custReportType.reportTypeCode" />
 				<ref bean="CustReportDetails-name" /> 
-				<ref bean="CustReportDetails-permissionName" />
-				<ref bean="CustReportDetails-permissionBo.id" />
-				<ref bean="CustReportDetails-permissionBo.name" />
 				<ref bean="CustReportDetails-templateFile" />
 			</list>
 		</property>
@@ -81,7 +78,7 @@
 		<property name="shortLabel" value="Report Label" />
 		<property name="maxLength" value="50" />
 		<property name="validationPattern">
-			<bean parent="AlphaNumericValidationPattern" />
+			<bean parent="AlphaNumericValidationPattern" p:allowWhitespace="true"/>
 		</property>
 		<property name="required" value="false" />
 		<property name="control">
@@ -150,7 +147,7 @@
 		<property name="shortLabel" value="name" />
 		<property name="maxLength" value="30" />
 		<property name="validationPattern">
-			<bean parent="NumericValidationPattern" />
+			<bean parent="AlphaNumericValidationPattern" p:allowWhitespace="true"/>
 		</property>
 		<property name="required" value="false" />
 		<property name="control">
@@ -159,38 +156,6 @@
 		<property name="summary" value="name" />
 		<property name="description" value="name" />
 	</bean> 
-
-	<bean id="CustReportDetails-permissionName" parent="CustReportDetails-permissionName-parentBean" />
-	<bean id="CustReportDetails-permissionName-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="name" value="permissionName" />
-		<property name="forceUppercase" value="false" />
-		<property name="label" value="permissionName" />
-		<property name="shortLabel" value="permissionName" />
-		<property name="maxLength" value="30" />
-		<property name="required" value="false" />
-		<property name="control">
-			<bean parent="HiddenControlDefinition" p:size="10" />
-		</property>
-		<property name="summary" value="Report Id" />
-		<property name="description" value="Report Id" />
-	</bean>
-	
-	<bean id="CustReportDetails-permissionBo.id" parent="CustReportDetails-permissionBo.id-parentBean" />
-	<bean id="CustReportDetails-permissionBo.id-parentBean" abstract="true" parent="PermissionBo-id"
-		p:name="permissionBo.id" p:label="ID" p:shortLabel="ID">
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="40" />
-		</property>
-	</bean>
-
-	<bean id="CustReportDetails-permissionBo.name" parent="CustReportDetails-permissionBo.name-parentBean" />
-	<bean id="CustReportDetails-permissionBo.name-parentBean" abstract="true" parent="PermissionBo-name"
-		p:name="permissionBo.name" p:label="Permission Name" p:shortLabel="Permission Name">
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="40" />
-		</property>
-	</bean>
 
 	<bean id="FileControlDefinition"
 		class="org.kuali.rice.kns.datadictionary.control.FileControlDefinition"
@@ -243,7 +208,6 @@
 	<bean id="CustReportDetails-lookupDefinition-parentBean" abstract="true"
 		parent="LookupDefinition">
 		<property name="title" value="Custom Report Details Lookup" />
-		 <property name="lookupableID" value="CustReportLookupable" />
 		<property name="menubar"
 			value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
 		<property name="defaultSort">
@@ -270,7 +234,7 @@
 					p:forceInquiry="false" />
 				<bean p:attributeName="reportTypeCode" parent="FieldDefinition"
 					p:forceInquiry="true" />
-				 <bean p:attributeName="permissionName" parent="FieldDefinition"
+				 <bean p:attributeName="name" parent="FieldDefinition"
 					/> 
 			</list>
 		</property>
