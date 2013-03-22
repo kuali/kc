@@ -21,6 +21,7 @@ import java.util.Comparator;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.CustomAttributeDocValue;
+import org.kuali.kra.common.notification.bo.KcNotification;
 import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -1416,6 +1417,11 @@ public class Protocol extends ProtocolBase {
                 protocolAction.setComments(type + "-" + index + ": " + protocolAction.getComments());
             } else {
                 protocolAction.setComments(type + "-" + index + ": ");
+            }
+            // reset persistence state for copied notifications so they break ties with old document
+            for (KcNotification notification: protocolAction.getProtocolNotifications()) {
+                notification.setDocumentNumber(getProtocolDocument().getDocumentNumber());
+                notification.setNotificationId(null);
             }
             this.getProtocolActions().add(protocolAction);
         }
