@@ -36,15 +36,18 @@ import org.kuali.kra.common.committee.print.ScheduleTemplatePrintBase;
 import org.kuali.kra.common.committee.rule.event.CommitteeActionPrintCommitteeDocumentEvent;
 import org.kuali.kra.common.committee.service.CommonCommitteeNotificationService;
 import org.kuali.kra.common.committee.print.service.CommitteePrintingServiceBase;
+import org.kuali.kra.iacuc.committee.meeting.IacucCommScheduleMinuteDoc;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.meeting.CommScheduleMinuteDoc;
 import org.kuali.kra.printing.Printable;
 import org.kuali.kra.printing.print.AbstractPrint;
 import org.kuali.kra.printing.util.PrintingUtils;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondence;
 import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
@@ -287,16 +290,35 @@ public abstract class MeetingActionsActionBase extends MeetingActionBase {
      */
     public ActionForward viewMinute(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        
-        final int selection = this.getSelectedLine(request);
+
+        int selection = this.getSelectedLine(request);
+
         MeetingHelperBase meetingHelper = ((MeetingFormBase) form).getMeetingHelper();
         PrintableAttachment source = new PrintableAttachment();
-        source.setContent(meetingHelper.getMinuteDocs().get(selection).getPdfStore());
+        String scheduleId = request.getParameter("scheduleId");
+        if (scheduleId != null) {
+            String selectedLine = request.getParameter("line");
+            selection = Integer.parseInt(selectedLine);
+            Long schedule_Id = Long.parseLong(scheduleId);
+            List<CommScheduleMinuteDoc> commScheduleMinutes = getMinuteDoc(schedule_Id);
+            source.setContent(commScheduleMinutes.get(selection).getPdfStore());
+        } else {
+            source.setContent(meetingHelper.getMinuteDocs().get(selection).getPdfStore());
+        }
         source.setContentType(Constants.PDF_REPORT_CONTENT_TYPE);
         source.setFileName("MeetingMinute" + Constants.PDF_FILE_EXTENSION);
         PrintingUtils.streamToResponse(source, response);
         
         return null;
+    }
+    /*
+     * This method is get the meeting minute documents of the selected committee schedule
+     */
+    private List<CommScheduleMinuteDoc> getMinuteDoc(Long scheduleId) {
+        Map<String, Long> fieldValues = new HashMap<String, Long>();
+        fieldValues.put("scheduleIdFk", scheduleId);
+        return (List<CommScheduleMinuteDoc>)KraServiceLocator.getService( BusinessObjectService.class).findMatchingOrderBy(CommScheduleMinuteDoc.class, fieldValues, "createTimestamp", true);
+        
     }
     
     /**
