@@ -60,6 +60,7 @@
         <form-bean name="IacucProtocolOnlineReviewForm" type="org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReviewForm"/> 
         <form-bean name="IacucProtocolCorrespondenceTemplateForm" type="org.kuali.kra.iacuc.correspondence.IacucProtocolCorrespondenceTemplateForm" />
 		<form-bean name="IacucResearchAreasForm" type="org.kuali.kra.iacuc.IacucResearchAreasForm" />
+		<form-bean name="IsrSsrReportGenerationForm" type="org.kuali.kra.subawardReporting.web.struts.form.IsrSsrReportGenerationForm" />
     </form-beans>
 
 <!-- Rice content Start -->
@@ -132,6 +133,10 @@
             <forward name="basic" path="/WEB-INF/jsp/reporting/reportGeneration.jsp" />
         </action>
         
+        
+        <action path="/isrSsrReporting" name="IsrSsrReportGenerationForm" type="org.kuali.kra.subawardReporting.web.struts.action.IsrSsrReportGenerationAction" scope="request">
+            <forward name="basic" path="/WEB-INF/jsp/subawardReporting/isrSsrReporting.jsp" />
+        </action>
         
       <!--  KRA Proposal Development Mapping -->
       <action path="/proposalDevelopment*" name="ProposalDevelopmentForm" input="/WEB-INF/jsp/proposaldevelopment/ProposalDevelopment{1}.jsp" type="org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopment{1}Action"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
