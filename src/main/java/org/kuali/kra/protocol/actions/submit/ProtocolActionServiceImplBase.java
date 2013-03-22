@@ -41,43 +41,8 @@ import org.kuali.rice.krad.util.GlobalVariables;
  * post-update will update protocol status or submission status.
  */
 public abstract class ProtocolActionServiceImplBase implements ProtocolActionService {
-
     
-// TODO *********commented the code below during IACUC refactoring*********     
-//    private static final String PERMISSIONS_LEADUNIT_FILE = "org/kuali/kra/irb/drools/rules/permissionForLeadUnitRules.drl";
-//
-//    private static final String PERMISSIONS_SUBMIT_FILE = "org/kuali/kra/irb/drools/rules/permissionToSubmitRules.drl";
-//
-//    private static final String PERMISSIONS_COMMITTEEMEMBERS_FILE = "org/kuali/kra/irb/drools/rules/permissionToCommitteeMemberRules.drl";
-//
-//    private static final String PERMISSIONS_SPECIAL_FILE = "org/kuali/kra/irb/drools/rules/permissionForSpecialRules.drl";
-//
-//    private static final String PERFORMACTION_FILE = "org/kuali/kra/irb/drools/rules/canPerformProtocolActionRules.drl";
-//
-//    private static final String UPDATE_FILE = "org/kuali/kra/irb/drools/rules/updateProtocolRules.drl";
-//    
-//    private static final String UNDO_ACTION_FILE = "org/kuali/kra/irb/drools/rules/undoProtocolUpdateRules.drl";
-//    
-//    private static final String FOLLOWUP_FILE = "org/kuali/kra/irb/drools/rules/isProtocolActionOpenForFollowupRules.drl";
-//
-//    protected static final int PERMISSIONS_LEADUNIT_RULE = 0;
-//
-//    protected static final int PERMISSIONS_SUBMIT_RULE = 1;
-//
-//    protected static final int PERMISSIONS_COMMITTEEMEMBERS_RULE = 2;
-//
-//    protected static final int PERMISSIONS_SPECIAL_RULE = 3;
-//
-//    protected static final int PERFORMACTION_RULE = 4;
-//
-//    protected static final int UPDATE_RULE = 5;
-//    
-//    protected static final int UNDO_UPDATE_RULE = 6;
-   
     protected static final String MODIFY_ANY_PROTOCOL = "Modify Any ProtocolBase";
-
-// TODO *********commented the code below during IACUC refactoring*********     
-//    private static final String PERFORM_IRB_ACTIONS_ON_PROTO = "Perform IRB Actions on a ProtocolBase";
 
     protected static final String DEFAULT_ORGANIZATION_UNIT = "000001";
 
@@ -86,9 +51,6 @@ public abstract class ProtocolActionServiceImplBase implements ProtocolActionSer
     protected static final String RENEW = "R";
 
     protected static final String NONE = "NONE";
- 
-// TODO *********commented the code below during IACUC refactoring*********     
-//    private static final String KC_PROTOCOL = "KC-PROTOCOL";
 
     protected BusinessObjectService businessObjectService;
 
@@ -102,11 +64,6 @@ public abstract class ProtocolActionServiceImplBase implements ProtocolActionSer
 
     protected DroolsRuleHandler canPerformRuleHandler;
     
-// TODO *********commented the code below during IACUC refactoring********* 
-//    protected String[] actn = { "101", "102", "103", "104", "105", "106", "108", "114", "115", "116", "200", "201", "202", "203",  
-//                              "204", "205", "206", "207", "208", "209", "210", "211", "212", "300", "301", "302", "303", "304", 
-//                              "305", "306" };
-
     protected List<String> actions = new ArrayList<String>();
     protected List<DroolsRuleHandler> rulesList;
 
@@ -150,31 +107,6 @@ public abstract class ProtocolActionServiceImplBase implements ProtocolActionSer
         return canPerformAction(actionTypeCode, protocol) || protocol.isFollowupAction(actionTypeCode);
     }
 
-// TODO *********commented the code below during IACUC refactoring*********     
-//    /**
-//     * This method is to check if user is authorized to perform action of 'actionTypeCode'
-//     */
-//    protected boolean isAuthorizedtoPerform(String actionTypeCode, ProtocolBase protocol) {
-//        boolean flag = false;
-//        ActionRightMapping rightMapper = new ActionRightMapping();
-//
-//        flag = hasPermissionLeadUnit(actionTypeCode, protocol, rightMapper);
-//
-//        if (!flag) {
-//            flag = hasPermissionToSubmit(actionTypeCode, protocol, rightMapper);
-//        }
-//
-//        if (!flag) {
-//            flag = hasPermissionAsCommitteeMember(actionTypeCode, protocol, rightMapper);
-//        }
-//
-//        if (!flag) {
-//            flag = hasPermissionSpecialCase(actionTypeCode, DEFAULT_ORGANIZATION_UNIT, rightMapper);
-//        }
-//
-//        return flag;
-//    }
-
     /**
      * @see org.kuali.kra.protocol.actions.submit.ProtocolActionService#getActionsAllowed(org.kuali.kra.protocol.ProtocolBase)
      */
@@ -192,31 +124,8 @@ public abstract class ProtocolActionServiceImplBase implements ProtocolActionSer
     
     protected abstract boolean hasPermissionLeadUnit(String actionTypeCode, ProtocolBase protocol, ActionRightMapping rightMapper);
     
-// TODO *********commented the code below during IACUC refactoring*********     
-//    /*
-//     * This method is to check if user has permission in lead unit
-//     */
-//    protected boolean hasPermissionLeadUnit(String actionTypeCode, ProtocolBase protocol, ActionRightMapping rightMapper) {
-//        rightMapper.setActionTypeCode(actionTypeCode);
-//        rulesList.get(PERMISSIONS_LEADUNIT_RULE).executeRules(rightMapper);
-//        return rightMapper.isAllowed() ? unitAuthorizationService.hasPermission(getUserIdentifier(), protocol.getLeadUnitNumber(),
-//                KC_PROTOCOL, MODIFY_ANY_PROTOCOL) : false;
-//    }
-
-    
     protected abstract boolean hasPermissionToSubmit(String actionTypeCode, ProtocolBase protocol, ActionRightMapping rightMapper);
     
-// TODO *********commented the code below during IACUC refactoring*********     
-//    /**
-//     * This method is to check if user has permission to submit
-//     */
-//    protected boolean hasPermissionToSubmit(String actionTypeCode, ProtocolBase protocol, ActionRightMapping rightMapper) {
-//        rightMapper.setActionTypeCode(actionTypeCode);
-//        rulesList.get(PERMISSIONS_SUBMIT_RULE).executeRules(rightMapper);
-//        return rightMapper.isAllowed() ? kraAuthorizationService.hasPermission(getUserIdentifier(), protocol, rightMapper
-//                .getRightId()) : false;
-//    } 
-
     private List<String> getPersonnelIds(ProtocolBase protcol) {
         List<String> PersonnelIds = new ArrayList<String>();
        
@@ -238,29 +147,6 @@ public abstract class ProtocolActionServiceImplBase implements ProtocolActionSer
         return getPersonnelIds(protocol).contains(person.getPrincipalId());        
     }
    
-// TODO *********commented the code below during IACUC refactoring*********    
-//    /**
-//     * This method is to check if user has permission in committee home unit
-//     */
-//    protected boolean hasPermissionAsCommitteeMember(String actionTypeCode, ProtocolBase protocol, ActionRightMapping rightMapper) {
-//        rightMapper.setActionTypeCode(actionTypeCode);
-//        rightMapper.setCommitteeId(protocol.getProtocolSubmission().getCommitteeId());
-//        rightMapper.setScheduleId(protocol.getProtocolSubmission().getScheduleId());
-//        rulesList.get(PERMISSIONS_COMMITTEEMEMBERS_RULE).executeRules(rightMapper);
-//        return rightMapper.isAllowed() ? unitAuthorizationService.hasPermission(getUserIdentifier(), protocol.getLeadUnitNumber(),
-//                KC_PROTOCOL, PERFORM_IRB_ACTIONS_ON_PROTO) : false;
-//    }
-//
-//    /**
-//     * This method is to check if user has permission for special cases.
-//     */
-//    protected boolean hasPermissionSpecialCase(String actionTypeCode, String unit, ActionRightMapping rightMapper) {
-//        rightMapper.setActionTypeCode(actionTypeCode);
-//        rulesList.get(PERMISSIONS_SPECIAL_RULE).executeRules(rightMapper);
-//        return rightMapper.isAllowed() ? unitAuthorizationService.hasPermission(getUserIdentifier(), unit,
-//                KC_PROTOCOL, PERFORM_IRB_ACTIONS_ON_PROTO) : false;
-//    }
-
     protected String getUserIdentifier() {
         return GlobalVariables.getUserSession().getPrincipalId(); 
     }
@@ -309,11 +195,7 @@ public abstract class ProtocolActionServiceImplBase implements ProtocolActionSer
             protocol.getProtocolSubmission().getProtocolSubmissionType().getSubmissionTypeCode(), protocol.getProtocolStatusCode(),
             specialCondition);
         
-// TODO ********************** added or modified during IRB backfit merge BEGIN ************************         
-        // this line was added during IRB backfit merge with the assumption that this refreshing will be needed for IACUC as well
         protocol.refreshReferenceObject("protocolSubmission");
-// TODO ********************** added or modified during IRB backfit merge END ************************ 
-        
         protocolAction.setProtocol(protocol);
         protocolAction.setProtocolSubmission(protocol.getProtocolSubmission());
         protocolAction.setProtocolAction(protocolActionBo);
@@ -327,49 +209,7 @@ public abstract class ProtocolActionServiceImplBase implements ProtocolActionSer
     protected abstract int getUpdateRuleIndexHook();
     
     
-    public abstract  void resetProtocolStatus(ProtocolActionBase protocolActionBo, ProtocolBase protocol);
-    
-// TODO *********commented the code below during IACUC refactoring*********     
-//    /**
-//     * 
-//     * @see org.kuali.kra.protocol.actions.submit.ProtocolActionService#resetProtocolStatus(org.kuali.kra.protocol.actions.ProtocolActionBase, org.kuali.kra.protocol.ProtocolBase)
-//     */
-//    public void resetProtocolStatus(ProtocolActionBase protocolActionBo, ProtocolBase protocol) {
-//        ProtocolUndoActionMapping protocolAction = new ProtocolUndoActionMapping(protocolActionBo.getProtocolActionTypeCode(), 
-//                    protocolActionBo.getSubmissionTypeCode(), protocol.getProtocolStatusCode());
-//        
-//        protocolAction.setProtocol(protocol);
-//        protocolAction.setProtocolSubmission(protocol.getProtocolSubmission());
-//        protocolAction.setProtocolAction(protocolActionBo);
-//        rulesList.get(UNDO_UPDATE_RULE).executeRules(protocolAction);
-//        if (protocolAction.isProtocolSubmissionToBeDeleted()) {
-//            Map<String, String> fieldValues = new HashMap<String, String>();
-//            fieldValues.put("submissionIdFk", protocolActionBo.getProtocolSubmission().getSubmissionId().toString());
-//            fieldValues.put("protocolNumber", protocol.getProtocolNumber());
-//            businessObjectService.deleteMatching(ProtocolSubmissionDocBase.class, fieldValues);
-//            removeQuestionnaireAnswer(protocolActionBo, protocol);
-//            protocol.getProtocolSubmissions().remove(protocolActionBo.getProtocolSubmission()); 
-//            protocol.setProtocolSubmission(null); 
-//        }
-//    }
-//    
-//    /*
-//     * This is to remove the questionnaire answered for request submission
-//     */
-//    private void removeQuestionnaireAnswer(ProtocolActionBase protocolActionBo, ProtocolBase protocol) {
-//        // 'bos.deletematching' will not work because it is not deleting 'answers'
-//        Map<String, String> fieldValues = new HashMap<String, String>();
-//        fieldValues.put("moduleItemCode", CoeusModule.IRB_MODULE_CODE);
-//        fieldValues.put("moduleItemKey", protocol.getProtocolNumber());
-//        fieldValues.put("moduleSubItemCode", CoeusSubModule.PROTOCOL_SUBMISSION);
-//        fieldValues.put("moduleSubItemKey", protocolActionBo.getProtocolSubmission().getSubmissionNumber().toString());
-//        List<AnswerHeader> answerHeaders = (List<AnswerHeader>)businessObjectService.findMatching(AnswerHeader.class, fieldValues);
-//        if (!answerHeaders.isEmpty()) {
-//            businessObjectService.delete(answerHeaders);
-//        }
-//    }
-    
-    
+    public abstract  void resetProtocolStatus(ProtocolActionBase protocolActionBo, ProtocolBase protocol);    
 
     /**
      * {@inheritDoc}
@@ -378,8 +218,6 @@ public abstract class ProtocolActionServiceImplBase implements ProtocolActionSer
     public boolean isActionOpenForFollowup(String protocolActionTypeCode, ProtocolBase protocol) {
         return followupActionService.isActionOpenForFollowup(protocolActionTypeCode, protocol);
     }
-    
-    
     
     /**
      * Compile rules if rulehandler is not set.

@@ -96,20 +96,6 @@ public abstract class ActionHelperBase implements Serializable {
     protected static final String NAMESPACE = "KC-UNT";
     protected transient QuestionnaireAnswerService questionnaireAnswerService;
 
-// TODO *********commented the code below during IACUC refactoring*********     
-//    private static final List<String> ACTION_TYPE_SUBMISSION_DOC;  
-//    static {
-//        final List<String> codes = new ArrayList<String>();     
-//        codes.add(ProtocolActionType.NOTIFY_IRB);
-//        codes.add(ProtocolActionType.REQUEST_TO_CLOSE);
-//        codes.add(ProtocolActionType.REQUEST_FOR_DATA_ANALYSIS_ONLY);
-//        codes.add(ProtocolActionType.REQUEST_FOR_SUSPENSION);
-//        codes.add(ProtocolActionType.REQUEST_TO_REOPEN_ENROLLMENT);
-//        codes.add(ProtocolActionType.REQUEST_FOR_TERMINATION);
-//        codes.add(ProtocolActionType.REQUEST_TO_CLOSE_ENROLLMENT);
-//        ACTION_TYPE_SUBMISSION_DOC = codes;
-//    }
-
     /**
      * Each Helper must contain a reference to its document form
      * so that it can access the document.
@@ -128,9 +114,6 @@ public abstract class ActionHelperBase implements Serializable {
     protected boolean canModifyAmendmentSectionsUnavailable = false;
     protected boolean canCreateRenewal = false;
     protected boolean canCreateRenewalUnavailable = false;
-//TODO: Demote this to IRB
-//    protected boolean canNotifyIrb = false;
-//    protected boolean canNotifyIrbUnavailable = false;
     protected boolean canNotifyCommittee = false;
     protected boolean canNotifyCommitteeUnavailable = false;
     protected boolean canWithdraw = false;
@@ -139,15 +122,6 @@ public abstract class ActionHelperBase implements Serializable {
     protected boolean canRequestCloseUnavailable = false;
     protected boolean canRequestSuspension = false;
     protected boolean canRequestSuspensionUnavailable = false;
-//TODO: Demote this to IRB
-//    protected boolean canRequestCloseEnrollment = false;
-//    protected boolean canRequestCloseEnrollmentUnavailable = false;
-//    protected boolean canRequestReOpenEnrollment = false;
-//    protected boolean canRequestReOpenEnrollmentUnavailable = false;
-
-//TODO: Demote this to IRB
-//    protected boolean canRequestDataAnalysis = false;
-//    protected boolean canRequestDataAnalysisUnavailable = false;
     protected boolean canRequestTerminate = false;
     protected boolean canRequestTerminateUnavailable = false;
     protected boolean canDeleteProtocolAmendRenew = false;
@@ -161,13 +135,8 @@ public abstract class ActionHelperBase implements Serializable {
     protected boolean canAssignReviewers = false;
     protected boolean canAssignReviewersCmtSel = false;
     protected boolean canAssignReviewersUnavailable = false;
-//TODO: Demote this to IRB
-//    protected boolean canGrantExemption = false;
-//    protected boolean canGrantExemptionUnavailable = false;
     protected boolean canApproveFull = false;
     protected boolean canApproveFullUnavailable = false;
-
-//    protected boolean canApproveExpeditedUnavailable = false;
     protected boolean canApproveResponse = false;
     protected boolean canApproveResponseUnavailable = false;
     protected boolean canDisapprove = false;
@@ -176,27 +145,14 @@ public abstract class ActionHelperBase implements Serializable {
     protected boolean canReturnForSMRUnavailable = false;
     protected boolean canReturnForSRR = false;
     protected boolean canReturnForSRRUnavailable = false;
-//    protected boolean canReopenEnrollment = false;
-//    protected boolean canReopenEnrollmentUnavailable = false;
-//    protected boolean canCloseEnrollment = false;
-//    protected boolean canCloseEnrollmentUnavailable = false;
     protected boolean canSuspend = false;
     protected boolean canSuspendUnavailable = false;
-//TODO: Demote this to IRB
-//    protected boolean canSuspendByDsmb = false;
-//    protected boolean canSuspendByDsmbUnavailable = false;
     protected boolean canClose = false;
     protected boolean canCloseUnavailable = false;
     protected boolean canExpire = false;
     protected boolean canExpireUnavailable = false;
     protected boolean canTerminate = false;
     protected boolean canTerminateUnavailable = false;
-//    protected boolean canPermitDataAnalysis = false;
-//    protected boolean canPermitDataAnalysisUnavailable = false;
-    
-// TODO ********************** commented out during IRB backfit ************************PUSHED DOWN TO IRB SUBCLASS    
-//    protected boolean canEnterRiskLevel = false;
-    
     protected boolean canMakeAdminCorrection = false;
     protected boolean canMakeAdminCorrectionUnavailable = false;
     protected boolean canRecordCommitteeDecision = false;
@@ -205,14 +161,6 @@ public abstract class ActionHelperBase implements Serializable {
     protected boolean canUndoLastActionUnavailable = false;
     protected boolean canModifyProtocolSubmission = false;
     protected boolean canModifyProtocolSubmissionUnavailable = false;
-//TODO: Demote this to IRB
-//    protected boolean canIrbAcknowledgement = false;
-//    protected boolean canIrbAcknowledgementUnavailable = false;
-
-//    protected boolean canDefer = false;
-//    protected boolean canDeferUnavailable = false;
-//    protected boolean canReviewNotRequired = false;
-//    protected boolean canReviewNotRequiredUnavailable = false;
     protected boolean canManageReviewComments = false;
     protected boolean canManageReviewCommentsUnavailable = false;
     protected boolean canApproveOther = false;
@@ -226,11 +174,6 @@ public abstract class ActionHelperBase implements Serializable {
     protected boolean canViewOnlineReviewerComments;
     
     protected boolean canAddCloseReviewerComments;
-
-//TODO: Demote this to IRB
-//    protected boolean canAddCloseEnrollmentReviewerComments;
-//    protected boolean canAddDataAnalysisReviewerComments;
-//    protected boolean canAddReopenEnrollmentReviewerComments;
 
     protected boolean canAddSuspendReviewerComments;
     protected boolean canAddTerminateReviewerComments;    
@@ -252,25 +195,13 @@ public abstract class ActionHelperBase implements Serializable {
     protected ProtocolRequestBean protocolCloseRequestBean;
     protected ProtocolRequestBean protocolSuspendRequestBean;
     
-// TODO ********************** commented out during IRB backfit ************************ PUSHED DOWN TO IRB SUBCLASS    
-//    protected ProtocolRequestBean protocolCloseEnrollmentRequestBean;
-//    protected ProtocolRequestBean protocolReOpenEnrollmentRequestBean;
-//    protected ProtocolRequestBean protocolDataAnalysisRequestBean;
-    
     protected ProtocolRequestBean protocolTerminateRequestBean;
     protected ProtocolNotifyCommitteeBean protocolNotifyCommitteeBean;
     protected ProtocolAmendmentBean protocolAmendmentBean;
     protected ProtocolAmendmentBean protocolRenewAmendmentBean;
     protected ProtocolDeleteBean protocolDeleteBean;
     protected ProtocolAssignToAgendaBean assignToAgendaBean;   
-//    protected ProtocolAssignReviewersBean protocolAssignReviewersBean;
-//    protected ProtocolGrantExemptionBean protocolGrantExemptionBean;
     private ProtocolApproveBean protocolFullApprovalBean;
-    
-    
-// TODO ********************** commented out during IRB backfit ************************ PUSHED DOWN TO IRB SUBCLASS    
-//    protected ProtocolApproveBean protocolExpeditedApprovalBean;
-//    protected ProtocolApproveBean protocolResponseApprovalBean;
     
     private ProtocolApproveBean protocolAdminApprovalBean;
     private ProtocolAdministrativelyWithdrawBean protocolAdminWithdrawBean;
@@ -280,33 +211,15 @@ public abstract class ActionHelperBase implements Serializable {
     protected ProtocolGenericActionBean protocolSMRBean;
     protected ProtocolGenericActionBean protocolSRRBean;
     
-//    TODO ********************** commented out during IRB backfit ************************ PUSHED DOWN TO IRB SUBCLASS
-//    protected ProtocolGenericActionBean protocolReopenEnrollmentBean;
-//    protected ProtocolGenericActionBean protocolCloseEnrollmentBean;
-    
-    protected ProtocolGenericActionBean protocolSuspendBean;
-    
-//    TODO ********************** commented out during IRB backfit ************************ PUSHED DOWN TO IRB SUBCLASS    
-//    protected ProtocolGenericActionBean protocolSuspendByDsmbBean;
-    
+    protected ProtocolGenericActionBean protocolSuspendBean;    
     protected ProtocolGenericActionBean protocolCloseBean;
     protected ProtocolGenericActionBean protocolExpireBean;
     protected ProtocolGenericActionBean protocolTerminateBean;
-    
-// TODO ********************** commented out during IRB backfit ************************ PUSHED DOWN TO IRB SUBCLASS    
-//    protected ProtocolGenericActionBean protocolPermitDataAnalysisBean;
-//    protected ProtocolGenericActionBean protocolIrbAcknowledgementBean;
-    
     
     protected ProtocolGenericActionBean protocolReturnToPIBean;
     protected AdminCorrectionBean protocolAdminCorrectionBean;
     protected UndoLastActionBean undoLastActionBean;
     protected CommitteeDecision<?> committeeDecision;
-  
-// TODO ********************** commented out during IRB backfit ************************ PUSHED DOWN TO IRB    
-//    protected ProtocolGenericActionBean protocolDeferBean;
-    
-//    protected ProtocolReviewNotRequiredBean protocolReviewNotRequiredBean;
     protected ProtocolGenericActionBean protocolManageReviewCommentsBean;
     protected ProtocolGenericActionBean protocolAbandonBean;
 
@@ -317,17 +230,9 @@ public abstract class ActionHelperBase implements Serializable {
     protected transient TaskAuthorizationService taskAuthorizationService;
     protected transient ProtocolAmendRenewService protocolAmendRenewService;
     protected transient ProtocolVersionService protocolVersionService;
-//    protected transient ProtocolSubmitActionService protocolSubmitActionService;
-//    protected transient ProtocolActionService protocolActionService;
     protected boolean hasAmendments;
     protected boolean hasRenewals;
     protected boolean submissionHasNoAmendmentDetails;
-//    /*
-//     * Identifies the protocol "document" to print.
-//     */
-//    protected String printTag;
-//    
-//
     protected Boolean summaryReport;
     protected Boolean fullReport;
     protected Boolean historyReport;
@@ -351,21 +256,12 @@ public abstract class ActionHelperBase implements Serializable {
     protected int currentSubmissionNumber;
     protected String renewalSummary;
 
-// TODO ********************** commented out during IRB backfit ************************PUSHED DOWN TO IRB SUBCLASS    
-//    // indicator for whether there is submission questionnaire answer exist.
-//    // ie, questionnaire has been saved for a request/notify irb action
-//    protected boolean submissionQuestionnaireExist;
-//    // check if there is submission questionnaire to answer
-//    protected boolean toAnswerSubmissionQuestionnaire;
-
     protected transient CommitteeScheduleServiceBase committeeScheduleService;
     protected transient KcPersonService kcPersonService;
     protected transient KraAuthorizationService kraAuthorizationService;
     protected transient BusinessObjectService businessObjectService;
     protected transient FollowupActionService<?> followupActionService;
-    
-//    protected Map<String, ProtocolRequestBean>  actionTypeRequestBeanMap = new HashMap<String, ProtocolRequestBean>();
-    
+        
     protected Map<String,Boolean> followupActionMap = new HashMap<String,Boolean>();
     
     protected Map<String, ProtocolActionBean> actionBeanTaskMap = new HashMap<String, ProtocolActionBean>();    
@@ -409,38 +305,14 @@ public abstract class ActionHelperBase implements Serializable {
 
         createAmendmentBean();
         
-        //protocolAmendmentBean = getNewProtocolAmendmentBeanInstanceHook(this);
-        //protocolRenewAmendmentBean = getNewProtocolAmendmentBeanInstanceHook(this);
-        
-        
-// TODO *********commented the code below during IACUC refactoring*********            
-//        protocolNotifyIrbBean = new ProtocolNotifyIrbBean(this);
-//        // setting the attachment here so new files can be attached to newActionAttachment
-//        protocolNotifyIrbBean.setNewActionAttachment(new ProtocolActionAttachment());
-        
         protocolNotifyCommitteeBean = getNewProtocolNotifyCommitteeBeanInstanceHook(this);
 
                 
         protocolDeleteBean = getNewProtocolDeleteBeanInstanceHook(this);      
         assignToAgendaBean = getNewProtocolAssignToAgendaBeanInstanceHook(this);         
-        assignToAgendaBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
-        
-// TODO *********commented the code below during IACUC refactoring*********         
-//        assignCmtSchedBean = new ProtocolAssignCmtSchedBean(this);
-//        assignCmtSchedBean.init();
-//        protocolAssignReviewersBean = new ProtocolAssignReviewersBean(this);
-//        protocolGrantExemptionBean = new ProtocolGrantExemptionBean(this);
-//        protocolGrantExemptionBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
-        
-        
+        assignToAgendaBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());        
         protocolFullApprovalBean = buildProtocolApproveBean(getFullApprovalProtocolActionTypeHook(), Constants.PROTOCOL_FULL_APPROVAL_ACTION_PROPERTY_KEY);
 
-// TODO *********commented the code below during IACUC refactoring*********         
-//        protocolExpeditedApprovalBean = buildProtocolApproveBean(ProtocolActionType.EXPEDITE_APPROVAL, 
-//                Constants.PROTOCOL_EXPEDITED_APPROVAL_ACTION_PROPERTY_KEY);
-//        protocolResponseApprovalBean = buildProtocolApproveBean(ProtocolActionType.RESPONSE_APPROVAL, 
-//                Constants.PROTOCOL_RESPONSE_APPROVAL_ACTION_PROPERTY_KEY);
-            
         protocolAdminApprovalBean = buildProtocolApproveBean(getAdminApprovalProtocolActionTypeHook(), Constants.PROTOCOL_ADMIN_APPROVAL_ACTION_PROPERTY_KEY);
         protocolAdminWithdrawBean = getNewProtocolAdminWithdrawBeanInstanceHook(this);
         protocolAdminIncompleteBean = getNewProtocolAdminIncompleteBeanInstanceHook(this);
@@ -449,25 +321,10 @@ public abstract class ActionHelperBase implements Serializable {
         protocolSMRBean = buildProtocolGenericActionBean(getSMRProtocolActionTypeHook(), Constants.PROTOCOL_SMR_ACTION_PROPERTY_KEY);  
         protocolSRRBean = buildProtocolGenericActionBean(getSRRProtocolActionTypeHook(), Constants.PROTOCOL_SRR_ACTION_PROPERTY_KEY);
         protocolReturnToPIBean = buildProtocolGenericActionBean(getReturnToPIActionTypeHook(), Constants.PROTOCOL_RETURN_TO_PI_PROPERTY_KEY);
-        
-// TODO *********commented the code below during IACUC refactoring*********         
-//        protocolReopenEnrollmentBean = buildProtocolGenericActionBean(ProtocolActionType.REOPEN_ENROLLMENT, 
-//                Constants.PROTOCOL_REOPEN_ENROLLMENT_ACTION_PROPERTY_KEY);
-//        protocolCloseEnrollmentBean = buildProtocolGenericActionBean(ProtocolActionType.CLOSED_FOR_ENROLLMENT, 
-//                Constants.PROTOCOL_CLOSE_ENROLLMENT_ACTION_PROPERTY_KEY);
         protocolSuspendBean = buildProtocolGenericActionBean(getSuspendKeyHook(), Constants.PROTOCOL_SUSPEND_ACTION_PROPERTY_KEY);
-//        protocolSuspendByDsmbBean = buildProtocolGenericActionBean(ProtocolActionType.SUSPENDED_BY_DSMB, 
-//                Constants.PROTOCOL_SUSPEND_BY_DSMB_ACTION_PROPERTY_KEY);
-//        protocolCloseBean = buildProtocolGenericActionBean(ProtocolActionType.CLOSED_ADMINISTRATIVELY_CLOSED, 
-//                Constants.PROTOCOL_CLOSE_ACTION_PROPERTY_KEY);
         protocolExpireBean = buildProtocolGenericActionBean(getExpireKeyHook(), Constants.PROTOCOL_EXPIRE_ACTION_PROPERTY_KEY);
-        protocolTerminateBean = buildProtocolGenericActionBean(getTerminateKeyHook(), Constants.PROTOCOL_TERMINATE_ACTION_PROPERTY_KEY);
-//        protocolPermitDataAnalysisBean = buildProtocolGenericActionBean(ProtocolActionType.DATA_ANALYSIS_ONLY, 
-//                Constants.PROTOCOL_PERMIT_DATA_ANALYSIS_ACTION_PROPERTY_KEY);
-//        protocolIrbAcknowledgementBean = buildProtocolGenericActionBean(ProtocolActionType.IRB_ACKNOWLEDGEMENT, 
-//                Constants.PROTOCOL_IRB_ACKNOWLEDGEMENT_ACTION_PROPERTY_KEY);
-        
-        protocolAbandonBean = buildProtocolGenericActionBean(getAbandonActionTypeHook(), getAbandonPropertyKeyHook());//buildProtocolAbandonBeanHook();
+        protocolTerminateBean = buildProtocolGenericActionBean(getTerminateKeyHook(), Constants.PROTOCOL_TERMINATE_ACTION_PROPERTY_KEY);        
+        protocolAbandonBean = buildProtocolGenericActionBean(getAbandonActionTypeHook(), getAbandonPropertyKeyHook());
         
           
         protocolAdminCorrectionBean = createAdminCorrectionBean();
@@ -477,13 +334,6 @@ public abstract class ActionHelperBase implements Serializable {
         committeeDecision.init();
         committeeDecision.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
 
-////        committeeDecision.getReviewCommentsBean().setHideReviewerName(getReviewCommentsService().setHideReviewerName(committeeDecision.getReviewCommentsBean().getReviewComments())); 
-//        protocolModifySubmissionBean = new ProtocolModifySubmissionBean(this);
-//        protocolDeferBean = buildProtocolGenericActionBean(ProtocolActionType.DEFERRED, 
-//                Constants.PROTOCOL_DEFER_ACTION_PROPERTY_KEY);
-//        protocolReviewNotRequiredBean = new ProtocolReviewNotRequiredBean(this);
-        
-        
         protocolManageReviewCommentsBean = buildProtocolGenericActionBean(getProtocolActionTypeCodeForManageReviewCommentsHook(), 
                 Constants.PROTOCOL_MANAGE_REVIEW_COMMENTS_KEY);
         getProtocol().getProtocolSubmission().refreshReferenceObject("reviewAttachments");
@@ -492,29 +342,7 @@ public abstract class ActionHelperBase implements Serializable {
             protocolManageReviewCommentsBean.getReviewAttachmentsBean().setHideReviewerName(getReviewerCommentsService().setHideReviewerName(protocolManageReviewCommentsBean.getReviewAttachmentsBean().getReviewAttachments()));
         }
         
-        
-//        protocolCloseRequestBean = new ProtocolRequestBean(this, ProtocolActionType.REQUEST_TO_CLOSE, 
-//                ProtocolSubmissionType.REQUEST_TO_CLOSE, "protocolCloseRequestBean");
-//        protocolSuspendRequestBean = new ProtocolRequestBean(this, ProtocolActionType.REQUEST_FOR_SUSPENSION, 
-//                ProtocolSubmissionType.REQUEST_FOR_SUSPENSION, "protocolSuspendRequestBean");
-//        protocolCloseEnrollmentRequestBean = new ProtocolRequestBean(this, ProtocolActionType.REQUEST_TO_CLOSE_ENROLLMENT, 
-//                ProtocolSubmissionType.REQUEST_TO_CLOSE_ENROLLMENT, "protocolCloseEnrollmentRequestBean");
-//        protocolReOpenEnrollmentRequestBean = new ProtocolRequestBean(this, ProtocolActionType.REQUEST_TO_REOPEN_ENROLLMENT,
-//                ProtocolSubmissionType.REQUEST_TO_REOPEN_ENROLLMENT, "protocolReOpenEnrollmentRequestBean");
-//        protocolDataAnalysisRequestBean = new ProtocolRequestBean(this, ProtocolActionType.REQUEST_FOR_DATA_ANALYSIS_ONLY,
-//                ProtocolSubmissionType.REQUEST_FOR_DATA_ANALYSIS_ONLY, "protocolDataAnalysisRequestBean");
-//        protocolTerminateRequestBean = new ProtocolRequestBean(this, ProtocolActionType.REQUEST_FOR_TERMINATION,
-//                ProtocolSubmissionType.REQUEST_FOR_TERMINATION, "protocolTerminateRequestBean");
-//        
-        
-        initActionBeanTaskMap();
-        
-// TODO *********commented the code below during IACUC refactoring*********         
-//        
-//        protocolSummaryPrintOptions = new ProtocolSummaryPrintOptions();
-//        toAnswerSubmissionQuestionnaire = hasSubmissionQuestionnaire();
-//        protocolPrintOption = new ProtocolSummaryPrintOptions();
-//        initPrintQuestionnaire();
+        initActionBeanTaskMap();        
     }
     
     
@@ -565,68 +393,20 @@ public abstract class ActionHelperBase implements Serializable {
         actionBeanTaskMap.put(TaskName.CREATE_PROTOCOL_AMMENDMENT, protocolAmendmentBean);
         actionBeanTaskMap.put(TaskName.CREATE_PROTOCOL_RENEWAL, protocolRenewAmendmentBean);
         
-        actionBeanTaskMap.put(TaskName.APPROVE_PROTOCOL, protocolFullApprovalBean);
-        
-// TODO *********commented the code below during IACUC refactoring*********         
-//        actionBeanTaskMap.put(TaskName.ASSIGN_TO_COMMITTEE_SCHEDULE, assignCmtSchedBean);
-//        actionBeanTaskMap.put(TaskName.ASSIGN_REVIEWERS, protocolAssignReviewersBean);
-        
+        actionBeanTaskMap.put(TaskName.APPROVE_PROTOCOL, protocolFullApprovalBean);        
         actionBeanTaskMap.put(TaskName.ASSIGN_TO_AGENDA, assignToAgendaBean);
-        
-// TODO *********commented the code below during IACUC refactoring*********         
-//        actionBeanTaskMap.put(TaskName.CLOSE_PROTOCOL, protocolCloseBean);
-//        actionBeanTaskMap.put(TaskName.CLOSE_ENROLLMENT_PROTOCOL, protocolCloseEnrollmentBean);
-//        actionBeanTaskMap.put(TaskName.PROTOCOL_REQUEST_CLOSE_ENROLLMENT, protocolCloseEnrollmentRequestBean);
-//        actionBeanTaskMap.put(TaskName.PROTOCOL_REQUEST_CLOSE, protocolCloseRequestBean);
-        
         actionBeanTaskMap.put(TaskName.RECORD_COMMITTEE_DECISION, committeeDecision);
-        
-// TODO *********commented the code below during IACUC refactoring*********         
-//        actionBeanTaskMap.put(TaskName.PERMIT_DATA_ANALYSIS, protocolPermitDataAnalysisBean);
-//        actionBeanTaskMap.put(TaskName.PROTOCOL_REQUEST_DATA_ANALYSIS, protocolDataAnalysisRequestBean);
-        
         actionBeanTaskMap.put(TaskName.PROTOCOL_AMEND_RENEW_DELETE, protocolDeleteBean);
- 
-// TODO *********commented the code below during IACUC refactoring*********         
-//        actionBeanTaskMap.put(TaskName.DEFER_PROTOCOL, protocolDeferBean);
-        
-        
         actionBeanTaskMap.put(TaskName.DISAPPROVE_PROTOCOL, protocolDisapproveBean);
-        
-// TODO *********commented the code below during IACUC refactoring*********         
-//        actionBeanTaskMap.put(TaskName.EXPEDITE_APPROVAL, protocolExpeditedApprovalBean);
         actionBeanTaskMap.put(TaskName.EXPIRE_PROTOCOL, protocolExpireBean);
-//        actionBeanTaskMap.put(TaskName.GRANT_EXEMPTION, protocolGrantExemptionBean);
-        
         actionBeanTaskMap.put(TaskName.PROTOCOL_MANAGE_REVIEW_COMMENTS, protocolManageReviewCommentsBean);
-
-// TODO *********commented the code below during IACUC refactoring*********         
-//        actionBeanTaskMap.put(TaskName.MODIFY_PROTOCOL_SUBMISSION, protocolModifySubmissionBean);
-//        actionBeanTaskMap.put(TaskName.NOTIFY_IRB, protocolNotifyIrbBean);
-//        actionBeanTaskMap.put(TaskName.NOTIFY_COMMITTEE, protocolNotifyCommitteeBean);
-//        actionBeanTaskMap.put(TaskName.REOPEN_PROTOCOL, protocolReopenEnrollmentBean);
-//        actionBeanTaskMap.put(TaskName.PROTOCOL_REQUEST_REOPEN_ENROLLMENT, protocolReOpenEnrollmentRequestBean);
-//        actionBeanTaskMap.put(TaskName.RESPONSE_APPROVAL, protocolResponseApprovalBean);
-//        actionBeanTaskMap.put(TaskName.PROTOCOL_REQUEST_CLOSE, protocolCloseRequestBean);
-//        actionBeanTaskMap.put(TaskName.PROTOCOL_REQUEST_CLOSE_ENROLLMENT, protocolCloseEnrollmentRequestBean);
-//        actionBeanTaskMap.put(TaskName.PROTOCOL_REQUEST_REOPEN_ENROLLMENT, protocolReOpenEnrollmentRequestBean);
-//        actionBeanTaskMap.put(TaskName.PROTOCOL_REQUEST_DATA_ANALYSIS, protocolDataAnalysisRequestBean);
-//        actionBeanTaskMap.put(TaskName.PROTOCOL_REQUEST_SUSPENSION, protocolSuspendRequestBean);
-//        actionBeanTaskMap.put(TaskName.PROTOCOL_REQUEST_TERMINATE, protocolTerminateRequestBean);
-//        actionBeanTaskMap.put(TaskName.PROTOCOL_REVIEW_NOT_REQUIRED, protocolReviewNotRequiredBean);
-        
         actionBeanTaskMap.put(TaskName.RETURN_FOR_SMR, protocolSMRBean);
         actionBeanTaskMap.put(TaskName.RETURN_FOR_SRR, protocolSRRBean);
         actionBeanTaskMap.put(TaskName.RETURN_TO_PI_PROTOCOL, protocolReturnToPIBean);
          
         actionBeanTaskMap.put(TaskName.SUBMIT_PROTOCOL, protocolSubmitAction);
-   
-// TODO *********commented the code below during IACUC refactoring*********         
         actionBeanTaskMap.put(TaskName.SUSPEND_PROTOCOL, protocolSuspendBean);
-//        actionBeanTaskMap.put(TaskName.SUSPEND_PROTOCOL_BY_DSMB, protocolSuspendByDsmbBean);
-//        actionBeanTaskMap.put(TaskName.PROTOCOL_REQUEST_SUSPENSION, protocolSuspendRequestBean);
         actionBeanTaskMap.put(TaskName.TERMINATE_PROTOCOL, protocolTerminateBean);
-//        actionBeanTaskMap.put(TaskName.PROTOCOL_REQUEST_TERMINATE, protocolTerminateRequestBean);
         actionBeanTaskMap.put(TaskName.PROTOCOL_UNDO_LAST_ACTION, undoLastActionBean);
         
         actionBeanTaskMap.put(TaskName.PROTOCOL_WITHDRAW, protocolWithdrawBean);
@@ -650,29 +430,6 @@ public abstract class ActionHelperBase implements Serializable {
         protected abstract ProtocolGenericActionBean buildProtocolGenericActionBean(String actionTypeCode, String errorPropertyKey);
         
         
-// TODO *********commented the code below during IACUC refactoring********* 
-// This method demoted to subclasses
-//    /**
-//     *     
-//     * This method builds a ProtocolGenericActionBean.  A number of different beans
-//     * in this object are of type ProtocolGenericActionBean, and all need to add
-//     * reviewer comments.  This encapsulates that.
-//     * @return a ProtocolGenericActionBean, and pre-populated with reviewer comments if any exist
-//     */
-//    protected ProtocolGenericActionBean buildProtocolGenericActionBean(String actionTypeCode, String errorPropertyKey) {
-//        ProtocolGenericActionBean bean = new ProtocolGenericActionBean(this, errorPropertyKey);
-//        
-//        bean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
-//        bean.getReviewCommentsBean().setHideReviewerName(getReviewCommentsService().setHideReviewerName(bean.getReviewCommentsBean().getReviewComments()));            
-//        ProtocolActionBase protocolAction = findProtocolAction(actionTypeCode, getProtocol().getProtocolActions(), getProtocol().getProtocolSubmission());
-//        if (protocolAction != null) {
-//            bean.setComments(protocolAction.getComments());
-//            bean.setActionDate(new Date(protocolAction.getActionDate().getTime()));
-//        }
-//        
-//        return bean;
-//    }
-//    
         protected ReviewCommentsService getReviewCommentsService() {
             return KraServiceLocator.getService(getReviewCommentsServiceClassHook());
         }   
@@ -788,7 +545,6 @@ public abstract class ActionHelperBase implements Serializable {
      * @throws Exception 
      */
     protected ProtocolAmendmentBean configureAmendmentBean(ProtocolAmendmentBean amendmentBean) throws Exception {
-        //ProtocolAmendmentBean amendmentBean = new ProtocolAmendmentBean(this);
         List<String> moduleTypeCodes;
 
         if (StringUtils.isNotEmpty(getProtocol().getProtocolNumber()) && (getProtocol().isAmendment() || getProtocol().isRenewal())) {
@@ -817,7 +573,6 @@ public abstract class ActionHelperBase implements Serializable {
      */
     private AdminCorrectionBean createAdminCorrectionBean() throws Exception {
         AdminCorrectionBean adminCorrectionBean = getNewAdminCorrectionBeanInstanceHook(this); 
-        //new AdminCorrectionBean(this);
         List<String> moduleTypeCodes = getProtocolAmendRenewServiceHook().getAvailableModules(getProtocol().getProtocolNumber());
         
         for (String moduleTypeCode : moduleTypeCodes) {
@@ -831,93 +586,35 @@ public abstract class ActionHelperBase implements Serializable {
         protocolSubmitAction.prepareView();
         canSubmitProtocol = hasSubmitProtocolPermission();
         canSubmitProtocolUnavailable = hasSubmitProtocolUnavailablePermission();          
-        assignToAgendaBean.prepareView();
-        
-// TODO *********commented the code below during IACUC refactoring*********         
-//        assignCmtSchedBean.prepareView();
-//        protocolAssignReviewersBean.prepareView();
-//        submissionConstraint = getParameterValue(Constants.PARAMETER_IACUC_COMM_SELECTION_DURING_SUBMISSION);
-        
+        assignToAgendaBean.prepareView();        
         canCreateAmendment = hasCreateAmendmentPermission();
         canCreateAmendmentUnavailable = hasCreateAmendmentUnavailablePermission();
         canModifyAmendmentSections = hasModifyAmendmentSectionsPermission();
         canModifyAmendmentSectionsUnavailable = hasModifyAmendmentSectionsUnavailablePermission();
         canCreateRenewal = hasCreateRenewalPermission();
         canCreateRenewalUnavailable = hasCreateRenewalUnavailablePermission();
-//        canNotifyIrb = hasNotifyIrbPermission();
-//        canNotifyIrbUnavailable = hasNotifyIrbUnavailablePermission();
-//        canNotifyCommittee = hasNotifyCommitteePermission();
-//        canNotifyCommitteeUnavailable = hasNotifyCommitteeUnavailablePermission();
-        
         canWithdraw = hasWithdrawPermission();            
         canWithdrawUnavailable = hasWithdrawUnavailablePermission();
-        
-// TODO *********commented the code below during IACUC refactoring*********           
-//        canRequestClose = hasRequestClosePermission();
-//        canRequestCloseUnavailable = hasRequestCloseUnavailablePermission();
-//        canRequestSuspension = hasRequestSuspensionPermission();
-//        canRequestSuspensionUnavailable = hasRequestSuspensionUnavailablePermission();
-//        canRequestCloseEnrollment = hasRequestCloseEnrollmentPermission();
-//        canRequestCloseEnrollmentUnavailable = hasRequestCloseEnrollmentUnavailablePermission();
-//        canRequestReOpenEnrollment = hasRequestReOpenEnrollmentPermission();
-//        canRequestReOpenEnrollmentUnavailable = hasRequestReOpenEnrollmentUnavailablePermission();
-//        canRequestDataAnalysis = hasRequestDataAnalysisPermission();
-//        canRequestDataAnalysisUnavailable = hasRequestDataAnalysisUnavailablePermission();
-//        canRequestTerminate = hasRequestTerminatePermission();
-//        canRequestTerminateUnavailable = hasRequestTerminateUnavailablePermission();
-        
         canDeleteProtocolAmendRenew = hasDeleteProtocolAmendRenewPermission();
         canDeleteProtocolAmendRenewUnavailable = hasDeleteProtocolAmendRenewUnavailablePermission();
                
         canAssignToAgenda = hasAssignToAgendaPermission();
         canAssignToAgendaUnavailable = hasAssignToAgendaUnavailablePermission();
-        
-        
-// TODO *********commented the code below during IACUC refactoring*********         
-//        canAssignCmtSched = hasAssignCmtSchedPermission();
-//        canAssignCmtSchedUnavailable = hasAssignCmtSchedUnavailablePermission();
-//        canAssignReviewers = hasAssignReviewersPermission();
-//        canAssignReviewersCmtSel = hasAssignReviewersCmtSel();
-//        canAssignReviewersUnavailable = hasAssignReviewersUnavailablePermission();
-//        canGrantExemption = hasGrantExemptionPermission();
-//        canGrantExemptionUnavailable = hasGrantExemptionUnavailablePermission();
-        
         canApproveFull = hasFullApprovePermission();
         canApproveFullUnavailable = hasFullApproveUnavailablePermission();
-        
-// TODO *********commented the code below during IACUC refactoring*********         
-//        canApproveExpedited = hasExpeditedApprovalPermission();
-//        canApproveExpeditedUnavailable = hasExpeditedApprovalUnavailablePermission();
-//        canApproveResponse = hasResponseApprovalPermission();
-//        canApproveResponseUnavailable = hasResponseApprovalUnavailablePermission();
-        
-        
         canDisapprove = hasDisapprovePermission();
         canDisapproveUnavailable = hasDisapproveUnavailablePermission();
-        
-        
+                
         canReturnForSMR = hasReturnForSMRPermission();
         canReturnForSMRUnavailable = hasReturnForSMRUnavailablePermission();
         canReturnForSRR = hasReturnForSRRPermission();
         canReturnForSRRUnavailable = hasReturnForSRRUnavailablePermission();
-        
-// TODO *********commented the code below during IACUC refactoring*********         
-//        canReopenEnrollment = hasReopenEnrollmentPermission();
-//        canReopenEnrollmentUnavailable = hasReopenEnrollmentUnavailablePermission();
-//        canCloseEnrollment = hasCloseEnrollmentPermission();
-//        canCloseEnrollmentUnavailable = hasCloseEnrollmentUnavailablePermission();
         canSuspend = hasSuspendPermission();
         canSuspendUnavailable = hasSuspendUnavailablePermission();
-//        canSuspendByDsmb = hasSuspendByDsmbPermission();
-//        canSuspendByDsmbUnavailable = hasSuspendByDsmbUnavailablePermission();
-//        canClose = hasClosePermission();
-//        canCloseUnavailable = hasCloseUnavailablePermission();
         canExpire = hasExpirePermission();
         canExpireUnavailable = hasExpireUnavailablePermission();
         canTerminate = hasTerminatePermission();
         canTerminateUnavailable = hasTerminateUnavailablePermission();
-//        canPermitDataAnalysis = hasPermitDataAnalysisPermission();
-//        canPermitDataAnalysisUnavailable = hasPermitDataAnalysisUnavailablePermission();
 
         canMakeAdminCorrection = hasAdminCorrectionPermission();
         canMakeAdminCorrectionUnavailable = hasAdminCorrectionUnavailablePermission();
@@ -932,54 +629,23 @@ public abstract class ActionHelperBase implements Serializable {
  
         canRecordCommitteeDecision = hasRecordCommitteeDecisionPermission();
         canRecordCommitteeDecisionUnavailable = hasRecordCommitteeDecisionUnavailablePermission();
-        
-// TODO *********commented the code below during IACUC refactoring*********         
-//        canEnterRiskLevel = hasEnterRiskLevelPermission();
         canUndoLastAction = hasUndoLastActionPermission();
         canUndoLastActionUnavailable = hasUndoLastActionUnavailablePermission();
-//        canIrbAcknowledgement = hasIrbAcknowledgementPermission();
-//        canIrbAcknowledgementUnavailable = hasIrbAcknowledgementUnavailablePermission();
-//        canDefer = hasDeferPermission();
-//        canDeferUnavailable = hasDeferUnavailablePermission();
         canModifyProtocolSubmission = hasCanModifySubmissionPermission();
         canModifyProtocolSubmissionUnavailable = hasCanModifySubmissionUnavailablePermission();
-//        canReviewNotRequired = hasReviewNotRequiredPermission();
-//        canReviewNotRequiredUnavailable = hasReviewNotRequiredUnavailablePermission();
-        
         canManageReviewComments = hasManageReviewCommentsPermission();
         canManageReviewCommentsUnavailable = hasManageReviewCommentsUnavailablePermission();
-        
-// TODO *********commented the code below during IACUC refactoring*********         
-//        canApproveOther = hasApproveOtherPermission();
-//        canManageNotes = hasManageNotesPermission();
-//        canManageNotesUnavailable = hasManageNotesUnavailablePermission();
-        
         canAbandon = hasAbandonProtocolPermission();
         
         followupActionActions = getFollowupActionService().getFollowupsForProtocol(form.getProtocolDocument().getProtocol());
 
         
         canViewOnlineReviewers = hasCanViewOnlineReviewersPermission();
-        canViewOnlineReviewerComments = hasCanViewOnlineReviewerCommentsPermission();
-        
-//        
-//        canAddCloseReviewerComments = hasCloseRequestLastAction();
-//        canAddCloseEnrollmentReviewerComments = hasCloseEnrollmentRequestLastAction();
-//        canAddDataAnalysisReviewerComments = hasDataAnalysisRequestLastAction();
-//        canAddReopenEnrollmentReviewerComments = hasReopenEnrollmentRequestLastAction();
-        //canAddSuspendReviewerComments = hasSuspendRequestLastAction();
+        canViewOnlineReviewerComments = hasCanViewOnlineReviewerCommentsPermission();        
         canAddSuspendReviewerComments = hasSuspendPermission();
-        //canAddTerminateReviewerComments = hasTerminateRequestLastAction();
         canAddTerminateReviewerComments = hasTerminatePermission();
-//        hideReviewerName = checkToHideReviewName();
-//       
-//        initSummaryDetails();
-        
         initSubmissionDetails();
         
-// TODO *********commented the code below during IACUC refactoring*********         
-//        setAmendmentDetails();
-        //initFilterDatesView();
         initAmendmentBeans(false);
         initPrintQuestionnaire();
         
@@ -1028,7 +694,6 @@ public abstract class ActionHelperBase implements Serializable {
     protected abstract ProtocolTaskBase getExpireTaskInstanceHook(ProtocolBase protocol);
     
     protected boolean hasExpireUnavailablePermission() {
-        //return !hasExpirePermission();
         ProtocolTaskBase task = getExpireUnavailableTaskInstanceHook(getProtocol());
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
@@ -1076,37 +741,15 @@ public abstract class ActionHelperBase implements Serializable {
              
         assignToAgendaBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
         
-// TODO *********commented the code below during IACUC refactoring********* 
-//        protocolGrantExemptionBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
-//        protocolIrbAcknowledgementBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
-        
         protocolFullApprovalBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
-        
-// TODO *********commented the code below during IACUC refactoring*********         
-//        protocolExpeditedApprovalBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
-//        protocolResponseApprovalBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
         
         protocolDisapproveBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());         
         protocolSMRBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
         protocolSRRBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
-        
-// TODO *********commented the code below during IACUC refactoring*********         
-//        protocolReopenEnrollmentBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
-//        protocolCloseEnrollmentBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
         protocolSuspendBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
-//        protocolSuspendByDsmbBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
-//        protocolCloseBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
         protocolExpireBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
         protocolTerminateBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
-//        protocolPermitDataAnalysisBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
-        
-        committeeDecision.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
-        
-// TODO *********commented the code below during IACUC refactoring*********         
-////        committeeDecision.getReviewCommentsBean().setHideReviewerName(getReviewCommentsService().setHideReviewerName(committeeDecision.getReviewCommentsBean().getReviewComments()));            
-//        protocolDeferBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
-        
-// TODO *********commented the code below during IACUC refactoring********* 
+        committeeDecision.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());        
         protocolManageReviewCommentsBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
         getProtocol().getProtocolSubmission().refreshReferenceObject("reviewAttachments");
         protocolManageReviewCommentsBean.getReviewAttachmentsBean().setReviewAttachments(getProtocol().getProtocolSubmission().getReviewAttachments());
@@ -1142,32 +785,7 @@ public abstract class ActionHelperBase implements Serializable {
 
     protected abstract ProtocolVersionService getProtocolVersionService();
     
-//    protected ProtocolVersionService getProtocolVersionService() {
-//        if (this.protocolVersionService == null) {
-//            this.protocolVersionService = KraServiceLocator.getService(ProtocolVersionService.class);        
-//        }
-//        return this.protocolVersionService;
-//    }
-//    
-//    private ProtocolSubmitActionService getProtocolSubmitActionService() {
-//        if (protocolSubmitActionService == null) {
-//            protocolSubmitActionService = KraServiceLocator.getService(ProtocolSubmitActionService.class);
-//        }
-//        return protocolSubmitActionService;
-//    }
-//    
-//    private ProtocolActionService getProtocolActionService() {
-//        if (protocolActionService == null) {
-//            protocolActionService = KraServiceLocator.getService(ProtocolActionService.class);
-//        }
-//        return protocolActionService;
-//    }
-
-    protected String getParameterValue(String parameterName) {
-        
-// TODO *********commented the code below during IACUC refactoring*********         
-//        return this.getParameterService().getParameterValueAsString(ProtocolDocumentBase.class, parameterName);    
-        
+    protected String getParameterValue(String parameterName) {        
         return this.getParameterService().getParameterValueAsString(getProtocolDocumentBOClassHook(), parameterName);      
     }
     
@@ -1231,29 +849,7 @@ public abstract class ActionHelperBase implements Serializable {
 
     protected abstract ProtocolTaskBase getNewRenewalProtocolTaskInstanceHook(ProtocolBase protocol);
     protected abstract ProtocolTaskBase getNewRenewalProtocolUnavailableTaskInstanceHook(ProtocolBase protocol);
-    
-//    protected boolean hasNotifyIrbPermission() {
-//        ProtocolTaskBase task = new ProtocolTaskBase(TaskName.NOTIFY_IRB, getProtocol());
-//        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-//    }
-//    
-//    protected boolean hasNotifyIrbUnavailablePermission() {
-//        ProtocolTaskBase task = new ProtocolTaskBase(TaskName.NOTIFY_IRB_UNAVAILABLE, getProtocol());
-//        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-//    }
-//    
-//    protected boolean hasNotifyCommitteePermission() {
-//        ProtocolTaskBase task = new ProtocolTaskBase(TaskName.NOTIFY_COMMITTEE, getProtocol());
-//        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-//    }
-//    
-//    protected boolean hasNotifyCommitteeUnavailablePermission() {
-//        ProtocolTaskBase task = new ProtocolTaskBase(TaskName.NOTIFY_COMMITTEE_UNAVAILABLE, getProtocol());
-//        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-//    }
-//  
-    
-    
+        
     protected boolean hasWithdrawPermission() {
         ProtocolTaskBase task = getNewWithdrawProtocolTaskInstanceHook(getProtocol());
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
@@ -1268,69 +864,6 @@ public abstract class ActionHelperBase implements Serializable {
     }
     
     protected abstract ProtocolTaskBase getNewWithdrawProtocolUnavailableTaskInstanceHook(ProtocolBase protocol);
-    
-    
-// TODO *********commented the code below during IACUC refactoring********* 
-//    
-//    protected boolean hasRequestClosePermission() {
-//        ProtocolTaskBase task = new ProtocolTaskBase(TaskName.PROTOCOL_REQUEST_CLOSE, getProtocol());
-//        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-//    }
-//    
-//    protected boolean hasRequestCloseUnavailablePermission() {
-//        ProtocolTaskBase task = new ProtocolTaskBase(TaskName.PROTOCOL_REQUEST_CLOSE_UNAVAILABLE, getProtocol());
-//        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-//    }
-//    
-//    protected boolean hasRequestSuspensionPermission() {
-//        ProtocolTaskBase task = new ProtocolTaskBase(TaskName.PROTOCOL_REQUEST_SUSPENSION, getProtocol());
-//        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-//    }
-//    
-//    protected boolean hasRequestSuspensionUnavailablePermission() {
-//        ProtocolTaskBase task = new ProtocolTaskBase(TaskName.PROTOCOL_REQUEST_SUSPENSION_UNAVAILABLE, getProtocol());
-//        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-//    }
-//      protected boolean hasRequestCloseEnrollmentPermission() {
-//        ProtocolTaskBase task = new ProtocolTaskBase(TaskName.PROTOCOL_REQUEST_CLOSE_ENROLLMENT, getProtocol());
-//        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-//    }
-//    
-//    protected boolean hasRequestCloseEnrollmentUnavailablePermission() {
-//        ProtocolTaskBase task = new ProtocolTaskBase(TaskName.PROTOCOL_REQUEST_CLOSE_ENROLLMENT_UNAVAILABLE, getProtocol());
-//        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-//    }
-//    
-//    protected boolean hasRequestReOpenEnrollmentPermission() {
-//        ProtocolTaskBase task = new ProtocolTaskBase(TaskName.PROTOCOL_REQUEST_REOPEN_ENROLLMENT, getProtocol());
-//        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-//    }
-//    
-//    protected boolean hasRequestReOpenEnrollmentUnavailablePermission() {
-//        ProtocolTaskBase task = new ProtocolTaskBase(TaskName.PROTOCOL_REQUEST_REOPEN_ENROLLMENT_UNAVAILABLE, getProtocol());
-//        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-//    }
-//    
-//    protected boolean hasRequestDataAnalysisPermission() {
-//        ProtocolTaskBase task = new ProtocolTaskBase(TaskName.PROTOCOL_REQUEST_DATA_ANALYSIS, getProtocol());
-//        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-//    }
-//    
-//    protected boolean hasRequestDataAnalysisUnavailablePermission() {
-//        ProtocolTaskBase task = new ProtocolTaskBase(TaskName.PROTOCOL_REQUEST_DATA_ANALYSIS_UNAVAILABLE, getProtocol());
-//        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-//    }
-//    
-//    protected boolean hasRequestTerminatePermission() {
-//        ProtocolTaskBase task = new ProtocolTaskBase(TaskName.PROTOCOL_REQUEST_TERMINATE, getProtocol());
-//        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-//    }
-//    
-//    protected boolean hasRequestTerminateUnavailablePermission() {
-//        ProtocolTaskBase task = new ProtocolTaskBase(TaskName.PROTOCOL_REQUEST_TERMINATE_UNAVAILABLE, getProtocol());
-//        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-//    }
-//    
     
     protected boolean hasDeleteProtocolAmendRenewPermission() {
         ProtocolTaskBase task = createNewAmendRenewDeleteTaskInstanceHook(getProtocol());
@@ -1364,50 +897,6 @@ public abstract class ActionHelperBase implements Serializable {
     
     protected abstract ProtocolTaskBase createNewAssignToAgendaUnavailableTaskInstanceHook(ProtocolBase protocol);
     
-
-//    protected boolean hasAssignCmtSchedPermission() {
-//        ProtocolTaskBase task = new ProtocolTaskBase(TaskName.ASSIGN_TO_COMMITTEE_SCHEDULE, getProtocol());
-//        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-//    }
-//    
-//    public static boolean hasAssignCmtSchedPermission(String userId, String protocolNumber) {
-//        Map<String, String> fieldValues = new HashMap<String, String>();
-//        fieldValues.put("protocolNumber", protocolNumber);
-//        BusinessObjectService bos = KraServiceLocator.getService(BusinessObjectService.class);
-//        ProtocolBase protocol = ((List<ProtocolBase>) bos.findMatching(ProtocolBase.class, fieldValues)).get(0);
-//        ProtocolTaskBase task = new ProtocolTaskBase(TaskName.MODIFY_PROPOSAL, protocol);
-//        TaskAuthorizationService tas = KraServiceLocator.getService(TaskAuthorizationService.class);        
-//        return tas.isAuthorized(userId, task);
-//    }
-//    
-//    protected boolean hasAssignCmtSchedUnavailablePermission() {
-//        ProtocolTaskBase task = new ProtocolTaskBase(TaskName.ASSIGN_TO_COMMITTEE_SCHEDULE_UNAVAILABLE, getProtocol());
-//        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-//    }
-//    
-//    protected boolean hasAssignReviewersPermission() {
-//        ProtocolTaskBase task = new ProtocolTaskBase(TaskName.ASSIGN_REVIEWERS, getProtocol());
-//        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-//    }
-//    
-//    protected boolean hasAssignReviewersUnavailablePermission() {
-//        ProtocolTaskBase task = new ProtocolTaskBase(TaskName.ASSIGN_REVIEWERS_UNAVAILABLE, getProtocol());
-//        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-//    }
-//    
-//    protected boolean hasAssignReviewersCmtSel() {
-//        ProtocolTaskBase task = new ProtocolTaskBase(TaskName.ASSIGN_REVIEWERS_CMT_SEL, getProtocol());
-//        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-//    }
-//    
-//    protected boolean hasGrantExemptionPermission() {
-//        return hasPermission(TaskName.GRANT_EXEMPTION);
-//    }
-//    
-//    protected boolean hasGrantExemptionUnavailablePermission() {
-//        return hasPermission(TaskName.GRANT_EXEMPTION_UNAVAILABLE);
-//    }
-    
     protected boolean hasFullApprovePermission() {
         return hasPermission(TaskName.APPROVE_PROTOCOL);
     }
@@ -1415,23 +904,6 @@ public abstract class ActionHelperBase implements Serializable {
     protected boolean hasFullApproveUnavailablePermission() {
         return hasPermission(TaskName.APPROVE_PROTOCOL_UNAVAILABLE);
     }
-    
-//    protected boolean hasExpeditedApprovalPermission() {
-//        return hasPermission(TaskName.EXPEDITE_APPROVAL);
-//    }
-//    
-//    protected boolean hasExpeditedApprovalUnavailablePermission() {
-//        return hasPermission(TaskName.EXPEDITE_APPROVAL_UNAVAILABLE);
-//    }
-//    
-//    protected boolean hasResponseApprovalPermission() {
-//        return hasPermission(TaskName.RESPONSE_APPROVAL);
-//    }
-//    
-//    protected boolean hasResponseApprovalUnavailablePermission() {
-//        return hasPermission(TaskName.RESPONSE_APPROVAL_UNAVAILABLE);
-//    }
-    
     
     protected boolean hasDisapprovePermission() {
         return hasPermission(TaskName.DISAPPROVE_PROTOCOL);
@@ -1457,24 +929,6 @@ public abstract class ActionHelperBase implements Serializable {
         return hasPermission(TaskName.RETURN_FOR_SRR_UNAVAILABLE);
     }
 
-    
-// TODO *********commented the code below during IACUC refactoring*********         
-//    protected boolean hasReopenEnrollmentPermission() {
-//        return hasGenericPermission(GenericProtocolAuthorizer.REOPEN_PROTOCOL);
-//    }
-//    
-//    protected boolean hasReopenEnrollmentUnavailablePermission() {
-//        return hasGenericUnavailablePermission(GenericProtocolAuthorizer.REOPEN_PROTOCOL);
-//    }
-//    
-//    protected boolean hasCloseEnrollmentPermission() {
-//        return hasGenericPermission(GenericProtocolAuthorizer.CLOSE_ENROLLMENT_PROTOCOL);
-//    }
-//    
-//    protected boolean hasCloseEnrollmentUnavailablePermission() {
-//        return hasGenericUnavailablePermission(GenericProtocolAuthorizer.CLOSE_ENROLLMENT_PROTOCOL);
-//    }
-    
     protected boolean hasSuspendPermission() {
         ProtocolTaskBase task = getSuspendTaskInstanceHook(getProtocol());
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
@@ -1486,31 +940,7 @@ public abstract class ActionHelperBase implements Serializable {
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
     protected abstract ProtocolTaskBase getSuspendUnavailableTaskInstanceHook(ProtocolBase protocol);
-    
-//    protected boolean hasSuspendByDsmbPermission() {
-//        return hasGenericPermission(GenericProtocolAuthorizer.SUSPEND_PROTOCOL_BY_DSMB);
-//    }
-//    
-//    protected boolean hasSuspendByDsmbUnavailablePermission() {
-//        return hasGenericUnavailablePermission(GenericProtocolAuthorizer.SUSPEND_PROTOCOL_BY_DSMB);
-//    }
-//    
-//    protected boolean hasClosePermission() {
-//        return hasGenericPermission(GenericProtocolAuthorizer.CLOSE_PROTOCOL);
-//    }
-//    
-//    protected boolean hasCloseUnavailablePermission() {
-//        return hasGenericUnavailablePermission(GenericProtocolAuthorizer.CLOSE_PROTOCOL);
-//    }
-//    
-//    protected boolean hasExpirePermission() {
-//        return hasGenericPermission(GenericProtocolAuthorizer.EXPIRE_PROTOCOL);
-//    }
-//    
-//    protected boolean hasExpireUnavailablePermission() {
-//        return hasGenericUnavailablePermission(GenericProtocolAuthorizer.EXPIRE_PROTOCOL);
-//    }
-//    
+
     protected boolean hasTerminatePermission() {
         ProtocolTaskBase task = getTerminateTaskInstanceHook(getProtocol());
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
@@ -1522,15 +952,7 @@ public abstract class ActionHelperBase implements Serializable {
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
     protected abstract ProtocolTaskBase getTerminateUnavailableTaskInstanceHook(ProtocolBase protocol);
-    
-//    protected boolean hasPermitDataAnalysisPermission() {
-//        return hasGenericPermission(GenericProtocolAuthorizer.PERMIT_DATA_ANALYSIS);
-//    }
-//    
-//    protected boolean hasPermitDataAnalysisUnavailablePermission() {
-//        return hasGenericUnavailablePermission(GenericProtocolAuthorizer.PERMIT_DATA_ANALYSIS);
-//    }
-//    
+
     protected boolean hasAdminCorrectionPermission() {
         ProtocolTaskBase task = getAdminCorrectionProtocolTaskInstanceHook(getProtocol());
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
@@ -1559,19 +981,7 @@ public abstract class ActionHelperBase implements Serializable {
     protected boolean hasRecordCommitteeDecisionUnavailablePermission() {
         return hasPermission(TaskName.RECORD_COMMITTEE_DECISION_UNAVAILABLE);
     }
-    
-//    protected boolean hasEnterRiskLevelPermission() {
-//        return hasPermission(TaskName.ENTER_RISK_LEVEL);
-//    }
-//    
-//    protected boolean hasDeferPermission() {
-//        return hasPermission(TaskName.DEFER_PROTOCOL);
-//    }
-//    
-//    protected boolean hasDeferUnavailablePermission() {
-//        return hasPermission(TaskName.DEFER_PROTOCOL_UNAVAILABLE);
-//    }
-    
+        
     protected boolean hasManageReviewCommentsPermission() {
         return hasPermission(TaskName.PROTOCOL_MANAGE_REVIEW_COMMENTS); 
     }
@@ -1579,23 +989,6 @@ public abstract class ActionHelperBase implements Serializable {
     protected boolean hasManageReviewCommentsUnavailablePermission() {
         return hasPermission(TaskName.PROTOCOL_MANAGE_REVIEW_COMMENTS_UNAVAILABLE); 
     }
-    
-//    protected boolean hasApproveOtherPermission() {
-//        ProtocolTaskBase task = new ProtocolTaskBase(TaskName.PROTOCOL_APPROVE_OTHER, getProtocol());
-//        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-//    }
-//    
-//    protected boolean hasManageNotesPermission() {
-//        ProtocolTaskBase task = new ProtocolTaskBase(TaskName.PROTOCOL_MANAGE_NOTES, getProtocol());
-//        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-//    }
-//    
-//    protected boolean hasManageNotesUnavailablePermission() {
-//        ProtocolTaskBase task = new ProtocolTaskBase(TaskName.PROTOCOL_MANAGE_NOTES_UNAVAILABLE, getProtocol());
-//        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-//    }
-  
-    
     
     /*
      * check this 
@@ -1610,42 +1003,6 @@ public abstract class ActionHelperBase implements Serializable {
     
     protected abstract boolean hasPermission(String taskName);
   
-// TODO *********commented the code below during IACUC refactoring*********     
-//    protected boolean hasGenericPermission(String genericActionName) {
-//        ProtocolTaskBase task = new ProtocolTaskBase(TaskName.GENERIC_PROTOCOL_ACTION, getProtocol(), genericActionName);
-//        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-//    }
-//    
-//    protected boolean hasGenericUnavailablePermission(String genericActionName) {
-//        ProtocolTaskBase task = new ProtocolTaskBase(TaskName.GENERIC_PROTOCOL_ACTION_UNAVAILABLE, getProtocol(), genericActionName);
-//        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-//    }
-//    
-//    protected boolean hasIrbAcknowledgementPermission() {
-//        ProtocolTaskBase task = new ProtocolTaskBase(TaskName.IRB_ACKNOWLEDGEMENT, getProtocol());
-//        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-//    }
-//    
-//    protected boolean hasIrbAcknowledgementUnavailablePermission() {
-//        ProtocolTaskBase task = new ProtocolTaskBase(TaskName.IRB_ACKNOWLEDGEMENT_UNAVAILABLE, getProtocol());
-//        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-//    }
-    
-    
-//    protected boolean hasReviewNotRequiredPermission() {
-//        ProtocolTaskBase task = new ProtocolTaskBase(TaskName.PROTOCOL_REVIEW_NOT_REQUIRED, getProtocol());
-//        boolean retVal = getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-//        return retVal;
-//    }
-//    
-//    protected boolean hasReviewNotRequiredUnavailablePermission() {
-//        ProtocolTaskBase task = new ProtocolTaskBase(TaskName.PROTOCOL_REVIEW_NOT_REQUIRED_UNAVAILABLE, getProtocol());
-//        boolean retVal = getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-//        return retVal;
-//    }
-    
-   
-
     protected boolean hasFollowupAction(String actionCode) {
         for (ValidProtocolActionActionBase action : followupActionActions) {
             if (StringUtils.equals(action.getFollowupActionCode(),actionCode)) {
@@ -1663,32 +1020,6 @@ public abstract class ActionHelperBase implements Serializable {
     protected boolean hasCanViewOnlineReviewerCommentsPermission() {
         return getReviewerCommentsService().canViewOnlineReviewerComments(getUserIdentifier(), getSelectedSubmission());
     }
-
-    
-// TODO *********commented the code below during IACUC refactoring*********    
-//    protected boolean hasCloseRequestLastAction() {
-//        return ProtocolActionType.REQUEST_TO_CLOSE.equals(getLastPerformedAction().getProtocolActionTypeCode());
-//    }
-//    
-//    protected boolean hasCloseEnrollmentRequestLastAction() {
-//        return ProtocolActionType.REQUEST_TO_CLOSE_ENROLLMENT.equals(getLastPerformedAction().getProtocolActionTypeCode());
-//    }
-//    
-//    protected boolean hasDataAnalysisRequestLastAction() {
-//        return ProtocolActionType.REQUEST_FOR_DATA_ANALYSIS_ONLY.equals(getLastPerformedAction().getProtocolActionTypeCode());
-//    }
-//    
-//    protected boolean hasReopenEnrollmentRequestLastAction() {
-//        return ProtocolActionType.REQUEST_TO_REOPEN_ENROLLMENT.equals(getLastPerformedAction().getProtocolActionTypeCode());
-//    }
-//    
-//    protected boolean hasSuspendRequestLastAction() {
-//        return ProtocolActionType.REQUEST_FOR_SUSPENSION.equals(getLastPerformedAction().getProtocolActionTypeCode());
-//    }
-    
-//    protected boolean hasTerminateRequestLastAction() {
-//        return ProtocolActionType.REQUEST_FOR_TERMINATION.equals(getLastPerformedAction().getProtocolActionTypeCode());
-//    }
 
     protected TaskAuthorizationService getTaskAuthorizationService() {
         if (this.taskAuthorizationService == null) {
@@ -1740,19 +1071,6 @@ public abstract class ActionHelperBase implements Serializable {
         return protocolSuspendRequestBean;
     }
     
-// TODO *********commented the code below during IACUC refactoring*********   
-//    public ProtocolRequestBean getProtocolCloseEnrollmentRequestBean() {
-//        return protocolCloseEnrollmentRequestBean;
-//    }
-//
-//    public ProtocolRequestBean getProtocolReOpenEnrollmentRequestBean() {
-//        return protocolReOpenEnrollmentRequestBean;
-//    }
-//    
-//    public ProtocolRequestBean getProtocolDataAnalysisRequestBean() {
-//        return protocolDataAnalysisRequestBean;
-//    }
-    
     public ProtocolRequestBean getProtocolTerminateRequestBean(){
         return this.protocolTerminateRequestBean;
     }
@@ -1781,29 +1099,9 @@ public abstract class ActionHelperBase implements Serializable {
         return this.assignToAgendaBean;
     }
     
- // TODO *********commented the code below during IACUC refactoring*********         
-//    public ProtocolAssignReviewersBean getProtocolAssignReviewersBean() {
-//        return protocolAssignReviewersBean;
-//    }
-//    
-//                       
-//    public ProtocolGrantExemptionBean getProtocolGrantExemptionBean() {
-//        return protocolGrantExemptionBean;
-//    }
-
     public ProtocolApproveBean getProtocolFullApprovalBean() {
         return protocolFullApprovalBean;
     }
-    
-// TODO *********commented the code below during IACUC refactoring********* 
-//    public ProtocolApproveBean getProtocolExpeditedApprovalBean() {
-//        return protocolExpeditedApprovalBean;
-//    }
-//    
-//    public ProtocolApproveBean getProtocolResponseApprovalBean() {
-//        return protocolResponseApprovalBean;
-//    }
-    
     
     public ProtocolGenericActionBean getProtocolDisapproveBean() {
         return protocolDisapproveBean;
@@ -1816,24 +1114,10 @@ public abstract class ActionHelperBase implements Serializable {
     public ProtocolGenericActionBean getProtocolSRRBean() {
         return protocolSRRBean;
     }
- 
-// TODO *********commented the code below during IACUC refactoring*********     
-//    public ProtocolGenericActionBean getProtocolReopenEnrollmentBean() {
-//        return protocolReopenEnrollmentBean;
-//    }
-//    
-//    public ProtocolGenericActionBean getProtocolCloseEnrollmentBean() {
-//        return protocolCloseEnrollmentBean;
-//    }
-    
+
     public ProtocolGenericActionBean getProtocolSuspendBean() {
         return protocolSuspendBean;
     }
-    
-// TODO *********commented the code below during IACUC refactoring*********     
-//    public ProtocolGenericActionBean getProtocolSuspendByDsmbBean() {
-//        return protocolSuspendByDsmbBean;
-//    }
     
     public ProtocolGenericActionBean getProtocolCloseBean() {
         return protocolCloseBean;
@@ -1846,16 +1130,6 @@ public abstract class ActionHelperBase implements Serializable {
     public ProtocolGenericActionBean getProtocolTerminateBean() {
         return protocolTerminateBean;
     }
-    
-// TODO *********commented the code below during IACUC refactoring*********     
-//    public ProtocolGenericActionBean getProtocolPermitDataAnalysisBean() {
-//        return protocolPermitDataAnalysisBean;
-//    }
-    
-// TODO ********************** commented out during IRB backfit ************************THIS METHOD SHOULD BE PUSHED DOWN TO IACUC IF NEEDED    
-//    public ProtocolGenericActionBean getProtocolIacucAcknowledgementBean() {
-//        return protocolIrbAcknowledgementBean;
-//    }
     
     public AdminCorrectionBean getProtocolAdminCorrectionBean() {
         return protocolAdminCorrectionBean;
@@ -1911,15 +1185,6 @@ public abstract class ActionHelperBase implements Serializable {
         return canCreateRenewalUnavailable;
     }
 
-// TODO *********commented the code below during IACUC refactoring*********     
-//    public boolean getCanNotifyIrb() {
-//        return canNotifyIrb;
-//    }
-//    
-//    public boolean getCanNotifyIrbUnavailable() {
-//        return canNotifyIrbUnavailable;
-//    }
-    
     public boolean getCanNotifyCommittee() {
         return canNotifyCommittee;
     }
@@ -1936,15 +1201,6 @@ public abstract class ActionHelperBase implements Serializable {
         return canWithdrawUnavailable;
     }
     
-// TODO *********commented the code below during IACUC refactoring*********     
-//    public boolean getCanRequestClose() {
-//        return canRequestClose;
-//    }
-//    
-//    public boolean getCanRequestCloseUnavailable() {
-//        return canRequestCloseUnavailable;
-//    }
-    
     public boolean getCanRequestSuspension() {
         return canRequestSuspension;
     }
@@ -1952,32 +1208,7 @@ public abstract class ActionHelperBase implements Serializable {
     public boolean getCanRequestSuspensionUnavailable() {
         return canRequestSuspensionUnavailable;
     }
-    
-// TODO *********commented the code below during IACUC refactoring*********     
-//    public boolean getCanRequestCloseEnrollment() {
-//        return canRequestCloseEnrollment;
-//    }
-//    
-//    public boolean getCanRequestCloseEnrollmentUnavailable() {
-//        return canRequestCloseEnrollmentUnavailable;
-//    }
-//    
-//    public boolean getCanRequestReOpenEnrollment() {
-//        return canRequestReOpenEnrollment;
-//    }
-//    
-//    public boolean getCanRequestReOpenEnrollmentUnavailable() {
-//        return canRequestReOpenEnrollmentUnavailable;
-//    }
-//    
-//    public boolean getCanRequestDataAnalysis() {
-//        return canRequestDataAnalysis;
-//    }
-//    
-//    public boolean getCanRequestDataAnalysisUnavailable() {
-//        return canRequestDataAnalysisUnavailable;
-//    }
-    
+        
     public boolean getcanRequestTerminate(){
         return this.canRequestTerminate;
     }
@@ -2022,16 +1253,6 @@ public abstract class ActionHelperBase implements Serializable {
         return canAssignReviewersCmtSel;
     }
     
-    
-// TODO *********commented the code below during IACUC refactoring*********     
-//    public boolean getCanGrantExemption() {
-//        return canGrantExemption;
-//    }
-//    
-//    public boolean getCanGrantExemptionUnavailable() {
-//        return canGrantExemptionUnavailable;
-//    }
-    
     public boolean getCanApproveFull() {
         return canApproveFull;
     }
@@ -2039,15 +1260,6 @@ public abstract class ActionHelperBase implements Serializable {
     public boolean getCanApproveFullUnavailable() {
         return canApproveFullUnavailable;
     }
-    
-// TODO *********commented the code below during IACUC refactoring*********     
-//    public boolean getCanApproveExpedited() {
-//        return canApproveExpedited;
-//    }
-//    
-//    public boolean getCanApproveExpeditedUnavailable() {
-//        return canApproveExpeditedUnavailable;
-//    }
     
     public boolean getCanApproveResponse() {
         return canApproveResponse;
@@ -2081,24 +1293,6 @@ public abstract class ActionHelperBase implements Serializable {
         return canReturnForSRRUnavailable;
     }
     
-    
-// TODO *********commented the code below during IACUC refactoring*********     
-//    public boolean getCanReopenEnrollment() {
-//        return canReopenEnrollment;
-//    }
-//    
-//    public boolean getCanReopenEnrollmentUnavailable() {
-//        return canReopenEnrollmentUnavailable;
-//    }
-//    
-//    public boolean getCanCloseEnrollment() {
-//        return canCloseEnrollment;
-//    }
-//    
-//    public boolean getCanCloseEnrollmentUnavailable() {
-//        return canCloseEnrollmentUnavailable;
-//    }
-    
     public boolean getCanSuspend() {
         return canSuspend;
     }
@@ -2106,16 +1300,7 @@ public abstract class ActionHelperBase implements Serializable {
     public boolean getCanSuspendUnavailable() {
         return canSuspendUnavailable;
     }
-    
-// TODO *********commented the code below during IACUC refactoring*********     
-//    public boolean getCanSuspendByDsmb() {
-//        return canSuspendByDsmb;
-//    }
-//    
-//    public boolean getCanSuspendByDsmbUnavailable() {
-//        return canSuspendByDsmbUnavailable;
-//    }
-    
+
     public boolean getCanClose() {
         return canClose;
     }
@@ -2140,22 +1325,6 @@ public abstract class ActionHelperBase implements Serializable {
         return canTerminateUnavailable;
     }
     
-// TODO *********commented the code below during IACUC refactoring*********     
-//    public boolean getCanPermitDataAnalysis() {
-//        return canPermitDataAnalysis;
-//    }
-//    
-//    public boolean getCanPermitDataAnalysisUnavailable() {
-//        return canPermitDataAnalysisUnavailable;
-//    }
-//    
-//    public boolean getCanEnterRiskLevel() {
-//        return canEnterRiskLevel;
-//    }
-    
-    
-  
-
     public boolean getCanPerformAdminDetermination() {
         return canPerformAdminDetermination;
     }
@@ -2279,32 +1448,6 @@ public abstract class ActionHelperBase implements Serializable {
         return this.canModifyProtocolSubmissionUnavailable;
     }
     
-    
-// TODO *********commented the code below during IACUC refactoring*********     
-//    public boolean getCanIrbAcknowledgement() {
-//        return canIrbAcknowledgement;
-//    }
-//    
-//    public boolean getCanIrbAcknowledgementUnavailable() {
-//        return canIrbAcknowledgementUnavailable;
-//    }
-//    
-//    public boolean getCanDefer() {
-//        return canDefer;
-//    }
-//    
-//    public boolean getCanDeferUnavailable() {
-//        return canDeferUnavailable;
-//    }
-//    
-//    public boolean getCanReviewNotRequired() {
-//        return this.canReviewNotRequired;
-//    }
-//
-//    public boolean getCanReviewNotRequiredUnavailable() {
-//        return this.canReviewNotRequiredUnavailable;
-//    }
-
     public boolean getCanManageReviewComments() {  
         return canManageReviewComments;
     }
@@ -2365,24 +1508,6 @@ public abstract class ActionHelperBase implements Serializable {
         return canViewOnlineReviewerComments;
     }
     
-    
-// TODO *********commented the code below during IACUC refactoring********* 
-//    public boolean getCanAddCloseReviewerComments() {
-//        return canAddCloseReviewerComments;
-//    }
-//
-//    public boolean getCanAddCloseEnrollmentReviewerComments() {
-//        return canAddCloseEnrollmentReviewerComments;
-//    }
-//
-//    public boolean getCanAddDataAnalysisReviewerComments() {
-//        return canAddDataAnalysisReviewerComments;
-//    }
-//
-//    public boolean getCanAddReopenEnrollmentReviewerComments() {
-//        return canAddReopenEnrollmentReviewerComments;
-//    }
-
     public boolean getCanAddSuspendReviewerComments() {
         return canAddSuspendReviewerComments;
     }
@@ -2391,14 +1516,6 @@ public abstract class ActionHelperBase implements Serializable {
         return canAddTerminateReviewerComments;
     }
 
-//    public void setPrintTag(String printTag) {
-//        this.printTag = printTag;
-//    }
-//    
-//    public String getPrintTag() {
-//        return printTag;
-//    }
-    
     public ProtocolSummary getProtocolSummary() {
         return protocolSummary;
     }
@@ -2463,109 +1580,11 @@ public abstract class ActionHelperBase implements Serializable {
                 protocolAction.setIsInFilterView(true);
             }
             if (protocolAction.getIsInFilterView()) {
-//TODO                protocolAction.setQuestionnairePrintOptionFromHelper(this);
+                
             }
         }
     }
     
-//    // All the following methods were refactored into the ProtocolActionBase, where they belong
-//    
-//    /*
-//     * check if this particular ProtocolActionBase has any questionnaire associated with it.
-//     */
-///*    private void checkQuestionnaire(ProtocolActionBase protocolAction) {
-//        if (protocolAction.getSubmissionNumber() != null
-//                && !ProtocolActionType.SUBMIT_TO_IRB.equals(protocolAction.getProtocolActionTypeCode())) {
-//            protocolAction.setAnswerHeadersCount(getAnswerHeaderCount(CoeusSubModule.PROTOCOL_SUBMISSION, Integer
-//                    .toString(protocolAction.getSubmissionNumber())));
-//             if (protocolAction.getAnswerHeadersCount() > 0) {
-//                protocolAction.setQuestionnairePrintOption(getQnPrintOptionForAction(protocolAction.getProtocolNumber(),
-//                        protocolAction.getSubmissionNumber().toString(), CoeusSubModule.PROTOCOL_SUBMISSION, protocolAction));
-//            }
-//        } else if (ProtocolActionType.SUBMIT_TO_IRB.equals(protocolAction.getProtocolActionTypeCode())
-//                && ("Submitted to IRB").equals(protocolAction.getComments())) {
-//            if (protocolAction.getProtocol().isAmendment() || protocolAction.getProtocol().isRenewal()) {
-//                protocolAction.setQuestionnairePrintOption(getQnPrintOptionForAction(protocolAction.getProtocolNumber(),
-//                        protocolAction.getSequenceNumber().toString(), CoeusSubModule.AMENDMENT_RENEWAL, protocolAction));
-//
-//            } else {
-//                protocolAction.setQuestionnairePrintOption(getQnPrintOptionForAction(protocolAction.getProtocolNumber(),
-//                        getInitialSequence(protocolAction, ""), CoeusSubModule.ZERO_SUBMODULE, protocolAction));
-//            }
-//        } else if (ProtocolActionType.SUBMIT_TO_IRB.equals(protocolAction.getProtocolActionTypeCode())
-//                && StringUtils.isNotBlank(protocolAction.getComments())
-//                && (protocolAction.getComments().startsWith("Amendment-") || protocolAction.getComments().startsWith("Renewal-"))) {
-//            String amendmentRenewalNumber = getAmendmentRenewalNumber(protocolAction.getComments());
-//            protocolAction.setQuestionnairePrintOption(getQnPrintOptionForAction(protocolAction.getProtocolNumber()
-//                    + amendmentRenewalNumber, getInitialSequence(protocolAction, amendmentRenewalNumber),
-//                    CoeusSubModule.AMENDMENT_RENEWAL, protocolAction));
-//         }
-//    }
-//*/
-//
-//    /*
-//     * set up questionnaire option for UI view button
-//     */
-///*    QuestionnairePrintOption getQnPrintOptionForAction(String itemKey, String subItemKey, String subItemCode, ProtocolActionBase protocolAction) {
-//
-//        protocolAction.setAnswerHeadersCount(getAnswerHeaderCount(subItemCode, itemKey, subItemKey));
-//        if (protocolAction.getAnswerHeadersCount() > 0) {
-//            QuestionnairePrintOption qnPrintOption = new QuestionnairePrintOption();
-//            qnPrintOption.setItemKey(itemKey);
-//            qnPrintOption.setSubItemCode(subItemCode);
-//            qnPrintOption.setSubItemKey(subItemKey);
-//            return qnPrintOption;
-//        } else {
-//            return null;
-//        }
-//    }
-//    
-//    public int getAnswerHeaderCount(String moduleSubItemCode, String moduleItemKey, String moduleSubItemKey) {
-//        Map<String, String> fieldValues = new HashMap<String, String>();
-//        fieldValues.put("moduleItemCode", CoeusModule.IRB_MODULE_CODE);
-//        fieldValues.put("moduleItemKey", moduleItemKey);
-//        if (!moduleItemKey.contains("A") && !moduleItemKey.contains("R") && !getProtocol().isAmendment() && !getProtocol().isRenewal()) {
-//            fieldValues.put("moduleSubItemCode", moduleSubItemCode);
-//        }
-//        fieldValues.put("moduleSubItemKey", moduleSubItemKey);
-//        return getBusinessObjectService().countMatching(AnswerHeader.class, fieldValues);
-//        
-//    }
-//*/
-//    
-//    /*
-//     * utility method to get amend or renewal number
-//     */
-///*  private String getAmendmentRenewalNumber(String comment) {
-//        String retVal="";
-//        if (comment.startsWith("Amendment-")) {
-//            retVal = "A" + comment.substring(10, 13);
-//        } else {
-//            retVal = "R" + comment.substring(8, 11);
-//                     
-//        }
-//        return retVal;
-//    }
-//*/    
-//
-//    /*
-//     * get the sequence number of the protocol that the action initially created
-//     */
-///*  private String getInitialSequence(ProtocolActionBase protocolAction, String amendmentRenewalNumber) {
-//        Map<String, String> fieldValues = new HashMap<String, String>();
-//        fieldValues.put("protocolNumber", protocolAction.getProtocolNumber() + amendmentRenewalNumber);
-//        if (StringUtils.isBlank(amendmentRenewalNumber)) {
-//            fieldValues.put("actionId", protocolAction.getActionId().toString());
-//        }
-//        else {
-//            fieldValues.put("submissionNumber", protocolAction.getSubmissionNumber().toString());
-//        }
-//        fieldValues.put("protocolActionTypeCode", ProtocolActionType.SUBMIT_TO_IRB);
-//        return ((List<ProtocolActionBase>) getBusinessObjectService().findMatchingOrderBy(ProtocolActionBase.class, fieldValues,
-//                "protocolActionId", true)).get(0).getProtocol().getSequenceNumber().toString();
-//    }
-//*/
-
     /**
      * Prepares, sorts, and returns a list of protocol actions.
      * @return
@@ -2646,8 +1665,6 @@ public abstract class ActionHelperBase implements Serializable {
         if (currentSubmissionNumber <= 0) {
             protocolSubmission = getProtocol().getProtocolSubmission();
         } else if (currentSubmissionNumber > 0) {
-            // For amendment/renewal, the submission number are not starting at 1
-            //protocolSubmission = getProtocol().getProtocolSubmissions().get(currentSubmissionNumber - 1);
             for (ProtocolSubmissionBase submission : getProtocol().getProtocolSubmissions()) {
                 if (submission.getSubmissionNumber().intValue() == currentSubmissionNumber) {
                     protocolSubmission = submission;
@@ -2708,13 +1725,6 @@ public abstract class ActionHelperBase implements Serializable {
     protected ReviewCommentsService getReviewerCommentsService() {
         return getReviewCommentsService();
     }
-
-    
-    
-// TODO *********commented the code below during IACUC refactoring*********     
-//    private CommitteeDecisionService getCommitteeDecisionService() {
-//        return KraServiceLocator.getService("protocolCommitteeDecisionService");
-//    }
     
     protected abstract CommitteeDecisionService<? extends CommitteeDecision<?> > getCommitteeDecisionService();
     
@@ -2733,13 +1743,6 @@ public abstract class ActionHelperBase implements Serializable {
     public void setCurrentSubmissionNumber(int currentSubmissionNumber) {
         this.currentSubmissionNumber = currentSubmissionNumber;
     }
-
-    
-
-// TODO *********commented the code below during IACUC refactoring*********     
-//    public int getTotalSubmissions() {
-//        return getProtocolSubmitActionService().getTotalSubmissions(getProtocol());
-//    }
     
     public abstract int getTotalSubmissions();
     
@@ -2824,7 +1827,6 @@ public abstract class ActionHelperBase implements Serializable {
             getReviewerCommentsService().setHideViewButton(getReviewAttachments());
         }
         getProtocol().getProtocolSubmission().refreshReferenceObject("reviewAttachments");
-//        setReviewAttachments(getProtocol().getProtocolSubmission().getReviewAttachments());
         hideSubmissionReviewerName = checkToHideSubmissionReviewerName();
 
         setProtocolReviewers(getReviewerCommentsService().getProtocolReviewers(getProtocol().getProtocolNumber(), currentSubmissionNumber));
@@ -3064,27 +2066,6 @@ public abstract class ActionHelperBase implements Serializable {
         return hasRenewals;
     }
     
-// TODO *********commented the code below during IACUC refactoring*********         
-//    public void addNotifyIrbAttachment() {
-//        getProtocolNotifyIrbBean().getActionAttachments().add(
-//                getProtocolNotifyIrbBean().getNewActionAttachment());
-//        getProtocolNotifyIrbBean().setNewActionAttachment(new ProtocolActionAttachment());
-//    }
-//
-//    public boolean validFile(final ProtocolActionAttachment attachment, String propertyName) {
-//        
-//        boolean valid = true;
-//        
-//        //this got much more complex using anon keys
-//        if (attachment.getFile() == null || StringUtils.isBlank(attachment.getFile().getFileName())) {
-//            valid = false;
-//            new ErrorReporter().reportError("actionHelper." + propertyName + ".newActionAttachment.file",
-//                KeyConstants.ERROR_ATTACHMENT_REQUIRED);
-//        }
-//        
-//        return valid;
-//    }
-
     public List<ProtocolVoteRecusedBase> getRecusers() {
         return recusers;
     }
@@ -3101,15 +2082,6 @@ public abstract class ActionHelperBase implements Serializable {
     public boolean isShowCommittee() { 
         return "O".equals(this.getSubmissionConstraint()) || "M".equals(this.getSubmissionConstraint());
     }
-
-// TODO *********commented the code below during IACUC refactoring*********         
-//    public ProtocolGenericActionBean getProtocolDeferBean() {
-//        return protocolDeferBean;
-//    }
-//    
-//    public ProtocolReviewNotRequiredBean getProtocolReviewNotRequiredBean() {
-//        return this.protocolReviewNotRequiredBean;
-//    }
 
     public boolean isPrevDisabled() {
         return prevDisabled;
@@ -3172,21 +2144,6 @@ public abstract class ActionHelperBase implements Serializable {
         return actionBeanTaskMap.get(taskName);
     }
 
-// TODO *********commented the code below during IACUC refactoring*********     
-//    public ProtocolRequestBean getRequestBean(String actionTypeCode) {
-//        ProtocolRequestBean protocolRequestBean = null;
-//        
-//        ProtocolRequestAction action = ProtocolRequestAction.valueOfActionTypeCode(actionTypeCode);
-//        if (action != null) {
-//            ProtocolActionBean bean = actionBeanTaskMap.get(action.getTaskName());
-//            if (bean instanceof ProtocolRequestBean) {
-//                protocolRequestBean = (ProtocolRequestBean) bean;
-//            }
-//        }
-//        
-//        return protocolRequestBean;
-//    }
-
     public Boolean getSummaryReport() {
         return summaryReport;
     }
@@ -3219,22 +2176,6 @@ public abstract class ActionHelperBase implements Serializable {
         this.reviewCommentsReport = reviewCommentsReport;
     }
 
-//    public boolean isSubmissionQuestionnaireExist() {
-//        return submissionQuestionnaireExist;
-//    }
-//
-//    public void setSubmissionQuestionnaireExist(boolean submissionQuestionnaireExist) {
-//        this.submissionQuestionnaireExist = submissionQuestionnaireExist;
-//    }
-//
-//    public boolean isToAnswerSubmissionQuestionnaire() {
-//        return toAnswerSubmissionQuestionnaire;
-//    }
-//
-//    public void setToAnswerSubmissionQuestionnaire(boolean toAnswerSubmissionQuestionnaire) {
-//        this.toAnswerSubmissionQuestionnaire = toAnswerSubmissionQuestionnaire;
-//    }
-//
     public ProtocolSummaryPrintOptions getProtocolPrintOption() {
         return protocolPrintOption;
     }
@@ -3254,7 +2195,6 @@ public abstract class ActionHelperBase implements Serializable {
     private void initPrintQuestionnaire() {
         setQuestionnairesToPrints(new ArrayList<QuestionnairePrintOption>());
         ModuleQuestionnaireBean moduleQuestionnaireBean = getNewProtocolModuleQuestionnaireBeanInstanceHook(getProtocol());
-        //answerHeaders = getQuestionnaireAnswerService().getQuestionnaireAnswer(moduleQuestionnaireBean);
         List<AnswerHeader> answerHeaders  = getQuestionnaireAnswerService().getAnswerHeadersForProtocol(moduleQuestionnaireBean, getProtocol().getProtocolNumber());
         setupQnPrintOption(answerHeaders);
     }
@@ -3357,11 +2297,6 @@ public abstract class ActionHelperBase implements Serializable {
         this.protocolCorrespondence = protocolCorrespondence;
     }
 
-// TODO *********commented the code below during IACUC refactoring*********     
-//    public boolean isIrbAdmin() {
-//        return getKraAuthorizationService().hasRole(GlobalVariables.getUserSession().getPrincipalId(), NAMESPACE, RoleConstants.IRB_ADMINISTRATOR);
-//    }
-    
     protected KraAuthorizationService getKraAuthorizationService() {
         if (this.kraAuthorizationService == null) {
             this.kraAuthorizationService = KraServiceLocator.getService(KraAuthorizationService.class);

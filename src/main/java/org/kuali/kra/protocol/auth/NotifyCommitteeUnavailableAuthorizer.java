@@ -30,9 +30,6 @@ public class NotifyCommitteeUnavailableAuthorizer extends ProtocolAuthorizerBase
      * @see org.kuali.kra.protocol.auth.ProtocolAuthorizerBase#isAuthorized(java.lang.String, org.kuali.kra.protocol.auth.ProtocolTaskBase)
      */
     public boolean isAuthorized(String userId, ProtocolTaskBase task) {
-//        return !isStatusValid(task.getProtocol()) ||
-//               !canExecuteAction(task.getProtocol(), ProtocolActionType.NOTIFIED_COMMITTEE) ||
-//               !hasPermission(userId, task.getProtocol(), PermissionConstants.PERFORM_IRB_ACTIONS_ON_PROTO);
 boolean result = !isStatusValid(task.getProtocol()) ||
         !canExecuteAction(task.getProtocol(), ProtocolActionType.NOTIFIED_COMMITTEE) ||
         !hasPermission(userId, task.getProtocol(), PermissionConstants.PERFORM_IRB_ACTIONS_ON_PROTO);

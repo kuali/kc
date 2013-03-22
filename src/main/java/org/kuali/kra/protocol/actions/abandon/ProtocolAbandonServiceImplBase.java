@@ -49,13 +49,7 @@ public abstract class ProtocolAbandonServiceImplBase implements ProtocolAbandonS
         protocol.setActive(false);
         documentService.cancelDocument(protocol.getProtocolDocument(), null);
         try {
-            // cannot do now because of missing notifications
-//            IRBNotificationRenderer renderer = new IRBNotificationRenderer(protocol);
-//            IRBNotificationContext context = new IRBNotificationContext(protocol, ProtocolActionType.ABANDON_PROTOCOL, "Abandon", renderer);
-//            if (!isPromptUserForNotification) {
-//                kcNotificationService.sendNotification(context);
-//            }
-        createCorrespondenceAndAttach(protocol, getActionType());
+            createCorrespondenceAndAttach(protocol, getActionType());
         } catch (Exception e) {
             LOG.info("Abandon ProtocolBase Notification exception ", e);
         }

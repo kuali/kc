@@ -28,9 +28,6 @@ public abstract class ProtocolAttachmentPersonnelBase extends ProtocolAttachment
 
     private static final long serialVersionUID = -7115904344245464654L;
 
-// TODO *********commented the code below during IACUC refactoring*********    
-//    private static final String GROUP_CODE = "2";
-
     protected Integer personId;
 
     @SkipVersioning
@@ -118,10 +115,6 @@ public abstract class ProtocolAttachmentPersonnelBase extends ProtocolAttachment
     }
 
     /** {@inheritDoc} */
-// TODO *********commented the code below during IACUC refactoring*********        
-//    public String getGroupCode() {
-//        return GROUP_CODE;
-//    }
     public abstract String getGroupCode();
 
     /** {@inheritDoc} */
@@ -135,11 +128,6 @@ public abstract class ProtocolAttachmentPersonnelBase extends ProtocolAttachment
     }
 
     /** {@inheritDoc} */
-// TODO *********commented the code below during IACUC refactoring*********            
-//    @Override
-//    public String getAttachmentDescription() {
-//        return "Personnel Attachment";
-//    }
     public abstract String getAttachmentDescription();
 
     /** {@inheritDoc} */
@@ -190,13 +178,6 @@ public abstract class ProtocolAttachmentPersonnelBase extends ProtocolAttachment
         } else if (!description.equals(other.description)) {
             return false;
         }
-        //        if (documentId == null) {  
-        //            if (other.documentId != null) {  
-        //                return false;  
-        //            }  
-        //        } else if (!documentId.equals(other.documentId)) {  
-        //            return false;  
-        //        }  
         if (personId == null) {
             if (other.personId != null) {
                 return false;

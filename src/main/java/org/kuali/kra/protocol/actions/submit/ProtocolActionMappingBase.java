@@ -36,30 +36,6 @@ public abstract class ProtocolActionMappingBase implements FactBean {
     protected static final String SEQUENCE_NUMBER = "sequenceNumber";
     protected static final String SUBMISSION_NUMBER = "submissionNumber";
     
-// Demoted to IACUC    
-//    private static final Map<String, String> ACTION_TYPE_SUBMISSION_TYPE_MAP;
-//    static {
-//        final Map<String, String> codeMap = new HashMap<String, String>();        
-//        codeMap.put(ProtocolActionType.SUSPENDED, ProtocolSubmissionType.REQUEST_FOR_SUSPENSION);
-//        codeMap.put(ProtocolActionType.SUSPENDED_BY_DSMB, ProtocolSubmissionType.REQUEST_FOR_SUSPENSION);
-//        codeMap.put(ProtocolActionType.CLOSED_FOR_ENROLLMENT, ProtocolSubmissionType.REQUEST_TO_CLOSE_ENROLLMENT);
-//        codeMap.put(ProtocolActionType.DATA_ANALYSIS_ONLY, ProtocolSubmissionType.REQUEST_FOR_DATA_ANALYSIS_ONLY);
-//        codeMap.put(ProtocolActionType.REOPEN_ENROLLMENT, ProtocolSubmissionType.REQUEST_TO_REOPEN_ENROLLMENT);
-//        codeMap.put(ProtocolActionType.CLOSED_ADMINISTRATIVELY_CLOSED, ProtocolSubmissionType.REQUEST_TO_CLOSE);
-//        codeMap.put(ProtocolActionType.TERMINATED, ProtocolSubmissionType.REQUEST_FOR_TERMINATION);        
-//        ACTION_TYPE_SUBMISSION_TYPE_MAP = Collections.unmodifiableMap(codeMap);
-//    }
-
-//    private static final List<String> APPROVE_ACTION_TYPES;
-//    static {
-//        final List<String> codes = new ArrayList<String>();     
-//        codes.add(ProtocolActionType.APPROVED);
-//        codes.add(ProtocolActionType.EXPEDITE_APPROVAL);
-//        codes.add(ProtocolActionType.GRANT_EXEMPTION);
-//        APPROVE_ACTION_TYPES = codes;
-//    }
-
-
     protected BusinessObjectService businessObjectService;
     
     protected ProtocolDao<? extends ProtocolBase> dao;
@@ -127,9 +103,6 @@ public abstract class ProtocolActionMappingBase implements FactBean {
         fieldValues.put(PROTOCOL_NUMBER, protocol.getProtocolNumber());
         fieldValues.put(SUBMISSION_NUMBER, protocol.getProtocolSubmission().getSubmissionNumber());
         
-// TODO *********commented the code below during IACUC refactoring********* 
-//        return businessObjectService.countMatching(CommitteeScheduleMinuteBase.class, fieldValues) > 0;
-        
         return businessObjectService.countMatching(getCommitteeScheduleMinuteBOClassHook(), fieldValues) > 0;
     }
     
@@ -137,45 +110,7 @@ public abstract class ProtocolActionMappingBase implements FactBean {
     
     public abstract boolean getSubmissionCount();
 
-// TODO *********commented the code below during IACUC refactoring********* 
- // this method has been pushed down to the subclasses
-//    /**
-//     * Check if there are any pending submissions for this protocol
-//     *  whose submission type is not the matching submission type in ACTION_TYPE_SUBMISSION_TYPE_MAP.
-//     */
-//    public boolean getSubmissionCount() {
-//        Map<String, Object> positiveFieldValues = new HashMap<String, Object>();
-//        positiveFieldValues.put(PROTOCOL_NUMBER, protocol.getProtocolNumber());
-//        positiveFieldValues.put(SEQUENCE_NUMBER, protocol.getSequenceNumber());
-// 
-//        positiveFieldValues.put("submissionStatusCode", getPendingSubmissionStatusCodes());
-//        
-//        Map<String, Object> negativeFieldValues = new HashMap<String, Object>();        
-//        negativeFieldValues.put("submissionTypeCode", ACTION_TYPE_SUBMISSION_TYPE_MAP.get(actionTypeCode));
-//        
-//        return businessObjectService.countMatching(ProtocolSubmissionBase.class, positiveFieldValues, negativeFieldValues) == 0;    
-//    }
-    
-    
     public abstract boolean getSubmissionCountCond2();
-    
-// TODO *********commented the code below during IACUC refactoring*********
-// this method has been pushed down to the subclasses    
-//    /**
-//     * 
-//     * This method Checks if there are any pending submissions for this protocol
-//     * @return
-//     */
-//    public boolean getSubmissionCountCond2() {
-//        Map<String, Object> positiveFieldValues = new HashMap<String, Object>();
-//        positiveFieldValues.put(PROTOCOL_NUMBER, protocol.getProtocolNumber());
-//        positiveFieldValues.put(SEQUENCE_NUMBER, protocol.getSequenceNumber());
-//        positiveFieldValues.put("submissionStatusCode", getPendingSubmissionStatusCodes());
-//        
-//        return businessObjectService.countMatching(ProtocolSubmissionBase.class, positiveFieldValues) == 0;
-//    }
-    
-    
     
     /**
      * 
@@ -189,105 +124,10 @@ public abstract class ProtocolActionMappingBase implements FactBean {
     
     public abstract boolean getSubmissionCountCond4();
     
-// Demoted to IacucProtocolActionMapping    
-//    /**
-//     * 
-//     * This method check to see if there is pending submission with one of the following submission type
-//     * 109 --Request to close
-//     * 110 --Request For Suspension
-//     * 111 --Request to Close Enrollment
-//     * 108 --Request for Termination
-//     * 113 --Request for data analysis
-//     * 114 --Request for re-open enrollment
-//     * @return
-//     */
-//    public boolean getSubmissionCountCond4() {
-//        
-//        Map<String, Object> positiveFieldValues = new HashMap<String, Object>();
-//        positiveFieldValues.put(PROTOCOL_NUMBER, protocol.getProtocolNumber());
-//        positiveFieldValues.put(SEQUENCE_NUMBER, protocol.getSequenceNumber());
-//        positiveFieldValues.put("submissionStatusCode", getPendingSubmissionStatusCodes());
-//        positiveFieldValues.put("submissionTypeCode", Arrays.asList(new String[] {
-//                ProtocolSubmissionType.REQUEST_FOR_DATA_ANALYSIS_ONLY, ProtocolSubmissionType.REQUEST_FOR_SUSPENSION,
-//                ProtocolSubmissionType.REQUEST_FOR_TERMINATION, ProtocolSubmissionType.REQUEST_TO_CLOSE,
-//                ProtocolSubmissionType.REQUEST_TO_CLOSE_ENROLLMENT, ProtocolSubmissionType.REQUEST_TO_REOPEN_ENROLLMENT}));
-//        
-//        return businessObjectService.countMatching(ProtocolSubmissionBase.class, positiveFieldValues) == 0;
-//
-//    }
-//        
-//    /*
-//     * Coeus called submission status of 100/101/102 as pending submission
-//     */
-//    private List<String> getPendingSubmissionStatusCodes() {
-//        List<String> submissionStatusCodes = new ArrayList<String>();
-//        submissionStatusCodes.add(ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE);
-//        submissionStatusCodes.add(ProtocolSubmissionStatus.IN_AGENDA); 
-//        submissionStatusCodes.add(ProtocolSubmissionStatus.PENDING);
-//        return submissionStatusCodes;
-//
-//    }
-//    
-//    /*
-//     * select count(protocol_number)
-//                                    into li_SubmissionCount
-//                                    from osp$protocol_submission
-//                                    where protocol_number = as_protocol_number and
-//                                    sequence_number = as_sequence_number and
-//                                    submission_status_code in (100, 101, 102) and
-//                                    submission_number = (select max(a.submission_number)
-//                                                 from osp$protocol_submission a
-//                                                 where osp$protocol_submission.protocol_number = a.protocol_number and
-//                                                 osp$protocol_submission.sequence_number = a.sequence_number);
-//     * 
-//     */
-
-    
-
     public abstract boolean getSubmissionCountCond5();
-    
-    
-// TODO *********commented the code below during IACUC refactoring*********
-// this method demoted to the subclasses    
-//    /**
-//     * check if there are any other pending submissions.
-//     * Basically, check the matching protocol submission with the highest submission# does not have
-//     * status of (100,101,102)
-//     */
-//    @SuppressWarnings("unchecked")
-//    public boolean getSubmissionCountCond5() {                
-//        Map<String, Object> positiveFieldValues = new HashMap<String, Object>();
-//        positiveFieldValues.put(PROTOCOL_NUMBER, protocol.getProtocolNumber());
-//        positiveFieldValues.put(SEQUENCE_NUMBER, protocol.getSequenceNumber());
-//        List<ProtocolSubmissionBase> submissions = (List<ProtocolSubmissionBase>)businessObjectService.findMatchingOrderBy(ProtocolSubmissionBase.class, positiveFieldValues, "submissionNumber", false);
-//        return submissions.isEmpty() || !getPendingSubmissionStatusCodes().contains(submissions.get(0).getSubmissionStatusCode());
-//        
-//    }
 
-    
-    
-    
     public abstract boolean getSubmissionCountForWithdraw(); 
     
-// TODO *********commented the code below during IACUC refactoring*********
-// this method demoted to the subclasses    
-//    /**
-//     * 
-//     * This method Check if protocol has a submission which is in statuscode (100,101,102, 201, 202)  
-//     * @return
-//     */
-//    @SuppressWarnings("unchecked")
-//    public boolean getSubmissionCountForWithdraw() {              
-//        List <String> statusCodes = Arrays.asList(new String[] {"100","101","102", "201", "202"});
-//        Map<String, Object> positiveFieldValues = new HashMap<String, Object>();
-//        positiveFieldValues.put(PROTOCOL_NUMBER, protocol.getProtocolNumber());
-//        positiveFieldValues.put(SEQUENCE_NUMBER, protocol.getSequenceNumber());
-//        List<ProtocolSubmissionBase> submissions = (List<ProtocolSubmissionBase>)businessObjectService.findMatchingOrderBy(ProtocolSubmissionBase.class, positiveFieldValues, "submissionNumber", false);
-//        return !submissions.isEmpty() && statusCodes.contains(submissions.get(0).getSubmissionStatusCode());
-//        
-//    }
-    
-
     /**
      * This method finds number of reviewers tied to protocol submission. Implementation in lieu of following query 
      *           SELECT count(OSP$PROTOCOL_REVIEWERS.PERSON_ID)
@@ -365,21 +205,6 @@ public abstract class ProtocolActionMappingBase implements FactBean {
         this.allowed = allowed;
     }
 
-// Is this even used any more?
-//    /**
-//     * check if this protocol has not been approved
-//     */
-//    public boolean isInitialProtocol() {
-//        boolean initialProtocol = true;
-//        for (ProtocolActionBase action : protocol.getProtocolActions()) {
-//            if (APPROVE_ACTION_TYPES.contains(action.getProtocolActionTypeCode())) {
-//                initialProtocol = false;
-//                break;
-//            }
-//        }
-//        return initialProtocol;
-//    }
-
     /**
      * check if user is PI
      */
@@ -391,26 +216,4 @@ public abstract class ProtocolActionMappingBase implements FactBean {
         }
         return isPi;
     }
-
-// is this even used any more?    
-//    /**
-//     * check if this submission is protocol is just SRR/SMR
-//     * protocolSubmissions is sorted by submissionNumber in repository.
-//     */
-//    public boolean isSubmitForRevision() {
-//        boolean revisionSubmission = false;
-//        if (protocol.getProtocolSubmissions().size() >= 2) {
-//            ProtocolSubmissionBase prevSubmission = protocol.getProtocolSubmissions().get(protocol.getProtocolSubmissions().size() - 2);
-//            if (ProtocolSubmissionStatus.SPECIFIC_MINOR_REVISIONS_REQUIRED.equals(prevSubmission.getSubmissionStatusCode()) || ProtocolSubmissionStatus.SUBSTANTIVE_REVISIONS_REQUIRED
-//                            .equals(prevSubmission.getSubmissionStatusCode())) {
-//                revisionSubmission = true;
-//            }
-//        }
-//        return revisionSubmission;
-//    }
-    
-    
-    
-    
-
 }

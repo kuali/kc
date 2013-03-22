@@ -21,10 +21,6 @@ import org.kuali.kra.protocol.ProtocolBase;
 
 public abstract class ProtocolReferenceServiceImplBase implements ProtocolReferenceService {
     
-// TODO *********commented the code below during IACUC refactoring*********     
-//    @SuppressWarnings("unused")
-//    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProtocolReferenceServiceImplBase.class);
-    
     /**
      * @see org.kuali.kra.protocol.protocol.reference.ProtocolReferenceService#addProtocolReference(org.kuali.kra.protocol.document.ProtocolDocumentBase, org.kuali.kra.protocol.protocol.reference.ProtocolReferenceBase)
      */

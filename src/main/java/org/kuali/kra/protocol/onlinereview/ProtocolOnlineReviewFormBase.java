@@ -59,19 +59,6 @@ public abstract class ProtocolOnlineReviewFormBase extends KraTransactionalDocum
     
     ProtocolOnlineReviewDocumentBase document;
     
-// TODO *********commented the code below during IACUC refactoring*********     
-//    private static org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProtocolOnlineReviewFormBase.class);
-
-//    private static final Map<String,String> ONLINE_REVIEW_APPROVE_BUTTON_MAP;
-
-// TODO *********commented the code below during IACUC refactoring*********     
-//    static {
-//        ONLINE_REVIEW_APPROVE_BUTTON_MAP = new HashMap<String,String>();
-//        ONLINE_REVIEW_APPROVE_BUTTON_MAP.put(Constants.ONLINE_REVIEW_ROUTE_NODE_ADMIN_INITIAL_REVIEW, "buttonsmall_send_review_request.gif");
-//        ONLINE_REVIEW_APPROVE_BUTTON_MAP.put(Constants.ONLINE_REVIEW_ROUTE_NODE_ADMIN_REVIEW,"buttonsmall_accept_review_comments.gif");
-//        ONLINE_REVIEW_APPROVE_BUTTON_MAP.put(Constants.ONLINE_REVIEW_ROUTE_NODE_ONLINE_REVIEWER, "buttonsmall_approve_this_review.gif");
-//    }
-    
     private static final String DEFAULT_APPROVE_BUTTON = "buttonsmall_approve_this_review.gif";
     
     
@@ -89,16 +76,7 @@ public abstract class ProtocolOnlineReviewFormBase extends KraTransactionalDocum
     }
 
     
-    protected abstract String getDefaultDocumentTypeName();
- 
-// TODO *********commented the code below during IACUC refactoring*********     
-//    /** {@inheritDoc} */
-//    @Override
-//    protected String getDefaultDocumentTypeName() {
-//        return "ProtocolOnlineReviewDocumentBase";
-//    }
-    
-    
+    protected abstract String getDefaultDocumentTypeName(); 
     
     /*
      * Override of the set document so we can populate this form
@@ -147,12 +125,6 @@ public abstract class ProtocolOnlineReviewFormBase extends KraTransactionalDocum
     
     protected abstract String getLockRegion();
     
-// TODO *********commented the code below during IACUC refactoring*********     
-//    @Override
-//    protected String getLockRegion() {
-//        return KraAuthorizationConstants.LOCK_DESCRIPTOR_PROTOCOL;
-//    }
-    
     @Override
     public String getActionName() {
         return "protocol";
@@ -188,26 +160,6 @@ public abstract class ProtocolOnlineReviewFormBase extends KraTransactionalDocum
 
     public abstract List<ExtraButton> getExtraActionsButtons();
     
-// TODO *********commented the code below during IACUC refactoring*********     
-//    public List<ExtraButton> getExtraActionsButtons() {
-//        // clear out the extra buttons array
-//        extraButtons.clear();
-//        ProtocolOnlineReviewDocumentBase doc = this.getProtocolOnlineReviewDocument();
-//        String externalImageURL = Constants.KRA_EXTERNALIZABLE_IMAGES_URI_KEY;
-//    
-//        TaskAuthorizationService tas = KraServiceLocator.getService(TaskAuthorizationService.class);
-//               
-//        if( tas.isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), new ProtocolOnlineReviewTask("rejectProtocolOnlineReview",doc))
-//                && doc.getDocumentHeader().getWorkflowDocument().isEnroute()
-//                && ProtocolOnlineReviewStatus.FINAL_STATUS_CD.equals(doc.getProtocolOnlineReview().getProtocolOnlineReviewStatusCode())) {
-//            String resubmissionImage = KRADServiceLocator.getKualiConfigurationService().getPropertyValueAsString(externalImageURL) + "buttonsmall_return_to_reviewer.gif";
-//            addExtraButton("methodToCall.rejectOnlineReview", resubmissionImage, "Return to reviewer");
-//        }
-//        
-//        return extraButtons;
-//    }
-    
-
     /**
      * This is a utility method to add a new button to the extra buttons
      * collection.
@@ -236,11 +188,6 @@ public abstract class ProtocolOnlineReviewFormBase extends KraTransactionalDocum
     
     public abstract boolean getAdminFieldsEditable();
 
-// TODO *********commented the code below during IACUC refactoring*********     
-//    public boolean getAdminFieldsEditable() {
-//        return KraServiceLocator.getService(KraAuthorizationService.class).hasPermission(GlobalVariables.getUserSession().getPrincipalId(), getProtocolOnlineReviewDocument().getProtocolOnlineReview().getProtocol(),PermissionConstants.MAINTAIN_IACUC_ONLINE_REVIEWS);
-//    }
-    
     public Set<String> getCurrentRouteNodes() {
         Set<String> nodes;
         try {

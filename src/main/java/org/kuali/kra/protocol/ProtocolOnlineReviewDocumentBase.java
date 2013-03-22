@@ -63,29 +63,14 @@ public abstract class ProtocolOnlineReviewDocumentBase extends ResearchDocumentB
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 803158468103165087L;
-//    private List<? extends ProtocolOnlineReviewBase> protocolOnlineReviewList;
 
     /**
      * Constructs a ProtocolDocumentBase object
      */
 	public ProtocolOnlineReviewDocumentBase() { 
         super();
-//        protocolOnlineReviewList = new ArrayList<ProtocolOnlineReviewBase>();
-//        ProtocolOnlineReviewBase newProtocolReview = new ProtocolOnlineReviewBase();
-//        newProtocolReview.setProtocolOnlineReviewDocument(this);
-//        protocolOnlineReviewList.add(newProtocolReview);
 	} 
 	
-//    @Override
-//    public String serializeDocumentToXml() {
-//        for(ProtocolOnlineReviewBase protocolOnlineReview: this.getProtocolOnlineReviewList()) {
-//            ProtocolBase protocol = protocolOnlineReview.getProtocol();
-//            protocol.getLeadUnitNumber();
-//        }
-//        String xml = super.serializeDocumentToXml(); 
-//        return xml; 
-//    }
-
     public void initialize() {
         super.initialize();
     }
@@ -106,53 +91,14 @@ public abstract class ProtocolOnlineReviewDocumentBase extends ResearchDocumentB
      * @param protocol
      */
      public abstract void setProtocolOnlineReview(ProtocolOnlineReviewBase protocolOnlineReview);
-//    public void setProtocolOnlineReview(ProtocolOnlineReviewBase protocolOnlineReview) {
-//        protocolOnlineReviewList.set(0, protocolOnlineReview);
-//    }
 
-
-//    /**
-//     * 
-//     * This method is used by OJB to get around with anonymous keys issue.
-//     * Warning : Developers should never use this method.
-//     * @return List<ProtocolBase>
-//     */
-//    public List<? extends ProtocolOnlineReviewBase> getProtocolOnlineReviewList() {
-//        return protocolOnlineReviewList;
-//    }
-//
-//    /**
-//     * 
-//     * This method is used by OJB to get around with anonymous keys issue.
-//     * Warning : Developers should never use this method
-//     * @param protocolList
-//     */
-//    public void setProtocolOnlineReviewList(List<? extends ProtocolOnlineReviewBase> protocolOnlineReviewList) {
-//        this.protocolOnlineReviewList = protocolOnlineReviewList;
-//    }
-    
-    /**
-     * @see org.kuali.core.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
-     */
-//    @SuppressWarnings("unchecked")
-//    @Override
-//    public List buildListOfDeletionAwareLists() {
-//        List managedLists = super.buildListOfDeletionAwareLists();
-//        if (getProtocolOnlineReview() != null) {
-//            managedLists.addAll(getProtocolOnlineReview().buildListOfDeletionAwareLists());
-//        }
-//        managedLists.add(protocolOnlineReviewList);
-//        return managedLists;
-//    }
-    
-    /**
+     /**
      * @see org.kuali.kra.document.ResearchDocumentBase#getAllRolePersons()
      */
     @Override
     protected List<RolePersons> getAllRolePersons() {
         KraAuthorizationService kraAuthService = 
                (KraAuthorizationService) KraServiceLocator.getService(KraAuthorizationService.class); 
-        //return kraAuthService.getAllRolePersons(getProtocolOnlineReview());
         return new ArrayList<RolePersons>();
     }
     
@@ -167,30 +113,6 @@ public abstract class ProtocolOnlineReviewDocumentBase extends ResearchDocumentB
     @Override
     public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
         super.doRouteStatusChange(statusChangeEvent);
-// TODO *********commented the code below during IACUC refactoring*********         
-//        if (StringUtils.equals(statusChangeEvent.getNewRouteStatus(), KewApiConstants.ROUTE_HEADER_CANCEL_CD) 
-//                || StringUtils.equals(statusChangeEvent.getNewRouteStatus(), KewApiConstants.ROUTE_HEADER_DISAPPROVED_CD)) {
-//            if (LOG.isDebugEnabled()) {
-//                LOG.debug(String.format("ProtocolBase Online Review Document %s has been cancelled, deleting associated review comments.", getDocumentNumber()));
-//            }
-//            getProtocolOnlineReview().getProtocolSubmission().getProtocolReviewers().remove(getProtocolOnlineReview().getProtocolReviewer());
-//            
-//            List<CommitteeScheduleMinute> reviewComments = getProtocolOnlineReview().getCommitteeScheduleMinutes();
-//            List<CommitteeScheduleMinute> deletedReviewComments = new ArrayList<CommitteeScheduleMinute>();
-//            getReviewerCommentsService().deleteAllReviewComments(reviewComments, deletedReviewComments);
-//            getReviewerCommentsService().saveReviewComments(reviewComments, deletedReviewComments);
-//
-//            List<ProtocolReviewAttachmentBase> reviewAttachments = getProtocolOnlineReview().getReviewAttachments();
-//            List<ProtocolReviewAttachmentBase> deletedReviewAttachments = new ArrayList<ProtocolReviewAttachmentBase>();
-//            
-//            /* -- commented as part of GENERATED CODE need to verify
-//            getReviewerCommentsService().deleteAllReviewAttachments(reviewAttachments, deletedReviewAttachments);
-//            getReviewerCommentsService().saveReviewAttachments(reviewAttachments, deletedReviewAttachments);
-//            */
-//
-//            getProtocolOnlineReview().setProtocolOnlineReviewStatusCode(ProtocolOnlineReviewStatus.REMOVED_CANCELLED_STATUS_CD);
-//            getBusinessObjectService().save(getProtocolOnlineReview());
-//        }
     }
   
     /**
@@ -291,8 +213,3 @@ public abstract class ProtocolOnlineReviewDocumentBase extends ResearchDocumentB
         return pValue;
     }
 }
-
-
-
-
-

@@ -67,31 +67,6 @@ public abstract class ProtocolDaoOjbBase<GenericProtocol extends ProtocolBase> e
     private static final String ACTUAL_ACTION_DATE = "actualActionDate";
     private static final String PROTOCOL_ACTION_TYPE_CODE = "protocolActionTypeCode";
  
-// TODO *********commented the code below during IACUC refactoring*********     
-//    /**
-//     * The ACTIVE_PROTOCOL_STATUS_CODES contains the various active status codes for a protocol.
-//     *   <li> 200 - Active, open to enrollment
-//     *   <li> 201 - Active, closed to enrollment
-//     *   <li> 202 - Active, data analysis only 
-//     */
-//    private static final Collection<String> ACTIVE_PROTOCOL_STATUS_CODES = Arrays.asList(new String[] {"200", "201", "202"});
-//    /**
-//     * The REVISION_REQUESTED_PROTOCOL_STATUS_CODES contains the various status codes for protocol revision requests.
-//     *   <li> 102 - Specific Minor Revision
-//     *   <li> 104 - Substantive Revision Requested
-//     */
-//    private static final Collection<String> REVISION_REQUESTED_PROTOCOL_STATUS_CODES = Arrays.asList(new String[] {"102", "104"});
-//    /**
-//     * The APPROVED_SUBMISSION_STATUS_CODE contains the status code of approved protocol submissions (i.e. 203).
-//     */
-//    private static final String APPROVED_SUBMISSION_STATUS_CODE = "203";
-//    /**
-//     * The REVISION_REQUESTED_PROTOCOL_ACTION_TYPE_CODES contains the protocol action codes for the protocol revision requests.
-//     *   <li> 202 - Specific Minor Revision
-//     *   <li> 203 - Substantive Revision Requested 
-//     */
-//    private static final Collection<String> REVISION_REQUESTED_PROTOCOL_ACTION_TYPE_CODES = Arrays.asList(new String[] {"202", "203"});
-//    
     private LookupDao lookupDao;
     private DataDictionaryService dataDictionaryService;
     private Map<String, String> searchMap = new HashMap<String, String>();
@@ -199,44 +174,6 @@ public abstract class ProtocolDaoOjbBase<GenericProtocol extends ProtocolBase> e
 
     protected abstract Collection<String> getActiveProtocolStatusCodesHook();
 
-    /**
-     * {@inheritDoc} 
-     */
-
-    /* 
-    // TODO *********commented the code below during IACUC refactoring*********
-     * If this is specific to IRB, it has to be moved to IRB protocol Dao     
-    
-    @SuppressWarnings("unchecked")
-    public List<ProtocolBase> getIrbNotifiedProtocols(String committeeId, Date startDate, Date endDate) {
-        Criteria subCritProtocolAction = new Criteria();
-        subCritProtocolAction.addEqualToField("protocolId", Criteria.PARENT_QUERY_PREFIX + "protocolId");
-       // subCritProtocolAction.addEqualToField(SEQUENCE_NUMBER, Criteria.PARENT_QUERY_PREFIX + SEQUENCE_NUMBER);
-       // subCritProtocolAction.addEqualToField(SUBMISSION_NUMBER, Criteria.PARENT_QUERY_PREFIX + SUBMISSION_NUMBER);
-        subCritProtocolAction.addIn(PROTOCOL_ACTION_TYPE_CODE, REVISION_REQUESTED_PROTOCOL_ACTION_TYPE_CODES);
-        if (startDate != null) {
-            subCritProtocolAction.addGreaterOrEqualThan(ACTUAL_ACTION_DATE, startDate);
-        }
-        if (endDate != null) {
-            subCritProtocolAction.addLessThan(ACTUAL_ACTION_DATE, nextDay(endDate));
-        }
-        ReportQueryByCriteria subQueryProtocolAction = QueryFactory.newReportQuery(ProtocolActionBase.class, subCritProtocolAction);
-        
-        Criteria crit = new Criteria();
-        crit.addIn(PROTOCOL_STATUS_CODE, REVISION_REQUESTED_PROTOCOL_STATUS_CODES);
-        crit.addEqualTo(PROTOCOL_SUBMISSIONS_COMMITTEE_ID, committeeId);
-        crit.addEqualTo(SEQUENCE_NUMBER, getSubQueryMaxSequenceNumber());
-        crit.addEqualTo(PROTOCOL_SUBMISSIONS_SUBMISSION_NUMBER, getsubQueryMaxProtocolSubmission());
-        crit.addExists(subQueryProtocolAction);
-        Query q = QueryFactory.newQuery(ProtocolBase.class, crit, true);
-        logQuery(q);
-        return (List<ProtocolBase>) getPersistenceBrokerTemplate().getCollectionByQuery(q);
-    }
-    
-    */
-    
-    // TODO (backfitting note) this method is a general-purpose abstraction of the IRB-specific method above
-    // and should be eventually be used for IRB as well (with hook implementations)
     @SuppressWarnings("unchecked")
     public List<ProtocolBase> getNotifiedProtocols(String committeeId, Date startDate, Date endDate) {
         Criteria subCritProtocolAction = new Criteria();
@@ -353,12 +290,6 @@ public abstract class ProtocolDaoOjbBase<GenericProtocol extends ProtocolBase> e
      */
     private void initRoleLists() {
         initRoleListsHook(investigatorRole, personRole);
-// TODO *********commented the code below during IACUC refactoring********* 
-//        investigatorRole.add("PI");
-//        investigatorRole.add("COI");
-//        personRole.add("SP");
-//        personRole.add("CA");
-//        personRole.add("CRC");        
     }
 
     protected abstract void initRoleListsHook(List<String> investigatorRoles, List<String> personRoles);

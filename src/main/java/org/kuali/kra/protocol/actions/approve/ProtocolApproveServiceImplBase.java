@@ -31,13 +31,7 @@ import org.kuali.rice.krad.service.DocumentService;
  */
 public abstract class ProtocolApproveServiceImplBase implements ProtocolApproveService {
     
-// TODO *********commented the code below during IACUC refactoring*********     
-//    private static final String FULL_APPROVAL_FINALIZE_OLR_ANNOTATION = "Online Review finalized as part of full approval action on protocol.";
-//    private static final String EXPEDITED_APPROVAL_FINALIZE_OLR_ANNOTATION = "Online Review finalized as part of expedited approval action on protocol.";
-
-    // TODO ********************** added or modified during IRB backfit merge BEGIN ********************** 
     protected static final String RESPONSE_APPROVAL_FINALIZE_OLR_ANNOTATION = "Online Review finalized as part of response approval action on protocol.";
-    // TODO ********************** added or modified during IRB backfit merge END ************************
     private static final String ADMIN_APPROVAL_FINALIZE_OLR_ANNOTATION = "Online Review finalized as part of administrative approval action on protocol.";
     
     private DocumentService documentService;
@@ -46,57 +40,6 @@ public abstract class ProtocolApproveServiceImplBase implements ProtocolApproveS
     private ProtocolActionCorrespondenceGenerationService protocolActionCorrespondenceGenerationService;
     
     protected ProtocolOnlineReviewService protocolOnlineReviewService;
-
-// TODO *********commented the code below during IACUC refactoring*********     
-//    protected ParameterService parameterService;
-
-
-// TODO *********commented the code below during IACUC refactoring********* 
-// This method has been delegated to the subclasses    
-//    /**
-//     * {@inheritDoc}
-//     * @see org.kuali.kra.protocol.actions.approve.ProtocolApproveService#grantFullApproval(org.kuali.kra.protocol.ProtocolBase, 
-//     *      org.kuali.kra.protocol.actions.approve.ProtocolApproveBean)
-//     */
-//    public void grantFullApproval(ProtocolBase protocol, ProtocolApproveBean actionBean) throws Exception {
-//        generateProtocolActionAndAttach(protocol, actionBean, ProtocolActionType.APPROVED);   
-//
-//        if (protocol.getApprovalDate() == null) {
-//            protocol.setApprovalDate(actionBean.getApprovalDate());
-//        }
-//        if (protocol.isRenewal()) {
-//            protocol.setLastApprovalDate(actionBean.getApprovalDate());
-//        }
-//        String exemptProtocolTypeCode = parameterService.getParameterValueAsString(ProtocolDocumentBase.class, Constants.PROTOCOL_TYPE_CODE_EXEMPT);
-//        if (!StringUtils.equals(exemptProtocolTypeCode, protocol.getProtocolTypeCode())) {
-//            protocol.setExpirationDate(actionBean.getExpirationDate());
-//        }
-//        
-//        finalizeReviewsAndSave(protocol, ProtocolActionType.APPROVED, FULL_APPROVAL_FINALIZE_OLR_ANNOTATION);
-//    }  
-
-    
-// TODO *********commented the code below during IACUC refactoring********* 
-// This method does not seem relevant for IACUC, so push it down only to IRB and declare it only in the IRB service interface
-//    /**
-//     * {@inheritDoc}
-//     * @see org.kuali.kra.protocol.actions.approve.ProtocolApproveService#grantExpeditedApproval(org.kuali.kra.protocol.ProtocolBase, 
-//     *      org.kuali.kra.protocol.actions.approve.ProtocolApproveBean)
-//     */
-//    public void grantExpeditedApproval(ProtocolBase protocol, ProtocolApproveBean actionBean) throws Exception {
-//        generateProtocolActionAndAttach(protocol, actionBean, ProtocolActionType.EXPEDITE_APPROVAL);
-//        
-//        protocol.setApprovalDate(actionBean.getApprovalDate());
-//        protocol.setExpirationDate(actionBean.getExpirationDate());
-//        if (protocol.isRenewal()) {
-//            protocol.setLastApprovalDate(actionBean.getApprovalDate());
-//        }
-//        finalizeReviewsAndSave(protocol, ProtocolActionType.EXPEDITE_APPROVAL, EXPEDITED_APPROVAL_FINALIZE_OLR_ANNOTATION);
-//        
-//        protocol.getProtocolDocument().getDocumentHeader().getWorkflowDocument().approve(actionBean.getComments());
-//    }
-//
-    
     
     /**
      * {@inheritDoc}
@@ -117,9 +60,7 @@ public abstract class ProtocolApproveServiceImplBase implements ProtocolApproveS
         finalizeReviewsAndSave(protocol, getProtocolActionTypeCodeForResponseApprovalHook(), RESPONSE_APPROVAL_FINALIZE_OLR_ANNOTATION);
         
         protocol.getProtocolDocument().getDocumentHeader().getWorkflowDocument().approve(actionBean.getComments());
-    }
-    
-    
+    }   
     
     protected abstract String getProtocolActionTypeCodeForResponseApprovalHook();
 
@@ -222,10 +163,5 @@ public abstract class ProtocolApproveServiceImplBase implements ProtocolApproveS
     protected ProtocolActionCorrespondenceGenerationService getProtocolActionCorrespondenceGenerationService() {
         return protocolActionCorrespondenceGenerationService;
     } 
-
-    
-//    public void setParameterService(ParameterService parameterService) {
-//        this.parameterService = parameterService;
-//    }
     
 }

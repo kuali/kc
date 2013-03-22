@@ -51,110 +51,7 @@ public abstract class ProtocolGenericActionServiceImplBase implements ProtocolGe
     private ProtocolVersionService protocolVersionService;
     private ProtocolAssignToAgendaService protocolAssignToAgendaService;
     private BusinessObjectService businessObjectService;
-    private KcNotificationService kcNotificationService;
-    
-// TODO *********commented the code below during IACUC refactoring*********     
-//    
-//  All of these service methods have been pushed down to the subclasses since they are quite closely tied to the type of protocol, and 
-//  would require too many hooks to customize and reuse.  
-//    
-//    /**{@inheritDoc}**/
-//    public void close(ProtocolBase protocol, ProtocolGenericActionBean actionBean) throws Exception {
-//        if (ProtocolActionType.REQUEST_TO_CLOSE.equals(protocol.getLastProtocolAction().getProtocolActionType().getProtocolActionTypeCode())) {
-//          //if previous action is request to close then the new status is closed by investigator
-//            performGenericAction(protocol, actionBean, ProtocolActionType.CLOSED_ADMINISTRATIVELY_CLOSED, ProtocolStatusBase.CLOSED_BY_INVESTIGATOR);
-//        } else {
-//          //else closed administratively
-//            performGenericAction(protocol, actionBean, ProtocolActionType.CLOSED_ADMINISTRATIVELY_CLOSED, ProtocolStatusBase.CLOSED_ADMINISTRATIVELY);
-//        }
-//    }
-//    
-//    /**{@inheritDoc}**/
-//    public void closeEnrollment(ProtocolBase protocol, ProtocolGenericActionBean actionBean) throws Exception {
-//        performGenericAction(protocol, actionBean, ProtocolActionType.CLOSED_FOR_ENROLLMENT, ProtocolStatusBase.ACTIVE_CLOSED_TO_ENROLLMENT);
-//    }
-//    
-//    /**{@inheritDoc}**/
-//    public ProtocolDocumentBase defer(ProtocolBase protocol, ProtocolGenericActionBean actionBean) throws Exception {
-//        performGenericAction(protocol, actionBean, ProtocolActionType.DEFERRED, ProtocolStatusBase.DEFERRED);
-////        IRBNotificationRenderer renderer = new IRBNotificationRenderer(protocol);
-////        IRBNotificationContext context = new IRBNotificationContext(protocol, ProtocolActionType.DEFERRED, "Deferred", renderer);
-////        if (!isPromptUserForNotification) {
-////            kcNotificationService.sendNotification(context);
-////        }
-//        
-//        return getDeferredVersionedDocument(protocol);
-//    }
-//    
-//    /**{@inheritDoc}**/
-//    public void disapprove(ProtocolBase protocol, ProtocolGenericActionBean actionBean) throws Exception {
-//        performGenericAction(protocol, actionBean, ProtocolActionType.DISAPPROVED, ProtocolStatusBase.DISAPPROVED);
-//        performDisapprove(protocol);
-//    }
-//    
-//    /**{@inheritDoc}**/
-//    public void expire(ProtocolBase protocol, ProtocolGenericActionBean actionBean) throws Exception {
-//        performGenericAction(protocol, actionBean, ProtocolActionType.EXPIRED, ProtocolStatusBase.EXPIRED);
-//    }
-//    
-//    /**{@inheritDoc}**/
-//    public void irbAcknowledgement(ProtocolBase protocol, ProtocolGenericActionBean actionBean) throws Exception {
-//        performGenericAction(protocol, actionBean, ProtocolActionType.IRB_ACKNOWLEDGEMENT);
-////        IRBNotificationRenderer renderer = new IRBNotificationRenderer(protocol);
-////        IRBNotificationContext context = new IRBNotificationContext(protocol, ProtocolActionType.IRB_ACKNOWLEDGEMENT, "IRB Acknowledgement", renderer);
-////        kcNotificationService.sendNotification(context);
-//    }
-//
-//    /**{@inheritDoc}**/
-//    public void permitDataAnalysis(ProtocolBase protocol, ProtocolGenericActionBean actionBean) throws Exception {
-//        performGenericAction(protocol, actionBean, ProtocolActionType.DATA_ANALYSIS_ONLY, ProtocolStatusBase.ACTIVE_DATA_ANALYSIS_ONLY);
-//    }
-//
-//    /**{@inheritDoc}**/
-//    public void reopenEnrollment(ProtocolBase protocol, ProtocolGenericActionBean actionBean) throws Exception {
-//        performGenericAction(protocol, actionBean, ProtocolActionType.REOPEN_ENROLLMENT, ProtocolStatusBase.ACTIVE_OPEN_TO_ENROLLMENT);
-//    }
-//    
-//    /**{@inheritDoc}**/
-//    public ProtocolDocumentBase returnForSMR(ProtocolBase protocol, ProtocolGenericActionBean actionBean) throws Exception {
-//        performGenericAction(protocol, actionBean, ProtocolActionType.SPECIFIC_MINOR_REVISIONS_REQUIRED, ProtocolStatusBase.SPECIFIC_MINOR_REVISIONS_REQUIRED);
-////        IRBNotificationRenderer renderer = new IRBNotificationRenderer(protocol);
-////        IRBNotificationContext context = new IRBNotificationContext(protocol, ProtocolActionType.SPECIFIC_MINOR_REVISIONS_REQUIRED, "Specific Minor Revisions Required", renderer);
-////        kcNotificationService.sendNotification(context);
-//
-//        return getReturnedVersionedDocument(protocol);
-//    }
-//    
-//    /**{@inheritDoc}**/
-//    public ProtocolDocumentBase returnForSRR(ProtocolBase protocol, ProtocolGenericActionBean actionBean) throws Exception {
-//        performGenericAction(protocol, actionBean, ProtocolActionType.SUBSTANTIVE_REVISIONS_REQUIRED, ProtocolStatusBase.SUBSTANTIVE_REVISIONS_REQUIRED);
-////        IRBNotificationRenderer renderer = new IRBNotificationRenderer(protocol);
-////        IRBNotificationContext context = new IRBNotificationContext(protocol, ProtocolActionType.SUBSTANTIVE_REVISIONS_REQUIRED, "Substantive Revisions Required", renderer);
-////        kcNotificationService.sendNotification(context);
-//
-//        return getReturnedVersionedDocument(protocol);
-//    }
-//    
-//    /**{@inheritDoc}**/
-//    public void suspend(ProtocolBase protocol, ProtocolGenericActionBean actionBean) throws Exception {
-//        if (ProtocolActionType.REQUEST_FOR_SUSPENSION.equals(protocol.getLastProtocolAction().getProtocolActionType().getProtocolActionTypeCode())) {
-//            //if previous action is request to suspend then the new status is suspend by investigator
-//            performGenericAction(protocol, actionBean, ProtocolActionType.SUSPENDED, ProtocolStatusBase.SUSPENDED_BY_PI);
-//        } else {
-//            //else suspend by IRB
-//            performGenericAction(protocol, actionBean, ProtocolActionType.SUSPENDED, ProtocolStatusBase.SUSPENDED_BY_IRB);
-//        }
-//    }
-//    
-//    /**{@inheritDoc}**/
-//    public void suspendByDsmb(ProtocolBase protocol, ProtocolGenericActionBean actionBean) throws Exception {
-//        performGenericAction(protocol, actionBean, ProtocolActionType.SUSPENDED_BY_DSMB, ProtocolStatusBase.SUSPENDED_BY_DSMB);
-//    }
-//    
-//    /**{@inheritDoc}**/
-//    public void terminate(ProtocolBase protocol, ProtocolGenericActionBean actionBean) throws Exception {
-//        performGenericAction(protocol, actionBean, ProtocolActionType.TERMINATED, ProtocolStatusBase.TERMINATED_BY_IRB);
-//    }
+    private KcNotificationService kcNotificationService;    
     
     /**
      * Performs the generic action, which includes a state change, action date, and a comment, that's it!
@@ -176,34 +73,8 @@ public abstract class ProtocolGenericActionServiceImplBase implements ProtocolGe
         createCorrespondenceAndAttach(protocol, protocolActionType);
     }
 
-    
-    
-    
-// TODO *********commented the code below during IACUC refactoring*********     
-//    private void performGenericAction(ProtocolBase protocol, ProtocolGenericActionBean actionBean, String protocolActionType) throws Exception {
-//        ProtocolActionBase protocolAction = createProtocolActionAndAttach(protocol, actionBean, protocolActionType);
-//        
-//        if (protocol.getNotifyIrbSubmissionId() == null) {
-//            protocolActionService.updateProtocolStatus(protocolAction, protocol);
-//        } else {
-//            for (ProtocolSubmissionBase submission : protocol.getProtocolSubmissions()) {
-//                if (submission.getSubmissionId().equals(protocol.getNotifyIrbSubmissionId())) {
-//                    submission.setSubmissionStatusCode(ProtocolSubmissionStatus.IRB_ACKNOWLEDGEMENT);
-//                }
-//            }
-//        }
-//        
-//        protocol.refreshReferenceObject("protocolStatus");
-//        documentService.saveDocument(protocol.getProtocolDocument());
-//    }
-    
-    
-    
-    
     protected ProtocolActionBase createProtocolActionAndAttach(ProtocolBase protocol, ProtocolGenericActionBean actionBean, String protocolActionType) {
-     // TODO ********************** added or modified during IRB backfit merge BEGIN ********************** 
         protocol.refreshReferenceObject("protocolSubmission");
-     // TODO ********************** added or modified during IRB backfit merge END ************************
         ProtocolActionBase protocolAction = getNewProtocolActionInstanceHook(protocol, null, protocolActionType);
         protocolAction.setComments(actionBean.getComments());
         protocolAction.setActionDate(new Timestamp(actionBean.getActionDate().getTime()));
@@ -231,39 +102,12 @@ public abstract class ProtocolGenericActionServiceImplBase implements ProtocolGe
             if (currentWorkflowDocument != null) {
                 currentWorkflowDocument.disapprove("ProtocolBase document disapproved after committee decision");
             }
-        }
-// TODO *********commented the code below during IACUC refactoring*********         
-//        protocolOnlineReviewService.cancelOnlineReviews(protocol.getProtocolSubmission(), "ProtocolBase Review cancelled - protocol has been disapproved.");
-        
+        }        
     }
     
     
-// TODO *********commented the code below during IACUC refactoring*********     
-//    protected ProtocolDocumentBase getDeferredVersionedDocument(ProtocolBase protocol) throws Exception {
-//        documentService.cancelDocument(protocol.getProtocolDocument(), "ProtocolBase document cancelled - protocol has been deferred.");
-//        protocolOnlineReviewService.cancelOnlineReviews(protocol.getProtocolSubmission(), "ProtocolBase Review cancelled - protocol has been deferred.");
-//        ProtocolDocumentBase newDocument = getVersionedDocument(protocol);
-//
-//        ProtocolActionBase assignToAgendaProtocolAction = protocolAssignToAgendaService.getAssignedToAgendaProtocolAction(newDocument.getProtocol());
-//        if (assignToAgendaProtocolAction != null) {
-//            newDocument.getProtocol().getProtocolActions().remove(assignToAgendaProtocolAction);
-//            businessObjectService.delete(assignToAgendaProtocolAction);
-//        }
-//        newDocument.getProtocol().refreshReferenceObject("protocolStatus");
-//        documentService.saveDocument(newDocument);
-//        
-//        return newDocument;
-//    }
-    
-    
-    
     protected ProtocolDocumentBase getReturnedVersionedDocument(ProtocolBase protocol) throws Exception {
-        documentService.cancelDocument(protocol.getProtocolDocument(), "ProtocolBase document cancelled - protocol has been returned for revisions.");
-        
-// TODO *********commented the code below during IACUC refactoring*********         
-//        protocolOnlineReviewService.finalizeOnlineReviews(protocol.getProtocolSubmission(), 
-//                "ProtocolBase Review finalized - protocol has been returned for revisions.");
-        
+        documentService.cancelDocument(protocol.getProtocolDocument(), "ProtocolBase document cancelled - protocol has been returned for revisions.");        
         return getVersionedDocument(protocol);
     }
     
@@ -319,16 +163,13 @@ public abstract class ProtocolGenericActionServiceImplBase implements ProtocolGe
     
     protected ProtocolDocumentBase getVersionedDocument(ProtocolBase protocol) throws Exception {
         ProtocolDocumentBase newDocument = protocolVersionService.versionProtocolDocument(protocol.getProtocolDocument());
-//        protocolOnlineReviewService.moveOnlineReviews(protocol.getProtocolSubmission(), newDocument.getProtocol().getProtocolSubmission());
         newDocument.getProtocol().setProtocolSubmission(null);
         newDocument.getProtocol().setApprovalDate(null);
         newDocument.getProtocol().setLastApprovalDate(null);
         newDocument.getProtocol().setExpirationDate(null);
         
-        newDocument.getProtocol().refreshReferenceObject(Constants.PROPERTY_PROTOCOL_STATUS);
-     // TODO ********************** added or modified during IRB backfit merge BEGIN ********************** 
+        newDocument.getProtocol().refreshReferenceObject(Constants.PROPERTY_PROTOCOL_STATUS); 
         newDocument.getProtocol().refreshReferenceObject(PROTOCOL_SUBMISSION);
-     // TODO ********************** added or modified during IRB backfit merge END ************************
         documentService.saveDocument(newDocument);
         
         return newDocument;

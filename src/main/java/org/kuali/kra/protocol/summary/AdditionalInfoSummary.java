@@ -24,13 +24,11 @@ public class AdditionalInfoSummary implements Serializable {
     private static final long serialVersionUID = 1740333929467337320L;
     
     private String fdaApplicationNumber;
-    //private String billable;
     private String referenceId1;
     private String referenceId2;
     private String description;
     
     private boolean fdaApplicationNumberChanged;
-    //private boolean billableChanged;
     private boolean referenceId1Changed;
     private boolean referenceId2Changed;
     private boolean descriptionChanged;

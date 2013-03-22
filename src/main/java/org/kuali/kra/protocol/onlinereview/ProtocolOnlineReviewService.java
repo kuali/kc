@@ -37,15 +37,7 @@ public interface ProtocolOnlineReviewService {
      * Document type code for online review.
      */
     String PROTOCOL_ONLINE_REVIEW_DOCUMENT_TYPE_CODE = "PTRV";
-    
-// TODO ********************** commented out during IRB backfit ************************
-// This should be a hook in the base    
-//    /**
-//     * Name of the online review document.
-//     */
-//    String PROTOCOL_ONLINE_REVIEW_DOCUMENT_TYPE = "ProtocolOnlineReviewDocumentBase";
-
-    
+        
     /**
      * Assign an online review to a reviewer.  Reviewers must be a member of the committee.
      * This method will create a new ProtocolReviewDocument, and the associated BO and return it.

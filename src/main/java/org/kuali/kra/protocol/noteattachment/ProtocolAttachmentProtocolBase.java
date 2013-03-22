@@ -33,9 +33,6 @@ public abstract class ProtocolAttachmentProtocolBase extends ProtocolAttachmentB
 
     private static final long serialVersionUID = -7115904344245464654L;
 
-// TODO *********commented the code below during IACUC refactoring*********
-//    private static final String GROUP_CODE = "1";
-
     public static final String INCOMPLETE_STATUS_CODE = "2";
     public static final String COMPLETE_STATUS_CODE = "1";
     
@@ -215,11 +212,6 @@ public abstract class ProtocolAttachmentProtocolBase extends ProtocolAttachmentB
     }
 
     /** {@inheritDoc} */
-// TODO *********commented the code below during IACUC refactoring*********
-// Technically the group codes could differ, they are the same value in this case, but from different tables    
-//    public String getGroupCode() {
-//        return GROUP_CODE;
-//    }
     public abstract String getGroupCode();
 
     /** {@inheritDoc} */
@@ -233,11 +225,6 @@ public abstract class ProtocolAttachmentProtocolBase extends ProtocolAttachmentB
     }
 
     /** {@inheritDoc} */
-// TODO *********commented the code below during IACUC refactoring*********    
-//    @Override
-//    public String getAttachmentDescription() {
-//        return "ProtocolBase Attachment";
-//    }
     public abstract String getAttachmentDescription();
 
     /**
@@ -286,40 +273,16 @@ public abstract class ProtocolAttachmentProtocolBase extends ProtocolAttachmentB
         return true;
     }
 
-// TODO *********commented the code below during IACUC refactoring*********    
-//    public boolean isDraft() {
-//        return ProtocolAttachmentStatus.DRAFT.equals(documentStatusCode);
-//    }
     public abstract boolean isDraft();
     
-// TODO *********commented the code below during IACUC refactoring*********    
-//    public void setDraft() {
-//        documentStatusCode = ProtocolAttachmentStatus.DRAFT;
-//    }
     public abstract void setDraft();
 
-// TODO *********commented the code below during IACUC refactoring*********    
-//    public boolean isFinal() {
-//        return ProtocolAttachmentStatus.FINALIZED.equals(documentStatusCode);
-//    }
     public abstract boolean isFinal();
     
-// TODO *********commented the code below during IACUC refactoring*********    
-//    public void setFinal() {
-//        documentStatusCode = ProtocolAttachmentStatus.FINALIZED;
-//    }
     public abstract void setFinal();
 
-// TODO *********commented the code below during IACUC refactoring*********        
-//    public boolean isDeleted() {
-//        return ProtocolAttachmentStatus.DELETED.equals(documentStatusCode);
-//    }
     public abstract boolean isDeleted();
 
-// TODO *********commented the code below during IACUC refactoring*********        
-//    public void setDeleted() {
-//        documentStatusCode = ProtocolAttachmentStatus.DELETED;
-//    }
     public abstract void setDeleted();
     
     /** {@inheritDoc} */
@@ -386,13 +349,6 @@ public abstract class ProtocolAttachmentProtocolBase extends ProtocolAttachmentB
         } else if (!description.equals(other.description)) {
             return false;
         }
-        //        if (documentId == null) {  
-        //            if (other.documentId != null) {  
-        //                return false;  
-        //            }  
-        //        } else if (!documentId.equals(other.documentId)) {  
-        //            return false;  
-        //        }  
         if (statusCode == null) {
             if (other.statusCode != null) {
                 return false;

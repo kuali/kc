@@ -37,25 +37,6 @@ public abstract class ProtocolAttachmentProtocolRuleHelperBase {
     protected final ErrorReporter errorReporter = new ErrorReporter();
     protected String propertyPrefix;
     
-// TODO *********commented the code below during IACUC refactoring*********   
-//    /**
-//     * Creates helper deferring the setting of the prefix to later.
-//     */
-//    protected ProtocolAttachmentProtocolRuleHelperBase() {
-//        this(KraServiceLocator.getService(ProtocolAttachmentService.class));
-//    }
-//    
-//    /**
-//     * Creates helper using prefix provided.
-//     *  
-//     * @param aPropertyPrefix the prefix (ex: notesAttachmentsHelper.newAttachmentProtocol)
-//     * @throws IllegalArgumentException if the propertyPrefix is null
-//     */
-//    protected ProtocolAttachmentProtocolRuleHelperBase(final String aPropertyPrefix) {
-//        this();
-//        this.resetPropertyPrefix(aPropertyPrefix);
-//    }
-//    
     /**
      * Creates helper deferring the setting of the prefix to later and setting used services.
      * @param attachmentService the Attachment Service

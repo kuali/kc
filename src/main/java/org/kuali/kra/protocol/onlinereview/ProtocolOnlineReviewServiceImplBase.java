@@ -380,38 +380,7 @@ public abstract class ProtocolOnlineReviewServiceImplBase implements ProtocolOnl
         
         return isReviewer;
     }
-
-    
-    
-// TODO *********commented the code below during IACUC refactoring*********     
-//    /**
-//     * {@inheritDoc}
-//     * @see org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewService#isProtocolInStateToBeReviewed(org.kuali.kra.protocol.ProtocolBase)
-//     */
-//    public boolean isProtocolInStateToBeReviewed(ProtocolBase protocol) {
-//        boolean isReviewable = false;
-//        ProtocolSubmissionBase submission = protocol.getProtocolSubmission();
-//
-//        if (submission != null) {
-//            try {
-//                isReviewable = StringUtils.isNotEmpty(submission.getScheduleId()); 
-//                isReviewable &= (StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE) 
-//                        || StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.IN_AGENDA));
-//                ProtocolDocumentBase protocolDocument = (ProtocolDocumentBase) documentService.getByDocumentHeaderId(protocol.getProtocolDocument().getDocumentNumber());
-//                isReviewable &= getKraWorkflowService().isDocumentOnNode(protocolDocument, Constants.PROTOCOL_IRBREVIEW_ROUTE_NODE_NAME);
-//            } catch (WorkflowException e) {
-//                String errorString = String.format("WorkflowException checking route node for creating new ProtocolOnlineReviewDocumentBase " +
-//                		"for protocol %s", submission.getProtocolNumber());
-//                LOG.error(errorString, e);
-//                throw new RuntimeException(errorString, e);
-//            }
-//        }
-//        
-//        
-//        return isReviewable;
-//    }
-    
-
+        
     public void returnProtocolOnlineReviewDocumentToReviewer(ProtocolOnlineReviewDocumentBase reviewDocument, String reason, String principalId) {
         kraDocumentRejectionService.reject(reviewDocument, reason, principalId, (String)null, reviewerApproveNodeName);     
     }
@@ -486,29 +455,7 @@ public abstract class ProtocolOnlineReviewServiceImplBase implements ProtocolOnl
     }
     
     protected void removeOnlineReviewDocument(ProtocolOnlineReviewDocumentBase protocolOnlineReviewDocument, ProtocolSubmissionBase submission, String annotation) {
-// TODO *********commented the code below during IACUC refactoring********* 
-//        if (protocolOnlineReviewDocument != null) {
-//            if(LOG.isDebugEnabled()) {
-//                LOG.debug(String.format("Found protocolOnlineReviewDocument %s, removing it.",protocolOnlineReviewDocument.getDocumentNumber()));
-//            }
-//            cancelOnlineReviewDocument(protocolOnlineReviewDocument, submission, annotation);
-//            protocolOnlineReviewDocument.getProtocolOnlineReview().setProtocolOnlineReviewStatusCode(ProtocolOnlineReviewStatus.REMOVED_CANCELLED_STATUS_CD);
-//            
-//            List<CommitteeScheduleMinuteBase> reviewComments = protocolOnlineReviewDocument.getProtocolOnlineReview().getCommitteeScheduleMinutes();
-//            List<CommitteeScheduleMinuteBase> deletedReviewComments = new ArrayList<CommitteeScheduleMinuteBase>();
-//            getReviewerCommentsService().deleteAllReviewComments(reviewComments, deletedReviewComments);
-//            getReviewerCommentsService().saveReviewComments(reviewComments, deletedReviewComments);
-//
-////            for (ProtocolReviewer reviewer : submission.getProtocolReviewers()) {
-////                if (protocolOnlineReviewDocument.getProtocolOnlineReview().getProtocolReviewer().getProtocolReviewerId().equals(reviewer.getProtocolReviewerId())) {
-////                    protocolOnlineReviewDocument.getProtocolOnlineReview().getProtocolReviewer().setSubmissionIdFk(null);
-////                    boolean success = submission.getProtocolReviewers().remove(reviewer);
-////                }
-////            }
-//            submission.getProtocolReviewers().remove(protocolOnlineReviewDocument.getProtocolOnlineReview().getProtocolReviewer());
-//            getBusinessObjectService().save(protocolOnlineReviewDocument.getProtocolOnlineReview());
-//        } 
-                
+
     }
         
     /**
@@ -545,14 +492,6 @@ public abstract class ProtocolOnlineReviewServiceImplBase implements ProtocolOnl
             getReviewerCommentsService().deleteAllReviewComments(reviewComments, deletedReviewComments);
             getReviewerCommentsService().saveReviewComments(reviewComments, deletedReviewComments);
             
-//            for (ProtocolReviewer reviewer : submission.getProtocolReviewers()) {
-//                if (protocolOnlineReviewDocument.getProtocolOnlineReview().getProtocolReviewer().getProtocolReviewerId().equals(reviewer.getProtocolReviewerId())) {
-//                    submissionsProtocolOnlineReview.getProtocolReviewer().setSubmissionIdFk(null);
-//                    boolean success = submission.getProtocolReviewers().remove(reviewer);
-//                    LOG.info(success);
-//                }
-//            }
-//            
             getBusinessObjectService().save(submissionsProtocolOnlineReview);
         
         } else {

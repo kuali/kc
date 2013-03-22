@@ -76,14 +76,6 @@ public abstract class ProtocolNotificationRendererBase extends NotificationRende
                 params.put(key, protocol.getProtocolStatusCode());
             } else if (StringUtils.equals(key, ProtocolReplacementParameters.PROTOCOL_STATUS_DESCRIPTION)) {
                 params.put(key, protocol.getProtocolStatus().getDescription());
-//TODO            } else if (StringUtils.equals(key, ProtocolReplacementParameters.LAST_ACTION_NAME)) {
-//                if (protocol.getLastProtocolAction() != null) {
-//                    params.put(key, getProtocolLastActionName(protocol.getLastProtocolAction().getProtocolActionTypeCode()));    
-//                }
-//            } else if (StringUtils.equals(key, ProtocolReplacementParameters.LAST_ACTION_TYPE_CODE)) {
-//                if (protocol.getLastProtocolAction() != null) {
-//                    params.put(key, protocol.getLastProtocolAction().getProtocolActionTypeCode());
-//                }
             } else if (StringUtils.equals(key, ProtocolReplacementParameters.LAST_SUBMISSION_TYPE_CODE)) {
                 if (protocol.getProtocolSubmission() != null) {
                     params.put(key, protocol.getProtocolSubmission().getSubmissionTypeCode());
@@ -170,10 +162,6 @@ public abstract class ProtocolNotificationRendererBase extends NotificationRende
         String result = null;
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put("committeeId", committeeId);
-        
-// TODO *********commented the code below during IACUC refactoring*********         
-//        List<CommonCommittee> committees = (List<CommonCommittee>) getBusinessObjectService().findMatching(CommonCommittee.class, fieldValues);
-        
         List<CommitteeBase> committees = (List<CommitteeBase>) getBusinessObjectService().findMatching(getCommonCommitteeBOClassHook(), fieldValues);
         if (CollectionUtils.isNotEmpty(committees)) {
             result = committees.get(0).getCommitteeName();

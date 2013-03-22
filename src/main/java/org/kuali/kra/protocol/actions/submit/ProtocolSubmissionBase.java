@@ -78,12 +78,6 @@ public abstract class ProtocolSubmissionBase extends ProtocolAssociateBase {
 
     private Boolean billable;
 
-// TODO *********commented the code below during IACUC refactoring*********     
-//    private List<ProtocolExemptStudiesCheckListItem> exemptStudiesCheckList = new ArrayList<ProtocolExemptStudiesCheckListItem>();
-//
-//    private List<ProtocolExpeditedReviewCheckListItem> expeditedReviewCheckList = new ArrayList<ProtocolExpeditedReviewCheckListItem>();
-
-//TODO: the following should be changed to not initialize the list once OLR is developed.    
     @SkipVersioning
     private transient List<ProtocolOnlineReviewBase> protocolOnlineReviews;
 
@@ -309,23 +303,6 @@ public abstract class ProtocolSubmissionBase extends ProtocolAssociateBase {
     public void setVotingComments(String votingComments) {
         this.votingComments = votingComments;
     }
-
-// TODO *********commented the code below during IACUC refactoring*********     
-//    public void setExemptStudiesCheckList(List<ProtocolExemptStudiesCheckListItem> exemptStudiesCheckList) {
-//        this.exemptStudiesCheckList = exemptStudiesCheckList;
-//    }
-//
-//    public List<ProtocolExemptStudiesCheckListItem> getExemptStudiesCheckList() {
-//        return exemptStudiesCheckList;
-//    }
-//
-//    public void setExpeditedReviewCheckList(List<ProtocolExpeditedReviewCheckListItem> expeditedReviewCheckList) {
-//        this.expeditedReviewCheckList = expeditedReviewCheckList;
-//    }
-//
-//    public List<ProtocolExpeditedReviewCheckListItem> getExpeditedReviewCheckList() {
-//        return expeditedReviewCheckList;
-//    }
 
     /**
      * Gets the protocolReviews attribute. 
