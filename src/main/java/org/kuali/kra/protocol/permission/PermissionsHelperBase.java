@@ -20,6 +20,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.bo.KcPerson;
@@ -30,18 +31,25 @@ import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.protocol.ProtocolFormBase;
 import org.kuali.kra.service.KraAuthorizationService;
+import org.kuali.kra.service.SystemAuthorizationService;
 import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kim.api.permission.PermissionQueryResults;
+import org.kuali.rice.kim.api.type.KimType;
 
 /**
  * The PermissionsHelperBase is used to manage the Permissions tab web page.
  * It contains the data, forms, and methods needed to render the page.
  */
 public abstract class PermissionsHelperBase extends org.kuali.kra.common.permissions.web.struts.form.PermissionsHelperBase {
+    
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = 5896277052902587682L;
     
     protected static final String AGGREGATOR_NAME = "Aggregator";
     protected static final String VIEWER_NAME = "Viewer";
@@ -76,6 +84,8 @@ public abstract class PermissionsHelperBase extends org.kuali.kra.common.permiss
      */
     protected Map<String, String> displayNameMap = null;
     
+    private String roleType;
+
     /**
      * Constructs a PermissionsHelperBase.
      * @param form the form
@@ -83,6 +93,7 @@ public abstract class PermissionsHelperBase extends org.kuali.kra.common.permiss
     public PermissionsHelperBase(ProtocolFormBase form, String roleType) {
         //super(RoleConstants.PROTOCOL_ROLE_TYPE);
         super(roleType);
+        this.roleType = roleType;
         this.form = form;        
     }
     
@@ -121,10 +132,32 @@ public abstract class PermissionsHelperBase extends org.kuali.kra.common.permiss
             KeyValue pair = new ConcreteKeyValue(role, displayNameMap.get(role));    
             keyValues.add(pair);
         }
+        addNonDerivedRoles(keyValues);
         return keyValues;
     }
     
     
+    protected void addNonDerivedRoles(List<KeyValue> keyValues) {
+        List<org.kuali.rice.kim.api.role.Role> kimRoles = getSortedKimRoles(roleType);
+        for (org.kuali.rice.kim.api.role.Role kimRole : kimRoles) {
+            String roleName = kimRole.getName();
+            if (!excludeRoles.contains(roleName) && (!displayNameMap.keySet().contains(roleName)) ) {
+                KimType type = getSystemAuthorizationService().getKimTypeInfoForRole(kimRole);
+                // filter out derived roles and default type roles
+                if (!(StringUtils.startsWith(type.getName(), "Derived Role")) && !(StringUtils.startsWith(type.getName(), "Default"))) {
+                    KeyValue pair = new ConcreteKeyValue(roleName, roleName);    
+                    keyValues.add(pair);
+                }
+            }
+        }
+    }
+       
+    
+    protected SystemAuthorizationService getSystemAuthorizationService() {
+        return KraServiceLocator.getService(SystemAuthorizationService.class);
+    }           
+            
+  
     /*
      * Get the ProtocolBase.
      */
@@ -193,6 +226,10 @@ public abstract class PermissionsHelperBase extends org.kuali.kra.common.permiss
     protected List<KcPerson> getPersonsInRole(String roleName) {
         KraAuthorizationService kraAuthorizationService = KraServiceLocator.getService(KraAuthorizationService.class);
         return kraAuthorizationService.getPersonsInRole(getProtocol(), roleName);
+    }
+    
+    public String getRoleType() {
+        return roleType;
     }
 
 }
