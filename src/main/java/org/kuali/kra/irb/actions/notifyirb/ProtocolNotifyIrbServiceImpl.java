@@ -78,7 +78,6 @@ public class ProtocolNotifyIrbServiceImpl implements ProtocolNotifyIrbService {
         protocolAction.setComments(notifyIrbBean.getComment());
         protocol.getProtocolActions().add(protocolAction);
         protocolActionService.updateProtocolStatus(protocolAction, protocol);
-//        businessObjectService.save(protocol.getProtocolDocument());
         if (!CollectionUtils.isEmpty(notifyIrbBean.getQuestionnaireHelper().getAnswerHeaders())) {
             saveQuestionnaire(notifyIrbBean, submission.getSubmissionNumber());
             notifyIrbBean.getQuestionnaireHelper().setAnswerHeaders(new ArrayList<AnswerHeader>());
@@ -86,13 +85,6 @@ public class ProtocolNotifyIrbServiceImpl implements ProtocolNotifyIrbService {
         cleanUnreferencedQuestionnaire(protocol.getProtocolNumber());
         documentService.saveDocument(protocol.getProtocolDocument());
         protocol.refreshReferenceObject("protocolSubmissions");
-//        try {
-//            NotifyIrbNotificationRenderer renderer = new NotifyIrbNotificationRenderer(protocol, protocolAction.getComments());
-//            IRBNotificationContext context = new IRBNotificationContext(protocol, ProtocolActionType.NOTIFY_IRB, "Notify IRB", renderer);
-//            kcNotificationService.sendNotification(context);
-//        } catch (Exception e) {
-//            LOG.info("Notify Irb Notification exception " + e.getStackTrace());
-//        }
     }
     
     private void saveQuestionnaire(ProtocolNotifyIrbBean notifyIrbBean, Integer submissionNumber) {
@@ -118,7 +110,6 @@ public class ProtocolNotifyIrbServiceImpl implements ProtocolNotifyIrbService {
      * Once, one of them is submitted, then the others whould be removed.
      */
     private void cleanUnreferencedQuestionnaire(String protocolNumber) {
-        // TODO : make this a shared 
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put(MODULE_ITEM_CODE, CoeusModule.IRB_MODULE_CODE);
         fieldValues.put(MODULE_ITEM_KEY, protocolNumber + "T");
@@ -137,16 +128,11 @@ public class ProtocolNotifyIrbServiceImpl implements ProtocolNotifyIrbService {
      */
     protected ProtocolSubmission createProtocolSubmission(Protocol protocol, ProtocolNotifyIrbBean notifyIrbBean) {
         ProtocolSubmissionBuilder submissionBuilder = new ProtocolSubmissionBuilder(protocol, ProtocolSubmissionType.NOTIFY_IRB);
-        //submissionBuilder.setProtocolReviewTypeCode(ProtocolReviewType.FULL_TYPE_CODE);
-        //submissionBuilder.setProtocolReviewTypeCode(ProtocolReviewType.FYI_TYPE_CODE);
         submissionBuilder.setProtocolReviewTypeCode(notifyIrbBean.getReviewTypeCode());
         submissionBuilder.setSubmissionTypeQualifierCode(notifyIrbBean.getSubmissionQualifierTypeCode());
         submissionBuilder.setSubmissionStatus(ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE);
         submissionBuilder.setCommittee(notifyIrbBean.getCommitteeId());
         submissionBuilder.setComments(notifyIrbBean.getComment());
-//        for (ProtocolActionAttachment attachment : notifyIrbBean.getActionAttachments()) {
-//            submissionBuilder.addAttachment(attachment.getFile());
-//        }
         submissionBuilder.setActionAttachments(notifyIrbBean.getActionAttachments());
         ProtocolSubmission submission = submissionBuilder.create();
         // schedule id is set to null

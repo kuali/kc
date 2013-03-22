@@ -23,17 +23,4 @@ import org.kuali.kra.protocol.actions.amendrenew.CreateRenewalRuleBase;
  */
 public class CreateRenewalRule extends CreateRenewalRuleBase {
 
-// TODO ********************** commented out during IRB backfit ************************    
-//    public boolean processRules(CreateRenewalEvent event) {
-//        
-//        boolean valid = true;
-//        
-//        if (StringUtils.isBlank(event.getRenewalSummary())) {
-//            valid = false;
-//            reportError(event.getPropertyName(), KeyConstants.ERROR_PROTOCOL_SUMMARY_IS_REQUIRED);
-//        }
-//                
-//        return valid;
-//    }
-    
 }

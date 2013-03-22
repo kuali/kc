@@ -22,28 +22,4 @@ public class ProtocolReviewerType extends org.kuali.kra.protocol.actions.submit.
 
     public static final String SECONDARY = "2";
 
-// TODO ********************** commented out during IRB backfit ************************    
-//    private String reviewerTypeCode;
-//
-//    private String description;
-//
-//    public ProtocolReviewerType() {
-//    }
-//
-//    public String getReviewerTypeCode() {
-//        return reviewerTypeCode;
-//    }
-//
-//    public void setReviewerTypeCode(String reviewerTypeCode) {
-//        this.reviewerTypeCode = reviewerTypeCode;
-//    }
-//
-//    public String getDescription() {
-//        return description;
-//    }
-//
-//    public void setDescription(String description) {
-//        this.description = description;
-//    }
-    
 }

@@ -133,7 +133,6 @@ public class ProtocolSummaryXmlStream extends ProtocolSummaryXmlStreamBase {
     public ProtocolSummary getProtocolSummary(KraPersistableBusinessObjectBase printableBusinessObject,
             Map<String, Object> htData) {
         Protocol protocol = (Protocol) printableBusinessObject;
-//        protocol.refreshNonUpdateableReferences();
         ProtocolSummary protocolSummary = ProtocolSummary.Factory.newInstance();
         PrintRequirement  printRequirementType = protocolSummary.addNewPrintRequirement();
         protocolSummary.setPrintRequirement(printRequirementType);
@@ -238,19 +237,6 @@ public class ProtocolSummaryXmlStream extends ProtocolSummaryXmlStreamBase {
                 protocolUserRolesType.setUserName(userName);
                 protocolUserRolesType.setPersonName(userName);
             }
-//            if(vecUsers != null && vecUsers.size() > 0 ){
-//                for(int index1= 0 ; index1 < vecUsers.size(); index1++ ){
-//                    protocolUserRolesType.setPersonId(rolesInfoBean.getUserBean().getPersonId());
-//                    protocolUserRolesType.setPersonName(rolesInfoBean.getUserBean().getPersonName());
-//                    protocolUserRolesType.setUnitName(rolesInfoBean.getUserBean().getUnitName());
-//                    protocolUserRolesType.setUnitNumber(rolesInfoBean.getUserBean().getUnitNumber());
-//                    protocolUserRolesType.setUserId(rolesInfoBean.getUserBean().getUserId());
-//                    protocolUserRolesType.setUserName(rolesInfoBean.getUserBean().getUserName());
-//                    protocolRolesType.getUserRoles().add(protocolUserRolesType);
-//                }
-//                
-//            }
-            
         }
     }
     private void setProtocolReferences(ProtocolSummary protocolSummary, Protocol protocol) {
@@ -674,7 +660,6 @@ public class ProtocolSummaryXmlStream extends ProtocolSummaryXmlStreamBase {
                 protocolDetailsType.setCreateTimestamp(getDateTimeService().getCalendar(protocol.getUpdateTimestamp()));
             }
             
-//            protocolDetailsType.setCreateUser(protocol.getProtocolDocument().getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId());
             protocolDetailsType.setDescription(protocol.getDescription());
             if (protocol.getExpirationDate()!=null) {
                 protocolDetailsType.setExpirationDate(getDateTimeService().getCalendar(protocol.getExpirationDate()));

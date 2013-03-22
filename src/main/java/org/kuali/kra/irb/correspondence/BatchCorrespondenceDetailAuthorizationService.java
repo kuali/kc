@@ -21,13 +21,4 @@ package org.kuali.kra.irb.correspondence;
  */
 public interface BatchCorrespondenceDetailAuthorizationService extends org.kuali.kra.protocol.correspondence.BatchCorrespondenceDetailAuthorizationService {
 
-	// TODO ********************** commented out during IRB backfit ************************
-//    /**
-//     * 
-//     * This method checks if the current user has the specified permission.
-//     * @param permissionName the name of the permission
-//     * @return true if the user has permission; otherwise false
-//     */
-//    boolean hasPermission(String permissionName);
-
 }

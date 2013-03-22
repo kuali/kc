@@ -22,22 +22,4 @@ import org.kuali.kra.protocol.actions.genericactions.ProtocolGenericActionRuleBa
  */
 public class ProtocolGenericActionRule extends ProtocolGenericActionRuleBase<ProtocolGenericActionEvent> {
     
-// TODO ********************** commented out during IRB backfit ************************    
-//    private static final String ACTION_DATE_FIELD = "actionDate";
-//    
-//    /**
-//     * {@inheritDoc}
-//     * @see org.kuali.kra.rule.BusinessRuleInterface#processRules(org.kuali.kra.rule.event.KraDocumentEventBaseExtension)
-//     */
-//    public boolean processRules(ProtocolGenericActionEvent event) {
-//        boolean isValid = true;
-//        
-//        if (event.getProtocolGenericActionBean().getActionDate() == null) {
-//            isValid = false;
-//            reportError(ACTION_DATE_FIELD, KeyConstants.ERROR_PROTOCOL_GENERIC_ACTION_DATE_REQUIRED);  
-//        }
-//        
-//        return isValid;
-//    }
-
 }

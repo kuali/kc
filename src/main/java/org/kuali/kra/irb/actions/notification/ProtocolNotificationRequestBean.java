@@ -27,31 +27,6 @@ public class ProtocolNotificationRequestBean extends ProtocolNotificationRequest
      */
     private static final long serialVersionUID = -4383148548571108022L;
     
-// TODO ********************** commented out during IRB backfit ************************
-//    private Protocol protocol;
-//    private ProtocolOnlineReview protocolOnlineReview;
-//    private String actionType;
-//    private String description;
-//    private String docNumber;
-//    private String olrEvent;
-//    private String committeeName;
-//
-//    public ProtocolNotificationRequestBean(Protocol protocol, String actionType, String description) {
-//        this.protocol = protocol;
-//        this.actionType = actionType;
-//        this.description = description;
-//        
-//    }
-//    
-//    public ProtocolNotificationRequestBean(Protocol protocol, ProtocolOnlineReview protocolOnlineReview, String actionType, String description, String docNumber, String olrEvent) {
-//        this(protocol, actionType, description);
-//        this.protocolOnlineReview = protocolOnlineReview;
-//        this.olrEvent = olrEvent;
-//        this.docNumber = docNumber;
-//        
-//    }
-    
- 
     public ProtocolNotificationRequestBean(Protocol protocol, String actionType, String description) {
         super(protocol, actionType, description);
     }
@@ -68,63 +43,4 @@ public class ProtocolNotificationRequestBean extends ProtocolNotificationRequest
     public ProtocolOnlineReview getProtocolOnlineReview() {
         return (ProtocolOnlineReview)super.getProtocolOnlineReview();
     }
-    
-    
-// TODO ********************** commented out during IRB backfit ************************    
-//    public Protocol getProtocol() {
-//        return protocol;
-//    }
-//
-//    public void setProtocol(Protocol protocol) {
-//        this.protocol = protocol;
-//    }
-//
-//    public ProtocolOnlineReview getProtocolOnlineReview() {
-//        return protocolOnlineReview;
-//    }
-//
-//    public void setProtocolOnlineReview(ProtocolOnlineReview protocolOnlineReview) {
-//        this.protocolOnlineReview = protocolOnlineReview;
-//    }
-//
-//    public String getActionType() {
-//        return actionType;
-//    }
-//
-//    public void setActionType(String actionType) {
-//        this.actionType = actionType;
-//    }
-//
-//    public String getDescription() {
-//        return description;
-//    }
-//
-//    public void setDescription(String description) {
-//        this.description = description;
-//    }
-//
-//    public String getDocNumber() {
-//        return docNumber;
-//    }
-//
-//    public void setDocNumber(String docNumber) {
-//        this.docNumber = docNumber;
-//    }
-//
-//    public String getOlrEvent() {
-//        return olrEvent;
-//    }
-//
-//    public void setOlrEvent(String olrEvent) {
-//        this.olrEvent = olrEvent;
-//    }
-//
-//    public String getCommitteeName() {
-//        return committeeName;
-//    }
-//
-//    public void setCommitteeName(String committeeName) {
-//        this.committeeName = committeeName;
-//    }
-        
 }

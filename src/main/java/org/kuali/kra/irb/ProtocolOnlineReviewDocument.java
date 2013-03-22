@@ -81,17 +81,6 @@ public class ProtocolOnlineReviewDocument  extends ProtocolOnlineReviewDocumentB
         protocolOnlineReviewList.add(newProtocolReview);
 	} 
 
-// TODO ********************** commented out during IRB backfit ************************	
-//    @Override
-//    public String serializeDocumentToXml() {
-//        for(ProtocolOnlineReview protocolOnlineReview: this.getProtocolOnlineReviewList()) {
-//            Protocol protocol = protocolOnlineReview.getProtocol();
-//            protocol.getLeadUnitNumber();
-//        }
-//        String xml = super.serializeDocumentToXml(); 
-//        return xml; 
-//    }
-	
       @Override
       public String serializeDocumentToXml() {
           for(ProtocolOnlineReviewBase protocolOnlineReview: this.getProtocolOnlineReviewList()) {
@@ -105,29 +94,6 @@ public class ProtocolOnlineReviewDocument  extends ProtocolOnlineReviewDocumentB
     public void initialize() {
         super.initialize();
     }
-
-// TODO ********************** commented out during IRB backfit ************************    
-//    /**
-//     * 
-//     * This method is a convenience method for facilitating a 1:1 relationship between ProtocolDocument 
-//     * and Protocol to the outside world - aka a single Protocol field associated with ProtocolDocument
-//     * @return
-//     */
-//    public ProtocolOnlineReview getProtocolOnlineReview() {
-//        if (protocolOnlineReviewList.size() == 0) return null;
-//        return protocolOnlineReviewList.get(0);
-//    }
-//
-//    /**
-//     * 
-//     * This method is a convenience method for facilitating a 1:1 relationship between ProtocolDocument 
-//     * and Protocol to the outside world - aka a single Protocol field associated with ProtocolDocument
-//     * @param protocol
-//     */
-//    public void setProtocolOnlineReview(ProtocolOnlineReview protocolOnlineReview) {
-//        protocolOnlineReviewList.set(0, protocolOnlineReview);
-//    }
-    
     
     /**
      * 
@@ -230,38 +196,6 @@ public class ProtocolOnlineReviewDocument  extends ProtocolOnlineReviewDocumentB
         }
     }
 
-    
-// TODO ********************** commented out during IRB backfit ************************    
-//    /**
-//     * @see org.kuali.rice.krad.document.DocumentBase#doRouteStatusChange(org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange)
-//     */
-//    @Override
-//    public void doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) {
-//        super.doRouteStatusChange(statusChangeEvent);
-//        if (StringUtils.equals(statusChangeEvent.getNewRouteStatus(), KewApiConstants.ROUTE_HEADER_CANCEL_CD) 
-//                || StringUtils.equals(statusChangeEvent.getNewRouteStatus(), KewApiConstants.ROUTE_HEADER_DISAPPROVED_CD)) {
-//            if (LOG.isDebugEnabled()) {
-//                LOG.debug(String.format("Protocol Online Review Document %s has been cancelled, deleting associated review comments.", getDocumentNumber()));
-//            }
-//            getProtocolOnlineReview().getProtocolSubmission().getProtocolReviewers().remove(getProtocolOnlineReview().getProtocolReviewer());
-//            
-//            List<CommitteeScheduleMinute> reviewComments = getProtocolOnlineReview().getCommitteeScheduleMinutes();
-//            List<CommitteeScheduleMinute> deletedReviewComments = new ArrayList<CommitteeScheduleMinute>();
-//            getReviewerCommentsService().deleteAllReviewComments(reviewComments, deletedReviewComments);
-//            getReviewerCommentsService().saveReviewComments(reviewComments, deletedReviewComments);
-//
-//            List<ProtocolReviewAttachment> reviewAttachments = getProtocolOnlineReview().getReviewAttachments();
-//            List<ProtocolReviewAttachment> deletedReviewAttachments = new ArrayList<ProtocolReviewAttachment>();
-//            getReviewerCommentsService().deleteAllReviewAttachments(reviewAttachments, deletedReviewAttachments);
-//            getReviewerCommentsService().saveReviewAttachments(reviewAttachments, deletedReviewAttachments);
-//
-//            getProtocolOnlineReview().setProtocolOnlineReviewStatusCode(ProtocolOnlineReviewStatus.REMOVED_CANCELLED_STATUS_CD);
-//            getBusinessObjectService().save(getProtocolOnlineReview());
-//        }
-//    }
-  
-    
-    
     /**
      * @see org.kuali.rice.krad.document.DocumentBase#doActionTaken(org.kuali.rice.kew.framework.postprocessor.ActionTakenEvent)
      */
@@ -365,8 +299,3 @@ public class ProtocolOnlineReviewDocument  extends ProtocolOnlineReviewDocumentB
         return new ArrayList();
     }
 }
-
-
-
-
-

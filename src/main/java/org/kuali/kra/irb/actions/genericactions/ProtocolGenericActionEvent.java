@@ -29,26 +29,6 @@ public class ProtocolGenericActionEvent extends ProtocolGenericActionEventBase {
     public ProtocolGenericActionEvent(ProtocolDocumentBase document, ProtocolGenericActionBean protocolGenericActionBean) {
         super(document, protocolGenericActionBean);
     }
-
-    
-// TODO ********************** commented out during IRB backfit ************************    
-//    private ProtocolGenericActionBean protocolGenericActionBean;
-//
-//    /**
-//     * Constructs a ProtocolGenericActionEvent.
-//     * @param document the document to validate
-//     * @param protocolGenericActionBean the bean that keeps the comments and dates
-//     */
-//    public ProtocolGenericActionEvent(ProtocolDocument document, ProtocolGenericActionBean protocolGenericActionBean) {
-//        super("Performing generic action on document " + getDocumentId(document), protocolGenericActionBean.getErrorPropertyKey(), document);
-//        
-//        this.protocolGenericActionBean = protocolGenericActionBean;
-//    }
-//    
-//    public ProtocolGenericActionBean getProtocolGenericActionBean() {
-//        return protocolGenericActionBean;
-//    }
-
     
     @Override
     @SuppressWarnings({ "unchecked", "rawtypes" })

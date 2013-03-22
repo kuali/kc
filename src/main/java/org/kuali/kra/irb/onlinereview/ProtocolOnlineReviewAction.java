@@ -200,7 +200,6 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
             
             String principalId = bean.getPersonId();
             boolean nonEmployeeFlag = bean.getNonEmployeeFlag();
-            //String reviewerTypeCode = StringUtils.isEmpty(bean.getReviewerTypeCode()) ? ProtocolReviewerType.PRIMARY : bean.getReviewerTypeCode();
             String reviewerTypeCode = onlineReviewHelper.getNewReviewerTypeCode();
             ProtocolSubmission submission = protocolForm.getProtocolDocument().getProtocol().getProtocolSubmission();
             ProtocolReviewer reviewer = (ProtocolReviewer)getProtocolOnlineReviewService().createProtocolReviewer(principalId, nonEmployeeFlag, reviewerTypeCode, submission);
@@ -217,8 +216,6 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
             Protocol protocol = (Protocol)submission.getProtocol();
             ProtocolOnlineReview protocolOnlineReview = (ProtocolOnlineReview)document.getProtocolOnlineReview();
             AssignReviewerNotificationRenderer renderer = new AssignReviewerNotificationRenderer(protocol, "added");
-//            IRBNotificationContext context = new IRBNotificationContext(protocol, protocolOnlineReview, ProtocolActionType.ASSIGN_REVIEWER, "Assign Reviewer", renderer);
-//            getKcNotificationService().sendNotification(context);
             return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_OLR_TAB), protocolForm, renderer, new ProtocolNotificationRequestBean(protocol, protocolOnlineReview, ProtocolActionType.ASSIGN_REVIEWER, "Assign Reviewer", null, null));
         }
         
@@ -354,20 +351,11 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
             Protocol protocol = protocolForm.getProtocolDocument().getProtocol();
             ProtocolOnlineReview protocolOnlineReview = (ProtocolOnlineReview) prDoc.getProtocolOnlineReview();
             IRBNotificationRenderer renderer = new IRBNotificationRenderer(protocol);
-//            IRBNotificationContext context = new IRBNotificationContext(protocol, protocolOnlineReview, ProtocolActionType.REVIEW_COMPLETE, "Review Complete", renderer);
-//            getKcNotificationService().sendNotification(context);
             ActionForward forward = null;
             if (!protocolForm.getEditingMode().containsKey("maintainProtocolOnlineReviews")) {
                 forward = mapping.findForward(PROTOCOL_OLR_TAB);
             }
             return checkToSendNotificationWithHoldingPage(mapping, forward, protocolForm, renderer, new ProtocolNotificationRequestBean(protocol, protocolOnlineReview, ProtocolActionType.REVIEW_COMPLETE, "Review Complete", prDoc.getDocumentNumber(), "Approve"));
-//            if (!protocolForm.getEditingMode().containsKey("maintainProtocolOnlineReviews")) {
-//                // reviewer approve will return here
-//                return mapping.findForward(KNSConstants.MAPPING_PORTAL);
-//            } else if (isApproveReview) {
-//                // admin approve review will return here
-//                return routeProtocolOLRToHoldingPage(mapping, protocolForm, prDoc.getDocumentNumber(), "Approve");
-//            }
         }                
        
         return mapping.findForward(Constants.MAPPING_BASIC);
@@ -376,7 +364,6 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
     
     private ActionForward checkToSendNotificationWithHoldingPage(ActionMapping mapping, ActionForward forward, ProtocolForm protocolForm, IRBNotificationRenderer renderer, ProtocolNotificationRequestBean notificationRequestBean) {
         
-//        AssignReviewerNotificationRenderer renderer = new AssignReviewerNotificationRenderer(notificationRequestBean.getProtocol(), "added");
         IRBNotificationContext context = new IRBNotificationContext(notificationRequestBean.getProtocol(), notificationRequestBean.getProtocolOnlineReview(), notificationRequestBean.getActionType(), notificationRequestBean.getDescription(), renderer);
             
         if (protocolForm.getNotificationHelper().getPromptUserForNotificationEditor(context)) {
@@ -400,7 +387,6 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
         
     private ActionForward checkToSendNotification(ActionMapping mapping, ActionForward forward, ProtocolForm protocolForm, IRBNotificationRenderer renderer, ProtocolNotificationRequestBean notificationRequestBean) {
        
-//        AssignReviewerNotificationRenderer renderer = new AssignReviewerNotificationRenderer(protocol, "added");
         IRBNotificationContext context = new IRBNotificationContext(notificationRequestBean.getProtocol(), notificationRequestBean.getProtocolOnlineReview(), notificationRequestBean.getActionType(), notificationRequestBean.getDescription(), renderer);
         
         if (protocolForm.getNotificationHelper().getPromptUserForNotificationEditor(context)) {
@@ -423,7 +409,6 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
         // use this doc id for holding action to check if online review document is complete and return to online review tab
         returnLocation += "&" + "olrDocId=" + olrDocId + "&" + "olrEvent=" + olrEvent;
         ActionForward basicForward = mapping.findForward(KRADConstants.MAPPING_PORTAL);
-        //ActionForward holdingPageForward = mapping.findForward(Constants.MAPPING_HOLDING_PAGE);
         ActionForward holdingPageForward = mapping.findForward(Constants.MAPPING_HOLDING_PAGE);
         GlobalVariables.getUserSession().addObject(Constants.HOLDING_PAGE_DOCUMENT_ID, (Object)olrDocId);
         // add that alternate session key to the session (for double indirection later in the holding page action)
@@ -542,13 +527,10 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
                 Protocol protocol = protocolForm.getProtocolDocument().getProtocol();
                 ProtocolOnlineReview protocolOnlineReview = (ProtocolOnlineReview) prDoc.getProtocolOnlineReview();
                 RejectReviewNotificationRenderer renderer = new RejectReviewNotificationRenderer(protocol, reason);
-//                IRBNotificationContext context = new IRBNotificationContext(protocol, protocolOnlineReview, ProtocolActionType.REVIEW_REJECTED, "Return to Reviewer", renderer);
-//                getKcNotificationService().sendNotification(context);
                 
                 protocolForm.getOnlineReviewsActionHelper().init(true);
                 recordOnlineReviewActionSuccess("returned to reviewer", prDoc);   
                 return checkToSendNotificationWithHoldingPage(mapping, null, protocolForm, renderer, new ProtocolNotificationRequestBean(protocol, protocolOnlineReview, ProtocolActionType.REVIEW_REJECTED, "Return to Reviewer", prDoc.getDocumentNumber(), "Reject"));
-//                return routeProtocolOLRToHoldingPage(mapping, protocolForm, prDoc.getDocumentNumber(), "Reject");
 
             }
         }
@@ -629,9 +611,6 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
                 ProtocolOnlineReview protocolOnlineReview = (ProtocolOnlineReview) prDoc.getProtocolOnlineReview();
                 Protocol protocol = protocolForm.getProtocolDocument().getProtocol();
                 DeleteReviewNotificationRenderer renderer = new DeleteReviewNotificationRenderer(protocol, reason);
-//                IRBNotificationContext context = new IRBNotificationContext(protocol, protocolOnlineReview, ProtocolActionType.REVIEW_DELETED, "Review Deleted", renderer);
-//                getKcNotificationService().sendNotification(context);
-
                 prDoc.getProtocolOnlineReview().addActionPerformed("Delete");
                 KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase)protocolForm.getOnlineReviewsActionHelper().getDocumentHelperMap().get(onlineReviewDocumentNumber).get(OnlineReviewsActionHelper.FORM_MAP_KEY);
                 doProcessingAfterPost( kualiDocumentFormBase, request );
@@ -646,14 +625,8 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
                 protocolForm.getOnlineReviewsActionHelper().init(true);
                 recordOnlineReviewActionSuccess("deleted", prDoc);
                 return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_OLR_TAB), protocolForm, renderer, new ProtocolNotificationRequestBean(protocol, protocolOnlineReview, ProtocolActionType.REVIEW_DELETED, "Review Deleted", null, null));
-                
-//                if (!protocolForm.getEditingMode().containsKey("maintainProtocolOnlineReviews")) {
-//                    return mapping.findForward(KNSConstants.MAPPING_PORTAL);
-//                }
              }
         }
-        
-//        return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
     /**
@@ -696,7 +669,6 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
             if (!protocolForm.getEditingMode().containsKey("maintainProtocolOnlineReviews")) {
                 //redirect to the actual online review document page.
                 return super.returnToSender(request, mapping, protocolForm);
-                //response.sendRedirect(String.format("protocolOnlineReviewRedirect.do?methodToCall=startProtocolOnlineReview&%s=%s",PROTOCOL_ONLINE_REVIEW_DOCUMENT_NUMBER,prDoc.getDocumentNumber()));
             }
             
          
@@ -743,7 +715,6 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
             reviewCommentsBean.setNewReviewComment(new CommitteeScheduleMinute(MinuteEntryType.PROTOCOL_REVIEWER_COMMENT));
         }
         
-        //protocolForm.getOnlineReviewsActionHelper().init(true);
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }    
 
@@ -770,24 +741,19 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
         long documentIndex = actionHelper.getIndexByDocumentNumber(documentNumber);
         
         if (applyRules(new AddProtocolOnlineReviewAttachmentEvent(document, reviewAttachmentsBean.getErrorPropertyName()+"s["+documentIndex+"].", reviewAttachmentsBean.getNewReviewAttachment()))) {
-//                && applyRules(new SaveProtocolOnlineReviewEvent(document, reviewAttachmentsBean.getReviewAttachments(), documentIndex))) {
-//                if (applyRules(new ProtocolAddReviewAttachmentEvent(document, errorPropertyName, newReviewAttachment))) {
             ProtocolReviewAttachment newReviewAttachment = reviewAttachmentsBean.getNewReviewAttachment();
             List<ProtocolReviewAttachment> reviewAttachments = reviewAttachmentsBean.getReviewAttachments();
             List<ProtocolReviewAttachment> deletedReviewAttachments = reviewAttachmentsBean.getDeletedReviewAttachments();
             if (protocolForm.getEditingMode().get(TaskName.MAINTAIN_PROTOCOL_ONLINEREVIEWS) == null) {
-               // newReviewAttachment.setPrivateFlag(true);
                 newReviewAttachment.setProtocolPersonCanView(false);
             }
             getReviewCommentsService().addReviewAttachment(newReviewAttachment, reviewAttachments, document.getProtocolOnlineReview().getProtocol());
- //           addReviewAttachment(newReviewAttachment, reviewAttachments, document.getProtocolOnlineReview());
             getReviewCommentsService().saveReviewAttachments(reviewAttachments, deletedReviewAttachments);
             getDocumentService().saveDocument(document);
             
             reviewAttachmentsBean.setNewReviewAttachment(new ProtocolReviewAttachment());
         }
         
-        //protocolForm.getOnlineReviewsActionHelper().init(true);
         return mapping.findForward(Constants.MAPPING_AWARD_BASIC);
     }    
 
@@ -926,7 +892,6 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
             List<ProtocolReviewAttachment> reviewAttachments = (List)document.getProtocolOnlineReview().getReviewAttachments();
             List<ProtocolReviewAttachment> deletedReviewAttachments = reviewCommentsBean.getDeletedReviewAttachments();
 
-            // deleteReviewAttachment(reviewAttachments, attachmentIndex, deletedReviewAttachments);
             getReviewCommentsService().deleteReviewAttachment(reviewAttachments, attachmentIndex, deletedReviewAttachments);
             getReviewCommentsService().saveReviewAttachments(reviewAttachments, deletedReviewAttachments);
             actionHelper.getReviewAttachmentsBeanFromHelperMap(documentNumber).setReviewAttachments(reviewAttachments);

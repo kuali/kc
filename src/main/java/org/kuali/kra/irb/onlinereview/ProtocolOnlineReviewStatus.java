@@ -28,25 +28,4 @@ public class ProtocolOnlineReviewStatus extends org.kuali.kra.protocol.onlinerev
 
     public static final String REMOVED_CANCELLED_STATUS_CD = "X";
 
-// TODO ********************** commented out during IRB backfit ************************    
-//    private String statusCode;
-//
-//    private String description;
-//
-//    public String getStatusCode() {
-//        return statusCode;
-//    }
-//
-//    public void setStatusCode(String statusCode) {
-//        this.statusCode = statusCode;
-//    }
-//
-//    public String getDescription() {
-//        return description;
-//    }
-//
-//    public void setDescription(String description) {
-//        this.description = description;
-//    }
-
 }

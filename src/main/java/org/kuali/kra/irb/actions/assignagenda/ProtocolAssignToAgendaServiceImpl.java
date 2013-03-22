@@ -40,60 +40,12 @@ public class ProtocolAssignToAgendaServiceImpl extends ProtocolAssignToAgendaSer
     
     private static final long serialVersionUID = 986748376;
     
-// TODO ********************** commented out during IRB backfit ************************
-//    private DocumentService documentService;
-//    private ProtocolActionService protocolActionService;
-    
     private ProtocolAssignCmtSchedService protocolAssignCmtSchedService;
-    
-// TODO ********************** commented out during IRB backfit ************************    
-//    private CommitteeService committeeService;
-//
-//    public void setDocumentService(DocumentService documentService) {
-//        this.documentService = documentService;
-//    }
-//
-//    public void setProtocolActionService(ProtocolActionService protocolActionService) {
-//        this.protocolActionService = protocolActionService;
-//    }
     
     public void setProtocolAssignCmtSchedService(ProtocolAssignCmtSchedService protocolAssignCmtSchedService) {
         this.protocolAssignCmtSchedService = protocolAssignCmtSchedService;        
     }
     
-// TODO ********************** commented out during IRB backfit ************************    
-//    public void setCommitteeService(CommitteeService committeeService) {
-//        this.committeeService = committeeService;        
-//    }
-//
-//    protected ProtocolSubmission findSubmission(Protocol protocol) {
-//        ProtocolSubmission returnSubmission = null;
-//        for (ProtocolSubmission submission : protocol.getProtocolSubmissions()) {
-//            if ((StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.PENDING)
-//                    || StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE))
-//                    && (returnSubmission == null || returnSubmission.getSequenceNumber() < submission.getSequenceNumber())) {
-//                returnSubmission = submission;
-//            }
-//        }
-//        return returnSubmission;
-//    }
-//
-//    
-//    /** {@inheritDoc} */
-//    public void assignToAgenda(Protocol protocol, ProtocolAssignToAgendaBean actionBean) throws Exception {
-//
-//        ProtocolSubmission submission = findSubmission(protocol);
-//        // add a new protocol action
-//        ProtocolAction protocolAction = new ProtocolAction(protocol, submission, ProtocolActionType.ASSIGN_TO_AGENDA);
-//        protocolAction.setComments(actionBean.getComments());
-//        protocolAction.setActionDate(new Timestamp(actionBean.getActionDate().getTime()));
-//        protocol.getProtocolActions().add(protocolAction);
-//        protocolActionService.updateProtocolStatus(protocolAction, protocol);
-//        documentService.saveDocument(protocol.getProtocolDocument());    
-//    }
-    
-    
-
     protected String getProtocolSubmissionStatusSubmittedToCommitteeCodeHook() {
         return ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE;
     }
@@ -118,43 +70,6 @@ public class ProtocolAssignToAgendaServiceImpl extends ProtocolAssignToAgendaSer
         getProtocolActionService().updateProtocolStatus(protocolAction, protocol);
         getDocumentService().saveDocument(protocol.getProtocolDocument());    
     }
-
-    
-    
-// TODO ********************** commented out during IRB backfit ************************    
-//    /** {@inheritDoc} */
-//    public boolean isAssignedToAgenda(Protocol protocol) {
-//        String protocolSubmissionStatusCode = protocol.getProtocolSubmission().getSubmissionStatusCode();
-//        
-//        return ProtocolSubmissionStatus.IN_AGENDA.equals(protocolSubmissionStatusCode);
-//    }
-//
-//    /** {@inheritDoc} */
-//    public String getAssignToAgendaComments(Protocol protocol) {
-//        ProtocolAction pa = getAssignedToAgendaProtocolAction(protocol);
-//        if (pa == null) {
-//            return "";
-//        } else {
-//            return pa.getComments();
-//        }
-//    }
-//    
-//    /** {@inheritDoc} */
-//    public ProtocolAction getAssignedToAgendaProtocolAction(Protocol protocol) {
-//        Iterator<ProtocolAction> i = protocol.getProtocolActions().iterator();
-//        ProtocolAction returnAction = null;
-//        while (i.hasNext()) {
-//            ProtocolAction pa = i.next();
-//            //the last check verifies the correct instance of the protcol version.
-//            if (pa.getProtocolActionType().getProtocolActionTypeCode().equals(ProtocolActionType.ASSIGN_TO_AGENDA) 
-//                    && (returnAction == null || returnAction.getSequenceNumber().intValue() < pa.getSequenceNumber().intValue())
-//                    && pa.getProtocolId().equals(protocol.getProtocolId())) {
-//                returnAction = pa;
-//            } 
-//        }
-//        return returnAction;
-//    }
-    
     
     protected String getProtocolSubmissionStatusInAgendaCodeHook() {
         return ProtocolSubmissionStatus.IN_AGENDA;
@@ -186,20 +101,6 @@ public class ProtocolAssignToAgendaServiceImpl extends ProtocolAssignToAgendaSer
         return committeeID;
     }
 
-// TODO ********************** commented out during IRB backfit ************************    
-//    /** {@inheritDoc} */
-//    public String getAssignedCommitteeName(Protocol protocol) {
-//        String committeeID = getAssignedCommitteeId(protocol);
-//        if (committeeID != null) {
-//            Committee com = (Committee) this.getCommitteeService().getCommitteeById(committeeID);
-//            if (com != null) {
-//                String committeeName = com.getCommitteeName();
-//                return committeeName;
-//            }
-//        }
-//        return null;
-//    }
-
     /** {@inheritDoc} */
     public String getAssignedScheduleDate(ProtocolBase protocol) {
         String scheduleId = this.protocolAssignCmtSchedService.getAssignedScheduleId((Protocol) protocol);
@@ -211,5 +112,4 @@ public class ProtocolAssignToAgendaServiceImpl extends ProtocolAssignToAgendaSer
         }
         return null;
     }
-
 }

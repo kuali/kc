@@ -33,29 +33,5 @@ public class CreateRenewalEvent extends CreateRenewalEventBase {
     public CreateRenewalRule getRule() {
         return new CreateRenewalRule();
     }
-    
-    
-// TODO ********************** commented out during IRB backfit ************************    
-//    private String renewalSummary;
-//    private String propertyName;
-//
-//    public CreateRenewalEvent(ProtocolDocument document, String propertyName, String renewalSummary) {
-//        super("Create Renewal", "", document);
-//        this.propertyName = propertyName;
-//        this.renewalSummary = renewalSummary;
-//    }
-//    
-//    public ProtocolDocument getProtocolDocument() {
-//        return (ProtocolDocument) getDocument();
-//    }
-//    
-//    public String getPropertyName() {
-//        return propertyName;
-//    }
-//    
-//    public String getRenewalSummary() {
-//        return renewalSummary;
-//    }
-
 }
 

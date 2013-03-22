@@ -21,44 +21,4 @@ package org.kuali.kra.irb.correspondence;
  */
 public interface ProtocolCorrespondenceTemplateService extends org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceTemplateService {
 
-// TODO ********************** commented out during IRB backfit ************************    
-//    /**
-//     * 
-//     * This method adds a default ProtocolCorrespondenceTemplate.
-//     * @param correspondenceType - the protocol correspondence type to which the template is to be added.
-//     * @param correspondenceTemplate - the protocol correspondence template to be added.
-//     * @throws Exception 
-//     */
-//    void addDefaultProtocolCorrespondenceTemplate(ProtocolCorrespondenceType correspondenceType, 
-//            ProtocolCorrespondenceTemplate correspondenceTemplate) throws Exception;
-//    
-//    /**
-//     * 
-//     * This method adds a committee specific ProtocolCorrespondenceTemplate.
-//     * @param correspondenceType - the protocol correspondence type to which the template is to be added.
-//     * @param correspondenceTemplate - the protocol correspondence template to be added.
-//     * @throws Exception 
-//     */
-//    void addCommitteeProtocolCorrespondenceTemplate(ProtocolCorrespondenceType correspondenceType, 
-//            ProtocolCorrespondenceTemplate correspondenceTemplate) throws Exception;
-//    
-//    /**
-//     * 
-//     * This method saves the correspondence templates.
-//     * @param protocolCorrespondenceTypes - the list of protocolCorrespondenceTypes with templates to be saved to the database..
-//     * @param deletedBos - the list of protocolCorrespondenceTemplates that are to be deleted from the database.
-//     */
-//    void saveProtocolCorrespondenceTemplates(List<ProtocolCorrespondenceType> protocolCorrespondenceTypes, 
-//            List<ProtocolCorrespondenceTemplate> deletedBos);
-//    
-//    /**
-//     * 
-//     * This method is to get the correspondence template for the protoCorrespondenceType and the committeeId specified.
-//     * If it is not found for this committee, then retrieve from 'DEFAULT'
-//     * @param committeeId
-//     * @param protoCorrespTypeCode
-//     * @return
-//     */
-//    ProtocolCorrespondenceTemplate getProtocolCorrespondenceTemplate (String committeeId, String protoCorrespTypeCode);
-
 }

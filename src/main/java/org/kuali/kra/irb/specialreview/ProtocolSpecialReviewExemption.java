@@ -31,35 +31,4 @@ public class ProtocolSpecialReviewExemption extends org.kuali.kra.protocol.speci
     public void setProtocolSpecialReview(ProtocolSpecialReview protocolSpecialReview) {
         super.setProtocolSpecialReview(protocolSpecialReview);
     }
-    
-// TODO ********************** commented out during IRB backfit ************************
-//    private Long protocolSpecialReviewExemptionId;
-//
-//    private Long protocolSpecialReviewId;
-//
-//    private ProtocolSpecialReview protocolSpecialReview;
-//
-//    public Long getProtocolSpecialReviewExemptionId() {
-//        return protocolSpecialReviewExemptionId;
-//    }
-//
-//    public void setProtocolSpecialReviewExemptionId(Long protocolSpecialReviewExemptionId) {
-//        this.protocolSpecialReviewExemptionId = protocolSpecialReviewExemptionId;
-//    }
-//
-//    public Long getProtocolSpecialReviewId() {
-//        return protocolSpecialReviewId;
-//    }
-//
-//    public void setProtocolSpecialReviewId(Long protocolSpecialReviewId) {
-//        this.protocolSpecialReviewId = protocolSpecialReviewId;
-//    }
-//
-//    public ProtocolSpecialReview getProtocolSpecialReview() {
-//        return protocolSpecialReview;
-//    }
-//
-//    public void setProtocolSpecialReview(ProtocolSpecialReview protocolSpecialReview) {
-//        this.protocolSpecialReview = protocolSpecialReview;
-//    }
 }
