@@ -380,19 +380,17 @@ protected void checkSubAwardCode(SubAward subAward){
 public ActionForward route(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
     SubAwardForm subAwardForm = (SubAwardForm) form;
-    ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
-
     subAwardForm.setAuditActivated(false);
     ValidationState status = new AuditActionHelper().isValidSubmission(subAwardForm, true);
     if ((status == ValidationState.OK) || (status == ValidationState.WARNING)) {
         super.route(mapping, form, request, response);
-        return sendNotification(mapping, forward, subAwardForm, SubAward.NOTIFICATION_TYPE_SUBMIT, "Submit SubAward");
+        return sendNotification(mapping, subAwardForm, SubAward.NOTIFICATION_TYPE_SUBMIT, "Submit SubAward");
     } else {
         GlobalVariables.getMessageMap().clearErrorMessages();
         GlobalVariables.getMessageMap().
         putError("datavalidation", KeyConstants.ERROR_WORKFLOW_SUBMISSION, new String[] {});
         subAwardForm.setAuditActivated(true);   
-        return forward;
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
 }
@@ -404,20 +402,20 @@ public ActionForward blanketApprove(ActionMapping mapping,
 		ActionForm form, HttpServletRequest request,
         HttpServletResponse response) throws Exception {
     SubAwardForm subAwardForm = (SubAwardForm) form;
-    ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
 
     subAwardForm.setAuditActivated(false);
     ValidationState status = new AuditActionHelper().
     isValidSubmission(subAwardForm, true);
     if ((status == ValidationState.OK) || (status == ValidationState.WARNING)) {
         super.blanketApprove(mapping, form, request, response);
-        return sendNotification(mapping, forward, subAwardForm, SubAward.NOTIFICATION_TYPE_SUBMIT, "Submit SubAward");
+        return sendNotification(mapping, subAwardForm, SubAward.NOTIFICATION_TYPE_SUBMIT, "Submit SubAward");
     } else {
         GlobalVariables.getMessageMap().clearErrorMessages();
         GlobalVariables.getMessageMap().
         putError("datavalidation", KeyConstants.ERROR_WORKFLOW_SUBMISSION,  new String[] {});
         subAwardForm.setAuditActivated(true);
-        return forward;
+        return mapping.findForward(Constants.MAPPING_BASIC);
+
     }
 }
 
@@ -476,7 +474,7 @@ public ActionForward blanketApprove(ActionMapping mapping,
       return KraServiceLocator.getService(KualiRuleService.class).applyRules(event);
   }
 
-  public ActionForward sendNotification(ActionMapping mapping, ActionForward forward, SubAwardForm subAwardForm, 
+  public ActionForward sendNotification(ActionMapping mapping, SubAwardForm subAwardForm, 
                                         String notificationType, String notificationString) {
       SubAward subAward = subAwardForm.getSubAwardDocument().getSubAward();
       SubAwardNotificationContext context = new SubAwardNotificationContext(subAward, notificationType, notificationString, Constants.MAPPING_SUBAWARD_PAGE);
@@ -485,8 +483,8 @@ public ActionForward blanketApprove(ActionMapping mapping,
           return mapping.findForward("notificationEditor");
       } else {
           getNotificationService().sendNotification(context);
+          return mapping.findForward(Constants.MAPPING_BASIC);
       }
-      return forward;
   }
 
   protected KcNotificationService getNotificationService() {
