@@ -57,17 +57,17 @@ public class SubAwardNotificationEditorAction extends SubAwardAction {
     public ActionForward addNotificationRecipient(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
         throws Exception {
         
-        AwardForm awardForm = (AwardForm) form;
-        AwardDocument document = awardForm.getAwardDocument();
-        NotificationTypeRecipient notificationRecipient = awardForm.getNotificationHelper().getNewNotificationRecipient();
-        List<NotificationTypeRecipient> notificationRecipients = awardForm.getNotificationHelper().getNotificationRecipients();
+        SubAwardForm subAwardForm = (SubAwardForm) form;
+        SubAwardDocument document = subAwardForm.getSubAwardDocument();
+        NotificationTypeRecipient notificationRecipient = subAwardForm.getNotificationHelper().getNewNotificationRecipient();
+        List<NotificationTypeRecipient> notificationRecipients = subAwardForm.getNotificationHelper().getNotificationRecipients();
         
         if (applyRules(new AddNotificationRecipientEvent(document, notificationRecipient, notificationRecipients))) {
-            awardForm.getNotificationHelper().getNotificationRecipients().add(notificationRecipient);
-            awardForm.getNotificationHelper().setNewNotificationRecipient(new NotificationTypeRecipient());
-            awardForm.getNotificationHelper().setNewRoleId(null);
-            awardForm.getNotificationHelper().setNewPersonId(null);
-            awardForm.getNotificationHelper().setNewRolodexId(null);
+            subAwardForm.getNotificationHelper().getNotificationRecipients().add(notificationRecipient);
+            subAwardForm.getNotificationHelper().setNewNotificationRecipient(new NotificationTypeRecipient());
+            subAwardForm.getNotificationHelper().setNewRoleId(null);
+            subAwardForm.getNotificationHelper().setNewPersonId(null);
+            subAwardForm.getNotificationHelper().setNewRolodexId(null);
         }
         
         return mapping.findForward(Constants.MAPPING_BASIC);
@@ -86,9 +86,9 @@ public class SubAwardNotificationEditorAction extends SubAwardAction {
     public ActionForward deleteNotificationRecipient(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
         throws Exception {
 
-        AwardForm awardForm = (AwardForm) form;
+        SubAwardForm subAwardForm = (SubAwardForm) form;
         
-        awardForm.getNotificationHelper().getNotificationRecipients().remove(getLineToDelete(request));
+        subAwardForm.getNotificationHelper().getNotificationRecipients().remove(getLineToDelete(request));
         
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
@@ -135,9 +135,9 @@ public class SubAwardNotificationEditorAction extends SubAwardAction {
      * @throws Exception
      */
     public ActionForward cancelNotification(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        AwardForm awardForm = (AwardForm) form;
+        SubAwardForm subAwardForm = (SubAwardForm) form;
         
-        awardForm.getNotificationHelper().setNotificationContext(null);
+        subAwardForm.getNotificationHelper().setNotificationContext(null);
         
         return mapping.findForward(Constants.MAPPING_AWARD_ACTIONS_PAGE);
     }

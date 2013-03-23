@@ -20,7 +20,7 @@
 <kul:tab tabTitle="Transactions (${KualiForm.document.awardNumber})" defaultOpen="false" tabErrorKey="document.newAwardAmountTransaction*,transactionBean.newPendingTransaction.obligatedAmount,transactionBean.newPendingTransaction.anticipatedAmount,transactionBean.newPendingTransaction.timeAndMoneyTransaction,transactionBean.newPendingTransaction.sourceAwardNumber,transactionBean.newPendingTransaction.destinationAwardNumber,document.pendingTransactions*" auditCluster="requiredFieldsAuditErrors" tabAuditKey="" useRiceAuditMode="true">
 	<div class="tab-container" align="center">
     	<h3>
-    		<span class="subhead-left"> Pending Transactions</span>
+    		<span class="subhead-left">  Transactions</span>
     		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.timeandmoney.transactions.PendingTransaction" altText="help"/></span>
         </h3>
         
