@@ -25,6 +25,19 @@
 	<param name="dev.mode">false</param>
 	-->
 	
+	<!--
+	<param name="rice.portal.allowed.regex">^(${application.url}|${rice.server.url})(/.*|)</param>
+	-->
+	<!--
+	<param name="rice.ksb.web.forceEnable">true</param>
+	-->
+	<!-- If running in embedded mode, this should be the same as the context of your Rice server. 
+	Example: For the rice url http://test.kc.kuali.org/kr-dly/portal.jsp
+	the context is kr-dly-->
+	<!--
+	<param name="context.names.rice">kr-dev</param>
+	-->
+	
 	<!-- Rice Server DB -->
 	<!-- Should be the same as KC Client DB when running bundled mode -->
 	<!--
@@ -50,9 +63,6 @@
 	
 	<!-- Financial System WSDL Service URL -->
     <param name="fin.system.integration.service.url">financial system service url</param>
-    
-    
-	
 
 	<!-- Java mail properties -->
 	<param name="mail.from">mail.from@kuali.org</param>
