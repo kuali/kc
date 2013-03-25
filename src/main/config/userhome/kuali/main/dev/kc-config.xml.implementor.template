@@ -71,6 +71,8 @@
 	<param name="keystore.alias">the_alias</param>
 	<param name="keystore.file">/path/to/keystore</param>
 	<param name="keystore.password">the_password</param>
+	
+	<param name="print.xml.directory">${java.io.tmpdir}/printing</param>
 
 	<!-- Configuration for Exception Incident handling and reporting -->
 	<param name="KualiExceptionHandlerAction.EXCEPTION_INCIDENT_REPORT_SERVICE">knsExceptionIncidentService</param>
