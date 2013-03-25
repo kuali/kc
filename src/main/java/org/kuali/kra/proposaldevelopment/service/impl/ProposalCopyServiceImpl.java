@@ -46,6 +46,7 @@ import org.kuali.kra.proposaldevelopment.bo.CongressionalDistrict;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeAttachment;
+import org.kuali.kra.proposaldevelopment.bo.NarrativeUserRights;
 import org.kuali.kra.proposaldevelopment.bo.ProposalAbstract;
 import org.kuali.kra.proposaldevelopment.bo.ProposalCopyCriteria;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
@@ -843,8 +844,21 @@ public class ProposalCopyServiceImpl implements ProposalCopyService {
                 destNarrative.setModuleStatusCode(Constants.NARRATIVE_MODULE_STATUS_INCOMPLETE);
             else
                 destNarrative.setModuleStatusCode(Constants.NARRATIVE_MODULE_STATUS_COMPLETE);
-            
+ 
+            //remove the user performing the copy from the narrative permissions in case they had permissions other than modify.
+            //they will default to modify during the copy as they are the aggregator of the new document.
+            removePersonNarrativePermission(GlobalVariables.getUserSession().getPrincipalId(), destNarrative);
             narrativeService.addNarrative(dest, destNarrative);
+        }
+    }
+    
+    protected void removePersonNarrativePermission(String personId, Narrative narrative) {
+        Iterator<NarrativeUserRights> iter = narrative.getNarrativeUserRights().iterator();
+        while (iter.hasNext()) {
+            NarrativeUserRights right = iter.next();
+            if (StringUtils.equals(right.getUserId(), personId)) {
+                iter.remove();
+            }
         }
     }
     
