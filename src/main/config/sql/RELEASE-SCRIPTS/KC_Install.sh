@@ -116,9 +116,12 @@ case "${dbtype}" in
 		fi
 		
 		sqlplus "${Riceun}"/"${Ricepw}${RiceDBSvrNm}" < krrelease/datasql/KR_00_SEQ_BS.sql
+
+	cd ../..
 	    
 	    if [ "${version}" = "NEW" ]
         then
+        	cd KC-RELEASE-3_0-CLEAN/oracle
     		sqlplus "${Riceun}"/"${Ricepw}${RiceDBSvrNm}" < oracle_server.sql
             sqlplus "${un}"/"${pw}${DBSvrNm}" < oracle_client.sql
         
