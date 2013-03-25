@@ -128,6 +128,13 @@ case "${dbtype}" in
         cd KC-RELEASE-5_0_1-SCRIPT
         sqlplus "${un}"/"${pw}${DBSvrNm}" < KC-RELEASE-5_0_1-Demo-ORACLE.sql
         sqlplus "${Riceun}"/"${Ricepw}${RiceDBSvrNm}" < KR-RELEASE-5_0_1-Demo-ORACLE.sql
+        
+        mv *.log ../LOGS/
+        cd ..
+                
+        cd KC-RELEASE-5_1_0-SCRIPT
+        sqlplus "${un}"/"${pw}${DBSvrNm}" < KC-RELEASE-5_1_0-Demo-ORACLE.sql
+        sqlplus "${Riceun}"/"${Ricepw}${RiceDBSvrNm}" < KR-RELEASE-5_1_0-Demo-ORACLE.sql
 
         mv *.log ../LOGS/
         cd .. ;;

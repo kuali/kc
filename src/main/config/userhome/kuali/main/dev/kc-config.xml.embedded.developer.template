@@ -43,7 +43,7 @@
 	<param name="print.logging.enable">"true" to enable logging</param>
 	
 	<!-- Save Xml Configuration -->
-	<param name="print.xml.directory">directory path</param>
+	<param name="print.xml.directory">${java.io.tmpdir}/printing</param>
 	
 	<!-- Financial System WSDL Service URL -->
 	<param name="fin.system.integration.service.url">financial system service url</param>
