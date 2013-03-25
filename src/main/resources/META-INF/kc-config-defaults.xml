@@ -89,7 +89,7 @@
 	
 	<!-- Rice overrides spring beans -->
    	<param name="rice.kr.additionalSpringFiles">classpath:org/kuali/kra/RiceKnsOverridesSpringBeans.xml
-   	</param>   	
+	</param>
 	
 	<param name="rice.krad.bos.ignoreMissingFieldsOnDeserialize" override="true">KcMaintenanceDocument</param>
 	
@@ -131,7 +131,7 @@
 
 	<!-- Kuali parameters -->
 	<param name="encryption.key">7IC64w6kAAAA</param>
-	<param name="print.xml.directory">${java.io.tmpdir}/printing</param>
+	<param name="print.xml.directory">${java.io.tmpdir}/</param>
 
 	<!-- workaround until Rice resolves KULRICE-4065 -->
 	<param name="enable.nonproduction.data.unmasking">true</param>
