@@ -343,7 +343,15 @@ public class AwardPersonCreditSplitAuditRule implements DocumentAuditRule {
      * @return
      */
     private String getPersonKey(AwardPerson projectPerson) {
-        return projectPerson.getFullName().toString();
+        String personKey = "";
+        if (projectPerson != null) {
+            if (projectPerson.getIsRolodexPerson()) {
+                personKey = projectPerson.getRolodex().getOrganization();
+            } else {
+                personKey = projectPerson.getFullName();
+            }
+        }
+        return personKey;
     }
 
     /*

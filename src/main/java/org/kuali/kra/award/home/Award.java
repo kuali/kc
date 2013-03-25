@@ -2637,7 +2637,13 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
      */
     public String getPrincipalInvestigatorName() {
         AwardPerson pi = getPrincipalInvestigator();
-        principalInvestigatorName = pi != null ? pi.getFullName() : null;
+        if (pi != null) {
+            if (pi.getIsRolodexPerson()) {
+                principalInvestigatorName = pi.getRolodex().getOrganization();
+            } else {
+                principalInvestigatorName = pi.getFullName();
+            }
+        }
         return principalInvestigatorName;
     }
 
