@@ -218,8 +218,8 @@ public class ProtocolXmlStream extends ProtocolXmlStreamBase {
             submissionDetail.setSubmissionTypeDesc(submissionInfoBean.getProtocolSubmissionType().getDescription());
         }
         if (submissionInfoBean.getProtocolSubmissionQualifierType() != null) {
-            submissionDetail.setSubmissionTypeQualifierCode(new BigInteger(String.valueOf(submissionInfoBean
-                    .getSubmissionTypeQualifierCode())));
+            String code = submissionInfoBean.getSubmissionTypeQualifierCode();
+            submissionDetail.setSubmissionTypeQualifierCode(code == null ? new BigInteger("0") : new BigInteger(code));
             submissionDetail.setSubmissionTypeQualifierDesc(submissionInfoBean.getProtocolSubmissionQualifierType()
                     .getDescription());
         }
