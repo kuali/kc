@@ -78,6 +78,7 @@ public class NotificationRendererBaseTest extends KcUnitTestBase {
         assertEquals(USER_FULLNAME_VAL, nameValueMap.get(NotificationRendererBase.USER_FULLNAME));
         // not testing actual value of the application URL since that would make this test quite fragile
         assertTrue(nameValueMap.containsKey(NotificationRendererBase.DOCHANDLER_PREFIX));
+        assertTrue(nameValueMap.containsKey(NotificationRendererBase.APP_LINK_PREFIX));
     }
     
 }
