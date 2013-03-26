@@ -194,7 +194,7 @@ public class IRBNotificationRendererTest extends KcUnitTestBase {
         
         nameValueMap = renderer.getDefaultReplacementParameters();
         
-        assertEquals(22, nameValueMap.size());
+        assertEquals(23, nameValueMap.size());
         assertFalse(nameValueMap.containsKey(IRBReplacementParameters.PROTOCOL_INITIAL_APPROVAL_DATE));
         assertFalse(nameValueMap.containsKey(IRBReplacementParameters.PROTOCOL_LAST_APPROVAL_DATE));
         assertFalse(nameValueMap.containsKey(IRBReplacementParameters.PROTOCOL_EXPIRATION_DATE));
@@ -239,7 +239,7 @@ public class IRBNotificationRendererTest extends KcUnitTestBase {
         
         nameValueMap = renderer.getDefaultReplacementParameters();
         
-        assertEquals(14, nameValueMap.size());
+        assertEquals(15, nameValueMap.size());
         assertFalse(nameValueMap.containsKey(IRBReplacementParameters.PROTOCOL_INITIAL_APPROVAL_DATE));
         assertFalse(nameValueMap.containsKey(IRBReplacementParameters.PROTOCOL_LAST_APPROVAL_DATE));
         assertFalse(nameValueMap.containsKey(IRBReplacementParameters.PROTOCOL_EXPIRATION_DATE));        
