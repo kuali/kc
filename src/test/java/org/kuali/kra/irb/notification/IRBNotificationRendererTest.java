@@ -150,7 +150,7 @@ public class IRBNotificationRendererTest extends KcUnitTestBase {
         renderer.setBusinessObjectService(businessObjectService);
         Map<String, String> nameValueMap = renderer.getDefaultReplacementParameters();
         
-        assertEquals(26, nameValueMap.size());
+        assertEquals(27, nameValueMap.size());
         assertEquals(PROTOCOL_NUMBER_VAL, nameValueMap.get(IRBReplacementParameters.PROTOCOL_NUMBER));
         assertEquals(PI_NAME_VAL, nameValueMap.get(IRBReplacementParameters.PI_NAME));
         assertEquals(LEAD_UNIT_VAL, nameValueMap.get(IRBReplacementParameters.LEAD_UNIT));
