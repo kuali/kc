@@ -36,6 +36,8 @@ public abstract class NotificationRendererBase implements NotificationRenderer, 
     public static final String USER_FULLNAME = "{USER_FULLNAME}";
     public static final String DOCHANDLER_PREFIX = "{DOCUMENT_PREFIX}";
     public static final String RICE_SERVER_URL = "rice.server.url";
+    public static final String APP_LINK_PREFIX = "{APP_LINK_PREFIX}";
+    public static final String APPLICATION_URL_PARM = "application.url";
 
     private transient KcPersonService kcPersonService;
     private ConfigurationService kualiConfigurationService;
@@ -75,9 +77,10 @@ public abstract class NotificationRendererBase implements NotificationRenderer, 
             params.put(USER_FULLNAME, getKcPersonService().getKcPersonByPersonId(GlobalVariables.getUserSession().getPrincipalId()).getFullName());
         }
         params.put(DOCHANDLER_PREFIX, getDocumentLocation());
-        
+        params.put(APP_LINK_PREFIX, getApplicationLinkPrefix());
         return params;
     }
+
 
     public KcPersonService getKcPersonService() {
         if (kcPersonService == null) {
@@ -101,6 +104,16 @@ public abstract class NotificationRendererBase implements NotificationRenderer, 
 
     private String getDocumentLocation() {
         return getKualiConfigurationService().getPropertyValueAsString(RICE_SERVER_URL);
+    }
+    
+    
+    private String getApplicationLinkPrefix() {
+        String retVal = null;
+        retVal = getKualiConfigurationService().getPropertyValueAsString(APPLICATION_URL_PARM);
+        if (retVal == null) {
+            retVal = "..";
+        }
+        return retVal;
     }
 
     private ConfigurationService getKualiConfigurationService() {
