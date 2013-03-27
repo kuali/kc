@@ -639,6 +639,7 @@
         <property name="awardSyncHelpersService" ref="awardSyncHelpersService"/>
         <property name="pessimisticLockService" ref="awardLockService" />
         <property name="kraWorkflowService" ref="kraWorkflowService"/>
+        <property name="kraAuthorizationService" ref="kraAuthorizationService"/>
         <property name="syncExecutor">
             <!-- 
                 Leaving this as an executor, but care should be taken before making this a concurrent executor as database synchronization bugs still exist
