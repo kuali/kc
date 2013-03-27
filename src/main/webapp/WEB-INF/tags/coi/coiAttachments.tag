@@ -37,7 +37,7 @@
 	<kra:permission value="${modify}">
 	<h3>
 		<span class="subhead-left">Attachments (${tabItemCount})</span> 
-		<span class="subhead-right"><kul:help parameterNamespace="KC-COIDISCLOSURE" parameterDetailType="Document" parameterName="coiNotesAndAttachmentsHelp" altText="help"/></span>
+		<span class="subhead-right"><kul:help parameterNamespace="KC-COIDISCLOSURE" parameterDetailType="Document" parameterName="disclNotesAndAttachmentsHelp" altText="help"/></span>
 	</h3>
 	<table cellpadding="4" cellspacing="0" summary="">	
 	         	<tr>

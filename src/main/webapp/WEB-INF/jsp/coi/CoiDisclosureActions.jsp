@@ -45,7 +45,8 @@
     <kra-coi:coiAdministratorActions />
     </kra:section>
     
-<kra:dataValidation auditActivated="${KualiForm.auditActivated}" topTab="false"/>
+<kra:dataValidation auditActivated="${KualiForm.auditActivated}" topTab="false" 
+	helpParameterNamespace = "KC-COIDISCLOSURE" helpParameterDetailType = "Document" helpParameterName = "disclDataValidationHelp"/>
     
 <kul:panelFooter />
 	<kul:documentControls 
