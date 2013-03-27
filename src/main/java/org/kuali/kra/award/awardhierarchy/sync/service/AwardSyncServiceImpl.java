@@ -36,7 +36,9 @@ import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardService;
 import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.bo.versioning.VersionStatus;
+import org.kuali.kra.infrastructure.AwardPermissionConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.KraWorkflowService;
 import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.rice.kew.api.KewApiConstants;
@@ -87,6 +89,7 @@ public class AwardSyncServiceImpl implements AwardSyncService {
     private PersonService personService;
     private PessimisticLockService pessimisticLockService;
     private KraWorkflowService kraWorkflowService;
+    private KraAuthorizationService kraAuthorizationService;
         
     /**
      * @see org.kuali.kra.award.awardhierarchy.sync.service.AwardSyncService#validateHierarchyChanges(org.kuali.kra.award.home.Award)
@@ -369,8 +372,7 @@ public class AwardSyncServiceImpl implements AwardSyncService {
                         //check to see if this award has already had this award sync applied and was completed successfully.
                         //If it has then the workflow step has probably been restarted due to an error and we will not
                         //redo the sync, otherwise clear status and logs from validation or previous runs.
-                        AwardDocument oldAwardDoc = (AwardDocument) getDocumentService().getByDocumentHeaderId(oldAward.getAwardDocument().getDocumentNumber());
-                        if (!hasAwardPermission(awardStatus, oldAwardDoc, 
+                        if (!hasAwardPermission(awardStatus, oldAward, 
                                 parentAward.getAwardDocument().getDocumentHeader().getWorkflowDocument().getRoutedByPrincipalId())) {
                             logFailure(awardStatus, failureMessage, "Sync submitter does not have modify permission on Award.");
                             return;
@@ -510,9 +512,8 @@ public class AwardSyncServiceImpl implements AwardSyncService {
      * @param runnables
      * @return
      */
-    protected boolean hasAwardPermission(AwardSyncStatus awardStatus, AwardDocument awardDocument, String principalId) {
-        Person person = getPersonService().getPerson(principalId);
-        return new AwardDocumentAuthorizer().canEdit(awardDocument, person);
+    protected boolean hasAwardPermission(AwardSyncStatus awardStatus, Award award, String principalId) {
+        return getKraAuthorizationService().hasPermission(principalId, award, AwardPermissionConstants.MODIFY_AWARD.getAwardPermission());
     }
     
     /**
@@ -1037,6 +1038,14 @@ public class AwardSyncServiceImpl implements AwardSyncService {
 
     public void setAwardSyncUtilityService(AwardSyncUtilityService awardSyncUtilityService) {
         this.awardSyncUtilityService = awardSyncUtilityService;
+    }
+
+    protected KraAuthorizationService getKraAuthorizationService() {
+        return kraAuthorizationService;
+    }
+
+    public void setKraAuthorizationService(KraAuthorizationService kraAuthorizationService) {
+        this.kraAuthorizationService = kraAuthorizationService;
     }
 }
 
