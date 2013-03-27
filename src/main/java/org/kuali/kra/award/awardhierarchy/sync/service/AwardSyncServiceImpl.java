@@ -369,7 +369,8 @@ public class AwardSyncServiceImpl implements AwardSyncService {
                         //check to see if this award has already had this award sync applied and was completed successfully.
                         //If it has then the workflow step has probably been restarted due to an error and we will not
                         //redo the sync, otherwise clear status and logs from validation or previous runs.
-                        if (!hasAwardPermission(awardStatus, oldAward, 
+                        AwardDocument oldAwardDoc = (AwardDocument) getDocumentService().getByDocumentHeaderId(oldAward.getAwardDocument().getDocumentNumber());
+                        if (!hasAwardPermission(awardStatus, oldAwardDoc, 
                                 parentAward.getAwardDocument().getDocumentHeader().getWorkflowDocument().getRoutedByPrincipalId())) {
                             logFailure(awardStatus, failureMessage, "Sync submitter does not have modify permission on Award.");
                             return;
@@ -509,9 +510,9 @@ public class AwardSyncServiceImpl implements AwardSyncService {
      * @param runnables
      * @return
      */
-    protected boolean hasAwardPermission(AwardSyncStatus awardStatus, Award award, String principalId) {
+    protected boolean hasAwardPermission(AwardSyncStatus awardStatus, AwardDocument awardDocument, String principalId) {
         Person person = getPersonService().getPerson(principalId);
-        return new AwardDocumentAuthorizer().canEdit(award.getAwardDocument(), person);
+        return new AwardDocumentAuthorizer().canEdit(awardDocument, person);
     }
     
     /**
