@@ -13,6 +13,7 @@
         </c:otherwise>
     </c:choose>
 
+<div align="right"><kul:help parameterNamespace="KC-COIDISCLOSURE" parameterDetailType="Document" parameterName="financialEntityMyHelp" altText="help"/></div>
 
 <kul:tab defaultOpen="true" tabTitle="Financial Entities"  transparentBackground="true"
     tabErrorKey="${errorkey}">
