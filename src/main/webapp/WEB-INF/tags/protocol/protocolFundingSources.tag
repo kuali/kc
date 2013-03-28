@@ -42,7 +42,7 @@
 
     	<h3>
     		<span class="subhead-left">Funding Sources</span>
-    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.irb.protocol.funding.ProtocolFundingSource" altText="help"/></span>
+    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.iacuc.protocol.funding.IacucProtocolFundingSource" altText="help"/></span>
         </h3>
 		
 		

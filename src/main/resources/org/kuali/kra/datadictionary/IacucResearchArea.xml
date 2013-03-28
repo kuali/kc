@@ -26,6 +26,9 @@
 		<property name="lookupDefinition">
 			<ref bean="IacucResearchArea-lookupDefinition"/>
 		</property>
+		<property name="helpDefinition" >
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-IACUC" p:parameterName="protocolAreaOfResearchHelpUrl" p:parameterDetailType="Document" />
+        </property>
 		<property name="titleAttribute" value="researchAreaCode"/>
 		<property name="attributes">
 			<list>
