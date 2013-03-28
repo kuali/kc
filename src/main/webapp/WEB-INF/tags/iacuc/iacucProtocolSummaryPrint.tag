@@ -23,7 +23,7 @@
 	<h3>
    			<span class="subhead-left">Print</span>
    			<span class="subhead-right">
-   				<kul:help parameterNamespace="KC-PROTOCOL" parameterDetailType="Document" parameterName="protocolPrintHelp" altText="help"/>
+   				<kul:help parameterNamespace="KC-IACUC" parameterDetailType="Document" parameterName="protocolPrintHelp" altText="help"/>
 			</span>
        </h3>
         <kul:innerTab tabTitle="Protocol Details" parentTab="" defaultOpen="false">

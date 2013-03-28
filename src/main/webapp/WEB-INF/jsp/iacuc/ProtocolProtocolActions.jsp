@@ -46,7 +46,7 @@
    .compare td, .compare th { color:#666666; }
 </style>
 
-<div align="right"><kul:help documentTypeName="ProtocolDocument" pageName="IACUC Protocol Actions" /></div>
+<div align="right"><kul:help documentTypeName="IacucProtocolDocument" pageName="IACUC Protocol Actions" /></div>
 
 <kra-iacuc:protocolRequestAction />
 <kra-iacuc:iacucProtocolSummaryPrint/>
