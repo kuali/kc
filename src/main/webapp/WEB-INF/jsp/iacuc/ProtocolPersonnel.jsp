@@ -35,6 +35,9 @@
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="personnel">
   	
+	<div align="right"><kul:help documentTypeName="IacucProtocolDocument" pageName="Personnel" /></div>
+  	
+  	
     <kra-protocol:protocolAddPersonnelSection protocolPersonAttributes="${protocolPersonAttributes}"/>
     <kra-protocol:protocolPersons 
         protocolAttributes="${protocolAttributes}"

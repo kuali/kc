@@ -31,12 +31,10 @@
 		<property name="lookupDefinition" >
 			<ref bean="IacucProtocolException-lookupDefinition" />
 		</property>
-		
-		<!--  
+	
 		<property name="helpDefinition" >
-            <bean parent="HelpDefinition" p:parameterNamespace="KC-PROTOCOL" p:parameterName="iacucProtocolExceptionHelp" p:parameterDetailType="Document" />
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-IACUC" p:parameterName="iacucProtocolExceptionHelp" p:parameterDetailType="Document" />
         </property>
-        -->
         
 		<property name="titleAttribute" value="iacucProtocolExceptionId" />
 		<property name="attributes" >

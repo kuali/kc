@@ -27,7 +27,7 @@
 	<div class="tab-container" align="center">
     	<h3>
     		<span class="subhead-left">Organizations</span>
-    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.irb.protocol.location.ProtocolLocation" altText="help"/></span>
+    		<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.iacuc.protocol.location.IacucProtocolLocation" altText="help"/></span>
         </h3>
         <table id="location-table" cellpadding="0" cellspacing="0" summary="">
           	<%-- Header --%>

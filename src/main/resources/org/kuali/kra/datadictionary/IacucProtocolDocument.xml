@@ -46,7 +46,7 @@
             </bean>
             <bean parent="HeaderNavigation">
                 <property name="helpDefinition">
-                    <bean parent="HelpDefinition" p:parameterNamespace="KC-IACUC" p:parameterName="protocolThreeRs" p:parameterDetailType="Document"/>
+                    <bean parent="HelpDefinition" p:parameterNamespace="KC-IACUC" p:parameterName="iacucProtocolThreeRsPageHelp" p:parameterDetailType="Document"/>
                 </property>
                 <property name="headerTabDisplayName" value="The Three R's"/>
                 <property name="headerTabNavigateTo" value="threeRs"/>
@@ -60,7 +60,7 @@
             </bean>
             <bean parent="HeaderNavigation">
                 <property name="helpDefinition">
-                    <bean parent="HelpDefinition" p:parameterNamespace="KC-IACUC" p:parameterName="iacucProtocolSpeciesHelp" p:parameterDetailType="Document"/>
+                    <bean parent="HelpDefinition" p:parameterNamespace="KC-IACUC" p:parameterName="iacucProtocolSpeciesGroupsHelp" p:parameterDetailType="Document"/>
                 </property>
                 <property name="headerTabDisplayName" value="Species/Groups"/>
                 <property name="headerTabNavigateTo" value="speciesAndGroups"/>

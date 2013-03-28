@@ -29,6 +29,9 @@
         <property name="lookupDefinition" >
             <ref bean="IacucProtocolStatus-lookupDefinition" />
         </property>
+        <property name="helpDefinition" >
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-IACUC" p:parameterName="protocolStatusAndDatesHelpUrl" p:parameterDetailType="Document" />
+        </property>
         <property name="titleAttribute" value="protocolStatusCode" />
         <property name="attributes" >
             <list>

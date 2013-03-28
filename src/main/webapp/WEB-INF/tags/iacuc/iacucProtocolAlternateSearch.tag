@@ -76,7 +76,7 @@
         <h3>
             <span class="subhead-left">Alternate Searches</span>
             <span class="subhead-right">
-                <kul:help parameterNamespace="KC-IACUC" parameterDetailType="Document" parameterName="iacucAlternateSearchesHelp" altText="help"/>                
+                <kul:help parameterNamespace="KC-IACUC" parameterDetailType="Document" parameterName="iacucProtocolAlternateSearchHelp" altText="help"/>                
             </span>
         </h3>
         <table cellpadding="4" cellspacing="0" summary="">
