@@ -172,3 +172,4 @@ INSERT INTO KRCR_PARM_T (APPL_ID, NMSPC_CD, CMPNT_CD, PARM_NM, VER_NBR, PARM_TYP
 	VALUES ('KC', 'KC-IACUC', 'Document', 'protocolDataValidationHelp', 1, 'HELP', 
 			'default.htm?turl=Documents/datavalidation5.htm', 'IACUC Protocol Data Validation Help', 'A', SYS_GUID())
 /
+
