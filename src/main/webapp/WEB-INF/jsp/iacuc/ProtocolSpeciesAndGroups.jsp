@@ -29,7 +29,7 @@
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="speciesAndGroups">
 
-  	<div align="right"><kul:help documentTypeName="${KualiForm.docTypeName}" pageName="Protocol Species" /></div>
+  	<div align="right"><kul:help documentTypeName="${KualiForm.docTypeName}" pageName="Species/Groups" /></div>
   	
 	<div id="workarea">
 		<kra-iacuc:speciesAndGroups businessObjectClassName="org.kuali.kra.iacuc.species.IacucProtocolSpecies"

@@ -34,7 +34,7 @@
     <script type="text/javascript" src="scripts/jquery/jquery.treeview.js"></script>
     <script type="text/javascript" src="scripts/jquery/CalendarPopup.js"></script>
     
-  	<div align="right"><kul:help documentTypeName="ProtocolDocument" pageName="Questionnaire" /></div>
+  	<div align="right"><kul:help documentTypeName="IacucProtocolDocument" pageName="Questionnaire" /></div>
 	<kra-iacuc:protocolQuestionnaireAnswers property = "questionnaireHelper" bean = "${KualiForm.questionnaireHelper}"/>
 	<kul:documentControls transactionalDocument="true" suppressRoutingControls="true" />
    	

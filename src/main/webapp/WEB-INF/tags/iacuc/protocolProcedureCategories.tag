@@ -60,6 +60,10 @@
     <kra:permission value="${KualiForm.iacucProtocolProceduresHelper.modifyProtocolProcedures}">
 	    <div class="tab-container" align="center">
 			<kul:innerTab tabTitle="Included Categories" parentTab="${parentTabName}" defaultOpen="false" tabErrorKey="" useCurrentTabIndexAsKey="true">
+			<h3>
+	    		<span class="subhead-left">Included Categories</span>
+	    		<span class="subhead-right"><kul:help parameterNamespace="KC-IACUC" parameterDetailType="Document" parameterName="iacucProtocolIncludedCategoriesHelp" altText="Help"/></span>
+        	</h3>
 		    	<table id="included-categories-table" cellpadding=0 cellspacing=0 summary="">
 	               	<tr>
 						<c:set var="displayTop" value="false" />
@@ -133,7 +137,8 @@
 			<kul:innerTab tabTitle="${procCategory} : ${procDescription}" parentTab="${parentTabName}" defaultOpen="true" tabErrorKey="iacucProtocolStudyGroupBeans[${status.index}]" useCurrentTabIndexAsKey="true">
 		    	<h3>
 		    		<span class="subhead-left">${procCategory} : ${procDescription}</span>
-		    		<span class="subhead-right"><kul:help businessObjectClassName="${businessObjectClassName}" altText="help"/></span>
+		    		<span class="subhead-right"><kul:help parameterNamespace="KC-IACUC" parameterDetailType="Document" parameterName="iacucProtocolProceduresSpecificSectionHelp" altText="Help"/></span>
+
 		        </h3>
 	     		<kra-iacuc:protocolStudyGroups
 	                      collectionReference="${KualiForm.document.protocol.iacucProtocolStudyGroupBeans[status.index].iacucProtocolStudyGroupDetailBeans}"

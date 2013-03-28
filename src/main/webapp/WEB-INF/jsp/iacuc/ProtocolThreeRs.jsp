@@ -68,6 +68,8 @@
    });   
 </script>
 
+	<div align="right"><kul:help documentTypeName="IacucProtocolDocument" pageName="The Three R's" /></div>
+
 <kra-iacuc:iacucProtocolPrinciples 
     protocolPrinciples="${protocolPrinciples}" />
 <kra-iacuc:iacucProtocolAlternateSearch
