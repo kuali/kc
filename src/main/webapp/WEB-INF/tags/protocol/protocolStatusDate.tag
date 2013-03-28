@@ -8,7 +8,7 @@
     <div class="tab-container" align="center">
 		<h3>
 		 	<span class="subhead-left">Status &amp; Dates</span>
-		 	<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.irb.actions.ProtocolStatus" altText="help"/></span>
+		 	<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.iacuc.actions.IacucProtocolStatus" altText="help"/></span>
 		</h3>
     
     	<table id="status-dates-table" cellpadding=0 cellspacing=0 summary="">

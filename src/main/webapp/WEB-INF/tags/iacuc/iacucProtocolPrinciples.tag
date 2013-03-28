@@ -25,7 +25,7 @@
         <h3>
             <span class="subhead-left">Principles</span>
             <span class="subhead-right">
-                <kul:help parameterNamespace="KC-IACUC" parameterDetailType="Document" parameterName="iacucProtocolPrinciplesHelp" altText="help"/>                
+                <kul:help parameterNamespace="KC-IACUC" parameterDetailType="Document" parameterName="iacucProtocolThreeRsPrinciplesHelp" altText="help"/>                
             </span>
         </h3>
         <table cellpadding="4" cellspacing="0" summary="">

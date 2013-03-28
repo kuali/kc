@@ -32,11 +32,10 @@
 			<ref bean="IacucProtocolSpecies-lookupDefinition" />
 		</property>
 		
-		<!--  
+
 		<property name="helpDefinition" >
-            <bean parent="HelpDefinition" p:parameterNamespace="KC-PROTOCOL" p:parameterName="iacucProtocolSpeciesHelp" p:parameterDetailType="Document" />
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-IACUC" p:parameterName="iacucProtocolSpeciesGroupsHelp" p:parameterDetailType="Document" />
         </property>
-        -->
         
 		<property name="titleAttribute" value="iacucProtocolSpeciesId" />
 		<property name="attributes" >

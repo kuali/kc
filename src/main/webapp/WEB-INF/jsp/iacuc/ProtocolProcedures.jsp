@@ -33,7 +33,7 @@
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="procedures">
 
-  	<div align="right"><kul:help documentTypeName="${KualiForm.docTypeName}" pageName="Protocol Procedures" /></div>
+  	<div align="right"><kul:help documentTypeName="${KualiForm.docTypeName}" pageName="Procedures" /></div>
   	
 	<div id="workarea">
 		<kra-iacuc:protocolProcedureOverviewAndTimeline businessObjectClassName="org.kuali.kra.iacuc.IacucProtocol"/>
