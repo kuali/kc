@@ -862,6 +862,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
 
                 if (StringUtils.equals(hierarchyBudgetTypeCode, HierarchyBudgetTypeConstants.SubBudget.code())) {
                     for (BudgetLineItem childLineItem : childPeriod.getBudgetLineItems()) {
+                        ObjectUtils.materializeUpdateableCollections(childLineItem);
                         parentLineItem = (BudgetLineItem) (KraServiceLocator.getService(DeepCopyPostProcessor.class).processDeepCopyWithDeepCopyIgnore(childLineItem));
                         lineItemNumber = parentBudget.getBudgetDocument().getHackedDocumentNextValue(Constants.BUDGET_LINEITEM_NUMBER);
                         
@@ -877,6 +878,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
                         
                         for (BudgetLineItemCalculatedAmount calAmt : parentLineItem.getBudgetLineItemCalculatedAmounts()) {
                             calAmt.setBudgetLineItemCalculatedAmountId(null);
+                            calAmt.setBudgetLineItemId(null);
                             calAmt.setBudgetId(budgetId);
                             calAmt.setBudgetPeriodId(budgetPeriodId);
                             calAmt.setBudgetPeriod(budgetPeriod);
@@ -903,6 +905,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
                             
                             for (BudgetPersonnelCalculatedAmount calAmt : details.getBudgetPersonnelCalculatedAmounts()) {
                                 calAmt.setBudgetPersonnelCalculatedAmountId(null);
+                                calAmt.setBudgetLineItemId(null);
                                 calAmt.setBudgetId(budgetId);
                                 calAmt.setBudgetPeriodId(budgetPeriodId);
                                 calAmt.setBudgetPeriod(budgetPeriod);
@@ -980,6 +983,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
             throw new ProposalHierarchyException("Problem copying line items to parent", e);
         }
 
+        budgetSummaryService.calculateBudget(parentBudget);
     }
     
     protected BudgetPeriod findOrCreateMatchingPeriod(BudgetPeriod childPeriod, Budget parentBudget) {
