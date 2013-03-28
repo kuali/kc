@@ -30,7 +30,7 @@
 			<ref bean="IacucProtocolAttachmentProtocol-lookupDefinition" />
 		</property>
 		<property name="helpDefinition" >
-            <bean parent="HelpDefinition" p:parameterNamespace="KC-IACUC" p:parameterName="protocolAddProtocolAttachmentHelpUrl" p:parameterDetailType="Document" />
+            <bean parent="HelpDefinition" p:parameterNamespace="KC-IACUC" p:parameterName="iacucProtocolAttachmentsHelp" p:parameterDetailType="Document" />
         </property>
 		<property name="titleAttribute" value="id" />
 		<property name="attributes" >
