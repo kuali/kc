@@ -34,7 +34,7 @@
 	<div class="tab-container"  align="center">
 		<h3> 
 			<span class="subhead-left">Available Actions</span>
-			<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.iacuc.actions.IacucProtocolAction" altText="help"/></span>
+			<span class="subhead-right"><kul:help parameterNamespace="KC-IACUC" parameterDetailType="Document" parameterName="protocolAvailableActionsHelpUrl" altText="help"/></span>
 		</h3>
 	
 		<c:if test="${KualiForm.document.protocol.active and showActions}">
