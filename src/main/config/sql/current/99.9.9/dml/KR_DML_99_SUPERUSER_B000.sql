@@ -1,3 +1,4 @@
+set serveroutput on size 1000000
 DECLARE roleCount NUMBER;
         rolePermCount NUMBER;
         CURSOR cur IS SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD LIKE 'KC%';
