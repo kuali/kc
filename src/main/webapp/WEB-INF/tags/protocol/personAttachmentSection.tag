@@ -40,6 +40,10 @@
 		<td>
 			<kul:innerTab tabTitle="Attachments" parentTab="${parentTabName}" defaultOpen="false" tabErrorKey="personnelHelper.newProtocolAttachmentPersonnels[${personIndex}]*" useCurrentTabIndexAsKey="true">
 				<div class="innerTab-container" align="left">
+					<h3>
+	   					<span class="subhead-left">Attachments</span>
+	   					<span class="subhead-right"><kul:help parameterNamespace="KC-IACUC" parameterDetailType="Document" parameterName="iacucProtocolPersonnelAttachmentSectionHelp" altText="help"/></span>
+	       			</h3>
 			        <table class=tab cellpadding="0" cellspacing="0" summary="">
               			<tbody id="G3">
 			          	<%-- Header --%>
