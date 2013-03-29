@@ -235,7 +235,7 @@ case "${dbtype}" in
                 sqlplus "${Riceun}"/"${Ricepw}${RiceDBSvrNm}" < KR_RICE-RELEASE-4_0-Upgrade-ORACLE.sql
                 sqlplus "${Riceun}"/"${Ricepw}${RiceDBSvrNm}" < KR-RELEASE-4_0-Upgrade-ORACLE.sql
             else
-            	sqlplus "${Riceun}"/"${Ricepw}${RiceDBSvrNm}" < KR_RELEASE-4_0-SR-ORACLE.sql
+            	sqlplus "${Riceun}"/"${Ricepw}${RiceDBSvrNm}" < KR-RELEASE-4_0-SR-ORACLE.sql
             fi
             sqlplus "${un}"/"${pw}${DBSvrNm}" < KC-RELEASE-4_0-Upgrade-ORACLE.sql
             mv *.log ../LOGS/

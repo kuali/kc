@@ -1,6 +1,3 @@
---
---
-
 DECLARE doc_typ_id_0 NUMBER;
         doc_typ_id_1 NUMBER;
         doc_typ_id_2 NUMBER;
