@@ -7,7 +7,7 @@ INSERT INTO SEQ_REPORT_ID VALUES(NULL)
 /
 INSERT INTO CUST_REPORT_DETAILS(REPORT_ID,REPORT_LABEL,REPORT_DESCRIPTION,REPORT_TYPE_CODE,RIGHT_REQUIRED,REPORT_DESIGN,FILE_NAME,CONTENT_TYPE,UPDATE_TIMESTAMP,UPDATE_USER,VER_NBR,OBJ_ID) values ((SELECT (MAX(ID)) FROM SEQ_REPORT_ID),'Proposal By College','Proposal By College',(SELECT REPORT_TYPE_CODE FROM CUST_REPORT_TYPE WHERE REPORT_TYPE_DESC = 'Global'),'RUN GLOBAL REPORTS',EMPTY_CLOB(),'proposalbycollege.rptdesign','application/octet-stream',NOW(),'admin',1,UUID())
 /
-DECLARE data CLOB; buffer VARCHAR2(30000);
+DECLARE data CLOB; buffer VARCHAR(30000);
 BEGIN
 SELECT REPORT_DESIGN INTO data FROM CUST_REPORT_DETAILS
 WHERE
@@ -93,7 +93,7 @@ buffer := '<?xml version="1.0" encoding="UTF-8"?>
 DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
 END;
 /
-DECLARE data CLOB; buffer VARCHAR2(30000);
+DECLARE data CLOB; buffer VARCHAR(30000);
 BEGIN
 SELECT REPORT_DESIGN INTO data FROM CUST_REPORT_DETAILS
 WHERE
@@ -176,7 +176,7 @@ buffer := '                      <property name="name">COLLEGE_NAME</property>
 DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
 END;
 /
-DECLARE data CLOB; buffer VARCHAR2(30000);
+DECLARE data CLOB; buffer VARCHAR(30000);
 BEGIN
 SELECT REPORT_DESIGN INTO data FROM CUST_REPORT_DETAILS
 WHERE
@@ -255,7 +255,7 @@ buffer := 'roperty>
 DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
 END;
 /
-DECLARE data CLOB; buffer VARCHAR2(30000);
+DECLARE data CLOB; buffer VARCHAR(30000);
 BEGIN
 SELECT REPORT_DESIGN INTO data FROM CUST_REPORT_DETAILS
 WHERE
@@ -344,7 +344,7 @@ buffer := 'rson_id) and (select SEQUENCE_NUMBER from PROPOSAL_PERSONS pp where p
 DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
 END;
 /
-DECLARE data CLOB; buffer VARCHAR2(30000);
+DECLARE data CLOB; buffer VARCHAR(30000);
 BEGIN
 SELECT REPORT_DESIGN INTO data FROM CUST_REPORT_DETAILS
 WHERE
@@ -441,7 +441,7 @@ buffer := 'ign:displaySize>
 DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
 END;
 /
-DECLARE data CLOB; buffer VARCHAR2(30000);
+DECLARE data CLOB; buffer VARCHAR(30000);
 BEGIN
 SELECT REPORT_DESIGN INTO data FROM CUST_REPORT_DETAILS
 WHERE
@@ -535,7 +535,7 @@ buffer := '<design:uiHints>
 DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
 END;
 /
-DECLARE data CLOB; buffer VARCHAR2(30000);
+DECLARE data CLOB; buffer VARCHAR(30000);
 BEGIN
 SELECT REPORT_DESIGN INTO data FROM CUST_REPORT_DETAILS
 WHERE
@@ -621,7 +621,7 @@ buffer := '</property>
 DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
 END;
 /
-DECLARE data CLOB; buffer VARCHAR2(30000);
+DECLARE data CLOB; buffer VARCHAR(30000);
 BEGIN
 SELECT REPORT_DESIGN INTO data FROM CUST_REPORT_DETAILS
 WHERE
@@ -695,7 +695,7 @@ buffer := 'roperty>
 DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
 END;
 /
-DECLARE data CLOB; buffer VARCHAR2(30000);
+DECLARE data CLOB; buffer VARCHAR(30000);
 BEGIN
 SELECT REPORT_DESIGN INTO data FROM CUST_REPORT_DETAILS
 WHERE
@@ -760,7 +760,7 @@ buffer := 'TAL_DIRECT_COST_TOTAL</property>
 DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
 END;
 /
-DECLARE data CLOB; buffer VARCHAR2(30000);
+DECLARE data CLOB; buffer VARCHAR(30000);
 BEGIN
 SELECT REPORT_DESIGN INTO data FROM CUST_REPORT_DETAILS
 WHERE
@@ -831,7 +831,7 @@ buffer := '<value>NewTableGroup1</value>
 DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
 END;
 /
-DECLARE data CLOB; buffer VARCHAR2(30000);
+DECLARE data CLOB; buffer VARCHAR(30000);
 BEGIN
 SELECT REPORT_DESIGN INTO data FROM CUST_REPORT_DETAILS
 WHERE
@@ -912,7 +912,7 @@ buffer := 'operty>
 DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
 END;
 /
-DECLARE data CLOB; buffer VARCHAR2(30000);
+DECLARE data CLOB; buffer VARCHAR(30000);
 BEGIN
 SELECT REPORT_DESIGN INTO data FROM CUST_REPORT_DETAILS
 WHERE
@@ -983,7 +983,7 @@ buffer := '                                            <property name="textAlign
 DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
 END;
 /
-DECLARE data CLOB; buffer VARCHAR2(30000);
+DECLARE data CLOB; buffer VARCHAR(30000);
 BEGIN
 SELECT REPORT_DESIGN INTO data FROM CUST_REPORT_DETAILS
 WHERE
@@ -1055,7 +1055,7 @@ buffer := 'me="height">0.23958333333333334in</property>
 DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
 END;
 /
-DECLARE data CLOB; buffer VARCHAR2(30000);
+DECLARE data CLOB; buffer VARCHAR(30000);
 BEGIN
 SELECT REPORT_DESIGN INTO data FROM CUST_REPORT_DETAILS
 WHERE
