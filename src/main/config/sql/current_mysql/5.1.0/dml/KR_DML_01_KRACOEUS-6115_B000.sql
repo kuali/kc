@@ -23,4 +23,4 @@ VALUES ('KC-PROTOCOL', 'Document', 'CORRESPONDENCE_SIGNATURE_TAG', UUID(), 1, 'C
 	'Specify signature tag - a location where to place the signature. Application will identify the location based on this key and place the signature below. Multiple tags should be delimited by semi colon', 
 	'A', 'KC')
 /
-DELIMITER;
+DELIMITER ;
