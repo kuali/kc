@@ -1,3 +1,4 @@
+DELIMITER /
 drop procedure if exists p
 /
 
@@ -170,3 +171,4 @@ call p ()
 
 drop procedure if exists p
 /
+DELIMITER ;
