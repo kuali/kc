@@ -10,7 +10,7 @@ delete from krms_term_t where TERM_SPEC_ID=(select TERM_SPEC_ID from KRMS_TERM_S
 /
 delete from KRMS_TERM_SPEC_T where NMSPC_CD='KC-PROTOCOL' and NM='allProtocols'
 /
---public Boolean allProtocols();
+-- public Boolean allProtocols();
 insert into KRMS_FUNC_T (FUNC_ID,NM,DESC_TXT,RTRN_TYP,VER_NBR,ACTV,TYP_ID,NMSPC_CD) 
 	values ('KC1048','allProtocols','True for all protocols','java.lang.Boolean',1,'Y',
 			(select TYP_ID from KRMS_TYP_T where NM='IRB Java Function Term Service' and NMSPC_CD='KC-PROTOCOL'),'KC-PROTOCOL')
@@ -42,7 +42,7 @@ insert into KRMS_TERM_RSLVR_T (TERM_RSLVR_ID, NMSPC_CD, NM, TYP_ID, OUTPUT_TERM_
 					'Y',1)
 /
 
---public Boolean isProtocolAmendment(ProtocolBase protocol);
+-- public Boolean isProtocolAmendment(ProtocolBase protocol);
 insert into KRMS_FUNC_T (FUNC_ID,NM,DESC_TXT,RTRN_TYP,VER_NBR,ACTV,TYP_ID,NMSPC_CD) 
 	values ('KC1049','isProtocolAmendment','Is Protocol an amendment','java.lang.Boolean',1,'Y',
 			(select TYP_ID from KRMS_TYP_T where NM='IRB Java Function Term Service' and NMSPC_CD='KC-PROTOCOL'),'KC-PROTOCOL')

@@ -2,7 +2,7 @@ DELIMITER /
 insert into KRMS_TYP_T(TYP_ID,NM,NMSPC_CD,SRVC_NM,ACTV,VER_NBR) 
 	values ('KC1008','IACUC Java Function Term Service','KC-IACUC','iacucJavaFunctionKrmsTermService','Y',1)
 /
---public Boolean allProtocols();
+-- public Boolean allProtocols();
 insert into KRMS_FUNC_T (FUNC_ID,NM,DESC_TXT,RTRN_TYP,VER_NBR,ACTV,TYP_ID,NMSPC_CD) 
 	values ('KC1068','allProtocols','True for all protocols','java.lang.Boolean',1,'Y',
 			(select TYP_ID from KRMS_TYP_T where NM='IACUC Java Function Term Service' and NMSPC_CD='KC-IACUC'),'KC-IACUC')
@@ -33,7 +33,7 @@ insert into KRMS_TERM_RSLVR_T (TERM_RSLVR_ID, NMSPC_CD, NM, TYP_ID, OUTPUT_TERM_
 					NM=(select FUNC_ID from KRMS_FUNC_T where  NM='allProtocols' and NMSPC_CD='KC-IACUC')),
 					'Y',1)
 /
---public Boolean isProtocolAmendment(ProtocolBase protocol);
+-- public Boolean isProtocolAmendment(ProtocolBase protocol);
 insert into KRMS_FUNC_T (FUNC_ID,NM,DESC_TXT,RTRN_TYP,VER_NBR,ACTV,TYP_ID,NMSPC_CD) 
 	values ('KC1069','isProtocolAmendment','Is Protocol an amendment','java.lang.Boolean',1,'Y',
 			(select TYP_ID from KRMS_TYP_T where NM='IACUC Java Function Term Service' and NMSPC_CD='KC-IACUC'),'KC-IACUC')

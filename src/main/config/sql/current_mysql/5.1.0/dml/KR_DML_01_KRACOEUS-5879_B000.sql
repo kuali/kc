@@ -3,7 +3,7 @@ update KRMS_TYP_T set NMSPC_CD='KC-KRMS' where SRVC_NM in
 	('{http://kc.kuali.org/core/v5_0}javaFunctionTermResolverTypeService',
 		'{http://kc.kuali.org/core/v5_0}storedFunctionTermResolverTypeService') and NMSPC_CD='KC-PD'
 /
---public String multiplePI(DevelopmentProposal developmentProposal);    
+-- public String multiplePI(DevelopmentProposal developmentProposal);    
 insert into KRMS_TERM_SPEC_T (TERM_SPEC_ID, NMSPC_CD, NM, DESC_TXT, TYP, ACTV, VER_NBR) 
 	values ('KC2028','KC-PD',(select FUNC_ID from KRMS_FUNC_T where  NM='multiplePI' and NMSPC_CD='KC-PD'),
 					'Check multi-pis for proposal','java.lang.Boolean','Y',1)
@@ -28,7 +28,7 @@ insert into KRMS_TERM_RSLVR_T (TERM_RSLVR_ID, NMSPC_CD, NM, TYP_ID, OUTPUT_TERM_
 			(select TERM_SPEC_ID from KRMS_TERM_SPEC_T where NMSPC_CD='KC-PD' and 
 					NM=(select FUNC_ID from KRMS_FUNC_T where  NM='multiplePI' and NMSPC_CD='KC-PD')),'Y',1)
 /
---public String s2sBudgetRule(DevelopmentProposal developmentProposal, String formNames);
+-- public String s2sBudgetRule(DevelopmentProposal developmentProposal, String formNames);
 insert into KRMS_TERM_SPEC_T (TERM_SPEC_ID, NMSPC_CD, NM, DESC_TXT, TYP, ACTV, VER_NBR) 
 	values ('KC2029','KC-PD',
 				(select FUNC_ID from KRMS_FUNC_T where  NM='s2sBudgetRule' and NMSPC_CD='KC-PD'),
@@ -54,7 +54,7 @@ insert into KRMS_TERM_RSLVR_PARM_SPEC_T (TERM_RSLVR_PARM_SPEC_ID, TERM_RSLVR_ID,
 	values ('KC2023', 
 			(select TERM_RSLVR_ID from KRMS_TERM_RSLVR_T where NM='S2s form includes Resolver' and NMSPC_CD='KC-PD'), 'S2s forms', 1)
 /
---public String monitoredSponsorRule(DevelopmentProposal developmentProposal, String monitoredSponsorHirearchies);
+-- public String monitoredSponsorRule(DevelopmentProposal developmentProposal, String monitoredSponsorHirearchies);
 insert into KRMS_TERM_SPEC_T (TERM_SPEC_ID, NMSPC_CD, NM, DESC_TXT, TYP, ACTV, VER_NBR) 
 	values ('KC2030','KC-PD',(select FUNC_ID from KRMS_FUNC_T where  NM='monitoredSponsorRule' and NMSPC_CD='KC-PD'),
 			'Check proposal has a sponsor monitored for COI','java.lang.Boolean','Y',1)
@@ -77,7 +77,7 @@ insert into KRMS_TERM_RSLVR_PARM_SPEC_T (TERM_RSLVR_PARM_SPEC_ID, TERM_RSLVR_ID,
 	values ('KC2024', (select TERM_RSLVR_ID from KRMS_TERM_RSLVR_T where NM='Coi monitored sponsor resolver' and NMSPC_CD='KC-PD'), 
 				'Sponsored hirearchies (comma delimited)', 1)
 /
---public String s2sResplanRule(DevelopmentProposal developmentProposal, String narativeTypes, String maxNumber);
+-- public String s2sResplanRule(DevelopmentProposal developmentProposal, String narativeTypes, String maxNumber);
 insert into KRMS_TERM_SPEC_T (TERM_SPEC_ID, NMSPC_CD, NM, DESC_TXT, TYP, ACTV, VER_NBR) 
 	values ('KC2031','KC-PD',
 			(select FUNC_ID from KRMS_FUNC_T where  NM='s2sResplanRule' and NMSPC_CD='KC-PD'),
@@ -104,7 +104,7 @@ insert into KRMS_TERM_RSLVR_PARM_SPEC_T (TERM_RSLVR_PARM_SPEC_ID, TERM_RSLVR_ID,
 insert into KRMS_TERM_RSLVR_PARM_SPEC_T (TERM_RSLVR_PARM_SPEC_ID, TERM_RSLVR_ID, NM, VER_NBR) 
 	values ('KC2026', (select TERM_RSLVR_ID from KRMS_TERM_RSLVR_T where NM='Max Narrative Types Resolver' and NMSPC_CD='KC-PD'), 'Max Number', 1)
 /
---public String grantsFormRule(DevelopmentProposal developmentProposal, String formName);
+-- public String grantsFormRule(DevelopmentProposal developmentProposal, String formName);
 insert into KRMS_TERM_SPEC_T (TERM_SPEC_ID, NMSPC_CD, NM, DESC_TXT, TYP, ACTV, VER_NBR) 
 	values ('KC2032','KC-PD',(select FUNC_ID from KRMS_FUNC_T where  NM='grantsFormRule' and NMSPC_CD='KC-PD'),
 		'Proposal has associated the s2s form passed in','java.lang.Boolean','Y',1)
