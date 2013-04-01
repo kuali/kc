@@ -5,14 +5,8 @@ commit
 /
 INSERT INTO SEQ_REPORT_ID VALUES(NULL)
 /
-INSERT INTO CUST_REPORT_DETAILS(REPORT_ID,REPORT_LABEL,REPORT_DESCRIPTION,REPORT_TYPE_CODE,RIGHT_REQUIRED,REPORT_DESIGN,FILE_NAME,CONTENT_TYPE,UPDATE_TIMESTAMP,UPDATE_USER,VER_NBR,OBJ_ID) values ((SELECT (MAX(ID)) FROM SEQ_REPORT_ID),'Proposal By College','Proposal By College',(SELECT REPORT_TYPE_CODE FROM CUST_REPORT_TYPE WHERE REPORT_TYPE_DESC = 'Global'),'RUN GLOBAL REPORTS',EMPTY_CLOB(),'proposalbycollege.rptdesign','application/octet-stream',NOW(),'admin',1,UUID())
-/
-DECLARE data CLOB; buffer VARCHAR(30000);
-BEGIN
-SELECT REPORT_DESIGN INTO data FROM CUST_REPORT_DETAILS
-WHERE
-REPORT_TYPE_CODE=(SELECT REPORT_TYPE_CODE FROM CUST_REPORT_TYPE WHERE REPORT_TYPE_DESC = 'Global') FOR UPDATE;
-buffer := '<?xml version="1.0" encoding="UTF-8"?>
+INSERT INTO CUST_REPORT_DETAILS(REPORT_ID,REPORT_LABEL,REPORT_DESCRIPTION,REPORT_TYPE_CODE,RIGHT_REQUIRED,FILE_NAME,CONTENT_TYPE,UPDATE_TIMESTAMP,UPDATE_USER,VER_NBR,OBJ_ID,REPORT_DESIGN) values ((SELECT (MAX(ID)) FROM SEQ_REPORT_ID),'Proposal By College','Proposal By College',(SELECT REPORT_TYPE_CODE FROM CUST_REPORT_TYPE WHERE REPORT_TYPE_DESC = 'Global'),'RUN GLOBAL REPORTS','proposalbycollege.rptdesign','application/octet-stream',NOW(),'admin',1,UUID(),
+'<?xml version="1.0" encoding="UTF-8"?>
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.20" id="1">
     <property name="createdBy">Eclipse BIRT Designer Version 2.5.0.v20090603 Build &lt;2.5.0.v20090617-0630></property>
     <property name="units">in</property>
@@ -89,16 +83,7 @@ buffer := '<?xml version="1.0" encoding="UTF-8"?>
                     </structure>
                     <structure>
                         <property name="position">5</property>
-  ';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR(30000);
-BEGIN
-SELECT REPORT_DESIGN INTO data FROM CUST_REPORT_DETAILS
-WHERE
-REPORT_TYPE_CODE=(SELECT REPORT_TYPE_CODE FROM CUST_REPORT_TYPE WHERE REPORT_TYPE_DESC = 'Global') FOR UPDATE;
-buffer := '                      <property name="name">COLLEGE_NAME</property>
+                      <property name="name">COLLEGE_NAME</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
@@ -172,16 +157,7 @@ buffer := '                      <property name="name">COLLEGE_NAME</property>
                 <structure>
                     <property name="position">5</property>
                     <property name="name">COLLEGE_NAME</property>
-                    <property name="nativeName">COLLEGE_NAME</p';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR(30000);
-BEGIN
-SELECT REPORT_DESIGN INTO data FROM CUST_REPORT_DETAILS
-WHERE
-REPORT_TYPE_CODE=(SELECT REPORT_TYPE_CODE FROM CUST_REPORT_TYPE WHERE REPORT_TYPE_DESC = 'Global') FOR UPDATE;
-buffer := 'roperty>
+                    <property name="nativeName">COLLEGE_NAME</property>
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
@@ -251,16 +227,7 @@ buffer := 'roperty>
                             left join PROPOSAL_PERSON_UNITS pu on p.PROPOSAL_NUMBER=(select PROPOSAL_NUMBER from PROPOSAL_PERSONS pp where pp.proposal_person_id = pu.proposal_person_id) and (select SEQUENCE_NUMBER from PROPOSAL_PERSONS pp where pp.proposal_person_id = pu.proposal_person_id)=p.SEQUENCE_NUMBER and (select PERSON_ID from PROPOSAL_PERSONS pp where pp.proposal_person_id = pu.proposal_person_id)=pi.PERSON_ID
                             inner join UNIT u on u.UNIT_NUMBER=pu.UNIT_NUMBER 
                             inner join SPONSOR s ON s.SPONSOR_CODE = p.SPONSOR_CODE
-                            left join PROPOSAL_PER_CREDIT_SPLIT pc on p.PROPOSAL_NUMBER= (select PROPOSAL_NUMBER from PROPOSAL_PERSONS pp where pp.proposal_person_id = pc.proposal_pe';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR(30000);
-BEGIN
-SELECT REPORT_DESIGN INTO data FROM CUST_REPORT_DETAILS
-WHERE
-REPORT_TYPE_CODE=(SELECT REPORT_TYPE_CODE FROM CUST_REPORT_TYPE WHERE REPORT_TYPE_DESC = 'Global') FOR UPDATE;
-buffer := 'rson_id) and (select SEQUENCE_NUMBER from PROPOSAL_PERSONS pp where pp.proposal_person_id = pc.proposal_person_id)=p.SEQUENCE_NUMBER and (select PERSON_ID from PROPOSAL_PERSONS pp where pp.proposal_person_id = pc.proposal_person_id)=pi.PERSON_ID
+                            left join PROPOSAL_PER_CREDIT_SPLIT pc on p.PROPOSAL_NUMBER= (select PROPOSAL_NUMBER from PROPOSAL_PERSONS pp where pp.proposal_person_id = pc.proposal_person_id) and (select SEQUENCE_NUMBER from PROPOSAL_PERSONS pp where pp.proposal_person_id = pc.proposal_person_id)=p.SEQUENCE_NUMBER and (select PERSON_ID from PROPOSAL_PERSONS pp where pp.proposal_person_id = pc.proposal_person_id)=pi.PERSON_ID
           where    p.REQUESTED_START_DATE_INITIAL >= ? and p.REQUESTED_END_DATE_INITIAL <= ? ]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
@@ -340,16 +307,7 @@ buffer := 'rson_id) and (select SEQUENCE_NUMBER from PROPOSAL_PERSONS pp where p
           <design:usageHints>
             <design:label>UNIT_NAME</design:label>
             <design:formattingHints>
-              <design:displaySize>60</des';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR(30000);
-BEGIN
-SELECT REPORT_DESIGN INTO data FROM CUST_REPORT_DETAILS
-WHERE
-REPORT_TYPE_CODE=(SELECT REPORT_TYPE_CODE FROM CUST_REPORT_TYPE WHERE REPORT_TYPE_DESC = 'Global') FOR UPDATE;
-buffer := 'ign:displaySize>
+              <design:displaySize>60</design:displaySize>
             </design:formattingHints>
           </design:usageHints>
         </design:resultColumnDefinitions>
@@ -437,16 +395,7 @@ buffer := 'ign:displaySize>
             <design:precision>200</design:precision>
             <design:scale>0</design:scale>
             <design:nullability>NotNullable</design:nullability>
-            ';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR(30000);
-BEGIN
-SELECT REPORT_DESIGN INTO data FROM CUST_REPORT_DETAILS
-WHERE
-REPORT_TYPE_CODE=(SELECT REPORT_TYPE_CODE FROM CUST_REPORT_TYPE WHERE REPORT_TYPE_DESC = 'Global') FOR UPDATE;
-buffer := '<design:uiHints>
+            <design:uiHints>
               <design:displayName>SPONSOR_NAME</design:displayName>
             </design:uiHints>
           </design:attributes>
@@ -531,16 +480,7 @@ buffer := '<design:uiHints>
             <property name="borderRightStyle">solid</property>
             <property name="borderRightWidth">1pt</property>
             <property name="borderTopColor">#CCCCCC</property>
-            <property name="borderTopStyle">solid';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR(30000);
-BEGIN
-SELECT REPORT_DESIGN INTO data FROM CUST_REPORT_DETAILS
-WHERE
-REPORT_TYPE_CODE=(SELECT REPORT_TYPE_CODE FROM CUST_REPORT_TYPE WHERE REPORT_TYPE_DESC = 'Global') FOR UPDATE;
-buffer := '</property>
+            <property name="borderTopStyle">solid</property>
             <property name="borderTopWidth">1pt</property>
         </style>
     </styles>
@@ -617,16 +557,7 @@ buffer := '</property>
                                         <structure>
                                             <property name="name">satrtDate</property>
                                             <expression name="expression">params["satrtDate"].value</expression>
-                                            <property name="dataType">string</p';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR(30000);
-BEGIN
-SELECT REPORT_DESIGN INTO data FROM CUST_REPORT_DETAILS
-WHERE
-REPORT_TYPE_CODE=(SELECT REPORT_TYPE_CODE FROM CUST_REPORT_TYPE WHERE REPORT_TYPE_DESC = 'Global') FOR UPDATE;
-buffer := 'roperty>
+                                            <property name="dataType">string</property>
                                         </structure>
                                     </list-property>
                                     <property name="resultSetColumn">satrtDate</property>
@@ -691,16 +622,7 @@ buffer := 'roperty>
                                 <property name="dataType">string</property>
                             </structure>
                             <structure>
-                                <property name="name">TO';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR(30000);
-BEGIN
-SELECT REPORT_DESIGN INTO data FROM CUST_REPORT_DETAILS
-WHERE
-REPORT_TYPE_CODE=(SELECT REPORT_TYPE_CODE FROM CUST_REPORT_TYPE WHERE REPORT_TYPE_DESC = 'Global') FOR UPDATE;
-buffer := 'TAL_DIRECT_COST_TOTAL</property>
+                                <property name="name">TOTAL_DIRECT_COST_TOTAL</property>
                                 <property name="displayName">DCOST</property>
                                 <expression name="expression">dataSetRow["TOTAL_DIRECT_COST_TOTAL"]</expression>
                                 <property name="dataType">decimal</property>
@@ -756,16 +678,7 @@ buffer := 'TAL_DIRECT_COST_TOTAL</property>
                                 <property name="name">Aggregation_1</property>
                                 <property name="dataType">float</property>
                                 <simple-property-list name="aggregateOn">
-                                    ';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR(30000);
-BEGIN
-SELECT REPORT_DESIGN INTO data FROM CUST_REPORT_DETAILS
-WHERE
-REPORT_TYPE_CODE=(SELECT REPORT_TYPE_CODE FROM CUST_REPORT_TYPE WHERE REPORT_TYPE_DESC = 'Global') FOR UPDATE;
-buffer := '<value>NewTableGroup1</value>
+                                    <value>NewTableGroup1</value>
                                 </simple-property-list>
                                 <property name="aggregateFunction">SUM</property>
                                 <list-property name="arguments">
@@ -827,16 +740,7 @@ buffer := '<value>NewTableGroup1</value>
                             </structure>
                         </list-property>
                         <column id="468">
-                            <property name="width">0.9583333333333334in</pr';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR(30000);
-BEGIN
-SELECT REPORT_DESIGN INTO data FROM CUST_REPORT_DETAILS
-WHERE
-REPORT_TYPE_CODE=(SELECT REPORT_TYPE_CODE FROM CUST_REPORT_TYPE WHERE REPORT_TYPE_DESC = 'Global') FOR UPDATE;
-buffer := 'operty>
+                            <property name="width">0.9583333333333334in</property>
                         </column>
                         <column id="469">
                             <property name="width">1.46875in</property>
@@ -908,16 +812,7 @@ buffer := 'operty>
                                     <cell id="412">
                                         <label id="413">
                                             <property name="color">#FF0000</property>
-';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR(30000);
-BEGIN
-SELECT REPORT_DESIGN INTO data FROM CUST_REPORT_DETAILS
-WHERE
-REPORT_TYPE_CODE=(SELECT REPORT_TYPE_CODE FROM CUST_REPORT_TYPE WHERE REPORT_TYPE_DESC = 'Global') FOR UPDATE;
-buffer := '                                            <property name="textAlign">right</property>
+                                            <property name="textAlign">right</property>
                                             <text-property name="text">Total #</text-property>
                                         </label>
                                     </cell>
@@ -979,16 +874,7 @@ buffer := '                                            <property name="textAlign
                         </group>
                         <footer>
                             <row id="455">
-                                <property na';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR(30000);
-BEGIN
-SELECT REPORT_DESIGN INTO data FROM CUST_REPORT_DETAILS
-WHERE
-REPORT_TYPE_CODE=(SELECT REPORT_TYPE_CODE FROM CUST_REPORT_TYPE WHERE REPORT_TYPE_DESC = 'Global') FOR UPDATE;
-buffer := 'me="height">0.23958333333333334in</property>
+                                <property name="height">0.23958333333333334in</property>
                                 <cell id="456">
                                     <property name="colSpan">8</property>
                                     <property name="rowSpan">1</property>
@@ -1051,16 +937,7 @@ buffer := 'me="height">0.23958333333333334in</property>
                                 </cell>
                                 <cell id="516">
                                     <property name="colSpan">3</property>
-                                    <property name="';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
-DECLARE data CLOB; buffer VARCHAR(30000);
-BEGIN
-SELECT REPORT_DESIGN INTO data FROM CUST_REPORT_DETAILS
-WHERE
-REPORT_TYPE_CODE=(SELECT REPORT_TYPE_CODE FROM CUST_REPORT_TYPE WHERE REPORT_TYPE_DESC = 'Global') FOR UPDATE;
-buffer := 'rowSpan">1</property>
+                                    <property name="rowSpan">1</property>
                                     <data id="531">
                                         <property name="fontWeight">bold</property>
                                         <property name="resultSetColumn">Aggregation_5</property>
@@ -1074,10 +951,7 @@ buffer := 'rowSpan">1</property>
         </grid>
     </body>
 </report>
-';
-DBMS_LOB.writeappend(data,LENGTH(buffer),buffer);
-END;
-/
+');
 commit
 /
 

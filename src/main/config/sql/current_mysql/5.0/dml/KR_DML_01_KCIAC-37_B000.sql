@@ -1,5 +1,5 @@
 DELIMITER /
-UPDATE KRIM_PERM_T set NM = 'Submit IACUC Protocol' WHERE NM = 'Submit IACUC  protocol for Review'
+UPDATE KRIM_PERM_T set NM = 'Submit IACUC Protocol' WHERE NM = 'Submit IACUC protocol for Review'
 /
 UPDATE KRIM_PERM_T SET DESC_TXT='Submit an IACUC Protocol to committee for review' WHERE NM = 'Submit IACUC Protocol'
 /
