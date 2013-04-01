@@ -181,6 +181,13 @@ case "${dbtype}" in
 
         mv *.log ../LOGS/
         cd ..
+        
+        cd KC-RELEASE-5_1_0-SCRIPT
+        mysql -u ${un} -p${pw} -D ${DBSvrNm} -s -f < KC-RELEASE-5_1_0-Demo-MYSQL.sql > KC-RELEASE-5_1_0-Demo-MYSQL-Install.log 2>&1
+        mysql -u ${Riceun} -p${Ricepw} -D ${RiceDBSvrNm} -s -f < KR-RELEASE-5_1_0-Demo-MYSQL.sql > KR-RELEASE-5_1_0-Demo-MYSQL-Install.log 2>&1
+
+        mv *.log ../LOGS/
+        cd ..
 esac
 
 cd LOGS
