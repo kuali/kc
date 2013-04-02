@@ -312,6 +312,7 @@ case "${dbtype}" in
 		
         mysql -u ${Riceun} -p${Ricepw} -D ${RiceDBSvrNm} -s -f < krrelease/datasql/KR_00_SEQ_BS.sql > KR_SEQ_BS-Mysql-Install.log 2>&1
         
+        mv *.log ../../LOGS/
         cd ../..
         
         if [ "${version}" = "NEW" ]
