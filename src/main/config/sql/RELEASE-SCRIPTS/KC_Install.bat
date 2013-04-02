@@ -288,11 +288,6 @@ if /i "%version%" == "NEW" (
 
 mysql -u %Riceun% -p%Ricepw% -D %Riceun% -s -f < krrelease/datasql/KR_00_SEQ_BS.sql > KR_SEQ_BS-Mysql-Install.log 2>&1
 
-if /i "%version%" == "NEW" (
-    mysql -u %Riceun% -p%Ricepw% -D %Riceun% -s -f < mysql_server.sql > KC-Release-3_0-Clean-Server-Mysql-Install.log 2>&1
-    mysql -u %un% -p%pw% -D %un% -s -f < mysql_client.sql > KC-Release-3_0-Clean-Client-Mysql-Install.log 2>&1
-)
-
 move *.log ../../LOGS/
 cd ../..
 
@@ -300,102 +295,126 @@ goto %version%%dbtype%
 goto usage
 
 :NEWMYSQL
-:3.0MYSQL
+cd KC-RELEASE-3_0-CLEAN/mysql
+if /i "%InstRice%" == "Y" (
+	mysql -u %Riceun% -p%Ricepw% -D %Riceun% -s -f < mysql_server.sql > KC-Release-3_0-Clean-Server-Mysql-Install.log 2>&1
+) else (
+	mysql -u %Riceun% -p%Ricepw% -D %Riceun% -s -f < mysql_server_SR.sql > KC-Release-3_0-Clean-Server-SR-Mysql-Install.log 2>&1
+)
+mysql -u %un% -p%pw% -D %un% -s -f < mysql_client.sql > KC-Release-3_0-Clean-Client-Mysql-Install.log 2>&1
+
+move *.log ../../LOGS
+cd ../..
+
 cd KC-RELEASE-3_0_1-SCRIPT
 mysql -u %un% -p%pw% -D %un% -s -f < KC-Release-3_0-3_0_1-Upgrade-Mysql-Install.sql > KC-Release-3_0-3_0_1-Upgrade-Mysql-Install.log 2>&1
-mysql -u %Riceun% -p%Ricepw% -D %Riceun% -s -f < KR-Release-3_0-3_0_1-Upgrade-Mysql-Install.sql > KR-Release-3_0-3_0_1-Upgrade-Mysql-Install.log 2>&1
+if /i "%InstRice%" == "Y" (
+	mysql -u %Riceun% -p%Ricepw% -D %Riceun% -s -f < KR-Release-3_0-3_0_1-Upgrade-Mysql-Install.sql > KR-Release-3_0-3_0_1-Upgrade-Mysql-Install.log 2>&1
+) else (
+	mysql -u %Riceun% -p%Ricepw% -D %Riceun% -s -f < KR-Release-3_0-3_0_1-SR-Mysql-Install.sql > KR-Release-3_0-3_0_1-SR-Mysql-Install.log 2>&1
+)
 move *.log ../LOGS
 cd ..
 
-:3.0.1MYSQL
 cd KC-RELEASE-3_1_SP1-SCRIPT
 mysql -u %un% -p%pw% -D %un% -s -f < KC-Release-3_0_1-3_1_S1-Upgrade-Mysql-Install.sql > KC-Release-3_0_1-3_1_S1-Upgrade-Mysql-Install.log 2>&1
-mysql -u %Riceun% -p%Ricepw% -D %Riceun% -s -f < KR-Release-3_0_1-3_1_S1-Upgrade-Mysql-Install.sql > KR-Release-3_0_1-3_1_S1-Upgrade-Mysql-Install.log 2>&1
 
-if /i "%mode%%InstRice%" == "EMBEDY" goto 3.1.SP1MYSQLRICE
-if /i "%mode%" == "BUNDLE" goto 3.1.SP1MYSQLRICE
-goto 3.1.SP1MYSQLFINISH
+if /i "%InstRice%" == "Y" (
+	mysql -u %Riceun% -p%Ricepw% -D %Riceun% -s -f < KR-Server-Release-1_0_3-1_0_3_1-Upgrade-Mysql-Install.sql > KR-Server-Release-1_0_3_1-Upgrade-Mysql-Install.log 2>&1
+	mysql -u %Riceun% -p%Ricepw% -D %Riceun% -s -f < KR-Release-3_0_1-3_1_S1-Upgrade-Mysql-Install.sql > KR-Release-3_0_1-3_1_S1-Upgrade-Mysql-Install.log 2>&1
+) else (
+	mysql -u %Riceun% -p%Ricepw% -D %Riceun% -s -f < KR-Release-3_0_1-3_1_S1-SR-Mysql-Install.sql > KR-Release-3_0_1-3_1_S1-SR-Mysql-Install.log 2>&1
+)
 
-:3.1.SP1MYSQLRICE
-mysql -u %Riceun% -p%Ricepw% -D %Riceun% -s -f < KR-Server-Release-1_0_3-1_0_3_1-Upgrade-Mysql-Install.sql > KR-Server-Release-1_0_3_1-Upgrade-Mysql-Install.log 2>&1
-
-:3.1.SP1MYSQLFINISH
 move *.log ../LOGS
 cd ..
 
 cd KC-RELEASE-3_1_SP2-SCRIPT
 mysql -u %un% -p%pw% -D %un% -s -f < KRC-RELEASE-3_1_SP2-Upgrade-MYSQL.sql > KRC-RELEASE-3_1_SP2-Upgrade-MYSQL-Install.log 2>&1
 mysql -u %un% -p%pw% -D %un% -s -f < KC-RELEASE-3_1_SP2-Upgrade-MYSQL.sql > KC-RELEASE-3_1_SP2-Upgrade-MYSQL-Install.log 2>&1
-mysql -u %Riceun% -p%Ricepw% -D %Riceun% -s -f < KR-RELEASE-3_1_SP2-Upgrade-MYSQL.sql > KR-RELEASE-3_1_SP2-Upgrade-MYSQL-Install.log 2>&1
+if /i "%InstRice%" == "Y" (
+	mysql -u %Riceun% -p%Ricepw% -D %Riceun% -s -f < KR-RELEASE-3_1_SP2-Upgrade-MYSQL.sql > KR-RELEASE-3_1_SP2-Upgrade-MYSQL-Install.log 2>&1
+) else (
+	mysql -u %Riceun% -p%Ricepw% -D %Riceun% -s -f < KR-RELEASE-3_1_SP2-SR-MYSQL.sql > KR-RELEASE-3_1_SP2-SR-MYSQL-Install.log 2>&1
+)
 move *.log ../LOGS
 cd ..
 
 cd KC-RELEASE-3_1_SP3-SCRIPT
 mysql -u %un% -p%pw% -D %un% -s -f < KRC-RELEASE-3_1_SP3-Upgrade-MYSQL.sql > KRC-RELEASE-3_1_SP3-Upgrade-MYSQL-Install.log 2>&1
 mysql -u %un% -p%pw% -D %un% -s -f < KC-RELEASE-3_1_SP3-Upgrade-MYSQL.sql > KC-RELEASE-3_1_SP3-Upgrade-MYSQL-Install.log 2>&1
-mysql -u %Riceun% -p%Ricepw% -D %Riceun% -s -f < KR-RELEASE-3_1_SP3-Upgrade-MYSQL.sql > KR-RELEASE-3_1_SP3-Upgrade-MYSQL-Install.log 2>&1
+if /i "%InstRice%" == "Y" (
+	mysql -u %Riceun% -p%Ricepw% -D %Riceun% -s -f < KR-RELEASE-3_1_SP3-Upgrade-MYSQL.sql > KR-RELEASE-3_1_SP3-Upgrade-MYSQL-Install.log 2>&1
+) else (
+	mysql -u %Riceun% -p%Ricepw% -D %Riceun% -s -f < KR-RELEASE-3_1_SP3-SR-MYSQL.sql > KR-RELEASE-3_1_SP3-SR-MYSQL-Install.log 2>&1
+)
 move *.log ../LOGS
 cd ..
 
 cd KC-RELEASE-3_1_SP4-SCRIPT
 mysql -u %un% -p%pw% -D %un% -s -f < KRC-RELEASE-3_1_SP4-Upgrade-MYSQL.sql > KRC-RELEASE-3_1_SP4-Upgrade-MYSQL-Install.log 2>&1
 mysql -u %un% -p%pw% -D %un% -s -f < KC-RELEASE-3_1_SP4-Upgrade-MYSQL.sql > KC-RELEASE-3_1_SP4-Upgrade-MYSQL-Install.log 2>&1
-mysql -u %Riceun% -p%Ricepw% -D %Riceun% -s -f < KR-RELEASE-3_1_SP4-Upgrade-MYSQL.sql  > KR-RELEASE-3_1_SP4-Upgrade-MYSQL-Install.log 2>&1
 
-if /i "%mode%%InstRice%" == "EMBEDY" goto 3.1.SP4MYSQLRICE
-if /i "%mode%" == "BUNDLE" goto 3.1.SP4MYSQLRICE
-goto 3.1.SP4MYSQLFINISH
+if /i "%InstRice%" == "Y" (
+	mysql -u %Riceun% -p%Ricepw% -D %Riceun% -s -f < RICE-1_0_3_1-1_0_3_2-Upgrade-MYSQL.sql > RICE-1_0_3_1-1_0_3_2-Upgrade-MYSQL-Install.log 2>&1
+	mysql -u %Riceun% -p%Ricepw% -D %Riceun% -s -f < KR-RELEASE-3_1_SP4-Upgrade-MYSQL.sql  > KR-RELEASE-3_1_SP4-Upgrade-MYSQL-Install.log 2>&1
+) else (
+	mysql -u %Riceun% -p%Ricepw% -D %Riceun% -s -f < KR-RELEASE-3_1_SP4-SR-MYSQL.sql  > KR-RELEASE-3_1_SP4-SR-MYSQL-Install.log 2>&1
+)
 
-:3.1.SP4MYSQLRICE
-mysql -u %Riceun% -p%Ricepw% -D %Riceun% -s -f < RICE-1_0_3_1-1_0_3_2-Upgrade-MYSQL.sql > RICE-1_0_3_1-1_0_3_2-Upgrade-MYSQL-Install.log 2>&1
-
-:3.1.SP4MYSQLFINISH
 move *.log ../LOGS
 cd ..
 
-:3.1MYSQL
 cd KC-RELEASE-3_1_1-SCRIPT
 mysql -u %un% -p%pw% -D %un% -s -f < KC-RELEASE-3_1_1-Upgrade-MYSQL.sql > KC-RELEASE-3_1_1-Upgrade-MYSQL-Install.log 2>&1
-mysql -u %Riceun% -p%Ricepw% -D %Riceun% -s -f < KR-RELEASE-3_1_1-Upgrade-MYSQL.sql > KR-RELEASE-3_1_1-Upgrade-MYSQL-Install.log 2>&1
+if /i "%InstRice%" == "Y" (
+	mysql -u %Riceun% -p%Ricepw% -D %Riceun% -s -f < KR-RELEASE-3_1_1-Upgrade-MYSQL.sql > KR-RELEASE-3_1_1-Upgrade-MYSQL-Install.log 2>&1
+) else (
+	mysql -u %Riceun% -p%Ricepw% -D %Riceun% -s -f < KR-RELEASE-3_1_1-SR-MYSQL.sql > KR-RELEASE-3_1_1-SR-MYSQL-Install.log 2>&1
+)
 move *.log ../LOGS/
 cd ..
 
-:3.1.1MYSQL
 cd KC-RELEASE-3_2-SCRIPT
 mysql -u %un% -p%pw% -D %un% -s -f < KC-RELEASE-3_2-Upgrade-MYSQL.sql > KC-RELEASE-3_2-Upgrade-MYSQL-Install.log 2>&1
-mysql -u %Riceun% -p%Ricepw% -D %Riceun% -s -f < KR-RELEASE-3_2-Upgrade-MYSQL.sql > KR-RELEASE-3_2-Upgrade-MYSQL-Install.log 2>&1
+if /i "%InstRice%" == "Y" (
+	mysql -u %Riceun% -p%Ricepw% -D %Riceun% -s -f < KR-RELEASE-3_2-Upgrade-MYSQL.sql > KR-RELEASE-3_2-Upgrade-MYSQL-Install.log 2>&1
+) else (
+	mysql -u %Riceun% -p%Ricepw% -D %Riceun% -s -f < KR-RELEASE-3_2-SR-MYSQL.sql > KR-RELEASE-3_2-SR-MYSQL-Install.log 2>&1
+)
 move *.log ../LOGS/
 cd ..
 
-:3.2MYSQL
+
 cd KC-RELEASE-4_0-SCRIPT
 
-if /i "%mode%" == "BUNDLE" goto 3.2MYSQLBUNDLE
-mysql -u %un% -p%pw% -D %un% -s -f < KRC_RICE-RELEASE-4_0-Upgrade-MYSQL.sql > KRC_RICE-RELEASE-4_0-Upgrade-MYSQL-Install.log 2>&1
+if /i "%mode%" == "EMBED" (
+	mysql -u %un% -p%pw% -D %un% -s -f < KRC_RICE-RELEASE-4_0-Upgrade-MYSQL.sql > KRC_RICE-RELEASE-4_0-Upgrade-MYSQL-Install.log 2>&1
+)
 
-:3.2MYSQLBUNDLE
 mysql -u %un% -p%pw% -D %un% -s -f < KC_RICE-RELEASE-4_0-Upgrade-MYSQL.sql > KC_RICE-RELEASE-4_0-Upgrade-MYSQL-Install.log 2>&1
 
-if /i "%mode%%InstRice%" == "EMBEDN" goto 3.2MYSQLNORICE
-mysql -u %Riceun% -p%Ricepw% -D %Riceun% -s -f < KR_RICE-RELEASE-4_0-Upgrade-MYSQL.sql > KR_RICE-RELEASE-4_0-Upgrade-MYSQL-Install.log 2>&1
-
-:3.2MYSQLNORICE
+if /i "%InstRice%" == "Y" (
+	mysql -u %Riceun% -p%Ricepw% -D %Riceun% -s -f < KR_RICE-RELEASE-4_0-Upgrade-MYSQL.sql > KR_RICE-RELEASE-4_0-Upgrade-MYSQL-Install.log 2>&1
+	mysql -u %Riceun% -p%Ricepw% -D %Riceun% -s -f < KR-RELEASE-4_0-Upgrade-MYSQL.sql > KR-RELEASE-4_0-Upgrade-MYSQL-Install.log 2>&1
+) else (
+	mysql -u %Riceun% -p%Ricepw% -D %Riceun% -s -f < KR-RELEASE-4_0-SR-MYSQL.sql > KR-RELEASE-4_0-SR-MYSQL-Install.log 2>&1
+)
 mysql -u %un% -p%pw% -D %un% -s -f < KC-RELEASE-4_0-Upgrade-MYSQL.sql > KC-RELEASE-4_0-Upgrade-MYSQL-Install.log 2>&1
-mysql -u %Riceun% -p%Ricepw% -D %Riceun% -s -f < KR-RELEASE-4_0-Upgrade-MYSQL.sql > KR-RELEASE-4_0-Upgrade-MYSQL-Install.log 2>&1
+
 move *.log ../LOGS/
 cd ..
 
-:4.0MYSQL
 cd KC-RELEASE-5_0-SCRIPT
 
-if /i "%mode%" == "BUNDLE" goto 4.0MYSQLBUNDLE
-mysql -u %un% -p%pw% -D %un% -s -f < KRC_RICE-RELEASE-5_0-Upgrade-MYSQL.sql > KRC_RICE-RELEASE-5_0-Upgrade-MYSQL-Install.log 2>&1
+if /i "%mode%" == "EMBED" (
+	mysql -u %un% -p%pw% -D %un% -s -f < KRC_RICE-RELEASE-5_0-Upgrade-MYSQL.sql > KRC_RICE-RELEASE-5_0-Upgrade-MYSQL-Install.log 2>&1
+)
 
-:4.0MYSQLBUNDLE
-if /i "%mode%%InstRice%" == "EMBEDN" goto 4.0MYSQLNORICE
-mysql -u %Riceun% -p%Ricepw% -D %Riceun% -s -f < KR_RICE-RELEASE-5_0-Upgrade-MYSQL.sql > KR_RICE-RELEASE-5_0-Upgrade-MYSQL-Install.log 2>&1
+if /i "%InstRice%" == "Y" (
+	mysql -u %Riceun% -p%Ricepw% -D %Riceun% -s -f < KR_RICE-RELEASE-5_0-Upgrade-MYSQL.sql > KR_RICE-RELEASE-5_0-Upgrade-MYSQL-Install.log 2>&1
+)
 
-:4.0MYSQLNORICE
 mysql -u %un% -p%pw% -D %un% -s -f < KC-RELEASE-5_0-Upgrade-MYSQL.sql > KC-RELEASE-5_0-Upgrade-MYSQL-Install.log 2>&1
 mysql -u %Riceun% -p%Ricepw% -D %Riceun% -s -f < KR-RELEASE-5_0-Upgrade-MYSQL.sql > KR-RELEASE-5_0-Upgrade-MYSQL-Install.log 2>&1
 move *.log ../LOGS/
@@ -404,9 +423,24 @@ cd ..
 :5.0MYSQL
 cd KC-RELEASE-5_0_1-SCRIPT
 
-:5.0MYSQLNORICE
 mysql -u %un% -p%pw% -D %un% -s -f < KC-RELEASE-5_0_1-Upgrade-MYSQL.sql > KC-RELEASE-5_0_1-Upgrade-MYSQL-Install.log 2>&1
 mysql -u %Riceun% -p%Ricepw% -D %Riceun% -s -f < KR-RELEASE-5_0_1-Upgrade-MYSQL.sql > KR-RELEASE-5_0_1-Upgrade-MYSQL-Install.log 2>&1
+move *.log ../LOGS/
+cd ..
+
+:5.0.1MYSQL
+cd KC-RELEASE-5_1_0-SCRIPT
+
+if /i "%mode%" == "EMBED" (
+	mysql -u %un% -p%pw% -D %un% -s -f < KRC_RICE-RELEASE-5_1_0-Upgrade-MYSQL.sql > KRC_RICE-RELEASE-5_1_0-Upgrade-MYSQL-Install.log 2>&1
+)
+
+if /i "%InstRice%" == "Y" (
+	mysql -u %Riceun% -p%Ricepw% -D %Riceun% -s -f < KR_RICE-RELEASE-5_1_0-Upgrade-MYSQL.sql > KR_RICE-RELEASE-5_1_0-Upgrade-MYSQL-Install.log 2>&1
+)
+
+mysql -u %un% -p%pw% -D %un% -s -f < KC-RELEASE-5_1_0-Upgrade-MYSQL.sql > KC-RELEASE-5_1_0-Upgrade-MYSQL-Install.log 2>&1
+mysql -u %Riceun% -p%Ricepw% -D %Riceun% -s -f < KR-RELEASE-5_1_0-Upgrade-MYSQL.sql > KR-RELEASE-5_1_0-Upgrade-MYSQL-Install.log 2>&1
 move *.log ../LOGS/
 cd ..
 
