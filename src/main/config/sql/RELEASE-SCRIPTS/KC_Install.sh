@@ -272,7 +272,7 @@ case "${dbtype}" in
             then
                 sqlplus "${un}"/"${pw}${DBSvrNm}" < KRC_RICE-RELEASE-5_1_0-Upgrade-ORACLE.sql
             fi
-            if [ "${InstRice}" = "Y" ] || [ "${mode}" = "BUNDLE" ]
+            if [ "${InstRice}" = "Y" ]
             then
                 sqlplus "${Riceun}"/"${Ricepw}${RiceDBSvrNm}" < KR_RICE-RELEASE-5_1_0-Upgrade-ORACLE.sql
             fi
