@@ -2,12 +2,15 @@
 if NOT EXIST "LOGS" mkdir LOGS
 :mode
 set /p mode="Enter Rice Mode (BUNDLE, EMBED) <%mode%>: "
-if /i "%mode%" == "BUNDLE" goto DBType
+if /i "%mode%" == "BUNDLE" (
+	InstRice = 'Y'
+	goto DBType
+)
 if /i "%mode%" == "EMBED" goto InstRice
 echo invalid Rice Mode entered <%mode%>
 goto mode
 :InstRice
-set /p InstRice="Install/Upgrade Embedded Rice Server Side (Y,N) <%InstRice%>: "
+set /p InstRice="Install/Upgrade Embedded Rice Server Side (KC-related Rice data will still be loaded, regardless of response) (Y,N) <%InstRice%>: "
 if /i "%InstRice%" == "Y" goto DBType
 if /i "%InstRice%" == "N" goto DBType
 echo Invalid Response <%InstRice%>
@@ -21,15 +24,10 @@ echo Invalid Database Type <%dbtype%>
 goto dbtype
 
 :Version
-set /p Version="Enter Currently Installed Version (NEW, 3.0, 3.0.1, 3.1, 3.1.1, 3.2, 4.0, 5.0) <%Version%>: "
+set /p Version="Enter Currently Installed Version (NEW, 5.0, 5.0.1) <%Version%>: "
 if /i "%Version%" == "NEW" goto User
-if /i "%Version%" == "3.0" goto User
-if /i "%Version%" == "3.0.1" goto User
-if /i "%Version%" == "3.1" goto User
-if /i "%Version%" == "3.1.1" goto User
-if /i "%Version%" == "3.2" goto User
-if /i "%Version%" == "4.0" goto User
 if /i "%Version%" == "5.0" goto User
+if /i "%Version%" == "5.0.1" goto User
 echo Invalid Version <%Version%>
 goto Version
 
@@ -110,128 +108,164 @@ if /i "%version%" == "NEW" (
 )
 
 sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < krrelease/datasql/KR_00_SEQ_BS.sql
-
-if /i "%version%" == "NEW" (
-    sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < oracle_server.sql
-    sqlplus "%un%"/"%pw%"@"%DBSvrNm%" < oracle_client.sql
-)
-
-move *.log ../../LOGS/
 cd ../..
 
 goto %version%%dbtype%
 goto usage
 
 :NEWORACLE
-:3.0ORACLE
+cd KC-RELEASE-3_0-CLEAN/oracle
+if /i "%InstRice%" == "Y" (
+    sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < oracle_server.sql
+) else (
+	sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < oracle_server_SR.sql
+)
+sqlplus "%un%"/"%pw%"@"%DBSvrNm%" < oracle_client.sql
+
+move *.log ../../LOGS/
+cd ../..
+
 cd KC-RELEASE-3_0_1-SCRIPT
 sqlplus "%un%"/"%pw%"@"%DBSvrNm%" < KC-Release-3_0-3_0_1-Upgrade-Oracle-Install.sql
-sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < KR-Release-3_0-3_0_1-Upgrade-Oracle-Install.sql
+if /i "%InstRice%" == "Y" (
+	sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < KR-Release-3_0-3_0_1-Upgrade-Oracle-Install.sql
+) else (
+	sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < KR-Release-3_0-3_0_1-SR-Oracle-Install.sql
+)
 move *.log ../LOGS
 cd ..
 
-:3.0.1ORACLE
 cd KC-RELEASE-3_1_SP1-SCRIPT
 sqlplus "%un%"/"%pw%"@"%DBSvrNm%" < KC-Release-3_0_1-3_1_S1-Upgrade-Oracle-Install.sql
-sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < KR-Release-3_0_1-3_1_S1-Upgrade-Oracle-Install.sql
 
-if /i "%mode%%InstRice%" == "EMBEDY" goto 3.1.SP1ORACLERICE
-if /i "%mode%" == "BUNDLE" goto 3.1.SP1ORACLERICE
-goto 3.1.SP1ORACLEFINISH
+if /i "%InstRice%" == "Y" (
+	sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < KR-Server-Release-1_0_3-1_0_3_1-Upgrade-Oracle-Install.sql
+	sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < KR-Release-3_0_1-3_1_S1-Upgrade-Oracle-Install.sql
+) else (
+	sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < KR-Release-3_0_1-3_1_S1-SR-Oracle-Install.sql
+)
 
-:3.1.SP1ORACLERICE
-sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < KR-Server-Release-1_0_3-1_0_3_1-Upgrade-Oracle-Install.sql
-
-:3.1.SP1ORACLEFINISH
 move *.log ../LOGS
 cd ..
 
 cd KC-RELEASE-3_1_SP2-SCRIPT
 sqlplus "%un%"/"%pw%"@"%DBSvrNm%" < KRC-RELEASE-3_1_SP2-Upgrade-ORACLE.sql
 sqlplus "%un%"/"%pw%"@"%DBSvrNm%" < KC-RELEASE-3_1_SP2-Upgrade-ORACLE.sql
-sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < KR-RELEASE-3_1_SP2-Upgrade-ORACLE.sql
+if /i "%InstRice%" == "Y" (
+	sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < KR-RELEASE-3_1_SP2-Upgrade-ORACLE.sql
+) else (
+	sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < KR-RELEASE-3_1_SP2-SR-ORACLE.sql
+)
 move *.log ../LOGS
 cd ..
 
 cd KC-RELEASE-3_1_SP3-SCRIPT
 sqlplus "%un%"/"%pw%"@"%DBSvrNm%" < KRC-RELEASE-3_1_SP3-Upgrade-ORACLE.sql
 sqlplus "%un%"/"%pw%"@"%DBSvrNm%" < KC-RELEASE-3_1_SP3-Upgrade-ORACLE.sql
-sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < KR-RELEASE-3_1_SP3-Upgrade-ORACLE.sql
+if /i "%InstRice%" == "Y" (
+	sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < KR-RELEASE-3_1_SP3-Upgrade-ORACLE.sql
+) else (
+	sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < KR-RELEASE-3_1_SP3-SR-ORACLE.sql
+)	
+
 move *.log ../LOGS
 cd ..
 
 cd KC-RELEASE-3_1_SP4-SCRIPT
 sqlplus "%un%"/"%pw%"@"%DBSvrNm%" < KRC-RELEASE-3_1_SP4-Upgrade-ORACLE.sql
 sqlplus "%un%"/"%pw%"@"%DBSvrNm%" < KC-RELEASE-3_1_SP4-Upgrade-ORACLE.sql
-sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < KR-RELEASE-3_1_SP4-Upgrade-ORACLE.sql
 
-if /i "%mode%%InstRice%" == "EMBEDY" goto 3.1.SP4ORACLERICE
-if /i "%mode%" == "BUNDLE" goto 3.1.SP4ORACLERICE
-goto 3.1.SP4ORACLEFINISH
+if /i "%InstRice%" == "Y" (
+	sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < RICE-1_0_3_1-1_0_3_2-Upgrade-ORACLE.sql
+	sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < KR-RELEASE-3_1_SP4-Upgrade-ORACLE.sql
+) else (
+	sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < KR-RELEASE-3_1_SP4-SR-ORACLE.sql
+)
 
-:3.1.SP4ORACLERICE
-sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < RICE-1_0_3_1-1_0_3_2-Upgrade-ORACLE.sql
-
-:3.1.SP4ORACLEFINISH
 move *.log ../LOGS
 cd ..
 
-:3.1ORACLE
 cd KC-RELEASE-3_1_1-SCRIPT
 sqlplus "%un%"/"%pw%"@"%DBSvrNm%" < KC-RELEASE-3_1_1-Upgrade-ORACLE.sql
-sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < KR-RELEASE-3_1_1-Upgrade-ORACLE.sql
+if /i "%InstRice%" == "Y" (
+	sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < KR-RELEASE-3_1_1-Upgrade-ORACLE.sql
+) else (
+	sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < KR-RELEASE-3_1_1-SR-ORACLE.sql
+)
 move *.log ../LOGS/
 cd .. 
 
-:3.1.1ORACLE
 cd KC-RELEASE-3_2-SCRIPT
 sqlplus "%un%"/"%pw%"@"%DBSvrNm%" < KC-RELEASE-3_2-Upgrade-ORACLE.sql
-sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < KR-RELEASE-3_2-Upgrade-ORACLE.sql
+if /i "%InstRice%" == "Y" (
+	sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < KR-RELEASE-3_2-Upgrade-ORACLE.sql
+) else (
+	sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < KR-RELEASE-3_2-SR-ORACLE.sql
+)
 move *.log ../LOGS/
 cd .. 
 
-:3.2ORACLE
+
 cd KC-RELEASE-4_0-SCRIPT
+if /i "%mode%" == "EMBED" (
+	sqlplus "%un%"/"%pw%"@"%DBSvrNm%" < KRC_RICE-RELEASE-4_0-Upgrade-ORACLE.sql
+)
 
-if /i "%mode%" == "BUNDLE" goto 3.2ORACLEBUNDLE
-sqlplus "%un%"/"%pw%"@"%DBSvrNm%" < KRC_RICE-RELEASE-4_0-Upgrade-ORACLE.sql
-
-:3.2ORACLEBUNDLE
 sqlplus "%un%"/"%pw%"@"%DBSvrNm%" < KC_RICE-RELEASE-4_0-Upgrade-ORACLE.sql
 
-if /i "%mode%%InstRice%" == "EMBEDN" goto 3.2ORACLENORICE
-sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < KR_RICE-RELEASE-4_0-Upgrade-ORACLE.sql
+if /i "%InstRice%" == "Y" (
+	sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < KR_RICE-RELEASE-4_0-Upgrade-ORACLE.sql
+	sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < KR-RELEASE-4_0-Upgrade-ORACLE.sql
+) else (
+	sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < KR-RELEASE-4_0-SR-ORACLE.sql
+)
 
-:3.2ORACLENORICE
 sqlplus "%un%"/"%pw%"@"%DBSvrNm%" < KC-RELEASE-4_0-Upgrade-ORACLE.sql
-sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < KR-RELEASE-4_0-Upgrade-ORACLE.sql
+
 move *.log ../LOGS/
 cd .. 
 
-:4.0ORACLE
 cd KC-RELEASE-5_0-SCRIPT
 
-if /i "%mode%" == "BUNDLE" goto 4.0ORACLEBUNDLE
-sqlplus "%un%"/"%pw%"@"%DBSvrNm%" < KRC_RICE-RELEASE-5_0-Upgrade-ORACLE.sql
+if /i "%mode%" == "EMBED" (
+	sqlplus "%un%"/"%pw%"@"%DBSvrNm%" < KRC_RICE-RELEASE-5_0-Upgrade-ORACLE.sql
+)
 
-:4.0ORACLEBUNDLE
-if /i "%mode%%InstRice%" == "EMBEDN" goto 4.0ORACLENORICE
-sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < KR_RICE-RELEASE-5_0-Upgrade-ORACLE.sql
+if /i "%InstRice%" == "Y" (
+	sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < KR_RICE-RELEASE-5_0-Upgrade-ORACLE.sql
+)
 
-:4.0ORACLENORICE
-sqlplus "%un%"/"%pw%"@"%DBSvrNm%" < KC-RELEASE-5_0-Upgrade-ORACLE.sql
 sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < KR-RELEASE-5_0-Upgrade-ORACLE.sql
+sqlplus "%un%"/"%pw%"@"%DBSvrNm%" < KC-RELEASE-5_0-Upgrade-ORACLE.sql
+
 move *.log ../LOGS/
 cd .. 
 
 :5.0ORACLE
 cd KC-RELEASE-5_0_1-SCRIPT
 
-:5.0ORACLENORICE
 sqlplus "%un%"/"%pw%"@"%DBSvrNm%" < KC-RELEASE-5_0_1-Upgrade-ORACLE.sql
 sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < KR-RELEASE-5_0_1-Upgrade-ORACLE.sql
 move *.log ../LOGS/
-cd .. 
+cd ..
+
+:5.0.1ORACLE
+cd KC-RELEASE-5_1_0-SCRIPT
+
+if /i "%mode%" == "EMBED" (
+	sqlplus "%un%"/"%pw%"@"%DBSvrNm%" < KRC_RICE-RELEASE-5_1_0-Upgrade-ORACLE.sql
+)
+if /i "%InstRice%" == "Y" (
+	sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < KR_RICE_RELEASE-5_1_0-Upgrade-ORACLE.sql
+)
+sqlplus "%un%"/"%pw%"@"%DBSvrNm%" < KC-RELEASE-5_1_0-Upgrade-ORACLE.sql
+sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < KR-RELEASE-5_1_0-Upgrade-ORACLE.sql
+move *.log ../LOGS
+cd ..
+
+cd ../current/99.9.9/dml
+sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < KR_DML_99_SUPERUSER_B000.sql
+cd ../../../RELEASE-SCRIPTS
 
 cd KC-RELEASE-3_0-CLEAN/oracle
 sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < krrelease/datasql/KR_00_CLEAN_SEQ_BS.sql
