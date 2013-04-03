@@ -1,11 +1,11 @@
 delimiter /
-
+SET FOREIGN_KEY_CHECKS = 0
+/
 # -----------------------------------------------------------------------
 # ABSTRACT_TYPE
 # -----------------------------------------------------------------------
 drop table if exists ABSTRACT_TYPE
 /
-
 CREATE TABLE ABSTRACT_TYPE
 (
       ABSTRACT_TYPE_CODE VARCHAR(3)
@@ -11717,5 +11717,7 @@ CREATE TABLE SEQUENCE_AWARD_ID
 ) ENGINE MyISAM
 /
 ALTER TABLE SEQUENCE_AWARD_ID auto_increment = 1000
+/
+SET FOREIGN_KEY_CHECKS = 1
 /
 delimiter ;
