@@ -60,9 +60,9 @@ goto DBSvrNm
 
 :RICE
 if /i "%mode%" == "BUNDLE" (
-set Riceun="%un%"
-set Ricepw="%pw%"
-set RiceDBSvrNm="%DBSvrNm%"
+set Riceun=%un%
+set Ricepw=%pw%
+set RiceDBSvrNm=%DBSvrNm%
 goto INSTALL
 )
 :RiceUser
