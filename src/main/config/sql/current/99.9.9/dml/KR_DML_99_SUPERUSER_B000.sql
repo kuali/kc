@@ -3,19 +3,16 @@ DECLARE roleCount NUMBER;
         CURSOR cur IS SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD LIKE 'KC%';
 BEGIN
     SELECT COUNT(*) INTO roleCount FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-SYS' AND ROLE_NM = 'KC Superuser';
-    IF roleCount = 0 THEN
-      DBMS_OUTPUT.PUT_LINE('Adding role to schema');   
+    IF roleCount = 0 THEN   
       INSERT INTO KRIM_ROLE_T (ROLE_ID,KIM_TYP_ID,NMSPC_CD,ROLE_NM,DESC_TXT,ACTV_IND,LAST_UPDT_DT,OBJ_ID,VER_NBR) 
           VALUES (CONCAT('KC',KRIM_ROLE_ID_S.NEXTVAL),(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NM = 'Default'),'KC-SYS','KC Superuser','KC Superuser role for administration access','Y',SYSDATE,SYS_GUID(),1);
+      COMMIT;
     END IF;
     
     FOR rec IN cur 
-    LOOP      
-        DBMS_OUTPUT.PUT_LINE(rec.PERM_ID);   
-        DBMS_OUTPUT.PUT_LINE(KRIM_ROLE_PERM_ID_S.CURRVAL); 
+    LOOP         
         EXECUTE IMMEDIATE 'SELECT COUNT(*) FROM KRIM_ROLE_PERM_T WHERE ROLE_ID = (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = ''KC-SYS'' AND ROLE_NM = ''KC Superuser'') AND PERM_ID = (:1)' INTO rolePermCount USING rec.PERM_ID;
-        IF rolePermCount = 0 THEN
-            DBMS_OUTPUT.PUT_LINE('executing insert');            
+        IF rolePermCount = 0 THEN           
             EXECUTE IMMEDIATE 'INSERT INTO KRIM_ROLE_PERM_T (ROLE_PERM_ID, ROLE_ID, PERM_ID, ACTV_IND, OBJ_ID, VER_NBR) VALUES (CONCAT(''KC'',KRIM_ROLE_PERM_ID_S.NEXTVAL),(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = ''KC-SYS'' AND ROLE_NM = ''KC Superuser''),(:1),''Y'',SYS_GUID(),1)' USING rec.PERM_ID;
         END IF;
     END LOOP;
