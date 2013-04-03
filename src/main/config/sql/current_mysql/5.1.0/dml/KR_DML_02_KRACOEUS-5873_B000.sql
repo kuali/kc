@@ -1,7 +1,7 @@
 DELIMITER /
 insert into KRMS_FUNC_PARM_T (FUNC_PARM_ID,FUNC_ID,NM,TYP,SEQ_NO) values ('KC0001','KC1001','sponsorCode','java.lang.Object',1)
 /
-insert into KRMS_FUNC_PARM_T (FUNC_PARM_ID,FUNC_ID,NM,TYP,SEQ_NO) values ('KC0002','KC1002','GrantsGov Form Name','java.lang.Object',2)
+insert into KRMS_FUNC_PARM_T (FUNC_PARM_ID,FUNC_ID,NM,TYP,SEQ_NO) values ('KC0002','KC1002','GrantsGov Form Name','java.lang.String',2)
 /
 insert into KRMS_FUNC_PARM_T (FUNC_PARM_ID,FUNC_ID,NM,TYP,SEQ_NO) values ('KC0003','KC1002','DevelopmentProposal','org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal',1)
 /

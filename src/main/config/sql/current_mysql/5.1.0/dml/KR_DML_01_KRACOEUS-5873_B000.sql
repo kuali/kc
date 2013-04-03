@@ -3,7 +3,7 @@ update KRMS_TYP_T set SRVC_NM='{http://kc.kuali.org/core/v5_0}javaFunctionTermRe
 /
 insert into KRMS_TYP_T values ('KC1005','Stored Function Term Resolver Type Service','KC-PD','{http://kc.kuali.org/core/v5_0}storedFunctionTermResolverTypeService','Y',1)
 /
-insert into KRMS_TYP_T values ('KC1006','ProposalDevelopment Java Function Term Service','KC-PD','krmsPropDevJavaFunctionTermService','Y',1)
+insert into KRMS_TYP_T values ('KC1006','ProposalDevelopment Java Function Term Service','KC-PD','propDevJavaFunctionKrmsTermService','Y',1)
 /
 insert into KRMS_FUNC_T (FUNC_ID,NM,DESC_TXT,RTRN_TYP,VER_NBR,ACTV,TYP_ID,NMSPC_CD) values ('KC1001','IS_SPONSOR_FEDERAL','Is Sponsor Federal','java.lang.String',1,'Y','KC1005','KC-PD')
 /
@@ -99,5 +99,7 @@ insert into KRMS_FUNC_T (FUNC_ID,NM,DESC_TXT,RTRN_TYP,VER_NBR,ACTV,TYP_ID,NMSPC_
 /
 insert into KRMS_FUNC_T (FUNC_ID,NM,DESC_TXT,RTRN_TYP,VER_NBR,ACTV,TYP_ID,NMSPC_CD) values ('KC1047','investigatorKeyPersonCertificationRule','verify that each investigator and key person are certified.','java.lang.String',1,'Y','KC1006','KC-PD')
 /
-
+update KRMS_TERM_SPEC_T A set NM = (select FUNC_ID from KRMS_FUNC_T B where B.NM=A.NM) 
+  where exists (select FUNC_ID from KRMS_FUNC_T C where C.NM=A.NM)
+/
 DELIMITER ;
