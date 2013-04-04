@@ -52,7 +52,7 @@ fi
 
 dbtype=`getChoice 'Enter Database Type' ORACLE MYSQL`
 
-version=`getChoice 'Enter Currently Installed Version' NEW 5.0 5.0.1`
+version=`getChoice 'Enter Currently Installed Version' NEW 3.1.1 5.0 5.0.1`
 
 un=`getAnswer 'Enter KC Database Username'`
 
@@ -123,7 +123,7 @@ case "${dbtype}" in
 		
 		sqlplus "${Riceun}"/"${Ricepw}${RiceDBSvrNm}" < krrelease/datasql/KR_00_SEQ_BS.sql
 
-	cd ../..
+		cd ../..
 	    
 	    if [ "${version}" = "NEW" ]
         then
@@ -212,7 +212,10 @@ case "${dbtype}" in
 			fi
 			mv *.log ../LOGS/
 			cd ..
-
+		fi
+		
+		if [ "${version}" = "NEW" ] || [ "${version}" = '3.1.1' ]
+		then
             cd KC-RELEASE-3_2-SCRIPT
             sqlplus "${un}"/"${pw}${DBSvrNm}" < KC-RELEASE-3_2-Upgrade-ORACLE.sql
             if [ "${InstRice}" = 'Y' ]
@@ -282,9 +285,10 @@ case "${dbtype}" in
             cd ..
 		fi
 		
-		cd ../current/99.9.9/dml
-		sqlplus "${Riceun}"/"${Ricepw}${RiceDBSvrNm}" < KR_DML_99_SUPERUSER_B000.sql
-		cd ../../../RELEASE-SCRIPTS
+		cd KC-FINISH/oracle
+		sqlplus "${Riceun}"/"${Ricepw}${RiceDBSvrNm}" < KR-FINISH-ORACLE.sql
+		mv *.log ../../LOGS/
+		cd ../..
 				
 		cd KC-RELEASE-3_0-CLEAN/oracle
 		sqlplus "${Riceun}"/"${Ricepw}${RiceDBSvrNm}" < krrelease/datasql/KR_00_CLEAN_SEQ_BS.sql
@@ -401,7 +405,10 @@ case "${dbtype}" in
             fi
             mv *.log ../LOGS/
             cd ..
-
+		fi
+		
+		if [ "${version}" = "NEW" ] || [ "${version}" = '3.1.1' ]
+		then
             cd KC-RELEASE-3_2-SCRIPT
             mysql -u ${un} -p${pw} -D ${DBSvrNm} -s -f < KC-RELEASE-3_2-Upgrade-MYSQL.sql > KC-RELEASE-3_2-Upgrade-MYSQL-Install.log 2>&1
             if [ "${InstRice}" = 'Y' ]
@@ -470,7 +477,12 @@ case "${dbtype}" in
             mv *.log ../LOGS/
             cd ..
         fi
-		
+
+		cd KC-FINISH/mysql
+		mysql -u ${Riceun} -p${Ricepw} -D ${RiceDBSvrNm} -s -f < KR-FINISH-MYSQL.sql > KR-FINISH-MYSQL-Install.log 2>&1
+		mv *.log ../../LOGS/
+		cd ../..
+				
         cd KC-RELEASE-3_0-CLEAN/mysql
         mysql -u ${Riceun} -p${Ricepw} -D ${RiceDBSvrNm} -s -f < krrelease/datasql/KR_00_CLEAN_SEQ_BS.sql > KR_CLEAN_SEQ_BS-Mysql-Install.log 2>&1
         mv *.log ../../LOGS/

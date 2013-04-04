@@ -24,8 +24,9 @@ echo Invalid Database Type <%dbtype%>
 goto dbtype
 
 :Version
-set /p Version="Enter Currently Installed Version (NEW, 5.0, 5.0.1) <%Version%>: "
+set /p Version="Enter Currently Installed Version (NEW, 3.1.1, 5.0, 5.0.1) <%Version%>: "
 if /i "%Version%" == "NEW" goto User
+if /i "%Version%" == "3.1.1" goto User
 if /i "%Version%" == "5.0" goto User
 if /i "%Version%" == "5.0.1" goto User
 echo Invalid Version <%Version%>
@@ -195,6 +196,7 @@ if /i "%InstRice%" == "Y" (
 move *.log ../LOGS/
 cd .. 
 
+:3.1.1ORACLE
 cd KC-RELEASE-3_2-SCRIPT
 sqlplus "%un%"/"%pw%"@"%DBSvrNm%" < KC-RELEASE-3_2-Upgrade-ORACLE.sql
 if /i "%InstRice%" == "Y" (
@@ -263,9 +265,10 @@ sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < KR-RELEASE-5_1_0-Upgrade-ORACLE.
 move *.log ../LOGS
 cd ..
 
-cd ../current/99.9.9/dml
-sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < KR_DML_99_SUPERUSER_B000.sql
-cd ../../../RELEASE-SCRIPTS
+cd KC-FINISH/oracle
+sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < KR-FINISH-ORACLE.sql
+move *.log ../../LOGS/
+cd ../..
 
 cd KC-RELEASE-3_0-CLEAN/oracle
 sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < krrelease/datasql/KR_00_CLEAN_SEQ_BS.sql
@@ -375,6 +378,7 @@ if /i "%InstRice%" == "Y" (
 move *.log ../LOGS/
 cd ..
 
+:3.1.1ORACLE
 cd KC-RELEASE-3_2-SCRIPT
 mysql -u %un% -p%pw% -D %DBSvrNm% -s -f < KC-RELEASE-3_2-Upgrade-MYSQL.sql > KC-RELEASE-3_2-Upgrade-MYSQL-Install.log 2>&1
 if /i "%InstRice%" == "Y" (
@@ -443,6 +447,11 @@ mysql -u %un% -p%pw% -D %DBSvrNm% -s -f < KC-RELEASE-5_1_0-Upgrade-MYSQL.sql > K
 mysql -u %Riceun% -p%Ricepw% -D %RiceDBSvrNm% -s -f < KR-RELEASE-5_1_0-Upgrade-MYSQL.sql > KR-RELEASE-5_1_0-Upgrade-MYSQL-Install.log 2>&1
 move *.log ../LOGS/
 cd ..
+
+cd KC-FINISH/oracle
+mysql -u %Riceun% -p%Ricepw% -D %RiceDBSvrNm% -s -f < KR-FINISH-MYSQL.sql > KR-FINISH-MYSQL-Install.log 2>&1
+move *.log ../../LOGS/
+cd ../..
 
 cd KC-RELEASE-3_0-CLEAN/mysql
 mysql -u %Riceun% -p%Ricepw% -D %RiceDBSvrNm% -s -f < krrelease/datasql/KR_00_CLEAN_SEQ_BS.sql > KR_CLEAN_SEQ_BS-Mysql-Install.log 2>&1

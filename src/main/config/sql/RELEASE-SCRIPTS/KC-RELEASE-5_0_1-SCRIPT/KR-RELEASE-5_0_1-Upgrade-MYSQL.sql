@@ -31,6 +31,5 @@
 \. ./../../current_mysql/5.0.1/dml/KR_DML_01_KRACOEUS-5632_B000.sql
 \. ./../../current_mysql/5.0.1/dml/KR_DML_01_KRACOEUS-5662_B000.sql
 \. ./../../current_mysql/5.0.1/dml/KR_DML_01_KRACOEUS-5682_B000.sql
-\. ./../../current_mysql/5.0.1/dml/KR_DML_99_SUPERUSER_B000.sql
 commit;
 exit
