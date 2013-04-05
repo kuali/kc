@@ -448,7 +448,7 @@ mysql -u %Riceun% -p%Ricepw% -D %RiceDBSvrNm% -s -f < KR-RELEASE-5_1_0-Upgrade-M
 move *.log ../LOGS/
 cd ..
 
-cd KC-FINISH/oracle
+cd KC-FINISH/mysql
 mysql -u %Riceun% -p%Ricepw% -D %RiceDBSvrNm% -s -f < KR-FINISH-MYSQL.sql > KR-FINISH-MYSQL-Install.log 2>&1
 move *.log ../../LOGS/
 cd ../..
