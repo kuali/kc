@@ -337,4 +337,14 @@ public class AwardAmountInfo extends AwardAssociate {
     public void setTimeAndMoneyDocumentNumber(String timeAndMoneyDocumentNumber) {
         this.timeAndMoneyDocumentNumber = timeAndMoneyDocumentNumber;
     }
+    
+    public void setChangeToCurrent() {
+        setObligatedChange(getAmountObligatedToDate());
+        setObligatedChangeDirect(getObligatedTotalDirect());
+        setObligatedChangeIndirect(getObligatedTotalIndirect());
+        setAnticipatedChange(getAnticipatedTotalAmount());
+        setAnticipatedChangeDirect(getAnticipatedTotalDirect());
+        setAnticipatedChangeIndirect(getAnticipatedTotalIndirect());
+    }
+
 }
