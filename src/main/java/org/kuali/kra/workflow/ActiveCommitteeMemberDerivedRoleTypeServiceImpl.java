@@ -67,7 +67,7 @@ public class ActiveCommitteeMemberDerivedRoleTypeServiceImpl extends DerivedRole
 	    boolean result = membership.isActive();
 	    if (qualifyingCommitteeMembershipTypeCodes.size()>0) {
 	        if (LOG.isDebugEnabled() && !qualifyingCommitteeMembershipTypeCodes.contains(membership.getMembershipTypeCode())) {
-	            LOG.debug(String.format("Membership %s does not have membership type code in the qualifying map."));
+	            LOG.debug(String.format("Membership %s does not have membership type code in the qualifying map.", membership));
 	        }
 	        result &= qualifyingCommitteeMembershipTypeCodes.contains(membership.getMembershipTypeCode());
 	    }
