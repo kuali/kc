@@ -805,11 +805,10 @@ public class AwardAction extends BudgetParentActionBase {
     
             populateAwardHierarchy(form);
     
-            Award award = awardDocument.getAward();
-           
+            Award currentAward = awardDocument.getAward();
     
             Map<String, Object> fieldValues = new HashMap<String, Object>();
-            String rootAwardNumber = awardForm.getAwardHierarchyNodes().get(award.getAwardNumber()).getRootAwardNumber();
+            String rootAwardNumber = awardForm.getAwardHierarchyNodes().get(currentAward.getAwardNumber()).getRootAwardNumber();
             fieldValues.put("rootAwardNumber", rootAwardNumber);
             BusinessObjectService businessObjectService =  KraServiceLocator.getService(BusinessObjectService.class);
 
@@ -818,9 +817,9 @@ public class AwardAction extends BudgetParentActionBase {
             Collections.sort(timeAndMoneyDocuments);
             
             Award rootAward = getAwardVersionService().getWorkingAwardVersion(rootAwardNumber);   
+            AwardAmountInfo rootAAI = rootAward.getLastAwardAmountInfo();
             //this logic so we set Transaction Type on new T&M doc.  Defaults to "new" on first creation of T&M doc of a Root Award.
             TimeAndMoneyDocument timeAndMoneyDocument = getLastFinalTandMDocument(timeAndMoneyDocuments);
-            //if timeAndMoneyDocument is null then either it is first creation or all the previous T&M docs have a route status of 'canceled'.
             if(timeAndMoneyDocuments.size() > 0 && timeAndMoneyDocument != null) {
                 firstTimeAndMoneyDocCreation = Boolean.FALSE;
             }
@@ -946,12 +945,13 @@ public class AwardAction extends BudgetParentActionBase {
      */
     private void addNewAwardAmountInfoForInitialTransaction(Award rootAward, String documentNumber) {
         
+        AwardAmountInfo rootAwardAmountInfo = rootAward.getLastAwardAmountInfo();
         AwardAmountInfo newAwardAmountInfo = new AwardAmountInfo();
         newAwardAmountInfo.setAwardNumber(rootAward.getAwardNumber());
         newAwardAmountInfo.setSequenceNumber(rootAward.getSequenceNumber());
-        newAwardAmountInfo.setFinalExpirationDate(rootAward.getLastAwardAmountInfo().getFinalExpirationDate());
-        newAwardAmountInfo.setCurrentFundEffectiveDate(rootAward.getLastAwardAmountInfo().getCurrentFundEffectiveDate());
-        newAwardAmountInfo.setObligationExpirationDate(rootAward.getLastAwardAmountInfo().getObligationExpirationDate());
+        newAwardAmountInfo.setFinalExpirationDate(rootAwardAmountInfo.getFinalExpirationDate());
+        newAwardAmountInfo.setCurrentFundEffectiveDate(rootAwardAmountInfo.getCurrentFundEffectiveDate());
+        newAwardAmountInfo.setObligationExpirationDate(rootAwardAmountInfo.getObligationExpirationDate());
         newAwardAmountInfo.setTimeAndMoneyDocumentNumber(documentNumber);
         newAwardAmountInfo.setTransactionId(null);
         newAwardAmountInfo.setAward(rootAward);
@@ -960,30 +960,30 @@ public class AwardAction extends BudgetParentActionBase {
             newAwardAmountInfo.setAmountObligatedToDate(rootAward.getObligatedTotalDirect().add(rootAward.getObligatedTotalIndirect()));
             newAwardAmountInfo.setObligatedTotalDirect(rootAward.getObligatedTotalDirect());
             newAwardAmountInfo.setObligatedTotalIndirect(rootAward.getObligatedTotalIndirect());
-            newAwardAmountInfo.setObligatedChange(rootAward.getObligatedTotalDirect().add(rootAward.getObligatedTotalIndirect()));
-            newAwardAmountInfo.setObligatedChangeDirect(rootAward.getObligatedTotalDirect());
-            newAwardAmountInfo.setObligatedChangeIndirect(rootAward.getObligatedTotalIndirect());
-            newAwardAmountInfo.setAnticipatedChange(rootAward.getAnticipatedTotalDirect().add(rootAward.getAnticipatedTotalIndirect()));
+            newAwardAmountInfo.setObligatedChange(rootAwardAmountInfo.getObligatedChange());
+            newAwardAmountInfo.setObligatedChangeDirect(rootAwardAmountInfo.getObligatedTotalDirect());
+            newAwardAmountInfo.setObligatedChangeIndirect(rootAwardAmountInfo.getObligatedTotalIndirect());
+            newAwardAmountInfo.setAnticipatedChange(rootAwardAmountInfo.getAnticipatedChange());
             newAwardAmountInfo.setAnticipatedTotalAmount(rootAward.getAnticipatedTotalDirect().add(rootAward.getAnticipatedTotalIndirect()));
             newAwardAmountInfo.setAnticipatedTotalDirect(rootAward.getAnticipatedTotalDirect());
             newAwardAmountInfo.setAnticipatedTotalIndirect(rootAward.getAnticipatedTotalIndirect());
-            newAwardAmountInfo.setAnticipatedChangeDirect(rootAward.getAnticipatedTotalDirect());
-            newAwardAmountInfo.setAnticipatedChangeIndirect(rootAward.getAnticipatedTotalIndirect());
+            newAwardAmountInfo.setAnticipatedChangeDirect(rootAwardAmountInfo.getAnticipatedTotalDirect());
+            newAwardAmountInfo.setAnticipatedChangeIndirect(rootAwardAmountInfo.getAnticipatedTotalIndirect());
             newAwardAmountInfo.setObliDistributableAmount(rootAward.getObligatedTotalDirect().add(rootAward.getObligatedTotalIndirect()));
             newAwardAmountInfo.setAntDistributableAmount(rootAward.getAnticipatedTotalDirect().add(rootAward.getAnticipatedTotalIndirect()));
         } else {
-            newAwardAmountInfo.setAmountObligatedToDate(rootAward.getLastAwardAmountInfo().getAmountObligatedToDate());
+            newAwardAmountInfo.setAmountObligatedToDate(rootAwardAmountInfo.getAmountObligatedToDate());
             newAwardAmountInfo.setObligatedTotalDirect(rootAward.getObligatedTotalDirect());
             newAwardAmountInfo.setObligatedTotalIndirect(rootAward.getObligatedTotalIndirect());
-            newAwardAmountInfo.setObligatedChange(rootAward.getObligatedTotal());
-            newAwardAmountInfo.setObligatedChangeDirect(new KualiDecimal(0));
-            newAwardAmountInfo.setObligatedChangeIndirect(new KualiDecimal(0));
-            newAwardAmountInfo.setAnticipatedChange(rootAward.getAnticipatedTotal());
-            newAwardAmountInfo.setAnticipatedTotalAmount(rootAward.getLastAwardAmountInfo().getAnticipatedTotalAmount());
+            newAwardAmountInfo.setObligatedChange(rootAwardAmountInfo.getObligatedChange());
+            newAwardAmountInfo.setObligatedChangeDirect(rootAwardAmountInfo.getObligatedChangeDirect());
+            newAwardAmountInfo.setObligatedChangeIndirect(rootAwardAmountInfo.getObligatedChangeIndirect());
+            newAwardAmountInfo.setAnticipatedChange(rootAwardAmountInfo.getAnticipatedChange());
+            newAwardAmountInfo.setAnticipatedTotalAmount(rootAward.getAnticipatedTotal());
             newAwardAmountInfo.setAnticipatedTotalDirect(rootAward.getAnticipatedTotalDirect());
             newAwardAmountInfo.setAnticipatedTotalIndirect(rootAward.getAnticipatedTotalIndirect());
-            newAwardAmountInfo.setAnticipatedChangeDirect(new KualiDecimal(0));
-            newAwardAmountInfo.setAnticipatedChangeIndirect(new KualiDecimal(0));
+            newAwardAmountInfo.setAnticipatedChangeDirect(rootAwardAmountInfo.getAnticipatedChangeDirect());
+            newAwardAmountInfo.setAnticipatedChangeIndirect(rootAwardAmountInfo.getAnticipatedChangeIndirect());
             newAwardAmountInfo.setObliDistributableAmount(rootAward.getObligatedTotal());
             newAwardAmountInfo.setAntDistributableAmount(rootAward.getAnticipatedTotal());
         }

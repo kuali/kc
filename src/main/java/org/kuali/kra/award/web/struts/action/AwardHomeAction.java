@@ -255,15 +255,17 @@ public class AwardHomeAction extends AwardAction {
         AwardForm awardForm = (AwardForm) form;
         AwardDocument awardDocument = awardForm.getAwardDocument();
         
-      //if award is a root Award and direct/indirect view is enabled, then we need to sum the obligated and anticipated totals until we create
+        //if award is a root Award and direct/indirect view is enabled, then we need to sum the obligated and anticipated totals until we create
         //initial T&M doc.
-        if(awardDocument.getAward().getAwardNumber().endsWith("-00001")) {
+        if(awardDocument.getAward().getAwardNumber().endsWith("-00000")) {
+            awardDocument.getAward().getLastAwardAmountInfo().setChangeToCurrent();
+        } else if(awardDocument.getAward().getAwardNumber().endsWith("-00001")) {
             if (isDirectIndirectViewEnabled()) {
                 setTotalsOnAward(awardDocument.getAward());
             }
             Award oldAward = getAwardVersionService().getActiveAwardVersion(awardDocument.getAward().getAwardNumber());
+            AwardAmountInfo aaiNew = awardDocument.getAward().getLastAwardAmountInfo();
             if (oldAward != null) {
-                AwardAmountInfo aaiNew = awardDocument.getAward().getLastAwardAmountInfo();
                 AwardAmountInfo aaiOld = oldAward.getLastAwardAmountInfo();
                 aaiNew.setObligatedChange(aaiNew.getAmountObligatedToDate().subtract(aaiOld.getAmountObligatedToDate()));
                 aaiNew.setObligatedChangeDirect(aaiNew.getObligatedTotalDirect().subtract(aaiOld.getObligatedTotalDirect()));
@@ -271,6 +273,8 @@ public class AwardHomeAction extends AwardAction {
                 aaiNew.setAnticipatedChange(aaiNew.getAnticipatedTotalAmount().subtract(aaiOld.getAnticipatedTotalAmount()));
                 aaiNew.setAnticipatedChangeDirect(aaiNew.getAnticipatedTotalDirect().subtract(aaiOld.getAnticipatedTotalDirect()));
                 aaiNew.setAnticipatedChangeIndirect(aaiNew.getAnticipatedTotalIndirect().subtract(aaiOld.getAnticipatedTotalIndirect()));
+            } else {
+                aaiNew.setChangeToCurrent();
             }
         }
         
@@ -305,7 +309,7 @@ public class AwardHomeAction extends AwardAction {
 
         return forward;
     }
-    
+
     private void setTotalsOnAward(Award award) {
         AwardAmountInfo aai = award.getLastAwardAmountInfo();
         aai.setAmountObligatedToDate(aai.getObligatedTotalDirect().add(aai.getObligatedTotalIndirect()));
