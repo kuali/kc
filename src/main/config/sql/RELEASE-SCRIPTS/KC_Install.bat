@@ -258,7 +258,7 @@ if /i "%mode%" == "EMBED" (
 	sqlplus "%un%"/"%pw%"@"%DBSvrNm%" < KRC_RICE-RELEASE-5_1_0-Upgrade-ORACLE.sql
 )
 if /i "%InstRice%" == "Y" (
-	sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < KR_RICE_RELEASE-5_1_0-Upgrade-ORACLE.sql
+	sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < KR_RICE-RELEASE-5_1_0-Upgrade-ORACLE.sql
 )
 sqlplus "%un%"/"%pw%"@"%DBSvrNm%" < KC-RELEASE-5_1_0-Upgrade-ORACLE.sql
 sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < KR-RELEASE-5_1_0-Upgrade-ORACLE.sql
