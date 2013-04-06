@@ -1,6 +1,6 @@
 DELIMITER /
 --
--- Copyright 2005-2012 The Kuali Foundation
+-- Copyright 2005-2013 The Kuali Foundation
 --
 -- Licensed under the Educational Community License, Version 2.0 (the "License");
 -- you may not use this file except in compliance with the License.
@@ -1059,7 +1059,7 @@ insert into krms_typ_attr_t (TYP_ATTR_ID, SEQ_NO, TYP_ID, ATTR_DEFN_ID) values (
 
 
 --
--- Copyright 2005-2012 The Kuali Foundation
+-- Copyright 2005-2013 The Kuali Foundation
 --
 --
 
