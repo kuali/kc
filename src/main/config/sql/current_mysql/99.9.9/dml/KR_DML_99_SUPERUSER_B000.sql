@@ -6,7 +6,8 @@ CREATE PROCEDURE p ()
 BEGIN
     DECLARE roleCount INT DEFAULT 0;
     DECLARE rolePermCount INT DEFAULT 0;
-    DECLARE id VARCHAR(40);
+    DECLARE permId VARCHAR(40);
+    DECLARE newId VARCHAR(40);
     DECLARE done INT DEFAULT FALSE;
     DECLARE cur CURSOR FOR SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD LIKE 'KC%';
     DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
@@ -26,23 +27,15 @@ BEGIN
     END IF;
     
     insert_loop: LOOP
-        FETCH cur INTO id;
+        FETCH cur INTO permId;
         IF done THEN
             LEAVE insert_loop;
         END IF;
-        SET @count_role_perm := CONCAT('SELECT COUNT(*) INTO @rolePermCount FROM KRIM_ROLE_PERM_T WHERE ROLE_ID = (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = ''KC-SYS'' AND ROLE_NM = ''KC Superuser'') AND PERM_ID = ', id);
-        PREPARE count_role_perm_stmt FROM @count_role_perm;
-        EXECUTE count_role_perm_stmt;
-        DEALLOCATE PREPARE count_role_perm_stmt;
-        IF @rolePermCount = 0 THEN
-            SET @insert_role_perm_seq := 'INSERT INTO KRIM_ROLE_PERM_ID_BS_S VALUES (null)';
-            PREPARE insert_role_perm_seq_stmt FROM @insert_role_perm_seq;
-            EXECUTE insert_role_perm_seq_stmt;
-            DEALLOCATE PREPARE insert_role_perm_seq_stmt;
-            SET @insert_role_perm := CONCAT('INSERT INTO KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,OBJ_ID,VER_NBR) VALUES ((SELECT (MAX(ID)) FROM KRIM_ROLE_PERM_ID_BS_S),(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = ''KC-SYS'' AND ROLE_NM = ''KC Superuser''),',id,',''Y'',UUID(),1)');        
-            PREPARE insert_role_perm_stmt FROM @insert_role_perm;
-            EXECUTE insert_role_perm_stmt;
-            DEALLOCATE PREPARE insert_role_perm_stmt;
+        SELECT COUNT(*) INTO rolePermCount FROM KRIM_ROLE_PERM_T WHERE ROLE_ID = (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-SYS' AND ROLE_NM = 'KC Superuser') AND PERM_ID = permId;
+        IF rolePermCount = 0 THEN
+            INSERT INTO KRIM_ROLE_PERM_ID_BS_S VALUES (null);
+            SELECT CONCAT('KC', MAX(ID)) INTO newId FROM KRIM_ROLE_PERM_ID_BS_S;
+            INSERT INTO KRIM_ROLE_PERM_T (ROLE_PERM_ID,ROLE_ID,PERM_ID,ACTV_IND,OBJ_ID,VER_NBR) VALUES (newId,(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KC-SYS' AND ROLE_NM = 'KC Superuser'),permId,'Y',UUID(),1);        
         END IF;
     END LOOP;
     
