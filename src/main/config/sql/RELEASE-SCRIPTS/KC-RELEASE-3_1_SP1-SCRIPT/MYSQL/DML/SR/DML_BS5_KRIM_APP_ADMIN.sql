@@ -9,15 +9,10 @@ UPDATE KRIM_ROLE_T
 SET NMSPC_CD = 'KC-SYS'
 WHERE ROLE_NM = 'Application Administrator' AND NMSPC_CD = 'KC-AWARD'
 /
--- CORRECTION TO KRIM_ROLE_PERM_T TO CLEAR DUPLICATE ENTRY INTRODUCED IN 2.0
--- SET PERM_ID = 183 WHERE ROLE_PERM_ID = 1115;
-UPDATE KRIM_ROLE_PERM_T SET PERM_ID = (SELECT PERM_ID FROM KRIM_PERM_T WHERE NM = 'Full Unmask Field' AND NMSPC_CD = 'KR-SYS' AND DESC_TXT = 'Authorizes users to view the entire Tax Identification Number on the Payee ACH document and Inquiry.') 
-WHERE ROLE_PERM_ID = (SELECT MIN(ROLE_PERM_ID) FROM KRIM_ROLE_PERM_T WHERE ROLE_PERM_ID IN (SELECT ROLE_PERM_ID FROM KRIM_ROLE_PERM_T WHERE ROLE_ID = (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE ROLE_NM = 'Manager' AND NMSPC_CD = 'KC-SYS') AND PERM_ID = (SELECT PERM_ID FROM KRIM_PERM_T WHERE NM = 'Full Unmask Field' AND NMSPC_CD = 'KR-SYS' AND DESC_TXT = 'Authorizes users to view the entire Tax Identification Number on the Person document and inquiry.')))
-/
 
+-- assign Blanket Approve Document permission to Application Administrator role
 INSERT INTO KRIM_ROLE_PERM_ID_BS_S VALUES (NULL)
 /
--- assign Blanket Approve Document permission to Application Administrator role
 INSERT INTO KRIM_ROLE_PERM_T (ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND)
 VALUES ((SELECT MAX(ID) FROM KRIM_ROLE_PERM_ID_BS_S), UUID(), 1, (select role_id from krim_role_t where ROLE_NM = 'Application Administrator' and NMSPC_CD = 'KC-SYS'),(select PERM_ID from KRIM_PERM_T where NM='Blanket Approve Document' and nmspc_cd = 'KC-SYS'), 'Y')
 /

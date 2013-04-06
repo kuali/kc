@@ -76,6 +76,8 @@ Copyright 2005-2009 The Kuali Foundation. All rights reserved. Kuali is licensed
 
 <p>This product includes software developed by Andy Clark. (<a href="http://people.apache.org/~andyc/neko/LICENSE" rel="nofollow">http://people.apache.org/~andyc/neko/LICENSE</a>) <!-- Rice 1.0.0 --></p>
 
+<p>This product includes icons created by Mark James. (<a href="http://www.famfamfam.com/lab/icons/silk/" rel="nofollow">http://www.famfamfam.com/lab/icons/silk</a>)</p>
+
 <p>Portions Copyright (c) 2000-2006 The Legion of the Bouncy Castle.  All Rights Reserved.   (<a href="http://www.bouncycastle.org" rel="nofollow">http://www.bouncycastle.org</a>) <!-- Rice 1.0.0 --></p>
 
 <p>Portions Copyright (c) 2000-2005 INRIA, France Telecom. All Rights Reserved. <!-- Rice 1.0.0 --></p>

@@ -259,7 +259,7 @@ case "${dbtype}" in
             cd ..
         fi 
 
-        if [ "${version}" = "5.0" ] || [ "${version}" = "NEW" ]
+        if [ "${version}" = "5.0" ] || [ "${version}" = '3.1.1' ] || [ "${version}" = "NEW" ]
         then
             cd KC-RELEASE-5_0_1-SCRIPT
             sqlplus "${un}"/"${pw}${DBSvrNm}" < KC-RELEASE-5_0_1-Upgrade-ORACLE.sql
@@ -268,7 +268,7 @@ case "${dbtype}" in
             cd ..
         fi
 
-        if [ "${version}" = "5.0.1" ] || [ "${version}" = "5.0" ] || [ "${version}" = "NEW" ]
+        if [ "${version}" = "5.0.1" ] || [ "${version}" = "5.0" ] || [ "${version}" = '3.1.1' ] || [ "${version}" = "NEW" ]
         then
             cd KC-RELEASE-5_1_0-SCRIPT
             if [ "${mode}" = "EMBED" ]
@@ -452,7 +452,7 @@ case "${dbtype}" in
             cd ..
         fi
 
-        if [ "${version}" = "5.0" ] || [ "${version}" = "NEW" ]
+        if [ "${version}" = "5.0" ] || [ "${version}" = '3.1.1' ] || [ "${version}" = "NEW" ]
         then
             cd KC-RELEASE-5_0_1-SCRIPT
             mysql -u ${un} -p${pw} -D ${DBSvrNm} -s -f < KC-RELEASE-5_0_1-Upgrade-MYSQL.sql > KC-RELEASE-5_0_1-Upgrade-MYSQL-Install.log 2>&1
@@ -461,7 +461,7 @@ case "${dbtype}" in
             cd ..
         fi
 
-        if [ "${version}" = "5.0.1" ] || [ "${version}" = "5.0" ] || [ "${version}" = "NEW" ]
+        if [ "${version}" = "5.0.1" ] || [ "${version}" = "5.0" ] || [ "${version}" = '3.1.1' ] || [ "${version}" = "NEW" ]
         then
             cd KC-RELEASE-5_1_0-SCRIPT
             if [ "${mode}" = "EMBED" ]

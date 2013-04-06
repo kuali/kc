@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitActionService;
@@ -67,6 +68,11 @@ public class ProtocolSubmissionLookupableHelperServiceImpl extends ProtocolSubmi
         }
         catch (Exception e) {
             LOG.info("submissionLookupData Lookup : " + submissionLookupData.size() + " parsing error");
+        }
+        for (ProtocolSubmission submission : submissionLookupData) {
+            if (submission.getCommitteeSchedule() == null) {
+                submission.setCommitteeSchedule(new CommitteeSchedule());
+            }
         }
         return submissionLookupData;
     }
