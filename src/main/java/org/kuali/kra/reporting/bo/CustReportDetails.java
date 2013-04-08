@@ -36,7 +36,7 @@ public class CustReportDetails extends KraPersistableBusinessObjectBase implemen
     
     private Integer reportTypeCode; 
     
-    private String name;
+    private String permissionName;
     
     private String fileName;
     
@@ -61,7 +61,6 @@ public class CustReportDetails extends KraPersistableBusinessObjectBase implemen
         return reportId;
     }
 
-
     /**
      * Sets the reportId attribute value.
      * @param reportId The reportId to set.
@@ -69,7 +68,6 @@ public class CustReportDetails extends KraPersistableBusinessObjectBase implemen
     public void setReportId(Integer reportId) {
         this.reportId = reportId;
     }
-
 
     /**
      * Gets the reportLabel attribute. 
@@ -79,7 +77,6 @@ public class CustReportDetails extends KraPersistableBusinessObjectBase implemen
         return reportLabel;
     }
 
-
     /**
      * Sets the reportLabel attribute value.
      * @param reportLabel The reportLabel to set.
@@ -87,7 +84,6 @@ public class CustReportDetails extends KraPersistableBusinessObjectBase implemen
     public void setReportLabel(String reportLabel) {
         this.reportLabel = reportLabel;
     }
-
 
     /**
      * Gets the reportDescription attribute. 
@@ -97,7 +93,6 @@ public class CustReportDetails extends KraPersistableBusinessObjectBase implemen
         return reportDescription;
     }
 
-
     /**
      * Sets the reportDescription attribute value.
      * @param reportDescription The reportDescription to set.
@@ -106,7 +101,6 @@ public class CustReportDetails extends KraPersistableBusinessObjectBase implemen
         this.reportDescription = reportDescription;
     }
 
-
     /**
      * Gets the reportTypeCode attribute. 
      * @return Returns the reportTypeCode.
@@ -114,7 +108,6 @@ public class CustReportDetails extends KraPersistableBusinessObjectBase implemen
     public Integer getReportTypeCode() {
         return reportTypeCode;
     }
-
 
     /**
      * Sets the reportTypeCode attribute value.
@@ -128,16 +121,16 @@ public class CustReportDetails extends KraPersistableBusinessObjectBase implemen
      * Gets the name attribute. 
      * @return Returns the name.
      */
-    public String getName() {
-        return name;
+    public String getPermissionName() {
+        return permissionName;
     }
 
     /**
      * Sets the name attribute value.
      * @param name The name to set.
      */
-    public void setName(String name) {
-            this.name = name;
+    public void setPermissionName(String permissionName) {
+            this.permissionName = permissionName;
     }
 
     /**
@@ -148,7 +141,6 @@ public class CustReportDetails extends KraPersistableBusinessObjectBase implemen
         return fileName;
     }
 
-
     /**
      * Sets the fileName attribute value.
      * @param fileName The fileName to set.
@@ -156,7 +148,6 @@ public class CustReportDetails extends KraPersistableBusinessObjectBase implemen
     public void setFileName(String fileName) {
         this.fileName = fileName;
     }
-
 
     /**
      * Gets the contentType attribute. 
@@ -166,7 +157,6 @@ public class CustReportDetails extends KraPersistableBusinessObjectBase implemen
         return contentType;
     }
 
-
     /**
      * Sets the contentType attribute value.
      * @param contentType The contentType to set.
@@ -174,7 +164,6 @@ public class CustReportDetails extends KraPersistableBusinessObjectBase implemen
     public void setContentType(String contentType) {
         this.contentType = contentType;
     }
-
 
     /**
      * Gets the attachmentContent attribute. 
@@ -184,7 +173,6 @@ public class CustReportDetails extends KraPersistableBusinessObjectBase implemen
         return attachmentContent;
     }
 
-
     /**
      * Sets the attachmentContent attribute value.
      * @param attachmentContent The attachmentContent to set.
@@ -192,7 +180,6 @@ public class CustReportDetails extends KraPersistableBusinessObjectBase implemen
     public void setAttachmentContent(byte[] attachmentContent) {
         this.attachmentContent = attachmentContent;
     }
-
 
     /**
      * Gets the custReportType attribute. 
@@ -202,7 +189,6 @@ public class CustReportDetails extends KraPersistableBusinessObjectBase implemen
         return custReportType;
     }
 
-
     /**
      * Sets the custReportType attribute value.
      * @param custReportType The custReportType to set.
@@ -210,7 +196,6 @@ public class CustReportDetails extends KraPersistableBusinessObjectBase implemen
     public void setCustReportType(CustReportType custReportType) {
         this.custReportType = custReportType;
     }
-
 
     /**
      * Gets the templateFile attribute. 
@@ -220,7 +205,6 @@ public class CustReportDetails extends KraPersistableBusinessObjectBase implemen
         return templateFile;
     }
 
-
     /**
      * Sets the templateFile attribute value.
      * @param templateFile The templateFile to set.
@@ -229,14 +213,19 @@ public class CustReportDetails extends KraPersistableBusinessObjectBase implemen
         this.templateFile = templateFile;
     }
 
+    /**
+     * Sets the reportLabelDisplay attribute value.
+     * @param reportLabelDisplay The reportLabelDisplay to set.
+     */
     public void setReportLabelDisplay(String reportLabelDisplay) {
         this.reportLabelDisplay = reportLabelDisplay;
     }
 
+    /**
+     * Gets the reportLabelDisplay attribute. 
+     * @return Returns the reportLabelDisplay.
+     */
     public String getReportLabelDisplay() {
         return reportLabelDisplay;
-    } 
-    
-    
-    
+    }
 }

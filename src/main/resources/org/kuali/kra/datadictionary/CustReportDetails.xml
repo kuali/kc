@@ -23,7 +23,7 @@
 				<ref bean="CustReportDetails-reportDescription" />
 				<ref bean="CustReportDetails-reportTypeCode" />
 				<ref bean="CustReportDetails-custReportType.reportTypeCode" />
-				<ref bean="CustReportDetails-name" /> 
+				<ref bean="CustReportDetails-permissionName" /> 
 				<ref bean="CustReportDetails-templateFile" />
 			</list>
 		</property>
@@ -138,13 +138,13 @@
 
 	</bean>
 
-	 <bean id="CustReportDetails-name" parent="CustReportDetails-name-parentBean" />
-	<bean id="CustReportDetails-name-parentBean" abstract="true"
+	 <bean id="CustReportDetails-permissionName" parent="CustReportDetails-permissionName-parentBean" />
+	<bean id="CustReportDetails-permissionName-parentBean" abstract="true"
 		parent="AttributeDefinition">
-		<property name="name" value="name" />
+		<property name="name" value="permissionName" />
 		<property name="forceUppercase" value="false" />
-		<property name="label" value="Permission name" />
-		<property name="shortLabel" value="name" />
+		<property name="label" value="Permission Name" />
+		<property name="shortLabel" value="permissionName" />
 		<property name="maxLength" value="30" />
 		<property name="validationPattern">
 			<bean parent="AlphaNumericValidationPattern" p:allowWhitespace="true"/>
@@ -153,8 +153,8 @@
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="40" />
 		</property>
-		<property name="summary" value="name" />
-		<property name="description" value="name" />
+		<property name="summary" value="Permission Name" />
+		<property name="description" value="Permission Name" />
 	</bean> 
 
 	<bean id="FileControlDefinition"
@@ -222,7 +222,7 @@
 					p:forceInquiry="false" />
 				<bean p:attributeName="reportTypeCode" parent="FieldDefinition"
 					p:forceInquiry="true" />
-				<bean p:attributeName="name" parent="FieldDefinition"
+				<bean p:attributeName="permissionName" parent="FieldDefinition"
 					p:forceInquiry="false" /> 
 			</list>
 		</property>
@@ -234,7 +234,7 @@
 					p:forceInquiry="false" />
 				<bean p:attributeName="reportTypeCode" parent="FieldDefinition"
 					p:forceInquiry="true" />
-				 <bean p:attributeName="name" parent="FieldDefinition"
+				 <bean p:attributeName="permissionName" parent="FieldDefinition"
 					/> 
 			</list>
 		</property>

@@ -994,12 +994,8 @@ public interface Constants {
     public static final String REPORT_FORMAT_PDF = "pdf";
     public static final String REPORT_FORMAT_HTML = "html";
     public static final String REPORT_FORMAT_EXCEL = "excel";
-    public static final String REPORT_FORMAT_EXCEL_EXTENSION = ".xlsx";
+    public static final String REPORT_FORMAT_EXCEL_EXTENSION = ".xls";
     public static final String REPORT_FORMAT_EXCEL_EXT = "xls";
     public static final String REPORT_FORMAT_HTML_EXTENSION = ".html";
-    public static final String ODA_URL = "datasource.url";
-    public static final String ODA_USER = "datasource.username";
-    public static final String ODA_PASSWORD = "datasource.password";
-    public static final String ODA_DRIVER_CLASS = "oda.driver.class";
 }
 
