@@ -38,7 +38,6 @@ public class CustReportType extends KraPersistableBusinessObjectBase {
         return reportTypeCode;
     }
 
-
     /**
      * Sets the reportTypeCode attribute value.
      * @param reportTypeCode The reportTypeCode to set.
@@ -46,7 +45,6 @@ public class CustReportType extends KraPersistableBusinessObjectBase {
     public void setReportTypeCode(Integer reportTypeCode) {
         this.reportTypeCode = reportTypeCode;
     }
-
 
     /**
      * Gets the reportTypeDesc attribute. 
@@ -56,13 +54,11 @@ public class CustReportType extends KraPersistableBusinessObjectBase {
         return reportTypeDesc;
     }
 
-
     /**
      * Sets the reportTypeDesc attribute value.
      * @param reportTypeDesc The reportTypeDesc to set.
      */
     public void setReportTypeDesc(String reportTypeDesc) {
         this.reportTypeDesc = reportTypeDesc;
-    } 
-    
+    }
 }

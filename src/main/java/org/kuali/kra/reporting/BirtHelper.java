@@ -15,34 +15,39 @@
  */
 package org.kuali.kra.reporting;
 
-import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.List;
 
-import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.api.IGetParameterDefinitionTask;
 import org.eclipse.birt.report.engine.api.IParameterDefnBase;
-import org.eclipse.birt.report.engine.api.IParameterGroupDefn;
 import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IScalarParameterDefn;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.reporting.bo.BirtParameterBean;
+import org.kuali.rice.core.framework.persistence.jdbc.datasource.XAPoolDataSource;
 
 
 public class BirtHelper {
     
     private static IReportEngine engine;
+    private static XAPoolDataSource xAPoolDataSource;
     
     public BirtHelper() throws Exception {
         BirtInstance birtInstance = BirtInstance.getInstance();
         engine = birtInstance.getIReportEngine();
     }
     
-    public ArrayList getParameters(InputStream reportStream) throws Exception {
+    /**
+     * Fetch input parameters from  template
+     * @param reportStream
+     * @return List of BirtParameterBean instances
+     * @throws Exception
+     */ 
+    public ArrayList<BirtParameterBean> getParameters(InputStream reportStream) throws Exception {
         IReportRunnable design = null;
         ArrayList<BirtParameterBean> listParameters = new ArrayList<BirtParameterBean>();        
         design = engine.openReportDesign(reportStream);        
@@ -52,17 +57,21 @@ public class BirtHelper {
         while (parameterIterator.hasNext()) {
             IParameterDefnBase param = (IParameterDefnBase) parameterIterator.next();           
             IScalarParameterDefn scalar = (IScalarParameterDefn) param;
-            listParameters.add(loadParameterDetails(task, scalar, design));
-            
+            listParameters.add(loadParameterDetails(task, scalar, design));            
         }
-       
         return listParameters;
     }
     
+    /**
+     * set properties of parameters
+     * @param iGetParameterDefinitionTask
+     * @param iScalarParameterDefn
+     * @param iReportRunnable
+     * @return birtParameterBean
+     */ 
     private BirtParameterBean loadParameterDetails(IGetParameterDefinitionTask task, IScalarParameterDefn scalar, IReportRunnable report) {
         
         BirtParameterBean birtParameterBean = new BirtParameterBean();
-
         birtParameterBean.setName(scalar.getName());
         birtParameterBean.setHelp(scalar.getHelpText());
         birtParameterBean.setFormat(scalar.getDisplayFormat());
@@ -79,7 +88,6 @@ public class BirtHelper {
                 birtParameterBean.setControlType(Constants.TYPE_TEXT);
                 break;
         }
-
         switch (scalar.getDataType()) {
             case IScalarParameterDefn.TYPE_STRING:
                 birtParameterBean.setDataType(Constants.STRING_TYPE);
@@ -90,7 +98,7 @@ public class BirtHelper {
         }
         return birtParameterBean;
     }
-
+    
     public static IReportEngine getEngine() {
         return engine;
     }
@@ -98,6 +106,11 @@ public class BirtHelper {
     public static void setEngine(IReportEngine engine) {
         BirtHelper.engine = engine;
     }
-
-
+    
+    public static XAPoolDataSource getXAPoolDataSource() {
+        if (xAPoolDataSource == null) {
+            xAPoolDataSource =  KraServiceLocator.getService("dataSourceXAPool");
+        }
+        return xAPoolDataSource;
+    }
 }

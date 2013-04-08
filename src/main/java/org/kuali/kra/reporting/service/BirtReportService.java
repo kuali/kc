@@ -26,17 +26,35 @@ import org.kuali.kra.reporting.bo.BirtParameterBean;
 import org.kuali.kra.reporting.bo.CustReportDetails;
 
 
-
-
-
 public interface BirtReportService {
     
+    /**
+    * Fetch input parameters from  template
+    * @param reportId
+    * @return List of BirtParameterBean instances
+    * @throws Exception
+    */    
     public ArrayList<BirtParameterBean> getInputParametersFromTemplateFile(String reportId) throws Exception;
 
+    /**
+     * Generate ReportDesignFileStream
+     * @param reportId
+     * @return InputStream
+     */
     public InputStream getReportDesignFileStream(String reportId);
 
-    public List<CustReportDetails> getReportDetails();
+    /**
+     * Fetch reports for which the user has permission
+     * @param 
+     * @return List of CustReportDetails instances
+     */
+    public List<CustReportDetails> getReports();
     
+    /**
+     * sets the data source properties
+     * @param iReportRunnable
+     * @return IReportRunnable instance
+     */    
     public IReportRunnable buildDataSource (IReportRunnable iReportRunnable) throws SemanticException,SQLException;
 
 }
