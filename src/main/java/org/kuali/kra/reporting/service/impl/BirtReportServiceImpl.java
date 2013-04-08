@@ -28,7 +28,6 @@ import org.eclipse.birt.report.model.api.ElementFactory;
 import org.eclipse.birt.report.model.api.OdaDataSourceHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.reporting.BirtHelper;
@@ -37,9 +36,7 @@ import org.kuali.kra.reporting.bo.CustReportDetails;
 import org.kuali.kra.reporting.service.BirtReportService;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.UnitAuthorizationService;
-import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.framework.persistence.jdbc.datasource.XAPoolDataSource;
-import org.kuali.rice.kim.impl.permission.PermissionBo;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
@@ -51,26 +48,28 @@ public class BirtReportServiceImpl implements BirtReportService{
     private UnitAuthorizationService unitAuthorizationService;
     
     public static final String PERMISSION_NAME = "RUN GLOBAL REPORTS";
+    public static final String DATA_SOURCE = "org.eclipse.birt.report.data.oda.jdbc";
 
-    @Override
-public ArrayList<BirtParameterBean> getInputParametersFromTemplateFile(String reportId) throws Exception {
+    /**
+     * Fetch input parameters from  template
+     * @param reportId
+     * @return List of BirtParameterBean instances
+     * @throws Exception
+     */ 
+    public ArrayList<BirtParameterBean> getInputParametersFromTemplateFile(String reportId) throws Exception {
         
         birtHelper = new BirtHelper();
         ArrayList<BirtParameterBean> parameterList = new ArrayList<BirtParameterBean>();
         InputStream reportDesignInputStream = getReportDesignFileStream(reportId);
         parameterList =  birtHelper.getParameters(reportDesignInputStream);
         return parameterList;
-        
-    }
-
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
-    }
-
-    public BusinessObjectService getBusinessObjectService() {
-        return businessObjectService;
     }
     
+    /**
+     * Generate ReportDesignFileStream
+     * @param reportId
+     * @return InputStream     
+     */
     public InputStream getReportDesignFileStream(String reportId){
         
         CustReportDetails custReportDetails;
@@ -81,7 +80,12 @@ public ArrayList<BirtParameterBean> getInputParametersFromTemplateFile(String re
         return reportDesignInputStream;
     }
     
-    public List<CustReportDetails> getReportDetails() {
+    /**
+     * Fetch reports for which the user has permission
+     * @param 
+     * @return List of CustReportDetails instances
+     */
+    public List<CustReportDetails> getReports() {
 
         String principalId = GlobalVariables.getUserSession().getPrincipalId();
         String departmentCode = GlobalVariables.getUserSession().getPerson().getPrimaryDepartmentCode();
@@ -89,10 +93,10 @@ public ArrayList<BirtParameterBean> getInputParametersFromTemplateFile(String re
                 BusinessObjectService.class).findAll(CustReportDetails.class);
         List<CustReportDetails> custReportDetails = new ArrayList<CustReportDetails>();
         for (CustReportDetails custReportDetail : custreportDetailsList) {
-            if(custReportDetail.getName() != null) {
-                if(custReportDetail.getName().equalsIgnoreCase(PERMISSION_NAME)) {
+            if(custReportDetail.getPermissionName() != null) {
+                if(custReportDetail.getPermissionName().equalsIgnoreCase(PERMISSION_NAME)) {
                     boolean hasPermission = getUnitAuthorizationService().hasPermission(principalId, departmentCode,
-                            RoleConstants.DEPARTMENT_ROLE_TYPE, custReportDetail.getName());
+                            RoleConstants.DEPARTMENT_ROLE_TYPE, custReportDetail.getPermissionName());
                     if (hasPermission) {
                         custReportDetails.add(custReportDetail);
                     }
@@ -102,33 +106,41 @@ public ArrayList<BirtParameterBean> getInputParametersFromTemplateFile(String re
         return custReportDetails;
     }
     
-    @Override
+    /**
+     * sets the data source properties
+     * @param iReportRunnable
+     * @return IReportRunnable instance
+     */
     public IReportRunnable buildDataSource(IReportRunnable iReportRunnable) throws SemanticException, SQLException {
         ElementFactory designFactory = null;
-        
-        ConfigurationService configurationService = KraServiceLocator.getService(ConfigurationService.class);
-        String odaURL = configurationService.getPropertyValueAsString(Constants.ODA_URL);
-        String odaUser =  configurationService.getPropertyValueAsString(Constants.ODA_USER);
-        String odaPassword =  configurationService.getPropertyValueAsString(Constants.ODA_PASSWORD);
-        
         ReportDesignHandle reportDesignHandle = (ReportDesignHandle) iReportRunnable.getDesignHandle();
         reportDesignHandle.getElementFactory();        
         designFactory = reportDesignHandle.getElementFactory();
-        OdaDataSourceHandle odaDataSourceHandle = designFactory.newOdaDataSource("Data Source", "org.eclipse.birt.report.data.oda.jdbc");
-        XAPoolDataSource xAPoolDataSource =  KraServiceLocator.getService("dataSourceXAPool");
+        OdaDataSourceHandle odaDataSourceHandle = designFactory.newOdaDataSource("Data Source",DATA_SOURCE);
+
+        XAPoolDataSource dataSource= birtHelper.getXAPoolDataSource();
+        String odaDriverClassName = dataSource.getDriverClassName();
+        String odaURL = dataSource.getUrl();
+        String odaUser = dataSource.getUsername();
+        String odaPassword =  dataSource.getPassword();
         
-        String odaDriverClassName = xAPoolDataSource.getDriverClassName();
         odaDataSourceHandle.setProperty("odaDriverClass", odaDriverClassName);
         odaDataSourceHandle.setProperty("odaURL", odaURL);
         odaDataSourceHandle.setProperty("odaUser", odaUser);
         odaDataSourceHandle.setProperty("odaPassword", odaPassword);
         reportDesignHandle.getDataSources().add(odaDataSourceHandle);
         iReportRunnable.setDesignHandle(reportDesignHandle);
-        
         return iReportRunnable;
     }
  
- 
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
+
+    public BusinessObjectService getBusinessObjectService() {
+        return businessObjectService;
+    }
+    
     public KraAuthorizationService getKraAuthorizationService() {
         return KraServiceLocator.getService(KraAuthorizationService.class);
     }

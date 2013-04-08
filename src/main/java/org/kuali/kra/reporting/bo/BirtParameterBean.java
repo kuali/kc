@@ -32,8 +32,8 @@ public class BirtParameterBean implements Serializable {
     private String help;
     private String format;
     private int dataType;
-    private HashMap values; //list of COmboBox beans for name, value pair
-    private int controlType; //Control Type
+    private HashMap values;
+    private int controlType;
     private String defaultValue;
     private boolean hidden;
     private boolean required;

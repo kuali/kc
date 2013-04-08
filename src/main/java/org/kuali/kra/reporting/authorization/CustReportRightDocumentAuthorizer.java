@@ -72,6 +72,4 @@ public class CustReportRightDocumentAuthorizer extends MaintenanceDocumentAuthor
     public void setUnitAuthorizationService(UnitAuthorizationService unitAuthorizationService) {
         this.unitAuthorizationService = unitAuthorizationService;
     }
-    
-  
 }

@@ -69,7 +69,6 @@ public class CustRptDefaultParms extends KraPersistableBusinessObjectBase {
         this.reportTypeCode = reportTypeCode;
     }
 
-
     /**
      * Gets the className attribute. 
      * @return Returns the className.
@@ -132,7 +131,5 @@ public class CustRptDefaultParms extends KraPersistableBusinessObjectBase {
      */
     public void setUnitForAuthCheck(boolean unitForAuthCheck) {
         this.unitForAuthCheck = unitForAuthCheck;
-    } 
-
-   
+    }
 }

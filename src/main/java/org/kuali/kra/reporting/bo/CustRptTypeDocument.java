@@ -78,7 +78,5 @@ public class CustRptTypeDocument extends KraPersistableBusinessObjectBase {
      */
     public void setCustReportType(CustReportType custReportType) {
         this.custReportType = custReportType;
-    } 
-
-    
+    }
 }

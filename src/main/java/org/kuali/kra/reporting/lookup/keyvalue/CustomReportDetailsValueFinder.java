@@ -30,19 +30,19 @@ public class CustomReportDetailsValueFinder extends KeyValuesBase {
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 1L;
-    private transient BirtReportService birtreportService;
+    private BirtReportService birtReportService;
     private BirtReportService getBirtReportService() {
-        if (birtreportService == null) {
-            birtreportService = KraServiceLocator.getService(BirtReportService.class);
+        if (birtReportService == null) {
+            birtReportService = KraServiceLocator.getService(BirtReportService.class);
         }
-        return birtreportService;
+        return birtReportService;
     }
 
     @Override
     public List<KeyValue> getKeyValues() {
         List<KeyValue> keyLabels = new ArrayList<KeyValue>();
         keyLabels.add(new ConcreteKeyValue("0","select"));
-        List<CustReportDetails> results = getBirtReportService().getReportDetails();
+        List<CustReportDetails> results = getBirtReportService().getReports();
         for (CustReportDetails custReportDetails : results) {
             keyLabels.add(new ConcreteKeyValue(custReportDetails.getReportId().toString() , custReportDetails.getReportLabel()));
         }            
