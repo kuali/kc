@@ -756,6 +756,8 @@ public abstract class ActionHelperBase implements Serializable {
         if (CollectionUtils.isNotEmpty(protocolManageReviewCommentsBean.getReviewAttachmentsBean().getReviewAttachments())) {
             protocolManageReviewCommentsBean.getReviewAttachmentsBean().setHideReviewerName(getReviewerCommentsService().setHideReviewerName(protocolManageReviewCommentsBean.getReviewAttachmentsBean().getReviewAttachments()));
         }
+        
+        protocolReturnToPIBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
     }
     
     protected List<CommitteeScheduleMinuteBase> getCopiedReviewComments() {       

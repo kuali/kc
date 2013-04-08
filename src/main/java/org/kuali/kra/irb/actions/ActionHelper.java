@@ -505,7 +505,9 @@ public class ActionHelper extends ActionHelperBase {
         protocolCloseEnrollmentBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
         protocolSuspendByDsmbBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
         protocolCloseBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
-        protocolPermitDataAnalysisBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());        
+        protocolPermitDataAnalysisBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
+        
+        protocolDeferBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
     }
     
     protected ProtocolVersionService getProtocolVersionService() {
