@@ -27,6 +27,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.eclipse.birt.report.engine.api.EXCELRenderOption;
+import org.eclipse.birt.report.engine.api.HTMLRenderOption;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IRunAndRenderTask;
 import org.eclipse.birt.report.engine.api.PDFRenderOption;
@@ -50,8 +52,14 @@ public class ReportGenerationAction extends ReportGenerationBaseAction {
   
     private BirtReportService birtReportService;
     
-    
-
+    /**
+     * sets report parameters to action form     
+     * @param mapping the ActionMapping
+     * @param form the ActionForm
+     * @param request the Request
+     * @param response the Response     
+     * @return ActionForward     
+     */
     public ActionForward getReportParametersFromDesign(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
        
         ReportGenerationForm reportGenerationForm = (ReportGenerationForm) form;
@@ -66,6 +74,14 @@ public class ReportGenerationAction extends ReportGenerationBaseAction {
         return mapping.findForward(MAPPING_BASIC); 
     }
     
+    /**
+     * prints the selected report     
+     * @param mapping the ActionMapping
+     * @param form the ActionForm
+     * @param request the Request
+     * @param response the Response     
+     * @return ActionForward     
+     */
     public ActionForward printReport(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
        
         InputStream reportDesignInputStream;
@@ -91,7 +107,6 @@ public class ReportGenerationAction extends ReportGenerationBaseAction {
         reportGenerationForm.setReportId(reportId);
         reportGenerationForm.setReportName(reportDetails.getReportLabel());
 
-
         for (BirtParameterBean parameterBean : parameterList) {
             parameters.put(parameterBean.getName(),
                     request.getParameter("reportParameterList[" + birtCounter + "].inputParameterText"));
@@ -106,25 +121,27 @@ public class ReportGenerationAction extends ReportGenerationBaseAction {
             (new ErrorReporter()).reportError("reportParameterList[0].inputParameterText",
                     KeyConstants.ERROR_BIRT_REPORT_INPUT_MISSING, "select");
         } else {
-            RenderOption renderOption = new PDFRenderOption();
-
+            RenderOption renderOption = null;
 
             if (reportGenerationForm.getReportFormat().equalsIgnoreCase(Constants.REPORT_FORMAT_PDF)) {
+                renderOption = new PDFRenderOption();
                 printReportFormat = Constants.PDF_REPORT_CONTENT_TYPE;
                 printReportNameAndExtension = reportDetails.getReportLabel() + Constants.PDF_FILE_EXTENSION;
                 renderOption.setOutputFormat(reportGenerationForm.getReportFormat());
             } else if (reportGenerationForm.getReportFormat().equalsIgnoreCase(Constants.REPORT_FORMAT_HTML)) {
+                renderOption = new HTMLRenderOption();
                 printReportFormat = Constants.HTML_REPORT_CONTENT_TYPE;
                 printReportNameAndExtension = reportDetails.getReportLabel() + Constants.REPORT_FORMAT_HTML_EXTENSION;
                 renderOption.setOutputFormat(reportGenerationForm.getReportFormat());
             } else if (reportGenerationForm.getReportFormat().equalsIgnoreCase(Constants.REPORT_FORMAT_EXCEL)) {
+                renderOption = new EXCELRenderOption();
                 printReportFormat = Constants.EXCEL_REPORT_CONTENT_TYPE;
                 printReportNameAndExtension = reportDetails.getReportLabel() + Constants.REPORT_FORMAT_EXCEL_EXTENSION;
                 renderOption.setOutputFormat("xls");
             } else {
                 printReportFormat = Constants.PDF_REPORT_CONTENT_TYPE;
+                renderOption = new PDFRenderOption();
             }
-
 
             renderOption.setOutputStream(birtFilePrintArrayOutputStream);
             reportTask.setRenderOption(renderOption);
@@ -134,21 +151,16 @@ public class ReportGenerationAction extends ReportGenerationBaseAction {
             reportTask.close();
         }
         return mapping.findForward(MAPPING_BASIC);
-
     }
     
     public ActionForward close(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         return super.close(mapping, form, request, response);
     }
 
-
-
     public void setBirtReportService(BirtReportService birtReportService) {
         this.birtReportService = birtReportService;
     }
-
-
-
+    
     public BirtReportService getBirtReportService() {
         return KraServiceLocator.getService(BirtReportService.class);
     }

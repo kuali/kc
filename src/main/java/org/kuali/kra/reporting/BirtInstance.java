@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.reporting;
 
-import java.util.logging.Level;
-
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.framework.Platform;
 import org.eclipse.birt.report.engine.api.EngineConfig;
@@ -36,7 +34,6 @@ class BirtInstance {
 
     public void init() throws BirtException {
         config = new EngineConfig();
-        config.setLogConfig("/temp", Level.FINE);
         Platform.startup(config);
         IReportEngineFactory factory = (IReportEngineFactory) Platform.createFactoryObject(IReportEngineFactory.EXTENSION_REPORT_ENGINE_FACTORY);
         engine = factory.createReportEngine(config); 

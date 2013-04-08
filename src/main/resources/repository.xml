@@ -1635,7 +1635,7 @@
 		<field-descriptor name="reportLabel" column="REPORT_LABEL" jdbc-type="VARCHAR" />
 		<field-descriptor name="reportDescription" column="REPORT_DESCRIPTION" jdbc-type="VARCHAR" />
 		<field-descriptor name="reportTypeCode" column="REPORT_TYPE_CODE" jdbc-type="INTEGER" /> 
-		<field-descriptor name="name" column="RIGHT_REQUIRED" jdbc-type="VARCHAR" />
+		<field-descriptor name="permissionName" column="RIGHT_REQUIRED" jdbc-type="VARCHAR" />
 		<field-descriptor name="attachmentContent" column="REPORT_DESIGN" jdbc-type="CLOB" conversion="org.kuali.kra.infrastructure.OjbBlobClobFieldConersion"/>
 		<field-descriptor name="fileName" column="FILE_NAME" jdbc-type="VARCHAR" />
 		<field-descriptor name="contentType" column="CONTENT_TYPE" jdbc-type="VARCHAR" />
