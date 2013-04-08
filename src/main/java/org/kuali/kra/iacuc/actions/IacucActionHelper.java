@@ -397,6 +397,11 @@ public class IacucActionHelper extends ActionHelperBase {
     public void prepareCommentsView() {
         super.prepareCommentsView();
         iacucProtocolDeactivateBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
+        
+        iacucAcknowledgeBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
+        iacucProtocolRemoveFromAgendaBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
+        iacucProtocolHoldBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
+        iacucProtocolLiftHoldBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
     }
 
 
