@@ -997,5 +997,9 @@ public interface Constants {
     public static final String REPORT_FORMAT_EXCEL_EXTENSION = ".xls";
     public static final String REPORT_FORMAT_EXCEL_EXT = "xls";
     public static final String REPORT_FORMAT_HTML_EXTENSION = ".html";
+
+
+    public static final String COI_NOTEPAD_DISCLOSURE_REVIEWER_SECTION_ID = "RDA"; // COI reviewer reviewer disclosure action
+
 }
 
