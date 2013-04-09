@@ -15,6 +15,8 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
+<%@ attribute name="usageSectionId" required="false" type="java.lang.String" description="ID to identify where the note section is used." %>
+
 <c:set var="notesAttributes" value="${DataDictionary.CoiDisclosureNotepad.attributes}" />
 <c:set var="modifyPermission" value="${KualiForm.coiNotesAndAttachmentsHelper.modifyNotepads}" />
 <c:set var="viewRestrictedNotes" value="${KualiForm.coiNotesAndAttachmentsHelper.viewRestricted}" />
@@ -26,7 +28,10 @@
 <c:set var="isMasterDisclosure" value="${KualiForm.disclosureHelper.isMasterDisclosure}" />
 <c:forEach var="coiDisclosureNotepad" items="${KualiForm.document.coiDisclosure.coiDisclosureNotepads}" varStatus="status">
     <c:if test="${viewRestrictedNotes || !coiDisclosureNotepad.restrictedView}">               
-        <c:set var="tabItemCount" value="${tabItemCount+1}" />
+		<c:set var="listUsageSectionId" value="${coiDisclosureNotepad.usageSectionId}" />
+        <c:if test="${listUsageSectionId eq usageSectionId}">
+        	<c:set var="tabItemCount" value="${tabItemCount+1}" />
+        </c:if>	
     </c:if>
 </c:forEach>
 
@@ -49,7 +54,8 @@
 				
 			</tr>
 			<kra:permission value="${modifyPermission}">
-			
+                ${kfunc:registerEditableProperty(KualiForm, "coiNotesAndAttachmentsHelper.newCoiDisclosureNotepad.usageSectionId")}
+                <input type="hidden" name="coiNotesAndAttachmentsHelper.newCoiDisclosureNotepad.usageSectionId" value="${usageSectionId}"/>
 				<tr>
 	            	<th width="5%" align="center" scope="row"><div align="center">Add:</div></th>
 	            	<td width="9%" class="infoline">
@@ -114,7 +120,12 @@
 	        </kra:permission>
 	        <c:forEach var="coiDisclosureNotepad" items="${KualiForm.document.coiDisclosure.coiDisclosureNotepads}" varStatus="status">
                 <c:if test="${viewRestrictedNotes || !coiDisclosureNotepad.restrictedView}">
-	         	
+
+				<c:set var="listUsageSectionId" value="${coiDisclosureNotepad.usageSectionId}" />
+                <c:if test="${listUsageSectionId eq usageSectionId}">
+
+				<html:hidden property="document.coiDisclosure.coiDisclosureNotepads[${status.index}].usageSectionId" />
+
 	         	<c:set var="noteId" value="${coiDisclosureNotepad.id}" />
 	         	<c:set var="permission" value="${canDeleteUpdateNotes[status.index]}" />
 	         	<%--This noteReadOnly just makes the note readonly. Editing and Deleting permissions is controlled by another authorizer. --%>
@@ -207,6 +218,7 @@
 		            	</td>
 		            </tr>
                 </c:if>          
+		        </c:if> 	         	
 	        </c:forEach> 
         </table>
    </div>

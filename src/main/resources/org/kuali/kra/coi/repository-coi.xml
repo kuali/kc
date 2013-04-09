@@ -100,6 +100,7 @@
         <field-descriptor name="documentId" column="DOCUMENT_ID" jdbc-type="INTEGER" />
         <field-descriptor name="fileId" column="FILE_ID" jdbc-type="BIGINT"/>
         <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
+        <field-descriptor name="usageSectionId" column="USAGE_SECTION_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="documentStatusCode" column="DOCUMENT_STATUS_CODE" jdbc-type="VARCHAR"/>
         <field-descriptor name="contactName" column="CONTACT_NAME" jdbc-type="VARCHAR" />
         <field-descriptor name="contactEmailAddress" column="EMAIL_ADDRESS" jdbc-type="VARCHAR" />
@@ -143,6 +144,7 @@
         <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
         <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
         <field-descriptor name="projectId" column="PROJECT_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="usageSectionId" column="USAGE_SECTION_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="financialEntityId" column="FIN_ENTITY_ID_FK" jdbc-type="BIGINT" /> 
         <field-descriptor name="eventTypeCode" column="EVENT_TYPE_CODE" jdbc-type="VARCHAR" />       
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />

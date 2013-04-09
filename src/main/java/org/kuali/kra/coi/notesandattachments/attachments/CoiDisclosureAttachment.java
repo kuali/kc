@@ -71,6 +71,8 @@ public class CoiDisclosureAttachment extends CoiDisclosureAssociate implements C
     private static String updatedByString;
     private transient Long attachmentIdForPermission;
 
+    private String usageSectionId;
+    
     public CoiDisclosureAttachment() {
         super();
     }
@@ -359,6 +361,14 @@ public class CoiDisclosureAttachment extends CoiDisclosureAssociate implements C
         if (boService.countMatching(CoiDisclosureAttachment.class, values) == 1) {
             boService.delete(getFile());
         } 
+    }
+
+    public String getUsageSectionId() {
+        return usageSectionId;
+    }
+
+    public void setUsageSectionId(String usageSectionId) {
+        this.usageSectionId = usageSectionId;
     }
 
 }

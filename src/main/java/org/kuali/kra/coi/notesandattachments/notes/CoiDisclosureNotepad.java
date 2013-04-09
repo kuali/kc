@@ -55,6 +55,9 @@ public class CoiDisclosureNotepad extends CoiDisclosureAssociate implements Comp
     private Timestamp createTimestamp;
     private transient String createUserFullName;
     
+    private String usageSectionId;
+    
+    
     @SkipVersioning
     private PersonFinIntDisclosure financialEntity;
     private String eventTypeCode;
@@ -343,4 +346,12 @@ public class CoiDisclosureNotepad extends CoiDisclosureAssociate implements Comp
         this.setCreateTimestamp(((DateTimeService) KraServiceLocator.getService(Constants.DATE_TIME_SERVICE_NAME)).getCurrentTimestamp());
     }
     */
+
+    public String getUsageSectionId() {
+        return usageSectionId;
+    }
+
+    public void setUsageSectionId(String usageSectionId) {
+        this.usageSectionId = usageSectionId;
+    }
 }
