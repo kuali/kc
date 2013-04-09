@@ -893,12 +893,12 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
     
     public List<CoiNotification> filterNotifications(List<CoiNotification>unfilteredList) {
         String currentUser = GlobalVariables.getUserSession().getPrincipalName().trim();
-        if (!(StringUtils.equals(currentUser, getPersonId()) || StringUtils.equals(currentUser, getCertifiedBy()))) {
+        if (!(StringUtils.equals(currentUser, getReporterUserName()))) {
             return unfilteredList;
         } else {
             List<CoiNotification>filteredList = new ArrayList<CoiNotification>();
             for (CoiNotification notification: unfilteredList) {
-                if (currentUser.equals(notification.getUpdateUser())) {
+                if (currentUser.equals(notification.getCreateUser())) {
                     filteredList.add(notification);
                 } else {
                     for (String recipient: notification.getRecipients().split(",")) {
@@ -930,4 +930,10 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
     public void addNotification(CoiNotification notification) {
         getDisclosureNotifications().add(notification);
     }
+
+    public String getReporterUserName() {
+        DisclosurePerson reporter =  getDisclosureReporter();
+        return getKcPersonService().getKcPersonByPersonId(reporter.getPersonId()).getUserName();
+   }
+
 }
