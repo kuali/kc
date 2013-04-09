@@ -657,6 +657,11 @@ public class IacucProtocol extends ProtocolBase {
                 notification.setDocumentNumber(getProtocolDocument().getDocumentNumber());
                 notification.setNotificationId(null);
             }
+            // reset persistence state for copied notifications so they break ties with old document
+            for (KcNotification notification: protocolAction.getProtocolNotifications()) {
+                notification.setDocumentNumber(getProtocolDocument().getDocumentNumber());
+                notification.setNotificationId(null);
+            }
             this.getProtocolActions().add(protocolAction);
         }
     }

@@ -51,10 +51,13 @@ public class IRBNotificationContext extends ProtocolNotificationContextBase {
      */
     public IRBNotificationContext(Protocol protocol, String actionTypeCode, String contextName, NotificationRenderer renderer) {
         super(protocol, actionTypeCode, contextName, renderer);
-        
         setNotificationRoleQualifierService(KraServiceLocator.getService(IRBNotificationRoleQualifierService.class));
-        
         ((IRBNotificationRoleQualifierService) getNotificationRoleQualifierService()).setProtocol(protocol);
+    }
+    
+    public IRBNotificationContext(Protocol protocol, String actionTypeCode, String contextName, NotificationRenderer renderer, String forwardName) {
+        this(protocol, actionTypeCode, contextName, renderer);        
+        setForwardName(forwardName);
     }
     
     /**

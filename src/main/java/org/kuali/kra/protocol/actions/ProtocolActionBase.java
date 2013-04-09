@@ -311,11 +311,14 @@ public abstract class ProtocolActionBase extends ProtocolAssociateBase {
     public void resetPersistenceState() {
         protocolActionId = null;
         submissionIdFk = null;
+        for (KcNotification notification: getProtocolNotifications()) {
+            notification.setOwningDocumentIdFk(null);
+        }
     }
 
     /**
      * 
-     * This resets the foreign keys if there is no protocol submission.
+     * This resets the foreign keys if there is a protocol submission.
      */
     public void resetForeignKeys() {
         if (protocolSubmission != null) {
