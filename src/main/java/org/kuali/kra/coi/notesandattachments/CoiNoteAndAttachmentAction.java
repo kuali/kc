@@ -146,12 +146,12 @@ public class CoiNoteAndAttachmentAction extends CoiAction {
         final AttachmentFile file = attachment.getFile();
         byte[] attachmentFile = null;
         String attachmentFileType = file.getType().replace("\"", "");
-        if (attachmentFileType.equalsIgnoreCase(WatermarkConstants.ATTACHMENT_TYPE_PDF)){
-            attachmentFile = getCoiDisclosureAttachmentFile(form,attachment);
-            if (attachmentFile != null){
-                this.streamToResponse(attachmentFile, getValidHeaderString(file.getName()),  getValidHeaderString(file.getType()), response);}
-            return RESPONSE_ALREADY_HANDLED;
-        }        
+//        if (attachmentFileType.equalsIgnoreCase(WatermarkConstants.ATTACHMENT_TYPE_PDF)){
+//            attachmentFile = getCoiDisclosureAttachmentFile(form,attachment);
+//            if (attachmentFile != null){
+//                this.streamToResponse(attachmentFile, getValidHeaderString(file.getName()),  getValidHeaderString(file.getType()), response);}
+//            return RESPONSE_ALREADY_HANDLED;
+//        }        
         this.streamToResponse(file.getData(), getValidHeaderString(file.getName()),  getValidHeaderString(file.getType()), response);
 
         return RESPONSE_ALREADY_HANDLED;
@@ -225,8 +225,46 @@ public class CoiNoteAndAttachmentAction extends CoiAction {
         // add authorization here
         helper.addNewNote();
         helper.setManageNotesOpen();
+        helper.prepareView();
         return mapping.findForward(Constants.MAPPING_BASIC);
 
+    }
+    
+    public ActionForward editNote(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        final int selection = this.getSelectedLine(request);
+        CoiDisclosureForm disclosureForm = (CoiDisclosureForm) form;   
+        CoiNotesAndAttachmentsHelper helper = disclosureForm.getCoiNotesAndAttachmentsHelper();   
+        // add authorization here
+        helper.editNote(selection);
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    public ActionForward deleteNote(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        CoiNotesAndAttachmentsHelper helper = ((CoiDisclosureForm) form).getCoiNotesAndAttachmentsHelper();   
+        // add authorization here
+        return confirmDeleteNote(mapping, (CoiDisclosureForm) form, request, response);        
+    }
+    
+    protected ActionForward confirmDeleteNote(ActionMapping mapping, CoiDisclosureForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        
+        final int selection = this.getSelectedLine(request);
+        final String confirmMethod = "deleteNoteConfirmed";
+        final StrutsConfirmation confirm = buildParameterizedConfirmationQuestion(mapping, form, request, response, confirmMethod, 
+                                                                                  KeyConstants.QUESTION_DELETE_NOTE_CONFIRMATION);
+        return confirm(confirm, confirmMethod, CONFIRM_NO_DELETE);
+    }
+
+    public ActionForward deleteNoteConfirmed(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        
+        final int selection = this.getSelectedLine(request);
+        
+        if (!((CoiDisclosureForm)form).getCoiNotesAndAttachmentsHelper().deleteNote(selection)) {
+            //may want to tell the user the selection was invalid.
+        }
+        
+        return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
     

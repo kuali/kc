@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2013 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,16 +24,13 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kra.coi.CoiAction;
-import org.kuali.kra.coi.CoiActionType;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.CoiDisclosureDocument;
 import org.kuali.kra.coi.CoiDisclosureForm;
 import org.kuali.kra.coi.CoiDisclosureStatus;
 import org.kuali.kra.coi.CoiUserRole;
 import org.kuali.kra.coi.disclosure.CoiDisclosureAdministratorActionRule;
-import org.kuali.kra.coi.notification.AssignReviewerNotificationRenderer;
-import org.kuali.kra.coi.notification.CoiNotificationContext;
+import org.kuali.kra.coi.notesandattachments.CoiNoteAndAttachmentAction;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.RoleConstants;
@@ -41,7 +38,7 @@ import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 
-public class CoiDisclosureActionsAction extends CoiAction {
+public class CoiDisclosureActionsAction extends CoiNoteAndAttachmentAction {
 
     public ActionForward performAction(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         
