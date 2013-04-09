@@ -46,6 +46,7 @@ import org.kuali.kra.irb.notification.IRBProtocolNotification;
 // TODO ********************** added or modified during IRB backfit merge END ************************ 
 
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
+import org.kuali.kra.protocol.notification.ProtocolNotification;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -282,6 +283,12 @@ public class ProtocolNotificationEditorAction extends ProtocolAction {
  
     private void recordProtocolActionSuccess(String protocolActionName) {
         KNSGlobalVariables.getMessageList().add(KeyConstants.MESSAGE_PROTOCOL_ACTION_SUCCESSFULLY_COMPLETED, protocolActionName);
+    }
+
+    @Override
+    protected ProtocolNotification getProtocolNotificationHook() {
+        // TODO Auto-generated method stub
+        return null;
     }
     
 

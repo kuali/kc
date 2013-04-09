@@ -24,22 +24,22 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.beanutils.BeanUtilsBean;
 import org.apache.commons.beanutils.PropertyUtils;
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.common.permissions.Permissionable;
-import org.kuali.kra.iacuc.IacucProtocolForm;
-import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmitActionEvent;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.krms.service.KrmsRulesExecutionService;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.protocol.actions.ProtocolSubmissionBeanBase;
 import org.kuali.kra.protocol.auth.ProtocolTaskBase;
+import org.kuali.kra.protocol.notification.ProtocolNotification;
+import org.kuali.kra.protocol.notification.ProtocolNotificationContextBase;
 import org.kuali.kra.protocol.personnel.ProtocolPersonTrainingService;
 import org.kuali.kra.protocol.personnel.ProtocolPersonnelService;
 import org.kuali.kra.questionnaire.QuestionnaireHelperBase;
@@ -75,7 +75,6 @@ public abstract class ProtocolActionBase extends KraTransactionalDocumentActionB
     private static final String NOT_FOUND_SELECTION = "The attachment was not found for selection ";
     private static final ActionForward RESPONSE_ALREADY_HANDLED = null;
     
-   
     /** {@inheritDoc} */
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
@@ -96,38 +95,35 @@ public abstract class ProtocolActionBase extends KraTransactionalDocumentActionB
     
     //invoke these hooks at appropriate points in action methods to get the actual forward name from the subclasses
     protected abstract String getProtocolForwardNameHook();
-    
     protected abstract String getQuestionnaireForwardNameHook();
-    
     protected abstract String getPersonnelForwardNameHook();
     protected abstract String getNoteAndAttachmentForwardNameHook();
-
     protected abstract String getProtocolActionsForwardNameHook();
-
     protected abstract String getProtocolOnlineReviewForwardNameHook();
-    
     protected abstract String getProtocolPermissionsForwardNameHook();
     protected abstract String getSpecialReviewForwardNameHook();
+    protected abstract String getCustomDataForwardNameHook();
+    protected abstract ProtocolNotification getProtocolNotificationHook();
     
     public ActionForward protocol(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        ((ProtocolFormBase)form).getProtocolHelper().prepareView();
-        // hook invocation to get the forward name
-        return mapping.findForward(getProtocolForwardNameHook());
+        ProtocolFormBase protocolForm = (ProtocolFormBase)form;
+        protocolForm.getProtocolHelper().prepareView();
+        return branchToPanelOrNotificationEditor(mapping, protocolForm, getProtocolForwardNameHook());
     }
 
     public ActionForward permissions(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        ((ProtocolFormBase)form).getPermissionsHelper().prepareView();
-        return mapping.findForward(getProtocolPermissionsForwardNameHook());
+        ProtocolFormBase protocolForm = (ProtocolFormBase)form;
+        protocolForm.getPermissionsHelper().prepareView();
+        return branchToPanelOrNotificationEditor(mapping, protocolForm, getProtocolPermissionsForwardNameHook());
     }    
 
     public ActionForward personnel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        getProtocolPersonnelService().selectProtocolUnit(((ProtocolFormBase) form).getProtocolDocument().getProtocol().getProtocolPersons());
-        getProtocolPersonTrainingService().updatePersonTrained(((ProtocolFormBase) form).getProtocolDocument().getProtocol().getProtocolPersons());
-        ((ProtocolFormBase)form).getPersonnelHelper().prepareView();
-        return mapping.findForward(getPersonnelForwardNameHook());
+        ProtocolFormBase protocolForm = (ProtocolFormBase)form;
+        getProtocolPersonnelService().selectProtocolUnit(protocolForm.getProtocolDocument().getProtocol().getProtocolPersons());
+        getProtocolPersonTrainingService().updatePersonTrained(protocolForm.getProtocolDocument().getProtocol().getProtocolPersons());
+        protocolForm.getPersonnelHelper().prepareView();
+        return branchToPanelOrNotificationEditor(mapping, protocolForm, getPersonnelForwardNameHook());
     }    
-//    
-
     
     /**
      * This method gets called upon navigation to Questionnaire tab.
@@ -138,11 +134,11 @@ public abstract class ProtocolActionBase extends KraTransactionalDocumentActionB
      * @return the Action Forward
      */
     public ActionForward questionnaire(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-
-        ((ProtocolFormBase)form).getQuestionnaireHelper().prepareView();
-        ((ProtocolFormBase)form).getQuestionnaireHelper().populateAnswers();
-        ((ProtocolFormBase)form).getQuestionnaireHelper().setQuestionnaireActiveStatuses();
-        return mapping.findForward(getQuestionnaireForwardNameHook());
+        ProtocolFormBase protocolForm = (ProtocolFormBase)form;
+        protocolForm.getQuestionnaireHelper().prepareView();
+        protocolForm.getQuestionnaireHelper().populateAnswers();
+        protocolForm.getQuestionnaireHelper().setQuestionnaireActiveStatuses();
+        return branchToPanelOrNotificationEditor(mapping, protocolForm, getQuestionnaireForwardNameHook());
     }
     
     protected ProtocolSubmissionBeanBase getSubmissionBean(ActionForm form,String submissionActionType) {
@@ -170,8 +166,9 @@ public abstract class ProtocolActionBase extends KraTransactionalDocumentActionB
      */
     public ActionForward noteAndAttachment(ActionMapping mapping, ActionForm form
             , HttpServletRequest request, HttpServletResponse response) {        
-        ((ProtocolFormBase) form).getNotesAttachmentsHelper().prepareView();
-        return mapping.findForward(getNoteAndAttachmentForwardNameHook());
+        ProtocolFormBase protocolForm = (ProtocolFormBase)form;
+        protocolForm.getNotesAttachmentsHelper().prepareView();
+        return branchToPanelOrNotificationEditor(mapping, protocolForm, getNoteAndAttachmentForwardNameHook());
     }
     
     /**
@@ -183,8 +180,9 @@ public abstract class ProtocolActionBase extends KraTransactionalDocumentActionB
      * @return
      */
     public ActionForward specialReview(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        ((ProtocolFormBase) form).getSpecialReviewHelper().prepareView();
-        return mapping.findForward(getSpecialReviewForwardNameHook());
+        ProtocolFormBase protocolForm = (ProtocolFormBase)form;
+        protocolForm.getSpecialReviewHelper().prepareView();
+        return branchToPanelOrNotificationEditor(mapping, protocolForm, getSpecialReviewForwardNameHook());
     }
 
     
@@ -206,19 +204,28 @@ public abstract class ProtocolActionBase extends KraTransactionalDocumentActionB
             protocolForm.setDocument(retrievedDocument);
             request.setAttribute(KRADConstants.PARAMETER_DOC_ID, docIdRequestParameter);        
        }
-        // make sure current submission is displayed when navigate to action page.
-        protocolForm.getActionHelper().setCurrentSubmissionNumber(-1);
-       ((ProtocolFormBase)form).getActionHelper().prepareView();
-
-       return mapping.findForward(getProtocolActionsForwardNameHook());
+       // make sure current submission is displayed when navigate to action page.
+       protocolForm.getActionHelper().setCurrentSubmissionNumber(-1);
+       protocolForm.getActionHelper().prepareView();
+       return branchToPanelOrNotificationEditor(mapping, protocolForm, getProtocolActionsForwardNameHook());
     }
-    
     
     
     public ActionForward customData(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         ProtocolFormBase protocolForm = (ProtocolFormBase)form;
         protocolForm.getCustomDataHelper().prepareCustomData();
-        return mapping.findForward("iacucCustomData");
+        return branchToPanelOrNotificationEditor(mapping, protocolForm, getCustomDataForwardNameHook());
+    }
+    
+    protected ActionForward branchToPanelOrNotificationEditor(ActionMapping mapping, ProtocolFormBase protocolForm, String ulitmateDestination) {
+        if (protocolForm.isShowNotificationEditor()) {
+            protocolForm.setShowNotificationEditor(false);
+            protocolForm.getNotificationHelper().getNotificationContext().setForwardName(ulitmateDestination);
+            return mapping.findForward(getProtocolNotificationEditorHook());
+        } else {
+            return mapping.findForward(ulitmateDestination);
+        }
+    
     }
     
     /**
@@ -232,13 +239,14 @@ public abstract class ProtocolActionBase extends KraTransactionalDocumentActionB
         
         ActionForward actionForward = mapping.findForward(Constants.MAPPING_BASIC);
         ProtocolFormBase protocolForm = (ProtocolFormBase) form;
-
-        ProtocolTaskBase task = createNewModifyProtocolTaskInstanceHook(protocolForm.getProtocolDocument().getProtocol());
+        ProtocolBase protocol = protocolForm.getProtocolDocument().getProtocol();
+        
+        ProtocolTaskBase task = createNewModifyProtocolTaskInstanceHook(protocol);
         AuditActionHelper auditActionHelper = new AuditActionHelper();
         
         if (isAuthorized(task)) {
-            if ( !protocolForm.getProtocolDocument().getProtocol().isCorrectionMode() || 
-                    auditActionHelper.auditUnconditionally(protocolForm.getDocument()) ) {
+            if ( !protocol.isCorrectionMode() || auditActionHelper.auditUnconditionally(protocolForm.getDocument()) ) {
+                protocolForm.setShowNotificationEditor(isInitialSave(protocolForm.getProtocolDocument()));
                 this.preSave(mapping, form, request, response);
                 actionForward = super.save(mapping, form, request, response);
                 this.postSave(mapping, form, request, response);
@@ -247,6 +255,18 @@ public abstract class ProtocolActionBase extends KraTransactionalDocumentActionB
                         && GlobalVariables.getMessageMap().hasNoErrors()) {
                     // hook invocation to get the forward name
                     actionForward = mapping.findForward(getProtocolActionsForwardNameHook());
+                } else if (protocolForm.isShowNotificationEditor()) {
+                    ProtocolNotificationContextBase context = getProtocolInitialSaveNotificationContextHook(protocol);
+                    if (protocolForm.getNotificationHelper().getPromptUserForNotificationEditor(context)) {
+                        protocolForm.getNotificationHelper().initializeDefaultValues(context);
+                        if (KRADConstants.SAVE_METHOD.equals(protocolForm.getMethodToCall())) { 
+                            return mapping.findForward(getProtocolNotificationEditorHook());
+                        }
+                    } else {
+                        protocolForm.setShowNotificationEditor(false);
+                        getNotificationService().sendNotificationAndPersist(context, getProtocolNotificationHook(), protocol);
+                        return actionForward;
+                    }
                 }
             }
         }
@@ -254,6 +274,9 @@ public abstract class ProtocolActionBase extends KraTransactionalDocumentActionB
         return actionForward;
     }
 
+    protected abstract ProtocolNotificationContextBase getProtocolInitialSaveNotificationContextHook(ProtocolBase protocol);
+
+    protected abstract String getProtocolNotificationEditorHook();
 
     protected abstract ProtocolTaskBase createNewModifyProtocolTaskInstanceHook(ProtocolBase protocol);
 
@@ -294,10 +317,12 @@ public abstract class ProtocolActionBase extends KraTransactionalDocumentActionB
     protected void initialDocumentSave(KualiDocumentFormBase form) throws Exception {
       
       // Assign the creator of the protocol the AGGREGATOR role.
-     
       ProtocolFormBase protocolForm = (ProtocolFormBase) form;
       ProtocolDocumentBase doc = protocolForm.getProtocolDocument();
       String userId = GlobalVariables.getUserSession().getPrincipalId();
+
+      // hack to indicate whether to send the Protocol Created notification later
+      protocolForm.setShowNotificationEditor(true);
       
       initialDocumentSaveAddRolesHook(userId, doc.getProtocol());
       
@@ -306,7 +331,7 @@ public abstract class ProtocolActionBase extends KraTransactionalDocumentActionB
       UnitAclLoadService unitAclLoadService = getUnitAclLoadService();
       unitAclLoadService.loadUnitAcl(permissionable);
 
-      sendNotification(protocolForm);
+//moved      sendNotification(protocolForm);
    }
     
     /**
@@ -584,4 +609,12 @@ public abstract class ProtocolActionBase extends KraTransactionalDocumentActionB
         return applyRules(event) & !protocolForm.isUnitRulesErrorsExist();
     }
 
+    protected boolean isInitialSave(Document document) {
+        String status = document.getDocumentHeader().getWorkflowDocument().getStatus().getLabel();
+        return GlobalVariables.getMessageMap().hasNoErrors() && StringUtils.equals("INITIATED", status);
+    }
+
+    protected KcNotificationService getNotificationService() {
+        return KraServiceLocator.getService(KcNotificationService.class);
+    }
 }
