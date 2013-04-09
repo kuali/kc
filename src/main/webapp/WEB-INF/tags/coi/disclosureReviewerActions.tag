@@ -17,12 +17,13 @@
 <%@ attribute name="topTab" required="true" type="java.lang.Boolean" description="is this the top tab on the page" %>
 <c:set var="permissionsUserAttributes" value="${DataDictionary.PermissionsUser.attributes}" />
 <c:set var="modifyPermissions" value="${KualiForm.disclosureActionHelper.maintainReviewers}" />
+<c:set var="usageSectionId" value="<%=org.kuali.kra.infrastructure.Constants.COI_NOTEPAD_DISCLOSURE_REVIEWER_SECTION_ID%>" />
 <c:if test="${topTab == true}">
 	<%--instead of using kul:tabTop tag just define the workarea div - this gets around an unbalanced tag problem when using conditional tags --%>
 	<div id="workarea">
 </c:if>
 
-<kul:tabTop tabTitle="Reviewer Actions" defaultOpen="false" tabErrorKey="disclosureActionHelper.newCoiUserRole.*">
+<kul:tabTop tabTitle="Reviewer Actions" defaultOpen="false" tabErrorKey="disclosureActionHelper.newCoiUserRole.*, coiNotesAndAttachmentsHelper.newCoiDisclosureAttachment.*, coiNotesAndAttachmentsHelper.newCoiDisclosureNotepad.*">
     <div class="tab-container"  align="center">
         <h3> 
             <span class="subhead-left">Reviewer Actions</span>
@@ -113,4 +114,7 @@
         </table>        
         
     </div>
+	<kra-coi:coiNotes usageSectionId = "${usageSectionId}"/>
+	<kra-coi:coiAttachments usageSectionId = "${usageSectionId}"/>
+    
 </kul:tabTop>

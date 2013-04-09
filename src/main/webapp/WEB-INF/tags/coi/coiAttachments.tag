@@ -14,6 +14,7 @@
  limitations under the License.
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
+<%@ attribute name="usageSectionId" required="false" type="java.lang.String" description="ID to identify where the attachment section is used." %>
 
 <jsp:useBean id="paramMap1" class="java.util.HashMap"/>
 
@@ -30,11 +31,16 @@
 <c:set var="canDeleteUpdateAttachments" value="${attachmentHelper.canDeleteUpdateAttachment}" />
 
 <c:forEach var="coiDisclosureAttachment" items="${KualiForm.document.coiDisclosure.coiDisclosureAttachments}" varStatus="status">
-        <c:set var="tabItemCount" value="${tabItemCount+1}" />
+		<c:set var="listUsageSectionId" value="${coiDisclosureAttachment.usageSectionId}" />
+        <c:if test="${listUsageSectionId eq usageSectionId}">
+	        <c:set var="tabItemCount" value="${tabItemCount+1}" />
+	    </c:if>    
 </c:forEach>
 
 	<div class="tab-container" align="center">
 	<kra:permission value="${modify}">
+         ${kfunc:registerEditableProperty(KualiForm, "coiNotesAndAttachmentsHelper.newCoiDisclosureAttachment.usageSectionId")}
+         <input type="hidden" name="coiNotesAndAttachmentsHelper.newCoiDisclosureAttachment.usageSectionId" value="${usageSectionId}"/>
 	<h3>
 		<span class="subhead-left">Attachments (${tabItemCount})</span> 
 		<span class="subhead-right"><kul:help parameterNamespace="KC-COIDISCLOSURE" parameterDetailType="Document" parameterName="disclNotesAndAttachmentsHelp" altText="help"/></span>
@@ -250,6 +256,9 @@
         
 		<c:forEach var="attachment" items="${filteredAttachments}" varStatus="itrStatus">
         
+				<c:set var="listUsageSectionId" value="${attachment.usageSectionId}" />
+                <c:if test="${listUsageSectionId eq usageSectionId}">
+				<html:hidden property="document.coiDisclosureList[0].coiDisclosureAttachments[${itrStatus.index}].usageSectionId" />
           <!--  Display logic to show the correct attribute being sorted on in the attachment header -->
           <c:choose>
             <c:when test="${KualiForm.document.coiDisclosureList[0].coiDisclosureAttachmentFilter.sortBy eq 'UPBY'}">
@@ -452,7 +461,7 @@
 		    
 		        </td>
 		      </tr>
-		    
+		 </c:if>   
 		</c:forEach>
 		</table>
 		</c:if>

@@ -19,7 +19,7 @@
 	showDocumentInfo="true"
 	htmlFormAction="coiDisclosureActions"
 	documentTypeName="CoiDisclosureDocument"
-	renderMultipart="false"
+	renderMultipart="true"
 	showTabButtons="true"
 	auditCount="0"
   	headerDispatch="${KualiForm.headerDispatch}"
