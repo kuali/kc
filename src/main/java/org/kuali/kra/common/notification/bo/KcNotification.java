@@ -44,6 +44,8 @@ public class KcNotification extends KraPersistableBusinessObjectBase {
 
     private NotificationType notificationType;
 
+    private String createUser;
+    
     public Long getNotificationId() {
         return notificationId;
     }
@@ -111,6 +113,15 @@ public class KcNotification extends KraPersistableBusinessObjectBase {
         this.owningDocumentIdFk = owningDocumentIdFk;
     }
     
+    
+    public String getCreateUser() {
+        return createUser;
+    }
+
+    public void setCreateUser(String createUser) {
+        this.createUser = createUser;
+    }
+
     public String getUpdateTimestampString() {
         final SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
         return (getUpdateTimestamp() == null ? "" : dateFormat.format(getUpdateTimestamp()));
@@ -118,5 +129,10 @@ public class KcNotification extends KraPersistableBusinessObjectBase {
 
     public void persistOwningObject(KraPersistableBusinessObjectBase object) {
         KraServiceLocator.getService(BusinessObjectService.class).save(object);
+    }
+
+    public void resetPersistenceState() {
+        setNotificationId(null);
+        setOwningDocumentIdFk(null);
     }
 }
