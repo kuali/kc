@@ -36,6 +36,11 @@ public class IacucProtocolNotificationContext extends ProtocolNotificationContex
         ((ProtocolNotificationRoleQualifierService) getNotificationRoleQualifierService()).setProtocolOnlineReview(protocolOnlineReview);
     }
     
+    public IacucProtocolNotificationContext(IacucProtocol protocol, String actionTypeCode, String contextName, IacucProtocolNotificationRenderer renderer, String forwardName) {
+        this(protocol, actionTypeCode, contextName, renderer);
+        setForwardName(forwardName);
+    }
+    
     public IacucProtocolNotificationContext(IacucProtocol protocol, String actionTypeCode, String contextName, IacucProtocolNotificationRenderer renderer) {
         super(protocol, actionTypeCode, contextName, renderer);
         setNotificationRoleQualifierService(KraServiceLocator.getService(IacucProtocolNotificationRoleQualifierService.class));
