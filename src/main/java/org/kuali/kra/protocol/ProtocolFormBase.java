@@ -112,6 +112,7 @@ public abstract class ProtocolFormBase extends KraTransactionalDocumentFormBase 
     // temp field : set in presave and then referenced in postsave
     private transient List<ProtocolFundingSourceBase> deletedProtocolFundingSources;
  
+    private boolean showNotificationEditor = false;  // yep, it's a hack
     
     public ProtocolFormBase() throws Exception {
         super();
@@ -462,6 +463,14 @@ public abstract class ProtocolFormBase extends KraTransactionalDocumentFormBase 
     // hook methods for subclasses to provide their specific list of terminal nodes (usually only a list of one element)
     protected abstract List<String> getTerminalNodeNamesHook();
 
+
+    public boolean isShowNotificationEditor() {
+        return showNotificationEditor;
+    }
+
+    public void setShowNotificationEditor(boolean showNotificationEditor) {
+        this.showNotificationEditor = showNotificationEditor;
+    }
 
     @SuppressWarnings("deprecation")
     public boolean isSuperUserActionAvaliable() {

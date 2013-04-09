@@ -33,6 +33,8 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.protocol.auth.ProtocolTaskBase;
+import org.kuali.kra.protocol.notification.ProtocolNotification;
+import org.kuali.kra.protocol.notification.ProtocolNotificationContextBase;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolActionBase;
@@ -53,25 +55,28 @@ public class IacucProtocolAction extends ProtocolActionBase {
     public static final String IACUC_PROTOCOL_ACTIONS_HOOK = "iacucProtocolActions";
     public static final String IACUC_PROTOCOL_ONLINE_REVIEW_HOOK = "iacucProtocolOnlineReview";
     public static final String IACUC_PROTOCOL_PERMISSIONS_HOOK = "iacucProtocolPermissions";
-    
-    
+    public static final String IACUC_PROTOCOL_THREE_RS = "iacucProtocolThreeRs";
+    public static final String IACUC_PROTOCOL_SPECIES = "iacucSpeciesAndGroups";
+    public static final String IACUC_PROTOCOL_EXCEPTION = "iacucProtocolException";
+    public static final String IACUC_PROTOCOL_MEDUSA = "medusa";
+    public static final String IACUC_PROTOCOL_PROCEDURES = "iacucProtocolProcedures";
 
     public ActionForward threeRs(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        return mapping.findForward("iacucProtocolThreeRs");
+        return branchToPanelOrNotificationEditor(mapping, (ProtocolFormBase)form, IACUC_PROTOCOL_THREE_RS);
     }    
 
     public ActionForward speciesAndGroups(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        return mapping.findForward("iacucSpeciesAndGroups");
+        return branchToPanelOrNotificationEditor(mapping, (ProtocolFormBase)form, IACUC_PROTOCOL_SPECIES);
     }    
 
     public ActionForward protocolException(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
-        return mapping.findForward("iacucProtocolException");
+        return branchToPanelOrNotificationEditor(mapping, (ProtocolFormBase)form, IACUC_PROTOCOL_EXCEPTION);
     }    
     
     public ActionForward customData(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         ProtocolFormBase protocolForm = (ProtocolFormBase) form;
         protocolForm.getCustomDataHelper().prepareCustomData();
-        return mapping.findForward("iacucCustomData");
+        return branchToPanelOrNotificationEditor(mapping, protocolForm, IACUC_PROTOCOL_CUSTOM_DATA_HOOK);
     }
     
     public ActionForward medusa(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws WorkflowException {
@@ -83,8 +88,7 @@ public class IacucProtocolAction extends ProtocolActionBase {
         protocolForm.getMedusaBean().setModuleName("iacuc");
         protocolForm.getMedusaBean().setModuleIdentifier(protocolForm.getProtocolDocument().getProtocol().getProtocolId());
         protocolForm.getMedusaBean().generateParentNodes();
-        return mapping.findForward("medusa");
-
+        return branchToPanelOrNotificationEditor(mapping, protocolForm, IACUC_PROTOCOL_MEDUSA);
     }
 
     public ActionForward procedures(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
@@ -92,9 +96,14 @@ public class IacucProtocolAction extends ProtocolActionBase {
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
         iacucProtocol.setIacucProtocolStudyGroupBeans(getIacucProtocolProcedureService().getRevisedStudyGroupBeans(iacucProtocol, 
                 protocolForm.getIacucProtocolProceduresHelper().getAllProcedures()));
+        return branchToPanelOrNotificationEditor(mapping, protocolForm, IACUC_PROTOCOL_PROCEDURES);
+    }
+
+    private ActionForward checkForPendingNotificationEdit(ActionMapping mapping, ProtocolFormBase form, String originalForwardName) {
+        
         return mapping.findForward("iacucProtocolProcedures");
     }
-    
+
     protected String getProtocolForwardNameHook() {
         return  IACUC_PROTOCOL_NAME_HOOK;
     }
@@ -131,6 +140,10 @@ public class IacucProtocolAction extends ProtocolActionBase {
         return IACUC_PROTOCOL_PERMISSIONS_HOOK;
     }
 
+    protected ProtocolNotification getProtocolNotificationHook() {
+        return new IacucProtocolNotification();
+    }
+    
     @Override
     protected void initialDocumentSaveAddRolesHook(String userId, ProtocolBase protocol) {
         KraAuthorizationService kraAuthService = getKraAuthorizationService();
@@ -155,6 +168,11 @@ public class IacucProtocolAction extends ProtocolActionBase {
     @Override
     protected ProtocolPersonnelService getProtocolPersonnelService() {
         return (ProtocolPersonnelService)KraServiceLocator.getService("iacucProtocolPersonnelService");
+    }
+    
+    protected ProtocolNotificationContextBase getProtocolInitialSaveNotificationContextHook(ProtocolBase protocol) {
+        IacucProtocolNotificationRenderer renderer = new IacucProtocolNotificationRenderer((IacucProtocol)protocol);
+        return new IacucProtocolNotificationContext((IacucProtocol)protocol, IacucProtocolActionType.IACUC_PROTOCOL_CREATED, "Protocol Created", renderer, IACUC_PROTOCOL_NAME_HOOK);
     }
     
     /**
@@ -193,5 +211,9 @@ public class IacucProtocolAction extends ProtocolActionBase {
 
     protected IacucProtocolProcedureService getIacucProtocolProcedureService() {
         return (IacucProtocolProcedureService)KraServiceLocator.getService("iacucProtocolProcedureService");
+    }
+
+    protected String getProtocolNotificationEditorHook() {
+        return "iacucProtocolNotificationEditor";
     }
 }

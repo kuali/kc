@@ -399,10 +399,6 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
         }
     }
         
-    private KcNotificationService getNotificationService() {
-        return KraServiceLocator.getService(KcNotificationService.class);
-    }
-
     private ActionForward routeProtocolOLRToHoldingPage(ActionMapping mapping, ProtocolForm protocolForm, String olrDocId, String olrEvent) {
         String routeHeaderId = protocolForm.getDocument().getDocumentNumber();
         String returnLocation = buildActionUrl(routeHeaderId, Constants.MAPPING_PROTOCOL_ONLINE_REVIEW , "ProtocolDocument");

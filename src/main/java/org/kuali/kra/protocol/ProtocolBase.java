@@ -34,6 +34,7 @@ import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.coi.Disclosurable;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
+import org.kuali.kra.common.notification.bo.KcNotification;
 import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -1591,7 +1592,14 @@ public abstract class ProtocolBase extends KraPersistableBusinessObjectBase impl
         }
     }
  
-    
+    public void resetPersistenceStateForNotifications() {
+        for (ProtocolActionBase action : protocolActions) {
+            for (KcNotification notification: action.getProtocolNotifications()) {
+                notification.resetPersistenceState();
+            }
+        }
+    }
+
     
     public abstract String getNamespace();    
 
