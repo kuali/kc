@@ -668,8 +668,4 @@ public class IacucProtocolOnlineReviewAction extends IacucProtocolAction {
         return mapping.findForward(Constants.MAPPING_BASIC);
     }  
         
-    private KcNotificationService getNotificationService() {
-        return KraServiceLocator.getService(KcNotificationService.class);
-    }
-        
 }
