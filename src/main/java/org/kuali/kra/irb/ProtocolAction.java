@@ -56,6 +56,8 @@ import org.kuali.kra.protocol.ProtocolActionBase;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolFormBase;
 import org.kuali.kra.protocol.auth.ProtocolTaskBase;
+import org.kuali.kra.protocol.notification.ProtocolNotification;
+import org.kuali.kra.protocol.notification.ProtocolNotificationContextBase;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.print.QuestionnairePrintingService;
 import org.kuali.kra.service.KraAuthorizationService;
@@ -79,7 +81,8 @@ public abstract class ProtocolAction extends ProtocolActionBase {
     public static final String PROTOCOL_ACTIONS_HOOK = "protocolActions";
     public static final String PROTOCOL_ONLINE_REVIEW_HOOK = Constants.MAPPING_PROTOCOL_ONLINE_REVIEW;
     public static final String PROTOCOL_PERMISSIONS_HOOK = "permissions";
-    
+    public static final String PROTOCOL_CUSTOM_DATA_HOOK = "customData";
+    public static final String PROTOCOL_MEDUSA = "medusa";
     
     private static final Log LOG = LogFactory.getLog(ProtocolAction.class);
     private static final String PROTOCOL_NUMBER = "protocolNumber";
@@ -101,7 +104,7 @@ public abstract class ProtocolAction extends ProtocolActionBase {
     
     public ActionForward customData(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         ((ProtocolForm)form).getCustomDataHelper().prepareCustomData();
-        return mapping.findForward(Constants.MAPPING_CUSTOM_DATA);
+        return branchToPanelOrNotificationEditor(mapping, (ProtocolFormBase)form, getCustomDataForwardNameHook());
     }
     
     public ActionForward medusa(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception  {
@@ -113,7 +116,7 @@ public abstract class ProtocolAction extends ProtocolActionBase {
         protocolForm.getMedusaBean().setModuleName("irb");
         protocolForm.getMedusaBean().setModuleIdentifier(protocolForm.getProtocolDocument().getProtocol().getProtocolId());
         protocolForm.getMedusaBean().generateParentNodes();
-        return mapping.findForward("medusa");
+        return branchToPanelOrNotificationEditor(mapping, protocolForm, PROTOCOL_MEDUSA);
     }    
 
     /**
@@ -335,6 +338,16 @@ public abstract class ProtocolAction extends ProtocolActionBase {
     }
 
     @Override
+    protected String getCustomDataForwardNameHook() {
+        return PROTOCOL_CUSTOM_DATA_HOOK;
+    }
+    
+    @Override
+    protected ProtocolNotification getProtocolNotificationHook() {
+        return new IRBProtocolNotification();
+    }
+    
+    @Override
     protected ProtocolTaskBase createNewModifyProtocolTaskInstanceHook(ProtocolBase protocol) {
         return new ProtocolTask(TaskName.MODIFY_PROTOCOL, (Protocol) protocol);
     }
@@ -355,5 +368,13 @@ public abstract class ProtocolAction extends ProtocolActionBase {
     @Override
     protected String getProtocolActionsMappingNameHoook() {
         return Constants.MAPPING_PROTOCOL_ACTIONS;
+    }
+    protected String getProtocolNotificationEditorHook() {
+        return "protocolNotificationEditor";
+    }
+    
+    protected ProtocolNotificationContextBase getProtocolInitialSaveNotificationContextHook(ProtocolBase protocol) {
+        IRBNotificationRenderer renderer = new IRBNotificationRenderer((Protocol)protocol);
+        return new IRBNotificationContext((Protocol)protocol, ProtocolActionType.PROTOCOL_CREATED_NOTIFICATION, "Protocol Created", renderer, PROTOCOL_NAME_HOOK);
     }
 }
