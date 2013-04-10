@@ -988,6 +988,7 @@ public interface Constants {
     
     public static final int TYPE_TEXT = 1;
     public static final int STRING_TYPE = 4;
+    public static final int DATE_TIME_TYPE = 5;
     
     public static final String HTML_REPORT_CONTENT_TYPE = "application/html";
     public static final String EXCEL_REPORT_CONTENT_TYPE = "application/xls";

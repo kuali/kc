@@ -92,6 +92,9 @@ public class BirtHelper {
             case IScalarParameterDefn.TYPE_STRING:
                 birtParameterBean.setDataType(Constants.STRING_TYPE);
                 break;
+            case IScalarParameterDefn.TYPE_DATE_TIME:
+                birtParameterBean.setDataType(Constants.DATE_TIME_TYPE);
+                break;
             default:
                 birtParameterBean.setDataType(Constants.STRING_TYPE);
                 break;
