@@ -29,7 +29,7 @@ htmlFormAction="reporting">
 		<script language="JavaScript" type="text/javascript" src="dwr/util.js"></script>
         <script language="javascript" src="dwr/interface/BirtReportService.js"></script>
 
-	<kul:tabTop tabTitle="Generate Report" defaultOpen="true">
+	<kul:tabTop tabTitle="Generate Report" defaultOpen="true" tabErrorKey="custReportDetails.reportLabelDisplay">
 		 <div class="tab-container" align="center">
 			<h3>
 				<span class="subhead-left">Generate Report</span>
@@ -63,7 +63,23 @@ htmlFormAction="reporting">
 								
 									<td align="left"><html:text
 											property="reportParameterList[${status.index}].inputParameterText"
-											size="20" maxlength="20" />
+											size="20" maxlength="20" styleId = "reportParameterList[${status.index}].inputParameterText"/>
+											<c:if test ="${KualiForm.reportParameterList[status.index].dataType == 5}">
+											
+											<img src="${ConfigProperties.kr.externalizable.images.url}cal.gif" id="reportParameterList[${status.index}].inputParameterText_datepicker" style="cursor: pointer;"
+						                     title="Date selector" alt="Date selector"
+						                     onmouseover="this.style.backgroundColor='red';" onmouseout="this.style.backgroundColor='transparent';" />
+						                     <script type="text/javascript">
+							                  Calendar.setup(
+							                          {
+							                            inputField : "reportParameterList[${status.index}].inputParameterText", // ID of the input field
+							                            ifFormat : "%m/%d/%Y", // the date format
+							                            button : "reportParameterList[${status.index}].inputParameterText_datepicker" // ID of the button
+							                          }
+							                  );
+							                
+							               </script>
+							               </c:if>
 									</td>
 								</c:if>
 							</tr>
