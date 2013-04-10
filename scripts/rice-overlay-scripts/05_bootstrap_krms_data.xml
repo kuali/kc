@@ -208,15 +208,6 @@
 			</delete>
 		</rollback>
     </changeSet>
-    <changeSet context="bootstrap,demo" author="kc" id="KRMS_FUNC_PARM_T">
-		<loadData tableName="KRMS_FUNC_PARM_T" file="bootstrap/KRMS_FUNC_PARM_T.csv">
-		</loadData>
-		<rollback>
-			<delete tableName="KRMS_FUNC_PARM_T">
-				<where>FUNC_PARM_ID LIKE 'KC%'</where>
-			</delete>
-		</rollback>
-    </changeSet>
     <changeSet context="bootstrap,demo" author="kc" id="KRMS_FUNC_T">
 		<loadData tableName="KRMS_FUNC_T" file="bootstrap/KRMS_FUNC_T.csv">
 		</loadData>
@@ -226,14 +217,23 @@
 			</delete>
 		</rollback>
     </changeSet>
-       <changeSet context="bootstrap,demo" author="kc" id="KRMS_TERM_PARM_T">
-		<loadData tableName="KRMS_TERM_PARM_T" file="bootstrap/KRMS_TERM_PARM_T.csv">
+    <changeSet context="bootstrap,demo" author="kc" id="KRMS_FUNC_PARM_T">
+		<loadData tableName="KRMS_FUNC_PARM_T" file="bootstrap/KRMS_FUNC_PARM_T.csv">
 		</loadData>
 		<rollback>
-			<delete tableName="KRMS_TERM_PARM_T">
-				<where>TERM_PARM_ID LIKE 'KC%'</where>
+			<delete tableName="KRMS_FUNC_PARM_T">
+				<where>FUNC_PARM_ID LIKE 'KC%'</where>
 			</delete>
 		</rollback>
+    </changeSet>
+    <changeSet context="bootstrap,demo" author="kc" id="KRMS_TERM_PARM_T">
+      <loadData tableName="KRMS_TERM_PARM_T" file="bootstrap/KRMS_TERM_PARM_T.csv">
+      </loadData>
+      <rollback>
+	<delete tableName="KRMS_TERM_PARM_T">
+	  <where>TERM_PARM_ID LIKE 'KC%'</where>
+	</delete>
+      </rollback>
     </changeSet>
     <changeSet context="bootstrap,demo" author="kc" id="KRMS_TERM_RSLVR_ATTR_T">
 		<loadData tableName="KRMS_TERM_RSLVR_ATTR_T" file="bootstrap/KRMS_TERM_RSLVR_ATTR_T.csv">
