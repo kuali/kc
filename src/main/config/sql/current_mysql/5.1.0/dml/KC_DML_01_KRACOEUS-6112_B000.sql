@@ -17,7 +17,7 @@ INSERT INTO CUST_REPORT_DETAILS(REPORT_ID,REPORT_LABEL,REPORT_DESCRIPTION,REPORT
         <scalar-parameter name="satrtDate" id="7">
             <text-property name="promptText">Enter Start Date</text-property>
             <property name="valueType">static</property>
-            <property name="dataType">string</property>
+            <property name="dataType">dateTime</property>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
             <property name="distinct">true</property>
@@ -28,7 +28,7 @@ INSERT INTO CUST_REPORT_DETAILS(REPORT_ID,REPORT_LABEL,REPORT_DESCRIPTION,REPORT
         <scalar-parameter name="endDate" id="8">
             <text-property name="promptText">Enter End Date</text-property>
             <property name="valueType">static</property>
-            <property name="dataType">string</property>
+            <property name="dataType">dateTime</property>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
             <property name="distinct">true</property>
@@ -45,7 +45,7 @@ INSERT INTO CUST_REPORT_DETAILS(REPORT_ID,REPORT_LABEL,REPORT_DESCRIPTION,REPORT
                 <structure>
                     <property name="name">param_1</property>
                     <property name="paramName">satrtDate</property>
-                    <property name="dataType">string</property>
+                    <property name="dataType">dateTime</property>
                     <property name="position">1</property>
                     <property name="isInput">true</property>
                     <property name="isOutput">false</property>
@@ -53,7 +53,7 @@ INSERT INTO CUST_REPORT_DETAILS(REPORT_ID,REPORT_LABEL,REPORT_DESCRIPTION,REPORT
                 <structure>
                     <property name="name">param_2</property>
                     <property name="paramName">endDate</property>
-                    <property name="dataType">string</property>
+                    <property name="dataType">dateTime</property>
                     <property name="position">2</property>
                     <property name="isInput">true</property>
                     <property name="isOutput">false</property>
@@ -209,7 +209,7 @@ INSERT INTO CUST_REPORT_DETAILS(REPORT_ID,REPORT_LABEL,REPORT_DESCRIPTION,REPORT
                     <property name="dataType">decimal</property>
                 </structure>
             </list-property>
-            <xml-property name="queryText"><![CDATA[select  		
+            <xml-property name="queryText"><![CDATA[select distinct 
         p.PROPOSAL_NUMBER,
         pi.FULL_NAME,
         p.TITLE,

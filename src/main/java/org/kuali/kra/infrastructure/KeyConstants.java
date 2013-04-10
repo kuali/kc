@@ -1147,8 +1147,10 @@ public final class KeyConstants {
     // Birt Errors
     public static final String ERROR_BIRT_REPORT_INPUT_MISSING = "error.missing.report.inputparameters";
     
-    public static final String REPORT_INPUT_PARAMETER_MISSING = "error.missing.report.inputparameters";
+    public static final String REPORT_INPUT_PARAMETER_DATE_TYPE = "error.invalid.report.date";
     
+    
+    public static final String INVALID_BIRT_REPORT = "error.invalid.report";
     /**
      * private utility class ctor.
      * @throws UnsupportedOperationException if called.
