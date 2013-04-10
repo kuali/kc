@@ -20,6 +20,7 @@ import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -42,6 +43,7 @@ import org.kuali.kra.reporting.bo.CustReportDetails;
 import org.kuali.kra.reporting.service.BirtReportService;
 import org.kuali.kra.reporting.web.struts.form.ReportGenerationForm;
 import org.kuali.kra.rules.ErrorReporter;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
@@ -89,6 +91,11 @@ public class ReportGenerationAction extends ReportGenerationBaseAction {
         IReportRunnable iReportRunnableDesign;
         int birtCounter = 0;
         String reportId = request.getParameter("custReportDetails.reportLabelDisplay");
+        if (reportId.equalsIgnoreCase("0")) {
+            (new ErrorReporter()).reportError("custReportDetails.reportLabelDisplay",
+                    KeyConstants.INVALID_BIRT_REPORT, "select");
+            return mapping.findForward(MAPPING_BASIC);
+        }       
         ArrayList<BirtParameterBean> parameterList = new ArrayList<BirtParameterBean>();
         String printReportFormat = Constants.PDF_REPORT_CONTENT_TYPE;
         String printReportNameAndExtension = Constants.PDF_FILE_EXTENSION;
@@ -99,7 +106,7 @@ public class ReportGenerationAction extends ReportGenerationBaseAction {
         iReportRunnableDesign = BirtHelper.getEngine().openReportDesign(reportDesignInputStream);
         iReportRunnableDesign = getBirtReportService().buildDataSource(iReportRunnableDesign);
         IRunAndRenderTask reportTask = BirtHelper.getEngine().createRunAndRenderTask(iReportRunnableDesign);
-        HashMap<String, String> parameters = new HashMap<String, String>();
+        HashMap parameters = new HashMap();
         parameterList = KraServiceLocator.getService(BirtReportService.class).getInputParametersFromTemplateFile(reportId);
         CustReportDetails reportDetails = KraServiceLocator.getService(BusinessObjectService.class).findBySinglePrimaryKey(
                 CustReportDetails.class, reportId);
@@ -108,8 +115,19 @@ public class ReportGenerationAction extends ReportGenerationBaseAction {
         reportGenerationForm.setReportName(reportDetails.getReportLabel());
 
         for (BirtParameterBean parameterBean : parameterList) {
-            parameters.put(parameterBean.getName(),
-                    request.getParameter("reportParameterList[" + birtCounter + "].inputParameterText"));
+            if (parameterBean.getDataType() == Constants.DATE_TIME_TYPE) {
+                try {
+                      Date inputDate = KraServiceLocator.getService(DateTimeService.class).convertToDateTime( request.getParameter("reportParameterList[" + birtCounter + "].inputParameterText"));
+                      parameters.put(parameterBean.getName(), inputDate);
+                } catch (Exception exception) {
+                    (new ErrorReporter()).reportError("reportParameterList[0].inputParameterText",
+                            KeyConstants.REPORT_INPUT_PARAMETER_DATE_TYPE, "select");
+                    return mapping.findForward(MAPPING_BASIC);
+                }
+            } else {
+                parameters.put(parameterBean.getName(),
+                        request.getParameter("reportParameterList[" + birtCounter + "].inputParameterText"));
+            }
             birtCounter = birtCounter + 1;
         }
        
