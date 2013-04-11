@@ -28,6 +28,11 @@ public class CoiReviewStatus extends KraPersistableBusinessObjectBase {
     private String reviewStatusCode; 
     private String description; 
     
+    public static final String IN_PROGRESS = "1";
+    public static final String SUBMITTED_FOR_REVIEW = "2";
+    public static final String ASSIGNED_TO_REVIEWER = "3";
+    public static final String ASSIGNED_REVIEW_COMPLETE = "4";
+    public static final String REVIEW_COMPLETE = "5";
     
     public CoiReviewStatus() { 
 
