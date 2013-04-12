@@ -138,6 +138,13 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
     // must persist generated notifications
     List<CoiNotification> disclosureNotifications;
 
+    
+    private String reviewStatusCode; 
+    private CoiReviewStatus coiReviewStatus; 
+    
+    // transient for header label
+    private transient String disclosureStatusReviewStatus;
+    
     public CoiDisclosure() { 
         super();
 //        disclosurePersons = new ArrayList<DisclosurePerson>();
@@ -149,6 +156,7 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
         getDisclosureReporter();
         initializeCoiAttachmentFilter();
         coiUserRoles = new ArrayList<CoiUserRole>();
+        initializeCoiReviewStatus();
 
     } 
     
@@ -631,6 +639,12 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
         }        
     }
     
+    public void initializeCoiReviewStatus() {
+        setReviewStatusCode(CoiReviewStatus.IN_PROGRESS);
+        this.refreshReferenceObject("coiReviewStatus");
+    }
+    
+    
     public void setCoiDisclosureAttachmentFilter(CoiDisclosureAttachmentFilter newAttachmentFilter) {
         this.newAttachmentFilter = newAttachmentFilter;      
      }
@@ -935,5 +949,25 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
         DisclosurePerson reporter =  getDisclosureReporter();
         return getKcPersonService().getKcPersonByPersonId(reporter.getPersonId()).getUserName();
    }
+
+    public String getReviewStatusCode() {
+        return reviewStatusCode;
+    }
+
+    public void setReviewStatusCode(String reviewStatusCode) {
+        this.reviewStatusCode = reviewStatusCode;
+    }
+
+    public CoiReviewStatus getCoiReviewStatus() {
+        return coiReviewStatus;
+    }
+
+    public void setCoiReviewStatus(CoiReviewStatus coiReviewStatus) {
+        this.coiReviewStatus = coiReviewStatus;
+    }
+
+    public String getDisclosureStatusReviewStatus() {
+        return disclosureStatusReviewStatus;
+    }
 
 }

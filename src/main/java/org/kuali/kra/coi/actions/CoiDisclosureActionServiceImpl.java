@@ -42,6 +42,7 @@ import org.kuali.kra.coi.CoiDisclosureDocument;
 import org.kuali.kra.coi.CoiDisclosureForm;
 import org.kuali.kra.coi.CoiDisclosureHistory;
 import org.kuali.kra.coi.CoiDisclosureStatus;
+import org.kuali.kra.coi.CoiReviewStatus;
 import org.kuali.kra.coi.CoiUserRole;
 import org.kuali.kra.coi.certification.SubmitDisclosureAction;
 import org.kuali.kra.coi.notesandattachments.attachments.CoiDisclosureAttachment;
@@ -117,6 +118,9 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
             disclosures.add(masterCoiDisclosure);
 
         } 
+        
+        setDisclosureReviewStatus(coiDisclosure, CoiReviewStatus.REVIEW_COMPLETE);
+        
         coiDisclosure.setCurrentDisclosure(true);
         documentService.approveDocument(coiDisclosure.getCoiDisclosureDocument(), "Document approved.", new ArrayList<AdHocRouteRecipient>());
             
@@ -137,6 +141,8 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
         // Update the corresponding discl project
         updateCorrespondingCoiDisclProject(coiDisclosure, coiDispositionCode, CoiDisclosureStatus.DISAPPROVED);
       
+        setDisclosureReviewStatus(coiDisclosure, CoiReviewStatus.REVIEW_COMPLETE);
+
         businessObjectService.save(coiDisclosure);
         businessObjectService.save(createDisclosureHistory(coiDisclosure));
         documentService.disapproveDocument(coiDisclosure.getCoiDisclosureDocument(), "Document approved.");       
@@ -169,6 +175,7 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
 
         coiDisclosure.getCoiUserRoles().add(coiUserRole);
+        setDisclosureReviewStatus(coiDisclosure, CoiReviewStatus.ASSIGNED_TO_REVIEWER);
         businessObjectService.save(coiDisclosure);
         return sendNotification(mapping, form, forward, coiUserRole, "Assigned");
     }
@@ -178,6 +185,7 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
 
         if (index >= 0 && index < coiDisclosure.getCoiUserRoles().size()) {
             CoiUserRole coiUserRole = coiDisclosure.getCoiUserRoles().remove(index);
+            resetDisclosureReviewStatus(coiDisclosure);
             businessObjectService.save(coiDisclosure);
             return sendNotification(mapping, form, forward, coiUserRole, "Removed");
         }
@@ -398,7 +406,9 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
      * @param submitDisclosureAction
      */
      public void submitToWorkflow(CoiDisclosureDocument coiDisclosureDocument, CoiDisclosureForm coiDisclosureForm, SubmitDisclosureAction submitDisclosureAction) {
-        try {
+         CoiDisclosure disclosure = coiDisclosureDocument.getCoiDisclosure();
+         setDisclosureReviewStatus(disclosure, CoiReviewStatus.SUBMITTED_FOR_REVIEW);
+         try {
             documentService.routeDocument(coiDisclosureDocument, "Disclosure has been certified and submitted.", new ArrayList<AdHocRouteRecipient>());
         } catch (WorkflowException e) {
             String errorString = "WorkflowException certifying Disclosure for user col %s" + coiDisclosureDocument.getCoiDisclosure().getAuthorPersonName(); 
@@ -635,4 +645,20 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
         CoiNotificationContext context = new CoiNotificationContext(disclosure, actionType, actionTaken, new CoiNotificationRenderer(disclosure));
         getKcNotificationService().sendNotificationAndPersist(context, new CoiNotification(), disclosure);
     }
+    
+    protected void setDisclosureReviewStatus(CoiDisclosure disclosure, String reviewStatusCode) {
+        disclosure.setReviewStatusCode(reviewStatusCode);
+        disclosure.refreshReferenceObject("coiReviewStatus");
+    }
+
+    protected void resetDisclosureReviewStatus(CoiDisclosure disclosure) {
+        if(disclosure.getCoiUserRoles().size() == 0) {
+            if(StringUtils.equals(disclosure.getCoiDisclosureStatus().getCoiDisclosureStatusCode(), CoiDisclosureStatus.ROUTED_FOR_REVIEW)) {
+                setDisclosureReviewStatus(disclosure, CoiReviewStatus.SUBMITTED_FOR_REVIEW);
+            }else {
+                setDisclosureReviewStatus(disclosure, CoiReviewStatus.IN_PROGRESS);
+            }
+        }
+    }
+
 }
