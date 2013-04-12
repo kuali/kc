@@ -251,8 +251,13 @@ public abstract class ActionHelperBase implements Serializable {
     protected List<CommitteeScheduleMinuteBase> reviewComments;        
     protected List<? extends ProtocolReviewAttachmentBase> reviewAttachments;        
     protected List<ProtocolVoteAbstaineeBase> abstainees;        
-    protected List<ProtocolVoteRecusedBase> recusers;        
-    protected List<ProtocolReviewer> protocolReviewers;        
+    protected List<ProtocolVoteRecusedBase> recusers;
+    
+    // the reviewers for the currently selected submission
+    protected List<ProtocolReviewer> currentReviewers = new ArrayList<ProtocolReviewer>();
+    // mapping for current online reviews keyed by the current reviewer id
+    private HashMap<String, ProtocolOnlineReviewBase> onlineReviewsMap = new HashMap<String, ProtocolOnlineReviewBase>(); 
+    
     protected int currentSubmissionNumber;
     protected String renewalSummary;
 
@@ -283,12 +288,6 @@ public abstract class ActionHelperBase implements Serializable {
     // check if there is submission questionnaire to answer
     protected boolean toAnswerSubmissionQuestionnaire;
     protected ProtocolSubmissionQuestionnaireHelper protocolSubmissionQuestionnaireHelper;
-   
-    // the reviewers for the currently selected submission
-    protected List<ProtocolReviewer> currentReviewers = new ArrayList<ProtocolReviewer>();
-
-    // mapping for current online reviews keyed by the current reviewer id
-    private HashMap<String, ProtocolOnlineReviewBase> onlineReviewsMap = new HashMap<String, ProtocolOnlineReviewBase>(); 
     
     
     
@@ -648,29 +647,19 @@ public abstract class ActionHelperBase implements Serializable {
         
         initAmendmentBeans(false);
         initPrintQuestionnaire();
-        
-        populateReviewersAndOnlineReviewsMap();
     }
-    
-    
-    
-    private void populateReviewersAndOnlineReviewsMap() {
-        ProtocolSubmissionBase submission = this.getSelectedSubmission();
-        if(submission != null) {
-            // populate the reviewers
-            this.currentReviewers = submission.getProtocolReviewers();
-            // populate the online reviews map
-            List<ProtocolOnlineReviewBase> reviews = submission.getProtocolOnlineReviews();
-            if (reviews != null) {
-                for (ProtocolOnlineReviewBase review : reviews) {
-                    if (review.isActive()) {
-                        this.getOnlineReviewsMap().put(review.getProtocolReviewer().getProtocolReviewerId().toString(), review);
-                    }
-                }
-            }
+            
+    @SuppressWarnings("unchecked")
+    protected void populateReviewersAndOnlineReviewsMap() {
+        String protocolNum = getProtocol().getProtocolNumber();
+        // populate the current submission's reviewers
+        this.currentReviewers = getReviewerCommentsService().getProtocolReviewers(protocolNum, currentSubmissionNumber);
+        // populate the online reviews map
+        List<ProtocolOnlineReviewBase> activeReviews = getReviewerCommentsService().getProtocolOnlineReviews(protocolNum, currentSubmissionNumber);
+        for (ProtocolOnlineReviewBase review : activeReviews) {
+            this.getOnlineReviewsMap().put(review.getProtocolReviewer().getProtocolReviewerId().toString(), review);
         }
     }
-
 
     private boolean hasAdministrativelyApprovePermission() {
         ProtocolTaskBase task = getNewAdminApproveProtocolTaskInstanceHook(getProtocol());
@@ -1831,7 +1820,8 @@ public abstract class ActionHelperBase implements Serializable {
         getProtocol().getProtocolSubmission().refreshReferenceObject("reviewAttachments");
         hideSubmissionReviewerName = checkToHideSubmissionReviewerName();
 
-        setProtocolReviewers(getReviewerCommentsService().getProtocolReviewers(getProtocol().getProtocolNumber(), currentSubmissionNumber));
+        populateReviewersAndOnlineReviewsMap();
+        
         setAbstainees(getCommitteeDecisionService().getAbstainers(getProtocol().getProtocolNumber(), currentSubmissionNumber));
         setRecusers(getCommitteeDecisionService().getRecusers(getProtocol().getProtocolNumber(), currentSubmissionNumber));
 
@@ -2100,15 +2090,6 @@ public abstract class ActionHelperBase implements Serializable {
     public void setNextDisabled(boolean nextDisabled) {
         this.nextDisabled = nextDisabled;
     }
-
-    public List<ProtocolReviewer> getProtocolReviewers() {
-        return protocolReviewers;
-    }
-
-    public void setProtocolReviewers(List<ProtocolReviewer> protocolReviewers) {
-        this.protocolReviewers = protocolReviewers;
-    }
-
   
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;

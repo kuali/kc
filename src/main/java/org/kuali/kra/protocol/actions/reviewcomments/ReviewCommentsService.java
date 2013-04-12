@@ -79,6 +79,15 @@ public interface ReviewCommentsService<PRA extends ProtocolReviewAttachmentBase>
     List<ProtocolReviewer> getProtocolReviewers(String protocolNumber, int submissionNumber);
     
     /**
+     * 
+     * This method is to get a list of active protocol online reviews for (possibly more than one) submission specified by the parameters.
+     * @param protocolNumber
+     * @param submissionNumber
+     * @return non-null list of active online reviews
+     */
+    List<ProtocolOnlineReviewBase> getProtocolOnlineReviews(String protocolNumber, int submissionNumber);
+    
+    /**
      * Adds the newReviewComment to the list of reviewComments in the given protocol.
      * @param newReviewComment the new review comment to add
      * @param reviewComments the list of reviewer comments
@@ -222,4 +231,5 @@ public interface ReviewCommentsService<PRA extends ProtocolReviewAttachmentBase>
      * @return
      */
     boolean setHideViewButton(List<PRA> reviewAttachments);
+
 }
