@@ -332,15 +332,32 @@ public abstract class ProtocolSubmissionBase extends ProtocolAssociateBase {
     }
 
   
-    public List<ProtocolReviewer> getProtocolReviewers() {
-        List<ProtocolReviewer> reviewers = new ArrayList<ProtocolReviewer>();
-        List<ProtocolOnlineReviewBase> reviews = getProtocolOnlineReviews();
-        if (reviews != null) {
-            for (ProtocolOnlineReviewBase review : reviews) {
+    /**
+     * Gets only the active reviews from all the protocolReviews for this submission 
+     * @return Returns non-null list of active protocol reviews.
+     */
+    public List<ProtocolOnlineReviewBase> getActiveProtocolOnlineReviews() {
+        List<ProtocolOnlineReviewBase> activeReviews = new ArrayList<ProtocolOnlineReviewBase>();
+        List<ProtocolOnlineReviewBase> allReviews = getProtocolOnlineReviews();
+        if (allReviews != null) {
+            for (ProtocolOnlineReviewBase review : allReviews) {
                 if (review.isActive()) {
-                    reviewers.add(review.getProtocolReviewer());
+                    activeReviews.add(review);
                 }
             }
+        }
+        return activeReviews;
+    }
+    
+    /**
+     * Gets the reviewers for only the active reviews for this submission 
+     * @return Returns non-null list of protocol reviewers.
+     */
+    public List<ProtocolReviewer> getProtocolReviewers() {
+        List<ProtocolReviewer> reviewers = new ArrayList<ProtocolReviewer>();
+        List<ProtocolOnlineReviewBase> activeReviews = getActiveProtocolOnlineReviews();
+        for (ProtocolOnlineReviewBase review : activeReviews) {
+            reviewers.add(review.getProtocolReviewer());
         }
         return reviewers;
     }

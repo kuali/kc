@@ -1209,8 +1209,8 @@ public class ActionHelper extends ActionHelperBase {
         getProtocol().getProtocolSubmission().refreshReferenceObject("reviewAttachments");
         hideSubmissionReviewerName = checkToHideSubmissionReviewerName();
 
-        setProtocolReviewers(getReviewerCommentsService().getProtocolReviewers(getProtocol().getProtocolNumber(),
-                currentSubmissionNumber));
+        populateReviewersAndOnlineReviewsMap();
+        
         setAbstainees((List)getCommitteeDecisionService().getAbstainers(getProtocol().getProtocolNumber(), currentSubmissionNumber));
         setRecusers((List)getCommitteeDecisionService().getRecusers(getProtocol().getProtocolNumber(), currentSubmissionNumber));
         
