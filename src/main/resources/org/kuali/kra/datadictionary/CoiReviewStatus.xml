@@ -66,9 +66,6 @@
         <property name="label" value="Review Status" />
         <property name="shortLabel" value="Review Status" />
         <property name="maxLength" value="200" />
-        <property name="validationPattern" >
-            <bean parent="AlphaNumericValidationPattern" />
-        </property>
         <property name="control" >
             <bean parent="TextControlDefinition"
                 p:size="50" />
