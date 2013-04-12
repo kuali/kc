@@ -18,10 +18,8 @@ package org.kuali.kra.coi;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
-
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
@@ -44,10 +42,8 @@ import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kns.datadictionary.HeaderNavigation;
 import org.kuali.rice.kns.web.ui.HeaderField;
-import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
-import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 public class CoiDisclosureForm extends KraTransactionalDocumentFormBase implements Auditable, QuestionableFormInterface  {
@@ -200,10 +196,19 @@ public class CoiDisclosureForm extends KraTransactionalDocumentFormBase implemen
         newDocInfo.add(getDocumentIdHeaderField(workflowDocument));
         
         // document status
+//        CoiDisclosureStatus status = disclosure.getCoiDisclosureStatus();
+//        String disclosureStatus = status != null ? status.getDescription() : "NEW";
+//        HeaderField headerStatus = new HeaderField("DataDictionary.CoiDisclosureStatus.attributes.description", disclosureStatus);
+//        newDocInfo.add(headerStatus);
+        
+        // document status - review status
         CoiDisclosureStatus status = disclosure.getCoiDisclosureStatus();
         String disclosureStatus = status != null ? status.getDescription() : "NEW";
-        HeaderField headerStatus = new HeaderField("DataDictionary.CoiDisclosureStatus.attributes.description", disclosureStatus);
+        String reviewStatus = disclosure.getCoiReviewStatus().getDescription();
+        String disclosureAndReviewStatus = disclosureStatus + " : " + reviewStatus;
+        HeaderField headerStatus = new HeaderField("DataDictionary.CoiDisclosure.attributes.disclosureStatusReviewStatus", disclosureAndReviewStatus);
         newDocInfo.add(headerStatus);
+        
         
         // document disposition
         CoiDispositionStatus disposition = disclosure.getCoiDispositionStatus();
