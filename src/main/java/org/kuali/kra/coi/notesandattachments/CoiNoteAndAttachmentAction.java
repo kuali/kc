@@ -65,10 +65,7 @@ public class CoiNoteAndAttachmentAction extends CoiAction {
     
     public ActionForward addAttachmentCoi(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        CoiNotesAndAttachmentsHelper helper = ((CoiDisclosureForm) form).getCoiNotesAndAttachmentsHelper();
-
-        helper.addNewCoiDisclosureAttachment();
-
+        ((CoiDisclosureForm) form).getCoiNotesAndAttachmentsHelper().addNewCoiDisclosureAttachment();
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
