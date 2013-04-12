@@ -74,6 +74,8 @@ public class CoiNotesAndAttachmentsHelper {
     // Currently setting this to 1 since there are no CoiDisclosure attachment types
     private static final String ATTACHMENT_TYPE_CD = "1";
     private boolean viewRestricted;
+    private boolean addAttachments;
+    private boolean addNotepads;
     private boolean modifyAttachments;
     private boolean modifyNotepads;
     //private List<Boolean> canDeleteUpdateNote = new ArrayList<Boolean>(); 
@@ -106,6 +108,8 @@ public class CoiNotesAndAttachmentsHelper {
      * Initialize the permissions for viewing/editing the Custom Data web page.
      */
     private void initializePermissions() {
+        addAttachments = canAddCoiDisclosureAttachments();
+        addNotepads = canAddCoiDisclosureNotes();
         modifyAttachments = canMaintainCoiDisclosureAttachments();
         modifyNotepads = canMaintainCoiDisclosureNotes();
         viewRestricted = canViewRestrictedProtocolNotepads();
@@ -127,6 +131,14 @@ public class CoiNotesAndAttachmentsHelper {
                 notePad.setCreateUserFullName("");
             }
         }
+    }
+
+    public boolean isCanAddAttachment() {
+        return this.addAttachments;
+    }
+
+    public boolean isAddNotepads() {
+        return addNotepads;
     }
 
     public boolean isModifyAttachments() {
@@ -221,6 +233,16 @@ public class CoiNotesAndAttachmentsHelper {
             CoiDisclosureTask task = new CoiDisclosureTask(TaskName.VIEW_COI_DISCLOSURE_RESTRICTED_NOTES, getCoiDisclosure());
             return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
         }
+    }
+
+    protected boolean canAddCoiDisclosureNotes() {
+        CoiDisclosureTask task = new CoiDisclosureTask(TaskName.ADD_COI_DISCLOSURE_NOTES, getCoiDisclosure());
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task); 
+    }
+
+    protected boolean canAddCoiDisclosureAttachments() {
+        CoiDisclosureTask task = new CoiDisclosureTask(TaskName.ADD_COI_DISCLOSURE_ATTACHMENTS, getCoiDisclosure());
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task); 
     }
 
     protected boolean canMaintainCoiDisclosureNotes() {
