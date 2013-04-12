@@ -195,16 +195,21 @@ public abstract class ReviewCommentsServiceImplBase<PRA extends ProtocolReviewAt
     @Override
     public List<ProtocolReviewer> getProtocolReviewers(String protocolNumber, int submissionNumber) {
         List<ProtocolReviewer> reviewers = new ArrayList<ProtocolReviewer>();
-
         List<ProtocolSubmissionBase> protocolSubmissions = protocolFinderDao.findProtocolSubmissions(protocolNumber, submissionNumber);
-
         for (ProtocolSubmissionBase protocolSubmission : protocolSubmissions) {
-            if (CollectionUtils.isNotEmpty(protocolSubmission.getProtocolReviewers())) {
-                reviewers.addAll(protocolSubmission.getProtocolReviewers());
-            }
+            reviewers.addAll(protocolSubmission.getProtocolReviewers());
         }
-
         return reviewers;
+    }
+    
+    @Override
+    public List<ProtocolOnlineReviewBase> getProtocolOnlineReviews(String protocolNumber, int submissionNumber) {
+        List<ProtocolOnlineReviewBase> activeReviews = new ArrayList<ProtocolOnlineReviewBase>();
+        List<ProtocolSubmissionBase> protocolSubmissions = protocolFinderDao.findProtocolSubmissions(protocolNumber, submissionNumber);
+        for (ProtocolSubmissionBase protocolSubmission : protocolSubmissions) {
+            activeReviews.addAll(protocolSubmission.getActiveProtocolOnlineReviews());
+        }
+        return activeReviews;
     }
 
     
