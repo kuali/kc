@@ -1607,15 +1607,40 @@ function updateLookupReturn_Callback( data ) {
 
 }
 
+function getURLParameters(paramName) 
+{
+        var sURL = top.window.location.href.toString();  
+    if (sURL.indexOf("?") > 0)
+    {
+       var arrParams = sURL.split("?");         
+       var arrURLParams = arrParams[1].split("&");      
+       var arrParamNames = new Array(arrURLParams.length);
+       var arrParamValues = new Array(arrURLParams.length);     
+       var i = 0;
+       for (i=0;i<arrURLParams.length;i++)
+       {
+        var sParam =  arrURLParams[i].split("=");
+        arrParamNames[i] = sParam[0];
+        if (sParam[1] != "")
+            arrParamValues[i] = unescape(sParam[1]);
+        else
+            arrParamValues[i] = "No Value";
+       }
+
+       for (i=0;i<arrURLParams.length;i++)
+       {
+                if(arrParamNames[i] == paramName){
+                return arrParamValues[i];
+             }
+       }
+       return "No Parameters Found";
+    }
+
+}
+
 function lookupUrl()
 {
-	var addressBookUrl = jQuery(location).attr('href');
-    var addressBookArrayUrl = addressBookUrl.split('?');
-    if (addressBookArrayUrl.length >= 2) {
-    	var addressBookLookupUrl=addressBookArrayUrl[0].split('/kr');
-        return addressBookLookupUrl[0]+"/kr/lookup.do";
-    }
-  return addressBookUrl;
+  return getURLParameters("channelUrl");
 }
 
 function refreshAddressBookLookup() {
