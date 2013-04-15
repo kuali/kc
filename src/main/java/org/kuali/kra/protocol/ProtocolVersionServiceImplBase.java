@@ -140,6 +140,7 @@ public abstract class ProtocolVersionServiceImplBase implements ProtocolVersionS
         newProtocol.setProtocolDocument(newProtocolDocument);
         protocolDocument.getProtocol().setActive(false);
         finalizeAttachmentProtocol(protocolDocument.getProtocol());
+        newProtocol.resetPersistenceStateForNotifications();
         businessObjectService.save(protocolDocument.getProtocol());        
         documentService.saveDocument(newProtocolDocument);
         newProtocol.resetForeignKeys();
