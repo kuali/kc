@@ -338,13 +338,32 @@ public class AwardAmountInfo extends AwardAssociate {
         this.timeAndMoneyDocumentNumber = timeAndMoneyDocumentNumber;
     }
     
-    public void setChangeToCurrent() {
-        setObligatedChange(getAmountObligatedToDate());
-        setObligatedChangeDirect(getObligatedTotalDirect());
-        setObligatedChangeIndirect(getObligatedTotalIndirect());
-        setAnticipatedChange(getAnticipatedTotalAmount());
-        setAnticipatedChangeDirect(getAnticipatedTotalDirect());
-        setAnticipatedChangeIndirect(getAnticipatedTotalIndirect());
+    public void resetChangeValues() {
+        setObligatedChange(new KualiDecimal(0));
+        setObligatedChangeDirect(new KualiDecimal(0));
+        setObligatedChangeIndirect(new KualiDecimal(0));
+        setAnticipatedChange(new KualiDecimal(0));
+        setAnticipatedChangeDirect(new KualiDecimal(0));
+        setAnticipatedChangeIndirect(new KualiDecimal(0));
     }
+
+//TODO: For debugging, to be taken out eventually
+public String toString() {
+  return 
+  "anticipatedTotalAmount = " +      anticipatedTotalAmount +         
+  ", antDistributableAmount = " +      antDistributableAmount +         
+  ", amountObligatedToDate = " +       amountObligatedToDate +          
+  ", obliDistributableAmount = " +     obliDistributableAmount +        
+  ", anticipatedChange = " +           anticipatedChange +              
+  ", obligatedChange = " +             obligatedChange +                
+  ", obligatedChangeDirect = " +       obligatedChangeDirect +          
+  ", obligatedChangeIndirect = " +     obligatedChangeIndirect +        
+  ", anticipatedChangeDirect = " +     anticipatedChangeDirect +        
+  ", anticipatedChangeIndirect = " +   anticipatedChangeIndirect +      
+  ", anticipatedTotalDirect = " +      anticipatedTotalDirect +         
+  ", anticipatedTotalIndirect = " +    anticipatedTotalIndirect +       
+  ", obligatedTotalDirect = " +        obligatedTotalDirect +           
+  ", obligatedTotalIndirect = " +      obligatedTotalIndirect;
+}
 
 }
