@@ -477,7 +477,8 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.proposaldevelopment.budget.service.impl.BudgetSubAwardServiceTest.class,
     org.kuali.kra.award.subcontracting.goalsAndExpenditures.AwardSubcontractingGoalsExpendituresServiceTest.class,
     org.kuali.kra.award.subcontracting.goalsAndExpenditures.AwardSubcontractingGoalsExpendituresRuleTest.class,
-    org.kuali.kra.infrastructure.TimeFormatterTest.class
+    org.kuali.kra.infrastructure.TimeFormatterTest.class,
+    org.kuali.kra.reporting.service.impl.BirtReportServiceImplTest.class
 })
 /** these are all the test class where all the test methods are currently passing. */
 public class PassSuite {

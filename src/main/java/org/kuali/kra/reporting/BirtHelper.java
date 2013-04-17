@@ -16,6 +16,7 @@
 package org.kuali.kra.reporting;
 
 import java.io.InputStream;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -25,6 +26,10 @@ import org.eclipse.birt.report.engine.api.IParameterDefnBase;
 import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IScalarParameterDefn;
+import org.eclipse.birt.report.model.api.ElementFactory;
+import org.eclipse.birt.report.model.api.OdaDataSourceHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.reporting.bo.BirtParameterBean;
@@ -35,10 +40,13 @@ public class BirtHelper {
     
     private static IReportEngine engine;
     private static XAPoolDataSource xAPoolDataSource;
+    private static OdaDataSourceHandle dataSourceHandle;
+    private static final String DATA_SOURCE = "org.eclipse.birt.report.data.oda.jdbc";
     
     public BirtHelper() throws Exception {
         BirtInstance birtInstance = BirtInstance.getInstance();
         engine = birtInstance.getIReportEngine();
+        xAPoolDataSource = getXAPoolDataSource();
     }
     
     /**
@@ -115,5 +123,38 @@ public class BirtHelper {
             xAPoolDataSource =  KraServiceLocator.getService("dataSourceXAPool");
         }
         return xAPoolDataSource;
+    }
+
+    public static OdaDataSourceHandle getDataSourceHandle() throws SemanticException, SQLException {
+        if (dataSourceHandle == null) {
+           return getNewDataSourceHandle();
+            
+        }
+        return dataSourceHandle;
+    }
+    
+    /**
+     * sets the data source properties
+     * @return OdaDataSourceHandle instance
+     */
+    private static OdaDataSourceHandle getNewDataSourceHandle() throws SemanticException, SQLException {
+        
+        ElementFactory designFactory = new ElementFactory(new ReportDesign());
+        dataSourceHandle  = designFactory.newOdaDataSource(Constants.BIRT_DATA_SOURCE,DATA_SOURCE);
+
+        String odaDriverClassName = xAPoolDataSource.getDriverClassName();
+        String odaURL = xAPoolDataSource.getUrl();
+        String odaUser = xAPoolDataSource.getUsername();
+        String odaPassword =  xAPoolDataSource.getPassword();
+        
+        dataSourceHandle.setProperty("odaDriverClass", odaDriverClassName);
+        dataSourceHandle.setProperty("odaURL", odaURL);
+        dataSourceHandle.setProperty("odaUser", odaUser);
+        dataSourceHandle.setProperty("odaPassword", odaPassword);
+        return dataSourceHandle;
+    }
+
+    public static void setDataSourceHandle(OdaDataSourceHandle dataSourceHandle) {
+        BirtHelper.dataSourceHandle = dataSourceHandle;
     }
 }
