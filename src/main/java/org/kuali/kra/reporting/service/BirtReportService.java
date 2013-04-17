@@ -50,11 +50,4 @@ public interface BirtReportService {
      */
     public List<CustReportDetails> getReports();
     
-    /**
-     * sets the data source properties
-     * @param iReportRunnable
-     * @return IReportRunnable instance
-     */    
-    public IReportRunnable buildDataSource (IReportRunnable iReportRunnable) throws SemanticException,SQLException;
-
 }
