@@ -34,6 +34,8 @@ import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IRunAndRenderTask;
 import org.eclipse.birt.report.engine.api.PDFRenderOption;
 import org.eclipse.birt.report.engine.api.RenderOption;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -89,6 +91,7 @@ public class ReportGenerationAction extends ReportGenerationBaseAction {
         InputStream reportDesignInputStream;
         ByteArrayOutputStream birtFilePrintArrayOutputStream = new ByteArrayOutputStream();
         IReportRunnable iReportRunnableDesign;
+        ReportDesignHandle designHandle;  
         int birtCounter = 0;
         String reportId = request.getParameter("custReportDetails.reportLabelDisplay");
         if (reportId.equalsIgnoreCase("0")) {
@@ -104,7 +107,10 @@ public class ReportGenerationAction extends ReportGenerationBaseAction {
         ReportGenerationForm reportGenerationForm = (ReportGenerationForm) form;
         reportDesignInputStream = KraServiceLocator.getService(BirtReportService.class).getReportDesignFileStream(reportId);
         iReportRunnableDesign = BirtHelper.getEngine().openReportDesign(reportDesignInputStream);
-        iReportRunnableDesign = getBirtReportService().buildDataSource(iReportRunnableDesign);
+        designHandle = (ReportDesignHandle) iReportRunnableDesign.getDesignHandle();
+        designHandle.getDataSources().add(BirtHelper.getDataSourceHandle());
+        designHandle.close();
+        iReportRunnableDesign.setDesignHandle(designHandle);
         IRunAndRenderTask reportTask = BirtHelper.getEngine().createRunAndRenderTask(iReportRunnableDesign);
         HashMap parameters = new HashMap();
         parameterList = KraServiceLocator.getService(BirtReportService.class).getInputParametersFromTemplateFile(reportId);
@@ -166,7 +172,11 @@ public class ReportGenerationAction extends ReportGenerationBaseAction {
             reportTask.run();
             WebUtils.saveMimeOutputStreamAsFile(response, printReportFormat, birtFilePrintArrayOutputStream,
                     printReportNameAndExtension);
+            
             reportTask.close();
+            DesignElementHandle designElementHandle = designHandle.findDataSource(Constants.BIRT_DATA_SOURCE);
+            designHandle.getDataSources().dropAndClear(designElementHandle);
+            designHandle.clearAllProperties();
         }
         return mapping.findForward(MAPPING_BASIC);
     }

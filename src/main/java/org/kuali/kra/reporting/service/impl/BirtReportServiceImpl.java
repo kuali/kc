@@ -17,17 +17,11 @@ package org.kuali.kra.reporting.service.impl;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.birt.report.engine.api.IReportRunnable;
-import org.eclipse.birt.report.model.api.ElementFactory;
-import org.eclipse.birt.report.model.api.OdaDataSourceHandle;
-import org.eclipse.birt.report.model.api.ReportDesignHandle;
-import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.reporting.BirtHelper;
@@ -36,7 +30,6 @@ import org.kuali.kra.reporting.bo.CustReportDetails;
 import org.kuali.kra.reporting.service.BirtReportService;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.UnitAuthorizationService;
-import org.kuali.rice.core.framework.persistence.jdbc.datasource.XAPoolDataSource;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
@@ -89,10 +82,10 @@ public class BirtReportServiceImpl implements BirtReportService{
 
         String principalId = GlobalVariables.getUserSession().getPrincipalId();
         String departmentCode = GlobalVariables.getUserSession().getPerson().getPrimaryDepartmentCode();
-        List<CustReportDetails> custreportDetailsList = (List<CustReportDetails>) KraServiceLocator.getService(
+        List<CustReportDetails> custReportDetailsList = (List<CustReportDetails>) KraServiceLocator.getService(
                 BusinessObjectService.class).findAll(CustReportDetails.class);
         List<CustReportDetails> custReportDetails = new ArrayList<CustReportDetails>();
-        for (CustReportDetails custReportDetail : custreportDetailsList) {
+        for (CustReportDetails custReportDetail : custReportDetailsList) {
             if(custReportDetail.getPermissionName() != null) {
                 if(custReportDetail.getPermissionName().equalsIgnoreCase(PERMISSION_NAME)) {
                     boolean hasPermission = getUnitAuthorizationService().hasPermission(principalId, departmentCode,
@@ -105,34 +98,7 @@ public class BirtReportServiceImpl implements BirtReportService{
         }
         return custReportDetails;
     }
-    
-    /**
-     * sets the data source properties
-     * @param iReportRunnable
-     * @return IReportRunnable instance
-     */
-    public IReportRunnable buildDataSource(IReportRunnable iReportRunnable) throws SemanticException, SQLException {
-        ElementFactory designFactory = null;
-        ReportDesignHandle reportDesignHandle = (ReportDesignHandle) iReportRunnable.getDesignHandle();
-        reportDesignHandle.getElementFactory();        
-        designFactory = reportDesignHandle.getElementFactory();
-        OdaDataSourceHandle odaDataSourceHandle = designFactory.newOdaDataSource("Data Source",DATA_SOURCE);
-
-        XAPoolDataSource dataSource= birtHelper.getXAPoolDataSource();
-        String odaDriverClassName = dataSource.getDriverClassName();
-        String odaURL = dataSource.getUrl();
-        String odaUser = dataSource.getUsername();
-        String odaPassword =  dataSource.getPassword();
-        
-        odaDataSourceHandle.setProperty("odaDriverClass", odaDriverClassName);
-        odaDataSourceHandle.setProperty("odaURL", odaURL);
-        odaDataSourceHandle.setProperty("odaUser", odaUser);
-        odaDataSourceHandle.setProperty("odaPassword", odaPassword);
-        reportDesignHandle.getDataSources().add(odaDataSourceHandle);
-        iReportRunnable.setDesignHandle(reportDesignHandle);
-        return iReportRunnable;
-    }
- 
+  
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
