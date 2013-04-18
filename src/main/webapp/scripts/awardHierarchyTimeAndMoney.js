@@ -160,19 +160,11 @@ function openPreviousAwards(requestTracker) {
         var awardNumber2 = parseInt(awardNumber.substring(index+1), 10);
 
         var disabledText='';
-        if (document.getElementById("currentOrPendingViewValue").value=='1') {
+        if (document.getElementById("disableCurrentValues").value=='true') {
             disabledText=' disabled ';
         }
         
         if(jQuery("#cancelOrFinalStatus").attr("value") == 1){
-        	
-//        	var abc = "<table style=\"border: medium none ; padding: 0px; border-collapse: collapse;\"><tbody><tr><td style=\"border: medium none ; border-collapse: collapse; vertical-align: top\">"+txtImage+"&nbsp;"+text1+"</td>" +
-//  			"<td style=\"border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; align:right; border-collapse: collapse;\">"+text2+"</td>" +
-//  			"<td style=\"border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; align:right; border-collapse: collapse;\">"+text3+"</td>" +
-//  			"<td style=\"border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; align:right; border-collapse: collapse;\">"+text4+"</td>" +
-//  			"<td style=\"border: 1px solid rgb(153, 153, 153); text-align: center; width: 112px; align:right; border-collapse: collapse;\">"+text5+"</td>" +
-//  			"<td style=\"border: 1px solid rgb(153, 153, 153); text-align: center; width: 110px; align:right; left: 1335px; border-collapse: collapse;\">"+text6+"</td>"
-//  			+"</tr></tbody></table>";
         	
         	if(jQuery("#controlForAwardHierarchyView").attr("value") == 0){
 		      	  var abc = "<table style=\"border: medium none ; padding: 0px; border-collapse: collapse;\"><tbody><tr><td style=\"border: medium none ; border-collapse: collapse; vertical-align: top;\">"+txtImage+"&nbsp;"+text1+"</td>"+
@@ -262,7 +254,6 @@ function openPreviousAwards(requestTracker) {
 		      	  		+"<input type='hidden' name='awardHierarchyNodeItems[" + awardNumber2 + "].populatedFromClient' id='awardHierarchyNodeItems[" + awardNumber2 + "].populatedFromClient'"+ " value='true'/>"
 			  			+"<input type=\"text\" class = 'datepicker' name=\"awardHierarchyNodeItems[" + awardNumber2 + "].currentFundEffectiveDate\" id=\"awardHierarchyNodeItems[" + awardNumber2 + "].currentFundEffectiveDate\""+ " value=\"" +text2 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"+"</td><td style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; border-collapse: collapse; align:right;\">"
 			  			+"<input type=\"text\" class = 'datepicker' name=\"awardHierarchyNodeItems[" + awardNumber2 + "].obligationExpirationDate\" id=\"awardHierarchyNodeItems[" + awardNumber2 + "].obligationExpirationDate\""+ " value=\"" +text3 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/>"+"</td><td nowrap style=\"border: 1px solid rgb(153, 153, 153); padding: 0px; text-align: center; width: 112px; border-collapse: collapse; align:right;\">"
-		//+ displaydate()
 			  			+"<input type=\"text\"class = 'datepicker' name=\"awardHierarchyNodeItems[" + awardNumber2 + "].finalExpirationDate\" id=\"awardHierarchyNodeItems[" + awardNumber2 + "].finalExpirationDate\""+ " value=\"" +text4 + "\" style=\"width:70%;\" maxlength=\"10\" size=\"10\"/></td>"
 			  			+"</tr></tbody></table>";
 		        }else if(jQuery("#controlForAwardHierarchyView").attr("value") == 1){
