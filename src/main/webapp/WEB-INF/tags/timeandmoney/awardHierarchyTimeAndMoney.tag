@@ -89,7 +89,7 @@
     		
     	</tr>
     </table>
-    <input type="hidden" name="currentOrPendingViewValue" id="currentOrPendingViewValue" value="${KualiForm.currentOrPendingView}" />						
+    <input type="hidden" name="disableCurrentValues" id="disableCurrentValues" value="${KualiForm.disableCurrentValues}" />						
 	<c:if test="${KualiForm.inMultipleNodeHierarchy}" >
 			
   			<table cellpadding="0" cellspacing="0" summary="">	
@@ -142,7 +142,8 @@
 						<option ${KualiForm.controlForAwardHierarchyView eq 2 ? 'selected="selected"' : ''} value="2">Totals</option>
 					</select>
 				</td>
-				<td style="text-align: center; background-color: rgb(195, 195, 195); width: 60px;">				
+				<%-- not showing the following any more. But we are keeping the element around so we can steal its click() method --%>
+				<td style="display:none">				
 					<html:image src="${ConfigProperties.kra.externalizable.images.url}tinybutton-refresh.gif" styleClass="tinybutton" alt="Refresh" property="methodToCall.refreshView" />
 				</td>			
 			</tr>
@@ -199,7 +200,8 @@
 						</c:otherwise>
 					</c:choose>				
 				</td>
-				<td style="text-align: center; background-color: rgb(195, 195, 195); width: 60px;">				
+				<%-- not showing the following any more. But we are keeping the element around so we can steal its click() method --%>
+				<td style="display:none">				
 					<html:image src="${ConfigProperties.kra.externalizable.images.url}tinybutton-refresh.gif" styleClass="tinybutton" alt="Refresh" property="methodToCall.refreshView" />
 				</td>	
 			</tr>
@@ -208,10 +210,6 @@
 		</c:if>
     
     <div align="left">    
-                                            <%-- <div id="treecontrol" style="display:inline;">
-                                                &nbsp;&nbsp;&nbsp;&nbsp;<a title="Collapse the entire tree below" href="#"><img src="static/images/jquery/minus.gif" /> Collapse All</a>
-                                                &nbsp;&nbsp;&nbsp;&nbsp;<a title="Expand the entire tree below" href="#"><img src="static/images/jquery/plus.gif" /> Expand All</a>
-                                            </div> --%>
 
 	<div style="position: relative; margin: 2px 0pt 0pt;">
 	  <div style="position:absolute; left:0px; height=285px; width:100%; text-align: center; z-index:100; display:none;" id="loading"><img style="margin-top: 90px;" src="static/images/awardHierarchy-loading.gif" alt="loading"/><span class="statusMessage"></span>

@@ -67,16 +67,9 @@ public class ActivePendingTransactionsServiceImpl implements ActivePendingTransa
         List<Award> awardItems = new ArrayList<Award>();
         List<TransactionDetail> transactionDetailItems = new ArrayList<TransactionDetail>();
         replaceSessionWithRoutedBy(doc);//replace usersession so update user is logged in user rather than kr.
-        //if Single node, we don't need to process transactions since they have already been processed when created.
-        //if (doc.getAwardHierarchyNodes().size() > 1) {
-            List<AwardAmountTransaction> awardAmountTransactions = processTransactions(doc, newAwardAmountTransaction,
-                    awardAmountTransactionItems, awardItems, transactionDetailItems, false);
-            performSave(doc, transactionDetailItems, awardItems, awardAmountTransactions);
-        //}else {
-            //businessObjectService.save(transactionDetailItems);
-            //businessObjectService.save(awardItems);
-            //businessObjectService.save(doc);
-        //}
+        List<AwardAmountTransaction> awardAmountTransactions = processTransactions(doc, newAwardAmountTransaction,
+                awardAmountTransactionItems, awardItems, transactionDetailItems, false);
+        performSave(doc, transactionDetailItems, awardItems, awardAmountTransactions);
     }
 
     /**
