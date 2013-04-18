@@ -47,7 +47,7 @@ public class BirtReportServiceImplTest extends KcUnitTestBase {
     
     @Test
     public void testGetReports() {
-        custReportDetails =birtReportService.getReports();
+        custReportDetails =  (List<CustReportDetails>) getBusinessObjectService().findAll(CustReportDetails.class);
         assertTrue(custReportDetails.size() > 0);
     }
     
