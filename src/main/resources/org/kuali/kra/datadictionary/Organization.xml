@@ -647,7 +647,7 @@
               <bean p:attributeName="cognizantAuditor" parent="FieldDefinition"/>
               <bean p:attributeName="comGovEntityCode" parent="FieldDefinition"/>
               <bean p:attributeName="congressionalDistrict" parent="FieldDefinition"/>
-               <bean p:attributeName="contactAddressId" parent="FieldDefinition"/>
+              <bean p:attributeName="contactAddressId" parent="FieldDefinition"/>
               <bean p:attributeName="rolodex.fullName" parent="FieldDefinition"/>
               <bean p:attributeName="county" parent="FieldDefinition"/>
               <bean p:attributeName="dodacNumber" parent="FieldDefinition"/>
@@ -794,6 +794,7 @@
         <bean p:attributeName="address" parent="FieldDefinition"/>
         <bean p:attributeName="federalEmployerId" parent="FieldDefinition"/>
         <bean p:attributeName="congressionalDistrict" parent="FieldDefinition"/>
+        <bean p:attributeName="contactAddressId" parent="FieldDefinition"/>
         <bean p:attributeName="dunsNumber" parent="FieldDefinition"/>
         <bean p:attributeName="dunsPlusFourNumber" parent="FieldDefinition"/>
         <bean p:attributeName="humanSubAssurance" parent="FieldDefinition"/>
