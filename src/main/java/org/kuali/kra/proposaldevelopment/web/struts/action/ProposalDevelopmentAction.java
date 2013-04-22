@@ -1050,7 +1050,14 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
         if (proposalDevelopmentDocument.getDevelopmentProposal().getGrantsGovSelectFlag()) {
             String loggingDirectory = KraServiceLocator.getService(ConfigurationService.class).getPropertyValueAsString(Constants.PRINT_XML_DIRECTORY);
             String saveXmlFolderName = proposalDevelopmentDocument.getSaveXmlFolderName();
-            if (loggingDirectory != null) {
+            if (StringUtils.isNotBlank(loggingDirectory)) {
+                File directory = new File(loggingDirectory);
+                if(!directory.exists()){
+                    directory.createNewFile();
+                }
+                if(!loggingDirectory.endsWith("/")){
+                    loggingDirectory+="/";
+                }
                 File grantsGovXmlDirectoryFile = new File(loggingDirectory + saveXmlFolderName + ".zip");
                 byte[] bytes = new byte[(int) grantsGovXmlDirectoryFile.length()];
                 FileInputStream fileInputStream = new FileInputStream(grantsGovXmlDirectoryFile);
