@@ -42,6 +42,7 @@ import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.UnitAdministratorType;
 import org.kuali.kra.external.award.AccountCreationClient;
 import org.kuali.kra.external.award.FinancialIndirectCostRecoveryTypeCode;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -65,7 +66,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 public abstract class AccountCreationClientBase implements AccountCreationClient {
     
 	protected static final String SOAP_SERVICE_NAME = "accountCreationServiceSOAP";
-	protected static final QName SERVICE_NAME = new QName("KFS", "accountCreationServiceSOAP");
+	protected static final QName SERVICE_NAME = new QName(Constants.FINANCIAL_SYSTEM_SERVICE_NAMESPACE, "accountCreationServiceSOAP");
     private static final String ERROR_MESSAGE = "Cannot connect to the service. The service may be down, please try again later.";
 
     private static final Log LOG = LogFactory.getLog(AccountCreationClientBase.class);

@@ -39,6 +39,7 @@
     <import resource="classpath:org/kuali/rice/core/RiceJTASpringBeans.xml" />
     <import resource="classpath:org/kuali/kra/KC-RiceDataSourceSpringBeans.xml" />
     <import resource="classpath:org/kuali/kra/core/CommonSpringBeans.xml" />
+    <util:constant id="krms.serviceNamespace" static-field="org.kuali.rice.krms.api.KrmsConstants$Namespaces.KRMS_NAMESPACE_2_0"/>
     
     <bean id="coreModule" class="org.kuali.rice.krad.service.impl.ModuleServiceBase">
         <property name="moduleConfiguration" ref="coreModuleConfiguration"/>
@@ -278,7 +279,9 @@
     </bean>
     <bean id="krmsDistributedCacheManager" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="krmsCacheAdminService" />
-        <property name="serviceNamespace" value="http://rice.kuali.org/krms/v2_0"/>
+        <property name="serviceNamespace">
+         	<ref bean="krms.serviceNamespace" />
+        </property>
     </bean>
 
     <bean id="parentLookupableHelperService" abstract="true">

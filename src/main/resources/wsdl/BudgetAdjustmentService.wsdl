@@ -1,7 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<wsdl:definitions name="budgetAdjustmentServiceSOAP" targetNamespace="KFS" xmlns:ns1="http://cxf.apache.org/bindings/xformat" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="KFS" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<?xml version='1.0' encoding='UTF-8'?><wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://kfs.kuali.org/kc-kfs/v2_0" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http" name="budgetAdjustmentServiceSOAP" targetNamespace="http://kfs.kuali.org/kc-kfs/v2_0">
   <wsdl:types>
-<xs:schema elementFormDefault="unqualified" targetNamespace="KFS" version="1.0" xmlns:tns="KFS" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://kfs.kuali.org/kc-kfs/v2_0" elementFormDefault="unqualified" targetNamespace="http://kfs.kuali.org/kc-kfs/v2_0" version="1.0">
 <xs:element name="createBudgetAdjustment" type="tns:createBudgetAdjustment"/>
 <xs:element name="createBudgetAdjustmentResponse" type="tns:createBudgetAdjustmentResponse"/>
 <xs:complexType name="createBudgetAdjustment">
@@ -73,7 +72,7 @@
   </wsdl:binding>
   <wsdl:service name="budgetAdjustmentServiceSOAP">
     <wsdl:port binding="tns:budgetAdjustmentServiceSOAPSoapBinding" name="budgetAdjustmentServicePort">
-      <soap:address location="http://stg.kfs.kuali.org:80/kfs-stg/remoting/budgetAdjustmentServiceSOAP"/>
+      <soap:address location="http://stg.kfs.kuali.org/kfs-stg/remoting/budgetAdjustmentServiceSOAP"/>
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

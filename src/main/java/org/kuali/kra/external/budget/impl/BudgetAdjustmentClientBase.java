@@ -70,7 +70,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 public abstract class BudgetAdjustmentClientBase implements BudgetAdjustmentClient {
 
     protected static final String SOAP_SERVICE_NAME = "budgetAdjustmentServiceSOAP";
-    protected static final QName SERVICE_NAME = new QName("KFS", SOAP_SERVICE_NAME);
+    protected static final QName SERVICE_NAME = new QName(Constants.FINANCIAL_SYSTEM_SERVICE_NAMESPACE, SOAP_SERVICE_NAME);
    
     private static final Log LOG = LogFactory.getLog(BudgetAdjustmentClientBase.class);
 
