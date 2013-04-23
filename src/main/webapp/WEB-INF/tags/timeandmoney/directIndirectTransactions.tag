@@ -37,7 +37,9 @@
           		<kul:htmlAttributeHeaderCell attributeEntry="${pendingTransactionAttributes.obligatedIndirectAmount}" scope="col" />
           		<kul:htmlAttributeHeaderCell attributeEntry="${pendingTransactionAttributes.anticipatedDirectAmount}" scope="col" />        		
           		<kul:htmlAttributeHeaderCell attributeEntry="${pendingTransactionAttributes.anticipatedIndirectAmount}" scope="col" />        		
-          		<kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col" />
+ 			    <c:if test="${!readOnly}">
+	          		<kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col" />
+	            </c:if>
           	</tr> 
           	<%-- Header --%>
           	
@@ -88,19 +90,20 @@
                 	<kul:htmlControlAttribute property="transactionBean.newPendingTransaction.anticipatedIndirectAmount" attributeEntry="${pendingTransactionAttributes.anticipatedIndirectAmount}" styleClass="amount" />
                 	</div>
 				</td>                     
-				<td class="infoline">
-					<div align="center">
-						<html:image property="methodToCall.addTransaction.anchor${tabKey}"
-						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton"/>
-					</div>
-                </td>
+ 			    <c:if test="${!readOnly}">
+					<td class="infoline">
+						<div align="center">
+							<html:image property="methodToCall.addTransaction.anchor${tabKey}"
+								src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton"/>
+						</div>
+	                </td>
+	            </c:if>
             </tr>
             </c:if>
             <%-- New data --%>
             
             <%-- Existing data --%>
         	<c:forEach var="pendingTransaction" items="${KualiForm.document.pendingTransactions}" varStatus="status">
-        	<c:if test="${pendingTransaction.processedFlag == false}">
 	             <tr>
 					<th class="infoline">
 						<c:out value="${status.index+1}" />
@@ -159,14 +162,10 @@
 							<html:image property="methodToCall.deleteTransaction.line${status.index}.anchor${currentTabIndex}"
 							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
 						  </c:if>
-						  <c:if test="${readOnly}">
-						      &nbsp;
-						  </c:if>
 						</div>
 					</c:if>
                   </td>
 	            </tr>
-	          </c:if>
         	</c:forEach>
         	<%-- Existing data --%>
         </table>
