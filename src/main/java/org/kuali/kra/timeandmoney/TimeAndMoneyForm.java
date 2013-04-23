@@ -128,7 +128,7 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
         awardHierarchyNodeItems = new AutoPopulatingList<AwardHierarchyNode>(AwardHierarchyNode.class);
         
         setControlForAwardHierarchyView("2");
-        setCurrentOrPendingView(CURRENT);
+        setToCurrentView();
         setDirectIndirectViewEnabled(getParameterService().getParameterValueAsString(Constants.PARAMETER_MODULE_AWARD, Constants.PARAMETER_COMPONENT_DOCUMENT, "ENABLE_AWD_ANT_OBL_DIRECT_INDIRECT_COST"));
         previousNodeMap = new HashMap<String, String>();
         nextNodeMap = new HashMap<String, String>();
@@ -560,6 +560,14 @@ public class TimeAndMoneyForm extends KraTransactionalDocumentFormBase {
      */
     public String getCurrentOrPendingView() {
         return currentOrPendingView;
+    }
+    
+    public void setToCurrentView() {
+        this.currentOrPendingView = CURRENT;
+    }
+
+    public void setToPendingView() {
+        this.currentOrPendingView = PENDING;
     }
     
     public boolean getDisableCurrentValues () {
