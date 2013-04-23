@@ -22,12 +22,6 @@
 
 <link rel="stylesheet" href="css/award_hierarchy.css" type="text/css" />
 
-<%--
-<kul:tab tabTitle="Award Hierarchy" defaultOpen="true" 
-	tabErrorKey="awardHierarchyNodeItems*,document.award.timeAndMoneyAwardAmountTransaction.newAwardAmountTransaction*,document.award.timeAndMoneyAwardDates*,totals*,timeAndMoneyTransaction*,newAwardAmountTransaction.transactionTypeCode,goToAwardNumber,document.awardList[0].awardAmountInfos[0].*" 
-	auditCluster="reportsAuditErrors" tabAuditKey="document.reportTermsAuditRules*" useRiceAuditMode="true">
- --%>
- 
 <kul:tab tabTitle="Award Hierarchy" defaultOpen="true" 
 	tabErrorKey="awardAmountInfos*,awardHierarchyNodeItems*,document.award.timeAndMoneyAwardAmountTransaction.newAwardAmountTransaction*,document.award.timeAndMoneyAwardDates*,totals*,timeAndMoneyTransaction*,newAwardAmountTransaction.transactionTypeCode,goToAwardNumber,document.awardList[0].awardAmountInfos[0].*"
 	innerTabErrorKey="awardAmountInfos*,awardHierarchyNodeItems*" 
@@ -89,7 +83,8 @@
     		
     	</tr>
     </table>
-    <input type="hidden" name="disableCurrentValues" id="disableCurrentValues" value="${KualiForm.disableCurrentValues}" />						
+    <%-- following is used to pass readOnly value to JS, when displaying active/current values --%>
+    <input type="hidden" name="disableCurrentValues" id="disableCurrentValues" value="${KualiForm.disableCurrentValues || readOnly}" />						
 	<c:if test="${KualiForm.inMultipleNodeHierarchy}" >
 			
   			<table cellpadding="0" cellspacing="0" summary="">	
