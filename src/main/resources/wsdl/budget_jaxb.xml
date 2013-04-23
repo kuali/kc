@@ -4,7 +4,7 @@
 	    <jaxws:package name="org.kuali.kfs.module.external.kc.service"/>
     </jaxws:bindings>
 
-    <jaxws:bindings node="wsdl:definitions/wsdl:types/xs:schema[@targetNamespace='KFS']">
+    <jaxws:bindings node="wsdl:definitions/wsdl:types/xs:schema[@targetNamespace='http://kfs.kuali.org/kc-kfs/v2_0']">
         <jaxb:schemaBindings>
             <jaxb:package name="org.kuali.kfs.integration.cg.dto"/>
         </jaxb:schemaBindings>

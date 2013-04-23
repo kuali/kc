@@ -28,6 +28,8 @@
                            http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
                            http://www.springframework.org/schema/util
                            http://www.springframework.org/schema/util/spring-util-3.0.xsd">
+      
+    <util:constant id="kc.integrationServiceNamespace" static-field="org.kuali.kra.infrastructure.Constants.FINANCIAL_INTEGRATION_KC_SERVICE_NAMESPACE"/>
                                              
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="properties" value="#{T(org.kuali.rice.core.api.config.property.ConfigContext).getCurrentContextConfig().getProperties()}" />
@@ -94,12 +96,12 @@
 		p:serviceNameSpaceURI-ref="kc.serviceNamespace" />
 
 	<bean id="kcSoapService" abstract="true" class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition"
-		p:serviceNameSpaceURI="KC" 
+		p:serviceNameSpaceURI-ref="kc.integrationServiceNamespace" 
 		p:busSecurity="${fin.system.integration.bus.security.on}"
 		p:jaxWsService="true" />
 
 	<bean id="kcJavaService" abstract="true" class="org.kuali.rice.ksb.api.bus.support.JavaServiceDefinition"
-		p:serviceNameSpaceURI="KC" 
+		p:serviceNameSpaceURI-ref="kc.integrationServiceNamespace" 
 		p:busSecurity="${fin.system.integration.bus.security.on}"
 		p:retryAttempts="1" /> 
      
