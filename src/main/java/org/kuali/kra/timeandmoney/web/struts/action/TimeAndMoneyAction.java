@@ -103,7 +103,7 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
         AwardAmountInfoService awardAmountInfoService = KraServiceLocator.getService(AwardAmountInfoService.class);
         List<TransactionDetail> moneyTransactionDetailItems = new ArrayList<TransactionDetail>();
         updateAwardAmountTransactions(timeAndMoneyDocument);
-        // Capture amount changes in hierarchy view if pending view is enabled.
+        // Capture amount changes in hierarchy view
         if (timeAndMoneyDocument.getAwardHierarchyNodes().size() == 1) {
             for(Entry<String, AwardHierarchyNode> awardHierarchyNode : timeAndMoneyDocument.getAwardHierarchyNodes().entrySet()){
                 //Award award = aptService.getWorkingAwardVersion(awardHierarchyNode.getValue().getAwardNumber());
@@ -142,10 +142,18 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
         KualiDecimal currentAnticipatedDirect = aai.getAnticipatedTotalDirect();
         KualiDecimal currentAnticipatedIndirect = aai.getAnticipatedTotalIndirect();
         for(PendingTransaction penTran : timeAndMoneyDocument.getPendingTransactions()) {
-            currentObligatedDirect = currentObligatedDirect.add(penTran.getObligatedDirectAmount());
-            currentObligatedIndirect = currentObligatedIndirect.add(penTran.getObligatedIndirectAmount());
-            currentAnticipatedDirect = currentAnticipatedDirect.add(penTran.getAnticipatedDirectAmount());
-            currentAnticipatedIndirect = currentAnticipatedIndirect.add(penTran.getAnticipatedIndirectAmount());
+            // if incoming transaction
+            if (StringUtils.equalsIgnoreCase(penTran.getSourceAwardNumber(),Constants.AWARD_HIERARCHY_DEFAULT_PARENT_OF_ROOT)){
+                currentObligatedDirect = currentObligatedDirect.add(penTran.getObligatedDirectAmount());
+                currentObligatedIndirect = currentObligatedIndirect.add(penTran.getObligatedIndirectAmount());
+                currentAnticipatedDirect = currentAnticipatedDirect.add(penTran.getAnticipatedDirectAmount());
+                currentAnticipatedIndirect = currentAnticipatedIndirect.add(penTran.getAnticipatedIndirectAmount());
+            } else if (StringUtils.equalsIgnoreCase(penTran.getDestinationAwardNumber(),Constants.AWARD_HIERARCHY_DEFAULT_PARENT_OF_ROOT)){
+                currentObligatedDirect = currentObligatedDirect.subtract(penTran.getObligatedDirectAmount());
+                currentObligatedIndirect = currentObligatedIndirect.subtract(penTran.getObligatedIndirectAmount());
+                currentAnticipatedDirect = currentAnticipatedDirect.subtract(penTran.getAnticipatedDirectAmount());
+                currentAnticipatedIndirect = currentAnticipatedIndirect.subtract(penTran.getAnticipatedIndirectAmount());
+            }
         }
         if(!awardHierarchyNode.getObligatedTotalDirect().equals(currentObligatedDirect)|| 
                 !awardHierarchyNode.getObligatedTotalIndirect().equals(currentObligatedIndirect) ||
@@ -156,7 +164,6 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
             KualiDecimal anticipatedChangeDirect = awardHierarchyNode.getAnticipatedTotalDirect().subtract(currentAnticipatedDirect);
             KualiDecimal anticipatedChangeIndirect = awardHierarchyNode.getAnticipatedTotalIndirect().subtract(currentAnticipatedIndirect);
             if(transactionRuleImpl.processParameterEnabledRules(awardHierarchyNode, aai, timeAndMoneyDocument)){
-                Map<String, AwardAmountTransaction> awardAmountTransactionItems = new HashMap<String, AwardAmountTransaction>();
                 List<Award> awardItems = new ArrayList<Award>();
                 awardItems.add(award);
             
@@ -199,8 +206,11 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
                 pendingTransaction.setSingleNodeTransaction(true);
                 pendingTransaction.setDocumentNumber(timeAndMoneyDocument.getDocumentNumber());
                 timeAndMoneyDocument.getPendingTransactions().add(pendingTransaction);
+                for(PendingTransaction penTran : timeAndMoneyDocument.getPendingTransactions()) {
+                    penTran.setDocumentNumber(timeAndMoneyDocument.getDocumentNumber());
+                }
                 getBusinessObjectService().save(timeAndMoneyDocument.getPendingTransactions());//need pending transaction to have a primarykey value
-                timeAndMoneyForm.setCurrentOrPendingView(TimeAndMoneyForm.PENDING);
+                timeAndMoneyForm.setToPendingView();
                 result = true;
             }else {
                 ahn.setAmountObligatedToDate(aai.getAmountObligatedToDate().add((obligatedChangeDirect).add(obligatedChangeIndirect)));
@@ -228,8 +238,14 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
         KualiDecimal currentObligated = aai.getAmountObligatedToDate();
         KualiDecimal currentAnticipated = aai.getAnticipatedTotalAmount();
         for(PendingTransaction penTran : timeAndMoneyDocument.getPendingTransactions()) {
-            currentObligated = currentObligated.add(penTran.getObligatedAmount());
-            currentAnticipated = currentAnticipated.add(penTran.getAnticipatedAmount());
+            // if incoming transaction
+            if (StringUtils.equalsIgnoreCase(penTran.getSourceAwardNumber(),Constants.AWARD_HIERARCHY_DEFAULT_PARENT_OF_ROOT)){
+                currentObligated = currentObligated.add(penTran.getObligatedAmount());
+                currentAnticipated = currentAnticipated.add(penTran.getAnticipatedAmount());
+            } else if (StringUtils.equalsIgnoreCase(penTran.getDestinationAwardNumber(),Constants.AWARD_HIERARCHY_DEFAULT_PARENT_OF_ROOT)){
+                currentObligated = currentObligated.subtract(penTran.getObligatedAmount());
+                currentAnticipated = currentAnticipated.subtract(penTran.getAnticipatedAmount());
+            }
         }
         if(!awardHierarchyNode.getAmountObligatedToDate().equals(currentObligated)
                 || !awardHierarchyNode.getAnticipatedTotalAmount().equals(currentAnticipated)){
@@ -262,7 +278,7 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
                     penTran.setDocumentNumber(timeAndMoneyDocument.getDocumentNumber());
                 }
                 getBusinessObjectService().save(timeAndMoneyDocument.getPendingTransactions());//need pending transaction to have a primarykey value
-                timeAndMoneyForm.setCurrentOrPendingView(TimeAndMoneyForm.PENDING);
+                timeAndMoneyForm.setToPendingView();
                 result = true;
             }else {
                 ahn.setAmountObligatedToDate(awardHierarchyNode.getAmountObligatedToDate());
@@ -850,6 +866,7 @@ public class TimeAndMoneyAction extends KraTransactionalDocumentActionBase {
         captureDateChangeTransactions(form);
         TimeAndMoneyForm timeAndMoneyForm = (TimeAndMoneyForm) form;
         if (timeAndMoneyForm.getTransactionBean().addPendingTransactionItem()) {
+            timeAndMoneyForm.setToPendingView();
             refreshView(mapping, form, request, response);
         }
         return mapping.findForward(Constants.MAPPING_BASIC);        
