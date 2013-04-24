@@ -4,19 +4,10 @@
 <c:set var="personFinIntDisclAttribute" value="${DataDictionary.PersonFinIntDisclosure.attributes}" />
 <c:set var="entityContactInfoAttribute" value="${DataDictionary.FinancialEntityContactInfo.attributes}" />
 
-    <c:choose>
-        <c:when test="${KualiForm.financialEntityHelper.editType == 'active'}">
-            <c:set var="errorkey" value="financialEntityHelper.activeFinancialEntities*" />                                           
-        </c:when>
-        <c:otherwise>
-            <c:set var="errorkey" value="financialEntityHelper.inactiveFinancialEntities*" />                                           
-        </c:otherwise>
-    </c:choose>
 
 <div align="right"><kul:help parameterNamespace="KC-COIDISCLOSURE" parameterDetailType="Document" parameterName="financialEntityMyHelp" altText="help"/></div>
 
-<kul:tab defaultOpen="true" tabTitle="Financial Entities"  transparentBackground="true"
-    tabErrorKey="${errorkey}">
+<kul:tab defaultOpen="true" tabTitle="Financial Entities"  transparentBackground="true">
     <div class="tab-container" align="center">
 
         <kra-coi:financialEntityList  activeFlag="active" />

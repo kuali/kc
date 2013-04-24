@@ -11,7 +11,8 @@
             <c:set var="activemethod" value="inactivateFinancialEntity" />                                           
             <c:set var="activeimage" value="tinybutton-deactivate.gif" />                                           
             <c:set var="activetitle" value="Deactivate" />                      
-            <c:set var="prop" value="financialEntityHelper.activeFinancialEntities" />                                           
+            <c:set var="prop" value="financialEntityHelper.activeFinancialEntities" />
+            <c:set var="errorkey" value="financialEntityHelper.activeFinancialEntities*" />                                            
         </c:when>
         <c:otherwise>
             <c:set var="idsufix" value="i" />                                           
@@ -19,7 +20,8 @@
             <c:set var="activemethod" value="activateFinancialEntity" />                                           
             <c:set var="activeimage" value="tinybutton-activate.gif" />                                           
             <c:set var="activetitle" value="Activate" />          
-            <c:set var="prop" value="financialEntityHelper.inactiveFinancialEntities" />                                           
+            <c:set var="prop" value="financialEntityHelper.inactiveFinancialEntities" />
+            <c:set var="errorkey" value="financialEntityHelper.inactiveFinancialEntities*" />                                           
         </c:otherwise>
     </c:choose>
     <c:forEach var="financialEntity" items="${financialEntityList}" varStatus="status">
@@ -69,92 +71,97 @@
                 <table id="active-hist-table" width="100%" cellpadding="0" cellspacing="0" class="datatable">                   
                         <tr> 
                             <td colspan="5">
-                                <div class="tab-container" align="center">
-                                    <h3>
-                                        <span class="subhead-left"> 
-                                            <a href="#" id ="financialEntityControl" class="financialEntitySubpanel"><img src='kr/images/tinybutton-hide.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'></a> Financial Entity </span>
-							            <span class="subhead-right"><kul:help parameterNamespace="KC-COIDISCLOSURE" parameterDetailType="Document" parameterName="financialEntity1Help" altText="help"/></span>
-                                    </h3>
-                                    <div id="financialEntityContent" class="financialEntitySubpanelContent">                    
+                            	<kul:tab defaultOpen="true" tabTitle="Financial Entity Being Edited" transparentBackground="true" tabErrorKey="${errorkey}" >
+                                	<div class="tab-container" align="center">
+                                    	<h3>
+	                                        <span class="subhead-left"> 
+	                                            <a href="#" id ="financialEntityControl" class="financialEntitySubpanel"><img src='kr/images/tinybutton-hide.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'></a> Financial Entity </span>
+								            <span class="subhead-right"><kul:help parameterNamespace="KC-COIDISCLOSURE" parameterDetailType="Document" parameterName="financialEntity1Help" altText="help"/></span>
+                                    	</h3>
+                                    	<div id="financialEntityContent" class="financialEntitySubpanelContent">                    
 
-                                        <table id="response-table" width="100%" cellpadding="0" cellspacing="0" class="datatable">
-                                            <tr>
-                                                <th align="right" valign="middle">
-                                                    <kul:htmlAttributeLabel attributeEntry="${personFinIntDisclAttribute.entityName}" />
-                                                </th>
-                                                <td align="left" valign="middle"  colspan="3">
-                                                    <kul:htmlControlAttribute property="${prop}[${status.index}].entityName" 
-                                              attributeEntry="${personFinIntDisclAttribute.entityName}" /> 
-                                                </td>
-                                                <th align="right" valign="middle" >
-                                                    <kul:htmlAttributeLabel attributeEntry="${personFinIntDisclAttribute.entityTypeCode}" />
-                                                </th>
-                                                <td align="left" valign="middle"  colspan="3">
-                                                        <kul:htmlControlAttribute property="${prop}[${status.index}].entityTypeCode" 
-                                              attributeEntry="${personFinIntDisclAttribute.entityTypeCode}" />                   
-                                        
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <th align="right" valign="middle">
-                                                    <kul:htmlAttributeLabel attributeEntry="${personFinIntDisclAttribute.sponsorCode}" readOnly="true" />
-                                                </th>
-                                                 <td align="left" valign="middle" >
-                                                    <kul:htmlControlAttribute property="${prop}[${status.index}].sponsorCode" attributeEntry="${personFinIntDisclAttribute.sponsorCode}" onblur="loadSponsor('${prop}[${status.index}].sponsorCode', 'sponsorName${status.index}', '${prop}[${status.index}].entityName', 'financialEntityHelper.prevSponsorCode');false" />
-                                                    <kul:lookup boClassName="org.kuali.kra.bo.Sponsor" fieldConversions="sponsorCode:${prop}[${status.index}].sponsorCode,sponsorName:${prop}[${status.index}].sponsor.sponsorName" anchor="${tabKey}" />
-                                                    <kul:directInquiry boClassName="org.kuali.kra.bo.Sponsor" inquiryParameters="${prop}[${status.index}].sponsorCode:sponsorCode" anchor="${tabKey}" />
-                                                    <div id="messageBox${status.index}" style="display:none;">
-                                                     </div>
-                                                    <input type="hidden" name="financialEntityHelper.editRolodexId" value="${KualiForm.financialEntityHelper.editRolodexId}" />
-                                                    <input type="hidden" name="financialEntityHelper.prevSponsorCode" value="${KualiForm.financialEntityHelper.prevSponsorCode}"/>
-                                                    <div id="sponsorName${status.index}.div" >
-                                                        <c:if test="${!empty financialEntity.sponsorCode}">
-                                                            <c:choose>
-                                                                <c:when test="${empty financialEntity.sponsor}">
-                                                                    <span style='color: red;'>not found</span>
-                                                                </c:when>
-                                                                <c:otherwise>
-                                                                        <c:out value="${financialEntity.sponsor.sponsorName}" />
-                                                                </c:otherwise>  
-                                                            </c:choose>                        
-                                                        </c:if>
-                                                    </div>
-                                                </td>
-                                                <th align="right" valign="middle" >
-                                                    <kul:htmlAttributeLabel attributeEntry="${personFinIntDisclAttribute.relatedToOrganizationFlag}" readOnly="true" />
-                                                </th>
-                                                <td align="left" valign="middle">
-                                                    <kul:htmlControlAttribute property="${prop}[${status.index}].relatedToOrganizationFlag" 
-                                              attributeEntry="${personFinIntDisclAttribute.relatedToOrganizationFlag}" /> 
-                                                </td>
-                                                <th align="right" valign="middle" >
-                                                    <kul:htmlAttributeLabel attributeEntry="${personFinIntDisclAttribute.statusCode}" />
-                                                </th>
-                                                <td align="left" valign="middle">
-                                                        ${financialEntity.finIntEntityStatus.description}
-                                                  
-                                                <th align="right" valign="middle" >
-                                                    <kul:htmlAttributeLabel attributeEntry="${personFinIntDisclAttribute.entityOwnershipType}" />
-                                                </th>
-                                                <td align="left" valign="middle">
-                                                    <kul:htmlControlAttribute property="${prop}[${status.index}].entityOwnershipType" 
-                                              attributeEntry="${personFinIntDisclAttribute.entityOwnershipType}" /> 
-                                                </td>
-                                            </tr>            
-                                            <%-- contact info --%>
-                                            <kra-coi:financialEntityContactInfo  prop="${prop}[${status.index}]" />
-                                        </table>
-                                    </div>                                            
-                                </div>                                
+                                        	<table id="response-table" width="100%" cellpadding="0" cellspacing="0" class="datatable">
+                                            	<tr>
+	                                                <th align="right" valign="middle">
+	                                                    <kul:htmlAttributeLabel attributeEntry="${personFinIntDisclAttribute.entityName}" />
+	                                                </th>
+	                                                <td align="left" valign="middle"  colspan="3">
+	                                                    <kul:htmlControlAttribute property="${prop}[${status.index}].entityName" 
+	                                              attributeEntry="${personFinIntDisclAttribute.entityName}" /> 
+	                                                </td>
+	                                                <th align="right" valign="middle" >
+	                                                    <kul:htmlAttributeLabel attributeEntry="${personFinIntDisclAttribute.entityTypeCode}" />
+	                                                </th>
+	                                                <td align="left" valign="middle"  colspan="3">
+	                                                        <kul:htmlControlAttribute property="${prop}[${status.index}].entityTypeCode" 
+	                                              attributeEntry="${personFinIntDisclAttribute.entityTypeCode}" />                   
+	                                        
+	                                                </td>
+                                            	</tr>
+                                            	<tr>
+	                                                <th align="right" valign="middle">
+	                                                    <kul:htmlAttributeLabel attributeEntry="${personFinIntDisclAttribute.sponsorCode}" readOnly="true" />
+	                                                </th>
+	                                                 <td align="left" valign="middle" >
+	                                                    <kul:htmlControlAttribute property="${prop}[${status.index}].sponsorCode" attributeEntry="${personFinIntDisclAttribute.sponsorCode}" onblur="loadSponsor('${prop}[${status.index}].sponsorCode', 'sponsorName${status.index}', '${prop}[${status.index}].entityName', 'financialEntityHelper.prevSponsorCode');false" />
+	                                                    <kul:lookup boClassName="org.kuali.kra.bo.Sponsor" fieldConversions="sponsorCode:${prop}[${status.index}].sponsorCode,sponsorName:${prop}[${status.index}].sponsor.sponsorName" anchor="${tabKey}" />
+	                                                    <kul:directInquiry boClassName="org.kuali.kra.bo.Sponsor" inquiryParameters="${prop}[${status.index}].sponsorCode:sponsorCode" anchor="${tabKey}" />
+	                                                    <div id="messageBox${status.index}" style="display:none;">
+	                                                     </div>
+	                                                    <input type="hidden" name="financialEntityHelper.editRolodexId" value="${KualiForm.financialEntityHelper.editRolodexId}" />
+	                                                    <input type="hidden" name="financialEntityHelper.prevSponsorCode" value="${KualiForm.financialEntityHelper.prevSponsorCode}"/>
+	                                                    <div id="sponsorName${status.index}.div" >
+	                                                        <c:if test="${!empty financialEntity.sponsorCode}">
+	                                                            <c:choose>
+	                                                                <c:when test="${empty financialEntity.sponsor}">
+	                                                                    <span style='color: red;'>not found</span>
+	                                                                </c:when>
+	                                                                <c:otherwise>
+	                                                                        <c:out value="${financialEntity.sponsor.sponsorName}" />
+	                                                                </c:otherwise>  
+	                                                            </c:choose>                        
+	                                                        </c:if>
+	                                                    </div>
+	                                                </td>
+	                                                <th align="right" valign="middle" >
+	                                                    <kul:htmlAttributeLabel attributeEntry="${personFinIntDisclAttribute.relatedToOrganizationFlag}" readOnly="true" />
+	                                                </th>
+	                                                <td align="left" valign="middle">
+	                                                    <kul:htmlControlAttribute property="${prop}[${status.index}].relatedToOrganizationFlag" 
+	                                              attributeEntry="${personFinIntDisclAttribute.relatedToOrganizationFlag}" /> 
+	                                                </td>
+	                                                <th align="right" valign="middle" >
+	                                                    <kul:htmlAttributeLabel attributeEntry="${personFinIntDisclAttribute.statusCode}" />
+	                                                </th>
+	                                                <td align="left" valign="middle">
+	                                                        ${financialEntity.finIntEntityStatus.description}
+	                                                  
+	                                                <th align="right" valign="middle" >
+	                                                    <kul:htmlAttributeLabel attributeEntry="${personFinIntDisclAttribute.entityOwnershipType}" />
+	                                                </th>
+	                                                <td align="left" valign="middle">
+	                                                    <kul:htmlControlAttribute property="${prop}[${status.index}].entityOwnershipType" 
+	                                              attributeEntry="${personFinIntDisclAttribute.entityOwnershipType}" /> 
+	                                                </td>
+                                            	</tr>            
+	                                            <%-- contact info --%>
+	                                            <kra-coi:financialEntityContactInfo  prop="${prop}[${status.index}]" />
+                                        	</table>
+                                    	</div>                                            
+                                	</div>
+                                	<kra-coi:financialEntityRelationshipDetails prop="financialEntityHelper.editRelationDetails" detailList="${KualiForm.financialEntityHelper.editRelationDetails}"/>
+                                </kul:tab>
+                                <kra-coi:financialEntityAttachments/>
+                                <!-- Tabbed Panel Footer -->    
+                                <div class="tab-container" align="center" id="G125" style="display: none;"></div>
+                                <table width="100%" border="0" cellpadding="0" cellspacing="0" class="b3" summary="">
+                                    <tr>
+                                        <td align="left" class="footer"><img src="static/images/pixel_clear.gif" alt="" width="12" height="14" class="bl3"></td>
+                                        <td align="right" class="footer-right"><img src="static/images/pixel_clear.gif" alt="" width="12" height="14" class="br3"></td>
+                                    </tr>
+                                </table>                               
                             </td>
-                        </tr>
-                		
-                        <tr>
-                            <td colspan="5">
-                            	<kra-coi:financialEntityRelationshipDetails prop="financialEntityHelper.editRelationDetails" detailList="${KualiForm.financialEntityHelper.editRelationDetails}"/>
-								<kra-coi:financialEntityAttachments/>
-                            </td>
-                        </tr>     
+                        </tr> 
                 </table>                    
           </td>
        </tr>
