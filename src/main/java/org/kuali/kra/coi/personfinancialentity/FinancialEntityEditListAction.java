@@ -410,11 +410,12 @@ public class FinancialEntityEditListAction extends FinancialEntityAction{
                 financialEntityForm.getFinancialEntityHelper().setReporterId(null);
                 return new ActionForward(forward, true);
             }
+            /*
+             * initiate again or the edit button disappears and the tab is open.
+             */
+            financialEntityHelper.initiate();
         }
-        /*
-         * initiate again or the edit button disappears and the tab is open.
-         */
-        financialEntityHelper.initiate();
+       
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
