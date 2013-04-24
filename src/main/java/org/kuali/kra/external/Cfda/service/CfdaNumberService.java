@@ -23,6 +23,7 @@ import javax.jws.soap.SOAPBinding;
 
 import org.kuali.kra.external.HashMapElement;
 import org.kuali.kra.external.Cfda.CfdaDTO;
+import org.kuali.kra.infrastructure.Constants;
 
 /**
  * This is the external service that is published to the service bus for
@@ -30,7 +31,7 @@ import org.kuali.kra.external.Cfda.CfdaDTO;
  * 
  * @author Kuali Coeus Development Team
  */
-@WebService(name = "CfdaNumberService", targetNamespace = "KC")
+@WebService(name = "CfdaNumberService", targetNamespace = Constants.FINANCIAL_INTEGRATION_KC_SERVICE_NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface CfdaNumberService {
     
