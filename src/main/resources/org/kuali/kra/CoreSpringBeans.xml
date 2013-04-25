@@ -40,6 +40,7 @@
     <import resource="classpath:org/kuali/kra/KC-RiceDataSourceSpringBeans.xml" />
     <import resource="classpath:org/kuali/kra/core/CommonSpringBeans.xml" />
     <util:constant id="krms.serviceNamespace" static-field="org.kuali.rice.krms.api.KrmsConstants$Namespaces.KRMS_NAMESPACE_2_0"/>
+    <util:constant id="kc.integrationServiceNamespace" static-field="org.kuali.kra.infrastructure.Constants.FINANCIAL_INTEGRATION_KC_SERVICE_NAMESPACE"/>
     
     <bean id="coreModule" class="org.kuali.rice.krad.service.impl.ModuleServiceBase">
         <property name="moduleConfiguration" ref="coreModuleConfiguration"/>
@@ -356,6 +357,7 @@
     <bean id="fiscalYearMonthService" class="org.kuali.kra.service.impl.FiscalYearMonthServiceImpl">
 		<property name="parameterService" ref="parameterService" />
 	</bean>
+	
     <!-- Exposing as SOAP and JAva services -->
     <bean id="institutionalUnitService" class="org.kuali.kra.external.unit.service.impl.InstitutionalUnitServiceImpl">
         <property name="unitService" ref="unitService" />
@@ -363,17 +365,24 @@
     </bean>
     <bean id="institutionalUnitServiceJavaExporter" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
         <property name="serviceDefinition">
-            <bean parent="kcJavaService"
-                p:service="institutionalUnitService"
+            <bean class="org.kuali.rice.ksb.api.bus.support.JavaServiceDefinition"
+                p:service-ref="institutionalUnitService"
+                p:serviceNameSpaceURI-ref="kc.integrationServiceNamespace"
                 p:localServiceName="institutionalUnitService"
-                p:serviceInterface="org.kuali.kra.external.unit.service.InstitutionalUnitService" />
+                p:serviceInterface="org.kuali.kra.external.unit.service.InstitutionalUnitService"
+                p:busSecurity="${fin.system.integration.bus.security.on}"
+                p:retryAttempts="1" />
         </property>
     </bean>
+    
     <bean id="institutionalUnitServiceSoapExporter" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
         <property name="serviceDefinition">
-            <bean parent="kcSoapService"
-                p:service="institutionalUnitService"
-                p:localServiceName="institutionalUnitSoapService" />
+            <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition"
+                p:service-ref="institutionalUnitService"
+                p:serviceNameSpaceURI-ref="kc.integrationServiceNamespace"
+                p:localServiceName="institutionalUnitSoapService"
+                p:busSecurity="${fin.system.integration.bus.security.on}"
+                p:jaxWsService="true" />
         </property>
     </bean>
 

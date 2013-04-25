@@ -95,14 +95,5 @@
 		p:serviceBus-ref="kc.import.serviceBus" 
 		p:serviceNameSpaceURI-ref="kc.serviceNamespace" />
 
-	<bean id="kcSoapService" abstract="true" class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition"
-		p:serviceNameSpaceURI-ref="kc.integrationServiceNamespace" 
-		p:busSecurity="${fin.system.integration.bus.security.on}"
-		p:jaxWsService="true" />
-
-	<bean id="kcJavaService" abstract="true" class="org.kuali.rice.ksb.api.bus.support.JavaServiceDefinition"
-		p:serviceNameSpaceURI-ref="kc.integrationServiceNamespace" 
-		p:busSecurity="${fin.system.integration.bus.security.on}"
-		p:retryAttempts="1" /> 
      
 </beans>
