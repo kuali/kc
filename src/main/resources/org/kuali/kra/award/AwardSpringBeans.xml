@@ -39,6 +39,7 @@
     <import resource="classpath:org/kuali/rice/core/RiceJTASpringBeans.xml" />
     <import resource="classpath:org/kuali/kra/KC-RiceDataSourceSpringBeans.xml" />
     <import resource="classpath:org/kuali/kra/core/CommonSpringBeans.xml" />
+    <util:constant id="kc.integrationServiceNamespace" static-field="org.kuali.kra.infrastructure.Constants.FINANCIAL_INTEGRATION_KC_SERVICE_NAMESPACE"/>
     
     <bean id="awardModule" class="org.kuali.rice.krad.service.impl.ModuleServiceBase">
         <property name="moduleConfiguration" ref="awardModuleConfiguration"/>
@@ -262,19 +263,25 @@
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="parameterService" ref="parameterService" />
     </bean>
-    <bean id="awardAccountServiceJavaExporter" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+   <bean id="awardAccountServiceJavaExporter" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
         <property name="serviceDefinition">
-            <bean parent="kcJavaService"
-                p:service="awardAccountService"
+            <bean class="org.kuali.rice.ksb.api.bus.support.JavaServiceDefinition"
+                p:service-ref="awardAccountService"
+                p:serviceNameSpaceURI-ref="kc.integrationServiceNamespace"
                 p:localServiceName="awardAccountService"
-                p:serviceInterface="org.kuali.kra.external.award.AwardAccountService"/>
+                p:serviceInterface="org.kuali.kra.external.award.AwardAccountService"
+                p:busSecurity="${fin.system.integration.bus.security.on}"
+                p:retryAttempts="1" />
         </property>
     </bean>
     <bean id="awardAccountServiceSoapExporter" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
         <property name="serviceDefinition">
-            <bean parent="kcSoapService"
-                p:service="awardAccountService"
-                p:localServiceName="awardAccountSoapService" />
+            <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition"
+                p:service-ref="awardAccountService"
+                p:serviceNameSpaceURI-ref="kc.integrationServiceNamespace"
+                p:localServiceName="awardAccountSoapService"
+                p:busSecurity="${fin.system.integration.bus.security.on}"
+                p:jaxWsService="true" />      
         </property>
     </bean>
     
@@ -712,17 +719,23 @@
     </bean>
     <bean id="cfdaNumberServiceJavaExporter" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
         <property name="serviceDefinition">
-        	<bean parent="kcJavaService"
-        		  p:service="cfdaNumberService"
-        		  p:localServiceName="cfdaNumberService" />
-         </property>
-     </bean>
- 
+            <bean class="org.kuali.rice.ksb.api.bus.support.JavaServiceDefinition"
+                p:service-ref="cfdaNumberService" 
+                p:serviceNameSpaceURI-ref="kc.integrationServiceNamespace"
+                p:localServiceName="cfdaNumberService"
+                p:serviceInterface="org.kuali.kra.external.Cfda.service.CfdaNumberService"
+                p:busSecurity="${fin.system.integration.bus.security.on}"
+                p:retryAttempts="1" />
+        </property>
+    </bean>
     <bean id="cfdaNumberServiceSoapExporter" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
-    	<property name="serviceDefinition">
-         	<bean parent="kcSoapService" 
-         		p:service = "cfdaNumberService"
-           		p:localServiceName="cfdaNumberSoapService" />
+        <property name="serviceDefinition">
+            <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition"
+                p:service-ref="cfdaNumberService" 
+                p:serviceNameSpaceURI-ref="kc.integrationServiceNamespace"
+                p:localServiceName="cfdaNumberSoapService" 
+                p:busSecurity="${fin.system.integration.bus.security.on}"
+                p:jaxWsService="true" />
         </property>
     </bean>
     

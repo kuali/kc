@@ -37,6 +37,7 @@
                            http://www.springframework.org/schema/util/spring-util-3.0.xsd">
                            
     <bean id="budgetModuleConfiguration" parent="budgetModuleConfiguration-parentBean" />
+	<util:constant id="kc.integrationServiceNamespace" static-field="org.kuali.kra.infrastructure.Constants.FINANCIAL_INTEGRATION_KC_SERVICE_NAMESPACE"/>
 	
     <bean id="budgetModuleConfiguration-parentBean" class="org.kuali.rice.krad.bo.ModuleConfiguration" abstract="true">
     	<property name="namespaceCode" value="KC-B" />
@@ -374,18 +375,24 @@
 	
     <bean id="budgetCategoryServiceJavaExporter" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
 		<property name="serviceDefinition">
-			<bean parent="kcJavaService"
-				p:service="budgetCategoryService"
+			<bean class="org.kuali.rice.ksb.api.bus.support.JavaServiceDefinition"
+				p:service-ref="budgetCategoryService"
+				p:serviceNameSpaceURI-ref="kc.integrationServiceNamespace"
 				p:localServiceName="budgetCategoryService"
-				p:serviceInterface="org.kuali.kra.external.budget.service" />
+				p:serviceInterface="org.kuali.kra.external.budget.service"
+				p:busSecurity="${fin.system.integration.bus.security.on}"
+				p:retryAttempts="1" />
 		</property>
 	</bean>
 
 	<bean id="budgetCategoryServiceSoapExporter" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
 		<property name="serviceDefinition">
-			<bean parent="kcSoapService"
-				p:service="budgetCategoryService"
-				p:localServiceName="budgetCategorySoapService" />
+			<bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition"
+				p:service-ref="budgetCategoryService"
+				p:serviceNameSpaceURI-ref="kc.integrationServiceNamespace"
+				p:localServiceName="budgetCategorySoapService"
+				p:busSecurity="${fin.system.integration.bus.security.on}"
+				p:jaxWsService="true" />
 		</property>
 	</bean>
 	
