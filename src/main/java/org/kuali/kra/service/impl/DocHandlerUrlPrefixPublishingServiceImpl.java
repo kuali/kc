@@ -17,10 +17,14 @@ package org.kuali.kra.service.impl;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.service.DocHandlerUrlPrefixPublishingService;
+import org.kuali.rice.core.api.config.ConfigurationException;
+import org.kuali.rice.core.api.config.module.RunMode;
+import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.coreservice.api.parameter.EvaluationOperator;
 import org.kuali.rice.coreservice.api.parameter.Parameter;
 import org.kuali.rice.coreservice.api.parameter.ParameterType;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.springframework.beans.factory.InitializingBean;
 
 /**
@@ -90,21 +94,32 @@ public class DocHandlerUrlPrefixPublishingServiceImpl implements DocHandlerUrlPr
         this.parameterService = parameterService;
     }
     
+    public RunMode getKewRunMode() {      
+        String propertyName = KewApiServiceLocator.KEW_RUN_MODE_PROPERTY;
+        String runMode = ConfigContext.getCurrentContextConfig().getProperty(propertyName);
+        if (StringUtils.isBlank(runMode)) {
+            throw new ConfigurationException("Failed to determine kew run mode.  Please be sure to set configuration parameter kew.mode");
+        }        
+        return RunMode.valueOf(runMode.toUpperCase());
+    }
+    
     @Override
     public void publishDocHandlerUrlPrefix() {
-        ParameterType.Builder parameterType = ParameterType.Builder.create(parameterTypeCode);
-        Parameter.Builder parameter = Parameter.Builder.create(parameterApplicationId, parameterNamespaceCode, parameterComponentCode, parameterName, parameterType);
-        parameter.setDescription("KC application docHandler prefix");
-        parameter.setValue(parameterValue);
-        parameter.setEvaluationOperator(EvaluationOperator.ALLOW);
-        Parameter existingParameter = parameterService.getParameter(parameterNamespaceCode, parameterComponentCode, parameterName);
-        if(existingParameter == null) {
-            parameterService.createParameter(parameter.build());
-        } else if(!StringUtils.equals(existingParameter.getValue(), parameterValue)) {
-            parameter.setObjectId(existingParameter.getObjectId());
-            parameter.setVersionNumber(existingParameter.getVersionNumber());
-            parameterService.updateParameter(parameter.build());
-        } 
+        if (RunMode.EMBEDDED == getKewRunMode()) {
+            ParameterType.Builder parameterType = ParameterType.Builder.create(parameterTypeCode);
+            Parameter.Builder parameter = Parameter.Builder.create(parameterApplicationId, parameterNamespaceCode, parameterComponentCode, parameterName, parameterType);
+            parameter.setDescription("KC application docHandler prefix");
+            parameter.setValue(parameterValue);
+            parameter.setEvaluationOperator(EvaluationOperator.ALLOW);
+            Parameter existingParameter = parameterService.getParameter(parameterNamespaceCode, parameterComponentCode, parameterName);
+            if(existingParameter == null) {
+                parameterService.createParameter(parameter.build());
+            } else if(!StringUtils.equals(existingParameter.getValue(), parameterValue)) {
+                parameter.setObjectId(existingParameter.getObjectId());
+                parameter.setVersionNumber(existingParameter.getVersionNumber());
+                parameterService.updateParameter(parameter.build());
+            } 
+        }
     }  
 
     @Override
