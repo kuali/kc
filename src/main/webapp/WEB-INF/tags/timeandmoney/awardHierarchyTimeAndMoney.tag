@@ -131,7 +131,7 @@
 					</c:choose>				
 				</td>
 				<td style="text-align: center; background-color: rgb(195, 195, 195); font-weight: bold; width: 185px;">
-					<select id="controlForAwardHierarchyView" name="controlForAwardHierarchyView" >
+					<select id="controlForAwardHierarchyView" name="controlForAwardHierarchyView" onchange="javascript:clickViaRadioButton();" >
 						<option ${KualiForm.controlForAwardHierarchyView eq 0 ? 'selected="selected"' : ''} value="0">Dates Only</option>
 						<option ${KualiForm.controlForAwardHierarchyView eq 1 ? 'selected="selected"' : ''} value="1">Distributed/Distributable</option>
 						<option ${KualiForm.controlForAwardHierarchyView eq 2 ? 'selected="selected"' : ''} value="2">Totals</option>
