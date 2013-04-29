@@ -61,7 +61,7 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.protocolSubmitAction.n
                         <nobr>
                         <kul:htmlControlAttribute property="actionHelper.protocolSubmitAction.protocolReviewTypeCode" 
                                                   attributeEntry="${attributes.protocolReviewTypeCode}" 
-                                                  onchange="updateCheckList('actionHelper.protocolSubmitAction.protocolReviewTypeCode')" />
+                                                  onchange="displayReviewers(${KualiForm.document.protocol.protocolId}); updateCheckList('actionHelper.protocolSubmitAction.protocolReviewTypeCode')" />
                         </nobr>
                     </td>
                 </tr>
@@ -96,7 +96,7 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.protocolSubmitAction.n
 	                    <c:choose>
 	                        <c:when test="${KualiForm.actionHelper.showCommittee}">
 	                            <td>
-				                    <html:select property="actionHelper.protocolSubmitAction.committeeId" onchange="loadScheduleDates('actionHelper.protocolSubmitAction.committeeId', '${docNumber}', 'actionHelper.protocolSubmitAction.scheduleId');" >                               
+				                    <html:select property="actionHelper.protocolSubmitAction.committeeId" onchange="loadScheduleDates('actionHelper.protocolSubmitAction.committeeId', '${docNumber}', 'actionHelper.protocolSubmitAction.scheduleId');displayReviewers(${KualiForm.document.protocol.protocolId})" >                               
 				                        <c:forEach items="${krafn:getOptionList('org.kuali.kra.committee.lookup.keyvalue.IrbCommitteeIdByUnitValuesFinder', paramMap)}" var="option">   
 				                            <c:choose>                      
 				                                <c:when test="${KualiForm.actionHelper.protocolSubmitAction.committeeId == option.key}">
