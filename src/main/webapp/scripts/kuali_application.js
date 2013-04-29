@@ -2745,9 +2745,10 @@ function displayReviewers(protocolId) {
 	
     var committeeId = dwr.util.getValue('actionHelper.protocolSubmitAction.committeeId');
     var scheduleId = dwr.util.getValue('actionHelper.protocolSubmitAction.scheduleId');
-//	var docFormKey = dwr.util.getValue( "docFormKey" );
+    var protocolReviewTypeCode = dwr.util.getValue('actionHelper.protocolSubmitAction.protocolReviewTypeCode');
     
-    if (scheduleId == "select") {
+    // invoke the server method for blank schedule ids only if the review type code is 'expedited' i.e. '2'
+    if ( ((scheduleId === "") && (protocolReviewTypeCode != '2')) || (committeeId === "") ) {
     	document.getElementById("reviewers").style.display = 'none';
     }
     else {
