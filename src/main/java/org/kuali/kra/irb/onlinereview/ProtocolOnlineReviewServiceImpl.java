@@ -25,6 +25,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolOnlineReviewDocument;
+import org.kuali.kra.irb.actions.submit.ProtocolReviewType;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmissionStatus;
 import org.kuali.kra.protocol.ProtocolBase;
@@ -49,7 +50,7 @@ public class ProtocolOnlineReviewServiceImpl extends ProtocolOnlineReviewService
         ProtocolSubmission submission = (ProtocolSubmission)((Protocol) protocol).getProtocolSubmission();
         if (submission != null) {
             try {
-            isReviewable = StringUtils.isNotEmpty(submission.getScheduleId()); 
+                isReviewable = StringUtils.isNotEmpty(submission.getScheduleId()) || ProtocolReviewType.EXPEDITED_REVIEW_TYPE_CODE.equals(submission.getProtocolReviewTypeCode()); 
                 isReviewable &= (StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE) 
                         || StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.IN_AGENDA));
                 ProtocolDocument protocolDocument = (ProtocolDocument) documentService.getByDocumentHeaderId(protocol.getProtocolDocument().getDocumentNumber());

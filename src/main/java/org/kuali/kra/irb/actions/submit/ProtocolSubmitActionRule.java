@@ -207,7 +207,7 @@ public class ProtocolSubmitActionRule extends ResearchDocumentRuleBase implement
         boolean isValid = true;
         List<ProtocolReviewerBean> submittedReviewers = (List) submitAction.getReviewers();
         if (null != submittedReviewers && submittedReviewers.size() > 0) {
-            if (StringUtils.isBlank(submitAction.getCommitteeId()) || StringUtils.isBlank(submitAction.getScheduleId())) {
+            if (StringUtils.isBlank(submitAction.getCommitteeId())) {
                 isValid = false;
             }
             else {
