@@ -1646,7 +1646,7 @@ function lookupUrl()
 function refreshAddressBookLookup() {
 		var sponsorFlagValue = "";
 		var issponsorAddressValue = "";
-		
+		jQuery("input[id='document.newMaintainableObject.organization']").attr("readonly",true);
 		if(document.getElementById('document.newMaintainableObject.isSponsorAddress')) {
 			sponsorFlagValue = document.getElementById('document.newMaintainableObject.isSponsorAddress').value;	
 			if(sponsorFlagValue == 'Y') {
