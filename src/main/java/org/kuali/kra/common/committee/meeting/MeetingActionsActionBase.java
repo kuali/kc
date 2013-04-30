@@ -41,6 +41,7 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.meeting.CommScheduleMinuteDoc;
+import org.kuali.kra.meeting.ScheduleAgenda;
 import org.kuali.kra.printing.Printable;
 import org.kuali.kra.printing.print.AbstractPrint;
 import org.kuali.kra.printing.util.PrintingUtils;
@@ -244,13 +245,21 @@ public abstract class MeetingActionsActionBase extends MeetingActionBase {
      * @return
      * @throws Exception
      */
-    public ActionForward viewAgenda(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        final int selection = this.getSelectedLine(request);
-        //final int selection =  Integer.parseInt(request.getParameter("line"));
+    public ActionForward viewAgenda(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        int selection = this.getSelectedLine(request);
         MeetingHelperBase meetingHelper = ((MeetingFormBase) form).getMeetingHelper();
         PrintableAttachment source = new PrintableAttachment();
-        source.setContent(meetingHelper.getScheduleAgendas().get(selection).getPdfStore());
+        String scheduleId = request.getParameter("scheduleId");
+        if (scheduleId != null) {
+            String selectedLine = request.getParameter("line");
+            selection = Integer.parseInt(selectedLine);
+            Long schedule_id = Long.parseLong(scheduleId);
+            List<ScheduleAgenda> scheduleAgendas = getAgendaDoc(schedule_id);
+            source.setContent(scheduleAgendas.get(selection).getPdfStore());
+        }
+        else {
+            source.setContent(meetingHelper.getScheduleAgendas().get(selection).getPdfStore());
+        }
         source.setContentType(Constants.PDF_REPORT_CONTENT_TYPE);
         source.setFileName("ScheduleAgendaBase" + Constants.PDF_FILE_EXTENSION);
         if (source.getContent() != null) {
@@ -258,6 +267,17 @@ public abstract class MeetingActionsActionBase extends MeetingActionBase {
             return null;
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    /**
+     * Retrieve the agenda documents for the selected committee schedule.
+     * 
+     */
+    private List<ScheduleAgenda> getAgendaDoc(Long scheduleId) {
+        Map<String, Long> fieldValues = new HashMap<String, Long>();
+        fieldValues.put("scheduleIdFk", scheduleId);
+        return (List<ScheduleAgenda>)KraServiceLocator.getService(BusinessObjectService.class).findMatchingOrderBy(ScheduleAgenda.class, fieldValues, "createTimestamp", true);
+        
     }
 
     /**
