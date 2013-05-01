@@ -105,7 +105,9 @@ public class DocHandlerUrlPrefixPublishingServiceImpl implements DocHandlerUrlPr
     
     @Override
     public void publishDocHandlerUrlPrefix() {
-        if (RunMode.EMBEDDED == getKewRunMode()) {
+       // this is causing issues in our bundled environment. Commenting temporarily to analyze
+        // what's going on.
+       // if (RunMode.EMBEDDED == getKewRunMode()) {
             ParameterType.Builder parameterType = ParameterType.Builder.create(parameterTypeCode);
             Parameter.Builder parameter = Parameter.Builder.create(parameterApplicationId, parameterNamespaceCode, parameterComponentCode, parameterName, parameterType);
             parameter.setDescription("KC application docHandler prefix");
@@ -119,7 +121,7 @@ public class DocHandlerUrlPrefixPublishingServiceImpl implements DocHandlerUrlPr
                 parameter.setVersionNumber(existingParameter.getVersionNumber());
                 parameterService.updateParameter(parameter.build());
             } 
-        }
+      //  }
     }  
 
     @Override
