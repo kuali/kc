@@ -21,7 +21,7 @@
 
     <head>
         <script>var jsContextPath = "${pageContext.request.contextPath}";</script>
-        <title>Kuali :: Financial Entities</title>
+        <title><bean:message key="app.title" /> :: $(headerTitle})</title>
         <style type="text/css">
             #workarea td.tab-subhead1
             {
