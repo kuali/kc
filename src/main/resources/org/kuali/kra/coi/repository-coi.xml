@@ -698,6 +698,12 @@
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
         <field-descriptor name="dateAssigned" column="DATE_ASSIGNED" jdbc-type="DATE" />
+        <field-descriptor name="dateCompleted" column="DATE_COMPLETED" jdbc-type="DATE" />
+        <field-descriptor name="reviewCompleted" column="REVIEW_COMPLETED" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="coiRecomendedTypeCode" column="COI_RECOMENDED_TYPE_CODE" jdbc-type="VARCHAR" />
+		<reference-descriptor name="coiRecomendedActionType" class-ref="org.kuali.kra.coi.CoiRecomendedActionType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="coiRecomendedTypeCode"/>
+		</reference-descriptor>
 	</class-descriptor>    
 	
 	<class-descriptor class="org.kuali.kra.coi.notesandattachments.attachments.FinancialEntityAttachment" table="FINANCIAL_ENTITY_ATTACHMENT">
@@ -751,6 +757,7 @@
 	<class-descriptor class="org.kuali.kra.coi.CoiReviewStatus" table="COI_REVIEW_STATUS">
 		<field-descriptor name="reviewStatusCode" column="REVIEW_STATUS_CODE" jdbc-type="VARCHAR" primarykey="true" />
 		<field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
+        <field-descriptor name="statusUpdatedOnlyByAction" column="STATUS_UPDATED_ONLY_BY_ACTION" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />

@@ -17,16 +17,9 @@
 
 
 <kul:tab tabTitle="Administrator Actions" defaultOpen="false" tabErrorKey="coiAdminActionErrors">
-	<div class="tab-container"  align="center">
-		<h3> 
-			<span class="subhead-left">Administrator Actions</span>
-            <span class="subhead-right"><kul:help parameterNamespace="KC-COIDISCLOSURE" parameterDetailType="Document" parameterName="coiAdministratorActionHelp" altText="help"/></span>
- 		</h3>
 		<c:if test="${not KualiForm.document.coiDisclosureList[0].currentDisclosure}">
+            <kra-coi:addCoiReviewerAction />
+            <kra-coi:disclosureReviewStatusAction/>
             <kra-coi:approveAction />
         </c:if>    
-	</div>
-
-
-      
 </kul:tab>

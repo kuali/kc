@@ -215,13 +215,15 @@ public class DisclosureActionHelper implements Serializable {
 
     private void populateCoiUserRoleData() {
         List<CoiUserRole> userRoles = coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure().getCoiUserRoles();
-        
+        syncUserRolesData(userRoles);
+    }
+    
+    private void syncUserRolesData(List<CoiUserRole> userRoles) {
         if (CollectionUtils.isNotEmpty(userRoles)) {
             for (CoiUserRole userRole : userRoles) {
                 userRole.setPerson(getKcPerson(userRole.getUserId()));
                 userRole.setCoiReviewer(getCoiReviewer(userRole.getReviewerCode()));
             }
-            
         }
     }
     
@@ -231,9 +233,12 @@ public class DisclosureActionHelper implements Serializable {
 
     public List<CoiUserRole> getCoiUserRoles() {
         this.populateCoiUserRoleData();
+        if(!canMaintainReviewers()) {
+            getCoiDisclosureActionService().tagUserRolesToCompleteReview(coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure().getCoiUserRoles());
+        }
         return coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure().getCoiUserRoles();
     }
-    
+
     public KcPerson getKcPerson(String userName) {
         return getKcPersonService().getKcPersonByUserName(userName);
     }
@@ -259,5 +264,4 @@ public class DisclosureActionHelper implements Serializable {
         this.kcPersonService = kcPersonService;
     }
 
-   
 }

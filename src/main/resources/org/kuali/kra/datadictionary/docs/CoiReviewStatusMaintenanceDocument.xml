@@ -52,6 +52,9 @@
                     p:name="description"
                     p:required="true" />
                 <bean parent="MaintainableFieldDefinition"
+                    p:name="statusUpdatedOnlyByAction"
+                    p:required="false" />
+                <bean parent="MaintainableFieldDefinition"
                     p:name="versionNumber" />
             </list>
         </property>
