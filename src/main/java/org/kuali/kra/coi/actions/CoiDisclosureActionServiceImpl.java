@@ -700,4 +700,16 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
         coiDisclosure.refreshReferenceObject("coiReviewStatus");
     }
     
+    public boolean isDisclosureReviewComplete(List<CoiUserRole> completeUserRoles) {
+        boolean allReviewsComplete = true;
+        for(CoiUserRole coiUserRole : completeUserRoles) {
+            if(!coiUserRole.isReviewCompleted()) {
+                allReviewsComplete = false;
+                break;
+            }
+        }
+        return allReviewsComplete;
+    }
+    
+    
 }
