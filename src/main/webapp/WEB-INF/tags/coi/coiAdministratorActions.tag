@@ -16,10 +16,13 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 
+<c:set var="disclosureReviewCompleted" value="${KualiForm.disclosureActionHelper.disclosureReviewComplete}" />
 <kul:tab tabTitle="Administrator Actions" defaultOpen="false" tabErrorKey="coiAdminActionErrors">
 		<c:if test="${not KualiForm.document.coiDisclosureList[0].currentDisclosure}">
             <kra-coi:addCoiReviewerAction />
-            <kra-coi:disclosureReviewStatusAction/>
+            <c:if test="${disclosureReviewCompleted}">
+	            <kra-coi:disclosureReviewStatusAction/>
+            </c:if>
             <kra-coi:approveAction />
         </c:if>    
 </kul:tab>
