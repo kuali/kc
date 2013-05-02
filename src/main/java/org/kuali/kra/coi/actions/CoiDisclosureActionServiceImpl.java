@@ -15,15 +15,13 @@
  */
 package org.kuali.kra.coi.actions;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
@@ -65,6 +63,7 @@ import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.bo.AdHocRouteRecipient;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
@@ -661,4 +660,44 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
         }
     }
 
+    public void tagUserRolesToCompleteReview(List<CoiUserRole> completeUserRoles) {
+        String loggedInUser = GlobalVariables.getUserSession().getPerson().getPrincipalId();
+        for(CoiUserRole coiUserRole : completeUserRoles) {
+            if(!coiUserRole.getPerson().getPersonId().equals(loggedInUser)) {
+                coiUserRole.setMarkedToCompleteReview(false);
+            }
+        }
+    }
+
+    public void completeCoiReview(CoiDisclosure disclosure) {
+        List<CoiUserRole> coiUserRoles = disclosure.getCoiUserRoles();
+        String reviewStatus = CoiReviewStatus.ASSIGNED_REVIEW_COMPLETE;
+        for(CoiUserRole coiUserRole : coiUserRoles) {
+            if(coiUserRole.isMarkedToCompleteReview()) {
+                String oldCoiRecomendedTypeCode = coiUserRole.getOldCoiRecomendedTypeCode() == null  ? "" : coiUserRole.getOldCoiRecomendedTypeCode();
+                String newCoiRecomendedTypeCode = coiUserRole.getCoiRecomendedTypeCode() == null  ? "" : coiUserRole.getCoiRecomendedTypeCode();
+                if(!oldCoiRecomendedTypeCode.equals(newCoiRecomendedTypeCode)) {
+                    if(ObjectUtils.isNotNull(coiUserRole.getCoiRecomendedTypeCode())) {
+                        coiUserRole.setReviewCompleted(true);
+                        coiUserRole.setDateCompleted(new Date(System.currentTimeMillis()));
+                    }else {
+                        coiUserRole.setReviewCompleted(false);
+                        coiUserRole.setDateCompleted(null);
+                    }
+                    coiUserRole.setEditable(true);
+                }
+            }
+            if(!coiUserRole.isReviewCompleted()) {
+                reviewStatus = CoiReviewStatus.ASSIGNED_TO_REVIEWER;
+            }
+        }
+        setDisclosureReviewStatus(disclosure, reviewStatus);
+        businessObjectService.save(disclosure);
+    }
+
+    public void updateDisclosureReviewStatus(CoiDisclosure coiDisclosure) {
+        businessObjectService.save(coiDisclosure);
+        coiDisclosure.refreshReferenceObject("coiReviewStatus");
+    }
+    
 }

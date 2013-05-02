@@ -22,6 +22,11 @@
 
 <jsp:useBean id="paramMap" class="java.util.HashMap"/>
  
+	<div class="tab-container" align="center">
+		<h3> 
+			<span class="subhead-left">Approval Action</span>
+            <span class="subhead-right"><kul:help parameterNamespace="KC-COIDISCLOSURE" parameterDetailType="Document" parameterName="coiAdministratorActionHelp" altText="help"/></span>
+ 		</h3>
         <table class="tab" cellpadding="0" cellspacing="0" summary=""> 
             <tbody>
                 <tr>               
@@ -68,5 +73,5 @@
                 </tr>
             </tbody>
         </table>
-   
+   </div>
 

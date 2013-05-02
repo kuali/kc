@@ -34,6 +34,7 @@
             <list>
                 <ref bean="CoiReviewStatus-reviewStatusCode" />
                 <ref bean="CoiReviewStatus-description" />
+                <ref bean="CoiReviewStatus-statusUpdatedOnlyByAction" />
                 <ref bean="CoiReviewStatus-versionNumber" />
             </list>
         </property>
@@ -74,6 +75,20 @@
         <property name="description" value="Description" />
     </bean>
 
+    <bean id="CoiReviewStatus-statusUpdatedOnlyByAction" parent="CoiReviewStatus-statusUpdatedOnlyByAction-parentBean" />
+    <bean id="CoiReviewStatus-statusUpdatedOnlyByAction-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="statusUpdatedOnlyByAction" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Status Updated only through Action" />
+        <property name="shortLabel" value="Status Updated only through Action" />
+        <property name="maxLength" value="1" />
+        <property name="control" >
+          <bean parent="CheckboxControlDefinition" />
+        </property>
+        <property name="summary" value="Status Updated only through Action" />
+        <property name="description" value="Status Updated only through Action" />
+    </bean>
+
     <bean id="CoiReviewStatus-versionNumber" parent="CoiReviewStatus-versionNumber-parentBean" />
     <bean id="CoiReviewStatus-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
     </bean>
@@ -94,6 +109,8 @@
                                 p:forceInquiry="true" />
                             <bean parent="FieldDefinition"
                                 p:attributeName="description" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="statusUpdatedOnlyByAction" />
                         </list>
                     </property>
                 </bean>
@@ -126,6 +143,8 @@
                     p:forceInquiry="true" />
                 <bean parent="FieldDefinition"
                     p:attributeName="description" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="statusUpdatedOnlyByAction" />
             </list>
         </property>
     </bean>

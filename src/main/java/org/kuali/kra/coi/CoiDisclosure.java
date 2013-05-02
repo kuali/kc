@@ -397,6 +397,7 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
         // is pending equivalent to in progress?
         this.setDisclosureDispositionCode(CoiDispositionStatus.IN_PROGRESS);
         this.setDisclosureStatusCode(CoiDisclosureStatus.IN_PROGRESS);
+        this.setReviewStatusCode(CoiReviewStatus.IN_PROGRESS);
         this.setPersonId(this.getDisclosureReporter().getPersonId());
         initCoiDisclosureNumber();
         this.setExpirationDate(new Date(DateUtils.addDays(new Date(System.currentTimeMillis()), 365).getTime()));
@@ -959,6 +960,9 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
     }
 
     public CoiReviewStatus getCoiReviewStatus() {
+        if (StringUtils.isNotEmpty(reviewStatusCode) && coiReviewStatus == null) {
+            this.refreshReferenceObject("coiReviewStatus");
+        }
         return coiReviewStatus;
     }
 

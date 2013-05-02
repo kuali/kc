@@ -45,6 +45,7 @@ import org.kuali.kra.coi.CoiDisclosureEventType;
 import org.kuali.kra.coi.CoiDisclosureHistory;
 import org.kuali.kra.coi.CoiDisclosureStatus;
 import org.kuali.kra.coi.CoiDispositionStatus;
+import org.kuali.kra.coi.CoiReviewStatus;
 import org.kuali.kra.coi.CoiUserRole;
 import org.kuali.kra.coi.DisclosureReporter;
 import org.kuali.kra.coi.DisclosureReporterUnit;
@@ -1078,7 +1079,6 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         if (CollectionUtils.isNotEmpty(disclosures)) {
             newDisclosure = versioningService.createNewVersion(disclosures.get(0));
             newDisclosure.setCoiDisclProjects(null);
-            //newDisclosure.setCoiDiscDetails(null);
             newDisclosure.setCoiDisclosureAttachments(null);
             newDisclosure.setCoiDisclosureNotepads(null);
             newDisclosure.setCoiUserRoles(new ArrayList<CoiUserRole>());
@@ -1087,6 +1087,8 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
             newDisclosure.setDisclosureDispositionCode(CoiDispositionStatus.IN_PROGRESS);
             newDisclosure.setDisclosureStatusCode(CoiDisclosureStatus.IN_PROGRESS);
             newDisclosure.setExpirationDate(new Date(DateUtils.addDays(new Date(System.currentTimeMillis()), 365).getTime()));
+            newDisclosure.setReviewStatusCode(CoiReviewStatus.IN_PROGRESS);
+            newDisclosure.refreshReferenceObject("coiReviewStatus");
         }
         return newDisclosure;
     }
