@@ -60,7 +60,6 @@ public class DisclosureActionHelper implements Serializable {
     private boolean approveDisclosure;
     private boolean maintainReviewers;
 
-
     public DisclosureActionHelper(CoiDisclosureForm coiDisclosureForm) {
         this.coiDisclosureForm = coiDisclosureForm;
         newCoiUserRole = new CoiUserRole();
@@ -262,6 +261,10 @@ public class DisclosureActionHelper implements Serializable {
     
     public void setKcPersonService(KcPersonService kcPersonService) {
         this.kcPersonService = kcPersonService;
+    }
+
+    public boolean isDisclosureReviewComplete() {
+        return getCoiDisclosureActionService().isDisclosureReviewComplete(coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure().getCoiUserRoles());
     }
 
 }

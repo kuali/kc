@@ -81,4 +81,11 @@ public interface CoiDisclosureActionService {
     
     public void updateDisclosureReviewStatus(CoiDisclosure coiDisclosure);
     
+    /**
+     * This method is to check whether all reviewers have completed their review
+     * @param completeUserRoles
+     * @return
+     */
+    public boolean isDisclosureReviewComplete(List<CoiUserRole> completeUserRoles);
+    
 }
