@@ -16,13 +16,17 @@
 package org.kuali.kra.coi;
 
 import java.sql.Date;
-import java.util.LinkedHashMap;
+import java.sql.Timestamp;
 
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 
 public class CoiUserRole extends KraPersistableBusinessObjectBase {
 
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = 7167435123831925213L;
     private Long coiUserRolesId; 
     private Long coiDisclosureId; 
     private String coiDisclosureNumber;
@@ -31,10 +35,22 @@ public class CoiUserRole extends KraPersistableBusinessObjectBase {
     private String userId;
     private String reviewerCode;
     private Date dateAssigned;
+    private Date dateCompleted;
+    private boolean reviewCompleted;
+    private String coiRecomendedTypeCode;
+    private CoiRecomendedActionType coiRecomendedActionType;
     
     //transient fields used for display purposes
     private transient KcPerson person;
     private transient CoiReviewer coiReviewer;
+    private transient boolean markedToCompleteReview;
+    private boolean editable;
+    private transient String oldCoiRecomendedTypeCode;
+    
+    public CoiUserRole() {
+        setMarkedToCompleteReview(true);
+        setEditable(false);
+    }
     
     public Long getCoiUserRolesId() {
         return coiUserRolesId;
@@ -116,4 +132,81 @@ public class CoiUserRole extends KraPersistableBusinessObjectBase {
         this.dateAssigned = dateAssigned;
     }
 
+    public Date getDateCompleted() {
+        return dateCompleted;
+    }
+
+    public void setDateCompleted(Date dateCompleted) {
+        this.dateCompleted = dateCompleted;
+    }
+
+    public boolean isReviewCompleted() {
+        return reviewCompleted;
+    }
+
+    public void setReviewCompleted(boolean reviewCompleted) {
+        this.reviewCompleted = reviewCompleted;
+    }
+
+    public String getCoiRecomendedTypeCode() {
+        return coiRecomendedTypeCode;
+    }
+
+    public void setCoiRecomendedTypeCode(String coiRecomendedTypeCode) {
+        this.coiRecomendedTypeCode = coiRecomendedTypeCode;
+    }
+
+    public CoiRecomendedActionType getCoiRecomendedActionType() {
+        return coiRecomendedActionType;
+    }
+
+    public void setCoiRecomendedActionType(CoiRecomendedActionType coiRecomendedActionType) {
+        this.coiRecomendedActionType = coiRecomendedActionType;
+    }
+
+    public boolean isMarkedToCompleteReview() {
+        return markedToCompleteReview;
+    }
+
+    public void setMarkedToCompleteReview(boolean markedToCompleteReview) {
+        this.markedToCompleteReview = markedToCompleteReview;
+    }
+    
+    @Override
+    public void setUpdateTimestamp(Timestamp updateTimestamp) {
+        if (updateTimestamp == null || getUpdateTimestamp() == null || isEditable()) {
+            super.setUpdateTimestamp(updateTimestamp);
+        }
+    }
+
+    @Override
+    public void setUpdateUser(String updateUser) {
+        if (updateUser == null || getUpdateUser() == null || isEditable() ) {
+            super.setUpdateUser(updateUser);
+        }
+    }
+
+    public boolean isEditable() {
+        return editable;
+    }
+
+    public void setEditable(boolean editable) {
+        this.editable = editable;
+    }
+
+    @Override
+    public void postUpdate() {
+        super.postUpdate();
+        setEditable(false);
+        setOldCoiRecomendedTypeCode(getCoiRecomendedTypeCode());
+    }
+
+    public String getOldCoiRecomendedTypeCode() {
+        return oldCoiRecomendedTypeCode;
+    }
+
+    public void setOldCoiRecomendedTypeCode(String oldCoiRecomendedTypeCode) {
+        this.oldCoiRecomendedTypeCode = oldCoiRecomendedTypeCode;
+    }
+    
 }

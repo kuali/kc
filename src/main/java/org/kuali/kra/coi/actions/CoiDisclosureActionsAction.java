@@ -72,6 +72,24 @@ public class CoiDisclosureActionsAction extends CoiNoteAndAttachmentAction {
 
         return forward;   
     }
+
+    public ActionForward updateDisclosureReviewStatus(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+    throws Exception {
+        CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) form;
+        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
+        CoiDisclosure coiDisclosure = coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure();
+        getCoiDisclosureActionService().updateDisclosureReviewStatus(coiDisclosure);
+        return forward;
+    }
+    
+    
+    public ActionForward completeReview(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+    throws Exception {
+        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
+        CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) form;
+        getCoiDisclosureActionService().completeCoiReview(coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure());
+        return forward;
+    }
     
     public ActionForward addCoiUserRole(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
@@ -94,11 +112,6 @@ public class CoiDisclosureActionsAction extends CoiNoteAndAttachmentAction {
             coiUserRole.setPerson(coiDisclosureForm.getDisclosureActionHelper().getKcPerson(userName));
             forward = getCoiDisclosureActionService().addCoiUserRole(mapping, form, coiDisclosureDocument.getCoiDisclosure(), coiUserRole);
             coiDisclosureForm.getDisclosureActionHelper().setNewCoiUserRole(new CoiUserRole());
-// moved to action service            
-//            CoiNotificationContext context = new CoiNotificationContext(coiDisclosureDocument.getCoiDisclosure(), 
-//                    CoiActionType.ASSIGN_REVIEWER, "Assign Reviewer", 
-//                    new AssignReviewerNotificationRenderer(coiDisclosureDocument.getCoiDisclosure(), "Assigned"));
-//            forward = this.sendNotification(mapping, forward, coiDisclosureForm, context);
         }
         
         return forward;
@@ -111,12 +124,6 @@ public class CoiDisclosureActionsAction extends CoiNoteAndAttachmentAction {
         CoiDisclosureDocument coiDisclosureDocument = coiDisclosureForm.getCoiDisclosureDocument();
         int index = getSelectedLine(request);
         forward = getCoiDisclosureActionService().deleteCoiUserRole(mapping, form, coiDisclosureDocument.getCoiDisclosure(), index);
-// moved to action service        
-//        CoiNotificationContext context = new CoiNotificationContext(coiDisclosureDocument.getCoiDisclosure(), 
-//                CoiActionType.ASSIGN_REVIEWER, "Assign Reviewer", 
-//                new AssignReviewerNotificationRenderer(coiDisclosureDocument.getCoiDisclosure(), "Removed"));
-//        forward = this.sendNotification(mapping, forward, coiDisclosureForm, context);
-        
         return forward;
     }
     
