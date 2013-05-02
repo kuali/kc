@@ -27,6 +27,7 @@ public class CoiReviewStatus extends KraPersistableBusinessObjectBase {
     private static final long serialVersionUID = -7843513213298067208L;
     private String reviewStatusCode; 
     private String description; 
+    private boolean statusUpdatedOnlyByAction;
     
     public static final String IN_PROGRESS = "1";
     public static final String SUBMITTED_FOR_REVIEW = "2";
@@ -52,6 +53,14 @@ public class CoiReviewStatus extends KraPersistableBusinessObjectBase {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public boolean isStatusUpdatedOnlyByAction() {
+        return statusUpdatedOnlyByAction;
+    }
+
+    public void setStatusUpdatedOnlyByAction(boolean statusUpdatedOnlyByAction) {
+        this.statusUpdatedOnlyByAction = statusUpdatedOnlyByAction;
     }
 
 }

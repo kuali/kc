@@ -15,14 +15,16 @@
  */
 package org.kuali.kra.coi.actions;
 
+import java.util.List;
+
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.CoiDisclosureDocument;
 import org.kuali.kra.coi.CoiDisclosureForm;
-import org.kuali.kra.coi.certification.SubmitDisclosureAction;
 import org.kuali.kra.coi.CoiUserRole;
+import org.kuali.kra.coi.certification.SubmitDisclosureAction;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 
 /**
@@ -73,4 +75,10 @@ public interface CoiDisclosureActionService {
 
     void setStatus(CoiDisclosure coiDisclosure, String coiDispositionCode);
 
+    public void tagUserRolesToCompleteReview(List<CoiUserRole> completeUserRoles);
+    
+    public void completeCoiReview(CoiDisclosure disclosure);
+    
+    public void updateDisclosureReviewStatus(CoiDisclosure coiDisclosure);
+    
 }

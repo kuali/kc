@@ -55,6 +55,8 @@
 				
 			</tr>
 			<c:if test="${modifyPermission}">
+                ${kfunc:registerEditableProperty(KualiForm, "coiNotesAndAttachmentsHelper.newCoiDisclosureNotepad.usageSectionId")}
+                <input type="hidden" name="coiNotesAndAttachmentsHelper.newCoiDisclosureNotepad.usageSectionId" value="${usageSectionId}"/>
 				<c:if test="${addPermission}">
 					<tr>
 	            		<th width="5%" align="center" scope="row"><div align="center">Add:</div></th>
@@ -116,6 +118,7 @@
 	          		</tr>
 				</c:if>
 	        </c:if>
+			<c:set var="notesIndex" value="1"/>
 	        <c:forEach var="coiDisclosureNotepad" items="${KualiForm.document.coiDisclosure.coiDisclosureNotepads}" varStatus="status">
                 <c:if test="${viewRestrictedNotes || !coiDisclosureNotepad.restrictedView}">
 
@@ -134,7 +137,7 @@
 						</c:set>
 		    	    	<tr>
 							<th class="infoline">
-								<c:out value="${status.index+1}" />
+								<c:out value="${notesIndex}" />
 							</th>
 							<td valign="middle"> 
 								<div align="center">
@@ -209,6 +212,7 @@
 								</nobr></div>
 			            	</td>
 			        	</tr>
+						<c:set var="notesIndex" value="${notesIndex+1}"/>
 	                </c:if>          
 		        </c:if> 	         	
 	        </c:forEach> 
