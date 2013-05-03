@@ -41,33 +41,34 @@
         </h3>
         <table id="cost-share-table" cellpadding="0" cellspacing="0" summary="Cost Share">
 			<tr>
-				<th scope="row">&nbsp;</th>
-				<th><kul:htmlAttributeLabel attributeEntry="${institutionalProposalNotesAttributes.createTimestamp}" useShortLabel="true" noColon="true" /></th>
-				<th><kul:htmlAttributeLabel attributeEntry="${institutionalProposalNotesAttributes.updateUser}" useShortLabel="true" noColon="true" /></th>
-				<th align="left"><kul:htmlAttributeLabel attributeEntry="${institutionalProposalNotesAttributes.noteTopic}" useShortLabel="true" noColon="true"/></th>
-				<th align="left"><kul:htmlAttributeLabel attributeEntry="${institutionalProposalNotesAttributes.comments}" useShortLabel="true" noColon="true"/></th>
-				<th><kul:htmlAttributeLabel attributeEntry="${institutionalProposalNotesAttributes.restrictedView}" useShortLabel="true" noColon="true"/></th>
+				<th width="3%" scope="row">&nbsp;</th>
+				<th width="5%"><kul:htmlAttributeLabel attributeEntry="${institutionalProposalNotesAttributes.createTimestamp}" useShortLabel="true" noColon="true" /></th>
+				<th width="10%"><kul:htmlAttributeLabel attributeEntry="${institutionalProposalNotesAttributes.updateUser}" useShortLabel="true" noColon="true" /></th>
+				<th width="15%" align="left"><kul:htmlAttributeLabel attributeEntry="${institutionalProposalNotesAttributes.noteTopic}" useShortLabel="true" noColon="true"/></th>
+                <%-- allow this cell to take up whatever is left over --%>
+ 				<th align="left"><kul:htmlAttributeLabel attributeEntry="${institutionalProposalNotesAttributes.comments}" useShortLabel="true" noColon="true"/></th>
+				<th width="5%"><kul:htmlAttributeLabel attributeEntry="${institutionalProposalNotesAttributes.restrictedView}" useShortLabel="true" noColon="true"/></th>
                 <c:if test="${allowsNoteAttachments eq true}">
-                  <kul:htmlAttributeHeaderCell attributeEntry="${notesAttributes.attachment}" labelFor="attachmentFile" scope="col" align="left"/>
+                  <kul:htmlAttributeHeaderCell width="25%" attributeEntry="${notesAttributes.attachment}" labelFor="attachmentFile" scope="col" align="left"/>
                 </c:if>
-				<th><div align="center">Actions</div></th>
+				<th width="5%"><div align="center">Actions</div></th>
 			</tr>
 			
             <c:if test="${!readOnly}">
 			<tr>
-            	<th width="40" align="center" scope="row"><div align="center">Add:</div></th>
-            	<td width="80" class="infoline">
+            	<th align="center" scope="row"><div align="center">Add:</div></th>
+            	<td class="infoline">
             		&nbsp;           	
             	</td>
-	            <td width="50" class="infoline">
+	            <td class="infoline">
 	              	&nbsp;
 	            </td>
-	            <td width="140" class="infoline">
+	            <td class="infoline">
 	            	<div align="center">
             	    	<kul:htmlControlAttribute property="institutionalProposalNotepadBean.newInstitutionalProposalNotepad.noteTopic" attributeEntry="${institutionalProposalNotesAttributes.noteTopic}"/>
             	  	</div>
 	            </td>
-	            <td width="400" class="infoline">
+	            <td class="infoline">
 	            	<div align="left">
             	    	<kul:htmlControlAttribute property="institutionalProposalNotepadBean.newInstitutionalProposalNotepad.comments" attributeEntry="${institutionalProposalNotesAttributes.comments}"/>
             	  	</div>
@@ -103,7 +104,7 @@
 						<c:out value="${KualiForm.document.institutionalProposal.institutionalProposalNotepads[status.index].createTimestamp}" />
 					</td>
 	                <td valign="middle">
-						<c:out value="${KualiForm.document.institutionalProposal.institutionalProposalNotepads[status.index].createUser}" />
+						<c:out value="${KualiForm.document.institutionalProposal.institutionalProposalNotepads[status.index].createUserName}" />
 	                </td>
 	                <td valign="middle">                	
 						<c:out value="${KualiForm.document.institutionalProposal.institutionalProposalNotepads[status.index].noteTopic}" />  
