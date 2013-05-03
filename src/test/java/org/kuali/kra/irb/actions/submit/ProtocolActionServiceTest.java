@@ -528,10 +528,10 @@ public class ProtocolActionServiceTest extends ProtocolActionServiceTestBase {
         assertTrue(protocolActionService.canPerformAction("305", protocol));
 
         protocol.setProtocolStatusCode("300");
-        assertTrue(protocolActionService.canPerformAction("305", protocol));
+        assertFalse(protocolActionService.canPerformAction("305", protocol));
 
         protocol.setProtocolStatusCode("301");
-        assertTrue(protocolActionService.canPerformAction("305", protocol));
+        assertFalse(protocolActionService.canPerformAction("305", protocol));
 
         protocol.setProtocolStatusCode("302");
         assertTrue(protocolActionService.canPerformAction("305", protocol));
@@ -717,10 +717,10 @@ public class ProtocolActionServiceTest extends ProtocolActionServiceTestBase {
         assertTrue(protocolActionService.canPerformAction("102", protocol));
 
         protocol.setProtocolStatusCode("300");
-        assertTrue(protocolActionService.canPerformAction("102", protocol));
+        assertFalse(protocolActionService.canPerformAction("102", protocol));
 
         protocol.setProtocolStatusCode("301");
-        assertTrue(protocolActionService.canPerformAction("102", protocol));
+        assertFalse(protocolActionService.canPerformAction("102", protocol));
 
         protocol.setProtocolStatusCode("302");
         assertTrue(protocolActionService.canPerformAction("102", protocol));
