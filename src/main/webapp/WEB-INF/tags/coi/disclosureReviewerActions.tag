@@ -23,9 +23,14 @@
 	<div id="workarea">
 </c:if>
 
+
+<c:set var="disclosureAssignedToReviewer" value="${KualiForm.disclosureActionHelper.disclosureAssignedToReviewer}" />
+
 <kul:tabTop tabTitle="Reviewer Actions" defaultOpen="false" tabErrorKey="disclosureActionHelper.newCoiUserRole.*, coiNotesAndAttachmentsHelper.newCoiDisclosureAttachment.*, coiNotesAndAttachmentsHelper.newCoiDisclosureNotepad.*">
 	<kra-coi:coiNotes usageSectionId = "${usageSectionId}"/>
 	<kra-coi:coiAttachments usageSectionId = "${usageSectionId}"/>
-	<kra-coi:completeCoiReviewerAction/>
+    <c:if test="${disclosureAssignedToReviewer}">
+		<kra-coi:completeCoiReviewerAction/>
+    </c:if>
 </kul:tabTop>
 
