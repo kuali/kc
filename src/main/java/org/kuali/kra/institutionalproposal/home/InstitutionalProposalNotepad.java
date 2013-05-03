@@ -25,6 +25,8 @@ import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.InstitutionalProposalAssociate;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.NoteService;
@@ -207,6 +209,11 @@ public class InstitutionalProposalNotepad extends InstitutionalProposalAssociate
         return createUser;
     }
 
+    public String getCreateUserName() {
+        Person tempUser = KraServiceLocator.getService(PersonService.class).getPersonByPrincipalName(this.getCreateUser());
+        return tempUser != null ? tempUser.getName() : this.getCreateUser();
+    }
+    
     public void setCreateUser(String createUser) {
         if (!KRADConstants.SYSTEM_USER.equals(createUser)) {
             this.createUser = StringUtils.substring(createUser, 0, UPDATE_USER_LENGTH);
