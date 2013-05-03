@@ -267,4 +267,8 @@ public class DisclosureActionHelper implements Serializable {
         return getCoiDisclosureActionService().isDisclosureReviewComplete(coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure().getCoiUserRoles());
     }
 
+    public boolean isDisclosureAssignedToReviewer() {
+        return coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure().getCoiUserRoles().size() > 0;
+    }
+
 }
