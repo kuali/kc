@@ -231,48 +231,40 @@ public class SubAwardServiceImpl implements SubAwardService {
      */
     public SubAward getAmountInfo(SubAward subAward) {
 
-        List<SubAwardAmountInfo> subAwardAmountInfoList =
-        subAward.getSubAwardAmountInfoList();
-        List<SubAwardAmountReleased> subAwardAmountReleasedList =
-        subAward.getSubAwardAmountReleasedList();
-        KualiDecimal totalOblicatedAmount = new KualiDecimal(0.00);
+        List<SubAwardAmountInfo> subAwardAmountInfoList = subAward.getSubAwardAmountInfoList();
+        List<SubAwardAmountReleased> subAwardAmountReleasedList = subAward.getSubAwardAmountReleasedList();
+        KualiDecimal totalObligatedAmount = new KualiDecimal(0.00);
         KualiDecimal totalAnticipatedAmount = new KualiDecimal(0.00);
         KualiDecimal totalAmountReleased = new KualiDecimal(0.00);
         if (subAwardAmountInfoList != null) {
-            for (SubAwardAmountInfo subAwardAmountInfo
-            : subAwardAmountInfoList) {
+            for (SubAwardAmountInfo subAwardAmountInfo: subAwardAmountInfoList) {
                 if (subAwardAmountInfo.getObligatedChange() != null) {
-
-                    subAward.setTotalObligatedAmount(totalOblicatedAmount.
-                    add(subAwardAmountInfo.getObligatedChange()));
-                    totalOblicatedAmount = subAward.getTotalObligatedAmount();
+                    subAward.setTotalObligatedAmount(totalObligatedAmount.add(subAwardAmountInfo.getObligatedChange()));
+                    totalObligatedAmount = subAward.getTotalObligatedAmount();
                 }
                 if (subAwardAmountInfo.getAnticipatedChange() != null) {
-                    subAward.setTotalAnticipatedAmount(
-                    totalAnticipatedAmount.add(subAwardAmountInfo.
-                    getAnticipatedChange()));
-                    totalAnticipatedAmount = subAward.
-                    getTotalAnticipatedAmount();
+                    subAward.setTotalAnticipatedAmount(totalAnticipatedAmount.add(subAwardAmountInfo.getAnticipatedChange()));
+                    totalAnticipatedAmount = subAward.getTotalAnticipatedAmount();
                 }
             }
-            for (SubAwardAmountReleased subAwardAmountReleased
-            :subAwardAmountReleasedList) {
+            for (SubAwardAmountReleased subAwardAmountReleased: subAwardAmountReleasedList) {
 
                 if (subAwardAmountReleased.getAmountReleased() != null
                         && !(StringUtils.equals(subAwardAmountReleased.getInvoiceStatus(), DocumentStatus.DISAPPROVED.getCode())
                         || StringUtils.equals(subAwardAmountReleased.getInvoiceStatus(), DocumentStatus.CANCELED.getCode())
                         || StringUtils.equals(subAwardAmountReleased.getInvoiceStatus(), DocumentStatus.RECALLED.getCode()))) {
-                    subAward.setTotalAmountReleased(totalAmountReleased.add(
-                    subAwardAmountReleased.getAmountReleased()));
+                    subAward.setTotalAmountReleased(totalAmountReleased.add(subAwardAmountReleased.getAmountReleased()));
                     totalAmountReleased = subAward.getTotalAmountReleased();
                 }
             }
         }
-        subAward.setTotalObligatedAmount(totalOblicatedAmount);
+        subAward.setTotalObligatedAmount(totalObligatedAmount);
         subAward.setTotalAnticipatedAmount(totalAnticipatedAmount);
         subAward.setTotalAmountReleased(totalAmountReleased);
-        subAward.setTotalAvailableAmount(
-        totalOblicatedAmount.subtract(totalAmountReleased));
+        subAward.setTotalAvailableAmount(totalObligatedAmount.subtract(totalAmountReleased));
+        SubAwardAmountInfo amountInfo = subAward.getSubAwardAmountInfoList().get(subAward.getSubAwardAmountInfoList().size()-1);
+        amountInfo.setAnticipatedAmount(totalAnticipatedAmount);
+        amountInfo.setObligatedAmount(totalObligatedAmount);
 
         return subAward;
     }
