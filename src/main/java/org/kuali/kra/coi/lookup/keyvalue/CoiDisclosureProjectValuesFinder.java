@@ -81,6 +81,7 @@ public class CoiDisclosureProjectValuesFinder extends KeyValuesBase {
         addManualProject(keyLabels, masterDisclosureBean.getManualTravelProjects(), "Manual Travel --");
         addManualProject(keyLabels, masterDisclosureBean.getManualAwardProjects(), "Manual Award --");
         addManualProject(keyLabels, masterDisclosureBean.getManualProposalProjects(), "Manual Proposal --");
+        addManualProject(keyLabels, masterDisclosureBean.getOtherManualProjects(), "Manual Other --");
         addAutomaticProject(keyLabels, masterDisclosureBean.getAwardProjects(), "AWARD --");
         addAutomaticProject(keyLabels, masterDisclosureBean.getProtocolProjects(), "PROTOCOL --");
         addAutomaticProject(keyLabels, masterDisclosureBean.getProposalProjects(), "PROPOSAL --");
