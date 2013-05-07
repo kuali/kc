@@ -236,7 +236,7 @@ public class SubAwardServiceImpl implements SubAwardService {
         KualiDecimal totalObligatedAmount = new KualiDecimal(0.00);
         KualiDecimal totalAnticipatedAmount = new KualiDecimal(0.00);
         KualiDecimal totalAmountReleased = new KualiDecimal(0.00);
-        if (subAwardAmountInfoList != null) {
+        if (subAwardAmountInfoList != null && subAwardAmountInfoList.size() > 0) {
             for (SubAwardAmountInfo subAwardAmountInfo: subAwardAmountInfoList) {
                 if (subAwardAmountInfo.getObligatedChange() != null) {
                     subAward.setTotalObligatedAmount(totalObligatedAmount.add(subAwardAmountInfo.getObligatedChange()));
@@ -257,14 +257,14 @@ public class SubAwardServiceImpl implements SubAwardService {
                     totalAmountReleased = subAward.getTotalAmountReleased();
                 }
             }
+            SubAwardAmountInfo amountInfo = subAward.getSubAwardAmountInfoList().get(subAward.getSubAwardAmountInfoList().size()-1);
+            amountInfo.setAnticipatedAmount(totalAnticipatedAmount);
+            amountInfo.setObligatedAmount(totalObligatedAmount);
         }
         subAward.setTotalObligatedAmount(totalObligatedAmount);
         subAward.setTotalAnticipatedAmount(totalAnticipatedAmount);
         subAward.setTotalAmountReleased(totalAmountReleased);
         subAward.setTotalAvailableAmount(totalObligatedAmount.subtract(totalAmountReleased));
-        SubAwardAmountInfo amountInfo = subAward.getSubAwardAmountInfoList().get(subAward.getSubAwardAmountInfoList().size()-1);
-        amountInfo.setAnticipatedAmount(totalAnticipatedAmount);
-        amountInfo.setObligatedAmount(totalObligatedAmount);
 
         return subAward;
     }
