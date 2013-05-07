@@ -174,20 +174,20 @@ public class MasterDisclosureBean implements Serializable {
                 coiDisclosureProjectBean.setExcludeFE(isEventExcludFE(CoiDisclosureEventType.MANUAL_IACUC_PROTOCOL));
                 break;
             default:
+                // create temp string to pass other values
                 getOtherManualProjects().add(coiDisclosureProjectBean);
-                coiDisclosureProjectBean.setExcludeFE(isEventExcludFE(CoiDisclosureEventType.OTHER));
-
+                coiDisclosureProjectBean.setExcludeFE(isEventExcludFE(""+typeCode));
         }
     }
 
     /*
-     * excluded FE from event.  this is specifically for annual project check
+     * excluded FE from event.  this is specifically for annual project check or manual events
      */
     private boolean isEventExcludFE(String eventTypeCode) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put("eventTypeCode", eventTypeCode);
-        CoiDisclosureEventType CoiDisclosureEventType =  KraServiceLocator.getService(BusinessObjectService.class).findByPrimaryKey(CoiDisclosureEventType.class, fieldValues);
-        return CoiDisclosureEventType.isExcludeFinancialEntities();
+        CoiDisclosureEventType coiDisclosureEventType =  KraServiceLocator.getService(BusinessObjectService.class).findByPrimaryKey(CoiDisclosureEventType.class, fieldValues);
+        return coiDisclosureEventType == null ? false : coiDisclosureEventType.isExcludeFinancialEntities();
     }
 
     public List<CoiDisclosureProjectBean> getAllProjects() {
