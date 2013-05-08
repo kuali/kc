@@ -544,7 +544,7 @@ public abstract class ProtocolHelperBase implements Serializable {
         Contactable pi = null;
         if(StringUtils.isNotBlank(piId)) {
             if(!nonEmployeeFlag) {
-                pi = getPersonService().getKcPersonByPersonId(getProtocol().getPrincipalInvestigatorId());
+                pi = getPersonService().getKcPersonByPersonId(getPrincipalInvestigatorId());
             } else {
                 pi = getRolodexService().getRolodex(Integer.parseInt(piId));
             }
