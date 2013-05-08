@@ -386,16 +386,45 @@ public abstract class CommitteeScheduleMinuteBase<CSM extends CommitteeScheduleM
             super.preUpdate();
         }
     }
+    
+    
+    
+    @SuppressWarnings("unchecked")
+    public CSM getPristineInstance() {
+        CSM retVal = null; 
+        Long primaryKey = this.getCommScheduleMinutesId();
+        if(primaryKey != null) {
+            HashMap<String, String> pkMap = new HashMap<String, String>();
+            pkMap.put("commScheduleMinutesId", primaryKey.toString());
+            retVal = (CSM) KraServiceLocator.getService(BusinessObjectService.class).findByPrimaryKey(this.getClass(), pkMap);
+        }
+        return retVal;
+    }
+    
+    /**
+     * This method returns true if this BO instance's minuteEntry text or the private or final flag values or the protocol values 
+     * have been updated by the user. It checks these fields by comparing this instance against the pristine instance of this BO obtained 
+     * from the database. This method will return false if the schedule id (primary key) is null or if the pristine instance of this BO 
+     * cannot be loaded from DB for whatever reason.
+     */
+    @SuppressWarnings("unchecked")
+    public boolean isUpdateUserToBeRecorded(CSM pristineInstance) {
+        boolean retVal = false;
+        if ((pristineInstance != null) && 
+             (!StringUtils.equals(minuteEntry, pristineInstance.getMinuteEntry()) 
+               || privateCommentFlag != pristineInstance.getPrivateCommentFlag() 
+               || finalFlag != pristineInstance.isFinalFlag() 
+               || isProtocolFieldChanged(pristineInstance)) ) {
+                retVal = true;
+        }
+        return retVal;
+    }
 
     private boolean setUpdateIfModified() {
         boolean result = false;
         String updateUser = GlobalVariables.getUserSession().getPrincipalName();
         if (getCommScheduleMinutesId() != null) {
-            HashMap<String, String> pkMap = new HashMap<String, String>();
-            pkMap.put("commScheduleMinutesId", getCommScheduleMinutesId().toString());
-            CSM committeeScheduleMinute = (CSM) KraServiceLocator.getService(BusinessObjectService.class).findByPrimaryKey(this.getClass(), pkMap);
-            //            if (!updateUser.equals(committeeScheduleMinute.getUpdateUser())) {  
-            if (!StringUtils.equals(getMinuteEntry(), committeeScheduleMinute.getMinuteEntry()) || privateCommentFlag != committeeScheduleMinute.getPrivateCommentFlag() || finalFlag != committeeScheduleMinute.isFinalFlag() || isProtocolFieldChanged(committeeScheduleMinute)) {
+            if (isUpdateUserToBeRecorded(this.getPristineInstance())) {
                 this.setUpdateUser(updateUser);
                 result = true;
             }

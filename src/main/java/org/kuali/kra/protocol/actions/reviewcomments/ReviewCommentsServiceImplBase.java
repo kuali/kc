@@ -428,16 +428,21 @@ public abstract class ReviewCommentsServiceImplBase<PRA extends ProtocolReviewAt
         reviewComments.clear();
     }
 
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     public void saveReviewComments(List<CommitteeScheduleMinuteBase> reviewComments, List<CommitteeScheduleMinuteBase> deletedReviewComments) {
         for (CommitteeScheduleMinuteBase reviewComment : reviewComments) {
             boolean doUpdate = true;
             if (reviewComment.getCommScheduleMinutesId() != null) {
-                CommitteeScheduleMinuteBase existing = committeeScheduleService.getCommitteeScheduleMinute(reviewComment.getCommScheduleMinutesId());
-                if (!StringUtils.equals(reviewComment.getMinuteEntry(), existing.getMinuteEntry())) {
-                   doUpdate = true; 
-                   KcPerson kcPerson = KraServiceLocator.getService(KcPersonService.class).getKcPersonByPersonId(GlobalVariables.getUserSession().getPerson().getPrincipalId());
-                   reviewComment.setUpdateUserFullName(kcPerson.getFullName());
-                } else {
+                CommitteeScheduleMinuteBase pristineInstance = reviewComment.getPristineInstance();
+                if((pristineInstance != null) && (!reviewComment.equals(pristineInstance))) {
+                    doUpdate = true;
+                    // we update the user name only if certain important fields have changed
+                    if (reviewComment.isUpdateUserToBeRecorded(pristineInstance)) {                            
+                        KcPerson kcPerson = KraServiceLocator.getService(KcPersonService.class).getKcPersonByPersonId(GlobalVariables.getUserSession().getPerson().getPrincipalId());
+                        reviewComment.setUpdateUserFullName(kcPerson.getFullName());
+                    }
+                }
+                else {
                    doUpdate = false;
                 }
             }
