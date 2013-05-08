@@ -19,20 +19,71 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.drools.core.util.StringUtils;
 import org.kuali.kra.coi.CoiDisclosure;
+import org.kuali.kra.coi.auth.CoiDisclosureTask;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.TaskName;
+import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class CoiSubmittedDisclosureLookupableHelper extends CoiDisclosureLookupableHelperBase {
+    
+    //field name
+    private static final String LEAD_UNIT = "leadUnitNumber";
+    
+    
+    private TaskAuthorizationService taskAuthorizationService;
+
 
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         List<CoiDisclosure> allDisclosures = (List<CoiDisclosure>) super.getResults(fieldValues);
         List<CoiDisclosure> submittedDisclosures = new ArrayList<CoiDisclosure>();
 
         for (CoiDisclosure disclosure : allDisclosures) {
-            if (disclosure.isSubmitted()) {
+            if (disclosure.isSubmitted() && this.disclosureCanBeDisplayed(disclosure, fieldValues)) {
                 submittedDisclosures.add(disclosure);
             }
         }
         return submittedDisclosures;
     }
+    
+    /**
+     * This method determines whether the disclosure can be viewed by the current user.
+     * Researchers should only see their own disclosures.  COI Admin should have unrestricted access.
+     * @param rawDisclosure
+     * @param fieldValues
+     * @return true when current user is allowed to view the disclosure; false otherwise
+     */
+    private boolean disclosureCanBeDisplayed(CoiDisclosure rawDisclosure, Map<String, String> fieldValues) {
+        boolean displayDisclosure = false;
+        String researcherLeadUnit = fieldValues.get(LEAD_UNIT);
+        if (rawDisclosure.getCoiDisclosureDocument() != null) {
+            CoiDisclosureTask task = new CoiDisclosureTask(TaskName.VIEW_COI_DISCLOSURE, rawDisclosure);
+            if (getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task) && 
+                (StringUtils.isEmpty(researcherLeadUnit) || researcherLeadUnit.equals(rawDisclosure.getLeadUnitNumber()))) {
+                
+                displayDisclosure = true;
+            }
+        }        
+        return displayDisclosure;
+    }
+
+    /**
+     * This method gets the principalId for the current user.
+     * @return principalId
+     */
+    protected String getUserIdentifier() {
+        return GlobalVariables.getUserSession().getPrincipalId();
+    }
+    
+
+    private TaskAuthorizationService getTaskAuthorizationService() {
+        if (taskAuthorizationService == null) {
+            taskAuthorizationService = KraServiceLocator.getService(TaskAuthorizationService.class);
+        }
+        return taskAuthorizationService;
+    }
+    
 }
