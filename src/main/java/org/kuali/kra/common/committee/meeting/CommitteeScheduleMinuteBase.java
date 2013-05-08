@@ -389,6 +389,11 @@ public abstract class CommitteeScheduleMinuteBase<CSM extends CommitteeScheduleM
     
     
     
+    /**
+     * This method will try to obtain the pristine instance of this BO from the database using the schedule id as the primary key value.
+     * It will return null if the schedule id is null or if the pristine instance cannot be loaded from the DB for whatever reason.
+     * @return
+     */
     @SuppressWarnings("unchecked")
     public CSM getPristineInstance() {
         CSM retVal = null; 
@@ -403,17 +408,17 @@ public abstract class CommitteeScheduleMinuteBase<CSM extends CommitteeScheduleM
     
     /**
      * This method returns true if this BO instance's minuteEntry text or the private or final flag values or the protocol values 
-     * have been updated by the user. It checks these fields by comparing this instance against the pristine instance of this BO obtained 
-     * from the database. This method will return false if the schedule id (primary key) is null or if the pristine instance of this BO 
-     * cannot be loaded from DB for whatever reason.
+     * have been updated by the user. It checks these fields by comparing this instance against the supplied pristine instance of this BO.
+     * This method will return false if the supplied pristineInstance argument is null, or if its schedule id (primary key) is different
+     * from this instance's schedule id.
      */
-    @SuppressWarnings("unchecked")
     public boolean isUpdateUserToBeRecorded(CSM pristineInstance) {
         boolean retVal = false;
-        if ((pristineInstance != null) && 
-             (!StringUtils.equals(minuteEntry, pristineInstance.getMinuteEntry()) 
-               || privateCommentFlag != pristineInstance.getPrivateCommentFlag() 
-               || finalFlag != pristineInstance.isFinalFlag() 
+        if ( (pristineInstance != null) && (this.getCommScheduleMinutesId().equals(pristineInstance.getCommScheduleMinutesId())) 
+                &&
+             (!StringUtils.equals(this.getMinuteEntry(), pristineInstance.getMinuteEntry()) 
+               || this.getPrivateCommentFlag() != pristineInstance.getPrivateCommentFlag() 
+               || this.isFinalFlag() != pristineInstance.isFinalFlag() 
                || isProtocolFieldChanged(pristineInstance)) ) {
                 retVal = true;
         }
@@ -545,15 +550,7 @@ public abstract class CommitteeScheduleMinuteBase<CSM extends CommitteeScheduleM
     }
 
     
-    protected abstract boolean isAdministrator(String principalId);
-    
-// TODO *********commented the code below during IACUC refactoring*********     
-//    private boolean isAdministrator(String principalId) {
-//        RoleService roleService = KraServiceLocator.getService(RoleService.class);
-//        Collection<String> ids = roleService.getRoleMemberPrincipalIds(RoleConstants.DEPARTMENT_ROLE_TYPE, RoleConstants.IRB_ADMINISTRATOR, null);
-//        return ids.contains(principalId);
-//    }
-    
+    protected abstract boolean isAdministrator(String principalId);    
     
 
     public CSM getCopy() {
