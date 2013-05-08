@@ -808,6 +808,10 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
         this.currentDisclosure = currentDisclosure;
     }
 
+    public boolean isOpenForNotesAndAttachments() {
+        return !isApprovedDisclosure() && !isDisapprovedDisclosure();
+    }
+    
     public boolean isApprovedDisclosure() {
         return StringUtils.equals(CoiDisclosureStatus.APPROVED, getDisclosureStatusCode());
     }
