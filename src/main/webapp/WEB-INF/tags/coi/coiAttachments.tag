@@ -30,6 +30,7 @@
 <c:set var="tabItemCount" value="0" />
 <c:set var="canDeleteUpdateAttachments" value="${attachmentHelper.canDeleteUpdateAttachment}" />
 <c:set var="canAddAttachment" value="${attachmentHelper.canAddAttachment}" />
+<c:set var="openForNotesAndAttachments" value="${KualiForm.document.coiDisclosureList[0].openForNotesAndAttachments}"/>
 
 <c:forEach var="coiDisclosureAttachment" items="${KualiForm.document.coiDisclosure.coiDisclosureAttachments}" varStatus="status">
     <c:set var="listUsageSectionId" value="${coiDisclosureAttachment.usageSectionId}" />
@@ -39,7 +40,9 @@
 </c:forEach>
 
 <div class="tab-container" align="center">
-    <kra:permission value="${canAddAttachment}">
+    <%-- Note: we are overriding the readOnly parm passed into the control attributes in this section.  Since the entire
+         disclosure may not be open for editing, the readOnly prevents any of the control attributes from being editable. --%>
+    <kra:permission value="${canAddAttachment && openForNotesAndAttachments}">
         ${kfunc:registerEditableProperty(KualiForm, "coiNotesAndAttachmentsHelper.newCoiDisclosureAttachment.usageSectionId")}
         <input type="hidden" name="coiNotesAndAttachmentsHelper.newCoiDisclosureAttachment.usageSectionId" value="${usageSectionId}"/>
         <h3>
@@ -50,13 +53,13 @@
             <tr>
                 <th>
                     <div align="right">
-                        <kul:htmlAttributeLabel attributeEntry="${attributes.typeCode}" noColon="false"/>
+                        <kul:htmlAttributeLabel attributeEntry="${attributes.typeCode}" readOnly="false" noColon="false"/>
                     </div>
                 </th>
                 <td align="left" valign="middle">
                     <div align="left">
                         <kul:htmlControlAttribute property="coiNotesAndAttachmentsHelper.newCoiDisclosureAttachment.typeCode" 
-                                                  attributeEntry="${attributes.typeCode}" readOnly="${!modify}" />
+                                                  attributeEntry="${attributes.typeCode}" readOnly="false" />
                     </div>
                 </td>
                 <td colspan="4">
@@ -71,7 +74,7 @@
                 </th>
                 <td align="left" valign="middle">
                     <div align="left">
-                        <kul:htmlControlAttribute property="coiNotesAndAttachmentsHelper.newCoiDisclosureAttachment.contactName" attributeEntry="${attributes.contactName}" readOnly="${!modify}"/>
+                        <kul:htmlControlAttribute property="coiNotesAndAttachmentsHelper.newCoiDisclosureAttachment.contactName" attributeEntry="${attributes.contactName}" readOnly="false" />
                     </div>
                 </td>
 
@@ -83,7 +86,7 @@
                 <td>
                     <c:choose>
                         <c:when test="${attachmentHelper.newCoiDisclosureAttachment.projectId == null}">
-                            <html:select property="coiNotesAndAttachmentsHelper.newCoiDisclosureAttachment.projectId" tabindex="0" style="width:180px" disabled="${!modify}">
+                            <html:select property="coiNotesAndAttachmentsHelper.newCoiDisclosureAttachment.projectId" tabindex="0" style="width:180px" >
                                 <c:forEach items="${krafn:getOptionList('org.kuali.kra.coi.lookup.keyvalue.CoiDisclosureProjectValuesFinder', paramMap1)}" var="option">
                                     <c:choose>
                                         <c:when test="${coiNotesAndAttachmentsHelper.newCoiDisclosureAttachment.projectId == option.key}">
@@ -110,7 +113,7 @@
                     <div align="right"><kul:htmlAttributeLabel attributeEntry="${attributes.financialEntityId}" noColon="false" /></div>
                 </th>
                 <td>                                            
-                    <kul:htmlControlAttribute property="coiNotesAndAttachmentsHelper.newCoiDisclosureAttachment.financialEntityId" attributeEntry="${attributes.financialEntityId}" readOnly="${!modify}"/>                                              
+                    <kul:htmlControlAttribute property="coiNotesAndAttachmentsHelper.newCoiDisclosureAttachment.financialEntityId" attributeEntry="${attributes.financialEntityId}" readOnly="false" />                                              
                 </td>
                         
             </tr>
@@ -131,7 +134,7 @@
                     </div>
                 </th>
                 <td align="left" valign="middle" colspan="3">
-                    <kul:htmlControlAttribute property="coiNotesAndAttachmentsHelper.newCoiDisclosureAttachment.contactEmailAddress" attributeEntry="${attributes.contactEmailAddress}" readOnly="${!modify}" />
+                    <kul:htmlControlAttribute property="coiNotesAndAttachmentsHelper.newCoiDisclosureAttachment.contactEmailAddress" attributeEntry="${attributes.contactEmailAddress}" readOnly="false" />
                     <div align="left">
                     </div>
                 </td>
@@ -154,7 +157,7 @@
                 </th>
                 <td align="left" valign="middle" colspan="3">
                     <div align="left">
-                        <kul:htmlControlAttribute property="coiNotesAndAttachmentsHelper.newCoiDisclosureAttachment.contactPhoneNumber" attributeEntry="${attributes.contactPhoneNumber}" readOnly="${!modify}"/>
+                        <kul:htmlControlAttribute property="coiNotesAndAttachmentsHelper.newCoiDisclosureAttachment.contactPhoneNumber" attributeEntry="${attributes.contactPhoneNumber}" readOnly="false" />
                     </div>
                 </td>
             </tr>
@@ -166,22 +169,22 @@
                 </th>
                 <td align="left" valign="middle">
                     <div align="left">
-                        <kul:htmlControlAttribute property="coiNotesAndAttachmentsHelper.newCoiDisclosureAttachment.comments" attributeEntry="${attributes.comments}" readOnly="${!modify}"/>
+                        <kul:htmlControlAttribute property="coiNotesAndAttachmentsHelper.newCoiDisclosureAttachment.comments" attributeEntry="${attributes.comments}" readOnly="false" />
                     </div>
                 </td>
                 <th>
                     <div align="right">
-                        <kul:htmlAttributeLabel attributeEntry="${attributes.description}" noColon="false" />
+                        <kul:htmlAttributeLabel attributeEntry="${attributes.description}" readOnly="false" noColon="false" />
                     </div>
                 </th>
                 <td align="left" valign="middle" colspan="3">
-                    <kul:htmlControlAttribute property="coiNotesAndAttachmentsHelper.newCoiDisclosureAttachment.description" attributeEntry="${attributes.description}" readOnly="${!modify}"/>                       
+                    <kul:htmlControlAttribute property="coiNotesAndAttachmentsHelper.newCoiDisclosureAttachment.description" attributeEntry="${attributes.description}" readOnly="false" />                       
                 </td>
             </tr>
             <tr>
                 <th>
                     <div align="right">
-                        <kul:htmlAttributeLabel attributeEntry="${attachmentFileAttributes['name']}" noColon="false" />
+                        <kul:htmlAttributeLabel attributeEntry="${attachmentFileAttributes['name']}" readOnly="false" noColon="false" />
                     </div>
                 </th>
                 <td align="left" valign="middle" colspan="5">
@@ -286,7 +289,7 @@
                                         <tr>
                                             <th>
                                                 <div align="right">
-                                                    <kul:htmlAttributeLabel attributeEntry="${attributes.typeCode}" noColon="false"/>
+                                                    <kul:htmlAttributeLabel attributeEntry="${attributes.typeCode}" readOnly="false" noColon="false"/>
                                                 </div>
                                             </th>
                                             <td align="left" valign="middle">
@@ -395,7 +398,7 @@
                                             </td>
                                             <th>
                                                 <div align="right">
-                                                    <kul:htmlAttributeLabel attributeEntry="${attributes.description}" noColon="false"/>
+                                                    <kul:htmlAttributeLabel attributeEntry="${attributes.description}" readOnly="false" noColon="false"/>
                                                 </div>
                                             </th>
                                             <td align="left" valign="middle" colspan="3">
@@ -407,7 +410,7 @@
                                         <tr>
                                             <th>
                                                 <div align="right">
-                                                    <kul:htmlAttributeLabel attributeEntry="${attachmentFileAttributes['name']}" noColon="false" />
+                                                    <kul:htmlAttributeLabel attributeEntry="${attachmentFileAttributes['name']}" readOnly="false" noColon="false" />
                                                 </div>
                                             </th>
                                             <td align="left" valign="middle" colspan="5"> 

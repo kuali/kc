@@ -27,6 +27,7 @@
 <c:set var="disclosureType" value="${KualiForm.document.coiDisclosure}" />
 <c:set var="currentUser" value="${KualiForm.coiNotesAndAttachmentsHelper.currentUser}" />
 <c:set var="isMasterDisclosure" value="${KualiForm.disclosureHelper.isMasterDisclosure}" />
+<c:set var="openForNotesAndAttachments" value="${KualiForm.document.coiDisclosure.openForNotesAndAttachments}"/>
 <c:forEach var="coiDisclosureNotepad" items="${KualiForm.document.coiDisclosure.coiDisclosureNotepads}" varStatus="status">
     <c:if test="${viewRestrictedNotes || !coiDisclosureNotepad.restrictedView}">               
 		<c:set var="listUsageSectionId" value="${coiDisclosureNotepad.usageSectionId}" />
@@ -46,15 +47,17 @@
 				<th scope="row">&nbsp;</th>
 				<th align="left">Created By</th>
 				<th align="left">Updated By</th>
-				<th align="left"><kul:htmlAttributeLabel attributeEntry="${notesAttributes.noteTopic}" useShortLabel="true" noColon="true"/></th>
-				<th align="left"><kul:htmlAttributeLabel attributeEntry="${notesAttributes.comments}" useShortLabel="true" noColon="true"/></th>
+				<th align="left"><kul:htmlAttributeLabel attributeEntry="${notesAttributes.noteTopic}" useShortLabel="true" noColon="true" readOnly="${!openForNotesAndAttachments}"/></th>
+				<th align="left"><kul:htmlAttributeLabel attributeEntry="${notesAttributes.comments}" useShortLabel="true" noColon="true" readOnly="${!openForNotesAndAttachments}"/></th>
 				<th align="left"><kul:htmlAttributeLabel attributeEntry="${notesAttributes.projectId}" useShortLabel="true" noColon="true"/></th>
 				<th align="left"><kul:htmlAttributeLabel attributeEntry="${notesAttributes.financialEntityId}" useShortLabel="true" noColon="true"/></th>
 				<th align="left"><kul:htmlAttributeLabel attributeEntry="${notesAttributes.restrictedView}" useShortLabel="true" noColon="true"/></th>
 				<th align="left"><div align="center">Actions</div></th>
 				
 			</tr>
-			<c:if test="${modifyPermission}">
+            <%-- Note: we are overriding the readOnly parm passed into the control attributes in this section.  Since the entire
+                 disclosure may not be open for editing, the readOnly prevents any of the control attributes from being editable. --%>
+			<c:if test="${addPermission && openForNotesAndAttachments}">
                 ${kfunc:registerEditableProperty(KualiForm, "coiNotesAndAttachmentsHelper.newCoiDisclosureNotepad.usageSectionId")}
                 <input type="hidden" name="coiNotesAndAttachmentsHelper.newCoiDisclosureNotepad.usageSectionId" value="${usageSectionId}"/>
 				<c:if test="${addPermission}">
@@ -68,19 +71,18 @@
 		            	</td>
 				            <td width="12%" class="infoline">
 			            	<div align="center">
-	        	    	    	<kul:htmlControlAttribute property="coiNotesAndAttachmentsHelper.newCoiDisclosureNotepad.noteTopic" attributeEntry="${notesAttributes.noteTopic}" readOnly="${!modifyPermission}" />
+	        	    	    	<kul:htmlControlAttribute property="coiNotesAndAttachmentsHelper.newCoiDisclosureNotepad.noteTopic" attributeEntry="${notesAttributes.noteTopic}" readOnly="false" />
 	            		  	</div>
 		            	</td>
 			            <td class="infoline">
 			            	<div align="left">
-	    	        	    	<kul:htmlControlAttribute property="coiNotesAndAttachmentsHelper.newCoiDisclosureNotepad.comments" attributeEntry="${notesAttributes.comments}" readOnly="${!modifyPermission}"/>
+	    	        	    	<kul:htmlControlAttribute property="coiNotesAndAttachmentsHelper.newCoiDisclosureNotepad.comments" attributeEntry="${notesAttributes.comments}" readOnly="false" />
 	        	    	  	</div>
 		        	    </td>
 			        	<td width="10%">
 				        	<c:choose>
 					        	<c:when test="${attachmentHelper.newCoiDisclosureNotepad.projectId == null}">
-							       	<html:select property="coiNotesAndAttachmentsHelper.newCoiDisclosureNotepad.projectId"
-								        	         style="width:180px" tabindex="0" disabled="${!modifyPermission}">
+							       	<html:select property="coiNotesAndAttachmentsHelper.newCoiDisclosureNotepad.projectId" style="width:180px" tabindex="0">
 									    <c:forEach items="${krafn:getOptionList('org.kuali.kra.coi.lookup.keyvalue.CoiDisclosureProjectValuesFinder', paramMap1)}" var="option">
 									    	<c:choose>
 								        	    <c:when test="${coiNotesAndAttachmentsHelper.newCoiDisclosureNotepad.projectId == option.key}">
@@ -100,12 +102,12 @@
 				            </c:choose>
 			        	</td>
 			        	<td width="10%">
-							<kul:htmlControlAttribute property="coiNotesAndAttachmentsHelper.newCoiDisclosureNotepad.financialEntityId" attributeEntry="${notesAttributes.financialEntityId}" readOnly="${!modifyPermission}" />
+							<kul:htmlControlAttribute property="coiNotesAndAttachmentsHelper.newCoiDisclosureNotepad.financialEntityId" attributeEntry="${notesAttributes.financialEntityId}" readOnly="false" />
 						</td>
 			            <td width="5%" class="infoline">
 			            	<div align="center">
 		    	        			<c:if test="${viewRestrictedNotes}" >            	
-		        	    		   	 <kul:htmlControlAttribute property="coiNotesAndAttachmentsHelper.newCoiDisclosureNotepad.restrictedView" attributeEntry="${notesAttributes.restrictedView}" readOnly="${!modifyPermission || !viewRestrictedNotes}"/>
+		        	    		   	 <kul:htmlControlAttribute property="coiNotesAndAttachmentsHelper.newCoiDisclosureNotepad.restrictedView" attributeEntry="${notesAttributes.restrictedView}" readOnly="false" />
 		            				</c:if>
 		        	    	</div>
 				        </td>
