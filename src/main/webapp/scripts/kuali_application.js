@@ -2748,7 +2748,7 @@ function displayReviewers(protocolId) {
     var scheduleId = dwr.util.getValue('actionHelper.protocolSubmitAction.scheduleId');
     var protocolReviewTypeCode = dwr.util.getValue('actionHelper.protocolSubmitAction.protocolReviewTypeCode');
     
-    // invoke the server method for blank schedule ids only if the review type code is 'expedited' i.e. '2'
+    // we suppress the reviewer display if a committee is not selected, or if a schedule is not selected in case of a non-expedited review type
     if ( ((scheduleId === "") && (protocolReviewTypeCode != '2')) || (committeeId === "") ) {
     	document.getElementById("reviewers").style.display = 'none';
     }
