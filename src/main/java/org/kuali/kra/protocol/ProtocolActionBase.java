@@ -207,6 +207,7 @@ public abstract class ProtocolActionBase extends KraTransactionalDocumentActionB
        // make sure current submission is displayed when navigate to action page.
        protocolForm.getActionHelper().setCurrentSubmissionNumber(-1);
        protocolForm.getActionHelper().prepareView();
+       protocolForm.getActionHelper().prepareCommentsView();
        return branchToPanelOrNotificationEditor(mapping, protocolForm, getProtocolActionsForwardNameHook());
     }
     
