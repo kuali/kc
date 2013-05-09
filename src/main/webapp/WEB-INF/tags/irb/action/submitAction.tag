@@ -61,7 +61,7 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.protocolSubmitAction.n
                         <nobr>
                         <kul:htmlControlAttribute property="actionHelper.protocolSubmitAction.protocolReviewTypeCode" 
                                                   attributeEntry="${attributes.protocolReviewTypeCode}" 
-                                                  onchange="displayReviewers(${KualiForm.document.protocol.protocolId}); updateCheckList('actionHelper.protocolSubmitAction.protocolReviewTypeCode')" />
+                                                  onchange="protocolReviewTypeChanged(${KualiForm.document.protocol.protocolId})" />
                         </nobr>
                     </td>
                 </tr>
@@ -164,7 +164,7 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.protocolSubmitAction.n
 	                    </tr>
                 
                         <c:choose>
-		                    <c:when test="${empty KualiForm.actionHelper.protocolSubmitAction.scheduleId}">
+		                    <c:when test="${KualiForm.actionHelper.reviewersDisplayToBeSuppressed}">
 		                        <tr id="reviewers" style="display: none">
 		                    </c:when>
 		                    <c:otherwise>
@@ -303,8 +303,21 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.protocolSubmitAction.n
         </table>
     </div>
     
-    <script>
-        updateCheckList('actionHelper.protocolSubmitAction.protocolReviewTypeCode');
+    <script>        
+        
+	    function protocolReviewTypeChanged(protocolId) {
+	    	// we will update the review listing only if a committee was chosen but a schedule was not
+	    	if( ($j(jq_escape("actionHelper.protocolSubmitAction.scheduleId")).val() == "") && 
+		    	($j(jq_escape("actionHelper.protocolSubmitAction.committeeId")).val() != "")) {
+	    		displayReviewers(protocolId);
+	    	}
+	    	updateCheckList('actionHelper.protocolSubmitAction.protocolReviewTypeCode');
+		}
+    	
+        $j(document).ready(function() { 
+        	updateCheckList('actionHelper.protocolSubmitAction.protocolReviewTypeCode');
+        });
+        
     </script>
 </kul:innerTab>
 
