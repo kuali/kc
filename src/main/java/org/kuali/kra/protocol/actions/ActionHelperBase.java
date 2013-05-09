@@ -724,6 +724,7 @@ public abstract class ActionHelperBase implements Serializable {
     /**
      * Refreshes the comments for all the beans from the database.  Use sparingly since this will erase non-persisted comments.
      */
+    @SuppressWarnings("unchecked")
     public void prepareCommentsView() {
         
         protocolAdminApprovalBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
@@ -749,20 +750,54 @@ public abstract class ActionHelperBase implements Serializable {
         protocolReturnToPIBean.getReviewCommentsBean().setReviewComments(getCopiedReviewComments());
     }
     
-    protected List<CommitteeScheduleMinuteBase> getCopiedReviewComments() {       
-        List<CommitteeScheduleMinuteBase> clonedMinutes = new ArrayList<CommitteeScheduleMinuteBase>();
+    @SuppressWarnings({ "rawtypes" })
+    protected List<CommitteeScheduleMinuteBase> getCopiedReviewComments() {
+        List<CommitteeScheduleMinuteBase> minutes = getReviewCommentsUsingScheduleOrSubmission();
+        return cloneReviewComments(minutes);        
+    }
+    
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    protected List<CommitteeScheduleMinuteBase> getReviewCommentsUsingScheduleOrSubmission() {
+        List<CommitteeScheduleMinuteBase> minutes;
         Long scheduleIdFk = getProtocol().getProtocolSubmission().getScheduleIdFk();
-        // TODO OPTIMIZATION perhaps the minutes list can be an instance variable and call to the committeeScheduleService need only be made once
-        List<CommitteeScheduleMinuteBase> minutes = getCommitteeScheduleService().getMinutesBySchedule(scheduleIdFk);
+        // if the schedule has not yet been selected, then use the review comment service to get the reviews, 
+        if(scheduleIdFk == null) {
+            int lastSubmissionNumber = getTotalSubmissions();
+            minutes = getReviewerCommentsService().getReviewerComments(getProtocol().getProtocolNumber(), lastSubmissionNumber);
+            // sort the minutes by entry number, so that all review comments beans show the same ordered listing
+            Collections.sort(minutes, new Comparator<CommitteeScheduleMinuteBase>() {
+
+                @Override
+                public int compare(CommitteeScheduleMinuteBase csm1, CommitteeScheduleMinuteBase csm2) {
+                    int retVal = 0;
+                    if( (csm1 != null) && (csm2 != null) && (csm1.getEntryNumber() != null) && (csm2.getEntryNumber() != null) ) {
+                        retVal = csm1.getEntryNumber().compareTo(csm2.getEntryNumber());
+                    }
+                    return retVal;
+                }
+                
+            });
+        }
+        // otherwise just use the committeesSchedule service to get the reviews for the selected schedule
+        else {
+            minutes = getCommitteeScheduleService().getMinutesBySchedule(scheduleIdFk);
+        }
+        return minutes;
+    }
+    
+    @SuppressWarnings("rawtypes")
+    protected List<CommitteeScheduleMinuteBase> cloneReviewComments(List<CommitteeScheduleMinuteBase> minutes) {
+        List<CommitteeScheduleMinuteBase> clonedMinutes = new ArrayList<CommitteeScheduleMinuteBase>();
         if (CollectionUtils.isNotEmpty(minutes)) {
             for (CommitteeScheduleMinuteBase minute : minutes) {
                 clonedMinutes.add(minute.getCopy());
             }
-        }
-        
+        }        
         return clonedMinutes;
     }
+    
        
+    @SuppressWarnings("rawtypes")
     private CommitteeScheduleServiceBase getCommitteeScheduleService() {
         if (committeeScheduleService == null) {
             committeeScheduleService = KraServiceLocator.getService(getCommitteeScheduleServiceClassHook());        
@@ -771,6 +806,7 @@ public abstract class ActionHelperBase implements Serializable {
     }
     
     
+    @SuppressWarnings("rawtypes")
     protected abstract Class<? extends CommitteeScheduleServiceBase> getCommitteeScheduleServiceClassHook();
 
 
