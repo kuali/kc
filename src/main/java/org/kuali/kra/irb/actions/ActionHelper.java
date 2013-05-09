@@ -27,7 +27,6 @@ import java.util.Map;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.CoeusModule;
-import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.committee.service.CommitteeScheduleService;
 import org.kuali.kra.committee.service.CommitteeService;
 import org.kuali.kra.common.committee.service.CommitteeScheduleServiceBase;
@@ -96,7 +95,6 @@ import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.util.DateUtils;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * The form helper class for the Protocol Actions tab.
@@ -1608,4 +1606,16 @@ public class ActionHelper extends ActionHelperBase {
             String actionTypeCode, String submissionNumber, boolean finalDoc) {
         return new IrbSubmissionQuestionnaireHelper(protocol, actionTypeCode, submissionNumber, finalDoc);
     }
+    
+    // we suppress the reviewer display if a committee is not selected, or if a schedule is not selected in case of a non-expedited review type
+    // putting this logic in the helper to avoid creating a verbose JSTL-EL expression in the tag file
+    public boolean isReviewersDisplayToBeSuppressed() {
+        boolean retVal = false;
+        ProtocolSubmitAction submitBean = (ProtocolSubmitAction) this.getProtocolSubmitAction(); 
+        if( (StringUtils.isBlank(submitBean.getScheduleId()) && !(submitBean.isExpeditedProtocolReviewType())) || StringUtils.isBlank(submitBean.getCommitteeId()) ) {
+            retVal = true;
+        }
+        return retVal;
+    }
+    
 }
