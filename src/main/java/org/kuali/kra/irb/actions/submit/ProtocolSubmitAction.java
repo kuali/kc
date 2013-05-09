@@ -294,6 +294,14 @@ public class ProtocolSubmitAction extends ProtocolActionBean implements org.kual
     public void setJavascriptEnabled(boolean javascriptEnabled) {
         this.javascriptEnabled = javascriptEnabled;
     }
+    
+    public boolean isExpeditedProtocolReviewType() {
+        boolean retVal = false;
+        if (ProtocolReviewType.EXPEDITED_REVIEW_TYPE_CODE.equals(getProtocolReviewTypeCode())) {
+            retVal = true;
+        }
+        return retVal;
+    }
 
 
 }
