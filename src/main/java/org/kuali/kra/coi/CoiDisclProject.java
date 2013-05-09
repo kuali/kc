@@ -26,6 +26,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.protocol.IacucProtocolType;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
@@ -75,6 +76,7 @@ public class CoiDisclProject extends KraPersistableBusinessObjectBase implements
     private ProtocolType protocolType;
     private IacucProtocolType iacucProtocolType;
     private Protocol protocol;
+    private IacucProtocol iacucProtocol;
     private DevelopmentProposal proposal;
     private InstitutionalProposal institutionalProposal;
     private Award award;
@@ -412,17 +414,28 @@ public class CoiDisclProject extends KraPersistableBusinessObjectBase implements
         return isManualAwardEvent() || isManualProposalEvent() || isManualProtocolEvent() || isManualIacucProtocolEvent() || isManualTravelEvent();
     }
 
-
-    
     public Protocol getProtocol() {
         if (protocol == null) {
             this.refreshReferenceObject("protocol");
         }
         return protocol;
     }
+    
     public void setProtocol(Protocol protocol) {
         this.protocol = protocol;
     }
+    
+    public IacucProtocol getIacucProtocol() {
+        if (iacucProtocol == null) {
+            this.refreshReferenceObject("iacucProtocol");
+        }
+        return iacucProtocol;
+    }
+    
+    public void setIacucProtocol(IacucProtocol iacucProtocol) {
+        this.iacucProtocol = iacucProtocol;
+    }
+    
     public DevelopmentProposal getProposal() {
         if (proposal == null) {
             this.refreshReferenceObject("proposal");

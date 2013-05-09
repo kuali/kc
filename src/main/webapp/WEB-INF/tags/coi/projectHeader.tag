@@ -75,31 +75,36 @@
 		<c:when test="${disclProject.protocolEvent}">
 			<kra-coi:protocolHeader disclProject="${disclProject}"/>
 		</c:when>		
+		<c:when test="${disclProject.iacucProtocolEvent}">
+			<kra-coi:iacucProtocolHeader disclProject="${disclProject}"/>
+		</c:when>		
 		<c:otherwise>
-	    <table class=tab cellpadding="0" cellspacing="0" summary="">
-	        <tbody>
-	        <%-- Header --%>
-	    <c:forEach var="labelValue" items="${disclProject.headerItems}" varStatus="status">
-	        <c:if test="${(status.index mod 2) == 0}">
-	        <tr>
-	        </c:if>
-	           <th><div align="right">${labelValue.label}:</div></th> 
-	           <td align="left" valign="middle">
-	               <div align="left">
-	                  ${labelValue.value}
-	               </div>
-	         <c:if test="${(status.index mod 2) != 0}">
-	        </tr>
-	        </c:if>
-	    </c:forEach>
-	        <c:if test="${fn:length(disclProject.headerItems) mod 2 != 0}">
-	        <td/>
-	        <td/>
-	        </tr>
-	        </c:if>
-	
-	
-	</table>
-	</c:otherwise>
+	    	<table class=tab cellpadding="0" cellspacing="0" summary="">
+	        	<tbody>
+		        	<%-- Header --%>
+				    <c:forEach var="labelValue" items="${disclProject.headerItems}" varStatus="status">
+		        		<c:if test="${(status.index mod 2) == 0}">
+					        <tr>
+	        			</c:if>
+						<th>
+							<div align="right">
+								${labelValue.label}:
+							</div>
+						</th> 
+	    	       		<td align="left" valign="middle">
+	        	       	<div align="left">
+	            	    	${labelValue.value}
+		            	</div>
+		         		<c:if test="${(status.index mod 2) != 0}">
+		        			</tr>
+	    	    		</c:if>
+	    			</c:forEach>
+	        		<c:if test="${fn:length(disclProject.headerItems) mod 2 != 0}">
+	        			<td/>
+		        		<td/>
+		        		</tr>
+		        	</c:if>
+			</table>
+		</c:otherwise>
 	</c:choose>
 </div>
