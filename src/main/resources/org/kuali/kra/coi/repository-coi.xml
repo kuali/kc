@@ -565,6 +565,9 @@
         <reference-descriptor name="protocol" class-ref="org.kuali.kra.irb.Protocol" auto-retrieve="false" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="coiProjectId"/>
         </reference-descriptor>
+        <reference-descriptor name="iacucProtocol" class-ref="org.kuali.kra.iacuc.IacucProtocol" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="coiProjectId"/>
+        </reference-descriptor>
         <reference-descriptor name="proposal" class-ref="org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal" auto-retrieve="false" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="coiProjectId"/>
         </reference-descriptor>
