@@ -91,8 +91,6 @@
                } else {
         	       $j.getJSON("coiDisclosure.do?methodToCall=getDisclosureEventTypeInfo&eventType=" + eventTypeValue,
         			         function(data) {
-        		                 //alert("JSON data: " + data.useShortTextField1);
-        		                 
         		                 //Project Id and Project Title are always shown and are required
         		                 $j("#newpEvent-table tr:eq(1)").show();
                                  $j("#newpEvent-table tr:eq(1) th:eq(0) span").html("*&nbsp;" + data.disclosureEventType.projectIdLabel + ":");
@@ -265,6 +263,7 @@
 <kul:documentOverview editingMode="${KualiForm.editingMode}" />
 
 <kra-coi:disclosureReporter />
+
 
 <c:if test="${not( (KualiForm.document.coiDisclosureList[0].manualEvent) and (empty KualiForm.document.coiDisclosureList[0].coiDisclProjects) and (not KualiForm.document.coiDisclosureList[0].updateEvent))}" >
   <!--  <c:if test="${not (KualiForm.document.coiDisclosureList[0].annualEvent and KualiForm.document.coiDisclosureList[0].annualUpdate)}" >  -->
