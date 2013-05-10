@@ -38,6 +38,9 @@
 	<c:when test="${disclProject.protocolEvent}">
 		<c:set var="projectId" value="${disclProject.protocol.protocolNumber}"/>
 	</c:when>		
+	<c:when test="${disclProject.iacucProtocolEvent}">
+		<c:set var="projectId" value="${disclProject.iacucProtocol.protocolNumber}"/>
+	</c:when>		
 	<c:otherwise>
 		<c:set var="projectId" value="${disclProject.projectId}"/>
 	</c:otherwise>
