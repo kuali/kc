@@ -304,6 +304,8 @@ public class CoiDisclProject extends KraPersistableBusinessObjectBase implements
             description = "Protocol";
         } else if (isIacucProtocolEvent() || isManualIacucProtocolEvent()) {
             description = "IACUC Protocol";
+        } else if (isManualTravelEvent()) {
+            description = "Travel";
         }
         return description;
 
