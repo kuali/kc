@@ -17,7 +17,7 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <kul:documentPage
 	showDocumentInfo="true"
-	htmlFormAction="coiDisclosure"
+	htmlFormAction="coiMasterDisclosure"
 	documentTypeName="CoiDisclosureDocument"
 	renderMultipart="true"
 	showTabButtons="true"

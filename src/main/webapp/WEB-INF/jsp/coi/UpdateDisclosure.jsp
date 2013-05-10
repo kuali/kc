@@ -18,7 +18,7 @@
 
 <kul:documentPage
     showDocumentInfo="true"
-    htmlFormAction="coiDisclosure"
+    htmlFormAction="coiUpdateDisclosure"
     documentTypeName="CoiDisclosureDocument"
     renderMultipart="true"
     showTabButtons="true"

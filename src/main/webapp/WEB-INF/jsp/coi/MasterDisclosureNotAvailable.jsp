@@ -18,7 +18,7 @@
 
 <kul:documentPage
 	showDocumentInfo="true"
-	htmlFormAction="coiDisclosure"
+	htmlFormAction="coiMasterDisclosureNotAvailable"
 	documentTypeName="CoiDisclosureDocument"
 	renderMultipart="false"
 	showTabButtons="true"
@@ -29,7 +29,6 @@
         <script type="text/javascript">
             var $j = jQuery.noConflict();
         	$j(document).ready(function() {
-        //	alert($j("#workarea table:first").length);
         	   $j("#workarea table:first").hide();
         	   $j("#tab-DocumentOverview-div").hide();
         	
