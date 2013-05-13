@@ -251,6 +251,7 @@
 		<field-descriptor name="proposalNumber" column="PROPOSAL_NUMBER" jdbc-type="VARCHAR" />
 		<field-descriptor name="sequenceNumber" column="SEQUENCE_NUMBER" jdbc-type="INTEGER" />
 		<field-descriptor name="proposalTypeCode" column="PROPOSAL_TYPE_CODE" jdbc-type="INTEGER" />
+		<field-descriptor name="statusCode" column="STATUS_CODE" jdbc-type="INTEGER" />
 		<field-descriptor name="title" column="TITLE" jdbc-type="VARCHAR" />
 		<field-descriptor name="sponsorCode" column="SPONSOR_CODE" jdbc-type="VARCHAR" />
 		<field-descriptor name="activityTypeCode" column="ACTIVITY_TYPE_CODE" jdbc-type="VARCHAR" />
