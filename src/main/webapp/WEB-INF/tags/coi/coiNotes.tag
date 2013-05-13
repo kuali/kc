@@ -49,6 +49,7 @@
 				<th align="left">Updated By</th>
 				<th align="left"><kul:htmlAttributeLabel attributeEntry="${notesAttributes.noteTopic}" useShortLabel="true" noColon="true" readOnly="${!openForNotesAndAttachments}"/></th>
 				<th align="left"><kul:htmlAttributeLabel attributeEntry="${notesAttributes.comments}" useShortLabel="true" noColon="true" readOnly="${!openForNotesAndAttachments}"/></th>
+                <th align="left"><kul:htmlAttributeLabel attributeEntry="${notesAttributes.noteTypeCode}" useShortLabel="true" noColon="true"/></th>				
 				<th align="left"><kul:htmlAttributeLabel attributeEntry="${notesAttributes.projectId}" useShortLabel="true" noColon="true"/></th>
 				<th align="left"><kul:htmlAttributeLabel attributeEntry="${notesAttributes.financialEntityId}" useShortLabel="true" noColon="true"/></th>
 				<th align="left"><kul:htmlAttributeLabel attributeEntry="${notesAttributes.restrictedView}" useShortLabel="true" noColon="true"/></th>
@@ -79,6 +80,11 @@
 	    	        	    	<kul:htmlControlAttribute property="coiNotesAndAttachmentsHelper.newCoiDisclosureNotepad.comments" attributeEntry="${notesAttributes.comments}" readOnly="false" />
 	        	    	  	</div>
 		        	    </td>
+		        	    <td width="12%" class="infoline">
+                            <div align="center">
+                                <kul:htmlControlAttribute property="coiNotesAndAttachmentsHelper.newCoiDisclosureNotepad.noteTypeCode" attributeEntry="${notesAttributes.noteTypeCode}" readOnly="${!modifyPermission}" />
+                            </div>
+                        </td>
 			        	<td width="10%">
 				        	<c:choose>
 					        	<c:when test="${attachmentHelper.newCoiDisclosureNotepad.projectId == null}">
@@ -165,6 +171,11 @@
 									<kul:htmlControlAttribute property="document.coiDisclosure.coiDisclosureNotepads[${status.index}].comments" attributeEntry="${notesAttributes.comments}" readOnly="${noteReadOnly}" />
 								</div>
 							</td>
+							<td valign="middle">    
+                                <div align="left">
+                                    <kul:htmlControlAttribute property="document.coiDisclosure.coiDisclosureNotepads[${statusIndex}].noteTypeCode" attributeEntry="${notesAttributes.noteTypeCode}" readOnly="${noteReadOnly}" />
+                                </div>
+                            </td>
 							<td valign="middle">
 								<div align="left">
 					                <c:choose>
