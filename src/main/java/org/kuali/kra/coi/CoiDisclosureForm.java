@@ -204,7 +204,8 @@ public class CoiDisclosureForm extends KraTransactionalDocumentFormBase implemen
         // document status - review status
         CoiDisclosureStatus status = disclosure.getCoiDisclosureStatus();
         String disclosureStatus = status != null ? status.getDescription() : "NEW";
-        String reviewStatus = disclosure.getCoiReviewStatus().getDescription();
+        
+        String reviewStatus = disclosure.getCoiReviewStatus() != null ? disclosure.getCoiReviewStatus().getDescription() : "";
         String disclosureAndReviewStatus = disclosureStatus + " : " + reviewStatus;
         HeaderField headerStatus = new HeaderField("DataDictionary.CoiDisclosure.attributes.disclosureStatusReviewStatus", disclosureAndReviewStatus);
         newDocInfo.add(headerStatus);
