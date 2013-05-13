@@ -48,11 +48,29 @@
 				<ref bean="CoiDisclosureNotepad-financialEntityId" />
 				<ref bean="CoiDisclosureNotepad-createUser" />
 				<ref bean="CoiDisclosureNotepad-createTimestamp" />
+				<ref bean="CoiDisclosureNotepad-noteTypeCode" />
             </list>
         </property>
     </bean>
 
     <!-- Attribute Definitions -->
+    <bean id="CoiDisclosureNotepad-noteTypeCode" parent="CoiDisclosureNotepad-noteTypeCode-parentBean" />
+    <bean id="CoiDisclosureNotepad-noteTypeCode-parentBean" abstract="true" parent="AttributeDefinition" >
+    <property name="name" value="noteTypeCode" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Note Type" />
+        <property name="shortLabel" value="Note Type" />
+        <property name="maxLength" value="20" />
+        <property name="validationPattern" >
+            <bean parent="NumericValidationPattern" />
+        </property>
+        <property name="control" >
+            <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kra.coi.lookup.keyvalue.CoiNoteTypeValuesFinder" />
+        </property>
+        <property name="summary" value="Note Type" />
+        <property name="description" value="Note Type" />
+    </bean>
     
   <bean id="CoiDisclosureNotepad-financialEntityId" parent="CoiDisclosureNotepad-financialEntityId-parentBean" />
 	<bean id="CoiDisclosureNotepad-financialEntityId-parentBean" abstract="true" parent="AttributeDefinition" >
