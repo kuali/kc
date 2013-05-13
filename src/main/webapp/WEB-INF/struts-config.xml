@@ -645,12 +645,12 @@
           <forward name="updateDisclosure" path="/WEB-INF/jsp/coi/UpdateDisclosure.jsp" />
           &coi_forwards;
        </action>
-       <action path="/coiDisclosureActions" name="CoiDisclosureForm" input="/WEB-INF/jsp/coi/CoiDisclosure.jsp" type="org.kuali.kra.coi.actions.CoiDisclosureActionsAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+       <action path="/coiDisclosureActions" name="CoiDisclosureForm" input="/WEB-INF/jsp/coi/Disclosure.jsp" type="org.kuali.kra.coi.actions.CoiDisclosureActionsAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
           <forward name="basic" path="/WEB-INF/jsp/coi/CoiDisclosureActions.jsp" />
           <forward name="masterDisclosure" path="/WEB-INF/jsp/coi/MasterDisclosure.jsp" />
           &coi_forwards;
        </action>
-       <action path="/coiNoteAndAttachment" name="CoiDisclosureForm" input="/WEB-INF/jsp/coi/CoiDisclosure.jsp" type="org.kuali.kra.coi.notesandattachments.CoiNoteAndAttachmentAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+       <action path="/coiNoteAndAttachment" name="CoiDisclosureForm" input="/WEB-INF/jsp/coi/Disclosure.jsp" type="org.kuali.kra.coi.notesandattachments.CoiNoteAndAttachmentAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
           <forward name="basic" path="/WEB-INF/jsp/coi/CoiNoteAndAttachment.jsp" />
           &coi_forwards;
       </action>
