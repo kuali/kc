@@ -28,11 +28,13 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.struts.upload.FormFile;
 import org.kuali.kra.bo.AttachmentFile;
+import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.CoiDisclosureDocument;
 import org.kuali.kra.coi.CoiDisclosureEventType;
 import org.kuali.kra.coi.CoiDisclosureForm;
+import org.kuali.kra.coi.CoiNoteType;
 import org.kuali.kra.coi.auth.CoiDisclosureDeleteUpdateAttachmentTask;
 import org.kuali.kra.coi.auth.CoiDisclosureDeleteUpdateNoteTask;
 import org.kuali.kra.coi.auth.CoiDisclosureTask;
@@ -78,6 +80,7 @@ public class CoiNotesAndAttachmentsHelper {
     private boolean addNotepads;
     private boolean modifyAttachments;
     private boolean modifyNotepads;
+    private boolean addCoiReviewerComments;
     //private List<Boolean> canDeleteUpdateNote = new ArrayList<Boolean>(); 
     private Map<Integer, Boolean> canDeleteUpdateAttachment = new HashMap<Integer, Boolean>(); 
     private Map<Integer, Boolean> canDeleteUpdateNote = new HashMap<Integer, Boolean>();
@@ -113,6 +116,7 @@ public class CoiNotesAndAttachmentsHelper {
         modifyAttachments = canMaintainCoiDisclosureAttachments();
         modifyNotepads = canMaintainCoiDisclosureNotes();
         viewRestricted = canViewRestrictedProtocolNotepads();
+        addCoiReviewerComments = canAddCoiReviewerComments();
         
         // initialize individual permissions for notes and attachments
         canDeleteUpdateNotes();
@@ -238,6 +242,28 @@ public class CoiNotesAndAttachmentsHelper {
     protected boolean canAddCoiDisclosureNotes() {
         CoiDisclosureTask task = new CoiDisclosureTask(TaskName.ADD_COI_DISCLOSURE_NOTES, getCoiDisclosure());
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task); 
+    }
+       
+    protected boolean canViewCoiDisclosure(){
+        CoiDisclosureTask task = new CoiDisclosureTask(TaskName.VIEW_COI_DISCLOSURE, getCoiDisclosure());
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task); 
+    }
+    
+    protected boolean canPerformCoiDisclosureActions(){
+        CoiDisclosureTask task = new CoiDisclosureTask(TaskName.PERFORM_COI_DISCLOSURE_ACTIONS, getCoiDisclosure());
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task); 
+    }
+    
+    /**
+     * If Assigned Reviewers create a comment in the Review Actions ==> Add Review Comment, pre-set the Note Type drop down to Reviewer Comment
+     * @return
+     */
+    protected boolean canAddCoiReviewerComments() {   
+        boolean userIsCoiReviewer = false; 
+        if (canViewCoiDisclosure() && canMaintainCoiDisclosureNotes() && canMaintainCoiDisclosureAttachments() && canPerformCoiDisclosureActions()){            
+            userIsCoiReviewer = true;
+        }
+        return userIsCoiReviewer;
     }
 
     protected boolean canAddCoiDisclosureAttachments() {
@@ -577,6 +603,10 @@ public class CoiNotesAndAttachmentsHelper {
             notepad.setProjectId(projectId);
         }
         notepad.setEventTypeCode(event);
+        //If Assigned Reviewers create a comment in the Review Actions ==> Add Review Comment, pre-set the Note Type drop down to Reviewer Comment
+        if (canAddCoiDisclosureNotes() && coiDisclosure.isSubmitted() && addCoiReviewerComments){
+            notepad.setNoteTypeCode(CoiNoteType.REVIEWER_COMMENT_NOTE_TYPE_CODE);
+        }
         setNewCoiDisclosureNotepad(notepad);
     }
 

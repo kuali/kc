@@ -26,6 +26,7 @@ import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.coi.CoiDisclProject;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.CoiDisclosureAssociate;
+import org.kuali.kra.coi.CoiNoteType;
 import org.kuali.kra.coi.personfinancialentity.PersonFinIntDisclosure;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -48,13 +49,15 @@ public class CoiDisclosureNotepad extends CoiDisclosureAssociate implements Comp
     private transient String updateUserFullName;
     private String projectId;
     private Long originalCoiDisclosureId; 
+    private String noteTypeCode;
     @SkipVersioning
     private CoiDisclosure originalCoiDisclosure; 
     private Long financialEntityId;
     private String createUser;
     private Timestamp createTimestamp;
     private transient String createUserFullName;
-    
+    private CoiNoteType noteType;
+
     private String usageSectionId;
     
     
@@ -118,7 +121,7 @@ public class CoiDisclosureNotepad extends CoiDisclosureAssociate implements Comp
         }
         return "";
     }
-  
+      
     public String getUpdateUserFullName() {
         return updateUserFullName;
     }
@@ -353,5 +356,37 @@ public class CoiDisclosureNotepad extends CoiDisclosureAssociate implements Comp
 
     public void setUsageSectionId(String usageSectionId) {
         this.usageSectionId = usageSectionId;
+    }
+    
+    /**
+     * Gets the noteType attribute. 
+     * @return Returns the noteType.
+     */
+    public CoiNoteType getNoteType() {
+        return noteType;
+    }
+
+    /**
+     * Sets the noteType attribute value.
+     * @param noteType The noteType to set.
+     */
+    public void setNoteType(CoiNoteType noteType) {
+        this.noteType = noteType;
+    }
+    
+    /**
+     * Gets the noteTypeCode attribute. 
+     * @return Returns the noteTypeCode.
+     */
+    public String getNoteTypeCode() {
+        return noteTypeCode;
+    }
+
+    /**
+     * Sets the noteTypeCode attribute value.
+     * @param noteTypeCode The noteTypeCode to set.
+     */
+    public void setNoteTypeCode(String noteTypeCode) {
+        this.noteTypeCode = noteTypeCode;
     }
 }
