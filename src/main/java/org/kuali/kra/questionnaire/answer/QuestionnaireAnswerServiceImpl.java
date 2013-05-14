@@ -322,21 +322,23 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
         List<List<Answer>> oldParentAnswers = setupParentAnswers(oldAnswerHeader.getAnswers());
         List<List<Answer>> newParentAnswers = setupParentAnswers(newAnswerHeader.getAnswers());
         for (Answer oldAnswer : oldAnswerHeader.getAnswers()) {
-            if (oldAnswer.getQuestionnaireQuestion().getParentQuestionNumber() == 0
-                    && StringUtils.isNotBlank(oldAnswer.getAnswer())) {
+            if (StringUtils.isNotBlank(oldAnswer.getAnswer())) {
                 for (Answer newAnswer : newAnswerHeader.getAnswers()) {
                     if (oldAnswer.getQuestion().getQuestionId().equals(newAnswer.getQuestion().getQuestionId())
-                            && newAnswer.getQuestionnaireQuestion().getParentQuestionNumber() == 0
-                            && oldAnswer.getQuestion().getQuestionRefId().equals(newAnswer.getQuestion().getQuestionRefId())) {
-                        newAnswer.setAnswer(oldAnswer.getAnswer());
-                        newAnswer.setMatchedChild(YES);
-                        break;
+                            && oldAnswer.getQuestion().getQuestionRefId().equals(newAnswer.getQuestion().getQuestionRefId())
+                            && oldAnswer.getAnswerNumber().equals(newAnswer.getAnswerNumber())) {
+                        if ((oldAnswer.getQuestionnaireQuestion().getParentQuestionNumber() == 0 
+                                && newAnswer.getQuestionnaireQuestion().getParentQuestionNumber() == 0) 
+                            || (oldAnswer.getQuestionnaireQuestion().getParentQuestionNumber() > 0
+                                && newAnswer.getQuestionnaireQuestion().getParentQuestionNumber() > 0
+                                && YES.equals(newParentAnswers.get(newAnswer.getQuestionnaireQuestion().getParentQuestionNumber()).get(0).getMatchedChild())
+                                && isSameLevel(oldAnswer, oldParentAnswers, newAnswer, newParentAnswers))) {
+                                newAnswer.setAnswer(oldAnswer.getAnswer());
+                                newAnswer.setMatchedChild(YES);
+                                break;
+                        }
                     }
                 }
-            }
-            else if (oldAnswer.getQuestionnaireQuestion().getParentQuestionNumber() > 0
-                    && StringUtils.isNotBlank(oldAnswer.getAnswer())) {
-                copyChildAnswer(oldAnswer, oldParentAnswers, newAnswerHeader, newParentAnswers);
             }
         }
         // set up indicator then to empty answer that should not be copied
@@ -401,24 +403,6 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
             }
             i++;
         }
-    }
-
-    /*
-     * 
-     */
-    protected void copyChildAnswer(Answer oldAnswer, List<List<Answer>> oldParentAnswers, AnswerHeader newAnswerHeader,
-            List<List<Answer>> newParentAnswers) {
-        for (Answer newAnswer : newAnswerHeader.getAnswers()) {
-            if (oldAnswer.getQuestion().getQuestionId().equals(newAnswer.getQuestion().getQuestionId())
-                    && newAnswer.getQuestionnaireQuestion().getParentQuestionNumber() > 0
-                    && YES.equals(newParentAnswers.get(newAnswer.getQuestionnaireQuestion().getParentQuestionNumber()).get(0)
-                            .getMatchedChild()) && isSameLevel(oldAnswer, oldParentAnswers, newAnswer, newParentAnswers)) {
-                newAnswer.setAnswer(oldAnswer.getAnswer());
-                newAnswer.setMatchedChild(YES);
-                break;
-            }
-        }
-
     }
 
     /*
