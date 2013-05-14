@@ -82,7 +82,6 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
 		ScheduleDocument.Factory.newInstance();
         scheduleDocument.setSchedule(getSchedule(committeeSchedule));
         xmlObjectList.put("Schedule", scheduleDocument);   
-        System.out.print(xmlObjectList);
         return xmlObjectList;
     }
 
@@ -284,8 +283,8 @@ public class ScheduleXmlStream extends PrintBaseXmlStream {
             }
 
             getIrbPrintXmlUtilService().setProcotolMinutes(committeeSchedule,protocolSubmission,protocolSubmissionType);
-        
-        setOtherActionItems(committeeSchedule,schedule);}
+        }
+        setOtherActionItems(committeeSchedule,schedule);
         return schedule;
 
     }
