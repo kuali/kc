@@ -534,6 +534,7 @@ public final class KeyConstants {
     public static final String AWARD_ACTIVE_STATUS_CODES_PARM = "AWARD_ACTIVE_STATUS_CODES";
     public static final String AWARD_COST_SHARING_PARM = "AWARD_COST_SHARING";
     public static final String AWARD_FABRICATED_EQUPIMENT_PARM = "AWARD_FABRICATED_EQUIPMENT";
+    public static final String AUTO_GENERATE_TIME_MONEY_FUNDS_DIST_PERIODS = "AUTO_GENERATE_TIME_MONEY_FUNDS_DIST_PERIODS";     
     
     //Award Validation Error Messages
     public static final String INDIRECT_COST_RATE_NOT_IN_PAIR = "indirectCostRate.not.in.pair";
