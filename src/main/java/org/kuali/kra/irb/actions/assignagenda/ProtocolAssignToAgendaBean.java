@@ -17,6 +17,7 @@ package org.kuali.kra.irb.actions.assignagenda;
 
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.actions.ActionHelper;
 import org.kuali.kra.irb.actions.genericactions.ProtocolGenericActionBean;
 import org.kuali.kra.printing.Printable;
@@ -94,13 +95,17 @@ public class ProtocolAssignToAgendaBean extends ProtocolGenericActionBean implem
      */
     public void prepareView() {
         if (getProtocol() != null && getProtocol().getProtocolNumber() != null) {
-            String assignedCommitteeId = getProtocolAssigntoAgendaService().getAssignedCommitteeId(getProtocol());
-            if (assignedCommitteeId != null) {
-                this.committeeId = assignedCommitteeId;
-                this.committeName = getProtocolAssigntoAgendaService().getAssignedCommitteeName(getProtocol());
-                this.setComments(getProtocolAssigntoAgendaService().getAssignToAgendaComments(getProtocol()));
-                this.protocolAssigned = getProtocolAssigntoAgendaService().isAssignedToAgenda(getProtocol());
-                this.scheduleDate = getProtocolAssigntoAgendaService().getAssignedScheduleDate(getProtocol());
+            // we refresh assign-to-agenda data (committee name, comments etc) from db only if the user is not 
+            // currently working on this task since we do not want to lose user changes
+            if( !(TaskName.ASSIGN_TO_AGENDA.equalsIgnoreCase(getActionHelper().getCurrentTask())) ) {
+                String assignedCommitteeId = getProtocolAssigntoAgendaService().getAssignedCommitteeId(getProtocol());
+                if (assignedCommitteeId != null) {
+                    this.committeeId = assignedCommitteeId;
+                    this.committeName = getProtocolAssigntoAgendaService().getAssignedCommitteeName(getProtocol());
+                    this.setComments(getProtocolAssigntoAgendaService().getAssignToAgendaComments(getProtocol()));
+                    this.protocolAssigned = getProtocolAssigntoAgendaService().isAssignedToAgenda(getProtocol());
+                    this.scheduleDate = getProtocolAssigntoAgendaService().getAssignedScheduleDate(getProtocol());
+                }
             }
         }
         

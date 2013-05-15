@@ -283,6 +283,15 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
+        // set the current task name on the action helper before the requested method is dispatched
+        // so that beans etc can access it when preparing view after/during the requested method's execution
+        String currentTaskName = getTaskName(request);
+        if(currentTaskName != null) {
+            protocolForm.getActionHelper().setCurrentTask(currentTaskName);
+        }
+        else {
+            protocolForm.getActionHelper().setCurrentTask("");
+        }
         ActionForward actionForward = super.execute(mapping, form, request, response);
         protocolForm.getActionHelper().prepareView();
         // submit action may change "submission details", so re-initializa it
@@ -1390,6 +1399,8 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         
         ProtocolForm protocolForm = (ProtocolForm) form;
+        // set the task name to prevent entered data from being overwritten (in case of user errors) due to bean refresh in the action helper's prepare view 
+        protocolForm.getActionHelper().setCurrentTask(TaskName.ASSIGN_TO_AGENDA);
         Protocol protocol = (Protocol) protocolForm.getProtocolDocument().getProtocol();
        
         if (!hasDocumentStateChanged(protocolForm)) {
@@ -1744,8 +1755,9 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         throws Exception {
         
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
-        
         ProtocolForm protocolForm = (ProtocolForm) form;
+        // set the task name to prevent entered data from being overwritten (in case of user errors) due to bean refresh in the action helper's prepare view 
+        protocolForm.getActionHelper().setCurrentTask(TaskName.EXPEDITE_APPROVAL);
         ProtocolDocument document = (ProtocolDocument) protocolForm.getProtocolDocument();
         ProtocolExpeditedApproveBean expeditedActionBean = (ProtocolExpeditedApproveBean) ((ActionHelper) protocolForm.getActionHelper()).getProtocolExpeditedApprovalBean();
         
@@ -1754,18 +1766,36 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
                 if (expeditedActionBean.isAssignToAgenda()) {
                     ProtocolAssignCmtSchedBean cmtAssignBean = protocolForm.getActionHelper().getAssignCmtSchedBean();
                     cmtAssignBean.setScheduleId(expeditedActionBean.getScheduleId());
-                    getProtocolAssignCmtSchedService().assignToCommitteeAndSchedule(protocolForm.getProtocolDocument().getProtocol(), cmtAssignBean);
-                    ProtocolAssignToAgendaBean agendaBean = (ProtocolAssignToAgendaBean) protocolForm.getActionHelper().getAssignToAgendaBean();
-                    agendaBean.setScheduleDate(getProtocolAssignToAgendaService().getAssignedScheduleDate(protocolForm.getProtocolDocument().getProtocol()));
-                    agendaBean.setActionDate(expeditedActionBean.getActionDate());
-                    getProtocolAssignToAgendaService().assignToAgenda(protocolForm.getProtocolDocument().getProtocol(), expeditedActionBean);
-                    recordProtocolActionSuccess("Assign to Agenda");
+                    boolean alreadyAssignedToAgenda = getProtocolAssignToAgendaService().isAssignedToAgenda(document.getProtocol());
+                    // call the appropriate schedule assingment service based on whether the protocol was already assigned to agenda 
+                    if(alreadyAssignedToAgenda) {
+                        if(cmtAssignBean.scheduleHasChanged()) {
+                            getProtocolAssignCmtSchedService().assignToCommitteeAndSchedulePostAgendaAssignment(
+                                protocolForm.getProtocolDocument().getProtocol(), cmtAssignBean);
+                        }
+                    }
+                    else {
+                        getProtocolAssignCmtSchedService().assignToCommitteeAndSchedule(protocolForm.getProtocolDocument().getProtocol(), cmtAssignBean);
+                        ProtocolAssignToAgendaBean agendaBean = (ProtocolAssignToAgendaBean) protocolForm.getActionHelper().getAssignToAgendaBean();
+                        agendaBean.setScheduleDate(getProtocolAssignToAgendaService().getAssignedScheduleDate(protocolForm.getProtocolDocument().getProtocol()));
+                        agendaBean.setActionDate(expeditedActionBean.getActionDate());
+                    }  
+                    
+                    // assign to agenda only if not already assigned or if a different schedule has been selected
+                    if(!alreadyAssignedToAgenda || cmtAssignBean.scheduleHasChanged()) {
+                        getProtocolAssignToAgendaService().assignToAgenda(protocolForm.getProtocolDocument().getProtocol(), expeditedActionBean);
+                        recordProtocolActionSuccess("Assign to Agenda");
+                    }
                 }
                 getProtocolApproveService().grantExpeditedApproval(protocolForm.getProtocolDocument().getProtocol(), expeditedActionBean);
                 saveReviewComments(protocolForm, expeditedActionBean.getReviewCommentsBean());
                 recordProtocolActionSuccess("Expedited Approval");
                 forward = confirmFollowupAction(mapping, form, request, response, PROTOCOL_ACTIONS_TAB);
                 protocolForm.getTabStates().put(":" + WebUtils.generateTabKey("Assign to Agenda"), "OPEN");
+            }
+            // the validation rules failed so return to the original panel to display the errors, possibly in user input
+            else {
+                return forward;
             }
         }
         // Question frame work will execute method twice.  so, need to be aware that service will not be executed twice.

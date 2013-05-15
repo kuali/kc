@@ -94,11 +94,29 @@ public class ProtocolAssignCmtSchedServiceImpl implements ProtocolAssignCmtSched
      * @see org.kuali.kra.irb.actions.assigncmtsched.ProtocolAssignCmtSchedService#assignToCommitteeAndSchedule(org.kuali.kra.irb.Protocol, org.kuali.kra.irb.actions.assigncmtsched.ProtocolAssignCmtSchedBean)
      */
     public void assignToCommitteeAndSchedule(Protocol protocol, ProtocolAssignCmtSchedBean actionBean) throws Exception {
-        ProtocolSubmission submission = findSubmission(protocol);
+        assignToCommitteeAndSchedule(protocol, actionBean, false);
+    }
+    
+    @Override
+    public void assignToCommitteeAndSchedulePostAgendaAssignment(Protocol protocol, ProtocolAssignCmtSchedBean cmtAssignBean) throws Exception {
+        assignToCommitteeAndSchedule(protocol, cmtAssignBean, true);
+    }
+    
+    // refactored common code for assigning protocol to a committee and schedule, with conditional logic based on the isPostAgendaAssignment parameter
+    private void assignToCommitteeAndSchedule(Protocol protocol, ProtocolAssignCmtSchedBean actionBean, boolean isPostAgendaAssignment) throws Exception {
+        ProtocolSubmission submission = null;
+        // we will include in-agenda submissions in our search depending on the parameter value
+        if(isPostAgendaAssignment) {
+            submission = findSubmissionIncludingInAgenda(protocol);
+        }
+        else {
+            submission = findSubmission(protocol);
+        }
         if (submission != null) {
-
             setSchedule(submission, actionBean.getNewCommitteeId(), actionBean.getNewScheduleId());
-            submission.setSubmissionStatusCode(ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE);
+            if(!isPostAgendaAssignment) {
+                submission.setSubmissionStatusCode(ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE);
+            }
             protocol.refreshReferenceObject("protocolStatus");
             //Lets migrate the review comments
             if (actionBean.scheduleHasChanged() && 
@@ -148,17 +166,40 @@ public class ProtocolAssignCmtSchedServiceImpl implements ProtocolAssignCmtSched
      * @return
      */
     protected ProtocolSubmission findSubmission(Protocol protocol) {
+        return findSubmission(protocol, false);
+    }
+    
+    
+    /**
+     * Find the submission.  It is the submission that is either currently pending or
+     * already submitted to a committee, or is in agenda.
+     * @param protocol
+     * @return
+     */
+    protected ProtocolSubmission findSubmissionIncludingInAgenda(Protocol protocol) {
+        return findSubmission(protocol, true);
+    }
+    
+    /**
+     * Find the submission.  It is the submission that is either currently pending or
+     * already submitted to a committee, or is in agenda if the includeInAgenda parameter is set. 
+     * @param protocol
+     * @return
+     */
+    private ProtocolSubmission findSubmission(Protocol protocol, boolean includeInAgenda) {
         // need to loop thru to find the last submission.
         // it may have submit/Wd/notify irb/submit, and this will cause problem if don't loop thru.
         ProtocolSubmission protocolSubmission = null;
         for (ProtocolSubmissionBase submission : protocol.getProtocolSubmissions()) {
-            if (StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.PENDING) ||
-                StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE)) {
+            if ( StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.PENDING) 
+                 ||
+                 StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE) 
+                 ||
+                 (includeInAgenda && StringUtils.equals(submission.getSubmissionStatusCode(), ProtocolSubmissionStatus.IN_AGENDA)) ) {
                 protocolSubmission = (ProtocolSubmission)submission;
             }
         }
         return protocolSubmission;
-
     }
     
     /**
@@ -230,4 +271,6 @@ public class ProtocolAssignCmtSchedServiceImpl implements ProtocolAssignCmtSched
             return true;
         }
     }
+
+   
 }
