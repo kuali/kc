@@ -25,12 +25,12 @@
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="disclosureActions">
 
-<script type="text/javascript">
-   var $j = jQuery.noConflict();
-   $j(document).ready(function() {
-	   populateSelect('getCoiDispositionStatus', 'coiDisclosureStatusCode', 'coiDispositionCode');
-   });
-</script>
+	<script type="text/javascript">
+	   var $j = jQuery.noConflict();
+	   $j(document).ready(function() {
+		   populateSelect('getCoiDispositionStatus', 'coiDisclosureStatusCode', 'coiDispositionCode');
+	   });
+	</script>
  
 
   
@@ -39,29 +39,38 @@
   	             consider to add it. If we don't need it, then remove this. --%>
 	<div id="workarea">
 <%--     <kra:dataValidation auditActivated="${KualiForm.auditActivated}" topTab="true"/> --%>
-    <kra-coi:disclosureReviewerActions  topTab="true"/>
+
+
+	<%--Added condition to prevent Reviewer Actions panel from displaying when user is the reporter.            --%>
+	<%--Added variable to designate top tab to keep Data Validation tab from having shadow when it was top tab. --%>  
+	<c:set var="onTopTab" value="true" />
+	<c:set var="userDisclosureReporter" value="${KualiForm.disclosureActionHelper.userDisclosureReporter}" />
+	<c:if test="${not userDisclosureReporter}">
+	    <kra-coi:disclosureReviewerActions  topTab="onTopTab"/>
+	    <c:set var="onTopTab" value="false" />
+	</c:if>
+    
     <%--add document authorizer here --%>
     <kra:section permission="approveCoiDisclosure">
-    <kra-coi:coiAdministratorActions />
+        <kra-coi:coiAdministratorActions />
     </kra:section>
     
-<kra:dataValidation auditActivated="${KualiForm.auditActivated}" topTab="false" 
-	helpParameterNamespace = "KC-COIDISCLOSURE" helpParameterDetailType = "Document" helpParameterName = "disclDataValidationHelp"/>
+	<kra:dataValidation auditActivated="${KualiForm.auditActivated}" topTab="${onTopTab}"
+		   helpParameterNamespace = "KC-COIDISCLOSURE" helpParameterDetailType = "Document" helpParameterName = "disclDataValidationHelp"/>
     
-<kul:panelFooter />
-	<kul:documentControls 
-		transactionalDocument="false"
-		suppressRoutingControls="true"
-		extraButtonSource="${extraButtonSource}"
-		extraButtonProperty="${extraButtonProperty}"
-		extraButtonAlt="${extraButtonAlt}"
-		viewOnly="${KualiForm.editingMode['viewOnly']}"
-		/>
+	<kul:panelFooter />
+		<kul:documentControls 
+			transactionalDocument="false"
+			suppressRoutingControls="true"
+			extraButtonSource="${extraButtonSource}"
+			extraButtonProperty="${extraButtonProperty}"
+			extraButtonAlt="${extraButtonAlt}"
+			viewOnly="${KualiForm.editingMode['viewOnly']}"
+			/>
 
-<SCRIPT type="text/javascript">
-var kualiForm = document.forms['KualiForm'];
-var kualiElements = kualiForm.elements;
-
-</SCRIPT>
+	<SCRIPT type="text/javascript">
+		var kualiForm = document.forms['KualiForm'];
+		var kualiElements = kualiForm.elements;	
+	</SCRIPT>
 
 </kul:documentPage>
