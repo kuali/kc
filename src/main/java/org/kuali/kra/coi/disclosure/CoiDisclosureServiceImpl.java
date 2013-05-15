@@ -15,15 +15,9 @@
  */
 package org.kuali.kra.coi.disclosure;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -58,8 +52,8 @@ import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.personnel.IacucProtocolPerson;
 import org.kuali.kra.iacuc.protocol.IacucProtocolType;
-import org.kuali.kra.iacuc.protocol.funding.IacucProtocolFundingSource;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPerson;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
@@ -68,7 +62,8 @@ import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolFinderDao;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.irb.protocol.ProtocolType;
-import org.kuali.kra.irb.protocol.funding.ProtocolFundingSource;
+import org.kuali.kra.medusa.MedusaNode;
+import org.kuali.kra.medusa.service.MedusaService;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -85,6 +80,12 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
+/**
+ * This class...
+ */
+/**
+ * This class...
+ */
 public class CoiDisclosureServiceImpl implements CoiDisclosureService {
 
     private BusinessObjectService businessObjectService;
@@ -95,7 +96,10 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
     private ParameterService parameterService;
     private DateTimeService dateTimeService;
     private CoiDisclosureDao coiDisclosureDao;
+    
+    private MedusaService medusaService;
 
+    
     private static final String PROTOCOL_DISCLOSE_STATUS_CODES = "PROTOCOL_DISCLOSE_STATUS_CODES";
     private static final String IACUC_DISCLOSE_STATUS_CODES = "IACUC_DISCLOSE_STATUS_CODES";
     private static final String PROPOSAL_DISCLOSE_STATUS_CODES = "PROPOSAL_DISCLOSE_STATUS_CODES";
@@ -1970,6 +1974,228 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         notesCopy.setVersionNumber(notepad.getVersionNumber());
         
         return notesCopy;
+    }
+    
+    
+    /**
+     * @see org.kuali.kra.coi.disclosure.CoiDisclosureService#populateProposalsAndAwardToCompleteDisclosure(java.lang.String, org.kuali.kra.coi.disclosure.DisclosureHelper)
+     */
+    public void populateProposalsAndAwardToCompleteDisclosure(String userId, DisclosureHelper disclosureHelper) {
+        List<DevelopmentProposal> initDevProposalsToCompleteDiscl = getProposals(userId);
+        List<InstitutionalProposal> initInstProposalsToCompleteDiscl = getInstitutionalProposals(userId);
+        List<Award> initAwardsToCompleteDiscl = getAwards(userId);
+
+        List<CoiDisclosedProjectBean> disclosedProjects = new ArrayList<CoiDisclosedProjectBean>();
+        disclosedProjects.addAll(getDisclosedProjectsBasedOnDevelopmentProposalLink(initDevProposalsToCompleteDiscl, userId));
+        disclosedProjects.addAll(getDisclosedProjectsBasedOnInstituteProposalLink(initInstProposalsToCompleteDiscl, userId));
+        disclosedProjects.addAll(getDisclosedProjectsBasedOnAwardLink(initAwardsToCompleteDiscl, userId));
+        
+        setRevisedProposalsAndAwardsToCompleteDisclosure(disclosedProjects, disclosureHelper, initDevProposalsToCompleteDiscl, initInstProposalsToCompleteDiscl, initAwardsToCompleteDiscl);
+    }
+    
+    /**
+     * This method is to set a revised list of proposals and awards to complete disclosure.
+     * Compare the initial list with the disclosed chain of proposals and awards and remove
+     * those that are already disclosed as part of the proposal-award link.
+     * @param disclosedProjects
+     * @param disclosureHelper
+     * @param initDevProposalsToCompleteDiscl
+     * @param initInstProposalsToCompleteDiscl
+     * @param initAwardsToCompleteDiscl
+     */
+    private void setRevisedProposalsAndAwardsToCompleteDisclosure(List<CoiDisclosedProjectBean> disclosedProjects, DisclosureHelper disclosureHelper,
+            List<DevelopmentProposal> initDevProposalsToCompleteDiscl, List<InstitutionalProposal> initInstProposalsToCompleteDiscl, List<Award> initAwardsToCompleteDiscl) {
+        List<DevelopmentProposal> disclosedDevProposals = new ArrayList<DevelopmentProposal>();
+        List<InstitutionalProposal> disclosedInstProposals = new ArrayList<InstitutionalProposal>();
+        List<Award> disclosedAwards = new ArrayList<Award>();
+        for(CoiDisclosedProjectBean disclosedProjectBean : disclosedProjects) {
+            if(disclosedProjectBean.isProjectDisclosed()) {
+                disclosedDevProposals.addAll(disclosedProjectBean.getDisclosedDevProposals());
+                disclosedInstProposals.addAll(disclosedProjectBean.getDisclosedInstProposals());
+                disclosedAwards.addAll(disclosedProjectBean.getDisclosedAwards());
+            }
+        }
+        disclosureHelper.setNewProposals(getRevisedDevProposalToCompleteDiscl(initDevProposalsToCompleteDiscl, disclosedDevProposals));
+        disclosureHelper.setNewInstitutionalProposals(getRevisedInstProposalToCompleteDiscl(initInstProposalsToCompleteDiscl, disclosedInstProposals));
+        disclosureHelper.setNewAwards(getRevisedAwardsToCompleteDiscl(initAwardsToCompleteDiscl, disclosedAwards));
+    }
+    
+    private List<CoiDisclosedProjectBean> getDisclosedProjectsBasedOnDevelopmentProposalLink(List<DevelopmentProposal> devProposalsToCompleteDiscl, 
+            String userId) {
+        List<CoiDisclosedProjectBean> disclosedProjects = new ArrayList<CoiDisclosedProjectBean>();
+        for(DevelopmentProposal devProposal : devProposalsToCompleteDiscl) {
+            List<MedusaNode> medusaNodes = getMedusaService().getMedusaByProposal(Constants.DEVELOPMENT_PROPOSAL_MODULE, Long.parseLong(devProposal.getProposalNumber()));
+            CoiDisclosedProjectBean disclosedProjectBean = new CoiDisclosedProjectBean();
+            populateDisclosedAwardsAndProposals(medusaNodes, userId, disclosedProjectBean);
+            disclosedProjects.add(disclosedProjectBean);
+        }
+        return disclosedProjects;
+    }
+
+    /**
+     * This method is to find disclosed projects based on medusa link by traversing through
+     * each institute proposal where a disclosure is required.
+     * The requirement is that there needs to be only one disclosure required in the chain.
+     * Say for example - if Development proposal is disclosed, then entire link based on that development
+     * proposal is considered as disclosed.
+     * @param instProposalsToCompleteDiscl
+     * @param userId
+     * @return
+     */
+    private List<CoiDisclosedProjectBean> getDisclosedProjectsBasedOnInstituteProposalLink(List<InstitutionalProposal> instProposalsToCompleteDiscl, 
+            String userId) {
+        List<CoiDisclosedProjectBean> disclosedProjects = new ArrayList<CoiDisclosedProjectBean>();
+        for(InstitutionalProposal instProposal : instProposalsToCompleteDiscl) {
+            List<MedusaNode> medusaNodes = getMedusaService().getMedusaByProposal(Constants.INSTITUTIONAL_PROPOSAL_MODULE, instProposal.getProposalId());
+            CoiDisclosedProjectBean disclosedProjectBean = new CoiDisclosedProjectBean();
+            populateDisclosedAwardsAndProposals(medusaNodes, userId, disclosedProjectBean);
+            disclosedProjects.add(disclosedProjectBean);
+        }
+        return disclosedProjects;
+    }
+
+    /**
+     * This method is to find disclosed projects based on medusa link by traversing through
+     * each award where a disclosure is required.
+     * The requirement is that there needs to be only one disclosure required in the chain.
+     * Say for example - if Development proposal is disclosed, then entire link based on that development
+     * proposal is considered as disclosed.
+     * @param awardsToCompleteDiscl
+     * @param userId
+     * @return
+     */
+    private List<CoiDisclosedProjectBean> getDisclosedProjectsBasedOnAwardLink(List<Award> awardsToCompleteDiscl, 
+            String userId) {
+        List<CoiDisclosedProjectBean> disclosedProjects = new ArrayList<CoiDisclosedProjectBean>();
+        for(Award award : awardsToCompleteDiscl) {
+            List<MedusaNode> medusaNodes = getMedusaService().getMedusaByAward(Constants.AWARD_MODULE, award.getAwardId());
+            CoiDisclosedProjectBean disclosedProjectBean = new CoiDisclosedProjectBean();
+            populateDisclosedAwardsAndProposals(medusaNodes, userId, disclosedProjectBean);
+            disclosedProjects.add(disclosedProjectBean);
+        }
+        return disclosedProjects;
+    }
+    
+    /**
+     * This method is to get a revised list of awards to complete disclosure.
+     * We need to eliminate awards that are already disclosed as part of the
+     * proposal-award link.
+     * @param initAwardsToCompleteDiscl
+     * @param disclosedAwards
+     * @return
+     */
+    private List<Award> getRevisedAwardsToCompleteDiscl(List<Award> initAwardsToCompleteDiscl, List<Award> disclosedAwards) {
+        List<Award> revisedAwardsToCompleteDiscl = initAwardsToCompleteDiscl;
+        List<Award> awardsDisclosed = new ArrayList<Award>();
+        for(Award initAward : revisedAwardsToCompleteDiscl) {
+            for(Award disclAward : disclosedAwards) {
+                if(initAward.getAwardNumber().equals(disclAward.getAwardNumber())) {
+                    awardsDisclosed.add(initAward);
+                    break;
+                }
+            }
+        }
+        revisedAwardsToCompleteDiscl.removeAll(awardsDisclosed);
+        return revisedAwardsToCompleteDiscl;
+    }
+
+    /**
+     * This method is to get a revised list of institute proposals to complete disclosure.
+     * We need to eliminate awards that are already disclosed as part of the
+     * proposal-award link.
+     * @param initInstProposalsToCompleteDiscl
+     * @param disclosedInstProposals
+     * @return
+     */
+    private List<InstitutionalProposal> getRevisedInstProposalToCompleteDiscl(List<InstitutionalProposal> initInstProposalsToCompleteDiscl, List<InstitutionalProposal> disclosedInstProposals) {
+        List<InstitutionalProposal> revisedProposalToCompleteDiscl = initInstProposalsToCompleteDiscl;
+        List<InstitutionalProposal> proposalsDisclosed = new ArrayList<InstitutionalProposal>();
+        for(InstitutionalProposal initInstProposal : revisedProposalToCompleteDiscl) {
+            for(InstitutionalProposal disclInstProposal : disclosedInstProposals) {
+                if(initInstProposal.getProposalNumber().equals(disclInstProposal.getProposalNumber())) {
+                    proposalsDisclosed.add(initInstProposal);
+                    break;
+                }
+            }
+        }
+        revisedProposalToCompleteDiscl.removeAll(proposalsDisclosed);
+        return revisedProposalToCompleteDiscl;
+    }
+
+    /**
+     * This method is to get a revised list of development proposals to complete disclosure.
+     * We need to eliminate awards that are already disclosed as part of the
+     * proposal-award link.
+     * @param initDevProposalsToCompleteDiscl
+     * @param disclosedDevProposals
+     * @return
+     */
+    private List<DevelopmentProposal> getRevisedDevProposalToCompleteDiscl(List<DevelopmentProposal> initDevProposalsToCompleteDiscl, List<DevelopmentProposal> disclosedDevProposals) {
+        List<DevelopmentProposal> revisedProposalToCompleteDiscl = initDevProposalsToCompleteDiscl;
+        List<DevelopmentProposal> proposalsDisclosed = new ArrayList<DevelopmentProposal>();
+        for(DevelopmentProposal initDevProposal : revisedProposalToCompleteDiscl) {
+            for(DevelopmentProposal disclDevProposal : disclosedDevProposals) {
+                if(initDevProposal.getProposalNumber().equals(disclDevProposal.getProposalNumber())) {
+                    proposalsDisclosed.add(initDevProposal);
+                    break;
+                }
+            }
+        }
+        revisedProposalToCompleteDiscl.removeAll(proposalsDisclosed);
+        return revisedProposalToCompleteDiscl;
+    }
+    
+    /**
+     * This method is to get all nodes in medusa.
+     * @param medusaNodes
+     * @param userId
+     * @param projectDisclosureHelper
+     */
+    private void populateDisclosedAwardsAndProposals(List<MedusaNode> medusaNodes, String userId, CoiDisclosedProjectBean projectDisclosureHelper) {
+        for(MedusaNode medusaNode : medusaNodes) {
+            addAwardAndProposalNodes(medusaNode, userId, projectDisclosureHelper);
+            populateDisclosedAwardsAndProposals(medusaNode.getChildNodes(), userId, projectDisclosureHelper);
+        }
+    }
+
+    /**
+     * This method is to separate all proposal and award nodes.
+     * Also to identify any of these in the chain are already disclosed.
+     * @param medusaNode
+     * @param userId
+     * @param projectDisclosureHelper
+     */
+    private void addAwardAndProposalNodes(MedusaNode medusaNode, String userId, CoiDisclosedProjectBean projectDisclosureHelper) {
+        boolean isAwardOrProposalDisclosed = false;
+        if (StringUtils.equals(medusaNode.getType(), Constants.AWARD_MODULE)) {
+            Award award = (Award)medusaNode.getBo();
+            projectDisclosureHelper.getDisclosedAwards().add(award);
+            isAwardOrProposalDisclosed = isProjectReported(award.getAwardNumber(),
+                    CoiDisclosureEventType.AWARD, userId);
+        }else if(StringUtils.equals(medusaNode.getType(), Constants.DEVELOPMENT_PROPOSAL_MODULE)) {
+            DevelopmentProposal devProposal = (DevelopmentProposal)medusaNode.getBo();
+            projectDisclosureHelper.getDisclosedDevProposals().add(devProposal);
+            isAwardOrProposalDisclosed = isProjectReported(devProposal.getProposalNumber(),
+                    CoiDisclosureEventType.DEVELOPMENT_PROPOSAL, userId);
+        }else if(StringUtils.equals(medusaNode.getType(), Constants.INSTITUTIONAL_PROPOSAL_MODULE)) {
+            InstitutionalProposal instProposal = (InstitutionalProposal)medusaNode.getBo();
+            projectDisclosureHelper.getDisclosedInstProposals().add(instProposal);
+            isAwardOrProposalDisclosed = isProjectReported(instProposal.getProposalNumber(),
+                    CoiDisclosureEventType.INSTITUTIONAL_PROPOSAL, userId);
+        }
+        isAwardOrProposalDisclosed |= projectDisclosureHelper.isProjectDisclosed();
+        projectDisclosureHelper.setProjectDisclosed(isAwardOrProposalDisclosed);
+    }
+    
+    public MedusaService getMedusaService() {
+        if(ObjectUtils.isNull(medusaService)) {
+            this.medusaService = KraServiceLocator.getService(MedusaService.class);
+        }
+        return medusaService;
+    }
+
+    public void setMedusaService(MedusaService medusaService) {
+        this.medusaService = medusaService;
     }
 }
 

@@ -181,4 +181,6 @@ public interface CoiDisclosureService {
     
     public CoiDisclosure getCurrentDisclosure();
     
+    public void populateProposalsAndAwardToCompleteDisclosure(String userId, DisclosureHelper disclosureHelper);
+    
 }
