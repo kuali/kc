@@ -1005,5 +1005,14 @@ public interface Constants {
 
     public static final String COI_NOTEPAD_DISCLOSURE_REVIEWER_SECTION_ID = "RDA"; // COI reviewer reviewer disclosure action
 
+    // Constants used in Medusa
+    public static final String AWARD_MODULE = "award";
+    public static final String INSTITUTIONAL_PROPOSAL_MODULE = "IP";
+    public static final String DEVELOPMENT_PROPOSAL_MODULE = "DP";    
+    public static final String NEGOTIATION_MODULE = "neg";
+    public static final String SUBAWARD_MODULE = "subaward";
+    public static final String IRB_MODULE = "irb";
+    public static final String IACUC_MODULE = "iacuc";
+    
 }
 
