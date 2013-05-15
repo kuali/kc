@@ -2020,6 +2020,17 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         disclosureHelper.setNewAwards(getRevisedAwardsToCompleteDiscl(initAwardsToCompleteDiscl, disclosedAwards));
     }
     
+    /**
+     * This method is to find disclosed projects based on medusa link by traversing through
+     * each development proposal where a disclosure is required.
+     * The requirement is that there needs to be only one disclosure required in the chain.
+     * Say for example - if Development proposal is disclosed, then entire link based on that development
+     * proposal is considered as disclosed.
+     * This applies moving from Development proposal to Award and back.
+     * @param devProposalsToCompleteDiscl
+     * @param userId
+     * @return
+     */
     private List<CoiDisclosedProjectBean> getDisclosedProjectsBasedOnDevelopmentProposalLink(List<DevelopmentProposal> devProposalsToCompleteDiscl, 
             String userId) {
         List<CoiDisclosedProjectBean> disclosedProjects = new ArrayList<CoiDisclosedProjectBean>();
@@ -2038,6 +2049,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
      * The requirement is that there needs to be only one disclosure required in the chain.
      * Say for example - if Development proposal is disclosed, then entire link based on that development
      * proposal is considered as disclosed.
+     * This applies moving from Development proposal to Award and back.
      * @param instProposalsToCompleteDiscl
      * @param userId
      * @return
@@ -2060,6 +2072,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
      * The requirement is that there needs to be only one disclosure required in the chain.
      * Say for example - if Development proposal is disclosed, then entire link based on that development
      * proposal is considered as disclosed.
+     * This applies moving from Development proposal to Award and back.
      * @param awardsToCompleteDiscl
      * @param userId
      * @return
