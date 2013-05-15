@@ -528,15 +528,10 @@ public class CoiDisclosureAction extends CoiAction {
             HttpServletResponse response) throws Exception {
         String userId = getUserId();
         DisclosureHelper disclosureHelper = ((CoiDisclosureForm) form).getDisclosureHelper(); 
-
-        disclosureHelper.setNewProposals(getCoiDisclosureService().getProposals(userId));
-        disclosureHelper.setNewInstitutionalProposals(getCoiDisclosureService().getInstitutionalProposals(userId));
-        disclosureHelper.setNewAwards(getCoiDisclosureService().getAwards(userId));
+        getCoiDisclosureService().populateProposalsAndAwardToCompleteDisclosure(userId, disclosureHelper);
         disclosureHelper.setNewProtocols(getCoiDisclosureService().getProtocols(userId));
         disclosureHelper.setNewIacucProtocols(getCoiDisclosureService().getIacucProtocols(userId));
-
         return mapping.findForward(Constants.MAPPING_BASIC);
-
     }
     
     public ActionForward newProjectDisclosure(ActionMapping mapping, ActionForm form, HttpServletRequest request,
