@@ -555,10 +555,13 @@ public class AwardAction extends BudgetParentActionBase {
         
         // set awardDirectFandADistributions on award
         if(isNewAward(awardForm) && !(award.getAwardEffectiveDate() == null)){
-            AwardDirectFandADistributionService awardDirectFandADistributionService = getAwardDirectFandADistributionService();
-            awardForm.getAwardDocument().getAward().setAwardDirectFandADistributions
-                                (awardDirectFandADistributionService.
-                                        generateDefaultAwardDirectFandADistributionPeriods(awardForm.getAwardDocument().getAward()));
+            String autoGenerate = getParameterService().getParameterValueAsString(Constants.PARAMETER_MODULE_AWARD, ParameterConstants.DOCUMENT_COMPONENT, KeyConstants.AUTO_GENERATE_TIME_MONEY_FUNDS_DIST_PERIODS); 
+            if (!StringUtils.equalsIgnoreCase(autoGenerate, "N")) {
+                AwardDirectFandADistributionService awardDirectFandADistributionService = getAwardDirectFandADistributionService();
+                awardForm.getAwardDocument().getAward().setAwardDirectFandADistributions
+                                    (awardDirectFandADistributionService.
+                                            generateDefaultAwardDirectFandADistributionPeriods(awardForm.getAwardDocument().getAward()));
+            }
         }
         
         if(!awardForm.getAwardDocument().isDocumentSaveAfterVersioning()) {
@@ -566,10 +569,6 @@ public class AwardAction extends BudgetParentActionBase {
             awardForm.getAwardHierarchyBean().saveHierarchyChanges();            
         }
     }
-    
-    //protected void populateDefaultUnitContactsFromLeadUnit(AwardForm awardForm) {
-        //awardForm.getUnitContactsBean().fi
-    //}
 
     /**
      * Create the original set of Award Users for a new Award Document.
