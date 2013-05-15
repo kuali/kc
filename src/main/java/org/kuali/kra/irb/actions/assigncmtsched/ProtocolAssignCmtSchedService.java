@@ -43,4 +43,12 @@ public interface ProtocolAssignCmtSchedService {
      * @throws Exception 
      */
     public void assignToCommitteeAndSchedule(Protocol protocol, ProtocolAssignCmtSchedBean actionBean) throws Exception;
+
+    /**
+     * Assign a protocol to a committee/schedule after the protocol has already been assigned to an agenda.
+     * @param protocol the protocol
+     * @param actionBean contains committee/schedule
+     * @throws Exception 
+     */
+    public void assignToCommitteeAndSchedulePostAgendaAssignment(Protocol protocol, ProtocolAssignCmtSchedBean cmtAssignBean) throws Exception;
 }

@@ -19,6 +19,7 @@ import java.sql.Date;
 
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.actions.ActionHelper;
 import org.kuali.kra.irb.actions.approve.ProtocolApproveBean;
 import org.kuali.kra.irb.actions.assignagenda.ProtocolAssignToAgendaService;
@@ -52,12 +53,22 @@ public class ProtocolExpeditedApproveBean extends ProtocolApproveBean {
      */
     public void prepareView() {
         if (getProtocol() != null && getProtocol().getProtocolNumber() != null) {
-            String assignedCommitteeId = getProtocolAssigntoAgendaService().getAssignedCommitteeId(getProtocol());
-            if (assignedCommitteeId != null) {
-                this.committeeName = getProtocolAssigntoAgendaService().getAssignedCommitteeName(getProtocol());
-                this.setComments(getProtocolAssigntoAgendaService().getAssignToAgendaComments(getProtocol()));
-                this.assignToAgenda = getProtocolAssigntoAgendaService().isAssignedToAgenda(getProtocol());
-                this.scheduleId = getProtocolAssignCmtSchedService().getAssignedScheduleId(getProtocol());
+            boolean assignedToAgenda = getProtocolAssigntoAgendaService().isAssignedToAgenda(getProtocol());
+            // we refresh assign-to-agenda data (committee name, comments etc) from db only if the user is not 
+            // currently working on this task since we do not want to lose user changes
+            if( !(TaskName.EXPEDITE_APPROVAL.equalsIgnoreCase(getActionHelper().getCurrentTask())) ) {
+                // refresh committee and schedule data from db only if protocol not already in agenda, and set the checkbox flag
+                if (!assignedToAgenda) {
+                    this.committeeName = getProtocolAssigntoAgendaService().getAssignedCommitteeName(getProtocol());
+                    this.assignToAgenda = true;
+                    this.scheduleId = getProtocolAssignCmtSchedService().getAssignedScheduleId(getProtocol());
+                }
+                // otherwise if protocol is in agenda then only refresh the agenda comments (and unset the agenda checkbox flag), 
+                // but not the committee name or schedule, we will let their values from previous refreshes be carried over.
+                else {
+                    this.setComments(getProtocolAssigntoAgendaService().getAssignToAgendaComments(getProtocol()));
+                    this.assignToAgenda = false;
+                }
             }
         }
     }
