@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.CoiDisclosureDocument;
@@ -271,4 +272,15 @@ public class DisclosureActionHelper implements Serializable {
         return coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure().getCoiUserRoles().size() > 0;
     }
 
+    /**
+     * This method returns true when the disclosure reporter and the current user are the same; otherwise false is returned.
+     */
+    public boolean isUserDisclosureReporter() {
+        String currentUser = this.getUserIdentifier();
+        String disclosureReporter = this.getCoiDisclosure().getDisclosureReporter().getReporter().getPersonId();
+        if (StringUtils.isNotBlank(currentUser) && StringUtils.isNotBlank(disclosureReporter)){
+            return currentUser.equalsIgnoreCase(disclosureReporter);
+        }
+        return false;
+    }
 }
