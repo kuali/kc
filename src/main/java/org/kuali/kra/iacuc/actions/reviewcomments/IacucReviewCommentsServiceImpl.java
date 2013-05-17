@@ -36,7 +36,8 @@ import org.kuali.kra.protocol.onlinereview.ProtocolReviewAttachmentBase;
 
 public class IacucReviewCommentsServiceImpl extends ReviewCommentsServiceImplBase<IacucProtocolReviewAttachment> implements IacucReviewCommentsService {
     
-  private static final String[] PROTOCOL_SUBMISSION_COMPLETE_STATUSES = { IacucProtocolSubmissionStatus.APPROVED,                                                                           
+  private static final String[] PROTOCOL_SUBMISSION_COMPLETE_STATUSES = { IacucProtocolSubmissionStatus.ADMINISTRATIVELY_APPROVED,
+                                                                          IacucProtocolSubmissionStatus.APPROVED,                                                                           
                                                                           IacucProtocolSubmissionStatus.MINOR_REVISIONS_REQUIRED,
                                                                           IacucProtocolSubmissionStatus.MAJOR_REVISIONS_REQUIRED,
                                                                           IacucProtocolSubmissionStatus.DISAPPROVED,
