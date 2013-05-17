@@ -17,10 +17,12 @@ package org.kuali.kra.meeting;
 
 import java.util.Collection;
 
+import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinuteBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
+import org.kuali.kra.irb.actions.submit.ProtocolSubmission;
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewBase;
 import org.kuali.rice.kim.api.role.RoleService;
@@ -32,6 +34,9 @@ import org.kuali.rice.kim.api.role.RoleService;
 public class CommitteeScheduleMinute extends CommitteeScheduleMinuteBase<CommitteeScheduleMinute, CommitteeSchedule> {
 
     private static final long serialVersionUID = -2294619582524055884L;
+    
+    @SkipVersioning
+    private transient String committeeIdFromSubmission;
 
     @Override
     protected boolean isAdministrator(String principalId) {
@@ -43,6 +48,14 @@ public class CommitteeScheduleMinute extends CommitteeScheduleMinuteBase<Committ
     @Override
     protected Class<? extends ProtocolOnlineReviewBase> getProtocolOnlineReviewBOClassHook() {
         return ProtocolOnlineReview.class;
+    }
+    
+    public void setCommitteeIdFromSubmission(ProtocolSubmission protocolSubmission) {
+        this.committeeIdFromSubmission = protocolSubmission.getCommitteeId();
+    }
+
+    public String getCommitteeIdFromSubmission() {
+        return committeeIdFromSubmission;
     }
 
     
