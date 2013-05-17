@@ -890,10 +890,23 @@ public abstract class ReviewCommentsServiceImplBase<PRA extends ProtocolReviewAt
      * @param principalId
      * @return true if and active committee member, false otherwise.
      */
-    private boolean isActiveCommitteeMember(ProtocolReviewableBase minute, String principalId) {
+    @SuppressWarnings("rawtypes")
+    protected boolean isActiveCommitteeMember(ProtocolReviewableBase minute, String principalId) {
+        String committeeId = "";
+        String scheduleId = "";
+        CommitteeScheduleBase committeeSchedule = minute.getCommitteeSchedule(); 
+        if( committeeSchedule != null) {
+            committeeId = minute.getCommitteeSchedule().getParentCommittee().getCommitteeId();
+            scheduleId =  minute.getCommitteeSchedule().getScheduleId();
+        }
+        return isActiveCommitteeMember(committeeId, scheduleId, principalId);
+    }
+    
+    
+    @SuppressWarnings("unchecked")
+    protected boolean isActiveCommitteeMember(String committeeId, String scheduleId, String principalId) {
         boolean result = false;
-        List<CommitteeMembershipBase> committeeMembers = committeeService.getAvailableMembers(minute.getCommitteeSchedule()
-                .getParentCommittee().getCommitteeId(), minute.getCommitteeSchedule().getScheduleId());
+        List<CommitteeMembershipBase> committeeMembers = committeeService.getAvailableMembers(committeeId, scheduleId);
         if (CollectionUtils.isNotEmpty(committeeMembers)) {
             for (CommitteeMembershipBase member : committeeMembers) {
                 if (StringUtils.equals(principalId, member.getPersonId())) {
@@ -904,30 +917,21 @@ public abstract class ReviewCommentsServiceImplBase<PRA extends ProtocolReviewAt
         }
         return result;
     }
+    
 
     /**
      * 
-     * This method determines if the current user is an active committee member
+     * This method determines if the current user is an active committee member using the commitee and schedule ids
+     * obtained from the submission parameter
      * 
-     * @param minute
+     * @param submission
      * @param principalId
      * @return true if and active committee member, false otherwise.
      */
     private boolean isActiveCommitteeMember(ProtocolSubmissionBase submission, String principalId) {
-        boolean result = false;
-
-        List<CommitteeMembershipBase> committeeMembers = committeeService.getAvailableMembers(submission.getCommitteeId(),
-                submission.getScheduleId());
-        if (CollectionUtils.isNotEmpty(committeeMembers)) {
-            for (CommitteeMembershipBase member : committeeMembers) {
-                if (StringUtils.equals(principalId, member.getPersonId())) {
-                    result = true;
-                    break;
-                }
-            }
-        }
-
-        return result;
+        String committeeId = submission.getCommitteeId();
+        String scheduleId =  submission.getScheduleId();
+        return isActiveCommitteeMember(committeeId, scheduleId, principalId);
     }
 
 

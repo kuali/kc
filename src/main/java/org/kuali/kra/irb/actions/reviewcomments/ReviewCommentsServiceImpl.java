@@ -34,6 +34,7 @@ import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsServiceImplBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewBase;
+import org.kuali.kra.protocol.onlinereview.ProtocolReviewableBase;
 
 /**
  * 
@@ -144,6 +145,7 @@ public class ReviewCommentsServiceImpl extends ReviewCommentsServiceImplBase<Pro
         return ProtocolReviewAttachment.class;
     }
 
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override
     public List<CommitteeScheduleMinuteBase> getReviewerComments(String protocolNumber, int submissionNumber) {
         ArrayList<CommitteeScheduleMinuteBase> reviewComments = new ArrayList<CommitteeScheduleMinuteBase>();
@@ -156,6 +158,7 @@ public class ReviewCommentsServiceImpl extends ReviewCommentsServiceImplBase<Pro
                     String minuteEntryTypeCode = minute.getMinuteEntryTypeCode();
                     // need to check current minute entry; otherwise may have minutes from previous version comittee
                     if ((MinuteEntryType.PROTOCOL.equals(minuteEntryTypeCode) || MinuteEntryType.PROTOCOL_REVIEWER_COMMENT.equals(minuteEntryTypeCode)) && isCurrentMinuteEntry(minute)) {
+                        minute.setCommitteeIdFromSubmission(protocolSubmission);
                         if(getReviewerCommentsView(minute)){
                             reviewComments.add(minute);
                         }
@@ -166,4 +169,23 @@ public class ReviewCommentsServiceImpl extends ReviewCommentsServiceImplBase<Pro
         
         return reviewComments;
     }
+    
+    @SuppressWarnings("rawtypes")
+    protected boolean isActiveCommitteeMember(ProtocolReviewableBase minute, String principalId) {
+        boolean retVal = false;
+        // we have a commitee schedule then let the superclass version handle this
+        if(minute.getCommitteeSchedule() != null) {
+            retVal = super.isActiveCommitteeMember(minute, principalId);
+        }
+        // otherwise use the commitee id from submission that should've been set by the caller of this method
+        else {
+            if(minute instanceof CommitteeScheduleMinute) {
+                String committeeId = ((CommitteeScheduleMinute) minute).getCommitteeIdFromSubmission();
+                // since there was no committee schedule we set schedule id to be null
+                retVal = super.isActiveCommitteeMember(committeeId, null, principalId);
+            }
+        }
+        return retVal;
+    }
+
 }
