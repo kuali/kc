@@ -518,7 +518,7 @@ public class FinancialEntityEditListAction extends FinancialEntityAction{
     @Override
     public ActionForward whereToGoAfterCancel(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        return editList(mapping, form, request, response); 
+        return mapping.findForward(KRADConstants.MAPPING_PORTAL);
     }
 
 }
