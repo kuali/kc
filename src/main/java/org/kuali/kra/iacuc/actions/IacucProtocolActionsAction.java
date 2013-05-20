@@ -240,7 +240,16 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
             protocolForm.setDocument(ipd);
             protocolForm.setDefaultOpenCopyTab(true);
         }
-
+        
+        // set the current task name on the action helper before the requested method is dispatched
+        // so that beans etc can access it when preparing view after/during the requested method's execution
+        String currentTaskName = getTaskName(request);
+        if(currentTaskName != null) {
+            protocolForm.getActionHelper().setCurrentTask(currentTaskName);
+        }
+        else {
+            protocolForm.getActionHelper().setCurrentTask("");
+        }
         ActionForward actionForward = super.execute(mapping, form, request, response);
         protocolForm.getActionHelper().prepareView();
         protocolForm.getActionHelper().initFilterDatesView();
@@ -1401,6 +1410,8 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
+        // set the task name to prevent entered data from being overwritten (in case of user errors) due to bean refresh in the action helper's prepare view 
+        protocolForm.getActionHelper().setCurrentTask(TaskName.ASSIGN_TO_AGENDA);
         IacucProtocol protocol = (IacucProtocol) protocolForm.getProtocolDocument().getProtocol();
        
         if (!hasDocumentStateChanged(protocolForm)) {
