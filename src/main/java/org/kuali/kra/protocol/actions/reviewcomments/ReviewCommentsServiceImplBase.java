@@ -343,6 +343,8 @@ public abstract class ReviewCommentsServiceImplBase<PRA extends ProtocolReviewAt
         }
         else {
             if (minute.getProtocolOnlineReviewIdFk() != null) {
+                // this comment originated via an OLR, so check first that it is accepted and then that it 
+                // is either created by current user or 'isViewable' for the current user
                 if (minute.isAccepted()) {
                     return StringUtils.equals(principalName, minute.getCreateUser()) || isViewable(minute);
                 }
@@ -351,7 +353,9 @@ public abstract class ReviewCommentsServiceImplBase<PRA extends ProtocolReviewAt
                 }
             }
             else {
-                return (!minute.isPrivate() && minute.isFinal());
+                // this comment did not originate in an OLR (most probably added by admin via some non-OLR comments interface), 
+                // so check that it 'isViewable' for the current user
+                return isViewable(minute);
             }
         }
     }
@@ -362,11 +366,15 @@ public abstract class ReviewCommentsServiceImplBase<PRA extends ProtocolReviewAt
      */
     private boolean isViewable(ProtocolReviewableBase reviewable) {
         String principalId = GlobalVariables.getUserSession().getPrincipalId();
-        return (isReviewer(reviewable, principalId) && !isProtocolPersonnel(reviewable) && !hasProtocolPermission(reviewable) && reviewable
-                .isFinal())
-                || (isActiveCommitteeMember(reviewable, principalId) && !isProtocolPersonnel(reviewable)
-                        && !hasProtocolPermission(reviewable) && reviewable.isFinal())
-                || (!reviewable.isPrivate() && reviewable.isFinal());
+        return reviewable.isFinal() 
+                    && 
+                    ( !reviewable.isPrivate() 
+                        || 
+                        ( (isReviewer(reviewable, principalId) || isActiveCommitteeMember(reviewable, principalId)) 
+                               && 
+                               (!isProtocolPersonnel(reviewable, principalId) && !hasProtocolPermission(reviewable,  principalId))
+                        )
+                    );                              
     }
 
     private boolean isAdministrator(String principalId) {
@@ -543,8 +551,9 @@ public abstract class ReviewCommentsServiceImplBase<PRA extends ProtocolReviewAt
     public boolean setHideViewButton(List<PRA> reviewAttachments) {
         boolean isHide = true;
         getReviewerNameParams();
+        String principalId = GlobalVariables.getUserSession().getPrincipalId();
         for (PRA reviewAttachment : reviewAttachments) {
-            if (!reviewAttachment.isPrivateFlag() || !isProtocolPersonnel(reviewAttachment)) {
+            if (!reviewAttachment.isPrivateFlag() || !isProtocolPersonnel(reviewAttachment, principalId)) {
                 reviewAttachment.setDisplayViewButton(true);
                 isHide = false;
             }
@@ -578,15 +587,13 @@ public abstract class ReviewCommentsServiceImplBase<PRA extends ProtocolReviewAt
         return canViewName;
     }
 
-    private boolean hasProtocolPermission(ProtocolReviewableBase reviewComment) {
-        Person person = GlobalVariables.getUserSession().getPerson();
-        return getProtocolAggregators(reviewComment).contains(person.getPrincipalId())
-                || getProtocolViewers(reviewComment).contains(person.getPrincipalId());
+    private boolean hasProtocolPermission(ProtocolReviewableBase reviewComment, String principalId) {
+        return getProtocolAggregators(reviewComment).contains(principalId)
+                || getProtocolViewers(reviewComment).contains(principalId);
     }
 
-    private boolean isProtocolPersonnel(ProtocolReviewableBase reviewComment) {
-        Person person = GlobalVariables.getUserSession().getPerson();
-        return getPersonnelIds(reviewComment).contains(person.getPrincipalId());
+    private boolean isProtocolPersonnel(ProtocolReviewableBase reviewComment, String principalId) {
+        return getPersonnelIds(reviewComment).contains(principalId);
     }
 
     /*
