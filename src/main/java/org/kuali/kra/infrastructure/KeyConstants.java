@@ -1093,6 +1093,8 @@ public final class KeyConstants {
     public static final String ERROR_COI_DISPOSITON_STATUS_REQUIRED = "error.coi.disposition.status.required";
     public static final String ERROR_COI_DISCLOSURE_STATUS_REQUIRED = "error.coi.disclosure.status.required";
     public static final String ERROR_FINANCIAL_ENTITY_STATUS_INCOMPLETE = "error.coi.financialentity.status.incomplete";
+    public static final String ERROR_COI_QUESTIONNAIRE_MANDATORY = "error.coi.questionnaire.mandatory";
+    public static final String ERROR_COI_QUESTIONNAIRE_NOTUPDATED = "error.coi.questionnaire.notupdated";
     
     public static final String REPORT_TRACKING_WARNING_UPDATE_FROM_DATE_CHANGE = "warning.reportTracking.updateFromDateChange";
     

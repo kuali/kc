@@ -18,10 +18,14 @@ package org.kuali.kra.coi.questionnaire;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.ObjectUtils;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.CoeusSubModule;
+import org.kuali.kra.coi.CoiDisclProject;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.CoiDisclosureDocument;
+import org.kuali.kra.coi.disclosure.CoiDisclosureProjectBean;
+import org.kuali.kra.coi.disclosure.MasterDisclosureBean;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -38,8 +42,17 @@ import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
 
 public class DisclosureQuestionnaireAuditRule extends BaseQuestionnaireAuditRule<CoiDisclosureDocument> implements DocumentAuditRule {
 
-    private static final String DISCLOSURE_QUESTIONNAIRE_KEY = "questionnaireHelper.answerHeaders[%s].answers[0].answer";
-    private static final String DISCLOSURE_QUESTIONNAIRE_PANEL_KEY = "%s%s%s";
+    private static final String DISCLOSURE_QUESTIONNAIRE_KEY = "disclosureQuestionnaireHelper.answerHeaders";
+    private static final String DISCLOSURE_QUESTIONNAIRE_PANEL_KEY = "coiQuestionnaireKey";
+    protected static final String MASTER_DISCLOSURE_PROJECT_QUESTIONNAIRE_KEY = "disclosureHelper.masterDisclosureBean.%s[%s].projectQuestionnaireHelper.answerHeaders";
+    protected static final String AUDIT_ERROR_LABEL;
+    static {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(Constants.COI_DISCLOSURE_DISCLOSURE_PAGE);
+        stringBuilder.append(".");
+        stringBuilder.append(Constants.COI_DISCLOSURE_DISCLOSURE_PANEL_NAME);
+        AUDIT_ERROR_LABEL = stringBuilder.toString();
+    }
 
     private boolean requestSubmission;
 
@@ -51,23 +64,61 @@ public class DisclosureQuestionnaireAuditRule extends BaseQuestionnaireAuditRule
         List<AnswerHeader> headers = getQuestionnaireAnswerService().getQuestionnaireAnswer(disclosureModuleQuestionnaireBean);
 
         if (headers != null) {
-            for (int i = 0;i < headers.size();i++) {
-                AnswerHeader header = headers.get(i);
-                QuestionnaireUsage usage = header.getQuestionnaire().getHighestVersionUsageFor(disclosureModuleQuestionnaireBean.getModuleItemCode(), disclosureModuleQuestionnaireBean.getModuleSubItemCode());
-                if ((usage != null) && (usage.isMandatory()) && (!header.getCompleted()) && (header.isActiveQuestionnaire())) {
-                    isValid = false;
-                    addMandatoryQuestionnaireErrorToAuditErrors(i, usage);
-                }
-                if (header.isNewerVersionPublished() && (header.isActiveQuestionnaire())) {
-                    isValid = false;
-                    addQuestionnaireNotUpdatedErrorToAuditErrors(i, usage);
-                }
+            isValid &= checkAnswerHeaders(headers, DISCLOSURE_QUESTIONNAIRE_KEY);
+        }
+        MasterDisclosureBean masterBean = new MasterDisclosureBean();
+        
+        for (CoiDisclProject project : coiDisclosure.getCoiDisclProjects()) {
+            //if this project is on this disclosure then the questionnaire will always be blank because
+            //the questionnaire is on the disclosure, not the project, but if this project is not from this
+            //disclosure then this is likely an annual or update and the questionnaire will be attached
+            //to the project and will need to be validated.
+            if (project.getOriginalCoiDisclosureId() != null && !ObjectUtils.equals(project.getOriginalCoiDisclosureId(), coiDisclosure.getCoiDisclosureId())) {            
+                CoiDisclosureProjectBean projectBean = new CoiDisclosureProjectBean();
+                projectBean.setCoiDisclProject(project);
+                projectBean.populateAnswers(coiDisclosure);
+                masterBean.addProject(projectBean, projectBean.getCoiDisclProject().getDisclosureEventType());
             }
         }
-       
+        
+        isValid &= checkProjects(masterBean.getManualAwardProjects(), "manualAwardProjects");
+        isValid &= checkProjects(masterBean.getManualIacucProtocolProjects(), "manualIacucProtocolProjects");
+        isValid &= checkProjects(masterBean.getManualProposalProjects(), "manualProposalProjects");
+        isValid &= checkProjects(masterBean.getManualProtocolProjects(), "manualProtocolProjects");
+        isValid &= checkProjects(masterBean.getManualTravelProjects(), "manualTravelProjects");
+        isValid &= checkProjects(masterBean.getOtherManualProjects(), "otherManualProjects");
+        isValid &= checkProjects(masterBean.getAwardProjects(), "awardProjects");
+        isValid &= checkProjects(masterBean.getProposalProjects(), "proposalProjects");
+        isValid &= checkProjects(masterBean.getProtocolProjects(), "protocolProjects");
+
         return isValid;    
     }
     
+    protected boolean checkProjects(List<CoiDisclosureProjectBean> projects, String listName) {
+        boolean result = true;
+        for (int i = 0; i < projects.size(); i++) {
+            CoiDisclosureProjectBean projectBean = projects.get(i);
+            result &= checkAnswerHeaders(projectBean.getProjectQuestionnaireHelper().getAnswerHeaders(), String.format(MASTER_DISCLOSURE_PROJECT_QUESTIONNAIRE_KEY, listName, i));
+        }
+        return result;
+    }
+
+    protected boolean checkAnswerHeaders(List<AnswerHeader> answerHeaders, String messageKey) {
+        boolean isValid = true;
+        for (int i = 0;i < answerHeaders.size();i++) {
+            AnswerHeader header = answerHeaders.get(i);
+            QuestionnaireUsage usage = header.getQuestionnaire().getHighestVersionUsageFor(header.getModuleItemCode(), header.getModuleSubItemCode());
+            if ((usage != null) && (usage.isMandatory()) && (!header.getCompleted()) && (header.isActiveQuestionnaire())) {
+                isValid = false;
+                addAuditError(messageKey + "[" + i + "]", KeyConstants.ERROR_COI_QUESTIONNAIRE_MANDATORY, usage.getQuestionnaireLabel());
+            }
+            if (header.isNewerVersionPublished() && (header.isActiveQuestionnaire())) {
+                isValid = false;
+                addAuditError(messageKey + "[" + i + "]", KeyConstants.ERROR_COI_QUESTIONNAIRE_NOTUPDATED, usage.getQuestionnaireLabel());
+            }
+        }
+        return isValid;
+    }
     
     protected List<Integer> getIncompleteMandatoryQuestionnaire(CoiDisclosureDocument coiDisclosureDocument) {
         CoiDisclosure coiDisclosure = coiDisclosureDocument.getCoiDisclosure();
@@ -78,43 +129,9 @@ public class DisclosureQuestionnaireAuditRule extends BaseQuestionnaireAuditRule
         return super.getIncompleteMandatoryQuestionnaire(CoeusModule.COI_DISCLOSURE_MODULE_CODE, moduleQuestionnaireBean);
     }
 
-    protected void addQuestionnaireNotUpdatedErrorToAuditErrors(Integer answerHeaderIndex, QuestionnaireUsage usage) {
-        String errorKey = String.format(DISCLOSURE_QUESTIONNAIRE_KEY, answerHeaderIndex);
-        String messageKey = KeyConstants.ERROR_QUESTIONNAIRE_NOT_UPDATED;
-        getCoiDisclosureAuditErrors("questionnaireHelper", usage.getQuestionnaireLabel(), answerHeaderIndex).add(new AuditError(errorKey, messageKey, getAuditErrorLink()));
+    protected void addAuditError(String errorKey, String messageKey, String label) {
+        getCoiDisclosureAuditErrors().add(new AuditError(errorKey, messageKey, AUDIT_ERROR_LABEL, new String[]{label}));
     }
-
-    private QuestionnaireUsage getQuestionnaireUsage(String moduleItemCode, List<QuestionnaireUsage> questionnaireUsages) {
-        QuestionnaireUsage usage = null;
-        int version = 0;
-        for (QuestionnaireUsage questionnaireUsage : questionnaireUsages) {
-            if (usage == null || (moduleItemCode.equals(questionnaireUsage.getModuleItemCode()) && questionnaireUsage.getQuestionnaireSequenceNumber() > version)) {
-                version = questionnaireUsage.getQuestionnaireSequenceNumber();
-                usage = questionnaireUsage;
-            }            
-        }
-        return usage;
-    }
-
-    protected void addMandatoryQuestionnaireErrorToAuditErrors(Integer answerHeaderIndex, QuestionnaireUsage usage) {
-        String errorKey = String.format(DISCLOSURE_QUESTIONNAIRE_KEY, answerHeaderIndex);
-        String messageKey = KeyConstants.ERROR_MANDATORY_QUESTIONNAIRE;
-        addErrorToAuditErrors(answerHeaderIndex, usage, errorKey, messageKey);
-    }
-
-    /**
-     * Creates and adds the Audit Error to the <code>{@link List<AuditError>}</code> auditError.
-     */
-   protected void addErrorToAuditErrors(Integer answerHeaderIndex, QuestionnaireUsage usage, String errorKey, String messageKey) {
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(Constants.COI_DISCLOSURE_DISCLOSURE_PAGE);
-        stringBuilder.append(".");
-        stringBuilder.append(Constants.COI_DISCLOSURE_DISCLOSURE_PANEL_NAME);
-
-        getCoiDisclosureAuditErrors("questionnaireHelper", usage.getQuestionnaireLabel(), answerHeaderIndex).add(new AuditError(errorKey, messageKey, stringBuilder.toString()));
-
-    }
-
 
     /**
      * This method should only be called if an audit error is intending to be added because it will actually add a <code>{@link List<AuditError>}</code>
@@ -123,12 +140,12 @@ public class DisclosureQuestionnaireAuditRule extends BaseQuestionnaireAuditRule
      * @return List of AuditError instances
      */
     @SuppressWarnings("unchecked")
-    private List<AuditError> getCoiDisclosureAuditErrors(String formProperty, String usageLabel, Integer answerHeaderIndex) {
+    private List<AuditError> getCoiDisclosureAuditErrors() {
         List<AuditError> auditErrors = new ArrayList<AuditError>();
-        String key = String.format(DISCLOSURE_QUESTIONNAIRE_PANEL_KEY, formProperty, usageLabel, answerHeaderIndex);
+        String key = DISCLOSURE_QUESTIONNAIRE_PANEL_KEY;
 
         if (!KNSGlobalVariables.getAuditErrorMap().containsKey(key)) {
-            KNSGlobalVariables.getAuditErrorMap().put(key, new AuditCluster(usageLabel, auditErrors, Constants.AUDIT_ERRORS));
+            KNSGlobalVariables.getAuditErrorMap().put(key, new AuditCluster("Questionnaire", auditErrors, Constants.AUDIT_ERRORS));
         }
         else {
             auditErrors = ((AuditCluster)KNSGlobalVariables.getAuditErrorMap().get(key)).getAuditErrorList();
@@ -158,11 +175,7 @@ public class DisclosureQuestionnaireAuditRule extends BaseQuestionnaireAuditRule
 
     @Override
     protected String getAuditErrorLink() {
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(Constants.COI_DISCLOSURE_DISCLOSURE_PAGE);
-        stringBuilder.append(".");
-        stringBuilder.append(Constants.COI_DISCLOSURE_DISCLOSURE_PANEL_NAME);
-        return stringBuilder.toString();
+        return AUDIT_ERROR_LABEL;
     }
 
     @Override
