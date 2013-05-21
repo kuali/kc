@@ -15,7 +15,8 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<kul:tab defaultOpen="true" tabTitle="Questionnaire" transparentBackground="false"
+<kul:tab defaultOpen="true" tabTitle="Questionnaire" transparentBackground="false" 
+	auditCluster="coiQuestionnaireKey" tabAuditKey="disclosureQuestionnaireHelper.*" useRiceAuditMode="true"
     tabErrorKey="" >
     
     <c:set var="answerHeaderIndex" value="0" />
