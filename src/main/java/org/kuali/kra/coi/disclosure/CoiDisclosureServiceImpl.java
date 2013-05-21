@@ -1300,8 +1300,10 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         //Collections.sort(coiDisclosure.getCoiDiscDetails());
         List<AnswerHeader> answerHeaders = new ArrayList<AnswerHeader>();
         CoiDisclosure currentDisclosure = coiDisclosure;
+        boolean newMaster = false;
         if (currentDisclosure == null || currentDisclosure.getCoiDisclosureId() == null) {
             // if this is click update discl link
+            newMaster = true;
             CoiDisclosure masterDisclosure = getCurrentDisclosure();
             currentDisclosure = masterDisclosure;
             answerHeaders = copyDisclosureQuestionnaire(masterDisclosure, coiDisclosure);
@@ -1323,8 +1325,11 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
                         moduleItemKey = coiDiscDetail.getModuleItemKey();
                         addProjectDisclAttachments(disclosureProjectBean, coiDisclosure, coiDiscDetail.getOriginalCoiDisclosureId());
                         addProjectDisclNotepads(disclosureProjectBean, coiDisclosure, coiDiscDetail.getOriginalCoiDisclosureId());
-                        //addProjectDisclQuestionnaires(disclosureProjectBean, answerHeaders, currentDisclosure);
-                        versionProjectDisclQuestionnaires(disclosureProjectBean, answerHeaders, currentDisclosure);
+                        if (newMaster) {
+                            versionProjectDisclQuestionnaires(disclosureProjectBean, answerHeaders, currentDisclosure);
+                        } else {
+                            addProjectDisclQuestionnaires(disclosureProjectBean, answerHeaders, currentDisclosure);
+                        }
                     }
           //          disclosureProjectBean.getCoiDisclProject().getCoiDiscDetails().add(coiDiscDetail);            
                 }
@@ -1336,8 +1341,11 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
 //                addProjectDisclAttachments(disclosureProjectBean, coiDisclosure, coiDiscDetail.getOriginalCoiDisclosureId());
 //                addProjectDisclNotepads(disclosureProjectBean, coiDisclosure, coiDiscDetail.getOriginalCoiDisclosureId());
                 //addProjectDisclQuestionnaires(disclosureProjectBean, answerHeaders, currentDisclosure);
-                versionProjectDisclQuestionnaires(disclosureProjectBean, answerHeaders, currentDisclosure);
-               
+                if (newMaster) {
+                    versionProjectDisclQuestionnaires(disclosureProjectBean, answerHeaders, currentDisclosure);
+                } else {
+                    addProjectDisclQuestionnaires(disclosureProjectBean, answerHeaders, currentDisclosure);
+                }
             }
         }
         
