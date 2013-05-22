@@ -433,6 +433,7 @@ public class PrintingServiceImpl implements PrintingService {
         String loggingDirectory = kualiConfigurationService.getPropertyValueAsString(Constants.PRINT_LOGGING_DIRECTORY);
         Iterator<String> it = xmlStreamMap.keySet().iterator();
         if (loggingDirectory != null) {
+            BufferedWriter out=null;
             try {
                 while (it.hasNext()) {
                     String key = (String) it.next();
@@ -441,16 +442,26 @@ public class PrintingServiceImpl implements PrintingService {
                     String dateString = getDateTimeService().getCurrentTimestamp().toString();
                     String reportName = StringUtils.deleteWhitespace(key);
                     String createdTime = StringUtils.replaceChars(StringUtils.deleteWhitespace(dateString), ":", "_");
+                    File dir = new File(loggingDirectory);
+                    if(!dir.exists() || !dir.isDirectory()){
+                        dir.mkdir();
+                    }
+                    File file = new File(loggingDirectory , reportName + createdTime + ".xml");
 
-                    File file = new File(loggingDirectory + reportName + createdTime + ".xml");
-
-                    BufferedWriter out = new BufferedWriter(new FileWriter(file));
+                    out = new BufferedWriter(new FileWriter(file));
                     out.write(xmlString);
-                    out.close();
                 }
             }
             catch (IOException e) {
                 LOG.error(e.getMessage(), e);
+            }finally{
+                try {
+                    out.flush();
+                    out.close();
+                }
+                catch (IOException e) {
+                    LOG.error(e.getMessage(), e);
+                }
             }
         }
     }
