@@ -99,9 +99,13 @@ public class PrintingServiceImpl implements PrintingService {
     protected Map<String, byte[]> getPrintBytes(Printable printableArtifact) throws PrintingException {
         try {
             Map<String, byte[]> streamMap = printableArtifact.renderXML();
-            String loggingEnable = kualiConfigurationService.getPropertyValueAsString(Constants.PRINT_LOGGING_ENABLE);
-            if (loggingEnable != null && Boolean.parseBoolean(loggingEnable))
-                logPrintDetails(streamMap);
+            try{
+                String loggingEnable = kualiConfigurationService.getPropertyValueAsString(Constants.PRINT_LOGGING_ENABLE);
+                if (loggingEnable != null && Boolean.parseBoolean(loggingEnable))
+                    logPrintDetails(streamMap);
+            }catch(Exception ex){
+                LOG.error(ex.getMessage());
+            }
 
             Map<String, byte[]> pdfByteMap = new LinkedHashMap<String, byte[]>();
 
@@ -444,9 +448,9 @@ public class PrintingServiceImpl implements PrintingService {
                     String createdTime = StringUtils.replaceChars(StringUtils.deleteWhitespace(dateString), ":", "_");
                     File dir = new File(loggingDirectory);
                     if(!dir.exists() || !dir.isDirectory()){
-                        dir.mkdir();
+                        dir.mkdirs();
                     }
-                    File file = new File(loggingDirectory , reportName + createdTime + ".xml");
+                    File file = new File(dir , reportName + createdTime + ".xml");
 
                     out = new BufferedWriter(new FileWriter(file));
                     out.write(xmlString);
