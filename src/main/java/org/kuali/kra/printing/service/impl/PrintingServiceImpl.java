@@ -456,8 +456,10 @@ public class PrintingServiceImpl implements PrintingService {
                 LOG.error(e.getMessage(), e);
             }finally{
                 try {
-                    out.flush();
-                    out.close();
+                    if(out!=null){
+                        out.flush();
+                        out.close();
+                    }
                 }
                 catch (IOException e) {
                     LOG.error(e.getMessage(), e);
