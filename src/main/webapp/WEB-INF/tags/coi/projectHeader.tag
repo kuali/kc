@@ -52,14 +52,15 @@
 		<span style="text-align: right; float: right; padding-left: 20px; padding-right: 5px;">
 			<c:if test="${not empty disclProject.coiDispositionStatus.description}">
 			Disposition: 
-			<c:choose><c:when test="${not KualiForm.editingMode['approveCoiDisclosure'] || !KualiForm.document.coiDisclosure.updateEvent}">
-				<%-- the readOnlyAlternateDisplay isn't working properly with valuesfinder fields right now so using this instead. --%>
-				<c:out value="${disclProject.coiDispositionStatus.description}"/>
-			</c:when><c:otherwise>
+			<c:choose><c:when test="${KualiForm.editingMode['approveCoiDisclosure'] && 
+					(KualiForm.document.coiDisclosure.updateEvent || KualiForm.document.coiDisclosure.annualEvent)}">			
 				<kul:htmlControlAttribute property="${boLocation}.disclosureDispositionCode" 
 				readOnly="false" 
 				attributeEntry="${coiDisclProjectAttributes.disclosureDispositionCode}"
 				styleClass="dispositionSelect"/>
+			</c:when><c:otherwise>
+				<%-- the readOnlyAlternateDisplay isn't working properly with valuesfinder fields right now so using this instead. --%>
+				<c:out value="${disclProject.coiDispositionStatus.description}"/>
 			</c:otherwise></c:choose>
 			</c:if>
 		</span>                    
