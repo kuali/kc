@@ -43,11 +43,13 @@ import org.kuali.kra.protocol.onlinereview.ProtocolReviewableBase;
 public class ReviewCommentsServiceImpl extends ReviewCommentsServiceImplBase<ProtocolReviewAttachment> implements ReviewCommentsService {
 
     private static final String[] PROTOCOL_SUBMISSION_COMPLETE_STATUSES = { ProtocolSubmissionStatus.APPROVED, 
-        ProtocolSubmissionStatus.EXEMPT, 
-        ProtocolSubmissionStatus.SPECIFIC_MINOR_REVISIONS_REQUIRED, 
-        ProtocolSubmissionStatus.SUBSTANTIVE_REVISIONS_REQUIRED, 
-        ProtocolSubmissionStatus.DEFERRED, 
-        ProtocolSubmissionStatus.DISAPPROVED };
+                                                                            ProtocolSubmissionStatus.EXEMPT, 
+                                                                            ProtocolSubmissionStatus.SPECIFIC_MINOR_REVISIONS_REQUIRED, 
+                                                                            ProtocolSubmissionStatus.SUBSTANTIVE_REVISIONS_REQUIRED, 
+                                                                            ProtocolSubmissionStatus.DEFERRED,
+                                                                            ProtocolSubmissionStatus.WITHDRAWN,
+                                                                            ProtocolSubmissionStatus.RETURNED_TO_PI,
+                                                                            ProtocolSubmissionStatus.DISAPPROVED };
 
     @Override
     protected String[] getProtocolSubmissionCompleteStatusCodeArrayHook() {
