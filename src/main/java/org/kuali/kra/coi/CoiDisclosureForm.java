@@ -169,7 +169,7 @@ public class CoiDisclosureForm extends KraTransactionalDocumentFormBase implemen
                 resultList.add(nav);
             }
             if (StringUtils.equalsIgnoreCase("disclosureActions", nav.getHeaderTabNavigateTo())) {
-                CoiDisclosureTask task = new CoiDisclosureTask(TaskName.PERFORM_COI_DISCLOSURE_ACTIONS, getCoiDisclosureDocument().getCoiDisclosure());
+                CoiDisclosureTask task = new CoiDisclosureTask(TaskName.VIEW_COI_DISCLOSURE_ACTIONS, getCoiDisclosureDocument().getCoiDisclosure());
                     // if not coi admin, remove the actions tab completely
                     if (!getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task)) {
                         resultList.remove(nav);

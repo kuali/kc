@@ -104,5 +104,17 @@ public abstract class CoiDisclosureAuthorizer extends TaskAuthorizerImpl {
                 && !kraWorkflowService.isInWorkflow(coiDisclosure.getCoiDisclosureDocument())
                 && !coiDisclosure.isApprovedDisclosure();
     }
+    
+    protected boolean isEditableByAdminReviewer(CoiDisclosure coiDisclosure) {
+        return (coiDisclosure != null)
+        && !coiDisclosure.getCoiDisclosureDocument().isViewOnly()
+        && !isPessimisticLocked(coiDisclosure.getCoiDisclosureDocument())
+        && !coiDisclosure.isApprovedDisclosure()
+        && !coiDisclosure.isDisapprovedDisclosure();
+    }    
+    
+    protected boolean isDocumentViewOnly(CoiDisclosure coiDisclosure) {
+        return coiDisclosure.getCoiDisclosureDocument().isViewOnly();
+    }    
 
 }

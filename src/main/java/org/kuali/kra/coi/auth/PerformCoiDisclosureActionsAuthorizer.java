@@ -19,6 +19,7 @@ import org.kuali.kra.infrastructure.PermissionConstants;
 
 public class PerformCoiDisclosureActionsAuthorizer extends CoiDisclosureAuthorizer {
     public boolean isAuthorized(String userId, CoiDisclosureTask task) {
-        return hasPermission(userId, task.getCoiDisclosure(), PermissionConstants.PERFORM_COI_DISCLOSURE_ACTIONS);
+        return hasPermission(userId, task.getCoiDisclosure(), PermissionConstants.PERFORM_COI_DISCLOSURE_ACTIONS)
+                && isEditableByAdminReviewer(task.getCoiDisclosure());
     }
 }
