@@ -292,10 +292,17 @@
                     <property name="taskName" value="viewCoiDisclosure" />
                 </bean>
                 
+                <bean class="org.kuali.kra.coi.auth.AddCoiDisclosureAttachmentsAuthorizer" parent="parentCoiDisclosureAuthorizer">
+                	<property name="taskName" value="addCoiDisclosureAttachments"/>
+                </bean>  
+                              
                 <bean class="org.kuali.kra.coi.auth.MaintainCoiDisclosureAttachmentsAuthorizer" parent="parentCoiDisclosureAuthorizer" >
                 	 <property name="taskName" value="maintainCoiDisclosureAttachments" />                	 
                 </bean>
                 
+                <bean class="org.kuali.kra.coi.auth.AddCoiDisclosureNotesAuthorizer" parent="parentCoiDisclosureAuthorizer">
+                	<property name="taskName" value="addCoiDisclosureNotes"/>
+                </bean>
                 <bean class="org.kuali.kra.coi.auth.MaintainCoiDisclosureNotesAuthorizer" parent="parentCoiDisclosureAuthorizer" >
                 	 <property name="taskName" value="maintainCoiDisclosureNotes" />   
                 </bean>
@@ -309,7 +316,10 @@
                 </bean>       
                  <bean class="org.kuali.kra.coi.auth.ApproveCoiDisclosureAuthorizer" parent="parentCoiDisclosureAuthorizer">
                 	<property name="taskName" value="approveCoiDisclosure" />
-                </bean>  
+                </bean>
+                  <bean class="org.kuali.kra.coi.auth.ViewCoiDisclosureActionsAuthorizer" parent="parentCoiDisclosureAuthorizer">
+                	<property name="taskName" value="viewCoiDisclosureAction" />
+                </bean>
                  <bean class="org.kuali.kra.coi.auth.PerformCoiDisclosureActionsAuthorizer" parent="parentCoiDisclosureAuthorizer">
                 	<property name="taskName" value="performCoiDisclosureAction" />
                 </bean> 

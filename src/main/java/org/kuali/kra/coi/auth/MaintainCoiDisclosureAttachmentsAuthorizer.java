@@ -90,14 +90,6 @@ public class MaintainCoiDisclosureAttachmentsAuthorizer extends CoiDisclosureAut
         return StringUtils.equals(userId, coiDisclosure.getPersonId());
     }
 
-    protected boolean isEditableByAdminReviewer(CoiDisclosure coiDisclosure) {
-        return (coiDisclosure != null)
-        && !coiDisclosure.getCoiDisclosureDocument().isViewOnly()
-        && !isPessimisticLocked(coiDisclosure.getCoiDisclosureDocument())
-        && !coiDisclosure.isApprovedDisclosure()
-        && !coiDisclosure.isDisapprovedDisclosure();
-    }
-
     protected PermissionService getPermissionService() {
         return KraServiceLocator.getService(PermissionService.class);
     }

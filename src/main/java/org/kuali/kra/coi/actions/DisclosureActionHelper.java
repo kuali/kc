@@ -57,7 +57,6 @@ public class DisclosureActionHelper implements Serializable {
     private transient ParameterService parameterService;
     private transient TaskAuthorizationService taskAuthorizationService;
     private transient KcPersonService kcPersonService;
-    private boolean disapproveDisclosure;
     private boolean approveDisclosure;
     private boolean maintainReviewers;
 
@@ -83,14 +82,7 @@ public class DisclosureActionHelper implements Serializable {
      */
     private void initializePermissions() {
         approveDisclosure = canApproveCoiDisclosure();
-        disapproveDisclosure = canDisapproveCoiDisclosure();
         maintainReviewers = canMaintainReviewers();
-    }
-    
-
-    private boolean canDisapproveCoiDisclosure() {
-        CoiDisclosureTask task = new CoiDisclosureTask(TaskName.DISAPPROVE_COI_DISCLOSURE, getCoiDisclosure());
-        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
 
     private boolean canApproveCoiDisclosure() {
@@ -121,14 +113,6 @@ public class DisclosureActionHelper implements Serializable {
     
     protected String getUserIdentifier() {
         return GlobalVariables.getUserSession().getPrincipalId();
-    }
-    
-    public boolean getDisapproveDisclosure() {
-        return disapproveDisclosure;
-    }
-
-    public void setDisapproveDisclosure(boolean disapproveDisclosure) {
-        this.disapproveDisclosure = disapproveDisclosure;
     }
 
     public boolean getApproveDisclosure() {

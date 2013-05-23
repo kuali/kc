@@ -18,7 +18,7 @@
 <c:set var="canMaintainReviewers" value="${KualiForm.disclosureActionHelper.maintainReviewers}" />
 <c:set var="coiUserRoleAttributes" value="${DataDictionary.CoiUserRole.attributes}" />
 <c:set var="userRoles" value="${KualiForm.disclosureActionHelper.coiUserRoles}"/>
-
+<c:set var="readOnly" value="${!KualiForm.coiNotesAndAttachmentsHelper.performCoiDisclosureActions}"/>
 	<div class="tab-container" align="center">
 		<h3> 
 			<span class="subhead-left">Complete Review</span>
@@ -52,7 +52,7 @@
 	                        <div align="center">
 	                        <nobr>
 	                  				<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiUserRoles[${status.index}].coiRecomendedTypeCode" 
-	                                            attributeEntry="${coiUserRoleAttributes.coiRecomendedTypeCode}" />
+	                                            attributeEntry="${coiUserRoleAttributes.coiRecomendedTypeCode}" readOnly="${readOnly}"/>
 	                        </nobr>
 	                        </div>
 	                    </td>
@@ -60,6 +60,7 @@
 					<c:set var="userIndex" value="${userIndex+1}"/>
             	</c:if>
             </c:forEach>
+            	<c:if test="${!readOnly}">
                 <tr>
 					<td align="center" colspan="6">
 						<div align="center">
@@ -68,6 +69,7 @@
 						</div>
 	                </td>
                 </tr>
+                </c:if>
         </tbody>
         </table>        
        </div> 

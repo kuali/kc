@@ -38,7 +38,7 @@ public class MaintainCoiDisclosureNotesAuthorizer extends CoiDisclosureAuthorize
             if (isNewDisclosure(coiDisclosure)) {
                 hasPermission = hasUnitPermission(userId, Constants.MODULE_NAMESPACE_COIDISCLOSURE, PermissionConstants.REPORT_COI_DISCLOSURE);
             } else if (isNotSubmitted(coiDisclosure)) {
-                if (isDisclosureReporter(userId, coiDisclosure)) {
+                if (isDisclosureReporter(userId, coiDisclosure) && !isPessimisticLocked(coiDisclosure.getCoiDisclosureDocument())) {
                     hasPermission = true;
                 } else {
                     //hasPermission = hasUnitPermission(userId, Constants.MODULE_NAMESPACE_COIDISCLOSURE, PermissionConstants.MAINTAIN_COI_DISCLOSURE_NOTES)
@@ -76,20 +76,16 @@ public class MaintainCoiDisclosureNotesAuthorizer extends CoiDisclosureAuthorize
         return !coiDisclosure.isSubmitted();
     }
     
+    protected boolean isDocumentViewOnly(CoiDisclosure coiDisclosure) {
+        return coiDisclosure.getCoiDisclosureDocument().isViewOnly();
+    }
+    
     protected boolean isDocumentFinal(CoiDisclosure coiDisclosure) {
         return coiDisclosure.getCoiDisclosureDocument().getDocumentHeader().getWorkflowDocument().isFinal();     
     }
     
     protected boolean isDisclosureReporter(String userId, CoiDisclosure coiDisclosure) {
         return StringUtils.equals(userId, coiDisclosure.getPersonId());
-    }
-
-    protected boolean isEditableByAdminReviewer(CoiDisclosure coiDisclosure) {
-        return (coiDisclosure != null)
-        && !coiDisclosure.getCoiDisclosureDocument().isViewOnly()
-        && !isPessimisticLocked(coiDisclosure.getCoiDisclosureDocument())
-        && !coiDisclosure.isApprovedDisclosure()
-        && !coiDisclosure.isDisapprovedDisclosure();
     }
 
     protected PermissionService getPermissionService() {
