@@ -132,7 +132,7 @@ public class CoiDisclosureAction extends CoiAction {
         ActionForward actionForward = mapping.findForward(Constants.MAPPING_BASIC);
         // notes and attachments
         CoiNotesAndAttachmentsHelper helper = ((CoiDisclosureForm) form).getCoiNotesAndAttachmentsHelper();        
-        helper.fixReloadedAttachments(request.getParameterMap());
+       
         
         CoiDisclosure coiDisclosure = coiDisclosureDocument.getCoiDisclosure();
         helper.setOriginalDisclosureIdsIfNecessary(coiDisclosure);
@@ -176,6 +176,7 @@ public class CoiDisclosureAction extends CoiAction {
                 actionForward = super.save(mapping, form, request, response);
             }
             
+            helper.fixReloadedAttachments(request.getParameterMap());
             // check if doc save went OK
             // TODO Any validation errors during the doc save will cause an exception to be thrown, so perhaps the checking of
             // message map below is redundant
