@@ -153,13 +153,13 @@
 	
 	<param name="documentSearch.resultProcessor.class.name">org.kuali.kra.proposaldevelopment.document.search.ProposalDocumentSearchResultProcessor</param>
 
-	<!-- Java mail properties -->
+	<!-- Notification mail properties-->
 	<param name="mail.from">mail.from@kuali.org</param>
 	<param name="mail.transport.protocol">smtp</param>
 	<param name="mail.smtp.host">localhost</param>
 	<param name="mail.smtp.port">10000</param>
-	<param name="mail.smtp.user">userId</param>
-	<param name="mail.user.credentials">password</param>
+	<param name="mail.smtp.username">userId</param>
+	<param name="mail.user.password">password</param>
 	<param name="mail.smtp.auth">false</param>
 	
 	<param name="s2s.keystore.location">path to keystore</param>
