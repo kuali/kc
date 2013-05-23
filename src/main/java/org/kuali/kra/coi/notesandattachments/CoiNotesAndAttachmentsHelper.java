@@ -249,7 +249,7 @@ public class CoiNotesAndAttachmentsHelper {
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task); 
     }
     
-    protected boolean canPerformCoiDisclosureActions(){
+    public boolean isPerformCoiDisclosureActions(){
         CoiDisclosureTask task = new CoiDisclosureTask(TaskName.PERFORM_COI_DISCLOSURE_ACTIONS, getCoiDisclosure());
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task); 
     }
@@ -260,7 +260,7 @@ public class CoiNotesAndAttachmentsHelper {
      */
     protected boolean canAddCoiReviewerComments() {   
         boolean userIsCoiReviewer = false; 
-        if (canViewCoiDisclosure() && canMaintainCoiDisclosureNotes() && canMaintainCoiDisclosureAttachments() && canPerformCoiDisclosureActions()){            
+        if (canViewCoiDisclosure() && canMaintainCoiDisclosureNotes() && canMaintainCoiDisclosureAttachments() && isPerformCoiDisclosureActions()){            
             userIsCoiReviewer = true;
         }
         return userIsCoiReviewer;
