@@ -977,5 +977,9 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
     public String getDisclosureStatusReviewStatus() {
         return disclosureStatusReviewStatus;
     }
+    
+    public boolean isDisclosureSaved() {
+        return coiDisclosureId != null;
+    }
 
 }
