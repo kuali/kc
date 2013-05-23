@@ -15,7 +15,7 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <c:set var="disclosureAttributes" value="${DataDictionary.CoiDisclosure.attributes}" />
-<c:set var="readOnly" value="${KualiForm.disclosureActionHelper.documentReadOnly}" />
+<c:set var="readOnly" value="${KualiForm.document.viewOnly}" />
 
 	<div class="tab-container" align="center">
 		<h3> 
