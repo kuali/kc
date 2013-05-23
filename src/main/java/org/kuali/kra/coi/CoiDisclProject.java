@@ -262,8 +262,10 @@ public class CoiDisclProject extends KraPersistableBusinessObjectBase implements
         String label = "Project Id";
         if (isAwardEvent()) {
             label = "Award Number";
-        } else if (isProtocolEvent() || isIacucProtocolEvent()) {
+        } else if (isProtocolEvent()) {
             label = "Protocol Number";
+        } else if (isIacucProtocolEvent()) {
+            label = "IACUC Protocol Number";
         } else if (this.isProposalEvent()) {
             label = "Proposal Number";
         }
@@ -503,7 +505,6 @@ public class CoiDisclProject extends KraPersistableBusinessObjectBase implements
     public void initHeaderItems() {
         DateFormat df = new SimpleDateFormat("MM/dd/yyyyy");
         headerItems = new ArrayList<LabelValuePair>();
-//        headerItems.add(new LabelValuePair(coiDisclosureEventType.getProjectIdLabel(), coiProjectId));
         if (coiDisclosureEventType == null) {
            this.refreshReferenceObject("coiDisclosureEventType");
         }

@@ -28,6 +28,12 @@
         boLocation="disclosureHelper.masterDisclosureBean.manualProtocolProjects"
         parentTab="Manual Projects"/>
     </c:if>
+    <c:if test="${fn:length(masterDisclosure.manualIacucProtocolProjects) > 0}" >
+        <kra-coi:disclosureProjects masterDisclosureProjects="${masterDisclosure.manualIacucProtocolProjects}" 
+        projectDivNamePrefix="masterManualProtocolFE" projectListName="manualIacucProtocolProjects" 
+        boLocation="disclosureHelper.masterDisclosureBean.manualIacucProtocolProjects"
+        parentTab="Manual Projects"/>
+    </c:if>
     <c:if test="${fn:length(masterDisclosure.manualTravelProjects) > 0}" >
         <kra-coi:disclosureProjects masterDisclosureProjects="${masterDisclosure.manualTravelProjects}" 
         projectDivNamePrefix="masterManualTravelFE" projectListName="manualTravelProjects" 
