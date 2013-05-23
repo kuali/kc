@@ -194,8 +194,8 @@ public class CoiNoteAndAttachmentAction extends CoiAction {
     public final ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
     throws Exception {
         CoiNotesAndAttachmentsHelper helper = ((CoiDisclosureForm) form).getCoiNotesAndAttachmentsHelper();        
-        helper.fixReloadedAttachments(request.getParameterMap());
         super.save(mapping, form, request, response);
+        helper.fixReloadedAttachments(request.getParameterMap());
         return mapping.findForward(Constants.MAPPING_BASIC);
 
     }
