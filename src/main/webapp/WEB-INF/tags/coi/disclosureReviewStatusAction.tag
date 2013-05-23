@@ -15,7 +15,7 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <c:set var="disclosureAttributes" value="${DataDictionary.CoiDisclosure.attributes}" />
-<c:set var="canApproveDisclosure" value="${KualiForm.disclosureActionHelper.approveDisclosure}" />
+<c:set var="readOnly" value="${KualiForm.disclosureActionHelper.documentReadOnly}" />
 
 	<div class="tab-container" align="center">
 		<h3> 
@@ -32,14 +32,16 @@
                 	</th>
                 	<td style="width: 150px">
                         <kul:htmlControlAttribute property="disclosureActionHelper.coiDisclosure.reviewStatusCode" 
-                                                  attributeEntry="${disclosureAttributes.reviewStatusCode}" />
+                                                  attributeEntry="${disclosureAttributes.reviewStatusCode}" readOnly="${readOnly}"/>
                 	</td>
 	            </tr>               
                 <tr>
 					<td align="center" colspan="4">
 						<div align="center">
+							<c:if test="${!readOnly}">
 							<html:image property="methodToCall.updateDisclosureReviewStatus.anchor${tabKey}"
 							            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-submit.gif' styleClass="tinybutton"/>
+							</c:if>
 						</div>
 	                </td>
                 </tr>

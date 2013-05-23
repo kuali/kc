@@ -233,6 +233,7 @@ public interface TaskName {
     public static final String MAINTAIN_COI_DISCLOSURE_ATTACHMENTS = "maintainCoiDisclosureAttachments";
     public static final String MAINTAIN_COI_REVIEWERS = "maintainCoiReviewers";
     public static final String PERFORM_COI_DISCLOSURE_ACTIONS = "performCoiDisclosureAction";
+    public static final String VIEW_COI_DISCLOSURE_ACTIONS = "viewCoiDisclosureAction";
     public static final String DELETE_UPDATE_NOTE = "deleteUpdateNote";
     public static final String DELETE_UPDATE_ATTACHMENT = "deleteUpdateAttachment";
     
