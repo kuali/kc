@@ -284,6 +284,11 @@
          	<ref bean="krms.serviceNamespace" />
         </property>
     </bean>
+    
+    <bean id="mailSender" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean" >
+    	<property name="serviceName" value="mailSender" />
+    </bean>
+    
 
     <bean id="parentLookupableHelperService" abstract="true">
         <property name="persistenceStructureService" ref="persistenceStructureService" />
@@ -424,7 +429,10 @@
         <property name="workflowDocumentService" ref="kradWorkflowDocumentService" />
     </bean>
 
-    <bean id="kcEmailService" class="org.kuali.kra.service.impl.KcEmailServiceImpl" />
+    <bean id="kcEmailService" class="org.kuali.kra.service.impl.KcEmailServiceImpl" >
+    	<property name="mailSender" ref="mailSender" />
+    	<property name="parameterService" ref="parameterService" />
+    </bean>
 
     <bean id="kcGroupService" class="org.kuali.kra.kim.service.impl.KcGroupServiceImpl">
         <property name="groupService" ref="groupService" />
