@@ -101,7 +101,9 @@
 <c:if test="${fn:length(masterDisclosure.allProjects) > 0}" >
     <kra-coi:masterDisclosures />
 </c:if>
-<kra:dataValidation auditActivated="${KualiForm.auditActivated}" topTab="false"/>
+<c:if test="${KualiForm.document.coiDisclosure.disclosureSaved}">
+	<kra:dataValidation auditActivated="${KualiForm.auditActivated}" topTab="false"/>
+</c:if>
 
 <kul:panelFooter />
 	<kul:documentControls 
