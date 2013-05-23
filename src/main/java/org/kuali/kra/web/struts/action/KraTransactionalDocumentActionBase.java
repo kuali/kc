@@ -1139,6 +1139,8 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
                     forward = super.reload(mapping, docForm, request, response);
                 }
             }
+        } else {
+            forward = super.reload(mapping, docForm, request, response);
         }
         return forward;
     }

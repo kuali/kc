@@ -15,23 +15,10 @@
  */
 package org.kuali.kra.coi.auth;
 
-import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.infrastructure.PermissionConstants;
 
-public class ApproveCoiDisclosureAuthorizer extends CoiDisclosureAuthorizer {
-
-    @Override
+public class ViewCoiDisclosureActionsAuthorizer extends CoiDisclosureAuthorizer {
     public boolean isAuthorized(String userId, CoiDisclosureTask task) {
-        return hasPermission(userId, task.getCoiDisclosure(), PermissionConstants.APPROVE_COI_DISCLOSURE) && isSubmitted(task);
-    }
-
-    protected boolean isSubmitted(CoiDisclosureTask task) {
-        CoiDisclosure disclosure = task.getCoiDisclosure();
-        
-        if (disclosure.getCoiDisclosureDocument().getDocumentHeader().hasWorkflowDocument() &&
-            disclosure.getCoiDisclosureDocument().getDocumentHeader().getWorkflowDocument().isEnroute()) {
-            return true;
-        }
-        return false;
+        return hasPermission(userId, task.getCoiDisclosure(), PermissionConstants.PERFORM_COI_DISCLOSURE_ACTIONS);
     }
 }

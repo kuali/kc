@@ -23,6 +23,8 @@
             <c:if test="${disclosureReviewCompleted}">
 	            <kra-coi:disclosureReviewStatusAction/>
             </c:if>
+            <c:if test="${!KualiForm.document.viewOnly}">
             <kra-coi:approveAction />
+            </c:if>
         </c:if>    
 </kul:tab>

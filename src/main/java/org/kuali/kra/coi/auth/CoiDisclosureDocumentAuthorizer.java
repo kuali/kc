@@ -21,6 +21,7 @@ import java.util.Set;
 import org.kuali.kra.authorization.ApplicationTask;
 import org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase;
 import org.kuali.kra.coi.CoiDisclosureDocument;
+import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.ProtocolDocument;
@@ -29,6 +30,7 @@ import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.util.KRADConstants;
 
 /**
  * 
@@ -106,8 +108,6 @@ public class CoiDisclosureDocumentAuthorizer extends KcTransactionalDocumentAuth
      * @return true if the user can create a coi disclosure; otherwise false
      */
     private boolean canCreateCoiDisclosure(Person user) {
-        // TODO : to be implemented later
-//        return true;
         ApplicationTask task = new ApplicationTask(TaskName.CREATE_COI_DISCLOSURE);       
         TaskAuthorizationService taskAuthenticationService = KraServiceLocator.getService(TaskAuthorizationService.class);
         return taskAuthenticationService.isAuthorized(user.getPrincipalId(), task);
@@ -121,8 +121,6 @@ public class CoiDisclosureDocumentAuthorizer extends KcTransactionalDocumentAuth
      * @return true if has permission; otherwise false
      */
     private boolean canExecuteCoiDisclosureTask(String userId, CoiDisclosureDocument doc, String taskName) {
-        // TODO : to be implemented later
-//        return true;
         CoiDisclosureTask task = new CoiDisclosureTask(taskName, doc.getCoiDisclosure());       
         TaskAuthorizationService taskAuthenticationService = KraServiceLocator.getService(TaskAuthorizationService.class);
         return taskAuthenticationService.isAuthorized(userId, task);
@@ -133,7 +131,11 @@ public class CoiDisclosureDocumentAuthorizer extends KcTransactionalDocumentAuth
      */
     @Override
     public boolean canEdit(Document document, Person user) {
-        return canExecuteCoiDisclosureTask(user.getPrincipalId(), (CoiDisclosureDocument) document, TaskName.MODIFY_COI_DISCLOSURE);
+        return canExecuteCoiDisclosureTask(user.getPrincipalId(), (CoiDisclosureDocument) document, TaskName.MODIFY_COI_DISCLOSURE)
+                || canModifyAttachments((CoiDisclosureDocument)document, user) 
+                || canModifyNotes((CoiDisclosureDocument)document, user)
+                || canApprove(user.getPrincipalId(), (CoiDisclosureDocument) document, TaskName.APPROVE_COI_DISCLOSURE)
+                && !((CoiDisclosureDocument) document).isViewOnly();
     }
     
     /**
@@ -141,7 +143,7 @@ public class CoiDisclosureDocumentAuthorizer extends KcTransactionalDocumentAuth
      */
     @Override
     public boolean canSave(Document document, Person user) {
-        return canEdit(document, user) || canModifyAttachments((CoiDisclosureDocument)document, user) || canModifyNotes((CoiDisclosureDocument)document, user);
+        return canEdit(document, user);
     }
     
     protected boolean canModifyAttachments(CoiDisclosureDocument doc, Person user) {       
@@ -152,11 +154,6 @@ public class CoiDisclosureDocumentAuthorizer extends KcTransactionalDocumentAuth
         return canExecuteCoiDisclosureTask(user.getPrincipalId(), doc, TaskName.MAINTAIN_COI_DISCLOSURE_NOTES);                                                   
                                                                                           
     }
-
-//    @Override
-//    public boolean canClose(Document document, Person user) {
-//        return canEdit(document, user);
-//    }
     
     /**
      * @see org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase#canCopy(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person)
@@ -210,6 +207,16 @@ public class CoiDisclosureDocumentAuthorizer extends KcTransactionalDocumentAuth
     @Override
     public boolean canFyi(Document document, Person user) {
         return false;
+    }
+    
+    protected Set<String> getDocumentActions(Document document, Person user) {
+        Set<String> documentActions = super.getDocumentActions(document, user);
+        
+        if (document.getDocumentHeader().getWorkflowDocument().isEnroute()) {
+            documentActions.remove(KRADConstants.KUALI_ACTION_CAN_EDIT_DOCUMENT_OVERVIEW);
+        }
+        
+        return documentActions;
     }
     
 }

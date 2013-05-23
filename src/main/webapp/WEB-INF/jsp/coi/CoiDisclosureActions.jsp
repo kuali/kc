@@ -35,12 +35,7 @@
 
   
    	<div align="right"><kul:help parameterNamespace="KC-COIDISCLOSURE" parameterDetailType="Document" parameterName="disclosureActionsHelp" altText="help"/></div>
-  	<%-- TODO : 'data validation' is not in mock.  however, for audit rule consistency, we should
-  	             consider to add it. If we don't need it, then remove this. --%>
 	<div id="workarea">
-<%--     <kra:dataValidation auditActivated="${KualiForm.auditActivated}" topTab="true"/> --%>
-
-
 	<%--Added condition to prevent Reviewer Actions panel from displaying when user is the reporter.            --%>
 	<%--Added variable to designate top tab to keep Data Validation tab from having shadow when it was top tab. --%>  
 	<c:set var="onTopTab" value="true" />
@@ -50,7 +45,6 @@
 	    <c:set var="onTopTab" value="false" />
 	</c:if>
     
-    <%--add document authorizer here --%>
     <kra:section permission="approveCoiDisclosure">
         <kra-coi:coiAdministratorActions />
     </kra:section>
