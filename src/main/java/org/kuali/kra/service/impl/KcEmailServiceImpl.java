@@ -15,8 +15,8 @@
  */
 package org.kuali.kra.service.impl;
 
+
 import java.util.List;
-import java.util.Properties;
 import java.util.Set;
 
 import javax.mail.MessagingException;
@@ -26,11 +26,12 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.service.KcEmailService;
 import org.kuali.kra.util.EmailAttachment;
 import org.kuali.rice.core.api.config.property.ConfigContext;
+import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.springframework.core.io.ByteArrayResource;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 
@@ -38,7 +39,20 @@ public class KcEmailServiceImpl implements KcEmailService {
     private static final Log LOG = LogFactory.getLog(KcEmailServiceImpl.class);
     
     public static final String DEFAULT_ENCODING = "UTF-8";
+
+    private JavaMailSenderImpl mailSender;    
+    private ParameterService parameterService;
     
+    /**
+     * @param mailSender The injected Mail Sender.
+     */
+    public void setMailSender(JavaMailSenderImpl mailSender) {
+        this.mailSender = mailSender;
+    }
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
+    }
+
     public void sendEmail(String from, Set<String> toAddresses, String subject, Set<String> ccAddresses,
                           Set<String> bccAddresses, String body, boolean htmlMessage) {
         sendEmailWithAttachments(from, toAddresses, subject, ccAddresses, bccAddresses, body, htmlMessage, null);
@@ -46,21 +60,20 @@ public class KcEmailServiceImpl implements KcEmailService {
 
     public void sendEmailWithAttachments(String from, Set<String> toAddresses, String subject, Set<String> ccAddresses,
                                          Set<String> bccAddresses, String body, boolean htmlMessage, List<EmailAttachment> attachments) {
-        JavaMailSender sender = createSender();
         
-        if (sender != null) {
-            MimeMessage message = sender.createMimeMessage();
+        if (mailSender != null) {
+            if(CollectionUtils.isEmpty(toAddresses) && 
+                    CollectionUtils.isEmpty(ccAddresses) && 
+                    CollectionUtils.isEmpty(bccAddresses)){
+                return;
+            }
+            
+            MimeMessage message = mailSender.createMimeMessage();
             MimeMessageHelper helper = null;
             
             try {
                 helper = new MimeMessageHelper(message, true, DEFAULT_ENCODING);
                 helper.setFrom(from);
-                
-                if (CollectionUtils.isNotEmpty(toAddresses)) {
-                    for (String toAddress: toAddresses) {
-                        helper.addTo(toAddress);
-                    }
-                }
                 
                 if (StringUtils.isNotBlank(subject)) {
                     helper.setSubject(subject);
@@ -68,72 +81,102 @@ public class KcEmailServiceImpl implements KcEmailService {
                     LOG.warn("Sending message with empty subject.");
                 }
                 
-                helper.setText(body, htmlMessage);
                 
-                if (CollectionUtils.isNotEmpty(ccAddresses)) {
-                    for (String ccAddress: ccAddresses) {
-                        helper.addCc(ccAddress);
+                if(isEmailTestEnabled()){
+                    helper.setText(getTestMessageBody(body,toAddresses,ccAddresses,bccAddresses),true);
+                    String toAddress = getEmailNotificationTestAddress();
+                    if(StringUtils.isNotBlank(getEmailNotificationTestAddress())){
+                        helper.addTo(toAddress);
                     }
-                }
-                
-                if (CollectionUtils.isNotEmpty(bccAddresses)) {
-                    for (String bccAddress : bccAddresses) {
-                        helper.addBcc(bccAddress);
+                }else{
+                    helper.setText(body, htmlMessage);
+                    if (CollectionUtils.isNotEmpty(toAddresses)) {
+                        for (String toAddress: toAddresses) {
+                            try{
+                                helper.addTo(toAddress);
+                            }catch(Exception ex){
+                                LOG.warn("Could not set to address:",ex);
+                            }
+                        }
+                    }
+                    if (CollectionUtils.isNotEmpty(ccAddresses)) {
+                        for (String ccAddress: ccAddresses) {
+                            try{
+                                helper.addCc(ccAddress);
+                            }catch(Exception ex){
+                                LOG.warn("Could not set to address:",ex);
+                            }
+                        }
+                    }
+                    if (CollectionUtils.isNotEmpty(bccAddresses)) {
+                        for (String bccAddress : bccAddresses) {
+                            try{
+                                helper.addBcc(bccAddress);
+                            }catch(Exception ex){
+                                LOG.warn("Could not set to address:",ex);
+                            }
+                        }
                     }
                 }
                 
                 if (CollectionUtils.isNotEmpty(attachments)) {
                     for (EmailAttachment attachment : attachments) {
-                        helper.addAttachment(attachment.getFileName(), new ByteArrayResource(attachment.getContents()), attachment.getMimeType());
+                        try{
+                            helper.addAttachment(attachment.getFileName(), new ByteArrayResource(attachment.getContents()), attachment.getMimeType());
+                        }catch(Exception ex){
+                            LOG.warn("Could not set to address:",ex);
+                        }
                     }
                 }
                 
-                sender.send(message);
+                mailSender.send(message);
+                
             } catch (MessagingException ex) {
                 LOG.error("Failed to create mime message helper.", ex);
             } catch (Exception e) {
                 LOG.error("Failed to send email.", e);
             }
         } else {
-            LOG.info("Failed to send email due to inability to obtain valid email sender, please check your configuration.");
+            LOG.info("Failed to send email due to inability to obtain valid email mailSender, please check your configuration.");
         }
     }
     
+    private String getEmailNotificationTestAddress() {
+        String testAddress = parameterService.getParameterValueAsString(Constants.KC_GENERIC_PARAMETER_NAMESPACE,  
+                Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, "EMAIL_NOTIFICATION_TEST_ADDRESS");
+        return testAddress;
+    }
+    private String getTestMessageBody(String body, Set<String> toAddresses, Set<String> ccAddresses, Set<String> bccAddresses) {
+        StringBuffer testEmailBody = new StringBuffer("");
+        testEmailBody.append( "-----------------------------------------------------------<br/>");
+        testEmailBody.append("TEST MODE<br/>");
+        testEmailBody.append("In Production mode this mail will be sent to the following... <br/>");
+        if (CollectionUtils.isNotEmpty(toAddresses)) {
+            testEmailBody.append("TO: ");
+            testEmailBody.append(toAddresses);
+        }
+        if (CollectionUtils.isNotEmpty(ccAddresses)) {
+            testEmailBody.append("CC: ");
+            testEmailBody.append(toAddresses);
+        }
+        if (CollectionUtils.isNotEmpty(bccAddresses)) {
+            testEmailBody.append("BCC: ");
+            testEmailBody.append(toAddresses);
+        }
+        testEmailBody.append("<br/>-----------------------------------------------------------");
+        return testEmailBody.toString()+"<br/>"+body;
+        
+    }
+    private boolean isEmailTestEnabled() {
+        boolean emailTestEnabled = parameterService.getParameterValueAsBoolean(Constants.KC_GENERIC_PARAMETER_NAMESPACE,  
+                Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, "EMAIL_NOTIFICATIONS_ENABLED");
+        return emailTestEnabled;
+    }
     public String getDefaultFromAddress() {
-        return getConfigProperties().getProperty("mail.from");
+        String fromAddress = parameterService.getParameterValueAsString(Constants.KC_GENERIC_PARAMETER_NAMESPACE,  
+                Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, "EMAIL_NOTIFICATION_FROM_ADDRESS");
+        return fromAddress!=null?fromAddress:ConfigContext.getCurrentContextConfig().getProperties().getProperty("mail.from");
     }
 
     
-    private JavaMailSender createSender() {
-        Properties props = getConfigProperties();
-        JavaMailSenderImpl sender = null;
-
-        if (props != null && StringUtils.isNotBlank(props.getProperty("mail.smtp.host")) &&
-                StringUtils.isNotBlank(props.getProperty("mail.smtp.port")) && 
-                StringUtils.isNotBlank(props.getProperty("mail.smtp.user")) &&
-                StringUtils.isNotBlank(props.getProperty("mail.user.credentials"))) {
-            try {
-            sender = new JavaMailSenderImpl();
-        
-            sender.setJavaMailProperties(props);
-            sender.setHost(props.getProperty("mail.smtp.host"));
-            sender.setPort(Integer.parseInt(props.getProperty("mail.smtp.port")));
-            sender.setUsername(props.getProperty("mail.smtp.user"));
-            sender.setPassword(props.getProperty("mail.user.credentials"));
-            } catch (Exception e) {
-                LOG.warn("Unable to create email sender due to invalid configuration. The properties [mail.smtp.host, " +
-                     "mail.smtp.port, mail.smtp.user, mail.user.credentials] need to be set.");
-                sender = null;
-            }
-        } else {
-            LOG.warn("Unable to create email sender due to missing configuration.  The properties [mail.smtp.host, " +
-                     "mail.smtp.port, mail.smtp.user, mail.user.credentials] need to be set.");
-        }
-        
-        return sender;
-    }
-    
-    private Properties getConfigProperties() {
-        return ConfigContext.getCurrentContextConfig().getProperties();
-    }
 }
