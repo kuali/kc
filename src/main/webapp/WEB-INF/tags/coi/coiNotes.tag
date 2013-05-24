@@ -203,7 +203,11 @@
 							</td>
 							<td valign="middle">	
 								<div align="left">
-									<kul:htmlControlAttribute property="document.coiDisclosure.coiDisclosureNotepads[${statusIndex}].financialEntityId" attributeEntry="${notesAttributes.financialEntityId}" readOnly="${noteReadOnly}" />
+									<c:choose><c:when test="${noteReadOnly}">
+										<c:out value="${KualiForm.document.coiDisclosure.coiDisclosureNotepads[statusIndex].financialEntity.entityName}" />	
+									</c:when><c:otherwise>
+										<kul:htmlControlAttribute property="document.coiDisclosure.coiDisclosureNotepads[${statusIndex}].financialEntityId" attributeEntry="${notesAttributes.financialEntityId}" />
+									</c:otherwise></c:choose>
 								</div>
 							</td>
 							<td valign="middle">
