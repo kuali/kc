@@ -22,8 +22,12 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.authorization.ApplicationTask;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.service.ResearchAreaCurrentReferencerHolderBase;
 import org.kuali.kra.service.ResearchAreasServiceBase;
+import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.web.struts.form.ResearchAreasFormBase;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -174,11 +178,28 @@ public abstract class ResearchAreasActionBase extends KualiAction {
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         // TODO Auto-generated method stub
+        ResearchAreasFormBase researchAreaForm = (ResearchAreasFormBase) form;
         ActionForward forward = super.execute(mapping, form, request, response);
         setResearchAreas(form);
+        canMaintainResearchArea(researchAreaForm);
         return forward;
     }
     
+    private void canMaintainResearchArea(ResearchAreasFormBase researchAreaForm) {
+        ApplicationTask task = new ApplicationTask(getResearchAreasTask());
+        researchAreaForm.setAuthorizedToMaintainResearchAreas(getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task));     
+    }
+
+    private String getUserIdentifier() {
+        return GlobalVariables.getUserSession().getPrincipalId();
+    }
+    
+    protected TaskAuthorizationService getTaskAuthorizationService() {
+        return KraServiceLocator.getService(TaskAuthorizationService.class);
+    }
+
     protected abstract ResearchAreasServiceBase getResearchAreasService();
+    protected abstract String getResearchAreasTask();
+
 
 }
