@@ -30,6 +30,7 @@ public abstract class ResearchAreasFormBase extends KualiForm {
     private String addRA;
     private String sqlScripts;
     private String deletedRas;
+    private boolean authorizedToMaintainResearchAreas;
 
 
     /**
@@ -50,33 +51,6 @@ public abstract class ResearchAreasFormBase extends KualiForm {
      * @return
      */
     public String getResearchAreas() {
-//        if (StringUtils.isNotBlank(addRA) && addRA.equals("Y")) {
-//            if (KraServiceLocator.getService(ResearchAreasService.class).isResearchAreaExist(researchAreaCode, deletedRas)) {
-//                setResearchAreas("<h3>true</h3>");
-//            }else {
-//                setResearchAreas("<h3>false</h3>");
-//            }
-//        } else if (StringUtils.isNotBlank(addRA) && addRA.equals("S")) {
-//            try {
-//                KraServiceLocator.getService(ResearchAreasService.class).saveResearchAreas(sqlScripts);
-//                String error = (String) GlobalVariables.getUserSession().retrieveObject("raError");
-//                if (StringUtils.isNotBlank(error)) {
-//                    setResearchAreas("<h3>" + error + "</h3>");
-//                    GlobalVariables.getUserSession().addObject("raError", (Object) null);
-//                } else {
-//                    setResearchAreas("<h3>Success</h3>");
-//                }
-//            }
-//            catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//        } else if (StringUtils.isNotBlank(addRA) && addRA.equals("A")) {
-//            setResearchAreas(KraServiceLocator.getService(ResearchAreasService.class).getSubResearchAreasForTreeView(
-//                    researchAreaCode, true));
-//        } else {
-//            setResearchAreas(KraServiceLocator.getService(ResearchAreasService.class).getSubResearchAreasForTreeView(
-//                    researchAreaCode, false));
-//        }
         return researchAreas;
     }
 
@@ -146,4 +120,13 @@ public abstract class ResearchAreasFormBase extends KualiForm {
     public void setDeletedRas(String deletedRas) {
         this.deletedRas = deletedRas;
     }
+
+    public boolean isAuthorizedToMaintainResearchAreas() {
+        return authorizedToMaintainResearchAreas;
+    }
+
+    public void setAuthorizedToMaintainResearchAreas(boolean authorizedToMaintainResearchAreas) {
+        this.authorizedToMaintainResearchAreas = authorizedToMaintainResearchAreas;
+    }
+    
 }

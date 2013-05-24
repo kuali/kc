@@ -17,6 +17,7 @@ package org.kuali.kra.iacuc;
 
 import org.kuali.kra.iacuc.service.IacucResearchAreasService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.service.ResearchAreasServiceBase;
 import org.kuali.kra.web.struts.action.ResearchAreasActionBase;
 
@@ -25,6 +26,11 @@ public class IacucResearchAreasAction extends ResearchAreasActionBase {
     @Override
     protected ResearchAreasServiceBase getResearchAreasService() {
         return KraServiceLocator.getService(IacucResearchAreasService.class);
+    }
+
+    @Override
+    protected String getResearchAreasTask() {
+        return TaskName.MAINTAIN_IACUC_RESEARCH_AREAS;
     }
 
 }
