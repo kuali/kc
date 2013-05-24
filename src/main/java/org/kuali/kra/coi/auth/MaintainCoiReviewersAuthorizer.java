@@ -22,7 +22,7 @@ public class MaintainCoiReviewersAuthorizer extends CoiDisclosureAuthorizer {
     @Override
     public boolean isAuthorized(String userId, CoiDisclosureTask task) {
         return hasPermission(userId, task.getCoiDisclosure(), PermissionConstants.MAINTAIN_COI_REVIEWERS)
-                && task.getCoiDisclosure().getCoiDisclosureDocument().isViewOnly()
+                && !task.getCoiDisclosure().getCoiDisclosureDocument().isViewOnly()
                 && !isPessimisticLocked(task.getCoiDisclosure().getCoiDisclosureDocument());
     }
     
