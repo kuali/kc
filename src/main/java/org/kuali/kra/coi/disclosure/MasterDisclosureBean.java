@@ -37,6 +37,7 @@ public class MasterDisclosureBean implements Serializable {
     private List<CoiDisclosureProjectBean> awardProjects;
     private List<CoiDisclosureProjectBean> proposalProjects;
     private List<CoiDisclosureProjectBean> protocolProjects;
+    private List<CoiDisclosureProjectBean> iacucProtocolProjects;
     private List<CoiDisclosureProjectBean> manualAwardProjects;
     private List<CoiDisclosureProjectBean> manualProposalProjects;
     private List<CoiDisclosureProjectBean> manualProtocolProjects;
@@ -51,6 +52,7 @@ public class MasterDisclosureBean implements Serializable {
         awardProjects = new ArrayList<CoiDisclosureProjectBean>();
         proposalProjects = new ArrayList<CoiDisclosureProjectBean>();
         protocolProjects = new ArrayList<CoiDisclosureProjectBean>();
+        iacucProtocolProjects = new ArrayList<CoiDisclosureProjectBean>();
         manualAwardProjects = new ArrayList<CoiDisclosureProjectBean>();
         manualProposalProjects = new ArrayList<CoiDisclosureProjectBean>();
         manualProtocolProjects = new ArrayList<CoiDisclosureProjectBean>();
@@ -92,6 +94,14 @@ public class MasterDisclosureBean implements Serializable {
         this.protocolProjects = protocolProjects;
     }
 
+    public List<CoiDisclosureProjectBean> getIacucProtocolProjects() {
+        return iacucProtocolProjects;
+    }
+
+    public void setIacucProtocolProjects(List<CoiDisclosureProjectBean> protocolProjects) {
+        this.iacucProtocolProjects = protocolProjects;
+    }
+
     public List<CoiDisclosureProjectBean> getManualAwardProjects() {
         return manualAwardProjects;
     }
@@ -130,7 +140,6 @@ public class MasterDisclosureBean implements Serializable {
      * table but since it is not the PK, better to use the codes directly.
      */
     public void addProject(CoiDisclosureProjectBean coiDisclosureProjectBean, String projectTypeCode) {
-//        allProjects.add(coiDisclosureProjectBean);
         int typeCode = Integer.parseInt(projectTypeCode);
         switch (typeCode) {
             case 1 :
@@ -146,7 +155,7 @@ public class MasterDisclosureBean implements Serializable {
                 coiDisclosureProjectBean.setExcludeFE(isEventExcludFE(CoiDisclosureEventType.IRB_PROTOCOL));
                 break;
             case 4 :
-                getProtocolProjects().add(coiDisclosureProjectBean);
+                getIacucProtocolProjects().add(coiDisclosureProjectBean);
                 coiDisclosureProjectBean.setExcludeFE(isEventExcludFE(CoiDisclosureEventType.IACUC_PROTOCOL));
                 break;
             case 10 :
