@@ -247,5 +247,8 @@ public interface PermissionConstants {
      public static final String SPONSOR_HIERARCHY_MODIFY = "Modify Sponsor Hierarchy";
      public static final String SPONSOR_HIERARCHY_DELETE = "Delete Sponsor Hierarchy";
      
+     /* Research Areas */
+     public static final String MAINTAIN_AREA_OF_RESEARCH = "Create or Modify Research Areas";
+     public static final String MAINTAIN_IACUC_AREA_OF_RESEARCH = "Create or Modify Iacuc Research Areas";
      
 }

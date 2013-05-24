@@ -386,4 +386,8 @@ public interface TaskName {
     public static final String GENERIC_IACUC_PROTOCOL_ACTION = "iacucGenericProtocolAction";
     public static final String GENERIC_IACUC_PROTOCOL_ACTION_UNAVAILABLE = "iacucGenericProtocolActionUnavailable";
     
+    /* Research area task */
+    public static final String MAINTAIN_RESEARCH_AREAS = "maintainResearchAreas";
+    public static final String MAINTAIN_IACUC_RESEARCH_AREAS = "maintainIacucResearchAreas";
+    
 }
