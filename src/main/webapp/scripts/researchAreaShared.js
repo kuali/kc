@@ -550,18 +550,19 @@ function loadFirstLevel() {
  * when area of research link is clicked the first time, then it will be loaded.
  */
 function tableTag(name, id) {
-
-//	var link = $j('<a href="#" class="hidedetail"><img src="kr/static/images/tinybutton-hide.gif" align="absmiddle" border="0" width="45" height="15"></a>');
-	var tag = $j(
-			'<th  style="background:#939393;height:18px;color:#FFFFFF;text-align:left;padding-left:4px;" align="left"></th>')
-			.attr("id", "raHeader" + id.substring(4)).html(name);
-//	link.prependTo(tag);
-	tag = $j('<tr></tr>').html(tag);
-	tag = $j('<thead></thead>').html(tag);
-	tag = $j(
-			'<table width="100%" cellpadding="0" cellspacing="0" class="subelement"> </table>')
-			.html(tag);
-	tbodyTag(name, id).appendTo(tag);
+	var tag;
+	var isAuthorized = isAuthorizedToMaintainResearchAreas();
+	if(isAuthorized) {
+		tag = $j(
+				'<th  style="background:#939393;height:18px;color:#FFFFFF;text-align:left;padding-left:4px;" align="left"></th>')
+				.attr("id", "raHeader" + id.substring(4)).html(name);
+		tag = $j('<tr></tr>').html(tag);
+		tag = $j('<thead></thead>').html(tag);
+		tag = $j(
+				'<table width="100%" cellpadding="0" cellspacing="0" class="subelement"> </table>')
+				.html(tag);
+		tbodyTag(name, id).appendTo(tag);
+	}
 	return tag;
 }
 
@@ -1182,8 +1183,11 @@ function isActive(node) {
 
 // <!-- listcontent00 -->
 $j("#listcontrol00").click(function() {
-	$j(".hierarchydetail:not(#listcontent00)").slideUp(300);
-	$j("#listcontent00").slideToggle(300);
+	var isAuthorized = isAuthorizedToMaintainResearchAreas();
+	if(isAuthorized) {
+		$j(".hierarchydetail:not(#listcontent00)").slideUp(300);
+		$j("#listcontent00").slideToggle(300);
+	}
 });
 
 /**
@@ -1432,4 +1436,8 @@ $j("#paste0").click(
 
 function getResearchAreaAjaxCall() {
 	return $j("#researchAreaAjaxCall").val();
+}
+
+function isAuthorizedToMaintainResearchAreas() {
+	return $j("#authorizedToMaintainResearchAreas").val() == 'true';
 }

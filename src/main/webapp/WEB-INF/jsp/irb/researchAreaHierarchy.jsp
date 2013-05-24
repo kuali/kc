@@ -36,7 +36,7 @@
 	<br />
 	<kul:tabTop defaultOpen="true" tabTitle="Area of Research"
 		tabErrorKey="researchArea*">
-		<kra:researchAreas />
+		<kra:researchAreas isAuthorizedToMaintainResearchArea="${ResearchAreasForm.authorizedToMaintainResearchAreas}"/>
 	</kul:tabTop>
     <kul:panelFooter />
 		${kfunc:registerEditableProperty(KualiForm, "methodToCall.reload")}  
@@ -44,9 +44,12 @@
 		${kfunc:registerEditableProperty(KualiForm, "methodToCall.cancel")}  
 
 <input type="hidden" id = "researchAreaAjaxCall" value="researchAreaAjax.do"/>
+<input type="hidden" id = "authorizedToMaintainResearchAreas" value="${ResearchAreasForm.authorizedToMaintainResearchAreas}"/>
     <div id="globalbuttons" class="globalbuttons">
-        <input type="image" id="save" src="kr/static/images/buttonsmall_save.gif" /> 
-	    <input type="image" name="methodToCall.reload" id = "refresh" src="kr/static/images/buttonsmall_refresh.gif" class="globalbuttons" title="refresh" alt="refresh">
+		<c:if test="${ResearchAreasForm.authorizedToMaintainResearchAreas}">
+	        <input type="image" id="save" src="kr/static/images/buttonsmall_save.gif" /> 
+		</c:if>
+        <input type="image" name="methodToCall.reload" id = "refresh" src="kr/static/images/buttonsmall_refresh.gif" class="globalbuttons" title="refresh" alt="refresh">
 	    <input type="image" name="methodToCall.close" id = "close" src="kr/static/images/buttonsmall_close.gif" class="globalbuttons" title="close" alt="close">
 	    <input type="image" name="methodToCall.cancel" id = "cancel" src="kr/static/images/buttonsmall_cancel.gif" class="globalbuttons" title="cancel" alt="cancel">
     </div>

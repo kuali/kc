@@ -1,4 +1,5 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
+<%@ attribute name="isAuthorizedToMaintainResearchArea" required="true" type="java.lang.Boolean" description="whether user has permission" %>
 
 <c:set var="readOnly" value="false"  scope="request"/>
 <c:set var="questionnaireAttributes" value="${DataDictionary.Questionnaire.attributes}" />
@@ -18,6 +19,8 @@
         <div align="left" style = " margin-left : 20px">
             <img src="static/images/jquery/hierarchy-root.png" width="14" height="14" border="0"> <a id="listcontrol00" style="margin-left:2px;">000001 : All Research Areas</a>
         </div> 
+
+		<c:if test="${isAuthorizedToMaintainResearchArea}">
         <div class="hierarchydetail" id="listcontent00" style="margin-top:2px;margin-left:30px;text-align:left;">          
             <table width="100%" cellpadding="0" cellspacing="0" class="subelement">
                 <thead>
@@ -91,6 +94,7 @@
                 </tbody>
             </table>   
         </div>
+        </c:if>
 
         <div style = "background:#EAEAEA; margin-left : 20px" >
           <ul id="researcharea" class="filetree"  >

@@ -885,6 +885,12 @@
                 <bean class="org.kuali.kra.authorizer.CreateNegotiationAuthorizer" parent="parentAuthorizer">
                     <property name="taskName" value="createNegotiation" />
                 </bean>                
+                <bean class="org.kuali.kra.authorizer.CreateResearchAreaAuthorizer" parent="parentAuthorizer">
+                    <property name="taskName" value="maintainResearchAreas" />
+                </bean>                
+                <bean class="org.kuali.kra.authorizer.CreateIacucResearchAreaAuthorizer" parent="parentAuthorizer">
+                    <property name="taskName" value="maintainIacucResearchAreas" />
+                </bean>                
             </list>
         </property>
     </bean>

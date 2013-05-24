@@ -16,6 +16,7 @@
 package org.kuali.kra.irb;
 
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.service.ResearchAreasService;
 import org.kuali.kra.service.ResearchAreasServiceBase;
 import org.kuali.kra.web.struts.action.ResearchAreasActionBase;
@@ -25,5 +26,10 @@ public class ResearchAreasAction extends ResearchAreasActionBase {
     @Override
     protected ResearchAreasServiceBase getResearchAreasService() {
         return KraServiceLocator.getService(ResearchAreasService.class);
+    }
+
+    @Override
+    protected String getResearchAreasTask() {
+        return TaskName.MAINTAIN_RESEARCH_AREAS;
     }
 }
