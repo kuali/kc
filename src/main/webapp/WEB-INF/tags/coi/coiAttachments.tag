@@ -263,6 +263,7 @@
                             <c:set var="sortDisplay">
                                 <fmt:formatDate value="${attachment.updateTimestamp}" pattern="- MM/dd/yyyy KK:mm a" />                      
                             </c:set>
+                              <c:set var="lastUpdated" value="${sortDisplay}"/>
                         </c:when>
                         <c:when test="${KualiForm.document.coiDisclosureList[0].coiDisclosureAttachmentFilter.sortBy eq 'DESC'}">
                             <c:set var="sortDisplay" >
@@ -278,12 +279,13 @@
                         </c:when>                        
                         <c:otherwise>
                             <c:set var="sortDisplay" value="&nbsp;"/>
+                            <c:set var="lastUpdated" value="&nbsp"/>
                         </c:otherwise>
                     </c:choose>   
              
                     <tr>
                         <td>
-                            <kul:innerTab tabTitle="${attachment.shortDescription}" parentTab="Coi Disclosure Attachments" defaultOpen="false" tabErrorKey="document.coiDisclosureList[0].coiDisclosureAttachments[${itrStatus.index}]*,document.coiDisclosureList[0].coiDisclosureAttachments[${itrStatus.index}]*" useCurrentTabIndexAsKey="true" tabAuditKey="document.coiDisclosureList[0].coiDisclosureAttachments[${itrStatus.index}]*" auditCluster="NoteAndAttachmentAuditErrors">
+                            <kul:innerTab tabTitle="${attachment.shortDescription} ${lastUpdated}" parentTab="Coi Disclosure Attachments" defaultOpen="false" tabErrorKey="document.coiDisclosureList[0].coiDisclosureAttachments[${itrStatus.index}]*,document.coiDisclosureList[0].coiDisclosureAttachments[${itrStatus.index}]*" useCurrentTabIndexAsKey="true" tabAuditKey="document.coiDisclosureList[0].coiDisclosureAttachments[${itrStatus.index}]*" auditCluster="NoteAndAttachmentAuditErrors">
                                 <div class="innerTab-container" align="left">
                                     <table class=tab cellpadding=0 cellspacing="0" summary="">
                                         <tr>
