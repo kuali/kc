@@ -67,7 +67,7 @@ public class CoiDisclosureAttachmentFilter implements Serializable {
     
     private class CoiDisclosureAttachmentLastUpdatedComparator implements Comparator<CoiDisclosureAttachment> {
         public int compare(CoiDisclosureAttachment o1, CoiDisclosureAttachment o2) {
-            return o1.getUpdateTimestamp().compareTo(o2.getUpdateTimestamp());
+            return o2.getUpdateTimestamp().compareTo(o1.getUpdateTimestamp());
         }
     }
     
