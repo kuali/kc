@@ -195,7 +195,7 @@ public class AwardProjectPersonsSaveRuleImplTest {
 
     private void checkErrorState(String errorProperty, String errorMessageKey) {
         MessageMap messageMap = GlobalVariables.getMessageMap();
-        Assert.assertEquals(1, messageMap.getErrorCount());
+        Assert.assertTrue( messageMap.getErrorCount() >= 1);
         @SuppressWarnings("unchecked") List<ErrorMessage> errors = messageMap.getErrorMessagesForProperty(errorProperty);
         if(errors != null) {
             Assert.assertEquals(1, errors.size());

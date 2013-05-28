@@ -105,6 +105,7 @@ public class AwardProjectPersonsSaveRuleImpl implements AwardProjectPersonsSaveR
                                     p.getRolodex().getOrganization());
                         }
                     }
+                    GlobalVariables.getMessageMap().putError(AWARD_PROJECT_PERSON_LIST_ERROR_KEY+"["+personCount+"].personUnitNumber", ERROR_UNIT_REQUIRED);
                 }
             }
         }
