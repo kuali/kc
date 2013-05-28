@@ -17,6 +17,14 @@
 
 <channel:portalChannelTop channelTitle="Conflict of Interest" />
 <div class="body">
+<c:set var="cmotd" value="<%= (org.kuali.kra.infrastructure.KraServiceLocator.getService(org.kuali.kra.coi.service.CoiMessagesService.class)).getMessages() %>" scope="page"/>
+<c:if test="${!empty pageScope.cmotd}">
+	<c:forEach items = "${pageScope.cmotd}" var = "msg">
+		<div class="body" style="text-align:left;color:#FF0000;">			
+        	<strong><c:out value="${msg}" /></strong>
+        </div>
+   </c:forEach>
+</c:if>
   <strong>My Financial Entities </strong>
   <ul class="chan">
     <li><portal:portalLink displayTitle="false" title="Create New Financial Entity" url="${ConfigProperties.application.url}/financialEntityManagement.do?methodToCall=management&financialEntityHelper.reporterId=&coiDocId=">Financial Entity</portal:portalLink></li>
