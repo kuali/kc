@@ -27,7 +27,7 @@
 <c:set var="targetAwardPersonUnit" value="${newAwardPersonUnits[awardPersonIndex]}" />
 
 <kul:innerTab tabTitle="Unit Details" parentTab="${awardContact.fullName}" defaultOpen="false" 
-				tabErrorKey="document.award[${awardPersonUnitRowStatus.index}].awardContact*,projectPersonnelBean.newAwardPersonUnit[${ awardPersonIndex }]*">
+				tabErrorKey="document.awardList[0].projectPersons[${ awardPersonIndex }].personUnitNumber,document.award[${awardPersonUnitRowStatus.index}].awardContact*,projectPersonnelBean.newAwardPersonUnit[${ awardPersonIndex }]*">
 	<c:choose><c:when test="${awardContact.keyPerson && !awardContact.optInUnitStatus}">
      <p><html:image property="methodToCall.addUnitDetails.line${awardPersonIndex}" src="${ConfigProperties.kra.externalizable.images.url}tinybutton-addunitdet.gif" title="Add Unit Details" alt="Add Unit Details" styleClass="tinybutton"/>
      You have the option to add unit details for a key person.</p>
