@@ -90,7 +90,6 @@ public class CoiDisclosureAction extends CoiAction {
     private static final ActionForward RESPONSE_ALREADY_HANDLED = null;
     private static final String ATTACHMENT_PATH = "document.coiDisclosureList[0].attachmentCoiDisclosures[";
     private static final String CONFIRM_NO_DELETE = "";
-    private static final String UPDATE_DISCLOSURE = "updateDisclosure";
     private static final String DEFAULT_EVENT_ID_STRING = "label.coi.disclosure.type.id";
     private static final String DEFAULT_EVENT_TITLE_STRING = "label.coi.disclosure.type.title";
 
@@ -145,8 +144,6 @@ public class CoiDisclosureAction extends CoiAction {
         }
         if (coiDisclosure.isUpdateEvent() ||(coiDisclosure.isAnnualEvent() && coiDisclosure.isAnnualUpdate())) {
             getCoiDisclosureService().setDisclProjectForSave(coiDisclosure, coiDisclosureForm.getDisclosureHelper().getMasterDisclosureBean());
-        } else {
-            //getCoiDisclosureService().setDisclProjectForSave(coiDisclosure);
         }
         
         /************ Begin --- Save (if valid) document and questionnaire data ************/
@@ -218,13 +215,6 @@ public class CoiDisclosureAction extends CoiAction {
             super.loadDocument((KualiDocumentFormBase) form);
         }
         CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) form;
-       
-        // We reset the "audit activated" flag because the current semantics of <<renderMultipart="true">> 
-        // cause the action form to be simply picked up from the user session (and not recreated) for each new request. 
-        // Thus any flags set on the form during the processing of one request are persistent and visible in any subsequent request.
-        
-        //coiDisclosureForm.setAuditActivated(false);
-        
         ActionForward actionForward = super.execute(mapping, form, request, response);
         
         // we will populate questionnaire data after the execution of any dispatched ("methodTocall") methods. This point, right
@@ -250,9 +240,6 @@ public class CoiDisclosureAction extends CoiAction {
         
         // now the rest of subclass-specific custom logic for execute()
         coiDisclosureDocument.getCoiDisclosure().initSelectedUnit();
-        // TODO : 'checkToLoadDisclosureDetails' should not need to be executed for every action.  need to make it somewhere ?
-        // checkToLoadDisclosureDetails(coiDisclosureDocument.getCoiDisclosure(), ((CoiDisclosureForm) form).getMethodToCall(),
-        // coiDisclosureForm.getDisclosureHelper().getNewProjectId());
         if ((StringUtils.equals("reload", coiDisclosureForm.getMethodToCall())
                 || StringUtils.equals("updateAttachmentFilter", coiDisclosureForm.getMethodToCall())
                 || StringUtils.equals("headerTab", coiDisclosureForm.getMethodToCall()) || StringUtils.equals("docHandler",
@@ -262,10 +249,7 @@ public class CoiDisclosureAction extends CoiAction {
             actionForward = mapping.findForward(MASTER_DISCLOSURE);
         }
         else {
-//            String command = request.getParameter("command");
             if (StringUtils.isNotBlank(command) && MASTER_DISCLOSURE.equals(command)) {
-                // 'view' in master disclosure's 'Disclosures' list
-//                super.loadDocument((KualiDocumentFormBase) form);
                 coiDisclosureDocument = (CoiDisclosureDocument) coiDisclosureForm.getDocument();
                 coiDisclosureDocument.getCoiDisclosure().initSelectedUnit();
                 coiDisclosureForm.getDisclosureHelper().setMasterDisclosureBean(getCoiDisclosureService().getMasterDisclosureDetail(coiDisclosureDocument.getCoiDisclosure()));
@@ -274,11 +258,6 @@ public class CoiDisclosureAction extends CoiAction {
             }
 
         }
-        // if (coiDisclosureDocument.getCoiDisclosure().isUpdateEvent() && !StringUtils.equals("performLookup",
-        // coiDisclosureForm.getMethodToCall())) {
-        //            actionForward = mapping.findForward(UPDATE_DISCLOSURE);
-        //        }
-
         if (coiDisclosure.isManualEvent() && !CollectionUtils.isEmpty(coiDisclosure.getCoiDisclProjects())) {
             coiDisclosure.getCoiDisclProjects().get(0).initHeaderItems();
        }
@@ -349,7 +328,6 @@ public class CoiDisclosureAction extends CoiAction {
                     }
                     coiDisclosureForm.getDisclosureHelper().setMasterDisclosureBean(getCoiDisclosureService().getMasterDisclosureDetail(coiDisclosure));                    
                     forward = mapping.findForward(UPDATE_DISCLOSURE);
-                    //((CoiDisclosureForm)form).getCoiNotesAndAttachmentsHelper().prepareView();
                 }
             }
 
@@ -378,10 +356,7 @@ public class CoiDisclosureAction extends CoiAction {
                     ((CoiDisclosureForm) form).getMethodToCall(), coiDisclosureForm.getDisclosureHelper().getNewProjectId(),
                     coiDisclosureForm.getDisclosureHelper().getNewModuleItemKey());
         }
-        //((CoiDisclosureForm)form).getCoiNotesAndAttachmentsHelper().prepareView();
-
         coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure().refreshReferenceObject("coiDispositionStatus");
-        
         return forward;
     }
 
@@ -449,7 +424,6 @@ public class CoiDisclosureAction extends CoiAction {
                         getCoiDisclosureService().updateDisclosureDetails(coiDisclProject);
                     }
                 }                
-                //getCoiDisclosureService().updateDisclosureDetails(coiDisclosure);
             }
         }
         
@@ -475,8 +449,6 @@ public class CoiDisclosureAction extends CoiAction {
                     + "/financialEntityEditNew.do?methodToCall=addNewCoiDiscFinancialEntity&coiDocId="
                     + ((CoiDisclosureForm) form).getDocument().getDocumentNumber() + "&financialEntityHelper.reporterId="
                     + coiDisclosure.getPersonId();
-            // "/portal.do?channelTitle=Financial%20Entity&channelUrl=financialEntityManagement.do?methodToCall=editNew&coiDocId="+((CoiDisclosureForm)
-            // form).getDocument().getDocumentNumber();
             return new ActionForward(forward, true);
         }
         return actionForward;
@@ -493,8 +465,6 @@ public class CoiDisclosureAction extends CoiAction {
                     + "/financialEntityEditList.do?methodToCall=editActiveFinancialEntity&coiDocId="
                     + ((CoiDisclosureForm) form).getDocument().getDocumentNumber() + "&financialEntityHelper.editCoiEntityId="
                     + coiDisclosure.getCoiDisclProjects().get(0).getCoiDiscDetails().get(getSelectedLine(request)).getPersonFinIntDisclosureId();
-            // "/portal.do?channelTitle=Financial%20Entity&channelUrl=financialEntityManagement.do?methodToCall=editList&coiDocId="+((CoiDisclosureForm)
-            // form).getDocument().getDocumentNumber()+"&financialEntityHelper.editEntityIndex"+getSelectedLine(request);
             return new ActionForward(forward, true);
         }
         return actionForward;
@@ -546,11 +516,6 @@ public class CoiDisclosureAction extends CoiAction {
         // and setting it on the
         // form is redundant as it has already happened in the doc handler invocation above, hence its being commented out.
         
-        //  CoiDisclosure coiDisclosure = getCoiDisclosureService().versionCoiDisclosure();
-        //      if (coiDisclosure != null) {
-        //      coiDisclosureForm.getCoiDisclosureDocument().setCoiDisclosure(coiDisclosure);
-        //      coiDisclosure.setCoiDisclosureDocument(coiDisclosureForm.getCoiDisclosureDocument());
-        //  }
         coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure()
                 .setEventTypeCode(coiDisclosureForm.getDisclosureHelper().getEventTypeCode());
         // dochandler may populate discdetails for new doc.  here is just to reset to reload it again.
@@ -581,7 +546,6 @@ public class CoiDisclosureAction extends CoiAction {
                 else {
                     getCoiDisclosureService().resetLeadUnit(coiDisclosure.getDisclosureReporter());
                 }
-                //getCoiDisclosureService().setDisclProjectForSave(coiDisclosure);
                               
                 /************ Begin --- Save (if valid) document and questionnaire data ************/
                 // TODO factor out the different versions of this doc and questionnaire data save block from various actions in this
@@ -625,24 +589,18 @@ public class CoiDisclosureAction extends CoiAction {
         return forward;
     }
 
-    //TODO: This will need some work...
     public ActionForward printDisclosureCertification(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
     	ActionForward actionForward = mapping.findForward(Constants.MAPPING_BASIC);
         CoiDisclosure coiDisclosure = ((CoiDisclosureForm)form).getCoiDisclosureDocument().getCoiDisclosure();
         coiDisclosure.setCertificationText(new String(coiDisclosure.getAcknowledgementStatement()));
-        CoiPrintingService printService = KraServiceLocator.getService(CoiPrintingService.class);
-        Map<String,Object> reportParameters = new HashMap<String,Object>();
         List<Printable> printableArtifactList = new ArrayList<Printable>();
         AbstractPrint printable;
-        // AttachmentDataSource dataStream = printService.printDisclosureCertification(coiDisclosure,
-        // CoiPrintingService.PRINT_CERTIFICATION, reportParameters);
         printable = getCoiPrintingService().getCoiPrintable(CoiReportType.COI_APPROVED_DISCLOSURE);
         printable.setPrintableBusinessObject(coiDisclosure);
         printableArtifactList.add(printable);
         AttachmentDataSource dataStream = getCoiPrintingService().print(printableArtifactList);
         streamToResponse(dataStream, response);
-        //return mapping.findForward(Constants.MAPPING_BASIC);
         actionForward = RESPONSE_ALREADY_HANDLED;
         return actionForward;
     }
@@ -661,7 +619,6 @@ public class CoiDisclosureAction extends CoiAction {
         int selection = this.getSelectedLine(request);
         CoiNotesAndAttachmentsHelper helper = ((CoiDisclosureForm) form).getCoiNotesAndAttachmentsHelper();
         CoiDisclosureAttachment attachment = helper.retrieveExistingAttachmentByType(selection);
-       // attachment.populateAttachment();
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
@@ -753,18 +710,7 @@ public class CoiDisclosureAction extends CoiAction {
         final AttachmentFile file = attachment.getFile();
         byte[] attachmentFile = null;
         String attachmentFileType = file.getType().replace("\"", "");
-        /*
-        if (attachmentFileType.equalsIgnoreCase(WatermarkConstants.ATTACHMENT_TYPE_PDF)){
-            attachmentFile = getCoiDisclosureAttachmentFile(form,attachment);
-            if (attachmentFile != null){
-                this.streamToResponse(attachmentFile, getValidHeaderString(file.getName()), getValidHeaderString(file.getType()),
-                        response);
-            }
-            return RESPONSE_ALREADY_HANDLED;
-        } 
-        */       
         this.streamToResponse(file.getData(), getValidHeaderString(file.getName()),  getValidHeaderString(file.getType()), response);
-
         return RESPONSE_ALREADY_HANDLED;
     }
 
@@ -803,15 +749,6 @@ public class CoiDisclosureAction extends CoiAction {
         helper.addNewCoiDisclosureAttachmentFilter();
         return mapping.findForward(Constants.MAPPING_BASIC);
     } 
-
-    /*
-     * public final ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse
-     * response) throws Exception { CoiNotesAndAttachmentsHelper helper = ((CoiDisclosureForm)
-     * form).getCoiNotesAndAttachmentsHelper(); helper.fixReloadedAttachments(request.getParameterMap()); super.save(mapping, form,
-     * request, response); return mapping.findForward(Constants.MAPPING_BASIC);
-     * 
-     * }
-     */
 
     @Override
     public void postSave(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
@@ -891,10 +828,6 @@ public class CoiDisclosureAction extends CoiAction {
     protected CoiDisclosureActionService getDisclosureActionService() {
         return  KraServiceLocator.getService(CoiDisclosureActionService.class);  
     }
-    
-//    protected BusinessObjectService getBusinessObjectService() {
-//        return  KraServiceLocator.getService(BusinessObjectService.class);  
-//    }
     
     @SuppressWarnings({ "rawtypes", "unchecked" })
     public ActionForward viewMasterDisclosure(ActionMapping mapping, ActionForm form, HttpServletRequest request,
