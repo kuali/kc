@@ -323,6 +323,11 @@
     
     <bean id="citizenshipTypeService" class="org.kuali.kra.service.impl.CitizenshipTypeServiceImpl" />
 
+    <bean id="coiMessagesService" class="org.kuali.kra.coi.service.impl.CoiMessagesServiceImpl">
+        <property name="businessObjectService" ref="businessObjectService" />
+        <property name="parameterService" ref="parameterService" />
+    </bean>
+
     <bean id="costShareService" class="org.kuali.kra.costshare.CostShareServiceImpl">
         <property name="parameterService" ref="parameterService" />
     </bean>
