@@ -83,9 +83,13 @@ public class CoiMessagesServiceImpl implements CoiMessagesService {
                         lastAnnualDate = disclosure.getCertificationTimestamp();
                     }
                 }
-                Calendar lastAnnualCalendar = Calendar.getInstance();
-                lastAnnualCalendar.setTimeInMillis(lastAnnualDate.getTime());
+                Calendar lastAnnualCalendar = null;
+                if (lastAnnualDate != null) {
+                    lastAnnualCalendar = Calendar.getInstance();
+                    lastAnnualCalendar.setTimeInMillis(lastAnnualDate.getTime());
+                }
                 Calendar currentTime = Calendar.getInstance();
+                boolean sendErrorWithDate = false;
                 boolean sendError = false;
                 if (renewalDue != null) {
                     Calendar dueCalendarDate = Calendar.getInstance();
@@ -96,24 +100,34 @@ public class CoiMessagesServiceImpl implements CoiMessagesService {
                     reminderDate.setTimeInMillis(renewalDue.getTime());
                     reminderDate.add(Calendar.DATE, -advanceDays);
                     if (currentTime.after(reminderDate) &&
-                        currentTime.after(lastAnnualCalendar)) {
-                        sendError = true;                        
+                        ((lastAnnualCalendar == null) || currentTime.after(lastAnnualCalendar))) {
+                        sendErrorWithDate = true;                        
                     }
                 } else {
                     Calendar dueCalendarDate = Calendar.getInstance();
-                    dueCalendarDate.setTimeInMillis(lastAnnualDate.getTime());
-                    dueCalendarDate.add(Calendar.YEAR, 1);
-                    dueCalendarDate.add(Calendar.DATE, -1);
-                    renewalDue = new Date(dueCalendarDate.getTimeInMillis());
-                    Calendar reminderDate = Calendar.getInstance();
-                    reminderDate.setTimeInMillis(renewalDue.getTime());
-                    reminderDate.add(Calendar.DATE, -advanceDays);
-                    if (currentTime.after(reminderDate)) {
-                        sendError = true;                        
+                    if (lastAnnualDate == null) {
+                        sendError = true;
+                    } else {
+                        dueCalendarDate.setTimeInMillis(lastAnnualDate.getTime());
+                        dueCalendarDate.add(Calendar.YEAR, 1);
+                        dueCalendarDate.add(Calendar.DATE, -1);
+                        renewalDue = new Date(dueCalendarDate.getTimeInMillis());
+                        Calendar reminderDate = Calendar.getInstance();
+                        reminderDate.setTimeInMillis(renewalDue.getTime());
+                        reminderDate.add(Calendar.DATE, -advanceDays);
+                        if (currentTime.after(reminderDate)) {
+                            sendErrorWithDate = true;                        
+                        }
                     }
                 }
                 if (sendError) {
                     String msg = KRADServiceLocator.getKualiConfigurationService().getPropertyValueAsString("annual.disclosure.due.message");
+                    if (!StringUtils.isEmpty(msg)) {
+                        results.add(msg);
+                    }
+                }
+                if (sendErrorWithDate) {
+                    String msg = KRADServiceLocator.getKualiConfigurationService().getPropertyValueAsString("annual.disclosure.due.message.with.date");
                     if (!StringUtils.isEmpty(msg)) {
                         results.add(msg.replace("{0}", new SimpleDateFormat("MM/dd/yyyy").format(renewalDue)));
                     }
