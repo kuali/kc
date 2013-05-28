@@ -28,6 +28,7 @@ import org.kuali.kra.coi.disclosure.CoiDisclosureService;
 import org.kuali.kra.coi.notification.CoiNotification;
 import org.kuali.kra.coi.notification.CoiNotificationContext;
 import org.kuali.kra.common.notification.service.KcNotificationService;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.krms.service.KrmsRulesExecutionService;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
@@ -38,6 +39,7 @@ import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
 
 public abstract class CoiAction extends KraTransactionalDocumentActionBase {
     protected static final String MASTER_DISCLOSURE = "masterDisclosure";
+    protected static final String UPDATE_DISCLOSURE = "updateDisclosure";
     
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
@@ -56,24 +58,13 @@ public abstract class CoiAction extends KraTransactionalDocumentActionBase {
     
     public ActionForward disclosure(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         ((CoiDisclosureForm)form).getDisclosureHelper().prepareView();
-        // this is a hook to make sure coidisclprojects's detail is populated before returning to main page
-        // once the table relation is normalized, then this is not necessary
-        // kccoi-110
-         CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) form;
+        CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) form;
         CoiDisclosure coiDisclosure = coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure();
-        /*
-        if (coiDisclosure.isManualEvent() && "headerTab".equals(coiDisclosureForm.getMethodToCall()) 
-                   && "disclosure".equals(coiDisclosureForm.getNavigateTo()) && !coiDisclosureForm.getCoiDisclosureDocument().getDocumentHeader().getWorkflowDocument().isSaved()
-                   && !coiDisclosureForm.getCoiDisclosureDocument().getDocumentHeader().getWorkflowDocument().isInitiated()) {
-            coiDisclosure.getCoiDisclProjects().get(0).setCoiDiscDetails(coiDisclosure.getCoiDiscDetails());
-        }
-        */
-        
         // initialize the questionnaire data
         coiDisclosureForm.getDisclosureQuestionnaireHelper().prepareView(false);
         // initialize the permissions for notes and attachments helper
         coiDisclosureForm.getCoiNotesAndAttachmentsHelper().prepareView();
-        return mapping.findForward("disclosure");
+        return getDisclosureActionForward(coiDisclosureForm, mapping);
     }
     public ActionForward committee(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         return mapping.findForward("committee");
@@ -161,7 +152,8 @@ public abstract class CoiAction extends KraTransactionalDocumentActionBase {
             HttpServletResponse response) throws Exception {
         CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) form;
         coiDisclosureForm.setUnitRulesMessages(getUnitRulesMessages(coiDisclosureForm.getCoiDisclosureDocument()));
-        return new AuditActionHelper().setAuditMode(mapping, coiDisclosureForm, true);
+        new AuditActionHelper().setAuditMode(mapping, coiDisclosureForm, true);
+        return getDisclosureActionForward(coiDisclosureForm, mapping);
     }
 
     /**
@@ -176,8 +168,19 @@ public abstract class CoiAction extends KraTransactionalDocumentActionBase {
      */
     public ActionForward deactivate(ActionMapping mapping, ActionForm form, HttpServletRequest request, 
             HttpServletResponse response) throws Exception {
-        ((CoiDisclosureForm) form).clearUnitRulesMessages();
-        return new AuditActionHelper().setAuditMode(mapping, (CoiDisclosureForm) form, false);
+        CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) form;
+        coiDisclosureForm.clearUnitRulesMessages();
+        new AuditActionHelper().setAuditMode(mapping, coiDisclosureForm, false);
+        return getDisclosureActionForward(coiDisclosureForm, mapping);
+    }
+    
+    protected ActionForward getDisclosureActionForward(CoiDisclosureForm coiDisclosureForm, ActionMapping mapping) {
+        ActionForward actionForward = mapping.findForward(Constants.MAPPING_BASIC);
+        CoiDisclosure coiDisclosure = coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure();
+        if (coiDisclosure.isUpdateEvent() || (coiDisclosure.isAnnualEvent() && coiDisclosure.isAnnualUpdate())) {
+            actionForward = mapping.findForward(UPDATE_DISCLOSURE);
+        }
+        return actionForward;
     }
 
 
