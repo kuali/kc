@@ -89,7 +89,7 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
         if (qnForm.getDocument() != null && ((MaintenanceDocumentBase) qnForm.getDocument()).getNewMaintainableObject() != null) {
             Questionnaire newQuestionnaire = (Questionnaire) ((MaintenanceDocumentBase) qnForm.getDocument())
                     .getNewMaintainableObject().getDataObject();
-            checkForDeletedUsages(newQuestionnaire);
+            removeDeletedUsages(newQuestionnaire);
         }
         return forward;
     }
@@ -101,7 +101,7 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
         QuestionnaireMaintenanceForm qnForm = (QuestionnaireMaintenanceForm) form;
         Questionnaire newQuestionnaire = (Questionnaire) ((MaintenanceDocumentBase) qnForm.getDocument())
                 .getNewMaintainableObject().getDataObject();
-        checkForDeletedUsages(newQuestionnaire);
+        removeDeletedUsages(newQuestionnaire);
         if (validateTemplateField(qnForm)) {
             if (newQuestionnaire.getSequenceNumber() == null) {
                 newQuestionnaire.setSequenceNumber(1);
@@ -446,7 +446,7 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
         if (qnForm.getDocument() != null && ((MaintenanceDocumentBase) qnForm.getDocument()).getNewMaintainableObject() != null) {
             Questionnaire newQuestionnaire = (Questionnaire) ((MaintenanceDocumentBase) qnForm.getDocument())
                     .getNewMaintainableObject().getDataObject();
-            checkForDeletedUsages(newQuestionnaire);
+            removeDeletedUsages(newQuestionnaire);
         }
         ActionForward forward = super.route(mapping, form, request, response);
         
@@ -469,6 +469,11 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
 //        ((Questionnaire) ((MaintenanceDocumentBase) qnForm.getDocument()).getNewMaintainableObject().getDataObject())
 //        .setIsFinal(true);
         setupQuestionAndUsage(form);
+        if (qnForm.getDocument() != null && ((MaintenanceDocumentBase) qnForm.getDocument()).getNewMaintainableObject() != null) {
+            Questionnaire newQuestionnaire = (Questionnaire) ((MaintenanceDocumentBase) qnForm.getDocument())
+                    .getNewMaintainableObject().getDataObject();
+            removeDeletedUsages(newQuestionnaire);
+        }
         ActionForward forward = super.blanketApprove(mapping, form, request, response);
         
         checkAndSetAllQuestionsAreUpToDate(qnForm);
@@ -542,6 +547,7 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
             Questionnaire questionnaire = ((Questionnaire) ((MaintenanceDocumentBase) qnForm.getDocument())
                     .getNewMaintainableObject().getDataObject());
             questionnaire.setQuestionnaireUsages(qnForm.getQuestionnaireUsages());
+            removeDeletedUsages(questionnaire);
             setupQuestionAndUsage(qnForm);
             if (qnForm.getTemplateFile() != null && StringUtils.isNotBlank(qnForm.getTemplateFile().getFileName())) {
                 questionnaire.setFileName(qnForm.getTemplateFile().getFileName());
@@ -710,7 +716,7 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
         }
     }
     
-    protected void checkForDeletedUsages(Questionnaire questionnaire) {
+    protected void removeDeletedUsages(Questionnaire questionnaire) {
         if (questionnaire != null && questionnaire.getQuestionnaireUsages() != null) {
             Iterator<QuestionnaireUsage> iter = questionnaire.getQuestionnaireUsages().iterator();
             while (iter.hasNext()) {
