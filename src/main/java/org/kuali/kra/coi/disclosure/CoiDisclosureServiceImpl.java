@@ -1424,7 +1424,6 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
 
     }
 
-    // TODO : following several copy related methods are from coidisclosureactionservice.  should try to make them sharable
     private void  copyCollections(CoiDisclosure masterCoiDisclosure, CoiDisclosure coiDisclosure) {
         
         copyDisclosureProjects(masterCoiDisclosure, coiDisclosure);
@@ -1750,8 +1749,11 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         notesCopy.setEntryNumber(notepad.getEntryNumber());
         notesCopy.setEventTypeCode(notepad.getEventTypeCode());
         notesCopy.setFinancialEntityId(notepad.getFinancialEntityId());
+        notesCopy.setFinancialEntity(notepad.getFinancialEntity());
         notesCopy.setId(notepad.getId());
         notesCopy.setNoteTopic(notepad.getNoteTopic());
+        notesCopy.setNoteTypeCode(notepad.getNoteTypeCode());
+        notesCopy.setNoteType(notepad.getNoteType());
         notesCopy.setObjectId(notepad.getObjectId());
         notesCopy.setOriginalCoiDisclosure(notepad.getOriginalCoiDisclosure());
         notesCopy.setOriginalCoiDisclosureId(notepad.getOriginalCoiDisclosureId());
