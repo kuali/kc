@@ -15,7 +15,9 @@
  */
 package org.kuali.kra.proposaldevelopment.document;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -479,8 +481,12 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
     @Override
     public String getCustomLockDescriptor(Person user) {
         String activeLockRegion = (String) GlobalVariables.getUserSession().retrieveObject(KraAuthorizationConstants.ACTIVE_LOCK_REGION);
+        String updatedTimestamp = "";
+        if (this.getUpdateTimestamp() != null) {
+            updatedTimestamp = (new SimpleDateFormat("MM/dd/yyyy KK:mm a").format(this.getUpdateTimestamp()));
+        }
         if (StringUtils.isNotEmpty(activeLockRegion)) {
-            return this.getDocumentNumber() + "-" + activeLockRegion; 
+            return this.getDevelopmentProposal().getProposalNumber() + "-" + activeLockRegion + "-" + this.getUpdateUser() + "-" + updatedTimestamp; 
         }
 
         return null;
