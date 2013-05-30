@@ -149,7 +149,8 @@ public class PrintServiceImpl implements PrintService {
 	    String loggingDirectory = KraServiceLocator.getService(ConfigurationService.class).getPropertyValueAsString(Constants.PRINT_XML_DIRECTORY);
         String opportunityId = pdDoc.getDevelopmentProposal().getS2sOpportunity().getOpportunityId();
         String proposalnumber = pdDoc.getDevelopmentProposal().getProposalNumber();
-        String exportDate = StringUtils.replaceChars(StringUtils.deleteWhitespace(pdDoc.getDevelopmentProposal().getUpdateTimestamp().toString()), ":", "_");        
+        String exportDate = StringUtils.replaceChars((pdDoc.getDevelopmentProposal().getUpdateTimestamp().toString()), ":", "_");  
+        exportDate = StringUtils.replaceChars(exportDate, " ", ".");
         if (grantsGovXmlDirectoryFile == null) {
             grantsGovXmlDirectoryFile = new File(loggingDirectory + proposalnumber);
         }
@@ -186,7 +187,7 @@ public class PrintServiceImpl implements PrintService {
             output.write(getAttContent(pdDoc,attAppAttachments.getContentId()));
             output.close();
         }
-        File xmlFile= new File(grantsGovXmlDirectoryFile,opportunityId+proposalnumber+exportDate+".xml");
+        File xmlFile= new File(grantsGovXmlDirectoryFile,opportunityId + "." + proposalnumber + "." + exportDate+".xml");
         BufferedWriter out = new BufferedWriter(new FileWriter(xmlFile));
         out.write(formObject.xmlText());
         out.close();
