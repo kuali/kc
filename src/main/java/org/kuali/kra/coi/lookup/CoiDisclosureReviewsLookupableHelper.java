@@ -23,12 +23,10 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.CoiReviewer;
 import org.kuali.kra.coi.CoiUserRole;
-import org.kuali.kra.service.KcPersonService;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 public class CoiDisclosureReviewsLookupableHelper extends CoiDisclosureLookupableHelperBase {
-
 
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         List<CoiDisclosure> allDisclosures = (List<CoiDisclosure>) super.getResults(fieldValues);
@@ -40,7 +38,7 @@ public class CoiDisclosureReviewsLookupableHelper extends CoiDisclosureLookupabl
             for (CoiUserRole userRole : userRoles) {
                 if (StringUtils.equalsIgnoreCase(userRole.getReviewerCode(), CoiReviewer.ASSIGNED_REVIEWER)) {
                     // userId is really the username . This should probably be "fixed" at some point.
-                    if (StringUtils.equalsIgnoreCase(currentUser, userRole.getUserId())) {
+                    if (StringUtils.equalsIgnoreCase(currentUser, userRole.getUserId()) && !userRole.isReviewCompleted()) {
                         coiDisclosureReviews.add(disclosure);
                     }
                 }
