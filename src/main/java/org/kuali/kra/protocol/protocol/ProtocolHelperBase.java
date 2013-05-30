@@ -530,12 +530,12 @@ public abstract class ProtocolHelperBase implements Serializable {
      * the lookup type
      */
     private void findPrincipalInvestigatorIdFromFields() {
-        if (StringUtils.isNotEmpty(getPersonId())) {
-            setPrincipalInvestigatorId(getPersonId());
-            setNonEmployeeFlag(false);
-        } else if (StringUtils.isNotEmpty(getRolodexId())) {
+        if (StringUtils.isNotEmpty(getRolodexId())) {
             setPrincipalInvestigatorId(getRolodexId());
             setNonEmployeeFlag(true);
+        } else if (StringUtils.isNotEmpty(getPersonId())) {
+            setPrincipalInvestigatorId(getPersonId());
+            setNonEmployeeFlag(false);
         }
     }
 
@@ -546,7 +546,9 @@ public abstract class ProtocolHelperBase implements Serializable {
             if(!nonEmployeeFlag) {
                 pi = getPersonService().getKcPersonByPersonId(getPrincipalInvestigatorId());
             } else {
-                pi = getRolodexService().getRolodex(Integer.parseInt(piId));
+                if (StringUtils.isNotBlank(rolodexId)) {
+                	pi = getRolodexService().getRolodex(Integer.parseInt(rolodexId));
+                }
             }
         }
         return (pi == null? null : pi.getUnit());
