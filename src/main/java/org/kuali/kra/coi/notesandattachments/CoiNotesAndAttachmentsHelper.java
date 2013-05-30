@@ -619,6 +619,11 @@ public class CoiNotesAndAttachmentsHelper {
         notepad.setCoiDisclosureNumber(getCoiDisclosure().getCoiDisclosureNumber());
         notepad.setSequenceNumber(getCoiDisclosure().getSequenceNumber());        
         notepad.setEntryNumber(getNextEntryNumber());
+        if (notepad.getFinancialEntity() == null && notepad.getFinancialEntityId() != null) {
+            //due to the readonly view change for disabled fin ents, we need to make sure to have a
+            // financial entity otherwise the fin ent will be blank on add.
+            notepad.refreshReferenceObject("financialEntity");
+        }
         getCoiDisclosure().getCoiDisclosureNotepads().add(notepad);   
 
     }

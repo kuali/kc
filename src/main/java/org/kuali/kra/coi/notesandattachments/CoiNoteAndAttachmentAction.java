@@ -219,7 +219,6 @@ public class CoiNoteAndAttachmentAction extends CoiAction {
     
     public ActionForward addNote(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         CoiNotesAndAttachmentsHelper helper = ((CoiDisclosureForm) form).getCoiNotesAndAttachmentsHelper();   
-        // add authorization here
         helper.addNewNote();
         helper.setManageNotesOpen();
         helper.prepareView();
@@ -231,14 +230,12 @@ public class CoiNoteAndAttachmentAction extends CoiAction {
         final int selection = this.getSelectedLine(request);
         CoiDisclosureForm disclosureForm = (CoiDisclosureForm) form;   
         CoiNotesAndAttachmentsHelper helper = disclosureForm.getCoiNotesAndAttachmentsHelper();   
-        // add authorization here
         helper.editNote(selection);
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
     public ActionForward deleteNote(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         CoiNotesAndAttachmentsHelper helper = ((CoiDisclosureForm) form).getCoiNotesAndAttachmentsHelper();   
-        // add authorization here
         return confirmDeleteNote(mapping, (CoiDisclosureForm) form, request, response);        
     }
     
