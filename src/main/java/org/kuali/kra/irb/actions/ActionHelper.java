@@ -1607,12 +1607,16 @@ public class ActionHelper extends ActionHelperBase {
         return new IrbSubmissionQuestionnaireHelper(protocol, actionTypeCode, submissionNumber, finalDoc);
     }
     
-    // we suppress the reviewer display if a committee is not selected, or if a schedule is not selected in case of a non-expedited review type
-    // putting this logic in the helper to avoid creating a verbose JSTL-EL expression in the tag file
+    // we suppress the reviewer display if the current user does not have permission to assign reviewers during submission or 
+    // if a committee is not selected, or if a schedule is not selected in case of a non-expedited review type.
+    // Putting this logic in the helper to avoid creating a verbose JSTL-EL expression in the tag file
     public boolean isReviewersDisplayToBeSuppressed() {
         boolean retVal = false;
         ProtocolSubmitAction submitBean = (ProtocolSubmitAction) this.getProtocolSubmitAction(); 
-        if( (StringUtils.isBlank(submitBean.getScheduleId()) && !(submitBean.isExpeditedProtocolReviewType())) || StringUtils.isBlank(submitBean.getCommitteeId()) ) {
+        if( (!this.canAssignReviewersCmtSel) || 
+            (StringUtils.isBlank(submitBean.getScheduleId()) && !(submitBean.isExpeditedProtocolReviewType())) || 
+            (StringUtils.isBlank(submitBean.getCommitteeId())) ) {
+            
             retVal = true;
         }
         return retVal;
