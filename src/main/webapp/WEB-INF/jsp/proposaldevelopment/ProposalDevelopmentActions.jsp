@@ -117,10 +117,12 @@ http://www.osedu.org/licenses/ECL-2.0
 	
 	</c:if> --%>
 	<c:if test="${KualiForm.saveXmlPermission and KualiForm.grantsGovSelectFlag}">
-			<c:set var="extraButtonSource" value="${ConfigProperties.kra.externalizable.images.url}buttonsmall_savexml.gif"/>
-  			<c:set var="extraButtonProperty" value="methodToCall.saveXml"/>
-  			<c:set var="extraButtonAlt" value="Save Grants.Gov Xml"/>
-  			<c:set var="viewOnly" value="${not KualiForm.editingMode['modifyProposal']}" /> 
+			<div id="btn_img_content">
+  			<html:image
+						property="methodToCall.saveXml"
+						src="${ConfigProperties.kra.externalizable.images.url}buttonsmall_savexml.gif" alt="Save Grants.Gov Xml" onclick="excludeSubmitRestriction=true" style="border:none;" styleId="saveXml" />
+						</div> 
+  		
   	</c:if>
 		<p><kul:documentControls transactionalDocument="true"
 			extraButtonSource="${extraButtonSource}"
@@ -134,6 +136,14 @@ http://www.osedu.org/licenses/ECL-2.0
 		<SCRIPT type="text/javascript">
 			var kualiForm = document.forms['KualiForm'];
 			var kualiElements = kualiForm.elements;
+			function addToGlobalButtons() {
+	  			var imgdata=jQuery("#btn_img_content").html();
+	  			jQuery("#btn_img_content").remove();
+	  			setTimeout(function(){ 				
+	  				jQuery("#globalbuttons").prepend(imgdata); 
+	  			},100);
+	  		}
+	  		window.onload=addToGlobalButtons();
 		</SCRIPT>
 			
 		</c:otherwise>
