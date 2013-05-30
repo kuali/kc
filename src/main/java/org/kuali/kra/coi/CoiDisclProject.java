@@ -531,16 +531,16 @@ public class CoiDisclProject extends KraPersistableBusinessObjectBase implements
             headerItems.add(new LabelValuePair(coiDisclosureEventType.getShortTextField3Label(), shortTextField3));
         }
         if (coiDisclosureEventType.isUseNumberField1()) {            
-            headerItems.add(new LabelValuePair(coiDisclosureEventType.getNumberField1Label(), numberField1.toString()));
+            headerItems.add(new LabelValuePair(coiDisclosureEventType.getNumberField1Label(), numberField1 == null ? "" : numberField1.toString()));
         }
         if (coiDisclosureEventType.isUseNumberField2()) {            
-            headerItems.add(new LabelValuePair(coiDisclosureEventType.getNumberField2Label(), numberField2.toString()));
+            headerItems.add(new LabelValuePair(coiDisclosureEventType.getNumberField2Label(), numberField2 == null ? "" : numberField2.toString()));
         }
         if (coiDisclosureEventType.isUseDateField1()) {            
-            headerItems.add(new LabelValuePair(coiDisclosureEventType.getDateField1Label(), df.format(dateField1)));
+            headerItems.add(new LabelValuePair(coiDisclosureEventType.getDateField1Label(), dateField1 == null ? "" : df.format(dateField1)));
         }
         if (coiDisclosureEventType.isUseDateField2()) {            
-            headerItems.add(new LabelValuePair(coiDisclosureEventType.getDateField2Label(), df.format(dateField2)));
+            headerItems.add(new LabelValuePair(coiDisclosureEventType.getDateField2Label(), dateField2 == null ? "" : df.format(dateField2)));
         }
     }
     
