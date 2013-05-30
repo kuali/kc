@@ -357,6 +357,7 @@ public class CoiDisclosureAction extends CoiAction {
                     coiDisclosureForm.getDisclosureHelper().getNewModuleItemKey());
         }
         coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure().refreshReferenceObject("coiDispositionStatus");
+        coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure().setCoiDisclosureAttachmentFilter(coiDisclosureForm.getCoiNotesAndAttachmentsHelper().getNewAttachmentFilter());
         return forward;
     }
 
