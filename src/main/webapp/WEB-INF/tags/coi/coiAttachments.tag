@@ -282,7 +282,10 @@
                             <c:set var="lastUpdated" value="&nbsp"/>
                         </c:otherwise>
                     </c:choose>   
-             
+                    <c:if test="${KualiForm.document.coiDisclosureList[0].coiDisclosureAttachmentFilter.sortBy ne 'LAUP'}">	
+                    	<c:set var="lastUpdated" value="&nbsp"/>
+                    </c:if>
+             			
                     <tr>
                         <td>
                             <kul:innerTab tabTitle="${attachment.shortDescription} ${lastUpdated}" parentTab="Coi Disclosure Attachments" defaultOpen="false" tabErrorKey="document.coiDisclosureList[0].coiDisclosureAttachments[${itrStatus.index}]*,document.coiDisclosureList[0].coiDisclosureAttachments[${itrStatus.index}]*" useCurrentTabIndexAsKey="true" tabAuditKey="document.coiDisclosureList[0].coiDisclosureAttachments[${itrStatus.index}]*" auditCluster="NoteAndAttachmentAuditErrors">

@@ -15,9 +15,12 @@
  */
 package org.kuali.kra.subaward.document;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.bo.DocumentCustomData;
 import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.document.ResearchDocumentBase;
@@ -28,6 +31,7 @@ import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.document.Copyable;
 import org.kuali.rice.krad.document.SessionDocument;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -174,5 +178,24 @@ implements  Copyable, SessionDocument {
         managedLists.add(subAward.getSubAwardContactsList());
         managedLists.add(subAward.getSubAwardCloseoutList());
         return managedLists;
+    }
+    
+    @Override
+    public String getCustomLockDescriptor(Person user) {
+        String activeLockRegion = (String) GlobalVariables.getUserSession().retrieveObject(KraAuthorizationConstants.ACTIVE_LOCK_REGION);
+        String updatedTimestamp = "";
+        if (this.getUpdateTimestamp() != null) {
+            updatedTimestamp = (new SimpleDateFormat("MM/dd/yyyy KK:mm a").format(this.getUpdateTimestamp()));
+        }
+        if (StringUtils.isNotEmpty(activeLockRegion)) {
+            return this.getSubAward().getSubAwardCode() + "-" + activeLockRegion + "-" + this.getUpdateUser() + "-" + updatedTimestamp;  
+        }
+
+        return null;
+    }
+    
+    @Override
+    public boolean useCustomLockDescriptors() {
+        return true;
     }
 }

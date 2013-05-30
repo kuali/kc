@@ -15,11 +15,13 @@
  */
 package org.kuali.kra.coi;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.bo.DocumentCustomData;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
@@ -32,7 +34,9 @@ import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.COMPONE
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.NAMESPACE;
 import org.kuali.rice.krad.document.Copyable;
 import org.kuali.rice.krad.document.SessionDocument;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krms.api.engine.Facts;
+import org.kuali.rice.kim.api.identity.Person;
 
 /**
  * 
@@ -143,6 +147,25 @@ public class CoiDisclosureDocument extends ResearchDocumentBase implements Copya
     @Override
     public List<? extends DocumentCustomData> getDocumentCustomData() {
         return new ArrayList();
+    }
+    
+    @Override
+    public String getCustomLockDescriptor(Person user) {
+        String activeLockRegion = (String) GlobalVariables.getUserSession().retrieveObject(KraAuthorizationConstants.ACTIVE_LOCK_REGION);
+        String updatedTimestamp = "";
+        if (this.getUpdateTimestamp() != null) {
+            updatedTimestamp = (new SimpleDateFormat("MM/dd/yyyy KK:mm a").format(this.getUpdateTimestamp()));
+        }
+        if (StringUtils.isNotEmpty(activeLockRegion)) {
+            return this.getCoiDisclosure().getCoiDisclosureNumber() + "-" + activeLockRegion + "-" + this.getUpdateUser() + "-" + updatedTimestamp;  
+        }
+
+        return null;
+    }
+    
+    @Override
+    public boolean useCustomLockDescriptors() {
+        return true;
     }
 
 }
