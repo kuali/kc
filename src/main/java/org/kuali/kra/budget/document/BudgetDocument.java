@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.budget.document;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -256,12 +257,16 @@ public class BudgetDocument<T extends BudgetParent> extends ResearchDocumentBase
     @Override
     public String getCustomLockDescriptor(Person user) {
         String activeLockRegion = (String) GlobalVariables.getUserSession().retrieveObject(KraAuthorizationConstants.ACTIVE_LOCK_REGION);
+        String updatedTimestamp = "";
+        if (this.getUpdateTimestamp() != null) {
+            updatedTimestamp = (new SimpleDateFormat("MM/dd/yyyy KK:mm a").format(this.getUpdateTimestamp()));
+        }
         if (StringUtils.isNotEmpty(activeLockRegion)) {
             BudgetParentDocument parent = this.getParentDocument();
             if (parent != null) {
                 return parent.getDocumentNumber() + "-" + activeLockRegion; 
             }
-            return this.getDocumentNumber() + "-" + activeLockRegion;
+            return this.getBudget().getBudgetId() + "-" + activeLockRegion + "-" + activeLockRegion + "-" + this.getUpdateUser() + "-" + updatedTimestamp;
         }
         
         return null;
