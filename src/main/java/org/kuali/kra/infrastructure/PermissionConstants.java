@@ -170,7 +170,8 @@ public interface PermissionConstants {
     public static final String APPROVE_COI_DISCLOSURE = "Approve Coi Disclosure";
     public static final String REPORT_COI_DISCLOSURE = "Report Coi Disclosure";
     public static final String PERFORM_COI_DISCLOSURE_ACTIONS = "Perform Coi Disclosure Actions";
-
+    public static final String UPDATE_FE_STATUS_DURING_REVIEW = "Maintain Coi FE Status During Review";
+    public static final String UPDATE_FE_STATUS_ADMIN = "Maintain Coi FE Status Admin";
     
     /*
      * Subaward
