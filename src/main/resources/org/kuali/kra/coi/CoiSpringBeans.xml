@@ -333,6 +333,12 @@
                 	<property name="roleService" ref ="roleService" />
                 	 <property name="identityService" ref ="identityService" />
                 </bean> 
+                <bean class="org.kuali.kra.coi.auth.UpdateFEStatusDuringReviewAuthorizer" parent="parentCoiDisclosureAuthorizer">
+                	<property name="taskName" value="updateFEStatusDuringReview" />
+                </bean> 
+                <bean class="org.kuali.kra.coi.auth.UpdateFEStatusAdminAuthorizer" parent="parentCoiDisclosureAuthorizer">
+                	<property name="taskName" value="updateFEStatusAdmin" />
+                </bean> 
             </list>
         </property>
     </bean>
