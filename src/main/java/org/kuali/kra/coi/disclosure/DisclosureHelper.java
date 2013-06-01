@@ -22,6 +22,7 @@ import java.util.List;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.home.Award;
+import org.kuali.kra.coi.CoiDiscDetail;
 import org.kuali.kra.coi.CoiDisclProject;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.CoiDisclosureDocument;
@@ -59,6 +60,8 @@ public class DisclosureHelper implements Serializable {
     private boolean canEditDisclosureFinancialEntity;
     private boolean canViewDisclosureCertification;
     private boolean canCertifyDisclosure;
+    private boolean canUpdateFEStatusDuringReview;
+    private boolean canUpdateFEStatusAdmin;
     private String conflictHeaderLabel;
     private CoiDisclProject newCoiDisclProject;
     private String protocolType;
@@ -101,6 +104,7 @@ public class DisclosureHelper implements Serializable {
     }
     public void prepareView() {
         initializePermissions(getCoiDisclosure());    
+        initializeOldFeStatii();
     }
     
     private void initializePermissions(CoiDisclosure coiDisclosure) {
@@ -109,8 +113,18 @@ public class DisclosureHelper implements Serializable {
         canViewDisclosureFeHistory = canEditDisclosureFinancialEntity || hasCanViewDisclosureFeHistoryPermission(coiDisclosure);
         canViewDisclosureCertification = hasCanViewDisclosureCertificationPermission();
         canCertifyDisclosure = hasCanCertifyDisclosurePermission();
+        canUpdateFEStatusDuringReview = hasCanUpdateFEStatusDuringReview();
+        canUpdateFEStatusAdmin = hasCanUpdateFEStatusAdmin();
     }
 
+    private void initializeOldFeStatii() {
+        for (CoiDisclProject project: getCoiDisclosure().getCoiDisclProjects()) {
+            for (CoiDiscDetail detail: project.getCoiDiscDetails()) {
+                detail.setOldEntityStatusCode();
+            }
+        }
+    }
+    
     private void initializeModifyCoiDisclosurePermission(CoiDisclosure coiDisclosure) {
         CoiDisclosureTask task = new CoiDisclosureTask(TaskName.MODIFY_COI_DISCLOSURE, coiDisclosure);
         modifyReporter = getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);     
@@ -197,6 +211,15 @@ public class DisclosureHelper implements Serializable {
         return canCertifyDisclosure;
     }
 
+    // can update the FE relatedness if user has permission and disclosure is being reviewed
+    public boolean isCanUpdateFEStatusDuringUpdate() {
+        return (getCoiDisclosure().isUnderReview() || getCoiDisclosure().isSubmittedForReview()) && canUpdateFEStatusDuringReview;
+    }
+
+    public boolean isCanUpdateFEStatusAdmin() {
+        return (getCoiDisclosure().isUnderReview() || getCoiDisclosure().isSubmittedForReview()) && canUpdateFEStatusAdmin;
+    }
+
     private boolean hasCanViewDisclosureFeHistoryPermission(CoiDisclosure coiDisclosure) {
         CoiDisclosureTask task = new CoiDisclosureTask(TaskName.VIEW_COI_DISCLOSURE, coiDisclosure);
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task); 
@@ -204,6 +227,16 @@ public class DisclosureHelper implements Serializable {
 
     private boolean hasCanViewDisclosureCertificationPermission() {
         CoiDisclosureTask task = new CoiDisclosureTask(TaskName.VIEW_COI_DISCLOSURE, getCoiDisclosure());
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task); 
+    }
+
+    private boolean hasCanUpdateFEStatusDuringReview() {
+        CoiDisclosureTask task = new CoiDisclosureTask(TaskName.UPDATE_FE_STATUS_DURING_REVIEW, getCoiDisclosure());
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task); 
+    }
+
+    private boolean hasCanUpdateFEStatusAdmin() {
+        CoiDisclosureTask task = new CoiDisclosureTask(TaskName.UPDATE_FE_STATUS_ADMIN, getCoiDisclosure());
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task); 
     }
 
@@ -216,6 +249,10 @@ public class DisclosureHelper implements Serializable {
 
     public boolean isCanEditDisclosureFinancialEntity() {
         return canEditDisclosureFinancialEntity;
+    }
+
+    public boolean isCanUpdateFEStatusDuringReview() {
+        return canUpdateFEStatusDuringReview;
     }
 
     public void setCanEditDisclosureFinancialEntity(boolean canEditDisclosureFinancialEntity) {

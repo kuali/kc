@@ -844,6 +844,16 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
         return coiDisclosureStatus;
     }
 
+    public boolean isUnderReview() {
+        CoiDisclosureStatus currentStatus = getCoiDisclosureStatus();
+        return StringUtils.equals(CoiDisclosureStatus.ROUTED_FOR_REVIEW, currentStatus.getCoiDisclosureStatusCode());
+    }
+    
+    public boolean isSubmittedForReview() {
+        CoiDisclosureStatus currentStatus = getCoiDisclosureStatus();
+        return StringUtils.equals(CoiDisclosureStatus.ROUTED_FOR_REVIEW, currentStatus.getCoiDisclosureStatusCode());
+    }
+    
     public void setCoiDisclosureStatus(CoiDisclosureStatus coiDisclosureStatus) {
         this.coiDisclosureStatus = coiDisclosureStatus;
     }
