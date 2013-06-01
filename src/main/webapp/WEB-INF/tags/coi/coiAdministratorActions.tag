@@ -20,6 +20,9 @@
 <kul:tab tabTitle="Administrator Actions" defaultOpen="false" tabErrorKey="coiAdminActionErrors">
 		<c:if test="${not KualiForm.document.coiDisclosureList[0].currentDisclosure}">
             <kra-coi:addCoiReviewerAction />
+            <kra:permission value="${KualiForm.disclosureHelper.canUpdateFEStatusAdmin}">
+                <kra-coi:feStatusReview/>
+            </kra:permission>
             <c:if test="${disclosureReviewCompleted}">
 	            <kra-coi:disclosureReviewStatusAction/>
             </c:if>

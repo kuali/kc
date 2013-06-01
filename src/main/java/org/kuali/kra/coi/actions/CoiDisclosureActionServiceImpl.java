@@ -686,6 +686,15 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
                     }
                     coiUserRole.setEditable(true);
                 }
+                for (CoiDisclProject project: disclosure.getCoiDisclProjects()) {
+                    for (CoiDiscDetail detail: project.getCoiDiscDetails()) {
+                        if (!StringUtils.equals(detail.getOldEntityStatusCode(), detail.getEntityStatusCode())) {
+                            detail.setUpdateUser(GlobalVariables.getUserSession().getPerson().getPrincipalName());
+                            businessObjectService.save(detail);
+                            detail.setOldEntityStatusCode();
+                        }
+                    }
+                }
             }
             if(!coiUserRole.isReviewCompleted()) {
                 reviewStatus = CoiReviewStatus.ASSIGNED_TO_REVIEWER;

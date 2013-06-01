@@ -38,6 +38,8 @@ public class CoiDiscDetail extends KraPersistableBusinessObjectBase implements C
     private String entityNumber; 
     private Integer entitySequenceNumber; 
     private String entityStatusCode; 
+    // Future: keeping track of old entity status, for when we track who changes it during reviews
+    private String oldEntityStatusCode; 
     private String description; 
     private String comments; 
     private Long personFinIntDisclosureId;
@@ -162,6 +164,14 @@ public class CoiDiscDetail extends KraPersistableBusinessObjectBase implements C
 
     public void setEntityStatusCode(String entityStatusCode) {
         this.entityStatusCode = entityStatusCode;
+    }
+
+    public String getOldEntityStatusCode() {
+        return oldEntityStatusCode;
+    }
+
+    public void setOldEntityStatusCode() {
+        oldEntityStatusCode = entityStatusCode;
     }
 
     public String getDescription() {
