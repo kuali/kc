@@ -69,6 +69,7 @@ import org.kuali.kra.protocol.onlinereview.event.RejectProtocolOnlineReviewComme
 import org.kuali.kra.protocol.onlinereview.event.RouteProtocolOnlineReviewEvent;
 import org.kuali.kra.protocol.onlinereview.event.SaveProtocolOnlineReviewEvent;
 import org.kuali.kra.service.KraWorkflowService;
+import org.kuali.kra.util.DateUtils;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
@@ -308,8 +309,13 @@ public class IacucProtocolOnlineReviewAction extends IacucProtocolAction {
             GlobalVariables.getMessageMap().putError("onlineReviewsActionHelper.newProtocolReviewCommitteeMembershipId", "error.protocol.onlinereview.create.requiresReviewer", new String[0]);
         }
         
-        if( protocolForm.getOnlineReviewsActionHelper().getNewReviewDateRequested() != null && protocolForm.getOnlineReviewsActionHelper().getNewReviewDateDue() != null ) {
-            if (protocolForm.getOnlineReviewsActionHelper().getNewReviewDateDue().before(protocolForm.getOnlineReviewsActionHelper().getNewReviewDateRequested())) {
+        if( protocolForm.getOnlineReviewsActionHelper().getNewReviewDateRequested() != null && protocolForm.getOnlineReviewsActionHelper().getNewReviewDateDue() != null ) {            
+            if ( (DateUtils.isSameDay(protocolForm.getOnlineReviewsActionHelper().getNewReviewDateDue(), protocolForm.getOnlineReviewsActionHelper().getNewReviewDateRequested())) || 
+                 (protocolForm.getOnlineReviewsActionHelper().getNewReviewDateDue().after(protocolForm.getOnlineReviewsActionHelper().getNewReviewDateRequested())) ) {
+               //no-op,
+            }
+            else
+            {   //dates are not the same or due date is before requested date
                 valid=false;
                 GlobalVariables.getMessageMap().putError("onlineReviewsActionHelper.newReviewDateDue", "error.protocol.onlinereview.create.dueDateAfterRequestedDate", new String[0]);
             }
