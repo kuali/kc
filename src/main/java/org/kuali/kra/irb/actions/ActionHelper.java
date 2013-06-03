@@ -440,7 +440,13 @@ public class ActionHelper extends ActionHelperBase {
         canAssignCmtSched = hasAssignCmtSchedPermission();
         canAssignCmtSchedUnavailable = hasAssignCmtSchedUnavailablePermission();
         canAssignReviewers = hasAssignReviewersPermission();
-        canAssignReviewersCmtSel = hasAssignReviewersCmtSel();
+        // we will do the workflow-heave check for reviewer assignment only if the user can submit the protocol
+        if(canSubmitProtocol) {
+            canAssignReviewersCmtSel = hasAssignReviewersCmtSel();
+        } 
+        else {
+            canAssignReviewersCmtSel = false;
+        }
         canAssignReviewersUnavailable = hasAssignReviewersUnavailablePermission();
         canGrantExemption = hasGrantExemptionPermission();
         canGrantExemptionUnavailable = hasGrantExemptionUnavailablePermission();
