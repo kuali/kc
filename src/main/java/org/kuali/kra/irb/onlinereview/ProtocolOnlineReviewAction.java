@@ -64,6 +64,7 @@ import org.kuali.kra.protocol.onlinereview.event.RouteProtocolOnlineReviewEvent;
 import org.kuali.kra.protocol.onlinereview.event.SaveProtocolOnlineReviewEvent;
 import org.kuali.kra.service.KraWorkflowService;
 import org.kuali.kra.service.TaskAuthorizationService;
+import org.kuali.kra.util.DateUtils;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
@@ -163,7 +164,13 @@ public class ProtocolOnlineReviewAction extends ProtocolAction implements AuditM
         }
         
         if( protocolForm.getOnlineReviewsActionHelper().getNewReviewDateRequested() != null && protocolForm.getOnlineReviewsActionHelper().getNewReviewDateDue() != null ) {
-            if (protocolForm.getOnlineReviewsActionHelper().getNewReviewDateDue().before(protocolForm.getOnlineReviewsActionHelper().getNewReviewDateRequested())) {
+            if ( (DateUtils.isSameDay(protocolForm.getOnlineReviewsActionHelper().getNewReviewDateDue(), 
+                                      protocolForm.getOnlineReviewsActionHelper().getNewReviewDateRequested())) || 
+                 (protocolForm.getOnlineReviewsActionHelper().getNewReviewDateDue().after(protocolForm.getOnlineReviewsActionHelper().getNewReviewDateRequested())) ) {
+                //no-op
+            }
+            else
+            {   //dates are not the same or due date is before requested date
                 valid=false;
                 GlobalVariables.getMessageMap().putError("onlineReviewsActionHelper.newReviewDateDue", "error.protocol.onlinereview.create.dueDateAfterRequestedDate", new String[0]);
             }
