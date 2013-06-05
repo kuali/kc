@@ -50,7 +50,6 @@ public class CoiDisclosureProjectValuesFinder extends KeyValuesBase {
     public List getKeyValues() {
         List<KeyValue> keyLabels = new ArrayList<KeyValue>();
         CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) KNSGlobalVariables.getKualiForm();
-        keyLabels.add(new ConcreteKeyValue("", "select"));
 
         CoiDisclosureDocument coiDisclosureDocument = coiDisclosureForm.getCoiDisclosureDocument();
         CoiDisclosure coiDisclosure = coiDisclosureDocument.getCoiDisclosure();
