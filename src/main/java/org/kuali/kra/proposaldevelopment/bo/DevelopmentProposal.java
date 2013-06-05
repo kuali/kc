@@ -465,9 +465,10 @@ public class DevelopmentProposal extends KraPersistableBusinessObjectBase implem
         for (int i = 0; i < proposalPersons.size(); i++) {
             ProposalPerson person = proposalPersons.get(i);
             person.setMoveUpAllowed(i > 0
-                    && person.getProposalPersonRoleId().equals(proposalPersons.get(i - 1).getProposalPersonRoleId()));
+                    && !getKeyPersonnelService().isPrincipalInvestigator(person)
+                    && !getKeyPersonnelService().isPrincipalInvestigator(proposalPersons.get(i - 1)));
             person.setMoveDownAllowed(i < (proposalPersons.size() - 1)
-                    && person.getProposalPersonRoleId().equals(proposalPersons.get(i + 1).getProposalPersonRoleId()));
+                    && !getKeyPersonnelService().isPrincipalInvestigator(person));
             if (isSponsorNihMultiplePi() && getKeyPersonnelService().isCoInvestigator(person)) {
                 person.setMoveUpAllowed(person.isMoveUpAllowed() 
                         && person.isMultiplePi() == proposalPersons.get(i - 1).isMultiplePi());
