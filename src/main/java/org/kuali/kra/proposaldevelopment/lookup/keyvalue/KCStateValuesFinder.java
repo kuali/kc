@@ -41,7 +41,12 @@ public class KCStateValuesFinder extends KeyValuesBase {
         List<State> baseCodes;
         if (StringUtils.isEmpty(countryCode)) {
             findCurrentPersonCountryCode();
-            baseCodes = LocationApiServiceLocator.getStateService().findAllStatesInCountry(countryCode);
+            if (StringUtils.isEmpty(countryCode)) {
+                labels.add(new ConcreteKeyValue("", ""));
+                return labels;
+            } else {
+                baseCodes = LocationApiServiceLocator.getStateService().findAllStatesInCountry(countryCode);
+            }
         } else { 
             baseCodes = LocationApiServiceLocator.getStateService().findAllStatesInCountry(countryCode);
         }
