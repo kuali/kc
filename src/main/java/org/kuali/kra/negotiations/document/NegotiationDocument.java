@@ -199,7 +199,7 @@ public class NegotiationDocument extends ResearchDocumentBase implements Seriali
             updatedTimestamp = (new SimpleDateFormat("MM/dd/yyyy KK:mm a").format(this.getUpdateTimestamp()));
         }
         if (StringUtils.isNotEmpty(activeLockRegion)) {
-            return this.getNegotiation().getNegotiationId() + "-" + activeLockRegion + "-" + this.getUpdateUser() + "-" + updatedTimestamp;  
+            return this.getNegotiation().getNegotiationId() + "-" + activeLockRegion + "-" + GlobalVariables.getUserSession().getPrincipalName() + "-" + updatedTimestamp;  
         }
 
         return null;
