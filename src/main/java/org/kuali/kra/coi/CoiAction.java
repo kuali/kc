@@ -72,6 +72,7 @@ public abstract class CoiAction extends KraTransactionalDocumentActionBase {
         coiDisclosureForm.getDisclosureHelper().prepareView();
         // initialize the questionnaire data
         coiDisclosureForm.getDisclosureQuestionnaireHelper().prepareView(false);
+        coiDisclosureForm.getScreeningQuestionnaireHelper().prepareView(false);
         // initialize the permissions for notes and attachments helper
         coiDisclosureForm.getCoiNotesAndAttachmentsHelper().prepareView();
     }
@@ -98,9 +99,9 @@ public abstract class CoiAction extends KraTransactionalDocumentActionBase {
 
     public void preSave(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-        // TODO Auto-generated method stub
-        
+
     }
+    
     protected CoiDisclosureActionService getCoiDisclosureActionService() {
         return KraServiceLocator.getService(CoiDisclosureActionService.class);
     }
@@ -112,7 +113,6 @@ public abstract class CoiAction extends KraTransactionalDocumentActionBase {
 
     public void postSave(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-        // TODO Auto-generated method stub
         
     }
     
