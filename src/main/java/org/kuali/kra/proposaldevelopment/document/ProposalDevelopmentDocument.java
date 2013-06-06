@@ -486,7 +486,7 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
             updatedTimestamp = (new SimpleDateFormat("MM/dd/yyyy KK:mm a").format(this.getUpdateTimestamp()));
         }
         if (StringUtils.isNotEmpty(activeLockRegion)) {
-            return this.getDevelopmentProposal().getProposalNumber() + "-" + activeLockRegion + "-" + this.getUpdateUser() + "-" + updatedTimestamp; 
+            return this.getDevelopmentProposal().getProposalNumber() + "-" + activeLockRegion + "-" + GlobalVariables.getUserSession().getPrincipalName() + "-" + updatedTimestamp; 
         }
 
         return null;

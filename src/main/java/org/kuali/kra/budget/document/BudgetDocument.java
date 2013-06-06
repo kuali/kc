@@ -264,9 +264,9 @@ public class BudgetDocument<T extends BudgetParent> extends ResearchDocumentBase
         if (StringUtils.isNotEmpty(activeLockRegion)) {
             BudgetParentDocument parent = this.getParentDocument();
             if (parent != null) {
-                return parent.getDocumentNumber() + "-" + activeLockRegion; 
+                return this.getBudget().getBudgetId() + "-" + activeLockRegion + "-" + activeLockRegion + "-" + GlobalVariables.getUserSession().getPrincipalName() + "-" + updatedTimestamp; 
             }
-            return this.getBudget().getBudgetId() + "-" + activeLockRegion + "-" + activeLockRegion + "-" + this.getUpdateUser() + "-" + updatedTimestamp;
+            return this.getBudget().getBudgetId() + "-" + activeLockRegion + "-" + activeLockRegion + "-" + GlobalVariables.getUserSession().getPrincipalName() + "-" + updatedTimestamp;
         }
         
         return null;

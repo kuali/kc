@@ -45,6 +45,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.WordUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
@@ -386,11 +387,13 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
         String descriptor = (lock.getLockDescriptor() != null) ? lock.getLockDescriptor() : "";
 
         if (StringUtils.isNotEmpty(descriptor)) {
-            descriptor = StringUtils.capitalize(descriptor.substring(descriptor.indexOf("-") + 1).toLowerCase());
+            descriptor = WordUtils.capitalizeFully(descriptor, (new char[] {'-',' '}));
+           descriptor = StringUtils.contains(descriptor, "Pm") ? StringUtils.replaceOnce(descriptor, "Pm", "PM") : StringUtils.replaceOnce(descriptor, "Am", "AM");
         }
-        return new StringBuilder().append("This ").append(descriptor).append(" is locked for editing by ").append(lock.getOwnedByUser().getPrincipalName()).append(" as of ")
-                .append(org.kuali.rice.core.api.util.RiceConstants.getDefaultTimeFormat().format(lock.getGeneratedTimestamp())).append(" on ")
-                .append(org.kuali.rice.core.api.util.RiceConstants.getDefaultDateFormat().format(lock.getGeneratedTimestamp())).toString();
+        return new StringBuilder().append("Delete ").append(lock.getId()).append(" ").append(lock.getOwnedByUser().getPrincipalName()).append(" ").append(descriptor).append(" ")
+                .append(org.kuali.rice.core.api.util.RiceConstants.getDefaultDateFormat().format(lock.getGeneratedTimestamp())).append(" ") 
+                .append(org.kuali.rice.core.api.util.RiceConstants.getDefaultTimeFormat().format(lock.getGeneratedTimestamp()))
+                .toString();
     }
 
     private List<PessimisticLock> findMatchingLocksWithGivenDescriptor(String lockDescriptor) {
