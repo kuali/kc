@@ -397,6 +397,10 @@ public abstract class ProtocolFormBase extends KraTransactionalDocumentFormBase 
     public String getQuestionnaireFieldEnd() {
         return DEFAULT_END;
     }
+    
+    public String getQuestionnaireExpression() {
+        return "^undefined$";
+    }
 
     public MedusaBean getMedusaBean() {
         return medusaBean;

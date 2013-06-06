@@ -30,7 +30,13 @@ public class DisclosureModuleQuestionnaireBean extends ModuleQuestionnaireBean {
     
     public DisclosureModuleQuestionnaireBean(CoiDisclosure coiDisclosure) {
         super(CoeusModule.COI_DISCLOSURE_MODULE_CODE, coiDisclosure.getCoiDisclosureId() == null ? "" : coiDisclosure.getCoiDisclosureId().toString(), coiDisclosure.getEventTypeCode(), "-1", 
-                coiDisclosure.getCoiDisclosureDocument().getDocumentHeader().hasWorkflowDocument() ? coiDisclosure.getCoiDisclosureDocument().getDocumentHeader().getWorkflowDocument().isApproved() : false);
+                isFinalDoc(coiDisclosure));
+        this.coiDisclosure = coiDisclosure;
+    }
+    
+    public DisclosureModuleQuestionnaireBean(CoiDisclosure coiDisclosure, String subModuleCode) {
+        super(CoeusModule.COI_DISCLOSURE_MODULE_CODE, coiDisclosure.getCoiDisclosureId() == null ? "" : coiDisclosure.getCoiDisclosureId().toString(), subModuleCode, "-1", 
+                isFinalDoc(coiDisclosure));
         this.coiDisclosure = coiDisclosure;
     }
     
@@ -42,7 +48,16 @@ public class DisclosureModuleQuestionnaireBean extends ModuleQuestionnaireBean {
     public DisclosureModuleQuestionnaireBean(String moduleItemCode, String moduleItemKey, String moduleSubItemCode, String moduleSubItemKey, boolean finalDoc) {
         super(moduleItemCode, moduleItemKey, moduleSubItemCode, moduleSubItemKey, finalDoc);
     }
-
+    
+    protected static boolean isFinalDoc(CoiDisclosure coiDisclosure) {
+        if (coiDisclosure.getCoiDisclosureDocument().getDocumentHeader().hasWorkflowDocument()) {
+            return coiDisclosure.getCoiDisclosureDocument().getDocumentHeader().getWorkflowDocument().isEnroute();
+        }
+        else {
+            return false;        
+        }
+    }
+    
     @Override
     public KrmsRulesContext getKrmsRulesContextFromBean() {
         if (coiDisclosure != null) {

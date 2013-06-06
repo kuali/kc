@@ -77,6 +77,7 @@ import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.keyvalues.KeyValuesFinder;
@@ -151,15 +152,6 @@ public class CoiDisclosureAction extends CoiAction {
         // and centralize it in a helper method
         // First validate the questionnaire data
         // TODO maybe add a COI questionnaire specific rule event to the condition below
-        List<AnswerHeader> answerHeaders = coiDisclosureForm.getDisclosureQuestionnaireHelper().getAnswerHeaders();        
-        if (coiDisclosureForm.getDisclosureHelper().getMasterDisclosureBean() != null) {
-            List<List<CoiDisclosureProjectBean>> allProjects = coiDisclosureForm.getDisclosureHelper().getMasterDisclosureBean().getProjectLists();
-            for (List<CoiDisclosureProjectBean> projectList : allProjects) {
-                for (CoiDisclosureProjectBean bean : projectList) {
-                    answerHeaders.addAll(bean.getAnswerHeaders());
-                }
-            }
-        }
         if (coiDisclosure.getCoiDisclProjects() != null || !coiDisclosure.getCoiDisclProjects().isEmpty()) {
             for (CoiDisclProject coiDisclProject : coiDisclosure.getCoiDisclProjects()) {
                 if (!new CoiDisclosureAdministratorActionRule().isValidDispositionStatus(coiDisclProject.getDisclosureDispositionCode())) {
@@ -167,29 +159,14 @@ public class CoiDisclosureAction extends CoiAction {
                 }
             }
         }
-        if ( applyRules(new SaveQuestionnaireAnswerEvent(coiDisclosureDocument, answerHeaders))) {
+        if (validateQuestionnaires(coiDisclosureForm)) {
             // since Questionnaire data is OK we try to save doc
             if (isValid) {
                 actionForward = super.save(mapping, form, request, response);
+                saveQuestionnaires(coiDisclosureForm);
             }
             
             helper.fixReloadedAttachments(request.getParameterMap());
-            // check if doc save went OK
-            // TODO Any validation errors during the doc save will cause an exception to be thrown, so perhaps the checking of
-            // message map below is redundant
-            if(GlobalVariables.getMessageMap().hasNoErrors()) {
-                // now save questionnaire data for the disclosure
-                coiDisclosureForm.getDisclosureQuestionnaireHelper().preSave();
-                if (coiDisclosureForm.getDisclosureHelper().getMasterDisclosureBean() != null) {
-                    List<List<CoiDisclosureProjectBean>> allProjects = coiDisclosureForm.getDisclosureHelper().getMasterDisclosureBean().getProjectLists();                
-                    for (List<CoiDisclosureProjectBean> projectList : allProjects) {
-                        for (CoiDisclosureProjectBean bean : projectList) {
-                            bean.getProjectQuestionnaireHelper().preSave(coiDisclosure);
-                        }
-                    }
-                }
-                getBusinessObjectService().save(answerHeaders);
-            }
         }
         /************ End --- Save (if valid) document and questionnaire data ************/
         
@@ -202,6 +179,42 @@ public class CoiDisclosureAction extends CoiAction {
         }
 
         return actionForward;
+    }
+    
+    protected boolean validateQuestionnaires(CoiDisclosureForm coiDisclosureForm) {
+        List<AnswerHeader> answerHeaders = generateListOfQuestionnaires(coiDisclosureForm);
+        return applyRules(new SaveQuestionnaireAnswerEvent(coiDisclosureForm.getCoiDisclosureDocument(), answerHeaders));        
+    }
+    
+    protected List<AnswerHeader> generateListOfQuestionnaires(CoiDisclosureForm coiDisclosureForm) {
+        List<AnswerHeader> answerHeaders = new ArrayList<AnswerHeader>();
+        answerHeaders.addAll(coiDisclosureForm.getDisclosureQuestionnaireHelper().getAnswerHeaders());
+        answerHeaders.addAll(coiDisclosureForm.getScreeningQuestionnaireHelper().getAnswerHeaders());
+        if (coiDisclosureForm.getDisclosureHelper().getMasterDisclosureBean() != null) {
+            List<List<CoiDisclosureProjectBean>> allProjects = coiDisclosureForm.getDisclosureHelper().getMasterDisclosureBean().getProjectLists();
+            for (List<CoiDisclosureProjectBean> projectList : allProjects) {
+                for (CoiDisclosureProjectBean bean : projectList) {
+                    answerHeaders.addAll(bean.getAnswerHeaders());
+                }
+            }
+        }
+        return answerHeaders;
+    }
+    
+    protected void saveQuestionnaires(CoiDisclosureForm coiDisclosureForm) {
+        List<AnswerHeader> answerHeaders = generateListOfQuestionnaires(coiDisclosureForm);
+        
+        coiDisclosureForm.getDisclosureQuestionnaireHelper().preSave();
+        coiDisclosureForm.getScreeningQuestionnaireHelper().preSave();
+        if (coiDisclosureForm.getDisclosureHelper().getMasterDisclosureBean() != null) {
+            List<List<CoiDisclosureProjectBean>> allProjects = coiDisclosureForm.getDisclosureHelper().getMasterDisclosureBean().getProjectLists();                
+            for (List<CoiDisclosureProjectBean> projectList : allProjects) {
+                for (CoiDisclosureProjectBean bean : projectList) {
+                    bean.getProjectQuestionnaireHelper().preSave(coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure());
+                }
+            }
+        }
+        getBusinessObjectService().save(answerHeaders);
     }
 
     @Override
@@ -236,6 +249,7 @@ public class CoiDisclosureAction extends CoiAction {
                 forceQnnrReload = true;
             }            
             coiDisclosureForm.getDisclosureQuestionnaireHelper().prepareView(forceQnnrReload);
+            coiDisclosureForm.getScreeningQuestionnaireHelper().prepareView(forceQnnrReload);
         }
         
         // now the rest of subclass-specific custom logic for execute()
@@ -553,31 +567,22 @@ public class CoiDisclosureAction extends CoiAction {
                 // class and centralize it in a helper method
                 // First validate the questionnaire data
                 // TODO maybe add a COI questionnaire specific rule event to the condition below
-                List<AnswerHeader> answerHeaders = coiDisclosureForm.getDisclosureQuestionnaireHelper().getAnswerHeaders();
-                if (applyRules(new SaveQuestionnaireAnswerEvent(coiDisclosureDocument, answerHeaders))) {
+                if (validateQuestionnaires(coiDisclosureForm)) {
                     // since Questionnaire data is OK we try to save doc
                     getDocumentService().saveDocument(coiDisclosureDocument);
-                    // check if doc save went OK
-                    // TODO Any validation errors during the doc save will cause an exception to be thrown, so perhaps the checking
-                    // of message map below is redundant
-                    if(GlobalVariables.getMessageMap().hasNoErrors()) {
-                        // now save questionnaire data for the disclosure
-                        coiDisclosureForm.getDisclosureQuestionnaireHelper().preSave();
-                        getBusinessObjectService().save(answerHeaders);
-                        
-                        // set the disclosure codes
-                        coiDisclosure.setDisclosureDispositionCode(CoiDispositionStatus.SUBMITTED_FOR_REVIEW);
-                        coiDisclosure.setDisclosureStatusCode(CoiDisclosureStatus.ROUTED_FOR_REVIEW);
+                    saveQuestionnaires(coiDisclosureForm);
+                    // set the disclosure codes
+                    coiDisclosure.setDisclosureDispositionCode(CoiDispositionStatus.SUBMITTED_FOR_REVIEW);
+                    coiDisclosure.setDisclosureStatusCode(CoiDisclosureStatus.ROUTED_FOR_REVIEW);
 
-                        // Update the corresponding discl project
-                        updateCorrespondingCoiDisclProject(coiDisclosure, CoiDispositionStatus.SUBMITTED_FOR_REVIEW, CoiDisclosureStatus.ROUTED_FOR_REVIEW);
-                        
-                        // Certification occurs after the audit rules pass, and the document and the questionnaire data have been
-                        // saved successfully
-                        coiDisclosure.certifyDisclosure();
-                        forward = submitForReviewAndRedirect(mapping, form, request, response, coiDisclosureForm, coiDisclosure,
-                                coiDisclosureDocument);
-                    }
+                    // Update the corresponding discl project
+                    updateCorrespondingCoiDisclProject(coiDisclosure, CoiDispositionStatus.SUBMITTED_FOR_REVIEW, CoiDisclosureStatus.ROUTED_FOR_REVIEW);
+                    
+                    // Certification occurs after the audit rules pass, and the document and the questionnaire data have been
+                    // saved successfully
+                    coiDisclosure.certifyDisclosure();
+                    forward = submitForReviewAndRedirect(mapping, form, request, response, coiDisclosureForm, coiDisclosure,
+                            coiDisclosureDocument);
                 }
                 /************ End --- Save (if valid) document and questionnaire data ************/    
 
@@ -983,20 +988,13 @@ public class CoiDisclosureAction extends CoiAction {
         // and centralize it in a helper method
         // First validate the questionnaire data
         // TODO maybe add a COI questionnaire specific rule event to the condition below
-        List<AnswerHeader> answerHeaders = coiDisclosureForm.getDisclosureQuestionnaireHelper().getAnswerHeaders();
-        if ( applyRules(new SaveQuestionnaireAnswerEvent(document, answerHeaders))) {
+        if (validateQuestionnaires(coiDisclosureForm)) {
             // since Questionnaire data is OK we try to save doc
         	if (isValid) {
         	    actionForward = super.saveOnClose(mapping, form, request, response);
+        	    saveQuestionnaires(coiDisclosureForm);
         	}
-        	// check if doc save went OK
-            // TODO Any validation errors during the doc save will cause an exception to be thrown, so perhaps the checking of
-            // message map below is redundant
-            if(GlobalVariables.getMessageMap().hasNoErrors()) {
-                // now save questionnaire data for the disclosure
-                coiDisclosureForm.getDisclosureQuestionnaireHelper().preSave();
-                getBusinessObjectService().save(answerHeaders);
-            }
+        	
         }
         /************ End --- Save (if valid) document and questionnaire data ************/
          
