@@ -552,8 +552,9 @@ public class CoiDisclosureAction extends CoiAction {
        
         if (checkRule(new CertifyDisclosureEvent("disclosureHelper.certifyDisclosure", coiDisclosure))) {
             coiDisclosureForm.setAuditActivated(true);
+            coiDisclosureForm.setUnitRulesMessages(getUnitRulesMessages(coiDisclosureForm.getCoiDisclosureDocument()));
             AuditActionHelper auditActionHelper = new AuditActionHelper();
-            if (auditActionHelper.auditUnconditionally(coiDisclosureDocument)) {
+            if (auditActionHelper.auditUnconditionally(coiDisclosureDocument) && !coiDisclosureForm.isUnitRulesErrorsExist()) {
                 // Certification occurs after the audit rules pass.
                 if (coiDisclosure.getCoiDisclosureId() == null) {
                     coiDisclosure.initRequiredFields();            
