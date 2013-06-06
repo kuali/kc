@@ -1144,5 +1144,21 @@ public class CoiDisclosureAction extends CoiAction {
         return mapping.findForward("viewNotification");
     }
     
+    public ActionForward viewProjectDisclosuresByFinancialEntity(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) form;
+        DisclosureHelper disclosureHelper = coiDisclosureForm.getDisclosureHelper();
+        CoiDisclosure coiDisclosure = coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure();
+        MasterDisclosureBean masterDisclosureBean = disclosureHelper.getMasterDisclosureBean();
+        getCoiDisclosureService().createDisclosuresGroupedByFinancialEntity(coiDisclosure, masterDisclosureBean);
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    public ActionForward viewProjectDisclosuresByEvent(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) form;
+        DisclosureHelper disclosureHelper = coiDisclosureForm.getDisclosureHelper();
+        MasterDisclosureBean masterDisclosureBean = disclosureHelper.getMasterDisclosureBean();
+        getCoiDisclosureService().createDisclosuresGroupedByEvent(masterDisclosureBean);
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
 
 }

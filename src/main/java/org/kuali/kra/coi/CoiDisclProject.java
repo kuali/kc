@@ -82,6 +82,7 @@ public class CoiDisclProject extends KraPersistableBusinessObjectBase implements
     private Award award;
     private CoiDisclosureEventType coiDisclosureEventType;
     private Long originalCoiDisclosureId; 
+    private CoiDisclosure originalCoiDisclosure; 
 
     @SkipVersioning
     private CoiDisclosure coiDisclosure; 
@@ -592,4 +593,15 @@ public class CoiDisclProject extends KraPersistableBusinessObjectBase implements
     public CoiDispositionStatus getCoiDispositionStatus() {
         return coiDispositionStatus;
     }
+
+    public CoiDisclosure getOriginalCoiDisclosure() {
+        if (originalCoiDisclosureId != null && originalCoiDisclosure ==null) {
+            this.refreshReferenceObject("originalCoiDisclosure");
+        }
+        return originalCoiDisclosure;
+    }
+    public void setOriginalCoiDisclosure(CoiDisclosure originalCoiDisclosure) {
+        this.originalCoiDisclosure = originalCoiDisclosure;
+    }
+    
 }

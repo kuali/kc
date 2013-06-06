@@ -26,6 +26,7 @@ import org.kuali.kra.coi.CoiDisclosureEventType;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class MasterDisclosureBean implements Serializable {
 
@@ -47,6 +48,10 @@ public class MasterDisclosureBean implements Serializable {
     private List<CoiDisclosureProjectBean> otherManualProjects;
     private List<AnswerHeader> answerHeaders;
 
+    private List<CoiDisclosureProjectBean> allDisclosureProjects;
+    private List<CoiGroupedMasterDisclosureBean> allDisclosuresGroupedByProjects;
+    private boolean disclosureGroupedByEvent;
+
     
     public MasterDisclosureBean() {
         awardProjects = new ArrayList<CoiDisclosureProjectBean>();
@@ -60,6 +65,10 @@ public class MasterDisclosureBean implements Serializable {
         manualTravelProjects = new ArrayList<CoiDisclosureProjectBean>();
         otherManualProjects = new ArrayList<CoiDisclosureProjectBean>();
         allProjects = new ArrayList<CoiDisclosureProjectBean>();
+        
+        setAllDisclosureProjects(new ArrayList<CoiDisclosureProjectBean>());
+        setAllDisclosuresGroupedByProjects(new ArrayList<CoiGroupedMasterDisclosureBean>());
+        setDisclosureGroupedByEvent(true);
     }
     
     public CoiDisclosure getCoiDisclosure() {
@@ -187,8 +196,9 @@ public class MasterDisclosureBean implements Serializable {
                 getOtherManualProjects().add(coiDisclosureProjectBean);
                 coiDisclosureProjectBean.setExcludeFE(isEventExcludFE(""+typeCode));
         }
+        getAllDisclosureProjects().add(coiDisclosureProjectBean);
     }
-
+    
     /*
      * excluded FE from event.  this is specifically for annual project check or manual events
      */
@@ -245,5 +255,28 @@ public class MasterDisclosureBean implements Serializable {
         return otherManualProjects;
     }
 
+    public List<CoiGroupedMasterDisclosureBean> getAllDisclosuresGroupedByProjects() {
+        return allDisclosuresGroupedByProjects;
+    }
+
+    public void setAllDisclosuresGroupedByProjects(List<CoiGroupedMasterDisclosureBean> allDisclosuresGroupedByProjects) {
+        this.allDisclosuresGroupedByProjects = allDisclosuresGroupedByProjects;
+    }
+
+    public List<CoiDisclosureProjectBean> getAllDisclosureProjects() {
+        return allDisclosureProjects;
+    }
+
+    public void setAllDisclosureProjects(List<CoiDisclosureProjectBean> allDisclosureProjects) {
+        this.allDisclosureProjects = allDisclosureProjects;
+    }
+
+    public boolean isDisclosureGroupedByEvent() {
+        return disclosureGroupedByEvent;
+    }
+
+    public void setDisclosureGroupedByEvent(boolean disclosureGroupedByEvent) {
+        this.disclosureGroupedByEvent = disclosureGroupedByEvent;
+    }
 
 }
