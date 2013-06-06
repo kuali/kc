@@ -43,6 +43,7 @@ import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
 public class DisclosureQuestionnaireAuditRule extends BaseQuestionnaireAuditRule<CoiDisclosureDocument> implements DocumentAuditRule {
 
     private static final String DISCLOSURE_QUESTIONNAIRE_KEY = "disclosureQuestionnaireHelper.answerHeaders";
+    private static final String SCREENING_QUESTIONNAIRE_KEY = "screeningQuestionnaireHelper.answerHeaders";
     private static final String DISCLOSURE_QUESTIONNAIRE_PANEL_KEY = "coiQuestionnaireKey";
     protected static final String MASTER_DISCLOSURE_PROJECT_QUESTIONNAIRE_KEY = "disclosureHelper.masterDisclosureBean.%s[%s].projectQuestionnaireHelper.answerHeaders";
     protected static final String AUDIT_ERROR_LABEL;
@@ -66,6 +67,12 @@ public class DisclosureQuestionnaireAuditRule extends BaseQuestionnaireAuditRule
         if (headers != null) {
             isValid &= checkAnswerHeaders(headers, DISCLOSURE_QUESTIONNAIRE_KEY);
         }
+        
+        headers = getQuestionnaireAnswerService().getQuestionnaireAnswer(new DisclosureModuleQuestionnaireBean(coiDisclosure, CoeusSubModule.COI_SCREENING_SUBMODULE));
+        if (headers != null) {
+            isValid &= checkAnswerHeaders(headers, SCREENING_QUESTIONNAIRE_KEY);
+        }
+        
         MasterDisclosureBean masterBean = new MasterDisclosureBean();
         
         for (CoiDisclProject project : coiDisclosure.getCoiDisclProjects()) {

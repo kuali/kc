@@ -15,6 +15,22 @@
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
+<kul:tab defaultOpen="${fn:length(KualiForm.screeningQuestionnaireHelper.answerHeaders) > 0}" tabTitle="Screening Questionnaire" transparentBackground="false" 
+	auditCluster="coiQuestionnaireKey" tabAuditKey="screeningQuestionnaireHelper.*" useRiceAuditMode="true"
+    tabErrorKey="" >
+    
+    <c:set var="answerHeaderIndex" value="0" />
+	<c:set var="property" value="screeningQuestionnaireHelper" />
+	<c:set var="bean" value="${KualiForm.screeningQuestionnaireHelper}" />
+			
+	<c:forEach items="${bean.answerHeaders}" var="answerHeader" varStatus="status">
+         <div class="tab-container" align="center">
+             <kra-questionnaire:questionnaireAnswersInnerTab bean="${bean}" property="${property}" 
+             	answerHeaderIndex="${status.index}" parentTab="Questionnaire"/>
+         </div>					 
+	</c:forEach>
+				
+</kul:tab>
 <kul:tab defaultOpen="true" tabTitle="Questionnaire" transparentBackground="false" 
 	auditCluster="coiQuestionnaireKey" tabAuditKey="disclosureQuestionnaireHelper.*" useRiceAuditMode="true"
     tabErrorKey="" >
@@ -28,10 +44,6 @@
            <c:when test="${KualiForm.document.coiDisclosureList[0].updateEvent or (KualiForm.document.coiDisclosureList[0].annualEvent and KualiForm.document.coiDisclosureList[0].annualUpdate)}">
               <c:if  test="${answerHeader.moduleSubItemCode == '14' or answerHeader.moduleSubItemCode == '6'}">
 		         <div class="tab-container" align="center">
-			         <c:set var="prop" value="${property}.answerHeaders[${status.index}].showQuestions"/>
-			         ${kfunc:registerEditableProperty(KualiForm, prop)}
-			         <input type="hidden" name="${prop}" id ="${prop}" 
-		                 value = "${bean.answerHeaders[status.index].showQuestions}" />
 		             <kra-questionnaire:questionnaireAnswersInnerTab bean="${bean}" property="${property}" 
 		             	answerHeaderIndex="${status.index}" parentTab="Questionnaire"/>
 		         </div>					 
@@ -39,10 +51,6 @@
            </c:when>
            <c:otherwise>
 		         <div class="tab-container" align="center">
-			         <c:set var="prop" value="${property}.answerHeaders[${status.index}].showQuestions"/>
-			         ${kfunc:registerEditableProperty(KualiForm, prop)}
-			         <input type="hidden" name="${prop}" id ="${prop}" 
-		                 value = "${bean.answerHeaders[status.index].showQuestions}" />
 		             <kra-questionnaire:questionnaireAnswersInnerTab bean="${bean}" property="${property}" 
 		             	answerHeaderIndex="${status.index}" parentTab="Questionnaire"/>
 		         </div>					 

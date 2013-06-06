@@ -326,9 +326,10 @@ public abstract class KraTransactionalDocumentFormBase extends KualiTransactiona
                     String propertyName = (String) checkboxesToResetFields[i];
                     if (!StringUtils.isBlank(propertyName) && parameterMap.get(propertyName) == null) {
                         if (this instanceof QuestionableFormInterface 
-                                && StringUtils.startsWithIgnoreCase(propertyName, ((QuestionableFormInterface) this).getQuestionnaireFieldStarter())
+                                && (StringUtils.startsWithIgnoreCase(propertyName, ((QuestionableFormInterface) this).getQuestionnaireFieldStarter())
                                 && StringUtils.containsIgnoreCase(propertyName, ((QuestionableFormInterface) this).getQuestionnaireFieldMiddle())
-                                && StringUtils.endsWithIgnoreCase(propertyName, ((QuestionableFormInterface) this).getQuestionnaireFieldEnd())) {
+                                && StringUtils.endsWithIgnoreCase(propertyName, ((QuestionableFormInterface) this).getQuestionnaireFieldEnd())
+                                || propertyName.matches(((QuestionableFormInterface) this).getQuestionnaireExpression()))) {
                             populateForProperty(propertyName, null, parameterMap);
                         } else if (this instanceof MultiQuestionableFormInterface) {
                             processMultiQuestionCheckBox(propertyName, parameterMap, (MultiQuestionableFormInterface) this);

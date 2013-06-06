@@ -28,4 +28,5 @@ public interface QuestionableFormInterface {
     public String getQuestionnaireFieldStarter();
     public String getQuestionnaireFieldMiddle();
     public String getQuestionnaireFieldEnd();
+    public String getQuestionnaireExpression();
 }

@@ -240,16 +240,16 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
         Map<String, AnswerHeader> answerHeaderMap = new HashMap<String, AnswerHeader>();
         List<AnswerHeader> answers = retrieveAnswerHeaders(moduleQuestionnaireBean);
 
-        GlobalVariables.getUserSession().removeObject(moduleQuestionnaireBean.getSessionContextKey() + "-rulereferenced");
+        if (GlobalVariables.getUserSession() != null) {
+            GlobalVariables.getUserSession().removeObject(moduleQuestionnaireBean.getSessionContextKey() + "-rulereferenced");
+        }
         for (AnswerHeader answerHeader : answers) {
-         // TODO ********************** added or modified during IRB backfit merge BEGIN ********************** 
             if (!answerHeaderMap.containsKey(answerHeader.getQuestionnaire().getQuestionnaireId())
                     || answerHeaderMap.get(answerHeader.getQuestionnaire().getQuestionnaireId()).getQuestionnaire().getSequenceNumber()
                             < answerHeader.getQuestionnaire().getSequenceNumber()) {
                 setupChildAnswerIndicator(answerHeader);
                 answerHeaderMap.put(answerHeader.getQuestionnaire().getQuestionnaireId(), answerHeader);
             }
-         // TODO ********************** added or modified during IRB backfit merge END ************************
         }
 
         List<AnswerHeader> answerHeaders = initAnswerHeaders(moduleQuestionnaireBean, answerHeaderMap);
