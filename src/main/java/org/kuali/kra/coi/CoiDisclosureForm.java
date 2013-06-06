@@ -30,6 +30,7 @@ import org.kuali.kra.coi.disclosure.DisclosureHelper;
 import org.kuali.kra.coi.notesandattachments.CoiNotesAndAttachmentsHelper;
 import org.kuali.kra.coi.notification.CoiNotificationContext;
 import org.kuali.kra.coi.questionnaire.DisclosureQuestionnaireHelper;
+import org.kuali.kra.coi.questionnaire.ScreeningQuestionnaireHelper;
 import org.kuali.kra.common.notification.web.struts.form.NotificationHelper;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -57,7 +58,8 @@ public class CoiDisclosureForm extends KraTransactionalDocumentFormBase implemen
     private transient CoiNotesAndAttachmentsHelper coiNotesAndAttachmentsHelper;
     private transient NotificationHelper<CoiNotificationContext> notificationHelper;
     private transient DisclosureQuestionnaireHelper disclosureQuestionnaireHelper; 
-    
+    private transient ScreeningQuestionnaireHelper screeningQuestionnaireHelper;
+
     //TODO : coiDisclosureStatusCode : this is just a quick set up here for 'approve' action to test 'master disclosure'
     // this should be moved to disclosureactionhelper when 'action' is really implemented
     private String coiDispositionCode; 
@@ -102,6 +104,17 @@ public class CoiDisclosureForm extends KraTransactionalDocumentFormBase implemen
    public void setDisclosureQuestionnaireHelper(DisclosureQuestionnaireHelper disclosureQuestionnaireHelper) {
        this.disclosureQuestionnaireHelper = disclosureQuestionnaireHelper;
    }
+   
+   public ScreeningQuestionnaireHelper getScreeningQuestionnaireHelper() {
+       if (screeningQuestionnaireHelper == null) {
+           screeningQuestionnaireHelper = new ScreeningQuestionnaireHelper(this.getCoiDisclosureDocument().getCoiDisclosure());
+       }
+       return screeningQuestionnaireHelper;
+   }
+
+   public void setScreeningQuestionnaireHelper(ScreeningQuestionnaireHelper screeningQuestionnaireHelper) {
+       this.screeningQuestionnaireHelper = screeningQuestionnaireHelper;
+   }   
     
    @Override
     protected String getDefaultDocumentTypeName() {
@@ -327,6 +340,10 @@ public class CoiDisclosureForm extends KraTransactionalDocumentFormBase implemen
     @Override
     public String getQuestionnaireFieldEnd() {
         return DEFAULT_END;
+    }
+    
+    public String getQuestionnaireExpression() {
+        return ".*[Qq]uestionnaireHelper\\.answerHeaders\\[\\d+\\]\\.answers\\[\\d+\\]\\.answer";
     }
     
 }
