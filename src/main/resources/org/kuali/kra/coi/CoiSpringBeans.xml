@@ -412,5 +412,10 @@
          <property name="businessObjectService" ref="businessObjectService" />
           <property name="documentService" ref="documentService" />
     </bean>
+    
+    <bean id="coiJavaFunctionKrmsTermService" class="org.kuali.kra.coi.service.impl.CoiJavaFunctionKrmsTermServiceImpl">
+    	<property name="questionnaireAnswerService" ref="questionnaireAnswerService"/>
+    	<property name="financialEntityService" ref="financialEntityService" />
+    </bean>
 
 </beans>
