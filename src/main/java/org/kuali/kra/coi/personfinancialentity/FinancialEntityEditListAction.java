@@ -246,6 +246,7 @@ public class FinancialEntityEditListAction extends FinancialEntityAction{
             status = ACTIVATE_ENTITY;
             // This is coming from coi, user may not be reporter, so user FE's personid to retrieve FEs for reporter
             ((FinancialEntityForm) form).getFinancialEntityHelper().setActiveFinancialEntities(getFinancialEntities(currentFinancialEntity.getPersonId(), true));
+            ((FinancialEntityForm) form).getFinancialEntityHelper().setInactiveFinancialEntities(getFinancialEntities(currentFinancialEntity.getPersonId(), false));
         } else if (StringUtils.equalsIgnoreCase(status, Constants.FINANCIAL_ENTITY_STATUS_INACTIVE)) {
             currentFinancialEntity = ((FinancialEntityForm) form).getFinancialEntityHelper().getInactiveFinancialEntities().get(entityIndex);
             currentVersionNumber = currentFinancialEntity.getVersions().size();
