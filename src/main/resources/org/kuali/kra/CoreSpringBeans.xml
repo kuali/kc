@@ -1007,8 +1007,10 @@
     </bean>
 
     <bean id="kcConfirmationQuestion" class="org.kuali.kra.web.struts.action.KcConfirmationQuestion">
-    </bean>
+    </bean>         
      
+    <bean id="protocolRecallQuestion" class="org.kuali.kra.protocol.ProtocolRecallQuestion">
+    </bean>  
      
     <bean id="personSignatureLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
         <property name="lookupableHelperService" ref="personSignatureLookupableHelperService" />
