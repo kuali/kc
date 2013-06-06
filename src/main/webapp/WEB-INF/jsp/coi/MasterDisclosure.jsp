@@ -72,15 +72,29 @@
                );
                $j(".financialEntitySubpanel").click();
            }
-        		
+
+        	if ($j(".disclosedProjectsSubpanel").length > 0) {
+                $j(".disclosedProjectsSubpanel").toggle(
+                         function()
+                         {
+                        	 var controlId = $j(this).attr("id");
+                             var contentId = controlId.replace("Control","Content");
+                             $j("#"+contentId).hide();
+                             $j(this).html("<img src='kr/images/tinybutton-show.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'>");
+                         },function(){
+                             var controlId = $j(this).attr("id");
+                             var contentId = controlId.replace("Control","Content");
+                             $j("#"+contentId).slideDown(500);
+                             $j(this).html("<img src='kr/images/tinybutton-hide.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'>");
+                         }
+                );
+                $j(".disclosedProjectsSubpanel").click();
+            }
+        	
                  // hide protocol type list
                  protocolType = $j("#disclosureHelper\\.protocolType").html();
                  $j("#disclosureHelper\\.protocolType").hide();
                  proposalType=$j("#disclosureHelper\\.newCoiDisclProject\\.coiProjectType").html();
-//        		 updateTable($j("#disclosureHelper\\.newCoiDisclProject\\.disclosureEventType"));
-        		 
-        		 
-                 
         	}) // end document ready
         	
 
@@ -95,7 +109,7 @@
 <kra-coi:disclosureReporter />
 <kra-coi:masterAnnualQuestionnaires />                    
 <c:set var="masterDisclosure" value="${KualiForm.disclosureHelper.masterDisclosureBean}" />
-<kra-coi:updateDisclosureProjects/>
+<kra-coi:allDisclosedProjects/>
 <kra-coi:coiNoteAndAttachment/>
 
 <c:if test="${fn:length(masterDisclosure.allProjects) > 0}" >

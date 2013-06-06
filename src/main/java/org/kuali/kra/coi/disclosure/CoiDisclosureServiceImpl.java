@@ -1233,9 +1233,74 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         if (coiDisclosure.isApprovedDisclosure() || coiDisclosure.isDisapprovedDisclosure() || (!coiDisclosure.isUpdateEvent() && !coiDisclosure.isAnnualEvent())) {
             setupDisclosures(masterDisclosureBean, coiDisclosure);
         }
+        
+        createDisclosuresGroupedByEvent(masterDisclosureBean);
+        
         return masterDisclosureBean;
     }
-        
+
+    /**
+     * @see org.kuali.kra.coi.disclosure.CoiDisclosureService#createDisclosuresGroupedByEvent(org.kuali.kra.coi.disclosure.MasterDisclosureBean)
+     */
+    public void createDisclosuresGroupedByEvent(MasterDisclosureBean masterDisclosureBean) {
+        List<CoiGroupedMasterDisclosureBean> disclosuresGroupedByEvent = new ArrayList<CoiGroupedMasterDisclosureBean>();
+        for(CoiDisclosureProjectBean coiDisclosureProjectBean : masterDisclosureBean.getAllDisclosureProjects()) {
+            CoiGroupedMasterDisclosureBean coiGroupedMasterDisclosureBean = new CoiGroupedMasterDisclosureBean();
+            CoiDisclosure coiDisclosure = null;
+            if(coiDisclosureProjectBean.getCoiDisclProject().getOriginalCoiDisclosureId() != null) {
+                coiDisclosure = coiDisclosureProjectBean.getCoiDisclProject().getOriginalCoiDisclosure();
+            }else {
+                coiDisclosure = coiDisclosureProjectBean.getCoiDisclProject().getCoiDisclosure();
+            }
+            coiGroupedMasterDisclosureBean.setDisclosureEventType(coiDisclosure.getCoiDisclosureEventType().getDescription());
+            coiGroupedMasterDisclosureBean.setDisclosureStatus(coiDisclosure.getCoiDisclosureStatus().getDescription());
+            coiGroupedMasterDisclosureBean.setDispositionStatus(coiDisclosure.getCoiDispositionStatus().getDescription());
+            coiGroupedMasterDisclosureBean.setProjectId(coiDisclosureProjectBean.getCoiDisclProject().getCoiProjectId());
+            coiGroupedMasterDisclosureBean.setProjectTitle(coiDisclosureProjectBean.getCoiDisclProject().getCoiProjectTitle());
+            coiGroupedMasterDisclosureBean.getAllRelatedProjects().add(coiDisclosureProjectBean);
+            disclosuresGroupedByEvent.add(coiGroupedMasterDisclosureBean);
+        }
+        masterDisclosureBean.setDisclosureGroupedByEvent(true);
+        masterDisclosureBean.setAllDisclosuresGroupedByProjects(disclosuresGroupedByEvent);
+    }
+    
+    /**
+     * @see org.kuali.kra.coi.disclosure.CoiDisclosureService#createDisclosuresGroupedByFinancialEntity(org.kuali.kra.coi.CoiDisclosure, org.kuali.kra.coi.disclosure.MasterDisclosureBean)
+     */
+    public void createDisclosuresGroupedByFinancialEntity(CoiDisclosure coiDisclosure, MasterDisclosureBean masterDisclosureBean) {
+        List<CoiGroupedMasterDisclosureBean> disclosureGroupedByFinancialEntity = new ArrayList<CoiGroupedMasterDisclosureBean>();
+        String personId = coiDisclosure.getPersonId();
+        List<PersonFinIntDisclosure> financialEntities = financialEntityService.getFinancialEntities(personId, true);
+        for(PersonFinIntDisclosure personFinIntDisclosure : financialEntities) {
+            disclosureGroupedByFinancialEntity.add(getMasterDisclosureBeanGroupedByFinancialEntity(masterDisclosureBean, personFinIntDisclosure));
+        }
+        masterDisclosureBean.setAllDisclosuresGroupedByProjects(disclosureGroupedByFinancialEntity);
+        masterDisclosureBean.setDisclosureGroupedByEvent(false);
+    }
+    
+    private CoiGroupedMasterDisclosureBean getMasterDisclosureBeanGroupedByFinancialEntity(MasterDisclosureBean masterDisclosureBean, PersonFinIntDisclosure personFinIntDisclosure) {
+        CoiGroupedMasterDisclosureBean coiGroupedMasterDisclosureBean = new CoiGroupedMasterDisclosureBean();
+        coiGroupedMasterDisclosureBean.setEntityNumber(personFinIntDisclosure.getEntityNumber());
+        coiGroupedMasterDisclosureBean.setEntityName(personFinIntDisclosure.getEntityName());
+        coiGroupedMasterDisclosureBean.getAllRelatedProjects().addAll(getAllFinancialEntityRelatedProjects(masterDisclosureBean, personFinIntDisclosure));
+        return coiGroupedMasterDisclosureBean;
+    }
+    
+    private List<CoiDisclosureProjectBean> getAllFinancialEntityRelatedProjects(MasterDisclosureBean masterDisclosureBean, PersonFinIntDisclosure personFinIntDisclosure) {
+        List<CoiDisclosureProjectBean> coiDisclosureProjectBeans = new ArrayList<CoiDisclosureProjectBean>();
+        for(CoiDisclosureProjectBean coiDisclosureProjectBean : masterDisclosureBean.getAllDisclosureProjects()) {
+            List<CoiDiscDetail> coiDiscDetails = coiDisclosureProjectBean.getCoiDisclProject().getCoiDiscDetails();
+            for(CoiDiscDetail coiDiscDetail : coiDiscDetails) {
+                if(coiDiscDetail.getPersonFinIntDisclosureId().equals(personFinIntDisclosure.getPersonFinIntDisclosureId()) &&
+                        coiDiscDetail.getEntityStatusCode() != null) {
+                    coiDisclosureProjectBeans.add(coiDisclosureProjectBean);
+                    break;
+                }
+            }
+        }
+        return coiDisclosureProjectBeans;
+    }
+    
     private List<AnswerHeader> retrieveAnswerHeaders(CoiDisclosure coiDisclosure) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put(MODULE_ITEM_CODE, CoeusModule.COI_DISCLOSURE_MODULE_CODE);

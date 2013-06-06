@@ -587,6 +587,9 @@
         <reference-descriptor name="coiDispositionStatus" class-ref="org.kuali.kra.coi.CoiDispositionStatus" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="disclosureDispositionCode"/>
         </reference-descriptor>        
+		<reference-descriptor name="originalCoiDisclosure" class-ref="org.kuali.kra.coi.CoiDisclosure" auto-retrieve="false" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="originalCoiDisclosureId"/>
+		</reference-descriptor>
 	</class-descriptor>
 	
 	<class-descriptor class="org.kuali.kra.coi.CoiReviewer" table="COI_REVIEWER">

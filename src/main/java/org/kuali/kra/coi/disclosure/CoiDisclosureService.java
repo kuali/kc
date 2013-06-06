@@ -183,4 +183,17 @@ public interface CoiDisclosureService {
     
     public void populateProposalsAndAwardToCompleteDisclosure(String userId, DisclosureHelper disclosureHelper);
     
+    /**
+     * This method is to group all project disclosures by financial entity
+     * @param coiDisclosure
+     * @param masterDisclosureBean
+     */
+    public void createDisclosuresGroupedByFinancialEntity(CoiDisclosure coiDisclosure, MasterDisclosureBean masterDisclosureBean);
+
+    /**
+     * This method is to group all disclosures by event
+     * @param masterDisclosureBean
+     */
+    public void createDisclosuresGroupedByEvent(MasterDisclosureBean masterDisclosureBean);
+
 }
