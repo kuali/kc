@@ -217,7 +217,7 @@ public class InstitutionalProposalDocument extends ResearchDocumentBase {
             updatedTimestamp = (new SimpleDateFormat("MM/dd/yyyy KK:mm a").format(this.getUpdateTimestamp()));
         }
         if (StringUtils.isNotEmpty(activeLockRegion)) {
-            return this.getInstitutionalProposal().getInstProposalNumber() + "-" + activeLockRegion + "-" + this.getUpdateUser() + "-" + updatedTimestamp;  
+            return this.getInstitutionalProposal().getInstProposalNumber() + "-" + activeLockRegion + "-" + GlobalVariables.getUserSession().getPrincipalName() + "-" + updatedTimestamp;  
         }
 
         return null;

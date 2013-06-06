@@ -157,7 +157,7 @@ public class CoiDisclosureDocument extends ResearchDocumentBase implements Copya
             updatedTimestamp = (new SimpleDateFormat("MM/dd/yyyy KK:mm a").format(this.getUpdateTimestamp()));
         }
         if (StringUtils.isNotEmpty(activeLockRegion)) {
-            return this.getCoiDisclosure().getCoiDisclosureNumber() + "-" + activeLockRegion + "-" + this.getUpdateUser() + "-" + updatedTimestamp;  
+            return this.getCoiDisclosure().getCoiDisclosureNumber() + "-" + activeLockRegion + "-" + GlobalVariables.getUserSession().getPrincipalName() + "-" + updatedTimestamp;  
         }
 
         return null;

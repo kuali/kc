@@ -543,7 +543,7 @@ public class AwardDocument extends BudgetParentDocument<Award> implements  Copya
             updatedTimestamp = (new SimpleDateFormat("MM/dd/yyyy KK:mm a").format(this.getUpdateTimestamp()));
         }
         if (StringUtils.isNotEmpty(activeLockRegion)) {
-            return this.getAward().getAwardNumber() + "-" + activeLockRegion + "-" + this.getUpdateUser() + "-" + updatedTimestamp;  
+            return this.getAward().getAwardNumber() + "-" + activeLockRegion + "-" + GlobalVariables.getUserSession().getPrincipalName() + "-" + updatedTimestamp;  
         }
 
         return null;
