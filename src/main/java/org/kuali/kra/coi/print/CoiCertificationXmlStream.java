@@ -23,6 +23,7 @@ import java.util.Map;
 
 import noNamespace.ApprovedDisclosureDocument;
 import noNamespace.ApprovedDisclosureDocument.ApprovedDisclosure;
+import noNamespace.CoiDisclosureDetailsDocument.CoiDisclosureDetails;
 import noNamespace.DisclosureDocumentsDocument.DisclosureDocuments;
 import noNamespace.DisclosureNotesDocument.DisclosureNotes;
 import noNamespace.DisclosureProjectsDocument.DisclosureProjects;
@@ -33,6 +34,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.coi.CoiDiscDetail;
 import org.kuali.kra.coi.CoiDisclProject;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.CoiDisclosureDocument;
@@ -108,6 +110,7 @@ public class CoiCertificationXmlStream implements XmlStream {
     	    approvedDisclosure.setExpirationDate(disclosure.getExpirationDate().toString());
     	    setPersonDetails(approvedDisclosure,disclosure);
     	    setDisclosureProjects(approvedDisclosure,disclosure);
+    	    setCoiDisclosureDetails(approvedDisclosure,disclosure);
     	    setCertificationQuestionnaires(approvedDisclosure,disclosure);
     	    setDisclosureNotes(approvedDisclosure,disclosure);
     	    setDisclosureAttachments(approvedDisclosure,disclosure);
@@ -130,6 +133,25 @@ public class CoiCertificationXmlStream implements XmlStream {
     	    //Still to implement
     	           
     	    }
+    	    private void setCoiDisclosureDetails(ApprovedDisclosure approvedDisclosure, CoiDisclosure disclosure){
+    	        List<CoiDisclosureDetails> coiDisclosurProjectsList=new ArrayList<CoiDisclosureDetails>();
+    	        List<CoiDisclProject> coiDisclProjectList = disclosure.getCoiDisclProjects();    	        
+    	        for (CoiDisclProject coiDisclProject : coiDisclProjectList) {    	            
+    	            for (CoiDiscDetail coiDiscDetail : coiDisclProject.getCoiDiscDetails()) {    	                
+    	                if (coiDiscDetail.getPersonFinIntDisclosure() != null) { 
+    	                    CoiDisclosureDetails coiDisclosureDetails = CoiDisclosureDetails.Factory.newInstance();
+                            coiDisclosureDetails.setEntityName(coiDiscDetail.getPersonFinIntDisclosure().getEntityName());
+                            if (coiDiscDetail.getCoiEntityStatusCode() != null) {
+                                coiDisclosureDetails.setConflictStatus(coiDiscDetail.getCoiEntityStatusCode().getDescription());
+                            }                            
+                            coiDisclosurProjectsList.add(coiDisclosureDetails);
+    	                }    	                
+    	            }    	           
+    	        }    	      
+                if (coiDisclosurProjectsList.size() > 0) {
+                    approvedDisclosure.setCoiDisclosureDetailsArray(coiDisclosurProjectsList.toArray(new CoiDisclosureDetails[0]));
+                }    	        
+    	    }
     	    private void setDisclosureProjects(ApprovedDisclosure approvedDisclosure, CoiDisclosure disclosure){
     	    
     	    	List<DisclosureProjects>discProjectsList=new ArrayList<DisclosureProjects>();
@@ -138,10 +160,10 @@ public class CoiCertificationXmlStream implements XmlStream {
     	           	DisclosureProjects disclosureProjects=DisclosureProjects.Factory.newInstance();
     	           if(coiDisclProject.getProjectId()!=null){
     	           	disclosureProjects.setProjectID(coiDisclProject.getProjectId());}
+    	           	if(coiDisclProject.getCoiProjectTitle()!=null){
+    	           	disclosureProjects.setProjectTitle(coiDisclProject.getCoiProjectTitle());}
     	           	if(coiDisclProject.getLongTextField1()!=null){
-    	           	disclosureProjects.setProjectTitle(coiDisclProject.getLongTextField1());}
-    	           	if(coiDisclProject.getLongTextField2()!=null){
-    	           		disclosureProjects.setProjectSponsor(coiDisclProject.getLongTextField2());
+    	           		disclosureProjects.setProjectSponsor(coiDisclProject.getLongTextField1());
     	           	}
     	        	if(coiDisclProject.getDateField1()!=null){
     	           		disclosureProjects.setProjectStartDate(coiDisclProject.getDateField1().toString());
