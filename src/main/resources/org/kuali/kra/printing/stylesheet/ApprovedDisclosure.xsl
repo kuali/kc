@@ -541,7 +541,7 @@
 							</fo:inline-container>
 							<fo:block text-align="center" margin="0pt">
 								<fo:inline font-size="large" font-weight="bold">
-									<xsl:text>Approved Disclosure Details</xsl:text>
+									<xsl:text>Disclosure Details</xsl:text>
 								</fo:inline>
 							</fo:block>
 							<fo:inline font-size="large" font-weight="bold">
@@ -1123,7 +1123,11 @@
 											<xsl:text>&#x200B;</xsl:text>
 										</fo:block>
 									</fo:inline-container>
-									<xsl:if test="coiDisclosureDetails">
+									<fo:block>
+										<fo:leader leader-pattern="space" />
+									</fo:block>
+								</xsl:for-each>
+								<xsl:if test="coiDisclosureDetails">
 										<fo:table table-layout="fixed" width="100%" border="solid 1pt gray"
 											border-spacing="-1pt">
 											<fo:table-column column-width="proportional-column-width(1)" />
@@ -1218,10 +1222,6 @@
 											</fo:table-body>
 										</fo:table>
 									</xsl:if>
-									<fo:block>
-										<fo:leader leader-pattern="space" />
-									</fo:block>
-								</xsl:for-each>
 								<fo:block />
 								<fo:block>
 									<fo:leader leader-pattern="space" />
