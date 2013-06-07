@@ -90,12 +90,12 @@
 		        		<c:if test="${(status.index mod 2) == 0}">
 					        <tr>
 	        			</c:if>
-						<th>
+						<th width="15%">
 							<div align="right">
 								${labelValue.label}:
 							</div>
 						</th> 
-	    	       		<td align="left" valign="middle">
+	    	       		<td align="left" valign="middle" width="35%">
 	        	       	<div align="left">
 	            	    	${labelValue.value}
 		            	</div>
