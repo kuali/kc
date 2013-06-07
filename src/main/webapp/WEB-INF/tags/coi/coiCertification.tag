@@ -12,6 +12,8 @@
 <c:set var="submitThankyouStatement" value="${KualiForm.document.coiDisclosureList[0].submitThankyouStatement}" />
 <c:set var="viewCertificationAuth" value="${KualiForm.disclosureHelper.canViewDisclosureCertification}" />
 <c:set var="certifyCertificationAuth" value="${KualiForm.disclosureHelper.canCertifyDisclosure}" />
+<c:set var="disclosureHelper" value="${KualiForm.disclosureHelper}" />
+
 <c:if test="${topTab == true}">
 	<%--instead of using kul:tabTop tag just define the workarea div - this gets around an unbalanced tag problem when using conditional tags --%>
 	<div id="workarea">
@@ -27,6 +29,12 @@
 			<tr>
 				<td colspan="2">
 					<div class="floaters">
+					    <c:if test="${disclosureHelper.unresolvedEventsPresent}">
+                		    <div class="body" style="text-align:left;color:#FF0000;">			
+        	                    <strong>${disclosureHelper.annualCertApprovalErrorMsg}</strong>
+                		    </div>
+						</c:if>
+					    
 						<%-- the certification instructions get inserted here --%>
 						<c:choose>
 							<c:when test="${empty certStatement}">

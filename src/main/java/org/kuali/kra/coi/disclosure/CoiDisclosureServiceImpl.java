@@ -2067,6 +2067,14 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
     public void setMedusaService(MedusaService medusaService) {
         this.medusaService = medusaService;
     }
+    
+    public List<CoiDisclosure> getAllDisclosuresForUser(String personId) {
+        Map fieldValues = new HashMap();
+        fieldValues.put("personId", personId);
+        List<CoiDisclosure> disclosures = (List<CoiDisclosure>) businessObjectService.findMatching(CoiDisclosure.class,
+            fieldValues);
+        return disclosures;
+    }
 }
 
 

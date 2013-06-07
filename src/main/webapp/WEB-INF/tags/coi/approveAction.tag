@@ -19,6 +19,7 @@
 <c:set var="coiDisclosureStatusAttributes" value="${DataDictionary.CoiDisclosureStatus.attributes}" />
 <c:set var="coiDispositionStatusAttributes" value="${DataDictionary.CoiDispositionStatus.attributes}" />
 <c:set var="coiDisclosureStatusCode" value="${KualiForm.coiDisclosureStatusCode}"/>  
+<c:set var="disclosureHelper" value="${KualiForm.disclosureHelper}" />
 
 <jsp:useBean id="paramMap" class="java.util.HashMap"/>
  
@@ -29,6 +30,16 @@
  		</h3>
         <table class="tab" cellpadding="0" cellspacing="0" summary=""> 
             <tbody>
+			    <c:if test="${disclosureHelper.unresolvedEventsPresent}">
+			        <c:set var="readOnlyApprove" value="true" />
+                    <tr>               
+					    <td colspan="4">
+                		    <div class="body" style="text-align:left;color:#FF0000;">			
+        	                    <strong>${disclosureHelper.annualCertApprovalErrorMsgForAdmin}</strong>
+                		    </div>
+                	    </td>
+				    </tr>
+				</c:if>
                 <tr>               
 					<th style="width: 300px">
                 		<div align="right">
@@ -36,20 +47,19 @@
                 		</div>
                 	</th>
                 	<td style="width: 150px">
-                	       
-                			<html:select property="coiDisclosureStatusCode" styleId="coiDisclosureStatusCode" onchange="populateSelect('getCoiDispositionStatus', 'coiDisclosureStatusCode', 'coiDispositionCode');">                                              
+                		<html:select property="coiDisclosureStatusCode" styleId="coiDisclosureStatusCode" onchange="populateSelect('getCoiDispositionStatus', 'coiDisclosureStatusCode', 'coiDispositionCode');" disabled="${readOnlyApprove}">                                              
                             <c:forEach items="${krafn:getOptionList('org.kuali.kra.coi.CoiDisclosureActionsValuesFinder', paramMap)}" var="option" >
-                            <c:choose>                    	
-	                			<c:when test="${coiDisclosureStatusCode == option.key}">
-	                        		<option value="${option.key}" selected>${option.value}</option>
-	                    		</c:when>
-	                    		<c:otherwise>
-	                        		<c:out value="${option.value}"/>
-                                 	<option value="${option.key}">${option.value}</option>
-                                </c:otherwise>
-	                		</c:choose>   
+                            	<c:choose>                    	
+	                				<c:when test="${coiDisclosureStatusCode == option.key}">
+	                        			<option value="${option.key}" selected>${option.value}</option>
+	                    			</c:when>
+	                    			<c:otherwise>
+	                        			<c:out value="${option.value}"/>
+                                 		<option value="${option.key}">${option.value}</option>
+                                	</c:otherwise>
+	                			</c:choose>   
                             </c:forEach>
-                            </html:select>
+                        </html:select>
                 	</td>
 	                <th style="width: 300px"> 
 	                    <div align="right">
