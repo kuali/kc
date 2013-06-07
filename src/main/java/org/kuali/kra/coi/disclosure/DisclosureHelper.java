@@ -60,7 +60,6 @@ public class DisclosureHelper implements Serializable {
     private boolean canEditDisclosureFinancialEntity;
     private boolean canViewDisclosureCertification;
     private boolean canCertifyDisclosure;
-    private boolean canUpdateFEStatusDuringReview;
     private boolean canUpdateFEStatusAdmin;
     private String conflictHeaderLabel;
     private CoiDisclProject newCoiDisclProject;
@@ -113,7 +112,6 @@ public class DisclosureHelper implements Serializable {
         canViewDisclosureFeHistory = canEditDisclosureFinancialEntity || hasCanViewDisclosureFeHistoryPermission(coiDisclosure);
         canViewDisclosureCertification = hasCanViewDisclosureCertificationPermission();
         canCertifyDisclosure = hasCanCertifyDisclosurePermission();
-        canUpdateFEStatusDuringReview = hasCanUpdateFEStatusDuringReview();
         canUpdateFEStatusAdmin = hasCanUpdateFEStatusAdmin();
     }
 
@@ -211,11 +209,6 @@ public class DisclosureHelper implements Serializable {
         return canCertifyDisclosure;
     }
 
-    // can update the FE relatedness if user has permission and disclosure is being reviewed
-    public boolean isCanUpdateFEStatusDuringUpdate() {
-        return (getCoiDisclosure().isUnderReview() || getCoiDisclosure().isSubmittedForReview()) && canUpdateFEStatusDuringReview;
-    }
-
     public boolean isCanUpdateFEStatusAdmin() {
         return (getCoiDisclosure().isUnderReview() || getCoiDisclosure().isSubmittedForReview()) && canUpdateFEStatusAdmin;
     }
@@ -227,11 +220,6 @@ public class DisclosureHelper implements Serializable {
 
     private boolean hasCanViewDisclosureCertificationPermission() {
         CoiDisclosureTask task = new CoiDisclosureTask(TaskName.VIEW_COI_DISCLOSURE, getCoiDisclosure());
-        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task); 
-    }
-
-    private boolean hasCanUpdateFEStatusDuringReview() {
-        CoiDisclosureTask task = new CoiDisclosureTask(TaskName.UPDATE_FE_STATUS_DURING_REVIEW, getCoiDisclosure());
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task); 
     }
 
@@ -249,10 +237,6 @@ public class DisclosureHelper implements Serializable {
 
     public boolean isCanEditDisclosureFinancialEntity() {
         return canEditDisclosureFinancialEntity;
-    }
-
-    public boolean isCanUpdateFEStatusDuringReview() {
-        return canUpdateFEStatusDuringReview;
     }
 
     public void setCanEditDisclosureFinancialEntity(boolean canEditDisclosureFinancialEntity) {
