@@ -17,6 +17,7 @@ package org.kuali.kra.budget.nonpersonnel;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.budget.BudgetDecimal;
+import org.kuali.kra.budget.calculator.RateClassType;
 import org.kuali.kra.budget.core.BudgetAssociate;
 import org.kuali.kra.budget.rates.RateClass;
 
@@ -215,11 +216,11 @@ public abstract class AbstractBudgetCalculatedAmount extends BudgetAssociate {
     
     public boolean getAddToFringeRate() {
         //employee benefits, research rate (not EB on LA)
-        boolean isEmployee = StringUtils.equalsIgnoreCase(this.getRateClass().getRateClassType(), "E")
-                && StringUtils.equalsIgnoreCase(this.getRateTypeCode(), "1");
+        boolean isEmployee = StringUtils.equalsIgnoreCase(this.getRateClass().getRateClassType(), 
+                RateClassType.EMPLOYEE_BENEFITS.getRateClassType());
         //vacation, vacation (not vacation LA)
-        boolean isGoodVacation = StringUtils.equalsIgnoreCase(this.getRateClass().getRateClassType(), "V") 
-                && StringUtils.equalsIgnoreCase(this.getRateTypeCode(), "1");
+        boolean isGoodVacation = StringUtils.equalsIgnoreCase(this.getRateClass().getRateClassType(), 
+                RateClassType.VACATION.getRateClassType());
 
         
         return isEmployee || isGoodVacation;
