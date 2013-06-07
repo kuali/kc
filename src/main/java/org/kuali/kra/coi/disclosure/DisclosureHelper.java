@@ -27,6 +27,8 @@ import org.kuali.kra.coi.CoiDisclProject;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.CoiDisclosureDocument;
 import org.kuali.kra.coi.CoiDisclosureForm;
+import org.kuali.kra.coi.CoiDisclosureStatus;
+import org.kuali.kra.coi.CoiDispositionStatus;
 import org.kuali.kra.coi.auth.CoiDisclosureTask;
 import org.kuali.kra.coi.notification.CoiNotification;
 import org.kuali.kra.coi.personfinancialentity.FinEntityDataMatrixBean;
@@ -39,6 +41,7 @@ import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 public class DisclosureHelper implements Serializable {
@@ -51,6 +54,8 @@ public class DisclosureHelper implements Serializable {
     protected static final String PARAMETER_CODE = "Document";
     private static final String CONFLICT_HEADER_LABEL_PARAMETER = "COI_DISCLOSURE_FE_CONFLICT_HEADER_LABEL";
     protected static final String DEFAULT_CONFLICT_HEADER_LABEL = "Related";
+    private static final String ERROR_COI_ANNUAL_OPEN_DISCLOSURES = "error.coi.annual.open.disclosures";
+    private static final String ERROR_COI_ANNUAL_OPEN_DISCLOSURES_FOR_ADMIN = "error.coi.annual.open.disclosures.for.admin";
     private CoiDisclosureForm form;
     private DisclosurePersonUnit newDisclosurePersonUnit;
     private List<DisclosurePersonUnit> deletedUnits;
@@ -81,6 +86,10 @@ public class DisclosureHelper implements Serializable {
     private boolean modifyReporter;
     MasterDisclosureBean masterDisclosureBean;
     private CoiNotification viewNotification;    
+    private transient CoiDisclosureService disclosureService;
+    private boolean unresolvedEventsPresent;
+    private String annualCertApprovalErrorMsgForAdmin;
+    private String annualCertApprovalErrorMsg;
     
     public DisclosureHelper(CoiDisclosureForm form) {
         this.form = form;
@@ -88,10 +97,7 @@ public class DisclosureHelper implements Serializable {
         deletedUnits = new ArrayList<DisclosurePersonUnit>(); 
         newRelationDetails = getFinancialEntityService().getFinancialEntityDataMatrix();
         editRelationDetails = new ArrayList<FinEntityDataMatrixBean>(); 
-//        canViewDisclosureFeHistory = hasCanViewDisclosureFeHistoryPermission();
-//        canEditDisclosureFinancialEntity = hasCanEditDisclosureFinancialEntityPermission();
         CoiDisclosure coiDisclosure = form.getCoiDisclosureDocument().getCoiDisclosure();
-      //  coiDisclosure.initCoiDisclosureNumber();
         newCoiDisclProject = new CoiDisclProject(coiDisclosure.getCoiDisclosureNumber(), coiDisclosure.getSequenceNumber());
         newProtocols = new ArrayList<Protocol>();
         newIacucProtocols = new ArrayList<IacucProtocol>();
@@ -104,6 +110,7 @@ public class DisclosureHelper implements Serializable {
     public void prepareView() {
         initializePermissions(getCoiDisclosure());    
         initializeOldFeStatii();
+        checkForUnresolvedEvents();
     }
     
     private void initializePermissions(CoiDisclosure coiDisclosure) {
@@ -119,6 +126,36 @@ public class DisclosureHelper implements Serializable {
         for (CoiDisclProject project: getCoiDisclosure().getCoiDisclProjects()) {
             for (CoiDiscDetail detail: project.getCoiDiscDetails()) {
                 detail.setOldEntityStatusCode();
+            }
+        }
+    }
+    
+    private void checkForUnresolvedEvents() {
+        unresolvedEventsPresent = false;
+        if (getCoiDisclosure().isAnnualEvent() || getCoiDisclosure().isAnnualUpdate()) {
+            List<CoiDisclosure> disclosures = getDisclosureService().getAllDisclosuresForUser(getCoiDisclosure().getPersonId());
+            for (CoiDisclosure disclosure: disclosures) {
+                if (!disclosure.isAnnualEvent() && !disclosure.isAnnualUpdate()) {
+                    String dispCode = disclosure.getDisclosureDispositionCode();
+                    String dispStatus = disclosure.getDisclosureStatusCode();
+                    if (!CoiDispositionStatus.BEST_PRACTICES_MEMO.equals(dispCode) &&
+                            !CoiDispositionStatus.NO_FURTHER_ACTION.equals(dispCode) &&
+                            !CoiDispositionStatus.DISCLOSED_INTERESTS_ELIMINATED.equals(dispCode) &&
+                            !CoiDispositionStatus.DISCLOSED_INTERESTS_REDUCED.equals(dispCode) &&
+                            !CoiDispositionStatus.DISCLOSED_INTERESTS_MANAGED.equals(dispCode) &&
+                            !CoiDispositionStatus.NO_CONFLICT_EXISTS.equals(dispCode) &&
+                            !CoiDispositionStatus.EXEMPT.equals(dispCode)) {
+                        // then we have a "bad" status, so we should display an error message
+                        unresolvedEventsPresent = true;
+                        if (annualCertApprovalErrorMsg == null) {
+                            annualCertApprovalErrorMsg = KRADServiceLocator.getKualiConfigurationService().getPropertyValueAsString(ERROR_COI_ANNUAL_OPEN_DISCLOSURES);
+                            annualCertApprovalErrorMsgForAdmin = KRADServiceLocator.getKualiConfigurationService().getPropertyValueAsString(ERROR_COI_ANNUAL_OPEN_DISCLOSURES_FOR_ADMIN);
+                            annualCertApprovalErrorMsgForAdmin = annualCertApprovalErrorMsgForAdmin.replace("{0}", getCoiDisclosure().getDisclosureReporter().getReporter().getFullName());
+                        }
+                    } else if (!CoiDisclosureStatus.APPROVED.equals(dispStatus)) {
+                        unresolvedEventsPresent = true;
+                    }
+                }
             }
         }
     }
@@ -420,5 +457,28 @@ public class DisclosureHelper implements Serializable {
     public void setViewNotification(CoiNotification viewNotification) {
         this.viewNotification = viewNotification;
     }
-    
+
+    private CoiDisclosureService getDisclosureService() {
+        if (disclosureService == null) {
+            disclosureService = KraServiceLocator.getService(CoiDisclosureService.class);
+        }
+        return disclosureService;
+    }
+
+    public boolean isUnresolvedEventsPresent() {
+        return unresolvedEventsPresent;
+    }
+
+    public void setUnresolvedEventsPresent(boolean unresolvedEventsPresent) {
+        this.unresolvedEventsPresent = unresolvedEventsPresent;
+    }
+
+    public String getAnnualCertApprovalErrorMsgForAdmin() {
+        return annualCertApprovalErrorMsgForAdmin;
+    }
+
+    public String getAnnualCertApprovalErrorMsg() {
+        return annualCertApprovalErrorMsg;
+    }
+
 }
