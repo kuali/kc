@@ -236,7 +236,6 @@ public interface TaskName {
     public static final String VIEW_COI_DISCLOSURE_ACTIONS = "viewCoiDisclosureAction";
     public static final String DELETE_UPDATE_NOTE = "deleteUpdateNote";
     public static final String DELETE_UPDATE_ATTACHMENT = "deleteUpdateAttachment";
-    public static final String UPDATE_FE_STATUS_DURING_REVIEW = "updateFEStatusDuringReview";
     public static final String UPDATE_FE_STATUS_ADMIN = "updateFEStatusAdmin";
     
     /**

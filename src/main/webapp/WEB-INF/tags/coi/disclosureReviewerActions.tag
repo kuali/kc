@@ -30,9 +30,6 @@
 	<kra-coi:coiNotes usageSectionId = "${usageSectionId}"/>
 	<kra-coi:coiAttachments usageSectionId = "${usageSectionId}"/>
     <c:if test="${disclosureAssignedToReviewer}">
-        <kra:permission value="${KualiForm.disclosureHelper.canUpdateFEStatusDuringReview}">
-            <kra-coi:feStatusReview/>
-        </kra:permission>
 		<kra-coi:completeCoiReviewerAction/>
     </c:if>
 </kul:tabTop>
