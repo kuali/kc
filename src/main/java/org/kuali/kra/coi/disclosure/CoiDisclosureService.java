@@ -18,7 +18,6 @@ package org.kuali.kra.coi.disclosure;
 import java.util.List;
 
 import org.kuali.kra.award.home.Award;
-import org.kuali.kra.coi.CoiDiscDetail;
 import org.kuali.kra.coi.CoiDisclProject;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.CoiDispositionStatus;
@@ -195,5 +194,11 @@ public interface CoiDisclosureService {
      * @param masterDisclosureBean
      */
     public void createDisclosuresGroupedByEvent(MasterDisclosureBean masterDisclosureBean);
+    
+    /**
+     * return a list of all disclosures for the given user
+     * 
+     */
+    public List<CoiDisclosure> getAllDisclosuresForUser(String userId);
 
 }
