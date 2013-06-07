@@ -22,6 +22,8 @@
 	</init>
 	
 	<allow>
+		<filter class="org.kuali.kra.web.servlet.dwr.KcDWRFilter"/>
+		
 		<convert converter="bean" match="org.kuali.kra.bo.Sponsor">
 			<param name="include" value="sponsorCode,sponsorName,rolodexId" />
 		</convert>
