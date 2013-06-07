@@ -597,7 +597,7 @@ public class MedusaServiceImpl implements MedusaService {
     }
     
     protected Negotiation getNegotiation(Long negotiationId) {
-        Negotiation negotiation = (Negotiation) businessObjectService.findBySinglePrimaryKey(Negotiation.class, negotiationId);
+        Negotiation negotiation = negotiationId == null ? null : (Negotiation) businessObjectService.findBySinglePrimaryKey(Negotiation.class, negotiationId);
         return negotiation;
     }
     
