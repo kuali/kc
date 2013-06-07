@@ -51,9 +51,9 @@ public class DisclosureModuleQuestionnaireBean extends ModuleQuestionnaireBean {
     
     protected static boolean isFinalDoc(CoiDisclosure coiDisclosure) {
         if (coiDisclosure.getCoiDisclosureDocument().getDocumentHeader().hasWorkflowDocument()) {
-            return coiDisclosure.getCoiDisclosureDocument().getDocumentHeader().getWorkflowDocument().isEnroute();
-        }
-        else {
+            return coiDisclosure.getCoiDisclosureDocument().getDocumentHeader().getWorkflowDocument().isEnroute()
+                    || coiDisclosure.getCoiDisclosureDocument().getDocumentHeader().getWorkflowDocument().isFinal();
+        } else {
             return false;        
         }
     }
