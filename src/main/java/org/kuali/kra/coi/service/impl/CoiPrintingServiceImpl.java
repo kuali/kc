@@ -92,8 +92,15 @@ public class CoiPrintingServiceImpl  implements CoiPrintingService {
          return printable;
      }
      public AttachmentDataSource print(List<Printable> printableArtifactList) throws PrintingException {
+         String fileName = "";
          AttachmentDataSource attachmentDataSource =  getPrintingService().print(printableArtifactList);
-           String fileName = "ApprovedDisclosure" + Constants.PDF_FILE_EXTENSION;
+         CoiCertificationPrint certificationPrint = (CoiCertificationPrint) printableArtifactList.get(0);
+         CoiDisclosure coiDisclosure = (CoiDisclosure) certificationPrint.getPrintableBusinessObject();
+         if (coiDisclosure.getCoiDisclosureStatus().getCoiDisclosureStatusCode().equalsIgnoreCase("1")) {
+             fileName = "PendingDisclosure" + Constants.PDF_FILE_EXTENSION;
+         } else {
+            fileName = "ApprovedDisclosure" + Constants.PDF_FILE_EXTENSION;
+         }
            try {
                attachmentDataSource.setFileName(URLEncoder.encode(fileName,"UTF-8"));
            } catch (UnsupportedEncodingException e) {
