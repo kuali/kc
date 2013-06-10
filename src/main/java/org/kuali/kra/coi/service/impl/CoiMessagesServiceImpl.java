@@ -58,7 +58,7 @@ public class CoiMessagesServiceImpl implements CoiMessagesService {
             if (StringUtils.isNotEmpty(renewalDateString)) {
                 Date renewalDue = null;
                 try {
-                    renewalDue = new Date(new SimpleDateFormat("MM/dd/yyyy").parse(renewalDateString).getTime());
+                    renewalDue = new Date(new SimpleDateFormat("MM/dd").parse(renewalDateString).getTime());
                 }
                 catch (Exception e) {
                     System.err.println("***** no valid Annual Disclosure Certification renewal date found.  Defaulting to anniversary of last Annual");
