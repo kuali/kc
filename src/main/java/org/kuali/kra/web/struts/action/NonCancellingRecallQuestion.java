@@ -13,20 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.protocol;
+package org.kuali.kra.web.struts.action;
 
 import java.util.ArrayList;
 
 import org.kuali.rice.kns.question.QuestionBase;
 
-public class ProtocolRecallQuestion extends QuestionBase {
+public class NonCancellingRecallQuestion extends QuestionBase {
 
     public static final String YES = "0";
     public static final String NO = "1";
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    public ProtocolRecallQuestion() {
-        super("Are you sure you want to recall this protocol document to action list?", new ArrayList(2));
+    public NonCancellingRecallQuestion() {
+        super("Are you sure you want to recall this document to the action list?", new ArrayList(2));
         this.getButtons().add("Yes");
         this.getButtons().add("returntodocument");
     }
