@@ -95,7 +95,11 @@ import org.kuali.kra.service.KraWorkflowService;
 import org.kuali.kra.service.PersonEditableService;
 import org.kuali.kra.service.SponsorService;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
+import org.kuali.kra.web.struts.action.NonCancellingRecallQuestion;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
+import org.kuali.rice.core.api.util.RiceConstants;
+import org.kuali.rice.core.api.util.RiceKeyConstants;
+import org.kuali.rice.coreservice.framework.CoreFrameworkServiceLocator;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.WorkflowDocument;
@@ -118,6 +122,7 @@ import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.KRADPropertyConstants;
+import org.kuali.rice.krad.util.KRADUtils;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.springframework.util.CollectionUtils;
 
@@ -1252,6 +1257,193 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
         pdform.getSpecialReviewHelper().populatePropSpecialReviewApproverView(pdform.getProposalDevelopmentParameters().get(SUMMARY_SPECIAL_REVIEW_LIST).getValue());
         return mapping.findForward(Constants.MAPPING_PROPOSAL_APPROVER_PAGE);
     }
+    
+    
+    
+    
+    
+    /**
+     * Class that encapsulates the workflow for obtaining an reason from an action prompt.
+     */
+    private class ReasonPrompt {
+        final String questionId;
+        final String questionTextKey;
+        final String questionType;
+        final String missingReasonKey;
+        final String questionCallerMapping;
+        final String abortButton;
+        final String noteIntroKey;
+
+        private class Response {
+            final String question;
+            final ActionForward forward;
+            final String reason;
+            final String button;
+            Response(String question, ActionForward forward) {
+                this(question, forward, null, null);
+            }
+            Response(String question, String reason, String button) {
+                this(question, null, reason, button);
+            }
+            private Response(String question, ActionForward forward, String reason, String button) {
+                this.question = question;
+                this.forward = forward;
+                this.reason = reason;
+                this.button = button;
+            }
+        }
+
+        /**
+         * @param questionId the question id/instance, 
+         * @param questionTextKey application resources key for question text
+         * @param questionType the {@link org.kuali.rice.kns.question.Question} question type
+         * @param questionCallerMapping mapping of original action
+         * @param abortButton button value considered to abort the prompt and return (optional, may be null)
+         * @param noteIntroKey application resources key for quesiton text prefix (optional, may be null)
+         */
+        private ReasonPrompt(String questionId, String questionTextKey, String questionType, String missingReasonKey, String questionCallerMapping, String abortButton, String noteIntroKey) {
+            this.questionId = questionId;
+            this.questionTextKey = questionTextKey;
+            this.questionType = questionType;
+            this.questionCallerMapping = questionCallerMapping;
+            this.abortButton = abortButton;
+            this.noteIntroKey = noteIntroKey;
+            this.missingReasonKey = missingReasonKey;
+        }
+
+        /**
+         * Obtain a validated reason and button value via a Question prompt.  Reason is validated against
+         * sensitive data patterns, and max Note text length
+         * @param mapping Struts mapping
+         * @param form Struts form
+         * @param request http request
+         * @param response http response
+         * @return Response object representing *either*: 1) an ActionForward due to error or abort 2) a reason and button clicked
+         * @throws Exception
+         */
+        @SuppressWarnings("deprecation")
+        public Response ask(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+            String question = request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME);
+            String reason = request.getParameter(KRADConstants.QUESTION_REASON_ATTRIBUTE_NAME);
+
+            if (StringUtils.isBlank(reason)) {
+                String context = request.getParameter(KRADConstants.QUESTION_CONTEXT);
+                if (context != null && StringUtils.contains(context, KRADConstants.QUESTION_REASON_ATTRIBUTE_NAME + "=")) {
+                    reason = StringUtils.substringAfter(context, KRADConstants.QUESTION_REASON_ATTRIBUTE_NAME + "=");
+                }
+            }
+
+            String disapprovalNoteText = "";
+
+            // start in logic for confirming the disapproval
+            if (question == null) {
+                // ask question if not already asked
+                return new Response(question, performQuestionWithInput(mapping, form, request, response,
+                        this.questionId,
+                        getKualiConfigurationService().getPropertyValueAsString(this.questionTextKey),
+                        this.questionType, this.questionCallerMapping, ""));
+            }
+
+            String buttonClicked = request.getParameter(KRADConstants.QUESTION_CLICKED_BUTTON);
+            if (this.questionId.equals(question) && abortButton != null && abortButton.equals(buttonClicked)) {
+                // if no button clicked just reload the doc
+                return new Response(question, mapping.findForward(RiceConstants.MAPPING_BASIC));
+            }
+
+            // have to check length on value entered
+            String introNoteMessage = "";
+            if (noteIntroKey != null) {
+                introNoteMessage = getKualiConfigurationService().getPropertyValueAsString(this.noteIntroKey) + KRADConstants.BLANK_SPACE;
+            }
+
+            // build out full message
+            disapprovalNoteText = introNoteMessage + reason;
+
+            // check for sensitive data in note
+            boolean warnForSensitiveData = CoreFrameworkServiceLocator.getParameterService().getParameterValueAsBoolean(
+                    KRADConstants.KNS_NAMESPACE, ParameterConstants.ALL_COMPONENT,
+                    KRADConstants.SystemGroupParameterNames.SENSITIVE_DATA_PATTERNS_WARNING_IND);
+            if (warnForSensitiveData) {
+                String context = KRADConstants.QUESTION_REASON_ATTRIBUTE_NAME + "=" + reason;
+                ActionForward forward = checkAndWarnAboutSensitiveData(mapping, form, request, response,
+                        KRADConstants.QUESTION_REASON_ATTRIBUTE_NAME, disapprovalNoteText, this.questionCallerMapping, context);
+                if (forward != null) {
+                    return new Response(question, forward);
+                }
+            } else {
+                if (KRADUtils.containsSensitiveDataPatternMatch(disapprovalNoteText)) {
+                    return new Response(question, performQuestionWithInputAgainBecauseOfErrors(mapping, form, request, response,
+                            this.questionId, getKualiConfigurationService().getPropertyValueAsString(this.questionTextKey),
+                            this.questionType, this.questionCallerMapping, "", reason,
+                            RiceKeyConstants.ERROR_DOCUMENT_FIELD_CONTAINS_POSSIBLE_SENSITIVE_DATA,
+                            KRADConstants.QUESTION_REASON_ATTRIBUTE_NAME, "reason"));
+                }
+            }
+
+            int disapprovalNoteTextLength = disapprovalNoteText.length();
+
+            // get note text max length from DD
+            int noteTextMaxLength = getDataDictionaryService().getAttributeMaxLength(Note.class, KRADConstants.NOTE_TEXT_PROPERTY_NAME);
+
+            if (StringUtils.isBlank(reason) || (disapprovalNoteTextLength > noteTextMaxLength)) {
+
+                if (reason == null) {
+                    // prevent a NPE by setting the reason to a blank string
+                    reason = "";
+                }
+                return new Response(question, performQuestionWithInputAgainBecauseOfErrors(mapping, form, request, response,
+                        this.questionId,
+                        getKualiConfigurationService().getPropertyValueAsString(this.questionTextKey),
+                        this.questionType, this.questionCallerMapping, "", reason,
+                        this.missingReasonKey,
+                        KRADConstants.QUESTION_REASON_ATTRIBUTE_NAME, Integer.toString(noteTextMaxLength)));
+            }
+
+            return new Response(question, disapprovalNoteText, buttonClicked);
+        }
+    }
+    
+    /**
+     * 
+     * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#recall(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @SuppressWarnings("deprecation")
+    @Override
+    public ActionForward recall(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ActionForward forward;  // the return value
+        
+        ReasonPrompt prompt = new ReasonPrompt(KRADConstants.DOCUMENT_RECALL_QUESTION, 
+                                               Constants.NON_CANCELLING_RECALL_QUESTION_TEXT_KEY, 
+                                               Constants.NON_CANCELLING_RECALL_QUESTION, 
+                                               RiceKeyConstants.ERROR_DOCUMENT_RECALL_REASON_REQUIRED, 
+                                               KRADConstants.MAPPING_RECALL, 
+                                               NonCancellingRecallQuestion.NO, 
+                                               RiceKeyConstants.MESSAGE_RECALL_NOTE_TEXT_INTRO);
+        ReasonPrompt.Response resp = prompt.ask(mapping, form, request, response);
+        
+        if (resp.forward != null) {
+            // forward either to a fresh display of the question, or to one with "blank reason" error message due to the previous answer, 
+            // or back to the document if 'return to document' (abort button) was clicked
+            forward = resp.forward; 
+        }
+        // recall to action only if the button was selected by the user
+        else if(KRADConstants.DOCUMENT_RECALL_QUESTION.equals(resp.question) && NonCancellingRecallQuestion.YES.equals(resp.button)) {
+            KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
+            doProcessingAfterPost(kualiDocumentFormBase, request);
+            getDocumentService().recallDocument(kualiDocumentFormBase.getDocument(), resp.reason, false);
+            // we should return to the portal to avoid problems with workflow routing changes to the document. 
+            //This should eventually return to the holding page, but currently waiting on KCINFR-760.
+            forward = mapping.findForward(KRADConstants.MAPPING_PORTAL);
+        }
+        else {
+            // they chose not to recall so return them back to document
+            forward = mapping.findForward(RiceConstants.MAPPING_BASIC);
+        }
+        
+        return forward;
+    }
+    
+    
 
     /**
      * This method allows logic to be executed before a save, after authorization is confirmed.

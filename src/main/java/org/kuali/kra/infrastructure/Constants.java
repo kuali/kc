@@ -985,8 +985,8 @@ public interface Constants {
     public static final String PRINT_XML_DIRECTORY = "print.xml.directory";
 
     public static final String KC_CONFIRMATION_QUESTION = "kcConfirmationQuestion";
-    public static final String PROTOCOL_RECALL_QUESTION = "protocolRecallQuestion";
-    public static final String PROTOCOL_RECALL_QUESTION_TEXT_KEY = "protocol.recall.question.text";
+    public static final String NON_CANCELLING_RECALL_QUESTION = "nonCancellingRecallQuestion";
+    public static final String NON_CANCELLING_RECALL_QUESTION_TEXT_KEY = "nonCancelling.recall.question.text";
     
     //Birt Constants
     

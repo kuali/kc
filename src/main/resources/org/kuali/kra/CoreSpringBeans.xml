@@ -1009,7 +1009,7 @@
     <bean id="kcConfirmationQuestion" class="org.kuali.kra.web.struts.action.KcConfirmationQuestion">
     </bean>         
      
-    <bean id="protocolRecallQuestion" class="org.kuali.kra.protocol.ProtocolRecallQuestion">
+    <bean id="nonCancellingRecallQuestion" class="org.kuali.kra.web.struts.action.NonCancellingRecallQuestion">
     </bean>  
      
     <bean id="personSignatureLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">

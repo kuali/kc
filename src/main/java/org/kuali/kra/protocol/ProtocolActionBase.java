@@ -49,6 +49,7 @@ import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.UnitAclLoadService;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
+import org.kuali.kra.web.struts.action.NonCancellingRecallQuestion;
 import org.kuali.rice.core.api.util.RiceConstants;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.coreservice.framework.CoreFrameworkServiceLocator;
@@ -765,11 +766,11 @@ public abstract class ProtocolActionBase extends KraTransactionalDocumentActionB
         ActionForward forward;  // the return value
         
         ReasonPrompt prompt = new ReasonPrompt(KRADConstants.DOCUMENT_RECALL_QUESTION, 
-                                               Constants.PROTOCOL_RECALL_QUESTION_TEXT_KEY, 
-                                               Constants.PROTOCOL_RECALL_QUESTION, 
+                                               Constants.NON_CANCELLING_RECALL_QUESTION_TEXT_KEY, 
+                                               Constants.NON_CANCELLING_RECALL_QUESTION, 
                                                RiceKeyConstants.ERROR_DOCUMENT_RECALL_REASON_REQUIRED, 
                                                KRADConstants.MAPPING_RECALL, 
-                                               ProtocolRecallQuestion.NO, 
+                                               NonCancellingRecallQuestion.NO, 
                                                RiceKeyConstants.MESSAGE_RECALL_NOTE_TEXT_INTRO);
         ReasonPrompt.Response resp = prompt.ask(mapping, form, request, response);
         
@@ -779,7 +780,7 @@ public abstract class ProtocolActionBase extends KraTransactionalDocumentActionB
             forward = resp.forward; 
         }
         // recall to action only if the button was selected by the user
-        else if(KRADConstants.DOCUMENT_RECALL_QUESTION.equals(resp.question) && ProtocolRecallQuestion.YES.equals(resp.button)) {
+        else if(KRADConstants.DOCUMENT_RECALL_QUESTION.equals(resp.question) && NonCancellingRecallQuestion.YES.equals(resp.button)) {
             KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
             doProcessingAfterPost(kualiDocumentFormBase, request);
             getDocumentService().recallDocument(kualiDocumentFormBase.getDocument(), resp.reason, false);
