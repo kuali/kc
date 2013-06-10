@@ -345,6 +345,10 @@ public class NegotiationNegotiationAction extends NegotiationAction {
         ActionForward actionForward = mapping.findForward(Constants.MAPPING_BASIC);
         NegotiationForm negotiationForm = (NegotiationForm) form;
         Long newAssociationTypeId = negotiationForm.getNegotiationDocument().getNegotiation().getNegotiationAssociationTypeId();
+        if (newAssociationTypeId == null) {
+            // we've lost association with Negotiation, probably from user hitting back button, so exit gracefully
+            return mapping.findForward(KRADConstants.MAPPING_PORTAL);
+        }
         NegotiationAssociationType asscType = (NegotiationAssociationType) this.getBusinessObjectService().findBySinglePrimaryKey(
                 NegotiationAssociationType.class, newAssociationTypeId);
         negotiationForm.getNegotiationDocument().getNegotiation().setNegotiationAssociationType(asscType);
