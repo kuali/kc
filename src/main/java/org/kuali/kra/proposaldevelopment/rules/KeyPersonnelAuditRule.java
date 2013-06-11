@@ -184,7 +184,7 @@ public class KeyPersonnelAuditRule extends ResearchDocumentRuleBase implements D
         List<AnswerHeader> headers = KraServiceLocator.getService(QuestionnaireAnswerService.class).getQuestionnaireAnswer(bean);
         
         for (AnswerHeader head : headers) {
-            retval &= head.getAllQuestionsAnswered();
+            retval &= head.getCompleted();
         }
         /*
         for (ProposalPersonYnq question : investigator.getProposalPersonYnqs()) {
