@@ -171,6 +171,10 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
     
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        if (!StringUtils.equals((String) request.getAttribute("methodToCallAttribute"), "methodToCall.route")){
+            
+        }
+            
         ActionForward actionForward = super.execute(mapping, form, request, response);
         if (!StringUtils.equals((String) request.getAttribute("methodToCallAttribute"), "methodToCall.reload"))
             this.populateSponsorForms(form);
@@ -267,12 +271,13 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
             workflowDoc.setReceiveFutureRequests();  
         }
         
-        if( StringUtils.equals(action, "approve"))
+        if( StringUtils.equals(action, "approve")){
             return super.approve(mapping, form, request, response);
-        else if ( StringUtils.equals(action, "route"))
+        }else if ( StringUtils.equals(action, "route")){
             return super.route(mapping, form, request, response);
-        else 
-            throw new UnsupportedOperationException( String.format( "promptUserForInput does not know how to forward for action %s.", action )); 
+        }else {
+            throw new UnsupportedOperationException( String.format( "promptUserForInput does not know how to forward for action %s.", action ));
+        }
     }   
 
     private boolean canGenerateRequestsInFuture(WorkflowDocument workflowDoc, String principalId) throws Exception {
@@ -814,6 +819,9 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
          * If this proposal is a continuation from another proposal, it is illegal for
          * it to have a New Proposal Type and Application Submission Type.
          */
+        if (!proposalDevelopmentForm.isUnitRulesErrorsExist() && proposalDevelopmentForm.isAuditActivated()){
+            proposalDevelopmentForm.setUnitRulesMessages(getUnitRulesMessages(proposalDevelopmentForm.getProposalDevelopmentDocument()));
+        }
         if ((proposalDevelopmentDocument.getDevelopmentProposal().getContinuedFrom() != null) && isNewProposalType(proposalDevelopmentDocument) && isSubmissionApplication(proposalDevelopmentDocument)) {
             state = ERROR;
             //GlobalVariables.getMessageMap().putError("someKey", KeyConstants.ERROR_RESUBMISSION_INVALID_PROPOSALTYPE_SUBMISSIONTYPE);
