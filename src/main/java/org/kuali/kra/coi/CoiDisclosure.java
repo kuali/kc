@@ -505,6 +505,9 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
         return StringUtils.equals(CoiDisclosureEventType.UPDATE, this.getEventTypeCode());
     }
 
+    public boolean isExcludedFromAnnual() {
+        return coiDisclosureEventType.isExcludeFromMasterDisclosure();
+    }
     // Good gracious, this is inefficient...
     public boolean isManualEvent() {
         return !StringUtils.equals(CoiDisclosureEventType.ANNUAL, this.getEventTypeCode())
