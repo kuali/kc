@@ -210,15 +210,19 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         }
     }
 
-    public void setDisclProjectForSave(CoiDisclosure coiDisclosure, MasterDisclosureBean masterDisclosureBean) {
+    public boolean setDisclProjectForSave(CoiDisclosure coiDisclosure, MasterDisclosureBean masterDisclosureBean) {
         coiDisclosure.setCoiDisclProjects(new ArrayList<CoiDisclProject>());
-            // reset disclosure's disclprojects from master disclosure bean
-        for (List<CoiDisclosureProjectBean> projects : masterDisclosureBean.getProjectLists()) {
-            for (CoiDisclosureProjectBean coiDisclProject : projects) {
-               // coiDisclProjects.add(createDisclProject(coiDisclosure, coiDisclProject.getProjectId(), coiDisclProject.getProjectName()));
-                coiDisclosure.getCoiDisclProjects().add(coiDisclProject.getCoiDisclProject());
-            }
-        }        
+        // reset disclosure's disclprojects from master disclosure bean
+        if (masterDisclosureBean != null ) {
+            for (List<CoiDisclosureProjectBean> projects : masterDisclosureBean.getProjectLists()) {
+                for (CoiDisclosureProjectBean coiDisclProject : projects) {
+                   // coiDisclProjects.add(createDisclProject(coiDisclosure, coiDisclProject.getProjectId(), coiDisclProject.getProjectName()));
+                    coiDisclosure.getCoiDisclProjects().add(coiDisclProject.getCoiDisclProject());
+                }
+            }        
+            return true;
+        }
+        return false;
     }
 
 

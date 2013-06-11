@@ -176,7 +176,7 @@ public interface CoiDisclosureService {
      * @param coiDisclosure
      * @param masterDisclosureBean
      */
-    public void setDisclProjectForSave(CoiDisclosure coiDisclosure, MasterDisclosureBean masterDisclosureBean);
+    public boolean setDisclProjectForSave(CoiDisclosure coiDisclosure, MasterDisclosureBean masterDisclosureBean);
     
     public CoiDisclosure getCurrentDisclosure();
     
