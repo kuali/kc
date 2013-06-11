@@ -546,7 +546,6 @@ public class CoiDisclosureAction extends CoiAction {
 
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) form;
-        save(mapping, coiDisclosureForm, request, response);
         CoiDisclosureDocument coiDisclosureDocument = (CoiDisclosureDocument)coiDisclosureForm.getDocument();
         CoiDisclosure coiDisclosure = coiDisclosureDocument.getCoiDisclosure();
        
@@ -555,6 +554,8 @@ public class CoiDisclosureAction extends CoiAction {
             coiDisclosureForm.setUnitRulesMessages(getUnitRulesMessages(coiDisclosureForm.getCoiDisclosureDocument()));
             AuditActionHelper auditActionHelper = new AuditActionHelper();
             if (auditActionHelper.auditUnconditionally(coiDisclosureDocument) && !coiDisclosureForm.isUnitRulesErrorsExist()) {
+                // everything's OK, so save now
+                save(mapping, coiDisclosureForm, request, response);
                 // Certification occurs after the audit rules pass.
                 if (coiDisclosure.getCoiDisclosureId() == null) {
                     coiDisclosure.initRequiredFields();            
