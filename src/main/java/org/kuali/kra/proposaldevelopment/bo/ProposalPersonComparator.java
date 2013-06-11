@@ -66,25 +66,6 @@ public class ProposalPersonComparator implements Comparator<ProposalPerson> {
                 }
             }
         }
-        else if (person1.isInvestigator()) {
-            retval--;
-        }
-        else if (person2.isInvestigator()) {
-            retval++;
-        }
-        
-        if (retval == 0) {
-            retval = massageOrdinalNumber(person1).compareTo(massageOrdinalNumber(person2));
-        }
-        
-        if (retval == 0) {
-            if (isNotBlank(person1.getFullName())) {
-                retval = person1.getLastName().compareTo(person2.getLastName());
-            }
-            else if (isNotBlank(person2.getLastName())) {
-                retval--; 
-            }
-        }
         
         LOG.info("retval = " + retval);
 
