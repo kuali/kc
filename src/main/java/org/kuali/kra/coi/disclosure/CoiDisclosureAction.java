@@ -144,7 +144,7 @@ public class CoiDisclosureAction extends CoiAction {
             getCoiDisclosureService().resetLeadUnit(coiDisclosure.getDisclosureReporter());
         }
         if (coiDisclosure.isUpdateEvent() ||(coiDisclosure.isAnnualEvent() && coiDisclosure.isAnnualUpdate())) {
-            getCoiDisclosureService().setDisclProjectForSave(coiDisclosure, coiDisclosureForm.getDisclosureHelper().getMasterDisclosureBean());
+            isValid &= getCoiDisclosureService().setDisclProjectForSave(coiDisclosure, coiDisclosureForm.getDisclosureHelper().getMasterDisclosureBean());
         }
         
         /************ Begin --- Save (if valid) document and questionnaire data ************/
@@ -177,7 +177,7 @@ public class CoiDisclosureAction extends CoiAction {
         else if (coiDisclosure.isUpdateEvent() || (coiDisclosure.isAnnualEvent() && coiDisclosure.isAnnualUpdate())) {
             actionForward = mapping.findForward(UPDATE_DISCLOSURE);
         }
-
+        
         return actionForward;
     }
     
