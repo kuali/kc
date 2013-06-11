@@ -51,7 +51,6 @@ public class PersonFinIntDisclosure extends KraPersistableBusinessObjectBase imp
     private Integer entityTypeCode;
     private String entityOwnershipType;
     private String relationshipTypeCode;
-    private String relationshipDescription;
     private boolean relatedToOrganizationFlag;
     private String orgRelationDescription;
     private String principalBusinessActivity;
@@ -70,6 +69,7 @@ public class PersonFinIntDisclosure extends KraPersistableBusinessObjectBase imp
     private List<FinancialEntityAttachment> finEntityAttachments;
     private Sponsor sponsor;
     private String sponsorName;
+    private String entitySponsorsResearch;
 
     private transient DateTimeService dateTimeService;
     
@@ -162,14 +162,6 @@ public class PersonFinIntDisclosure extends KraPersistableBusinessObjectBase imp
 
     public void setRelationshipTypeCode(String relationshipTypeCode) {
         this.relationshipTypeCode = relationshipTypeCode;
-    }
-
-    public String getRelationshipDescription() {
-        return relationshipDescription;
-    }
-
-    public void setRelationshipDescription(String relationshipDescription) {
-        this.relationshipDescription = relationshipDescription;
     }
 
     public boolean getRelatedToOrganizationFlag() {
@@ -393,6 +385,14 @@ public class PersonFinIntDisclosure extends KraPersistableBusinessObjectBase imp
         List managedLists = super.buildListOfDeletionAwareLists();
         managedLists.add(finEntityAttachments);
         return managedLists;
+    }
+
+    public String getEntitySponsorsResearch() {
+        return entitySponsorsResearch;
+    }
+
+    public void setEntitySponsorsResearch(String entitySponsorsResearch) {
+        this.entitySponsorsResearch = entitySponsorsResearch;
     }
 
 }
