@@ -347,7 +347,7 @@ public class NegotiationNegotiationAction extends NegotiationAction {
         Long newAssociationTypeId = negotiationForm.getNegotiationDocument().getNegotiation().getNegotiationAssociationTypeId();
         if (newAssociationTypeId == null) {
             // we've lost association with Negotiation, probably from user hitting back button, so exit gracefully
-            return mapping.findForward(KRADConstants.MAPPING_PORTAL);
+            return mapping.findForward(Constants.NEGOTIATION_LOST_PLACE_PAGE);
         }
         NegotiationAssociationType asscType = (NegotiationAssociationType) this.getBusinessObjectService().findBySinglePrimaryKey(
                 NegotiationAssociationType.class, newAssociationTypeId);
@@ -553,4 +553,15 @@ public class NegotiationNegotiationAction extends NegotiationAction {
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
+    /**
+     * Returns the user directly to the Portal.
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     */
+    public ActionForward returnToPortal(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        return mapping.findForward(KRADConstants.MAPPING_PORTAL);
+    }
 }
