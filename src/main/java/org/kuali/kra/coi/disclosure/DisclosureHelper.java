@@ -135,7 +135,7 @@ public class DisclosureHelper implements Serializable {
         if (getCoiDisclosure().isAnnualEvent() || getCoiDisclosure().isAnnualUpdate()) {
             List<CoiDisclosure> disclosures = getDisclosureService().getAllDisclosuresForUser(getCoiDisclosure().getPersonId());
             for (CoiDisclosure disclosure: disclosures) {
-                if (!disclosure.isAnnualEvent() && !disclosure.isAnnualUpdate()) {
+                if (!disclosure.isAnnualEvent() && !disclosure.isAnnualUpdate() && !disclosure.isExcludedFromAnnual()) {
                     String dispCode = disclosure.getDisclosureDispositionCode();
                     String dispStatus = disclosure.getDisclosureStatusCode();
                     if (!CoiDispositionStatus.BEST_PRACTICES_MEMO.equals(dispCode) &&
