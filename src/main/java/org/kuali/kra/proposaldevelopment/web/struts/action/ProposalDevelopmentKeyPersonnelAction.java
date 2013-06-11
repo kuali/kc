@@ -148,6 +148,11 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
                 person.getRole().setReadOnly(getKeyPersonnelService().isRoleReadOnly(person.getRole()));
             }
         }
+        for (ProposalPersonQuestionnaireHelper helper : pdform.getProposalPersonQuestionnaireHelpers()) {
+            for (int i = 0; i < helper.getAnswerHeaders().size(); i++) {
+                helper.updateChildIndicator(i);
+            }
+        }
         
         pdform.populatePersonEditableFields();
         handleRoleChangeEvents(pdform.getProposalDevelopmentDocument());
