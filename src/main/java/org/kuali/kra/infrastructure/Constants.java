@@ -898,6 +898,7 @@ public interface Constants {
     //Negotiations
     public static final String NEGOTIATION_SEQUENCE_NAME = "NEGOTIATION_S";
     public static final String NEGOTIATION_HOME_PAGE = "Negotiation";
+    public static final String NEGOTIATION_LOST_PLACE_PAGE = "lostPlaceMessagePage";
 
     // Disclosure disclosure page audit rules
     public static final String COI_DISCLOSURE_DISCLOSURE_PAGE = "coiDisclosure";
