@@ -13,13 +13,13 @@
                                                     <kul:htmlControlAttribute property="${prop}.finEntityContactInfos[0].addressLine1" 
                                               attributeEntry="${entityContactInfoAttribute.addressLine1}" /> 
                                                 </td>
-                                                <th align="right" valign="middle" rowspan="3">
-                                                    <kul:htmlAttributeLabel attributeEntry="${personFinIntDisclAttribute.relationshipDescription}" />
+                                                <th align="right" valign="middle" rowspan="1" colspan="2">
+                                                    <kul:htmlAttributeLabel attributeEntry="${personFinIntDisclAttribute.entitySponsorsResearch}" />
                                                 </th>
-                                                <td align="left" valign="middle" rowspan="3" colspan="3">
-                                                    <kul:htmlControlAttribute property="${prop}.relationshipDescription" 
-                                              attributeEntry="${personFinIntDisclAttribute.relationshipDescription}" /> 
-                                                </td>
+                                                <td align="left" valign="middle" rowspan="1" colspan="2">
+                                                    <kul:htmlControlAttribute property="${prop}.entitySponsorsResearch" 
+	                                             		attributeEntry="${personFinIntDisclAttribute.entitySponsorsResearch}" /> 
+												</td>
                                             </tr>    
                                              <tr>
                                                 <th align="right" valign="middle" >
@@ -29,6 +29,13 @@
                                                     <kul:htmlControlAttribute property="${prop}.finEntityContactInfos[0].addressLine2" 
                                               attributeEntry="${entityContactInfoAttribute.addressLine2}" /> 
                                                 </td>
+                                                <th align="right" valign="middle" rowspan="4">
+                                                    <kul:htmlAttributeLabel attributeEntry="${personFinIntDisclAttribute.orgRelationDescription}" />
+                                                </th>
+                                                <td align="left" valign="middle" rowspan="4" colspan="3">
+                                                    <kul:htmlControlAttribute property="${prop}.orgRelationDescription" 
+                                              attributeEntry="${personFinIntDisclAttribute.orgRelationDescription}" /> 
+                                                </td>                                                
                                             </tr>    
                                              <tr>
                                                 <th align="right" valign="middle" >
@@ -46,13 +53,6 @@
                                                 <td align="left" valign="middle" colspan="3">
                                                     <kul:htmlControlAttribute property="${prop}.finEntityContactInfos[0].city" 
                                               attributeEntry="${entityContactInfoAttribute.city}" /> 
-                                                </td>
-                                                <th align="right" valign="middle" rowspan="3">
-                                                    <kul:htmlAttributeLabel attributeEntry="${personFinIntDisclAttribute.orgRelationDescription}" />
-                                                </th>
-                                                <td align="left" valign="middle" rowspan="3" colspan="3">
-                                                    <kul:htmlControlAttribute property="${prop}.orgRelationDescription" 
-                                              attributeEntry="${personFinIntDisclAttribute.orgRelationDescription}" /> 
                                                 </td>
                                             </tr>
                                             <tr>
@@ -72,6 +72,13 @@
                                                     <kul:htmlControlAttribute property="${prop}.finEntityContactInfos[0].countryCode" 
                                               attributeEntry="${entityContactInfoAttribute.countryCode}" onchange="updateStateOnClick('${prop}.finEntityContactInfos[0].countryCode');"/> 
                                                 </td>
+                                               <th align="right" valign="middle" rowspan="4">
+                                                    <kul:htmlAttributeLabel attributeEntry="${personFinIntDisclAttribute.principalBusinessActivity}" />
+                                                </th>
+                                                <td align="left" valign="middle" rowspan="4" colspan="3">
+                                                    <kul:htmlControlAttribute property="${prop}.principalBusinessActivity" 
+                                              attributeEntry="${personFinIntDisclAttribute.principalBusinessActivity}" /> 
+                                                </td>                                                
                                             </tr>    
                                              <tr>
                                                 <th align="right" valign="middle" >
@@ -80,13 +87,6 @@
                                                 <td align="left" valign="middle" colspan="3">
                                                     <kul:htmlControlAttribute property="${prop}.finEntityContactInfos[0].postalCode" 
                                               attributeEntry="${entityContactInfoAttribute.postalCode}" /> 
-                                                </td>
-                                               <th align="right" valign="middle" rowspan="3">
-                                                    <kul:htmlAttributeLabel attributeEntry="${personFinIntDisclAttribute.principalBusinessActivity}" />
-                                                </th>
-                                                <td align="left" valign="middle" rowspan="3" colspan="3">
-                                                    <kul:htmlControlAttribute property="${prop}.principalBusinessActivity" 
-                                              attributeEntry="${personFinIntDisclAttribute.principalBusinessActivity}" /> 
                                                 </td>
                                            </tr>  
                                            <tr>

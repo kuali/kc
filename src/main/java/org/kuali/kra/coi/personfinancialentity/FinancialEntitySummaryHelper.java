@@ -313,9 +313,6 @@ public class FinancialEntitySummaryHelper implements Serializable {
         
         String details = "";
         if (ObjectUtils.isNotNull(financialEntity.getOrgRelationDescription())) {
-            details = "Relationship Description: " + newLine + financialEntity.getRelationshipDescription() + newLine;
-        }
-        if (ObjectUtils.isNotNull(financialEntity.getOrgRelationDescription())) {
             details += "Org Relation Description: " + newLine + financialEntity.getOrgRelationDescription()  + newLine;
         }
         if (ObjectUtils.isNotNull(financialEntity.getPrincipalBusinessActivity())) {
