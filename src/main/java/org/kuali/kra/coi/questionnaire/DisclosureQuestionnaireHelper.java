@@ -36,6 +36,7 @@ public class DisclosureQuestionnaireHelper extends QuestionnaireHelperBase {
     private static final long serialVersionUID = -8685872555239368202L;
     
     private CoiDisclosure coiDisclosure;
+    private boolean questionnairesLoaded;
     
     public DisclosureQuestionnaireHelper(CoiDisclosure coiDisclosure) {
         this.setAnswerHeaders(new ArrayList<AnswerHeader>());
@@ -69,8 +70,8 @@ public class DisclosureQuestionnaireHelper extends QuestionnaireHelperBase {
     
     protected void populateQuestionnaires(boolean reload) {
         boolean refreshed = false;
-        if(CollectionUtils.isEmpty(this.getAnswerHeaders()) || reload) {
-            super.populateAnswers();
+        if(!questionnairesLoaded || reload) {
+            populateAnswers();
             refreshed = true;
         } 
         // have to update the child indicator, otherwise, the questionnaire may be hidden
@@ -80,6 +81,11 @@ public class DisclosureQuestionnaireHelper extends QuestionnaireHelperBase {
                 }
 
         }
+    }
+    
+    public void populateAnswers() {
+        super.populateAnswers();
+        questionnairesLoaded = true;
     }
     
     public CoiDisclosure getCoiDisclosure() {
