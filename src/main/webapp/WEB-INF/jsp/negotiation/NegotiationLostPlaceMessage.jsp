@@ -29,7 +29,7 @@
 	            <tr>
 	                <td>
 	                    <div align="center">
-	                        Changes to your Negotiation have been lost, typically due to use of the browser's back button.
+	                        Changes to your Negotiation have been lost.  This is often due to use of the browser's back button.
 	                    </div>
 	                </td>
 	            </tr>
