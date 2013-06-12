@@ -45,7 +45,7 @@ public class ProposalPersonComparator implements Comparator<ProposalPerson> {
         int retval = 0;
         DevelopmentProposal proposal = person1.getDevelopmentProposal();
                
-        if (person1.isInvestigator() && person2.isInvestigator()) {
+        if (person1.isInvestigator() || person2.isInvestigator()) {
             if (getKeyPersonnelService().isPrincipalInvestigator(person1) 
                     || getKeyPersonnelService().isPrincipalInvestigator(person2)) {
                if (getKeyPersonnelService().isPrincipalInvestigator(person1)) {
@@ -64,6 +64,25 @@ public class ProposalPersonComparator implements Comparator<ProposalPerson> {
                 if (person2.isMultiplePi()) {
                     retval++;
                 }
+            }
+        }
+        else if (person1.isInvestigator()) {
+            retval--;
+        }
+        else if (person2.isInvestigator()) {
+            retval++;
+        }
+        
+        if (retval == 0) {
+            retval = massageOrdinalNumber(person1).compareTo(massageOrdinalNumber(person2));
+        }
+        
+        if (retval == 0) {
+            if (isNotBlank(person1.getFullName())) {
+                retval = person1.getLastName().compareTo(person2.getLastName());
+            }
+            else if (isNotBlank(person2.getLastName())) {
+                retval--; 
             }
         }
         
