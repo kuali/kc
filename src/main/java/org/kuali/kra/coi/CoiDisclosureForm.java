@@ -174,11 +174,14 @@ public class CoiDisclosureForm extends KraTransactionalDocumentFormBase implemen
         List<HeaderNavigation> resultList = new ArrayList<HeaderNavigation>();
         // Adding disapproved disclosures to this because they are also displayed in the disclosures list in the
         // master disclosure
+        CoiDisclosure disclosure = this.getCoiDisclosureDocument().getCoiDisclosure(); 
         for (HeaderNavigation nav : navigation) {
-            if (((!this.getCoiDisclosureDocument().getCoiDisclosure().isApprovedDisclosure() 
-                && (!this.getCoiDisclosureDocument().getCoiDisclosure().isDisapprovedDisclosure())) 
-                && !StringUtils.equals("viewMasterDisclosure", this.getMethodToCall())) 
-                || StringUtils.equals(nav.getHeaderTabNavigateTo(), "disclosure")) {
+            if (((!disclosure.isApprovedDisclosure() 
+                    && (!disclosure.isDisapprovedDisclosure())) 
+                    && !StringUtils.equals("viewMasterDisclosure", this.getMethodToCall())) 
+                    || StringUtils.equals(nav.getHeaderTabNavigateTo(), "disclosure")) {
+                // disable "disclosure" tab if we are trying to view the master but there is none yet
+                nav.setDisabled(StringUtils.equals("viewMasterDisclosure",this.getMethodToCall()) && disclosure.getCoiDisclosureId() == null);
                 resultList.add(nav);
             }
             if (StringUtils.equalsIgnoreCase("disclosureActions", nav.getHeaderTabNavigateTo())) {
