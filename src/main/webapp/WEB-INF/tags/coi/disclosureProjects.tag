@@ -11,14 +11,18 @@
             
             <%-- Existing data --%>
 
+<%--
 <c:set var="hidden" value="${not masterDisclosureProjects[0].coiDisclProject.coiDisclosure.approvedDisclosure and masterDisclosureProjects[0].coiDisclProject.coiDisclosureEventType.excludeFromMasterDisclosure}" />
+--%>
 
 <div <c:if test="${hidden}">style="display:none;"</c:if>>                                  
             <c:forEach var="disclProjectBean" items="${masterDisclosureProjects}" varStatus="status">
-                     <kra-coi:projectStyle disclProjectBean="${disclProjectBean}"/>                    
-                     <kra-coi:projectHeader disclProject="${disclProjectBean.coiDisclProject}" boLocation="${boLocation}[${status.index}].coiDisclProject"/>                    
-                     <kra-coi:masterProjectQuestionnaires disclProjectBean="${disclProjectBean}" parentTab="${parentTab}" boLocation="${boLocation}[${status.index}]"/>                    
-                     <kra-coi:masterProjectFE disclProjectBean="${disclProjectBean}" projectDivNamePrefix="${projectDivNamePrefix}"  idx="${status.index}" projectListName="${projectListName}"/>                    
+			    <c:if test="${not disclProjectBean.coiDisclosure.annualEvent}">
+                    <kra-coi:projectStyle disclProjectBean="${disclProjectBean}"/>                    
+                    <kra-coi:projectHeader disclProject="${disclProjectBean.coiDisclProject}" boLocation="${boLocation}[${status.index}].coiDisclProject"/>                    
+                    <kra-coi:masterProjectQuestionnaires disclProjectBean="${disclProjectBean}" parentTab="${parentTab}" boLocation="${boLocation}[${status.index}]"/>                    
+                    <kra-coi:masterProjectFE disclProjectBean="${disclProjectBean}" projectDivNamePrefix="${projectDivNamePrefix}"  idx="${status.index}" projectListName="${projectListName}"/>
+                </c:if>                     
             </c:forEach> 
  </div>         
             <%-- Existing data --%>

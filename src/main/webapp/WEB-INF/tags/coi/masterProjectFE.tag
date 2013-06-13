@@ -8,38 +8,38 @@
 <c:set var="canEditDisclosure" value="${KualiForm.disclosureHelper.canEditDisclosureFinancialEntity}" />
 <c:set var="isMasterDisclosure" value="${KualiForm.disclosureHelper.coiDisclosure.approvedDisclosure}" />
                                   
-            <%-- New data --%>
+<%-- New data --%>
             
-            <%-- Existing data --%>
+<%-- Existing data --%>
 
-             <div class="financialentity" <c:if test="${disclProjectBean.excludeFE}">style="display:none"</c:if>>
-                 <div class="h2-container" style="height:20px; vertical-align:middle; background-color:#999; border-top:none; border-bottom:none; color:#FFF; font-weight:bold;">
-    		        <span class="subhead-left">
-      		          &nbsp;
-                      <a href="#" id ="${projectDivNamePrefix}Control${idx}" class="financialEntitySubpanel"><img src='kr/images/tinybutton-hide.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'></a> 
-    		          Financial Entities 
-    		        </span>
-    		        <span style="float: right;text-align: right;"><kul:help businessObjectClassName="org.kuali.kra.coi.CoiDiscDetail" altText="help"/></span>
-                </div>
-
-                 <div  id="${projectDivNamePrefix}Details${idx}" style="margin-bottom:15px;">
-                 <div  id="${projectDivNamePrefix}Content${idx}" class="financialEntitySubpanelContent" style="margin-bottom:15px;">
-                    <table class=tab cellpadding="0" cellspacing="0" summary="">
-          	<tr>
-          		<kul:htmlAttributeHeaderCell literalLabel="Review" scope="col" /> 
-          		<kul:htmlAttributeHeaderCell attributeEntry="${coiDiscDetailAttributes.personFinIntDisclosureId}" scope="col" />
-          		<th rowspan="1" colspan="1" scope="col">${KualiForm.disclosureHelper.conflictHeaderLabel}</th>
-          		<kul:htmlAttributeHeaderCell attributeEntry="${coiDiscDetailAttributes.comments}" scope="col" />
-          	</tr> 
-               <c:if test="${!readOnly}">
-                 <tr>
+<div class="financialentity" <c:if test="${disclProjectBean.excludeFE}">style="display:none"</c:if>>
+    <div class="h2-container" style="height:20px; vertical-align:middle; background-color:#999; border-top:none; border-bottom:none; color:#FFF; font-weight:bold;">
+        <span class="subhead-left">
+      	    &nbsp;
+            <a href="#" id ="${projectDivNamePrefix}Control${idx}" class="financialEntitySubpanel"><img src='kr/images/tinybutton-hide.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'></a> 
+            Financial Entities 
+        </span>
+    	<span style="float: right;text-align: right;"><kul:help businessObjectClassName="org.kuali.kra.coi.CoiDiscDetail" altText="help"/></span>
+    </div>
+    
+    <div  id="${projectDivNamePrefix}Details${idx}" style="margin-bottom:15px;">
+        <div  id="${projectDivNamePrefix}Content${idx}" class="financialEntitySubpanelContent" style="margin-bottom:15px;">
+            <table class=tab cellpadding="0" cellspacing="0" summary="">
+                <tr>
+          	        <kul:htmlAttributeHeaderCell literalLabel="Review" scope="col" /> 
+          	        <kul:htmlAttributeHeaderCell attributeEntry="${coiDiscDetailAttributes.personFinIntDisclosureId}" scope="col" />
+          	        <th rowspan="1" colspan="1" scope="col">${KualiForm.disclosureHelper.conflictHeaderLabel}</th>
+          	        <kul:htmlAttributeHeaderCell attributeEntry="${coiDiscDetailAttributes.comments}" scope="col" />
+          	    </tr> 
+                <c:if test="${!readOnly}">
+                <tr>
                     <th class="infoline">
                         &nbsp;
                     </th>
                     <td class="infoline">
                         <div align="center">
                             <html:image property="methodToCall.newFinancialEntity.anchor${tabKey}"
-                            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-newfinancialentity.gif' styleClass="tinybutton"/>
+                               src='${ConfigProperties.kra.externalizable.images.url}tinybutton-newfinancialentity.gif' styleClass="tinybutton"/>
                         </div>
                     </td>
     
@@ -57,49 +57,50 @@
                 </tr>
                 </c:if>
         	    <c:forEach var="disclosureDetail" items="${disclProjectBean.coiDisclProject.coiDiscDetails}" varStatus="festatus">
-	             <tr>
-					  <td>
-						<div align=center>&nbsp;
-							<c:if test="${KualiForm.disclosureHelper.canViewDisclosureFeHistory}">		
-                                <a class="disclosureFeView" id="viewEntitySummary${festatus.index}" title="${disclosureDetail.personFinIntDisclosure.entityName} Summary" href="${pageContext.request.contextPath}/financialEntityEditList.do?methodToCall=viewFinancialEntity&status=activecoi&index=${disclosureDetail.personFinIntDisclosure.personFinIntDisclosureId}" scrolling="no" noresize>
-						 	        <html:image src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' styleClass="tinybutton" title="View Entity"/>
-                    	        </a>   
-                    	    </c:if>         
-							<c:if test="${!isMasterDisclosure && canEditDisclosure}">		
-							    <html:image property="methodToCall.editFinancialEntity.line${festatus.index}.anchor${currentTabIndex}"
-									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-edit1.gif' styleClass="tinybutton"/>
-                    	     </c:if>
-							<c:if test="${KualiForm.disclosureHelper.canViewDisclosureFeHistory}">		
-						        <a class="disclosureFeHistory" id="history${festatus.index}" title="${disclosureDetail.personFinIntDisclosure.entityName} History" href="${pageContext.request.contextPath}/financialEntityEditList.do?methodToCall=showFinancialEntityHistory&status=activecoi&index=${disclosureDetail.personFinIntDisclosure.personFinIntDisclosureId}">
-							        <html:image property="methodToCall.historyFinancialEntity.line${festatus.index}.anchor${currentTabIndex}"
-									    src='${ConfigProperties.kra.externalizable.images.url}tinybutton-history.gif' styleClass="tinybutton"/>
-                    	         </a>
-                    	     </c:if>
-						</div>
-		              </td>
-                  <td align="left" valign="middle">
-					<div align="left">
-					    ${disclosureDetail.personFinIntDisclosure.entityName}
-					</div>
-				  </td>
-                  <td align="left" valign="middle">
-					<div align="left">
-					    <%-- ${disclosureDetail.coiEntityStatusCode.description} --%>
-                        <%-- TODO need to work on property --%>
-                        <kul:htmlControlAttribute property="disclosureHelper.masterDisclosureBean.${projectListName}[${idx}].coiDisclProject.coiDiscDetails[${festatus.index}].entityStatusCode" readOnly="${readOnly}" attributeEntry="${coiDiscDetailAttributes.entityStatusCode}" 
-                        readOnlyAlternateDisplay="${disclosureDetail.coiEntityStatusCode.description}" styleClass="conflictClass${projectDivNamePrefix}${idx}"/> 
-					</div>
-				  </td>
-                  <td align="left" valign="middle">
-					<div align="left">
-					    <%-- ${disclosureDetail.comments} --%>
-                        <%-- TODO need to work on property --%>
-                        <kul:htmlControlAttribute property="disclosureHelper.masterDisclosureBean.${projectListName}[${idx}].coiDisclProject.coiDiscDetails[${festatus.index}].comments" readOnly="${readOnly}" attributeEntry="${coiDiscDetailAttributes.comments}" /> 
-					</div>
-				  </td>
-	            </tr>
-	            </c:forEach>
-	            </table>
-	           </div> 
-	           </div>
-	           </div>
+                    <tr>
+        	            <td>
+        		            <div align=center>&nbsp;
+        		                <c:if test="${KualiForm.disclosureHelper.canViewDisclosureFeHistory}">		
+                                    <a class="disclosureFeView" id="viewEntitySummary${festatus.index}" title="${disclosureDetail.personFinIntDisclosure.entityName} Summary" href="${pageContext.request.contextPath}/financialEntityEditList.do?methodToCall=viewFinancialEntity&status=activecoi&index=${disclosureDetail.personFinIntDisclosure.personFinIntDisclosureId}" scrolling="no" noresize>
+        					 	        <html:image src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' styleClass="tinybutton" title="View Entity"/>
+                    	            </a>   
+                    	        </c:if>         
+        			            <c:if test="${!isMasterDisclosure && canEditDisclosure}">		
+        			                <html:image property="methodToCall.editFinancialEntity.line${festatus.index}.anchor${currentTabIndex}"
+        			        		    src='${ConfigProperties.kra.externalizable.images.url}tinybutton-edit1.gif' styleClass="tinybutton"/>
+                    	        </c:if>
+        			            <c:if test="${KualiForm.disclosureHelper.canViewDisclosureFeHistory}">		
+        			                <a class="disclosureFeHistory" id="history${festatus.index}" title="${disclosureDetail.personFinIntDisclosure.entityName} History" href="${pageContext.request.contextPath}/financialEntityEditList.do?methodToCall=showFinancialEntityHistory&status=activecoi&index=${disclosureDetail.personFinIntDisclosure.personFinIntDisclosureId}">
+        			                    <html:image property="methodToCall.historyFinancialEntity.line${festatus.index}.anchor${currentTabIndex}"
+        								    src='${ConfigProperties.kra.externalizable.images.url}tinybutton-history.gif' styleClass="tinybutton"/>
+                    	            </a>
+                    	        </c:if>
+        		            </div>
+        	            </td>
+                        <td align="left" valign="middle">
+        		            <div align="left">
+        		                ${disclosureDetail.personFinIntDisclosure.entityName}
+        		            </div>
+        		        </td>
+                        <td align="left" valign="middle">
+        		            <div align="left">
+        		                <%-- ${disclosureDetail.coiEntityStatusCode.description} --%>
+                                <%-- TODO need to work on property --%>
+                                <kul:htmlControlAttribute property="disclosureHelper.masterDisclosureBean.${projectListName}[${idx}].coiDisclProject.coiDiscDetails[${festatus.index}].entityStatusCode" readOnly="${readOnly}" attributeEntry="${coiDiscDetailAttributes.entityStatusCode}" 
+                                    readOnlyAlternateDisplay="${disclosureDetail.coiEntityStatusCode.description}" styleClass="conflictClass${projectDivNamePrefix}${idx}"/> 
+        		            </div>
+        		        </td>
+                        <td align="left" valign="middle">
+        		            <div align="left">
+        		                <%-- ${disclosureDetail.comments} --%>
+                                <%-- TODO need to work on property --%>
+                                <kul:htmlControlAttribute property="disclosureHelper.masterDisclosureBean.${projectListName}[${idx}].coiDisclProject.coiDiscDetails[${festatus.index}].comments" readOnly="${readOnly}" attributeEntry="${coiDiscDetailAttributes.comments}" /> 
+        		            </div>
+        		        </td>
+                    </tr>
+                </c:forEach>
+            </table>
+        </div> 
+    </div>
+</div>
+    

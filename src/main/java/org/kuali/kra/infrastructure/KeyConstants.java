@@ -617,6 +617,7 @@ public final class KeyConstants {
     public static final String ERROR_COI_INVALID_DISCLOSURE_STATUS_CODE = "error.coi.invalid.disclosure.status.code";
     public static final String ERROR_COI_DUPLICATE_DISPOSITION_CODE = "error.coi.duplicate.disposition.code";
     public static final String ERROR_COI_DUPLICATE_DISPOSITION_DESCRIPTION = "error.coi.duplicate.disposition.description";
+    public static final String MESSAGE_COI_CERT_SUBMITTED = "message.coi.cert.submitted";
     
     // IRB Protocol Research Area Validation messages
     public static final String ERROR_PROTOCOL_RESEARCH_AREA_REQUIRED = "error.protocol.researchArea.required";
