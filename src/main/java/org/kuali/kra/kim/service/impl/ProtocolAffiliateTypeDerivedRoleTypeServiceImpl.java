@@ -22,18 +22,15 @@ import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.bo.AffiliationType;
 import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.irb.actions.submit.ProtocolSubmissionQualifierType;
-import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
-import org.kuali.rice.core.api.exception.RiceIllegalArgumentException;
 import org.kuali.rice.core.api.membership.MemberType;
 import org.kuali.rice.kim.api.role.RoleMembership;
 import org.kuali.rice.kns.kim.role.DerivedRoleTypeServiceBase;
 
 
+@SuppressWarnings("deprecation")
 public class ProtocolAffiliateTypeDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBase {
     private static final org.apache.log4j.Logger LOG = 
         org.apache.log4j.Logger.getLogger(ProtocolAffiliateTypeDerivedRoleTypeServiceImpl.class);
@@ -43,6 +40,7 @@ public class ProtocolAffiliateTypeDerivedRoleTypeServiceImpl extends DerivedRole
         requiredAttributes.add(KcKimAttributes.PROTOCOL);
     }
     
+    @SuppressWarnings("deprecation")
     @Override
     public List<RoleMembership> getRoleMembersFromDerivedRole(String namespaceCode, String roleName,
             Map<String,String> qualification) {
@@ -55,10 +53,12 @@ public class ProtocolAffiliateTypeDerivedRoleTypeServiceImpl extends DerivedRole
         
         if (protocol != null && CollectionUtils.isNotEmpty(protocol.getProtocolPersons())) {
             for (ProtocolPersonBase person : protocol.getProtocolPersons()) {
-                if (StringUtils.equals(getAffiliationType(person.getAffiliationType().getAffiliationTypeCode()), roleName) &&
-                    StringUtils.isNotBlank(person.getPerson().getPersonId())) {
-                    members.add(RoleMembership.Builder.create(null, null, person.getPerson().getPersonId(), MemberType.PRINCIPAL, null).build());
-    
+                if(person.getAffiliationType() != null) {
+                    if (StringUtils.equals(person.getAffiliationType().getDescription(), roleName) &&
+                        StringUtils.isNotBlank(person.getPerson().getPersonId())) {
+                        members.add(RoleMembership.Builder.create(null, null, person.getPerson().getPersonId(), MemberType.PRINCIPAL, null).build());
+        
+                    }
                 }
             }
         }
@@ -79,8 +79,10 @@ public class ProtocolAffiliateTypeDerivedRoleTypeServiceImpl extends DerivedRole
             for (ProtocolPersonBase person : protocol.getProtocolPersons()) {
                 //Find protocol person that matches the principal id
                 if (StringUtils.equals(principalId, person.getPersonId())) {
-                    if (StringUtils.equals(roleName, getAffiliationType(person.getAffiliationType().getAffiliationTypeCode()))) {
-                        return true;
+                    if(person.getAffiliationType() != null) {
+                        if (StringUtils.equals(roleName, person.getAffiliationType().getDescription())) {
+                            return true;
+                        }
                     }
                 }
             }
@@ -93,21 +95,6 @@ public class ProtocolAffiliateTypeDerivedRoleTypeServiceImpl extends DerivedRole
         Map<String,Object> keymap = new HashMap<String,Object>();
         keymap.put("protocolNumber", protocolNumber);
         return (Protocol) getBusinessObjectService().findByPrimaryKey(Protocol.class, keymap);
-    }
-
-    private String getAffiliationType(Integer affiliationTypeCode) {
-        String result = null;
-        
-        if (affiliationTypeCode != null) {
-            Map<String, String> fieldValues = new HashMap<String, String>();
-            fieldValues.put("affiliationTypeCode", affiliationTypeCode.toString());
-            List<AffiliationType> affiliationTypes = 
-                (List<AffiliationType>) getBusinessObjectService().findMatching(AffiliationType.class, fieldValues);
-            if (CollectionUtils.isNotEmpty(affiliationTypes)) {
-                result = affiliationTypes.get(0).getDescription();
-            }
-        }
-        return result;        
     }
     
     /*
