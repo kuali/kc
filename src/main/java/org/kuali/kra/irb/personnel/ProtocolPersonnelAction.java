@@ -431,6 +431,11 @@ public class ProtocolPersonnelAction extends ProtocolAction {
                     protocolForm.getPermissionsHelper().resetUserStates();
                 }
             }
+            
+            // we need to rebuild the user states if affiliations have been modified
+            if(protocolPerson.isAffiliationTypeCodeChanged()) {
+                protocolForm.getPermissionsHelper().resetUserStates();
+            }
         }
 
         Map keyMap = new HashMap();

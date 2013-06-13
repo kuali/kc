@@ -19,6 +19,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.AbstractProjectPerson;
 import org.kuali.kra.bo.AffiliationType;
@@ -188,6 +189,8 @@ public abstract class ProtocolPersonBase extends ProtocolAssociateBase implement
     private String mobilePhoneNumber;
 
     private String eraCommonsUserName;
+    
+    private transient boolean affiliationTypeCodeChanged = false;
 
     public ProtocolPersonBase() {
         this.protocolUnits = new ArrayList<ProtocolUnitBase>();
@@ -239,8 +242,18 @@ public abstract class ProtocolPersonBase extends ProtocolAssociateBase implement
         return this.affiliationTypeCode;
     }
 
-    public void setAffiliationTypeCode(Integer affiliationTypeCode) {
-        this.affiliationTypeCode = affiliationTypeCode;
+    // this setter will also refresh the reference object if the new affiliation type code 
+    // is different from the existing one.
+    public void setAffiliationTypeCode(Integer newAffiliationTypeCode) {
+        boolean changed = true;
+        if(ObjectUtils.equals(this.affiliationTypeCode, newAffiliationTypeCode)) {
+            changed = false;
+        }
+        this.affiliationTypeCode = newAffiliationTypeCode;
+        if(changed) {
+            this.refreshReferenceObject("affiliationType");
+            this.setAffiliationTypeCodeChanged(true);
+        }
     }
 
     public String getComments() {
@@ -252,7 +265,10 @@ public abstract class ProtocolPersonBase extends ProtocolAssociateBase implement
     }
 
     public AffiliationType getAffiliationType() {
-        return this.affiliationType;
+        if ((affiliationTypeCode != null) && (affiliationType == null)) {
+            this.refreshReferenceObject("affiliationType");
+        }
+        return affiliationType;
     }
 
     public void setAffiliationType(AffiliationType affiliationType) {
@@ -1041,5 +1057,13 @@ public abstract class ProtocolPersonBase extends ProtocolAssociateBase implement
     
     public String getRoleCode() {
         return getProtocolPersonRoleId();
+    }
+
+    public void setAffiliationTypeCodeChanged(boolean affiliationTypeCodeChanged) {
+        this.affiliationTypeCodeChanged = affiliationTypeCodeChanged;
+    }
+
+    public boolean isAffiliationTypeCodeChanged() {
+        return affiliationTypeCodeChanged;
     }
 }
