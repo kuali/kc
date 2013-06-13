@@ -497,6 +497,9 @@ public class CoiDisclProject extends KraPersistableBusinessObjectBase implements
     }
 
     public List<LabelValuePair> getHeaderItems() {
+        if (headerItems == null && coiProjectId != null) {
+            initHeaderItems();
+        }
         return headerItems;
     }
     public void setHeaderItems(List<LabelValuePair> headerItems) {

@@ -96,6 +96,10 @@ public class CoiDisclEventProject implements Serializable {
         return StringUtils.equals(CoiDisclosureEventType.AWARD, this.eventType);
     }
     
+    public boolean isAnnual() {
+        return StringUtils.equals(CoiDisclosureEventType.ANNUAL, this.eventType);
+    }
+    
     public boolean isProtocolEvent() {
         return StringUtils.equals(CoiDisclosureEventType.IRB_PROTOCOL, this.eventType);
     }
