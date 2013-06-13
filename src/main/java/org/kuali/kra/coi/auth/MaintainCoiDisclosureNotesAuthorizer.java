@@ -53,7 +53,7 @@ public class MaintainCoiDisclosureNotesAuthorizer extends CoiDisclosureAuthorize
                 } else {
                     //hasPermission = hasUnitPermission(userId, Constants.MODULE_NAMESPACE_COIDISCLOSURE, PermissionConstants.MAINTAIN_COI_DISCLOSURE_NOTES)
                     hasPermission = getPermissionService().isAuthorized(userId, Constants.MODULE_NAMESPACE_COIDISCLOSURE, PermissionConstants.MAINTAIN_COI_DISCLOSURE_NOTES, getQualificationMap(task.getCoiDisclosure()))
-                        && !isDocumentFinal(coiDisclosure) && isEditableByAdminReviewer(coiDisclosure);                    
+                        && !isDocumentFinal(coiDisclosure) && !isDocumentSubmitted(coiDisclosure) && isEditableByAdminReviewer(coiDisclosure);                    
                 }
             }
             
@@ -70,6 +70,10 @@ public class MaintainCoiDisclosureNotesAuthorizer extends CoiDisclosureAuthorize
         }
         
         return false;
+    }
+    
+    protected boolean isDocumentSubmitted(CoiDisclosure coiDisclosure) {
+        return coiDisclosure.isSubmitted();
     }
     
     protected boolean isNotSubmitted(CoiDisclosure coiDisclosure) {
