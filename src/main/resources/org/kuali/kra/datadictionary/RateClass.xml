@@ -53,9 +53,12 @@
     <property name="summary" value="Rate Class Code" />
     <property name="description" value="Rate Class Code" />
   </bean>
-  <bean id="RateClass-description" parent="RateClass-description-parentBean" />
 
+  <bean id="RateClass-description" parent="RateClass-description-parentBean" />
   <bean id="RateClass-description-parentBean" abstract="true" parent="KraAttributeReferenceDummy-description">
+    <property name="name" value="description" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Rate Class Description" />
   </bean>
  
   <bean id="RateClass-rateClassType" parent="RateClass-rateClassType-parentBean" />
