@@ -354,16 +354,34 @@ function openSelectedAward(requestTracker) {
 
   function tbodyTag1(info) {
       var tblTag = jQuery('#templates table.awardDetails').clone();
-      jQuery(tblTag).find('.detailHeading').text(getDetailString(info));
+      jQuery(tblTag).find('.detailHeading').text(decodeEntities(getDetailString(info)));
       jQuery(tblTag).find('.projectStartDate').text(info['projectStartDate']);
       jQuery(tblTag).find('.obligationStartDate').text(info['currentFundEffectiveDate']);
       jQuery(tblTag).find('.projectEndDate').text(info['finalExpirationDate']);
       jQuery(tblTag).find('.obligationEndDate').text(info['obligationExpirationDate']);
       jQuery(tblTag).find('.anticipatedAmount').text("$" + info['anticipatedTotalAmount']);
       jQuery(tblTag).find('.obligatedAmount').text("$" + info['amountObligatedToDate']);
-      jQuery(tblTag).find('.title').text(info['title']);
+      jQuery(tblTag).find('.title').text(decodeEntities(info['title']));
       return tblTag;
   }
+  
+  var decodeEntities = (function() {
+      // this prevents any overhead from creating the object each time
+      var element = document.createElement('div');
+
+      function decodeHTMLEntities (str) {
+          if(str && typeof str === 'string') {
+              // strip script/html tags
+              str = str.replace(/<script[^>]*>([\S\s]*?)<\/script>/gmi, '');
+              str = str.replace(/<\/?\w(?:[^"'>]|"[^"]*"|'[^']*')*>/gmi, '');
+              element.innerHTML = str;
+              str = element.textContent;
+              element.textContent = '';
+          }
+          return str;
+      }
+      return decodeHTMLEntities;
+  })();
   
   function getDetailString(info) {
 	  return info['awardNumber'] + " : " + info['accountNumber'] + " : " + info['principalInvestigatorName'] + " : " + info['leadUnitName'];
