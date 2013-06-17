@@ -54,7 +54,6 @@ public class DisclosureHelper implements Serializable {
     protected static final String PARAMETER_CODE = "Document";
     private static final String CONFLICT_HEADER_LABEL_PARAMETER = "COI_DISCLOSURE_FE_CONFLICT_HEADER_LABEL";
     protected static final String DEFAULT_CONFLICT_HEADER_LABEL = "Related";
-    private static final String ERROR_COI_ANNUAL_OPEN_DISCLOSURES = "error.coi.annual.open.disclosures";
     private static final String ERROR_COI_ANNUAL_OPEN_DISCLOSURES_FOR_ADMIN = "error.coi.annual.open.disclosures.for.admin";
     private CoiDisclosureForm form;
     private DisclosurePersonUnit newDisclosurePersonUnit;
@@ -89,7 +88,6 @@ public class DisclosureHelper implements Serializable {
     private transient CoiDisclosureService disclosureService;
     private boolean unresolvedEventsPresent;
     private String annualCertApprovalErrorMsgForAdmin;
-    private String annualCertApprovalErrorMsg;
     
     public DisclosureHelper(CoiDisclosureForm form) {
         this.form = form;
@@ -147,8 +145,7 @@ public class DisclosureHelper implements Serializable {
                             !CoiDispositionStatus.EXEMPT.equals(dispCode)) {
                         // then we have a "bad" status, so we should display an error message
                         unresolvedEventsPresent = true;
-                        if (annualCertApprovalErrorMsg == null) {
-                            annualCertApprovalErrorMsg = KRADServiceLocator.getKualiConfigurationService().getPropertyValueAsString(ERROR_COI_ANNUAL_OPEN_DISCLOSURES);
+                        if (annualCertApprovalErrorMsgForAdmin == null) {
                             annualCertApprovalErrorMsgForAdmin = KRADServiceLocator.getKualiConfigurationService().getPropertyValueAsString(ERROR_COI_ANNUAL_OPEN_DISCLOSURES_FOR_ADMIN);
                             annualCertApprovalErrorMsgForAdmin = annualCertApprovalErrorMsgForAdmin.replace("{0}", getCoiDisclosure().getDisclosureReporter().getReporter().getFullName());
                         }
@@ -475,10 +472,6 @@ public class DisclosureHelper implements Serializable {
 
     public String getAnnualCertApprovalErrorMsgForAdmin() {
         return annualCertApprovalErrorMsgForAdmin;
-    }
-
-    public String getAnnualCertApprovalErrorMsg() {
-        return annualCertApprovalErrorMsg;
     }
 
 }
