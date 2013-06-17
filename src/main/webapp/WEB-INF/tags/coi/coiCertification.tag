@@ -29,12 +29,6 @@
 			<tr>
 				<td colspan="2">
 					<div class="floaters">
-					    <c:if test="${disclosureHelper.unresolvedEventsPresent}">
-                		    <div class="body" style="text-align:left;color:#FF0000;">			
-        	                    <strong>${disclosureHelper.annualCertApprovalErrorMsg}</strong>
-                		    </div>
-						</c:if>
-					    
 						<%-- the certification instructions get inserted here --%>
 						<c:choose>
 							<c:when test="${empty certStatement}">
