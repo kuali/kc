@@ -53,6 +53,9 @@
                 <ref bean="FinancialEntity-principalBusinessActivity" />
                 <ref bean="FinancialEntity-sponsorCode" />
                 <ref bean="FinancialEntity-entitySponsorsResearch" />
+                <ref bean="FinancialEntity-studentInvolvement" />
+                <ref bean="FinancialEntity-staffInvolvement" />
+                <ref bean="FinancialEntity-facilityUse" />
                 <ref bean="FinancialEntity-versionNumber" />
          		<ref bean="Sponsor-sponsorName" />
             </list>
@@ -340,7 +343,64 @@
     </property>
     <property name="summary" value="Does this entity sponsor any of your research?" />
     <property name="description" value="Does this entity sponsor any of your research?" />
-  </bean>    
+  </bean> 
+  
+    <bean id="FinancialEntity-studentInvolvement" parent="FinancialEntity-studentInvolvement-parentBean" />
+    <bean id="FinancialEntity-studentInvolvement-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="studentInvolvement" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Explain any involvement of students under your direction at this institution with this entity" />
+        <property name="shortLabel" value="Explain students involvement" />
+        <property name="maxLength" value="4000" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />
+        </property>
+        <property name="control" >
+            <bean parent="TextareaControlDefinition"
+                p:rows="3"
+                p:cols="80" />
+        </property>
+        <property name="summary" value="Explain any involvement of students under your direction at this institution with this entity" />
+        <property name="description" value="Explain any involvement of students under your direction at this institution with this entity" />
+    </bean>
+    
+    <bean id="FinancialEntity-staffInvolvement" parent="FinancialEntity-staffInvolvement-parentBean" />
+    <bean id="FinancialEntity-staffInvolvement-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="staffInvolvement" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Explain any involvement of staff or subordinates under your direction at this institution with this entity" />
+        <property name="shortLabel" value="Explain staff involvement" />
+        <property name="maxLength" value="4000" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />
+        </property>
+        <property name="control" >
+            <bean parent="TextareaControlDefinition"
+                p:rows="3"
+                p:cols="80" />
+        </property>
+        <property name="summary" value="Explain any involvement of staff or subordinates under your direction at this institution with this entity" />
+        <property name="description" value="Explain any involvement of staff or subordinates under your direction at this institution with this entity" />
+    </bean>
+    
+    <bean id="FinancialEntity-facilityUse" parent="FinancialEntity-facilityUse-parentBean" />
+    <bean id="FinancialEntity-facilityUse-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="facilityUse" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Explain any use of institutional resources and/or facilities relating to your work with this entity" />
+        <property name="shortLabel" value="Explain students involvement" />
+        <property name="maxLength" value="4000" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true" />
+        </property>
+        <property name="control" >
+            <bean parent="TextareaControlDefinition"
+                p:rows="3"
+                p:cols="80" />
+        </property>
+        <property name="summary" value="Explain any use of institutional resources and/or facilities relating to your work with this entity" />
+        <property name="description" value="Explain any use of institutional resources and/or facilities relating to your work with this entity" />
+    </bean>
 
     <bean id="FinancialEntity-versionNumber" parent="FinancialEntity-versionNumber-parentBean" />
     <bean id="FinancialEntity-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
