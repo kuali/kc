@@ -230,6 +230,9 @@
 		<field-descriptor name="sponsorCode" column="SPONSOR_CODE" jdbc-type="VARCHAR" />
 		<field-descriptor name="sponsorName" column="SPONSOR_NAME" jdbc-type="VARCHAR" />
 		<field-descriptor name="entitySponsorsResearch" column="ENTITY_SPONSOR_RESEARCH" jdbc-type="CHAR" />
+		<field-descriptor name="studentInvolvement" column="STUDENT_INVOLVEMENT" jdbc-type="VARCHAR" />
+		<field-descriptor name="staffInvolvement" column="STAFF_INVOLVEMENT" jdbc-type="VARCHAR" />
+		<field-descriptor name="facilityUse" column="FACILITY_USE" jdbc-type="VARCHAR" />
 		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />

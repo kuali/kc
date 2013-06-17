@@ -106,4 +106,33 @@
                                                     <kul:htmlControlAttribute property="${prop}.finEntityContactInfos[0].webAddress2" 
                                               attributeEntry="${entityContactInfoAttribute.webAddress2}" /> 
                                                 </td>
-                                           </tr>          
+                                           </tr>
+                                           
+                                           <tr>
+                                           		<th style="text-align: right; vertical-align: middle;" colspan="2">
+                                           			<kul:htmlAttributeLabel attributeEntry="${personFinIntDisclAttribute.studentInvolvement}" />
+                                           		</th>
+                                           		<td colspan="6">
+                                           			<kul:htmlControlAttribute property="${prop}.studentInvolvement" 
+                                              			attributeEntry="${personFinIntDisclAttribute.studentInvolvement}" /> 
+                                           		</td>
+                                           	</tr>
+                                           <tr>
+                                           		<th style="text-align: right; vertical-align: middle;" colspan="2">
+                                           			<kul:htmlAttributeLabel attributeEntry="${personFinIntDisclAttribute.staffInvolvement}" />
+                                           		</th>
+                                           		<td colspan="6">
+                                           			<kul:htmlControlAttribute property="${prop}.staffInvolvement" 
+                                              			attributeEntry="${personFinIntDisclAttribute.staffInvolvement}" /> 
+                                           		</td>
+                                           	</tr>
+                                           	                                           	                                           <tr>
+                                           		<th style="text-align: right; vertical-align: middle;" colspan="2">
+                                           			<kul:htmlAttributeLabel attributeEntry="${personFinIntDisclAttribute.facilityUse}" />
+                                           		</th>
+                                           		<td colspan="6">
+                                           			<kul:htmlControlAttribute property="${prop}.facilityUse" 
+                                              			attributeEntry="${personFinIntDisclAttribute.facilityUse}" /> 
+                                           		</td>
+                                           	</tr>
+                                           	

@@ -70,6 +70,9 @@ public class PersonFinIntDisclosure extends KraPersistableBusinessObjectBase imp
     private Sponsor sponsor;
     private String sponsorName;
     private String entitySponsorsResearch;
+    private String studentInvolvement;
+    private String staffInvolvement;
+    private String facilityUse;
 
     private transient DateTimeService dateTimeService;
     
@@ -393,6 +396,30 @@ public class PersonFinIntDisclosure extends KraPersistableBusinessObjectBase imp
 
     public void setEntitySponsorsResearch(String entitySponsorsResearch) {
         this.entitySponsorsResearch = entitySponsorsResearch;
+    }
+
+    public String getStudentInvolvement() {
+        return studentInvolvement;
+    }
+
+    public void setStudentInvolvement(String studentInvolvement) {
+        this.studentInvolvement = studentInvolvement;
+    }
+
+    public String getStaffInvolvement() {
+        return staffInvolvement;
+    }
+
+    public void setStaffInvolvement(String staffInvolvement) {
+        this.staffInvolvement = staffInvolvement;
+    }
+
+    public String getFacilityUse() {
+        return facilityUse;
+    }
+
+    public void setFacilityUse(String facilityUse) {
+        this.facilityUse = facilityUse;
     }
 
 }
