@@ -301,6 +301,10 @@
 
 <kra-coi:coiCertification topTab="false" />
 
+<c:if test="${KualiForm.document.coiDisclosure.disclosureSaved}">
+	<kra:dataValidation auditActivated="${KualiForm.auditActivated}" topTab="false"/>
+</c:if>
+
 <kul:panelFooter />
 	<kul:documentControls 
 		transactionalDocument="false"
