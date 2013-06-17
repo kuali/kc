@@ -153,9 +153,17 @@ public abstract class KcTransactionalDocumentAuthorizerBase extends BusinessObje
             documentActions.add(KRADConstants.KUALI_ACTION_CAN_RECALL);
         }
         
+        if (canComplete(document)) {
+            documentActions.add(KRADConstants.KUALI_ACTION_CAN_COMPLETE);
+        }
         return documentActions;
     }
     
+    /*Only enable the complete button if document is in EXCEPTION status.*/
+    protected boolean canComplete(Document document) {
+        return document.getDocumentHeader().getWorkflowDocument().isException();
+    }
+
     /**
      * Can the document be edited?
      * @param document the document
