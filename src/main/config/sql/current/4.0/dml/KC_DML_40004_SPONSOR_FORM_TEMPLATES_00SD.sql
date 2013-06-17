@@ -1726,7 +1726,7 @@ buffer := '60;</fo:inline>
                                 <fo:table-row>
                                     <fo:table-cell font-size="7pt" padding-start="6pt" number-columns-spanned="5" width=".5in" padding-end="3pt" padding-before="3pt" padding-after="3pt" display-align="center" text-align="start" border-style="solid" border-width="1pt" border-color="black">
                                         <fo:block>
-                                            <fo:inline font-size="7pt">&#160; PARITICIPANT SUPPORT&#160; </fo:inline>
+                                            <fo:inline font-size="7pt">F. PARTICIPANT SUPPORT</fo:inline>
                                             <fo:block space-before.optimum="1pt" space-after.optimum="2pt">
                                                 <fo:block font-size="7pt">
                                                     <fo:inline font-size="7pt">&#160;&#160;&#160;&#160; 1. STIPENDS&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; $</fo:inline>
