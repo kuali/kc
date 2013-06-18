@@ -144,7 +144,7 @@
                     	                <td id="certPrint" style="border:none; background:none; text-align:center;" rowspan="2">
 											<html:image property="methodToCall.printDisclosureCertification"
 													    src="${ConfigProperties.kra.externalizable.images.url}tinybutton-print.gif" 
-														title="Print Approved Disclosure" alt="Print Approved Disclosure" 
+														title="Print Disclosure" alt="Print Disclosure" 
 														styleClass="tinybutton"  onclick="excludeSubmitRestriction = true;"/>
 	                                    </td>
                                     </c:if>
