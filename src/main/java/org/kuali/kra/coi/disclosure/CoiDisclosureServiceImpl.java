@@ -429,8 +429,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
      */
     public void initializeDisclosureDetails(CoiDisclProject coiDisclProject) {
         List<CoiDiscDetail> disclosureDetails = new ArrayList<CoiDiscDetail>();
-        List<PersonFinIntDisclosure> financialEntities = financialEntityService.getFinancialEntities(GlobalVariables
-                .getUserSession().getPrincipalId(), true);
+        List<PersonFinIntDisclosure> financialEntities = financialEntityService.getFinancialEntities(coiDisclProject.getCoiDisclosure().getPersonId(), true);
         for (PersonFinIntDisclosure personFinIntDisclosure : financialEntities) {
             CoiDiscDetail disclosureDetail =createNewCoiDiscDetail(coiDisclProject.getCoiDisclosure(), personFinIntDisclosure, coiDisclProject.getProjectId(), coiDisclProject.getProjectId(), coiDisclProject.getDisclosureEventType());
             disclosureDetail.setProjectType(coiDisclProject.getDisclosureEventType());
@@ -711,10 +710,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         List<String> disclEntityNumbers = new ArrayList<String>();
         List<CoiDiscDetail> activeDetails = new ArrayList<CoiDiscDetail>();
         List<CoiDiscDetail> coiDiscDetails = (List<CoiDiscDetail>) businessObjectService.findMatching(CoiDiscDetail.class, fieldValues);
-        String personId = GlobalVariables.getUserSession().getPrincipalId();
-        if (!StringUtils.equals(personId, coiDisclProject.getCoiDisclosure().getPersonId())) {
-            personId = coiDisclProject.getCoiDisclosure().getPersonId();
-        }
+        String personId = coiDisclProject.getCoiDisclosure().getPersonId();
         List<PersonFinIntDisclosure> financialEntities = financialEntityService.getFinancialEntities(personId, true);
         for (CoiDiscDetail coiDiscDetail : coiDiscDetails) {
             getCurrentFinancialEntity(coiDiscDetail);
@@ -1638,10 +1634,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
      */
     private void updateMasterDisclosureDetails(CoiDisclosure coiDisclosure) {
         Map <Long, List<CoiDiscDetail>> projectDetailMap = setupDetailMap(coiDisclosure);
-        String personId = GlobalVariables.getUserSession().getPrincipalId();
-        if (!StringUtils.equals(personId, coiDisclosure.getPersonId())) {
-            personId = coiDisclosure.getPersonId();
-        }
+        String personId = coiDisclosure.getPersonId();
         List<PersonFinIntDisclosure> financialEntities = financialEntityService.getFinancialEntities(personId, true);
         Long disclosureId = coiDisclosure.getCoiDisclosureId();
         for (CoiDisclProject coiDisclProject : coiDisclosure.getCoiDisclProjects()) {
