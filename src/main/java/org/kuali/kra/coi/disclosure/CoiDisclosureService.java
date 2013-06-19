@@ -16,10 +16,12 @@
 package org.kuali.kra.coi.disclosure;
 
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.coi.CoiDisclProject;
 import org.kuali.kra.coi.CoiDisclosure;
+import org.kuali.kra.coi.CoiDisclosureUndisclosedEvents;
 import org.kuali.kra.coi.CoiDispositionStatus;
 import org.kuali.kra.coi.DisclosureReporter;
 import org.kuali.kra.coi.DisclosureReporterUnit;
@@ -200,5 +202,14 @@ public interface CoiDisclosureService {
      * 
      */
     public List<CoiDisclosure> getAllDisclosuresForUser(String userId);
+
+
+    /**
+     * This method is to get a list of undisclosed events from all projects based
+     * on search criteria.
+     * @param searchCriteria
+     * @return
+     */
+    public List<CoiDisclosureUndisclosedEvents> getUndisclosedEvents(Map<String, String> searchCriteria);
 
 }
