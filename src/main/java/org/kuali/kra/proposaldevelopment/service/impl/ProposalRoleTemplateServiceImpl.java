@@ -22,11 +22,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.infrastructure.RoleConstants;
+import org.kuali.kra.kim.service.ProposalRoleService;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalRoleTemplateService;
 import org.kuali.kra.service.KraAuthorizationService;
-import org.kuali.kra.service.SystemAuthorizationService;
 import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.role.RoleMembership;
 import org.kuali.rice.kim.api.role.RoleService;
@@ -38,7 +37,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 public class ProposalRoleTemplateServiceImpl implements ProposalRoleTemplateService {
     private KraAuthorizationService kraAuthorizationService;
     private RoleService roleManagementService;
-    private SystemAuthorizationService systemAuthorizationService;
+    private ProposalRoleService proposalRoleService;
     
     /**
      * Set the Proposal Authorization Service.  Injected by the Spring Framework.
@@ -52,8 +51,9 @@ public class ProposalRoleTemplateServiceImpl implements ProposalRoleTemplateServ
         this.roleManagementService = roleManagementService;
     }
 
-    public void setSystemAuthorizationService(SystemAuthorizationService systemAuthorizationService) {
-        this.systemAuthorizationService = systemAuthorizationService;
+
+    public void setProposalRoleService(ProposalRoleService proposalRoleService) {
+        this.proposalRoleService = proposalRoleService;
     }
 
     /**
@@ -98,7 +98,7 @@ public class ProposalRoleTemplateServiceImpl implements ProposalRoleTemplateServ
         Map<String, String> qualifiedRoleAttributes = new HashMap<String, String>();
         qualifiedRoleAttributes.put("unitNumber", unitNumber);
         List<String> roleIds = new ArrayList<String>();
-        List<Role> proposalRoles = systemAuthorizationService.getRoles(RoleConstants.PROPOSAL_ROLE_TYPE);
+        List<Role> proposalRoles = proposalRoleService.getRolesForDisplay();
         for(Role role : proposalRoles) {
             roleIds.add(role.getId());
         }
