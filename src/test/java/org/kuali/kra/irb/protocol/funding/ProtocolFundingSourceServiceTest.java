@@ -162,7 +162,7 @@ public class ProtocolFundingSourceServiceTest extends KcUnitTestBase {
         protocolFundingSourceService.setSponsorService(getSponsorService());
         protocolFundingSourceService.setFundingSourceTypeService(getFundingSourceTypeService());
         ProtocolFundingSource fundingSource 
-            = protocolFundingSourceService.updateProtocolFundingSource(sponsorSourceTypeId, sponsorNumberAirForce, null);
+            = (ProtocolFundingSource) protocolFundingSourceService.updateProtocolFundingSource(sponsorSourceTypeId, sponsorNumberAirForce, null);
         assertNotNull(fundingSource);
         assertTrue(fundingSource.getFundingSourceName().equalsIgnoreCase(sponsorNameAirForce));
     }
@@ -172,7 +172,7 @@ public class ProtocolFundingSourceServiceTest extends KcUnitTestBase {
         protocolFundingSourceService = new ProtocolFundingSourceServiceImpl();
         protocolFundingSourceService.setSponsorService(getSponsorService());
         protocolFundingSourceService.setFundingSourceTypeService(getFundingSourceTypeService());
-        ProtocolFundingSource fundingSource = protocolFundingSourceService.updateProtocolFundingSource(sponsorSourceTypeId, sponsorNumberBad, null);
+        ProtocolFundingSource fundingSource = (ProtocolFundingSource) protocolFundingSourceService.updateProtocolFundingSource(sponsorSourceTypeId, sponsorNumberBad, null);
         assertNotNull(fundingSource);
         assertNull(fundingSource.getFundingSourceName());
     }
@@ -182,7 +182,7 @@ public class ProtocolFundingSourceServiceTest extends KcUnitTestBase {
         protocolFundingSourceService = new ProtocolFundingSourceServiceImpl();
         protocolFundingSourceService.setSponsorService(getSponsorService());
         protocolFundingSourceService.setFundingSourceTypeService(getFundingSourceTypeService());
-        ProtocolFundingSource fundingSource = protocolFundingSourceService.updateProtocolFundingSource(sponsorSourceTypeId, emptyNumber, null);
+        ProtocolFundingSource fundingSource = (ProtocolFundingSource) protocolFundingSourceService.updateProtocolFundingSource(sponsorSourceTypeId, emptyNumber, null);
         assertNull(fundingSource);
     }   
     
@@ -191,7 +191,7 @@ public class ProtocolFundingSourceServiceTest extends KcUnitTestBase {
         protocolFundingSourceService = new ProtocolFundingSourceServiceImpl();
         protocolFundingSourceService.setUnitService(getUnitService());
         protocolFundingSourceService.setFundingSourceTypeService(getFundingSourceTypeService());
-        ProtocolFundingSource fundingSource = protocolFundingSourceService.updateProtocolFundingSource(unitSourceTypeId, unitNumberGood, null);
+        ProtocolFundingSource fundingSource = (ProtocolFundingSource) protocolFundingSourceService.updateProtocolFundingSource(unitSourceTypeId, unitNumberGood, null);
         assertNotNull(fundingSource);
         assertNotNull(fundingSource.getFundingSourceName());
         assertTrue(fundingSource.getFundingSourceName().equalsIgnoreCase(unitNameGood));
@@ -202,7 +202,7 @@ public class ProtocolFundingSourceServiceTest extends KcUnitTestBase {
         protocolFundingSourceService = new ProtocolFundingSourceServiceImpl();
         protocolFundingSourceService.setUnitService(getUnitService());
         protocolFundingSourceService.setFundingSourceTypeService(getFundingSourceTypeService());
-        ProtocolFundingSource fundingSource = protocolFundingSourceService.updateProtocolFundingSource(unitSourceTypeId, unitNumberBad, null);
+        ProtocolFundingSource fundingSource = (ProtocolFundingSource) protocolFundingSourceService.updateProtocolFundingSource(unitSourceTypeId, unitNumberBad, null);
         assertNotNull(fundingSource);
         assertNull(fundingSource.getFundingSourceName());
     }    
@@ -214,7 +214,7 @@ public class ProtocolFundingSourceServiceTest extends KcUnitTestBase {
 
         protocolFundingSourceService.setUnitService(unitService);
         protocolFundingSourceService.setFundingSourceTypeService(getFundingSourceTypeService());
-        ProtocolFundingSource fundingSource = protocolFundingSourceService.updateProtocolFundingSource(unitSourceTypeId, emptyNumber, null);
+        ProtocolFundingSource fundingSource = (ProtocolFundingSource) protocolFundingSourceService.updateProtocolFundingSource(unitSourceTypeId, emptyNumber, null);
         assertNull(fundingSource);
     }
     
@@ -224,7 +224,7 @@ public class ProtocolFundingSourceServiceTest extends KcUnitTestBase {
         protocolFundingSourceService.setFundingSourceTypeService(getFundingSourceTypeService());
         
         ProtocolFundingSource fundingSource 
-            = protocolFundingSourceService.updateProtocolFundingSource(otherSourceTypeId, otherNumberGood, otherNameGood);
+            = (ProtocolFundingSource) protocolFundingSourceService.updateProtocolFundingSource(otherSourceTypeId, otherNumberGood, otherNameGood);
         assertNotNull(fundingSource);
         assertNotNull(fundingSource.getFundingSourceName());
         assertTrue(fundingSource.getFundingSourceName().equalsIgnoreCase(otherNameGood));
@@ -236,7 +236,7 @@ public class ProtocolFundingSourceServiceTest extends KcUnitTestBase {
         protocolFundingSourceService = new ProtocolFundingSourceServiceImpl();
         protocolFundingSourceService.setFundingSourceTypeService(getFundingSourceTypeService());
         
-        ProtocolFundingSource fundingSource = protocolFundingSourceService.updateProtocolFundingSource(otherSourceTypeId, emptyNumber, null);
+        ProtocolFundingSource fundingSource = (ProtocolFundingSource) protocolFundingSourceService.updateProtocolFundingSource(otherSourceTypeId, emptyNumber, null);
         assertNull(fundingSource);
     }
     
@@ -248,7 +248,7 @@ public class ProtocolFundingSourceServiceTest extends KcUnitTestBase {
         protocolFundingSourceService.setFundingSourceTypeService(getFundingSourceTypeService());
         
         ProtocolFundingSource fundingSource 
-            = protocolFundingSourceService.updateProtocolFundingSource(developmentPropSourceTypeId, devProposalNumberGood, null);
+            = (ProtocolFundingSource) protocolFundingSourceService.updateProtocolFundingSource(developmentPropSourceTypeId, devProposalNumberGood, null);
         assertNotNull(fundingSource);
         assertNotNull(fundingSource.getFundingSourceName());
         assertTrue(fundingSource.getFundingSourceName().equalsIgnoreCase(sponsorNameAirForce));
@@ -263,7 +263,7 @@ public class ProtocolFundingSourceServiceTest extends KcUnitTestBase {
         protocolFundingSourceService.setFundingSourceTypeService(getFundingSourceTypeService());
         
         ProtocolFundingSource fundingSource 
-            = protocolFundingSourceService.updateProtocolFundingSource(developmentPropSourceTypeId, devProposalNumberBad, null);
+            = (ProtocolFundingSource) protocolFundingSourceService.updateProtocolFundingSource(developmentPropSourceTypeId, devProposalNumberBad, null);
         assertNotNull(fundingSource);
         assertTrue(StringUtils.isEmpty(fundingSource.getFundingSourceName()));
         assertTrue(StringUtils.isEmpty(fundingSource.getFundingSourceTitle()));
@@ -276,7 +276,7 @@ public class ProtocolFundingSourceServiceTest extends KcUnitTestBase {
         protocolFundingSourceService.setBusinessObjectService(getBusinessObjectService());
         protocolFundingSourceService.setFundingSourceTypeService(getFundingSourceTypeService());
         
-        ProtocolFundingSource fundingSource = protocolFundingSourceService.updateProtocolFundingSource(developmentPropSourceTypeId, emptyNumber, null);
+        ProtocolFundingSource fundingSource = (ProtocolFundingSource) protocolFundingSourceService.updateProtocolFundingSource(developmentPropSourceTypeId, emptyNumber, null);
         assertNull(fundingSource);
     }
 
@@ -289,7 +289,7 @@ public class ProtocolFundingSourceServiceTest extends KcUnitTestBase {
         protocolFundingSourceService.setBusinessObjectService(getBusinessObjectService());
         
         ProtocolFundingSource fundingSource  = 
-            protocolFundingSourceService.updateProtocolFundingSource(institutePropSourceTypeId, instProposalNumberGood, null);
+            (ProtocolFundingSource) protocolFundingSourceService.updateProtocolFundingSource(institutePropSourceTypeId, instProposalNumberGood, null);
         assertNotNull(fundingSource);
         assertNotNull(fundingSource.getFundingSourceName());
         assertTrue(fundingSource.getFundingSourceName().equalsIgnoreCase(sponsorNameAirForce));
@@ -305,7 +305,7 @@ public class ProtocolFundingSourceServiceTest extends KcUnitTestBase {
         protocolFundingSourceService.setBusinessObjectService(getBusinessObjectService());
         
         ProtocolFundingSource fundingSource 
-            = protocolFundingSourceService.updateProtocolFundingSource(institutePropSourceTypeId, instProposalNumberGood, null);
+            = (ProtocolFundingSource) protocolFundingSourceService.updateProtocolFundingSource(institutePropSourceTypeId, instProposalNumberGood, null);
         assertNotNull(fundingSource);
         assertNotNull(fundingSource.getFundingSourceName());
         assertTrue(fundingSource.getFundingSourceName().equalsIgnoreCase(sponsorNameAirForce));
@@ -321,7 +321,7 @@ public class ProtocolFundingSourceServiceTest extends KcUnitTestBase {
         protocolFundingSourceService.setBusinessObjectService(getBusinessObjectService());
         
         ProtocolFundingSource fundingSource 
-            = protocolFundingSourceService.updateProtocolFundingSource(institutePropSourceTypeId, instProposalNumberBad, null);
+            = (ProtocolFundingSource) protocolFundingSourceService.updateProtocolFundingSource(institutePropSourceTypeId, instProposalNumberBad, null);
         assertNotNull(fundingSource);
         assertTrue(StringUtils.isEmpty(fundingSource.getFundingSourceName()));
         assertTrue(StringUtils.isEmpty(fundingSource.getFundingSourceTitle()));
@@ -336,7 +336,7 @@ public class ProtocolFundingSourceServiceTest extends KcUnitTestBase {
         protocolFundingSourceService.setBusinessObjectService(getBusinessObjectService());
         
         ProtocolFundingSource fundingSource  
-            = protocolFundingSourceService.updateProtocolFundingSource(institutePropSourceTypeId, emptyNumber, null);
+            = (ProtocolFundingSource) protocolFundingSourceService.updateProtocolFundingSource(institutePropSourceTypeId, emptyNumber, null);
         assertNull(fundingSource);
     }
     
@@ -348,7 +348,7 @@ public class ProtocolFundingSourceServiceTest extends KcUnitTestBase {
         protocolFundingSourceService.setFundingSourceTypeService(getFundingSourceTypeService());
         protocolFundingSourceService.setParameterService(getParameterService());
         
-        ProtocolFundingSource fundingSource = protocolFundingSourceService.updateProtocolFundingSource(awardSourceTypeId, awardNumberGood, null);
+        ProtocolFundingSource fundingSource = (ProtocolFundingSource) protocolFundingSourceService.updateProtocolFundingSource(awardSourceTypeId, awardNumberGood, null);
         assertNotNull(fundingSource);
         assertNotNull(fundingSource.getFundingSourceName());
         assertTrue(fundingSource.getFundingSourceName().equalsIgnoreCase(sponsorNameAirForce));
@@ -362,7 +362,7 @@ public class ProtocolFundingSourceServiceTest extends KcUnitTestBase {
         protocolFundingSourceService.setFundingSourceTypeService(getFundingSourceTypeService());
         protocolFundingSourceService.setParameterService(getParameterService());
 
-        ProtocolFundingSource fundingSource  = protocolFundingSourceService.updateProtocolFundingSource(awardSourceTypeId, awardNumberGood, null);
+        ProtocolFundingSource fundingSource  = (ProtocolFundingSource) protocolFundingSourceService.updateProtocolFundingSource(awardSourceTypeId, awardNumberGood, null);
         assertNotNull(fundingSource);
         assertNotNull(fundingSource.getFundingSourceName());
         assertTrue(fundingSource.getFundingSourceName().equalsIgnoreCase(sponsorNameAirForce));
@@ -376,7 +376,7 @@ public class ProtocolFundingSourceServiceTest extends KcUnitTestBase {
         protocolFundingSourceService.setFundingSourceTypeService(getFundingSourceTypeService());
         protocolFundingSourceService.setParameterService(getParameterService());
 
-        ProtocolFundingSource fundingSource  = protocolFundingSourceService.updateProtocolFundingSource(awardSourceTypeId, awardNumberBad, null);
+        ProtocolFundingSource fundingSource  = (ProtocolFundingSource) protocolFundingSourceService.updateProtocolFundingSource(awardSourceTypeId, awardNumberBad, null);
         assertNotNull(fundingSource);
         assertTrue(StringUtils.isEmpty(fundingSource.getFundingSourceName()));
         assertTrue(StringUtils.isEmpty(fundingSource.getFundingSourceTitle()));
@@ -389,7 +389,7 @@ public class ProtocolFundingSourceServiceTest extends KcUnitTestBase {
         protocolFundingSourceService.setFundingSourceTypeService(getFundingSourceTypeService());
         protocolFundingSourceService.setParameterService(getParameterService());
 
-        ProtocolFundingSource fundingSource  = protocolFundingSourceService.updateProtocolFundingSource(awardSourceTypeId, emptyNumber, null);
+        ProtocolFundingSource fundingSource  = (ProtocolFundingSource) protocolFundingSourceService.updateProtocolFundingSource(awardSourceTypeId, emptyNumber, null);
         assertNull(fundingSource);
     } 
     
