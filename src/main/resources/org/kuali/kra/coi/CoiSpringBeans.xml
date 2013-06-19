@@ -263,8 +263,12 @@
         <property name="parameterService" ref="parameterService" />
         <property name="dateTimeService" ref="dateTimeService" />
         <property name="coiDisclosureDao" ref="coiDisclosureDao" />
+        <property name="coiDisclosureUndisclosedEventsDao" ref="coiDisclosureUndisclosedEventsDao" />
     </bean>
     
+    <bean id="coiDisclosureUndisclosedEventsDao" parent="platformAwareDao"
+		class="org.kuali.kra.coi.lookup.dao.ojb.CoiDisclosureUndisclosedEventsDaoOjb" />
+
     <bean id="coiDisclosureDao" parent="platformAwareDao"
 		class="org.kuali.kra.coi.lookup.dao.ojb.CoiDisclosureDaoOjb" />
 
