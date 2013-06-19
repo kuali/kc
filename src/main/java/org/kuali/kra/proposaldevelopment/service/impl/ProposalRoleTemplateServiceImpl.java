@@ -21,11 +21,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.kim.service.ProposalRoleService;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalRoleTemplateService;
 import org.kuali.kra.service.KraAuthorizationService;
+import org.kuali.rice.core.api.membership.MemberType;
 import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.role.RoleMembership;
 import org.kuali.rice.kim.api.role.RoleService;
@@ -97,12 +99,21 @@ public class ProposalRoleTemplateServiceImpl implements ProposalRoleTemplateServ
     protected Collection<RoleMembership> getRoleTemplates(String unitNumber) {
         Map<String, String> qualifiedRoleAttributes = new HashMap<String, String>();
         qualifiedRoleAttributes.put("unitNumber", unitNumber);
-        List<String> roleIds = new ArrayList<String>();
         List<Role> proposalRoles = proposalRoleService.getRolesForDisplay();
+        Collection<RoleMembership> membershipInfoList = new ArrayList<RoleMembership>();
+        Collection<String> memberIds = null;
+        RoleMembership.Builder roleMembershipBuilder = null;
         for(Role role : proposalRoles) {
-            roleIds.add(role.getId());
+            memberIds = roleManagementService.getRoleMemberPrincipalIds(role.getNamespaceCode(), role.getName(), qualifiedRoleAttributes);
+            if(CollectionUtils.isNotEmpty(memberIds)) {
+                for(String memberId : memberIds) {
+                    roleMembershipBuilder = RoleMembership.Builder.create(role.getId(), null, memberId, MemberType.PRINCIPAL, null);
+                    membershipInfoList.add(roleMembershipBuilder.build());
+                }
+                roleMembershipBuilder = null;
+                memberIds = null;
+            }
         }
-        List<RoleMembership> membershipInfoList = roleManagementService.getRoleMembers(roleIds,new HashMap<String,String>(qualifiedRoleAttributes));
         return membershipInfoList;
     }
 
