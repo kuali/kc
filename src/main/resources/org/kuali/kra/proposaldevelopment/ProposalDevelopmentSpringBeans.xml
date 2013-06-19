@@ -349,7 +349,7 @@
     <bean id="proposalRoleTemplateService" class="org.kuali.kra.proposaldevelopment.service.impl.ProposalRoleTemplateServiceImpl">
         <property name="kraAuthorizationService" ref="kraAuthorizationService" />
         <property name="roleManagementService" ref="roleService" />
-        <property name="systemAuthorizationService" ref="systemAuthorizationService" />
+        <property name="proposalRoleService" ref="proposalRoleService" />
     </bean>
 
 	<bean id="proposalRoleTypeService" class="org.kuali.kra.workflow.ProposalPersonDerivedRoleTypeServiceImpl">
