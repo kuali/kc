@@ -1156,6 +1156,9 @@ public final class KeyConstants {
     public static final String INVALID_BIRT_REPORT = "error.invalid.report";
     
     public static final String REPORT_INPUT_PARAMETER_MISSING = "error.missing.report.inputparameters";
+
+    public static final String ERROR_SEARCH_INVALID_DATE = "error.search.invalid.date";
+
     /**
      * private utility class ctor.
      * @throws UnsupportedOperationException if called.
