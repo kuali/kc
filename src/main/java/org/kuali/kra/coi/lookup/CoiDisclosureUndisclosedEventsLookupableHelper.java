@@ -15,18 +15,25 @@
  */
 package org.kuali.kra.coi.lookup;
 
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.kra.award.home.Award;
-import org.kuali.kra.coi.CoiDisclosureEventType;
+import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.coi.CoiDisclosureUndisclosedEvents;
 import org.kuali.kra.coi.disclosure.CoiDisclosureService;
-import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
-import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
+import org.kuali.kra.service.KcPersonService;
+import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.kns.lookup.HtmlData;
+import org.kuali.rice.kns.web.struts.form.LookupForm;
+import org.kuali.rice.kns.web.ui.Field;
+import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.util.GlobalVariables;
 
@@ -36,46 +43,90 @@ public class CoiDisclosureUndisclosedEventsLookupableHelper extends KraLookupabl
     private CoiDisclosureService coiDisclosureService;
 
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
-        List<CoiDisclosureUndisclosedEvents>  undisclosedEvents = new ArrayList<CoiDisclosureUndisclosedEvents>();
-        String personId = GlobalVariables.getUserSession().getPrincipalId();
-        List<Award> awards = coiDisclosureService.getAwards(personId);
-        List<InstitutionalProposal> proposals = coiDisclosureService.getInstitutionalProposals(personId);
-        List<Protocol> protocols = coiDisclosureService.getProtocols(personId);
-
-        for (Award award : awards) {
-            CoiDisclosureUndisclosedEvents event = new CoiDisclosureUndisclosedEvents();
-            event.setProjectId(award.getAwardNumber());
-            event.setProjectTitle(award.getTitle());
-            event.setProjectType("Award");
-            event.setReporter(personId);
-            undisclosedEvents.add(event);
-        }
-        
-        for (InstitutionalProposal proposal : proposals) {
-            CoiDisclosureUndisclosedEvents event = new CoiDisclosureUndisclosedEvents();
-            event.setProjectId(proposal.getProposalNumber());
-            event.setProjectTitle(proposal.getTitle());
-            event.setProjectType("Institutional Proposal");
-            event.setReporter(personId);
-            undisclosedEvents.add(event);
-        }
-        
-        for (Protocol protocol : protocols) {
-            CoiDisclosureUndisclosedEvents event = new CoiDisclosureUndisclosedEvents();
-            event.setProjectId(protocol.getProtocolNumber());
-            event.setProjectTitle(protocol.getTitle());
-            event.setProjectType("Protocol");
-            event.setReporter(personId);
-            undisclosedEvents.add(event);
-        }
-        
-        
-        return undisclosedEvents;
+        validateSearchParameters(fieldValues);
+        addDateRangeCriteria(fieldValues);
+        return getCoiDisclosureService().getUndisclosedEvents(fieldValues);
     }
 
     
+    protected boolean validateDate(String dateFieldName, String dateFieldValue) {
+        try{
+            CoreApiServiceLocator.getDateTimeService().convertToSqlTimestamp(dateFieldValue);
+            return true;
+        } catch (ParseException e) {
+            GlobalVariables.getMessageMap().putError(dateFieldName, KeyConstants.ERROR_SEARCH_INVALID_DATE);
+            return false;
+        } catch (Exception e) {
+            e.printStackTrace();
+            GlobalVariables.getMessageMap().putError(dateFieldName, KeyConstants.ERROR_SEARCH_INVALID_DATE);
+            return false;
+        }
+    }
+
+    @Override
+    public void validateSearchParameters(Map<String,String> fieldValues) {
+        super.validateSearchParameters(fieldValues);
+        for (String key : fieldValues.keySet()) {
+            String value = fieldValues.get(key).toString();
+            if (key.toUpperCase().indexOf("DATE") > 0) {
+                //we have a date, now we need to weed out the calculated params that have '..' or '>=' or '<='
+                if (value.indexOf("..") == -1 && value.indexOf(">=") == -1 && value.indexOf("<=") == -1) {
+                    if (!StringUtils.isEmpty(value)) {
+                        validateDate(key, value);
+                    }
+                }
+            }
+        }
+    }
+    
+    private void addDateRangeCriteria(Map<String,String> fieldValues) {
+        String dateParameter = fieldValues.get(CoiDisclosureUndisclosedEvents.SEARCH_CRITERIA_CREATE_DATE);
+        if (dateParameter.contains("..")) {
+            String[] values = dateParameter.split("\\.\\.");
+            fieldValues.put(CoiDisclosureUndisclosedEvents.SEARCH_CRITERIA_CREATE_DATE_FROM, values[0]);
+            fieldValues.put(CoiDisclosureUndisclosedEvents.SEARCH_CRITERIA_CREATE_DATE_TO, values[1]);
+        }else if(dateParameter.contains(">=")) {
+            String dateValue = dateParameter.replace(">=", "");
+            fieldValues.put(CoiDisclosureUndisclosedEvents.SEARCH_CRITERIA_CREATE_DATE_FROM, dateValue);
+        }else if((dateParameter.contains("<="))) {
+            String dateValue = dateParameter.replace("<=", "");
+            fieldValues.put(CoiDisclosureUndisclosedEvents.SEARCH_CRITERIA_CREATE_DATE_TO, dateValue);
+        }
+    }
+    
+    @Override
+    public List<Row> getRows() {
+        List<Row> rows =  super.getRows();
+        for (Row row : rows) {
+            for (Field field : row.getFields()) {
+                if (field.getPropertyName().equals("person.userName")) {
+                    field.setFieldConversions("principalName:person.userName,principalId:personId");
+                }
+            }
+        }
+        return rows;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public Collection performLookup(LookupForm lookupForm, Collection resultTable, boolean bounded) {
+        String userName = (String) lookupForm.getFieldsForLookup().get("person.userName");
+            if (StringUtils.isNotEmpty(userName)) {
+                KcPerson person = getKcPersonService().getKcPersonByUserName(userName);
+            if (person != null) {
+                lookupForm.getFieldsForLookup().put("personId", person.getPersonId());
+            }
+        }
+        
+        return super.performLookup(lookupForm, resultTable, bounded);
+    }
+    
+    public KcPersonService getKcPersonService() {
+        return (KcPersonService) KraServiceLocator.getService(KcPersonService.class);
+    }
+    
    
-    public CoiDisclosureService getCoiDisclosureService(CoiDisclosureService coiDisclosureService) {
+    public CoiDisclosureService getCoiDisclosureService() {
         return coiDisclosureService;
     }
     
