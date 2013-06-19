@@ -20,16 +20,5 @@ package org.kuali.kra.irb.protocol.funding;
  * protocol's funding source list.
  */
 public interface ProtocolFundingSourceService extends org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceService {
-
-   // Covariant return to eliminate type errors enmasse, rather than by adding individual casts at the error locations. 
-    /**
-     * Updates the name and title for a Protocol funding source.
-     * 
-     * @param fundingSourceTypeCode the type code of the funding source
-     * @param fundingSourceNumber the human-readable number of the funding source
-     * @param fundingSourceName the name of the funding source
-     * @return an instance of a Protocol funding source
-     */
-    ProtocolFundingSource updateProtocolFundingSource(String fundingSourceTypeCode, String fundingSourceNumber, String fundingSourceName);
     
 }
