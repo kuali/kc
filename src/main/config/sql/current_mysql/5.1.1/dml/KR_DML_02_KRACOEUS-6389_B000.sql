@@ -61,8 +61,8 @@ VALUES (CONCAT('KC', (SELECT (MAX(ID)) FROM KRMS_AGENDA_ITM_S)), (select RULE_ID
 null, (select AGENDA_ID from KRMS_AGENDA_T where CNTXT_ID = 'KC-COIDISCLOSURE-CONTEXT' and NM = 'COI Disclosure Validation Agenda'), 1, null, null, null)
 /
 
-update KRMS_AGENDA_T set INIT_AGENDA_ITM_ID = (select AGENDA_ITM_ID from KRMS_AGENDA_ITM_T where AGENDA_ID = (select AGENDA_ID from KRMS_AGENDA_T where CNTXT_ID = 'KC-COIDISCLOSURE-CONTEXT' and NM = 'COI Disclosure Validation Agenda') and RULE_ID = (select RULE_ID from KRMS_RULE_T where NMSPC_CD = 'KC-COIDISCLOSURE' and NM = 'COI Screening Questionnaire Validation'))
-where AGENDA_ID = (select AGENDA_ID from KRMS_AGENDA_T where CNTXT_ID = 'KC-COIDISCLOSURE-CONTEXT' and NM = 'COI Disclosure Validation Agenda')
+update KRMS_AGENDA_T set INIT_AGENDA_ITM_ID = CONCAT('KC', (SELECT (MAX(ID)) FROM KRMS_AGENDA_ITM_S))
+where CNTXT_ID = 'KC-COIDISCLOSURE-CONTEXT' and NM = 'COI Disclosure Validation Agenda'
 /
 INSERT INTO KRMS_PROP_S VALUES(NULL)
 /
@@ -71,8 +71,8 @@ insert into KRMS_PROP_T (PROP_ID, DESC_TXT, TYP_ID, DSCRM_TYP_CD, CMPND_OP_CD, R
 VALUES (CONCAT('KC', (SELECT (MAX(ID)) FROM KRMS_PROP_S)), 'Compound Proposition', null, 'C', '&', (select RULE_ID from KRMS_RULE_T where NMSPC_CD = 'KC-COIDISCLOSURE' and NM = 'COI Screening Questionnaire Validation'), 1, null)
 /
 
-update KRMS_RULE_T set PROP_ID = (select PROP_ID from KRMS_PROP_T where DESC_TXT = 'Compound Proposition' and RULE_ID = (select RULE_ID from KRMS_RULE_T where NMSPC_CD = 'KC-COIDISCLOSURE' and NM = 'COI Screening Questionnaire Validation'))
-where RULE_ID = (select RULE_ID from KRMS_RULE_T where NMSPC_CD = 'KC-COIDISCLOSURE' and NM = 'COI Screening Questionnaire Validation')
+update KRMS_RULE_T set PROP_ID = CONCAT('KC', (SELECT (MAX(ID)) FROM KRMS_PROP_S))
+where NMSPC_CD = 'KC-COIDISCLOSURE' and NM = 'COI Screening Questionnaire Validation'
 /
 INSERT INTO KRMS_PROP_S VALUES(NULL)
 /
