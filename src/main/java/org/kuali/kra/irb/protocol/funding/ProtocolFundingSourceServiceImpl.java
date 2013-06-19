@@ -34,10 +34,4 @@ public class ProtocolFundingSourceServiceImpl extends ProtocolFundingSourceServi
     protected Class<? extends ProtocolDocumentBase> getProtocolDocumentBOClassHook() {
         return ProtocolDocument.class;
     }
-    
-    @Override
-    // Covariant return to eliminate type errors enmasse, rather than by adding individual casts at the error locations.
-    public ProtocolFundingSource updateProtocolFundingSource(String fundingSourceTypeCode, String fundingSourceNumber, String fundingSourceName) {
-        return (ProtocolFundingSource) super.updateProtocolFundingSource(fundingSourceTypeCode, fundingSourceNumber, fundingSourceName);
-    }
 }
