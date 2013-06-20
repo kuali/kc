@@ -44,7 +44,7 @@ update KRMS_RULE_T set PROP_ID = CONCAT('KC', KRMS_PROP_S.CURRVAL)
 /
 
 insert into KRMS_PROP_T (PROP_ID, DESC_TXT, TYP_ID, DSCRM_TYP_CD, CMPND_OP_CD, RULE_ID, VER_NBR, CMPND_SEQ_NO)
-	VALUES (CONCAT('KC', KRMS_PROP_S.NEXTVAL), 'Yes answer to screening question', null, 'S', null, (select RULE_ID from KRMS_RULE_T where NMSPC_CD = 'KC-COIDISCLOSURE' and NM = 'COI Screening Questionnaire Validation'), 1, 1)
+	VALUES (CONCAT('KC', KRMS_PROP_S.NEXTVAL), 'All no answers on screening question', null, 'S', null, (select RULE_ID from KRMS_RULE_T where NMSPC_CD = 'KC-COIDISCLOSURE' and NM = 'COI Screening Questionnaire Validation'), 1, 1)
 /
 
 insert into KRMS_PROP_PARM_T (PROP_PARM_ID, PROP_ID, 
