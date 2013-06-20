@@ -15,8 +15,9 @@ insert into KRMS_RULE_T (rule_id, nmspc_cd, nm,
 /
 
 insert into KRCR_PARM_T (NMSPC_CD,CMPNT_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,VAL,PARM_DESC_TXT,EVAL_OPRTR_CD,APPL_ID)
-VALUES ('KC-COIDISCLOSURE','Document','SCREENING_QUESTIONNAIRE_KRMS_RULE',SYS_GUID(),1,'CONFG',CONCAT('KC', KRMS_RULE_S.CURRVAL),'The KRMS business rule that defines whether the screening questionnaire answers are currently valid and whether the user needs a new financial entity.','A','KC')
-/ 
+VALUES ('KC-COIDISCLOSURE', 'Document', 'SCREENING_QUESTIONNAIRE_KRMS_RULE', SYS_GUID(), 1, 'CONFG', CONCAT('KC', KRMS_RULE_S.CURRVAL),
+	'The KRMS business rule id that defines whether the screening questionnaire answers are currently valid and whether the user needs a new financial entity.', 'A', 'KC')
+/
 
 insert into KRMS_RULE_ATTR_T (RULE_ATTR_ID, RULE_ID, 
 		ATTR_DEFN_ID, ATTR_VAL, VER_NBR)
@@ -103,5 +104,4 @@ insert into KRMS_CMPND_PROP_PROPS_T (CMPND_PROP_ID, PROP_ID)
 		(select PROP_ID from KRMS_PROP_T where DESC_TXT = 'No active financial entities' and RULE_ID = (select RULE_ID from KRMS_RULE_T where NMSPC_CD = 'KC-COIDISCLOSURE' and NM = 'COI Screening Questionnaire Validation'))
 	)
 /
-
 
