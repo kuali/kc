@@ -21,6 +21,7 @@ import java.util.Map;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.coi.CoiDisclProject;
 import org.kuali.kra.coi.CoiDisclosure;
+import org.kuali.kra.coi.CoiDisclosureDocument;
 import org.kuali.kra.coi.CoiDisclosureUndisclosedEvents;
 import org.kuali.kra.coi.CoiDispositionStatus;
 import org.kuali.kra.coi.DisclosureReporter;
@@ -202,6 +203,13 @@ public interface CoiDisclosureService {
      * 
      */
     public List<CoiDisclosure> getAllDisclosuresForUser(String userId);
+    
+    /**
+     * 
+     * Check the KRMS rule designated in KRMS_SCREENING_QUESTIONNAIRE_RULE to see if the screening questionnaire rule has passed or not.
+     * @return
+     */
+    public boolean checkScreeningQuestionnaireRule(CoiDisclosureDocument coiDisclosureDocument);
 
 
     /**

@@ -75,10 +75,12 @@ import org.kuali.kra.web.struts.action.StrutsConfirmation;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
+import org.kuali.rice.kns.web.struts.form.KualiForm;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.keyvalues.KeyValuesFinder;
 import org.kuali.rice.krad.service.KRADServiceLocator;
@@ -93,6 +95,7 @@ public class CoiDisclosureAction extends CoiAction {
     private static final String CONFIRM_NO_DELETE = "";
     private static final String DEFAULT_EVENT_ID_STRING = "label.coi.disclosure.type.id";
     private static final String DEFAULT_EVENT_TITLE_STRING = "label.coi.disclosure.type.title";
+    protected static final String SCREENING_QUESTIONNAIRE_FAILURE_QUESTION = "CoiDisclosureScreeningQuestionnaireFailureQuestion";
 
     
     public ActionForward addDisclosurePersonUnit(ActionMapping mapping, ActionForm form, HttpServletRequest request,
@@ -569,6 +572,9 @@ public class CoiDisclosureAction extends CoiAction {
                 // First validate the questionnaire data
                 // TODO maybe add a COI questionnaire specific rule event to the condition below
                 if (validateQuestionnaires(coiDisclosureForm)) {
+                    if (!getCoiDisclosureService().checkScreeningQuestionnaireRule(coiDisclosureDocument)) {
+                        return promptForScreeningQuestionnaireFailure(mapping, form, request, response);
+                    }
                     // since Questionnaire data is OK we try to save doc
                     getDocumentService().saveDocument(coiDisclosureDocument);
                     saveQuestionnaires(coiDisclosureForm);
@@ -595,6 +601,21 @@ public class CoiDisclosureAction extends CoiAction {
             }
         }
         return forward;
+    }
+    
+    protected ActionForward promptForScreeningQuestionnaireFailure(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        Object question = request.getParameter(KRADConstants.QUESTION_INST_ATTRIBUTE_NAME);
+        Object buttonClicked = request.getParameter(KRADConstants.QUESTION_CLICKED_BUTTON);
+        String methodToCall = ((KualiForm) form).getMethodToCall();
+        
+        if(question == null){
+            return this.performQuestionWithoutInput(mapping, form, request, response, SCREENING_QUESTIONNAIRE_FAILURE_QUESTION, "Based on answers to the screening questionnaire you are required to have at least one active financial entity to submit this disclosure. Would you like add a financial entity at this time?", KRADConstants.CONFIRMATION_QUESTION, methodToCall, "");
+        } else if(SCREENING_QUESTIONNAIRE_FAILURE_QUESTION.equals(question) && ConfirmationQuestion.YES.equals(buttonClicked)) {
+            return newFinancialEntity(mapping, form, request, response);
+        } else {
+            return mapping.findForward(Constants.MAPPING_BASIC);
+        }    
+
     }
 
     public ActionForward printDisclosureCertification(ActionMapping mapping, ActionForm form, HttpServletRequest request,
