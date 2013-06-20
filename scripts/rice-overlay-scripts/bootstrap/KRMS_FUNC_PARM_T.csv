@@ -145,3 +145,5 @@
 "KC0158","IacucProtocol","Iacuc Protocol BO","org.kuali.kra.protocol.ProtocolBase","KC1087",1
 "KC0159","IrbProtocol","Irb Protocol BO","org.kuali.kra.irb.Protocol","KC1088",1
 "KC0160","Subject Type Code","Subject Type Code","java.lang.String","KC1088",2
+"KC10000","CoiDisclosure","COI Disclosure","org.kuali.kra.coi.CoiDisclosure","KC10000",1
+"KC10001","CoiDisclosure","COI Disclosure","org.kuali.kra.coi.CoiDisclosure","KC10001",1

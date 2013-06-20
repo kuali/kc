@@ -1,5 +1,7 @@
 "TERM_SPEC_ID","NM","TYP","ACTV","VER_NBR","DESC_TXT","NMSPC_CD"
 "KC1000","totalCost","java.math.BigDecimal","Y",1,"Total Cost Amount","KC-B"
+"KC10000","KC10000","java.lang.Integer","Y",1,"Screening Question Yes Count","KC-COIDISCLOSURE"
+"KC10001","KC10001","java.lang.Integer","Y",1,"Number of active financial entities","KC-COIDISCLOSURE"
 "KC1001","totalDirectCost","java.math.BigDecimal","Y",1,"Total Direct Cost Amount","KC-B"
 "KC1002","totalIndirectCost","java.math.BigDecimal","Y",1,"Total Indirect Cost Amount","KC-B"
 "KC1003","costShareAmount","java.math.BigDecimal","Y",1,"Cost Share Amount","KC-B"
