@@ -1,5 +1,7 @@
 "TERM_RSLVR_ID","NMSPC_CD","NM","TYP_ID","OUTPUT_TERM_SPEC_ID","ACTV","VER_NBR"
 "KC1000","KC-PD","storedFunctionResolver","KC1001","KC1009","Y",1
+"KC10000","KC-COIDISCLOSURE","screeningQuestionResolver","KC1001","KC10000","Y",1
+"KC10001","KC-COIDISCLOSURE","reporterFinancialEntityResolver","KC1001","KC10001","Y",1
 "KC1001","KC-PD","questionResolver","KC1002","KC1016","Y",1
 "KC1002","KC-PROTOCOL","questionResolver","KC1002","KC1026","Y",1
 "KC1003","KC-IACUC","questionResolver","KC1002","KC1027","Y",1
