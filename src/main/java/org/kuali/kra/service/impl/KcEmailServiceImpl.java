@@ -168,9 +168,9 @@ public class KcEmailServiceImpl implements KcEmailService {
         
     }
     private boolean isEmailTestEnabled() {
-        boolean emailTestEnabled = parameterService.getParameterValueAsBoolean(Constants.KC_GENERIC_PARAMETER_NAMESPACE,  
-                Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, "EMAIL_NOTIFICATIONS_ENABLED");
-        return emailTestEnabled;
+        Boolean emailTestEnabled = parameterService.getParameterValueAsBoolean(Constants.KC_GENERIC_PARAMETER_NAMESPACE,  
+                Constants.KC_ALL_PARAMETER_DETAIL_TYPE_CODE, "EMAIL_NOTIFICATIONS_TEST_ENABLED");
+        return emailTestEnabled==null?false:emailTestEnabled;
     }
     public String getDefaultFromAddress() {
         String fromAddress = parameterService.getParameterValueAsString(Constants.KC_GENERIC_PARAMETER_NAMESPACE,  
