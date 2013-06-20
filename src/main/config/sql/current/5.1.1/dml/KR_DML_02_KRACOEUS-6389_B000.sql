@@ -14,28 +14,14 @@ insert into KRMS_RULE_T (rule_id, nmspc_cd, nm,
   	(select typ_id from KRMS_TYP_T where NMSPC_CD = 'KR-RULE' and NM = 'Validation Rule'), null, 'Y', 1, 'COI Screening Questionnaire Validation to ensure necessary financial entities are created.')
 /
 
+insert into KRCR_PARM_T (NMSPC_CD,CMPNT_CD,PARM_NM,OBJ_ID,VER_NBR,PARM_TYP_CD,VAL,PARM_DESC_TXT,EVAL_OPRTR_CD,APPL_ID)
+VALUES ('KC-COIDISCLOSURE','Document','SCREENING_QUESTIONNAIRE_KRMS_RULE',SYS_GUID(),1,'CONFG',CONCAT('KC', KRMS_RULE_S.CURRVAL),'The KRMS business rule that defines whether the screening questionnaire answers are currently valid and whether the user needs a new financial entity.','A','KC')
+/ 
+
 insert into KRMS_RULE_ATTR_T (RULE_ATTR_ID, RULE_ID, 
 		ATTR_DEFN_ID, ATTR_VAL, VER_NBR)
 	VALUES (CONCAT('KC', KRMS_RULE_ATTR_S.NEXTVAL), (select RULE_ID from KRMS_RULE_T where NMSPC_CD = 'KC-COIDISCLOSURE' and NM = 'COI Screening Questionnaire Validation'),
 	(select ATTR_DEFN_ID from KRMS_ATTR_DEFN_T where NMSPC_CD = 'KR-RULE' and NM = 'ruleTypeCode'), 'I', 1)
-/
-
-insert into KRMS_ACTN_T (ACTN_ID, NM, DESC_TXT, TYP_ID, 
-		RULE_ID, SEQ_NO, VER_NBR, NMSPC_CD)
-	VALUES (CONCAT('KC', KRMS_ACTN_S.NEXTVAL), 'Require Financial Entity', null, (select TYP_ID from KRMS_TYP_T where NMSPC_CD = 'KR-RULE' and NM = 'Validation Action'),
-	(select RULE_ID from KRMS_RULE_T where NMSPC_CD = 'KC-COIDISCLOSURE' and NM = 'COI Screening Questionnaire Validation'), 1, 1, 'KC-COIDISCLOSURE')
-/
-
-insert into KRMS_ACTN_ATTR_T (ACTN_ATTR_DATA_ID, ACTN_ID, 
-		ATTR_DEFN_ID, ATTR_VAL, VER_NBR)
-	VALUES (CONCAT('KC', KRMS_ACTN_ATTR_S.NEXTVAL), (select ACTN_ID from KRMS_ACTN_T where NMSPC_CD = 'KC-COIDISCLOSURE' and NM = 'Require Financial Entity'),
-		(select ATTR_DEFN_ID from KRMS_ATTR_DEFN_T where NMSPC_CD = 'KR-RULE' and NM = 'actionMessage'), 'Based on answers to the screening questionnaire you are required to have at least one active financial entity to submit this disclosure.', 1)
-/
-
-insert into KRMS_ACTN_ATTR_T (ACTN_ATTR_DATA_ID, ACTN_ID, 
-		ATTR_DEFN_ID, ATTR_VAL, VER_NBR)
-	VALUES (CONCAT('KC', KRMS_ACTN_ATTR_S.NEXTVAL), (select ACTN_ID from KRMS_ACTN_T where NMSPC_CD = 'KC-COIDISCLOSURE' and NM = 'Require Financial Entity'),
-		(select ATTR_DEFN_ID from KRMS_ATTR_DEFN_T where NMSPC_CD = 'KR-RULE' and NM = 'actionTypeCode'), 'E', 1)
 /
 
 insert into KRMS_AGENDA_ITM_T (AGENDA_ITM_ID, RULE_ID, 
@@ -44,16 +30,16 @@ insert into KRMS_AGENDA_ITM_T (AGENDA_ITM_ID, RULE_ID,
 	null, (select AGENDA_ID from KRMS_AGENDA_T where CNTXT_ID = 'KC-COIDISCLOSURE-CONTEXT' and NM = 'COI Disclosure Validation Agenda'), 1, null, null, null)
 /
 
-update KRMS_AGENDA_T set INIT_AGENDA_ITM_ID = (select AGENDA_ITM_ID from KRMS_AGENDA_ITM_T where AGENDA_ID = (select AGENDA_ID from KRMS_AGENDA_T where CNTXT_ID = 'KC-COIDISCLOSURE-CONTEXT' and NM = 'COI Disclosure Validation Agenda') and RULE_ID = (select RULE_ID from KRMS_RULE_T where NMSPC_CD = 'KC-COIDISCLOSURE' and NM = 'COI Screening Questionnaire Validation'))
-	where AGENDA_ID = (select AGENDA_ID from KRMS_AGENDA_T where CNTXT_ID = 'KC-COIDISCLOSURE-CONTEXT' and NM = 'COI Disclosure Validation Agenda')
+update KRMS_AGENDA_T set INIT_AGENDA_ITM_ID =  CONCAT('KC', KRMS_AGENDA_ITM_S.CURRVAL)
+	where CNTXT_ID = 'KC-COIDISCLOSURE-CONTEXT' and NM = 'COI Disclosure Validation Agenda'
 /
 
 insert into KRMS_PROP_T (PROP_ID, DESC_TXT, TYP_ID, DSCRM_TYP_CD, CMPND_OP_CD, RULE_ID, VER_NBR, CMPND_SEQ_NO)
 	VALUES (CONCAT('KC', KRMS_PROP_S.NEXTVAL), 'Compound Proposition', null, 'C', '&', (select RULE_ID from KRMS_RULE_T where NMSPC_CD = 'KC-COIDISCLOSURE' and NM = 'COI Screening Questionnaire Validation'), 1, null)
 /
 
-update KRMS_RULE_T set PROP_ID = (select PROP_ID from KRMS_PROP_T where DESC_TXT = 'Compound Proposition' and RULE_ID = (select RULE_ID from KRMS_RULE_T where NMSPC_CD = 'KC-COIDISCLOSURE' and NM = 'COI Screening Questionnaire Validation')) 
-	where RULE_ID = (select RULE_ID from KRMS_RULE_T where NMSPC_CD = 'KC-COIDISCLOSURE' and NM = 'COI Screening Questionnaire Validation')
+update KRMS_RULE_T set PROP_ID = CONCAT('KC', KRMS_PROP_S.CURRVAL)
+	where NMSPC_CD = 'KC-COIDISCLOSURE' and NM = 'COI Screening Questionnaire Validation'
 /
 
 insert into KRMS_PROP_T (PROP_ID, DESC_TXT, TYP_ID, DSCRM_TYP_CD, CMPND_OP_CD, RULE_ID, VER_NBR, CMPND_SEQ_NO)
