@@ -1,5 +1,7 @@
 "TERM_ID","TERM_SPEC_ID","VER_NBR","DESC_TXT"
 "KC1000","KC1000",1,"Total Cost"
+"KC10000","KC10000",1,"Screening Question Yes Count"
+"KC10001","KC10001",1,"Number of active financial entities"
 "KC1001","KC1001",1,"Total Direct Cost"
 "KC1002","KC1002",1,"Total Indirect Cost"
 "KC1003","KC1003",1,"Cost Share Amount"

@@ -1,4 +1,5 @@
 "RULE_ID","NMSPC_CD","NM","TYP_ID","PROP_ID","ACTV","VER_NBR","DESC_TXT"
+"KC10000","KC-COIDISCLOSURE","COI Screening Questionnaire Validation","1002","KC10000","Y",1,"COI Screening Questionnaire Validation to ensure necessary financial entities are created."
 "KC141","KC-PD","NasaPIandAORSupplementalDataSheetV1_0 (Q IDs 110, 111, 112,113)",NULL,"KC2001","Y",1,"NasaPIandAORSupplementalDataSheetV1_0 (Q IDs 110, 111, 112,113)"
 "KC142","KC-PD","RR and SF424 Overlap (Q IDs 129, 130, 31) executive order, date, review",NULL,"KC2002","Y",1,"RR and SF424 Overlap (Q IDs 129, 130, 31) executive order, date, review"
 "KC143","KC-PD","EDSF424SupplementV1_1(Q id 133)",NULL,"KC2003","Y",1,"EDSF424SupplementV1_1(Q id 133)"

@@ -1,4 +1,6 @@
 "FUNC_ID","NMSPC_CD","NM","DESC_TXT","RTRN_TYP","TYP_ID","ACTV","VER_NBR"
+"KC10000","KC-COIDISCLOSURE","getScreeningQuestionYesAnswerCount","Screening Question Yes Count","java.lang.Integer","KC10000","Y",1
+"KC10001","KC-COIDISCLOSURE","getReporterActiveFinancialEntityCount","Number of active financial entities","java.lang.Integer","KC10000","Y",1
 "KC1001","KC-PD","IS_SPONSOR_FEDERAL","Is Sponsor Federal","java.lang.String","KC1005","Y",1
 "KC1002","KC-PD","specifiedGGForm","Specified GG Form","java.lang.String","KC1006","Y",1
 "KC1003","KC-PD","leadUnitRule","Lead Unit Rule","java.lang.String","KC1006","Y",1
