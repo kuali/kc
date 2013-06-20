@@ -59,7 +59,7 @@ INSERT INTO KRMS_PROP_S VALUES(NULL)
 /
 
 insert into KRMS_PROP_T (PROP_ID, DESC_TXT, TYP_ID, DSCRM_TYP_CD, CMPND_OP_CD, RULE_ID, VER_NBR, CMPND_SEQ_NO)
-VALUES (CONCAT('KC', (SELECT (MAX(ID)) FROM KRMS_PROP_S)), 'Yes answer to screening question', null, 'S', null, (select RULE_ID from KRMS_RULE_T where NMSPC_CD = 'KC-COIDISCLOSURE' and NM = 'COI Screening Questionnaire Validation'), 1, 1)
+VALUES (CONCAT('KC', (SELECT (MAX(ID)) FROM KRMS_PROP_S)), 'All no answers on screening question', null, 'S', null, (select RULE_ID from KRMS_RULE_T where NMSPC_CD = 'KC-COIDISCLOSURE' and NM = 'COI Screening Questionnaire Validation'), 1, 1)
 /
 INSERT INTO KRMS_PROP_PARM_S VALUES(NULL)
 /
