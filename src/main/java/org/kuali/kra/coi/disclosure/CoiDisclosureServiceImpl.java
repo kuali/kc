@@ -1898,7 +1898,6 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         disclosureHelper.setNewProposals(projectsToCompleteDisclosure.getDevProposalsToDisclose());
         disclosureHelper.setNewInstitutionalProposals(projectsToCompleteDisclosure.getInstituteProposalsToDisclose());
         disclosureHelper.setNewAwards(projectsToCompleteDisclosure.getAwardsToDisclose());
-        //setRevisedProposalsAndAwardsToCompleteDisclosure(disclosedProjects, disclosureHelper, initDevProposalsToCompleteDiscl, initInstProposalsToCompleteDiscl, initAwardsToCompleteDiscl);
     }
     
     /**
@@ -1928,10 +1927,6 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         projectsToCompleteDisclosure.setInstituteProposalsToDisclose(getRevisedInstProposalToCompleteDiscl(initInstProposalsToCompleteDiscl, disclosedInstProposals));
         projectsToCompleteDisclosure.setAwardsToDisclose(getRevisedAwardsToCompleteDiscl(initAwardsToCompleteDiscl, disclosedAwards));
         return projectsToCompleteDisclosure;
-        
-//        disclosureHelper.setNewProposals(getRevisedDevProposalToCompleteDiscl(initDevProposalsToCompleteDiscl, disclosedDevProposals));
-//        disclosureHelper.setNewInstitutionalProposals(getRevisedInstProposalToCompleteDiscl(initInstProposalsToCompleteDiscl, disclosedInstProposals));
-//        disclosureHelper.setNewAwards(getRevisedAwardsToCompleteDiscl(initAwardsToCompleteDiscl, disclosedAwards));
     }
     
     /**
