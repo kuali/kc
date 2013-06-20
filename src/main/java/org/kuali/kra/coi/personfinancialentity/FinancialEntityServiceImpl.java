@@ -282,25 +282,41 @@ public class FinancialEntityServiceImpl implements FinancialEntityService {
         }
         return leadUnit;
     }
-
+    
     /**
      * 
-     * @see org.kuali.kra.coi.personfinancialentity.FinancialEntityService#versionPersonFinintDisclosure(org.kuali.kra.coi.personfinancialentity.PersonFinIntDisclosure, java.util.List)
+     * This method returns the current list of FinancialEntityAttachment objects for the specified FE; null when FE ID is null.
+     * @param entityId
+     * @return null when input parameter is null; otherwise list of FinancialEntityAttachment objects 
+     */   
+    public List<FinancialEntityAttachment> retrieveFinancialEntityAttachmentsFor(Long entityId) {
+        List<FinancialEntityAttachment> attachments = null;
+        if (ObjectUtils.isNotNull(entityId)) {
+            Map<String, Object> searchCriteria = new HashMap<String, Object>();
+            searchCriteria.put("financialEntityId", entityId);    
+            attachments =  new ArrayList<FinancialEntityAttachment>(businessObjectService.findMatching(FinancialEntityAttachment.class, searchCriteria));
+        }
+        return attachments;
+    }
+
+    /**
+     * As part of the versioning process, the FE row presently seen as current/active will be made non-current/inactive.
      */
     public PersonFinIntDisclosure versionPersonFinintDisclosure(PersonFinIntDisclosure personFinIntDisclosure, 
                                                                 List<FinEntityDataMatrixBean> newRelationDetails,
                                                                 List<FinancialEntityAttachment> newFinancialEntityAttachments) throws VersionException {
+        //make the current row non-current before creating new version
+        nonCurrentOldDisclosure(personFinIntDisclosure.getPersonFinIntDisclosureId());
+        
+        //create new version based on present row
         PersonFinIntDisclosure newDisclosure = versioningService.createNewVersion(personFinIntDisclosure);
         FinancialEntityContactInfo copiedContactInfo = (FinancialEntityContactInfo)ObjectUtils.deepCopy(newDisclosure.getFinEntityContactInfos().get(0));
         copiedContactInfo.setPersonFinIntDisclosureId(null);
         copiedContactInfo.setFinancialEntityContactInfoId(null);
         newDisclosure.setFinEntityContactInfos(new ArrayList<FinancialEntityContactInfo>());
         newDisclosure.getFinEntityContactInfos().add(copiedContactInfo);
-        newDisclosure.setPerFinIntDisclDetails(getFinDisclosureDetails(
-                newRelationDetails, newDisclosure.getEntityNumber(),
-                newDisclosure.getSequenceNumber()));
+        newDisclosure.setPerFinIntDisclDetails(getFinDisclosureDetails(newRelationDetails, newDisclosure.getEntityNumber(), newDisclosure.getSequenceNumber()));
         newDisclosure.setFinEntityAttachments(FinancialEntityAttachment.copyAttachmentList(newFinancialEntityAttachments));
-        nonCurrentOldDisclosure(personFinIntDisclosure.getPersonFinIntDisclosureId());
         return newDisclosure;
     }
     

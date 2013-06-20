@@ -35,6 +35,7 @@ import org.kuali.kra.service.VersionException;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * 
@@ -324,9 +325,9 @@ public class FinancialEntityEditListAction extends FinancialEntityAction{
                         DEACTIVATE_ENTITY_REASON_MAXLENGTH);
             } else {
 
-                PersonFinIntDisclosure personFinIntDisclosure = ((FinancialEntityForm) form).getFinancialEntityHelper()
-                        .getActiveFinancialEntities().get(entityIndex);
+                PersonFinIntDisclosure personFinIntDisclosure = ((FinancialEntityForm) form).getFinancialEntityHelper().getActiveFinancialEntities().get(entityIndex);
                 ((FinancialEntityForm) form).getFinancialEntityHelper().setEditRelationDetails(getFinancialEntityService().getFinancialEntityDataMatrixForEdit(personFinIntDisclosure.getPerFinIntDisclDetails()));
+                ((FinancialEntityForm) form).getFinancialEntityHelper().setFinEntityAttachmentList(getFinancialEntityService().retrieveFinancialEntityAttachmentsFor(personFinIntDisclosure.getPersonFinIntDisclosureId()));
                 versionFinancialEntity(form, personFinIntDisclosure,2, reason);
             }
         }
@@ -351,6 +352,7 @@ public class FinancialEntityEditListAction extends FinancialEntityAction{
         FinancialEntityHelper financialEntityHelper = ((FinancialEntityForm) form).getFinancialEntityHelper();
         PersonFinIntDisclosure personFinIntDisclosure = financialEntityHelper.getInactiveFinancialEntities().get(entityIndex);
         financialEntityHelper.setEditRelationDetails(getFinancialEntityService().getFinancialEntityDataMatrixForEdit(personFinIntDisclosure.getPerFinIntDisclDetails()));
+        financialEntityHelper.setFinEntityAttachmentList(getFinancialEntityService().retrieveFinancialEntityAttachmentsFor(personFinIntDisclosure.getPersonFinIntDisclosureId()));
         versionFinancialEntity(form, personFinIntDisclosure,1, Constants.EMPTY_STRING);
         financialEntityHelper.setEditEntityIndex(-1);
         return mapping.findForward(Constants.MAPPING_BASIC);

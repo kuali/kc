@@ -100,4 +100,13 @@ public interface FinancialEntityService {
     List<PersonFinIntDisclosure> getFinDisclosureVersions(String entityNumber);
     
     PersonFinIntDisclosure getCurrentFinancialEntities(String entityNumber);
+    
+    /**
+     * 
+     * This method returns the current list of FinancialEntityAttachment objects for the specified FE
+     * and null when input parameter is null.
+     * @param entityId
+     * @return null when input parameter is null; otherwise list of FinancialEntityAttachment objects 
+     */   
+    public List<FinancialEntityAttachment> retrieveFinancialEntityAttachmentsFor(Long entityId);
 }
