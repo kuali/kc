@@ -23,6 +23,7 @@ import org.kuali.kra.authorization.ApplicationTask;
 import org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase;
 import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
@@ -351,7 +352,12 @@ public class ProposalDevelopmentDocumentAuthorizer extends KcTransactionalDocume
     
     @Override
     public boolean canDeleteNoteAttachment(Document document, String attachmentTypeCode, String createdBySelfOnly, Person user) {
-        return canExecuteProposalTask(user.getPrincipalId(), (ProposalDevelopmentDocument) document, TaskName.MODIFY_PROPOSAL);
+        boolean retVal = false;
+        Boolean allowNotesDeletion = getParameterService().getParameterValueAsBoolean(ProposalDevelopmentDocument.class, KeyConstants.ALLOW_PROPOSAL_DEVELOPMENT_NOTES_DELETION); 
+        if(allowNotesDeletion != null && allowNotesDeletion) {
+            retVal = super.canDeleteNoteAttachment(document, attachmentTypeCode, createdBySelfOnly, user);
+        }
+        return retVal;
     }
     
     @Override

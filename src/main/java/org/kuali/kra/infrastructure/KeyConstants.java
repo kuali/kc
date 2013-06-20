@@ -308,6 +308,9 @@ public final class KeyConstants {
     // delete proposal
     public static final String ERROR_DELETE_PROPOSAL_IN_HIERARCHY="error.proposalDevelopment.deleteproposal.inhierarchy";
     
+    // parameter name to allow/disallow PD notes deletion
+    public static final String ALLOW_PROPOSAL_DEVELOPMENT_NOTES_DELETION="allowProposalDevelopmentNotesDeletion";
+    
     // budget rates
     public static final String ERROR_REQUIRED_APPLICABLE_RATE = "error.required.applicableRate";
     public static final String ERROR_APPLICABLE_RATE_NOT_NUMERIC = "error.applicableRate.notNumeric";
