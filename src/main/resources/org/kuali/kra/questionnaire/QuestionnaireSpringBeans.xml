@@ -108,6 +108,7 @@
    		<property name="protocolFinderDao" ref="protocolFinderDao" />
         <property name="parameterService" ref="parameterService"/>
         <property name="questionnaireService" ref="questionnaireService" />
+        <property name="krmsRulesExecutionService" ref="krmsRulesExecutionService" />
     </bean>
 	<bean id="questionnaireAuthorizationService" class="org.kuali.kra.questionnaire.QuestionnaireAuthorizationServiceImpl">
         <property name="unitAuthorizationService" ref="unitAuthorizationService" />

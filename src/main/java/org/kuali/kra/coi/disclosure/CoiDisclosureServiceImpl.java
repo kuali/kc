@@ -19,6 +19,7 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -39,6 +40,7 @@ import org.kuali.kra.bo.SponsorHierarchy;
 import org.kuali.kra.coi.CoiDiscDetail;
 import org.kuali.kra.coi.CoiDisclProject;
 import org.kuali.kra.coi.CoiDisclosure;
+import org.kuali.kra.coi.CoiDisclosureDocument;
 import org.kuali.kra.coi.CoiDisclosureEventType;
 import org.kuali.kra.coi.CoiDisclosureHistory;
 import org.kuali.kra.coi.CoiDisclosureStatus;
@@ -69,6 +71,9 @@ import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolFinderDao;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.irb.protocol.ProtocolType;
+import org.kuali.kra.krms.KrmsRulesContext;
+import org.kuali.kra.krms.UnitAgendaTypeService;
+import org.kuali.kra.krms.service.KrmsRulesExecutionService;
 import org.kuali.kra.medusa.MedusaNode;
 import org.kuali.kra.medusa.service.MedusaService;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
@@ -103,10 +108,9 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
     private ParameterService parameterService;
     private DateTimeService dateTimeService;
     private CoiDisclosureDao coiDisclosureDao;
-
     private CoiDisclosureUndisclosedEventsDao coiDisclosureUndisclosedEventsDao;
-
     private MedusaService medusaService;
+    private KrmsRulesExecutionService krmsRulesExecutionService;
 
     
     private static final String PROTOCOL_DISCLOSE_STATUS_CODES = "PROTOCOL_DISCLOSE_STATUS_CODES";
@@ -2704,6 +2708,28 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         return disclosures;
     }
 
+    public boolean checkScreeningQuestionnaireRule(CoiDisclosureDocument coiDisclosureDocument) {
+        String krmsRuleId = parameterService.getParameterValueAsString(CoiDisclosureDocument.class, Constants.COI_SCREENING_QUESTIONNAIRE_KRMS_RULE);
+        if (StringUtils.isNotBlank(krmsRuleId)) {
+            Map<String, Boolean> krmsResults = getKrmsRulesExecutionService().runApplicableRules(Arrays.asList(new String[]{krmsRuleId}), coiDisclosureDocument, UnitAgendaTypeService.UNIT_AGENDA_TYPE_ID);
+            Boolean result = krmsResults.get(krmsRuleId);
+            if (result == null || !result) {
+                return false;
+            } else {
+                return true;
+            }
+        } else {
+            return true;
+        }
+    }
+
+    public KrmsRulesExecutionService getKrmsRulesExecutionService() {
+        return krmsRulesExecutionService;
+    }
+
+    public void setKrmsRulesExecutionService(KrmsRulesExecutionService krmsRulesExecutionService) {
+        this.krmsRulesExecutionService = krmsRulesExecutionService;
+    }
 }
 
 

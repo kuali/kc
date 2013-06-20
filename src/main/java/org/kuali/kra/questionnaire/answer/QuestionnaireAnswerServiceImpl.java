@@ -35,6 +35,7 @@ import org.kuali.kra.irb.ProtocolFinderDao;
 import org.kuali.kra.irb.questionnaire.ProtocolModuleQuestionnaireBean;
 import org.kuali.kra.krms.KrmsRulesContext;
 import org.kuali.kra.krms.UnitAgendaTypeService;
+import org.kuali.kra.krms.service.KrmsRulesExecutionService;
 import org.kuali.kra.proposaldevelopment.questionnaire.ProposalDevelopmentModuleQuestionnaireBean;
 import org.kuali.kra.proposaldevelopment.questionnaire.ProposalDevelopmentS2sModuleQuestionnaireBean;
 import org.kuali.kra.proposaldevelopment.questionnaire.ProposalPersonModuleQuestionnaireBean;
@@ -75,10 +76,8 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
     private BusinessObjectService businessObjectService;
     private ProtocolFinderDao protocolFinderDao;
     private ParameterService  parameterService;
-    
- // TODO ********************** added or modified during IRB backfit merge BEGIN ********************** 
     private QuestionnaireService questionnaireService;
- // TODO ********************** added or modified during IRB backfit merge END ************************
+    private KrmsRulesExecutionService krmsRulesExecutionService;
 
     
     /*
@@ -619,7 +618,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
         }
         return isComplete;
     }
-    
+   
     /**
      * 
      * Checks to see that at least one answer was matched by the rule and is visible.
@@ -832,44 +831,15 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
     }
     
     private Map<String, Boolean> runApplicableRules(List<String> ruleIds, ModuleQuestionnaireBean moduleQuestionnaireBean) {
-        Map <String, Boolean> ruleResults = new HashMap<String, Boolean>();
         KrmsRulesContext rulesContext = moduleQuestionnaireBean.getKrmsRulesContextFromBean();
+        Map<String, Boolean> ruleResults = new HashMap<String, Boolean>();
         if (rulesContext != null) {
-            String namespace = rulesContext.getClass().getAnnotation(ParameterConstants.NAMESPACE.class).namespace();
-            Map<String, String> contextQualifiers = new HashMap<String, String>();
-            rulesContext.populateContextQualifiers(contextQualifiers);
-            Map<String,String> agendaQualifiers = new HashMap<String,String>();
-            rulesContext.populateAgendaQualifiers(agendaQualifiers);
-            agendaQualifiers.put("typeId", UnitAgendaTypeService.QUESTIONNAIRE_AGENDA_TYPE_ID);
-    
-            contextQualifiers.put("namespaceCode", namespace);
-            SelectionCriteria selectionCriteria = SelectionCriteria.createCriteria(null, contextQualifiers, agendaQualifiers);
-    
-            Facts.Builder factsBuilder = Facts.Builder.create();
-            rulesContext.addFacts(factsBuilder);
-    
-            ExecutionOptions xOptions = new ExecutionOptions();
-            xOptions.setFlag(ExecutionFlag.LOG_EXECUTION, true);
-    
-            EngineResults results = KrmsApiServiceLocator.getEngine().execute(selectionCriteria, factsBuilder.build(), xOptions);
-    
-            List<RuleDefinition> ruleDefinitions = KrmsApiServiceLocator.getRuleRepositoryService().getRules(ruleIds);
-            Map<String, RuleDefinition> ruleMap = new HashMap<String, RuleDefinition>();
-            for (RuleDefinition rule : ruleDefinitions) {
-                ruleMap.put(rule.getName(), rule);
-            }
-            if (results.getResultsOfType(ResultEvent.RULE_EVALUATED) != null && results.getResultsOfType(ResultEvent.RULE_EVALUATED).size() > 0) {
-                for (ResultEvent resultEvent : results.getResultsOfType(ResultEvent.RULE_EVALUATED)) {
-                    String ruleName = ((BasicRule)resultEvent.getSource()).getName();
-                    if (ruleMap.containsKey(ruleName)) {
-                        ruleResults.put(ruleMap.get(ruleName).getId(), resultEvent.getResult());
-                    }
-                }
-            }
-    
-            // use session to cache the evaluation results for now
-            GlobalVariables.getUserSession().addObject(moduleQuestionnaireBean.getSessionContextKey() + "-rulereferenced", ruleResults);
+            ruleResults.putAll(getKrmsRulesExecutionService().runApplicableRules(ruleIds, rulesContext, UnitAgendaTypeService.QUESTIONNAIRE_AGENDA_TYPE_ID));
         }
+        
+        // use session to cache the evaluation results for now
+        GlobalVariables.getUserSession().addObject(moduleQuestionnaireBean.getSessionContextKey() + "-rulereferenced", ruleResults);
+        
         return ruleResults;
     }
 
@@ -922,6 +892,14 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
             }
         }
         return newAnswerHeaders;
+    }
+
+    public KrmsRulesExecutionService getKrmsRulesExecutionService() {
+        return krmsRulesExecutionService;
+    }
+
+    public void setKrmsRulesExecutionService(KrmsRulesExecutionService krmsRulesExecutionService) {
+        this.krmsRulesExecutionService = krmsRulesExecutionService;
     }
 
 }

@@ -16,11 +16,15 @@
 package org.kuali.kra.krms.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.kra.krms.KrmsRulesContext;
+import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 
 public interface KrmsRulesExecutionService {
     
     List<String> processUnitValidations(String unitNumber, KrmsRulesContext rulesContext);
+    
+    Map<String, Boolean> runApplicableRules(List<String> ruleIds, KrmsRulesContext rulesContext, String agendaTypeId);
 
 }
