@@ -26,13 +26,22 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.krms.KcKrmsConstants;
 import org.kuali.kra.krms.KrmsRulesContext;
+import org.kuali.kra.krms.UnitAgendaTypeService;
 import org.kuali.kra.krms.service.KcKrmsCacheManager;
 import org.kuali.kra.krms.service.KrmsRulesExecutionService;
+import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
+import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krms.api.KrmsApiServiceLocator;
 import org.kuali.rice.krms.api.engine.Engine;
 import org.kuali.rice.krms.api.engine.EngineResults;
+import org.kuali.rice.krms.api.engine.ExecutionFlag;
+import org.kuali.rice.krms.api.engine.ExecutionOptions;
 import org.kuali.rice.krms.api.engine.Facts;
+import org.kuali.rice.krms.api.engine.ResultEvent;
 import org.kuali.rice.krms.api.engine.SelectionCriteria;
+import org.kuali.rice.krms.api.repository.rule.RuleDefinition;
+import org.kuali.rice.krms.framework.engine.BasicRule;
 import org.kuali.rice.krms.framework.type.ValidationActionTypeService;
 
 public class KrmsRulesExecutionServiceImpl implements KrmsRulesExecutionService {
@@ -67,6 +76,46 @@ public class KrmsRulesExecutionServiceImpl implements KrmsRulesExecutionService 
             }
         }
         return Collections.emptyList();
+    }
+    
+    public Map<String, Boolean> runApplicableRules(List<String> ruleIds, KrmsRulesContext rulesContext, String agendaTypeId) {
+        Map <String, Boolean> ruleResults = new HashMap<String, Boolean>();
+        if (rulesContext != null) {
+            String namespace = rulesContext.getClass().getAnnotation(ParameterConstants.NAMESPACE.class).namespace();
+            Map<String, String> contextQualifiers = new HashMap<String, String>();
+            rulesContext.populateContextQualifiers(contextQualifiers);
+            Map<String,String> agendaQualifiers = new HashMap<String,String>();
+            rulesContext.populateAgendaQualifiers(agendaQualifiers);
+            agendaQualifiers.put("typeId", agendaTypeId);
+    
+            contextQualifiers.put("namespaceCode", namespace);
+            SelectionCriteria selectionCriteria = SelectionCriteria.createCriteria(null, contextQualifiers, agendaQualifiers);
+    
+            Facts.Builder factsBuilder = Facts.Builder.create();
+            rulesContext.addFacts(factsBuilder);
+    
+            ExecutionOptions xOptions = new ExecutionOptions();
+            xOptions.setFlag(ExecutionFlag.LOG_EXECUTION, true);
+    
+            EngineResults results = KrmsApiServiceLocator.getEngine().execute(selectionCriteria, factsBuilder.build(), xOptions);
+    
+            List<RuleDefinition> ruleDefinitions = KrmsApiServiceLocator.getRuleRepositoryService().getRules(ruleIds);
+            Map<String, RuleDefinition> ruleMap = new HashMap<String, RuleDefinition>();
+            for (RuleDefinition rule : ruleDefinitions) {
+                ruleMap.put(rule.getName(), rule);
+            }
+            if (results.getResultsOfType(ResultEvent.RULE_EVALUATED) != null && results.getResultsOfType(ResultEvent.RULE_EVALUATED).size() > 0) {
+                for (ResultEvent resultEvent : results.getResultsOfType(ResultEvent.RULE_EVALUATED)) {
+                    String ruleName = ((BasicRule)resultEvent.getSource()).getName();
+                    if (ruleMap.containsKey(ruleName)) {
+                        ruleResults.put(ruleMap.get(ruleName).getId(), resultEvent.getResult());
+                    }
+                }
+            }
+        }
+        return ruleResults;
+
+        
     }
     /**
      * Gets the kcKrmsCacheManager attribute. 
