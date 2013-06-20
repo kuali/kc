@@ -22,7 +22,7 @@ VALUES ('KC-COIDISCLOSURE', 'Document', 'SCREENING_QUESTIONNAIRE_KRMS_RULE', SYS
 insert into KRMS_RULE_ATTR_T (RULE_ATTR_ID, RULE_ID, 
 		ATTR_DEFN_ID, ATTR_VAL, VER_NBR)
 	VALUES (CONCAT('KC', KRMS_RULE_ATTR_S.NEXTVAL), (select RULE_ID from KRMS_RULE_T where NMSPC_CD = 'KC-COIDISCLOSURE' and NM = 'COI Screening Questionnaire Validation'),
-	(select ATTR_DEFN_ID from KRMS_ATTR_DEFN_T where NMSPC_CD = 'KR-RULE' and NM = 'ruleTypeCode'), 'I', 1)
+	(select ATTR_DEFN_ID from KRMS_ATTR_DEFN_T where NMSPC_CD = 'KR-RULE' and NM = 'ruleTypeCode'), 'V', 1)
 /
 
 insert into KRMS_AGENDA_ITM_T (AGENDA_ITM_ID, RULE_ID, 
@@ -36,7 +36,7 @@ update KRMS_AGENDA_T set INIT_AGENDA_ITM_ID =  CONCAT('KC', KRMS_AGENDA_ITM_S.CU
 /
 
 insert into KRMS_PROP_T (PROP_ID, DESC_TXT, TYP_ID, DSCRM_TYP_CD, CMPND_OP_CD, RULE_ID, VER_NBR, CMPND_SEQ_NO)
-	VALUES (CONCAT('KC', KRMS_PROP_S.NEXTVAL), 'Compound Proposition', null, 'C', '&', (select RULE_ID from KRMS_RULE_T where NMSPC_CD = 'KC-COIDISCLOSURE' and NM = 'COI Screening Questionnaire Validation'), 1, null)
+	VALUES (CONCAT('KC', KRMS_PROP_S.NEXTVAL), 'Compound Proposition', null, 'C', '|', (select RULE_ID from KRMS_RULE_T where NMSPC_CD = 'KC-COIDISCLOSURE' and NM = 'COI Screening Questionnaire Validation'), 1, null)
 /
 
 update KRMS_RULE_T set PROP_ID = CONCAT('KC', KRMS_PROP_S.CURRVAL)
@@ -50,7 +50,7 @@ insert into KRMS_PROP_T (PROP_ID, DESC_TXT, TYP_ID, DSCRM_TYP_CD, CMPND_OP_CD, R
 insert into KRMS_PROP_PARM_T (PROP_PARM_ID, PROP_ID, 
 	PARM_VAL, 
 	PARM_TYP_CD, SEQ_NO, VER_NBR)
-	VALUES (CONCAT('KC', KRMS_PROP_PARM_S.NEXTVAL), (select PROP_ID from KRMS_PROP_T where DESC_TXT = 'Yes answer to screening question' and RULE_ID = (select RULE_ID from KRMS_RULE_T where NMSPC_CD = 'KC-COIDISCLOSURE' and NM = 'COI Screening Questionnaire Validation')),
+	VALUES (CONCAT('KC', KRMS_PROP_PARM_S.NEXTVAL), (select PROP_ID from KRMS_PROP_T where DESC_TXT = 'All no answers on screening question' and RULE_ID = (select RULE_ID from KRMS_RULE_T where NMSPC_CD = 'KC-COIDISCLOSURE' and NM = 'COI Screening Questionnaire Validation')),
 		(select TERM_ID from KRMS_TERM_T where TERM_SPEC_ID = (select TERM_SPEC_ID from KRMS_TERM_SPEC_T where NMSPC_CD='KC-COIDISCLOSURE' and 
 					NM=(select FUNC_ID from KRMS_FUNC_T where  NM='getScreeningQuestionYesAnswerCount' and NMSPC_CD='KC-COIDISCLOSURE'))),
 		'T', 0, 1)
@@ -58,24 +58,24 @@ insert into KRMS_PROP_PARM_T (PROP_PARM_ID, PROP_ID,
 
 insert into KRMS_PROP_PARM_T (PROP_PARM_ID, PROP_ID, 
 	PARM_VAL, PARM_TYP_CD, SEQ_NO, VER_NBR)
-	VALUES (CONCAT('KC', KRMS_PROP_PARM_S.NEXTVAL), (select PROP_ID from KRMS_PROP_T where DESC_TXT = 'Yes answer to screening question' and RULE_ID = (select RULE_ID from KRMS_RULE_T where NMSPC_CD = 'KC-COIDISCLOSURE' and NM = 'COI Screening Questionnaire Validation')),
-		'1', 'C', 1, 1)
+	VALUES (CONCAT('KC', KRMS_PROP_PARM_S.NEXTVAL), (select PROP_ID from KRMS_PROP_T where DESC_TXT = 'All no answers on screening question' and RULE_ID = (select RULE_ID from KRMS_RULE_T where NMSPC_CD = 'KC-COIDISCLOSURE' and NM = 'COI Screening Questionnaire Validation')),
+		'0', 'C', 1, 1)
 /
 
 insert into KRMS_PROP_PARM_T (PROP_PARM_ID, PROP_ID, 
 	PARM_VAL, PARM_TYP_CD, SEQ_NO, VER_NBR)
-	VALUES (CONCAT('KC', KRMS_PROP_PARM_S.NEXTVAL), (select PROP_ID from KRMS_PROP_T where DESC_TXT = 'Yes answer to screening question' and RULE_ID = (select RULE_ID from KRMS_RULE_T where NMSPC_CD = 'KC-COIDISCLOSURE' and NM = 'COI Screening Questionnaire Validation')),
-		'>=', 'O', 2, 1)
+	VALUES (CONCAT('KC', KRMS_PROP_PARM_S.NEXTVAL), (select PROP_ID from KRMS_PROP_T where DESC_TXT = 'All no answers on screening question' and RULE_ID = (select RULE_ID from KRMS_RULE_T where NMSPC_CD = 'KC-COIDISCLOSURE' and NM = 'COI Screening Questionnaire Validation')),
+		'=', 'O', 2, 1)
 /
 
 insert into KRMS_PROP_T (PROP_ID, DESC_TXT, TYP_ID, DSCRM_TYP_CD, CMPND_OP_CD, RULE_ID, VER_NBR, CMPND_SEQ_NO)
-	VALUES (CONCAT('KC', KRMS_PROP_S.NEXTVAL), 'No active financial entities', null, 'S', null, (select RULE_ID from KRMS_RULE_T where NMSPC_CD = 'KC-COIDISCLOSURE' and NM = 'COI Screening Questionnaire Validation'), 1, 2)
+	VALUES (CONCAT('KC', KRMS_PROP_S.NEXTVAL), 'Has active financial entities', null, 'S', null, (select RULE_ID from KRMS_RULE_T where NMSPC_CD = 'KC-COIDISCLOSURE' and NM = 'COI Screening Questionnaire Validation'), 1, 2)
 /
 
 insert into KRMS_PROP_PARM_T (PROP_PARM_ID, PROP_ID, 
 	PARM_VAL, 
 	PARM_TYP_CD, SEQ_NO, VER_NBR)
-	VALUES (CONCAT('KC', KRMS_PROP_PARM_S.NEXTVAL), (select PROP_ID from KRMS_PROP_T where DESC_TXT = 'No active financial entities' and RULE_ID = (select RULE_ID from KRMS_RULE_T where NMSPC_CD = 'KC-COIDISCLOSURE' and NM = 'COI Screening Questionnaire Validation')),
+	VALUES (CONCAT('KC', KRMS_PROP_PARM_S.NEXTVAL), (select PROP_ID from KRMS_PROP_T where DESC_TXT = 'Has active financial entities' and RULE_ID = (select RULE_ID from KRMS_RULE_T where NMSPC_CD = 'KC-COIDISCLOSURE' and NM = 'COI Screening Questionnaire Validation')),
 		(select TERM_ID from KRMS_TERM_T where TERM_SPEC_ID = (select TERM_SPEC_ID from KRMS_TERM_SPEC_T where NMSPC_CD='KC-COIDISCLOSURE' and 
 					NM=(select FUNC_ID from KRMS_FUNC_T where  NM='getReporterActiveFinancialEntityCount' and NMSPC_CD='KC-COIDISCLOSURE'))),
 		'T', 0, 1)
@@ -83,25 +83,25 @@ insert into KRMS_PROP_PARM_T (PROP_PARM_ID, PROP_ID,
 
 insert into KRMS_PROP_PARM_T (PROP_PARM_ID, PROP_ID, 
 	PARM_VAL, PARM_TYP_CD, SEQ_NO, VER_NBR)
-	VALUES (CONCAT('KC', KRMS_PROP_PARM_S.NEXTVAL), (select PROP_ID from KRMS_PROP_T where DESC_TXT = 'No active financial entities' and RULE_ID = (select RULE_ID from KRMS_RULE_T where NMSPC_CD = 'KC-COIDISCLOSURE' and NM = 'COI Screening Questionnaire Validation')),
+	VALUES (CONCAT('KC', KRMS_PROP_PARM_S.NEXTVAL), (select PROP_ID from KRMS_PROP_T where DESC_TXT = 'Has active financial entities' and RULE_ID = (select RULE_ID from KRMS_RULE_T where NMSPC_CD = 'KC-COIDISCLOSURE' and NM = 'COI Screening Questionnaire Validation')),
 		'0', 'C', 1, 1)
 /
 
 insert into KRMS_PROP_PARM_T (PROP_PARM_ID, PROP_ID, 
 	PARM_VAL, PARM_TYP_CD, SEQ_NO, VER_NBR)
-	VALUES (CONCAT('KC', KRMS_PROP_PARM_S.NEXTVAL), (select PROP_ID from KRMS_PROP_T where DESC_TXT = 'No active financial entities' and RULE_ID = (select RULE_ID from KRMS_RULE_T where NMSPC_CD = 'KC-COIDISCLOSURE' and NM = 'COI Screening Questionnaire Validation')),
-		'=', 'O', 2, 1)
+	VALUES (CONCAT('KC', KRMS_PROP_PARM_S.NEXTVAL), (select PROP_ID from KRMS_PROP_T where DESC_TXT = 'Has active financial entities' and RULE_ID = (select RULE_ID from KRMS_RULE_T where NMSPC_CD = 'KC-COIDISCLOSURE' and NM = 'COI Screening Questionnaire Validation')),
+		'>', 'O', 2, 1)
 /
 
 insert into KRMS_CMPND_PROP_PROPS_T (CMPND_PROP_ID, PROP_ID)
 	VALUES ((select PROP_ID from KRMS_PROP_T where DESC_TXT = 'Compound Proposition' and RULE_ID = (select RULE_ID from KRMS_RULE_T where NMSPC_CD = 'KC-COIDISCLOSURE' and NM = 'COI Screening Questionnaire Validation')),
-		(select PROP_ID from KRMS_PROP_T where DESC_TXT = 'Yes answer to screening question' and RULE_ID = (select RULE_ID from KRMS_RULE_T where NMSPC_CD = 'KC-COIDISCLOSURE' and NM = 'COI Screening Questionnaire Validation'))
+		(select PROP_ID from KRMS_PROP_T where DESC_TXT = 'All no answers on screening question' and RULE_ID = (select RULE_ID from KRMS_RULE_T where NMSPC_CD = 'KC-COIDISCLOSURE' and NM = 'COI Screening Questionnaire Validation'))
 	)
 /
 
 insert into KRMS_CMPND_PROP_PROPS_T (CMPND_PROP_ID, PROP_ID)
 	VALUES ((select PROP_ID from KRMS_PROP_T where DESC_TXT = 'Compound Proposition' and RULE_ID = (select RULE_ID from KRMS_RULE_T where NMSPC_CD = 'KC-COIDISCLOSURE' and NM = 'COI Screening Questionnaire Validation')),
-		(select PROP_ID from KRMS_PROP_T where DESC_TXT = 'No active financial entities' and RULE_ID = (select RULE_ID from KRMS_RULE_T where NMSPC_CD = 'KC-COIDISCLOSURE' and NM = 'COI Screening Questionnaire Validation'))
+		(select PROP_ID from KRMS_PROP_T where DESC_TXT = 'Has active financial entities' and RULE_ID = (select RULE_ID from KRMS_RULE_T where NMSPC_CD = 'KC-COIDISCLOSURE' and NM = 'COI Screening Questionnaire Validation'))
 	)
 /
 
