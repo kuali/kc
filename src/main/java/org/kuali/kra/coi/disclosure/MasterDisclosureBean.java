@@ -222,6 +222,7 @@ public class MasterDisclosureBean implements Serializable {
         projects.add(awardProjects);
         projects.add(proposalProjects);
         projects.add(protocolProjects);
+        projects.add(iacucProtocolProjects);
         projects.add(manualAwardProjects);
         projects.add(manualProposalProjects);
         projects.add(manualProtocolProjects);
