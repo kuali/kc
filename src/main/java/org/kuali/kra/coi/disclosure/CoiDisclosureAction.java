@@ -75,6 +75,7 @@ import org.kuali.kra.web.struts.action.StrutsConfirmation;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
@@ -863,9 +864,13 @@ public class CoiDisclosureAction extends CoiAction {
             HttpServletResponse response) throws Exception {
 
         CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) form;
+        return viewMasterDisclosure(GlobalVariables.getUserSession().getPrincipalId(), coiDisclosureForm, mapping);
+    }
+    
+    public ActionForward viewMasterDisclosure(String personId, CoiDisclosureForm coiDisclosureForm, ActionMapping mapping) throws WorkflowException {
         DisclosureHelper disclosureHelper = coiDisclosureForm.getDisclosureHelper();
         Map fieldValues = new HashMap();
-        fieldValues.put("personId", GlobalVariables.getUserSession().getPrincipalId());
+        fieldValues.put("personId", personId);
         fieldValues.put("currentDisclosure", "Y");
 
         List<CoiDisclosure> disclosures = (List<CoiDisclosure>) getBusinessObjectService().findMatching(CoiDisclosure.class, fieldValues);
@@ -880,6 +885,7 @@ public class CoiDisclosureAction extends CoiAction {
             setQuestionnaireStatuses(coiDisclosureForm);
             return mapping.findForward("masterDisclosure");
         }
+        
     }
 
     private ActionForward submitForReviewAndRedirect(ActionMapping mapping, ActionForm form, HttpServletRequest request,

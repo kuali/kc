@@ -526,8 +526,9 @@
                 <bean parent="FieldDefinition" p:attributeName="certifiedBy" />
                 <bean parent="FieldDefinition" p:attributeName="disclosureDispositionCode" />
                 <bean parent="FieldDefinition" p:attributeName="disclosureStatusCode" />
+                <bean parent="FieldDefinition" p:attributeName="certificationTimestamp" />
                 <bean parent="FieldDefinition" p:attributeName="expirationDate" />
-<!--                 <bean parent="FieldDefinition" p:attributeName="reviewStatusCode" /> -->
+				<bean parent="FieldDefinition" p:attributeName="reviewStatusCode" />
                 <bean parent="FieldDefinition" p:attributeName="eventTypeCode" />
                 <bean parent="FieldDefinition" p:attributeName="leadUnitNumber" />
             </list>
@@ -543,7 +544,7 @@
                 <bean parent="FieldDefinition" p:attributeName="coiDisclosureStatus.description" />
                 <bean parent="FieldDefinition" p:attributeName="coiDispositionStatus.description" />
                 <bean parent="FieldDefinition" p:attributeName="expirationDate" />
-<!--                 <bean parent="FieldDefinition" p:attributeName="reviewStatusCode" /> -->
+				<bean parent="FieldDefinition" p:attributeName="reviewStatusCode" />
                 <bean parent="FieldDefinition" p:attributeName="coiDisclosureEventType.description" />
                 <bean parent="FieldDefinition" p:attributeName="leadUnitNumber" />
                 <bean parent="FieldDefinition" p:attributeName="coiDisclProjectId" />
