@@ -90,7 +90,30 @@
         </portal:portalLink>
       </td>
       
-    </tr>   
+    </tr> 
+
+	<tr>
+      <td nowrap class="disabled-text">Open and In Progress Disclosures</td>
+      <td>
+        <img src="static/images/pixel_clear.gif" alt="add" width="16" height="16" border="0" align="absmiddle">
+     	<portal:portalLink displayTitle="false" title="Open and In Progress Disclosures" 
+		      url="${ConfigProperties.application.url}/coiSearchOpen.do?methodToCall=openCustomSearch&docFormKey=88888888" >
+          <img src="static/images/searchicon.gif" alt="lookup" width="16" border="0" align="absmiddle">
+        </portal:portalLink>
+      </td>
+      
+    </tr>
+    <tr>
+      <td nowrap class="disabled-text">Person Search</td>
+      <td>
+        <img src="static/images/pixel_clear.gif" alt="add" width="16" height="16" border="0" align="absmiddle">
+     	<portal:portalLink displayTitle="false" title="Person Search" 
+		      url="${ConfigProperties.application.url}/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.bo.KcPerson&docFormKey=88888888&includeCustomActionUrls=false&returnLocation=${ConfigProperties.application.url}/coiPersonSearch.do&hideReturnLink=false&showMaintenanceLinks=false&refreshCaller=CoiDisclosurePersonSearch" >
+          <img src="static/images/searchicon.gif" alt="lookup" width="16" border="0" align="absmiddle">
+        </portal:portalLink>
+      </td>
+      
+    </tr>  
   </table>
   <p>
     <strong>Protocols</strong>
