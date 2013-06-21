@@ -512,6 +512,7 @@ public interface Constants {
     public static final int SET_DISPOSITION_STATUS_ACTION_CODE = 2;
     public static final String COI_DISAPPROVE_ACTION = "Disapprove";
     public static final String COI_SET_DISPOSITION_STATUS_ACTION = "Set Disposition Status";
+    public static final String COI_WORK_IN_PROGRESS_REVIEW_STATUS_PARM = "WORK_IN_PROGRESS_REVIEW_STATUSES";
     public static final String COI_SCREENING_QUESTIONNAIRE_KRMS_RULE = "SCREENING_QUESTIONNAIRE_KRMS_RULE";
     
     public static final String AWARD_SEQUENCE_AWARD_NUMBER = "SEQ_AWARD_AWARD_NUMBER";
