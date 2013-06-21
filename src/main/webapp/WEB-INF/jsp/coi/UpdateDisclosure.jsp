@@ -70,6 +70,24 @@
                $j(".financialEntitySubpanel").click();
            }
                 
+        	if ($j(".disclosedProjectsSubpanel").length > 0) {
+                $j(".disclosedProjectsSubpanel").toggle(
+                         function()
+                         {
+                        	 var controlId = $j(this).attr("id");
+                             var contentId = controlId.replace("Control","Content");
+                             $j("#"+contentId).hide();
+                             $j(this).html("<img src='kr/images/tinybutton-show.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'>");
+                         },function(){
+                             var controlId = $j(this).attr("id");
+                             var contentId = controlId.replace("Control","Content");
+                             $j("#"+contentId).slideDown(500);
+                             $j(this).html("<img src='kr/images/tinybutton-hide.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'>");
+                         }
+                );
+                $j(".disclosedProjectsSubpanel").click();
+            }
+            
             }) // end document ready
             
 
@@ -86,7 +104,7 @@
 	<kra-coi:disclosureQuestionnaire />
 	<script type="text/javascript" src="scripts/questionnaireAnswer.js"></script>
 </c:if> 
-<kra-coi:updateDisclosureProjects/>
+<kra-coi:allDisclosedProjects/>
 <kra-coi:coiNoteAndAttachment/>
 <c:set var="masterDisclosure" value="${KualiForm.disclosureHelper.masterDisclosureBean}" />
 <c:if test="${fn:length(masterDisclosure.allProjects) > 0}" >

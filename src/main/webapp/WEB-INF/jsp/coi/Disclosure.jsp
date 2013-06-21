@@ -78,7 +78,24 @@
                $j(".financialEntitySubpanel").click();
                
            }
-        	                
+		   if ($j(".disclosedProjectsSubpanel").length > 0) {
+		       $j(".disclosedProjectsSubpanel").toggle(
+                        function()
+                        {
+                       	 var controlId = $j(this).attr("id");
+                            var contentId = controlId.replace("Control","Content");
+                            $j("#"+contentId).hide();
+                            $j(this).html("<img src='kr/images/tinybutton-show.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'>");
+                        },function(){
+                            var controlId = $j(this).attr("id");
+                            var contentId = controlId.replace("Control","Content");
+                            $j("#"+contentId).slideDown(500);
+                            $j(this).html("<img src='kr/images/tinybutton-hide.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'>");
+                        }
+		       );
+		       $j(".disclosedProjectsSubpanel").click();
+		   }
+        		           
     
                  //populate form
         		 handleEventType($j("#disclosureHelper\\.newCoiDisclProject\\.disclosureEventType"));
@@ -286,13 +303,14 @@
 <kra-coi:disclosureFinancialEntities />
 </c:if>
 
+
 <%-- <c:if test="${KualiForm.document.coiDisclosureList[0].eventTypeCode=='11' or KualiForm.document.coiDisclosureList[0].eventTypeCode=='12' or KualiForm.document.coiDisclosureList[0].eventTypeCode=='13'}" > --%>
 <c:if test="${KualiForm.document.coiDisclosureList[0].manualEvent}" >
 	<kra-coi:manualProjects />
 </c:if>
 
 <c:if test="${KualiForm.document.coiDisclosureList[0].updateEvent or (KualiForm.document.coiDisclosureList[0].annualEvent and KualiForm.document.coiDisclosureList[0].annualUpdate)}" >
-	<kra-coi:updateDisclosureProjects/>
+	<kra-coi:allDisclosedProjects/>
 </c:if>
 
 <kra-coi:coiNotifications/>
