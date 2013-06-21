@@ -65,6 +65,9 @@ public class CoiDisclosureForm extends KraTransactionalDocumentFormBase implemen
     private String coiDispositionCode; 
     private String coiDisclosureStatusCode;
     
+    //for admin person search
+    private String personId;
+    
     public CoiDisclosureForm() {
         super();
         initialize();
@@ -347,6 +350,14 @@ public class CoiDisclosureForm extends KraTransactionalDocumentFormBase implemen
     
     public String getQuestionnaireExpression() {
         return ".*[Qq]uestionnaireHelper\\.answerHeaders\\[\\d+\\]\\.answers\\[\\d+\\]\\.answer";
+    }
+
+    public String getPersonId() {
+        return personId;
+    }
+
+    public void setPersonId(String personId) {
+        this.personId = personId;
     }
     
 }

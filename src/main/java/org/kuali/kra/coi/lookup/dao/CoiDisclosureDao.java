@@ -22,4 +22,6 @@ import org.kuali.kra.coi.CoiDisclosureHistory;
 public interface CoiDisclosureDao {
 
     public List<CoiDisclosureHistory> getApprovedAndDisapprovedDisclosureHistory(String coiDisclosureNumber);
+    
+    public List<CoiDisclosure> getReviewsForReviewStatuses(List<String> reviewStatusCodes);
 }
