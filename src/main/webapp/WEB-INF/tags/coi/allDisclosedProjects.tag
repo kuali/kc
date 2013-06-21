@@ -92,7 +92,7 @@
 	                <div  id="projectDiv-Content${idx}">
 				        <kra-coi:disclosureProjects masterDisclosureProjects="${groupedMasterBean.allRelatedProjects}" 
 				        projectDivNamePrefix="masterProjectDivFE${status.index}" projectListName="allDisclosuresGroupedByProjects[${status.index}].allRelatedProjects" 
-				        boLocation="disclosureHelper.masterDisclosureBean.allDisclosuresGroupedByProjects"
+				        boLocation="disclosureHelper.masterDisclosureBean.allDisclosuresGroupedByProjects[${status.index}].allRelatedProjects"
 				        parentTab="Disclosed Projects"/>
 			    	</div>
 			    	</div>
