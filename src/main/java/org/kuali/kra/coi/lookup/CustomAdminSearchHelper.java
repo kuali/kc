@@ -30,17 +30,22 @@ public class CustomAdminSearchHelper {
     protected List<CoiDisclosure> filterByFinEnt(List<CoiDisclosure> disclosures, boolean hasFinEnt) {
         List<CoiDisclosure> results = new ArrayList<CoiDisclosure>();
         for (CoiDisclosure discl : disclosures) {
-            boolean disclHasFinEnt = false;
-            for (CoiDisclProject disclProject : discl.getCoiDisclProjects()) {
-                if (!disclProject.getCoiDiscDetails().isEmpty()) {
-                    disclHasFinEnt = true;
-                }
-            }
+            boolean disclHasFinEnt = hasFinEnt(discl);
             if (disclHasFinEnt == hasFinEnt) {
                 results.add(discl);
             }
         }
         return results;
+    }
+    
+    public boolean hasFinEnt(CoiDisclosure coiDisclosure) {
+        boolean disclHasFinEnt = false;
+        for (CoiDisclProject disclProject : coiDisclosure.getCoiDisclProjects()) {
+            if (!disclProject.getCoiDiscDetails().isEmpty()) {
+                disclHasFinEnt = true;
+            }
+        }
+        return disclHasFinEnt;
     }
     
     public List<CoiDisclosure> getAllOpenReviews() {
