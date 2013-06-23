@@ -52,7 +52,7 @@
         <form-bean name="SubAwardForm" type="org.kuali.kra.subaward.SubAwardForm" />       
         <form-bean name="CurrentOrPendingReportForm" type="org.kuali.kra.proposaldevelopment.web.struts.form.CurrentOrPendingReportForm" />
 		<form-bean name="CoiDisclosureForm" type="org.kuali.kra.coi.CoiDisclosureForm" />
-		<form-bean name="CoiCustomSearchForm" type="org.kuali.kra.coi.lookup.CoiCustomAdminSearchForm" />
+		<form-bean name="CoiCustomSearchForm" type="org.kuali.kra.coi.lookup.CoiCustomSearchForm" />
 		<form-bean name="FinancialEntityForm" type="org.kuali.kra.coi.personfinancialentity.FinancialEntityForm" />
 		<form-bean name="NegotiationForm" type="org.kuali.kra.negotiations.web.struts.form.NegotiationForm" />
 		<form-bean name="PersonMassChangeForm" type="org.kuali.kra.personmasschange.web.struts.form.PersonMassChangeForm" />
@@ -659,10 +659,16 @@
           <forward name="basic" path="/WEB-INF/jsp/coi/CoiDisclosureNotificationEditor.jsp"/>
           &coi_forwards;
       </action>
-      <action path="/coiSearchOpen" name="CoiCustomSearchForm" input="/WEB-INF/jsp/coi/CoiSearchOpen.jsp" type="org.kuali.kra.coi.lookup.CoiCustomAdminSearchAction" scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+      <action path="/coiSearchOpen" name="CoiCustomSearchForm" input="/WEB-INF/jsp/coi/CoiSearchOpen.jsp" type="org.kuali.kra.coi.lookup.CoiCustomSearchAction" scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
         <forward name="basic" path="/WEB-INF/jsp/coi/CoiSearchOpen.jsp" />
         <forward name="openReviews" path="/WEB-INF/jsp/coi/CoiSearchOpen.jsp" />
       </action>
+      <action path="/coiPersonSearch" name="CoiDisclosureForm" input="/WEB-INF/jsp/coi/MasterDisclosure.jsp" type="org.kuali.kra.coi.lookup.CoiDisclosurePersonSearchAction"  scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+          <forward name="basic" path="/WEB-INF/jsp/coi/MasterDisclosure.jsp" />
+          <forward name="masterDisclosure" path="/WEB-INF/jsp/coi/MasterDisclosure.jsp" />
+          <forward name="masterDisclosureNotAvailable" path="/WEB-INF/jsp/coi/MasterDisclosureNotAvailable.jsp" />
+          &coi_forwards;
+       </action>             
       <action path="/projectEventDisclosure" name="CoiDisclosureForm" input="/WEB-INF/jsp/coi/ProjectEvent.jsp" type="org.kuali.kra.coi.disclosure.CoiDisclosureAction" scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
         <forward name="basic" path="/WEB-INF/jsp/coi/ProjectEvent.jsp" />
       </action>

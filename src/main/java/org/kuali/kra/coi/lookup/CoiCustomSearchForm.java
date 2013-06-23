@@ -17,13 +17,14 @@ package org.kuali.kra.coi.lookup;
 
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 
-public class CoiCustomAdminSearchForm extends KualiForm {
+public class CoiCustomSearchForm extends KualiForm {
 
     private static final long serialVersionUID = 8609723442875002645L;
     
     private CustomAdminSearchHelper customAdminSearchHelper;
+    private boolean canQuickApprove;
     
-    public CoiCustomAdminSearchForm() {
+    public CoiCustomSearchForm() {
         customAdminSearchHelper = new CustomAdminSearchHelper();
     }
 
@@ -33,5 +34,13 @@ public class CoiCustomAdminSearchForm extends KualiForm {
 
     public void setCustomAdminSearchHelper(CustomAdminSearchHelper customAdminSearchHelper) {
         this.customAdminSearchHelper = customAdminSearchHelper;
+    }
+
+    public boolean isCanQuickApprove() {
+        return canQuickApprove;
+    }
+
+    public void setCanQuickApprove(boolean canQuickApprove) {
+        this.canQuickApprove = canQuickApprove;
     }
 }

@@ -23,7 +23,7 @@
           docTitle="Open And In Progress Reviews" 
           transactionalDocument="false"
           renderMultipart="false" 
-          htmlFormAction="coiCustomSearches">
+          htmlFormAction="coiSearchOpen">
 
  <div id="workarea">
 
@@ -34,8 +34,10 @@
 	         useCurrentTabIndexAsKey="true">
 	<div class="tab-container" align="center">	
 		<c:choose><c:when test="${fn:length(KualiForm.customAdminSearchHelper.allOpenReviews) > 0}">
-			<kra-coi:coiOpenReviewSearchResult name="Open Reviews With No Financial Entities" reviews="${KualiForm.customAdminSearchHelper.allOpenReviewsWithoutFinEnts}"/>         
-			<kra-coi:coiOpenReviewSearchResult name="Open Reviews With Financial Entities" reviews="${KualiForm.customAdminSearchHelper.allOpenReviewsWithFinEnts}"/>
+			<kra-coi:coiOpenReviewSearchResult name="Open Reviews With No Financial Entities" 
+				reviews="${KualiForm.customAdminSearchHelper.allOpenReviewsWithoutFinEnts}" showApprove="true"/>         
+			<kra-coi:coiOpenReviewSearchResult name="Open Reviews With Financial Entities" 
+				reviews="${KualiForm.customAdminSearchHelper.allOpenReviewsWithFinEnts}" showApprove="false"/>
 		</c:when><c:otherwise>No reviews found.</c:otherwise></c:choose>
 	</div>
 
@@ -47,8 +49,10 @@
 	         useCurrentTabIndexAsKey="true">
 	<div class="tab-container" align="center">	 
 		<c:choose><c:when test="${fn:length(KualiForm.customAdminSearchHelper.pendingReviews) > 0}"> 
-			<kra-coi:coiOpenReviewSearchResult name="Pending Reviews With No Financial Entities" reviews="${KualiForm.customAdminSearchHelper.pendingReviewsWithoutFinEnts}"/>
-			<kra-coi:coiOpenReviewSearchResult name="Pending Reviews With Financial Entities" reviews="${KualiForm.customAdminSearchHelper.pendingReviewsWithFinEnts}"/>
+			<kra-coi:coiOpenReviewSearchResult name="Pending Reviews With No Financial Entities" 
+				reviews="${KualiForm.customAdminSearchHelper.pendingReviewsWithoutFinEnts}" showApprove="true"/>
+			<kra-coi:coiOpenReviewSearchResult name="Pending Reviews With Financial Entities" 
+				reviews="${KualiForm.customAdminSearchHelper.pendingReviewsWithFinEnts}" showApprove="false"/>
 		</c:when><c:otherwise>No reviews found.</c:otherwise></c:choose>       
 	</div>
 
@@ -60,8 +64,10 @@
 	         useCurrentTabIndexAsKey="true">
 	<div class="tab-container" align="center">
 		<c:choose><c:when test="${fn:length(KualiForm.customAdminSearchHelper.inProgressReviews) > 0}">	
-			<kra-coi:coiOpenReviewSearchResult name="Work In Progress Reviews With No Financial Entities" reviews="${KualiForm.customAdminSearchHelper.inProgressReviewsWithoutFinEnts}"/>
-			<kra-coi:coiOpenReviewSearchResult name="Work In Progress Reviews With Financial Entities" reviews="${KualiForm.customAdminSearchHelper.inProgressReviewsWithFinEnts}"/>
+			<kra-coi:coiOpenReviewSearchResult name="Work In Progress Reviews With No Financial Entities" 
+				reviews="${KualiForm.customAdminSearchHelper.inProgressReviewsWithoutFinEnts}" showApprove="true"/>
+			<kra-coi:coiOpenReviewSearchResult name="Work In Progress Reviews With Financial Entities" 
+				reviews="${KualiForm.customAdminSearchHelper.inProgressReviewsWithFinEnts}" showApprove="false"/>
 		</c:when><c:otherwise>No reviews found.</c:otherwise></c:choose>
 	</div>
 
