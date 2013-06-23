@@ -16,6 +16,7 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <%@ attribute name="reviews" required="true" type="java.util.Collection" %>
 <%@ attribute name="name" required="true" %>
+<%@ attribute name="showApprove" required="true" %>
 <c:set var="disclosureAttributes" value="${DataDictionary.CoiDisclosure.attributes}" />
 
         <h3>
@@ -43,7 +44,7 @@
 					<td><fmt:formatDate pattern="MM/dd/yyyy" value="${review.expirationDate}"/></td>
 				</tr>
 				<tr>
-					<td colspan="6" style="margin:0; padding:0;"><div style="display:none; text-align: center; padding: 10px;" class="disclDetails"><kra-coi:coiOpenReviewSearchSummary discl="${review}"/></div></td>
+					<td colspan="6" style="margin:0; padding:0;"><div style="display:none; text-align: center; padding: 10px;" class="disclDetails"><kra-coi:coiOpenReviewSearchSummary discl="${review}" showApprove="${showApprove}"/></div></td>
 				</tr>
 			</c:forEach>
 		</table>
