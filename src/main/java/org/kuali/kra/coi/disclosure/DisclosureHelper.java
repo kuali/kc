@@ -154,6 +154,8 @@ public class DisclosureHelper implements Serializable {
                     }
                 }
             }
+        } else {
+            annualCertApprovalErrorMsgForAdmin = null;
         }
     }
     
