@@ -180,6 +180,9 @@ public class FinancialEntitySummaryHelper implements Serializable {
         if (!StringUtils.equalsIgnoreCase(currentSummary.getOwnershipType(), previousSummary.getOwnershipType())) {
             currentSummary.setOwnershipType(addSpan(currentSummary.getOwnershipType()));
         }
+        if (!StringUtils.equalsIgnoreCase(currentSummary.getEntitySponsorsResearch(), previousSummary.getEntitySponsorsResearch())) {
+            currentSummary.setEntitySponsorsResearch(addSpan(currentSummary.getEntitySponsorsResearch()));
+        }
       
     }
     
@@ -309,14 +312,24 @@ public class FinancialEntitySummaryHelper implements Serializable {
         summary.setAddress(entityAddress);
         summary.setWebAddress(webAddress);
         summary.setOwnershipType(
-                StringUtils.equalsIgnoreCase(financialEntity.getEntityOwnershipType(), Constants.ENTITY_OWNERSHIP_TYPE_CODE_PRIVATE) ? "Private" : "Public");
+                StringUtils.equalsIgnoreCase(financialEntity.getEntityOwnershipType(), Constants.ENTITY_OWNERSHIP_TYPE_CODE_PRIVATE) ? "Private" : "Public");        
+        summary.setEntitySponsorsResearch(StringUtils.equalsIgnoreCase(financialEntity.getEntitySponsorsResearch(), Constants.YES_FLAG) ? "Yes" : "No");
         
         String details = "";
         if (ObjectUtils.isNotNull(financialEntity.getOrgRelationDescription())) {
-            details += "Org Relation Description: " + newLine + financialEntity.getOrgRelationDescription()  + newLine;
+            details += "Org Relation Description: " + newLine + financialEntity.getOrgRelationDescription() + newLine + newLine;
         }
         if (ObjectUtils.isNotNull(financialEntity.getPrincipalBusinessActivity())) {
-            details += "Entity Principal Business/Activity: " + newLine + financialEntity.getPrincipalBusinessActivity() + newLine;
+            details += "Entity Principal Business/Activity: " + newLine + financialEntity.getPrincipalBusinessActivity() + newLine + newLine;
+        }
+        if (ObjectUtils.isNotNull(financialEntity.getStudentInvolvement())) {
+            details += "Entity Student Involvement: " + newLine + financialEntity.getStudentInvolvement() + newLine + newLine;
+        }
+        if (ObjectUtils.isNotNull(financialEntity.getStaffInvolvement())) {
+            details += "Entity Staff Involvement: " + newLine + financialEntity.getStaffInvolvement() + newLine + newLine;
+        }
+        if (ObjectUtils.isNotNull(financialEntity.getFacilityUse())) {
+            details += "Entity Institutional/Facilities Use: " + newLine + financialEntity.getFacilityUse() + newLine + newLine;
         }
         summary.setDetails(details);
         summary.setStatusDescription(financialEntity.getFinIntEntityStatus() != null ? financialEntity.getFinIntEntityStatus().getDescription(): "");
