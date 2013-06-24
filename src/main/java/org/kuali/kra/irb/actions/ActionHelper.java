@@ -418,6 +418,8 @@ public class ActionHelper extends ActionHelperBase {
         
         super.prepareView();
         assignCmtSchedBean.prepareView();
+        // When notify cmt is implemented for IACUC as well, this can be lifted to the parent
+        ((ProtocolNotifyCommitteeBean) protocolNotifyCommitteeBean).prepareView();
         protocolAssignReviewersBean.prepareView();
         protocolExpeditedApprovalBean.prepareView();
         submissionConstraint = getParameterValue(Constants.PARAMETER_IRB_COMM_SELECTION_DURING_SUBMISSION);
@@ -440,7 +442,7 @@ public class ActionHelper extends ActionHelperBase {
         canAssignCmtSched = hasAssignCmtSchedPermission();
         canAssignCmtSchedUnavailable = hasAssignCmtSchedUnavailablePermission();
         canAssignReviewers = hasAssignReviewersPermission();
-        // we will do the workflow-heave check for reviewer assignment only if the user can submit the protocol
+        // we will do the workflow-heavy check for reviewer assignment only if the user can submit the protocol
         if(canSubmitProtocol) {
             canAssignReviewersCmtSel = hasAssignReviewersCmtSel();
         } 

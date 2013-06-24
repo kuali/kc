@@ -624,6 +624,8 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             HttpServletResponse response) throws Exception {
 
         ProtocolForm protocolForm = (ProtocolForm) form;
+        // set the task name to prevent entered data from being overwritten (in case of user errors) due to bean refresh in the action helper's prepare view 
+        protocolForm.getActionHelper().setCurrentTask(TaskName.NOTIFY_COMMITTEE);
         Protocol protocol = (Protocol) protocolForm.getProtocolDocument().getProtocol();
         ActionHelper actionHelper = (ActionHelper) protocolForm.getActionHelper();
         getProtocolNotifyCommitteeService().submitCommitteeNotification(protocol, (ProtocolNotifyCommitteeBean) actionHelper.getProtocolNotifyCommitteeBean());
