@@ -251,4 +251,7 @@ public interface PermissionConstants {
      public static final String MAINTAIN_AREA_OF_RESEARCH = "Create or Modify Research Areas";
      public static final String MAINTAIN_IACUC_AREA_OF_RESEARCH = "Create or Modify Iacuc Research Areas";
      
+     /* COI Undisclosed events */
+     public static final String VIEW_COI_UNDISCLOSED_EVENTS = "View COI Undisclosed Events";
+
 }
