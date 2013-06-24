@@ -20,6 +20,7 @@ import java.sql.Date;
 
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.common.committee.bo.CommitteeBase;
+import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.actions.ActionHelper;
 import org.kuali.kra.irb.actions.ProtocolActionBean;
 
@@ -74,4 +75,14 @@ public class ProtocolNotifyCommitteeBean extends ProtocolActionBean implements o
         this.actionDate = actionDate;
     }
     
+    /**
+     * Prepare the notify committee bean for rendering with JSP.
+     */
+    public void prepareView() {
+        // we refresh only if the user is not currently working on this task since we do not want to lose user changes
+        if( !(TaskName.NOTIFY_COMMITTEE.equalsIgnoreCase(getActionHelper().getCurrentTask())) ) {
+            this.setCommittee((Committee) this.getActionHelper().getProtocol().getProtocolSubmission().getCommittee());
+        }
+    }
+         
 }
