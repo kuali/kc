@@ -149,11 +149,11 @@ public class CoiDisclosureUndisclosedEventsDaoOjb extends PlatformAwareDaoBaseOj
         }
         
         if(ObjectUtils.isNotNull(createDateFrom)) {
-            searchCriteria.addGreaterOrEqualThan(saveDateField, createDateFrom);
+            searchCriteria.addGreaterThan(saveDateField, createDateFrom);
         }
         
         if(ObjectUtils.isNotNull(createDateTo)) {
-            searchCriteria.addLessOrEqualThan(saveDateField, createDateTo);
+            searchCriteria.addLessThan(saveDateField, createDateTo);
         }
         
         return searchCriteria;

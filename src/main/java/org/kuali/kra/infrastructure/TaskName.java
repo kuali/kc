@@ -391,4 +391,6 @@ public interface TaskName {
     public static final String MAINTAIN_RESEARCH_AREAS = "maintainResearchAreas";
     public static final String MAINTAIN_IACUC_RESEARCH_AREAS = "maintainIacucResearchAreas";
     
+    /* COI Undisclosed events */
+    public static final String VIEW_COI_UNDISCLOSED_EVENTS = "viewCoiUndisclosedEvents";
 }
