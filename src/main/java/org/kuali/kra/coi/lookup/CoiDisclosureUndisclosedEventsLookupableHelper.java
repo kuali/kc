@@ -16,19 +16,25 @@
 package org.kuali.kra.coi.lookup;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.authorization.ApplicationTask;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.coi.CoiDisclosureUndisclosedEvents;
 import org.kuali.kra.coi.disclosure.CoiDisclosureService;
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
 import org.kuali.kra.service.KcPersonService;
+import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
@@ -43,9 +49,13 @@ public class CoiDisclosureUndisclosedEventsLookupableHelper extends KraLookupabl
     private CoiDisclosureService coiDisclosureService;
 
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
+        List<CoiDisclosureUndisclosedEvents> undisclosedEvents = new ArrayList<CoiDisclosureUndisclosedEvents>();
         validateSearchParameters(fieldValues);
         addDateRangeCriteria(fieldValues);
-        return getCoiDisclosureService().getUndisclosedEvents(fieldValues);
+        if(canViewUndisclosedEvents()) {
+            undisclosedEvents = getCoiDisclosureService().getUndisclosedEvents(fieldValues);
+        }
+        return undisclosedEvents;
     }
 
     
@@ -83,14 +93,17 @@ public class CoiDisclosureUndisclosedEventsLookupableHelper extends KraLookupabl
         String dateParameter = fieldValues.get(CoiDisclosureUndisclosedEvents.SEARCH_CRITERIA_CREATE_DATE);
         if (dateParameter.contains("..")) {
             String[] values = dateParameter.split("\\.\\.");
-            fieldValues.put(CoiDisclosureUndisclosedEvents.SEARCH_CRITERIA_CREATE_DATE_FROM, values[0]);
-            fieldValues.put(CoiDisclosureUndisclosedEvents.SEARCH_CRITERIA_CREATE_DATE_TO, values[1]);
+            String startDate = values[0];
+            String endDate = getRevisedCreateToDate(values[1], 1);
+            fieldValues.put(CoiDisclosureUndisclosedEvents.SEARCH_CRITERIA_CREATE_DATE_FROM, startDate);
+            fieldValues.put(CoiDisclosureUndisclosedEvents.SEARCH_CRITERIA_CREATE_DATE_TO, endDate);
         }else if(dateParameter.contains(">=")) {
             String dateValue = dateParameter.replace(">=", "");
             fieldValues.put(CoiDisclosureUndisclosedEvents.SEARCH_CRITERIA_CREATE_DATE_FROM, dateValue);
         }else if((dateParameter.contains("<="))) {
             String dateValue = dateParameter.replace("<=", "");
-            fieldValues.put(CoiDisclosureUndisclosedEvents.SEARCH_CRITERIA_CREATE_DATE_TO, dateValue);
+            String endDate = getRevisedCreateToDate(dateValue, 1);
+            fieldValues.put(CoiDisclosureUndisclosedEvents.SEARCH_CRITERIA_CREATE_DATE_TO, endDate);
         }
     }
     
@@ -165,4 +178,36 @@ public class CoiDisclosureUndisclosedEventsLookupableHelper extends KraLookupabl
         return "projectId";
     }
        
+    private boolean canViewUndisclosedEvents() {
+        ApplicationTask task = new ApplicationTask(TaskName.VIEW_COI_UNDISCLOSED_EVENTS);
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);     
+    }
+
+    private String getUserIdentifier() {
+        return GlobalVariables.getUserSession().getPrincipalId();
+    }
+    
+    protected TaskAuthorizationService getTaskAuthorizationService() {
+        return KraServiceLocator.getService(TaskAuthorizationService.class);
+    }
+    
+    /**
+     * This method is to get an adjusted date to compare it with timestamp
+     * @param dateInput
+     * @param addDays
+     * @return
+     */
+    private String getRevisedCreateToDate(String dateInput, int addDays) {
+        SimpleDateFormat sdf = new SimpleDateFormat(Constants.DEFAULT_DATE_FORMAT_PATTERN);
+        Calendar cal = Calendar.getInstance();
+        try {
+            cal.setTime(sdf.parse(dateInput));
+        }catch(Exception ex) {
+            ex.printStackTrace();
+        }
+        cal.add(Calendar.DATE, addDays); 
+        return sdf.format(cal.getTime());        
+    }
+
 }
+
