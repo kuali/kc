@@ -32,6 +32,7 @@ public class FinancialEntitySummaryBean implements Serializable {
     private String sponsorName;
     private String statusDescription;
     private String ownershipType;
+    private String entitySponsorsResearch;
     private String details;
     private Map<String, String> relationshipDetails;
     private List<FinancialEntityAttachmentSummary> attachmentSummary;
@@ -100,6 +101,12 @@ public class FinancialEntitySummaryBean implements Serializable {
     }
     public void setAttachmentSummary(List<FinancialEntityAttachmentSummary> attachmentSummary) {
         this.attachmentSummary = attachmentSummary;
+    }
+    public String getEntitySponsorsResearch() {
+        return entitySponsorsResearch;
+    }
+    public void setEntitySponsorsResearch(String entitySponsorsResearch) {
+        this.entitySponsorsResearch = entitySponsorsResearch;
     }
     
     
