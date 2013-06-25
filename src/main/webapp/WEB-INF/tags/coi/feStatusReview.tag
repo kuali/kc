@@ -32,10 +32,13 @@
             
             <tr>
                 <th width="5%"><div align="left">&nbsp;</div></th> 
+                <th width="10%"><div align="center">Event</div></th>
+                <th width="5%"><div align="center">Project Id</div></th>
+                <th width="15%"><div align="center">Project Title</div></th>
                 <th width="15%"><div align="center">Active Entities</div></th>
                 <th><div align="center">Comments</div></th>
                 <th width="12%"><div align="center">Last Updated</div></th>
-                <th width="12%"><div align="center">Updated By</div></th>
+                <th width="10%"><div align="center">Updated By</div></th>
                 <th width="12%"><div align="center">Recommended Status</div></th>
             </tr>
             
@@ -46,6 +49,15 @@
         				<td>
         					${userIndex}
         				</td>
+		           		<td style="text-align: left;" valign="middle">
+		           			${disclProject.coiDisclosureEventType.description}
+           				</td>
+		           		<td style="text-align: left;" valign="middle">
+		           			${disclProject.coiProjectId}
+           				</td>
+		           		<td style="text-align: left;" valign="middle">
+		           			${disclProject.coiProjectTitle}
+           				</td>
 		           		<td style="text-align: left;" valign="middle">
            					<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclProjects[${status.index}].coiDiscDetails[${festatus.index}].personFinIntDisclosure.entityName" readOnly="true" attributeEntry="${financialEntityAttributes.entityName}" /> 
            				</td>
