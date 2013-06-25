@@ -26,6 +26,7 @@ import java.sql.Date;
 
 import org.kuali.kra.service.KcAttachmentService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.rice.krad.util.ObjectUtils;
 /**
  * This class represents a subAwardAmountInfo. It describes the amount
  * released and allowed for the subAward.
@@ -219,6 +220,7 @@ public class SubAwardAmountInfo extends
             if (newFileData.length > 0) {
                 setContentType(newFile.getContentType());
                 setFileName(newFile.getFileName());
+                setMimeType(contentType);
             }
         } catch (FileNotFoundException e) {
         } catch (IOException e) {
@@ -337,7 +339,7 @@ public class SubAwardAmountInfo extends
 
     @Override
     public String getType() {
-        return getContentType();
+        return getMimeType();
     }
 
     @Override
