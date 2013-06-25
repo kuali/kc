@@ -25,3 +25,4 @@
     <li><portal:portalLink displayTitle="true" title="Negotiation Status" url="${ConfigProperties.application.url}/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.negotiations.bo.NegotiationStatus&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&docFormKey=88888888" /></li>
   </ul>
 </div>
+<channel:portalChannelBottom />
