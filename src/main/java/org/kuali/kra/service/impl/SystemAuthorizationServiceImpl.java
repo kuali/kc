@@ -16,19 +16,20 @@
 package org.kuali.kra.service.impl;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import org.kuali.kra.service.SystemAuthorizationService;
 import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.role.RoleQueryResults;
 import org.kuali.rice.kim.api.role.RoleService;
 import org.kuali.rice.kim.api.type.KimType;
 import org.kuali.rice.kim.api.type.KimTypeInfoService;
+import org.kuali.rice.krad.util.KRADPropertyConstants;
 
 /**
  * The System Authorization Service Implementation.
@@ -87,7 +88,8 @@ public class SystemAuthorizationServiceImpl implements SystemAuthorizationServic
     public List<Role> getRoles(String namespaceCode) {
         QueryByCriteria.Builder queryBuilder = QueryByCriteria.Builder.create();
         List<Predicate> predicates = new ArrayList<Predicate>();
-        predicates.add(PredicateFactory.equal("namespaceCode", namespaceCode));
+        predicates.add(PredicateFactory.equal(KimConstants.UniqueKeyConstants.NAMESPACE_CODE, namespaceCode));
+        predicates.add(PredicateFactory.equal(KRADPropertyConstants.ACTIVE, "Y"));
         queryBuilder.setPredicates(PredicateFactory.and(predicates.toArray(new Predicate[] {})));
         RoleQueryResults roleResults = roleManagementService.findRoles(queryBuilder.build());
         return roleResults.getResults();
