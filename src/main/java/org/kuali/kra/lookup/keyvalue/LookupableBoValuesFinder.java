@@ -49,12 +49,11 @@ public class LookupableBoValuesFinder extends KeyValuesBase {
     	    org.kuali.rice.kns.datadictionary.BusinessObjectEntry businessObjectEntry = (org.kuali.rice.kns.datadictionary.BusinessObjectEntry) businessObjectEntries.get(businessObject);
     	    if ((businessObjectEntry.hasLookupDefinition()) 
     	            && (businessObject.startsWith("org.kuali.kra") 
-    	                    || businessObject.equals("org.kuali.rice.location.impl.campus.CampusBo")
-                            || businessObject.equals("org.kuali.rice.location.api.campus.CampusContractTypeImpl")
-                            || businessObject.equals("org.kuali.rice.location.api.country.CountryImpl")
-                            || businessObject.equals("org.kuali.rice.kns.bo.CountyImpl")
-                            || businessObject.equals("org.kuali.rice.kns.bo.PostalCodeImpl")
-                            || businessObject.equals("org.kuali.rice.location.api.state.StateImpl"))) {
+                            || businessObject.equals("org.kuali.rice.location.impl.campus.CampusBo")
+                            || businessObject.equals("org.kuali.rice.location.impl.country.CountryBo")
+                            || businessObject.equals("org.kuali.rice.location.impl.county.CountyBo")
+                            || businessObject.equals("org.kuali.rice.location.impl.postalcode.PostalCodeBo")
+                            || businessObject.equals("org.kuali.rice.location.impl.state.StateBo"))) {
     	        String key = businessObject;
     	        
     	        String label = StringUtils.removeEnd(businessObjectEntry.getLookupDefinition().getTitle().trim()," Lookup");
@@ -85,11 +84,10 @@ public class LookupableBoValuesFinder extends KeyValuesBase {
             if ((businessObjectEntry.hasLookupDefinition()) 
                     && (businessObject.startsWith("org.kuali.kra") 
                             || businessObject.equals("org.kuali.rice.location.impl.campus.CampusBo")
-                            || businessObject.equals("org.kuali.rice.location.api.campus.CampusContractTypeImpl")
-                            || businessObject.equals("org.kuali.rice.location.api.country.CountryImpl")
-                            || businessObject.equals("org.kuali.rice.kns.bo.CountyImpl")
-                            || businessObject.equals("org.kuali.rice.kns.bo.PostalCodeImpl")
-                            || businessObject.equals("org.kuali.rice.location.api.state.StateImpl"))) {
+                            || businessObject.equals("org.kuali.rice.location.impl.country.CountryBo")
+                            || businessObject.equals("org.kuali.rice.location.impl.county.CountyBo")
+                            || businessObject.equals("org.kuali.rice.location.impl.postalcode.PostalCodeBo")
+                            || businessObject.equals("org.kuali.rice.location.impl.state.StateBo"))) {
                 String label = StringUtils.removeEnd(businessObjectEntry.getLookupDefinition().getTitle().trim()," Lookup");
                 if(labels.containsKey(label)){
                     Integer count = labels.get(label) + 1;
