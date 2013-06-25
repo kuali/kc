@@ -57,6 +57,8 @@
 		        <ref bean="CoiDisclosure-person.userName" />
 		        <ref bean="CoiDisclProject-coiDisclProjectId" />
 		        <ref bean="CoiDisclProject-coiDisclProjectTitle" />
+		        <ref bean="CoiDisclosure-coiDisclProjects.projectId" />
+		        <ref bean="CoiDisclosure-coiDisclProjects.coiDiscDetails.personFinIntDisclosure.entityName" />
                 <ref bean="CoiDisclosure-disclosureStatusReviewStatus" />
             </list>
         </property>
@@ -478,8 +480,31 @@
         </property>
         <property name="summary" value="COI Project Title" />
         <property name="description" value="COI Project Title" />
-    </bean>    
-
+    </bean>   
+    
+    <bean id="CoiDisclosure-coiDisclProjects.projectId" parent="CoiDisclosure-coiDisclProjects.projectId-parentBean" />
+    <bean id="CoiDisclosure-coiDisclProjects.projectId-parentBean" abstract="true" parent="CoiDisclProject-coiDisclProjectId-parentBean" >
+        <property name="name" value="coiDisclProjects.coiProjectId" />
+    </bean>
+    
+    <bean id="CoiDisclosure-coiDisclProjects.coiDiscDetails.personFinIntDisclosure.entityName" parent="CoiDisclosure-coiDisclProjects.coiDiscDetails.personFinIntDisclosure.entityName-parentBean" />
+    <bean id="CoiDisclosure-coiDisclProjects.coiDiscDetails.personFinIntDisclosure.entityName-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="coiDisclProjects.coiDiscDetails.personFinIntDisclosure.entityName" />        
+        <property name="forceUppercase" value="false" />
+        <property name="maxLength" value="200" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern" p:allowWhitespace="true"/>
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="20" />
+        </property>
+        <property name="label" value="Financial Entity" />
+        <property name="shortLabel" value="Financial Entity" />
+        <property name="summary" value="Financial Entity" />
+        <property name="description" value="Financial Entity" />        
+    </bean>
+    
     <!-- Business Object Inquiry Definition -->
     <bean id="CoiDisclosure-inquiryDefinition" parent="CoiDisclosure-inquiryDefinition-parentBean" />
     <bean id="CoiDisclosure-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
@@ -531,6 +556,10 @@
 				<bean parent="FieldDefinition" p:attributeName="reviewStatusCode" />
                 <bean parent="FieldDefinition" p:attributeName="eventTypeCode" />
                 <bean parent="FieldDefinition" p:attributeName="leadUnitNumber" />
+                <bean parent="FieldDefinition" p:attributeName="coiDisclProjects.coiProjectId"
+                    p:noInquiry="true" p:noLookup="true"/>
+                <bean parent="FieldDefinition" p:attributeName="coiDisclProjects.coiDiscDetails.personFinIntDisclosure.entityName" 
+                	p:noInquiry="true" p:noLookup="true"/>
             </list>
         </property>
         <property name="resultFields" >
