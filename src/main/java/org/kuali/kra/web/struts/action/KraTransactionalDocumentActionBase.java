@@ -26,6 +26,7 @@ import static org.kuali.rice.krad.util.KRADConstants.QUESTION_CLICKED_BUTTON;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -378,6 +379,25 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
 
+    /*
+     * override rice version since we get multiple locks on one document, we only want to display one message
+     */
+    protected void setupPessimisticLockMessages(Document document, HttpServletRequest request) {
+        List<String> lockMessages = new ArrayList<String>();
+        Map<String, PessimisticLock> generatedLocks = new HashMap<String, PessimisticLock>();
+        for (PessimisticLock lock : document.getPessimisticLocks()) {
+            // if lock is owned by current user, do not display message for it
+            if (!lock.isOwnedByUser(GlobalVariables.getUserSession().getPerson())) {
+                if (!StringUtils.startsWith(lock.getLockDescriptor(),"null-") &&
+                        !generatedLocks.containsKey(lock.getDocumentNumber())) {
+                    lockMessages.add(generatePessimisticLockMessage(lock));
+                    generatedLocks.put(lock.getDocumentNumber(), lock);
+                }
+            }
+        }
+        request.setAttribute(KRADConstants.PESSIMISTIC_LOCK_MESSAGES, lockMessages);
+    }
+
     /** 
      * {@inheritDoc}
      * @see org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase#generatePessimisticLockMessage(org.kuali.rice.krad.document.authorization.PessimisticLock)
@@ -387,15 +407,42 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
         String descriptor = (lock.getLockDescriptor() != null) ? lock.getLockDescriptor() : "";
 
         if (StringUtils.isNotEmpty(descriptor)) {
-            descriptor = WordUtils.capitalizeFully(descriptor, (new char[] {'-',' '}));
-           descriptor = StringUtils.contains(descriptor, "Pm") ? StringUtils.replaceOnce(descriptor, "Pm", "PM") : StringUtils.replaceOnce(descriptor, "Am", "AM");
-        }
-        return new StringBuilder().append("Delete ").append(lock.getId()).append(" ").append(lock.getOwnedByUser().getPrincipalName()).append(" ").append(descriptor).append(" ")
+            descriptor = getDocumentType(descriptor);
+            return new StringBuilder().append("This ").append(descriptor).append(" is locked for editing by ").append(lock.getOwnedByUser().getPrincipalName()).append(" as of ")
+                .append(org.kuali.rice.core.api.util.RiceConstants.getDefaultTimeFormat().format(lock.getGeneratedTimestamp())).append(" on ")
+                .append(org.kuali.rice.core.api.util.RiceConstants.getDefaultDateFormat().format(lock.getGeneratedTimestamp())).toString();
+        } else {
+            return new StringBuilder().append("Delete ").append(lock.getId()).append(" ").append(lock.getOwnedByUser().getPrincipalName()).append(" ").append(" ")
                 .append(org.kuali.rice.core.api.util.RiceConstants.getDefaultDateFormat().format(lock.getGeneratedTimestamp())).append(" ") 
                 .append(org.kuali.rice.core.api.util.RiceConstants.getDefaultTimeFormat().format(lock.getGeneratedTimestamp()))
                 .toString();
+        }
     }
 
+    private String getDocumentType(String descriptor) {
+        String result="";
+        String[] resultArray = descriptor.split("-");
+        if (resultArray.length > 2) {
+            if (resultArray.length > 3 && StringUtils.equalsIgnoreCase(resultArray[2], "award")) {
+                result = "Award";
+            } else {
+                result = resultArray[1];
+                if (StringUtils.equalsIgnoreCase(result, "coidisclosure")) {
+                    result = "Disclosure";
+                } else if (StringUtils.equalsIgnoreCase(result, "subaward")) {
+                    result = "Subaward";
+                } else if (StringUtils.equalsIgnoreCase(result, "protocol")) {
+                    result = "Protocol";
+                } else if (StringUtils.equalsIgnoreCase(result, "iacuc_protocol")) {
+                    result = "IACUC Protocol";
+                } else if (StringUtils.equalsIgnoreCase(result, "negotiation")) {
+                    result = "Negotiation";
+                }
+            }
+        }
+        return result;
+    }
+    
     private List<PessimisticLock> findMatchingLocksWithGivenDescriptor(String lockDescriptor) {
         BusinessObjectService boService = KRADServiceLocator.getBusinessObjectService();
         Map fieldValues = new HashMap();
