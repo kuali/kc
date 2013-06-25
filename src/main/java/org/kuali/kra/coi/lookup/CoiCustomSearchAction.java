@@ -72,6 +72,7 @@ public class CoiCustomSearchAction extends KualiAction {
         if (!helper.hasFinEnt(coiDisclosureDocument.getCoiDisclosure())
                 && getKraAuthorizationService().hasPermission(GlobalVariables.getUserSession().getPrincipalId(), coiDisclosureDocument.getCoiDisclosure(), PermissionConstants.APPROVE_COI_DISCLOSURE)) {
             getCoiDisclosureActionService().approveDisclosure(coiDisclosureDocument.getCoiDisclosure(), CoiDispositionStatus.NO_CONFLICT_EXISTS);
+            GlobalVariables.getMessageMap().putInfo(Constants.NO_FIELD, KeyConstants.MESSAGE_COI_DISCLOSURE_QUICK_APPROVED);
         } else {
             GlobalVariables.getMessageMap().putError(Constants.NO_FIELD, KeyConstants.ERROR_COI_NO_PERMISSION_APPROVE);
         }
