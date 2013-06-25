@@ -175,7 +175,7 @@ public class SubAwardFinancialAction extends SubAwardAction{
          getSubAwardAmountInfoList().get(lineNumber);
         if (subAwardAmountInfo.getDocument() != null) {
             this.streamToResponse(subAwardAmountInfo.getDocument(), 
-                    getValidHeaderString(subAwardAmountInfo.getFileName()), getValidHeaderString(subAwardAmountInfo.getContentType()), response);
+                    getValidHeaderString(subAwardAmountInfo.getFileName()), getValidHeaderString(subAwardAmountInfo.getType()), response);
         }
         return null;
     }
