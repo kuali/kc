@@ -45,6 +45,7 @@ public final class KeyConstants {
     public static final String ERROR_NOTIFICATION_EMPTY_NOTIFICATION_RECIPIENT = "error.notification.empty.notifcation.recipient";
     public static final String ERROR_NOTIFICATION_DUPLICATE_NOTIFICATION_RECIPIENT = "error.notification.duplicate.notification.recipient";
     public static final String ERROR_NOTIFICATION_RECIPIENTS_REQUIRED = "error.notification.recipients.required";
+    public static final String LOCKED_DOCUMENT_MESSAGE = "locked.document.message";
     
     // Special Review
     public static final String ERROR_SPECIAL_REVIEW_PROTOCOL_NUMBER_INVALID = "error.special.review.protocol.number.invalid";
