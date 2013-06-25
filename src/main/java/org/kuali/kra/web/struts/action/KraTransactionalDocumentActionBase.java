@@ -405,38 +405,39 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
     @Override
     protected String generatePessimisticLockMessage(PessimisticLock lock) {
         String descriptor = (lock.getLockDescriptor() != null) ? lock.getLockDescriptor() : "";
+        String message = KRADServiceLocator.getKualiConfigurationService().getPropertyValueAsString(KeyConstants.LOCKED_DOCUMENT_MESSAGE);
 
-        if (StringUtils.isNotEmpty(descriptor)) {
-            descriptor = getDocumentType(descriptor);
-            return new StringBuilder().append("This ").append(descriptor).append(" is locked for editing by ").append(lock.getOwnedByUser().getPrincipalName()).append(" as of ")
-                .append(org.kuali.rice.core.api.util.RiceConstants.getDefaultTimeFormat().format(lock.getGeneratedTimestamp())).append(" on ")
-                .append(org.kuali.rice.core.api.util.RiceConstants.getDefaultDateFormat().format(lock.getGeneratedTimestamp())).toString();
-        } else {
-            return new StringBuilder().append("Delete ").append(lock.getId()).append(" ").append(lock.getOwnedByUser().getPrincipalName()).append(" ").append(" ")
-                .append(org.kuali.rice.core.api.util.RiceConstants.getDefaultDateFormat().format(lock.getGeneratedTimestamp())).append(" ") 
-                .append(org.kuali.rice.core.api.util.RiceConstants.getDefaultTimeFormat().format(lock.getGeneratedTimestamp()))
-                .toString();
-        }
+        descriptor = getDocumentType(descriptor);
+        message = message.replace("{DOCUMENT_TYPE}", descriptor);
+        message = message.replace("{LOCKED_BY}", lock.getOwnedByUser().getPrincipalName());
+        message = message.replace("{TIMESTAMP}", org.kuali.rice.core.api.util.RiceConstants.getDefaultTimeFormat().format(lock.getGeneratedTimestamp()));
+        message = message.replace("{DATESTAMP}", org.kuali.rice.core.api.util.RiceConstants.getDefaultDateFormat().format(lock.getGeneratedTimestamp()));
+        
+        return message;
     }
 
     private String getDocumentType(String descriptor) {
-        String result="";
-        String[] resultArray = descriptor.split("-");
-        if (resultArray.length > 2) {
-            if (resultArray.length > 3 && StringUtils.equalsIgnoreCase(resultArray[2], "award")) {
-                result = "Award";
-            } else {
-                result = resultArray[1];
-                if (StringUtils.equalsIgnoreCase(result, "coidisclosure")) {
-                    result = "Disclosure";
-                } else if (StringUtils.equalsIgnoreCase(result, "subaward")) {
-                    result = "Subaward";
-                } else if (StringUtils.equalsIgnoreCase(result, "protocol")) {
-                    result = "Protocol";
-                } else if (StringUtils.equalsIgnoreCase(result, "iacuc_protocol")) {
-                    result = "IACUC Protocol";
-                } else if (StringUtils.equalsIgnoreCase(result, "negotiation")) {
-                    result = "Negotiation";
+        String result="document";
+        if (StringUtils.isNotEmpty(descriptor)) {
+            String[] resultArray = descriptor.split("-");
+            if (resultArray.length > 2) {
+                if (resultArray.length > 3 && StringUtils.equalsIgnoreCase(resultArray[2], "award")) {
+                    result = "Award";
+                } else {
+                    result = resultArray[1];
+                    if (StringUtils.equalsIgnoreCase(result, "coidisclosure")) {
+                        result = "Disclosure";
+                    } else if (StringUtils.equalsIgnoreCase(result, "subaward")) {
+                        result = "Subaward";
+                    } else if (StringUtils.equalsIgnoreCase(result, "protocol")) {
+                        result = "Protocol";
+                    } else if (StringUtils.equalsIgnoreCase(result, "iacuc_protocol")) {
+                        result = "IACUC Protocol";
+                    } else if (StringUtils.equalsIgnoreCase(result, "negotiation")) {
+                        result = "Negotiation";
+                    } else if (StringUtils.equalsIgnoreCase(result, "proposal development")) {
+                        result = "Proposal";
+                    }
                 }
             }
         }
