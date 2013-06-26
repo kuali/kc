@@ -818,7 +818,7 @@ public class MedusaServiceImpl implements MedusaService {
                  * KRACOEUS-6539: Medusa needs to check that this awardFundingProposal is STILL active in the current active IP version
                  * before displaying it. Currently, awards from cancelled IPs are also appearing in the list.
                  */
-                if (awardFunding.isActive() && curIp.isActiveVersion()) {
+                if (awardFunding.isActive() && !curIp.isCancelled()) {
                     awards.add(getAward(awardFunding.getAwardId()));
                 }
             }
@@ -834,7 +834,7 @@ public class MedusaServiceImpl implements MedusaService {
         }
         return awards;
     }
-    
+  
     /**
      * 
      * Gets and returns the newest active proposal version for the proposal number.
@@ -872,8 +872,8 @@ public class MedusaServiceImpl implements MedusaService {
             Collection<AwardFundingProposal> awardFundingProposals = curAward.getFundingProposals();
             for (AwardFundingProposal awardFunding : awardFundingProposals) {
                 InstitutionalProposal curProposal = businessObjectService.findByPrimaryKey(InstitutionalProposal.class, getFieldValues("proposalId", awardFunding.getProposalId()));
-                boolean isActiveProposal = curProposal.isActiveVersion();
-                if (isActiveProposal && awardFunding.isActive()) {
+                boolean proposalNotCancelled = !curProposal.isCancelled();
+                if (proposalNotCancelled && awardFunding.isActive()) {
                     ips.add(getInstitutionalProposal(awardFunding.getProposalId()));
                 }
             }
