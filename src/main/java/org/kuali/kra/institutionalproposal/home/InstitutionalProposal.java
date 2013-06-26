@@ -252,6 +252,10 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
     public boolean isActiveVersion() {
         return this.getProposalSequenceStatus().equals(VersionStatus.ACTIVE.toString());
     }
+    
+    public boolean isCancelled() {
+        return this.getProposalSequenceStatus().equals(VersionStatus.CANCELED.toString());
+    }
 
     /**
      * Is this Proposal funded by the given Award number and version?
