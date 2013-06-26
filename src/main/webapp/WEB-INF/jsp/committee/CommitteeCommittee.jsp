@@ -27,8 +27,11 @@
 	auditCount="0"
   	headerDispatch="${KualiForm.headerDispatch}"
   	headerTabActive="committee">
-   
+ 
+<script type="text/javascript">
+	var $j = jQuery.noConflict();
 </script>
+
 <div align="right"><kul:help documentTypeName="CommitteeDocument" pageName="Committee" /></div>
 <kul:documentOverview editingMode="${KualiForm.editingMode}" />
 <kra-committee:committee />
