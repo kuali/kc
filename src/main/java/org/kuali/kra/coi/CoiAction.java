@@ -25,6 +25,8 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.coi.actions.CoiDisclosureActionService;
 import org.kuali.kra.coi.disclosure.CoiDisclosureService;
+import org.kuali.kra.coi.disclosure.DisclosureHelper;
+import org.kuali.kra.coi.disclosure.MasterDisclosureBean;
 import org.kuali.kra.coi.notification.CoiNotification;
 import org.kuali.kra.coi.notification.CoiNotificationContext;
 import org.kuali.kra.common.notification.service.KcNotificationService;
@@ -193,5 +195,22 @@ public abstract class CoiAction extends KraTransactionalDocumentActionBase {
         return actionForward;
     }
 
+
+    public ActionForward viewProjectDisclosuresByFinancialEntity(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) form;
+        DisclosureHelper disclosureHelper = coiDisclosureForm.getDisclosureHelper();
+        CoiDisclosure coiDisclosure = coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure();
+        MasterDisclosureBean masterDisclosureBean = disclosureHelper.getMasterDisclosureBean();
+        getCoiDisclosureService().createDisclosuresGroupedByFinancialEntity(coiDisclosure, masterDisclosureBean);
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    public ActionForward viewProjectDisclosuresByEvent(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) form;
+        DisclosureHelper disclosureHelper = coiDisclosureForm.getDisclosureHelper();
+        MasterDisclosureBean masterDisclosureBean = disclosureHelper.getMasterDisclosureBean();
+        getCoiDisclosureService().createDisclosuresGroupedByEvent(masterDisclosureBean);
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
 
 }

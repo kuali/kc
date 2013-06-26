@@ -475,5 +475,13 @@ public class DisclosureHelper implements Serializable {
     public String getAnnualCertApprovalErrorMsgForAdmin() {
         return annualCertApprovalErrorMsgForAdmin;
     }
+    
+    public boolean isUndisclosedEventsPresent() {
+        boolean isPresent = false;
+        if(getMasterDisclosureBean() != null) {
+            isPresent = getMasterDisclosureBean().getAllDisclosuresGroupedByProjects().size() > 0;
+        }
+        return isPresent;
+    }
 
 }
