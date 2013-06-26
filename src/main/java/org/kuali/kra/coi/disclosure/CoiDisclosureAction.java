@@ -316,7 +316,11 @@ public class CoiDisclosureAction extends CoiAction {
                 coiDisclosureForm.setDocId(coiDisclosure.getCoiDisclosureDocument().getDocumentNumber());
             } else {
                 coiDisclosureForm.setCommand(KewApiConstants.INITIATE_COMMAND);
-                coiDisclosure = getCoiDisclosureService().versionCoiDisclosure();                
+                coiDisclosure = getCoiDisclosureService().versionCoiDisclosure();
+                // quick-fix: resetting the annual update flag value inherited via above versioning
+                if(coiDisclosure != null) {
+                    coiDisclosure.setAnnualUpdate(false);                 
+                }
             }
 
             forward = super.docHandler(mapping, form, request, response);
