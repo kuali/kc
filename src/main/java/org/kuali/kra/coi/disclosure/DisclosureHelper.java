@@ -128,33 +128,45 @@ public class DisclosureHelper implements Serializable {
         }
     }
     
+ // check if the given dispCode is a member of a particular set of 'well-resolved' disposition codes
+    private boolean isDispositionWellResolved(String dispCode) {
+        boolean retVal = false; 
+        if (CoiDispositionStatus.BEST_PRACTICES_MEMO.equals(dispCode) ||
+            CoiDispositionStatus.NO_FURTHER_ACTION.equals(dispCode) ||
+            CoiDispositionStatus.DISCLOSED_INTERESTS_ELIMINATED.equals(dispCode) ||
+            CoiDispositionStatus.DISCLOSED_INTERESTS_REDUCED.equals(dispCode) ||
+            CoiDispositionStatus.DISCLOSED_INTERESTS_MANAGED.equals(dispCode) ||
+            CoiDispositionStatus.NO_CONFLICT_EXISTS.equals(dispCode) ||
+            CoiDispositionStatus.EXEMPT.equals(dispCode)) {
+            
+            retVal = true;
+        }
+        return retVal;
+    }
+    
+    
     private void checkForUnresolvedEvents() {
         unresolvedEventsPresent = false;
         if (getCoiDisclosure().isAnnualEvent() || getCoiDisclosure().isAnnualUpdate()) {
+            // loop thru all disclosures for the reporter, and break on the first one we find is not resolved 'well'
             List<CoiDisclosure> disclosures = getDisclosureService().getAllDisclosuresForUser(getCoiDisclosure().getPersonId());
             for (CoiDisclosure disclosure: disclosures) {
                 if (!disclosure.isAnnualEvent() && !disclosure.isAnnualUpdate() && !disclosure.isExcludedFromAnnual()) {
-                    String dispCode = disclosure.getDisclosureDispositionCode();
-                    String dispStatus = disclosure.getDisclosureStatusCode();
-                    if (!CoiDispositionStatus.BEST_PRACTICES_MEMO.equals(dispCode) &&
-                            !CoiDispositionStatus.NO_FURTHER_ACTION.equals(dispCode) &&
-                            !CoiDispositionStatus.DISCLOSED_INTERESTS_ELIMINATED.equals(dispCode) &&
-                            !CoiDispositionStatus.DISCLOSED_INTERESTS_REDUCED.equals(dispCode) &&
-                            !CoiDispositionStatus.DISCLOSED_INTERESTS_MANAGED.equals(dispCode) &&
-                            !CoiDispositionStatus.NO_CONFLICT_EXISTS.equals(dispCode) &&
-                            !CoiDispositionStatus.EXEMPT.equals(dispCode)) {
-                        // then we have a "bad" status, so we should display an error message
+                    // ignoring disapproved disclosures during the check; annuals can get stuck otherwise 
+                    if( !(CoiDisclosureStatus.DISAPPROVED.equals(disclosure.getDisclosureStatusCode())) && 
+                        !(isDispositionWellResolved(disclosure.getDisclosureDispositionCode())) ) {
+                        // we have a "bad" disposition status, so we set the display flag and an error message, and break
                         unresolvedEventsPresent = true;
                         if (annualCertApprovalErrorMsgForAdmin == null) {
                             annualCertApprovalErrorMsgForAdmin = KRADServiceLocator.getKualiConfigurationService().getPropertyValueAsString(ERROR_COI_ANNUAL_OPEN_DISCLOSURES_FOR_ADMIN);
                             annualCertApprovalErrorMsgForAdmin = annualCertApprovalErrorMsgForAdmin.replace("{0}", getCoiDisclosure().getDisclosureReporter().getReporter().getFullName());
                         }
-                    } else if (!CoiDisclosureStatus.APPROVED.equals(dispStatus)) {
-                        unresolvedEventsPresent = true;
+                        break;                        
                     }
                 }
             }
-        } else {
+        } 
+        else {
             annualCertApprovalErrorMsgForAdmin = null;
         }
     }
