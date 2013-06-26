@@ -1,83 +1,65 @@
-<%--
- Copyright 2005-2013 The Kuali Foundation
-
- Licensed under the Educational Community License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
-
- http://www.osedu.org/licenses/ECL-2.0
-
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
---%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
-<c:set var="permissionsUserAttributes" value="${DataDictionary.PermissionsUser.attributes}" />
-<c:set var="coiUserRoleAttributes" value="${DataDictionary.CoiUserRole.attributes}" />
-<c:set var="financialEntityAttributes" value="${DataDictionary.PersonFinIntDisclosure.attributes}" />
+<%@ attribute name="disclProjectBean" required="true" type="org.kuali.kra.coi.disclosure.CoiDisclosureProjectBean" description="A List of active or inactive FE" %>
+<%@ attribute name="projectDivNamePrefix" required="true" description="name for project related div" %>
+<%@ attribute name="idx" required="true" description="detail index" %>
+<%@ attribute name="projectListName" required="true" description="Project list name in master bean" %>
 <c:set var="coiDiscDetailAttributes" value="${DataDictionary.CoiDiscDetail.attributes}" />
-<c:set var="userRoles" value="${KualiForm.disclosureActionHelper.coiUserRoles}"/>
+<c:set var="financialEntityAttributes" value="${DataDictionary.PersonFinIntDisclosure.attributes}" />
+<c:set var="canEditDisclosure" value="${KualiForm.disclosureHelper.canEditDisclosureFinancialEntity}" />
+<c:set var="isMasterDisclosure" value="${KualiForm.disclosureHelper.coiDisclosure.approvedDisclosure}" />
+                                  
+<%-- New data --%>
+            
+<%-- Existing data --%>
 
-	<div class="tab-container" align="center">
-		<h3> 
-			<span class="subhead-left">Financial Entity Status Review</span>
-            <span class="subhead-right"><kul:help parameterNamespace="KC-COIDISCLOSURE" parameterDetailType="Document" parameterName="coiAdministratorActionHelp" altText="help"/></span>
- 		</h3>
-        <table id="coi-user-roles" cellpadding="0" cellspacing="0" summary="">
-        <tbody>
-        
-            <%-- Table headers --%>
-            
-            <tr>
-                <th width="5%"><div align="left">&nbsp;</div></th> 
-                <th width="10%"><div align="center">Event</div></th>
-                <th width="5%"><div align="center">Project Id</div></th>
-                <th width="15%"><div align="center">Project Title</div></th>
-                <th width="15%"><div align="center">Active Entities</div></th>
-                <th><div align="center">Comments</div></th>
-                <th width="12%"><div align="center">Last Updated</div></th>
-                <th width="10%"><div align="center">Updated By</div></th>
-                <th width="12%"><div align="center">Recommended Status</div></th>
-            </tr>
-            
-			<c:set var="userIndex" value="1"/>
-            <c:forEach var="disclProject" items="${KualiForm.document.coiDisclosureList[0].coiDisclProjects}" varStatus="status">
-				<c:forEach var="disclosureDetail" items="${disclProject.coiDiscDetails}" varStatus="festatus">
-        			<tr>
+<div class="financialentity" <c:if test="${disclProjectBean.excludeFE}">style="display:none"</c:if>>
+    <div class="h2-container" style="height:20px; vertical-align:middle; background-color:#999; border-top:none; border-bottom:none; color:#FFF; font-weight:bold;">
+        <span class="subhead-left">
+      	    &nbsp;
+            <a href="#" id ="${projectDivNamePrefix}Control${idx}" class="financialEntitySubpanel"><img src='kr/images/tinybutton-hide.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'></a> 
+            Financial Entities 
+        </span>
+    	<span style="float: right;text-align: right;"><kul:help businessObjectClassName="org.kuali.kra.coi.CoiDiscDetail" altText="help"/></span>
+    </div>
+    
+    <div  id="${projectDivNamePrefix}Details${idx}" style="margin-bottom:15px;">
+        <div  id="${projectDivNamePrefix}Content${idx}" class="financialEntitySubpanelContent" style="margin-bottom:15px;">
+            <table class=tab cellpadding="0" cellspacing="0" summary="">
+	            <tr>
+	                <th width="5%"><div align="left">&nbsp;</div></th> 
+	                <th width="15%"><div align="center">Active Entities</div></th>
+	                <th><div align="center">Comments</div></th>
+	                <th width="12%"><div align="center">Last Updated</div></th>
+	                <th width="10%"><div align="center">Updated By</div></th>
+	                <th width="12%"><div align="center">Recommended Status</div></th>
+	            </tr>
+				<c:set var="userIndex" value="1"/>
+        	    <c:forEach var="disclosureDetail" items="${disclProjectBean.coiDisclProject.coiDiscDetails}" varStatus="festatus">
+                    <tr>
         				<td>
         					${userIndex}
         				</td>
 		           		<td style="text-align: left;" valign="middle">
-		           			${disclProject.coiDisclosureEventType.description}
+		           			${disclosureDetail.personFinIntDisclosure.entityName}
            				</td>
 		           		<td style="text-align: left;" valign="middle">
-		           			${disclProject.coiProjectId}
+		           			${disclosureDetail.comments}
            				</td>
 		           		<td style="text-align: left;" valign="middle">
-		           			${disclProject.coiProjectTitle}
+		           			${disclosureDetail.updateTimestamp}
            				</td>
 		           		<td style="text-align: left;" valign="middle">
-           					<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclProjects[${status.index}].coiDiscDetails[${festatus.index}].personFinIntDisclosure.entityName" readOnly="true" attributeEntry="${financialEntityAttributes.entityName}" /> 
-           				</td>
-		           		<td style="text-align: left;" valign="middle">
-           					<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclProjects[${status.index}].coiDiscDetails[${festatus.index}].comments" readOnly="true" attributeEntry="${coiDiscDetailAttributes.comments}" /> 
-           				</td>
-		           		<td style="text-align: left;" valign="middle">
-           					<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclProjects[${status.index}].coiDiscDetails[${festatus.index}].updateTimestamp" readOnly="true" attributeEntry="${financialEntityAttributes.entityName}" /> 
-           				</td>
-		           		<td style="text-align: left;" valign="middle">
-           					<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclProjects[${status.index}].coiDiscDetails[${festatus.index}].updateUser" readOnly="true" attributeEntry="${financialEntityAttributes.entityName}" /> 
+		           			${disclosureDetail.updateUser}
            				</td>
             	 		<td style="text-align: left;" valign="middle">
-        	   				<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclProjects[${status.index}].coiDiscDetails[${festatus.index}].entityStatusCode" 
-  								attributeEntry="${coiDiscDetailAttributes.entityStatusCode}" styleClass="conflictClass${status.index}" />
+                             <kul:htmlControlAttribute property="disclosureHelper.masterDisclosureBean.${projectListName}[${idx}].coiDisclProject.coiDiscDetails[${festatus.index}].entityStatusCode" readOnly="${readOnly}" attributeEntry="${coiDiscDetailAttributes.entityStatusCode}" 
+                                 readOnlyAlternateDisplay="${disclosureDetail.coiEntityStatusCode.description}" styleClass="conflictClass${projectDivNamePrefix}${idx}"/> 
 						</td>
-    	    		</tr>
+                    </tr>
 		        	<c:set var="userIndex" value="${userIndex+1}" />
-	        	</c:forEach>
-            </c:forEach>
-        </tbody>
-        </table>        
-       </div> 
+                </c:forEach>
+            </table>
+        </div> 
+    </div>
+</div>
+    

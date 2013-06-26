@@ -21,7 +21,7 @@
 		<c:if test="${not KualiForm.document.coiDisclosureList[0].currentDisclosure}">
             <kra-coi:addCoiReviewerAction />
             <kra:permission value="${KualiForm.disclosureHelper.canUpdateFEStatusAdmin}">
-                <kra-coi:feStatusReview/>
+            	<kra-coi:coiProjectsFinancialEntity/>
             </kra:permission>
             <c:if test="${disclosureReviewCompleted}">
 	            <kra-coi:disclosureReviewStatusAction/>
