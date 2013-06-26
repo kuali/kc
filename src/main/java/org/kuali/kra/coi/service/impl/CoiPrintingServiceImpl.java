@@ -96,12 +96,8 @@ public class CoiPrintingServiceImpl  implements CoiPrintingService {
          AttachmentDataSource attachmentDataSource =  getPrintingService().print(printableArtifactList);
          CoiCertificationPrint certificationPrint = (CoiCertificationPrint) printableArtifactList.get(0);
          CoiDisclosure coiDisclosure = (CoiDisclosure) certificationPrint.getPrintableBusinessObject();
-         if (coiDisclosure.getCoiDisclosureStatus().getCoiDisclosureStatusCode().equalsIgnoreCase("1")) {
-             fileName = "PendingDisclosure" + Constants.PDF_FILE_EXTENSION;
-         } else {
-            fileName = "ApprovedDisclosure" + Constants.PDF_FILE_EXTENSION;
-         }
-           try {
+         fileName = "PendingDisclosure" + Constants.PDF_FILE_EXTENSION;
+          try {
                attachmentDataSource.setFileName(URLEncoder.encode(fileName,"UTF-8"));
            } catch (UnsupportedEncodingException e) {
                attachmentDataSource.setFileName(fileName);
