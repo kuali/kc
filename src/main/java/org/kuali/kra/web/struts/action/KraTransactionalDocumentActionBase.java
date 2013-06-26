@@ -424,7 +424,6 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
                 if (resultArray.length > 3 && StringUtils.equalsIgnoreCase(resultArray[2], "award")) {
                     result = "Award";
                 } else {
-                    result = resultArray[1];
                     if (StringUtils.equalsIgnoreCase(result, "coidisclosure")) {
                         result = "Disclosure";
                     } else if (StringUtils.equalsIgnoreCase(result, "subaward")) {
