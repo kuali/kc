@@ -20,7 +20,6 @@
 <c:set var="awardDisplayValue" value=""/>
 <c:set var="proposalDisplayValue" value=""/>
 <c:set var="protocolDisplayValue" value=""/>
-<c:set var="institutionalProposalDisplayValue" value=""/>
 
 <c:forEach var="disclProject" items="${KualiForm.document.coiDisclosureList[0].coiDisclProjects}" varStatus="status">
     <c:choose>
@@ -51,16 +50,6 @@
                 </c:when>
                 <c:otherwise>
                     <c:set var="protocolDisplayValue" value="${protocolDisplayValue},document.coiDisclosureList[0].coiDisclProjects[${status.index}].*"/>
-                </c:otherwise>
-            </c:choose>
-        </c:when>
-        <c:when test="${disclProject.institutionalProposalEvent}">
-            <c:choose>
-                <c:when test="${empty institutionalProposalDisplayValue}">
-                    <c:set var="institutionalProposalDisplayValue" value="document.coiDisclosureList[0].coiDisclProjects[${status.index}].*"/>
-                </c:when>
-                <c:otherwise>
-                    <c:set var="institutionalProposalDisplayValue" value="${institutionalProposalDisplayValue},document.coiDisclosureList[0].coiDisclProjects[${status.index}].*"/>
                 </c:otherwise>
             </c:choose>
         </c:when>
@@ -104,16 +93,4 @@
 			</c:forEach>
 		</div>
 	</kul:tab>           
-</c:if>   
-<c:if test="${not empty institutionalProposalDisplayValue}">   
-    <kul:tab defaultOpen="false" tabTitle="Institutional Proposals" auditCluster="financialEntityDiscAuditErrors" tabAuditKey="${institutionalProposalDisplayValue}" useRiceAuditMode="true"
-        tabErrorKey="disclosureHelper.newCoiDisclProject.*" >
-        <div class="tab-container" align="center">
-            <c:forEach var="disclProject" items="${KualiForm.document.coiDisclosureList[0].coiDisclProjects}" varStatus="status">
-                <c:if test="${disclProject.institutionalProposalEvent}">
-                    <kra-coi:genericFinancialEntity disclProject="${disclProject}"  idx="${status.index}" boLocation="document.coiDisclosureList[0].coiDisclProjects[${status.index}]"/>                
-                </c:if>
-            </c:forEach>
-        </div>
-    </kul:tab>           
-</c:if>              
+</c:if>             
