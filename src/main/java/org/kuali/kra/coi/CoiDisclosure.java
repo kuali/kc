@@ -543,7 +543,7 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
                 if (CollectionUtils.isNotEmpty(coiDisclProject.getCoiDiscDetails())) {
                     detailSize += coiDisclProject.getCoiDiscDetails().size();
                     for (CoiDiscDetail coiDiscDetail : coiDisclProject.getCoiDiscDetails()) {
-                        if (StringUtils.isNotBlank(coiDiscDetail.getEntityStatusCode())) {
+                        if (coiDiscDetail.getEntityDispositionCode() != null && coiDiscDetail.getEntityDispositionCode() > 0) {
                             completeCount ++;
                         }
                     }
@@ -682,7 +682,7 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
             for (CoiDisclProject coiDisclProject: this.getCoiDisclProjects()) {
                 if (CollectionUtils.isNotEmpty(coiDisclProject.getCoiDiscDetails())) {
                     for (CoiDiscDetail coiDiscDetail : coiDisclProject.getCoiDiscDetails()) {
-                        if (StringUtils.isBlank(coiDiscDetail.getEntityStatusCode())) {
+                        if (coiDiscDetail.getEntityDispositionCode() == null || coiDiscDetail.getEntityDispositionCode() == 0) {
                             isComplete = false;
                             break;
                         }

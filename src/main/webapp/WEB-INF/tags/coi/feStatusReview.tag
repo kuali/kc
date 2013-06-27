@@ -52,8 +52,9 @@
 		           			${disclosureDetail.updateUser}
            				</td>
             	 		<td style="text-align: left;" valign="middle">
-                             <kul:htmlControlAttribute property="disclosureHelper.masterDisclosureBean.${projectListName}[${idx}].coiDisclProject.coiDiscDetails[${festatus.index}].entityStatusCode" readOnly="${readOnly}" attributeEntry="${coiDiscDetailAttributes.entityStatusCode}" 
-                                 readOnlyAlternateDisplay="${disclosureDetail.coiEntityStatusCode.description}" styleClass="conflictClass${projectDivNamePrefix}${idx}"/> 
+        	   				<kul:htmlControlAttribute property="disclosureHelper.masterDisclosureBean.${projectListName}[${idx}].coiDisclProject.coiDiscDetails[${festatus.index}].entityDispositionCode" 
+  								readOnly="${readOnly}" attributeEntry="${coiDiscDetailAttributes.entityDispositionCode}" styleClass="conflictClass${projectDivNamePrefix}${idx}" 
+  								readOnlyAlternateDisplay="${disclosureDetail.coiEntityDispositionStatus.description}"/>
 						</td>
                     </tr>
 		        	<c:set var="userIndex" value="${userIndex+1}" />

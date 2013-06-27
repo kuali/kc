@@ -17,6 +17,7 @@ package org.kuali.kra.coi;
 
 import java.util.List;
 
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -46,7 +47,6 @@ public abstract class CoiAction extends KraTransactionalDocumentActionBase {
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-        final ActionForward forward = super.execute(mapping, form, request, response);
         CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) form;
         if (coiDisclosureForm.isAuditActivated()){
             coiDisclosureForm.setUnitRulesMessages(getUnitRulesMessages(coiDisclosureForm.getCoiDisclosureDocument()));
@@ -55,7 +55,10 @@ public abstract class CoiAction extends KraTransactionalDocumentActionBase {
             new AuditActionHelper().auditConditionally(coiDisclosureForm);
         }
         
-        return forward;
+        coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure().setDisclosureDispositionCode(coiDisclosureForm.getDisclosureActionHelper().getMaximumDispositionStatus().getCoiDispositionCode());
+        coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure().refreshReferenceObject("coiDispositionStatus");
+        
+        return super.execute(mapping, form, request, response);
     }
     
     public ActionForward disclosure(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {

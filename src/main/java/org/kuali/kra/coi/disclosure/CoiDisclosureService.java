@@ -219,5 +219,15 @@ public interface CoiDisclosureService {
      * @return
      */
     public List<CoiDisclosureUndisclosedEvents> getUndisclosedEvents(Map<String, String> searchCriteria);
+    
+    /**
+     * Loops through all project and financial entities and returns the maximum disposition status from the disclosure.
+     * Returns NO CONFLICT EXISTS if no financial entities exist.
+     * @param coiDisclosure
+     * @return
+     */
+    public CoiDispositionStatus getMaximumDispositionStatus(CoiDisclosure coiDisclosure);
+    
+    public Integer getMaximumDispositionStatusCode(CoiDisclosure coiDisclosure);    
 
 }
