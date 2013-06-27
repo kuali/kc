@@ -16,6 +16,7 @@
 package org.kuali.kra.coi.lookup;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -91,7 +92,7 @@ public class CoiCustomSearchAction extends KualiAction {
     }
 
     protected List<CoiDisclosure> getInProgressReviews() {
-        List<String> inProgressStatusCodes = (List<String>) getParameterService().getParameterValuesAsString(CoiDisclosureDocument.class, Constants.COI_WORK_IN_PROGRESS_REVIEW_STATUS_PARM);
+        Collection<String> inProgressStatusCodes = getParameterService().getParameterValuesAsString(CoiDisclosureDocument.class, Constants.COI_WORK_IN_PROGRESS_REVIEW_STATUS_PARM);
         return getCoiDisclosureDao().getReviewsForReviewStatuses(inProgressStatusCodes);
     }
     
