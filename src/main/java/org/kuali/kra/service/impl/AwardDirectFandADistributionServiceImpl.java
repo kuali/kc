@@ -48,13 +48,13 @@ public class AwardDirectFandADistributionServiceImpl implements AwardDirectFandA
    protected List<AwardDirectFandADistribution> buildListBasedOnProjectStartAndEndDates(Award award) {
        List<AwardDirectFandADistribution> awardDirectFandADistributions = new ArrayList<AwardDirectFandADistribution>();
        Date projectStartDate = award.getAwardEffectiveDate();
-       Date projectEndDate;
+       
        //KRACOEUS-6546
        // the project start date is stored in the award but the end date is stored in the awardAmountInfo bean. 
        // When awards are versioned, there are multiple awardAmountInfo entries. Get the latest entry since the
        // project start date in the award is the latest.
        AwardAmountInfo latestAwardAmountInfo = award.getAwardAmountInfos().get(award.getAwardAmountInfos().size() - 1);
-       projectEndDate = latestAwardAmountInfo.getFinalExpirationDate();
+       Date projectEndDate = latestAwardAmountInfo.getFinalExpirationDate();
        Calendar cl = Calendar.getInstance();
        Date periodStartDate = projectStartDate;
        int budgetPeriodNum = 1;
