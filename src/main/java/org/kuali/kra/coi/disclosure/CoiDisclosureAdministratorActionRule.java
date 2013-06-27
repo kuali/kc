@@ -26,12 +26,16 @@ public class CoiDisclosureAdministratorActionRule {
     private static final String ADMIN_ERRORS = "coiAdminActionErrors";
     
     public boolean isValidStatus(String disclosureStatus, String dispositionStatus) {
+        return isValidStatus(disclosureStatus, convertDispositionStatus(dispositionStatus));
+    }
+    
+    public boolean isValidStatus(String disclosureStatus, Integer dispositionStatus) {
         boolean isValid = true;
         if (StringUtils.isBlank(disclosureStatus)) {
             GlobalVariables.getMessageMap().putError(ADMIN_ERRORS, KeyConstants.ERROR_COI_DISCLOSURE_STATUS_REQUIRED);    
             isValid = false;
         }
-        if (StringUtils.isBlank(dispositionStatus)) {
+        if (dispositionStatus == null) {
             GlobalVariables.getMessageMap().putError(ADMIN_ERRORS, KeyConstants.ERROR_COI_DISPOSITON_STATUS_REQUIRED); 
             isValid = false;
         }
@@ -39,12 +43,20 @@ public class CoiDisclosureAdministratorActionRule {
     }
     
     public boolean isValidDispositionStatus(String dispositionStatus) {
+        return isValidDispositionStatus(convertDispositionStatus(dispositionStatus));
+    }
+    
+    public boolean isValidDispositionStatus(Integer dispositionStatus) {        
         boolean isValid = true;
-        if (StringUtils.isBlank(dispositionStatus)) {
+        if (dispositionStatus == null) {
             GlobalVariables.getMessageMap().putError(Constants.DISCLOSURE_MANUAL_DISPOSITION_STATUS, KeyConstants.ERROR_COI_DISPOSITON_STATUS_REQUIRED); 
             isValid = false;
         }
         return isValid;
+    }
+    
+    protected Integer convertDispositionStatus(String dispositionStatus) {
+        return dispositionStatus != null ? Integer.valueOf(dispositionStatus) : null;
     }
 
 }

@@ -42,7 +42,7 @@
                 <ref bean="CoiDiscDetail-moduleItemKey" />
                 <ref bean="CoiDiscDetail-entityNumber" />
                 <ref bean="CoiDiscDetail-entitySequenceNumber" />
-                <ref bean="CoiDiscDetail-entityStatusCode" />
+                <ref bean="CoiDiscDetail-entityDispositionCode" />
                 <ref bean="CoiDiscDetail-description" />
                 <ref bean="CoiDiscDetail-comments" />
                 <ref bean="CoiDiscDetail-versionNumber" />
@@ -214,9 +214,9 @@
         <property name="description" value="Entity Sequence Number" />
     </bean>
 
-    <bean id="CoiDiscDetail-entityStatusCode" parent="CoiDiscDetail-entityStatusCode-parentBean" />
-    <bean id="CoiDiscDetail-entityStatusCode-parentBean" abstract="true" parent="AttributeDefinition" >
-        <property name="name" value="entityStatusCode" />
+    <bean id="CoiDiscDetail-entityDispositionCode" parent="CoiDiscDetail-entityDispositionCode-parentBean" />
+    <bean id="CoiDiscDetail-entityDispositionCode-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="entityDispositionCode" />
         <property name="forceUppercase" value="false" />
         <property name="label" value="Conflict" />
         <property name="shortLabel" value="Conflict" />
@@ -226,15 +226,10 @@
         </property>
     	<property name="control" >
       		<bean parent="SelectControlDefinition"
-            	p:businessObjectClass="org.kuali.kra.coi.CoiEntityStatusCode"
-            	p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder"
-            	p:includeKeyInLabel="false"
-            	p:includeBlankRow="false"
-            	p:keyAttribute="entityStatusCode"
-            	p:labelAttribute="description" />
+            	p:valuesFinderClass="org.kuali.kra.coi.disclosure.CoiDispositionStatusValuesFinder" />
     	</property>
-        <property name="summary" value="Entity Status Code" />
-        <property name="description" value="Entity Status Code" />
+        <property name="summary" value="Entity Status" />
+        <property name="description" value="Entity Status" />
     </bean>
 
     <bean id="CoiDiscDetail-description" parent="CoiDiscDetail-description-parentBean" />
@@ -301,7 +296,7 @@
                             <bean parent="FieldDefinition"
                                 p:attributeName="entitySequenceNumber" />
                             <bean parent="FieldDefinition"
-                                p:attributeName="entityStatusCode" />
+                                p:attributeName="entityDispositionCode" />
                             <bean parent="FieldDefinition"
                                 p:attributeName="description" />
                             <bean parent="FieldDefinition"
@@ -344,7 +339,7 @@
                 <bean parent="FieldDefinition"
                     p:attributeName="entitySequenceNumber" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="entityStatusCode" />
+                    p:attributeName="entityDispositionCode" />
                 <bean parent="FieldDefinition"
                     p:attributeName="description" />
                 <bean parent="FieldDefinition"
@@ -373,7 +368,7 @@
                 <bean parent="FieldDefinition"
                     p:attributeName="entitySequenceNumber" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="entityStatusCode" />
+                    p:attributeName="entityDispositionCode" />
                 <bean parent="FieldDefinition"
                     p:attributeName="description" />
                 <bean parent="FieldDefinition"

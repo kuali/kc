@@ -23,6 +23,7 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.CoiDisclosureDocument;
 import org.kuali.kra.coi.CoiDisclosureForm;
+import org.kuali.kra.coi.CoiDispositionStatus;
 import org.kuali.kra.coi.CoiUserRole;
 import org.kuali.kra.coi.certification.SubmitDisclosureAction;
 import org.kuali.rice.kew.api.exception.WorkflowException;

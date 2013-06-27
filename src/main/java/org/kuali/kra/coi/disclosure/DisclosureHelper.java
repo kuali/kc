@@ -123,7 +123,7 @@ public class DisclosureHelper implements Serializable {
     private void initializeOldFeStatii() {
         for (CoiDisclProject project: getCoiDisclosure().getCoiDisclProjects()) {
             for (CoiDiscDetail detail: project.getCoiDiscDetails()) {
-                detail.setOldEntityStatusCode();
+                detail.setOldEntityDispositionCode();
             }
         }
     }

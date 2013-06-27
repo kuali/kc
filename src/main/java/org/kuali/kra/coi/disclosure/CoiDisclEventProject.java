@@ -150,7 +150,7 @@ public class CoiDisclEventProject implements Serializable {
         int completeCount = 0;
         if (CollectionUtils.isNotEmpty(this.getCoiDiscDetails())) {
             for (CoiDiscDetail coiDiscDetail : this.getCoiDiscDetails()) {
-                if (StringUtils.isNotBlank(coiDiscDetail.getEntityStatusCode())) {
+                if (coiDiscDetail.getEntityDispositionCode() != null && coiDiscDetail.getEntityDispositionCode() > 0) {
                     completeCount ++;
                 }
                 
@@ -165,7 +165,7 @@ public class CoiDisclEventProject implements Serializable {
         boolean isComplete = true;
         if (CollectionUtils.isNotEmpty(this.getCoiDiscDetails())) {
             for (CoiDiscDetail coiDiscDetail : this.getCoiDiscDetails()) {
-                if (StringUtils.isBlank(coiDiscDetail.getEntityStatusCode())) {
+                if (coiDiscDetail.getEntityDispositionCode() == null || coiDiscDetail.getEntityDispositionCode() == 0) {
                     isComplete = false;
                     break;
                 }

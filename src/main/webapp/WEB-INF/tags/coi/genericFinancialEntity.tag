@@ -84,8 +84,8 @@
            				<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclProjects[${idx}].coiDiscDetails[${festatus.index}].personFinIntDisclosure.entityName" readOnly="true" attributeEntry="${financialEntityAttributes.entityName}" /> 
            			</td>
              		<td style="text-align: left;" valign="middle">
-           				<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclProjects[${idx}].coiDiscDetails[${festatus.index}].entityStatusCode" 
-  							readOnly="${readOnly}" attributeEntry="${coiDiscDetailAttributes.entityStatusCode}" styleClass="conflictClass${idx}" />
+           				<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclProjects[${idx}].coiDiscDetails[${festatus.index}].entityDispositionCode" 
+  							readOnly="${readOnly}" attributeEntry="${coiDiscDetailAttributes.entityDispositionCode}" styleClass="conflictClass${idx}" />
 					</td>
              		<td style="text-align: left;" valign="middle">
            				<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclProjects[${idx}].coiDiscDetails[${festatus.index}].comments" 

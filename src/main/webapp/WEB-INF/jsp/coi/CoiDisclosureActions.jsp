@@ -28,7 +28,6 @@
 	<script type="text/javascript">
 	   var $j = jQuery.noConflict();
 	   $j(document).ready(function() {
-		   populateSelect('getCoiDispositionStatus', 'coiDisclosureStatusCode', 'coiDispositionCode');
 
        	if ($j(".financialEntitySubpanel").length > 0) {
             $j(".financialEntitySubpanel").toggle(
@@ -68,9 +67,7 @@
 	   
 	   });
 	</script>
- 
 
-  
    	<div align="right"><kul:help parameterNamespace="KC-COIDISCLOSURE" parameterDetailType="Document" parameterName="disclosureActionsHelp" altText="help"/></div>
 	<div id="workarea">
 	<%--Added condition to prevent Reviewer Actions panel from displaying when user is the reporter.            --%>
