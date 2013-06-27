@@ -98,7 +98,7 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
         coiDisclosure.setDisclosureStatusCode(CoiDisclosureStatus.APPROVED);
         
         // Update the corresponding discl project
-        updateCorrespondingCoiDisclProject(coiDisclosure, coiDispositionCode, CoiDisclosureStatus.APPROVED);
+        updateCoiDisclProjectStatus(coiDisclosure, CoiDisclosureStatus.APPROVED);
         
         disclosures.add(coiDisclosure);
         
@@ -139,7 +139,7 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
         coiDisclosure.setDisclosureStatusCode(CoiDisclosureStatus.DISAPPROVED);
         
         // Update the corresponding discl project
-        updateCorrespondingCoiDisclProject(coiDisclosure, coiDispositionCode, CoiDisclosureStatus.DISAPPROVED);
+        updateCoiDisclProjectStatus(coiDisclosure, CoiDisclosureStatus.DISAPPROVED);
       
         setDisclosureReviewStatus(coiDisclosure, CoiReviewStatus.REVIEW_COMPLETE);
 
@@ -147,20 +147,6 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
         businessObjectService.save(createDisclosureHistory(coiDisclosure));
         documentService.disapproveDocument(coiDisclosure.getCoiDisclosureDocument(), "Document approved.");       
         sendNotification(coiDisclosure, CoiActionType.DISAPPROVED_EVENT, "Disapproved");        
-    }
-
-    /**
-     * this only changes the disclosure status and the disposition status, no routing
-     * @see org.kuali.kra.coi.actions.CoiDisclosureActionService#setStatus(org.kuali.kra.coi.CoiDisclosure, java.lang.Integer)
-     */
-    public void setStatus(CoiDisclosure coiDisclosure, String coiDispositionCode) {
-        coiDisclosure.setDisclosureDispositionCode(coiDispositionCode);
-        coiDisclosure.setDisclosureStatusCode(CoiDisclosureStatus.ROUTED_FOR_REVIEW);
-        // Update the corresponding discl project
-        updateCorrespondingCoiDisclProject(coiDisclosure, coiDispositionCode, CoiDisclosureStatus.ROUTED_FOR_REVIEW);
-        coiDisclosure.refreshReferenceObject("coiDispositionStatus");
-        coiDisclosure.refreshReferenceObject("coiDisclosureStatus");
-        businessObjectService.save(coiDisclosure);
     }
 
     public KcNotificationService getKcNotificationService() {
@@ -460,18 +446,26 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
         this.questionnaireAnswerService = questionnaireAnswerService;
     }
 
-    private void updateCorrespondingCoiDisclProject(CoiDisclosure coiDisclosure, String dispositionStatus, String disclosureStatus) {
+    public void updateCoiDisclProjectStatus(CoiDisclosure coiDisclosure, String disclosureStatus) {
         List<CoiDisclProject> disclProjects = coiDisclosure.getCoiDisclProjects();
         
         for (CoiDisclProject tmpProj : disclProjects) {
             if (StringUtils.equals(tmpProj.getDisclosureEventType(), coiDisclosure.getCoiDisclosureEventType().getEventTypeCode())
                 && StringUtils.equals(tmpProj.getModuleItemKey(), coiDisclosure.getModuleItemKey()) ) {
-                tmpProj.setDisclosureDispositionCode(dispositionStatus);
                 tmpProj.setDisclosureStatusCode(disclosureStatus);
-                tmpProj.setCoiDispositionStatus(coiDisclosure.getCoiDispositionStatus());
             }
         }      
     }
+    
+    public void updateCoiDisclProjectDisposition(CoiDisclosure coiDisclosure, String dispositionCode) {
+        List<CoiDisclProject> disclProjects = coiDisclosure.getCoiDisclProjects();
+        Integer dispositionStatus = Integer.valueOf(dispositionCode);
+        for (CoiDisclProject tmpProj : disclProjects) {
+            if (tmpProj.getDisclosureDispositionCode() == null || dispositionStatus > tmpProj.getDisclosureDispositionCode()) {
+                tmpProj.setDisclosureDispositionCode(dispositionStatus);
+            }
+        }      
+    }    
     
     /**
      * 

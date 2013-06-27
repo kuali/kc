@@ -187,12 +187,6 @@ public class DisclosureActionHelper implements Serializable {
             coiDisclosureForm.getDisclosureHelper().setMasterDisclosureBean(
                     getCoiDisclosureService().getMasterDisclosureDetail(coiDisclosureDocument.getCoiDisclosure()));
     }
-    
-    public void setStatus(String coiDispositionCode) {
-       CoiDisclosureDocument coiDisclosureDocument = coiDisclosureForm.getCoiDisclosureDocument();
-           getCoiDisclosureActionService().setStatus(coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure(), coiDispositionCode);
-         
-    }
 
     public SubmitDisclosureAction getSubmitDisclosureAction() {
         return submitDisclosureAction;

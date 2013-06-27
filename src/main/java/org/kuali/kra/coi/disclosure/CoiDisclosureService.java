@@ -229,6 +229,8 @@ public interface CoiDisclosureService {
      */
     public CoiDispositionStatus calculateMaximumDispositionStatus(CoiDisclosure coiDisclosure);
     
-    public Integer calculateMaximumDispositionStatusCode(CoiDisclosure coiDisclosure);    
+    public Integer calculateMaximumDispositionStatusCode(CoiDisclosure coiDisclosure);  
+    
+    public void updateDisclosureAndProjectDisposition(CoiDisclosure coiDisclosure);
 
 }
