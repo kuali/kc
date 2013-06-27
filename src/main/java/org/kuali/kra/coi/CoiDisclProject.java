@@ -70,7 +70,7 @@ public class CoiDisclProject extends KraPersistableBusinessObjectBase implements
     private String shortTextField3;
     private String longTextField3;
     private String selectBox1;
-    private String disclosureDispositionCode; 
+    private Integer disclosureDispositionCode; 
     private String disclosureStatusCode;  
     private ProposalType proposalType;
     private ProtocolType protocolType;
@@ -339,7 +339,7 @@ public class CoiDisclProject extends KraPersistableBusinessObjectBase implements
         int completeCount = 0;
         if (CollectionUtils.isNotEmpty(this.getCoiDiscDetails())) {
             for (CoiDiscDetail coiDiscDetail : this.getCoiDiscDetails()) {
-                if (StringUtils.isNotBlank(coiDiscDetail.getEntityStatusCode())) {
+                if (coiDiscDetail.getEntityDispositionCode() != null && coiDiscDetail.getEntityDispositionCode() > 0) {
                     completeCount ++;
                 }
                 
@@ -354,7 +354,7 @@ public class CoiDisclProject extends KraPersistableBusinessObjectBase implements
         boolean isComplete = true;
         if (CollectionUtils.isNotEmpty(this.getCoiDiscDetails())) {
             for (CoiDiscDetail coiDiscDetail : this.getCoiDiscDetails()) {
-                if (StringUtils.isBlank(coiDiscDetail.getEntityStatusCode())) {
+                if (coiDiscDetail.getEntityDispositionCode() == null || coiDiscDetail.getEntityDispositionCode() == 0) {
                     isComplete = false;
                     break;
                 }
@@ -578,11 +578,14 @@ public class CoiDisclProject extends KraPersistableBusinessObjectBase implements
     public void setOriginalCoiDisclosureId(Long originalCoiDisclosureId) {
         this.originalCoiDisclosureId = originalCoiDisclosureId;
     }
-    public String getDisclosureDispositionCode() {
+    public Integer getDisclosureDispositionCode() {
         return disclosureDispositionCode;
     }
-    public void setDisclosureDispositionCode(String disclosureDispositionCode) {
+    public void setDisclosureDispositionCode(Integer disclosureDispositionCode) {
         this.disclosureDispositionCode = disclosureDispositionCode;
+    }
+    public void setDisclosureDispositionCode(String disclosureDispositionCode) {
+        this.disclosureDispositionCode = Integer.valueOf(disclosureDispositionCode);
     }
     public String getDisclosureStatusCode() {
         return disclosureStatusCode;

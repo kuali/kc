@@ -141,8 +141,8 @@ public class CoiCertificationXmlStream implements XmlStream {
     	                if (coiDiscDetail.getPersonFinIntDisclosure() != null) { 
     	                    CoiDisclosureDetails coiDisclosureDetails = CoiDisclosureDetails.Factory.newInstance();
                             coiDisclosureDetails.setEntityName(coiDiscDetail.getPersonFinIntDisclosure().getEntityName());
-                            if (coiDiscDetail.getCoiEntityStatusCode() != null) {
-                                coiDisclosureDetails.setConflictStatus(coiDiscDetail.getCoiEntityStatusCode().getDescription());
+                            if (coiDiscDetail.getCoiEntityDispositionStatus() != null) {
+                                coiDisclosureDetails.setConflictStatus(coiDiscDetail.getCoiEntityDispositionStatus().getDescription());
                             }                            
                             coiDisclosurProjectsList.add(coiDisclosureDetails);
     	                }    	                

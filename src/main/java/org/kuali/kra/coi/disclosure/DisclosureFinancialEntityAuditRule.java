@@ -101,7 +101,7 @@ public class DisclosureFinancialEntityAuditRule extends ResearchDocumentRuleBase
         boolean isSelected = true;
         int i = 0;
         for (CoiDiscDetail coiDiscDetail : coiDisclosure.getCoiDisclProjects().get(0).getCoiDiscDetails()) {
-            if (coiDiscDetail.getEntityStatusCode() == null) {
+            if (coiDiscDetail.getEntityDispositionCode() == null) {
                 addErrorToAuditErrors(i, 
                                         Constants.DISCLOSURE_FINANCIAL_ENTITY_KEY2,
                                         Constants.DISCLOSURE_FINANCIAL_ENTITY_PANEL_ANCHOR,
@@ -122,7 +122,7 @@ public class DisclosureFinancialEntityAuditRule extends ResearchDocumentRuleBase
                 if (!isEventExcludedFE(disclProject.getDisclosureEventType())) {
                     int j = 0;
                     for (CoiDiscDetail coiDiscDetail : disclProject.getCoiDiscDetails()) {
-                        if (coiDiscDetail.getEntityStatusCode() == null) {
+                        if (coiDiscDetail.getEntityDispositionCode() == null) {
                             addErrorToAuditErrors(i, j, Constants.DISCLOSURE_ANNUAL_FINANCIAL_ENTITY_KEY2);
                             isSelected = false;
                         }
@@ -147,7 +147,7 @@ public class DisclosureFinancialEntityAuditRule extends ResearchDocumentRuleBase
         else {
             if (!coiDisclosure.getCoiDisclosureEventType().isExcludeFinancialEntities()) {
                 for (CoiDiscDetail coiDiscDetail : coiDisclosure.getCoiDisclProjects().get(0).getCoiDiscDetails()) {
-                    if (coiDiscDetail.getEntityStatusCode() == null) {
+                    if (coiDiscDetail.getEntityDispositionCode() == null) {
                         addErrorToAuditErrors(i, Constants.DISCLOSURE_MANUAL_FINANCIAL_ENTITY_KEY, NEW_TAG, KeyConstants.ERROR_COI_FINANCIAL_ENTITY_STATUS_REQUIRED);
                         isSelected = false;
                     }
@@ -185,7 +185,7 @@ public class DisclosureFinancialEntityAuditRule extends ResearchDocumentRuleBase
             if (!disclProjectBean.isExcludeFE()) {
                 int j = 0;
                 for (CoiDiscDetail coiDiscDetail : disclProjectBean.getCoiDisclProject().getCoiDiscDetails()) {
-                    if (coiDiscDetail.getEntityStatusCode() == null) {
+                    if (coiDiscDetail.getEntityDispositionCode() == null) {
                         addErrorToAuditErrors(property, i, j, Constants.DISCLOSURE_UPDATE_FINANCIAL_ENTITY_KEY);
                         isSelected = false;
                     }

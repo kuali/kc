@@ -17,7 +17,7 @@
         <span class="subhead-left">
       	    &nbsp;
             <a href="#" id ="${projectDivNamePrefix}Control${idx}" class="financialEntitySubpanel"><img src='kr/images/tinybutton-hide.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'></a> 
-            Financial Entities 
+            Financial Entities
         </span>
     	<span style="float: right;text-align: right;"><kul:help businessObjectClassName="org.kuali.kra.coi.CoiDiscDetail" altText="help"/></span>
     </div>
@@ -84,16 +84,14 @@
         		        </td>
                         <td align="left" valign="middle">
         		            <div align="left">
-        		                <%-- ${disclosureDetail.coiEntityStatusCode.description} --%>
-                                <%-- TODO need to work on property --%>
-                                <kul:htmlControlAttribute property="disclosureHelper.masterDisclosureBean.${projectListName}[${idx}].coiDisclProject.coiDiscDetails[${festatus.index}].entityStatusCode" readOnly="${readOnly}" attributeEntry="${coiDiscDetailAttributes.entityStatusCode}" 
-                                    readOnlyAlternateDisplay="${disclosureDetail.coiEntityStatusCode.description}" styleClass="conflictClass${projectDivNamePrefix}${idx}"/> 
+        		                <%-- ${disclosureDetail.coiEntityDispositionStatus.description} --%>
+                                <kul:htmlControlAttribute property="disclosureHelper.masterDisclosureBean.${projectListName}[${idx}].coiDisclProject.coiDiscDetails[${festatus.index}].entityDispositionCode" readOnly="${readOnly}" attributeEntry="${coiDiscDetailAttributes.entityDispositionCode}" 
+                                    readOnlyAlternateDisplay="${disclosureDetail.coiEntityDispositionStatus.description}" styleClass="conflictClass${projectDivNamePrefix}${idx}"/> 
         		            </div>
         		        </td>
                         <td align="left" valign="middle">
         		            <div align="left">
         		                <%-- ${disclosureDetail.comments} --%>
-                                <%-- TODO need to work on property --%>
                                 <kul:htmlControlAttribute property="disclosureHelper.masterDisclosureBean.${projectListName}[${idx}].coiDisclProject.coiDiscDetails[${festatus.index}].comments" readOnly="${readOnly}" attributeEntry="${coiDiscDetailAttributes.comments}" /> 
         		            </div>
         		        </td>
