@@ -270,6 +270,6 @@ public class DisclosureActionHelper implements Serializable {
     }
     
     public CoiDispositionStatus getMaximumDispositionStatus() {
-        return getCoiDisclosureService().getMaximumDispositionStatus(getCoiDisclosure());
+        return getCoiDisclosureService().calculateMaximumDispositionStatus(getCoiDisclosure());
     }
 }
