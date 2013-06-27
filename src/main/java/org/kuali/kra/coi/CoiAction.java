@@ -54,12 +54,9 @@ public abstract class CoiAction extends KraTransactionalDocumentActionBase {
         if(KNSGlobalVariables.getAuditErrorMap().isEmpty()) {
             new AuditActionHelper().auditConditionally(coiDisclosureForm);
         }
-        
-        coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure().setDisclosureDispositionCode(coiDisclosureForm.getDisclosureActionHelper().getMaximumDispositionStatus().getCoiDispositionCode());
-        coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure().refreshReferenceObject("coiDispositionStatus");
-        
+                
         return super.execute(mapping, form, request, response);
-    }
+    }    
     
     public ActionForward disclosure(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) form;

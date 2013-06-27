@@ -2737,8 +2737,8 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
                 }
             }
             if (projectDisposition != null) {
-                project.refreshReferenceObject("coiDispositionStatus");
                 project.setDisclosureDispositionCode(projectDisposition);
+                project.refreshReferenceObject("coiDispositionStatus");
             }
             if (retval == null || (projectDisposition != null && retval < projectDisposition)) {
                 retval = projectDisposition;
@@ -2759,9 +2759,15 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         }
         return retval;
     }
-        
+    
     public CoiDispositionStatus calculateMaximumDispositionStatus(CoiDisclosure coiDisclosure) {
         return businessObjectService.findBySinglePrimaryKey(CoiDispositionStatus.class, calculateMaximumDispositionStatusCode(coiDisclosure));
+    }
+    
+    public void updateDisclosureAndProjectDisposition(CoiDisclosure coiDisclosure) {
+        CoiDispositionStatus disposition = calculateMaximumDispositionStatus(coiDisclosure);
+        coiDisclosure.setDisclosureDispositionCode(disposition.getCoiDispositionCode());
+        coiDisclosure.setCoiDispositionStatus(disposition);
     }
 }
 
