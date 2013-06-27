@@ -74,8 +74,6 @@ public interface CoiDisclosureActionService {
 
     void disapproveDisclosure(CoiDisclosure coiDisclosure, String coiDispositionCode) throws WorkflowException, Exception;
 
-    void setStatus(CoiDisclosure coiDisclosure, String coiDispositionCode);
-
     public void tagUserRolesToCompleteReview(List<CoiUserRole> completeUserRoles);
     
     public void completeCoiReview(CoiDisclosure disclosure);
@@ -88,5 +86,9 @@ public interface CoiDisclosureActionService {
      * @return
      */
     public boolean isDisclosureReviewComplete(List<CoiUserRole> completeUserRoles);
+    
+    public void updateCoiDisclProjectStatus(CoiDisclosure coiDisclosure, String disclosureStatus);
+    
+    public void updateCoiDisclProjectDisposition(CoiDisclosure coiDisclosure, String dispositionStatus);
     
 }

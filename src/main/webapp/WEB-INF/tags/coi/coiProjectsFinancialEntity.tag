@@ -68,7 +68,7 @@
 				                <div align="left"> ${groupedMasterBean.projectTitle} </div>
 				            </td>
 				            <td align="left" valign="middle">
-				                <div align="left"> ${groupedMasterBean.dispositionStatus}</div>
+				                <div align="left"> ${groupedMasterBean.allRelatedProjects[0].coiDisclProject.coiDispositionStatus.description}</div>
 				            </td>
 				            <td align="left" valign="middle">
 				                <div align="left"> ${groupedMasterBean.disclosureStatus} </div>

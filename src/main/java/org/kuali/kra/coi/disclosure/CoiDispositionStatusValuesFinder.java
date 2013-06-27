@@ -58,7 +58,7 @@ public class CoiDispositionStatusValuesFinder extends KeyValuesBase {
             values.put("displayToReporter", true);
             statuses = (List<CoiDispositionStatus>) getBusinessObjectService().findMatchingOrderBy(CoiDispositionStatus.class, values, "coiDispositionCode", true);
         } else {
-            statuses = (List<CoiDispositionStatus>) getBusinessObjectService().findAll(CoiDispositionStatus.class);
+            statuses = (List<CoiDispositionStatus>) getBusinessObjectService().findAllOrderBy(CoiDispositionStatus.class, "coiDispositionCode", true);
         }
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         keyValues.add(new ConcreteKeyValue("", "select"));
