@@ -150,12 +150,10 @@ public class CoiDisclosureAction extends CoiAction {
         if (coiDisclosure.isUpdateEvent() ||(coiDisclosure.isAnnualEvent() && coiDisclosure.isAnnualUpdate())) {
             isValid &= getCoiDisclosureService().setDisclProjectForSave(coiDisclosure, coiDisclosureForm.getDisclosureHelper().getMasterDisclosureBean());
         }
+        getCoiDisclosureService().updateDisclosureAndProjectDisposition(coiDisclosure);
         
         /************ Begin --- Save (if valid) document and questionnaire data ************/
-        // TODO factor out the different versions of this doc and questionnaire data save block from various actions in this class
-        // and centralize it in a helper method
         // First validate the questionnaire data
-        // TODO maybe add a COI questionnaire specific rule event to the condition below
         if (coiDisclosure.getCoiDisclProjects() != null || !coiDisclosure.getCoiDisclProjects().isEmpty()) {
             for (CoiDisclProject coiDisclProject : coiDisclosure.getCoiDisclProjects()) {
                 if (!new CoiDisclosureAdministratorActionRule().isValidDispositionStatus(coiDisclProject.getDisclosureDispositionCode())) {
@@ -588,7 +586,8 @@ public class CoiDisclosureAction extends CoiAction {
                     coiDisclosure.setDisclosureStatusCode(CoiDisclosureStatus.ROUTED_FOR_REVIEW);
 
                     // Update the corresponding discl project
-                    updateCorrespondingCoiDisclProject(coiDisclosure, CoiDispositionStatus.SUBMITTED_FOR_REVIEW, CoiDisclosureStatus.ROUTED_FOR_REVIEW);
+                    getCoiDisclosureActionService().updateCoiDisclProjectStatus(coiDisclosure, CoiDisclosureStatus.ROUTED_FOR_REVIEW);
+                    getCoiDisclosureActionService().updateCoiDisclProjectDisposition(coiDisclosure, CoiDispositionStatus.NO_CONFLICT_EXISTS);
                     
                     // Certification occurs after the audit rules pass, and the document and the questionnaire data have been
                     // saved successfully
@@ -1151,19 +1150,6 @@ public class CoiDisclosureAction extends CoiAction {
         }
         
         return updateMaster;
-    }    
-    
-    private void updateCorrespondingCoiDisclProject(CoiDisclosure coiDisclosure, String dispositionStatus, String disclosureStatus) {
-        List<CoiDisclProject> disclProjects = coiDisclosure.getCoiDisclProjects();
-        
-        for (CoiDisclProject tmpProj : disclProjects) {
-            if (StringUtils.equals(tmpProj.getDisclosureEventType(), coiDisclosure.getCoiDisclosureEventType().getEventTypeCode())
-                && StringUtils.equals(tmpProj.getModuleItemKey(), coiDisclosure.getModuleItemKey()) ) {
-                tmpProj.setDisclosureDispositionCode(dispositionStatus);
-                tmpProj.setDisclosureStatusCode(disclosureStatus);
-                tmpProj.setCoiDispositionStatus(coiDisclosure.getCoiDispositionStatus());
-            }
-        }      
     }    
     
     public ActionForward viewDisclosureNotification(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
