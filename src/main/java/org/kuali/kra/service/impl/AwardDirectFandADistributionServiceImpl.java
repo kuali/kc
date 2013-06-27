@@ -21,6 +21,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import org.kuali.kra.award.home.Award;
+import org.kuali.kra.award.home.AwardAmountInfo;
 import org.kuali.kra.award.timeandmoney.AwardDirectFandADistribution;
 import org.kuali.kra.service.AwardDirectFandADistributionService;
 import org.springframework.transaction.annotation.Transactional;
@@ -47,7 +48,13 @@ public class AwardDirectFandADistributionServiceImpl implements AwardDirectFandA
    protected List<AwardDirectFandADistribution> buildListBasedOnProjectStartAndEndDates(Award award) {
        List<AwardDirectFandADistribution> awardDirectFandADistributions = new ArrayList<AwardDirectFandADistribution>();
        Date projectStartDate = award.getAwardEffectiveDate();
-       Date projectEndDate = award.getProjectEndDate();
+       Date projectEndDate;
+       //KRACOEUS-6546
+       // the project start date is stored in the award but the end date is stored in the awardAmountInfo bean. 
+       // When awards are versioned, there are multiple awardAmountInfo entries. Get the latest entry since the
+       // project start date in the award is the latest.
+       AwardAmountInfo latestAwardAmountInfo = award.getAwardAmountInfos().get(award.getAwardAmountInfos().size() - 1);
+       projectEndDate = latestAwardAmountInfo.getFinalExpirationDate();
        Calendar cl = Calendar.getInstance();
        Date periodStartDate = projectStartDate;
        int budgetPeriodNum = 1;
@@ -66,7 +73,7 @@ public class AwardDirectFandADistributionServiceImpl implements AwardDirectFandA
            periodStartDate = nextPeriodStartDate;
            budgetPeriodNum++;
        }
-           return awardDirectFandADistributions;
+       return awardDirectFandADistributions;
    }
 }
 
