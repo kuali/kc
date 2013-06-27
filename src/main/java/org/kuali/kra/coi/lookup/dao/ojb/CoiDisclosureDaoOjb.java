@@ -56,7 +56,7 @@ public class CoiDisclosureDaoOjb extends PlatformAwareDaoBaseOjb implements OjbC
         return (List<CoiDisclosureHistory>) history;     
     }
         
-    public List<CoiDisclosure> getReviewsForReviewStatuses(List<String> reviewStatusCodes) {
+    public List<CoiDisclosure> getReviewsForReviewStatuses(Collection<String> reviewStatusCodes) {
         if (reviewStatusCodes == null || reviewStatusCodes.isEmpty()) {
             return new ArrayList<CoiDisclosure>();
         }
@@ -86,11 +86,10 @@ public class CoiDisclosureDaoOjb extends PlatformAwareDaoBaseOjb implements OjbC
                     disclosure.setCoiDisclProjectTitle(coiDisclProject.getCoiProjectTitle());
                     break;
                 }
-                
             }
         }
         
-        return (List<CoiDisclosure>) disclosures;     
+        return new ArrayList<CoiDisclosure>(disclosures);     
         
     }
     

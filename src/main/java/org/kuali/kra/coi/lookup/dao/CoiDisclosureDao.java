@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.coi.lookup.dao;
 
+import java.util.Collection;
 import java.util.List;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.CoiDisclosureHistory;
@@ -23,5 +24,5 @@ public interface CoiDisclosureDao {
 
     public List<CoiDisclosureHistory> getApprovedAndDisapprovedDisclosureHistory(String coiDisclosureNumber);
     
-    public List<CoiDisclosure> getReviewsForReviewStatuses(List<String> reviewStatusCodes);
+    public List<CoiDisclosure> getReviewsForReviewStatuses(Collection<String> reviewStatusCodes);
 }
