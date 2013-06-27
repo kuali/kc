@@ -2726,7 +2726,8 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         this.krmsRulesExecutionService = krmsRulesExecutionService;
     }
     
-    public Integer getMaximumDispositionStatusCode(CoiDisclosure coiDisclosure) {
+    public Integer calculateMaximumDispositionStatusCode(CoiDisclosure coiDisclosure) {
+        Integer defaultDisposition = getDefaultDispositionStatus(coiDisclosure);
         Integer retval = null;
         for (CoiDisclProject project : coiDisclosure.getCoiDisclProjects()) {
             Integer projectDisposition = null;
@@ -2735,24 +2736,32 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
                     projectDisposition = details.getEntityDispositionCode();
                 }
             }
-            project.setDisclosureDispositionCode(projectDisposition);
-            project.refreshReferenceObject("coiDispositionStatus");
+            if (projectDisposition != null) {
+                project.refreshReferenceObject("coiDispositionStatus");
+                project.setDisclosureDispositionCode(projectDisposition);
+            }
             if (retval == null || (projectDisposition != null && retval < projectDisposition)) {
                 retval = projectDisposition;
             }
         }
         if (retval == null) {
-            if (coiDisclosure.getDisclosureStatusCode() == null || StringUtils.equals(coiDisclosure.getDisclosureStatusCode(), CoiDisclosureStatus.IN_PROGRESS)) {
-                retval = Integer.valueOf(CoiDispositionStatus.IN_PROGRESS);
-            } else {
-                retval = Integer.valueOf(CoiDispositionStatus.NO_CONFLICT_EXISTS);
-            }
+            return getDefaultDispositionStatus(coiDisclosure);
         }
         return retval;
     }
     
-    public CoiDispositionStatus getMaximumDispositionStatus(CoiDisclosure coiDisclosure) {
-        return businessObjectService.findBySinglePrimaryKey(CoiDispositionStatus.class, getMaximumDispositionStatusCode(coiDisclosure));
+    protected Integer getDefaultDispositionStatus(CoiDisclosure coiDisclosure) {
+        Integer retval;
+        if (coiDisclosure.getDisclosureStatusCode() == null || StringUtils.equals(coiDisclosure.getDisclosureStatusCode(), CoiDisclosureStatus.IN_PROGRESS)) {
+            retval = Integer.valueOf(CoiDispositionStatus.IN_PROGRESS);
+        } else {
+            retval = Integer.valueOf(CoiDispositionStatus.NO_CONFLICT_EXISTS);
+        }
+        return retval;
+    }
+        
+    public CoiDispositionStatus calculateMaximumDispositionStatus(CoiDisclosure coiDisclosure) {
+        return businessObjectService.findBySinglePrimaryKey(CoiDispositionStatus.class, calculateMaximumDispositionStatusCode(coiDisclosure));
     }
 }
 
