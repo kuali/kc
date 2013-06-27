@@ -26,6 +26,7 @@ import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.CoiDisclosureDocument;
 import org.kuali.kra.coi.CoiDisclosureForm;
+import org.kuali.kra.coi.CoiDispositionStatus;
 import org.kuali.kra.coi.CoiReviewer;
 import org.kuali.kra.coi.CoiUserRole;
 import org.kuali.kra.coi.auth.CoiDisclosureTask;
@@ -163,10 +164,10 @@ public class DisclosureActionHelper implements Serializable {
         this.coiDisclosureForm = coiDisclosureForm;
     }
 
-    public void approveDisclosure() throws WorkflowException {
+    public void approveDisclosure(String coiDispositionCode) throws WorkflowException {
         CoiDisclosureDocument coiDisclosureDocument = coiDisclosureForm.getCoiDisclosureDocument();
                  
-        getCoiDisclosureActionService().approveDisclosure(coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure(), coiDisclosureForm.getCoiDispositionCode());
+        getCoiDisclosureActionService().approveDisclosure(coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure(), coiDispositionCode);
         coiDisclosureForm.getDisclosureHelper().setMasterDisclosureBean(
                   getCoiDisclosureService().getMasterDisclosureDetail(coiDisclosureDocument.getCoiDisclosure()));
         coiDisclosureForm.getDisclosureQuestionnaireHelper().setAnswerHeaders(coiDisclosureForm.getDisclosureHelper().getMasterDisclosureBean().getAnswerHeaders());
@@ -180,16 +181,16 @@ public class DisclosureActionHelper implements Serializable {
      * the master.
      * @throws Exception
      */
-    public void disapproveDisclosure() throws Exception {
+    public void disapproveDisclosure(String coiDispositionCode) throws Exception {
         CoiDisclosureDocument coiDisclosureDocument = coiDisclosureForm.getCoiDisclosureDocument();
-            getCoiDisclosureActionService().disapproveDisclosure(coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure(), coiDisclosureForm.getCoiDispositionCode());
+            getCoiDisclosureActionService().disapproveDisclosure(coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure(), coiDispositionCode);
             coiDisclosureForm.getDisclosureHelper().setMasterDisclosureBean(
                     getCoiDisclosureService().getMasterDisclosureDetail(coiDisclosureDocument.getCoiDisclosure()));
     }
     
-    public void setStatus() {
+    public void setStatus(String coiDispositionCode) {
        CoiDisclosureDocument coiDisclosureDocument = coiDisclosureForm.getCoiDisclosureDocument();
-           getCoiDisclosureActionService().setStatus(coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure(), coiDisclosureForm.getCoiDispositionCode());
+           getCoiDisclosureActionService().setStatus(coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure(), coiDispositionCode);
          
     }
 
@@ -266,5 +267,9 @@ public class DisclosureActionHelper implements Serializable {
             return currentUser.equalsIgnoreCase(disclosureReporter);
         }
         return false;
+    }
+    
+    public CoiDispositionStatus getMaximumDispositionStatus() {
+        return getCoiDisclosureService().getMaximumDispositionStatus(getCoiDisclosure());
     }
 }

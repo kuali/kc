@@ -28,60 +28,21 @@
 			<span class="subhead-left">Approval Action</span>
             <span class="subhead-right"><kul:help parameterNamespace="KC-COIDISCLOSURE" parameterDetailType="Document" parameterName="coiAdministratorActionHelp" altText="help"/></span>
  		</h3>
-        <table class="tab" cellpadding="0" cellspacing="0" summary=""> 
-            <tbody>
-			    <c:if test="${disclosureHelper.unresolvedEventsPresent}">
-			        <c:set var="readOnlyApprove" value="true" />
-                    <tr>               
-					    <td colspan="4">
-                		    <div class="body" style="text-align:left;color:#FF0000;">			
-        	                    <strong>${disclosureHelper.annualCertApprovalErrorMsgForAdmin}</strong>
-                		    </div>
-                	    </td>
-				    </tr>
-				</c:if>
-                <tr>               
-					<th style="width: 300px">
-                		<div align="right">
-                			<kul:htmlAttributeLabel attributeEntry="${coiDisclosureStatusAttributes.coiDisclosureStatusCode}" /></div>       
-                		</div>
-                	</th>
-                	<td style="width: 150px">
-                		<html:select property="coiDisclosureStatusCode" styleId="coiDisclosureStatusCode" onchange="populateSelect('getCoiDispositionStatus', 'coiDisclosureStatusCode', 'coiDispositionCode');" disabled="${readOnlyApprove}">                                              
-                            <c:forEach items="${krafn:getOptionList('org.kuali.kra.coi.CoiDisclosureActionsValuesFinder', paramMap)}" var="option" >
-                            	<c:choose>                    	
-	                				<c:when test="${coiDisclosureStatusCode == option.key}">
-	                        			<option value="${option.key}" selected>${option.value}</option>
-	                    			</c:when>
-	                    			<c:otherwise>
-	                        			<c:out value="${option.value}"/>
-                                 		<option value="${option.key}">${option.value}</option>
-                                	</c:otherwise>
-	                			</c:choose>   
-                            </c:forEach>
-                        </html:select>
-                	</td>
-	                <th style="width: 300px"> 
-	                    <div align="right">
-	                        <kul:htmlAttributeLabel attributeEntry="${coiDispositionStatusAttributes.coiDispositionCode}" />
-	                    </div>
-	                </th>
-	                <td style="width : 150px">
-	                    <html:select property="coiDispositionCode" styleId="coiDispositionCode">                                              	                
-							<option value="Select">select</option> 
-						</html:select>                         
-	                </td>
-	               
-	            </tr>               
-                <tr>
-					<td align="center" colspan="4">
-						<div align="center">
-							<html:image property="methodToCall.performAction.anchor${tabKey}"
-							            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-submit.gif' styleClass="tinybutton"/>
-						</div>
-	                </td>
-                </tr>
-            </tbody>
-        </table>
-   </div>
+	    <c:if test="${disclosureHelper.unresolvedEventsPresent}">
+	        <c:set var="readOnlyApprove" value="true" />
+  		    <div class="body" style="text-align:left;color:#FF0000;">			
+               <strong>${disclosureHelper.annualCertApprovalErrorMsgForAdmin}</strong>
+  		    </div>
+		</c:if>
+		<h4><div class="body">Disclosure Status is set to '<c:out value="${KualiForm.disclosureActionHelper.maximumDispositionStatus.description}"/>' based on the Project-Financial Entity conflict status.</div></h4>
+		<div style="text-align: center;">
+			<c:choose><c:when test="${KualiForm.disclosureActionHelper.maximumDispositionStatus.coiDisclosureStatusCode == '4'}">
+				<html:image property="methodToCall.disapprove.anchor${tabKey}"
+								            src='${ConfigProperties.kr.externalizable.images.url}buttonsmall_disapprove.gif' styleClass="tinybutton"/>
+			</c:when><c:otherwise>
+				<html:image property="methodToCall.approve.anchor${tabKey}"
+								            src='${ConfigProperties.kr.externalizable.images.url}buttonsmall_approve.gif' styleClass="tinybutton"/>
+			</c:otherwise></c:choose>		
+   		</div>
+   	</div>
 

@@ -70,7 +70,7 @@
                 <bean parent="MaintainableFieldDefinition"
                     p:name="entitySequenceNumber" />
                 <bean parent="MaintainableFieldDefinition"
-                    p:name="entityStatusCode"
+                    p:name="entityDispositionCode"
                     p:required="true" />
                 <bean parent="MaintainableFieldDefinition"
                     p:name="description"

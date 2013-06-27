@@ -40,6 +40,7 @@ import org.kuali.kra.coi.CoiDisclosureDocument;
 import org.kuali.kra.coi.CoiDisclosureForm;
 import org.kuali.kra.coi.CoiDisclosureHistory;
 import org.kuali.kra.coi.CoiDisclosureStatus;
+import org.kuali.kra.coi.CoiDispositionStatus;
 import org.kuali.kra.coi.CoiReviewStatus;
 import org.kuali.kra.coi.CoiUserRole;
 import org.kuali.kra.coi.certification.SubmitDisclosureAction;
@@ -122,7 +123,7 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
         
         coiDisclosure.setCurrentDisclosure(true);
         documentService.approveDocument(coiDisclosure.getCoiDisclosureDocument(), "Document approved.", new ArrayList<AdHocRouteRecipient>());
-            
+
         disclosures.add(createDisclosureHistory(coiDisclosure));
         businessObjectService.save(disclosures);
         sendNotification(coiDisclosure, CoiActionType.APPROVED_EVENT, "Approved");        
@@ -150,7 +151,7 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
 
     /**
      * this only changes the disclosure status and the disposition status, no routing
-     * @see org.kuali.kra.coi.actions.CoiDisclosureActionService#setStatus(org.kuali.kra.coi.CoiDisclosure, java.lang.String)
+     * @see org.kuali.kra.coi.actions.CoiDisclosureActionService#setStatus(org.kuali.kra.coi.CoiDisclosure, java.lang.Integer)
      */
     public void setStatus(CoiDisclosure coiDisclosure, String coiDispositionCode) {
         coiDisclosure.setDisclosureDispositionCode(coiDispositionCode);
@@ -688,10 +689,10 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
                 }
                 for (CoiDisclProject project: disclosure.getCoiDisclProjects()) {
                     for (CoiDiscDetail detail: project.getCoiDiscDetails()) {
-                        if (!StringUtils.equals(detail.getOldEntityStatusCode(), detail.getEntityStatusCode())) {
+                        if (org.apache.commons.lang.ObjectUtils.equals(detail.getOldEntityDispositionCode(), detail.getEntityDispositionCode())) {
                             detail.setUpdateUser(GlobalVariables.getUserSession().getPerson().getPrincipalName());
                             businessObjectService.save(detail);
-                            detail.setOldEntityStatusCode();
+                            detail.setOldEntityDispositionCode();
                         }
                     }
                 }
@@ -718,7 +719,6 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
             }
         }
         return allReviewsComplete;
-    }
-    
+    }   
     
 }

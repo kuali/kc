@@ -233,7 +233,7 @@ public class CoiDisclosureForm extends KraTransactionalDocumentFormBase implemen
         // document disposition
         CoiDispositionStatus disposition = disclosure.getCoiDispositionStatus();
         String disclosureDisposition = disposition != null ? disposition.getDescription() : "NEW";
-        HeaderField headerDisposition = new HeaderField("DataDictionary.CoiDispositionStatus.attributes.description", disclosureDisposition);
+        HeaderField headerDisposition = new HeaderField("DataDictionary.CoiDisclosureStatus.attributes.description", disclosureDisposition);
         newDocInfo.add(headerDisposition);
 
         newDocInfo.add(getReporterAndCreatedHeaderField(workflowDocument));
