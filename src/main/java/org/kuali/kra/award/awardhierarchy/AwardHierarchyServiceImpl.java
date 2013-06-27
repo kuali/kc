@@ -43,6 +43,7 @@ import org.kuali.kra.award.paymentreports.closeout.AwardCloseout;
 import org.kuali.kra.award.paymentreports.specialapproval.approvedequipment.AwardApprovedEquipment;
 import org.kuali.kra.award.paymentreports.specialapproval.foreigntravel.AwardApprovedForeignTravel;
 import org.kuali.kra.award.specialreview.AwardSpecialReview;
+import org.kuali.kra.award.timeandmoney.AwardDirectFandADistribution;
 import org.kuali.kra.award.version.service.AwardVersionService;
 import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.bo.versioning.VersionStatus;
@@ -123,6 +124,15 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
     public AwardHierarchy copyAwardAsNewHierarchy(AwardHierarchy targetNode) {
         String nextAwardNumber = awardNumberService.getNextAwardNumber();
         Award newAward = copyAward(targetNode.getAward(), nextAwardNumber);
+        // Nulling out all dates and amounts from new award since it is copied as new from hierarchy and
+        // should not contain any old dates.
+        newAward.setAwardEffectiveDate(null);
+        int indexOfLatestAwardVersion = newAward.getAwardAmountInfos().size() -1;
+        newAward.getAwardAmountInfos().get(indexOfLatestAwardVersion).setFinalExpirationDate(null);
+        newAward.getAwardAmountInfos().get(indexOfLatestAwardVersion).setObligationExpirationDate(null);
+        newAward.getAwardAmountInfos().get(indexOfLatestAwardVersion).setCurrentFundEffectiveDate(null);
+        newAward.setAwardDirectFandADistributions(new ArrayList<AwardDirectFandADistribution>());
+
         AwardHierarchy newNode = createBasicHierarchy(nextAwardNumber);
         newNode.setAward(newAward);
         return newNode;
@@ -368,6 +378,7 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
         return loadAwardHierarchy(rootAwardNumber);
     }
 
+    
     /**
      * This method copies an Award to a new Award, sequence #1, with newAwardNumber
      * @param award
