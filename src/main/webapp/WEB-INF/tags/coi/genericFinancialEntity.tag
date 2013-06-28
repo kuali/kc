@@ -53,12 +53,13 @@
 							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-newfinancialentity.gif' styleClass="tinybutton"/>
            			</td>
            			<td style="text-align:center;" valign="middle"  class="infoline">
+           				<c:if test="${not empty disclProject.coiDiscDetails}">
 						<select onchange="jQuery(this).parents('table').first().find('select.related').val(jQuery(this).val());">
 							<c:forEach items="${krafn:getOptionList('org.kuali.kra.coi.disclosure.CoiDispositionStatusValuesFinder', null)}" var="option">
 		                        <option value="${option.key}">${option.value}</option>
-				            </c:forEach>							
+				            </c:forEach>
 						</select>
-           				
+						</c:if>
 					</td>
             		<td align="left" valign="middle" class="infoline">&nbsp;</td>
         		</tr>
