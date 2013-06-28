@@ -53,10 +53,12 @@
 							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-newfinancialentity.gif' styleClass="tinybutton"/>
            			</td>
            			<td style="text-align:center;" valign="middle"  class="infoline">
-						<html:image property="methodToCall.allConflict.anchor${tabKey}"
-							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-all.gif' styleClass="conflict" onclick="$j('select.conflictClass${idx}').val('2');return false;" />
-						<html:image property="methodToCall.noneConflict.anchor${tabKey}"
-							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-none.gif' styleClass="conflict" onclick="$j('select.conflictClass${idx}').val('1');return false;" />
+						<select onchange="jQuery(this).parents('table').first().find('select.related').val(jQuery(this).val());">
+							<c:forEach items="${krafn:getOptionList('org.kuali.kra.coi.disclosure.CoiDispositionStatusValuesFinder', null)}" var="option">
+		                        <option value="${option.key}">${option.value}</option>
+				            </c:forEach>							
+						</select>
+           				
 					</td>
             		<td align="left" valign="middle" class="infoline">&nbsp;</td>
         		</tr>
@@ -85,7 +87,7 @@
            			</td>
              		<td style="text-align: left;" valign="middle">
            				<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclProjects[${idx}].coiDiscDetails[${festatus.index}].entityDispositionCode" 
-  							readOnly="${readOnly}" attributeEntry="${coiDiscDetailAttributes.entityDispositionCode}" styleClass="conflictClass${idx}" />
+  							readOnly="${readOnly}" attributeEntry="${coiDiscDetailAttributes.entityDispositionCode}" styleClass="related" />
 					</td>
              		<td style="text-align: left;" valign="middle">
            				<kul:htmlControlAttribute property="document.coiDisclosureList[0].coiDisclProjects[${idx}].coiDiscDetails[${festatus.index}].comments" 
