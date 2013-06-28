@@ -4,6 +4,8 @@
 <%@ attribute name="projectDivNamePrefix" required="true" description="name for project related div" %>
 <%@ attribute name="projectListName" required="true" description="Project list name in master bean" %>
 <%@ attribute name="parentTab" required="true" description="Parent Tab for any tabs created within this tag." %>
+<%@ attribute name="disclosureGroupedByEvent" required="true" description="Boolean to check if project is grouped by event or entity" %>
+<%@ attribute name="groupedEntityNumber" required="true" description="Entity number - valid only if grouped by entity" %>
               
                                   
 
@@ -12,7 +14,9 @@
 			    <c:if test="${not disclProjectBean.coiDisclosure.annualEvent}">
                     <kra-coi:projectStyle disclProjectBean="${disclProjectBean}"/>                    
                     <kra-coi:projectHeader disclProject="${disclProjectBean.coiDisclProject}" boLocation="${boLocation}[${status.index}].coiDisclProject"/>                    
-                    <kra-coi:feStatusReview disclProjectBean="${disclProjectBean}" projectDivNamePrefix="${projectDivNamePrefix}"  idx="${status.index}" projectListName="${projectListName}"/>
+                    <kra-coi:feStatusReview disclProjectBean="${disclProjectBean}" projectDivNamePrefix="${projectDivNamePrefix}"  idx="${status.index}" projectListName="${projectListName}"
+                    disclosureGroupedByEvent="${disclosureGroupedByEvent}"
+				    groupedEntityNumber="${groupedEntityNumber}"/>
                 </c:if>                     
             </c:forEach> 
  </div>         

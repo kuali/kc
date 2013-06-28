@@ -3,10 +3,14 @@
 <%@ attribute name="projectDivNamePrefix" required="true" description="name for project related div" %>
 <%@ attribute name="idx" required="true" description="detail index" %>
 <%@ attribute name="projectListName" required="true" description="Project list name in master bean" %>
+<%@ attribute name="disclosureGroupedByEvent" required="true" description="Boolean to check if project is grouped by event or entity" %>
+<%@ attribute name="groupedEntityNumber" required="true" description="Entity number - valid only if grouped by entity" %>
+
 <c:set var="coiDiscDetailAttributes" value="${DataDictionary.CoiDiscDetail.attributes}" />
 <c:set var="financialEntityAttributes" value="${DataDictionary.PersonFinIntDisclosure.attributes}" />
 <c:set var="canEditDisclosure" value="${KualiForm.disclosureHelper.canEditDisclosureFinancialEntity}" />
 <c:set var="isMasterDisclosure" value="${KualiForm.disclosureHelper.coiDisclosure.approvedDisclosure}" />
+
                                   
 <%-- New data --%>
             
@@ -35,29 +39,32 @@
 	            </tr>
 				<c:set var="userIndex" value="1"/>
         	    <c:forEach var="disclosureDetail" items="${disclProjectBean.coiDisclProject.coiDiscDetails}" varStatus="festatus">
-                    <tr>
-        				<td>
-        					${userIndex}
-        				</td>
-		           		<td style="text-align: left;" valign="middle">
-		           			${disclosureDetail.personFinIntDisclosure.entityName}
-           				</td>
-		           		<td style="text-align: left;" valign="middle">
-		           			${disclosureDetail.comments}
-           				</td>
-		           		<td style="text-align: left;" valign="middle">
-		           			${disclosureDetail.updateTimestamp}
-           				</td>
-		           		<td style="text-align: left;" valign="middle">
-		           			${disclosureDetail.updateUser}
-           				</td>
-            	 		<td style="text-align: left;" valign="middle">
-        	   				<kul:htmlControlAttribute property="disclosureHelper.masterDisclosureBean.${projectListName}[${idx}].coiDisclProject.coiDiscDetails[${festatus.index}].entityDispositionCode" 
-  								readOnly="${readOnly}" attributeEntry="${coiDiscDetailAttributes.entityDispositionCode}" styleClass="related" 
-  								readOnlyAlternateDisplay="${disclosureDetail.coiEntityDispositionStatus.description}"/>
-						</td>
-                    </tr>
-		        	<c:set var="userIndex" value="${userIndex+1}" />
+					<c:set var="entityNumber" value="${disclosureDetail.personFinIntDisclosure.entityNumber}"/>
+	        	    <c:if test="${(disclosureGroupedByEvent)  || (groupedEntityNumber eq entityNumber)}">
+	                    <tr>
+	        				<td>
+	        					${userIndex}
+	        				</td>
+			           		<td style="text-align: left;" valign="middle">
+			           			${disclosureDetail.personFinIntDisclosure.entityName}
+	           				</td>
+			           		<td style="text-align: left;" valign="middle">
+			           			${disclosureDetail.comments}
+	           				</td>
+			           		<td style="text-align: left;" valign="middle">
+			           			${disclosureDetail.updateTimestamp}
+	           				</td>
+			           		<td style="text-align: left;" valign="middle">
+			           			${disclosureDetail.updateUser}
+	           				</td>
+	            	 		<td style="text-align: left;" valign="middle">
+	        	   				<kul:htmlControlAttribute property="disclosureHelper.${projectListName}[${idx}].coiDisclProject.coiDiscDetails[${festatus.index}].entityDispositionCode" 
+	  								readOnly="${readOnly}" attributeEntry="${coiDiscDetailAttributes.entityDispositionCode}" styleClass="related" 
+	  								readOnlyAlternateDisplay="${disclosureDetail.coiEntityDispositionStatus.description}"/>
+							</td>
+	                    </tr>
+			        	<c:set var="userIndex" value="${userIndex+1}" />
+    	    	    </c:if>
                 </c:forEach>
             </table>
         </div> 
