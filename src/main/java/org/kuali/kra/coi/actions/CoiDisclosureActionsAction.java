@@ -59,7 +59,6 @@ public class CoiDisclosureActionsAction extends CoiNoteAndAttachmentAction {
     
             return routeToHoldingPage(basicForward, basicForward, holdingPageForward, returnLocation);
         } else {
-            GlobalVariables.getMessageMap().putError("coiAdminActionErrors", KeyConstants.ERROR_COI_DISPOSITON_STATUS_REQUIRED);
             return forward;
         }
     }
@@ -83,7 +82,6 @@ public class CoiDisclosureActionsAction extends CoiNoteAndAttachmentAction {
     
             return routeToHoldingPage(basicForward, basicForward, holdingPageForward, returnLocation);
         } else {
-            GlobalVariables.getMessageMap().putError("coiAdminActionErrors", KeyConstants.ERROR_COI_DISPOSITON_STATUS_REQUIRED);
             return forward;
         }
     }

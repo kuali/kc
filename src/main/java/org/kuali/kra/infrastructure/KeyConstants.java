@@ -1099,6 +1099,7 @@ public final class KeyConstants {
     public static final String ERROR_COI_DUPLICATE_PROJECT_ID = "error.coi.duplicate.projectid";
     public static final String ERROR_COI_DISPOSITON_STATUS_REQUIRED = "error.coi.disposition.status.required";
     public static final String ERROR_COI_DISCLOSURE_STATUS_REQUIRED = "error.coi.disclosure.status.required";
+    public static final String ERROR_COI_DISCLOSURE_STATUS_INVALID = "error.coi.disclosure.status.invalid";
     public static final String ERROR_FINANCIAL_ENTITY_STATUS_INCOMPLETE = "error.coi.financialentity.status.incomplete";
     public static final String ERROR_COI_QUESTIONNAIRE_MANDATORY = "error.coi.questionnaire.mandatory";
     public static final String ERROR_COI_QUESTIONNAIRE_NOTUPDATED = "error.coi.questionnaire.notupdated";
