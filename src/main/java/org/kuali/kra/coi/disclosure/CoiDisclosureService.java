@@ -233,4 +233,19 @@ public interface CoiDisclosureService {
     
     public void updateDisclosureAndProjectDisposition(CoiDisclosure coiDisclosure);
 
+
+    /**
+     * This method is to group undisclosed projects by event type
+     * @param coiDisclProjects
+     * @return
+     */
+    public List<CoiGroupedMasterDisclosureBean> getUndisclosedProjectsGroupedByEvent(List<CoiDisclProject> coiDisclProjects);
+    
+    /**
+     * This method is to group undisclosed projects by financial entity
+     * @param coiDisclProjects
+     * @return
+     */
+    public List<CoiGroupedMasterDisclosureBean> getUndisclosedProjectsGroupedByFinancialEntity(List<CoiDisclProject> coiDisclProjects);
+    
 }

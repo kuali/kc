@@ -300,7 +300,7 @@
 </c:if>
 
 <c:if test="${KualiForm.document.coiDisclosureList[0].annualEvent and not KualiForm.document.coiDisclosureList[0].annualUpdate}" >
-<kra-coi:disclosureFinancialEntities />
+<kra-coi:allUnDisclosedProjects />
 </c:if>
 
 

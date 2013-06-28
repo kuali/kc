@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.coi;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -26,6 +27,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.coi.actions.CoiDisclosureActionService;
 import org.kuali.kra.coi.disclosure.CoiDisclosureService;
+import org.kuali.kra.coi.disclosure.CoiGroupedMasterDisclosureBean;
 import org.kuali.kra.coi.disclosure.DisclosureHelper;
 import org.kuali.kra.coi.disclosure.MasterDisclosureBean;
 import org.kuali.kra.coi.notification.CoiNotification;
@@ -211,6 +213,35 @@ public abstract class CoiAction extends KraTransactionalDocumentActionBase {
         MasterDisclosureBean masterDisclosureBean = disclosureHelper.getMasterDisclosureBean();
         getCoiDisclosureService().createDisclosuresGroupedByEvent(masterDisclosureBean);
         return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+
+    public ActionForward viewUndisclosedProjectsByFinancialEntity(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        setUndisclosedProjects(false, form);
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    public ActionForward viewUndisclosedProjectsByEvent(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        setUndisclosedProjects(true, form);
+        return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+    
+    private void setUndisclosedProjects(boolean isGroupedByEvent, ActionForm form) {
+        CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) form;
+        coiDisclosureForm.getDisclosureHelper().setDisclosureGroupedByEvent(isGroupedByEvent);
+        List<CoiGroupedMasterDisclosureBean> groupedUndisclosedProjects = new ArrayList<CoiGroupedMasterDisclosureBean>(); 
+        if(isGroupedByEvent) {
+            groupedUndisclosedProjects = getCoiDisclosureService().getUndisclosedProjectsGroupedByEvent(getCoiDisclosureProjects(coiDisclosureForm)); 
+        }else {
+            groupedUndisclosedProjects = getCoiDisclosureService().getUndisclosedProjectsGroupedByFinancialEntity(getCoiDisclosureProjects(coiDisclosureForm)); 
+        }
+        coiDisclosureForm.getDisclosureHelper().setAllDisclosuresGroupedByProjects(groupedUndisclosedProjects);
+    }
+    
+    protected List<CoiDisclProject> getCoiDisclosureProjects(CoiDisclosureForm coiDisclosureForm) {
+        CoiDisclosureDocument coiDisclosureDocument = (CoiDisclosureDocument)coiDisclosureForm.getDocument();
+        CoiDisclosure coiDisclosure = coiDisclosureDocument.getCoiDisclosure();
+        return coiDisclosure.getCoiDisclProjects();
     }
 
 }
