@@ -88,6 +88,8 @@ public class DisclosureHelper implements Serializable {
     private transient CoiDisclosureService disclosureService;
     private boolean unresolvedEventsPresent;
     private String annualCertApprovalErrorMsgForAdmin;
+    private boolean disclosureGroupedByEvent;
+    private List<CoiGroupedMasterDisclosureBean> allDisclosuresGroupedByProjects;
     
     public DisclosureHelper(CoiDisclosureForm form) {
         this.form = form;
@@ -100,6 +102,8 @@ public class DisclosureHelper implements Serializable {
         newProtocols = new ArrayList<Protocol>();
         newIacucProtocols = new ArrayList<IacucProtocol>();
         initConflictHeaderLabel();
+        setDisclosureGroupedByEvent(true);
+        setAllDisclosuresGroupedByProjects(new ArrayList<CoiGroupedMasterDisclosureBean>());
    }
 
     public CoiDisclosureForm getForm() {
@@ -488,12 +492,27 @@ public class DisclosureHelper implements Serializable {
         return annualCertApprovalErrorMsgForAdmin;
     }
     
-    public boolean isUndisclosedEventsPresent() {
-        boolean isPresent = false;
-        if(getMasterDisclosureBean() != null) {
-            isPresent = getMasterDisclosureBean().getAllDisclosuresGroupedByProjects().size() > 0;
+    public boolean isDisclosedProjectsPresent() {
+        return getAllDisclosuresGroupedByProjects().size() > 0;
+    }
+    
+    public List<CoiGroupedMasterDisclosureBean> getAllDisclosuresGroupedByProjects() {
+        if(allDisclosuresGroupedByProjects.isEmpty()) {
+            setAllDisclosuresGroupedByProjects(getDisclosureService().getUndisclosedProjectsGroupedByEvent(getCoiDisclosure().getCoiDisclProjects()));
         }
-        return isPresent;
+        return allDisclosuresGroupedByProjects;
+    }
+
+    public boolean isDisclosureGroupedByEvent() {
+        return disclosureGroupedByEvent;
+    }
+
+    public void setDisclosureGroupedByEvent(boolean disclosureGroupedByEvent) {
+        this.disclosureGroupedByEvent = disclosureGroupedByEvent;
+    }
+
+    public void setAllDisclosuresGroupedByProjects(List<CoiGroupedMasterDisclosureBean> allDisclosuresGroupedByProjects) {
+        this.allDisclosuresGroupedByProjects = allDisclosuresGroupedByProjects;
     }
 
 }

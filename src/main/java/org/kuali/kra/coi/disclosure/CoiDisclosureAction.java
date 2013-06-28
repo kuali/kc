@@ -555,7 +555,6 @@ public class CoiDisclosureAction extends CoiAction {
 
     public ActionForward submitDisclosureCertification(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) form;
         save(mapping, coiDisclosureForm, request, response);
