@@ -53,7 +53,7 @@
            				</td>
             	 		<td style="text-align: left;" valign="middle">
         	   				<kul:htmlControlAttribute property="disclosureHelper.masterDisclosureBean.${projectListName}[${idx}].coiDisclProject.coiDiscDetails[${festatus.index}].entityDispositionCode" 
-  								readOnly="${readOnly}" attributeEntry="${coiDiscDetailAttributes.entityDispositionCode}" styleClass="conflictClass${projectDivNamePrefix}${idx}" 
+  								readOnly="${readOnly}" attributeEntry="${coiDiscDetailAttributes.entityDispositionCode}" styleClass="related" 
   								readOnlyAlternateDisplay="${disclosureDetail.coiEntityDispositionStatus.description}"/>
 						</td>
                     </tr>

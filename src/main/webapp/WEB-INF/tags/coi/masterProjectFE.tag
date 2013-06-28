@@ -45,10 +45,13 @@
     
                     <td align="left" valign="middle"  class="infoline">
                         <div align="center">
-                            <html:image property="methodToCall.allConflict.anchor${tabKey}"
-                            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-all.gif' styleClass="conflict" onclick="$j('select.conflictClass${projectDivNamePrefix}${idx}').val('2');return false;" />
-                            <html:image property="methodToCall.noneConflict.anchor${tabKey}"
-                            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-none.gif' styleClass="conflict" onclick="$j('select.conflictClass${projectDivNamePrefix}${idx}').val('1');return false;" />
+                        <c:if test="${not empty disclProjectBean.coiDisclProject.coiDiscDetails}">
+						<select onchange="jQuery(this).parents('table').first().find('select.related').val(jQuery(this).val());">
+							<c:forEach items="${krafn:getOptionList('org.kuali.kra.coi.disclosure.CoiDispositionStatusValuesFinder', null)}" var="option">
+		                        <option value="${option.key}">${option.value}</option>
+				            </c:forEach>
+						</select>
+						</c:if>
                         </div>
                     </td>
                     <td align="left" valign="middle" class="infoline">
@@ -86,7 +89,7 @@
         		            <div align="left">
         		                <%-- ${disclosureDetail.coiEntityDispositionStatus.description} --%>
                                 <kul:htmlControlAttribute property="disclosureHelper.masterDisclosureBean.${projectListName}[${idx}].coiDisclProject.coiDiscDetails[${festatus.index}].entityDispositionCode" readOnly="${readOnly}" attributeEntry="${coiDiscDetailAttributes.entityDispositionCode}" 
-                                    readOnlyAlternateDisplay="${disclosureDetail.coiEntityDispositionStatus.description}" styleClass="conflictClass${projectDivNamePrefix}${idx}"/> 
+                                    readOnlyAlternateDisplay="${disclosureDetail.coiEntityDispositionStatus.description}" styleClass="related"/> 
         		            </div>
         		        </td>
                         <td align="left" valign="middle">
