@@ -16,8 +16,12 @@
 package org.kuali.kra.coi.disclosure;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.coi.CoiDisclosureStatus;
+import org.kuali.kra.coi.CoiDispositionStatus;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 
@@ -37,6 +41,17 @@ public class CoiDisclosureAdministratorActionRule {
         }
         if (dispositionStatus == null) {
             GlobalVariables.getMessageMap().putError(ADMIN_ERRORS, KeyConstants.ERROR_COI_DISPOSITON_STATUS_REQUIRED); 
+            isValid = false;
+        }
+        CoiDispositionStatus disposition = KraServiceLocator.getService(BusinessObjectService.class).findBySinglePrimaryKey(CoiDispositionStatus.class, dispositionStatus);
+        if (disposition == null) {
+            GlobalVariables.getMessageMap().putError(ADMIN_ERRORS, KeyConstants.ERROR_COI_DISPOSITON_STATUS_REQUIRED);
+            isValid = false;
+        }
+        //if the disposition requires disapproval, then the disclosureStatus must be disapproved.
+        if (StringUtils.equals(disposition.getCoiDisclosureStatusCode(), CoiDisclosureStatus.DISAPPROVED) 
+                && !StringUtils.equals(disclosureStatus, CoiDisclosureStatus.DISAPPROVED)) {
+            GlobalVariables.getMessageMap().putError(ADMIN_ERRORS, KeyConstants.ERROR_COI_DISCLOSURE_STATUS_INVALID);
             isValid = false;
         }
         return isValid;
