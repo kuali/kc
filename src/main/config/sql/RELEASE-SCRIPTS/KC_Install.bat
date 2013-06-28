@@ -24,11 +24,12 @@ echo Invalid Database Type <%dbtype%>
 goto dbtype
 
 :Version
-set /p Version="Enter Currently Installed Version (NEW, 3.1.1, 5.0, 5.0.1) <%Version%>: "
+set /p Version="Enter Currently Installed Version (NEW, 3.1.1, 5.0, 5.0.1, 5.1) <%Version%>: "
 if /i "%Version%" == "NEW" goto User
 if /i "%Version%" == "3.1.1" goto User
 if /i "%Version%" == "5.0" goto User
 if /i "%Version%" == "5.0.1" goto User
+if /i "%Version%" == "5.1" goto User
 echo Invalid Version <%Version%>
 goto Version
 
@@ -265,6 +266,20 @@ sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < KR-RELEASE-5_1_0-Upgrade-ORACLE.
 move *.log ../LOGS
 cd ..
 
+:5.1ORACLE
+cd KC-RELEASE-5_1_1-SCRIPT
+
+if /i "%mode%" == "EMBED" (
+	sqlplus "%un%"/"%pw%"@"%DBSvrNm%" < KRC_RICE-RELEASE-5_1_1-Upgrade-ORACLE.sql
+)
+if /i "%InstRice%" == "Y" (
+	sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < KR_RICE-RELEASE-5_1_1-Upgrade-ORACLE.sql
+)
+sqlplus "%un%"/"%pw%"@"%DBSvrNm%" < KC-RELEASE-5_1_1-Upgrade-ORACLE.sql
+sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < KR-RELEASE-5_1_1-Upgrade-ORACLE.sql
+move *.log ../LOGS
+cd ..
+
 cd KC-FINISH/oracle
 sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < KR-FINISH-ORACLE.sql
 move *.log ../../LOGS/
@@ -445,6 +460,22 @@ if /i "%InstRice%" == "Y" (
 
 mysql -u %un% -p%pw% -D %DBSvrNm% -s -f < KC-RELEASE-5_1_0-Upgrade-MYSQL.sql > KC-RELEASE-5_1_0-Upgrade-MYSQL-Install.log 2>&1
 mysql -u %Riceun% -p%Ricepw% -D %RiceDBSvrNm% -s -f < KR-RELEASE-5_1_0-Upgrade-MYSQL.sql > KR-RELEASE-5_1_0-Upgrade-MYSQL-Install.log 2>&1
+move *.log ../LOGS/
+cd ..
+
+:5.1MYSQL
+cd KC-RELEASE-5_1_1-SCRIPT
+
+if /i "%mode%" == "EMBED" (
+	mysql -u %un% -p%pw% -D %DBSvrNm% -s -f < KRC_RICE-RELEASE-5_1_1-Upgrade-MYSQL.sql > KRC_RICE-RELEASE-5_1_1-Upgrade-MYSQL-Install.log 2>&1
+)
+
+if /i "%InstRice%" == "Y" (
+	mysql -u %Riceun% -p%Ricepw% -D %RiceDBSvrNm% -s -f < KR_RICE-RELEASE-5_1_1-Upgrade-MYSQL.sql > KR_RICE-RELEASE-5_1_1-Upgrade-MYSQL-Install.log 2>&1
+)
+
+mysql -u %un% -p%pw% -D %DBSvrNm% -s -f < KC-RELEASE-5_1_1-Upgrade-MYSQL.sql > KC-RELEASE-5_1_1-Upgrade-MYSQL-Install.log 2>&1
+mysql -u %Riceun% -p%Ricepw% -D %RiceDBSvrNm% -s -f < KR-RELEASE-5_1_1-Upgrade-MYSQL.sql > KR-RELEASE-5_1_1-Upgrade-MYSQL-Install.log 2>&1
 move *.log ../LOGS/
 cd ..
 
