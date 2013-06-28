@@ -356,6 +356,12 @@ public class CoiDisclosureAction extends CoiAction {
                 coiDisclosure.setCoiDisclosureDocument(coiDisclosureForm.getCoiDisclosureDocument());
             }
             coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure().setEventTypeCode(eventTypeCode);
+            if (coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure().getCoiDisclosureId() == null) {
+                coiDisclosureForm.getCoiDisclosureDocument().getCoiDisclosure().initRequiredFields();            
+            }
+            else {
+                getCoiDisclosureService().resetLeadUnit(coiDisclosure.getDisclosureReporter());
+            }
         }
         else {
             coiDisclosureForm.setCommand(KewApiConstants.DOCSEARCH_COMMAND);
