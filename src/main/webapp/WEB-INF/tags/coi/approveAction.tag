@@ -35,7 +35,7 @@
   		    </div>
 		</c:if>
 		<h4><div class="body">Disclosure Status is set to '<c:out value="${KualiForm.disclosureActionHelper.maximumDispositionStatus.description}"/>' based on the Project-Financial Entity conflict status.</div></h4>
-		<div style="text-align: center;">
+		<div style="text-align: center;" class="coiActionButtons">
 			<c:choose><c:when test="${KualiForm.disclosureActionHelper.maximumDispositionStatus.coiDisclosureStatusCode == '4'}">
 				<html:image property="methodToCall.disapprove.anchor${tabKey}"
 								            src='${ConfigProperties.kr.externalizable.images.url}buttonsmall_disapprove.gif' styleClass="tinybutton"/>
@@ -44,5 +44,9 @@
 								            src='${ConfigProperties.kr.externalizable.images.url}buttonsmall_approve.gif' styleClass="tinybutton"/>
 			</c:otherwise></c:choose>		
    		</div>
+   		<div style="text-align: center; display:none;" class="coiActionButtonsDisabledMessage">After a project-financial entity relationship change you must save before approving.</div>
+   		<script>
+   			jQuery('select[name$="entityDispositionCode"]').change(function() { jQuery('.coiActionButtons').hide(); jQuery('.coiActionButtonsDisabledMessage').show(); });
+   		</script>
    	</div>
 
