@@ -597,6 +597,10 @@ public class CoiDisclProject extends KraPersistableBusinessObjectBase implements
         this.coiDispositionStatus = coiDispositionStatus;
     }
     public CoiDispositionStatus getCoiDispositionStatus() {
+        if (disclosureDispositionCode != null &&
+                (coiDispositionStatus == null || !StringUtils.equals(coiDispositionStatus.getCoiDispositionCode(), disclosureDispositionCode.toString()))) {
+            this.refreshReferenceObject("coiDispositionStatus");
+        }
         return coiDispositionStatus;
     }
 
