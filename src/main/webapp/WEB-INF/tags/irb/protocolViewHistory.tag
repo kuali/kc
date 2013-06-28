@@ -53,8 +53,6 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.selectedHistoryItem")}
 	                <th><nobr>Action Date</nobr></th>
 	                <th style="width:50%;">Comments</th>
  	              <%--  <th>Questionnaire</th> --%>
- 	              <th>Updated User</th>	         
- 	              <th>Updated Timestamp</th>
                 </tr>
                 <c:forEach items="${KualiForm.document.protocol.protocolActions}" var="protocolAction" varStatus="status">
                     <c:if test="${protocolAction.isInFilterView}">
@@ -91,12 +89,6 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.selectedHistoryItem")}
 	                                      &nbsp;
 	                                </c:otherwise>
 	                            </c:choose>
-	                        </td>
-	                        <td class="infoline">
-	                           <nobr>${protocolAction.updateUser}</nobr>
-	                        </td class="infoline">
-	                        <td>
-	                         <nobr>${protocolAction.updateTimestamp}</nobr>
 	                        </td>
 	                        <%--
 	            		    <td class="infoline">
@@ -183,7 +175,7 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.selectedHistoryItem")}
 		            	<c:if test="${fn:length(protocolAction.filteredProtocolNotifications) > 0}">
 	            			<tr>
 	            				<td class="infoline">&nbsp;</td>
-	            		        <td colspan="7">
+	            		        <td colspan="4">
 	            		        	<kul:innerTab tabTitle="Notifications" tabItemCount="${fn:length(protocolAction.filteredProtocolNotifications)}" parentTab="attachment${status.index}" defaultOpen="false" tabErrorKey="">
 	            		        		<div class="innerTab-container" align="left">
 		                                    <table class="tab" cellpadding="0" cellspacing="0" summary="">
@@ -291,7 +283,7 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.selectedHistoryItem")}
             	</c:forEach>
             	
             	<tr>
-            	    <td class="infoline" colspan="7">
+            	    <td class="infoline" colspan="5">
             	        <html:image property="methodToCall.loadProtocolSummary.line${ctr}.anchor${currentTabIndex}"
                                     src='${ConfigProperties.kra.externalizable.images.url}tinybutton-load.gif' 
                                     styleClass="tinybutton" style="vertical-align:bottom"/>  
