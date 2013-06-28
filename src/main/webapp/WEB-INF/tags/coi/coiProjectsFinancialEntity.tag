@@ -1,10 +1,13 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <c:set var="masterDisclosure" value="${KualiForm.disclosureHelper.masterDisclosureBean}" />
-<c:set var="undisclosedEventsPresent" value="${KualiForm.disclosureHelper.undisclosedEventsPresent}" />
+<c:set var="disclosedProjectsPresent" value="${KualiForm.disclosureHelper.disclosedProjectsPresent}" />
 
 <c:set var="coiDiscDetailAttributes" value="${DataDictionary.CoiDiscDetail.attributes}" />
 <c:set var="projectsGroupedByDescription" value="(Grouped by Projects)" />
-<c:if test="${!masterDisclosure.disclosureGroupedByEvent}">
+
+<c:set var="disclosureGroupedByEvent" value="${KualiForm.disclosureHelper.disclosureGroupedByEvent}" />
+
+<c:if test="${!disclosureGroupedByEvent}">
 	<c:set var="projectsGroupedByDescription" value="(Grouped by Financial Entities)" />
 </c:if>
 
@@ -12,14 +15,14 @@
 	    <h3>
 	        <span class="subhead-left">Financial Entity Status Review ${projectsGroupedByDescription}</span>
 	        <span class="subhead-right"> <kul:help businessObjectClassName="org.kuali.kra.coi.CoiDisclosureStatus" altText="help"/> </span>
-				<c:if test="${undisclosedEventsPresent}">
+				<c:if test="${disclosedProjectsPresent}">
 			        <span class="subhead-right">
-					    <html:image property="methodToCall.viewProjectDisclosuresByEvent" title="Group by projects"
+					    <html:image property="methodToCall.viewUndisclosedProjectsByEvent" title="Group by projects"
 							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-projectview.gif' styleClass="tinybutton"/>
 			        </span>
 			        <span class="subhead-right">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
 			        <span class="subhead-right">
-					    <html:image property="methodToCall.viewProjectDisclosuresByFinancialEntity" title="Group by financial entity"
+					    <html:image property="methodToCall.viewUndisclosedProjectsByFinancialEntity" title="Group by financial entity"
 							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-financialentityview.gif' styleClass="tinybutton"/>
 			        </span>
 				</c:if>
@@ -30,7 +33,7 @@
 	       	<tr>
 	            <th width="4%" />
 				<c:choose>
-				    <c:when test="${masterDisclosure.disclosureGroupedByEvent}">
+				    <c:when test="${disclosureGroupedByEvent}">
 					    <th><div align="center">Event</div></th> 
 				        <th><div align="center">Project Id </div></th> 
 				        <th><div align="center">Project Title</div></th> 
@@ -47,14 +50,14 @@
 	
 			<%-- Existing data --%>
 	    	<c:set var="idx" value="1"/>
-	        <c:forEach var="groupedMasterBean" items="${KualiForm.disclosureHelper.masterDisclosureBean.allDisclosuresGroupedByProjects}" varStatus="status">
+	        <c:forEach var="groupedMasterBean" items="${KualiForm.disclosureHelper.allDisclosuresGroupedByProjects}" varStatus="status">
 		        <tr>
 		            <th class="infoline" align="center">
 			            <c:out value="${idx}" />
 	    	            <c:set var="idx" value="${idx+1}"/>
 		            </th>
 					<c:choose>
-					    <c:when test="${masterDisclosure.disclosureGroupedByEvent}">
+					    <c:when test="${disclosureGroupedByEvent}">
 				            <td align="left" valign="middle">
 			                    <div align="left">
 			                    <a href="#" id ="projectDiv-Control${idx}" class="projectsFESubpanel"><img src='kr/images/tinybutton-hide.gif' alt='show/hide panel' width='45' height='15' border='0' align='absmiddle'></a> 
@@ -94,8 +97,9 @@
 	                <div  id="projectDiv-Content${idx}">
 				        <kra-coi:coiProjectEntities masterDisclosureProjects="${groupedMasterBean.allRelatedProjects}" 
 				        projectDivNamePrefix="masterProjectDivFE${status.index}" projectListName="allDisclosuresGroupedByProjects[${status.index}].allRelatedProjects" 
-				        boLocation="disclosureHelper.masterDisclosureBean.allDisclosuresGroupedByProjects[${status.index}].allRelatedProjects"
-				        parentTab="Disclosed Projects"/>
+				        boLocation="disclosureHelper.allDisclosuresGroupedByProjects[${status.index}].allRelatedProjects"
+				        parentTab="Disclosed Projects" disclosureGroupedByEvent="${disclosureGroupedByEvent}"
+				        groupedEntityNumber="${groupedMasterBean.entityNumber}"/>
 			    	</div>
 			    	</div>
 	    	    </td>
