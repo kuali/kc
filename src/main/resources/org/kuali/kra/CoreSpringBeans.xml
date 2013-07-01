@@ -898,7 +898,10 @@
                 </bean>                
                 <bean class="org.kuali.kra.authorizer.ViewCoiUndisclosedEventsAuthorizer" parent="parentAuthorizer">
                     <property name="taskName" value="viewCoiUndisclosedEvents" />
-                </bean>                
+                </bean>
+                <bean class="org.kuali.kra.authorizer.LookupCoiDisclosuresAuthorizer" parent="parentAuthorizer">
+                    <property name="taskName" value="lookupCoiDisclosures" />
+                </bean>                                
             </list>
         </property>
     </bean>

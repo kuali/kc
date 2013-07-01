@@ -221,6 +221,7 @@ public interface TaskName {
      * COI tasks
      */
     public static final String CREATE_COI_DISCLOSURE = "createCoiDisclosure";
+    public static final String LOOKUP_COI_DISCLOSURES = "lookupCoiDisclosures";
     public static final String MODIFY_COI_DISCLOSURE = "modifyCoiDisclosure";
     public static final String ANSWER_COI_DISCLOSURE_QUESTIONNAIRE = "answerCoiDisclosureQuestionnaire";
     public static final String VIEW_COI_DISCLOSURE = "viewCoiDisclosure";

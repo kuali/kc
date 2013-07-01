@@ -24,10 +24,16 @@ import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.CoiDisclosureEventType;
 import org.kuali.rice.krad.bo.BusinessObject;
 
+@SuppressWarnings("unchecked")
 public class CoiNonProjectEventDisclosureLookupableHelper extends CoiDisclosureLookupableHelperBase {
 
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = -8145799265576572663L;
+
     @Override
-    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
+    public List<? extends BusinessObject> getLookupSpecificSearchResults(Map<String, String> fieldValues) {
         List<CoiDisclosure> allDisclosures = (List<CoiDisclosure>) super.getResults(fieldValues);
         List<CoiDisclosure> nonProjectEventDisclosures = new ArrayList<CoiDisclosure>();
         //exclude annual, update, manual award, ip and protocol and award, ip and protocol event based disclosures
