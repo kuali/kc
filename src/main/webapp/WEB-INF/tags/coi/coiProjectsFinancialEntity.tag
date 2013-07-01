@@ -6,6 +6,7 @@
 <c:set var="projectsGroupedByDescription" value="(Grouped by Projects)" />
 
 <c:set var="disclosureGroupedByEvent" value="${KualiForm.disclosureHelper.disclosureGroupedByEvent}" />
+<c:set var="entitiesPresent" value="${KualiForm.disclosureHelper.financialEntitiesPresent}" />
 
 <c:if test="${!disclosureGroupedByEvent}">
 	<c:set var="projectsGroupedByDescription" value="(Grouped by Financial Entities)" />
@@ -20,11 +21,13 @@
 					    <html:image property="methodToCall.viewUndisclosedProjectsByEvent" title="Group by projects"
 							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-projectview.gif' styleClass="tinybutton"/>
 			        </span>
-			        <span class="subhead-right">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-			        <span class="subhead-right">
-					    <html:image property="methodToCall.viewUndisclosedProjectsByFinancialEntity" title="Group by financial entity"
-							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-financialentityview.gif' styleClass="tinybutton"/>
-			        </span>
+					<c:if test="${entitiesPresent}">
+				        <span class="subhead-right">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+				        <span class="subhead-right">
+						    <html:image property="methodToCall.viewUndisclosedProjectsByFinancialEntity" title="Group by financial entity"
+								src='${ConfigProperties.kra.externalizable.images.url}tinybutton-financialentityview.gif' styleClass="tinybutton"/>
+				        </span>
+					</c:if>
 				</c:if>
 	    </h3>
 	    

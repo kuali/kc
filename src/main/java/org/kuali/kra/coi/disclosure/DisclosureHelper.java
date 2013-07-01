@@ -43,6 +43,7 @@ import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.springframework.util.ObjectUtils;
 
 public class DisclosureHelper implements Serializable {
 
@@ -494,6 +495,15 @@ public class DisclosureHelper implements Serializable {
     
     public boolean isDisclosedProjectsPresent() {
         return getAllDisclosuresGroupedByProjects().size() > 0;
+    }
+
+    public boolean isFinancialEntitiesPresent() {
+        boolean entitiesPresent = false;
+        List<CoiDisclProject> disclosureProjects = getCoiDisclosure().getCoiDisclProjects();
+        if(!disclosureProjects.isEmpty() && !disclosureProjects.get(0).getCoiDiscDetails().isEmpty()) {
+            entitiesPresent = disclosureProjects.get(0).getCoiDiscDetails().get(0).getPersonFinIntDisclosure() != null;
+        }
+        return entitiesPresent;
     }
     
     public List<CoiGroupedMasterDisclosureBean> getAllDisclosuresGroupedByProjects() {
