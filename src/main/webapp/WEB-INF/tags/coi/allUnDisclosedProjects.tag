@@ -1,6 +1,8 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 <c:set var="masterDisclosure" value="${KualiForm.disclosureHelper.masterDisclosureBean}" />
 <c:set var="disclosureGroupedByEvent" value="${KualiForm.disclosureHelper.disclosureGroupedByEvent}" />
+<c:set var="projectsPresent" value="${KualiForm.disclosureHelper.disclosedProjectsPresent}" />
+<c:set var="entitiesPresent" value="${KualiForm.disclosureHelper.financialEntitiesPresent}" />
 
 <c:set var="coiDiscDetailAttributes" value="${DataDictionary.CoiDiscDetail.attributes}" />
 <c:set var="projectsGroupedByDescription" value="(Grouped by Projects)" />
@@ -13,15 +15,19 @@
 	    <h3>
 	        <span class="subhead-left">UnDisclosed Projects ${projectsGroupedByDescription}</span>
 	        <span class="subhead-right"> <kul:help businessObjectClassName="org.kuali.kra.coi.CoiDisclosure" altText="help"/> </span>
-	        <span class="subhead-right">
-			    <html:image property="methodToCall.viewUndisclosedProjectsByEvent" title="Group by projects"
-					src='${ConfigProperties.kra.externalizable.images.url}tinybutton-projectview.gif' styleClass="tinybutton"/>
-	        </span>
-	        <span class="subhead-right">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-	        <span class="subhead-right">
-			    <html:image property="methodToCall.viewUndisclosedProjectsByFinancialEntity" title="Group by financial entity"
-					src='${ConfigProperties.kra.externalizable.images.url}tinybutton-financialentityview.gif' styleClass="tinybutton"/>
-	        </span>
+			<c:if test="${projectsPresent}">
+		        <span class="subhead-right">
+				    <html:image property="methodToCall.viewUndisclosedProjectsByEvent" title="Group by projects"
+						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-projectview.gif' styleClass="tinybutton"/>
+		        </span>
+				<c:if test="${entitiesPresent}">
+			        <span class="subhead-right">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+			        <span class="subhead-right">
+					    <html:image property="methodToCall.viewUndisclosedProjectsByFinancialEntity" title="Group by financial entity"
+							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-financialentityview.gif' styleClass="tinybutton"/>
+			        </span>
+				</c:if>
+			</c:if>
 	    </h3>
 	    
 	    <table id="protocolSubmitted-wrap-table" cellpadding=0 cellspacing=0 class="datatable" summary="Protocol Submitted">
