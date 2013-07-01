@@ -65,7 +65,7 @@ public abstract class CoiDisclosureLookupableHelperBase extends KraLookupableHel
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
     
-    private String getUserIdentifier() {
+    protected String getUserIdentifier() {
         return GlobalVariables.getUserSession().getPrincipalId();
     }
     

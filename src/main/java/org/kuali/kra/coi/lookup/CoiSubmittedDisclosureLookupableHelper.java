@@ -24,7 +24,6 @@ import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.auth.CoiDisclosureTask;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.rice.krad.bo.BusinessObject;
-import org.kuali.rice.krad.util.GlobalVariables;
 
 @SuppressWarnings("unchecked")
 public class CoiSubmittedDisclosureLookupableHelper extends CoiDisclosureLookupableHelperBase {
@@ -71,13 +70,6 @@ public class CoiSubmittedDisclosureLookupableHelper extends CoiDisclosureLookupa
         return displayDisclosure;
     }
 
-    /**
-     * This method gets the principalId for the current user.
-     * @return principalId
-     */
-    protected String getUserIdentifier() {
-        return GlobalVariables.getUserSession().getPrincipalId();
-    }
     
     @Override
     protected boolean isAuthorizedForCoiLookups() {
