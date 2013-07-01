@@ -53,4 +53,9 @@ public class CoiDisclosureReviewsLookupableHelper extends CoiDisclosureLookupabl
         }
         return coiDisclosureReviews;
     }
+    
+    @Override
+    protected boolean isAuthorizedForCoiLookups() {
+        return true;
+    }
 }
