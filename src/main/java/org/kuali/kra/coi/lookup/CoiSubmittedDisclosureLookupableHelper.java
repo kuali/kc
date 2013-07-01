@@ -22,22 +22,23 @@ import java.util.Map;
 import org.drools.core.util.StringUtils;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.auth.CoiDisclosureTask;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
-import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.util.GlobalVariables;
 
+@SuppressWarnings("unchecked")
 public class CoiSubmittedDisclosureLookupableHelper extends CoiDisclosureLookupableHelperBase {
     
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = 4999402404037030752L;
     //field name
     private static final String LEAD_UNIT = "leadUnitNumber";
     
-    
-    private TaskAuthorizationService taskAuthorizationService;
 
-
-    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
+    @Override
+    public List<? extends BusinessObject> getLookupSpecificSearchResults(Map<String, String> fieldValues) {
         List<CoiDisclosure> allDisclosures = (List<CoiDisclosure>) super.getResults(fieldValues);
         List<CoiDisclosure> submittedDisclosures = new ArrayList<CoiDisclosure>();
 
@@ -78,12 +79,9 @@ public class CoiSubmittedDisclosureLookupableHelper extends CoiDisclosureLookupa
         return GlobalVariables.getUserSession().getPrincipalId();
     }
     
-
-    private TaskAuthorizationService getTaskAuthorizationService() {
-        if (taskAuthorizationService == null) {
-            taskAuthorizationService = KraServiceLocator.getService(TaskAuthorizationService.class);
-        }
-        return taskAuthorizationService;
+    @Override
+    protected boolean isAuthorizedForCoiLookups() {
+        return true;
     }
     
 }

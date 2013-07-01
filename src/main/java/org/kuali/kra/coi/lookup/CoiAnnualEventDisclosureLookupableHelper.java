@@ -19,15 +19,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.coi.CoiDisclosure;
-import org.kuali.kra.coi.CoiDisclosureEventType;
 import org.kuali.rice.krad.bo.BusinessObject;
 
+@SuppressWarnings("unchecked")
 public class CoiAnnualEventDisclosureLookupableHelper extends CoiDisclosureLookupableHelperBase {
 
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = 1985148959992419923L;
+
     @Override
-    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
+    public List<? extends BusinessObject> getLookupSpecificSearchResults(Map<String, String> fieldValues) {
         List<CoiDisclosure> allDisclosures = (List<CoiDisclosure>) super.getResults(fieldValues);
         List<CoiDisclosure> annualEventDisclosures = new ArrayList<CoiDisclosure>();
         for (CoiDisclosure disclosure : allDisclosures) {

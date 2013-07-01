@@ -22,21 +22,41 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.authorization.ApplicationTask;
 import org.kuali.kra.coi.CoiDisclosureForm;
 import org.kuali.kra.coi.disclosure.CoiDisclosureAction;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.TaskName;
+import org.kuali.kra.service.TaskAuthorizationService;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 
 public class CoiDisclosurePersonSearchAction extends CoiDisclosureAction {
 
     public static final String REFRESH_CALLER = "kcPersonLookupable";
     
+    @SuppressWarnings("deprecation")
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         CoiDisclosureForm coiDisclosureForm = (CoiDisclosureForm) form;
-        if (StringUtils.equals(coiDisclosureForm.getRefreshCaller(), REFRESH_CALLER)) {
-            return viewMasterDisclosure(coiDisclosureForm.getPersonId(), coiDisclosureForm, mapping);
-        } else {
-            return mapping.findForward(KRADConstants.MAPPING_PORTAL);
+        if(isAuthorizedForCoiLookups()) {
+            if (StringUtils.equals(coiDisclosureForm.getRefreshCaller(), REFRESH_CALLER)) {
+                return viewMasterDisclosure(coiDisclosureForm.getPersonId(), coiDisclosureForm, mapping);
+            }
         }
+        return mapping.findForward(KRADConstants.MAPPING_PORTAL);
         
+    }
+    
+    protected boolean isAuthorizedForCoiLookups() {
+        ApplicationTask task = new ApplicationTask(TaskName.LOOKUP_COI_DISCLOSURES);
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
+    }
+    
+    protected TaskAuthorizationService getTaskAuthorizationService() {
+        return KraServiceLocator.getService(TaskAuthorizationService.class);
+    }
+    
+    private String getUserIdentifier() {
+        return GlobalVariables.getUserSession().getPrincipalId();
     }
 }

@@ -26,9 +26,16 @@ import org.kuali.kra.coi.CoiUserRole;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.util.GlobalVariables;
 
+@SuppressWarnings("unchecked")
 public class CoiDisclosureReviewsLookupableHelper extends CoiDisclosureLookupableHelperBase {
 
-    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = 5482769028074271782L;
+
+    @Override
+    public List<? extends BusinessObject> getLookupSpecificSearchResults(Map<String, String> fieldValues) {
         List<CoiDisclosure> allDisclosures = (List<CoiDisclosure>) super.getResults(fieldValues);
         List<CoiDisclosure> coiDisclosureReviews = new ArrayList<CoiDisclosure>();
         String currentUser = GlobalVariables.getUserSession().getPrincipalName();
