@@ -22,11 +22,14 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.authorization.ApplicationTask;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
 import org.kuali.kra.service.KcPersonService;
+import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
@@ -35,12 +38,43 @@ import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.UrlFactory;
 
+@SuppressWarnings("deprecation")
 public abstract class CoiDisclosureLookupableHelperBase extends KraLookupableHelperServiceImpl {
 
-    public abstract List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues);
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = -1746355811792663715L;
+    
+    private TaskAuthorizationService taskAuthorizationService;
+
+    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
+        List<? extends BusinessObject> retVal = new ArrayList<CoiDisclosure>();
+        if(isAuthorizedForCoiLookups()) {
+            retVal = getLookupSpecificSearchResults(fieldValues);
+        }
+        return retVal;
+    }
+
+    protected boolean isAuthorizedForCoiLookups() {
+        ApplicationTask task = new ApplicationTask(TaskName.LOOKUP_COI_DISCLOSURES);
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
+    }
+    
+    private String getUserIdentifier() {
+        return GlobalVariables.getUserSession().getPrincipalId();
+    }
+    
+    protected TaskAuthorizationService getTaskAuthorizationService() {
+        if (taskAuthorizationService == null) {
+            taskAuthorizationService = KraServiceLocator.getService(TaskAuthorizationService.class);
+        }
+        return taskAuthorizationService;
+    }
 
     protected AnchorHtmlData getOpenLink(Document document) {
         AnchorHtmlData htmlData = new AnchorHtmlData();
@@ -70,7 +104,7 @@ public abstract class CoiDisclosureLookupableHelperBase extends KraLookupableHel
         return rows;
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     @Override
     public Collection performLookup(LookupForm lookupForm, Collection resultTable, boolean bounded) {
         String userName = (String) lookupForm.getFieldsForLookup().get("person.userName");
@@ -98,7 +132,7 @@ public abstract class CoiDisclosureLookupableHelperBase extends KraLookupableHel
         return allDisclosures;
     }
     
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("rawtypes")
     @Override
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
         List<HtmlData> htmlDataList = new ArrayList<HtmlData>();
@@ -135,5 +169,7 @@ public abstract class CoiDisclosureLookupableHelperBase extends KraLookupableHel
     protected String getKeyFieldName() {
         return "coiDisclosureId";
     }
+
+    public abstract List<? extends BusinessObject> getLookupSpecificSearchResults(Map<String, String> fieldValues);
 
 }
