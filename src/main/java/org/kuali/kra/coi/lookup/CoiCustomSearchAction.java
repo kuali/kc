@@ -26,6 +26,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.authorization.ApplicationTask;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.CoiDisclosureDocument;
 import org.kuali.kra.coi.CoiDispositionStatus;
@@ -36,7 +37,9 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
+import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.service.KraAuthorizationService;
+import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
@@ -45,6 +48,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 
 
+@SuppressWarnings("deprecation")
 public class CoiCustomSearchAction extends KualiAction {
 
     private CoiDisclosureDao coiDisclosureDao;
@@ -55,14 +59,19 @@ public class CoiCustomSearchAction extends KualiAction {
     private KraAuthorizationService kraAuthorizationService;
     
     public ActionForward openCustomSearch(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        CoiCustomSearchForm searchForm = (CoiCustomSearchForm) form;
-        searchForm.setCanQuickApprove(getPermissionService().hasPermission(GlobalVariables.getUserSession().getPrincipalId(), 
-                "KC-COIDISCLOSURE", PermissionConstants.APPROVE_COI_DISCLOSURE));
-        CustomAdminSearchHelper helper = searchForm.getCustomAdminSearchHelper();
-        helper.setAllOpenReviews(getOpenReviews());
-        helper.setPendingReviews(getPendingReviews());
-        helper.setInProgressReviews(getInProgressReviews());
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        if(isAuthorizedForCoiLookups()) {
+            CoiCustomSearchForm searchForm = (CoiCustomSearchForm) form;
+            searchForm.setCanQuickApprove(getPermissionService().hasPermission(GlobalVariables.getUserSession().getPrincipalId(), 
+                    "KC-COIDISCLOSURE", PermissionConstants.APPROVE_COI_DISCLOSURE));
+            CustomAdminSearchHelper helper = searchForm.getCustomAdminSearchHelper();
+            helper.setAllOpenReviews(getOpenReviews());
+            helper.setPendingReviews(getPendingReviews());
+            helper.setInProgressReviews(getInProgressReviews());
+            return mapping.findForward(Constants.MAPPING_BASIC);
+        }
+        else {
+            return mapping.findForward(KRADConstants.MAPPING_PORTAL);
+        }
     }
     
     public ActionForward quickApproveDisclosure(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -179,5 +188,18 @@ public class CoiCustomSearchAction extends KualiAction {
 
     public void setPermissionService(PermissionService permissionService) {
         this.permissionService = permissionService;
+    }
+    
+    protected boolean isAuthorizedForCoiLookups() {
+        ApplicationTask task = new ApplicationTask(TaskName.LOOKUP_COI_DISCLOSURES);
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
+    }
+    
+    protected TaskAuthorizationService getTaskAuthorizationService() {
+        return KraServiceLocator.getService(TaskAuthorizationService.class);
+    }
+    
+    private String getUserIdentifier() {
+        return GlobalVariables.getUserSession().getPrincipalId();
     }
 }

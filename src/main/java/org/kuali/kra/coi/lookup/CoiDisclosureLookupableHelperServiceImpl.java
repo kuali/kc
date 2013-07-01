@@ -42,9 +42,6 @@ public class CoiDisclosureLookupableHelperServiceImpl extends CoiDisclosureLooku
     //field names
     private static final String LEAD_UNIT = "leadUnitNumber";
 
-    protected String getUserIdentifier() {
-        return GlobalVariables.getUserSession().getPrincipalId();
-    }
 
     protected boolean validateDate(String dateFieldName, String dateFieldValue) {
         try{
