@@ -49,8 +49,12 @@ public class CoiDisclosureActionsAction extends CoiNoteAndAttachmentAction {
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         AuditActionHelper auditActionHelper = new AuditActionHelper();
         
-        if (new CoiDisclosureAdministratorActionRule().isValidStatus(disclosureStatus, dispositionCode)
-                && auditActionHelper.auditUnconditionally(coiDisclosureDocument)) {   
+        if (new CoiDisclosureAdministratorActionRule().isValidStatus(disclosureStatus, dispositionCode)) {
+            if (!auditActionHelper.auditUnconditionally(coiDisclosureDocument)) {
+                coiDisclosureForm.setAuditActivated(true);
+                GlobalVariables.getMessageMap().putError("coiAdminActionErrors", KeyConstants.ERROR_COI_VALIDATION, "approving");
+                return forward;
+            }
             coiDisclosureForm.getDisclosureActionHelper().approveDisclosure(dispositionCode);
             ActionForward basicForward = mapping.findForward(KRADConstants.MAPPING_PORTAL);
             String routeHeaderId = coiDisclosureDocument.getDocumentNumber();
@@ -72,8 +76,12 @@ public class CoiDisclosureActionsAction extends CoiNoteAndAttachmentAction {
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         AuditActionHelper auditActionHelper = new AuditActionHelper();
         
-        if (new CoiDisclosureAdministratorActionRule().isValidStatus(disclosureStatus, dispositionCode)
-                && auditActionHelper.auditUnconditionally(coiDisclosureDocument)) {   
+        if (new CoiDisclosureAdministratorActionRule().isValidStatus(disclosureStatus, dispositionCode)) {
+            if (!auditActionHelper.auditUnconditionally(coiDisclosureDocument)) {
+                coiDisclosureForm.setAuditActivated(true);
+                GlobalVariables.getMessageMap().putError("coiAdminActionErrors", KeyConstants.ERROR_COI_VALIDATION, "disapproving");
+                return forward;
+            }
             coiDisclosureForm.getDisclosureActionHelper().disapproveDisclosure(dispositionCode);
             ActionForward basicForward = mapping.findForward(KRADConstants.MAPPING_PORTAL);
             String routeHeaderId = coiDisclosureDocument.getDocumentNumber();

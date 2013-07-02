@@ -624,6 +624,7 @@ public final class KeyConstants {
     public static final String MESSAGE_COI_CERT_SUBMITTED = "message.coi.cert.submitted";
     public static final String ERROR_COI_NO_PERMISSION_APPROVE = "error.coi.nopermission.approve";
     public static final String MESSAGE_COI_DISCLOSURE_QUICK_APPROVED = "message.coi.quick.approved";
+    public static final String ERROR_COI_VALIDATION="error.coi.validation";
     
     // IRB Protocol Research Area Validation messages
     public static final String ERROR_PROTOCOL_RESEARCH_AREA_REQUIRED = "error.protocol.researchArea.required";
