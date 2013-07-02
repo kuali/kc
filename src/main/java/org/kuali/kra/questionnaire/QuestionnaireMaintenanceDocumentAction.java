@@ -127,7 +127,7 @@ public class QuestionnaireMaintenanceDocumentAction extends KualiMaintenanceDocu
         boolean retVal = true;
         final String fieldName = "document.newMaintainableObject.businessObject.fileName";
         try {
-            if (!StringUtils.isBlank(qnForm.getTemplateFile().getFileName()) && (qnForm.getTemplateFile().getFileData() == null || qnForm.getTemplateFile().getFileData().length <= 0)) {
+            if (ObjectUtils.isNotNull(qnForm.getTemplateFile()) && !StringUtils.isBlank(qnForm.getTemplateFile().getFileName()) && (qnForm.getTemplateFile().getFileData() == null || qnForm.getTemplateFile().getFileData().length <= 0)) {
                 GlobalVariables.getMessageMap().putError(fieldName, KeyConstants.ERROR_QUESTIONNAIRE_FILENAME_INVALID);
                 retVal = false;
             }
