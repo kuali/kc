@@ -1302,7 +1302,8 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
             }else {
                 coiDisclosure = coiDisclosureProjectBean.getCoiDisclProject().getCoiDisclosure();
             }
-            coiGroupedMasterDisclosureBean.setDisclosureEventType(coiDisclosure.getCoiDisclosureEventType().getDescription());
+            String projectEventTypeDescription =coiDisclosureProjectBean.getCoiDisclProject().getCoiDisclosureEventType().getDescription(); 
+            coiGroupedMasterDisclosureBean.setDisclosureEventType(projectEventTypeDescription);
             coiGroupedMasterDisclosureBean.setDisclosureStatus(coiDisclosure.getCoiDisclosureStatus().getDescription());
             coiGroupedMasterDisclosureBean.setDispositionStatus(coiDisclosure.getCoiDispositionStatus().getDescription());
             coiGroupedMasterDisclosureBean.setProjectId(coiDisclosureProjectBean.getCoiDisclProject().getCoiProjectId());
