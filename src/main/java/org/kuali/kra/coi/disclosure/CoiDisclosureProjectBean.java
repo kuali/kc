@@ -96,12 +96,11 @@ public class CoiDisclosureProjectBean implements Serializable {
 
 
     public String getProjectName() {
-        if (StringUtils.isEmpty(projectName) && !getCoiDisclosure().isAnnualEvent()) {
-            if (ObjectUtils.isNotNull(coiDisclProject)) {
-                projectName = coiDisclProject.getProjectName();
-            } 
+        if(getCoiDisclosure().isAnnualEvent() || getCoiDisclosure().isUpdateEvent()) {
+            return null;
+        }else {
+            return projectName;
         }
-        return projectName;
     }
 
 
@@ -120,12 +119,11 @@ public class CoiDisclosureProjectBean implements Serializable {
     }
 
     public String getProjectId() {
-        if (StringUtils.isEmpty(projectId)  && !getCoiDisclosure().isAnnualEvent()) {
-            if (ObjectUtils.isNotNull(coiDisclProject)) {
-                projectId = coiDisclProject.getProjectId();
-            }
+        if(getCoiDisclosure().isAnnualEvent() || getCoiDisclosure().isUpdateEvent()) {
+            return null;
+        }else {
+            return projectId;
         }
-        return projectId;
     }
 
 

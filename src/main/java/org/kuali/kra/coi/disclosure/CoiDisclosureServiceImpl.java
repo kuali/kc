@@ -445,6 +445,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         List<PersonFinIntDisclosure> financialEntities = financialEntityService.getFinancialEntities(coiDisclProject.getCoiDisclosure().getPersonId(), true);
         for (PersonFinIntDisclosure personFinIntDisclosure : financialEntities) {
             CoiDiscDetail disclosureDetail =createNewCoiDiscDetail(coiDisclProject.getCoiDisclosure(), personFinIntDisclosure, coiDisclProject.getProjectId(), coiDisclProject.getProjectId(), coiDisclProject.getDisclosureEventType());
+            disclosureDetail.setCoiDisclProject(coiDisclProject);
             disclosureDetail.setProjectType(coiDisclProject.getDisclosureEventType());
             disclosureDetails.add(disclosureDetail);
         }
@@ -1442,6 +1443,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
     private void setupDisclosures(MasterDisclosureBean masterDisclosureBean, CoiDisclosure coiDisclosure) {
         List<CoiDisclosureHistory> disclosureHistories = getDisclosureHistory(coiDisclosure.getCoiDisclosureNumber());
         CoiDisclosureHistory disclosureHistoryForView = getDisclosureHistoryForSelectedDiscl(disclosureHistories, coiDisclosure);
+        List<CoiDisclProject> coiDisclProjects = getCoiDisclProjects(coiDisclosure);
         disclosureHistoryForView.refreshReferenceObject("coiDisclosure");
         for (CoiDisclosureHistory disclosureHistory : disclosureHistories) {
             if (disclosureHistory.getCoiDisclosureHistoryId().compareTo(disclosureHistoryForView.getCoiDisclosureHistoryId()) <= 0) {
@@ -1459,6 +1461,20 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
                 disclosureHistory.getCoiDisclosure().refreshReferenceObject("coiDisclosureStatus");
                 disclosureHistory.getCoiDisclosure().refreshReferenceObject("coiDispositionStatus");
                 disclosureProjectBean.setCoiDisclosure(disclosureHistory.getCoiDisclosure());
+                String projectId = null;
+                String projectTitle = null;
+                if(coiDiscDetail != null) {
+                    projectId = coiDiscDetail.getCoiDisclProject().getCoiProjectId();
+                    projectTitle = coiDiscDetail.getCoiDisclProject().getCoiProjectTitle();
+                }else {
+                    CoiDisclProject coiDisclProject = getCurrentProject(disclosureHistory.getCoiDisclosure(), coiDisclProjects);
+                    if(coiDisclProject != null) {
+                        projectId = coiDisclProject.getCoiProjectId();
+                        projectTitle = coiDisclProject.getCoiProjectTitle();
+                    }
+                }
+                disclosureProjectBean.setProjectId(projectId);
+                disclosureProjectBean.setProjectName(projectTitle);
                 masterDisclosureBean.getAllProjects().add(disclosureProjectBean);
             }
         }
@@ -1508,6 +1524,24 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
             }
         }
         return null;
+    }
+    
+    protected CoiDisclProject getCurrentProject(CoiDisclosure historyDisclosure, List<CoiDisclProject> coiDisclProjects) {
+        CoiDisclProject currentDisclProject = null;
+        for (CoiDisclProject coiDisclProject : coiDisclProjects) {
+            if (coiDisclProject.getOriginalCoiDisclosureId()!= null && coiDisclProject.getOriginalCoiDisclosureId().equals(historyDisclosure.getCoiDisclosureId())) {
+                currentDisclProject = coiDisclProject;
+                break;
+            }
+        }
+        return currentDisclProject;
+    }
+    
+    private List<CoiDisclProject> getCoiDisclProjects(CoiDisclosure coiDisclosure) {
+        Map <String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put("coiDisclosureNumber", coiDisclosure.getCoiDisclosureNumber());
+        List<CoiDisclProject> coiDisclProjects = (List<CoiDisclProject>) businessObjectService.findMatching(CoiDisclProject.class, fieldValues);
+        return coiDisclProjects;
     }
     
     /*
