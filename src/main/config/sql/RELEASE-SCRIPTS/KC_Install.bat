@@ -280,10 +280,10 @@ sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < KR-RELEASE-5_1_1-Upgrade-ORACLE.
 move *.log ../LOGS
 cd ..
 
-cd KC-FINISH/oracle
-sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < KR-FINISH-ORACLE.sql
-move *.log ../../LOGS/
-cd ../..
+cd KC-RELEASE-99_9_9-SCRIPT
+sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < KR-RELEASE-99_9_9-Upgrade-ORACLE.sql
+move *.log ../LOGS/
+cd ..
 
 cd KC-RELEASE-3_0-CLEAN/oracle
 sqlplus "%Riceun%"/"%Ricepw%"@"%RiceDBSvrNm%" < krrelease/datasql/KR_00_CLEAN_SEQ_BS.sql
@@ -479,10 +479,10 @@ mysql -u %Riceun% -p%Ricepw% -D %RiceDBSvrNm% -s -f < KR-RELEASE-5_1_1-Upgrade-M
 move *.log ../LOGS/
 cd ..
 
-cd KC-FINISH/mysql
-mysql -u %Riceun% -p%Ricepw% -D %RiceDBSvrNm% -s -f < KR-FINISH-MYSQL.sql > KR-FINISH-MYSQL-Install.log 2>&1
-move *.log ../../LOGS/
-cd ../..
+cd KC-RELEASE-99_9_9-SCRIPT
+mysql -u %Riceun% -p%Ricepw% -D %RiceDBSvrNm% -s -f < KR-RELEASE-99_9_9-Upgrade-MYSQL.sql > KR-RELEASE-99_9_9-Upgrade-MYSQL-Install.log 2>&1
+move *.log ../LOGS/
+cd ..
 
 cd KC-RELEASE-3_0-CLEAN/mysql
 mysql -u %Riceun% -p%Ricepw% -D %RiceDBSvrNm% -s -f < krrelease/datasql/KR_00_CLEAN_SEQ_BS.sql > KR_CLEAN_SEQ_BS-Mysql-Install.log 2>&1
