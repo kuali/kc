@@ -1529,7 +1529,8 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
     protected CoiDisclProject getCurrentProject(CoiDisclosure historyDisclosure, List<CoiDisclProject> coiDisclProjects) {
         CoiDisclProject currentDisclProject = null;
         for (CoiDisclProject coiDisclProject : coiDisclProjects) {
-            if (coiDisclProject.getOriginalCoiDisclosureId()!= null && coiDisclProject.getOriginalCoiDisclosureId().equals(historyDisclosure.getCoiDisclosureId())) {
+            Long projectDisclosureId = coiDisclProject.getOriginalCoiDisclosureId()== null ? coiDisclProject.getCoiDisclosureId() : coiDisclProject.getOriginalCoiDisclosureId(); 
+            if (projectDisclosureId.equals(historyDisclosure.getCoiDisclosureId())){
                 currentDisclProject = coiDisclProject;
                 break;
             }
