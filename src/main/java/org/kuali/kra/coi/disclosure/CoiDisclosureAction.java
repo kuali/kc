@@ -345,8 +345,9 @@ public class CoiDisclosureAction extends CoiAction {
                             coiDisclosure.setCoiDisclosureDocument(coiDisclosureForm.getCoiDisclosureDocument());
                         }
                         setQuestionnaireStatuses(coiDisclosureForm, coiDisclosure);
+                    }else {
+                        coiDisclosureForm.getDisclosureHelper().setMasterDisclosureBean(getCoiDisclosureService().getMasterDisclosureDetail(coiDisclosure));                    
                     }
-                    coiDisclosureForm.getDisclosureHelper().setMasterDisclosureBean(getCoiDisclosureService().getMasterDisclosureDetail(coiDisclosure));                    
                     forward = mapping.findForward(UPDATE_DISCLOSURE);
                 }
             }
