@@ -18,7 +18,7 @@
             <th><div align="center">Event</div></th> 
             <th><div align="center">Disposition Status</div></th> 
             <th><div align="center">Approval Date</div></th> 
-            <th><div align="center">Project Name</div></th> 
+            <th><div align="center">Project Title</div></th> 
             <th><div align="center">Project Number </div></th> 
             <th><div align="center">Disclosure Status </div></th> 
             <th><div align="center">Sequence</div></th> 

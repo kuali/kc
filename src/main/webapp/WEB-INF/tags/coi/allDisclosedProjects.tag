@@ -30,7 +30,7 @@
 				<c:choose>
 				    <c:when test="${masterDisclosure.disclosureGroupedByEvent}">
 					    <th><div align="center">Event</div></th> 
-				        <th><div align="center">Project Id </div></th> 
+				        <th><div align="center">Project Number </div></th> 
 				        <th><div align="center">Project Title</div></th> 
 				        <th><div align="center">Disposition Status</div></th> 
 				        <th><div align="center">Disclosure Status </div></th> 
