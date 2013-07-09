@@ -1782,23 +1782,13 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
                         projectDetailMap.get(disclosureId), coiDisclProject);
             } else {
                 if (!coiDisclProject.getCoiDisclosureEventType().isExcludeFromMasterDisclosure()) {
+                    checkToAddNewFinancialEntity(financialEntities, coiDiscDetails, disclosureId, coiDisclosure,
+                            coiDisclProject.getCoiDiscDetails(), coiDisclProject);
                     for (CoiDiscDetail coiDiscDetail : coiDisclProject.getCoiDiscDetails()) {
-                        if(!(coiDiscDetail.getOriginalCoiDisclosureId() == null)) {
-                            if (!coiDiscDetail.getOriginalCoiDisclosureId().equals(disclosureId)) {
-                                disclosureId = coiDiscDetail.getOriginalCoiDisclosureId();
-                                if (coiDiscDetail.getOriginalCoiDisclosure().isAnnualEvent()) {
-                                    checkToAddNewFEForAnnualEvent(financialEntities, coiDiscDetails, disclosureId, coiDisclosure,
-                                            projectDetailMap.get(disclosureId), coiDisclProject);
-                                } else {
-                                    checkToAddNewFinancialEntity(financialEntities, coiDiscDetails, disclosureId, coiDisclosure,
-                                            projectDetailMap.get(disclosureId), coiDisclProject);
-                                }
-                            }
-                            getCurrentFinancialEntity(coiDiscDetail);
-                            if (coiDiscDetail.getPersonFinIntDisclosure().isStatusActive()
-                                    && coiDiscDetail.getPersonFinIntDisclosure().isCurrentFlag()) {
-                                coiDiscDetails.add(coiDiscDetail);
-                            }
+                        getCurrentFinancialEntity(coiDiscDetail);
+                        if (coiDiscDetail.getPersonFinIntDisclosure().isStatusActive()
+                                && coiDiscDetail.getPersonFinIntDisclosure().isCurrentFlag()) {
+                            coiDiscDetails.add(coiDiscDetail);
                         }
                     }
                 }
@@ -1809,7 +1799,8 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
             }
         }
     }
-
+    
+    
     /*
      * set up the detail list map for each reported disclosure.
      */
