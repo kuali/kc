@@ -16,6 +16,7 @@ spool KR-RELEASE-5_1_1-Upgrade-ORACLE-Install.log
 @../../current/5.1.1/dml/KR_DML_01_KRACOEUS-6466_B000.sql
 @../../current/5.1.1/dml/KR_DML_01_KRACOEUS-6472_B000.sql
 @../../current/5.1.1/dml/KR_DML_01_KRACOEUS-6526_B000.sql
+@../../current/5.1.1/dml/KR_DML_01_KRACOEUS-6606_B000.sql
 @../../current/5.1.1/dml/KR_DML_02_KRACOEUS-6389_B000.sql
 commit;
 exit
