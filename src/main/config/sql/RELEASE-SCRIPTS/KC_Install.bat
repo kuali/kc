@@ -293,6 +293,13 @@ cd ../..
 goto FINISH
 
 :MYSQL
+
+cd KC-RELEASE-0_0_0-SCRIPT
+mysql -u %un% -p%pw% -D %DBSvrNm% -s -f < KC-RELEASE-0_0_0-Upgrade-MYSQL.sql > KC-RELEASE-0_0_0-Upgrade-MYSQL-Install.log 2>&1
+
+move *.log ../LOGS
+cd ..
+
 cd KC-RELEASE-3_0-CLEAN/mysql
 
 if /i "%version%" == "NEW" (
