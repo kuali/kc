@@ -10,9 +10,9 @@
 	<param name="datasource.password">ask your team</param>
 	<param name="datasource.ojb.platform">Oracle9i</param>
 
-	<!-- For Embedded Mode - up to S2S Configuration -->
+	<!-- For Embedded Mode - up to S2S Configuration - uncomment as needed -->
 	<!--
-	<param name="rice.server.url">http://127.0.0.1:8080/kr-dev</param>
+	<param name="rice.server.url">http://127.0.0.1:8080/kr-${environment}</param>
 	<param name="kim.mode">EMBEDDED</param>
 	<param name="kcb.mode">REMOTE</param>
 	<param name="kew.mode">EMBEDDED</param>
@@ -23,19 +23,16 @@
 	<param name="location.mode">REMOTE</param>	
 	<param name="core.mode">LOCAL</param>
 	<param name="dev.mode">false</param>
-	-->
 	
-	<!--
 	<param name="rice.portal.allowed.regex">^(${application.url}|${rice.server.url})(/.*|)</param>
-	-->
-	<!--
 	<param name="rice.ksb.web.forceEnable">true</param>
 	-->
+	
 	<!-- If running in embedded mode, this should be the same as the context of your Rice server. 
 	Example: For the rice url http://test.kc.kuali.org/kr-dly/portal.jsp
 	the context is kr-dly-->
 	<!--
-	<param name="context.names.rice">kr-dev</param>
+	<param name="context.names.rice">kr-${environment}</param>
 	-->
 	
 	<!-- Rice Server DB -->
