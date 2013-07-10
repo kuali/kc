@@ -20,7 +20,7 @@
 <config>
 	
 	<!-- must set override to false because these properties might have been set by the build process -->
-<!--	<param name="build.environment" override="false">dev</param> -->
+	<param name="build.environment" override="false">dev</param>
 	<param name="build.version" override="false">NO VERSION</param>
 
 	<!-- run modes -->
