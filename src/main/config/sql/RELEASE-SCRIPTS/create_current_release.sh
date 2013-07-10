@@ -7,7 +7,7 @@ then
 	exit
 fi
 current_version="$1"
-if [ ! -d "../current/${current_version}" ]
+if [ ! -d "../current/${current_version}" ] && [ ! -d "../current_mysql/${current_version}" ]
 then
 	echo "${current_version} directory does not exist"
 	exit
