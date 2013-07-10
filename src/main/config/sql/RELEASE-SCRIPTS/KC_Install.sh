@@ -313,6 +313,12 @@ case "${dbtype}" in
         cd ../.. ;;
 		
 	"MYSQL")
+	
+		cd KC-RELEASE-0_0_0-SCRIPT
+        mysql -u ${un} -p${pw} -D ${DBSvrNm} -s -f < KC-RELEASE-0_0_0-Upgrade-MYSQL.sql > KC-RELEASE-0_0_0-Upgrade-MYSQL-Install.log 2>&1
+        mv *.log ../LOGS/
+        cd ..
+	
         cd KC-RELEASE-3_0-CLEAN/mysql
         
 	if [ "${version}" = "NEW" ]
