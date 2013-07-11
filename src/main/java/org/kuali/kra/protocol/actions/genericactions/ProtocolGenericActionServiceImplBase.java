@@ -164,10 +164,11 @@ public abstract class ProtocolGenericActionServiceImplBase implements ProtocolGe
     protected ProtocolDocumentBase getVersionedDocument(ProtocolBase protocol) throws Exception {
         ProtocolDocumentBase newDocument = protocolVersionService.versionProtocolDocument(protocol.getProtocolDocument());
         newDocument.getProtocol().setProtocolSubmission(null);
-        newDocument.getProtocol().setApprovalDate(null);
-        newDocument.getProtocol().setLastApprovalDate(null);
-        newDocument.getProtocol().setExpirationDate(null);
-        
+        if(!protocol.isAmendment()) {
+            newDocument.getProtocol().setApprovalDate(null);
+            newDocument.getProtocol().setLastApprovalDate(null);
+            newDocument.getProtocol().setExpirationDate(null);
+        }        
         newDocument.getProtocol().refreshReferenceObject(Constants.PROPERTY_PROTOCOL_STATUS); 
         newDocument.getProtocol().refreshReferenceObject(PROTOCOL_SUBMISSION);
         documentService.saveDocument(newDocument);
