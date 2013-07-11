@@ -487,7 +487,7 @@
 				<dependencies>
 	                <dependency>
 	                    <groupId>com.oracle</groupId>
-	                    <artifactId>ojdbc14</artifactId>
+	                    <artifactId>ojdbc6</artifactId>
 	                    <version>${oracle.version}</version>
 	                    <scope>runtime</scope>
 	                </dependency>
@@ -507,7 +507,7 @@
                 <dependencies>  
                     <dependency>
                         <groupId>com.oracle</groupId>
-                        <artifactId>ojdbc14</artifactId>
+                        <artifactId>ojdbc6</artifactId>
                         <version>${oracle.version}</version>
                         <scope>runtime</scope>
                     </dependency>
@@ -553,7 +553,7 @@
 		</dependency>
 		<dependency>
 		    <groupId>com.oracle</groupId>
-		    <artifactId>ojdbc14</artifactId>
+		    <artifactId>ojdbc6</artifactId>
 		    <version>${oracle.version}</version>
 		    <!-- should be provided once embedded jetty is figured out -->
 		    <scope>test</scope>
@@ -1090,6 +1090,10 @@
 				<exclusion>
 					<groupId>com.oracle</groupId>
 					<artifactId>ojdbc14</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.oracle</groupId>
+					<artifactId>ojdbc6</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>htmlunit</groupId>
