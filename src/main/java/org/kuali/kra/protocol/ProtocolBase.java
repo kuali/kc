@@ -1130,7 +1130,11 @@ public abstract class ProtocolBase extends KraPersistableBusinessObjectBase impl
         if (mergeActions) {
             mergeProtocolSubmission(amendment);
             mergeProtocolAction(amendment);
-        }        
+        }
+        // if renewal, then set the expiration date to be the new one provided during renewal approval
+        if(amendment.isRenewal()) {
+            this.setExpirationDate(amendment.getExpirationDate());
+        }
     }
     
     protected abstract String getProtocolModuleAddModifyAttachmentCodeHook();
