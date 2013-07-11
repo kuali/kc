@@ -18,6 +18,6 @@
 This config file only contains properties that are set by the maven build process using property replacement.
 -->
 <config>
-	<param name="environment">${build.environment}</param>
+	${build.environment.param}
 	<param name="version">${build.version}</param>
 </config>
