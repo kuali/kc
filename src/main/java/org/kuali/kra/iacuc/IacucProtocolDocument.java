@@ -243,6 +243,11 @@ public class IacucProtocolDocument extends ProtocolDocumentBase {
         return IacucProtocolStatus.ADMINISTRATIVELY_INCOMPLETE;
     }
 
+    
+    protected String getProtocolStatusOnHoldHook() {
+        return IacucProtocolStatus.ACTIVE_ON_HOLD;
+    }
+
 
     protected String getProtocolStatusActiveOpenToEnrollmentHook() {
         return IacucProtocolStatus.ACTIVE;
@@ -337,7 +342,10 @@ public class IacucProtocolDocument extends ProtocolDocumentBase {
         action.setComments(type + "-" + getProtocolNumberIndex() + ": Approved");
         newProtocolDocument.setProtocolWorkflowType(ProtocolWorkflowType.APPROVED);
         newProtocolDocument.getProtocol().getProtocolActions().add(action);
-        if (!currentProtocol.getProtocolStatusCode().equals(getProtocolStatusExemptHook())) {
+        if (currentProtocol.getProtocolStatusCode().equals(getProtocolStatusOnHoldHook())) {
+            //protocol should retain the Hold status whenever an amendment is approved because the reason for the hold may not pertain to the approved amendment 
+            newProtocolDocument.getProtocol().setProtocolStatusCode(getProtocolStatusOnHoldHook());
+        } else if (!currentProtocol.getProtocolStatusCode().equals(getProtocolStatusExemptHook())) {
             newProtocolDocument.getProtocol().setProtocolStatusCode(getProtocolStatusActiveOpenToEnrollmentHook());
         }
         try {
