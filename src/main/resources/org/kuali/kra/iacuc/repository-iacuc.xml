@@ -716,17 +716,8 @@
             <inverse-foreignkey field-ref="submissionIdFk"/>
         </collection-descriptor>
 	</class-descriptor>
-
-    <class-descriptor class="org.kuali.kra.iacuc.actions.IacucProtocolStatus" table="IACUC_PROTOCOL_STATUS">
-        <field-descriptor name="protocolStatusCode" column="PROTOCOL_STATUS_CODE" jdbc-type="VARCHAR" primarykey="true" />
-        <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
-        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
-        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
-        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
-    </class-descriptor>
     
-        <class-descriptor class="org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionStatus" table="IACUC_SUBMISSION_STATUS">
+    <class-descriptor class="org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionStatus" table="IACUC_SUBMISSION_STATUS">
         <field-descriptor name="protocolSubmissionStatusCode" column="SUBMISSION_STATUS_CODE" jdbc-type="VARCHAR" primarykey="true" />
         <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
         <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
