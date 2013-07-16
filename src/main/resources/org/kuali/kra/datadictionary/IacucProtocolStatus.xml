@@ -70,7 +70,7 @@
         <property name="shortLabel" value="Description" />
         <property name="maxLength" value="200" />
         <property name="validationPattern" >
-            <bean parent="AlphaNumericValidationPattern" />
+            <bean p:allowWhitespace="true" parent="AnyCharacterValidationPattern"/>
         </property>
         <property name="control" >
             <bean parent="TextControlDefinition"
@@ -110,7 +110,7 @@
     <!-- Business Object Lookup Definition -->
     <bean id="IacucProtocolStatus-lookupDefinition" parent="IacucProtocolStatus-lookupDefinition-parentBean" />
     <bean id="IacucProtocolStatus-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-        <property name="title" value="Ac Protocol Status Lookup" />
+        <property name="title" value="IACUC Protocol Status Lookup" />
         <property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;" />
         <property name="defaultSort" >
             <bean parent="SortDefinition" >
