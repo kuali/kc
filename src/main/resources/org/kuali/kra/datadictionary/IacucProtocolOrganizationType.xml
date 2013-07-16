@@ -95,7 +95,7 @@
 	<!-- Business Object Lookup Definition -->
 	<bean id="IacucProtocolOrganizationType-lookupDefinition" parent="IacucProtocolOrganizationType-lookupDefinition-parentBean"/>
 	<bean abstract="true" id="IacucProtocolOrganizationType-lookupDefinition-parentBean" parent="LookupDefinition">
-		<property name="title" value="Protocol Organization Type Lookup"/>
+		<property name="title" value="IACUC Protocol Organization Type Lookup"/>
 		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;"/>
 
 		<property name="defaultSort">
