@@ -96,6 +96,7 @@
     <li><portal:portalLink displayTitle="true" title="IACUC Procedure Category Custom Attribute" url="${ConfigProperties.application.url}/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.iacuc.IacucProcedureCategoryCustomData&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
     <li><portal:portalLink displayTitle="true" title="IACUC Research Areas" url="${ConfigProperties.application.url}/iacucResearchAreas.do" /></li>
     <li><portal:portalLink displayTitle="true" title="IACUC Protocol Online Review Determination Recommendation Codes" url="${ConfigProperties.application.url}/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReviewDeterminationRecommendation&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
+    <li><portal:portalLink displayTitle="true" title="IACUC Correspondence Generated" url="${ConfigProperties.application.url}/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kra.iacuc.correspondence.ValidIacucProtoActionCoresp&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
   <ul>
 </div>
 <channel:portalChannelBottom />
