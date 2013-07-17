@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.irb.correspondence;
+package org.kuali.kra.iacuc.correspondence;
 
 
-public class ValidProtoActionCoresp extends org.kuali.kra.protocol.correspondence.ValidProtoActionCoresp {
+public class ValidIacucProtoActionCoresp extends org.kuali.kra.protocol.correspondence.ValidProtoActionCoresp {
 
     /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = -4484534983706133742L;
-
+    
 }

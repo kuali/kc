@@ -16,6 +16,7 @@
 package org.kuali.kra.protocol.correspondence;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.protocol.actions.ProtocolActionTypeBase;
 
 public class ValidProtoActionCoresp extends KraPersistableBusinessObjectBase {
 
@@ -29,6 +30,10 @@ public class ValidProtoActionCoresp extends KraPersistableBusinessObjectBase {
 
     private boolean finalFlag;
 
+    private ProtocolActionTypeBase protocolActionType;
+    
+    private ProtocolCorrespondenceTypeBase protocolCorrespondenceType;
+    
     public ValidProtoActionCoresp() {
     }
 
@@ -62,5 +67,21 @@ public class ValidProtoActionCoresp extends KraPersistableBusinessObjectBase {
 
     public void setFinalFlag(boolean finalFlag) {
         this.finalFlag = finalFlag;
+    }
+
+    public ProtocolActionTypeBase getProtocolActionType() {
+        return protocolActionType;
+    }
+
+    public void setProtocolActionType(ProtocolActionTypeBase protocolActionType) {
+        this.protocolActionType = protocolActionType;
+    }
+
+    public ProtocolCorrespondenceTypeBase getProtocolCorrespondenceType() {
+        return protocolCorrespondenceType;
+    }
+
+    public void setProtocolCorrespondenceType(ProtocolCorrespondenceTypeBase protocolCorrespondenceType) {
+        this.protocolCorrespondenceType = protocolCorrespondenceType;
     }
 }

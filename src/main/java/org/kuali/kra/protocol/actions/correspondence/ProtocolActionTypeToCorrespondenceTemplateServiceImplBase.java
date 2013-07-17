@@ -16,17 +16,19 @@
 package org.kuali.kra.protocol.actions.correspondence;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceTemplateBase;
+import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceTypeBase;
+import org.kuali.kra.protocol.correspondence.ValidProtoActionCoresp;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 public abstract class ProtocolActionTypeToCorrespondenceTemplateServiceImplBase implements ProtocolActionTypeToCorrespondenceTemplateService {
     
-    protected abstract Map<String, List<String>> getActionTypesToCorrespondenceTypeMap();
-    
-    protected abstract List<ProtocolCorrespondenceTemplateBase> getCorrespondenceTemplatesForTypeId(String correspondenceTypeId);
+    protected abstract Class<? extends ProtocolCorrespondenceTypeBase> getProtocolCorrespondenceTypeClassHook();
+    protected abstract Class<? extends ValidProtoActionCoresp> getProtocolActionCorrespondenceMappingClassHook();
     
     private BusinessObjectService businessObjectService;
 
@@ -36,8 +38,9 @@ public abstract class ProtocolActionTypeToCorrespondenceTemplateServiceImplBase 
      */
     public List<ProtocolCorrespondenceTemplateBase> getTemplatesByProtocolAction(String protocolActionType) {
         List<ProtocolCorrespondenceTemplateBase> templates = new ArrayList<ProtocolCorrespondenceTemplateBase>();
-        if (getActionTypesToCorrespondenceTypeMap().containsKey(protocolActionType)) {
-            for (String correspondenceTypeId : getActionTypesToCorrespondenceTypeMap().get(protocolActionType)) {
+        Map<String, List<String>> actionTypesToCorrespondenceTypeMap = getActionTypesToCorrespondenceTypeMap();
+        if (actionTypesToCorrespondenceTypeMap.containsKey(protocolActionType)) {
+            for (String correspondenceTypeId : actionTypesToCorrespondenceTypeMap.get(protocolActionType)) {
                 templates.addAll(getCorrespondenceTemplatesForTypeId(correspondenceTypeId));
             }
         }
@@ -51,4 +54,38 @@ public abstract class ProtocolActionTypeToCorrespondenceTemplateServiceImplBase 
     protected BusinessObjectService getBusinessObjectService(){
         return this.businessObjectService;
     }
+    
+    /**
+     * This method is to get protocol action and correspondence mapping
+     * @return
+     */
+    protected Map<String, List<String>> getActionTypesToCorrespondenceTypeMap() {
+        Map<String, List<String>> actionTypesToCorrespondenceType = new HashMap<String, List<String>>();
+        List<ValidProtoActionCoresp>  validCorrespTypes =  getValidProtocolActionCorrespondence();
+        for(ValidProtoActionCoresp validProtoActionCorresp : validCorrespTypes) {
+            String protocolActionTypeCode = validProtoActionCorresp.getProtocolActionTypeCode();
+            List<String> actionCorresps = (List<String>) actionTypesToCorrespondenceType.get(protocolActionTypeCode);
+            if(actionCorresps == null) {
+                actionCorresps = new ArrayList<String>();
+            }
+            actionCorresps.add(validProtoActionCorresp.getProtoCorrespTypeCode());
+            actionTypesToCorrespondenceType.put(protocolActionTypeCode, actionCorresps);
+        }
+        return actionTypesToCorrespondenceType;
+    }
+    
+    @SuppressWarnings("unchecked")
+    protected List<ValidProtoActionCoresp> getValidProtocolActionCorrespondence() {
+        return (List<ValidProtoActionCoresp>)getBusinessObjectService().findAll(getProtocolActionCorrespondenceMappingClassHook());
+    }
+    
+    protected List<ProtocolCorrespondenceTemplateBase> getCorrespondenceTemplatesForTypeId(String correspondenceTypeId) {
+        ProtocolCorrespondenceTypeBase type = getBusinessObjectService().findBySinglePrimaryKey(getProtocolCorrespondenceTypeClassHook(), correspondenceTypeId);
+        if (type != null) {
+            return type.getProtocolCorrespondenceTemplates();
+        } else {
+            return new ArrayList<ProtocolCorrespondenceTemplateBase>();
+        }
+    }
+
 }
