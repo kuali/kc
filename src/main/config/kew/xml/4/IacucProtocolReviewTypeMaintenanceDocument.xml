@@ -6,7 +6,7 @@
 			<description>Create/Edit an IACUC Protocol Review Type</description>
 			<label>IACUC Protocol Review Type</label>
 			<parent>KcComplianceMaintenanceDocument</parent>
-			<helpDefinitionURL>default.htm?turl=Documents/protocolreviewtype.htm</helpDefinitionURL>
+			<helpDefinitionURL>default.htm?turl=Documents/iacucprotocolreviewtype.htm</helpDefinitionURL>
 		</documentType>
 	</documentTypes>	
 </data>
