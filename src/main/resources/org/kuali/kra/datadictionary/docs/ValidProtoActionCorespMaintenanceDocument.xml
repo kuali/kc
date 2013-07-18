@@ -49,9 +49,6 @@
         <property name="maintainableItems" >
             <list>
                 <bean parent="MaintainableFieldDefinition"
-                    p:name="validProtoActionCorespId"
-                    p:required="true" />
-                <bean parent="MaintainableFieldDefinition"
                     p:name="protocolActionTypeCode"
                     p:required="true" />
                 <bean parent="MaintainableFieldDefinition"
