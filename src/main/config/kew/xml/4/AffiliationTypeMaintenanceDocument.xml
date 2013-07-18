@@ -3,8 +3,8 @@
 	<documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
 		<documentType>
 			<name>KcAffiliationTypeMaintenanceDocument</name>
-			<description>Create an Affiliation Type</description>
-			<label>Affiliation Type Maintenance Document</label>
+			<description>Create/Edit an IRB Affiliation Type</description>
+			<label>IRB Affiliation Type Maintenance Document</label>
 			<parent>KcComplianceMaintenanceDocument</parent>
 			<helpDefinitionURL>default.htm?turl=Documents/affiliationtype.htm</helpDefinitionURL>
 		</documentType>
