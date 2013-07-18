@@ -176,9 +176,9 @@
                     p:attributeName="validProtoActionCorespId" 
                     p:forceInquiry="true" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="protocolActionTypeCode" />
+                    p:attributeName="protocolActionType.description" />
                 <bean parent="FieldDefinition"
-                    p:attributeName="protoCorrespTypeCode" />
+                    p:attributeName="protocolCorrespondenceType.description" />
                 <bean parent="FieldDefinition"
                     p:attributeName="finalFlag" />
             </list>

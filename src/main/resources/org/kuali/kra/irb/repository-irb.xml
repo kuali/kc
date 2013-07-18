@@ -1192,7 +1192,7 @@
     </class-descriptor>
 
     <class-descriptor class="org.kuali.kra.irb.correspondence.ValidProtoActionCoresp" table="VALID_PROTO_ACTION_CORESP">
-        <field-descriptor name="validProtoActionCorespId" column="VALID_PROTO_ACTION_CORESP_ID" jdbc-type="BIGINT" primarykey="true" />
+        <field-descriptor name="validProtoActionCorespId" column="VALID_PROTO_ACTION_CORESP_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_VAL_PROT_ACT_COR_ID" autoincrement="true"/>
         <field-descriptor name="protocolActionTypeCode" column="PROTOCOL_ACTION_TYPE_CODE" jdbc-type="VARCHAR" />
         <field-descriptor name="protoCorrespTypeCode" column="PROTO_CORRESP_TYPE_CODE" jdbc-type="VARCHAR" />
         <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
@@ -1200,6 +1200,12 @@
         <field-descriptor name="finalFlag" column="FINAL_FLAG" jdbc-type="VARCHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
         <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
         <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        <reference-descriptor name="protocolActionType" class-ref="org.kuali.kra.irb.actions.ProtocolActionType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="protocolActionTypeCode"/>
+        </reference-descriptor>
+        <reference-descriptor name="protocolCorrespondenceType" class-ref="org.kuali.kra.irb.correspondence.ProtocolCorrespondenceType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="protoCorrespTypeCode"/>
+        </reference-descriptor>
     </class-descriptor>
     
     <class-descriptor class="org.kuali.kra.irb.actions.submit.ValidProtocolActionAction" table="VALID_PROTO_ACTION_ACTION">
