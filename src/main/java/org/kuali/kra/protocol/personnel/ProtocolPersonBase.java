@@ -22,7 +22,6 @@ import java.util.List;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.AbstractProjectPerson;
-import org.kuali.kra.bo.AffiliationType;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.PersonEditableInterface;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -49,7 +48,7 @@ public abstract class ProtocolPersonBase extends ProtocolAssociateBase implement
 
     private String comments;
 
-    private AffiliationType affiliationType;
+    private ProtocolAffiliationTypeBase affiliationType;
 
     private ProtocolPersonRoleBase protocolPersonRole;
 
@@ -264,14 +263,14 @@ public abstract class ProtocolPersonBase extends ProtocolAssociateBase implement
         this.comments = comments;
     }
 
-    public AffiliationType getAffiliationType() {
+    public ProtocolAffiliationTypeBase getAffiliationType() {
         if ((affiliationTypeCode != null) && (affiliationType == null)) {
             this.refreshReferenceObject("affiliationType");
         }
         return affiliationType;
     }
 
-    public void setAffiliationType(AffiliationType affiliationType) {
+    public void setAffiliationType(ProtocolAffiliationTypeBase affiliationType) {
         this.affiliationType = affiliationType;
     }
 
