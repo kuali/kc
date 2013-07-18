@@ -22,7 +22,7 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.kra.bo.AffiliationType;
+import org.kuali.kra.irb.personnel.ProtocolAffiliationType;
 import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.bo.ExemptionType;
 import org.kuali.kra.bo.FundingSourceType;
@@ -389,7 +389,7 @@ public class ProtocolSummaryTest extends KcUnitTestBase {
     private void changePI(Protocol protocol) {
         ProtocolPerson protocolPerson = ProtocolFactory.getProtocolPerson(NEW_PRINCIPAL_INVESTIGATOR_ID, NEW_PRINCIPAL_INVESTIGATOR_NAME, NEW_PRINCIPAL_INVESTIGATOR_ROLE, protocol.getProtocolNumber());
         
-        AffiliationType affiliationType = new AffiliationType();
+        ProtocolAffiliationType affiliationType = new ProtocolAffiliationType();
         affiliationType.setAffiliationTypeCode(4);
         affiliationType.setDescription("another affiliation");
         protocolPerson.setAffiliationType(affiliationType);

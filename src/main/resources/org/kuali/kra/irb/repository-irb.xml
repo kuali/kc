@@ -460,7 +460,7 @@
         <field-descriptor name="pagerNumber" column="PAGER_NUMBER" jdbc-type="VARCHAR" />
         <field-descriptor name="mobilePhoneNumber" column="MOBILE_PHONE_NUMBER" jdbc-type="VARCHAR" />
         <field-descriptor name="eraCommonsUserName" column="ERA_COMMONS_USER_NAME" jdbc-type="VARCHAR" />
-        <reference-descriptor name="affiliationType" class-ref="org.kuali.kra.bo.AffiliationType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+        <reference-descriptor name="affiliationType" class-ref="org.kuali.kra.irb.personnel.ProtocolAffiliationType" auto-retrieve="true" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="affiliationTypeCode"/>
         </reference-descriptor>
         <reference-descriptor name="protocolPersonRole" class-ref="org.kuali.kra.irb.personnel.ProtocolPersonRole" auto-retrieve="true" auto-update="none" auto-delete="none"> 
@@ -1378,6 +1378,16 @@
         <reference-descriptor name="notificationType" class-ref="org.kuali.kra.common.notification.bo.NotificationType" auto-retrieve="false" auto-update="none" auto-delete="none"> 
             <foreignkey field-ref="notificationTypeId"/>
         </reference-descriptor>
+    </class-descriptor>
+    
+    <class-descriptor class="org.kuali.kra.irb.personnel.ProtocolAffiliationType" table="AFFILIATION_TYPE">
+        <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+        <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+        <field-descriptor name="affiliationTypeCode" column="AFFILIATION_TYPE_CODE" jdbc-type="INTEGER" primarykey="true" />
+        <field-descriptor name="description" column="DESCRIPTION" jdbc-type="VARCHAR" />
+        <field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+        <field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+        <field-descriptor name="active" column="ACTIVE_FLAG" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
     </class-descriptor>
 	
 </descriptor-repository>
