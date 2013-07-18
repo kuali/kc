@@ -22,8 +22,8 @@ import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.bo.AffiliationType;
 import org.kuali.kra.iacuc.IacucProtocol;
+import org.kuali.kra.iacuc.personnel.IacucProtocolAffiliationType;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
 import org.kuali.rice.core.api.exception.RiceIllegalArgumentException;
@@ -98,8 +98,8 @@ public class IacucProtocolAffiliateTypeDerivedRoleTypeServiceImpl extends Derive
         if (affiliationTypeCode != null) {
             Map<String, String> fieldValues = new HashMap<String, String>();
             fieldValues.put("affiliationTypeCode", affiliationTypeCode.toString());
-            List<AffiliationType> affiliationTypes = 
-                (List<AffiliationType>) getBusinessObjectService().findMatching(AffiliationType.class, fieldValues);
+            List<IacucProtocolAffiliationType> affiliationTypes = 
+                (List<IacucProtocolAffiliationType>) getBusinessObjectService().findMatching(IacucProtocolAffiliationType.class, fieldValues);
             if (CollectionUtils.isNotEmpty(affiliationTypes)) {
                 result = affiliationTypes.get(0).getDescription();
             }
