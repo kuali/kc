@@ -86,26 +86,7 @@
                             </div>
                         </td>
 			        	<td width="10%">
-				        	<c:choose>
-					        	<c:when test="${attachmentHelper.newCoiDisclosureNotepad.projectId == null}">
-							       	<html:select property="coiNotesAndAttachmentsHelper.newCoiDisclosureNotepad.projectId" style="width:180px" tabindex="0">
-									    <c:forEach items="${krafn:getOptionList('org.kuali.kra.coi.lookup.keyvalue.CoiDisclosureProjectValuesFinder', paramMap1)}" var="option">
-									    	<c:choose>
-								        	    <c:when test="${coiNotesAndAttachmentsHelper.newCoiDisclosureNotepad.projectId == option.key}">
-										    	    <option value="${option.key}" selected>${option.value}</option>
-										        </c:when>
-										        <c:otherwise>
-											        <c:out value="${option.value}" />
-											        <option value="${option.key}">${option.value}</option>
-										        </c:otherwise>
-									        </c:choose>
-								        </c:forEach>
-						        	</html:select>
-						        </c:when>
-					        	<c:otherwise>
-						        	<c:out value="${attachmentHelper.newCoiDisclosureNotepad.projectName}" />
-					        	</c:otherwise>
-				            </c:choose>
+				        	<c:out value="${KualiForm.document.coiDisclosure.coiDisclProjects[0].coiProjectTitle}"/>
 			        	</td>
 			        	<td width="10%">
 							<kul:htmlControlAttribute property="coiNotesAndAttachmentsHelper.newCoiDisclosureNotepad.financialEntityId" attributeEntry="${notesAttributes.financialEntityId}" readOnly="false" />
@@ -178,27 +159,7 @@
                             </td>
 							<td valign="middle">
 								<div align="left">
-					                <c:choose>
-						                <c:when test="${isMasterDisclosure && !noteReadOnly}">
-						            	    <html:select property="coiNotesAndAttachmentsHelper.coiDisclosure.coiDisclosureNotepads[${status.index}].projectId"
-						        	                     style="width:180px" tabindex="0" disabled="${!modifyPermission}">
-					    		                <c:forEach items="${krafn:getOptionList('org.kuali.kra.coi.lookup.keyvalue.CoiDisclosureProjectValuesFinder', paramMap1)}" var="option">
-							    	                <c:choose>
-							        	                <c:when test="${coiDisclosureNotepad.projectId == option.key}">
-									    	                <option value="${option.key}" selected>${option.value}</option>
-								            	        </c:when>
-								                	    <c:otherwise>
-									                	    <c:out value="${option.value}" />
-									                    	<option value="${option.key}">${option.value}</option>
-								        	            </c:otherwise>
-							        	            </c:choose>
-						        	            </c:forEach>
-						    	            </html:select>
-					    	            </c:when>
-				    		            <c:otherwise>
-						    	            <c:out value="${KualiForm.document.coiDisclosure.coiDisclosureNotepads[statusIndex].projectName}" />
-					            	    </c:otherwise>
-					                </c:choose>
+						    	   <c:out value="${KualiForm.document.coiDisclosure.coiDisclosureNotepads[statusIndex].projectName}" />
 								</div>
 							</td>
 							<td valign="middle">	

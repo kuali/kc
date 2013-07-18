@@ -84,30 +84,8 @@
                     </div>
                 </th>
                 <td>
-                    <c:choose>
-                        <c:when test="${attachmentHelper.newCoiDisclosureAttachment.projectId == null}">
-                            <html:select property="coiNotesAndAttachmentsHelper.newCoiDisclosureAttachment.projectId" tabindex="0" style="width:180px" >
-                                <c:forEach items="${krafn:getOptionList('org.kuali.kra.coi.lookup.keyvalue.CoiDisclosureProjectValuesFinder', paramMap1)}" var="option">
-                                    <c:choose>
-                                        <c:when test="${coiNotesAndAttachmentsHelper.newCoiDisclosureAttachment.projectId == option.key}">
-                                            <option value="${option.key}" selected>${option.value}</option>
-                                        </c:when>
-                                        <c:otherwise>
-                                            <c:out value="${option.value}" />
-                                            <option value="${option.key}">
-                                                ${option.value}
-                                            </option>
-                                        </c:otherwise>
-                                    </c:choose>
-                                </c:forEach>
-                            </html:select>
-
-                        </c:when>
-                        <c:otherwise>
-                            <c:out value="${attachmentHelper.newCoiDisclosureAttachment.projectName}" />
-                        </c:otherwise>
-                    </c:choose>
-                </td>
+                   <c:out value="${KualiForm.document.coiDisclosure.coiDisclProjects[0].coiProjectTitle}" />
+				</td>
 
                 <th>
                     <div align="right"><kul:htmlAttributeLabel attributeEntry="${attributes.financialEntityId}" noColon="false" /></div>
