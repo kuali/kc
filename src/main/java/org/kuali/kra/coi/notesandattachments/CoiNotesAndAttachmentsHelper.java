@@ -311,6 +311,9 @@ public class CoiNotesAndAttachmentsHelper {
             this.newCoiDisclosureAttachment.setCoiDisclosureId(getCoiDisclosure().getCoiDisclosureId()); 
             newCoiDisclosureAttachment.setSequenceNumber(getCoiDisclosure().getSequenceNumber());
             newCoiDisclosureAttachment.setEventTypeCode(getCoiDisclosure().getEventTypeCode() + "");
+            if (getCoiDisclosure().getCoiDisclProjects().size() > 0) {
+            	newCoiDisclosureAttachment.setProjectId(getCoiDisclosure().getCoiDisclProjects().get(0).getProjectId());
+            }
             this.getCoiDisclosure().addAttachment(newCoiDisclosureAttachment);
             getBusinessObjectService().save(newCoiDisclosureAttachment);
             this.initCoiDisclosureAttachment();
@@ -619,6 +622,9 @@ public class CoiNotesAndAttachmentsHelper {
         notepad.setCoiDisclosureNumber(getCoiDisclosure().getCoiDisclosureNumber());
         notepad.setSequenceNumber(getCoiDisclosure().getSequenceNumber());        
         notepad.setEntryNumber(getNextEntryNumber());
+        if (getCoiDisclosure().getCoiDisclProjects().size() > 0) {
+            notepad.setProjectId(getCoiDisclosure().getCoiDisclProjects().get(0).getProjectId());
+        }
         if (notepad.getFinancialEntity() == null && notepad.getFinancialEntityId() != null) {
             //due to the readonly view change for disabled fin ents, we need to make sure to have a
             // financial entity otherwise the fin ent will be blank on add.
