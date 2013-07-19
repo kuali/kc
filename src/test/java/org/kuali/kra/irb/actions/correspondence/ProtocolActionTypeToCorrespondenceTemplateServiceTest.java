@@ -78,16 +78,4 @@ public class ProtocolActionTypeToCorrespondenceTemplateServiceTest extends KcUni
         assertTrue(result.size() == 0);
     }
     
-    @SuppressWarnings("unchecked")
-    @Test
-    public void testGetTemplatesByProtocolAction3(){
-        boolean didError = false;
-        try {
-        List<ProtocolCorrespondenceTemplate> result = (List)service.getTemplatesByProtocolAction("foobar");
-        } catch (IllegalArgumentException ae) {
-            didError = true;
-        }
-        assertTrue(didError);
-    }
-
 }
