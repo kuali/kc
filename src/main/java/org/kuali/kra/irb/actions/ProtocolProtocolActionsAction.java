@@ -32,11 +32,11 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.authorization.ApplicationTask;
 import org.kuali.kra.bo.AttachmentFile;
-import org.kuali.kra.bo.CoeusModule;
-import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.bo.CommitteeSchedule;
 import org.kuali.kra.committee.service.CommitteeService;
+import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinuteBase;
+import org.kuali.kra.common.committee.meeting.MinuteEntryType;
 import org.kuali.kra.common.notification.bo.NotificationType;
 import org.kuali.kra.common.notification.bo.NotificationTypeRecipient;
 import org.kuali.kra.common.notification.service.KcNotificationService;
@@ -69,8 +69,8 @@ import org.kuali.kra.irb.actions.assignreviewers.ProtocolAssignReviewersService;
 import org.kuali.kra.irb.actions.copy.ProtocolCopyService;
 import org.kuali.kra.irb.actions.correction.AdminCorrectionBean;
 import org.kuali.kra.irb.actions.correction.ProtocolAdminCorrectionEvent;
-import org.kuali.kra.irb.actions.correspondence.AbstractProtocolActionsCorrespondence;
 import org.kuali.kra.irb.actions.correspondence.ProtocolActionCorrespondenceGenerationService;
+import org.kuali.kra.irb.actions.correspondence.ProtocolActionsCorrespondence;
 import org.kuali.kra.irb.actions.decision.CommitteeDecision;
 import org.kuali.kra.irb.actions.decision.CommitteeDecisionAbstainerEvent;
 import org.kuali.kra.irb.actions.decision.CommitteeDecisionEvent;
@@ -84,8 +84,6 @@ import org.kuali.kra.irb.actions.followup.FollowupActionService;
 import org.kuali.kra.irb.actions.genericactions.ProtocolGenericActionBean;
 import org.kuali.kra.irb.actions.genericactions.ProtocolGenericActionEvent;
 import org.kuali.kra.irb.actions.genericactions.ProtocolGenericActionService;
-import org.kuali.kra.irb.actions.genericactions.ProtocolGenericCorrespondence;
-import org.kuali.kra.irb.actions.grantexemption.GrantExemptionCorrespondence;
 import org.kuali.kra.irb.actions.grantexemption.ProtocolGrantExemptionBean;
 import org.kuali.kra.irb.actions.grantexemption.ProtocolGrantExemptionEvent;
 import org.kuali.kra.irb.actions.grantexemption.ProtocolGrantExemptionService;
@@ -97,8 +95,8 @@ import org.kuali.kra.irb.actions.noreview.ProtocolReviewNotRequiredBean;
 import org.kuali.kra.irb.actions.noreview.ProtocolReviewNotRequiredEvent;
 import org.kuali.kra.irb.actions.noreview.ProtocolReviewNotRequiredService;
 import org.kuali.kra.irb.actions.notification.AssignReviewerNotificationRenderer;
-import org.kuali.kra.irb.actions.notification.NotifyIrbNotificationRenderer;
 import org.kuali.kra.irb.actions.notification.NotifyCommitteeNotificationRenderer;
+import org.kuali.kra.irb.actions.notification.NotifyIrbNotificationRenderer;
 import org.kuali.kra.irb.actions.notification.ProtocolClosedNotificationRenderer;
 import org.kuali.kra.irb.actions.notification.ProtocolDisapprovedNotificationRenderer;
 import org.kuali.kra.irb.actions.notification.ProtocolExpiredNotificationRenderer;
@@ -108,7 +106,6 @@ import org.kuali.kra.irb.actions.notification.ProtocolSuspendedNotificationRende
 import org.kuali.kra.irb.actions.notification.ProtocolTerminatedNotificationRenderer;
 import org.kuali.kra.irb.actions.notifycommittee.ProtocolNotifyCommitteeBean;
 import org.kuali.kra.irb.actions.notifycommittee.ProtocolNotifyCommitteeService;
-// import org.kuali.kra.irb.actions.notifyirb.ProtocolActionAttachment;
 import org.kuali.kra.irb.actions.notifyirb.ProtocolNotifyIrbBean;
 import org.kuali.kra.irb.actions.notifyirb.ProtocolNotifyIrbService;
 import org.kuali.kra.irb.actions.print.ProtocolActionPrintEvent;
@@ -138,47 +135,38 @@ import org.kuali.kra.irb.actions.submit.ValidProtocolActionAction;
 import org.kuali.kra.irb.actions.undo.UndoLastActionBean;
 import org.kuali.kra.irb.actions.undo.UndoLastActionService;
 import org.kuali.kra.irb.actions.withdraw.ProtocolWithdrawService;
-import org.kuali.kra.irb.actions.withdraw.WithdrawCorrespondence;
 import org.kuali.kra.irb.auth.GenericProtocolAuthorizer;
 import org.kuali.kra.irb.auth.ProtocolTask;
 import org.kuali.kra.irb.correspondence.ProtocolCorrespondence;
-import org.kuali.kra.irb.correspondence.ProtocolCorrespondenceType;
 import org.kuali.kra.irb.noteattachment.AddProtocolNotepadEvent;
 import org.kuali.kra.irb.noteattachment.AddProtocolNotepadRule;
 import org.kuali.kra.irb.noteattachment.AddProtocolNotepadRuleImpl;
-import org.kuali.kra.protocol.actions.ProtocolOnlineReviewCommentable;
-import org.kuali.kra.protocol.actions.notify.ProtocolActionAttachment;
-import org.kuali.kra.protocol.actions.print.ProtocolSummaryPrintOptions;
-import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentBase;
-import org.kuali.kra.protocol.noteattachment.ProtocolNotepadBase;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentPersonnel;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentProtocol;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentService;
 import org.kuali.kra.irb.noteattachment.ProtocolNotepad;
 import org.kuali.kra.irb.notification.IRBNotificationContext;
 import org.kuali.kra.irb.notification.IRBNotificationRenderer;
-
-// TODO ********************** added or modified during IRB backfit merge BEGIN ************************ 
 import org.kuali.kra.irb.notification.IRBProtocolNotification;
-// TODO ********************** added or modified during IRB backfit merge END ************************ 
-
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReview;
 import org.kuali.kra.irb.onlinereview.ProtocolReviewAttachment;
-import org.kuali.kra.irb.questionnaire.ProtocolModuleQuestionnaireBean;
 import org.kuali.kra.irb.questionnaire.ProtocolQuestionnaireAuditRule;
-import org.kuali.kra.protocol.summary.AttachmentSummary;
 import org.kuali.kra.irb.summary.ProtocolSummary;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
-import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinuteBase;
-import org.kuali.kra.common.committee.meeting.MinuteEntryType;
 import org.kuali.kra.printing.Printable;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.print.AbstractPrint;
 import org.kuali.kra.printing.service.WatermarkService;
 import org.kuali.kra.printing.util.PrintingUtils;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
+import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.protocol.actions.ProtocolOnlineReviewCommentable;
+import org.kuali.kra.protocol.actions.notify.ProtocolActionAttachment;
+import org.kuali.kra.protocol.actions.print.ProtocolSummaryPrintOptions;
+import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentBase;
+import org.kuali.kra.protocol.noteattachment.ProtocolNotepadBase;
+import org.kuali.kra.protocol.summary.AttachmentSummary;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
-import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.util.watermark.WatermarkConstants;
@@ -248,36 +236,6 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             put("4", "Return for Substantive Revisions Required");
         }
     };
-
-    private static final List GENERIC_TYPE_PONDENCE;
-    static {
-        final List correspondenceTypes = new ArrayList();
-        correspondenceTypes.add(ProtocolCorrespondenceType.ABANDON_NOTICE);
-        correspondenceTypes.add(ProtocolCorrespondenceType.APPROVAL_LETTER);
-        correspondenceTypes.add(ProtocolCorrespondenceType.CLOSURE_NOTICE);
-        correspondenceTypes.add(ProtocolCorrespondenceType.EXPEDITED_APPROVAL_LETTER);
-        correspondenceTypes.add(ProtocolCorrespondenceType.NOTICE_OF_DEFERRAL);
-        correspondenceTypes.add(ProtocolCorrespondenceType.SMR_LETTER);
-        correspondenceTypes.add(ProtocolCorrespondenceType.SRR_LETTER);
-        correspondenceTypes.add(ProtocolCorrespondenceType.SUSPENSION_NOTICE);
-        correspondenceTypes.add(ProtocolCorrespondenceType.TERMINATION_NOTICE);
-        GENERIC_TYPE_PONDENCE = correspondenceTypes;
-    }
-
-    private static final Map<String, String> CORR_TYPE_TO_ACTION_TYPE_MAP;
-
-    static {
-        CORR_TYPE_TO_ACTION_TYPE_MAP = new HashMap<String, String>();
-        CORR_TYPE_TO_ACTION_TYPE_MAP.put(ProtocolCorrespondenceType.ABANDON_NOTICE, ProtocolActionType.ABANDON_PROTOCOL);
-        CORR_TYPE_TO_ACTION_TYPE_MAP.put(ProtocolCorrespondenceType.APPROVAL_LETTER,ProtocolActionType.APPROVED);
-        CORR_TYPE_TO_ACTION_TYPE_MAP.put(ProtocolCorrespondenceType.CLOSURE_NOTICE,ProtocolActionType.CLOSED_ADMINISTRATIVELY_CLOSED);
-        CORR_TYPE_TO_ACTION_TYPE_MAP.put(ProtocolCorrespondenceType.EXPEDITED_APPROVAL_LETTER,ProtocolActionType.EXPEDITE_APPROVAL);
-        CORR_TYPE_TO_ACTION_TYPE_MAP.put(ProtocolCorrespondenceType.NOTICE_OF_DEFERRAL,ProtocolActionType.DEFERRED);
-        CORR_TYPE_TO_ACTION_TYPE_MAP.put(ProtocolCorrespondenceType.SMR_LETTER,ProtocolActionType.SPECIFIC_MINOR_REVISIONS_REQUIRED);
-        CORR_TYPE_TO_ACTION_TYPE_MAP.put(ProtocolCorrespondenceType.SRR_LETTER,ProtocolActionType.SUBSTANTIVE_REVISIONS_REQUIRED);
-        CORR_TYPE_TO_ACTION_TYPE_MAP.put(ProtocolCorrespondenceType.SUSPENSION_NOTICE,ProtocolActionType.SUSPENDED);
-        CORR_TYPE_TO_ACTION_TYPE_MAP.put(ProtocolCorrespondenceType.TERMINATION_NOTICE,ProtocolActionType.TERMINATED);
-    }
 
     /** {@inheritDoc} */
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
@@ -3909,7 +3867,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         }
 
         Protocol protocol = (Protocol) protocolCorrespondence.getProtocol();
-        AttachmentDataSource dataSource = generateCorrespondenceDocument(protocol, protocolCorrespondence.getProtoCorrespTypeCode());
+        AttachmentDataSource dataSource = generateCorrespondenceDocument(protocol, protocolCorrespondence);
         PrintableAttachment source = new PrintableAttachment();
         if (dataSource != null) {
             protocolCorrespondence.setCorrespondence(dataSource.getContent());
@@ -3925,15 +3883,8 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
 
     }
     
-    protected AttachmentDataSource generateCorrespondenceDocument(Protocol protocol, String correspondenceType) throws PrintingException {
-        AbstractProtocolActionsCorrespondence correspondence = null;
-        if (StringUtils.equals(ProtocolCorrespondenceType.WITHDRAWAL_NOTICE, correspondenceType)) {
-            correspondence = new WithdrawCorrespondence();
-        } else if (GENERIC_TYPE_PONDENCE.contains(correspondenceType)) {
-            correspondence = new ProtocolGenericCorrespondence(CORR_TYPE_TO_ACTION_TYPE_MAP.get(correspondenceType));
-        } else if (StringUtils.equals(ProtocolCorrespondenceType.GRANT_EXEMPTION_NOTICE, correspondenceType)) {
-            correspondence = new GrantExemptionCorrespondence();
-        }
+    protected AttachmentDataSource generateCorrespondenceDocument(ProtocolBase protocol, ProtocolCorrespondence oldCorrespondence) throws PrintingException {
+        ProtocolActionsCorrespondence correspondence = new ProtocolActionsCorrespondence(oldCorrespondence.getProtocolAction().getProtocolActionTypeCode());
         correspondence.setProtocol(protocol);
         return getProtocolActionCorrespondenceGenerationService().reGenerateCorrespondenceDocument(correspondence);
     } 
