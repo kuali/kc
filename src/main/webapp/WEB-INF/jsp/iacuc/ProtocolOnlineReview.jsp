@@ -47,7 +47,7 @@
 	showTabButtons="true"
 	auditCount="0"
   	headerDispatch="${KualiForm.headerDispatch}"
-  	headerTabActive="iacucProtocolOnlineReview">
+  	headerTabActive="onlineReview">
 
 <c:choose>
     <c:when test = "${KualiForm.editingMode['maintainIacucProtocolOnlineReviews']}"> 
