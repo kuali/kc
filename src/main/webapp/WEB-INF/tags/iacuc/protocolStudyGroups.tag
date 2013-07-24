@@ -42,7 +42,8 @@
 			<kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col" />
 		</c:if>		
   	</tr>
-	<kra:permission value="${KualiForm.iacucProtocolProceduresHelper.modifyProtocolProcedures}">   
+	<kra:permission value="${KualiForm.iacucProtocolProceduresHelper.modifyProtocolProcedures}"> 
+		<tbody class="addline">  
     	<tr>
 			<th class="infoline">
 				Add:
@@ -75,10 +76,11 @@
 				<div align="center">
 					<html:image property="methodToCall.addProtocolStudyGroup.line${procedureBeanIndex}.anchor${currentTabIndex}" 
           				src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' 
-          				styleClass="tinybutton"/>
+          				styleClass="tinybutton addButton"/>
          		</div>
          	</td>
      	</tr>
+     	</tbody>
 	</kra:permission>         
     <c:forEach var="protocolStudyGroupBeanDetail" items="${collectionReference}" varStatus="detailStatus">
 	    <tr>

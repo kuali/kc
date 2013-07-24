@@ -51,6 +51,7 @@
 			          	
 			            <%-- New data --%>
         				<kra:permission value="${KualiForm.personnelHelper.modifyPersonnel}">
+        					 <tbody class="addline">
 				             <tr>
 								<th class="infoline">
 									<c:out value="Add:" />
@@ -121,10 +122,11 @@
 									<div align="center">
 										<html:image property="methodToCall.addPersonnelAttachment.${protocolPerson}.line${status.index}"
 										            src="${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif" 
-										            title="Add Attachment" alt="Add Attachment" styleClass="tinybutton" />
+										            title="Add Attachment" alt="Add Attachment" styleClass="tinybutton addButton" />
 									</div>
 								</td>
 				            </tr>
+				            </tbody>
 						</kra:permission>
 			            <%-- New data --%>
 			            

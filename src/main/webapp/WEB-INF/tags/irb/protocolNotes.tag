@@ -43,6 +43,7 @@
 				<th><div align="center">Actions</div></th>
 			</tr>
 			<kra:permission value="${modifyPermission}">
+				<tbody class="addline">
 				<tr>
 	            	<th width="40" align="center" scope="row"><div align="center">Add:</div></th>
 	            	<td width="80" class="infoline">
@@ -71,10 +72,11 @@
 		            <td class="infoline">
 		            	<div align=center>
 							<html:image property="methodToCall.addNote.anchor${tabKey}"
-							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton"/>
+							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton addButton"/>
 						</div>
 		            </td>
 	          	</tr>
+	          	</tbody>
           	</kra:permission>
          	<c:forEach var="protocolNotepad" items="${KualiForm.document.protocol.notepads}" varStatus="status">
 	             <c:if test="${viewRestrictedNotes || !protocolNotepad.restrictedView}">

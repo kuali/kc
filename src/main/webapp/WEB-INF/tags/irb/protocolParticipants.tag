@@ -41,7 +41,8 @@
 			<%-- Header --%>
 			
             <%-- New data --%>
-        	<kra:permission value="${KualiForm.protocolHelper.modifySubjects}">            
+        	<kra:permission value="${KualiForm.protocolHelper.modifySubjects}">
+        		<tbody class="addline">            
 	            <tr>
 					<th class="infoline">
 						<c:out value="Add:" />
@@ -67,11 +68,11 @@
 						<div align=center>
 						    <html:image property="methodToCall.addProtocolParticipant.anchor${tabKey}"
 							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' 
-							title= "Add protocol participants" styleClass="tinybutton"/>
+							title= "Add protocol participants" styleClass="tinybutton addButton"/>
 						</div>
 					</td>
 	            </tr>
-	            
+	            </tbody>
             </kra:permission>
 			<%-- New data --%>
 			

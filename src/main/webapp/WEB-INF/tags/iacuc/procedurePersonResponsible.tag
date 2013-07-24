@@ -49,7 +49,8 @@
 				</c:if>
           	</tr>     
 
-        	<kra:permission value="${KualiForm.iacucProtocolProceduresHelper.modifyProtocolProcedures}">   
+        	<kra:permission value="${KualiForm.iacucProtocolProceduresHelper.modifyProtocolProcedures}">
+        		<tbody class="addline">   
                 <tr>
 	                <c:set var="textAreaFieldName" value="iacucProtocolProceduresHelper.newIacucProcedurePersonResponsible.personResponsibleDescription" />
 					<th class="infoline">
@@ -81,10 +82,11 @@
 						<div align="center">
  							<html:image property="methodToCall.addProcedurePersonResponsible.${procedureBean}.line${status.index}" 
 						            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' 
-						            styleClass="tinybutton"/>
+						            styleClass="tinybutton addButton"/>
 	                	</div>
 	                </td>
 	            </tr>
+	            </tbody>
 	        </kra:permission>          
             
         	<c:forEach var="protocolPersonResponsible" items="${collectionReference}" varStatus="status">
