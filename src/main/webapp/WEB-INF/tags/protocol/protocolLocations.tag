@@ -46,6 +46,7 @@
           	
              <%-- New data --%>
         	<kra:permission value="${KualiForm.protocolHelper.modifyOrganizations}">
+        		 <tbody class="addline">
 	             <tr>
 					<th class="infoline">
 						<c:out value="Add:" />
@@ -92,10 +93,11 @@
 						<div align="center">
 							<html:image property="methodToCall.addProtocolLocation.anchor${tabKey}"
 							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' 
-							title='Add organization' styleClass="tinybutton"/>
+							title='Add organization' styleClass="tinybutton addButton"/>
 						</div>
 	                </td>
 	            </tr>
+	            </tbody>
             </kra:permission>
             <%-- New data --%>
             

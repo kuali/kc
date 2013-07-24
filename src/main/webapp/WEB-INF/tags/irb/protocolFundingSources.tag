@@ -53,6 +53,7 @@
                 <kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col" />
             </tr>
             <c:if test="${!readOnly}">
+            	<tbody class="addline">
 	        	<tr>
 	        	    <th class="infoline">
 	        	       <c:out value="Add:" />
@@ -120,7 +121,7 @@
 	                            <html:image property="methodToCall.addProtocolFundingSource.anchor${tabKey}"
 	                            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' 
 	                            title="Add protocol funding source"
-	                            styleClass="tinybutton"/>
+	                            styleClass="tinybutton addButton"/>
 					
 					            <c:if test="${canCreateProposal}">
        								<div id="protocolHelper.newFundingSource.fundingSourceTypeCode.startproposal.image.div" style="${buttonStyle}">
@@ -133,6 +134,7 @@
 	                        </div>
 	                </td>
 	            </tr>
+	            </tbody>
             </c:if>
             
             <%-- Existing data --%>
