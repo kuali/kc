@@ -19,6 +19,8 @@
 <c:set var="submissionDocAttributes" value="${DataDictionary.ProtocolSubmissionDoc.attributes}" />
 <c:set var="action" value="protocolProtocolActions" />
 
+<jsp:useBean id="paramMap" class="java.util.HashMap"/>
+
 <c:set var="isOpen" value="false" />
 <c:forEach items="${param}" var="par">
     <c:if test="${fn:startsWith(par.key, 'lookupActionNotifyIRBProtocol') and fn:startsWith(par.value, 'true')}">
@@ -70,7 +72,21 @@
                     <td>
                         <c:if test="${KualiForm.actionHelper.showCommittee}">
 	                        <nobr>
-	                        <kul:htmlControlAttribute property="actionHelper.protocolNotifyIrbBean.committeeId" attributeEntry="${attributes.committeeId}" />
+	                        	<c:set target="${paramMap}" property="currentCommitteeId" value="${KualiForm.actionHelper.protocolNotifyIrbBean.committeeId}" />
+                        		<c:set target="${paramMap}" property="docRouteStatus" value="${KualiForm.document.documentHeader.workflowDocument.status.code}" />	             
+		                        <html:select property="actionHelper.protocolNotifyIrbBean.committeeId">                               
+	                            	<c:forEach items="${krafn:getOptionList('org.kuali.kra.committee.lookup.keyvalue.IrbCommitteeIdByUnitValuesFinder', paramMap)}" var="option" >
+	                                	<c:choose>                      
+	                                    	<c:when test="${KualiForm.actionHelper.protocolNotifyIrbBean.committeeId == option.key}">
+	                                        	<option value="${option.key}" selected="selected">${option.value}</option>
+	                                    	</c:when>
+	                                    	<c:otherwise>                               
+	                                        	<c:out value="${option.value}"/>
+	                                        	<option value="${option.key}">${option.value}</option>
+	                                    	</c:otherwise>
+	                                	</c:choose>                                                
+	                            	</c:forEach>
+	                        	</html:select>
 	                        </nobr>
                         </c:if>
                     </td>
