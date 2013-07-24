@@ -91,7 +91,8 @@
             </tr>
             <!-- Add Alternate Search form -->
             
-        	<kra:permission value="${modifyPermissions}">   
+        	<kra:permission value="${modifyPermissions}">  
+        	<tbody class="addline"> 
             <tr>
                 <th><div align="right">Add:</div></th>
                 <th>
@@ -156,11 +157,11 @@
                 <th>
 	                <div align="center">
 	                    <html:image property="methodToCall.addAlternateSearchDatabase.anchor${tabKey}"
-	                                src='${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton"/>
+	                                src='${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton addButton"/>
 	                </div>
                 </th>            
             </tr>   
-
+			</tbody>
 
         	</kra:permission>
             

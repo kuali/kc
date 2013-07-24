@@ -179,7 +179,7 @@
 			
             <%-- New data --%>
          	<kra:permission value="${!readOnlymodifyReferences}">
-         		
+         		<tbody class="addline">
          		<tr>
                     <th class="infoline" rowspan="2">add:</th>
                     <td class="infoline" style="text-align:center;">
@@ -199,7 +199,7 @@
                     <td class="infoline" rowspan="2" style="text-align:center;">
                         <div align=center>
 							<html:image property="methodToCall.addProtocolReferenceBean.anchor${tabKey}"
-							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' title="Add other identifier" styleClass="tinybutton"/>
+							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' title="Add other identifier" styleClass="tinybutton addButton"/>
                         </div>
                     </td>
                 </tr>
@@ -219,6 +219,7 @@
                     
                     </th>
                 </tr>
+                </tbody>
             </kra:permission>
             
 			<%-- End of New data --%>

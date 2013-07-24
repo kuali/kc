@@ -53,6 +53,7 @@
 			          	
 			             <%-- New data --%>
         				<kra:permission value="${KualiForm.personnelHelper.modifyPersonnel}">
+        					 <tbody class="addline">
 				             <tr>
 								<th class="infoline">
 									<c:out value="Add:" />
@@ -90,9 +91,10 @@
 			                    <td class="infoline">
 									<div align=center>
 										<html:image property="methodToCall.addProtocolPersonUnit.${protocolPerson}.line${status.index}" 
-										src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" title="Add Unit" alt="Add Unit" styleClass="tinybutton"/></div>
+										src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" title="Add Unit" alt="Add Unit" styleClass="tinybutton addButton"/></div>
 								</td>
 				            </tr>
+				            </tbody>
 						</kra:permission>
 			            <%-- New data --%>
 			            

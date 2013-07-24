@@ -3850,7 +3850,7 @@ var WarningOnAddRow = (function($) {
 	return {
 		emptyValues: [' ', '0.00', '(new group)'],
 		inputs: '.addline input, .addline select, .addline textarea',
-		elementsToIgnore: ['input[name="multiSelectToReset"]', 'input[name^="document.budget.budgetCategoryType["]'],
+		elementsToIgnore: ['input[name="multiSelectToReset"]', 'input[name="checkboxToReset"]', 'input[name^="document.budget.budgetCategoryType["]'],
 		asterisk: $('<img class="changedNotice changedAsterisk" src="static/images/asterisk_orange.png"/>'),
 		resetBtn: $('<img class="changedNotice changedResetBtn" src="static/images/tinybutton-reset1.gif"/>'),
 		pageNotice: $('<div class="changedNotice changedPageNotice">Unsaved changes will be lost.</div>'),
