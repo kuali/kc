@@ -36,6 +36,7 @@
 	   			<span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.iacuc.noteattachment.IacucProtocolAttachmentProtocol" altText="help"/></span>
 	       </h3>
 	       <table cellpadding="4" cellspacing="0" summary="">
+	       		<tbody class="addline">
 	         	<tr>
 	         		<th>
 	         			<div align="right">
@@ -186,10 +187,11 @@
 	         		<td colspan="4" class="infoline">
 						<div align="center">
 							<html:image property="methodToCall.addAttachmentProtocol.anchor${tabKey}"
-							src="${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif" styleClass="tinybutton"/>
+							src="${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif" styleClass="tinybutton addButton"/>
 						</div>
 					</td>
 	         	</tr>
+	         	</tbody>
 			</table>
 		</kra:permission>
 		

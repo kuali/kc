@@ -50,7 +50,8 @@
 				</c:if>
           	</tr>     
 
-        	<kra:permission value="${modifyPermission}">            
+        	<kra:permission value="${modifyPermission}">         
+        		<tbody class="addline">   
                 <tr>
 	                <c:set var="textAreaFieldName" value="iacucProtocolExceptionHelper.newIacucProtocolException.exceptionDescription" />
 					<th class="infoline">
@@ -90,10 +91,11 @@
 						<div align="center">
 							<html:image property="methodToCall.addProtocolException.anchor${tabKey}" 
 						            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' 
-						            styleClass="tinybutton"/>
+						            styleClass="tinybutton addButton"/>
 	                	</div>
 	                </td>
 	            </tr>
+	            </tbody>
 	        </kra:permission>          
             
         	<c:forEach var="protocolException" items="${collectionReference}" varStatus="status">

@@ -53,7 +53,8 @@
 				</c:if>
           	</tr>     
 
-        	<kra:permission value="${KualiForm.iacucProtocolSpeciesHelper.modifyProtocolSpecies}">            
+        	<kra:permission value="${KualiForm.iacucProtocolSpeciesHelper.modifyProtocolSpecies}">
+        		<tbody class="addline">            
                 <tr>
 	                <c:set var="textAreaFieldName" value="iacucProtocolSpeciesHelper.newIacucProtocolSpecies.procedureSummary" />
 					<th class="infoline" rowspan="2">
@@ -115,7 +116,7 @@
 						<div align="center">
 							<html:image property="methodToCall.addProtocolSpecies.anchor${tabKey}" 
 						            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' 
-						            styleClass="tinybutton"/>
+						            styleClass="tinybutton addButton"/>
 	                	</div>
 	                </td>
 	            </tr>
@@ -128,6 +129,7 @@
 	            		</div>                          
 	            	</td>  
 	            </tr>
+	            </tbody>
 	        </kra:permission>          
             
         	<c:forEach var="protocolSpecies" items="${collectionReference}" varStatus="status">

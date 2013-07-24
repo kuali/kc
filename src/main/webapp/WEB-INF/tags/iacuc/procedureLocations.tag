@@ -50,7 +50,8 @@
 				</c:if>
           	</tr>     
 
-        	<kra:permission value="${KualiForm.iacucProtocolProceduresHelper.modifyProtocolProcedures}">   
+        	<kra:permission value="${KualiForm.iacucProtocolProceduresHelper.modifyProtocolProcedures}">
+        		<tbody class="addline">   
                 <tr>
 					<th class="infoline">
 						Add:
@@ -99,10 +100,11 @@
 						<div align="center">
  							<html:image property="methodToCall.addProcedureLocation.${procedureBean}.line${status.index}" 
 						            src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' 
-						            styleClass="tinybutton"/>
+						            styleClass="tinybutton addButton"/>
 	                	</div>
 	                </td>
 	            </tr>
+	            </tbody>
 	        </kra:permission>          
             
         	<c:forEach var="protocolLocation" items="${collectionReference}" varStatus="status">
