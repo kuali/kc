@@ -17,8 +17,8 @@ package org.kuali.kra.coi.notification;
 
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.coi.CoiDisclosure;
+import org.kuali.kra.bo.KcPerson;
+import org.kuali.kra.coi.personfinancialentity.PersonFinIntDisclosure;
 import org.kuali.kra.common.notification.NotificationRendererBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KcPersonService;
@@ -28,19 +28,21 @@ import org.kuali.rice.krad.service.KRADServiceLocator;
 /**
  * Renders fields for the IRB notifications.
  */
-public class CoiNotificationRenderer extends NotificationRendererBase {
+public class FinancialEntityNotificationRenderer extends NotificationRendererBase {
 
-    private CoiDisclosure coiDisclosure;
+    private static final long serialVersionUID = 9043632939341627699L;
+
+    private PersonFinIntDisclosure disclosure;
     
     private transient BusinessObjectService businessObjectService;
     private transient KcPersonService kcPersonService;
     
     /**
-     * Constructs an IRB notification renderer.
-     * @param CoiDisclosure
+     * Constructs a Financial Entity notification renderer.
+     * @param PersonFinIntDisclosure
      */
-    public CoiNotificationRenderer(CoiDisclosure coiDisclosure) {
-        this.coiDisclosure = coiDisclosure;
+    public FinancialEntityNotificationRenderer(PersonFinIntDisclosure disclosure) {
+        this.disclosure = disclosure;
     }
 
     /**
@@ -48,41 +50,22 @@ public class CoiNotificationRenderer extends NotificationRendererBase {
      * @see org.kuali.kra.common.notification.NotificationRenderer#getReplacementParameters()
      */
     public Map<String, String> getDefaultReplacementParameters() {
-        String[] replacementParameters = CoiReplacementParameters.REPLACEMENT_PARAMETERS;
-        
         Map<String, String> params = super.getDefaultReplacementParameters();
-        coiDisclosure.refreshReferenceObject("coiDisclosureEventType");
-
-        String key = null;
-        for (int i = 0; i < replacementParameters.length; i++) {
-            key = replacementParameters[i];
-            if (StringUtils.equals(key, CoiReplacementParameters.SEQUENCE_NUMBER)) {
-                params.put(key, getCoiDisclosure().getSequenceNumber().toString());
-            } else if (StringUtils.equals(key, CoiReplacementParameters.DISCLOSURE_TYPE)) {
-                params.put(key, coiDisclosure.getCoiDisclosureEventType().getDescription());            	
-            } else if (StringUtils.equals(key, CoiReplacementParameters.DOCUMENT_NUMBER)) {
-                params.put(key, getCoiDisclosure().getCoiDisclosureDocument().getDocumentNumber());
-            } else if (StringUtils.equals(key, CoiReplacementParameters.DISCLOSURE_ID)) {
-                params.put(key,getCoiDisclosure().getCoiDisclosureId().toString());
-            } else if (StringUtils.equals(key, CoiReplacementParameters.DISCLOSURE_NUMBER)) {
-                params.put(key,getCoiDisclosure().getCoiDisclosureNumber());
-            } else if (StringUtils.equals(key, CoiReplacementParameters.DISCLOSURE_REPORTER)) {
-                params.put(key,getCoiDisclosure().getDisclosureReporter().getAuthorPersonName());
-            } else if (StringUtils.equals(key, CoiReplacementParameters.DISCLOSURE_STATUS)) {
-                params.put(key,getCoiDisclosure().getCoiDisclosureStatus().getDescription());
-            }
-        }
+        String personId = getDisclosure().getPersonId();
+        KcPerson reporter = getKcPersonService().getKcPersonByPersonId(personId);
+        params.put("{UNIT}", reporter.getUnit().getUnitName());
+        params.put("{FE_ENTITY_NAME}", disclosure.getEntityName());
         return params;
     }
 
-    public CoiDisclosure getCoiDisclosure() {
-        return coiDisclosure;
+    public PersonFinIntDisclosure getDisclosure() {
+        return disclosure;
     }
 
-    public void setCoiDisclosure(CoiDisclosure coiDisclosure) {
-        this.coiDisclosure = coiDisclosure;
+    public void setDisclosure(PersonFinIntDisclosure disclosure) {
+        this.disclosure = disclosure;
     }
-    
+
     public BusinessObjectService getBusinessObjectService() {
         if (businessObjectService == null) {
             businessObjectService = KRADServiceLocator.getBusinessObjectService();

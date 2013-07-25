@@ -28,6 +28,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.coi.CoiActionType;
 import org.kuali.kra.coi.notesandattachments.attachments.FinancialEntityAttachment;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -35,7 +36,6 @@ import org.kuali.kra.service.VersionException;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * 
@@ -46,8 +46,7 @@ public class FinancialEntityEditListAction extends FinancialEntityAction{
     // TODO : db column is '2000', but coeus shows 1000 limit; so just follow coeus message.
     private static final String DEACTIVATE_ENTITY_REASON_MAXLENGTH = "1000";
     private static final String PROCESS_STATUS_FINAL = "F";
-    
-    
+
     /**
      * 
      * This method is for editing 'active' financial entity
@@ -400,12 +399,16 @@ public class FinancialEntityEditListAction extends FinancialEntityAction{
                 PersonFinIntDisclosure newFinIntDisclosure = versionFinancialEntity(form, personFinIntDisclosure,
                         StringUtils.equals(ACTIVATE_ENTITY, financialEntityHelper.getEditType()) ? 1 : 2, Constants.EMPTY_STRING);
                 resetEditEntityIndex(form, newFinIntDisclosure.getPersonFinIntDisclosureId());
+                // send notification to admins that FE has been modified
+                sendNotificationAndPersist(CoiActionType.FE_MODIFIED_EVENT, "Financial Entity Modified", personFinIntDisclosure);
             }
             else {
                 personFinIntDisclosure.setProcessStatus(PROCESS_STATUS_FINAL);
                 resetFinEntityDet(financialEntityHelper, personFinIntDisclosure);
                 personFinIntDisclosure.setFinEntityAttachments(financialEntityHelper.getFinEntityAttachmentList());
                 saveFinancialEntity(form, personFinIntDisclosure);
+                // send notification to admins that FE has been created
+                sendNotificationAndPersist(CoiActionType.FE_CREATED_EVENT, "Financial Entity Created", personFinIntDisclosure);
             }
             if (StringUtils.isNotBlank(financialEntityForm.getCoiDocId())) {
                 String forward = buildForwardUrl(financialEntityForm.getCoiDocId());
