@@ -243,8 +243,13 @@ public class ProposalDevelopmentActionsAction extends ProposalDevelopmentAction 
             String workflowBase = getKualiConfigurationService().getPropertyValueAsString(
                     KRADConstants.WORKFLOW_URL_KEY);
             String actionListUrl = workflowBase + "/ActionList.do";
+            ActionForward actionListForward = new ActionForward(actionListUrl, true);
 
-            acceptedForwards.add(new ActionForward(actionListUrl, true));
+            acceptedForwards.add(actionListForward);
+            String command = proposalDevelopmentForm.getCommand();
+            if (KewApiConstants.ACTIONLIST_COMMAND.equals(command)) {
+                forward = actionListForward;
+            }
         }
         
         acceptedForwards.add(mapping.findForward(KRADConstants.MAPPING_PORTAL));
