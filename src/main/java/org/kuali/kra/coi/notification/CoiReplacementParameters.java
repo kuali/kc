@@ -25,11 +25,16 @@ public class CoiReplacementParameters {
     public static final String SEQUENCE_NUMBER = "{SEQUENCE_NUMBER}";
     public static final String DISCLOSURE_ID = "{DISCLOSURE_ID}";
     public static final String DISCLOSURE_TYPE = "{DISCLOSURE_TYPE}";
-
+    public static final String DISCLOSURE_NUMBER = "{DISCLOSURE_NUMBER}";
+    public static final String DISCLOSURE_REPORTER = "{DISCLOSURE_REPORTER}";
+    public static final String DISCLOSURE_STATUS = "{DISCLOSURE_STATUS}";
     
     public static final String[] REPLACEMENT_PARAMETERS = new String[] { DOCUMENT_NUMBER,
                                                                          SEQUENCE_NUMBER,
                                                                          DISCLOSURE_ID,
                                                                          DISCLOSURE_TYPE,
+                                                                         DISCLOSURE_NUMBER,
+                                                                         DISCLOSURE_REPORTER,
+                                                                         DISCLOSURE_STATUS,
                                                                        };
 }

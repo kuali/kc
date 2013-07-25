@@ -691,7 +691,9 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
                     }
                 }
             }
-            if(!coiUserRole.isReviewCompleted()) {
+            if (coiUserRole.isReviewCompleted()) {
+                sendNotification(disclosure, CoiActionType.REVIEW_COMPLETE_EVENT, "Review Completed");        
+            } else {
                 reviewStatus = CoiReviewStatus.ASSIGNED_TO_REVIEWER;
             }
         }

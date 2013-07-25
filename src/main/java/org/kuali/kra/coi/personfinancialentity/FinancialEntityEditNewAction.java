@@ -25,17 +25,9 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kra.coi.CoiDisclosureForm;
-import org.kuali.kra.coi.notesandattachments.CoiNotesAndAttachmentsHelper;
-import org.kuali.kra.coi.notesandattachments.attachments.CoiDisclosureAttachment;
+import org.kuali.kra.coi.CoiActionType;
 import org.kuali.kra.coi.notesandattachments.attachments.FinancialEntityAttachment;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.irb.ProtocolDocument;
-import org.kuali.kra.irb.ProtocolForm;
-import org.kuali.kra.irb.noteattachment.ProtocolAttachmentPersonnel;
-import org.kuali.kra.irb.personnel.ProtocolPerson;
-import org.kuali.kra.web.struts.action.StrutsConfirmation;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -46,9 +38,6 @@ import org.kuali.rice.krad.util.ObjectUtils;
  */
 public class FinancialEntityEditNewAction extends FinancialEntityAction {
     private static final String NEW_FINANCIAL_ENTITY = "financialEntityHelper.newPersonFinancialEntity";
-
-    private static final String CONFIRM_YES_DELETE_ATTACHMENT = "confirmDeleteAttachment";
-    private static final String CONFIRM_NO_DELETE = "";
 
     /**
      * 
@@ -64,9 +53,13 @@ public class FinancialEntityEditNewAction extends FinancialEntityAction {
             throws Exception {
         FinancialEntityForm financialEntityForm = (FinancialEntityForm) form;
         FinancialEntityHelper financialEntityHelper = financialEntityForm.getFinancialEntityHelper();
+        PersonFinIntDisclosure newFinancialEntityDisclosure = financialEntityHelper.getNewPersonFinancialEntity();            
 
-        if (isValidToSave(financialEntityHelper.getNewPersonFinancialEntity(), NEW_FINANCIAL_ENTITY)) {
+        if (isValidToSave(newFinancialEntityDisclosure, NEW_FINANCIAL_ENTITY)) {
             saveNewFinancialEntity(form);
+            // send notification to admins that FE has been modified
+System.out.println("New financial entity, sponsor code = " + newFinancialEntityDisclosure.getSponsorCode() + ", entity name = " + newFinancialEntityDisclosure.getEntityName());            
+            sendNotificationAndPersist(CoiActionType.FE_CREATED_EVENT, "Financial Entity Modified", newFinancialEntityDisclosure);
             if (StringUtils.isNotBlank(financialEntityForm.getCoiDocId())) {
                 String forward = buildForwardUrl(financialEntityForm.getCoiDocId());
                 financialEntityForm.setCoiDocId(null);
