@@ -27,4 +27,8 @@ public class CoiActionType {
     public static final String CERTIFIED_EVENT = "214";
     public static final String APPROVED_EVENT = "204";
     public static final String DISAPPROVED_EVENT = "304";
+    public static final String REVIEW_COMPLETE_EVENT = "805";
+    
+    public static final String FE_CREATED_EVENT = "845";
+    public static final String FE_MODIFIED_EVENT = "846";
 }
