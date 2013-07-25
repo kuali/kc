@@ -28,6 +28,7 @@ import org.kuali.kra.common.notification.exception.UnknownRoleException;
 import org.kuali.kra.common.notification.service.KcNotificationModuleRoleService;
 import org.kuali.kra.common.notification.service.KcNotificationRoleQualifierService;
 import org.kuali.kra.common.notification.service.KcNotificationService;
+import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 
 /**
@@ -103,6 +104,9 @@ public abstract class NotificationContextBase implements NotificationContext, Se
     }
 
     public KcNotificationModuleRoleService getNotificationModuleRoleService() {
+        if (notificationModuleRoleService == null) {
+            notificationModuleRoleService = KraServiceLocator.getService(KcNotificationModuleRoleService.class);
+        }
         return notificationModuleRoleService;
     }
 
@@ -111,6 +115,9 @@ public abstract class NotificationContextBase implements NotificationContext, Se
     }
 
     public KcNotificationRoleQualifierService getNotificationRoleQualifierService() {
+        if (notificationRoleQualifierService == null) {
+            notificationRoleQualifierService = KraServiceLocator.getService(KcNotificationRoleQualifierService.class);
+        }
         return notificationRoleQualifierService;
     }
 

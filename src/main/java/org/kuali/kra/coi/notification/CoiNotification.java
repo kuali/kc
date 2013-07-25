@@ -31,10 +31,14 @@ public class CoiNotification extends KcNotification {
     }
 
     public void persistOwningObject(KraPersistableBusinessObjectBase object) {
-        CoiDisclosure disclosure = (CoiDisclosure)object;
-        disclosure.addNotification(this);
-        KraServiceLocator.getService(BusinessObjectService.class).save(disclosure);
-        KraServiceLocator.getService(BusinessObjectService.class).save(this);
+        if (object instanceof CoiDisclosure) {
+            CoiDisclosure disclosure = (CoiDisclosure)object;
+            disclosure.addNotification(this);
+            KraServiceLocator.getService(BusinessObjectService.class).save(disclosure);
+            KraServiceLocator.getService(BusinessObjectService.class).save(this);
+        } else {
+            //TODO how to persist notification for FE
+        }
     }
 
 }

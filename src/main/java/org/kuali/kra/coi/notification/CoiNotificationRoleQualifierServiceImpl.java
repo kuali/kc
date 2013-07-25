@@ -16,10 +16,12 @@
 package org.kuali.kra.coi.notification;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.common.notification.bo.NotificationModuleRoleQualifier;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 
 public class CoiNotificationRoleQualifierServiceImpl implements CoiNotificationRoleQualifierService {
@@ -39,7 +41,13 @@ public class CoiNotificationRoleQualifierServiceImpl implements CoiNotificationR
         } else if (StringUtils.equalsIgnoreCase(qName, "coiDisclosureId")) {
             return coiDisclosure.getCoiDisclosureId().toString();
         } else if (StringUtils.equals(qName, KcKimAttributes.UNIT_NUMBER)) {
-            return coiDisclosure.getLeadUnitNumber();
+            if (coiDisclosure == null) {
+                // no disclosure, so we must be sending a FE notification
+                KcPerson reporter = KcPerson.fromPersonId(GlobalVariables.getUserSession().getPrincipalId());
+                return reporter.getUnit().getUnitNumber();
+            } else {
+                return coiDisclosure.getLeadUnitNumber();
+            }
         } else if (StringUtils.equals(qName, KcKimAttributes.SUBUNITS)) {
             return "*";
         }

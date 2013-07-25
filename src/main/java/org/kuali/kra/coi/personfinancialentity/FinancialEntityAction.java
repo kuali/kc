@@ -38,7 +38,11 @@ import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.coi.disclosure.CoiDisclosureService;
 import org.kuali.kra.coi.notesandattachments.attachments.FinancialEntityAttachment;
+import org.kuali.kra.coi.notification.CoiNotification;
+import org.kuali.kra.coi.notification.FinancialEntityNotificationContext;
+import org.kuali.kra.coi.notification.FinancialEntityNotificationRenderer;
 import org.kuali.kra.coi.service.CoiPrintingService;
+import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -75,6 +79,8 @@ public class FinancialEntityAction extends KualiAction {
     protected static final String CONFIRM_NO_CANCEL_FE = "declineCancelFinancialEntity";
     protected static final String CONFIRM_NO_DELETE = "";
 
+    private KcNotificationService kcNotificationService;
+    
     /**
      * 
      * This method is called when user open the financial entity maintenance page
@@ -434,6 +440,23 @@ public class FinancialEntityAction extends KualiAction {
     public ActionForward whereToGoAfterCancel(ActionMapping mapping, ActionForm form, HttpServletRequest request,
                                                 HttpServletResponse response) throws Exception {
         return mapping.findForward(Constants.MAPPING_BASIC);
+    }
+
+    protected void sendNotificationAndPersist(String feAction, String actionDescription, PersonFinIntDisclosure disclosure) {
+        FinancialEntityNotificationContext context = new FinancialEntityNotificationContext(disclosure, 
+            feAction, actionDescription, new FinancialEntityNotificationRenderer(disclosure));
+        getKcNotificationService().sendNotificationAndPersist(context, new CoiNotification(), disclosure);
+    }
+    
+    public KcNotificationService getKcNotificationService() {
+        if (kcNotificationService == null) {
+            kcNotificationService = KraServiceLocator.getService(KcNotificationService.class);
+        }
+        return kcNotificationService;
+    }
+
+    public void setKcNotificationService(KcNotificationService kcNotificationService) {
+        this.kcNotificationService = kcNotificationService;
     }
 
 }
