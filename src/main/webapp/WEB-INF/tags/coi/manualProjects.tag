@@ -29,6 +29,7 @@
     		        <span class="subhead-right"><kul:help businessObjectClassName="org.kuali.kra.coi.CoiDiscDetail" altText="help"/></span>
                 </h3>
         <table id="newpEvent-table" cellpadding="0" cellspacing="0" summary="">
+        	<tbody class="addline">
             <tr>
                 <th align="right" valign="middle">
                    <kul:htmlAttributeLabel attributeEntry="${coiDisclProjectAttributes.disclosureEventType}" />
@@ -166,10 +167,11 @@
                     <td align="center" colspan="6">
                         <div align="center">
                             <html:image property="methodToCall.addManualProject.anchor${tabKey}"
-                                        src='${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton"/>
+                                        src='${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton addButton"/>
                         </div>
                     </td>
                 </tr>
+                </tbody>
               </table>
            </div> <%-- proposal div --%>              
 

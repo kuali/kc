@@ -49,7 +49,8 @@
            <span class="subhead-left">New Attachment</span> 
            <span class="subhead-right"><kul:help parameterNamespace="KC-COIDISCLOSURE" parameterDetailType="Document" parameterName="disclNotesAndAttachmentsHelp" altText="help"/></span>
         </h3>
-        <table cellpadding="4" cellspacing="0" summary="">      
+        <table cellpadding="4" cellspacing="0" summary="">   
+        	<tbody class="addline">   
             <tr>
                 <th>
                     <div align="right">
@@ -184,10 +185,11 @@
                 <td colspan="6" class="infoline">
                     <div align="center">
                         <html:image property="methodToCall.addAttachmentCoi.anchor${tabKey}"
-                                          src="${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif" styleClass="tinybutton"/>
+                                          src="${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif" styleClass="tinybutton addButton"/>
                     </div>
                 </td>
             </tr>
+            </tbody>
         </table>
     </kra:permission>
     <c:if test="${not empty coiDisclosureAttachments}">

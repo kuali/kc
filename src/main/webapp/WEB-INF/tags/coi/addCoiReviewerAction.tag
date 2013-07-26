@@ -41,6 +41,7 @@
             
             <%-- The input controls for adding a new user. --%>
             <kra:permission value="${modifyPermissions}">
+            	<tbody class="addline">
                 <tr> 
                     <th class="infoline">
                         <c:out value="Add:" />
@@ -73,10 +74,11 @@
                     <td>
                         <div align="center">
                             <html:image property="methodToCall.addCoiUserRole.anchor${tabKey}"
-                                        src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton"/>
+                                        src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton addButton"/>
                         </div>
                     </td>
                 </tr>
+                </tbody>
             </kra:permission>
             
             <%-- The list of current users --%>
