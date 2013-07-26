@@ -40,6 +40,7 @@
 			        <%-- Start New data --%>
 		            <c:if test="${!readOnly}">
 		            	<c:set var="newAttachment" value="financialEntityHelper.newFinEntityAttachment" />
+		            	<tbody class="addline">
 			          	<tr>
 							<th class="infoline">
 								Add:
@@ -83,10 +84,11 @@
 	         				<td colspan="4" class="infoline">
 								<div align="center">
 									<html:image property="methodToCall.addNewFinancialEntityAttachment.anchor${tabKey}"
-									src="${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif" styleClass="tinybutton"/>
+									src="${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif" styleClass="tinybutton addButton"/>
 								</div>
 							</td>
 	    		     	</tr>
+	    		     	</tbody>
             		</c:if>
 			        <%-- End New data --%>
 			        
