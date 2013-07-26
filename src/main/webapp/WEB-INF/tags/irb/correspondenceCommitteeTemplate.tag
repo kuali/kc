@@ -32,6 +32,7 @@
     
     <%-- New Template --%>
     <c:if test="${!readOnly}">
+    	<tbody class="addline">
         <tr>
             <td class="infoline nobord">
                 <div align="center" style="font-weight:bold;">
@@ -77,10 +78,11 @@
                     src="${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif" 
                     title="Add Correspondence Template" 
                     alt="Add Correspondence Template" 
-                    styleClass="tinybutton" />
+                    styleClass="tinybutton addButton" />
                 </div>
             </td>
         </tr>
+        </tbody>
     </c:if>
     <%-- New Template --%>
     

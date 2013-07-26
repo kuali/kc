@@ -28,6 +28,7 @@
     </tr>
 
     <c:if test="${!readOnly || !empty KualiForm.correspondenceTypes[index].defaultProtocolCorrespondenceTemplate}">
+    	<tbody class="addline">
         <tr>
             <td>
                 <div align="center">
@@ -71,7 +72,7 @@
                                 src="${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif" 
                                 title="Add Default Correspondence Template" 
                                 alt="Add Default Correspondence Template" 
-                                styleClass="tinybutton" />
+                                styleClass="tinybutton addButton" />
                         </c:when>
                         <c:otherwise>
                             <div id="filename2-${index}" style="display:block;" align="center">
@@ -110,6 +111,7 @@
                 </div>
             </td>
         </tr>
+        </tbody>
     </c:if>
     
 </table>
