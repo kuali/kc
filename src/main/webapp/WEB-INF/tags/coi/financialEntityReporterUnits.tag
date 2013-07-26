@@ -41,6 +41,7 @@
             <c:if test="${!readOnly}">
             	<kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col" align="center"/>
 	        </c:if>
+	    <tbody class="addline">    
     	</tr> 
         <%-- Header --%>
             	            
@@ -80,10 +81,11 @@
                 <td class="infoline">
                 	<div align=center>
                     	<html:image property="methodToCall.addFinancialEntityReporterUnit.line${status.index}" 
-                                    src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" title="Add Unit" alt="Add Unit" styleClass="tinybutton"/>
+                                    src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" title="Add Unit" alt="Add Unit" styleClass="tinybutton addButton"/>
                     </div>
                 </td>
             </tr>
+            </tbody>
         <%-- /kra:permission --%>
         <%-- New data --%>
                         

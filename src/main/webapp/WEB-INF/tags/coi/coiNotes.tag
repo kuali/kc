@@ -62,6 +62,7 @@
                 ${kfunc:registerEditableProperty(KualiForm, "coiNotesAndAttachmentsHelper.newCoiDisclosureNotepad.usageSectionId")}
                 <input type="hidden" name="coiNotesAndAttachmentsHelper.newCoiDisclosureNotepad.usageSectionId" value="${usageSectionId}"/>
 				<c:if test="${addPermission}">
+					<tbody class="addline">
 					<tr>
 	            		<th width="5%" align="center" scope="row"><div align="center">Add:</div></th>
 		            	<td width="9%" class="infoline">
@@ -101,10 +102,11 @@
 			            <td width="6%" class="infoline">
 			            	<div align=center>
 								<html:image property="methodToCall.addNote.anchor${tabKey}"
-									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton"/>
+									src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton addButton"/>
 							</div>
 		            	</td>
 	          		</tr>
+	          		</tbody>
 				</c:if>
 	        </c:if>
 			<c:set var="notesIndex" value="1"/>
