@@ -18,6 +18,8 @@
 <c:set var="notifyAttributes" value="${DataDictionary.ProtocolNotifyCommitteeBean.attributes}" />
 <c:set var="action" value="protocolProtocolActions" />
 
+<jsp:useBean id="paramMap" class="java.util.HashMap"/>
+
 <c:set var="isOpen" value="false" />
 <c:forEach items="${param}" var="par">
     <c:if test="${fn:startsWith(par.key, 'lookupActionNotifyCommitteeProtocol') and fn:startsWith(par.value, 'true')}">
@@ -40,26 +42,29 @@
 	                    	    </nobr>
 		                    </div>
     	            	</th>
-        	        	<td>
-            	            <nobr>
-	            	            <kul:htmlControlAttribute property="actionHelper.protocolNotifyCommitteeBean.committeeId" attributeEntry="${notifyAttributes.committeeId}" readOnly="true" />
-                    	    </nobr>
-	                	</td>
+    	            	<td>
+                        	<c:if test="${KualiForm.actionHelper.showCommittee}">
+	                        	<nobr>
+		                        	<c:set target="${paramMap}" property="currentCommitteeId" value="${KualiForm.actionHelper.protocolNotifyCommitteeBean.committeeId}" />
+	                        		<c:set target="${paramMap}" property="docRouteStatus" value="${KualiForm.document.documentHeader.workflowDocument.status.code}" />	             
+			                        <html:select property="actionHelper.protocolNotifyCommitteeBean.committeeId">                               
+		                            	<c:forEach items="${krafn:getOptionList('org.kuali.kra.committee.lookup.keyvalue.IrbCommitteeIdByUnitValuesFinder', paramMap)}" var="option" >
+		                                	<c:choose>                      
+		                                    	<c:when test="${KualiForm.actionHelper.protocolNotifyCommitteeBean.committeeId == option.key}">
+		                                        	<option value="${option.key}" selected="selected">${option.value}</option>
+		                                    	</c:when>
+		                                    	<c:otherwise>                               
+		                                        	<c:out value="${option.value}"/>
+		                                        	<option value="${option.key}">${option.value}</option>
+		                                    	</c:otherwise>
+		                                	</c:choose>                                                
+		                            	</c:forEach>
+		                        	</html:select>
+		                        </nobr>
+                        	</c:if>
+                       	</td>
 	        	    </tr>	
-    	            <tr>
-        	            <th width="15%"> 
-            	            <div align="right">
-	            	            <nobr>
-	                	            <kul:htmlAttributeLabel attributeEntry="${notifyAttributes.committeeName}" />
-	                    	    </nobr>
-		                    </div>
-    	            	</th>
-        	        	<td>
-            	            <nobr>
-	            	            <kul:htmlControlAttribute property="actionHelper.protocolNotifyCommitteeBean.committeeName" attributeEntry="${notifyAttributes.committeeName}" readOnly="true" />
-                    	    </nobr>
-	                	</td>
-	        	    </tr>	
+    	          
     	            <tr>
         	            <th width="15%"> 
             	            <div align="right">

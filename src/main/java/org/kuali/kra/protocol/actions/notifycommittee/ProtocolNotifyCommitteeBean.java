@@ -18,7 +18,6 @@ package org.kuali.kra.protocol.actions.notifycommittee;
 import java.io.Serializable;
 import java.sql.Date;
 
-import org.kuali.kra.common.committee.bo.CommitteeBase;
 import org.kuali.kra.protocol.actions.ProtocolActionBean;
 
 public interface ProtocolNotifyCommitteeBean extends ProtocolActionBean, Serializable {
@@ -29,9 +28,7 @@ public interface ProtocolNotifyCommitteeBean extends ProtocolActionBean, Seriali
 
     public String getCommitteeId();
 
-    public String getCommitteeName();
-
-    public void setCommittee(CommitteeBase committee);
+    public void setCommitteeId(String committeeId);
 
     public Date getActionDate();
 
