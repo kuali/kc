@@ -45,10 +45,7 @@ public class ProtocolNotifyCommitteeServiceImpl implements ProtocolNotifyCommitt
      * @see org.kuali.kra.irb.actions.notifycommittee.ProtocolNotifyCommitteeService#submitCommitteeNotification(org.kuali.kra.irb.Protocol, org.kuali.kra.irb.actions.notifycommittee.ProtocolNotifyCommitteeBean)
      */
     public void submitCommitteeNotification(Protocol protocol, ProtocolNotifyCommitteeBean notifyCommitteeBean) throws WorkflowException {
-        /*
-         * The submission is created first so that its new primary key can be added
-         * to the protocol action entry.
-         */
+        // we do not create a new submission here unlike in notify IRB
         ProtocolAction protocolAction = new ProtocolAction(protocol, null, ProtocolActionType.NOTIFIED_COMMITTEE);
         protocolAction.setComments(notifyCommitteeBean.getComment());
         protocolAction.setActionDate(new Timestamp(notifyCommitteeBean.getActionDate().getTime()));

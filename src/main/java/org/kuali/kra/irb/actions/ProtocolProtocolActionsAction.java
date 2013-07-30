@@ -192,6 +192,7 @@ import org.springframework.util.CollectionUtils;
 /**
  * The set of actions for the Protocol Actions tab.
  */
+@SuppressWarnings("deprecation")
 public class ProtocolProtocolActionsAction extends ProtocolAction implements AuditModeAction {
 
     private static final Log LOG = LogFactory.getLog(ProtocolProtocolActionsAction.class);
@@ -588,9 +589,14 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         ActionHelper actionHelper = (ActionHelper) protocolForm.getActionHelper();
         getProtocolNotifyCommitteeService().submitCommitteeNotification(protocol, (ProtocolNotifyCommitteeBean) actionHelper.getProtocolNotifyCommitteeBean());
         recordProtocolActionSuccess("Notify Committee");
-
+        
         ProtocolNotificationRequestBean newNotificationBean = new ProtocolNotificationRequestBean(protocol, ProtocolActionType.NOTIFIED_COMMITTEE, "Notify Committee");
-        newNotificationBean.setCommitteeName(actionHelper.getProtocolNotifyCommitteeBean().getCommitteeName());
+        // get committee name
+        Committee committee = getCommitteeService().getCommitteeById(actionHelper.getProtocolNotifyCommitteeBean().getCommitteeId());
+        if (committee != null) {
+            newNotificationBean.setCommitteeName(committee.getCommitteeName());
+        }
+        
         protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, PROTOCOL_ACTIONS_TAB, newNotificationBean, false));
 
         if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
@@ -3661,9 +3667,9 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
             renderer = new NotifyIrbNotificationRenderer((Protocol) notificationRequestBean.getProtocol(), protocolForm.getActionHelper().getProtocolNotifyIrbBean().getComment());
         } else if (StringUtils.equals(ProtocolActionType.NOTIFIED_COMMITTEE, notificationRequestBean.getActionType())) {
             renderer = new NotifyCommitteeNotificationRenderer((Protocol) notificationRequestBean.getProtocol(), 
-                    protocolForm.getActionHelper().getProtocolNotifyCommitteeBean().getCommitteeName(), 
-                    protocolForm.getActionHelper().getProtocolNotifyCommitteeBean().getComment(), 
-                    protocolForm.getActionHelper().getProtocolNotifyCommitteeBean().getActionDate());
+                                notificationRequestBean.getCommitteeName(), 
+                                protocolForm.getActionHelper().getProtocolNotifyCommitteeBean().getComment(), 
+                                protocolForm.getActionHelper().getProtocolNotifyCommitteeBean().getActionDate());
         } else if (StringUtils.equals(ProtocolActionType.TERMINATED, notificationRequestBean.getActionType())) {
             renderer = new ProtocolTerminatedNotificationRenderer((Protocol) notificationRequestBean.getProtocol(), protocolForm.getActionHelper().getProtocolTerminateRequestBean().getReason());
         } else if (StringUtils.equals(ProtocolActionType.EXPIRED, notificationRequestBean.getActionType())) {
