@@ -35,6 +35,8 @@ public class IacucProtocolNotifyCommitteeBean extends IacucProtocolActionBean im
     private String comment = "";
     private CommitteeBase committee;
     private Date actionDate = new Date(System.currentTimeMillis());
+
+    private String committeeId;
     
     /**
      * Constructs a ProtocolNotifyCommitteeBean.
@@ -51,11 +53,7 @@ public class IacucProtocolNotifyCommitteeBean extends IacucProtocolActionBean im
 
     public void setComment(String comment) {
         this.comment = comment;
-    }
-
-    public String getCommitteeId() {
-        return committee.getCommitteeId();
-    }
+    }    
 
     public String getCommitteeName() {
         return committee.getCommitteeName();
@@ -73,4 +71,11 @@ public class IacucProtocolNotifyCommitteeBean extends IacucProtocolActionBean im
         this.actionDate = actionDate;
     }
     
+    public String getCommitteeId() {
+        return committeeId;
+    }
+    
+    public void setCommitteeId(String committeeId) {
+        this.committeeId = committeeId;        
+    }
 }

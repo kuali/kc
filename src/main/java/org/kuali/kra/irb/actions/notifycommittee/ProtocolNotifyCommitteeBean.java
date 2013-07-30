@@ -15,11 +15,8 @@
  */
 package org.kuali.kra.irb.actions.notifycommittee;
 
-import java.io.Serializable;
 import java.sql.Date;
 
-import org.kuali.kra.committee.bo.Committee;
-import org.kuali.kra.common.committee.bo.CommitteeBase;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.actions.ActionHelper;
 import org.kuali.kra.irb.actions.ProtocolActionBean;
@@ -35,7 +32,7 @@ public class ProtocolNotifyCommitteeBean extends ProtocolActionBean implements o
     private static final long serialVersionUID = 6386919161260179234L;
     
     private String comment = "";
-    private Committee committee;
+    private String committeeId;
     private Date actionDate = new Date(System.currentTimeMillis());
     
     /**
@@ -44,7 +41,6 @@ public class ProtocolNotifyCommitteeBean extends ProtocolActionBean implements o
      */
     public ProtocolNotifyCommitteeBean(ActionHelper actionHelper) {
         super(actionHelper);
-        committee = (Committee) actionHelper.getProtocol().getProtocolSubmission().getCommittee();
     }
 
     public String getComment() {
@@ -55,18 +51,6 @@ public class ProtocolNotifyCommitteeBean extends ProtocolActionBean implements o
         this.comment = comment;
     }
 
-    public String getCommitteeId() {
-        return committee.getCommitteeId();
-    }
-
-    public String getCommitteeName() {
-        return committee.getCommitteeName();
-    }
-
-    public void setCommittee(CommitteeBase committee) {
-        this.committee = (Committee) committee;
-    }
-
     public Date getActionDate() {
         return actionDate;
     }
@@ -75,13 +59,21 @@ public class ProtocolNotifyCommitteeBean extends ProtocolActionBean implements o
         this.actionDate = actionDate;
     }
     
+    public String getCommitteeId() {
+        return committeeId;
+    }
+
+    public void setCommitteeId(String committeeId) {
+        this.committeeId = committeeId;        
+    }
+    
     /**
      * Prepare the notify committee bean for rendering with JSP.
      */
     public void prepareView() {
         // we refresh only if the user is not currently working on this task since we do not want to lose user changes
         if( !(TaskName.NOTIFY_COMMITTEE.equalsIgnoreCase(getActionHelper().getCurrentTask())) ) {
-            this.setCommittee((Committee) this.getActionHelper().getProtocol().getProtocolSubmission().getCommittee());
+            // do nothing, a placeholder for code to be added as fuctionality for this action is fleshed out better 
         }
     }
          
