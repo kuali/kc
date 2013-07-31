@@ -68,7 +68,7 @@
                                     <span class="fineprint"></span> 
                                 </td>
                                     <td align="left" valign="middle" class="infoline">
-                                        <div align=center>
+                                        <div align=center class="ignoreMeFromWarningOnAddRow">
                                             <bean:define id="leadFlag" name="KualiForm" property="disclosureHelper.newDisclosurePersonUnit.leadUnitFlag" />
 											<html:checkbox property="disclosureHelper.newDisclosurePersonUnit.leadUnitFlag" title="Add this unit as lead" />
                                         </div>

@@ -91,7 +91,7 @@
 		            	</div>
 					</td>
 		            <td align="left" valign="middle" class="infoline">
-		               	<div align="center">
+		               	<div align="center" class="ignoreMeFromWarningOnAddRow">
 		               		<kul:htmlControlAttribute property="iacucProtocolSpeciesHelper.newIacucProtocolSpecies.usdaCovered" 
 		               		                          attributeEntry="${protocolSpeciesAttributes.usdaCovered}" 
 		               		                          readOnly="${readOnly}" />

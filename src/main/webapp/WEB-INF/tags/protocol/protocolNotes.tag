@@ -64,7 +64,7 @@
 	            	  	</div>
 		            </td>
 		            <td class="infoline">
-		            	<div align="center">
+		            	<div align="center" class="ignoreMeFromWarningOnAddRow">
         			            <c:if test="${viewRestrictedNotes}" >
 		            	   	 		<kul:htmlControlAttribute property="notesAttachmentsHelper.newProtocolNotepad.restrictedView" attributeEntry="${protocolNotesAttributes.restrictedView}" readOnly="${!modifyPermission || !viewRestrictedNotes}" />
 				            	</c:if>

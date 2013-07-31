@@ -3944,9 +3944,15 @@ var WarningOnAddRow = (function($) {
 			$(row).find('.changedClearOnReset').html('');
 		},
 		isIgnoredElement: function(element) {
-			for (idx in this.elementsToIgnore) {
-				if ($(element).is(this.elementsToIgnore[idx])) {
-					return true;
+			var matchingDiv = $(element).closest('div.ignoreMeFromWarningOnAddRow')
+			
+			if(matchingDiv.length > 0) {
+				return true;
+			}else {
+				for (idx in this.elementsToIgnore) {
+					if ($(element).is(this.elementsToIgnore[idx])) {
+						return true;
+					}
 				}
 			}
 			return false;

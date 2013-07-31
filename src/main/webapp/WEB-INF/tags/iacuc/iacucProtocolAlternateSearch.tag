@@ -117,7 +117,7 @@
 			                    </div>
 		                    </td>
 		                    <td style="background-image:inherit; background-position: center middle; border: none;">
-		                        <div align="center">
+		                        <div align="center" class="ignoreMeFromWarningOnAddRow">
 		                          <html:button property="move_right" styleId="move_right" value="&gt;"/><br/><html:button property="move_left" styleId="move_left" value="&lt;"/>
 		                        </div>
 		                    </td>
@@ -131,7 +131,11 @@
                         <tr style="background-image: inherit; background-position: center bottom;">
                             <td style="background-image: inherit; background-position: center bottom; border: none;">&nbsp;</td>
                             <td style="background-image: inherit; background-position: center bottom; border: none; text-align: center;"><span style="text-align: center; color: #7E7E7E;">Other:</span></td>
-                            <td style="background-image: inherit; background-position: center bottom; border: none;"><input type="text" name="otherAltSearchDatabase" id="otherAltSearchDatabase" size="20"/><html:button property="add_other_db" styleId="add_other_db" value="add" onclick="addOtherDatabase(); return false;"/></td>
+                            <td style="background-image: inherit; background-position: center bottom; border: none;">
+                            	<div class="ignoreMeFromWarningOnAddRow">
+	                            	<input type="text" name="otherAltSearchDatabase" id="otherAltSearchDatabase" size="20"/><html:button property="add_other_db" styleId="add_other_db" value="add" onclick="addOtherDatabase(); return false;"/>
+	                        	</div>    
+                            </td>
                         </tr>
                         </tbody>
                     </table>
