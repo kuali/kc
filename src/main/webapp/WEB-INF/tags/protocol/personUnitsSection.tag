@@ -82,7 +82,7 @@
 								</td>
                                 <c:if test="${KualiForm.document.protocolList[0].protocolPersons[personIndex].principalInvestigator}">
 				                    <td align="left" valign="middle" class="infoline">
-									    <div align=center>
+									    <div align=center class="ignoreMeFromWarningOnAddRow">
 										    <bean:define id="leadFlag" name="KualiForm" property="personnelHelper.newProtocolPersonUnits[${personIndex}].leadUnitFlag" />
 										    <html:checkbox property="personnelHelper.newProtocolPersonUnits[${personIndex}].leadUnitFlag" title="Add this unit as lead" />
 			                      	    </div>

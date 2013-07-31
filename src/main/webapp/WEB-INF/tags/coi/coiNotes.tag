@@ -93,7 +93,7 @@
 							<kul:htmlControlAttribute property="coiNotesAndAttachmentsHelper.newCoiDisclosureNotepad.financialEntityId" attributeEntry="${notesAttributes.financialEntityId}" readOnly="false" />
 						</td>
 			            <td width="5%" class="infoline">
-			            	<div align="center">
+			            	<div align="center" class="ignoreMeFromWarningOnAddRow">
 		    	        			<c:if test="${viewRestrictedNotes}" >            	
 		        	    		   	 <kul:htmlControlAttribute property="coiNotesAndAttachmentsHelper.newCoiDisclosureNotepad.restrictedView" attributeEntry="${notesAttributes.restrictedView}" readOnly="false" />
 		            				</c:if>
