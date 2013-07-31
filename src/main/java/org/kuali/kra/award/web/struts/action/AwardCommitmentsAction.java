@@ -66,15 +66,15 @@ public class AwardCommitmentsAction extends AwardAction {
         AwardForm awardForm = (AwardForm)form;
         List<AwardFandaRate> fandaRates = awardForm.getAwardDocument().getAward().getAwardFandaRate();
         
-        if (awardForm.getAwardDocument().getAward().getAwardFandaRate() != null || !awardForm.getAwardDocument().getAward().getAwardFandaRate().isEmpty()) {
-            awardForm.getAwardDocument().getAward().setIdcIndicator(Constants.YES_FLAG);
-        } else {
+        if (awardForm.getAwardDocument().getAward().getAwardFandaRate() == null || awardForm.getAwardDocument().getAward().getAwardFandaRate().isEmpty()) {
             awardForm.getAwardDocument().getAward().setIdcIndicator(Constants.NO_FLAG);
-        }
-        if (awardForm.getAwardDocument().getAward().getAwardCostShares() != null || !awardForm.getAwardDocument().getAward().getAwardCostShares().isEmpty()) {
-            awardForm.getAwardDocument().getAward().setCostSharingIndicator(Constants.YES_FLAG);
         } else {
+            awardForm.getAwardDocument().getAward().setIdcIndicator(Constants.YES_FLAG);
+        }
+        if (awardForm.getAwardDocument().getAward().getAwardCostShares() == null || awardForm.getAwardDocument().getAward().getAwardCostShares().isEmpty()) {
             awardForm.getAwardDocument().getAward().setCostSharingIndicator(Constants.NO_FLAG);
+        } else {
+            awardForm.getAwardDocument().getAward().setCostSharingIndicator(Constants.YES_FLAG);
         }
         
         for (int i=0; i<fandaRates.size(); i++) {

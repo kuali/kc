@@ -411,20 +411,20 @@ public class AwardAction extends BudgetParentActionBase {
         checkAwardNumber(award);
         String userId = GlobalVariables.getUserSession().getPrincipalName();
         
-        if (award.getAwardApprovedSubawards() != null || !award.getAwardApprovedSubawards().isEmpty()) {
-            award.setSubContractIndicator(Constants.YES_FLAG);
-        } else {
+        if (award.getAwardApprovedSubawards() == null || award.getAwardApprovedSubawards().isEmpty()) {
             award.setSubContractIndicator(Constants.NO_FLAG);
-        }
-        if (award.getAwardTransferringSponsors() != null || !award.getAwardTransferringSponsors().isEmpty()) {
-            award.setTransferSponsorIndicator(Constants.YES_FLAG);
         } else {
+            award.setSubContractIndicator(Constants.YES_FLAG);
+        }
+        if (award.getAwardTransferringSponsors() == null || award.getAwardTransferringSponsors().isEmpty()) {
             award.setTransferSponsorIndicator(Constants.NO_FLAG);
-        }
-        if (award.getKeywords() != null || !award.getKeywords().isEmpty()) {
-            award.setScienceCodeIndicator(Constants.YES_FLAG);
         } else {
+            award.setTransferSponsorIndicator(Constants.YES_FLAG);
+        }
+        if (award.getKeywords() == null || award.getKeywords().isEmpty()) {
             award.setScienceCodeIndicator(Constants.NO_FLAG);
+        } else {
+            award.setScienceCodeIndicator(Constants.YES_FLAG);
         }
 
         forward = super.save(mapping, form, request, response);

@@ -623,20 +623,20 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
         AwardForm awardForm = (AwardForm) form;
         AwardDocument awardDocument = awardForm.getAwardDocument();
         
-        if (awardForm.getAwardDocument().getAward().getApprovedEquipmentItems() != null || awardForm.getAwardDocument().getAward().getApprovedEquipmentItems().isEmpty()) {
-            awardForm.getAwardDocument().getAward().setApprovedEquipmentIndicator(Constants.YES_FLAG);
-        } else {
+        if (awardForm.getAwardDocument().getAward().getApprovedEquipmentItems() == null || awardForm.getAwardDocument().getAward().getApprovedEquipmentItems().isEmpty()) {
             awardForm.getAwardDocument().getAward().setApprovedEquipmentIndicator(Constants.NO_FLAG);
-        }
-        if (awardForm.getAwardDocument().getAward().getApprovedForeignTravelTrips() != null || awardForm.getAwardDocument().getAward().getApprovedForeignTravelTrips().isEmpty()) {
-            awardForm.getAwardDocument().getAward().setApprovedForeignTripIndicator(Constants.YES_FLAG);
         } else {
+            awardForm.getAwardDocument().getAward().setApprovedEquipmentIndicator(Constants.YES_FLAG);
+        }
+        if (awardForm.getAwardDocument().getAward().getApprovedForeignTravelTrips() == null || awardForm.getAwardDocument().getAward().getApprovedForeignTravelTrips().isEmpty()) {
             awardForm.getAwardDocument().getAward().setApprovedForeignTripIndicator(Constants.NO_FLAG);
-        }
-        if (awardForm.getAwardDocument().getAward().getPaymentScheduleItems() != null || awardForm.getAwardDocument().getAward().getPaymentScheduleItems().isEmpty()) {
-            awardForm.getAwardDocument().getAward().setPaymentScheduleIndicator(Constants.YES_FLAG);
         } else {
+            awardForm.getAwardDocument().getAward().setApprovedForeignTripIndicator(Constants.YES_FLAG);
+        }
+        if (awardForm.getAwardDocument().getAward().getPaymentScheduleItems() == null || awardForm.getAwardDocument().getAward().getPaymentScheduleItems().isEmpty()) {
             awardForm.getAwardDocument().getAward().setPaymentScheduleIndicator(Constants.NO_FLAG);
+        } else {
+            awardForm.getAwardDocument().getAward().setPaymentScheduleIndicator(Constants.YES_FLAG);
         }
         
         getAwardCloseoutService().updateCloseoutDueDatesBeforeSave(awardDocument.getAward());

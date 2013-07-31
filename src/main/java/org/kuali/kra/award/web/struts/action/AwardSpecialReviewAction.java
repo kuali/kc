@@ -219,10 +219,10 @@ public class AwardSpecialReviewAction extends AwardAction {
         boolean isAwardIrbProtocolLinkingEnabled = awardForm.getSpecialReviewHelper().getIsIrbProtocolLinkingEnabled();
         boolean isAwardIacucProtocolLinkingEnabled = awardForm.getSpecialReviewHelper().getIsIacucProtocolLinkingEnabled();
         
-        if (awardForm.getAwardDocument().getAward().getSpecialReviews() != null || awardForm.getAwardDocument().getAward().getSpecialReviews().isEmpty()) {
-            awardForm.getAwardDocument().getAward().setSpecialReviewIndicator(Constants.YES_FLAG);
-        } else {
+        if (awardForm.getAwardDocument().getAward().getSpecialReviews() == null || awardForm.getAwardDocument().getAward().getSpecialReviews().isEmpty()) {
             awardForm.getAwardDocument().getAward().setSpecialReviewIndicator(Constants.NO_FLAG);
+        } else {
+            awardForm.getAwardDocument().getAward().setSpecialReviewIndicator(Constants.YES_FLAG);
         }
         
         if (isAwardIrbProtocolLinkingEnabled || isAwardIacucProtocolLinkingEnabled) {
