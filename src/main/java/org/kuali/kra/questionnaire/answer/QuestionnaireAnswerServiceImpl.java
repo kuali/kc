@@ -41,6 +41,7 @@ import org.kuali.kra.proposaldevelopment.questionnaire.ProposalDevelopmentModule
 import org.kuali.kra.proposaldevelopment.questionnaire.ProposalDevelopmentS2sModuleQuestionnaireBean;
 import org.kuali.kra.proposaldevelopment.questionnaire.ProposalPersonModuleQuestionnaireBean;
 import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.protocol.questionnaire.QuestionnaireHelperBase;
 import org.kuali.kra.questionnaire.Questionnaire;
 import org.kuali.kra.questionnaire.QuestionnaireQuestion;
 import org.kuali.kra.questionnaire.QuestionnaireService;
@@ -755,14 +756,15 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
         this.protocolFinderDao = protocolFinderDao;
     }
     
-    public List<AnswerHeader> getAnswerHeadersForProtocol(ModuleQuestionnaireBean moduleQuestionnaireBean, String protocolNumber,QuestionnaireHelper questionnaireHelper) {
+    @Override
+    public List<AnswerHeader> getAnswerHeadersForProtocol(ModuleQuestionnaireBean moduleQuestionnaireBean, String protocolNumber, QuestionnaireHelperBase questionnaireHelper) {
         boolean isAmendmentOrRenewal = protocolNumber.contains("A") || protocolNumber.contains("R");
         String originalProtocolNumber = protocolNumber;
         if (isAmendmentOrRenewal) {
             originalProtocolNumber = protocolNumber.substring(0, 10);
         }
         questionnaireHelper.populateAnswers();        
-        List<AnswerHeader> answerHeaders =questionnaireHelper.getAnswerHeaders();
+        List<AnswerHeader> answerHeaders = questionnaireHelper.getAnswerHeaders();
         if (isAmendmentOrRenewal) {
             List<AnswerHeader> headers = new ArrayList<AnswerHeader>();
             for (AnswerHeader answerHeader : answerHeaders) {
