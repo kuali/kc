@@ -17,6 +17,7 @@ package org.kuali.kra.questionnaire.answer;
 
 import java.util.List;
 
+import org.kuali.kra.irb.questionnaire.QuestionnaireHelper;
 import org.kuali.kra.questionnaire.Questionnaire;
 import org.kuali.kra.questionnaire.QuestionnaireUsage;
 
@@ -123,7 +124,18 @@ public interface QuestionnaireAnswerService {
      * @param protocolNumber
      * @return
      */
-    public List<AnswerHeader> getAnswerHeadersForProtocol(ModuleQuestionnaireBean moduleQuestionnaireBean, String protocolNumber);    
+    public List<AnswerHeader> getAnswerHeadersForProtocol(ModuleQuestionnaireBean moduleQuestionnaireBean, String protocolNumber);
+    
+    /**
+     * 
+     * This method is to get all the questionnaire answer for the protocol.
+     * Questionnaire answer may contain submit questionnaire, request submission questionnaire, amendment/renewal questionnaire.
+     * @param moduleQuestionnaireBean
+     * @param protocolNumber
+     * @param questionnaireHelper
+     * @return
+     */
+    public List<AnswerHeader> getAnswerHeadersForProtocol(ModuleQuestionnaireBean moduleQuestionnaireBean, String protocolNumber,QuestionnaireHelper questionnaireHelper); 
     
     /**
      * Get the questionnaire usages for a module and submodule.

@@ -33,6 +33,7 @@ import org.kuali.kra.iacuc.questionnaire.IacucProtocolModuleQuestionnaireBean;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.irb.ProtocolFinderDao;
 import org.kuali.kra.irb.questionnaire.ProtocolModuleQuestionnaireBean;
+import org.kuali.kra.irb.questionnaire.QuestionnaireHelper;
 import org.kuali.kra.krms.KrmsRulesContext;
 import org.kuali.kra.krms.UnitAgendaTypeService;
 import org.kuali.kra.krms.service.KrmsRulesExecutionService;
@@ -752,6 +753,30 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
 
     public void setProtocolFinderDao(ProtocolFinderDao protocolFinderDao) {
         this.protocolFinderDao = protocolFinderDao;
+    }
+    
+    public List<AnswerHeader> getAnswerHeadersForProtocol(ModuleQuestionnaireBean moduleQuestionnaireBean, String protocolNumber,QuestionnaireHelper questionnaireHelper) {
+        boolean isAmendmentOrRenewal = protocolNumber.contains("A") || protocolNumber.contains("R");
+        String originalProtocolNumber = protocolNumber;
+        if (isAmendmentOrRenewal) {
+            originalProtocolNumber = protocolNumber.substring(0, 10);
+        }
+        questionnaireHelper.populateAnswers();        
+        List<AnswerHeader> answerHeaders =questionnaireHelper.getAnswerHeaders();
+        if (isAmendmentOrRenewal) {
+            List<AnswerHeader> headers = new ArrayList<AnswerHeader>();
+            for (AnswerHeader answerHeader : answerHeaders) {
+                if (!(CoeusSubModule.PROTOCOL_SUBMISSION.equals(answerHeader.getModuleSubItemCode()) && answerHeader
+                        .getModuleItemKey().equals(originalProtocolNumber))
+                        && answerHeader.getModuleItemKey().equals(protocolNumber)) {
+                    headers.add(answerHeader);
+                }
+            }
+            return headers;
+        }
+        else {
+            return answerHeaders;
+        }
     }
 
 
