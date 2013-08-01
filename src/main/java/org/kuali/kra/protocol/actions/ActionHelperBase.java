@@ -38,7 +38,6 @@ import org.kuali.kra.common.committee.service.CommitteeServiceBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
-import org.kuali.kra.irb.questionnaire.QuestionnaireHelper;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.protocol.ProtocolFormBase;
@@ -2215,7 +2214,7 @@ public abstract class ActionHelperBase implements Serializable {
     private void initPrintQuestionnaire() {
         setQuestionnairesToPrints(new ArrayList<QuestionnairePrintOption>());
         ModuleQuestionnaireBean moduleQuestionnaireBean = getNewProtocolModuleQuestionnaireBeanInstanceHook(getProtocol());
-        List<AnswerHeader> answerHeaders  = getQuestionnaireAnswerService().getAnswerHeadersForProtocol(moduleQuestionnaireBean, getProtocol().getProtocolNumber(),(QuestionnaireHelper) form.getQuestionnaireHelper());
+        List<AnswerHeader> answerHeaders  = getQuestionnaireAnswerService().getAnswerHeadersForProtocol(moduleQuestionnaireBean, getProtocol().getProtocolNumber(),form.getQuestionnaireHelper());
         setupQnPrintOption(answerHeaders);
     }
 
