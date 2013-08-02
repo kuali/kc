@@ -40,13 +40,11 @@ public class IacucProtocolApproveServiceImpl extends ProtocolApproveServiceImplB
 
         if (protocol.getApprovalDate() == null) {
             protocol.setApprovalDate(actionBean.getApprovalDate());
-        }
-        if (protocol.getExpirationDate() == null) {
-            protocol.setExpirationDate(actionBean.getExpirationDate());
-        }
+        }              
         if (protocol.isRenewal() || ((IacucProtocol)protocol).isContinuation() || protocol.isAmendment()) {
             protocol.setLastApprovalDate(actionBean.getApprovalDate());
         }
+        protocol.setExpirationDate(actionBean.getExpirationDate());
         
         finalizeReviewsAndSave(protocol, IacucProtocolActionType.IACUC_APPROVED, FULL_APPROVAL_FINALIZE_OLR_ANNOTATION);
         protocol.getProtocolDocument().getDocumentHeader().getWorkflowDocument().approve(actionBean.getComments());
