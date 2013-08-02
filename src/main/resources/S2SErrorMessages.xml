@@ -1095,6 +1095,11 @@
  		<Message>Key Persons for Year 5 not valid in budget</Message> 
   		<FixLink>keyPersonnel</FixLink> 
   	</Error>
+  	<Error> 
+  		<MessageKey>/GrantApplication/Forms/RR_FedNonFedBudget/BudgetYear1/BudgetJustificationAttachment</MessageKey> 
+  		<Message>A budget justification is required; please add one in Proposal Attachments</Message> 
+  		<FixLink>abstactsAttachments</FixLink> 
+  	</Error>
   	<!-- #RR FedNonFedBudget10 V1_1 -->
   	<Error>
  		<MessageKey>/GrantApplication/Forms/RR_FedNonFedBudget10/BudgetSummary</MessageKey> 
