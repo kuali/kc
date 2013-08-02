@@ -309,7 +309,7 @@
     <property name="forceUppercase" value="false" />
     <property name="label" value="Uploaded By" />
     <property name="shortLabel" value="Uploaded By" />
-    <property name="maxLength" value="12" />
+    <property name="maxLength" value="60" />
     <property name="validationPattern" >
       <bean parent="AnyCharacterValidationPattern" />
     </property>
