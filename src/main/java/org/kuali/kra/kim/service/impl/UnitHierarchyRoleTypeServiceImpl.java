@@ -30,12 +30,14 @@ import org.kuali.rice.core.api.uif.RemotableAbstractWidget;
 import org.kuali.rice.core.api.uif.RemotableAttributeError;
 import org.kuali.rice.core.api.uif.RemotableQuickFinder;
 import org.kuali.rice.kim.api.type.KimAttributeField;
+import org.kuali.rice.kim.api.type.KimTypeAttribute;
 import org.kuali.rice.kns.kim.role.RoleTypeServiceBase;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
 public class UnitHierarchyRoleTypeServiceImpl extends RoleTypeServiceBase {
     
     private UnitService unitService;
+    private static final String KIM_UI_CHECKBOX_DEFAULT_VALUE = "no";
     
     public UnitService getUnitService() {
         return unitService;
@@ -52,6 +54,21 @@ public class UnitHierarchyRoleTypeServiceImpl extends RoleTypeServiceBase {
         }
         
         return false; 
+    }
+    
+    /**
+     * Rice does not currently handle situations where boolean role qualifiers like the descends flag are empty and treats them 
+     * like strings causing stack traces. Overriding original method to handle this.
+     * @see org.kuali.rice.kns.kim.type.DataDictionaryTypeServiceBase#validateDataDictionaryAttribute(org.kuali.rice.kim.api.type.KimTypeAttribute, java.lang.String, java.lang.String)
+     */
+    @Override
+    protected List<RemotableAttributeError> validateDataDictionaryAttribute(KimTypeAttribute attr, String key, String value) {
+        if(StringUtils.equalsIgnoreCase(attr.getKimAttribute().getAttributeName(), KcKimAttributes.SUBUNITS) 
+                && StringUtils.isBlank(value)) {
+            return super.validateDataDictionaryAttribute(attr, key, KIM_UI_CHECKBOX_DEFAULT_VALUE);
+        }
+
+        return super.validateDataDictionaryAttribute(attr, key, value);
     }
     
     @Override
