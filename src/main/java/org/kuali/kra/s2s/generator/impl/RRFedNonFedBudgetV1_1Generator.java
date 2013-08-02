@@ -824,6 +824,7 @@ public class RRFedNonFedBudgetV1_1Generator extends RRFedNonFedBudgetBaseGenerat
      */
     private BudgetYear1DataType getBudgetJustificationAttachment(BudgetYear1DataType budgetYear) {
         AttachedFileDataType attachedFileDataType = null;
+        budgetYear.setBudgetJustificationAttachment(null);
         for (Narrative narrative : pdDoc.getDevelopmentProposal().getNarratives()) {
             if (narrative.getNarrativeTypeCode() != null
                     && Integer.parseInt(narrative.getNarrativeTypeCode()) == BUDGET_JUSTIFICATION_ATTACHMENT) {
