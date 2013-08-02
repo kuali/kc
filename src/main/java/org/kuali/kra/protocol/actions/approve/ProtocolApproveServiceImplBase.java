@@ -23,7 +23,6 @@ import org.kuali.kra.protocol.actions.correspondence.ProtocolActionsCorresponden
 import org.kuali.kra.protocol.actions.correspondence.ProtocolActionCorrespondenceGenerationService;
 import org.kuali.kra.protocol.actions.submit.ProtocolActionService;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewService;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.DocumentService;
 
 /**

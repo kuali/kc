@@ -559,6 +559,11 @@ public class IacucProtocol extends ProtocolBase {
     protected String getProtocolModuleAddModifyAttachmentCodeHook() {
         return IacucProtocolModule.ADD_MODIFY_ATTACHMENTS;
     }
+    
+    @Override
+    protected boolean isExpirationDateToBeUpdated(ProtocolBase protocol) {
+        return (super.isExpirationDateToBeUpdated(protocol) ||  ((IacucProtocol) protocol).isContinuation());
+    }
 
 
     @Override
