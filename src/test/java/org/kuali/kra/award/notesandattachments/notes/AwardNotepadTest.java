@@ -26,7 +26,7 @@ import org.kuali.kra.award.home.Award;
  */
 public class AwardNotepadTest {
 
-private static final int AWARD_NOTEPAD_ATTRIBUTES_COUNT = 9;
+private static final int AWARD_NOTEPAD_ATTRIBUTES_COUNT = 11;
     
     private AwardNotepad awardNotepadBo;
     private Award award = new Award();
