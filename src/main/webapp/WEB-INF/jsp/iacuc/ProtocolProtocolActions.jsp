@@ -51,11 +51,12 @@
 <kra-iacuc:protocolRequestAction />
 <kra-iacuc:iacucProtocolSummaryPrint/>
 <kra-iacuc:protocolSummaryViewPrint/>
-<kra-iacuc:iacucProtocolCopyProtocol />
-<kul:superUserActions showTab="false"/>			
-
+<kra-iacuc:iacucProtocolCopyProtocol />		
+<kul:routeLog /> 
 <c:if test="${showActions}" >
     <kra:dataValidation auditActivated="${KualiForm.auditActivated}" topTab="false" helpParameterNamespace="KC-IACUC" helpParameterName="protocolDataValidationHelp" helpParameterDetailType="Document"/>
+    <kul:adHocRecipients />
+	<kul:superUserActions showTab="false"/>	
 </c:if>
 <kul:panelFooter />
 	            
