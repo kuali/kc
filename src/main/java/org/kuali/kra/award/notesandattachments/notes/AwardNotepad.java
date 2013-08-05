@@ -18,12 +18,15 @@ package org.kuali.kra.award.notesandattachments.notes;
 //import java.sql.Date;  
 import java.sql.Timestamp;
 
+import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.award.AwardAssociate;
+import org.kuali.kra.bo.KcPerson;
+import org.kuali.kra.infrastructure.KraNotepadInterface;
 
 /**
  * This class...
  */
-public class AwardNotepad extends AwardAssociate {
+public class AwardNotepad extends AwardAssociate implements KraNotepadInterface {
 
     private static final long serialVersionUID = 1L;
 
@@ -42,6 +45,10 @@ public class AwardNotepad extends AwardAssociate {
     private Timestamp createTimestamp;
 
     private String createUser;
+
+    @SkipVersioning
+    protected transient String updateUserFullName;
+    protected transient String createUserFullName;
 
     /**
      * 
@@ -130,10 +137,50 @@ public class AwardNotepad extends AwardAssociate {
         this.createUser = createUser;
     }
 
-    /**
+    /**    public void setCreateUserFullNamtee(String createUserFullName) {
+        this.createUserFullName = createUserFullName;
+    }
+
+
      * @see org.kuali.kra.Sequenceable#resetPersistenceState()
      */
     public void resetPersistenceState() {
         this.awardNotepadId = null;
     }
+
+    @Override
+    public String getCreateUserFullName() {
+        if (createUserFullName == null && createUser != null) {
+            KcPerson person = getKcPersonService().getKcPersonByUserName(createUser);
+            if (person != null) {
+                createUserFullName = person.getFullName();
+            }
+        }
+        return createUserFullName;
+    }
+
+    public void setCreateUserFullName(String createUserFullName) {
+        this.createUserFullName = createUserFullName;
+    }
+
+    @Override
+    public String getUpdateUserFullName() {
+        if (updateUserFullName == null && getUpdateUser() != null) {
+            KcPerson person = getKcPersonService().getKcPersonByUserName(getUpdateUser());
+            if (person != null) {
+                updateUserFullName = person.getFullName();
+            }
+        }
+        return this.updateUserFullName;
+    }
+
+    public void setUpdateUserFullName(String updateUserFullName) {
+        this.updateUserFullName = updateUserFullName;
+    }
+    
+    @Override
+    public boolean isEditable() {
+        return false;
+    }
+
 }
