@@ -80,55 +80,11 @@
           	</kra:permission>
          	<c:forEach var="protocolNotepad" items="${KualiForm.document.protocol.notepads}" varStatus="status">
 	             <c:if test="${viewRestrictedNotes || !protocolNotepad.restrictedView}">
-		             <tr>
-						<th class="infoline">
-							<c:out value="${status.index+1}" />
-						</th>
-		                <td valign="middle">
-		                	${KualiForm.document.protocol.notepads[status.index].createUserFullName}
-							<Br/> 
-							<kul:htmlControlAttribute property="document.protocol.notepads[${status.index}].createTimestamp" attributeEntry="${protocolNotesAttributes.updateTimestamp}" readOnly="true"/>
-						</td>
-		                <td valign="middle">
-		                	${KualiForm.document.protocol.notepads[status.index].updateUserFullName}
-							<Br/> 
-							<kul:htmlControlAttribute property="document.protocol.notepads[${status.index}].updateTimestamp" attributeEntry="${protocolNotesAttributes.updateTimestamp}" readOnly="true"/>
-		                </td>
-		                <td valign="middle">                	
-							<div align="center">
-								<kul:htmlControlAttribute property="document.protocol.notepads[${status.index}].noteTopic" attributeEntry="${protocolNotesAttributes.noteTopic}" readOnly="${!modifyPermission || !protocolNotepad.editable}"/>
-							</div>
-						</td>
-		                <td valign="middle">                	
-							<div align="left">
-								<c:choose><c:when test="${!modifyPermission || !protocolNotepad.editable}">
-		                   			<kra:truncateComment textAreaFieldName="document.protocol.notepads[${status.index}].comments" action="protocolProtocolActions" textAreaLabel="${protocolNotesAttributes.comments.label}" textValue="${KualiForm.document.protocolList[0].notepads[status.index].comments}" displaySize="120"/>
-					    		</c:when><c:otherwise>
-						        	<kul:htmlControlAttribute property="document.protocol.notepads[${status.index}].comments" attributeEntry="${protocolNotesAttributes.comments}" />
-						    	</c:otherwise></c:choose>
-							</div>
-						</td>
-		                <td valign="middle">
-							<div align="center">
-				               <kul:htmlControlAttribute property="document.protocol.notepads[${status.index}].restrictedView" attributeEntry="${protocolNotesAttributes.restrictedView}" readOnly="${!modifyPermission || ((!viewRestrictedNotes || !protocolNotepad.editable) && !irbAdmin)}"/>
-							</div>
-		                </td>
-			            <td>
-			            	<div align=center><nobr> 	
-								<c:choose><c:when test="${modifyPermission}">
-							    	<c:if test="${!protocolNotepad.editable}">
-										<html:image property="methodToCall.editNote.line${status.index}.anchor${tabKey}"
-											src='${ConfigProperties.kra.externalizable.images.url}tinybutton-edit1.gif' styleClass='tinybutton' />
-										&nbsp;	
-				    	        	</c:if>
-									<html:image property="methodToCall.deleteNote.line${status.index}.anchor${tabKey}"
-										src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
-					    		</c:when><c:otherwise>
-					    			&nbsp;
-						    	</c:otherwise></c:choose>
-							</nobr></div>
-		            	</td>
-		            </tr>
+		             
+		             <kra:noteLineItem statusIndex="${status.index}" noteParmeterString="document.protocol.notepads[${status.index}]" 
+		             	viewRestrictedNotes="${viewRestrictedNotes }" noteObject="${protocolNotepad }" modifyPermission="${modifyPermission }" 
+		             		hasAdministratorRole="${irbAdmin }" action="protocolProtocolActions" isAddLine="${false }" />
+	            
 	            </c:if>
         	</c:forEach> 
         </table>

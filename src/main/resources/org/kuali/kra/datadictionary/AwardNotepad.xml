@@ -150,7 +150,7 @@
     <bean id="AwardNotepad-updateUser" parent="AwardNotepad-updateUser-parentBean" />
 	<bean id="AwardNotepad-updateUser-parentBean" abstract="true" parent="KraAttributeReferenceDummy-updateUser" >
 		<property name="name" value="updateUser" />
-		<property name="label" value="Updated By" />
+		<property name="label" value="Author" />
 		<property name="shortLabel" value="Author" />
 	</bean>
 	
