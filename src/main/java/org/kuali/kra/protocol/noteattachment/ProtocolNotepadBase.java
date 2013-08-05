@@ -21,6 +21,7 @@ import java.util.Comparator;
 
 import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraNotepadInterface;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolAssociateBase;
@@ -30,7 +31,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 /**
  * The ProtocolBase Notepad class.
  */
-public abstract class ProtocolNotepadBase extends ProtocolAssociateBase implements Comparable<ProtocolNotepadBase> {
+public abstract class ProtocolNotepadBase extends ProtocolAssociateBase implements Comparable<ProtocolNotepadBase>, KraNotepadInterface {
 
     private static final long serialVersionUID = -294125058992878907L;
 

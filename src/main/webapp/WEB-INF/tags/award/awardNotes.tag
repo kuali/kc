@@ -16,7 +16,7 @@
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
 <c:set var="awardNotesAttributes" value="${DataDictionary.AwardNotepad.attributes}" />
-
+<c:set var="awardAdmin" value="true" />
 <c:set var="tabItemCount" value="0" />
 <c:forEach var="awardNotepad" items="${KualiForm.document.award.awardNotepads}" varStatus="status">               
         <c:set var="tabItemCount" value="${tabItemCount+1}" />
@@ -76,41 +76,10 @@
           	</c:if>
           	
          <c:forEach var="awardNotepad" items="${KualiForm.document.award.awardNotepads}" varStatus="status">
-	             <tr>
-					<th class="infoline">
-						<c:out value="${status.index+1}" />
-					</th>
-	                <td valign="middle">
-						<fmt:formatDate type="both" dateStyle="short" timeStyle="short" value="${KualiForm.document.award.awardNotepads[status.index].createTimestamp}" />
-					</td>
-	                <td valign="middle">
-						${KualiForm.document.award.awardNotepads[status.index].createUser}&nbsp;
-	                </td>
-	                <td valign="middle">                	
-					<div align="center">
-						${KualiForm.document.award.awardNotepads[status.index].noteTopic}&nbsp;  
-					</div>
-					</td>
-	                <td valign="middle">                	
-					<div align="left">
-						${KualiForm.document.award.awardNotepads[status.index].comments}&nbsp; 
-					</div>
-					</td>
-	                <td valign="middle">
-					<div align="center">
-	                	<kul:htmlControlAttribute property="document.award.awardNotepads[${status.index}].restrictedView" attributeEntry="${awardNotesAttributes.restrictedView}"/>
-					</div>
-	                </td>
-					<td>
-					<div align="center">&nbsp;
-					   <c:if test="${!readOnly}">
-						<html:image property="methodToCall.updateNotes.line${status.index}.anchor${currentTabIndex}"
-						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-updateview.gif' styleClass="tinybutton"/>
-					   </c:if>
-					</div>
-	                </td>
-	            </tr>
-        	</c:forEach> 
+		     <kra:noteLineItem statusIndex="${status.index}" noteParmeterString="document.award.awardNotepads[${status.index}]" 
+		         viewRestrictedNotes="true" noteObject="${awardNotepad}" modifyPermission="${modifyPermission}" 
+		         hasAdministratorRole="${awardAdmin}" action="AwardNotesAndAttachmentsAction" showUpdate="true" isAddLine="${false}" />
+	    	</c:forEach> 
         </table>
    </div>
 </kul:tab>
