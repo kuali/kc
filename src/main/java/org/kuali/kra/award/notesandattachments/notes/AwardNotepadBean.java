@@ -22,6 +22,8 @@ import java.util.Calendar;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.AwardForm;
 import org.kuali.kra.award.document.AwardDocument;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
@@ -109,7 +111,11 @@ public class AwardNotepadBean implements Serializable {
         
         Calendar cl = Calendar.getInstance();
         note.setCreateTimestamp(new Timestamp(cl.getTime().getTime()));
+        note.setUpdateTimestamp(KraServiceLocator.getService(DateTimeService.class).getCurrentTimestamp());
         note.setCreateUser(GlobalVariables.getUserSession().getPrincipalName());
+        note.setUpdateUser(GlobalVariables.getUserSession().getPrincipalName());
+        note.setCreateUserFullName(GlobalVariables.getUserSession().getPerson().getName());
+        note.setUpdateUserFullName(GlobalVariables.getUserSession().getPerson().getName());
         awardNotepadBean.getAwardDocument().getAward().add(note);
         awardNotepadBean.init();
         return true;
