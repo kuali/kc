@@ -28,7 +28,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.struts.upload.FormFile;
 import org.kuali.kra.bo.AttachmentFile;
-import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.CoiDisclosureDocument;
@@ -38,6 +37,7 @@ import org.kuali.kra.coi.CoiNoteType;
 import org.kuali.kra.coi.auth.CoiDisclosureDeleteUpdateAttachmentTask;
 import org.kuali.kra.coi.auth.CoiDisclosureDeleteUpdateNoteTask;
 import org.kuali.kra.coi.auth.CoiDisclosureTask;
+import org.kuali.kra.coi.lookup.keyvalue.CoiDisclosureProjectValuesFinder;
 import org.kuali.kra.coi.notesandattachments.attachments.CoiDisclosureAttachment;
 import org.kuali.kra.coi.notesandattachments.attachments.CoiDisclosureAttachmentFilter;
 import org.kuali.kra.coi.notesandattachments.notes.CoiDisclosureNotepad;
@@ -52,6 +52,7 @@ import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -606,6 +607,7 @@ public class CoiNotesAndAttachmentsHelper {
             notepad.setProjectId(projectId);
         }
         notepad.setEventTypeCode(event);
+        notepad.setEditable(true);
         //If Assigned Reviewers create a comment in the Review Actions ==> Add Review Comment, pre-set the Note Type drop down to Reviewer Comment
         if (canAddCoiDisclosureNotes() && coiDisclosure.isSubmitted() && addCoiReviewerComments){
             notepad.setNoteTypeCode(CoiNoteType.REVIEWER_COMMENT_NOTE_TYPE_CODE);
@@ -676,6 +678,12 @@ public class CoiNotesAndAttachmentsHelper {
     
     public PersonService getPersonService() {
         return KraServiceLocator.getService(PersonService.class);
+    }
+    
+    public List<KeyValue> getProjectSelectListItems() {
+        CoiDisclosureProjectValuesFinder finder = new CoiDisclosureProjectValuesFinder();
+        List<KeyValue> values = finder.getKeyValues();
+        return values;
     }
 
 }

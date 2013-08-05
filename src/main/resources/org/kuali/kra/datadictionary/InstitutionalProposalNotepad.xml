@@ -166,7 +166,7 @@
     <bean id="InstitutionalProposalNotepad-updateUser" parent="InstitutionalProposalNotepad-updateUser-parentBean" />
 	<bean id="InstitutionalProposalNotepad-updateUser-parentBean" abstract="true" parent="KraAttributeReferenceDummy-updateUser" >
 		<property name="name" value="updateUser" />
-		<property name="label" value="Updated By" />
+		<property name="label" value="Author" />
 		<property name="shortLabel" value="Author" />
 	</bean>
 	

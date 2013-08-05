@@ -684,6 +684,7 @@ public abstract class NotesAttachmentsHelperBase {
     private void initProtocolNotepad() {
         final ProtocolNotepadBase notepad = createNewProtocolNotepadInstanceHook(this.getProtocol());
         notepad.setEntryNumber(this.getNextEntryNumber());
+        notepad.setEditable(true);
         this.setNewProtocolNotepad(notepad);
     }
     
