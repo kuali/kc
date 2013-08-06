@@ -475,7 +475,6 @@ public class ActionHelper extends ActionHelperBase {
         canDeferUnavailable = hasDeferUnavailablePermission();
         canReviewNotRequired = hasReviewNotRequiredPermission();
         canReviewNotRequiredUnavailable = hasReviewNotRequiredUnavailablePermission();
-        canApproveOther = hasApproveOtherPermission();
         canManageNotes = hasManageNotesPermission();
         canManageNotesUnavailable = hasManageNotesUnavailablePermission();
         canReturnToPI = hasPermission(TaskName.RETURN_TO_PI_PROTOCOL);
@@ -822,7 +821,7 @@ public class ActionHelper extends ActionHelperBase {
         return hasPermission(TaskName.DEFER_PROTOCOL_UNAVAILABLE);
     }
     
-    private boolean hasApproveOtherPermission() {
+    protected boolean hasApproveOtherPermission() {
         ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_APPROVE_OTHER, (Protocol) getProtocol());
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }

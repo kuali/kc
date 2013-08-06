@@ -454,12 +454,19 @@
                 <bean class="org.kuali.kra.iacuc.auth.IacucModifyPermissionsAuthorizer" parent="parentIacucProtocolAuthorizer">
                 	<property name="taskName" value="modifyIacucProtocolRoles"/>
                 </bean>
+                
                 <bean class="org.kuali.kra.iacuc.auth.IacucProtocolReviewNotRequiredAuthorizer" parent="parentIacucProtocolAuthorizer">
                     <property name="taskName" value="reviewNotRequiredIacucProtocol" />
                 </bean>    
+                
                 <bean class="org.kuali.kra.iacuc.auth.IacucProtocolReviewNotRequiredUnavailableAuthorizer" parent="parentIacucProtocolAuthorizer">
                     <property name="taskName" value="reviewNotRequiredIacucProtocolUnavailable" />
-                </bean>    
+                </bean>
+                
+                <bean class="org.kuali.kra.iacuc.auth.IacucProtocolApproveOtherAuthorizer" parent="parentProtocolAuthorizer">
+                    <property name="taskName" value="protocolApproveOther" />
+                </bean>  
+                    
            </list>
         </property>
     </bean>
