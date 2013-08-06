@@ -34,6 +34,7 @@
 				</span>
 			</h3>
 			<table id="fundingProposalAddTable" cellpadding="0" cellspacing="0" summary="Add Funding Proposal">
+				<tbody class="addline">
 				<tr>
 			    	<th align="center" scope="row">
 			    		<div align="right">Add:</div>
@@ -52,7 +53,7 @@
 			    	 	</div>
 			    	</td>
 			    	<td class="infoline">
-			    	    <div align="center">
+			    	    <div align="center" class="defaultData" data-emptyvalues='["NC"]'>
 			    	    	${KualiForm.valueFinderResultDoNotCache}
 			    	        <kul:htmlAttributeLabel attributeEntry="${fundingProposalBeanAttributes.mergeTypeCode}" skipHelpUrl="true"/>
 			    	  	 	&nbsp;
@@ -64,10 +65,11 @@
 			        <td class="infoline">
 			        	<div align="center">
 							<html:image property="methodToCall.addFundingProposal.anchor${tabKey}"
-							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton"/>
+							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton addButton"/>
 						</div>
 			        </td>
 			  	</tr>
+			  	</tbody>
 		  	</table>
         </c:if>
         

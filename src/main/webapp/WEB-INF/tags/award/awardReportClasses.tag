@@ -99,6 +99,7 @@ function updateBaseDateDisplay(selectBox) {
           	<kul:htmlAttributeHeaderCell literalLabel="Action" scope="col"/>
         </tr>
         <c:if test="${!readOnly}">
+        <tbody class="addline">
         <tr>        	
 		    <th width="6%" class="infoline">
 			    <c:out value="Add:" />
@@ -189,10 +190,11 @@ function updateBaseDateDisplay(selectBox) {
 			<td class="infoline">
 			<div align="center">
 			    <html:image property="methodToCall.addAwardReportTerm.reportClass${reportClassKey}.reportClassIndex${index}.anchor${tabKey}"
-			        src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton"/>
+			        src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton addButton"/>
 			</div>
             </td>
         </tr>  
+        </tbody>
         </c:if>      
         	                                            
         <c:forEach var="awardReportTerm" items="${KualiForm.document.award.awardReportTermItems}" varStatus="status">
