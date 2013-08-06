@@ -66,12 +66,14 @@
             
                     <c:set var="questionid" value="${answer.questionNumber}" />
                    	<c:set var="displayCondition" value="({ 'conditionFlag' : '${answer.questionnaireQuestion.conditionFlag}', 'condition': '${answer.questionnaireQuestion.condition}', 'conditionValue' : '${answer.questionnaireQuestion.conditionValue}'})"/>
+                    <c:set var="ruleId" value="${answer.questionnaireQuestion.ruleId}"/>
                     <table class="content_table question" style="display: ${answer.matchedChild == 'Y' ? 'table' : 'none'}"
                     		data-kc-questionindex="${status.index}"
                     		data-kc-questionid="${questionid}" 
                     		data-kc-question-matched="${answer.matchedChild}"
                     		data-kc-question-parentid="${answer.questionnaireQuestion.parentQuestionNumber}"
-                    		data-kc-question-condition="${displayCondition}">  
+                    		data-kc-question-condition="${displayCondition}"
+                    		data-kc-question-ruleid="${ruleId}">  
                         <tr>
                             <td class="content_questionnaire">
                                 <div class="Qdiv" >
