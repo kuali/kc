@@ -603,6 +603,8 @@ public abstract class ActionHelperBase implements Serializable {
         canApproveFullUnavailable = hasFullApproveUnavailablePermission();
         canDisapprove = hasDisapprovePermission();
         canDisapproveUnavailable = hasDisapproveUnavailablePermission();
+        
+        canApproveOther = hasApproveOtherPermission();
                 
         canReturnForSMR = hasReturnForSMRPermission();
         canReturnForSMRUnavailable = hasReturnForSMRUnavailablePermission();
@@ -648,7 +650,11 @@ public abstract class ActionHelperBase implements Serializable {
         initAmendmentBeans(false);
         initPrintQuestionnaire();
     }
+    
             
+    protected abstract boolean hasApproveOtherPermission();
+
+
     @SuppressWarnings("unchecked")
     protected void populateReviewersAndOnlineReviewsMap() {
         String protocolNum = getProtocol().getProtocolNumber();

@@ -21,7 +21,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.CoeusSubModule;
@@ -115,7 +114,6 @@ import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.kra.protocol.questionnaire.ProtocolModuleQuestionnaireBeanBase;
 import org.kuali.kra.protocol.questionnaire.ProtocolSubmissionQuestionnaireHelper;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
-import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.kra.rules.ErrorReporter;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.util.DateUtils;
@@ -1543,6 +1541,13 @@ public class IacucActionHelper extends ActionHelperBase {
     protected ProtocolSubmissionQuestionnaireHelper getProtocolSubmissionQuestionnaireHelperHook(ProtocolBase protocol,
             String actionTypeCode, String submissionNumber, boolean finalDoc) {
         return new IacucSubmissionQuestionnaireHelper(protocol, actionTypeCode, submissionNumber, finalDoc);
+    }
+
+
+    @Override
+    protected boolean hasApproveOtherPermission() {
+        IacucProtocolTask task = new IacucProtocolTask(TaskName.PROTOCOL_APPROVE_OTHER, getIacucProtocol());
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
 
 }
