@@ -48,6 +48,7 @@
 			</tr>
 			
 			<c:if test="${!readOnly}">
+			<tbody class="addline">
 			<tr>
             	<th width="50" align="center" scope="row"><div align="right">Add:</div></th>
             	<td class="infoline" style="white-space: nowrap;">
@@ -93,10 +94,11 @@
 	            <td class="infoline">
 	            	<div align=center>
 						<html:image property="methodToCall.addCostShare.anchor${tabKey}"
-						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton"/>
+						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton addButton"/>
 					</div>
 	            </td>
           	</tr>
+          	</tbody>
           	</c:if>
           	
          <c:forEach var="awardCostShares" items="${KualiForm.document.awardList[0].awardCostShares}" varStatus="status">

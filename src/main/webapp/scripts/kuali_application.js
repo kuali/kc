@@ -3869,7 +3869,16 @@ var WarningOnAddRow = (function($) {
 			$(this.inputs).keyup(this.valueChanged);
 			refreshAddressBookLookup();
 		},
-		isEmptyValue : function(value) {
+		isEmptyValue : function(element) {
+			var value = $(element).val();
+			
+			var elementEmptyValues = $(element).closest('div.defaultData').data('emptyvalues');
+			if (elementEmptyValues != undefined) {
+				for (var i = 0; i < elementEmptyValues.length; i++) {
+					this.emptyValues.push(elementEmptyValues[i]);
+				}
+			}
+			
 			for (var i = 0; i < this.emptyValues.length; i++) {
 				if (this.emptyValues[i] === value) {
 					return true;
@@ -3879,7 +3888,7 @@ var WarningOnAddRow = (function($) {
 		},
 		checkModification : function(idx, element) {
 			var addLine = $(element).parents('.addline').first();
-			if ($(element).val() != undefined && $(element).val().length > 0 && !this.isEmptyValue($(element).val())
+			if ($(element).val() != undefined && $(element).val().length > 0 && !this.isEmptyValue(element)
 					&& !this.isIgnoredElement(element)) {
 				$(element).addClass('changed');
 			} else {
@@ -3944,7 +3953,7 @@ var WarningOnAddRow = (function($) {
 			$(row).find('.changedClearOnReset').html('');
 		},
 		isIgnoredElement: function(element) {
-			var matchingDiv = $(element).closest('div.ignoreMeFromWarningOnAddRow')
+			var matchingDiv = $(element).closest('div.ignoreMeFromWarningOnAddRow');
 			
 			if(matchingDiv.length > 0) {
 				return true;

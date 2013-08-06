@@ -64,6 +64,7 @@
              </tr>
              
                 <c:if test="${!readOnly}">
+                <tbody class="addline">
 	             <tr>
 	                <td align="center" valign="middle" class="infoline">
 	                	<div align="center">
@@ -106,10 +107,11 @@
 					<td align="center" valign="middle" class="infoline">
 						<div align="center">
 							<html:image property="methodToCall.addAttachment.anchor${tabKey}"
-							src="${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif" styleClass="tinybutton"/>
+							src="${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif" styleClass="tinybutton addButton"/>
 						</div>
 					</td>
 				</tr>
+				</tbody>
 			 </c:if>
 				
 			<c:forEach var="attachment" items="${attachments}" varStatus="itrStatus">

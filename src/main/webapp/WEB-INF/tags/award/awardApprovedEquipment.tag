@@ -34,6 +34,7 @@
 		</tr>
 		
 		<c:if test="${!readOnly}">
+		<tbody class="addline">
 		<tr>
 	    	<th width="50" align="center" scope="row"><div align="right">Add:</div></th>
 	    	<td class="infoline">
@@ -59,10 +60,11 @@
 	        <td class="infoline">
 	        	<div align="center">
 					<html:image property="methodToCall.addApprovedEquipmentItem.anchor${tabKey}"
-					src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton"/>
+					src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton addButton"/>
 				</div>
 	        </td>
 	  	</tr>
+	  	</tbody>
 	  	</c:if>
 	
 	 	<c:forEach var="approvedEquipmentItem" items="${formAward.approvedEquipmentItems}" varStatus="status">
