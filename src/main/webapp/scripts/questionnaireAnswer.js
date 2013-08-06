@@ -87,11 +87,12 @@ var ruleReferenced;
 		var questionnairePanel = $j(answer).parents('div.questionnaireContent');
 		var questionTable = $j(answer).parents('table.question');
 		var parentQuestionId = $j(questionTable).data('kc-questionid');
+		var ruleId = $j(questionTable).data('kc-question-ruleid');
 		
         $j(questionnairePanel).find("table[data-kc-question-parentid='"+parentQuestionId+"']").each(function() {
     		var condition = eval($j(this).data('kc-question-condition'));
     		var questionId = $j(this).data('kc-questionid');
-    		if ($j(questionTable).is(':visible') && isConditionMatchAnswers(answer, condition)) {
+    		if ($j(questionTable).is(':visible') && isConditionMatchAnswers(answer, condition, ruleId)) {
     			$j(this).show();
     		} else {
     			$j(this).hide();
@@ -101,7 +102,7 @@ var ruleReferenced;
         });
 	}
 
-    /*
+	/*
      * uncheck radio button if it is checked and empty answer fields if it is not a 'radio' type.
      */
     function emptyAnswerForHiddenQuestion(questionTable) {
@@ -120,15 +121,14 @@ var ruleReferenced;
     /*
      * check if the answer matched the condition set up for the child question.
      */
-	function isConditionMatchAnswers(answer, conditionObj) {
+	function isConditionMatchAnswers(answer, conditionObj, ruleId) {
 		// if condition is not set (ie, condition is empty and isNaN) , then it is a required question if its parents is displayed
-		var isMatched = (conditionObj.conditionFlag == 'false') || isRuleValid(conditionObj.condition, conditionObj.conditionValue) || isConditionMatched(answer, conditionObj);
+		var isMatched = (conditionObj.conditionFlag == 'false') || (isRuleValid(ruleId) & isConditionMatched(answer, conditionObj));
 		if (!isMatched && $j(answer).parent().siblings('div.answer').size() > 0) {
 			$j(answer).parent().siblings('div.answer').each (function() {
 					if (!isMatched) {
                         isMatched = isConditionMatched($j(this).find('input.answer:first'), conditionObj);
 					}
-                    
 			});
 		}
 		return isMatched;
@@ -137,10 +137,13 @@ var ruleReferenced;
 	/*
 	 * if the branching condition is "rule evaluation" and the rule is evaluated to "true" or "false"
 	 */
-	function isRuleValid(condition, conditionValue) {
-	
-	  return condition == 13 && ruleReferenced.length > 0 && (ruleReferenced.val().indexOf(conditionValue+":Y") == 0 
-	    		|| ruleReferenced.val().indexOf(","+conditionValue+":Y") > 0);
+	function isRuleValid(ruleId) {
+		  if(ruleId.length==0){
+			  return true;
+		  }else{
+			  return ruleReferenced.length > 0 && (ruleReferenced.val().indexOf(ruleId+":Y") == 0 
+		    		|| ruleReferenced.val().indexOf(","+ruleId+":Y") > 0);
+		  }
 		  
 	  }
     /*
