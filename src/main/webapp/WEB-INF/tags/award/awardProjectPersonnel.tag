@@ -53,6 +53,7 @@
     			</tr>
     			
     			<c:if test="${!readOnly}">
+    			<tbody class="addline">
     			<tr>
     				<th class="infoline" scope="row">Add</th>
     				<td nowrap class="grid" class="infoline">
@@ -149,16 +150,22 @@
     		        		<kul:htmlControlAttribute property="projectPersonnelBean.contactRoleCode" 
     	                									attributeEntry="${awardPersonAttributes.contactRoleCode}" onchange="proposalRoleChange(this, 400);"/><br/>
     	                	<span class="keypersononly">
+    	                	<div class="ignoreMeFromWarningOnAddRow">
     					    *<kul:htmlAttributeLabel attributeEntry="${awardPersonAttributes.keyPersonRole}" useShortLabel="true" noColon="false" />
-    					    <span class="noscriptonly">(Required for Key Persons only)</span> 
+    					    </div>
+    					    <span class="noscriptonly">(Required for Key Persons only)</span>
+    					    <div class="ignoreMeFromWarningOnAddRow"> 
     				         <kul:htmlControlAttribute property="projectPersonnelBean.newAwardContact.keyPersonRole" 
     										           attributeEntry="${awardPersonAttributes.keyPersonRole}"/>
+    						</div>				           
     					    </span>
     					    <c:if test="${KualiForm.document.awardList[0].sponsorNihMultiplePi}">
     					    <span class="coionly">
+    					    <div class="ignoreMeFromWarningOnAddRow">
     					    <kul:htmlAttributeLabel attributeEntry="${awardPersonAttributes.multiplePi}" noColon="false" />
     				         <kul:htmlControlAttribute property="projectPersonnelBean.newAwardContact.multiplePi" 
-    										           attributeEntry="${awardPersonAttributes.multiplePi}"/>    					    
+    										           attributeEntry="${awardPersonAttributes.multiplePi}"/>
+    						</div>				               					    
     					    </span>
     					    </c:if>
                         <script type="text/javascript">
@@ -198,10 +205,11 @@
     	        	</td>
     	        	<td class="infoline">
     	        		<div align="center">
-    	        			<html:image property="methodToCall.addProjectPerson" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" title="Add Contact" alt="Add Contact" styleClass="tinybutton" />
+    	        			<html:image property="methodToCall.addProjectPerson" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" title="Add Contact" alt="Add Contact" styleClass="tinybutton addButton" />
     	        		</div>
     	        	</td>
     			</tr>
+    			</tbody>
     			</c:if>
     			
     			<c:forEach var="awardContact" items="${KualiForm.document.awardList[0].projectPersons}" varStatus="awardContactRowStatus">

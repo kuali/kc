@@ -43,6 +43,7 @@
 			</tr>
 			
 			<c:if test="${!readOnly}">
+			<tbody class="addline">
 			<tr>
             	<th width="40" align="center" scope="row"><div align="center">Add:</div></th>
             	<td width="80" class="infoline">
@@ -62,17 +63,18 @@
             	  	</div>
 	            </td>
 	            <td class="infoline">
-	            	<div align="center">
+	            	<div align="center" class="ignoreMeFromWarningOnAddRow">
             	   	 	<kul:htmlControlAttribute property="awardNotepadBean.newAwardNotepad.restrictedView" attributeEntry="${awardNotesAttributes.restrictedView}"/>
             	  	</div>
 	            </td>
 	            <td class="infoline">
 	            	<div align=center>
 						<html:image property="methodToCall.addNote.anchor${tabKey}"
-						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton"/>
+						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton addButton"/>
 					</div>
 	            </td>
           	</tr>
+          	</tbody>
           	</c:if>
           	
          <c:forEach var="awardNotepad" items="${KualiForm.document.award.awardNotepads}" varStatus="status">
