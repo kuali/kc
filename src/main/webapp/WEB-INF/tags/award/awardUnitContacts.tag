@@ -49,6 +49,7 @@
 		</tr>
 
 		<c:if test="${!readOnly}">
+		<tbody class="addline">
 			<tr>
 				<th class="infoline" scope="row">Add</th>
 				<td nowrap class="grid" class="infoline">
@@ -94,7 +95,8 @@
 	        			<c:out value="${KualiForm.unitContactsBean.newAwardContact.unitAdministratorUnitNumberByPersonId}" />&nbsp;
 	        		</div>--%> &nbsp;</td>
 				<td class="infoline" style="font-size: 80%">
-				<div align="center"><kul:htmlControlAttribute
+				<div align="center" class="defaultData" data-emptyvalues='["3"]'>
+					<kul:htmlControlAttribute
 					property="unitContactsBean.unitContact.unitAdministratorTypeCode"
 					attributeEntry="${awardUnitContactAttributes.unitAdministratorTypeCode}" />
 				</div>
@@ -110,9 +112,10 @@
 				<div align="center"><html:image
 					property="methodToCall.addUnitContact"
 					src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif"
-					title="Add Contact" alt="Add Contact" styleClass="tinybutton" /></div>
+					title="Add Contact" alt="Add Contact" styleClass="tinybutton addButton" /></div>
 				</td>
 			</tr>
+			</tbody>
 		</c:if>
 		
 

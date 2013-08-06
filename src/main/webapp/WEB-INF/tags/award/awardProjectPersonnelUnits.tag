@@ -61,11 +61,12 @@
 			</th>
 		</tr>
 		<c:if test="${!readOnly}">
+		<tbody class="addline">
 		<tr>
 			<th class="infoline" scope="row">Add:</th>
 			<c:if test="${isPrincipalInvestigator}" >
 				<th class="infoline">
-					<div align="center">
+					<div align="center" class="ignoreMeFromWarningOnAddRow">
 					<kul:htmlControlAttribute property="projectPersonnelBean.newAwardPersonUnit[${awardPersonIndex}].leadUnit" 
 												attributeEntry="${awardPersonUnitAttributes.leadUnit}" />
 					</div>
@@ -103,10 +104,11 @@
 				<div align="center">
                     <html:image property="methodToCall.addNewProjectPersonUnit.line${awardPersonIndex}"
                                 src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" title="Add Contact" alt="Add Contact"
-                                styleClass="tinybutton" />                    
+                                styleClass="tinybutton addButton" />                    
                 </div>
 			</th>
 		</tr>
+		</tbody>
 		</c:if>
 		
 		<c:forEach var="awardPersonUnit" items="${awardContact.units}" varStatus="awardPersonUnitRowStatus">

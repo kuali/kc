@@ -51,6 +51,7 @@
 	          	</tr>
 	          	
 	          	<c:if test="${!readOnly}">
+	          	<tbody class="addline">
 	             <tr>
 					<th width="5%" class="infoline">
 						<c:out value="Add:" />
@@ -82,7 +83,7 @@
 	                	</div>
 					</td>
 					<td width="9%" valign="middle" class="infoline">
-	                	<div align="center">
+	                	<div align="center" class="defaultData" data-emptyvalues='["N"]'>
 	                	<kul:htmlControlAttribute property="newAwardFandaRate.onCampusFlag" attributeEntry="${awardFandaRateAttributes.onCampusFlag}" />
 	                	</div>
 					</td>
@@ -104,10 +105,11 @@
 					<td class="infoline">
 						<div width="10%" align="center">
 							<html:image property="methodToCall.addFandaRate.anchor${tabKey}"
-							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton"/>
+							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton addButton"/>
 						</div>					
 	                </td>
 	            </tr>
+	            </tbody>
 	            </c:if>
 	            <c:set var="total" value="0.0" />
 	        	<c:forEach var="awardFandaRate" items="${KualiForm.document.awardList[0].awardFandaRate}" varStatus="status">

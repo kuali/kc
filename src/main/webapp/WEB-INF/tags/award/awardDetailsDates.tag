@@ -286,6 +286,7 @@
         </th>
     </tr>
     <c:if test="${!readOnly}">
+    <tbody class="addline">
     <tr>
         <th>
             <div align="right">
@@ -312,10 +313,11 @@
         <td width="10%" class="infoline">
         	<div align="center">&nbsp;
             	<html:image property="methodToCall.addAwardTransferringSponsor.anchor${tabKey}"
-					src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton"/>
+					src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton addButton"/>
 			</div>
         </td>
     </tr>
+    </tbody>
     </c:if>
     <c:forEach var="awardTransferringSponsor" items="${KualiForm.document.awardList[0].awardTransferringSponsors}" varStatus="status">
 		<tr>

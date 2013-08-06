@@ -34,6 +34,7 @@
 				<th><div align="center">Actions</div></th>
 			</tr>
 			<c:if test="${!readOnly}">
+			<tbody class="addline">
 			<tr>
             	<th width="50" align="center" scope="row"><div align="center">Add:</div></th>
             	<td class="infoline">
@@ -52,10 +53,11 @@
 	            <td class="infoline">
 	            	<div align=center>
 						<html:image property="methodToCall.addApprovedSubaward.anchor${tabKey}"
-						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton"/>
+						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton addButton"/>
 					</div>
 	            </td>
           	</tr>
+          	</tbody>
           	</c:if>
           	<c:forEach var="awardApprovedSubawards" items="${KualiForm.document.awardList[0].awardApprovedSubawards}" varStatus="status">
 	             <tr>

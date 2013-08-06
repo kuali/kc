@@ -36,6 +36,7 @@
           	<kul:htmlAttributeHeaderCell literalLabel="Actions" scope="col"/>
         </tr>
         <c:if test="${!readOnly}">
+        <tbody class="addline">
         <tr>
         	<th width="6%" class="infoline">
 			    <c:out value="Add:" />
@@ -53,10 +54,11 @@
 			<td width="10%" class="infoline">
 			<div align="center">
 			    <html:image property="methodToCall.addAwardSponsorTerm.sponsorTermType${sponsorTermTypeKey}.sponsorTermTypeIndex${index}.anchor${tabKey}"
-			        src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton"/>
+			        src='${ConfigProperties.kra.externalizable.images.url}tinybutton-add1.gif' styleClass="tinybutton addButton"/>
 			</div>
             </td>
         </tr>
+        </tbody>
         </c:if>
         <c:set var="termIndex" value="1" />   <%-- index of the term within the subpanel --%>
         <c:forEach var="awardSponsorTerm" items="${KualiForm.document.awardList[0].awardSponsorTerms}" varStatus="status">              	

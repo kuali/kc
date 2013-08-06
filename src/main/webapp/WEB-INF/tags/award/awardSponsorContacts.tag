@@ -43,6 +43,7 @@
 			</tr>
 			
 			<c:if test="${!readOnly}">
+			<tbody class="addline">
 			<tr>
 				<th class="infoline" scope="row">Add</th>
 				<td nowrap class="grid" class="infoline">
@@ -97,11 +98,11 @@
 	        	</td>
 	        	<td class="infoline">
 	        		<div align="center">	        			
-			        	<html:image property="methodToCall.addSponsorContact" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" title="Add Contact" alt="Add Contact" styleClass="tinybutton" />
+			        	<html:image property="methodToCall.addSponsorContact" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" title="Add Contact" alt="Add Contact" styleClass="tinybutton addButton" />
 			        </div>
 	        	</td>
 			</tr>
-			
+			</tbody>
 				
 			<c:forEach var="awardContact" items="${KualiForm.sponsorContactsBean.sponsorContacts}" varStatus="awardContactRowStatus">
 				<tr>
