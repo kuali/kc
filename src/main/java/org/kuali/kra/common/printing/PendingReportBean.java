@@ -103,7 +103,9 @@ public class PendingReportBean extends ReportBean {
       
         for(InstitutionalProposalCustomData custData:proposal.getInstitutionalProposalCustomDataList()){
                 if(custData.getCustomAttributeId()!=null){
+                    if(proposal.getInstitutionalProposalDocument().getCustomAttributeDocuments()!= null){
                     custData.setCustomAttribute(proposal.getInstitutionalProposalDocument().getCustomAttributeDocument(custData.getCustomAttributeId().toString()).getCustomAttribute());
+                    }
                     if(customGroupName.equals(custData.getCustomAttribute().getGroupName()))
                         institutionalProposalCustomDataList.add(custData);
                 }
