@@ -34,6 +34,8 @@ public class ProtocolApproveBean extends ProtocolGenericActionBean implements or
     
     private String errorPropertyKey;
     private ProtocolRiskLevelBean protocolRiskLevelBean;
+
+    private int defaultExpirationDateDifference;
     
     /**
      * Constructs a ProtocolApproveBean.
@@ -68,6 +70,14 @@ public class ProtocolApproveBean extends ProtocolGenericActionBean implements or
        
     public ProtocolRiskLevelBean getProtocolRiskLevelBean() {
         return protocolRiskLevelBean;
+    }
+    
+    public int getDefaultExpirationDateDifference() {
+        return defaultExpirationDateDifference;
+    }
+
+    public void setDefaultExpirationDateDifference(int defaultExpirationDateDifference) {
+        this.defaultExpirationDateDifference = defaultExpirationDateDifference;
     }
     
 }

@@ -2555,24 +2555,30 @@ function loadFrequencyBaseCode(frequencyCodeFieldName, frequencyBaseCodeFieldNam
  * @param expiredDateElementId
  * @return
  */
-function loadExpeditedDates(approveDateElementId,expiredDateElementId){	
+function loadExpeditedDates(approveDateElementId, expiredDateElementId, differenceElementId){	
 	
-	var dateValue = document.getElementById(approveDateElementId).value;
+	var dateValue = $j(jq_escape(approveDateElementId)).val();
+	var defaultDifference = 1;
+	
+	var intRegex = /^\+?(0|[1-9]\d*)$/; 
+	if(intRegex.test($j(jq_escape(differenceElementId)).val())) {
+		defaultDifference = $j(jq_escape(differenceElementId)).val();
+	}
 	
 	if(dateValue!= null){		
 		if(checkdate(dateValue)){		
 			var myDate = new Date(dateValue);		
 			myDate.setDate(myDate.getDate() - 1);
-			myDate.setYear((myDate.getFullYear() + 1));
+			myDate.setYear((myDate.getFullYear() + parseInt(defaultDifference, 10)));
 				var MM = myDate.getMonth()+1;
 				var DD = myDate.getDate();
 				var YY = myDate.getFullYear();
 				  if(MM<10) MM="0"+MM;
 				  if(DD<10) DD="0"+DD;
-				  //alert(MM+"/"+DD+"/"+YY);				
-				  var nextYearDate = MM+"/"+DD+"/"+YY;			
+		    // alert(MM+"/"+DD+"/"+YY);				
+				  var expirationDate = MM+"/"+DD+"/"+YY;			
 			//alert('updated my date:'+ myDate );								
-			document.getElementById(expiredDateElementId).value=nextYearDate;
+				  $j(jq_escape(expiredDateElementId)).val(expirationDate);
 		}
 	}
 			

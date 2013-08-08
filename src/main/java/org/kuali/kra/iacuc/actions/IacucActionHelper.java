@@ -1510,7 +1510,7 @@ public class IacucActionHelper extends ActionHelperBase {
     public int getDefaultExpirationDateDifference() {
         try {
             int retVal = Integer.parseInt(this.getParameterService().getParameterValueAsString(Constants.MODULE_NAMESPACE_IACUC, Constants.PARAMETER_COMPONENT_DOCUMENT, 
-                    Constants.IACUC_PROTOCOL_DEFAULT_EXIPIRATION_TIME_DIFFERNECE_PARAMTETER));
+                    Constants.IACUC_PROTOCOL_DEFAULT_EXIPIRATION_TIME_DIFFERENCE_PARAMTETER, "1"));
             return retVal;
         } catch (Exception e) {
             e.printStackTrace();
