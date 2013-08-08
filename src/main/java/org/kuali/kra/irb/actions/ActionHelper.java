@@ -298,6 +298,7 @@ public class ActionHelper extends ActionHelperBase {
         }
         bean.setApprovalDate(buildApprovalDate(getProtocol()));
         bean.setExpirationDate(buildExpirationDate(getProtocol(), bean.getApprovalDate()));
+        bean.setDefaultExpirationDateDifference(this.getDefaultExpirationDateDifference());
         return bean;
     }    
 
