@@ -448,6 +448,7 @@ public abstract class ActionHelperBase implements Serializable {
         }
         bean.setApprovalDate(buildApprovalDate(getProtocol()));
         bean.setExpirationDate(buildExpirationDate(getProtocol(), bean.getApprovalDate()));
+        bean.setDefaultExpirationDateDifference(this.getDefaultExpirationDateDifference());
         return bean;
     }
 
@@ -492,7 +493,7 @@ public abstract class ActionHelperBase implements Serializable {
         Date expirationDate = protocol.getExpirationDate();
         
         if (expirationDate == null || protocol.isNew() || protocol.isRenewal()) {
-            java.util.Date newExpirationDate = DateUtils.addYears(approvalDate, 1);
+            java.util.Date newExpirationDate = DateUtils.addYears(approvalDate, getDefaultExpirationDateDifference());
             newExpirationDate = DateUtils.addDays(newExpirationDate, -1);
             expirationDate = DateUtils.convertToSqlDate(newExpirationDate);
         }
