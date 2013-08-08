@@ -951,7 +951,7 @@ public interface Constants {
     public static final String IACUC_PROTOCOL_PROPOSAL_DEVELOPMENT_LINKING_ENABLED_PARAMETER = "iacuc.protocol.proposal.development.linking.enabled";
     public static final String IACUC_PROTOCOL_INSTITUTE_PROPOSAL_LINKING_ENABLED_PARAMETER = "iacuc.protocol.institute.proposal.linking.enabled";
     public static final String IACUC_PROTOCOL_AWARD_LINKING_ENABLED_PARAMETER = "iacuc.protocol.award.linking.enabled";
-    public static final String IACUC_PROTOCOL_DEFAULT_EXIPIRATION_TIME_DIFFERNECE_PARAMTETER = "PROTCOL_DEFAULT_EXPIRATION_DATE_DIFFERENCE";
+    public static final String IACUC_PROTOCOL_DEFAULT_EXIPIRATION_TIME_DIFFERENCE_PARAMTETER = "PROTCOL_DEFAULT_EXPIRATION_DATE_DIFFERENCE";
     public static final String IACUC_PROTOCOL_MODIFY_SUBMISSION_KEY = "actionHelper.iacucProtocolModifySubmissionBean";
 
 

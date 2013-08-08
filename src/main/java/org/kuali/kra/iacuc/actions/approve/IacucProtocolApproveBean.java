@@ -30,6 +30,8 @@ public class IacucProtocolApproveBean extends IacucProtocolGenericActionBean imp
     
     private Date approvalDate;
     private Date expirationDate;
+    
+    private int defaultExpirationDateDifference;
  
     /**
      * Constructs a ProtocolApproveBean.
@@ -53,6 +55,14 @@ public class IacucProtocolApproveBean extends IacucProtocolGenericActionBean imp
     
     public void setExpirationDate(Date expirationDate) {
         this.expirationDate = expirationDate;
+    }
+
+    public int getDefaultExpirationDateDifference() {
+        return defaultExpirationDateDifference;
+    }
+
+    public void setDefaultExpirationDateDifference(int defaultExpirationDateDifference) {
+        this.defaultExpirationDateDifference = defaultExpirationDateDifference;
     }
  
        

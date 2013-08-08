@@ -74,11 +74,12 @@ function enableDisableCheckbox() {
                         </div>
                     </th>
                     <td colspan="5">
+                    	<html:hidden styleId="defaultExpirationDateDifference" property="${property}.defaultExpirationDateDifference" />
                         <nobr>
                             <kul:htmlControlAttribute property="${property}.approvalDate" 
                                                       attributeEntry="${attributes.approvalDate}" 
                                                       readOnly="${datesReadOnly}"                                                      
-                                                      onchange="loadExpeditedDates('${property}.approvalDate', '${property}.expirationDate');" />
+                                                      onchange="loadExpeditedDates('${property}.approvalDate', '${property}.expirationDate', 'defaultExpirationDateDifference');" />
                                                       
                         </nobr>
                     </td>

@@ -31,5 +31,7 @@ public interface ProtocolApproveBean extends ProtocolGenericActionBean {
     public Date getExpirationDate();
     
     public void setExpirationDate(Date expirationDate);
+
+    public void setDefaultExpirationDateDifference(int defaultExpirationDateDifference);
     
 }
