@@ -1268,7 +1268,10 @@ public class S2SUtilServiceImpl implements S2SUtilService {
         zoneOffsetMilli = cal.getTimeZone().useDaylightTime()?zoneOffsetMilli+dstOffsetMilli:zoneOffsetMilli;
         int zoneOffset = zoneOffsetMilli/(1000*60*60);
         String timezoneId = TimeZone.getTimeZone("GMT"+zoneOffset).getID();
-        String offset = timezoneId.substring(timezoneId.length()-6);
+        String offset="+00:00";
+        if(timezoneId.length()>6){
+            offset = timezoneId.substring(timezoneId.length()-6);
+        }
         String filteredApplicationStr = StringUtils.remove(applicationXmlText, offset);
         return filteredApplicationStr;
     }
