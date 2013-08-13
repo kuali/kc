@@ -41,6 +41,7 @@
                 <ref bean="AwardNotepad-versionNumber" />
                 <ref bean="AwardNotepad-updateUser" />
 				<ref bean="AwardNotepad-updateTimestamp" />
+                <ref bean="AwardNotepad-createUser" />
 				<ref bean="AwardNotepad-createTimestamp" />
             </list>
         </property>
@@ -147,11 +148,18 @@
         <property name="description" value="Restricted View" />
     </bean>
     
+    <bean id="AwardNotepad-createUser" parent="AwardNotepad-createUser-parentBean" />
+	<bean id="AwardNotepad-createUser-parentBean" abstract="true" parent="KraAttributeReferenceDummy-updateUser" >
+		<property name="name" value="createUser" />
+		<property name="label" value="Created By" />
+		<property name="shortLabel" value="Created By" />
+	</bean>
+	
     <bean id="AwardNotepad-updateUser" parent="AwardNotepad-updateUser-parentBean" />
 	<bean id="AwardNotepad-updateUser-parentBean" abstract="true" parent="KraAttributeReferenceDummy-updateUser" >
 		<property name="name" value="updateUser" />
-		<property name="label" value="Author" />
-		<property name="shortLabel" value="Author" />
+		<property name="label" value="Updated By" />
+		<property name="shortLabel" value="Updated By" />
 	</bean>
 	
 	<bean id="AwardNotepad-updateTimestamp" parent="AwardNotepad-updateTimestamp-parentBean" />
