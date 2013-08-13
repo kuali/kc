@@ -57,6 +57,7 @@ import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.bo.NonOrganizationalRolodex;
 import org.kuali.kra.bo.NoticeOfOpportunity;
 import org.kuali.kra.bo.NsfCode;
 import org.kuali.kra.bo.Rolodex;
@@ -64,7 +65,6 @@ import org.kuali.kra.bo.SpecialReviewApprovalType;
 import org.kuali.kra.bo.SpecialReviewType;
 import org.kuali.kra.bo.Sponsor;
 import org.kuali.kra.bo.Unit;
-import org.kuali.kra.common.specialreview.bo.SpecialReview;
 import org.kuali.kra.costshare.CostShareService;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
@@ -267,9 +267,14 @@ public class InstitutionalProposalXmlStream extends
 				if (role != null && role.getRoleDescription() != null) {
 					keyPersonType.setRoleName(role.getRoleDescription());
 				}
-				if (proposalPerson.getPerson().getAddressLine1() != null) {
-					keyPersonType.setPersonAddress(proposalPerson.getPerson()
-							.getAddressLine1());
+				if (proposalPerson.getPerson() != null) {
+	                if (proposalPerson.getPerson().getAddressLine1() != null) {
+					    keyPersonType.setPersonAddress(proposalPerson.getPerson().getAddressLine1());
+	                }
+				} else if (proposalPerson.getRolodex() != null) {
+                    if (proposalPerson.getRolodex().getAddressLine1() != null) {
+                        keyPersonType.setPersonAddress(proposalPerson.getRolodex().getAddressLine1());
+                    }
 				}
 				if (proposalPerson.getTotalEffort() != null) {
 					keyPersonType.setPercentEffort(proposalPerson
@@ -299,33 +304,71 @@ public class InstitutionalProposalXmlStream extends
 			if (proposalPerson.isPrincipalInvestigator() || proposalPerson.isCoInvestigator() || proposalPerson.isKeyPerson()) {
 				investigatorType = InvestigatorType2.Factory.newInstance();
 				PersonType personType = PersonType.Factory.newInstance();
-				if (proposalPerson.getPerson().getAddressLine1() != null) {
-					personType.setAddress(proposalPerson.getPerson().getAddressLine1());
-				}
-				if (proposalPerson.getPerson().getCity() != null) {
-					personType.setCity(proposalPerson.getPerson().getCity());
-				}
-				if (proposalPerson.getPerson().getFirstName() != null) {
-					personType.setFirstName(proposalPerson.getPerson().getFirstName());
-				}
-				if (proposalPerson.getFullName() != null) {
-					personType.setFullName(proposalPerson.getFullName());
-				}
-				if (proposalPerson.getPerson().getLastName() != null) {
-					personType.setLastName(proposalPerson.getPerson().getLastName());
-				}
-				if (proposalPerson.getPerson().getMiddleName() != null) {
-					personType.setMiddleName(proposalPerson.getPerson().getMiddleName());
-				}
-				if (proposalPerson.getPhoneNumber() != null) {
-					personType.setPhone(proposalPerson.getPhoneNumber());
-				}
-				if (proposalPerson.getPerson().getState() != null) {
-					personType.setState(proposalPerson.getPerson().getState());
-				}
-				if (proposalPerson.getPerson().getPostalCode() != null) {
-					personType.setZip(proposalPerson.getPerson().getPostalCode());
-				}
+System.out.println("\npersonType = " + personType);				
+System.out.println("proposalPerson = " + proposalPerson);             
+System.out.println("\nperson = " + proposalPerson.getPerson());             
+                KcPerson person = proposalPerson.getPerson();
+                if (person != null) {
+                    if (person.getAddressLine1() != null) {
+                        personType.setAddress(person.getAddressLine1());
+                    }
+                    if (person.getCity() != null) {
+                        personType.setCity(person.getCity());
+                    }
+                    if (person.getFirstName() != null) {
+                        personType.setFirstName(person.getFirstName());
+                    }
+                    if (proposalPerson.getFullName() != null) {
+                        personType.setFullName(proposalPerson.getFullName());
+                    }
+                    if (person.getLastName() != null) {
+                        personType.setLastName(person.getLastName());
+                    }
+                    if (person.getMiddleName() != null) {
+                        personType.setMiddleName(person.getMiddleName());
+                    }
+                    if (proposalPerson.getPhoneNumber() != null) {
+                        personType.setPhone(proposalPerson.getPhoneNumber());
+                    }
+                    if (person.getState() != null) {
+                        personType.setState(person.getState());
+                    }
+                    if (person.getPostalCode() != null) {
+                        personType.setZip(person.getPostalCode());
+                    }
+                } else {
+                    NonOrganizationalRolodex rolodex = proposalPerson.getRolodex();
+                    if (rolodex != null) {
+                        if (rolodex.getAddressLine1() != null) {
+                            personType.setAddress(rolodex.getAddressLine1());
+                        }
+                        if (rolodex.getCity() != null) {
+                            personType.setCity(rolodex.getCity());
+                        }
+                        if (rolodex.getFirstName() != null) {
+                            personType.setFirstName(rolodex.getFirstName());
+                        }
+                        if (proposalPerson.getFullName() != null) {
+                            personType.setFullName(proposalPerson.getFullName());
+                        }
+                        if (rolodex.getLastName() != null) {
+                            personType.setLastName(rolodex.getLastName());
+                        }
+                        if (rolodex.getMiddleName() != null) {
+                            personType.setMiddleName(rolodex.getMiddleName());
+                        }
+                        if (proposalPerson.getPhoneNumber() != null) {
+                            personType.setPhone(proposalPerson.getPhoneNumber());
+                        }
+                        if (rolodex.getState() != null) {
+                            personType.setState(rolodex.getState());
+                        }
+                        if (rolodex.getPostalCode() != null) {
+                            personType.setZip(rolodex.getPostalCode());
+                        }
+
+                    }
+                }
 				investigatorType.setPIName(personType);
 				investigatorType.setFacultyFlag(proposalPerson
 						.isFaculty());
