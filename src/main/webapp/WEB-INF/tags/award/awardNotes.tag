@@ -34,7 +34,7 @@
         <table id="cost-share-table" cellpadding="0" cellspacing="0" summary="Cost Share">
 			<tr>
 				<th scope="row">&nbsp;</th>
-				<th><kul:htmlAttributeLabel attributeEntry="${awardNotesAttributes.createTimestamp}" useShortLabel="true" noColon="true" /></th>
+				<th><kul:htmlAttributeLabel attributeEntry="${awardNotesAttributes.createUser}" useShortLabel="true" noColon="true" /></th>
 				<th><kul:htmlAttributeLabel attributeEntry="${awardNotesAttributes.updateUser}" useShortLabel="true" noColon="true" /></th>
 				<th align="left"><kul:htmlAttributeLabel attributeEntry="${awardNotesAttributes.noteTopic}" useShortLabel="true" noColon="true"/></th>
 				<th align="left"><kul:htmlAttributeLabel attributeEntry="${awardNotesAttributes.comments}" useShortLabel="true" noColon="true"/></th>
