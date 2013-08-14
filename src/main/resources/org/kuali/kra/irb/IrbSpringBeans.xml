@@ -1057,6 +1057,17 @@
         <property name="questionnaireAnswerService" ref="questionnaireAnswerService" />
     </bean>
  	
+    <bean id="irbProtocolActionRequestService" class="org.kuali.kra.irb.actions.IrbProtocolActionRequestServiceImpl">
+   		<property name="protocolAssignToAgendaService" ref="protocolAssignToAgendaService" />    
+   		<property name="protocolAssignCmtSchedService" ref="protocolAssignCmtSchedService" />    
+   		<property name="protocolApproveService" ref="protocolApproveService" />    
+   		<property name="reviewCommentsService" ref="reviewCommentsService" />    
+   		<property name="kualiRuleService" ref="kualiRuleService" />    
+   		<property name="taskAuthorizationService" ref="taskAuthorizationService" />    
+   		<property name="businessObjectService" ref="businessObjectService" />    
+        <property name="protocolActionCorrespondenceGenerationService" ref="protocolActionCorrespondenceGenerationService" />
+		<property name="notificationService" ref="kcNotificationService" /> 
+ 	</bean>
  	 
 </beans>
 
