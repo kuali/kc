@@ -33,7 +33,7 @@
     <c:if test="${answerHeaderIndex == 0 and !forceNonTransparent}">
       <c:set var="transparent" value="true" />
     </c:if> 
-    <c:set var="questReadOnly" value="${readOnly}"/>
+    <c:set var="questReadOnly" value="${!bean.answerQuestionnaire || readOnly}"/>
     	<c:if test="${not bean.answerHeaders[answerHeaderIndex].activeQuestionnaire}">
             <c:set var="inactivate" value="- This Questionnaire has been deactivated." />
             <c:set var="questReadOnly" value="true"/>
@@ -73,6 +73,6 @@
 			         
 	<div class="tab-container" align="center">
 		<kra-questionnaire:questionnaireAnswersBody  answerHeaderIndex="${answerHeaderIndex}" bean="${bean}" 
-			property="${property}" readOnly="${readOnly}" printLineIndex="${printLineIndex}"/>
+			property="${property}" readOnly="${questReadOnly}" printLineIndex="${printLineIndex}"/>
 	</div>
 </kul:innerTab>
