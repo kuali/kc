@@ -114,10 +114,6 @@ public abstract class ProtocolApproveServiceImplBase implements ProtocolApproveS
         
         documentService.saveDocument(protocol.getProtocolDocument());
          
-        ProtocolActionsCorrespondenceBase correspondence = getNewProtocolActionsCorrespondence(protocolActionTypeCode);
-        correspondence.setPrintableBusinessObject(protocol);
-        correspondence.setProtocol(protocol);
-        protocolActionCorrespondenceGenerationService.generateCorrespondenceDocumentAndAttach(correspondence);
     }
     
     
