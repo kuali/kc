@@ -28,7 +28,9 @@ import org.kuali.kra.common.committee.meeting.OtherPresentBeanBase;
 import org.kuali.kra.iacuc.committee.bo.IacucCommittee;
 import org.kuali.kra.iacuc.committee.bo.IacucCommitteeSchedule;
 import org.kuali.kra.iacuc.committee.document.authorization.IacucCommitteeScheduleTask;
+import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.infrastructure.TaskGroupName;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class IacucMeetingHelper extends MeetingHelperBase {
 
@@ -37,6 +39,8 @@ public class IacucMeetingHelper extends MeetingHelperBase {
      */
     private static final long serialVersionUID = -5657448017371644177L;
 
+    private static final String NAMESPACE = "KC-UNT";
+    
     public IacucMeetingHelper(MeetingFormBase form) {
         super((IacucMeetingForm)form);
     }
@@ -76,5 +80,10 @@ public class IacucMeetingHelper extends MeetingHelperBase {
     protected CommitteeScheduleTaskBase getNewCommitteeScheduleTaskInstanceHook(String taskName, CommitteeBase committee, CommitteeScheduleBase committeeSchedule) {
         return new IacucCommitteeScheduleTask(taskName, (IacucCommittee) committee, (IacucCommitteeSchedule) committeeSchedule);
     }
+    
+    public boolean isAdmin() {
+        return getKraAuthorizationService().hasRole(GlobalVariables.getUserSession().getPrincipalId(), NAMESPACE, RoleConstants.IACUC_ADMINISTRATOR);
+    }
+    
 
 }

@@ -27,7 +27,6 @@ import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
 import org.kuali.kra.common.committee.document.authorization.CommitteeScheduleTaskBase;
 import org.kuali.kra.common.committee.document.authorization.CommitteeTaskBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondence;
 import org.kuali.kra.service.KraAuthorizationService;
@@ -40,7 +39,7 @@ public abstract class MeetingHelperBase implements Serializable {
 
     private static final long serialVersionUID = 2363534404324211441L;
     private static final String FIELD_SEPARAATOR = "#f#";
-    private static final String NAMESPACE = "KC-UNT";
+    
     private MeetingFormBase form;
     private Date agendaGenerationDate;
     private CommitteeScheduleBase<?, ?, ?, ?> committeeSchedule;
@@ -533,10 +532,7 @@ public abstract class MeetingHelperBase implements Serializable {
     public void setRegeneratedCorrespondences(List<ProtocolCorrespondence> regeneratedCorrespondences) {
         this.regeneratedCorrespondences = regeneratedCorrespondences;
     }
- 
-    public boolean isIrbAdmin() {
-        return getKraAuthorizationService().hasRole(GlobalVariables.getUserSession().getPrincipalId(), NAMESPACE, RoleConstants.IRB_ADMINISTRATOR);
-    }
+    
     
     protected KraAuthorizationService getKraAuthorizationService() {
         if (this.kraAuthorizationService == null) {
@@ -546,5 +542,6 @@ public abstract class MeetingHelperBase implements Serializable {
         return this.kraAuthorizationService;
     }
     
+    public abstract boolean isAdmin();
 
 }
