@@ -398,7 +398,7 @@
 	                                                             Protocol status must be Pending/In Progress, Amendment in Progress, or Renewal in Progress." />
 	            <kra-irb-action:genericUnavailableAction tabTitle="Make Administrative Correction"
 	                                                     canPerformAction="${KualiForm.actionHelper.canMakeAdminCorrectionUnavailable}"
-	                                                     reason="Protocol status must be Pending/In Progress, Withdrawn, or Disapproved." />
+	                                                     reason="Protocol status must not be Pending/In Progress, Returned for Specific Minor Revisions, Deferred, Returned for Substantive Revisions Required, Withdrawn, Disapproved, or Recalled." />
 	            <kra-irb-action:genericUnavailableAction tabTitle="Close Enrollment"
 	                                                     canPerformAction="${KualiForm.actionHelper.canCloseEnrollmentUnavailable}"
 				                                         reason="Protocol can not be an amendment or renewal.
