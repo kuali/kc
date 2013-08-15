@@ -3,7 +3,7 @@
 <%-- <c:set var="readOnly" value="${KualiForm.readOnly}"  scope="request"/> --%>
 <c:set var="committeeScheduleAttributes" value="${DataDictionary.CommitteeSchedule.attributes}" />
 <c:set var="kraAttributeReferenceDummyAttributes" value="${DataDictionary.KraAttributeReferenceDummy.attributes}" />
-<c:set var="irbAdmin" value="${KualiForm.meetingHelper.irbAdmin}" />
+<c:set var="admin" value="${KualiForm.meetingHelper.admin}" />
 
 <kul:tab defaultOpen="false" tabTitle="Correspondence"
     tabErrorKey="document.committee*">
@@ -36,7 +36,7 @@
 					</td>
                     <td>
                         <div align="center">
-                           <c:if test="${irbAdmin}">               
+                           <c:if test="${admin}">               
                         
                             <kul:htmlControlAttribute property="meetingHelper.correspondences[${status.index}].regenerateFlag" 
                                                       attributeEntry="${kraAttributeReferenceDummyAttributes.checkBox}"
@@ -60,7 +60,7 @@
                     </td>
 						<td>
 							<div align="center">&nbsp;					
-              <c:if test="${irbAdmin or correspondence.finalFlag}">               
+              <c:if test="${admin or correspondence.finalFlag}">               
                                     <html:image property="methodToCall.viewCorrespondence.line${status.index}.anchor${currentTabIndex}"
                                         src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' styleClass="tinybutton"
                                         alt="View Correspondence" onclick="excludeSubmitRestriction = true;"/>
@@ -69,7 +69,7 @@
 		                </td>
 	            </tr>
         	</c:forEach>
-              <c:if test="${irbAdmin}">               
+              <c:if test="${admin}">               
                 <tr>
                     <td colspan="6">
                             <div align="center">&nbsp;   
