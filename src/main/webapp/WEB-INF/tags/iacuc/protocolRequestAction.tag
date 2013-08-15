@@ -483,7 +483,7 @@
 	                            	                                 Protocol status must be Pending/In Progress, Amendment in Progress, or Renewal in Progress." />
 	            	<kra-iacuc-action:genericUnavailableAction tabTitle="Make Administrative Correction"
 	                	                                     canPerformAction="${KualiForm.actionHelper.canMakeAdminCorrectionUnavailable}"
-	                    	                                 reason="Protocol status must be Pending/In Progress, Withdrawn, or Disapproved." />
+	                    	                                 reason="Protocol status must be Submitted to IACUC, Active, Active - On Hold, Administratively Approved, IACUC Review Not Required, Expired, Suspended, Terminated, Deactivated, Disapproved or Abandoned." />
 		            <kra-iacuc-action:genericUnavailableAction tabTitle="Suspend"
 		                                                     canPerformAction="${KualiForm.actionHelper.canSuspendUnavailable}"
 					                                         reason="Protocol status must be Active - Open to Enrollment, Active - Closed to Enrollment, Active - Data Analysis Only, Administratively Approved, or Exempt.
