@@ -204,7 +204,7 @@ public class IacucProtocolDocument extends ProtocolDocumentBase {
     protected ProtocolActionBase getNewProtocolActionInstanceHook(ProtocolBase protocol, ProtocolSubmissionBase protocolSubmission, String protocolStatusCode) {
         String protocolActionTypeCode = IacucProtocolActionType.RENEWAL_CREATED; 
         if (protocolStatusCode.equals(IacucProtocolStatus.AMENDMENT_MERGED)) {
-            protocolActionTypeCode = IacucProtocolActionType.AMENDMENT_CREATED;
+            protocolActionTypeCode = IacucProtocolActionType.IACUC_APPROVED;
         } else if (protocolStatusCode.equals(IacucProtocolStatus.CONTINUATION_MERGED)) {
             protocolActionTypeCode = IacucProtocolActionType.CONTINUATION;
         } else if (protocolStatusCode.equals(IacucProtocolActionType.ADMINISTRATIVE_CORRECTION)) {
@@ -234,8 +234,8 @@ public class IacucProtocolDocument extends ProtocolDocumentBase {
     }
 
 
-    protected String getProtocolActionTypeApprovedHook() {
-        return IacucProtocolActionType.IACUC_APPROVED;
+    protected String getProtocolStatusMergedHook() {
+        return IacucProtocolStatus.AMENDMENT_MERGED;
     }
 
 
@@ -338,7 +338,7 @@ public class IacucProtocolDocument extends ProtocolDocumentBase {
         newProtocolDocument.getProtocol().merge(getProtocol());
         getProtocol().setProtocolStatusCode(protocolStatusCode);
         
-        ProtocolActionBase action = getNewProtocolActionInstanceHook(newProtocolDocument.getProtocol(), null, getProtocolActionTypeApprovedHook()); 
+        ProtocolActionBase action = getNewProtocolActionInstanceHook(newProtocolDocument.getProtocol(), null, getProtocolStatusMergedHook()); 
         action.setComments(type + "-" + getProtocolNumberIndex() + ": Approved");
         newProtocolDocument.setProtocolWorkflowType(ProtocolWorkflowType.APPROVED);
         newProtocolDocument.getProtocol().getProtocolActions().add(action);
