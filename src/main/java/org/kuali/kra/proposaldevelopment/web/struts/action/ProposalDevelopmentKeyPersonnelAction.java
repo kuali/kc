@@ -149,6 +149,7 @@ public class ProposalDevelopmentKeyPersonnelAction extends ProposalDevelopmentAc
             }
         }
         for (ProposalPersonQuestionnaireHelper helper : pdform.getProposalPersonQuestionnaireHelpers()) {
+            helper.prepareView();
             for (int i = 0; i < helper.getAnswerHeaders().size(); i++) {
                 helper.updateChildIndicator(i);
             }
