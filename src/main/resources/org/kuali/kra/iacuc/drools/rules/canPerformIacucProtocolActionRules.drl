@@ -348,7 +348,7 @@ end
 rule "Make Administrative Correction"
 salience 100
 when
-    protocolAction : IacucProtocolActionMapping(actionTypeCode == "113", protocolStatusCode not in ("101", "200", "201", "300", "303", "304", "305", "307", "308", "309"))
+    protocolAction : IacucProtocolActionMapping(actionTypeCode == "113", protocolStatusCode in ("101", "200", "201", "202", "300", "303", "304", "305", "307", "308", "309"))
 then    
     setAction(protocolAction, true);
 end
