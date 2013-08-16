@@ -15,6 +15,10 @@
  */
 package org.kuali.kra.iacuc;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -22,8 +26,10 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.common.notification.service.KcNotificationService;
+import org.kuali.kra.iacuc.actions.IacucProtocolActionRequestService;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
 import org.kuali.kra.iacuc.auth.IacucProtocolTask;
+import org.kuali.kra.iacuc.correspondence.IacucProtocolCorrespondence;
 import org.kuali.kra.iacuc.notification.IacucProtocolNotification;
 import org.kuali.kra.iacuc.notification.IacucProtocolNotificationContext;
 import org.kuali.kra.iacuc.notification.IacucProtocolNotificationRenderer;
@@ -32,13 +38,14 @@ import org.kuali.kra.iacuc.procedures.IacucProtocolProcedureService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.infrastructure.TaskName;
+import org.kuali.kra.protocol.ProtocolActionBase;
+import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.protocol.ProtocolFormBase;
 import org.kuali.kra.protocol.auth.ProtocolTaskBase;
 import org.kuali.kra.protocol.notification.ProtocolNotification;
 import org.kuali.kra.protocol.notification.ProtocolNotificationContextBase;
+import org.kuali.kra.protocol.notification.ProtocolNotificationRequestBeanBase;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewService;
-import org.kuali.kra.protocol.ProtocolBase;
-import org.kuali.kra.protocol.ProtocolActionBase;
-import org.kuali.kra.protocol.ProtocolFormBase;
 import org.kuali.kra.protocol.personnel.ProtocolPersonTrainingService;
 import org.kuali.kra.protocol.personnel.ProtocolPersonnelService;
 import org.kuali.kra.service.KraAuthorizationService;
@@ -216,4 +223,37 @@ public class IacucProtocolAction extends ProtocolActionBase {
     protected String getProtocolNotificationEditorHook() {
         return "iacucProtocolNotificationEditor";
     }
+    
+    protected IacucProtocolCorrespondence getProtocolCorrespondence (ProtocolFormBase protocolForm, String forwardName, ProtocolNotificationRequestBeanBase notificationRequestBean, boolean holdingPage) {
+        Map<String,Object> keyValues = new HashMap<String, Object>();
+        keyValues.put("actionIdFk", protocolForm.getProtocolDocument().getProtocol().getLastProtocolAction().getProtocolActionId());
+        List<IacucProtocolCorrespondence> correspondences = (List<IacucProtocolCorrespondence>)getBusinessObjectService().findMatching(IacucProtocolCorrespondence.class, keyValues);
+        if (correspondences.isEmpty()) {
+            return null;
+        } else {
+            IacucProtocolCorrespondence correspondence = correspondences.get(0);
+            correspondence.setForwardName(forwardName);
+            correspondence.setNotificationRequestBean(notificationRequestBean);
+            correspondence.setHoldingPage(holdingPage);
+            return correspondence;
+            
+        }
+    }
+    
+    protected IacucProtocolActionRequestService getProtocolActionRequestService() {
+        return KraServiceLocator.getService(IacucProtocolActionRequestService.class);
+    }
+    
+    @Override
+    public void postSave(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
+    throws Exception {
+        super.postSave(mapping, form, request, response);
+        IacucProtocolForm protocolForm = (IacucProtocolForm) form;
+        String lastProtocolActionTypeCode = protocolForm.getProtocolDocument().getProtocol().getLastProtocolAction().getProtocolActionTypeCode();
+        IacucProtocolCorrespondence protocolCorrespondence = getProtocolCorrespondence(protocolForm, "", null, false);
+        if (protocolCorrespondence == null && lastProtocolActionTypeCode.equalsIgnoreCase(IacucProtocolActionType.IACUC_PROTOCOL_CREATED)) {
+            getProtocolActionRequestService().createProtocol(protocolForm);
+        }
+    }
+    
 }
