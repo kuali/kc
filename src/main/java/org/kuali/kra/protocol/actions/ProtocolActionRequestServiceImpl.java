@@ -15,16 +15,23 @@
  */
 package org.kuali.kra.protocol.actions;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinuteBase;
 import org.kuali.kra.common.notification.service.KcNotificationService;
+import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolFormBase;
 import org.kuali.kra.protocol.actions.correspondence.ProtocolActionCorrespondenceGenerationService;
 import org.kuali.kra.protocol.actions.correspondence.ProtocolActionsCorrespondenceBase;
+import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsBeanBase;
+import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsService;
 import org.kuali.kra.protocol.auth.ProtocolTaskBase;
+import org.kuali.kra.protocol.onlinereview.ProtocolReviewAttachmentBase;
 import org.kuali.kra.service.TaskAuthorizationService;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KualiRuleService;
@@ -37,6 +44,8 @@ public abstract class ProtocolActionRequestServiceImpl implements ProtocolAction
     private BusinessObjectService businessObjectService;
     private ProtocolActionCorrespondenceGenerationService protocolActionCorrespondenceGenerationService;
     private KcNotificationService notificationService;
+    
+    private ReviewCommentsService<? extends ProtocolReviewAttachmentBase> reviewCommentsService;
     
     protected final boolean applyRules(KualiDocumentEvent event) {
         return getKualiRuleService().applyRules(event);
@@ -90,6 +99,16 @@ public abstract class ProtocolActionRequestServiceImpl implements ProtocolAction
     public void createProtocol(ProtocolFormBase protocolForm) throws Exception {
         generateActionCorrespondence(getProtocolCreatedActionTypeHook(), protocolForm.getProtocolDocument().getProtocol());
     }
+
+    protected void recordProtocolActionSuccess(String protocolActionName) {
+        KNSGlobalVariables.getMessageList().add(KeyConstants.MESSAGE_PROTOCOL_ACTION_SUCCESSFULLY_COMPLETED, protocolActionName);
+    }
+    
+    protected void saveReviewComments(ProtocolFormBase protocolForm, ReviewCommentsBeanBase actionBean) throws Exception { 
+        getReviewCommentsService().saveReviewComments(actionBean.getReviewComments(), actionBean.getDeletedReviewComments());           
+        actionBean.setDeletedReviewComments(new ArrayList<CommitteeScheduleMinuteBase>());
+        protocolForm.getActionHelper().prepareCommentsView();
+    }
     
     protected abstract ProtocolTaskBase getProtocolTaskInstanceHook(String taskName, ProtocolBase protocol);
     protected abstract ProtocolActionsCorrespondenceBase getNewProtocolActionsCorrespondence(String protocolActionTypeCode);
@@ -111,6 +130,14 @@ public abstract class ProtocolActionRequestServiceImpl implements ProtocolAction
 
     public void setNotificationService(KcNotificationService notificationService) {
         this.notificationService = notificationService;
+    }
+
+    public ReviewCommentsService<? extends ProtocolReviewAttachmentBase> getReviewCommentsService() {
+        return reviewCommentsService;
+    }
+
+    public void setReviewCommentsService(ReviewCommentsService<? extends ProtocolReviewAttachmentBase> reviewCommentsService) {
+        this.reviewCommentsService = reviewCommentsService;
     }
 
 }
