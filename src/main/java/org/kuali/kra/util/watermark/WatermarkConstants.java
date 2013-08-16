@@ -71,4 +71,6 @@ public interface WatermarkConstants {
      */
     public static final float CHAR_WIDTH_CONSTANT = 0.4f;    
     public static final int MARGIN = 25;
+    public static final String IRB = "IRB";
+    public static final String IACUC = "IACUC";
 }

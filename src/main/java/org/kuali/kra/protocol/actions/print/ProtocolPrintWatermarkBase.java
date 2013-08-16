@@ -24,7 +24,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.Watermark;
+import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.notification.ProtocolNotificationRendererBase;
 import org.kuali.kra.util.watermark.Font;
@@ -105,6 +107,12 @@ public abstract class ProtocolPrintWatermarkBase implements Watermarkable {
         Watermark watermark = null;
         Map<String, Object> fields = new HashMap<String, Object>();
         fields.put("statusCode", protocolStatusCode);
+        if(getPersistableBusinessObject() instanceof Protocol){
+            fields.put("groupName", WatermarkConstants.IRB);   
+        }
+        else if(getPersistableBusinessObject() instanceof IacucProtocol){
+            fields.put("groupName", WatermarkConstants.IACUC);
+        }
         Collection<Watermark> watermarks = getBusinessObjectService().findMatching(Watermark.class, fields);
         if (watermarks != null && watermarks.size() > 0) {
             watermark = watermarks.iterator().next();

@@ -30,6 +30,7 @@
         <ref bean="Watermark-fontColor" />
   		<ref bean="Watermark-templateFile" />
         <ref bean="Watermark-versionNumber" />
+        <ref bean="Watermark-groupName" />
       </list>
     </property>
   </bean>
@@ -243,6 +244,24 @@
 	    <property name="description" value="Validate Watermark Status is Active or not" />
   </bean>
   
+  <bean id="Watermark-groupName" parent="Watermark-groupName-parentBean" />
+  <bean id="Watermark-groupName-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="name" value="groupName" />
+    <property name="forceUppercase" value="false" />
+    <property name="label" value="Group Name" />
+    <property name="shortLabel" value="Watermark Group Name" />
+    <property name="maxLength" value="8" />
+    <property name="validationPattern" >
+      <bean parent="AnyCharacterValidationPattern" />
+    </property>
+    <property name="control" >
+      <bean parent="SelectControlDefinition"
+            p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.WatermarkGroupnameValuesFinder"
+            p:includeKeyInLabel="false" />
+    </property>
+    <property name="summary" value="Group Name" />
+    <property name="description" value="Group Name" />
+  </bean>
   
   <bean id="Watermark-versionNumber" parent="Watermark-versionNumber-parentBean" />
   <bean id="Watermark-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
@@ -309,6 +328,8 @@
               p:attributeName="statusCode" />
         <bean parent="FieldDefinition"
               p:attributeName="watermarkText" />
+        <bean parent="FieldDefinition"
+              p:attributeName="groupName" />
 
       </list>
     </property>
@@ -316,6 +337,8 @@
       <list>
         <bean parent="FieldDefinition"
               p:attributeName="watermarkId" />
+        <bean parent="FieldDefinition"
+              p:attributeName="groupName" />
         <bean parent="FieldDefinition"
               p:attributeName="statusCode" />
         <bean parent="FieldDefinition"
