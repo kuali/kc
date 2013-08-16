@@ -1161,5 +1161,14 @@
         <property name="kcPersonService" ref="kcPersonService" />
     </bean>
 
+    <bean id="iacucProtocolActionRequestService" class="org.kuali.kra.iacuc.actions.IacucProtocolActionRequestServiceImpl">
+   		<property name="kualiRuleService" ref="kualiRuleService" />    
+   		<property name="taskAuthorizationService" ref="taskAuthorizationService" />    
+   		<property name="businessObjectService" ref="businessObjectService" />    
+        <property name="protocolActionCorrespondenceGenerationService" ref="iacucProtocolActionCorrespondenceGenerationService" />
+		<property name="notificationService" ref="kcNotificationService" /> 
+		<property name="protocolApproveService" ref="iacucProtocolApproveService" /> 
+   		<property name="reviewCommentsService" ref="iacucReviewCommentsService" />    
+ 	</bean>
 
 </beans>

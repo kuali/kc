@@ -20,12 +20,45 @@ import org.kuali.kra.protocol.actions.ProtocolActionRequestService;
 
 public interface IrbProtocolActionRequestService extends ProtocolActionRequestService {
     
+    /**
+     * This method is to check if user is authorized to perform expedited approval action
+     * on a protocol
+     * This method...
+     * @param protocolForm
+     * @return
+     */
     public boolean isExpeditedApprovalAuthorized(ProtocolForm protocolForm);
     
+    /**
+     * This method is to check if user is authorized to perform full approval action
+     * on a protocol
+     * @param protocolForm
+     * @return
+     */
     public boolean isFullApprovalAuthorized(ProtocolForm protocolForm);
 
+    /**
+     * This method is to grant expedited approval on irb protocol
+     * @param protocolForm
+     * @throws Exception
+     */
     public void grantExpeditedApproval(ProtocolForm protocolForm) throws Exception;
     
+    /**
+     * This method is to grant full approval on irb protocol
+     * @param protocolForm
+     * @throws Exception
+     */
     public void grantFullApproval(ProtocolForm protocolForm) throws Exception;
+    
+    
+    /**
+     * This method is to submit irb protocol and return if we need to notify user
+     * @param protocolForm
+     * @return
+     * @throws Exception
+     */
+    public boolean submitForReviewAndNotifyUser(ProtocolForm protocolForm) throws Exception;
+    
     
 }
