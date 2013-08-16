@@ -43,7 +43,7 @@ public class Watermark extends KraPersistableBusinessObjectBase implements Persi
     private transient FormFile templateFile;
     private String watermarkPosition;
     private String watermarkAlignment;
-
+    private String groupName;
 
     public Long getWatermarkId() {
         return watermarkId;
@@ -158,6 +158,14 @@ public class Watermark extends KraPersistableBusinessObjectBase implements Persi
 
     public void setWatermarkAlignment(String watermarkAlignment) {
         this.watermarkAlignment = watermarkAlignment;
+    }
+
+    public String getGroupName() {
+        return groupName;
+    }
+
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
     }
 
 }

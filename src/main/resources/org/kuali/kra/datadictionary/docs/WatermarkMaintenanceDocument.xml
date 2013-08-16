@@ -48,7 +48,10 @@
         <property name="title" value="Edit Watermark Lookup" />
         <property name="maintainableItems" >
             <list>
-            
+
+                <bean parent="MaintainableFieldDefinition"
+                    p:name="groupName" 
+                    p:required="true"  /> 
                 <bean parent="MaintainableFieldDefinition"
                     p:name="statusCode"
                     p:required="true" />
