@@ -83,10 +83,10 @@ public class ValidWatermarkStatusMaintenanceDocumentRule extends KraMaintenanceD
                 }
                 
                 if(!oldWatermarkDocument.getStatusCode().equals(watermark.getStatusCode())){
-                    result &= validateWatermarkStatusCode(watermark.getStatusCode());
+                    result &= validateWatermarkStatusCode(watermark.getStatusCode(),watermark.getGroupName());
                 }
             }else{
-                result &= validateWatermarkStatusCode(watermark.getStatusCode());
+                result &= validateWatermarkStatusCode(watermark.getStatusCode(),watermark.getGroupName());
             }
            
         }
@@ -105,11 +105,12 @@ public class ValidWatermarkStatusMaintenanceDocumentRule extends KraMaintenanceD
      * @param watermarkStatusCode
      * @return boolean
      */
-    private boolean validateWatermarkStatusCode(final String watermarkStatusCode) {
+    private boolean validateWatermarkStatusCode(final String watermarkStatusCode, final String watermarkGroupName ) {
         boolean valid = true;
-        if (watermarkStatusCode != null && StringUtils.isNotBlank(watermarkStatusCode)) {
+        if ((watermarkStatusCode != null && StringUtils.isNotBlank(watermarkStatusCode)) && (watermarkGroupName != null && StringUtils.isNotBlank(watermarkGroupName))) {
             final Map<String, String> pkMap = new HashMap<String, String>();
             pkMap.put("statusCode", watermarkStatusCode);
+            pkMap.put("groupName", watermarkGroupName);
             final int watermarkMatchingCount = KraServiceLocator.getService(BusinessObjectService.class).countMatching(
                     Watermark.class, pkMap);
 
