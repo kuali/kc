@@ -37,8 +37,10 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.infrastructure.TaskName;
+import org.kuali.kra.irb.actions.IrbProtocolActionRequestService;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.ProtocolSubmissionBeanBase;
+import org.kuali.kra.irb.actions.notification.ProtocolNotificationRequestBean;
 import org.kuali.kra.irb.auth.ProtocolTask;
 import org.kuali.kra.irb.correspondence.ProtocolCorrespondence;
 import org.kuali.kra.irb.notification.IRBNotificationContext;
@@ -377,4 +379,39 @@ public abstract class ProtocolAction extends ProtocolActionBase {
         IRBNotificationRenderer renderer = new IRBNotificationRenderer((Protocol)protocol);
         return new IRBNotificationContext((Protocol)protocol, ProtocolActionType.PROTOCOL_CREATED_NOTIFICATION, "Protocol Created", renderer, PROTOCOL_NAME_HOOK);
     }
+
+    protected IrbProtocolActionRequestService getProtocolActionRequestService() {
+        return KraServiceLocator.getService(IrbProtocolActionRequestService.class);
+    }
+    
+    protected ProtocolCorrespondence getProtocolCorrespondence (ProtocolForm protocolForm, String forwardName, ProtocolNotificationRequestBean notificationRequestBean, boolean holdingPage) {
+        boolean result = false;
+        
+        Map<String,Object> keyValues = new HashMap<String, Object>();
+        // actionid <-> action.actionid  actionidfk<->action.protocolactionid
+        keyValues.put("actionIdFk", protocolForm.getProtocolDocument().getProtocol().getLastProtocolAction().getProtocolActionId());
+        List<ProtocolCorrespondence> correspondences = (List<ProtocolCorrespondence>)getBusinessObjectService().findMatching(ProtocolCorrespondence.class, keyValues);
+        if (correspondences.isEmpty()) {
+            return null;
+        } else {
+            ProtocolCorrespondence correspondence = correspondences.get(0);
+            correspondence.setForwardName(forwardName);
+            correspondence.setNotificationRequestBean(notificationRequestBean);
+            correspondence.setHoldingPage(holdingPage);
+            return correspondence;
+            
+        }
+    }
+    
+    @Override
+    public void postSave(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        super.postSave(mapping, form, request, response);
+        ProtocolForm protocolForm = (ProtocolForm) form;
+        String lastProtocolActionTypeCode = protocolForm.getProtocolDocument().getProtocol().getLastProtocolAction().getProtocolActionTypeCode();
+        ProtocolCorrespondence protocolCorrespondence = getProtocolCorrespondence(protocolForm, "", null, false);
+        if (protocolCorrespondence == null && lastProtocolActionTypeCode.equalsIgnoreCase(ProtocolActionType.PROTOCOL_CREATED)) {
+            getProtocolActionRequestService().createProtocol(protocolForm);
+        }
+    }
+    
 }

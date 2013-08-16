@@ -1067,6 +1067,7 @@
    		<property name="businessObjectService" ref="businessObjectService" />    
         <property name="protocolActionCorrespondenceGenerationService" ref="protocolActionCorrespondenceGenerationService" />
 		<property name="notificationService" ref="kcNotificationService" /> 
+        <property name="protocolSubmitActionService" ref="protocolSubmitActionService" />
  	</bean>
  	 
 </beans>
