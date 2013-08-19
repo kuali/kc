@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.proposaldevelopment.web.struts.action;
 
+import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -62,6 +64,9 @@ import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.kew.KraDocumentRejectionService;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.kra.krms.service.KrmsRulesExecutionService;
+import org.kuali.kra.printing.Printable;
+import org.kuali.kra.printing.print.AbstractPrint;
+import org.kuali.kra.printing.service.PrintingService;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.Narrative;
@@ -85,6 +90,8 @@ import org.kuali.kra.proposaldevelopment.service.ProposalPersonBiographyService;
 import org.kuali.kra.proposaldevelopment.service.ProposalRoleTemplateService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
+import org.kuali.kra.questionnaire.print.QuestionnairePrint;
+import org.kuali.kra.questionnaire.print.QuestionnairePrintingService;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.bo.S2sOppForms;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
@@ -1489,6 +1496,84 @@ public class ProposalDevelopmentAction extends BudgetParentActionBase {
 
     public void setNotificationService(KcNotificationService notificationService) {
         this.notificationService = notificationService;
+    }
+    
+    /**
+     * This method print questionnaire answers.
+     * 
+     * @param mapping the Action Mapping
+     * @param form the Action Form
+     * @param request the Http Request
+     * @param response Http Response
+	 * @return the Action Forward
+     * @throws Exception
+     */
+    public ActionForward printQuestionnaireAnswer(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {        
+       
+        ActionForward forward = mapping.findForward(MAPPING_BASIC);
+        Map<String, Object> reportParameters = new HashMap<String, Object>();
+        
+        ProposalDevelopmentForm pdform = (ProposalDevelopmentForm) form;
+        ProposalDevelopmentDocument document = pdform.getProposalDevelopmentDocument();
+        
+        final int personIndex = this.getSelectedLine(request);
+        ProposalPerson person = document.getDevelopmentProposal().getProposalPerson(personIndex);
+        ProposalPersonQuestionnaireHelper helper = new ProposalPersonQuestionnaireHelper(pdform, person);
+        AnswerHeader header = helper.getAnswerHeaders().get(0);
+        
+        reportParameters.put("questionnaireId", header.getQuestionnaire().getQuestionnaireIdAsInteger());
+        reportParameters.put("template", header.getQuestionnaire().getTemplate());
+
+        AttachmentDataSource dataStream = KraServiceLocator.getService(QuestionnairePrintingService.class).printQuestionnaireAnswer(person, reportParameters);
+        if (dataStream.getContent() != null) {
+            streamToResponse(dataStream, response);
+            forward = null;
+        }
+        
+        return forward;
+    }    
+    
+    /**
+     * This method print all questionnaire answers.
+     * 
+     * @param mapping the Action Mapping
+     * @param form the Action Form
+     * @param request the Http Request
+     * @param response Http Response
+     * @return the Action Forward
+     * @throws Exception
+     */        
+    public ActionForward printAllQuestionnaireAnswer(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        
+        ActionForward forward = mapping.findForward(MAPPING_BASIC);
+        Map<String, Object> reportParameters = new HashMap<String, Object>();
+        List<Printable> printables = new ArrayList<Printable> ();
+        
+        ProposalDevelopmentForm pdform = (ProposalDevelopmentForm) form;
+        ProposalDevelopmentDocument document = pdform.getProposalDevelopmentDocument();
+        
+        for ( ProposalPerson person :document.getDevelopmentProposal().getProposalPersons()) {
+            
+            ProposalPersonQuestionnaireHelper helper = new ProposalPersonQuestionnaireHelper(pdform, person);
+            AnswerHeader header = helper.getAnswerHeaders().get(0);            
+            reportParameters.put("questionnaireId", header.getQuestionnaire().getQuestionnaireIdAsInteger());
+            reportParameters.put("template", header.getQuestionnaire().getTemplate());            
+            AbstractPrint printable = KraServiceLocator.getService(QuestionnairePrint.class);
+            if (printable != null) {
+                printable.setPrintableBusinessObject(person);
+                printable.setReportParameters(reportParameters);
+            }
+            printables.add(printable);
+        }
+        AttachmentDataSource dataStream = KraServiceLocator.getService(PrintingService.class).print(printables);
+        if (dataStream.getContent() != null) {
+            streamToResponse(dataStream, response);
+            forward = null;
+        }
+        
+        return forward;
     }
     
     /**
