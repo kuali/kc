@@ -61,7 +61,8 @@ public class ProtocolLookupableHelperServiceImpl extends ProtocolLookupableHelpe
         ProtocolStatus.AMENDMENT_IN_PROGRESS, 
         ProtocolStatus.RENEWAL_IN_PROGRESS, 
         ProtocolStatus.WITHDRAWN };
-    private static final String[] PENDING_PI_ACTION_PROTOCOL_STATUS_CODES = { ProtocolStatus.SPECIFIC_MINOR_REVISIONS_REQUIRED, 
+    private static final String[] PENDING_PI_ACTION_PROTOCOL_STATUS_CODES = { ProtocolStatus.RETURN_TO_PI,
+        ProtocolStatus.SPECIFIC_MINOR_REVISIONS_REQUIRED, 
         ProtocolStatus.SUBSTANTIVE_REVISIONS_REQUIRED,  
         ProtocolStatus.EXPIRED };
 
