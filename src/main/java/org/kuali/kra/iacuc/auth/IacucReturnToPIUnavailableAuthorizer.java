@@ -15,22 +15,24 @@
  */
 package org.kuali.kra.iacuc.auth;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.kra.protocol.ProtocolBase;
 
 /**
- * Determine if a user can assign a protocol to a committee/schedule.
+ * Determine if a user can return a protocol to a principal investigator.
  */
 public class IacucReturnToPIUnavailableAuthorizer extends IacucProtocolAuthorizer {
 
     /** {@inheritDoc} */
     @Override
     public boolean isAuthorized(String username, IacucProtocolTask task) {
-        ProtocolBase protocol = task.getProtocol();
-        return !canExecuteAction(protocol, IacucProtocolActionType.RETURNED_TO_PI)
-                && hasPermission(username, protocol, PermissionConstants.PERFORM_IACUC_ACTIONS_ON_PROTO);
+        if ( (!kraWorkflowService.isInWorkflow(task.getProtocol().getProtocolDocument()) ||
+              !kraWorkflowService.isDocumentOnNode(task.getProtocol().getProtocolDocument(), Constants.IACUC_PROTOCOL_IACUCREVIEW_ROUTE_NODE_NAME) ||              
+              !canExecuteAction(task.getProtocol(), IacucProtocolActionType.RETURNED_TO_PI) ) &&
+              hasPermission(username, task.getProtocol(), PermissionConstants.PERFORM_IACUC_ACTIONS_ON_PROTO) ) {
+            return true;
+        }
+        return false;          
     }
 }

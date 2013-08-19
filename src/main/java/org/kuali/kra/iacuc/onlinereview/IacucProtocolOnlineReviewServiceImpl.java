@@ -56,7 +56,7 @@ public class IacucProtocolOnlineReviewServiceImpl extends ProtocolOnlineReviewSe
                 isReviewable &= (StringUtils.equals(submission.getSubmissionStatusCode(), IacucProtocolSubmissionStatus.SUBMITTED_TO_COMMITTEE) 
                         || StringUtils.equals(submission.getSubmissionStatusCode(), IacucProtocolSubmissionStatus.IN_AGENDA));
                 ProtocolDocumentBase protocolDocument = (ProtocolDocumentBase) documentService.getByDocumentHeaderId(protocol.getProtocolDocument().getDocumentNumber());
-                isReviewable &= kraWorkflowService.isDocumentOnNode(protocolDocument, Constants.IACUC_PROTOCOL_IRBREVIEW_ROUTE_NODE_NAME);
+                isReviewable &= kraWorkflowService.isDocumentOnNode(protocolDocument, Constants.IACUC_PROTOCOL_IACUCREVIEW_ROUTE_NODE_NAME);
             }
             catch (WorkflowException e) {
                 String errorString = String.format(
