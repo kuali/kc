@@ -369,7 +369,7 @@ public class IacucProtocolForm extends ProtocolFormBase {
     @Override
     protected List<String> getTerminalNodeNamesHook() {
         List<String> retVal = new ArrayList<String>();
-        retVal.add(Constants.IACUC_PROTOCOL_IRBREVIEW_ROUTE_NODE_NAME);
+        retVal.add(Constants.IACUC_PROTOCOL_IACUCREVIEW_ROUTE_NODE_NAME);
         return retVal;
     }
    

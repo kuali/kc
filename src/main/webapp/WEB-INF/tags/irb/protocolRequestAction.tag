@@ -505,7 +505,9 @@
 	                                                     canPerformAction="${KualiForm.actionHelper.canReturnToPIUnavailable}"
 				                                         reason="Protocol status must be Submitted To IRB.
         	                                                     <p>
-        	                                                 	 Protocol submission status must be Submitted to Committee." />				                                                 
+        	                                                 	 Protocol submission status must be Submitted to Committee or Pending.
+                                                                 <p>
+                                                                 Protocol must be enroute in workflow." />				                                                 
 	                                                     
 		    </c:if>		   	
 		   	</div>

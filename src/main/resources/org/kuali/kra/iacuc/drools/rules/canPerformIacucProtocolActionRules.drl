@@ -119,7 +119,7 @@ end
 rule "Return to PI"
 salience 100
 when
-    protocolAction : IacucProtocolActionMapping(actionTypeCode == "210", protocolStatusCode == "101", submissionStatusCode == "102")
+    protocolAction : IacucProtocolActionMapping(actionTypeCode == "210", protocolStatusCode == "101", submissionStatusCode in ("101", "102"))
 then    
     setAction(protocolAction, true);
 end
