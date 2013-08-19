@@ -402,8 +402,9 @@
 					                                         canPerformAction="${KualiForm.actionHelper.canReturnToPIUnavailable}"
         	                                                 reason="Protocol status must be Submitted To IACUC.
         	                                                 		 <p>
-        	                                                 		 Protocol submission status must be Submitted to Committee." />
-        	                                                 
+        	                                                 		 Protocol submission status must be Submitted to Committee or Pending.
+                                                                     <p>
+                                                                     Protocol must be enroute in workflow." />        	                                                 
 		            <kra-iacuc-action:genericUnavailableAction tabTitle="Deactivate"
 					                                         canPerformAction="${KualiForm.actionHelper.canIacucDeactivateUnavailable}"
         	                                                 reason="Protocol status must be Active, Administratively Approved, or Active - Hold.

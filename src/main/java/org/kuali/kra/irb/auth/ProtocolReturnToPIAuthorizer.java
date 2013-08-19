@@ -15,20 +15,21 @@
  */
 package org.kuali.kra.irb.auth;
 
+import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
-import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 
 /**
- * Determine if a user can assign a protocol to a committee/schedule.
+ * Determine if a user can return a protocol to the principal investigator.
  */
 public class ProtocolReturnToPIAuthorizer extends ProtocolAuthorizer {
 
     /** {@inheritDoc} */
     @Override
     public boolean isAuthorized(String username, ProtocolTask task) {
-        Protocol protocol = task.getProtocol();
-        return canExecuteAction(protocol, ProtocolActionType.RETURNED_TO_PI)
-                && hasPermission(username, protocol, PermissionConstants.PERFORM_IRB_ACTIONS_ON_PROTO);
+        return kraWorkflowService.isInWorkflow(task.getProtocol().getProtocolDocument()) &&
+               kraWorkflowService.isDocumentOnNode(task.getProtocol().getProtocolDocument(), Constants.PROTOCOL_IRBREVIEW_ROUTE_NODE_NAME) &&
+               canExecuteAction(task.getProtocol(), ProtocolActionType.RETURNED_TO_PI) &&
+               hasPermission(username, task.getProtocol(), PermissionConstants.PERFORM_IRB_ACTIONS_ON_PROTO);
     }
 }

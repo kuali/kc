@@ -438,7 +438,7 @@ end
 rule "Return to PI"
 salience 100
 when
-    protocolAction : ProtocolActionMapping(actionTypeCode == "213", protocolStatusCode == "101", submissionStatusCode == "100")
+    protocolAction : ProtocolActionMapping(actionTypeCode == "213", protocolStatusCode == "101", submissionStatusCode in ("100", "102"))
 then    
     setAction(protocolAction, true);
 end
