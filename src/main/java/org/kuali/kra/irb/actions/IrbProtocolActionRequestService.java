@@ -38,6 +38,15 @@ public interface IrbProtocolActionRequestService extends ProtocolActionRequestSe
     public boolean isFullApprovalAuthorized(ProtocolForm protocolForm);
 
     /**
+     * This method is to check whether user is authorized to create renewal
+     * @param protocolForm
+     * @return
+     */
+    public boolean isCreateRenewalAuthorized(ProtocolForm protocolForm);
+
+    public boolean isAssignToAgendaAuthorized(ProtocolForm protocolForm);
+    
+    /**
      * This method is to grant expedited approval on irb protocol
      * @param protocolForm
      * @throws Exception
@@ -55,10 +64,28 @@ public interface IrbProtocolActionRequestService extends ProtocolActionRequestSe
     /**
      * This method is to submit irb protocol and return if we need to notify user
      * @param protocolForm
-     * @return
+     * @return boolean to indicate whether to prompt user
      * @throws Exception
      */
-    public boolean submitForReviewAndNotifyUser(ProtocolForm protocolForm) throws Exception;
+    public boolean submitForReviewAndPromptToNotifyUser(ProtocolForm protocolForm) throws Exception;
     
+    /**
+     * This method is to create protocol renewal
+     * Notification prompt name indicates the forward name to prompt user
+     * @param protocolForm
+     * @param notificationPromptName
+     * @return boolean to indicate whether to prompt user
+     * @throws Exception
+     */
+    public boolean createRenewalAndPromptToNotifyUser(ProtocolForm protocolForm, String notificationPromptName) throws Exception;
+    
+    /**
+     * This method is to assign protocol to agenda
+     * @param protocolForm
+     * @param notificationPromptName
+     * @return boolean to indicate whether to prompt user
+     * @throws Exception
+     */
+    public boolean assignToAgendaAndPromptToNotifyUser(ProtocolForm protocolForm) throws Exception;
     
 }
