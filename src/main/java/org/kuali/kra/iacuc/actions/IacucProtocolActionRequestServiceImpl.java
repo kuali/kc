@@ -128,5 +128,10 @@ public class IacucProtocolActionRequestServiceImpl extends ProtocolActionRequest
         this.protocolApproveService = protocolApproveService;
     }
 
+    @Override
+    protected Class<? extends ProtocolBase> getProtocolBOClassHook() {
+        return IacucProtocol.class;
+    }
+
 
 }
