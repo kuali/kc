@@ -19,10 +19,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinuteBase;
 import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.protocol.ProtocolFormBase;
 import org.kuali.kra.protocol.actions.correspondence.ProtocolActionCorrespondenceGenerationService;
 import org.kuali.kra.protocol.actions.correspondence.ProtocolActionsCorrespondenceBase;
@@ -31,7 +33,12 @@ import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsService;
 import org.kuali.kra.protocol.auth.ProtocolTaskBase;
 import org.kuali.kra.protocol.onlinereview.ProtocolReviewAttachmentBase;
 import org.kuali.kra.service.TaskAuthorizationService;
+import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.document.authorization.PessimisticLock;
 import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KualiRuleService;
@@ -44,7 +51,7 @@ public abstract class ProtocolActionRequestServiceImpl implements ProtocolAction
     private BusinessObjectService businessObjectService;
     private ProtocolActionCorrespondenceGenerationService protocolActionCorrespondenceGenerationService;
     private KcNotificationService notificationService;
-    
+    private PersonService personService;
     private ReviewCommentsService<? extends ProtocolReviewAttachmentBase> reviewCommentsService;
     
     protected final boolean applyRules(KualiDocumentEvent event) {
@@ -75,6 +82,12 @@ public abstract class ProtocolActionRequestServiceImpl implements ProtocolAction
         this.businessObjectService = businessObjectService;
     }
 
+    /**
+     * This method is to verify whether current user authorized to perform the given task
+     * @param taskName
+     * @param protocol
+     * @return
+     */
     protected boolean hasPermission(String taskName, ProtocolBase protocol) {
         ProtocolTaskBase task = getProtocolTaskInstanceHook(taskName, protocol);
         return getTaskAuthorizationService().isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), task);
@@ -87,6 +100,11 @@ public abstract class ProtocolActionRequestServiceImpl implements ProtocolAction
             correspondence.setProtocol(protocol);
             getProtocolActionCorrespondenceGenerationService().generateCorrespondenceDocumentAndAttach(correspondence);
         }
+    }
+
+    protected void updateDocumentStatusChangedMessage() {
+        GlobalVariables.getMessageMap().clearErrorMessages();
+        GlobalVariables.getMessageMap().putError("documentstatechanged", KeyConstants.ERROR_PROTOCOL_DOCUMENT_STATE_CHANGED,  new String[] {}); 
     }
     
     private boolean isCorrespondenceRequired(String protocolActionTypeCode) {
@@ -110,10 +128,57 @@ public abstract class ProtocolActionRequestServiceImpl implements ProtocolAction
         protocolForm.getActionHelper().prepareCommentsView();
     }
     
+    protected boolean hasDocumentStateChanged(ProtocolFormBase protocolForm) {
+        boolean result = false;
+        Map<String,Object> primaryKeys = new HashMap<String, Object>();
+        primaryKeys.put("protocolId", protocolForm.getProtocolDocument().getProtocol().getProtocolId());
+        ProtocolBase dbProtocol = (ProtocolBase)getBusinessObjectService().findByPrimaryKey(getProtocolBOClassHook(), primaryKeys);
+        
+        //First lets check the protocol status & submission status
+        if (dbProtocol != null) {
+            if (!StringUtils.equals(dbProtocol.getProtocolStatusCode(), 
+                    protocolForm.getProtocolDocument().getProtocol().getProtocolStatusCode())) {
+                result = true;
+            }
+            if (dbProtocol.getProtocolSubmission() != null && 
+                    protocolForm.getProtocolDocument().getProtocol().getProtocolSubmission().getSubmissionStatusCode() != null) {
+                if (!StringUtils.equals(dbProtocol.getProtocolSubmission().getSubmissionStatusCode(), 
+                        protocolForm.getProtocolDocument().getProtocol().getProtocolSubmission().getSubmissionStatusCode())) {
+                    result = true;
+                }
+            }
+        }
+        
+        //If no changes in the protocol, lets check the document for workflow changes
+        if (!result) {
+           result = !isDocumentPostprocessingComplete(protocolForm.getProtocolDocument());
+        }
+        return result;
+    }
+    
+    private boolean isDocumentPostprocessingComplete(ProtocolDocumentBase document) {
+        return document.getDocumentHeader().hasWorkflowDocument() && !isPessimisticallyLocked(document);
+    }
+    
+    private boolean isPessimisticallyLocked(Document document) {
+        boolean isPessimisticallyLocked = false;
+        
+        Person pessimisticLockHolder = getPersonService().getPersonByPrincipalName(KewApiConstants.SYSTEM_USER);
+        for (PessimisticLock pessimisticLock : document.getPessimisticLocks()) {
+            if (pessimisticLock.isOwnedByUser(pessimisticLockHolder)) {
+                isPessimisticallyLocked = true;
+                break;
+            }
+        }
+        return isPessimisticallyLocked;
+    }
+    
+    
     protected abstract ProtocolTaskBase getProtocolTaskInstanceHook(String taskName, ProtocolBase protocol);
     protected abstract ProtocolActionsCorrespondenceBase getNewProtocolActionsCorrespondence(String protocolActionTypeCode);
     protected abstract Class<? extends ProtocolActionTypeBase> getProtocolActionTypeBOClassHook();
     protected abstract String getProtocolCreatedActionTypeHook();
+    protected abstract Class<? extends ProtocolBase> getProtocolBOClassHook();
 
     public ProtocolActionCorrespondenceGenerationService getProtocolActionCorrespondenceGenerationService() {
         return protocolActionCorrespondenceGenerationService;
@@ -138,6 +203,14 @@ public abstract class ProtocolActionRequestServiceImpl implements ProtocolAction
 
     public void setReviewCommentsService(ReviewCommentsService<? extends ProtocolReviewAttachmentBase> reviewCommentsService) {
         this.reviewCommentsService = reviewCommentsService;
+    }
+
+    public PersonService getPersonService() {
+        return personService;
+    }
+
+    public void setPersonService(PersonService personService) {
+        this.personService = personService;
     }
 
 }

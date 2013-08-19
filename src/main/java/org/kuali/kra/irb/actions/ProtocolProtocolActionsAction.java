@@ -50,7 +50,6 @@ import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.irb.actions.abandon.ProtocolAbandonService;
 import org.kuali.kra.irb.actions.amendrenew.CreateAmendmentEvent;
-import org.kuali.kra.irb.actions.amendrenew.CreateRenewalEvent;
 import org.kuali.kra.irb.actions.amendrenew.ModifyAmendmentSectionsEvent;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewService;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendmentBean;
@@ -158,7 +157,6 @@ import org.kuali.kra.printing.service.WatermarkService;
 import org.kuali.kra.printing.util.PrintingUtils;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.protocol.ProtocolBase;
-import org.kuali.kra.protocol.actions.ProtocolActionRequestService;
 import org.kuali.kra.protocol.actions.ProtocolOnlineReviewCommentable;
 import org.kuali.kra.protocol.actions.notify.ProtocolActionAttachment;
 import org.kuali.kra.protocol.actions.print.ProtocolSummaryPrintOptions;
@@ -218,6 +216,8 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     private static final ActionForward RESPONSE_ALREADY_HANDLED = null;
     private static final String SUBMISSION_ID = "submissionId";
     private static final String CORRESPONDENCE = "correspondence";
+    
+    private static final String PROTOCOL_NOTIFICATION_EDITOR = "protocolNotificationEditor";
     
     private static final Map<String, String> PRINTTAG_MAP = new HashMap<String, String>() {
         {
@@ -436,46 +436,13 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
     private ActionForward submitForReviewAndRedirect(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) 
         throws Exception {
         ProtocolForm protocolForm = (ProtocolForm) form;
-        boolean isNotifyUser = getProtocolActionRequestService().submitForReviewAndNotifyUser(protocolForm);
+        boolean isPromptToNotifyUser = getProtocolActionRequestService().submitForReviewAndPromptToNotifyUser(protocolForm);
         super.route(mapping, protocolForm, request, response);
-        if (isNotifyUser) {
-            return mapping.findForward("protocolNotificationEditor");
+        if (isPromptToNotifyUser) {
+            return mapping.findForward(PROTOCOL_NOTIFICATION_EDITOR);
         } else {             
             return routeProtocolToHoldingPage(mapping, protocolForm);
         }
-
-        
-//        ProtocolDocument protocolDocument = (ProtocolDocument) protocolForm.getProtocolDocument();
-//        Protocol protocol = (Protocol) protocolDocument.getProtocol();
-//        ProtocolSubmitAction submitAction = (ProtocolSubmitAction) protocolForm.getActionHelper().getProtocolSubmitAction();
-//        
-//        getProtocolSubmitActionService().submitToIrbForReview(protocol, submitAction);
-//        protocolForm.getActionHelper().getAssignCmtSchedBean().init();
-//        
-//        super.route(mapping, protocolForm, request, response);
-//        AssignReviewerNotificationRenderer renderer1 = new AssignReviewerNotificationRenderer((Protocol) protocolForm.getProtocolDocument().getProtocol(), "added");
-//        List<ProtocolNotificationRequestBean> addReviewerNotificationBeans = getNotificationRequestBeans((List) submitAction.getReviewers(),ProtocolReviewerBean.CREATE);
-//        if (!CollectionUtils.isEmpty(addReviewerNotificationBeans)) {
-//            ProtocolNotificationRequestBean notificationBean1 = addReviewerNotificationBeans.get(0);
-//            IRBNotificationContext context1 = new IRBNotificationContext((Protocol) notificationBean1.getProtocol(),
-//                    (ProtocolOnlineReview) notificationBean1.getProtocolOnlineReview(), notificationBean1.getActionType(),
-//                    notificationBean1.getDescription(), renderer1);             
-//            getNotificationService().sendNotificationAndPersist(context1, new IRBProtocolNotification(), protocol); 
-//            
-//        }
-//        
-//        ProtocolNotificationRequestBean notificationBean2 = new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(), ProtocolActionType.SUBMIT_TO_IRB_NOTIFICATION, "Submit");
-//        IRBNotificationRenderer renderer2 = new IRBNotificationRenderer((Protocol) notificationBean2.getProtocol());
-//        IRBNotificationContext context2 = new IRBNotificationContext(protocol, notificationBean2.getActionType(), notificationBean2.getDescription(), renderer2);
-//        
-//        if (protocolForm.getNotificationHelper().getPromptUserForNotificationEditor(context2)) {
-//            context2.setForwardName("holdingPage");
-//            protocolForm.getNotificationHelper().initializeDefaultValues(context2);
-//            return mapping.findForward("protocolNotificationEditor");
-//        } else {             
-//            getNotificationService().sendNotificationAndPersist(context2, new IRBProtocolNotification(), protocol);             
-//            return routeProtocolToHoldingPage(mapping, protocolForm);
-//        }
     }
 
     private ActionForward routeProtocolToHoldingPage(ActionMapping mapping, ProtocolForm protocolForm) {
@@ -699,38 +666,22 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
      */
     public ActionForward createRenewal(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-
         ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolTask task = new ProtocolTask(TaskName.CREATE_PROTOCOL_RENEWAL, (Protocol) protocolForm.getProtocolDocument().getProtocol());
-        if (isAuthorized(task)) {
-            if (!applyRules(new CreateRenewalEvent(protocolForm.getProtocolDocument(),
-                    Constants.PROTOCOL_CREATE_RENEWAL_SUMMARY_KEY, protocolForm.getActionHelper().getRenewalSummary()))) {
-                    return mapping.findForward(Constants.MAPPING_BASIC);
-                }
-            String newDocId = getProtocolAmendRenewService().createRenewal(protocolForm.getProtocolDocument(),((ProtocolForm) form).getActionHelper().getRenewalSummary());
-            // Switch over to the new protocol document and
-            // go to the Protocol tab web page.
-
-            protocolForm.setDocId(newDocId);
+        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
+        if(getProtocolActionRequestService().isCreateRenewalAuthorized(protocolForm)) {
+            forward = mapping.findForward(PROTOCOL_TAB);
+            String notificationPromptName = forward.getName();
+            boolean isPromptToNotifyUser = getProtocolActionRequestService().createRenewalAndPromptToNotifyUser(protocolForm, notificationPromptName);
             loadDocument(protocolForm);
-
-            protocolForm.getActionHelper().setCurrentSubmissionNumber(-1);
-            protocolForm.getProtocolHelper().prepareView();
-            
-            recordProtocolActionSuccess("Create Renewal without Amendment");
-            
-            // Form fields copy needed to support modifyAmendmentSections
-            protocolForm.getActionHelper().getProtocolAmendmentBean().setSummary(protocolForm.getActionHelper().getRenewalSummary());
-
-            ProtocolNotificationRequestBean notificationBean = new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(), ProtocolActionType.RENEWAL_CREATED_NOTIFICATION, "Renewal Created");
-            protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, PROTOCOL_TAB, notificationBean, false));
             if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
-                return mapping.findForward(CORRESPONDENCE);
+                forward = mapping.findForward(CORRESPONDENCE);
             } else {
-                return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_TAB), protocolForm, notificationBean);
+                if(isPromptToNotifyUser) {
+                    forward = mapping.findForward(PROTOCOL_NOTIFICATION_EDITOR);
+                }
             }
         }
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return forward;
     }
 
     /**
@@ -1351,40 +1302,13 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
      */
     public ActionForward assignToAgenda(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
-        
         ProtocolForm protocolForm = (ProtocolForm) form;
-        // set the task name to prevent entered data from being overwritten (in case of user errors) due to bean refresh in the action helper's prepare view 
-        protocolForm.getActionHelper().setCurrentTask(TaskName.ASSIGN_TO_AGENDA);
-        Protocol protocol = (Protocol) protocolForm.getProtocolDocument().getProtocol();
-       
-        if (!hasDocumentStateChanged(protocolForm)) {
-            ProtocolTask task = new ProtocolTask(TaskName.ASSIGN_TO_AGENDA, (Protocol) protocolForm.getProtocolDocument().getProtocol());
-            if (isAuthorized(task)) {
-                ProtocolAssignToAgendaBean actionBean = (ProtocolAssignToAgendaBean) protocolForm.getActionHelper().getAssignToAgendaBean();
-                if (applyRules(new ProtocolAssignToAgendaEvent(protocolForm.getProtocolDocument(), actionBean))) {               
-                    getProtocolAssignToAgendaService().assignToAgenda(protocolForm.getProtocolDocument().getProtocol(), actionBean);
-                    saveReviewComments(protocolForm, actionBean.getReviewCommentsBean());
-                    recordProtocolActionSuccess("Assign to Agenda");
-                    
-                    org.kuali.kra.irb.actions.ProtocolAction lastAction = (org.kuali.kra.irb.actions.ProtocolAction) protocolForm.getProtocolDocument().getProtocol().getLastProtocolAction();
-                    ProtocolActionType lastActionType = (ProtocolActionType) lastAction.getProtocolActionType();
-                    String description = lastActionType.getDescription();
-                    IRBNotificationRenderer renderer = new IRBNotificationRenderer(protocol);
-                    IRBNotificationContext context = new IRBNotificationContext(protocol, ProtocolActionType.ASSIGN_TO_AGENDA, description, renderer);
-                    
-                    if (protocolForm.getNotificationHelper().getPromptUserForNotificationEditor(context)) {
-                        protocolForm.getNotificationHelper().initializeDefaultValues(context);
-                        forward = mapping.findForward("protocolNotificationEditor");
-                    } else {
-                        getNotificationService().sendNotificationAndPersist(context, new IRBProtocolNotification(), protocol);                      
-                    }
-                }
+        if(getProtocolActionRequestService().isAssignToAgendaAuthorized(protocolForm)) {
+            boolean isPromptToNotifyUser = getProtocolActionRequestService().assignToAgendaAndPromptToNotifyUser(protocolForm);
+            if (isPromptToNotifyUser) {
+                forward = mapping.findForward(PROTOCOL_NOTIFICATION_EDITOR);
             }
-        } else {
-            GlobalVariables.getMessageMap().clearErrorMessages();
-            GlobalVariables.getMessageMap().putError("documentstatechanged", KeyConstants.ERROR_PROTOCOL_DOCUMENT_STATE_CHANGED,  new String[] {}); 
         }
-        
         return forward;
     }
     
