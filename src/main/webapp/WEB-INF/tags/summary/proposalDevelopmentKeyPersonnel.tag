@@ -128,6 +128,13 @@
 					<c:set var="personIndex" value="${personIndex+1}" />
 					<c:set var="rowIndex" value="${rowIndex+1}" />
 				</c:forEach>
+				<tr><td colspan ="4"></td>
+					<td><div align="center">
+					  <html:image property="methodToCall.printAllQuestionnaireAnswer.${property}.line${printLineIndex}.anchor"
+	                        src='${ConfigProperties.kra.externalizable.images.url}tinybutton-printall.gif' styleClass="tinybutton"
+                            alt="Print All Questionnaire Answer" title="Print All Questionnaire Answer" onclick="excludeSubmitRestriction = true;"/>
+					</div></td>
+				</tr>
 			</c:if>
 		</table>
 	</div>

@@ -36,9 +36,18 @@
                 Questions 
             </span>
  	        <span class="subhead-right">
- 	            <html:image property="methodToCall.printQuestionnaireAnswer.${property}.line${printLineIndex}.anchor"
-	                        src='${ConfigProperties.kra.externalizable.images.url}tinybutton-printdark.gif' styleClass="tinybutton"
-                            alt="Print Questionnaire Answer" title="Print Questionnaire Answer" onclick="excludeSubmitRestriction = true;"/> 
+ 	        <c:choose>
+				<c:when test="${personIndex != null}" >
+					<html:image property="methodToCall.printQuestionnaireAnswer.${property}.line${personIndex}.anchor"
+	                   src='${ConfigProperties.kra.externalizable.images.url}tinybutton-printdark.gif' styleClass="tinybutton"
+                       alt="Print Questionnaire Answer" title="Print Questionnaire Answer" onclick="excludeSubmitRestriction = true;"/>
+				</c:when>
+				<c:otherwise>
+					<html:image property="methodToCall.printQuestionnaireAnswer.${property}.line${printLineIndex}.anchor"
+	                   src='${ConfigProperties.kra.externalizable.images.url}tinybutton-printdark.gif' styleClass="tinybutton"
+                       alt="Print Questionnaire Answer" title="Print Questionnaire Answer" onclick="excludeSubmitRestriction = true;"/>
+				</c:otherwise>
+			</c:choose>
 <%--                <a title="[Help]help" target="helpWindow" href="${ConfigProperties.application.url}/kr/help.do?methodToCall=getBusinessObjectHelpText&amp;businessObjectClassName=org.kuali.kra.questionnaire.question.Question">
                     <img styleClass="tinybutton" alt="[Help]help" src="${ConfigProperties.kr.externalizable.images.url}my_cp_inf.gif"></a>
                     <%--  when using this tag, the 'print' and '?' is not aligning well.
