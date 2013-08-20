@@ -360,7 +360,13 @@ public abstract class CommitteeServiceImplBase<CMT extends CommitteeBase<CMT, ?,
      * get schedule that will copy all meeting data from old schedule
      */
     protected CS getCopiedSchedule(CS schedule) {
+        // temporarily set the parent committee to null for the duration of deep copy so as
+        // to prevent transitive copying of the other schedules referred to by the committee
+        CMT parentCommittee = schedule.getParentCommittee();
+        schedule.setCommittee(null);
         CS copiedSchedule = (CS) ObjectUtils.deepCopy(schedule);
+        schedule.setCommittee(parentCommittee);
+        
         copiedSchedule.setId(null);
         schedule.getCommScheduleActItems().size();
         // all the collection are set up as transient because the complexity
