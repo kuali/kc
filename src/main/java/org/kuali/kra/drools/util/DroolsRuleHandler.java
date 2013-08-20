@@ -82,7 +82,11 @@ public class DroolsRuleHandler {
      * @param fact
      */
     public <T extends FactBean> void executeRules(T fact) { 
-        WorkingMemory workingMemory = rules.newStatefulSession();
+        /*
+         * Stateful sessions are not required in this scenario since the protocol rule base does
+         * not change once the rules are fired.
+         */
+        WorkingMemory workingMemory = rules.newStatefulSession(false);
         workingMemory.insert(fact);
         workingMemory.fireAllRules();
     }
