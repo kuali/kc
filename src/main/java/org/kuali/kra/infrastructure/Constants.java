@@ -1019,5 +1019,9 @@ public interface Constants {
     public static final String IRB_MODULE = "irb";
     public static final String IACUC_MODULE = "iacuc";
     
+    //IRB
+    public static final String IRB_PROTOCOL_TAB = "protocol";
+    
+    
 }
 
