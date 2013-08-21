@@ -26,8 +26,10 @@ import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolForm;
+import org.kuali.kra.irb.actions.amendrenew.CreateAmendmentEvent;
 import org.kuali.kra.irb.actions.amendrenew.CreateRenewalEvent;
 import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendRenewService;
+import org.kuali.kra.irb.actions.amendrenew.ProtocolAmendmentBean;
 import org.kuali.kra.irb.actions.approve.ProtocolApproveBean;
 import org.kuali.kra.irb.actions.approve.ProtocolApproveEvent;
 import org.kuali.kra.irb.actions.approve.ProtocolApproveService;
@@ -52,6 +54,8 @@ import org.kuali.kra.irb.actions.notification.ProtocolTerminatedNotificationRend
 import org.kuali.kra.irb.actions.submit.ProtocolReviewerBean;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitAction;
 import org.kuali.kra.irb.actions.submit.ProtocolSubmitActionService;
+import org.kuali.kra.irb.actions.withdraw.ProtocolWithdrawBean;
+import org.kuali.kra.irb.actions.withdraw.ProtocolWithdrawService;
 import org.kuali.kra.irb.auth.ProtocolTask;
 import org.kuali.kra.irb.correspondence.ProtocolCorrespondence;
 import org.kuali.kra.irb.notification.IRBNotificationContext;
@@ -74,8 +78,16 @@ public class IrbProtocolActionRequestServiceImpl extends ProtocolActionRequestSe
     private ProtocolApproveService protocolApproveService;
     private ProtocolSubmitActionService protocolSubmitActionService;
     private ProtocolAmendRenewService protocolAmendRenewService;
+    private ProtocolWithdrawService protocolWithdrawService;
 
-    private static final String PROTOCOL_TAB = "protocol";
+    private static final String ACTION_NAME_RENEWAL_WITH_AMENDMENT = "Create Renewal with Amendment";
+    private static final String ACTION_NAME_AMENDMENT = "Create Amendment";
+    private static final String ACTION_NAME_RENEWAL_WITHOUT_AMENDMENT = "Create Renewal without Amendment";
+    private static final String ACTION_NAME_WITHDRAW = "Withdraw";
+    
+    private static final String FORWARD_TO_CORRESPONDENCE = "correspondence";
+    private static final String FORWARD_TO_NOTIFICATION_EDITOR = "protocolNotificationEditor";
+    private static final String FORWARD_TO_HOLDING_PAGE = "holdingPage";
     
     /**
      * @see org.kuali.kra.irb.actions.IrbProtocolActionRequestService#isExpeditedApprovalAuthorized(org.kuali.kra.irb.ProtocolForm)
@@ -130,6 +142,38 @@ public class IrbProtocolActionRequestServiceImpl extends ProtocolActionRequestSe
         return requestAuthorized;
     }
     
+    public boolean isCreateAmendmentAuthorized(ProtocolForm protocolForm) {
+        ProtocolDocument document = (ProtocolDocument) protocolForm.getProtocolDocument();
+        ProtocolAmendmentBean protocolAmendmentBean = (ProtocolAmendmentBean) protocolForm.getActionHelper().getProtocolAmendmentBean();
+        boolean requestAuthorized = false;
+        if (hasPermission(TaskName.CREATE_PROTOCOL_AMMENDMENT, (Protocol) document.getProtocol())) {
+            requestAuthorized = applyRules(new CreateAmendmentEvent(document, Constants.PROTOCOL_CREATE_AMENDMENT_KEY, protocolAmendmentBean));
+        }
+        return requestAuthorized;
+    }
+
+    public boolean isCreateRenewalWithAmendmentAuthorized(ProtocolForm protocolForm) {
+        ProtocolDocument document = (ProtocolDocument) protocolForm.getProtocolDocument();
+        ProtocolAmendmentBean protocolAmendmentBean = (ProtocolAmendmentBean) protocolForm.getActionHelper().getProtocolRenewAmendmentBean();
+        boolean requestAuthorized = false;
+        if (hasPermission(TaskName.CREATE_PROTOCOL_RENEWAL, (Protocol) document.getProtocol())) {
+            requestAuthorized = applyRules(new CreateAmendmentEvent(document, Constants.PROTOCOL_CREATE_RENEWAL_WITH_AMENDMENT_KEY, protocolAmendmentBean));
+        }
+        return requestAuthorized;
+    }
+    
+    public boolean isWithdrawProtocolAuthorized(ProtocolForm protocolForm) {
+        ProtocolDocument document = (ProtocolDocument) protocolForm.getProtocolDocument();
+        boolean requestAuthorized = false;
+        if (!hasDocumentStateChanged(protocolForm)) {
+            requestAuthorized = hasPermission(TaskName.PROTOCOL_WITHDRAW, (Protocol) document.getProtocol());
+        } else {
+            updateDocumentStatusChangedMessage();
+        }
+        return requestAuthorized;
+    }
+    
+    
     /**
      * @see org.kuali.kra.irb.actions.IrbProtocolActionRequestService#grantExpeditedApproval(org.kuali.kra.irb.ProtocolForm)
      */
@@ -171,7 +215,7 @@ public class IrbProtocolActionRequestServiceImpl extends ProtocolActionRequestSe
         protocolForm.getTabStates().put(":" + WebUtils.generateTabKey("Assign to Agenda"), "OPEN");
         
         ProtocolNotificationRequestBean notificationBean = new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(), ProtocolActionType.EXPEDITE_APPROVAL, "Expedited Approval Granted");
-        protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, PROTOCOL_TAB, notificationBean, false));
+        protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, Constants.IRB_PROTOCOL_TAB, notificationBean, false));
     }
     
     /**
@@ -189,7 +233,7 @@ public class IrbProtocolActionRequestServiceImpl extends ProtocolActionRequestSe
         // hack this for now
         protocolForm.getProtocolHelper().prepareView();
         ProtocolNotificationRequestBean notificationBean = new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(), ProtocolActionType.APPROVED, "Approved");
-        protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, PROTOCOL_TAB, notificationBean, false));
+        protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, Constants.IRB_PROTOCOL_TAB, notificationBean, false));
         if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
             // TODO : this is hack
             // may need to add it back when save/close corr ?
@@ -225,13 +269,12 @@ public class IrbProtocolActionRequestServiceImpl extends ProtocolActionRequestSe
             getNotificationService().sendNotificationAndPersist(context1, new IRBProtocolNotification(), protocol); 
             
         }
-        
         ProtocolNotificationRequestBean notificationBean2 = new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(), ProtocolActionType.SUBMIT_TO_IRB_NOTIFICATION, "Submit");
         IRBNotificationRenderer renderer2 = new IRBNotificationRenderer((Protocol) notificationBean2.getProtocol());
         IRBNotificationContext context2 = new IRBNotificationContext(protocol, notificationBean2.getActionType(), notificationBean2.getDescription(), renderer2);
         
         if (protocolForm.getNotificationHelper().getPromptUserForNotificationEditor(context2)) {
-            context2.setForwardName("holdingPage");
+            context2.setForwardName(FORWARD_TO_HOLDING_PAGE);
             protocolForm.getNotificationHelper().initializeDefaultValues(context2);
             return true;
         } else {             
@@ -243,32 +286,21 @@ public class IrbProtocolActionRequestServiceImpl extends ProtocolActionRequestSe
     /**
      * @see org.kuali.kra.irb.actions.IrbProtocolActionRequestService#createRenewalAndPromptToNotifyUser(org.kuali.kra.irb.ProtocolForm, java.lang.String)
      */
-    public boolean createRenewalAndPromptToNotifyUser(ProtocolForm protocolForm, String notificationPromptName) throws Exception {
+    public String createRenewal(ProtocolForm protocolForm) throws Exception {
         String newDocId = getProtocolAmendRenewService().createRenewal(protocolForm.getProtocolDocument(), protocolForm.getActionHelper().getRenewalSummary());
-        // Switch over to the new protocol document and
-        // go to the Protocol tab web page.
-
         generateActionCorrespondence(ProtocolActionType.RENEWAL_CREATED, protocolForm.getProtocolDocument().getProtocol());
-        protocolForm.setDocId(newDocId);
-
-        protocolForm.getActionHelper().setCurrentSubmissionNumber(-1);
-        protocolForm.getProtocolHelper().prepareView();
-        
-        recordProtocolActionSuccess("Create Renewal without Amendment");
-        
+        refreshAfterProtocolAction(protocolForm, newDocId, ACTION_NAME_RENEWAL_WITHOUT_AMENDMENT, true);
         // Form fields copy needed to support modifyAmendmentSections
         protocolForm.getActionHelper().getProtocolAmendmentBean().setSummary(protocolForm.getActionHelper().getRenewalSummary());
-
         ProtocolNotificationRequestBean notificationBean = new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(), ProtocolActionType.RENEWAL_CREATED_NOTIFICATION, "Renewal Created");
-        protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, PROTOCOL_TAB, notificationBean, false));
-        if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
-            return false;
-        } else {
-            return checkToSendNotification(protocolForm, notificationBean, notificationPromptName);
-        }
+        protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, Constants.IRB_PROTOCOL_TAB, notificationBean, false));
+        return getRedirectPathAfterProtocolAction(protocolForm, notificationBean);
     }
     
-    public boolean assignToAgendaAndPromptToNotifyUser(ProtocolForm protocolForm) throws Exception {
+    /**
+     * @see org.kuali.kra.irb.actions.IrbProtocolActionRequestService#assignToAgenda(org.kuali.kra.irb.ProtocolForm)
+     */
+    public String assignToAgenda(ProtocolForm protocolForm) throws Exception {
         ProtocolAssignToAgendaBean actionBean = (ProtocolAssignToAgendaBean) protocolForm.getActionHelper().getAssignToAgendaBean();
         getProtocolAssignToAgendaService().assignToAgenda(protocolForm.getProtocolDocument().getProtocol(), actionBean);
         generateActionCorrespondence(ProtocolActionType.ASSIGN_TO_AGENDA, protocolForm.getProtocolDocument().getProtocol());
@@ -285,11 +317,83 @@ public class IrbProtocolActionRequestServiceImpl extends ProtocolActionRequestSe
         
         if (protocolForm.getNotificationHelper().getPromptUserForNotificationEditor(context)) {
             protocolForm.getNotificationHelper().initializeDefaultValues(context);
-            return true;
+            return FORWARD_TO_NOTIFICATION_EDITOR;
         } else {
             getNotificationService().sendNotificationAndPersist(context, new IRBProtocolNotification(), protocol);
-            return false;
+            return Constants.MAPPING_BASIC;
         }
+    }
+    
+    /**
+     * @see org.kuali.kra.irb.actions.IrbProtocolActionRequestService#createAmendment(org.kuali.kra.irb.ProtocolForm)
+     */
+    public String createAmendment(ProtocolForm protocolForm) throws Exception {
+        String newDocId = getProtocolAmendRenewService().createAmendment(protocolForm.getProtocolDocument(),
+                protocolForm.getActionHelper().getProtocolAmendmentBean());
+        generateActionCorrespondence(ProtocolActionType.AMENDMENT_CREATED, protocolForm.getProtocolDocument().getProtocol());
+        refreshAfterProtocolAction(protocolForm, newDocId, ACTION_NAME_AMENDMENT, true);
+        ProtocolNotificationRequestBean notificationBean = new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(), ProtocolActionType.AMENDMENT_CREATED_NOTIFICATION, "Amendment Created");
+        protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, Constants.IRB_PROTOCOL_TAB, notificationBean, false));
+        return getRedirectPathAfterProtocolAction(protocolForm, notificationBean);
+    }
+    
+    /**
+     * @see org.kuali.kra.irb.actions.IrbProtocolActionRequestService#createRenewalWithAmendment(org.kuali.kra.irb.ProtocolForm)
+     */
+    public String createRenewalWithAmendment(ProtocolForm protocolForm) throws Exception {
+        String newDocId = getProtocolAmendRenewService().createRenewalWithAmendment(protocolForm.getProtocolDocument(),
+                protocolForm.getActionHelper().getProtocolRenewAmendmentBean());
+        generateActionCorrespondence(ProtocolActionType.RENEWAL_WITH_AMENDMENT_CREATED, protocolForm.getProtocolDocument().getProtocol());
+        refreshAfterProtocolAction(protocolForm, newDocId, ACTION_NAME_RENEWAL_WITH_AMENDMENT, true);
+        // Form fields copy needed to support modifyAmendmentSections
+        protocolForm.getActionHelper().setProtocolAmendmentBean(protocolForm.getActionHelper().getProtocolRenewAmendmentBean());
+        ProtocolNotificationRequestBean notificationBean = new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(), ProtocolActionType.RENEWAL_WITH_AMENDMENT_CREATED, "Renewal With Amendment Created");
+        protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, Constants.IRB_PROTOCOL_TAB, notificationBean, false));
+        return getRedirectPathAfterProtocolAction(protocolForm, notificationBean);
+    }
+    
+    /**
+     * @see org.kuali.kra.irb.actions.IrbProtocolActionRequestService#withdrawProtocol(org.kuali.kra.irb.ProtocolForm)
+     */
+    public String withdrawProtocol(ProtocolForm protocolForm) throws Exception {
+        ProtocolDocument pd = (ProtocolDocument) getProtocolWithdrawService().withdraw(protocolForm.getProtocolDocument().getProtocol(),
+                protocolForm.getActionHelper().getProtocolWithdrawBean());
+        generateActionCorrespondence(ProtocolActionType.WITHDRAWN, protocolForm.getProtocolDocument().getProtocol());
+        refreshAfterProtocolAction(protocolForm, pd.getDocumentNumber(), ACTION_NAME_WITHDRAW, false);
+        ProtocolNotificationRequestBean notificationBean = new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(), ProtocolActionType.WITHDRAWN, "Withdrawn");
+        protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, Constants.IRB_PROTOCOL_TAB, notificationBean, false));
+        return getRedirectPathAfterProtocolAction(protocolForm, notificationBean);
+    }
+    
+    /**
+     * This method is to get the path where user is send to performing protocol action
+     * @param protocolForm
+     * @param notificationBean
+     * @return
+     */
+    private String getRedirectPathAfterProtocolAction(ProtocolForm protocolForm, ProtocolNotificationRequestBean notificationBean) {
+        if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
+            return FORWARD_TO_CORRESPONDENCE;
+        } else {
+            boolean sendNotification = checkToSendNotification(protocolForm, notificationBean, Constants.IRB_PROTOCOL_TAB); 
+            return sendNotification ? FORWARD_TO_NOTIFICATION_EDITOR : Constants.IRB_PROTOCOL_TAB;
+        }
+    }
+    
+    /**
+     * This method is to set the parameters required for the new document after performing
+     * an action
+     * @param protocolForm
+     * @param newDocId
+     * @param protocolActionName
+     */
+    private void refreshAfterProtocolAction(ProtocolForm protocolForm, String newDocId, String protocolActionName, boolean resetCurrentSubmission) {
+        protocolForm.setDocId(newDocId);
+        if(resetCurrentSubmission) {
+            protocolForm.getActionHelper().setCurrentSubmissionNumber(-1);
+        }
+        //protocolForm.getProtocolHelper().prepareView();
+        recordProtocolActionSuccess(protocolActionName);
     }
     
     private ProtocolCorrespondence getProtocolCorrespondence (ProtocolForm protocolForm, String forwardName, ProtocolNotificationRequestBean notificationRequestBean, boolean holdingPage) {
@@ -318,7 +422,7 @@ public class IrbProtocolActionRequestServiceImpl extends ProtocolActionRequestSe
         return notificationRequestBeans;
     }
     
-    private boolean checkToSendNotification(ProtocolForm protocolForm, ProtocolNotificationRequestBean notificationRequestBean, String notificationPromptName ) {
+    private boolean checkToSendNotification(ProtocolForm protocolForm, ProtocolNotificationRequestBean notificationRequestBean, String promptAfterNotification ) {
         
         IRBNotificationRenderer renderer = null;
         if (StringUtils.equals(ProtocolActionType.NOTIFY_IRB, notificationRequestBean.getActionType())) {
@@ -347,7 +451,7 @@ public class IrbProtocolActionRequestServiceImpl extends ProtocolActionRequestSe
         IRBNotificationContext context = new IRBNotificationContext((Protocol) notificationRequestBean.getProtocol(), notificationRequestBean.getActionType(), notificationRequestBean.getDescription(), renderer);
         
         if (protocolForm.getNotificationHelper().getPromptUserForNotificationEditor(context)) {
-            context.setForwardName(notificationPromptName);
+            context.setForwardName(promptAfterNotification);
             protocolForm.getNotificationHelper().initializeDefaultValues(context);
             return true;
         } else {
@@ -420,6 +524,14 @@ public class IrbProtocolActionRequestServiceImpl extends ProtocolActionRequestSe
     @Override
     protected Class<? extends ProtocolBase> getProtocolBOClassHook() {
         return Protocol.class;
+    }
+
+    public ProtocolWithdrawService getProtocolWithdrawService() {
+        return protocolWithdrawService;
+    }
+
+    public void setProtocolWithdrawService(ProtocolWithdrawService protocolWithdrawService) {
+        this.protocolWithdrawService = protocolWithdrawService;
     }
 
 
