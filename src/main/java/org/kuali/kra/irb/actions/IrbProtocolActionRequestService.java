@@ -46,6 +46,12 @@ public interface IrbProtocolActionRequestService extends ProtocolActionRequestSe
 
     public boolean isAssignToAgendaAuthorized(ProtocolForm protocolForm);
     
+    public boolean isCreateAmendmentAuthorized(ProtocolForm protocolForm);
+    
+    public boolean isCreateRenewalWithAmendmentAuthorized(ProtocolForm protocolForm);
+
+    public boolean isWithdrawProtocolAuthorized(ProtocolForm protocolForm);
+    
     /**
      * This method is to grant expedited approval on irb protocol
      * @param protocolForm
@@ -73,19 +79,42 @@ public interface IrbProtocolActionRequestService extends ProtocolActionRequestSe
      * This method is to create protocol renewal
      * Notification prompt name indicates the forward name to prompt user
      * @param protocolForm
-     * @param notificationPromptName
-     * @return boolean to indicate whether to prompt user
+     * @return String path to prompt/redirect user
      * @throws Exception
      */
-    public boolean createRenewalAndPromptToNotifyUser(ProtocolForm protocolForm, String notificationPromptName) throws Exception;
+    public String createRenewal(ProtocolForm protocolForm) throws Exception;
     
     /**
      * This method is to assign protocol to agenda
      * @param protocolForm
      * @param notificationPromptName
-     * @return boolean to indicate whether to prompt user
+     * @return String path to prompt/redirect user
      * @throws Exception
      */
-    public boolean assignToAgendaAndPromptToNotifyUser(ProtocolForm protocolForm) throws Exception;
+    public String assignToAgenda(ProtocolForm protocolForm) throws Exception;
+    
+    /**
+     * This method is to create protocol amendment
+     * @param protocolForm
+     * @return String path to prompt/redirect user
+     * @throws Exception
+     */
+    public String createAmendment(ProtocolForm protocolForm) throws Exception;
+    
+    /**
+     * This method is to create protocol renewal with amendment
+     * @param protocolForm
+     * @return String path to prompt/redirect user
+     * @throws Exception
+     */
+    public String createRenewalWithAmendment(ProtocolForm protocolForm) throws Exception;
+    
+    /**
+     * This method is to withdraw a protocol
+     * @param protocolForm
+     * @return String path to prompt/redirect user
+     * @throws Exception
+     */
+    public String withdrawProtocol(ProtocolForm protocolForm) throws Exception;
     
 }
