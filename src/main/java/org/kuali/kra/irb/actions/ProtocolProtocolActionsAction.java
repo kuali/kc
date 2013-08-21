@@ -467,34 +467,15 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
      */
     public ActionForward withdrawProtocol(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-
+        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_WITHDRAW, (Protocol) protocolForm.getProtocolDocument().getProtocol());
-        
-        if (!hasDocumentStateChanged(protocolForm)) {
-            if (isAuthorized(task)) {
-                ProtocolDocument pd = (ProtocolDocument) getProtocolWithdrawService().withdraw(protocolForm.getProtocolDocument().getProtocol(),
-                        protocolForm.getActionHelper().getProtocolWithdrawBean());
-    
-                protocolForm.setDocId(pd.getDocumentNumber());
-                loadDocument(protocolForm);
-                protocolForm.getProtocolHelper().prepareView();
-                ProtocolNotificationRequestBean notificationBean = new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(), ProtocolActionType.WITHDRAWN, "Withdrawn");
-                protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, PROTOCOL_TAB, notificationBean, false));
-                recordProtocolActionSuccess("Withdraw");
-    
-                if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
-                    return mapping.findForward(CORRESPONDENCE);
-                } else {
-                    return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_TAB), protocolForm, notificationBean);
-                }
-            }
-        } else {
-            GlobalVariables.getMessageMap().clearErrorMessages();
-            GlobalVariables.getMessageMap().putError("documentstatechanged", KeyConstants.ERROR_PROTOCOL_DOCUMENT_STATE_CHANGED,  new String[] {}); 
+        if(getProtocolActionRequestService().isWithdrawProtocolAuthorized(protocolForm)) {
+            String forwardTo = getProtocolActionRequestService().withdrawProtocol(protocolForm);
+            forward = mapping.findForward(forwardTo);
+            loadDocument(protocolForm);
+            protocolForm.getProtocolHelper().prepareView();
         }
-
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return forward;
     }
 
     /**
@@ -585,40 +566,19 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
      * @return
      * @throws Exception
      */
-    @SuppressWarnings("unchecked")
     public ActionForward createAmendment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-
+        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         ProtocolForm protocolForm = (ProtocolForm) form;
-
-        ProtocolTask task = new ProtocolTask(TaskName.CREATE_PROTOCOL_AMMENDMENT, (Protocol) protocolForm.getProtocolDocument().getProtocol());
-        if (isAuthorized(task)) {
-            if (!applyRules(new CreateAmendmentEvent(protocolForm.getProtocolDocument(), Constants.PROTOCOL_CREATE_AMENDMENT_KEY,
-                (ProtocolAmendmentBean) protocolForm.getActionHelper().getProtocolAmendmentBean()))) {
-                return mapping.findForward(Constants.MAPPING_BASIC);
-            }
-
-            String newDocId = getProtocolAmendRenewService().createAmendment(protocolForm.getProtocolDocument(),
-                    protocolForm.getActionHelper().getProtocolAmendmentBean());
+        if(getProtocolActionRequestService().isCreateAmendmentAuthorized(protocolForm)) {
+            String forwardTo = getProtocolActionRequestService().createAmendment(protocolForm);
+            forward = mapping.findForward(forwardTo);
             // Switch over to the new protocol document and
             // go to the Protocol tab web page.
-
-            protocolForm.setDocId(newDocId);
             loadDocument(protocolForm);
-            protocolForm.getActionHelper().setCurrentSubmissionNumber(-1);
             protocolForm.getProtocolHelper().prepareView();
-            
-            recordProtocolActionSuccess("Create Amendment");
-
-            ProtocolNotificationRequestBean notificationBean = new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(), ProtocolActionType.AMENDMENT_CREATED_NOTIFICATION, "Amendment Created");
-            protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, PROTOCOL_TAB, notificationBean, false));
-            if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
-                return mapping.findForward(CORRESPONDENCE);
-            } else {
-                return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_TAB), protocolForm, notificationBean);
-            }
         }
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return forward;
     }
 
     /**
@@ -631,7 +591,6 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
      * @return
      * @throws Exception
      */
-    @SuppressWarnings("unchecked")
     public ActionForward modifyAmendmentSections(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
 
@@ -669,17 +628,10 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         ProtocolForm protocolForm = (ProtocolForm) form;
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         if(getProtocolActionRequestService().isCreateRenewalAuthorized(protocolForm)) {
-            forward = mapping.findForward(PROTOCOL_TAB);
-            String notificationPromptName = forward.getName();
-            boolean isPromptToNotifyUser = getProtocolActionRequestService().createRenewalAndPromptToNotifyUser(protocolForm, notificationPromptName);
+            String forwardTo = getProtocolActionRequestService().createRenewal(protocolForm);
+            forward = mapping.findForward(forwardTo);
             loadDocument(protocolForm);
-            if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
-                forward = mapping.findForward(CORRESPONDENCE);
-            } else {
-                if(isPromptToNotifyUser) {
-                    forward = mapping.findForward(PROTOCOL_NOTIFICATION_EDITOR);
-                }
-            }
+            protocolForm.getProtocolHelper().prepareView();
         }
         return forward;
     }
@@ -694,44 +646,17 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
      * @return
      * @throws Exception
      */
-    @SuppressWarnings("unchecked")
     public ActionForward createRenewalWithAmendment(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-
         ProtocolForm protocolForm = (ProtocolForm) form;
-        ProtocolTask task = new ProtocolTask(TaskName.CREATE_PROTOCOL_RENEWAL, (Protocol) protocolForm.getProtocolDocument().getProtocol());
-        if (isAuthorized(task)) {
-            if (!applyRules(new CreateAmendmentEvent(protocolForm.getProtocolDocument(),
-                Constants.PROTOCOL_CREATE_RENEWAL_WITH_AMENDMENT_KEY, (ProtocolAmendmentBean) protocolForm.getActionHelper()
-                        .getProtocolRenewAmendmentBean()))) {
-                return mapping.findForward(Constants.MAPPING_BASIC);
-            }
-
-            String newDocId = getProtocolAmendRenewService().createRenewalWithAmendment(protocolForm.getProtocolDocument(),
-                    protocolForm.getActionHelper().getProtocolRenewAmendmentBean());
-            // Switch over to the new protocol document and
-            // go to the Protocol tab web page.
-
-            protocolForm.setDocId(newDocId);
+        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
+        if(getProtocolActionRequestService().isCreateRenewalWithAmendmentAuthorized(protocolForm)) {
+            String forwardTo = getProtocolActionRequestService().createRenewalWithAmendment(protocolForm);
+            forward = mapping.findForward(forwardTo);
             loadDocument(protocolForm);
-
-            protocolForm.getActionHelper().setCurrentSubmissionNumber(-1);
             protocolForm.getProtocolHelper().prepareView();
-            
-            recordProtocolActionSuccess("Create Renewal with Amendment");
-            
-            // Form fields copy needed to support modifyAmendmentSections
-            protocolForm.getActionHelper().setProtocolAmendmentBean(protocolForm.getActionHelper().getProtocolRenewAmendmentBean());
-
-            ProtocolNotificationRequestBean notificationBean = new ProtocolNotificationRequestBean(protocolForm.getProtocolDocument().getProtocol(), ProtocolActionType.RENEWAL_WITH_AMENDMENT_CREATED, "Renewal With Amendment Created");
-            protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, PROTOCOL_TAB, notificationBean, false));
-            if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
-                return mapping.findForward(CORRESPONDENCE);
-            } else {
-                return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_TAB), protocolForm, notificationBean);
-            }
         }
-        return mapping.findForward(Constants.MAPPING_BASIC);
+        return forward;
     }
     
     /**
@@ -1304,10 +1229,8 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
         ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
         ProtocolForm protocolForm = (ProtocolForm) form;
         if(getProtocolActionRequestService().isAssignToAgendaAuthorized(protocolForm)) {
-            boolean isPromptToNotifyUser = getProtocolActionRequestService().assignToAgendaAndPromptToNotifyUser(protocolForm);
-            if (isPromptToNotifyUser) {
-                forward = mapping.findForward(PROTOCOL_NOTIFICATION_EDITOR);
-            }
+            String forwardTo = getProtocolActionRequestService().assignToAgenda(protocolForm);
+            forward = mapping.findForward(forwardTo);
         }
         return forward;
     }

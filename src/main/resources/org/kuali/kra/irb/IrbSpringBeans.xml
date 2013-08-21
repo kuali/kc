@@ -1069,6 +1069,7 @@
 		<property name="notificationService" ref="kcNotificationService" /> 
         <property name="protocolSubmitActionService" ref="protocolSubmitActionService" />
         <property name="protocolAmendRenewService" ref="protocolAmendRenewService" />
+        <property name="protocolWithdrawService" ref="protocolWithdrawService" />
         <property name="personService" ref="personService"/>
  	</bean>
  	 
