@@ -1070,6 +1070,9 @@
         <property name="protocolSubmitActionService" ref="protocolSubmitActionService" />
         <property name="protocolAmendRenewService" ref="protocolAmendRenewService" />
         <property name="protocolWithdrawService" ref="protocolWithdrawService" />
+        <property name="protocolRequestService" ref="protocolRequestService"/>
+        <property name="protocolGenericActionService" ref="protocolGenericActionService" />
+        <property name="protocolGrantExemptionService" ref="protocolGrantExemptionService" />
         <property name="personService" ref="personService"/>
  	</bean>
  	 
