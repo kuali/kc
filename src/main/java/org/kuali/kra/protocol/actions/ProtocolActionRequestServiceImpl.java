@@ -23,6 +23,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinuteBase;
 import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.protocol.ProtocolFormBase;
@@ -93,6 +94,24 @@ public abstract class ProtocolActionRequestServiceImpl implements ProtocolAction
         return getTaskAuthorizationService().isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), task);
     }
     
+    /**
+     * This method is to verify whether current user authorized to perform the generic action task
+     * @param genericActionName
+     * @param protocol
+     * @return
+     */
+    protected boolean hasGenericPermission(String genericActionName, ProtocolBase protocol) {
+        ProtocolTaskBase task = getProtocolGenericActionTaskInstanceHook(TaskName.GENERIC_PROTOCOL_ACTION, genericActionName, protocol);
+        return getTaskAuthorizationService().isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), task);
+    }
+    
+    /**
+     * This method is to generate correspondence for every action performed
+     * Check whether trigger correspondence is enabled.
+     * @param protocolActionTypeCode
+     * @param protocol
+     * @throws Exception
+     */
     protected void generateActionCorrespondence(String protocolActionTypeCode, ProtocolBase protocol) throws Exception {
         if(isCorrespondenceRequired(protocolActionTypeCode)) {
             ProtocolActionsCorrespondenceBase correspondence = getNewProtocolActionsCorrespondence(protocolActionTypeCode);
@@ -175,6 +194,7 @@ public abstract class ProtocolActionRequestServiceImpl implements ProtocolAction
     
     
     protected abstract ProtocolTaskBase getProtocolTaskInstanceHook(String taskName, ProtocolBase protocol);
+    protected abstract ProtocolTaskBase getProtocolGenericActionTaskInstanceHook(String taskName, String genericActionName, ProtocolBase protocol);
     protected abstract ProtocolActionsCorrespondenceBase getNewProtocolActionsCorrespondence(String protocolActionTypeCode);
     protected abstract Class<? extends ProtocolActionTypeBase> getProtocolActionTypeBOClassHook();
     protected abstract String getProtocolCreatedActionTypeHook();

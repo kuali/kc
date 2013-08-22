@@ -1021,6 +1021,7 @@ public interface Constants {
     
     //IRB
     public static final String IRB_PROTOCOL_TAB = "protocol";
+    public static final String IRB_PROTOCOL_ACTIONS_TAB = "protocolActions";
     
     
 }

@@ -22,7 +22,8 @@ public interface IrbProtocolActionRequestService extends ProtocolActionRequestSe
     
     /**
      * This method is to check if user is authorized to perform expedited approval action
-     * on a protocol
+     * on a protocol.
+     * Also apply rules if any.
      * This method...
      * @param protocolForm
      * @return
@@ -32,6 +33,7 @@ public interface IrbProtocolActionRequestService extends ProtocolActionRequestSe
     /**
      * This method is to check if user is authorized to perform full approval action
      * on a protocol
+     * Also apply rules if any.
      * @param protocolForm
      * @return
      */
@@ -39,18 +41,109 @@ public interface IrbProtocolActionRequestService extends ProtocolActionRequestSe
 
     /**
      * This method is to check whether user is authorized to create renewal
+     * Also apply rules if any.
      * @param protocolForm
      * @return
      */
     public boolean isCreateRenewalAuthorized(ProtocolForm protocolForm);
 
+    /**
+     * This method is to check whether user is authorized to assign protocol to agenda
+     * Also apply rules if any.
+     * @param protocolForm
+     * @return
+     */
     public boolean isAssignToAgendaAuthorized(ProtocolForm protocolForm);
     
+    /**
+     * This method is to check whether user is authorized to create amendment
+     * Also apply rules if any.
+     * @param protocolForm
+     * @return
+     */
     public boolean isCreateAmendmentAuthorized(ProtocolForm protocolForm);
     
+    /**
+     * This method is to check whether user is authorized to create renewal with amendment
+     * Also apply rules if any.
+     * @param protocolForm
+     * @return
+     */
     public boolean isCreateRenewalWithAmendmentAuthorized(ProtocolForm protocolForm);
 
+    /**
+     * This method is to check whether user is authorized to withdraw protocol
+     * Also apply rules if any.
+     * @param protocolForm
+     * @return
+     */
     public boolean isWithdrawProtocolAuthorized(ProtocolForm protocolForm);
+    
+    /**
+     * This method is to check whether user is authorized to perform response approval
+     * action
+     * Also apply rules if any.
+     * @param protocolForm
+     * @return
+     */
+    public boolean isResponseApprovalAuthorized(ProtocolForm protocolForm);
+    
+    /**
+     * This method is to check whether user is authorized to perform "request to" action
+     * Also apply rules if any.
+     * @param protocolForm
+     * @param taskName
+     * @return
+     */
+    public boolean isRequestActionAuthorized(ProtocolForm protocolForm, String taskName);
+    
+    /**
+     * This method is to check whether user is authorized to close protocol
+     * Also apply rules if any.
+     * @param protocolForm
+     * @return
+     */
+    public boolean isCloseProtocolAuthorized(ProtocolForm protocolForm);
+
+    /**
+     * This method is to check whether user is authorized to perform close enrollment action
+     * Also apply rules if any.
+     * @param protocolForm
+     * @return
+     */
+    public boolean isCloseEnrollmentAuthorized(ProtocolForm protocolForm);
+
+    /**
+     * This method is to check whether user is authorized to defer protocol
+     * Also apply rules if any.
+     * @param protocolForm
+     * @return
+     */
+    public boolean isDeferProtocolAuthorized(ProtocolForm protocolForm);
+    
+    /**
+     * This method is to check whether user is authorized to disapprove protocol
+     * Also apply rules if any.
+     * @param protocolForm
+     * @return
+     */
+    public boolean isDisapproveProtocolAuthorized(ProtocolForm protocolForm);
+    
+    /**
+     * This method is to check whether user is authorized to expire protocol
+     * Also apply rules if any.
+     * @param protocolForm
+     * @return
+     */
+    public boolean isExpireProtocolAuthorized(ProtocolForm protocolForm);
+    
+    /**
+     * This method is to check whether user is authorized to grant exemption
+     * Also apply rules if any.
+     * @param protocolForm
+     * @return
+     */
+    public boolean isGrantExemptionAuthorized(ProtocolForm protocolForm);
     
     /**
      * This method is to grant expedited approval on irb protocol
@@ -116,5 +209,72 @@ public interface IrbProtocolActionRequestService extends ProtocolActionRequestSe
      * @throws Exception
      */
     public String withdrawProtocol(ProtocolForm protocolForm) throws Exception;
+    
+    /**
+     * This method is to grant response approval
+     * @param protocolForm
+     * @return
+     * @throws Exception
+     */
+    public String grantResponseApproval(ProtocolForm protocolForm) throws Exception;
+    
+    /**
+     * This method is to perform "request to" actions
+     * @param protocolForm
+     * @param taskName
+     * @return
+     * @throws Exception
+     */
+    public String performRequestAction(ProtocolForm protocolForm, String taskName) throws Exception;
+    
+    /**
+     * This method is to close protocol
+     * @param protocolForm
+     * @return
+     * @throws Exception
+     */
+    public String closeProtocol(ProtocolForm protocolForm) throws Exception;
+    
+    /**
+     * This method is to close enrollment
+     * @param protocolForm
+     * @return
+     * @throws Exception
+     */
+    public String closeEnrollment(ProtocolForm protocolForm) throws Exception;
+    
+    /**
+     * This method is to defer protocol
+     * @param protocolForm
+     * @return
+     * @throws Exception
+     */
+    public String deferProtocol(ProtocolForm protocolForm) throws Exception;
+    
+    /**
+     * This method is to disapprove protocol
+     * @param protocolForm
+     * @return
+     * @throws Exception
+     */
+    public String disapproveProtocol(ProtocolForm protocolForm) throws Exception;
+
+    /**
+     * This method is to expire protocol
+     * @param protocolForm
+     * @return
+     * @throws Exception
+     */
+    public String expireProtocol(ProtocolForm protocolForm) throws Exception;
+    
+    /**
+     * This method is to grant exemption
+     * @param protocolForm
+     * @return
+     * @throws Exception
+     */
+    public String grantExemption(ProtocolForm protocolForm) throws Exception;
+    
+    
     
 }
