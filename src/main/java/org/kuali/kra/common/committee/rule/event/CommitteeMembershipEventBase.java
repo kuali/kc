@@ -22,7 +22,6 @@ import org.kuali.kra.common.committee.bo.CommitteeBase;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipBase;
 import org.kuali.kra.common.committee.document.CommitteeDocumentBase;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
-import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * 
@@ -50,9 +49,7 @@ public abstract class CommitteeMembershipEventBase extends KraDocumentEventBase
             CommitteeDocumentBase comitteeDocument, CommitteeMembershipBase committeeMembership) {
         super(description, errorPathPrefix, comitteeDocument);
 
-        // by doing a deep copy, we are ensuring that the business rule class can't update
-        // the original object by reference
-        this.committeeMembership = (CommitteeMembershipBase) ObjectUtils.deepCopy(committeeMembership);
+        this.committeeMembership = committeeMembership;
 
         logEvent();
     }

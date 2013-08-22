@@ -21,7 +21,6 @@ import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.common.committee.bo.CommitteeMembershipRole;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
 import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.krad.util.ObjectUtils;
 
 public abstract class CommitteeMembershipRoleEventBase extends KraDocumentEventBase 
                                                        implements CommitteeMembershipRoleEvent {
@@ -36,9 +35,7 @@ public abstract class CommitteeMembershipRoleEventBase extends KraDocumentEventB
             CommitteeMembershipRole committeeMembershipRole, int membershipIndex) {
         super(description, errorPathPrefix, document);
 
-        // by doing a deep copy, we are ensuring that the business rule class can't update
-        // the original object by reference
-        this.committeeMembershipRole = (CommitteeMembershipRole) ObjectUtils.deepCopy(committeeMembershipRole);
+        this.committeeMembershipRole = committeeMembershipRole;
         this.membershipIndex = membershipIndex;
 
         logEvent();
