@@ -133,5 +133,11 @@ public class IacucProtocolActionRequestServiceImpl extends ProtocolActionRequest
         return IacucProtocol.class;
     }
 
+    @Override
+    protected ProtocolTaskBase getProtocolGenericActionTaskInstanceHook(String taskName, String genericActionName,
+            ProtocolBase protocol) {
+        IacucProtocolTask task = new IacucProtocolTask(taskName, (IacucProtocol)protocol, genericActionName);
+        return task;
+    }
 
 }
