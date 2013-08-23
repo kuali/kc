@@ -18,6 +18,7 @@ package org.kuali.kra.protocol.actions;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,7 +34,6 @@ import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolAssociateBase;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondence;
-import org.kuali.kra.protocol.notification.ProtocolNotification;
 import org.kuali.kra.protocol.questionnaire.ProtocolSubmissionQuestionnaireHelper;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.rice.krad.service.BusinessObjectService;
@@ -90,6 +90,10 @@ public abstract class ProtocolActionBase extends ProtocolAssociateBase {
     private transient List<ProtocolSubmissionDocBase> protocolSubmissionDocs;
 
     private transient boolean isInFilterView = true;
+    
+    private String createUser;
+    
+    private Timestamp createTimestamp;
 
     private ProtocolSubmissionQuestionnaireHelper questionnaireHelper;
 
@@ -119,6 +123,9 @@ public abstract class ProtocolActionBase extends ProtocolAssociateBase {
         setActionDate(new Timestamp(System.currentTimeMillis()));
         setProtocolActionTypeCode(protocolActionTypeCode);
         setProtocol(protocol);
+        createUser = GlobalVariables.getUserSession().getPrincipalName();
+        createTimestamp = new Timestamp(Calendar.getInstance().getTimeInMillis());
+//        createTimestamp = ((DateTimeService) KraServiceLocator.getService(Constants.DATE_TIME_SERVICE_NAME)).getCurrentTimestamp();
     }
     
 
@@ -434,6 +441,22 @@ public abstract class ProtocolActionBase extends ProtocolAssociateBase {
 
     public void setFollowupActionCode(String followupActionCode) {
         this.followupActionCode = followupActionCode;
+    }
+
+    public String getCreateUser() {
+        return (createUser == null) ?getUpdateUser() : createUser;
+    }
+
+    public void setCreateUser(String createUser) {
+        this.createUser = createUser;
+    }
+
+    public Timestamp getCreateTimestamp() {
+        return (createTimestamp == null) ? getUpdateTimestamp() : createTimestamp;
+    }
+
+    public void setCreateTimestamp(Timestamp createTimestamp) {
+        this.createTimestamp = createTimestamp;
     }
 
     public int getAnswerHeaderCount(String moduleSubItemCode, String moduleItemKey, String moduleSubItemKey) {
