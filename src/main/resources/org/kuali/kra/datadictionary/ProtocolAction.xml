@@ -41,6 +41,8 @@
                 <ref bean="ProtocolAction-comments" />
                 <ref bean="ProtocolAction-actionDate" />
                 <ref bean="ProtocolAction-versionNumber" />
+                <ref bean="ProtocolAction-createUser" />
+                <ref bean="ProtocolAction-createTimestamp" />
             </list>
         </property>
     </bean>
@@ -129,6 +131,32 @@
         <property name="description" value="Action Date" />
     </bean>
 
+    <bean id="ProtocolAction-createUser" parent="ProtocolAction-createUser-parentBean" />
+    <bean id="ProtocolAction-createUser-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="createUser" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Create User" />
+        <property name="shortLabel" value="CreateUser" />
+        <property name="maxLength" value="60" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern"
+                  p:allowWhitespace="true" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="60" />
+        </property>
+    </bean>
+
+    <bean id="ProtocolAction-createTimestamp" parent="ProtocolAction-createTimestamp-parentBean" />
+    <bean id="ProtocolAction-createTimestamp-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
+        <property name="name" value="createTimestamp" />
+        <property name="label" value="Create Timestamp" />
+        <property name="shortLabel" value="Create Timestamp" />
+        <property name="summary" value="Create Timestamp" />
+        <property name="description" value="Create Timestamp" />
+    </bean>
+
     <bean id="ProtocolAction-versionNumber" parent="ProtocolAction-versionNumber-parentBean" />
     <bean id="ProtocolAction-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
     </bean>
@@ -155,6 +183,10 @@
                                 p:attributeName="comments" />
                             <bean parent="FieldDefinition"
                                 p:attributeName="actionDate" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="createUser" />
+                            <bean parent="FieldDefinition"
+                                p:attributeName="createTimestamp" />
                         </list>
                     </property>
                 </bean>
@@ -185,6 +217,10 @@
                     p:attributeName="comments" />
                 <bean parent="FieldDefinition"
                     p:attributeName="actionDate" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="createUser" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="createTimestamp" />
             </list>
         </property>
         <property name="resultFields" >
@@ -200,6 +236,10 @@
                     p:attributeName="comments" />
                 <bean parent="FieldDefinition"
                     p:attributeName="actionDate" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="createUser" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="createTimestamp" />
             </list>
         </property>
     </bean>

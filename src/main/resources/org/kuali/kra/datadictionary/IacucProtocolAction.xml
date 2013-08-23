@@ -41,6 +41,8 @@
                 <ref bean="IacucProtocolAction-comments" />
                 <ref bean="IacucProtocolAction-actionDate" />
                 <ref bean="IacucProtocolAction-versionNumber" />
+                <ref bean="IacucProtocolAction-createUser" />
+                <ref bean="IacucProtocolAction-createTimestamp" />
             </list>
         </property>
     </bean>
@@ -184,6 +186,32 @@
         <property name="description" value="Action Date" />
     </bean>
 
+    <bean id="IacucProtocolAction-createUser" parent="IacucProtocolAction-createUser-parentBean" />
+    <bean id="IacucProtocolAction-createUser-parentBean" abstract="true" parent="AttributeDefinition" >
+        <property name="name" value="createUser" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Create User" />
+        <property name="shortLabel" value="CreateUser" />
+        <property name="maxLength" value="60" />
+        <property name="validationPattern" >
+            <bean parent="AnyCharacterValidationPattern"
+                  p:allowWhitespace="true" />
+        </property>
+        <property name="control" >
+            <bean parent="TextControlDefinition"
+                p:size="60" />
+        </property>
+    </bean>
+
+    <bean id="IacucProtocolAction-createTimestamp" parent="IacucProtocolAction-createTimestamp-parentBean" />
+    <bean id="IacucProtocolAction-createTimestamp-parentBean" abstract="true" parent="KraAttributeReferenceDummy-genericDate" >
+        <property name="name" value="createTimestamp" />
+        <property name="label" value="Create Timestamp" />
+        <property name="shortLabel" value="Create Timestamp" />
+        <property name="summary" value="Create Timestamp" />
+        <property name="description" value="Create Timestamp" />
+    </bean>
+
     <bean id="IacucProtocolAction-versionNumber" parent="IacucProtocolAction-versionNumber-parentBean" />
     <bean id="IacucProtocolAction-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
     </bean>
@@ -216,6 +244,10 @@
                                 p:attributeName="comments" />
                             <bean parent="FieldDefinition"
                                 p:attributeName="actionDate" />
+			                <bean parent="FieldDefinition"
+            			        p:attributeName="createUser" />
+			                <bean parent="FieldDefinition"
+            			        p:attributeName="createTimestamp" />
                         </list>
                     </property>
                 </bean>
@@ -251,6 +283,10 @@
                     p:attributeName="comments" />
                 <bean parent="FieldDefinition"
                     p:attributeName="actionDate" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="createUser" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="createTimestamp" />
             </list>
         </property>
         <property name="resultFields" >
@@ -272,6 +308,10 @@
                     p:attributeName="comments" />
                 <bean parent="FieldDefinition"
                     p:attributeName="actionDate" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="createUser" />
+                <bean parent="FieldDefinition"
+                    p:attributeName="createTimestamp" />
             </list>
         </property>
     </bean>
