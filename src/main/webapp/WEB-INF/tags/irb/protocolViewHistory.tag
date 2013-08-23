@@ -51,7 +51,9 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.selectedHistoryItem")}
 	                <th>Description</th>
 	                <th>Date</th>
 	                <th><nobr>Action Date</nobr></th>
-	                <th style="width:50%;">Comments</th>
+	                <th style="width:30%;">Comments</th>
+	                <th>Updated By</th>
+	                <th>Update Time</th>
  	              <%--  <th>Questionnaire</th> --%>
                 </tr>
                 <c:forEach items="${KualiForm.document.protocol.protocolActions}" var="protocolAction" varStatus="status">
@@ -90,6 +92,12 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.selectedHistoryItem")}
 	                                </c:otherwise>
 	                            </c:choose>
 	                        </td>
+	            		    <td class="infoline">
+	            		        <nobr>${protocolAction.createUser}</nobr>
+	            		    </td>
+	            		    <td class="infoline">
+	            		        <nobr>${protocolAction.createTimestamp}</nobr>
+	            		    </td>
 	                        <%--
 	            		    <td class="infoline">
 	            		        <c:choose>
@@ -283,7 +291,7 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.selectedHistoryItem")}
             	</c:forEach>
             	
             	<tr>
-            	    <td class="infoline" colspan="5">
+            	    <td class="infoline" colspan="7">
             	        <html:image property="methodToCall.loadProtocolSummary.line${ctr}.anchor${currentTabIndex}"
                                     src='${ConfigProperties.kra.externalizable.images.url}tinybutton-load.gif' 
                                     styleClass="tinybutton" style="vertical-align:bottom"/>  
