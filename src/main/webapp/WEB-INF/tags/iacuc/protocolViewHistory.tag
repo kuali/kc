@@ -120,7 +120,7 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.selectedHistoryItem")}
 	            		<c:if test="${fn:length(protocolAction.protocolCorrespondences) > 0}">
 	            			<tr>
 	            				<td class="infoline">&nbsp;</td>
-	            		        <td colspan="4">
+	            		        <td colspan="6">
 	            		        	<kul:innerTab tabTitle="Correspondences" tabItemCount="${fn:length(protocolAction.protocolCorrespondences)}" parentTab="attachment${status.index}" defaultOpen="false" tabErrorKey="">
 	            		        		<div class="innerTab-container" align="left">
 		                                    <table class="tab" cellpadding="0" cellspacing="0" summary="">
@@ -181,7 +181,7 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.selectedHistoryItem")}
 		            	<c:if test="${fn:length(protocolAction.filteredProtocolNotifications) > 0}">
 	            			<tr>
 	            				<td class="infoline">&nbsp;</td>
-	            		        <td colspan="4">
+	            		        <td colspan="6">
 	            		        	<kul:innerTab tabTitle="Notifications" tabItemCount="${fn:length(protocolAction.filteredProtocolNotifications)}" parentTab="attachment${status.index}" defaultOpen="false" tabErrorKey="">
 	            		        		<div class="innerTab-container" align="left">
 		                                    <table class="tab" cellpadding="0" cellspacing="0" summary="">
