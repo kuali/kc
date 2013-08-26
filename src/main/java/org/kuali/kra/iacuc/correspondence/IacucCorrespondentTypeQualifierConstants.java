@@ -13,20 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.protocol.correspondence;
+package org.kuali.kra.iacuc.correspondence;
 
 /**
  * 
  * This class used in the CorrespondentTypeQualifierValuesFinder.
  */
-public enum CorrespondentTypeQualifierConstants {
-    PROTOCOL("P", "ProtocolBase"),
+public enum IacucCorrespondentTypeQualifierConstants {
+    PROTOCOL("P", "Protocol"),
     UNIT("U", "Unit"),
     ORGANIZATION("O", "Organization");
     
     private final String code;   
     private final String description; 
-    CorrespondentTypeQualifierConstants(String code, String description) {
+    IacucCorrespondentTypeQualifierConstants(String code, String description) {
         this.code = code;
         this.description = description;
     }

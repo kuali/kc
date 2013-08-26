@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.protocol.correspondence;
+package org.kuali.kra.iacuc.correspondence;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,13 +26,19 @@ import org.kuali.rice.krad.keyvalues.KeyValuesBase;
  * 
  * This class returns the qualifiers that CorrespondentType can have.
  */
-public class CorrespondentTypeQualifierValuesFinder extends KeyValuesBase {
+public class IacucCorrespondentTypeQualifierValuesFinder extends KeyValuesBase {
+
+    /**
+     * Comment for <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = -3106476961230607417L;
+    
 
     public List<KeyValue> getKeyValues() {
         List<KeyValue> KeyValues = new ArrayList<KeyValue>();
 
         KeyValues.add(new ConcreteKeyValue("", "select"));
-        for (CorrespondentTypeQualifierConstants correspondentTypeQualifierConstants : CorrespondentTypeQualifierConstants.values()) {
+        for (IacucCorrespondentTypeQualifierConstants correspondentTypeQualifierConstants : IacucCorrespondentTypeQualifierConstants.values()) {
             KeyValues.add(new ConcreteKeyValue(correspondentTypeQualifierConstants.code(), correspondentTypeQualifierConstants.description()));
         }
         
