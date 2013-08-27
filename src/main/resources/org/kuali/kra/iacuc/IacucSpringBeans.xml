@@ -578,6 +578,16 @@
         scope="prototype" parent="parentLookupableHelperService">
     </bean>
     
+	<bean id="iacucProtocolReviewerTypeLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+  		<property name="lookupableHelperService">
+    		<ref bean="iacucProtocolReviewerTypeLookupableHelperServiceImpl" />
+  		</property>  		
+	</bean>	
+	
+	<bean id="iacucProtocolReviewerTypeLookupableHelperServiceImpl" class="org.kuali.kra.lookup.IacucProtocolReviewerTypeLookupableHelperServiceImpl" 
+ 		scope="prototype" parent="parentLookupableHelperService">
+  	</bean>
+  	
     <bean id="iacucProtocolPersonTrainingService" class="org.kuali.kra.iacuc.personnel.IacucProtocolPersonTrainingServiceImpl">
         <property name="businessObjectService">
             <ref bean="businessObjectService" />
