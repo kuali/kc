@@ -22,12 +22,12 @@ import org.kuali.kra.timeandmoney.transactions.PendingTransaction;
 public class PendingTransactionComparator implements Comparator<PendingTransaction> {
 
     public int compare(PendingTransaction arg0, PendingTransaction arg1) {
-        if(arg0.getTransactionId()!=null && arg1.getTransactionId()!=null){
-            return arg0.getTransactionId().compareTo(arg1.getTransactionId());    
-        }else{
-            return -1;
-        }
+        if (arg0.getTransactionId() == null && arg1.getTransactionId() == null) {
+            return 0;
         
-    }
+        } else {
+            return arg0.getTransactionId().compareTo(arg1.getTransactionId());  
 
+        }
+    }
 }
