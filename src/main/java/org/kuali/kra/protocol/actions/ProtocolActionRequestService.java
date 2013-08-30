@@ -15,10 +15,15 @@
  */
 package org.kuali.kra.protocol.actions;
 
+import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolFormBase;
 
 public interface ProtocolActionRequestService {
 
     public void createProtocol(ProtocolFormBase protocolForm) throws Exception;
+    
+    public void rejectedInRouting(ProtocolBase protocol) throws Exception;
+
+    public void recalledInRouting(ProtocolBase protocol) throws Exception;
 
 }
