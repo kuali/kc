@@ -145,6 +145,37 @@ public interface IrbProtocolActionRequestService extends ProtocolActionRequestSe
      */
     public boolean isGrantExemptionAuthorized(ProtocolForm protocolForm);
     
+    public boolean isIrbAcknowledgementAuthorized(ProtocolForm protocolForm);
+    
+    public boolean isPermitDataAnalysisAuthorized(ProtocolForm protocolForm);
+
+    public boolean isReopenEnrollmentAuthorized(ProtocolForm protocolForm);
+
+    public boolean isReturnForSMRAuthorized(ProtocolForm protocolForm);
+    
+    public boolean isReturnForSRRAuthorized(ProtocolForm protocolForm);
+    
+    public boolean isReturnToPIAuthorized(ProtocolForm protocolForm);
+    
+    public boolean isSuspendAuthorized(ProtocolForm protocolForm);
+    
+    public boolean isSuspendByDsmbAuthorized(ProtocolForm protocolForm);
+    
+    public boolean isTerminateAuthorized(ProtocolForm protocolForm);
+    
+    public boolean isManageCommentsAuthorized(ProtocolForm protocolForm);
+    
+    public boolean isOpenProtocolForAdminCorrectionAuthorized(ProtocolForm protocolForm);
+    
+    public boolean isSubmitCommitteeDecisionAuthorized(ProtocolForm protocolForm);
+    
+    public boolean isAbandonAuthorized(ProtocolForm protocolForm);
+    
+    public boolean isProtocolReviewNotRequiredAuthorized(ProtocolForm protocolForm);
+    
+    public boolean isAssignReviewersAuthorized(ProtocolForm protocolForm);
+    
+    
     /**
      * This method is to grant expedited approval on irb protocol
      * @param protocolForm
@@ -276,5 +307,38 @@ public interface IrbProtocolActionRequestService extends ProtocolActionRequestSe
     public String grantExemption(ProtocolForm protocolForm) throws Exception;
     
     
+    public String irbAcknowledgement(ProtocolForm protocolForm) throws Exception;
     
+    public String permitDataAnalysis(ProtocolForm protocolForm) throws Exception;
+    
+    public String reopenEnrollment(ProtocolForm protocolForm) throws Exception;
+    
+    public String returnForSMR(ProtocolForm protocolForm) throws Exception;
+    
+    public String returnForSRR(ProtocolForm protocolForm) throws Exception;
+    
+    public String returnToPI(ProtocolForm protocolForm) throws Exception;
+    
+    public String suspend(ProtocolForm protocolForm) throws Exception;
+    
+    public String suspendByDsmb(ProtocolForm protocolForm) throws Exception;
+    
+    public String terminate(ProtocolForm protocolForm) throws Exception;
+    
+    public String manageComments(ProtocolForm protocolForm) throws Exception;
+    
+    public String openProtocolForAdminCorrection(ProtocolForm protocolForm) throws Exception;
+    
+    public String submitCommitteeDecision(ProtocolForm protocolForm) throws Exception;
+    
+    public String abandon(ProtocolForm protocolForm) throws Exception;
+    
+    public String notifyIrbProtocol(ProtocolForm protocolForm) throws Exception;
+    
+    public String notifyCommitteeProtocol(ProtocolForm protocolForm) throws Exception;
+    
+    public String protocolReviewNotRequired(ProtocolForm protocolForm) throws Exception;
+    
+    public String assignReviewers(ProtocolForm protocolForm) throws Exception;
+        
 }

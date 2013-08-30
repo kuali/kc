@@ -137,6 +137,14 @@ public abstract class ProtocolActionRequestServiceImpl implements ProtocolAction
         generateActionCorrespondence(getProtocolCreatedActionTypeHook(), protocolForm.getProtocolDocument().getProtocol());
     }
 
+    public void rejectedInRouting(ProtocolBase protocol) throws Exception {
+        generateActionCorrespondence(getProtocolRejectedInRoutingActionTypeHook(), protocol);
+    }
+
+    public void recalledInRouting(ProtocolBase protocol) throws Exception {
+        generateActionCorrespondence(getProtocolRecalledInRoutingActionTypeHook(), protocol);
+    }
+    
     protected void recordProtocolActionSuccess(String protocolActionName) {
         KNSGlobalVariables.getMessageList().add(KeyConstants.MESSAGE_PROTOCOL_ACTION_SUCCESSFULLY_COMPLETED, protocolActionName);
     }
@@ -199,6 +207,8 @@ public abstract class ProtocolActionRequestServiceImpl implements ProtocolAction
     protected abstract Class<? extends ProtocolActionTypeBase> getProtocolActionTypeBOClassHook();
     protected abstract String getProtocolCreatedActionTypeHook();
     protected abstract Class<? extends ProtocolBase> getProtocolBOClassHook();
+    protected abstract String getProtocolRejectedInRoutingActionTypeHook();
+    protected abstract String getProtocolRecalledInRoutingActionTypeHook();
 
     public ProtocolActionCorrespondenceGenerationService getProtocolActionCorrespondenceGenerationService() {
         return protocolActionCorrespondenceGenerationService;

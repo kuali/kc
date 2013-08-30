@@ -805,6 +805,7 @@
         <property name="protocolAssignToAgendaService" ref="protocolAssignToAgendaService" />
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="kcNotificationService" ref="kcNotificationService" />
+        <property name="protocolActionRequestService" ref="irbProtocolActionRequestService" />
     </bean>
     
     <bean id="protocolApproveService" class="org.kuali.kra.irb.actions.approve.ProtocolApproveServiceImpl">
@@ -1073,6 +1074,13 @@
         <property name="protocolRequestService" ref="protocolRequestService"/>
         <property name="protocolGenericActionService" ref="protocolGenericActionService" />
         <property name="protocolGrantExemptionService" ref="protocolGrantExemptionService" />
+        <property name="committeeDecisionService" ref="protocolCommitteeDecisionService" />
+        <property name="protocolAbandonService" ref="protocolAbandonService" />
+        <property name="protocolNotifyIrbService" ref="protocolNotifyIrbService" />
+        <property name="protocolNotifyCommitteeService" ref="protocolNotifyCommitteeService" />
+   		<property name="committeeService" ref="committeeService"/>
+   		<property name="protocolReviewNotRequiredService" ref="protocolReviewNotRequiredService"/>
+        <property name="protocolAssignReviewersService" ref="protocolAssignReviewersService" />
         <property name="personService" ref="personService"/>
  	</bean>
  	 
