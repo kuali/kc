@@ -16,6 +16,7 @@
 package org.kuali.kra.protocol.actions.genericactions;
 
 import java.sql.Timestamp;
+
 import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.printing.PrintingException;
@@ -23,6 +24,7 @@ import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.protocol.ProtocolVersionService;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;
+import org.kuali.kra.protocol.actions.ProtocolActionRequestService;
 import org.kuali.kra.protocol.actions.assignagenda.ProtocolAssignToAgendaService;
 import org.kuali.kra.protocol.actions.correspondence.ProtocolActionCorrespondenceGenerationService;
 import org.kuali.kra.protocol.actions.correspondence.ProtocolActionsCorrespondenceBase;
@@ -46,6 +48,7 @@ public abstract class ProtocolGenericActionServiceImplBase implements ProtocolGe
       
     private ProtocolActionCorrespondenceGenerationService protocolActionCorrespondenceGenerationService;
     
+    private ProtocolActionRequestService protocolActionRequestService;
     
     private ProtocolOnlineReviewService protocolOnlineReviewService;
     private ProtocolVersionService protocolVersionService;
@@ -70,7 +73,7 @@ public abstract class ProtocolGenericActionServiceImplBase implements ProtocolGe
         protocol.refreshReferenceObject("protocolStatus");
         documentService.saveDocument(protocol.getProtocolDocument());
                  
-        createCorrespondenceAndAttach(protocol, protocolActionType);
+        //createCorrespondenceAndAttach(protocol, protocolActionType);
     }
 
     protected ProtocolActionBase createProtocolActionAndAttach(ProtocolBase protocol, ProtocolGenericActionBean actionBean, String protocolActionType) {
@@ -127,6 +130,11 @@ public abstract class ProtocolGenericActionServiceImplBase implements ProtocolGe
         protocol.getProtocolSubmission().setSubmissionStatusCode(getProtocolSubmissionStatusRejectedInRoutingCodeHook());
         protocol.refreshReferenceObject(PROTOCOL_SUBMISSION);
         this.getBusinessObjectService().save(protocol);
+        try {
+            getProtocolActionRequestService().rejectedInRouting(protocol);
+        }catch(Exception ex) {
+            ex.printStackTrace();
+        }
     }
     
     protected abstract String getProtocolSubmissionStatusRejectedInRoutingCodeHook();
@@ -183,6 +191,11 @@ public abstract class ProtocolGenericActionServiceImplBase implements ProtocolGe
         protocolAction.setComments("Recalled in Routing");
         protocol.getProtocolActions().add(protocolAction);
         getProtocolActionService().updateProtocolStatus(protocolAction, protocol);
+        try {
+            getProtocolActionRequestService().recalledInRouting(protocol);
+        }catch(Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
     public void setProtocolActionService(ProtocolActionService protocolActionService) {
@@ -271,6 +284,14 @@ public abstract class ProtocolGenericActionServiceImplBase implements ProtocolGe
 
     protected KcNotificationService getKcNotificationService() {
         return kcNotificationService;
+    }
+
+    public ProtocolActionRequestService getProtocolActionRequestService() {
+        return protocolActionRequestService;
+    }
+
+    public void setProtocolActionRequestService(ProtocolActionRequestService protocolActionRequestService) {
+        this.protocolActionRequestService = protocolActionRequestService;
     }
 
 }
