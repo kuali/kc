@@ -71,7 +71,6 @@
 						<phase>generate-sources</phase>
 						<inherited>false</inherited>
 						<configuration>
-							<sourceRoot>${project.build.directory}/generated/cxf/main/java</sourceRoot>
 							<disableDirectoryScan>true</disableDirectoryScan>
 							<wsdlOptions>
 								<wsdlOption>
@@ -100,7 +99,6 @@
 						<phase>generate-sources</phase>
 						<inherited>false</inherited>
 						<configuration>
-							<sourceRoot>${project.build.directory}/generated/cxf/main/java</sourceRoot>
 							<disableDirectoryScan>true</disableDirectoryScan>
 							<wsdlOptions>
 								<wsdlOption>
@@ -127,7 +125,6 @@
 						<phase>generate-sources</phase>
 						<inherited>false</inherited>
 						<configuration>
-							<sourceRoot>${project.build.directory}/generated/cxf/main/java</sourceRoot>
 							<disableDirectoryScan>true</disableDirectoryScan>
 							<wsdlOptions>
 								<wsdlOption>
