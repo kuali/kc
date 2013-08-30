@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: org.eclipse.birt.runtime.3_7_1:derby:10.5.1000001">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/eclipse/birt/runtime/3_7_1/derby/10.5.1000001/derby-10.5.1000001.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/org/eclipse/birt/runtime/3_7_1/derby/10.5.1000001/derby-10.5.1000001-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/eclipse/birt/runtime/3_7_1/derby/10.5.1000001/derby-10.5.1000001-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

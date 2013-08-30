@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: xapool:xapool:1.5.0-patch4">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/xapool/xapool/1.5.0-patch4/xapool-1.5.0-patch4.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/xapool/xapool/1.5.0-patch4/xapool-1.5.0-patch4-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/xapool/xapool/1.5.0-patch4/xapool-1.5.0-patch4-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

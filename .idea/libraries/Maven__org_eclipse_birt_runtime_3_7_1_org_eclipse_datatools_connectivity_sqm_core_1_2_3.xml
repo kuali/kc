@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: org.eclipse.birt.runtime.3_7_1:org.eclipse.datatools.connectivity.sqm.core:1.2.3">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/eclipse/birt/runtime/3_7_1/org.eclipse.datatools.connectivity.sqm.core/1.2.3/org.eclipse.datatools.connectivity.sqm.core-1.2.3.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/org/eclipse/birt/runtime/3_7_1/org.eclipse.datatools.connectivity.sqm.core/1.2.3/org.eclipse.datatools.connectivity.sqm.core-1.2.3-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/eclipse/birt/runtime/3_7_1/org.eclipse.datatools.connectivity.sqm.core/1.2.3/org.eclipse.datatools.connectivity.sqm.core-1.2.3-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
