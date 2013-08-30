@@ -140,4 +140,15 @@ public class IacucProtocolActionRequestServiceImpl extends ProtocolActionRequest
         return task;
     }
 
+    @Override
+    protected String getProtocolRejectedInRoutingActionTypeHook() {
+        return IacucProtocolActionType.REJECTED_IN_ROUTING;
+    }
+
+    @Override
+    protected String getProtocolRecalledInRoutingActionTypeHook() {
+        //not supported action type
+        return null;
+    }
+
 }
