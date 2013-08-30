@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: org.jacorb:jacorb:2.2.3-jonas-patch-20071018">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/jacorb/jacorb/2.2.3-jonas-patch-20071018/jacorb-2.2.3-jonas-patch-20071018.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/org/jacorb/jacorb/2.2.3-jonas-patch-20071018/jacorb-2.2.3-jonas-patch-20071018-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/jacorb/jacorb/2.2.3-jonas-patch-20071018/jacorb-2.2.3-jonas-patch-20071018-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

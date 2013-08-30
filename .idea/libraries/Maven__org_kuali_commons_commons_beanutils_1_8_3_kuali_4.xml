@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: org.kuali.commons:commons-beanutils:1.8.3-kuali-4">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/kuali/commons/commons-beanutils/1.8.3-kuali-4/commons-beanutils-1.8.3-kuali-4.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/org/kuali/commons/commons-beanutils/1.8.3-kuali-4/commons-beanutils-1.8.3-kuali-4-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/kuali/commons/commons-beanutils/1.8.3-kuali-4/commons-beanutils-1.8.3-kuali-4-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
