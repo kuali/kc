@@ -15,34 +15,16 @@
  */
 package org.kuali.kra.common.customattributes;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.SortedMap;
-import java.util.TreeMap;
-
 import org.apache.cxf.common.util.StringUtils;
-import org.kuali.kra.award.AwardForm;
-import org.kuali.kra.award.customdata.AwardCustomData;
-import org.kuali.kra.bo.CustomAttribute;
-import org.kuali.kra.bo.CustomAttributeDocValue;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.bo.DocumentCustomData;
-import org.kuali.kra.document.ResearchDocumentBase;
-import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.institutionalproposal.customdata.InstitutionalProposalCustomData;
-import org.kuali.kra.institutionalproposal.web.struts.form.InstitutionalProposalForm;
-import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.service.CustomAttributeService;
 import org.kuali.kra.service.TaskAuthorizationService;
-import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.util.KRADPropertyConstants;
+
+import java.io.Serializable;
+import java.util.*;
 
 /**
  * The CustomDataHelperBase is the base class for all Custom Data Helper classes.
@@ -60,8 +42,6 @@ public abstract class CustomDataHelperBase<T extends DocumentCustomData> impleme
     /**
      * This method builds the custom data collections used on the form and populates the values from the collection of AwardCustomData on the Award.
      * @param customAttributeGroups
-     * @param awardForm
-     * @param customAttributeDocuments
      */
     @SuppressWarnings("unchecked")
     public void buildCustomDataCollectionsOnExistingDocument(SortedMap<String, List> customAttributeGroups) {
@@ -85,12 +65,10 @@ public abstract class CustomDataHelperBase<T extends DocumentCustomData> impleme
             }
         }
     }
-    
+
     /**
      * This method builds the custom data collections used on the form
      * @param customAttributeGroups
-     * @param awardForm
-     * @param customAttributeDocuments
      */
     @SuppressWarnings("unchecked")
     public void buildCustomDataCollectionsOnNewDocument(SortedMap<String, List> customAttributeGroups) {
@@ -198,11 +176,9 @@ public abstract class CustomDataHelperBase<T extends DocumentCustomData> impleme
     protected String getUserIdentifier() {
          return GlobalVariables.getUserSession().getPrincipalId();
     }
-    
+
     /**
      * Set the custom attribute content in workflow.
-     * @param form
-     * @throws Exception
      */
    public void setCustomAttributeContent(String documentNumber, String attributeName) {
        getCustomAttributeService().setCustomAttributeKeyValue(documentNumber, getCustomAttributeDocuments(), attributeName, getUserIdentifier());
