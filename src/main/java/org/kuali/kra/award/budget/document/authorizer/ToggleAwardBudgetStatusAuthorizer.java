@@ -34,10 +34,7 @@ import org.kuali.rice.kew.api.WorkflowDocument;
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
 public class ToggleAwardBudgetStatusAuthorizer extends BudgetAuthorizer {
- 
-    /**
-     * @see org.kuali.kra.proposaldevelopment.document.authorizer.BudgetAuthorizer#isAuthorized(org.kuali.rice.kns.bo.user.UniversalUser, org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm)
-     */
+
     public boolean isAuthorized(String userId, Task task) {
         AwardBudgetTask budgetTask = (AwardBudgetTask) task;
         
