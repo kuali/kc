@@ -27,10 +27,7 @@ import org.kuali.kra.infrastructure.Constants;
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
 public class ModifyAwardBudgetAuthorizer extends AwardAuthorizer {
- 
-    /**
-     * @see org.kuali.kra.proposaldevelopment.document.authorizer.ProposalAuthorizer#isAuthorized(org.kuali.rice.kns.bo.user.UniversalUser, org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm)
-     */
+
     public boolean isAuthorized(String userId, AwardTask task) {
         AwardDocument doc = task.getAward().getAwardDocument(); 
         
