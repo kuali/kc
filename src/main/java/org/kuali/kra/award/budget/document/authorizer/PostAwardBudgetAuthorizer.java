@@ -37,9 +37,6 @@ public class PostAwardBudgetAuthorizer extends BudgetAuthorizer {
  
     private static final String POST_ENABLED_PARAM_VALUE_1 = "1";
 
-    /**
-     * @see org.kuali.kra.proposaldevelopment.document.authorizer.BudgetAuthorizer#isAuthorized(org.kuali.rice.kns.bo.user.UniversalUser, org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm)
-     */
     public boolean isAuthorized(String userId, Task task) {
         AwardBudgetTask budgetTask = (AwardBudgetTask) task;
         
