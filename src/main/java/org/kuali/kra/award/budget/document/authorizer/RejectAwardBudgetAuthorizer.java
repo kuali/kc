@@ -37,10 +37,7 @@ public class RejectAwardBudgetAuthorizer extends BudgetAuthorizer {
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(RejectAwardBudgetAuthorizer.class);
     
     private KraDocumentRejectionService kraDocumentRejectionService;
-    
-    /**
-     * @see org.kuali.kra.proposaldevelopment.document.authorizer.ProposalAuthorizer#isAuthorized(org.kuali.rice.kns.bo.user.UniversalUser, org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm)
-     */
+
     public boolean isAuthorized(String username, BudgetTask task) {
         BudgetDocument doc = task.getBudgetDocument();
         WorkflowDocument workDoc = doc.getDocumentHeader().getWorkflowDocument();
