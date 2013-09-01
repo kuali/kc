@@ -182,8 +182,8 @@ public class AwardDirectFandADistributionBean implements Serializable{
     
     /**
      * This method apply all the rules on Add to the target period.
-     * @param awardForm
-     * @param newAwardDirectFandADistribution
+     * @param timeAndMoneyForm
+     * @param thisNewAwardDirectFandADistribution
      * @return
      */
     private boolean applyAddRulesToTarget(TimeAndMoneyForm timeAndMoneyForm, AwardDirectFandADistribution thisNewAwardDirectFandADistribution) {
