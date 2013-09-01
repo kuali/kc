@@ -31,17 +31,13 @@ import org.kuali.kra.web.struts.authorization.impl.WebTaskFactoryImpl;
  */
 public class AwardTaskFactory extends WebTaskFactoryImpl {
 
-    /**
-     * @see org.kuali.kra.web.struts.authorization.WebTaskFactory#createTask(java.lang.String, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest)
-     */
+    @Override
     public Task createTask(ActionForm form, HttpServletRequest request) {
         AwardForm awardForm = (AwardForm) form;
         return new AwardTask(getTaskName(), awardForm.getAwardDocument().getAward());
     }
 
-    /**
-     * @see org.kuali.kra.web.struts.authorization.impl.WebTaskFactoryImpl#getTaskGroupName()
-     */
+
     @Override
     public String getTaskGroupName() {
         return TaskGroupName.AWARD;
