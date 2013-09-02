@@ -15,19 +15,9 @@
  */
 package org.kuali.kra.coi.questionnaire;
 
-import java.util.ArrayList;
-
-import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.coi.CoiDisclosure;
-import org.kuali.kra.coi.CoiDisclosureDocument;
-import org.kuali.kra.coi.CoiDisclosureForm;
-import org.kuali.kra.coi.auth.CoiDisclosureTask;
-import org.kuali.kra.infrastructure.TaskName;
-import org.kuali.kra.questionnaire.QuestionnaireHelperBase;
-import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
-import org.springframework.util.CollectionUtils;
 
 public class ScreeningQuestionnaireHelper extends DisclosureQuestionnaireHelper {
 
