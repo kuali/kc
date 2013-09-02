@@ -15,24 +15,19 @@
  */
 package org.kuali.kra.coi.disclosure;
 
-import java.io.Serializable;
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.collections.CollectionUtils;
-import org.drools.core.util.StringUtils;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.coi.CoiDiscDetail;
 import org.kuali.kra.coi.CoiDisclProject;
 import org.kuali.kra.coi.CoiDisclosure;
-import org.kuali.kra.coi.CoiDisclosureForm;
-import org.kuali.kra.coi.Disclosurable;
 import org.kuali.kra.coi.notesandattachments.attachments.CoiDisclosureAttachment;
 import org.kuali.kra.coi.notesandattachments.notes.CoiDisclosureNotepad;
 import org.kuali.kra.coi.questionnaire.DisclProjectQuestionnaireHelper;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
-import org.kuali.rice.krad.util.ObjectUtils;
+
+import java.io.Serializable;
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CoiDisclosureProjectBean implements Serializable {
     /**
