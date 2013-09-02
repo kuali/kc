@@ -114,16 +114,6 @@ public class IacucProtocolAssignToAgendaBean extends IacucProtocolGenericActionB
                 }
             }
         }
-        
-        /*
-         * The Assign to Agenda has to work with and without JavaScript. When JavaScript is enabled, the newly selected committee
-         * and schedule are what we want to continue to display. When JavaScript is disabled, we have to change the schedule dates
-         * that we display if the committee has changed.
-         * Note: no known javascript issues at this, but leaving the code in place so it will be easy to put in if/when an issue arises.
-         */
-        if (getActionHelper().getProtocolForm().isJavaScriptEnabled()) {
-        } else {
-        }
     }
     
     /**
