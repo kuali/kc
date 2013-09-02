@@ -15,16 +15,13 @@
  */
 package org.kuali.kra.coi.disclosure;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.kuali.kra.infrastructure.DisclosureEventTypeConstants;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.kns.lookup.Lookupable;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
-import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 
