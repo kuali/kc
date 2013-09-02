@@ -15,21 +15,16 @@
  */
 package org.kuali.kra.coi.lookup.keyvalue;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
 import org.kuali.kra.coi.CoiAttachmentType;
-import org.kuali.kra.coi.CoiDisclosureForm;
-import org.kuali.kra.coi.personfinancialentity.FinancialEntityService;
-import org.kuali.kra.coi.personfinancialentity.PersonFinIntDisclosure;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.service.KeyValuesService;
-import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 public class CoiDisclosureAttachmentTypeValuesFinder extends KeyValuesBase {
 
