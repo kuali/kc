@@ -15,28 +15,18 @@
  */
 package org.kuali.kra.budget.lookup.keyvalue;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.budget.core.BudgetCategory;
 import org.kuali.kra.budget.core.CostElement;
-import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.lookup.keyvalue.KeyValueFinderService;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
-import org.kuali.rice.kns.web.struts.form.KualiForm;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.service.KeyValuesService;
 
+import java.util.*;
+
 public class CostElementValuesFinder extends KeyValuesBase{
-    KeyValueFinderService keyValueFinderService= (KeyValueFinderService)KraServiceLocator.getService("keyValueFinderService");
     
     private String budgetCategoryTypeCode;
     
@@ -53,22 +43,17 @@ public class CostElementValuesFinder extends KeyValuesBase{
      * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List<KeyValue> getKeyValues() {
-        KeyValuesService keyValuesService = (KeyValuesService) KraServiceLocator.getService("keyValuesService");
+        KeyValuesService keyValuesService = KraServiceLocator.getService("keyValuesService");
         List<KeyValue> keyValues = new ArrayList<KeyValue>();        
-        Collection costElements= keyValuesService.findAll(CostElement.class);
-        Collection budgetCategoryCodes = keyValuesService.findAll(BudgetCategory.class);
-        KualiForm form = KNSGlobalVariables.getKualiForm();        
-        
-        
-        BudgetForm budgetForm = (BudgetForm)form;
-        for (Iterator iter = costElements.iterator(); iter.hasNext();) {
-            CostElement costElement = (CostElement) iter.next();
-            for(Iterator iter1 = budgetCategoryCodes.iterator(); iter1.hasNext();){
-                BudgetCategory budgetCategory = (BudgetCategory) iter1.next();
-                if(costElement.getBudgetCategoryCode().equalsIgnoreCase(budgetCategory.getBudgetCategoryCode())){
-                    if(StringUtils.equalsIgnoreCase(budgetCategory.getBudgetCategoryTypeCode(),getBudgetCategoryTypeCode())){
-                        if(costElement.isActive()) {
-                            keyValues.add(new ConcreteKeyValue(costElement.getCostElement().toString(), costElement.getDescription()));
+        Collection<CostElement> costElements= keyValuesService.findAll(CostElement.class);
+        Collection<BudgetCategory> budgetCategoryCodes = keyValuesService.findAll(BudgetCategory.class);
+
+        for (CostElement costElement : costElements) {
+            for(BudgetCategory budgetCategory : budgetCategoryCodes){
+                if (costElement.getBudgetCategoryCode().equalsIgnoreCase(budgetCategory.getBudgetCategoryCode())){
+                    if (StringUtils.equalsIgnoreCase(budgetCategory.getBudgetCategoryTypeCode(),getBudgetCategoryTypeCode())){
+                        if (costElement.isActive()) {
+                            keyValues.add(new ConcreteKeyValue(costElement.getCostElement(), costElement.getDescription()));
                         }
                     }
                 }
