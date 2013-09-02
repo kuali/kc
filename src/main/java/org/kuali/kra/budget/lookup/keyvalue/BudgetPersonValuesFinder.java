@@ -45,12 +45,6 @@ import org.kuali.rice.krad.util.ObjectUtils;
  * 
  * @author KRADEV team
  */
-/**
- * Finds the available set of supported Narrative Statuses.  See
- * the method <code>getKeyValues()</code> for a full description.
- * 
- * @author KRADEV team
- */
 public class BudgetPersonValuesFinder extends KeyValuesBase {
     KeyValueFinderService keyValueFinderService= (KeyValueFinderService)KraServiceLocator.getService("keyValueFinderService");
     
