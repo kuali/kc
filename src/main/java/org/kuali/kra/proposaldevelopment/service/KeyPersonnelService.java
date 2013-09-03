@@ -25,14 +25,11 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 
 /**
  * A Service for persisted modifications of Key Personnel related business objects
  *
  * @see org.kuali.kra.proposaldevelopment.bo.ProposalPerson
- * @see org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentKeyPersonnelAction
- * @see org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm
  * @author $Author: gmcgrego $
  * @version $Revision: 1.11 $
  */
@@ -78,8 +75,8 @@ public interface KeyPersonnelService {
     public Map calculateCreditSplitTotals(ProposalDevelopmentDocument document);
 
     /**
-     * Uses a <code>{@link Unit}</code> obtained from the <code>{@link Unit}</code> lookup on the 
-     * <code>{@link ProposalDevelopmentForm}</code> to create a <code>{@link ProposalPersonUnit}</code> instance.
+     * Uses a <code>{@link Unit}</code> obtained from the <code>{@link Unit}</code> lookup
+     * to create a <code>{@link ProposalPersonUnit}</code> instance.
      *
      * @param unitId
      * @return ProposalPersonUnit
@@ -87,8 +84,8 @@ public interface KeyPersonnelService {
     public ProposalPersonUnit createProposalPersonUnit(String unitId, ProposalPerson person);
 
     /**
-     * Uses a <code>personId</code> obtained from the <code>{@link KcPerson}</code> lookup on the 
-     * <code>{@link ProposalDevelopmentForm}</code> to create a <code>{@link ProposalPerson}</code> instance.
+     * Uses a <code>personId</code> obtained from the <code>{@link KcPerson}</code> lookup
+     * to create a <code>{@link ProposalPerson}</code> instance.
      *
      * @param personId
      * @return ProposalPerson
@@ -96,8 +93,8 @@ public interface KeyPersonnelService {
     //public ProposalPerson createProposalPersonFromPersonId(String personId);
 
     /**
-     * Uses a <code>rolodexId</code> obtained from the <code>{@link KcPerson}</code> or <code>{@link Rolodex}</code> lookup on the 
-     * <code>{@link ProposalDevelopmentForm}</code> to create a <code>{@link ProposalPerson}</code> instance.
+     * Uses a <code>rolodexId</code> obtained from the <code>{@link KcPerson}</code> or <code>{@link Rolodex}</code> lookup
+     * to create a <code>{@link ProposalPerson}</code> instance.
      *
      * @param rolodexId
      * @return ProposalPerson
