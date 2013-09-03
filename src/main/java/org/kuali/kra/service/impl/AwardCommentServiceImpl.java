@@ -42,10 +42,7 @@ public class AwardCommentServiceImpl implements AwardCommentService {
     private String AWARD_COMMENT_SCREEN_FLAG = "awardCommentScreenFlag";
     private String AWARD_COMMENT_TYPE_CODE = "commentTypeCode";
     private String AWARD_ID = "awardId";
-    
-    /**
-     * @see org.kuali.kra.service.AwardCommentService#retrieveCommentTypesToAwardFormForPanelHeaderDisplay()
-     */
+
     @SuppressWarnings("unchecked")
     public List<CommentType> retrieveCommentTypes() {
         Map<String, String> queryMap = new HashMap<String, String>();
