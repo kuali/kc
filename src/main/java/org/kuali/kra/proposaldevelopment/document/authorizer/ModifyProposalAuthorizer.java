@@ -35,10 +35,7 @@ import org.kuali.rice.kew.api.WorkflowDocument;
  * the document cannot be in workflow.
  */
 public class ModifyProposalAuthorizer extends ProposalAuthorizer {
-    
-    /**
-     * @see org.kuali.kra.proposaldevelopment.document.authorizer.ProposalAuthorizer#isAuthorized(org.kuali.rice.kns.bo.user.UniversalUser, org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm)
-     */
+
     public boolean isAuthorized(String userId, ProposalTask task) {
         boolean hasPermission = true;
         ProposalDevelopmentDocument doc = task.getDocument();
