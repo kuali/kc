@@ -15,13 +15,12 @@
  */
 package org.kuali.kra.subaward.customdata;
 
-import java.util.List;
-import java.util.Map;
-
-import org.kuali.kra.subaward.SubAwardForm;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.common.customattributes.CustomDataHelperBase;
-import org.kuali.kra.document.ResearchDocumentBase;
+import org.kuali.kra.subaward.SubAwardForm;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * This class is using for CustomDataHelper...
