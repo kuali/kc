@@ -15,18 +15,17 @@
  */
 package org.kuali.kra.irb.customdata;
 
-import java.util.List;
-import java.util.Map;
-
 import org.kuali.kra.bo.CustomAttributeDocValue;
 import org.kuali.kra.bo.CustomAttributeDocument;
-import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolForm;
 import org.kuali.kra.irb.auth.ProtocolTask;
 import org.kuali.kra.protocol.customdata.ProtocolCustomDataHelperBase;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * The CustomDataHelper is used to manage the Custom Data tab web page.
