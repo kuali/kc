@@ -34,9 +34,7 @@ import org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyServ
 public class AlterProposalDataAuthorizer extends ProposalAuthorizer {
 
     org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(AlterProposalDataAuthorizer.class);
-    /**
-     * @see org.kuali.kra.proposaldevelopment.document.authorizer.ProposalAuthorizer#isAuthorized(org.kuali.rice.kns.bo.user.UniversalUser, org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm)
-     */
+
     public boolean isAuthorized(String userId, ProposalTask task) {
         ProposalDevelopmentDocument doc = task.getDocument();
         //standard is authorized calculation without taking child status into account.
