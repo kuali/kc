@@ -24,10 +24,7 @@ import org.kuali.kra.kew.KraDocumentRejectionService;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 
 public class ModifyProposalBudgetRatesAuthorizer extends BudgetAuthorizer {
-    
-    /**
-     * @see org.kuali.kra.proposaldevelopment.document.authorizer.ProposalAuthorizer#isAuthorized(org.kuali.rice.kns.bo.user.UniversalUser, org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm)
-     */
+
     public boolean isAuthorized(String userId, BudgetTask task) {
         KraDocumentRejectionService documentRejectionService = KraServiceLocator.getService(KraDocumentRejectionService.class);
         BudgetDocument budgetDocument = task.getBudgetDocument();
