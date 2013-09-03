@@ -15,42 +15,16 @@
  */
 package org.kuali.kra.proposaldevelopment.service.impl;
 
-import static org.apache.commons.lang.StringUtils.isNotBlank;
-import static org.kuali.kra.logging.FormattedLogger.debug;
-import static org.kuali.kra.logging.FormattedLogger.info;
-
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.home.ContactRole;
-import org.kuali.kra.bo.KcPerson;
-import org.kuali.kra.bo.PersonBiosketch;
-import org.kuali.kra.bo.PersonDegree;
-import org.kuali.kra.bo.Sponsor;
-import org.kuali.kra.bo.Unit;
-import org.kuali.kra.bo.Ynq;
+import org.kuali.kra.bo.*;
 import org.kuali.kra.budget.personnel.PersonRolodex;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.proposaldevelopment.bo.CreditSplit;
-import org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiographyAttachment;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPersonCreditSplit;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPersonDegree;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
-import org.kuali.kra.proposaldevelopment.bo.ProposalUnitCreditSplit;
+import org.kuali.kra.proposaldevelopment.bo.*;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.KeyPersonnelService;
 import org.kuali.kra.proposaldevelopment.service.NarrativeService;
-import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.SponsorService;
 import org.kuali.kra.service.YnqService;
@@ -59,12 +33,16 @@ import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
+import java.util.*;
+
+import static org.apache.commons.lang.StringUtils.isNotBlank;
+import static org.kuali.kra.logging.FormattedLogger.debug;
+import static org.kuali.kra.logging.FormattedLogger.info;
+
 /**
  * A Service implementation for persisted modifications of Key Personnel related business objects
  *
  * @see org.kuali.kra.proposaldevelopment.bo.ProposalPerson
- * @see org.kuali.kra.proposaldevelopment.web.struts.action.ProposalDevelopmentKeyPersonnelAction
- * @see org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm
  * @author $Author: gmcgrego $
  * @version $Revision: 1.34 $
  */
@@ -495,8 +473,8 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
     }
 
     /**
-     * Uses a <code>{@link Unit}</code> obtained from the <code>{@link Unit}</code> lookup on the 
-     * <code>{@link ProposalDevelopmentForm}</code> to create a <code>{@link ProposalPersonUnit}</code> instance.
+     * Uses a <code>{@link Unit}</code> obtained from the <code>{@link Unit}</code> lookup
+     * to create a <code>{@link ProposalPersonUnit}</code> instance.
      *
      * @param unitId
      * @return ProposalPersonUnit
@@ -526,8 +504,8 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
     }
 
     /**
-     * Uses a <code>rolodexId</code> obtained from the <code>{@link KcPerson}</code> or <code>{@link Rolodex}</code> lookup on the 
-     * <code>{@link ProposalDevelopmentForm}</code> to create a <code>{@link ProposalPerson}</code> instance.
+     * Uses a <code>rolodexId</code> obtained from the <code>{@link KcPerson}</code> or <code>{@link Rolodex}</code> lookup
+     * to create a <code>{@link ProposalPerson}</code> instance.
      *
      * @param rolodexId
      * @return ProposalPerson
@@ -576,8 +554,8 @@ public class KeyPersonnelServiceImpl implements KeyPersonnelService, Constants {
 //    }
 
     /**
-     * Uses a <code>personId</code> obtained from the <code>{@link KcPerson}</code> lookup on the 
-     * <code>{@link ProposalDevelopmentForm}</code> to create a <code>{@link ProposalPerson}</code> instance.
+     * Uses a <code>personId</code> obtained from the <code>{@link KcPerson}</code> lookup on
+     * to create a <code>{@link ProposalPerson}</code> instance.
      *
      * @param personId
      * @return ProposalPerson
