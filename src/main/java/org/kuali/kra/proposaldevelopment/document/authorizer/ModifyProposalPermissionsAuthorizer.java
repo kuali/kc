@@ -26,11 +26,6 @@ import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
 public class ModifyProposalPermissionsAuthorizer extends ProposalAuthorizer {
 
     @Override
-    /**
-     * @see
-     * org.kuali.kra.proposaldevelopment.document.authorizer.ProposalAuthorizer#isAuthorized(org.kuali.rice.kns.bo.user.UniversalUser,
-     * org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm)
-     */
     public boolean isAuthorized(String userId, ProposalTask task) {
         return (hasFullAuthorization(userId, task) || hasAddViewerAuthorization(userId, task));
     }
