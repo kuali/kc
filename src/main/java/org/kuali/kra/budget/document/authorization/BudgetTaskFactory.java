@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.budget.document.authorization;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.struts.action.ActionForm;
 import org.kuali.kra.authorization.Task;
 import org.kuali.kra.budget.document.BudgetDocument;
@@ -25,6 +23,8 @@ import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.TaskGroupName;
 import org.kuali.kra.web.struts.authorization.impl.WebTaskFactoryImpl;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * The Budget Task Factory will create a Budget Task with its
  * task name and the budget document contained within the form.
@@ -32,9 +32,7 @@ import org.kuali.kra.web.struts.authorization.impl.WebTaskFactoryImpl;
 public class BudgetTaskFactory extends WebTaskFactoryImpl {
 
     private String taskGroupName = TaskGroupName.PROPOSAL_BUDGET;
-    /**
-     * @see org.kuali.kra.web.struts.authorization.WebTaskFactory#createTask(java.lang.String, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest)
-     */
+    @Override
     public Task createTask(ActionForm form, HttpServletRequest request) {
         BudgetForm budgetForm = (BudgetForm) form;
         BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
@@ -44,10 +42,7 @@ public class BudgetTaskFactory extends WebTaskFactoryImpl {
         }
         return new BudgetTask(getTaskName(), getTaskGroupName(),budgetDocument);
     }
-    
-    /**
-     * @see org.kuali.kra.web.struts.authorization.impl.WebTaskFactoryImpl#getTaskGroupName()
-     */
+
     @Override
     public String getTaskGroupName() {
         return taskGroupName;

@@ -15,23 +15,7 @@
  */
 package org.kuali.kra.iacuc.procedures;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.StringTokenizer;
-import java.util.TreeSet;
-
-import org.kuali.kra.iacuc.IacucPainCategory;
-import org.kuali.kra.iacuc.IacucPersonTraining;
-import org.kuali.kra.iacuc.IacucProcedureCategoryCustomData;
-import org.kuali.kra.iacuc.IacucProtocol;
-import org.kuali.kra.iacuc.IacucProtocolForm;
-import org.kuali.kra.iacuc.IacucSpecies;
+import org.kuali.kra.iacuc.*;
 import org.kuali.kra.iacuc.personnel.IacucProtocolPersonTrainingService;
 import org.kuali.kra.iacuc.species.IacucProtocolSpecies;
 import org.kuali.kra.iacuc.species.IacucProtocolSpeciesService;
@@ -41,15 +25,9 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.SequenceAccessorService;
 import org.kuali.rice.krad.util.ObjectUtils;
 
-/**
- * This class...
- */
-/**
- * This class...
- */
-/**
- * This class...
- */
+import java.util.*;
+
+
 public class IacucProtocolProcedureServiceImpl implements IacucProtocolProcedureService {
 
     private BusinessObjectService businessObjectService;

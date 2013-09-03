@@ -33,9 +33,7 @@ import org.kuali.rice.kew.api.WorkflowDocument;
 public class ProposalHierarchyChildWorkflowActionAuthorizer extends ProposalAuthorizer {
 
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalHierarchyChildWorkflowActionAuthorizer.class);
-    /**
-     * @see org.kuali.kra.proposaldevelopment.document.authorizer.ProposalAuthorizer#isAuthorized(org.kuali.rice.kns.bo.user.UniversalUser, org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm)
-     */
+
     public boolean isAuthorized(String username, ProposalTask task) {
         boolean authorized = true;
         ProposalDevelopmentDocument doc = task.getDocument();

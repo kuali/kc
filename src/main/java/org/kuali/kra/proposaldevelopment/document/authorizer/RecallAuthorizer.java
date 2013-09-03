@@ -27,9 +27,6 @@ import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
  */
 public class RecallAuthorizer extends ProposalAuthorizer {
 
-    /**
-     * @see org.kuali.kra.proposaldevelopment.document.authorizer.ProposalAuthorizer#isAuthorized(org.kuali.rice.kns.bo.user.UniversalUser, org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm)
-     */
     public boolean isAuthorized(String userId, ProposalTask task) {
         ProposalDevelopmentDocument doc = task.getDocument();
         return doc.getDocumentHeader().hasWorkflowDocument() && doc.getDocumentHeader().getWorkflowDocument().isEnroute()
