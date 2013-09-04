@@ -19,7 +19,6 @@
 <c:set var="submissionDocAttributes" value="${DataDictionary.ProtocolSubmissionDoc.attributes}" />
 <c:set var="action" value="protocolProtocolActions" />
 
-<jsp:useBean id="paramMap" class="java.util.HashMap"/>
 
 <c:set var="isOpen" value="false" />
 <c:forEach items="${param}" var="par">
@@ -72,10 +71,9 @@
                     <td>
                         <c:if test="${KualiForm.actionHelper.showCommittee}">
 	                        <nobr>
-	                        	<c:set target="${paramMap}" property="currentCommitteeId" value="${KualiForm.actionHelper.protocolNotifyIrbBean.committeeId}" />
-                        		<c:set target="${paramMap}" property="docRouteStatus" value="${KualiForm.document.documentHeader.workflowDocument.status.code}" />	             
+	                        		             
 		                        <html:select property="actionHelper.protocolNotifyIrbBean.committeeId">                               
-	                            	<c:forEach items="${krafn:getOptionList('org.kuali.kra.committee.lookup.keyvalue.IrbCommitteeIdByUnitValuesFinder', paramMap)}" var="option" >
+	                            	<c:forEach items="${KualiForm.actionHelper.notifyIrbActionCommitteeIdByUnitValuesFinder.keyValues}" var="option" >
 	                                	<c:choose>                      
 	                                    	<c:when test="${KualiForm.actionHelper.protocolNotifyIrbBean.committeeId == option.key}">
 	                                        	<option value="${option.key}" selected="selected">${option.value}</option>
@@ -87,6 +85,7 @@
 	                                	</c:choose>                                                
 	                            	</c:forEach>
 	                        	</html:select>
+	                        	
 	                        </nobr>
                         </c:if>
                     </td>

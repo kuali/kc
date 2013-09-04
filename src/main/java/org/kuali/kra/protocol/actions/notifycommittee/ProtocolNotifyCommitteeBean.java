@@ -34,5 +34,6 @@ public interface ProtocolNotifyCommitteeBean extends ProtocolActionBean, Seriali
 
     public void setActionDate(Date actionDate);
     
+    public void prepareView();    
 
 }

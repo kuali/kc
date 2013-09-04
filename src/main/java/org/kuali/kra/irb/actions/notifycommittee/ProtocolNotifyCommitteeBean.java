@@ -67,9 +67,7 @@ public class ProtocolNotifyCommitteeBean extends ProtocolActionBean implements o
         this.committeeId = committeeId;        
     }
     
-    /**
-     * Prepare the notify committee bean for rendering with JSP.
-     */
+    @Override
     public void prepareView() {
         // we refresh only if the user is not currently working on this task since we do not want to lose user changes
         if( !(TaskName.NOTIFY_COMMITTEE.equalsIgnoreCase(getActionHelper().getCurrentTask())) ) {

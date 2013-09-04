@@ -30,6 +30,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
+import org.kuali.kra.common.committee.lookup.keyvalue.CommitteeIdByUnitValuesFinderBase;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinuteBase;
 import org.kuali.kra.common.committee.meeting.ProtocolVoteAbstaineeBase;
 import org.kuali.kra.common.committee.meeting.ProtocolVoteRecusedBase;
@@ -82,6 +83,9 @@ import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.util.DateUtils;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.document.DocumentStatus;
+import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -190,13 +194,17 @@ public abstract class ActionHelperBase implements Serializable {
     
     
     
-    protected ProtocolSubmitAction protocolSubmitAction;
+    protected ProtocolSubmitAction protocolSubmitAction;    
+    protected CommitteeIdByUnitValuesFinderBase<?> submitActionCommitteeIdByUnitValuesFinder;
+
     protected ProtocolWithdrawBean protocolWithdrawBean;
     protected ProtocolRequestBean protocolCloseRequestBean;
-    protected ProtocolRequestBean protocolSuspendRequestBean;
-    
+    protected ProtocolRequestBean protocolSuspendRequestBean;    
     protected ProtocolRequestBean protocolTerminateRequestBean;
+    
     protected ProtocolNotifyCommitteeBean protocolNotifyCommitteeBean;
+    private CommitteeIdByUnitValuesFinderBase<?> notifyCmtActionCommitteeIdByUnitValuesFinder;
+    
     protected ProtocolAmendmentBean protocolAmendmentBean;
     protected ProtocolAmendmentBean protocolRenewAmendmentBean;
     protected ProtocolDeleteBean protocolDeleteBean;
@@ -291,6 +299,7 @@ public abstract class ActionHelperBase implements Serializable {
     
     
     
+    
     /**
      * Constructs an ActionHelperBase.
      * @param form the protocol form
@@ -345,6 +354,9 @@ public abstract class ActionHelperBase implements Serializable {
     }
     
     
+    protected abstract CommitteeIdByUnitValuesFinderBase<?> getCommitteeIdByUnitValuesFinderInstanceHook();
+
+
     protected abstract String getSRRProtocolActionTypeHook();
 
     protected abstract String getSMRProtocolActionTypeHook();
@@ -404,6 +416,7 @@ public abstract class ActionHelperBase implements Serializable {
         actionBeanTaskMap.put(TaskName.RETURN_TO_PI_PROTOCOL, protocolReturnToPIBean);
          
         actionBeanTaskMap.put(TaskName.SUBMIT_PROTOCOL, protocolSubmitAction);
+        actionBeanTaskMap.put(TaskName.NOTIFY_COMMITTEE, protocolNotifyCommitteeBean);
         actionBeanTaskMap.put(TaskName.SUSPEND_PROTOCOL, protocolSuspendBean);
         actionBeanTaskMap.put(TaskName.TERMINATE_PROTOCOL, protocolTerminateBean);
         actionBeanTaskMap.put(TaskName.PROTOCOL_UNDO_LAST_ACTION, undoLastActionBean);
@@ -583,9 +596,10 @@ public abstract class ActionHelperBase implements Serializable {
     }    
 
     public void prepareView() throws Exception {
-        protocolSubmitAction.prepareView();
-        canSubmitProtocol = hasSubmitProtocolPermission();
-        canSubmitProtocolUnavailable = hasSubmitProtocolUnavailablePermission();          
+        initializeSubmissionConstraintHook();
+        prepareProtocolSubmitActionView();
+        prepareNotifyCommitteeActionView();
+                  
         assignToAgendaBean.prepareView();        
         canCreateAmendment = hasCreateAmendmentPermission();
         canCreateAmendmentUnavailable = hasCreateAmendmentUnavailablePermission();
@@ -653,6 +667,70 @@ public abstract class ActionHelperBase implements Serializable {
     }
     
             
+    protected abstract void initializeSubmissionConstraintHook();
+
+
+    private void prepareProtocolSubmitActionView() {        
+        canSubmitProtocol = hasSubmitProtocolPermission();
+        canSubmitProtocolUnavailable = hasSubmitProtocolUnavailablePermission();
+        protocolSubmitAction.prepareView();
+        submitActionCommitteeIdByUnitValuesFinder = getCommitteeIdByUnitValuesFinderInstanceHook();
+        // Initialize the submit committee finder (expensive call) only after checking the conditions for the display of the committee selection
+        if(canSubmitProtocol && isShowCommittee()) {            
+            // set the lead unit of the protocol and the doc route status on the committee finder
+            submitActionCommitteeIdByUnitValuesFinder.setProtocolLeadUnit(getProtocol().getLeadUnitNumber());
+            submitActionCommitteeIdByUnitValuesFinder.setDocRouteStatus(getDocRouteStatus());
+            submitActionCommitteeIdByUnitValuesFinder.initializeKeyValueList();
+        }
+    }
+    
+    private void prepareNotifyCommitteeActionView() {
+        // TODO When notify cmt is implemented for IACUC as well, this can be lifted to the parent
+        protocolNotifyCommitteeBean.prepareView();
+        canNotifyCommittee = hasNotifyCommitteePermission();
+        canNotifyCommitteeUnavailable = hasNotifyCommitteeUnavailablePermission();
+        notifyCmtActionCommitteeIdByUnitValuesFinder = getCommitteeIdByUnitValuesFinderInstanceHook();
+        // Initialize the committee finder only after checking the conditions for the display of the committee selection
+        if(canNotifyCommittee && isShowCommittee()) {            
+            // set the lead unit of the protocol and the doc route status on the committee finder
+            notifyCmtActionCommitteeIdByUnitValuesFinder.setCurrentCommitteeId(protocolNotifyCommitteeBean.getCommitteeId());
+            notifyCmtActionCommitteeIdByUnitValuesFinder.setDocRouteStatus(getDocRouteStatus());
+            notifyCmtActionCommitteeIdByUnitValuesFinder.initializeKeyValueList();
+        }
+    }
+    
+    private boolean hasNotifyCommitteePermission() {
+        ProtocolTaskBase task = getNewNotifyCommitteeTaskInstanceHook(getProtocol());
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
+    }
+    
+    protected abstract ProtocolTaskBase getNewNotifyCommitteeTaskInstanceHook(ProtocolBase protocol);
+
+    
+    private boolean hasNotifyCommitteeUnavailablePermission() {
+        ProtocolTaskBase task = getNewNotifyCommitteeUnavailableTaskInstanceHook(getProtocol());
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
+    }
+    
+    protected abstract ProtocolTaskBase getNewNotifyCommitteeUnavailableTaskInstanceHook(ProtocolBase protocol);
+    
+
+    protected String getDocRouteStatus() {
+        String retVal = "";
+        DocumentHeader docHeader = form.getProtocolDocument().getDocumentHeader(); 
+        if( docHeader != null) {
+            WorkflowDocument workflowDoc = docHeader.getWorkflowDocument();
+            if(workflowDoc != null) {
+                DocumentStatus docStatus = workflowDoc.getStatus();
+                if(docStatus != null) {
+                    retVal = docStatus.getCode();
+                }
+            }
+        }
+        return retVal;
+    }
+
+
     protected abstract boolean hasApproveOtherPermission();
 
 
@@ -2455,5 +2533,11 @@ public abstract class ActionHelperBase implements Serializable {
         return onlineReviewsMap;
     }    
 
+    public CommitteeIdByUnitValuesFinderBase<?> getSubmitActionCommitteeIdByUnitValuesFinder() {
+        return submitActionCommitteeIdByUnitValuesFinder;
+    }
     
+    public CommitteeIdByUnitValuesFinderBase<?> getNotifyCmtActionCommitteeIdByUnitValuesFinder() {
+        return notifyCmtActionCommitteeIdByUnitValuesFinder;
+    }
 }

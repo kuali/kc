@@ -41,7 +41,7 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.iacucProtocolModifySub
 	                    </div>
 	                </th>
 	                <td style="width : 150px">
-                        <c:set target="${paramMap}" property="committeeId" value="${KualiForm.actionHelper.iacucProtocolModifySubmissionBean.committeeId}" />
+                        <c:set target="${paramMap}" property="currentCommitteeId" value="${KualiForm.actionHelper.iacucProtocolModifySubmissionBean.committeeId}" />
                         <c:set target="${paramMap}" property="docRouteStatus" value="${KualiForm.document.documentHeader.workflowDocument.status.code}" />	                
                         <c:set target="${paramMap}" property="protocolLeadUnit" value="${KualiForm.document.protocol.leadUnitNumber}" />	                
                        	<html:select styleId="actionHelper.iacucProtocolModifySubmissionBean.committeeId" property="actionHelper.iacucProtocolModifySubmissionBean.committeeId" 
