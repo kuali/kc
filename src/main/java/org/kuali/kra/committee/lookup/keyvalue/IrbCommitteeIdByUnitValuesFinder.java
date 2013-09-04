@@ -18,7 +18,8 @@ package org.kuali.kra.committee.lookup.keyvalue;
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.common.committee.bo.CommitteeType;
 import org.kuali.kra.common.committee.lookup.keyvalue.CommitteeIdByUnitValuesFinderBase;
-import org.kuali.kra.infrastructure.RoleConstants;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.PermissionConstants;
 
 public class IrbCommitteeIdByUnitValuesFinder extends CommitteeIdByUnitValuesFinderBase<Committee> {
 
@@ -33,13 +34,18 @@ public class IrbCommitteeIdByUnitValuesFinder extends CommitteeIdByUnitValuesFin
     }
 
     @Override
-    protected String getRoleNameHook() {
-        return RoleConstants.IRB_ADMINISTRATOR;
+    protected Class<Committee> getCommitteeBOClassHook() {
+        return Committee.class;
     }
 
     @Override
-    protected Class<Committee> getCommitteeBOClassHook() {
-        return Committee.class;
+    protected String getAssignCommitteePermissionNamespaceHook() {
+        return Constants.MODULE_NAMESPACE_PROTOCOL;
+    }
+
+    @Override
+    protected String getAssignCommitteePermissionNameHook() {
+        return PermissionConstants.ASSIGN_IRB_COMMITTEE;
     }
 
 }

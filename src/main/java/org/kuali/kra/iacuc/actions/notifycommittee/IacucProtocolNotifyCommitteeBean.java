@@ -17,8 +17,8 @@ package org.kuali.kra.iacuc.actions.notifycommittee;
 
 import java.sql.Date;
 
-import org.kuali.kra.common.committee.bo.CommitteeBase;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionBean;
+import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.kra.protocol.actions.ActionHelperBase;
 import org.kuali.kra.protocol.actions.notifycommittee.ProtocolNotifyCommitteeBean;
 
@@ -33,10 +33,10 @@ public class IacucProtocolNotifyCommitteeBean extends IacucProtocolActionBean im
     private static final long serialVersionUID = 3812176663326229406L;
     
     private String comment = "";
-    private CommitteeBase committee;
+    private String committeeId;
     private Date actionDate = new Date(System.currentTimeMillis());
 
-    private String committeeId;
+    
     
     /**
      * Constructs a ProtocolNotifyCommitteeBean.
@@ -44,7 +44,6 @@ public class IacucProtocolNotifyCommitteeBean extends IacucProtocolActionBean im
      */
     public IacucProtocolNotifyCommitteeBean(ActionHelperBase actionHelper) {
         super(actionHelper);
-        committee = actionHelper.getProtocol().getProtocolSubmission().getCommittee();
     }
 
     public String getComment() {
@@ -54,14 +53,6 @@ public class IacucProtocolNotifyCommitteeBean extends IacucProtocolActionBean im
     public void setComment(String comment) {
         this.comment = comment;
     }    
-
-    public String getCommitteeName() {
-        return committee.getCommitteeName();
-    }
-
-    public void setCommittee(CommitteeBase committee) {
-        this.committee = committee;
-    }
 
     public Date getActionDate() {
         return actionDate;
@@ -77,5 +68,14 @@ public class IacucProtocolNotifyCommitteeBean extends IacucProtocolActionBean im
     
     public void setCommitteeId(String committeeId) {
         this.committeeId = committeeId;        
+    }
+
+    @Override
+    public void prepareView() {
+        // we refresh only if the user is not currently working on this task since we do not want to lose user changes
+        if( !(TaskName.NOTIFY_COMMITTEE.equalsIgnoreCase(getActionHelper().getCurrentTask())) ) {
+            // do nothing, a placeholder for code to be added as fuctionality for this action is fleshed out better 
+        }
+        
     }
 }

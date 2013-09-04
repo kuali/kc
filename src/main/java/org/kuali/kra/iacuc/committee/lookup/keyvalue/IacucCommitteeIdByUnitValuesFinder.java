@@ -18,7 +18,8 @@ package org.kuali.kra.iacuc.committee.lookup.keyvalue;
 import org.kuali.kra.common.committee.bo.CommitteeType;
 import org.kuali.kra.common.committee.lookup.keyvalue.CommitteeIdByUnitValuesFinderBase;
 import org.kuali.kra.iacuc.committee.bo.IacucCommittee;
-import org.kuali.kra.infrastructure.RoleConstants;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.PermissionConstants;
 
 public class IacucCommitteeIdByUnitValuesFinder extends CommitteeIdByUnitValuesFinderBase<IacucCommittee> {
 
@@ -31,14 +32,19 @@ public class IacucCommitteeIdByUnitValuesFinder extends CommitteeIdByUnitValuesF
     protected String getCommitteeTypeCodeHook() {
         return CommitteeType.IACUC_TYPE_CODE;
     }
-    
-    @Override
-    protected String getRoleNameHook() {
-        return RoleConstants.IACUC_ADMINISTRATOR;
-    }
 
     @Override
     protected Class<IacucCommittee> getCommitteeBOClassHook() {
         return IacucCommittee.class;
+    }
+
+    @Override
+    protected String getAssignCommitteePermissionNamespaceHook() {
+        return Constants.MODULE_NAMESPACE_IACUC;
+    }
+
+    @Override
+    protected String getAssignCommitteePermissionNameHook() {
+        return PermissionConstants.ASSIGN_IACUC_COMMITTEE;
     }
 }

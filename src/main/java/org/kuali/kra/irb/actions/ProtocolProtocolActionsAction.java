@@ -1208,7 +1208,7 @@ public class ProtocolProtocolActionsAction extends ProtocolAction implements Aud
                             getProtocolAssignCmtSchedService().assignToCommitteeAndSchedule((Protocol) protocolForm.getProtocolDocument().getProtocol(), actionBean);
                             recordProtocolActionSuccess("Assign to Committee and Schedule");
                         }
-                        ((ProtocolForm)form).getActionHelper().prepareView();
+                        
                     }
                 }
             }
