@@ -61,6 +61,7 @@ public interface PermissionConstants {
     public static final String ADMINSTRATIVE_CORRECTION = "Administrative Correction";
     public static final String MAINTAIN_IRB_CORRESP_TEMPLATE = "MAINTAIN_IRB_CORRESP_TEMPLATE";
     public static final String MAINTAIN_PROTOCOL_SUBMISSIONS = "Maintain Protocol Submissions";
+    public static final String ASSIGN_IRB_COMMITTEE = "Assign IRB Committee";
     public static final String MAINTAIN_PROTO_REVIEW_COMMENTS = "Maintain Protocol Review Comments";
     public static final String PERFORM_IRB_ACTIONS_ON_PROTO = "Perform IRB Actions on a Protocol";
     public static final String VIEW_RESTRICTED_NOTES = "View Restricted Notes";
@@ -208,6 +209,7 @@ public interface PermissionConstants {
      public static final String MAINTAIN_IACUC_RESEARCH_AREAS = "Maintain IACUC Research Areas";                                               
      public static final String MAINTAIN_IACUC_REVIEW_COMMENTS = "Maintain IACUC Protocol Review Comments";                                        
      public static final String MAINTAIN_IACUC_PROTOCOL_SUBMISSIONS = "Maintain IACUC Protocol Submissions";
+     public static final String ASSIGN_IACUC_COMMITTEE = "Assign IACUC Committee";
      public static final String MODIFY_ANY_IACUC_PROTOCOL = "Modify Any IACUC Protocol";                                                    
      public static final String MODIFY_IACUC_PROTOCOL = "Modify IACUC Protocol";                                                          
      public static final String MODIFY_IACUC_PERMISSIONS = "Modify IACUC ProtocolPermissions";

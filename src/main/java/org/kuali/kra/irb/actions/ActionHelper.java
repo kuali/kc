@@ -27,8 +27,11 @@ import java.util.Map;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.CoeusModule;
+import org.kuali.kra.committee.bo.Committee;
+import org.kuali.kra.committee.lookup.keyvalue.IrbCommitteeIdByUnitValuesFinder;
 import org.kuali.kra.committee.service.CommitteeScheduleService;
 import org.kuali.kra.committee.service.CommitteeService;
+import org.kuali.kra.common.committee.lookup.keyvalue.CommitteeIdByUnitValuesFinderBase;
 import org.kuali.kra.common.committee.service.CommitteeScheduleServiceBase;
 import org.kuali.kra.common.committee.service.CommitteeServiceBase;
 import org.kuali.kra.infrastructure.Constants;
@@ -156,7 +159,11 @@ public class ActionHelper extends ActionHelperBase {
     private ProtocolRequestBean protocolReOpenEnrollmentRequestBean;
     private ProtocolRequestBean protocolDataAnalysisRequestBean;
     private ProtocolNotifyIrbBean protocolNotifyIrbBean;
-    private ProtocolAssignCmtSchedBean assignCmtSchedBean;    
+    private ProtocolAssignCmtSchedBean assignCmtSchedBean;
+    
+    protected IrbCommitteeIdByUnitValuesFinder assignCmtSchedActionCommitteeIdByUnitValuesFinder;
+    protected IrbCommitteeIdByUnitValuesFinder notifyIrbActionCommitteeIdByUnitValuesFinder;
+
     private ProtocolAssignReviewersBean protocolAssignReviewersBean;
     private ProtocolGrantExemptionBean protocolGrantExemptionBean;
     private ProtocolExpeditedApproveBean protocolExpeditedApprovalBean;
@@ -249,7 +256,6 @@ public class ActionHelper extends ActionHelperBase {
         actionBeanTaskMap.put(TaskName.IRB_ACKNOWLEDGEMENT, protocolIrbAcknowledgementBean);
         actionBeanTaskMap.put(TaskName.MODIFY_PROTOCOL_SUBMISSION, protocolModifySubmissionBean);
         actionBeanTaskMap.put(TaskName.NOTIFY_IRB, protocolNotifyIrbBean);
-        actionBeanTaskMap.put(TaskName.NOTIFY_COMMITTEE, protocolNotifyCommitteeBean);
         actionBeanTaskMap.put(TaskName.REOPEN_PROTOCOL, protocolReopenEnrollmentBean);
         actionBeanTaskMap.put(TaskName.PROTOCOL_REQUEST_REOPEN_ENROLLMENT, protocolReOpenEnrollmentRequestBean);
         actionBeanTaskMap.put(TaskName.RESPONSE_APPROVAL, protocolResponseApprovalBean);
@@ -418,16 +424,14 @@ public class ActionHelper extends ActionHelperBase {
     public void prepareView() throws Exception {
         
         super.prepareView();
-        assignCmtSchedBean.prepareView();
-        // When notify cmt is implemented for IACUC as well, this can be lifted to the parent
-        ((ProtocolNotifyCommitteeBean) protocolNotifyCommitteeBean).prepareView();
+        prepareAssignCommitteeScheduleActionView();
+        prepareNotifyIrbActionView();
+       
         protocolAssignReviewersBean.prepareView();
         protocolExpeditedApprovalBean.prepareView();
-        submissionConstraint = getParameterValue(Constants.PARAMETER_IRB_COMM_SELECTION_DURING_SUBMISSION);
-        canNotifyIrb = hasNotifyIrbPermission();
-        canNotifyIrbUnavailable = hasNotifyIrbUnavailablePermission();
-        canNotifyCommittee = hasNotifyCommitteePermission();
-        canNotifyCommitteeUnavailable = hasNotifyCommitteeUnavailablePermission();
+        
+        
+        
         canRequestClose = hasRequestClosePermission();
         canRequestCloseUnavailable = hasRequestCloseUnavailablePermission();
         canRequestSuspension = hasRequestSuspensionPermission();
@@ -440,8 +444,7 @@ public class ActionHelper extends ActionHelperBase {
         canRequestDataAnalysisUnavailable = hasRequestDataAnalysisUnavailablePermission();
         canRequestTerminate = hasRequestTerminatePermission();
         canRequestTerminateUnavailable = hasRequestTerminateUnavailablePermission();
-        canAssignCmtSched = hasAssignCmtSchedPermission();
-        canAssignCmtSchedUnavailable = hasAssignCmtSchedUnavailablePermission();
+        
         canAssignReviewers = hasAssignReviewersPermission();
         // we will do the workflow-heavy check for reviewer assignment only if the user can submit the protocol
         if(canSubmitProtocol) {
@@ -497,6 +500,38 @@ public class ActionHelper extends ActionHelperBase {
     
     
     
+    private void prepareNotifyIrbActionView() {
+        canNotifyIrb = hasNotifyIrbPermission();
+        canNotifyIrbUnavailable = hasNotifyIrbUnavailablePermission();
+        notifyIrbActionCommitteeIdByUnitValuesFinder = getIRBCommitteeIdByUnitValuesFinderInstance();
+        if(canNotifyIrb && isShowCommittee()) {
+            // set the lead unit of the protocol and the doc route status on the committee finder
+            notifyIrbActionCommitteeIdByUnitValuesFinder.setCurrentCommitteeId(protocolNotifyIrbBean.getCommitteeId());
+            notifyIrbActionCommitteeIdByUnitValuesFinder.setDocRouteStatus(getDocRouteStatus());
+            notifyIrbActionCommitteeIdByUnitValuesFinder.initializeKeyValueList();
+        }        
+    }
+
+    
+    private void prepareAssignCommitteeScheduleActionView() {
+        assignCmtSchedBean.prepareView();
+        canAssignCmtSched = hasAssignCmtSchedPermission();
+        canAssignCmtSchedUnavailable = hasAssignCmtSchedUnavailablePermission();
+        assignCmtSchedActionCommitteeIdByUnitValuesFinder = getIRBCommitteeIdByUnitValuesFinderInstance();
+        if(canAssignCmtSched) {
+            // set the lead unit of the protocol and the doc route status on the committee finder
+            assignCmtSchedActionCommitteeIdByUnitValuesFinder.setCurrentCommitteeId(assignCmtSchedBean.getCommitteeId());
+            assignCmtSchedActionCommitteeIdByUnitValuesFinder.setDocRouteStatus(getDocRouteStatus());
+            assignCmtSchedActionCommitteeIdByUnitValuesFinder.initializeKeyValueList();
+        }
+    }    
+    
+
+    private IrbCommitteeIdByUnitValuesFinder getIRBCommitteeIdByUnitValuesFinderInstance() {
+        // todo replace the 'new' instantiation with a spring bean 
+        return new IrbCommitteeIdByUnitValuesFinder();
+    }
+
     /**
      * Refreshes the comments for all the beans from the database.  Use sparingly since this will erase non-persisted comments.
      */
@@ -544,16 +579,6 @@ public class ActionHelper extends ActionHelperBase {
     
     private boolean hasNotifyIrbUnavailablePermission() {
         ProtocolTask task = new ProtocolTask(TaskName.NOTIFY_IRB_UNAVAILABLE, (Protocol) getProtocol());
-        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-    }
-    
-    private boolean hasNotifyCommitteePermission() {
-        ProtocolTask task = new ProtocolTask(TaskName.NOTIFY_COMMITTEE, (Protocol) getProtocol());
-        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-    }
-    
-    private boolean hasNotifyCommitteeUnavailablePermission() {
-        ProtocolTask task = new ProtocolTask(TaskName.NOTIFY_COMMITTEE_UNAVAILABLE, (Protocol) getProtocol());
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
 
@@ -1576,6 +1601,16 @@ public class ActionHelper extends ActionHelperBase {
     protected ProtocolTaskBase getModifySubmissionUnavailableTaskHook() {
         return new ProtocolTask(TaskName.MODIFY_PROTOCOL_SUBMISSION_UNAVAILABLE, getProtocol());
     }
+    
+    @Override
+    protected ProtocolTaskBase getNewNotifyCommitteeTaskInstanceHook(ProtocolBase protocol) {
+        return new ProtocolTask(TaskName.NOTIFY_COMMITTEE, getProtocol());
+    }
+
+    @Override
+    protected ProtocolTaskBase getNewNotifyCommitteeUnavailableTaskInstanceHook(ProtocolBase protocol) {
+        return new ProtocolTask(TaskName.NOTIFY_COMMITTEE_UNAVAILABLE, getProtocol());
+    }
 
     @Override
     protected Class<? extends ProtocolSubmissionDocBase> getProtocolSubmissionDocClassHook() {
@@ -1629,5 +1664,25 @@ public class ActionHelper extends ActionHelperBase {
         }
         return retVal;
     }
+
+    @Override
+    protected CommitteeIdByUnitValuesFinderBase<Committee> getCommitteeIdByUnitValuesFinderInstanceHook() {
+        return getIRBCommitteeIdByUnitValuesFinderInstance();
+    }
+
+    @Override
+    protected void initializeSubmissionConstraintHook() {
+        submissionConstraint = getParameterValue(Constants.PARAMETER_IRB_COMM_SELECTION_DURING_SUBMISSION);        
+    }
+    
+    public CommitteeIdByUnitValuesFinderBase<?> getAssignCmtSchedActionCommitteeIdByUnitValuesFinder() {
+        return assignCmtSchedActionCommitteeIdByUnitValuesFinder;
+    }    
+
+    public IrbCommitteeIdByUnitValuesFinder getNotifyIrbActionCommitteeIdByUnitValuesFinder() {
+        return notifyIrbActionCommitteeIdByUnitValuesFinder;
+    }
+
+    
     
 }
