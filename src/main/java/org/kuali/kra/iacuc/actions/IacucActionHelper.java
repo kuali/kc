@@ -25,6 +25,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
+import org.kuali.kra.common.committee.lookup.keyvalue.CommitteeIdByUnitValuesFinderBase;
 import org.kuali.kra.common.committee.service.CommitteeScheduleServiceBase;
 import org.kuali.kra.common.committee.service.CommitteeServiceBase;
 import org.kuali.kra.iacuc.IacucProtocol;
@@ -63,6 +64,8 @@ import org.kuali.kra.iacuc.actions.withdraw.IacucProtocolAdministrativelyWithdra
 import org.kuali.kra.iacuc.actions.withdraw.IacucProtocolWithdrawBean;
 import org.kuali.kra.iacuc.auth.IacucGenericProtocolAuthorizer;
 import org.kuali.kra.iacuc.auth.IacucProtocolTask;
+import org.kuali.kra.iacuc.committee.bo.IacucCommittee;
+import org.kuali.kra.iacuc.committee.lookup.keyvalue.IacucCommitteeIdByUnitValuesFinder;
 import org.kuali.kra.iacuc.committee.service.IacucCommitteeScheduleService;
 import org.kuali.kra.iacuc.committee.service.IacucCommitteeService;
 import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReview;
@@ -337,15 +340,13 @@ public class IacucActionHelper extends ActionHelperBase {
         IacucProtocolForm iacucProtocolForm = (IacucProtocolForm)form;
         iacucProtocolModifySubmissionBean.prepareView();
 
-        submissionConstraint = getParameterValue(Constants.PARAMETER_IACUC_COMM_SELECTION_DURING_SUBMISSION);
-
         canSubmitProtocol = hasPermission(TaskName.SUBMIT_IACUC_PROTOCOL);
         canSubmitProtocolUnavailable = hasPermission(TaskName.SUBMIT_IACUC_PROTOCOL_UNAVAILABLE);
        
         // IACUC-specific actions
         canNotifyIacuc = hasPermission(TaskName.IACUC_NOTIFY_IACUC);
         canNotifyIacucUnavailable = hasPermission(TaskName.IACUC_NOTIFY_IACUC_UNAVAILABLE);
-        canNotifyCommittee = hasPermission(TaskName.IACUC_NOTIFY_COMMITTEE);
+        
         canHold = hasPermission(TaskName.IACUC_PROTOCOL_HOLD);
         canHoldUnavailable = hasPermission(TaskName.IACUC_PROTOCOL_HOLD_UNAVAILABLE);
         canLiftHold = hasPermission(TaskName.IACUC_PROTOCOL_LIFT_HOLD);
@@ -725,6 +726,16 @@ public class IacucActionHelper extends ActionHelperBase {
     @Override
     protected ProtocolTaskBase getNewSubmitProtocolUnavailableTaskInstanceHook(ProtocolBase protocol) {
         return new IacucProtocolTask(TaskName.SUBMIT_IACUC_PROTOCOL_UNAVAILABLE, (IacucProtocol) protocol);
+    }
+    
+    @Override
+    protected ProtocolTaskBase getNewNotifyCommitteeTaskInstanceHook(ProtocolBase protocol) {
+        return new IacucProtocolTask(TaskName.NOTIFY_COMMITTEE, (IacucProtocol) protocol);
+    }
+
+    @Override
+    protected ProtocolTaskBase getNewNotifyCommitteeUnavailableTaskInstanceHook(ProtocolBase protocol) {
+        return new IacucProtocolTask(TaskName.NOTIFY_COMMITTEE_UNAVAILABLE, (IacucProtocol) protocol);
     }
 
 
@@ -1548,6 +1559,24 @@ public class IacucActionHelper extends ActionHelperBase {
     protected boolean hasApproveOtherPermission() {
         IacucProtocolTask task = new IacucProtocolTask(TaskName.PROTOCOL_APPROVE_OTHER, getIacucProtocol());
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
+    }
+
+
+    @Override
+    protected CommitteeIdByUnitValuesFinderBase<IacucCommittee> getCommitteeIdByUnitValuesFinderInstanceHook() {
+        return getIacucCommitteeIdByUnitValuesFinderInstance();
+    }
+
+
+    private IacucCommitteeIdByUnitValuesFinder getIacucCommitteeIdByUnitValuesFinderInstance() {
+        // todo replace the 'new' instantiation with a spring bean
+        return new IacucCommitteeIdByUnitValuesFinder();
+    }
+
+
+    @Override
+    protected void initializeSubmissionConstraintHook() {
+        submissionConstraint = getParameterValue(Constants.PARAMETER_IACUC_COMM_SELECTION_DURING_SUBMISSION);
     }
 
 }

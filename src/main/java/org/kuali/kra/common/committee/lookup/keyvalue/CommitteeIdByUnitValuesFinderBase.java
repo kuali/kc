@@ -29,16 +29,13 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.common.committee.bo.CommitteeBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.infrastructure.RoleConstants;
-import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.kra.lookup.keyvalue.KeyValueComparator;
 import org.kuali.kra.lookup.keyvalue.PrefixValuesFinder;
+import org.kuali.kra.service.UnitAuthorizationService;
 import org.kuali.kra.service.UnitService;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kew.api.KewApiConstants;
-import org.kuali.rice.kim.api.role.Role;
-import org.kuali.rice.kim.api.role.RoleService;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -60,10 +57,11 @@ import org.kuali.rice.krad.util.GlobalVariables;
  * Indianapolis branch of the org tree (IN-IN, IN-MED, INMDEP, IN-CARD, IN-CARR, IN-PED or INC-PERS). 
  *
  * Post-submittal:
- * The rules for an administrator are slightly different for selecting/changing 
- * a committee assignment and is based on the Role Qualifier on their 
- * Administrator (1119) role. If the Descends flag is checked (which in the real 
- * world I think it always should be) then they should be able to change a committee 
+ * The rules here are slightly different for selecting/changing 
+ * a committee assignment and is based on the Role Qualifier on the curent user's 
+ * membership in some role that grants the permission to assign committees. If that role is a unit hierarchy role, 
+ * and if the Descends flag is checked (which in the real 
+ * world I think it always should be) then the current user should be able to change a committee 
  * assignment for any protocol where the Lead Unit is at or below their qualified 
  * node in the Org tree. They can select a new committee to any committee whose home 
  * unit is at or below their qualified node in the Org tree.
@@ -80,112 +78,57 @@ public abstract class CommitteeIdByUnitValuesFinderBase<CMT extends CommitteeBas
     private String docRouteStatus;
     private String currentCommitteeId;
     public static final String FINAL_STATUS_CD = "F";
-    private Set<String> unitIds = new HashSet<String>(); 
+    private Set<String> unitIds = new HashSet<String>();
+    private List<KeyValue> keyValues = new ArrayList<KeyValue>();
+    private boolean initialized = false;
     
-    /**
-     * Returns the committees that the user is eligible to choose from.
-     * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
-     */
-    public List<KeyValue> getKeyValues() {
-        Collection<CMT> committees = getValidCommittees();
-        List<KeyValue> keyValues = new ArrayList<KeyValue>();
-        
-        if (CollectionUtils.isNotEmpty(committees)) {    
+    private UnitAuthorizationService unitAuthorizationService;    private UnitService unitService;
+     
+    // this method should be invoked from within the transaction wrapper that covers the request processing so 
+    // that the db-calls in this method do not each generate new transactions. If executed from within the context
+    // of display rendering, this logic will be quite expensive due to the number of new transactions needed. 
+    public void initializeKeyValueList() {
+        // get the initial list of all valid committees; some of them will be filtered out by the logic below 
+        Collection<CMT> candidateCommittees = getCandidateCommittees();        
+        if (CollectionUtils.isNotEmpty(candidateCommittees)) {    
             if (isSaved()) {
                 //Use the lead unit of the protocol to determine committees
                 getProtocolUnitIds();
-                for (CMT committee : committees) {
+                for (CMT committee : candidateCommittees) {
                     if (StringUtils.equalsIgnoreCase(committee.getCommitteeDocument().getDocStatusCode(), "F") 
                             && unitIds.contains(committee.getHomeUnit().getUnitNumber())) {
                         keyValues.add(new ConcreteKeyValue(committee.getCommitteeId(), committee.getCommitteeName()));
                     }
                 }
             } else {
-                //Use the lead unit of the admin
-                getAdminUnitIds();
-                for (CMT committee : committees) {
-                    if (unitIds.contains(committee.getHomeUnit().getUnitNumber()) ||
-                            committee.getCommitteeId().equals(getCurrentCommitteeId())) {
-                        keyValues.add(new ConcreteKeyValue(committee.getCommitteeId(), committee.getCommitteeName()));
+                // we check the current user's authorization to assign committees 
+                String principalId = GlobalVariables.getUserSession().getPerson().getPrincipalId();
+                for (CMT candidateCommittee : candidateCommittees) {
+                    if ( isCurrentUserAuthorizedToAssignThisCommittee(principalId, candidateCommittee) || 
+                         candidateCommittee.getCommitteeId().equals(getCurrentCommitteeId())) {
+                        keyValues.add(new ConcreteKeyValue(candidateCommittee.getCommitteeId(), candidateCommittee.getCommitteeName()));
                     }
                 }                
             }
-
-            Collections.sort(keyValues, new KeyValueComparator());            
+            Collections.sort(keyValues, new KeyValueComparator());
         }
-        keyValues.add(0, new ConcreteKeyValue(PrefixValuesFinder.getPrefixKey(), PrefixValuesFinder.getDefaultPrefixValue()));
-                
-        return keyValues;
+        // set the init flag
+        this.initialized = true;
     }
     
-    protected abstract String getCommitteeTypeCodeHook();
     
-    /**
-     * 
-     * This method determines whether the document has been submitted for review.  Currently
-     * we check to see if the document status is "Saved", which indicates that it is pre-submittal.
-     * @return false if the document has not been submitted, true otherwise.
-     */
-    private boolean isSaved() {
-        if (getDocRouteStatus().equals(KewApiConstants.ROUTE_HEADER_SAVED_CD)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
     
-    protected abstract String getRoleNameHook();
     
-    /**
-     * This method returns a set of unit ids that represent all the units
-     * at or below the admin's lead unit.  The lead unit is determined
-     * by his role (admin) and the role qualifier associated with it.
-     * @return
-     */
-    private void getAdminUnitIds() {        
-        String principalId = GlobalVariables.getUserSession().getPerson().getPrincipalId();
-        Role roleInfo = getRoleService().getRoleByNamespaceCodeAndName(RoleConstants.DEPARTMENT_ROLE_TYPE, getRoleNameHook());
-        List<String> roleIds = new ArrayList<String>();
-        roleIds.add(roleInfo.getId());
-        Map<String, String> qualifiedRoleAttributes = new HashMap<String, String>();
-        qualifiedRoleAttributes.put(KcKimAttributes.UNIT_NUMBER, "*");
-        Map<String,String> qualifications = new HashMap<String,String>(qualifiedRoleAttributes);
-        boolean valid = getRoleService().principalHasRole(principalId, roleIds, qualifications);
-        
-        // User has the admin role, now check to see if he has the necessary role qualifier.
-        if (valid) {
-            List<Map<String, String>> principalQualifications = getRoleService().getNestedRoleQualifiersForPrincipalByRoleIds(
-                    principalId, roleIds, qualifications);
-            for (Map<String, String> attrSet : principalQualifications) {
-                Unit unit = getUnitService().getUnit(attrSet.get(KcKimAttributes.UNIT_NUMBER));
-                if (unit != null) {
-                    unitIds.add(unit.getUnitNumber());
-                    // If descends heirarchy is yes, add all the sub units as well
-                    if (attrSet.containsKey(KcKimAttributes.SUBUNITS)
-                            && StringUtils.equalsIgnoreCase("Y", attrSet.get(KcKimAttributes.SUBUNITS))) {
-                        List<Unit> subUnits = getUnitService().getAllSubUnits(attrSet.get(KcKimAttributes.UNIT_NUMBER));
-                        for (Unit u : subUnits) {
-                            unitIds.add(u.getUnitNumber());
-                        }
-                    }
-                }
-            }
-        }
-    }
-
     /**
      * This method returns the set of unique committees, by filtering
      * out the committees with the same committee id.  It takes the
      * committee id with the highest sequence number
      * @return a collection of unique committees based on committee id and sequence number.
      */
-    private Collection<CMT> getValidCommittees() {
+    private Collection<CMT> getCandidateCommittees() {
         Map<String, String> criteria = new HashMap<String, String>();
         criteria.put("committeeTypeCode", getCommitteeTypeCodeHook());
-        
-// TODO *********commented the code below during IACUC refactoring*********         
-//        Collection<CommitteeBase> allCommittees = KraServiceLocator.getService(BusinessObjectService.class).findMatching(CommitteeBase.class, criteria);
-        
+      
         Collection<CMT> allCommittees = KraServiceLocator.getService(BusinessObjectService.class).findMatching(getCommitteeBOClassHook(), criteria);
         HashMap<String, CMT> committeeMap = new HashMap<String, CMT>();
         
@@ -206,7 +149,53 @@ public abstract class CommitteeIdByUnitValuesFinderBase<CMT extends CommitteeBas
         return committeeMap.values();
     }
     
-    protected abstract Class<CMT> getCommitteeBOClassHook();
+    
+    protected abstract Class<CMT> getCommitteeBOClassHook();    protected abstract String getCommitteeTypeCodeHook(); 
+   
+    
+     
+    // check if the current user has the "assign committee" permission granted via some role membership 
+    // that is qualified with a unit number that encompasses the committee's home unit number   
+    protected boolean isCurrentUserAuthorizedToAssignThisCommittee(String userId, CMT candidateCommittee) {
+        boolean retVal;
+        String permissionNamespace = this.getAssignCommitteePermissionNamespaceHook();
+        String permissionName = this.getAssignCommitteePermissionNameHook();
+        retVal = this.getUnitAuthorizationService().hasPermission(userId, candidateCommittee.getHomeUnitNumber(), permissionNamespace, permissionName);
+        return retVal;
+    }
+ 
+       
+    protected abstract String getAssignCommitteePermissionNamespaceHook();    
+    protected abstract String getAssignCommitteePermissionNameHook();
+    
+
+    protected UnitAuthorizationService getUnitAuthorizationService() {
+        if(this.unitAuthorizationService == null) {
+            this.unitAuthorizationService = KraServiceLocator.getService(UnitAuthorizationService.class); 
+        }
+        return this.unitAuthorizationService;
+    }
+    
+    public void setUnitAuthorizationService(UnitAuthorizationService unitAuthorizationService) {
+        this.unitAuthorizationService = unitAuthorizationService;    }
+    
+    /**
+     * 
+     * This method determines whether the document has been submitted for review.  Currently
+     * we check to see if the document status is "Saved", which indicates that it is pre-submittal.
+     * @return false if the document has not been submitted, true otherwise.
+     */
+    private boolean isSaved() {
+        if (getDocRouteStatus().equals(KewApiConstants.ROUTE_HEADER_SAVED_CD)) {
+            return true;
+        } 
+        else {
+            return false;
+        }
+    }
+    
+
+
 
     /**
      * 
@@ -252,28 +241,20 @@ public abstract class CommitteeIdByUnitValuesFinderBase<CMT extends CommitteeBas
             getParentUnitIds(parentUnit.getUnitNumber(), topUnitNumber);
         }
     }
-    
-    /**
-     * 
-     * Quick method to get the UnitService
-     * @return UnitService reference
-     */
-    private UnitService getUnitService() {
-        return KraServiceLocator.getService(UnitService.class);
+  
+    private UnitService getUnitService() { 
+        if(this.unitService == null) {            this.unitService = KraServiceLocator.getService(UnitService.class);
+        }
+        return this.unitService;
     }
     
-    /**
-     * Quick method to get the RoleService
-     * @return RoleService reference
-     */
-    private RoleService getRoleService() {
-        return KraServiceLocator.getService(RoleService.class);
+    public void setUnitService(UnitService unitService) {
+        this.unitService = unitService;
     }
 
     public String getProtocolLeadUnit() {
         return protocolLeadUnit;
     }
-
 
     public void setProtocolLeadUnit(String protocolLeadUnit) {
         this.protocolLeadUnit = protocolLeadUnit;
@@ -298,8 +279,19 @@ public abstract class CommitteeIdByUnitValuesFinderBase<CMT extends CommitteeBas
     public void setCurrentCommitteeId(String currentCommitteeId) {
         this.currentCommitteeId = currentCommitteeId;
     }
+      
     
+    /**
+     * Returns the committees that the user is eligible to choose from.
+     * @see org.kuali.rice.krad.keyvalues.KeyValuesFinder#getKeyValues()
+     */
+    public List<KeyValue> getKeyValues() {
+        // check if data pre-loaded; if not then do it now
+        if(!this.initialized) {
+            this.initializeKeyValueList();
+        }
+        keyValues.add(0, new ConcreteKeyValue(PrefixValuesFinder.getPrefixKey(), PrefixValuesFinder.getDefaultPrefixValue()));                
+        return keyValues;
+    }
     
-    
-
 }

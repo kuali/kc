@@ -305,7 +305,7 @@ public interface TaskName {
     public static final String MODIFY_IACUC_PROTOCOL_SPECIES = "modifyIacucProtocolSpecies";    
     public static final String MODIFY_IACUC_PROTOCOL_EXCEPTION = "modifyIacucProtocolException";    
     public static final String MODIFY_IACUC_PROTOCOL_PROCEDURES = "modifyIacucProtocolProcedures";    
-    public static final String IACUC_NOTIFY_COMMITTEE = "iacucProtocolNotifyCommittee"; 
+//    public static final String IACUC_NOTIFY_COMMITTEE = "iacucProtocolNotifyCommittee"; 
     public static final String IACUC_NOTIFY_COMMITTEE_UNAVAILABLE = "iacucProtocolNotifyCommitteeUnavailable";
     public static final String IACUC_NOTIFY_IACUC = "iacucProtocolNotifyIacuc";
     public static final String IACUC_NOTIFY_IACUC_UNAVAILABLE = "iacucProtocolNotifyIacucUnavailable";

@@ -18,8 +18,6 @@
 <c:set var="attributes" value="${DataDictionary.ProtocolAssignCmtSchedBean.attributes}" />
 <c:set var="action" value="protocolProtocolActions" />
 
-<jsp:useBean id="paramMap" class="java.util.HashMap"/>
-
 <kra:permission value="${KualiForm.actionHelper.canAssignCmtSched}">
 
 <kul:innerTab tabTitle="Assign to Committee and Schedule" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.assignCmtSchedBean*">
@@ -33,11 +31,10 @@
 	                    </div>
 	                </th>
 	                <td style="width : 150px">
-                        <c:set target="${paramMap}" property="currentCommitteeId" value="${KualiForm.actionHelper.assignCmtSchedBean.committeeId}" />
-                        <c:set target="${paramMap}" property="docRouteStatus" value="${KualiForm.document.documentHeader.workflowDocument.status.code}" />	                
+                        	                
 	                    <c:set var="docNumber" value="${KualiForm.document.protocol.protocolNumber}" />
                         <html:select property="actionHelper.assignCmtSchedBean.committeeId" onchange="onlyLoadScheduleDates('actionHelper.assignCmtSchedBean.committeeId', '${docNumber}', 'actionHelper.assignCmtSchedBean.scheduleId');" >                               
-                            <c:forEach items="${krafn:getOptionList('org.kuali.kra.committee.lookup.keyvalue.IrbCommitteeIdByUnitValuesFinder', paramMap)}" var="option" >
+                            <c:forEach items="${KualiForm.actionHelper.assignCmtSchedActionCommitteeIdByUnitValuesFinder.keyValues}" var="option" >
                                 <c:choose>                      
                                     <c:when test="${KualiForm.actionHelper.assignCmtSchedBean.committeeId == option.key}">
                                         <option value="${option.key}" selected="selected">${option.value}</option>
