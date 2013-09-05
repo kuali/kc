@@ -22,7 +22,11 @@
 			<distribution>manual</distribution>
 		</license>
 	</licenses>
-    
+
+    <prerequisites>
+       <maven>3.0</maven>
+    </prerequisites>
+
 	<build>
 		<resources>
 			<resource>
@@ -192,6 +196,13 @@
 			            </goals>
 			        </execution>
 			    </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.apache.ant</groupId>
+                        <artifactId>ant</artifactId>
+                        <version>1.8.2</version>
+                    </dependency>
+                </dependencies>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -225,6 +236,14 @@
 	                            <requireMavenVersion>
 	                                <version>[3.0,4.0)</version>
 	                            </requireMavenVersion>
+
+                                <requirePluginVersions>
+                                    <message>Best Practice is to always define plugin versions!</message>
+                                    <banLatest>true</banLatest>
+                                    <banRelease>true</banRelease>
+                                    <banSnapshots>true</banSnapshots>
+                                    <phases>clean,deploy,site</phases>
+                                </requirePluginVersions>
 						  
 								<!--
 								When upgrading to rice 1.1 it is recommended to merge in the banned dependencies from rice's parent pom.
