@@ -29,6 +29,8 @@
 			<list>
 				<ref bean="IacucProtocolOnlineReviewDeterminationRecommendation-protocolOnlineReviewDeterminationRecommendationCode"/>
 				<ref bean="IacucProtocolOnlineReviewDeterminationRecommendation-description"/>
+                <ref bean="IacucProtocolOnlineReviewDeterminationRecommendation-assocReviewTypeCode" />
+                <ref bean="IacucProtocolOnlineReviewDeterminationRecommendation-assocReviewType.description" />
 				<ref bean="IacucProtocolOnlineReviewDeterminationRecommendation-versionNumber"/>
 			</list>
 		</property>
@@ -63,6 +65,36 @@
 	<bean abstract="true" id="IacucProtocolOnlineReviewDeterminationRecommendation-versionNumber-parentBean" parent="AttributeReferenceDummy-versionNumber">
 	</bean>
 
+    <bean id="IacucProtocolOnlineReviewDeterminationRecommendation-assocReviewTypeCode" parent="IacucProtocolOnlineReviewDeterminationRecommendation-assocReviewTypeCode-parentBean" />
+    <bean id="IacucProtocolOnlineReviewDeterminationRecommendation-assocReviewTypeCode-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="assocReviewTypeCode" />
+        <property name="forceUppercase" value="false" />
+        <property name="label" value="Review Type" />
+        <property name="shortLabel" value="Review Type" />
+        <property name="maxLength" value="3" />
+        <property name="validationPattern" >
+            <bean parent="AlphaNumericValidationPattern" />
+        </property>
+	    <property name="control" >
+    	    <bean parent="SelectControlDefinition" 
+    	        p:businessObjectClass="org.kuali.kra.iacuc.actions.submit.IacucProtocolReviewType" 
+    	        p:valuesFinderClass="org.kuali.kra.lookup.keyvalue.ExtendedPersistableBusinessObjectValuesFinder" 
+    	        p:includeKeyInLabel="false"
+    	        p:includeBlankRow="false"
+    	        p:keyAttribute="reviewTypeCode"
+    	        p:labelAttribute="description" />
+    	</property>
+        <property name="summary" value="Review Type" />
+        <property name="description" value="Review Type" />
+    </bean>
+  
+    <bean id="IacucProtocolOnlineReviewDeterminationRecommendation-assocReviewType.description" parent="IacucProtocolOnlineReviewDeterminationRecommendation-assocReviewType.description-parentBean" />
+    <bean id="IacucProtocolOnlineReviewDeterminationRecommendation-assocReviewType.description-parentBean" abstract="true" parent="IacucProtocolReviewType-description">
+        <property name="name" value="assocReviewType.description" />
+        <property name="label" value="Review Type" />
+        <property name="shortLabel" value="Review Type" />
+    </bean>
+  
 	<!-- Business Object Inquiry Definition -->
 	<bean id="IacucProtocolOnlineReviewDeterminationRecommendation-inquiryDefinition" parent="IacucProtocolOnlineReviewDeterminationRecommendation-inquiryDefinition-parentBean"/>
 	<bean abstract="true" id="IacucProtocolOnlineReviewDeterminationRecommendation-inquiryDefinition-parentBean" parent="InquiryDefinition">
@@ -76,6 +108,7 @@
 						<list>
 							<bean p:attributeName="protocolOnlineReviewDeterminationRecommendationCode" p:forceInquiry="true" parent="FieldDefinition"/>
 							<bean p:attributeName="description" parent="FieldDefinition"/>
+							<bean p:attributeName="assocReviewTypeCode" parent="FieldDefinition"/>
 						</list>
 					</property>
 				</bean>
@@ -88,7 +121,6 @@
 	<bean abstract="true" id="IacucProtocolOnlineReviewDeterminationRecommendation-lookupDefinition-parentBean" parent="LookupDefinition">
 		<property name="title" value="IACUC Protocol Review Determination Recommendation Code Status Lookup"/>
 		<property name="menubar" value="&lt;a href=&quot;index.jsp&quot;&gt;Main&lt;/a&gt;"/>
-
 		<property name="defaultSort">
 			<bean parent="SortDefinition">
 		</bean>
@@ -97,12 +129,14 @@
 			<list>
 				<bean p:attributeName="protocolOnlineReviewDeterminationRecommendationCode" p:forceInquiry="true" parent="FieldDefinition"/>
 				<bean p:attributeName="description" parent="FieldDefinition"/>
+				<bean p:attributeName="assocReviewTypeCode" parent="FieldDefinition"/>
 			</list>
 		</property>
 		<property name="resultFields">
 			<list>
 				<bean p:attributeName="protocolOnlineReviewDeterminationRecommendationCode" p:forceInquiry="true" parent="FieldDefinition"/>
 				<bean p:attributeName="description" parent="FieldDefinition"/>
+				<bean p:attributeName="assocReviewTypeCode" parent="FieldDefinition"/>
 			</list>
 		</property>
 	</bean>
