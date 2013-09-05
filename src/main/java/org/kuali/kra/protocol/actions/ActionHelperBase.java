@@ -354,8 +354,7 @@ public abstract class ActionHelperBase implements Serializable {
     }
     
     
-    protected abstract CommitteeIdByUnitValuesFinderBase<?> getCommitteeIdByUnitValuesFinderInstanceHook();
-
+    
 
     protected abstract String getSRRProtocolActionTypeHook();
 
@@ -674,7 +673,7 @@ public abstract class ActionHelperBase implements Serializable {
         canSubmitProtocol = hasSubmitProtocolPermission();
         canSubmitProtocolUnavailable = hasSubmitProtocolUnavailablePermission();
         protocolSubmitAction.prepareView();
-        submitActionCommitteeIdByUnitValuesFinder = getCommitteeIdByUnitValuesFinderInstanceHook();
+        submitActionCommitteeIdByUnitValuesFinder = getSubmitActionCommitteeIdByUnitValuesFinderInstanceHook();
         // Initialize the submit committee finder (expensive call) only after checking the conditions for the display of the committee selection
         if(canSubmitProtocol && isShowCommittee()) {            
             // set the lead unit of the protocol and the doc route status on the committee finder
@@ -689,7 +688,7 @@ public abstract class ActionHelperBase implements Serializable {
         protocolNotifyCommitteeBean.prepareView();
         canNotifyCommittee = hasNotifyCommitteePermission();
         canNotifyCommitteeUnavailable = hasNotifyCommitteeUnavailablePermission();
-        notifyCmtActionCommitteeIdByUnitValuesFinder = getCommitteeIdByUnitValuesFinderInstanceHook();
+        notifyCmtActionCommitteeIdByUnitValuesFinder = getNotifyCmtActionCommitteeIdByUnitValuesFinderInstanceHook();
         // Initialize the committee finder only after checking the conditions for the display of the committee selection
         if(canNotifyCommittee && isShowCommittee()) {            
             // set the lead unit of the protocol and the doc route status on the committee finder
@@ -698,6 +697,9 @@ public abstract class ActionHelperBase implements Serializable {
             notifyCmtActionCommitteeIdByUnitValuesFinder.initializeKeyValueList();
         }
     }
+    
+    protected abstract CommitteeIdByUnitValuesFinderBase<?> getSubmitActionCommitteeIdByUnitValuesFinderInstanceHook();
+    protected abstract CommitteeIdByUnitValuesFinderBase<?> getNotifyCmtActionCommitteeIdByUnitValuesFinderInstanceHook();
     
     private boolean hasNotifyCommitteePermission() {
         ProtocolTaskBase task = getNewNotifyCommitteeTaskInstanceHook(getProtocol());

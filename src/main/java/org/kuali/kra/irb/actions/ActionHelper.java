@@ -27,11 +27,9 @@ import java.util.Map;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.CoeusModule;
-import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.committee.lookup.keyvalue.IrbCommitteeIdByUnitValuesFinder;
 import org.kuali.kra.committee.service.CommitteeScheduleService;
 import org.kuali.kra.committee.service.CommitteeService;
-import org.kuali.kra.common.committee.lookup.keyvalue.CommitteeIdByUnitValuesFinderBase;
 import org.kuali.kra.common.committee.service.CommitteeScheduleServiceBase;
 import org.kuali.kra.common.committee.service.CommitteeServiceBase;
 import org.kuali.kra.infrastructure.Constants;
@@ -503,7 +501,7 @@ public class ActionHelper extends ActionHelperBase {
     private void prepareNotifyIrbActionView() {
         canNotifyIrb = hasNotifyIrbPermission();
         canNotifyIrbUnavailable = hasNotifyIrbUnavailablePermission();
-        notifyIrbActionCommitteeIdByUnitValuesFinder = getIRBCommitteeIdByUnitValuesFinderInstance();
+        notifyIrbActionCommitteeIdByUnitValuesFinder = getNotifyIrbActionCommitteeIdByUnitValuesFinderInstance();
         if(canNotifyIrb && isShowCommittee()) {
             // set the lead unit of the protocol and the doc route status on the committee finder
             notifyIrbActionCommitteeIdByUnitValuesFinder.setCurrentCommitteeId(protocolNotifyIrbBean.getCommitteeId());
@@ -513,11 +511,15 @@ public class ActionHelper extends ActionHelperBase {
     }
 
     
+    protected IrbCommitteeIdByUnitValuesFinder getNotifyIrbActionCommitteeIdByUnitValuesFinderInstance() {
+        return KraServiceLocator.getService("notifyIrbActionIRBCommitteeIdByUnitValuesFinder");
+    }
+
     private void prepareAssignCommitteeScheduleActionView() {
         assignCmtSchedBean.prepareView();
         canAssignCmtSched = hasAssignCmtSchedPermission();
         canAssignCmtSchedUnavailable = hasAssignCmtSchedUnavailablePermission();
-        assignCmtSchedActionCommitteeIdByUnitValuesFinder = getIRBCommitteeIdByUnitValuesFinderInstance();
+        assignCmtSchedActionCommitteeIdByUnitValuesFinder = getAssignCmtSchedActionCommitteeIdByUnitValuesFinderInstance();
         if(canAssignCmtSched) {
             // set the lead unit of the protocol and the doc route status on the committee finder
             assignCmtSchedActionCommitteeIdByUnitValuesFinder.setCurrentCommitteeId(assignCmtSchedBean.getCommitteeId());
@@ -527,9 +529,8 @@ public class ActionHelper extends ActionHelperBase {
     }    
     
 
-    private IrbCommitteeIdByUnitValuesFinder getIRBCommitteeIdByUnitValuesFinderInstance() {
-        // todo replace the 'new' instantiation with a spring bean 
-        return new IrbCommitteeIdByUnitValuesFinder();
+    protected IrbCommitteeIdByUnitValuesFinder getAssignCmtSchedActionCommitteeIdByUnitValuesFinderInstance() {
+        return KraServiceLocator.getService("assignCmtSchedActionIRBCommitteeIdByUnitValuesFinder");
     }
 
     /**
@@ -1666,8 +1667,13 @@ public class ActionHelper extends ActionHelperBase {
     }
 
     @Override
-    protected CommitteeIdByUnitValuesFinderBase<Committee> getCommitteeIdByUnitValuesFinderInstanceHook() {
-        return getIRBCommitteeIdByUnitValuesFinderInstance();
+    protected IrbCommitteeIdByUnitValuesFinder getSubmitActionCommitteeIdByUnitValuesFinderInstanceHook() {
+        return KraServiceLocator.getService("submitActionIRBCommitteeIdByUnitValuesFinder");
+    }
+    
+    @Override
+    protected IrbCommitteeIdByUnitValuesFinder getNotifyCmtActionCommitteeIdByUnitValuesFinderInstanceHook() {
+        return KraServiceLocator.getService("notifyCmtActionIRBCommitteeIdByUnitValuesFinder");
     }
 
     @Override
@@ -1675,14 +1681,12 @@ public class ActionHelper extends ActionHelperBase {
         submissionConstraint = getParameterValue(Constants.PARAMETER_IRB_COMM_SELECTION_DURING_SUBMISSION);        
     }
     
-    public CommitteeIdByUnitValuesFinderBase<?> getAssignCmtSchedActionCommitteeIdByUnitValuesFinder() {
+    public IrbCommitteeIdByUnitValuesFinder getAssignCmtSchedActionCommitteeIdByUnitValuesFinder() {
         return assignCmtSchedActionCommitteeIdByUnitValuesFinder;
     }    
 
     public IrbCommitteeIdByUnitValuesFinder getNotifyIrbActionCommitteeIdByUnitValuesFinder() {
         return notifyIrbActionCommitteeIdByUnitValuesFinder;
     }
-
-    
-    
+ 
 }

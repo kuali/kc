@@ -73,7 +73,7 @@ public abstract class CommitteeIdByUnitValuesFinderBase<CMT extends CommitteeBas
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = -3005003472800028011L;
-    
+
     private String protocolLeadUnit;
     private String docRouteStatus;
     private String currentCommitteeId;
@@ -83,6 +83,7 @@ public abstract class CommitteeIdByUnitValuesFinderBase<CMT extends CommitteeBas
     private boolean initialized = false;
     
     private UnitAuthorizationService unitAuthorizationService;    private UnitService unitService;
+    private BusinessObjectService businessObjectService;
      
     // this method should be invoked from within the transaction wrapper that covers the request processing so 
     // that the db-calls in this method do not each generate new transactions. If executed from within the context
@@ -129,7 +130,7 @@ public abstract class CommitteeIdByUnitValuesFinderBase<CMT extends CommitteeBas
         Map<String, String> criteria = new HashMap<String, String>();
         criteria.put("committeeTypeCode", getCommitteeTypeCodeHook());
       
-        Collection<CMT> allCommittees = KraServiceLocator.getService(BusinessObjectService.class).findMatching(getCommitteeBOClassHook(), criteria);
+        Collection<CMT> allCommittees = getBusinessObjectService().findMatching(getCommitteeBOClassHook(), criteria);
         HashMap<String, CMT> committeeMap = new HashMap<String, CMT>();
         
         CMT tmpComm = null;
@@ -150,6 +151,22 @@ public abstract class CommitteeIdByUnitValuesFinderBase<CMT extends CommitteeBas
     }
     
     
+    
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
+
+    
+    private BusinessObjectService getBusinessObjectService() {
+        if(this.businessObjectService == null) {
+            this.businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
+        }
+        return this.businessObjectService;
+    }
+
+
+
+
     protected abstract Class<CMT> getCommitteeBOClassHook();    protected abstract String getCommitteeTypeCodeHook(); 
    
     
@@ -242,7 +259,7 @@ public abstract class CommitteeIdByUnitValuesFinderBase<CMT extends CommitteeBas
         }
     }
   
-    private UnitService getUnitService() { 
+    protected UnitService getUnitService() { 
         if(this.unitService == null) {            this.unitService = KraServiceLocator.getService(UnitService.class);
         }
         return this.unitService;

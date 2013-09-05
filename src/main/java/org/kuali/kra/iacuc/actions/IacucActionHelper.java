@@ -25,7 +25,6 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
-import org.kuali.kra.common.committee.lookup.keyvalue.CommitteeIdByUnitValuesFinderBase;
 import org.kuali.kra.common.committee.service.CommitteeScheduleServiceBase;
 import org.kuali.kra.common.committee.service.CommitteeServiceBase;
 import org.kuali.kra.iacuc.IacucProtocol;
@@ -64,7 +63,6 @@ import org.kuali.kra.iacuc.actions.withdraw.IacucProtocolAdministrativelyWithdra
 import org.kuali.kra.iacuc.actions.withdraw.IacucProtocolWithdrawBean;
 import org.kuali.kra.iacuc.auth.IacucGenericProtocolAuthorizer;
 import org.kuali.kra.iacuc.auth.IacucProtocolTask;
-import org.kuali.kra.iacuc.committee.bo.IacucCommittee;
 import org.kuali.kra.iacuc.committee.lookup.keyvalue.IacucCommitteeIdByUnitValuesFinder;
 import org.kuali.kra.iacuc.committee.service.IacucCommitteeScheduleService;
 import org.kuali.kra.iacuc.committee.service.IacucCommitteeService;
@@ -171,7 +169,7 @@ public class IacucActionHelper extends ActionHelperBase {
     private boolean canAssignCmtUnavailable = false;
 
     // indicator for whether there is submission questionnaire answer exist.
-    // ie, questionnaire has been saved for a request/notify irb action
+    // ie, questionnaire has been saved for a request/notify  action
     private boolean submissionQuestionnaireExist;
     // check if there is submission questionnaire to answer
     private boolean toAnswerSubmissionQuestionnaire;
@@ -1563,20 +1561,20 @@ public class IacucActionHelper extends ActionHelperBase {
 
 
     @Override
-    protected CommitteeIdByUnitValuesFinderBase<IacucCommittee> getCommitteeIdByUnitValuesFinderInstanceHook() {
-        return getIacucCommitteeIdByUnitValuesFinderInstance();
-    }
-
-
-    private IacucCommitteeIdByUnitValuesFinder getIacucCommitteeIdByUnitValuesFinderInstance() {
-        // todo replace the 'new' instantiation with a spring bean
-        return new IacucCommitteeIdByUnitValuesFinder();
+    protected void initializeSubmissionConstraintHook() {
+        submissionConstraint = getParameterValue(Constants.PARAMETER_IACUC_COMM_SELECTION_DURING_SUBMISSION);
     }
 
 
     @Override
-    protected void initializeSubmissionConstraintHook() {
-        submissionConstraint = getParameterValue(Constants.PARAMETER_IACUC_COMM_SELECTION_DURING_SUBMISSION);
+    protected IacucCommitteeIdByUnitValuesFinder getSubmitActionCommitteeIdByUnitValuesFinderInstanceHook() {
+        return KraServiceLocator.getService("submitActionIACUCCommitteeIdByUnitValuesFinder");
+    }
+
+
+    @Override
+    protected IacucCommitteeIdByUnitValuesFinder getNotifyCmtActionCommitteeIdByUnitValuesFinderInstanceHook() {
+        return KraServiceLocator.getService("notifyCmtActionIACUCCommitteeIdByUnitValuesFinder");
     }
 
 }
