@@ -44,6 +44,7 @@
 			<list>
 				<bean parent="MaintainableFieldDefinition" p:name="protocolOnlineReviewDeterminationRecommendationCode" p:required="true"/>
 				<bean parent="MaintainableFieldDefinition" p:name="description" p:required="true"/>
+				<bean parent="MaintainableFieldDefinition" p:name="assocReviewTypeCode"/>
 				<bean parent="MaintainableFieldDefinition" p:name="versionNumber"/>
 			</list>
 		</property>
