@@ -211,14 +211,6 @@
 			    </executions>
 			</plugin>
 			<plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>2.6</version>
-                <configuration>
-                    <propertyExpansion>${checkstyle.propertyExpansion}</propertyExpansion>
-                </configuration>
-            </plugin>
-			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>2.3.2</version>
@@ -375,69 +367,25 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.7</version>
+                <version>2.9.1</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-project-info-reports-plugin</artifactId>
-                <version>2.2</version>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>2.2.1</version>
             </plugin>
 		    <plugin>
 		    	<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-resources-plugin</artifactId>
 				<version>2.4.3</version>
 		    </plugin>
-		    <plugin>
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-site-plugin</artifactId>
-                <version>3.0-beta-2</version>
+                <version>3.3</version>
                 <configuration>
-                    <reportPlugins>
-                        <!--  
-                            Currently we must configure these plugins both in pluginManagement and reportPlugins.
-                            See http://jira.codehaus.org/browse/MSITE-516 
-                        -->
-                        <plugin>
-	                        <groupId>net.sourceforge.maven-taglib</groupId>
-	                        <artifactId>maven-taglib-plugin</artifactId>
-	                    </plugin>
-                        <plugin>
-	                        <groupId>org.apache.maven.plugins</groupId>
-	                        <artifactId>maven-checkstyle-plugin</artifactId>
-                            <configuration>
-                                <propertyExpansion>${checkstyle.propertyExpansion}</propertyExpansion>
-                            </configuration>
-                        </plugin>
-						<plugin>
-						    <groupId>org.apache.maven.plugins</groupId>
-						    <artifactId>maven-javadoc-plugin</artifactId>
-						</plugin>
-						<plugin>
-						    <groupId>org.apache.maven.plugins</groupId>
-						    <artifactId>maven-project-info-reports-plugin</artifactId>
-						</plugin>
-						<plugin>
-			                <groupId>org.apache.maven.plugins</groupId>
-			                <artifactId>maven-surefire-plugin</artifactId>
-			                <configuration>
-			                    <useFile>${surefire.useFile}</useFile>
-			                    <testFailureIgnore>${surefire.testFailureIgnore}</testFailureIgnore>
-			                    <!-- hopefully only temporary until all our tests are fixed :-) -->
-			                    <test>${surefire.test}</test>
-			                    <reportFormat>${surefire.reportFormat}</reportFormat>
-			                    <forkMode>${surefire.forkMode}</forkMode>
-			                    <argLine>${surefire.argLine}</argLine>
-			                    <aggregate>${surefire.aggregate}</aggregate>
-			                </configuration>
-			            </plugin>
-			            <plugin>
-			                <groupId>org.codehaus.mojo</groupId>
-			                <artifactId>cobertura-maven-plugin</artifactId>
-			                <configuration>
-			                    <maxmem>${cobertura.maxmem}</maxmem>
-			                </configuration>
-			            </plugin>
-                    </reportPlugins>
+                    <!-- disabling report generation for now until we come up with a useful set of reports to publish -->
+                    <generateReports>false</generateReports>
                 </configuration>
             </plugin>
             <plugin>
@@ -456,11 +404,6 @@
                 </configuration>
             </plugin>
             <plugin>
-                <groupId>net.sourceforge.maven-taglib</groupId>
-                <artifactId>maven-taglib-plugin</artifactId>
-                <version>2.4</version>
-            </plugin>
-            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
                 <version>2.1</version>
@@ -468,14 +411,6 @@
                     <attachClasses>true</attachClasses>
 					<webXml>${project.build.directory}/web.xml</webXml>                  
                 </configuration>  
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>cobertura-maven-plugin</artifactId>
-                <version>2.4</version>
-                <configuration>
-                    <maxmem>${cobertura.maxmem}</maxmem>
-                </configuration>
             </plugin>
             <plugin>
 				<groupId>org.mortbay.jetty</groupId>
@@ -1647,20 +1582,7 @@
             <snapshots> 
                 <enabled>true</enabled> 
             </snapshots> 
-        </repository> 
-		<repository>
-			<id>kuali</id>
-			<name>Kuali Repository</name>
-			<url>https://test.kuali.org/maven</url>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</repository>
-		<repository>
-			<id>jboss</id>
-			<name>jboss</name>
-			<url>http://repository.jboss.org/nexus/content/groups/public/</url>
-		</repository>
+        </repository>
 	</repositories>
 	
     <pluginRepositories>
