@@ -20,14 +20,16 @@ import java.util.Collection;
 import java.util.List;
 
 import org.kuali.kra.common.committee.service.CommitteeServiceBase;
+import org.kuali.kra.iacuc.IacucProtocolForm;
 import org.kuali.kra.iacuc.actions.IacucActionsKeyValuesBase;
 import org.kuali.kra.iacuc.committee.service.IacucCommitteeService;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.kns.util.KNSGlobalVariables;
 
 /**
- * Assembles the Protocol Review Types to display in the drop-down menu when
- * submitting a protocol to the IRB office for review.
+ * Assembles the Protocol Reviewer Types to display in the drop-down menu when
+ * reviewing a protocol and selecting a recommendation.
  */
 public class IacucProtocolOnlineReviewDeterminationRecommendationValuesFinder extends IacucActionsKeyValuesBase {
     
@@ -37,11 +39,16 @@ public class IacucProtocolOnlineReviewDeterminationRecommendationValuesFinder ex
     private static final long serialVersionUID = -1177665298157090424L;
 
     public List<KeyValue> getKeyValues() {
+        IacucProtocolForm iacucProtocolForm = (IacucProtocolForm)KNSGlobalVariables.getKualiForm();
+        String reviewType = iacucProtocolForm.getIacucProtocolDocument().getIacucProtocol().getProtocolSubmission().getProtocolReviewTypeCode();
         Collection<IacucProtocolOnlineReviewDeterminationRecommendation> recommendations = this.getKeyValuesService().findAll(IacucProtocolOnlineReviewDeterminationRecommendation.class);
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         keyValues.add(new ConcreteKeyValue("", "select"));
         for (IacucProtocolOnlineReviewDeterminationRecommendation recommendation : recommendations) {
-            keyValues.add(new ConcreteKeyValue(recommendation.getProtocolOnlineReviewDeterminationRecommendationCode().toString(), recommendation.getDescription()));
+            if (recommendation.getAssocReviewTypeCode() == null || recommendation.getAssocReviewTypeCode().intValue() == 0 ||
+                recommendation.getAssocReviewTypeCode().intValue() == Integer.valueOf(reviewType)) {
+                keyValues.add(new ConcreteKeyValue(recommendation.getProtocolOnlineReviewDeterminationRecommendationCode().toString(), recommendation.getDescription()));
+            }
         }
         return keyValues;
     }
