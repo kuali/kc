@@ -15,6 +15,7 @@
  */
 package org.kuali.kra.iacuc.onlinereview;
 
+import org.kuali.kra.protocol.actions.submit.ProtocolReviewTypeBase;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewDeterminationRecommendationBase;
 
 public class IacucProtocolOnlineReviewDeterminationRecommendation extends ProtocolOnlineReviewDeterminationRecommendationBase {
@@ -23,5 +24,25 @@ public class IacucProtocolOnlineReviewDeterminationRecommendation extends Protoc
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = -1768290517796704487L;
+
+    private Long assocReviewTypeCode;
+    
+    private ProtocolReviewTypeBase assocReviewType;
+
+    public Long getAssocReviewTypeCode() {
+        return assocReviewTypeCode;
+    }
+
+    public void setAssocReviewTypeCode(Long assocReviewTypeCode) {
+        this.assocReviewTypeCode = assocReviewTypeCode;
+    }
+
+    public ProtocolReviewTypeBase getAssocReviewType() {
+        return assocReviewType;
+    }
+
+    public void setAssocReviewType(ProtocolReviewTypeBase assocReviewType) {
+        this.assocReviewType = assocReviewType;
+    }
 
 }
