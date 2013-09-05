@@ -103,6 +103,11 @@ import org.kuali.rice.krad.util.GlobalVariables;
 @SuppressWarnings("serial")
 public class ActionHelper extends ActionHelperBase {
 
+    private static final String ASSIGN_CMT_SCHED_ACTION_COMMITTEE_ID_BY_UNIT_VALUES_FINDER_ID = "assignCmtSchedActionIRBCommitteeIdByUnitValuesFinder";
+    private static final String NOTIFY_IRB_ACTION_COMMITTEE_ID_BY_UNIT_VALUES_FINDER_ID = "notifyIrbActionIRBCommitteeIdByUnitValuesFinder";
+    private static final String NOTIFY_CMT_ACTION_COMMITTEE_ID_BY_UNIT_VALUES_FINDER_ID = "notifyCmtActionIRBCommitteeIdByUnitValuesFinder";
+    private static final String SUBMIT_ACTION_COMMITTEE_ID_BY_UNIT_VALUES_FINDER_ID = "submitActionIRBCommitteeIdByUnitValuesFinder";
+    
     private static final long ONE_DAY = 1000L * 60L * 60L * 24L;
     private static final String NAMESPACE = "KC-UNT";
     private static final List<String> ACTION_TYPE_SUBMISSION_DOC;
@@ -512,7 +517,7 @@ public class ActionHelper extends ActionHelperBase {
 
     
     protected IrbCommitteeIdByUnitValuesFinder getNotifyIrbActionCommitteeIdByUnitValuesFinderInstance() {
-        return KraServiceLocator.getService("notifyIrbActionIRBCommitteeIdByUnitValuesFinder");
+        return KraServiceLocator.getService(NOTIFY_IRB_ACTION_COMMITTEE_ID_BY_UNIT_VALUES_FINDER_ID);
     }
 
     private void prepareAssignCommitteeScheduleActionView() {
@@ -530,7 +535,7 @@ public class ActionHelper extends ActionHelperBase {
     
 
     protected IrbCommitteeIdByUnitValuesFinder getAssignCmtSchedActionCommitteeIdByUnitValuesFinderInstance() {
-        return KraServiceLocator.getService("assignCmtSchedActionIRBCommitteeIdByUnitValuesFinder");
+        return KraServiceLocator.getService(ASSIGN_CMT_SCHED_ACTION_COMMITTEE_ID_BY_UNIT_VALUES_FINDER_ID);
     }
 
     /**
@@ -1668,12 +1673,12 @@ public class ActionHelper extends ActionHelperBase {
 
     @Override
     protected IrbCommitteeIdByUnitValuesFinder getSubmitActionCommitteeIdByUnitValuesFinderInstanceHook() {
-        return KraServiceLocator.getService("submitActionIRBCommitteeIdByUnitValuesFinder");
+        return KraServiceLocator.getService(SUBMIT_ACTION_COMMITTEE_ID_BY_UNIT_VALUES_FINDER_ID);
     }
     
     @Override
     protected IrbCommitteeIdByUnitValuesFinder getNotifyCmtActionCommitteeIdByUnitValuesFinderInstanceHook() {
-        return KraServiceLocator.getService("notifyCmtActionIRBCommitteeIdByUnitValuesFinder");
+        return KraServiceLocator.getService(NOTIFY_CMT_ACTION_COMMITTEE_ID_BY_UNIT_VALUES_FINDER_ID);
     }
 
     @Override
