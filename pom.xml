@@ -61,7 +61,7 @@
 			<plugin>
 				<groupId>org.apache.cxf</groupId>
 				<artifactId>cxf-codegen-plugin</artifactId>
-				<version>${cxf.version}</version>
+				<version>${cxf-codegen-plugin.version}</version>
 				<executions>
 					<execution>
 						<id>generate-apply-grants-gov</id>
@@ -175,7 +175,7 @@
 			<plugin>
 			    <groupId>org.apache.maven.plugins</groupId>
 			    <artifactId>maven-antrun-plugin</artifactId>
-			    <version>1.3</version>
+			    <version>${maven-antrun-plugin.version}</version>
 			    <executions>
 			        <execution>
 			            <id>unpack-help</id>
@@ -196,7 +196,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>2.3.2</version>
+				<version>${maven-compiler-plugin.version}</version>
 				<configuration>
 					<source>1.6</source>
 					<target>1.6</target>
@@ -205,12 +205,12 @@
 		    <plugin>
 		    	<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-deploy-plugin</artifactId>
-				<version>2.5</version>
+				<version>${maven-deploy-plugin.version}</version>
 		    </plugin>
 		    <plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-enforcer-plugin</artifactId>
-				<version>1.0-beta-1</version>
+				<version>${maven-enforcer-plugin.version}</version>
                 <executions>
                     <execution>
 	                    <id>enforce-banned-dependencies</id>
@@ -345,27 +345,27 @@
 		   	<plugin>
 		    	<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-install-plugin</artifactId>
-				<version>2.3.1</version>
+				<version>${maven-install-plugin.version}</version>
 		    </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.9.1</version>
+                <version>${maven-javadoc-plugin.version}</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
-                <version>2.2.1</version>
+                <version>${maven-source-plugin.version}</version>
             </plugin>
 		    <plugin>
 		    	<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-resources-plugin</artifactId>
-				<version>2.4.3</version>
+				<version>${maven-resources-plugin.version}</version>
 		    </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-site-plugin</artifactId>
-                <version>3.3</version>
+                <version>${maven-site-plugin.version}</version>
                 <configuration>
                     <!-- disabling report generation for now until we come up with a useful set of reports to publish -->
                     <generateReports>false</generateReports>
@@ -374,7 +374,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.6</version>
+                <version>${maven-surefire-plugin.version}</version>
                 <configuration>
                     <useFile>${surefire.useFile}</useFile>
                     <testFailureIgnore>${surefire.testFailureIgnore}</testFailureIgnore>
@@ -383,13 +383,12 @@
                     <reportFormat>${surefire.reportFormat}</reportFormat>
                     <forkMode>${surefire.forkMode}</forkMode>
                     <argLine>${surefire.argLine}</argLine>
-                    <aggregate>${surefire.aggregate}</aggregate>
                 </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
-                <version>2.1</version>
+                <version>${maven-war-plugin.version}</version>
                 <configuration>
                     <attachClasses>true</attachClasses>
 					<webXml>${project.build.directory}/web.xml</webXml>                  
@@ -398,7 +397,7 @@
             <plugin>
 				<groupId>org.mortbay.jetty</groupId>
 				<artifactId>jetty-maven-plugin</artifactId>
-				<version>${jetty.version}</version>
+				<version>${jetty-maven-plugin.version}</version>
 				<dependencies>
 	                <dependency>
 	                    <groupId>com.oracle</groupId>
@@ -417,8 +416,7 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>tomcat-maven-plugin</artifactId>
-                <!-- tomcat 6.0.26 -->
-                <version>1.0</version>
+                <version>${tomcat-maven-plugin.version}</version>
                 <dependencies>  
                     <dependency>
                         <groupId>com.oracle</groupId>
@@ -1254,7 +1252,7 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-dependency-plugin</artifactId>
-						<version>2.1</version>
+						<version>${maven-dependency-plugin.version}</version>
 						<executions>
 							<execution>
 								<id>unpack-rice-web</id>
@@ -1284,7 +1282,7 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-clean-plugin</artifactId>
-						<version>2.4.1</version>
+						<version>${maven-clean-plugin.version}</version>
 						<executions>
 							<execution>
 								<id>delete-rice-web</id>
@@ -1378,6 +1376,7 @@
 		            <plugin>
 			            <groupId>org.mortbay.jetty</groupId>
 			            <artifactId>jetty-maven-plugin</artifactId>
+                        <version>${jetty-maven-plugin.version}</version>
 						<configuration>
 							<webAppConfig>
 								<contextPath>${default.context.path}</contextPath>
@@ -1388,6 +1387,7 @@
 					<plugin>
 						<groupId>org.codehaus.mojo</groupId>
 						<artifactId>tomcat-maven-plugin</artifactId>
+                        <version>${tomcat-maven-plugin.version}</version>
 						<configuration>
 							<path>${default.context.path}</path>
 						</configuration>
@@ -1396,16 +1396,17 @@
 			</build>
 		</profile>
 
-	    <!-- 
+	    <!--
 			This profile defines plugins for running kc/rice in an embedded configuration.
 		 -->
 		<profile>
 			<id>server-embedded</id>
 			<build>
 				<plugins>
-					<plugin> 
+					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-dependency-plugin</artifactId>
+                        <version>${maven-dependency-plugin.version}</version>
 						<configuration>
 							<artifactItems>
 								<artifactItem>
@@ -1423,7 +1424,7 @@
 				</plugins>
 			</build>
 		</profile>
-			 
+
 		<profile>
 			<id>client-embedded</id>
 			<build>
@@ -1431,6 +1432,7 @@
 					<plugin>
 						<groupId>org.mortbay.jetty</groupId>
 						<artifactId>jetty-maven-plugin</artifactId>
+                        <version>${jetty-maven-plugin.version}</version>
 						<configuration>
 							<webAppConfig>
 								<contextPath>${default.context.path}</contextPath>
@@ -1445,7 +1447,7 @@
 	    <profile>
 	      <id>ken-remote-mode</id>
 	      <properties>
-	        <rice.ken.servlet></rice.ken.servlet>
+	        <rice.ken.servlet/>
       	</properties>
 	  </profile>
 	  
@@ -1606,21 +1608,40 @@
 	</ciManagement>
 
 	<properties>
-		<cxf.version>2.7.0</cxf.version>
-		<drools.version>5.5.0.Final</drools.version>
-		<jetty.version>7.5.1.v20110908</jetty.version>
-		<jmock.version>2.5.1</jmock.version>
-		<jstl.version>1.2</jstl.version>
-		<mail.version>1.4.4</mail.version>
-		<mysql.version>5.1.16</mysql.version>
-		<oracle.version>10.2.0.3.0</oracle.version>
-		<rice.version>2.1.7</rice.version>		
-		<selenium.version>2.21.0</selenium.version>
-		<servlet.version>2.5</servlet.version>
-		<jsp-api.version>2.1</jsp-api.version>
-		<slf4j.version>1.6.4</slf4j.version>
-		<struts.version>1.3.10</struts.version>
-		
+        <!--dependency versions-->
+        <cxf.version>2.7.0</cxf.version>
+        <drools.version>5.5.0.Final</drools.version>
+        <jetty.version>7.5.1.v20110908</jetty.version>
+        <jmock.version>2.5.1</jmock.version>
+        <jstl.version>1.2</jstl.version>
+        <mail.version>1.4.4</mail.version>
+        <mysql.version>5.1.16</mysql.version>
+        <oracle.version>10.2.0.3.0</oracle.version>
+        <rice.version>2.1.7</rice.version>
+        <selenium.version>2.21.0</selenium.version>
+        <servlet.version>2.5</servlet.version>
+        <jsp-api.version>2.1</jsp-api.version>
+        <slf4j.version>1.6.4</slf4j.version>
+        <struts.version>1.3.10</struts.version>
+
+        <!-- plugin versions -->
+        <cxf-codegen-plugin.version>${cxf.version}</cxf-codegen-plugin.version>
+        <jetty-maven-plugin.version>${jetty.version}</jetty-maven-plugin.version>
+        <maven-antrun-plugin.version>1.7</maven-antrun-plugin.version>
+        <maven-clean-plugin.version>2.5</maven-clean-plugin.version>
+        <maven-compiler-plugin.version>3.1</maven-compiler-plugin.version>
+        <maven-dependency-plugin.version>2.8</maven-dependency-plugin.version>
+        <maven-deploy-plugin.version>2.7</maven-deploy-plugin.version>
+        <maven-enforcer-plugin.version>1.3.1</maven-enforcer-plugin.version>
+        <maven-install-plugin.version>2.4</maven-install-plugin.version>
+        <maven-javadoc-plugin.version>2.9.1</maven-javadoc-plugin.version>
+        <maven-resources-plugin.version>2.6</maven-resources-plugin.version>
+        <maven-site-plugin.version>3.3</maven-site-plugin.version>
+        <maven-source-plugin.version>2.2.1</maven-source-plugin.version>
+        <maven-surefire-plugin.version>2.16</maven-surefire-plugin.version>
+        <maven-war-plugin.version>2.4</maven-war-plugin.version>
+        <tomcat-maven-plugin.version>1.0</tomcat-maven-plugin.version>
+
 		<!-- Surefire config -->
         <surefire.useFile>false</surefire.useFile>
         <surefire.testFailureIgnore>false</surefire.testFailureIgnore>
@@ -1628,6 +1649,7 @@
         <surefire.forkMode>never</surefire.forkMode>
         <surefire.argLine>-Xmx1024m -XX:MaxPermSize=512m</surefire.argLine>
         <surefire.aggregate>true</surefire.aggregate>
+        <surefire.test>PassSuite</surefire.test>
 
     	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     	
@@ -1708,5 +1730,5 @@
     	<monitoring.listener />
         <monitoring.spring.import />
         <monitoring.spring.service />
-	</properties>
+    </properties>
 </project>
