@@ -428,10 +428,29 @@
 	            </dependencies>						
 			</plugin>	
             <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>tomcat-maven-plugin</artifactId>
-                <version>${tomcat-maven-plugin.version}</version>
-                <dependencies>  
+                <groupId>org.apache.tomcat.maven</groupId>
+                <artifactId>tomcat6-maven-plugin</artifactId>
+                <version>${tomcat6-maven-plugin.version}</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.oracle</groupId>
+                        <artifactId>ojdbc6</artifactId>
+                        <version>${oracle.version}</version>
+                        <scope>runtime</scope>
+                    </dependency>
+                    <dependency>
+                        <groupId>mysql</groupId>
+                        <artifactId>mysql-connector-java</artifactId>
+                        <version>${mysql.version}</version>
+                        <scope>runtime</scope>
+                    </dependency>
+                </dependencies>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.tomcat.maven</groupId>
+                <artifactId>tomcat7-maven-plugin</artifactId>
+                <version>${tomcat6-maven-plugin.version}</version>
+                <dependencies>
                     <dependency>
                         <groupId>com.oracle</groupId>
                         <artifactId>ojdbc6</artifactId>
@@ -1228,13 +1247,15 @@
 	<profiles>
 
 		<!-- 
-			This profile handles unpacking and cleaning of the rice web content and is on by default but can be
-			turned off by toggling the activeByDefault flag.  This is useful to test changes to rice files locally.
+			This profile handles unpacking and cleaning of the rice web content and is on by default but can be turned
+			off by sending the rice.web.off system property.  This is useful to test changes to rice files locally.
 		 -->
 		<profile>
 			<id>rice-web</id>
 			<activation>
-				<activeByDefault>true</activeByDefault>
+                <property>
+                    <name>!rice.web.off</name>
+                </property>
 			</activation>
 			<build>
 				<plugins>
@@ -1399,13 +1420,21 @@
 						</configuration>			            
 			        </plugin>
 					<plugin>
-						<groupId>org.codehaus.mojo</groupId>
-						<artifactId>tomcat-maven-plugin</artifactId>
-                        <version>${tomcat-maven-plugin.version}</version>
+						<groupId>org.apache.tomcat.maven</groupId>
+						<artifactId>tomcat6-maven-plugin</artifactId>
+                        <version>${tomcat6-maven-plugin.version}</version>
 						<configuration>
 							<path>${default.context.path}</path>
 						</configuration>
 					</plugin>
+                    <plugin>
+                        <groupId>org.apache.tomcat.maven</groupId>
+                        <artifactId>tomcat7-maven-plugin</artifactId>
+                        <version>${tomcat7-maven-plugin.version}</version>
+                        <configuration>
+                            <path>${default.context.path}</path>
+                        </configuration>
+                    </plugin>
 				</plugins>
 			</build>
 		</profile>
@@ -1654,7 +1683,9 @@
         <maven-surefire-plugin.version>2.16</maven-surefire-plugin.version>
         <maven-war-plugin.version>2.4</maven-war-plugin.version>
         <truezip-maven-plugin.version>1.1</truezip-maven-plugin.version>
-        <tomcat-maven-plugin.version>1.0</tomcat-maven-plugin.version>
+        <tomcat-maven-plugin.version>2.1</tomcat-maven-plugin.version>
+        <tomcat6-maven-plugin.version>${tomcat-maven-plugin.version}</tomcat6-maven-plugin.version>
+        <tomcat7-maven-plugin.version>${tomcat-maven-plugin.version}</tomcat7-maven-plugin.version>
 
 		<!-- Surefire config -->
         <surefire.useFile>false</surefire.useFile>
