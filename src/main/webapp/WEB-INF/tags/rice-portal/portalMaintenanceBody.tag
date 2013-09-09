@@ -30,4 +30,6 @@
 <td class="content" valign="top">
       <channel:maintenanceComplianceCoi />
       <channel:maintenanceCompliance />
+      <channel:maintenanceComplianceIrb />
+      <channel:maintenanceComplianceIacuc />
 </td>
