@@ -6,56 +6,44 @@
     <option name="ANALYSIS_IN_BACKGROUND" value="true" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" readonly="true" id="d9fefa85-39bb-49f2-a77e-61d719b4de4e" name="Default" comment="KCINFR-872 changing generated source dir to the maven standard">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_jetty_continuation_8_1_12_v20130726.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_jetty_deploy_8_1_12_v20130726.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_jetty_http_8_1_12_v20130726.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_jetty_io_8_1_12_v20130726.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_jetty_jsp_8_1_12_v20130726.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_jetty_security_8_1_12_v20130726.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_jetty_server_8_1_12_v20130726.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_jetty_servlet_8_1_12_v20130726.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_jetty_util_8_1_12_v20130726.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_jetty_webapp_8_1_12_v20130726.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_jetty_xml_8_1_12_v20130726.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_orbit_com_sun_el_2_2_0_v201108011116.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_orbit_javax_el_2_2_0_v201108011116.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_orbit_javax_servlet_3_0_0_v201112011016.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_orbit_javax_servlet_jsp_2_2_0_v201112011158.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_orbit_javax_servlet_jsp_jstl_1_2_0_v201105211821.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_orbit_org_apache_jasper_glassfish_2_2_2_v201112011158.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_orbit_org_apache_taglibs_standard_glassfish_1_2_0_v201112081803.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_orbit_org_eclipse_jdt_core_3_7_1.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/jetty-context.xml" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__ant_ant_1_6_5.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__javax_servlet_servlet_api_2_5.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jdt_core_compiler_ecj_3_5_1.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_jetty_continuation_7_5_1_v20110908.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_jetty_deploy_7_5_1_v20110908.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_jetty_http_7_5_1_v20110908.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_jetty_io_7_5_1_v20110908.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_jetty_jsp_2_1_7_5_1_v20110908.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_jetty_security_7_5_1_v20110908.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_jetty_server_7_5_1_v20110908.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_jetty_servlet_7_5_1_v20110908.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_jetty_util_7_5_1_v20110908.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_jetty_webapp_7_5_1_v20110908.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_jetty_xml_7_5_1_v20110908.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_mortbay_jetty_jsp_2_1_glassfish_2_1_v20100127.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_mortbay_jetty_jsp_api_2_1_glassfish_2_1_v20100127.xml" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__javax_servlet_jsp_jstl_jstl_api_1_2.xml" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__javax_servlet_jsp_jstl_jstl_api_1_2.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_glassfish_web_jstl_impl_1_2.xml" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_glassfish_web_jstl_impl_1_2.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scripts/launch/Tomcat 6 [bundled].launch" afterPath="$PROJECT_DIR$/scripts/launch/Tomcat 6 [bundled].launch" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scripts/launch/Tomcat 7 [bundled].launch" afterPath="$PROJECT_DIR$/scripts/launch/Tomcat 7 [bundled].launch" />
+    <list default="true" readonly="true" id="d9fefa85-39bb-49f2-a77e-61d719b4de4e" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/scripts/launch/Jetty 9 KC[embedded].launch" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/scripts/launch/Jetty 9 Rice-CopyWAR[embedded].launch" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/scripts/launch/Jetty 9 Rice[embedded].launch" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/scripts/launch/Jetty 9 [bundled].launch" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_jetty_deploy_9_0_5_v20130815.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_jetty_http_9_0_5_v20130815.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_jetty_io_9_0_5_v20130815.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_jetty_jsp_9_0_5_v20130815.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_jetty_security_9_0_5_v20130815.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_jetty_server_9_0_5_v20130815.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_jetty_servlet_9_0_5_v20130815.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_jetty_util_9_0_5_v20130815.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_jetty_webapp_9_0_5_v20130815.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_jetty_xml_9_0_5_v20130815.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_orbit_com_sun_el_2_2_0_v201303151357.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_orbit_javax_el_2_2_0_v201303151357.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_orbit_org_eclipse_jdt_core_3_8_2_v20130121.xml" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_jetty_continuation_8_1_12_v20130726.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_jetty_deploy_8_1_12_v20130726.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_jetty_http_8_1_12_v20130726.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_jetty_io_8_1_12_v20130726.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_jetty_jsp_8_1_12_v20130726.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_jetty_security_8_1_12_v20130726.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_jetty_server_8_1_12_v20130726.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_jetty_servlet_8_1_12_v20130726.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_jetty_util_8_1_12_v20130726.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_jetty_webapp_8_1_12_v20130726.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_jetty_xml_8_1_12_v20130726.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_orbit_com_sun_el_2_2_0_v201108011116.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_orbit_javax_el_2_2_0_v201108011116.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_jetty_orbit_org_eclipse_jdt_core_3_7_1.xml" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scripts/launch/Jetty 8 KC[embedded].launch" afterPath="$PROJECT_DIR$/scripts/launch/Jetty 8 KC[embedded].launch" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scripts/launch/Jetty 8 Rice-CopyWAR[embedded].launch" afterPath="$PROJECT_DIR$/scripts/launch/Jetty 8 Rice-CopyWAR[embedded].launch" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scripts/launch/Jetty 8 [bundled].launch" afterPath="$PROJECT_DIR$/scripts/launch/Jetty 8 [bundled].launch" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kc_project.iml" afterPath="$PROJECT_DIR$/kc_project.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/artifacts/kc_project_war.xml" afterPath="$PROJECT_DIR$/.idea/artifacts/kc_project_war.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/artifacts/kc_project_war_exploded.xml" afterPath="$PROJECT_DIR$/.idea/artifacts/kc_project_war_exploded.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pom.xml" afterPath="$PROJECT_DIR$/pom.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/launch/Jetty 7 KC[embedded].launch" afterPath="$PROJECT_DIR$/scripts/launch/Jetty 8 KC[embedded].launch" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/launch/Jetty 7 Rice-CopyWAR[embedded].launch" afterPath="$PROJECT_DIR$/scripts/launch/Jetty 8 Rice-CopyWAR[embedded].launch" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/launch/Jetty 7 Rice[embedded].launch" afterPath="$PROJECT_DIR$/scripts/launch/Jetty 8 Rice[embedded].launch" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/scripts/launch/Jetty 7 [bundled].launch" afterPath="$PROJECT_DIR$/scripts/launch/Jetty 8 [bundled].launch" />
     </list>
     <ignored path="kc_project.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -80,7 +68,7 @@
     <ignored path="src/main/webapp/rice-portal/scripts/easyXDM/easyxdm.swf" />
     <ignored path="scripts/dbcopy/mysql.zip" />
     <ignored path="scripts/dbcopy/devdb_mysql_500.zip" />
-    <file path="/pom.xml" changelist="d9fefa85-39bb-49f2-a77e-61d719b4de4e" time="1378756431516" ignored="false" />
+    <file path="/pom.xml" changelist="d9fefa85-39bb-49f2-a77e-61d719b4de4e" time="1378771660803" ignored="false" />
     <file path="/schema.sql" changelist="d9fefa85-39bb-49f2-a77e-61d719b4de4e" time="1376922327736" ignored="false" />
     <file path="/kcbnd" changelist="d9fefa85-39bb-49f2-a77e-61d719b4de4e" time="1376960267309" ignored="false" />
     <file path="/a.dummy" changelist="d9fefa85-39bb-49f2-a77e-61d719b4de4e" time="1378406409836" ignored="false" />
@@ -1142,7 +1130,7 @@
     <file path="$PROJECT_DIR$/target/classes/org/kuali/kra/printing/stylesheet/ProtocolSummary.xsl" changelist="d9fefa85-39bb-49f2-a77e-61d719b4de4e" time="1377874111194" ignored="false" />
     <file path="$PROJECT_DIR$/target/classes/org/kuali/kra/printing/stylesheet/ReviewCommentsReport.xsl" changelist="d9fefa85-39bb-49f2-a77e-61d719b4de4e" time="1377874111194" ignored="false" />
     <file path="/.classpath" changelist="d9fefa85-39bb-49f2-a77e-61d719b4de4e" time="1377874237133" ignored="false" />
-    <file path="/Dummy.txt" changelist="d9fefa85-39bb-49f2-a77e-61d719b4de4e" time="1378756541828" ignored="false" />
+    <file path="/Dummy.txt" changelist="d9fefa85-39bb-49f2-a77e-61d719b4de4e" time="1378757705625" ignored="false" />
     <file path="/*.regexp" changelist="84bd9d84-a43c-4eec-864a-bfa1eb6611be" time="1378386839725" ignored="false" />
     <file path="/RejectAwardBudgetAuthorizer.java" changelist="d9fefa85-39bb-49f2-a77e-61d719b4de4e" time="1377912255248" ignored="false" />
     <file path="/AwardTaskFactory.java" changelist="84bd9d84-a43c-4eec-864a-bfa1eb6611be" time="1378078012096" ignored="false" />
@@ -1375,6 +1363,9 @@
     <file path="/Tomcat 7 [bundled].launch" changelist="d9fefa85-39bb-49f2-a77e-61d719b4de4e" time="1378478113339" ignored="false" />
     <file path="/web.xml" changelist="d9fefa85-39bb-49f2-a77e-61d719b4de4e" time="1378587686885" ignored="false" />
     <file path="/fragment.java" changelist="d9fefa85-39bb-49f2-a77e-61d719b4de4e" time="1378756541828" ignored="false" />
+    <file path="/Jetty 8 Rice-CopyWAR[embedded].launch" changelist="d9fefa85-39bb-49f2-a77e-61d719b4de4e" time="1378772003633" ignored="false" />
+    <file path="/Jetty 8 KC[embedded].launch" changelist="d9fefa85-39bb-49f2-a77e-61d719b4de4e" time="1378772075976" ignored="false" />
+    <file path="/Jetty 8 [bundled].launch" changelist="d9fefa85-39bb-49f2-a77e-61d719b4de4e" time="1378772138311" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -1448,25 +1439,43 @@
       <file leaf-file-name="pom.xml" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pom.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="768" column="31" selection-start="31350" selection-end="31350" vertical-scroll-proportion="-3.909091">
+            <state line="1252" column="121" selection-start="46468" selection-end="46468" vertical-scroll-proportion="-1.3181819">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PassSuite.launch" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/scripts/launch/PassSuite.launch">
+      <file leaf-file-name="Jetty 9 [bundled].launch" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/scripts/launch/Jetty 9 [bundled].launch">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="8" column="24" selection-start="423" selection-end="423" vertical-scroll-proportion="0.0">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Jetty 8 [bundled].launch" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/scripts/launch/Jetty 8 [bundled].launch">
+      <file leaf-file-name="Jetty 9 KC[embedded].launch" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/scripts/launch/Jetty 9 KC[embedded].launch">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="22" column="91" selection-start="3981" selection-end="3981" vertical-scroll-proportion="0.0">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Jetty 9 Rice[embedded].launch" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/scripts/launch/Jetty 9 Rice[embedded].launch">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Jetty 9 Rice-CopyWAR[embedded].launch" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/scripts/launch/Jetty 9 Rice-CopyWAR[embedded].launch">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -1475,61 +1484,43 @@
       <file leaf-file-name="Jetty 8 Rice-CopyWAR[embedded].launch" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/scripts/launch/Jetty 8 Rice-CopyWAR[embedded].launch">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="11" column="26" selection-start="3422" selection-end="3422" vertical-scroll-proportion="0.0">
+            <state line="24" column="99" selection-start="5607" selection-end="5607" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PassSuite.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/java/org/kuali/kra/triage/suite/PassSuite.java">
+      <file leaf-file-name="Jetty 8 Rice[embedded].launch" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/scripts/launch/Jetty 8 Rice[embedded].launch">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="480" column="54" selection-start="35266" selection-end="35266" vertical-scroll-proportion="0.0">
+            <state line="14" column="111" selection-start="933" selection-end="944" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="BirtReportServiceImplTest.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="Jetty 8 KC[embedded].launch" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/scripts/launch/Jetty 8 KC[embedded].launch">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="24" column="115" selection-start="5610" selection-end="5610" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Jetty 8 [bundled].launch" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/scripts/launch/Jetty 8 [bundled].launch">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="8" column="7" selection-start="362" selection-end="362" vertical-scroll-proportion="0.35190615">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="BirtReportServiceImplTest.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/test/java/org/kuali/kra/reporting/service/impl/BirtReportServiceImplTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="37" column="44" selection-start="1373" selection-end="1373" vertical-scroll-proportion="0.503876">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="jetty-context.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/jetty-context.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="14" column="12" selection-start="634" selection-end="634" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="tree.txt" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/tree.txt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="141" column="74" selection-start="10555" selection-end="10616" vertical-scroll-proportion="-12.192307">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Tomcat 7 [bundled].launch" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/scripts/launch/Tomcat 7 [bundled].launch">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="24" column="74" selection-start="4159" selection-end="4159" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Tomcat 6 [bundled].launch" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/scripts/launch/Tomcat 6 [bundled].launch">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="24" column="74" selection-start="4159" selection-end="4159" vertical-scroll-proportion="0.0">
+            <state line="45" column="33" selection-start="1594" selection-end="1594" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -1545,8 +1536,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/main/java/org/kuali/kra/proposaldevelopment/document/authorizer/SubmitToSponsorAuthorizer.java" />
-        <option value="$PROJECT_DIR$/src/main/java/org/kuali/kra/proposaldevelopment/document/authorizer/SubmitToWorkflowAuthorizer.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/kuali/kra/proposaldevelopment/service/KeyPersonnelService.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/kuali/kra/proposaldevelopment/service/impl/KeyPersonnelServiceImpl.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/kuali/kra/service/impl/AwardCommentServiceImpl.java" />
@@ -1557,10 +1546,12 @@
         <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml" />
         <option value="$PROJECT_DIR$/src/main/webapp/WEB-INF/jetty-context.xml" />
         <option value="$PROJECT_DIR$/tree.txt" />
-        <option value="$PROJECT_DIR$/scripts/launch/Jetty 8 [bundled].launch" />
         <option value="$PROJECT_DIR$/scripts/launch/Tomcat 6 [bundled].launch" />
         <option value="$PROJECT_DIR$/scripts/launch/Tomcat 7 [bundled].launch" />
         <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/scripts/launch/Jetty 8 Rice-CopyWAR[embedded].launch" />
+        <option value="$PROJECT_DIR$/scripts/launch/Jetty 8 KC[embedded].launch" />
+        <option value="$PROJECT_DIR$/scripts/launch/Jetty 8 [bundled].launch" />
       </list>
     </option>
   </component>
@@ -2045,11 +2036,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="test" />
+              <option name="myItemId" value="scripts" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -2063,63 +2050,11 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
+              <option name="myItemId" value="scripts" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="test" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="kra" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="kc_project" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="trunk" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="test" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="kra" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="impl" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="kc_project" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="trunk" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
+              <option name="myItemId" value="launch" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -2740,7 +2675,11 @@
       <created>1378479087101</created>
       <updated>1378479087102</updated>
     </task>
-    <option name="localTasksCounter" value="51" />
+    <task id="LOCAL-00051" summary="KCINFR-745, KCINFR-875, KCINFR-870 removing bundled profile, upgrading jetty, changing scope of selenium">
+      <created>1378757725102</created>
+      <updated>1378757725102</updated>
+    </task>
+    <option name="localTasksCounter" value="52" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -2822,7 +2761,7 @@
     <option name="WRAP_WHEN_TYPING_REACHES_RIGHT_MARGIN" value="false" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="KCINFR-868, KCINFR-892 tomcat 7 support in build" />
+    <option name="LAST_COMMIT_MESSAGE" value="KCINFR-745, KCINFR-875, KCINFR-870 removing bundled profile, upgrading jetty, changing scope of selenium" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -2859,6 +2798,7 @@
     <MESSAGE value="KCINFR-868 fixing build" />
     <MESSAGE value="KCINFR-872 goodbye antrun plugin, hello truezip.  all we need to unzip a file anyway." />
     <MESSAGE value="KCINFR-868, KCINFR-892 tomcat 7 support in build" />
+    <MESSAGE value="KCINFR-745, KCINFR-875, KCINFR-870 removing bundled profile, upgrading jetty, changing scope of selenium" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -2896,79 +2836,9 @@
     </buildFile>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/test/java/org/kuali/kra/test/infrastructure/JettyServer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="31" column="0" selection-start="1209" selection-end="1209" vertical-scroll-proportion="-0.23255815">
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/eclipse/jetty/orbit/org.apache.jasper.glassfish/2.2.2.v201112011158/org.apache.jasper.glassfish-2.2.2.v201112011158-sources.jar!/org/apache/jasper/runtime/TagHandlerPool.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="72" column="13" selection-start="3055" selection-end="3055" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#0#7957#0" expanded="false" />
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/rice-portal/scripts/easyXDM/resize_intermediate.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/quickstart_guide.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/out.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="92801" column="61" selection-start="9953185" selection-end="9953191" vertical-scroll-proportion="-37.5">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml">
-      <provider editor-type-id="com.intellij.javaee.module.view.web.viewlets.WebModuleAssemblyDescriptorReferencesProvider">
-        <state />
-      </provider>
-      <provider editor-type-id="com.intellij.javaee.module.view.web.viewlets.WebModuleAssemblyDescriptorProvider">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="18" selection-start="163" selection-end="163" vertical-scroll-proportion="0.08042896">
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="com.intellij.javaee.module.view.web.viewlets.WebModuleGeneralEditorProvider">
-        <state />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/jetty-context.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state line="14" column="12" selection-start="634" selection-end="634" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/scripts/launch/Jetty 8 Rice-CopyWAR[embedded].launch">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="26" selection-start="3422" selection-end="3422" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/scripts/launch/Jetty 8 [bundled].launch">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="91" selection-start="3981" selection-end="3981" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -2997,7 +2867,10 @@
     <entry file="file://$PROJECT_DIR$/src/test/java/org/kuali/kra/triage/suite/PassSuite.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="480" column="54" selection-start="35266" selection-end="35266" vertical-scroll-proportion="0.0">
-          <folding />
+          <folding>
+            <element signature="e#0#35402#0" expanded="false" />
+            <element signature="imports" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -3008,16 +2881,72 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pom.xml">
+    <entry file="file://$PROJECT_DIR$/src/test/java/org/kuali/kra/reporting/service/impl/BirtReportServiceImplTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="768" column="31" selection-start="31350" selection-end="31350" vertical-scroll-proportion="-3.909091">
+        <state line="45" column="33" selection-start="1594" selection-end="1594" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/org/kuali/kra/reporting/service/impl/BirtReportServiceImplTest.java">
+    <entry file="file://$PROJECT_DIR$/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="37" column="44" selection-start="1373" selection-end="1373" vertical-scroll-proportion="0.503876">
+        <state line="1252" column="121" selection-start="46468" selection-end="46468" vertical-scroll-proportion="-1.3181819">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scripts/launch/Jetty 9 [bundled].launch">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scripts/launch/Jetty 9 KC[embedded].launch">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scripts/launch/Jetty 9 Rice[embedded].launch">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scripts/launch/Jetty 9 Rice-CopyWAR[embedded].launch">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scripts/launch/Jetty 8 Rice-CopyWAR[embedded].launch">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="24" column="99" selection-start="5607" selection-end="5607" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scripts/launch/Jetty 8 Rice[embedded].launch">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="14" column="111" selection-start="933" selection-end="944" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scripts/launch/Jetty 8 KC[embedded].launch">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="24" column="115" selection-start="5610" selection-end="5610" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scripts/launch/Jetty 8 [bundled].launch">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="8" column="7" selection-start="362" selection-end="362" vertical-scroll-proportion="0.35190615">
           <folding />
         </state>
       </provider>

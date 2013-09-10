@@ -409,8 +409,8 @@
                 </configuration>  
             </plugin>
             <plugin>
-				<groupId>org.mortbay.jetty</groupId>
-				<artifactId>jetty-maven-plugin</artifactId>
+				<groupId>${jetty-maven-plugin.groupId}</groupId>
+				<artifactId>${jetty-maven-plugin.artifactId}</artifactId>
 				<version>${jetty-maven-plugin.version}</version>
 				<dependencies>
 	                <dependency>
@@ -1250,6 +1250,14 @@
 
 	<profiles>
 
+        <profile>
+            <id>jetty-8</id>
+            <properties>
+                <jetty.version>8.1.12.v20130726</jetty.version>
+                <jetty-maven-plugin.groupId>org.mortbay.jetty</jetty-maven-plugin.groupId>
+            </properties>
+        </profile>
+
 		<!-- 
 			This profile handles unpacking and cleaning of the rice web content and is on by default but can be turned
 			off by sending the rice.web.off system property.  This is useful to test changes to rice files locally.
@@ -1439,8 +1447,8 @@
 			<build>
 				<plugins>
 					<plugin>
-						<groupId>org.mortbay.jetty</groupId>
-						<artifactId>jetty-maven-plugin</artifactId>
+						<groupId>${jetty-maven-plugin.groupId}</groupId>
+						<artifactId>${jetty-maven-plugin.artifactId}</artifactId>
                         <version>${jetty-maven-plugin.version}</version>
 						<configuration>
 							<webAppConfig>
@@ -1620,7 +1628,7 @@
         <!--dependency versions-->
         <cxf.version>2.7.0</cxf.version>
         <drools.version>5.5.0.Final</drools.version>
-        <jetty.version>8.1.12.v20130726</jetty.version>
+        <jetty.version>9.0.5.v20130815</jetty.version>
         <jmock.version>2.5.1</jmock.version>
         <jstl.version>1.2</jstl.version>
         <mail.version>1.4.4</mail.version>
@@ -1635,6 +1643,8 @@
 
         <!-- plugin versions -->
         <cxf-codegen-plugin.version>${cxf.version}</cxf-codegen-plugin.version>
+        <jetty-maven-plugin.groupId>org.eclipse.jetty</jetty-maven-plugin.groupId>
+        <jetty-maven-plugin.artifactId>jetty-maven-plugin</jetty-maven-plugin.artifactId>
         <jetty-maven-plugin.version>${jetty.version}</jetty-maven-plugin.version>
         <maven-clean-plugin.version>2.5</maven-clean-plugin.version>
         <maven-compiler-plugin.version>3.1</maven-compiler-plugin.version>
