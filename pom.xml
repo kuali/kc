@@ -1254,7 +1254,7 @@
             <id>jetty-9</id>
             <properties>
                 <jetty.version>${jetty9.version}</jetty.version>
-                <jetty-maven-plugin.groupId>org.eclipse.jetty</jetty-maven-plugin.groupId>
+                <jetty-maven-plugin.groupId>${jetty-maven-plugin9.groupId}</jetty-maven-plugin.groupId>
             </properties>
         </profile>
 
@@ -1645,7 +1645,9 @@
 
         <!-- plugin versions -->
         <cxf-codegen-plugin.version>${cxf.version}</cxf-codegen-plugin.version>
-        <jetty-maven-plugin.groupId>org.mortbay.jetty</jetty-maven-plugin.groupId>
+        <jetty-maven-plugin8.groupId>org.mortbay.jetty</jetty-maven-plugin8.groupId>
+        <jetty-maven-plugin9.groupId>org.eclipse.jetty</jetty-maven-plugin9.groupId>
+        <jetty-maven-plugin.groupId>${jetty-maven-plugin8.groupId}</jetty-maven-plugin.groupId>
         <jetty-maven-plugin.artifactId>jetty-maven-plugin</jetty-maven-plugin.artifactId>
         <jetty-maven-plugin.version>${jetty.version}</jetty-maven-plugin.version>
         <maven-clean-plugin.version>2.5</maven-clean-plugin.version>
