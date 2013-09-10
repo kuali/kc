@@ -1253,7 +1253,7 @@
         <profile>
             <id>jetty-8</id>
             <properties>
-                <jetty.version>8.1.12.v20130726</jetty.version>
+                <jetty.version>${jetty8.version}</jetty.version>
                 <jetty-maven-plugin.groupId>org.mortbay.jetty</jetty-maven-plugin.groupId>
             </properties>
         </profile>
@@ -1628,7 +1628,9 @@
         <!--dependency versions-->
         <cxf.version>2.7.0</cxf.version>
         <drools.version>5.5.0.Final</drools.version>
-        <jetty.version>9.0.5.v20130815</jetty.version>
+        <jetty8.version>8.1.12.v20130726</jetty8.version>
+        <jetty9.version>9.0.5.v20130815</jetty9.version>
+        <jetty.version>${jetty9.version}</jetty.version>
         <jmock.version>2.5.1</jmock.version>
         <jstl.version>1.2</jstl.version>
         <mail.version>1.4.4</mail.version>
