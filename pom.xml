@@ -1251,10 +1251,10 @@
 	<profiles>
 
         <profile>
-            <id>jetty-8</id>
+            <id>jetty-9</id>
             <properties>
-                <jetty.version>${jetty8.version}</jetty.version>
-                <jetty-maven-plugin.groupId>org.mortbay.jetty</jetty-maven-plugin.groupId>
+                <jetty.version>${jetty9.version}</jetty.version>
+                <jetty-maven-plugin.groupId>org.eclipse.jetty</jetty-maven-plugin.groupId>
             </properties>
         </profile>
 
@@ -1630,7 +1630,7 @@
         <drools.version>5.5.0.Final</drools.version>
         <jetty8.version>8.1.12.v20130726</jetty8.version>
         <jetty9.version>9.0.5.v20130815</jetty9.version>
-        <jetty.version>${jetty9.version}</jetty.version>
+        <jetty.version>${jetty8.version}</jetty.version>
         <jmock.version>2.5.1</jmock.version>
         <jstl.version>1.2</jstl.version>
         <mail.version>1.4.4</mail.version>
@@ -1645,7 +1645,7 @@
 
         <!-- plugin versions -->
         <cxf-codegen-plugin.version>${cxf.version}</cxf-codegen-plugin.version>
-        <jetty-maven-plugin.groupId>org.eclipse.jetty</jetty-maven-plugin.groupId>
+        <jetty-maven-plugin.groupId>org.mortbay.jetty</jetty-maven-plugin.groupId>
         <jetty-maven-plugin.artifactId>jetty-maven-plugin</jetty-maven-plugin.artifactId>
         <jetty-maven-plugin.version>${jetty.version}</jetty-maven-plugin.version>
         <maven-clean-plugin.version>2.5</maven-clean-plugin.version>
