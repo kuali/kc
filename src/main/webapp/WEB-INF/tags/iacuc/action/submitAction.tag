@@ -19,8 +19,6 @@
 <c:set var="reviewerAttributes" value="${DataDictionary.IacucProtocolReviewerBean.attributes}" />
 <c:set var="action" value="protocolProtocolActions" />
 
-<jsp:useBean id="paramMap" class="java.util.HashMap"/>
-
 <kra:permission value="${KualiForm.actionHelper.canSubmitProtocol}">
 
 <kul:innerTab tabTitle="Submit for Review" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.protocolSubmitAction*">
@@ -76,14 +74,12 @@
 	                            <kul:htmlAttributeLabel attributeEntry="${attributes.committeeId}" />
 	                        </div>
 	                    </th>
-	                    <c:set target="${paramMap}" property="protocolLeadUnit" value="${KualiForm.document.protocolList[0].leadUnitNumber}" />
-	                    <c:set target="${paramMap}" property="docRouteStatus" value="${KualiForm.document.documentHeader.workflowDocument.status.code}" />
 	                    <c:set var="docNumber" value="${KualiForm.document.protocol.protocolNumber}" />
 	                    <c:choose>
 	                        <c:when test="${KualiForm.actionHelper.showCommittee}">
 	                            <td>
 				                    <html:select property="actionHelper.iacucProtocolSubmitAction.committeeId" onchange="loadScheduleDates('actionHelper.iacucProtocolSubmitAction.committeeId', '${docNumber}', 'actionHelper.iacucProtocolSubmitAction.scheduleId');" >                               
-				                        <c:forEach items="${krafn:getOptionList('org.kuali.kra.iacuc.committee.lookup.keyvalue.IacucCommitteeIdByUnitValuesFinder', paramMap)}" var="option">   
+				                        <c:forEach items="${KualiForm.actionHelper.submitActionCommitteeIdByUnitValuesFinder.keyValues}" var="option">   
 				                            <c:choose>                      
 				                                <c:when test="${KualiForm.actionHelper.iacucProtocolSubmitAction.committeeId == option.key}">
 				                                    <option value="${option.key}" selected="selected">${option.value}</option>
@@ -100,7 +96,7 @@
 	                    	<c:otherwise>
 	                    		 <td colspan="3">
                                     <html:select property="actionHelper.iacucProtocolSubmitAction.committeeId" >                               
-                                        <c:forEach items="${krafn:getOptionList('org.kuali.kra.iacuc.committee.lookup.keyvalue.IacucCommitteeIdByUnitValuesFinder', paramMap)}" var="option">
+                                        <c:forEach items="${KualiForm.actionHelper.submitActionCommitteeIdByUnitValuesFinder.keyValues}" var="option">
                                             <c:choose>                      
                                                 <c:when test="${KualiForm.actionHelper.iacucProtocolSubmitAction.committeeId == option.key}">
                                                     <option value="${option.key}" selected="selected">${option.value}</option>
