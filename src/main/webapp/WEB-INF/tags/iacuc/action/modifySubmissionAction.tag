@@ -19,7 +19,7 @@
 <c:set var="reviewerAttributes" value="${DataDictionary.IacucProtocolReviewerBean.attributes}" />
 <c:set var="action" value="modifySubmissionAction" />
 <c:set var="cmtAttributes" value="${DataDictionary.IacucProtocolAssignCmtBean.attributes}" />
-<jsp:useBean id="paramMap" class="java.util.HashMap"/>
+
 <script language="javascript" src="dwr/interface/ProtocolActionAjaxService.js"></script>
 <script language="javascript" src="dwr/interface/IacucProtocolActionAjaxService.js"></script>
 <c:set var="docNumber" value="${KualiForm.document.protocol.protocolNumber}" />
@@ -40,13 +40,10 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.iacucProtocolModifySub
 	                        <kul:htmlAttributeLabel attributeEntry="${attributes.committeeId}" />
 	                    </div>
 	                </th>
-	                <td style="width : 150px">
-                        <c:set target="${paramMap}" property="currentCommitteeId" value="${KualiForm.actionHelper.iacucProtocolModifySubmissionBean.committeeId}" />
-                        <c:set target="${paramMap}" property="docRouteStatus" value="${KualiForm.document.documentHeader.workflowDocument.status.code}" />	                
-                        <c:set target="${paramMap}" property="protocolLeadUnit" value="${KualiForm.document.protocol.leadUnitNumber}" />	                
+	                <td style="width : 150px">               
                        	<html:select styleId="actionHelper.iacucProtocolModifySubmissionBean.committeeId" property="actionHelper.iacucProtocolModifySubmissionBean.committeeId" 
                        	onchange="loadScheduleDates('actionHelper.iacucProtocolModifySubmissionBean.committeeId', '${docNumber}', 'actionHelper.iacucProtocolModifySubmissionBean.scheduleId');" >                               
-                            <c:forEach items="${krafn:getOptionList('org.kuali.kra.iacuc.committee.lookup.keyvalue.IacucCommitteeIdByUnitValuesFinder', paramMap)}" var="option" >
+                            <c:forEach items="${KualiForm.actionHelper.modifySubmissionActionCommitteeIdByUnitValuesFinder.keyValues}" var="option" >
                                 <c:choose>                      
                                     <c:when test="${KualiForm.actionHelper.iacucProtocolModifySubmissionBean.committeeId == option.key}">
                                         <option value="${option.key}" selected="selected">${option.value}</option>
