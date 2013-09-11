@@ -35,4 +35,15 @@ public class ProtocolNotification extends KcNotification {
         KraServiceLocator.getService(BusinessObjectService.class).save(this);
     }
 
+    public static void copy(KcNotification source, KcNotification target) {
+        target.setNotificationId(source.getNotificationId());
+        target.setNotificationTypeId(source.getNotificationTypeId());
+        target.setDocumentNumber(source.getDocumentNumber());
+        target.setRecipients(source.getRecipients());
+        target.setSubject(source.getSubject());
+        target.setMessage(source.getMessage());
+        target.setNotificationType(source.getNotificationType());
+        target.setNotificationTypeId(source.getNotificationTypeId());
+    }
+
 }
