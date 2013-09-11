@@ -24,6 +24,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.bo.DocumentCustomData;
 import org.kuali.kra.bo.ResearchAreaBase;
+import org.kuali.kra.common.notification.bo.KcNotification;
 import org.kuali.kra.iacuc.actions.IacucProtocolAction;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
 import org.kuali.kra.iacuc.actions.IacucProtocolStatus;
@@ -105,8 +106,6 @@ public class IacucProtocolDocument extends ProtocolDocumentBase {
     public String getDocumentTypeCode() {
         return DOCUMENT_TYPE_CODE;
     }
- 
- 
     
     /**
      * 
@@ -169,19 +168,13 @@ public class IacucProtocolDocument extends ProtocolDocumentBase {
                 isComplete = false;
             } 
         }
-
-
         return isComplete;
     }
-    
-    
 
     @Override
     protected Class<? extends ProtocolLocationService> getProtocolLocationServiceClassHook() {
         return IacucProtocolLocationService.class;
     }
-
-    
     
     @Override
     protected Class<? extends ProtocolResearchAreaService> getProtocolResearchAreaServiceClassHook() {
@@ -372,8 +365,41 @@ public class IacucProtocolDocument extends ProtocolDocumentBase {
         }
 
         finalizeAttachmentProtocol(this.getProtocol());
+        mergeProtocolNotifications(newProtocolDocument, this.getProtocol().getLastProtocolAction().getProtocolActionTypeCode());
         getBusinessObjectService().save(this);
     }
+    
+    protected void mergeProtocolNotifications(ProtocolDocumentBase newProtocolDocument, String protocolActionType) {
+        /**
+         * This is a hack, copied from ProtocolDocument.mergeProtocolCorrespondenceAndNotification.
+         * We need to find the last instance of an IACUC Protocol Action of type IacucProtocolActionType.APPROVED and copy that action's 
+         * notifications.
+        */  
+        IacucProtocolAction getProtocolPaToUse = null;
+        for (ProtocolActionBase pa : getProtocol().getProtocolActions()) {
+            if (StringUtils.equals(protocolActionType, pa.getProtocolActionTypeCode())) {
+                if (getProtocolPaToUse == null || getProtocolPaToUse.getUpdateTimestamp().before(pa.getUpdateTimestamp())) {
+                    getProtocolPaToUse = (IacucProtocolAction) pa;
+                }
+            }
+        }
+        IacucProtocolAction newDocPaToUse = null;
+        for (ProtocolActionBase pa2 : newProtocolDocument.getProtocol().getProtocolActions()) {
+            if (StringUtils.equals(IacucProtocolActionType.IACUC_APPROVED, pa2.getProtocolActionTypeCode())) {
+                if (newDocPaToUse == null || newDocPaToUse.getUpdateTimestamp().before(pa2.getUpdateTimestamp())) {
+                    newDocPaToUse = (IacucProtocolAction) pa2;
+                }
+            }
+        }
+        if (newDocPaToUse != null && getProtocolPaToUse != null) {
+            for (KcNotification notification : getProtocolPaToUse.getProtocolNotifications()) {
+                IacucProtocolNotification newNotification = IacucProtocolNotification.copy(notification);
+                newNotification.resetPersistenceState();
+                newNotification.persistOwningObject(newProtocolDocument.getProtocol());
+            }
+            getBusinessObjectService().save(newDocPaToUse);
+        }   
+    }    
     
     
     protected boolean isEligibleForMerging(String status, ProtocolBase otherProtocol) {
