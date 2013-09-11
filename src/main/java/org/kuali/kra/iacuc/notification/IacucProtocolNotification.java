@@ -16,6 +16,7 @@
 package org.kuali.kra.iacuc.notification;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.common.notification.bo.KcNotification;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.notification.ProtocolNotification;
@@ -37,4 +38,9 @@ public class IacucProtocolNotification extends ProtocolNotification {
         KraServiceLocator.getService(BusinessObjectService.class).save(this);
     }
 
+    public static IacucProtocolNotification copy(KcNotification notification) {
+        IacucProtocolNotification newNotification = new IacucProtocolNotification();
+        copy(notification, newNotification);
+        return newNotification;
+    }
 }

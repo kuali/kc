@@ -16,9 +16,10 @@
 package org.kuali.kra.irb.notification;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.common.notification.bo.KcNotification;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.protocol.ProtocolBase;
+import org.kuali.kra.irb.actions.ProtocolAction;
 import org.kuali.kra.protocol.notification.ProtocolNotification;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
@@ -27,15 +28,31 @@ public class IRBProtocolNotification extends ProtocolNotification {
 
     private static final long serialVersionUID = 8034971407079669736L;
 
+    private ProtocolAction protocolAction;
+    
     public IRBProtocolNotification() {
         super();
     }
     
+    public ProtocolAction getProtocolAction() {
+        return protocolAction;
+    }
+
+    public void setProtocolAction(ProtocolAction protocolAction) {
+        this.protocolAction = protocolAction;
+    }
+
     public void persistOwningObject(KraPersistableBusinessObjectBase object) {
         Protocol protocol = (Protocol)object;
         this.setOwningDocumentIdFk(protocol.getLastProtocolAction().getProtocolActionId());
         protocol.getLastProtocolAction().addNotification(this);
         KraServiceLocator.getService(BusinessObjectService.class).save(this);
+    }
+
+    public static IRBProtocolNotification copy(KcNotification notification) {
+        IRBProtocolNotification newNotification = new IRBProtocolNotification();
+        copy(notification, newNotification);
+        return newNotification;
     }
 
 }
