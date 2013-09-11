@@ -56,7 +56,6 @@ import org.kuali.kra.protocol.notification.ProtocolNotificationContextBase;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.COMPONENT;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants.NAMESPACE;
-import org.kuali.rice.kew.actiontaken.ActionTakenValue;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -240,14 +239,13 @@ public class ProtocolDocument extends ProtocolDocumentBase {
                 getBusinessObjectService().save(newPc);
             }
             for (KcNotification notification : getProtocolPaToUse.getProtocolNotifications()) {
-                KcNotification newNotification = getKcNotificationService().copy(notification);
-                getBusinessObjectService().save(newNotification);
+                IRBProtocolNotification newNotification = IRBProtocolNotification.copy(notification);
+                newNotification.resetPersistenceState();
+                newNotification.persistOwningObject(newProtocolDocument.getProtocol());
             }
             getBusinessObjectService().save(newDocPaToUse);
         }   
-        
     }    
-    
     
     private KcNotificationService getKcNotificationService() {
         return KraServiceLocator.getService(KcNotificationService.class);
