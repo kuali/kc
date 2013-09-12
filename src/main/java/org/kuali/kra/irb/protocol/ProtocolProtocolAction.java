@@ -654,12 +654,14 @@ public class ProtocolProtocolAction extends ProtocolAction {
 
     private void fundingSourceNotification(ActionForm form) {
         ProtocolForm protocolForm = (ProtocolForm) form;
+        boolean fundingSourceGenerated = false;
         Protocol protocol = (Protocol) protocolForm.getProtocolDocument().getProtocol();
         for (ProtocolFundingSourceBase fundingSource : protocolForm.getProtocolHelper().getNewProtocolFundingSources()) {
             String fundingType = "'" + fundingSource.getFundingSourceType().getDescription() + "': " + fundingSource.getFundingSourceNumber();
             FundingSourceNotificationRenderer renderer = new FundingSourceNotificationRenderer(protocol, fundingType, "linked to");
             IRBNotificationContext context = new IRBNotificationContext(protocol, ProtocolActionType.FUNDING_SOURCE, "Funding Source", renderer);
             getKcNotificationService().sendNotificationAndPersist(context, new IRBProtocolNotification(), protocol);
+            fundingSourceGenerated = true;
         }
         for (ProtocolFundingSourceBase fundingSource : protocolForm.getDeletedProtocolFundingSources()) {
             if (fundingSource.getProtocolFundingSourceId() != null) {
@@ -667,8 +669,15 @@ public class ProtocolProtocolAction extends ProtocolAction {
                 FundingSourceNotificationRenderer renderer = new FundingSourceNotificationRenderer(protocol, fundingType, "removed from");
                 IRBNotificationContext context = new IRBNotificationContext(protocol, ProtocolActionType.FUNDING_SOURCE, "Funding Source", renderer);
                 getKcNotificationService().sendNotificationAndPersist(context, new IRBProtocolNotification(), protocol);
+                fundingSourceGenerated = true;
             }
-
+        }
+        if(fundingSourceGenerated) {
+            try {
+                getProtocolActionRequestService().generateFundingSource(protocolForm);
+            }catch(Exception ex) {
+                ex.printStackTrace();
+            }
         }
     }
     

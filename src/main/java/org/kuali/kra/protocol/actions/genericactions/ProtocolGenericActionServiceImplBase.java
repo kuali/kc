@@ -17,6 +17,8 @@ package org.kuali.kra.protocol.actions.genericactions;
 
 import java.sql.Timestamp;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.printing.PrintingException;
@@ -41,6 +43,7 @@ import org.kuali.rice.krad.service.DocumentService;
  * state change.
  */
 public abstract class ProtocolGenericActionServiceImplBase implements ProtocolGenericActionService {
+    private static final Log LOG = LogFactory.getLog(ProtocolGenericActionServiceImplBase.class);
     
     private static final String PROTOCOL_SUBMISSION = "protocolSubmission";
     private ProtocolActionService protocolActionService;
@@ -133,7 +136,7 @@ public abstract class ProtocolGenericActionServiceImplBase implements ProtocolGe
         try {
             getProtocolActionRequestService().rejectedInRouting(protocol);
         }catch(Exception ex) {
-            ex.printStackTrace();
+            LOG.error(ex.getMessage());
         }
     }
     
@@ -194,7 +197,7 @@ public abstract class ProtocolGenericActionServiceImplBase implements ProtocolGe
         try {
             getProtocolActionRequestService().recalledInRouting(protocol);
         }catch(Exception ex) {
-            ex.printStackTrace();
+            LOG.error(ex.getMessage());
         }
     }
 

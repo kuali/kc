@@ -1022,8 +1022,10 @@ public interface Constants {
     //IRB
     public static final String IRB_PROTOCOL_TAB = "protocol";
     public static final String IRB_PROTOCOL_ACTIONS_TAB = "protocolActions";
-    public static final String IRB_RETURN_TO_HOLDING_PAGE = "holdingPage";
+    public static final String RETURN_TO_HOLDING_PAGE = "holdingPage";
        
+    public static final String IACUC_PROTOCOL_TAB = "iacucProtocol";
+    public static final String IACUC_PROTOCOL_ACTIONS_TAB = "iacucProtocolActions";
     
 }
 
