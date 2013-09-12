@@ -145,34 +145,124 @@ public interface IrbProtocolActionRequestService extends ProtocolActionRequestSe
      */
     public boolean isGrantExemptionAuthorized(ProtocolForm protocolForm);
     
+    /**
+     * This method is to check whether user is authorized to perform IRB acknowledgment
+     * Also apply rules if any.
+     * @param protocolForm
+     * @return
+     */
     public boolean isIrbAcknowledgementAuthorized(ProtocolForm protocolForm);
     
+    /**
+     * This method is to check whether user is authorized to perform data analysis
+     * Also apply rules if any.
+     * @param protocolForm
+     * @return
+     */
     public boolean isPermitDataAnalysisAuthorized(ProtocolForm protocolForm);
 
+    /**
+     * This method is to check whether user is authorized to reopen protocol
+     * Also apply rules if any.
+     * @param protocolForm
+     * @return
+     */
     public boolean isReopenEnrollmentAuthorized(ProtocolForm protocolForm);
 
+    /**
+     * This method is to check whether user is authorized to perform Minor Revision
+     * Also apply rules if any.
+     * @param protocolForm
+     * @return
+     */
     public boolean isReturnForSMRAuthorized(ProtocolForm protocolForm);
     
+    /**
+     * This method is to check whether user is authorized to perform Substantive Revision
+     * Also apply rules if any.
+     * @param protocolForm
+     * @return
+     */
     public boolean isReturnForSRRAuthorized(ProtocolForm protocolForm);
     
+    /**
+     * This method is to check whether user is authorized to return protocol to PI
+     * Also apply rules if any.
+     * @param protocolForm
+     * @return
+     */
     public boolean isReturnToPIAuthorized(ProtocolForm protocolForm);
     
+    /**
+     * This method is to check whether user is authorized to suspend protocol
+     * Also apply rules if any.
+     * @param protocolForm
+     * @return
+     */
     public boolean isSuspendAuthorized(ProtocolForm protocolForm);
     
+    /**
+     * This method is to check whether user is authorized to perform suspend by DSMB action
+     * Also apply rules if any.
+     * @param protocolForm
+     * @return
+     */
     public boolean isSuspendByDsmbAuthorized(ProtocolForm protocolForm);
     
+    /**
+     * This method is to check whether user is authorized to terminate protocol.
+     * Also apply rules if any.
+     * @param protocolForm
+     * @return
+     */
     public boolean isTerminateAuthorized(ProtocolForm protocolForm);
     
+    /**
+     * This method is to check whether user is authorized to manage comments
+     * Also apply rules if any.
+     * @param protocolForm
+     * @return
+     */
     public boolean isManageCommentsAuthorized(ProtocolForm protocolForm);
     
+    /**
+     * This method is to check whether user is authorized to perform admin correction.
+     * Also apply rules if any.
+     * @param protocolForm
+     * @return
+     */
     public boolean isOpenProtocolForAdminCorrectionAuthorized(ProtocolForm protocolForm);
     
+    /**
+     * This method is to check whether user is authorized to submit committee decision
+     * Also apply rules if any.
+     * @param protocolForm
+     * @return
+     */
     public boolean isSubmitCommitteeDecisionAuthorized(ProtocolForm protocolForm);
     
+    /**
+     * This method is to check whether user is authorized to abandon protocol.
+     * Also apply rules if any.
+     * @param protocolForm
+     * @return
+     */
     public boolean isAbandonAuthorized(ProtocolForm protocolForm);
     
+    /**
+     * This method is to check whether user is authorized to perform review not required action.
+     * Also apply rules if any.
+     * @param protocolForm
+     * @return
+     */
     public boolean isProtocolReviewNotRequiredAuthorized(ProtocolForm protocolForm);
     
+    /**
+     * This method is to check whether user is authorized to assign reviewers
+     * Also apply rules if any.
+     * @param protocolForm
+     * @return
+     */
     public boolean isAssignReviewersAuthorized(ProtocolForm protocolForm);
     
     
@@ -307,38 +397,169 @@ public interface IrbProtocolActionRequestService extends ProtocolActionRequestSe
     public String grantExemption(ProtocolForm protocolForm) throws Exception;
     
     
+    /**
+     * This method is to perform IRB acknowledgment
+     * @param protocolForm
+     * @return
+     * @throws Exception
+     */
     public String irbAcknowledgement(ProtocolForm protocolForm) throws Exception;
     
+    /**
+     * This method is to perform data analysis
+     * @param protocolForm
+     * @return
+     * @throws Exception
+     */
     public String permitDataAnalysis(ProtocolForm protocolForm) throws Exception;
     
+    /**
+     * This method is to reopen for enrollment
+     * @param protocolForm
+     * @return
+     * @throws Exception
+     */
     public String reopenEnrollment(ProtocolForm protocolForm) throws Exception;
     
+    /**
+     * This method is to perform Specific Minor Revision
+     * @param protocolForm
+     * @return
+     * @throws Exception
+     */
     public String returnForSMR(ProtocolForm protocolForm) throws Exception;
     
+    /**
+     * This method is to perform Substantive Revision Required
+     * @param protocolForm
+     * @return
+     * @throws Exception
+     */
     public String returnForSRR(ProtocolForm protocolForm) throws Exception;
     
+    /**
+     * This method is to return protocol to PI
+     * @param protocolForm
+     * @return
+     * @throws Exception
+     */
     public String returnToPI(ProtocolForm protocolForm) throws Exception;
     
+    /**
+     * This method is to suspend a protocol
+     * @param protocolForm
+     * @return
+     * @throws Exception
+     */
     public String suspend(ProtocolForm protocolForm) throws Exception;
     
+    /**
+     * This method is to suspend a protocol - suspend by DSMB action
+     * @param protocolForm
+     * @return
+     * @throws Exception
+     */
     public String suspendByDsmb(ProtocolForm protocolForm) throws Exception;
     
+    /**
+     * This method is to termnate a protocol
+     * @param protocolForm
+     * @return
+     * @throws Exception
+     */
     public String terminate(ProtocolForm protocolForm) throws Exception;
     
+    /**
+     * This method is to perform manage comments action
+     * @param protocolForm
+     * @return
+     * @throws Exception
+     */
     public String manageComments(ProtocolForm protocolForm) throws Exception;
     
+    /**
+     * This method is to perform admin correction on a protocol
+     * @param protocolForm
+     * @return
+     * @throws Exception
+     */
     public String openProtocolForAdminCorrection(ProtocolForm protocolForm) throws Exception;
     
+    /**
+     * This method is triggered when committee decision is made
+     * @param protocolForm
+     * @return
+     * @throws Exception
+     */
     public String submitCommitteeDecision(ProtocolForm protocolForm) throws Exception;
     
+    /**
+     * This method is to abandon a protocol
+     * @param protocolForm
+     * @return
+     * @throws Exception
+     */
     public String abandon(ProtocolForm protocolForm) throws Exception;
     
+    /**
+     * This method is to perform notify irb protocol action
+     * @param protocolForm
+     * @return
+     * @throws Exception
+     */
     public String notifyIrbProtocol(ProtocolForm protocolForm) throws Exception;
     
+    /**
+     * This method is to perform notify committee protocol action
+     * @param protocolForm
+     * @return
+     * @throws Exception
+     */
     public String notifyCommitteeProtocol(ProtocolForm protocolForm) throws Exception;
     
+    /**
+     * This method is to perform protocol review not required action
+     * @param protocolForm
+     * @return
+     * @throws Exception
+     */
     public String protocolReviewNotRequired(ProtocolForm protocolForm) throws Exception;
     
+    /**
+     * This method is to trigger correspondence when reviewers are assigned
+     * @param protocolForm
+     * @return
+     * @throws Exception
+     */
     public String assignReviewers(ProtocolForm protocolForm) throws Exception;
         
+    /**
+     * This method is to trigger correspondence when assigned review is complete
+     * @param protocolForm
+     * @throws Exception
+     */
+    public void assignedReviewComplete(ProtocolForm protocolForm) throws Exception;
+    
+    /**
+     * This method is to trigger correspondence for assigned review rejected / returned
+     * to reviewer action
+     * @param protocolForm
+     * @throws Exception
+     */
+    public void assignedReviewRejected(ProtocolForm protocolForm) throws Exception;
+
+    /**
+     * This method is to trigger correspondence for assigned review deleted action
+     * @param protocolForm
+     * @throws Exception
+     */
+    public void assignedReviewDeleted(ProtocolForm protocolForm) throws Exception;
+    
+    /**
+     * This method is to trigger correspondence for funding source action
+     * @param protocolForm
+     * @throws Exception
+     */
+    public void generateFundingSource(ProtocolForm protocolForm) throws Exception;
+    
 }

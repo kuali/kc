@@ -1082,6 +1082,7 @@
    		<property name="protocolReviewNotRequiredService" ref="protocolReviewNotRequiredService"/>
         <property name="protocolAssignReviewersService" ref="protocolAssignReviewersService" />
         <property name="personService" ref="personService"/>
+        <property name="questionnaireAnswerService" ref="questionnaireAnswerService" />
  	</bean>
  	 
 </beans>

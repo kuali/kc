@@ -1179,6 +1179,21 @@
 		<property name="notificationService" ref="kcNotificationService" /> 
 		<property name="protocolApproveService" ref="iacucProtocolApproveService" /> 
    		<property name="reviewCommentsService" ref="iacucReviewCommentsService" />    
+        <property name="protocolSubmitActionService" ref="iacucProtocolSubmitActionService" />
+		<property name="protocolAmendRenewService" ref="iacucProtocolAmendRenewService" />
+        <property name="protocolAssignToAgendaService" ref="iacucProtocolAssignToAgendaService" />
+        <property name="protocolReviewNotRequiredService" ref="iacucProtocolReviewNotRequiredService" />
+        <property name="protocolRequestService" ref="iacucProtocolRequestService" />
+        <property name="questionnaireAnswerService" ref="questionnaireAnswerService" />
+        <property name="personService" ref="personService"/>
+        <property name="protocolGenericActionService" ref="iacucProtocolGenericActionService" />
+        <property name="protocolAbandonService" ref="iacucProtocolAbandonService" />
+        <property name="modifySubmissionService" ref="iacucProtocolModifySubmissionService" />
+        <property name="protocolTableService" ref="iacucProtocolTableService" />
+        <property name="protocolWithdrawService" ref="iacucProtocolWithdrawService" />
+        <property name="protocolNotifyService" ref="iacucProtocolNotifyIacucService" />
+        <property name="committeeDecisionService" ref="iacucCommitteeDecisionService" />
+        <property name="assignToCmtService" ref="iacucProtocolAssignCmtService" />
  	</bean>
 
 </beans>

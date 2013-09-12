@@ -25,7 +25,7 @@ import org.kuali.kra.protocol.questionnaire.ProtocolQuestionnaireAuditRuleBase;
 public class IacucProtocolQuestionnaireAuditRule extends ProtocolQuestionnaireAuditRuleBase {
     
     protected String getModuleCodeHook() {
-        return CoeusModule.IRB_MODULE_CODE;
+        return CoeusModule.IACUC_PROTOCOL_MODULE_CODE;
     }
 
     protected ProtocolModuleQuestionnaireBeanBase getProtocolModuleQuestionnaireBean(ProtocolBase protocol) {
