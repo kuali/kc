@@ -17,6 +17,7 @@ package org.kuali.kra.protocol.actions;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
@@ -32,7 +33,15 @@ import org.kuali.kra.protocol.actions.correspondence.ProtocolActionsCorresponden
 import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsBeanBase;
 import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsService;
 import org.kuali.kra.protocol.auth.ProtocolTaskBase;
+import org.kuali.kra.protocol.correspondence.ProtocolCorrespondence;
+import org.kuali.kra.protocol.notification.ProtocolNotification;
+import org.kuali.kra.protocol.notification.ProtocolNotificationContextBase;
+import org.kuali.kra.protocol.notification.ProtocolNotificationRequestBeanBase;
 import org.kuali.kra.protocol.onlinereview.ProtocolReviewAttachmentBase;
+import org.kuali.kra.protocol.questionnaire.ProtocolQuestionnaireAuditRuleBase;
+import org.kuali.kra.questionnaire.answer.AnswerHeader;
+import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
+import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kim.api.identity.Person;
@@ -54,7 +63,27 @@ public abstract class ProtocolActionRequestServiceImpl implements ProtocolAction
     private KcNotificationService notificationService;
     private PersonService personService;
     private ReviewCommentsService<? extends ProtocolReviewAttachmentBase> reviewCommentsService;
+    private QuestionnaireAnswerService questionnaireAnswerService;
+
+    private static final String FORWARD_TO_CORRESPONDENCE = "correspondence";
     
+    protected static final String ACTION_NAME_AMENDMENT = "Create Amendment";
+    protected static final String ACTION_NAME_RENEWAL_WITHOUT_AMENDMENT = "Create Renewal without Amendment";
+    protected static final String ACTION_NAME_RENEWAL_WITH_AMENDMENT = "Create Renewal with Amendment";
+    protected static final String ACTION_NAME_ASSIGN_TO_AGENDA = "Assign to Agenda";
+    protected static final String ACTION_NAME_REVIEW_NOT_REQUIRED = "Review Not Required";
+    protected static final String ACTION_NAME_DISAPPROVE = "Disapprove";
+    protected static final String ACTION_NAME_EXPIRE = "Expire";
+    protected static final String ACTION_NAME_TERMINATE = "Terminate";
+    protected static final String ACTION_NAME_SUSPEND = "Suspend";
+    protected static final String ACTION_NAME_SMR = "Return for Specific Minor Revisions";
+    protected static final String ACTION_NAME_SRR = "Return for Substantive Revisions Required";
+    protected static final String ACTION_NAME_RETURN_TO_PI = "Return To PI";
+    protected static final String ACTION_NAME_MANAGE_ADMINISTRATIVE_CORRECTION = "Make Administrative Correction";
+    protected static final String ACTION_NAME_RECORD_ABANDON = "Abandon";
+    protected static final String ACTION_NAME_WITHDRAW = "Withdraw";
+    protected static final String ACTION_NAME_RECORD_COMMITTEE_DECISION = "Record Committee Decision";
+
     protected final boolean applyRules(KualiDocumentEvent event) {
         return getKualiRuleService().applyRules(event);
     }
@@ -200,7 +229,112 @@ public abstract class ProtocolActionRequestServiceImpl implements ProtocolAction
         return isPessimisticallyLocked;
     }
     
+    /**
+     * This method is to set the parameters required for the new document after performing
+     * an action
+     * @param protocolForm
+     * @param newDocId
+     * @param protocolActionName
+     */
+    @SuppressWarnings("deprecation")
+    protected void refreshAfterProtocolAction(ProtocolFormBase protocolForm, String newDocId, String protocolActionName, boolean resetCurrentSubmission) {
+        protocolForm.setDocId(newDocId);
+        if(resetCurrentSubmission) {
+            protocolForm.getActionHelper().setCurrentSubmissionNumber(-1);
+        }
+        recordProtocolActionSuccess(protocolActionName);
+    }
     
+    /**
+     * This method is to get the path where user is send to performing protocol action
+     * @param protocolForm
+     * @param notificationBean
+     * @return
+     */
+    protected String getRedirectPathAfterProtocolAction(ProtocolFormBase protocolForm, ProtocolNotificationRequestBeanBase notificationBean, String promptAfterNotification) {
+        if (protocolForm.getActionHelper().getProtocolCorrespondence() != null) {
+            return FORWARD_TO_CORRESPONDENCE;
+        } else {
+            boolean sendNotification = checkToSendNotification(protocolForm, notificationBean, promptAfterNotification); 
+            return sendNotification ? getNotificationEditorHook() : promptAfterNotification;
+        }
+    }
+    
+    protected boolean checkToSendNotification(ProtocolFormBase protocolForm, ProtocolNotificationRequestBeanBase notificationRequestBean, String promptAfterNotification) {
+        ProtocolBase protocol = protocolForm.getProtocolDocument().getProtocol();
+        ProtocolNotificationContextBase context = getProtocolNotificationContextHook(notificationRequestBean, protocolForm);
+        if (protocolForm.getNotificationHelper().getPromptUserForNotificationEditor(context)) {
+            context.setForwardName(promptAfterNotification);
+            protocolForm.getNotificationHelper().initializeDefaultValues(context);
+            return true;
+        } else {
+            getNotificationService().sendNotificationAndPersist(context, getProtocolNotificationInstanceHook(), protocol);
+            return false;
+        }
+    }    
+
+    protected ProtocolCorrespondence getProtocolCorrespondence (ProtocolFormBase protocolForm, String forwardName, ProtocolNotificationRequestBeanBase notificationRequestBean, boolean holdingPage) {
+        Map<String,Object> keyValues = new HashMap<String, Object>();
+        // actionid <-> action.actionid  actionidfk<->action.protocolactionid
+        keyValues.put("actionIdFk", protocolForm.getProtocolDocument().getProtocol().getLastProtocolAction().getProtocolActionId());
+        List<? extends ProtocolCorrespondence> correspondences = (List<? extends ProtocolCorrespondence>)getBusinessObjectService().findMatching(getProtocolCorrespondenceBOClassHook(), keyValues);
+        if (correspondences.isEmpty()) {
+            return null;
+        } else {
+            ProtocolCorrespondence correspondence = correspondences.get(0);
+            correspondence.setForwardName(forwardName);
+            correspondence.setNotificationRequestBean(notificationRequestBean);
+            correspondence.setHoldingPage(holdingPage);
+            return correspondence;
+        }
+    }
+    
+    protected ProtocolActionBean getActionBean(ProtocolFormBase protocolForm, String taskName) {
+        ProtocolActionBean protocolActionBean = null;
+        if (StringUtils.isNotBlank(taskName)) {
+            protocolActionBean = (ProtocolActionBean) protocolForm.getActionHelper().getActionBean(taskName);
+        }
+        return protocolActionBean;
+    }
+    
+    protected List<AnswerHeader> getAnswerHeaders(ProtocolFormBase protocolForm, String actionTypeCode) {
+        ModuleQuestionnaireBean moduleQuestionnaireBean = getProtocolModuleQuestionnaireBeanInstanceHook(protocolForm, actionTypeCode);
+        return getQuestionnaireAnswerService().getQuestionnaireAnswer(moduleQuestionnaireBean);
+    }
+    
+    /**
+     * This method is to check if the mandatory submission questionnaire is complete 
+     * before submit a request
+     * @param answerHeaders
+     * @param errorKey
+     * @return
+     */
+    protected boolean isMandatoryQuestionnaireComplete(List<AnswerHeader> answerHeaders, String errorKey) {
+        boolean valid = true;
+        ProtocolQuestionnaireAuditRuleBase auditRule = getProtocolQuestionnaireAuditRuleInstanceHook();
+        if (!auditRule.isMandatorySubmissionQuestionnaireComplete(answerHeaders)) {
+            GlobalVariables.getMessageMap().clearErrorMessages();
+            GlobalVariables.getMessageMap().putError(errorKey, KeyConstants.ERROR_MANDATORY_QUESTIONNAIRE);
+            valid = false;
+        }
+        return valid;
+    }
+
+    protected String sendRequestNotification(ProtocolFormBase protocolForm, String requestProtocolActionTypeCode, String reason, String protocolActionTab) throws Exception {
+        ProtocolActionTypeBase protocolActionType = getBusinessObjectService().findBySinglePrimaryKey(getProtocolActionTypeBOClassHook(), requestProtocolActionTypeCode);
+        String protocolActionTypeCode = protocolActionType.getProtocolActionTypeCode();
+        String description = protocolActionType.getDescription();
+        ProtocolNotificationRequestBeanBase notificationBean = getRequestActionNotificationBeanInstanceHook(protocolForm.getProtocolDocument().getProtocol(), protocolActionTypeCode, description, reason); 
+        return getRedirectPathAfterProtocolAction(protocolForm, notificationBean, protocolActionTab);
+    }
+    
+    protected abstract ProtocolNotificationRequestBeanBase getRequestActionNotificationBeanInstanceHook(ProtocolBase protocol, String protocolActionTypeCode, String description, String reason);
+    protected abstract ProtocolQuestionnaireAuditRuleBase getProtocolQuestionnaireAuditRuleInstanceHook();
+    protected abstract ModuleQuestionnaireBean getProtocolModuleQuestionnaireBeanInstanceHook(ProtocolFormBase protocolForm, String actionTypeCode);
+    protected abstract Class<? extends ProtocolCorrespondence> getProtocolCorrespondenceBOClassHook();
+    protected abstract String getNotificationEditorHook();
+    protected abstract ProtocolNotification getProtocolNotificationInstanceHook();
+    protected abstract ProtocolNotificationContextBase getProtocolNotificationContextHook(ProtocolNotificationRequestBeanBase notificationRequestBean, ProtocolFormBase protocolForm);
     protected abstract ProtocolTaskBase getProtocolTaskInstanceHook(String taskName, ProtocolBase protocol);
     protected abstract ProtocolTaskBase getProtocolGenericActionTaskInstanceHook(String taskName, String genericActionName, ProtocolBase protocol);
     protected abstract ProtocolActionsCorrespondenceBase getNewProtocolActionsCorrespondence(String protocolActionTypeCode);
@@ -241,6 +375,14 @@ public abstract class ProtocolActionRequestServiceImpl implements ProtocolAction
 
     public void setPersonService(PersonService personService) {
         this.personService = personService;
+    }
+
+    public QuestionnaireAnswerService getQuestionnaireAnswerService() {
+        return questionnaireAnswerService;
+    }
+
+    public void setQuestionnaireAnswerService(QuestionnaireAnswerService questionnaireAnswerService) {
+        this.questionnaireAnswerService = questionnaireAnswerService;
     }
 
 }
