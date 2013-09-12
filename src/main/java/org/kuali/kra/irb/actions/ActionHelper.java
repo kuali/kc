@@ -867,11 +867,6 @@ public class ActionHelper extends ActionHelperBase {
         ProtocolTask task = new ProtocolTask(TaskName.PROTOCOL_MANAGE_NOTES_UNAVAILABLE, (Protocol) getProtocol());
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
-
-    protected boolean hasPermission(String taskName) {
-        ProtocolTask task = new ProtocolTask(taskName, (Protocol) getProtocol());
-        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-    }
     
     private boolean hasGenericPermission(String genericActionName) {
         ProtocolTask task = new ProtocolTask(TaskName.GENERIC_PROTOCOL_ACTION, (Protocol) getProtocol(), genericActionName);
@@ -1645,7 +1640,7 @@ public class ActionHelper extends ActionHelperBase {
 
     @Override
     protected void enableModuleOption(org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendmentBean amendmentBean, ProtocolAmendRenewalBase correctAmendment) {
-        // TODO deliberately empty implementation since the calling method for this hook has been overridden making it a redundant
+        // deliberately empty implementation since the calling method for this hook has been overridden making it a redundant
         // hook. See backfit notes.
         // do nothing
     }
@@ -1692,6 +1687,11 @@ public class ActionHelper extends ActionHelperBase {
 
     public IrbCommitteeIdByUnitValuesFinder getNotifyIrbActionCommitteeIdByUnitValuesFinder() {
         return notifyIrbActionCommitteeIdByUnitValuesFinder;
+    }
+
+    @Override
+    protected ProtocolTaskBase getNewProtocolTaskInstanceHook(String taskName) {
+        return new ProtocolTask(taskName, getProtocol());
     }
  
 }
