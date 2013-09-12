@@ -98,6 +98,8 @@ public abstract class ActionHelperBase implements Serializable {
 
     protected static final long ONE_DAY = 1000L * 60L * 60L * 24L;
     protected static final String NAMESPACE = "KC-UNT";
+    private static final String VIEW_PROTOCOL_CORRESPONDENCE_TASK_NAME = "viewProtocolCorrespondence";
+    private static final String REGENERATE_PROTOCOL_CORRESPONDENCE_TASK_NAME = "regenerateProtocolCorrespondence";
     protected transient QuestionnaireAnswerService questionnaireAnswerService;
 
     /**
@@ -181,6 +183,10 @@ public abstract class ActionHelperBase implements Serializable {
 
     protected boolean canAddSuspendReviewerComments;
     protected boolean canAddTerminateReviewerComments;    
+    
+    // added permission checks for regenerating and viewing protocol correspondences
+    protected boolean canViewProtocolCorrespondence;
+    protected boolean canRegenerateProtocolCorrespondence;
     
     // new addition that needs to be backfitted to IRB as well
     private boolean canPerformAdminDetermination;
@@ -659,6 +665,10 @@ public abstract class ActionHelperBase implements Serializable {
         canViewOnlineReviewerComments = hasCanViewOnlineReviewerCommentsPermission();        
         canAddSuspendReviewerComments = hasSuspendPermission();
         canAddTerminateReviewerComments = hasTerminatePermission();
+        
+        canViewProtocolCorrespondence = hasViewProtocolCorrespondencePermission();
+        canRegenerateProtocolCorrespondence = hasRegenerateProtocolCorrespondencePermission();
+        
         initSubmissionDetails();
         
         initAmendmentBeans(false);
@@ -684,7 +694,6 @@ public abstract class ActionHelperBase implements Serializable {
     }
     
     private void prepareNotifyCommitteeActionView() {
-        // TODO When notify cmt is implemented for IACUC as well, this can be lifted to the parent
         protocolNotifyCommitteeBean.prepareView();
         canNotifyCommittee = hasNotifyCommitteePermission();
         canNotifyCommitteeUnavailable = hasNotifyCommitteeUnavailablePermission();
@@ -807,7 +816,15 @@ public abstract class ActionHelperBase implements Serializable {
     protected abstract ProtocolTaskBase getNewAdminMarkIncompleteUnavailableProtocolTaskInstanceHook(ProtocolBase protocol);
     
     
-     
+    
+    private boolean hasViewProtocolCorrespondencePermission() {
+        return hasPermission(VIEW_PROTOCOL_CORRESPONDENCE_TASK_NAME);
+    }
+    
+    private boolean hasRegenerateProtocolCorrespondencePermission() {
+        return hasPermission(REGENERATE_PROTOCOL_CORRESPONDENCE_TASK_NAME);
+    }
+
     /**
      * Refreshes the comments for all the beans from the database.  Use sparingly since this will erase non-persisted comments.
      */
@@ -1115,8 +1132,20 @@ public abstract class ActionHelperBase implements Serializable {
     protected abstract ProtocolTaskBase createNewAbandonTaskInstanceHook(ProtocolBase protocol);
     
     
-    protected abstract boolean hasPermission(String taskName);
+    
+    // This method should be used for all authorizations going through the task authorization framework, 
+    // it makes a downcall to a hook for subclasses to supply the appropriate task using which the 
+    // task authorization framework will locate the appropriate spring-wired authorizer.
+    protected boolean hasPermission(String taskName) {
+        ProtocolTaskBase task = getNewProtocolTaskInstanceHook(taskName);
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
+    }
+    
+    protected abstract ProtocolTaskBase getNewProtocolTaskInstanceHook(String taskName);
   
+    
+    
+    
     protected boolean hasFollowupAction(String actionCode) {
         for (ValidProtocolActionActionBase action : followupActionActions) {
             if (StringUtils.equals(action.getFollowupActionCode(),actionCode)) {
@@ -2542,4 +2571,14 @@ public abstract class ActionHelperBase implements Serializable {
     public CommitteeIdByUnitValuesFinderBase<?> getNotifyCmtActionCommitteeIdByUnitValuesFinder() {
         return notifyCmtActionCommitteeIdByUnitValuesFinder;
     }
+    
+    public boolean getCanViewProtocolCorrespondence() {
+        return canViewProtocolCorrespondence;
+    }
+    
+    public boolean getCanRegenerateProtocolCorrespondence() {
+        return canRegenerateProtocolCorrespondence;
+    }
+
+    
 }

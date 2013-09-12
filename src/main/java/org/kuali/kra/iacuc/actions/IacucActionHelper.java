@@ -414,10 +414,6 @@ public class IacucActionHelper extends ActionHelperBase {
         return tas.isAuthorized(userId, task);
     }
     
-    protected boolean hasPermission(String taskName) {
-        IacucProtocolTask task = new IacucProtocolTask(taskName, getIacucProtocol());
-        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-    }
     
     protected boolean hasGenericPermission(String genericActionName) {
         IacucProtocolTask task = new IacucProtocolTask(TaskName.GENERIC_IACUC_PROTOCOL_ACTION, getIacucProtocol(), genericActionName);
@@ -1622,6 +1618,12 @@ public class IacucActionHelper extends ActionHelperBase {
 
     public IacucCommitteeIdByUnitValuesFinder getModifySubmissionActionCommitteeIdByUnitValuesFinder() {
         return modifySubmissionActionCommitteeIdByUnitValuesFinder;
+    }
+
+
+    @Override
+    protected ProtocolTaskBase getNewProtocolTaskInstanceHook(String taskName) {
+        return new IacucProtocolTask(taskName, getIacucProtocol());
     }
 
 }
