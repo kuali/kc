@@ -78,6 +78,7 @@ import org.kuali.kra.iacuc.auth.IacucGenericProtocolAuthorizer;
 import org.kuali.kra.iacuc.auth.IacucProtocolTask;
 import org.kuali.kra.iacuc.correspondence.IacucProtocolActionsCorrespondence;
 import org.kuali.kra.iacuc.correspondence.IacucProtocolCorrespondence;
+import org.kuali.kra.iacuc.infrastructure.IacucConstants;
 import org.kuali.kra.iacuc.notification.IacucProtocolAssignReviewerNotificationRenderer;
 import org.kuali.kra.iacuc.notification.IacucProtocolNotification;
 import org.kuali.kra.iacuc.notification.IacucProtocolNotificationContext;
@@ -143,8 +144,6 @@ public class IacucProtocolActionRequestServiceImpl extends ProtocolActionRequest
     private IacucProtocolNotifyIacucService protocolNotifyService;
     private IacucCommitteeDecisionService committeeDecisionService;
     private IacucProtocolAssignCmtService assignToCmtService;
-    
-    private static final String FORWARD_TO_NOTIFICATION_EDITOR = "iacucProtocolNotificationEditor";
     
     private static final String ACTION_NAME_CONTINUATION_WITHOUT_AMENDMENT = "Create Continuation without Amendment";
     private static final String ACTION_NAME_CONTINUATION_WITH_AMENDMENT = "Create Continuation with Amendment";
@@ -661,8 +660,8 @@ public class IacucProtocolActionRequestServiceImpl extends ProtocolActionRequest
         generateActionCorrespondence(IacucProtocolActionType.AMENDMENT_CREATED, protocolForm.getProtocolDocument().getProtocol());
         refreshAfterProtocolAction(protocolForm, newDocId, ACTION_NAME_AMENDMENT, true);
         IacucProtocolNotificationRequestBean notificationBean = new IacucProtocolNotificationRequestBean(protocol, IacucProtocolActionType.AMENDMENT_CREATED_NOTIFICATION, "Amendment Created");
-        protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, Constants.IACUC_PROTOCOL_TAB, notificationBean, false));
-        return getRedirectPathAfterProtocolAction(protocolForm, notificationBean, Constants.IACUC_PROTOCOL_TAB);
+        protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, IacucConstants.PROTOCOL_TAB, notificationBean, false));
+        return getRedirectPathAfterProtocolAction(protocolForm, notificationBean, IacucConstants.PROTOCOL_TAB);
     }
     
     /**
@@ -676,8 +675,8 @@ public class IacucProtocolActionRequestServiceImpl extends ProtocolActionRequest
         // Form fields copy needed to support modifyAmendmentSections
         protocolForm.getActionHelper().getProtocolAmendmentBean().setSummary(protocolForm.getActionHelper().getRenewalSummary());
         IacucProtocolNotificationRequestBean notificationBean = new IacucProtocolNotificationRequestBean(protocol, IacucProtocolActionType.RENEWAL_CREATED_NOTIFICATION, "Renewal Created");
-        protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, Constants.IACUC_PROTOCOL_TAB, notificationBean, false));
-        return getRedirectPathAfterProtocolAction(protocolForm, notificationBean, Constants.IACUC_PROTOCOL_TAB);
+        protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, IacucConstants.PROTOCOL_TAB, notificationBean, false));
+        return getRedirectPathAfterProtocolAction(protocolForm, notificationBean, IacucConstants.PROTOCOL_TAB);
     }
     
     /**
@@ -694,8 +693,8 @@ public class IacucProtocolActionRequestServiceImpl extends ProtocolActionRequest
         // Form fields copy needed to support modifyAmendmentSections
         protocolForm.getActionHelper().setProtocolAmendmentBean(renewAmendmentBean);
         IacucProtocolNotificationRequestBean notificationBean = new IacucProtocolNotificationRequestBean(protocol, IacucProtocolActionType.RENEWAL_WITH_AMENDMENT_CREATED, "Renewal With Amendment Created");
-        protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, Constants.IACUC_PROTOCOL_TAB, notificationBean, false));
-        return getRedirectPathAfterProtocolAction(protocolForm, notificationBean, Constants.IACUC_PROTOCOL_TAB);
+        protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, IacucConstants.PROTOCOL_TAB, notificationBean, false));
+        return getRedirectPathAfterProtocolAction(protocolForm, notificationBean, IacucConstants.PROTOCOL_TAB);
     }
     
     /**
@@ -711,8 +710,8 @@ public class IacucProtocolActionRequestServiceImpl extends ProtocolActionRequest
         // Form fields copy needed to support modifyAmendmentSections
         protocolForm.getActionHelper().getProtocolAmendmentBean().setSummary(actionHelper.getContinuationSummary());
         IacucProtocolNotificationRequestBean notificationBean = new IacucProtocolNotificationRequestBean(protocol, IacucProtocolActionType.CONTINUATION_CREATED_NOTIFICATION, "Continuation Created");
-        protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, Constants.IACUC_PROTOCOL_TAB, notificationBean, false));
-        return getRedirectPathAfterProtocolAction(protocolForm, notificationBean, Constants.IACUC_PROTOCOL_TAB);
+        protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, IacucConstants.PROTOCOL_TAB, notificationBean, false));
+        return getRedirectPathAfterProtocolAction(protocolForm, notificationBean, IacucConstants.PROTOCOL_TAB);
     }
     
     /**
@@ -730,8 +729,8 @@ public class IacucProtocolActionRequestServiceImpl extends ProtocolActionRequest
         // Form fields copy needed to support modifyAmendmentSections
         protocolForm.getActionHelper().setProtocolAmendmentBean(continuationAmendmentBean);
         IacucProtocolNotificationRequestBean notificationBean = new IacucProtocolNotificationRequestBean(protocol, IacucProtocolActionType.CONTINUATION_AMENDMENT, "Continuation With Amendment Created");
-        protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, Constants.IACUC_PROTOCOL_TAB, notificationBean, false));
-        return getRedirectPathAfterProtocolAction(protocolForm, notificationBean, Constants.IACUC_PROTOCOL_TAB);
+        protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, IacucConstants.PROTOCOL_TAB, notificationBean, false));
+        return getRedirectPathAfterProtocolAction(protocolForm, notificationBean, IacucConstants.PROTOCOL_TAB);
     }
     
     /**
@@ -748,7 +747,7 @@ public class IacucProtocolActionRequestServiceImpl extends ProtocolActionRequest
         ProtocolActionTypeBase lastActionType = lastAction.getProtocolActionType();
         String description = lastActionType.getDescription();
         IacucProtocolNotificationRequestBean notificationBean = new IacucProtocolNotificationRequestBean(protocol, IacucProtocolActionType.ASSIGNED_TO_AGENDA, description);
-        return getRedirectPathAfterProtocolAction(protocolForm, notificationBean, Constants.IACUC_PROTOCOL_ACTIONS_TAB);
+        return getRedirectPathAfterProtocolAction(protocolForm, notificationBean, IacucConstants.PROTOCOL_ACTIONS_TAB);
     }
     
     /**
@@ -763,7 +762,7 @@ public class IacucProtocolActionRequestServiceImpl extends ProtocolActionRequest
         saveReviewComments(protocolForm, (IacucReviewCommentsBean) actionBean.getReviewCommentsBean());
         recordProtocolActionSuccess(ACTION_NAME_REMOVE_FROM_AGENDA);
         IacucProtocolNotificationRequestBean notificationBean = new IacucProtocolNotificationRequestBean(protocol, IacucProtocolActionType.REMOVE_FROM_AGENDA, actionBean.getComments());
-        return getRedirectPathAfterProtocolAction(protocolForm, notificationBean, Constants.IACUC_PROTOCOL_ACTIONS_TAB);
+        return getRedirectPathAfterProtocolAction(protocolForm, notificationBean, IacucConstants.PROTOCOL_ACTIONS_TAB);
     }
     
     /**
@@ -777,8 +776,8 @@ public class IacucProtocolActionRequestServiceImpl extends ProtocolActionRequest
         generateActionCorrespondence(IacucProtocolActionType.IACUC_REVIEW_NOT_REQUIRED, protocolForm.getProtocolDocument().getProtocol());
         recordProtocolActionSuccess(ACTION_NAME_REVIEW_NOT_REQUIRED);
         IacucProtocolNotificationRequestBean notificationBean = new IacucProtocolNotificationRequestBean(document.getIacucProtocol(), IacucProtocolActionType.IACUC_REVIEW_NOT_REQUIRED, "Review Not Required");
-        protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, Constants.IACUC_PROTOCOL_TAB, notificationBean, false));
-        return getRedirectPathAfterProtocolAction(protocolForm, notificationBean, Constants.IACUC_PROTOCOL_TAB);
+        protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, IacucConstants.PROTOCOL_TAB, notificationBean, false));
+        return getRedirectPathAfterProtocolAction(protocolForm, notificationBean, IacucConstants.PROTOCOL_TAB);
     }
     
     /**
@@ -792,8 +791,8 @@ public class IacucProtocolActionRequestServiceImpl extends ProtocolActionRequest
         saveReviewComments(protocolForm, (IacucReviewCommentsBean) actionBean.getReviewCommentsBean());
         recordProtocolActionSuccess("Administrative Approval");
         IacucProtocolNotificationRequestBean notificationBean = new IacucProtocolNotificationRequestBean((IacucProtocol) document.getProtocol(), IacucProtocolActionType.ADMINISTRATIVE_APPROVAL, "Admin Approval");
-        protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, Constants.IACUC_PROTOCOL_TAB, notificationBean, false));
-        return getRedirectPathAfterProtocolAction(protocolForm, notificationBean, Constants.IACUC_PROTOCOL_TAB);
+        protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, IacucConstants.PROTOCOL_TAB, notificationBean, false));
+        return getRedirectPathAfterProtocolAction(protocolForm, notificationBean, IacucConstants.PROTOCOL_TAB);
     }
 
     /**
@@ -812,7 +811,7 @@ public class IacucProtocolActionRequestServiceImpl extends ProtocolActionRequest
                 getProtocolRequestService().submitRequest(protocolForm.getIacucProtocolDocument().getIacucProtocol(), requestBean);            
                 generateActionCorrespondence(requestBean.getProtocolActionTypeCode(), protocolForm.getProtocolDocument().getProtocol());
                 recordProtocolActionSuccess(requestAction.getActionName());
-                return sendRequestNotification(protocolForm, requestBean.getProtocolActionTypeCode(), requestBean.getReason(), Constants.IACUC_PROTOCOL_ACTIONS_TAB);
+                return sendRequestNotification(protocolForm, requestBean.getProtocolActionTypeCode(), requestBean.getReason(), IacucConstants.PROTOCOL_ACTIONS_TAB);
             }
         }
         return Constants.MAPPING_BASIC;
@@ -830,8 +829,8 @@ public class IacucProtocolActionRequestServiceImpl extends ProtocolActionRequest
         saveReviewComments(protocolForm, (IacucReviewCommentsBean) actionBean.getReviewCommentsBean());
         recordProtocolActionSuccess(ACTION_NAME_DISAPPROVE);
         IacucProtocolNotificationRequestBean notificationBean = new IacucProtocolNotificationRequestBean((IacucProtocol) protocolForm.getProtocolDocument().getProtocol(), IacucProtocolActionType.IACUC_DISAPPROVED, "Disapproved");
-        protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, Constants.IACUC_PROTOCOL_TAB, notificationBean, false));
-        return getRedirectPathAfterProtocolAction(protocolForm, notificationBean, Constants.IACUC_PROTOCOL_TAB);
+        protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, IacucConstants.PROTOCOL_TAB, notificationBean, false));
+        return getRedirectPathAfterProtocolAction(protocolForm, notificationBean, IacucConstants.PROTOCOL_TAB);
     }
     
     /**
@@ -846,8 +845,8 @@ public class IacucProtocolActionRequestServiceImpl extends ProtocolActionRequest
         saveReviewComments(protocolForm, (IacucReviewCommentsBean) actionBean.getReviewCommentsBean());
         recordProtocolActionSuccess(ACTION_NAME_EXPIRE);
         IacucProtocolNotificationRequestBean notificationBean = new IacucProtocolNotificationRequestBean((IacucProtocol) protocolForm.getProtocolDocument().getProtocol(), IacucProtocolActionType.EXPIRED, "Expired");
-        protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, Constants.IACUC_PROTOCOL_TAB, notificationBean, false));
-        return getRedirectPathAfterProtocolAction(protocolForm, notificationBean, Constants.IACUC_PROTOCOL_TAB);
+        protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, IacucConstants.PROTOCOL_TAB, notificationBean, false));
+        return getRedirectPathAfterProtocolAction(protocolForm, notificationBean, IacucConstants.PROTOCOL_TAB);
     }
     
     /**
@@ -863,8 +862,8 @@ public class IacucProtocolActionRequestServiceImpl extends ProtocolActionRequest
         recordProtocolActionSuccess(ACTION_NAME_TERMINATE);
         IacucProtocolNotificationRequestBean notificationBean = 
                 new IacucProtocolNotificationRequestBean((IacucProtocol) protocolForm.getProtocolDocument().getProtocol(), IacucProtocolActionType.TERMINATED, "Terminated");
-        protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, Constants.IACUC_PROTOCOL_TAB, notificationBean, false));
-        return getRedirectPathAfterProtocolAction(protocolForm, notificationBean, Constants.IACUC_PROTOCOL_TAB);
+        protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, IacucConstants.PROTOCOL_TAB, notificationBean, false));
+        return getRedirectPathAfterProtocolAction(protocolForm, notificationBean, IacucConstants.PROTOCOL_TAB);
     }
     
     /**
@@ -879,8 +878,8 @@ public class IacucProtocolActionRequestServiceImpl extends ProtocolActionRequest
         saveReviewComments(protocolForm, (IacucReviewCommentsBean) actionBean.getReviewCommentsBean());
         recordProtocolActionSuccess(ACTION_NAME_SUSPEND);
         IacucProtocolNotificationRequestBean notificationBean = new IacucProtocolNotificationRequestBean((IacucProtocol) protocolForm.getProtocolDocument().getProtocol(), IacucProtocolActionType.SUSPENDED, "Suspended");
-        protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, Constants.IACUC_PROTOCOL_TAB, notificationBean, false));
-        return getRedirectPathAfterProtocolAction(protocolForm, notificationBean, Constants.IACUC_PROTOCOL_TAB);
+        protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, IacucConstants.PROTOCOL_TAB, notificationBean, false));
+        return getRedirectPathAfterProtocolAction(protocolForm, notificationBean, IacucConstants.PROTOCOL_TAB);
     }
     
     /**
@@ -895,7 +894,7 @@ public class IacucProtocolActionRequestServiceImpl extends ProtocolActionRequest
         saveReviewComments(protocolForm, (IacucReviewCommentsBean) actionBean.getReviewCommentsBean());
         recordProtocolActionSuccess(ACTION_NAME_ACKNOWLEDGEMENT);
         IacucProtocolNotificationRequestBean notificationBean = new IacucProtocolNotificationRequestBean(protocol, IacucProtocolActionType.IACUC_ACKNOWLEDGEMENT, "IACUC Acknowledgement");
-        return getRedirectPathAfterProtocolAction(protocolForm, notificationBean, Constants.IACUC_PROTOCOL_ACTIONS_TAB);
+        return getRedirectPathAfterProtocolAction(protocolForm, notificationBean, IacucConstants.PROTOCOL_ACTIONS_TAB);
     }
     
     /**
@@ -910,8 +909,8 @@ public class IacucProtocolActionRequestServiceImpl extends ProtocolActionRequest
         saveReviewComments(protocolForm, (IacucReviewCommentsBean) actionBean.getReviewCommentsBean());
         recordProtocolActionSuccess(ACTION_NAME_HOLD);
         IacucProtocolNotificationRequestBean notificationBean = new IacucProtocolNotificationRequestBean((IacucProtocol) protocolForm.getProtocolDocument().getProtocol(), IacucProtocolActionType.HOLD, "IACUC Hold");
-        protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, Constants.IACUC_PROTOCOL_TAB, notificationBean, false));
-        return getRedirectPathAfterProtocolAction(protocolForm, notificationBean, Constants.IACUC_PROTOCOL_TAB);
+        protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, IacucConstants.PROTOCOL_TAB, notificationBean, false));
+        return getRedirectPathAfterProtocolAction(protocolForm, notificationBean, IacucConstants.PROTOCOL_TAB);
     }
 
     /**
@@ -926,7 +925,7 @@ public class IacucProtocolActionRequestServiceImpl extends ProtocolActionRequest
         saveReviewComments(protocolForm, (IacucReviewCommentsBean) actionBean.getReviewCommentsBean());
         recordProtocolActionSuccess(ACTION_NAME_LIFT_HOLD);
         IacucProtocolNotificationRequestBean notificationBean = new IacucProtocolNotificationRequestBean(protocol, IacucProtocolActionType.LIFT_HOLD, "IACUC Lift Hold");
-        return getRedirectPathAfterProtocolAction(protocolForm, notificationBean, Constants.IACUC_PROTOCOL_TAB);
+        return getRedirectPathAfterProtocolAction(protocolForm, notificationBean, IacucConstants.PROTOCOL_TAB);
     }
     
     /**
@@ -941,8 +940,8 @@ public class IacucProtocolActionRequestServiceImpl extends ProtocolActionRequest
         saveReviewComments(protocolForm, (IacucReviewCommentsBean) actionBean.getReviewCommentsBean());
         refreshAfterProtocolAction(protocolForm, newDocument.getDocumentNumber(), ACTION_NAME_SMR, false);
         IacucProtocolNotificationRequestBean notificationBean = new IacucProtocolNotificationRequestBean(protocol, IacucProtocolActionType.IACUC_MINOR_REVISIONS_REQUIRED, "Minor Revisions Required");
-        protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, Constants.IACUC_PROTOCOL_TAB, notificationBean, false));
-        return getRedirectPathAfterProtocolAction(protocolForm, notificationBean, Constants.IACUC_PROTOCOL_TAB);
+        protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, IacucConstants.PROTOCOL_TAB, notificationBean, false));
+        return getRedirectPathAfterProtocolAction(protocolForm, notificationBean, IacucConstants.PROTOCOL_TAB);
     }
 
     /**
@@ -957,8 +956,8 @@ public class IacucProtocolActionRequestServiceImpl extends ProtocolActionRequest
         saveReviewComments(protocolForm, (IacucReviewCommentsBean) actionBean.getReviewCommentsBean());
         refreshAfterProtocolAction(protocolForm, newDocument.getDocumentNumber(), ACTION_NAME_SRR, false);
         IacucProtocolNotificationRequestBean notificationBean = new IacucProtocolNotificationRequestBean(protocol, IacucProtocolActionType.IACUC_MAJOR_REVISIONS_REQUIRED, "Major Revisions Required");
-        protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, Constants.IACUC_PROTOCOL_TAB, notificationBean, false));
-        return getRedirectPathAfterProtocolAction(protocolForm, notificationBean, Constants.IACUC_PROTOCOL_TAB);
+        protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, IacucConstants.PROTOCOL_TAB, notificationBean, false));
+        return getRedirectPathAfterProtocolAction(protocolForm, notificationBean, IacucConstants.PROTOCOL_TAB);
     }
     
     /**
@@ -973,8 +972,8 @@ public class IacucProtocolActionRequestServiceImpl extends ProtocolActionRequest
         saveReviewComments(protocolForm, (IacucReviewCommentsBean) actionBean.getReviewCommentsBean());
         refreshAfterProtocolAction(protocolForm, newDocument.getDocumentNumber(), ACTION_NAME_RETURN_TO_PI, false);
         IacucProtocolNotificationRequestBean notificationBean = new IacucProtocolNotificationRequestBean(protocol, IacucProtocolActionType.RETURNED_TO_PI, "Return To PI");
-        protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, Constants.IACUC_PROTOCOL_TAB, notificationBean, false));
-        return getRedirectPathAfterProtocolAction(protocolForm, notificationBean, Constants.IACUC_PROTOCOL_TAB);
+        protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, IacucConstants.PROTOCOL_TAB, notificationBean, false));
+        return getRedirectPathAfterProtocolAction(protocolForm, notificationBean, IacucConstants.PROTOCOL_TAB);
     }
 
     /**
@@ -990,8 +989,8 @@ public class IacucProtocolActionRequestServiceImpl extends ProtocolActionRequest
         saveReviewComments(protocolForm, (IacucReviewCommentsBean) actionBean.getReviewCommentsBean());
         recordProtocolActionSuccess(ACTION_NAME_DEACTIVATED);
         IacucProtocolNotificationRequestBean notificationBean = new IacucProtocolNotificationRequestBean(protocol, IacucProtocolActionType.DEACTIVATED, "Deactivated");
-        protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, Constants.IACUC_PROTOCOL_TAB, notificationBean, false));
-        return getRedirectPathAfterProtocolAction(protocolForm, notificationBean, Constants.IACUC_PROTOCOL_TAB);
+        protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, IacucConstants.PROTOCOL_TAB, notificationBean, false));
+        return getRedirectPathAfterProtocolAction(protocolForm, notificationBean, IacucConstants.PROTOCOL_TAB);
     }
     
     /**
@@ -1007,8 +1006,8 @@ public class IacucProtocolActionRequestServiceImpl extends ProtocolActionRequest
         generateActionCorrespondence(IacucProtocolActionType.ADMINISTRATIVE_CORRECTION, protocolForm.getProtocolDocument().getProtocol());
         recordProtocolActionSuccess(ACTION_NAME_MANAGE_ADMINISTRATIVE_CORRECTION);
         IacucProtocolNotificationRequestBean notificationBean = new IacucProtocolNotificationRequestBean(protocol, IacucProtocolActionType.ADMINISTRATIVE_CORRECTION, "Administrative Correction");
-        protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, Constants.IACUC_PROTOCOL_TAB, notificationBean, false));
-        return getRedirectPathAfterProtocolAction(protocolForm, notificationBean, Constants.IACUC_PROTOCOL_TAB);
+        protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, IacucConstants.PROTOCOL_TAB, notificationBean, false));
+        return getRedirectPathAfterProtocolAction(protocolForm, notificationBean, IacucConstants.PROTOCOL_TAB);
     }
     
     /**
@@ -1021,8 +1020,8 @@ public class IacucProtocolActionRequestServiceImpl extends ProtocolActionRequest
         protocolForm.getProtocolHelper().prepareView();
         recordProtocolActionSuccess(ACTION_NAME_RECORD_ABANDON);
         IacucProtocolNotificationRequestBean notificationBean = new IacucProtocolNotificationRequestBean(protocolForm.getIacucProtocolDocument().getIacucProtocol(),IacucProtocolActionType.IACUC_ABANDON, "Abandon");
-        protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, Constants.IACUC_PROTOCOL_ACTIONS_TAB, notificationBean, false));
-        return getRedirectPathAfterProtocolAction(protocolForm, notificationBean, Constants.IACUC_PROTOCOL_TAB);
+        protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, IacucConstants.PROTOCOL_ACTIONS_TAB, notificationBean, false));
+        return getRedirectPathAfterProtocolAction(protocolForm, notificationBean, IacucConstants.PROTOCOL_TAB);
     }
 
     /**
@@ -1056,8 +1055,8 @@ public class IacucProtocolActionRequestServiceImpl extends ProtocolActionRequest
         generateActionCorrespondence(IacucProtocolActionType.TABLED, protocolForm.getProtocolDocument().getProtocol());
         recordProtocolActionSuccess(ACTION_NAME_TABLE_PROTOCOL);                 
         IacucProtocolNotificationRequestBean notificationBean = new IacucProtocolNotificationRequestBean(protocol, IacucProtocolActionType.TABLED, "Tabled");
-        protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, Constants.IACUC_PROTOCOL_TAB, notificationBean, false));
-        return getRedirectPathAfterProtocolAction(protocolForm, notificationBean, Constants.IACUC_PROTOCOL_TAB);
+        protocolForm.getActionHelper().setProtocolCorrespondence(getProtocolCorrespondence(protocolForm, IacucConstants.PROTOCOL_TAB, notificationBean, false));
+        return getRedirectPathAfterProtocolAction(protocolForm, notificationBean, IacucConstants.PROTOCOL_TAB);
     }
     
     /**
@@ -1070,9 +1069,9 @@ public class IacucProtocolActionRequestServiceImpl extends ProtocolActionRequest
         generateActionCorrespondence(IacucProtocolActionType.ADMINISTRATIVELY_WITHDRAWN, protocolForm.getProtocolDocument().getProtocol());
         refreshAfterProtocolAction(protocolForm, pd.getDocumentNumber(), ACTION_NAME_ADMINISTRATIVELY_WITHDRAW, false);
         IacucProtocolNotificationRequestBean notificationBean = new IacucProtocolNotificationRequestBean(protocol, IacucProtocolActionType.ADMINISTRATIVELY_WITHDRAWN, "Administratively Withdrawn");
-        ProtocolCorrespondence newProtocolCorrespondence = getProtocolCorrespondence(protocolForm, Constants.IACUC_PROTOCOL_TAB, notificationBean, false);
+        ProtocolCorrespondence newProtocolCorrespondence = getProtocolCorrespondence(protocolForm, IacucConstants.PROTOCOL_TAB, notificationBean, false);
         protocolForm.getActionHelper().setProtocolCorrespondence(newProtocolCorrespondence);
-        return getRedirectPathAfterProtocolAction(protocolForm, notificationBean, Constants.IACUC_PROTOCOL_TAB);
+        return getRedirectPathAfterProtocolAction(protocolForm, notificationBean, IacucConstants.PROTOCOL_TAB);
     }
     
     /**
@@ -1085,9 +1084,9 @@ public class IacucProtocolActionRequestServiceImpl extends ProtocolActionRequest
         generateActionCorrespondence(IacucProtocolActionType.IACUC_WITHDRAWN, protocolForm.getProtocolDocument().getProtocol());
         refreshAfterProtocolAction(protocolForm, pd.getDocumentNumber(), ACTION_NAME_WITHDRAW, false);
         IacucProtocolNotificationRequestBean notificationBean = new IacucProtocolNotificationRequestBean(protocol, IacucProtocolActionType.IACUC_WITHDRAWN, "Withdrawn");
-        ProtocolCorrespondence newProtocolCorrespondence = getProtocolCorrespondence(protocolForm, Constants.IACUC_PROTOCOL_TAB, notificationBean, false);
+        ProtocolCorrespondence newProtocolCorrespondence = getProtocolCorrespondence(protocolForm, IacucConstants.PROTOCOL_TAB, notificationBean, false);
         protocolForm.getActionHelper().setProtocolCorrespondence(newProtocolCorrespondence);
-        return getRedirectPathAfterProtocolAction(protocolForm, notificationBean, Constants.IACUC_PROTOCOL_TAB);
+        return getRedirectPathAfterProtocolAction(protocolForm, notificationBean, IacucConstants.PROTOCOL_TAB);
     }
     
     /**
@@ -1105,7 +1104,7 @@ public class IacucProtocolActionRequestServiceImpl extends ProtocolActionRequest
             generateActionCorrespondence(IacucProtocolActionType.NOTIFY_IACUC, protocolForm.getProtocolDocument().getProtocol());
             recordProtocolActionSuccess(ACTION_NAME_NOTIFY);
             IacucProtocolNotificationRequestBean notificationBean = new IacucProtocolNotificationRequestBean((IacucProtocol)protocolForm.getProtocolDocument().getProtocol(),IacucProtocolActionType.NOTIFY_IACUC, "Notify IACUC");
-            returnPath = getRedirectPathAfterProtocolAction(protocolForm, notificationBean, Constants.IACUC_PROTOCOL_ACTIONS_TAB);
+            returnPath = getRedirectPathAfterProtocolAction(protocolForm, notificationBean, IacucConstants.PROTOCOL_ACTIONS_TAB);
         }
         return returnPath;
     }
@@ -1123,7 +1122,7 @@ public class IacucProtocolActionRequestServiceImpl extends ProtocolActionRequest
         IacucProtocolNotificationContext context = new IacucProtocolNotificationContext(protocol, IacucProtocolActionType.REVIEW_TYPE_DETERMINATION, "Review Type Determination", renderer);
         if (protocolForm.getNotificationHelper().getPromptUserForNotificationEditor(context)) {
             protocolForm.getNotificationHelper().initializeDefaultValues(context);
-            returnPath = FORWARD_TO_NOTIFICATION_EDITOR;
+            returnPath = IacucConstants.NOTIFICATION_EDITOR;
         } else {
             getNotificationService().sendNotificationAndPersist(context, new IacucProtocolNotification(), protocol);
         }
@@ -1141,9 +1140,9 @@ public class IacucProtocolActionRequestServiceImpl extends ProtocolActionRequest
         generateActionCorrespondence(IacucProtocolActionType.ADMINISTRATIVELY_INCOMPLETE, protocolForm.getProtocolDocument().getProtocol());
         refreshAfterProtocolAction(protocolForm, pd.getDocumentNumber(), ACTION_NAME_ADMINISTRATIVELY_INCOMPLETE, false);
         IacucProtocolNotificationRequestBean notificationBean = new IacucProtocolNotificationRequestBean(protocol, IacucProtocolActionType.ADMINISTRATIVELY_INCOMPLETE, "Administratively Marked Incomplete");
-        ProtocolCorrespondence newProtocolCorrespondence = getProtocolCorrespondence(protocolForm, Constants.IACUC_PROTOCOL_TAB, notificationBean, false);
+        ProtocolCorrespondence newProtocolCorrespondence = getProtocolCorrespondence(protocolForm, IacucConstants.PROTOCOL_TAB, notificationBean, false);
         protocolForm.getActionHelper().setProtocolCorrespondence(newProtocolCorrespondence);
-        return getRedirectPathAfterProtocolAction(protocolForm, notificationBean, Constants.IACUC_PROTOCOL_TAB);
+        return getRedirectPathAfterProtocolAction(protocolForm, notificationBean, IacucConstants.PROTOCOL_TAB);
     }
 
     /**
@@ -1175,7 +1174,7 @@ public class IacucProtocolActionRequestServiceImpl extends ProtocolActionRequest
         return Constants.MAPPING_BASIC;
     }
     
-    protected String performNotificationRendering(IacucProtocolForm protocolForm, List<ProtocolReviewerBeanBase> beans) {
+    public String performNotificationRendering(IacucProtocolForm protocolForm, List<ProtocolReviewerBeanBase> beans) {
         String returnPath = Constants.MAPPING_BASIC;
         IacucProtocol protocol = (IacucProtocol) protocolForm.getProtocolDocument().getProtocol();
         IacucProtocolAssignReviewerNotificationRenderer renderer = new IacucProtocolAssignReviewerNotificationRenderer(protocol, "added");
@@ -1189,8 +1188,8 @@ public class IacucProtocolActionRequestServiceImpl extends ProtocolActionRequest
                 (IacucProtocolOnlineReview)notificationBean.getProtocolOnlineReview(), notificationBean.getActionType(),
                 notificationBean.getDescription(), renderer);
             if (protocolForm.getNotificationHelper().getPromptUserForNotificationEditor(context)) {
-                boolean sendNotification = checkToSendNotification(protocolForm, renderer, addReviewerNotificationBeans, Constants.IACUC_PROTOCOL_ACTIONS_TAB); 
-                returnPath = sendNotification ? FORWARD_TO_NOTIFICATION_EDITOR : Constants.IACUC_PROTOCOL_ACTIONS_TAB;
+                boolean sendNotification = checkToSendNotification(protocolForm, renderer, addReviewerNotificationBeans, IacucConstants.PROTOCOL_ACTIONS_TAB); 
+                returnPath = sendNotification ? IacucConstants.NOTIFICATION_EDITOR : IacucConstants.PROTOCOL_ACTIONS_TAB;
                 if (!CollectionUtils.isEmpty(removeReviewerNotificationBeans)) {
                     GlobalVariables.getUserSession().addObject("removeReviewer", removeReviewerNotificationBeans);
                 }
@@ -1203,8 +1202,8 @@ public class IacucProtocolActionRequestServiceImpl extends ProtocolActionRequest
                     (IacucProtocolOnlineReview)notificationBean.getProtocolOnlineReview(), notificationBean.getActionType(),
                     notificationBean.getDescription(), renderer);
                 if (protocolForm.getNotificationHelper().getPromptUserForNotificationEditor(context)) {
-                    boolean sendNotification = checkToSendNotification(protocolForm, renderer, removeReviewerNotificationBeans, Constants.IACUC_PROTOCOL_ACTIONS_TAB); 
-                    returnPath = sendNotification ? FORWARD_TO_NOTIFICATION_EDITOR : Constants.IACUC_PROTOCOL_ACTIONS_TAB;
+                    boolean sendNotification = checkToSendNotification(protocolForm, renderer, removeReviewerNotificationBeans, IacucConstants.PROTOCOL_ACTIONS_TAB); 
+                    returnPath = sendNotification ? IacucConstants.NOTIFICATION_EDITOR : IacucConstants.PROTOCOL_ACTIONS_TAB;
                 }
             }
         }
@@ -1222,16 +1221,9 @@ public class IacucProtocolActionRequestServiceImpl extends ProtocolActionRequest
     }
 
     /**
-     * This is for assign reviewer and submit for review.  The notificationRequestBeans contains all 'added' or 'removed'
-     * reviewers.  All the roles recipient will be merged, then forward to protocolnotificationeditor for ad hoc notification 
-     * process.
-     * @param protocolForm
-     * @param renderer
-     * @param notificationRequestBeans
-     * @param promptAfterNotification
-     * @return
+     * @see org.kuali.kra.iacuc.actions.IacucProtocolActionRequestService#checkToSendNotification(org.kuali.kra.protocol.ProtocolFormBase, org.kuali.kra.iacuc.notification.IacucProtocolNotificationRenderer, java.util.List, java.lang.String)
      */
-    private boolean checkToSendNotification(ProtocolFormBase protocolForm, IacucProtocolNotificationRenderer renderer, List<ProtocolNotificationRequestBeanBase> notificationRequestBeans, String promptAfterNotification) {
+    public boolean checkToSendNotification(ProtocolFormBase protocolForm, IacucProtocolNotificationRenderer renderer, List<ProtocolNotificationRequestBeanBase> notificationRequestBeans, String promptAfterNotification) {
         IacucProtocolNotificationContext context = new IacucProtocolNotificationContext((IacucProtocol) notificationRequestBeans.get(0).getProtocol(),
             (IacucProtocolOnlineReview)notificationRequestBeans.get(0).getProtocolOnlineReview(), notificationRequestBeans.get(0).getActionType(),
             notificationRequestBeans.get(0).getDescription(), renderer);
@@ -1266,7 +1258,7 @@ public class IacucProtocolActionRequestServiceImpl extends ProtocolActionRequest
                 for (NotificationTypeRecipient recipient : recipients) {
                     try {
                         /* NOTE : need to deepcopy here. If not, then all reviewer role will have same
-                         * notificationrecipient object returned from service call
+                         * notification recipient object returned from service call
                          */
                         NotificationTypeRecipient copiedRecipient = (NotificationTypeRecipient) ObjectUtils.deepCopy(recipient);
                         context.populateRoleQualifiers(copiedRecipient);
@@ -1280,7 +1272,7 @@ public class IacucProtocolActionRequestServiceImpl extends ProtocolActionRequest
             }
             protocolForm.getNotificationHelper().setNotificationRecipients(allRecipients);
             if (promptAfterNotification == null) {
-                context.setForwardName(Constants.RETURN_TO_HOLDING_PAGE);
+                context.setForwardName(RETURN_TO_HOLDING_PAGE);
             } else {
                 context.setForwardName(promptAfterNotification);
             }
@@ -1369,7 +1361,7 @@ public class IacucProtocolActionRequestServiceImpl extends ProtocolActionRequest
 
     @Override
     protected String getNotificationEditorHook() {
-        return FORWARD_TO_NOTIFICATION_EDITOR;
+        return IacucConstants.NOTIFICATION_EDITOR;
     }
 
     @Override
