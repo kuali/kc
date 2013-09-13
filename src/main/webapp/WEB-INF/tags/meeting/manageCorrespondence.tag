@@ -29,7 +29,7 @@
                     </td>
                     <td align="left" valign="middle" class="infoline">
                         <div align="center">
-                        <kul:htmlControlAttribute property="meetingHelper.regeneratedCorrespondences[${status.index}].finalFlag" attributeEntry="${protocolCorrespondenceAttributes.finalFlag}" styleClass="finalclass"readOnly="false" />
+                        <kul:htmlControlAttribute property="meetingHelper.regeneratedCorrespondences[${status.index}].finalFlag" attributeEntry="${protocolCorrespondenceAttributes.finalFlag}" styleClass="finalclass" readOnly="false" />
                         </div>
                     </td>
                         <td>
