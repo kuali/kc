@@ -99,7 +99,8 @@ public abstract class ActionHelperBase implements Serializable {
     protected static final long ONE_DAY = 1000L * 60L * 60L * 24L;
     protected static final String NAMESPACE = "KC-UNT";
     private static final String VIEW_PROTOCOL_CORRESPONDENCE_TASK_NAME = "viewProtocolCorrespondence";
-    private static final String REGENERATE_PROTOCOL_CORRESPONDENCE_TASK_NAME = "regenerateProtocolCorrespondence";
+    private static final String MODIFY_PROTOCOL_CORRESPONDENCE_TASK_NAME = "modifyProtocolCorrespondence";
+    private static final String CREATE_PROTOCOL_CORRESPONDENCE_TASK_NAME = "createProtocolCorrespondence";
     protected transient QuestionnaireAnswerService questionnaireAnswerService;
 
     /**
@@ -184,9 +185,10 @@ public abstract class ActionHelperBase implements Serializable {
     protected boolean canAddSuspendReviewerComments;
     protected boolean canAddTerminateReviewerComments;    
     
-    // added permission checks for regenerating and viewing protocol correspondences
+    // added permission checks for creating modifying and viewing protocol correspondences
     protected boolean canViewProtocolCorrespondence;
-    protected boolean canRegenerateProtocolCorrespondence;
+    protected boolean canModifyProtocolCorrespondence;
+    protected boolean canCreateProtocolCorrespondence;
     
     // new addition that needs to be backfitted to IRB as well
     private boolean canPerformAdminDetermination;
@@ -667,7 +669,8 @@ public abstract class ActionHelperBase implements Serializable {
         canAddTerminateReviewerComments = hasTerminatePermission();
         
         canViewProtocolCorrespondence = hasViewProtocolCorrespondencePermission();
-        canRegenerateProtocolCorrespondence = hasRegenerateProtocolCorrespondencePermission();
+        canModifyProtocolCorrespondence = hasModifyProtocolCorrespondencePermission();
+        canCreateProtocolCorrespondence = hasCreateProtocolCorrespondencePermission();
         
         initSubmissionDetails();
         
@@ -821,8 +824,12 @@ public abstract class ActionHelperBase implements Serializable {
         return hasPermission(VIEW_PROTOCOL_CORRESPONDENCE_TASK_NAME);
     }
     
-    private boolean hasRegenerateProtocolCorrespondencePermission() {
-        return hasPermission(REGENERATE_PROTOCOL_CORRESPONDENCE_TASK_NAME);
+    private boolean hasModifyProtocolCorrespondencePermission() {
+        return hasPermission(MODIFY_PROTOCOL_CORRESPONDENCE_TASK_NAME);
+    }
+    
+    private boolean hasCreateProtocolCorrespondencePermission() {
+        return hasPermission(CREATE_PROTOCOL_CORRESPONDENCE_TASK_NAME);
     }
 
     /**
@@ -2571,14 +2578,17 @@ public abstract class ActionHelperBase implements Serializable {
     public CommitteeIdByUnitValuesFinderBase<?> getNotifyCmtActionCommitteeIdByUnitValuesFinder() {
         return notifyCmtActionCommitteeIdByUnitValuesFinder;
     }
-    
-    public boolean getCanViewProtocolCorrespondence() {
-        return canViewProtocolCorrespondence;
-    }
-    
-    public boolean getCanRegenerateProtocolCorrespondence() {
-        return canRegenerateProtocolCorrespondence;
-    }
 
+    public boolean isAllowedToViewProtocolCorrespondence() {
+        return canViewProtocolCorrespondence || isAllowedToUpdateProtocolCorrespondence();
+    }
+    
+    public boolean isAllowedToUpdateProtocolCorrespondence() {
+        return canModifyProtocolCorrespondence || isAllowedToRegenerateProtocolCorrespondence();
+    }
+    
+    public boolean isAllowedToRegenerateProtocolCorrespondence() {
+        return canCreateProtocolCorrespondence;
+    }
     
 }
