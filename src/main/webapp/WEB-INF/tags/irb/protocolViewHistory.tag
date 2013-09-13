@@ -3,8 +3,10 @@
 <c:set var="kraAttributeReferenceDummyAttributes" value="${DataDictionary.KraAttributeReferenceDummy.attributes}" />
 ${kfunc:registerEditableProperty(KualiForm, "actionHelper.selectedHistoryItem")}
 <c:set var="submissionDocAttributes" value="${DataDictionary.ProtocolSubmissionDoc.attributes}" />
-<c:set var="canViewIRBCorrespondence" value="${KualiForm.actionHelper.canViewProtocolCorrespondence}" />
-<c:set var="canRegenerateIRBCorrespondence" value="${KualiForm.actionHelper.canRegenerateProtocolCorrespondence}" />
+
+<c:set var="canViewIRBCorrespondence" value="${KualiForm.actionHelper.allowedToViewProtocolCorrespondence}" />
+<c:set var="canUpdateIRBCorrespondence" value="${KualiForm.actionHelper.allowedToUpdateProtocolCorrespondence}" />
+<c:set var="canRegenerateIRBCorrespondence" value="${KualiForm.actionHelper.allowedToRegenerateProtocolCorrespondence}" />
 
 <kul:innerTab tabTitle="History" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.filteredHistory*">
 
@@ -165,10 +167,13 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.selectedHistoryItem")}
                                                                       <html:image property="methodToCall.regenerateCorrespondence.line${status.index}.attachment${attachmentStatus.index}.anchor${currentTabIndex}"
                                                                           src='${ConfigProperties.kra.externalizable.images.url}tinybutton-regenerate.gif' styleClass="tinybutton"
                                                                           alt="Regenerate Correspondence" title="Regenerate Correspondence" onclick="excludeSubmitRestriction = true;"/>
+                                                                          
+                                                                  </c:if>
+																  <c:if test="${canUpdateIRBCorrespondence}">                                                                          
                                                                       <html:image property="methodToCall.updateCorrespondence.line${status.index}.attachment${attachmentStatus.index}.anchor${currentTabIndex}"
                                                                           src='${ConfigProperties.kra.externalizable.images.url}tinybutton-update.gif' styleClass="tinybutton"
                                                                           alt="Update Correspondence" title="Update Correspondence" onclick="excludeSubmitRestriction = true;"/>
-                                                                   </c:if>
+                                                                  </c:if>
 								                               </div>
 							                                 </td>
 		           		    	                        </tr>

@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.irb.auth;
 
-public class RegenerateIRBProtocolCorrespondenceAuthorizer extends ProtocolAuthorizer {
+public class CreateIRBProtocolCorrespondenceAuthorizer extends ProtocolAuthorizer {
 
-    private static final String REGENERATE_IRB_CORRESPONDENCE_PERMISSION_NAME = "Regenerate IRB Correspondence";
+    private static final String CREATE_IRB_CORRESPONDENCE_PERMISSION_NAME = "Create IRB Correspondence";
 
     @Override
     public boolean isAuthorized(String userId, ProtocolTask task) {
-        return hasPermission(userId, task.getProtocol(), REGENERATE_IRB_CORRESPONDENCE_PERMISSION_NAME);
+        return hasPermission(userId, task.getProtocol(), CREATE_IRB_CORRESPONDENCE_PERMISSION_NAME);
     }
 
 }
