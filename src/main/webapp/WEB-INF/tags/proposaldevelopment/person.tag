@@ -13,9 +13,17 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-<%@ include file="/WEB-INF/jsp/proposaldevelopment/proposalPerson.jsp"%>
+ <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<c:set var="proposalPersonExtendedAttributes" value="${DataDictionary.ProposalPersonExtendedAttributes.attributes}" />
+ <%@ attribute name="proposalPerson" description="The ProposalPerson which this is for." required="true" %>
+ <%@ attribute name="index" description="Index of the property for a ProposalPerson" required="false" %>
+ <%@ attribute name="personIndex" description="Index of a ProposalPerson" required="true" %>
+
+ <c:set var="proposalPersonAttributes" value="${DataDictionary.ProposalPerson.attributes}" />
+ <c:set var="viewOnly" value="${KualiForm.editingMode['viewOnly']}" />
+ <c:set var="isParent" value="${KualiForm.document.developmentProposalList[0].parent}" />
+
+ <c:set var="proposalPersonExtendedAttributes" value="${DataDictionary.ProposalPersonExtendedAttributes.attributes}" />
 <%--
 <c:set var="proposalPersonExtendedAttributes" value="${DataDictionary.ProposalPersonExtendedAttributes.attributes}" />
  --%>
