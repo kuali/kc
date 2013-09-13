@@ -12,5 +12,5 @@
         ${kfunc:registerEditableProperty(KualiForm, prop)}
         <input type="hidden" name="${prop}" id ="${prop}" 
                value = "${bean.answerHeaders[ahstatus.index].showQuestions}" />
-        <kra-questionnaire:questionnaireAnswersInnerTab bean = "${disclProjectBean.projectQuestionnaireHelper}"property = "${property}" answerHeaderIndex = "${ahstatus.index}" parentTab="${parentTab}"/>              
+        <kra-questionnaire:questionnaireAnswersInnerTab bean="${disclProjectBean.projectQuestionnaireHelper}" property="${property}" answerHeaderIndex="${ahstatus.index}" parentTab="${parentTab}"/>
     </c:forEach>
