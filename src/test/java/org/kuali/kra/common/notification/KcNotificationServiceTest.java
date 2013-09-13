@@ -328,7 +328,7 @@ public class KcNotificationServiceTest extends KcUnitTestBase {
                 notificationTypes.add(notificationType);
             }
             
-            allowing(service).findMatching(with(any(Class.class)), with(Matchers.anyOf(matcherArray)));
+            allowing(service).findMatching(with(any(Class.class)), (Map<String, ?>) with(Matchers.anyOf(matcherArray)));
             will(returnValue(notificationTypes));
             
             Map<String, String> fieldValues = new HashMap<String, String>();
