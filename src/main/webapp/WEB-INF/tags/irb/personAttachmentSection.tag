@@ -14,7 +14,18 @@
  limitations under the License.
 --%>
 <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
-<%@ include file="/WEB-INF/jsp/irb/ProtocolPerson.jsp"%>
+
+<%@ attribute name="personIndex" description="Index of a ProposalPerson" required="true" %>
+<%@ attribute name="protocolPerson" description="Index of a Protocol person" required="true" %>
+
+<c:set var="protocolPersonAttributes" value="${DataDictionary.ProtocolPerson.attributes}" />
+<c:set var="personAttributes" value="${DataDictionary.KcPerson.attributes}" />
+<c:set var="protocolUnitsAttributes" value="${DataDictionary.ProtocolUnit.attributes}" />
+<c:set var="unitAttributes" value="${DataDictionary.Unit.attributes}" />
+<c:set var="protocolAttachmentPersonnelAttributes" value="${DataDictionary.ProtocolAttachmentPersonnel.attributes}" />
+<c:set var="attachmentFileAttributes" value="${DataDictionary.AttachmentFile.attributes}" />
+<c:set var="viewOnly" value="${KualiForm.editingMode['viewOnly']}" />
+
 <c:set var="narrativeAttributes" value="${DataDictionary.Narrative.attributes}" />
 
 <c:choose>

@@ -13,9 +13,17 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 --%>
-<%@ include file="/WEB-INF/jsp/proposaldevelopment/proposalPerson.jsp"%>
+  <%@ include file="/WEB-INF/jsp/kraTldHeader.jsp"%>
 
-<c:set var="personUnitAttributes" value="${DataDictionary.ProposalPersonUnit.attributes}" />
+  <%@ attribute name="proposalPerson" description="The ProposalPerson which this is for." required="true" %>
+  <%@ attribute name="index" description="Index of the property for a ProposalPerson" required="false" %>
+  <%@ attribute name="personIndex" description="Index of a ProposalPerson" required="true" %>
+
+  <c:set var="proposalPersonAttributes" value="${DataDictionary.ProposalPerson.attributes}" />
+  <c:set var="viewOnly" value="${KualiForm.editingMode['viewOnly']}" />
+  <c:set var="isParent" value="${KualiForm.document.developmentProposalList[0].parent}" />
+
+  <c:set var="personUnitAttributes" value="${DataDictionary.ProposalPersonUnit.attributes}" />
 <c:set var="unitAttributes" value="${DataDictionary.Unit.attributes}" />
 <c:set var="piRole" value="<%= org.kuali.kra.infrastructure.Constants.PRINCIPAL_INVESTIGATOR_ROLE %>" />
 <bean:define id="currentPerson" name="KualiForm" property="${proposalPerson}" />
