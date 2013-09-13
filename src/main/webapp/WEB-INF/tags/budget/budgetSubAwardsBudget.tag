@@ -150,7 +150,7 @@
 			        			</tr>
 			        			<tr>		        					
 					        		<th width="25%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetSubAwardsAttributes.xfdUpdateTimestamp}" noColon="true" /></div></th>
-					        		<td><div align="left"><kul:htmlControlAttribute property="document.budget.budgetSubAwards[${status.index}].xfdUpdateTimestamp" attributeEntry="${budgetSubAwardsAttributes.xfdUpdateTimestamp}"readOnly="true"/></div></td>
+					        		<td><div align="left"><kul:htmlControlAttribute property="document.budget.budgetSubAwards[${status.index}].xfdUpdateTimestamp" attributeEntry="${budgetSubAwardsAttributes.xfdUpdateTimestamp}" readOnly="true"/></div></td>
 			        			</tr>
 			        			<tr>		        					
 					        		<th width="25%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${budgetSubAwardsAttributes.xmlUpdateTimestamp}" noColon="true" /></div></th>
