@@ -308,7 +308,64 @@
 
     <!-- Notification system servlets -->
     <!-- Notification System Spring MVC UI -->
-	${rice.ken.servlet}
+    <servlet>
+        <servlet-name>notification</servlet-name>
+        <servlet-class>org.kuali.kra.rice.ConditionalInitDispatcherServlet</servlet-class>
+        <init-param>
+            <param-name>initConfigPropertyName</param-name>
+            <param-value>ken.mode</param-value>
+        </init-param>
+        <init-param>
+            <param-name>initConfigPropertyValue</param-name>
+            <param-value>LOCAL</param-value>
+        </init-param>
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>ken/WEB-INF/notification-servlet.xml</param-value>
+        </init-param>
+        <init-param>
+            <description>this init parameter is Ken's module prefix within the containing webapp, it is propagated as a
+                property in the XmlApplicationContext
+            </description>
+            <param-name>prefix</param-name>
+            <param-value>/ken</param-value>
+        </init-param>
+        <load-on-startup>2</load-on-startup>
+    </servlet>
+    <servlet>
+        <servlet-name>kcb</servlet-name>
+        <servlet-class>org.kuali.kra.rice.ConditionalInitDispatcherServlet</servlet-class>
+        <init-param>
+            <param-name>initConfigPropertyName</param-name>
+            <param-value>kcb.mode</param-value>
+        </init-param>
+        <init-param>
+            <param-name>initConfigPropertyValue</param-name>
+            <param-value>LOCAL</param-value>
+        </init-param>
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>kcb/WEB-INF/kcb-servlet.xml</param-value>
+        </init-param>
+        <init-param>
+            <description>this init parameter is KCB's module prefix within the containing webapp, it is propagated as a
+                property in the XmlApplicationContext
+            </description>
+            <param-name>prefix</param-name>
+            <param-value>/kcb</param-value>
+        </init-param>
+        <load-on-startup>2</load-on-startup>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>notification</servlet-name>
+        <url-pattern>*.form</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>kcb</servlet-name>
+        <url-pattern>*.kcb</url-pattern>
+    </servlet-mapping>
     
 	<servlet-mapping>
 		<servlet-name>remoting</servlet-name>
