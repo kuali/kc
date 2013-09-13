@@ -66,6 +66,7 @@ public abstract class ProtocolActionRequestServiceImpl implements ProtocolAction
     private QuestionnaireAnswerService questionnaireAnswerService;
 
     private static final String FORWARD_TO_CORRESPONDENCE = "correspondence";
+    protected static final String RETURN_TO_HOLDING_PAGE = "holdingPage";
     
     protected static final String ACTION_NAME_AMENDMENT = "Create Amendment";
     protected static final String ACTION_NAME_RENEWAL_WITHOUT_AMENDMENT = "Create Renewal without Amendment";
@@ -184,7 +185,10 @@ public abstract class ProtocolActionRequestServiceImpl implements ProtocolAction
         protocolForm.getActionHelper().prepareCommentsView();
     }
     
-    protected boolean hasDocumentStateChanged(ProtocolFormBase protocolForm) {
+    /**
+     * @see org.kuali.kra.protocol.actions.ProtocolActionRequestService#hasDocumentStateChanged(org.kuali.kra.protocol.ProtocolFormBase)
+     */
+    public boolean hasDocumentStateChanged(ProtocolFormBase protocolForm) {
         boolean result = false;
         Map<String,Object> primaryKeys = new HashMap<String, Object>();
         primaryKeys.put("protocolId", protocolForm.getProtocolDocument().getProtocol().getProtocolId());
@@ -260,7 +264,7 @@ public abstract class ProtocolActionRequestServiceImpl implements ProtocolAction
         }
     }
     
-    protected boolean checkToSendNotification(ProtocolFormBase protocolForm, ProtocolNotificationRequestBeanBase notificationRequestBean, String promptAfterNotification) {
+    public boolean checkToSendNotification(ProtocolFormBase protocolForm, ProtocolNotificationRequestBeanBase notificationRequestBean, String promptAfterNotification) {
         ProtocolBase protocol = protocolForm.getProtocolDocument().getProtocol();
         ProtocolNotificationContextBase context = getProtocolNotificationContextHook(notificationRequestBean, protocolForm);
         if (protocolForm.getNotificationHelper().getPromptUserForNotificationEditor(context)) {
@@ -273,9 +277,8 @@ public abstract class ProtocolActionRequestServiceImpl implements ProtocolAction
         }
     }    
 
-    protected ProtocolCorrespondence getProtocolCorrespondence (ProtocolFormBase protocolForm, String forwardName, ProtocolNotificationRequestBeanBase notificationRequestBean, boolean holdingPage) {
+    public ProtocolCorrespondence getProtocolCorrespondence (ProtocolFormBase protocolForm, String forwardName, ProtocolNotificationRequestBeanBase notificationRequestBean, boolean holdingPage) {
         Map<String,Object> keyValues = new HashMap<String, Object>();
-        // actionid <-> action.actionid  actionidfk<->action.protocolactionid
         keyValues.put("actionIdFk", protocolForm.getProtocolDocument().getProtocol().getLastProtocolAction().getProtocolActionId());
         List<? extends ProtocolCorrespondence> correspondences = (List<? extends ProtocolCorrespondence>)getBusinessObjectService().findMatching(getProtocolCorrespondenceBOClassHook(), keyValues);
         if (correspondences.isEmpty()) {

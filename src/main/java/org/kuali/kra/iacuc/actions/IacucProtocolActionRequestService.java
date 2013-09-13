@@ -18,8 +18,11 @@ package org.kuali.kra.iacuc.actions;
 import java.util.List;
 
 import org.kuali.kra.iacuc.IacucProtocolForm;
+import org.kuali.kra.iacuc.notification.IacucProtocolNotificationRenderer;
+import org.kuali.kra.protocol.ProtocolFormBase;
 import org.kuali.kra.protocol.actions.ProtocolActionRequestService;
 import org.kuali.kra.protocol.actions.submit.ProtocolReviewerBeanBase;
+import org.kuali.kra.protocol.notification.ProtocolNotificationRequestBeanBase;
 
 public interface IacucProtocolActionRequestService extends ProtocolActionRequestService {
 
@@ -539,4 +542,18 @@ public interface IacucProtocolActionRequestService extends ProtocolActionRequest
      */
     public String assignCommittee(IacucProtocolForm protocolForm) throws Exception;
     
+    /**
+     * This is for assign reviewer and submit for review.  The notificationRequestBeans contains all 'added' or 'removed'
+     * reviewers.  All the roles recipient will be merged, then forward to protocolnotificationeditor for ad hoc notification 
+     * process.
+     * @param protocolForm
+     * @param renderer
+     * @param notificationRequestBeans
+     * @param promptAfterNotification
+     * @return
+     */
+    public boolean checkToSendNotification(ProtocolFormBase protocolForm, IacucProtocolNotificationRenderer renderer, List<ProtocolNotificationRequestBeanBase> notificationRequestBeans, String promptAfterNotification);
+
+    public String performNotificationRendering(IacucProtocolForm protocolForm, List<ProtocolReviewerBeanBase> beans);
+
 }

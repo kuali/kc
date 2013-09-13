@@ -15,10 +15,6 @@
  */
 package org.kuali.kra.iacuc;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -30,6 +26,7 @@ import org.kuali.kra.iacuc.actions.IacucProtocolActionRequestService;
 import org.kuali.kra.iacuc.actions.IacucProtocolActionType;
 import org.kuali.kra.iacuc.auth.IacucProtocolTask;
 import org.kuali.kra.iacuc.correspondence.IacucProtocolCorrespondence;
+import org.kuali.kra.iacuc.infrastructure.IacucConstants;
 import org.kuali.kra.iacuc.notification.IacucProtocolNotification;
 import org.kuali.kra.iacuc.notification.IacucProtocolNotificationContext;
 import org.kuali.kra.iacuc.notification.IacucProtocolNotificationRenderer;
@@ -104,11 +101,6 @@ public class IacucProtocolAction extends ProtocolActionBase {
         iacucProtocol.setIacucProtocolStudyGroupBeans(getIacucProtocolProcedureService().getRevisedStudyGroupBeans(iacucProtocol, 
                 protocolForm.getIacucProtocolProceduresHelper().getAllProcedures()));
         return branchToPanelOrNotificationEditor(mapping, protocolForm, IACUC_PROTOCOL_PROCEDURES);
-    }
-
-    private ActionForward checkForPendingNotificationEdit(ActionMapping mapping, ProtocolFormBase form, String originalForwardName) {
-        
-        return mapping.findForward("iacucProtocolProcedures");
     }
 
     protected String getProtocolForwardNameHook() {
@@ -221,23 +213,11 @@ public class IacucProtocolAction extends ProtocolActionBase {
     }
 
     protected String getProtocolNotificationEditorHook() {
-        return "iacucProtocolNotificationEditor";
+        return IacucConstants.NOTIFICATION_EDITOR;
     }
     
     protected IacucProtocolCorrespondence getProtocolCorrespondence (ProtocolFormBase protocolForm, String forwardName, ProtocolNotificationRequestBeanBase notificationRequestBean, boolean holdingPage) {
-        Map<String,Object> keyValues = new HashMap<String, Object>();
-        keyValues.put("actionIdFk", protocolForm.getProtocolDocument().getProtocol().getLastProtocolAction().getProtocolActionId());
-        List<IacucProtocolCorrespondence> correspondences = (List<IacucProtocolCorrespondence>)getBusinessObjectService().findMatching(IacucProtocolCorrespondence.class, keyValues);
-        if (correspondences.isEmpty()) {
-            return null;
-        } else {
-            IacucProtocolCorrespondence correspondence = correspondences.get(0);
-            correspondence.setForwardName(forwardName);
-            correspondence.setNotificationRequestBean(notificationRequestBean);
-            correspondence.setHoldingPage(holdingPage);
-            return correspondence;
-            
-        }
+        return (IacucProtocolCorrespondence)getProtocolActionRequestService().getProtocolCorrespondence(protocolForm, forwardName, notificationRequestBean, holdingPage);
     }
     
     protected IacucProtocolActionRequestService getProtocolActionRequestService() {
