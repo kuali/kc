@@ -22,6 +22,7 @@ import java.util.Map;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.FiscalYearMonthService;
@@ -29,11 +30,14 @@ import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.coreservice.api.parameter.Parameter;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 
+/**
+ * This test is very fragile.  It depends on test methods running in an exact order.  This has been partially fixed.
+ */
 public class FiscalYearMonthServiceImplTest extends KcUnitTestBase {
     FiscalYearMonthServiceImpl fiscalYearMonthService;
     @Before
     public void setUp() throws Exception {
-        fiscalYearMonthService = (FiscalYearMonthServiceImpl) KraServiceLocator.getService(FiscalYearMonthService.class); 
+        fiscalYearMonthService = (FiscalYearMonthServiceImpl) KraServiceLocator.getService(FiscalYearMonthService.class);
     }
 
     @After
@@ -143,23 +147,23 @@ public class FiscalYearMonthServiceImplTest extends KcUnitTestBase {
         data = fiscalYearMonthService.getCurrentFiscalData(july);
         assertEquals(new Integer(Calendar.JULY), data.get(FiscalYearMonthServiceImpl.MONTH_KEY));
         assertEquals(new Integer(2012), data.get(FiscalYearMonthServiceImpl.YEAR_KEY));
-    }
-    
-    @Test
-    public void testGetFiscalYearStartDate2() {
+
         assertEquals(new Integer(0), fiscalYearMonthService.getFiscalYearMonth());
         Calendar result = this.fiscalYearMonthService.getFiscalYearStartDate(2010);
         assertEquals(Calendar.JANUARY, result.get(Calendar.MONTH));
         assertEquals(2010, result.get(Calendar.YEAR));
         assertEquals(1, result.get(Calendar.DATE));
-    }
-    
-    @Test
-    public void testGetFiscalYearEndDate2() {
+
         assertEquals(new Integer(0), fiscalYearMonthService.getFiscalYearMonth());
-        Calendar result = this.fiscalYearMonthService.getFiscalYearEndDate(2010);
+        result = this.fiscalYearMonthService.getFiscalYearEndDate(2010);
         assertEquals(Calendar.DECEMBER, result.get(Calendar.MONTH));
         assertEquals(2010, result.get(Calendar.YEAR));
         assertEquals(31, result.get(Calendar.DATE));
+
+        parm = getParameterService().getParameter(FiscalYearMonthServiceImpl.KC_GENERAL_NAMESPACE,
+                FiscalYearMonthServiceImpl.DOCUMENT_COMPONENT_NAME, FiscalYearMonthServiceImpl.FISCAL_YEAR_MONTH_PARAMETER_NAME);
+        parameterForUpdate = Parameter.Builder.create(parm);
+        parameterForUpdate.setValue("6");
+        getParameterService().updateParameter(parameterForUpdate.build());
     }
 }
