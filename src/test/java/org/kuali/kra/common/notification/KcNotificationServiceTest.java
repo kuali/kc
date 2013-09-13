@@ -306,7 +306,7 @@ public class KcNotificationServiceTest extends KcUnitTestBase {
                 fieldValues.put(ACTION_CODE_FIELD, actionTypeCode);
                 matchers.add(equal(fieldValues));
             }
-            Matcher<Map<String, String>>[] matcherArray = matchers.toArray(new Matcher[matchers.size()]);
+            Matcher<Map<String, ?>>[] matcherArray = matchers.toArray(new Matcher[matchers.size()]);
             
             List<NotificationType> notificationTypes = new ArrayList<NotificationType>();
             for (String actionTypeCode : actionTypeCodes) {
@@ -328,7 +328,7 @@ public class KcNotificationServiceTest extends KcUnitTestBase {
                 notificationTypes.add(notificationType);
             }
             
-            allowing(service).findMatching(with(any(Class.class)), with(Matchers.anyOf(matcherArray))); 
+            allowing(service).findMatching(with(any(Class.class)), with(Matchers.anyOf(matcherArray)));
             will(returnValue(notificationTypes));
             
             Map<String, String> fieldValues = new HashMap<String, String>();
