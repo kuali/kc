@@ -35,7 +35,6 @@ import org.kuali.kra.bo.AttachmentFile;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinuteBase;
 import org.kuali.kra.common.committee.meeting.MinuteEntryType;
 import org.kuali.kra.common.notification.bo.NotificationType;
-import org.kuali.kra.common.notification.bo.NotificationTypeRecipient;
 import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.IacucProtocolAction;
@@ -54,7 +53,6 @@ import org.kuali.kra.iacuc.actions.followup.IacucFollowupActionService;
 import org.kuali.kra.iacuc.actions.genericactions.IacucProtocolGenericActionBean;
 import org.kuali.kra.iacuc.actions.modifysubmission.IacucProtocolModifySubmissionBean;
 import org.kuali.kra.iacuc.actions.modifysubmission.IacucProtocolModifySubmissionService;
-import org.kuali.kra.iacuc.actions.notifyiacuc.NotifyIacucNotificationRenderer;
 import org.kuali.kra.iacuc.actions.print.IacucProtocolPrintingService;
 import org.kuali.kra.iacuc.actions.request.IacucProtocolRequestBean;
 import org.kuali.kra.iacuc.actions.reviewcomments.IacucProtocolAddReviewAttachmentEvent;
@@ -73,18 +71,13 @@ import org.kuali.kra.iacuc.auth.IacucProtocolTask;
 import org.kuali.kra.iacuc.committee.meeting.IacucCommitteeScheduleMinute;
 import org.kuali.kra.iacuc.correspondence.IacucProtocolActionCorrespondenceGenerationService;
 import org.kuali.kra.iacuc.correspondence.IacucProtocolActionsCorrespondence;
+import org.kuali.kra.iacuc.infrastructure.IacucConstants;
 import org.kuali.kra.iacuc.noteattachment.IacucProtocolAttachmentPersonnel;
 import org.kuali.kra.iacuc.noteattachment.IacucProtocolAttachmentProtocol;
 import org.kuali.kra.iacuc.noteattachment.IacucProtocolAttachmentService;
-import org.kuali.kra.iacuc.notification.IacucProtocolAssignReviewerNotificationRenderer;
-import org.kuali.kra.iacuc.notification.IacucProtocolNotification;
 import org.kuali.kra.iacuc.notification.IacucProtocolNotificationContext;
 import org.kuali.kra.iacuc.notification.IacucProtocolNotificationRenderer;
 import org.kuali.kra.iacuc.notification.IacucProtocolNotificationRequestBean;
-import org.kuali.kra.iacuc.notification.IacucProtocolRequestActionNotificationRenderer;
-import org.kuali.kra.iacuc.notification.IacucProtocolWithReasonNotificationRenderer;
-import org.kuali.kra.iacuc.notification.IacucRequestActionNotificationBean;
-import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReview;
 import org.kuali.kra.iacuc.onlinereview.IacucProtocolReviewAttachment;
 import org.kuali.kra.iacuc.questionnaire.print.IacucQuestionnairePrintingService;
 import org.kuali.kra.infrastructure.Constants;
@@ -112,7 +105,6 @@ import org.kuali.kra.protocol.actions.undo.UndoLastActionBean;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondence;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentBase;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentProtocolBase;
-import org.kuali.kra.protocol.notification.ProtocolNotificationRequestBeanBase;
 import org.kuali.kra.protocol.summary.AttachmentSummary;
 import org.kuali.kra.protocol.summary.ProtocolSummary;
 import org.kuali.kra.service.TaskAuthorizationService;
@@ -121,18 +113,13 @@ import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.kra.web.struts.action.KraTransactionalDocumentActionBase;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
 import org.kuali.rice.core.api.datetime.DateTimeService;
-import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kim.api.identity.IdentityService;
-import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kns.document.authorization.DocumentAuthorizerBase;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
-import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.krad.document.authorization.PessimisticLock;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
-import org.springframework.util.CollectionUtils;
 
 public class IacucProtocolActionsAction extends IacucProtocolAction {
     
@@ -141,9 +128,6 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
     private static final String CONFIRM_DELETE_ACTION_ATT = "confirmDeleteActionAttachment";
     private static final String CONFIRM_FOLLOWUP_ACTION = "confirmAddFollowupAction";
 
-    private static final String PROTOCOL_TAB = "iacucProtocol";
-    private static final String PROTOCOL_ACTIONS_TAB = "iacucProtocolActions";
-    
     private static final String CONFIRM_SUBMIT_FOR_REVIEW_KEY = "confirmSubmitForReview";
     
     private static final String NOT_FOUND_SELECTION = "The attachment was not found for selection ";
@@ -228,7 +212,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
             protocolForm.getActionHelper().setCurrentSubmissionNumber(-1);
             protocolForm.getProtocolHelper().prepareView();
             
-            return mapping.findForward(PROTOCOL_TAB);
+            return mapping.findForward(IacucConstants.PROTOCOL_TAB);
         }
 
         return mapping.findForward(Constants.MAPPING_BASIC);
@@ -688,14 +672,14 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
             
             // send out notification that protocol has been deleted and record success
             IacucProtocolNotificationRequestBean newNotificationBean = new IacucProtocolNotificationRequestBean(protocol, IacucProtocolActionType.IACUC_DELETED, "Deleted");
-            ProtocolCorrespondence newProtocolCorrespondence = getProtocolCorrespondence(protocolForm, PROTOCOL_ACTIONS_TAB, newNotificationBean, false);
+            ProtocolCorrespondence newProtocolCorrespondence = getProtocolCorrespondence(protocolForm, IacucConstants.PROTOCOL_ACTIONS_TAB, newNotificationBean, false);
             protocolForm.getActionHelper().setProtocolCorrespondence(newProtocolCorrespondence);
             recordProtocolActionSuccess("Delete ProtocolBase, Amendment, or Renewal");
             
             if (newProtocolCorrespondence != null) {
                 return mapping.findForward(CORRESPONDENCE);
             } else {
-                return checkToSendNotification(mapping, mapping.findForward(PROTOCOL_TAB), protocolForm, newNotificationBean);
+                return checkToSendNotification(mapping, IacucConstants.PROTOCOL_TAB, (IacucProtocolForm)protocolForm, newNotificationBean);
             }
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
@@ -2194,91 +2178,13 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
      * @param protocolForm
      */
     private boolean hasDocumentStateChanged(IacucProtocolForm protocolForm) {
-        boolean result = false;
-        
-        Map<String,Object> primaryKeys = new HashMap<String, Object>();
-        primaryKeys.put("protocolId", protocolForm.getProtocolDocument().getProtocol().getProtocolId());
-        IacucProtocol dbProtocol = getBusinessObjectService().findByPrimaryKey(IacucProtocol.class, primaryKeys);
-        
-        //First lets check the protocol status & submission status
-        if (dbProtocol != null) {
-            if (!StringUtils.equals(dbProtocol.getProtocolStatusCode(), 
-                    protocolForm.getProtocolDocument().getProtocol().getProtocolStatusCode())) {
-                result = true;
-            }
-            
-            if (dbProtocol.getProtocolSubmission() != null && 
-                    protocolForm.getProtocolDocument().getProtocol().getProtocolSubmission().getSubmissionStatusCode() != null) {
-                if (!StringUtils.equals(dbProtocol.getProtocolSubmission().getSubmissionStatusCode(), 
-                        protocolForm.getProtocolDocument().getProtocol().getProtocolSubmission().getSubmissionStatusCode())) {
-                    result = true;
-                }
-            }
-        }
-        
-        //If no changes in the protocol, lets check the document for workflow changes
-        if (!result) {
-           result = !isDocumentPostprocessingComplete(protocolForm.getIacucProtocolDocument());
-        }
-        
-        return result;
+        return getProtocolActionRequestService().hasDocumentStateChanged(protocolForm);
     }
     
-    
-    private boolean isDocumentPostprocessingComplete(IacucProtocolDocument document) {
-        return document.getDocumentHeader().hasWorkflowDocument() && !isPessimisticallyLocked(document);
-    }
-    
-    
-    private boolean isPessimisticallyLocked(Document document) {
-        boolean isPessimisticallyLocked = false;
-        
-        Person pessimisticLockHolder = getPersonService().getPersonByPrincipalName(KewApiConstants.SYSTEM_USER);
-        for (PessimisticLock pessimisticLock : document.getPessimisticLocks()) {
-            if (pessimisticLock.isOwnedByUser(pessimisticLockHolder)) {
-                isPessimisticallyLocked = true;
-                break;
-            }
-        }
-        
-        return isPessimisticallyLocked;
-    }
-    
-    
-    
-    private ActionForward checkToSendNotification(ActionMapping mapping, ActionForward forward, ProtocolFormBase form, IacucProtocolNotificationRequestBean notificationRequestBean) {
-        
-              IacucProtocolNotificationRenderer renderer = null;
-              IacucProtocol protocol = (IacucProtocol)notificationRequestBean.getProtocol();
-              IacucProtocolForm protocolForm = (IacucProtocolForm)form;
-              
-              if (StringUtils.equals(IacucProtocolActionType.NOTIFY_IACUC, notificationRequestBean.getActionType())) {
-                  renderer = new NotifyIacucNotificationRenderer(protocol, ((IacucActionHelper)protocolForm.getActionHelper()).getIacucProtocolNotifyIacucBean().getComment());
-              } else if (StringUtils.equals(IacucProtocolActionType.IACUC_DELETED, notificationRequestBean.getActionType()) ||
-                         StringUtils.equals(IacucProtocolActionType.IACUC_WITHDRAWN, notificationRequestBean.getActionType())) {
-                  renderer = new IacucProtocolWithReasonNotificationRenderer(protocol, protocolForm.getActionHelper().getProtocolDeleteBean());
-              } else if (StringUtils.equals(IacucProtocolActionType.REQUEST_DEACTIVATE, notificationRequestBean.getActionType()) ||
-                         StringUtils.equals(IacucProtocolActionType.REQUEST_LIFT_HOLD, notificationRequestBean.getActionType())) {
-                  IacucRequestActionNotificationBean requestNotificationRequestBean = (IacucRequestActionNotificationBean)notificationRequestBean; 
-                  renderer = new IacucProtocolRequestActionNotificationRenderer(protocol, requestNotificationRequestBean.getReason());
-              
-              } else if (StringUtils.equals(IacucProtocolActionType.IACUC_REQUEST_SUSPEND, notificationRequestBean.getActionType())) {
-                  IacucProtocolRequestBean iacucProtocolSuspendRequestBean = ((IacucActionHelper)protocolForm.getActionHelper()).getIacucProtocolSuspendRequestBean();
-                  renderer = new NotifyIacucNotificationRenderer(protocol, iacucProtocolSuspendRequestBean.getReason());
-              } else {
-                  renderer = new IacucProtocolNotificationRenderer(protocol);
-              }
-                  
-              IacucProtocolNotificationContext context = new IacucProtocolNotificationContext(protocol, notificationRequestBean.getActionType(), notificationRequestBean.getDescription(), renderer);
-              if (protocolForm.getNotificationHelper().getPromptUserForNotificationEditor(context)) {
-                  context.setForwardName(forward.getName());
-                  protocolForm.getNotificationHelper().initializeDefaultValues(context);
-                  return mapping.findForward("iacucProtocolNotificationEditor");
-              } else {
-                  getNotificationService().sendNotificationAndPersist(context, new IacucProtocolNotification(), protocol);
-                  return forward;
-              }
-          }    
+    private ActionForward checkToSendNotification(ActionMapping mapping, String forwardName, IacucProtocolForm protocolForm, IacucProtocolNotificationRequestBean notificationRequestBean) {
+        boolean sendNotification = getProtocolActionRequestService().checkToSendNotification(protocolForm, notificationRequestBean, forwardName); 
+        return sendNotification ? mapping.findForward(IacucConstants.NOTIFICATION_EDITOR) : mapping.findForward(forwardName);
+    }    
     
     public ActionForward sendNotification(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         IacucProtocolForm protocolForm = (IacucProtocolForm) form;
@@ -2289,7 +2195,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         
         protocolForm.getNotificationHelper().initializeDefaultValues(context);
         
-        return mapping.findForward("iacucProtocolNotificationEditor");
+        return mapping.findForward(IacucConstants.NOTIFICATION_EDITOR);
     }
 
     
@@ -2328,6 +2234,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
         return correspondenceAction(mapping, form, false);
     }
 
+    @SuppressWarnings("deprecation")
     private ActionForward correspondenceAction(ActionMapping mapping, ActionForm form, boolean saveAction) {
         IacucProtocolForm protocolForm = ((IacucProtocolForm) form);
         IacucActionHelper actionHelper = (IacucActionHelper) protocolForm.getActionHelper();
@@ -2340,15 +2247,13 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
             }
             getBusinessObjectService().save(correspondence);
         }
-        // TODO : this is a hack for fullapprove to restore key
         if (GlobalVariables.getUserSession().retrieveObject("approvalComplCorrespondence") != null) {
                GlobalVariables.getUserSession().addObject(DocumentAuthorizerBase.USER_SESSION_METHOD_TO_CALL_COMPLETE_OBJECT_KEY, GlobalVariables.getUserSession().retrieveObject("approvalComplCorrespondence"));
                GlobalVariables.getUserSession().removeObject("approvalComplCorrespondence");
         }
 
-        // TODO : forward will be based different action correspondence. this is a test for withdraw
         if (correspondence.getNotificationRequestBean() != null) {
-            return checkToSendNotification(mapping, mapping.findForward(correspondence.getForwardName()), protocolForm,
+            return checkToSendNotification(mapping, correspondence.getForwardName(), protocolForm,
                     (IacucProtocolNotificationRequestBean) correspondence.getNotificationRequestBean());
         } else {
             if (correspondence.isHoldingPage()) {
@@ -2383,7 +2288,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
             protocolCorrespondence.setFinalFlag(false);
             protocolCorrespondence.setCreateUser(GlobalVariables.getUserSession().getPrincipalName());
             protocolCorrespondence.setCreateTimestamp(KraServiceLocator.getService(DateTimeService.class).getCurrentTimestamp());
-            protocolCorrespondence.setForwardName(PROTOCOL_ACTIONS_TAB);
+            protocolCorrespondence.setForwardName(IacucConstants.PROTOCOL_ACTIONS_TAB);
             protocolForm.getActionHelper().setProtocolCorrespondence(protocolCorrespondence);
             getBusinessObjectService().save(protocolCorrespondence);
             return mapping.findForward(CORRESPONDENCE);
@@ -2417,7 +2322,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
             // may want to tell the user the selection was invalid.
             return mapping.findForward(Constants.MAPPING_BASIC);
         }
-        protocolCorrespondence.setForwardName(PROTOCOL_ACTIONS_TAB);
+        protocolCorrespondence.setForwardName(IacucConstants.PROTOCOL_ACTIONS_TAB);
         protocolForm.getActionHelper().setProtocolCorrespondence(protocolCorrespondence);
 
         return mapping.findForward(CORRESPONDENCE);
@@ -2550,120 +2455,10 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
     }
     
     protected ActionForward performNotificationRendering(ActionMapping mapping, IacucProtocolForm protocolForm, List<ProtocolReviewerBeanBase> beans) {
-        IacucProtocol protocol = (IacucProtocol) protocolForm.getProtocolDocument().getProtocol();
-        ActionForward forward = mapping.findForward(Constants.MAPPING_BASIC);
-        IacucProtocolAssignReviewerNotificationRenderer renderer = new IacucProtocolAssignReviewerNotificationRenderer(protocol, "added");
-        List<ProtocolNotificationRequestBeanBase> addReviewerNotificationBeans = getNotificationRequestBeans(beans,
-                IacucProtocolReviewerBean.CREATE, true);
-        List<ProtocolNotificationRequestBeanBase> removeReviewerNotificationBeans = getNotificationRequestBeans(beans,
-                IacucProtocolReviewerBean.REMOVE, false);
-        if (!CollectionUtils.isEmpty(addReviewerNotificationBeans)) {
-            ProtocolNotificationRequestBeanBase notificationBean = addReviewerNotificationBeans.get(0);
-            IacucProtocolNotificationContext context = new IacucProtocolNotificationContext((IacucProtocol)notificationBean.getProtocol(),
-                (IacucProtocolOnlineReview)notificationBean.getProtocolOnlineReview(), notificationBean.getActionType(),
-                notificationBean.getDescription(), renderer);
-            if (protocolForm.getNotificationHelper().getPromptUserForNotificationEditor(context)) {
-                forward = checkToSendNotification(mapping, mapping.findForward(PROTOCOL_ACTIONS_TAB), protocolForm,
-                        renderer, addReviewerNotificationBeans);
-                if (!CollectionUtils.isEmpty(removeReviewerNotificationBeans)) {
-                    GlobalVariables.getUserSession().addObject("removeReviewer", removeReviewerNotificationBeans);
-                }
-            }
-        }
-        else {
-            if (!CollectionUtils.isEmpty(removeReviewerNotificationBeans)) {
-                renderer = new IacucProtocolAssignReviewerNotificationRenderer(protocol, "removed");
-                ProtocolNotificationRequestBeanBase notificationBean = removeReviewerNotificationBeans.get(0);
-                IacucProtocolNotificationContext context = new IacucProtocolNotificationContext(protocol,
-                    (IacucProtocolOnlineReview)notificationBean.getProtocolOnlineReview(), notificationBean.getActionType(),
-                    notificationBean.getDescription(), renderer);
-                if (protocolForm.getNotificationHelper().getPromptUserForNotificationEditor(context)) {
-                    forward = checkToSendNotification(mapping, mapping.findForward(PROTOCOL_ACTIONS_TAB),
-                            protocolForm, renderer, removeReviewerNotificationBeans);
-                }
-            }
-        }
-        return forward;
+        String forwardName = Constants.MAPPING_BASIC;
+        forwardName = getProtocolActionRequestService().performNotificationRendering(protocolForm, beans);
+        return mapping.findForward(forwardName);
     }
-    
-//  /*
-//  * This is for assign reviewer and submit for review.  The notificationRequestBeans contains all 'added' or 'removed'
-//  * reviewers.  All the roles recipient will be merged, then forward to protocolnotificationeditor for ad hoc notification 
-//  * process.
-//  */
- private ActionForward checkToSendNotification(ActionMapping mapping, ActionForward forward, ProtocolFormBase protocolForm,
-         IacucProtocolNotificationRenderer renderer, List<ProtocolNotificationRequestBeanBase> notificationRequestBeans) {
-
-     IacucProtocolNotificationContext context = new IacucProtocolNotificationContext((IacucProtocol) notificationRequestBeans.get(0).getProtocol(),
-         (IacucProtocolOnlineReview)notificationRequestBeans.get(0).getProtocolOnlineReview(), notificationRequestBeans.get(0).getActionType(),
-         notificationRequestBeans.get(0).getDescription(), renderer);
-     context.setPopulateRole(true);
-     if (protocolForm.getNotificationHelper().getPromptUserForNotificationEditor(context)) {
-         protocolForm.getNotificationHelper().initializeDefaultValues(context);
-         List<NotificationTypeRecipient> notificationRecipients = protocolForm.getNotificationHelper()
-                 .getNotificationRecipients();
-         List<NotificationTypeRecipient> allRecipients = new ArrayList<NotificationTypeRecipient>();
-         for (NotificationTypeRecipient recipient : notificationRecipients) {
-             try {
-                 NotificationTypeRecipient copiedRecipient = (NotificationTypeRecipient) ObjectUtils.deepCopy(recipient);
-                 // populate role qualifier with proper context
-                 context.populateRoleQualifiers(copiedRecipient);
-                 allRecipients.add(copiedRecipient);
-             }
-             catch (Exception e) {
-                 // TODO
-             }
-         }
-         int i = 1;
-         // add all new reviewer to recipients
-         while (notificationRequestBeans.size() > i) {
-             context = new IacucProtocolNotificationContext((IacucProtocol) notificationRequestBeans.get(i).getProtocol(), 
-                                                  (IacucProtocolOnlineReview) notificationRequestBeans.get(i).getProtocolOnlineReview(), 
-                                                  notificationRequestBeans.get(i).getActionType(), 
-                                                  notificationRequestBeans.get(i).getDescription(), renderer);
-             context.setPopulateRole(true);
-             protocolForm.getNotificationHelper().initializeDefaultValues(context);
-             List<NotificationTypeRecipient> recipients = protocolForm.getNotificationHelper().getNotificationRecipients();
-
-             for (NotificationTypeRecipient recipient : recipients) {
-                 try {
-                     // note : need to deepcopy here. If I don't do that, then all reviewer role will have same
-                     // notificationrecipient object returned from service call
-                     // probably the object service/ojb has a cache ?
-                     NotificationTypeRecipient copiedRecipient = (NotificationTypeRecipient) ObjectUtils.deepCopy(recipient);
-                     context.populateRoleQualifiers(copiedRecipient);
-                     allRecipients.add(copiedRecipient);
-                 }
-                 catch (Exception e) {
-                     // TODO
-                 }
-             }
-             i++;
-         }
-         protocolForm.getNotificationHelper().setNotificationRecipients(allRecipients);
-         if (forward == null) {
-             context.setForwardName("holdingPage");
-         } else {
-             context.setForwardName(forward.getName());
-         }
-         return mapping.findForward("iacucProtocolNotificationEditor");
-     }
-     else {
-
-         return forward;
-     }
- }
- 
- private List<ProtocolNotificationRequestBeanBase> getNotificationRequestBeans(List<ProtocolReviewerBeanBase> beans, String actionFlag, boolean notNullFlag) {
-     List<ProtocolNotificationRequestBeanBase> notificationRequestBeans = new ArrayList<ProtocolNotificationRequestBeanBase>();
-     for (ProtocolReviewerBeanBase bean : beans) {
-         if (StringUtils.equals(actionFlag, bean.getActionFlag()) && (notNullFlag == !StringUtils.isEmpty(bean.getReviewerTypeCode()))) {
-             notificationRequestBeans.add(bean.getNotificationRequestBean());
-         }
-     }
-     return notificationRequestBeans;
- }
- 
  
      /**
       * Table a protocol.
@@ -2705,7 +2500,7 @@ public class IacucProtocolActionsAction extends IacucProtocolAction {
                 protocolForm.setDocId(updatedDocument.getDocumentNumber());
                 loadDocument(protocolForm);
                 protocolForm.getProtocolHelper().prepareView();
-                return mapping.findForward(PROTOCOL_TAB);
+                return mapping.findForward(IacucConstants.PROTOCOL_TAB);
             }
             if (IacucProtocolActionType.IACUC_MAJOR_REVISIONS_REQUIRED.equals(lastActionType)
                     || IacucProtocolActionType.IACUC_MINOR_REVISIONS_REQUIRED.equals(lastActionType)) {
