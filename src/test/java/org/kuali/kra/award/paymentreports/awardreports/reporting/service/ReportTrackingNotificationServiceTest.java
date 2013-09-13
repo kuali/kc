@@ -20,6 +20,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.award.AwardFixtureFactory;
 import org.kuali.kra.award.document.AwardDocument;
@@ -36,6 +38,15 @@ import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 
+ /*
+ >>> org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingNotificationServiceTest.testRunReportTrackingNotificationsPreviouslySent 	2 ms	1
+>>> org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingNotificationServiceTest.testRunReportTrackingNotificationsPreviouslySent 	6 ms	1
+>>> org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingNotificationServiceTest.testRunReportTrackingNotifications 	1 ms	1
+>>> org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingNotificationServiceTest.testRunReportTrackingNotifications 	1 ms	1
+>>> org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingNotificationServiceTest.testDateBarriers 	1 ms	1
+>>> org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingNotificationServiceTest.testDateBarriers
+
+  */
 public class ReportTrackingNotificationServiceTest extends KcUnitTestBase {
 
     private ReportTrackingNotificationServiceImpl service;
@@ -44,7 +55,8 @@ public class ReportTrackingNotificationServiceTest extends KcUnitTestBase {
     private Long currentTermId = 1L;
     
     private Award award;
-    
+
+     @Before
     public void setUp() throws Exception {
         super.setUp();
         service = (ReportTrackingNotificationServiceImpl) KraServiceLocator.getService(ReportTrackingNotificationService.class);
@@ -65,13 +77,14 @@ public class ReportTrackingNotificationServiceTest extends KcUnitTestBase {
         service.setAwardService(mockAwardService);
 
     }
-    
+
+     @After
     public void tearDown() throws Exception {
         super.tearDown();
     }
     
     @Test
-    public void testRunReportTrackingNotifications() {
+    public void tstRunReportTrackingNotifications() {
         boService.save(getNewReportTracking(award, "4", "4", Calendar.getInstance().getTime()));
         Calendar newDate = Calendar.getInstance();
         newDate.add(Calendar.DAY_OF_MONTH, -40);
@@ -91,7 +104,7 @@ public class ReportTrackingNotificationServiceTest extends KcUnitTestBase {
     }
     
     @Test
-    public void testRunReportTrackingNotificationsPreviouslySent() {
+    public void tstRunReportTrackingNotificationsPreviouslySent() {
         boService.save(getNewReportTracking(award, "4", "4", Calendar.getInstance().getTime()));
         Calendar newDate = Calendar.getInstance();
         newDate.add(Calendar.DAY_OF_MONTH, -40);
@@ -114,7 +127,7 @@ public class ReportTrackingNotificationServiceTest extends KcUnitTestBase {
     }
     
     @Test
-    public void testDateBarriers() {
+    public void tstDateBarriers() {
         boService.save(getNewReportTracking(award, "4", "4", Calendar.getInstance().getTime()));
         Calendar newDate = Calendar.getInstance();
         newDate.add(Calendar.DAY_OF_YEAR, -29);
