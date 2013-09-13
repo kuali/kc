@@ -1997,7 +1997,7 @@ module of int tests -->
         <jmock.version>2.6.0</jmock.version>
         <jsp-api.version>2.1</jsp-api.version>
         <jstl.version>1.2</jstl.version>
-        <junit.version>4.11</junit.version>
+        <junit.version>4.10</junit.version>
         <kc-printing-xsds.version>1.8.0</kc-printing-xsds.version>
         <kc-s2s-generated.version>1.0</kc-s2s-generated.version>
         <keycontacts-1.0-gg.version>1.0</keycontacts-1.0-gg.version>
