@@ -15,21 +15,19 @@
  */
 package org.kuali.kra.award.awardhierarchy.sync.service;
 
-import java.lang.reflect.InvocationTargetException;
-import java.util.ListIterator;
-import java.util.Map;
-
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncChange;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncPendingChangeBean;
-import org.kuali.kra.award.awardhierarchy.sync.AwardSyncType;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncXmlExport;
 import org.kuali.kra.award.awardhierarchy.sync.helpers.AwardSyncHelper;
 import org.kuali.kra.award.home.Award;
-import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.XmlObjectSerializerService;
+
+import java.lang.reflect.InvocationTargetException;
+import java.util.ListIterator;
+import java.util.Map;
 
 /**
  * Class to build award hierarchy descendant sync objects.
@@ -122,21 +120,6 @@ public class AwardSyncCreationServiceImpl implements AwardSyncCreationService {
             return false;
         }
     }
-    
-    /**
-     * Generates the XML for the change specified.
-     * @param syncType
-     * @param syncable
-     * @param attrName
-     * @return
-     * @throws NoSuchFieldException
-     * @throws IllegalAccessException
-     * @throws InvocationTargetException
-     */
-    protected String generateAwardSyncData(AwardSyncType syncType, PersistableBusinessObject syncable, String attrName) 
-        throws NoSuchFieldException, IllegalAccessException, InvocationTargetException {
-        return getXmlSerializerService().toXml(getSyncHelper(syncable.getClass().getCanonicalName()).buildXmlExport(syncable, attrName));
-    }  
     
     /**
      * Get the helper for the class name from {@link AwardSyncHelpersService}.
