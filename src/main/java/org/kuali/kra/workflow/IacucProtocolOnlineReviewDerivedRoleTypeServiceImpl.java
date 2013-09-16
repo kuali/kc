@@ -26,7 +26,6 @@ import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewBase;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.kra.kim.bo.KcKimAttributes;
-import org.kuali.rice.core.api.exception.RiceIllegalArgumentException;
 import org.kuali.rice.core.api.membership.MemberType;
 import org.kuali.rice.kim.api.role.RoleMembership;
 import org.kuali.rice.kim.api.role.RoleService;
