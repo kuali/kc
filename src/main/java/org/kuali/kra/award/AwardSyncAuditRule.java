@@ -43,7 +43,6 @@ public class AwardSyncAuditRule implements DocumentAuditRule {
     protected String SYNC_ERRORS = "awardSyncAuditErrors";
     
     protected List<AuditError> auditErrors;
-    protected List<AuditError> auditWarnings;
     
     /**
      * @see org.kuali.rice.krad.rules.rule.DocumentAuditRule#processRunAuditBusinessRules(org.kuali.rice.krad.document.Document)
@@ -52,7 +51,6 @@ public class AwardSyncAuditRule implements DocumentAuditRule {
         boolean valid = true;
         AwardDocument awardDocument = (AwardDocument) document;
         auditErrors = new ArrayList<AuditError>();
-        auditWarnings = new ArrayList<AuditError>();
         Award award = awardDocument.getAward();
         if (award.getSyncChanges() != null && !award.getSyncChanges().isEmpty()) {
             for (AwardSyncChange change : award.getSyncChanges()) {

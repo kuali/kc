@@ -15,32 +15,9 @@
  */
 package org.kuali.kra.award;
 
-import static org.kuali.kra.infrastructure.KeyConstants.AWARD_ATTACHMENT_FILE_REQUIRED;
-import static org.kuali.kra.infrastructure.KeyConstants.AWARD_ATTACHMENT_TYPE_CODE_REQUIRED;
-
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.award.commitments.AddAwardFandaRateEvent;
-import org.kuali.kra.award.commitments.AddFandaRateRule;
-import org.kuali.kra.award.commitments.AwardBenefitsRatesRuleEvent;
-import org.kuali.kra.award.commitments.AwardBenefitsRatesRuleImpl;
-import org.kuali.kra.award.commitments.AwardCostShare;
-import org.kuali.kra.award.commitments.AwardCostShareAuditRule;
-import org.kuali.kra.award.commitments.AwardCostShareRuleEvent;
-import org.kuali.kra.award.commitments.AwardCostShareRuleImpl;
-import org.kuali.kra.award.commitments.AwardFandARateAuditRule;
-import org.kuali.kra.award.commitments.AwardFandaRateRule;
-import org.kuali.kra.award.commitments.AwardFandaRateSaveEvent;
-import org.kuali.kra.award.commitments.AwardFandaRateSaveRule;
-import org.kuali.kra.award.contacts.AwardPersonCreditSplitAuditRule;
-import org.kuali.kra.award.contacts.AwardProjectPersonsAuditRule;
-import org.kuali.kra.award.contacts.AwardProjectPersonsSaveRule;
-import org.kuali.kra.award.contacts.AwardProjectPersonsSaveRuleImpl;
-import org.kuali.kra.award.contacts.AwardSponsorContactAuditRule;
-import org.kuali.kra.award.contacts.SaveAwardProjectPersonsRuleEvent;
+import org.kuali.kra.award.commitments.*;
+import org.kuali.kra.award.contacts.*;
 import org.kuali.kra.award.detailsdates.AddAwardTransferringSponsorEvent;
 import org.kuali.kra.award.detailsdates.AwardDetailsAndDatesRule;
 import org.kuali.kra.award.detailsdates.AwardDetailsAndDatesRuleImpl;
@@ -54,16 +31,7 @@ import org.kuali.kra.award.home.keywords.AwardScienceKeyword;
 import org.kuali.kra.award.lookup.keyvalue.FrequencyBaseCodeValuesFinder;
 import org.kuali.kra.award.lookup.keyvalue.FrequencyCodeValuesFinder;
 import org.kuali.kra.award.lookup.keyvalue.ReportCodeValuesFinder;
-import org.kuali.kra.award.paymentreports.awardreports.AddAwardReportTermRecipientRuleEvent;
-import org.kuali.kra.award.paymentreports.awardreports.AddAwardReportTermRuleEvent;
-import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
-import org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRecipient;
-import org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRecipientRule;
-import org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRecipientRuleEvent;
-import org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRecipientRuleImpl;
-import org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRule;
-import org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRuleEvent;
-import org.kuali.kra.award.paymentreports.awardreports.AwardReportTermRuleImpl;
+import org.kuali.kra.award.paymentreports.awardreports.*;
 import org.kuali.kra.award.paymentreports.closeout.AddAwardCloseoutRuleEvent;
 import org.kuali.kra.award.paymentreports.closeout.AwardCloseoutRule;
 import org.kuali.kra.award.paymentreports.closeout.AwardCloseoutRuleEvent;
@@ -85,20 +53,16 @@ import org.kuali.kra.award.rule.AwardCommentsRule;
 import org.kuali.kra.award.rule.AwardCommentsRuleImpl;
 import org.kuali.kra.award.rule.event.AddAwardAttachmentEvent;
 import org.kuali.kra.award.rule.event.AwardCommentsRuleEvent;
-import org.kuali.kra.award.specialreview.AwardSpecialReview;
 import org.kuali.kra.common.permissions.bo.PermissionsUser;
 import org.kuali.kra.common.permissions.bo.PermissionsUserEditRoles;
 import org.kuali.kra.common.permissions.rule.PermissionsRule;
 import org.kuali.kra.common.permissions.web.bean.User;
-import org.kuali.kra.common.specialreview.rule.event.SaveSpecialReviewEvent;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
-import org.kuali.kra.rule.event.SaveCustomDataEvent;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
-import org.kuali.kra.rules.CustomDataRule;
 import org.kuali.kra.service.SponsorService;
 import org.kuali.kra.timeandmoney.TimeAndMoneyForm;
 import org.kuali.kra.timeandmoney.rule.event.TimeAndMoneyAwardDateSaveEvent;
@@ -112,6 +76,13 @@ import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
+
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.kuali.kra.infrastructure.KeyConstants.AWARD_ATTACHMENT_FILE_REQUIRED;
+import static org.kuali.kra.infrastructure.KeyConstants.AWARD_ATTACHMENT_TYPE_CODE_REQUIRED;
 
 
 
@@ -311,30 +282,13 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         retval &= processApprovedSubawardBusinessRules(document);
         retval &= processApprovedEquipmentBusinessRules(errorMap, awardDocument);
         retval &= processApprovedForeignTravelBusinessRules(errorMap, awardDocument);
-//        retval &= processAwardReportTermBusinessRules(document);
         retval &= processSaveAwardProjectPersonsBusinessRules(errorMap, awardDocument);
         retval &= processAwardCommentsBusinessRules(awardDocument);
         retval &= processAwardDetailsAndDatesSaveRules(document);
         retval &= processDateBusinessRule(errorMap, awardDocument);
         retval &=processKeywordBusinessRule(awardDocument);
-        //retval &= validateSponsors(errorMap, awardDocument);
         
         return retval;
-    }
-    
-    private boolean validateSponsors(MessageMap errorMap, AwardDocument awardDocument) {
-        boolean valid = true;
-        SponsorService ss = this.getSponsorService();
-        if (!ss.validateSponsor(awardDocument.getAward().getSponsor())) {
-            errorMap.putError("document.awardList[0].sponsorCode", KeyConstants.ERROR_INVALID_SPONSOR_CODE);
-            valid = false;
-        }
-        if (!StringUtils.isEmpty(awardDocument.getAward().getPrimeSponsorCode()) &&
-                !ss.validateSponsor(awardDocument.getAward().getPrimeSponsor())) {
-            errorMap.putError("document.awardList[0].primeSponsorCode", KeyConstants.ERROR_INVALID_SPONSOR_CODE);
-            valid = false;
-        }
-        return valid;
     }
 
     private boolean skipRuleProcessing(Document document) {
@@ -590,17 +544,6 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         return new AwardReportTermRuleImpl().processAwardReportTermBusinessRules(event);
     }
     
-    
-    protected boolean evaluateBusinessRuleForReportCodeField(AwardReportTerm awardReportTerm, int index){
-        boolean retval = isValidReportCode(awardReportTerm, getReportCodes(awardReportTerm.getReportClassCode()));
-        if(!retval){            
-            GlobalVariables.getMessageMap().putError(AWARD_REPORT_TERM_ITEMS + Constants.LEFT_SQUARE_BRACKET + index
-                    + Constants.RIGHT_SQUARE_BRACKET + ".reportCode"
-                    , KeyConstants.INVALID_REPORT_CODE_FOR_REPORT_CLASS);            
-        }
-        return retval;        
-    }
-    
     protected boolean isValidReportCode(AwardReportTerm awardReportTerm, List<KeyValue> reportCodes){
         boolean isValid = false;
         for(KeyValue KeyValue:reportCodes){
@@ -610,17 +553,6 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
             }
         }        
         return isValid;    
-    }
-    
-    protected boolean evaluateBusinessRuleForFrequencyCodeField(AwardReportTerm awardReportTerm, int index){
-        boolean retval = isValidFrequency(awardReportTerm,getFrequencyCodes(
-                awardReportTerm.getReportClassCode(),awardReportTerm.getReportCode()));
-        if(!retval){
-            GlobalVariables.getMessageMap().putError(AWARD_REPORT_TERM_ITEMS + Constants.LEFT_SQUARE_BRACKET + index
-                    + Constants.RIGHT_SQUARE_BRACKET + ".frequencyCode"
-                    , KeyConstants.INVALID_FREQUENCY_FOR_REPORT_CLASS_AND_TYPE);            
-        }
-        return retval;
     }
     
     protected boolean isValidFrequency(
@@ -634,18 +566,6 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         }
         return isValid;
     }
-    
-    protected boolean evaluateBusinessRuleForFrequencyBaseCodeField(
-            AwardReportTerm awardReportTerm, int index){
-        boolean retval = isValidFrequencyBase(awardReportTerm, getFrequencyBaseCodes(
-                awardReportTerm.getFrequencyCode()));
-        if(!retval){
-            GlobalVariables.getMessageMap().putError(AWARD_REPORT_TERM_ITEMS + Constants.LEFT_SQUARE_BRACKET + index
-                    + Constants.RIGHT_SQUARE_BRACKET + ".frequencyBaseCode"
-                    , KeyConstants.INVALID_FREQUENCY_BASE_FOR_FREQUENCY);                        
-        }
-        return retval;
-    }
 
     protected boolean isValidFrequencyBase(
             AwardReportTerm awardReportTerm, List<KeyValue> frequencyBaseCodes){
@@ -657,30 +577,6 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
                 isValid = true;                    
             }
         }
-        return isValid;
-    }
-
-    /**
-     * This method checks that each of the report term's recipients has a name/organization
-     * @param awardReportTerm
-     * @param index
-     * @return
-     */
-    protected boolean evaluateBusinessRuleForRecipients(AwardReportTerm awardReportTerm, int index) {
-        boolean isValid = true;
-
-        List<AwardReportTermRecipient> recipients = awardReportTerm.getAwardReportTermRecipients();
-        for (int i=0; i<recipients.size(); i++) {
-            AwardReportTermRecipient recipient = recipients.get(i);
-            if (recipient.getRolodexId() == null) {
-                GlobalVariables.getMessageMap().putError(AWARD_REPORT_TERM_ITEMS + Constants.LEFT_SQUARE_BRACKET + index
-                        + Constants.RIGHT_SQUARE_BRACKET
-                        + ".awardReportTermRecipients" + Constants.LEFT_SQUARE_BRACKET + i + Constants.RIGHT_SQUARE_BRACKET + ".rolodexId" 
-                        , KeyConstants.ERROR_REQUIRED_ORGANIZATION, new Integer(i+1).toString());
-                isValid = false;
-            }
-        }
-        
         return isValid;
     }
     
@@ -730,37 +626,6 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
      */
     public boolean processAddAwardReportTermRecipientBusinessRules(AddAwardReportTermRecipientRuleEvent event){
         return new AwardReportTermRecipientRuleImpl().processAddAwardReportTermRecipientBusinessRules(event);
-    }
-    
-    /**
-     * 
-     * This method...
-     * @param addAwardReportTermRecipientRuleEvent
-     * @return
-     */
-    public boolean processAddAwardReportTermRecipientEvent(AddAwardReportTermRecipientRuleEvent 
-            addAwardReportTermRecipientRuleEvent) {
-        return new AwardReportTermRecipientRuleImpl().processAddAwardReportTermRecipientBusinessRules(addAwardReportTermRecipientRuleEvent);        
-    }
-    
-    /**
-     * 
-     * This method...
-     * @param event
-     * @return
-     
-    public boolean processAwardReportTermEvent(AwardReportTermRuleEvent event){
-        return new AwardReportTermRuleImpl().processAwardReportTermBusinessRules(event);
-    }*/
-    
-    /**
-     * 
-     * This method...
-     * @param event
-     * @return
-     */
-    public boolean processAwardReportTermRecipientEvent(AwardReportTermRecipientRuleEvent event){
-        return new AwardReportTermRecipientRuleImpl().processAwardReportTermRecipientBusinessRules(event);
     }
     
     private boolean processApprovedForeignTravelBusinessRules(MessageMap errorMap, AwardDocument awardDocument) {

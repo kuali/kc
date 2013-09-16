@@ -21,8 +21,6 @@ import org.kuali.kra.award.document.AwardDocument;
  * This class is used for sync AwardSponsorTemplate details to different Award Details Objects.
  */
 public interface AwardTemplateSyncService {
-    
-    public static final String SYNC_PROPERTY = ".syncPropertyName";
 
     /**
      * 
