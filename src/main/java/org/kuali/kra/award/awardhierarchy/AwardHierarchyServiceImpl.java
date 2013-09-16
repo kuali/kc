@@ -373,11 +373,6 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
     public void setVersioningService(VersioningService versioningService) {
         this.versioningService = versioningService;
     }
-
-    protected AwardHierarchy getRootNode(String rootAwardNumber){
-        return loadAwardHierarchy(rootAwardNumber);
-    }
-
     
     /**
      * This method copies an Award to a new Award, sequence #1, with newAwardNumber
@@ -550,18 +545,6 @@ public class AwardHierarchyServiceImpl implements AwardHierarchyService {
         if (award.isNew()) {
             doc.getAwardList().add(award);
         }
-    }
-
-    protected AwardHierarchy getAwardHierarchyRootNode(String someNodeAwardNumberInHierarchy) {
-        Collection c = businessObjectService.findMatching(AwardHierarchy.class, getAwardHierarchyCriteriaMap(someNodeAwardNumberInHierarchy));
-        AwardHierarchy someNodeInHierarchy = null;
-        if(c.size() == 1) {
-            someNodeInHierarchy = (AwardHierarchy) c.iterator().next();
-        }
-        if(someNodeInHierarchy == null) {
-            throw new MissingHierarchyException(someNodeAwardNumberInHierarchy);
-        }
-        return getRootNode(someNodeInHierarchy.getRootAwardNumber());
     }
 
     protected Map<String, Object> getAwardHierarchyCriteriaMap(String awardNumber) {
