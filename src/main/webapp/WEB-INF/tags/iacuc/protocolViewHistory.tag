@@ -3,7 +3,10 @@
 <c:set var="kraAttributeReferenceDummyAttributes" value="${DataDictionary.KraAttributeReferenceDummy.attributes}" />
 ${kfunc:registerEditableProperty(KualiForm, "actionHelper.selectedHistoryItem")}
 <c:set var="submissionDocAttributes" value="${DataDictionary.IacucProtocolSubmissionDoc.attributes}" />
-<c:set var="iacucAdmin" value="${KualiForm.actionHelper.iacucAdmin}" />
+
+<c:set var="canViewIACUCCorrespondence" value="${KualiForm.actionHelper.allowedToViewProtocolCorrespondence}" />
+<c:set var="canUpdateIACUCCorrespondence" value="${KualiForm.actionHelper.allowedToUpdateProtocolCorrespondence}" />
+<c:set var="canRegenerateIACUCCorrespondence" value="${KualiForm.actionHelper.allowedToRegenerateProtocolCorrespondence}" />
 
 <kul:innerTab tabTitle="History" parentTab="" defaultOpen="false" tabErrorKey="actionHelper.filteredHistory*">
 
@@ -152,16 +155,19 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.selectedHistoryItem")}
                     										</td>
 		           		 					                <td align="center" valign="middle">
                                                                 <div align="center">
-                                                                  <c:if test="${iacucAdmin or correspondence.finalFlag}">
+                                                                  <c:if test="${canViewIACUCCorrespondence or correspondence.finalFlag}">
                                                                     <html:image property="methodToCall.viewActionCorrespondence.line${status.index}.attachment${attachmentStatus.index}.anchor${currentTabIndex}"
 										                                        src='${ConfigProperties.kra.externalizable.images.url}tinybutton-view.gif' 
 										                                        alt="View Correspondence" onclick="excludeSubmitRestriction = true;"
 										                                        styleClass="tinybutton"/>
 										                          </c:if>              
-                                                                  <c:if test="${iacucAdmin}">
+                                                                  <c:if test="${canRegenerateIACUCCorrespondence}">
                                                                       <html:image property="methodToCall.regenerateCorrespondence.line${status.index}.attachment${attachmentStatus.index}.anchor${currentTabIndex}"
                                                                           src='${ConfigProperties.kra.externalizable.images.url}tinybutton-regenerate.gif' styleClass="tinybutton"
                                                                           alt="Regenerate Correspondence" title="Regenerate Correspondence" onclick="excludeSubmitRestriction = true;"/>
+                                                                          
+                                                                  </c:if>
+																  <c:if test="${canUpdateIACUCCorrespondence}">                                                                          
                                                                       <html:image property="methodToCall.updateCorrespondence.line${status.index}.attachment${attachmentStatus.index}.anchor${currentTabIndex}"
                                                                           src='${ConfigProperties.kra.externalizable.images.url}tinybutton-update.gif' styleClass="tinybutton"
                                                                           alt="Update Correspondence" title="Update Correspondence" onclick="excludeSubmitRestriction = true;"/>
