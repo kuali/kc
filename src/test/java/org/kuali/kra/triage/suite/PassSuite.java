@@ -125,7 +125,6 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.service.impl.ResearchAreasServiceTest.class,
     org.kuali.kra.budget.nonpersonnel.BudgetJustificationWrapperTest.class,
     org.kuali.kra.award.document.AwardDocumentIntegrationTest.class,
-    org.kuali.kra.util.NaturalStringComparatorTest.class,
     org.kuali.kra.proposaldevelopment.rules.ProposalDevelopmentPermissionsRuleTest.class,
     org.kuali.kra.institutionalproposal.ipreview.IntellectualPropertyReviewActivityTypeTest.class,
     org.kuali.kra.award.timeandmoney.AwardDirectFandADistributionRuleTest.class,
