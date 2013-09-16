@@ -53,9 +53,7 @@ public class AwardTemplateSyncServiceImpl implements AwardTemplateSyncService {
     
     private static final Log LOG = LogFactory.getLog(AwardTemplateSyncService.class);
     
-    /**
-     * @see org.kuali.kra.award.AwardTemplateSyncService#syncAwardToTemplate(org.kuali.kra.award.document.AwardDocument, org.kuali.kra.award.AwardTemplateSyncScope[])
-     */
+    @Override
     public boolean syncAwardToTemplate(AwardDocument awardDocument, AwardTemplateSyncScope[] scopes ) {
         boolean success;
         Award award = awardDocument.getAward();
@@ -78,11 +76,9 @@ public class AwardTemplateSyncServiceImpl implements AwardTemplateSyncService {
         return success;
     }
 
-    
-    
-    /**
-     * @see org.kuali.kra.award.AwardTemplateSyncService#syncWillAlterData(org.kuali.kra.award.document.AwardDocument, org.kuali.kra.award.AwardTemplateSyncScope)
-     */
+
+
+    @Override
     public boolean syncWillAlterData(AwardDocument awardDocument, AwardTemplateSyncScope scope) {
         boolean result = false;
         AwardTemplateSyncScope[] scopes = getScopeArray( scope );
@@ -99,10 +95,8 @@ public class AwardTemplateSyncServiceImpl implements AwardTemplateSyncService {
         }
         return result;
     }
-    
-    /**
-     * @see org.kuali.kra.award.AwardTemplateSyncService#templateContainsScopedData(org.kuali.kra.award.document.AwardDocument, org.kuali.kra.award.AwardTemplateSyncScope)
-     */
+
+    @Override
     public boolean templateContainsScopedData( AwardDocument awardDocument, AwardTemplateSyncScope scope ) {
         boolean result = false;       
         AwardTemplateSyncScope[] scopes = getScopeArray( scope );
@@ -693,32 +687,6 @@ public class AwardTemplateSyncServiceImpl implements AwardTemplateSyncService {
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
-    
-    /**
-     * 
-     * This is an overloaded method for syncing only AwardComments.
-     * @param awardObject
-     * @param templateComments
-     * @param objectInList
-     * @param propertyName
-     */
-    public void syncAwardComments(Award awardObject, List<AwardTemplateComment> awardTemplateComments,Stack<AwardTemplateSyncScope[]> scopeStack){
-        awardObject.addTemplateComments(awardTemplateComments);
-    }
-    
-
-    /**
-     * 
-     * This is an overloaded method for syncing only AwardSponsorTerms.
-     * @param awardObject
-     * @param templateTerms
-     * @param objectInList
-     * @param propertyName
-     */
-    public void syncAwardSponsorTerms(Award awardObject, List<AwardTemplateTerm> awardTemplateTerms, Stack<AwardTemplateSyncScope[]> scopeStack ){
-        awardObject.addTemplateTerms(awardTemplateTerms);
-    }
-    
     
     /**
      * Gets the kualiRuleService attribute. 

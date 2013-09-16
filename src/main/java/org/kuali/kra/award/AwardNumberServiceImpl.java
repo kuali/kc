@@ -29,7 +29,6 @@ public class AwardNumberServiceImpl implements AwardNumberService {
 
     private String DASH = "-";
     private String PERCENT = "%";
-    private String AWARD_NUMBER = "awardNumber";
     
     public AwardNumberServiceImpl() {
     }

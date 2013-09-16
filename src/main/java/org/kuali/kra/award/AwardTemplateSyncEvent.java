@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.award;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.rule.event.KraDocumentEventBase;
@@ -30,8 +28,8 @@ public class AwardTemplateSyncEvent  extends KraDocumentEventBase{
 
     private AwardDocument awardDocument;
     private Award award;
-    private String listPropertyName;
-    private static final Log LOG = LogFactory.getLog(AwardTemplateSyncEvent.class);
+
+
     public AwardTemplateSyncEvent(String description, String errorPathPrefix, Document document) {
         super(description, errorPathPrefix, document);
         this.awardDocument = (AwardDocument)document;
@@ -66,22 +64,6 @@ public class AwardTemplateSyncEvent  extends KraDocumentEventBase{
      */
     public void setAward(Award award) {
         this.award = award;
-    }
-
-    /**
-     * Gets the listPropertyName attribute. 
-     * @return Returns the listPropertyName.
-     */
-    public String getListPropertyName() {
-        return listPropertyName;
-    }
-
-    /**
-     * Sets the listPropertyName attribute value.
-     * @param listPropertyName The listPropertyName to set.
-     */
-    public void setListPropertyName(String listPropertyName) {
-        this.listPropertyName = listPropertyName;
     }
 
 }
