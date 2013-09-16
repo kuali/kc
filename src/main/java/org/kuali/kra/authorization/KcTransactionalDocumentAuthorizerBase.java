@@ -15,20 +15,11 @@
  */
 package org.kuali.kra.authorization;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.TaskAuthorizationService;
-import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.coreservice.api.CoreServiceApiServiceLocator;
 import org.kuali.rice.coreservice.framework.CoreFrameworkServiceLocator;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.coreservice.impl.CoreServiceImplServiceLocator;
 import org.kuali.rice.kew.api.KewApiConstants;
-import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.WorkflowDocumentFactory;
 import org.kuali.rice.kew.api.action.ActionType;
@@ -36,11 +27,15 @@ import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.bo.authorization.BusinessObjectAuthorizerBase;
 import org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizer;
-import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
+
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Base class for all KC document authorizers.  The document authorizer determines both the
@@ -63,8 +58,6 @@ public abstract class KcTransactionalDocumentAuthorizerBase extends BusinessObje
     
     public static final String PRE_ROUTING_ROUTE_NAME = "PreRoute";
     public static final String EDIT_MODE_DEFAULT_TRUE_VALUE = "TRUE";
-    public static final String USER_SESSION_METHOD_TO_CALL_OBJECT_KEY = "METHOD_TO_CALL_KEYS_METHOD_OBJECT_KEY";
-    public static final String USER_SESSION_METHOD_TO_CALL_COMPLETE_OBJECT_KEY = "METHOD_TO_CALL_KEYS_COMPLETE_OBJECT_KEY";
 
     /**
      * @see org.kuali.rice.kns.document.authorization.DocumentAuthorizer#getDocumentActions(org.kuali.rice.krad.document.Document, org.kuali.rice.kim.api.identity.Person, java.util.Set)

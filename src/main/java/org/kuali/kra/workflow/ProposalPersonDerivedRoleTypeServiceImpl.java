@@ -15,20 +15,14 @@
  */
 package org.kuali.kra.workflow;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.AbstractProjectPerson;
-import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.kim.bo.KcKimAttributes;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.service.ProposalPersonService;
-import org.kuali.rice.core.api.membership.MemberType;
-import org.kuali.rice.kim.api.role.RoleMembership;
-import org.kuali.rice.kns.kim.role.DerivedRoleTypeServiceBase;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class ProposalPersonDerivedRoleTypeServiceImpl extends AbstractProjectPersonDerivedRoleTypeServiceImpl {
     
