@@ -15,13 +15,13 @@
  */
 package org.kuali.kra.authorizer;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.kns.document.authorization.TransactionalDocumentPresentationController;
 import org.kuali.rice.kns.document.authorization.TransactionalDocumentPresentationControllerBase;
 import org.kuali.rice.krad.document.Document;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public class ResearchDocumentPresentationController 
     extends TransactionalDocumentPresentationControllerBase 
