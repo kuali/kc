@@ -252,10 +252,6 @@
         <property name="kraAuthorizationService" ref="kraAuthorizationService" />
     </bean>
     
-    <bean id="lookupableDevelopmentProposalService" class="org.kuali.kra.proposaldevelopment.service.impl.LookupableDevelopmentProposalServiceImpl">
-        <property name="businessObjectService" ref="businessObjectService" />
-    </bean>
-    
     <bean id="lookupableDevelopmentProposalLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
 		<property name="lookupableHelperService" ref="lookupableDevelopmentProposalLookupableHelperService" />
 	</bean>
