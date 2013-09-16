@@ -463,8 +463,20 @@
                     <property name="taskName" value="reviewNotRequiredIacucProtocolUnavailable" />
                 </bean>
                 
-                <bean class="org.kuali.kra.iacuc.auth.IacucProtocolApproveOtherAuthorizer" parent="parentProtocolAuthorizer">
+                <bean class="org.kuali.kra.iacuc.auth.IacucProtocolApproveOtherAuthorizer" parent="parentIacucProtocolAuthorizer">
                     <property name="taskName" value="protocolApproveOther" />
+                </bean>
+                
+                <bean class="org.kuali.kra.iacuc.auth.ViewIacucProtocolCorrespondenceAuthorizer" parent="parentIacucProtocolAuthorizer">
+                    <property name="taskName" value="viewProtocolCorrespondence" />
+                </bean>
+                
+                <bean class="org.kuali.kra.iacuc.auth.ModifyIacucProtocolCorrespondenceAuthorizer" parent="parentIacucProtocolAuthorizer">
+                    <property name="taskName" value="modifyProtocolCorrespondence" />
+                </bean>
+                
+                <bean class="org.kuali.kra.iacuc.auth.CreateIacucProtocolCorrespondenceAuthorizer" parent="parentIacucProtocolAuthorizer">
+                    <property name="taskName" value="createProtocolCorrespondence" />
                 </bean>  
                     
            </list>
