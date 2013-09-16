@@ -17,8 +17,8 @@ package org.kuali.kra.authorizer;
 
 import org.kuali.kra.authorization.Task;
 import org.kuali.kra.authorization.TaskAuthorizerImpl;
-import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.PermissionConstants;
 
 public class CreateSubAwardAuthorizer extends TaskAuthorizerImpl{
 
