@@ -529,15 +529,15 @@
                     <property name="taskName" value="recallProtocol" />
                 </bean>
                 
-                <bean class="org.kuali.kra.irb.auth.ViewIRBProtocolCorrespondenceAuthorizer" parent="parentProtocolAuthorizer">
+                <bean class="org.kuali.kra.irb.auth.ViewIrbProtocolCorrespondenceAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="viewProtocolCorrespondence" />
                 </bean>
                 
-                <bean class="org.kuali.kra.irb.auth.ModifyIRBProtocolCorrespondenceAuthorizer" parent="parentProtocolAuthorizer">
+                <bean class="org.kuali.kra.irb.auth.ModifyIrbProtocolCorrespondenceAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="modifyProtocolCorrespondence" />
                 </bean>
                 
-                <bean class="org.kuali.kra.irb.auth.CreateIRBProtocolCorrespondenceAuthorizer" parent="parentProtocolAuthorizer">
+                <bean class="org.kuali.kra.irb.auth.CreateIrbProtocolCorrespondenceAuthorizer" parent="parentProtocolAuthorizer">
                     <property name="taskName" value="createProtocolCorrespondence" />
                 </bean>
                 
