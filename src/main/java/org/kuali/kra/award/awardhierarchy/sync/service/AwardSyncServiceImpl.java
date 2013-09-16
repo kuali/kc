@@ -31,7 +31,6 @@ import org.kuali.kra.award.awardhierarchy.sync.AwardSyncLog;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncStatus;
 import org.kuali.kra.award.awardhierarchy.sync.helpers.AwardSyncHelper;
 import org.kuali.kra.award.document.AwardDocument;
-import org.kuali.kra.award.document.authorization.AwardDocumentAuthorizer;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardService;
 import org.kuali.kra.bo.versioning.VersionHistory;
