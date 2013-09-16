@@ -15,15 +15,13 @@
  */
 package org.kuali.kra.authorizer;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-
-import org.kuali.kra.institutionalproposal.proposallog.ProposalLog;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase;
 import org.kuali.rice.krad.util.KRADConstants;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class PersonTrainingMaintenanceDocumentAuthorizer extends MaintenanceDocumentAuthorizerBase {
     public static final String PERMISSION_MAINTAIN_PERSON_TRAINING = "Maintain Person Training";
