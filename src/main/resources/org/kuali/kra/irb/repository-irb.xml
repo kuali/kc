@@ -1233,7 +1233,7 @@
     </class-descriptor>
 
     <class-descriptor class="org.kuali.kra.irb.correspondence.ProtocolCorrespondenceTemplate" table="PROTO_CORRESP_TEMPL">
-        <field-descriptor name="protoCorrespTemplId" column="PROTO_CORRESP_TEMPL_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="SEQ_PROTOCOL_ID" autoincrement="true" />
+        <field-descriptor name="protoCorrespTemplId" column="PROTO_CORRESP_TEMPL_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="SEQ_PROTO_CORRESP_TEMPL" autoincrement="true" />
         <field-descriptor name="protoCorrespTypeCode" column="PROTO_CORRESP_TYPE_CODE" jdbc-type="VARCHAR" />
         <field-descriptor name="committeeId" column="COMMITTEE_ID" jdbc-type="VARCHAR" />
         <field-descriptor name="fileName" column="FILE_NAME" jdbc-type="VARCHAR" />
