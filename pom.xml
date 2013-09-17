@@ -376,8 +376,6 @@
                 <configuration>
                     <useFile>${surefire.useFile}</useFile>
                     <testFailureIgnore>${surefire.testFailureIgnore}</testFailureIgnore>
-                    <!-- hopefully only temporary until all our tests are fixed :-) -->
-                    <test>${surefire.test}</test>
                     <reportFormat>${surefire.reportFormat}</reportFormat>
                     <forkMode>${surefire.forkMode}</forkMode>
                     <argLine>${surefire.argLine}</argLine>
@@ -1213,30 +1211,6 @@ module of int tests -->
             <version>${rice.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.seleniumhq.selenium</groupId>
-            <artifactId>selenium-firefox-driver</artifactId>
-            <version>${selenium.version}</version>
-            <scope>test</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.testng</groupId>
-                    <artifactId>testng</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>commons-logging</groupId>
-                    <artifactId>commons-logging</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
-        <dependency>
-            <groupId>org.seleniumhq.selenium</groupId>
-            <artifactId>selenium-support</artifactId>
-            <version>${selenium.version}</version>
-            <scope>test</scope>
-        </dependency>
-
         <!-- commons-logging implementation, commons-logging calls will go to slf4j -->
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -2010,7 +1984,6 @@ module of int tests -->
         <pdfbox.version>1.7.1</pdfbox.version>
         <phs398modularbudget-1.2-gg.version>1.0.5</phs398modularbudget-1.2-gg.version>
         <rice.version>2.1.7</rice.version>
-        <selenium.version>2.21.0</selenium.version>
         <servlet.version>2.5</servlet.version>
         <s2sform.version>1.0.3</s2sform.version>
         <sf424-2.1-gg.version>1.0</sf424-2.1-gg.version>
@@ -2053,7 +2026,6 @@ module of int tests -->
         <surefire.forkMode>never</surefire.forkMode>
         <surefire.argLine>-Xmx1024m -XX:MaxPermSize=512m</surefire.argLine>
         <surefire.aggregate>true</surefire.aggregate>
-        <surefire.test>PassSuite</surefire.test>
 
         <enforcer.phase>validate</enforcer.phase>
 
