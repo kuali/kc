@@ -27,7 +27,7 @@ import org.kuali.kra.proposaldevelopment.bo.NarrativeAttachment;
 import org.kuali.kra.proposaldevelopment.bo.NarrativeType;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.generator.S2STestBase;
-import org.kuali.kra.s2s.generator.util.S2STestUtils;
+import org.kuali.kra.s2s.generator.util.S2STestConstants;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
@@ -46,7 +46,7 @@ public class EDGEPA427V1_1GeneratorTest extends S2STestBase<EDGEPA427V1_1Generat
         Narrative narrative = new Narrative();
         List<Narrative> naList = new ArrayList<Narrative>();
         NarrativeAttachment narrativeAttachment = new NarrativeAttachment();
-        File file = new File(S2STestUtils.ATT_DIR_PATH + "exercise3.pdf");
+        File file = new File(S2STestConstants.ATT_DIR_PATH + "exercise3.pdf");
         InputStream inStream = new FileInputStream(file);
         BufferedInputStream bis = new BufferedInputStream(inStream);
         byte[] narrativePdf = new byte[bis.available()];

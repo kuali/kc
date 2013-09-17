@@ -21,7 +21,6 @@ import org.junit.Test;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.maintenance.MaintenanceRuleTestBase;
-import org.kuali.kra.service.impl.mocks.MockUnitService;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
@@ -32,7 +31,7 @@ import org.springframework.util.AutoPopulatingList;
 
 public class UnitMaintenanceDocumentRuleTest extends MaintenanceRuleTestBase {
     private UnitMaintenanceDocumentRule rule = null;
-    private MockUnitService unitService;
+
     private LookupService lookupService;
 
     @Before

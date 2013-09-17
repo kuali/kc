@@ -25,19 +25,6 @@ import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.service.LookupService;
 
-/*@PerTestUnitTestData(
-        @UnitTestData(
-                order = {UnitTestData.Type.SQL_STATEMENTS, UnitTestData.Type.SQL_FILES},
-                sqlStatements = {
-                        @UnitTestSql("delete from TRV_ACCT where acct_fo_id between 101 and 301")
-                        ,@UnitTestSql("delete from TRV_ACCT_FO where acct_fo_id between 101 and 301")
-                },
-                sqlFiles = {
-                        @UnitTestFile(filename = "classpath:testFiscalOfficers.sql", delimiter = ";")
-                        , @UnitTestFile(filename = "classpath:testTravelAccounts.sql", delimiter = ";")
-                }
-        )
-)*/
 /**
  * This class tests KULRICE-984: Lookups - Relative Limit Gap
  * making sure that lookup resultSetLimits set in the DD for
