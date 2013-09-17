@@ -18,13 +18,10 @@ package org.kuali.kra.award.budget.document.authorization;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.kuali.kra.award.budget.AwardBudgetExt;
 import org.kuali.kra.award.budget.document.AwardBudgetDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.kra.budget.document.authorization.BudgetDocumentAuthorizer;
-import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.infrastructure.TaskName;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kim.api.identity.Person;
@@ -73,7 +70,7 @@ public class AwardBudgetDocumentAuthorizer  extends BudgetDocumentAuthorizer {
 
     /**
      * Does the user have permission to execute the given task for a award?
-     * @param username the user's username
+     * @param user the user
      * @param doc the award document
      * @param taskName the name of the task
      * @return true if has permission; otherwise false
@@ -82,11 +79,7 @@ public class AwardBudgetDocumentAuthorizer  extends BudgetDocumentAuthorizer {
         AwardBudgetTask task = new AwardBudgetTask(taskName, doc);
         return getTaskAuthorizationService().isAuthorized(user.getPrincipalId(), task);
     }
-    
-    private boolean canCreateAwardBudget(Document document,Person user) {
-        return canExecuteAwardBudgetTask(user, (AwardBudgetDocument) document, TaskName.ADD_BUDGET);
-    }
-    
+
     @Override
     public boolean canEdit(Document document, Person user) {
         return canExecuteAwardBudgetTask(user, (AwardBudgetDocument) document, TaskName.MODIFY_BUDGET);
@@ -119,11 +112,7 @@ public class AwardBudgetDocumentAuthorizer  extends BudgetDocumentAuthorizer {
         return canExecuteAwardBudgetTask(user, (AwardBudgetDocument) document, TaskName.SUBMIT_TO_WORKFLOW);
     }
     
-    private boolean isRebudget(AwardBudgetDocument awardBudgetDocument){
-        AwardBudgetExt budget = awardBudgetDocument.getAwardBudget();
-        String rebudgetTypeCode = getParameterService().getParameterValueAsString(AwardBudgetDocument.class, KeyConstants.AWARD_BUDGET_TYPE_REBUDGET);
-        return budget.getAwardBudgetTypeCode().equals(rebudgetTypeCode);
-    }
+
     
     @Override
     public boolean canCancel(Document document, Person user) {

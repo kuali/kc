@@ -15,16 +15,10 @@
  */
 package org.kuali.kra.award.contacts;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.ContactRole;
-import org.kuali.kra.bo.Unit;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
@@ -107,47 +101,6 @@ public class AwardProjectPersonAddRuleImpl extends BaseAwardContactAddRule imple
         }
         
         return valid;
-    }
-    
-    /**
-     * verify no duplicate units for a person
-     * @param projectPersons
-     * @return
-     */
-    boolean checkForDuplicateUnits(List<AwardPerson> projectPersons) {
-        boolean valid = true;
-        for(AwardPerson p: projectPersons) {
-            Set<Unit> uniqueUnits = new HashSet<Unit>();
-            List<Unit> tempUnits = new ArrayList<Unit>();
-            for(AwardPersonUnit apu: p.getUnits()) {
-                uniqueUnits.add(apu.getUnit());
-                tempUnits.add(apu.getUnit());
-            }
-            
-            valid &= tempUnits.size() == uniqueUnits.size();
-            if(!valid) {
-                removeUniqueUnitsFromAllUnits(uniqueUnits, tempUnits);
-                reportDuplicateUnits(p, tempUnits);
-            }
-        }
-        
-        return valid;
-    }
-
-    private void reportDuplicateUnits(AwardPerson p, List<Unit> tempUnits) {
-        Set<Unit> duplicateUnits = new HashSet<Unit>(tempUnits);
-        for(Unit dupeUnit: duplicateUnits) {
-            GlobalVariables.getMessageMap().putError(AWARD_PROJECT_PERSON_LIST_ERROR_KEY, 
-                                                    ERROR_AWARD_PROJECT_PERSON_DUPLICATE_UNITS, 
-                                                    dupeUnit.getUnitName(), dupeUnit.getUnitNumber(),
-                                                    p.getFullName());
-        }
-    }
-
-    private void removeUniqueUnitsFromAllUnits(Set<Unit> uniqueUnits, List<Unit> tempUnits) {
-        for(Unit u: uniqueUnits) {
-            tempUnits.remove(u);
-        }
     }
 
 }

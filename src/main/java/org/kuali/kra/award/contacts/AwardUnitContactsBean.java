@@ -33,7 +33,6 @@ import org.kuali.kra.service.UnitService;
  */
 public class AwardUnitContactsBean extends AwardContactsBean {
     private static final long serialVersionUID = 1421235654899276682L;
-    private static final int OSP_ADMINISTRATOR_TYPE_CODE = 2;
     private static final String DEFAULT_GROUP_CODE_FOR_UNIT_CONTACTS = "U";
 
     public AwardUnitContactsBean(AwardForm awardForm) {
@@ -135,20 +134,4 @@ public class AwardUnitContactsBean extends AwardContactsBean {
     protected AwardContact createNewContact() {
         return new AwardUnitContact(UnitContactType.CONTACT);
     }
-    
-    
-    /*
-     * create an AwardUnitContact from a person
-     */
-    private AwardUnitContact createAwardContactForPerson(UnitAdministrator unitAdministrator) {
-        AwardUnitContact awardUnitContact = new AwardUnitContact();
-        awardUnitContact.setAward(getAward());
-        awardUnitContact.setPersonId(unitAdministrator.getPerson().getPersonId());
-        awardUnitContact.setFullName(unitAdministrator.getPerson().getFullName());
-        awardUnitContact.setPerson(unitAdministrator.getPerson());
-        awardUnitContact.setUnitContactType(UnitContactType.CONTACT);
-        awardUnitContact.setUnitAdministratorType(unitAdministrator.getUnitAdministratorType());
-        return awardUnitContact;
-    }
-
 }
