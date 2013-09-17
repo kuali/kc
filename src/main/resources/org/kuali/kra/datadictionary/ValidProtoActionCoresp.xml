@@ -36,6 +36,8 @@
                 <ref bean="ValidProtoActionCoresp-protocolActionTypeCode" />
                 <ref bean="ValidProtoActionCoresp-protoCorrespTypeCode" />
                 <ref bean="ValidProtoActionCoresp-finalFlag" />
+                <ref bean="ValidProtoActionCoresp-protocolActionType.description" />
+                <ref bean="ValidProtoActionCoresp-protocolCorrespondenceType.description" />
                 <ref bean="ValidProtoActionCoresp-versionNumber" />
             </list>
         </property>
@@ -116,6 +118,20 @@
         <property name="summary" value="Final Flag" />
         <property name="description" value="Final Flag" />
     </bean>
+
+  <bean id="ValidProtoActionCoresp-protocolActionType.description" parent="ValidProtoActionCoresp-protocolActionType.description-parentBean" />
+  <bean id="ValidProtoActionCoresp-protocolActionType.description-parentBean" abstract="true" parent="ProtocolActionType-description">
+    <property name="name" value="protocolActionType.description" />
+    <property name="label" value="Protocol Action Type" />
+    <property name="shortLabel" value="Protocol Action Type" />
+  </bean>
+
+  <bean id="ValidProtoActionCoresp-protocolCorrespondenceType.description" parent="ValidProtoActionCoresp-protocolCorrespondenceType.description-parentBean" />
+  <bean id="ValidProtoActionCoresp-protocolCorrespondenceType.description-parentBean" abstract="true" parent="ProtocolCorrespondenceType-description">
+    <property name="name" value="protocolCorrespondenceType.description" />
+    <property name="label" value="Protocol Correspondence Type" />
+    <property name="shortLabel" value="Protocol Correspondence Type" />
+  </bean>
 
     <bean id="ValidProtoActionCoresp-versionNumber" parent="ValidProtoActionCoresp-versionNumber-parentBean" />
     <bean id="ValidProtoActionCoresp-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
