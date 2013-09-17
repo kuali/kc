@@ -7,8 +7,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.bo.KcPersonExtendedAttributes;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.lookup.KcPersonExtendedAttributesLookupableHelperServiceImpl;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
+import org.kuali.rice.kns.lookup.LookupableHelperService;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.rice.krad.UserSession;
@@ -16,14 +16,12 @@ import org.kuali.rice.krad.util.GlobalVariables;
 
 public class KcPersonExtendedAttributesLookupableHelperServiceTest extends KcUnitTestBase {
     private static final int NUMBER_LOOKUP_CRITERIA_FIELDS = 4;
-    KcPersonExtendedAttributesLookupableHelperServiceImpl kcPersonExtendedAttributesLookupableHelperServiceImpl;
+    LookupableHelperService kcPersonExtendedAttributesLookupableHelperServiceImpl;
 
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        kcPersonExtendedAttributesLookupableHelperServiceImpl = 
-            (KcPersonExtendedAttributesLookupableHelperServiceImpl) KraServiceLocator
-                .getService("kcPersonExtendedAttributesLookupableHelperService");
+        kcPersonExtendedAttributesLookupableHelperServiceImpl =  KraServiceLocator.getService("kcPersonExtendedAttributesLookupableHelperService");
         kcPersonExtendedAttributesLookupableHelperServiceImpl.setBusinessObjectClass(KcPersonExtendedAttributes.class);
         GlobalVariables.setUserSession(new UserSession("quickstart"));
     }
