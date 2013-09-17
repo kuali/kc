@@ -34,7 +34,6 @@ import org.kuali.rice.krad.service.KeyValuesService;
  * This class is used to get the Frequency BO for AwardProposalDue control
  */
 public class AwardTemplateCommentTypeValueFinder  extends KeyValuesBase {
-    KeyValueFinderService keyValueFinderService= (KeyValueFinderService)KraServiceLocator.getService("keyValueFinderService");
     
     /**
      * Constructs the list of Comment BOs.  Each entry
@@ -46,7 +45,7 @@ public class AwardTemplateCommentTypeValueFinder  extends KeyValuesBase {
      * 
      * @return the list of &lt;key, value&gt; pairs of comment types.  The first entry
      * is always &lt;"", "select:"&gt;.
-     * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
+     *
      */
     public List<KeyValue> getKeyValues() {
         KeyValuesService keyValuesService = (KeyValuesService) KraServiceLocator.getService("keyValuesService");

@@ -21,17 +21,20 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.award.home.AwardComment;
+import org.kuali.kra.award.home.AwardCommentFactory;
+import org.kuali.kra.bo.CommentType;
 
 public class CommentsDataFeedCommandTest extends BaseDataFeedCommandTest {
     private static final String TEST_COMMENT = "Test Comment";
     private ProposalDataFeedCommandBase command;
+    MockAwardCommentFactory awardCommentFactory;
     
     @Before
     @Override
     public void setUp() throws Exception {
         super.setUp();
         command = new CommentsDataFeedCommand(award, proposal, FundingProposalMergeType.REPLACE);
-        command.setAwardCommentFactory(awardCommentFactory);
+        awardCommentFactory = new MockAwardCommentFactory();
     }
     
     @After
@@ -49,4 +52,14 @@ public class CommentsDataFeedCommandTest extends BaseDataFeedCommandTest {
         Assert.assertNotNull(comment);
         Assert.assertEquals(TEST_COMMENT, comment.getComments());
     }
+
+    class MockAwardCommentFactory extends AwardCommentFactory {
+        @Override
+        public CommentType findCommentType(String commentTypeCode) {
+            CommentType commentType = new CommentType();
+            commentType.setCommentTypeCode(commentTypeCode);
+            commentType.setDescription("mock description");
+            return commentType;
+        }
+    };
 }

@@ -26,7 +26,6 @@ import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
-import org.kuali.rice.krad.service.BusinessObjectService;
 
 /**
  * Gets all sequence numbers for the current award id.  See
@@ -37,11 +36,9 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 public class AwardTransactionValuesFinder extends KeyValuesBase {
     
     private AwardTransactionLookupService transactionLookupService;
-    private BusinessObjectService businessObjectService;
     
     public AwardTransactionValuesFinder() {
         transactionLookupService = KraServiceLocator.getService(AwardTransactionLookupService.class);
-        businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);
     }
     
     /**

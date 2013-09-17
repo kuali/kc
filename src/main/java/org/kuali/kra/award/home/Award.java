@@ -112,7 +112,6 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
     public static final String CLOSE_OUT_REPORT_TYPE_PATENT = "3";
     public static final String CLOSE_OUT_REPORT_TYPE_PROPERTY = "2";
     public static final String CLOSE_OUT_REPORT_TYPE_INVOICE = "6";
-    private static final int MAX_NBR_AWD_HIERARCHY_TEMP_OBJECTS = 100;
     private static final String DEFAULT_GROUP_CODE_FOR_CENTRAL_ADMIN_CONTACTS = "C";
 
     public static final String NOTIFICATION_IRB_SPECIAL_REVIEW_LINK_ADDED = "552";
@@ -3608,20 +3607,5 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
         this.projectPersons = projectPersons;
     }
 
-//    public String getSequenceOwnerVersionNameValue() {
-//        return sequenceOwnerVersionNameValue;
-//    }
-//
-//    public void setSequenceOwnerVersionNameValue(String sequenceOwnerVersionNameValue) {
-//        this.sequenceOwnerVersionNameValue = sequenceOwnerVersionNameValue;
-//    }
-//
-//    public Integer getSequenceOwnerSequenceNumber() {
-//        return sequenceOwnerSequenceNumber;
-//    }
-//
-//    public void setSequenceOwnerSequenceNumber(Integer sequenceOwnerSequenceNumber) {
-//        this.sequenceOwnerSequenceNumber = sequenceOwnerSequenceNumber;
-//    }
     
 }

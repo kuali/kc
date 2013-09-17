@@ -15,19 +15,7 @@
  */
 package org.kuali.kra.award.lookup;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Set;
-import java.util.TreeSet;
-
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.award.contacts.AwardPerson;
 import org.kuali.kra.award.contacts.AwardUnitContact;
 import org.kuali.kra.award.document.AwardDocument;
@@ -37,12 +25,9 @@ import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.dao.AwardLookupDao;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.lookup.KraLookupableHelperServiceImpl;
 import org.kuali.kra.service.KcPersonService;
-import org.kuali.kra.timeandmoney.document.TimeAndMoneyDocument;
 import org.kuali.rice.kew.api.KewApiConstants;
-import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
@@ -50,25 +35,22 @@ import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.lookup.CollectionIncomplete;
-import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.UrlFactory;
+
+import java.util.*;
 
 /**
  * This class provides Award lookup support
  */
 class AwardLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {    
 
-    private static final String COPY_HREF_PATTERN = "../DocCopyHandler.do?docId=%s&command=displayDocSearchView&documentTypeName=%s";
     static final String PERSON_ID = "personId";
     static final String ROLODEX_ID = "rolodexId";
     static final String UNIT_NUMBER = "unitNumber";
-    static final String USER_ID = "userId";
     static final String PI_NAME = "principalInvestigatorName";
     static final String OSP_ADMIN_NAME = "ospAdministratorName";
-    private static final Log LOG = LogFactory.getLog(AwardLookupableHelperServiceImpl.class);
 
     private static final long serialVersionUID = 6304433555064511153L;
     
@@ -246,13 +228,6 @@ class AwardLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {
         
         htmlData.setHref(href);
         return htmlData;
-    }      
-    
-    protected void addCopyLink(BusinessObject businessObject, List<String> pkNames, List<HtmlData> htmlDataList, String hrefPattern, String methodToCall) {
-        AnchorHtmlData htmlData = getUrlData(businessObject, methodToCall, pkNames);
-        AwardDocument document = ((Award) businessObject).getAwardDocument();
-        htmlData.setHref(String.format(hrefPattern, document.getDocumentNumber(), getDocumentTypeName()));
-        htmlDataList.add(htmlData);
     }
     
     protected HtmlData getOspAdminNameInquiryUrl(Award award) {
@@ -320,92 +295,7 @@ class AwardLookupableHelperServiceImpl extends KraLookupableHelperServiceImpl {
     @Override
     protected String getKeyFieldName() {
         return "awardId";
-    }   
-    
-    @SuppressWarnings("unchecked")
-    protected List<Award> filterForActiveAwardsAndAwardWithActiveTimeAndMoney(Collection<Award> collectionByQuery) throws WorkflowException {
-        BusinessObjectService businessObjectService =  KraServiceLocator.getService(BusinessObjectService.class);
-        DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
-        Set<String> awardNumbers = new TreeSet<String>();
-        for(Award award: collectionByQuery) {
-            if(!awardNumbers.contains(award.getAwardNumber())){
-                awardNumbers.add(award.getAwardNumber());
-            }
-        }
-        
-        
-        //get submitted docs
-        List<Award> activeAwards = new ArrayList<Award>();
-        for(String versionName: awardNumbers) {
-//            VersionHistory versionHistory = versionHistoryService.findActiveVersion(Award.class, versionName);
-//            if(versionHistory != null) {
-//                Award activeAward = (Award) versionHistory.getSequenceOwner();
-//                if(activeAward != null) {
-//                    activeAwards.add(activeAward);
-//                }
-//            }else{
-            
-                Map<String, Object> fieldValues = new HashMap<String, Object>();
-                String[] splitAwardNumber = versionName.split("-");
-                StringBuilder rootAwardNumberBuilder = new StringBuilder(12);
-                rootAwardNumberBuilder.append(splitAwardNumber[0]);
-                rootAwardNumberBuilder.append("-00001");
-                String rootAwardNumber = rootAwardNumberBuilder.toString();
-                fieldValues.put("rootAwardNumber", rootAwardNumber);
-                
-                List<TimeAndMoneyDocument> timeAndMoneyDocuments = 
-                    (List<TimeAndMoneyDocument>)businessObjectService.findMatching(TimeAndMoneyDocument.class, fieldValues);
-                Collections.sort(timeAndMoneyDocuments);
-                if(!(timeAndMoneyDocuments.size() == 0)) {
-                    TimeAndMoneyDocument t = timeAndMoneyDocuments.get(0);
-                    TimeAndMoneyDocument timeAndMoneyDocument = (TimeAndMoneyDocument) documentService.getByDocumentHeaderId(t.getDocumentNumber());
-                    if(timeAndMoneyDocument.getDocumentHeader().getWorkflowDocument().isFinal()) {
-//                        Award award = businessObjectService.findBySinglePrimaryKey(Award.class, timeAndMoneyDocument.getAward());
-                        activeAwards.add(timeAndMoneyDocument.getAward());
-                    }
-//                }
-                
-            }
-        } 
-        // get awards that have associated final T&M doc.
-        
-//        for(Award award : collectionByQuery) {
-//            Map<String, Object> fieldValues = new HashMap<String, Object>();
-//            String[] splitAwardNumber = award.getAwardNumber().split("-");
-//            StringBuilder rootAwardNumberBuilder = new StringBuilder(12);
-//            rootAwardNumberBuilder.append(splitAwardNumber[0]);
-//            rootAwardNumberBuilder.append("-00001");
-//            String rootAwardNumber = rootAwardNumberBuilder.toString();
-//            fieldValues.put("rootAwardNumber", rootAwardNumber);
-//            
-//            List<TimeAndMoneyDocument> timeAndMoneyDocuments = 
-//                (List<TimeAndMoneyDocument>)businessObjectService.findMatchingOrderBy(TimeAndMoneyDocument.class, fieldValues, "documentNumber", true);
-//            if(!(timeAndMoneyDocuments.size() == 0)) {
-//                TimeAndMoneyDocument t = timeAndMoneyDocuments.get(0);
-//                TimeAndMoneyDocument timeAndMoneyDocument = (TimeAndMoneyDocument) documentService.getByDocumentHeaderId(t.getDocumentNumber());
-//                if(timeAndMoneyDocument.getDocumentHeader().getWorkflowDocument().isFinal() && 
-//                        !(isAwardInAwardList(award.getAwardNumber(), activeAwards))) {
-//                    activeAwards.add(award);
-//                }
-//            }
-//        
-//        }
-        
-                
-        return activeAwards;
     }
-    
-    
-    private boolean isAwardInAwardList(String awardNumber, List<Award> awardList) {       
-        boolean returnVal = false;
-        for(Award award : awardList) {
-            if(award.getAwardNumber().equals(awardNumber)) {
-                returnVal = true;
-            }
-        }
-        return returnVal;       
-    }
-
 
     public AwardLookupDao getAwardLookupDao() {
         return awardLookupDao;
