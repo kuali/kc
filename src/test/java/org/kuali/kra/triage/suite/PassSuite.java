@@ -21,9 +21,7 @@ import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
 @SuiteClasses(  {
-
     org.kuali.kra.test.OjbRepositoryMappingTest.class,
-    //org.kuali.kra.test.infrastructure.test.LifecycleTest.class,
     org.kuali.kra.institutionalproposal.customdata.InstitutionalProposalCustomDataTest.class,
     org.kuali.kra.award.rule.AwardCommentsRuleTest.class,
     org.kuali.kra.irb.protocol.participant.ProtocolParticipantRuleTest.class,
@@ -275,7 +273,6 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.irb.correspondence.BatchCorrespondenceDetailRuleTest.class,
     org.kuali.kra.questionnaire.answer.QuestionnaireAnswerServiceTest.class,
     org.kuali.kra.questionnaire.answer.QuestionnaireAnswerRuleTest.class,
-//temporary  org.kuali.kra.irb.actions.assignagenda.ProtocolAssignToAgendaServiceTest.class,
     org.kuali.kra.irb.actions.assignagenda.ProtocolAssignToAgendaRuleTest.class,
     org.kuali.kra.proposaldevelopment.lookup.keyvalue.ProposalColumnsValuesFinderTest.class,
     org.kuali.kra.proposaldevelopment.document.ProposalColumnsToAlterMaintainableImplTest.class,
@@ -444,8 +441,6 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.coi.personfinancialentity.FinEntitiesDataGroupMaintenanceDocumentRuleTest.class,
     org.kuali.kra.coi.personfinancialentity.FinEntitiesDataMatrixMaintenanceDocumentRuleTest.class,
     org.kuali.kra.coi.personfinancialentity.SaveFinancialEntityRuleTest.class,
-//temporary org.kuali.kra.coi.disclosure.CoiDisclosureServiceTest.class,
-    //org.kuali.kra.coi.actions.CoiDisclosureActionServiceTest.class
     org.kuali.kra.negotiations.rules.NegotiationActivityRuleTest.class,
     org.kuali.kra.negotiations.auth.TestNegotiationAuthorizers.class,
     org.kuali.kra.irb.protocol.questionnaire.ProtocolQuestionnaireAuditRuleTest.class,
@@ -477,7 +472,8 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.award.subcontracting.goalsAndExpenditures.AwardSubcontractingGoalsExpendituresServiceTest.class,
     org.kuali.kra.award.subcontracting.goalsAndExpenditures.AwardSubcontractingGoalsExpendituresRuleTest.class,
     org.kuali.kra.infrastructure.TimeFormatterTest.class,
-    org.kuali.kra.reporting.service.impl.BirtReportServiceImplTest.class
+    org.kuali.kra.reporting.service.impl.BirtReportServiceImplTest.class,
+    org.kuali.kra.award.lookup.keyvalue.AwardTemplateContactValuesFinderTest.class
 })
 /** these are all the test class where all the test methods are currently passing. */
 public class PassSuite {
