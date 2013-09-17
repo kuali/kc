@@ -478,7 +478,11 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.test.StateServiceTest.class,
     org.kuali.kra.test.infrastructure.test.LifecycleTest.class,
     org.kuali.kra.test.infrastructure.test.DbTransactionTest.class,
-    org.kuali.kra.service.impl.AwardTemplateReportTermServiceImplTest.class
+    org.kuali.kra.service.impl.AwardTemplateReportTermServiceImplTest.class,
+    org.kuali.kra.s2s.generator.impl.PHSCoverLetterV1_2GeneratorTest.class,
+    org.kuali.kra.rules.ValidSpecialReviewApprovalMaintenanceRuleTest.class,
+    org.kuali.kra.irb.actions.grantexemption.ProtocolGrantExemptionServiceTest.class
+
 
 })
 /** these are all the test class where all the test methods are currently passing. */
