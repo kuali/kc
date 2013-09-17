@@ -119,7 +119,8 @@ public class AuditMapSorterTest {
                 AuditError e0 = (AuditError) fooBarErrorMap.get("bar").getAuditErrorList().get(0);
                 AuditError e1 = (AuditError) fooBarErrorMap.get("bar").getAuditErrorList().get(1);
                 
-                oneOf(comp).compare(e0, e1);
+                allowing(comp).compare(e0, e1);
+                allowing(comp).compare(e1, e0);
             }
         });
         
@@ -144,13 +145,15 @@ public class AuditMapSorterTest {
             {
                 AuditError e0 = (AuditError) fooBarErrorMap.get("bar").getAuditErrorList().get(0);
                 AuditError e1 = (AuditError) fooBarErrorMap.get("bar").getAuditErrorList().get(1);
-                
-                oneOf(comp).compare(e0, e1);
+
+                allowing(comp).compare(e0, e1);
+                allowing(comp).compare(e1, e0);
                 
                 AuditError e3 = (AuditError) fooBarErrorMap.get("foo").getAuditErrorList().get(0);
                 AuditError e4 = (AuditError) fooBarErrorMap.get("foo").getAuditErrorList().get(1);
-                
-                oneOf(comp).compare(e3, e4);
+
+                allowing(comp).compare(e3, e4);
+                allowing(comp).compare(e4, e3);
             }
         });
         
