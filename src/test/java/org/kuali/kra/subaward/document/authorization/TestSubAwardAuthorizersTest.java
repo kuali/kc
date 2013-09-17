@@ -30,7 +30,7 @@ import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 
-public class TestSubAwardAuthorizers extends KcUnitTestBase {
+public class TestSubAwardAuthorizersTest extends KcUnitTestBase {
     
     TaskAuthorizationService taskAuthorizationService;
     BusinessObjectService businessObjectService;  

@@ -35,7 +35,7 @@ import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.kra.s2s.generator.S2STestBase;
-import org.kuali.kra.s2s.generator.util.S2STestUtils;
+import org.kuali.kra.s2s.generator.util.S2STestConstants;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.GlobalVariables;
 
@@ -78,7 +78,7 @@ public class NASAOtherProjectInformationV1_0GeneratorTest extends S2STestBase<NA
         Narrative narrative = new Narrative();
         List<Narrative> naList = new ArrayList<Narrative>();
         NarrativeAttachment narrativeAttachment = new NarrativeAttachment();
-        File file = new File(S2STestUtils.ATT_DIR_PATH + "exercise5.pdf");
+        File file = new File(S2STestConstants.ATT_DIR_PATH + "exercise5.pdf");
         InputStream inStream = new FileInputStream(file);
         BufferedInputStream bis = new BufferedInputStream(inStream);
         byte[] narrativePdf = new byte[bis.available()];

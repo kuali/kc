@@ -38,7 +38,7 @@ import org.kuali.kra.proposaldevelopment.bo.ProposalSite;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.s2s.S2SException;
 import org.kuali.kra.s2s.bo.S2sOppForms;
-import org.kuali.kra.s2s.generator.util.S2STestUtils;
+import org.kuali.kra.s2s.generator.util.S2STestConstants;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 
 /**
@@ -89,7 +89,7 @@ public class PrintFormTest extends KcUnitTestBase {
 
         NarrativeAttachment narrativeAttachment = new NarrativeAttachment();
         //InputStream inStream = getClass().getResourceAsStream("pdftestDoc4.pdf");
-        File file = new File(S2STestUtils.ATT_DIR_PATH + "exercise5.pdf");
+        File file = new File(S2STestConstants.ATT_DIR_PATH + "exercise5.pdf");
         InputStream inStream = new FileInputStream(file);
         BufferedInputStream bis = new BufferedInputStream(inStream);
         byte[] narrativePdf = new byte[bis.available()];
