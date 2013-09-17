@@ -30,7 +30,7 @@ import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 public class KcPersonExtendedAttributesMaintainableImplTest extends MaintenanceRuleTestBase {
-    private static final int NUMBER_SECTIONS = 3;
+    private static final int NUMBER_SECTIONS = 4;
     private KcPersonExtendedAttributesMaintainableImpl kcPersonEAMaintainableImpl = null;
    
     @Before
@@ -56,7 +56,7 @@ public class KcPersonExtendedAttributesMaintainableImplTest extends MaintenanceR
         kcPersonEAMaintainableImpl.setMaintenanceAction("new");
         kcPersonEAMaintainableImpl.setDocumentNumber(kcPesonExtendedAttribuesDocument.getDocumentNumber());
         List<Section> sections = kcPersonEAMaintainableImpl.getSections(kcPesonExtendedAttribuesDocument, kcPersonEAMaintainableImpl);
-        assertEquals(sections.size(), NUMBER_SECTIONS);
+        assertEquals(NUMBER_SECTIONS, sections.size());
         
         for(Section section : sections) {
             for(Row row :section.getRows()) {
