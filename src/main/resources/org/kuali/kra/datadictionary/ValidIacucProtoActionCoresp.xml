@@ -36,6 +36,8 @@
                 <ref bean="ValidIacucProtoActionCoresp-protocolActionTypeCode" />
                 <ref bean="ValidIacucProtoActionCoresp-protoCorrespTypeCode" />
                 <ref bean="ValidIacucProtoActionCoresp-finalFlag" />
+                <ref bean="ValidIacucProtoActionCoresp-protocolActionType.description" />
+                <ref bean="ValidIacucProtoActionCoresp-protocolCorrespondenceType.description" />
                 <ref bean="ValidIacucProtoActionCoresp-versionNumber" />
             </list>
         </property>
@@ -116,6 +118,21 @@
         <property name="summary" value="Final Flag" />
         <property name="description" value="Final Flag" />
     </bean>
+
+  <bean id="ValidIacucProtoActionCoresp-protocolActionType.description" parent="ValidIacucProtoActionCoresp-protocolActionType.description-parentBean" />
+  <bean id="ValidIacucProtoActionCoresp-protocolActionType.description-parentBean" abstract="true" parent="IacucProtocolActionType-description">
+    <property name="name" value="protocolActionType.description" />
+    <property name="label" value="Protocol Action Type" />
+    <property name="shortLabel" value="Protocol Action Type" />
+  </bean>
+
+  <bean id="ValidIacucProtoActionCoresp-protocolCorrespondenceType.description" parent="ValidIacucProtoActionCoresp-protocolCorrespondenceType.description-parentBean" />
+  <bean id="ValidIacucProtoActionCoresp-protocolCorrespondenceType.description-parentBean" abstract="true" parent="IacucProtocolCorrespondenceType-description">
+    <property name="name" value="protocolCorrespondenceType.description" />
+    <property name="label" value="Protocol Correspondence Type" />
+    <property name="shortLabel" value="Protocol Correspondence Type" />
+  </bean>
+
 
     <bean id="ValidIacucProtoActionCoresp-versionNumber" parent="ValidIacucProtoActionCoresp-versionNumber-parentBean" />
     <bean id="ValidIacucProtoActionCoresp-versionNumber-parentBean" abstract="true" parent="AttributeReferenceDummy-versionNumber">
