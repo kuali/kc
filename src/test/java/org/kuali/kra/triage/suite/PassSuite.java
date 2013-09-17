@@ -484,7 +484,9 @@ import org.junit.runners.Suite.SuiteClasses;
     org.kuali.kra.irb.actions.grantexemption.ProtocolGrantExemptionServiceTest.class,
     org.kuali.kra.irb.actions.assignagenda.ProtocolAssignToAgendaServiceTest.class,
     org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalUnitContactsProjectRoleValuesFinderTest.class,
-    org.kuali.kra.common.notification.KcNotificationModuleRoleServiceTest.class
+    org.kuali.kra.common.notification.KcNotificationModuleRoleServiceTest.class,
+    org.kuali.kra.committee.service.KcPersonExtendedAttributesLookupableHelperServiceTest.class
+
 
 
 })
