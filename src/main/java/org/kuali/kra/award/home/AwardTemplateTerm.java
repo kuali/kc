@@ -37,9 +37,9 @@ public class AwardTemplateTerm extends KraPersistableBusinessObjectBase {
     private String sponsorTermTypeCode;
 
     private SponsorTerm sponsorTerm;
-    
+
     private String description;
-    
+
     private String sponsorTermCode;
 
     public AwardTemplateTerm() {
@@ -71,7 +71,7 @@ public class AwardTemplateTerm extends KraPersistableBusinessObjectBase {
 
     /**
      * Sets the sponsorTermsTypeCode attribute value.
-     * @param sponsorTermsTypeCode The sponsorTermsTypeCode to set.
+     * @param sponsorTermTypeCode The sponsorTermTypeCode to set.
      */
     public void setSponsorTermTypeCode(String sponsorTermTypeCode) {
         this.sponsorTermTypeCode = sponsorTermTypeCode;

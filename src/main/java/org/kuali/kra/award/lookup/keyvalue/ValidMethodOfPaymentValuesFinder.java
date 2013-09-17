@@ -25,7 +25,6 @@ import org.kuali.kra.service.AwardPaymentAndInvoicesService;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
-import org.kuali.rice.krad.service.KeyValuesService;
 
 /**
  * 
@@ -34,7 +33,6 @@ import org.kuali.rice.krad.service.KeyValuesService;
 public class ValidMethodOfPaymentValuesFinder extends KeyValuesBase {
     
     private String basisOfPaymentCode;
-    private KeyValuesService keyValuesService;
     private AwardPaymentAndInvoicesService awardPaymentAndInvoicesService;
     
     /**
@@ -82,19 +80,6 @@ public class ValidMethodOfPaymentValuesFinder extends KeyValuesBase {
             awardPaymentAndInvoicesService = KraServiceLocator.getService(AwardPaymentAndInvoicesService.class);
         }
         return awardPaymentAndInvoicesService;
-    }
-    
-    /**
-     * 
-     * Wrapper method for retrieval of KeyValuesService
-     * @return
-     */
-    protected KeyValuesService getKeyValuesService(){
-        if(keyValuesService == null){
-            keyValuesService = 
-                (KeyValuesService) KraServiceLocator.getService("keyValuesService");
-        }
-        return keyValuesService;
     }
 
     public String getBasisOfPaymentCode() {
