@@ -862,7 +862,7 @@ public class CoiDisclosure extends KraPersistableBusinessObjectBase implements S
     }
 
     public CoiDisclosureEventType getCoiDisclosureEventType() {
-        if ((StringUtils.isNotBlank(eventTypeCode) && coiDisclosureEventType == null) || !StringUtils.equals(eventTypeCode, coiDisclosureEventType.getEventTypeCode())) {
+        if ((StringUtils.isNotBlank(eventTypeCode) && coiDisclosureEventType == null) || (coiDisclosureEventType != null && !StringUtils.equals(eventTypeCode, coiDisclosureEventType.getEventTypeCode()))) {
             // the typecode are not equal : it may happen when user select a different manualtype, ojb will not refresh automatically
             refreshReferenceObject("coiDisclosureEventType");
         }
