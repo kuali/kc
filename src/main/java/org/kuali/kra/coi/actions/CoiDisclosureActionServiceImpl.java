@@ -450,7 +450,7 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
         List<CoiDisclProject> disclProjects = coiDisclosure.getCoiDisclProjects();
         
         for (CoiDisclProject tmpProj : disclProjects) {
-            if (StringUtils.equals(tmpProj.getDisclosureEventType(), coiDisclosure.getCoiDisclosureEventType().getEventTypeCode())
+            if (StringUtils.equals(tmpProj.getDisclosureEventType(), coiDisclosure.getEventTypeCode())
                 && StringUtils.equals(tmpProj.getModuleItemKey(), coiDisclosure.getModuleItemKey()) ) {
                 tmpProj.setDisclosureStatusCode(disclosureStatus);
             }
