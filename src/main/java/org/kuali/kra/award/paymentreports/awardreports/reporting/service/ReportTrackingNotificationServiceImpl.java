@@ -53,7 +53,6 @@ public class ReportTrackingNotificationServiceImpl implements ReportTrackingNoti
     private KcNotificationService notificationService;
     
     private List<ReportTrackingNotification> notifications;
-    protected static final int ZERO = 0;
     
     public ReportTrackingNotificationServiceImpl() {
         notifications = new ArrayList<ReportTrackingNotification>();

@@ -207,11 +207,6 @@ public class AwardAttachment extends AwardAssociate implements Comparable<AwardA
         this.type = type;
     }
 
-    /** {@inheritDoc} */
-    public boolean supportsVersioning() {
-        return false;
-    }
-
     /** 
      * {@inheritDoc}
      * also nulling the person id because when saving after versioning, the person id is reverting to the wrong BO.
