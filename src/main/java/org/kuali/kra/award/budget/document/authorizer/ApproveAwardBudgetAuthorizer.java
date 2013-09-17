@@ -35,10 +35,7 @@ public class ApproveAwardBudgetAuthorizer extends BudgetAuthorizer {
     public boolean isAuthorized(String userId, Task task) {
         AwardBudgetTask budgetTask = (AwardBudgetTask) task;
         AwardBudgetDocument budgetDocument = budgetTask.getAwardBudgetDocument();
-        
-        // AwardDocument doc = (AwardDocument) budgetDocument.getParentDocument();
-        // return hasUnitPermission(userId, doc.getLeadUnitNumber(), Constants.MODULE_NAMESPACE_AWARD_BUDGET, AwardPermissionConstants.APPROVE_AWARD_BUDGET.getAwardPermission());
-        
+
         return kraWorkflowService.isEnRoute(budgetDocument) && kraWorkflowService.hasWorkflowPermission(userId, budgetDocument);
     }
 

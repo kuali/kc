@@ -16,16 +16,6 @@
 package org.kuali.kra.award.budget;
 
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.budget.calculator.AwardBudgetCalculationService;
@@ -37,7 +27,6 @@ import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardService;
 import org.kuali.kra.award.home.fundingproposal.AwardFundingProposal;
 import org.kuali.kra.bo.versioning.VersionHistory;
-import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.calculator.BudgetCalculationService;
 import org.kuali.kra.budget.calculator.QueryList;
@@ -61,12 +50,10 @@ import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.budget.versions.BudgetVersionOverview;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.proposaladmindetails.ProposalAdminDetails;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.budget.bo.ProposalDevelopmentBudgetExt;
-import org.kuali.kra.service.DeepCopyPostProcessor;
 import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
@@ -78,6 +65,8 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.springframework.beans.BeanUtils;
+
+import java.util.*;
 
 /**
  * This class is to process all basic services required for AwardBudget
@@ -266,11 +255,6 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
         AwardBudgetDocument awardBudgetDocument = createNewBudgetDocument(documentDescription, parentDocument,false);
 
         return awardBudgetDocument;
-    }
-
-    protected AwardBudgetDocument copyPostedBudgetVersion(AwardDocument parentDocument) {
-        AwardBudgetExt previousPostedBudget = getLatestPostedBudget(parentDocument);
-        return (AwardBudgetDocument)previousPostedBudget.getBudgetDocument();
     }
 
     /**
@@ -594,10 +578,6 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
         	}
         }
         return null;
-    }
-
-    protected DeepCopyPostProcessor getDeepCopyPostProcessor() {
-        return KraServiceLocator.getService(DeepCopyPostProcessor.class);
     }
 
     /**

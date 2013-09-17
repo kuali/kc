@@ -517,7 +517,8 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
         return new AwardFandaRateRule().processAddFandaRateBusinessRules(
                 addAwardFandaRateEvent);            
     }
-    
+
+    @Override
     public boolean processSaveFandaRateBusinessRules(AwardFandaRateSaveEvent awardFandaRateSaveEvent) {
         return new AwardFandaRateRule().processSaveFandaRateBusinessRules(awardFandaRateSaveEvent);
     }

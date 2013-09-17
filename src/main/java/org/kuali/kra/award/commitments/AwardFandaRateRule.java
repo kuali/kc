@@ -57,7 +57,6 @@ public class AwardFandaRateRule  extends ResearchDocumentRuleBase implements Add
     private ParameterService parameterService;
     BusinessObjectService businessObjectService;
     private boolean isPairChecked = false;
-    private boolean isValidPair = false;
     
     /**
      * 
