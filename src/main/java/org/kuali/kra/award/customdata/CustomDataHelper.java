@@ -23,7 +23,6 @@ import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.CustomAttributeDocument;
 import org.kuali.kra.common.customattributes.CustomDataHelperBase;
-import org.kuali.kra.document.ResearchDocumentBase;
 
 /**
  * The CustomDataHelper is used to manage the Custom Data tab web page.
