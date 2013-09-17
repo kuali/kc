@@ -46,24 +46,6 @@ public class AwardCommentFactory {
     }
     
     /**
-     * This method creates F and A Rate Comment
-     * @param award
-     * @return
-     */
-    public AwardComment createPaymentAndInvoiceComment() {
-        return createAwardComment(Constants.PAYMENT_AND_INVOICES_COMMENT_TYPE_CODE, Constants.AWARD_COMMENT_INCLUDE_IN_CHECKLIST);
-    }
-    
-    /**
-     * This method creates Benefits Rate Comment
-     * @param award
-     * @return
-     */
-    public AwardComment createBenefitsRateComment() {
-        return createAwardComment(Constants.BENEFITS_RATES_COMMENT_TYPE_CODE, Constants.AWARD_COMMENT_INCLUDE_IN_CHECKLIST);
-    }
-    
-    /**
      * This method creates PreAwardSponsorAuthoriztion comment
      * @param award
      * @return
@@ -82,84 +64,12 @@ public class AwardCommentFactory {
     }
     
     /**
-     * This method creates a General Comment
-     * @param award
-     * @return
-     */
-    public AwardComment createGeneralComment() {
-        return createAwardComment(Constants.GENERAL_COMMENT_TYPE_CODE, Constants.AWARD_COMMENT_INCLUDE_IN_CHECKLIST);
-    }
-    
-    /**
-     * This method creates Fiscal Report Comment
-     * @param award
-     * @return
-     */
-    public AwardComment createFiscalReportComment() {
-        return createAwardComment(Constants.FISCAL_REPORT_COMMENT_TYPE_CODE, Constants.AWARD_COMMENT_INCLUDE_IN_CHECKLIST);
-    }
-    
-    /**
-     * This method creates Intellectual Property Comment
-     * @param award
-     * @return
-     */
-    public AwardComment createIntellecutalPropertyComment() {
-        return createAwardComment(Constants.INTELLECTUAL_PROPERTY_COMMENT_TYPE_CODE, Constants.AWARD_COMMENT_INCLUDE_IN_CHECKLIST);
-    }
-    
-    /**
-     * This method creates Procurement Comment
-     * @param award
-     * @return
-     */
-    public AwardComment createProcurementComment() {
-        return createAwardComment(Constants.PROCUREMENT_COMMENT_TYPE_CODE, Constants.AWARD_COMMENT_INCLUDE_IN_CHECKLIST);
-    }
-    
-    /**
-     * This method creates Property comment
-     * @param award
-     * @return
-     */
-    public AwardComment createPropertyComment() {
-        return createAwardComment(Constants.PROPERTY_COMMENT_TYPE_CODE, Constants.AWARD_COMMENT_INCLUDE_IN_CHECKLIST);
-    }
-    
-    /**
-     * This method creates a Special Rate Comment
-     * @param award
-     * @return
-     */
-    public AwardComment createSpecialRateComment() {
-        return createAwardComment(Constants.SPECIAL_RATE_COMMENT_TYPE_CODE, Constants.AWARD_COMMENT_EXCLUDE_FROM_CHECKLIST);
-    }
-    
-    /**
-     * This method creates a Current Action Comment
-     * @param award
-     * @return
-     */
-    public AwardComment createCurrentActionComment() {
-        return createAwardComment(Constants.CURRENT_ACTION_COMMENT_TYPE_CODE, Constants.AWARD_COMMENT_EXCLUDE_FROM_CHECKLIST);
-    }
-    
-    /**
      * This method creates a Special Review Comment
      * @param award
      * @return
      */
     public AwardComment createSpecialReviewComment() {
         return createAwardComment(Constants.SPECIAL_REVIEW_COMMENT_TYPE_CODE, Constants.AWARD_COMMENT_EXCLUDE_FROM_CHECKLIST);
-    }
-    
-    /**
-     * This method creates Proposal Summary Comment
-     * @param award
-     * @return
-     */
-    public AwardComment createProposalSummaryComment() {
-        return createAwardComment(Constants.PROPOSAL_SUMMARY_COMMENT_TYPE_CODE, Constants.AWARD_COMMENT_EXCLUDE_FROM_CHECKLIST);
     }
     
     /**
@@ -170,17 +80,6 @@ public class AwardCommentFactory {
     public AwardComment createProposalComment() {
         return createAwardComment(Constants.PROPOSAL_COMMENT_TYPE_CODE, Constants.AWARD_COMMENT_EXCLUDE_FROM_CHECKLIST);
     }
-    
-    /**
-     * This method creates Proposal IP Review Comment
-     * @param award
-     * @return
-     */
-    public AwardComment createProposalIPReviewComment() {
-        return createAwardComment(Constants.PROPOSAL_IP_REVIEW_COMMENT_TYPE_CODE, Constants.AWARD_COMMENT_EXCLUDE_FROM_CHECKLIST);
-    }
-    
-    
 
     /**
      * This method returns a new AwardComment

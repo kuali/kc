@@ -18,7 +18,6 @@ package org.kuali.kra.award.home.fundingproposal;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardComment;
-import org.kuali.kra.award.home.AwardCommentFactory;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 
 /**
@@ -28,13 +27,11 @@ abstract class ProposalDataFeedCommandBase {
     Award award;
     InstitutionalProposal proposal;
     FundingProposalMergeType mergeType;
-    AwardCommentFactory awardCommentFactory;
     
     ProposalDataFeedCommandBase(Award award, InstitutionalProposal proposal, FundingProposalMergeType mergeType) {
         this.award = award;
         this.proposal = proposal;
         this.mergeType = mergeType;
-        awardCommentFactory = new AwardCommentFactory();
     }
 
     /**
@@ -46,14 +43,6 @@ abstract class ProposalDataFeedCommandBase {
             String comments = comment.getComments();
             comment.setComments(StringUtils.isEmpty(comments) ? newComments : String.format("%s\n%s", comments, newComments));
         }
-    }
-    
-    /**
-     * @param award
-     * @return
-     */
-    AwardComment findGeneralComment() {
-        return findOrCreateCommentOfSpecifiedType(new AwardCommentFactory().createGeneralComment());
     }
     
     /**
@@ -74,12 +63,4 @@ abstract class ProposalDataFeedCommandBase {
      * This method performs the data feed
      */
     abstract void performDataFeed();
-    
-    /**
-     * Sets the awardCommentFactory attribute value.
-     * @param awardCommentFactory The awardCommentFactory to set.
-     */
-    void setAwardCommentFactory(AwardCommentFactory awardCommentFactory) {
-        this.awardCommentFactory = awardCommentFactory;
-    }
 }

@@ -33,7 +33,6 @@ public class AwardApprovedSubawardRuleImpl extends ResearchDocumentRuleBase
     
     private static final String NEW_AWARD_APPROVED_SUBAWARD = "approvedSubawardFormHelper.newAwardApprovedSubaward";
     private static final String ORGANIZATION_NAME = ".organizationName";
-    private static final String AMOUNT = ".amount";
     
     List<AwardApprovedSubaward> awardApprovedSubawards;
     AwardApprovedSubaward awardApprovedSubaward;

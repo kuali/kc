@@ -18,15 +18,12 @@ package org.kuali.kra.award.home.fundingproposal;
 import org.junit.After;
 import org.junit.Before;
 import org.kuali.kra.award.home.Award;
-import org.kuali.kra.award.home.AwardCommentFactory;
-import org.kuali.kra.bo.CommentType;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.test.infrastructure.KcUnitTestBase;
 
 public abstract class BaseDataFeedCommandTest extends KcUnitTestBase {
     Award award;
     InstitutionalProposal proposal;
-    MockAwardCommentFactory awardCommentFactory; 
     
     @Before
     @Override
@@ -35,7 +32,6 @@ public abstract class BaseDataFeedCommandTest extends KcUnitTestBase {
         award = new Award();
         proposal = new InstitutionalProposal();
         proposal.setProposalNumber("1234");
-        awardCommentFactory = new MockAwardCommentFactory();
     }
     
     @After
@@ -45,14 +41,4 @@ public abstract class BaseDataFeedCommandTest extends KcUnitTestBase {
         award = null;
         proposal = null;
     }
-    
-    class MockAwardCommentFactory extends AwardCommentFactory {
-        @Override
-        public CommentType findCommentType(String commentTypeCode) {
-            CommentType commentType = new CommentType();
-            commentType.setCommentTypeCode(commentTypeCode);
-            commentType.setDescription("mock description");
-            return commentType;
-        }        
-    };
 }
