@@ -15,10 +15,12 @@
  */
 package org.kuali.kra.irb.noteattachment;
 
+import org.junit.Ignore;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
+@Ignore("we don't want these tests running twice")
 @SuiteClasses({ProtocolAttachmentBaseRuleHelperTest.class,
     ProtocolAttachmentFileTest.class,
     ProtocolAttachmentProtocolRuleHelperTest.class,

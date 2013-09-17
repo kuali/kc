@@ -33,7 +33,7 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 /**
  * This class...
  */
-public class NegotiationBasicTests extends KcUnitTestBase {
+public class NegotiationBasicTest extends KcUnitTestBase {
     
     BusinessObjectService businessObjectService;
     NegotiationStatus status;
