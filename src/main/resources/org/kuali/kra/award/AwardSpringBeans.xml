@@ -312,7 +312,6 @@
     <bean id="awardDirectFandADistributionService" class="org.kuali.kra.service.impl.AwardDirectFandADistributionServiceImpl" />
     
     <bean id="awardFandaRateService" class="org.kuali.kra.award.commitments.AwardFandaRateServiceImpl">
-        <property name="parameterService" ref="parameterService" />     
        <property name="businessObjectService" ref="businessObjectService" />  
        <property name="fiscalYearMonthService" ref="fiscalYearMonthService" />           
     </bean>

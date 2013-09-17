@@ -33,8 +33,6 @@ import org.kuali.rice.kew.api.WorkflowDocument;
  * 
  */
 public class CancelAwardBudgetAuthorizer extends BudgetAuthorizer {
-
-    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(CancelAwardBudgetAuthorizer.class);
     
     private KraDocumentRejectionService kraDocumentRejectionService;
 

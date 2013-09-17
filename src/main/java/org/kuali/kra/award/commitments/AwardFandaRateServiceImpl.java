@@ -27,11 +27,8 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.home.ValidRates;
-import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.FiscalYearMonthService;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -42,22 +39,11 @@ import org.kuali.rice.krad.util.ObjectUtils;
 public class AwardFandaRateServiceImpl implements AwardFandaRateService {
     
     public static final int FOUR_DIGIT_YEAR_LENGTH = 4;
-    public static final long MILLIS_IN_LEAP_YEAR = new Long("31536000000");//365 * 24 * 60 * 60 * 1000
-    public static final long MILLIS_IN_NON_LEAP_YEAR = new Long("31449600000");//364 * 24 * 60 * 60 * 1000
     
     protected static final String F_AND_A_RATE_CLASS_TYPE_CODE = "O";
     
     protected BusinessObjectService businessObjectService;
-    private ParameterService parameterService;
     private FiscalYearMonthService fiscalYearMonthService;
-    
-    /**
-     * Sets the ParameterService.
-     * @param parameterService the parameter service. 
-     */
-    public void setParameterService(ParameterService parameterService) {
-        this.parameterService = parameterService;
-    }
     
     /**
      * 

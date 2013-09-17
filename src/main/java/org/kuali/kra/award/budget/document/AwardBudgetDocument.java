@@ -51,7 +51,7 @@ public class AwardBudgetDocument extends BudgetDocument<org.kuali.kra.award.home
     private static org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(AwardBudgetDocument.class);
     
     private BudgetDecimal obligatedTotal;
-    private boolean budgetRateTypePopulated;
+
     private transient BudgetParentDocument<Award> newestBudgetParentDocument;
     private transient AwardBudgetService awardBudgetService;
     private Award  currentAward;
