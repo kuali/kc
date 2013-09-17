@@ -26,7 +26,7 @@ import org.junit.Test;
  */
 public class AwardSponsorTermTest {
 
-private static final int AWARD_SPONSOR_TERM_ATTRIBUTES_COUNT = 5;
+private static final int AWARD_SPONSOR_TERM_ATTRIBUTES_COUNT = 4;
     
     private AwardSponsorTerm awardSponsorTermBo;
     private Award award = new Award();
