@@ -108,15 +108,6 @@ public class AwardAttachmentFormBean implements Serializable{
         return this.form.getAwardDocument().getAward();
     }
     
-    /** 
-     * this method handles logic related to saving attachments.
-     * Since multiple attachments can change on a single save, this method must handle all attachment types.
-     */
-    void processSave() {
-        this.refreshAttachmentReferences(this.getAward().getAwardAttachments());
-        this.syncNewFiles(this.getAward().getAwardAttachments());
-    }
-    
     /**
      * Adds the "new" AwardAttachment to the Award.  Before
      * adding this method executes validation.  If the validation fails the attachment is not added.

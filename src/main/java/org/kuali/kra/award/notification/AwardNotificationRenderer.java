@@ -15,17 +15,16 @@
  */
 package org.kuali.kra.award.notification;
 
-import java.text.SimpleDateFormat;
-import java.util.Map;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.kra.award.contacts.AwardCreditSplitBean;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardAmountInfo;
 import org.kuali.kra.common.notification.NotificationRendererBase;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+
+import java.text.SimpleDateFormat;
+import java.util.Map;
 
 /**
  * Renders fields for the Award notifications.
