@@ -75,6 +75,8 @@ import org.kuali.kra.irb.actions.withdraw.ProtocolAdministrativelyWithdrawBean;
 import org.kuali.kra.irb.actions.withdraw.ProtocolWithdrawBean;
 import org.kuali.kra.irb.auth.GenericProtocolAuthorizer;
 import org.kuali.kra.irb.auth.ProtocolTask;
+import org.kuali.kra.irb.correspondence.IrbProtocolCorrespondenceAuthorizationService;
+import org.kuali.kra.irb.correspondence.IrbProtocolCorrespondenceAuthorizationServiceImpl;
 import org.kuali.kra.irb.questionnaire.IrbSubmissionQuestionnaireHelper;
 import org.kuali.kra.irb.questionnaire.ProtocolModuleQuestionnaireBean;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
@@ -88,6 +90,7 @@ import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewModuleBase;
 import org.kuali.kra.protocol.actions.amendrenew.ProtocolAmendRenewalBase;
 import org.kuali.kra.protocol.actions.notify.ProtocolActionAttachment;
 import org.kuali.kra.protocol.auth.ProtocolTaskBase;
+import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceAuthorizationService;
 import org.kuali.kra.protocol.questionnaire.ProtocolModuleQuestionnaireBeanBase;
 import org.kuali.kra.protocol.questionnaire.ProtocolSubmissionQuestionnaireHelper;
 import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
@@ -1692,6 +1695,11 @@ public class ActionHelper extends ActionHelperBase {
     @Override
     protected ProtocolTaskBase getNewProtocolTaskInstanceHook(String taskName) {
         return new ProtocolTask(taskName, getProtocol());
+    }
+
+    @Override
+    protected Class<? extends ProtocolCorrespondenceAuthorizationService> getProtocolCorrespondenceAuthorizationServiceClassHook() {
+        return IrbProtocolCorrespondenceAuthorizationService.class;
     }
  
 }

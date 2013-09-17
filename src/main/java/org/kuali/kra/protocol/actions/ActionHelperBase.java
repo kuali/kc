@@ -70,6 +70,7 @@ import org.kuali.kra.protocol.actions.withdraw.ProtocolAdministrativelyWithdrawB
 import org.kuali.kra.protocol.actions.withdraw.ProtocolWithdrawBean;
 import org.kuali.kra.protocol.auth.ProtocolTaskBase;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondence;
+import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceAuthorizationService;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewBase;
 import org.kuali.kra.protocol.onlinereview.ProtocolReviewAttachmentBase;
 import org.kuali.kra.protocol.questionnaire.ProtocolModuleQuestionnaireBeanBase;
@@ -98,9 +99,6 @@ public abstract class ActionHelperBase implements Serializable {
 
     protected static final long ONE_DAY = 1000L * 60L * 60L * 24L;
     protected static final String NAMESPACE = "KC-UNT";
-    private static final String VIEW_PROTOCOL_CORRESPONDENCE_TASK_NAME = "viewProtocolCorrespondence";
-    private static final String MODIFY_PROTOCOL_CORRESPONDENCE_TASK_NAME = "modifyProtocolCorrespondence";
-    private static final String CREATE_PROTOCOL_CORRESPONDENCE_TASK_NAME = "createProtocolCorrespondence";
     protected transient QuestionnaireAnswerService questionnaireAnswerService;
 
     /**
@@ -185,10 +183,10 @@ public abstract class ActionHelperBase implements Serializable {
     protected boolean canAddSuspendReviewerComments;
     protected boolean canAddTerminateReviewerComments;    
     
-    // added permission checks for creating modifying and viewing protocol correspondences
-    protected boolean canViewProtocolCorrespondence;
-    protected boolean canModifyProtocolCorrespondence;
-    protected boolean canCreateProtocolCorrespondence;
+    // authorization flags for protocol correspondences
+    protected boolean allowedToViewProtocolCorrespondence;
+    protected boolean allowedToUpdateProtocolCorrespondence;
+    protected boolean allowedToRegenerateProtocolCorrespondence;
     
     // new addition that needs to be backfitted to IRB as well
     private boolean canPerformAdminDetermination;
@@ -668,9 +666,7 @@ public abstract class ActionHelperBase implements Serializable {
         canAddSuspendReviewerComments = hasSuspendPermission();
         canAddTerminateReviewerComments = hasTerminatePermission();
         
-        canViewProtocolCorrespondence = hasViewProtocolCorrespondencePermission();
-        canModifyProtocolCorrespondence = hasModifyProtocolCorrespondencePermission();
-        canCreateProtocolCorrespondence = hasCreateProtocolCorrespondencePermission();
+        initProtocolCorrespondenceAuthorizationFlags();
         
         initSubmissionDetails();
         
@@ -820,17 +816,12 @@ public abstract class ActionHelperBase implements Serializable {
     
     
     
-    private boolean hasViewProtocolCorrespondencePermission() {
-        return hasPermission(VIEW_PROTOCOL_CORRESPONDENCE_TASK_NAME);
-    }
-    
-    private boolean hasModifyProtocolCorrespondencePermission() {
-        return hasPermission(MODIFY_PROTOCOL_CORRESPONDENCE_TASK_NAME);
-    }
-    
-    private boolean hasCreateProtocolCorrespondencePermission() {
-        return hasPermission(CREATE_PROTOCOL_CORRESPONDENCE_TASK_NAME);
-    }
+   protected void initProtocolCorrespondenceAuthorizationFlags() {
+       ProtocolCorrespondenceAuthorizationService correspondenceAuthorizationService = getProtocolCorrespondenceAuthorizationService(); 
+       this.allowedToViewProtocolCorrespondence = correspondenceAuthorizationService.isAllowedToViewProtocolCorrespondence(getProtocol());
+       this.allowedToUpdateProtocolCorrespondence = correspondenceAuthorizationService.isAllowedToUpdateProtocolCorrespondence(getProtocol());
+       this.allowedToRegenerateProtocolCorrespondence = correspondenceAuthorizationService.isAllowedToRegenerateProtocolCorrespondence(getProtocol());
+   }
 
     /**
      * Refreshes the comments for all the beans from the database.  Use sparingly since this will erase non-persisted comments.
@@ -2579,16 +2570,22 @@ public abstract class ActionHelperBase implements Serializable {
         return notifyCmtActionCommitteeIdByUnitValuesFinder;
     }
 
+    private ProtocolCorrespondenceAuthorizationService getProtocolCorrespondenceAuthorizationService() {
+        return KraServiceLocator.getService(getProtocolCorrespondenceAuthorizationServiceClassHook());
+    }
+    
+    protected abstract Class<? extends ProtocolCorrespondenceAuthorizationService> getProtocolCorrespondenceAuthorizationServiceClassHook();
+
     public boolean isAllowedToViewProtocolCorrespondence() {
-        return canViewProtocolCorrespondence || isAllowedToUpdateProtocolCorrespondence();
+        return this.allowedToViewProtocolCorrespondence;
     }
     
     public boolean isAllowedToUpdateProtocolCorrespondence() {
-        return canModifyProtocolCorrespondence || isAllowedToRegenerateProtocolCorrespondence();
+        return this.allowedToUpdateProtocolCorrespondence;
     }
     
     public boolean isAllowedToRegenerateProtocolCorrespondence() {
-        return canCreateProtocolCorrespondence;
+        return this.allowedToRegenerateProtocolCorrespondence;
     }
     
 }
