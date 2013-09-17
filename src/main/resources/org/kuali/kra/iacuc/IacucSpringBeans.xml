@@ -483,6 +483,12 @@
         </property>
     </bean>
     
+    
+    <bean id="iacucProtocolCorrespondenceAuthorizationService" class="org.kuali.kra.iacuc.correspondence.IacucProtocolCorrespondenceAuthorizationServiceImpl">
+    	<property name="taskAuthorizationService" ref="taskAuthorizationService" />
+    </bean>
+    
+    
     <bean id="iacucProtocolAssignCmtService" class="org.kuali.kra.iacuc.actions.assignCmt.IacucProtocolAssignCmtServiceImpl">
     	<property name="businessObjectService">
             <ref bean="businessObjectService" />

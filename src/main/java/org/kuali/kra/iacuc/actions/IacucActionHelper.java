@@ -65,6 +65,7 @@ import org.kuali.kra.iacuc.auth.IacucProtocolTask;
 import org.kuali.kra.iacuc.committee.lookup.keyvalue.IacucCommitteeIdByUnitValuesFinder;
 import org.kuali.kra.iacuc.committee.service.IacucCommitteeScheduleService;
 import org.kuali.kra.iacuc.committee.service.IacucCommitteeService;
+import org.kuali.kra.iacuc.correspondence.IacucProtocolCorrespondenceAuthorizationService;
 import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReview;
 import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReviewService;
 import org.kuali.kra.iacuc.questionnaire.IacucProtocolModuleQuestionnaireBean;
@@ -110,6 +111,7 @@ import org.kuali.kra.protocol.actions.withdraw.ProtocolAdministrativelyWithdrawB
 import org.kuali.kra.protocol.actions.withdraw.ProtocolWithdrawBean;
 import org.kuali.kra.protocol.auth.ProtocolTaskBase;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondence;
+import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceAuthorizationService;
 import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.kra.protocol.questionnaire.ProtocolModuleQuestionnaireBeanBase;
 import org.kuali.kra.protocol.questionnaire.ProtocolSubmissionQuestionnaireHelper;
@@ -1624,6 +1626,12 @@ public class IacucActionHelper extends ActionHelperBase {
     @Override
     protected ProtocolTaskBase getNewProtocolTaskInstanceHook(String taskName) {
         return new IacucProtocolTask(taskName, getIacucProtocol());
+    }
+
+
+    @Override
+    protected Class<? extends ProtocolCorrespondenceAuthorizationService> getProtocolCorrespondenceAuthorizationServiceClassHook() {
+        return IacucProtocolCorrespondenceAuthorizationService.class;
     }
 
 }

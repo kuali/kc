@@ -544,6 +544,11 @@
             </list>
         </property>
     </bean>
+    
+    <bean id="irbProtocolCorrespondenceAuthorizationService" class="org.kuali.kra.irb.correspondence.IrbProtocolCorrespondenceAuthorizationServiceImpl">
+    	<property name="taskAuthorizationService" ref="taskAuthorizationService" />
+    </bean>
+       
 	
 	<!-- Protocol Online Review Authorizers -->
 
