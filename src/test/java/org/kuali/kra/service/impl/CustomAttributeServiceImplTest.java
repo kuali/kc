@@ -17,7 +17,6 @@ package org.kuali.kra.service.impl;
 
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -27,9 +26,8 @@ import org.junit.Test;
 import org.kuali.kra.bo.CustomAttribute;
 import org.kuali.kra.bo.CustomAttributeDocValue;
 import org.kuali.kra.bo.CustomAttributeDocument;
-import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.bo.CustomAttributeDocumentTestUtilities;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.infrastructure.TestUtilities;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.service.CustomAttributeService;
@@ -40,7 +38,6 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.util.KRADPropertyConstants;
 
 /**
  * This class tests CustomAttributeServiceImpl.
@@ -62,7 +59,7 @@ public class CustomAttributeServiceImplTest extends KcUnitTestBase {
     public void setUp() throws Exception {
         super.setUp();
         GlobalVariables.setUserSession(new UserSession("quickstart"));
-        testCustomAttributeDocuments = TestUtilities.setupTestCustomAttributeDocuments();
+        testCustomAttributeDocuments = CustomAttributeDocumentTestUtilities.setupTestCustomAttributeDocuments();
         documentService = KRADServiceLocatorWeb.getDocumentService();
         customAttributeService = KraServiceLocator.getService(CustomAttributeService.class);
         businessObjectService = KraServiceLocator.getService(BusinessObjectService.class);

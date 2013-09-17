@@ -22,11 +22,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.kra.bo.CustomAttributeDocValue;
 import org.kuali.kra.bo.CustomAttributeDocument;
-import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.bo.CustomAttributeDocumentTestUtilities;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
-import org.kuali.kra.infrastructure.TestUtilities;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rules.ProposalDevelopmentRuleTestBase;
 import org.kuali.kra.proposaldevelopment.service.ProposalRoleTemplateService;
@@ -83,11 +82,11 @@ public class SaveCustomAttributeRuleTest extends ProposalDevelopmentRuleTestBase
     public void testOK() throws Exception {
 
         ProposalDevelopmentDocument document = getNewProposalDevelopmentDocument();
-        document.setCustomAttributeDocuments(TestUtilities.setupTestCustomAttributeDocuments());
+        document.setCustomAttributeDocuments(CustomAttributeDocumentTestUtilities.setupTestCustomAttributeDocuments());
 
-        setCustomAttributeValue(document, document.getCustomAttributeDocuments().get("1"), TestUtilities.BILLING_ELEMENT_VALUE);
-        setCustomAttributeValue(document, document.getCustomAttributeDocuments().get("4"), TestUtilities.GRADUATE_STUDENT_COUNT_VALUE);
-        setCustomAttributeValue(document, document.getCustomAttributeDocuments().get("8"), TestUtilities.LOCAL_REVIEW_DATE_VALUE);
+        setCustomAttributeValue(document, document.getCustomAttributeDocuments().get("1"), CustomAttributeDocumentTestUtilities.BILLING_ELEMENT_VALUE);
+        setCustomAttributeValue(document, document.getCustomAttributeDocuments().get("4"), CustomAttributeDocumentTestUtilities.GRADUATE_STUDENT_COUNT_VALUE);
+        setCustomAttributeValue(document, document.getCustomAttributeDocuments().get("8"), CustomAttributeDocumentTestUtilities.LOCAL_REVIEW_DATE_VALUE);
         setCustomAttributeValue(document, document.getCustomAttributeDocuments().get("9"), "Yes");
         setCustomAttributeValue(document, document.getCustomAttributeDocuments().get("5"), "quickstart");
         SaveCustomDataEvent saveCustomAttributeEvent = new SaveCustomDataEvent(document);
@@ -98,11 +97,11 @@ public class SaveCustomAttributeRuleTest extends ProposalDevelopmentRuleTestBase
     public void testUnspecifiedRequiredField() throws Exception {
 
         ProposalDevelopmentDocument document = getNewProposalDevelopmentDocument();
-        document.setCustomAttributeDocuments(TestUtilities.setupTestCustomAttributeDocuments());
+        document.setCustomAttributeDocuments(CustomAttributeDocumentTestUtilities.setupTestCustomAttributeDocuments());
 
         //billing element is not set
-        setCustomAttributeValue(document, document.getCustomAttributeDocuments().get("4"), TestUtilities.GRADUATE_STUDENT_COUNT_VALUE);
-        setCustomAttributeValue(document, document.getCustomAttributeDocuments().get("8"), TestUtilities.LOCAL_REVIEW_DATE_VALUE);
+        setCustomAttributeValue(document, document.getCustomAttributeDocuments().get("4"), CustomAttributeDocumentTestUtilities.GRADUATE_STUDENT_COUNT_VALUE);
+        setCustomAttributeValue(document, document.getCustomAttributeDocuments().get("8"), CustomAttributeDocumentTestUtilities.LOCAL_REVIEW_DATE_VALUE);
         SaveCustomDataEvent saveCustomAttributeEvent = new SaveCustomDataEvent(document);
         assertTrue(rule.processRules(saveCustomAttributeEvent));
         
@@ -138,11 +137,11 @@ public class SaveCustomAttributeRuleTest extends ProposalDevelopmentRuleTestBase
     public void testInvalidNumberFormat() throws Exception {
 
         ProposalDevelopmentDocument document = getNewProposalDevelopmentDocument();
-        document.setCustomAttributeDocuments(TestUtilities.setupTestCustomAttributeDocuments());
+        document.setCustomAttributeDocuments(CustomAttributeDocumentTestUtilities.setupTestCustomAttributeDocuments());
 
-        setCustomAttributeValue(document, document.getCustomAttributeDocuments().get("1"), TestUtilities.BILLING_ELEMENT_VALUE);
-        setCustomAttributeValue(document, document.getCustomAttributeDocuments().get("4"), TestUtilities.GRADUATE_STUDENT_COUNT_VALUE+"a");
-        setCustomAttributeValue(document, document.getCustomAttributeDocuments().get("8"), TestUtilities.LOCAL_REVIEW_DATE_VALUE);
+        setCustomAttributeValue(document, document.getCustomAttributeDocuments().get("1"), CustomAttributeDocumentTestUtilities.BILLING_ELEMENT_VALUE);
+        setCustomAttributeValue(document, document.getCustomAttributeDocuments().get("4"), CustomAttributeDocumentTestUtilities.GRADUATE_STUDENT_COUNT_VALUE+"a");
+        setCustomAttributeValue(document, document.getCustomAttributeDocuments().get("8"), CustomAttributeDocumentTestUtilities.LOCAL_REVIEW_DATE_VALUE);
         SaveCustomDataEvent saveCustomAttributeEvent = new SaveCustomDataEvent(document);
         assertFalse(rule.processRules(saveCustomAttributeEvent));
         AutoPopulatingList errors = GlobalVariables.getMessageMap().getMessages("customDataHelper.customDataList[1].value");
@@ -155,11 +154,11 @@ public class SaveCustomAttributeRuleTest extends ProposalDevelopmentRuleTestBase
     public void testInvalidLength() throws Exception {
 
         ProposalDevelopmentDocument document = getNewProposalDevelopmentDocument();
-        document.setCustomAttributeDocuments(TestUtilities.setupTestCustomAttributeDocuments());
+        document.setCustomAttributeDocuments(CustomAttributeDocumentTestUtilities.setupTestCustomAttributeDocuments());
 
-        setCustomAttributeValue(document, document.getCustomAttributeDocuments().get("1"), TestUtilities.BILLING_ELEMENT_VALUE+"123456789012345678901234567890");
-        setCustomAttributeValue(document, document.getCustomAttributeDocuments().get("4"), TestUtilities.GRADUATE_STUDENT_COUNT_VALUE);
-        setCustomAttributeValue(document, document.getCustomAttributeDocuments().get("8"), TestUtilities.LOCAL_REVIEW_DATE_VALUE);
+        setCustomAttributeValue(document, document.getCustomAttributeDocuments().get("1"), CustomAttributeDocumentTestUtilities.BILLING_ELEMENT_VALUE+"123456789012345678901234567890");
+        setCustomAttributeValue(document, document.getCustomAttributeDocuments().get("4"), CustomAttributeDocumentTestUtilities.GRADUATE_STUDENT_COUNT_VALUE);
+        setCustomAttributeValue(document, document.getCustomAttributeDocuments().get("8"), CustomAttributeDocumentTestUtilities.LOCAL_REVIEW_DATE_VALUE);
         SaveCustomDataEvent saveCustomAttributeEvent = new SaveCustomDataEvent(document);
         assertFalse(rule.processRules(saveCustomAttributeEvent));
         AutoPopulatingList errors = GlobalVariables.getMessageMap().getMessages("customDataHelper.customDataList[0].value");
@@ -172,11 +171,11 @@ public class SaveCustomAttributeRuleTest extends ProposalDevelopmentRuleTestBase
     public void testInvalidDateFormat() throws Exception {
 
         ProposalDevelopmentDocument document = getNewProposalDevelopmentDocument();
-        document.setCustomAttributeDocuments(TestUtilities.setupTestCustomAttributeDocuments());
+        document.setCustomAttributeDocuments(CustomAttributeDocumentTestUtilities.setupTestCustomAttributeDocuments());
 
         
-        setCustomAttributeValue(document, document.getCustomAttributeDocuments().get("1"), TestUtilities.BILLING_ELEMENT_VALUE);
-        setCustomAttributeValue(document, document.getCustomAttributeDocuments().get("4"), TestUtilities.GRADUATE_STUDENT_COUNT_VALUE);
+        setCustomAttributeValue(document, document.getCustomAttributeDocuments().get("1"), CustomAttributeDocumentTestUtilities.BILLING_ELEMENT_VALUE);
+        setCustomAttributeValue(document, document.getCustomAttributeDocuments().get("4"), CustomAttributeDocumentTestUtilities.GRADUATE_STUDENT_COUNT_VALUE);
         setCustomAttributeValue(document, document.getCustomAttributeDocuments().get("8"), "2008-02-08");
         SaveCustomDataEvent saveCustomAttributeEvent = new SaveCustomDataEvent(document);
         assertFalse(rule.processRules(saveCustomAttributeEvent));
@@ -190,10 +189,10 @@ public class SaveCustomAttributeRuleTest extends ProposalDevelopmentRuleTestBase
     public void testInvalidDateValue() throws Exception {
 
         ProposalDevelopmentDocument document = getNewProposalDevelopmentDocument();
-        document.setCustomAttributeDocuments(TestUtilities.setupTestCustomAttributeDocuments());
+        document.setCustomAttributeDocuments(CustomAttributeDocumentTestUtilities.setupTestCustomAttributeDocuments());
 
-        setCustomAttributeValue(document, document.getCustomAttributeDocuments().get("1"), TestUtilities.BILLING_ELEMENT_VALUE);
-        setCustomAttributeValue(document, document.getCustomAttributeDocuments().get("4"), TestUtilities.GRADUATE_STUDENT_COUNT_VALUE);
+        setCustomAttributeValue(document, document.getCustomAttributeDocuments().get("1"), CustomAttributeDocumentTestUtilities.BILLING_ELEMENT_VALUE);
+        setCustomAttributeValue(document, document.getCustomAttributeDocuments().get("4"), CustomAttributeDocumentTestUtilities.GRADUATE_STUDENT_COUNT_VALUE);
         setCustomAttributeValue(document, document.getCustomAttributeDocuments().get("8"), "02/29/2010");
         SaveCustomDataEvent saveCustomAttributeEvent = new SaveCustomDataEvent(document);
         assertFalse(rule.processRules(saveCustomAttributeEvent));
@@ -207,11 +206,11 @@ public class SaveCustomAttributeRuleTest extends ProposalDevelopmentRuleTestBase
     public void testInvalidPerson() throws Exception {
 
         ProposalDevelopmentDocument document = getNewProposalDevelopmentDocument();
-        document.setCustomAttributeDocuments(TestUtilities.setupTestCustomAttributeDocuments());
+        document.setCustomAttributeDocuments(CustomAttributeDocumentTestUtilities.setupTestCustomAttributeDocuments());
 
-        setCustomAttributeValue(document, document.getCustomAttributeDocuments().get("1"), TestUtilities.BILLING_ELEMENT_VALUE);
-        setCustomAttributeValue(document, document.getCustomAttributeDocuments().get("4"), TestUtilities.GRADUATE_STUDENT_COUNT_VALUE);
-        setCustomAttributeValue(document, document.getCustomAttributeDocuments().get("8"), TestUtilities.LOCAL_REVIEW_DATE_VALUE);
+        setCustomAttributeValue(document, document.getCustomAttributeDocuments().get("1"), CustomAttributeDocumentTestUtilities.BILLING_ELEMENT_VALUE);
+        setCustomAttributeValue(document, document.getCustomAttributeDocuments().get("4"), CustomAttributeDocumentTestUtilities.GRADUATE_STUDENT_COUNT_VALUE);
+        setCustomAttributeValue(document, document.getCustomAttributeDocuments().get("8"), CustomAttributeDocumentTestUtilities.LOCAL_REVIEW_DATE_VALUE);
         setCustomAttributeValue(document, document.getCustomAttributeDocuments().get("5"), "noarealperson");
         SaveCustomDataEvent saveCustomAttributeEvent = new SaveCustomDataEvent(document);
         assertFalse(rule.processRules(saveCustomAttributeEvent));
@@ -225,11 +224,11 @@ public class SaveCustomAttributeRuleTest extends ProposalDevelopmentRuleTestBase
     public void testInvalidLookup() throws Exception {
 
         ProposalDevelopmentDocument document = getNewProposalDevelopmentDocument();
-        document.setCustomAttributeDocuments(TestUtilities.setupTestCustomAttributeDocuments());
+        document.setCustomAttributeDocuments(CustomAttributeDocumentTestUtilities.setupTestCustomAttributeDocuments());
 
-        setCustomAttributeValue(document, document.getCustomAttributeDocuments().get("1"), TestUtilities.BILLING_ELEMENT_VALUE);
-        setCustomAttributeValue(document, document.getCustomAttributeDocuments().get("4"), TestUtilities.GRADUATE_STUDENT_COUNT_VALUE);
-        setCustomAttributeValue(document, document.getCustomAttributeDocuments().get("8"), TestUtilities.LOCAL_REVIEW_DATE_VALUE);
+        setCustomAttributeValue(document, document.getCustomAttributeDocuments().get("1"), CustomAttributeDocumentTestUtilities.BILLING_ELEMENT_VALUE);
+        setCustomAttributeValue(document, document.getCustomAttributeDocuments().get("4"), CustomAttributeDocumentTestUtilities.GRADUATE_STUDENT_COUNT_VALUE);
+        setCustomAttributeValue(document, document.getCustomAttributeDocuments().get("8"), CustomAttributeDocumentTestUtilities.LOCAL_REVIEW_DATE_VALUE);
         setCustomAttributeValue(document, document.getCustomAttributeDocuments().get("9"), "Uh");
         SaveCustomDataEvent saveCustomAttributeEvent = new SaveCustomDataEvent(document);
         assertFalse(rule.processRules(saveCustomAttributeEvent));

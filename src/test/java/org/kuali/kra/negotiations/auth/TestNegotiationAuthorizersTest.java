@@ -54,7 +54,7 @@ import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
 
-public class TestNegotiationAuthorizers extends KcUnitTestBase {
+public class TestNegotiationAuthorizersTest extends KcUnitTestBase {
     
     TaskAuthorizationService taskAuthorizationService;
     BusinessObjectService businessObjectService;  
