@@ -60,8 +60,6 @@ public class ContactsValuesFinder extends KeyValuesBase {
         Map keyMap = new HashMap ();
         keyMap.put("awardId", awardId);
         Collection<AwardSponsorContact> awardSponsorContacts = getKeyValuesService().findMatching(AwardSponsorContact.class, keyMap);
-
-//        refreshAwardSponsorContacts(awardSponsorContacts);
         
         for(AwardSponsorContact awardSponsorContact : awardSponsorContacts){                      
             if (awardSponsorContact.getContactRole() == null) {
@@ -87,27 +85,6 @@ public class ContactsValuesFinder extends KeyValuesBase {
      */
     protected KeyValuesService getKeyValuesService(){
         return KraServiceLocator.getService(KeyValuesService.class);
-    }
-    
-    /**
-     * 
-     * This method collects all AwardSponsorContacts and then does a one-transaction refreshReferenceObject
-     * on Award BO.
-     * 
-     * @param awardSponsorContacts
-     */
-    private void refreshAwardSponsorContacts(Collection<AwardSponsorContact> awardSponsorContacts) {
-        List<AwardSponsorContact> persistableObjects = new ArrayList<AwardSponsorContact>();
-        List<String> referenceObjectNames = new ArrayList<String>();
-        
-        for(AwardSponsorContact awardSponsorContact : awardSponsorContacts){
-            persistableObjects.add(awardSponsorContact);
-            referenceObjectNames.add("award");            
-        }
-        
-        if(persistableObjects.size()>0 && referenceObjectNames.size()>0 ){
-            getPersistenceService().retrieveReferenceObjects(persistableObjects, referenceObjectNames);
-        }
     }
     
     /**

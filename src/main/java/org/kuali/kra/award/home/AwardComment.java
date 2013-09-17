@@ -53,8 +53,6 @@ public class AwardComment extends AwardAssociate implements Comparable<AwardComm
 
     private CommentType commentType;
 
-    private String updateTimestampDateString;
-
     /**
      * 
      * Constructs a AwardComment.java.

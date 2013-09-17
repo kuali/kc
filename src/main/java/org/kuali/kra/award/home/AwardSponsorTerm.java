@@ -18,19 +18,14 @@ package org.kuali.kra.award.home;
 import org.kuali.kra.award.AwardAssociate;
 import org.kuali.kra.award.awardhierarchy.sync.AwardSyncableProperty;
 import org.kuali.kra.bo.SponsorTerm;
-import org.kuali.rice.krad.service.BusinessObjectService;
+
 
 /**
  * This class is business object representation of AwardSponsorTerm.
  */
 public class AwardSponsorTerm extends AwardAssociate {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
     private static final long serialVersionUID = -7613461089397009434L;
-
-    private transient BusinessObjectService businessObjectService;
 
     private Long awardSponsorTermId;
 
@@ -67,7 +62,7 @@ public class AwardSponsorTerm extends AwardAssociate {
 
     /**
      * Sets the awardTermId attribute value.
-     * @param awardTermId The awardTermId to set.
+     * @param awardSponsorTermId The awardTermId to set.
      */
     public void setAwardSponsorTermId(Long awardSponsorTermId) {
         this.awardSponsorTermId = awardSponsorTermId;
@@ -149,7 +144,7 @@ public class AwardSponsorTerm extends AwardAssociate {
         int result = 1;
         result = prime * super.hashCode();
         result = prime * result + ((awardSponsorTermId == null) ? 0 : awardSponsorTermId.hashCode());
-        result = prime * result + ((businessObjectService == null) ? 0 : businessObjectService.hashCode());
+
         result = prime * result + ((sponsorTerm == null) ? 0 : sponsorTerm.hashCode());
         result = prime * result + ((sponsorTermId == null) ? 0 : sponsorTermId.hashCode());
         return result;
@@ -170,9 +165,6 @@ public class AwardSponsorTerm extends AwardAssociate {
         if (awardSponsorTermId == null) {
             if (other.awardSponsorTermId != null) return false;
         } else if (!awardSponsorTermId.equals(other.awardSponsorTermId)) return false;
-        if (businessObjectService == null) {
-            if (other.businessObjectService != null) return false;
-        } else if (!businessObjectService.equals(other.businessObjectService)) return false;
         if (sponsorTerm == null) {
             if (other.sponsorTerm != null) return false;
         } else if (!sponsorTerm.equals(other.sponsorTerm)) return false;

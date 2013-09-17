@@ -17,13 +17,11 @@ package org.kuali.kra.award.home.fundingproposal;
 
 import java.sql.Date;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.kuali.kra.award.commitments.AwardFandaRate;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.AwardCommentFactory;
-import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
@@ -69,11 +67,6 @@ class FandARatesDataFeedCommand extends ProposalDataFeedCommandBase {
     private void addFandARateComment(Award award, InstitutionalProposal proposal) {
         String newComment = String.format(FANDA_COMMENT_PATTERN, proposal.getProposalNumber());
         appendComments(findOrCreateCommentOfSpecifiedType(new AwardCommentFactory().createFandaRateComment()), newComment);
-    }
-    
-    private void assignDates(AwardFandaRate awardFandA, Calendar calendar) {
-        awardFandA.setStartDate(new Date(this.getFiscalYearMonthService().getFiscalYearStartDate(calendar.get(Calendar.YEAR)).getTimeInMillis()));
-        awardFandA.setEndDate(new Date(this.getFiscalYearMonthService().getFiscalYearEndDate(calendar.get(Calendar.YEAR)).getTimeInMillis()));
     }
 
     private String convertOnCampusBooleanToString(boolean onCampusFlag) {
