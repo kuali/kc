@@ -57,36 +57,6 @@ public class ReportTrackingPrintingServiceImpl implements ReportTrackingPrinting
      private BusinessObjectService businessObjectService;
      private ReportTrackingPrint reportTrackingPrint;
 
-    /**
-     * This method generates the required report and returns the PDF stream as
-     * {@link AttachmentDataSource}. It first identifies the report type to be
-     * printed, then fetches the required report generator. The report generator
-     * generates XML which is then passed to {@link PrintingService} for
-     * transforming into PDF.
-     * 
-     * @param printableBO
-     *            Award data using which report is generated
-     * @param reportName
-     *            report to be generated
-     * @param reportParameters
-     *            {@link Map} of parameters required for report generation
-     * @return {@link AttachmentDataSource} which contains the byte array of the
-     *         generated PDF
-     * @throws PrintingException
-     *             if any errors occur during report generation
-     * 
-     */
-     public AttachmentDataSource printReportTracking(KraPersistableBusinessObjectBase printableBusinessObject, 
-             String reportName, Map<String, Object> reportParameters) throws PrintingException {
-         AttachmentDataSource source = null;
-         AwardReportTracking printable = null;
-         printable = getReportTrackingPrint();
-         printable.setPrintableBusinessObject(printableBusinessObject);
-         printable.setReportParameters(reportParameters);
-         source = getPrintingService().print(printable);
-         return source;
-     }
-
  public AttachmentDataSource printAwardReportTracking(
              List<Printable> printableArtifactList) throws PrintingException {
              AttachmentDataSource attachmentDataSource =  getPrintingService().print(printableArtifactList);

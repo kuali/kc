@@ -41,25 +41,6 @@ import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 public interface ReportTrackingPrintingService {
 
     /**
-     * This method generates the required report and returns the PDF stream as
-     * {@link AttachmentDataSource}
-     * 
-     * @param awardDocument
-     *            Award data using which report is generated
-     * @param reportName
-     *            report to be generated
-     * @param reportParameters
-     *            {@link Map} of parameters required for report generation
-     * @return {@link AttachmentDataSource} which contains the byte array of the
-     *         generated PDF
-     * @throws PrintingException
-     *             if any errors occur during report generation
-     */
-    
-    public AttachmentDataSource printReportTracking( KraPersistableBusinessObjectBase reportTracking, 
-            String reportName,
-            Map<String, Object> reportParameters) throws PrintingException; 
-    /**
      * This method will return the printable object
      * @param reportTrackingType
      *           report tracking type

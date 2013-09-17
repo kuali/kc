@@ -15,16 +15,11 @@
  */
 package org.kuali.kra.award.paymentreports.awardreports.reporting.service;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.kuali.kra.printing.util.PrintingUtils;
 
 import javax.xml.transform.Source;
-
-import org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingType;
-import org.kuali.kra.coi.print.CoiDisclosureType;
-import org.kuali.kra.printing.print.AbstractPrint;
-import org.kuali.kra.printing.util.PrintingUtils;
-import org.kuali.rice.core.api.config.property.ConfigurationService;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class provides the implementation for printing Award  Report Tracking. It
@@ -37,11 +32,7 @@ import org.kuali.rice.core.api.config.property.ConfigurationService;
  */
 public class ReportTrackingPrint extends AwardReportTracking {
 
-      private ConfigurationService configurationService;
       ArrayList<Source> sourceList;
-       public void setConfigurationService(ConfigurationService configurationService) {
-               this.configurationService = configurationService;
-           }
     
     /**
      * This method fetches the XSL style-sheets required for transforming the
