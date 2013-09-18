@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.budget.personnel;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetParent;
@@ -31,9 +28,11 @@ import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class BudgetPersonnelAuditRule extends ResearchDocumentRuleBase implements DocumentAuditRule {
-    
-    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(BudgetPersonnelAuditRule.class);
+
     
     public boolean processRunPersonnelAuditBusinessRules(Document document) {
         boolean valid = true;

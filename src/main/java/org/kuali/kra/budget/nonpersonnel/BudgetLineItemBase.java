@@ -15,10 +15,6 @@
  */
 package org.kuali.kra.budget.nonpersonnel;
 
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.BudgetAssociate;
 import org.kuali.kra.budget.core.BudgetCategory;
@@ -26,9 +22,12 @@ import org.kuali.kra.budget.core.BudgetService;
 import org.kuali.kra.budget.core.CostElement;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.infrastructure.DeepCopyIgnore;
-import org.kuali.kra.infrastructure.DeepCopyIgnoreScopes;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.krad.util.ObjectUtils;
+
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class BudgetLineItemBase extends BudgetAssociate {
 

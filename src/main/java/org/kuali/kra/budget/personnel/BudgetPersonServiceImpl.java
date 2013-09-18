@@ -45,10 +45,7 @@ public class BudgetPersonServiceImpl implements BudgetPersonService {
     private KcPersonService kcPersonService;
     
     
-    /**
-     * 
-     * @see org.kuali.kra.budget.personnel.BudgetPersonService#addBudgetPerson(org.kuali.kra.budget.core.Budget, org.kuali.kra.budget.personnel.BudgetPerson)
-     */
+    @Override
     public void addBudgetPerson(Budget budget, BudgetPerson budgetPerson) {
         if (budgetPerson.getPersonId() != null) {
             //add budget person or adds new budget persons for each appointment the
@@ -59,11 +56,8 @@ public class BudgetPersonServiceImpl implements BudgetPersonService {
             budget.addBudgetPerson(budgetPerson);
         }
     }
-    
-    /**
-     * @see org.kuali.kra.budget.personnel.BudgetPersonService#populateBudgetPersonData(org.kuali.kra.budget.core.Budget, org.kuali.kra.budget.personnel.BudgetPerson)
-     */
-    public void populateBudgetPersonData(Budget budget, BudgetPerson budgetPerson) {
+
+    protected void populateBudgetPersonData(Budget budget, BudgetPerson budgetPerson) {
         
 //        budgetPerson.setProposalNumber(budget.getProposalNumber());
 //        budgetPerson.setBudgetVersionNumber(budget.getBudgetVersionNumber());
@@ -72,19 +66,15 @@ public class BudgetPersonServiceImpl implements BudgetPersonService {
         
         populatePersonDefaultDataIfEmpty(budget, budgetPerson);
     }
-    
-    /**
-     * @see org.kuali.kra.budget.personnel.BudgetPersonService#populateDefaultDataIfEmpty(org.kuali.kra.budget.core.Budget, org.kuali.kra.budget.personnel.BudgetPerson)
-     */
+
+    @Override
     public void populateBudgetPersonDefaultDataIfEmpty(Budget budget) {
         for (BudgetPerson budgetPerson: budget.getBudgetPersons()) {
             populatePersonDefaultDataIfEmpty(budget, budgetPerson);
         }
     }
-    
-    /**
-     * @see org.kuali.kra.budget.personnel.BudgetPersonService#synchBudgetPersonsToProposal(org.kuali.kra.budget.core.Budget)
-     */
+
+    @Override
     public void synchBudgetPersonsToProposal(Budget budget) {
         budget.getBudgetDocument().refreshReferenceObject("documentNextvalues");
         BudgetParent budgetParent = budget.getBudgetDocument().getParentDocument().getBudgetParent();
@@ -215,7 +205,8 @@ public class BudgetPersonServiceImpl implements BudgetPersonService {
         this.parameterService = parameterService;
     }
 
-    @SuppressWarnings("unchecked") 
+    @SuppressWarnings("unchecked")
+    @Override
     public BudgetPerson findBudgetPerson(BudgetPersonnelDetails budgetPersonnelDetails) {
         Map queryMap = new HashMap();
 //        queryMap.put("proposalNumber", budgetPersonnelDetails.getProposalNumber());

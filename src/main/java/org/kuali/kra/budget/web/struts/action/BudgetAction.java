@@ -15,14 +15,6 @@
  */
 package org.kuali.kra.budget.web.struts.action;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -35,11 +27,7 @@ import org.kuali.kra.award.home.ContactRole;
 import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.budget.calculator.BudgetCalculationService;
-import org.kuali.kra.budget.core.Budget;
-import org.kuali.kra.budget.core.BudgetCommonService;
-import org.kuali.kra.budget.core.BudgetCommonServiceFactory;
-import org.kuali.kra.budget.core.BudgetParent;
-import org.kuali.kra.budget.core.BudgetService;
+import org.kuali.kra.budget.core.*;
 import org.kuali.kra.budget.distributionincome.BudgetDistributionAndIncomeService;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.BudgetParentDocument;
@@ -47,12 +35,7 @@ import org.kuali.kra.budget.lookup.keyvalue.BudgetCategoryTypeValuesFinder;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItemCalculatedAmount;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
-import org.kuali.kra.budget.personnel.BudgetPerson;
-import org.kuali.kra.budget.personnel.BudgetPersonService;
-import org.kuali.kra.budget.personnel.BudgetPersonnelCalculatedAmount;
-import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
-import org.kuali.kra.budget.personnel.HierarchyPersonnelSummary;
-import org.kuali.kra.budget.personnel.PersonRolodex;
+import org.kuali.kra.budget.personnel.*;
 import org.kuali.kra.budget.rates.BudgetRatesService;
 import org.kuali.kra.budget.service.BudgetLockService;
 import org.kuali.kra.budget.summary.BudgetSummaryService;
@@ -75,7 +58,6 @@ import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.kra.web.struts.action.BudgetActionBase;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -88,7 +70,6 @@ import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
-import org.kuali.rice.kns.web.ui.HeaderField;
 import org.kuali.rice.krad.rules.rule.event.DocumentAuditEvent;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KualiRuleService;
@@ -96,6 +77,13 @@ import org.kuali.rice.krad.service.PessimisticLockService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class BudgetAction extends BudgetActionBase {
     private static final Log LOG = LogFactory.getLog(BudgetAction.class);
@@ -216,42 +204,6 @@ public class BudgetAction extends BudgetActionBase {
         }
         
         return actionForward; 
-    }
-
-    /**
-     * This method sets additional document information in the document header of the budget form.
-     * If the document contained in the budget form is null then empty values will be placed for the
-     * additional information.
-     * @param budgetForm the budget form
-     */
-    private void setAdditionalDocumentHeaderInfo(final BudgetForm budgetForm) {
-        assert budgetForm != null : "the budgetForm is null";
-        
-        final BudgetDocument budgetDocument = budgetForm.getBudgetDocument();
-        Budget budget = budgetDocument.getBudget();
-        BudgetParentDocument parentDocument = budgetDocument.getParentDocument();
-        if (budget != null && parentDocument != null && parentDocument.getBudgetDocumentVersions() != null) {
-            boolean setAdditionalInfo = false;
-            for (final BudgetDocumentVersion budgetVersion: parentDocument.getBudgetDocumentVersions()) {
-                if (budgetVersion.getBudgetVersionOverview().getBudgetVersionNumber().equals(budget.getBudgetVersionNumber())) {
-                    budgetForm.getDocInfo().add(new HeaderField(BudgetForm.BUDGET_NAME_KEY, budgetVersion.getBudgetVersionOverview().getDocumentDescription()));
-                    setAdditionalInfo = true;
-                    break;
-                }
-                else {
-                    budgetForm.getDocInfo().add(new HeaderField(BudgetForm.BUDGET_NAME_KEY, Constants.EMPTY_STRING));
-                }
-            }
-            if(!setAdditionalInfo){
-                budgetForm.getDocInfo().add(new HeaderField(BudgetForm.BUDGET_NAME_KEY, Constants.EMPTY_STRING));
-            }
-
-            if (budget.getBudgetVersionNumber() != null) {
-                budgetForm.getDocInfo().add(new HeaderField(BudgetForm.VERSION_NUMBER_KEY, budget.getBudgetVersionNumber().toString()));
-            } else {
-                budgetForm.getDocInfo().add(new HeaderField(BudgetForm.VERSION_NUMBER_KEY, Constants.EMPTY_STRING));
-            }
-        }
     }
 
     /**

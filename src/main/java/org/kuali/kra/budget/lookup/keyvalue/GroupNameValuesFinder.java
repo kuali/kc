@@ -15,13 +15,6 @@
  */
 package org.kuali.kra.budget.lookup.keyvalue;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.budget.document.BudgetDocument;
@@ -29,7 +22,6 @@ import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.lookup.keyvalue.KeyValueFinderService;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
@@ -38,8 +30,9 @@ import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KeyValuesService;
 
+import java.util.*;
+
 public class GroupNameValuesFinder extends KeyValuesBase{
-    KeyValueFinderService keyValueFinderService= (KeyValueFinderService)KraServiceLocator.getService("keyValueFinderService");
     
     /**
      * Constructs the list of existing Group Names.  
@@ -100,10 +93,7 @@ public class GroupNameValuesFinder extends KeyValuesBase{
                 }
             }
         }    
-        
-//        if(StringUtils.isNotEmpty(budgetForm.getNewGroupName())) {
-//            keyValues.add(new ConcreteKeyValue(budgetForm.getNewGroupName(), budgetForm.getNewGroupName()));
-//        }
+
         
         return keyValues;
     }

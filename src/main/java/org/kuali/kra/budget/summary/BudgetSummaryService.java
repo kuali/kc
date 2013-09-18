@@ -15,32 +15,19 @@
  */
 package org.kuali.kra.budget.summary;
 
-import java.sql.Date;
-import java.util.Collection;
-import java.util.List;
-
 import org.kuali.kra.budget.core.Budget;
-import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
-import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
+
+import java.sql.Date;
+import java.util.List;
 
 public interface BudgetSummaryService {
 
-    /**
-     * This method is used to generate all budget periods initially based on project/proposal start date
-     * and end date.
-     * @param budgetPeriods
-     * @param projectStartDate
-     * @param projectEndDate
-     */
-//    public void generateBudgetPeriods(List<BudgetPeriod> budgetPeriods, Date projectStartDate, Date projectEndDate);
     public void generateBudgetPeriods(Budget budget,List<BudgetPeriod> budgetPeriods);
     public void addBudgetPeriod(Budget budget, BudgetPeriod newBudgetPeriod);
     public void deleteBudgetPeriod(Budget budget, int delPeriod);
     public boolean budgetLineItemExists(Budget budget, Integer budgetPeriod);
     public void generateAllPeriods(Budget budget);
-    public Collection<BudgetLineItem> getBudgetLineItemForPeriod(Budget budget, int budgetPeriodNumber);
-    public Collection<BudgetPersonnelDetails> getBudgetPersonnelDetailsForPeriod(Budget budget, int budgetPeriodNumber);
     public void calculateBudget(Budget budget);
 
     /**
@@ -73,13 +60,6 @@ public interface BudgetSummaryService {
      * @param budget
      */
     public void setupOldStartEndDate (Budget budget, boolean resetAll);
-
-    /**
-     * 
-     * This method is to hold old start/end date for line items, then they can be used for date adjustment.
-     * @param budgetLineItems
-     */
-    public void setupOldStartEndDate (List <BudgetLineItem > budgetLineItems);
 
     public List<Date> getNewStartEndDates(List<Date> startEndDates, int gap, int duration, Date prevDate, boolean leapDayInPeriod, boolean leapDayInGap);
 

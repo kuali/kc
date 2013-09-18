@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.budget.lookup.keyvalue;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.award.budget.AwardBudgetService;
@@ -25,7 +22,6 @@ import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.lookup.keyvalue.KeyValueFinderService;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -36,10 +32,12 @@ import org.kuali.rice.kns.web.struts.form.MultipleValueLookupForm;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.DocumentService;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class BudgetExpensePeriodValuesFinder extends BudgetPeriodValuesFinder {
     protected Log LOG = LogFactory.getLog(BudgetExpensePeriodValuesFinder.class);
-    
-    protected KeyValueFinderService keyValueFinderService= (KeyValueFinderService)KraServiceLocator.getService("keyValueFinderService");
+
     protected AwardBudgetService awardBudgetService = KraServiceLocator.getService(AwardBudgetService.class);
     protected DocumentService documentService = KraServiceLocator.getService(DocumentService.class);
     
@@ -107,14 +105,6 @@ public class BudgetExpensePeriodValuesFinder extends BudgetPeriodValuesFinder {
             }
         }
         return KeyValues;
-    }    
-
-    protected KeyValueFinderService getKeyValueFinderService() {
-        return keyValueFinderService;
-    }
-
-    public void setKeyValueFinderService(KeyValueFinderService keyValueFinderService) {
-        this.keyValueFinderService = keyValueFinderService;
     }
 
     protected AwardBudgetService getAwardBudgetService() {

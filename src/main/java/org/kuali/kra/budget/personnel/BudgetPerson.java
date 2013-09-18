@@ -47,8 +47,6 @@ public class BudgetPerson extends BudgetAssociate implements HierarchyMaintainab
 
     private JobCode jobCodeRef;
 
-    private String jobTitle;
-
     private Boolean nonEmployeeFlag;
 
     private String personId;

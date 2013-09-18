@@ -15,14 +15,7 @@
  */
 package org.kuali.kra.budget.nonpersonnel;
 
-import org.apache.ojb.broker.PBKey;
-import org.apache.ojb.broker.PersistenceBroker;
-import org.apache.ojb.broker.query.Criteria;
-import org.apache.ojb.broker.query.Query;
-import org.apache.ojb.broker.query.QueryFactory;
-import org.kuali.kra.award.budget.AwardBudgetLineItemCalculatedAmountExt;
 import org.kuali.kra.infrastructure.DeepCopyIgnore;
-import org.springmodules.orm.ojb.OjbFactoryUtils;
 
 public class BudgetLineItemCalculatedAmount extends AbstractBudgetCalculatedAmount {
 
