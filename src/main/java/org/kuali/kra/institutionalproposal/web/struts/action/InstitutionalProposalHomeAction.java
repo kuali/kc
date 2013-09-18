@@ -36,7 +36,6 @@ import org.apache.struts.upload.FormFile;
 import org.kuali.kra.award.home.fundingproposal.AwardFundingProposal;
 import org.kuali.kra.bo.CommentType;
 import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.document.InstitutionalProposalDocument;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
@@ -53,7 +52,6 @@ import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalVersioningService;
 import org.kuali.kra.institutionalproposal.web.struts.form.InstitutionalProposalForm;
 import org.kuali.kra.negotiations.service.NegotiationService;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.service.KcAttachmentService;
 import org.kuali.kra.service.KeywordsService;
 import org.kuali.kra.service.VersionException;
@@ -72,7 +70,6 @@ import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.NoteType;
-import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * This class...
@@ -180,6 +177,44 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
         return mapping.findForward(Constants.MAPPING_BASIC);
     }
     
+    /**
+     * This method is used to delete an existing note/attachment
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return mapping forward
+     * @throws Exception
+     */
+    public ActionForward deleteNote(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        int selection = getLineToDelete(request);
+        InstitutionalProposalForm institutionalProposalForm = (InstitutionalProposalForm) form;
+        InstitutionalProposalDocument document = institutionalProposalForm.getInstitutionalProposalDocument();
+        InstitutionalProposalNotepad ipNotepad = document.getInstitutionalProposal().getInstitutionalProposalNotepads().get(selection);
+        Note attachmentNote;
+        if (ipNotepad.getAttachments().size() > 0) {
+            attachmentNote = ipNotepad.getAttachments().get(0);
+            Attachment attachment = attachmentNote.getAttachment();
+
+            if (attachment != null) { // only do this if the note has been persisted
+                //All references for the business object Attachment are auto-update="none",
+                //so refreshNonUpdateableReferences() should work the same as refresh()
+                if (attachmentNote.getNoteIdentifier() != null) { 
+                    attachment.refreshNonUpdateableReferences();
+                }
+                getAttachmentService().deleteAttachmentContents(attachment);
+            }
+            // delete the note if the document is already saved
+            if (!document.getDocumentHeader().getWorkflowDocument().isInitiated()) {
+                getNoteService().deleteNote(attachmentNote);
+            }
+        }
+        document.getInstitutionalProposal().getInstitutionalProposalNotepads().remove(selection);
+
+        return mapping.findForward(RiceConstants.MAPPING_BASIC);
+    }
+
     /**
      * 
      * This method is for selecting all keywords if javascript is disabled on a browser. 
@@ -401,18 +436,6 @@ public class InstitutionalProposalHomeAction extends InstitutionalProposalAction
             InstitutionalProposalDocument institutionalProposalDocument, InstitutionalProposal institutionalProposal) throws VersionException, 
                                                                                                          WorkflowException, 
                                                                                                          IOException {
-//        InstitutionalProposal newVersion = getVersioningService().createNewVersion(institutionalProposal);
-//        
-//        synchNewCustomAttributes(newVersion, institutionalProposal);
-//        
-//        newVersion.setProposalSequenceStatus(VersionStatus.PENDING.toString());
-//        newVersion.setAwardFundingProposals(transferFundingProposals(institutionalProposal, newVersion));
-//        InstitutionalProposalDocument newInstitutionalProposalDocument = 
-//            (InstitutionalProposalDocument) getDocumentService().getNewDocument(InstitutionalProposalDocument.class);
-//        newInstitutionalProposalDocument.getDocumentHeader().setDocumentDescription(institutionalProposalDocument.getDocumentHeader().getDocumentDescription());
-//        newInstitutionalProposalDocument.setInstitutionalProposal(newVersion);
-//        getDocumentService().saveDocument(newInstitutionalProposalDocument);
-        //getVersionHistoryService().createVersionHistory(newVersion, VersionStatus.PENDING, GlobalVariables.getUserSession().getPrincipalName());
 
         InstitutionalProposalDocument newInstitutionalProposalDocument = getInstitutionalProposalService().createAndSaveNewVersion(institutionalProposal, institutionalProposalDocument);
         reinitializeForm(institutionalProposalForm, newInstitutionalProposalDocument);

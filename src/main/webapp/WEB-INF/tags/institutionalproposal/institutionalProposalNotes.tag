@@ -143,11 +143,14 @@
 	                        </c:otherwise>
 	                    </c:choose>
                     </c:if>
-					<td>
-					<div align="center">&nbsp;
-						<html:image property="methodToCall.updateNotes.line${status.index}.anchor${currentTabIndex}"
-						src='${ConfigProperties.kra.externalizable.images.url}tinybutton-updateview.gif' styleClass="tinybutton"/>
-					</div>
+					<td width="15%">
+						<div align="center">&nbsp;
+							<html:image property="methodToCall.updateNotes.line${status.index}.anchor${currentTabIndex}"
+							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-updateview.gif' styleClass="tinybutton"/>
+							&nbsp;
+							<html:image property="methodToCall.deleteNote.line${status.index}.anchor${currentTabIndex}"
+							src='${ConfigProperties.kra.externalizable.images.url}tinybutton-delete1.gif' styleClass="tinybutton"/>
+						</div>
 	                </td>
 	            </tr>
         	</c:forEach> 
