@@ -77,7 +77,6 @@ public class PrintingUtils {
     private static final String XSL_FUTURE_SCHEDULED_MEETINGS = "CommitteeFutureScheduledMeetings.xsl";
     	private static final String XSL_PROPOSAL_LOG_REPORT = "proposalLog.xsl";
 	private static final String PRINCIPAL_INVESTIGATOR = "PI";
-	private static final String COMMENT_TYPE_CODE_PARAMETER = "commentTypeCode";
 	private static final String  XSL_PRINT_NEGOTIATION_ACTIVITY_REPORT ="NegotiationActivityReport.xsl";
 	private static final String XSL_PRINT_SUB_AWARD_SF_294_REPORT ="294.xsl";
 	private static final String XSL_PRINT_SUB_AWARD_SF_295_REPORT ="295.xsl";
