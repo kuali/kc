@@ -25,7 +25,6 @@ import org.kuali.kra.award.home.AwardService;
 import org.kuali.kra.bo.AbstractProjectPerson;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.kra.workflow.AbstractProjectPersonDerivedRoleTypeServiceImpl;
-import org.kuali.rice.kns.kim.role.DerivedRoleTypeServiceBase;
 
 public class AwardInvestigatorDerivedRoleTypeServiceImpl extends AbstractProjectPersonDerivedRoleTypeServiceImpl {
     

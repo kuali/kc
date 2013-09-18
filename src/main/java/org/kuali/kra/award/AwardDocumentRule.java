@@ -112,8 +112,6 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
     public static final String AWARD_ERROR_PATH = "awardList[0]";
     public static final boolean VALIDATION_REQUIRED = true;
     public static final boolean CHOMP_LAST_LETTER_S_FROM_COLLECTION_NAME = false;
-    private static final String AWARD_REPORT_TERMS = "awardReportTerms";
-    private static final String AWARD_REPORT_TERM_ITEMS = "awardReportTermItems";
     private static final String AWARD_ERROR_PATH_PREFIX = "document.awardList[0].";
     
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(AwardDocumentRule.class);

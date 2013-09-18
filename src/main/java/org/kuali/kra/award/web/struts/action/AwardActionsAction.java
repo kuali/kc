@@ -15,18 +15,6 @@
  */
 package org.kuali.kra.award.web.struts.action;
 
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.Map;
-import java.util.Set;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -43,11 +31,9 @@ import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.home.ValidRates;
 import org.kuali.kra.award.home.fundingproposal.AwardFundingProposal;
 import org.kuali.kra.award.notification.AwardNotificationContext;
-import org.kuali.kra.award.notification.AwardNotificationRenderer;
 import org.kuali.kra.award.printing.AwardPrintParameters;
 import org.kuali.kra.award.printing.AwardPrintType;
 import org.kuali.kra.award.printing.service.AwardPrintingService;
-import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.external.award.AccountCreationClient;
 import org.kuali.kra.external.award.AwardAccountValidationService;
 import org.kuali.kra.infrastructure.Constants;
@@ -56,7 +42,6 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
-import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.kra.timeandmoney.AwardHierarchyNode;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
@@ -67,10 +52,12 @@ import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.web.struts.action.AuditModeAction;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
-import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.*;
 
 /**
  * 
@@ -83,7 +70,6 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
     private static final String NEW_CHILD_COPY_FROM_PARENT_OPTION = "b";
     private static final String ERROR_CANCEL_PENDING_PROPOSALS = "error.cancel.fundingproposal.pendingVersion";
     private static final String ACCOUNT_ALREADY_CREATED = "error.award.createAccount.account.already.created";
-    private static final String AWARD_ACCOUNT_NUMBER_NOT_SPECIFIED = "error.award.createAccount.invalid.accountNumber";
     private static final String NO_PERMISSION_TO_CREATE_ACCOUNT = "error.award.createAccount.noPermission";
     public static final String NEW_CHILD_NEW_OPTION = "a";
     public static final String AWARD_COPY_NEW_OPTION = "a";
@@ -836,32 +822,7 @@ public class AwardActionsAction extends AwardAction implements AuditModeAction {
 
         return returnToSender(request, mapping, kualiDocumentFormBase);
     }
-    
-    /*
-     * This method retrieves an active award version.
-     * 
-     * @param doc
-     * @param goToAwardNumber
-     */
-//    private Award getActiveAwardVersion(String goToAwardNumber) {
-//        VersionHistoryService vhs = KraServiceLocator.getService(VersionHistoryService.class);  
-//        VersionHistory vh = vhs.findActiveVersion(Award.class, goToAwardNumber);
-//        Award award = null;
-//        
-//        if(vh!=null){
-//            award = (Award) vh.getSequenceOwner();
-//        }else{
-//            BusinessObjectService businessObjectService =  KraServiceLocator.getService(BusinessObjectService.class);
-//            award = ((List<Award>)businessObjectService.findMatching(Award.class, getHashMapToFindActiveAward(goToAwardNumber))).get(0);              
-//        }
-//        return award;
-//    }
-    
-    private Map<String, String> getHashMapToFindActiveAward(String goToAwardNumber) {
-        Map<String, String> map = new HashMap<String,String>();
-        map.put("awardNumber", goToAwardNumber);
-        return map;
-    }
+
     
     /*
      * Find pending proposal versions linked to this award version.

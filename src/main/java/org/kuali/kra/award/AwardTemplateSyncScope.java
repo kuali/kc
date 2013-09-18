@@ -45,10 +45,7 @@ public enum AwardTemplateSyncScope {
     RATES_TAB ( "document.question.syncPanel.panelName.RATES_TAB" ),
     //inherit the containing classes scope - this means that the field will sync when the class containing it syncs.
     CONTAINING_CLASS_INHERIT (null) ;
-    
-    
-    
-    private static final Log LOG = LogFactory.getLog(AwardTemplateSyncScope.class);
+
     private String displayPropertyName;
     
     

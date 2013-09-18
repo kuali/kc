@@ -38,11 +38,7 @@ public class AwardDirectFandADistributionBean implements Serializable{
     private TimeAndMoneyForm parent;
     private AwardDirectFandADistribution newAwardDirectFandADistribution;
     transient AwardAmountInfoService awardAmountInfoService;
-    
-    /**
-     * Constructs a DirectFandADistributionFormHelper
-     * @param parent
-     */
+
     public AwardDirectFandADistributionBean(TimeAndMoneyForm parent) {
         this.parent = parent;
         setNewAwardDirectFandADistribution (new AwardDirectFandADistribution());
@@ -119,10 +115,7 @@ public class AwardDirectFandADistributionBean implements Serializable{
     }
     
     
-    /**
-     * This method finds the correct index of the list to add the target.
-     * @param directFandADistributionFormHelper
-     */
+
     private void findIndexAndAddTarget(AwardDirectFandADistributionBean awardDirectFandADistributionBean){
         Award award = awardDirectFandADistributionBean.getTimeAndMoneyDocument().getAward();
         List<AwardDirectFandADistribution> awardDirectFandADistributions = 
