@@ -37,15 +37,9 @@ public class AwardReportTermRuleImpl extends ResearchDocumentRuleBase
     private static final String AWARD_REPORT_TERM_FREQUENCY_CODE_PROPERTY = "frequencyCode";
     private static final String AWARD_REPORT_TERM_FREQUENCY_BASE_CODE_PROPERTY = "frequencyBaseCode";
     private static final String AWARD_REPORT_TERM_DISTRIBUTION_PROPERTY = "ospDistributionCode";
-    private static final String AWARD_REPORT_TERM_DUE_DATE_PROPERTY = "dueDate";
     
     private static final String REPORT_CODE_ERROR_PARM = "Type (Type)";
-    private static final String FREQUENCY_CODE_ERROR_PARM = "Frequency (Frequency)";
     private static final String FREQUENCY_BASE_CODE_ERROR_PARM = "Frequency Base (Frequency Base)";
-    private static final String DISTRIBUTION_ERROR_PARM = "OSP File Copy  (OSP File Copy )";
-    private static final String DUE_DATE_ERROR_PARM = "Due Date (Due Date)";
-    private static final String EMPTY_CODE = "-1";
-    private static final String FINAL_REPORT_DESCRIPTION = "Final (Final Report)";
 
     /**
      * This function is called on Save.
