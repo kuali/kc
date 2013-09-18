@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.bo;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.rules.ErrorReporter;
 import org.kuali.kra.rules.KraMaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.document.MaintenanceDocument;
