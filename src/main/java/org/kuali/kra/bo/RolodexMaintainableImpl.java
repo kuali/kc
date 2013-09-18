@@ -41,7 +41,6 @@ public class RolodexMaintainableImpl extends KraMaintainableImpl {
     public static final String AUTO_GEN_ROLODEX_ID_PARM = "AUTO_GENERATE_NON_EMPLOYEE_ID";
     public static final String SECTION_ID = "Edit Address Book";
     public static final String ROLODEX_ID_NAME = "rolodexId";
-    public static final String ORGANIZATION = "organization";
     private static final String YES = "Y";
     private static final String NO = "N";
     

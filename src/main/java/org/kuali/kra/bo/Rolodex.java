@@ -17,9 +17,7 @@ package org.kuali.kra.bo;
 
 import java.io.Serializable;
 
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.core.api.mo.common.active.MutableInactivatable;
-import org.kuali.rice.krad.service.BusinessObjectService;
 
 public class Rolodex extends KraPersistableBusinessObjectBase implements Contactable, MutableInactivatable {
 

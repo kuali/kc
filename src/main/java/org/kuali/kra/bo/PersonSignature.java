@@ -17,7 +17,6 @@ package org.kuali.kra.bo;
 
 import org.apache.struts.upload.FormFile;
 import org.kuali.rice.krad.bo.PersistableAttachment;
-import org.kuali.rice.krad.util.ObjectUtils;
 
 public class PersonSignature extends KraPersistableBusinessObjectBase implements PersistableAttachment {
 

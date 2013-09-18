@@ -15,7 +15,6 @@
  */
 package org.kuali.kra.bo;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
