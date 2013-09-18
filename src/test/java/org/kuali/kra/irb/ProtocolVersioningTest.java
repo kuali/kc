@@ -53,10 +53,7 @@ public class ProtocolVersioningTest extends KcUnitTestBase {
     private DocumentService documentService;
     private VersioningService versioningService;
     private ProtocolDocument ver1;
-    
-    /**
-     * @see org.kuali.kra.KraTestBase#setUp()
-     */
+
     @Override
     public void setUp() throws Exception {
        super.setUp();
@@ -76,20 +73,6 @@ public class ProtocolVersioningTest extends KcUnitTestBase {
     @Test
     public void test_basic_versioning() throws Exception {
         assertIsVersioned(ver1, createAndSaveVersion(ver1));
-    }
-    
-    /**
-     * Creates a new version of a protocol that has one associate.  Makes sure that associate is versioned.
-     * 
-     * @throws Exception if bad happens
-     */
-    @Test @Ignore("Protocol doesn't have any BO strutures to test this yet")
-    public void test_one_associate_versioning() throws Exception {
-        //there is currently no ProtocolAssociates that are 1:1 w/ Protocol
-        //when there are please fill this in
-        
-        
-        //assertIsVersioned(ver1, createAndSaveVersion(ver1));
     }
     
     /**
