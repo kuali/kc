@@ -15,20 +15,12 @@
  */
 package org.kuali.kra.award.paymentreports.awardreports.reporting.service;
 
-import java.util.List;
-import java.util.Map;
-
 import org.kuali.kra.award.paymentreports.awardreports.reporting.ReportTracking;
-import org.kuali.kra.award.printing.AwardPrintType;
-import org.kuali.kra.award.paymentreports.awardreports.reporting.service.ReportTrackingType;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.budget.core.Budget;
-import org.kuali.kra.coi.CoiDisclosure;
-import org.kuali.kra.coi.print.CoiReportType;
 import org.kuali.kra.printing.Printable;
 import org.kuali.kra.printing.PrintingException;
-import org.kuali.kra.printing.print.AbstractPrint;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
+
+import java.util.List;
 
 /**
  * This class provides the means for printing reports related to Award. It has

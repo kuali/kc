@@ -15,13 +15,6 @@
  */
 package org.kuali.kra.award.paymentreports.closeout;
 
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.award.paymentreports.Frequency;
@@ -29,6 +22,9 @@ import org.kuali.kra.award.paymentreports.awardreports.AwardReportTerm;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.service.PersistenceService;
+
+import java.sql.Date;
+import java.util.*;
 
 /**
  * 
@@ -52,55 +48,6 @@ public class AwardCloseoutServiceImpl implements AwardCloseoutService {
     
     private PersistenceService persistenceService;
     private DateTimeService dateTimeService;
-
-    /**
-     *
-     *
-     * @see org.kuali.kra.award.paymentreports.closeout.AwardCloseoutService#updateCloseoutDueDatesBeforeSave(Award)
-     */
-    public void updateCloseoutDueDatesBeforeSaveOrg(Award award) {
-        Map<String, Object> closeoutDueDates = new HashMap<String, Object>();                
-        Date finalExpirationDate = award.getAwardAmountInfos().get(0).getFinalExpirationDate();
-        java.util.Date dateCalculatedUsingFrequency;
-        java.util.Date dateCalculatedUsingFrequencyOld;
-        boolean allDueDatesAreEqual;
-        String closeoutReportTypeCode;
-        
-        //java.util.Date dateCalculatedUsingFinalInvoiceDue = getDateCalculatedUsingFinalInvoiceDue(award, finalExpirationDate).getTime();
-        
-        refreshAwardReportTerms(award.getAwardReportTermItems());
-                
-        for (KeyValue kl : (new CloseoutReportTypeValuesFinder()).getKeyValues()) {
-            closeoutReportTypeCode = kl.getKey().toString();
-            allDueDatesAreEqual = true;
-            dateCalculatedUsingFrequency = null;
-            dateCalculatedUsingFrequencyOld = null;
-            List<AwardReportTerm> awardReportTerms = filterAwardReportTerms(award.getAwardReportTermItems(), closeoutReportTypeCode);
-            if (awardReportTerms.size() == 0) {
-                closeoutDueDates.put(closeoutReportTypeCode, null);
-            } else {
-                Calendar calendar = getDateTimeService().getCalendar(finalExpirationDate);
-                for (AwardReportTerm awardReportTerm : awardReportTerms) {
-                    if (StringUtils.isNotBlank(awardReportTerm.getFrequencyCode())) {
-                        dateCalculatedUsingFrequency = getCalculatedDueDate(finalExpirationDate, awardReportTerm, calendar);
-                        if (dateCalculatedUsingFrequencyOld != null
-                                && !dateCalculatedUsingFrequencyOld.equals(dateCalculatedUsingFrequency)) {
-                                //&& dateCalculatedUsingFrequencyOld != dateCalculatedUsingFrequency) {
-                            allDueDatesAreEqual = false;
-                            break;
-                        }
-                        dateCalculatedUsingFrequencyOld = dateCalculatedUsingFrequency;
-                    }
-                }
-                if (dateCalculatedUsingFrequency != null) {                    
-                    updateCloseoutDueDate(closeoutDueDates, dateCalculatedUsingFrequency, allDueDatesAreEqual, closeoutReportTypeCode);
-                }
-            }
-        }
-        
-        assignedDueDatesOnAwardCloseouts(award.getAwardCloseoutItems(), closeoutDueDates);
-
-    }
     
     /**
      * 
