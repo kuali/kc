@@ -15,10 +15,6 @@
  */
 package org.kuali.kra.budget.calculator;
 
-import java.util.List;
-import java.util.Map;
-
-import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.BudgetException;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
@@ -82,20 +78,6 @@ public interface BudgetCalculationService {
      * @throws BudgetException
      */
     public void rePopulateCalculatedAmount(Budget budget,BudgetLineItem budgetLineItem);
-    /**
-     * 
-     * This method...
-     * @param budgetPersnnelLineItem
-     * @throws BudgetException
-     */
-    public void calculateSalary(Budget budget,BudgetPersonnelDetails budgetPersnnelLineItem) ;
-    
-    /**
-     * 
-     * This method is to calculate the budget totals for budget total page
-     * @param budget
-     */
-    public void calculateBudgetTotals(Budget budget);
 
     /**
      * 
@@ -153,5 +135,4 @@ public interface BudgetCalculationService {
     
     public BudgetForm getBudgetFormFromGlobalVariables();
 
-    List<Map <String, List<BudgetDecimal>>> getBudgetLimitsTotals(String budgetId);
 }

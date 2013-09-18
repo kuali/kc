@@ -185,14 +185,6 @@ public class BreakupIntervalServiceImpl implements BreakupIntervalService {
     }
 
     /**
-     * Non-generic subclass of Node<T>
-     */
-    public class RateClassBaseInclusionNode extends Node<RateClassBaseInclusion> {
-        public RateClassBaseInclusionNode() {
-            super();
-        }
-    }
-    /**
      * Gets a single TaskTree by id. This is the head of a recursive method call
      * to getRecursive().
      * @param id the id of the TaskTree.

@@ -31,25 +31,17 @@ public class BreakUpInterval{
     private QueryList<BudgetRate> breakupIntervalRates; 
     private QueryList<BudgetLaRate> breakUpIntervalLaRates; 
     private QueryList<RateAndCost> breakupCalculatedAmounts;  
-//    private FormulaMaker formulaMaker; 
+
     private BudgetDecimal applicableAmt = BudgetDecimal.ZERO; 
     private BudgetDecimal applicableAmtCostSharing = BudgetDecimal.ZERO; 
     private BudgetRate uRRatesBean;
-//    private boolean laWithEBVACalculated = false;
+
 
     private Long budgetId;
     private Integer budgetPeriod;
     private Integer lineItemNumber;
     private Integer rateNumber;
     private QueryList<BudgetRateAndBase> rateBaseList ;
-    /*
-     * Calculate all the rates for the breakup interval
-     */
-//    public void calculateBreakupInterval() {
-//        this.formulaMaker = new FormulaMaker();
-//        this.underRecovery = new BudgetDecimal(0);
-//        calculate();
-//    }
    
 
 /**return the vector which contains Budget Rate and Base data

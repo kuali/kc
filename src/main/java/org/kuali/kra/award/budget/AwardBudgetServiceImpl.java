@@ -976,16 +976,6 @@ public class AwardBudgetServiceImpl implements AwardBudgetService {
         budget.setCostSharingAmount(budget.getSumCostSharingAmountFromPeriods());
     }
 
-    public boolean isRateOverridden(Budget budget) {
-        List<BudgetPeriod> budgetPeriods = budget.getBudgetPeriods();
-        for (BudgetPeriod budgetPeriod : budgetPeriods) {
-            if(isRateOverridden(budgetPeriod)){
-                return true;
-            }
-        }
-        return false;
-    }
-
     public void removeBudgetSummaryPeriodCalcAmounts(BudgetPeriod budgetPeriod) {
         AwardBudgetPeriodExt awardBudgetPeriod = (AwardBudgetPeriodExt)budgetPeriod;
         awardBudgetPeriod.setTotalFringeAmount(null);

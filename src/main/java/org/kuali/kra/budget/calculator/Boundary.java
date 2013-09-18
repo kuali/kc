@@ -15,13 +15,12 @@
  */
 package org.kuali.kra.budget.calculator;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Map;
-
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.core.api.datetime.DateTimeService;
+
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * This class holds the date boundaries ie, Start Date & End Date. Also
@@ -33,7 +32,6 @@ public class Boundary {
     private Date startDate; 
     private Date endDate; 
     private Calendar calendar = Calendar.getInstance();
-    private Map<Date,Integer> noOfDaysList;
     private DateTimeService dateTimeService;
     private BudgetDecimal applicableCost;
     private BudgetDecimal applicableCostSharing;

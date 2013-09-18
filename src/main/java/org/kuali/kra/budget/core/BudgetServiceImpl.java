@@ -98,6 +98,7 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
      * @param document instance to add {@link BudgetVersionOverview} to
      * @param versionName of the {@link BudgetVersionOverview}
      */
+    @Override
     public BudgetDocument<T> addBudgetVersion(BudgetParentDocument<T> document, String versionName) throws WorkflowException {
         if (!isBudgetVersionNameValid(document, versionName)) {
             debug("Buffered Version not Valid");
@@ -126,6 +127,7 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
      * @param name of the pseudo-{@link BudgetVersionOverview} instance to validate
      * @returns true if the rules passed, false otherwise
      */
+    @Override
     public boolean isBudgetVersionNameValid(BudgetParentDocument<T> document,  String name) {
         debug("Invoking budgetrule getBudgetVersionRule()");
         return new AddBudgetVersionEvent(document, name).invokeRuleMethod(getBudgetVersionRule());
@@ -169,9 +171,6 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
     /**
      * This method...
      * @param budgetDocument
-     * @param isProposalBudget
-     * @param budget
-     * @param budgetParent
      * @throws WorkflowException
      */
     protected void saveBudgetDocument(BudgetDocument<T> budgetDocument) throws WorkflowException {
@@ -190,7 +189,7 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
         }
     }
     
-    
+    @Override
     public void updateDocumentDescription(BudgetVersionOverview budgetVersion) {
         BusinessObjectService boService = KraServiceLocator.getService(BusinessObjectService.class);
         Map<String, Object> keyMap = new HashMap<String, Object>();
@@ -227,7 +226,6 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
      * Recurse through all of the BOs and if a BO has a ProposalNumber property,
      * set its value to the new proposal number.
      * @param object the object
-     * @param proposalNumber the proposal number
      */
     @SuppressWarnings("unchecked")
     protected void fixProperty(Object object, String methodName, Class clazz, Object propertyValue, Map<String, Object> objectMap){
@@ -300,6 +298,7 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
     }
     
     @SuppressWarnings("unchecked")
+    @Override
     public Collection<BudgetRate> getSavedBudgetRates(Budget budget) {
         Map<String,Long> qMap = new HashMap<String, Long>();
         qMap.put("budgetId",budget.getBudgetId());
@@ -314,6 +313,7 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
     }
     
     @SuppressWarnings("unchecked")
+    @Override
     public boolean checkActivityTypeChange(Collection<BudgetRate> allPropRates, String activityTypeCode) {
         if (CollectionUtils.isNotEmpty(allPropRates)) {
             Equals equalsActivityType = new Equals("activityTypeCode", activityTypeCode);
@@ -325,11 +325,13 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
                 
         return false;
     }
-    
+
+    @Override
     public boolean checkActivityTypeChange(BudgetParentDocument<T> budgetParentDoc, Budget budget) {
         return checkActivityTypeChange(getSavedBudgetRates(budget), budgetParentDoc.getBudgetParent().getActivityTypeCode());
     }
-    
+
+    @Override
     public boolean ValidInflationCeRate(BudgetLineItemBase budgetLineItem) {
         //QueryEngine queryEngine = new QueryEngine();
         //BudgetLineItemCalculatedAmount budgetLineItemCalculatedAmt = null;
@@ -355,6 +357,7 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
     }
 
     @SuppressWarnings("unchecked")
+    @Override
     public String getActivityTypeForBudget(BudgetDocument<T> budgetDocument) {
         Budget budget = budgetDocument.getBudget();
         BudgetParent budgetParent = budgetDocument.getParentDocument().getBudgetParent();
@@ -388,6 +391,7 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
 
 
     @SuppressWarnings("unchecked")
+    @Override
     public List<ValidCeJobCode> getApplicableCostElements(Long budgetId, String personSequenceNumber) {
         List<ValidCeJobCode> validCostElements = null;
 
@@ -411,6 +415,7 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
     }
     
     @SuppressWarnings("unchecked")
+    @Override
     public String getApplicableCostElementsForAjaxCall(Long budgetId,String personSequenceNumber, 
             String budgetCategoryTypeCode) {
         
@@ -447,34 +452,7 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
         return resultStr;
     }
 
-    @SuppressWarnings("unchecked")
-    public List<String> getExistingGroupNames(String budgetId, String budgetPeriod) {
-        List<String> groupNames = new ArrayList<String>();
-        Map fieldValues = new HashMap();
-        fieldValues.put("budgetId", budgetId);
-        fieldValues.put("budgetPeriodId", budgetPeriod);
-        List<BudgetLineItem> budgetLineItems = (List<BudgetLineItem>) businessObjectService.findByPrimaryKey(BudgetLineItem.class, fieldValues);
-        
-        for(BudgetLineItem budgetLineItem: budgetLineItems) {
-            if(StringUtils.isNotEmpty(budgetLineItem.getGroupName())) {
-                groupNames.add(budgetLineItem.getGroupName());
-            }
-        }
-        
-        return groupNames;
-    }
-
-    public String getExistingGroupNamesForAjaxCall(String budgetId, String budgetPeriod) {
-        List<String> groupNames = getExistingGroupNames(budgetId, budgetPeriod);
-        String resultStr = "";
-        
-        for (String groupName : groupNames) {
-            resultStr += "," + groupName;
-        }
-        
-        return resultStr;
-    }
-    
+    @Override
     public String getBudgetExpensePanelName(BudgetPeriod budgetPeriod, BudgetLineItem budgetLineItem) {
         StringBuffer panelName = new StringBuffer();
         if(budgetLineItem.getBudgetCategory() == null) {
@@ -487,21 +465,17 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
         
         if(budgetLineItem.getBudgetCategory() != null && budgetLineItem.getBudgetCategory().getBudgetCategoryType() != null) {
             panelName.append(budgetLineItem.getBudgetCategory().getBudgetCategoryType().getDescription());
-//            panelName.append(" (");
-//            panelName.append(budgetPeriod.getBudgetLineItems().size());
-//            panelName.append(" line item");
-//            if(budgetPeriod.getBudgetLineItems().size() > 1)
-//                panelName.append("s");
-//            panelName.append(")");
         }
         
         return panelName.toString();
     }
-    
+
+    @Override
     public String getParticipantSupportCategoryCode() {
         return parameterService.getParameterValueAsString(BudgetDocument.class, Constants.BUDGET_CATEGORY_TYPE_PARTICIPANT_SUPPORT);
     }
-    
+
+    @Override
     public List<BudgetLineItem> getMatchingLineItems(List<BudgetLineItem> lineItems, List<String> budgetCategoryType) {
         List<BudgetLineItem> result = new ArrayList<BudgetLineItem>();
         for (BudgetLineItem lineItem : lineItems) {
@@ -513,17 +487,16 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
     }
 
     @SuppressWarnings("unchecked")
+    @Override
     public Collection<BudgetRate> getSavedProposalRates(BudgetVersionOverview budgetToOpen) {
         Map<String,Long> qMap = new HashMap<String,Long>();
         qMap.put("budgetId",budgetToOpen.getBudgetId());
         return businessObjectService.findMatching(BudgetRate.class, qMap);
     }
 
-    /**
-     * 
-     * @see org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService#validateBudgetAuditRule(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument)
-     */
+
     @SuppressWarnings("unchecked")
+    @Override
     public boolean validateBudgetAuditRule(BudgetParentDocument<T> parentDocument) throws Exception {
         boolean valid = true;
         boolean finalAndCompleteBudgetVersionFound = false;
@@ -553,11 +526,8 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
 
         return valid;
     }
-    
-    /**
-     * 
-     * @see org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService#validateBudgetAuditRuleBeforeSaveBudgetVersion(org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument)
-     */
+
+    @Override
     public boolean validateBudgetAuditRuleBeforeSaveBudgetVersion(BudgetParentDocument<T> proposalDevelopmentDocument)
             throws Exception {
         boolean valid = true;
@@ -609,10 +579,10 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
      * @throws NoSuchMethodException 
      * @throws InvocationTargetException 
      * @throws IllegalAccessException 
-     * @throws FormatException 
-     * @see org.kuali.kra.budget.core.BudgetService#copyBudgetVersion(org.kuali.kra.budget.document.BudgetDocument)
+     * @throws FormatException
      */
     @SuppressWarnings("unchecked")
+    @Override
     public BudgetDocument copyBudgetVersion(BudgetDocument budgetDocument, boolean onlyOnePeriod) throws WorkflowException {
         String parentDocumentNumber = budgetDocument.getParentDocument().getDocumentNumber();
         budgetDocument.toCopy();
@@ -864,7 +834,7 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
     public void setFiscalYearMonthService(FiscalYearMonthService fiscalYearMonthService) {
         this.fiscalYearMonthService = fiscalYearMonthService;
     }
-    
+    @Override
     public BudgetDecimal getBaseSalaryByPeriod(Long budgetId, int budgetPeriod, KeyPersonInfo person ) {
         BusinessObjectService boService = KraServiceLocator.getService(BusinessObjectService.class);
         final Integer listIndex = 0;
@@ -884,7 +854,7 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
         }
         return baseSalaryByPeriod;
     }
-    
+    @Override
     public String populateBudgetPersonSalaryDetailsInPeriods(String budgetId, String personSequenceNumber, String personId ){
         String baseSalary = "";
         BusinessObjectService boService = KraServiceLocator.getService(BusinessObjectService.class); 
@@ -902,7 +872,7 @@ public class BudgetServiceImpl<T extends BudgetParent> implements BudgetService<
         }
         return baseSalary;
     }
-    
+    @Override
     public void populateNewBudgetLineItem(BudgetLineItem newBudgetLineItem, BudgetPeriod budgetPeriod) {
         Budget budget = budgetPeriod.getBudget();
         newBudgetLineItem.setBudgetPeriod(budgetPeriod.getBudgetPeriod());

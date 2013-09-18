@@ -192,21 +192,7 @@ public final class QueryList<E> implements List<E>, RandomAccess, Cloneable, Ser
         return true; 
     }
     
-       
-    /** sorts the QueryList by the fieldNames in ascending or descending order.
-     * Note: the field Objects should be of Comparable type.
-     * @param fieldNames fields which is used to sort the bean.
-     * @param ascending if true sorting is done in ascending order,
-     * else sorting is done in descending order.
-     * @return boolean indicating whether the sort is completed successfully or not.
-     * Modified code for the better performance and proper sorting.
-     *Added by Sharath and Nadh
-     */    
-    public boolean sort(String fieldNames[], boolean ascending) {
-        boolean[] asce = new boolean[1];
-        asce[0] = ascending;
-        return sort(fieldNames, asce);
-    }
+
     
     /** sorts the QueryList by the fieldNames in ascending or descending order.
      * Note: the field Objects should be of Comparable type.
@@ -624,9 +610,5 @@ public final class QueryList<E> implements List<E>, RandomAccess, Cloneable, Ser
     @Override
     public String toString() {
         return this.backingList.toString();
-    }
-
-    public List<E> toArrayList() {
-        return this.backingList;
     }
 }
