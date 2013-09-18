@@ -15,52 +15,36 @@
  */
 package org.kuali.kra.budget.calculator;
 
-import java.sql.Date;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.kuali.kra.award.commitments.FandaRateType;
 import org.kuali.kra.budget.BudgetDecimal;
-import org.kuali.kra.budget.calculator.query.And;
-import org.kuali.kra.budget.calculator.query.Equals;
-import org.kuali.kra.budget.calculator.query.GreaterThan;
-import org.kuali.kra.budget.calculator.query.LesserThan;
-import org.kuali.kra.budget.calculator.query.NotEquals;
-import org.kuali.kra.budget.calculator.query.Or;
-import org.kuali.kra.budget.calculator.query.QueryEngine;
+import org.kuali.kra.budget.calculator.query.*;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.CostElement;
 import org.kuali.kra.budget.nonpersonnel.AbstractBudgetCalculatedAmount;
-import org.kuali.kra.budget.nonpersonnel.BudgetLineItemBase;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
+import org.kuali.kra.budget.nonpersonnel.BudgetLineItemBase;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItemCalculatedAmount;
 import org.kuali.kra.budget.personnel.BudgetPersonnelCalculatedAmount;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
-import org.kuali.kra.budget.rates.AbstractBudgetRate;
-import org.kuali.kra.budget.rates.BudgetLaRate;
-import org.kuali.kra.budget.rates.BudgetRate;
-import org.kuali.kra.budget.rates.BudgetRatesService;
-import org.kuali.kra.budget.rates.RateType;
-import org.kuali.kra.budget.rates.ValidCeRateType;
+import org.kuali.kra.budget.rates.*;
 import org.kuali.kra.budget.web.struts.form.BudgetForm;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 /**
  * 
  * Base class for <code>LineItemCalculator<code> and <code>PersonnelLineItemCalculator</code>.
  */
 public abstract class AbstractBudgetCalculator {
     private static final String UNDER_REECOVERY_RATE_TYPE_CODE = "1";
-    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(AbstractBudgetCalculator.class);
     private BusinessObjectService businessObjectService;
     private DateTimeService dateTimeService;
     protected Budget budget;

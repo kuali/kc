@@ -109,26 +109,6 @@ public interface BudgetService<T extends BudgetParent>  {
     public String getApplicableCostElementsForAjaxCall(Long budgetId, String personSequenceNumber, String budgetCategoryTypeCode);
 
     /**
-     * This method returns the existing Personnel Line Item Group Names 
-     * based on his Job Code
-     * @param proposalNumber
-     * @param budgetVersionNumber
-     * @param budgetPeriod
-     * @return List of existing Group Names
-     */
-    public List<String> getExistingGroupNames(String budgetId, String budgetPeriod);
-    
-    /**
-     * 
-     * This method returns the existing Personnel Line Item Group Names , converted to string separated by ",".
-     * @param proposalNumber
-     * @param budgetVersionNumber
-     * @param budgetPeriod
-     * @return List of existing Group Names
-     */
-    public String getExistingGroupNamesForAjaxCall(String budgetId, String budgetPeriod);
-
-    /**
      * 
      * This method returns the Non-Personnel Panel Name (based on the variables).
      * @param budgetPeriod

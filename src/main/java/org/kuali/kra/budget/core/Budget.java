@@ -44,7 +44,6 @@ import org.kuali.kra.budget.distributionincome.BudgetDistributionAndIncomeCompon
 import org.kuali.kra.budget.distributionincome.BudgetProjectIncome;
 import org.kuali.kra.budget.distributionincome.BudgetUnrecoveredFandA;
 import org.kuali.kra.budget.document.BudgetDocument;
-import org.kuali.kra.budget.document.BudgetParentDocument;
 import org.kuali.kra.budget.nonpersonnel.BudgetFormulatedCostDetail;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItemCalculatedAmount;
@@ -90,17 +89,11 @@ public class Budget extends BudgetVersionOverview {
      */
     private static final long serialVersionUID = -252470308729741085L;
 
-    private static final String DETAIL_TYPE_CODE = "D";
-
-    private static final String BUDGET_NAMESPACE_CODE = "KC-B";
 
     private static final String FALSE_FLAG = "N";
 
     private static final String TRUE_FLAG = "Y";
 
-    private static final String DOCUMENT_TYPE_CODE = "BUDG";
-
-    private static final String DEFAULT_FISCAL_YEAR_START = "01/01/2000";
 
     private static final Log LOG = LogFactory.getLog(Budget.class);
 
