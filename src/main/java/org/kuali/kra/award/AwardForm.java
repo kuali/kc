@@ -192,10 +192,6 @@ public class AwardForm extends BudgetVersionFormBase
     private String currentAwardNumber;
     private String currentSeqNumber;
     
-    private List<List<BudgetDecimal>>  personnelBudgetLimits = new ArrayList<List<BudgetDecimal>>();
-    private List<List<BudgetDecimal>>  nonPersonnelBudgetLimits = new ArrayList<List<BudgetDecimal>>();
-    private List<List<BudgetDecimal>>  totalBudgetLimits = new ArrayList<List<BudgetDecimal>>();
-    
     private List<ReportTracking> reportTrackingsToDelete = new ArrayList<ReportTracking>();
     
     private boolean viewFundingSource;
@@ -253,7 +249,6 @@ public class AwardForm extends BudgetVersionFormBase
         awardReportsBean = new AwardReportsBean(this);
         awardNotepadBean = new AwardNotepadBean(this);
         awardAttachmentFormBean = new AwardAttachmentFormBean(this);
-        //directFandADistributionFormHelper = new DirectFandADistributionFormHelper(this);
         //awardDirectFandADistributionBean = new AwardDirectFandADistributionBean(this);
         setPermissionsHelper(new PermissionsHelper(this));
         setSpecialReviewHelper(new SpecialReviewHelper(this));

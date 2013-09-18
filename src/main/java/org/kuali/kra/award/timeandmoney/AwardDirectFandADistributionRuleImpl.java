@@ -46,7 +46,6 @@ public class AwardDirectFandADistributionRuleImpl extends ResearchDocumentRuleBa
     private static final String INVALID_TARGET_END_DATE = ".invalidEndDate";
     private static final String WARNING_AWARD_DIRECT_FNA_DISTRIBUTION_ANTICIPATED_MISMATCH = ".mismatchAnticipated";
     private static final String WARNING_BREAK_DATE_RANGE = ".breakDateRanges";
-    private static final String WARNING_MESSAGE="There are warnings in Direct/F&A Funds Distribution section";
     AwardDirectFandADistribution awardDirectFandADistribution;
     List<AwardDirectFandADistribution> awardDirectFandADistributions;
     transient AwardAmountInfoService awardAmountInfoService;
