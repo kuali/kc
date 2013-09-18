@@ -91,8 +91,6 @@ public class ProtocolSubmitActionRuleTest extends ProtocolRuleTestBase {
      * @throws Exception
      */
     @SuppressWarnings("deprecation")
-    /* Test ignored due to Parameter Cache flushing issue in Rice 2.0.0-RC1 */
-    @Ignore
     @Test
     public void testSubmitOK() throws Exception {
         ProtocolDocument document = getNewProtocolDocument();
@@ -156,8 +154,6 @@ public class ProtocolSubmitActionRuleTest extends ProtocolRuleTestBase {
      * Verify that for an exempt review type, the validation will pass if there is at least one check list item that is selected.
      */
     @SuppressWarnings("deprecation")
-    /* Test ignored due to Parameter Cache flushing issue in Rice 2.0.0-RC1 */
-    @Ignore
     @Test
     public void testExemptCheckListOK() throws WorkflowException {
         ProtocolDocument document = getNewProtocolDocument();
@@ -194,8 +190,6 @@ public class ProtocolSubmitActionRuleTest extends ProtocolRuleTestBase {
      * Verify that for an expedited review type, the validation will pass if there is at least one check list item that is selected.
      */
     @SuppressWarnings("deprecation")
-    /* Test ignored due to Parameter Cache flushing issue in Rice 2.0.0-RC1 */
-    @Ignore
     @Test
     public void testExpeditedCheckListOK() throws WorkflowException {
         ProtocolDocument document = getNewProtocolDocument();
@@ -232,8 +226,6 @@ public class ProtocolSubmitActionRuleTest extends ProtocolRuleTestBase {
      * Test validation for a couple of reviewers. There should be no errors.
      */
     @SuppressWarnings("deprecation")
-    /* Test ignored due to Parameter Cache flushing issue in Rice 2.0.0-RC1 */
-    @Ignore
     @Test
     public void testOKReviewers() throws WorkflowException {
         ProtocolDocument document = getNewProtocolDocument();
@@ -423,22 +415,7 @@ public class ProtocolSubmitActionRuleTest extends ProtocolRuleTestBase {
      * Set the IRB parameter for submission in order to make the committee/schedule either mandatory or optional.
      */
     private void setParameter(String value) {
-        // the tranaction handling is not really saved to db.
-        // it is ok for testMandatoryOK, but in testMandatoryCommittee, OLE was thrown.
-        // so have to try this to force it to save to db.
-        // try {
-        // super.transactionalLifecycle.stop();
-        // }
-        // catch (Exception e) {
-        //
-        // }
         updateParameterForTesting(ProtocolDocument.class,
                 Constants.PARAMETER_IRB_COMM_SELECTION_DURING_SUBMISSION, value);
-        // try {
-        // super.transactionalLifecycle.start();
-        // }
-        // catch (Exception e) {
-        //
-        // }
     }
 }
