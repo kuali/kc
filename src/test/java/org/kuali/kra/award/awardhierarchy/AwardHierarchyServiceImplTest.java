@@ -240,17 +240,6 @@ public class AwardHierarchyServiceImplTest extends KcUnitTestBase {
     }
 
     @Test
-    @Ignore
-    public void testCreateNewChildAward() {
-        AwardHierarchy root = createFullAwardHierarchy(BASE_AWARD_NUMBER, NUMBER_OF_CHILDREN_A, NUMBER_OF_GRANDCHILDREN_A);
-        AwardHierarchy childNode = root.getChildren().get(1);
-        int numGrandChildren = childNode.getChildren().size();
-        AwardHierarchy newGrandChild = service.createNewChildAward(childNode);
-        Assert.assertEquals(numGrandChildren + 1, childNode.getChildren().size());
-        Assert.assertNotNull(newGrandChild.getAward());
-    }
-
-    @Test
     public void testGettingHierarchyAsMap_UsingVarunification() {
         Map<String, AwardHierarchy> refMap = rootNodeA.getMapOfNodesInHierarchy();
         List<String> awardNumbers = new ArrayList<String>();
