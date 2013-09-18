@@ -214,7 +214,6 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
 
     protected void initializeCollections() {
         institutionalProposalCustomDataList = new ArrayList<InstitutionalProposalCustomData>();
-        institutionalProposalNotepads = new ArrayList<InstitutionalProposalNotepad>();
         specialReviews = new ArrayList<InstitutionalProposalSpecialReview>();
         institutionalProposalScienceKeywords = new ArrayList<InstitutionalProposalScienceKeyword>();
         institutionalProposalCostShares = new ArrayList<InstitutionalProposalCostShare>();
@@ -452,6 +451,10 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
      * @return Returns the institutionalProposalNotepads.
      */
     public List<InstitutionalProposalNotepad> getInstitutionalProposalNotepads() {
+
+        if (institutionalProposalNotepads == null) {
+            institutionalProposalNotepads = new ArrayList<InstitutionalProposalNotepad>();
+        }
         return institutionalProposalNotepads;
     }
 
