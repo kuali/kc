@@ -267,12 +267,4 @@ public class ProtocolAttachmentServiceImplTest {
         protocol.setProtocolNumber("0906000001");
         return protocol;
     }
-
-//    /**
-//     * placeholder method for testing saves.
-//     */
-//    @Test @Ignore("save methods will probably change - not testing yet")
-//    public void saveAttachment() {
-//        //nothing to do yet...
-//    }
 }
