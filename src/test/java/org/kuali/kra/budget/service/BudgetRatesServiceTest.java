@@ -507,8 +507,6 @@ public class BudgetRatesServiceTest extends KcUnitTestBase {
         public void calculateBudget(Budget budgetDocument) { }
         public void deleteBudgetPeriod(Budget budgetDocument, int delPeriod) { }
         public void generateAllPeriods(Budget budgetDocument) { }
-        public Collection<BudgetLineItem> getBudgetLineItemForPeriod(Budget budgetDocument, int budgetPeriodNumber) { return null; }
-        public Collection<BudgetPersonnelDetails> getBudgetPersonnelDetailsForPeriod(Budget budgetDocument, int budgetPeriodNumber) { return null; }
         public void updateOnOffCampusFlag(Budget budgetDocument, String onOffCampusFlag) {}
         public void adjustStartEndDatesForLineItems(Budget budgetDocument) { }
         public void setupOldStartEndDate(Budget budgetDocument, boolean resetAll) { }        

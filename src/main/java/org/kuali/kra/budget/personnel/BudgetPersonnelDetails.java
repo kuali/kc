@@ -15,25 +15,18 @@
  */
 package org.kuali.kra.budget.personnel;
 
-import static java.util.Calendar.DAY_OF_MONTH;
-import static java.util.Calendar.MONTH;
-
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-
-import org.apache.ojb.broker.PBKey;
-import org.apache.ojb.broker.PersistenceBroker;
-import org.apache.ojb.broker.query.Criteria;
-import org.apache.ojb.broker.query.Query;
-import org.apache.ojb.broker.query.QueryFactory;
-import org.kuali.kra.award.budget.AwardBudgetPersonnelDetailsExt;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.nonpersonnel.AbstractBudgetCalculatedAmount;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItemBase;
 import org.kuali.kra.infrastructure.DeepCopyIgnore;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.springmodules.orm.ojb.OjbFactoryUtils;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+
+import static java.util.Calendar.DAY_OF_MONTH;
+import static java.util.Calendar.MONTH;
 
 public class BudgetPersonnelDetails extends BudgetLineItemBase {
 

@@ -15,25 +15,22 @@
  */
 package org.kuali.kra.budget.document;
 
-import java.util.Collections;
-import java.util.List;
-
 import org.kuali.kra.authorization.Task;
-import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetParent;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.budget.versions.BudgetVersionCollection;
-import org.kuali.kra.budget.versions.BudgetVersionOverview;
 import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.krad.datadictionary.DocumentEntry;
 import org.kuali.rice.kns.datadictionary.HeaderNavigation;
 import org.kuali.rice.kns.datadictionary.KNSDocumentEntry;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.web.ui.ExtraButton;
+
+import java.util.Collections;
+import java.util.List;
 
 @SuppressWarnings("serial")
 public abstract class BudgetParentDocument<T extends BudgetParent> extends ResearchDocumentBase 
@@ -71,30 +68,6 @@ public abstract class BudgetParentDocument<T extends BudgetParent> extends Resea
         Collections.sort(versions);
         BudgetDocumentVersion lastVersion = versions.get(versions.size() - 1);
         return lastVersion.getBudgetVersionOverview().getBudgetVersionNumber() + 1;
-    }
-    public void addNewBudgetVersion(BudgetDocument budgetDocument, String name, boolean isDescriptionUpdatable) {
-        Budget budget = budgetDocument.getBudget();
-        BudgetDocumentVersion budgetDocumentVersion = new BudgetDocumentVersion();
-        budgetDocumentVersion.setDocumentNumber(budgetDocument.getDocumentNumber());
-        budgetDocumentVersion.setParentDocumentKey(getDocumentNumber());
-        budgetDocumentVersion.setVersionNumber(budgetDocument.getVersionNumber());
-        BudgetVersionOverview budgetVersion = budgetDocumentVersion.getBudgetVersionOverview();
-        budgetVersion.setDocumentNumber(budgetDocument.getDocumentNumber());
-        budgetVersion.setDocumentDescription(name);
-        budgetVersion.setBudgetVersionNumber(budget.getBudgetVersionNumber());
-        budgetVersion.setStartDate(budget.getStartDate());
-        budgetVersion.setEndDate(budget.getEndDate());
-        budgetVersion.setOhRateTypeCode(budget.getOhRateTypeCode());
-        budgetVersion.setOhRateClassCode(budget.getOhRateClassCode());
-        budgetVersion.setVersionNumber(budget.getVersionNumber());
-        budgetVersion.setDescriptionUpdatable(isDescriptionUpdatable);
-        
-        String budgetStatusIncompleteCode = this.getParameterService().getParameterValueAsString(
-                BudgetDocument.class, Constants.BUDGET_STATUS_INCOMPLETE_CODE);
-        budgetVersion.setBudgetStatus(budgetStatusIncompleteCode);
-        budgetVersion.setFinalVersionFlag(false);
-        
-        getBudgetDocumentVersions().add(budgetDocumentVersion);
     }
     public BudgetDocumentVersion getBudgetDocumentVersion(int selectedLine) {
         return getBudgetDocumentVersions().get(selectedLine);
