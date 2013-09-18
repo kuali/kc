@@ -94,30 +94,6 @@ public class BudgetPersonnelRule {
         this.paramService = paramService;
         this.budgetService = budgetService;
     }
-    
-    /**
-     * 
-     * This method is to give an error if the person drop down list is not complete because the person entries
-     * is not complete.  ALso, let user know to go to person page to fix it.
-     * This is more like a warning message.
-     * @param budgetDocument
-     * @return
-     */
-    
-    public boolean processCheckCompleteEntriesBusinessRules(BudgetDocument budgetDocument) {
-        boolean valid = true;
-        
-        MessageMap messageMap = GlobalVariables.getMessageMap();
-        List<BudgetPerson> budgetPersons = budgetDocument.getBudget().getBudgetPersons();
-        for (BudgetPerson budgetPerson : budgetPersons) {
-            if (StringUtils.isBlank(budgetPerson.getJobCode()) || StringUtils.isBlank(budgetPerson.getAppointmentTypeCode()) || budgetPerson.getCalculationBase().isLessThan(BudgetDecimal.ZERO) || budgetPerson.getEffectiveDate() == null) {
-                messageMap.putError("newBudgetPersonnelDetails.personSequenceNumber", KeyConstants.ERROR_IMCOMPLETE_PERSON_ENTRIES);
-                    valid = false;
-            }
-        }
-                    
-        return valid;
-    }
 
     /**
      * 

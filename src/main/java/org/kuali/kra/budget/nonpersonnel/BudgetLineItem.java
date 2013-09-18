@@ -15,20 +15,13 @@
  */
 package org.kuali.kra.budget.nonpersonnel;
 
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.ojb.broker.PBKey;
-import org.apache.ojb.broker.PersistenceBroker;
-import org.apache.ojb.broker.query.Criteria;
-import org.apache.ojb.broker.query.Query;
-import org.apache.ojb.broker.query.QueryFactory;
-import org.kuali.kra.award.budget.AwardBudgetLineItemExt;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
 import org.kuali.kra.proposaldevelopment.hierarchy.HierarchyMaintainable;
-import org.springmodules.orm.ojb.OjbFactoryUtils;
+
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 public class BudgetLineItem extends BudgetLineItemBase implements HierarchyMaintainable, Comparable<BudgetLineItem> {
 

@@ -15,17 +15,6 @@
  */
 package org.kuali.kra.budget.rates;
 
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -34,11 +23,7 @@ import org.kuali.kra.bo.InstituteLaRate;
 import org.kuali.kra.bo.InstituteRate;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.budget.calculator.QueryList;
-import org.kuali.kra.budget.calculator.query.And;
-import org.kuali.kra.budget.calculator.query.Equals;
-import org.kuali.kra.budget.calculator.query.GreaterThan;
-import org.kuali.kra.budget.calculator.query.LesserThan;
-import org.kuali.kra.budget.calculator.query.Or;
+import org.kuali.kra.budget.calculator.query.*;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetParent;
 import org.kuali.kra.budget.core.BudgetService;
@@ -58,6 +43,9 @@ import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.service.BusinessObjectService;
 
+import java.sql.Date;
+import java.util.*;
+
 public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRatesService<T> {
     private static final String SPACE = " ";
     public static final String UNIT_NUMBER_KEY = "unitNumber";
@@ -72,9 +60,7 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
     private static final Log LOG = LogFactory.getLog(BudgetRatesServiceImpl.class);
     private static final String BUDGET_RATE_AUDIT_WARNING_KEY = "budgetRateAuditWarnings";
 
-    /**
-     * @see org.kuali.kra.budget.rates.BudgetRatesService#resetAllBudgetRates(org.kuali.kra.budget.core.Budget)
-     */
+    @Override
     public void resetAllBudgetRates(Budget budget) {
         resetAbstractBudgetApplicableRatesToInstituteRates(budget.getBudgetRates());
         resetAbstractBudgetApplicableRatesToInstituteRates(budget.getBudgetLaRates());
@@ -84,17 +70,15 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
      * reset budget rates for a panel
      * each panel is based on rate class type 
      *
-     * @see org.kuali.kra.budget.rates.BudgetRatesService#resetBudgetRatesForRateClassType(java.lang.String, org.kuali.kra.budget.core.Budget)
      */
+    @Override
     public void resetBudgetRatesForRateClassType(String rateClassType, Budget budget) {
         List<RateClass> rateClasses = budget.getRateClasses();
         resetBudgetRatesForRateClassType(rateClasses, rateClassType, budget.getBudgetRates());
         resetBudgetRatesForRateClassType(rateClasses, rateClassType, budget.getBudgetLaRates());        
     }
-    
-    /**
-     * @see org.kuali.kra.budget.rates.BudgetRatesService#syncAllBudgetRates(org.kuali.kra.budget.core.Budget)
-     */
+
+    @Override
     public void syncAllBudgetRates(BudgetDocument<T> budgetDocument) {
         Budget budget = budgetDocument.getBudget();
         List<InstituteRate> allInstituteRates = new ArrayList<InstituteRate>(getInstituteRates(budgetDocument));
@@ -135,7 +119,8 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
     
     /* update view - location
      *  
-     * */
+     */
+    @Override
     public void viewLocation(String viewLocation, Integer budgetPeriod, Budget budget) {
         viewLocation(viewLocation, budgetPeriod, budget.getBudgetRates());
         viewLocation(viewLocation, budgetPeriod, budget.getBudgetLaRates());        
@@ -146,12 +131,14 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
      * Does nothing. Placeholder for Award Budget
      * @param budgetDocument
      */
+    @Override
     public void syncParentDocumentRates(BudgetDocument<T> budgetDocument) {
     }
     
     /* sync budget rates for a panel
      * each panel is based on rate class type 
-     * */
+     */
+    @Override
     public void syncBudgetRatesForRateClassType(String rateClassType, BudgetDocument<T> budgetDocument) {
         Budget budget = budgetDocument.getBudget();
             populateInstituteRates(budgetDocument);
@@ -164,12 +151,9 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
             replaceBudgetRatesForRateClassType(rateClassType, budgetDocument, budget.getBudgetLaRates(), budget.getInstituteLaRates());
             syncVersionNumber(mapOfExistingBudgetProposalRates, budget.getBudgetRates());
             syncVersionNumber(mapOfExistingBudgetProposalLaRates, budget.getBudgetLaRates());
-    }    
-    
-    /**
-     * 
-     * @see org.kuali.kra.budget.rates.BudgetRatesService#getBudgetRates(java.util.List, org.kuali.kra.budget.core.Budget)
-     */
+    }
+
+    @Override
     public void getBudgetRates(List<RateClassType> rateClassTypes, BudgetDocument<T> budgetDocument) {
         getBudgetRates(rateClassTypes, budgetDocument, getInstituteRates(budgetDocument));
     }
@@ -240,11 +224,9 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
             }
         }
     }
-    
-    /**
-     * @see org.kuali.kra.budget.rates.BudgetRatesService#getBudgetPeriods()
-     */
+
     @SuppressWarnings("unchecked")
+    @Override
     public List<BudgetPeriod> getBudgetPeriods(){
         BudgetForm budgetForm = (BudgetForm) KNSGlobalVariables.getKualiForm();
         BudgetDocument<T> budgetDocument  = budgetForm.getBudgetDocument();
@@ -404,17 +386,6 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
     }
 
     @SuppressWarnings("unchecked")
-    protected Collection getFilteredInstituteRates(Class rateType, String unitNumber, Unit currentUnit, Map<String, String> rateFilterMap) {
-        Collection abstractInstituteRates;
-        do {
-            abstractInstituteRates = filterForActiveRatesOnly(getBusinessObjectService().findMatching(rateType, rateFilterMap));
-            currentUnit = makeParentUnitAsCurrentUnit(currentUnit, rateFilterMap);
-        } while(abstractInstituteRates.size() == 0 && currentUnit != null);
-        
-        return abstractInstituteRates;
-    }
-
-    @SuppressWarnings("unchecked")
     protected Collection filterForActiveRatesOnly(Collection abstractInstituteRates) {        
         List filteredList = new ArrayList();
         for(AbstractInstituteRate rate: (Collection<AbstractInstituteRate>) abstractInstituteRates) {
@@ -428,15 +399,6 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
         }
         return filteredList;
     }
-
-    protected Unit makeParentUnitAsCurrentUnit(Unit currentUnit, Map<String, String> rateFilterMap) {
-        Unit parentUnit = currentUnit==null?null:currentUnit.getParentUnit();
-        if(parentUnit != null) {
-            rateFilterMap.put(UNIT_NUMBER_KEY, parentUnit.getUnitNumber());
-        }
-        return parentUnit;
-    }
-
 
     /* Rate effective date is between project start and end dates.
      * But if budget persons are defined and the earliest salary effective
@@ -474,24 +436,6 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
             }
         }
         return effectiveDate;
-    }
-    
-    
-    /* get all rates within project start and end date range 
-     *  
-     * */
-    @SuppressWarnings("unchecked")
-    protected void getRatesForProjectDates(Budget budget, Collection allRates, Collection filteredRates, Date personSalaryEffectiveDate) {
-        List<AbstractInstituteRate> dateFilteredRates = (List<AbstractInstituteRate>) filteredRates;
-        List<AbstractInstituteRate> allAbstractInstituteRates = (List<AbstractInstituteRate>) allRates;
-        for(AbstractInstituteRate rate : allAbstractInstituteRates) {
-            Date rateStartDate = rate.getStartDate();
-            Date rateEffectiveDate = getRateEffectiveStartDate(budget, rate, personSalaryEffectiveDate);
-            
-            if(rateStartDate.compareTo(rateEffectiveDate) >= 0 && rateStartDate.compareTo(budget.getEndDate()) <=0 ) {
-                dateFilteredRates.add(rate);
-            }
-        }
     }
     
     /* get applicable rates before project start date  
@@ -654,24 +598,6 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
         return new StringBuilder(PERIOD_SEARCH_SEPARATOR).append(budgetPeriod).append(PERIOD_SEARCH_SEPARATOR).toString();
     }
     
-    @SuppressWarnings("unchecked")
-    protected void syncBudgetRatesForRateClassType(List<RateClass> rateClasses, String rateClassType, Collection abstractInstituteRates, List budgetRates) {
-        List<AbstractBudgetRate> abstractBudgetRates = (List<AbstractBudgetRate>) budgetRates;
-        Map<String, AbstractInstituteRate> instRateMap = mapRatesToKeys(abstractInstituteRates);
-        for(RateClass rateClass: rateClasses) {
-            if(rateClass.getRateClassType().equalsIgnoreCase(rateClassType)) {
-                for(AbstractBudgetRate budgetRate: abstractBudgetRates) {
-                    if(budgetRate.getRateClassCode().equalsIgnoreCase(rateClass.getRateClassCode())) {
-                        String hKey = budgetRate.getRateKeyAsString();
-                        InstituteRate instituteRate = (InstituteRate)instRateMap.get(hKey);
-                        budgetRate.setInstituteRate(instituteRate.getInstituteRate()); 
-                        budgetRate.setApplicableRate(instituteRate.getExternalApplicableRate()); 
-                    }
-                }
-            }
-        }
-    }
-    
     protected Map<String, RateClassType> populateExistingRateClassTypeMap(List<RateClassType> rateClassTypes) {
         Map<String, RateClassType> existingRateClassTypeMap = new HashMap<String, RateClassType>();        
         for(RateClassType rateClassType: rateClassTypes) {
@@ -712,7 +638,7 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
     /**
      * Get budget LA rates applicable for the proposal - based on unit number
      * @param rateClassTypes
-     * @param budget
+     * @param budgetDocument
      * @param allInstituteLaRates
      */
     protected void getBudgetLaRates(List<RateClassType> rateClassTypes, BudgetDocument<T> budgetDocument, List<InstituteLaRate> allInstituteLaRates) {
@@ -744,6 +670,7 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
     }
     
   @SuppressWarnings("unchecked")
+  @Override
   public void syncBudgetRateCollectionsToExistingRates(List<RateClassType> rateClassTypes, BudgetDocument<T> budgetDocument) {
       Budget budget = budgetDocument.getBudget();
 
@@ -919,6 +846,7 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
      * @returns a List of {@link RateClass} instances
      */
     @SuppressWarnings("unchecked")
+    @Override
     public Collection<RateClass> getBudgetRateClasses(String rateClassType) {
         Map<String,String> queryMap = new HashMap<String,String>();
         queryMap.put("rateClassType", rateClassType);
@@ -933,6 +861,7 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
      * @param rateClassType to use for {@link RateClass} instances to be retrieved
      * @return a {@link Map} keyed on rateTypeCode containing {@link RateClass} instances
      */
+    @Override
     public Map<String, RateClass> getBudgetRateClassMap(String rateClassType) {
         Map<String, RateClass> retval = new HashMap<String, RateClass>();
 
@@ -951,7 +880,8 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
         List instituteLaRates = (List) getInstituteLaRates(budgetDocument);
         filterRates(budget, instituteLaRates, budget.getInstituteLaRates()); 
     }
-    
+
+    @Override
     public boolean isOutOfSyncForRateAudit(BudgetDocument<T> budgetDocument) {
         populateInstituteRates(budgetDocument);
         Budget budget = budgetDocument.getBudget();
@@ -1031,40 +961,11 @@ public class BudgetRatesServiceImpl<T extends BudgetParent> implements BudgetRat
         return auditErrors;
     }
 
-    @SuppressWarnings("unchecked")
-    protected boolean isOutOfSyncForRateAudit_org(List instituteRates, List budgetRates) {
-        boolean outOfSync = areNumbersOfBudgetRatesOutOfSyncWithInstituteRates(instituteRates, budgetRates);
-        if(!outOfSync) {
-            outOfSync = areBudgetRatesOutOfSyncWithInsttituteRatesForRateAudit(instituteRates, budgetRates);
-        }
-        
-        return outOfSync;
-    }
-
-    @SuppressWarnings("unchecked")
-    protected boolean areBudgetRatesOutOfSyncWithInsttituteRatesForRateAudit(List instituteRates, List budgetRates) {        
-        Set<String> instituteRateKeys = storeAllKeysWithRate((List<AbstractInstituteRate>) instituteRates);
-        Set<String> budgetRateKeys = storeAllKeysWithRate((List<AbstractInstituteRate>) budgetRates);
-        
-        return !instituteRateKeys.containsAll(budgetRateKeys);
-    }
-    
-    protected Set<String> storeAllKeysWithRate(List<AbstractInstituteRate> rates) {
-        Set<String> keys = new HashSet<String>(rates.size(), 1.0f);
-        for(AbstractInstituteRate rate: rates) {
-            keys.add(rate.getRateKeyAsString()+rate.getInstituteRate());
-        }
-        return keys;
-    }
-
-    public void populateBudgetRatesForNewVersion(BudgetDocument<T> budgetDocument) {
-        getBudgetRates(new ArrayList<RateClassType>(), budgetDocument);
-    }
-
     /**
      * By default it does not have to perform sync
-     * @see org.kuali.kra.budget.rates.BudgetRatesService#performSyncFlag()
+     *
      */
+    @Override
     public boolean performSyncFlag(BudgetDocument<T> budgetDocument) {
         return false;
     }
