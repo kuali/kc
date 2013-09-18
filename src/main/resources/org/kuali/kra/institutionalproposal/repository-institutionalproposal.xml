@@ -217,7 +217,7 @@
 		<collection-descriptor name="institutionalProposalCustomDataList" proxy="true" element-class-ref="org.kuali.kra.institutionalproposal.customdata.InstitutionalProposalCustomData" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="proposalId"/>
 		</collection-descriptor>
-		<collection-descriptor name="institutionalProposalNotepads" proxy="true" element-class-ref="org.kuali.kra.institutionalproposal.home.InstitutionalProposalNotepad" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
+		<collection-descriptor name="institutionalProposalNotepads" proxy="true" element-class-ref="org.kuali.kra.institutionalproposal.home.InstitutionalProposalNotepad" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
 			<inverse-foreignkey field-ref="proposalId"/>
 		</collection-descriptor>
 		<collection-descriptor name="institutionalProposalScienceKeywords" proxy="true" element-class-ref="org.kuali.kra.institutionalproposal.home.InstitutionalProposalScienceKeyword" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none">
