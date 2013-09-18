@@ -53,8 +53,6 @@ import org.kuali.rice.location.api.state.StateService;
 
 public class PrintingUtils {
 
-	private static final String PARAMETER_MODULE_PROPOSAL_DEVELOPMENT = "KC-PD";
-	private static final String PARAMETER_COMPONENT_DOCUMENT = "A";
 	private static String XSL_CONTEXT_DIR = "/org/kuali/kra/printing/stylesheet/";
 	private static final String XSL_BUDGET_SUMMARY = "BudgetSummaryReport.xsl";
 	private static final String XSL_BUDGET_SALARY = "BudgetSalary.xsl";
@@ -292,31 +290,6 @@ public class PrintingUtils {
         }
         return proposalPerson;
     }
-
-	/**
-	 * 
-	 * This method will get the comment type description for given comment type
-	 * code
-	 * 
-	 * @param commentTypeCode
-	 *            Code for which description will be fetched
-	 * @param businessObjectService
-	 *            {@link BusinessObjectService}
-	 * @return String Comment Type Description
-	 */
-	public static String getCommentTypeDescription(String commentTypeCode,
-			BusinessObjectService businessObjectService) {
-		String description = null;
-		Map<String, String> commentTypeCodeMap = new HashMap<String, String>();
-		commentTypeCodeMap.put(COMMENT_TYPE_CODE_PARAMETER, commentTypeCode);
-		CommentType commentType = (CommentType) businessObjectService
-				.findByPrimaryKey(org.kuali.kra.bo.CommentType.class,
-						commentTypeCodeMap);
-		if (commentType != null) {
-			description = commentType.getDescription();
-		}
-		return description;
-	}
 	
     /*
      * This method is copied from KraTransactionalDocumentBase.   It is referenced by meeting.
