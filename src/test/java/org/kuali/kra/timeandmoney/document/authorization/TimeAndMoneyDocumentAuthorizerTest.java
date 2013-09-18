@@ -198,30 +198,6 @@ public class TimeAndMoneyDocumentAuthorizerTest extends KcUnitTestBase {
         assertNotNull(roleQual.get(KcKimAttributes.UNIT_NUMBER));
     }
 
-    @Test @Ignore
-    public void testCanInitiate() {
-        boolean canQuickstart = authorizer.canInitiate("TimeAndMoneyDocument", quickstart);
-        boolean canBorst = authorizer.canInitiate("TimeAndMoneyDocument", borst);
-        boolean canIrbAdmin = authorizer.canInitiate("TimeAndMoneyDocument", irbAdmin);
-        boolean canIaccucAdmin = authorizer.canInitiate("TimeAndMoneyDocument", iacucAdmin);
-        assertTrue(canQuickstart);
-        assertFalse(canBorst);
-        assertTrue(canIaccucAdmin);
-        assertTrue(canIrbAdmin);
-        
-    }
-
-    @Test @Ignore
-    public void testCanEdit() {
-        boolean canQuickstart = authorizer.canEdit(timeAndMoneyDocument, quickstart);
-        boolean canBorst = authorizer.canEdit(timeAndMoneyDocument, borst);
-        boolean canIrbAdmin = authorizer.canEdit(timeAndMoneyDocument, irbAdmin);
-        boolean canIacucAdmin = authorizer.canEdit(timeAndMoneyDocument, iacucAdmin);
-        assertTrue(canQuickstart);
-        assertFalse(canBorst);
-        assertTrue(canIacucAdmin);
-        assertTrue(canIrbAdmin);
-    }
 
     @Test
     public void testCanAnnotate() {
@@ -249,54 +225,6 @@ public class TimeAndMoneyDocumentAuthorizerTest extends KcUnitTestBase {
         //boolean canBorst = authorizer.canClose(timeAndMoneyDocument, borst);
         assertTrue(canQuickstart);
         //assertFalse(canBorst);
-    }
-
-    @Test @Ignore
-    public void testCanSave() {
-        boolean canQuickstart = authorizer.canSave(timeAndMoneyDocument, quickstart);
-        boolean canBorst = authorizer.canSave(timeAndMoneyDocument, borst);
-        boolean canIrbAdmin = authorizer.canSave(timeAndMoneyDocument, irbAdmin);
-        boolean canIacucAdmin = authorizer.canSave(timeAndMoneyDocument, iacucAdmin);
-        assertTrue(canQuickstart);
-        assertFalse(canBorst);
-        assertTrue(canIacucAdmin);
-        assertTrue(canIrbAdmin);
-    }
-
-    @Test @Ignore
-    public void testCanRoute() {
-        boolean canQuickstart = authorizer.canRoute(timeAndMoneyDocument, quickstart);
-        boolean canBorst = authorizer.canRoute(timeAndMoneyDocument, borst);
-        boolean canIrbAdmin = authorizer.canRoute(timeAndMoneyDocument, irbAdmin);
-        boolean canIacucAdmin = authorizer.canRoute(timeAndMoneyDocument, iacucAdmin);
-        assertTrue(canQuickstart);
-        assertFalse(canBorst);
-        assertTrue(canIacucAdmin);
-        assertTrue(canIrbAdmin);
-    }
-
-    @Test @Ignore
-    public void testCanCancel() {
-        boolean canQuickstart = authorizer.canCancel(timeAndMoneyDocument, quickstart);
-        boolean canBorst = authorizer.canCancel(timeAndMoneyDocument, borst);
-        boolean canIrbAdmin = authorizer.canCancel(timeAndMoneyDocument, irbAdmin);
-        boolean canIacucAdmin = authorizer.canCancel(timeAndMoneyDocument, iacucAdmin);
-        assertTrue(canQuickstart);
-        assertFalse(canBorst);
-        assertTrue(canIacucAdmin);
-        assertTrue(canIrbAdmin);
-    }
-    
-    @Test @Ignore
-    public void testHasCreatePermission1() {
-        boolean canQuickstart = authorizer.hasCreatePermission(timeAndMoneyDocument, quickstart);
-        boolean canBorst = authorizer.hasCreatePermission(timeAndMoneyDocument, borst);
-        boolean canIrbAdmin = authorizer.hasCreatePermission(timeAndMoneyDocument, irbAdmin);
-        boolean canIacucAdmin = authorizer.hasCreatePermission(timeAndMoneyDocument, iacucAdmin);
-        assertTrue(canQuickstart);
-        assertFalse(canBorst);
-        assertTrue(canIacucAdmin);
-        assertTrue(canIrbAdmin);
     }
     
     @Test
