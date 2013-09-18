@@ -70,9 +70,7 @@ public class CostShareServiceTest extends KcUnitTestBase {
         boolean result = costShareService.validateProjectPeriodAsProjectPeriod();
         assertTrue(result);
     }
-    
-    /* Test ignored due to Parameter Cache flushing issue in Rice 2.0.0-RC1 */
-    @Ignore
+
     @Test
     public void testSwitchParmAndReTestValidations() {        
         String fiscalYearParm = "FisCal Year";
