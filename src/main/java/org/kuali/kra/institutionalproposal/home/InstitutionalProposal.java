@@ -338,9 +338,9 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
      * @param institutionaProposalNotepad
      */
     public void add(InstitutionalProposalNotepad institutionalProposalNotepad) {
-        institutionalProposalNotepad.setEntryNumber(institutionalProposalNotepads.size() + 1);
+        institutionalProposalNotepad.setEntryNumber(getInstitutionalProposalNotepads().size() + 1);
         institutionalProposalNotepad.setProposalNumber(this.getProposalNumber());
-        institutionalProposalNotepads.add(institutionalProposalNotepad);
+        getInstitutionalProposalNotepads().add(institutionalProposalNotepad);
         institutionalProposalNotepad.setInstitutionalProposal(this);
     }
 
