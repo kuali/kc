@@ -15,46 +15,28 @@
  */
 package org.kuali.kra.award.web.struts.action;
 
-import static org.apache.commons.lang.StringUtils.isNotBlank;
-import static org.apache.commons.lang.StringUtils.substringBetween;
-import static org.kuali.rice.krad.util.KRADConstants.METHOD_TO_CALL_ATTRIBUTE;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import org.apache.struts.action.ActionForm;
+import org.apache.struts.action.ActionForward;
+import org.apache.struts.action.ActionMapping;
+import org.kuali.kra.award.AwardForm;
+import org.kuali.kra.award.awardhierarchy.sync.AwardSyncType;
+import org.kuali.kra.award.contacts.*;
+import org.kuali.kra.award.home.Award;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KeyConstants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.service.SponsorService;
+import org.kuali.kra.web.struts.action.StrutsConfirmation;
+import org.kuali.rice.krad.service.BusinessObjectService;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.cxf.common.util.StringUtils;
-import org.apache.struts.action.ActionForm;
-import org.apache.struts.action.ActionForward;
-import org.apache.struts.action.ActionMapping;
-import org.kuali.kra.award.AwardForm;
-import org.kuali.kra.award.awardhierarchy.sync.AwardSyncPendingChangeBean;
-import org.kuali.kra.award.awardhierarchy.sync.AwardSyncType;
-import org.kuali.kra.award.contacts.AwardCreditSplitBean;
-import org.kuali.kra.award.contacts.AwardPerson;
-import org.kuali.kra.award.contacts.AwardPersonUnit;
-import org.kuali.kra.award.contacts.AwardProjectPersonnelBean;
-import org.kuali.kra.award.contacts.AwardSponsorContact;
-import org.kuali.kra.award.contacts.AwardSponsorContactsBean;
-import org.kuali.kra.award.contacts.AwardUnitContactsBean;
-import org.kuali.kra.award.home.Award;
-import org.kuali.kra.award.home.ContactRole;
-import org.kuali.kra.bo.Unit;
-import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPersonRole;
-import org.kuali.kra.service.ServiceHelper;
-import org.kuali.kra.service.SponsorService;
-import org.kuali.kra.web.struts.action.StrutsConfirmation;
-import org.kuali.rice.krad.service.BusinessObjectService;
+import static org.apache.commons.lang.StringUtils.isNotBlank;
+import static org.apache.commons.lang.StringUtils.substringBetween;
+import static org.kuali.rice.krad.util.KRADConstants.METHOD_TO_CALL_ATTRIBUTE;
 
 /**
  * 

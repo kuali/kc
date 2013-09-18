@@ -669,16 +669,6 @@ public class AwardPaymentReportsAndTermsAction extends AwardAction {
         }
     }
 
-    private static void printRequest(HttpServletRequest request) {
-        Map paramMap = request.getParameterMap();
-        Iterator keys = paramMap.keySet().iterator();
-        while (keys.hasNext()) {
-            String key = keys.next().toString();
-            String val = paramMap.get(key).toString();
-            System.err.println(key + " : " + val);
-        }
-    }
-
     
     /**
      * 
