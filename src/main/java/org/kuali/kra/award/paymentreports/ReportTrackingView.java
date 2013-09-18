@@ -16,10 +16,7 @@
 package org.kuali.kra.award.paymentreports;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-
-import org.kuali.rice.krad.bo.BusinessObjectBase;
 
 /**
  * Report tracking view non-persisted BO. This BO is created via Spring injection of the
