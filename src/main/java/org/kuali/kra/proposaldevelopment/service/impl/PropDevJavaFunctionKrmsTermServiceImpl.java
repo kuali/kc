@@ -456,7 +456,7 @@ public class PropDevJavaFunctionKrmsTermServiceImpl extends KcKrmsJavaFunctionTe
      */
     @Override
     public String proposalGrantsRule(DevelopmentProposal developmentProposal) {
-        return developmentProposal.getS2sAppSubmission().size() > 0 ? TRUE : FALSE;
+        return developmentProposal.getS2sOpportunity()!=null ? TRUE : FALSE;
     }
     
     /**
