@@ -25,8 +25,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
  * 
  * This class ProcessDefinitionDefinitiones Budget Project Income rules.
  */
-public class BudgetCostShareRuleImpl extends CostShareRuleResearchDocumentBase implements AddBudgetCostShareRule,
-        BudgetValidationCostShareRule, BudgetCostShareAllocationRule {
+public class BudgetCostShareRuleImpl extends CostShareRuleResearchDocumentBase implements AddBudgetCostShareRule, BudgetCostShareAllocationRule {
 
     private static final String ADD_ERROR_KEY = "error.custom";
 
@@ -48,14 +47,6 @@ public class BudgetCostShareRuleImpl extends CostShareRuleResearchDocumentBase i
     public boolean processAddBudgetCostShareBusinessRules(AddBudgetCostShareEvent budgetCostShareEvent) {
         boolean retVal = !areDuplicatesPresent(budgetCostShareEvent.getBudgetCostShare());
         retVal &= validateProjectPeriod(budgetCostShareEvent);
-        return retVal;
-    }
-
-    /**
-     * @see org.kuali.kra.budget.distributionincome.BudgetValidationCostShareRule#processBudgetValidationCostShareBusinessRules(org.kuali.kra.budget.distributionincome.BudgetValidationCostShareEvent)
-     */
-    public boolean processBudgetValidationCostShareBusinessRules(BudgetValidationCostShareEvent budgetCostShareEvent) {
-        boolean retVal = areRequiredRulesSatisfied(budgetCostShareEvent.getBudgetCostShare());
         return retVal;
     }
 
@@ -86,22 +77,6 @@ public class BudgetCostShareRuleImpl extends CostShareRuleResearchDocumentBase i
             }
         }
         return duplicate;
-    }
-
-    /**
-     * This method checks each required field, tracking validation state
-     * 
-     * @param budgetCostShare The Budget Cost Share
-     * @return Validation state; true if all required fields are not null, and if String, not empty
-     */
-    private boolean areRequiredRulesSatisfied(BudgetCostShare budgetCostShare) {
-        boolean valid = validationHelper.checkRequiredField(budgetCostShare.getProjectPeriod(), "budgetCostShare.fiscalYear",
-                "Fiscal Year");
-        valid &= validationHelper.checkRequiredField(budgetCostShare.getShareAmount(), "budgetCostShare.shareAmount", "Amount");
-        valid &= validationHelper.checkRequiredField(budgetCostShare.getSourceAccount(), "budgetCostShare.sourceAccount",
-                "Source Account");
-
-        return valid;
     }
 
     /**

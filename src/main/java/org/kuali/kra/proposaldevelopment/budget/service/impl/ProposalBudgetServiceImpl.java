@@ -176,9 +176,7 @@ public class ProposalBudgetServiceImpl implements ProposalBudgetService {
         }
         budgetCalculationService.calculateBudget(budget);
     }
-    public boolean isRateOverridden(Budget budget) {
-        return false;
-    }
+
     /**
      * Do nothing for proposal budget
      * @see org.kuali.kra.budget.core.BudgetCommonService#removeBudgetSummaryPeriodCalcAmounts(org.kuali.kra.budget.parameters.BudgetPeriod)

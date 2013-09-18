@@ -55,7 +55,6 @@ import org.kuali.rice.krad.util.ObjectUtils;
 public class BudgetPeriodCalculator {
     private BudgetCalculationService budgetCalculationService;
     private List<String> errorMessages;
-    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(AbstractBudgetCalculator.class);
 
     public BudgetPeriodCalculator() {
         budgetCalculationService = getService(BudgetCalculationService.class);

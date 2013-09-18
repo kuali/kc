@@ -64,13 +64,6 @@ public interface BudgetCommonService<T extends BudgetParent> {
      * @param budget
      */
     public void calculateBudgetOnSave(Budget budget);
-    /**
-     * 
-     * This method is to check whether Budget Summary calculated amounts have been modified on AwardBudgetSummary screen
-     * @param budget
-     * @return true if there is any change
-     */
-    public boolean isRateOverridden(Budget budget);
     
     /**
      * 
