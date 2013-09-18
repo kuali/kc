@@ -19,7 +19,6 @@ import java.sql.Date;
 
 import org.kuali.kra.SequenceOwner;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.rice.krad.util.ObjectUtils;
 
 public class VersionHistorySearchBo extends KraPersistableBusinessObjectBase {
 

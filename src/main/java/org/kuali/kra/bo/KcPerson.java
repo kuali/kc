@@ -39,7 +39,6 @@ import org.kuali.rice.kim.api.identity.external.EntityExternalIdentifierContract
 import org.kuali.rice.kim.api.identity.name.EntityNameContract;
 import org.kuali.rice.kim.api.identity.personal.EntityBioDemographicsContract;
 import org.kuali.rice.kim.api.identity.phone.EntityPhoneContract;
-import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.identity.principal.PrincipalContract;
 import org.kuali.rice.kim.api.identity.type.EntityTypeContactInfo;
 import org.kuali.rice.kim.api.identity.type.EntityTypeContactInfoContract;
