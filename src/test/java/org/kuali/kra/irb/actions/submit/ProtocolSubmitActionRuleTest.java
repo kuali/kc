@@ -15,28 +15,25 @@
  */
 package org.kuali.kra.irb.actions.submit;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.service.CommitteeService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.irb.test.ProtocolRuleTestBase;
-import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Test the business rules for Protocol Permissions.
@@ -57,13 +54,8 @@ public class ProtocolSubmitActionRuleTest extends ProtocolRuleTestBase {
     private static final String MANDATORY = "M";
     private static final String OPTIONAL = "O";
 
-    private ParameterService parameterService;
-
     @Before
     public void setUpServices() {
-        this.parameterService = KraServiceLocator.getService(ParameterService.class);
-        // If cache not cleared, causes OLE.
-        //this.parameterService.clearCache();
     }
 
     @Before
