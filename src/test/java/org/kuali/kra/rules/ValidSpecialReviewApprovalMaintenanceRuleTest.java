@@ -36,31 +36,6 @@ public class ValidSpecialReviewApprovalMaintenanceRuleTest extends MaintenanceRu
         maintDoc = newMaintDoc(specialReviewApproval);
     }
     
-    /** Tests with an invalid Approval Type code and an invalid Special Review Code */
-    @Test @Ignore
-    public void testBothInvalid() throws Exception {
-        ValidSpecialReviewApproval specialReviewApproval = (ValidSpecialReviewApproval)maintDoc.getDocumentBusinessObject();
-        specialReviewApproval.setApprovalTypeCode("-9999");
-        specialReviewApproval.setSpecialReviewTypeCode("-9999");
-        boolean valid = rule.processCustomRouteDocumentBusinessRules(maintDoc);
-        assertFalse(valid);
-        assertEquals(2, GlobalVariables.getMessageMap().getErrorCount());
-        assertEquals(1, GlobalVariables.getMessageMap().getErrorMessagesForProperty(Constants.VALID_SPECIAL_REVIEW_APPROVAL_TYPE_CODE_KEY).size());
-        assertEquals(1, GlobalVariables.getMessageMap().getErrorMessagesForProperty(Constants.VALID_SPECIAL_REVIEW_APPROVAL_REVIEW_CODE_KEY).size());
-    }
-    
-    /** Tests with an valid Approval Type code and an invalid Special Review Code */
-    @Test @Ignore
-    public void testInvalidReviewCode() throws Exception {
-        ValidSpecialReviewApproval specialReviewApproval = (ValidSpecialReviewApproval)maintDoc.getDocumentBusinessObject();
-        specialReviewApproval.setApprovalTypeCode("2");
-        specialReviewApproval.setSpecialReviewTypeCode("-9999");
-        boolean valid = rule.processCustomRouteDocumentBusinessRules(maintDoc);
-        assertFalse(valid);
-        assertEquals(1, GlobalVariables.getMessageMap().getErrorCount());
-        assertEquals(1, GlobalVariables.getMessageMap().getErrorMessagesForProperty(Constants.VALID_SPECIAL_REVIEW_APPROVAL_REVIEW_CODE_KEY).size());
-    }
-    
     /** Tests with an invalid Approval Type code and a valid Special Review Code */
     @Test
     public void testInvalidApprovalCode() throws Exception {
