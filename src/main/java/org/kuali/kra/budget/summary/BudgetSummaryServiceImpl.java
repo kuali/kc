@@ -46,41 +46,14 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 
 public class BudgetSummaryServiceImpl implements BudgetSummaryService {
 
-    private BusinessObjectService businessObjectService;
-    private BudgetCalculationService budgetCalculationService;
     private static final String BUDGET_DATE_CHANGE_WARNING_MSG = "Changing the budget period dates will result in changes being made to line item Expenses & recalculation of the budget, Do you want to proceed? ";
     private static final String BUDGET_DATE_CHANGE_AND_DELETE_WARNING_MSG = "Changing the budget period dates will result in changes being made to line item Expenses & recalculation of the budget, and one or more periods to be deleted have expense line items that will be deleted. Are you sure you want to proceed? ";
     private static final String BUDGET_PERIOD_DELETE_WARNING_MSG = "One or more periods to be deleted have expense line items that will be deleted. Are you sure you want to proceed?";
-    
-    /**
-     * @see org.kuali.kra.budget.summary.BudgetSummaryService#getBudgetLineItemForPeriod()
-     */
-    public Collection<BudgetLineItem> getBudgetLineItemForPeriod(Budget budget, int budgetPeriodNumber) {
-        Map budgetLineItemMap = new HashMap();
-        Collection<BudgetLineItem> periodLineItems = new ArrayList();
-        /* filter by budget period */
-        budgetLineItemMap.put("budgetPeriod", budgetPeriodNumber);
-        periodLineItems = businessObjectService.findMatching(BudgetLineItem.class, budgetLineItemMap);
-        return periodLineItems;
-        
-    }
 
-    /**
-     * @see org.kuali.kra.budget.summary.BudgetSummaryService#getBudgetLineItemForPeriod()
-     */
-    public Collection<BudgetPersonnelDetails> getBudgetPersonnelDetailsForPeriod(Budget budget, int budgetPeriodNumber) {
-        Map budgetLineItemMap = new HashMap();
-        Collection<BudgetPersonnelDetails> periodPersonnelDetails = new ArrayList();
-        /* filter by budget period */
-        budgetLineItemMap.put("budgetPeriod", budgetPeriodNumber);
-        periodPersonnelDetails = businessObjectService.findMatching(BudgetPersonnelDetails.class, budgetLineItemMap);
-        return periodPersonnelDetails;
-        
-    }
+    private BusinessObjectService businessObjectService;
+    private BudgetCalculationService budgetCalculationService;
 
-    /**
-     * @see org.kuali.kra.budget.summary.BudgetSummaryService#generateBudgetPeriods()
-     */
+    @Override
     public void generateAllPeriods(Budget budget) {
         
         List<BudgetPeriod> budgetPeriods = budget.getBudgetPeriods();
@@ -167,10 +140,8 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
         }
         
     }
-    
-    /**
-     * @see org.kuali.kra.budget.summary.BudgetSummaryService#generateBudgetPeriods()
-     */
+
+    @Override
     public void generateBudgetPeriods(Budget budget,List<BudgetPeriod> budgetPeriods) {
         Date projectStartDate = budget.getStartDate();
         Date projectEndDate = budget.getEndDate();
@@ -205,8 +176,8 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
             budgetPeriodNum++;
         }
     }
-    
-    
+
+    @Override
     public void defaultBudgetPeriods(Budget budget) {
         //get a list of default periods to match the current periods to
         List<BudgetPeriod> newPeriods = new ArrayList<BudgetPeriod>();
@@ -241,7 +212,7 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
         adjustStartEndDatesForLineItems(budget);
         calculateBudget(budget);
     }
-
+    @Override
     public boolean budgetLineItemExists(Budget budget, Integer budgetPeriod) {
         boolean lineItemExists = false;
         
@@ -303,6 +274,7 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
 
 
     /* call budget calculation service to calculate budget */
+    @Override
     public void calculateBudget(Budget budget) {
         getBudgetCommonService(budget.getBudgetDocument().getParentDocument()).recalculateBudget(budget);
     }
@@ -310,7 +282,7 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
     protected BudgetCommonService<BudgetParent> getBudgetCommonService(BudgetParentDocument parentBudgetDocument) {
         return BudgetCommonServiceFactory.createInstance(parentBudgetDocument);
     }
-
+    @Override
     public void deleteBudgetPeriod(Budget budget, int delPeriod) {
         List<BudgetPeriod> budgetPeriods = budget.getBudgetPeriods();
         BudgetPeriod deletedPeriod = budgetPeriods.remove(delPeriod);
@@ -331,7 +303,7 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
         }
     }
 
-    
+    @Override
     public void addBudgetPeriod(Budget budget, BudgetPeriod newBudgetPeriod) {
         List<BudgetPeriod> budgetPeriods = budget.getBudgetPeriods();
         Integer newPeriodIndex = newBudgetPeriod.getBudgetPeriod();
@@ -368,7 +340,7 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
     public final void setBudgetCalculationService(BudgetCalculationService budgetCalculationService) {
         this.budgetCalculationService = budgetCalculationService;
     }
-
+    @Override
     public void updateOnOffCampusFlag(Budget budget, String onOffCampusFlag) {
         List<BudgetPeriod> budgetPeriods = budget.getBudgetPeriods();
         //List<BudgetPersonnelDetails> budgetPersonnelDetails = budget.getBudgetPersonnelDetailsList();
@@ -403,6 +375,7 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
      * KRACOEUS-1376
      * @see org.kuali.kra.budget.summary.BudgetSummaryService#adjustStartEndDatesForLineItems(org.kuali.kra.budget.core.Budget)
      */
+    @Override
     public void adjustStartEndDatesForLineItems(Budget budget) {
         
         for(BudgetPeriod budgetPeriod: budget.getBudgetPeriods()) {
@@ -432,9 +405,9 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
             budgetPeriod.setOldEndDate(budgetPeriod.getEndDate());
         }
     }
-    
-    
-    public void adjustStartEndDatesForPersonnelLineItems(List <BudgetLineItem > budgetLineItems) {
+
+
+    protected void adjustStartEndDatesForPersonnelLineItems(List <BudgetLineItem > budgetLineItems) {
 
         for(BudgetLineItem budgetLineItem: budgetLineItems) {            
             if ( (budgetLineItem.getOldStartDate() != null && budgetLineItem.getStartDate().compareTo(budgetLineItem.getOldStartDate()) != 0) || 
@@ -466,6 +439,7 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
      * 
      * @param budget
      */
+    @Override
     public void setupOldStartEndDate (Budget budget, boolean resetAll) {
         for(BudgetPeriod budgetPeriod : budget.getBudgetPeriods()) {
             if (budgetPeriod.getOldStartDate() == null || budgetPeriod.getOldEndDate() == null || resetAll) {
@@ -475,8 +449,8 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
         }
 
     }
-    
-    public void setupOldStartEndDate (List <BudgetLineItem > budgetLineItems) {
+
+    protected void setupOldStartEndDate (List <BudgetLineItem > budgetLineItems) {
         for(BudgetLineItem budgetLineItem: budgetLineItems) {
             if (budgetLineItem.getOldStartDate() == null || budgetLineItem.getOldEndDate() == null) {
                 budgetLineItem.setOldStartDate(budgetLineItem.getStartDate());
@@ -569,6 +543,7 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
         return startEndDates;
     }
 
+    @Override
     public List<Date> getNewStartEndDates(List<Date> startEndDates, int gap, int duration, Date prevDate, boolean leapDayInPeriod,  boolean leapDayInGap) {
         // duration is < (enddate - start date)
         Date startDate = startEndDates.get(0);
@@ -649,15 +624,8 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
         return c1.get(Calendar.YEAR);
 
     }
-    
-    protected Date getLeapDay(Date date) {
-        Calendar c1 = Calendar.getInstance(); 
-        c1.clear();
-        c1.set(getYear(date), 1, 29);
-        return new java.sql.Date(c1.getTime().getTime());
 
-    }
-    
+    @Override
     public boolean isLeapDaysInPeriod(Date sDate, Date eDate) {
         Date leapDate;
         int sYear = getYear(sDate);
@@ -695,6 +663,7 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
     }
     
     /* get onoffcampus flag description */
+    @Override
     public String getOnOffCampusFlagDescription(String onOffCampusFlag) {
         String retValue = null;
         for (OnOffCampusFlagConstants onOffCampusFlagConstants : OnOffCampusFlagConstants.values()) {
@@ -705,7 +674,8 @@ public class BudgetSummaryServiceImpl implements BudgetSummaryService {
         }
         return retValue;
     }
- 
+
+    @Override
     public String defaultWarningMessage(Budget budget) {
         List<BudgetPeriod> budgetPeriods = new ArrayList<BudgetPeriod>();
         boolean dateChanged = false;

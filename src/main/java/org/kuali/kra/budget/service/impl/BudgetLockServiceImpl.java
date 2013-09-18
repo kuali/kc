@@ -37,7 +37,6 @@ import org.kuali.rice.krad.util.KRADConstants;
  */
 public class BudgetLockServiceImpl extends PessimisticLockServiceImpl implements BudgetLockService {
 
-    private static final String FALSE = "FALSE";
     private static final String ADD_BUDGET = "addBudget";
 
     /**

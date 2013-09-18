@@ -35,38 +35,6 @@ public class BudgetPersonnelExpenseRule {
     public BudgetPersonnelExpenseRule() {
     }
 
-    public boolean processCheckExistBudgetPersonnelDetailsBusinessRules(BudgetDocument budgetDocument) {
-        boolean valid = true;
-        MessageMap errorMap = GlobalVariables.getMessageMap();
-        List<BudgetPeriod> budgetPeriods = budgetDocument.getBudget().getBudgetPeriods();
-        List<BudgetLineItem> budgetLineItems;
-        
-        int i=0;
-        int j=0;
-        int k=0;
-        
-        for(BudgetPeriod budgetPeriod: budgetPeriods){
-            j=0;
-            budgetLineItems = budgetPeriod.getBudgetLineItems();
-            for(BudgetLineItem budgetLineItem: budgetLineItems){
-                if (budgetLineItem.getBudgetCategory().getBudgetCategoryTypeCode().equals(PERSONNEL_CATEGORY)) {
-                    k=0;
-                    for(BudgetPersonnelDetails budgetPersonnelDetails : budgetLineItem.getBudgetPersonnelDetailsList()) {
-                        if(StringUtils.isEmpty(budgetPersonnelDetails.getPeriodTypeCode())) {
-                            errorMap.putError("document.budgetPeriod["+i+"].budgetLineItem["+j+"].budgetPersonnelDetailsList["+k+"].periodTypeCode", RiceKeyConstants.ERROR_REQUIRED);
-                            valid = false;
-                        }
-                        k++;
-                    }
-                }
-                
-                j++;
-            }
-            i++;
-        }
-        return valid;
-    }
-
     public boolean processCheckSummaryAddBusinessRules(BudgetLineItem budgetLineItem) {
         boolean valid = true;
         MessageMap errorMap = GlobalVariables.getMessageMap();

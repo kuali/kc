@@ -15,20 +15,11 @@
  */
 package org.kuali.kra.budget.printing.xmlstream;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import noNamespace.GroupsType;
 import noNamespace.ReportHeaderType;
+import noNamespace.ReportPageType.CalculationMethodology;
 import noNamespace.ReportType;
 import noNamespace.SubReportType;
-import noNamespace.ReportPageType.CalculationMethodology;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.commons.logging.Log;
@@ -39,11 +30,7 @@ import org.kuali.kra.budget.calculator.RateClassType;
 import org.kuali.kra.budget.calculator.ValidCalcType;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetParent;
-import org.kuali.kra.budget.nonpersonnel.AbstractBudgetRateAndBase;
-import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
-import org.kuali.kra.budget.nonpersonnel.BudgetLineItemBase;
-import org.kuali.kra.budget.nonpersonnel.BudgetLineItemCalculatedAmount;
-import org.kuali.kra.budget.nonpersonnel.BudgetRateAndBase;
+import org.kuali.kra.budget.nonpersonnel.*;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.budget.personnel.BudgetPerson;
 import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
@@ -53,6 +40,14 @@ import org.kuali.kra.budget.rates.RateType;
 import org.kuali.kra.printing.xmlstream.XmlStream;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * This class will contain all common methods that can be used across all XML
@@ -91,13 +86,11 @@ public abstract class BudgetBaseStream implements XmlStream {
 	private static final String RATE_CLASS = "rateClass";
 	private static final String STRING_SEPRATOR = "-";
 	private static final String EMPTY_STRING = "";
-	protected List<BudgetPersonnelRateAndBase> budgetPersRateAndBases;
+
 	protected BusinessObjectService businessObjectService = null;
 	protected Budget budget;
-	protected List<BudgetPersonnelRateAndBase> budgetPersRateAndBaseList = new ArrayList<BudgetPersonnelRateAndBase>();
 	protected String category[] = { "budgetCategoryDescription" };
 	protected String rateType[] = { "rateTypeDesc" };
-	protected String rateClass[] = { "rateClassDesc" };
 	protected String rateClassRateType[] = { "rateClassDesc", "rateTypeDesc" };
 	protected BudgetPeriod budgetPeriod;
 	protected DateTimeService dateTimeService;
@@ -1863,8 +1856,8 @@ public abstract class BudgetBaseStream implements XmlStream {
 	 * This method gets BudgetCategory Description for SalarySummary and based
 	 * on BudgetPersonnelRateAndBase rateTypeCode and rateClassCode
 	 * 
-	 * @param budgetPersDetails
-	 * @param budgetPersRateAndBase
+	 * @param budgetDetails
+	 * @param budgetRateAndBase
 	 * @return String category
 	 */
 	protected String getBudgetCategoryDescForSalarySummary(
@@ -1885,24 +1878,6 @@ public abstract class BudgetBaseStream implements XmlStream {
 		    }
 		}
 		return category;
-	}
-
-	/**
-	 * This method gets fringe costSharing for BudgetSalarySummary based on
-	 * rateClassType EMPLOYEE_BENEFITS and VACATION from
-	 * BudgetPersonnelRateAndBase
-	 * 
-	 * @param budgetPersRateAndBase
-	 * @return BudgetDecimal fringeCostSharing
-	 */
-	protected BudgetDecimal getFringeForBudgetSalarySummaryFromPersonnelRateAndBase(
-			AbstractBudgetRateAndBase budgetPersRateAndBase) {
-		BudgetDecimal fringeCostSharing = BudgetDecimal.ZERO;
-		if (isRateAndBaseOfRateClassTypeEB(budgetPersRateAndBase)
-				|| isRateAndBaseOfRateClassTypeVacation(budgetPersRateAndBase)) {
-			fringeCostSharing = budgetPersRateAndBase.getCalculatedCost();
-		}
-		return fringeCostSharing;
 	}
 
 	/*
@@ -1955,7 +1930,7 @@ public abstract class BudgetBaseStream implements XmlStream {
 	 * This method gets Investigator Flag from list of ProposalPerson by
 	 * checking personID from BudgetPersonnelRateAndBase
 	 * 
-	 * @param budgetPersRateAndBase
+	 * @param budgetPersonDetails
 	 * @return Integer
 	 */	
 	protected Integer getInvestigatorFlag(BudgetPersonnelDetails budgetPersonDetails) {
@@ -1965,38 +1940,6 @@ public abstract class BudgetBaseStream implements XmlStream {
 	
 	        return flag;
 	    }
-
-	/**
-	 * This method gets vacationRate based on RateClassType VACATION from
-	 * BudgetPersonnelRateAndBase
-	 * 
-	 * @param budgetPersRateAndBase
-	 * @return BudgetDecimal vactationRate
-	 */
-	protected BudgetDecimal getVacationAppliedRateForPersonnel(
-			AbstractBudgetRateAndBase budgetPersRateAndBase) {
-		BudgetDecimal appliedRate = BudgetDecimal.ZERO;
-		if (isRateAndBaseOfRateClassTypeVacation(budgetPersRateAndBase)) {
-			appliedRate = budgetPersRateAndBase.getAppliedRate();
-		}
-		return appliedRate;
-	}
-
-	/**
-	 * This method gets EmployeeBenefitRate based on RateClassType
-	 * EMPLOYEE_BENEFITS from BudgetPersonnelRateAndBase
-	 * 
-	 * @param budgetPersRateAndBase
-	 * @return BudgetDecimal empBenefitRate
-	 */
-	protected BudgetDecimal getEmpBenefitAppliedRateForPersonnel(
-			AbstractBudgetRateAndBase budgetPersRateAndBase) {
-		BudgetDecimal appliedRate = BudgetDecimal.ZERO;
-		if (isRateAndBaseOfRateClassTypeEB(budgetPersRateAndBase)) {
-			appliedRate = budgetPersRateAndBase.getAppliedRate();
-		}
-		return appliedRate;
-	}
 
 	/**
 	 * This method gets key for BudgetSalarySummary for make group based on key
@@ -2112,7 +2055,7 @@ public abstract class BudgetBaseStream implements XmlStream {
 	 * This method gets BudgetCategoryCode for BudgetSalarySummary from
 	 * BudgetPersonnelDetails based on RateClassCode and RateTypeCode
 	 * 
-	 * @param budgetPersDetails
+	 * @param budgetPersonnelDetails
 	 * @return String categoryCode
 	 */
 	protected String getBudgetCategoryCodeFroBudgetSalarySummary(
@@ -2260,23 +2203,6 @@ public abstract class BudgetBaseStream implements XmlStream {
 		if (rateAndBase.getRateClass() != null) {
 			return rateAndBase.getRateClass().getRateClassType().equals(
 					RateClassType.EMPLOYEE_BENEFITS.getRateClassType());
-		}
-		return status;
-	}
-
-	/**
-	 * This method gets true if rateClassType is O else false from RateAndBase
-	 * 
-	 * @param rateAndBase
-	 * @return boolean
-	 */
-	protected boolean isRateAndBaseOfRateClassTypeOverhead(
-			AbstractBudgetRateAndBase rateAndBase) {
-		boolean status = false;
-		rateAndBase.refreshNonUpdateableReferences();
-		if (rateAndBase.getRateClass() != null) {
-			return rateAndBase.getRateClass().getRateClassType().equals(
-					RateClassType.OVERHEAD.getRateClassType());
 		}
 		return status;
 	}

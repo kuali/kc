@@ -23,13 +23,6 @@ import org.kuali.kra.budget.core.Budget;
 public interface BudgetPersonService {
     
     /**
-     * Populate the given BudgetPerson with system default or institution data.
-     * 
-     * @param budgetPerson
-     */
-    public void populateBudgetPersonData(Budget budget, BudgetPerson budgetPerson);
-    
-    /**
      * Populate each Budget Person's system default data, where it is not already populated.
      * 
      * @param budget

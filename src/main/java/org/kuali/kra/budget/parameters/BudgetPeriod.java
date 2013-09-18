@@ -457,9 +457,6 @@ public class BudgetPeriod extends BudgetAssociate {
     public void setDirectCostLimit(BudgetDecimal directCostLimit) {
         this.directCostLimit = directCostLimit;
     }
-
-    public void populateSummaryCalcAmounts() {
-    }
     
     public String getNumberOfMonths() {
         return String.valueOf(this.getProposalBudgetNumberOfMonthsService().getNumberOfMonth(this.getStartDate(), this.getEndDate()));

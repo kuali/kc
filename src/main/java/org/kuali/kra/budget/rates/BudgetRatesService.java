@@ -15,15 +15,14 @@
  */
 package org.kuali.kra.budget.rates;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.budget.core.BudgetParent;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
-import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
 public interface BudgetRatesService <T extends BudgetParent>{
     public void getBudgetRates(List<RateClassType> rateClassTypes, BudgetDocument<T> budgetDocument);
@@ -53,12 +52,9 @@ public interface BudgetRatesService <T extends BudgetParent>{
     public void resetAllBudgetRates(Budget budget);
     public void viewLocation(String viewLocation, Integer budgetPeriod, Budget budget);
     public List<BudgetPeriod> getBudgetPeriods();
-    
-    public void setBusinessObjectService(BusinessObjectService businessObjectService);
-    
-    public BusinessObjectService getBusinessObjectService();
+
     public boolean isOutOfSyncForRateAudit(BudgetDocument<T> budgetDocument);
-    public void populateBudgetRatesForNewVersion(BudgetDocument<T> budgetDocument);
+
     public boolean performSyncFlag(BudgetDocument<T> budgetDocument);
     public void syncParentDocumentRates(BudgetDocument<T> budgetDocument);
     
