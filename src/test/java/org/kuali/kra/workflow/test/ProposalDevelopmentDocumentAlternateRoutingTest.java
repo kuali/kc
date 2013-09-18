@@ -41,27 +41,12 @@ import org.kuali.rice.krad.util.MessageMap;
 @Ignore
 public class ProposalDevelopmentDocumentAlternateRoutingTest extends KcUnitTestBase {
     private DocumentService documentService = null;
-//    private KraKEWXmlDataLoaderLifecycle customKEWLifecycle = null;
-//    private File xmlBackupDir = null;
     private static final String WORKFLOW_ADMIN_GROUP_ID = "1";
     private static final String USER_PRINCIPLE_ID = "jtester";
         
     @Before
     public void setUp() throws Exception {
         super.setUp();
-//        transactionalLifecycle.stop();
-//        ClassPathResource routingResource1 = new ClassPathResource("kew/xml/ProposalDevelopmentDocument.xml");
-//        ClassPathResource routingResource2 = new ClassPathResource("kew/xml/ProposalDevelopmentDocumentRules.xml");
-//        xmlBackupDir = new File(new ClassPathResource("kew/xml/test").getFile(), "revert");
-//        xmlBackupDir.mkdir();
-//        
-//        FileUtils.copyFileToDirectory(routingResource1.getFile(), xmlBackupDir);
-//        FileUtils.copyFileToDirectory(routingResource2.getFile(), xmlBackupDir);
-//
-//        new SQLDataLoaderLifecycle("classpath:sql/dml/clear_kew_rules.sql", ";").start();
-//        customKEWLifecycle = new KraKEWXmlDataLoaderLifecycle("classpath:kew/xml/test");
-//        customKEWLifecycle.start();
-//        transactionalLifecycle.start();
         GlobalVariables.setUserSession(new UserSession("quickstart"));
         documentService = KRADServiceLocatorWeb.getDocumentService();
     }  
@@ -70,18 +55,7 @@ public class ProposalDevelopmentDocumentAlternateRoutingTest extends KcUnitTestB
     public void tearDown() throws Exception {
         GlobalVariables.setUserSession(null);
         documentService = null;
-//        customKEWLifecycle.stop();
-//        customKEWLifecycle = null;
-//        
-//        transactionalLifecycle.stop();
-//        new SQLDataLoaderLifecycle("classpath:sql/dml/clear_kew_rules.sql", ";").start();
-//        //FIXME: kew file reorg
-//        //customKEWLifecycle = new KraKEWXmlDataLoaderLifecycle();
-//        customKEWLifecycle.start();
-//
-//        FileUtils.deleteDirectory(xmlBackupDir);
         GlobalVariables.setMessageMap(new MessageMap());
-//        stopLifecycles(this.perTestLifeCycles);
         logAfterRun();
     }
     
