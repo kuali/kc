@@ -30,9 +30,6 @@ import org.kuali.rice.krad.keyvalues.KeyValuesFinder;
  * 1) extend this class
  * 2) override getKeyValues() to build the test set of key/value pairs
  * 3) override getTestClass() to set the value finder class to test
- * 
- * Note: If the concrete test class needs to be ignored then override testGetKeyValues
- * and add the @Ignore annotation
  */
 public abstract class ValuesFinderTestBase extends KcUnitTestBase {
     
