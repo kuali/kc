@@ -28,7 +28,6 @@ import org.kuali.rice.coreservice.framework.parameter.ParameterService;
  * This class provides support to the AwardApprovedEquipmentRule 
  */
 public class EquipmentCapitalizationMinimumLoader implements Serializable {
-    public static final String PARM_TYPE_CODE = "D";
     static final String FEDERAL_CAPITALIZATION_MIN_PARM_NAME = "federalCapitalizationMinimum";
     static final String FEDERAL_REQUIREMENT = "Federal";
     static final String INSTITUTE_CAPITALIZATION_MIN_PARM_NAME = "institutionCapitalizationMinimum";

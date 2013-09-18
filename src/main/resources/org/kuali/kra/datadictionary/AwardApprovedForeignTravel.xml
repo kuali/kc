@@ -125,12 +125,6 @@
     <property name="required" value="true" />
     <property name="control" >
       <bean parent="TextControlDefinition" p:size="40" />
-      <!-- <bean parent="SelectControlDefinition"
-            p:valuesFinderClass="org.kuali.kra.award.paymentreports.specialapproval.foreigntravel.ApprovedForeignTravelerValuesFinder"
-            p:includeKeyInLabel="false"
-            p:includeBlankRow="true"
-            p:keyAttribute="contactId"
-            p:labelAttribute="fullName" /> -->
     </property>
     <property name="summary" value="Traveler Name" />
     <property name="description" value="Traveler Name" />
