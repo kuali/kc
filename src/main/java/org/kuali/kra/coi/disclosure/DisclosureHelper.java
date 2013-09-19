@@ -15,20 +15,10 @@
  */
 package org.kuali.kra.coi.disclosure;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.home.Award;
-import org.kuali.kra.coi.CoiDiscDetail;
-import org.kuali.kra.coi.CoiDisclProject;
-import org.kuali.kra.coi.CoiDisclosure;
-import org.kuali.kra.coi.CoiDisclosureDocument;
-import org.kuali.kra.coi.CoiDisclosureForm;
-import org.kuali.kra.coi.CoiDisclosureStatus;
-import org.kuali.kra.coi.CoiDispositionStatus;
+import org.kuali.kra.coi.*;
 import org.kuali.kra.coi.auth.CoiDisclosureTask;
 import org.kuali.kra.coi.notification.CoiNotification;
 import org.kuali.kra.coi.personfinancialentity.FinEntityDataMatrixBean;
@@ -43,7 +33,10 @@ import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.springframework.util.ObjectUtils;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DisclosureHelper implements Serializable {
 

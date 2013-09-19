@@ -31,7 +31,6 @@ public class SubmitDisclosureAction implements Serializable {
     private static final long serialVersionUID = -4712974868607781787L;
 
     private DisclosureActionHelper disclosureActionHelper;
-    private CoiDisclosure disclosure;
     private boolean javascriptEnabled;
     
     /**
@@ -41,23 +40,6 @@ public class SubmitDisclosureAction implements Serializable {
      */
     public SubmitDisclosureAction(DisclosureActionHelper disclosureActionHelper) {
         this.disclosureActionHelper = disclosureActionHelper;
-    }
-
-    /**
-     * Prepare the Submit for Review for rendering with JSP.
-     */
-    public void prepareView() {
-        /*
-         * The Submit for Review has to work with and without JavaScript. When JavaScript is enabled, the newly selected committee
-         * and schedule are what we want to continue to display. When JavaScript is disabled, we have to change the schedule dates
-         * that we display if the committee has changed.
-         */
-        if (!this.getJavascriptEnabled()) {
-//TODO
-        }
-        else {
-//TODO
-        }
     }
 
     public DisclosureActionHelper getActionHelper() {
@@ -70,10 +52,6 @@ public class SubmitDisclosureAction implements Serializable {
 
     public CoiDisclosure getDisclosure() {
         return getActionHelper().getCoiDisclosure();
-    }
-
-    public void setDisclosure(CoiDisclosure disclosure) {
-        this.disclosure = disclosure;
     }
 
     public boolean getJavascriptEnabled() {

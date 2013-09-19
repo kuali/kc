@@ -32,7 +32,6 @@ public class CoiReviewType extends KraPersistableBusinessObjectBase {
 
     private String reviewTypeCode;
     private String description;
-    // private boolean globalFlag;
     
     /**
      * Constructs a CoiReviewType.
@@ -56,15 +55,5 @@ public class CoiReviewType extends KraPersistableBusinessObjectBase {
     public void setDescription(String description) {
         this.description = description;
     }
-
-    /*
-    public boolean isGlobalFlag() {
-        return globalFlag;
-    }
-
-    public void setGlobalFlag(boolean globalFlag) {
-        this.globalFlag = globalFlag;
-    }
-    */
 }
 

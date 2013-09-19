@@ -15,11 +15,7 @@
  */
 package org.kuali.kra.coi;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.irb.actions.ProtocolActionType;
 
 public class CoiDisclosureStatus extends KraPersistableBusinessObjectBase {
 

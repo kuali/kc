@@ -111,10 +111,5 @@ public abstract class CoiDisclosureAuthorizer extends TaskAuthorizerImpl {
         && !isPessimisticLocked(coiDisclosure.getCoiDisclosureDocument())
         && !coiDisclosure.isApprovedDisclosure()
         && !coiDisclosure.isDisapprovedDisclosure();
-    }    
-    
-    protected boolean isDocumentViewOnly(CoiDisclosure coiDisclosure) {
-        return coiDisclosure.getCoiDisclosureDocument().isViewOnly();
-    }    
-
+    }
 }

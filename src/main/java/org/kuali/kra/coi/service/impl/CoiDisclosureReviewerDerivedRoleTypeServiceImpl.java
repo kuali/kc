@@ -15,11 +15,6 @@
  */
 package org.kuali.kra.coi.service.impl;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KcPerson;
@@ -28,10 +23,14 @@ import org.kuali.kra.coi.CoiUserRole;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.service.KcPersonService;
-import org.kuali.rice.core.api.exception.RiceIllegalArgumentException;
 import org.kuali.rice.core.api.membership.MemberType;
 import org.kuali.rice.kim.api.role.RoleMembership;
 import org.kuali.rice.kns.kim.role.DerivedRoleTypeServiceBase;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 
@@ -39,7 +38,6 @@ import org.kuali.rice.kns.kim.role.DerivedRoleTypeServiceBase;
  */
 public class CoiDisclosureReviewerDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBase {
 
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CoiDisclosureReviewerDerivedRoleTypeServiceImpl.class);
     private static final String DISCLOSURE = "coiDisclosureId";
     
     private KcPersonService kcPersonService;

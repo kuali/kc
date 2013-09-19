@@ -60,8 +60,7 @@ public class CoiDisclosureAttachment extends CoiDisclosureAssociate implements C
     private String eventTypeCode;
     private Long originalCoiDisclosureId; 
     @SkipVersioning
-    private CoiDisclosure originalCoiDisclosure; 
-    private String projectName;
+    private CoiDisclosure originalCoiDisclosure;
     private Long financialEntityId;
     private String typeCode;
     private CoiAttachmentType coiAttachmentType;

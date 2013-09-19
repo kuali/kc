@@ -15,12 +15,6 @@
  */
 package org.kuali.kra.coi.notesandattachments.notes;
 
-import java.io.Serializable;
-import java.sql.Timestamp;
-import java.util.Calendar;
-import java.util.Comparator;
-import java.util.LinkedHashMap;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.coi.CoiDisclProject;
@@ -28,11 +22,10 @@ import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.CoiDisclosureAssociate;
 import org.kuali.kra.coi.CoiNoteType;
 import org.kuali.kra.coi.personfinancialentity.PersonFinIntDisclosure;
-import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.rice.core.api.datetime.DateTimeService;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
+
+import java.sql.Timestamp;
+import java.util.Calendar;
 
 public class CoiDisclosureNotepad extends CoiDisclosureAssociate implements Comparable<CoiDisclosureNotepad> {
 
@@ -168,21 +161,6 @@ public class CoiDisclosureNotepad extends CoiDisclosureAssociate implements Comp
 
     public void setRestrictedView(boolean restrictedView) {
         this.restrictedView = restrictedView;
-    }
-    
-    public final static class NotepadByEntryNumber implements Comparator<CoiDisclosureNotepad>, Serializable {
-
-        public static final NotepadByEntryNumber INSTANCE = new NotepadByEntryNumber();
-        private static final long serialVersionUID = -2271453419166988229L;
-        
-        private NotepadByEntryNumber() {
-            //internal
-        }
-        
-        /** {@inheritDoc} */
-        public int compare(CoiDisclosureNotepad o1, CoiDisclosureNotepad o2) {
-            return o1.getEntryNumber().compareTo(o2.getEntryNumber());
-        }     
     }
 
     public void resetUpdateTimestamp() {

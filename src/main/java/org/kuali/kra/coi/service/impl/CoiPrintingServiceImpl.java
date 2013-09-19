@@ -15,27 +15,20 @@
  */
 package org.kuali.kra.coi.service.impl;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.util.List;
-import java.util.Map;
-
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.coi.CoiDisclosure;
-import org.kuali.kra.coi.print.*;
+import org.kuali.kra.coi.print.CoiCertificationPrint;
+import org.kuali.kra.coi.print.CoiReportType;
 import org.kuali.kra.coi.service.CoiPrintingService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.printing.Printable;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.print.AbstractPrint;
 import org.kuali.kra.printing.service.PrintingService;
-import org.kuali.kra.printing.service.impl.PrintingServiceImpl;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
-import org.kuali.rice.core.api.config.property.ConfigurationService;
-import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.service.KRADServiceLocator;
 
-//TODO: Needs work.  Lots of work.
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.List;
 
 /**
  * 
@@ -45,21 +38,7 @@ public class CoiPrintingServiceImpl  implements CoiPrintingService {
 
     private PrintingService printingService;
     private CoiCertificationPrint coiCertificationPrint;
-    private BusinessObjectService businessObjectService;
-    private ConfigurationService configurationService;
-    
-    public AttachmentDataSource printDisclosureCertification(KraPersistableBusinessObjectBase printableBusinessObject, 
-                                                             String reportName, Map<String, Object> reportParameters) throws PrintingException {
-        System.out.println("\nNew printDisclosureCertification event occurred.... ");        
-        AttachmentDataSource source = null;
-        AbstractPrint printable = null;
-        printable = getCoiCertificationPrint();
-        printable.setPrintableBusinessObject(printableBusinessObject);
-        printable.setReportParameters(reportParameters);
-        source = getPrintingService().print(printable);
-        return source;
-    }
-        
+
     public PrintingService getPrintingService() {
         return printingService;
     }
@@ -75,15 +54,7 @@ public class CoiPrintingServiceImpl  implements CoiPrintingService {
     public void setCoiCertificationPrint(CoiCertificationPrint coiCertificationPrint) {
         this.coiCertificationPrint = coiCertificationPrint;
     }
-    
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
-    }
-
-    /**
-     * 
-     * @see org.kuali.kra.irb.actions.print.ProtocolPrintingService#getProtocolPrintArtifacts(org.kuali.kra.irb.Protocol)
-     */
+     @Override
      public Printable getCoiPrintArtifacts(CoiDisclosure coiDisclosure) { 
          
          CoiReportType reportType = CoiReportType.COI_BATCH_CORRESPONDENCE;
@@ -91,6 +62,7 @@ public class CoiPrintingServiceImpl  implements CoiPrintingService {
          printable.setPrintableBusinessObject(coiDisclosure);
          return printable;
      }
+    @Override
      public AttachmentDataSource print(List<Printable> printableArtifactList) throws PrintingException {
          String fileName = "";
          AttachmentDataSource attachmentDataSource =  getPrintingService().print(printableArtifactList);
@@ -118,13 +90,6 @@ public class CoiPrintingServiceImpl  implements CoiPrintingService {
                 }
         return printable;
     }
-    public ConfigurationService getKualiConfigurationService() {
-        return KRADServiceLocator.getKualiConfigurationService();
-    }
-      
-    public void setConfigurationService(ConfigurationService configurationService) {
-        this.configurationService = configurationService;
-    }
-    }
+}
 
 

@@ -15,20 +15,10 @@
  */
 package org.kuali.kra.coi.actions;
 
-import java.sql.Date;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.kra.coi.CoiDisclosure;
-import org.kuali.kra.coi.CoiDisclosureDocument;
-import org.kuali.kra.coi.CoiDisclosureForm;
-import org.kuali.kra.coi.CoiDisclosureStatus;
-import org.kuali.kra.coi.CoiUserRole;
+import org.kuali.kra.coi.*;
 import org.kuali.kra.coi.disclosure.CoiDisclosureAdministratorActionRule;
 import org.kuali.kra.coi.notesandattachments.CoiNoteAndAttachmentAction;
 import org.kuali.kra.infrastructure.Constants;
@@ -37,6 +27,10 @@ import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.web.struts.action.AuditActionHelper;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.sql.Date;
 
 public class CoiDisclosureActionsAction extends CoiNoteAndAttachmentAction {
     

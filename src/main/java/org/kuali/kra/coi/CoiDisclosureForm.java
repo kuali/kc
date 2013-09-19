@@ -15,12 +15,6 @@
  */
 package org.kuali.kra.coi;
 
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.bo.KcPerson;
@@ -43,9 +37,13 @@ import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kns.datadictionary.HeaderNavigation;
 import org.kuali.rice.kns.web.ui.HeaderField;
-import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class CoiDisclosureForm extends KraTransactionalDocumentFormBase implements Auditable, QuestionableFormInterface  {
     /**
@@ -295,10 +293,6 @@ public class CoiDisclosureForm extends KraTransactionalDocumentFormBase implemen
         reporterCreated = reporter + Constants.COLON + disclosureCreated;
         
         return new HeaderField("DataDictionary.CoiDisclosure.attributes.reporterCreated", reporterCreated);
-    }
-
-    private BusinessObjectService getBusinessObjectService() {
-        return KRADServiceLocator.getBusinessObjectService();
     }
 
     public String getCoiDispositionCode() {
