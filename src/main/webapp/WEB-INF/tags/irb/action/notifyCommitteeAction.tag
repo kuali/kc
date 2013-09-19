@@ -45,7 +45,7 @@
 	                        	<nobr>
 		                        	             
 			                        <html:select property="actionHelper.protocolNotifyCommitteeBean.committeeId">                               
-		                            	<c:forEach items="${KualiForm.actionHelper.notifyCmtActionCommitteeIdByUnitValuesFinder.keyValues}" var="option" >
+		                            	<c:forEach items="${KualiForm.actionHelper.notifyCmtActionCommitteeIdByUnitKeyValues}" var="option" >
 		                                	<c:choose>                      
 		                                    	<c:when test="${KualiForm.actionHelper.protocolNotifyCommitteeBean.committeeId == option.key}">
 		                                        	<option value="${option.key}" selected="selected">${option.value}</option>

@@ -73,7 +73,7 @@
 	                        <nobr>
 	                        		             
 		                        <html:select property="actionHelper.protocolNotifyIrbBean.committeeId">                               
-	                            	<c:forEach items="${KualiForm.actionHelper.notifyIrbActionCommitteeIdByUnitValuesFinder.keyValues}" var="option" >
+	                            	<c:forEach items="${KualiForm.actionHelper.notifyIrbActionCommitteeIdByUnitKeyValues}" var="option" >
 	                                	<c:choose>                      
 	                                    	<c:when test="${KualiForm.actionHelper.protocolNotifyIrbBean.committeeId == option.key}">
 	                                        	<option value="${option.key}" selected="selected">${option.value}</option>

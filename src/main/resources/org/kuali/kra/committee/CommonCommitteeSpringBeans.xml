@@ -49,7 +49,7 @@
           scope="prototype">
     </bean>
     
-    <bean id="committeeIdByUnitValuesFinderParent" abstract="true">
+    <bean id="committeeIdByUnitValuesFinderServiceParent" abstract="true">
     	<property name ="businessObjectService" ref="businessObjectService" />
     	<property name ="unitService" ref="unitService" />
     	<property name ="unitAuthorizationService" ref="unitAuthorizationService" />
