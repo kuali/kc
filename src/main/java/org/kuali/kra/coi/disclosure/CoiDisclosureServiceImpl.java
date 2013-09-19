@@ -15,18 +15,6 @@
  */
 package org.kuali.kra.coi.disclosure;
 
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.awardhierarchy.AwardHierarchy;
@@ -37,19 +25,7 @@ import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.bo.SponsorHierarchy;
-import org.kuali.kra.coi.CoiDiscDetail;
-import org.kuali.kra.coi.CoiDisclProject;
-import org.kuali.kra.coi.CoiDisclosure;
-import org.kuali.kra.coi.CoiDisclosureDocument;
-import org.kuali.kra.coi.CoiDisclosureEventType;
-import org.kuali.kra.coi.CoiDisclosureHistory;
-import org.kuali.kra.coi.CoiDisclosureStatus;
-import org.kuali.kra.coi.CoiDisclosureUndisclosedEvents;
-import org.kuali.kra.coi.CoiDispositionStatus;
-import org.kuali.kra.coi.CoiReviewStatus;
-import org.kuali.kra.coi.CoiUserRole;
-import org.kuali.kra.coi.DisclosureReporter;
-import org.kuali.kra.coi.DisclosureReporterUnit;
+import org.kuali.kra.coi.*;
 import org.kuali.kra.coi.lookup.dao.CoiDisclosureDao;
 import org.kuali.kra.coi.lookup.dao.CoiDisclosureUndisclosedEventsDao;
 import org.kuali.kra.coi.notesandattachments.attachments.CoiDisclosureAttachment;
@@ -71,7 +47,6 @@ import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.irb.ProtocolFinderDao;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
 import org.kuali.kra.irb.protocol.ProtocolType;
-import org.kuali.kra.krms.KrmsRulesContext;
 import org.kuali.kra.krms.UnitAgendaTypeService;
 import org.kuali.kra.krms.service.KrmsRulesExecutionService;
 import org.kuali.kra.medusa.MedusaNode;
@@ -91,6 +66,11 @@ import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
+
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * This class...
@@ -545,31 +525,6 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
     }
 
     /*
-     * this is for master disclosure where the copied disc_detail can't reference the mater disclosure directly
-     * the disclosure event type may not match the disc detail project type
-     */
-    private KraPersistableBusinessObjectBase getEventBo(CoiDiscDetail coiDiscdetail, String projectId) {
-        KraPersistableBusinessObjectBase eventBo = null;
-        if (coiDiscdetail.isProtocolEvent()) {
-            eventBo = getProtocol(Long.valueOf(projectId));
-        }
-        else if (coiDiscdetail.isIacucProtocolEvent()) {
-            eventBo = getIacucProtocol(Long.valueOf(projectId));
-        }
-        else if (coiDiscdetail.isProposalEvent()) {
-            eventBo = getDevelopmentProposal(projectId);
-        } else if (coiDiscdetail.isInstitutionalProposalEvent()) {
-                eventBo = getInstitutionalProposal(projectId);
-        }
-        else if (coiDiscdetail.isAwardEvent()) {
-            // TODO : for award
-            eventBo = getAwardById(projectId);
-       }
-        return eventBo;
-
-    }
-
-    /*
      * get protocol by using protocolid
      */
     private Protocol getProtocol(Long protocolId) {
@@ -615,61 +570,6 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
             coiDiscDetail.setPersonFinIntDisclosure(financialEntity);
         }
         
-    }
-    
-    /*
-     * get event bo based on event and moduleitemkey.  
-     * TODO : this may not be enough.  may need to consider to save event pk to table
-     */
-    private CoiDisclEventProject getEventBo(CoiDisclosure coiDisclosure, CoiDiscDetail coiDiscDetail) {
-        CoiDisclEventProject coiDisclEventProject = new CoiDisclEventProject();
-        if (coiDisclosure.isProtocolEvent()) {
-            Protocol protocol = protocolFinderDao.findCurrentProtocolByNumber(coiDiscDetail.getModuleItemKey());
-            coiDisclEventProject = new CoiDisclEventProject(CoiDisclosureEventType.IRB_PROTOCOL, protocol, new ArrayList<CoiDiscDetail>());
-            coiDisclosure.setEventBo(protocol);
-        }
-        else if (coiDisclosure.isProposalEvent()) {
-            DevelopmentProposal proposal = getDevelopmentProposal(coiDiscDetail.getModuleItemKey());
-            coiDisclEventProject = new CoiDisclEventProject(CoiDisclosureEventType.DEVELOPMENT_PROPOSAL, proposal, new ArrayList<CoiDiscDetail>());
-            coiDisclosure.setEventBo(proposal);
-        } else if (coiDisclosure.isInstitutionalProposalEvent()) {
-            InstitutionalProposal proposal = getInstitutionalProposal(coiDiscDetail.getModuleItemKey());
-            coiDisclEventProject = new CoiDisclEventProject(CoiDisclosureEventType.INSTITUTIONAL_PROPOSAL, proposal, new ArrayList<CoiDiscDetail>());
-            coiDisclosure.setEventBo(proposal);
-        } 
-        else if (coiDisclosure.isAwardEvent()) {
-            // TODO : for award
-            Award award = getAward(coiDiscDetail.getModuleItemKey());
-            coiDisclEventProject = new CoiDisclEventProject(CoiDisclosureEventType.AWARD, award, new ArrayList<CoiDiscDetail>());
-            coiDisclosure.setEventBo(award);
-       }
-        return coiDisclEventProject;
-
-    }
-    
-    // temporary solution until coeus schema is finalized
-    /*
-     * get eventbo for annual disclosure
-     */
-    private CoiDisclEventProject getEventBoForAnnualDiscl(CoiDisclosure coiDisclosure, CoiDiscDetail coiDiscDetail) {
-        CoiDisclEventProject coiDisclEventProject = new CoiDisclEventProject();
-        if (coiDiscDetail.isProtocolEvent()) {
-            Protocol protocol = protocolFinderDao.findCurrentProtocolByNumber(coiDiscDetail.getModuleItemKey());
-            coiDisclEventProject = new CoiDisclEventProject(CoiDisclosureEventType.IRB_PROTOCOL, protocol, new ArrayList<CoiDiscDetail>());
-        }
-        else if (coiDiscDetail.isProposalEvent()) {
-            DevelopmentProposal proposal = getDevelopmentProposal(coiDiscDetail.getModuleItemKey());
-            coiDisclEventProject = new CoiDisclEventProject(CoiDisclosureEventType.DEVELOPMENT_PROPOSAL, proposal, new ArrayList<CoiDiscDetail>());
-        } else if (coiDiscDetail.isInstitutionalProposalEvent()) {
-            InstitutionalProposal proposal = getInstitutionalProposal(coiDiscDetail.getModuleItemKey());
-            coiDisclEventProject = new CoiDisclEventProject(CoiDisclosureEventType.INSTITUTIONAL_PROPOSAL, proposal, new ArrayList<CoiDiscDetail>());
-        } else  {
-            // TODO : for award
-            Award award = getAward(coiDiscDetail.getModuleItemKey());
-            coiDisclEventProject = new CoiDisclEventProject(CoiDisclosureEventType.AWARD, award, new ArrayList<CoiDiscDetail>());
-       }
-        return coiDisclEventProject;
-
     }
         
     /*
@@ -863,16 +763,6 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
             }
         }
         return proposals;
-    }
- 
-    /*
-     * excluded from annual report and/or in master disclosure
-     */
-    private boolean isEventExcluded(String eventTypeCode) {
-        Map<String, Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put("eventTypeCode", eventTypeCode);
-        CoiDisclosureEventType CoiDisclosureEventType =  businessObjectService.findByPrimaryKey(CoiDisclosureEventType.class, fieldValues);
-        return CoiDisclosureEventType.isExcludeFromMasterDisclosure();
     }
     
     /**
@@ -1568,23 +1458,6 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
             }
         return disclosureProjectBean;
     }
-
-    /*
-     * retrieve manual project
-     */
-    private CoiDisclProject getCoiDisclProject(CoiDiscDetail coiDiscDetail) {
-        // this is inconsistent : manual refere to field1 , project refer to field2
-        Map <String, Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put("coiDisclosureNumber", coiDiscDetail.getCoiDisclosureNumber());
-        // this is unique
-        fieldValues.put("moduleItemKey", coiDiscDetail.getModuleItemKey());
-        List<CoiDisclProject> coiDisclProjects = (List<CoiDisclProject>) businessObjectService.findMatching(CoiDisclProject.class, fieldValues);
-        if (CollectionUtils.isNotEmpty(coiDisclProjects)) {
-            return coiDisclProjects.get(0);
-        } else {
-            return null;
-        }
-    }
     
     public List<CoiDispositionStatus> getDispositionStatuses(String disclosureStatusCode) {
         List<CoiDispositionStatus> coiDispositionStatuses  = new ArrayList<CoiDispositionStatus>();
@@ -1819,17 +1692,6 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         }
         return projectDetailMap;
         
-    }
-
-    /*
-     * Loop thru detail list in each project to see if any the FE is new, and then a new detail will be created.
-     */
-    private void checkToAddNewFEForAnnualEvent(List<PersonFinIntDisclosure> financialEntities, List<CoiDiscDetail> coiDiscDetails,
-            Long disclosureId, CoiDisclosure coiDisclosure, List<CoiDiscDetail> projectDetails, CoiDisclProject coiDisclProject) {
-        Map <String, List<CoiDiscDetail>> projectDetailMap = setupDetailMapForAnnual(projectDetails);
-        for (String itemKey : projectDetailMap.keySet()) {
-            checkToAddNewFinancialEntity(financialEntities, coiDiscDetails, disclosureId, coiDisclosure, projectDetailMap.get(itemKey), coiDisclProject);
-        }
     }
 
     /*
@@ -2386,7 +2248,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
     /**
      * This method is to get undisclosed events for all projects.
      * Include prop dev, inst prop, award, irb and iacuc protocols
-     * @param reporters
+     * @param searchCriteria
      * @return
      */
     private List<CoiDisclosureUndisclosedEvents> getAllUndisclosedEvents(Map<String, String> searchCriteria) {
@@ -2803,7 +2665,7 @@ public class CoiDisclosureServiceImpl implements CoiDisclosureService {
         this.krmsRulesExecutionService = krmsRulesExecutionService;
     }
     
-    public Integer calculateMaximumDispositionStatusCode(CoiDisclosure coiDisclosure) {
+    protected Integer calculateMaximumDispositionStatusCode(CoiDisclosure coiDisclosure) {
         Integer defaultDisposition = getDefaultDispositionStatus(coiDisclosure);
         Integer retval = null;
         for (CoiDisclProject project : coiDisclosure.getCoiDisclProjects()) {

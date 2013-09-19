@@ -15,11 +15,6 @@
  */
 package org.kuali.kra.coi.notesandattachments;
 
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -31,17 +26,19 @@ import org.kuali.kra.coi.service.CoiPrintingService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-// import org.kuali.kra.irb.noteattachment.ProtocolAttachmentBase;
 import org.kuali.kra.irb.noteattachment.ProtocolAttachmentProtocol;
-import org.kuali.kra.printing.Printable;
 import org.kuali.kra.printing.service.WatermarkService;
 import org.kuali.kra.protocol.noteattachment.ProtocolAttachmentBase;
-import org.kuali.kra.util.watermark.WatermarkConstants;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
 import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+// import org.kuali.kra.irb.noteattachment.ProtocolAttachmentBase;
 
 
 /**
@@ -143,45 +140,9 @@ public class CoiNoteAndAttachmentAction extends CoiAction {
         final AttachmentFile file = attachment.getFile();
         byte[] attachmentFile = null;
         String attachmentFileType = file.getType().replace("\"", "");
-//        if (attachmentFileType.equalsIgnoreCase(WatermarkConstants.ATTACHMENT_TYPE_PDF)){
-//            attachmentFile = getCoiDisclosureAttachmentFile(form,attachment);
-//            if (attachmentFile != null){
-//                this.streamToResponse(attachmentFile, getValidHeaderString(file.getName()),  getValidHeaderString(file.getType()), response);}
-//            return RESPONSE_ALREADY_HANDLED;
-//        }        
         this.streamToResponse(file.getData(), getValidHeaderString(file.getName()),  getValidHeaderString(file.getType()), response);
 
         return RESPONSE_ALREADY_HANDLED;
-    }
-
-    private byte[] getCoiDisclosureAttachmentFile(ActionForm form, CoiDisclosureAttachment attachment){
-        CoiNotesAndAttachmentsHelper helper = ((CoiDisclosureForm) form).getCoiNotesAndAttachmentsHelper();
-
-        byte[] attachmentFile = null;
-        final AttachmentFile file = attachment.getFile();
-        Printable printableArtifacts= getCoiPrintingService().getCoiPrintArtifacts(helper.getCoiDisclosure());
-        try {
-            if (printableArtifacts.isWatermarkEnabled()){
-                Integer attachmentDocumentId = attachment.getDocumentId();
-                List<CoiDisclosureAttachment> coiDisclosureAttachmentList = helper.getCoiDisclosure().getCoiDisclosureAttachments();
-                if (coiDisclosureAttachmentList.size()>0){
-                    for (CoiDisclosureAttachment coiDisclosureAttachment : coiDisclosureAttachmentList) {
-                        if (attachmentDocumentId.equals(coiDisclosureAttachment.getDocumentId())){
-                            //if(getProtocolAttachmentService().isNewAttachmentVersion(coiDisclosureAttachment)){
-                            attachmentFile = getWatermarkService().applyWatermark(file.getData(),printableArtifacts.getWatermarkable().getWatermark());
-                            /*}else{
-                                attachmentFile = getWatermarkService().applyWatermark(file.getData(),printableArtifacts.getWatermarkable().getInvalidWatermark());
-                                LOG.info(INVALID_ATTACHMENT + attachmentDocumentId);
-                            }*/
-                        }
-                    }
-                } else {
-                    attachmentFile = getWatermarkService().applyWatermark(file.getData(),printableArtifacts.getWatermarkable().getWatermark());
-                }
-            }
-        } catch (Exception e) {
-        }        
-        return attachmentFile;
     }
 
     public ActionForward updateAttachmentFilter(ActionMapping mapping, ActionForm form, HttpServletRequest request,

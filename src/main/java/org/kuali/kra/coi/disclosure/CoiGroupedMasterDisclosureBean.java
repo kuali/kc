@@ -19,8 +19,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kra.coi.personfinancialentity.PersonFinIntDisclosure;
-
 /**
  * This class is to group disclosure project bean either by event type or by
  * financial entity. Currently we are listing it by projects so that we get to

@@ -15,13 +15,10 @@
  */
 package org.kuali.kra.coi;
 
-import java.util.LinkedHashMap;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.SequenceAssociate;
 import org.kuali.kra.award.AwardAssociate;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.irb.Protocol;
 
 public class CoiDisclosureAssociate extends KraPersistableBusinessObjectBase implements SequenceAssociate<CoiDisclosure> {
 

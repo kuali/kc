@@ -16,7 +16,6 @@
 package org.kuali.kra.coi;
 
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import java.util.LinkedHashMap;
 
 public class CoiReviewStatus extends KraPersistableBusinessObjectBase { 
     

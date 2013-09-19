@@ -35,7 +35,6 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 
 public class CoiNotificationEditorAction extends CoiAction {
     public static final String DISCLOSURE_ACTIONS_TAB = "disclosureActions";
-    public static final String COI_DISCLOSURE_NOTIFICATION_EDITOR = "coiDisclosureNotificationEditor";
     
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {

@@ -77,7 +77,6 @@ public class FinancialEntityAction extends KualiAction {
     protected static final String ACTIVATE_ENTITY = "active";
     protected static final String CONFIRM_YES_CANCEL_FE = "confirmCancelFinancialEntity";
     protected static final String CONFIRM_NO_CANCEL_FE = "declineCancelFinancialEntity";
-    protected static final String CONFIRM_NO_DELETE = "";
 
     private KcNotificationService kcNotificationService;
     
