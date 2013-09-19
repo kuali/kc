@@ -17,6 +17,7 @@ package org.kuali.kra.iacuc.actions;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,9 +25,10 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.CoeusSubModule;
+import org.kuali.kra.common.committee.bo.CommitteeBase;
 import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
+import org.kuali.kra.common.committee.lookup.keyvalue.CommitteeIdByUnitValuesFinderService;
 import org.kuali.kra.common.committee.service.CommitteeScheduleServiceBase;
-import org.kuali.kra.common.committee.service.CommitteeServiceBase;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.IacucProtocolDocument;
 import org.kuali.kra.iacuc.IacucProtocolVersionService;
@@ -62,9 +64,8 @@ import org.kuali.kra.iacuc.actions.withdraw.IacucProtocolAdministrativelyWithdra
 import org.kuali.kra.iacuc.actions.withdraw.IacucProtocolWithdrawBean;
 import org.kuali.kra.iacuc.auth.IacucGenericProtocolAuthorizer;
 import org.kuali.kra.iacuc.auth.IacucProtocolTask;
-import org.kuali.kra.iacuc.committee.lookup.keyvalue.IacucCommitteeIdByUnitValuesFinder;
+import org.kuali.kra.iacuc.committee.lookup.keyvalue.IacucCommitteeIdByUnitValuesFinderService;
 import org.kuali.kra.iacuc.committee.service.IacucCommitteeScheduleService;
-import org.kuali.kra.iacuc.committee.service.IacucCommitteeService;
 import org.kuali.kra.iacuc.correspondence.IacucProtocolCorrespondenceAuthorizationService;
 import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReview;
 import org.kuali.kra.iacuc.onlinereview.IacucProtocolOnlineReviewService;
@@ -119,6 +120,7 @@ import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 import org.kuali.kra.rules.ErrorReporter;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.util.DateUtils;
+import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -133,11 +135,6 @@ public class IacucActionHelper extends ActionHelperBase {
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 777750088765246427L;
-    
-    private static final String SUBMIT_ACTION_COMMITTEE_ID_BY_UNIT_VALUES_FINDER = "submitActionIACUCCommitteeIdByUnitValuesFinder";
-    private static final String NOTIFY_CMT_ACTION_COMMITTEE_ID_BY_UNIT_VALUES_FINDER = "notifyCmtActionIACUCCommitteeIdByUnitValuesFinder";
-    private static final String ASSIGN_CMT_ACTION_COMMITTEE_ID_BY_UNIT_VALUES_FINDER_ID = "assignCmtActionIACUCCommitteeIdByUnitValuesFinder";
-    private static final String MODIFY_SUBMISSION_ACTION_COMMITTEE_ID_BY_UNIT_VALUES_FINDER_ID = "modifySubmissionActionIACUCCommitteeIdByUnitValuesFinder";
     
     /**
      * Each Helper must contain a reference to its document form
@@ -202,8 +199,9 @@ public class IacucActionHelper extends ActionHelperBase {
     protected String continuationSummary;
     protected ProtocolAmendmentBean protocolContinuationAmendmentBean;
 
-    private IacucCommitteeIdByUnitValuesFinder assignCmtActionCommitteeIdByUnitValuesFinder;
-    private IacucCommitteeIdByUnitValuesFinder modifySubmissionActionCommitteeIdByUnitValuesFinder;
+    private List<KeyValue> assignCmtActionCommitteeIdByUnitKeyValues;
+    
+    private List<KeyValue> modifySubmissionActionCommitteeIdByUnitKeyValues;
 
 
     /**
@@ -1238,38 +1236,26 @@ public class IacucActionHelper extends ActionHelperBase {
     private void prepareAssignCommitteeActionView() {
         canAssignCmt = hasPermission(TaskName.IACUC_ASSIGN_TO_COMMITTEE);
         canAssignCmtUnavailable = hasPermission(TaskName.IACUC_ASSIGN_TO_COMMITTEE_UNAVAILABLE);
-        assignCmtActionCommitteeIdByUnitValuesFinder = getAssignCmtActionCommitteeIdByUnitValuesFinderInstance();
+        // Initialize the assign cmt key values (expensive call) only after checking the conditions for the display of the committee selection
         if(canAssignCmt) {
-            // set the current committee (if any), the lead unit of the protocol and the doc route status on the committee finder
-            assignCmtActionCommitteeIdByUnitValuesFinder.setCurrentCommitteeId(protocolAssignCmtBean.getCommitteeId());
-            assignCmtActionCommitteeIdByUnitValuesFinder.setDocRouteStatus(getDocRouteStatus());
-            assignCmtActionCommitteeIdByUnitValuesFinder.setProtocolLeadUnit(getProtocol().getLeadUnitNumber());
-            assignCmtActionCommitteeIdByUnitValuesFinder.initializeKeyValueList();
+            // pass in the current committee id (if any), the protocol lead unit and the doc route status to the committee finder service
+            Collection<? extends CommitteeBase<?, ?, ?>> committees = 
+                getCommitteeIdByUnitValuesFinderService().getAssignmentCommittees(getProtocol().getLeadUnitNumber(), getDocRouteStatus(), protocolAssignCmtBean.getCommitteeId());
+            assignCmtActionCommitteeIdByUnitKeyValues = getKeyValuesForCommitteeSelection(committees);
         }
     }
     
     private void prepareModifySubmissionActionView() {
         iacucProtocolModifySubmissionBean.prepareView();
         // modify action permission vars have already been initialized in parent
-        modifySubmissionActionCommitteeIdByUnitValuesFinder = getModifySubmissionActionCommitteeIdByUnitValuesFinderInstance();
-        if(canModifyProtocolSubmission) {
-            // set the current committee (if any), the lead unit of the protocol and the doc route status on the committee finder
-            modifySubmissionActionCommitteeIdByUnitValuesFinder.setCurrentCommitteeId(iacucProtocolModifySubmissionBean.getCommitteeId());
-            modifySubmissionActionCommitteeIdByUnitValuesFinder.setDocRouteStatus(getDocRouteStatus());
-            modifySubmissionActionCommitteeIdByUnitValuesFinder.setProtocolLeadUnit(getProtocol().getLeadUnitNumber());
-            modifySubmissionActionCommitteeIdByUnitValuesFinder.initializeKeyValueList();
+        if(canModifyProtocolSubmission) {            
+            // pass in the current committee id (if any), the protocol lead unit and the doc route status to the committee finder service
+            Collection<? extends CommitteeBase<?, ?, ?>> committees = 
+                getCommitteeIdByUnitValuesFinderService().getAssignmentCommittees(getProtocol().getLeadUnitNumber(), getDocRouteStatus(), iacucProtocolModifySubmissionBean.getCommitteeId());
+            modifySubmissionActionCommitteeIdByUnitKeyValues = getKeyValuesForCommitteeSelection(committees);            
         }
     }
     
-    private IacucCommitteeIdByUnitValuesFinder getModifySubmissionActionCommitteeIdByUnitValuesFinderInstance() {
-        return KraServiceLocator.getService(MODIFY_SUBMISSION_ACTION_COMMITTEE_ID_BY_UNIT_VALUES_FINDER_ID);
-    }
-
-
-    protected IacucCommitteeIdByUnitValuesFinder getAssignCmtActionCommitteeIdByUnitValuesFinderInstance() {
-        return KraServiceLocator.getService(ASSIGN_CMT_ACTION_COMMITTEE_ID_BY_UNIT_VALUES_FINDER_ID);
-    }
-
 
     @Override
     protected ProtocolTaskBase getModifyAmendmentSectionsProtocolTaskInstanceHook(ProtocolBase protocol) {
@@ -1566,12 +1552,6 @@ public class IacucActionHelper extends ActionHelperBase {
 
 
     @Override
-    protected Class<? extends CommitteeServiceBase> getCommitteeServiceClassHook() {
-        return IacucCommitteeService.class;
-    }
-
-
-    @Override
     protected Class<? extends CommitteeScheduleServiceBase> getCommitteeScheduleServiceClassHook() {
         return IacucCommitteeScheduleService.class;
     }
@@ -1601,27 +1581,7 @@ public class IacucActionHelper extends ActionHelperBase {
     protected void initializeSubmissionConstraintHook() {
         submissionConstraint = getParameterValue(Constants.PARAMETER_IACUC_COMM_SELECTION_DURING_SUBMISSION);
     }
-
-
-    @Override
-    protected IacucCommitteeIdByUnitValuesFinder getSubmitActionCommitteeIdByUnitValuesFinderInstanceHook() {
-        return KraServiceLocator.getService(SUBMIT_ACTION_COMMITTEE_ID_BY_UNIT_VALUES_FINDER);
-    }
-
-
-    @Override
-    protected IacucCommitteeIdByUnitValuesFinder getNotifyCmtActionCommitteeIdByUnitValuesFinderInstanceHook() {
-        return KraServiceLocator.getService(NOTIFY_CMT_ACTION_COMMITTEE_ID_BY_UNIT_VALUES_FINDER);
-    }
     
-    public IacucCommitteeIdByUnitValuesFinder getAssignCmtActionCommitteeIdByUnitValuesFinder() {
-        return assignCmtActionCommitteeIdByUnitValuesFinder;
-    }
-
-    public IacucCommitteeIdByUnitValuesFinder getModifySubmissionActionCommitteeIdByUnitValuesFinder() {
-        return modifySubmissionActionCommitteeIdByUnitValuesFinder;
-    }
-
 
     @Override
     protected ProtocolTaskBase getNewProtocolTaskInstanceHook(String taskName) {
@@ -1634,5 +1594,19 @@ public class IacucActionHelper extends ActionHelperBase {
         return IacucProtocolCorrespondenceAuthorizationService.class;
     }
 
-}
 
+    @Override
+    protected Class<? extends CommitteeIdByUnitValuesFinderService<?>> getCommitteeIdByUnitValuesFinderServiceClassHook() {
+        return IacucCommitteeIdByUnitValuesFinderService.class;
+    }
+    
+    public List<KeyValue> getAssignCmtActionCommitteeIdByUnitKeyValues() {
+        return assignCmtActionCommitteeIdByUnitKeyValues;
+    }
+    
+
+    public List<KeyValue> getModifySubmissionActionCommitteeIdByUnitKeyValues() {
+        return modifySubmissionActionCommitteeIdByUnitKeyValues;
+    }
+
+}

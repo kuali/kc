@@ -276,17 +276,9 @@
 		class="org.kuali.kra.committee.bo.businessLogic.impl.CommitteeResearchAreaBusinessLogicFactoryImpl"
 		scope="prototype" />
 
-	<!--  The committee finder beans are all declared to be of prototype scope; they are stateful beans that we need to have newly instantiated per request 
-		  Although, out-of-the-box, they are all instantiations of the same finder class, their different ids refer to the various GUI contexts in which these finders 
-		  are uses. Thus the bean ids act as placeholders for implementors to customize (if needed) by changing the finder classes used for each context. -->
-    <bean id="submitActionIRBCommitteeIdByUnitValuesFinder" class="org.kuali.kra.committee.lookup.keyvalue.IrbCommitteeIdByUnitValuesFinder" 
-    	scope="prototype" parent="committeeIdByUnitValuesFinderParent" />
-    <bean id="notifyCmtActionIRBCommitteeIdByUnitValuesFinder" class="org.kuali.kra.committee.lookup.keyvalue.IrbCommitteeIdByUnitValuesFinder" 
-    	scope="prototype" parent="committeeIdByUnitValuesFinderParent" />
-    <bean id="notifyIrbActionIRBCommitteeIdByUnitValuesFinder" class="org.kuali.kra.committee.lookup.keyvalue.IrbCommitteeIdByUnitValuesFinder" 
-    	scope="prototype" parent="committeeIdByUnitValuesFinderParent" />
-    <bean id="assignCmtSchedActionIRBCommitteeIdByUnitValuesFinder" class="org.kuali.kra.committee.lookup.keyvalue.IrbCommitteeIdByUnitValuesFinder" 
-    	scope="prototype" parent="committeeIdByUnitValuesFinderParent" />
+	<bean id="irbCommitteeIdByUnitValuesFinderService" class="org.kuali.kra.committee.lookup.keyvalue.IrbCommitteeIdByUnitValuesFinderServiceImpl" 
+    	parent="committeeIdByUnitValuesFinderServiceParent" />
+   
     
 </beans>
 

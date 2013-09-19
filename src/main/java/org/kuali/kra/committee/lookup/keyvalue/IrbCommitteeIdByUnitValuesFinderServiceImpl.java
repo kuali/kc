@@ -17,11 +17,11 @@ package org.kuali.kra.committee.lookup.keyvalue;
 
 import org.kuali.kra.committee.bo.Committee;
 import org.kuali.kra.common.committee.bo.CommitteeType;
-import org.kuali.kra.common.committee.lookup.keyvalue.CommitteeIdByUnitValuesFinderBase;
+import org.kuali.kra.common.committee.lookup.keyvalue.CommitteeIdByUnitValuesFinderServiceImplBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.PermissionConstants;
 
-public class IrbCommitteeIdByUnitValuesFinder extends CommitteeIdByUnitValuesFinderBase<Committee> {
+public class IrbCommitteeIdByUnitValuesFinderServiceImpl extends CommitteeIdByUnitValuesFinderServiceImplBase<Committee> implements IrbCommitteeIdByUnitValuesFinderService {
 
     /**
      * Comment for <code>serialVersionUID</code>

@@ -104,7 +104,7 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.protocolSubmitAction.n
 	                        <c:when test="${KualiForm.actionHelper.showCommittee}">
 	                            <td>	                            		
 				                    <html:select property="actionHelper.protocolSubmitAction.committeeId" onchange="loadScheduleDates('actionHelper.protocolSubmitAction.committeeId', '${docNumber}', 'actionHelper.protocolSubmitAction.scheduleId'); ${displayReviewersInvocation}" >                               
-				                        <c:forEach items="${KualiForm.actionHelper.submitActionCommitteeIdByUnitValuesFinder.keyValues}" var="option">   
+				                        <c:forEach items="${KualiForm.actionHelper.submitActionCommitteeIdByUnitKeyValues}" var="option">   
 				                            <c:choose>                      
 				                                <c:when test="${KualiForm.actionHelper.protocolSubmitAction.committeeId == option.key}">
 				                                    <option value="${option.key}" selected="selected">${option.value}</option>
@@ -121,7 +121,7 @@ ${kfunc:registerEditableProperty(KualiForm, "actionHelper.protocolSubmitAction.n
 	                    	<c:otherwise>
 	                    		 <td colspan="3">
                                     <html:select property="actionHelper.protocolSubmitAction.committeeId" >                               
-                                        <c:forEach items="${KualiForm.actionHelper.submitActionCommitteeIdByUnitValuesFinder.keyValues}" var="option">
+                                        <c:forEach items="${KualiForm.actionHelper.submitActionCommitteeIdByUnitKeyValues}" var="option">
                                             <c:choose>                      
                                                 <c:when test="${KualiForm.actionHelper.protocolSubmitAction.committeeId == option.key}">
                                                     <option value="${option.key}" selected="selected">${option.value}</option>
