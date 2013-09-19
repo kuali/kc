@@ -15,14 +15,6 @@
  */
 package org.kuali.kra.coi.actions;
 
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
@@ -32,26 +24,11 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.coi.CoiActionType;
-import org.kuali.kra.coi.CoiDiscDetail;
-import org.kuali.kra.coi.CoiDisclProject;
-import org.kuali.kra.coi.CoiDisclosure;
-import org.kuali.kra.coi.CoiDisclosureDocument;
-import org.kuali.kra.coi.CoiDisclosureForm;
-import org.kuali.kra.coi.CoiDisclosureHistory;
-import org.kuali.kra.coi.CoiDisclosureStatus;
-import org.kuali.kra.coi.CoiDispositionStatus;
-import org.kuali.kra.coi.CoiReviewStatus;
-import org.kuali.kra.coi.CoiUserRole;
+import org.kuali.kra.coi.*;
 import org.kuali.kra.coi.certification.SubmitDisclosureAction;
 import org.kuali.kra.coi.notesandattachments.attachments.CoiDisclosureAttachment;
 import org.kuali.kra.coi.notesandattachments.notes.CoiDisclosureNotepad;
-import org.kuali.kra.coi.notification.AssignReviewerNotificationRenderer;
-import org.kuali.kra.coi.notification.CoiNotification;
-import org.kuali.kra.coi.notification.CoiNotificationContext;
-import org.kuali.kra.coi.notification.CoiNotificationRenderer;
-import org.kuali.kra.coi.notification.DisclosureCertifiedNotificationRenderer;
-import org.kuali.kra.coi.notification.DisclosureCertifiedNotificationRequestBean;
+import org.kuali.kra.coi.notification.*;
 import org.kuali.kra.common.notification.bo.NotificationTypeRecipient;
 import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.common.notification.web.struts.form.NotificationHelper;
@@ -59,13 +36,15 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.questionnaire.answer.Answer;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
-import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.bo.AdHocRouteRecipient;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
+
+import java.sql.Date;
+import java.util.*;
 
 /**
  * 
@@ -78,11 +57,8 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
     private DocumentService documentService;
     private KcNotificationService kcNotificationService;
     private static final Log LOG = LogFactory.getLog(CoiDisclosureActionServiceImpl.class);
-    private QuestionnaireAnswerService questionnaireAnswerService;
     private static final String MODULE_ITEM_CODE = "moduleItemCode";
     private static final String MODULE_ITEM_KEY = "moduleItemKey";
-    private static final String MODULE_SUB_ITEM_KEY = "moduleSubItemKey";
-    private static final String MODULE_NAMESPACE = "KC-COIDISCLOSURE";
     
     /**
      * copy disc details from previous master disclosure if it exists.
@@ -354,23 +330,6 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
 //            }
         }
     }
-
-    /*
-     * check if disclosure detail is exist in the disclosure being approved
-     * if it is, then there is no need to copy over.
-     */
-    private boolean isDisclosureDetailExist(CoiDisclosure coiDisclosure,CoiDiscDetail coiDiscDetail) {
-        boolean isExist = false;
-        for (CoiDisclProject disclProject : coiDisclosure.getCoiDisclProjects()) {
-            for (CoiDiscDetail discDetail : disclProject.getCoiDiscDetails()) {
-                if (StringUtils.equals(discDetail.getProjectType(), coiDiscDetail.getProjectType()) && StringUtils.equals(discDetail.getProjectIdFk(), coiDiscDetail.getProjectIdFk()) && discDetail.getPersonFinIntDisclosureId().equals(coiDiscDetail.getPersonFinIntDisclosureId())) {
-                    isExist = true;
-                    break;
-                }
-            }
-        }
-        return isExist;
-    }
     
     /*
      * create a disclosure history record for the disclosure being approved
@@ -388,7 +347,7 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
 
     /**
      * This method submits a disclosure to workflow
-     * @param coiDisclosure
+     * @param coiDisclosureDocument
      * @param submitDisclosureAction
      */
      public void submitToWorkflow(CoiDisclosureDocument coiDisclosureDocument, CoiDisclosureForm coiDisclosureForm, SubmitDisclosureAction submitDisclosureAction) {
@@ -442,10 +401,6 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
         return documentService;
     }
 
-    public void setQuestionnaireAnswerService(QuestionnaireAnswerService questionnaireAnswerService) {
-        this.questionnaireAnswerService = questionnaireAnswerService;
-    }
-
     public void updateCoiDisclProjectStatus(CoiDisclosure coiDisclosure, String disclosureStatus) {
         List<CoiDisclProject> disclProjects = coiDisclosure.getCoiDisclProjects();
         
@@ -471,7 +426,7 @@ public class CoiDisclosureActionServiceImpl implements CoiDisclosureActionServic
      * 
      * This method is called to ensure that any approved manual
      * @param masterCoiDisclosure
-     * @param coiDisclosure
+     * @param updateDisclosure
      */
     private void syncCollections(CoiDisclosure masterCoiDisclosure, CoiDisclosure updateDisclosure) {
         syncDisclosureProjects(masterCoiDisclosure, updateDisclosure);

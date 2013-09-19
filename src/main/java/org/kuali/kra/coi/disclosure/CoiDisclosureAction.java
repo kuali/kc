@@ -14,16 +14,6 @@
  * limitations under the License.
  */
 package org.kuali.kra.coi.disclosure;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.beanutils.BeanUtilsBean;
 import org.apache.commons.beanutils.PropertyUtils;
@@ -33,30 +23,17 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.kuali.kra.bo.AttachmentFile;
-import org.kuali.kra.bo.CoeusModule;
-import org.kuali.kra.coi.CoiAction;
-import org.kuali.kra.coi.CoiDisclProject;
-import org.kuali.kra.coi.CoiDisclosure;
-import org.kuali.kra.coi.CoiDisclosureDocument;
-import org.kuali.kra.coi.CoiDisclosureEventType;
-import org.kuali.kra.coi.CoiDisclosureForm;
-import org.kuali.kra.coi.CoiDisclosureStatus;
-import org.kuali.kra.coi.CoiDispositionStatus;
+import org.kuali.kra.coi.*;
 import org.kuali.kra.coi.actions.CoiDisclosureActionService;
 import org.kuali.kra.coi.certification.CertifyDisclosureEvent;
 import org.kuali.kra.coi.certification.SubmitDisclosureAction;
 import org.kuali.kra.coi.notesandattachments.CoiNotesAndAttachmentsHelper;
 import org.kuali.kra.coi.notesandattachments.attachments.CoiDisclosureAttachment;
 import org.kuali.kra.coi.notification.CoiNotification;
-import org.kuali.kra.coi.personfinancialentity.FinancialEntityForm;
-import org.kuali.kra.coi.personfinancialentity.FinancialEntityHelper;
-import org.kuali.kra.coi.personfinancialentity.FinancialEntitySummaryHelper;
-import org.kuali.kra.coi.personfinancialentity.PersonFinIntDisclosure;
 import org.kuali.kra.coi.print.CoiReportType;
 import org.kuali.kra.coi.questionnaire.DisclosureModuleQuestionnaireBean;
 import org.kuali.kra.coi.questionnaire.DisclosureQuestionnaireHelper;
 import org.kuali.kra.coi.service.CoiPrintingService;
-import org.kuali.kra.common.notification.bo.KcNotification;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -66,7 +43,6 @@ import org.kuali.kra.printing.service.WatermarkService;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.questionnaire.QuestionnaireHelperBase;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
-import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.kra.questionnaire.answer.SaveQuestionnaireAnswerEvent;
 import org.kuali.kra.questionnaire.print.QuestionnairePrintingService;
@@ -79,7 +55,6 @@ import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 import org.kuali.rice.krad.document.Document;
@@ -89,6 +64,16 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.MessageMap;
 import org.springframework.util.CollectionUtils;
+
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class CoiDisclosureAction extends CoiAction {
     private static final ActionForward RESPONSE_ALREADY_HANDLED = null;

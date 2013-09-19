@@ -16,7 +16,6 @@
 package org.kuali.kra.coi.notesandattachments;
 
 import org.kuali.kra.coi.notesandattachments.notes.CoiDisclosureNotepad;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 

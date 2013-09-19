@@ -22,7 +22,6 @@ import org.kuali.kra.award.contacts.AwardPerson;
 import org.kuali.kra.iacuc.personnel.IacucProtocolPerson;
 import org.kuali.kra.institutionalproposal.contacts.InstitutionalProposalPerson;
 import org.kuali.kra.irb.personnel.ProtocolPerson;
-import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 
 public interface CoiDisclosureUndisclosedEventsDao {

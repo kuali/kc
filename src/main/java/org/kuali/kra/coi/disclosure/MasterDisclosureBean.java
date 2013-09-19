@@ -15,18 +15,17 @@
  */
 package org.kuali.kra.coi.disclosure;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.CoiDisclosureEventType;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.questionnaire.answer.AnswerHeader;
 import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.util.ObjectUtils;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class MasterDisclosureBean implements Serializable {
 

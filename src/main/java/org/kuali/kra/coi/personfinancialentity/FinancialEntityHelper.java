@@ -15,20 +15,17 @@
  */
 package org.kuali.kra.coi.personfinancialentity;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.AttachmentFile;
-import org.kuali.kra.coi.notesandattachments.attachments.CoiDisclosureAttachment;
 import org.kuali.kra.coi.notesandattachments.attachments.FinancialEntityAttachment;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 
@@ -411,17 +408,5 @@ public class FinancialEntityHelper implements Serializable {
 
     public BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
-    }
-    
-    private void refreshAttachmentReferences(List<FinancialEntityAttachment> attachments) {
-        assert attachments != null : "the attachments were null";
-
-        for (final FinancialEntityAttachment attachment : attachments) {   
-            if (attachment instanceof FinancialEntityAttachment) {
-                attachment.refreshReferenceObject("attachmentFile");   
-            }
-
-        }
-
     }
 }

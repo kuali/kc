@@ -15,22 +15,12 @@
  */
 package org.kuali.kra.coi.print;
 
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.xml.transform.Source;
-
-import org.apache.xmlbeans.XmlObject;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.document.ResearchDocumentBase;
-import org.kuali.kra.institutionalproposal.printing.InstitutionalProposalPrintType;
-import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.print.AbstractPrint;
 import org.kuali.kra.printing.util.PrintingUtils;
-import org.kuali.rice.core.api.config.property.ConfigurationService;
+
+import javax.xml.transform.Source;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class provides the implementation for printing Institute proposal
@@ -43,12 +33,6 @@ import org.kuali.rice.core.api.config.property.ConfigurationService;
  */
 public class CoiCertificationPrint extends AbstractPrint {
 
-	
-	   private ConfigurationService configurationService;
-
-	   public void setConfigurationService(ConfigurationService configurationService) {
-	           this.configurationService = configurationService;
-	       }
 	/**
 	 * This method fetches the XSL style-sheets required for transforming the
 	 * generated XML into PDF.
