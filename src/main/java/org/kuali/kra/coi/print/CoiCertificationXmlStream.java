@@ -15,12 +15,6 @@
  */
 package org.kuali.kra.coi.print;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
 import noNamespace.ApprovedDisclosureDocument;
 import noNamespace.ApprovedDisclosureDocument.ApprovedDisclosure;
 import noNamespace.CoiDisclosureDetailsDocument.CoiDisclosureDetails;
@@ -28,34 +22,29 @@ import noNamespace.DisclosureDocumentsDocument.DisclosureDocuments;
 import noNamespace.DisclosureNotesDocument.DisclosureNotes;
 import noNamespace.DisclosureProjectsDocument.DisclosureProjects;
 import noNamespace.PersonDocument;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.xmlbeans.XmlObject;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.coi.CoiDiscDetail;
 import org.kuali.kra.coi.CoiDisclProject;
 import org.kuali.kra.coi.CoiDisclosure;
-import org.kuali.kra.coi.CoiDisclosureDocument;
 import org.kuali.kra.coi.notesandattachments.attachments.CoiDisclosureAttachment;
 import org.kuali.kra.coi.notesandattachments.notes.CoiDisclosureNotepad;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.xmlstream.XmlStream;
-import org.kuali.kra.questionnaire.print.QuestionnaireXmlStream;
 import org.kuali.kra.service.KcPersonService;
-import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
+import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
+
+import java.util.*;
 
 public class CoiCertificationXmlStream implements XmlStream {
 
     private DateTimeService dateTimeService;
     private BusinessObjectService businessObjectService;
     private DocumentService documentService;
-    
-    private static final Log LOG = LogFactory.getLog(QuestionnaireXmlStream.class);
 
     /**
      * This method generates XML committee report. It uses data passed in

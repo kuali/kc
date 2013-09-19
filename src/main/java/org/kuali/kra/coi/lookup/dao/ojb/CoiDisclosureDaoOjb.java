@@ -27,7 +27,6 @@ import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.CoiDisclosureEventType;
 import org.kuali.kra.coi.CoiDisclosureHistory;
 import org.kuali.kra.coi.CoiDisclosureStatus;
-import org.kuali.kra.coi.CoiReviewStatus;
 import org.kuali.kra.coi.lookup.dao.CoiDisclosureDao;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 import org.kuali.rice.krad.util.OjbCollectionAware;

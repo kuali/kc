@@ -15,16 +15,12 @@
  */
 package org.kuali.kra.coi.disclosure;
 
-import java.util.List;
-
 import org.kuali.kra.SequenceAssociate;
-import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.DisclosureReporter;
 import org.kuali.kra.coi.DisclosureReporterUnit;
-import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.service.KcPersonService;
+
+import java.util.List;
 
 public class DisclosurePerson extends DisclosureReporter implements SequenceAssociate<CoiDisclosure> {
     /**

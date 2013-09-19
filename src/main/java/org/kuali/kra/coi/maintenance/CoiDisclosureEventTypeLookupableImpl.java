@@ -15,9 +15,7 @@
  */
 package org.kuali.kra.coi.maintenance;
 
-import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.rice.kns.lookup.KualiLookupableImpl;
-import org.kuali.rice.kns.lookup.Lookupable;
 
 
 public class CoiDisclosureEventTypeLookupableImpl extends KualiLookupableImpl {

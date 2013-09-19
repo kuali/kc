@@ -15,12 +15,11 @@
  */
 package org.kuali.kra.coi.notification;
 
-import java.util.List;
-
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.CoiUserRole;
 import org.kuali.kra.infrastructure.Constants;
+
+import java.util.List;
 
 public class DisclosureCertifiedNotificationRequestBean extends CoiNotificationRequestBean {
 

@@ -371,17 +371,12 @@
 			<ref bean="printingService" />
 		</property>
         <property name="coiCertificationPrint" ref="coiCertificationPrint" />
-        <property name="businessObjectService">
-                <ref bean="businessObjectService" />
- 		</property>
-                
 	</bean>
 	
      <bean id="coiDisclosureActionService" class="org.kuali.kra.coi.actions.CoiDisclosureActionServiceImpl">
         <property name="businessObjectService" ref="businessObjectService" />
         <property name="documentService" ref="documentService" />
         <property name="kcNotificationService" ref="kcNotificationService" />
-        <property name="questionnaireAnswerService" ref="questionnaireAnswerService" />        
     </bean>
     
     <bean id="coiNotificationRoleQualifierService" class="org.kuali.kra.coi.notification.CoiNotificationRoleQualifierServiceImpl"

@@ -15,17 +15,16 @@
  */
 package org.kuali.kra.coi.auth;
 
-import java.util.Collection;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.coi.CoiDisclosure;
 import org.kuali.kra.coi.CoiUserRole;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.role.RoleService;
+
+import java.util.Collection;
+import java.util.List;
 
 public abstract class CoiDeleteUpdateNotesAttachmentsAuthorizerBase extends CoiDisclosureAuthorizer {
 

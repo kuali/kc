@@ -15,22 +15,19 @@
  */
 package org.kuali.kra.coi.auth;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import org.kuali.kra.authorization.ApplicationTask;
 import org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase;
 import org.kuali.kra.coi.CoiDisclosureDocument;
-import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
-import org.kuali.kra.irb.ProtocolDocument;
-import org.kuali.kra.irb.auth.ProtocolTask;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.util.KRADConstants;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * 

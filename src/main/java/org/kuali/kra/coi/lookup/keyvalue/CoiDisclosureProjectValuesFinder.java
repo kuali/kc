@@ -15,32 +15,17 @@
  */
 package org.kuali.kra.coi.lookup.keyvalue;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.award.home.Award;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.coi.CoiDisclProject;
-import org.kuali.kra.coi.CoiDisclosure;
-import org.kuali.kra.coi.CoiDisclosureDocument;
-import org.kuali.kra.coi.CoiDisclosureEventType;
-import org.kuali.kra.coi.CoiDisclosureForm;
-import org.kuali.kra.coi.Disclosurable;
+import org.kuali.kra.coi.*;
 import org.kuali.kra.coi.disclosure.CoiDisclosureProjectBean;
-import org.kuali.kra.coi.disclosure.CoiDisclosureService;
 import org.kuali.kra.coi.disclosure.MasterDisclosureBean;
-import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
-import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
-import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.util.ObjectUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class CoiDisclosureProjectValuesFinder extends KeyValuesBase {
