@@ -79,7 +79,7 @@
 	                        <c:when test="${KualiForm.actionHelper.showCommittee}">
 	                            <td>
 				                    <html:select property="actionHelper.iacucProtocolSubmitAction.committeeId" onchange="loadScheduleDates('actionHelper.iacucProtocolSubmitAction.committeeId', '${docNumber}', 'actionHelper.iacucProtocolSubmitAction.scheduleId');" >                               
-				                        <c:forEach items="${KualiForm.actionHelper.submitActionCommitteeIdByUnitValuesFinder.keyValues}" var="option">   
+				                        <c:forEach items="${KualiForm.actionHelper.submitActionCommitteeIdByUnitKeyValues}" var="option">   
 				                            <c:choose>                      
 				                                <c:when test="${KualiForm.actionHelper.iacucProtocolSubmitAction.committeeId == option.key}">
 				                                    <option value="${option.key}" selected="selected">${option.value}</option>
@@ -96,7 +96,7 @@
 	                    	<c:otherwise>
 	                    		 <td colspan="3">
                                     <html:select property="actionHelper.iacucProtocolSubmitAction.committeeId" >                               
-                                        <c:forEach items="${KualiForm.actionHelper.submitActionCommitteeIdByUnitValuesFinder.keyValues}" var="option">
+                                        <c:forEach items="${KualiForm.actionHelper.submitActionCommitteeIdByUnitKeyValues}" var="option">
                                             <c:choose>                      
                                                 <c:when test="${KualiForm.actionHelper.iacucProtocolSubmitAction.committeeId == option.key}">
                                                     <option value="${option.key}" selected="selected">${option.value}</option>
