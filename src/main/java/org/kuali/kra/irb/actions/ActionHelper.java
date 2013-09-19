@@ -18,6 +18,7 @@ package org.kuali.kra.irb.actions;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -27,11 +28,11 @@ import java.util.Map;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.CoeusModule;
-import org.kuali.kra.committee.lookup.keyvalue.IrbCommitteeIdByUnitValuesFinder;
+import org.kuali.kra.committee.lookup.keyvalue.IrbCommitteeIdByUnitValuesFinderService;
 import org.kuali.kra.committee.service.CommitteeScheduleService;
-import org.kuali.kra.committee.service.CommitteeService;
+import org.kuali.kra.common.committee.bo.CommitteeBase;
+import org.kuali.kra.common.committee.lookup.keyvalue.CommitteeIdByUnitValuesFinderService;
 import org.kuali.kra.common.committee.service.CommitteeScheduleServiceBase;
-import org.kuali.kra.common.committee.service.CommitteeServiceBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -76,7 +77,6 @@ import org.kuali.kra.irb.actions.withdraw.ProtocolWithdrawBean;
 import org.kuali.kra.irb.auth.GenericProtocolAuthorizer;
 import org.kuali.kra.irb.auth.ProtocolTask;
 import org.kuali.kra.irb.correspondence.IrbProtocolCorrespondenceAuthorizationService;
-import org.kuali.kra.irb.correspondence.IrbProtocolCorrespondenceAuthorizationServiceImpl;
 import org.kuali.kra.irb.questionnaire.IrbSubmissionQuestionnaireHelper;
 import org.kuali.kra.irb.questionnaire.ProtocolModuleQuestionnaireBean;
 import org.kuali.kra.meeting.CommitteeScheduleMinute;
@@ -97,6 +97,7 @@ import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 import org.kuali.kra.rules.ErrorReporter;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.util.DateUtils;
+import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
@@ -105,11 +106,6 @@ import org.kuali.rice.krad.util.GlobalVariables;
  */
 @SuppressWarnings("serial")
 public class ActionHelper extends ActionHelperBase {
-
-    private static final String ASSIGN_CMT_SCHED_ACTION_COMMITTEE_ID_BY_UNIT_VALUES_FINDER_ID = "assignCmtSchedActionIRBCommitteeIdByUnitValuesFinder";
-    private static final String NOTIFY_IRB_ACTION_COMMITTEE_ID_BY_UNIT_VALUES_FINDER_ID = "notifyIrbActionIRBCommitteeIdByUnitValuesFinder";
-    private static final String NOTIFY_CMT_ACTION_COMMITTEE_ID_BY_UNIT_VALUES_FINDER_ID = "notifyCmtActionIRBCommitteeIdByUnitValuesFinder";
-    private static final String SUBMIT_ACTION_COMMITTEE_ID_BY_UNIT_VALUES_FINDER_ID = "submitActionIRBCommitteeIdByUnitValuesFinder";
     
     private static final long ONE_DAY = 1000L * 60L * 60L * 24L;
     private static final String NAMESPACE = "KC-UNT";
@@ -167,8 +163,8 @@ public class ActionHelper extends ActionHelperBase {
     private ProtocolNotifyIrbBean protocolNotifyIrbBean;
     private ProtocolAssignCmtSchedBean assignCmtSchedBean;
     
-    protected IrbCommitteeIdByUnitValuesFinder assignCmtSchedActionCommitteeIdByUnitValuesFinder;
-    protected IrbCommitteeIdByUnitValuesFinder notifyIrbActionCommitteeIdByUnitValuesFinder;
+    private List<KeyValue> assignCmtSchedActionCommitteeIdByUnitKeyValues;
+    private List<KeyValue> notifyIrbActionCommitteeIdByUnitKeyValues;
 
     private ProtocolAssignReviewersBean protocolAssignReviewersBean;
     private ProtocolGrantExemptionBean protocolGrantExemptionBean;
@@ -363,6 +359,7 @@ public class ActionHelper extends ActionHelperBase {
         }
     }
 
+    @SuppressWarnings("unchecked")
     private UndoLastActionBean createUndoLastActionBean(Protocol protocol) throws Exception {
         undoLastActionBean = new UndoLastActionBean(this);
         undoLastActionBean.setProtocol(protocol);
@@ -509,38 +506,30 @@ public class ActionHelper extends ActionHelperBase {
     private void prepareNotifyIrbActionView() {
         canNotifyIrb = hasNotifyIrbPermission();
         canNotifyIrbUnavailable = hasNotifyIrbUnavailablePermission();
-        notifyIrbActionCommitteeIdByUnitValuesFinder = getNotifyIrbActionCommitteeIdByUnitValuesFinderInstance();
-        if(canNotifyIrb && isShowCommittee()) {
-            // set the lead unit of the protocol and the doc route status on the committee finder
-            notifyIrbActionCommitteeIdByUnitValuesFinder.setCurrentCommitteeId(protocolNotifyIrbBean.getCommitteeId());
-            notifyIrbActionCommitteeIdByUnitValuesFinder.setDocRouteStatus(getDocRouteStatus());
-            notifyIrbActionCommitteeIdByUnitValuesFinder.initializeKeyValueList();
+        // Initialize the notify irb key values (expensive call) only after checking the conditions for the display of the committee selection
+        if(canNotifyIrb && isShowCommittee()) {            
+            // pass in the current committee id and the doc route status to the committee finder service
+            Collection<? extends CommitteeBase<?, ?, ?>> committees = 
+                getCommitteeIdByUnitValuesFinderService().getAssignmentCommittees(null, getDocRouteStatus(), protocolNotifyIrbBean.getCommitteeId());
+            notifyIrbActionCommitteeIdByUnitKeyValues = getKeyValuesForCommitteeSelection(committees);
         }        
     }
 
-    
-    protected IrbCommitteeIdByUnitValuesFinder getNotifyIrbActionCommitteeIdByUnitValuesFinderInstance() {
-        return KraServiceLocator.getService(NOTIFY_IRB_ACTION_COMMITTEE_ID_BY_UNIT_VALUES_FINDER_ID);
-    }
 
     private void prepareAssignCommitteeScheduleActionView() {
         assignCmtSchedBean.prepareView();
         canAssignCmtSched = hasAssignCmtSchedPermission();
         canAssignCmtSchedUnavailable = hasAssignCmtSchedUnavailablePermission();
-        assignCmtSchedActionCommitteeIdByUnitValuesFinder = getAssignCmtSchedActionCommitteeIdByUnitValuesFinderInstance();
+        // Initialize the assign committee key values (expensive call) only after checking the conditions for the display of the committee selection
         if(canAssignCmtSched) {
-            // set the lead unit of the protocol and the doc route status on the committee finder
-            assignCmtSchedActionCommitteeIdByUnitValuesFinder.setCurrentCommitteeId(assignCmtSchedBean.getCommitteeId());
-            assignCmtSchedActionCommitteeIdByUnitValuesFinder.setDocRouteStatus(getDocRouteStatus());
-            assignCmtSchedActionCommitteeIdByUnitValuesFinder.initializeKeyValueList();
+            // pass in the current committee id and the doc route status to the committee finder service
+            Collection<? extends CommitteeBase<?, ?, ?>> committees = 
+                getCommitteeIdByUnitValuesFinderService().getAssignmentCommittees(null, getDocRouteStatus(), assignCmtSchedBean.getCommitteeId());
+            assignCmtSchedActionCommitteeIdByUnitKeyValues = getKeyValuesForCommitteeSelection(committees);
         }
     }    
     
-
-    protected IrbCommitteeIdByUnitValuesFinder getAssignCmtSchedActionCommitteeIdByUnitValuesFinderInstance() {
-        return KraServiceLocator.getService(ASSIGN_CMT_SCHED_ACTION_COMMITTEE_ID_BY_UNIT_VALUES_FINDER_ID);
-    }
-
+    
     /**
      * Refreshes the comments for all the beans from the database.  Use sparingly since this will erase non-persisted comments.
      */
@@ -1622,11 +1611,6 @@ public class ActionHelper extends ActionHelperBase {
     }
 
     @Override
-    protected Class<? extends CommitteeServiceBase> getCommitteeServiceClassHook() {
-        return CommitteeService.class;
-    }
-
-    @Override
     protected Class<? extends org.kuali.kra.protocol.actions.followup.FollowupActionService<?>> getFollowupActionServiceClassHook() {
         return FollowupActionService.class;
     }
@@ -1670,27 +1654,10 @@ public class ActionHelper extends ActionHelperBase {
     }
 
     @Override
-    protected IrbCommitteeIdByUnitValuesFinder getSubmitActionCommitteeIdByUnitValuesFinderInstanceHook() {
-        return KraServiceLocator.getService(SUBMIT_ACTION_COMMITTEE_ID_BY_UNIT_VALUES_FINDER_ID);
-    }
-    
-    @Override
-    protected IrbCommitteeIdByUnitValuesFinder getNotifyCmtActionCommitteeIdByUnitValuesFinderInstanceHook() {
-        return KraServiceLocator.getService(NOTIFY_CMT_ACTION_COMMITTEE_ID_BY_UNIT_VALUES_FINDER_ID);
-    }
-
-    @Override
     protected void initializeSubmissionConstraintHook() {
         submissionConstraint = getParameterValue(Constants.PARAMETER_IRB_COMM_SELECTION_DURING_SUBMISSION);        
     }
-    
-    public IrbCommitteeIdByUnitValuesFinder getAssignCmtSchedActionCommitteeIdByUnitValuesFinder() {
-        return assignCmtSchedActionCommitteeIdByUnitValuesFinder;
-    }    
-
-    public IrbCommitteeIdByUnitValuesFinder getNotifyIrbActionCommitteeIdByUnitValuesFinder() {
-        return notifyIrbActionCommitteeIdByUnitValuesFinder;
-    }
+   
 
     @Override
     protected ProtocolTaskBase getNewProtocolTaskInstanceHook(String taskName) {
@@ -1701,5 +1668,19 @@ public class ActionHelper extends ActionHelperBase {
     protected Class<? extends ProtocolCorrespondenceAuthorizationService> getProtocolCorrespondenceAuthorizationServiceClassHook() {
         return IrbProtocolCorrespondenceAuthorizationService.class;
     }
+
+    @Override
+    protected Class<? extends CommitteeIdByUnitValuesFinderService<?>> getCommitteeIdByUnitValuesFinderServiceClassHook() {
+        return IrbCommitteeIdByUnitValuesFinderService.class;
+    }
+    
+    public List<KeyValue> getNotifyIrbActionCommitteeIdByUnitKeyValues() {
+        return notifyIrbActionCommitteeIdByUnitKeyValues;
+    }
+    
+    public List<KeyValue> getAssignCmtSchedActionCommitteeIdByUnitKeyValues() {
+        return assignCmtSchedActionCommitteeIdByUnitKeyValues;
+    }
+
  
 }

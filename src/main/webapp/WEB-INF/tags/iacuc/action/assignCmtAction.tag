@@ -31,7 +31,7 @@
 	                </th>
 	                <td style="width : 150px">
                         <html:select property="actionHelper.protocolAssignCmtBean.committeeId" >                               
-                            <c:forEach items="${KualiForm.actionHelper.assignCmtActionCommitteeIdByUnitValuesFinder.keyValues}" var="option" >
+                            <c:forEach items="${KualiForm.actionHelper.assignCmtActionCommitteeIdByUnitKeyValues}" var="option" >
                                 <c:choose>                      
                                     <c:when test="${KualiForm.actionHelper.protocolAssignCmtBean.committeeId == option.key}">
                                         <option value="${option.key}" selected="selected">${option.value}</option>

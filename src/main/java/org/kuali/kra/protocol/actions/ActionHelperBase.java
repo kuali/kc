@@ -29,16 +29,18 @@ import java.util.Map;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.CoeusSubModule;
+import org.kuali.kra.common.committee.bo.CommitteeBase;
 import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
-import org.kuali.kra.common.committee.lookup.keyvalue.CommitteeIdByUnitValuesFinderBase;
+import org.kuali.kra.common.committee.lookup.keyvalue.CommitteeIdByUnitValuesFinderService;
 import org.kuali.kra.common.committee.meeting.CommitteeScheduleMinuteBase;
 import org.kuali.kra.common.committee.meeting.ProtocolVoteAbstaineeBase;
 import org.kuali.kra.common.committee.meeting.ProtocolVoteRecusedBase;
 import org.kuali.kra.common.committee.service.CommitteeScheduleServiceBase;
-import org.kuali.kra.common.committee.service.CommitteeServiceBase;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
+import org.kuali.kra.lookup.keyvalue.KeyValueComparator;
+import org.kuali.kra.lookup.keyvalue.PrefixValuesFinder;
 import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolDocumentBase;
 import org.kuali.kra.protocol.ProtocolFormBase;
@@ -83,6 +85,8 @@ import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.kra.util.DateUtils;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.document.DocumentStatus;
@@ -201,7 +205,7 @@ public abstract class ActionHelperBase implements Serializable {
     
     
     protected ProtocolSubmitAction protocolSubmitAction;    
-    protected CommitteeIdByUnitValuesFinderBase<?> submitActionCommitteeIdByUnitValuesFinder;
+    protected List<KeyValue> submitActionCommitteeIdByUnitKeyValues;
 
     protected ProtocolWithdrawBean protocolWithdrawBean;
     protected ProtocolRequestBean protocolCloseRequestBean;
@@ -209,7 +213,7 @@ public abstract class ActionHelperBase implements Serializable {
     protected ProtocolRequestBean protocolTerminateRequestBean;
     
     protected ProtocolNotifyCommitteeBean protocolNotifyCommitteeBean;
-    private CommitteeIdByUnitValuesFinderBase<?> notifyCmtActionCommitteeIdByUnitValuesFinder;
+    private List<KeyValue> notifyCmtActionCommitteeIdByUnitKeyValues;
     
     protected ProtocolAmendmentBean protocolAmendmentBean;
     protected ProtocolAmendmentBean protocolRenewAmendmentBean;
@@ -262,6 +266,7 @@ public abstract class ActionHelperBase implements Serializable {
     
     // additional properties for Submission Details
     protected ProtocolSubmissionBase selectedSubmission;
+    @SuppressWarnings("rawtypes")
     protected List<CommitteeScheduleMinuteBase> reviewComments;        
     protected List<? extends ProtocolReviewAttachmentBase> reviewAttachments;        
     protected List<ProtocolVoteAbstaineeBase> abstainees;        
@@ -275,6 +280,7 @@ public abstract class ActionHelperBase implements Serializable {
     protected int currentSubmissionNumber;
     protected String renewalSummary;
 
+    @SuppressWarnings("rawtypes")
     protected transient CommitteeScheduleServiceBase committeeScheduleService;
     protected transient KcPersonService kcPersonService;
     protected transient KraAuthorizationService kraAuthorizationService;
@@ -677,39 +683,51 @@ public abstract class ActionHelperBase implements Serializable {
             
     protected abstract void initializeSubmissionConstraintHook();
 
+    
+    protected List<KeyValue> getKeyValuesForCommitteeSelection(Collection<? extends CommitteeBase<?, ?, ?>> committees) {
+        List<KeyValue> retVal = new ArrayList<KeyValue>();
+        for(CommitteeBase<?, ?, ?> committee : committees) {
+            retVal.add(new ConcreteKeyValue(committee.getCommitteeId(), committee.getCommitteeName()));
+        }
+        Collections.sort(retVal, new KeyValueComparator());
+        retVal.add(0, new ConcreteKeyValue(PrefixValuesFinder.getPrefixKey(), PrefixValuesFinder.getDefaultPrefixValue()));                
+        return retVal;
+    }
+
 
     private void prepareProtocolSubmitActionView() {        
         canSubmitProtocol = hasSubmitProtocolPermission();
         canSubmitProtocolUnavailable = hasSubmitProtocolUnavailablePermission();
         protocolSubmitAction.prepareView();
-        submitActionCommitteeIdByUnitValuesFinder = getSubmitActionCommitteeIdByUnitValuesFinderInstanceHook();
-        // Initialize the submit committee finder (expensive call) only after checking the conditions for the display of the committee selection
+        // Initialize the submit committee key values (expensive call) only after checking the conditions for the display of the committee selection
         if(canSubmitProtocol && isShowCommittee()) {            
-            // set the lead unit of the protocol and the doc route status on the committee finder
-            submitActionCommitteeIdByUnitValuesFinder.setProtocolLeadUnit(getProtocol().getLeadUnitNumber());
-            submitActionCommitteeIdByUnitValuesFinder.setDocRouteStatus(getDocRouteStatus());
-            submitActionCommitteeIdByUnitValuesFinder.initializeKeyValueList();
+            // pass in the lead unit of the protocol and the doc route status to the committee finder service
+            Collection<? extends CommitteeBase<?, ?, ?>> committees = 
+                getCommitteeIdByUnitValuesFinderService().getAssignmentCommittees(getProtocol().getLeadUnitNumber(), getDocRouteStatus(), null);
+            submitActionCommitteeIdByUnitKeyValues = getKeyValuesForCommitteeSelection(committees);
         }
     }
     
+    protected boolean hasSubmitProtocolUnavailablePermission() {
+        ProtocolTaskBase task = getNewSubmitProtocolUnavailableTaskInstanceHook(getProtocol());
+        return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
+    }
+      
+
     private void prepareNotifyCommitteeActionView() {
         protocolNotifyCommitteeBean.prepareView();
         canNotifyCommittee = hasNotifyCommitteePermission();
         canNotifyCommitteeUnavailable = hasNotifyCommitteeUnavailablePermission();
-        notifyCmtActionCommitteeIdByUnitValuesFinder = getNotifyCmtActionCommitteeIdByUnitValuesFinderInstanceHook();
-        // Initialize the committee finder only after checking the conditions for the display of the committee selection
+        // Initialize the notify cmt key values only after checking the conditions for the display of the committee selection
         if(canNotifyCommittee && isShowCommittee()) {            
-            // set the lead unit of the protocol and the doc route status on the committee finder
-            notifyCmtActionCommitteeIdByUnitValuesFinder.setCurrentCommitteeId(protocolNotifyCommitteeBean.getCommitteeId());
-            notifyCmtActionCommitteeIdByUnitValuesFinder.setDocRouteStatus(getDocRouteStatus());
-            notifyCmtActionCommitteeIdByUnitValuesFinder.initializeKeyValueList();
+            // pass in the current committee id and the doc route status to the committee finder service
+            Collection<? extends CommitteeBase<?, ?, ?>> committees = 
+                getCommitteeIdByUnitValuesFinderService().getAssignmentCommittees(null, getDocRouteStatus(), protocolNotifyCommitteeBean.getCommitteeId());
+            notifyCmtActionCommitteeIdByUnitKeyValues = getKeyValuesForCommitteeSelection(committees);
         }
     }
-    
-    protected abstract CommitteeIdByUnitValuesFinderBase<?> getSubmitActionCommitteeIdByUnitValuesFinderInstanceHook();
-    protected abstract CommitteeIdByUnitValuesFinderBase<?> getNotifyCmtActionCommitteeIdByUnitValuesFinderInstanceHook();
-    
-    private boolean hasNotifyCommitteePermission() {
+       
+    protected boolean hasNotifyCommitteePermission() {
         ProtocolTaskBase task = getNewNotifyCommitteeTaskInstanceHook(getProtocol());
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
@@ -928,11 +946,7 @@ public abstract class ActionHelperBase implements Serializable {
     
     protected abstract ProtocolTaskBase getNewSubmitProtocolTaskInstanceHook(ProtocolBase protocol);
     
-    protected boolean hasSubmitProtocolUnavailablePermission() {
-      ProtocolTaskBase task = getNewSubmitProtocolUnavailableTaskInstanceHook(getProtocol());
-      return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
-    }
-    
+  
     protected abstract ProtocolTaskBase getNewSubmitProtocolUnavailableTaskInstanceHook(ProtocolBase protocol);
 
     
@@ -1821,12 +1835,6 @@ public abstract class ActionHelperBase implements Serializable {
         
         return protocolSubmission;
     }
-  
-    private CommitteeServiceBase getCommitteeService() {
-        return KraServiceLocator.getService(getCommitteeServiceClassHook());
-    }
-
-    protected abstract Class<? extends CommitteeServiceBase> getCommitteeServiceClassHook();
 
 
     public List<CommitteeScheduleMinuteBase> getReviewComments() {
@@ -2488,8 +2496,7 @@ public abstract class ActionHelperBase implements Serializable {
     
     /**
      * 
-     * This method returns the number of years to add for the default expiration date. 
-     * TODO SEE BACKFIT NOTES
+     * This method returns the number of years to add for the default expiration date.
      * @return
      */
     public int getDefaultExpirationDateDifference() {
@@ -2562,13 +2569,19 @@ public abstract class ActionHelperBase implements Serializable {
         return onlineReviewsMap;
     }    
 
-    public CommitteeIdByUnitValuesFinderBase<?> getSubmitActionCommitteeIdByUnitValuesFinder() {
-        return submitActionCommitteeIdByUnitValuesFinder;
+    protected CommitteeIdByUnitValuesFinderService<?> getCommitteeIdByUnitValuesFinderService() {
+        return KraServiceLocator.getService(getCommitteeIdByUnitValuesFinderServiceClassHook());
     }
     
-    public CommitteeIdByUnitValuesFinderBase<?> getNotifyCmtActionCommitteeIdByUnitValuesFinder() {
-        return notifyCmtActionCommitteeIdByUnitValuesFinder;
+    protected abstract Class<? extends CommitteeIdByUnitValuesFinderService<?>> getCommitteeIdByUnitValuesFinderServiceClassHook();
+    
+    public List<KeyValue> getSubmitActionCommitteeIdByUnitKeyValues() {
+        return submitActionCommitteeIdByUnitKeyValues;
     }
+    
+    public List<KeyValue> getNotifyCmtActionCommitteeIdByUnitKeyValues() {
+        return notifyCmtActionCommitteeIdByUnitKeyValues;
+    }    
 
     private ProtocolCorrespondenceAuthorizationService getProtocolCorrespondenceAuthorizationService() {
         return KraServiceLocator.getService(getProtocolCorrespondenceAuthorizationServiceClassHook());
