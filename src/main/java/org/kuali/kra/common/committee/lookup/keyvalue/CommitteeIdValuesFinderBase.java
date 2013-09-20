@@ -64,10 +64,7 @@ public abstract class CommitteeIdValuesFinderBase extends KeyValuesBase {
      */
     public List<CommitteeBase> getActiveCommittees() {
         ArrayList<CommitteeBase> returnCommitteeList = new ArrayList<CommitteeBase>();
-        
-// TODO *********commented the code below during IACUC refactoring*********         
-//        Collection<CommonCommittee> committees = this.getBusinessObjectService().findAll(CommonCommittee.class);
-        
+
         Collection<? extends CommitteeBase> committees = this.getBusinessObjectService().findAll(getCommitteeBOClassHook());
         // sort and iterate through to get only the latest instances
         if (CollectionUtils.isNotEmpty(committees)) {

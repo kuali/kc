@@ -99,10 +99,7 @@ public abstract class CommitteeMembershipActionBase extends CommitteeActionBase 
         boolean rulePassed = applyRules(new AddCommitteeMembershipEvent(Constants.EMPTY_STRING, committeeForm.getCommitteeDocument(), newCommitteeMembership));
         if (rulePassed) {
             getCommitteeMembershipService().addCommitteeMembership(committeeForm.getCommitteeDocument().getCommittee(), newCommitteeMembership);
-            
-// TODO *********commented the code below during IACUC refactoring*********             
-//            committeeForm.getCommitteeHelper().setNewCommitteeMembership(new CommitteeMembershipBase());
-            
+
             committeeForm.getCommitteeHelper().setNewCommitteeMembership(getNewCommitteeMembershipInstanceHook());
         }
         
@@ -150,10 +147,7 @@ public abstract class CommitteeMembershipActionBase extends CommitteeActionBase 
             HttpServletResponse response) throws Exception {
         CommitteeFormBase committeeForm = (CommitteeFormBase) form;
         CommitteeHelperBase committeeHelper = committeeForm.getCommitteeHelper();
-        
-// TODO *********commented the code below during IACUC refactoring*********         
-//        committeeHelper.setNewCommitteeMembership(new CommitteeMembershipBase());
-        
+
         committeeHelper.setNewCommitteeMembership(getNewCommitteeMembershipInstanceHook());
         return mapping.findForward(MAPPING_BASIC);
     }
@@ -244,9 +238,7 @@ public abstract class CommitteeMembershipActionBase extends CommitteeActionBase 
             getCommitteeMembershipService().addCommitteeMembershipExpertise(committeeMembership, (Collection) selectedBOs);
             // finally do validation and error reporting for inactive research areas
             (getNewCommitteeDocumentRuleInstanceHook()).checkResearchAreasForCommitteeMember(committeeMembership, membershipIndex);
-            
-// TODO *********commented the code below during IACUC refactoring*********             
-//            (new CommitteeDocumentRuleBase()).checkResearchAreasForCommitteeMember(committeeMembership, membershipIndex);
+
         }
     }
     
@@ -273,9 +265,6 @@ public abstract class CommitteeMembershipActionBase extends CommitteeActionBase 
         // finally do validation and error reporting for inactive research areas
         (getNewCommitteeDocumentRuleInstanceHook()).checkResearchAreasForCommitteeMember(committee.getCommitteeMemberships().get(membershipIndex), membershipIndex);
 
-// TODO *********commented the code below during IACUC refactoring*********         
-//        (new CommitteeDocumentRuleBase()).checkResearchAreasForCommitteeMember(committee.getCommitteeMemberships().get(membershipIndex), membershipIndex);
-        
         return mapping.findForward(MAPPING_BASIC);
     }
     
@@ -284,10 +273,7 @@ public abstract class CommitteeMembershipActionBase extends CommitteeActionBase 
      * @return CommitteeMembershipService
      */
     private CommitteeMembershipServiceBase getCommitteeMembershipService() {
-        
-// TODO *********commented the code below during IACUC refactoring*********         
-//        return KraServiceLocator.getService(CommonCommitteeMembershipService.class);
-        
+
         return KraServiceLocator.getService(getCommitteeMembershipServiceClassHook());
     }
 

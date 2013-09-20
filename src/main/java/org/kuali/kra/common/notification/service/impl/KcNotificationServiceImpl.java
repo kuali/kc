@@ -15,17 +15,6 @@
  */
 package org.kuali.kra.common.notification.service.impl;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
@@ -46,13 +35,7 @@ import org.kuali.kra.service.RolodexService;
 import org.kuali.kra.util.EmailAttachment;
 import org.kuali.rice.core.api.membership.MemberType;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.ken.api.notification.Notification;
-import org.kuali.rice.ken.api.notification.NotificationChannel;
-import org.kuali.rice.ken.api.notification.NotificationContentType;
-import org.kuali.rice.ken.api.notification.NotificationPriority;
-import org.kuali.rice.ken.api.notification.NotificationProducer;
-import org.kuali.rice.ken.api.notification.NotificationRecipient;
-import org.kuali.rice.ken.api.notification.NotificationSender;
+import org.kuali.rice.ken.api.notification.*;
 import org.kuali.rice.ken.api.service.SendNotificationService;
 import org.kuali.rice.ken.util.NotificationConstants;
 import org.kuali.rice.kim.api.KimConstants;
@@ -61,7 +44,8 @@ import org.kuali.rice.kim.api.identity.entity.Entity;
 import org.kuali.rice.kim.api.identity.type.EntityTypeContactInfo;
 import org.kuali.rice.kim.api.role.RoleService;
 import org.kuali.rice.krad.service.BusinessObjectService;
-import org.springframework.util.ObjectUtils;
+
+import java.util.*;
 
 /**
  * Defines methods for creating and sending KC Notifications.
@@ -167,8 +151,6 @@ public class KcNotificationServiceImpl implements KcNotificationService {
     
     /**
      * {@inheritDoc}
-     * @see org.kuali.kra.common.notification.service.KcNotificationService#sendNotification(org.kuali.kra.common.notification.bo.KcNotification, 
-     *      org.kuali.kra.common.notification.NotificationContext)
      */
     public void sendNotification(NotificationContext context) {
         KcNotification notification = createNotificationObject(context);
@@ -670,17 +652,5 @@ public class KcNotificationServiceImpl implements KcNotificationService {
 
     public void setKcEmailService(KcEmailService kcEmailService) {
         this.kcEmailService = kcEmailService;
-    }
-
-    public KcNotification copy(KcNotification oldNotification) {
-        KcNotification newNotification = new KcNotification();
-        newNotification.setNotificationId(oldNotification.getNotificationId());
-        newNotification.setNotificationTypeId(oldNotification.getNotificationTypeId());
-        newNotification.setDocumentNumber(oldNotification.getDocumentNumber());
-        newNotification.setRecipients(oldNotification.getRecipients());
-        newNotification.setSubject(oldNotification.getSubject());
-        newNotification.setMessage(oldNotification.getMessage());
-        newNotification.setNotificationType(oldNotification.getNotificationType());
-        return newNotification;
     }
 }

@@ -42,10 +42,7 @@ public abstract class CommitteeActionGenerateBatchCorrespondenceEventBase extend
     @SuppressWarnings("unchecked")
     @Override
     public BusinessRuleInterface getRule() {
-        
-// TODO *********commented the code below during IACUC refactoring*********         
-//        return new CommitteeActionGenerateBatchCorrespondenceRuleBase();
-        
+
         return getNewCommitteeActionGenerateBatchCorrespondenceRuleInstanceHook();
     }
 

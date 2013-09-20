@@ -79,10 +79,7 @@ public abstract class CommitteeActionBase extends KraTransactionalDocumentAction
         
         CommitteeFormBase committeeForm = (CommitteeFormBase) form;
         CommitteeDocumentBase doc = committeeForm.getCommitteeDocument();
-        
-// TODO *********commented the code below during IACUC refactoring*********         
-//        CommitteeTaskBase task = new CommitteeTaskBase(TaskName.MODIFY_COMMITTEE, doc.getCommittee());
-        
+
         CommitteeTaskBase task = getNewCommitteeTaskInstanceHook(TaskName.MODIFY_COMMITTEE, doc.getCommittee());
         if (isAuthorized(task)) {
             if (isValidSave(committeeForm)) {
@@ -326,10 +323,7 @@ public abstract class CommitteeActionBase extends KraTransactionalDocumentAction
         ActionForward forward = super.route(mapping, form, request, response);
         
         String routeHeaderId = ((CommitteeFormBase) form).getCommitteeDocument().getDocumentNumber();
-        
-// TODO *********commented the code below during IACUC refactoring*********         
-//        String returnLocation = buildActionUrl(routeHeaderId, "committeeActions", "CommonCommitteeDocument");
-        
+
         String returnLocation = buildActionUrl(routeHeaderId, "committeeActions", getCommitteeDocumentTypeSimpleNameHook());
         
         //ActionForward basicForward = mapping.findForward(KRADConstants.MAPPING_PORTAL);
@@ -345,10 +339,7 @@ public abstract class CommitteeActionBase extends KraTransactionalDocumentAction
             HttpServletResponse response) throws Exception {
         ActionForward forward = super.blanketApprove(mapping, form, request, response);
         String routeHeaderId = ((CommitteeFormBase) form).getCommitteeDocument().getDocumentNumber();
-        
-// TODO *********commented the code below during IACUC refactoring*********         
-//        String returnLocation = buildActionUrl(routeHeaderId, "committeeActions", "CommonCommitteeDocument");
-      
+
         String returnLocation = buildActionUrl(routeHeaderId, "committeeActions", getCommitteeDocumentTypeSimpleNameHook());
               
         //ActionForward basicForward = mapping.findForward(KRADConstants.MAPPING_PORTAL);

@@ -26,18 +26,6 @@ public abstract class CommitteeTaskBase<CMT extends CommitteeBase<CMT, ?, ?>> ex
     
     private CMT committee;
     
-// TODO *********commented the code below during IACUC refactoring*********     
-//    /**
-//     * Constructs a CommitteeTaskBase.
-//     * @param taskName the name of the task
-//     * @param committee the CommitteeBase
-//     */
-//    public CommitteeTaskBase(String taskName, CommonCommittee committee) {
-//        super(TaskGroupName.IACUC_COMMITTEE, taskName);
-//        this.committee = committee;
-//    }
-
-    
     /**
      * Constructs a CommitteeTaskBase.
      * @param taskGroupName the name of the task group

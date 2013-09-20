@@ -83,9 +83,6 @@ public abstract class CommitteeBase<CMT extends CommitteeBase<CMT, CD, CS>,
         setCommitteeResearchAreas(new ArrayList<CommitteeResearchAreaBase>());
         setCommitteeMemberships(new ArrayList<CommitteeMembershipBase>());
         setCommitteeSchedules(new ArrayList<CS>());
-// TODO *********commented the code below during IACUC refactoring********* 
-//        setCommitteeTypeCode(CommitteeType.IACUC_TYPE_CODE);
-        
         setCommitteeTypeCode(getProtocolCommitteeTypeCodehook());
     }
     
@@ -395,10 +392,6 @@ public abstract class CommitteeBase<CMT extends CommitteeBase<CMT, CD, CS>,
      */
     public List<String> getRoleNames() {
         List<String> roleNames = new ArrayList<String>();
-
-// TODO *********commented the code below during IACUC refactoring********* 
-//        roleNames.add(RoleConstants.IACUC_ADMINISTRATOR);
-//        roleNames.add(RoleConstants.IACUC_PROTOCOL_REVIEWER);
         
         roleNames.add(getAdminRoleHook());
         roleNames.add(getProtocolReviewerRoleHook());
@@ -412,9 +405,6 @@ public abstract class CommitteeBase<CMT extends CommitteeBase<CMT, CD, CS>,
     
     public String getNamespace() {
         return getModuleNamespaceCodeHook();
-        
-// TODO *********commented the code below during IACUC refactoring*********         
-//        return Constants.MODULE_NAMESPACE_IACUC;
     }
 
     protected abstract String getModuleNamespaceCodeHook();

@@ -19,7 +19,6 @@ import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionTypeBase;
 
 public class IacucProtocolSubmissionType extends ProtocolSubmissionTypeBase {
 
-// TODO *********commented the code below during IACUC refactoring*********     
     public static final String INITIAL_SUBMISSION = "100";
 
     public static final String RESPONSE_TO_PREV_IACUC_NOTIFICATION = "101";

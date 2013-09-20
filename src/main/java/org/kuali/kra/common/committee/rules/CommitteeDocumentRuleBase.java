@@ -223,11 +223,7 @@ public abstract class CommitteeDocumentRuleBase extends ResearchDocumentRuleBase
     }
     
     private List<CommitteeDocumentBase> getCommitteesDocumentsFromWorkflow(String docNumber) throws WorkflowException {
-        
-// TODO *********commented the code below during IACUC refactoring*********         
-//        List<CommonCommitteeDocument> documents = (List<CommonCommitteeDocument>) KraServiceLocator.getService(BusinessObjectService.class)
-//                .findAll(CommonCommitteeDocument.class);
-        
+
         List<CommitteeDocumentBase> documents = (List<CommitteeDocumentBase>) KraServiceLocator.getService(BusinessObjectService.class).findAll(getCommitteeDocumentBOClassHook());
         List<CommitteeDocumentBase> result = new ArrayList<CommitteeDocumentBase>();
         for (CommitteeDocumentBase commDoc : documents) {

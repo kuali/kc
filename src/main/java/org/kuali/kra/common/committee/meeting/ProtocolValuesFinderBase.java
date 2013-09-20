@@ -60,10 +60,7 @@ public abstract class ProtocolValuesFinderBase extends KeyValuesBase {
     private List<? extends ProtocolSubmissionBase> getProtocols() {
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put("scheduleIdFk", scheduleId);
-        
-// TODO *********commented the code below during IACUC refactoring*********         
-//        return (List<IacucProtocolSubmission>) getBusinessObjectService().findMatching(IacucProtocolSubmission.class, fieldValues);
-        
+
         return (List<? extends ProtocolSubmissionBase>) getBusinessObjectService().findMatching(getProtocolSubmissionBOClassHook(), fieldValues);
     }
 

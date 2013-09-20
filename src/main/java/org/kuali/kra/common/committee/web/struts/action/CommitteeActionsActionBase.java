@@ -90,17 +90,10 @@ public abstract class CommitteeActionsActionBase extends CommitteeActionBase {
         String batchCorrespondenceTypeCode = committeeForm.getCommitteeHelper().getGenerateBatchCorrespondenceTypeCode();
         Date startDate = committeeForm.getCommitteeHelper().getGenerateStartDate();
         Date endDate = committeeForm.getCommitteeHelper().getGenerateEndDate();
-        
-// TODO *********commented the code below during IACUC refactoring*********         
-//        CommitteeTaskBase task = new CommitteeTaskBase(TaskName.PERFORM_COMMITTEE_ACTIONS, committeeDocument.getCommittee());
-        
+
         CommitteeTaskBase task = getNewCommitteeTaskInstanceHook(TaskName.PERFORM_COMMITTEE_ACTIONS, committeeDocument.getCommittee());
         if (isAuthorized(task)) {
-            
-// TODO *********commented the code below during IACUC refactoring*********             
-//            if (applyRules(new CommitteeActionGenerateBatchCorrespondenceEventBase(Constants.EMPTY_STRING, committeeForm.getDocument(), 
-//                    batchCorrespondenceTypeCode, startDate, endDate, committeeId))) {
-            
+
             if (applyRules(getNewCommitteeActionGenerateBatchCorrespondenceEventInstanceHook(Constants.EMPTY_STRING, committeeForm.getDocument(), 
                     batchCorrespondenceTypeCode, startDate, endDate, committeeId))) {
                 committeeForm.getCommitteeHelper().getGenerateBatchCorrespondence().clear();
@@ -356,20 +349,6 @@ public abstract class CommitteeActionsActionBase extends CommitteeActionBase {
 
         return actionForward;
     }
-
-    
-// TODO *********commented the code below during IACUC refactoring*********     
-//    private CommonCommitteeBatchCorrespondenceService getCommitteeBatchCorrespondenceService() {
-//        return KraServiceLocator.getService(CommonCommitteeBatchCorrespondenceService.class);
-//    }
-//    
-//    private CommonCommitteePrintingService getCommitteePrintingService() {
-//        return KraServiceLocator.getService(CommonCommitteePrintingService.class);
-//    }
-//
-//    private CommonCommitteeBatchCorrespondenceDao getCommitteeBatchCorrespondenceDao() {
-//        return KraServiceLocator.getService(CommonCommitteeBatchCorrespondenceDao.class);
-//    }
     
     protected abstract CommitteeBatchCorrespondenceServiceBase getCommitteeBatchCorrespondenceService();
     

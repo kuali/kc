@@ -23,14 +23,7 @@ import org.kuali.kra.common.committee.document.authorization.CommitteeTaskBase;
  */
 public abstract class ViewCommitteeAuthorizerBase extends CommitteeAuthorizerBase {
 
-    /**
-     * @see org.kuali.kra.protocol.document.authorizer.CommitteeAuthorizerBase#isAuthorized(java.lang.String, org.kuali.kra.protocol.document.authorization.CommitteeTaskBase)
-     */
     public boolean isAuthorized(String userId, CommitteeTaskBase task) {
-        
-// TODO *********commented the code below during IACUC refactoring********* 
-//        return hasPermission(userId, task.getCommittee(), PermissionConstants.VIEW__COMMITTEE);
-        
         return hasPermission(userId, task.getCommittee(), getPermissionNameForViewCommitteeHook());
     }
 

@@ -43,7 +43,6 @@ public abstract class MeetingHelperBase implements Serializable {
     private MeetingFormBase form;
     private Date agendaGenerationDate;
     private CommitteeScheduleBase<?, ?, ?, ?> committeeSchedule;
-    private List<CommitteeScheduleBase<?, ?, ?, ?>> committeeScheduleList;
     private List<ProtocolSubmittedBean> protocolSubmittedBeans;
     private CommScheduleActItemBase newOtherAction;
     private List<CommScheduleActItemBase> deletedOtherActions;
@@ -75,8 +74,6 @@ public abstract class MeetingHelperBase implements Serializable {
     private List<ProtocolCorrespondence> regeneratedCorrespondences;
     
     private CommitteeScheduleAttachmentsBase newCommitteeScheduleAttachments;
-    private static final String AGENDA_SENT_MESSAGE = "message.disclosure.submit.thankyou";
-    private static final String MINUTES_SENT_MESSAGE = "message.disclosure.submit.thankyou";
 
     private static final String MESSAGE_COMMITTEESCHEDULE_AGENDASENT = "message.committeeSchedule.agendaSent";
     private static final String MESSAGE_COMMITTEESCHEDULE_MINUTESSENT = "message.committeeSchedule.minutesSent";
@@ -89,21 +86,12 @@ public abstract class MeetingHelperBase implements Serializable {
         memberPresentBeans = new ArrayList<MemberPresentBean>();
         memberAbsentBeans = new ArrayList<MemberAbsentBean>();
         otherPresentBeans = new ArrayList<OtherPresentBeanBase>();
-        
-// TODO *********commented the code below during IACUC refactoring*********         
-//        newOtherAction = new CommScheduleActItemBase();
-        
+
         newOtherAction = getNewCommScheduleActItemInstanceHook();
         newCommitteeScheduleMinute = getNewCommitteeScheduleMinuteInstanceHook();
-        
-// TODO *********commented the code below during IACUC refactoring*********         
-//        newCommitteeScheduleAttachments=new CommitteeScheduleAttachmentsBase();
-        
+
         newCommitteeScheduleAttachments= getNewCommitteeScheduleAttachmentsInstanceHook();
-        
-// TODO *********commented the code below during IACUC refactoring********* 
-//        newOtherPresentBean = new OtherPresentBeanBase();
-        
+
         newOtherPresentBean = getNewOtherPresentBeanInstanceHook();
         scheduleAgendas = new ArrayList<ScheduleAgendaBase>();
         minuteDocs = new ArrayList<CommScheduleMinuteDocBase>();
@@ -361,10 +349,6 @@ public abstract class MeetingHelperBase implements Serializable {
     }
     
     public boolean canModifySchedule() {
-        
-// TODO *********commented the code below during IACUC refactoring*********         
-//        CommitteeTaskBase task = new CommitteeTaskBase(TaskName.MODIFY_SCHEDULE, committeeSchedule.getCommittee());
-        
         CommitteeTaskBase task = getNewCommitteeTaskInstanceHook(TaskName.MODIFY_SCHEDULE, committeeSchedule.getParentCommittee());
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }
@@ -377,10 +361,6 @@ public abstract class MeetingHelperBase implements Serializable {
     }
 
     public boolean canViewSchedule() {
-        
-// TODO *********commented the code below during IACUC refactoring*********         
-//        CommitteeTaskBase task = new CommitteeScheduleTaskBase(TaskName.VIEW_SCHEDULE, committeeSchedule.getCommittee(), committeeSchedule);
-        
         CommitteeTaskBase task = getNewCommitteeScheduleTaskInstanceHook(TaskName.VIEW_SCHEDULE, committeeSchedule.getParentCommittee(), committeeSchedule);
         return getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);
     }

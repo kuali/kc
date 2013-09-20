@@ -187,8 +187,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>${maven-compiler-plugin.version}</version>
                 <configuration>
-                    <source>1.6</source>
-                    <target>1.6</target>
+                    <source>${project.compile.source}</source>
+                    <target>${project.compile.target}</target>
                 </configuration>
             </plugin>
             <plugin>
@@ -210,7 +210,7 @@
 	                    <configuration>
 	                        <rules>
 			          	        <requireJavaVersion>
-                    		        <version>1.6</version>
+                    		        <version>${enforcer.require.java.version}</version>
                   		        </requireJavaVersion>
 	                            <requireMavenVersion>
 	                                <version>[3.0,4.0)</version>
@@ -223,11 +223,16 @@
                                     <banSnapshots>true</banSnapshots>
                                     <phases>clean,deploy,site</phases>
                                 </requirePluginVersions>
-						  
-								<!--
-								When upgrading to rice 1.1 it is recommended to merge in the banned dependencies from rice's parent pom.
-								This way we do not have to do all the analysis done in rice for lib upgrades/jdk6 support all over again.
-								-->
+
+                                <banCircularDependencies/>
+                                <enforceBytecodeVersion>
+                                    <maxJdkVersion>${enforcer.max.jdk.version}</maxJdkVersion>
+                                </enforceBytecodeVersion>
+
+                                <!--
+                                When upgrading to rice 1.1 it is recommended to merge in the banned dependencies from rice's parent pom.
+                                This way we do not have to do all the analysis done in rice for lib upgrades/jdk6 support all over again.
+                                -->
 								<bannedDependencies>
 									<excludes>
 										<exclude>ojb</exclude>
@@ -339,6 +344,13 @@
 	                    </configuration>
 	                </execution>
 	            </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>extra-enforcer-rules</artifactId>
+                        <version>1.0-beta-1</version>
+                    </dependency>
+                </dependencies>
 			</plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -1281,6 +1293,7 @@ module of int tests -->
             <properties>
                 <jetty.version>${jetty9.version}</jetty.version>
                 <jetty-maven-plugin.groupId>${jetty-maven-plugin9.groupId}</jetty-maven-plugin.groupId>
+                <project.java.version>1.7</project.java.version>
             </properties>
         </profile>
 
@@ -1992,6 +2005,7 @@ module of int tests -->
         <struts.version>1.3.10</struts.version>
         <xalan.version>2.7.1</xalan.version>
         <xmlbeans.version>2.4.0</xmlbeans.version>
+        <extra-enforcer-rules.version>1.0-beta-1</extra-enforcer-rules.version>
 
 
         <!-- plugin versions -->
@@ -2030,6 +2044,12 @@ module of int tests -->
         <enforcer.phase>validate</enforcer.phase>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.java.version>1.6</project.java.version>
+        <!-- These are used by multiple plugins (compiler, javadoc, xref, etc) -->
+        <project.compile.source>${project.java.version}</project.compile.source>
+        <project.compile.target>${project.java.version}</project.compile.target>
+        <enforcer.require.java.version>${project.java.version}</enforcer.require.java.version>
+        <enforcer.max.jdk.version>${project.java.version}</enforcer.max.jdk.version>
 
         <!-- defaults to dev unless overriden -->
         <build.environment>dev</build.environment>

@@ -187,11 +187,6 @@ public abstract class CommitteeDocumentBase<CD extends CommitteeDocumentBase<CD,
     
     protected abstract CommitteeServiceBase<CMT, CS> getCommitteeService();
     
-// TODO *********commented the code below during IACUC refactoring*********     
-//    private CommonCommitteeService getCommitteeService() {
-//        return KraServiceLocator.getService(CommonCommitteeService.class);
-//    }
-    
     private BusinessObjectService getBusinessObjectService() {
         return KraServiceLocator.getService(BusinessObjectService.class);
     }

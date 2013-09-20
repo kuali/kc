@@ -87,10 +87,7 @@ public abstract class MeetingServiceImplBase<CS extends CommitteeScheduleBase<CS
     protected List<ScheduleAgendaBase> getAgenda(Long scheduleId) {
         Map<String, Long> fieldValues = new HashMap<String, Long>();
         fieldValues.put("scheduleIdFk", scheduleId);
-        
-// TODO *********commented the code below during IACUC refactoring*********         
-//        return (List<ScheduleAgendaBase>) businessObjectService.findMatchingOrderBy(ScheduleAgendaBase.class, fieldValues, "createTimestamp", true);
-        
+
         return (List<ScheduleAgendaBase>) businessObjectService.findMatchingOrderBy(getScheduleAgendaBOClassHook(), fieldValues, "createTimestamp", true);
     }
 
@@ -105,10 +102,7 @@ public abstract class MeetingServiceImplBase<CS extends CommitteeScheduleBase<CS
     protected List<CommScheduleMinuteDocBase> getMinuteDoc(Long scheduleId) {
         Map<String, Long> fieldValues = new HashMap<String, Long>();
         fieldValues.put("scheduleIdFk", scheduleId);
-        
-// TODO *********commented the code below during IACUC refactoring********* 
-//        return (List<CommScheduleMinuteDocBase>) businessObjectService.findMatchingOrderBy(CommScheduleMinuteDocBase.class, fieldValues, "createTimestamp", true);
-        
+
         return (List<CommScheduleMinuteDocBase>) businessObjectService.findMatchingOrderBy(getCommScheduleMinuteDocBOClassHook(), fieldValues, "createTimestamp", true);
     }
     
@@ -130,9 +124,6 @@ public abstract class MeetingServiceImplBase<CS extends CommitteeScheduleBase<CS
                 protocolIds.add(submission.getProtocolId());
                 fieldValues.put("protocolId", submission.getProtocolId());
 
-// TODO *********commented the code below during IACUC refactoring*********                 
-//                correspondences.addAll((List<IacucProtocolCorrespondence>) businessObjectService.findMatching(IacucProtocolCorrespondence.class, fieldValues));
-                
                 correspondences.addAll((List<? extends ProtocolCorrespondence>) businessObjectService.findMatching(getProtocolCorrespondenceBOClassHook(), fieldValues));
             }
         }
@@ -751,10 +742,7 @@ public abstract class MeetingServiceImplBase<CS extends CommitteeScheduleBase<CS
             if (!isInMemberPresent(meetingHelper.getMemberPresentBeans(), committeeMembership)
                     && !isInOtherPresent(meetingHelper.getOtherPresentBeans(), committeeMembership)) {
                 MemberAbsentBean memberAbsentBean = new MemberAbsentBean();
-                
-// TODO *********commented the code below during IACUC refactoring********* 
-//                CommitteeScheduleAttendanceBase attendance = new CommitteeScheduleAttendanceBase();
-                                
+
                 CommitteeScheduleAttendanceBase attendance = getNewCommitteeScheduleAttendanceInstanceHook();
                 attendance.setRoleName(getRoleNameForMembership(committeeMembership, commSchedule.getScheduledDate()));
                 if (StringUtils.isBlank(committeeMembership.getPersonId())) {
@@ -784,10 +772,7 @@ public abstract class MeetingServiceImplBase<CS extends CommitteeScheduleBase<CS
         List<CommitteeMembershipBase> committeeMemberships = commSchedule.getParentCommittee().getCommitteeMemberships();
         for (CommitteeMembershipBase committeeMembership : committeeMemberships) {
             if (isActiveMembership(committeeMembership, commSchedule.getScheduledDate())) {
-                
-// TODO *********commented the code below during IACUC refactoring*********                 
-//                CommitteeScheduleAttendanceBase committeeScheduleAttendance = new CommitteeScheduleAttendanceBase();
-                
+
                 CommitteeScheduleAttendanceBase committeeScheduleAttendance = getNewCommitteeScheduleAttendanceInstanceHook();
                 if (StringUtils.isBlank(committeeMembership.getPersonId())) {
                     committeeScheduleAttendance.setPersonId(committeeMembership.getRolodexId().toString());

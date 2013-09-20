@@ -169,10 +169,6 @@ public abstract class CommitteeDocumentAuthorizerBase extends KcTransactionalDoc
      * @return true if the user can create a committee; otherwise false
      */
     private boolean canCreateCommittee(Person user) {
-        
-// TODO *********commented the code below during IACUC refactoring*********         
-//        ApplicationTask task = new ApplicationTask(TaskName.ADD_IACUC_COMMITTEE);
-        
         ApplicationTask task = new ApplicationTask(getAddCommitteeTaskNameHook());
         return getTaskAuthorizationService().isAuthorized(user.getPrincipalId(), task);
     }

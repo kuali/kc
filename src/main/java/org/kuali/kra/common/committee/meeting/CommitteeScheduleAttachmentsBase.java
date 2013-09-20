@@ -40,8 +40,7 @@ public abstract class CommitteeScheduleAttachmentsBase extends KraPersistableBus
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = -5308464510751671978L;
-    
-    private Long scheduleIdFk;
+
     private Integer attachmentId;
     private String attachmentsTypeCode;
     private String description;

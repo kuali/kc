@@ -15,18 +15,17 @@
  */
 package org.kuali.kra.common.notification.lookup.keyvalue;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.lookup.keyvalue.PrefixValuesFinder;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kim.framework.role.RoleEbo;
-import org.kuali.rice.kim.impl.role.RoleBo;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.service.KeyValuesService;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Provides a value finder for the Notification Module Role, Role Namespace and Role name combination.
