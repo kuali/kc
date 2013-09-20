@@ -20,7 +20,6 @@ import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.printing.PrintingException;
 import org.kuali.kra.printing.print.PrintableAttachment;
 import org.kuali.kra.printing.service.PersonSignatureService;
@@ -137,23 +136,15 @@ public abstract class ProtocolActionCorrespondenceGenerationServiceImplBase impl
     protected void applySignatureInDocument(ProtocolActionsCorrespondenceBase printableCorrespondence, AttachmentDataSource attachmentDataSource) {
         try {  
             PrintableAttachment printablePdf = (PrintableAttachment)attachmentDataSource;
-            String leadUnitNumber = printableCorrespondence.getLeadUnitNumber();
-            String administratorType = printableCorrespondence.getAdministratorType();
-            String moduleNameSpace = printableCorrespondence.getModuleNameSpace();
             byte[] pdfBytes = printablePdf.getContent();
-            PersonSignatureService personSignatureService = getPersonSignatureService();
-            pdfBytes = personSignatureService.applySignature(leadUnitNumber, administratorType, 
-                    moduleNameSpace, pdfBytes);
+            pdfBytes = getPersonSignatureServiceHook().applySignature(pdfBytes);
             printablePdf.setContent(pdfBytes);
         } catch (Exception e) {
             LOG.error("Exception Occured in ProtocolActionCorrespondenceGenerationServiceImplBase. Person Signature Exception: ",e);    
         }  
     }
     
-    protected PersonSignatureService getPersonSignatureService() {
-        return KraServiceLocator.getService(PersonSignatureService.class);
-        
-    }
+    protected abstract PersonSignatureService getPersonSignatureServiceHook();
     
     /**{@inheritDoc}**/
     public List<ProtocolCorrespondenceTemplateBase> getCorrespondenceTemplates(String actionType) {

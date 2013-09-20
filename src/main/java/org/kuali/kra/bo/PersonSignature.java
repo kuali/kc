@@ -15,6 +15,9 @@
  */
 package org.kuali.kra.bo;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.struts.upload.FormFile;
 import org.kuali.rice.krad.bo.PersistableAttachment;
 
@@ -24,13 +27,14 @@ public class PersonSignature extends KraPersistableBusinessObjectBase implements
 
     private Long personSignatureId;
     private String personId;
-    private boolean defaultAdminSignature;
     private boolean signatureActive;
     private byte[] attachmentContent;
 
     private transient FormFile templateFile;
     private String fileName;
     private String contentType;
+    
+    private List<PersonSignatureModule> personSignatureModules = new ArrayList<PersonSignatureModule>();
     
     public Long getPersonSignatureId() {
         return personSignatureId;
@@ -43,12 +47,6 @@ public class PersonSignature extends KraPersistableBusinessObjectBase implements
     }
     public void setPersonId(String personId) {
         this.personId = personId;
-    }
-    public boolean isDefaultAdminSignature() {
-        return defaultAdminSignature;
-    }
-    public void setDefaultAdminSignature(boolean defaultAdminSignature) {
-        this.defaultAdminSignature = defaultAdminSignature;
     }
     public boolean isSignatureActive() {
         return signatureActive;
@@ -93,6 +91,12 @@ public class PersonSignature extends KraPersistableBusinessObjectBase implements
 
     public KcPerson getPerson() {
         return getKcPersonService().getKcPersonByPersonId(personId);
+    }
+    public List<PersonSignatureModule> getPersonSignatureModules() {
+        return personSignatureModules;
+    }
+    public void setPersonSignatureModules(List<PersonSignatureModule> personSignatureModules) {
+        this.personSignatureModules = personSignatureModules;
     }
 
 }

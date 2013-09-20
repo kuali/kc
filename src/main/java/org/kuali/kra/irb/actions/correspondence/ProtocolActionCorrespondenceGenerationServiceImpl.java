@@ -15,7 +15,9 @@
  */
 package org.kuali.kra.irb.actions.correspondence;
 
+import org.kuali.kra.irb.actions.print.IrbPersonSignatureService;
 import org.kuali.kra.irb.correspondence.ProtocolCorrespondence;
+import org.kuali.kra.printing.service.PersonSignatureService;
 import org.kuali.kra.protocol.actions.correspondence.ProtocolActionCorrespondenceGenerationServiceImplBase;
 
 /**
@@ -24,8 +26,23 @@ import org.kuali.kra.protocol.actions.correspondence.ProtocolActionCorrespondenc
  */
 public class ProtocolActionCorrespondenceGenerationServiceImpl extends ProtocolActionCorrespondenceGenerationServiceImplBase implements ProtocolActionCorrespondenceGenerationService {
 
+    private IrbPersonSignatureService personSignatureService;
+    
     @Override
     protected ProtocolCorrespondence getNewProtocolCorrespondenceHook() {
         return new ProtocolCorrespondence();
+    }
+
+    @Override
+    protected PersonSignatureService getPersonSignatureServiceHook() {
+        return getPersonSignatureService();
+    }
+
+    public IrbPersonSignatureService getPersonSignatureService() {
+        return personSignatureService;
+    }
+
+    public void setPersonSignatureService(IrbPersonSignatureService personSignatureService) {
+        this.personSignatureService = personSignatureService;
     }
 }

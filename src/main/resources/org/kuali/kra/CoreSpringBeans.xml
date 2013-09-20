@@ -774,15 +774,6 @@
         <property name="dateTimeService" ref="dateTimeService" />
     </bean>
 
-    <bean id="personSignatureDao" parent="platformAwareDao" class="org.kuali.kra.dao.ojb.PersonSignatureDaoOjb"/>
-    
-    <bean id="personSignatureService" class="org.kuali.kra.printing.service.impl.PersonSignatureServiceImpl">
-       	<property name="businessObjectService" ref="businessObjectService" />
-    	<property name="parameterService" ref="parameterService" />
-        <property name="roleService" ref="roleService" />
-        <property name="personSignatureDao" ref="personSignatureDao" />
-    </bean>
-    
     <!-- Cross-Module Services -->
     
     <bean id="awardService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">

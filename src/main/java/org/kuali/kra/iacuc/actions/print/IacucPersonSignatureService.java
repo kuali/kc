@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2013 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,21 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.dao;
+package org.kuali.kra.iacuc.actions.print;
 
-import java.util.Collection;
-import java.util.List;
+import org.kuali.kra.printing.service.PersonSignatureService;
 
-import org.kuali.kra.bo.PersonSignature;
+public interface IacucPersonSignatureService extends PersonSignatureService {
 
-public interface PersonSignatureDao {
-
-    /**
-     * This method is to fetch a list of person signature based on a set
-     * of person ids
-     * @param personIds
-     * @return
-     */
-    public List<PersonSignature> getPersonSignatureForPersonIds( Collection<String> personIds);
-    
 }
