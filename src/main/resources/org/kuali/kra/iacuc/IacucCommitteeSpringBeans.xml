@@ -196,7 +196,6 @@
         <property name="protocolGenericActionService" ref="iacucProtocolGenericActionService" />
         <property name="protocolCorrespondenceTemplateService" ref="iacucProtocolCorrespondenceTemplateService" />
         <property name="documentService" ref="documentService" />
-        <property name="kcPersonService" ref="kcPersonService" />
         <property name="kcNotificationService" ref="kcNotificationService" />
         <property name="dateTimeService" ref="dateTimeService" />
     </bean>

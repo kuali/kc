@@ -48,32 +48,11 @@ public abstract class CommitteeScheduleAttendanceServiceImplBase<CSRV extends Co
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
     }
-    
-    public Set<String> getVotingMembersPresent(String committeeId, String scheduleId) {
-        Set<String> attendedMembers = new HashSet<String>();
-        CMT committee = committeeService.getCommitteeById(committeeId);
-        CS schedule = committeeService.getCommitteeSchedule(committee, scheduleId);
-        List<CommitteeScheduleAttendanceBase> attendances = schedule.getCommitteeScheduleAttendances();
-        for (CommitteeScheduleAttendanceBase attendance : attendances) {
-             attendedMembers.add(attendance.getPersonId());
-        }
-        String memberId = null;
-        String votingMemberType = parameterService.getParameterValueAsString(getCommitteeDocumentClassBOHook(), Constants.COMMITTEE_VOTING_MEMBERSHIP_TYPE_CODE);
-        
-        for(CommitteeMembershipBase member : committee.getCommitteeMemberships()) {
-            memberId = member.getRolodexId() != null ? member.getRolodexId().toString() : member.getPersonId();
-            if(StringUtils.isNotBlank(memberId) && !member.getMembershipTypeCode().equals(votingMemberType)) { 
-                attendedMembers.remove(memberId);
-            }
-        }
-        
-        return attendedMembers;
-    }
   
     protected abstract Class<CD> getCommitteeDocumentClassBOHook();
     
 
-    public Set<String> getActualVotingMembersPresent(String committeeId, String scheduleId) {
+    protected Set<String> getActualVotingMembersPresent(String committeeId, String scheduleId) {
         Set<String> attendedMembers = new HashSet<String>();
         CMT committee = committeeService.getCommitteeById(committeeId);
         CS schedule = committeeService.getCommitteeSchedule(committee, scheduleId);

@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.common.committee.rules;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.common.committee.bo.CommitteeType;
 import org.kuali.kra.common.committee.bo.MembershipRole;
@@ -28,7 +25,9 @@ import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.rice.krad.util.MessageMap;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class MembershipRoleDocumentRule extends KraMaintenanceDocumentRuleBase {
     private BusinessObjectService businessObjectService;

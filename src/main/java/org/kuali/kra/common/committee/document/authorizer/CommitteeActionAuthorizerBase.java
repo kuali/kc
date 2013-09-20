@@ -28,18 +28,11 @@ public abstract class CommitteeActionAuthorizerBase extends CommitteeAuthorizerB
     
     private CommitteeServiceBase committeeService;
 
-    /**
-     * @see org.kuali.kra.protocol.document.authorizer.CommitteeAuthorizerBase#isAuthorized(java.lang.String, org.kuali.kra.protocol.document.authorization.CommitteeTaskBase)
-     */
     public boolean isAuthorized(String userId, CommitteeTaskBase task) {
         CommitteeBase committee = task.getCommittee();
         return StringUtils.equals(committee.getCommitteeDocument().getDocumentHeader().getWorkflowDocument().getStatus().getLabel(), "FINAL")
                 && committee.getCommitteeId() != null
                 && committeeService.getCommitteeById(committee.getCommitteeId()).getId().equals(committee.getId())
-                
-// TODO *********commented the code below during IACUC refactoring*********                 
-//                && hasPermission(userId, committee, PermissionConstants.PERFORM_IACUC_COMMITTEE_ACTIONS);
-                
                 && hasPermission(userId, committee, getPermissionNameForPerformCommitteeActionsCodeHook());
     }
     

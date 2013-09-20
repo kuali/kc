@@ -60,14 +60,7 @@ public interface CommitteeServiceBase<CMT extends CommitteeBase<CMT, ?, CS>,
      * @return the list of active members who will be at the meeting
      */
     public List<CommitteeMembershipBase> getAvailableMembers(String committeeId, String scheduleId);
-    
-    /**
-     * Get the active members in a committee.
-     * @param committeeId the committee's id
-     * @return the list of active members on the committee now
-     */
-    public List<CommitteeMembershipBase> getAvailableMembersNow(String committeeId);
-    
+
     /**
      * Get the committee schedule.
      * @param committee the committee to search

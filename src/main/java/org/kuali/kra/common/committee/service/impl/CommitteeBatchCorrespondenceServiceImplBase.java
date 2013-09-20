@@ -15,21 +15,14 @@
  */
 package org.kuali.kra.common.committee.service.impl;
 
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.common.committee.bo.CommitteeBatchCorrespondenceBase;
 import org.kuali.kra.common.committee.bo.CommitteeBatchCorrespondenceDetailBase;
 import org.kuali.kra.common.committee.print.CommitteeReportType;
-import org.kuali.kra.common.committee.service.CommitteeBatchCorrespondenceServiceBase;
 import org.kuali.kra.common.committee.print.service.CommitteePrintingServiceBase;
+import org.kuali.kra.common.committee.service.CommitteeBatchCorrespondenceServiceBase;
 import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -40,21 +33,21 @@ import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.ProtocolDao;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;
 import org.kuali.kra.protocol.actions.genericactions.ProtocolGenericActionService;
-import org.kuali.kra.protocol.correspondence.BatchCorrespondenceBase;
-import org.kuali.kra.protocol.correspondence.BatchCorrespondenceDetailBase;
-import org.kuali.kra.protocol.correspondence.ProtocolCorrespondence;
-import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceTemplateService;
-import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceTypeBase;
-import org.kuali.kra.service.KcEmailService;
-import org.kuali.kra.service.KcPersonService;
+import org.kuali.kra.protocol.correspondence.*;
 import org.kuali.kra.util.DateUtils;
 import org.kuali.kra.util.EmailAttachment;
 import org.kuali.rice.core.api.datetime.DateTimeService;
-import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.SequenceAccessorService;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 
@@ -75,85 +68,14 @@ public abstract class CommitteeBatchCorrespondenceServiceImplBase implements Com
     protected ProtocolGenericActionService protocolGenericActionService;
     protected ProtocolCorrespondenceTemplateService protocolCorrespondenceTemplateService;
     protected DocumentService documentService;
-    protected KcPersonService kcPersonService;
     protected KcNotificationService kcNotificationService;
-    protected KcEmailService kcEmailService;
     private DateTimeService dateTimeService;
 
     protected int finalActionCounter;
 
     
     public abstract CommitteeBatchCorrespondenceBase generateBatchCorrespondence(String batchCorrespondenceTypeCode, String committeeId, Date startDate, Date endDate) throws Exception;
-    
-// TODO *********commented the code below during IACUC refactoring*********     
-//    /**
-//     * This method generates the batch correspondence for a committee.
-//     * @param batchCorrespondenceTypeCode
-//     * @param startDate
-//     * @param endDate
-//     * @return CommitteeBatchCorrespondenceBase
-//     * @throws Exception 
-//     */
-//    public CommitteeBatchCorrespondenceBase generateBatchCorrespondence(String batchCorrespondenceTypeCode, String committeeId, Date startDate, 
-//            Date endDate) throws Exception {
-//        BatchCorrespondenceBase batchCorrespondence = null;
-//        List<? extends ProtocolBase> protocols = null;
-//        finalActionCounter = 0;
-//
-//        CommitteeBatchCorrespondenceBase committeeBatchCorrespondence = new CommitteeBatchCorrespondenceBase(batchCorrespondenceTypeCode, 
-//                committeeId, startDate, endDate);
-//        
-//        String protocolActionTypeCode;
-//        
-//        if (StringUtils.equals(batchCorrespondenceTypeCode, Constants.PROTOCOL_RENEWAL_REMINDERS)) {
-//            protocols = protocolDao.getExpiringProtocols(committeeId, startDate, endDate);
-//            protocolActionTypeCode = Constants.IACUC_PROTOCOL_ACTION_TYPE_CODE_RENEWAL_REMINDER_GENERATED;
-//        } else if (StringUtils.equals(batchCorrespondenceTypeCode, Constants.REMINDER_TO_IACUC_NOTIFICATIONS)) {
-//            protocols = protocolDao.getNotifiedProtocols(committeeId, startDate, endDate);
-//            protocolActionTypeCode = Constants.IACUC_PROTOCOL_ACTION_TYPE_CODE_IACUC_REMINDER_GENERATED;
-//        } else {
-//            throw new IllegalArgumentException(batchCorrespondenceTypeCode);
-//        }
-//
-//        batchCorrespondence = lookupBatchCorrespondence(batchCorrespondenceTypeCode);
-//        
-//        for (ProtocolBase protocol : protocols) {
-//            ProtocolCorrespondenceTypeBase protocolCorrespondenceType = getProtocolCorrespondenceTypeToGenerate(protocol, batchCorrespondence);
-//
-//            if (protocolCorrespondenceType != null)  {
-//                if (protocolCorrespondenceTemplateService.getProtocolCorrespondenceTemplate(committeeId, 
-//                        protocolCorrespondenceType.getProtoCorrespTypeCode()) == null) {
-//                    LOG.warn("Correspondence template \"" + protocolCorrespondenceType.getDescription() + "\" is missing.  Correspondence for protocol " 
-//                            + protocol.getProtocolNumber() + " has not been generated.  Add the missing template and regenerate correspondence.");
-//                } else {
-//                    CommitteeBatchCorrespondenceDetailBase batchCorrespondenceDetail = createBatchCorrespondenceDetail(committeeId, protocol, 
-//                            protocolCorrespondenceType, committeeBatchCorrespondence.getCommitteeBatchCorrespondenceId(), protocolActionTypeCode);
-//                    committeeBatchCorrespondence.getCommitteeBatchCorrespondenceDetails().add(batchCorrespondenceDetail);
-//                    
-//                    Long detailId = batchCorrespondenceDetail.getCommitteeBatchCorrespondenceDetailId();
-//                    String description = protocolCorrespondenceType.getDescription();
-//                    //String userFullName = kcPersonService.getKcPersonByPersonId(GlobalVariables.getUserSession().getPrincipalId()).getFullName();
-//                    String userFullName = Constants.EMPTY_STRING;
-//                
-//                    IacucBatchCorrespondenceNotificationRenderer renderer 
-//                        = new IacucBatchCorrespondenceNotificationRenderer((IacucProtocol) protocol, detailId, description, userFullName);
-//                    IacucProtocolNotificationContext context 
-//                        = new IacucProtocolNotificationContext((IacucProtocol) protocol, IacucProtocolActionType.RENEWAL_REMINDER_GENERATED, "Renewal Reminder Generated", renderer);
-//                    context.setEmailAttachments(getEmailAttachments(batchCorrespondenceDetail.getProtocolCorrespondence()));
-//                    kcNotificationService.sendNotification(context);
-//                    
-//                    
-//                }
-//            }
-//        }
-//
-//        businessObjectService.save(committeeBatchCorrespondence);
-//        
-//        committeeBatchCorrespondence.setFinalActionCounter(finalActionCounter);
-//        
-//        return committeeBatchCorrespondence;
-//    }
-    
+
     /**
      * This method determines if and for which ProtocolCorrespondenceTypeBase a batch correspondence needs to be generated.
      * The final action is being applied at this time as well.
@@ -244,45 +166,7 @@ public abstract class CommitteeBatchCorrespondenceServiceImplBase implements Com
     
     
     protected abstract void applyFinalAction(ProtocolBase protocol, BatchCorrespondenceBase batchCorrespondence) throws Exception;
-    
-// TODO *********commented the code below during IACUC refactoring*********    
-//    /**
-//     * This method applies the final action to the protocol.
-//     * 
-//     * @param protocol
-//     * @param batchCorrespondence
-//     * @throws Exception
-//     */
-//    protected void applyFinalAction(ProtocolBase protocol, BatchCorrespondenceBase batchCorrespondence) throws Exception {
-//    
-//        ProtocolGenericActionBean actionBean = new IacucProtocolGenericActionBean(null, Constants.EMPTY_STRING);
-//        actionBean.setComments("Final action of batch Correspondence: " + batchCorrespondence.getDescription());
-//        
-//        if (StringUtils.equals(IacucProtocolActionType.SUSPENDED, batchCorrespondence.getFinalActionTypeCode())) {
-//            try {
-//                protocol.getProtocolDocument().getDocumentHeader().getWorkflowDocument();
-//            }
-//            catch (RuntimeException ex) {
-//                protocol.setProtocolDocument((ProtocolDocument) documentService.getByDocumentHeaderId(protocol.getProtocolDocument().getDocumentNumber()));
-//            }
-//            protocolGenericActionService.suspend(protocol, actionBean);
-//            finalActionCounter++;
-//        }
-//        
-//        if (StringUtils.equals(IacucProtocolActionType.EXPIRED, batchCorrespondence.getFinalActionTypeCode())) {
-//            try {
-//                protocol.getProtocolDocument().getDocumentHeader().getWorkflowDocument();
-//            }
-//            catch (RuntimeException ex) {
-//                protocol.setProtocolDocument((ProtocolDocument) documentService.getByDocumentHeaderId(protocol.getProtocolDocument().getDocumentNumber()));
-//            }
-//            protocolGenericActionService.expire(protocol, actionBean);
-//            finalActionCounter++;
-//        }
-//        
-//    }
 
-    
     /**
      * 
      * This method determines if the notification for the protocol has already been generated.
@@ -295,10 +179,7 @@ public abstract class CommitteeBatchCorrespondenceServiceImplBase implements Com
         fieldValues.put(PROTOCOL_NUMBER, protocol.getProtocolNumber());
         fieldValues.put(SEQUENCE_NUMBER, protocol.getSequenceNumber().toString());
         fieldValues.put(PROTO_CORRESP_TYPE_CODE, protocolCorrespondenceType.getProtoCorrespTypeCode());
-        
-// TODO *********commented the code below during IACUC refactoring*********         
-//        return !businessObjectService.findMatching(IacucProtocolCorrespondence.class, fieldValues).isEmpty();
-        
+
         return !businessObjectService.findMatching(getProtocolCorrespondenceBOClassHook(), fieldValues).isEmpty();
         
     }
@@ -320,10 +201,7 @@ public abstract class CommitteeBatchCorrespondenceServiceImplBase implements Com
     protected CommitteeBatchCorrespondenceDetailBase createBatchCorrespondenceDetail(String committeeId, ProtocolBase protocol, 
             ProtocolCorrespondenceTypeBase protocolCorrespondenceType, String committeeBatchCorrespondenceId, 
             String protocolActionTypeCode) throws PrintingException {
-        
-// TODO *********commented the code below during IACUC refactoring*********         
-//        CommitteeBatchCorrespondenceDetailBase committeeBatchCorrespondenceDetail = new CommitteeBatchCorrespondenceDetailBase();
-        
+
         CommitteeBatchCorrespondenceDetailBase committeeBatchCorrespondenceDetail = getNewCommitteeBatchCorrespondenceDetailInstanceHook();
         
         committeeBatchCorrespondenceDetail.setCommitteeBatchCorrespondenceId(committeeBatchCorrespondenceId);
@@ -354,9 +232,6 @@ public abstract class CommitteeBatchCorrespondenceServiceImplBase implements Com
      */
     protected ProtocolActionBase createAndSaveProtocolAction(ProtocolBase protocol, ProtocolCorrespondenceTypeBase protocolCorrespondenceType, 
             String protocolActionTypeCode) {
-// TODO *********commented the code below during IACUC refactoring*********         
-//        ProtocolActionBase protocolAction = new IacucProtocolAction((IacucProtocol) protocol, null, protocolActionTypeCode);
-        
         ProtocolActionBase protocolAction = getNewProtocolActionInstanceHook(protocol, null, protocolActionTypeCode);
         protocolAction.setComments(protocolCorrespondenceType.getDescription());
         
@@ -377,10 +252,7 @@ public abstract class CommitteeBatchCorrespondenceServiceImplBase implements Com
      */
     protected ProtocolCorrespondence createAndSaveProtocolCorrespondence(String committeeId, ProtocolBase protocol, 
             ProtocolCorrespondenceTypeBase protocolCorrespondenceType, ProtocolActionBase protocolAction) throws PrintingException {
-        
-// TODO *********commented the code below during IACUC refactoring*********               
-//        ProtocolCorrespondence protocolCorrespondence = new IacucProtocolCorrespondence();
-        
+
         ProtocolCorrespondence protocolCorrespondence = getNewProtocolCorrespondenceInstanceHook();
         
         protocolCorrespondence.setProtocolId(protocol.getProtocolId());
@@ -448,9 +320,6 @@ public abstract class CommitteeBatchCorrespondenceServiceImplBase implements Com
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put(BATCH_CORRESPONDENCE_TYPE_CODE, batchCorrespondenceTypeCode);
 
-// TODO *********commented the code below during IACUC refactoring*********         
-//        return (BatchCorrespondenceBase) businessObjectService.findByPrimaryKey(IacucBatchCorrespondence.class, fieldValues);
-
         return businessObjectService.findByPrimaryKey(getBatchCorrespondenceBOClassHook(), fieldValues);
     }
     
@@ -458,11 +327,6 @@ public abstract class CommitteeBatchCorrespondenceServiceImplBase implements Com
 
     
     protected abstract CommitteePrintingServiceBase getCommitteePrintingService();
-    
-// TODO *********commented the code below during IACUC refactoring*********     
-//    protected CommonCommitteePrintingService getCommitteePrintingService() {
-//        return KraServiceLocator.getService(CommonCommitteePrintingService.class);
-//    }
 
     /**
      * Populated by Spring Beans.
@@ -494,14 +358,6 @@ public abstract class CommitteeBatchCorrespondenceServiceImplBase implements Com
      */
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
-    }
-
-    /**
-     * Populated by Spring Beans.
-     * @param kcPersonService
-     */
-    public void setKcPersonService(KcPersonService kcPersonService) {
-        this.kcPersonService = kcPersonService;
     }
     
     /**

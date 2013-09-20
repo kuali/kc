@@ -40,10 +40,7 @@ public abstract class ModifyCommitteeAuthorizerBase extends CommitteeAuthorizerB
         if (committee.getId() == null) {
             
             // We have to consider the case when we are saving the committee for the first time.
-            
-// TODO *********commented the code below during IACUC refactoring*********             
-//            hasPermission = hasUnitPermission(userId, Constants.MODULE_NAMESPACE_IACUC, PermissionConstants.ADD_IACUC_COMMITTEE);
-            
+
             hasPermission = hasUnitPermission(userId, getModuleNamespaceCodeHook(), getPermissionNameForAddCommiteeHook());
         } 
         else {
@@ -52,10 +49,6 @@ public abstract class ModifyCommitteeAuthorizerBase extends CommitteeAuthorizerB
              */
             hasPermission = !committee.getCommitteeDocument().isViewOnly() &&
                             !isPessimisticLocked(committee.getCommitteeDocument()) &&
-
-// TODO *********commented the code below during IACUC refactoring*********                             
-//                            hasPermission(userId, committee, PermissionConstants.MODIFY_IACUC_COMMITTEE);
-                            
                             hasPermission(userId, committee, getPermissionNameForModifyCommitteeHook());
         }
 

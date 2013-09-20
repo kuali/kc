@@ -15,11 +15,6 @@
  */
 package org.kuali.kra.common.committee.meeting;
 
-import java.sql.Timestamp;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.bo.KcPerson;
@@ -31,6 +26,11 @@ import org.kuali.kra.protocol.onlinereview.ProtocolOnlineReviewBase;
 import org.kuali.kra.protocol.onlinereview.ProtocolReviewableBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.sql.Timestamp;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * 
@@ -44,8 +44,6 @@ public abstract class CommitteeScheduleMinuteBase<CSM extends CommitteeScheduleM
     private static final long serialVersionUID = -2294619582524055884L;
 
     private static final String PERSON_NOT_FOUND_FORMAT_STRING = "%s (not found)";
-
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CommitteeScheduleMinuteBase.class);
 
     private Long commScheduleMinutesId;
 

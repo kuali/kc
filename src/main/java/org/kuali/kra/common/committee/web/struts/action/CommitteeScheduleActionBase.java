@@ -235,13 +235,6 @@ public abstract class CommitteeScheduleActionBase extends CommitteeActionBase {
         CommitteeFormBase committeeForm = (CommitteeFormBase) form;     
         CommitteeScheduleBase commSchedule = ((CommitteeDocumentBase<?, ?, ?>)committeeForm.getDocument()).getCommittee().getCommitteeSchedules().get(getLineToDelete(request));
         
-// TODO *********commented the code below during IACUC refactoring*********         
-//        response.sendRedirect("iacucMeetingManagement.do?methodToCall=start&scheduleId="+commSchedule.getId()+"&lineNum="+(getLineToDelete(request)+1)+"&readOnly=" +(!committeeForm.getCommitteeHelper().canModifySchedule()));
-
-// commented out and replaced with ActionDirect below in order to deal with a rice change that assumes that all action methods will return non-null ActionForward instances.        
-//        response.sendRedirect(getMeetingManagementActionIdHook() + ".do?methodToCall=start&scheduleId="+commSchedule.getId()+"&lineNum="+(getLineToDelete(request)+1)+"&readOnly=" +(!committeeForm.getCommitteeHelper().canModifySchedule()));
-//        return null;
-        
         return new ActionRedirect(getMeetingManagementActionIdHook() + ".do?methodToCall=start&scheduleId="+commSchedule.getId()+"&lineNum="+(getLineToDelete(request)+1)+"&readOnly=" +(!committeeForm.getCommitteeHelper().canModifySchedule()));
     }
 

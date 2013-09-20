@@ -76,10 +76,7 @@ public abstract class CommitteeHelperBase implements Serializable {
 
     public CommitteeHelperBase(CommitteeFormBase committeeForm) {
         this.committeeForm = committeeForm;
-        
-// TODO *********commented the code below during IACUC refactoring*********         
-//        this.newCommitteeMembership = new CommitteeMembershipBase();
-        
+
         this.newCommitteeMembership = getNewCommitteeMembershipInstanceHook();
         this.newCommitteeMembershipRoles = new ArrayList<CommitteeMembershipRole>();
         this.setScheduleData(new ScheduleData());
@@ -141,10 +138,6 @@ public abstract class CommitteeHelperBase implements Serializable {
      * @return
      */
     private CommitteeScheduleServiceBase getCommitteeScheduleService() {
-        
-// TODO *********commented the code below during IACUC refactoring*********         
-//        return KraServiceLocator.getService(CommonCommitteeScheduleService.class);
-        
         return KraServiceLocator.getService(getCommitteeScheduleServiceClassHook());
     }
 
@@ -162,10 +155,6 @@ public abstract class CommitteeHelperBase implements Serializable {
     }
     
     private CommitteeServiceBase getCommitteeService() {
-        
-// TODO *********commented the code below during IACUC refactoring*********         
-//        return KraServiceLocator.getService(CommonCommitteeService.class);
-        
         return KraServiceLocator.getService(getCommitteeServiceClassHook());
     }
 

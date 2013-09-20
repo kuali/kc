@@ -15,14 +15,14 @@
  */
 package org.kuali.kra.common.notification.service.impl;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.kuali.kra.common.notification.bo.NotificationModuleRole;
 import org.kuali.kra.common.notification.service.KcNotificationModuleRoleService;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class KcNotificationModuleRoleServiceImpl implements KcNotificationModuleRoleService {
     
@@ -82,14 +82,6 @@ public class KcNotificationModuleRoleServiceImpl implements KcNotificationModule
             (List<NotificationModuleRole>) getBusinessObjectService().findMatching(NotificationModuleRole.class, fieldValues);
         
         return moduleRoles;
-    }
-
-    /**
-     * {@inheritDoc}
-     * @see org.kuali.kra.common.notification.service.KcNotificationModuleRoleService#saveNotificationModuleRoles(java.util.List)
-     */
-    public void saveNotificationModuleRoles(List<NotificationModuleRole> notificationModuleRoles) {
-        getBusinessObjectService().save(notificationModuleRoles);
     }
 
     /**
