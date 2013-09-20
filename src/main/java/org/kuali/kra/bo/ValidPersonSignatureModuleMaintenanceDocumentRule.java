@@ -23,8 +23,7 @@ import org.kuali.kra.rules.ErrorReporter;
 import org.kuali.kra.rules.KraMaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 
-public class ValidPersonSignatureMaintenanceDocumentRule extends KraMaintenanceDocumentRuleBase {
-    private static final String PERSON_SIGNATURE_FILE_INVALID_ERROR_KEY = "error.invalid.personSignature.invalid.fileName";
+public class ValidPersonSignatureModuleMaintenanceDocumentRule extends KraMaintenanceDocumentRuleBase {
     private static final String PERSON_SIGNATURE_ID_INVALID_ERROR_KEY = "error.invalid.personSignature.invalid.personSignatureId";
 
     /**
@@ -34,7 +33,7 @@ public class ValidPersonSignatureMaintenanceDocumentRule extends KraMaintenanceD
 
     @SuppressWarnings("deprecation")
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
-        return isPersonSignatureValidForSave(document);
+        return isPersonSignatureModuleValidForSave(document);
     }
 
 
@@ -44,7 +43,7 @@ public class ValidPersonSignatureMaintenanceDocumentRule extends KraMaintenanceD
     @SuppressWarnings("deprecation")
     @Override
     public boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
-        return isPersonSignatureValidForSave(document);
+        return isPersonSignatureModuleValidForSave(document);
     }
 
     /**
@@ -54,62 +53,65 @@ public class ValidPersonSignatureMaintenanceDocumentRule extends KraMaintenanceD
     @SuppressWarnings("deprecation")
     @Override
     public boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {
-        return isPersonSignatureValidForSave(document);
+        return isPersonSignatureModuleValidForSave(document);
     }
 
     @SuppressWarnings("deprecation")
-    public boolean isPersonSignatureValidForSave(MaintenanceDocument document) {
+    public boolean isPersonSignatureModuleValidForSave(MaintenanceDocument document) {
         boolean result = super.isDocumentValidForSave(document);
-        result &= isSignatureValid(document);
+        result &= isSignatureIdValid(document);
         result &= isNotDuplicateSignatureId(document);
         return result;
     }
     
     @SuppressWarnings("deprecation")
-    private boolean isSignatureValid(MaintenanceDocument document) {
-        boolean isSignatureValid = true;
-        PersonSignature personSignature = (PersonSignature)document.getNewMaintainableObject().getDataObject();
-        
-        if(personSignature.getTemplateFile() == null && personSignature.getFileName() == null) {
-            ErrorReporter errorReporter = new ErrorReporter();
-            errorReporter.reportError("document.newMaintainableObject.templateFile", 
-                    PERSON_SIGNATURE_FILE_INVALID_ERROR_KEY,
-                    new String[]{});
-            isSignatureValid = false;
-        }
-        return isSignatureValid;
+    private boolean isSignatureIdValid(MaintenanceDocument document) {
+        boolean isValid = true;
+        PersonSignatureModule personSignatureModule = (PersonSignatureModule) document.getNewMaintainableObject().getDataObject();
+        Map<String, Long> keyMap = new HashMap<String, Long>();
+        keyMap.put("personSignatureId", personSignatureModule.getPersonSignatureId());
+        isValid = checkExistenceFromTable(PersonSignature.class, keyMap, "personSignatureId", "Person Signature Id");
+        return isValid;
     }
-    
+
     @SuppressWarnings("deprecation")
     private boolean isNotDuplicateSignatureId(MaintenanceDocument document) {
         boolean isValid = true;
-        PersonSignature personSignature = (PersonSignature) document.getNewMaintainableObject().getDataObject();
+        PersonSignatureModule personSignatureModule = (PersonSignatureModule) document.getNewMaintainableObject().getDataObject();
         Map<String, Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put("personId", personSignature.getPersonId());
+        fieldValues.put("personSignatureId", personSignatureModule.getPersonSignatureId());
+        fieldValues.put("moduleCode", personSignatureModule.getModuleCode());
         if(document.isNew()) {
-            isValid = getBoService().countMatching(PersonSignature.class, fieldValues) == 0;
+            isValid = getBoService().countMatching(PersonSignatureModule.class, fieldValues) == 0;
         }else if (document.isEdit()) {
-            isValid = isRecordUpdateValid(fieldValues, personSignature);
+            isValid = isRecordUpdateValid(fieldValues, personSignatureModule);
         }
         if(!isValid) {
             ErrorReporter errorReporter = new ErrorReporter();
-            errorReporter.reportError("document.newMaintainableObject.personId", 
+            errorReporter.reportError("document.newMaintainableObject.personSignatureId", 
                     PERSON_SIGNATURE_ID_INVALID_ERROR_KEY,
                     new String[]{});
         }
         return isValid;
     }
-
+    
+    /**
+     * This method is to check the record is identical on update
+     * if record does not exist then return true to perform update
+     * @param fieldValues
+     * @param mdocPersonSignatureModule
+     * @return
+     */
     @SuppressWarnings("deprecation")
-    private boolean isRecordUpdateValid(Map<String, Object> fieldValues, PersonSignature mdocPersonSignature) {
+    private boolean isRecordUpdateValid(Map<String, Object> fieldValues, PersonSignatureModule mdocPersonSignatureModule) {
         boolean isRecordUpdateValid = false;
-        List<PersonSignature> authorizedSignatures = (List<PersonSignature>)getBoService().findMatching(PersonSignature.class, fieldValues);
+        List<PersonSignatureModule> authorizedSignatures = (List<PersonSignatureModule>)getBoService().findMatching(PersonSignatureModule.class, fieldValues);
         if(authorizedSignatures.isEmpty()) {
             isRecordUpdateValid = true;
         }else {
-            PersonSignature dbPersonSignature = authorizedSignatures.get(0);
-            Long dbPersonSignatureId = dbPersonSignature.getPersonSignatureId();
-            if(mdocPersonSignature.getPersonSignatureId().equals(dbPersonSignatureId)) {
+            PersonSignatureModule dbPersonSignatureModule = authorizedSignatures.get(0);
+            Long dbPersonSignatureModuleId = dbPersonSignatureModule.getPersonSignatureModuleId();
+            if(mdocPersonSignatureModule.getPersonSignatureModuleId().equals(dbPersonSignatureModuleId)) {
                 isRecordUpdateValid = true;
             }
         }

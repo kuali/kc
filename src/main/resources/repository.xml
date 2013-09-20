@@ -1610,7 +1610,6 @@
 	<class-descriptor class="org.kuali.kra.bo.PersonSignature" table="PERSON_SIGNATURE">
 		<field-descriptor name="personSignatureId" column="PERSON_SIGNATURE_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_PERSON_SIGNATURE_ID" autoincrement="true"/>
 		<field-descriptor name="personId" column="PERSON_ID" jdbc-type="VARCHAR" />
-		<field-descriptor name="defaultAdminSignature" column="DEFAULT_ADMIN_SIGNATURE" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
 		<field-descriptor name="signatureActive" column="SIGNATURE_ACTIVE" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
 		<field-descriptor name="attachmentContent" column="PERSON_AUTOGRAPH" jdbc-type="BLOB" />				
 		<field-descriptor name="fileName" column="FILE_NAME" jdbc-type="VARCHAR" />
@@ -1619,6 +1618,27 @@
 		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
     	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+        <collection-descriptor name="personSignatureModules" proxy="true" element-class-ref="org.kuali.kra.bo.PersonSignatureModule" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+			<inverse-foreignkey field-ref="personSignatureId"/>
+		</collection-descriptor>
+	</class-descriptor>
+
+	<class-descriptor class="org.kuali.kra.bo.PersonSignatureModule" table="PERSON_SIGNATURE_MODULE">
+		<field-descriptor name="personSignatureModuleId" column="PERSON_SIGN_MODULE_ID" jdbc-type="BIGINT" primarykey="true" sequence-name="SEQ_PERSON_SIGN_MOD_ID" autoincrement="true"/>
+		<field-descriptor name="personSignatureId" column="PERSON_SIGNATURE_ID" jdbc-type="BIGINT"/>
+		<field-descriptor name="defaultSignature" column="DEFAULT_SIGNATURE" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+		<field-descriptor name="signatureActive" column="SIGNATURE_ACTIVE" jdbc-type="CHAR" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+		<field-descriptor name="moduleCode" column="MODULE_CODE" jdbc-type="VARCHAR" />
+		<field-descriptor name="updateTimestamp" column="UPDATE_TIMESTAMP" jdbc-type="TIMESTAMP" />
+		<field-descriptor name="updateUser" column="UPDATE_USER" jdbc-type="VARCHAR" />
+		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" />
+    	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="false" />
+		<reference-descriptor name="personSignature" class-ref="org.kuali.kra.bo.PersonSignature" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+			<foreignkey field-ref="personSignatureId"/> 
+		</reference-descriptor>
+        <reference-descriptor name="coeusModule" class-ref="org.kuali.kra.bo.CoeusModule" auto-retrieve="true" auto-update="none" auto-delete="none"> 
+            <foreignkey field-ref="moduleCode"/>
+        </reference-descriptor>
 	</class-descriptor>
 	
 	<class-descriptor class="org.kuali.kra.reporting.bo.CustReportDetails" table="CUST_REPORT_DETAILS">
