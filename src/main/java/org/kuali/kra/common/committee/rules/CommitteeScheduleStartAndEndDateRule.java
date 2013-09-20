@@ -30,8 +30,6 @@ public class CommitteeScheduleStartAndEndDateRule extends ResearchDocumentRuleBa
 
     public static final String DOT = ".";
     
-    public static final String BLANK = "";
-    
     /**
      * {@inheritDoc}
      * @see org.kuali.kra.common.committee.rule.AddCommitteeScheduleStartAndEndDateRule#processAddCommitteeScheduleRuleBusinessRules(

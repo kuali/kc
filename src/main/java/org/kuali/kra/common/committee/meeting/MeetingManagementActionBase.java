@@ -236,10 +236,7 @@ public abstract class MeetingManagementActionBase extends MeetingActionBase {
         if (GlobalVariables.getMessageMap().hasNoErrors()) {
             getMeetingService().addOtherAction(meetingForm.getMeetingHelper().getNewOtherAction(),
                     meetingForm.getMeetingHelper().getCommitteeSchedule());
-            
-// TODO *********commented the code below during IACUC refactoring*********             
-//            meetingForm.getMeetingHelper().setNewOtherAction(new CommScheduleActItemBase());
-            
+
             meetingForm.getMeetingHelper().setNewOtherAction(getNewCommScheduleActItemInstanceHook());
         }
         return mapping.findForward(Constants.MAPPING_BASIC);
@@ -304,10 +301,7 @@ public abstract class MeetingManagementActionBase extends MeetingActionBase {
         
         final CommitteeDocumentBase pdDoc = (CommitteeDocumentBase) docService.getByDocumentHeaderId(docNumber);
         String forwardUrl = buildForwardUrl(pdDoc.getDocumentHeader().getWorkflowDocument().getDocumentId());
-        
-// TODO *********commented the code below during IACUC refactoring*********         
-//        forwardUrl = forwardUrl.replaceFirst("iacucCommitteeCommittee.do", "iacucCommitteeSchedule.do");
-        
+
         forwardUrl = forwardUrl.replaceFirst( getCommitteeCommitteeActionIdHook() + ".do", getCommitteeScheduleActionIdHook() + ".do");
         forwardUrl += "&methodToCallAttribute=methodToCall.reload";
         return new ActionForward(forwardUrl, true);

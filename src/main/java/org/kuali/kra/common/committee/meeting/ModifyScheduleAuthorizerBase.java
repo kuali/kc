@@ -27,10 +27,7 @@ public abstract class ModifyScheduleAuthorizerBase extends CommitteeAuthorizerBa
     public boolean isAuthorized(String username, CommitteeTaskBase task) {
         boolean hasPermission = true;
         CommitteeBase committee = task.getCommittee();
-        
-// TODO *********commented the code below during IACUC refactoring*********         
-//        hasPermission = hasPermission(username, committee, PermissionConstants.MODIFY_IACUC_SCHEDULE);
-        
+
         hasPermission = hasPermission(username, committee, getModfifySchedulePermissionNameHook());
         return hasPermission;
     }

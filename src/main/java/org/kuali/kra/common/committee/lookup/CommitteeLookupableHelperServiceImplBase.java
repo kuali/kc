@@ -62,20 +62,12 @@ public abstract class CommitteeLookupableHelperServiceImplBase<CMT extends Commi
     private static final String COMMITTEE_TYPE_CODE_FIELD_NAME = "committeeTypeCode";
     private static final String PERSON_NAME = "personName";
     private static final String RESEARCH_AREA_CODE = "researchAreaCode";
-    
-// TODO *********commented the code below during IACUC refactoring*********     
-//    private static final Log LOG = LogFactory.getLog(CommitteeLookupableHelperServiceImplBase.class);
-    
     private static final String DOCHANDLER_LINK = "%s/DocHandler.do?command=displayDocSearchView&docId=%s";
     
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         // we set the lookup to only list committees of type chosen
         fieldValues.put(COMMITTEE_TYPE_CODE_FIELD_NAME, getCommitteeTypeCodeHook());
-        
-// TODO *********commented the code below during IACUC refactoring********* 
-//        fieldValues.put(COMMITTEE_TYPE_CODE_FIELD_NAME, CommitteeType.IACUC_TYPE_CODE);
-        
         List<CMT> activeCommittees =  (List<CMT>)getUniqueList(super.getSearchResultsUnbounded(fieldValues), fieldValues);
         Long matchingResultsCount = new Long(activeCommittees.size());
         // TODO should the Question.class be replaced by a committee class below?
@@ -106,8 +98,6 @@ public abstract class CommitteeLookupableHelperServiceImplBase<CMT extends Commi
                     super.updateLookupField(field,RESEARCH_AREA_CODE,"org.kuali.kra.bo.ResearchArea");
                 } else if (field.getPropertyName().equals("committeeMemberships.personName")) {
                     super.updateLookupField(field,PERSON_NAME, getCommitteeMembershipFullyQualifiedClassNameHook());
-// TODO *********commented the code below during IACUC refactoring********* 
-//                    super.updateLookupField(field,PERSON_NAME,"org.kuali.kra.common.committee.bo.CommitteeMembershipBase");
                 }
             }
         }
@@ -141,19 +131,7 @@ public abstract class CommitteeLookupableHelperServiceImplBase<CMT extends Commi
     
     
     protected abstract String getHtmlAction();
-    
-    
-// TODO *********commented the code below during IACUC refactoring*********     
-//    protected String getHtmlAction() {
-//        return "commonCommitteeCommittee.do";
-//    }
-    
     protected abstract String getDocumentTypeName();
-
-// TODO *********commented the code below during IACUC refactoring********* 
-//    protected String getDocumentTypeName() {
-//        return "CommonCommitteeDocument";
-//    }
     
     protected String getKeyFieldName() {
         return "committeeId";
@@ -215,9 +193,6 @@ public abstract class CommitteeLookupableHelperServiceImplBase<CMT extends Commi
     protected List<CD> getCommitteeDocuments(String committeeId) {
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put("committeeId", committeeId);
-// TODO *********commented the code below during IACUC refactoring*********         
-//        List<CommonCommitteeDocument> documents = (List<CommonCommitteeDocument>) getBusinessObjectService()
-//                .findMatching(CommonCommitteeDocument.class, fieldValues);
         List<CD> documents = (List<CD>) getBusinessObjectService().findMatching(getCommitteeDocumentBOClassHook(), fieldValues);
         List<CD> result = new ArrayList<CD>();
         for (CD commDoc : documents) {
@@ -239,11 +214,7 @@ public abstract class CommitteeLookupableHelperServiceImplBase<CMT extends Commi
 
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put("docStatusCode", "S");
-        
-// TODO *********commented the code below during IACUC refactoring*********         
-//        List<CommonCommitteeDocument> documents = (List<CommonCommitteeDocument>) getBusinessObjectService().findMatching(
-//                CommonCommitteeDocument.class, fieldValues);
-        
+
         List<CD> documents = (List<CD>) getBusinessObjectService().findMatching(getCommitteeDocumentBOClassHook(), fieldValues);
         List<CMT> result = new ArrayList<CMT>();
         List<String> committeeIds = getCommitteeIds();
@@ -407,10 +378,7 @@ public abstract class CommitteeLookupableHelperServiceImplBase<CMT extends Commi
     protected CMT populateCommitteeFromXmlDocumentContents(String xmlDocumentContents) {
         CMT committee = null;
         if (!StringUtils.isEmpty(xmlDocumentContents)) {
-            
-// TODO *********commented the code below during IACUC refactoring*********             
-//                committee = (CommonCommittee) getBusinessObjectFromXML(xmlDocumentContents, CommonCommittee.class.getName());
-            
+
             committee = (CMT) getBusinessObjectFromXML(xmlDocumentContents, getCommitteeBOClassHook().getName());
         }
         return committee;

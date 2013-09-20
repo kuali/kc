@@ -30,9 +30,6 @@ public abstract class OtherPresentBeanBase implements Serializable, Comparable<O
     public CommitteeScheduleAttendanceBase getAttendance() {
         if(attendance == null) {
 
-// TODO *********commented the code below during IACUC refactoring*********             
-//            attendance = new CommitteeScheduleAttendanceBase();
-            
             attendance = getNewCommitteeScheduleAttendanceInstanceHook();
         }
         return attendance;

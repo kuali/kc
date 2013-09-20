@@ -107,10 +107,7 @@ public abstract class CommitteeCommitteeActionBase extends CommitteeActionBase {
         CommitteeFormBase committeeForm = (CommitteeFormBase) form;
         CommitteeDocumentBase committeeDocument = committeeForm.getCommitteeDocument();
         CommitteeBase committee = committeeDocument.getCommittee();
-        
-// TODO *********commented the code below during IACUC refactoring*********         
-//        CommitteeTaskBase task = new CommitteeTaskBase(TaskName.MODIFY_COMMITTEE, committee);
-        
+
         CommitteeTaskBase task = getNewCommitteeTaskInstanceHook(TaskName.MODIFY_COMMITTEE, committee);
         if (isAuthorized(task)) {   
             committee.getCommitteeResearchAreas().remove(getLineToDelete(request));
@@ -126,10 +123,6 @@ public abstract class CommitteeCommitteeActionBase extends CommitteeActionBase {
     
     
     private CommitteeServiceBase getCommitteeService() {
-        
-// TODO *********commented the code below during IACUC refactoring********* 
-//        return (CommonCommitteeService) KraServiceLocator.getService(CommonCommitteeService.class);
-        
         return (CommitteeServiceBase) KraServiceLocator.getService(getCommitteeServiceBOClassHook());
     }
 

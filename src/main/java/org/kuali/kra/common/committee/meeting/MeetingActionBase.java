@@ -15,38 +15,32 @@
  */
 package org.kuali.kra.common.committee.meeting;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
 import org.kuali.kra.common.committee.document.CommitteeDocumentBase;
+import org.kuali.kra.common.committee.meeting.MeetingEventBase.ErrorType;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.protocol.actions.reviewcomments.ReviewCommentsService;
 import org.kuali.kra.protocol.actions.submit.ProtocolSubmissionBase;
-import org.kuali.kra.common.committee.meeting.MeetingEventBase.ErrorType;
+import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
-import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.exception.AuthorizationException;
-import org.kuali.rice.kns.question.ConfirmationQuestion;
 import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KualiRuleService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.*;
 
 /**
  * 
@@ -374,18 +368,6 @@ public abstract class MeetingActionBase extends KualiAction {
     }
     
     protected abstract CommonMeetingService getMeetingService();
-
-// TODO *********commented the code below during IACUC refactoring*********     
-//    protected CommonMeetingService getMeetingService() {
-//        return KraServiceLocator.getService(CommonMeetingService.class);
-//    }
-
-
     protected abstract ReviewCommentsService<?> getReviewerCommentsService();
-    
-// TODO *********commented the code below during IACUC refactoring*********     
-//    private ReviewCommentsService getReviewerCommentsService() {
-//        return KraServiceLocator.getService(IacucReviewCommentsService.class);
-//    }
 
 }

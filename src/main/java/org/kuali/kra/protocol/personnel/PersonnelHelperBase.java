@@ -78,13 +78,6 @@ public abstract class PersonnelHelperBase implements Serializable {
     }
 
     protected abstract void initializeModifyProtocolPermission(ProtocolBase protocol);
-// TODO *********commented the code below during IACUC refactoring*********      
-    /*
-    private void initializeModifyProtocolPermission(ProtocolBase protocol) {
-        ProtocolTaskBase task = new ProtocolTaskBase(TaskName.MODIFY_PROTOCOL_PERSONNEL, protocol);
-        modifyPersonnel = getTaskAuthorizationService().isAuthorized(getUserIdentifier(), task);     
-    }
-    */
     
     protected TaskAuthorizationService getTaskAuthorizationService() {
         return KraServiceLocator.getService(TaskAuthorizationService.class);

@@ -78,7 +78,6 @@ public class CommitteeBatchCorrespondenceServiceTest extends KcUnitTestBase {
         final Date endDate = Date.valueOf("2010-06-15");
 
         committeeBatchCorrespondenceServiceImpl.setBusinessObjectService(new CommitteeTestHelper.MockBusinessObjectService());
-        committeeBatchCorrespondenceServiceImpl.setKcPersonService(new MockKcPersonService());
         
         final ProtocolDao protocolDao = context.mock(ProtocolDao.class);
         final List<Protocol> protocols = initProtocols();
@@ -122,7 +121,6 @@ public class CommitteeBatchCorrespondenceServiceTest extends KcUnitTestBase {
         final Date endDate = Date.valueOf("2010-06-15");
 
         committeeBatchCorrespondenceServiceImpl.setBusinessObjectService(new CommitteeTestHelper.MockBusinessObjectService());
-        committeeBatchCorrespondenceServiceImpl.setKcPersonService(new MockKcPersonService());
         
         final ProtocolDao protocolDao = context.mock(ProtocolDao.class);
         final List<Protocol> protocols = initProtocols();

@@ -80,10 +80,6 @@ public abstract class CommitteeFormBase extends KraTransactionalDocumentFormBase
      * This method initialize all form variables
      */
     public void initialize() {
-        
-// TODO *********commented the code below during IACUC refactoring*********         
-//        setCommitteeHelper(new CommitteeHelperBase(this));
-        
         setCommitteeHelper(getNewCommitteeHelperInstanceHook(this));
     }
 

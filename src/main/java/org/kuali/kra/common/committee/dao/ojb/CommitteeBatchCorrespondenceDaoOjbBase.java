@@ -53,10 +53,7 @@ public abstract class CommitteeBatchCorrespondenceDaoOjbBase<CBC extends Committ
         if (endDate != null) {
             crit.addLessOrEqualThan(BATCH_RUN_DATE, endDate);
         }
-        
-// TODO *********commented the code below during IACUC refactoring********* 
-//        Query q = QueryFactory.newQuery(CommitteeBatchCorrespondenceBase.class, crit, true);
-        
+
         Query q = QueryFactory.newQuery(getCommitteeBatchCorrespondenceBOClassHook(), crit, true);
         logQuery(q);
         return (List<CBC>) getPersistenceBrokerTemplate().getCollectionByQuery(q);

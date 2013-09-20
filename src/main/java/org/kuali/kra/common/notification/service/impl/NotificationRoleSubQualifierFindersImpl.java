@@ -15,24 +15,20 @@
  */
 package org.kuali.kra.common.notification.service.impl;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.kuali.kra.common.notification.service.NotificationRoleSubQualifierFinders;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.keyvalues.KeyValuesFinder;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class NotificationRoleSubQualifierFindersImpl implements NotificationRoleSubQualifierFinders {
 
     private Map<String, KeyValuesFinder> finders;
-    
-    @Override
+
     public Map<String, KeyValuesFinder> getFinders() {
         return finders;
     }

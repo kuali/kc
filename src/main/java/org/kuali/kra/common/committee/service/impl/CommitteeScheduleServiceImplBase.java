@@ -79,7 +79,6 @@ public abstract class CommitteeScheduleServiceImplBase<CS extends CommitteeSched
     // Changed db col names to  java ref var names during IACUC refactoring, should not cause any issues during backfitting
     private static final String PROTOCOL_ID_FIELD = "protocolIdFk";
     private static final String SCHEDULE_ID_FIELD = "scheduleIdFk";
-    private static final String COMM_SCHEDULE_MINUTES_FIELD = "commScheduleMinutesId";
     private static final String ENTRY_NUMBER_FIELD = "entryNumber";
     private static final String SUBMISSION_ID_FIELD = "submissionIdFk";
     private static final String COMM_SCHEDULE_MINUTES_ID_PROPERTY = "commScheduleMinutesId";
@@ -266,10 +265,7 @@ public abstract class CommitteeScheduleServiceImplBase<CS extends CommitteeSched
                 skippedDates.add(sqldate);
                 continue;
             }
-          
-// TODO *********commented the code below during IACUC refactoring*********             
-//            CommonCommitteeSchedule committeeSchedule = new CommonCommitteeSchedule();
-            
+
             CS committeeSchedule = getNewCommiteeScheduleInstanceHook();
             committeeSchedule.setScheduledDate(sqldate);
             committeeSchedule.setPlace(location);
@@ -361,38 +357,7 @@ public abstract class CommitteeScheduleServiceImplBase<CS extends CommitteeSched
         
         return permittedMinutes;
     }
-      
-    /**
-     * 
-     * @see org.kuali.kra.common.committee.service.CommitteeScheduleServiceBase#getCommitteeScheduleMinute(java.lang.Long)
-     */
-    public CSM getCommitteeScheduleMinute(Long committeeScheduleId){
-        Map<String, Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put(COMM_SCHEDULE_MINUTES_ID_PROPERTY, committeeScheduleId);
-        List<CSM> minutes = (List<CSM>)businessObjectService.findMatching(getCommitteeScheduleMinuteBOClassHook(), fieldValues);
-        if(minutes.size() == 1){
-            return minutes.get(0);
-        }else{
-            return null;
-        }
-    }
-    
-    /**
-     * 
-     * @see org.kuali.kra.common.committee.service.CommitteeScheduleServiceBase#getMinutesByProtocolSubmission(java.lang.Long)
-     */
-    public List<CSM> getMinutesByProtocolSubmission(Long submissionID){
-        Map<String, Object> fieldValues = new HashMap<String, Object>();
-        List<CSM> permittedMinutes = new ArrayList<CSM>();
-        fieldValues.put(SUBMISSION_ID_FIELD, submissionID);
-        List<CSM> minutes = (List<CSM>)businessObjectService.findMatchingOrderBy(getCommitteeScheduleMinuteBOClassHook(), fieldValues, ENTRY_NUMBER_FIELD, true);
-        for (CSM minute : minutes) {
-            if(reviewCommentsService.getReviewerCommentsView(minute)){
-                permittedMinutes.add(minute);
-            }
-        }
-        return permittedMinutes;
-    }
+
     /**
      * This method will downloadAttachment  to CommitteeScheduleAttachmentsBase.
      * @param committeScheduleAttachments
@@ -401,9 +366,6 @@ public abstract class CommitteeScheduleServiceImplBase<CS extends CommitteeSched
     @Override
     public void downloadAttachment(KraPersistableBusinessObjectBase attachmentDataSource, HttpServletResponse response) throws Exception {
 
-// TODO *********commented the code below during IACUC refactoring*********         
-//        CommitteeScheduleAttachmentsBase committeScheduleAttachments = new CommitteeScheduleAttachmentsBase();
-        
     	CommitteeScheduleAttachmentsBase committeScheduleAttachments = getNewCommitteeScheduleAttachmentsInstanceHook();
         byte[] data = null;
         String contentType = null;

@@ -16,12 +16,7 @@
 package org.kuali.kra.common.committee.rules;
 
 import org.kuali.kra.common.committee.bo.CommitteeScheduleAttributeReferenceDummy;
-import org.kuali.kra.common.committee.web.struts.form.schedule.DailyScheduleDetails;
-import org.kuali.kra.common.committee.web.struts.form.schedule.MonthlyScheduleDetails;
-import org.kuali.kra.common.committee.web.struts.form.schedule.ScheduleData;
-import org.kuali.kra.common.committee.web.struts.form.schedule.StyleKey;
-import org.kuali.kra.common.committee.web.struts.form.schedule.YearlyScheduleDetails;
-import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.common.committee.web.struts.form.schedule.*;
 import org.kuali.rice.kns.service.DictionaryValidationService;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;

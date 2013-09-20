@@ -15,17 +15,6 @@
  */
 package org.kuali.kra.common.committee.meeting;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -33,10 +22,9 @@ import org.kuali.kra.common.committee.bo.CommitteeBase;
 import org.kuali.kra.common.committee.document.CommitteeDocumentBase;
 import org.kuali.kra.common.committee.print.CommitteeReportType;
 import org.kuali.kra.common.committee.print.ScheduleTemplatePrintBase;
+import org.kuali.kra.common.committee.print.service.CommitteePrintingServiceBase;
 import org.kuali.kra.common.committee.rule.event.CommitteeActionPrintCommitteeDocumentEvent;
 import org.kuali.kra.common.committee.service.CommonCommitteeNotificationService;
-import org.kuali.kra.common.committee.print.service.CommitteePrintingServiceBase;
-import org.kuali.kra.iacuc.committee.meeting.IacucCommScheduleMinuteDoc;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -51,6 +39,16 @@ import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public abstract class MeetingActionsActionBase extends MeetingActionBase {
 
@@ -105,10 +103,7 @@ public abstract class MeetingActionsActionBase extends MeetingActionBase {
             HttpServletResponse response) throws Exception {
         ActionForward actionForward = mapping.findForward(Constants.MAPPING_BASIC);
         MeetingHelperBase meetingHelper = ((MeetingFormBase) form).getMeetingHelper();
-        
-// TODO *********commented the code below during IACUC refactoring********* 
-//        List<Printable> printableArtifactList = getPrintableArtifacts(meetingHelper, AGENDA_TYPE, IacucProtocolCorrespondenceType.AGENDA);
-        
+
         List<Printable> printableArtifactList = getPrintableArtifacts(meetingHelper, getProtocolCorrespondenceAgendaTypeCodeHook());
         if (printableArtifactList.get(0).getXSLTemplates().isEmpty()) {
             GlobalVariables.getMessageMap().putError("meetingHelper.scheduleAgenda",
@@ -117,10 +112,7 @@ public abstract class MeetingActionsActionBase extends MeetingActionBase {
             AttachmentDataSource dataStream = getCommitteePrintingService().print(printableArtifactList);
             if (dataStream.getContent() != null && dataStream.getContent().length > 0) {
                 setFileDataProperties(dataStream, meetingHelper.getCommitteeSchedule().getId(), "Agenda");
-                
-// TODO *********commented the code below during IACUC refactoring*********                 
-//                ScheduleAgendaBase agenda = new ScheduleAgendaBase();
-                
+
                 ScheduleAgendaBase agenda = getNewScheduleAgendaInstanceHook();
                 int agendaNumber = meetingHelper.getScheduleAgendas().size() + 1;
                 agenda.setAgendaName("Agenda For Schedule #  " + (meetingHelper.getCommitteeSchedule().getId()) + " Version " + agendaNumber);
@@ -228,11 +220,6 @@ public abstract class MeetingActionsActionBase extends MeetingActionBase {
     
     
     protected abstract CommitteePrintingServiceBase getCommitteePrintingService();
-    
-// TODO *********commented the code below during IACUC refactoring*********     
-//    private CommonCommitteePrintingService getCommitteePrintingService() {
-//        return KraServiceLocator.getService(CommonCommitteePrintingService.class);
-//    }
 
 
     /**
@@ -463,50 +450,6 @@ public abstract class MeetingActionsActionBase extends MeetingActionBase {
    
     
     public abstract ActionForward regenerateCorrespondence(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception;
-    
-// TODO ********************** commented out during IRB backfit ************************ PUSHED DOWN TO SUBCLASSES    
-//    public ActionForward regenerateCorrespondence(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-//            HttpServletResponse response) throws Exception {
-//
-//        // final int selection = this.getSelectedLine(request);
-//        MeetingHelperBase meetingHelper = ((MeetingFormBase) form).getMeetingHelper();
-//        meetingHelper.setRegeneratedCorrespondences(new ArrayList<ProtocolCorrespondence>());
-//        for (ProtocolCorrespondence protocolCorrespondence : meetingHelper.getCorrespondences()) {
-//            if (protocolCorrespondence.isRegenerateFlag()) {
-//                ProtocolBase protocol = protocolCorrespondence.getProtocol();
-//                AttachmentDataSource dataSource = generateCorrespondenceDocumentAndAttach(protocol, protocolCorrespondence);
-//                PrintableAttachment source = new PrintableAttachment();
-//                if (dataSource != null) {
-//                    protocolCorrespondence.setCorrespondence(dataSource.getContent());
-//                    protocolCorrespondence.setFinalFlag(false);
-//                    protocolCorrespondence.setCreateUser(GlobalVariables.getUserSession().getPrincipalName());
-//                    protocolCorrespondence.setCreateTimestamp(KraServiceLocator.getService(DateTimeService.class).getCurrentTimestamp());
-//                }
-//                meetingHelper.getRegeneratedCorrespondences().add(protocolCorrespondence);
-//            }
-//        }
-//        getBusinessObjectService().save(meetingHelper.getRegeneratedCorrespondences());
-//        return mapping.findForward("correspondence");
-//    }
-//
-//    protected AttachmentDataSource generateCorrespondenceDocumentAndAttach(ProtocolBase protocol, ProtocolCorrespondence oldCorrespondence) throws PrintingException {
-// 
-//// TODO *********commented the code below during IACUC refactoring*********         
-////        IacucProtocolActionsCorrespondence correspondence = new IacucProtocolActionsCorrespondence(oldCorrespondence.getProtocolAction().getProtocolActionTypeCode());
-//        
-//        ProtocolActionsCorrespondenceBase correspondence = getNewProtocolActionsCorrespondenceInstanceHook(oldCorrespondence.getProtocolAction().getProtocolActionTypeCode());
-//        correspondence.setProtocol(protocol);
-//        return getProtocolActionCorrespondenceGenerationService().reGenerateCorrespondenceDocument(correspondence);
-//    } 
-//
-//    protected abstract ProtocolActionsCorrespondenceBase getNewProtocolActionsCorrespondenceInstanceHook(String protocolActionTypeCode);
-//
-//    protected abstract ProtocolActionCorrespondenceGenerationService getProtocolActionCorrespondenceGenerationService();
-//    
-//// TODO *********commented the code below during IACUC refactoring*********     
-////    private IacucProtocolActionCorrespondenceGenerationService getProtocolActionCorrespondenceGenerationService() {
-////        return KraServiceLocator.getService(IacucProtocolActionCorrespondenceGenerationService.class);
-////    }
    
     public ActionForward viewGeneratedCorrespondence(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) throws Exception {

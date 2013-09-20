@@ -129,10 +129,7 @@ public abstract class CommitteeServiceImplBase<CMT extends CommitteeBase<CMT, ?,
      * @param researchArea
      */
     protected void addCommitteeResearchArea(CMT committee, ResearchAreaBase researchArea) {
-        
-// TODO *********commented the code below during IACUC refactoring*********         
-//        CommitteeResearchAreaBase committeeResearchArea = new CommitteeResearchAreaBase();
-        
+
         CommitteeResearchAreaBase committeeResearchArea = getNewCommitteeResearchAreaInstanceHook();
         committeeResearchArea.setCommittee(committee);
         committeeResearchArea.setCommitteeIdFk(committee.getId());
@@ -237,7 +234,7 @@ public abstract class CommitteeServiceImplBase<CMT extends CommitteeBase<CMT, ?,
     /**
      * @see org.kuali.kra.common.committee.service.CommitteeServiceBase#getAvailableMembers(java.lang.String, java.lang.String)
      */
-    public List<CommitteeMembershipBase> getAvailableMembersNow(String committeeId) {
+    protected List<CommitteeMembershipBase> getAvailableMembersNow(String committeeId) {
         List<CommitteeMembershipBase> availableMembers = new ArrayList<CommitteeMembershipBase>();
         CMT committee = getCommitteeById(committeeId);
         if (committee != null) {

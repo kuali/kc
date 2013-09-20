@@ -84,10 +84,7 @@ public abstract class CommitteeScheduleLookupableHelperServiceImplBase<CS extend
                 // sorted in descending order of their sequence numbers
                 Map<String, String> fieldValues = new HashMap<String, String>();
                 fieldValues.put(COMMITTEE_ID, committee.getCommitteeId());
-                
-// TODO *********commented the code below during IACUC refactoring*********                 
-//                    List<CommonCommittee> committees = (List<CommonCommittee>) this.getBusinessObjectService().findMatchingOrderBy(CommonCommittee.class, fieldValues, SEQUENCE_NUMBER, false);
-                
+
                 List<CMT> committees = (List<CMT>) this.getBusinessObjectService().findMatchingOrderBy(getCommonCommitteeBOClassHook(), fieldValues, SEQUENCE_NUMBER, false);
                 if ( (committees != null) && (!committees.isEmpty()) ) {
                     // check the first element with the argument
@@ -117,10 +114,7 @@ public abstract class CommitteeScheduleLookupableHelperServiceImplBase<CS extend
         
         // we set the lookup to only list schedule for committees of type IACUC TODO will need a hook here for backfitting
         fieldValues.put(COMMITTEE_COMMITTEE_TYPE_CODE, getCommitteeTypeCodeHook());
-        
-// TODO *********commented the code below during IACUC refactoring*********         
-//        fieldValues.put(COMMITTEE_COMMITTEE_TYPE_CODE, CommitteeType.IACUC_TYPE_CODE);
-        
+
         List<CS> rawCommitteeSchedules = (List<CS>) super.getSearchResultsUnbounded(fieldValues);
         List<CS> finalCommitteeSchedules = new ArrayList<CS>();
         // go through each of the raw schedules and decide if it should be included in the final listing
@@ -163,10 +157,7 @@ public abstract class CommitteeScheduleLookupableHelperServiceImplBase<CS extend
         
         // processing return collection based on final result count
         Long matchingResultsCount = new Long(finalCommitteeSchedules.size());
-        
-// TODO *********commented the code below during IACUC refactoring*********         
-//        Integer searchResultsLimit = LookupUtils.getSearchResultsLimit(CommonCommitteeSchedule.class);
-        
+
         Integer searchResultsLimit = LookupUtils.getSearchResultsLimit(getCommitteeScheduleBOClassHook());
         if ((matchingResultsCount == null) || (matchingResultsCount.intValue() <= searchResultsLimit.intValue())) {
             return new CollectionIncomplete<CS>(finalCommitteeSchedules, new Long(0));
@@ -250,10 +241,6 @@ public abstract class CommitteeScheduleLookupableHelperServiceImplBase<CS extend
             htmlData.setDisplayText("view");
             parameters.put(READ_ONLY, "true");
         }
-       
-// TODO *********commented the code below during IACUC refactoring*********         
-//        String href = UrlFactory.parameterizeUrl("../iacucMeetingManagement.do", parameters);
-
         String href = UrlFactory.parameterizeUrl("../" + getMeetingManagementActionIdHook()+ ".do", parameters);
         htmlData.setHref(href);
         return htmlData;
@@ -283,10 +270,6 @@ public abstract class CommitteeScheduleLookupableHelperServiceImplBase<CS extend
     }
 
     protected boolean canModifySchedule(CS committeeSchedule) {
-        
-// TODO *********commented the code below during IACUC refactoring*********         
-//        CommitteeTaskBase task = new CommitteeTaskBase(TaskName.MODIFY_SCHEDULE, committeeSchedule.getCommittee());
-        
         CMTTSK task = getNewCommitteeTaskInstanceHook(TaskName.MODIFY_SCHEDULE, committeeSchedule.getParentCommittee());
         return taskAuthorizationService.isAuthorized(getUserIdentifier(), task);
     }
@@ -296,10 +279,6 @@ public abstract class CommitteeScheduleLookupableHelperServiceImplBase<CS extend
     
     
     protected boolean canViewSchedule(CS committeeSchedule) {
-        
-// TODO *********commented the code below during IACUC refactoring*********         
-//        CommitteeTaskBase task = new CommitteeScheduleTaskBase(TaskName.VIEW_SCHEDULE, committeeSchedule.getCommittee(), committeeSchedule);
-        
         CSTSK task =  getNewCommitteeScheduleTaskInstanceHook(TaskName.VIEW_SCHEDULE, committeeSchedule.getParentCommittee(), committeeSchedule);
         boolean result = taskAuthorizationService.isAuthorized(getUserIdentifier(), task);
         return result;

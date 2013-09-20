@@ -15,11 +15,6 @@
  */
 package org.kuali.kra.common.committee.rules;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.common.committee.rule.event.CommitteeActionGenerateBatchCorrespondenceEventBase;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -30,7 +25,11 @@ import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceTemplateServi
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondenceTypeBase;
 import org.kuali.kra.rule.BusinessRuleInterface;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
-import org.kuali.rice.krad.bo.BusinessObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 
@@ -125,10 +124,7 @@ public abstract class CommitteeActionGenerateBatchCorrespondenceRuleBase extends
     private BatchCorrespondenceBase lookupBatchCorrespondence(String batchCorrespondenceTypeCode) {
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put(BATCH_CORRESPONDENCE_TYPE_CODE, batchCorrespondenceTypeCode);
-        
-// TODO *********commented the code below during IACUC refactoring*********         
-//        return getBusinessObjectService().findByPrimaryKey(IacucBatchCorrespondence.class, fieldValues);
-        
+
         return getBusinessObjectService().findByPrimaryKey(getBatchCorrespondenceBOClassHook(), fieldValues);
     }
 
@@ -157,10 +153,7 @@ public abstract class CommitteeActionGenerateBatchCorrespondenceRuleBase extends
     private String getProtocolCorrespondenceDescription(String protocolCorrespondenceTypeCode) {
         Map<String, String> primaryKeys = new HashMap<String, String>();
         primaryKeys.put(PROTO_CORRESP_TYPE_CODE, protocolCorrespondenceTypeCode);
-        
-// TODO *********commented the code below during IACUC refactoring*********         
-//        return getBusinessObjectService().findByPrimaryKey(IacucProtocolCorrespondenceType.class, primaryKeys).getDescription();    
-        
+
         return getBusinessObjectService().findByPrimaryKey(getProtocolCorrespondenceTypeBOClassHook(), primaryKeys).getDescription();  
     }
 
