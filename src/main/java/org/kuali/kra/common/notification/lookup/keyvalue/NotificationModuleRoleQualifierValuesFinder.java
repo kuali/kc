@@ -15,16 +15,14 @@
  */
 package org.kuali.kra.common.notification.lookup.keyvalue;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.kuali.kra.irb.ProtocolDocument;
-import org.kuali.kra.irb.ProtocolOnlineReviewDocument;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Defines the values finder for the role qualifiers field in notifications

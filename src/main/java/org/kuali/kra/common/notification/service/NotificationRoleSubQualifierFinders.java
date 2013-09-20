@@ -15,15 +15,11 @@
  */
 package org.kuali.kra.common.notification.service;
 
-import java.util.List;
-import java.util.Map;
-
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.krad.keyvalues.KeyValuesFinder;
+
+import java.util.List;
 
 public interface NotificationRoleSubQualifierFinders {
-
-    Map<String, KeyValuesFinder> getFinders();
     List<KeyValue> getKeyValuesForRole(String roleName);
     List<KeyValue> getKeyValuesForAllRoles();
 }

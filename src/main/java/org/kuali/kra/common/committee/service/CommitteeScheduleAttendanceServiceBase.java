@@ -15,13 +15,6 @@
  */
 package org.kuali.kra.common.committee.service;
 
-import java.util.Set;
-
 public interface CommitteeScheduleAttendanceServiceBase {
-    
-    Set<String> getVotingMembersPresent (String committeeId, String scheduleId);
-    
-    Set<String> getActualVotingMembersPresent (String committeeId, String scheduleId);
-    
     int getActualVotingMembersCount (String committeeId, String scheduleId);
 }

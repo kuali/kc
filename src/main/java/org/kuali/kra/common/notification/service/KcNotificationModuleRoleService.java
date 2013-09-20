@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.common.notification.service;
 
-import java.util.List;
-
 import org.kuali.kra.common.notification.bo.NotificationModuleRole;
+
+import java.util.List;
 
 public interface KcNotificationModuleRoleService {
 
@@ -54,11 +54,4 @@ public interface KcNotificationModuleRoleService {
      * @see org.kuali.kra.bo.CoeusModule
      */
     List<NotificationModuleRole> getNotificationModuleRolesForKimRole(String moduleCode, String roleName);
-    
-    /**
-     * This method saves a list of notification module roles.
-     * @param notificationModuleRoles The list of module roles to save
-     */
-    void saveNotificationModuleRoles(List<NotificationModuleRole> notificationModuleRoles);
-    
 }

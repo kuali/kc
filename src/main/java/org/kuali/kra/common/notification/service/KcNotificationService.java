@@ -15,19 +15,16 @@
  */
 package org.kuali.kra.common.notification.service;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
-
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.common.notification.NotificationContext;
 import org.kuali.kra.common.notification.bo.KcNotification;
 import org.kuali.kra.common.notification.bo.NotificationType;
 import org.kuali.kra.common.notification.bo.NotificationTypeRecipient;
-import org.kuali.kra.protocol.ProtocolBase;
-import org.kuali.kra.protocol.notification.ProtocolNotification;
-import org.kuali.kra.protocol.notification.ProtocolNotificationContextBase;
 import org.kuali.rice.ken.api.notification.NotificationRecipient;
+
+import java.util.Collection;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Defines methods for creating and sending KC Notifications.
@@ -135,11 +132,5 @@ public interface KcNotificationService {
      * @param notificationRecipients
      */
     void sendNotification(String contextName, String subject, String message, Collection<NotificationRecipient.Builder> notificationRecipients);
-
-    /**
-     * Make a copy of an existing notification
-     * @param notification
-     */
-    KcNotification copy(KcNotification oldNotification);
     
 }
