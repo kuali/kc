@@ -20,7 +20,6 @@
       <list>
         <ref bean="PersonSignature-personSignatureId" />
   		<ref bean="PersonSignature-templateFile" />
-  		<ref bean="PersonSignature-defaultAdminSignature" />
   		<ref bean="PersonSignature-signatureActive" />
         <ref bean="PersonSignature-personId" />
 		<ref bean="PersonSignature-person.fullName" />
@@ -74,16 +73,6 @@
     </property>
     <property name="summary" value="Signature" />
     <property name="description" value="PersonSignature Image File" />
-  </bean>
-  
-  
-  <bean id="PersonSignature-defaultAdminSignature" parent="PersonSignature-defaultAdminSignature-parentBean" />
-  <bean id="PersonSignature-defaultAdminSignature-parentBean" abstract="true" parent="AttributeReferenceDummy-genericBoolean">
-	    <property name="name" value="defaultAdminSignature" />
-	    <property name="label" value="Default Administrator Signature" />
-	    <property name="shortLabel" value="Default Signature" />
-	    <property name="summary" value="Default Signature" />
-	    <property name="description" value="Indicate if this is the default administrator signature" />
   </bean>
   
   <bean id="PersonSignature-signatureActive" parent="PersonSignature-signatureActive-parentBean" />
@@ -180,8 +169,6 @@
 		<bean parent="FieldDefinition"
               p:attributeName="person.userName" />
 		<bean parent="FieldDefinition"
-    	      p:attributeName="defaultAdminSignature" />
-		<bean parent="FieldDefinition"
     	      p:attributeName="signatureActive" />
       </list>
     </property>
@@ -191,8 +178,6 @@
               p:attributeName="personSignatureId" />
 		<bean parent="FieldDefinition"
     	      p:attributeName="person.fullName" />
-		<bean parent="FieldDefinition"
-    	      p:attributeName="defaultAdminSignature" />
 		<bean parent="FieldDefinition"
     	      p:attributeName="signatureActive" />
       </list>

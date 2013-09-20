@@ -15,6 +15,8 @@
  */
 package org.kuali.kra.iacuc.correspondence;
 
+import org.kuali.kra.iacuc.actions.print.IacucPersonSignatureService;
+import org.kuali.kra.printing.service.PersonSignatureService;
 import org.kuali.kra.protocol.actions.correspondence.ProtocolActionCorrespondenceGenerationServiceImplBase;
 import org.kuali.kra.protocol.correspondence.ProtocolCorrespondence;
 
@@ -26,10 +28,24 @@ import org.kuali.kra.protocol.correspondence.ProtocolCorrespondence;
 public class IacucProtocolActionCorrespondenceGenerationServiceImpl 
     extends ProtocolActionCorrespondenceGenerationServiceImplBase implements IacucProtocolActionCorrespondenceGenerationService {
 
+    private IacucPersonSignatureService personSignatureService;
+    
     @Override
     protected ProtocolCorrespondence getNewProtocolCorrespondenceHook() {
         return new IacucProtocolCorrespondence();
     }
 
+    @Override
+    protected PersonSignatureService getPersonSignatureServiceHook() {
+        return getPersonSignatureService();
+    }
+
+    public IacucPersonSignatureService getPersonSignatureService() {
+        return personSignatureService;
+    }
+
+    public void setPersonSignatureService(IacucPersonSignatureService personSignatureService) {
+        this.personSignatureService = personSignatureService;
+    }
     
 }

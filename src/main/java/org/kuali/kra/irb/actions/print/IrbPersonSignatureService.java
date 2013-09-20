@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2013 The Kuali Foundation
+ * Copyright 2005-2010 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,20 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.kra.printing.service;
+package org.kuali.kra.irb.actions.print;
 
+import org.kuali.kra.printing.service.PersonSignatureService;
 
-public interface PersonSignatureService {
-
-    /**
-     * 
-     * This method is to apply signature to the pdf document.
-     * In this method the input pdfBytes are merged with appropriate signature and 
-     * the result is returned.
-     * @param pdfBytes
-     * @return pdfFileData
-     * @throws Exception
-     */
-    byte[] applySignature(byte[] pdfBytes) throws Exception;
+public interface IrbPersonSignatureService extends PersonSignatureService {
 
 }

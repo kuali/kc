@@ -27,10 +27,8 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.imageio.ImageIO;
 
@@ -48,37 +46,31 @@ import org.apache.pdfbox.pdmodel.graphics.xobject.PDJpeg;
 import org.apache.pdfbox.pdmodel.interactive.form.PDAcroForm;
 import org.apache.pdfbox.util.ImageParameters;
 import org.kuali.kra.bo.PersonSignature;
-import org.kuali.kra.dao.PersonSignatureDao;
-import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.RoleConstants;
-import org.kuali.kra.kim.bo.KcKimAttributes;
+import org.kuali.kra.bo.PersonSignatureModule;
 import org.kuali.kra.printing.PersonSignatureLocationHelper;
 import org.kuali.kra.printing.PersonSignaturePrintHelper;
 import org.kuali.kra.printing.service.PersonSignatureService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.kim.api.role.RoleMembership;
-import org.kuali.rice.kim.api.role.RoleService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
-public class PersonSignatureServiceImpl implements PersonSignatureService {
+public abstract class PersonSignatureServiceImpl implements PersonSignatureService {
     
     private static final String CORRESPONDENCE_SIGNATURE_TYPE = "CORRESPONDENCE_SIGNATURE_TYPE";
     private static final String CORRESPONDENCE_SIGNATURE_TAG = "CORRESPONDENCE_SIGNATURE_TAG";
     private BusinessObjectService businessObjectService;
     private ParameterService parameterService;
-    private RoleService roleService;
-    private PersonSignatureDao personSignatureDao;
 
     private static final float ADDITIONAL_SPACE_BETWEEN_TAG_AND_IMAGE = 10f;
+
+    protected static final String PERSON_SIGNATURE_ACTIVE = "signatureActive";
+    protected static final String PERSON_SIGNATURE_PERSON_ID = "personId";
+    protected static final String DEFAULT_SIGNATURE = "defaultSignature";
+    protected static final String MODULE_CODE = "moduleCode";
     
     private static final Log LOG = LogFactory.getLog(PersonSignatureServiceImpl.class);
-    
-    private String leadUnitNumber; 
-    private String administratorType;
-    private String moduleNameSpace;
     
     /**
      * Configure signature type required
@@ -115,11 +107,7 @@ public class PersonSignatureServiceImpl implements PersonSignatureService {
     /**
      * @see org.kuali.kra.printing.service.PersonSignatureService#applySignature(java.lang.String, java.lang.String, byte[])
      */
-    public byte[] applySignature(String leadUnitNumber, String administratorType, String moduleNameSpace,
-            byte[] pdfBytes) throws Exception {
-        this.leadUnitNumber = leadUnitNumber;
-        this.administratorType = administratorType;
-        this.moduleNameSpace = moduleNameSpace;
+    public byte[] applySignature(byte[] pdfBytes) throws Exception {
         byte[] pdfFileData = pdfBytes;
         ByteArrayOutputStream byteArrayOutputStream = getOriginalPdfDocumentAsOutputsStream(pdfBytes); //getFlattenedPdfForm(pdfFileData);
         byteArrayOutputStream = identifyModeAndApplySignature(byteArrayOutputStream);
@@ -184,7 +172,7 @@ public class PersonSignatureServiceImpl implements PersonSignatureService {
     }
     
     /**
-     * This method is to print default module administrator signature.
+     * This method is to print default module authorized signature.
      * Original document is returned if signature is not available.
      * @param originalByteArrayOutputStream
      * @return
@@ -192,10 +180,10 @@ public class PersonSignatureServiceImpl implements PersonSignatureService {
      */
     protected ByteArrayOutputStream printDefaultSignature(ByteArrayOutputStream originalByteArrayOutputStream) throws Exception{
         ByteArrayOutputStream outputStream = originalByteArrayOutputStream;
-        PersonSignature adminSignature = getAdminSignature();
-        if(ObjectUtils.isNotNull(adminSignature)) {
-            if(ObjectUtils.isNotNull(adminSignature.getAttachmentContent())) {
-                outputStream = applyAutographInDocument(adminSignature, outputStream);
+        PersonSignature authorizedSignature = getDefaultSignature();
+        if(ObjectUtils.isNotNull(authorizedSignature)) {
+            if(ObjectUtils.isNotNull(authorizedSignature.getAttachmentContent())) {
+                outputStream = applyAutographInDocument(authorizedSignature, outputStream);
             }
         }
         return outputStream;
@@ -203,7 +191,7 @@ public class PersonSignatureServiceImpl implements PersonSignatureService {
 
     /**
      * This method is to print logged in user signature.
-     * If logged in user signature is not available, get the administrator signature.
+     * If logged in user signature is not available, get the default signature for applicable module.
      * Original document is returned if signature is not available.
      * @param personId
      * @param originalByteArrayOutputStream
@@ -214,7 +202,7 @@ public class PersonSignatureServiceImpl implements PersonSignatureService {
         PersonSignature userSignature = getLoggedinPersonSignature(personId);
         ByteArrayOutputStream outputStream = originalByteArrayOutputStream;
         if(ObjectUtils.isNull(userSignature)) {
-            userSignature = getAdminSignature();
+            userSignature = getDefaultSignature();
         }
         if(ObjectUtils.isNotNull(userSignature)) {
             if(ObjectUtils.isNotNull(userSignature.getAttachmentContent())) {
@@ -343,55 +331,61 @@ public class PersonSignatureServiceImpl implements PersonSignatureService {
     }
     
     /**
-     * This method is to get the default administrator signature
+     * This method is to get the default signature for module
      * @return
      */
-    protected PersonSignature getAdminSignature() {
-        List<RoleMembership> moduleAdministrators = getAdministrators();
-        Set<String> personIdsForSignature = new HashSet<String>();
-        for(RoleMembership roleMembership : moduleAdministrators) {
-            personIdsForSignature.add(roleMembership.getMemberId());
+    protected PersonSignature getDefaultSignature() {
+        List<PersonSignatureModule> moduleSignatures = getAuthorizedDefaultSignatory();
+        PersonSignature authorizedSignature = null;
+        if(!moduleSignatures.isEmpty()) {
+            authorizedSignature = moduleSignatures.get(0).getPersonSignature();
         }
-        List<PersonSignature> personSignatures = getPersonSignatureDao().getPersonSignatureForPersonIds(personIdsForSignature);
-        PersonSignature adminSignature = null;
-        for(PersonSignature personSignature : personSignatures) {
-            if(personSignature.isDefaultAdminSignature()) {
-                adminSignature = personSignature;
-                break;
-            }
-        }
-        return adminSignature;
+        return authorizedSignature;
     }
     
     /**
      * This method is to get logged in person signature
+     * Check whether user is authorized to sign in given module
      * @param personId
      * @return
      */
     protected PersonSignature getLoggedinPersonSignature(String personId) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
-        fieldValues.put(Constants.PERSON_SIGNATURE_PERSON_ID, personId);
-        fieldValues.put(Constants.PERSON_SIGNATURE_ACTIVE, Boolean.TRUE);
+        boolean isAuthorized = false;
+        fieldValues.put(PERSON_SIGNATURE_PERSON_ID, personId);
+        fieldValues.put(PERSON_SIGNATURE_ACTIVE, Boolean.TRUE);
         PersonSignature personSignature = (PersonSignature) getBusinessObjectService().findByPrimaryKey(PersonSignature.class, fieldValues);
-        return personSignature;
+        if(ObjectUtils.isNotNull(personSignature)) {
+            for(PersonSignatureModule personSignatureModule : personSignature.getPersonSignatureModules()) {
+                if(personSignatureModule.getModuleCode().equalsIgnoreCase(getModuleCodeHook()) && personSignatureModule.isSignatureActive()) {
+                    isAuthorized = true;
+                    break;
+                }
+            }
+        }
+        return isAuthorized ? personSignature : null;
     }
     
     
-    protected List<RoleMembership> getAdministrators() {    
-        List<String> roleIds = new ArrayList<String>();
-        String roleId = getRoleService().getRoleIdByNamespaceCodeAndName(RoleConstants.DEPARTMENT_ROLE_TYPE, getAdministratorType());
-        roleIds.add(roleId);
-        Map<String,String> attrSet =new HashMap<String,String>();
-        attrSet.put(KcKimAttributes.UNIT_NUMBER, getLeadUnitNumber());
-        return getRoleService().getRoleMembers(roleIds, attrSet);
+    /**
+     * This method is to get authorized default signatory for a given module.
+     * get all active signatures.
+     * @return
+     */
+    protected List<PersonSignatureModule> getAuthorizedDefaultSignatory() {    
+        Map<String, Object> matchingKey = new HashMap<String, Object>();
+        matchingKey.put(MODULE_CODE, getModuleCodeHook());
+        matchingKey.put(PERSON_SIGNATURE_ACTIVE, Boolean.TRUE);
+        matchingKey.put(DEFAULT_SIGNATURE, Boolean.TRUE);
+        return (List<PersonSignatureModule>)getBusinessObjectService().findMatching(PersonSignatureModule.class, matchingKey);
     }  
     
     protected String getSignatureTypeParameter() {
-        return getParameterService().getParameterValueAsString(getModuleNameSpace(), ParameterConstants.DOCUMENT_COMPONENT, CORRESPONDENCE_SIGNATURE_TYPE);
+        return getParameterService().getParameterValueAsString(getModuleNameSpaceHook(), ParameterConstants.DOCUMENT_COMPONENT, CORRESPONDENCE_SIGNATURE_TYPE);
     }
 
     protected Collection<String> getSignatureTagParameter() {
-        return getParameterService().getParameterValuesAsString(getModuleNameSpace(), ParameterConstants.DOCUMENT_COMPONENT, CORRESPONDENCE_SIGNATURE_TAG);
+        return getParameterService().getParameterValuesAsString(getModuleNameSpaceHook(), ParameterConstants.DOCUMENT_COMPONENT, CORRESPONDENCE_SIGNATURE_TAG);
     }
     
     public ParameterService getParameterService() {
@@ -402,22 +396,6 @@ public class PersonSignatureServiceImpl implements PersonSignatureService {
         this.parameterService = parameterService;
     }
 
-    public RoleService getRoleService() {
-        return roleService;
-    }
-
-    public void setRoleService(RoleService roleService) {
-        this.roleService = roleService;
-    }
-
-    public PersonSignatureDao getPersonSignatureDao() {
-        return personSignatureDao;
-    }
-
-    public void setPersonSignatureDao(PersonSignatureDao personSignatureDao) {
-        this.personSignatureDao = personSignatureDao;
-    }
-
     public BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
     }
@@ -426,16 +404,7 @@ public class PersonSignatureServiceImpl implements PersonSignatureService {
         this.businessObjectService = businessObjectService;
     }
 
-    protected String getLeadUnitNumber() {
-        return leadUnitNumber;
-    }
-
-    protected String getAdministratorType() {
-        return administratorType;
-    }
-
-    public String getModuleNameSpace() {
-        return moduleNameSpace;
-    }
+    protected abstract String getModuleCodeHook();
+    protected abstract String getModuleNameSpaceHook();
 
 }

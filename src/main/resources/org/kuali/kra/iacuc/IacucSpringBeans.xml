@@ -1136,6 +1136,7 @@
 		<property name="printingService" ref="printingService" />
 		<property name="protocolActionTypeToCorrespondenceTemplateService" ref="iacucProtocolActionTypeToCorrespondenceTemplateService" />
 		<property name="dateTimeService" ref="dateTimeService" />
+		<property name="personSignatureService" ref="iacucPersonSignatureService" />
 	</bean>
 
     <bean id="iacucProtocolProposalDevelopmentProtocolDocumentService" class="org.kuali.kra.iacuc.protocol.funding.IacucProtocolProposalDevelopmentProtocolDocumentServiceImpl">
@@ -1213,5 +1214,10 @@
         <property name="committeeDecisionService" ref="iacucCommitteeDecisionService" />
         <property name="assignToCmtService" ref="iacucProtocolAssignCmtService" />
  	</bean>
+
+    <bean id="iacucPersonSignatureService" class="org.kuali.kra.iacuc.actions.print.IacucPersonSignatureServiceImpl">
+       	<property name="businessObjectService" ref="businessObjectService" />
+    	<property name="parameterService" ref="parameterService" />
+    </bean>
 
 </beans>
