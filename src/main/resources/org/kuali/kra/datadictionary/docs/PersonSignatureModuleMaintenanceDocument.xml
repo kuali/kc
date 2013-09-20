@@ -19,46 +19,49 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-    <bean id="PersonSignatureMaintenanceDocument" parent="PersonSignatureMaintenanceDocument-parentBean" />
-    <bean id="PersonSignatureMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
-        <property name="businessObjectClass" value="org.kuali.kra.bo.PersonSignature" />
-        <property name="maintainableClass" value="org.kuali.kra.bo.PersonSignatureMaintainableImpl" />
+    <bean id="PersonSignatureModuleMaintenanceDocument" parent="PersonSignatureModuleMaintenanceDocument-parentBean" />
+    <bean id="PersonSignatureModuleMaintenanceDocument-parentBean" abstract="true" parent="KcMaintenanceDocumentEntry">
+        <property name="businessObjectClass" value="org.kuali.kra.bo.PersonSignatureModule" />
+		<property name="maintainableClass" value="org.kuali.kra.maintenance.KraMaintainableImpl"/>
         <property name="maintainableSections" >
             <list>
-                <ref bean="PersonSignatureMaintenanceDocument-EditPersonSignature" />
+                <ref bean="PersonSignatureModuleMaintenanceDocument-EditPersonSignatureModule" />
             </list>
         </property>
         <property name="lockingKeys" >
             <list>
-                <value>personSignatureId</value>
+                <value>personSignatureModuleId</value>
             </list>
         </property>
         <property name="allowsRecordDeletion" value="true" />
-        <property name="documentTypeName" value="PersonSignatureMaintenanceDocument" />
+        <property name="documentTypeName" value="PersonSignatureModuleMaintenanceDocument" />
 		<property name="documentAuthorizerClass" value="org.kuali.kra.authorizer.PersonSignatureMaintenanceDocumentAuthorizer"/>
-        <property name="businessRulesClass" value="org.kuali.kra.bo.ValidPersonSignatureMaintenanceDocumentRule"/>
+        <property name="businessRulesClass" value="org.kuali.kra.bo.ValidPersonSignatureModuleMaintenanceDocumentRule"/>
         
     </bean>
 
     <!-- Maintenance Section Definitions -->
     
-    <bean id="PersonSignatureMaintenanceDocument-EditPersonSignature" parent="PersonSignatureMaintenanceDocument-EditPersonSignature-parentBean" />
-    <bean id="PersonSignatureMaintenanceDocument-EditPersonSignature-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-        <property name="id" value="Edit PersonSignature" />
-        <property name="title" value="Edit PersonSignature" />
+    <bean id="PersonSignatureModuleMaintenanceDocument-EditPersonSignatureModule" parent="PersonSignatureModuleMaintenanceDocument-EditPersonSignatureModule-parentBean" />
+    <bean id="PersonSignatureModuleMaintenanceDocument-EditPersonSignatureModule-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+        <property name="id" value="Edit PersonSignatureModule" />
+        <property name="title" value="Edit PersonSignatureModule" />
         <property name="maintainableItems" >
             <list>
                 <bean parent="MaintainableFieldDefinition" 
-                	p:name="personId" 
+                	p:name="personSignatureId" 
                 	p:required="true" />
  		        <bean parent="MaintainableFieldDefinition" 
- 		        	p:name="person.userName" 
- 		        	p:required="false" />
+ 		        	p:name="moduleCode" 
+ 		        	p:required="true" />
                <bean parent="MaintainableFieldDefinition"
-                    p:name="templateFile" />
+                    p:name="defaultSignature" 
+                    p:required="false"  />               
                <bean parent="MaintainableFieldDefinition"
                     p:name="signatureActive" 
                     p:required="false"  />               
+				<bean parent="MaintainableFieldDefinition" 
+					p:name="versionNumber"/>
             </list>
         </property>
     </bean>

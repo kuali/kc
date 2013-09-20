@@ -886,6 +886,7 @@
         <property name="printingService" ref="printingService" />
         <property name="protocolActionTypeToCorrespondenceTemplateService" ref="protocolActionTypeToCorrespondenceTemplateService"/>
         <property name="dateTimeService" ref="dateTimeService" />
+		<property name="personSignatureService" ref="irbPersonSignatureService" />
     </bean>
 
 	<bean id="protocolOnlineReviewRoleTypeService"
@@ -1101,6 +1102,11 @@
         <property name="personService" ref="personService"/>
         <property name="questionnaireAnswerService" ref="questionnaireAnswerService" />
  	</bean>
+
+    <bean id="irbPersonSignatureService" class="org.kuali.kra.irb.actions.print.IrbPersonSignatureServiceImpl">
+       	<property name="businessObjectService" ref="businessObjectService" />
+    	<property name="parameterService" ref="parameterService" />
+    </bean>
  	 
 </beans>
 
