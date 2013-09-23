@@ -23,7 +23,6 @@ import org.kuali.kra.dao.UnitLookupDao;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 public class UnitLookupDaoOjb extends PlatformAwareDaoBaseOjb implements UnitLookupDao {
-    private static final String UNIT_NUMBER = "unitNumber";
 
     /**
      * @see org.kuali.kra.dao.UnitLookupDao#findUnitbyNumberCaseInsensitive(java.lang.String)
