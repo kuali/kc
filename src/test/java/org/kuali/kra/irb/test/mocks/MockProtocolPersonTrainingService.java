@@ -15,12 +15,12 @@
  */
 package org.kuali.kra.irb.test.mocks;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.kuali.kra.bo.PersonTraining;
 import org.kuali.kra.irb.personnel.ProtocolPersonTrainingService;
 import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A Mock for the ProtocolPersonTrainingService.
@@ -35,15 +35,11 @@ public class MockProtocolPersonTrainingService implements ProtocolPersonTraining
             setTrainedFlag(protocolPerson);
         }
     }
-    
-    /**
-     * @see org.kuali.kra.irb.personnel.ProtocolPersonTrainingService#setTrainedFlag(org.kuali.kra.irb.personnel.ProtocolPerson)
-     */
+
     public void setTrainedFlag(ProtocolPersonBase protocolPerson) {
         protocolPerson.setTrained(true);
     }
 
-    // TODO added during IRB backfit
     @Override
     public List<PersonTraining> getPersonTrainingDetails(String personId) {
         return new ArrayList<PersonTraining>();

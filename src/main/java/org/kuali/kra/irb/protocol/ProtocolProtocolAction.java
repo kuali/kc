@@ -15,16 +15,6 @@
  */
 package org.kuali.kra.irb.protocol;
 
-import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map.Entry;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -35,39 +25,19 @@ import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.irb.ProtocolAction;
-import org.kuali.kra.irb.ProtocolDocument;
-import org.kuali.kra.irb.ProtocolDocumentRule;
-import org.kuali.kra.irb.ProtocolEventBase;
-import org.kuali.kra.irb.ProtocolForm;
-import org.kuali.kra.irb.ResearchArea;
+import org.kuali.kra.irb.*;
 import org.kuali.kra.irb.actions.ProtocolActionType;
 import org.kuali.kra.irb.actions.notification.FundingSourceNotificationRenderer;
 import org.kuali.kra.irb.notification.IRBNotificationContext;
-
-// TODO ********************** added or modified during IRB backfit merge BEGIN ************************ 
 import org.kuali.kra.irb.notification.IRBProtocolNotification;
-// TODO ********************** added or modified during IRB backfit merge END ************************ 
-
-import org.kuali.kra.irb.protocol.funding.AddProtocolFundingSourceEvent;
-import org.kuali.kra.irb.protocol.funding.LookupProtocolFundingSourceEvent;
-import org.kuali.kra.irb.protocol.funding.ProtocolFundingSource;
-import org.kuali.kra.irb.protocol.funding.ProtocolFundingSourceService;
-import org.kuali.kra.irb.protocol.funding.ProtocolFundingSourceServiceImpl;
-import org.kuali.kra.irb.protocol.funding.ProtocolProposalDevelopmentDocumentService;
-import org.kuali.kra.irb.protocol.funding.SaveProtocolFundingSourceLinkEvent;
+import org.kuali.kra.irb.protocol.funding.*;
 import org.kuali.kra.irb.protocol.location.AddProtocolLocationEvent;
 import org.kuali.kra.irb.protocol.location.ProtocolLocation;
 import org.kuali.kra.irb.protocol.location.ProtocolLocationService;
 import org.kuali.kra.irb.protocol.participant.AddProtocolParticipantEvent;
 import org.kuali.kra.irb.protocol.participant.ProtocolParticipant;
 import org.kuali.kra.irb.protocol.participant.ProtocolParticipantService;
-import org.kuali.kra.irb.protocol.reference.AddProtocolReferenceEvent;
-import org.kuali.kra.irb.protocol.reference.ProtocolReference;
-import org.kuali.kra.irb.protocol.reference.ProtocolReferenceBean;
-import org.kuali.kra.irb.protocol.reference.ProtocolReferenceService;
-import org.kuali.kra.irb.protocol.reference.ProtocolReferenceType;
+import org.kuali.kra.irb.protocol.reference.*;
 import org.kuali.kra.irb.protocol.research.ProtocolResearchAreaService;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
@@ -80,6 +50,15 @@ import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map.Entry;
+
+import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
 
 /**
  * The ProtocolProtocolAction corresponds to the Protocol tab (web page). It is responsible for handling all user requests from that

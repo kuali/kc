@@ -27,30 +27,4 @@ public class ProtocolContingency extends ProtocolContingencyBase {
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = -8653530847814189648L;
-
-    
-// TODO ********************** commented out during IRB backfit ************************
-//    private String protocolContingencyCode;
-//
-//    private String description;
-//
-//    public ProtocolContingency() {
-//    }
-//
-//    public String getProtocolContingencyCode() {
-//        return protocolContingencyCode;
-//    }
-//
-//    public void setProtocolContingencyCode(String protocolContingencyCode) {
-//        this.protocolContingencyCode = protocolContingencyCode;
-//    }
-//
-//    public String getDescription() {
-//        return description;
-//    }
-//
-//    public void setDescription(String description) {
-//        this.description = description;
-//    }
-
 }

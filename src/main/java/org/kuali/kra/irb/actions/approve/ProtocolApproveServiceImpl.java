@@ -70,7 +70,6 @@ public class ProtocolApproveServiceImpl extends ProtocolApproveServiceImplBase i
         
         protocol.setApprovalDate(actionBean.getApprovalDate());
         protocol.setExpirationDate(actionBean.getExpirationDate());
-        // TODO ********************** added or modified during IRB backfit merge BEGIN ********************** 
         if (protocol.isRenewal() || protocol.isAmendment()) {
             protocol.setLastApprovalDate(actionBean.getApprovalDate());
         }

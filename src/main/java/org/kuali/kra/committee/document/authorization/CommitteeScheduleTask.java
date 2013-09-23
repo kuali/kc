@@ -33,17 +33,4 @@ public class CommitteeScheduleTask extends CommitteeScheduleTaskBase<Committee, 
     public CommitteeScheduleTask(String taskName, Committee committee, CommitteeSchedule schedule) {
         super(TaskGroupName.COMMITTEE, taskName, committee, schedule);
     }
-    
-// TODO ********************** commented out during IRB backfit ************************    
-//    protected CommitteeSchedule schedule;
-//    
-//    public CommitteeScheduleTask(String taskName, Committee committee, CommitteeSchedule schedule) {
-//        super(taskName, committee);
-//        this.schedule = schedule;
-//    }
-//
-//    public CommitteeSchedule getCommitteeSchedule() {
-//        return schedule;
-//    }
-    
 }

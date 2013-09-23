@@ -30,39 +30,4 @@ public class CommitteeBatchCorrespondenceDaoOjb extends CommitteeBatchCorrespond
     protected Class<CommitteeBatchCorrespondence> getCommitteeBatchCorrespondenceBOClassHook() {
         return CommitteeBatchCorrespondence.class;
     }
-
-// TODO ********************** commented out during IRB backfit ************************    
-//    private static final Log LOG = LogFactory.getLog(CommitteeBatchCorrespondenceDaoOjb.class);
-//
-//    private static final String BATCH_CORRESPONDENCE_TYPE_CODE = "batchCorrespondenceTypeCode";
-//    private static final String BATCH_RUN_DATE = "batchRunDate";
-//
-//    /**
-//     * {@inheritDoc} 
-//     */
-//    @SuppressWarnings("unchecked")
-//    public List<CommitteeBatchCorrespondence> getCommitteeBatchCorrespondence(String batchCorrespondenceTypeCode, Date startDate, Date endDate) {
-//        Criteria crit = new Criteria();
-//        crit.addEqualTo(BATCH_CORRESPONDENCE_TYPE_CODE, batchCorrespondenceTypeCode);
-//        if (startDate != null) {
-//            crit.addGreaterOrEqualThan(BATCH_RUN_DATE, startDate);
-//        }
-//        if (endDate != null) {
-//            crit.addLessOrEqualThan(BATCH_RUN_DATE, endDate);
-//        }
-//        Query q = QueryFactory.newQuery(CommitteeBatchCorrespondence.class, crit, true);
-//        logQuery(q);
-//        return (List<CommitteeBatchCorrespondence>) getPersistenceBrokerTemplate().getCollectionByQuery(q);
-//    }
-//
-//    /**
-//     * Logs the Query
-//     * @param q the query
-//     */
-//    private static void logQuery(Query q) {
-//        if (LOG.isDebugEnabled()) {
-//            LOG.debug(q.toString());
-//        }
-//    }
-    
 }

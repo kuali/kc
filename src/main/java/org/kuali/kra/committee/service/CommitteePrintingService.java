@@ -24,25 +24,4 @@ import org.kuali.kra.common.committee.print.service.CommitteePrintingServiceBase
  */
 public interface CommitteePrintingService extends CommitteePrintingServiceBase {
 
-// TODO ********************** commented out during IRB backfit ************************    
-//    /**
-//     * 
-//     * This method gets the specific implementation for printing a committee report based
-//     * on the report type.
-//     * @param printType
-//     * @return printable
-//     */
-//    AbstractPrint getCommitteePrintable(CommitteeReportType reportType);
-//    
-//    /**
-//     * This method generates the required report and returns the PDF stream as
-//     * {@link AttachmentDataSource}.
-//     * 
-//     * @param printableArtifact the specific implementation for printing the report.
-//     * @return {@link AttachmentDataSource} which contains the byte array of the
-//     *         generated PDF
-//     * @throws PrintingException if any errors occur during report generation
-//     */
-//    AttachmentDataSource print(List<Printable> printableArtifactList) throws PrintingException;
-
 }

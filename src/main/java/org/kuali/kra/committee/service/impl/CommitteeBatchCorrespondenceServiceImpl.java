@@ -15,16 +15,14 @@
  */
 package org.kuali.kra.committee.service.impl;
 
-import java.sql.Date;
-import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.committee.bo.CommitteeBatchCorrespondence;
 import org.kuali.kra.committee.bo.CommitteeBatchCorrespondenceDetail;
+import org.kuali.kra.committee.service.CommitteeBatchCorrespondenceService;
+import org.kuali.kra.committee.service.CommitteePrintingService;
 import org.kuali.kra.common.committee.bo.CommitteeBatchCorrespondenceBase;
 import org.kuali.kra.common.committee.bo.CommitteeBatchCorrespondenceDetailBase;
 import org.kuali.kra.common.committee.service.impl.CommitteeBatchCorrespondenceServiceImplBase;
-import org.kuali.kra.committee.service.CommitteeBatchCorrespondenceService;
-import org.kuali.kra.committee.service.CommitteePrintingService;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.irb.Protocol;
@@ -42,32 +40,14 @@ import org.kuali.kra.protocol.ProtocolBase;
 import org.kuali.kra.protocol.actions.ProtocolActionBase;
 import org.kuali.kra.protocol.correspondence.BatchCorrespondenceBase;
 
+import java.sql.Date;
+import java.util.List;
+
 /**
  * 
  * This class generates the batch correspondence of committees.
  */
 public class CommitteeBatchCorrespondenceServiceImpl extends CommitteeBatchCorrespondenceServiceImplBase implements CommitteeBatchCorrespondenceService {
-
-// TODO ********************** commented out during IRB backfit ************************    
-//    private static final Log LOG = LogFactory.getLog(CommitteeBatchCorrespondenceServiceImpl.class);
-//    private static final String COMMITTEE_ID = "committeeId";
-//    private static final String PROTOCOL_NUMBER = "protocolNumber";
-//    private static final String SEQUENCE_NUMBER = "sequenceNumber";
-//    private static final String PROTO_CORRESP_TYPE_CODE = "protoCorrespTypeCode";
-//    private static final String BATCH_CORRESPONDENCE_TYPE_CODE = "batchCorrespondenceTypeCode";
-//
-//
-//    private BusinessObjectService businessObjectService;
-//    private ProtocolDao protocolDao;
-//    private ProtocolGenericActionService protocolGenericActionService;
-//    private ProtocolCorrespondenceTemplateService protocolCorrespondenceTemplateService;
-//    private DocumentService documentService;
-//    private KcPersonService kcPersonService;
-//    private KcNotificationService kcNotificationService;
-//    private KcEmailService kcEmailService;
-//    private DateTimeService dateTimeService;
-//
-//    private int finalActionCounter;
 
     @Override
     /**
@@ -134,94 +114,6 @@ public class CommitteeBatchCorrespondenceServiceImpl extends CommitteeBatchCorre
         
         return committeeBatchCorrespondence;
     }
-    
-// TODO ********************** commented out during IRB backfit ************************    
-//    /**
-//     * This method determines if and for which ProtocolCorrespondenceType a batch correspondence needs to be generated.
-//     * The final action is being applied at this time as well.
-//     * 
-//     * @param protocol
-//     * @param batchCorrespondence
-//     * @return The ProtocolCorrespondeceType for which correspondence needs to be generated.  
-//     *         Null if no correspondence needs to be generated.
-//     * @throws Exception
-//     */
-//    protected ProtocolCorrespondenceType getProtocolCorrespondenceTypeToGenerate(Protocol protocol, BatchCorrespondence batchCorrespondence) throws Exception {
-//        ProtocolCorrespondenceType protocolCorrespondenceType = null;
-//
-//        if (StringUtils.equals(batchCorrespondence.getSendCorrespondence(), BatchCorrespondence.SEND_CORRESPONDENCE_BEFORE_EVENT)) {
-//            protocolCorrespondenceType = getBeforeProtocolCorrespondenceTypeToGenerate(protocol, batchCorrespondence);
-//        } else {
-//            protocolCorrespondenceType = getAfterProtocolCorrespondenceTypeToGenerate(protocol, batchCorrespondence);
-//        }
-//        
-//        if ((protocolCorrespondenceType != null) && (correspondencePreviouslyGenerated(protocol, protocolCorrespondenceType))) {
-//            return null;
-//        } else {
-//            return protocolCorrespondenceType;
-//        }
-//    }
-//    
-//    /**
-//     * This method assists with determining what ProtocolCorrespondenceType is applicable to be generated at this time for
-//     * correspondences that are to be send before the event.
-//     * 
-//     * @param protocol
-//     * @param batchCorrespondence
-//     * @return The ProtocolCorrespondenceType for which correspondence may be generated at this time.  
-//     *         Null if no correspondence needs to be generated.
-//     * @throws Exception
-//     */
-//    protected ProtocolCorrespondenceType getBeforeProtocolCorrespondenceTypeToGenerate(Protocol protocol, 
-//            BatchCorrespondence batchCorrespondence) throws Exception {
-//        ProtocolCorrespondenceType protocolCorrespondenceType = null;
-//        
-//        double diff = DateUtils.getDifferenceInDays(new Timestamp(System.currentTimeMillis()), new Timestamp(protocol.getExpirationDate().getTime()));
-//        
-//        for (BatchCorrespondenceDetail batchCorrespondenceDetail : batchCorrespondence.getBatchCorrespondenceDetails()) {
-//            if (batchCorrespondenceDetail.getDaysToEvent() >= diff) { 
-//                protocolCorrespondenceType = batchCorrespondenceDetail.getProtocolCorrespondenceType();
-//            }
-//        }
-//        
-//        if (batchCorrespondence.getFinalActionDay() >= diff) {
-//            protocolCorrespondenceType = batchCorrespondence.getProtocolCorrespondenceType();
-//            applyFinalAction(protocol, batchCorrespondence);
-//        }
-//
-//        return protocolCorrespondenceType;
-//    }
-//
-//    /**
-//     * This method assists with determining what ProtocolCorrespondenceType is applicable to be generated at this time for
-//     * correspondences that are to be send after the event.
-//     * 
-//     * @param protocol
-//     * @param batchCorrespondence
-//     * @return The ProtocolCorrespondenceType for which correspondence may be generated at this time.  
-//     *         Null if no correspondence needs to be generated.
-//     * @throws Exception
-//     */
-//    protected ProtocolCorrespondenceType getAfterProtocolCorrespondenceTypeToGenerate(Protocol protocol, 
-//            BatchCorrespondence batchCorrespondence) throws Exception {
-//        ProtocolCorrespondenceType protocolCorrespondenceType = null;
-//
-//        //double diff = DateUtils.getDifferenceInDays(protocol.getLastProtocolAction().getUpdateTimestamp(), new Timestamp(System.currentTimeMillis()));
-//        double diff = DateUtils.getDifferenceInDays(protocol.getLastProtocolAction().getActionDate(), new Timestamp(System.currentTimeMillis()));
-//
-//        for (BatchCorrespondenceDetail batchCorrespondenceDetail : batchCorrespondence.getBatchCorrespondenceDetails()) {
-//            if (batchCorrespondenceDetail.getDaysToEvent() <= diff) { 
-//                protocolCorrespondenceType = batchCorrespondenceDetail.getProtocolCorrespondenceType();
-//            }
-//        }
-//
-//        if (batchCorrespondence.getFinalActionDay() <= diff) {
-//            protocolCorrespondenceType = batchCorrespondence.getProtocolCorrespondenceType();
-//            applyFinalAction(protocol, batchCorrespondence);
-//        }
-//
-//        return protocolCorrespondenceType;
-//    }
 
     @Override
     /**
@@ -257,146 +149,6 @@ public class CommitteeBatchCorrespondenceServiceImpl extends CommitteeBatchCorre
             finalActionCounter++;
         }
     }
-
-// TODO ********************** commented out during IRB backfit ************************    
-//    /**
-//     * 
-//     * This method determines if the notification for the protocol has already been generated.
-//     * @param protocol
-//     * @param protocolCorrespondenceType
-//     * @return true if the correspondence has already been generated, false otherwise
-//     */
-//    protected boolean correspondencePreviouslyGenerated(Protocol protocol, ProtocolCorrespondenceType protocolCorrespondenceType) {
-//        Map<String, String> fieldValues = new HashMap<String, String>();
-//        fieldValues.put(PROTOCOL_NUMBER, protocol.getProtocolNumber());
-//        fieldValues.put(SEQUENCE_NUMBER, protocol.getSequenceNumber().toString());
-//        fieldValues.put(PROTO_CORRESP_TYPE_CODE, protocolCorrespondenceType.getProtoCorrespTypeCode());
-//        return !businessObjectService.findMatching(ProtocolCorrespondence.class, fieldValues).isEmpty();
-//    }
-//
-//    /**
-//     * 
-//     * This method creates the CommitteeBatchCorrespondenceDetail and all associated business objects.  
-//     * The associated business objects are persisted to the database on creation.
-//     * @param protocol
-//     * @param protocolCorrespondenceType
-//     * @param committeeBatchCorrespondenceId
-//     * @param protocolActionTypeCode
-//     * @return the populated CommitteeBatchCorrespondenceDetail
-//     * @throws PrintingException 
-//     */
-//    protected CommitteeBatchCorrespondenceDetail createBatchCorrespondenceDetail(String committeeId, Protocol protocol, 
-//            ProtocolCorrespondenceType protocolCorrespondenceType, String committeeBatchCorrespondenceId, 
-//            String protocolActionTypeCode) throws PrintingException {
-//        CommitteeBatchCorrespondenceDetail committeeBatchCorrespondenceDetail = new CommitteeBatchCorrespondenceDetail();
-//        
-//        committeeBatchCorrespondenceDetail.setCommitteeBatchCorrespondenceId(committeeBatchCorrespondenceId);
-//        
-//        committeeBatchCorrespondenceDetail.setProtocolAction(createAndSaveProtocolAction(protocol, 
-//                protocolCorrespondenceType, protocolActionTypeCode));
-//        committeeBatchCorrespondenceDetail.setProtocolActionId(committeeBatchCorrespondenceDetail.getProtocolAction().getProtocolActionId());
-//
-//        committeeBatchCorrespondenceDetail.setProtocolCorrespondence(createAndSaveProtocolCorrespondence(committeeId,
-//                protocol, protocolCorrespondenceType, committeeBatchCorrespondenceDetail.getProtocolAction()));
-//        committeeBatchCorrespondenceDetail.setProtocolCorrespondenceId(committeeBatchCorrespondenceDetail.getProtocolCorrespondence().getId());
-//        committeeBatchCorrespondenceDetail.setCommitteeBatchCorrespondenceDetailId(KraServiceLocator.getService(SequenceAccessorService.class)
-//                .getNextAvailableSequenceNumber("SEQ_COMMITTEE_ID"));
-//
-//        return committeeBatchCorrespondenceDetail;
-//    }
-//
-//    /**
-//     * 
-//     * This method creates the ProtocolAction business object and persists it to the database.
-//     * @param protocol
-//     * @param protocolCorrespondenceType
-//     * @param protocolActionTypeCode
-//     * @return the populated ProtocolAction
-//     */
-//    protected ProtocolAction createAndSaveProtocolAction(Protocol protocol, ProtocolCorrespondenceType protocolCorrespondenceType, 
-//            String protocolActionTypeCode) {
-//        ProtocolAction protocolAction = new ProtocolAction(protocol, null, protocolActionTypeCode);
-//        protocolAction.setComments(protocolCorrespondenceType.getDescription());
-//        
-//        businessObjectService.save(protocolAction);
-//        return protocolAction;
-//    }
-//
-//    /**
-//     * 
-//     * This method creates the ProtocolCorrespondence business object and persists it to the database.  
-//     * @param protocol
-//     * @param protocolCorrespondenceType
-//     * @param protocolAction
-//     * @return the populated ProtocolCorrespondence
-//     * @throws PrintingException 
-//     */
-//    protected ProtocolCorrespondence createAndSaveProtocolCorrespondence(String committeeId, Protocol protocol, 
-//            ProtocolCorrespondenceType protocolCorrespondenceType, ProtocolAction protocolAction) throws PrintingException {
-//        ProtocolCorrespondence protocolCorrespondence = new ProtocolCorrespondence();
-//        
-//        protocolCorrespondence.setProtocolId(protocol.getProtocolId());
-//        protocolCorrespondence.setProtocolNumber(protocol.getProtocolNumber());
-//        protocolCorrespondence.setSequenceNumber(protocol.getSequenceNumber());
-//        protocolCorrespondence.setActionIdFk(protocolAction.getProtocolActionId());
-//        protocolCorrespondence.setActionId(protocolAction.getActionId());
-//        protocolCorrespondence.setProtoCorrespTypeCode(protocolCorrespondenceType.getProtoCorrespTypeCode());
-//        
-//        AbstractPrint printable = getCommitteePrintingService().getCommitteePrintable(CommitteeReportType.PROTOCOL_BATCH_CORRESPONDENCE);
-//        printable.setPrintableBusinessObject(protocol);
-//        Map<String, Object> reportParameters = new HashMap<String, Object>();
-//        reportParameters.put(COMMITTEE_ID, committeeId);
-//        reportParameters.put("submissionNumber", protocolAction.getSubmissionNumber());
-//        reportParameters.put(PROTO_CORRESP_TYPE_CODE, protocolCorrespondenceType.getProtoCorrespTypeCode());
-//        printable.setReportParameters(reportParameters);
-//        List<Printable> printableArtifactList = new ArrayList<Printable>();
-//        printableArtifactList.add(printable);
-//        protocolCorrespondence.setCorrespondence(getCommitteePrintingService().print(printableArtifactList).getContent());
-//
-//        protocolCorrespondence.setFinalFlag(false);
-//        protocolCorrespondence.setCreateUser(GlobalVariables.getUserSession().getPrincipalName());
-//        protocolCorrespondence.setCreateTimestamp(dateTimeService.getCurrentTimestamp());
-//       
-//        protocolCorrespondence.setProtocol(protocol);
-//        protocolCorrespondence.setProtocolCorrespondenceType(protocolCorrespondenceType);
-//        
-//        businessObjectService.save(protocolCorrespondence);
-//        return protocolCorrespondence;
-//    }
-//    
-//    private List<EmailAttachment> getEmailAttachments(ProtocolCorrespondence protocolCorrespondence) {
-//        List<EmailAttachment> attachments = null;
-//        
-//        try {
-//            byte[] attachmentContents = protocolCorrespondence.getCorrespondence();
-//            if (attachmentContents != null) {
-//                    attachments = new ArrayList<EmailAttachment>();
-//                    String attachmentName = "correspondence_" + protocolCorrespondence.getProtocolNumber() + Constants.PDF_FILE_EXTENSION;
-//                    
-//                    EmailAttachment attachment = new EmailAttachment();
-//                    attachment.setFileName(attachmentName);
-//                    attachment.setMimeType(Constants.PDF_REPORT_CONTENT_TYPE);
-//                    attachment.setContents(attachmentContents);
-//                    attachments.add(attachment);         
-//            }
-//        } catch (Exception e) {
-//            LOG.error("Failed to get email attachments for batch correspondence.", e);
-//        }
-//        
-//        return attachments;
-//    }
-//    
-//    /**
-//     * 
-//     * This method looks up the BatchCorrespondence business object via the batchCorrespondenceTypeCode.
-//     * @param batchCorrespondenceTypeCode
-//     * @return the BatchCorrespondence business object
-//     */
-//    protected BatchCorrespondence lookupBatchCorrespondence(String batchCorrespondenceTypeCode) {
-//        Map<String, String> fieldValues = new HashMap<String, String>();
-//        fieldValues.put(BATCH_CORRESPONDENCE_TYPE_CODE, batchCorrespondenceTypeCode);
-//        return (BatchCorrespondence) businessObjectService.findByPrimaryKey(BatchCorrespondence.class, fieldValues);
-//    }
     
     protected CommitteePrintingService getCommitteePrintingService() {
         return KraServiceLocator.getService(CommitteePrintingService.class);
@@ -434,68 +186,5 @@ public class CommitteeBatchCorrespondenceServiceImpl extends CommitteeBatchCorre
     protected Class<? extends BatchCorrespondenceBase> getBatchCorrespondenceBOClassHook() {
         return BatchCorrespondence.class;
     }
-
-
-    
-// TODO ********************** commented out during IRB backfit ************************    
-//    /**
-//     * Populated by Spring Beans.
-//     * @param businessObjectService
-//     */
-//    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-//        this.businessObjectService = businessObjectService;
-//    }
-//
-//    /**
-//     * Populated by Spring Beans.
-//     * @param protocolDao
-//     */
-//    public void setProtocolDao(ProtocolDao protocolDao) {
-//        this.protocolDao = protocolDao;
-//    }
-//    
-//    /**
-//     * Populated by Spring Beans.
-//     * @param protocolGenericActionService
-//     */
-//    public void setProtocolGenericActionService(ProtocolGenericActionService protocolGenericActionService) {
-//        this.protocolGenericActionService = protocolGenericActionService;
-//    }
-//
-//    /**
-//     * Populated by Spring Beans.
-//     * @param protocolCorrespondenceTemplateService
-//     */
-//    public void setProtocolCorrespondenceTemplateService(ProtocolCorrespondenceTemplateService protocolCorrespondenceTemplateService) {
-//        this.protocolCorrespondenceTemplateService = protocolCorrespondenceTemplateService;
-//    }
-//
-//    /**
-//     * Populated by Spring Beans.
-//     * @param documentService
-//     */
-//    public void setDocumentService(DocumentService documentService) {
-//        this.documentService = documentService;
-//    }
-//
-//    /**
-//     * Populated by Spring Beans.
-//     * @param kcPersonService
-//     */
-//    public void setKcPersonService(KcPersonService kcPersonService) {
-//        this.kcPersonService = kcPersonService;
-//    }
-//    
-//    /**
-//     * Populated by Spring Beans.
-//     * @param kcNotificationService
-//     */
-//    public void setKcNotificationService(KcNotificationService kcNotificationService) {
-//        this.kcNotificationService = kcNotificationService;
-//    }
-//
-//    public void setDateTimeService(DateTimeService dateTimeService) {
-//        this.dateTimeService = dateTimeService;
-//    }
 
 }

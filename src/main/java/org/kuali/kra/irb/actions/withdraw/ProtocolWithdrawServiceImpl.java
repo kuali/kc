@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.irb.actions.withdraw;
 
-import java.sql.Date;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.irb.Protocol;
@@ -35,6 +33,8 @@ import org.kuali.kra.protocol.actions.withdraw.ProtocolAdministrativelyIncomplet
 import org.kuali.kra.protocol.actions.withdraw.ProtocolAdministrativelyWithdrawBean;
 import org.kuali.kra.protocol.actions.withdraw.ProtocolWithdrawBean;
 import org.kuali.kra.protocol.actions.withdraw.ProtocolWithdrawServiceImplBase;
+
+import java.sql.Date;
 
 /**
  * The ProtocolWithdrawService implementation.

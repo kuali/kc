@@ -22,17 +22,4 @@ import org.kuali.kra.common.committee.service.CommitteeBatchCorrespondenceServic
  * This class generates the batch correspondence of committees.
  */
 public interface CommitteeBatchCorrespondenceService extends CommitteeBatchCorrespondenceServiceBase {
-
-// TODO ********************** commented out during IRB backfit ************************    
-//    /**
-//     * 
-//     * This method generates the batch correspondence of a committee.
-//     * @param batchCorrespondenceTypeCode
-//     * @param startDate
-//     * @param endDate
-//     * @return CommitteeBatchCorrespondence
-//     * @throws Exception 
-//     */
-//    CommitteeBatchCorrespondence generateBatchCorrespondence(String batchCorrespondenceTypeCode, String committeeId, Date startDate, Date endDate) throws Exception;
-
 }
