@@ -34,43 +34,4 @@ public class ProtocolValuesFinder extends ProtocolValuesFinderBase {
     protected Class<? extends ProtocolSubmissionBase> getProtocolSubmissionBOClassHook() {
         return ProtocolSubmission.class;
     }
-    
-// TODO ********************** commented out during IRB backfit ************************    
-//    private String scheduleId;
-//
-//    /**
-//     * @see org.kuali.core.lookup.keyvalues.KeyValuesBase#getKeyValues()
-//     */
-//    public List getKeyValues() {
-//
-//        // note: the following will overwrite existing elements in the tree; that's the whole point.  We
-//        // want discrete values in the list.
-//        TreeMap<String, KeyValue> valuesMap = new TreeMap<String, KeyValue>();
-//        for (ProtocolSubmission protocolSubmission : getProtocols()) {
-//            KeyValue keyValue = new ConcreteKeyValue(protocolSubmission.getProtocolId().toString(), protocolSubmission.getProtocolNumber());
-//            valuesMap.put(protocolSubmission.getProtocolNumber(), keyValue);
-//        }
-//        List<KeyValue> keyValues = new ArrayList<KeyValue>(valuesMap.values());
-//        keyValues.add(0, new ConcreteKeyValue("", "select"));
-//        return keyValues;
-//    }
-//
-//    private List<ProtocolSubmission> getProtocols() {
-//        Map<String, String> fieldValues = new HashMap<String, String>();
-//        fieldValues.put("scheduleIdFk", scheduleId);
-//        return (List<ProtocolSubmission>) getBusinessObjectService().findMatching(ProtocolSubmission.class, fieldValues);
-//    }
-//
-//    protected BusinessObjectService getBusinessObjectService() {
-//        return KraServiceLocator.getService(BusinessObjectService.class);
-//    }
-//
-//    public String getScheduleId() {
-//        return scheduleId;
-//    }
-//
-//    public void setScheduleId(String scheduleId) {
-//        this.scheduleId = scheduleId;
-//    }
-
 }

@@ -15,15 +15,6 @@
  */
 package org.kuali.kra.irb;
 
-import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -45,11 +36,7 @@ import org.kuali.kra.irb.auth.ProtocolTask;
 import org.kuali.kra.irb.correspondence.ProtocolCorrespondence;
 import org.kuali.kra.irb.notification.IRBNotificationContext;
 import org.kuali.kra.irb.notification.IRBNotificationRenderer;
-
-// TODO ********************** added or modified during IRB backfit merge BEGIN ************************ 
 import org.kuali.kra.irb.notification.IRBProtocolNotification;
-// TODO ********************** added or modified during IRB backfit merge END ************************ 
-
 import org.kuali.kra.irb.onlinereview.ProtocolOnlineReviewService;
 import org.kuali.kra.irb.personnel.ProtocolPersonTrainingService;
 import org.kuali.kra.irb.personnel.ProtocolPersonnelService;
@@ -67,6 +54,14 @@ import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.util.KRADConstants;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import static org.kuali.kra.infrastructure.Constants.MAPPING_BASIC;
 
 /**
  * The ProtocolAction is the base class for all Protocol actions.  Each derived

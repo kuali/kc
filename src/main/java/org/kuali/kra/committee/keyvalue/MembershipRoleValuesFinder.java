@@ -29,36 +29,4 @@ public class MembershipRoleValuesFinder extends MembershipRoleValuesFinderBase {
     protected String getCommitteeTypeCodeHook() {
         return CommitteeType.IRB_TYPE_CODE;
     }
-    
-    
-// TODO ********************** commented out during IRB backfit ************************
-//    @Override
-//    public List<KeyValue> getKeyValues() {
-//        List<KeyValue> keyLabels = new ArrayList<KeyValue>();
-//        keyLabels.add(new ConcreteKeyValue("", "select"));
-//
-//        CommitteeForm committeeForm = (CommitteeForm) KNSGlobalVariables.getKualiForm();
-//        String committeeTypeCode = committeeForm.getCommitteeDocument().getCommittee().getCommitteeTypeCode();
-//        List<? extends MembershipRole> roles = new ArrayList<MembershipRole>();
-//        Map<String, String> criteria = new HashMap<String, String>();
-//        if (StringUtils.equalsIgnoreCase(committeeTypeCode, CommitteeType.IRB_TYPE_CODE)) {
-//            criteria.put("committeeTypeCode", CommitteeType.IRB_TYPE_CODE);
-//            
-//        } else {
-//            //IACUC
-//            criteria.put("committeeTypeCode", CommitteeType.IACUC_TYPE_CODE);
-//
-//        }
-//        roles = (List<? extends MembershipRole>) getBusinessObjectService().findMatching(MembershipRole.class, criteria);
-//
-//        for(MembershipRole role : roles) {
-//            keyLabels.add(new ConcreteKeyValue(role.getMembershipRoleCode(), role.getDescription()));
-//        }
-//        return keyLabels;
-//    }
-//    
-//    protected BusinessObjectService getBusinessObjectService() {
-//        return KraServiceLocator.getService(BusinessObjectService.class);
-//    }
-    
 }

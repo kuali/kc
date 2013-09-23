@@ -52,42 +52,6 @@ import java.util.Map;
 
 public abstract class MeetingActionsActionBase extends MeetingActionBase {
 
-// TODO ********************** commented out during IRB backfit ************************     
-//    private static final String AGENDA_TYPE = "9";
-//    private static final String MEETING_MINUTE_TYPE = "10";
-//
-//    private static final List GENERIC_TYPE_CORRESPONDENCE;
-//    static {
-//        final List correspondenceTypes = new ArrayList();
-//        correspondenceTypes.add(ProtocolCorrespondenceTypeBase.ABANDON_NOTICE);
-//        correspondenceTypes.add(ProtocolCorrespondenceTypeBase.APPROVAL_LETTER);
-//        correspondenceTypes.add(ProtocolCorrespondenceTypeBase.CLOSURE_NOTICE);
-//        correspondenceTypes.add(ProtocolCorrespondenceTypeBase.EXPEDITED_APPROVAL_LETTER);
-//        correspondenceTypes.add(ProtocolCorrespondenceTypeBase.NOTICE_OF_DEFERRAL);
-//        correspondenceTypes.add(ProtocolCorrespondenceTypeBase.SMR_LETTER);
-//        correspondenceTypes.add(ProtocolCorrespondenceTypeBase.SRR_LETTER);
-//        correspondenceTypes.add(ProtocolCorrespondenceTypeBase.SUSPENSION_NOTICE);
-//        correspondenceTypes.add(ProtocolCorrespondenceTypeBase.TERMINATION_NOTICE);
-//        GENERIC_TYPE_CORRESPONDENCE = correspondenceTypes;
-//    }
-//
-//    private static final Map<String, String> CORR_TYPE_TO_ACTION_TYPE_MAP;
-//
-//    static {
-//        CORR_TYPE_TO_ACTION_TYPE_MAP = new HashMap<String, String>();
-//        
-//        CORR_TYPE_TO_ACTION_TYPE_MAP.put(ProtocolCorrespondenceTypeBase.ABANDON_NOTICE, ProtocolActionType.ABANDON_PROTOCOL);
-//        CORR_TYPE_TO_ACTION_TYPE_MAP.put(ProtocolCorrespondenceTypeBase.APPROVAL_LETTER,ProtocolActionType.APPROVED);
-//        CORR_TYPE_TO_ACTION_TYPE_MAP.put(ProtocolCorrespondenceTypeBase.CLOSURE_NOTICE,ProtocolActionType.CLOSED_ADMINISTRATIVELY_CLOSED);
-//        CORR_TYPE_TO_ACTION_TYPE_MAP.put(ProtocolCorrespondenceTypeBase.EXPEDITED_APPROVAL_LETTER,ProtocolActionType.EXPEDITE_APPROVAL);
-//        CORR_TYPE_TO_ACTION_TYPE_MAP.put(ProtocolCorrespondenceTypeBase.NOTICE_OF_DEFERRAL,ProtocolActionType.DEFERRED);
-//        CORR_TYPE_TO_ACTION_TYPE_MAP.put(ProtocolCorrespondenceTypeBase.SMR_LETTER,ProtocolActionType.SPECIFIC_MINOR_REVISIONS_REQUIRED);
-//        CORR_TYPE_TO_ACTION_TYPE_MAP.put(ProtocolCorrespondenceTypeBase.SRR_LETTER,ProtocolActionType.SUBSTANTIVE_REVISIONS_REQUIRED);
-//        CORR_TYPE_TO_ACTION_TYPE_MAP.put(ProtocolCorrespondenceTypeBase.SUSPENSION_NOTICE,ProtocolActionType.SUSPENDED);
-//        CORR_TYPE_TO_ACTION_TYPE_MAP.put(ProtocolCorrespondenceTypeBase.TERMINATION_NOTICE,ProtocolActionType.TERMINATED);
-//       
-//    }
-
     
     /**
      * 
@@ -177,10 +141,7 @@ public abstract class MeetingActionsActionBase extends MeetingActionBase {
     public ActionForward generateMinutes(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward actionForward = mapping.findForward(Constants.MAPPING_BASIC);
         MeetingHelperBase meetingHelper = ((MeetingFormBase) form).getMeetingHelper();
-        
-// TODO *********commented the code below during IACUC refactoring*********         
-//        List<Printable> printableArtifactList = getPrintableArtifacts(meetingHelper, MEETING_MINUTE_TYPE, IacucProtocolCorrespondenceType.MINUTES);
-        
+
         List<Printable> printableArtifactList = getPrintableArtifacts(meetingHelper, getProtocolCorrespondenceMinutesTypeCodeHook());
         if (printableArtifactList.get(0).getXSLTemplates().isEmpty()) {
             GlobalVariables.getMessageMap().putError("meetingHelper.meetingMinute",
@@ -189,10 +150,7 @@ public abstract class MeetingActionsActionBase extends MeetingActionBase {
             AttachmentDataSource dataStream = getCommitteePrintingService().print(printableArtifactList);
             if (dataStream.getContent() != null && dataStream.getContent().length > 0) {
                 setFileDataProperties(dataStream, meetingHelper.getCommitteeSchedule().getId(), "Minute");
-                
-// TODO *********commented the code below during IACUC refactoring*********                 
-//                CommScheduleMinuteDocBase minuteDoc = new CommScheduleMinuteDocBase();
-                
+
                 CommScheduleMinuteDocBase minuteDoc = getNewCommScheduleMinuteDocInstanceHook();
                 minuteDoc.setMinuteName("Minute For Schedule #  " + (meetingHelper.getCommitteeSchedule().getId()) + " Version "
                         + (meetingHelper.getMinuteDocs().size() + 1));

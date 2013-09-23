@@ -25,19 +25,5 @@ import org.kuali.kra.common.committee.meeting.ProtocolVoteRecusedBase;
 public class ProtocolVoteRecused extends ProtocolVoteRecusedBase {
 
     private static final long serialVersionUID = 6207540592702779518L;
-
-// TODO ********************** commented out during IRB backfit ************************    
-//    private Long protocolVoteRecusedId;
-//
-//    public ProtocolVoteRecused() {
-//    }
-//
-//    public Long getProtocolVoteRecusedId() {
-//        return protocolVoteRecusedId;
-//    }
-//
-//    public void setProtocolVoteRecusedId(Long protocolVoteRecusedId) {
-//        this.protocolVoteRecusedId = protocolVoteRecusedId;
-//    }
     
 }

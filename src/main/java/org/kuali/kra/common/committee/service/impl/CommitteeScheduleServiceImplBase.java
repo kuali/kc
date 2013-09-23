@@ -75,8 +75,7 @@ public abstract class CommitteeScheduleServiceImplBase<CS extends CommitteeSched
     private static final String DESCRIPTION = "description";
     
     private static final String SCHEDULED = "Scheduled";
-    
-    // Changed db col names to  java ref var names during IACUC refactoring, should not cause any issues during backfitting
+
     private static final String PROTOCOL_ID_FIELD = "protocolIdFk";
     private static final String SCHEDULE_ID_FIELD = "scheduleIdFk";
     private static final String ENTRY_NUMBER_FIELD = "entryNumber";

@@ -111,8 +111,7 @@ public abstract class CommitteeScheduleLookupableHelperServiceImplBase<CS extend
     @SuppressWarnings("unchecked")
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
-        
-        // we set the lookup to only list schedule for committees of type IACUC TODO will need a hook here for backfitting
+
         fieldValues.put(COMMITTEE_COMMITTEE_TYPE_CODE, getCommitteeTypeCodeHook());
 
         List<CS> rawCommitteeSchedules = (List<CS>) super.getSearchResultsUnbounded(fieldValues);

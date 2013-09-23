@@ -28,41 +28,5 @@ public class ScheduleAgenda extends ScheduleAgendaBase {
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = -7391443576927569496L;
-
-    
-    
-// TODO ********************** commented out during IRB backfit ************************
-//    private Long scheduleAgendaId;
-//
-//    private Integer agendaNumber;
-//
-//    private String agendaName;
-//
-//    public ScheduleAgenda() {
-//    }
-//
-//    public Long getScheduleAgendaId() {
-//        return scheduleAgendaId;
-//    }
-//
-//    public void setScheduleAgendaId(Long scheduleAgendaId) {
-//        this.scheduleAgendaId = scheduleAgendaId;
-//    }
-//
-//    public Integer getAgendaNumber() {
-//        return agendaNumber;
-//    }
-//
-//    public void setAgendaNumber(Integer agendaNumber) {
-//        this.agendaNumber = agendaNumber;
-//    }
-//
-//    public String getAgendaName() {
-//        return agendaName;
-//    }
-//
-//    public void setAgendaName(String agendaName) {
-//        this.agendaName = agendaName;
-//    }
     
 }

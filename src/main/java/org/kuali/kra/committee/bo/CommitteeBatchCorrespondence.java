@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.committee.bo;
 
-import java.sql.Date;
-
 import org.kuali.kra.common.committee.bo.CommitteeBatchCorrespondenceBase;
+
+import java.sql.Date;
 
 /**
  * 
@@ -30,30 +30,6 @@ public class CommitteeBatchCorrespondence extends CommitteeBatchCorrespondenceBa
      */
     private static final long serialVersionUID = 7368044642475233153L;
 
-
-// TODO ********************** commented out during IRB backfit ************************    
-//    private String committeeBatchCorrespondenceId;
-//
-//    private String committeeId;
-//
-//    private String batchCorrespondenceTypeCode;
-//
-//    private Timestamp batchRunDate;
-//
-//    private Date timeWindowStart;
-//
-//    private Date timeWindowEnd;
-//
-//    private List<CommitteeBatchCorrespondenceDetail> committeeBatchCorrespondenceDetails;
-//
-//    private BatchCorrespondence batchCorrespondence;
-//
-//    private Committee committee;
-//
-//    private transient int finalActionCounter;
-//
-//    private transient DateTimeService dateTimeService;
-
     
     public CommitteeBatchCorrespondence() {
         super();
@@ -63,153 +39,4 @@ public class CommitteeBatchCorrespondence extends CommitteeBatchCorrespondenceBa
     public CommitteeBatchCorrespondence(String batchCorrespondenceTypeCode, String committeeId, Date startDate, Date endDate) {
         super(batchCorrespondenceTypeCode, committeeId, startDate, endDate);
     }
-
-    
-// TODO ********************** commented out during IRB backfit ************************    
-//    /**
-//     * Constructs a CommitteeBatchCorrespondence.java.
-//     */
-//    public CommitteeBatchCorrespondence() {
-//        setCommitteeBatchCorrespondenceDetails(new ArrayList<CommitteeBatchCorrespondenceDetail>());
-//    }
-//
-//    /**
-//     * Constructs a CommitteeBatchCorrespondence.java for a new request.
-//     * (The committeeBatchCorrespondenceId is set to the next SEQ_COMMITTEE_ID sequence number and 
-//     *  the batchRunDate is set to the current date.)
-//     * @param batchCorrespondenceTypeCode 
-//     * @param committeeId
-//     * @param startDate
-//     * @param endDate
-//     */
-//    public CommitteeBatchCorrespondence(String batchCorrespondenceTypeCode, String committeeId, Date startDate, Date endDate) {
-//        this();
-//        setCommitteeBatchCorrespondenceId(KraServiceLocator.getService(SequenceAccessorService.class).getNextAvailableSequenceNumber("SEQ_COMMITTEE_ID").toString());
-//        setCommitteeId(committeeId);
-//        setBatchCorrespondenceTypeCode(batchCorrespondenceTypeCode);
-//        setBatchRunDate(getDateTimeService().getCurrentTimestamp());
-//        setTimeWindowStart(startDate);
-//        setTimeWindowEnd(endDate);
-//        setFinalActionCounter(0);
-//    }
-//
-//    public String getCommitteeBatchCorrespondenceId() {
-//        return committeeBatchCorrespondenceId;
-//    }
-//
-//    public void setCommitteeBatchCorrespondenceId(String committeeBatchCorrespondenceId) {
-//        this.committeeBatchCorrespondenceId = committeeBatchCorrespondenceId;
-//    }
-//
-//    public String getCommitteeId() {
-//        return committeeId;
-//    }
-//
-//    public void setCommitteeId(String committeeId) {
-//        this.committeeId = committeeId;
-//    }
-//
-//    public String getBatchCorrespondenceTypeCode() {
-//        return batchCorrespondenceTypeCode;
-//    }
-//
-//    public void setBatchCorrespondenceTypeCode(String batchCorrespondenceTypeCode) {
-//        this.batchCorrespondenceTypeCode = batchCorrespondenceTypeCode;
-//    }
-//
-//    public Timestamp getBatchRunDate() {
-//        return batchRunDate;
-//    }
-//
-//    public void setBatchRunDate(Timestamp batchRunDate) {
-//        this.batchRunDate = batchRunDate;
-//    }
-//
-//    public String getFormattedBatchRunDate() {
-//        return new SimpleDateFormat(Constants.DEFAULT_DATE_FORMAT_PATTERN).format(batchRunDate);
-//    }
-//
-//    public String getFormattedBatchRunTime() {
-//        return new SimpleDateFormat(Constants.DEFAULT_TIME_FORMAT_PATTERN).format(batchRunDate);
-//    }
-//
-//    public Date getTimeWindowStart() {
-//        return timeWindowStart;
-//    }
-//
-//    public void setTimeWindowStart(Date timeWindowStart) {
-//        this.timeWindowStart = timeWindowStart;
-//    }
-//
-//    public String getFormattedTimeWindowStart() {
-//        return new SimpleDateFormat(Constants.DEFAULT_DATE_FORMAT_PATTERN).format(timeWindowStart);
-//    }
-//
-//    public Date getTimeWindowEnd() {
-//        return timeWindowEnd;
-//    }
-//
-//    public void setTimeWindowEnd(Date timeWindowEnd) {
-//        this.timeWindowEnd = timeWindowEnd;
-//    }
-//
-//    public String getFormattedTimeWindowEnd() {
-//        return new SimpleDateFormat(Constants.DEFAULT_DATE_FORMAT_PATTERN).format(timeWindowEnd);
-//    }
-//
-//    public List<CommitteeBatchCorrespondenceDetail> getCommitteeBatchCorrespondenceDetails() {
-//        return committeeBatchCorrespondenceDetails;
-//    }
-//
-//    public void setCommitteeBatchCorrespondenceDetails(List<CommitteeBatchCorrespondenceDetail> committeeBatchCorrespondenceDetails) {
-//        this.committeeBatchCorrespondenceDetails = committeeBatchCorrespondenceDetails;
-//    }
-//
-//    public BatchCorrespondence getBatchCorrespondence() {
-//        return batchCorrespondence;
-//    }
-//
-//    public void setBatchCorrespondence(BatchCorrespondence batchCorrespondence) {
-//        this.batchCorrespondence = batchCorrespondence;
-//    }
-//
-//    public Committee getCommittee() {
-//        return committee;
-//    }
-//
-//    public void setCommittee(Committee committee) {
-//        this.committee = committee;
-//    }
-//
-//    public int compareTo(CommitteeBatchCorrespondence arg) {
-//        int timeWindowStartDiff = this.getTimeWindowStart().compareTo(arg.getTimeWindowStart());
-//        if (timeWindowStartDiff != 0) {
-//            return timeWindowStartDiff;
-//        }
-//        int timeWindowEndDiff = this.getTimeWindowEnd().compareTo(arg.getTimeWindowEnd());
-//        if (timeWindowEndDiff != 0) {
-//            return timeWindowEndDiff;
-//        }
-//        int batchRunDateDiff = this.getBatchRunDate().compareTo(arg.getBatchRunDate());
-//        if (batchRunDateDiff != 0) {
-//            return batchRunDateDiff;
-//        }
-//        return this.getCommitteeBatchCorrespondenceId().compareTo(arg.getCommitteeBatchCorrespondenceId());
-//    }
-//
-//    public int getFinalActionCounter() {
-//        return finalActionCounter;
-//    }
-//
-//    public void setFinalActionCounter(int finalActionCounter) {
-//        this.finalActionCounter = finalActionCounter;
-//    }
-//
-//    private DateTimeService getDateTimeService() {
-//        if (this.dateTimeService == null) {
-//            dateTimeService = KraServiceLocator.getService(DateTimeService.class);
-//        }
-//        return this.dateTimeService;
-//    }
-    
 }

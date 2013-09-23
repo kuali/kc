@@ -15,14 +15,14 @@
  */
 package org.kuali.kra.committee.rule.event;
 
-import java.util.List;
-
 import org.kuali.kra.committee.bo.CommitteeMembership;
 import org.kuali.kra.committee.document.CommitteeDocument;
 import org.kuali.kra.committee.rules.DeleteCommitteeMemberRule;
 import org.kuali.kra.common.committee.rule.event.DeleteCommitteeMemberEventBase;
 import org.kuali.kra.common.committee.rules.DeleteCommitteeMemberRuleBase;
 import org.kuali.rice.krad.document.Document;
+
+import java.util.List;
 
 /**
  * 
@@ -61,41 +61,4 @@ public class DeleteCommitteeMemberEvent extends DeleteCommitteeMemberEventBase {
     protected DeleteCommitteeMemberRuleBase getNewDeleteCommitteeMemberRuleInstanceHook() {
         return new DeleteCommitteeMemberRule();
     }
-
-// TODO ********************** commented out during IRB backfit ************************    
-//    private static final String MSG = "delete committee member ";
-//
-//    /**
-//     * 
-//     * Constructs a DeleteCommitteeMemberEvent.java.
-//     * 
-//     * @param errorPathPrefix
-//     * @param document
-//     * @param committeeMemberships
-//     * @param type
-//     */
-//    public DeleteCommitteeMemberEvent(String errorPathPrefix, CommitteeDocument document,
-//            List<CommitteeMembership> committeeMemberships, ErrorType type) {
-//        super(MSG + getDocumentId(document), errorPathPrefix, document, committeeMemberships, type);
-//    }
-//
-//    /**
-//     * 
-//     * Constructs a DeleteCommitteeMemberEvent.java.
-//     * 
-//     * @param errorPathPrefix
-//     * @param document
-//     * @param committeeMemberships
-//     * @param type
-//     */
-//    public DeleteCommitteeMemberEvent(String errorPathPrefix, Document document, List<CommitteeMembership> committeeMemberships,
-//            ErrorType type) {
-//        this(errorPathPrefix, (CommitteeDocument) document, committeeMemberships, type);
-//    }
-//
-//    @SuppressWarnings("unchecked")
-//    @Override
-//    public BusinessRuleInterface getRule() {
-//        return new DeleteCommitteeMemberRule();
-//    }
 }
