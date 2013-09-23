@@ -16,8 +16,6 @@
 package org.kuali.kra.external.budget.impl;
 
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.kuali.kfs.module.external.kc.service.BudgetAdjustmentService;
 import org.kuali.kra.external.budget.BudgetAdjustmentClient;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
@@ -27,7 +25,6 @@ import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
  * to communicate with the financial system.
  */
 public class BudgetAdjustmentKSBClientImpl  extends BudgetAdjustmentClientBase {
-    private static final Log LOG = LogFactory.getLog(BudgetAdjustmentKSBClientImpl.class);
     private static  BudgetAdjustmentKSBClientImpl  ksbClient;
 
     private BudgetAdjustmentKSBClientImpl() {  }
