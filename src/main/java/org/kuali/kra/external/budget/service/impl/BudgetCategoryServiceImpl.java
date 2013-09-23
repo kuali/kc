@@ -15,16 +15,16 @@
  */
 package org.kuali.kra.external.budget.service.impl;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
 import org.kuali.kra.budget.core.BudgetCategory;
 import org.kuali.kra.external.HashMapElement;
 import org.kuali.kra.external.budget.service.BudgetCategoryDTO;
 import org.kuali.kra.external.budget.service.BudgetCategoryService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.ObjectUtils;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * This class implements the budget categories service.
@@ -58,21 +58,6 @@ public class BudgetCategoryServiceImpl implements BudgetCategoryService {
         return budgetCategoryDTO;
     }
 
-    /**
-     * Converting BO to DTO.
-     * @param budget
-     * @return
-     */
-    protected BudgetCategoryDTO budgetCategoryBoToDTO(BudgetCategory budget) {
-        BudgetCategoryDTO budgetCategoryDTO = new BudgetCategoryDTO();
-        budgetCategoryDTO.setAuthorPersonName(budget.getAuthorPersonName());
-        budgetCategoryDTO.setBudgetCategoryCode(budget.getBudgetCategoryCode());
-        // enough to send category type code
-        budgetCategoryDTO.setBudgetCategoryTypeCode(budget.getBudgetCategoryType().getBudgetCategoryTypeCode());
-        budgetCategoryDTO.setBudgetCategoryTypeDescription(budget.getBudgetCategoryType().getDescription());
-        budgetCategoryDTO.setDescription(budget.getDescription());
-        return budgetCategoryDTO;
-    }
     /**
      * Sets the businessObjectService attribute value. Injected by Spring.
      * 
