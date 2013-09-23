@@ -225,10 +225,16 @@
                                 </requirePluginVersions>
 
                                 <banCircularDependencies/>
+                                <!--
+                                Commenting out for now.  This is likely due to our "hacked" launched scripts
+                                with invalid jars on the classpath.  Then scripts should be converted to m2e
+                                launch scripts rather than java launch scripts.
+
+                                http://jira.codehaus.org/browse/MOJO-1980
                                 <enforceBytecodeVersion>
                                     <maxJdkVersion>${enforcer.max.jdk.version}</maxJdkVersion>
                                 </enforceBytecodeVersion>
-
+                                -->
                                 <!--
                                 When upgrading to rice 1.1 it is recommended to merge in the banned dependencies from rice's parent pom.
                                 This way we do not have to do all the analysis done in rice for lib upgrades/jdk6 support all over again.
