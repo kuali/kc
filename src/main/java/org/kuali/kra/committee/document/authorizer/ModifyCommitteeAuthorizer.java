@@ -43,47 +43,5 @@ public class ModifyCommitteeAuthorizer extends ModifyCommitteeAuthorizerBase {
     protected String getPermissionNameForAddCommiteeHook() {
         return PermissionConstants.ADD_COMMITTEE;
     }
-
-    
-// TODO ********************** commented out during IRB backfit ************************    
-//    /**
-//     * @see org.kuali.kra.irb.document.authorizer.CommitteeAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.irb.document.authorization.CommitteeTask)
-//     */
-//    public boolean isAuthorized(String userId, CommitteeTask task) {
-//        boolean hasPermission = true;
-//        Committee committee = task.getCommittee();
-//        if (committee.getId() == null) {
-//            
-//            // We have to consider the case when we are saving the committee for the first time.
-//            
-//            hasPermission = hasUnitPermission(userId, Constants.MODULE_NAMESPACE_PROTOCOL, PermissionConstants.ADD_COMMITTEE);
-//        } 
-//        else {
-//            /*
-//             * After the initial save, the committee can only be modified has the required permission.
-//             */
-//            hasPermission = !committee.getCommitteeDocument().isViewOnly() &&
-//                            !isPessimisticLocked(committee.getCommitteeDocument()) &&
-//                            hasPermission(userId, committee, PermissionConstants.MODIFY_COMMITTEE);
-//        }
-//
-//        // Verify that document is not locked
-//        if (isPessimisticLocked(committee.getCommitteeDocument())) {
-//            hasPermission = false;
-//        }
-//
-//        return hasPermission;
-//    }
-//
-//    private boolean isPessimisticLocked(Document document) {
-//        boolean isLocked = false;
-//        for (PessimisticLock lock : document.getPessimisticLocks()) {
-//            // if lock is owned by current user, do not display message for it
-//            if (!lock.isOwnedByUser(GlobalVariables.getUserSession().getPerson())) {
-//                isLocked = true;
-//            }
-//        }
-//        return isLocked;
-//    }
     
 }

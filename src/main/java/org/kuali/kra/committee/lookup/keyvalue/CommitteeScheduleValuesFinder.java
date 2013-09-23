@@ -15,9 +15,9 @@
  */
 package org.kuali.kra.committee.lookup.keyvalue;
 
+import org.kuali.kra.committee.service.CommitteeService;
 import org.kuali.kra.common.committee.lookup.keyvalue.CommitteeScheduleValuesFinderBase;
 import org.kuali.kra.common.committee.service.CommitteeServiceBase;
-import org.kuali.kra.committee.service.CommitteeService;
 
 /**
  * Finds the available set of dates where a protocol can be scheduled
@@ -36,40 +36,4 @@ public class CommitteeScheduleValuesFinder extends CommitteeScheduleValuesFinder
     protected Class<? extends CommitteeServiceBase> getCommitteeServiceClassHook() {
         return CommitteeService.class;
     }
-
-// TODO ********************** commented out during IRB backfit ************************    
-//    /**
-//     * @return the list of &lt;key, value&gt; pairs of committees.  The first entry
-//     * is always &lt;"", "select:"&gt;.
-//     * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
-//     */
-//    public List<KeyValue> getKeyValues() {
-//        return getCommitteeService().getAvailableCommitteeDates(getCommitteeId());
-//    }
-//    
-//    /**
-//     * Get the Committee Service.
-//     * @return the Committee Service
-//     */
-//    private CommitteeService getCommitteeService() {
-//        return KraServiceLocator.getService(CommitteeService.class);
-//    }
-//
-//    /**
-//     * Get the committee id.  Currently we are only concerned with
-//     * scheduling protocols.  The committee id is found in via the ProtocolForm.
-//     * Keep in mind that the user selects the committee via a drop-down and
-//     * thus the selected committee id is placed into the form.
-//     * @return
-//     */
-//    private String getCommitteeId() {
-//        String committeeId = "";
-//        KualiForm form = KNSGlobalVariables.getKualiForm();
-//        if (form instanceof ProtocolForm) {
-//            ProtocolForm protocolForm = (ProtocolForm) form;
-//            committeeId = protocolForm.getActionHelper().getProtocolSubmitAction().getCommitteeId();
-//        }
-//        return committeeId;
-//    }
-    
 }

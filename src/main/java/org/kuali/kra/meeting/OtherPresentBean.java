@@ -34,34 +34,4 @@ public class OtherPresentBean extends OtherPresentBeanBase {
         return new CommitteeScheduleAttendance();
     }
 
-    
-// TODO ********************** commented out during IRB backfit ************************    
-//    private static final long serialVersionUID = 4831035284455868528L;
-//    private CommitteeScheduleAttendance attendance;
-//    private boolean member;
-//
-//    public CommitteeScheduleAttendance getAttendance() {
-//        if(attendance == null) {
-//            attendance = new CommitteeScheduleAttendance();
-//        }
-//        return attendance;
-//    }
-//
-//    public void setAttendance(CommitteeScheduleAttendance attendance) {
-//        this.attendance = attendance;
-//    }
-//
-//    public boolean isMember() {
-//        return member;
-//    }
-//
-//    public void setMember(boolean member) {
-//        this.member = member;
-//    }
-//
-//    public int compareTo(OtherPresentBean arg) {
-//        return this.getAttendance().getPersonName().compareTo(arg.getAttendance().getPersonName());
-//
-//    }
-
 }

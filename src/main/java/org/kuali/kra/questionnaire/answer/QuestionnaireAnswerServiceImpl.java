@@ -15,15 +15,6 @@
  */
 package org.kuali.kra.questionnaire.answer;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.CoeusModule;
@@ -33,7 +24,6 @@ import org.kuali.kra.iacuc.questionnaire.IacucProtocolModuleQuestionnaireBean;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.irb.ProtocolFinderDao;
 import org.kuali.kra.irb.questionnaire.ProtocolModuleQuestionnaireBean;
-import org.kuali.kra.irb.questionnaire.QuestionnaireHelper;
 import org.kuali.kra.krms.KrmsRulesContext;
 import org.kuali.kra.krms.UnitAgendaTypeService;
 import org.kuali.kra.krms.service.KrmsRulesExecutionService;
@@ -46,20 +36,14 @@ import org.kuali.kra.questionnaire.Questionnaire;
 import org.kuali.kra.questionnaire.QuestionnaireQuestion;
 import org.kuali.kra.questionnaire.QuestionnaireService;
 import org.kuali.kra.questionnaire.QuestionnaireUsage;
-import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
-import org.kuali.rice.krms.api.KrmsApiServiceLocator;
-import org.kuali.rice.krms.api.engine.EngineResults;
-import org.kuali.rice.krms.api.engine.ExecutionFlag;
-import org.kuali.rice.krms.api.engine.ExecutionOptions;
-import org.kuali.rice.krms.api.engine.Facts;
-import org.kuali.rice.krms.api.engine.ResultEvent;
-import org.kuali.rice.krms.api.engine.SelectionCriteria;
-import org.kuali.rice.krms.api.repository.rule.RuleDefinition;
-import org.kuali.rice.krms.framework.engine.BasicRule;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * 
@@ -115,7 +99,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
         for (QuestionnaireUsage questionnaireUsage : questionnaireUsages) {
             if (!questionnaireIds.contains(questionnaireUsage.getQuestionnaire().getQuestionnaireId())) {
                 questionnaireIds.add(questionnaireUsage.getQuestionnaire().getQuestionnaireId());
-             // TODO ********************** added or modified during IRB backfit merge BEGIN ********************** 
+
                 if (moduleQuestionnaireBean.isFinalDoc() || (getQuestionnaireService().isCurrentQuestionnaire(questionnaireUsage.getQuestionnaire()) && questionnaireUsage.getQuestionnaire().isActive())) {
                     if (StringUtils.isNotBlank(questionnaireUsage.getRuleId())) {
                         if (ruleResults.containsKey(questionnaireUsage.getRuleId()) && ruleResults.get(questionnaireUsage.getRuleId()).booleanValue()) {
@@ -125,7 +109,7 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
                         usages.add(questionnaireUsage);
                     }
                 }
-             // TODO ********************** added or modified during IRB backfit merge END ************************
+
             }
         }
         return usages;
@@ -152,13 +136,13 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
                 }
             }
             else {
-             // TODO ********************** added or modified during IRB backfit merge BEGIN ********************** 
+
                 if ((!moduleQuestionnaireBean.isFinalDoc() && getQuestionnaireService().isCurrentQuestionnaire(questionnaireUsage.getQuestionnaire()))
                         && questionnaireUsage.getQuestionnaire().isActive()) {
                     // filter out an not saved and usage is not include in current qn
                     answerHeaders.add(setupAnswerForQuestionnaire(questionnaireUsage.getQuestionnaire(), moduleQuestionnaireBean));
                 }
-             // TODO ********************** added or modified during IRB backfit merge END ************************
+
             }
         }
         return answerHeaders;
@@ -899,7 +883,6 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
     }
     
 
-    // TODO ********************** added or modified during IRB backfit merge BEGIN ********************** 
     protected QuestionnaireService getQuestionnaireService() {
         return questionnaireService;
     }
@@ -907,8 +890,6 @@ public class QuestionnaireAnswerServiceImpl implements QuestionnaireAnswerServic
     public void setQuestionnaireService(QuestionnaireService questionnaireService) {
         this.questionnaireService = questionnaireService;
     }
-    // TODO ********************** added or modified during IRB backfit merge END ************************
-    
 
     public List<AnswerHeader> getNewVersionOfQuestionnaireAnswer(ModuleQuestionnaireBean moduleQuestionnaireBean) {
         List<AnswerHeader> newAnswerHeaders = getQuestionnaireAnswer(moduleQuestionnaireBean);

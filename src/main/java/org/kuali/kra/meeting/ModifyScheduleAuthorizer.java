@@ -24,16 +24,4 @@ public class ModifyScheduleAuthorizer extends ModifyScheduleAuthorizerBase {
     protected String getModfifySchedulePermissionNameHook() {
         return PermissionConstants.MODIFY_SCHEDULE;
     }
-
-// TODO ********************** commented out during IRB backfit ************************    
-//    /**
-//     * @see org.kuali.kra.irb.document.authorizer.CommitteeAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.irb.document.authorization.CommitteeTask)
-//     */
-//    public boolean isAuthorized(String username, CommitteeTask task) {
-//        boolean hasPermission = true;
-//        Committee committee = task.getCommittee();
-//        hasPermission = hasPermission(username, committee, PermissionConstants.MODIFY_SCHEDULE);
-//        return hasPermission;
-//    }
-
 }

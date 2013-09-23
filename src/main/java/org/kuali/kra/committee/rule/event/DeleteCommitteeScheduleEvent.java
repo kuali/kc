@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.committee.rule.event;
 
-import java.util.List;
-
 import org.kuali.kra.committee.rules.DeleteCommitteeScheduleRule;
 import org.kuali.kra.common.committee.bo.CommitteeScheduleBase;
 import org.kuali.kra.common.committee.document.CommitteeDocumentBase;
@@ -24,6 +22,8 @@ import org.kuali.kra.common.committee.rule.event.DeleteCommitteeScheduleEventBas
 import org.kuali.kra.common.committee.rules.DeleteCommitteeScheduleRuleBase;
 import org.kuali.kra.common.committee.web.struts.form.schedule.ScheduleData;
 import org.kuali.rice.krad.document.Document;
+
+import java.util.List;
 
 /**
  * 
@@ -44,41 +44,5 @@ public class DeleteCommitteeScheduleEvent extends DeleteCommitteeScheduleEventBa
     protected DeleteCommitteeScheduleRuleBase getNewDeleteCommitteeScheduleRuleInstanceHook() {
         return new DeleteCommitteeScheduleRule();
     }
-
-// TODO ********************** commented out during IRB backfit ************************    
-//    private static final String MSG = "deleting CommitteeSchedule ";
-//    
-//    /**
-//     * 
-//     * Constructs a DeleteCommitteeScheduleEvent.java.
-//     * @param errorPathPrefix
-//     * @param document
-//     * @param scheduleData
-//     * @param committeeSchedules
-//     * @param type
-//     */
-//    public DeleteCommitteeScheduleEvent(String errorPathPrefix, CommitteeDocument document, ScheduleData scheduleData, List<CommitteeSchedule> committeeSchedules, ErrorType type) {
-//        super(MSG + getDocumentId(document), errorPathPrefix, document, scheduleData, committeeSchedules, type);
-//    }
-//    
-//    /**
-//     * 
-//     * Constructs a DeleteCommitteeScheduleEvent.java.
-//     * @param errorPathPrefix
-//     * @param document
-//     * @param scheduleData
-//     * @param committeeSchedules
-//     * @param type
-//     */
-//    public DeleteCommitteeScheduleEvent(String errorPathPrefix, Document document, ScheduleData scheduleData,
-//            List<CommitteeSchedule> committeeSchedules, ErrorType type) {
-//        this(errorPathPrefix, (CommitteeDocument) document, scheduleData, committeeSchedules, type);
-//    }
-//    
-//    @SuppressWarnings("unchecked")
-//    @Override
-//    public BusinessRuleInterface getRule() {
-//        return new DeleteCommitteeScheduleRule();
-//    }
     
 }
