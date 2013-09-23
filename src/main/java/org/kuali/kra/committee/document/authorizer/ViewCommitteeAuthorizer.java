@@ -28,14 +28,5 @@ public class ViewCommitteeAuthorizer extends ViewCommitteeAuthorizerBase {
     protected String getPermissionNameForViewCommitteeHook() {
         return PermissionConstants.VIEW_COMMITTEE;
     }
-
-    
-// TODO ********************** commented out during IRB backfit ************************    
-//    /**
-//     * @see org.kuali.kra.irb.document.authorizer.CommitteeAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.irb.document.authorization.CommitteeTask)
-//     */
-//    public boolean isAuthorized(String userId, CommitteeTask task) {
-//        return hasPermission(userId, task.getCommittee(), PermissionConstants.VIEW_COMMITTEE);
-//    }
     
 }

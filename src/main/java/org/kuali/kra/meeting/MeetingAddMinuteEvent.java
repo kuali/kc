@@ -37,23 +37,4 @@ public class MeetingAddMinuteEvent extends MeetingAddMinuteEventBase {
     protected MeetingAddMinuteRule getMeetingAddMinuteRuleInstanceHook() {
         return new MeetingAddMinuteRule();
     }
-    
-// TODO ********************** commented out during IRB backfit ************************    
-//    private static final String MSG = "Add meeting minute ";
-//    
-//    public MeetingAddMinuteEvent(String errorPathPrefix, CommitteeDocument document, MeetingHelper meetingHelper, ErrorType type) {
-//        super(MSG + getDocumentId(document), errorPathPrefix, document, meetingHelper, type);
-//    }
-//    
-//    public MeetingAddMinuteEvent(String errorPathPrefix, Document document, MeetingHelper meetingHelper, ErrorType type) {
-//        this(errorPathPrefix, (CommitteeDocument)document, meetingHelper, type);
-//    }
-//    
-//    @SuppressWarnings("unchecked")
-//    @Override
-//    public BusinessRuleInterface getRule() {
-//        return new MeetingAddMinuteRule();
-//    }
-
-
 }

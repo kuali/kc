@@ -28,27 +28,4 @@ public class CommitteeActionAuthorizer extends CommitteeActionAuthorizerBase {
     protected String getPermissionNameForPerformCommitteeActionsCodeHook() {
         return PermissionConstants.PERFORM_COMMITTEE_ACTIONS;
     }
-
-// TODO ********************** commented out during IRB backfit ************************    
-//    private CommitteeService committeeService;
-//
-//    /**
-//     * @see org.kuali.kra.irb.document.authorizer.CommitteeAuthorizer#isAuthorized(java.lang.String, org.kuali.kra.irb.document.authorization.CommitteeTask)
-//     */
-//    public boolean isAuthorized(String userId, CommitteeTask task) {
-//        Committee committee = task.getCommittee();
-//        return StringUtils.equals(committee.getCommitteeDocument().getDocumentHeader().getWorkflowDocument().getStatus().getLabel(), "FINAL")
-//                && committee.getCommitteeId() != null
-//                && committeeService.getCommitteeById(committee.getCommitteeId()).getId().equals(committee.getId())
-//                && hasPermission(userId, committee, PermissionConstants.PERFORM_COMMITTEE_ACTIONS);
-//    }
-//    
-//    /**
-//     * Set the Committee Service.  Usually injected by the Spring Framework.
-//     * @param committeeService
-//     */
-//    public void setCommitteeService(CommitteeService committeeService) {
-//        this.committeeService = committeeService;
-//    }
-
 }

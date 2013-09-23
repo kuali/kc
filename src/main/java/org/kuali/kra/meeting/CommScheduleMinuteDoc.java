@@ -28,41 +28,4 @@ public class CommScheduleMinuteDoc extends CommScheduleMinuteDocBase {
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 892936844727098445L;
-
-    
-    
-// TODO ********************** commented out during IRB backfit ************************
-//    private Long commScheduleMinuteDocId;
-//
-//    private Integer minuteNumber;
-//
-//    private String minuteName;
-//
-//    public CommScheduleMinuteDoc() {
-//    }
-//
-//    public Long getCommScheduleMinuteDocId() {
-//        return commScheduleMinuteDocId;
-//    }
-//
-//    public void setCommScheduleMinuteDocId(Long commScheduleMinuteDocId) {
-//        this.commScheduleMinuteDocId = commScheduleMinuteDocId;
-//    }
-//
-//    public Integer getMinuteNumber() {
-//        return minuteNumber;
-//    }
-//
-//    public void setMinuteNumber(Integer minuteNumber) {
-//        this.minuteNumber = minuteNumber;
-//    }
-//
-//    public String getMinuteName() {
-//        return minuteName;
-//    }
-//
-//    public void setMinuteName(String minuteName) {
-//        this.minuteName = minuteName;
-//    }
-    
 }
