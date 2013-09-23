@@ -43,7 +43,6 @@ public final class ConnectionTracker {
      *     CollectionInfo objects = the physical connection object along with the stacktrace that requested that connection
      */
     private static final ThreadLocal<Map<String, Collection<ConnectionInfo>>> OPEN_CONNECTIONS = new ThreadLocal<Map<String, Collection<ConnectionInfo>>>() {
-        /** {@inheritDoc} */
         @Override
         protected synchronized Map<String, Collection<ConnectionInfo>> initialValue() {
             return new HashMap<String, Collection<ConnectionInfo>>();

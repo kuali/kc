@@ -79,10 +79,7 @@ public class CostShareFormHelper implements Serializable, CostShareFunctions {
         return getNewAwardCostShare();
     }
     
-    /**
-     * 
-     * @see org.kuali.kra.costshare.CostShareFunctions#getProjectPeriodLabel()
-     */
+    @Override
     public String getProjectPeriodLabel() {
         String label = KraServiceLocator.getService(CostShareService.class).getCostShareLabel();
         return label;

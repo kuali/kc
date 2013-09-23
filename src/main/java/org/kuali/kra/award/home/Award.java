@@ -1810,6 +1810,7 @@ public class Award extends KraPersistableBusinessObjectBase implements KeywordsM
      * Gets the keywords attribute.
      * @return Returns the keywords.
      */
+    @Override
     public List<AwardScienceKeyword> getKeywords() {
         return keywords;
     }
