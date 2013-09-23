@@ -15,15 +15,10 @@
  */
 package org.kuali.kra.external.award.impl;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.kuali.kra.award.document.AwardDocument;
 import org.kuali.kra.award.home.Award;
-import org.kuali.kra.award.home.AwardStatus;
 import org.kuali.kra.bo.versioning.VersionStatus;
 import org.kuali.kra.external.award.AwardAccountDTO;
 import org.kuali.kra.external.award.AwardAccountService;
@@ -32,6 +27,10 @@ import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.ObjectUtils;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * This class implements the award account service.

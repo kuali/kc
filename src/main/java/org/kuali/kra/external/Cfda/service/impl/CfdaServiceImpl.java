@@ -15,17 +15,7 @@
  */
 package org.kuali.kra.external.Cfda.service.impl;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
-import java.util.SortedMap;
-import java.util.TreeMap;
-
+import au.com.bytecode.opencsv.CSVReader;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -39,9 +29,11 @@ import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.core.framework.persistence.jdbc.sql.SQLUtils;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.service.DocumentService;
 
-import au.com.bytecode.opencsv.CSVReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.*;
 
 
 /**
@@ -56,7 +48,6 @@ public class CfdaServiceImpl implements CfdaService {
     private static final String FTP_PREFIX = "ftp://";
     private String cfdaFileName;
     private String govURL;
-    private DocumentService documentService;
     
     private static final Log LOG = LogFactory.getLog(CfdaServiceImpl.class);
     protected static Comparator cfdaComparator;
