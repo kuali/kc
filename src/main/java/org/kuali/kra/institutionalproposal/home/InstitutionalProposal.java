@@ -1393,6 +1393,7 @@ public class InstitutionalProposal extends KraPersistableBusinessObjectBase impl
      * Gets the keywords attribute. 
      * @return Returns the keywords.
      */
+    @Override
     public List<InstitutionalProposalScienceKeyword> getKeywords() {
         return institutionalProposalScienceKeywords;
     }

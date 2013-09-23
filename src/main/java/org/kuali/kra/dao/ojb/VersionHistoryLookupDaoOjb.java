@@ -15,18 +15,8 @@
  */
 package org.kuali.kra.dao.ojb;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.ojb.broker.query.Criteria;
-import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
-import org.kuali.kra.award.home.Award;
-import org.kuali.kra.bo.Rolodex;
-import org.kuali.kra.bo.versioning.VersionHistory;
 import org.kuali.kra.dao.VersionHistoryLookupDao;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.rice.kns.lookup.LookupUtils;
@@ -36,12 +26,11 @@ import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.dao.LookupDao;
 import org.kuali.rice.krad.dao.impl.LookupDaoOjb;
 import org.kuali.rice.krad.lookup.CollectionIncomplete;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springmodules.orm.ojb.OjbOperationException;
+
+import java.util.*;
 
 @SuppressWarnings("unchecked")
 public class VersionHistoryLookupDaoOjb extends LookupDaoOjb  implements VersionHistoryLookupDao {
-    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(VersionHistoryLookupDaoOjb.class);
 
     @SuppressWarnings({ "rawtypes", "deprecation" })
     public List<? extends BusinessObject> getSequenceOwnerSearchResults(Class sequenceOwnerClass,Map fieldValues, boolean usePrimaryKeys){
