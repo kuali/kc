@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.dao;
 
-import org.kuali.kra.committee.bo.Committee;
-
-
 public interface ResearchAreaReferencesDao {
     
     public boolean isResearchAreaReferencedByAnyCommittee(String researchAreaCode);
@@ -25,7 +22,4 @@ public interface ResearchAreaReferencesDao {
     public boolean isResearchAreaReferencedByAnyCommitteeMember(String researchAreaCode);
     
     public boolean isResearchAreaReferencedByAnyProtocol(String researchAreaCode);
-    
-    public boolean isCurrentVersion(Committee committee);
-
 }

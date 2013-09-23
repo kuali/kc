@@ -15,12 +15,6 @@
  */
 package org.kuali.kra.document;
 
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -48,6 +42,11 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.workflow.DocumentInitiator;
 import org.kuali.rice.krad.workflow.KualiDocumentXmlMaterializer;
 import org.kuali.rice.krad.workflow.KualiTransactionalDocumentInformation;
+
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public abstract class ResearchDocumentBase extends TransactionalDocumentBase {
     private static final long serialVersionUID = -1879382692835231633L;
