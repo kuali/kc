@@ -15,27 +15,24 @@
  */
 package org.kuali.kra.kim.service.impl;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.personnel.IacucProtocolAffiliationType;
 import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.kra.protocol.personnel.ProtocolPersonBase;
-import org.kuali.rice.core.api.exception.RiceIllegalArgumentException;
 import org.kuali.rice.core.api.membership.MemberType;
 import org.kuali.rice.kim.api.role.RoleMembership;
 import org.kuali.rice.kns.kim.role.DerivedRoleTypeServiceBase;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 
 public class IacucProtocolAffiliateTypeDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBase {
-    private static final org.apache.log4j.Logger LOG = 
-        org.apache.log4j.Logger.getLogger(IacucProtocolAffiliateTypeDerivedRoleTypeServiceImpl.class);
-    
+
     protected List<String> requiredAttributes = new ArrayList<String>();
     {
         requiredAttributes.add(KcKimAttributes.PROTOCOL);
