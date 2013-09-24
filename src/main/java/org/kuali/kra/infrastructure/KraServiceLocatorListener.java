@@ -16,7 +16,6 @@
 package org.kuali.kra.infrastructure;
 
 import javax.servlet.ServletContextEvent;
-
 import org.kuali.rice.core.web.listener.KualiInitializeListener;
 
 public class KraServiceLocatorListener extends KualiInitializeListener {

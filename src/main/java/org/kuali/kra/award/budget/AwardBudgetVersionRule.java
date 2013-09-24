@@ -107,14 +107,11 @@ public class AwardBudgetVersionRule extends BudgetVersionRule {
                 }
             }
         }
-        System.err.println("Got here! XXXXXXXXXXXXXX");
+
         if(!anyAwardVersionFinal && !anyTimeAndMoneyDocumentsFinal) {
             GlobalVariables.getMessageMap().putError(event.getErrorPathPrefix(), KeyConstants.ERROR_AWARD_OR_MONEY_DOC_NOT_FINAL);
             success &= false;
         }
-        
-        
-        
         
         return success;
     }

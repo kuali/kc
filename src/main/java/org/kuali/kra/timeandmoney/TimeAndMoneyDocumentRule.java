@@ -74,11 +74,6 @@ public class TimeAndMoneyDocumentRule extends ResearchDocumentRuleBase implement
             return false;
         }
         
-        errorMap.addToErrorPath(DOCUMENT_ERROR_PATH);
-        getDictionaryValidationService().validateDocumentAndUpdatableReferencesRecursively(
-                document, getMaxDictionaryValidationDepth(),
-                VALIDATION_REQUIRED, CHOMP_LAST_LETTER_S_FROM_COLLECTION_NAME);
-        errorMap.removeFromErrorPath(DOCUMENT_ERROR_PATH);
         retval &= processAwardDirectFandADistributionBusinessRules(document);
         retval &= processTimeAndMoneyAwardAmountTransactionBusinessRules(document);
         retval &= processTimeAndMoneySaveAwardDateBusinessRules(document);

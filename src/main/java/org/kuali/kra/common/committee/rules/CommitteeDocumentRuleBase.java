@@ -108,33 +108,15 @@ public abstract class CommitteeDocumentRuleBase extends ResearchDocumentRuleBase
      */
     @Override
     public boolean processCustomSaveDocumentBusinessRules(Document document) {
-       
         boolean valid = true;
-        
-        GlobalVariables.getMessageMap().addToErrorPath("document");
-        
-        /* 
-         * The Kuali Core business rules don't check to see if the required fields are
-         * set in order to save the document.  Thus, that check must be performed here.
-         * Note that the method validateDocumentAndUpdatableReferencesRecursively() does
-         * not return whether validation failed or succeeded.  Therefore, we check the
-         * the global error map.  If it isn't empty, we assume that the errors were put
-         * there by this method.
-         */
-        getKnsDictionaryValidationService().validateDocumentAndUpdatableReferencesRecursively(document, getMaxDictionaryValidationDepth(), VALIDATION_REQUIRED, CHOMP_LAST_LETTER_S_FROM_COLLECTION_NAME);
-        valid &= GlobalVariables.getMessageMap().hasNoErrors();
-        GlobalVariables.getMessageMap().removeFromErrorPath("document");
         
         valid &= validateCommitteeId((CommitteeDocumentBase) document);
         valid &= validateUniqueCommitteeId((CommitteeDocumentBase) document);
         valid &= validateUniqueCommitteeName((CommitteeDocumentBase) document);
         valid &= validateHomeUnit((CommitteeDocumentBase) document);
-        
         valid &= validateCommitteeTypeSpecificData((CommitteeDocumentBase) document);
-                   
         valid &= validateCommitteeMemberships((CommitteeDocumentBase) document);
         valid &= processScheduleRules((CommitteeDocumentBase) document);
-        
         
         return valid;
     }

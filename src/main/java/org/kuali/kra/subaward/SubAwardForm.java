@@ -45,12 +45,12 @@ import org.kuali.kra.subaward.document.SubAwardDocument;
 import org.kuali.kra.subaward.document.authorization.SubAwardTask;
 import org.kuali.kra.subaward.notification.SubAwardNotificationContext;
 import org.kuali.kra.subaward.service.SubAwardService;
+import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kns.web.ui.ExtraButton;
 import org.kuali.rice.kns.web.ui.HeaderField;
-import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
 /**
  * This class represents the SubAward Form Struts class....
@@ -397,10 +397,10 @@ implements PermissionsForm, Auditable, CustomDataDocumentForm {
         String externalImageURL = Constants.KRA_EXTERNALIZABLE_IMAGES_URI_KEY;
 
         TaskAuthorizationService tas = KraServiceLocator.getService(TaskAuthorizationService.class);
-        ConfigurationService configurationService = KRADServiceLocator.getKualiConfigurationService();
+        ConfigurationService configurationService = CoreApiServiceLocator.getKualiConfigurationService();
         SubAwardTask task = new SubAwardTask(TaskName.ADD_INVOICE_SUBAWARD, doc);
         if(tas.isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), task)) {       
-            String submitToGrantsGovImage = KRADServiceLocator.getKualiConfigurationService().getPropertyValueAsString(externalImageURL) + "buttonsmall_addinvoice.gif";
+            String submitToGrantsGovImage = configurationService.getPropertyValueAsString(externalImageURL) + "buttonsmall_addinvoice.gif";
             addExtraButton("methodToCall.addAmountReleased", submitToGrantsGovImage, "Add Invoice");
         }
         return extraButtons;

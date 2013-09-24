@@ -266,12 +266,6 @@ public class AwardDocumentRule extends ResearchDocumentRuleBase implements Award
             return false;
         }
         
-        errorMap.addToErrorPath(DOCUMENT_ERROR_PATH);
-        getKnsDictionaryValidationService().validateDocumentAndUpdatableReferencesRecursively(
-                document, getMaxDictionaryValidationDepth(),
-                VALIDATION_REQUIRED, CHOMP_LAST_LETTER_S_FROM_COLLECTION_NAME);
-        errorMap.removeFromErrorPath(DOCUMENT_ERROR_PATH);
-        
         AwardDocument awardDocument = (AwardDocument) document;
 
         retval &= processUnitNumberBusinessRule(errorMap, awardDocument);

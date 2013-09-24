@@ -37,7 +37,7 @@ import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceBase;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 import org.kuali.rice.krad.util.ObjectUtils;
-import org.kuali.rice.krad.util.OjbCollectionAware;
+import org.kuali.rice.krad.service.util.OjbCollectionAware;
 
 
 public class CoiDisclosureUndisclosedEventsDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAware, CoiDisclosureUndisclosedEventsDao {

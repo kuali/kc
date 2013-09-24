@@ -27,7 +27,7 @@ import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.dao.LookupDao;
-import org.kuali.rice.krad.util.OjbCollectionAware;
+import org.kuali.rice.krad.service.util.OjbCollectionAware;
 
 public class AwardPersonDaoOjb extends PlatformAwareDaoBaseOjb implements OjbCollectionAware, AwardPersonDao {
     private LookupDao lookupDao;

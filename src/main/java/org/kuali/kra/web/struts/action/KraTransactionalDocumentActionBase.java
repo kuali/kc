@@ -80,6 +80,7 @@ import org.kuali.kra.timeandmoney.TimeAndMoneyForm;
 import org.kuali.kra.web.struts.authorization.WebAuthorizationService;
 import org.kuali.kra.web.struts.form.CustomDataDocumentForm;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
+import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.util.RiceConstants;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
@@ -256,7 +257,7 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
         retval.setQuestionType(CONFIRMATION_QUESTION);
 
 
-        ConfigurationService kualiConfiguration = KRADServiceLocator.getKualiConfigurationService();
+        ConfigurationService kualiConfiguration = CoreApiServiceLocator.getKualiConfigurationService();
         String questionText = kualiConfiguration.getPropertyValueAsString(configurationId);
 
         for (int i = 0; i < params.length; i++) {
@@ -405,7 +406,7 @@ public class KraTransactionalDocumentActionBase extends KualiTransactionalDocume
     @Override
     protected String generatePessimisticLockMessage(PessimisticLock lock) {
         String descriptor = (lock.getLockDescriptor() != null) ? lock.getLockDescriptor() : "";
-        String message = KRADServiceLocator.getKualiConfigurationService().getPropertyValueAsString(KeyConstants.LOCKED_DOCUMENT_MESSAGE);
+        String message = CoreApiServiceLocator.getKualiConfigurationService().getPropertyValueAsString(KeyConstants.LOCKED_DOCUMENT_MESSAGE);
 
         descriptor = getDocumentType(descriptor);
         message = message.replace("{DOCUMENT_TYPE}", descriptor);

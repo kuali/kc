@@ -23,7 +23,7 @@ import org.drools.core.util.StringUtils;
 import org.kuali.kra.iacuc.IacucProtocol;
 import org.kuali.kra.iacuc.notification.IacucProtocolNotificationRenderer;
 import org.kuali.kra.protocol.notification.ProtocolReplacementParameters;
-import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.core.api.CoreApiServiceLocator;
 
 /**
  * Renders additional fields for the Protocol Expired notification.
@@ -53,7 +53,7 @@ public class IacucProtocolWithDateNotificationRenderer extends IacucProtocolNoti
     public Map<String, String> getDefaultReplacementParameters() {
         Map<String, String> params = super.getDefaultReplacementParameters();
         params.put(ProtocolReplacementParameters.DATE, genericDate != null ? new SimpleDateFormat("d'-'MMM'-'yyyy").format(genericDate)
-                                                                           : KRADServiceLocator.getKualiConfigurationService().getPropertyValueAsString(NO_DATE_GIVEN));
+                                                                           : CoreApiServiceLocator.getKualiConfigurationService().getPropertyValueAsString(NO_DATE_GIVEN));
         return params;
     }
 }

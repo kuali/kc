@@ -93,7 +93,7 @@ public class AwardBudgetForm extends BudgetForm {
         AwardBudgetDocument doc = this.getAwardBudgetDocument();
         String externalImageURL = Constants.KRA_EXTERNALIZABLE_IMAGES_URI_KEY;
         String krImageURL = Constants.KR_EXTERNALIZABLE_IMAGES_URI_KEY;
-        ConfigurationService configurationService = KRADServiceLocator.getKualiConfigurationService();
+        ConfigurationService configurationService = CoreApiServiceLocator.getKualiConfigurationService();
         
         TaskAuthorizationService tas = KraServiceLocator.getService(TaskAuthorizationService.class);
         if (tas.isAuthorized(GlobalVariables.getUserSession().getPrincipalId(), new AwardBudgetTask(TaskName.TOGGLE_AWARD_BUDGET_STATUS, doc))) {
@@ -167,20 +167,20 @@ public class AwardBudgetForm extends BudgetForm {
     @Override
     protected HeaderField getHeaderDocStatus (WorkflowDocument parentWorkflowDocument) {
         AwardBudgetExt abe = this.getAwardBudgetDocument().getAwardBudget();
-        return new HeaderField("DataDictionary.AttributeReferenceDummy.attributes.workflowDocumentStatus", abe.getAwardBudgetStatus().getDescription());
+        return new HeaderField("DataDictionary.AttributeReference.attributes.workflowDocumentStatus", abe.getAwardBudgetStatus().getDescription());
     }
     
     @Override
     protected HeaderField getHeaderDocInitiator(WorkflowDocument parentWorkflowDocument) {
         WorkflowDocument doc = getBudgetDocument().getDocumentHeader().getWorkflowDocument();
-        return new HeaderField("DataDictionary.AttributeReferenceDummy.attributes.initiatorNetworkId", doc.getInitiatorPrincipalId());
+        return new HeaderField("DataDictionary.AttributeReference.attributes.initiatorNetworkId", doc.getInitiatorPrincipalId());
     }
     
     @Override
     protected HeaderField getHeaderDocCreateDate(WorkflowDocument parentWorkflowDocument) {
         Date ts = getBudgetDocument().getDocumentHeader().getWorkflowDocument().getDateCreated().toDate();
         String updateDateStr = CoreApiServiceLocator.getDateTimeService().toString(ts, "hh:mm a MM/dd/yyyy");
-        return new HeaderField("DataDictionary.AttributeReferenceDummy.attributes.createDate", updateDateStr);
+        return new HeaderField("DataDictionary.AttributeReference.attributes.createDate", updateDateStr);
     }
     /**
      * Gets the awardBudgetPeriodSummaryCalculatedAmount attribute. 

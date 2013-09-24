@@ -51,7 +51,7 @@ public class AddAlternateSearchRule extends ResearchDocumentRuleBase implements 
         Date searchDate = event.getAlternateSearch().getSearchDate();
         
         if (searchDate != null) {
-            DictionaryValidationResult result = getDictionaryValidationService().validate(searchDate, DD_ENTRY_NAME, "searchDate"); 
+            DictionaryValidationResult result = getDictionaryValidationService().validate(searchDate, DD_ENTRY_NAME, "searchDate", false); 
             if (result.getNumberOfErrors() == 0){
                 Date currentDate = new Date();
                 if (!searchDate.after(currentDate)) {
@@ -89,7 +89,7 @@ public class AddAlternateSearchRule extends ResearchDocumentRuleBase implements 
         String years = event.getAlternateSearch().getYearsSearched();
         
         if (StringUtils.isNotBlank(years)) {
-            DictionaryValidationResult result = getDictionaryValidationService().validate((Object)years, DD_ENTRY_NAME, "yearsSearched"); 
+            DictionaryValidationResult result = getDictionaryValidationService().validate((Object)years, DD_ENTRY_NAME, "yearsSearched", false); 
             if (result.getNumberOfErrors() == 0){
                 return true;
             } else {
@@ -108,7 +108,7 @@ public class AddAlternateSearchRule extends ResearchDocumentRuleBase implements 
         String keywords = event.getAlternateSearch().getKeywords();
         
         if (StringUtils.isNotBlank(keywords)) {
-            DictionaryValidationResult result = getDictionaryValidationService().validate((Object)keywords, DD_ENTRY_NAME, "keywords"); 
+            DictionaryValidationResult result = getDictionaryValidationService().validate((Object)keywords, DD_ENTRY_NAME, "keywords", false); 
             if (result.getNumberOfErrors() == 0){
                 return true;
             } else {

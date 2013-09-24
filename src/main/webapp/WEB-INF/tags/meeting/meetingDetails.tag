@@ -3,7 +3,7 @@
 <c:set var="committeeAttribute" value="${DataDictionary.Committee.attributes}" />
 <c:set var="committeeScheduleAttribute" value="${DataDictionary.CommitteeSchedule.attributes}" />
 <c:set var="committeeScheduleAttributeReferenceDummy" value="${DataDictionary.CommitteeScheduleAttributeReferenceDummy.attributes}" />
-<c:set var="attributeReferenceDummy" value="${DataDictionary.AttributeReferenceDummy.attributes}" />
+<c:set var="attributeReferenceDummy" value="${DataDictionary.AttributeReference.attributes}" />
 
 <kul:tab defaultOpen="true" tabTitle="Meeting Details " transparentBackground="true"
     tabErrorKey="meetingHelper.committeeSchedule.*" >

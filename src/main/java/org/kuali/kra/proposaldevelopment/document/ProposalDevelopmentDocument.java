@@ -38,6 +38,7 @@ import org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyServ
 import org.kuali.kra.proposaldevelopment.service.ProposalStateService;
 import org.kuali.kra.proposaldevelopment.service.ProposalStatusService;
 import org.kuali.kra.workflow.KraDocumentXMLMaterializer;
+import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.datetime.DateTimeService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
@@ -58,7 +59,6 @@ import org.kuali.rice.krad.datadictionary.DocumentEntry;
 import org.kuali.rice.krad.document.Copyable;
 import org.kuali.rice.krad.document.SessionDocument;
 import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.workflow.KualiDocumentXmlMaterializer;
 import org.kuali.rice.krms.api.engine.Facts;
@@ -260,7 +260,7 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
     }
     
     protected ConfigurationService getKualiConfigurationService() {
-        return KRADServiceLocator.getKualiConfigurationService();
+        return CoreApiServiceLocator.getKualiConfigurationService();
     }
     
     protected ParameterService getParameterService() {
@@ -451,11 +451,7 @@ public class ProposalDevelopmentDocument extends BudgetParentDocument<Developmen
      * @return
      */
     private String buildExtraButtonSourceURI(String buttonFileName) {
-        return lookupKualiConfigurationService().getPropertyValueAsString(KRA_EXTERNALIZABLE_IMAGES_URI_KEY) + buttonFileName;
-    }
-
-    private ConfigurationService lookupKualiConfigurationService() {
-        return KRADServiceLocator.getKualiConfigurationService();
+        return getKualiConfigurationService().getPropertyValueAsString(KRA_EXTERNALIZABLE_IMAGES_URI_KEY) + buttonFileName;
     }
 
     @Override

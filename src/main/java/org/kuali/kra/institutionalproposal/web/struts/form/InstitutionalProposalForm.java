@@ -45,13 +45,13 @@ import org.kuali.kra.web.struts.form.Auditable;
 import org.kuali.kra.web.struts.form.CustomDataDocumentForm;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
 import org.kuali.kra.web.struts.form.MultiLookupFormBase;
+import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.datadictionary.HeaderNavigation;
 import org.kuali.rice.kns.service.DataDictionaryService;
 import org.kuali.rice.kns.util.ActionFormUtilMap;
 import org.kuali.rice.kns.web.ui.ExtraButton;
-import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 
@@ -509,7 +509,7 @@ public class InstitutionalProposalForm extends KraTransactionalDocumentFormBase 
         extraButtons.clear();
         
         String externalImageURL = Constants.KRA_EXTERNALIZABLE_IMAGES_URI_KEY;
-        ConfigurationService configurationService = KRADServiceLocator.getKualiConfigurationService();
+        ConfigurationService configurationService = CoreApiServiceLocator.getKualiConfigurationService();
         
         String sendNotificationImage = configurationService.getPropertyValueAsString(externalImageURL) + "buttonsmall_send_notification.gif";
         addExtraButton("methodToCall.sendNotification", sendNotificationImage, "Send Notification");
