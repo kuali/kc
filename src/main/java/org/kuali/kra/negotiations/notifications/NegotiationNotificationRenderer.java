@@ -15,16 +15,15 @@
  */
 package org.kuali.kra.negotiations.notifications;
 
-import java.text.SimpleDateFormat;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.common.notification.NotificationRendererBase;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.negotiations.bo.Negotiation;
 import org.kuali.kra.negotiations.bo.NegotiationUnassociatedDetail;
 import org.kuali.rice.krad.service.KRADServiceLocator;
+
+import java.text.SimpleDateFormat;
+import java.util.Map;
 
 public class NegotiationNotificationRenderer extends NotificationRendererBase {
 

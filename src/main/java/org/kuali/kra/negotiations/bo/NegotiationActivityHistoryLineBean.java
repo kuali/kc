@@ -15,11 +15,10 @@
  */
 package org.kuali.kra.negotiations.bo;
 
+import org.kuali.rice.kns.web.ui.ResultRow;
+
 import java.io.Serializable;
 import java.sql.Date;
-
-import org.drools.core.util.StringUtils;
-import org.kuali.rice.kns.web.ui.ResultRow;
 
 /**
  * 
@@ -30,7 +29,6 @@ public class NegotiationActivityHistoryLineBean extends ResultRow implements Com
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 1497207089018881667L;
-    private static final String EMPTY_STRING = "";
     
     private String activityType;
     private String location;

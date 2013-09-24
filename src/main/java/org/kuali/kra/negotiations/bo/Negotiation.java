@@ -15,26 +15,25 @@
  */
 package org.kuali.kra.negotiations.bo;
 
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.award.customdata.AwardCustomData;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
 import org.kuali.kra.common.permissions.Permissionable;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.RoleConstants;
+import org.kuali.kra.negotiations.customdata.NegotiationCustomData;
 import org.kuali.kra.negotiations.document.NegotiationDocument;
 import org.kuali.kra.negotiations.notifications.NegotiationNotification;
 import org.kuali.kra.negotiations.service.NegotiationService;
-import org.kuali.kra.negotiations.customdata.NegotiationCustomData;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.krad.bo.BusinessObject;
+
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 

@@ -15,46 +15,26 @@
  */
 package org.kuali.kra.negotiations.service;
 
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.budget.AwardBudgetService;
 import org.kuali.kra.award.home.Award;
-import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.versioning.VersionHistory;
-import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
 import org.kuali.kra.institutionalproposal.proposallog.ProposalLog;
 import org.kuali.kra.institutionalproposal.service.InstitutionalProposalService;
-import org.kuali.kra.kim.bo.KcKimAttributes;
 import org.kuali.kra.kim.service.impl.UnitAdministratorDerivedRoleTypeServiceImpl;
-import org.kuali.kra.negotiations.bo.Negotiable;
-import org.kuali.kra.negotiations.bo.Negotiation;
-import org.kuali.kra.negotiations.bo.NegotiationActivity;
-import org.kuali.kra.negotiations.bo.NegotiationActivityHistoryLineBean;
-import org.kuali.kra.negotiations.bo.NegotiationAssociatedDetailBean;
-import org.kuali.kra.negotiations.bo.NegotiationAssociationType;
-import org.kuali.kra.negotiations.bo.NegotiationPersonDTO;
-import org.kuali.kra.negotiations.bo.NegotiationStatus;
-import org.kuali.kra.negotiations.bo.NegotiationUnassociatedDetail;
+import org.kuali.kra.negotiations.bo.*;
 import org.kuali.kra.negotiations.document.NegotiationDocument;
 import org.kuali.kra.negotiations.notifications.NegotiationNotification;
 import org.kuali.kra.service.KcPersonService;
 import org.kuali.kra.service.VersionHistoryService;
 import org.kuali.kra.subaward.bo.SubAward;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
-import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.sql.Date;
+import java.util.*;
 
 /**
  * Service impl for NegotiationService.
@@ -274,22 +254,6 @@ public class NegotiationServiceImpl implements NegotiationService {
             }
         }
         
-    }
-    
-    /**
-     * 
-     * @see org.kuali.kra.negotiations.service.NegotiationService#isPersonIsAssociatedPerson(org.kuali.kra.negotiations.bo.Negotiation, java.lang.String)
-     */
-    public boolean isPersonIsAssociatedPerson(Negotiation negotiation, String personToCheckPersonId) {
-        Negotiable bo = getAssociatedObject(negotiation);
-        if (bo != null) {
-            for (NegotiationPersonDTO person : bo.getProjectPeople()) {
-                if (StringUtils.equals(person.getPerson().getPersonId(), personToCheckPersonId)) {
-                    return true;
-                }
-            }
-        }
-        return false;
     }
     
     /**

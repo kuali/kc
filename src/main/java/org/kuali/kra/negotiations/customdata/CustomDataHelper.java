@@ -15,29 +15,14 @@
  */
 package org.kuali.kra.negotiations.customdata;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
-import java.util.SortedMap;
-import java.util.TreeMap;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.struts.action.ActionForm;
-import org.apache.struts.action.ActionForward;
-import org.apache.struts.action.ActionMapping;
-import org.drools.core.util.StringUtils;
 import org.kuali.kra.bo.CustomAttributeDocument;
-import org.kuali.kra.bo.DocumentCustomData;
 import org.kuali.kra.common.customattributes.CustomDataHelperBase;
-import org.kuali.kra.document.ResearchDocumentBase;
 import org.kuali.kra.negotiations.bo.Negotiation;
 import org.kuali.kra.negotiations.document.NegotiationDocument;
 import org.kuali.kra.negotiations.web.struts.form.NegotiationForm;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  *   CustomDataHelper class
@@ -48,9 +33,7 @@ public class CustomDataHelper extends CustomDataHelperBase<NegotiationCustomData
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = -716264183914346452L;
-    private static final String MAPPING_CUSTOM_DATA = "customData";
-    
-    
+
     private NegotiationForm negotiationForm;    
     
     /**
