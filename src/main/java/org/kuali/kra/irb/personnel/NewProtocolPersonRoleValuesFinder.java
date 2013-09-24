@@ -15,22 +15,19 @@
  */
 package org.kuali.kra.irb.personnel;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.lookup.keyvalue.KeyValueFinderService;
 import org.kuali.kra.lookup.keyvalue.PrefixValuesFinder;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.service.KeyValuesService;
 
-public class NewProtocolPersonRoleValuesFinder extends KeyValuesBase {
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
 
-    KeyValueFinderService keyValueFinderService= (KeyValueFinderService)KraServiceLocator.getService("keyValueFinderService");
+public class NewProtocolPersonRoleValuesFinder extends KeyValuesBase {
     
     /**
      * Constructs the list of Protocol Person Roles.  Each entry

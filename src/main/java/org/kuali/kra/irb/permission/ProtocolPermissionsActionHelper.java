@@ -15,14 +15,6 @@
  */
 package org.kuali.kra.irb.permission;
 
-import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -43,9 +35,12 @@ import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
-import org.kuali.rice.krad.service.KualiRuleService;
 import org.kuali.rice.krad.util.KRADConstants;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The Protocol Permissions Action Helper performs all of the presentation logic
