@@ -39,15 +39,6 @@ public class ProtocolAssignCmtSchedAuthorizer extends ProtocolAuthorizer {
                !StringUtils.equals(ProtocolSubmissionStatus.EXEMPT, protocol.getProtocolSubmission().getSubmissionStatusCode()) &&
                hasPermission(username, protocol, PermissionConstants.PERFORM_IRB_ACTIONS_ON_PROTO);
     }
-
-    /**
-     * Is the protocol's submission in a pending or submitted to committee status?
-     * @param protocol
-     * @return
-     */
-    private boolean isPendingOrSubmittedToCommittee(Protocol protocol) {
-        return findSubmission(protocol) != null;
-    }
     
     /**
      * Find the submission.  It is the submission that is either currently pending or
