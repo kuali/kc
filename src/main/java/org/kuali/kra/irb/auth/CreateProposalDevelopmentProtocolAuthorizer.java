@@ -15,18 +15,17 @@
  */
 package org.kuali.kra.irb.auth;
 
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.ApplicationTask;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
+import org.kuali.kra.irb.Protocol;
+import org.kuali.kra.irb.protocol.funding.ProtocolFundingSource;
 import org.kuali.kra.protocol.protocol.funding.ProtocolFundingSourceBase;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.util.ObjectUtils;
-import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.irb.protocol.funding.ProtocolFundingSource;
+
+import java.util.List;
 /**
  * This service class is used to do authorization for create proposal task for proposal development document.  
  */
