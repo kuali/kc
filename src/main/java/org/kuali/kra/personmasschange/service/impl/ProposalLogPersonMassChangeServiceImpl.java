@@ -15,21 +15,17 @@
  */
 package org.kuali.kra.personmasschange.service.impl;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.Rolodex;
 import org.kuali.kra.institutionalproposal.proposallog.ProposalLog;
 import org.kuali.kra.personmasschange.bo.PersonMassChange;
 import org.kuali.kra.personmasschange.service.ProposalLogPersonMassChangeService;
-import org.kuali.kra.service.KcPersonService;
-import org.kuali.kra.service.RolodexService;
-import org.kuali.kra.service.Sponsorable;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
-import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Defines the service for performing a Person Mass Change on Proposal Logs.

@@ -15,13 +15,11 @@
  */
 package org.kuali.kra.personmasschange.web.struts.form;
 
-import java.util.Map;
-
-import org.kuali.kra.negotiations.document.NegotiationDocument;
 import org.kuali.kra.personmasschange.document.PersonMassChangeDocument;
 import org.kuali.kra.web.struts.form.KraTransactionalDocumentFormBase;
-import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.krad.util.KRADConstants;
+
+import java.util.Map;
 
 public class PersonMassChangeForm extends KraTransactionalDocumentFormBase {
 
