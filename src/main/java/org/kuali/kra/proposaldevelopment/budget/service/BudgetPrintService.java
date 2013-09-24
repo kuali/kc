@@ -15,14 +15,9 @@
  */
 package org.kuali.kra.proposaldevelopment.budget.service;
 
-import javax.servlet.http.HttpServletResponse;
-
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 
-/**
- * This class...
- */
 public interface BudgetPrintService {
 	
 	/**
@@ -39,14 +34,4 @@ public interface BudgetPrintService {
      * @return {@link AttachmentDataSource} bytes of the generated form
      */
     public AttachmentDataSource readBudgetPrintStream(Budget budget, String selectedBudgetPrintFormId);
-    
-    /**
-     * Prints all the selected budget forms
-     * @param budget {@link Budget}
-     * @param selectedBudgetPrintFormId list of selected budget forms
-     * @param response
-     * @return boolean status
-     */
-    public boolean printBudgetForms(Budget budget, String[] selectedBudgetPrintFormId, HttpServletResponse response);
-
 }

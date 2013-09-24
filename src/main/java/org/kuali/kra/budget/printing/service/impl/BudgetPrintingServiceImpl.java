@@ -195,26 +195,7 @@ public class BudgetPrintingServiceImpl implements BudgetPrintService {
 		printForms.add(industrialBudgetForm);
 		printForms.add(industrialBudgetCumulativeForm);
 		budget.setBudgetPrintForms(printForms);
-	}
-
-	/**
-	 * Prints all the selected budget forms
-	 * 
-	 * @param budget
-	 *            {@link Budget}
-	 * @param selectedBudgetPrintFormId
-	 *            list of selected budget forms
-	 * @param response
-	 * @return boolean status
-	 */
-	public boolean printBudgetForms(Budget budget,
-			String[] selectedBudgetPrintFormId, HttpServletResponse response) {
-		AttachmentDataSource pdf;
-		for (int i = 0; i < selectedBudgetPrintFormId.length; i++) {
-			pdf = readBudgetPrintStream(budget, selectedBudgetPrintFormId[i]);
-		}
-		return false;
-	}
+    }
 
 	/**
 	 * Generates the report specified and returns the bytes

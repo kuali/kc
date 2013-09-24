@@ -15,13 +15,6 @@
  */
 package org.kuali.kra.proposaldevelopment.service.impl;
 
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
@@ -48,12 +41,14 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
+import java.sql.Timestamp;
+import java.util.*;
+
 /**
  * This class is primarily to add/delete proposal/institute attachments. 
  */
 public class NarrativeServiceImpl implements NarrativeService {
-    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(NarrativeServiceImpl.class);
-    
+
     private NarrativeAuthZService narrativeAuthZService;
     private ProposalPersonService proposalPersonService;
     private BusinessObjectService businessObjectService;

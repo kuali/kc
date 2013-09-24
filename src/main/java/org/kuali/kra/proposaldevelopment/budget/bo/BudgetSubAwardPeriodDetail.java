@@ -16,12 +16,10 @@
 package org.kuali.kra.proposaldevelopment.budget.bo;
 
 import org.apache.commons.lang.ObjectUtils;
-import org.kuali.kra.SkipVersioning;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.BudgetAssociate;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
 import org.kuali.kra.infrastructure.DeepCopyIgnore;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 public class BudgetSubAwardPeriodDetail extends BudgetAssociate {
 

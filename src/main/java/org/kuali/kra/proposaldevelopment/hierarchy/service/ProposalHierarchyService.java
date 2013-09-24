@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.proposaldevelopment.hierarchy.service;
 
-import java.io.IOException;
-import java.util.List;
-
 import org.apache.struts.upload.FormFile;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.personnel.HierarchyPersonnelSummary;
@@ -30,6 +27,9 @@ import org.kuali.kra.proposaldevelopment.hierarchy.bo.HierarchyProposalSummary;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
+
+import java.io.IOException;
+import java.util.List;
 
 /**
  * This class...
@@ -145,33 +145,13 @@ public interface ProposalHierarchyService {
     public ProposalDevelopmentDocument getParentDocument( ProposalDevelopmentDocument doc ) throws ProposalHierarchyException;
 
     /**
-     * Calculate the AppDocStatus that should be applied to children of 
-     * a parent moving from oldStatus to newStatus.
-     * 
-     * @param oldStatus The old workflow status of the parent document.
-     * @param newStatus The new workflow status of the parent document.
-     * 
-     * @return The AppWorkDocStatus that should be set in a children.
-     */
-    public String getHierarchyChildRouteStatus( String oldStatus, String newStatus );
-
-    /**
      * Get a list of DevelopmentProposals that are children of proposal number provided.
      * @param parentProposalNumber the proposal number of the hierarchy parent.
      * @return List of DevelopmentProposals
      * @throws ProposalHierarchyException if the provided proposal is not a hierarchy.
      */
     public List<DevelopmentProposal> getHierarchyChildren( String parentProposalNumber ) throws ProposalHierarchyException;    
-    
-    
-    /**
-     * Get a list of ProposalDevelopmentDocuments that are children of proposal number provided.
-     * @param parentProposalNumber the proposal number of the hierarchy parent.
-     * @return List of ProposalDevelopmentDocuments
-     * @throws ProposalHierarchyException if the provided proposal is not a hierarchy.
-     */
-    public List<ProposalDevelopmentDocument> getChildProposalDevelopmentDocuments( String parentProposalNumber ) throws ProposalHierarchyException;    
-    
+
     /**
      * Reject a proposal development document by proposal number. This will return a proposal to state almost but not quite like initiated state.
      * If the proposal is a hierarchy all of the children will be returned to the initiated state as well.
@@ -198,15 +178,6 @@ public interface ProposalHierarchyService {
     public boolean allChildBudgetsAreComplete(String parentProposalNumber);
     
     public boolean validateRemovePermissions(DevelopmentProposal childProposal, String principalId);
-
-    /**
-     * Update the app doc status for the given document.  Workflow ignores a null or empty value so once you set this you have to manage it after that point.
-     * @param doc The proposal dev document you want to update.
-     * @param principalId the principal id to update it as.
-     * @param newStatus the new status, can be any string.
-     * @throws ProposalHierarchyException 
-     */
-    public void updateAppDocStatus(ProposalDevelopmentDocument doc, String principalId, String newStatus) throws ProposalHierarchyException;
 
     public void calculateAndSetProposalAppDocStatus(ProposalDevelopmentDocument doc, DocumentRouteStatusChange dto) throws ProposalHierarchyException;
     

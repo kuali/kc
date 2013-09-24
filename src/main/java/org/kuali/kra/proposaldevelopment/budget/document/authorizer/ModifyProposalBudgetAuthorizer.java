@@ -18,7 +18,6 @@ package org.kuali.kra.proposaldevelopment.budget.document.authorizer;
 import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.document.authorization.BudgetTask;
 import org.kuali.kra.budget.document.authorizer.BudgetAuthorizer;
-import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.kew.KraDocumentRejectionService;
@@ -41,23 +40,5 @@ public class ModifyProposalBudgetAuthorizer extends BudgetAuthorizer {
         
         return (!kraWorkflowService.isInWorkflow(doc) || rejectedDocument) &&
                 hasParentPermission(userId, doc, PermissionConstants.MODIFY_BUDGET) &&!doc.getDevelopmentProposal().getSubmitFlag(); 
-    }
-    
-    /**
-     * If the Budget Document completed or not?
-     * @param proposalDoc the proposal development document
-     * @param budgetDocument the budget document
-     * @return true if completed; otherwise false
-     */
-    private boolean isBudgetCompleted(ProposalDevelopmentDocument proposalDoc, BudgetDocument budgetDocument) {
-        if (!proposalDoc.getDevelopmentProposal().isProposalComplete()) {
-            return false;
-        }
-        for (BudgetDocumentVersion budgetVersion: proposalDoc.getBudgetDocumentVersions()) {
-            if (budgetVersion.getBudgetVersionOverview().isFinalVersionFlag() && budgetVersion.getBudgetVersionOverview().getBudgetVersionNumber().equals(budgetDocument.getBudget().getBudgetVersionNumber())) {
-                return true;
-            }
-        }
-        return false;
     }
 }

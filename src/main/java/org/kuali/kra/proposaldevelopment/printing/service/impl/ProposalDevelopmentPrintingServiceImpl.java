@@ -60,7 +60,6 @@ public class ProposalDevelopmentPrintingServiceImpl implements
 	private BusinessObjectService businessObjectService;
 	private ParameterService parameterService;
 	private static final String SPONSOR_CODE_DB_KEY = "sponsorCode";
-	private static final String PAGE_NUMBER_DB_KEY = "pageNumber";
 
 	/**
 	 * This method generates the required report and returns the PDF stream as

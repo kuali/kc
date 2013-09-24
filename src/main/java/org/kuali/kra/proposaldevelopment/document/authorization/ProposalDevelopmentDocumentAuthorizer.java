@@ -15,10 +15,6 @@
  */
 package org.kuali.kra.proposaldevelopment.document.authorization;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import org.kuali.kra.authorization.ApplicationTask;
 import org.kuali.kra.authorization.KcTransactionalDocumentAuthorizerBase;
 import org.kuali.kra.budget.document.BudgetParentDocument;
@@ -36,6 +32,10 @@ import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.authorization.AuthorizationConstants;
 import org.kuali.rice.krad.document.Document;
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 /**
  * The Proposal Development Document Authorizer.  Primarily responsible for determining if
  * a user has permission to create/modify/view proposals.
@@ -45,8 +45,7 @@ import org.kuali.rice.krad.document.Document;
 public class ProposalDevelopmentDocumentAuthorizer extends KcTransactionalDocumentAuthorizerBase {
 
     
-    org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalDevelopmentDocumentAuthorizer.class);
-    
+
     public Set<String> getEditModes(Document document, Person user, Set<String> currentEditModes) {
         Set<String> editModes = new HashSet<String>();
          

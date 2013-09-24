@@ -32,7 +32,6 @@ import org.kuali.rice.kew.api.WorkflowDocument;
  */
 public class RejectProposalBudgetAuthorizer extends BudgetAuthorizer {
 
-    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(RejectProposalBudgetAuthorizer.class);
 
     public boolean isAuthorized(String username, BudgetTask task) {
         org.kuali.kra.budget.document.BudgetDocument doc = task.getBudgetDocument();

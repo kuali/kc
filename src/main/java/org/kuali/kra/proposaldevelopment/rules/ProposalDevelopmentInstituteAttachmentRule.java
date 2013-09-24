@@ -15,16 +15,6 @@
  */
 package org.kuali.kra.proposaldevelopment.rules;
 
-import static org.kuali.kra.infrastructure.Constants.INSTITUTE_NARRATIVE_TYPE_GROUP;
-import static org.kuali.kra.infrastructure.KeyConstants.ERROR_ATTACHMENT_STATUS_NOT_SELECTED;
-import static org.kuali.kra.infrastructure.KeyConstants.ERROR_ATTACHMENT_TYPE_NOT_SELECTED;
-import static org.kuali.kra.infrastructure.KeyConstants.ERROR_NARRATIVE_TYPE_DESCRITPION_REQUIRED;
-import static org.kuali.kra.infrastructure.KeyConstants.ERROR_NARRATIVE_TYPE_DUPLICATE;
-import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
-
-import java.util.HashMap;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -38,10 +28,16 @@ import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.kra.service.KcAttachmentService;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kns.service.DictionaryValidationService;
-import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import static org.kuali.kra.infrastructure.Constants.INSTITUTE_NARRATIVE_TYPE_GROUP;
+import static org.kuali.kra.infrastructure.KeyConstants.*;
+import static org.kuali.kra.infrastructure.KraServiceLocator.getService;
 
 public class ProposalDevelopmentInstituteAttachmentRule extends ResearchDocumentRuleBase implements AddInstituteAttachmentRule { 
     private static final String NARRATIVE_TYPE_ALLOWMULTIPLE_NO = "N";
@@ -49,7 +45,6 @@ public class ProposalDevelopmentInstituteAttachmentRule extends ResearchDocument
     private static final String NEW_INSTITUTE_ATTACHMENT = "newInstituteAttachment";
     private static final String NARRATIVE_TYPE_CODE = "narrativeTypeCode";
     private static final String NARRATIVE_FILE = ".narrativeFile";
-    private static final String NARRATIVE_DESCRIPTION = ".moduleTitle";
     private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalDevelopmentInstituteAttachmentRule.class);
     private ParameterService parameterService;
     private transient KcAttachmentService kcAttachmentService;

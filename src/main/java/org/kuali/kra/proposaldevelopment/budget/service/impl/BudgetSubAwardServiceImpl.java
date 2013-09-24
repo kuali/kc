@@ -16,27 +16,7 @@
 package org.kuali.kra.proposaldevelopment.budget.service.impl;
 
 
-import gov.grants.apply.system.globalV10.HashValueDocument.HashValue;
-
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.TransformerException;
-
+import com.lowagie.text.pdf.*;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
@@ -54,10 +34,7 @@ import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwardAttachment;
 import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwardFiles;
 import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwardPeriodDetail;
 import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwards;
-import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwardsRule;
 import org.kuali.kra.proposaldevelopment.budget.service.BudgetSubAwardService;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
-import org.kuali.kra.rules.ErrorReporter;
 import org.kuali.kra.s2s.formmapping.FormMappingInfo;
 import org.kuali.kra.s2s.formmapping.FormMappingLoader;
 import org.kuali.kra.s2s.util.GrantApplicationHash;
@@ -66,23 +43,16 @@ import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.w3c.dom.DOMException;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
+import org.w3c.dom.*;
 
-import com.lowagie.text.pdf.PRStream;
-import com.lowagie.text.pdf.PdfArray;
-import com.lowagie.text.pdf.PdfDictionary;
-import com.lowagie.text.pdf.PdfName;
-import com.lowagie.text.pdf.PdfNameTree;
-import com.lowagie.text.pdf.PdfObject;
-import com.lowagie.text.pdf.PdfReader;
-import com.lowagie.text.pdf.PdfString;
-import com.lowagie.text.pdf.XfaForm;
+import javax.xml.transform.TransformerException;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * This class...
@@ -724,15 +694,7 @@ public class BudgetSubAwardServiceImpl implements BudgetSubAwardService {
         }
         return newElement;
     }
-    protected HashValue getValue(byte[] fileBytes) throws Exception{
-        return createHashValueType(GrantApplicationHash.computeAttachmentHash(fileBytes));
-    }
-    protected HashValue createHashValueType(String hashValueStr) throws Exception{
-        HashValue hashValue = HashValue.Factory.newInstance();
-        hashValue.setHashAlgorithm(S2SConstants.HASH_ALGORITHM);
-        hashValue.setStringValue(hashValueStr);
-        return hashValue;
-    }
+
     private void changeDataTypeForNumberOfOtherPersons(Document document) throws Exception{
         NodeList otherPesronsCountNodes =  XPathAPI.selectNodeList(document,"//*[local-name(.)='OtherPersonnelTotalNumber']");
         for (int i = 0; i < otherPesronsCountNodes.getLength(); i++) {

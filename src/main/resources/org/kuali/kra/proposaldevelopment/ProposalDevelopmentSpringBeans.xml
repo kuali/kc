@@ -292,7 +292,6 @@
         <property name="narrativeService" ref="narrativeService" />
         <property name="parameterService" ref="parameterService" />
         <property name="ynqService" ref="ynqService" />
-        <property name="kcPersonService" ref="kcPersonService" />
         <property name="sponsorService" ref="sponsorService"/>
     </bean>
 

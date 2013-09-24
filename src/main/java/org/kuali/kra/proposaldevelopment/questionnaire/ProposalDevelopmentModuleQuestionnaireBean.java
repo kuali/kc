@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.proposaldevelopment.questionnaire;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.infrastructure.KraServiceLocator;

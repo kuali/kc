@@ -15,8 +15,6 @@
  */
 package org.kuali.kra.proposaldevelopment.notification;
 
-import java.util.List;
-
 import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.common.notification.NotificationContextBase;
 import org.kuali.kra.common.notification.NotificationRenderer;
@@ -24,8 +22,9 @@ import org.kuali.kra.common.notification.service.KcNotificationModuleRoleService
 import org.kuali.kra.common.notification.service.KcNotificationService;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.util.EmailAttachment;
+
+import java.util.List;
 
 /**
  * This class extends the notification context base and provides some helpful functions for any Proposal Development specific events.

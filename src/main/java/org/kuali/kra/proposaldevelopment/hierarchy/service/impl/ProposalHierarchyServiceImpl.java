@@ -15,25 +15,6 @@
  */
 package org.kuali.kra.proposaldevelopment.hierarchy.service.impl;
 
-import static org.apache.commons.lang.StringUtils.replace;
-import static org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyKeyConstants.ERROR_BUDGET_PERIOD_DURATION_INCONSISTENT;
-import static org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyKeyConstants.ERROR_BUDGET_START_DATE_INCONSISTENT;
-import static org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyKeyConstants.PARAMETER_NAME_DIRECT_COST_ELEMENT;
-import static org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyKeyConstants.PARAMETER_NAME_INDIRECT_COST_ELEMENT;
-import static org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyKeyConstants.PARAMETER_NAME_INSTITUTE_NARRATIVE_TYPE_GROUP;
-import static org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyKeyConstants.QUESTION_EXTEND_PROJECT_DATE_CONFIRM;
-
-import java.io.IOException;
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -51,11 +32,7 @@ import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItem;
 import org.kuali.kra.budget.nonpersonnel.BudgetLineItemCalculatedAmount;
 import org.kuali.kra.budget.parameters.BudgetPeriod;
-import org.kuali.kra.budget.personnel.BudgetPerson;
-import org.kuali.kra.budget.personnel.BudgetPersonnelBudgetService;
-import org.kuali.kra.budget.personnel.BudgetPersonnelCalculatedAmount;
-import org.kuali.kra.budget.personnel.BudgetPersonnelDetails;
-import org.kuali.kra.budget.personnel.HierarchyPersonnelSummary;
+import org.kuali.kra.budget.personnel.*;
 import org.kuali.kra.budget.summary.BudgetSummaryService;
 import org.kuali.kra.budget.versions.BudgetDocumentVersion;
 import org.kuali.kra.infrastructure.Constants;
@@ -63,19 +40,7 @@ import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.PermissionConstants;
 import org.kuali.kra.infrastructure.RoleConstants;
 import org.kuali.kra.kew.KraDocumentRejectionService;
-import org.kuali.kra.proposaldevelopment.bo.CongressionalDistrict;
-import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
-import org.kuali.kra.proposaldevelopment.bo.Narrative;
-import org.kuali.kra.proposaldevelopment.bo.NarrativeAttachment;
-import org.kuali.kra.proposaldevelopment.bo.NarrativeStatus;
-import org.kuali.kra.proposaldevelopment.bo.PropScienceKeyword;
-import org.kuali.kra.proposaldevelopment.bo.ProposalBudgetStatus;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiography;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPersonBiographyAttachment;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPersonExtendedAttributes;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
-import org.kuali.kra.proposaldevelopment.bo.ProposalSite;
+import org.kuali.kra.proposaldevelopment.bo.*;
 import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwardAttachment;
 import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwardFiles;
 import org.kuali.kra.proposaldevelopment.budget.bo.BudgetSubAwards;
@@ -113,6 +78,13 @@ import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.workflow.service.WorkflowDocumentService;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.io.IOException;
+import java.sql.Date;
+import java.util.*;
+
+import static org.apache.commons.lang.StringUtils.replace;
+import static org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyKeyConstants.*;
 
 /**
  * This class...
@@ -735,28 +707,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         businessObjectService.save(childProposal);
     }
     
-    protected void syncProposalPersons(DevelopmentProposal childProposal, DevelopmentProposal hierarchyProposal, ProposalPerson pi, List<ProposalPerson> removedPersons) {
-        if (proposalPersonExtendedAttributesToDelete == null) {
-            proposalPersonExtendedAttributesToDelete = new ArrayList<ProposalPersonExtendedAttributes>();
-        }
-        
-        //now remove any other attachments for the persons we removed
-        for (ProposalPerson removedPerson : removedPersons) {
-            List<ProposalPersonBiography> currentBiographies = hierarchyProposal.getPropPersonBios();
-            ListIterator<ProposalPersonBiography> iter = currentBiographies.listIterator();
-            while (iter.hasNext()) {
-                ProposalPersonBiography bio = iter.next();
-                if (StringUtils.equalsIgnoreCase(bio.getPersonId(), removedPerson.getPersonId())
-                        && removedPerson.getProposalPersonNumber().equals(bio.getProposalPersonNumber())) {
-                    iter.remove();
-                }
-            }
-            
-            if (removedPerson.getProposalPersonExtendedAttributes() != null) {
-                proposalPersonExtendedAttributesToDelete.add(removedPerson.getProposalPersonExtendedAttributes());
-            }
-        }        
-    }
+
     
     protected void synchronizeChildBudget(Budget parentBudget, Budget childBudget, String childProposalNumber, String hierarchyBudgetTypeCode, boolean isOriginatingChildBudget )
             throws ProposalHierarchyException {
@@ -1121,21 +1072,11 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         pk.put("proposalNumber", proposalNumber);
         return (DevelopmentProposal) (businessObjectService.findByPrimaryKey(DevelopmentProposal.class, pk));
     }
-
-    protected boolean isSynchronized(String childProposalNumber) throws ProposalHierarchyException {
-        DevelopmentProposal childProposal = getDevelopmentProposal(childProposalNumber);
-        return isSynchronized(childProposal);
-    }
     
     protected boolean isSynchronized(DevelopmentProposal childProposal) throws ProposalHierarchyException {
         Integer hc1 = computeHierarchyHashCode(childProposal);
         Integer hc2 = childProposal.getHierarchyLastSyncHashCode();
         return org.apache.commons.lang.ObjectUtils.equals(hc1, hc2);
-    }    
-    
-    protected boolean isBudgetSynchronized(String childProposalNumber) throws ProposalHierarchyException {
-        DevelopmentProposal childProposal = getDevelopmentProposal(childProposalNumber);
-        return isBudgetSynchronized(childProposal, (ProposalDevelopmentBudgetExt) getSyncableBudget(childProposal).getBudget());
     }
     
     protected boolean isBudgetSynchronized(DevelopmentProposal childProposal, ProposalDevelopmentBudgetExt childBudget) throws ProposalHierarchyException {
@@ -1485,11 +1426,8 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         bio.getPersonnelAttachmentList().clear();
         bio.getPersonnelAttachmentList().add(attachment);
     }
-    
-    /**
-     * @see org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService#getHierarchyChildRouteStatus(java.lang.String, java.lang.String)
-     */
-    public String getHierarchyChildRouteStatus( String oldStatus, String newStatus) {
+
+    protected String getHierarchyChildRouteStatus( String oldStatus, String newStatus) {
         
         LOG.info( String.format( "Route status change %s:%s",oldStatus,newStatus));
         
@@ -1547,10 +1485,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         return result;
     }    
 
-    /**
-     * @see org.kuali.kra.proposaldevelopment.hierarchy.service.ProposalHierarchyService#getChildProposalDevelopmentDocuments(java.lang.String)
-     */
-    public List<ProposalDevelopmentDocument> getChildProposalDevelopmentDocuments(String parentProposalNumber) throws ProposalHierarchyException {
+    protected List<ProposalDevelopmentDocument> getChildProposalDevelopmentDocuments(String parentProposalNumber) throws ProposalHierarchyException {
        
         List<ProposalDevelopmentDocument> outList = new ArrayList<ProposalDevelopmentDocument>();
         for( DevelopmentProposal child : getHierarchyChildren(parentProposalNumber)) {
@@ -1821,7 +1756,7 @@ public class ProposalHierarchyServiceImpl implements ProposalHierarchyService {
         } 
     }
     
-    public void updateAppDocStatus( ProposalDevelopmentDocument doc, String principalId, String newStatus ) throws ProposalHierarchyException {
+    protected void updateAppDocStatus( ProposalDevelopmentDocument doc, String principalId, String newStatus ) throws ProposalHierarchyException {
         try {
             WorkflowDocument wdoc = WorkflowDocumentFactory.loadDocument(principalId, doc.getDocumentHeader().getWorkflowDocument().getDocumentId() );
             wdoc.setApplicationDocumentStatus(renderMessage( newStatus ));

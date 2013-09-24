@@ -15,10 +15,6 @@
  */
 package org.kuali.kra.proposaldevelopment.web.struts.action;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 public class ProposalDevelopmentAbstractAction extends ProposalDevelopmentAction {
-    private static final Log LOG = LogFactory.getLog(ProposalDevelopmentAbstractAction.class);
 
 }
