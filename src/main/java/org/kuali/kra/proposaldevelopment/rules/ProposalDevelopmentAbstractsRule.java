@@ -15,10 +15,6 @@
  */
 package org.kuali.kra.proposaldevelopment.rules;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -31,13 +27,16 @@ import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 /**
  * Business Rule to determine the validity of Proposal Abstracts.
  * 
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
 public class ProposalDevelopmentAbstractsRule extends ResearchDocumentRuleBase implements AbstractsRule {
-    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalDevelopmentAbstractsRule.class);
 
     /**
      * Don't allow abstracts with an invalid abstract type code or duplicate abstracts, i.e.

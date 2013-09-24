@@ -15,12 +15,6 @@
  */
 package org.kuali.kra.proposaldevelopment.rules;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -36,12 +30,9 @@ import org.kuali.rice.kns.util.AuditError;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.rules.rule.DocumentAuditRule;
-import org.kuali.rice.krms.api.KrmsApiServiceLocator;
-import org.kuali.rice.krms.api.engine.Engine;
-import org.kuali.rice.krms.api.engine.EngineResults;
-import org.kuali.rice.krms.api.engine.Facts;
-import org.kuali.rice.krms.api.engine.SelectionCriteria;
-import org.kuali.rice.krms.framework.type.ValidationActionTypeService;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class processes audit rules (warnings) for the Sponsor & Program Information related

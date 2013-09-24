@@ -15,15 +15,7 @@
  */
 package org.kuali.kra.proposaldevelopment.service.impl;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.apache.commons.lang.StringUtils;
-import org.kuali.kra.bo.CoeusModule;
 import org.kuali.kra.bo.CoeusSubModule;
 import org.kuali.kra.bo.S2sOppFormQuestionnaire;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
@@ -38,6 +30,8 @@ import org.kuali.kra.questionnaire.answer.QuestionnaireAnswerService;
 import org.kuali.kra.s2s.bo.S2sOppForms;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
 import org.kuali.rice.krad.service.BusinessObjectService;
+
+import java.util.*;
 
 public class ProposalDevelopmentS2sQuestionnaireServiceImpl implements ProposalDevelopmentS2sQuestionnaireService {
 

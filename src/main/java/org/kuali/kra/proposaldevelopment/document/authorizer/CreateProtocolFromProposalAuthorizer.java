@@ -15,21 +15,15 @@
  */
 package org.kuali.kra.proposaldevelopment.document.authorizer;
 
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.ApplicationTask;
-import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.infrastructure.TaskName;
-import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.authorization.ProposalTask;
 import org.kuali.kra.service.TaskAuthorizationService;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.kra.irb.Protocol;
-import org.kuali.kra.irb.protocol.funding.ProtocolFundingSource;
 /**
  * This service class is used to do authorization for create protocol task for protocol document.  
  */

@@ -15,13 +15,6 @@
  */
 package org.kuali.kra.proposaldevelopment.web.struts.action;
 
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
@@ -44,7 +37,6 @@ import org.kuali.kra.logging.BufferedLogger;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarcyActionHelper;
-import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.question.CopyPeriodsQuestion;
 import org.kuali.kra.rules.ErrorReporter;
@@ -54,6 +46,12 @@ import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.Collection;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Struts Action class for the Proposal Development Budget Versions page
@@ -398,14 +396,5 @@ public class ProposalDevelopmentBudgetVersionsAction extends ProposalDevelopment
     
     private BudgetRatesService getBudgetRatesService() {
         return KraServiceLocator.getService(BudgetRatesService.class);
-    }
-
-    /**
-     * Locate from Spring the <code>{@link ProposalDevelopmentService}</code> singleton
-     * 
-     * @return ProposalDevelopmentService
-     */
-    private ProposalDevelopmentService getProposalDevelopmentService() {
-        return KraServiceLocator.getService(ProposalDevelopmentService.class);
     }
 }

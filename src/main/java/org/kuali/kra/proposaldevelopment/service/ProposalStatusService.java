@@ -15,19 +15,14 @@
  */
 package org.kuali.kra.proposaldevelopment.service;
 
-import org.kuali.kra.budget.document.BudgetDocument;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 
 public interface ProposalStatusService {
     
-    public void saveBudgetFinalVersionStatus(BudgetDocument budgetDocument);
-    
     public void saveBudgetFinalVersionStatus(ProposalDevelopmentDocument pdDocument);
     
     public void loadBudgetStatus(DevelopmentProposal proposal);
-
-    public void loadBudgetStatus(String proposalNumber);
 
     public void loadBudgetStatusByProposalDocumentNumber(String documentNumber);
 }

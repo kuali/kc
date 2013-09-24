@@ -15,30 +15,17 @@
  */
 package org.kuali.kra.proposaldevelopment.service;
 
-import java.util.List;
-
-import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+
+import java.util.List;
 
 public interface ProposalPersonService {
     public String getPersonName(ProposalDevelopmentDocument doc, String userId);
 
-    public KcPerson getPerson(String loggedInUser);
-
-    /**
-     * Retrieve a persisted <code>{@link ProposalPerson}</code> instance using the <code>proposalNumber</code>
-     * and <code>proposalPersonNumber</code> 
-     * 
-     * @param proposalNumber
-     * @param proposalPersonNumber
-     */
-    public ProposalPerson getProposalPersonById(String proposalNumber, Integer proposalPersonNumber);
-    
     public List<ProposalPerson> getProposalKeyPersonnel(String proposalNumber);
     
-    public List<ProposalPerson> getProposalKeyPersonnel(String proposalNumber, String roleName);
-    
+
     /**
      * This method is to get division name using the 4th level node on the Unit hierarchy
      * 
@@ -46,12 +33,4 @@ public interface ProposalPersonService {
      * @return divisionName based on the 4th level node on the Unit hierarchy.
      */
     public String getProposalPersonDivisionName(ProposalPerson proposalPerson);
-    
-    /**
-     * 
-     * This method will be used by person.tag to rebuild the state select list after a country has been changed.
-     * @param countryCode
-     * @return
-     */
-    public String getNewStateList(String countryCode);
 }

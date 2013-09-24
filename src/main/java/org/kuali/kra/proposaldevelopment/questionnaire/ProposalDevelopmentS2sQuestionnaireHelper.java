@@ -28,7 +28,6 @@ import org.kuali.kra.questionnaire.answer.ModuleQuestionnaireBean;
 public class ProposalDevelopmentS2sQuestionnaireHelper extends ProposalDevelopmentQuestionnaireHelper {
 
     private static final long serialVersionUID = 8595107639632039291L;
-    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalDevelopmentS2sQuestionnaireHelper.class);
     private transient ProposalDevelopmentS2sQuestionnaireService proposalDevelopmentS2sQuestionnaireService;
     
     

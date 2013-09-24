@@ -259,15 +259,6 @@ public class ProposalDevelopmentKeyPersonsRule extends ResearchDocumentRuleBase 
         
         return retval;
     }
-            
-    /**
-     * @see org.kuali.kra.rules.ResearchDocumentRuleBase#reportError(String, String, String...)
-     */
-    protected void reportErrorWithPrefix(String errorPathPrefix, String propertyName, String errorKey, String... errorParams) {
-        GlobalVariables.getMessageMap().addToErrorPath(errorPathPrefix);
-        super.reportError(propertyName, errorKey, errorParams);
-        GlobalVariables.getMessageMap().removeFromErrorPath(errorPathPrefix);        
-    }
 
     /**
      * @see KeyPersonnelService#isPrincipalInvestigator(ProposalPerson)

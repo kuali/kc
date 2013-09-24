@@ -15,71 +15,34 @@
  */
 package org.kuali.kra.proposaldevelopment.web.struts.action;
 
-import static org.kuali.kra.infrastructure.KeyConstants.QUESTION_DELETE_OPPORTUNITY_CONFIRMATION;
-import static org.kuali.rice.krad.util.KRADConstants.QUESTION_INST_ATTRIBUTE_NAME;
-
-import java.io.BufferedWriter;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.apache.xmlbeans.XmlObject;
-import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.infrastructure.RoleConstants;
-import org.kuali.kra.kim.bo.KcKimAttributes;
-import org.kuali.kra.kim.service.ProposalRoleService;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.hierarchy.ProposalHierarchyException;
 import org.kuali.kra.proposaldevelopment.web.struts.form.ProposalDevelopmentForm;
 import org.kuali.kra.s2s.S2SException;
-import org.kuali.kra.s2s.bo.S2sAppAttachments;
-import org.kuali.kra.s2s.bo.S2sApplication;
 import org.kuali.kra.s2s.bo.S2sOppForms;
 import org.kuali.kra.s2s.bo.S2sOpportunity;
-import org.kuali.kra.s2s.formmapping.FormMappingInfo;
-import org.kuali.kra.s2s.formmapping.FormMappingLoader;
-import org.kuali.kra.s2s.generator.S2SBaseFormGenerator;
-import org.kuali.kra.s2s.generator.S2SGeneratorNotFoundException;
-import org.kuali.kra.s2s.generator.bo.AttachmentData;
-import org.kuali.kra.s2s.service.S2SFormGeneratorService;
 import org.kuali.kra.s2s.service.S2SService;
-import org.kuali.kra.s2s.service.S2SValidatorService;
-import org.kuali.kra.s2s.service.impl.PrintServiceImpl;
-import org.kuali.kra.service.KraAuthorizationService;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
-import org.kuali.rice.core.api.config.property.ConfigurationService;
-import org.kuali.rice.kim.api.role.Role;
-import org.kuali.rice.kim.api.role.RoleService;
-import org.kuali.rice.kns.util.AuditError;
-import org.kuali.rice.kns.util.WebUtils;
-import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.service.KRADServiceLocator;
-import org.kuali.rice.krad.service.KRADServiceLocatorInternal;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.kuali.kra.infrastructure.KeyConstants.QUESTION_DELETE_OPPORTUNITY_CONFIRMATION;
+import static org.kuali.rice.krad.util.KRADConstants.QUESTION_INST_ATTRIBUTE_NAME;
 
 public class ProposalDevelopmentGrantsGovAction extends ProposalDevelopmentAction {
     private static final String CONFIRM_REMOVE_OPPRTUNITY_KEY = "confirmRemoveOpportunity";
     private static final String EMPTY_STRING = "";
-    private static final Log LOG = LogFactory.getLog(PrintServiceImpl.class);
 
 
     /**

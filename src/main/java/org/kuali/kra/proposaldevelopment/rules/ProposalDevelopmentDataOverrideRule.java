@@ -15,12 +15,6 @@
  */
 package org.kuali.kra.proposaldevelopment.rules;
 
-import java.text.ParseException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.regex.Pattern;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
@@ -41,6 +35,12 @@ import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.datadictionary.validation.ValidationPattern;
 import org.kuali.rice.krad.util.GlobalVariables;
 
+import java.text.ParseException;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.regex.Pattern;
+
 /**
  * Business Rule to determine if it valid for the user to oevrride the
  * given Proposal Development Document data.
@@ -48,7 +48,6 @@ import org.kuali.rice.krad.util.GlobalVariables;
  * @author Kuali Research Administration Team (kualidev@oncourse.iu.edu)
  */
 public class ProposalDevelopmentDataOverrideRule extends ResearchDocumentRuleBase implements ProposalDataOverrideRule {
-    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalDevelopmentDataOverrideRule.class);
 
     private static Map<String, String> validationClasses = new HashMap<String, String>();
     private static final String DATE="DATE";

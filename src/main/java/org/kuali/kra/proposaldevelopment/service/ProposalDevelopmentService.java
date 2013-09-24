@@ -8,28 +8,24 @@
  * http://www.osedu.org/licenses/ECL-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
+
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
 package org.kuali.kra.proposaldevelopment.service;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.award.home.Award;
 import org.kuali.kra.bo.Unit;
 import org.kuali.kra.budget.core.Budget;
 import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
-import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.bo.CoPiInfoDO;
 import org.kuali.kra.proposaldevelopment.bo.CostShareInfoDO;
+import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
+import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+
+import java.util.List;
 
 public interface ProposalDevelopmentService {
     
@@ -61,8 +57,7 @@ public interface ProposalDevelopmentService {
     public InstitutionalProposal getProposalContinuedFromVersion(ProposalDevelopmentDocument proposal);
     
     public String getDataOverrideLookupDisplayReturnValue( String lookupClassName );
-    
-    public String getDataOverrideLookupDisplayDisplayValue( String lookupClassName, String value, String displayAttributeName );
+
     
     /**
      * For the proposal, based on the hierarchy status and sponsor code is grants gov enabled 

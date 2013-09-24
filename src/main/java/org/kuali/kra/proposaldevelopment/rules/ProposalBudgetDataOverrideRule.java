@@ -16,13 +16,6 @@
 package org.kuali.kra.proposaldevelopment.rules;
 
 
-import java.text.ParseException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.regex.Pattern;
-import java.util.Collection;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.budget.BudgetDecimal;
 import org.kuali.kra.budget.core.Budget;
@@ -32,13 +25,9 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
-import org.kuali.kra.proposaldevelopment.bo.ProposalChangedData;
-import org.kuali.kra.proposaldevelopment.bo.ProposalOverview;
 import org.kuali.kra.proposaldevelopment.budget.bo.BudgetChangedData;
-import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
 import org.kuali.kra.proposaldevelopment.rule.BudgetDataOverrideRule;
 import org.kuali.kra.proposaldevelopment.rule.event.BudgetDataOverrideEvent;
-import org.kuali.kra.proposaldevelopment.rule.event.ProposalDataOverrideEvent;
 import org.kuali.kra.proposaldevelopment.service.ProposalDevelopmentService;
 import org.kuali.kra.rules.ResearchDocumentRuleBase;
 import org.kuali.kra.service.KraPersistenceStructureService;
@@ -51,9 +40,15 @@ import org.kuali.rice.krad.datadictionary.validation.ValidationPattern;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
+import java.text.ParseException;
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.regex.Pattern;
+
 public class ProposalBudgetDataOverrideRule extends ResearchDocumentRuleBase implements BudgetDataOverrideRule {
-    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(ProposalBudgetDataOverrideRule.class);
-    
+
     private static Map<String, String> validationClasses = new HashMap<String, String>();
     private static final String DATE = "DATE";
     static {

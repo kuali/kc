@@ -15,40 +15,6 @@
  */
 package org.kuali.kra.proposaldevelopment.printing.xmlstream;
 
-import java.math.BigDecimal;
-import java.text.DateFormat;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.Currency;
-import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.apache.xmlbeans.XmlObject;
-import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
-import org.kuali.kra.bo.Unit;
-import org.kuali.kra.budget.BudgetDecimal;
-import org.kuali.kra.budget.core.Budget;
-import org.kuali.kra.budget.parameters.BudgetPeriod;
-import org.kuali.kra.document.ResearchDocumentBase;
-import org.kuali.kra.infrastructure.Constants;
-import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.proposaldevelopment.bo.DevelopmentProposal;
-import org.kuali.kra.proposaldevelopment.bo.InvestigatorCreditType;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPerson;
-import org.kuali.kra.proposaldevelopment.bo.ProposalPersonUnit;
-import org.kuali.kra.proposaldevelopment.bo.ProposalYnq;
-import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
-import org.kuali.kra.s2s.service.S2SUtilService;
-
 import edu.mit.coeus.utils.xml.v2.budget.BUDGETDocument.BUDGET;
 import edu.mit.coeus.utils.xml.v2.budget.BUDGETDocument.BUDGET.BudgetMaster;
 import edu.mit.coeus.utils.xml.v2.budget.BUDGETPERIODDocument.BUDGETPERIOD;
@@ -88,6 +54,24 @@ import edu.mit.coeus.utils.xml.v2.rolodex.NAMEDocument.NAME;
 import edu.mit.coeus.utils.xml.v2.rolodex.ROLODEXDocument.ROLODEX;
 import edu.mit.coeus.utils.xml.v2.sponsor.SPONSORDocument.SPONSOR;
 import edu.mit.coeus.utils.xml.v2.userUnit.UNITDocument.UNIT;
+import org.apache.xmlbeans.XmlObject;
+import org.kuali.kra.bo.KraPersistableBusinessObjectBase;
+import org.kuali.kra.bo.Unit;
+import org.kuali.kra.budget.core.Budget;
+import org.kuali.kra.budget.parameters.BudgetPeriod;
+import org.kuali.kra.document.ResearchDocumentBase;
+import org.kuali.kra.infrastructure.Constants;
+import org.kuali.kra.infrastructure.KraServiceLocator;
+import org.kuali.kra.proposaldevelopment.bo.*;
+import org.kuali.kra.proposaldevelopment.specialreview.ProposalSpecialReview;
+import org.kuali.kra.s2s.service.S2SUtilService;
+
+import java.math.BigDecimal;
+import java.text.DateFormat;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * This class generates XML that confirms with the RaR XSD related to Proposal Submission Report or Sponsor Report. The data for XML
@@ -97,12 +81,9 @@ import edu.mit.coeus.utils.xml.v2.userUnit.UNITDocument.UNIT;
  */
 public class ProposalDevelopmentXmlStream extends ProposalBaseStream {
 
-    private static final Log LOG = LogFactory
-    .getLog(ProposalDevelopmentXmlStream.class);
     private static final String HIPHEN = " - ";
     private final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
     private DevelopmentProposal developmentProposal;
-    private S2SUtilService s2SUtilService;
     private static final String YES = "y";
     private static final String NO = "n";
     Calendar calendar;
@@ -453,12 +434,6 @@ public class ProposalDevelopmentXmlStream extends ProposalBaseStream {
         return proposalmaster;
     }
 
-    private PROPRATES getPROPRATES(){
-        PROPRATES propRates = PROPRATES.Factory.newInstance();
-        Budget budget = getBudget(developmentProposal.getProposalDocument());
-        propRates.setONOFFCAMPUSFLAG(budget.getOnOffCampusFlag());
-        return propRates;
-    }
     private String getPERIOD() {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append(simpleDateFormat.format(developmentProposal.getRequestedStartDateInitial()));

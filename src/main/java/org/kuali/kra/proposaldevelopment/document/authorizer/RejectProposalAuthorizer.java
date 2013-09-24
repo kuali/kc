@@ -32,7 +32,6 @@ import org.kuali.rice.kew.api.WorkflowDocument;
  */
 public class RejectProposalAuthorizer extends ProposalAuthorizer {
 
-    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(RejectProposalAuthorizer.class);
 
     public boolean isAuthorized(String username, ProposalTask task) {
         ProposalDevelopmentDocument doc = task.getDocument();
