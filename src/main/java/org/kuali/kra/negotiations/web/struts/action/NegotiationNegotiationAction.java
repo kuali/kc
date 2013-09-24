@@ -15,31 +15,14 @@
  */
 package org.kuali.kra.negotiations.web.struts.action;
 
-import static org.kuali.rice.krad.util.KRADConstants.EMPTY_STRING;
-import static org.kuali.rice.krad.util.KRADConstants.QUESTION_CLICKED_BUTTON;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.kra.bo.AttachmentFile;
-import org.kuali.kra.bo.CustomAttribute;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
-import org.kuali.kra.negotiations.bo.Negotiation;
-import org.kuali.kra.negotiations.bo.NegotiationActivity;
-import org.kuali.kra.negotiations.bo.NegotiationActivityAttachment;
-import org.kuali.kra.negotiations.bo.NegotiationAssociationType;
-import org.kuali.kra.negotiations.bo.NegotiationUnassociatedDetail;
-import org.kuali.kra.negotiations.customdata.NegotiationCustomData;
+import org.kuali.kra.negotiations.bo.*;
 import org.kuali.kra.negotiations.document.NegotiationDocument;
 import org.kuali.kra.negotiations.notifications.NegotiationCloseNotificationContext;
 import org.kuali.kra.negotiations.notifications.NegotiationNotification;
@@ -48,10 +31,20 @@ import org.kuali.kra.negotiations.web.struts.form.NegotiationForm;
 import org.kuali.kra.proposaldevelopment.bo.AttachmentDataSource;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
 import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.kns.web.struts.form.KualiForm;
 import org.kuali.rice.kns.question.ConfirmationQuestion;
+import org.kuali.rice.kns.web.struts.form.KualiForm;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+
+import static org.kuali.rice.krad.util.KRADConstants.EMPTY_STRING;
+import static org.kuali.rice.krad.util.KRADConstants.QUESTION_CLICKED_BUTTON;
 
 /**
  * 
@@ -59,8 +52,6 @@ import org.kuali.rice.krad.util.KRADConstants;
  */
 public class NegotiationNegotiationAction extends NegotiationAction {
 
-    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory
-            .getLog(NegotiationNegotiationAction.class);
 
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)

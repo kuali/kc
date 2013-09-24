@@ -15,15 +15,11 @@
  */
 package org.kuali.kra.negotiations.bo;
 
+import org.kuali.kra.bo.KcPerson;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.drools.core.util.StringUtils;
-import org.kuali.kra.award.home.Award;
-import org.kuali.kra.bo.KcPerson;
-import org.kuali.kra.institutionalproposal.home.InstitutionalProposal;
-import org.kuali.kra.institutionalproposal.proposallog.ProposalLog;
 
 /**
  * 

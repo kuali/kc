@@ -15,30 +15,13 @@
  */
 package org.kuali.kra.negotiations.web.struts.form;
 
-import static org.kuali.rice.krad.util.KRADConstants.EMPTY_STRING;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.SortedMap;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.authorization.KraAuthorizationConstants;
 import org.kuali.kra.common.notification.web.struts.form.NotificationHelper;
 import org.kuali.kra.infrastructure.KraServiceLocator;
-import org.kuali.kra.irb.ProtocolDocument;
 import org.kuali.kra.medusa.MedusaBean;
-import org.kuali.kra.negotiations.bo.Negotiation;
-import org.kuali.kra.negotiations.bo.NegotiationActivityHistoryLineBean;
-import org.kuali.kra.negotiations.bo.NegotiationAssociatedDetailBean;
-import org.kuali.kra.negotiations.bo.NegotiationAssociationType;
-import org.kuali.kra.negotiations.bo.NegotiationStatus;
-import org.kuali.kra.negotiations.bo.NegotiationUnassociatedDetail;
+import org.kuali.kra.negotiations.bo.*;
 import org.kuali.kra.negotiations.customdata.CustomDataHelper;
-import org.kuali.kra.negotiations.customdata.NegotiationCustomData;
 import org.kuali.kra.negotiations.document.NegotiationDocument;
 import org.kuali.kra.negotiations.notifications.NegotiationCloseNotificationContext;
 import org.kuali.kra.negotiations.notifications.NegotiationNotification;
@@ -51,6 +34,12 @@ import org.kuali.rice.kns.web.ui.HeaderField;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.util.KRADConstants;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import static org.kuali.rice.krad.util.KRADConstants.EMPTY_STRING;
+
 /**
  * 
  * This class holds all the objects required for a negotiation web object.
@@ -59,8 +48,6 @@ public class NegotiationForm extends KraTransactionalDocumentFormBase implements
     
     private static final long serialVersionUID = 6245888664423593163L;
 
-
-    private static final org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(NegotiationForm.class);
 
     private final String filterAllActivities = "All";
     private final String filterPendingActivities = "Pending";
@@ -149,16 +136,6 @@ public class NegotiationForm extends KraTransactionalDocumentFormBase implements
 
     private TaskAuthorizationService getTaskAuthorizationService() {
         return KraServiceLocator.getService(TaskAuthorizationService.class);
-    }
-    
-    private Map convertSetToMap(Set s){
-        Map map = new HashMap();
-        Iterator i = s.iterator();
-        while(i.hasNext()) {
-            Object key = i.next();
-           map.put(key,KRADConstants.KUALI_DEFAULT_TRUE_VALUE);
-        }
-        return map;
     }
     
     public BusinessObjectService getBusinessObjectService() {

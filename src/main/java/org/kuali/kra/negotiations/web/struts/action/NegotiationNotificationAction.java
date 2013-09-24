@@ -15,11 +15,6 @@
  */
 package org.kuali.kra.negotiations.web.struts.action;
 
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -27,11 +22,14 @@ import org.kuali.kra.common.notification.bo.KcNotification;
 import org.kuali.kra.common.notification.bo.NotificationTypeRecipient;
 import org.kuali.kra.common.notification.rule.event.AddNotificationRecipientEvent;
 import org.kuali.kra.common.notification.rule.event.SendNotificationEvent;
-import org.kuali.kra.iacuc.notification.IacucProtocolNotification;
 import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.negotiations.document.NegotiationDocument;
 import org.kuali.kra.negotiations.notifications.NegotiationNotification;
 import org.kuali.kra.negotiations.web.struts.form.NegotiationForm;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 public class NegotiationNotificationAction extends NegotiationAction {
     
