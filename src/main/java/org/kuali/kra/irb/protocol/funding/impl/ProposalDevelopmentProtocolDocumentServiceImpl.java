@@ -97,7 +97,7 @@ public class ProposalDevelopmentProtocolDocumentServiceImpl implements ProposalD
     
     /**
      * Set the Kra Authorization Service.
-     * @param kralAuthorizationService
+     * @param kraAuthorizationService
      */
     public void setKraAuthorizationService(KraAuthorizationService kraAuthorizationService) {
         this.kraAuthorizationService = kraAuthorizationService;
@@ -115,7 +115,7 @@ public class ProposalDevelopmentProtocolDocumentServiceImpl implements ProposalD
         this.sequenceAccessorService = sequenceAccessorService;
     }
 
-    public void populateDocumentOverview(DevelopmentProposal developmentProposal, ProtocolDocument protocolDocument)
+    protected void populateDocumentOverview(DevelopmentProposal developmentProposal, ProtocolDocument protocolDocument)
     {
         ProposalDevelopmentDocument proposalDocument = developmentProposal.getProposalDocument();
         DocumentHeader proposalDocumentHeader = proposalDocument.getDocumentHeader();
@@ -127,7 +127,7 @@ public class ProposalDevelopmentProtocolDocumentServiceImpl implements ProposalD
 
     }
 
-    public void populateRequiredFields(DevelopmentProposal developmentProposal, ProtocolDocument protocolDocument)
+    protected void populateRequiredFields(DevelopmentProposal developmentProposal, ProtocolDocument protocolDocument)
     throws Exception
     {
         Protocol protocol = protocolDocument.getProtocol();
@@ -151,9 +151,9 @@ public class ProposalDevelopmentProtocolDocumentServiceImpl implements ProposalD
     /**
      * Initialize the Authorizations for a new proposal.  The initiator/creator
      * is assigned the Aggregator role.
-     * @param doc the proposal development document
+     * @param protocolDocument the protocol Document
      */
-    public void initializeAuthorization(ProtocolDocument protocolDocument) {
+    protected void initializeAuthorization(ProtocolDocument protocolDocument) {
         String userId = GlobalVariables.getUserSession().getPrincipalId();
         kraAuthorizationService.addRole(userId, RoleConstants.PROTOCOL_AGGREGATOR, protocolDocument.getProtocol());
         kraAuthorizationService.addRole(userId, RoleConstants.PROTOCOL_APPROVER, protocolDocument.getProtocol());
@@ -170,8 +170,7 @@ public class ProposalDevelopmentProtocolDocumentServiceImpl implements ProposalD
 
     }
 
-    @Override
-   public void populateProtocolPerson_Investigator(DevelopmentProposal developmentProposal, ProtocolDocument protocolDocument)
+   protected void populateProtocolPerson_Investigator(DevelopmentProposal developmentProposal, ProtocolDocument protocolDocument)
     {
         ProtocolPerson protocolPerson = new ProtocolPerson();
         Protocol protocol = protocolDocument.getProtocol();
@@ -185,8 +184,7 @@ public class ProposalDevelopmentProtocolDocumentServiceImpl implements ProposalD
     
     }
 
-    @Override
-    public boolean isAuthorizedCreateProtocol(SpecialReviewHelper specialReviewHelper) {
+    protected boolean isAuthorizedCreateProtocol(SpecialReviewHelper specialReviewHelper) {
         boolean canCreateProposal = specialReviewHelper.isCanCreateIrbProtocol();
         return canCreateProposal;
     }
@@ -200,9 +198,7 @@ public class ProposalDevelopmentProtocolDocumentServiceImpl implements ProposalD
         return (ProtocolFundingSourceService) KraServiceLocator.getService(ProtocolFundingSourceService.class);
     }
 
-
-    @Override
-    public void populateProtocolFundingSource(DevelopmentProposal developmentProposal, ProtocolDocument protocolDocument) {
+    protected void populateProtocolFundingSource(DevelopmentProposal developmentProposal, ProtocolDocument protocolDocument) {
         Protocol protocol = protocolDocument.getProtocol();
 
         List<ProtocolFundingSourceBase> protocolFundingSources = protocol.getProtocolFundingSources();
