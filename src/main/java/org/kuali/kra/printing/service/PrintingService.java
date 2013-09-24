@@ -56,10 +56,4 @@ public interface PrintingService {
 	 */
 	public AttachmentDataSource print(List<Printable> printableArtifactList)
 			throws PrintingException;
-	/**
-	 * 
-	 * This method is to supply the report name. 
-	 * @return
-	 */
-	public String getReportName();
 }
