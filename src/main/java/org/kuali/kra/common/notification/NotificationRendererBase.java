@@ -22,8 +22,8 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.infrastructure.KraServiceLocator;
 import org.kuali.kra.service.KcPersonService;
+import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
-import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
@@ -118,7 +118,7 @@ public abstract class NotificationRendererBase implements NotificationRenderer, 
 
     private ConfigurationService getKualiConfigurationService() {
         if (kualiConfigurationService == null) {
-            kualiConfigurationService = KRADServiceLocator.getKualiConfigurationService();
+            kualiConfigurationService = CoreApiServiceLocator.getKualiConfigurationService();
         }
         return kualiConfigurationService;
     }

@@ -52,6 +52,7 @@ import org.kuali.kra.rule.event.KraDocumentEventBaseExtension;
 import org.kuali.kra.service.ResearchDocumentService;
 import org.kuali.kra.service.SponsorService;
 import org.kuali.kra.web.struts.action.StrutsConfirmation;
+import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.ken.util.NotificationConstants;
 import org.kuali.rice.kew.api.KewApiConstants;
@@ -62,7 +63,6 @@ import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.service.SequenceAccessorService;
 import org.kuali.rice.krad.util.GlobalVariables;
 
@@ -363,7 +363,7 @@ public class FinancialEntityAction extends KualiAction {
         retval.setQuestionId(questionId);
         retval.setQuestionType(CONFIRMATION_QUESTION);
 
-        ConfigurationService kualiConfiguration = KRADServiceLocator.getKualiConfigurationService();
+        ConfigurationService kualiConfiguration = CoreApiServiceLocator.getKualiConfigurationService();
         String questionText = kualiConfiguration.getPropertyValueAsString(configurationId);
 
         for (int i = 0; i < params.length; i++) {

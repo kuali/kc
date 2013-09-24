@@ -71,13 +71,6 @@ public class InstitutionalProposalDocumentRule extends ResearchDocumentRuleBase 
             return false;
         }
         
-        errorMap.addToErrorPath(DOCUMENT_ERROR_PATH);
-        getKnsDictionaryValidationService().validateDocumentAndUpdatableReferencesRecursively(
-                document, getMaxDictionaryValidationDepth(),
-                VALIDATION_REQUIRED, CHOMP_LAST_LETTER_S_FROM_COLLECTION_NAME);
-        errorMap.removeFromErrorPath(DOCUMENT_ERROR_PATH);
-        
-        
         retval &= processUnrecoveredFandABusinessRules(document);
         retval &= processSponsorProgramBusinessRule(document);
         retval &= processInstitutionalProposalBusinessRules(document);

@@ -15,9 +15,10 @@
  */
 package org.kuali.kra.common.committee.bo;
 
-import org.kuali.rice.krad.bo.AttributeReferenceDummy;
+import org.kuali.rice.krad.datadictionary.AttributeReference;
 
-public class CommitteeScheduleAttributeReferenceDummy extends AttributeReferenceDummy {
+
+public class CommitteeScheduleAttributeReferenceDummy extends AttributeReference {
 
     private static final long serialVersionUID = 4004201645215456568L;
 

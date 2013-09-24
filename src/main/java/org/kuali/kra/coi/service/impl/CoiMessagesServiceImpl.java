@@ -25,7 +25,6 @@ import org.kuali.rice.coreservice.framework.parameter.ParameterConstants;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.sql.Date;
@@ -115,13 +114,13 @@ public class CoiMessagesServiceImpl implements CoiMessagesService {
                     }
                 }
                 if (sendError) {
-                    String msg = KRADServiceLocator.getKualiConfigurationService().getPropertyValueAsString("annual.disclosure.due.message");
+                    String msg = getConfigurationService().getPropertyValueAsString("annual.disclosure.due.message");
                     if (!StringUtils.isEmpty(msg)) {
                         results.add(msg);
                     }
                 }
                 if (sendErrorWithDate) {
-                    String msg = KRADServiceLocator.getKualiConfigurationService().getPropertyValueAsString("annual.disclosure.due.message.with.date");
+                    String msg = getConfigurationService().getPropertyValueAsString("annual.disclosure.due.message.with.date");
                     if (!StringUtils.isEmpty(msg)) {
                         results.add(msg.replace("{0}", new SimpleDateFormat("MM/dd/yyyy").format(renewalDue)));
                     }

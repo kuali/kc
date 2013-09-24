@@ -102,14 +102,7 @@ public abstract class ProtocolDocumentRuleBase<CD extends CommitteeDecision<? ex
         if (!(document instanceof ProtocolDocumentBase)) {
             return false;
         }
-
-        MessageMap errorMap = GlobalVariables.getMessageMap();
-        errorMap.addToErrorPath(DOCUMENT_ERROR_PATH);
-        getKnsDictionaryValidationService().validateDocumentAndUpdatableReferencesRecursively(
-               document, getMaxDictionaryValidationDepth(),
-               VALIDATION_REQUIRED, CHOMP_LAST_LETTER_S_FROM_COLLECTION_NAME);
-        errorMap.removeFromErrorPath(DOCUMENT_ERROR_PATH);
-
+       
         boolean valid = true;
         ProtocolDocumentBase protocolDocument = (ProtocolDocumentBase) document;
         

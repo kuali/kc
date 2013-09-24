@@ -61,7 +61,7 @@ public class CommitteeRuleTest extends CommitteeRuleTestBase {
          * any properties, each of the required fields should 
          * result in an error.
          */
-        boolean rulesPassed = rule.processCustomSaveDocumentBusinessRules(document);
+        boolean rulesPassed = rule.processSaveDocument(document);
         assertFalse(rulesPassed);
 
         /*

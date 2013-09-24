@@ -31,8 +31,8 @@ import org.kuali.kra.iacuc.actions.submit.IacucProtocolSubmissionType;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.protocol.notification.ProtocolNotificationRendererBase;
 import org.kuali.kra.protocol.notification.ProtocolReplacementParameters;
+import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.kns.util.KNSGlobalVariables;
-import org.kuali.rice.krad.service.KRADServiceLocator;
 
 /**
  * Renders fields for the IRB and IACUC notifications.
@@ -52,7 +52,7 @@ public class IacucProtocolRequestActionNotificationRenderer extends IacucProtoco
 
     public Map<String, String> getDefaultReplacementParameters() {
         Map<String, String> params = super.getDefaultReplacementParameters();
-        params.put(ProtocolReplacementParameters.REASON, !StringUtils.isEmpty(reason) ? reason : KRADServiceLocator.getKualiConfigurationService().getPropertyValueAsString(NO_REASON_GIVEN));
+        params.put(ProtocolReplacementParameters.REASON, !StringUtils.isEmpty(reason) ? reason : CoreApiServiceLocator.getKualiConfigurationService().getPropertyValueAsString(NO_REASON_GIVEN));
         return params;
     }
 }

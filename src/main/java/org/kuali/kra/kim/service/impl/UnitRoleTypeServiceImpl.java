@@ -23,13 +23,13 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.kim.bo.KcKimAttributes;
+import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.exception.RiceIllegalArgumentException;
 import org.kuali.rice.core.api.uif.RemotableAbstractWidget;
 import org.kuali.rice.core.api.uif.RemotableAttributeError;
 import org.kuali.rice.core.api.uif.RemotableQuickFinder;
 import org.kuali.rice.kim.api.type.KimAttributeField;
 import org.kuali.rice.kns.kim.role.RoleTypeServiceBase;
-import org.kuali.rice.krad.service.KRADServiceLocator;
 
 public class UnitRoleTypeServiceImpl extends RoleTypeServiceBase {
 
@@ -131,7 +131,7 @@ public class UnitRoleTypeServiceImpl extends RoleTypeServiceBase {
             if (KcKimAttributes.UNIT_NUMBER.equals(definition.getAttributeField().getName())) {
                 KimAttributeField.Builder b = KimAttributeField.Builder.create(definition);
 
-                String baseUrl = KRADServiceLocator.getKualiConfigurationService().getPropertyValueAsString("application.lookup.url");
+                String baseUrl = CoreApiServiceLocator.getKualiConfigurationService().getPropertyValueAsString("application.lookup.url");
                 Collection<RemotableAbstractWidget.Builder> widgetsCopy = new ArrayList<RemotableAbstractWidget.Builder>();
                 for (RemotableAbstractWidget.Builder widget : b.getAttributeField().getWidgets()) {
                     if(widget instanceof RemotableQuickFinder.Builder) {

@@ -30,12 +30,12 @@ import org.kuali.kra.infrastructure.Constants;
 import org.kuali.kra.infrastructure.KeyConstants;
 import org.kuali.kra.proposaldevelopment.budget.modular.BudgetModular;
 import org.kuali.kra.proposaldevelopment.document.ProposalDevelopmentDocument;
+import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.coreservice.framework.CoreFrameworkServiceLocator;
 import org.kuali.rice.coreservice.framework.parameter.ParameterService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.service.DocumentService;
-import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.util.GlobalVariables;
 
@@ -70,7 +70,7 @@ public final class BudgetModularTotalDirectCostRule {
     private final String tdcWarning;
 
     public BudgetModularTotalDirectCostRule() {
-        this(KRADServiceLocator.getKualiConfigurationService(), KRADServiceLocatorWeb.getDocumentService(),
+        this(CoreApiServiceLocator.getKualiConfigurationService(), KRADServiceLocatorWeb.getDocumentService(),
                 CoreFrameworkServiceLocator.getParameterService());
     }
 
