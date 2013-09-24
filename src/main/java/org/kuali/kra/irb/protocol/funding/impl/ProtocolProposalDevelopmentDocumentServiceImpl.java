@@ -77,7 +77,7 @@ public class ProtocolProposalDevelopmentDocumentServiceImpl implements ProtocolP
         return proposalDevelopmentDocument;
     }
    
-    public void populateDocumentOverview(Protocol protocol, ProposalDevelopmentDocument proposalDocument)
+    protected void populateDocumentOverview(Protocol protocol, ProposalDevelopmentDocument proposalDocument)
     {
         ProtocolDocument protocolDocument = (ProtocolDocument) protocol.getProtocolDocument();
         DocumentHeader proposalDocumentHeader = proposalDocument.getDocumentHeader();
@@ -89,7 +89,7 @@ public class ProtocolProposalDevelopmentDocumentServiceImpl implements ProtocolP
 
     }
 
-    public void populateRequiredFields(Protocol protocol, ProposalDevelopmentDocument proposalDocument)
+    protected void populateRequiredFields(Protocol protocol, ProposalDevelopmentDocument proposalDocument)
     throws Exception
     {
         DevelopmentProposal developmentProposal = proposalDocument.getDevelopmentProposal();
@@ -135,9 +135,9 @@ public class ProtocolProposalDevelopmentDocumentServiceImpl implements ProtocolP
     /**
      * Initialize the Authorizations for a new proposal.  The initiator/creator
      * is assigned the Aggregator role.
-     * @param doc the proposal development document
+     * @param document the proposal development document
      */
-    public void initializeAuthorization(ProposalDevelopmentDocument document) {
+    protected void initializeAuthorization(ProposalDevelopmentDocument document) {
         String userId = GlobalVariables.getUserSession().getPrincipalId();
         KraAuthorizationService kraAuthService = KraServiceLocator.getService(KraAuthorizationService.class);
         kraAuthService.addRole(userId, RoleConstants.AGGREGATOR, document);
@@ -167,7 +167,7 @@ public class ProtocolProposalDevelopmentDocumentServiceImpl implements ProtocolP
     
     }
 
-    public void populateProposalSpecialReview(Protocol protocol, ProposalDevelopmentDocument proposalDocument)
+    protected void populateProposalSpecialReview(Protocol protocol, ProposalDevelopmentDocument proposalDocument)
     {
     if (protocol != null) {
         Integer specialReviewNumber = proposalDocument.getDocumentNextValue(Constants.SPECIAL_REVIEW_NUMBER);
@@ -185,8 +185,8 @@ public class ProtocolProposalDevelopmentDocumentServiceImpl implements ProtocolP
         }
     }
 
-    @Override
-    public boolean isAuthorizedCreateProposal(ProtocolHelper protocolHelper) {
+
+    protected boolean isAuthorizedCreateProposal(ProtocolHelper protocolHelper) {
         boolean canCreateProposal = protocolHelper.isCanCreateProposalDevelopment();
         return canCreateProposal;
     }

@@ -24,10 +24,4 @@ public interface ProposalDevelopmentProtocolDocumentService {
     public static final String PROTOCOL_CREATED = "Protocol created";
 
     public ProtocolDocument createProtocolDocument(ProposalDevelopmentForm proposalDevelopmentForm) throws Exception;
-    public boolean isAuthorizedCreateProtocol(SpecialReviewHelper specialReviewHelper);
-    public void populateDocumentOverview(DevelopmentProposal developmentProposal, ProtocolDocument protocolDocument);
-    public void populateRequiredFields(DevelopmentProposal developmentProposal, ProtocolDocument protocolDocument) throws Exception;
-    public void populateProtocolPerson_Investigator(DevelopmentProposal developmentProposal, ProtocolDocument protocolDocument);
-    public void populateProtocolFundingSource(DevelopmentProposal developmentProposal, ProtocolDocument protocolDocument);
-    public void initializeAuthorization(ProtocolDocument protocolDocument);
 }
