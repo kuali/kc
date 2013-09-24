@@ -30,7 +30,7 @@
 	<param name="keystore.password">r1c3pw</param>
 
 	<!-- Dummy Login Filter - use if you don't want to go through CAS -->
-	<param name="filter.login.class">org.kuali.rice.kew.web.DummyLoginFilter</param>
+    <param name="filter.login.class">org.kuali.rice.krad.web.filter.DummyLoginFilter</param>
 	<param name="filtermapping.login.1">/*</param>
 
     <!-- Sample Application Flag -->
