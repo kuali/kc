@@ -15,9 +15,6 @@
  */
 package org.kuali.kra.timeandmoney.rules;
 
-import java.sql.Date;
-import java.util.Map.Entry;
-
 import org.kuali.kra.award.AwardAmountInfoService;
 import org.kuali.kra.award.AwardDateRulesHelper;
 import org.kuali.kra.award.home.Award;
@@ -36,9 +33,10 @@ import org.kuali.rice.kns.util.KNSGlobalVariables;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
 
-/**
- * This class...
- */
+import java.sql.Date;
+import java.util.Map.Entry;
+
+
 public class TimeAndMoneyAwardDateSaveRuleImpl extends ResearchDocumentRuleBase implements TimeAndMoneyAwardDateSaveRule {
 
     private static final String OBLIGATED_DATE_PROPERTY = "obligatedDate";
@@ -46,17 +44,10 @@ public class TimeAndMoneyAwardDateSaveRuleImpl extends ResearchDocumentRuleBase 
     private static final String OBLIGATED_START_DATE_PROPERTY = "obligatedStartDate";
     private static final String FINAL_EXPIRATION_DATE_PROPERTY = "finalExpirationDate";
     private static final String AWARD_EFFECTIVE_DATE_PROPERTY = "document.awardList[0].awardEffectiveDate";
-    
-    
 
-
-    
     public boolean processSaveAwardDatesBusinessRules(TimeAndMoneyAwardDateSaveEvent timeAndMoneyAwardDateSaveEvent) {
         TimeAndMoneyDocument timeAndMoneyDocument = (TimeAndMoneyDocument) timeAndMoneyAwardDateSaveEvent.getDocument();
         clearFieldsFromUserSessionMap();
-        
-        //return validateObligatedDates(timeAndMoneyDocument) && validateDatesNotNull(timeAndMoneyDocument) && validateDatesAgainstProjectStartDate(timeAndMoneyDocument);
-        //return validateObligatedDates(timeAndMoneyDocument) && validateDatesAgainstProjectStartDate(timeAndMoneyDocument);
         return validateObligatedDates(timeAndMoneyDocument);
     }
     
@@ -149,36 +140,6 @@ public class TimeAndMoneyAwardDateSaveRuleImpl extends ResearchDocumentRuleBase 
     public AwardVersionService getAwardVersionService() {
         return KraServiceLocator.getService(AwardVersionService.class);
     }
-    
-    /* Leaving this code in here temporarily for quick look up purposes.  If everything tests fine, then this can be removed shortly 11/27/2012
-    private boolean validateDatesAgainstProjectStartDate(TimeAndMoneyDocument document) {
-        boolean valid = true;
-        for(Entry<String, AwardHierarchyNode> awardHierarchyNode : document.getAwardHierarchyNodes().entrySet()){
-            Date obligatedStartDate = awardHierarchyNode.getValue().getCurrentFundEffectiveDate();
-            Date obligatedEndDate = awardHierarchyNode.getValue().getObligationExpirationDate();
-            Date projectEndDate = awardHierarchyNode.getValue().getFinalExpirationDate();
-            Date projectStartDate = awardHierarchyNode.getValue().getProjectStartDate();     
-            if(projectStartDate != null && obligatedStartDate != null && obligatedStartDate.before(projectStartDate)) {
-                valid = false;
-                reportError(OBLIGATED_START_DATE_PROPERTY, KeyConstants.ERROR_OBLIGATED_START_BEFORE_PROJECT_START, 
-                        awardHierarchyNode.getValue().getAwardNumber());
-            }
-            if(projectStartDate != null && obligatedEndDate != null  &&  (obligatedEndDate.before(projectStartDate) || obligatedEndDate.equals(projectStartDate))) {
-                valid = false;
-                reportError(OBLIGATED_END_DATE_PROPERTY, KeyConstants.ERROR_OBLIGATED_END_BEFORE_PROJECT_START, 
-                        awardHierarchyNode.getValue().getAwardNumber());
-            }
-            if(projectStartDate != null && obligatedEndDate != null &&  (projectEndDate.before(projectStartDate) || obligatedEndDate.equals(projectStartDate))) {
-                valid = false;
-                reportError(FINAL_EXPIRATION_DATE_PROPERTY, KeyConstants.ERROR_PROJECT_END_BEFORE_PROJECT_START, 
-                        awardHierarchyNode.getValue().getAwardNumber());
-                }
-            }   
-          return valid;  
-        }
-    
-    */
-    
     
     public boolean enforceAwardStartDatePopulated(Award award) {
         boolean valid = true;

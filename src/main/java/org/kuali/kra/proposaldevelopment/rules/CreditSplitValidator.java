@@ -198,11 +198,9 @@ public class CreditSplitValidator implements Traceable<CreditSplitValidator> {
         // Validate that the current credit split isn't greater than 100% or less than 0%
         if (CREDIT_UPBOUND.compareTo(value) < 0) {                
             retval = false;
-            // addAuditError(ERROR_CREDIT_SPLIT_UPBOUND, creditType.getDescription());
         }
         else if (CREDIT_LOWBOUND.compareTo(value) > 0) {               
             retval = false;
-            // addAuditError(ERROR_CREDIT_SPLIT_LOWBOUND, creditType.getDescription());
         }
        
         return retval;

@@ -15,13 +15,6 @@
  */
 package org.kuali.kra.institutionalproposal.proposallog;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.kra.bo.KcPerson;
 import org.kuali.kra.infrastructure.KraServiceLocator;
@@ -47,6 +40,8 @@ import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.UrlFactory;
+
+import java.util.*;
 
 /**
  * Lookupable helper service used for proposal log lookup
@@ -190,9 +185,6 @@ public class ProposalLogLookupableHelperServiceImpl extends KualiLookupableHelpe
                 && ((String[]) this.getParameters().get("returnLocation"))[0].indexOf("institutionalProposalCreate") > 0) {
             isLookupForProposalCreation = true;
         }
-//        if (this.getParameters().containsKey("isPendingSelected")) {
-//            GlobalVariables.getMessageMap().putError("proposalLogStatus", KeyConstants.ERROR_PENDING_PROPOSAL_LOG_ONLY);
-//        }
 
         List<Row> rows = super.getRows();
         for (Row row : rows) {
